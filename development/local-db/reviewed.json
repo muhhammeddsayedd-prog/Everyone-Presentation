@@ -42,6 +42,12 @@
       "sha256": "f619b3dfb9d964ab5902d04941b8cd59b44e9da36f1ab3f7b10bd45298ff4013",
       "reviewed_by": "root integration owner with discovery_review independent exact-source/lock/RLS/restart static review; owned local execution only",
       "reviewed_at": "2026-10-28T16:41:46.180602+00:00"
+    },
+    {
+      "path": "supabase/migrations/20261028172320_m02_manual_specs_draft.sql",
+      "sha256": "8ab866a49cb2e01eabf3b83076fe4519a60255263d0a1a170ef3ba9718a2349c",
+      "reviewed_by": "root integration owner plus two independent source/ACL/cleanup-lock/concurrency reviews; owned local execution only",
+      "reviewed_at": "2026-10-28T18:02:05.431531+00:00"
     }
   ],
   "tests": [
@@ -53,9 +59,9 @@
     },
     {
       "path": "tests/db/m01-race-cleanup.sql",
-      "sha256": "41ee8e6a5aef148dc05ca44a9379ce651e14f2c1ca8a54a63dba5dbeb00492ae",
-      "reviewed_by": "root integration owner with independent static SQL review",
-      "reviewed_at": "2026-10-28T01:30:17.425363+00:00"
+      "sha256": "d005c8904318e88b061a0997ffd361d2cb48d34e250455119061a49f1124c20a",
+      "reviewed_by": "root integration owner plus two independent source/ACL/cleanup-lock/concurrency reviews; owned local execution only",
+      "reviewed_at": "2026-10-28T18:02:05.431531+00:00"
     },
     {
       "path": "tests/db/m01-race-distinct-a.sql",
@@ -131,9 +137,9 @@
     },
     {
       "path": "tests/db/m01-logo-race-cleanup.sql",
-      "sha256": "bf906dd68a92d12e499ad837237d444c3d7a9202f124d7f5bf73be4bdc71f93a",
-      "reviewed_by": "root integration owner: reviewed synthetic SQL-only actual-session concurrency, exact effects and strictly scoped cleanup",
-      "reviewed_at": "2026-10-28T03:16:35.510943+00:00"
+      "sha256": "0e3891ea15c1dc610edf99568287b9e8ad2a6302eecb78159f608deafae8b532",
+      "reviewed_by": "root integration owner plus two independent source/ACL/cleanup-lock/concurrency reviews; owned local execution only",
+      "reviewed_at": "2026-10-28T18:02:05.431531+00:00"
     },
     {
       "path": "tests/db/m01-logo-node-interop.sql",
@@ -186,9 +192,9 @@
     },
     {
       "path": "tests/db/m02-local-cleanup.sql",
-      "sha256": "0c02a514d4efc8cb198ae5d51b4af3d797c663c61c8598f7c1011a8ed2b3950e",
-      "reviewed_by": "root integration owner with discovery_review independent exact-source/lock/RLS/restart static review; owned local execution only",
-      "reviewed_at": "2026-10-28T16:41:46.180602+00:00"
+      "sha256": "2559cf1d2ff1d7c55f4ef0c042aecc9f6094508eae8e6504725b63590c793bf9",
+      "reviewed_by": "root integration owner plus two independent source/ACL/cleanup-lock/concurrency reviews; owned local execution only",
+      "reviewed_at": "2026-10-28T18:02:05.431531+00:00"
     },
     {
       "path": "tests/db/m02-local-enqueue-a.sql",
@@ -267,6 +273,90 @@
       "sha256": "203c781cc2c1f833e2e4a03427f948ee26c651390ad620698ee275334b2645cd",
       "reviewed_by": "root integration owner with discovery_review independent exact-source/lock/RLS/restart static review; owned local execution only",
       "reviewed_at": "2026-10-28T16:41:46.180602+00:00"
+    },
+    {
+      "path": "tests/db/m02-specs-draft-candidate.sql",
+      "sha256": "3b3c4e259934639e03e0536aaabd34c2a0a91ccca5535b630dc2410546323d67",
+      "reviewed_by": "root integration owner plus two independent source/ACL/cleanup-lock/concurrency reviews; owned local execution only",
+      "reviewed_at": "2026-10-28T18:02:05.431531+00:00"
+    },
+    {
+      "path": "tests/db/m02-specs-local-cleanup.sql",
+      "sha256": "011e7b4f851badb5a06677309b2c88c427125bfda8aa7a47f6fad32857077100",
+      "reviewed_by": "root integration owner plus two independent source/ACL/cleanup-lock/concurrency reviews; owned local execution only",
+      "reviewed_at": "2026-10-28T18:02:05.431531+00:00"
+    },
+    {
+      "path": "tests/db/m02-specs-local-column-acl.sql",
+      "sha256": "e7549cdf253879374fe5d83f097a9ca734b6880d5a6d8c0ed657d6b1ead3f43f",
+      "reviewed_by": "root integration owner plus two independent source/ACL/cleanup-lock/concurrency reviews; owned local execution only",
+      "reviewed_at": "2026-10-28T18:02:05.431531+00:00"
+    },
+    {
+      "path": "tests/db/m02-specs-local-conflict-a.sql",
+      "sha256": "14354a8bf1c39f83072940ca6fcb5b63a4b2a2c66ce1a1ec58cc2c8e49a082a6",
+      "reviewed_by": "root integration owner plus two independent source/ACL/cleanup-lock/concurrency reviews; owned local execution only",
+      "reviewed_at": "2026-10-28T18:02:05.431531+00:00"
+    },
+    {
+      "path": "tests/db/m02-specs-local-conflict-b.sql",
+      "sha256": "fca1399a77a0e7268eec4da3996a9f30ebcf5c935a296438454b2f9e524b7b28",
+      "reviewed_by": "root integration owner plus two independent source/ACL/cleanup-lock/concurrency reviews; owned local execution only",
+      "reviewed_at": "2026-10-28T18:02:05.431531+00:00"
+    },
+    {
+      "path": "tests/db/m02-specs-local-create-a.sql",
+      "sha256": "9f8832ba3984865543cce55af990fc10755639366a883c0cd9e51dee4968a699",
+      "reviewed_by": "root integration owner plus two independent source/ACL/cleanup-lock/concurrency reviews; owned local execution only",
+      "reviewed_at": "2026-10-28T18:02:05.431531+00:00"
+    },
+    {
+      "path": "tests/db/m02-specs-local-create-b.sql",
+      "sha256": "4e4b25dd093d1099cfd53c2a442d045a6ae0025bb7f7cd20c22c3edc535c6134",
+      "reviewed_by": "root integration owner plus two independent source/ACL/cleanup-lock/concurrency reviews; owned local execution only",
+      "reviewed_at": "2026-10-28T18:02:05.431531+00:00"
+    },
+    {
+      "path": "tests/db/m02-specs-local-mark-source.sql",
+      "sha256": "0d4e79e0a1b2dad7e2b67a150d56f19f4b7b8dcce4d01ad4cf1d13da142c636f",
+      "reviewed_by": "root integration owner plus two independent source/ACL/cleanup-lock/concurrency reviews; owned local execution only",
+      "reviewed_at": "2026-10-28T18:02:05.431531+00:00"
+    },
+    {
+      "path": "tests/db/m02-specs-local-prelude.sql",
+      "sha256": "64c71a701be9394cdf6872ee4fb4691189b7d4c21badc43b7c34e2d301195720",
+      "reviewed_by": "root integration owner plus two independent source/ACL/cleanup-lock/concurrency reviews; owned local execution only",
+      "reviewed_at": "2026-10-28T18:02:05.431531+00:00"
+    },
+    {
+      "path": "tests/db/m02-specs-local-revoke-a.sql",
+      "sha256": "85e27bcf93af4d5dfa6245bc3010c19d80f87dcc1e994b8a302e7d1c424704cd",
+      "reviewed_by": "root integration owner plus two independent source/ACL/cleanup-lock/concurrency reviews; owned local execution only",
+      "reviewed_at": "2026-10-28T18:02:05.431531+00:00"
+    },
+    {
+      "path": "tests/db/m02-specs-local-revoke-b.sql",
+      "sha256": "727a5b6d4e868b3cbe7faee0a1318c4570102de4b6eea60655c09134ea89ac43",
+      "reviewed_by": "root integration owner plus two independent source/ACL/cleanup-lock/concurrency reviews; owned local execution only",
+      "reviewed_at": "2026-10-28T18:02:05.431531+00:00"
+    },
+    {
+      "path": "tests/db/m02-specs-local-setup.sql",
+      "sha256": "5368da64409826ffe14413ae02d0a7ecd2e40090c0be64298d3b9d62169d3fd0",
+      "reviewed_by": "root integration owner plus two independent source/ACL/cleanup-lock/concurrency reviews; owned local execution only",
+      "reviewed_at": "2026-10-28T18:02:05.431531+00:00"
+    },
+    {
+      "path": "tests/db/m02-specs-local-unmark-source.sql",
+      "sha256": "2a25f05b21191f4c55760fe7c48eb6a1d3293b1163acad299d25927fa45c70bc",
+      "reviewed_by": "root integration owner plus two independent source/ACL/cleanup-lock/concurrency reviews; owned local execution only",
+      "reviewed_at": "2026-10-28T18:02:05.431531+00:00"
+    },
+    {
+      "path": "tests/db/m02-specs-local-verify.sql",
+      "sha256": "a7d52f5c83ece21fb7d3b5bbaae79afe1e6cb3ddb116837a73eb8bfe303ec130",
+      "reviewed_by": "root integration owner plus two independent source/ACL/cleanup-lock/concurrency reviews; owned local execution only",
+      "reviewed_at": "2026-10-28T18:02:05.431531+00:00"
     }
   ],
   "local_baselines": [

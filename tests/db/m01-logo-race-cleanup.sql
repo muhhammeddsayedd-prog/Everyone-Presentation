@@ -4,6 +4,7 @@ begin;
 do $$ declare fixture eps_local_guard.logo_race_fixture; begin
   if current_setting('eps.local_fixture_tests',true) is distinct from 'eps-presentation-canonical-pg17-local' then raise exception 'LOCAL_FIXTURE_TARGET_REQUIRED'; end if;
   select * into strict fixture from eps_local_guard.logo_race_fixture where fixture_id=1 and marker='EPS LOCAL LOGO SQL POLICY RACE V1';
+  perform 1 from eps.workspaces where id=fixture.workspace_id for update;
   if (select count(*) from eps_local_guard.logo_race_fixture)<>1
     or fixture.principal_id<>'dddddddd-1111-4111-8111-111111111111' or fixture.project_id<>'dddddddd-2222-4222-8222-222222222222' or fixture.workspace_id<>'dddddddd-3333-4333-8333-333333333333'
     or fixture.upload_id is distinct from (fixture.reservation->>'upload_id')::uuid or fixture.asset_id is distinct from (fixture.reservation->'asset'->>'id')::uuid
@@ -36,6 +37,16 @@ do $$ declare fixture eps_local_guard.logo_race_fixture; begin
     or (select count(*) from eps.idempotency_records where principal_id=fixture.principal_id and operation='create_upload_session')<>1
     or (select count(*) from eps.idempotency_records where principal_id=fixture.principal_id and operation='complete_upload')>2
   then raise exception 'LOGO_RACE_FIXTURE_OWNERSHIP_MISMATCH_PRESERVE_DATA'; end if;
+  if to_regclass('eps.specs') is not null then
+    perform 1 from eps.specs where workspace_id=fixture.workspace_id order by id for update;
+    if (select count(*) from eps.specs where workspace_id=fixture.workspace_id)<>1
+      or exists(select 1 from eps.roles where workspace_id=fixture.workspace_id) or exists(select 1 from eps.slots where workspace_id=fixture.workspace_id)
+      or exists(select 1 from eps.specs where workspace_id=fixture.workspace_id and
+        (source_asset_id is not null or source_text is not null or normalized_instructions is not null or source_extraction is not null
+          or clarifications<>'[]'::jsonb or source_language_codes<>array[]::text[] or processing_job_id is not null or row_version<>1 or source_row_version<>1))
+    then raise exception 'LOGO_RACE_NONEMPTY_SPECS_PRESERVE_DATA'; end if;
+    delete from eps.specs where workspace_id=fixture.workspace_id;
+  end if;
   delete from eps.audit_events where principal_id=fixture.principal_id;
   delete from eps.idempotency_records where principal_id=fixture.principal_id;
   delete from eps.upload_sessions where id=fixture.upload_id;

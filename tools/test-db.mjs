@@ -16,6 +16,9 @@ const REQUIRED_MIGRATIONS = [
   'supabase/migrations/20261028013655_m01_workspace_scope_alias.sql',
   'supabase/migrations/20261028024205_m01_private_logo_boundary.sql',
   'supabase/migrations/20261028072515_m01_logo_upload_capability.sql',
+  'supabase/migrations/20261028162702_m01_replay_scope_refresh.sql',
+  'supabase/migrations/20261028162800_m02_jobs_outbox.sql',
+  'supabase/migrations/20261028172320_m02_manual_specs_draft.sql',
 ];
 const FILES = {
   roles: 'tests/db/m01-role-inheritance.sql', foundation: 'tests/db/m01-foundation.sql',

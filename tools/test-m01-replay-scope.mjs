@@ -58,6 +58,17 @@ values(${q(ids.upload)},${q(ids.asset)},${q(ids.actor)},${q(ids.workspace)},'eps
 ${cases.map(([name, operation, payload]) => `insert into eps.idempotency_records(principal_id,operation,key,request_hash,response) values(${q(ids.actor)},${q(operation)},${q('replay-' + name)},encode(sha256(convert_to(${jb(payload)}::text,'UTF8')),'hex'),${jb(name === 'reserve' ? { ...cached, upload_id: ids.upload } : cached)});`).join('\n')}
 commit;`;
 const cleanup = `begin;
+do $empty_specs$ begin if to_regclass('eps.specs') is not null then
+  perform 1 from eps.workspaces where id=${q(ids.workspace)} for update;
+  perform 1 from eps.specs where workspace_id=${q(ids.workspace)} order by id for update;
+  if (select count(*) from eps.specs where workspace_id=${q(ids.workspace)})<>1
+    or exists(select 1 from eps.roles where workspace_id=${q(ids.workspace)}) or exists(select 1 from eps.slots where workspace_id=${q(ids.workspace)})
+    or exists(select 1 from eps.specs where workspace_id=${q(ids.workspace)} and
+      (source_asset_id is not null or source_text is not null or normalized_instructions is not null or source_extraction is not null
+        or clarifications<>'[]'::jsonb or source_language_codes<>array[]::text[] or processing_job_id is not null or row_version<>1 or source_row_version<>1))
+  then raise exception 'REPLAY_NONEMPTY_SPECS_PRESERVE_DATA'; end if;
+  delete from eps.specs where workspace_id=${q(ids.workspace)};
+end if; end $empty_specs$;
 delete from eps.idempotency_records where principal_id=${q(ids.actor)};
 delete from eps.audit_events where principal_id=${q(ids.actor)};
 delete from eps.upload_sessions where id in(${q(ids.upload)},${q(ids.cancelUpload)}) and principal_id=${q(ids.actor)};

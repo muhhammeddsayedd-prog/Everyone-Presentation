@@ -7,6 +7,8 @@ import { failure, json, NO_STORE, readJson, requireSameOrigin } from '../../../.
 import { validateContract } from '../../../../lib/validation';
 import { handleJobRequest } from '../../../../lib/job-http';
 import { getJobs } from '../../../../lib/jobs';
+import { handleSpecsRequest, isManualSpecsRoute } from '../../../../lib/specs-http';
+import { getSpecsService } from '../../../../lib/specs';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -22,6 +24,7 @@ async function handle(request: Request, context: Context) {
     const mutation = { idempotencyKey: request.headers.get('Idempotency-Key') ?? undefined, requestId,
       clientType: request.headers.has('authorization') ? 'api' as const : 'browser' as const };
     if (s[0] === 'jobs') return await handleJobRequest(request, s, actor, await getJobs(), mutation);
+    if (isManualSpecsRoute(s)) return await handleSpecsRequest(request, s, actor, await getSpecsService(), mutation);
     const studio = await getStudio();
     const url = new URL(request.url);
     const list = { q: url.searchParams.get('q') ?? undefined, cursor: url.searchParams.get('cursor') ?? undefined,
