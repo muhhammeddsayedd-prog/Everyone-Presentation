@@ -1,0 +1,22 @@
+# Observed local official Node24.18.0-bookworm-slim linux/amd64 RepoDigest.
+FROM node@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d AS dependencies
+WORKDIR /opt/eps
+COPY package.json package-lock.json ./
+COPY apps/web/package.json ./apps/web/package.json
+COPY apps/worker/package.json ./apps/worker/package.json
+COPY packages/domain/package.json ./packages/domain/package.json
+COPY packages/jobs/package.json ./packages/jobs/package.json
+COPY packages/integrations/package.json ./packages/integrations/package.json
+COPY packages/central/package.json ./packages/central/package.json
+RUN npm ci --omit=dev --workspace @eps/worker --include-workspace-root=false
+
+FROM node@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+WORKDIR /opt/eps
+ENV NODE_ENV=production
+COPY --from=dependencies /opt/eps/node_modules ./node_modules
+COPY apps/worker/package.json ./apps/worker/package.json
+COPY apps/worker/src/prepare-process.mjs apps/worker/src/prepare.ts apps/worker/src/pasted-text.ts apps/worker/src/types.ts apps/worker/src/docx.ts apps/worker/src/pdf.ts ./apps/worker/src/
+RUN test -x /usr/bin/timeout
+USER 1000:1000
+ENTRYPOINT ["/usr/bin/timeout","--signal=KILL","30s","node","--max-old-space-size=256","--permission","--allow-addons","--allow-fs-read=/opt/eps/apps/worker/src/","--allow-fs-read=/opt/eps/node_modules/","/opt/eps/apps/worker/src/prepare-process.mjs"]
+CMD []

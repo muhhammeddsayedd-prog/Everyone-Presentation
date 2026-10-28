@@ -1,0 +1,28 @@
+{
+  "observed_at": "2026-10-28T20:25:50.107Z",
+  "scope": "Offline rejection of synthetic Docker targeting overrides before any daemon invocation",
+  "harness_sha256": "045c857a2d95701764d2f91c4da1cea0db40e01e7f02a9774b017baf1f799e6f",
+  "tests": [
+    {
+      "name": "remote_host",
+      "status": "passed",
+      "daemon_not_contacted": true,
+      "receipt": "tracking/evidence/m02/document-container/2026-10-28T20-25-50-306Z-c26d48b6.json"
+    },
+    {
+      "name": "context_override",
+      "status": "passed",
+      "daemon_not_contacted": true,
+      "receipt": "tracking/evidence/m02/document-container/2026-10-28T20-25-50-524Z-37df5c6e.json"
+    },
+    {
+      "name": "tls_override",
+      "status": "passed",
+      "daemon_not_contacted": true,
+      "receipt": "tracking/evidence/m02/document-container/2026-10-28T20-25-50-747Z-33ccbf86.json"
+    }
+  ],
+  "provider_called": false,
+  "database_called": false,
+  "result": "passed"
+}

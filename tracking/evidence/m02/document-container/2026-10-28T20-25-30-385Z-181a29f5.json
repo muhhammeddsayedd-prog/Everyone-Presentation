@@ -1,0 +1,359 @@
+{
+  "schema_version": "1.0",
+  "run_id": "181a29f5-a095-4088-ba41-55a07c932549",
+  "observed_at": "2026-10-28T20:25:13.768Z",
+  "result": "passed",
+  "scope": "Owned local one-shot Linux document parser container only",
+  "base_image": "node@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d",
+  "tests": [
+    {
+      "name": "utf8_asset",
+      "source_sha256": "a53cb989fdec170f84a229bceaa996e25c130a75a32b53d0b85363edcfc9a3e4",
+      "status": "passed",
+      "container_id": "b13f47d97221bd9ff3309268652e89bdce08a1793a1776e1347f6ea3c9a380f9",
+      "runtime": {
+        "user": "1000:1000",
+        "readonly_rootfs": true,
+        "network": "none",
+        "cap_drop": [
+          "ALL"
+        ],
+        "no_new_privileges": true,
+        "memory_bytes": 536870912,
+        "memory_swap_bytes": 536870912,
+        "nano_cpus": 1000000000,
+        "pids": 64,
+        "tmpfs": {
+          "path": "/tmp",
+          "bytes": 16777216,
+          "noexec": true,
+          "nosuid": true,
+          "nodev": true
+        },
+        "log_driver": "none",
+        "host_bind_or_volume_mounts": 0
+      },
+      "parser_ok": true,
+      "observed_paragraphs": 2,
+      "paragraphs": 2,
+      "prepared_text_sha256": "01105baa0e2a3a5bbe4844e315bacc8a0dfe29dc7bc22a2ba43be9e869b534db",
+      "extraction_method": "plain_text"
+    },
+    {
+      "name": "pasted_bom_arabic",
+      "source_sha256": "a53cb989fdec170f84a229bceaa996e25c130a75a32b53d0b85363edcfc9a3e4",
+      "status": "passed",
+      "container_id": "814198e913596a7150f9e747f76808a016367289cc72eace23f03f459f75bbdf",
+      "runtime": {
+        "user": "1000:1000",
+        "readonly_rootfs": true,
+        "network": "none",
+        "cap_drop": [
+          "ALL"
+        ],
+        "no_new_privileges": true,
+        "memory_bytes": 536870912,
+        "memory_swap_bytes": 536870912,
+        "nano_cpus": 1000000000,
+        "pids": 64,
+        "tmpfs": {
+          "path": "/tmp",
+          "bytes": 16777216,
+          "noexec": true,
+          "nosuid": true,
+          "nodev": true
+        },
+        "log_driver": "none",
+        "host_bind_or_volume_mounts": 0
+      },
+      "parser_ok": true,
+      "observed_paragraphs": 2,
+      "paragraphs": 2,
+      "prepared_text_sha256": "8aaf896774d6fa54b143b633a7bf3dc149d28061f8de4f13671f03dbd82e8425",
+      "extraction_method": "plain_text"
+    },
+    {
+      "name": "genuine_pdf",
+      "source_sha256": "88c9f624900c055fcc12d83a5e5940d240ec9be87c96053cc5ec173f3f552aef",
+      "status": "passed",
+      "container_id": "f06d82fda9db3a51a17890d47d6d74fb034162b7c4ab7df044a57d0ac6632def",
+      "runtime": {
+        "user": "1000:1000",
+        "readonly_rootfs": true,
+        "network": "none",
+        "cap_drop": [
+          "ALL"
+        ],
+        "no_new_privileges": true,
+        "memory_bytes": 536870912,
+        "memory_swap_bytes": 536870912,
+        "nano_cpus": 1000000000,
+        "pids": 64,
+        "tmpfs": {
+          "path": "/tmp",
+          "bytes": 16777216,
+          "noexec": true,
+          "nosuid": true,
+          "nodev": true
+        },
+        "log_driver": "none",
+        "host_bind_or_volume_mounts": 0
+      },
+      "parser_ok": true,
+      "observed_paragraphs": 2,
+      "paragraphs": 2,
+      "prepared_text_sha256": "e47d1341e0a53c6525ef02bb75be3bcb699fc248f362e1157527077dd986c2a8",
+      "extraction_method": "pdf_text"
+    },
+    {
+      "name": "genuine_docx",
+      "source_sha256": "ce2e3e823c2132bc6b6678db3d43cd24f32feba5ca42c9d523826cfecf2dd455",
+      "status": "passed",
+      "container_id": "a2163bee4e6ab20046e01ccc81993668e4886cf9276e808cecae8d9b0300b2af",
+      "runtime": {
+        "user": "1000:1000",
+        "readonly_rootfs": true,
+        "network": "none",
+        "cap_drop": [
+          "ALL"
+        ],
+        "no_new_privileges": true,
+        "memory_bytes": 536870912,
+        "memory_swap_bytes": 536870912,
+        "nano_cpus": 1000000000,
+        "pids": 64,
+        "tmpfs": {
+          "path": "/tmp",
+          "bytes": 16777216,
+          "noexec": true,
+          "nosuid": true,
+          "nodev": true
+        },
+        "log_driver": "none",
+        "host_bind_or_volume_mounts": 0
+      },
+      "parser_ok": true,
+      "observed_paragraphs": 2,
+      "paragraphs": 2,
+      "prepared_text_sha256": "62eee0a7eb1602a3a0d3415953f9302cbbb1f64a0740bb9bcf4400dae54e3d7d",
+      "extraction_method": "docx_text"
+    },
+    {
+      "name": "invalid_pdf",
+      "source_sha256": "db61aa1e21b96cf17622947785be467b94534147958caee7e500691d1d7382e9",
+      "status": "passed",
+      "container_id": "74e53f05623aa36163584921c5f9ec577ef361d0667bfd8c3a13504f257a461e",
+      "runtime": {
+        "user": "1000:1000",
+        "readonly_rootfs": true,
+        "network": "none",
+        "cap_drop": [
+          "ALL"
+        ],
+        "no_new_privileges": true,
+        "memory_bytes": 536870912,
+        "memory_swap_bytes": 536870912,
+        "nano_cpus": 1000000000,
+        "pids": 64,
+        "tmpfs": {
+          "path": "/tmp",
+          "bytes": 16777216,
+          "noexec": true,
+          "nosuid": true,
+          "nodev": true
+        },
+        "log_driver": "none",
+        "host_bind_or_volume_mounts": 0
+      },
+      "parser_ok": false,
+      "parser_error_code": "SOURCE_UNREADABLE",
+      "error_code": "SOURCE_UNREADABLE"
+    },
+    {
+      "name": "unsupported_legacy",
+      "source_sha256": "0a1daf35c21fe130dd1070bf257b2ed18af0b4a0aad8ac1d2b4b0eba987d7027",
+      "status": "passed",
+      "container_id": "c5b04d6f53a496bab20bdeecf29fdcb0b08e404191e158b0cbea11840c4dfe7d",
+      "runtime": {
+        "user": "1000:1000",
+        "readonly_rootfs": true,
+        "network": "none",
+        "cap_drop": [
+          "ALL"
+        ],
+        "no_new_privileges": true,
+        "memory_bytes": 536870912,
+        "memory_swap_bytes": 536870912,
+        "nano_cpus": 1000000000,
+        "pids": 64,
+        "tmpfs": {
+          "path": "/tmp",
+          "bytes": 16777216,
+          "noexec": true,
+          "nosuid": true,
+          "nodev": true
+        },
+        "log_driver": "none",
+        "host_bind_or_volume_mounts": 0
+      },
+      "parser_ok": false,
+      "parser_error_code": "DOCUMENT_CONVERSION_REQUIRED",
+      "error_code": "DOCUMENT_CONVERSION_REQUIRED"
+    },
+    {
+      "name": "deadline_termination",
+      "source_sha256": "c225cfdffa56a5e0ad8a9ee6bdf9e24b5e5f270de3756c0311cc7330436b9d83",
+      "status": "passed",
+      "container_id": "d83275cd5fdefecc8a7809a471f54d13b5b64bd71d417d8cd8c05eb2b8070107",
+      "runtime": {
+        "user": "1000:1000",
+        "readonly_rootfs": true,
+        "network": "none",
+        "cap_drop": [
+          "ALL"
+        ],
+        "no_new_privileges": true,
+        "memory_bytes": 536870912,
+        "memory_swap_bytes": 536870912,
+        "nano_cpus": 1000000000,
+        "pids": 64,
+        "tmpfs": {
+          "path": "/tmp",
+          "bytes": 16777216,
+          "noexec": true,
+          "nosuid": true,
+          "nodev": true
+        },
+        "log_driver": "none",
+        "host_bind_or_volume_mounts": 0
+      },
+      "deadline_ms": 1,
+      "scope": "Supervisor ownership-checked termination mechanics, not a 30s adversarial parser workload"
+    }
+  ],
+  "cleanup": [
+    {
+      "container_id": "b13f47d97221bd9ff3309268652e89bdce08a1793a1776e1347f6ea3c9a380f9",
+      "reason": "finished",
+      "ownership_verified_before_removal": true
+    },
+    {
+      "container_id": "814198e913596a7150f9e747f76808a016367289cc72eace23f03f459f75bbdf",
+      "reason": "finished",
+      "ownership_verified_before_removal": true
+    },
+    {
+      "container_id": "f06d82fda9db3a51a17890d47d6d74fb034162b7c4ab7df044a57d0ac6632def",
+      "reason": "finished",
+      "ownership_verified_before_removal": true
+    },
+    {
+      "container_id": "a2163bee4e6ab20046e01ccc81993668e4886cf9276e808cecae8d9b0300b2af",
+      "reason": "finished",
+      "ownership_verified_before_removal": true
+    },
+    {
+      "container_id": "74e53f05623aa36163584921c5f9ec577ef361d0667bfd8c3a13504f257a461e",
+      "reason": "finished",
+      "ownership_verified_before_removal": true
+    },
+    {
+      "container_id": "c5b04d6f53a496bab20bdeecf29fdcb0b08e404191e158b0cbea11840c4dfe7d",
+      "reason": "finished",
+      "ownership_verified_before_removal": true
+    },
+    {
+      "container_id": "d83275cd5fdefecc8a7809a471f54d13b5b64bd71d417d8cd8c05eb2b8070107",
+      "reason": "deadline",
+      "ownership_verified_before_removal": true
+    }
+  ],
+  "provider_called": false,
+  "database_called": false,
+  "private_configuration_read": false,
+  "hosted_deployment": false,
+  "full_worker_orchestration": false,
+  "fixture_text_or_parser_outputs_recorded": false,
+  "local_docker": {
+    "context": "desktop-linux",
+    "endpoint": "desktop_linux_named_pipe",
+    "endpoint_pinned_for_all_daemon_operations": true
+  },
+  "source_sha256": "524e420b9beea23bcffd823a6da687a52b3053406cbcc8c90f41153f0941a257",
+  "source_files": [
+    {
+      "path": ".dockerignore",
+      "sha256": "b0886486d7e46bd9d92b0cb3eea7328594c37319ec9d27e5abfcd78e60c6716d"
+    },
+    {
+      "path": "apps/web/package.json",
+      "sha256": "82fd688a71b8c8b0dfbb2b96be4ae5d36f06ad705e7df2fbebf2f099d907c321"
+    },
+    {
+      "path": "apps/worker/Dockerfile.prepare",
+      "sha256": "624eb896b76f757b565bb9266dfb88ca53ba7ee1953458aef8a48fa7a88c9304"
+    },
+    {
+      "path": "apps/worker/package.json",
+      "sha256": "075bdb2d32d93f22f02272f41162eef5f00df494ddbc3c1b5c2815bbea4036b4"
+    },
+    {
+      "path": "apps/worker/src/docx.ts",
+      "sha256": "e7a89f5fb9fb48b852fd912e89301ee1f3bb05f79d4ac71ff408ef904cd7bbfc"
+    },
+    {
+      "path": "apps/worker/src/pasted-text.ts",
+      "sha256": "3924006774b171ce939cd829bd47370a967e3ab6c1cdc100c9ded27e195361ad"
+    },
+    {
+      "path": "apps/worker/src/pdf.ts",
+      "sha256": "a410c584c30f2d21d92be906c67a854c8055474c2961d4b26a3f9d3f244bab0c"
+    },
+    {
+      "path": "apps/worker/src/prepare-process.mjs",
+      "sha256": "2e52f76a0bcac3fb50f4f49fb52164193833586ecc07e52ed61030978afff973"
+    },
+    {
+      "path": "apps/worker/src/prepare.ts",
+      "sha256": "dea867f4953b854cb2cb63ddc96d908299767df1effd8f4c31cffea93894aef9"
+    },
+    {
+      "path": "apps/worker/src/types.ts",
+      "sha256": "9e3a7397b9e3a9c33b10e9e1b83497ba1b764dc7f0b7a86cebeb11b01d4e986a"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "e0c824aec458cf47a18a3698cca701efd10bfeb0c7ef4a748f3bfc8488878840"
+    },
+    {
+      "path": "package.json",
+      "sha256": "abbb70f60e2eb6004f2000c0fa487bebebf94053a78bdb32cb15538d403afad2"
+    },
+    {
+      "path": "packages/central/package.json",
+      "sha256": "faa2e0be76dccae1741655231e7d68de47e3c0b46fd6bce8a881ac7fc908491a"
+    },
+    {
+      "path": "packages/domain/package.json",
+      "sha256": "64e5ceda0c2940f92d6cac3f6a4d2bfcc73be4c7edf3f381bf33e9131ab85024"
+    },
+    {
+      "path": "packages/integrations/package.json",
+      "sha256": "9c43cf24f929e4df17dc7eb19b20383c4b67bfcbd697d12b09984cd632751671"
+    },
+    {
+      "path": "packages/jobs/package.json",
+      "sha256": "294af8e21c83b01d2fa4a83a0c5525decaa51124814ec028d4ae6059d9f3adf7"
+    }
+  ],
+  "harness_sha256": "045c857a2d95701764d2f91c4da1cea0db40e01e7f02a9774b017baf1f799e6f",
+  "fixture_generator_sha256": "afcadca5a40ff643839683876d112c186005982784c6e161d321033d00e57a0d",
+  "base_image_id": "sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d",
+  "build_exit_code": 0,
+  "build_diagnostic_bytes": 2672,
+  "image_id": "sha256:000db519bb4eeac21a3f3d6e36a74ac8ee0da797db7da72b5ec2b95710e9a17a",
+  "image_tag": "eps-document-prepare:local-524e420b9beea23b-181a29f5-a095-4088-ba41-55a07c932549",
+  "finished_at": "2026-10-28T20:25:30.385Z",
+  "unrelated_containers_or_images_removed": false,
+  "image_retained": true
+}
