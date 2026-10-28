@@ -28,6 +28,24 @@ function providerSchema(value: unknown): unknown {
 export const SPECS_PROVIDER_SCHEMA = providerSchema(sourceSchema) as Record<string, unknown>;
 export const SPECS_PROVIDER_SCHEMA_SHA256 = sha256(JSON.stringify(SPECS_PROVIDER_SCHEMA));
 
+/** JSON permits escaped NUL and lone UTF-16 surrogates; PostgreSQL jsonb does
+ * not. Reject them before any result enters a private callback or SQL payload.
+ * Iterating code points preserves valid surrogate pairs without rewriting text. */
+function validateStringScalars(value: unknown): void {
+  if (typeof value === 'string') {
+    for (const character of value) {
+      const point = character.codePointAt(0)!;
+      if (point === 0 || (point >= 0xd800 && point <= 0xdfff)) {
+        throw new IntegrationError('AI_RESULT_INVALID', 'Extraction contains unsupported text characters.');
+      }
+    }
+  } else if (Array.isArray(value)) {
+    value.forEach(validateStringScalars);
+  } else if (value !== null && typeof value === 'object') {
+    Object.values(value).forEach(validateStringScalars);
+  }
+}
+
 function validateReference(reference: SourceReference, input: SpecsExtractionInput): void {
   if (reference.asset_id !== input.sourceAssetId || reference.segment_index !== null
     || reference.start_ms !== null || reference.end_ms !== null) {
@@ -48,6 +66,7 @@ export function validateSpecsExtraction(value: unknown, input: SpecsExtractionIn
     // No raw provider payload or schema value is included in error diagnostics.
     throw new IntegrationError('AI_RESULT_INVALID', 'Extraction did not match the application specs schema.');
   }
+  validateStringScalars(value);
   if (value.source_asset_id !== input.sourceAssetId) {
     throw new IntegrationError('AI_SOURCE_MISMATCH', 'Extraction source identity does not match the current job.');
   }

@@ -3,7 +3,10 @@ import assert from 'node:assert/strict';
 import OpenAI from 'openai';
 import { extractSpecs, IntegrationError, openAISpecsConfigFromEnv } from '../../packages/integrations/src/index.ts';
 import type { SpecsExtraction, SpecsExtractionInput } from '../../packages/integrations/src/index.ts';
-import { SPECS_PROVIDER_SCHEMA } from '../../packages/integrations/src/specs-schema.ts';
+import { sha256, SPECS_PROVIDER_SCHEMA } from '../../packages/integrations/src/specs-schema.ts';
+import { executeSpecsStage } from '../../apps/worker/src/specs-executor.ts';
+import { preparePastedText } from '../../apps/worker/src/pasted-text.ts';
+import type { JobEvent, StageLease } from '../../packages/jobs/src/index.ts';
 
 // All responses below are deterministic synthetic fixtures; no provider calls occur.
 const config = { apiKey: 'unit-test-placeholder-key', model: 'configured-test-model' };
@@ -188,6 +191,70 @@ test('full application bounds and evidence mappings reject schema-valid invented
   await assert.rejects(extractSpecs(input, config, async () => response(badAsset)), errorCode('AI_SOURCE_MISMATCH'));
   const duplicate = result(); duplicate.roles.push(structuredClone(duplicate.roles[0]));
   await assert.rejects(extractSpecs(input, config, async () => response(duplicate)), errorCode('AI_ROLE_KEYS_INVALID'));
+});
+
+test('schema-valid result strings reject NUL and unpaired UTF-16 scalars without retaining private values', async () => {
+  const fields = [
+    (value: SpecsExtraction, text: string) => { value.general_instructions = text; },
+    (value: SpecsExtraction, text: string) => { value.roles[0].requirements.other_instructions = text; },
+    (value: SpecsExtraction, text: string) => { value.roles[0].requirements.skills = [text]; },
+    (value: SpecsExtraction, text: string) => { value.clarifications[0].reason = text; },
+    (value: SpecsExtraction, text: string) => { value.roles[0].clarifications[0].field_path = text; },
+  ];
+  for (const invalid of ['\u0000', '\ud800', '\udfff', '\ud800A', 'A\udc00', '\ud800\ud800', '\udc00\ud800']) {
+    for (const setField of fields) {
+      const payload = result(); setField(payload, `synthetic-private-result:${invalid}:end`);
+      await assert.rejects(extractSpecs(input, config, async () => response(payload)), (error: unknown) => {
+        assert.ok(error instanceof IntegrationError);
+        assert.equal(error.code, 'AI_RESULT_INVALID'); assert.equal(error.retryable, false);
+        assert.deepEqual(error.details, {});
+        assert.equal(error.message.includes('synthetic-private-result'), false);
+        assert.equal(JSON.stringify(error).includes('synthetic-private-result'), false);
+        return true;
+      });
+    }
+  }
+});
+
+test('representable Unicode result strings retain paired emoji, Arabic, BOM and newlines exactly', async () => {
+  const payload = result();
+  const text = '\ufeffتعليمات 😀\nSecond line\r\n\tEnding';
+  payload.general_instructions = text;
+  payload.roles[0].requirements.other_instructions = text;
+  payload.roles[0].requirements.skills = [text];
+  payload.clarifications[0].reason = text;
+  payload.roles[0].clarifications[0].reason = text;
+  assert.deepEqual((await extractSpecs(input, config, async () => response(payload))).result, payload);
+});
+
+test('unrepresentable adapter output becomes one safe nonretryable worker failure before a result callback', async () => {
+  for (const invalid of ['\u0000', '\ud800', '\udc00']) {
+    const sourceHash = sha256(input.paragraphs[0].text);
+    const preparedSource = preparePastedText(input.paragraphs[0].text);
+    const configuration = { document_preparation_version: 'document-preparation.v1', model_version: config.model,
+      prompt_version: 'spec_extract_v1.0.0', result_schema_version: '1.0' };
+    const lease: StageLease = { job_id: 'synthetic-scalar-job', attempt_id: 'synthetic-scalar-attempt', stage: 'extract_specs',
+      lease_token: 'a'.repeat(64), lease_expires_at: new Date(Date.now() + 90_000).toISOString(), already_completed: false,
+      input: { input_hash: input.inputHash, source_hash: sourceHash, specs_id: 'synthetic-spec', configuration } };
+    const events: JobEvent[] = []; let calls = 0;
+    const payload = result(); payload.roles[0].clarifications[0].reason = `synthetic-private-result:${invalid}:end`;
+    await executeSpecsStage(lease, {
+      getInput: async () => ({ job_id: lease.job_id, attempt_id: lease.attempt_id, stage: lease.stage,
+        input_hash: input.inputHash, correlation_id: input.correlationId, configuration,
+        source_kind: 'pasted_text', source_asset_id: null, source_sha256: sourceHash,
+        text: preparedSource.text, paragraphs: preparedSource.paragraphs }),
+      recordEvent: async event => {
+        events.push(structuredClone(event));
+        return { event_id: event.event_id, applied: true, duplicate: false, stale: false, job_status: 'failed' };
+      },
+    }, { openAI: config, extract: (prepared, settings, _transport, signal) => extractSpecs(prepared, settings,
+      async () => { calls++; return response(payload); }, signal) });
+    assert.equal(calls, 1); assert.equal(events.length, 1);
+    assert.equal(events[0].event_type, 'failed'); assert.equal(events[0].error?.code, 'RESULT_INVALID');
+    assert.equal(events[0].error?.retryable, false); assert.deepEqual(events[0].error?.details, {});
+    assert.equal(events[0].result, undefined);
+    assert.equal(JSON.stringify(events).includes('synthetic-private-result'), false);
+  }
 });
 
 test('provider errors are redacted and classify retry without hidden adapter retries', async () => {
