@@ -1,0 +1,33 @@
+{
+  "observed_at": "2026-10-28T23:32:35.019Z",
+  "result": "passed",
+  "schema_http_status": 200,
+  "credential_schema": {
+    "additionalProperties": false,
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string"
+      },
+      "value": {
+        "type": "string"
+      },
+      "useCustomAuth": {
+        "type": "notice"
+      },
+      "allowedHttpRequestDomains": {
+        "type": "string",
+        "enum": [
+          "all",
+          "domains",
+          "none"
+        ]
+      },
+      "allowedDomains": {
+        "type": "string"
+      }
+    },
+    "required": []
+  },
+  "credentials_modified": false
+}

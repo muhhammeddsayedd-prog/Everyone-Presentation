@@ -1,0 +1,30 @@
+{
+  "observed_at": "2026-10-28T23:36:13.243Z",
+  "result": "passed",
+  "workflow_id": "Nu4bvU634yTLnRy1",
+  "stages": [
+    {
+      "stage": "prepare_document",
+      "http_status": 200,
+      "execution_id": "31249",
+      "bound_response": true
+    },
+    {
+      "stage": "extract_specs",
+      "http_status": 200,
+      "execution_id": "31250",
+      "bound_response": true
+    },
+    {
+      "stage": "apply_specs",
+      "http_status": 200,
+      "execution_id": "31251",
+      "bound_response": true
+    }
+  ],
+  "unauthorized_http_status": 403,
+  "invalid_envelope_http_status": 400,
+  "database_work_claimed": false,
+  "provider_invoked": false,
+  "real_workflow_executions": true
+}
