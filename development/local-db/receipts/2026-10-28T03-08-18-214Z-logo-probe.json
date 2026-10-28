@@ -1,0 +1,13 @@
+{
+  "action": "logo-probe",
+  "observed_at": "2026-10-28T03:08:18.214Z",
+  "workspace_key": "ffaf4984e0e7402cd2f54f81",
+  "scope": "candidate DDL plus synthetic role/policy/receipt assertions in one rolled-back transaction; no migration history write; Storage GUC/catalog simulation, not HTTP",
+  "container": "eps-presentation-canonical-pg17-local",
+  "migration": "supabase/migrations/20261028024205_m01_private_logo_boundary.sql",
+  "migration_sha256": "8f528bf0115599a013e145e12ca42461d1eabcbcedfed0dccf93df0b489a923d",
+  "test": "tests/db/m01-logo-boundary.sql",
+  "test_sha256": "d5bf60a19bd0077d22fc087cf161ff8ee5366961829963dde04448346089aa9f",
+  "result": "failed",
+  "error": "ERROR:  WRONG_FINALIZE_ERROR expected INVALID_TRANSITION, got P0001 / IDEMPOTENCY_KEY_REUSED\nCONTEXT:  PL/pgSQL function pg_temp_75.expect_logo_finalize(uuid,jsonb,text,jsonb) line 3 at RAISE\nSQL statement \"SELECT pg_temp.expect_logo_finalize((r->>'upload_id')::uuid,proof,'INVALID_TRANSITION')\"\nPL/pgSQL function inline_code_block line 5 at PERFORM\n"
+}

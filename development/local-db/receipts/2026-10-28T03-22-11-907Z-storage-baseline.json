@@ -1,0 +1,299 @@
+{
+  "action": "storage-baseline",
+  "observed_at": "2026-10-28T03:22:11.907Z",
+  "workspace_key": "ffaf4984e0e7402cd2f54f81",
+  "scope": "owned local Docker container only; no cloud operations",
+  "container": "eps-presentation-canonical-pg17-local",
+  "file": "development/local-db/local-storage-baseline.sql",
+  "sha256": "e48d5ce64e31ff2671231d39585bf4b5cd24b3b3f535caed400baa5a7bfed383",
+  "result": "already_applied",
+  "baseline": "SIMULATED SQL policy catalog only; no Auth/Storage HTTP, signed tokens, or bytes",
+  "prerequisites": {
+    "roles": [
+      {
+        "name": "anon",
+        "login": false,
+        "inherit": true,
+        "superuser": false,
+        "bypass_rls": false,
+        "create_role": false
+      },
+      {
+        "name": "authenticated",
+        "login": false,
+        "inherit": true,
+        "superuser": false,
+        "bypass_rls": false,
+        "create_role": false
+      },
+      {
+        "name": "postgres",
+        "login": true,
+        "inherit": true,
+        "superuser": false,
+        "bypass_rls": true,
+        "create_role": true
+      },
+      {
+        "name": "service_role",
+        "login": false,
+        "inherit": true,
+        "superuser": false,
+        "bypass_rls": true,
+        "create_role": false
+      },
+      {
+        "name": "supabase_admin",
+        "login": true,
+        "inherit": true,
+        "superuser": true,
+        "bypass_rls": true,
+        "create_role": true
+      },
+      {
+        "name": "supabase_storage_admin",
+        "login": true,
+        "inherit": false,
+        "superuser": false,
+        "bypass_rls": false,
+        "create_role": true
+      }
+    ],
+    "query_role": "postgres",
+    "policy_grants": {
+      "postgres": [
+        "auth.audit_log_entries",
+        "auth.flow_state",
+        "auth.identities",
+        "auth.instances",
+        "auth.mfa_amr_claims",
+        "auth.mfa_challenges",
+        "auth.mfa_factors",
+        "auth.oauth_clients",
+        "auth.one_time_tokens",
+        "auth.refresh_tokens",
+        "auth.saml_providers",
+        "auth.saml_relay_states",
+        "auth.sessions",
+        "auth.sso_domains",
+        "auth.sso_providers",
+        "auth.users",
+        "realtime.messages",
+        "realtime.subscription",
+        "storage.buckets",
+        "storage.buckets_analytics",
+        "storage.objects",
+        "storage.prefixes",
+        "storage.s3_multipart_uploads",
+        "storage.s3_multipart_uploads_parts"
+      ]
+    },
+    "marker_present": true,
+    "privileged_role": "supabase_privileged_role",
+    "storage_catalog": {
+      "schema": {
+        "oid": "16505",
+        "owner": "supabase_admin"
+      },
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "table": "buckets",
+          "default": null,
+          "not_null": true
+        },
+        {
+          "name": "name",
+          "type": "text",
+          "table": "buckets",
+          "default": null,
+          "not_null": true
+        },
+        {
+          "name": "owner",
+          "type": "uuid",
+          "table": "buckets",
+          "default": null,
+          "not_null": false
+        },
+        {
+          "name": "owner_id",
+          "type": "text",
+          "table": "buckets",
+          "default": null,
+          "not_null": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "table": "buckets",
+          "default": "now()",
+          "not_null": false
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "table": "buckets",
+          "default": "now()",
+          "not_null": false
+        },
+        {
+          "name": "public",
+          "type": "boolean",
+          "table": "buckets",
+          "default": "false",
+          "not_null": true
+        },
+        {
+          "name": "file_size_limit",
+          "type": "bigint",
+          "table": "buckets",
+          "default": null,
+          "not_null": false
+        },
+        {
+          "name": "allowed_mime_types",
+          "type": "text[]",
+          "table": "buckets",
+          "default": null,
+          "not_null": false
+        },
+        {
+          "name": "id",
+          "type": "uuid",
+          "table": "objects",
+          "default": "gen_random_uuid()",
+          "not_null": true
+        },
+        {
+          "name": "bucket_id",
+          "type": "text",
+          "table": "objects",
+          "default": null,
+          "not_null": false
+        },
+        {
+          "name": "name",
+          "type": "text",
+          "table": "objects",
+          "default": null,
+          "not_null": false
+        },
+        {
+          "name": "owner",
+          "type": "uuid",
+          "table": "objects",
+          "default": null,
+          "not_null": false
+        },
+        {
+          "name": "owner_id",
+          "type": "text",
+          "table": "objects",
+          "default": null,
+          "not_null": false
+        },
+        {
+          "name": "metadata",
+          "type": "jsonb",
+          "table": "objects",
+          "default": "'{}'::jsonb",
+          "not_null": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "table": "objects",
+          "default": "now()",
+          "not_null": false
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "table": "objects",
+          "default": "now()",
+          "not_null": false
+        },
+        {
+          "name": "last_accessed_at",
+          "type": "timestamp with time zone",
+          "table": "objects",
+          "default": "now()",
+          "not_null": false
+        }
+      ],
+      "functions": [
+        {
+          "oid": "17049",
+          "owner": "supabase_storage_admin",
+          "identity": "storage.allow_any_operation(text[])",
+          "definition": "CREATE OR REPLACE FUNCTION storage.allow_any_operation(expected_operations text[])\n RETURNS boolean\n LANGUAGE sql\n STABLE\n SET search_path TO ''\nAS $function$\n    select exists(select 1 from unnest(expected_operations) expected_operation\n      where expected_operation is not null and expected_operation <> ''\n        and storage.allow_only_operation(expected_operation))\n  $function$\n"
+        },
+        {
+          "oid": "17048",
+          "owner": "supabase_storage_admin",
+          "identity": "storage.allow_only_operation(text)",
+          "definition": "CREATE OR REPLACE FUNCTION storage.allow_only_operation(expected_operation text)\n RETURNS boolean\n LANGUAGE sql\n STABLE\n SET search_path TO ''\nAS $function$\n    select coalesce(\n      case when storage.operation() like 'storage.%' then substr(storage.operation(),9) else storage.operation() end\n      = case when expected_operation like 'storage.%' then substr(expected_operation,9) else expected_operation end\n      and expected_operation <> '', false)\n  $function$\n"
+        },
+        {
+          "oid": "17047",
+          "owner": "supabase_storage_admin",
+          "identity": "storage.operation()",
+          "definition": "CREATE OR REPLACE FUNCTION storage.operation()\n RETURNS text\n LANGUAGE sql\n STABLE\n SET search_path TO ''\nAS $function$ select current_setting('storage.operation',true) $function$\n"
+        }
+      ],
+      "relations": [
+        {
+          "oid": "17016",
+          "rls": true,
+          "kind": "r",
+          "name": "buckets",
+          "force": false,
+          "owner": "supabase_storage_admin"
+        },
+        {
+          "oid": "17026",
+          "rls": false,
+          "kind": "i",
+          "name": "buckets_name_key",
+          "force": false,
+          "owner": "supabase_storage_admin"
+        },
+        {
+          "oid": "17024",
+          "rls": false,
+          "kind": "i",
+          "name": "buckets_pkey",
+          "force": false,
+          "owner": "supabase_storage_admin"
+        },
+        {
+          "oid": "17028",
+          "rls": true,
+          "kind": "r",
+          "name": "objects",
+          "force": false,
+          "owner": "supabase_storage_admin"
+        },
+        {
+          "oid": "17040",
+          "rls": false,
+          "kind": "i",
+          "name": "objects_bucket_id_name_key",
+          "force": false,
+          "owner": "supabase_storage_admin"
+        },
+        {
+          "oid": "17038",
+          "rls": false,
+          "kind": "i",
+          "name": "objects_pkey",
+          "force": false,
+          "owner": "supabase_storage_admin"
+        }
+      ]
+    },
+    "postgres_storage_owner_membership": false
+  }
+}

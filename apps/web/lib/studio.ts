@@ -1,8 +1,9 @@
-import { createStudio } from '@eps/domain';
+import { createStudio, DomainError } from '@eps/domain';
 import sharp from 'sharp';
 import { readRuntimeConfig } from './config';
-import { createCentralStudio } from '@eps/central';
+import { createCentralStudio, readCentralConfig, type CentralStudioOptions } from '@eps/central';
 import { getCentralClient } from './central-client';
+import { readCentralLogoOptions } from './logo-config';
 
 export async function decodeLogo(bytes: Uint8Array) {
   const image = sharp(bytes, { limitInputPixels: 40_000_000, animated: false, failOn: 'warning' });
@@ -16,7 +17,17 @@ export async function decodeLogo(bytes: Uint8Array) {
 
 export async function getStudio() {
   const config = readRuntimeConfig();
-  if (config.adapterMode === 'supabase') return createCentralStudio(await getCentralClient());
+  if (config.adapterMode === 'supabase') {
+    const central = readCentralConfig();
+    let logo: CentralStudioOptions['logo'];
+    try { logo = readCentralLogoOptions(decodeLogo); }
+    catch (error) {
+      // A missing upload verifier must not take existing Ready media offline.
+      if (!(error instanceof DomainError) || error.code !== 'LOGO_STORAGE_CONFIGURATION_REQUIRED') throw error;
+    }
+    return createCentralStudio(await getCentralClient(), { logo,
+      logoRead: { storageOrigin: central.url, brandBucket: 'eps-brand-assets' } });
+  }
   return createStudio({ dataDir: config.dataDir, environment: config.environment,
     adapterMode: 'local_fixture', appBaseUrl: config.baseUrl, decodeLogo });
 }

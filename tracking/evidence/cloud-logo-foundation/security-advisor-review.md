@@ -1,0 +1,7 @@
+# Security advisor review after private-logo release
+
+The actual [advisor result](security-advisors.json), recorded 2026-10-28T03:35:14Z, contains 18 WARN findings, all `authenticated_security_definer_function_executable`. They correspond exactly to the eighteen deliberately exposed scoped RPCs. This is not a zero-warning scan or production acceptance.
+
+The [earlier twelve-function assessment](../cloud-foundation/security-advisor-review.md) remains historical. The six new logo RPCs were independently reviewed with actual local role/RLS assertions, forged proof/scope/expiry cases, a two-backend completion race, and Node-to-SQL HMAC interoperability. Cloud application/readback confirms narrow nonlogin/non-BYPASSRLS owners, empty search paths, no anonymous execution, thirteen forced-RLS app tables and private Storage policy guards. Ordinary users and the API owner cannot read verification keys or directly supply verified checksum/dimensions. The finalizer independently validates the private short-lived proof and current actor/scope before committing.
+
+Root accepts these intentional transaction endpoints within the current implementation; findings remain visible. This review does not substitute for a real signed-in user's Storage mint/transfer/upsert tests, production auth/hosting configuration, broader milestones or restore evidence. No other security advisor finding was returned by this scan.

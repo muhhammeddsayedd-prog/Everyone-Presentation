@@ -61,7 +61,37 @@ test('persistent M01 development journey: shared edits, real logo bytes and acce
   await page.locator('#client-logo').setInputFiles({ name: 'synthetic-replacement.png', mimeType: 'image/png', buffer: replacement });
   await expect(page.getByRole('status').filter({ hasText: 'Logo saved' })).toBeVisible();
   await expect.poll(() => page.getByAltText('Selected client logo').evaluate(image => (image as HTMLImageElement).naturalWidth)).toBe(144);
-  await page.getByRole('button', { name: 'Remove', exact: true }).click();
+  const headers = () => ({ Origin: new URL(page.url()).origin, 'Idempotency-Key': crypto.randomUUID() });
+  const current = (await (await page.request.get(`/api/v1/projects/${currentProject}`)).json()).data;
+  const setDefault = await page.request.patch(`/api/v1/projects/${currentProject}`, { headers: headers(), data: {
+    row_version: current.row_version, expected_client_row_version: current.client_row_version, client_logo_asset_id: oldAsset,
+  } });
+  expect(setDefault.status()).toBe(200);
+  try {
+    await page.reload();
+    await expect(page.getByRole('button', { name: 'Use client logo', exact: true })).toBeVisible();
+    await page.getByRole('button', { name: 'Remove', exact: true }).click();
+    await expect(page.getByText('No client logo selected', { exact: true })).toBeVisible();
+    await page.screenshot({ path: testInfo.outputPath('client-logo-reuse.png'), fullPage: true });
+    const reuse = page.waitForRequest(request => request.method() === 'PATCH' && request.url().endsWith(`/api/v1/workspaces/${workspaceId}`));
+    await page.getByRole('button', { name: 'Use client logo', exact: true }).click();
+    expect((await reuse).postDataJSON()).toEqual({ row_version: expect.any(Number), logo_asset_id: oldAsset });
+    await expect(page.getByRole('status').filter({ hasText: 'Branding saved' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Use client logo', exact: true })).toHaveCount(0);
+    await page.reload();
+    await expect.poll(() => page.getByAltText('Selected client logo').evaluate(image => (image as HTMLImageElement).naturalWidth)).toBe(96);
+    expect((await (await page.request.get(`/api/v1/workspaces/${workspaceId}`)).json()).data.logo_asset_id).toBe(oldAsset);
+    expect((await (await page.request.get(`/api/v1/projects/${currentProject}`)).json()).data.client_logo_asset_id).toBe(oldAsset);
+    await page.getByRole('button', { name: 'Remove', exact: true }).click();
+    await expect(page.getByText('No client logo selected', { exact: true })).toBeVisible();
+  } finally {
+    const latest = (await (await page.request.get(`/api/v1/projects/${currentProject}`)).json()).data;
+    const restore = await page.request.patch(`/api/v1/projects/${currentProject}`, { headers: headers(), data: {
+      row_version: latest.row_version, expected_client_row_version: latest.client_row_version, client_logo_asset_id: project.client_logo_asset_id,
+    } });
+    expect(restore.status()).toBe(200);
+  }
+  await page.reload();
   await expect(page.getByText('No client logo selected', { exact: true })).toBeVisible();
   expect((await page.request.get(`/api/v1/media/${oldAsset}/content`)).status()).toBe(200);
   await page.getByLabel('Cover only', { exact: true }).check();

@@ -1,5 +1,7 @@
 # Isolated canonical database replay
 
+The separate [local Storage policy simulation](STORAGE_BASELINE.md) documents the fixed, review-gated `storage-baseline` action and its SQL-only evidence boundary. Root applied its reviewed hash locally at `2026-10-28T02:59:07.508Z`; the matching-hash/fingerprint repeat reported `already_applied` at `02:59:20.266Z`. These are simulated SQL catalog receipts, with no Storage HTTP, bytes or cloud application.
+
 This harness runs the already-pulled official Supabase Postgres image locally for reviewed SQL replay. It does not run Supabase Auth/Storage/REST, use the hosted database, or replace the project's cloud link. The user confirmed the empty Everyone-Presentation project as canonical; this harness tests its proposed coordinated root migration history using isolated local data before any cloud DDL.
 
 The exact image tag/digest and owned resource names are pinned in `instance.json`. The dedicated container publishes **only `127.0.0.1:55433` → PostgreSQL 5432**. Every operation verifies a local Docker named-pipe/Unix-socket context, workspace/instance labels on the container, volume and network, exact image digest, exact owned volume mount, all configured and observed host bindings, the dedicated bridge attachment, PostgreSQL major version and the database system identifier. Any mismatch refuses SQL. Unrelated containers, networks and volumes are never stopped, removed or adopted.

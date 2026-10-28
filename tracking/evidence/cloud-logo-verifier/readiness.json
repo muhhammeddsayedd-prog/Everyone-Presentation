@@ -1,0 +1,20 @@
+{
+  "result": "PASS",
+  "scope": "actual post-configuration cloud ACL/RLS/key-count metadata only; no secret/digest returned",
+  "readiness": {
+    "active_key_count": 1,
+    "key_count": 1,
+    "observed_at": "2026-10-28T04:17:30.799163+00:00",
+    "ordinary_key_read": {
+      "anon": false,
+      "api_owner": false,
+      "authenticated": false,
+      "service_role": false
+    },
+    "query_role": "postgres",
+    "rls": true,
+    "unexpected_select_grants": [],
+    "unrestricted_visibility": true,
+    "verifier_nonprivileged": true
+  }
+}

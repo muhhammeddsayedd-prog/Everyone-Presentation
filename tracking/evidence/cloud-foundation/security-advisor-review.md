@@ -1,0 +1,9 @@
+# Security advisor review — canonical foundation
+
+Observed 2026-10-28. [Actual sanitized result](security-advisors.json): 12 WARN findings, all `authenticated_security_definer_function_executable`, covering exactly the twelve curated foundation RPCs. No other finding was returned by this security scan. This is not a zero-warning result or production security acceptance.
+
+These endpoints intentionally permit signed-in callers to execute narrow operations over protected canonical/private relations. Switching them to invoker would remove the intended transaction boundary or require direct private-table grants. Each function runs as `eps_api_owner`, a non-login, non-BYPASSRLS role that does not own the tables. The role has limited explicit grants; affected relations have enabled and forced RLS. Function search paths are empty, identifiers are fixed, and operations derive identity from the caller JWT, recheck capability and resource scope, and validate input and current row versions. Authenticated callers cannot assume the owner role. The forward migration history preserves actual grantability and concurrency fixes.
+
+Root integration review accepts these twelve intentional exposures for the current implementation, supported by [cloud readback](readback.json), actual local role/RLS/forged-input tests and [separate-session concurrency proof](../m01/DB_CONCURRENCY.json). The warning remains recorded, not suppressed. New RPCs require their own review; this assessment does not cover the proposed logo migration or future worker APIs.
+
+Real signed-in cloud operations, production configuration, uploads, provider callbacks and restore remain separate acceptance gates. The relevant [Supabase advisor guidance](https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable) asks for review when such exposure is not intentional; intentional exposure still requires the controls above.

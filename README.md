@@ -15,9 +15,11 @@ npm.cmd ci
 npm.cmd run dev
 ```
 
-`npm.cmd run dev` uses clearly labelled synthetic identities and persistent local state. `npm.cmd run dev:central` uses the owner-confirmed real Supabase project and email sign-in at http://127.0.0.1:3000. Its publishable URL/key are configured in ignored `apps/web/.env.local` on this machine; another installation must configure them securely. First Producer enrollment, real project data and private central logo uploads remain incomplete. `npm.cmd start` refuses production while release acceptance is unfinished.
+`npm.cmd run dev` uses clearly labelled synthetic identities and persistent local state. `npm.cmd run dev:central` uses the owner-confirmed real Supabase project and email sign-in at http://127.0.0.1:3000. Its publishable URL/key are configured in ignored `apps/web/.env.local` on this machine; another installation must configure them securely. The private logo schema, adapter and protected verifier configuration exist; uploads stay disabled pending the actual Producer/project and hosted Storage checks. `npm.cmd start` refuses production while release acceptance is unfinished.
 
-Run `npm.cmd run typecheck`, `npm.cmd run lint`, `npm.cmd test`, `npm.cmd run test:db` and `npm.cmd run test:e2e`. The browser suite owns a separate fixture server on port3100; the database suite verifies only the dedicated local PostgreSQL container on port55433. Install Chromium with `npx.cmd playwright install chromium` if needed. [Cloud foundation evidence](tracking/evidence/cloud-foundation/readback.json) records three applied/read-back migrations. No auth/business fixtures were seeded. Never reset/seed/start the linked Supabase root; use the guarded [local harness](development/local-db/README.md).
+Run `npm.cmd run typecheck`, `npm.cmd run lint`, `npm.cmd test`, `npm.cmd run test:db` and `npm.cmd run test:e2e`. The browser suite owns a separate fixture server on port3100; the database suite verifies only the dedicated local PostgreSQL container on port55433. Install Chromium with `npx.cmd playwright install chromium` if needed. [Cloud logo foundation evidence](tracking/evidence/cloud-logo-foundation/2026-10-28T03-32-17-619834Z-6a35754c-apply.json) records the fourth applied/read-back migration, 18 scoped RPCs, 13 forced-RLS app relations and one private bucket. The separate dedicated verifier configuration is [documented here](tracking/evidence/cloud-logo-verifier/README.md). No auth/business fixtures were seeded. Never reset/seed/start the linked Supabase root; use the guarded [local harness](development/local-db/README.md).
+
+The current application checkpoint passes 80 tests, four fixture browser/HTTP journeys, lint/typecheck and build. Guarded SQL role/concurrency and Node-to-SQL receipt tests are separate proof; actual signed-in cloud/Storage/AI/MCP/release checks remain distinct. Run `node tools/check-logo-receipt-db.mjs` for the reviewed Node/SQL interoperability check. Use `python tools/package_pack.py --check` to inspect source-only packaging; the generated archive goes to ignored `dist/`, preserving the original pack manifest.
 
 ## Document map
 
@@ -61,7 +63,7 @@ For a single-file context dossier, run `python3 tools/assemble_context.py M03` (
 
 ## Important boundaries
 
-The database model is a proposed logical extension. Exact existing tables/keys/auth/migration history are unknown until M00. The guarded reference SQL is intentionally not a deployable cloud migration. Hosting vendor, available credentials/quotas, actual template assets and representative media are technical discovery dependencies. Defaults and unresolved facts are labelled, so Codex can proceed without silently inventing them.
+The supplied database model remains design reference. M00 discovery and the owner-confirmed new canonical system are now mapped in [the physical schema record](contracts/database/central-schema-map.yaml). The guarded reference SQL is intentionally not a deployable cloud migration. Hosting vendor, available credentials/quotas, actual template assets and representative media are technical discovery dependencies. Defaults and unresolved facts are labelled, so Codex can proceed without silently inventing them.
 
 The included standalone HTML is a UX reference with simulated AI and permissive demo navigation. It is not evidence of a production backend. The real release requires completed human and Claude journeys, actual service/PDF proof and recovery evidence.
 

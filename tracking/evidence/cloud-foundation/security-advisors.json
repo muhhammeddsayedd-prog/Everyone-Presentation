@@ -1,0 +1,112 @@
+{
+  "observed_at": "2026-10-28T02:51:16.918631+00:00",
+  "target": "pyibofyctwnqpvktepse",
+  "command": "supabase@2.122.0 db advisors --linked --type security --level info --fail-on none --output-format json",
+  "exit_code": 0,
+  "json_result_parsed": true,
+  "top_level_keys": [
+    "results",
+    "message"
+  ],
+  "findings": [
+    {
+      "name": "authenticated_security_definer_function_executable",
+      "level": "WARN",
+      "metadata": {
+        "name": "eps_archive_audience_preset",
+        "schema": "public"
+      }
+    },
+    {
+      "name": "authenticated_security_definer_function_executable",
+      "level": "WARN",
+      "metadata": {
+        "name": "eps_create_audience_preset",
+        "schema": "public"
+      }
+    },
+    {
+      "name": "authenticated_security_definer_function_executable",
+      "level": "WARN",
+      "metadata": {
+        "name": "eps_create_workspace",
+        "schema": "public"
+      }
+    },
+    {
+      "name": "authenticated_security_definer_function_executable",
+      "level": "WARN",
+      "metadata": {
+        "name": "eps_get_capabilities",
+        "schema": "public"
+      }
+    },
+    {
+      "name": "authenticated_security_definer_function_executable",
+      "level": "WARN",
+      "metadata": {
+        "name": "eps_get_project",
+        "schema": "public"
+      }
+    },
+    {
+      "name": "authenticated_security_definer_function_executable",
+      "level": "WARN",
+      "metadata": {
+        "name": "eps_get_workspace",
+        "schema": "public"
+      }
+    },
+    {
+      "name": "authenticated_security_definer_function_executable",
+      "level": "WARN",
+      "metadata": {
+        "name": "eps_list_audience_presets",
+        "schema": "public"
+      }
+    },
+    {
+      "name": "authenticated_security_definer_function_executable",
+      "level": "WARN",
+      "metadata": {
+        "name": "eps_list_projects",
+        "schema": "public"
+      }
+    },
+    {
+      "name": "authenticated_security_definer_function_executable",
+      "level": "WARN",
+      "metadata": {
+        "name": "eps_list_workspaces",
+        "schema": "public"
+      }
+    },
+    {
+      "name": "authenticated_security_definer_function_executable",
+      "level": "WARN",
+      "metadata": {
+        "name": "eps_update_audience_preset",
+        "schema": "public"
+      }
+    },
+    {
+      "name": "authenticated_security_definer_function_executable",
+      "level": "WARN",
+      "metadata": {
+        "name": "eps_update_project",
+        "schema": "public"
+      }
+    },
+    {
+      "name": "authenticated_security_definer_function_executable",
+      "level": "WARN",
+      "metadata": {
+        "name": "eps_update_workspace",
+        "schema": "public"
+      }
+    }
+  ],
+  "raw_diagnostics": "ignored .local/cloud-release/security-advisors-raw.txt",
+  "finding_count": 12,
+  "interpretation": "Advisor findings require review; zero-findings must not be inferred from an unrecognized response envelope."
+}

@@ -1,0 +1,102 @@
+{
+  "action": "storage-baseline-inspect",
+  "observed_at": "2026-10-28T02:56:28.679Z",
+  "workspace_key": "ffaf4984e0e7402cd2f54f81",
+  "scope": "owned local Docker container only; no cloud operations",
+  "container": "eps-presentation-canonical-pg17-local",
+  "operation": "read-only local catalog inspection",
+  "prerequisites": {
+    "roles": [
+      {
+        "name": "anon",
+        "login": false,
+        "inherit": true,
+        "superuser": false,
+        "bypass_rls": false,
+        "create_role": false
+      },
+      {
+        "name": "authenticated",
+        "login": false,
+        "inherit": true,
+        "superuser": false,
+        "bypass_rls": false,
+        "create_role": false
+      },
+      {
+        "name": "postgres",
+        "login": true,
+        "inherit": true,
+        "superuser": false,
+        "bypass_rls": true,
+        "create_role": true
+      },
+      {
+        "name": "service_role",
+        "login": false,
+        "inherit": true,
+        "superuser": false,
+        "bypass_rls": true,
+        "create_role": false
+      },
+      {
+        "name": "supabase_admin",
+        "login": true,
+        "inherit": true,
+        "superuser": true,
+        "bypass_rls": true,
+        "create_role": true
+      },
+      {
+        "name": "supabase_storage_admin",
+        "login": true,
+        "inherit": false,
+        "superuser": false,
+        "bypass_rls": false,
+        "create_role": true
+      }
+    ],
+    "query_role": "postgres",
+    "policy_grants": {
+      "postgres": [
+        "auth.audit_log_entries",
+        "auth.flow_state",
+        "auth.identities",
+        "auth.instances",
+        "auth.mfa_amr_claims",
+        "auth.mfa_challenges",
+        "auth.mfa_factors",
+        "auth.oauth_clients",
+        "auth.one_time_tokens",
+        "auth.refresh_tokens",
+        "auth.saml_providers",
+        "auth.saml_relay_states",
+        "auth.sessions",
+        "auth.sso_domains",
+        "auth.sso_providers",
+        "auth.users",
+        "realtime.messages",
+        "realtime.subscription",
+        "storage.buckets",
+        "storage.buckets_analytics",
+        "storage.objects",
+        "storage.prefixes",
+        "storage.s3_multipart_uploads",
+        "storage.s3_multipart_uploads_parts"
+      ]
+    },
+    "marker_present": false,
+    "privileged_role": "supabase_privileged_role",
+    "storage_catalog": {
+      "schema": {
+        "oid": "16505",
+        "owner": "supabase_admin"
+      },
+      "columns": null,
+      "functions": null,
+      "relations": null
+    },
+    "postgres_storage_owner_membership": false
+  },
+  "baseline_changes": "none; no Auth/Storage HTTP or byte-storage implementation"
+}

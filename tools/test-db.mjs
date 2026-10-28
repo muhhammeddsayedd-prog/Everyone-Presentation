@@ -4,7 +4,7 @@ import path from 'node:path';
 import { performance } from 'node:perf_hooks';
 import process from 'node:process';
 import { fileURLToPath, URL } from 'node:url';
-import { runReviewedSqlFile, verifyLocalTarget } from './local-postgres.mjs';
+import { runReviewedSqlFile, verifyLocalTarget, storageBaseline } from './local-postgres.mjs';
 
 const ROOT = fileURLToPath(new URL('../', import.meta.url));
 const MANIFEST = path.join(ROOT, 'development/local-db/reviewed.json');
@@ -14,9 +14,13 @@ const REQUIRED_MIGRATIONS = [
   'supabase/migrations/20261028010943_m01_canonical_foundation.sql',
   'supabase/migrations/20261028013324_m01_identity_role_inheritance.sql',
   'supabase/migrations/20261028013655_m01_workspace_scope_alias.sql',
+  'supabase/migrations/20261028024205_m01_private_logo_boundary.sql',
 ];
 const FILES = {
   roles: 'tests/db/m01-role-inheritance.sql', foundation: 'tests/db/m01-foundation.sql',
+  logo: 'tests/db/m01-logo-boundary.sql',
+  logoSetup: 'tests/db/m01-logo-race-setup.sql', logoA: 'tests/db/m01-logo-race-a.sql', logoB: 'tests/db/m01-logo-race-b.sql',
+  logoVerify: 'tests/db/m01-logo-race-verify.sql', logoCleanup: 'tests/db/m01-logo-race-cleanup.sql',
   setup: 'tests/db/m01-race-setup.sql', sameA: 'tests/db/m01-race-same-a.sql', sameB: 'tests/db/m01-race-same-b.sql',
   distinctA: 'tests/db/m01-race-distinct-a.sql', distinctB: 'tests/db/m01-race-distinct-b.sql',
   verify: 'tests/db/m01-race-verify.sql', cleanup: 'tests/db/m01-race-cleanup.sql',
@@ -59,7 +63,7 @@ async function main() {
   const summary = { suite: 'M01 real local PostgreSQL acceptance', run_id: runId, started_at: new Date().toISOString(),
     result: 'failed', scope: 'owned isolated local Docker PostgreSQL only; no cloud calls', stages: [], concurrency_pairs: [],
     cleanup: { setup_confirmed: false, attempted: false }, limitations: 'Local SQL/role/concurrency evidence; hosted auth, storage, web integration and production are separate gates.' };
-  let ownsLock = false; let setupConfirmed = false; let manifestDigest; let manifest;
+  let ownsLock = false; let setupConfirmed = false; let logoSetupConfirmed = false; let manifestDigest; let manifest;
   async function unchangedManifest() {
     if (!manifestDigest || hash(await readFile(MANIFEST)) !== manifestDigest) fail('The reviewed manifest changed during this run. Stop and review current files before rerunning.');
   }
@@ -116,7 +120,7 @@ async function main() {
     const entries = [...manifest.migrations, ...manifest.tests];
     if (new Set(entries.map(entry => entry.path)).size !== entries.length) fail('The reviewed manifest has duplicate paths.');
     const migrations = (await readdir(path.join(ROOT, 'supabase/migrations'))).filter(name => name.endsWith('.sql')).sort().map(name => `supabase/migrations/${name}`);
-    if (!REQUIRED_MIGRATIONS.every(file => migrations.includes(file)) || migrations.length !== manifest.migrations.length || migrations.some(file => !manifest.migrations.some(entry => entry.path === file))) fail('Every root migration, including the three required M01 migrations, must have an exact reviewed entry. No migration is silently omitted.');
+    if (!REQUIRED_MIGRATIONS.every(file => migrations.includes(file)) || migrations.length !== manifest.migrations.length || migrations.some(file => !manifest.migrations.some(entry => entry.path === file))) fail('Every root migration, including all required M01 migrations, must have an exact reviewed entry. No migration is silently omitted.');
     for (const file of [...migrations, ...Object.values(FILES)]) {
       const entry = entries.find(value => value.path === file);
       if (!entry || !/^[a-f0-9]{64}$/u.test(entry.sha256) || typeof entry.reviewed_by !== 'string' || !entry.reviewed_by.trim()
@@ -124,9 +128,19 @@ async function main() {
       if (hash(await readFile(path.join(ROOT, file))) !== entry.sha256) fail(`Reviewed SQL bytes changed: ${file}.`);
     }
     summary.reviewed_manifest_sha256 = manifestDigest;
+    const baseline = await storageBaseline();
+    summary.local_storage_fixture = { receipt: baseline.receipt, result: baseline.result,
+      scope: 'simulated managed catalog for SQL policy assertions only; no Storage HTTP or bytes' };
+    await unchangedManifest();
     for (const file of migrations) await stage('migration-replay', file, false);
     await stage('identity-role-proof', FILES.roles, true);
     await stage('foundation-role-and-domain-assertions', FILES.foundation, true);
+    await stage('logo-role-proof-and-state-assertions', FILES.logo, true);
+    summary.logo_cleanup = { setup_confirmed: false, attempted: false };
+    await stage('logo-concurrency-fixture-setup', FILES.logoSetup, true);
+    logoSetupConfirmed = true; summary.logo_cleanup.setup_confirmed = true;
+    await racePair('distinct-key-logo-completion', [FILES.logoA, FILES.logoB]);
+    await stage('logo-concurrency-domain-effects', FILES.logoVerify, true);
     await stage('concurrency-fixture-setup', FILES.setup, true);
     setupConfirmed = true; summary.cleanup.setup_confirmed = true;
     await racePair('same-key-claim', [FILES.sameA, FILES.sameB]);
@@ -136,6 +150,11 @@ async function main() {
   } catch (error) {
     summary.result = 'failed'; summary.error = diagnostic(error);
   } finally {
+    if (logoSetupConfirmed) {
+      summary.logo_cleanup.attempted = true;
+      try { const result = await stage('scoped-logo-fixture-cleanup', FILES.logoCleanup, true); Object.assign(summary.logo_cleanup, { result: 'passed', receipt: result.receipt }); }
+      catch (error) { summary.result = 'failed'; Object.assign(summary.logo_cleanup, { result: 'failed', error: diagnostic(error), preservation: 'Unexpected fixture data is preserved; no CASCADE/reset/Storage deletion.' }); }
+    }
     if (setupConfirmed) {
       summary.cleanup.attempted = true;
       try { const result = await stage('scoped-concurrency-fixture-cleanup', FILES.cleanup, true); Object.assign(summary.cleanup, { result: 'passed', receipt: result.receipt }); }

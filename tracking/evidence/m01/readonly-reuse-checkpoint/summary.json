@@ -1,0 +1,32 @@
+{
+  "checks": [
+    {
+      "check": "tests",
+      "command": "npm.cmd test",
+      "scope": "synthetic/SDK/parser application tests",
+      "started_at": "2026-10-28T03:48:27.554455+00:00",
+      "finished_at": "2026-10-28T03:48:40.868412+00:00",
+      "exit_code": 0,
+      "result": "PASS"
+    },
+    {
+      "check": "browser",
+      "command": "npm.cmd run test:e2e",
+      "scope": "actual browser and HTTP over isolated synthetic adapter",
+      "started_at": "2026-10-28T03:48:40.868931+00:00",
+      "finished_at": "2026-10-28T03:49:11.205320+00:00",
+      "exit_code": 0,
+      "result": "PASS"
+    },
+    {
+      "check": "build",
+      "command": "npm.cmd run build",
+      "scope": "compilation, no production serving",
+      "started_at": "2026-10-28T03:49:11.205853+00:00",
+      "finished_at": "2026-10-28T03:49:24.182229+00:00",
+      "exit_code": 0,
+      "result": "PASS"
+    }
+  ],
+  "database_proof": "unchanged SQL; separate passed local suites/Node interop receipts retained"
+}

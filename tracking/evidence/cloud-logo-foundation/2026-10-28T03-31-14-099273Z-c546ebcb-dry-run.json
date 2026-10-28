@@ -1,0 +1,84 @@
+{
+  "observed_at": "2026-10-28T03:31:14.099354+00:00",
+  "action": "dry-run",
+  "target": "pyibofyctwnqpvktepse",
+  "result": "passed",
+  "inputs": {
+    "migration_hashes": {
+      "20261028010943_m01_canonical_foundation.sql": "8a5f3ed7727a72051e630307d2daecab8c4a74054398a6425e73bd85e17568b9",
+      "20261028013324_m01_identity_role_inheritance.sql": "5382efe9fbdf9c194010257e0ac0024dcb447207522036560056d5d1a4e20e30",
+      "20261028013655_m01_workspace_scope_alias.sql": "67ddb2cff9fed9c42d34657e833c613aec4afd2769543a991bbac84da355db64",
+      "20261028024205_m01_private_logo_boundary.sql": "b04af5119b4e384bd96136573eec39e69f21a0ffb7d9f4aeb07bbf48f2976b9d"
+    },
+    "source_hashes": {
+      "tools/release_logo.py": "efd1de07b3304d8d5c89f29bbeaf77ff2ce1d8d42ffbf885f960c36f506b47f4",
+      "tools/release_foundation.py": "02aac0cefc4b46419c7d5a086da672398716cf7ee73882602574cff99659d751",
+      "tools/sql/logo-release-preflight.sql": "9b3b58e9de904fc28c7ad064d5b347bdd3fa960a52b92cf5b64b29b2cc2b72f9",
+      "tools/sql/logo-foundation-readback.sql": "6984a136c73579884e4931933e98135a059af8b6aae1eeb538bf5d53c719f7ed",
+      "supabase/config.toml": "0a50cd9902ed3a31b57cde31171f725310ed8d0d3efbd7226f894d48272dfbb2",
+      "development/local-db/reviewed.json": "fcb5c3a7152cac55add4dd4d5d5ed460a72f1beaebaff7c3e55f50804eabc6cd",
+      "packages/central/src/logo-receipt.ts": "a450458cad63ee2c6dfba7ca6519d54d4873e4d56a6a5a83a37fc3ce939e5d8a",
+      "tests/db/m01-logo-node-interop.sql": "9e269e1c250e7f02221d862ee8c4e72962ff93a2f9469a1e2c590fba01acee4b",
+      "development/local-db/receipts/2026-10-28T03-17-08-868Z-test-db-summary-6b069f43.json": "6a75b05d256f74287330d28aa85d5f505d9f625f33f3a3d555ecb296a611a5e2",
+      "development/local-db/receipts/2026-10-28T03-20-25-083Z-logo-node-sql-interop.json": "6dded7e038290c41fd1788881a9ffcec82c2e0b0837f25b2c203edc17994cc51",
+      "tracking/evidence/cloud-foundation/apply.json": "568f76ded2cdda869682a4dd66d882aec2b61c1e43009c889650850f64abcb16"
+    }
+  },
+  "seeds": false,
+  "vault_sync": false,
+  "key_provisioning": false,
+  "runtime_enablement": false,
+  "raw_diagnostics": "ignored .local/cloud-logo-release/ only",
+  "application_verified_by_readback": false,
+  "counts_are_snapshots_only": true,
+  "limitations": "Metadata/DDL proof only. Genuine-user Storage HTTP, private byte transfer and Sharp verification remain separate gates.",
+  "preflight": {
+    "count_visibility_unrestricted": true,
+    "counts": {
+      "auth_users": 0,
+      "buckets": 0,
+      "capability_grants": 0,
+      "clients": 0,
+      "media": 0,
+      "project_memberships": 0,
+      "projects": 0,
+      "workspaces": 0
+    },
+    "database": "postgres",
+    "logo_bucket_collision": false,
+    "logo_function_collisions": [],
+    "logo_policy_collisions": [],
+    "logo_role_collision": false,
+    "logo_table_collisions": [],
+    "migrations": [
+      {
+        "name": "m01_canonical_foundation",
+        "version": "20261028010943"
+      },
+      {
+        "name": "m01_identity_role_inheritance",
+        "version": "20261028013324"
+      },
+      {
+        "name": "m01_workspace_scope_alias",
+        "version": "20261028013655"
+      }
+    ],
+    "postgres_version": "17.11",
+    "prerequisites": {
+      "authenticated_admin": true,
+      "bucket_insert": true,
+      "hmac": true,
+      "storage_buckets_rls": true,
+      "storage_objects_rls": true,
+      "storage_operation_helper": true,
+      "storage_policy_delegate": true
+    },
+    "query_role": "postgres"
+  },
+  "application_attempted": false,
+  "exit_code": 0,
+  "pending_migrations": [
+    "20261028024205_m01_private_logo_boundary.sql"
+  ]
+}

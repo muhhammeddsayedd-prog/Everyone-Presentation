@@ -9,7 +9,9 @@
       "title": "Discovery and contracts",
       "status": "verified",
       "depends_on": [],
-      "commits": [],
+      "commits": [
+        "369a77de5de1401723b399ba1440b1575938ac41"
+      ],
       "migrations": [],
       "evidence": [
         "tracking/discovery/central-metadata.json",
@@ -33,7 +35,9 @@
       "depends_on": [
         "M00"
       ],
-      "commits": [],
+      "commits": [
+        "369a77de5de1401723b399ba1440b1575938ac41"
+      ],
       "migrations": [
         {
           "file": "supabase/migrations/20261028010943_m01_canonical_foundation.sql",
@@ -55,6 +59,13 @@
           "cloud": "applied",
           "target": "pyibofyctwnqpvktepse",
           "evidence": "tracking/evidence/cloud-foundation/readback.json"
+        },
+        {
+          "file": "supabase/migrations/20261028024205_m01_private_logo_boundary.sql",
+          "local": "applied",
+          "cloud": "applied",
+          "target": "pyibofyctwnqpvktepse",
+          "evidence": "tracking/evidence/cloud-logo-foundation/2026-10-28T03-32-17-619834Z-6a35754c-apply.json"
         }
       ],
       "evidence": [
@@ -67,13 +78,24 @@
         "tracking/evidence/m01/UI_VERIFICATION.md",
         "packages/central/",
         "tracking/evidence/cloud-foundation/",
-        "development/local-db/receipts/"
+        "development/local-db/receipts/",
+        "tracking/discovery/storage-operation-context-research.md",
+        "tracking/discovery/storage-policy-context.json",
+        "tracking/discovery/storage-release-privileges.json",
+        "tracking/evidence/cloud-foundation/security-advisor-review.md",
+        "tracking/evidence/m01/LOGO_CONCURRENCY.json",
+        "tracking/evidence/m01/LOGO_SQL_INDEPENDENT_REVIEW.md",
+        "development/local-db/receipts/2026-10-28T03-20-25-083Z-logo-node-sql-interop.json",
+        "tracking/evidence/cloud-logo-foundation/",
+        "tracking/evidence/cloud-logo-verifier/",
+        "tracking/evidence/m01/readonly-reuse-checkpoint/",
+        "tracking/evidence/m01/LOGO_RECOVERY_REVIEW.md"
       ],
       "blockers": [
-        "First Producer email/real sign-in and real initial project data pending.",
-        "Central private logo reservation/verification/storage not implemented; upload policy is empty."
+        "Actual first Producer email/confirmed human sign-in and real initial project/client details are pending.",
+        "Hosted user-JWT Storage operation/header, unsafe signed-mint denial, immutable transfer and full authorized logo reload journey remain unrun; uploads stay disabled."
       ],
-      "next_action": "Complete scoped private central logo uploads and enroll the actual first Producer, then demonstrate real authorized project writeback and reload."
+      "next_action": "Use the pending real account/project inputs to enroll the actual Producer and canonical project, then exercise the hosted M01 journey and private Storage gates; enable development upload configuration as part of that verification without inventing cloud fixtures."
     },
     {
       "id": "M02",
@@ -82,7 +104,9 @@
       "depends_on": [
         "M01"
       ],
-      "commits": [],
+      "commits": [
+        "369a77de5de1401723b399ba1440b1575938ac41"
+      ],
       "migrations": [],
       "evidence": [
         "packages/jobs/",

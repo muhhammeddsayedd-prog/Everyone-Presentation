@@ -1,0 +1,20 @@
+{
+  "action": "logo-probe",
+  "observed_at": "2026-10-28T03:10:25.241Z",
+  "workspace_key": "ffaf4984e0e7402cd2f54f81",
+  "scope": "candidate DDL plus synthetic role/policy/receipt assertions in one rolled-back transaction; no migration history write; Storage GUC/catalog simulation, not HTTP",
+  "container": "eps-presentation-canonical-pg17-local",
+  "migration": "supabase/migrations/20261028024205_m01_private_logo_boundary.sql",
+  "migration_sha256": "b04af5119b4e384bd96136573eec39e69f21a0ffb7d9f4aeb07bbf48f2976b9d",
+  "test": "tests/db/m01-logo-boundary.sql",
+  "test_sha256": "cbce9d3e929220b19d54ef702b55eb1085f6647a1e385c7abf220d324f8a2d64",
+  "result": "passed",
+  "rollback": {
+    "candidate_role_absent": true,
+    "candidate_tables_absent": true,
+    "candidate_migration_absent": true,
+    "verified": true
+  },
+  "output": "eps-presentation-canonical-pg17-local\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nM01 private logo SQL scope, receipt, idempotency and restrictive policy assertions passed; all fixtures rolled back. Storage operation GUC probes are simulation, not HTTP or actual byte verification.\n",
+  "warnings": ""
+}

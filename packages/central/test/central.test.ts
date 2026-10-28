@@ -1,7 +1,10 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { DomainError } from '@eps/domain';
-import { createBearerUserClient, createRequestServerClient, createCentralStudio, readCentralConfig, centralRpcError } from '../src/index.ts';
+import { createHash } from 'node:crypto';
+import sharp from 'sharp';
+import { DomainError, type MediaAsset, type UploadCompletion, type Workspace } from '@eps/domain';
+import { createBearerUserClient, createRequestServerClient, createCentralStudio, readCentralConfig, centralRpcError, signLogoReceipt, verifyLogoReceipt, type CentralStudioOptions } from '../src/index.ts';
+import type { LogoReservation } from '../src/logo-storage.ts';
 
 const principal = '10000000-0000-4000-8000-000000000001';
 const projectId = '20000000-0000-4000-8000-000000000001';
@@ -111,6 +114,197 @@ test('strict inputs, malformed/private responses and unwired storage fail before
   const malformed = fakeService({ rpc: () => ({ ...project, unrelated_private_column: 'must-not-leak' }) });
   const other = await createCentralStudio(createBearerUserClient({ ...config, accessToken: token }, { fetch: malformed.fetcher }));
   await assert.rejects(other.getProject(actor, projectId), error => isCode('CENTRAL_RESPONSE_INVALID', 503)(error) && !String(error).includes('must-not-leak'));
+});
+
+test('configured central logo journey verifies actual streamed bytes, updates workspace, replays safely and intersects capabilities', async () => {
+  // The real pinned SDK runs against this synthetic HTTP boundary; no hosted calls or SQL proof.
+  const png = await sharp({ create: { width: 24, height: 12, channels: 4, background: { r: 30, g: 90, b: 50, alpha: .6 } } }).png().toBuffer();
+  const digest = createHash('sha256').update(png).digest('hex');
+  const receiptKey = Buffer.alloc(32, 23);
+  const bucket = 'eps-brand-assets';
+  const calls: RecordedRequest[] = [];
+  const reservations = new Map<string, LogoReservation>();
+  const uploads = new Map<string, Uint8Array>();
+  let advertised: string[] = [];
+  let scopeAllowed = true;
+  let finalized = 0;
+  let downloads = 0;
+  let decoded = 0;
+  const currentWorkspace: Workspace = { ...workspace, module: 'casting', logo_placement: 'cover', active_output: 'selection' };
+  const fetcher: typeof fetch = async (input, init) => {
+    const url = new URL(input instanceof Request ? input.url : String(input));
+    const headers = new Headers(init?.headers);
+    const body = typeof init?.body === 'string' ? JSON.parse(init.body) as Record<string, unknown> : {};
+    calls.push({ path: url.pathname, body, headers, init });
+    if (url.pathname === '/auth/v1/user') return Response.json(user);
+    if (url.pathname.startsWith('/storage/v1/object/upload/sign/')) {
+      const objectKey = url.pathname.split(`/storage/v1/object/upload/sign/${bucket}/`)[1];
+      if (init?.method === 'PUT') { assert.ok(init.body instanceof Uint8Array); uploads.set(objectKey, new Uint8Array(init.body)); return Response.json({ Key: `${bucket}/${objectKey}` }); }
+      assert.equal(headers.get('x-upsert'), 'false');
+      return Response.json({ url: `/object/upload/sign/${bucket}/${objectKey}?token=synthetic-upload-capability` });
+    }
+    if (url.pathname.startsWith(`/storage/v1/object/${bucket}/`)) {
+      downloads++;
+      const bytes = uploads.get(url.pathname.split(`/storage/v1/object/${bucket}/`)[1]);
+      return bytes ? new Response(new ReadableStream({ start(controller) { controller.enqueue(bytes); controller.close(); } })) : Response.json({ statusCode: '404', message: 'Not uploaded' }, { status: 404 });
+    }
+    const name = url.pathname.split('/').at(-1);
+    if (name === 'eps_get_capabilities') return Response.json({ ...capabilities, upload_policy: { ...capabilities.upload_policy, available_purposes: advertised } });
+    if (!scopeAllowed) return Response.json({ code: 'P0001', message: 'CAPABILITY_REQUIRED', details: '{"status":403,"private":"must-not-leak"}' }, { status: 400 });
+    if (name === 'eps_reserve_logo_upload') {
+      const ordinal = reservations.size + 1;
+      const id = `50000000-0000-4000-8000-${String(ordinal).padStart(12, '0')}`;
+      const assetId = `60000000-0000-4000-8000-${String(ordinal).padStart(12, '0')}`;
+      const asset: MediaAsset = { id: assetId, purpose: 'client_logo', filename: 'synthetic-logo.png', mime_type: 'image/png', size_bytes: png.length, sha256: null, status: 'uploading', duration_ms: null, width: null, height: null, source_asset_id: null, source_timestamp_ms: null, created_at: new Date().toISOString() };
+      const reserved: LogoReservation = { upload_id: id, asset, principal_id: principal, workspace_id: workspaceId, reservation_revision: 1, verification_id: '70000000-0000-4000-8000-000000000001', bucket, object_key: `assets/${assetId}/original.png`, expected_size_bytes: png.length, expected_mime_type: 'image/png', expected_sha256: digest, expires_at: new Date(Date.now() + 7_200_000).toISOString(), status: 'open' };
+      reservations.set(id, reserved); return Response.json(reserved);
+    }
+    if (name === 'eps_update_workspace') {
+      const patch = body.p_input as { row_version: number; logo_asset_id: string | null };
+      if (patch.logo_asset_id !== null) assert.ok([...reservations.values()].some(item => item.asset.id === patch.logo_asset_id && item.asset.status === 'ready'));
+      currentWorkspace.logo_asset_id = patch.logo_asset_id; currentWorkspace.row_version++;
+      return Response.json(currentWorkspace);
+    }
+    if (name === 'eps_get_logo_media') {
+      const item = [...reservations.values()].find(item => item.asset.id === body.p_asset_id)!;
+      return Response.json({ asset: item.asset, bucket: item.bucket, object_key: item.object_key });
+    }
+    const reserved = reservations.get(String(body.p_upload_id))!;
+    if (name === 'eps_get_logo_upload') return Response.json(reserved);
+    const complete = (): UploadCompletion => ({ asset: reserved.asset, processing_job_id: null, status: 'ready' });
+    if (name === 'eps_prepare_logo_completion') return Response.json({ reservation: reserved, replay: reserved.status === 'completed' ? complete() : null });
+    if (name === 'eps_finalize_logo_completion') {
+      const claims = verifyLogoReceipt({ payload: String(body.p_payload), mac: String(body.p_mac) }, receiptKey, { key_id: 'synthetic-logo-key', verification_id: reserved.verification_id, upload_id: reserved.upload_id, asset_id: reserved.asset.id, principal_id: principal, workspace_id: workspaceId, reservation_revision: 1, bucket, object_key: reserved.object_key, size_bytes: png.length, mime_type: 'image/png', sha256: digest });
+      finalized++; reserved.status = 'completed'; reserved.asset = { ...reserved.asset, status: 'ready', sha256: claims.sha256, width: claims.width, height: claims.height };
+      return Response.json(complete());
+    }
+    if (name === 'eps_cancel_logo_upload') { reserved.status = 'cancelled'; return Response.json({ success: true, affected_ids: [reserved.upload_id, reserved.asset.id] }); }
+    throw new Error('Unexpected synthetic central logo request.');
+  };
+  const client = createBearerUserClient({ ...config, accessToken: token }, { fetch: fetcher });
+  const logo: NonNullable<CentralStudioOptions['logo']> = { storageOrigin: config.url, brandBucket: bucket,
+    async decodeLogo(bytes) { decoded++; const image = sharp(bytes, { limitInputPixels: 40_000_000, failOn: 'warning' }); const meta = await image.metadata(); await image.raw().toBuffer(); return { mimeType: 'image/png', width: meta.width!, height: meta.height! }; },
+    signReceipt(facts) { const now = Math.floor(Date.now() / 1000); return signLogoReceipt({ ...facts, schema_version: '1.0', audience: 'eps.logo-verification.v1', purpose: 'client_logo', key_id: 'synthetic-logo-key', issued_at: now, expires_at: now + 90 }, receiptKey); },
+  };
+  const studio = await createCentralStudio(client, { logo });
+  assert.deepEqual((await studio.getCapabilities(actor)).upload_policy.available_purposes, []);
+  advertised = ['client_logo', 'specs'];
+  assert.deepEqual((await studio.getCapabilities(actor)).upload_policy.available_purposes, ['client_logo']);
+  const unavailable = await createCentralStudio(client);
+  assert.deepEqual((await unavailable.getCapabilities(actor)).upload_policy.available_purposes, []);
+  const context = { idempotencyKey: 'synthetic-logo-journey', requestId: 'synthetic.logo:integration', clientType: 'mcp' as const };
+  const session = await studio.createUploadSession(actor, { workspace_id: workspaceId, purpose: 'client_logo', filename: 'synthetic-logo.png', mime_type: 'image/png', size_bytes: png.length, sha256: digest }, context);
+  assert.equal((await studio.getUploadSession(actor, session.id)).status, 'open');
+  await fetcher(session.upload_url!, { method: 'PUT', headers: session.upload_headers, body: new Uint8Array(png) });
+  const completeInput = { actual_size_bytes: png.length, start_processing: false, sha256: digest };
+  const completed = await studio.completeUpload(actor, session.id, completeInput, context);
+  assert.equal(completed.asset.sha256, digest); assert.equal(completed.asset.width, 24); assert.equal(completed.asset.height, 12);
+  const attached = await studio.updateWorkspace(actor, workspaceId, { row_version: 1, logo_asset_id: completed.asset.id }, { ...context, idempotencyKey: 'synthetic-attach-logo' });
+  assert.equal(attached.logo_asset_id, completed.asset.id);
+  assert.deepEqual(await studio.getMedia(actor, completed.asset.id), completed.asset);
+  assert.deepEqual((await studio.getMediaContent(actor, completed.asset.id)).bytes, png);
+  assert.deepEqual(await studio.completeUpload(actor, session.id, completeInput, context), completed);
+  assert.equal(finalized, 1); assert.equal(decoded, 1); assert.equal(downloads, 2);
+  const closed = await studio.getUploadSession(actor, session.id);
+  assert.equal(closed.upload_url, null); assert.deepEqual(closed.upload_headers, {});
+  const removed = await studio.updateWorkspace(actor, workspaceId, { row_version: attached.row_version, logo_asset_id: null }, { ...context, idempotencyKey: 'synthetic-remove-logo' });
+  assert.equal(removed.logo_asset_id, null);
+  const second = await studio.createUploadSession(actor, { workspace_id: workspaceId, purpose: 'client_logo', filename: 'synthetic-logo.png', mime_type: 'image/png', size_bytes: png.length }, { ...context, idempotencyKey: 'synthetic-logo-cancel' });
+  assert.equal((await studio.cancelUpload(actor, second.id, context)).success, true);
+  assert.equal((await studio.getUploadSession(actor, second.id)).upload_url, null);
+  await assert.rejects(studio.storeUploadedLogo(actor, session.id, png), isCode('FEATURE_NOT_IMPLEMENTED', 503));
+  scopeAllowed = false;
+  await assert.rejects(studio.completeUpload(actor, session.id, completeInput, context), error => isCode('CAPABILITY_REQUIRED', 403)(error) && !String(error).includes('must-not-leak'));
+  assert.equal(downloads, 2);
+  const mutations = calls.filter(call => /eps_(reserve_logo_upload|prepare_logo_completion|finalize_logo_completion|cancel_logo_upload)$/u.test(call.path));
+  for (const call of mutations) {
+    assert.equal(call.headers.get('Authorization'), `Bearer ${token}`); assert.equal(call.headers.get('X-EPS-Client-Type'), 'mcp'); assert.equal(call.headers.get('X-EPS-Request-ID'), context.requestId);
+    assert.ok(!Object.hasOwn(call.body, 'principal_id'));
+  }
+  assert.doesNotMatch(JSON.stringify(completed), /synthetic-upload-capability|synthetic-logo-key|payload|\bmac\b/);
+});
+
+test('read-only logo configuration preserves Ready reads, reuse, cancel and completed replay without enabling uploads', async () => {
+  // Actual SDK with a synthetic HTTP boundary; no hosted Storage or SQL claim.
+  const png = await sharp({ create: { width: 8, height: 4, channels: 4, background: { r: 50, g: 80, b: 20, alpha: .5 } } }).png().toBuffer();
+  const digest = createHash('sha256').update(png).digest('hex');
+  const assetId = '60000000-0000-4000-8000-000000000011';
+  const openAssetId = '60000000-0000-4000-8000-000000000012';
+  const uploadId = '50000000-0000-4000-8000-000000000011';
+  const openUploadId = '50000000-0000-4000-8000-000000000012';
+  const bucket = 'eps-brand-assets';
+  const asset: MediaAsset = { id: assetId, purpose: 'client_logo', filename: 'synthetic-ready.png', mime_type: 'image/png', size_bytes: png.length,
+    sha256: digest, status: 'ready', duration_ms: null, width: 8, height: 4, source_asset_id: null, source_timestamp_ms: null, created_at: new Date().toISOString() };
+  const completed: LogoReservation = { upload_id: uploadId, asset, principal_id: principal, workspace_id: workspaceId, reservation_revision: 1,
+    verification_id: '70000000-0000-4000-8000-000000000011', bucket, object_key: `assets/${assetId}/original.png`, expected_size_bytes: png.length,
+    expected_mime_type: 'image/png', expected_sha256: digest, expires_at: new Date(Date.now() + 7_200_000).toISOString(), status: 'completed' };
+  const open: LogoReservation = { ...completed, upload_id: openUploadId, asset: { ...asset, id: openAssetId, status: 'uploading', sha256: null, width: null, height: null },
+    verification_id: '70000000-0000-4000-8000-000000000012', object_key: `assets/${openAssetId}/original.png`, status: 'open' };
+  const calls: RecordedRequest[] = [];
+  const currentWorkspace: Workspace = { ...workspace, module: 'casting', logo_placement: 'cover', active_output: 'selection' };
+  let storageBytes = png; let scopeAllowed = true; let downloads = 0; let minted = 0; let reserved = 0; let finalized = 0; let decoded = 0; let signed = 0;
+  const fetcher: typeof fetch = async (input, init) => {
+    const url = new URL(input instanceof Request ? input.url : String(input));
+    const headers = new Headers(init?.headers);
+    const body = typeof init?.body === 'string' ? JSON.parse(init.body) as Record<string, unknown> : {};
+    calls.push({ path: url.pathname, body, headers, init });
+    if (url.pathname === '/auth/v1/user') return Response.json(user);
+    if (url.pathname.startsWith('/storage/v1/object/upload/sign/')) { minted++; throw new Error('Read-only configuration must not mint transfer authority.'); }
+    if (url.pathname.startsWith(`/storage/v1/object/${bucket}/`)) {
+      downloads++; return new Response(new ReadableStream({ start(controller) { controller.enqueue(storageBytes); controller.close(); } }));
+    }
+    const name = url.pathname.split('/').at(-1);
+    if (name === 'eps_get_capabilities') return Response.json({ ...capabilities, upload_policy: { ...capabilities.upload_policy, available_purposes: ['client_logo'] } });
+    if (!scopeAllowed) return Response.json({ code: 'P0001', message: 'RESOURCE_NOT_FOUND', details: '{"status":404}' }, { status: 400 });
+    if (name === 'eps_reserve_logo_upload') { reserved++; throw new Error('Read-only configuration must fail before reserving an upload.'); }
+    if (name === 'eps_finalize_logo_completion') { finalized++; throw new Error('Read-only configuration must not finalize unverified bytes.'); }
+    if (name === 'eps_get_logo_media') return Response.json({ asset, bucket, object_key: completed.object_key });
+    if (name === 'eps_update_workspace') {
+      assert.equal((body.p_input as { logo_asset_id: string }).logo_asset_id, assetId);
+      currentWorkspace.logo_asset_id = assetId; currentWorkspace.row_version++; return Response.json(currentWorkspace);
+    }
+    const item = body.p_upload_id === uploadId ? completed : open;
+    if (name === 'eps_get_logo_upload') return Response.json(item);
+    if (name === 'eps_prepare_logo_completion') return Response.json({ reservation: item, replay: item.status === 'completed' ? { asset, processing_job_id: null, status: 'ready' } : null });
+    if (name === 'eps_cancel_logo_upload') { item.status = 'cancelled'; return Response.json({ success: true, affected_ids: [item.upload_id, item.asset.id] }); }
+    throw new Error('Unexpected read-only logo request.');
+  };
+  const read = { storageOrigin: config.url, brandBucket: bucket };
+  const modes: CentralStudioOptions[] = [
+    { logoRead: read },
+    { logo: { ...read, async decodeLogo() { decoded++; throw new Error('No signer configured.'); } } },
+    { logo: { ...read, signReceipt() { signed++; throw new Error('No decoder configured.'); } } },
+  ];
+  const completeInput = { actual_size_bytes: png.length, start_processing: false, sha256: digest };
+  let lastStudio: Awaited<ReturnType<typeof createCentralStudio>> | undefined;
+  for (const options of modes) {
+    open.status = 'open';
+    const studio = await createCentralStudio(createBearerUserClient({ ...config, accessToken: token }, { fetch: fetcher }), options);
+    lastStudio = studio;
+    assert.deepEqual((await studio.getCapabilities(actor)).upload_policy.available_purposes, []);
+    assert.deepEqual(await studio.getMedia(actor, assetId), asset);
+    assert.deepEqual((await studio.getMediaContent(actor, assetId)).bytes, png);
+    const changed = Buffer.from(png); changed[0] ^= 1; storageBytes = changed;
+    await assert.rejects(studio.getMediaContent(actor, assetId), isCode('SOURCE_UNREADABLE', 422));
+    storageBytes = png;
+    assert.equal((await studio.updateWorkspace(actor, workspaceId, { row_version: currentWorkspace.row_version, logo_asset_id: assetId })).logo_asset_id, assetId);
+    assert.deepEqual(await studio.completeUpload(actor, uploadId, completeInput, { idempotencyKey: 'synthetic-readonly-replay' }), { asset, processing_job_id: null, status: 'ready' });
+    const closed = await studio.getUploadSession(actor, uploadId);
+    assert.equal(closed.upload_url, null); assert.deepEqual(closed.upload_headers, {});
+    await assert.rejects(studio.createUploadSession(actor, { workspace_id: workspaceId, purpose: 'client_logo', filename: 'new.png', mime_type: 'image/png', size_bytes: png.length }, { idempotencyKey: 'synthetic-readonly-create' }), isCode('LOGO_STORAGE_CONFIGURATION_REQUIRED', 503));
+    await assert.rejects(studio.getUploadSession(actor, openUploadId), isCode('LOGO_STORAGE_CONFIGURATION_REQUIRED', 503));
+    const beforeCompletion = downloads;
+    await assert.rejects(studio.completeUpload(actor, openUploadId, completeInput, { idempotencyKey: 'synthetic-readonly-open' }), isCode('LOGO_STORAGE_CONFIGURATION_REQUIRED', 503));
+    assert.equal(downloads, beforeCompletion);
+    assert.equal((await studio.cancelUpload(actor, openUploadId, { idempotencyKey: 'synthetic-readonly-cancel' })).success, true);
+    assert.equal((await studio.getUploadSession(actor, openUploadId)).upload_url, null);
+  }
+  assert.equal(minted, 0); assert.equal(reserved, 0); assert.equal(finalized, 0); assert.equal(decoded, 0); assert.equal(signed, 0);
+  scopeAllowed = false;
+  await assert.rejects(lastStudio!.getMedia(actor, assetId), isCode('RESOURCE_NOT_FOUND', 404));
+  await assert.rejects(lastStudio!.completeUpload(actor, uploadId, completeInput, { idempotencyKey: 'synthetic-readonly-revoked' }), isCode('RESOURCE_NOT_FOUND', 404));
+  assert.equal(downloads, 6);
+  for (const call of calls) assert.equal(call.headers.get('Authorization'), `Bearer ${token}`);
 });
 
 test('known database errors keep typed status and safe revision while raw SQL diagnostics stay private', () => {

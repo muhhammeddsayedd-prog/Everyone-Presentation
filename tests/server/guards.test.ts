@@ -5,6 +5,9 @@ import { signSession, verifySession } from '../../apps/web/lib/session';
 import { decodeLogo } from '../../apps/web/lib/studio';
 import { readBoundedBody, requireSameOrigin } from '../../apps/web/lib/http';
 import sharp from 'sharp';
+import { logoTransferDestination } from '../../apps/web/lib/logo-transfer';
+import { readCentralLogoOptions } from '../../apps/web/lib/logo-config';
+import { DomainError } from '@eps/domain';
 
 test('fixture runtime denies production, staging, non-loopback and unmapped central mode', () => {
   for (const env of [ { NODE_ENV: 'production' }, { APP_ENV: 'production' }, { APP_ENV: 'staging' },
@@ -47,4 +50,33 @@ test('body limits reject streaming overflow without trusting Content-Length', as
     controller.enqueue(new Uint8Array(4)); controller.enqueue(new Uint8Array(4)); controller.close();
   } }), duplex: 'half' } as RequestInit);
   await assert.rejects(readBoundedBody(request, 6));
+});
+
+test('logo transfer keeps fixture authentication local and omits app credentials on scoped external transfer', () => {
+  const origin = 'http://127.0.0.1:3000';
+  assert.deepEqual(logoTransferDestination('/api/dev/uploads/synthetic/bytes', origin, 'synthetic'),
+    { url: `${origin}/api/dev/uploads/synthetic/bytes`, credentials: 'same-origin' });
+  const external = 'https://synthetic.supabase.co/storage/v1/object/upload/sign/eps-brand-assets/logos/synthetic.png?token=synthetic-capability';
+  assert.equal(logoTransferDestination(external, origin, 'synthetic').credentials, 'omit');
+  for (const invalid of ['http://offsite.test/storage/v1/object/upload/sign/eps-brand-assets/a?token=x',
+    `${origin}/api/v1/projects`, external.replace('?token=', '?redirect=x&token='), `${external}&token=duplicate`,
+    external.replace('https://', 'https://user:password@'), `${external}#fragment`, 'javascript:alert(1)']) {
+    assert.throws(() => logoTransferDestination(invalid, origin, 'synthetic'), /destination is unavailable/);
+  }
+});
+
+test('logo verifier readiness requires dedicated server configuration and never reflects secret values', () => {
+  const decode = async () => ({ mimeType: 'image/png', width: 1, height: 1 });
+  assert.equal(readCentralLogoOptions(decode, {}), undefined);
+  assert.equal(readCentralLogoOptions(decode, { CENTRAL_LOGO_UPLOADS_ENABLED: 'false' }), undefined);
+  const base = { CENTRAL_LOGO_UPLOADS_ENABLED: 'true', SUPABASE_URL: 'https://synthetic.supabase.co',
+    SUPABASE_PUBLISHABLE_KEY: 'sb_publishable_synthetic_test_only', LOGO_VERIFICATION_KEY_ID: 'synthetic-logo-key',
+    LOGO_VERIFICATION_KEY_BASE64URL: Buffer.alloc(32, 17).toString('base64url') };
+  for (const override of [{ LOGO_VERIFICATION_KEY_BASE64URL: 'synthetic-private-invalid-value' },
+    { LOGO_VERIFICATION_KEY_ID: 'invalid key' }, { BRAND_ASSET_BUCKET: 'unrelated-bucket' },
+    { CENTRAL_LOGO_UPLOADS_ENABLED: 'enabled' }]) {
+    assert.throws(() => readCentralLogoOptions(decode, { ...base, ...override }), error => error instanceof DomainError
+      && error.code === 'LOGO_STORAGE_CONFIGURATION_REQUIRED' && !error.message.includes('synthetic-private-invalid-value'));
+  }
+  assert.equal(readCentralLogoOptions(decode, base)?.brandBucket, 'eps-brand-assets');
 });

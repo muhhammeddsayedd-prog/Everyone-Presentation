@@ -18,6 +18,12 @@
       "sha256": "67ddb2cff9fed9c42d34657e833c613aec4afd2769543a991bbac84da355db64",
       "reviewed_by": "root integration owner",
       "reviewed_at": "2026-10-28T01:38:22.441203+00:00"
+    },
+    {
+      "path": "supabase/migrations/20261028024205_m01_private_logo_boundary.sql",
+      "sha256": "b04af5119b4e384bd96136573eec39e69f21a0ffb7d9f4aeb07bbf48f2976b9d",
+      "reviewed_by": "root integration owner with independent SQL role/RLS/proof/replay review; rollback probe03:10:25 passed exactbytes",
+      "reviewed_at": "2026-10-28T03:13:56.505940+00:00"
     }
   ],
   "tests": [
@@ -74,6 +80,71 @@
       "sha256": "0e4ca2c58fe3133faf77e3bf79c574c305b1409d7d8c82f39a29b10829d33525",
       "reviewed_by": "root integration owner",
       "reviewed_at": "2026-10-28T01:35:35.408074+00:00"
+    },
+    {
+      "path": "tests/db/m01-logo-boundary.sql",
+      "sha256": "cbce9d3e929220b19d54ef702b55eb1085f6647a1e385c7abf220d324f8a2d64",
+      "reviewed_by": "root integration owner with independent SQL role/RLS/proof/replay review; rollback probe03:10:25 passed exactbytes",
+      "reviewed_at": "2026-10-28T03:13:56.506384+00:00"
+    },
+    {
+      "path": "tests/db/m01-logo-race-setup.sql",
+      "sha256": "40000229321eea4ec3b02bf60c40cb9010791bddbfc408fa4b76372e8d723c39",
+      "reviewed_by": "root integration owner: reviewed synthetic SQL-only actual-session concurrency, exact effects and strictly scoped cleanup",
+      "reviewed_at": "2026-10-28T03:16:35.510234+00:00"
+    },
+    {
+      "path": "tests/db/m01-logo-race-a.sql",
+      "sha256": "fde095869c10e6442eb906421585eaa260744eb5d69354f2a614d7e0fe78cf1c",
+      "reviewed_by": "root integration owner: reviewed synthetic SQL-only actual-session concurrency, exact effects and strictly scoped cleanup",
+      "reviewed_at": "2026-10-28T03:16:35.510438+00:00"
+    },
+    {
+      "path": "tests/db/m01-logo-race-b.sql",
+      "sha256": "04d97eb12b17bf0f4ba406435bdd861379cdfac427bb7da39be91cf098febd6d",
+      "reviewed_by": "root integration owner: reviewed synthetic SQL-only actual-session concurrency, exact effects and strictly scoped cleanup",
+      "reviewed_at": "2026-10-28T03:16:35.510605+00:00"
+    },
+    {
+      "path": "tests/db/m01-logo-race-verify.sql",
+      "sha256": "17f468cf1ca68e29f2c984844463f16d16f6c5407b8f720660e72d99ad651846",
+      "reviewed_by": "root integration owner: reviewed synthetic SQL-only actual-session concurrency, exact effects and strictly scoped cleanup",
+      "reviewed_at": "2026-10-28T03:16:35.510771+00:00"
+    },
+    {
+      "path": "tests/db/m01-logo-race-cleanup.sql",
+      "sha256": "bf906dd68a92d12e499ad837237d444c3d7a9202f124d7f5bf73be4bdc71f93a",
+      "reviewed_by": "root integration owner: reviewed synthetic SQL-only actual-session concurrency, exact effects and strictly scoped cleanup",
+      "reviewed_at": "2026-10-28T03:16:35.510943+00:00"
+    },
+    {
+      "path": "tests/db/m01-logo-node-interop.sql",
+      "sha256": "9e269e1c250e7f02221d862ee8c4e72962ff93a2f9469a1e2c590fba01acee4b",
+      "reviewed_by": "root integration owner: fixed Node-signed synthetic receipt to actual SQL finalizer; exact placeholders and rollback-only guard; no cloud/bytes",
+      "reviewed_at": "2026-10-28T03:20:20.606287+00:00",
+      "runner": "node tools/check-logo-receipt-db.mjs"
+    }
+  ],
+  "local_baselines": [
+    {
+      "path": "development/local-db/local-storage-baseline.sql",
+      "sha256": "e48d5ce64e31ff2671231d39585bf4b5cd24b3b3f535caed400baa5a7bfed383",
+      "reviewed_by": "root integration owner: exact managed namespace/owner/ACL and supautils policy-grant boundary inspected; simulated SQL catalog only",
+      "reviewed_at": "2026-10-28T02:59:05.141446+00:00"
+    }
+  ],
+  "candidate_reviews": [
+    {
+      "path": "supabase/migrations/20261028024205_m01_private_logo_boundary.sql",
+      "sha256": "b04af5119b4e384bd96136573eec39e69f21a0ffb7d9f4aeb07bbf48f2976b9d",
+      "reviewed_by": "root integration owner: preliminary technical review for rolled-back local candidate probe only; final independent review pending",
+      "reviewed_at": "2026-10-28T03:10:22.345302+00:00"
+    },
+    {
+      "path": "tests/db/m01-logo-boundary.sql",
+      "sha256": "cbce9d3e929220b19d54ef702b55eb1085f6647a1e385c7abf220d324f8a2d64",
+      "reviewed_by": "root integration owner: preliminary technical review for rolled-back local candidate probe only; final independent review pending",
+      "reviewed_at": "2026-10-28T03:10:22.345638+00:00"
     }
   ]
 }

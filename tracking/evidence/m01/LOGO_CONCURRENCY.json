@@ -1,0 +1,42 @@
+{
+  "observed_at": "2026-10-28T03:17:08.868Z",
+  "result": "PASS",
+  "source_summary": "development/local-db/receipts/2026-10-28T03-17-08-868Z-test-db-summary-6b069f43.json",
+  "scope": "actual separate PostgreSQL backends using synthetic actor/key/metadata on guarded local target; no Storage HTTP or object bytes",
+  "pair": {
+    "name": "distinct-key-logo-completion",
+    "result": "passed",
+    "distinct_database_backends": true,
+    "overlapping_reviewed_transaction_windows": true,
+    "claim_exceeded_900_ms": true,
+    "start_gap_ms": 5.838,
+    "proof": "Actual SQL backend/timestamp markers, with peer transaction locks held by the reviewed 1-second server sleep. Wait-event sampling is not claimed.",
+    "sessions": [
+      {
+        "file": "tests/db/m01-logo-race-a.sql",
+        "receipt": "development/local-db/receipts/2026-10-28T03-16-54-054Z-test.json",
+        "session_pid": 26257,
+        "claim_started_at": "2026-10-28T03:16:52.916224+00:00",
+        "claim_returned_at": "2026-10-28T03:16:53.017545+00:00",
+        "claim_duration_ms": 101.321
+      },
+      {
+        "file": "tests/db/m01-logo-race-b.sql",
+        "receipt": "development/local-db/receipts/2026-10-28T03-16-55-107Z-test.json",
+        "session_pid": 26258,
+        "claim_started_at": "2026-10-28T03:16:52.922062+00:00",
+        "claim_returned_at": "2026-10-28T03:16:54.062857+00:00",
+        "claim_duration_ms": 1140.795
+      }
+    ]
+  },
+  "effects": "One Ready asset/reservation, one completion audit, two identical completed-response records with distinct request keys",
+  "cleanup": {
+    "setup_confirmed": true,
+    "attempted": true,
+    "result": "passed",
+    "receipt": "development/local-db/receipts/2026-10-28T03-17-07-498Z-test.json"
+  },
+  "migration": "supabase/migrations/20261028024205_m01_private_logo_boundary.sql",
+  "cloud_application": "not_applied_at_this_checkpoint"
+}

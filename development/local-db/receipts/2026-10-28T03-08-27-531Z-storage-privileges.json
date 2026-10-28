@@ -1,0 +1,66 @@
+{
+  "action": "storage-privileges",
+  "observed_at": "2026-10-28T03:08:27.531Z",
+  "workspace_key": "ffaf4984e0e7402cd2f54f81",
+  "scope": "owned local Docker container only; no cloud operations",
+  "container": "eps-presentation-canonical-pg17-local",
+  "operation": "read-only fixed catalog inspection",
+  "privileges": {
+    "schema": {
+      "acl": [
+        "supabase_admin=UC/supabase_admin",
+        "postgres=U*/supabase_admin",
+        "anon=U/supabase_admin",
+        "authenticated=U/supabase_admin",
+        "service_role=U/supabase_admin",
+        "supabase_storage_admin=U*C*/supabase_admin",
+        "dashboard_user=UC/supabase_admin"
+      ],
+      "owner": "supabase_admin"
+    },
+    "tables": [
+      {
+        "acl": [
+          "supabase_storage_admin=arwdDxtm/supabase_storage_admin",
+          "anon=arwd/supabase_storage_admin",
+          "authenticated=arwd/supabase_storage_admin",
+          "service_role=arwdDxtm/supabase_storage_admin",
+          "postgres=a*r*w*d*D*x*t*m*/supabase_storage_admin"
+        ],
+        "owner": "supabase_storage_admin",
+        "table": "storage.buckets",
+        "force_rls": false,
+        "rls_enabled": true,
+        "query_role_insert": true,
+        "authenticated_insert": true,
+        "query_role_owner_membership": false
+      },
+      {
+        "acl": [
+          "supabase_storage_admin=arwdDxtm/supabase_storage_admin",
+          "anon=arwd/supabase_storage_admin",
+          "authenticated=arwd/supabase_storage_admin",
+          "service_role=arwdDxtm/supabase_storage_admin",
+          "postgres=a*r*w*d*D*x*t*m*/supabase_storage_admin"
+        ],
+        "owner": "supabase_storage_admin",
+        "table": "storage.objects",
+        "force_rls": false,
+        "rls_enabled": true,
+        "query_role_insert": true,
+        "authenticated_insert": true,
+        "query_role_owner_membership": false
+      }
+    ],
+    "helpers": [
+      "storage.allow_only_operation(text)",
+      "storage.operation()"
+    ],
+    "triggers": [],
+    "query_role": "postgres",
+    "hmac_schema": "extensions",
+    "observed_at": "2026-10-28T03:08:27.505695+00:00",
+    "supautils_policy_grants": "{\"postgres\":[\"auth.audit_log_entries\",\"auth.flow_state\",\"auth.identities\",\"auth.instances\",\"auth.mfa_amr_claims\",\"auth.mfa_challenges\",\"auth.mfa_factors\",\"auth.oauth_clients\",\"auth.one_time_tokens\",\"auth.refresh_tokens\",\"auth.saml_providers\",\"auth.saml_relay_states\",\"auth.sessions\",\"auth.sso_domains\",\"auth.sso_providers\",\"auth.users\",\"realtime.messages\",\"realtime.subscription\",\"storage.buckets\",\"storage.buckets_analytics\",\"storage.objects\",\"storage.prefixes\",\"storage.s3_multipart_uploads\",\"storage.s3_multipart_uploads_parts\"]}"
+  },
+  "baseline_changes": "none; no hosted Storage acceptance"
+}

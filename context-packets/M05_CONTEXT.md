@@ -144,6 +144,19 @@ Use one coordinated migration history for the central business database. Never r
 
 ## Implementation standards
 
+### Project-local Codex skills
+
+Use the relevant supplied skills from `.agents/skills/` during app development.
+Read `.agents/SKILL_POLICY.md` when applying them; `SKILLS_SETUP.md` lists all 53
+skills and their development uses. Prefer these project-adapted copies when a
+global skill has the same name. Originals remain in `.claude/skills/`.
+Skills supplement this pack; generic interviews, provider examples, tool names
+and approval steps do not replace confirmed decisions or existing authorization.
+Check installation integrity with `python -X utf8 tools/manage_project_skills.py`
+using the isolated environment documented in `SKILLS_SETUP.md`.
+
+### App implementation
+
 - Keep domain operations independent of UI, HTTP, MCP and workflow providers. Centralize permission, validation, transaction and status rules.
 - Use parameterized SQL and constrained transaction functions. Test one-Main races, stale revisions, idempotency and out-of-order render completion.
 - Use typed contracts, explicit IDs, cursor pagination, request/job correlation, optimistic concurrency and structured error codes.
@@ -408,9 +421,9 @@ Completion means a permitted human and Claude can independently carry out the re
 
 # Development progress — Everyone Presentation Studio
 
-**Last updated:** 2026-10-27 • **Pack:** 1.0 • **Current milestone:** M00 — not started
+**Last updated:** 2026-10-28 · **Pack:** 1.0 · **Current milestone:** M01 — in progress
 
-**Current reality:** Planning documents, contracts, synthetic fixtures and UX reference delivered. No production app implementation has been performed by this pack. Live Supabase has not been inspected. No schema migration, service workflow, deployment or integration test has been performed. Do not count document creation as completion of M00.
+**Current reality:** M00 discovery is verified for the owner-confirmed new canonical Supabase system. Four reviewed M01 migrations are applied/read back locally and in cloud: 18 scoped RPCs, 13 forced-RLS app relations and a private brand bucket. The dedicated verifier key is privately configured; uploads remain disabled pending the real-user Storage gate. Current application checks pass 80 tests and four fixture browser/HTTP journeys. The first actual Producer/project flow is not run. M02 has isolated tested components; no real AI/n8n pipeline, PDF/guest/MCP or production release is claimed.
 
 The machine-readable status mirror is [tracking/progress.json](../tracking/progress.json). Update this file and that file together whenever work status changes. Evidence fields must describe actual work only.
 
@@ -418,9 +431,9 @@ The machine-readable status mirror is [tracking/progress.json](../tracking/progr
 
 | Milestone | Status | Implementation commit/artifact | Required evidence | Blocker / next action |
 |---|---|---|---|---|
-| M00 Discovery and contracts | not_started | None | Cloud schema/auth/migration map; environment inventory; local strategy | Begin read-only repo/cloud discovery with available access |
-| M01 Foundation, project and logo | not_started | None | Auth/project access and central writes; persistent logo; app shell | Depends on M00 |
-| M02 Specs, roles and first durable pipeline | not_started | None | Real PDF/Word/text extraction; clarification/slots; retryable jobs | Depends on M01 |
+| M00 Discovery and contracts | verified | tracking/discovery/; central-schema-map.yaml | Actual new canonical ownership/auth/history, guarded local replay and provider capability inventory | Continue M01; future provider/release gates remain explicit |
+| M01 Foundation, project and logo | in_progress | apps/web/; packages/domain/; packages/central/; 4 applied migrations | Real cloud schema/readback and local role/race proof; synthetic full UI plus central anonymous UI | Finish scoped central uploads and actual Producer/project journey |
+| M02 Specs, roles and first durable pipeline | in_progress | packages/jobs/; packages/integrations/; apps/worker/ | Isolated rule/adapter/parser tests; no persisted central jobs, workflow or specs UI | Connect transactional repository, scoped assets/services and editable specs slice |
 | M03 Media, library and video processing | not_started | None | Real uploads/transcripts/frames; reuse/duplicate handling; independent failures | Depends on M02 |
 | M04 Assignments and final review | not_started | None | Selection/Shortlist rules; one-Main concurrency; edits/confirmation | Depends on M03 |
 | M05 Template, versioning and PDF | not_started | None | Frozen manifests; real viewer/PDF; historical media; render recovery | Depends on M04 |
@@ -434,6 +447,61 @@ The machine-readable status mirror is [tracking/progress.json](../tracking/progr
 `in_progress` or `implemented_unverified → blocked` when a required dependency is unavailable; record the prior state and work still possible. `verified → in_progress` when a later change invalidates acceptance. A milestone with any unrun required integration check cannot be `verified`. Documentation corrections alone do not change implementation status.
 
 ## Session log (append newest first)
+
+### 2026-10-28 - Private logo foundation applied, recovery and reuse checked
+
+- Added and applied `20261028024205_m01_private_logo_boundary.sql` after independent review, rollback-only rehearsal, role/RLS/forged-proof/expiry tests and a genuine two-backend completion race. New-key replay, narrow UPDATE lock behavior, inherited Storage ACLs and zero-row expiry transitions were corrected before freezing the applied bytes.
+- Cloud dry-run/apply/readback passed under `tracking/evidence/cloud-logo-foundation/`: 18 scoped RPCs, 13 forced-RLS app relations, private 5 MiB PNG/JPEG/WebP bucket and eight restrictive/permissive Storage policies. Actual security advisors report 18 intentional scoped-definer warnings, retained with review rationale.
+- Actual Node-generated compact HMAC bytes were accepted by the SQL finalizer; a changed signature failed and all synthetic fixtures rolled back. The full local SQL suite ran three distinct-backend race pairs with verified scoped cleanup.
+- Added explicit canonical client-logo reuse. Ready media reads, cancellation and completed replay survive disabled uploads or missing verifier configuration. Root's current checkpoint has 80 application tests, four real fixture browser/HTTP tests and build PASS; lint/typecheck and all 53 skill integrity checks passed. Sources and exact limits are in `tracking/evidence/m01/readonly-reuse-checkpoint/` and `LOGO_RECOVERY_REVIEW.md`.
+- Privately provisioned a dedicated purpose key with matching protected local configuration, without writing existing environment bytes or enabling uploads. No raw output/key is in source or receipts. The provisioning helper and launcher passed independent review; inspect confirms the matching key.
+- First Producer email/sign-in and first real project/client details remain pending. A fresh n8n project-list read at 03:58:29Z still returned -32603. No fake cloud identity/project/media, live AI job, hosted byte-transfer proof or production deployment was created.
+- Local source history currently includes `369a77d`, `fdf0e11` and `bf31caa`; the final source/evidence checkpoint is recorded in the handoff and machine ledger.
+
+### 2026-10-28 — Verified discovery and applied canonical foundation
+
+- Owner explicitly selected the inspected empty Everyone-Presentation project as canonical. M00 is now verified against the packet assessment in `tracking/discovery/M00_ACCEPTANCE_ASSESSMENT.md`; unknown later provider/hosting/worker/Claude checks remain visible.
+- Applied and read back three immutable migrations in cloud and local PostgreSQL: `20261028010943`, `20261028013324`, `20261028013655`. Cloud readback confirms 11 forced-RLS relations, 12 user-scoped RPCs, narrow nonlogin/non-BYPASSRLS roles and no reverse privilege inheritance. Only three audience defaults were inserted; no auth/business/media fixtures were created.
+- Real local role tests exposed Auth grantability and PL/pgSQL alias failures. The original bytes and failures remain retained; two additive forward migrations corrected them. Full rollback assertions and same/different-key races pass on distinct SQL backends, with observed lock waits and scoped fixture cleanup.
+- Added actual Supabase SSR/user-bearer integration and central-mode sign-in UI. Public Auth readiness returned200; only the local site URL and exact callback allowlist were changed. No email was requested. The first real Producer identity/sign-in and real project remain pending.
+- Actual central anonymous browser/API checks pass at `http://127.0.0.1:3000`, including fixture403/internal401, desktop and320px reflow. Dynamic private fixture paths were removed from Turbopack's source graph after a reproducible refresh loop; Node24's actual workspace loading and the final browser/build gates pass.
+- Standard test commands now refuse empty test globs. The central SDK suite has seven actual fixture tests rather than an earlier miswired zero-test command. The latest full application run has60 tests and four browser/API tests, plus separate actual SQL suites/races and central anonymous smoke. These counts are not real AI/n8n acceptance.
+- Current M01 is `in_progress`: private central logo storage/verification is still disabled and the first authenticated Producer/project journey is not run. M02 contains isolated tested components; M03–M07 remain unstarted. No production app deployment, PDF/guest/MCP/restore proof.
+- Exact receipts: `tracking/evidence/cloud-foundation/`, `tracking/evidence/local-checks/`, `development/local-db/receipts/` and `tracking/evidence/m01/DB_CONCURRENCY.json`. Secrets/CLI linked metadata/private traces remain ignored.
+
+### 2026-10-28 — M00 discovery, M01 local foundation and isolated M02 preparation
+
+- Started from a specification-only folder; initialized a local Git repository and npm workspaces, preserving pack/contracts/assets/skills. No remote, push or deployment.
+- Implemented 17 M01 shared domain/HTTP operations with a persistent synthetic canonical adapter: protected project listing/writeback, workspace reuse, optimistic versions/idempotency, private decoded logo transfer/metadata and audience presets. Built the six-step Everyone shell, autosave/recovery and honest pending screens. Production/staging fixture denial is enforced.
+- User restored CLI access. Read-only cloud receipts identify Everyone-Presentation, `pyibofyctwnqpvktepse`, PostgreSQL 17.11, with no business relations/auth users/buckets/migration schema. Canonical-source decision was requested. No cloud writes occurred.
+- Local Supabase attempt rejected unexpected IPv6 wildcard binding and stopped only owned `eps-local-dev`, retaining backup. Current linked-root guard refuses local startup/reset/seed; no migration was authored/applied. Four isolated guard checks pass.
+- Added provider-independent job transaction/lease/outbox/recovery contracts, safe OpenAI strict extraction and n8n dispatch adapters, plus bounded real document parsing. These M02 components remain unconnected to central persistence, specs/roles UI and real service processing.
+- Independent reviews found and corrected a session-key creation race, exact cancel/archive DTO mismatches, browser origin normalization, UI stale workspace revision/signout/placement issues, DOCX relationship-validation and ZIP CRC gaps. The retained evidence distinguishes initial failures, fixture tests, actual synthetic-file decoding and browser runs.
+- Application checks and source commit are recorded in the final local evidence/handoff. Full production acceptance, PDF/guest/MCP/restore/200-file/service checks remain not run.
+- Secrets: private session-bearing failed traces retained under ignored `.local/private-test-traces/`; sanitized hash/path manifest committed instead. No service keys, CLI linked metadata, real personal fixtures or tokens are included in source/evidence.
+- Next: resolve canonical-source/ownership, establish an isolated local representation and coordinated migrations, finish central M01, then connect the M02 vertical pipeline. See `tracking/HANDOFF.md`.
+
+### 2026-10-28 — Implementation started
+
+- M00 read-only discovery and runtime inventory started. Required evidence: canonical mapping, provider access checks, local setup proof and explicit unknowns.
+- M01 independent development work started: typed operations, persistent synthetic adapter, protected app/API and private logo upload. This does not verify cloud prerequisites.
+- No cloud mutations authorized or performed. Supabase connection is not installed; available n8n metadata calls returned internal errors.
+
+
+### 2026-10-28 — Project-local Codex skill installation
+
+- Scope: install all supplied Claude development skills for Codex. App implementation remains not started; M00–M07 and all release gates retain their prior states.
+- Installed: 53 canonical skills and all 550 source files in `.agents/skills/`; `.claude/skills/` remains unchanged. No nested duplicates or fixture skills were excluded. 71 installed files contain documented metadata, policy, path or link adaptations.
+- Authority/routing: appended the Codex skills section to `AGENTS.md`; added `.agents/SKILL_POLICY.md` and `SKILLS_SETUP.md`. Confirmed requirements, central Supabase, OpenAI, n8n Cloud, separate worker, existing design and existing authorization prevail over generic upstream instructions.
+- Provenance: `SKILLS_LOCK.json` pins the supplied local file snapshot with SHA256 `2d44fb85e09505e8bb55780f7158cb7efc115c3947e6661e0b60c70a5d0594c0` plus source/installed file hashes. This directory is not a Git checkout; no upstream commit or clean Git status is asserted.
+- Tooling: `tools/manage_project_skills.py`, pinned validation requirements/lock and ignored `.venv-skills/`. `tools/validate_pack.py` now excludes vendored skills and the tooling environment from pack checks; the dedicated skill checker covers the installed pack.
+- Validation: `python -X utf8 tools/manage_project_skills.py --report` PASS — 53 skills, 550/550 payload files, 436 local support links, zero errors/warnings. Bundled skill-creator `quick_validate.py` PASS for all 53 skills; `tracking/SKILLS_CREATOR_VALIDATION.json` records the results. All commands used `.venv-skills/Scripts/python.exe` on local Windows/Python 3.14.7.
+- Existing pack: `python -X utf8 tools/validate_pack.py --strict` PASS — 325 assertions, including full JSON Schema/OpenAPI metadata validation and PostgreSQL syntax parsing. `pip check` PASS. These are static checks, not app acceptance.
+- Independent review: baseline and four isolated negative cases passed (missing payload, modified installed skill, stale source and install overwrite refusal); checks did not modify the fixture copies. Review caught a mandatory cross-model pause in generic guidance; the installed copy now makes external review optional within existing authorization. Original finding and resolution are retained in `tracking/SKILLS_REVIEW.json`.
+- Host discovery: an independent Codex subagent received the refreshed project skill catalog with all 53 installed entries. This confirms discovery in that session; individual workflows and bundled launchers remain unexecuted.
+- Retained failure: `tracking/SKILLS_VALIDATION.initial.json` records the initial ViewTransition description error; its Codex metadata was repaired and revalidated. The initial dependency command requested unavailable `pglast==7.10`; no installation completed from that command. The resolved isolated environment uses supported wheel `pglast==7.21`.
+- Side effects: no global skill/config changes, app code, cloud reads/writes, migrations, service requests, bundled launchers, hooks, deployments or commits. Downloaded Python validation dependencies into the project-local environment only.
+- Next action: begin M00 using the existing milestone/context packet and relevant installed skills; inspect authorized cloud metadata read-only and record observed discovery evidence.
 
 ### 2026-10-27 — Documentation handoff
 
@@ -466,7 +534,7 @@ Copy and fill this template at the end of every implementation session:
 
 | Gate | Status | Evidence |
 |---|---|---|
-| Existing cloud schema understood and mapped | not_run | — |
+| Existing cloud schema understood and mapped | passed (M00 scope) | Owner-confirmed new canonical system; actual metadata/migration readback |
 | All domain/access/migration tests | not_run | — |
 | Real OpenAI+n8n+worker path | not_run | — |
 | Real full UI and PDF flow | not_run | — |
@@ -478,7 +546,10 @@ Copy and fill this template at the end of every implementation session:
 
 ## Current blockers
 
-No access has been attempted in this documentation task, so do not label credentials as denied or missing. They are **not yet inspected** discovery dependencies. M00 records which are available and which actually block work.
+- First Producer email/actual sign-in and real initial project details are pending; no cloud user or business fixtures were invented. The real sign-in page runs at http://127.0.0.1:3000.
+- Private logo schema/adapter/verifier configuration exists; uploads remain disabled until an actual authorized user proves Storage HTTP context, immutable signed transfer and reload behavior. No real media is stored.
+- n8n project discovery still returns MCP-32603. Real OpenAI key/model evaluation, worker/service jobs, representative real material, approved fonts/template, hosting and intended Claude clients remain later integration/release gates.
+- The local PostgreSQL target is now proven and isolated; the historical failed CLI-local attempt is retained. Never reset/seed the linked root.
 
 
 ---
@@ -576,6 +647,22 @@ No questionnaire is needed to settle the product flow. Ask only if a discovered 
 |---|---|---|
 | 2026-10-27 | Consolidated conversation into BR-001–BR-036 and this register | Documentation complete; implementation not started |
 | 2026-10-27 | Resolved external PDF playback lifecycle with link-scoped exports and fixed-version hashed grants | Implementation default, preserves user-requested behavior |
+| 2026-10-28 | Installed all 53 supplied Claude skills project-locally for Codex in `.agents/skills/`, retaining originals and SHA256 provenance; project contracts and existing authorization override generic skill instructions | User-requested development setup; app milestones unchanged; see `SKILLS_SETUP.md` and `SKILLS_LOCK.json` |
+| 2026-10-28 | Start a new local npm workspace in the supplied pack, preserving all source contracts/assets; initialize Git without a remote | No prior app or Git history existed; authorized implementation |
+| 2026-10-28 | Use the explicitly development-only persistent synthetic canonical adapter until the actual central source is identified; deny fixture mode on either production environment signal and staging | Required fallback, never a replacement production database; M01 acceptance remains unverified |
+| 2026-10-28 | Pin Node 24.18.0, npm 11.16.0, Next 16.4.3, React 19.3.1 and TypeScript 6.0.3; use ESLint 10 with compatible direct TypeScript/React/Next plugins | Official docs and registry checked; initial TS 7 compiler-API lint incompatibility corrected, no peer override retained |
+| 2026-10-28 | Preserve the user's CLI link to `Everyone-Presentation`; inspect only metadata and non-personal service counts read-only | Observed empty business/auth/storage state; no schema/auth/storage mutation |
+| 2026-10-28 | Keep canonical-source decision open: identify the existing central database or obtain explicit direction to make this new empty project central | Consequential discovered mismatch; asked the owner while unaffected local work continues; no changed product requirement assumed |
+| 2026-10-28 | Treat M02 jobs/provider/document packages as independent preparation until a central transactional repository, service identities and scoped asset operations connect them | Deterministic adapter tests and synthetic binary parsing are distinct from provider and durable DB acceptance |
+| 2026-10-28 | Retain session-bearing failed-browser traces under ignored `.local/private-test-traces/`, recording only SHA256/path receipts; disable future network traces | Preserve historical failures without committing development authentication cookies |
+| 2026-10-28 | Product owner explicitly confirmed using the inspected empty `Everyone-Presentation` Supabase project as the canonical system | Supersedes the prerequisite to find pre-existing business tables. Establish additive canonical clients/projects/auth membership and one coordinated migration history here; existing-project-before-workspace and all permission/versioning rules still apply. No invented real projects/users or cloud seed/reset. Local schema/role proof precedes cloud migration application. |
+| 2026-10-28 | Applied/read back the three reviewed M01 canonical migrations after real local role/RLS and two-session race proof; enabled only the authoritative root migration source, seeds disabled, Vault sync skipped | Authorized new canonical foundation; source hashes and actual cloud receipts in tracking/evidence/cloud-foundation; production app acceptance remains separate |
+| 2026-10-28 | Correct managed Auth access through narrow one-way authenticated inheritance and preserve the original migration with two additive forward fixes | Real cloud/local grantability matched; no managed Auth owner/RLS changes; no reverse user-to-owner membership |
+| 2026-10-28 | Configure only the localhost development site's canonical127.0.0.1 URL and exact PKCE callback allowlist; preserve confirmation/provider/MFA settings | Exact reviewed two-field diff, applied and read back; no email, auth user or business fixture created |
+| 2026-10-28 | Keep dynamic fixture-file access outside Turbopack's source dependency graph; Node24 loads the typed workspace as a server external | A reproducible refresh loop was resolved and actual central anonymous browser/API, build and fixture tests pass; no production serving claim |
+| 2026-10-28 | Closed upload sessions return `upload_url:null` and empty transfer headers; only open sessions carry a scoped URL | Corrected OpenAPI, MCP schemas, runtime schema, typed domain and UI guard. Creation replay projects current reservation state; no new transfer credential is minted for closed sessions. Red/green domain and contract checks recorded. |
+| 2026-10-28 | Keep the supplied `MANIFEST.json` as historical provenance; package current Git-eligible source into ignored `dist/` with a separate archive manifest | The former recursive packager was unsafe after runtime/private directories were introduced. Explicit private/generated path guards and source-root checks now preserve runtime secrets and the original parent archive. |
+| 2026-10-28 | Retain and review twelve intentional authenticated security-definer advisor warnings | Fixed empty search paths, narrow nonlogin/non-BYPASSRLS owner, forced RLS and scoped transaction functions are deliberate. See tracking/evidence/cloud-foundation/security-advisor-review.md; no zero-warning claim. |
 
 
 ---
@@ -586,38 +673,52 @@ No questionnaire is needed to settle the product flow. Ask only if a discovered 
 
 # Current Codex handoff
 
-Updated 2026-10-27 • Initial documentation handoff
+Updated 2026-10-28. M00 verified; M01 in progress; M02 isolated preparation. The production app is not complete.
 
-## Where to resume
+## Authority and canonical system
 
-Start [M00](../milestones/M00_DISCOVERY.md). Read AGENTS.md, CONTRACT_BASELINE.md, PROGRESS.md, decisions and environment inventory. Inspect the implementation repository if one is provided, and inspect the central Supabase schema read-only using authorized configured access. Do not apply `design-reference.sql` to cloud.
+The owner explicitly confirmed the initially empty Everyone-Presentation project (pyibofyctwnqpvktepse, eu-west-1) as canonical. This supersedes only the old pre-existing-business-schema prerequisite. Preserve existing-project-before-workspace, real identities, exact capabilities, immutable versions and all other contracts. No requirements re-interview or routine permission question is needed.
 
-## Completed work
+Four immutable migrations are applied locally and in cloud: 20261028010943, 20261028013324, 20261028013655 and 20261028024205. The fourth is `supabase/migrations/20261028024205_m01_private_logo_boundary.sql`, SHA256 b04af5119b4e384bd96136573eec39e69f21a0ffb7d9f4aeb07bbf48f2976b9d. Never rewrite applied bytes; add forward fixes.
 
-Specification pack only. The prior self-contained HTML UX prototype is included as a reference. No production code, cloud inspection, migrations or service integration has been completed.
+Cloud receipts: tracking/evidence/cloud-foundation/ (historical first three) and tracking/evidence/cloud-logo-foundation/ (fourth dry-run/apply/readback). Current physical foundation has 18 scoped RPCs, 13 enabled+forced-RLS app relations, one private 5MiB PNG/JPEG/WebP bucket and eight Storage policies. Discovery mapping/ownership is in contracts/database/central-schema-map.yaml and tracking/discovery/. The release snapshot's zero key/user/business/media counts remain historical; do not change its observed_at or describe them as permanent.
 
-## Decisions to preserve
+A later dedicated 32-byte logo-purpose key was generated inside PostgreSQL and matched to protected local configuration. Actual provision/reopened inspect: tracking/evidence/cloud-logo-verifier/. No raw secret, digest or returned CLI output is recorded in source. Existing apps/web/.env.local bytes were unchanged. The private phase/key files are ignored and protected for the current Windows user and SYSTEM. Exclusive CREATE_NEW handles prevent concurrent adoption/overwrite; incomplete DB/filesystem provisioning requires recovery of the same key, never blind regeneration/deletion.
 
-Existing real project; direct upload; stable specs; no conflict feature; Selection all assignments; Shortlist explicit; one Main; missing content allowed; actual video frames; immutable versions; latest-ready audience-scoped review links; 30-day expiry; shared external feedback; complete Claude authority under user permissions; central Supabase; OpenAI; n8n Cloud.
+## What runs
 
-## External facts to discover
+Actual central development app: http://127.0.0.1:3000/projects, started with `npm.cmd run dev:central` (existing tool session93076 predates key installation). Public Supabase URL/key are configured privately on this machine. The current code was exercised by a fresh anonymous browser/API check after the recovery changes: real sign-in UI, internal401, fixture403, no browser errors/overlay. No email was requested by the agent and no fake cloud user/project/media was seeded.
 
-Canonical database/auth/membership/migration structure, existing hosting and runtime, actual template assets/fonts, available service credentials, authorized representative samples, intended Claude client compatibility. Read the environment inventory template; never record secret values.
+The updated launcher privately loads only the two verifier fields from a valid completed target-bound configuration on next startup. Actual loader check passed without value output or a feature flag. Current running process predates this installation; relaunch the owned server before enabling/testing new uploads. A malformed optional private key configuration is rejected for loading while read-only startup remains usable.
 
-## Next action
+Upload purposes remain [] and runtime uploads remain disabled. Ready metadata/content, client-default reuse, cancellation and scope-checked completed replay survive unavailable upload verification. New reservation/mint/new completion stay503 without required configuration. API/UI actor permissions and private byte checksum checks remain enforced.
 
-Populate the schema mapping and environment inventory with observed evidence, create a local-only plan and lock supported versions. If access is unavailable, implement the labelled local fixture adapter and explicitly leave cloud mapping unverified while continuing isolated work.
+`npm.cmd run dev` is the separately labelled synthetic app. Do not start it on the same occupied port. Fixture Playwright tests own port3100, separate state and build output. The actual local PostgreSQL container is fingerprinted/owned on127.0.0.1:55433. Its Storage catalog is a deliberately simulated SQL fixture, not an Auth/Storage HTTP service. Never reset/seed/start the CLI-linked root. Root config enables the single migration history, disables seeds, and cloud pushes skip Vault.
 
-## Future handoff template
+## Actual evidence
 
-Replace this page with the latest short operational handoff; keep history in PROGRESS.md.
+- Current application: 80 tests (16 domain/server,3 contracts,12 jobs,14 provider adapters,10 actual synthetic document parsers,25 central SDK/receipt tests); four fixture browser/HTTP journeys; build PASS. Exact latest logs/artifacts: tracking/evidence/m01/readonly-reuse-checkpoint/. Lint/typecheck passed after recovery/reuse changes. Static pack and53-skill integrity checks passed separately.
+- Guarded PostgreSQL role/RLS/state assertions and three actual backend race pairs passed, with strict scoped cleanup. Latest full DB receipt: development/local-db/receipts/2026-10-28T03-22-41-050Z-test-db-summary-59ca1af3.json. Logo race proof: tracking/evidence/m01/LOGO_CONCURRENCY.json.
+- Actual Node compact HMAC bytes passed SQL finalize; wrong MAC failed; all fixtures rolled back: development/local-db/receipts/2026-10-28T03-20-25-083Z-logo-node-sql-interop.json. Reproduce with `node tools/check-logo-receipt-db.mjs`.
+- SQL independent review and rollback rehearsal preserve the failed synthetic-key probe and fixes for new-key replay, terminal row locks, inherited ACLs and expiry between transitions. See LOGO_SQL_INDEPENDENT_REVIEW.md and LOGO_RECOVERY_REVIEW.md in tracking/evidence/m01/.
+- Actual security advisors returned18 intentional authenticated-definer WARN findings, with no other finding. Review rationale is in tracking/evidence/cloud-logo-foundation/security-advisor-review.md. Do not call this zero warnings or production acceptance.
+- Session-bearing trace ZIPs are retained only under ignored private storage with a sanitized hash manifest. Sanitized historical PNG/JSON/text test artifacts are source-retained; trace ZIPs are excluded. A later reuse cleanup-revision failure has only a delegate-reported note because its root output directory was replaced; no missing capture is claimed.
 
-- Current milestone/status and actual branch/commit.
-- What changed, where to find it, actual command needed to run it.
-- Last successful meaningful test and evidence.
-- Current failure/blocker and useful work that remains possible.
-- Exact next action, files/contracts to read, expected result.
-- New decisions/migrations and affected downstream milestones.
+These are distinct local/synthetic/SDK/SQL/cloud-metadata/configuration results. No real signed-in Producer writeback, hosted Storage token/byte acceptance, AI/n8n execution, native rendering, guest path, MCP client, restore or deployment is proved.
+
+## Required next actions
+
+1. Await the pending actual Producer email/confirmed human sign-in and first real project/client details. Verify that principal, assign only documented capabilities/resource memberships and create the owner-supplied canonical record. No automatic first-user grant, invented user/project or cloud fixture. Workspace creation still requires an existing permitted central project.
+2. Relaunch through the updated central launcher for the owned development acceptance session. Complete the actual M01 journey and Storage gate: explicit-false mint, unsafe upsert mint denied BEFORE object existence, real private image decode/hash, preissued-token overwrite denial, replacement/removal/reuse/reload, revoked scope and cancellation. Read tracking/discovery/LOGO_ACCEPTANCE_ASSESSMENT.md and storage-operation-context-research.md. Development availability can be enabled as part of these authorized tests; changing advertised DB purposes requires a reviewed forward change, not editing an applied migration. No production-ready claim until required evidence exists.
+3. Finish remaining M01 keyboard/session/stale-error acceptance and record exact receipts before marking verified. Then connect M02: actual transactional jobs/outbox repository, scoped services/output reservations, editable specs/roles/slots UI/API, worker and real WF-01. Existing @eps/jobs/@eps/integrations/apps/worker modules are isolated components, not a connected pipeline.
+
+Fresh n8n project discovery at2026-10-28T03:58:29Z still returned -32603 (n8n-refresh receipt in discovery). Restore existing connection; do not substitute another orchestrator/workspace. OpenAI key/evaluated model, representative authorized media, native FFmpeg/worker isolation, hosting selection, approved template/missing six fonts, intended Claude clients, sizing/restore and deployment remain future gates. M03-M07 remain not started.
+
+## Source and packaging
+
+Local Git only, no remote/push. Initial checkpoints:369a77d, fdf0e11, bf31caa; final source checkpoint is recorded below after commit. Preserve source seals, historical receipts and observed_at values. .gitattributes preserves byte hashes and permits CRLF diff checks without normalizing migrations/skills.
+
+`python tools/package_pack.py --check` inspects Git-eligible source with explicit private/generated path denial. Actual archives go to ignored dist/ with a separate SOURCE_MANIFEST.json; original MANIFEST.json/parent pack archive remain historical and unchanged. Never commit private config, .env.local, .local, Supabase .temp, credentials, raw traces or personal fixtures.
 
 
 ---
@@ -2738,7 +2839,7 @@ Use `docs/quality/RELEASE_EVIDENCE.md` as the test evidence template. Keep the p
 
 # Release evidence and test-data runbook
 
-**Current state: not run.** This is a template for Codex and the delivery team to complete during implementation. No cloud schema inspection, real AI evaluation, authenticated MCP journey, production deployment, or end-to-end service test is claimed by this documentation pack.
+**Current state: production release unverified.** M00 discovery is verified after the owner designated the empty project as canonical. Three M01 migrations are applied/read back in cloud and local PostgreSQL; actual role/RLS/race checks and central anonymous UI checks pass. See [cloud foundation](../tracking/evidence/cloud-foundation/readback.json), [discovery](../tracking/discovery/README.md), [local UI evidence](../tracking/evidence/m01/UI_VERIFICATION.md), [operation delivery](../docs/integrations/IMPLEMENTATION_PARITY.md) and [progress](../PROGRESS.md). Actual Producer/project sign-in/writeback and private central uploads are incomplete. Isolated M02 tests do not prove a connected service pipeline. No real AI evaluation, authenticated Claude/MCP journey, production PDF, app deployment or full release journey is claimed. The remaining sections retain the release requirements.
 
 ## 1. Release identity
 

@@ -1,0 +1,93 @@
+{
+  "helpers": [
+    "storage.allow_only_operation(text)",
+    "storage.operation()"
+  ],
+  "hmac_schema": "extensions",
+  "observed_at": "2026-10-28T02:53:56.400677+00:00",
+  "query_role": "postgres",
+  "schema": {
+    "acl": [
+      "supabase_admin=UC/supabase_admin",
+      "postgres=U*/supabase_admin",
+      "anon=U/supabase_admin",
+      "authenticated=U/supabase_admin",
+      "service_role=U/supabase_admin",
+      "supabase_storage_admin=U*C*/supabase_admin",
+      "dashboard_user=UC/supabase_admin"
+    ],
+    "owner": "supabase_admin"
+  },
+  "supautils_policy_grants": "{\"postgres\":[\"auth.audit_log_entries\",\"auth.flow_state\",\"auth.identities\",\"auth.instances\",\"auth.mfa_amr_claims\",\"auth.mfa_challenges\",\"auth.mfa_factors\",\"auth.oauth_clients\",\"auth.one_time_tokens\",\"auth.refresh_tokens\",\"auth.saml_providers\",\"auth.saml_relay_states\",\"auth.sessions\",\"auth.sso_domains\",\"auth.sso_providers\",\"auth.users\",\"realtime.messages\",\"realtime.subscription\",\"storage.buckets\",\"storage.buckets_analytics\",\"storage.objects\",\"storage.prefixes\",\"storage.s3_multipart_uploads\",\"storage.s3_multipart_uploads_parts\"]}",
+  "tables": [
+    {
+      "acl": [
+        "supabase_storage_admin=a*r*w*d*D*x*t*m*/supabase_storage_admin",
+        "service_role=arwdDxtm/supabase_storage_admin",
+        "authenticated=arwd/supabase_storage_admin",
+        "anon=arwd/supabase_storage_admin",
+        "postgres=a*r*w*d*D*x*t*m*/supabase_storage_admin"
+      ],
+      "authenticated_insert": true,
+      "force_rls": false,
+      "owner": "supabase_storage_admin",
+      "query_role_insert": true,
+      "query_role_owner_membership": false,
+      "rls_enabled": true,
+      "table": "storage.buckets"
+    },
+    {
+      "acl": [
+        "supabase_storage_admin=a*r*w*d*D*x*t*m*/supabase_storage_admin",
+        "service_role=arwdDxtm/supabase_storage_admin",
+        "authenticated=arwd/supabase_storage_admin",
+        "anon=arwd/supabase_storage_admin",
+        "postgres=a*r*w*d*D*x*t*m*/supabase_storage_admin"
+      ],
+      "authenticated_insert": true,
+      "force_rls": false,
+      "owner": "supabase_storage_admin",
+      "query_role_insert": true,
+      "query_role_owner_membership": false,
+      "rls_enabled": true,
+      "table": "storage.objects"
+    }
+  ],
+  "triggers": [
+    {
+      "definition": "CREATE TRIGGER enforce_bucket_name_length_trigger BEFORE INSERT OR UPDATE OF name ON storage.buckets FOR EACH ROW EXECUTE FUNCTION storage.enforce_bucket_name_length()",
+      "name": "enforce_bucket_name_length_trigger",
+      "table": "storage.buckets"
+    },
+    {
+      "definition": "CREATE TRIGGER protect_bucket_control_insert BEFORE INSERT ON storage.buckets FOR EACH ROW EXECUTE FUNCTION storage.protect_bucket_control_columns('service_role')",
+      "name": "protect_bucket_control_insert",
+      "table": "storage.buckets"
+    },
+    {
+      "definition": "CREATE TRIGGER protect_bucket_control_update BEFORE UPDATE OF lifecycle_configuration, lifecycle_configuration_generation ON storage.buckets FOR EACH ROW EXECUTE FUNCTION storage.protect_bucket_control_columns()",
+      "name": "protect_bucket_control_update",
+      "table": "storage.buckets"
+    },
+    {
+      "definition": "CREATE TRIGGER protect_bucket_control_update_role AFTER UPDATE OF lifecycle_configuration, lifecycle_configuration_generation ON storage.buckets FOR EACH ROW EXECUTE FUNCTION storage.enforce_bucket_lifecycle_service_role('service_role')",
+      "name": "protect_bucket_control_update_role",
+      "table": "storage.buckets"
+    },
+    {
+      "definition": "CREATE TRIGGER protect_buckets_delete BEFORE DELETE ON storage.buckets FOR EACH STATEMENT EXECUTE FUNCTION storage.protect_delete()",
+      "name": "protect_buckets_delete",
+      "table": "storage.buckets"
+    },
+    {
+      "definition": "CREATE TRIGGER protect_objects_delete BEFORE DELETE ON storage.objects FOR EACH STATEMENT EXECUTE FUNCTION storage.protect_delete()",
+      "name": "protect_objects_delete",
+      "table": "storage.objects"
+    },
+    {
+      "definition": "CREATE TRIGGER update_objects_updated_at BEFORE UPDATE ON storage.objects FOR EACH ROW EXECUTE FUNCTION storage.update_updated_at_column()",
+      "name": "update_objects_updated_at",
+      "table": "storage.objects"
+    }
+  ]
+}

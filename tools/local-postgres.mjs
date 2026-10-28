@@ -140,6 +140,72 @@ async function inspectManagedAuthPrivileges() {
   if (!line) fail('The managed-auth privilege inspection did not return a result.');
   return receipt('auth-privileges', { container: config.container, operation: 'read-only catalog inspection', privileges: JSON.parse(line), baseline_changes: 'none; inspection performed no grants, schema changes or data writes' });
 }
+async function inspectStorageBaseline() {
+  const { config } = await verifyLocalTarget();
+  const sql = await readFile(path.join(ROOT, 'tools/sql/discover-storage-release-privileges.sql'), 'utf8');
+  const result = await psql(config.container, sql);
+  const line = result.stdout.split(/\r?\n/u).find(value => value.trim().startsWith('{'));
+  if (!line) fail('Storage metadata query returned no result.');
+  return receipt('storage-privileges', { container: config.container, operation: 'read-only fixed catalog inspection',
+    privileges: JSON.parse(line), baseline_changes: 'none; no hosted Storage acceptance' });
+}
+const STORAGE_BASELINE_FILE = 'development/local-db/local-storage-baseline.sql';
+const STORAGE_BASELINE_CATALOG_SQL = `jsonb_build_object(
+  'schema',(select jsonb_build_object('oid',oid,'owner',pg_get_userbyid(nspowner)) from pg_namespace where nspname='storage'),
+  'relations',(select jsonb_agg(jsonb_build_object('oid',c.oid,'name',c.relname,'kind',c.relkind,'owner',pg_get_userbyid(c.relowner),'rls',c.relrowsecurity,'force',c.relforcerowsecurity) order by c.relname)
+    from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='storage'),
+  'columns',(select jsonb_agg(jsonb_build_object('table',c.relname,'name',a.attname,'type',format_type(a.atttypid,a.atttypmod),'not_null',a.attnotnull,'default',pg_get_expr(d.adbin,d.adrelid)) order by c.relname,a.attnum)
+    from pg_attribute a join pg_class c on c.oid=a.attrelid join pg_namespace n on n.oid=c.relnamespace left join pg_attrdef d on d.adrelid=a.attrelid and d.adnum=a.attnum
+    where n.nspname='storage' and c.relkind='r' and a.attnum>0 and not a.attisdropped),
+  'functions',(select jsonb_agg(jsonb_build_object('oid',p.oid,'identity',p.oid::regprocedure::text,'owner',pg_get_userbyid(p.proowner),'definition',pg_get_functiondef(p.oid)) order by p.oid::regprocedure::text)
+    from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='storage')
+)`;
+async function localStoragePrerequisites(config, owned) {
+  const sql = `begin read only; ${localGuardSql(owned)} select jsonb_build_object(
+    'query_role',current_user,
+    'roles',(select jsonb_agg(jsonb_build_object('name',rolname,'superuser',rolsuper,'inherit',rolinherit,'login',rolcanlogin,'create_role',rolcreaterole,'bypass_rls',rolbypassrls) order by rolname) from pg_roles where rolname in ('postgres','supabase_admin','supabase_storage_admin','anon','authenticated','service_role')),
+    'postgres_storage_owner_membership',pg_has_role('postgres','supabase_storage_admin','MEMBER'),
+    'policy_grants',current_setting('supautils.policy_grants',true)::jsonb,
+    'privileged_role',current_setting('supautils.privileged_role',true),
+    'storage_catalog',${STORAGE_BASELINE_CATALOG_SQL},
+    'marker_present',to_regclass('eps_local_guard.storage_baseline') is not null
+  ); rollback;\n`;
+  const result = await psql(config.container, sql);
+  const line = result.stdout.split(/\r?\n/u).find(value => value.trim().startsWith('{'));
+  if (!line) fail('Local Storage prerequisite inspection returned no result.');
+  return JSON.parse(line);
+}
+export async function storageBaseline({ inspect = false } = {}) {
+  const { config, owned } = await verifyLocalTarget();
+  const before = await localStoragePrerequisites(config, owned);
+  if (inspect) return receipt('storage-baseline-inspect', { container: config.container, operation: 'read-only local catalog inspection', prerequisites: before, baseline_changes: 'none; no Auth/Storage HTTP or byte-storage implementation' });
+  const manifest = await jsonFile(path.join(CONFIG_DIRECTORY, 'reviewed.json'));
+  const entry = manifest.version === 1 && Array.isArray(manifest.local_baselines)
+    ? manifest.local_baselines.find(value => value.path === STORAGE_BASELINE_FILE) : undefined;
+  if (!entry || !/^[a-f0-9]{64}$/u.test(entry.sha256) || typeof entry.reviewed_by !== 'string' || !entry.reviewed_by.trim()) fail('This fixed local Storage simulation has no explicit reviewed hash. Root must review and record reviewed.json.local_baselines first.');
+  const absolute = await realpath(path.join(ROOT, STORAGE_BASELINE_FILE));
+  if (absolute !== path.resolve(ROOT, STORAGE_BASELINE_FILE)) fail('The fixed local Storage baseline may not resolve through a symbolic link.');
+  const bytes = await readFile(absolute); const hash = createHash('sha256').update(bytes).digest('hex');
+  if (hash !== entry.sha256) fail('Local Storage baseline bytes changed after review. No SQL was executed.');
+  const sql = bytes.toString('utf8');
+  if (/^\s*\\/mu.test(sql) || /^\s*(?:begin\s*;|commit\s*;|rollback\s*;|start\s+transaction\b)/imu.test(sql)) fail('Local Storage baseline may not contain psql metacommands or transaction control.');
+  if (before.postgres_storage_owner_membership || !before.policy_grants?.postgres?.includes('storage.buckets') || !before.policy_grants?.postgres?.includes('storage.objects')) fail('The observed narrow managed Storage ownership/policy boundary differs. No role/configuration grant will be invented.');
+  if (before.marker_present) {
+    const result = await psql(config.container, `begin read only; ${localGuardSql(owned)} select jsonb_build_object('version',version,'sha256',sha256,'catalog_matches',catalog=${STORAGE_BASELINE_CATALOG_SQL}) from eps_local_guard.storage_baseline where id=1; rollback;\n`);
+    const line = result.stdout.split(/\r?\n/u).find(value => value.trim().startsWith('{'));
+    const existing = line ? JSON.parse(line) : null;
+    if (existing?.version !== 1 || existing.sha256 !== hash || existing.catalog_matches !== true) fail('Existing local Storage simulation marker/hash/catalog differs. No Storage object will be overwritten or adopted.');
+    return receipt('storage-baseline', { container: config.container, file: STORAGE_BASELINE_FILE, sha256: hash, result: 'already_applied', baseline: 'SIMULATED SQL policy catalog only; no Auth/Storage HTTP, signed tokens, or bytes', prerequisites: before });
+  }
+  const adminCheck = await psql(config.container, "begin read only; select json_build_object('role',current_user,'superuser',(select rolsuper from pg_roles where rolname=current_user)); rollback;\n", 'supabase_admin');
+  const adminLine = adminCheck.stdout.split(/\r?\n/u).find(value => value.trim().startsWith('{'));
+  const admin = adminLine ? JSON.parse(adminLine) : null;
+  if (admin?.role !== 'supabase_admin' || admin.superuser !== true) fail('The existing local managed-baseline administrator could not be verified.');
+  const transaction = `begin; set local lock_timeout='5s'; set local statement_timeout='30s'; select pg_advisory_xact_lock(166824721,702); ${localGuardSql(owned)} select set_config('eps.local_fixture_tests','${config.container}',true),set_config('eps.local_storage_baseline_sha256','${hash}',true);\n${sql}\ncommit;\n`;
+  const applied = await psql(config.container, transaction, 'supabase_admin');
+  const after = await localStoragePrerequisites(config, owned);
+  return receipt('storage-baseline', { container: config.container, file: STORAGE_BASELINE_FILE, sha256: hash, result: 'applied', baseline_administrator: admin, baseline: 'SIMULATED SQL policy catalog only; no Auth/Storage HTTP, signed tokens, or bytes; no app migration ledger entry', prerequisites: before, after, warnings: safeOutput(applied.stderr) });
+}
 async function receipt(action, data) {
   const directory = path.join(CONFIG_DIRECTORY, 'receipts'); await mkdir(directory, { recursive: true });
   const at = new Date().toISOString(); const filename = `${at.replace(/[:.]/gu, '-')}-${action}.json`;
@@ -195,13 +261,13 @@ async function bootstrap() {
   await psql(config.container, `begin read only; set local role authenticated; select set_config('request.jwt.claim.sub','00000000-0000-4000-8000-000000000001',true); select set_config('request.jwt.claims','{"sub":"00000000-0000-4000-8000-000000000001","is_anonymous":false}',true); do $verify$ begin if auth.jwt()->>'sub' is distinct from '00000000-0000-4000-8000-000000000001' or auth.uid() is distinct from '00000000-0000-4000-8000-000000000001'::uuid then raise exception 'LOCAL_AUTH_HELPER_CHECK_FAILED'; end if; end $verify$; rollback;\n`);
   return receipt('bootstrap', { container: config.container, database: after, bootstrap_administrator: admin, minimal_auth_users_created: !observed.auth_users_present && after.auth_users_present, minimal_auth_uid_created: !observed.auth_uid_present && after.auth_uid_present, minimal_auth_jwt_created: !observed.auth_jwt_present && after.auth_jwt_present, helper_check: 'authenticated role reads synthetic request.jwt.claims through jwt and request.jwt.claim.sub through uid; transaction rolled back', baseline: 'Official local image auth objects plus only missing synthetic prerequisites; no hosted Auth acceptance.' });
 }
-async function reviewedFile(relative, kind) {
+async function reviewedFile(relative, kind, reviewGroup = kind) {
   const manifest = await jsonFile(path.join(CONFIG_DIRECTORY, 'reviewed.json'));
-  if (manifest.version !== 1 || !Array.isArray(manifest[kind])) fail('The reviewed SQL manifest is invalid.');
+  if (manifest.version !== 1 || !Array.isArray(manifest[reviewGroup])) fail('The reviewed SQL manifest is invalid.');
   const normalized = relative.replaceAll('\\', '/');
   const pattern = kind === 'migrations' ? /^supabase\/migrations\/\d{14}_[a-z0-9_]+\.sql$/u : /^tests\/db\/[a-z0-9_./-]+\.sql$/u;
   if (!pattern.test(normalized) || normalized.includes('..')) fail('Only root migration files or explicit reviewed DB tests are allowed.');
-  const entry = manifest[kind].find(value => value.path === normalized);
+  const entry = manifest[reviewGroup].find(value => value.path === normalized);
   if (!entry || !/^[a-f0-9]{64}$/u.test(entry.sha256) || typeof entry.reviewed_by !== 'string' || !entry.reviewed_by.trim()) fail('This SQL file has no explicit reviewed hash. Root must review and record the exact file first.');
   const absolute = await realpath(path.join(ROOT, normalized));
   if (absolute !== path.resolve(ROOT, normalized)) fail('Reviewed SQL may not resolve through a symbolic link.');
@@ -213,6 +279,38 @@ async function reviewedFile(relative, kind) {
   return { entry, sql, normalized };
 }
 function localGuardSql(owned) { return `do $guard$ begin if current_database()<>'postgres' or not exists(select 1 from eps_local_guard.instance where id=1 and workspace_key='${WORKSPACE_KEY}' and instance_id='${owned.instance_id}'::uuid) then raise exception 'VERIFIED_LOCAL_TARGET_REQUIRED'; end if; end $guard$;\n`; }
+async function probeLogoBoundary() {
+  const { config, owned } = await verifyLocalTarget();
+  const migration = await reviewedFile('supabase/migrations/20261028024205_m01_private_logo_boundary.sql', 'migrations', 'candidate_reviews');
+  const test = await reviewedFile('tests/db/m01-logo-boundary.sql', 'tests', 'candidate_reviews');
+  const controls = [...test.sql.matchAll(/^\s*(begin|commit|rollback|start\s+transaction)\s*;\s*$/gimu)].map(value => value[1].toLowerCase());
+  if (controls.length !== 2 || controls[0] !== 'begin' || controls[1] !== 'rollback' || !/rollback;\s*$/iu.test(test.sql)) fail('Logo probe requires exactly the reviewed test BEGIN and final ROLLBACK, with no commit.');
+  const body = test.sql.replace(/^\s*begin\s*;\s*$/imu, '');
+  const sql = `begin; set local lock_timeout='5s'; set local statement_timeout='45s'; ${localGuardSql(owned)}
+select set_config('eps.local_fixture_tests','${config.container}',true);
+do $pending$ begin if to_regclass('eps.upload_sessions') is not null or exists(select 1 from pg_roles where rolname='eps_logo_verify_owner') then raise exception 'LOGO_PROBE_REQUIRES_UNAPPLIED_CANDIDATE'; end if; end $pending$;
+${migration.sql}\n${body}`;
+  const evidence = { container: config.container, migration: migration.normalized, migration_sha256: migration.entry.sha256,
+    test: test.normalized, test_sha256: test.entry.sha256, scope: 'candidate DDL plus synthetic role/policy/receipt assertions in one rolled-back transaction; no migration history write; Storage GUC/catalog simulation, not HTTP' };
+  async function verifyRollback() {
+    const result = await psql(config.container, `begin read only; ${localGuardSql(owned)} select jsonb_build_object(
+      'candidate_tables_absent',to_regclass('eps.upload_sessions') is null and to_regclass('eps.logo_verification_keys') is null,
+      'candidate_role_absent',not exists(select 1 from pg_roles where rolname='eps_logo_verify_owner'),
+      'candidate_migration_absent',not exists(select 1 from supabase_migrations.schema_migrations where version='20261028024205')); rollback;`);
+    const value = JSON.parse(result.stdout.split(/\r?\n/u).find(line => line.startsWith('{')) ?? '{}');
+    return { ...value, verified: value.candidate_tables_absent === true && value.candidate_role_absent === true && value.candidate_migration_absent === true };
+  }
+  try {
+    const result = await psql(config.container, sql);
+    const rollback = await verifyRollback();
+    if (!rollback.verified) fail('Logo candidate rollback was not verified. Preserve local state for inspection.');
+    return receipt('logo-probe', { ...evidence, result: 'passed', rollback, output: safeOutput(result.stdout), warnings: safeOutput(result.stderr) });
+  } catch (error) {
+    const rollback = await verifyRollback().catch(() => ({ verified: false }));
+    await receipt('logo-probe', { ...evidence, result: 'failed', rollback, error: safeOutput(error.message) });
+    throw error;
+  }
+}
 export async function runReviewedSqlFile(relative, { test = false } = {}) {
   const { config, owned, observed } = await verifyLocalTarget();
   if (!observed.auth_users_present || !observed.auth_uid_present || !observed.auth_jwt_present) fail('Local managed-auth prerequisites are incomplete. Run the guarded local bootstrap before replay/tests.');
@@ -238,10 +336,13 @@ async function main() {
   if (action === 'start') result = await start();
   else if (action === 'status') { const target = await verifyLocalTarget(); result = await receipt('status', { container: target.config.container, database: target.observed, bindings: [{ host_ip: '127.0.0.1', host_port: '55433' }] }); }
   else if (action === 'privileges') result = await inspectManagedAuthPrivileges();
+  else if (action === 'storage-privileges') result = await inspectStorageBaseline();
+  else if (action === 'storage-baseline' && (!flag || flag === '--inspect')) result = await storageBaseline({ inspect: flag === '--inspect' });
+  else if (action === 'probe-logo' && !flag) result = await probeLogoBoundary();
   else if (action === 'bootstrap') result = await bootstrap();
   else if (action === 'replay' && flag === '--file' && selectedFile) result = await runReviewedSqlFile(selectedFile);
   else if (action === 'test' && flag === '--file' && selectedFile) result = await runReviewedSqlFile(selectedFile, { test: true });
-  else fail('Usage: node tools/local-postgres.mjs start|status|privileges|bootstrap|replay --file supabase/migrations/<reviewed>.sql|test --file tests/db/<reviewed>.sql');
+  else fail('Usage: node tools/local-postgres.mjs start|status|privileges|storage-privileges|storage-baseline [--inspect]|probe-logo|bootstrap|replay --file supabase/migrations/<reviewed>.sql|test --file tests/db/<reviewed>.sql');
   process.stdout.write(safeOutput(JSON.stringify(result, null, 2)) + '\n');
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {

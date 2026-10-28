@@ -12,6 +12,10 @@ dist/
 .local/
 test-results/
 playwright-report/
+# Sanitized, deliberately retained acceptance artifacts belong to source history.
+!tracking/evidence/**/test-results/
+!tracking/evidence/**/test-results/**
+tracking/evidence/**/trace*.zip
 *.tsbuildinfo
 supabase/.temp/
 supabase/.branches/
