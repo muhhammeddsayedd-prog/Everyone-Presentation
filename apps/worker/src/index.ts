@@ -3,3 +3,4 @@ export * from './prepare.ts';
 export * from './process.ts';
 export { preparePastedText } from './pasted-text.ts';
 export * from './storage.ts';
+export * from './specs-executor.ts';

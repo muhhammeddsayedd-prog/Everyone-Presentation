@@ -22,6 +22,7 @@ function service() {
     updateRole: operation('role', role), archiveRole: operation('archive', { success: true, affected_ids: ['role', 'slot'] }),
     listSlots: operation('slots', { data: [slot], page: { next_cursor: null } }), resizeRoleSlots: operation('resize', role), updateSlot: operation('slot', slot),
     reorderWorkspace: operation('order', { id: 'workspace', row_version: 2 }),
+    submitSpecs: operation('submit', { job_id: 'job', resource_id: 'spec', poll_url: '/api/v1/jobs/job', status: 'queued' }),
   } as unknown as SpecsOperations;
   return { specs, calls };
 }
@@ -111,13 +112,18 @@ test('strict body contracts reject forged source/authority, missing values and m
   assert.equal(calls.length, 0);
 });
 
-test('source submission and fixture service fail honestly without invented processing output', async () => {
+test('source submission returns a durable acknowledgement while fixture service stays unavailable', async () => {
   const { specs, calls } = service(); const path = ['workspaces', 'workspace', 'specs'];
-  await assert.rejects(handleSpecsRequest(request(path, 'POST', { source_text: 'Synthetic source' }), path, actor, specs, context),
-    (error: unknown) => error instanceof DomainError && error.code === 'FEATURE_NOT_IMPLEMENTED' && error.status === 503);
+  const input = { source_text: '\ufeffنحتاج ثلاثة أشخاص\r\nRole: Waiter', row_version: 4 };
+  const response = await handleSpecsRequest(request(path, 'POST', input), path, actor, specs, context);
+  assert.equal(response.status, 202);
+  assert.equal(response.headers.get('cache-control'), 'private, no-cache, no-store, must-revalidate, max-age=0');
+  assert.deepEqual(await response.json(), { request_id: context.requestId,
+    data: { job_id: 'job', resource_id: 'spec', poll_url: '/api/v1/jobs/job', status: 'queued' } });
+  assert.deepEqual(calls[0], { name: 'submit', args: [actor, 'workspace', input, context] });
   await assert.rejects(handleSpecsRequest(request(path, 'POST', { source_text: 'A', source_asset_id: 'asset' }), path, actor, specs, context),
     (error: unknown) => error instanceof DomainError && error.status === 400);
-  assert.equal(calls.length, 0);
+  assert.equal(calls.length, 1);
   const keys = ['CENTRAL_ADAPTER_MODE', 'APP_ENV', 'NODE_ENV', 'APP_BASE_URL'] as const;
   const saved = keys.map(key => [key, process.env[key]] as const);
   try {
@@ -125,6 +131,15 @@ test('source submission and fixture service fail honestly without invented proce
     await assert.rejects(getSpecsService(), (error: unknown) => error instanceof DomainError
       && error.code === 'FEATURE_NOT_IMPLEMENTED' && error.status === 503);
   } finally { for (const [key, value] of saved) { if (value === undefined) Reflect.deleteProperty(process.env, key); else Reflect.set(process.env, key, value); } }
+});
+
+test('source processing readiness errors never produce an accepted response', async () => {
+  const { specs } = service(); const path = ['workspaces', 'workspace', 'specs'];
+  specs.submitSpecs = async () => { throw new DomainError('FEATURE_NOT_IMPLEMENTED', 'Processing is not available yet.', 503); };
+  const response = await handleSpecsRequest(request(path, 'POST', { source_text: 'Synthetic source' }), path, actor, specs, context)
+    .catch(error => failure(error, context.requestId));
+  assert.equal(response.status, 503);
+  assert.equal((await response.json()).error.code, 'FEATURE_NOT_IMPLEMENTED');
 });
 
 test('scoped denials remain intact and unexpected exceptions never expose provider details', async () => {

@@ -1,7 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { DomainError, parseReorderWorkspace, parseResizeSlots, parseRoleCreate, parseRolePatch, parseSlotPatch, parseSpecPatch,
+import { DomainError, parseReorderWorkspace, parseResizeSlots, parseRoleCreate, parseRolePatch, parseSlotPatch, parseSpecPatch, parseSpecSubmit,
   type Actor, type MutationContext, type Page, type ResizeSlots, type Role, type RoleCreate,
-  type RolePatch, type Slot, type SlotPatch, type Spec, type SpecPatch, type ReorderWorkspace, type Workspace } from '@eps/domain';
+  type RolePatch, type Slot, type SlotPatch, type Spec, type SpecPatch, type SpecSubmit, type ReorderWorkspace, type Workspace } from '@eps/domain';
 import { verifyCentralUser } from './client.ts';
 import { centralRpcError } from './errors.ts';
 import { workspaceDto } from './dto.ts';
@@ -9,6 +9,10 @@ import { workspaceDto } from './dto.ts';
 export interface SpecsListOptions { cursor?: string; limit?: number }
 export interface SpecsArchiveInput { row_version: number; reason?: string | null }
 export interface SpecsArchiveResult { success: true; affected_ids: string[] }
+const JOB_STATUSES = ['queued', 'running', 'waiting_for_input', 'succeeded', 'failed', 'cancelled'] as const;
+export interface SpecsJobAccepted {
+  job_id: string; resource_id: string; poll_url: string; status: typeof JOB_STATUSES[number];
+}
 const manualErrors = new Map<string, { status: number; message: string }>([
   ['SLOT_ALLOCATION_LIMIT_EXCEEDED', { status: 422, message: 'This change needs more new slots than the current operation allows.' }],
   ['SLOT_RETIREMENT_REQUIRED', { status: 409, message: 'Choose the excess slots to archive and review their assignments.' }],
@@ -78,7 +82,7 @@ function pageDto<T extends { id: string; sort_order: number; archived: boolean }
   return { data, page: { next_cursor: page.next_cursor as string | null } };
 }
 
-/** Curated, verified-user RPC operations. No source submission, queue or provider fallback. */
+/** Curated, verified-user RPC operations. Readiness and durable submission are checked in the same central transaction. */
 export async function createCentralSpecs(client: SupabaseClient) {
   const identity = await verifyCentralUser(client);
   function checkActor(actor: Actor) {
@@ -95,6 +99,9 @@ export async function createCentralSpecs(client: SupabaseClient) {
       }
       const { data, error } = await request;
       if (error) {
+        if (name === 'eps_submit_specs' && (error.code === 'PGRST202' || error.code === 'P0001' && error.message === 'FEATURE_NOT_IMPLEMENTED')) {
+          throw new DomainError('FEATURE_NOT_IMPLEMENTED', 'Specs processing is not available yet. You can enter and edit requirements manually.', 503);
+        }
         if (name === 'eps_reorder_workspace' && error.code === 'PGRST202') {
           throw new DomainError('FEATURE_NOT_IMPLEMENTED', 'Role ordering is not available yet. Your saved order has been kept.', 503);
         }
@@ -115,6 +122,18 @@ export async function createCentralSpecs(client: SupabaseClient) {
     return context?.idempotencyKey ?? null;
   }
   return {
+    async submitSpecs(actor: Actor, workspaceId: string, input: SpecSubmit, context?: MutationContext): Promise<SpecsJobAccepted> {
+      const key = mutation(actor, workspaceId, context, true);
+      if (!key || key.length < 16) invalid();
+      const parsed = parseSpecSubmit(input);
+      const result = exact(await rpc(actor, 'eps_submit_specs', { p_workspace_id: workspaceId, p_input: parsed, p_idempotency_key: key }, context),
+        ['job_id', 'resource_id', 'poll_url', 'status']);
+      if (!isId(result.job_id) || !isId(result.resource_id) || !JOB_STATUSES.includes(result.status as SpecsJobAccepted['status'])) fail();
+      let expectedUrl: string;
+      try { expectedUrl = `/api/v1/jobs/${encodeURIComponent(result.job_id as string)}`; } catch { return fail(); }
+      if (result.poll_url !== expectedUrl) fail();
+      return structuredClone(result) as unknown as SpecsJobAccepted;
+    },
     async reorderWorkspace(actor: Actor, workspaceId: string, input: ReorderWorkspace, context?: MutationContext): Promise<Workspace> {
       const key = mutation(actor, workspaceId, context); const parsed = parseReorderWorkspace(input);
       const result = workspaceDto(await rpc(actor, 'eps_reorder_workspace', { p_workspace_id: workspaceId, p_input: parsed, p_idempotency_key: key }, context));

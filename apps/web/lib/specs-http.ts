@@ -49,8 +49,8 @@ export async function handleSpecsRequest(request: Request, segments: string[], a
     if (method === 'GET') return json(await specs.getSpecs(actor, segments[1]), context.requestId);
     if (method === 'PATCH') return json(await specs.updateSpecs(actor, segments[1], await body<SpecPatch>('SpecPatch'), context), context.requestId);
     if (method === 'POST') {
-      parseSpecSubmit(await body<SpecSubmit>('SpecSubmit'));
-      throw new DomainError('FEATURE_NOT_IMPLEMENTED', 'Specs processing is not available yet. You can enter and edit requirements manually.', 503);
+      const input = parseSpecSubmit(await body<SpecSubmit>('SpecSubmit'));
+      return json(await specs.submitSpecs(actor, segments[1], input, context), context.requestId, 202);
     }
   }
   if (segments[0] === 'workspaces' && segments[2] === 'roles' && method === 'POST') {

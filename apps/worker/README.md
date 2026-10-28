@@ -1,6 +1,10 @@
 # Document preparation worker module
 
-This package implements the M02 document preparation library and a separate parser-process adapter. It is not an HTTP worker service, and it is not connected to n8n, cloud storage, a live job lease, or OpenAI. No provider request is needed to parse supported source bytes.
+This package implements document preparation, a separate parser-process adapter
+and a [single-attempt specs executor](SPECS_EXECUTOR.md). The executor uses the
+OpenAI adapter when explicitly called with a claimed extraction attempt. No HTTP
+worker service, authenticated gateway, live database lease or n8n runtime is
+connected yet. No provider request is needed to parse supported source bytes.
 
 ## Supported source paths
 
