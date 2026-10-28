@@ -43,6 +43,8 @@ Fresh n8n project discovery at2026-10-28T03:58:29Z still returned -32603 (n8n-re
 
 ## Source and packaging
 
-Local Git only, no remote/push. Initial checkpoints:369a77d, fdf0e11, bf31caa; final source checkpoint is recorded below after commit. Preserve source seals, historical receipts and observed_at values. .gitattributes preserves byte hashes and permits CRLF diff checks without normalizing migrations/skills.
+Local Git only, no remote/push. Initial checkpoints:369a77d, fdf0e11, bf31caa; final code/source checkpoint: f6164a7b1ba66e2f2ec746041c6de827bf75edb0. Preserve source seals, historical receipts and observed_at values. .gitattributes preserves byte hashes and permits CRLF diff checks without normalizing migrations/skills.
 
 `python tools/package_pack.py --check` inspects Git-eligible source with explicit private/generated path denial. Actual archives go to ignored dist/ with a separate SOURCE_MANIFEST.json; original MANIFEST.json/parent pack archive remain historical and unchanged. Never commit private config, .env.local, .local, Supabase .temp, credentials, raw traces or personal fixtures.
+
+The final code checkpoint includes the source/private-material scan in tracking/evidence/source-logo-checkpoint-scan.json. Post-configuration cloud key ACL/RLS/readiness passed in tracking/evidence/cloud-logo-verifier/readiness.json. A documentation-only follow-up records this commit; consult git log for its own SHA.

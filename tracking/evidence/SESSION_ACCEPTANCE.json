@@ -1,0 +1,50 @@
+{
+  "recorded_at": "2026-10-28T04:19:58.035811+00:00",
+  "code_checkpoint": "f6164a7b1ba66e2f2ec746041c6de827bf75edb0",
+  "goal_complete": false,
+  "current_milestone": "M01",
+  "milestone_status": "in_progress",
+  "canonical_target": "pyibofyctwnqpvktepse",
+  "cloud_migrations_applied": 4,
+  "cloud_schema": {
+    "curated_rpcs": 18,
+    "forced_rls_app_relations": 13,
+    "private_brand_buckets": 1,
+    "ordinary_key_reads_denied": true
+  },
+  "verifier_configuration": {
+    "configured": true,
+    "matching_private_file": true,
+    "runtime_uploads_enabled": false,
+    "secret_values_recorded": false
+  },
+  "current_application_checks": {
+    "application_tests": 80,
+    "browser_http_tests": 4,
+    "build": "PASS",
+    "lint_typecheck": "PASS",
+    "evidence": "tracking/evidence/m01/readonly-reuse-checkpoint/"
+  },
+  "separate_database_checks": {
+    "local_role_rls_state": "PASS",
+    "actual_backend_race_pairs": 3,
+    "node_to_sql_receipt": "PASS",
+    "cleanup": "PASS",
+    "scope": "synthetic local identities/keys/catalog; no real Storage HTTP/bytes"
+  },
+  "actual_central_anonymous_browser": "PASS",
+  "real_producer_journey": "NOT_RUN",
+  "hosted_storage_http_immutability": "NOT_RUN",
+  "openai_n8n_live_pipeline": "NOT_RUN",
+  "pdf_guest_mcp_restore_deployment": "NOT_RUN",
+  "n8n_metadata": {
+    "recorded_at": "2026-10-28T03:58:29Z",
+    "code": -32603
+  },
+  "required_inputs": [
+    "actual first Producer email and human sign-in",
+    "real first project/client details",
+    "restored existing n8n connection"
+  ],
+  "next_action": "Complete actual M01 user and Storage journey, then connect M02 durable pipeline; no cloud fixtures or invented identities."
+}

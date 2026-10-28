@@ -1,3 +1,5 @@
 # Skills, design assets, generated contracts and reviewed migration files have
 # byte-level SHA256 provenance. Preserve their original bytes on every platform.
 * -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+# Preserve exact raw acceptance records, including their original whitespace.
+tracking/evidence/** -whitespace

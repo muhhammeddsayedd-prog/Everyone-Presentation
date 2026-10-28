@@ -467,7 +467,7 @@ The machine-readable status mirror is [tracking/progress.json](../tracking/progr
 - Added explicit canonical client-logo reuse. Ready media reads, cancellation and completed replay survive disabled uploads or missing verifier configuration. Root's current checkpoint has 80 application tests, four real fixture browser/HTTP tests and build PASS; lint/typecheck and all 53 skill integrity checks passed. Sources and exact limits are in `tracking/evidence/m01/readonly-reuse-checkpoint/` and `LOGO_RECOVERY_REVIEW.md`.
 - Privately provisioned a dedicated purpose key with matching protected local configuration, without writing existing environment bytes or enabling uploads. No raw output/key is in source or receipts. The provisioning helper and launcher passed independent review; inspect confirms the matching key.
 - First Producer email/sign-in and first real project/client details remain pending. A fresh n8n project-list read at 03:58:29Z still returned -32603. No fake cloud identity/project/media, live AI job, hosted byte-transfer proof or production deployment was created.
-- Local source history currently includes `369a77d`, `fdf0e11` and `bf31caa`; the final source/evidence checkpoint is recorded in the handoff and machine ledger.
+- Local source history currently includes `369a77d`, `fdf0e11` and `bf31caa`; the final code/source checkpoint is `f6164a7b1ba66e2f2ec746041c6de827bf75edb0`, with a documentation-only follow-up in Git history.
 
 ### 2026-10-28 — Verified discovery and applied canonical foundation
 
@@ -476,7 +476,7 @@ The machine-readable status mirror is [tracking/progress.json](../tracking/progr
 - Real local role tests exposed Auth grantability and PL/pgSQL alias failures. The original bytes and failures remain retained; two additive forward migrations corrected them. Full rollback assertions and same/different-key races pass on distinct SQL backends, with observed lock waits and scoped fixture cleanup.
 - Added actual Supabase SSR/user-bearer integration and central-mode sign-in UI. Public Auth readiness returned200; only the local site URL and exact callback allowlist were changed. No email was requested. The first real Producer identity/sign-in and real project remain pending.
 - Actual central anonymous browser/API checks pass at `http://127.0.0.1:3000`, including fixture403/internal401, desktop and320px reflow. Dynamic private fixture paths were removed from Turbopack's source graph after a reproducible refresh loop; Node24's actual workspace loading and the final browser/build gates pass.
-- Standard test commands now refuse empty test globs. The central SDK suite has seven actual fixture tests rather than an earlier miswired zero-test command. The latest full application run has60 tests and four browser/API tests, plus separate actual SQL suites/races and central anonymous smoke. These counts are not real AI/n8n acceptance.
+- Standard test commands now refuse empty test globs. The central SDK suite has seven actual fixture tests rather than an earlier miswired zero-test command. At that earlier checkpoint the full application run had60 tests and four browser/API tests, plus separate actual SQL suites/races and central anonymous smoke. These counts are not real AI/n8n acceptance.
 - Current M01 is `in_progress`: private central logo storage/verification is still disabled and the first authenticated Producer/project journey is not run. M02 contains isolated tested components; M03–M07 remain unstarted. No production app deployment, PDF/guest/MCP/restore proof.
 - Exact receipts: `tracking/evidence/cloud-foundation/`, `tracking/evidence/local-checks/`, `development/local-db/receipts/` and `tracking/evidence/m01/DB_CONCURRENCY.json`. Secrets/CLI linked metadata/private traces remain ignored.
 
@@ -727,9 +727,11 @@ Fresh n8n project discovery at2026-10-28T03:58:29Z still returned -32603 (n8n-re
 
 ## Source and packaging
 
-Local Git only, no remote/push. Initial checkpoints:369a77d, fdf0e11, bf31caa; final source checkpoint is recorded below after commit. Preserve source seals, historical receipts and observed_at values. .gitattributes preserves byte hashes and permits CRLF diff checks without normalizing migrations/skills.
+Local Git only, no remote/push. Initial checkpoints:369a77d, fdf0e11, bf31caa; final code/source checkpoint: f6164a7b1ba66e2f2ec746041c6de827bf75edb0. Preserve source seals, historical receipts and observed_at values. .gitattributes preserves byte hashes and permits CRLF diff checks without normalizing migrations/skills.
 
 `python tools/package_pack.py --check` inspects Git-eligible source with explicit private/generated path denial. Actual archives go to ignored dist/ with a separate SOURCE_MANIFEST.json; original MANIFEST.json/parent pack archive remain historical and unchanged. Never commit private config, .env.local, .local, Supabase .temp, credentials, raw traces or personal fixtures.
+
+The final code checkpoint includes the source/private-material scan in tracking/evidence/source-logo-checkpoint-scan.json. Post-configuration cloud key ACL/RLS/readiness passed in tracking/evidence/cloud-logo-verifier/readiness.json. A documentation-only follow-up records this commit; consult git log for its own SHA.
 
 
 ---
