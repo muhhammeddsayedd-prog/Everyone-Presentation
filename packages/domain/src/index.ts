@@ -5,6 +5,7 @@ import { FixtureStore } from './store.ts';
 import { DomainError } from './types.ts';
 import type { Actor, AudiencePreset, AudiencePresetCreate, AudiencePresetPatch, CompleteUpload, ListOptions, MediaAsset, MutationContext, Project, ProjectPatch, StudioOptions, UploadCompletion, UploadSession, UploadSessionCreate, Workspace, WorkspaceCreate, WorkspacePatch } from './types.ts';
 export * from './types.ts';
+export * from './specs.ts';
 
 export const FIXTURE_ACTORS = Object.freeze({ producer: '10000000-0000-4000-8000-000000000001', contributor: '10000000-0000-4000-8000-000000000002', library_viewer: '10000000-0000-4000-8000-000000000003', outsider: '10000000-0000-4000-8000-000000000004' });
 export const FIXTURE_PROJECTS = Object.freeze({ first: '20000000-0000-4000-8000-000000000001', second: '20000000-0000-4000-8000-000000000002', other: '20000000-0000-4000-8000-000000000003', archived: '20000000-0000-4000-8000-000000000004' });
