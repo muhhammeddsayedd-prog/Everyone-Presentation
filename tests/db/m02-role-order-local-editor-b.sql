@@ -1,0 +1,12 @@
+begin;
+do $$ begin if current_setting('eps.local_fixture_tests',true) is distinct from 'eps-presentation-canonical-pg17-local' then raise exception 'LOCAL_TARGET_REQUIRED'; end if; end $$;
+set local application_name='eps_order_edit_b';
+set local lock_timeout='10s';
+select set_config('request.jwt.claim.sub','7a940000-0000-4000-8000-000000000001',true);
+select set_config('request.jwt.claims','{"sub":"7a940000-0000-4000-8000-000000000001","role":"authenticated","is_anonymous":false}',true);
+select jsonb_build_object('phase','started','session_pid',pg_backend_pid(),'at',clock_timestamp());
+set local role authenticated;
+do $$ begin perform public.eps_update_role('7d940000-0000-4000-8000-000000000003','{"row_version":1,"name":"Concurrent editor"}','order-local-edit'); end $$;
+reset role;
+select jsonb_build_object('phase','returned','session_pid',pg_backend_pid(),'at',clock_timestamp(),'edited',true);
+commit;

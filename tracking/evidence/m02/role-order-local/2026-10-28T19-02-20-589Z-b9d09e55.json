@@ -1,0 +1,603 @@
+{
+  "schema_version": "1.0",
+  "run_id": "b9d09e55-7a4f-4238-ba8a-fc4a3fa998b1",
+  "started_at": "2026-10-28T19:01:21.704Z",
+  "harness_sha256": "a57c345e1d3b2e3c3b40a9dbcee35fee7193a4147348391d1cc981c92edcd684",
+  "result": "passed",
+  "stages": [
+    {
+      "name": "migration-replay",
+      "path": "supabase/migrations/20261028010943_m01_canonical_foundation.sql",
+      "sha256": "8a5f3ed7727a72051e630307d2daecab8c4a74054398a6425e73bd85e17568b9",
+      "result": "already_applied",
+      "receipt": "development/local-db/receipts/2026-10-28T19-01-25-512Z-replay.json"
+    },
+    {
+      "name": "migration-replay",
+      "path": "supabase/migrations/20261028013324_m01_identity_role_inheritance.sql",
+      "sha256": "5382efe9fbdf9c194010257e0ac0024dcb447207522036560056d5d1a4e20e30",
+      "result": "already_applied",
+      "receipt": "development/local-db/receipts/2026-10-28T19-01-26-936Z-replay.json"
+    },
+    {
+      "name": "migration-replay",
+      "path": "supabase/migrations/20261028013655_m01_workspace_scope_alias.sql",
+      "sha256": "67ddb2cff9fed9c42d34657e833c613aec4afd2769543a991bbac84da355db64",
+      "result": "already_applied",
+      "receipt": "development/local-db/receipts/2026-10-28T19-01-28-716Z-replay.json"
+    },
+    {
+      "name": "migration-replay",
+      "path": "supabase/migrations/20261028024205_m01_private_logo_boundary.sql",
+      "sha256": "b04af5119b4e384bd96136573eec39e69f21a0ffb7d9f4aeb07bbf48f2976b9d",
+      "result": "already_applied",
+      "receipt": "development/local-db/receipts/2026-10-28T19-01-30-078Z-replay.json"
+    },
+    {
+      "name": "migration-replay",
+      "path": "supabase/migrations/20261028072515_m01_logo_upload_capability.sql",
+      "sha256": "4dbd400092d7743b02dd0769ae511c208e6f4f349428fc0e7f0fb9c573ba4b24",
+      "result": "already_applied",
+      "receipt": "development/local-db/receipts/2026-10-28T19-01-31-618Z-replay.json"
+    },
+    {
+      "name": "migration-replay",
+      "path": "supabase/migrations/20261028162702_m01_replay_scope_refresh.sql",
+      "sha256": "82a4f2ec03efc0787aa58e5f1e68ab626e5dddb5e4c645444103456757bf4251",
+      "result": "already_applied",
+      "receipt": "development/local-db/receipts/2026-10-28T19-01-33-097Z-replay.json"
+    },
+    {
+      "name": "migration-replay",
+      "path": "supabase/migrations/20261028162800_m02_jobs_outbox.sql",
+      "sha256": "f619b3dfb9d964ab5902d04941b8cd59b44e9da36f1ab3f7b10bd45298ff4013",
+      "result": "already_applied",
+      "receipt": "development/local-db/receipts/2026-10-28T19-01-34-412Z-replay.json"
+    },
+    {
+      "name": "migration-replay",
+      "path": "supabase/migrations/20261028172320_m02_manual_specs_draft.sql",
+      "sha256": "8ab866a49cb2e01eabf3b83076fe4519a60255263d0a1a170ef3ba9718a2349c",
+      "result": "already_applied",
+      "receipt": "development/local-db/receipts/2026-10-28T19-01-35-837Z-replay.json"
+    },
+    {
+      "name": "migration-replay",
+      "path": "supabase/migrations/20261028184145_m02_role_order.sql",
+      "sha256": "14f96c7e635fe46cb11393a881bca26068d696c32f5e454df8655299702b1efa",
+      "result": "applied",
+      "receipt": "development/local-db/receipts/2026-10-28T19-01-37-564Z-replay.json"
+    },
+    {
+      "name": "persisted-role-order-contract-assertions",
+      "path": "tests/db/m02-role-order-candidate.sql",
+      "sha256": "fc77286d9ee889649b4172fe18d4066d493e773bd9ada781f4d9250bca3a7138",
+      "result": "passed",
+      "composed_sql_sha256": "2ff2eff34d3a417686d9050e9974e1c68b67546f62210f72f7b2330bce37a11d"
+    },
+    {
+      "name": "committed-fixture-setup",
+      "path": "tests/db/m02-role-order-local-setup.sql",
+      "sha256": "ba943ffb488c0cb3bf4056831a1b9f48a776af35a1f678f9653811105d938c97",
+      "result": "passed",
+      "started_at": "2026-10-28T19:01:41.635Z",
+      "markers": [],
+      "duration_ms": 1340,
+      "finished_at": "2026-10-28T19:01:42.975Z"
+    },
+    {
+      "name": "reorder-versus-editor-a",
+      "path": "tests/db/m02-role-order-local-reorder-a.sql",
+      "sha256": "c8be572578251f4b510343afa1d9dc1b6eb1080e37fc5693d79ce8861470eec1",
+      "result": "passed",
+      "started_at": "2026-10-28T19:01:42.987Z",
+      "markers": [
+        {
+          "at": "2026-10-28T19:01:44.243655+00:00",
+          "phase": "started",
+          "session_pid": 12236
+        },
+        {
+          "at": "2026-10-28T19:01:44.448931+00:00",
+          "phase": "returned",
+          "reordered": true,
+          "session_pid": 12236
+        }
+      ],
+      "duration_ms": 7487,
+      "finished_at": "2026-10-28T19:01:50.475Z"
+    },
+    {
+      "name": "reorder-versus-editor-b",
+      "path": "tests/db/m02-role-order-local-editor-b.sql",
+      "sha256": "6845e939014082d9a5c4c04d1a8b2c2e577c344d083dee7e2819d4b639501630",
+      "result": "passed",
+      "started_at": "2026-10-28T19:01:45.681Z",
+      "markers": [
+        {
+          "at": "2026-10-28T19:01:46.979249+00:00",
+          "phase": "started",
+          "session_pid": 12293
+        },
+        {
+          "at": "2026-10-28T19:01:50.509241+00:00",
+          "phase": "returned",
+          "edited": true,
+          "session_pid": 12293
+        }
+      ],
+      "duration_ms": 4853,
+      "finished_at": "2026-10-28T19:01:50.534Z"
+    },
+    {
+      "name": "create-versus-stale-reorder-a",
+      "path": "tests/db/m02-role-order-local-create-a.sql",
+      "sha256": "6ea7407a81549055be26181b030ee1b6b55bda787419e672ff5cc944b0512081",
+      "result": "passed",
+      "started_at": "2026-10-28T19:01:50.542Z",
+      "markers": [
+        {
+          "at": "2026-10-28T19:01:52.231769+00:00",
+          "phase": "started",
+          "session_pid": 12349
+        },
+        {
+          "at": "2026-10-28T19:01:52.307726+00:00",
+          "phase": "returned",
+          "created": true,
+          "session_pid": 12349
+        }
+      ],
+      "duration_ms": 7797,
+      "finished_at": "2026-10-28T19:01:58.339Z"
+    },
+    {
+      "name": "create-versus-stale-reorder-b",
+      "path": "tests/db/m02-role-order-local-stale-b.sql",
+      "sha256": "49224a82d331dfd02e5ae50756d757133872b5bbbfa5984f05a08ca2c9699fc4",
+      "result": "passed",
+      "started_at": "2026-10-28T19:01:53.769Z",
+      "markers": [
+        {
+          "at": "2026-10-28T19:01:55.111837+00:00",
+          "phase": "started",
+          "session_pid": 12398
+        },
+        {
+          "at": "2026-10-28T19:01:58.37485+00:00",
+          "phase": "returned",
+          "session_pid": 12398,
+          "stale_rejected": true
+        }
+      ],
+      "duration_ms": 4635,
+      "finished_at": "2026-10-28T19:01:58.403Z"
+    },
+    {
+      "name": "legitimate-cached-replay-control",
+      "path": "tests/db/m02-role-order-local-replay-control.sql",
+      "sha256": "b6818bbd6d5e3f52f195e43afeb3ec3d38881cfb0f5ee97b574092741332650f",
+      "result": "passed",
+      "started_at": "2026-10-28T19:01:58.405Z",
+      "markers": [],
+      "duration_ms": 1560,
+      "finished_at": "2026-10-28T19:01:59.965Z"
+    },
+    {
+      "name": "revoked-cached-reorder-a",
+      "path": "tests/db/m02-role-order-local-revoke-a.sql",
+      "sha256": "6f676402f4ac128924de68f9567df4d77219678ed19bd84d64ed22edfbba925e",
+      "result": "passed",
+      "started_at": "2026-10-28T19:01:59.971Z",
+      "markers": [
+        {
+          "at": "2026-10-28T19:02:01.32356+00:00",
+          "phase": "holding",
+          "session_pid": 12476
+        }
+      ],
+      "duration_ms": 7400,
+      "finished_at": "2026-10-28T19:02:07.371Z"
+    },
+    {
+      "name": "revoked-cached-reorder-b",
+      "path": "tests/db/m02-role-order-local-revoke-b.sql",
+      "sha256": "22c80d72c1309003ac8efcf774a7a7804e5b0e80a33b0ba099c945a20af53f6a",
+      "result": "passed",
+      "started_at": "2026-10-28T19:02:01.348Z",
+      "markers": [
+        {
+          "at": "2026-10-28T19:02:02.616197+00:00",
+          "phase": "started",
+          "session_pid": 12513
+        },
+        {
+          "at": "2026-10-28T19:02:07.348332+00:00",
+          "phase": "returned",
+          "session_pid": 12513,
+          "revoked_replay_denied": true
+        }
+      ],
+      "duration_ms": 6032,
+      "finished_at": "2026-10-28T19:02:07.380Z"
+    },
+    {
+      "name": "committed-effects-source-identity-verification",
+      "path": "tests/db/m02-role-order-local-verify.sql",
+      "sha256": "3d9be27120b8fc81d1b8e4861cb19f6109fbe09344ea4e474ebd2a7a4a05b030",
+      "result": "passed",
+      "started_at": "2026-10-28T19:02:07.382Z",
+      "markers": [],
+      "duration_ms": 1427,
+      "finished_at": "2026-10-28T19:02:08.809Z"
+    },
+    {
+      "name": "known-source-writer",
+      "path": "tests/db/m02-role-order-local-mark-source.sql",
+      "sha256": "78887670c79598e13fbd8405ee09981d77155adb1a8e962078bbe9fa1a3c2ed7",
+      "result": "passed",
+      "started_at": "2026-10-28T19:02:08.817Z",
+      "markers": [
+        {
+          "at": "2026-10-28T19:02:10.147606+00:00",
+          "phase": "holding",
+          "session_pid": 12591
+        }
+      ],
+      "duration_ms": 7367,
+      "finished_at": "2026-10-28T19:02:16.185Z"
+    },
+    {
+      "name": "nonempty-source-cleanup-denied",
+      "path": "tests/db/m02-role-order-local-cleanup.sql",
+      "sha256": "ba8d026eecc65d641ad45b2ac6e9c87b96d5d233ae6e6334faa36c93400bfa0e",
+      "result": "expected_rejection",
+      "started_at": "2026-10-28T19:02:11.655Z",
+      "code": "ROLE_ORDER_LOCAL_SOURCE_PRESERVATION_REQUIRED",
+      "duration_ms": 4551,
+      "finished_at": "2026-10-28T19:02:16.206Z"
+    },
+    {
+      "name": "restore-only-known-source-sentinel",
+      "path": "tests/db/m02-role-order-local-unmark-source.sql",
+      "sha256": "23581e2106a4e318b83a792ab0775c14eb4e15b53f4b81c40e582fb303d94441",
+      "result": "passed",
+      "started_at": "2026-10-28T19:02:16.207Z",
+      "markers": [],
+      "duration_ms": 1490,
+      "finished_at": "2026-10-28T19:02:17.697Z"
+    },
+    {
+      "name": "strict-scoped-cleanup",
+      "path": "tests/db/m02-role-order-local-cleanup.sql",
+      "sha256": "ba8d026eecc65d641ad45b2ac6e9c87b96d5d233ae6e6334faa36c93400bfa0e",
+      "result": "passed",
+      "started_at": "2026-10-28T19:02:17.699Z",
+      "markers": [],
+      "duration_ms": 1481,
+      "finished_at": "2026-10-28T19:02:19.180Z"
+    }
+  ],
+  "concurrency": [
+    {
+      "name": "reorder-versus-editor",
+      "holder_pid": 12236,
+      "waiter_pid": 12293,
+      "actual_blocker_sampled": true,
+      "distinct_backends": true,
+      "waiter_rpc_ms": 3530,
+      "edited": true
+    },
+    {
+      "name": "create-versus-stale-reorder",
+      "holder_pid": 12349,
+      "waiter_pid": 12398,
+      "actual_blocker_sampled": true,
+      "distinct_backends": true,
+      "waiter_rpc_ms": 3263,
+      "stale_rejected": true
+    },
+    {
+      "name": "revoked-cached-reorder",
+      "holder_pid": 12476,
+      "waiter_pid": 12513,
+      "actual_blocker_sampled": true,
+      "distinct_backends": true,
+      "waiter_rpc_ms": 4732,
+      "revoked_replay_denied": true
+    },
+    {
+      "name": "cleanup-preserves-source-after-wait",
+      "holder_pid": 12591,
+      "waiter_pid": 12648,
+      "actual_blocker_sampled": true,
+      "distinct_backends": true,
+      "cleanup_denied": true
+    }
+  ],
+  "cloud_called": false,
+  "provider_called": false,
+  "source_submission_tested": false,
+  "assignments_integrated": false,
+  "dispatcher_daemon_tested": false,
+  "scope": "Persisted role-only ordering, current-user SQL/RLS, separate backend waits and strict source-preserving fixture cleanup; no cloud/provider/assignment or daemon acceptance.",
+  "environment": {
+    "container": "eps-presentation-canonical-pg17-local",
+    "system_identifier": "7701520506262638626",
+    "host_ip": "127.0.0.1",
+    "host_port": "55433"
+  },
+  "reviewed_manifest_sha256": "ddc2066ffb023c3dd62776ad2ba98ef1172fc8281b9c0d9f43ed7de02761798e",
+  "expected_versions": [
+    "20261028010943",
+    "20261028013324",
+    "20261028013655",
+    "20261028024205",
+    "20261028072515",
+    "20261028162702",
+    "20261028162800",
+    "20261028172320",
+    "20261028184145"
+  ],
+  "pre_migration": {
+    "database": "postgres",
+    "policies": [],
+    "versions": [
+      "20261028010943",
+      "20261028013324",
+      "20261028013655",
+      "20261028024205",
+      "20261028072515",
+      "20261028162702",
+      "20261028162800",
+      "20261028172320"
+    ],
+    "functions": [],
+    "query_role": "postgres",
+    "unrestricted": true,
+    "fixture_present": false,
+    "owner_sort_update": false,
+    "all_business_counts": {
+      "eps.jobs": 0,
+      "eps.roles": 0,
+      "eps.slots": 0,
+      "eps.specs": 0,
+      "auth.users": 0,
+      "auth.instances": 0,
+      "eps.job_events": 0,
+      "eps.workspaces": 0,
+      "public.clients": 0,
+      "public.projects": 0,
+      "storage.buckets": 1,
+      "storage.objects": 0,
+      "eps.audit_events": 0,
+      "eps.media_assets": 0,
+      "eps.outbox_events": 0,
+      "auth.refresh_tokens": 0,
+      "eps.upload_sessions": 0,
+      "eps.audience_presets": 3,
+      "auth.audit_log_entries": 0,
+      "auth.schema_migrations": 7,
+      "eps.idempotency_records": 0,
+      "eps_local_guard.instance": 1,
+      "public.client_memberships": 0,
+      "eps.logo_verification_keys": 0,
+      "public.project_memberships": 0,
+      "public.app_capability_grants": 0,
+      "eps.user_workspace_preferences": 0,
+      "eps_local_guard.migration_replay": 8,
+      "eps_local_guard.storage_baseline": 1,
+      "supabase_migrations.schema_migrations": 8
+    },
+    "source_identity_protected": true
+  },
+  "migration9_result": "applied",
+  "before": {
+    "database": "postgres",
+    "policies": [
+      {
+        "name": "specs_order_audit",
+        "check": "((principal_id = auth.uid()) AND (action = 'specs.reorder_workspace'::text) AND eps.specs_scope(resource_id, true))",
+        "using": null,
+        "command": "a",
+        "permissive": true
+      },
+      {
+        "name": "specs_order_replay_insert",
+        "check": "((principal_id = auth.uid()) AND (operation = 'specs.reorder_workspace'::text))",
+        "using": null,
+        "command": "a",
+        "permissive": true
+      },
+      {
+        "name": "specs_order_replay_read",
+        "check": null,
+        "using": "((principal_id = auth.uid()) AND (operation = 'specs.reorder_workspace'::text))",
+        "command": "r",
+        "permissive": true
+      }
+    ],
+    "versions": [
+      "20261028010943",
+      "20261028013324",
+      "20261028013655",
+      "20261028024205",
+      "20261028072515",
+      "20261028162702",
+      "20261028162800",
+      "20261028172320",
+      "20261028184145"
+    ],
+    "functions": [
+      {
+        "anon": false,
+        "name": "eps.specs_order_workspace_dto",
+        "owner": "eps_api_owner",
+        "config": [
+          "search_path=\"\""
+        ],
+        "public": false,
+        "definer": true,
+        "service": false,
+        "authenticated": false,
+        "source_sha256": "b55b78700bd50bd2469c1d67d0b1f9b547d1f9a65ca45caf147037de9c1c5190"
+      },
+      {
+        "anon": false,
+        "name": "public.eps_reorder_workspace",
+        "owner": "eps_specs_owner",
+        "config": [
+          "search_path=\"\""
+        ],
+        "public": false,
+        "definer": true,
+        "service": false,
+        "authenticated": true,
+        "source_sha256": "b466f85532374b0068014c0ec7692c92fe5483e9b84c9e8dacbcc244dada6d16"
+      }
+    ],
+    "query_role": "postgres",
+    "unrestricted": true,
+    "fixture_present": false,
+    "owner_sort_update": true,
+    "all_business_counts": {
+      "eps.jobs": 0,
+      "eps.roles": 0,
+      "eps.slots": 0,
+      "eps.specs": 0,
+      "auth.users": 0,
+      "auth.instances": 0,
+      "eps.job_events": 0,
+      "eps.workspaces": 0,
+      "public.clients": 0,
+      "public.projects": 0,
+      "storage.buckets": 1,
+      "storage.objects": 0,
+      "eps.audit_events": 0,
+      "eps.media_assets": 0,
+      "eps.outbox_events": 0,
+      "auth.refresh_tokens": 0,
+      "eps.upload_sessions": 0,
+      "eps.audience_presets": 3,
+      "auth.audit_log_entries": 0,
+      "auth.schema_migrations": 7,
+      "eps.idempotency_records": 0,
+      "eps_local_guard.instance": 1,
+      "public.client_memberships": 0,
+      "eps.logo_verification_keys": 0,
+      "public.project_memberships": 0,
+      "public.app_capability_grants": 0,
+      "eps.user_workspace_preferences": 0,
+      "eps_local_guard.migration_replay": 9,
+      "eps_local_guard.storage_baseline": 1,
+      "supabase_migrations.schema_migrations": 9
+    },
+    "source_identity_protected": true
+  },
+  "application_preserved_business_counts": true,
+  "cleanup": "passed",
+  "after": {
+    "database": "postgres",
+    "policies": [
+      {
+        "name": "specs_order_audit",
+        "check": "((principal_id = auth.uid()) AND (action = 'specs.reorder_workspace'::text) AND eps.specs_scope(resource_id, true))",
+        "using": null,
+        "command": "a",
+        "permissive": true
+      },
+      {
+        "name": "specs_order_replay_insert",
+        "check": "((principal_id = auth.uid()) AND (operation = 'specs.reorder_workspace'::text))",
+        "using": null,
+        "command": "a",
+        "permissive": true
+      },
+      {
+        "name": "specs_order_replay_read",
+        "check": null,
+        "using": "((principal_id = auth.uid()) AND (operation = 'specs.reorder_workspace'::text))",
+        "command": "r",
+        "permissive": true
+      }
+    ],
+    "versions": [
+      "20261028010943",
+      "20261028013324",
+      "20261028013655",
+      "20261028024205",
+      "20261028072515",
+      "20261028162702",
+      "20261028162800",
+      "20261028172320",
+      "20261028184145"
+    ],
+    "functions": [
+      {
+        "anon": false,
+        "name": "eps.specs_order_workspace_dto",
+        "owner": "eps_api_owner",
+        "config": [
+          "search_path=\"\""
+        ],
+        "public": false,
+        "definer": true,
+        "service": false,
+        "authenticated": false,
+        "source_sha256": "b55b78700bd50bd2469c1d67d0b1f9b547d1f9a65ca45caf147037de9c1c5190"
+      },
+      {
+        "anon": false,
+        "name": "public.eps_reorder_workspace",
+        "owner": "eps_specs_owner",
+        "config": [
+          "search_path=\"\""
+        ],
+        "public": false,
+        "definer": true,
+        "service": false,
+        "authenticated": true,
+        "source_sha256": "b466f85532374b0068014c0ec7692c92fe5483e9b84c9e8dacbcc244dada6d16"
+      }
+    ],
+    "query_role": "postgres",
+    "unrestricted": true,
+    "fixture_present": false,
+    "owner_sort_update": true,
+    "all_business_counts": {
+      "eps.jobs": 0,
+      "eps.roles": 0,
+      "eps.slots": 0,
+      "eps.specs": 0,
+      "auth.users": 0,
+      "auth.instances": 0,
+      "eps.job_events": 0,
+      "eps.workspaces": 0,
+      "public.clients": 0,
+      "public.projects": 0,
+      "storage.buckets": 1,
+      "storage.objects": 0,
+      "eps.audit_events": 0,
+      "eps.media_assets": 0,
+      "eps.outbox_events": 0,
+      "auth.refresh_tokens": 0,
+      "eps.upload_sessions": 0,
+      "eps.audience_presets": 3,
+      "auth.audit_log_entries": 0,
+      "auth.schema_migrations": 7,
+      "eps.idempotency_records": 0,
+      "eps_local_guard.instance": 1,
+      "public.client_memberships": 0,
+      "eps.logo_verification_keys": 0,
+      "public.project_memberships": 0,
+      "public.app_capability_grants": 0,
+      "eps.user_workspace_preferences": 0,
+      "eps_local_guard.migration_replay": 9,
+      "eps_local_guard.storage_baseline": 1,
+      "supabase_migrations.schema_migrations": 9
+    },
+    "source_identity_protected": true
+  },
+  "all_business_counts_restored": true,
+  "finished_at": "2026-10-28T19:02:20.589Z"
+}

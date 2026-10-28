@@ -48,6 +48,12 @@
       "sha256": "8ab866a49cb2e01eabf3b83076fe4519a60255263d0a1a170ef3ba9718a2349c",
       "reviewed_by": "root integration owner plus two independent source/ACL/cleanup-lock/concurrency reviews; owned local execution only",
       "reviewed_at": "2026-10-28T18:02:05.431531+00:00"
+    },
+    {
+      "path": "supabase/migrations/20261028184145_m02_role_order.sql",
+      "sha256": "14f96c7e635fe46cb11393a881bca26068d696c32f5e454df8655299702b1efa",
+      "reviewed_by": "root integration owner and discovery_review independent static review; candidate rollback proof 18:38:43 passed",
+      "reviewed_at": "2026-10-28T19:01:21.578698+00:00"
     }
   ],
   "tests": [
@@ -357,6 +363,90 @@
       "sha256": "a7d52f5c83ece21fb7d3b5bbaae79afe1e6cb3ddb116837a73eb8bfe303ec130",
       "reviewed_by": "root integration owner plus two independent source/ACL/cleanup-lock/concurrency reviews; owned local execution only",
       "reviewed_at": "2026-10-28T18:02:05.431531+00:00"
+    },
+    {
+      "path": "tests/db/m02-specs-local-column-acl-v9.sql",
+      "sha256": "7ddf0d106d1552e7e354bd6962f035d5b5d3cdacf11c8739c2f5f432ae9a6382",
+      "reviewed_by": "root integration owner and discovery_review independent static review; candidate rollback proof 18:38:43 passed",
+      "reviewed_at": "2026-10-28T19:01:21.578698+00:00"
+    },
+    {
+      "path": "tests/db/m02-role-order-candidate.sql",
+      "sha256": "fc77286d9ee889649b4172fe18d4066d493e773bd9ada781f4d9250bca3a7138",
+      "reviewed_by": "root integration owner and discovery_review independent static review; candidate rollback proof 18:38:43 passed",
+      "reviewed_at": "2026-10-28T19:01:21.578698+00:00"
+    },
+    {
+      "path": "tests/db/m02-role-order-local-cleanup.sql",
+      "sha256": "ba8d026eecc65d641ad45b2ac6e9c87b96d5d233ae6e6334faa36c93400bfa0e",
+      "reviewed_by": "root integration owner and discovery_review independent static review; candidate rollback proof 18:38:43 passed",
+      "reviewed_at": "2026-10-28T19:01:21.578698+00:00"
+    },
+    {
+      "path": "tests/db/m02-role-order-local-create-a.sql",
+      "sha256": "6ea7407a81549055be26181b030ee1b6b55bda787419e672ff5cc944b0512081",
+      "reviewed_by": "root integration owner and discovery_review independent static review; candidate rollback proof 18:38:43 passed",
+      "reviewed_at": "2026-10-28T19:01:21.578698+00:00"
+    },
+    {
+      "path": "tests/db/m02-role-order-local-editor-b.sql",
+      "sha256": "6845e939014082d9a5c4c04d1a8b2c2e577c344d083dee7e2819d4b639501630",
+      "reviewed_by": "root integration owner and discovery_review independent static review; candidate rollback proof 18:38:43 passed",
+      "reviewed_at": "2026-10-28T19:01:21.578698+00:00"
+    },
+    {
+      "path": "tests/db/m02-role-order-local-mark-source.sql",
+      "sha256": "78887670c79598e13fbd8405ee09981d77155adb1a8e962078bbe9fa1a3c2ed7",
+      "reviewed_by": "root integration owner and discovery_review independent static review; candidate rollback proof 18:38:43 passed",
+      "reviewed_at": "2026-10-28T19:01:21.578698+00:00"
+    },
+    {
+      "path": "tests/db/m02-role-order-local-reorder-a.sql",
+      "sha256": "c8be572578251f4b510343afa1d9dc1b6eb1080e37fc5693d79ce8861470eec1",
+      "reviewed_by": "root integration owner and discovery_review independent static review; candidate rollback proof 18:38:43 passed",
+      "reviewed_at": "2026-10-28T19:01:21.578698+00:00"
+    },
+    {
+      "path": "tests/db/m02-role-order-local-replay-control.sql",
+      "sha256": "b6818bbd6d5e3f52f195e43afeb3ec3d38881cfb0f5ee97b574092741332650f",
+      "reviewed_by": "root integration owner and discovery_review independent static review; candidate rollback proof 18:38:43 passed",
+      "reviewed_at": "2026-10-28T19:01:21.578698+00:00"
+    },
+    {
+      "path": "tests/db/m02-role-order-local-revoke-a.sql",
+      "sha256": "6f676402f4ac128924de68f9567df4d77219678ed19bd84d64ed22edfbba925e",
+      "reviewed_by": "root integration owner and discovery_review independent static review; candidate rollback proof 18:38:43 passed",
+      "reviewed_at": "2026-10-28T19:01:21.578698+00:00"
+    },
+    {
+      "path": "tests/db/m02-role-order-local-revoke-b.sql",
+      "sha256": "22c80d72c1309003ac8efcf774a7a7804e5b0e80a33b0ba099c945a20af53f6a",
+      "reviewed_by": "root integration owner and discovery_review independent static review; candidate rollback proof 18:38:43 passed",
+      "reviewed_at": "2026-10-28T19:01:21.578698+00:00"
+    },
+    {
+      "path": "tests/db/m02-role-order-local-setup.sql",
+      "sha256": "ba943ffb488c0cb3bf4056831a1b9f48a776af35a1f678f9653811105d938c97",
+      "reviewed_by": "root integration owner and discovery_review independent static review; candidate rollback proof 18:38:43 passed",
+      "reviewed_at": "2026-10-28T19:01:21.578698+00:00"
+    },
+    {
+      "path": "tests/db/m02-role-order-local-stale-b.sql",
+      "sha256": "49224a82d331dfd02e5ae50756d757133872b5bbbfa5984f05a08ca2c9699fc4",
+      "reviewed_by": "root integration owner and discovery_review independent static review; candidate rollback proof 18:38:43 passed",
+      "reviewed_at": "2026-10-28T19:01:21.578698+00:00"
+    },
+    {
+      "path": "tests/db/m02-role-order-local-unmark-source.sql",
+      "sha256": "23581e2106a4e318b83a792ab0775c14eb4e15b53f4b81c40e582fb303d94441",
+      "reviewed_by": "root integration owner and discovery_review independent static review; candidate rollback proof 18:38:43 passed",
+      "reviewed_at": "2026-10-28T19:01:21.578698+00:00"
+    },
+    {
+      "path": "tests/db/m02-role-order-local-verify.sql",
+      "sha256": "3d9be27120b8fc81d1b8e4861cb19f6109fbe09344ea4e474ebd2a7a4a05b030",
+      "reviewed_by": "root integration owner and discovery_review independent static review; candidate rollback proof 18:38:43 passed",
+      "reviewed_at": "2026-10-28T19:01:21.578698+00:00"
     }
   ],
   "local_baselines": [

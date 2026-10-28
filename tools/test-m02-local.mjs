@@ -11,7 +11,7 @@ import { restartOwnedLocalTarget, runOwnedLocalSql, runReviewedSqlFile, verifyLo
 const ROOT = path.resolve(import.meta.dirname, '..');
 const MANIFEST = path.join(ROOT, 'development/local-db/reviewed.json');
 const LOCK = path.join(ROOT, '.local/local-postgres/test-db.lock');
-const MIGRATION = 'supabase/migrations/20261028172320_m02_manual_specs_draft.sql';
+const MIGRATION = 'supabase/migrations/20261028184145_m02_role_order.sql';
 const FILES = {
   assertions: 'tests/db/m02-jobs-outbox.sql', setup: 'tests/db/m02-local-setup.sql',
   enqueueA: 'tests/db/m02-local-enqueue-a.sql', enqueueB: 'tests/db/m02-local-enqueue-b.sql',
@@ -121,7 +121,7 @@ async function main() {
   }
   async function snapshot() {
     const result = await runOwnedLocalSql(SNAPSHOT); const values = objects(result.stdout);
-    assert(values.length === 1 && values[0].versions?.length === 8, 'Exact eight-version persisted M02 target required.');
+    assert(values.length === 1 && values[0].versions?.length === 9, 'Exact nine-version persisted M02 target required.');
     return values[0];
   }
   function privateToken(result) {
@@ -137,8 +137,8 @@ async function main() {
     const bytes = await readFile(MANIFEST); manifest = JSON.parse(bytes.toString('utf8')); manifestDigest = hash(bytes);
     assert(manifest.version === 1 && Array.isArray(manifest.migrations) && Array.isArray(manifest.tests), 'Invalid reviewed manifest.');
     const migrations = (await readdir(path.join(ROOT, 'supabase/migrations'))).filter(file => file.endsWith('.sql')).sort().map(file => `supabase/migrations/${file}`);
-    assert(migrations.length === 8 && migrations.at(-1) === MIGRATION && manifest.migrations.length === migrations.length
-      && new Set([...manifest.migrations, ...manifest.tests].map(entry => entry.path)).size === manifest.migrations.length + manifest.tests.length, 'Exact reviewed eight-file migration history is required.');
+    assert(migrations.length === 9 && migrations.at(-1) === MIGRATION && manifest.migrations.length === migrations.length
+      && new Set([...manifest.migrations, ...manifest.tests].map(entry => entry.path)).size === manifest.migrations.length + manifest.tests.length, 'Exact reviewed nine-file migration history is required.');
     for (const file of [...migrations, ...Object.values(FILES)]) await reviewed(file);
     summary.reviewed_manifest_sha256 = manifestDigest;
     for (const file of migrations) {

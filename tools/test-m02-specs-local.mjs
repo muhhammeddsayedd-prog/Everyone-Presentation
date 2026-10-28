@@ -1,4 +1,4 @@
-/** Fixed, reviewed local migration8/manual-specs gate. No cloud/provider calls. */
+/** Fixed, reviewed local migration9/manual-specs gate. No cloud/provider calls. */
 import { createHash, randomUUID } from 'node:crypto';
 import { mkdir, open, readFile, readdir, unlink, writeFile } from 'node:fs/promises';
 import path from 'node:path';
@@ -10,11 +10,12 @@ import { runOwnedLocalSql, runReviewedSqlFile, verifyLocalTarget } from './local
 const ROOT = path.resolve(import.meta.dirname,'..');
 const MANIFEST = path.join(ROOT,'development/local-db/reviewed.json');
 const LOCK = path.join(ROOT,'.local/local-postgres/test-db.lock');
-const MIGRATION = 'supabase/migrations/20261028172320_m02_manual_specs_draft.sql';
+const MIGRATION = 'supabase/migrations/20261028184145_m02_role_order.sql';
 const HISTORICAL = 'tests/db/m02-specs-draft-candidate.sql';
 const HISTORICAL_HASH = '3b3c4e259934639e03e0536aaabd34c2a0a91ccca5535b630dc2410546323d67';
 const FILES = Object.fromEntries(['prelude','setup','column-acl','create-a','create-b','conflict-a','conflict-b','revoke-a','revoke-b','verify','mark-source','unmark-source','cleanup']
   .map(name=>[name,`tests/db/m02-specs-local-${name}.sql`]));
+FILES['column-acl']='tests/db/m02-specs-local-column-acl-v9.sql';
 const sha256 = value=>createHash('sha256').update(value).digest('hex');
 function assert(value,message) { if(!value) throw new Error(message); }
 function diagnostic(error) { return String(error instanceof Error?error.message:'Local specs test failed.').replace(/[A-Za-z0-9_-]{43,}/gu,'[LONG_VALUE_REDACTED]').slice(0,3000); }
@@ -116,25 +117,24 @@ async function main() {
   const bytes=await readFile(MANIFEST); manifest=JSON.parse(bytes.toString('utf8')); manifestHash=sha256(bytes);
   assert(manifest.version===1&&Array.isArray(manifest.migrations)&&Array.isArray(manifest.tests),'Reviewed manifest required.');
   const migrations=(await readdir(path.join(ROOT,'supabase/migrations'))).filter(file=>file.endsWith('.sql')).sort().map(file=>`supabase/migrations/${file}`);
-  assert(migrations.length===8&&migrations.at(-1)===MIGRATION&&manifest.migrations.length===8,'Exact reviewed eight-file history required.');
+  assert(migrations.length===9&&migrations.at(-1)===MIGRATION&&manifest.migrations.length===9,'Exact reviewed nine-file history required.');
   const all=[...manifest.migrations,...manifest.tests]; assert(new Set(all.map(value=>value.path)).size===all.length,'Duplicate review manifest entries.');
   for(const file of [...migrations,...Object.values(FILES),HISTORICAL]) await sealed(file);
   assert((await sealed(HISTORICAL)).entry.sha256===HISTORICAL_HASH,'Historical assertions were changed.');
   summary.reviewed_manifest_sha256=manifestHash;
   const versions=migrations.map(file=>path.basename(file).slice(0,14)); summary.expected_versions=versions; summary.before=await snapshot();
-  assert(JSON.stringify(summary.before.versions)===JSON.stringify(versions.slice(0,7))||JSON.stringify(summary.before.versions)===JSON.stringify(versions),'Require exact before7/after8 local target.');
-  const firstApply=summary.before.versions.length===7; summary.first_migration_application=firstApply;
-  if(firstApply) assert(summary.before.specs_boundary===null&&summary.before.specs_relations===0,'Initial backfill proof requires the uninstalled specs schema before fixture creation.');
-  await stage(firstApply?'committed-pre-DDL-backfill-fixture':'committed-existing-schema-fixture',FILES.prelude); prelude=true;
+  assert(JSON.stringify(summary.before.versions)===JSON.stringify(versions),'Require exact nine-version local target.');
+  summary.first_migration_application=false;
+  await stage('committed-existing-schema-fixture',FILES.prelude); prelude=true;
   for(const file of migrations) { await unchanged(); const replay=await runReviewedSqlFile(file); assert(['applied','already_applied'].includes(replay.result),'Migration replay unconfirmed.');
-   if(file===MIGRATION) { summary.migration8_result=replay.result; if(firstApply) assert(replay.result==='applied','Initial backfill must actually apply migration8.'); }
+   if(file===MIGRATION) { summary.migration9_result=replay.result; }
    summary.stages.push({name:'migration-replay',path:file,sha256:replay.sha256,result:replay.result,receipt:replay.receipt}); }
   await stage('manual-owner-source-identity-column-ACL',FILES['column-acl']);
   const historical=await sealed(HISTORICAL);
   guardSource(historical.sql);
   const composed=`begin; set local eps.specs_candidate_rehearsal='rollback-only-v1';\n${historical.sql}\nrollback;`;
   await runOwnedLocalSql(composed); summary.stages.push({name:'persisted-role-RLS-suppressed-DML-assertions',path:HISTORICAL,sha256:HISTORICAL_HASH,result:'passed',composed_sql_sha256:sha256(composed)});
-  summary.backfill_tested_by_migration=firstApply;
+  summary.backfill_tested_by_migration=false;
   await stage('acting-user-fixture',FILES.setup);
   const created=await pair('same-key-role-create',FILES['create-a'],FILES['create-b']);
   assert(one(created[0],'returned').role_id===one(created[1],'returned').role_id,'Idempotent role creation returned different identities.');
@@ -172,12 +172,11 @@ async function main() {
   if(sourceMarked) { try { await stage('recover-only-known-source-sentinel',FILES['unmark-source']); sourceMarked=false; } catch(error) { summary.result='failed'; summary.source_recovery_error=diagnostic(error); } }
   if(prelude) { try {
    await stage('strict-owned-fixture-cleanup',FILES.cleanup); summary.cleanup='passed'; summary.after=await snapshot();
-   assert(JSON.stringify(summary.after.versions)===JSON.stringify(summary.after.versions.length===8?summary.expected_versions:summary.before.versions),'Exact sealed migration history was not preserved.');
+   assert(JSON.stringify(summary.after.versions)===JSON.stringify(summary.expected_versions),'Exact sealed migration history was not preserved.');
    const expected={...summary.before.counts};
-   if(summary.first_migration_application&&summary.after.versions.length===8) { expected['eps.specs']=expected['eps.workspaces']; expected['eps.roles']=0; expected['eps.slots']=0; expected['supabase_migrations.schema_migrations']++; expected['eps_local_guard.migration_replay']++; }
    assert(JSON.stringify(Object.entries(expected).sort())===JSON.stringify(Object.entries(summary.after.counts).sort()),'All business counts were not restored except the intentional migration/backfill.');
    const boundary=summary.after.specs_boundary;
-   if(summary.after.versions.length===8) assert(boundary?.relations.length===3&&boundary.relations.every(row=>row.rls&&row.force&&row.owner==='postgres')
+   assert(boundary?.relations.length===3&&boundary.relations.every(row=>row.rls&&row.force&&row.owner==='postgres')
     &&boundary.roles.length===2&&boundary.roles.every(role=>!role.login&&!role.bypass&&!role.superuser)&&boundary.rpcs.length===9
     &&boundary.rpcs.every(rpc=>rpc.owner==='eps_specs_owner'&&rpc.definer&&rpc.authenticated&&!rpc.anon&&!rpc.service&&rpc.config?.length===1&&rpc.config[0]==='search_path=""')
     &&boundary.initializer_only_workspace_insert&&boundary.no_direct_user_tables&&boundary.no_processing_enqueue,'Persisted manual specs role/RLS/RPC boundary differs.');
