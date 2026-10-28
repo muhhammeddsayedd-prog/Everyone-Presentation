@@ -1,0 +1,262 @@
+"""Fixed9->10 schema release. No runtime credential, flag, provider or data write.
+
+Cloud application is team-coordinated separately. Readback/proof seals fail closed.
+The immutable nine-version validator is reused only through a precise projection.
+"""
+from pathlib import Path
+import copy
+import datetime
+import hashlib
+import json
+import os
+import re
+import subprocess
+import sys
+import tomllib
+import uuid
+
+import release_role_order as prior
+
+ROOT = Path(__file__).resolve().parents[1]
+TARGET = 'pyibofyctwnqpvktepse'
+PENDING = ['20261028222030_m02_specs_pipeline.sql']
+MIGRATIONS = {**prior.MIGRATIONS, PENDING[0]: '1e5319bb81be1f12896f7efb5a2cb7706653b79eb440a4dc1aaaca4ed9556895'}
+VERSIONS = [name[:14] for name in MIGRATIONS]
+READBACK = 'tools/sql/specs-pipeline-readback.sql'
+READBACK_HASH = '1c2de91df0842f7eeabd8f4c3de0f25182815a035d94ab06a7eb8f79abff062f'
+HISTORICAL = {**prior.HISTORICAL, 'tools/release_role_order.py': '72de7c089a359d9ab9b77ec6f8fde912c529f5c03a2aea7b352fa91e177ab310',
+              'tools/sql/role-order-readback.sql': 'ee010b55340211c5a012789bed5e25b416deb7c45c9339e763e8a01144c54110'}
+EVIDENCE = ROOT / 'tracking/evidence/cloud-specs-pipeline'
+CATALOG_HASH = '39a91890dffafadf8300beb732c0a248bfb35f1c40bccde6be6ba62172b0384d'
+PROOFS = {
+    'prior_cloud': ('tracking/evidence/cloud-role-order/2026-10-28T19-23-27-369394Z-bc35d553-apply.json', '7c6e2b0791d76c1bdb4bc2d92bb5be4af52b0ebc786cf35c3db4ab934bdc905d'),
+    'persisted10': ('tracking/evidence/m02/specs-pipeline-local/2026-10-28T22-41-11-276Z-491d3795-rollback.json', '26bc74c0e75e1b512f47e557d8ffe68489bc51abd73e324b90973bc572d663e5'),
+    'native': ('tracking/evidence/m02/native-executor/2026-10-28T23-00-53-971Z-c26f43c2.json', '0bba5381c7df1c31ccc98567ddc6ee903d1f17250722e1bba8294d1ef553fe63'),
+    'local_contract': ('tracking/evidence/cloud-specs-pipeline/local-contract.json', '7c3d4f35b351393e70918fee6d5ef295b6cddfe56de25216e120cb2bdb4478ba'),
+}
+Blocked = prior.Blocked
+require = prior.require
+
+
+def digest(path):
+    return hashlib.sha256((ROOT / path).read_bytes()).hexdigest()
+
+
+def read_json(path):
+    return json.loads((ROOT / path).read_text(encoding='utf-8'))
+
+
+def canonical_hash(value):
+    return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
+
+
+def definitions():
+    sql = (ROOT / 'supabase/migrations' / PENDING[0]).read_text(encoding='utf-8')
+    functions = {}
+    for match in re.finditer(r'^create function\s+([a-z_]+\.[a-z_]+)\s*\([\s\S]*?\bas\s+\$\$([\s\S]*?)\$\$;', sql, re.M | re.I):
+        name, body = match.groups()
+        require(name not in functions, 'Duplicate function declaration in sealed10 source.')
+        functions[name] = hashlib.sha256(body.replace('\r\n', '\n').encode()).hexdigest()
+    policies = set(re.findall(r'^create policy\s+([a-z_]+)', sql, re.M))
+    require(len(functions) == 30 and len(policies) == 49, 'Exact thirty routines/forty-nine policies required.')
+    return functions, policies
+
+
+def old_projection(state, applied):
+    functions, policies = definitions()
+    result = copy.deepcopy(state)
+    result.pop('pipeline')
+    result['base']['versions'] = VERSIONS[:9]
+    for section in ('base', 'manual', 'role_order'):
+        result[section]['functions'] = [row for row in result[section]['functions'] if row['name'] not in functions]
+    result['base']['jobs_policies'] = [row for row in result['base']['jobs_policies'] if row['name'] not in policies]
+    result['manual']['policies'] = [row for row in result['manual']['policies'] if row['name'] not in policies]
+    origins = {('eps.specs', 'source_extraction_job_id'), ('eps.roles', 'source_job_id')}
+    removed = [row for row in result['manual']['column_acls'] if (row['table'], row['column']) in origins]
+    require(len(removed) == (2 * len(prior.prior.ROLES) if applied else 0), 'Exact two provenance-column ACL projections required.')
+    for row in removed:
+        require(row['select'] is (row['role'] == 'eps_specs_owner') and all(row[key] is False for key in ('insert', 'update', 'references')),
+                'Existing user/manual owner provenance-column authority changed.')
+    result['manual']['column_acls'] = [row for row in result['manual']['column_acls'] if (row['table'], row['column']) not in origins]
+    return result
+
+
+def validate_state(state):
+    require(state['base']['versions'] in (VERSIONS[:9], VERSIONS), 'Only exact9-before/10-after history is allowed.')
+    applied = state['base']['versions'] == VERSIONS
+    pipeline = state['pipeline']; catalog = pipeline['catalog']
+    functions, policies = definitions()
+    if not applied:
+        require(pipeline['counts'] is None and all(value == [] for value in catalog.values()),
+                'A migration10 object/overload/role/column/policy/grant collision exists; preserve it.')
+    else:
+        require(CATALOG_HASH is not None and canonical_hash(catalog) == CATALOG_HASH,
+                'Exact local10 sources/signatures/named args/results/owners/ACL/RLS/constraints/indexes differ.')
+        require(len(catalog['functions']) == 30 and {row['name'] for row in catalog['functions']} == set(functions)
+                and len(catalog['policies']) == 49 and {row['name'] for row in catalog['policies']} == policies,
+                'Broad function/policy catalogue does not contain exactly the sealed additions.')
+        for row in catalog['functions']:
+            owner = ('postgres' if row['name'] == 'eps.job_requester_active' else
+                     'eps_specs_submit_owner' if row['name'].startswith('eps.specs_submit_') or row['name'] == 'public.eps_submit_specs' else
+                     'eps_specs_apply_owner' if row['name'] == 'eps.specs_stage_apply' else 'eps_specs_stage_owner')
+            require(row['source_sha256'] == functions[row['name']] and row['owner'] == owner
+                    and row['config'] == ['search_path=""'] and row['public_execute'] is False,
+                    'Routine source/fixed-path/private ownership boundary changed.')
+        require(pipeline['counts'] == {'source_inputs': 0, 'stage_payloads': 0, 'config_rows': 1, 'default_disabled': True,
+                                      'spec_origin_rows': 0, 'role_origin_rows': 0},
+                'Initial pipeline state is not empty/default-disabled; do not enable or overwrite it.')
+    require(prior.validate_state(old_projection(state, applied)) == 'applied', 'Unchanged exact9 catalogue validation failed.')
+    return 'applied' if applied else 'pending'
+
+
+def prerequisites():
+    require(CATALOG_HASH and READBACK_HASH and all(seal for _path, seal in PROOFS.values()),
+            'Final10 catalogue/proof seals missing; no CLI allowed.')
+    for path, seal in HISTORICAL.items():
+        require(digest(path) == seal, 'An immutable historical release source changed.')
+    require((ROOT / 'supabase/.temp/project-ref').read_text().strip() == TARGET, 'Linked target differs.')
+    config = tomllib.loads((ROOT / 'supabase/config.toml').read_text())
+    require(config['db']['migrations']['enabled'] is True and config['db']['seed']['enabled'] is False, 'Migrations enabled/seeds disabled required.')
+    require(sorted(path.name for path in (ROOT / 'supabase/migrations').glob('*.sql')) == list(MIGRATIONS), 'Exact ten-file history required.')
+    manifest = read_json('development/local-db/reviewed.json')
+    require(len(manifest['migrations']) == 10, 'Exact reviewed ten-version manifest required.')
+    reviewed = {row['path']: row for row in manifest['migrations']}
+    for name, seal in MIGRATIONS.items():
+        path = 'supabase/migrations/' + name
+        require(digest(path) == seal == reviewed.get(path, {}).get('sha256') and reviewed[path].get('reviewed_by') and reviewed[path].get('reviewed_at'),
+                'Migration source/reviewer seal differs.')
+    require(digest(READBACK) == READBACK_HASH, 'Fixed readback bytes changed.')
+    proofs = {}
+    for key, (path, seal) in PROOFS.items():
+        require(digest(path) == seal, 'An immutable prerequisite receipt changed.'); proofs[key] = read_json(path)
+    cloud, local, native, contract = (proofs[key] for key in ('prior_cloud', 'persisted10', 'native', 'local_contract'))
+    require(cloud['target'] == TARGET and cloud['application_verified_by_readback'] is True
+            and cloud['readback']['base']['versions'] == VERSIONS[:9] and prior.validate_state(cloud['readback']) == 'applied', 'Actual exact9 cloud release proof required.')
+    require(local['result'] == 'passed' and local['migration_sha256'] == MIGRATIONS[PENDING[0]] and local['before'] == local['after']
+            and local['before']['versions'] == VERSIONS and local['catalog_and_all_counts_restored'] is True and local['rollback_verified'] is True
+            and local['transaction_completed_to_rollback'] is True and local['persisted_schema_assertions_tested'] is True
+            and local['source_submission_tested'] is True and local['retained_source_correction_tested'] is True
+            and local['job_callbacks_tested'] is True and local['cloud_called'] is False and local['provider_called'] is False,
+            'Persisted local10 source/correction/stage/atomic rollback proof required.')
+    require(native['result'] == 'passed' and native['migration_sha256'] == MIGRATIONS[PENDING[0]] and native['baseline_restored'] is True
+            and native['fixture_cleanup'] == 'passed' and native['owned_backends_settled'] is True and native['hba_unchanged'] is True
+            and native['fixture_invariants_verified'] is True and native['operations_completed'] is True
+            and native['database_restart_and_reclaim'] == {'actual_restart': True, 'active_lease_refused': True, 'synthetic_expiry_used': True, 'old_attempt_fenced': True}
+            and native['credential_authentication_verified'] is False and native['local_auth_method'] == 'trust'
+            and native['actual_provider_called'] is False and native['cloud_called'] is False
+            and [case['outcome'] for case in native['cases']] == ['succeeded', 'cancelled', 'source_changed', 'succeeded']
+            and all(case['sql_js_paragraph_mapping'] and case['prepared_projection_hash_matches'] for case in native['cases']),
+            'Actual bounded cross-runtime native/SQL/restart/replay proof with honest TRUST/synthetic scope required.')
+    require(contract['cloud_called'] is False and contract['system_identifier'] == local['environment']['system_identifier']
+            and contract['readback_sha256'] == READBACK_HASH and validate_state(contract['readback']) == 'applied', 'Fixed local10 exact catalogue seal required.')
+    return {'migrations': MIGRATIONS, 'readback_sha256': READBACK_HASH, 'catalog_sha256': CATALOG_HASH,
+            'proofs': {key: {'path': path, 'sha256': seal} for key, (path, seal) in PROOFS.items()},
+            'historical_seals': HISTORICAL, 'manifest_sha256': digest('development/local-db/reviewed.json'),
+            'release_helper_sha256': digest('tools/release_specs_pipeline.py')}
+
+
+def sanitize_sources(value):
+    if isinstance(value, list):
+        for row in value: sanitize_sources(row)
+    elif isinstance(value, dict):
+        if isinstance(value.get('source'), str):
+            value['source_sha256'] = hashlib.sha256(value.pop('source').replace('\r\n', '\n').encode()).hexdigest()
+        for row in value.values(): sanitize_sources(row)
+
+
+def call(arguments):
+    result = prior.call(arguments)
+    private = ROOT / '.local/cloud-specs-pipeline-release'
+    private.mkdir(parents=True, exist_ok=True)
+    label = datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%dT%H-%M-%S-%fZ') + '-' + uuid.uuid4().hex[:8]
+    for stream in ('stdout', 'stderr'):
+        with (private / (label + '.' + stream)).open('x', encoding='utf-8') as file:
+            file.write(getattr(result, stream)); file.flush(); os.fsync(file.fileno())
+    return result
+
+
+def inspect():
+    result = call(['db', 'query', '--linked', '--project-ref', TARGET, '--file', str(ROOT / READBACK), '--output-format', 'json'])
+    require(result.returncode == 0, 'Fixed read-only pipeline inspection failed; raw diagnostics suppressed.')
+    state = json.loads(result.stdout)['rows'][0]['specs_pipeline_release']; sanitize_sources(state)
+    try: return validate_state(state), state
+    except Blocked as error:
+        error.snapshot = state; raise
+
+
+def compare_preserved(before, after):
+    require(before['base']['counts'] == after['base']['counts'] and before['base']['queue_counts'] == after['base']['queue_counts']
+            and before['manual']['counts'] == after['manual']['counts']
+            and before['manual']['workspace_state_sha256'] == after['manual']['workspace_state_sha256']
+            and before['role_order']['data_sha256'] == after['role_order']['data_sha256'],
+            'Business/source/order/branding/counts changed; retain applied history for reconciliation.')
+
+
+def stamp():
+    return datetime.datetime.now(datetime.timezone.utc).isoformat()
+
+
+def retain(receipt, phase):
+    name = datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%dT%H-%M-%S-%fZ') + '-' + uuid.uuid4().hex[:8] + '-' + phase + '.json'
+    with (EVIDENCE / name).open('x', encoding='utf-8') as file:
+        json.dump(receipt, file, indent=2); file.write('\n'); file.flush(); os.fsync(file.fileno())
+    return name
+
+
+def main():
+    action = sys.argv[1] if len(sys.argv) == 2 else ''
+    require(action in ('dry-run', 'apply', 'readback'), 'Use dry-run/apply/readback only; no target/file override.')
+    inputs = prerequisites(); EVIDENCE.mkdir(parents=True, exist_ok=True)
+    receipt = {'observed_at': stamp(), 'target': TARGET, 'action': action, 'inputs': inputs, 'result': 'failed',
+               'application_status': 'not_attempted', 'application_verified_by_readback': False, 'runtime_flag_changed': False,
+               'identity_provisioned': False, 'provider_called': False, 'n8n_changed': False, 'seeds': False, 'vault_sync': False,
+               'raw_diagnostics_recorded': False, 'pipeline_acceptance': False}
+    try:
+        mode, before = inspect(); receipt.update(before_mode=mode, before=before)
+        if mode == 'applied': receipt.update(application_status='verified_existing', application_verified_by_readback=True)
+        if action != 'readback':
+            require(mode == 'pending', 'Already applied/unknown: use readback; never repeat a mutator.')
+            if action == 'apply':
+                dry = json.loads((EVIDENCE / 'dry-run.json').read_text())
+                age = (datetime.datetime.now(datetime.timezone.utc) - datetime.datetime.fromisoformat(dry['finished_at'])).total_seconds()
+                require(dry['result'] == 'passed' and dry['target'] == TARGET and dry['inputs'] == inputs and dry['action'] == 'dry-run'
+                        and dry['readback'] == before and dry['pending_migrations'] == PENDING and 0 <= age <= 3600,
+                        'Exact successful fresh dry-run/current preflight match required.')
+            receipt['application_status'] = 'unknown_until_readback' if action == 'apply' else 'not_attempted'
+            receipt['attempt_receipt'] = retain(receipt, action + '-attempt')
+            command = ['db', 'push', '--linked', '--project-ref', TARGET, '--skip-vault', '--yes', '--output-format', 'json']
+            if action == 'dry-run': command.append('--dry-run')
+            try:
+                result = call(command); receipt['exit_code'] = result.returncode
+                receipt['pending_migrations'] = sorted(set(re.findall(r'\d{14}_[A-Za-z0-9_]+\.sql', result.stdout + '\n' + result.stderr)))
+            except Exception: receipt['dispatch_response_unavailable'] = True
+        after_mode, after = inspect(); receipt.update(after_mode=after_mode, readback=after,
+            application_verified_by_readback=after_mode == 'applied', application_status='verified_' + after_mode)
+        require(after_mode == ('pending' if action == 'dry-run' else 'applied' if action == 'apply' else mode), 'Unexpected observed state; reconcile before another mutator.')
+        compare_preserved(before, after)
+        if action != 'readback': require(receipt.get('exit_code') == 0 and receipt.get('pending_migrations') == PENDING,
+                                       'Dispatch response unconfirmed; observed state retained, no blind retry.')
+        receipt['result'] = 'passed'
+    except Blocked as error:
+        receipt['reason'] = str(error)
+        if error.snapshot is not None: receipt['unverified_readback'] = error.snapshot
+        raise
+    except Exception:
+        receipt['reason'] = 'Fixed release unconfirmed; raw diagnostics suppressed. Inspect durable history before retry.'; raise
+    finally:
+        receipt['finished_at'] = stamp(); retain(receipt, action)
+        if action == 'dry-run' and receipt['result'] == 'passed':
+            temporary = EVIDENCE / ('dry-run-pointer-' + uuid.uuid4().hex + '.tmp')
+            with temporary.open('x', encoding='utf-8') as file:
+                json.dump(receipt, file, indent=2); file.write('\n'); file.flush(); os.fsync(file.fileno())
+            os.replace(temporary, EVIDENCE / 'dry-run.json')
+        print(json.dumps({'result': receipt['result'], 'application_status': receipt['application_status'], 'target': TARGET,
+                          'application_verified_by_readback': receipt['application_verified_by_readback'], 'raw_diagnostics_recorded': False}))
+
+
+if __name__ == '__main__':
+    try: main()
+    except Blocked as error:
+        print(json.dumps({'result': 'blocked', 'reason': str(error), 'raw_diagnostics_recorded': False})); sys.exit(1)
+    except Exception:
+        print(json.dumps({'result': 'blocked', 'reason': 'Fixed release unconfirmed; raw diagnostics suppressed.', 'raw_diagnostics_recorded': False})); sys.exit(1)
