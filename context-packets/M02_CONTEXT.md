@@ -792,6 +792,8 @@ Current owned central exec session30061 replaces63564. Launcher loads the existi
 
 Root checks pass104 module tests, lint/typecheck/build and four synthetic browser/HTTP tests. Build used separate .next-e2e output; central .next serving stayed isolated. Exact logs are tracking/evidence/m01/signed-in/validation/. Ten probe tests use injected SDK transport with real Sharp/HMAC and remain distinct from hosted acceptance. Next exact action remains same-profile sign-in recovery, then existing-project selection/workspace creation and normal logo journey/probe. M01 is in_progress. No sixth migration or later provider/production proof was added.
 
+Latest code checkpoint3afcd58 completes scoped enrollment, safe Auth recovery and the guarded probe. Final root module suite104 passes; ten probe cases include Ready404/no-effect and reject500 bodies posing as403/404/409. The Storage probe remains unexecuted against a signed-in hosted session. A documentation/artifact seal follows; inspect Git history for its SHA.
+
 
 ---
 
