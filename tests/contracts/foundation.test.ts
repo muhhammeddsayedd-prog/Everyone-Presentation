@@ -22,7 +22,16 @@ test('foundation projections conform to authoritative OpenAPI schemas', async ()
     validateContract('Capabilities', await studio.getCapabilities(actor));
     const projects = await studio.listProjects(actor); projects.data.forEach(project => validateContract('Project', project));
     validateContract('Page', projects.page);
-    validateContract('Workspace', await studio.createWorkspace(actor, { project_id: FIXTURE_PROJECTS.first, initial_output: 'selection' }, { idempotencyKey: 'contract-workspace' }));
+    const workspace = await studio.createWorkspace(actor, { project_id: FIXTURE_PROJECTS.first, initial_output: 'selection' }, { idempotencyKey: 'contract-workspace' });
+    validateContract('Workspace', workspace);
+    const upload = await studio.createUploadSession(actor, { workspace_id: workspace.id, purpose: 'client_logo', filename: 'logo.png', mime_type: 'image/png', size_bytes: 100 }, { idempotencyKey: 'contract-upload' });
+    validateContract('UploadSession', upload);
+    await studio.cancelUpload(actor, upload.id, { idempotencyKey: 'contract-cancel' });
+    const cancelled = await studio.getUploadSession(actor, upload.id);
+    assert.equal(cancelled.upload_url, null);
+    validateContract('UploadSession', cancelled);
+    assert.throws(() => validateContract('UploadSession', { ...cancelled, status: 'open' }));
+    assert.throws(() => validateContract('UploadSession', { ...cancelled, upload_url: upload.upload_url }));
     (await studio.listAudiencePresets(actor)).data.forEach(preset => validateContract('AudiencePreset', preset));
   } finally { await rm(dir, { recursive: true, force: true }); }
 });

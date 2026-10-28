@@ -24,7 +24,7 @@ export interface AudiencePresetCreate { key?: string; label: string; scope: 'int
 export interface AudiencePresetPatch { row_version: number; label?: string; settings?: Record<string, never> }
 export interface UploadSessionCreate { workspace_id?: string; candidate_id?: string; batch_id?: string; purpose: 'client_logo'; filename: string; mime_type: string; size_bytes: number; sha256?: string }
 export interface UploadSession {
-  id: string; asset_id: string; protocol: 'signed_put'; upload_url: string; upload_headers: Record<string, string>;
+  id: string; asset_id: string; protocol: 'signed_put'; upload_url: string | null; upload_headers: Record<string, string>;
   expires_at: string; status: 'open' | 'completed' | 'cancelled' | 'expired'; maximum_bytes: number;
 }
 export interface MediaAsset {

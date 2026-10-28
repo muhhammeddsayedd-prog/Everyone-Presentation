@@ -5,7 +5,7 @@ import { api, errorMessage, mutation, type Workspace } from './api';
 import { ErrorNotice } from './Feedback';
 import { Icon } from './Icon';
 
-type Upload = { id: string; upload_url: string; upload_headers: Record<string, string> };
+type Upload = { id: string; upload_url: string | null; upload_headers: Record<string, string> };
 
 export function LogoPanel({ workspace, canWrite, canUpload, onSaved, onDirtyChange }: { workspace: Workspace; canWrite: boolean; canUpload: boolean; onSaved: (workspace: Workspace) => void; onDirtyChange: (dirty: boolean) => void }) {
   const [busy, setBusy] = useState(false);
@@ -33,6 +33,7 @@ export function LogoPanel({ workspace, canWrite, canUpload, onSaved, onDirtyChan
       setStatus('Creating private upload…');
       const session = (await api<Upload>('/api/v1/uploads', mutation('POST', { workspace_id: workspace.id, purpose: 'client_logo', filename: file.name, mime_type: file.type, size_bytes: file.size }))).data;
       uploadId = session.id;
+      if (!session.upload_url) throw new Error('This upload session is closed. Choose the file again to start a new upload.');
       const target = new URL(session.upload_url, location.origin);
       if (target.origin !== location.origin || !target.pathname.startsWith('/api/dev/uploads/')) throw new Error('The development upload destination is unavailable.');
       setStatus('Uploading and checking logo…');

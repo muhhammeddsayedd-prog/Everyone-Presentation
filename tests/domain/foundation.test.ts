@@ -116,6 +116,13 @@ test('logo completion verifies stored bytes, scope, persistence and non-destruct
   await assert.rejects(studio.completeUpload(producer, upload.id, { actual_size_bytes: tinyPng.byteLength + 1, start_processing: false }, { idempotencyKey: 'completed-wrong-size' }), code('VALIDATION_FAILED'));
   assert.equal(completed.status, 'ready');
   assert.equal(completed.processing_job_id, null);
+  const closedSession = await studio.getUploadSession(producer, upload.id);
+  assert.equal(closedSession.status, 'completed');
+  assert.equal(closedSession.upload_url, null);
+  assert.deepEqual(closedSession.upload_headers, {});
+  const replayedCreate = await studio.createUploadSession(producer, { workspace_id: workspace.id, purpose: 'client_logo', filename: 'transparent.png', mime_type: 'image/png', size_bytes: tinyPng.byteLength }, { idempotencyKey: 'upload' });
+  assert.equal(replayedCreate.status, 'completed');
+  assert.equal(replayedCreate.upload_url, null);
   const selected = await studio.updateWorkspace(producer, workspace.id, { row_version: workspace.row_version, logo_asset_id: completed.asset.id, logo_placement: 'every_slide' });
   const restarted = createStudio(options);
   assert.equal((await restarted.getWorkspace(producer, selected.id)).logo_asset_id, completed.asset.id);
@@ -135,6 +142,7 @@ test('upload ownership, cancellation and image verification fail without creatin
   await assert.rejects(studio.cancelUpload(contributor, upload.id, { idempotencyKey: 'not-owner' }), code('RESOURCE_NOT_FOUND'));
   await assert.rejects(studio.storeUploadedLogo(producer, upload.id, new Uint8Array(20)), code('DEPENDENCY_UNAVAILABLE'));
   await studio.cancelUpload(producer, upload.id, { idempotencyKey: 'cancel' });
+  assert.equal((await studio.getUploadSession(producer, upload.id)).upload_url, null);
   await assert.rejects(studio.completeUpload(producer, upload.id, { actual_size_bytes: 20, start_processing: false }, { idempotencyKey: 'late-complete' }), code('INVALID_TRANSITION'));
   assert.equal((await studio.getMedia(producer, upload.asset_id)).status, 'failed');
 });

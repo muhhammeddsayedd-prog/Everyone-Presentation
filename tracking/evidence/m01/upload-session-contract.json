@@ -1,0 +1,25 @@
+{
+  "recorded_at": "2026-10-28T02:54:30.713062+00:00",
+  "change": "Closed upload sessions have null transfer URL and empty headers; idempotent create replay reprojects current state after scope check",
+  "red": [
+    "test:unit14:12pass2fail after closed-URL assertions",
+    "test:unit14:13pass1fail after completed-create replay assertion"
+  ],
+  "green": {
+    "test:unit": {
+      "passed": 14,
+      "failed": 0
+    },
+    "test:contracts": {
+      "passed": 3,
+      "failed": 0
+    }
+  },
+  "environment": "local synthetic persistent adapter and authoritative schemas; no provider transfer",
+  "contract_sources": [
+    "contracts/openapi.yaml",
+    "contracts/mcp-tool-catalog.json",
+    "apps/web/lib/generated-contracts.json"
+  ],
+  "live_storage": "not_tested"
+}

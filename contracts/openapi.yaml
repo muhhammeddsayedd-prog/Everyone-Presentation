@@ -9975,8 +9975,11 @@ components:
           - tus
           - signed_put
         upload_url:
-          type: string
-          format: uri
+          description: A scoped transfer URL for an open session. Closed sessions return null and empty upload_headers.
+          anyOf:
+          - type: string
+            format: uri
+          - type: 'null'
         upload_headers:
           type: object
           additionalProperties:
@@ -10002,6 +10005,21 @@ components:
       - expires_at
       - status
       - maximum_bytes
+      allOf:
+      - if:
+          properties:
+            status:
+              const: open
+        then:
+          properties:
+            upload_url:
+              type: string
+        else:
+          properties:
+            upload_url:
+              type: 'null'
+            upload_headers:
+              maxProperties: 0
     UploadCompletion:
       type: object
       additionalProperties: false

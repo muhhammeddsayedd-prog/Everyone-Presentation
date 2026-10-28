@@ -66,6 +66,7 @@ test('actual HTTP envelopes enforce auth, idempotency, revision and strict input
   const invalidBytes = Buffer.from('not a decoded raster image');
   const upload = await success<UploadSession>(await request.post('/api/v1/uploads', { headers: headers(), data: { workspace_id: workspaces[0].id, purpose: 'client_logo', filename: 'synthetic-invalid.png', mime_type: 'image/png', size_bytes: invalidBytes.length } }), 'UploadSession', 201);
   try {
+    if (upload.upload_url === null) throw new Error('An open upload session must return its transfer URL.');
     await error(await request.put(upload.upload_url, { headers: { ...headers(), 'Content-Type': 'image/png' }, data: invalidBytes }), 422, 'SOURCE_UNREADABLE');
     const open = await success<UploadSession>(await request.get(`/api/v1/uploads/${upload.id}`), 'UploadSession');
     expect(open.status).toBe('open');

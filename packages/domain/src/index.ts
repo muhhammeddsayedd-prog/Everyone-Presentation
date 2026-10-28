@@ -126,7 +126,7 @@ export function createStudio(options: StudioOptions) {
     const { outputs, ...rest } = item;
     return { ...rest, title: project(state, actor, item.project_id).name, active_output: outputs[actor.principal_id] ?? 'selection' };
   }
-  async function mutate<R>(actor: Actor, operation: string, input: unknown, context: MutationContext | undefined, requiredKey: boolean, action: (state: State) => Promise<R> | R): Promise<R> {
+  async function mutate<R>(actor: Actor, operation: string, input: unknown, context: MutationContext | undefined, requiredKey: boolean, action: (state: State) => Promise<R> | R, authorize?: (state: State) => void): Promise<R> {
     principal(actor);
     const key = context?.idempotencyKey;
     if (requiredKey && !key || key !== undefined && (typeof key !== 'string' || !key.trim() || key.length > 200)) invalid('A valid Idempotency-Key is required for this operation.');
@@ -134,6 +134,7 @@ export function createStudio(options: StudioOptions) {
     const digest = createHash('sha256').update(canonical(input)).digest('hex');
     return store.transaction(true, async state => {
       if (state.format_version !== 1) throw new DomainError('DEPENDENCY_UNAVAILABLE', 'Unsupported local fixture format. Preserve data and inspect before upgrading.', 503);
+      authorize?.(state);
       const previous = recordKey ? state.idempotency[recordKey] : undefined;
       if (previous) {
         if (previous.digest !== digest) throw new DomainError('IDEMPOTENCY_KEY_REUSED', 'This idempotency key was used with different input.', 409);
@@ -262,7 +263,7 @@ export function createStudio(options: StudioOptions) {
       requireCapability(actor, 'settings.manage'); checkObject(input, ['row_version', 'reason']); version(input.row_version); if (input.reason !== undefined && input.reason !== null) text(input.reason, 'reason', 2000);
       return mutate(actor, 'archive_audience_preset', { id, input }, context, true, state => { const found = state.presets.find(item => item.id === id); if (!found) throw new DomainError('RESOURCE_NOT_FOUND', 'Audience preset not found.', 404); compareVersion(input.row_version, found.row_version); found.archived = true; found.row_version++; return { success: true as const, affected_ids: [id] }; });
     },
-    async createUploadSession(actor: Actor, input: UploadSessionCreate, context?: MutationContext) {
+    async createUploadSession(actor: Actor, input: UploadSessionCreate, context?: MutationContext): Promise<UploadSession> {
       requireCapability(actor, 'workspaces.write'); checkObject(input, ['workspace_id', 'candidate_id', 'batch_id', 'purpose', 'filename', 'mime_type', 'size_bytes', 'sha256']);
       if (input.purpose !== 'client_logo') throw new DomainError('FEATURE_NOT_IMPLEMENTED', 'Only client-logo uploads are implemented in this development slice.', 503);
       if (!input.workspace_id) invalid('Select a workspace for the logo upload.');
@@ -270,16 +271,27 @@ export function createStudio(options: StudioOptions) {
       const filename = text(input.filename, 'filename', 255); if (/[\\/]/u.test(filename)) invalid('filename must be a simple filename.');
       if (!MIMES.includes(input.mime_type) || !Number.isSafeInteger(input.size_bytes) || input.size_bytes < 1 || input.size_bytes > MAX_LOGO_BYTES) invalid('Logo must be PNG, JPEG or WebP up to 5 MiB.');
       if (input.sha256 !== undefined && !/^[a-f0-9]{64}$/u.test(input.sha256)) invalid('sha256 must be lowercase hexadecimal.');
-      return mutate(actor, 'create_upload_session', input, context, true, state => {
+      const created = await mutate(actor, 'create_upload_session', input, context, true, state => {
         workspace(state, actor, input.workspace_id!);
         const id = randomUUID(); const assetId = randomUUID(); const created = new Date().toISOString();
         const session: UploadSession = { id, asset_id: assetId, protocol: 'signed_put', upload_url: `${baseUrl}/api/dev/uploads/${id}/bytes`, upload_headers: { 'Content-Type': input.mime_type }, expires_at: new Date(Date.now() + 30 * 60_000).toISOString(), status: 'open', maximum_bytes: MAX_LOGO_BYTES };
         state.uploads.push({ session, workspace_id: input.workspace_id!, principal_id: actor.principal_id, expected_bytes: input.size_bytes, expected_sha256: input.sha256, received: false });
         state.media.push({ workspace_id: input.workspace_id!, asset: { id: assetId, purpose: 'client_logo', filename, mime_type: input.mime_type, size_bytes: input.size_bytes, sha256: null, status: 'uploading', duration_ms: null, width: null, height: null, source_asset_id: null, source_timestamp_ms: null, created_at: created } });
         return session;
+      }, state => { workspace(state, actor, input.workspace_id!); });
+      // Replay identifies the original reservation, but its transfer capability
+      // must reflect current state rather than the original open response.
+      return api.getUploadSession(actor, created.id);
+    },
+    async getUploadSession(actor: Actor, id: string) {
+      requireCapability(actor, 'workspaces.read');
+      return store.transaction(false, state => {
+        const result = { ...upload(state, actor, id).session };
+        if (result.status === 'open' && new Date(result.expires_at).getTime() <= Date.now()) result.status = 'expired';
+        if (result.status !== 'open') { result.upload_url = null; result.upload_headers = {}; }
+        return result;
       });
     },
-    async getUploadSession(actor: Actor, id: string) { requireCapability(actor, 'workspaces.read'); return store.transaction(false, state => { const found = upload(state, actor, id); const result = { ...found.session }; if (result.status === 'open' && new Date(result.expires_at).getTime() <= Date.now()) result.status = 'expired'; return result; }); },
     /** Internal storage adapter entrypoint; actual image decoder is supplied by the web runtime. */
     async storeUploadedLogo(actor: Actor, id: string, bytes: Uint8Array) {
       requireCapability(actor, 'workspaces.write');
