@@ -179,8 +179,33 @@ candidate does not pretend those processing stages have executed.
 
 ## Subsequent coordinated cloud release
 
-Root subsequently applied migrations six and seven after the exact guarded dry-run. Fresh cloud readback at2026-10-28T16:56:29Z binds the seven versions,22 authenticated public RPCs/32 inspected routines and16 forced-RLS app relations. Existing business/storage counts stayed unchanged; the new queues are empty. See `tracking/evidence/cloud-processing-foundation/RELEASE_REVIEW.md` and its immutable apply/readback receipts. This supersedes only this document's earlier not-yet-applied cloud status; the source/stage/service/provider/UI boundaries remain. Actual security advisors report23 WARN findings:22 intentional scoped RPC findings and one unresolved leaked-password-protection Auth setting.
+Root subsequently applied migrations six and seven after the exact guarded dry-run. Fresh cloud readback at2026-10-28T16:56:29Z binds the seven versions,22 authenticated public RPCs/32 inspected routines and16 forced-RLS app relations. Existing business/storage counts stayed unchanged; the new queues are empty. See `tracking/evidence/cloud-processing-foundation/RELEASE_REVIEW.md` and its immutable apply/readback receipts. This supersedes only this document's earlier not-yet-applied cloud status; the source/stage/service/provider/UI boundaries remain. Actual security advisors report 23 WARN findings:22 intentional scoped RPC findings and one unresolved leaked-password-protection Auth setting.
 
 ## Subsequent manual draft persistence
 
-Migration `20261028172320` is now applied locally and in the canonical cloud. The [local checkpoint](database-inventory.md#manual-specs-local-and-cloud-checkpoint) distinguishes the first application/backfill from the preserved driver failure and successful 23-stage/four-blocker-pair rerun. [Cloud readback](../evidence/cloud-manual-specs/2026-10-28T18-21-07-451865Z-b7e8cd80-readback.json), finished 18:21:07.451844Z, verifies exact eight-version history,31 public RPCs/58 routines/19 forced-RLS relations. One pristine current spec was added for the existing workspace; its state hash and all existing base counts were preserved, with no roles/slots yet. Manual drafts/roles/slots can be persisted without a provider, while source setters, submit/enqueue, stage claims/callbacks/apply and real worker/n8n/OpenAI processing remain absent. Assignment retirement is explicitly gated until its actual schema/transaction exists. This release does not extend the jobs execution surface or claim a connected pipeline.
+Migration `20261028172320` was subsequently applied locally/cloud. The [manual checkpoint](database-inventory.md#manual-specs-local-and-cloud-checkpoint) distinguishes first backfill from the preserved driver failure/successful rerun; its dated18:21:07Z readback verifies eight versions/31 public RPCs/58 routines/19 forced-RLS relations. It added one pristine spec and no roles/slots without changing earlier workspace/base state. It did not extend job execution or establish a connected pipeline.
+
+## Ninth release and actual provider boundary
+
+Migration `20261028184145` adds role-only ordering without changing the jobs surface. [Fresh cloud readback](../evidence/cloud-role-order/2026-10-28T19-31-14-242836Z-dc97d5dc-readback.json), finished 19:31:14.242819Z, verifies nine versions/32 public RPCs/60 routines/19 forced-RLS relations and unchanged workspace/spec/role/slot/preferences hashes/base counts. Its release pins actual jobs29-stage/six-pair/restart, manual24-stage/four-pair and role-order23-stage/four-pair local proofs; these are durable SQL tests, not provider orchestration.
+
+[Read-only API access](../evidence/m02/provider-access/2026-10-28T19-08-27-697Z-read-only-access.json) succeeded for OpenAI and n8n. [One actual synthetic gpt-6.1-sol extraction](../evidence/m02/provider-evaluation/2026-10-28T19-31-30-526Z-0cfe7e61.json) passed strict/evidence/domain checks for three roles/five explicit slots, null missing facts and a null direct-text source identity;1413 input/1575 output/2988 total tokens. It applied nothing to DB, wrote no cloud business data and called no n8n workflow. The [n8n API inventory](../evidence/m02/provider-access/2026-10-28T19-32-50-135Z-n8n-discovery.json) identifies one personal project with name redacted and one unrelated inactive W05; MCP still fails -32603. Neither that workflow nor its Drive connector is Studio WF-01/reused here.
+
+Source submit/enqueue, authenticated service claim/heartbeat/callback, lease-bound typed apply, actual document/output storage and assignment retirement remain unfinished. A later SQL candidate is not an applied production path. Existing manual source/evidence and edits must remain guarded by the frozen source/workspace versions. No n8n workflow run, full pipeline or M02 verification is inferred from the separate real model sample.
+
+## Local initial-source stage rehearsal at20:46Z
+
+Commit74ae183 retains separate source-submit and stage candidates outside the
+nine-version history/manifest. [Submit20:10 rollback](../evidence/m02/specs-submit-candidate/2026-10-28T20-10-13-695Z-350ca6d9-rollback.json)
+and [prepare/extract/apply20:46 rollback](../evidence/m02/specs-stages-candidate/2026-10-28T20-46-58-625Z-a863a766-rollback.json)
+passed with full catalog/count restoration; prior failures remain failed.
+The private stage kernel uses stored-requester capability/membership checks,
+ordered resource locks, fenced leases/events, private staging and initial-only
+atomic application. Its narrowly reviewed Auth boolean helper is the sole
+postgres-owned exception; new owners receive no direct Auth reads. Managed
+Auth-RLS setup changes exist only in the fixed local rollback fixture.
+These are one-transaction SQL proofs. Persistent composition, concurrent/restart
+recovery, cross-runtime hashes/native execution, file outputs, replacement-source
+retention, authenticated transport/dispatcher and real WF01 still need proof.
+The user selected local container testing with hosting later; no cloud enablement
+or new runtime service identity was provisioned.

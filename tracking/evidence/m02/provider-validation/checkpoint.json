@@ -1,0 +1,46 @@
+{
+  "observed_at": "2026-10-28T20:26:34.940963+00:00",
+  "code_commit": "da77ab4",
+  "module_tests": 188,
+  "suite_counts": {
+    "unit_server": 81,
+    "contracts": 5,
+    "jobs": 12,
+    "integrations": 15,
+    "worker": 34,
+    "central": 41
+  },
+  "module_result": "passed",
+  "typecheck": "passed",
+  "lint": "passed_after_prefer_const_fix",
+  "build": "passed",
+  "production_fixture_guard": "passed",
+  "pack_checks": 325,
+  "private_configuration_offline_tests": 15,
+  "executor_focused_after_lint_fix": 12,
+  "scope": "Local deterministic tests, real synthetic document parsers, injected provider/gateway responses. No cloud/provider/service authentication/real DB stage acceptance. Broad188 preceded the sole lint-only let-to-const fix; executor12 and full lint reran afterward.",
+  "new_browser_run": false,
+  "historical_browser_cases": 19,
+  "historical_browser_commit": "c2df325",
+  "provider_called_by_tests": false,
+  "files": {
+    "apps/worker/src/specs-executor.ts": "2f637a484acae5aae556964ab07432b2c8f800eb6bccf5c7d9141cd1b6413fb0",
+    "packages/central/src/specs.ts": "56ed3bfba89701929e74c25846061e8a67ad383826c453cfaa11f1cea009cdfc",
+    "apps/web/lib/specs-http.ts": "3092f2c9290c10bf1a7edc24ae31bb7d4c9b754e60b100a6c4015a54affc3978",
+    "tests/worker/specs-executor.test.ts": "b85f01bc3ee19bbb4002ef2e9e365dd93e7c658ec323be5c04f9d2c81000e0ed",
+    "tests/server/specs-http.test.ts": "a44d61c362ea5865052452459fa5debc56b910171ba2c5f5b02c37a295188a17",
+    "packages/central/test/specs-submit.test.ts": "24123ec17036ea8c4512220a4a13658d3bfc94365652d84f2e6a6d1ebdb8ab6b",
+    "package-lock.json": "e0c824aec458cf47a18a3698cca701efd10bfeb0c7ef4a748f3bfc8488878840"
+  },
+  "logs": {
+    "final-modules.log": "2aba93977353febd3f3f31ef774d8c73c043a64a1687bf0a4ebf8199714fd18d",
+    "final-typecheck.log": "63dbaa165359a370f81fa6d619a1569ad84c24a4a726e0b4e03bb94528b8dd4f",
+    "final-lint.log": "98cc2e5ba71d8542f3d367ce4f90aeaf675a3eff6a6ab34aaf1fb529d481edde",
+    "final-lint-fixed.log": "dcf04cf56739f2f68b315b919013254295716cfac4a2b9aaca7e25ee40e8f2db",
+    "executor-final.log": "8f9a4ce876d9a696186637918dad47b73bc9df36366cf205bc6a8518a49d6419",
+    "build.log": "848427f5d76308e56a802b6d8f2624df214b06a640d0eadfb0e31d71664e47d8",
+    "production-guard.log": "33086726b2a60861095709e2cb277f8ccf4d5d374ec1f3e13831bccd6f36f604",
+    "pack-strict.log": "c7374395a256ab09d8e097b5cd847e4fc3b1c5e26ebefd703f4ff854a04d5c7a",
+    "private-config-offline.log": "b370f8db05d2edba472f603d7432ccbb2818f9fc855e2dca1d1f3d1d7ab463c4"
+  }
+}

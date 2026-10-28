@@ -1,0 +1,30 @@
+{
+  "observed_at": "2026-10-28T20:23:54.520233+00:00",
+  "result": "passed",
+  "scope": "Known local verifier in four encodings, two configured worker API keys in UTF8/hex/base64 and setup identity in two encodings; no provider call",
+  "eligible_source_files": 2123,
+  "staged_blobs": 2073,
+  "working_tree_matches": [],
+  "staged_matches": [],
+  "preserved_original_reference_contact": {
+    "working_tree": [
+      "Design Elements/DESIGN.md"
+    ],
+    "staged": [
+      "Design Elements/DESIGN.md"
+    ],
+    "reason": "Exact unchanged supplied design document already contained the business contact; no new setup identity copy is allowed. Keys are never exempted."
+  },
+  "source_archive": {
+    "path": "dist/Everyone-Presentation-Studio-Source.zip",
+    "sha256": "bda416f8ef1afd11bdf1f2fe39b485ee18102bd623718f8cfafa5db53e24cb0d",
+    "entries": 1741,
+    "matches": [],
+    "preserved_original_reference_contact": [
+      "Everyone-Presentation-Studio/Design Elements/DESIGN.md"
+    ]
+  },
+  "private_values_or_digests_recorded": false,
+  "limitations": "Does not prove absence of unknown secrets, private traces, provider correctness or production readiness.",
+  "additional_known_worker_keys": 2
+}

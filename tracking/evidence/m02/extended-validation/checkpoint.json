@@ -1,0 +1,43 @@
+{
+  "captured_at": "2026-10-28T18:54:00.742311+00:00",
+  "source_commit": "c2df325",
+  "scope": "Processing UI, role-order UI/SDK/HTTP and bounded document process; cloud role-order release is separate",
+  "module_tests": {
+    "unit_server": 77,
+    "contracts": 3,
+    "jobs": 12,
+    "integrations": 14,
+    "worker_real_synthetic_parsers": 17,
+    "central": 36,
+    "total": 159,
+    "failures": 0
+  },
+  "controlled_browser_tests": 19,
+  "offline_private_configuration_tests": 15,
+  "lint": "passed",
+  "typecheck": "passed",
+  "build": "passed",
+  "browser_responses": "controlled synthetic HTTP; no real Auth/Storage/provider",
+  "real_cloud_role_reorder_tested": false,
+  "live_OpenAI_or_n8n_execution": false,
+  "OS_sandbox_RSS_CPU_network_enforcement_tested": false,
+  "private_file": {
+    "path": ".env.worker.local",
+    "git_ignored": true,
+    "values_recorded": false
+  },
+  "artifact_sha256": {
+    "build.log": "b32928e26ed0488e0f4b2c0b6315cfcb28bcd64d38282fa591ee8cdc5ee699e3",
+    "configuration-offline.log": "8fe3e3286e04ce9b136c31a3caec1a50d34321d13b4225567b456ee58d5b04bd",
+    "controlled-browser.log": "ff44ab7a408ced07f86a492217117d4a96388915e435555cd8c69e797e0f0aaf",
+    "controlled-processing-1440.png": "0b21d8a32760c70027a7bf11858eed425e8ce3ce39ea2e9c2cc4d8a6a84edbc0",
+    "controlled-processing-320.png": "bfdea6db3170d2dd035850334c1077bdacf6a8371d9f41e64da73802acd8dc40",
+    "controlled-role-order-320.png": "2875429d1e1da247d76d657f238e6015d7e35a2677e0c4005e82f27ae11c8da0",
+    "lint.log": "539cc13d984b4714cec1517b53e05e520c78e4fedba2a9c2c0c63759715f6ed4",
+    "modules.log": "876b0e6cb3a41df3a1fdc6351df1c69ef7c093f108f39896fee1650aa94450c0",
+    "production-guard.log": "6bc8f0d770f0751a0c33bc6089fe90a86db50a7fbee32782260aceac0fe5fa24",
+    "typecheck.log": "ed5321f77007f6709ce8738a60cac3ae8978a6f61001237d9713d189711f7b60",
+    "worker-lint.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "worker.log": "e26eacc210f94163ceab267d8853d5a7ae92b5f168bc41203d4d81c8a8dc898b"
+  }
+}

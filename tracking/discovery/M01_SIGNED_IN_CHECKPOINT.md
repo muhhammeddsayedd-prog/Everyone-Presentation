@@ -1,16 +1,17 @@
 # M01 enrollment and browser recovery checkpoint
 
-Current update after the eight-version release: the owner reports working login
+Current update after the nine-version release: the owner reports working login
 and project visibility, then closed review tabs. Connected Person1 was last signed
 out; no review tabs were reopened or emails sent afterward. Fresh aggregate
-readback completed at 18:21:07.451844Z preserves one Auth user/client/project/workspace/
+readback completed at 19:31:14.242819Z preserves one Auth user/client/project/workspace/
 media/upload/Storage object, four capabilities and the existing key, unchanged
 by release. These counts do not establish Ready media, selected logo or bytes.
 The optional scoped CLI query timed out without returning and was not retried.
 The eighth migration adds one pristine current spec for that workspace, with zero
-roles/slots; the existing workspace-state hash is unchanged. It establishes no new
-authenticated browser observation. See [release review](../evidence/cloud-manual-specs/RELEASE_REVIEW.md)
-and [actual readback](../evidence/cloud-manual-specs/2026-10-28T18-21-07-451865Z-b7e8cd80-readback.json).
+roles/slots; the ninth role-order release preserves workspace/spec/role/slot/
+preferences hashes and establishes no new authenticated browser observation.
+See [release review](../evidence/cloud-role-order/RELEASE_REVIEW.md)
+and [actual readback](../evidence/cloud-role-order/2026-10-28T19-31-14-242836Z-dc97d5dc-readback.json).
 Owned process 30061 enables the reviewed probe; hosted execution has NEVER run.
 M01 remains in progress. The dated enrollment/recovery observations below are
 history, not a current empty-account/workspace or open-browser assertion.
@@ -93,8 +94,11 @@ recreation is needed. Run the normal M01 journey and guarded probe and record
 actual results. The enabled probe itself supplies no hosted acceptance. Root's
 later local checkpoint reports 120 module tests, lint/typecheck/build and four
 fixture browser journeys passed; warnings remain recorded. The current exact
-eight-version database proofs remain separate from those fixtures. M01 remains
-in progress. Fresh advisors report 32 WARN (31 curated public-definer plus
+nine-version database proofs remain separate from those fixtures. M01 remains
+in progress. Fresh advisors report 33 WARN (32 curated public-definer plus
 unresolved leaked-password protection); no Auth/billing change was made.
-n8n's latest actual project
-lookup still returned MCP-32603; M02 and later live provider/release gates remain.
+n8n MCP still returns -32603, while its management API now works for read-only
+inventory. [Actual provider evidence](runtime-and-access.md#provider-access-and-single-synthetic-evaluation)
+records both APIs HTTP200 and one validated synthetic OpenAI extraction with no
+cloud business write, DB apply or n8n workflow run. Unrelated inactive W05 is not
+Studio WF-01. None of this establishes hosted logo or full pipeline acceptance.

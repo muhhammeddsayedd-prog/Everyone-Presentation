@@ -1,0 +1,23 @@
+✔ missing credentials cause no HTTP and presence does not imply execution/model selection (8.6955ms)
+✔ only two fixed GETs use provider-specific credentials and return sanitized counts/booleans (93.962ms)
+✔ 401/403 denial and thrown provider diagnostics never echo private bodies/headers (5.5571ms)
+✔ redirect protection is requested and no off-origin follow-up receives credentials (4.1773ms)
+✔ a streamed body above1MiB is cancelled without parsing or retaining a provider payload (4.0843ms)
+✔ malformed JSON and malformed list envelopes fail closed without false reachable evidence (7.2753ms)
+✔ invalid n8n origin or multiline credentials are rejected before any provider request (1.8964ms)
+✔ pending HTTP is aborted at the fixed15second deadline with no private diagnostics (4.9982ms)
+✔ Node env syntax and only four private fields are selected; model remains unselected (6.5503ms)
+✔ nonempty process fields override the fallback, empty fields use it and no provider is inferred (1.715ms)
+✔ n8n base URL accepts a tenant HTTPS origin only, with no hidden authority/port/path (9.3675ms)
+✔ all selected values reject multiline/NUL data and errors expose no raw source/values (8.1739ms)
+✔ UTF8 byte budget is bounded and presence is booleans only (4.1987ms)
+✔ fixed reader consumes injected bounded bytes without any caller-controlled path (5.318ms)
+✔ reader denies symlinks, foreign owners, identity races, oversized files and invalid UTF8 safely (5.1861ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 392.9686

@@ -1,0 +1,38 @@
+{
+  "observed_at": "2026-10-28T20:16:42.196606+00:00",
+  "scope": "read-only Auth catalog and four column grantability only; no Auth rows",
+  "sql_sha256": "36761d06d356ece02c22df4a7044ebd62eb9edf2e77f5b5955d30129d155b5da",
+  "auth_rows_read": false,
+  "writes_performed": false,
+  "result": "passed",
+  "state": {
+    "api_owner_auth_usage": true,
+    "postgres_auth_usage_grantable": false,
+    "query_role": "postgres",
+    "required_columns": [
+      {
+        "api_owner_select": false,
+        "name": "banned_until",
+        "postgres_select_grantable": true
+      },
+      {
+        "api_owner_select": false,
+        "name": "deleted_at",
+        "postgres_select_grantable": true
+      },
+      {
+        "api_owner_select": false,
+        "name": "id",
+        "postgres_select_grantable": true
+      },
+      {
+        "api_owner_select": false,
+        "name": "is_anonymous",
+        "postgres_select_grantable": true
+      }
+    ],
+    "users_forced_rls": false,
+    "users_owner": "supabase_auth_admin",
+    "users_rls": true
+  }
+}

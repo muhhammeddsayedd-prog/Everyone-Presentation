@@ -2,7 +2,7 @@
 # Verified scope is recorded cloud metadata; this is not executable schema or runtime acceptance.
 document_version: '1.0'
 status: canonical_cloud_foundation_applied_and_read_back_real_user_journey_unverified
-verified_at: '2026-10-28T18:21:07.451844+00:00'
+verified_at: '2026-10-28T19:31:14.242819+00:00'
 verified_by: Root integration owner cloud readback; scope is schema/role/migration metadata, not real-user acceptance.
 observed_date: '2026-10-28'
 evidence: tracking/discovery/README.md
@@ -20,24 +20,24 @@ selected_project:
   confirmation: Product owner explicitly selected this inspected empty project as canonical on 2026-10-28.
   schemas: [auth, extensions, graphql, graphql_public, public, realtime, storage, vault]
   initial_empty_receipt: tracking/discovery/central-metadata.json; original observed_at preserved.
-  current_readback_receipt: tracking/evidence/cloud-manual-specs/2026-10-28T18-21-07-451865Z-b7e8cd80-readback.json
-  current_readback_at: '2026-10-28T18:20:54.513180+00:00'
-  current_readback_finished_at: '2026-10-28T18:21:07.451844+00:00'
+  current_readback_receipt: tracking/evidence/cloud-role-order/2026-10-28T19-31-14-242836Z-dc97d5dc-readback.json
+  current_readback_at: '2026-10-28T19:31:00.356213+00:00'
+  current_readback_finished_at: '2026-10-28T19:31:14.242819+00:00'
   current_readback_time_scope: Receipt observed_at starts the operation; finished_at completes it. No independent catalog transaction timestamp is supplied.
   historical_foundation_readback: tracking/evidence/cloud-foundation/readback.json
   public_app_relations: [clients, projects, project_memberships, client_memberships, app_capability_grants]
   eps_schema_present: true
   supabase_migrations_schema_present: true
-  user_rpc_count: 31
-  inspected_routine_count: 58
+  user_rpc_count: 32
+  inspected_routine_count: 60
   forced_rls_relation_count: 19
   authenticated_direct_canonical_update: false
   authenticated_direct_private_select: false
   grant_inventory_scope: Current cloud readback confirms RPC ownership/execute/search_path, private-table and canonical-write denials, runtime-role flags and one-way identity inheritance.
 canonical_migration_repository: This repository, supabase/migrations; no remote is configured.
-canonical_migration_baseline: ['20261028010943', '20261028013324', '20261028013655', '20261028024205', '20261028072515', '20261028162702', '20261028162800', '20261028172320']
+canonical_migration_baseline: ['20261028010943', '20261028013324', '20261028013655', '20261028024205', '20261028072515', '20261028162702', '20261028162800', '20261028172320', '20261028184145']
 migration_owner: Product owner; Codex authors under the repository release rules.
-new_schema_state: Eight immutable migrations applied locally/cloud. Eighth adds persisted current manual specs/roles/explicit slots and nine scoped RPCs. Existing base counts and workspace-state hash unchanged; one pristine spec covers the existing workspace, roles/slots zero. Historical snapshots remain dated. Authenticated hosted UI, logo Storage probe, source/stage/provider processing and assignment retirement remain unverified or unfinished.
+new_schema_state: Nine immutable migrations applied locally/cloud. Ninth adds role-only order with narrow sort_order authority. Existing base counts and full workspace/spec/role/slot/preferences hashes unchanged; one pristine spec covers the existing workspace, roles/slots zero. Real API access and one synthetic OpenAI extraction are recorded separately without DB apply/n8n run/cloud business write. Authenticated hosted UI, logo Storage, source/stage/output/service pipeline and assignment retirement remain unverified or unfinished.
 local_application_state:
   initial_migration: Applied in separately guarded local runtime; first actual role suite failed on Auth schema access.
   forward_fix: supabase/migrations/20261028013324_m01_identity_role_inheritance.sql applied locally; focused role inheritance proof passed.
@@ -46,9 +46,11 @@ local_application_state:
   concurrency_proof: Same-key and distinct-key independent-session races passed with backend PID/timestamp receipts; scoped cleanup passed. See development/local-db/receipts/2026-10-28T01-46-46-146Z-test-db-summary-8fbb2c6b.json.
   initial_history_preserved: true
   logo_boundary: Fourth migration applied locally after independent review and rolled-back candidate probes; simulated Storage catalog is SQL-only.
-  current_suite: development/local-db/receipts/2026-10-28T18-07-49-870Z-test-db-summary-68140882.json; guarded full local DB suite passed against exact eight-version history.
-  replay_scope_proof: tracking/evidence/m01/replay-scope/2026-10-28T18-10-19-748Z-fixed.json; exact advisory-wait/revocation denials, legitimate replay controls and cleanup passed.
-  processing_foundation_proof: tracking/evidence/m02/local/2026-10-28T18-08-57-532Z-7930ab51.json; independent-backend pairs, graceful same-volume PostgreSQL restart/fenced reclaim and strict cleanup passed. No daemon, stage callback or provider proof.
+  current_suite: development/local-db/receipts/2026-10-28T19-03-28-322Z-test-db-summary-499067f3.json; full DB25 stages/three pairs and cleanup passed against exact nine-version history.
+  replay_scope_proof: tracking/evidence/m01/replay-scope/2026-10-28T19-09-29-124Z-fixed.json; eleven exact advisory-wait/revocation cases, legitimate replay controls and cleanup passed.
+  processing_foundation_proof: tracking/evidence/m02/local/2026-10-28T19-05-03-586Z-35d591fb.json;29 stages/six pairs/graceful same-volume restart/fencing/cleanup passed. No daemon, stage callback or provider proof.
+  manual_specs_nine_version_regression: tracking/evidence/m02/specs-local/2026-10-28T19-06-45-233Z-5698a461.json;24 stages/four pairs and exact restoration passed.
+  role_order_proof: tracking/evidence/m02/role-order-local/2026-10-28T19-02-20-589Z-b9d09e55.json;23 stages/four sampled blocker pairs and strict cleanup passed.
   manual_specs_rollback_proof: tracking/evidence/m02/specs-candidate/2026-10-28T17-13-57-335Z-991a6489-rollback.json; historical pre-promotion candidate assertions and exact restoration passed. Earlier alias failure retained.
   manual_specs_first_application: tracking/evidence/m02/specs-local/2026-10-28T18-02-35-594Z-b35f9f60.json; migration eight actually applied and pre-DDL backfill/ACL proof passed, then driver guard failed; cleanup/count restoration passed. Overall result remains failed.
   manual_specs_proof: tracking/evidence/m02/specs-local/2026-10-28T18-07-04-016Z-0fdcf864.json; corrected rerun passed 23 stages/four actual sampled blocker pairs/strict cleanup. first_migration_application and backfill_tested_by_migration false on rerun. No source/provider/assignment proof.
@@ -56,7 +58,38 @@ local_application_state:
   node_sql_interoperability: development/local-db/receipts/2026-10-28T03-20-25-083Z-logo-node-sql-interop.json; actual Node helper to SQL verifier using synthetic key/metadata, rollback verified.
   logo_read_recovery: Ready metadata/checksum reads, reuse, cancel and completed replay are independent of optional upload signer/decoder; missing upload readiness cannot reserve/mint/publish.
   application_recovery_checkpoint: tracking/evidence/m01/readonly-reuse-checkpoint/summary.json; 80 application tests, four synthetic-adapter browser/HTTP tests and build passed.
-  cloud_migrations_applied: ['20261028010943', '20261028013324', '20261028013655', '20261028024205', '20261028072515', '20261028162702', '20261028162800', '20261028172320']
+  cloud_migrations_applied: ['20261028010943', '20261028013324', '20261028013655', '20261028024205', '20261028072515', '20261028162702', '20261028162800', '20261028172320', '20261028184145']
+role_order_cloud_application:
+  version: '20261028184145'
+  migration_sha256: 14f96c7e635fe46cb11393a881bca26068d696c32f5e454df8655299702b1efa
+  apply: tracking/evidence/cloud-role-order/2026-10-28T19-23-27-369394Z-bc35d553-apply.json
+  readback: tracking/evidence/cloud-role-order/2026-10-28T19-31-14-242836Z-dc97d5dc-readback.json
+  result: passed
+  prior_catalog_and_source_order_preferences_workspace_digests_preserved: true
+  base_counts_preserved: true
+  scope: Role-only exact active permutation; slot and assignment ordering unsupported. No source/service/pipeline enablement.
+  anonymous_boundary: tracking/evidence/cloud-role-order/anonymous-rpc-boundary.json;401/42501 at 19:33:12.299Z proves lookup/denial only.
+  advisors: tracking/evidence/cloud-role-order/security-advisors.json;33 WARN at 19:33:17.593408Z,32 curated definer plus unresolved Auth leaked-password setting.
+provider_observations:
+  read_only_access_receipt: tracking/evidence/m02/provider-access/2026-10-28T19-08-27-697Z-read-only-access.json
+  read_only_access_at: '2026-10-28T19:08:27.697Z'
+  openai_http_status: 200
+  n8n_api_http_status: 200
+  selected_extraction_model: gpt-6.1-sol
+  selected_model_available: true
+  synthetic_evaluation_receipt: tracking/evidence/m02/provider-evaluation/2026-10-28T19-31-30-526Z-0cfe7e61.json
+  synthetic_evaluation_finished_at: '2026-10-28T19:31:30.526Z'
+  evaluation_scope: One actual synthetic OpenAI request;3 roles/5 explicit slots, source evidence/nulls validated through pure domain projection only.
+  usage: {input_tokens: 1413, output_tokens: 1575, total_tokens: 2988}
+  database_apply: false
+  cloud_business_writes: false
+  n8n_workflow_run: false
+  pipeline_acceptance: false
+  n8n_discovery_receipt: tracking/evidence/m02/provider-access/2026-10-28T19-32-50-135Z-n8n-discovery.json
+  n8n_personal_project_id: pHvQjDmjxVZ3KQLT
+  personal_project_name_recorded: false
+  n8n_presentation_name_result: Unrelated inactive W05 Workspace Language Presentation,NTCzG7ZL8rqCMC0p; not Studio WF-01, no Drive connector/credential reuse or workflow modification/execution.
+  n8n_mcp_status: Still -32603, including SDK-reference attempt; configured management API is a separate working discovery fallback.
 manual_specs_cloud_application:
   version: '20261028172320'
   migration_sha256: 8ab866a49cb2e01eabf3b83076fe4519a60255263d0a1a170ef3ba9718a2349c
@@ -222,7 +255,7 @@ logical_table_mapping:
   integration_bindings: {decision: unnecessary_for_new_uuid_canonical_entities, physical_target: null}
   workspaces: {decision: cloud_applied_read_back_M01, physical_target: eps.workspaces}
   specs: {decision: eighth_migration_current_manual_draft_applied_source_pipeline_incomplete, physical_target: eps.specs}
-  roles: {decision: eighth_migration_manual_roles_applied_reorder_pending, physical_target: eps.roles}
+  roles: {decision: ninth_migration_manual_roles_and_role_only_order_applied, physical_target: eps.roles}
   slots: {decision: eighth_migration_explicit_slots_applied_assignment_retirement_gated, physical_target: eps.slots}
   media_assets: {decision: logo_registry_and_receipt_gated_sql_cloud_applied_development_runtime_enabled, physical_target: eps.media_assets}
   upload_sessions: {decision: cloud_applied_forced_rls_logo_reservations, physical_target: eps.upload_sessions}
@@ -292,7 +325,7 @@ adaptations:
   - decision_id: M00-NEW-CANONICAL-OWNER-DECISION
     evidence: tracking/DECISIONS.md and tracking/discovery/canonical-ownership.md
     impact: Owner explicitly approved the inspected empty project as canonical; no existing business data is replaced.
-    migration: Eight coordinated immutable migrations applied locally/cloud; latest exact source/contract/ACL/RLS/history readback in tracking/evidence/cloud-manual-specs/2026-10-28T18-21-07-451865Z-b7e8cd80-readback.json.
+    migration: Nine coordinated immutable migrations applied locally/cloud; latest exact source/contract/ACL/RLS/history readback in tracking/evidence/cloud-role-order/2026-10-28T19-31-14-242836Z-dc97d5dc-readback.json.
     tests: Local role/RLS, Node-to-SQL interoperability and three independent-backend race pairs passed; no synthetic cloud users/projects/keys seeded.
   - decision_id: M00-LOCAL-FIXTURE-BOUNDARY
     evidence: tracking/discovery/local-inventory.json
@@ -304,7 +337,7 @@ unresolved_access_dependencies:
   - Connected-browser user-token journey and lifecycle/session revocation behavior; loopback Auth settings are configured, max_frequency 1m0s was inspected at 14:17Z without changes, and SMTP/project email quota are not exposed by this CLI check.
   - Hosted signed-upsert denial and private byte/Sharp acceptance remain unrun after the owned development restart; candidate/derivative/PDF buckets, retention and restore remain later gates.
   - Existing hosting, CI/CD, worker platform and secret-management conventions; fresh Vercel Everyone-name query succeeded with zero matches in the default scope only.
-  - Authorized OpenAI and n8n integration configuration and representative samples; fresh n8n project-list call still failed with -32603.
+  - API access and one synthetic gpt-6.1-sol evaluation passed; representative quality/quota and actual Studio WF-01/service/storage pipeline still unverified. n8n MCP remains -32603 while management API discovery works; unrelated inactive W05 is not reused.
   - Intended delegated Claude clients and OAuth compatibility.
   - Unresolved auth_leaked_password_protection WARN and project entitlement/password policy before production; no Auth/billing mutation authorized by the discovery record.
 

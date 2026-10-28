@@ -3330,7 +3330,16 @@ components:
           type: string
         status:
           type: string
-          const: queued
+          enum:
+          - queued
+          - running
+          - waiting_for_input
+          - succeeded
+          - failed
+          - cancelled
+          description: Recorded durable job status for this acknowledgement. Reusing an existing job reports its
+            current status; an idempotent replay may retain its original acknowledgement. Read poll_url for current
+            status.
       required:
       - job_id
       - resource_id

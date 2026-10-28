@@ -1,0 +1,255 @@
+{
+  "observed_at": "2026-10-28T19:31:12.309Z",
+  "result": "passed",
+  "fixture": "fixtures/source-specs.txt",
+  "synthetic": true,
+  "source_sha256": "29cb8bfc078377c69e898815e167ef7a9c4fdcd7c607f01ab9a0c019ac62407b",
+  "reviewed_model": "gpt-6.1-sol",
+  "sdk_retries": 0,
+  "response_store": false,
+  "provider_request_attempted": true,
+  "adapter_completed": true,
+  "database_called": false,
+  "cloud_business_writes": false,
+  "n8n_called": false,
+  "pipeline_acceptance": false,
+  "raw_diagnostics_recorded": false,
+  "secrets_recorded": false,
+  "evaluation_fingerprint_scheme": "synthetic-evaluation.v1",
+  "correlation_id": "live-synthetic-specs-d1491d9c-165f-45a8-964c-0d59a6907051",
+  "preparation": {
+    "source_asset_id": null,
+    "method": "plain_text",
+    "paragraph_count": 5
+  },
+  "adapter_sha256": "6d5ae9440075c95adaf6b24954b30ccca63b5aac613e37b85a9e532ad58f44b4",
+  "metadata": {
+    "provider": "openai",
+    "sdk_version": "7.45.1",
+    "requested_model": "gpt-6.1-sol",
+    "resolved_model": "gpt-6.1-sol",
+    "response_id": "resp_04686205f6d796c6016ae24d825c9087d2b1e48d3c47b28eee",
+    "request_id": "req_4ada6e92aef14be5b384fc2db5673c37",
+    "correlation_id": "live-synthetic-specs-d1491d9c-165f-45a8-964c-0d59a6907051",
+    "input_sha256": "55f775386633ffe5219914c2b5d5fb3fee1f617295576245e19931dee1049604",
+    "prepared_source_sha256": "8177f72527a832bae5362eef6c99e5dff026ed995ace3ad3877ad7ea837b7588",
+    "prompt_version": "spec_extract_v1.0.0",
+    "prompt_sha256": "ab03fd026edb3d139fd93fdd51cb475474d6c4e3c8f6395b65014574e7e29eee",
+    "schema_version": "1.0",
+    "schema_sha256": "e8ffee51eee20f687abbfc12c2476248ccb5a59c1122fde418bc89db3ff58085",
+    "provider_schema_sha256": "d73a11450f2714c5649ab9a663f0a3483f68feefd1f482bc62575a9a608a1216",
+    "usage": {
+      "input_tokens": 1413,
+      "output_tokens": 1575,
+      "total_tokens": 2988
+    }
+  },
+  "validated_synthetic_result": {
+    "schema_version": "1.0",
+    "source_asset_id": null,
+    "source_language_codes": [
+      "en"
+    ],
+    "roles": [
+      {
+        "source_role_key": "father",
+        "name": "Father",
+        "headcount": 1,
+        "category": "Featured",
+        "requirements": {
+          "age_range": "40–50",
+          "gender_requirement": "Male",
+          "appearance_performance": "Warm, natural family performance; natural dialogue.",
+          "languages": [
+            "Arabic"
+          ],
+          "accents": [
+            "Egyptian"
+          ],
+          "skills": [],
+          "scene_references": [
+            "Kitchen scene 1",
+            "Living room scene 3"
+          ],
+          "shoot_dates": [
+            "2026-11-18"
+          ],
+          "location": "Cairo",
+          "availability_requirements": "Available for the full shoot day.",
+          "other_instructions": "The same character appears in both scenes."
+        },
+        "evidence": [
+          {
+            "asset_id": null,
+            "page": null,
+            "paragraph": 1,
+            "segment_index": null,
+            "start_ms": null,
+            "end_ms": null,
+            "quote": "Father: 1 person. Featured. Male, 40–50. Appears in kitchen scene 1 and living room scene 3; the same character in both scenes. Warm, natural family performance. Arabic with an Egyptian accent, natural dialogue. Available for the full shoot day."
+          },
+          {
+            "asset_id": null,
+            "page": null,
+            "paragraph": 0,
+            "segment_index": null,
+            "start_ms": null,
+            "end_ms": null,
+            "quote": "Shoot date: 18 November 2026\nShoot location: Cairo"
+          }
+        ],
+        "clarifications": []
+      },
+      {
+        "source_role_key": "manager",
+        "name": "Manager",
+        "headcount": 1,
+        "category": "Featured",
+        "requirements": {
+          "age_range": "35–50",
+          "gender_requirement": null,
+          "appearance_performance": "Confident office delivery.",
+          "languages": [
+            "Arabic",
+            "English"
+          ],
+          "accents": [],
+          "skills": [],
+          "scene_references": [
+            "Office scene 2"
+          ],
+          "shoot_dates": [
+            "2026-11-18"
+          ],
+          "location": "Cairo",
+          "availability_requirements": null,
+          "other_instructions": null
+        },
+        "evidence": [
+          {
+            "asset_id": null,
+            "page": null,
+            "paragraph": 2,
+            "segment_index": null,
+            "start_ms": null,
+            "end_ms": null,
+            "quote": "Manager: 1 person. Featured, 35–50. Office scene 2. Confident office delivery. Arabic and English dialogue. Gender and availability requirements were not supplied; do not invent them."
+          },
+          {
+            "asset_id": null,
+            "page": null,
+            "paragraph": 0,
+            "segment_index": null,
+            "start_ms": null,
+            "end_ms": null,
+            "quote": "Shoot date: 18 November 2026\nShoot location: Cairo"
+          }
+        ],
+        "clarifications": [
+          {
+            "field_path": "roles[1].requirements.gender_requirement",
+            "reason": "The source explicitly states that the gender requirement was not supplied.",
+            "source": {
+              "asset_id": null,
+              "page": null,
+              "paragraph": 2,
+              "segment_index": null,
+              "start_ms": null,
+              "end_ms": null,
+              "quote": "Gender and availability requirements were not supplied; do not invent them."
+            }
+          },
+          {
+            "field_path": "roles[1].requirements.availability_requirements",
+            "reason": "The source explicitly states that availability requirements were not supplied.",
+            "source": {
+              "asset_id": null,
+              "page": null,
+              "paragraph": 2,
+              "segment_index": null,
+              "start_ms": null,
+              "end_ms": null,
+              "quote": "Gender and availability requirements were not supplied; do not invent them."
+            }
+          }
+        ]
+      },
+      {
+        "source_role_key": "waiter",
+        "name": "Waiter",
+        "headcount": 3,
+        "category": "Featured",
+        "requirements": {
+          "age_range": "20–35",
+          "gender_requirement": null,
+          "appearance_performance": null,
+          "languages": [
+            "Arabic"
+          ],
+          "accents": [],
+          "skills": [
+            "Comfortable carrying a tray",
+            "Basic physical coordination"
+          ],
+          "scene_references": [
+            "Cafe scene 4"
+          ],
+          "shoot_dates": [
+            "2026-11-18"
+          ],
+          "location": "Cairo",
+          "availability_requirements": "Full-day availability.",
+          "other_instructions": "The source requests separate Waiter 1, Waiter 2, and Waiter 3 slots; these represent three people for one distinct role."
+        },
+        "evidence": [
+          {
+            "asset_id": null,
+            "page": null,
+            "paragraph": 3,
+            "segment_index": null,
+            "start_ms": null,
+            "end_ms": null,
+            "quote": "Waiter: 3 people. Featured, 20–35. Cafe scene 4. Comfortable carrying a tray. Arabic and basic physical coordination. Full-day availability. Gender requirement was not supplied. Create separate Waiter 1, Waiter 2, and Waiter 3 slots."
+          },
+          {
+            "asset_id": null,
+            "page": null,
+            "paragraph": 0,
+            "segment_index": null,
+            "start_ms": null,
+            "end_ms": null,
+            "quote": "Shoot date: 18 November 2026\nShoot location: Cairo"
+          }
+        ],
+        "clarifications": [
+          {
+            "field_path": "roles[2].requirements.gender_requirement",
+            "reason": "The source explicitly states that the gender requirement was not supplied.",
+            "source": {
+              "asset_id": null,
+              "page": null,
+              "paragraph": 3,
+              "segment_index": null,
+              "start_ms": null,
+              "end_ms": null,
+              "quote": "Gender requirement was not supplied."
+            }
+          }
+        ]
+      }
+    ],
+    "general_instructions": "Synthetic test data only. Project: Everyday, extraordinary — synthetic test. Client: Sample Client — synthetic test. The document supplies requirements, not candidate facts; target ages and performance requirements must not be copied into candidate profiles.",
+    "clarifications": []
+  },
+  "assertions": {
+    "ordered_roles": 3,
+    "explicit_slots": 5,
+    "repeated_scenes_do_not_multiply_roles": true,
+    "missing_gender_and_availability_stay_null": true,
+    "evidence_schema_validated": true,
+    "source_identity_null_not_fabricated": true,
+    "domain_projection_only": true,
+    "database_apply_tested": false
+  },
+  "finished_at": "2026-10-28T19:31:30.526Z"
+}

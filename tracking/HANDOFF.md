@@ -1,5 +1,147 @@
 # Current Codex handoff
 
+Updated after actual cloud9 readback (2026-10-28T19:31:14Z), the one real
+synthetic OpenAI evaluation (19:31:30Z), and subsequent API/advisor observations.
+M00 is verified; M01/M02 remain in_progress; M03-M07 remain not_started.
+This current section supersedes the dated historical checkpoints below.
+
+## Latest local code and owner direction
+
+The owner chose **continue local container testing; choose hosting later**.
+No hosted worker has been selected or deployed. Code commit da77ab4 and
+`tracking/evidence/m02/provider-validation/checkpoint.json` supersede the old
+170-test pending-rerun statement below:188 module tests, build/typecheck,
+production denial,15 offline configuration tests and325 strict pack checks pass.
+The retained prefer-const lint failure is fixed; full lint and12 focused executor
+tests reran successfully. Historical19 browser cases/c2df325 were not rerun here.
+
+The verified-user submit facade returns202 only after a durable RPC acceptance;
+missing/disabled backend stays503. Native execution snapshots scoped input,
+rechecks source/hash/config/lease, bounds gateway waits, serializes heartbeats
+and stops after unknown/late callbacks. Gateway/provider test doubles remain
+separate from real services. No source form or authenticated gateway is wired.
+
+`tracking/evidence/m02/specs-submit-candidate/2026-10-28T20-10-13-695Z-350ca6d9-rollback.json`
+passes exact initial source/job/outbox/receipt atomicity with9 suppressed writes
+and complete catalog/count rollback. The stage/application candidate now passes its separate local rollback-only
+Auth-RLS simulation and initial three-stage assertions. Nine
+applied migrations stay unchanged; no10/cloud promotion has occurred. Retain
+original source/evidence and support ordinary source replacement later through
+immutable internal inputs; do not turn the current partial503 into a product rule.
+
+Next exact action: finish stage-kernel rollback proof, then persistent local
+races/recovery and integrated source/executor/dispatcher/WF01 tests. Container
+proofs only demonstrate one-shot native parsing and resource configuration;
+consult their final receipt for target pinning, failures and cleanup scope.
+
+The final local parser proof is
+`tracking/evidence/m02/document-container/2026-10-28T20-25-30-385Z-181a29f5.json`
+(seven cases), with three targeting-override rejection checks in
+`2026-10-28T20-25-50-772Z-preflight-negatives.json` in the same directory.
+Commit4440d31 pins the base image,16-file source tar, local Docker endpoint,
+nonroot/read-only/none-network and measured resource configuration. All seven
+owned containers were removed; images and the earlier harness failures remain.
+The1ms case proves cleanup mechanics, not a sustained adversarial workload.
+This is separate from the native executor/provider and persistent SQL proof.
+
+The initial SQL stage/apply rehearsal now passes at20:46:58Z:
+`tracking/evidence/m02/specs-stages-candidate/2026-10-28T20-46-58-625Z-a863a766-rollback.json`.
+It reached final rollback; owned backend settled; full catalog/all counts,
+including managed Auth fixture RLS/ACLs, restored. Keep every earlier failed
+attempt as failed. Candidate/proof commit74ae183 binds final candidate35214cb1/assertions1ac2fff7/runner4fb9ca57
+remain outside applied history/manifest. Nine versions still apply. No
+persistent/concurrent/restart/native/provider/gateway/WF01 result follows from
+this one-transaction proof. Next: coordinated persistent LOCAL composition,
+cross-runtime hash/parity, races/recovery and retained replacement-source inputs,
+then source form/service/output/dispatcher/WF01 integration. Hosting is deferred.
+
+## Current database and actual local proof
+
+Nine immutable migrations are applied locally/cloud. Latest9 is
+`20261028184145_m02_role_order.sql`, SHA256
+`14f96c7e635fe46cb11393a881bca26068d696c32f5e454df8655299702b1efa`.
+Apply: `tracking/evidence/cloud-role-order/2026-10-28T19-23-27-369394Z-bc35d553-apply.json`.
+Independent latest readback:
+`tracking/evidence/cloud-role-order/2026-10-28T19-31-14-242836Z-dc97d5dc-readback.json`.
+It verifies 32 public RPCs/60 routines/19 forced-RLS tables, preserved prior
+catalog/base counts and workspace/spec/role/slot/preferences hashes. The cloud
+still has one pristine Spec, zero roles/slots and empty queues. Role-only order
+is applied; slot/assignment ordering is unsupported. Advisors report 33 WARN:
+32 curated definers plus unresolved Auth leaked-password protection. Anonymous
+new-RPC401/42501 proves lookup/denial, not authenticated reorder acceptance.
+
+Nine-version local receipts all passed with strict cleanup:
+
+- Full DB25 stages/three pairs: `development/local-db/receipts/2026-10-28T19-03-28-322Z-test-db-summary-499067f3.json`.
+- Jobs29 stages/six pairs/restart/fencing: `tracking/evidence/m02/local/2026-10-28T19-05-03-586Z-35d591fb.json`.
+- Manual24 stages/four pairs: `tracking/evidence/m02/specs-local/2026-10-28T19-06-45-233Z-5698a461.json`.
+- Role order23 stages/four sampled blocker pairs: `tracking/evidence/m02/role-order-local/2026-10-28T19-02-20-589Z-b9d09e55.json`.
+- Eleven replay cases: `tracking/evidence/m01/replay-scope/2026-10-28T19-09-29-124Z-fixed.json`.
+
+Keep older8 backfill/driver failures and successful already-applied rerun distinct.
+Never reset/relabel history. Local suites share an owned lock/runtime at
+127.0.0.1:55433; coordinate any DB execution with its assigned owner.
+
+## Actual provider evidence and limits
+
+`tracking/evidence/m02/provider-access/2026-10-28T19-07-58-393Z-presence.json`
+records all four private fields present without values/digests/provider calls.
+`tracking/evidence/m02/provider-access/2026-10-28T19-08-27-697Z-read-only-access.json`
+records both APIs HTTP200 and selected-model availability. These supersede the
+older blank-field observation; never overwrite or expose private configuration.
+
+`tracking/evidence/m02/provider-evaluation/2026-10-28T19-31-30-526Z-0cfe7e61.json`
+records exactly one actual synthetic OpenAI extraction: requested/resolved model
+`gpt-6.1-sol`,1413 input/1575 output/2988 total tokens, retries0, response storage
+disabled. Three roles/five slots/source evidence/null assertions passed through
+pure domain projection. No DB apply, cloud business write or n8n call occurred;
+one sample is not representative quality/quota/capacity or pipeline acceptance.
+
+`tracking/evidence/m02/provider-access/2026-10-28T19-32-50-135Z-n8n-discovery.json`
+records one personal project with name unrecorded and unrelated inactive W05
+Workspace Language Presentation. No Studio WF-01 was identified or run, no
+workflow modified and no Drive connector/credential reused. MCP still-32603,
+including a later SDK-reference attempt; API discovery is a separate working
+fallback. Management API keys are not dispatch/callback credentials.
+
+## Code validation and next exact action
+
+Historical c2df325 passed 159 module tests/19 controlled browser cases/15 offline
+configuration tests plus lint/typecheck/build/production fixture denial:
+`tracking/evidence/m02/extended-validation/`. Keep this checkpoint historical.
+Root's later provider-validation checkpoint actually passed 170 modules
+(80 unit/server+5 contracts+12 jobs+15 integrations+22 worker+36 central), lint
+and typecheck: `tracking/evidence/m02/provider-validation/`. It preceded the
+latest submit facade changes; a broader post-facade rerun is pending. Do not
+claim an unrun later checkpoint or a newer browser/build result. Browser
+fixtures and actual SQL proofs remain separate from hosted acceptance.
+
+The verified-user submit SDK/HTTP facade now exists with injected tests, while
+its actual source persistence/configuration RPC is still a candidate/unapplied
+path and unavailable backend returns503. No source form is connected. Next:
+finish source/text persistence with real versions and an actual job/outbox in
+one transaction, then authenticated service claim/events/typed atomic apply,
+scoped outputs, actual dispatcher/worker host and Studio WF-01. Direct pasted
+text has a null original asset and exact UTF8 hash; real files require real IDs.
+Preserve original evidence/manual edits and deny publication after requester
+write authority is revoked as the adopted conservative default. No fake Auth
+user, service-role fallback, source asset or queued job is permitted.
+Callbacks touching drafts lock workspace?spec?job?roles/slots?outbox; job-only
+operations stay job?outbox. Recheck scope after waits; separate RPCs are not one
+transaction. Parser heap/deadline/pipes are not an OS/RSS/CPU/egress sandbox.
+
+The owner closed review tabs; hosted signed-in project/logo/Storage acceptance
+remains unrun. Preserve existing enrollment, keys and four grants. Verify the
+old30061 dev process ownership before a current-serving claim. Fonts/template,
+representative media, Claude/OAuth, PDF/guest, restore and deployment remain
+later gates. Do not regenerate context while current candidates are evolving.
+
+## Historical checkpoint after manual8 and code c2df325
+
+The following prior text is dated history; its8-only and blank-provider state
+has been superseded by the current evidence above.
+
+
 Updated after the 2026-10-28T18:21Z independent cloud readback. M00 is verified;
 M01/M02 remain in progress. The production app is incomplete. This section
 supersedes the historical checkpoint below; do not redo completed setup.
@@ -10,11 +152,11 @@ Eight immutable migrations are now applied locally and in canonical cloud
 `8ab866a49cb2e01eabf3b83076fe4519a60255263d0a1a170ef3ba9718a2349c`.
 All earlier migration bytes remain unchanged. Latest receipt:
 `tracking/evidence/cloud-manual-specs/2026-10-28T18-21-07-451865Z-b7e8cd80-readback.json`.
-It verifies31 public RPCs/58 distinct routine contracts/19 forced-RLS app tables,
+It verifies 31 public RPCs/58 distinct routine contracts/19 forced-RLS app tables,
 exact source/argument/result/ACL/column/policy/role/initializer boundaries, preserved
 business/Storage counts and unchanged workspace-version/branding digest. One
 pristine Spec was backfilled; roles/slots/queue remain empty. No source, identity,
-grant, service login or provider was fabricated. Fresh advisors report32 WARN:
+grant, service login or provider was fabricated. Fresh advisors report 32 WARN:
 31 curated definer RPCs plus unresolved Auth leaked-password configuration.
 
 Manual specs/role/slot SDK, HTTP and editor are connected. Original multilingual
@@ -72,6 +214,38 @@ central dev server at3000; verify its current ownership before a serving claim.
 Private env/verifier/enrollment remain ignored. Preserve the bounded scanner's
 historical receipt and exact inherited-design-contact exception; no new identity
 copy/key is exempt. Preserve prior ZIPs before a new development source snapshot.
+
+## Newer code checkpoint after manual8
+
+`c2df325` adds Processing list/detail, exact role-only order controls/SDK/HTTP and
+the separate document parser process. Actual checks pass 159 module tests,
+19 controlled browser cases,15 injected private-config/inspection tests,
+lint/typecheck/build and production fixture denial. Evidence is retained at
+`tracking/evidence/m02/extended-validation/`. Source/provider fixtures and actual
+SQL/local proof remain distinct from real hosted acceptance. Existing19 browser
+responses are intercepted; no real Auth/Storage/provider is exercised.
+
+The owner requested a file for private keys. Root created ignored
+`.env.worker.local` with empty OPENAI_API_KEY/OPENAI_EXTRACTION_MODEL/N8N_API_KEY/
+N8N_BASE_URL fields and confirmed Git exclusion. No real value was printed.
+`tools/worker-private-env.mjs` reads only that fixed bounded file when invoked;
+the provider inspector only lists model/workflow metadata and does not configure
+or execute them. The latest actual presence check found all four fields blank.
+Do not overwrite the file if the owner fills it or infer that this repairs MCP.
+
+Role ordering already exists in OpenAPI. Candidate rollback passed at 18:38Z,
+but persistent migration9 `20261028184145_m02_role_order.sql` is NOT yet claimed
+applied. Domain agent owns current9 local race/regression/cleanup; discovery owns
+new sealed9 release helper/readback; root owns all cloud execution. Old8 helper/
+proof bytes remain immutable and should fail closed when history advances.
+Never run DB clients while domain owns the shared restart/test window. UI agent
+is inspecting the exact next source-submit/service-auth/stage contracts read-only.
+
+The parser is bounded by two children,256MiB V8 old space,30s maximum deadline,
+pipe/paragraph limits and a scrubbed environment. Node permissions/native addons
+are not an OS sandbox or RSS/CPU/egress boundary. Actual cloud-backed worker,
+source submit, lease callbacks/atomic result apply and service identity are still
+pending. All current user grants remain the original four M01 capabilities.
 
 ## Historical checkpoint before manual8 release
 
@@ -138,3 +312,9 @@ Actual n8n project discovery still returns MCP-32603. Fresh process/project-env 
 Private verifier/enrollment files, `.env.local`, Supabase `.temp`, private traces and generated output remain ignored. Preserve original supplied manifests and prior source archives under `dist/checkpoints/`. `python tools/package_pack.py --check` inspects eligible source; generated source ZIP is a snapshot, never a production deployment.
 
 `tools/check_enrollment_source.py` scans known private key encodings and the setup identity without printing them. Preserve its historical fixed-path receipt when retaining a new checkpoint. One exact unchanged supplied `Design Elements/DESIGN.md` contains the original business contact and is narrowly exempt; no new identity copy or key is exempt. Do not claim that the contact is globally absent.
+
+## Direct pasted-text preparation follow-up
+
+The c2df325 worker checkpoint remains historical17/17. The follow-up adds `preparePastedText(text)` and explicit `{sourceKind: pasted_text, text, sourceAssetId: null}` input to the bounded process/storage port; direct text retains its original UTF8 hash and LF paragraph map. Real file calls still require a verified source asset ID. The document-preparation JSON schema permits a null original only for direct text; output reservation parent was already nullable. Five new synthetic/offline tests bring the worker suite to22/22, with no provider, service callback, actual document Storage or source-submit execution implied. Public submit remains503.
+
+Next source/lease slice: persist original text and source version plus an actual job/outbox atomically under the real acting user; freeze the post-submit source/workspace versions in unchanged jobs input v1. `SpecSubmit.row_version` is the current Spec version and may be omitted only for a locked pristine initial record. Add authenticated service claim/event/typed-result operations using an execute-only service DB bridge, never a fake Auth user/service-role fallback. Use workspace?spec?job?roles/slots?outbox locks for callbacks that touch drafts; existing job-only operations stay job?outbox. Preserve manual edits with source/workspace version checks and waiting_for_input; deny publication after requester write authority is revoked as the adopted conservative default. The final apply_specs result schema remains deferred to that actual stage implementation; no broad unused schema was added here.

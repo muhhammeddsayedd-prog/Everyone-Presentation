@@ -1,0 +1,29 @@
+
+> everyone-presentation-studio@0.1.0 test:worker
+> node tools/run-tests.mjs tests/worker/*.test.ts
+
+✔ UTF-8 preparation preserves Arabic/mixed source and exact paragraph evidence offsets (2.5513ms)
+✔ genuine DOCX extracts supplied English and Arabic paragraph text without HTML execution (63.4958ms)
+✔ genuine two-page PDF retains page references; scanned/no-text PDF requests vision or manual text (1441.9771ms)
+✔ real prepared paragraph indices resolve exact source/page/text in the extraction evidence validator (9.8806ms)
+✔ malformed input, unsupported legacy Word and unsafe archive paths fail with actionable typed errors (17.21ms)
+✔ byte, text, page and DOCX expansion limits reject bounded denial-of-service inputs (57.7097ms)
+✔ DOCX rejects entity declarations and encrypted entries before text parsing (6.7907ms)
+✔ DOCX relationship policy checks decoded XML attributes regardless of namespace prefix (9.8259ms)
+✔ DOCX rejects corrupt entry checksums even when expanded byte counts still match (2.842ms)
+✔ prepared output is reserved, written and verified before returning the exact callback projection (776.7741ms)
+✔ separate parser process returns exact prepared evidence and a hash of unchanged input bytes (417.0696ms)
+✔ oversize input is refused before starting a parser, and typed format errors cross without private diagnostics (404.3793ms)
+✔ an expired parser deadline terminates that child and later parsing still works (495.5944ms)
+✔ cancellation refuses already-aborted work and stops an active child without publishing a result (13.4301ms)
+✔ actual PDF and DOCX preparation work through the bounded process without a web or provider request (1328.4874ms)
+✔ paragraph allocation is bounded consistently before producing an AI input that exceeds its contract (408.9892ms)
+✔ only two parser processes are admitted and busy refusal does not consume a slot (827.2207ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4298.346

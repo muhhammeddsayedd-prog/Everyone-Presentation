@@ -1,0 +1,27 @@
+{
+  "observed_at": "2026-10-28T19:08:27.697Z",
+  "scope": "read-only provider credential/access inspection",
+  "presence": {
+    "openai_key_present": true,
+    "extraction_model_selected": true,
+    "n8n_key_present": true,
+    "n8n_base_url_present": true
+  },
+  "openai": {
+    "status": "reachable",
+    "http_status": 200,
+    "documented_candidate": "gpt-6.1-sol",
+    "candidate_available": true,
+    "selected_model_available": true,
+    "model_generation_tested": false
+  },
+  "n8n": {
+    "status": "reachable",
+    "http_status": 200,
+    "workflows_on_page": 1,
+    "more_pages": true,
+    "workflows_executed": false
+  },
+  "pipeline_tested": false,
+  "secrets_or_provider_bodies_recorded": false
+}

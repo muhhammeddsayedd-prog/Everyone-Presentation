@@ -1,0 +1,61 @@
+{
+  "observed_at": "2026-10-28T19:32:50.135Z",
+  "scope": "read-only configured n8n Cloud project metadata and Presentation-name workflow filter",
+  "projects": {
+    "http_status": 200,
+    "complete_page": true,
+    "rows": [
+      {
+        "id": "pHvQjDmjxVZ3KQLT",
+        "type": "personal",
+        "name": null,
+        "personal_name_redacted": true
+      }
+    ]
+  },
+  "workflow_filter": {
+    "name": "Presentation",
+    "excludePinnedData": true,
+    "includeParentFolder": true,
+    "http_status": 200,
+    "complete_page": true,
+    "rows": [
+      {
+        "id": "NTCzG7ZL8rqCMC0p",
+        "name": "W05 Workspace Language Presentation",
+        "active_version_id": null,
+        "legacy_active": false,
+        "folder_id": null,
+        "node_types": [
+          {
+            "type": "n8n-nodes-base.scheduleTrigger",
+            "version": 1.2
+          },
+          {
+            "type": "n8n-nodes-base.code",
+            "version": 2
+          },
+          {
+            "type": "n8n-nodes-base.httpRequest",
+            "version": 4.2
+          },
+          {
+            "type": "n8n-nodes-base.if",
+            "version": 2.2
+          },
+          {
+            "type": "n8n-nodes-base.googleDrive",
+            "version": 3
+          },
+          {
+            "type": "n8n-nodes-base.executeWorkflow",
+            "version": 1.3
+          }
+        ]
+      }
+    ]
+  },
+  "credential_values_or_nodes_recorded": false,
+  "workflows_modified_or_executed": false,
+  "mcp_connection": "still returning -32603; API access checked separately"
+}
