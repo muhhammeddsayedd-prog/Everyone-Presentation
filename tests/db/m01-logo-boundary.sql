@@ -71,7 +71,7 @@ create policy eps_test_logo_broad on storage.objects for all to authenticated us
 create policy eps_test_logo_broad_buckets on storage.buckets for all to authenticated using(true) with check(true);
 set local role authenticated;
 select pg_temp.logo_user('aaaaaaaa-1111-4111-8111-111111111111');
-select pg_temp.assert_logo(public.eps_get_capabilities()->'upload_policy'->'available_purposes'='[]'::jsonb,'hosted upload acceptance remains disabled');
+select pg_temp.assert_logo(public.eps_get_capabilities()->'upload_policy'->'available_purposes'='["client_logo"]'::jsonb,'implemented scoped logo metadata does not bypass runtime readiness or prove hosted acceptance');
 select pg_temp.expect_logo_query('select * from eps.logo_verification_keys','42501');
 select pg_temp.expect_logo_query('update eps.media_assets set status=''ready''','42501');
 select pg_temp.expect_logo_query('select public.eps_reserve_logo_upload(''{"workspace_id":"aaaaaaaa-6666-4666-8666-666666666666","purpose":"client_logo","filename":"logo.png","mime_type":"image/png","size_bytes":1234,"status":"ready"}'',''forged-ready'')','INVALID_REQUEST');

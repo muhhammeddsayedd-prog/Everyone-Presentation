@@ -33,9 +33,9 @@ selected_project:
   authenticated_direct_private_select: false
   grant_inventory_scope: Current cloud readback confirms RPC ownership/execute/search_path, private-table and canonical-write denials, runtime-role flags and one-way identity inheritance.
 canonical_migration_repository: This repository, supabase/migrations; no remote is configured.
-canonical_migration_baseline: ['20261028010943', '20261028013324', '20261028013655', '20261028024205']
+canonical_migration_baseline: ['20261028010943', '20261028013324', '20261028013655', '20261028024205', '20261028072515']
 migration_owner: Product owner; Codex authors under the repository release rules.
-new_schema_state: Four immutable source migrations applied locally and to canonical cloud; the immutable release snapshot excluded key provisioning. A later separately recorded verifier configuration installed one active key; runtime uploads remain disabled.
+new_schema_state: Five immutable source migrations applied locally/cloud. The earlier immutable release snapshot excluded the later verifier key, capability forward fix and owner-requested canonical test pair. The current dev process enables verification; actual hosted user/Storage acceptance remains unrun.
 local_application_state:
   initial_migration: Applied in separately guarded local runtime; first actual role suite failed on Auth schema access.
   forward_fix: supabase/migrations/20261028013324_m01_identity_role_inheritance.sql applied locally; focused role inheritance proof passed.
@@ -44,11 +44,11 @@ local_application_state:
   concurrency_proof: Same-key and distinct-key independent-session races passed with backend PID/timestamp receipts; scoped cleanup passed. See development/local-db/receipts/2026-10-28T01-46-46-146Z-test-db-summary-8fbb2c6b.json.
   initial_history_preserved: true
   logo_boundary: Fourth migration applied locally after independent review and rolled-back candidate probes; simulated Storage catalog is SQL-only.
-  current_suite: development/local-db/receipts/2026-10-28T03-22-41-050Z-test-db-summary-59ca1af3.json; 19 stages and three independent-backend race pairs passed, scoped cleanup passed.
+  current_suite: development/local-db/receipts/2026-10-28T07-37-24-591Z-test-db-summary-dc3c8a1d.json; 21 stages and three independent-backend race pairs passed, scoped cleanup passed.
   node_sql_interoperability: development/local-db/receipts/2026-10-28T03-20-25-083Z-logo-node-sql-interop.json; actual Node helper to SQL verifier using synthetic key/metadata, rollback verified.
   logo_read_recovery: Ready metadata/checksum reads, reuse, cancel and completed replay are independent of optional upload signer/decoder; missing upload readiness cannot reserve/mint/publish.
   application_recovery_checkpoint: tracking/evidence/m01/readonly-reuse-checkpoint/summary.json; 80 application tests, four synthetic-adapter browser/HTTP tests and build passed.
-  cloud_migrations_applied: ['20261028010943', '20261028013324', '20261028013655', '20261028024205']
+  cloud_migrations_applied: ['20261028010943', '20261028013324', '20261028013655', '20261028024205', '20261028072515']
 cloud_application:
   scope: Immutable schema-release snapshot; subsequent verifier configuration is recorded separately below.
   observed_at: '2026-10-28T03:32:17.619929+00:00'
@@ -79,10 +79,10 @@ logo_verifier_configuration:
   public_secret_or_raw_cli_output_recorded: false
   launcher_boundary: Strict completed/target-bound two-field loader passes key configuration through child environment only; no upload flag or key value is printed.
   launcher_loader_probe: Root reported passed; separate from full process startup/relaunch and Storage HTTP acceptance.
-  running_server_state: Launched before key installation; full startup/relaunch proof pending before enablement.
-  runtime_enabled: false
-  database_upload_purposes_disabled: true
-  evidence_scope: Later key configuration only; does not alter the zero-key release snapshot or establish real-user/Storage acceptance.
+  running_server_state: Owned central process relaunched with protected configuration and explicit development flag; session63564, anonymous HTTP/sign-in UI checked.
+  runtime_enabled: true
+  database_upload_purposes_disabled: false
+  evidence_scope: Key match remains the timestamped04:06 inspection; later process runtime receipt is tracking/evidence/m01/central-enrollment/runtime.json. Neither establishes real-user/Storage acceptance or changes the immutable zero-key release snapshot.
 app_schema: eps # observed private application schema
 runtime_access_strategy: User JWT with server getUser verification and curated auth.uid-derived RPC; private eps RLS with non-owner non-BYPASSRLS function roles. Forward fix uses one-way inherited authenticated identity privileges with SET/admin disabled.
 
@@ -99,7 +99,7 @@ canonical_entities:
     project_access_source: public.project_memberships plus public.app_capability_grants.
     physical_fk_from_binding: Not needed; eps.workspaces.project_id directly references public.projects.id.
     decision: Establish new canonical table by explicit owner decision.
-    mapping_state: Applied and read back in approved canonical cloud; baseline empty receipt retained. No real project rows yet.
+    mapping_state: Applied and read back in approved canonical cloud; historical empty receipt retained. The explicitly requested canonical Dummy Test project now exists; signed-in access remains unrun.
   client:
     schema: public
     table: clients
@@ -154,7 +154,7 @@ storage:
   private_logo_key_registry: eps.logo_verification_keys; one active purpose key configured later, no user/API-owner read authority.
   observed_buckets: [{id: eps-brand-assets, public: false, maximum_bytes: 5242880, mime_types: [image/png, image/jpeg, image/webp]}]
   observed_bucket_count: 1
-  observation: Cloud DDL snapshot establishes private branding bucket/eight policies and zero media/uploads/keys at 03:32; later 04:06 verifier inspection confirms one matching protected key. Upload capabilities remain disabled; Storage HTTP/bytes unverified.
+  observation: Cloud DDL snapshot establishes private branding bucket/eight policies and zero media/uploads/keys at 03:32; later 04:06 verifier inspection confirms one matching protected key. Fifth migration advertises only scoped client_logo; current owned development process enables verification. Storage HTTP/bytes remain unverified.
   branding_bucket: eps-brand-assets
   source_bucket: null
   derived_bucket: null
@@ -162,7 +162,7 @@ storage:
   all_selected_buckets_private: true
   max_file_size_policy: Observed branding bucket limit 5 MiB and PNG/JPEG/WebP allowlist; actual HTTP/provider enforcement remains untested.
   resumable_upload_policy: Candidate video/source and resumable transport remain M03; the branding bucket does not establish those paths.
-  upload_runtime_enabled: false
+  upload_runtime_enabled: true
   verification_key_count: 1
   verification_key_observed_at: '2026-10-28T04:06:23.761385+00:00'
   backup_and_retention: null
@@ -175,9 +175,9 @@ logical_table_mapping:
   specs: {decision: proposed_app_extension_pending_discovery, physical_target: null}
   roles: {decision: proposed_app_extension_pending_discovery, physical_target: null}
   slots: {decision: proposed_app_extension_pending_discovery, physical_target: null}
-  media_assets: {decision: logo_registry_and_receipt_gated_sql_cloud_applied_runtime_upload_disabled, physical_target: eps.media_assets}
+  media_assets: {decision: logo_registry_and_receipt_gated_sql_cloud_applied_development_runtime_enabled, physical_target: eps.media_assets}
   upload_sessions: {decision: cloud_applied_forced_rls_logo_reservations, physical_target: eps.upload_sessions}
-  logo_verification_keys: {decision: cloud_applied_private_registry_one_key_configured_after_release_runtime_disabled, physical_target: eps.logo_verification_keys}
+  logo_verification_keys: {decision: cloud_applied_private_registry_one_key_configured_later_development_runtime_enabled, physical_target: eps.logo_verification_keys}
   candidates: {decision: reuse_or_extend_canonical_pending_discovery, physical_target: null}
   candidate_media: {decision: reuse_or_extend_existing_media_pending_discovery, physical_target: null}
   workspace_candidates: {decision: proposed_app_extension_pending_discovery, physical_target: null}
@@ -243,7 +243,7 @@ adaptations:
   - decision_id: M00-NEW-CANONICAL-OWNER-DECISION
     evidence: tracking/DECISIONS.md and tracking/discovery/canonical-ownership.md
     impact: Owner explicitly approved the inspected empty project as canonical; no existing business data is replaced.
-    migration: Four coordinated immutable M01 migrations applied locally/cloud; current embedded readback in tracking/evidence/cloud-logo-foundation/2026-10-28T03-32-17-619834Z-6a35754c-apply.json.
+    migration: Five coordinated immutable M01 migrations applied locally/cloud; latest source/history/ACL readback in tracking/evidence/cloud-logo-capability/2026-10-28T07-48-14-630664Z-11769197-apply.json.
     tests: Local role/RLS, Node-to-SQL interoperability and three independent-backend race pairs passed; no synthetic cloud users/projects/keys seeded.
   - decision_id: M00-LOCAL-FIXTURE-BOUNDARY
     evidence: tracking/discovery/local-inventory.json
@@ -251,9 +251,20 @@ adaptations:
     migration: Discovery does not apply cloud changes; root release receipts separately record authorized application.
     tests: Production-denial, scope and persistence tests required in local implementation.
 unresolved_access_dependencies:
-  - Real signed-in user and real canonical project journey; no cloud auth users/projects/grants are provisioned yet.
+  - Real signed-in user/project journey remains unrun. Owner-requested canonical test project/client exist; latest private-email lookup finds0 Auth accounts and no grants/workspace were created.
   - Actual signed-in user-token journey and lifecycle/session revocation behavior; loopback Auth settings are already configured.
-  - Fresh full startup with protected verifier configuration, hosted signed-upsert denial and private byte/Sharp acceptance before runtime uploads; candidate/derivative/PDF buckets, retention and restore remain later gates.
+  - Hosted signed-upsert denial and private byte/Sharp acceptance remain unrun after the owned development restart; candidate/derivative/PDF buckets, retention and restore remain later gates.
   - Existing hosting, CI/CD, worker platform and secret-management conventions; fresh Vercel Everyone-name query succeeded with zero matches in the default scope only.
   - Authorized OpenAI and n8n integration configuration and representative samples; fresh n8n project-list call still failed with -32603.
   - Intended delegated Claude clients and OAuth compatibility.
+
+current_owner_setup:
+  record_scope: Owner-requested test project/client only; not production casting facts or a cloud fixture seed.
+  client_id: f4a9937c-f575-4975-bdea-fb83b85e48c3
+  project_id: 4b70c8ce-18bd-4a8c-b5a9-bc1156c06463
+  receipt_directory: tracking/evidence/m01/producer-bootstrap/
+  latest_auth_inspection: 2026-10-28T07:57:37.816718+00:00
+  principal_matches: 0
+  grant_state: Pending actual confirmed human sign-in; no Auth writes or workspace creation.
+  bootstrap_identity_copied_to_source: false
+  inherited_design_reference_contact_preserved: true

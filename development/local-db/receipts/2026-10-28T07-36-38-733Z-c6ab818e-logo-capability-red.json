@@ -1,0 +1,11 @@
+{
+  "action": "logo-capability-red",
+  "observed_at": "2026-10-28T07:36:38.733Z",
+  "scope": "guarded owned local PostgreSQL only; pre-forward capability test; synthetic rollback fixture",
+  "file": "tests/db/m01-logo-upload-capability.sql",
+  "sha256": "451d4e20f7aa95a380868ccc10bfe3c00b2dbf67747c43b36e3299bc92eb2fbe",
+  "exit_code": 1,
+  "result": "failed_as_expected",
+  "output": "",
+  "error": "ERROR:  ASSERTION_FAILED: ordinary writable scoped contributor sees implemented purpose\nCONTEXT:  PL/pgSQL function pg_temp_56.assert_logo_purpose(boolean,text) line 2 at RAISE\n\n"
+}

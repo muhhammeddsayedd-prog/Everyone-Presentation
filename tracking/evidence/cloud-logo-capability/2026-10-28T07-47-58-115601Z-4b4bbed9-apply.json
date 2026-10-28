@@ -1,0 +1,54 @@
+{
+  "observed_at": "2026-10-28T07:47:58.101956+00:00",
+  "target": "pyibofyctwnqpvktepse",
+  "action": "apply",
+  "inputs": {
+    "migration_hashes": {
+      "20261028010943_m01_canonical_foundation.sql": "8a5f3ed7727a72051e630307d2daecab8c4a74054398a6425e73bd85e17568b9",
+      "20261028013324_m01_identity_role_inheritance.sql": "5382efe9fbdf9c194010257e0ac0024dcb447207522036560056d5d1a4e20e30",
+      "20261028013655_m01_workspace_scope_alias.sql": "67ddb2cff9fed9c42d34657e833c613aec4afd2769543a991bbac84da355db64",
+      "20261028024205_m01_private_logo_boundary.sql": "b04af5119b4e384bd96136573eec39e69f21a0ffb7d9f4aeb07bbf48f2976b9d",
+      "20261028072515_m01_logo_upload_capability.sql": "4dbd400092d7743b02dd0769ae511c208e6f4f349428fc0e7f0fb9c573ba4b24"
+    },
+    "local_proof": "development/local-db/receipts/2026-10-28T07-37-24-591Z-test-db-summary-dc3c8a1d.json",
+    "local_proof_sha256": "e95b86cf57dcfdd90fb42691675f9e5fe14919e0a74efcf2c56a4291f4e64e4c",
+    "readback_sha256": "b8705c4e51db702c76ffcf990b84fcb88bc688ddaf26e8c10501dee504bb73b7"
+  },
+  "before_mode": "pending",
+  "before": {
+    "capability_rpc": {
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "config": [
+        "search_path=\"\""
+      ],
+      "definer": true,
+      "owner": "eps_api_owner",
+      "service_execute": false
+    },
+    "counts": {
+      "clients": 1,
+      "media": 0,
+      "projects": 1,
+      "uploads": 0,
+      "verifier_keys": 1,
+      "workspaces": 0
+    },
+    "database": "postgres",
+    "query_role": "postgres",
+    "unrestricted_visibility": true,
+    "versions": [
+      "20261028010943",
+      "20261028013324",
+      "20261028013655",
+      "20261028024205"
+    ]
+  },
+  "runtime_flag_changed": false,
+  "seeds": false,
+  "vault_sync": false,
+  "result": "failed",
+  "application_verified_by_readback": false,
+  "raw_diagnostics_recorded": false,
+  "application_status": "unknown_until_readback"
+}

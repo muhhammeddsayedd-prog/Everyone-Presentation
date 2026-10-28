@@ -2,14 +2,14 @@
 
 Updated 2026-10-28. The full OpenAPI and MCP catalogs remain the intended contract, not a claim that every operation is implemented.
 
-Central mode has the twelve capability/project/workspace/audience operations plus the logo upload/read/complete/cancel/media surface, delivered through eighteen scoped SQL RPCs (completion has separate preparation/finalization). Four migrations and the private bucket are applied/read back. New upload capability remains disabled while real-user Storage gates are unrun. Protected Ready media reads, cancellation and completed replay are independently available when upload verification is disabled. The complete seventeen-operation synthetic path remains explicitly labelled development-only. Actual Producer writeback/transfer and remote MCP are unverified.
+Central mode has the twelve capability/project/workspace/audience operations plus the logo upload/read/complete/cancel/media surface, delivered through eighteen scoped SQL RPCs (completion has separate preparation/finalization). Five migrations and the private bucket are applied/read back. Scoped client_logo metadata and the owned development verification gate are prepared; actual real-user Storage gates remain unrun. Protected Ready media reads, cancellation and completed replay are independently available when upload verification is disabled. The complete seventeen-operation synthetic path remains explicitly labelled development-only. Actual Producer writeback/transfer and remote MCP are unverified.
 
 | Operations | Domain | HTTP | UI | Remote MCP |
 |---|---|---|---|---|
 | get_capabilities | Development adapter | `/api/v1/capabilities` | Acting-user controls | Pending M07 |
 | list_projects, get_project, update_project | Persistent synthetic canonical records | Contract paths | Search and autosaved shared edits | Pending M07 |
 | list_workspaces, create_workspace, get_workspace, update_workspace | Persistent, scoped, concurrent and idempotent | Contract paths | Existing project and six-step shell, branding/output preferences | Pending M07 |
-| create_upload_session, get_upload_session, complete_upload, cancel_upload | Synthetic private bytes; central scoped adapter/SQL implemented, new uploads disabled pending live gates | Contract paths | Logo upload/replace/remove and recovery | Pending M07 |
+| create_upload_session, get_upload_session, complete_upload, cancel_upload | Synthetic private bytes; central scoped adapter/SQL and development verification gate prepared, hosted acceptance unrun | Contract paths | Logo upload/replace/remove and recovery | Pending M07 |
 | get_media | Private, project-scoped | Contract path | Logo preview | Pending M07 |
 | list_audience_presets, create_audience_preset, update_audience_preset, archive_audience_preset | Persistent, settings capability and revisions | Contract paths | Settings | Pending M07 |
 | Job leases, retries, fencing, outbox and recovery | Isolated `@eps/jobs` core with transactional repository interface | Not connected | Processing screen pending | Service callbacks excluded from user tools |

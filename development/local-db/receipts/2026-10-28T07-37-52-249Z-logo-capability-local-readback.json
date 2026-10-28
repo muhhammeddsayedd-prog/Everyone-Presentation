@@ -1,0 +1,31 @@
+{
+  "action": "logo-capability-local-readback",
+  "observed_at": "2026-10-28T07:37:52.249Z",
+  "scope": "guarded owned local PostgreSQL only; read-only ACL/history and synthetic fixture-count inspection",
+  "result": "passed",
+  "metadata": {
+    "database": "postgres",
+    "query_role": "postgres",
+    "capability_rpc": {
+      "owner": "eps_api_owner",
+      "config": [
+        "search_path=\"\""
+      ],
+      "anon_execute": false,
+      "service_execute": false,
+      "security_definer": true,
+      "authenticated_execute": true
+    },
+    "migration_versions": [
+      "20261028010943",
+      "20261028013324",
+      "20261028013655",
+      "20261028024205",
+      "20261028072515"
+    ],
+    "capability_fixture_users": 0,
+    "logo_race_fixture_absent": true,
+    "capability_fixture_projects": 0,
+    "workspace_race_fixture_absent": true
+  }
+}

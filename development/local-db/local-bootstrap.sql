@@ -18,6 +18,15 @@ begin
     create table auth.users(id uuid primary key);
     comment on table auth.users is 'Synthetic local replay baseline only; not hosted Auth acceptance.';
   end if;
+  -- Metadata observed in the canonical hosted Auth schema, represented locally
+  -- only to test the enrollment guard. This is not a hosted Auth migration or
+  -- an authentication service; the Docker fingerprint is required by runner.
+  alter table auth.users add column if not exists email varchar(255);
+  alter table auth.users add column if not exists email_confirmed_at timestamptz;
+  alter table auth.users add column if not exists last_sign_in_at timestamptz;
+  alter table auth.users add column if not exists banned_until timestamptz;
+  alter table auth.users add column if not exists deleted_at timestamptz;
+  alter table auth.users add column if not exists is_anonymous boolean not null default false;
   if not exists(select 1 from pg_roles where rolname='anon') then create role anon nologin; end if;
   if not exists(select 1 from pg_roles where rolname='authenticated') then create role authenticated nologin; end if;
   if not exists(select 1 from pg_roles where rolname='service_role') then create role service_role nologin bypassrls; end if;

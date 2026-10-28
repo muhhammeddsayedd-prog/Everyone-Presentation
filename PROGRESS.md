@@ -2,7 +2,7 @@
 
 **Last updated:** 2026-10-28 · **Pack:** 1.0 · **Current milestone:** M01 — in progress
 
-**Current reality:** M00 discovery is verified for the owner-confirmed new canonical Supabase system. Four reviewed M01 migrations are applied/read back locally and in cloud: 18 scoped RPCs, 13 forced-RLS app relations and a private brand bucket. The dedicated verifier key is privately configured; uploads remain disabled pending the real-user Storage gate. Current application checks pass 80 tests and four fixture browser/HTTP journeys. The first actual Producer/project flow is not run. M02 has isolated tested components; no real AI/n8n pipeline, PDF/guest/MCP or production release is claimed.
+**Current reality:** M00 is verified for the owner-confirmed canonical Supabase system. Five reviewed M01 migrations are applied/read back locally and in cloud; 18 scoped RPCs, 13 forced-RLS app relations and the private branding boundary remain intact. The requested Dummy Test / Dummy Client records now exist. Producer grants await an actual confirmed sign-in. The central dev server was restarted with the private verifier and development upload flag; signed-in Storage acceptance remains unrun. Local DB proof now includes 21 stages and three race pairs, plus a separate 24-action bootstrap rollback. The earlier application checkpoint has 80 tests and four fixture browser journeys; it is not live-user proof. M02 has isolated components; the production app is incomplete.
 
 The machine-readable status mirror is [tracking/progress.json](tracking/progress.json). Update this file and that file together whenever work status changes. Evidence fields must describe actual work only.
 
@@ -11,7 +11,7 @@ The machine-readable status mirror is [tracking/progress.json](tracking/progress
 | Milestone | Status | Implementation commit/artifact | Required evidence | Blocker / next action |
 |---|---|---|---|---|
 | M00 Discovery and contracts | verified | tracking/discovery/; central-schema-map.yaml | Actual new canonical ownership/auth/history, guarded local replay and provider capability inventory | Continue M01; future provider/release gates remain explicit |
-| M01 Foundation, project and logo | in_progress | apps/web/; packages/domain/; packages/central/; 4 applied migrations | Real cloud schema/readback and local role/race proof; synthetic full UI plus central anonymous UI | Finish scoped central uploads and actual Producer/project journey |
+| M01 Foundation, project and logo | in_progress | apps/web/; packages/domain/; packages/central/; 5 applied migrations | Real cloud schema/readback and local role/race proof; synthetic full UI plus central anonymous UI | Finish scoped central uploads and actual Producer/project journey |
 | M02 Specs, roles and first durable pipeline | in_progress | packages/jobs/; packages/integrations/; apps/worker/ | Isolated rule/adapter/parser tests; no persisted central jobs, workflow or specs UI | Connect transactional repository, scoped assets/services and editable specs slice |
 | M03 Media, library and video processing | not_started | None | Real uploads/transcripts/frames; reuse/duplicate handling; independent failures | Depends on M02 |
 | M04 Assignments and final review | not_started | None | Selection/Shortlist rules; one-Main concurrency; edits/confirmation | Depends on M03 |
@@ -26,6 +26,15 @@ The machine-readable status mirror is [tracking/progress.json](tracking/progress
 `in_progress` or `implemented_unverified → blocked` when a required dependency is unavailable; record the prior state and work still possible. `verified → in_progress` when a later change invalidates acceptance. A milestone with any unrun required integration check cannot be `verified`. Documentation corrections alone do not change implementation status.
 
 ## Session log (append newest first)
+
+### 2026-10-28 - Owner test records created; scoped logo capability enabled
+
+- Created and read back the explicitly requested canonical Dummy Test project and Dummy Client through a reviewed bounded setup tool. No Auth user, workspace or media was created. The supplied email remains private; the readback found zero matching Auth principals, so Producer grants remain pending human sign-in. See `tracking/discovery/PRODUCER_BOOTSTRAP.md`.
+- Added the fifth immutable migration `20261028072515_m01_logo_upload_capability.sql`: ordinary users see client_logo only with active workspace read/write and writable canonical project scope. Runtime decoder/signer readiness still intersects this metadata; target authorization remains enforced on every operation.
+- Local full SQL suite passed21 stages, all three real-backend race pairs and both cleanups. Cloud dry-run/apply/readback passed with unchanged owner/ACL/history and business/media counts. A fresh advisor query reports18 intentional definer WARN findings; an initial extractor's unrecognized-results zero count was explicitly invalidated, not claimed as zero findings.
+- Separate actual local bootstrap rehearsal passed24 action invocations and rollback/zero cleanup. Fourteen Python coordinator/guard tests and three release-evidence failure tests pass. Review fixed record recreation and deleted-grant restoration on finalized retries. Failure and recovery evidence is retained; no raw email, secret or CLI diagnostics are tracked.
+- Restarted the owned central dev server (session63564) with development logo verification enabled; fresh anonymous HTTP checks pass session200/no-store, internal401 and fixture403. The attached Chrome tab shows real sign-in; its extension-injected hydration warning is recorded separately from application errors. No email was sent by the agent. Existing .env.local bytes remain unchanged.
+- Fresh n8n project discovery still returns MCP-32603. M01 signed-in/Storage tests and later real AI/worker/PDF/guest/MCP/restore/deployment remain unverified.
 
 ### 2026-10-28 - Private logo foundation applied, recovery and reuse checked
 
@@ -125,7 +134,7 @@ Copy and fill this template at the end of every implementation session:
 
 ## Current blockers
 
-- First Producer email/actual sign-in and real initial project details are pending; no cloud user or business fixtures were invented. The real sign-in page runs at http://127.0.0.1:3000.
-- Private logo schema/adapter/verifier configuration exists; uploads remain disabled until an actual authorized user proves Storage HTTP context, immutable signed transfer and reload behavior. No real media is stored.
+- Producer email and test project/client details were supplied; the requested canonical records now exist. Actual confirmed account sign-in and scoped grants remain pending. Sign-in runs at http://127.0.0.1:3000/projects.
+- The scoped capability forward fix is applied and the central dev process enables verification. Actual authorized Storage HTTP context, immutable signed transfer and reload acceptance remain unrun; no real image bytes are stored.
 - n8n project discovery still returns MCP-32603. Real OpenAI key/model evaluation, worker/service jobs, representative real material, approved fonts/template, hosting and intended Claude clients remain later integration/release gates.
 - The local PostgreSQL target is now proven and isolated; the historical failed CLI-local attempt is retained. Never reset/seed the linked root.

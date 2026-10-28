@@ -1,0 +1,34 @@
+{
+  "observed_at": "2026-10-28T07:46:04.309Z",
+  "result": "passed",
+  "environment": "owned isolated local PostgreSQL; synthetic auth/catalog only",
+  "sql_hashes": {
+    "inspect": "6cbf2c067d84d2ccd72e0958875b091d861afdeeb4854aa184ac0960d1f06e2b",
+    "records": "f6269a7efe42179f0d0e34fce1241823df5cb7435e2b444715f2089badf81c92",
+    "grants": "ea045286fb0d4022440dcc296ac218b8e3e1456d3a275831a8cb66b847ca36b3"
+  },
+  "test_path": "tests/db/m01-producer-bootstrap.sql",
+  "test_sha256": "64b02427e3520d341580ffac759cd7069180add2fe7e15fb8044260aa5cda1e2",
+  "included_actions": 24,
+  "rolled_back": true,
+  "cleanup_confirmed": true,
+  "before_counts": {
+    "auth": 0,
+    "clients": 0,
+    "projects": 0,
+    "workspaces": 0,
+    "capabilities": 0,
+    "client_memberships": 0,
+    "project_memberships": 0
+  },
+  "after_counts": {
+    "auth": 0,
+    "clients": 0,
+    "projects": 0,
+    "workspaces": 0,
+    "capabilities": 0,
+    "client_memberships": 0,
+    "project_memberships": 0
+  },
+  "cloud_called": false
+}

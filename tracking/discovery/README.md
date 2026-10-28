@@ -1,6 +1,6 @@
 # Discovery evidence and current canonical state
 
-Updated 2026-10-28. The owner confirmed the inspected empty `Everyone-Presentation` project as canonical. Four reviewed migrations are applied locally/cloud. The [03:32 apply/embedded readback](../evidence/cloud-logo-foundation/2026-10-28T03-32-17-619834Z-6a35754c-apply.json) confirms 18 scoped RPCs, 13 forced-RLS app relations and one private branding bucket, with zero keys in that immutable snapshot. A separate [04:04 provision](../evidence/cloud-logo-verifier/2026-10-28T04-05-15-847982Z-658a983b-provision.json) and [04:06 reopened inspection](../evidence/cloud-logo-verifier/2026-10-28T04-06-30-395598Z-21d6e564-inspect.json) establish one matching protected purpose key. Upload flags and database purposes remain off; the earlier running process still needs full startup/relaunch proof. Historical observations remain unchanged; real-user and Storage HTTP/bytes acceptance are pending.
+Updated 2026-10-28. Five reviewed migrations are applied locally/cloud; the [latest capability release](../evidence/cloud-logo-capability/2026-10-28T07-48-14-630664Z-11769197-apply.json) preserves18 scoped RPCs/13 forced-RLS app relations and exact ownership/ACLs. The owner-requested Dummy Test / Dummy Client canonical pair exists; [Producer enrollment](PRODUCER_BOOTSTRAP.md) awaits actual human sign-in (latest requested-email matches0). One dedicated key was configured in the earlier timestamped provisioning phase. The owned central dev server has now restarted with the private verifier and explicit development flag; signed-in Storage HTTP/bytes acceptance remains unrun. Historical zero counts, failure receipts and observed_at values are unchanged.
 
 | Record | Evidence boundary |
 | --- | --- |
@@ -11,7 +11,7 @@ Updated 2026-10-28. The owner confirmed the inspected empty `Everyone-Presentati
 | [Current database inventory](database-inventory.md) | Actual applied tables, roles/RLS/RPCs, versions, counts and evidence limits |
 | [Central mapping](../../contracts/database/central-schema-map.yaml) | Current physical ownership/read-write paths and explicit future concerns |
 | [Canonical ownership](canonical-ownership.md) | Owner decision, coordinated schema, user/resource permission model |
-| [Migration ownership](migration-ownership.md) | One actual four-version history, immutable hashes and local/cloud receipts |
+| [Migration ownership](migration-ownership.md) | One coordinated five-version history, immutable hashes and local/cloud receipts |
 | [Local reproduction](local-reproduction.md) | Supported guarded local target, actual role/race proof and staging plan |
 | [Runtime and access](runtime-and-access.md) | Pinned runtime, actual service access, capability and delegated-client plan |
 | [Integration decisions](integration-decisions.md) | Confirmed boundaries and remaining feature gates |

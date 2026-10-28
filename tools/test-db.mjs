@@ -15,10 +15,12 @@ const REQUIRED_MIGRATIONS = [
   'supabase/migrations/20261028013324_m01_identity_role_inheritance.sql',
   'supabase/migrations/20261028013655_m01_workspace_scope_alias.sql',
   'supabase/migrations/20261028024205_m01_private_logo_boundary.sql',
+  'supabase/migrations/20261028072515_m01_logo_upload_capability.sql',
 ];
 const FILES = {
   roles: 'tests/db/m01-role-inheritance.sql', foundation: 'tests/db/m01-foundation.sql',
   logo: 'tests/db/m01-logo-boundary.sql',
+  logoCapability: 'tests/db/m01-logo-upload-capability.sql',
   logoSetup: 'tests/db/m01-logo-race-setup.sql', logoA: 'tests/db/m01-logo-race-a.sql', logoB: 'tests/db/m01-logo-race-b.sql',
   logoVerify: 'tests/db/m01-logo-race-verify.sql', logoCleanup: 'tests/db/m01-logo-race-cleanup.sql',
   setup: 'tests/db/m01-race-setup.sql', sameA: 'tests/db/m01-race-same-a.sql', sameB: 'tests/db/m01-race-same-b.sql',
@@ -136,6 +138,7 @@ async function main() {
     await stage('identity-role-proof', FILES.roles, true);
     await stage('foundation-role-and-domain-assertions', FILES.foundation, true);
     await stage('logo-role-proof-and-state-assertions', FILES.logo, true);
+    await stage('scoped-logo-upload-capability-assertions', FILES.logoCapability, true);
     summary.logo_cleanup = { setup_confirmed: false, attempted: false };
     await stage('logo-concurrency-fixture-setup', FILES.logoSetup, true);
     logoSetupConfirmed = true; summary.logo_cleanup.setup_confirmed = true;

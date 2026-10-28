@@ -1,0 +1,16 @@
+{
+  "action": "logo-capability-local-fixture-readback",
+  "observed_at": "2026-10-28T07:39:48.617Z",
+  "result": "passed",
+  "scope": "guarded local read-only synthetic fixture ID counts only; no cloud",
+  "note": "Workspace races use fixed fixture IDs, not a marker table; these counts are the cleanup evidence rather than the irrelevant table absence field in the earlier supplemental ACL readback.",
+  "counts": {
+    "focused_users": 0,
+    "logo_race_users": 0,
+    "logo_marker_absent": true,
+    "logo_race_projects": 0,
+    "workspace_race_users": 0,
+    "workspace_race_clients": 0,
+    "workspace_race_projects": 0
+  }
+}

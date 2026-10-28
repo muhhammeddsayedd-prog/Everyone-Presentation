@@ -24,14 +24,20 @@
       "sha256": "b04af5119b4e384bd96136573eec39e69f21a0ffb7d9f4aeb07bbf48f2976b9d",
       "reviewed_by": "root integration owner with independent SQL role/RLS/proof/replay review; rollback probe03:10:25 passed exactbytes",
       "reviewed_at": "2026-10-28T03:13:56.505940+00:00"
+    },
+    {
+      "path": "supabase/migrations/20261028072515_m01_logo_upload_capability.sql",
+      "sha256": "4dbd400092d7743b02dd0769ae511c208e6f4f349428fc0e7f0fb9c573ba4b24",
+      "reviewed_by": "root authorized guarded LOCAL replay; discovery agent static review of scoped capability metadata and rollback fixtures; cloud review pending",
+      "reviewed_at": "2026-10-28T07:36:02.282159+00:00"
     }
   ],
   "tests": [
     {
       "path": "tests/db/m01-foundation.sql",
-      "sha256": "4f5a3d7cb7b040548ec05de11ffcf3d11ca03dea69209ab77952e6bcddf19627",
-      "reviewed_by": "root integration owner with independent static SQL review",
-      "reviewed_at": "2026-10-28T01:30:17.425363+00:00"
+      "sha256": "944d3dfc62b1692fb26c1f458a56b34e1860a97a09a4c75d93565c9455612ac8",
+      "reviewed_by": "root authorized guarded LOCAL replay; discovery agent static review of scoped capability metadata and rollback fixtures; cloud review pending",
+      "reviewed_at": "2026-10-28T07:36:02.282159+00:00"
     },
     {
       "path": "tests/db/m01-race-cleanup.sql",
@@ -83,9 +89,9 @@
     },
     {
       "path": "tests/db/m01-logo-boundary.sql",
-      "sha256": "cbce9d3e929220b19d54ef702b55eb1085f6647a1e385c7abf220d324f8a2d64",
-      "reviewed_by": "root integration owner with independent SQL role/RLS/proof/replay review; rollback probe03:10:25 passed exactbytes",
-      "reviewed_at": "2026-10-28T03:13:56.506384+00:00"
+      "sha256": "13735086f42d16e1714a6bd15e07af94b5f0e9e228297f92c528c9be74901448",
+      "reviewed_by": "root authorized guarded LOCAL replay; discovery agent static review of scoped capability metadata and rollback fixtures; cloud review pending",
+      "reviewed_at": "2026-10-28T07:36:02.282159+00:00"
     },
     {
       "path": "tests/db/m01-logo-race-setup.sql",
@@ -123,6 +129,12 @@
       "reviewed_by": "root integration owner: fixed Node-signed synthetic receipt to actual SQL finalizer; exact placeholders and rollback-only guard; no cloud/bytes",
       "reviewed_at": "2026-10-28T03:20:20.606287+00:00",
       "runner": "node tools/check-logo-receipt-db.mjs"
+    },
+    {
+      "path": "tests/db/m01-logo-upload-capability.sql",
+      "sha256": "451d4e20f7aa95a380868ccc10bfe3c00b2dbf67747c43b36e3299bc92eb2fbe",
+      "reviewed_by": "root authorized guarded LOCAL replay; discovery agent static review of scoped capability metadata and rollback fixtures; cloud review pending",
+      "reviewed_at": "2026-10-28T07:36:02.282159+00:00"
     }
   ],
   "local_baselines": [

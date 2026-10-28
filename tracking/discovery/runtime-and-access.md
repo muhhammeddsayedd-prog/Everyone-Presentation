@@ -1,6 +1,6 @@
 # Runtime, service access and permission plan
 
-Updated 2026-10-28. Current database facts are in [the logo release's embedded cloud readback](../evidence/cloud-logo-foundation/2026-10-28T03-32-17-619834Z-6a35754c-apply.json), observed `2026-10-28T03:32:17.619929+00:00`; its readback has no separate timestamp. Initial host observations remain unchanged in [local-inventory.json](local-inventory.json). The canonical source and coordinated migration ownership are resolved.
+Updated 2026-10-28. Latest capability source/history/ACL proof is [the fifth release](../evidence/cloud-logo-capability/2026-10-28T07-48-14-630664Z-11769197-apply.json), completed07:48:14Z; the earlier03:32 release remains an immutable historical snapshot. Initial host observations remain unchanged in [local-inventory.json](local-inventory.json). The canonical source and coordinated migration ownership are resolved.
 
 ## Implemented runtime
 
@@ -8,16 +8,16 @@ Observed host tools: Node 24.18.0, npm 11.16.0, pnpm 10.34.7, Python 3.14.7, Git
 
 Central integration pins `@supabase/supabase-js 2.118.0`, `@supabase/ssr 0.12.7`, and Supabase CLI 2.122.0. The document module pins PDF.js 6.4.299, Mammoth 1.13.0, Yauzl 3.4.0 and XML DOM 0.8.15. OpenAI uses official SDK 7.45.1 with an explicitly required extraction model; no model was chosen without account/sample evaluation.
 
-The separate local PostgreSQL runtime uses the pinned image in [current local acceptance](../../development/local-db/receipts/2026-10-28T03-22-41-050Z-test-db-summary-59ca1af3.json), loopback `127.0.0.1:55433`, owned labels/volume/system identity and reviewed SQL hashes. The cloud is PostgreSQL 17.11. Local helper differences and the [simulated Storage catalog](../../development/local-db/STORAGE_BASELINE.md) are explicit; no hosted Auth/Storage behavior is inferred from that simulation.
+The separate local PostgreSQL runtime uses the pinned image in [current local acceptance](../../development/local-db/receipts/2026-10-28T07-37-24-591Z-test-db-summary-dc3c8a1d.json), loopback `127.0.0.1:55433`, owned labels/volume/system identity and reviewed SQL hashes. The cloud is PostgreSQL 17.11. Local helper differences and the [simulated Storage catalog](../../development/local-db/STORAGE_BASELINE.md) are explicit; no hosted Auth/Storage behavior is inferred from that simulation.
 
 ## Actual service observations
 
 | Service | Current observed state | Evidence boundary |
 | --- | --- | --- |
-| Canonical Supabase | Four M01 migrations applied/read back; 18 scoped RPCs and 13 forced-RLS app relations | 03:32 release counts: zero users/projects/grants/media/uploads/keys. Later verifier key configuration is a separate phase |
+| Canonical Supabase | Five M01 migrations applied/read back;18 scoped RPCs and13 forced-RLS app relations | Historical03:32 zero counts preserved; later key plus owner-requested canonical Dummy Test / Dummy Client pair exist. Actual Producer sign-in/grants/workspace remain pending |
 | Auth configuration | Email enabled, signup enabled, autoconfirm false; loopback site/callback diff applied and later diff empty | Actual public settings/config readback; no email or session created |
 | Browser | Central-mode sign-in and anonymous API denial, fixture endpoints denied, desktop/320px reflow, no browser overlay/errors | [Anonymous smoke](../evidence/cloud-foundation/anonymous-smoke.json); signed-in journey not run |
-| Storage | Actual private `eps-brand-assets` bucket, 5 MiB PNG/JPEG/WebP; eight logo policies and receipt-gated SQL foundation | One active purpose key configured after release; runtime uploads remain disabled and capability purposes empty. User-JWT signing/transfer/Sharp path unverified |
+| Storage | Actual private `eps-brand-assets` bucket, 5 MiB PNG/JPEG/WebP; eight logo policies and receipt-gated SQL foundation | One active purpose key configured; fifth migration advertises only scoped client_logo and the owned dev process enables verification. User-JWT signing/transfer/Sharp path remains unverified |
 | Verifier configuration | [Provision](../evidence/cloud-logo-verifier/2026-10-28T04-05-15-847982Z-658a983b-provision.json) at `04:04:59.429274+00:00`; [reopened inspection](../evidence/cloud-logo-verifier/2026-10-28T04-06-30-395598Z-21d6e564-inspect.json) at `04:06:23.761385+00:00` passed with matching protected runtime file | Configuration only; `.env.local` unchanged, no key values/raw diagnostics in receipts, no upload flag or user enrollment |
 | n8n | Initial and fresh authorized project-list calls returned `-32603 Internal error` | [Fresh metadata receipt](service-metadata-refresh-2026-10-28.json); no workspace/workflow identity or version obtained |
 | Vercel | Read-only Everyone-name project search succeeded with zero matches in the default scope | Other teams/names not inspected; no hosting vendor selected |
@@ -25,7 +25,7 @@ The separate local PostgreSQL runtime uses the pinned image in [current local ac
 
 The initial shell had no relevant provider configuration variable names or populated root `.env`; that remains an initial observation only. Later app/CLI configuration was established privately by the root agent. No credential values are copied into these records.
 
-The real logo key is protected in ignored `.local/cloud-logo-provision/verifier.json` for CurrentUser and SYSTEM; native exclusive CREATE_NEW phase/key files prevent overwrite and partial-state adoption. The dev launcher accepts only completed configuration for the fixed target and loads two key fields into the child environment. Root's actual loader probe passed without printing a key or setting an enable flag. The running server was launched before installation; full startup/relaunch remains pending before enablement. This documentation did not open the secret file or inspect its values.
+The real logo key is protected in ignored `.local/cloud-logo-provision/verifier.json` for CurrentUser and SYSTEM; native exclusive CREATE_NEW phase/key files prevent overwrite and partial-state adoption. The dev launcher accepts only completed configuration for the fixed target and loads two key fields into the child environment. Root's actual loader probe passed without printing a key or setting an enable flag. The owned server was subsequently relaunched in session63564 with the explicit development enable flag; current HTTP anonymous boundaries pass. Hosted authenticated upload acceptance remains pending. This documentation did not open the secret file or inspect its values.
 
 ## Permission implementation and tests
 
@@ -40,7 +40,7 @@ Managed `auth.users(id)` is the principal key. `public.app_capability_grants` ow
 | Guest | Future M06 scoped bearer/session projection; no current general anonymous database access |
 | Service worker | Future constrained job/attempt/lease/output operations; not a user service-role bypass |
 
-Local restricted-role assertions, canonical writeback/revisions, idempotency and revoked-membership replay denial passed. The latest 19-stage SQL suite includes three independent-backend race pairs, including logo completion, with cleanup. [Actual Node signer to SQL verification](../../development/local-db/receipts/2026-10-28T03-20-25-083Z-logo-node-sql-interop.json) passed with synthetic authority and zero fixture leftovers. Cloud readback confirms 18 RPC/13 forced-RLS properties, the new narrow verifier role and key/verified-column denials. It inherits managed identity privileges with INHERIT true, SET/admin false and cannot manipulate Storage objects/buckets through inherited ordinary ACLs.
+Local restricted-role assertions, canonical writeback/revisions, idempotency and revoked-membership replay denial passed. The latest21-stage SQL suite includes three independent-backend race pairs, including logo completion, with cleanup. [Actual Node signer to SQL verification](../../development/local-db/receipts/2026-10-28T03-20-25-083Z-logo-node-sql-interop.json) passed with synthetic authority and zero fixture leftovers. Cloud readback confirms 18 RPC/13 forced-RLS properties, the new narrow verifier role and key/verified-column denials. It inherits managed identity privileges with INHERIT true, SET/admin false and cannot manipulate Storage objects/buckets through inherited ordinary ACLs.
 
 [The current read-only/reuse checkpoint](../evidence/m01/readonly-reuse-checkpoint/summary.json) passed 80 app tests, four browser/HTTP tests and build; [recovery review](../evidence/m01/LOGO_RECOVERY_REVIEW.md) records post-change typecheck/lint and protected Ready default reuse. Ready metadata/content, checksum checking, cancellation and completed replay are independent of optional upload signer/decoder readiness. New reserve/mint/completion remains unavailable without both, and capabilities intersect with actual upload readiness. Earlier [79-test full checks](../evidence/local-checks/summary.json) retain their original static/integrity and production-guard evidence. These browser/SDK tests use synthetic adapters; no first producer email, real sign-in or canonical enrollment was supplied or performed.
 
@@ -53,3 +53,5 @@ Remote MCP will use delegated acting-user credentials and the same domain/RPC pe
 ## Remaining external/release facts
 
 n8n connection restoration/workspace version and workflow credentials; configured OpenAI model/account/sample evaluation; first authorized real user/project enrollment and lifecycle/session revocation behavior; fresh full startup with the configured purpose key plus actual Storage signing/transfer/Sharp proof before upload enablement; later media/PDF buckets, retention/restore; hosting/CI/secret management and isolated real-service staging topology; approved template/font binaries; representative videos; intended Claude clients. The latest n8n evidence remains `-32603`. These gates do not erase completed discovery, cloud DDL or the later successful key configuration.
+
+Current owner setup and exact next action: [PRODUCER_BOOTSTRAP.md](PRODUCER_BOOTSTRAP.md). The setup tool has fourteen coordinator/guard tests plus a separate24-action actual SQL rollback. Three release-attempt failure tests prove sanitized evidence survives lost response/readback/count drift. A fresh n8n metadata call remains MCP-32603 (n8n-enrollment-refresh.json). No provider/production acceptance is implied.

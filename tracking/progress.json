@@ -69,6 +69,13 @@
           "cloud": "applied",
           "target": "pyibofyctwnqpvktepse",
           "evidence": "tracking/evidence/cloud-logo-foundation/2026-10-28T03-32-17-619834Z-6a35754c-apply.json"
+        },
+        {
+          "file": "supabase/migrations/20261028072515_m01_logo_upload_capability.sql",
+          "local": "applied",
+          "cloud": "applied",
+          "target": "pyibofyctwnqpvktepse",
+          "evidence": "tracking/evidence/cloud-logo-capability/2026-10-28T07-48-14-630664Z-11769197-apply.json"
         }
       ],
       "evidence": [
@@ -94,13 +101,18 @@
         "tracking/evidence/m01/readonly-reuse-checkpoint/",
         "tracking/evidence/m01/LOGO_RECOVERY_REVIEW.md",
         "tracking/evidence/source-logo-checkpoint-scan.json",
-        "tracking/evidence/cloud-logo-verifier/readiness.json"
+        "tracking/evidence/cloud-logo-verifier/readiness.json",
+        "tracking/discovery/PRODUCER_BOOTSTRAP.md",
+        "tracking/evidence/m01/producer-bootstrap/",
+        "tracking/evidence/m01/producer-bootstrap-local.json",
+        "tracking/evidence/cloud-logo-capability/",
+        "tracking/evidence/m01/central-enrollment/"
       ],
       "blockers": [
-        "Actual first Producer email/confirmed human sign-in and real initial project/client details are pending.",
-        "Hosted user-JWT Storage operation/header, unsafe signed-mint denial, immutable transfer and full authorized logo reload journey remain unrun; uploads stay disabled."
+        "Actual confirmed Producer sign-in, scoped grants and authenticated shared-record/workspace journey are not yet observed.",
+        "Hosted private Storage transfer, operation-header/upsert immutability and user reload/revocation acceptance remain unrun."
       ],
-      "next_action": "Use the pending real account/project inputs to enroll the actual Producer and canonical project, then exercise the hosted M01 journey and private Storage gates; enable development upload configuration as part of that verification without inventing cloud fixtures."
+      "next_action": "Inspect the private owner email after actual human sign-in; pin and grant the documented scoped M01 permissions, reload the central app and complete real project/workspace/logo acceptance. Requested canonical test records already exist; never recreate or seed them."
     },
     {
       "id": "M02",
@@ -242,5 +254,5 @@
       "scope": "Project-local skill setup only; does not advance app milestones or verify integrations."
     }
   },
-  "notes": "M00 verified after explicit new-canonical owner amendment and read-only discovery/local proof. M01 cloud foundation has three applied/read-back migrations,12 scoped RPCs and real anonymous sign-in UI; private storage and actual Producer journey remain incomplete. M02 isolated components only. No app deployment, real AI/n8n processing, PDF/guest/MCP/restore acceptance."
+  "notes": "M00 verified for owner-confirmed canonical system. M01 has five applied/read-back migrations,18 scoped RPCs,13 forced-RLS app relations and owner-requested test project/client records; real Auth enrollment and signed-in Storage acceptance remain incomplete. M02 isolated components only. No production app, real AI/n8n processing, PDF/guest/MCP/restore acceptance."
 }

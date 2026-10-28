@@ -62,7 +62,7 @@ set local role authenticated;
 select pg_temp.assume_user(null);
 select pg_temp.expect_error('select public.eps_get_capabilities()','AUTH_REQUIRED');
 select pg_temp.assume_user('11111111-1111-4111-8111-111111111111');
-select pg_temp.assert_true((public.eps_get_capabilities()->'upload_policy'->'available_purposes')='[]'::jsonb,'no unimplemented storage promise');
+select pg_temp.assert_true((public.eps_get_capabilities()->'upload_policy'->'available_purposes')='["client_logo"]'::jsonb,'implemented logo purpose is advertised for a normal writable scope; runtime readiness is separate');
 select pg_temp.assert_true((select count(*)=2 from public.projects),'actual authenticated role RLS hides denied project');
 select pg_temp.expect_error('select * from eps.workspaces','42501');
 select pg_temp.expect_error('update public.projects set name=''forged''','42501');

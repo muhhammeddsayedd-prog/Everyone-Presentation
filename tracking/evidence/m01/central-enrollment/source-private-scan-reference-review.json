@@ -1,0 +1,19 @@
+{
+  "original_scan": {
+    "observed_at": "2026-10-28T08:13:10.613543+00:00",
+    "result": "failed",
+    "scope": "known local private verifier in four encodings and owner email in two encodings; no provider calls",
+    "eligible_source_files": 1692,
+    "staged_blobs": 1689,
+    "working_tree_matches": [
+      "Design Elements/DESIGN.md"
+    ],
+    "staged_matches": [
+      "Design Elements/DESIGN.md"
+    ],
+    "private_values_or_digests_recorded": false,
+    "limitations": "Does not prove absence of unknown secrets, private traces, provider correctness or production readiness."
+  },
+  "disposition": "The flagged email occurs only in the unchanged supplied Design Elements/DESIGN.md, already present before enrollment; preserve original source, permit only those exact bytes, never exempt a verifier key or a new identity copy.",
+  "raw_identity_or_key_recorded": false
+}

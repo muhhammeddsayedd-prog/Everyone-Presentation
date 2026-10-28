@@ -1,5 +1,7 @@
 # M00 acceptance assessment
 
+Current operational update: five M01 migrations are applied/read back; the requested canonical test project/client pair exists, and the owned dev process was restarted with scoped logo verification enabled. Actual Producer sign-in/grants and hosted Storage HTTP/bytes acceptance remain unrun. See [current enrollment](PRODUCER_BOOTSTRAP.md), [runtime evidence](../evidence/m01/central-enrollment/runtime.json) and [fifth release](../evidence/cloud-logo-capability/2026-10-28T07-48-14-630664Z-11769197-apply.json). The timestamped observations and earlier phase statements below are historical; their zero counts/disabled flags are not current-state assertions.
+
 Updated 2026-10-28. **Recommendation to the integration owner: M00 qualifies as `verified` for discovery, ownership/contracts and the safe local development path.** This file does not change the milestone ledger. Reconcile the current environment inventory/handoff with the receipts before changing that ledger; their earlier empty/unresolved-source statements are historical now.
 
 The assessment applies the explicit owner amendment: the inspected empty `Everyone-Presentation` project is the new canonical system. It does not require finding business tables that the owner has confirmed do not exist. Initial discovery was read-only. Authorized M01 schema/Auth-redirect changes happened later and have separate receipts; they are not retroactively described as discovery reads.

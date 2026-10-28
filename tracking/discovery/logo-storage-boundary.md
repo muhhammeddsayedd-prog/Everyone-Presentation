@@ -1,5 +1,7 @@
 # M01 private logo storage and verification boundary
 
+Current operational update: five M01 migrations are applied/read back; the requested canonical test project/client pair exists, and the owned dev process was restarted with scoped logo verification enabled. Actual Producer sign-in/grants and hosted Storage HTTP/bytes acceptance remain unrun. See [current enrollment](PRODUCER_BOOTSTRAP.md), [runtime evidence](../evidence/m01/central-enrollment/runtime.json) and [fifth release](../evidence/cloud-logo-capability/2026-10-28T07-48-14-630664Z-11769197-apply.json). The timestamped observations and earlier phase statements below are historical; their zero counts/disabled flags are not current-state assertions.
+
 Status updated 2026-10-28: migration `20261028024205` is applied locally/cloud with [03:32 readback](../evidence/cloud-logo-foundation/2026-10-28T03-32-17-619834Z-6a35754c-apply.json). That immutable schema-release snapshot has zero keys. Later [provision](../evidence/cloud-logo-verifier/2026-10-28T04-05-15-847982Z-658a983b-provision.json) at `04:04:59.429274+00:00` and [reopened inspection](../evidence/cloud-logo-verifier/2026-10-28T04-06-30-395598Z-21d6e564-inspect.json) at `04:06:23.761385+00:00` establish one active 32-byte purpose key matching protected runtime configuration. Uploads remain disabled, and the earlier running server has not completed a fresh startup with this key. Real user enrollment and Storage HTTP/bytes acceptance remain pending.
 
 ## Recommendation

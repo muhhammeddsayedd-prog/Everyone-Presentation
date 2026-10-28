@@ -1,5 +1,7 @@
 # Canonical database inventory
 
+Current operational update: five M01 migrations are applied/read back; the requested canonical test project/client pair exists, and the owned dev process was restarted with scoped logo verification enabled. Actual Producer sign-in/grants and hosted Storage HTTP/bytes acceptance remain unrun. See [current enrollment](PRODUCER_BOOTSTRAP.md), [runtime evidence](../evidence/m01/central-enrollment/runtime.json) and [fifth release](../evidence/cloud-logo-capability/2026-10-28T07-48-14-630664Z-11769197-apply.json). The timestamped observations and earlier phase statements below are historical; their zero counts/disabled flags are not current-state assertions.
+
 Updated 2026-10-28. The owner-approved canonical system is `Everyone-Presentation`, project `pyibofyctwnqpvktepse`, `eu-west-1`, PostgreSQL 17.11. Its initial empty state was inspected read-only; the owner then approved establishing the new canonical schema. M01 application occurred afterward. These are separate evidence phases.
 
 ## Current physical state
