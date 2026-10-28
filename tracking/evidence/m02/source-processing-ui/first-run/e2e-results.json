@@ -1,0 +1,507 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "tests/e2e/source-intake-ui.spec.ts",
+      "--output",
+      "tracking/evidence/m02/source-processing-ui/first-run"
+    ],
+    "configFile": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\playwright.config.ts",
+    "rootDir": "D:/Everyone/Presentation/Everyone-Presentation-Studio/tests/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "D:/Everyone/Presentation/Everyone-Presentation-Studio/tracking/evidence/m02/source-processing-ui/first-run",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "D:/Everyone/Presentation/Everyone-Presentation-Studio/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tracking\\evidence\\m02\\source-processing-ui\\first-run",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "chromium",
+        "testDir": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e",
+        "snapshotDir": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 90000,
+        "use": {
+          "baseURL": "http://127.0.0.1:3100",
+          "trace": "off",
+          "screenshot": "only-on-failure",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36",
+          "viewport": {
+            "width": 1280,
+            "height": 720
+          },
+          "screen": {
+            "width": 1920,
+            "height": 1080
+          },
+          "deviceScaleFactor": 1,
+          "isMobile": false,
+          "hasTouch": false,
+          "defaultBrowserType": "chromium"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "chromium"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/e2e-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": {
+      "command": "node tools/dev-test-server.mjs",
+      "url": "http://127.0.0.1:3100",
+      "reuseExistingServer": false,
+      "timeout": 120000
+    }
+  },
+  "suites": [
+    {
+      "title": "source-intake-ui.spec.ts",
+      "file": "source-intake-ui.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "controlled pasted intake preserves saved source until acceptance, then persists correction and job link",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2766,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T23:24:12.300Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9363f1523c3474717ede-44726f6c436f1a182d9e",
+          "file": "source-intake-ui.spec.ts",
+          "line": 84,
+          "column": 5
+        },
+        {
+          "title": "controlled lost acceptance response retries identical key/body and creates no second job",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1182,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T23:24:15.304Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9363f1523c3474717ede-ddcbaf512dca29645da2",
+          "file": "source-intake-ui.spec.ts",
+          "line": 107,
+          "column": 5
+        },
+        {
+          "title": "controlled processing readiness failure retains pasted text and allows manual editing",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1971,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T23:24:16.506Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9363f1523c3474717ede-deb91e7b288b471943de",
+          "file": "source-intake-ui.spec.ts",
+          "line": 120,
+          "column": 5
+        },
+        {
+          "title": "controlled stale source reload retains correction and submits with freshly read Spec version",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1104,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T23:24:18.503Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9363f1523c3474717ede-5ae62946a8553bf1c14c",
+          "file": "source-intake-ui.spec.ts",
+          "line": 129,
+          "column": 5
+        },
+        {
+          "title": "controlled dirty manual saves block source replacement without discarding either text",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1813,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T23:24:19.625Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9363f1523c3474717ede-09ae228888a8bbef8a74",
+          "file": "source-intake-ui.spec.ts",
+          "line": 137,
+          "column": 5
+        },
+        {
+          "title": "controlled accepted request refresh failure retries only persisted reads",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1058,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T23:24:21.458Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9363f1523c3474717ede-c4c586267c887ba7225b",
+          "file": "source-intake-ui.spec.ts",
+          "line": 146,
+          "column": 5
+        },
+        {
+          "title": "controlled read-only source has no submit action",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1213,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T23:24:22.530Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9363f1523c3474717ede-f15c1e825a21e27082a8",
+          "file": "source-intake-ui.spec.ts",
+          "line": 152,
+          "column": 5
+        },
+        {
+          "title": "controlled completed source is loaded from persisted reads only after dirty local forms are resolved",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 6384,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByLabel('Label for Performer 1', { exact: true })\nExpected: \u001b[32m\"Performer 1\"\u001b[39m\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toHaveValue\" getByLabel('Label for Performer 1', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByLabel('Label for Performer 1', { exact: true })\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByLabel('Label for Performer 1', { exact: true })\nExpected: \u001b[32m\"Performer 1\"\u001b[39m\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toHaveValue\" getByLabel('Label for Performer 1', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByLabel('Label for Performer 1', { exact: true })\u001b[22m\n\n    at D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\source-intake-ui.spec.ts:171:75",
+                    "location": {
+                      "file": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\source-intake-ui.spec.ts",
+                      "column": 75,
+                      "line": 171
+                    },
+                    "snippet": "  169 |   await expect(page.getByRole('heading', { name: 'Extracted Performer', exact: true })).toBeVisible();\n  170 |   await expect(page.getByLabel('General instructions', { exact: true })).toHaveValue('Saved extracted requirements');\n> 171 |   await expect(page.getByLabel('Label for Performer 1', { exact: true })).toHaveValue('Performer 1');\n      |                                                                           ^\n  172 |   await expect(page.getByLabel('Label for Performer 2', { exact: true })).toHaveValue('Performer 2');\n  173 |   expect(model.posts).toHaveLength(1); expect(model.jobMutations).toEqual([]); expect(model.errors).toEqual([]);\n  174 |   for (const width of [1440, 320]) {"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\source-intake-ui.spec.ts",
+                        "column": 75,
+                        "line": 171
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveValue\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByLabel('Label for Performer 1', { exact: true })\nExpected: \u001b[32m\"Performer 1\"\u001b[39m\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toHaveValue\" getByLabel('Label for Performer 1', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByLabel('Label for Performer 1', { exact: true })\u001b[22m\n\n\n  169 |   await expect(page.getByRole('heading', { name: 'Extracted Performer', exact: true })).toBeVisible();\n  170 |   await expect(page.getByLabel('General instructions', { exact: true })).toHaveValue('Saved extracted requirements');\n> 171 |   await expect(page.getByLabel('Label for Performer 1', { exact: true })).toHaveValue('Performer 1');\n      |                                                                           ^\n  172 |   await expect(page.getByLabel('Label for Performer 2', { exact: true })).toHaveValue('Performer 2');\n  173 |   expect(model.posts).toHaveLength(1); expect(model.jobMutations).toEqual([]); expect(model.errors).toEqual([]);\n  174 |   for (const width of [1440, 320]) {\n    at D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\source-intake-ui.spec.ts:171:75"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T23:24:23.768Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tracking\\evidence\\m02\\source-processing-ui\\first-run\\source-intake-ui-controlle-2c4c7-ty-local-forms-are-resolved-chromium\\test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tracking\\evidence\\m02\\source-processing-ui\\first-run\\source-intake-ui-controlle-2c4c7-ty-local-forms-are-resolved-chromium\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\source-intake-ui.spec.ts",
+                    "column": 75,
+                    "line": 171
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "9363f1523c3474717ede-32132cf7cfda1de9b66e",
+          "file": "source-intake-ui.spec.ts",
+          "line": 156,
+          "column": 5
+        },
+        {
+          "title": "controlled source status rejects a different Spec job and never displays provider diagnostics",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1169,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T23:24:31.093Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9363f1523c3474717ede-e7e58da4cabc8d93edec",
+          "file": "source-intake-ui.spec.ts",
+          "line": 180,
+          "column": 5
+        },
+        {
+          "title": "controlled saved source navigates through actual Processing actions and returns to its cancelled job after reload",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2338,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T23:24:32.443Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9363f1523c3474717ede-4fcfa304a41d320027ae",
+          "file": "source-intake-ui.spec.ts",
+          "line": 195,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-28T23:24:06.344Z",
+    "duration": 28967.503,
+    "expected": 9,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

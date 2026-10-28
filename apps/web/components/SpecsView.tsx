@@ -10,6 +10,7 @@ import { roleCreate } from './specs-form';
 import { Icon } from './Icon';
 import { prepareRoleMove, readRoleOrder, type RoleOrderReader } from './role-order-form';
 import { SourceIntake } from './SourceIntake';
+import { SpecsProcessing } from './SpecsProcessing';
 
 function Instructions({ spec, canWrite, onSaved, onDirtyChange }: { spec: Spec; canWrite: boolean; onSaved: (spec: Spec) => void; onDirtyChange: (id: string, dirty: boolean) => void }) {
   const [text, setText] = useState(spec.normalized_instructions ?? '');
@@ -174,6 +175,8 @@ export function SpecsView({ workspaceId, projectId, canWrite, onDirtyChange, onW
   return <div className="specs-view">{error && <ErrorNotice message={error} retry={reload} />}
     <SourceIntake key={`${workspaceId}/${spec.id}/${refresh}`} spec={spec} canWrite={canWrite} manualEditsPending={manualEditsPending} onDirtyChange={dirtyChanged} onLockChange={sourceLockChanged}
       onPersisted={(saved, savedRoles, nextCursor) => { setSpec(saved); setRoles(savedRoles); setCursor(nextCursor); setSourceEpoch(value => value + 1); onWorkspaceChanged(); }} />
+    {spec.processing_job_id && <SpecsProcessing key={`${workspaceId}/${spec.id}/${spec.processing_job_id}`} workspaceId={workspaceId} specId={spec.id} jobId={spec.processing_job_id}
+      loadBlocked={hasUnsaved || sourceLocked || loadingMore} onReload={reload} />}
     <Instructions key={`${spec.id}/${refresh}/${sourceEpoch}`} spec={spec} canWrite={canWrite && !reordering && !orderPending && !sourceLocked} onSaved={next => { setSpec(current => current && current.row_version > next.row_version ? current : next); onWorkspaceChanged(); }} onDirtyChange={dirtyChanged} />
     <section className="editor-section"><div className="section-heading"><div><h2>Roles and individual slots</h2><p>A role may cover several scenes. Its headcount determines the number of slots.</p></div><button className="button button-small button-quiet" disabled={reordering || sourceLocked} onClick={reload}>Reload saved requirements</button></div>
       {canWrite && roles.length > 1 && <p className="small muted">Save any edits and load all roles before changing their order.</p>}

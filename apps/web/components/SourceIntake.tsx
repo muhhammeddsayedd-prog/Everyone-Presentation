@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import type { Role, Spec } from '@eps/domain';
 import { api } from './api';
 import { ErrorNotice } from './Feedback';
-import { processingHref, STATUS_LABELS } from './processing-view';
+import { processingHref } from './processing-view';
 import { readSourceAccepted, retainSourceIntent, sourceFailure, type SourceAccepted, type SourceIntent } from './source-intake';
 
 export function SourceIntake({ spec, canWrite, manualEditsPending, onPersisted, onDirtyChange, onLockChange }: {
@@ -94,6 +94,6 @@ export function SourceIntake({ spec, canWrite, manualEditsPending, onPersisted, 
       <div className="button-row"><button className="button button-primary" type="submit" disabled={busy || manualEditsPending || needsReload || !text.trim()}>{busy ? 'Submitting…' : pending ? accepted ? 'Reload accepted source' : 'Retry this source request' : 'Process pasted text'}</button>
         {(needsReload || pending && !busy && !accepted) && <button className="button button-quiet" type="button" disabled={busy || manualEditsPending} onClick={() => { void reloadSaved(); }}>Reload saved source</button>}</div>
     </form> : <p className="small muted">You can read this source. Editing and submission require workspace write access.</p>}
-    {accepted && <div className="notice" role="status"><div><p>Source request recorded · {STATUS_LABELS[accepted.status]}</p><p className="small muted">Open processing for the latest saved status.</p></div><Link className="button button-small" href={processingHref({ job: accepted.job_id })}>View accepted processing</Link></div>}
+    {accepted && <div className="notice" role="status"><div><p>Source request recorded.</p><p className="small muted">Open processing for the latest saved status.</p></div><Link className="button button-small" href={processingHref({ job: accepted.job_id })}>View accepted processing</Link></div>}
   </section>;
 }

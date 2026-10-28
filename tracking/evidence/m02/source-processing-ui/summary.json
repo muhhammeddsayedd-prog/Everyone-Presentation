@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-28T23:24:56.098Z",
+  "scope": "Controlled intercepted browser UI and HTTP state only",
+  "runtime": "Next development, isolated .next-e2e, EPS_TEST_SERVER=true, port3100",
+  "headless": true,
+  "traces": "off",
+  "api_intercepted": true,
+  "real_auth_tested": false,
+  "real_provider_called": false,
+  "database_called": false,
+  "storage_called": false,
+  "first_run": {
+    "startTime": "2026-10-28T23:24:06.344Z",
+    "duration": 28967.503,
+    "expected": 9,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  },
+  "first_run_failure": "Test had not opened existing Individual slots disclosure before looking for its label fields; first failure artifacts retained.",
+  "final_run": {
+    "startTime": "2026-10-28T23:24:56.098Z",
+    "duration": 22861.484,
+    "expected": 10,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "source_sha256": {
+    "apps/web/components/SourceIntake.tsx": "5f44c0723e6b3587afbe595ad7f96a87b6ee37a04bbf81ca0fd8f1847e19eb9b",
+    "apps/web/components/SpecsView.tsx": "abf6803768dbcaccf7dcebe89c3a6d47ef92a8b6c9a3bd22a4faa589562c9d4d",
+    "apps/web/components/SpecsProcessing.tsx": "6de67ee7cdd7ad6e05a762408860a7a46e786876637405bd72f4269af51063de",
+    "apps/web/components/specs-processing.ts": "a6441ee3ac67d96bf414e8c4dffcb897a5790eda65d92e6e2f176b4785124524",
+    "tests/server/specs-processing.test.ts": "e194ab103704c714cb47e38b43603f098a79b2d4362fdaba5aa148100bf92619",
+    "tests/e2e/source-intake-ui.spec.ts": "3f6a2abf97b854f231b52e6e2c66c5e453ccc1098d9be8f9ea7e9c199f8d0b2c"
+  },
+  "pure_http_tests": {
+    "passed": 19,
+    "scope": "Source intent, processing status, specs HTTP and new scoped source-job checks"
+  },
+  "full_typecheck": "passed",
+  "scoped_lint": "passed",
+  "screenshots": [
+    "tracking/evidence/m02/source-processing-ui/final-run/source-intake-ui-controlle-0fa4a-sts-correction-and-job-link-chromium/source-intake-1440.png",
+    "tracking/evidence/m02/source-processing-ui/final-run/source-intake-ui-controlle-0fa4a-sts-correction-and-job-link-chromium/source-intake-320.png",
+    "tracking/evidence/m02/source-processing-ui/final-run/source-intake-ui-controlle-2c4c7-ty-local-forms-are-resolved-chromium/source-result-1440.png",
+    "tracking/evidence/m02/source-processing-ui/final-run/source-intake-ui-controlle-2c4c7-ty-local-forms-are-resolved-chromium/source-result-320.png"
+  ],
+  "finished_at": "2026-10-28T23:25:18.959484Z",
+  "listener_3100_after_run": 0,
+  "screenshots_inspected": {
+    "widths": [
+      1440,
+      320
+    ],
+    "source_result": true,
+    "horizontal_overflow": false
+  },
+  "impeccable_detector": []
+}
