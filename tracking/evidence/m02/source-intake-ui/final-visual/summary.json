@@ -1,0 +1,63 @@
+{
+  "observed_at": "2026-10-28T22:13:26.035Z",
+  "result": "passed",
+  "scope": "Source intake controlled browser UI and pure helper verification only",
+  "source_cases": {
+    "passed": 7,
+    "duration_seconds": 17.5,
+    "receipt": "../final-seven/summary.json"
+  },
+  "existing_specs_order_cases": {
+    "passed": 7,
+    "retained_combined_report": "../first-browser-run/e2e-results.json"
+  },
+  "visual_case": {
+    "passed": 1,
+    "duration_seconds": 8.9,
+    "viewports": [
+      1440,
+      320
+    ],
+    "overflow": false,
+    "inspected": true
+  },
+  "focused_module_tests": 12,
+  "typecheck": "passed",
+  "scoped_lint": "passed",
+  "impeccable_findings": [],
+  "trace_enabled": false,
+  "provider_called": false,
+  "database_called": false,
+  "real_auth_called": false,
+  "source_pipeline_verified": false,
+  "sources": [
+    {
+      "path": "apps/web/components/SourceIntake.tsx",
+      "sha256": "e8453566946efaf370336cb02ac10dea4e30bb1a6cc25eb1ffa8a5ad983aa98d"
+    },
+    {
+      "path": "apps/web/components/source-intake.ts",
+      "sha256": "ea4e6529c7eda247aad9c1c90a94a6913905f1c11e874c12681e2e61fa991276"
+    },
+    {
+      "path": "apps/web/components/SpecsView.tsx",
+      "sha256": "d0bd6226306cce13a48a7204899f05f86d1ac0135004e2d5388a46e5e860d959"
+    },
+    {
+      "path": "apps/web/app/globals.css",
+      "sha256": "7b55eac1453fe9dda1241f06a2b9e427275b5a87d01f762bb394c830102831ac"
+    },
+    {
+      "path": "tests/server/source-intake.test.ts",
+      "sha256": "78006e33b6cf20f263ae4c66c7251c370a1156978721ac79c8562304665a59e6"
+    },
+    {
+      "path": "tests/e2e/source-intake-ui.spec.ts",
+      "sha256": "035ec8ea9019888b81ac3ddc1110f06dc7d2e85ca3eb228431aba55a47183db5"
+    },
+    {
+      "path": "packages/domain/package.json",
+      "sha256": "8ebfacc49adf372848c75135c40625a0dcb150a0fa31aa55533bd04aab69cf3a"
+    }
+  ]
+}

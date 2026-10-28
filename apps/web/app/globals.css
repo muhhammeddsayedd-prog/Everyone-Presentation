@@ -160,6 +160,8 @@ legend { margin-bottom: var(--space-3); }
 .specs-view textarea[readonly] { color: var(--color-text-secondary); border-color: var(--color-border); }
 .specs-view h4 { margin: 0; font-size: var(--text-small); font-weight: var(--weight-semibold); }
 .specs-view .button-row, .add-role > .button { margin-top: var(--space-4); }
+.source-intake-form { display: grid; gap: var(--space-4); margin-top: var(--space-5); }
+.specs-view .source-intake-form .button-row { margin-top: 0; }
 .clarification-list { display: grid; gap: var(--space-3); margin: var(--space-5) 0; }
 .clarification-entry { border-left: 2px solid var(--color-border-strong); padding-left: var(--space-3); }
 .clarification-entry blockquote, .source-brief pre { white-space: pre-wrap; overflow-wrap: anywhere; color: var(--color-text-secondary); font: inherit; margin: var(--space-3) 0; }

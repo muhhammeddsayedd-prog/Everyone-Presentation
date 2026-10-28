@@ -1,0 +1,660 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "tests/e2e/source-intake-ui.spec.ts",
+      "tests/e2e/specs-ui.spec.ts",
+      "tests/e2e/role-order-ui.spec.ts",
+      "--project=chromium"
+    ],
+    "configFile": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\playwright.config.ts",
+    "rootDir": "D:/Everyone/Presentation/Everyone-Presentation-Studio/tests/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "D:/Everyone/Presentation/Everyone-Presentation-Studio/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "D:/Everyone/Presentation/Everyone-Presentation-Studio/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "chromium",
+        "testDir": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e",
+        "snapshotDir": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 90000,
+        "use": {
+          "baseURL": "http://127.0.0.1:3100",
+          "trace": "off",
+          "screenshot": "only-on-failure",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36",
+          "viewport": {
+            "width": 1280,
+            "height": 720
+          },
+          "screen": {
+            "width": 1920,
+            "height": 1080
+          },
+          "deviceScaleFactor": 1,
+          "isMobile": false,
+          "hasTouch": false,
+          "defaultBrowserType": "chromium"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "chromium"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/e2e-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": {
+      "command": "node tools/dev-test-server.mjs",
+      "url": "http://127.0.0.1:3100",
+      "reuseExistingServer": false,
+      "timeout": 120000
+    }
+  },
+  "suites": [
+    {
+      "title": "role-order-ui.spec.ts",
+      "file": "role-order-ui.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "controlled role move persists exact identities/order across reload",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2628,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T22:10:28.117Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2af4dfc5b7e603165ad8-c14055af9b9eadab812f",
+          "file": "role-order-ui.spec.ts",
+          "line": 52,
+          "column": 5
+        },
+        {
+          "title": "controlled unavailable backend keeps saved order and permits ordinary edits",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1115,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T22:10:31.240Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2af4dfc5b7e603165ad8-6c577de9252d61ccd3e5",
+          "file": "role-order-ui.spec.ts",
+          "line": 69,
+          "column": 5
+        },
+        {
+          "title": "controlled lost response locks edits and retries identical key/body without a second effect",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1251,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T22:10:32.382Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2af4dfc5b7e603165ad8-459eb0d82115316c5e29",
+          "file": "role-order-ui.spec.ts",
+          "line": 79,
+          "column": 5
+        },
+        {
+          "title": "controlled stale move retains visible order until explicit reload",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1133,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T22:10:33.660Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2af4dfc5b7e603165ad8-6d4554fcec25d851b372",
+          "file": "role-order-ui.spec.ts",
+          "line": 93,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "source-intake-ui.spec.ts",
+      "file": "source-intake-ui.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "controlled pasted intake preserves saved source until acceptance, then persists correction and job link",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2265,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T22:10:34.824Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9363f1523c3474717ede-44726f6c436f1a182d9e",
+          "file": "source-intake-ui.spec.ts",
+          "line": 55,
+          "column": 5
+        },
+        {
+          "title": "controlled lost acceptance response retries identical key/body and creates no second job",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1101,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T22:10:37.106Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9363f1523c3474717ede-ddcbaf512dca29645da2",
+          "file": "source-intake-ui.spec.ts",
+          "line": 78,
+          "column": 5
+        },
+        {
+          "title": "controlled processing readiness failure retains pasted text and allows manual editing",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 1024,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected substring: \u001b[32m\"Source processing is not available yet\"\u001b[39m\nError: strict mode violation: getByRole('alert') resolved to 2 elements:\n    1) <div role=\"alert\" class=\"notice notice-error\">…</div> aka getByRole('alert').filter({ hasText: 'Source processing is not' })\n    2) <div role=\"alert\" aria-live=\"assertive\" id=\"__next-route-announcer__\"></div> aka locator('[id=\"__next-route-announcer__\"]')\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected substring: \u001b[32m\"Source processing is not available yet\"\u001b[39m\nError: strict mode violation: getByRole('alert') resolved to 2 elements:\n    1) <div role=\"alert\" class=\"notice notice-error\">…</div> aka getByRole('alert').filter({ hasText: 'Source processing is not' })\n    2) <div role=\"alert\" aria-live=\"assertive\" id=\"__next-route-announcer__\"></div> aka locator('[id=\"__next-route-announcer__\"]')\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\n    at D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\source-intake-ui.spec.ts:94:41",
+                    "location": {
+                      "file": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\source-intake-ui.spec.ts",
+                      "column": 41,
+                      "line": 94
+                    },
+                    "snippet": "  92 |   const model = await sourceWorkspace(page, 'unavailable'); await page.goto(base);\n  93 |   await page.getByLabel('Pasted source text').fill('Retained unsaved source'); await page.getByRole('button', { name: 'Process pasted text', exact: true }).click();\n> 94 |   await expect(page.getByRole('alert')).toContainText('Source processing is not available yet');\n     |                                         ^\n  95 |   await expect(page.getByLabel('Pasted source text')).toBeEditable(); await expect(page.getByLabel('Pasted source text')).toHaveValue('Retained unsaved source');\n  96 |   await expect(page.getByRole('button', { name: 'Upload PDF or Word' })).toBeDisabled();\n  97 |   await page.getByLabel('General instructions', { exact: true }).fill('Manual work continues'); await expect.poll(() => model.spec().normalized_instructions).toBe('Manual work continues');"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\source-intake-ui.spec.ts",
+                        "column": 41,
+                        "line": 94
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected substring: \u001b[32m\"Source processing is not available yet\"\u001b[39m\nError: strict mode violation: getByRole('alert') resolved to 2 elements:\n    1) <div role=\"alert\" class=\"notice notice-error\">…</div> aka getByRole('alert').filter({ hasText: 'Source processing is not' })\n    2) <div role=\"alert\" aria-live=\"assertive\" id=\"__next-route-announcer__\"></div> aka locator('[id=\"__next-route-announcer__\"]')\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\n\n  92 |   const model = await sourceWorkspace(page, 'unavailable'); await page.goto(base);\n  93 |   await page.getByLabel('Pasted source text').fill('Retained unsaved source'); await page.getByRole('button', { name: 'Process pasted text', exact: true }).click();\n> 94 |   await expect(page.getByRole('alert')).toContainText('Source processing is not available yet');\n     |                                         ^\n  95 |   await expect(page.getByLabel('Pasted source text')).toBeEditable(); await expect(page.getByLabel('Pasted source text')).toHaveValue('Retained unsaved source');\n  96 |   await expect(page.getByRole('button', { name: 'Upload PDF or Word' })).toBeDisabled();\n  97 |   await page.getByLabel('General instructions', { exact: true }).fill('Manual work continues'); await expect.poll(() => model.spec().normalized_instructions).toBe('Manual work continues');\n    at D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\source-intake-ui.spec.ts:94:41"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T22:10:38.223Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\test-results\\source-intake-ui-controlle-bd1f6-t-and-allows-manual-editing-chromium\\test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\test-results\\source-intake-ui-controlle-bd1f6-t-and-allows-manual-editing-chromium\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\source-intake-ui.spec.ts",
+                    "column": 41,
+                    "line": 94
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "9363f1523c3474717ede-deb91e7b288b471943de",
+          "file": "source-intake-ui.spec.ts",
+          "line": 91,
+          "column": 5
+        },
+        {
+          "title": "controlled stale source reload retains correction and submits with freshly read Spec version",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1169,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T22:10:40.246Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9363f1523c3474717ede-5ae62946a8553bf1c14c",
+          "file": "source-intake-ui.spec.ts",
+          "line": 100,
+          "column": 5
+        },
+        {
+          "title": "controlled dirty manual saves block source replacement without discarding either text",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1837,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T22:10:41.589Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9363f1523c3474717ede-09ae228888a8bbef8a74",
+          "file": "source-intake-ui.spec.ts",
+          "line": 108,
+          "column": 5
+        },
+        {
+          "title": "controlled accepted request refresh failure retries only persisted reads",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1003,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T22:10:43.450Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9363f1523c3474717ede-c4c586267c887ba7225b",
+          "file": "source-intake-ui.spec.ts",
+          "line": 117,
+          "column": 5
+        },
+        {
+          "title": "controlled read-only source has no submit action",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 906,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T22:10:44.475Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9363f1523c3474717ede-f15c1e825a21e27082a8",
+          "file": "source-intake-ui.spec.ts",
+          "line": 123,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "specs-ui.spec.ts",
+      "file": "specs-ui.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "controlled specs UI preserves supplied text, count clarifications and explicit slot retirement",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5459,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T22:10:45.446Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "339cce304455089f3fb7-f92f73f03132737a5846",
+          "file": "specs-ui.spec.ts",
+          "line": 80,
+          "column": 5
+        },
+        {
+          "title": "controlled unknown create outcome retries the same intent without a second role",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1149,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T22:10:50.948Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "339cce304455089f3fb7-d9fd3c1da04d776c59bb",
+          "file": "specs-ui.spec.ts",
+          "line": 129,
+          "column": 5
+        },
+        {
+          "title": "controlled stale edit stays visible and guards navigation until explicit reload",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1987,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T22:10:52.112Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "339cce304455089f3fb7-fe74e4726c08432522b3",
+          "file": "specs-ui.spec.ts",
+          "line": 142,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-28T22:10:21.580Z",
+    "duration": 33066.352,
+    "expected": 13,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}
