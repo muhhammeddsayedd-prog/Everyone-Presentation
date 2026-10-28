@@ -1,0 +1,29 @@
+{
+  "environment": "running central development app, unauthenticated only",
+  "results": [
+    {
+      "name": "anonymous_list",
+      "status": 401,
+      "code": "AUTH_REQUIRED",
+      "no_store": true,
+      "observed_at": "2026-10-28T16:24:35.514Z"
+    },
+    {
+      "name": "anonymous_detail",
+      "status": 401,
+      "code": "AUTH_REQUIRED",
+      "no_store": true,
+      "observed_at": "2026-10-28T16:24:35.560Z"
+    },
+    {
+      "name": "foreign_origin_retry",
+      "status": 403,
+      "code": "ACCESS_DENIED",
+      "no_store": true,
+      "observed_at": "2026-10-28T16:24:35.597Z"
+    }
+  ],
+  "authenticated_jobs_tested": false,
+  "provider_processing_tested": false,
+  "credentials_exported": false
+}

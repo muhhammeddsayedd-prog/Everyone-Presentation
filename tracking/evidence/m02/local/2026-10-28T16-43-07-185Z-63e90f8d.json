@@ -1,0 +1,564 @@
+{
+  "schema_version": "1.0",
+  "run_id": "63e90f8d-3583-40bc-82c5-0c34c9bde092",
+  "started_at": "2026-10-28T16:42:05.244Z",
+  "result": "passed",
+  "stages": [
+    {
+      "name": "migration-replay",
+      "path": "supabase/migrations/20261028010943_m01_canonical_foundation.sql",
+      "sha256": "8a5f3ed7727a72051e630307d2daecab8c4a74054398a6425e73bd85e17568b9",
+      "result": "already_applied",
+      "receipt": "development/local-db/receipts/2026-10-28T16-42-07-908Z-replay.json"
+    },
+    {
+      "name": "migration-replay",
+      "path": "supabase/migrations/20261028013324_m01_identity_role_inheritance.sql",
+      "sha256": "5382efe9fbdf9c194010257e0ac0024dcb447207522036560056d5d1a4e20e30",
+      "result": "already_applied",
+      "receipt": "development/local-db/receipts/2026-10-28T16-42-09-323Z-replay.json"
+    },
+    {
+      "name": "migration-replay",
+      "path": "supabase/migrations/20261028013655_m01_workspace_scope_alias.sql",
+      "sha256": "67ddb2cff9fed9c42d34657e833c613aec4afd2769543a991bbac84da355db64",
+      "result": "already_applied",
+      "receipt": "development/local-db/receipts/2026-10-28T16-42-10-686Z-replay.json"
+    },
+    {
+      "name": "migration-replay",
+      "path": "supabase/migrations/20261028024205_m01_private_logo_boundary.sql",
+      "sha256": "b04af5119b4e384bd96136573eec39e69f21a0ffb7d9f4aeb07bbf48f2976b9d",
+      "result": "already_applied",
+      "receipt": "development/local-db/receipts/2026-10-28T16-42-12-018Z-replay.json"
+    },
+    {
+      "name": "migration-replay",
+      "path": "supabase/migrations/20261028072515_m01_logo_upload_capability.sql",
+      "sha256": "4dbd400092d7743b02dd0769ae511c208e6f4f349428fc0e7f0fb9c573ba4b24",
+      "result": "already_applied",
+      "receipt": "development/local-db/receipts/2026-10-28T16-42-13-344Z-replay.json"
+    },
+    {
+      "name": "migration-replay",
+      "path": "supabase/migrations/20261028162702_m01_replay_scope_refresh.sql",
+      "sha256": "82a4f2ec03efc0787aa58e5f1e68ab626e5dddb5e4c645444103456757bf4251",
+      "result": "already_applied",
+      "receipt": "development/local-db/receipts/2026-10-28T16-42-14-854Z-replay.json"
+    },
+    {
+      "name": "migration-replay",
+      "path": "supabase/migrations/20261028162800_m02_jobs_outbox.sql",
+      "sha256": "f619b3dfb9d964ab5902d04941b8cd59b44e9da36f1ab3f7b10bd45298ff4013",
+      "result": "applied",
+      "receipt": "development/local-db/receipts/2026-10-28T16-42-16-770Z-replay.json"
+    },
+    {
+      "name": "existing-role-state-machine-assertions",
+      "path": "tests/db/m02-jobs-outbox.sql",
+      "result": "passed",
+      "receipt": "development/local-db/receipts/2026-10-28T16-42-18-487Z-test.json",
+      "sha256": "d6c96529bf1588f9c053c8449b6f2f6bec5ae443263a441b47cbecbd091ff30b"
+    },
+    {
+      "name": "fixture-setup",
+      "path": "tests/db/m02-local-setup.sql",
+      "sha256": "dd3541cd36fd6c5030489576212912697a3583cac8251fad610936256cc1b368",
+      "started_at": "2026-10-28T16:42:19.887Z",
+      "result": "passed",
+      "finished_at": "2026-10-28T16:42:21.307Z",
+      "duration_ms": 1420,
+      "markers": []
+    },
+    {
+      "name": "enqueue-b",
+      "path": "tests/db/m02-local-enqueue-b.sql",
+      "sha256": "96ca888d071e287c75d577329a90e7243326aba3877cbd4d5a5cac1a69c9e31e",
+      "started_at": "2026-10-28T16:42:21.310Z",
+      "result": "passed",
+      "finished_at": "2026-10-28T16:42:23.623Z",
+      "duration_ms": 2314,
+      "markers": [
+        {
+          "phase": "started",
+          "session_pid": 193534,
+          "at": "2026-10-28T16:42:22.550506+00:00"
+        },
+        {
+          "phase": "returned",
+          "session_pid": 193534,
+          "at": "2026-10-28T16:42:22.592779+00:00"
+        }
+      ]
+    },
+    {
+      "name": "enqueue-a",
+      "path": "tests/db/m02-local-enqueue-a.sql",
+      "sha256": "e0874f5c0d216283cd4e8add709887ce6301a4ca99b975a7db70bd0ea5361290",
+      "started_at": "2026-10-28T16:42:21.319Z",
+      "result": "passed",
+      "finished_at": "2026-10-28T16:42:24.664Z",
+      "duration_ms": 3345,
+      "markers": [
+        {
+          "phase": "started",
+          "session_pid": 193535,
+          "at": "2026-10-28T16:42:22.549627+00:00"
+        },
+        {
+          "phase": "returned",
+          "session_pid": 193535,
+          "at": "2026-10-28T16:42:23.616446+00:00"
+        }
+      ]
+    },
+    {
+      "name": "two-job-skip-locked-a",
+      "path": "tests/db/m02-local-claim-a.sql",
+      "sha256": "b35454aa4680a8e9042ac9b99fa554673aae25e8e43231c1a15bc5fa208d8438",
+      "started_at": "2026-10-28T16:42:24.676Z",
+      "result": "passed",
+      "finished_at": "2026-10-28T16:42:30.053Z",
+      "duration_ms": 5377,
+      "markers": [
+        {
+          "phase": "started",
+          "session_pid": 193579,
+          "at": "2026-10-28T16:42:26.005576+00:00"
+        },
+        {
+          "phase": "returned",
+          "session_pid": 193579,
+          "at": "2026-10-28T16:42:26.018821+00:00",
+          "event_id": "825491fc-f0b9-4aa0-83e8-207e113c4b0a"
+        },
+        {
+          "phase": "holding",
+          "session_pid": 193579,
+          "at": "2026-10-28T16:42:26.019103+00:00"
+        }
+      ]
+    },
+    {
+      "name": "two-job-skip-locked-b",
+      "path": "tests/db/m02-local-claim-b.sql",
+      "sha256": "d16ddf6c8e91439f31acdcad1268015d9352e426dd5fa8f5aeb1099b92119f11",
+      "started_at": "2026-10-28T16:42:27.460Z",
+      "result": "passed",
+      "finished_at": "2026-10-28T16:42:28.828Z",
+      "duration_ms": 1368,
+      "markers": [
+        {
+          "phase": "started",
+          "session_pid": 193614,
+          "at": "2026-10-28T16:42:28.77421+00:00"
+        },
+        {
+          "phase": "returned",
+          "session_pid": 193614,
+          "at": "2026-10-28T16:42:28.801333+00:00",
+          "event_id": "0ae4c2b1-a0bd-47d4-be56-cbf35d1063d9"
+        }
+      ]
+    },
+    {
+      "name": "revoked-cached-replay-a",
+      "path": "tests/db/m02-local-revoke-a.sql",
+      "sha256": "f44e752a303864da5d4b0235d5e221612848f653879cbb655e4274dc2f046b81",
+      "started_at": "2026-10-28T16:42:30.066Z",
+      "result": "passed",
+      "finished_at": "2026-10-28T16:42:35.437Z",
+      "duration_ms": 5372,
+      "markers": [
+        {
+          "phase": "holding",
+          "session_pid": 193657,
+          "at": "2026-10-28T16:42:31.405367+00:00"
+        }
+      ]
+    },
+    {
+      "name": "revoked-cached-replay-b",
+      "path": "tests/db/m02-local-revoke-b.sql",
+      "sha256": "f643385e822f696a7a27d7425d86fdd53f2c87940a14443752490f823daff007",
+      "started_at": "2026-10-28T16:42:32.827Z",
+      "result": "passed",
+      "finished_at": "2026-10-28T16:42:35.448Z",
+      "duration_ms": 2622,
+      "markers": [
+        {
+          "phase": "started",
+          "session_pid": 193693,
+          "at": "2026-10-28T16:42:34.163375+00:00"
+        },
+        {
+          "phase": "returned",
+          "session_pid": 193693,
+          "at": "2026-10-28T16:42:35.41998+00:00",
+          "cached_replay_denied": true
+        }
+      ]
+    },
+    {
+      "name": "restart-fixture-prepare",
+      "path": "tests/db/m02-local-restart-prepare.sql",
+      "sha256": "161729fa426640cee7127429201900ff653dd46970df77e6185c5c29a47a8e86",
+      "started_at": "2026-10-28T16:42:35.450Z",
+      "result": "passed",
+      "finished_at": "2026-10-28T16:42:36.816Z",
+      "duration_ms": 1366,
+      "markers": []
+    },
+    {
+      "name": "same-event-single-lease-a",
+      "path": "tests/db/m02-local-restart-claim.sql",
+      "sha256": "065b8a4326c1ea6bb3cbad8e522d99c2a37a87befafd5e8427c3cf55583cb341",
+      "started_at": "2026-10-28T16:42:36.826Z",
+      "result": "passed",
+      "finished_at": "2026-10-28T16:42:42.221Z",
+      "duration_ms": 5396,
+      "markers": [
+        {
+          "phase": "started",
+          "session_pid": 193748,
+          "at": "2026-10-28T16:42:38.169667+00:00"
+        },
+        {
+          "phase": "returned",
+          "session_pid": 193748,
+          "at": "2026-10-28T16:42:38.183047+00:00",
+          "event_id": "ffd1547c-96fa-4818-a9fa-a22c33c57c70"
+        },
+        {
+          "phase": "holding",
+          "session_pid": 193748,
+          "at": "2026-10-28T16:42:38.183333+00:00"
+        }
+      ]
+    },
+    {
+      "name": "same-event-single-lease-b",
+      "path": "tests/db/m02-local-single-claim-b.sql",
+      "sha256": "45abc09ca318b8e212a84cbf9ae1a9eaaae3b5df05da940a90f9a223b695a582",
+      "started_at": "2026-10-28T16:42:39.648Z",
+      "result": "passed",
+      "finished_at": "2026-10-28T16:42:40.949Z",
+      "duration_ms": 1301,
+      "markers": [
+        {
+          "phase": "started",
+          "session_pid": 193785,
+          "at": "2026-10-28T16:42:40.923915+00:00"
+        },
+        {
+          "phase": "returned",
+          "session_pid": 193785,
+          "at": "2026-10-28T16:42:40.929003+00:00",
+          "claimed_count": 0
+        }
+      ]
+    },
+    {
+      "name": "committed-lease-recovery",
+      "path": "tests/db/m02-local-restart-recover.sql",
+      "sha256": "c33813ed6c4bd7c4eb21ada045c973a7330a83a633ed2335349461cd300368be",
+      "started_at": "2026-10-28T16:42:47.808Z",
+      "result": "passed",
+      "finished_at": "2026-10-28T16:42:49.200Z",
+      "duration_ms": 1391,
+      "markers": [
+        {
+          "phase": "recovered",
+          "session_pid": 80,
+          "old_ack_rejected": true,
+          "committed_lease_survived": true,
+          "expired_reclaimed": true
+        }
+      ]
+    },
+    {
+      "name": "cancel-first-fixture",
+      "path": "tests/db/m02-local-cancel-first-prepare.sql",
+      "sha256": "6f42a81f7301492b64900e1e09476af4d96668c53dec10e51a6ad4b595207412",
+      "started_at": "2026-10-28T16:42:49.203Z",
+      "result": "passed",
+      "finished_at": "2026-10-28T16:42:50.701Z",
+      "duration_ms": 1498,
+      "markers": []
+    },
+    {
+      "name": "cancel-before-dispatch-finish-a",
+      "path": "tests/db/m02-local-cancel-a.sql",
+      "sha256": "8b7b7b2a429e371d99746194b3ae5afc85e910ad1c7a678fbeb179730358bef3",
+      "started_at": "2026-10-28T16:42:50.707Z",
+      "result": "passed",
+      "finished_at": "2026-10-28T16:42:56.053Z",
+      "duration_ms": 5346,
+      "markers": [
+        {
+          "phase": "started",
+          "session_pid": 137,
+          "at": "2026-10-28T16:42:51.980991+00:00"
+        },
+        {
+          "phase": "returned",
+          "session_pid": 137,
+          "at": "2026-10-28T16:42:52.020837+00:00"
+        },
+        {
+          "phase": "holding",
+          "session_pid": 137,
+          "at": "2026-10-28T16:42:52.021127+00:00"
+        }
+      ]
+    },
+    {
+      "name": "cancel-before-dispatch-finish-b",
+      "path": "tests/db/m02-local-cancel-finish-b.sql",
+      "sha256": "75c984bc70911ee5f4fd6e4363ef42c0c1adec74d0610888f63cd0ebd0de897e",
+      "started_at": "2026-10-28T16:42:53.413Z",
+      "result": "passed",
+      "finished_at": "2026-10-28T16:42:56.053Z",
+      "duration_ms": 2639,
+      "markers": [
+        {
+          "phase": "started",
+          "session_pid": 173,
+          "at": "2026-10-28T16:42:54.769562+00:00"
+        },
+        {
+          "phase": "returned",
+          "session_pid": 173,
+          "at": "2026-10-28T16:42:56.032143+00:00"
+        }
+      ]
+    },
+    {
+      "name": "finish-first-fixture",
+      "path": "tests/db/m02-local-finish-first-prepare.sql",
+      "sha256": "c849643963ccbec06025992406ee60ea90355e50d7ed8defa58afec96ba47c5d",
+      "started_at": "2026-10-28T16:42:56.056Z",
+      "result": "passed",
+      "finished_at": "2026-10-28T16:42:57.402Z",
+      "duration_ms": 1346,
+      "markers": []
+    },
+    {
+      "name": "dispatch-finish-before-cancel-a",
+      "path": "tests/db/m02-local-finish-a.sql",
+      "sha256": "712592d1c0c5cfd3aa450340c7c56131e06c653c7919ffe1e127ae27f164efc1",
+      "started_at": "2026-10-28T16:42:57.409Z",
+      "result": "passed",
+      "finished_at": "2026-10-28T16:43:02.832Z",
+      "duration_ms": 5423,
+      "markers": [
+        {
+          "phase": "started",
+          "session_pid": 228,
+          "at": "2026-10-28T16:42:58.790255+00:00"
+        },
+        {
+          "phase": "returned",
+          "session_pid": 228,
+          "at": "2026-10-28T16:42:58.796502+00:00"
+        },
+        {
+          "phase": "holding",
+          "session_pid": 228,
+          "at": "2026-10-28T16:42:58.796791+00:00"
+        }
+      ]
+    },
+    {
+      "name": "dispatch-finish-before-cancel-b",
+      "path": "tests/db/m02-local-finish-cancel-b.sql",
+      "sha256": "d9eb8fce41bd70aaea8abeb1fa52d21d59aeea1be039d06ff52f43c605848a53",
+      "started_at": "2026-10-28T16:43:00.208Z",
+      "result": "passed",
+      "finished_at": "2026-10-28T16:43:02.880Z",
+      "duration_ms": 2671,
+      "markers": [
+        {
+          "phase": "started",
+          "session_pid": 265,
+          "at": "2026-10-28T16:43:01.536575+00:00"
+        },
+        {
+          "phase": "returned",
+          "session_pid": 265,
+          "at": "2026-10-28T16:43:02.854355+00:00"
+        }
+      ]
+    },
+    {
+      "name": "durable-effects-verify",
+      "path": "tests/db/m02-local-verify.sql",
+      "sha256": "203c781cc2c1f833e2e4a03427f948ee26c651390ad620698ee275334b2645cd",
+      "started_at": "2026-10-28T16:43:02.882Z",
+      "result": "passed",
+      "finished_at": "2026-10-28T16:43:04.345Z",
+      "duration_ms": 1463,
+      "markers": []
+    },
+    {
+      "name": "strict-scoped-cleanup",
+      "path": "tests/db/m02-local-cleanup.sql",
+      "sha256": "0c02a514d4efc8cb198ae5d51b4af3d797c663c61c8598f7c1011a8ed2b3950e",
+      "started_at": "2026-10-28T16:43:04.347Z",
+      "result": "passed",
+      "finished_at": "2026-10-28T16:43:05.837Z",
+      "duration_ms": 1490,
+      "markers": []
+    }
+  ],
+  "concurrency": [
+    {
+      "name": "same-input-distinct-key-enqueue",
+      "distinct_backends": true,
+      "rpc_durations_ms": [
+        1067,
+        42
+      ],
+      "lock_delay_exceeded_900_ms": true
+    },
+    {
+      "name": "two-job-skip-locked",
+      "distinct_backends": true,
+      "peer_pg_sleep_observed": true,
+      "first_pid": 193579,
+      "second_pid": 193614,
+      "second_rpc_duration_ms": 27,
+      "proof": "Frozen SQL acquires its job/advisory lock before the sampled PgSleep; this is not a daemon or provider test."
+    },
+    {
+      "name": "revoked-cached-replay",
+      "distinct_backends": true,
+      "peer_pg_sleep_observed": true,
+      "first_pid": 193657,
+      "second_pid": 193693,
+      "second_rpc_duration_ms": 1256,
+      "proof": "Frozen SQL acquires its job/advisory lock before the sampled PgSleep; this is not a daemon or provider test."
+    },
+    {
+      "name": "same-event-single-lease",
+      "distinct_backends": true,
+      "peer_pg_sleep_observed": true,
+      "first_pid": 193748,
+      "second_pid": 193785,
+      "second_rpc_duration_ms": 6,
+      "proof": "Frozen SQL acquires its job/advisory lock before the sampled PgSleep; this is not a daemon or provider test."
+    },
+    {
+      "name": "cancel-before-dispatch-finish",
+      "distinct_backends": true,
+      "peer_pg_sleep_observed": true,
+      "first_pid": 137,
+      "second_pid": 173,
+      "second_rpc_duration_ms": 1263,
+      "proof": "Frozen SQL acquires its job/advisory lock before the sampled PgSleep; this is not a daemon or provider test."
+    },
+    {
+      "name": "dispatch-finish-before-cancel",
+      "distinct_backends": true,
+      "peer_pg_sleep_observed": true,
+      "first_pid": 228,
+      "second_pid": 265,
+      "second_rpc_duration_ms": 1318,
+      "proof": "Frozen SQL acquires its job/advisory lock before the sampled PgSleep; this is not a daemon or provider test."
+    }
+  ],
+  "cloud_called": false,
+  "provider_called": false,
+  "stage_callbacks_tested": false,
+  "dispatcher_daemon_tested": false,
+  "scope": "Committed local jobs/outbox and PostgreSQL graceful restart; synthetic SQL accepted-dispatch flags, no HTTP dispatch or worker processing.",
+  "environment": {
+    "container": "eps-presentation-canonical-pg17-local",
+    "system_identifier": "7701520506262638626",
+    "image_digest": "public.ecr.aws/supabase/postgres@sha256:6942962433a569e87f228b4d4ab7e11db5deca64e43babb3a038443ad6c4f1bb",
+    "host_ip": "127.0.0.1",
+    "host_port": "55433"
+  },
+  "reviewed_manifest_sha256": "f46e1c80e16f495c9933cb1650ed125df1cde3160e1561470e7ef9e50e543f1c",
+  "before": {
+    "jobs": 0,
+    "fsync": "on",
+    "events": 0,
+    "outbox": 0,
+    "business": {
+      "auth": 0,
+      "audit": 0,
+      "media": 0,
+      "clients": 0,
+      "uploads": 0,
+      "projects": 0,
+      "workspaces": 0,
+      "idempotency": 0,
+      "memberships": 0,
+      "capabilities": 0,
+      "client_memberships": 0
+    },
+    "versions": [
+      "20261028010943",
+      "20261028013324",
+      "20261028013655",
+      "20261028024205",
+      "20261028072515",
+      "20261028162702",
+      "20261028162800"
+    ],
+    "forced_rls": 3,
+    "fixture_present": false,
+    "full_page_writes": "on",
+    "synchronous_commit": "on",
+    "restricted_dispatcher": true
+  },
+  "restart": {
+    "receipt": "development/local-db/receipts/2026-10-28T16-42-47-805Z-durability-restart.json",
+    "action": "durability-restart",
+    "observed_at": "2026-10-28T16:42:47.805Z",
+    "workspace_key": "ffaf4984e0e7402cd2f54f81",
+    "scope": "graceful owned local PostgreSQL container restart only; no process-kill/power-loss/cloud/provider proof",
+    "container": "eps-presentation-canonical-pg17-local",
+    "system_identifier": "7701520506262638626",
+    "same_container": true,
+    "same_volume": true,
+    "host_ip": "127.0.0.1",
+    "host_port": "55433"
+  },
+  "cleanup": "passed",
+  "after": {
+    "jobs": 0,
+    "fsync": "on",
+    "events": 0,
+    "outbox": 0,
+    "business": {
+      "auth": 0,
+      "audit": 0,
+      "media": 0,
+      "clients": 0,
+      "uploads": 0,
+      "projects": 0,
+      "workspaces": 0,
+      "idempotency": 0,
+      "memberships": 0,
+      "capabilities": 0,
+      "client_memberships": 0
+    },
+    "versions": [
+      "20261028010943",
+      "20261028013324",
+      "20261028013655",
+      "20261028024205",
+      "20261028072515",
+      "20261028162702",
+      "20261028162800"
+    ],
+    "forced_rls": 3,
+    "fixture_present": false,
+    "full_page_writes": "on",
+    "synchronous_commit": "on",
+    "restricted_dispatcher": true
+  },
+  "finished_at": "2026-10-28T16:43:07.185Z"
+}

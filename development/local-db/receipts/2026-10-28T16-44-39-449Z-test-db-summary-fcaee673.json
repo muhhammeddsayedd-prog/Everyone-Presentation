@@ -1,0 +1,397 @@
+{
+  "suite": "M01 real local PostgreSQL acceptance",
+  "run_id": "fcaee673-8f07-4c48-b0ab-8bcf4a2ceb2a",
+  "started_at": "2026-10-28T16:44:00.082Z",
+  "result": "passed",
+  "scope": "owned isolated local Docker PostgreSQL only; no cloud calls",
+  "stages": [
+    {
+      "name": "migration-replay",
+      "path": "supabase/migrations/20261028010943_m01_canonical_foundation.sql",
+      "reviewed_at": "2026-10-28T01:30:17.425363+00:00",
+      "reviewed_by": "root integration owner with independent static SQL review",
+      "started_at": "2026-10-28T16:44:03.047Z",
+      "result": "already_applied",
+      "receipt": "development/local-db/receipts/2026-10-28T16-44-04-547Z-replay.json",
+      "sha256": "8a5f3ed7727a72051e630307d2daecab8c4a74054398a6425e73bd85e17568b9",
+      "finished_at": "2026-10-28T16:44:04.548Z",
+      "duration_ms": 1500.47
+    },
+    {
+      "name": "migration-replay",
+      "path": "supabase/migrations/20261028013324_m01_identity_role_inheritance.sql",
+      "reviewed_at": "2026-10-28T01:35:35.408074+00:00",
+      "reviewed_by": "root integration owner",
+      "started_at": "2026-10-28T16:44:04.548Z",
+      "result": "already_applied",
+      "receipt": "development/local-db/receipts/2026-10-28T16-44-05-941Z-replay.json",
+      "sha256": "5382efe9fbdf9c194010257e0ac0024dcb447207522036560056d5d1a4e20e30",
+      "finished_at": "2026-10-28T16:44:05.942Z",
+      "duration_ms": 1393.69
+    },
+    {
+      "name": "migration-replay",
+      "path": "supabase/migrations/20261028013655_m01_workspace_scope_alias.sql",
+      "reviewed_at": "2026-10-28T01:38:22.441203+00:00",
+      "reviewed_by": "root integration owner",
+      "started_at": "2026-10-28T16:44:05.942Z",
+      "result": "already_applied",
+      "receipt": "development/local-db/receipts/2026-10-28T16-44-07-321Z-replay.json",
+      "sha256": "67ddb2cff9fed9c42d34657e833c613aec4afd2769543a991bbac84da355db64",
+      "finished_at": "2026-10-28T16:44:07.322Z",
+      "duration_ms": 1380.32
+    },
+    {
+      "name": "migration-replay",
+      "path": "supabase/migrations/20261028024205_m01_private_logo_boundary.sql",
+      "reviewed_at": "2026-10-28T03:13:56.505940+00:00",
+      "reviewed_by": "root integration owner with independent SQL role/RLS/proof/replay review; rollback probe03:10:25 passed exactbytes",
+      "started_at": "2026-10-28T16:44:07.322Z",
+      "result": "already_applied",
+      "receipt": "development/local-db/receipts/2026-10-28T16-44-08-669Z-replay.json",
+      "sha256": "b04af5119b4e384bd96136573eec39e69f21a0ffb7d9f4aeb07bbf48f2976b9d",
+      "finished_at": "2026-10-28T16:44:08.670Z",
+      "duration_ms": 1347.53
+    },
+    {
+      "name": "migration-replay",
+      "path": "supabase/migrations/20261028072515_m01_logo_upload_capability.sql",
+      "reviewed_at": "2026-10-28T07:36:02.282159+00:00",
+      "reviewed_by": "root authorized guarded LOCAL replay; discovery agent static review of scoped capability metadata and rollback fixtures; cloud review pending",
+      "started_at": "2026-10-28T16:44:08.670Z",
+      "result": "already_applied",
+      "receipt": "development/local-db/receipts/2026-10-28T16-44-10-062Z-replay.json",
+      "sha256": "4dbd400092d7743b02dd0769ae511c208e6f4f349428fc0e7f0fb9c573ba4b24",
+      "finished_at": "2026-10-28T16:44:10.063Z",
+      "duration_ms": 1392.92
+    },
+    {
+      "name": "migration-replay",
+      "path": "supabase/migrations/20261028162702_m01_replay_scope_refresh.sql",
+      "reviewed_at": "2026-10-28T16:37:19.111124+00:00",
+      "reviewed_by": "root implementation and discovery_review independent exact-byte SQL review; local-only replay authorization",
+      "started_at": "2026-10-28T16:44:10.063Z",
+      "result": "already_applied",
+      "receipt": "development/local-db/receipts/2026-10-28T16-44-11-570Z-replay.json",
+      "sha256": "82a4f2ec03efc0787aa58e5f1e68ab626e5dddb5e4c645444103456757bf4251",
+      "finished_at": "2026-10-28T16:44:11.571Z",
+      "duration_ms": 1508.36
+    },
+    {
+      "name": "migration-replay",
+      "path": "supabase/migrations/20261028162800_m02_jobs_outbox.sql",
+      "reviewed_at": "2026-10-28T16:41:46.180602+00:00",
+      "reviewed_by": "root integration owner with discovery_review independent exact-source/lock/RLS/restart static review; owned local execution only",
+      "started_at": "2026-10-28T16:44:11.571Z",
+      "result": "already_applied",
+      "receipt": "development/local-db/receipts/2026-10-28T16-44-12-972Z-replay.json",
+      "sha256": "f619b3dfb9d964ab5902d04941b8cd59b44e9da36f1ab3f7b10bd45298ff4013",
+      "finished_at": "2026-10-28T16:44:12.973Z",
+      "duration_ms": 1401.47
+    },
+    {
+      "name": "identity-role-proof",
+      "path": "tests/db/m01-role-inheritance.sql",
+      "reviewed_at": "2026-10-28T01:35:35.408074+00:00",
+      "reviewed_by": "root integration owner",
+      "started_at": "2026-10-28T16:44:12.973Z",
+      "result": "passed",
+      "receipt": "development/local-db/receipts/2026-10-28T16-44-14-424Z-test.json",
+      "sha256": "0e4ca2c58fe3133faf77e3bf79c574c305b1409d7d8c82f39a29b10829d33525",
+      "finished_at": "2026-10-28T16:44:14.425Z",
+      "duration_ms": 1452.66
+    },
+    {
+      "name": "foundation-role-and-domain-assertions",
+      "path": "tests/db/m01-foundation.sql",
+      "reviewed_at": "2026-10-28T07:36:02.282159+00:00",
+      "reviewed_by": "root authorized guarded LOCAL replay; discovery agent static review of scoped capability metadata and rollback fixtures; cloud review pending",
+      "started_at": "2026-10-28T16:44:14.426Z",
+      "result": "passed",
+      "receipt": "development/local-db/receipts/2026-10-28T16-44-16-419Z-test.json",
+      "sha256": "944d3dfc62b1692fb26c1f458a56b34e1860a97a09a4c75d93565c9455612ac8",
+      "finished_at": "2026-10-28T16:44:16.420Z",
+      "duration_ms": 1994.74
+    },
+    {
+      "name": "logo-role-proof-and-state-assertions",
+      "path": "tests/db/m01-logo-boundary.sql",
+      "reviewed_at": "2026-10-28T07:36:02.282159+00:00",
+      "reviewed_by": "root authorized guarded LOCAL replay; discovery agent static review of scoped capability metadata and rollback fixtures; cloud review pending",
+      "started_at": "2026-10-28T16:44:16.420Z",
+      "result": "passed",
+      "receipt": "development/local-db/receipts/2026-10-28T16-44-19-204Z-test.json",
+      "sha256": "13735086f42d16e1714a6bd15e07af94b5f0e9e228297f92c528c9be74901448",
+      "finished_at": "2026-10-28T16:44:19.205Z",
+      "duration_ms": 2784.71
+    },
+    {
+      "name": "scoped-logo-upload-capability-assertions",
+      "path": "tests/db/m01-logo-upload-capability.sql",
+      "reviewed_at": "2026-10-28T07:36:02.282159+00:00",
+      "reviewed_by": "root authorized guarded LOCAL replay; discovery agent static review of scoped capability metadata and rollback fixtures; cloud review pending",
+      "started_at": "2026-10-28T16:44:19.205Z",
+      "result": "passed",
+      "receipt": "development/local-db/receipts/2026-10-28T16-44-20-673Z-test.json",
+      "sha256": "451d4e20f7aa95a380868ccc10bfe3c00b2dbf67747c43b36e3299bc92eb2fbe",
+      "finished_at": "2026-10-28T16:44:20.674Z",
+      "duration_ms": 1468.72
+    },
+    {
+      "name": "logo-concurrency-fixture-setup",
+      "path": "tests/db/m01-logo-race-setup.sql",
+      "reviewed_at": "2026-10-28T03:16:35.510234+00:00",
+      "reviewed_by": "root integration owner: reviewed synthetic SQL-only actual-session concurrency, exact effects and strictly scoped cleanup",
+      "started_at": "2026-10-28T16:44:20.674Z",
+      "result": "passed",
+      "receipt": "development/local-db/receipts/2026-10-28T16-44-22-142Z-test.json",
+      "sha256": "40000229321eea4ec3b02bf60c40cb9010791bddbfc408fa4b76372e8d723c39",
+      "finished_at": "2026-10-28T16:44:22.143Z",
+      "duration_ms": 1468.85
+    },
+    {
+      "name": "distinct-key-logo-completion-1",
+      "path": "tests/db/m01-logo-race-a.sql",
+      "reviewed_at": "2026-10-28T03:16:35.510438+00:00",
+      "reviewed_by": "root integration owner: reviewed synthetic SQL-only actual-session concurrency, exact effects and strictly scoped cleanup",
+      "started_at": "2026-10-28T16:44:22.143Z",
+      "result": "passed",
+      "receipt": "development/local-db/receipts/2026-10-28T16-44-25-670Z-test.json",
+      "sha256": "fde095869c10e6442eb906421585eaa260744eb5d69354f2a614d7e0fe78cf1c",
+      "finished_at": "2026-10-28T16:44:25.671Z",
+      "duration_ms": 3528.21
+    },
+    {
+      "name": "distinct-key-logo-completion-2",
+      "path": "tests/db/m01-logo-race-b.sql",
+      "reviewed_at": "2026-10-28T03:16:35.510605+00:00",
+      "reviewed_by": "root integration owner: reviewed synthetic SQL-only actual-session concurrency, exact effects and strictly scoped cleanup",
+      "started_at": "2026-10-28T16:44:22.143Z",
+      "result": "passed",
+      "receipt": "development/local-db/receipts/2026-10-28T16-44-24-610Z-test.json",
+      "sha256": "04d97eb12b17bf0f4ba406435bdd861379cdfac427bb7da39be91cf098febd6d",
+      "finished_at": "2026-10-28T16:44:24.611Z",
+      "duration_ms": 2467.3
+    },
+    {
+      "name": "logo-concurrency-domain-effects",
+      "path": "tests/db/m01-logo-race-verify.sql",
+      "reviewed_at": "2026-10-28T03:16:35.510771+00:00",
+      "reviewed_by": "root integration owner: reviewed synthetic SQL-only actual-session concurrency, exact effects and strictly scoped cleanup",
+      "started_at": "2026-10-28T16:44:25.673Z",
+      "result": "passed",
+      "receipt": "development/local-db/receipts/2026-10-28T16-44-27-176Z-test.json",
+      "sha256": "17f468cf1ca68e29f2c984844463f16d16f6c5407b8f720660e72d99ad651846",
+      "finished_at": "2026-10-28T16:44:27.177Z",
+      "duration_ms": 1504.14
+    },
+    {
+      "name": "concurrency-fixture-setup",
+      "path": "tests/db/m01-race-setup.sql",
+      "reviewed_at": "2026-10-28T01:30:17.425363+00:00",
+      "reviewed_by": "root integration owner with independent static SQL review",
+      "started_at": "2026-10-28T16:44:27.177Z",
+      "result": "passed",
+      "receipt": "development/local-db/receipts/2026-10-28T16-44-28-464Z-test.json",
+      "sha256": "5405bdb3688656020ea40bfddead1e22fcaf6a62ebdc6c403836b360a560db3d",
+      "finished_at": "2026-10-28T16:44:28.465Z",
+      "duration_ms": 1288.13
+    },
+    {
+      "name": "same-key-claim-1",
+      "path": "tests/db/m01-race-same-a.sql",
+      "reviewed_at": "2026-10-28T01:39:38.320437+00:00",
+      "reviewed_by": "root integration owner, explicit session/lock timing added",
+      "started_at": "2026-10-28T16:44:28.465Z",
+      "result": "passed",
+      "receipt": "development/local-db/receipts/2026-10-28T16-44-31-840Z-test.json",
+      "sha256": "a7664569f5d734aaa0f83f6bc60f9463dcd659b9939c4ed55fce967b16c4fb4e",
+      "finished_at": "2026-10-28T16:44:31.841Z",
+      "duration_ms": 3375.75
+    },
+    {
+      "name": "same-key-claim-2",
+      "path": "tests/db/m01-race-same-b.sql",
+      "reviewed_at": "2026-10-28T01:39:38.320437+00:00",
+      "reviewed_by": "root integration owner, explicit session/lock timing added",
+      "started_at": "2026-10-28T16:44:28.465Z",
+      "result": "passed",
+      "receipt": "development/local-db/receipts/2026-10-28T16-44-30-825Z-test.json",
+      "sha256": "c315af73a594a10f7ad536161dd39776c3847b5e42c4ab11608ef2b547a257e1",
+      "finished_at": "2026-10-28T16:44:30.826Z",
+      "duration_ms": 2361.07
+    },
+    {
+      "name": "distinct-key-claim-1",
+      "path": "tests/db/m01-race-distinct-a.sql",
+      "reviewed_at": "2026-10-28T01:39:38.320437+00:00",
+      "reviewed_by": "root integration owner, explicit session/lock timing added",
+      "started_at": "2026-10-28T16:44:31.841Z",
+      "result": "passed",
+      "receipt": "development/local-db/receipts/2026-10-28T16-44-34-233Z-test.json",
+      "sha256": "2443c44eb35c64477338f00fa5140779d9c1308ed3fca17116af950bf1e44707",
+      "finished_at": "2026-10-28T16:44:34.234Z",
+      "duration_ms": 2393.48
+    },
+    {
+      "name": "distinct-key-claim-2",
+      "path": "tests/db/m01-race-distinct-b.sql",
+      "reviewed_at": "2026-10-28T01:39:38.320437+00:00",
+      "reviewed_by": "root integration owner, explicit session/lock timing added",
+      "started_at": "2026-10-28T16:44:31.841Z",
+      "result": "passed",
+      "receipt": "development/local-db/receipts/2026-10-28T16-44-35-272Z-test.json",
+      "sha256": "fbb1ee4ee90ca2fa36e26cc2f8be97092252732b2280e175f3071a949e2947f7",
+      "finished_at": "2026-10-28T16:44:35.273Z",
+      "duration_ms": 3432.03
+    },
+    {
+      "name": "concurrency-domain-effects",
+      "path": "tests/db/m01-race-verify.sql",
+      "reviewed_at": "2026-10-28T01:30:17.425363+00:00",
+      "reviewed_by": "root integration owner with independent static SQL review",
+      "started_at": "2026-10-28T16:44:35.273Z",
+      "result": "passed",
+      "receipt": "development/local-db/receipts/2026-10-28T16-44-36-710Z-test.json",
+      "sha256": "aa1cabcb0a5cfe4ccc552cba433986d6fd1bfbbcebf0b52d08e9fb2af822559d",
+      "finished_at": "2026-10-28T16:44:36.711Z",
+      "duration_ms": 1437.93
+    },
+    {
+      "name": "scoped-logo-fixture-cleanup",
+      "path": "tests/db/m01-logo-race-cleanup.sql",
+      "reviewed_at": "2026-10-28T03:16:35.510943+00:00",
+      "reviewed_by": "root integration owner: reviewed synthetic SQL-only actual-session concurrency, exact effects and strictly scoped cleanup",
+      "started_at": "2026-10-28T16:44:36.711Z",
+      "result": "passed",
+      "receipt": "development/local-db/receipts/2026-10-28T16-44-38-031Z-test.json",
+      "sha256": "bf906dd68a92d12e499ad837237d444c3d7a9202f124d7f5bf73be4bdc71f93a",
+      "finished_at": "2026-10-28T16:44:38.031Z",
+      "duration_ms": 1320.06
+    },
+    {
+      "name": "scoped-concurrency-fixture-cleanup",
+      "path": "tests/db/m01-race-cleanup.sql",
+      "reviewed_at": "2026-10-28T01:30:17.425363+00:00",
+      "reviewed_by": "root integration owner with independent static SQL review",
+      "started_at": "2026-10-28T16:44:38.031Z",
+      "result": "passed",
+      "receipt": "development/local-db/receipts/2026-10-28T16-44-39-447Z-test.json",
+      "sha256": "41ee8e6a5aef148dc05ca44a9379ce651e14f2c1ca8a54a63dba5dbeb00492ae",
+      "finished_at": "2026-10-28T16:44:39.448Z",
+      "duration_ms": 1416.52
+    }
+  ],
+  "concurrency_pairs": [
+    {
+      "name": "distinct-key-logo-completion",
+      "result": "passed",
+      "distinct_database_backends": true,
+      "overlapping_reviewed_transaction_windows": true,
+      "claim_exceeded_900_ms": true,
+      "start_gap_ms": 2.36,
+      "proof": "Actual SQL backend/timestamp markers, with peer transaction locks held by the reviewed 1-second server sleep. Wait-event sampling is not claimed.",
+      "sessions": [
+        {
+          "file": "tests/db/m01-logo-race-a.sql",
+          "receipt": "development/local-db/receipts/2026-10-28T16-44-25-670Z-test.json",
+          "session_pid": 813,
+          "claim_started_at": "2026-10-28T16:44:23.444398+00:00",
+          "claim_returned_at": "2026-10-28T16:44:24.642811+00:00",
+          "claim_duration_ms": 1198.413
+        },
+        {
+          "file": "tests/db/m01-logo-race-b.sql",
+          "receipt": "development/local-db/receipts/2026-10-28T16-44-24-610Z-test.json",
+          "session_pid": 812,
+          "claim_started_at": "2026-10-28T16:44:23.442038+00:00",
+          "claim_returned_at": "2026-10-28T16:44:23.562465+00:00",
+          "claim_duration_ms": 120.427
+        }
+      ]
+    },
+    {
+      "name": "same-key-claim",
+      "result": "passed",
+      "distinct_database_backends": true,
+      "overlapping_reviewed_transaction_windows": true,
+      "claim_exceeded_900_ms": true,
+      "start_gap_ms": 0.005,
+      "proof": "Actual SQL backend/timestamp markers, with peer transaction locks held by the reviewed 1-second server sleep. Wait-event sampling is not claimed.",
+      "sessions": [
+        {
+          "file": "tests/db/m01-race-same-a.sql",
+          "receipt": "development/local-db/receipts/2026-10-28T16-44-31-840Z-test.json",
+          "session_pid": 889,
+          "claim_started_at": "2026-10-28T16:44:29.752841+00:00",
+          "claim_returned_at": "2026-10-28T16:44:30.808947+00:00",
+          "claim_duration_ms": 1056.106
+        },
+        {
+          "file": "tests/db/m01-race-same-b.sql",
+          "receipt": "development/local-db/receipts/2026-10-28T16-44-30-825Z-test.json",
+          "session_pid": 890,
+          "claim_started_at": "2026-10-28T16:44:29.752846+00:00",
+          "claim_returned_at": "2026-10-28T16:44:29.793148+00:00",
+          "claim_duration_ms": 40.302
+        }
+      ]
+    },
+    {
+      "name": "distinct-key-claim",
+      "result": "passed",
+      "distinct_database_backends": true,
+      "overlapping_reviewed_transaction_windows": true,
+      "claim_exceeded_900_ms": true,
+      "start_gap_ms": 0.1,
+      "proof": "Actual SQL backend/timestamp markers, with peer transaction locks held by the reviewed 1-second server sleep. Wait-event sampling is not claimed.",
+      "sessions": [
+        {
+          "file": "tests/db/m01-race-distinct-a.sql",
+          "receipt": "development/local-db/receipts/2026-10-28T16-44-34-233Z-test.json",
+          "session_pid": 931,
+          "claim_started_at": "2026-10-28T16:44:33.170088+00:00",
+          "claim_returned_at": "2026-10-28T16:44:33.204762+00:00",
+          "claim_duration_ms": 34.674
+        },
+        {
+          "file": "tests/db/m01-race-distinct-b.sql",
+          "receipt": "development/local-db/receipts/2026-10-28T16-44-35-272Z-test.json",
+          "session_pid": 932,
+          "claim_started_at": "2026-10-28T16:44:33.170188+00:00",
+          "claim_returned_at": "2026-10-28T16:44:34.244954+00:00",
+          "claim_duration_ms": 1074.766
+        }
+      ]
+    }
+  ],
+  "cleanup": {
+    "setup_confirmed": true,
+    "attempted": true,
+    "result": "passed",
+    "receipt": "development/local-db/receipts/2026-10-28T16-44-39-447Z-test.json"
+  },
+  "limitations": "Local SQL/role/concurrency evidence; hosted auth, storage, web integration and production are separate gates.",
+  "environment": {
+    "container": "eps-presentation-canonical-pg17-local",
+    "image_digest": "public.ecr.aws/supabase/postgres@sha256:6942962433a569e87f228b4d4ab7e11db5deca64e43babb3a038443ad6c4f1bb",
+    "database": "postgres",
+    "system_identifier": "7701520506262638626",
+    "host_ip": "127.0.0.1",
+    "host_port": "55433"
+  },
+  "reviewed_manifest_sha256": "f46e1c80e16f495c9933cb1650ed125df1cde3160e1561470e7ef9e50e543f1c",
+  "local_storage_fixture": {
+    "receipt": "development/local-db/receipts/2026-10-28T16-44-03-045Z-storage-baseline.json",
+    "result": "already_applied",
+    "scope": "simulated managed catalog for SQL policy assertions only; no Storage HTTP or bytes"
+  },
+  "logo_cleanup": {
+    "setup_confirmed": true,
+    "attempted": true,
+    "result": "passed",
+    "receipt": "development/local-db/receipts/2026-10-28T16-44-38-031Z-test.json"
+  },
+  "finished_at": "2026-10-28T16:44:39.449Z",
+  "duration_ms": 39367.55
+}

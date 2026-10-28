@@ -1,0 +1,587 @@
+{
+  "observed_at": "2026-10-28T16:54:26.681150+00:00",
+  "target": "pyibofyctwnqpvktepse",
+  "action": "dry-run",
+  "inputs": {
+    "migration_hashes": {
+      "20261028010943_m01_canonical_foundation.sql": "8a5f3ed7727a72051e630307d2daecab8c4a74054398a6425e73bd85e17568b9",
+      "20261028013324_m01_identity_role_inheritance.sql": "5382efe9fbdf9c194010257e0ac0024dcb447207522036560056d5d1a4e20e30",
+      "20261028013655_m01_workspace_scope_alias.sql": "67ddb2cff9fed9c42d34657e833c613aec4afd2769543a991bbac84da355db64",
+      "20261028024205_m01_private_logo_boundary.sql": "b04af5119b4e384bd96136573eec39e69f21a0ffb7d9f4aeb07bbf48f2976b9d",
+      "20261028072515_m01_logo_upload_capability.sql": "4dbd400092d7743b02dd0769ae511c208e6f4f349428fc0e7f0fb9c573ba4b24",
+      "20261028162702_m01_replay_scope_refresh.sql": "82a4f2ec03efc0787aa58e5f1e68ab626e5dddb5e4c645444103456757bf4251",
+      "20261028162800_m02_jobs_outbox.sql": "f619b3dfb9d964ab5902d04941b8cd59b44e9da36f1ab3f7b10bd45298ff4013"
+    },
+    "proofs": {
+      "prior_cloud": {
+        "path": "tracking/evidence/cloud-logo-capability/2026-10-28T07-48-14-630664Z-11769197-apply.json",
+        "sha256": "08124876a1386d308497867f150ad02af386374041f5eb0732483b22a1f4d0be"
+      },
+      "full_db": {
+        "path": "development/local-db/receipts/2026-10-28T16-44-39-449Z-test-db-summary-fcaee673.json",
+        "sha256": "07816bd62f88f0c51e926cb7e0255674b05b1dde77377facfc1e9e51d19a631e"
+      },
+      "m01_replay": {
+        "path": "tracking/evidence/m01/replay-scope/2026-10-28T16-38-40-784Z-fixed.json",
+        "sha256": "bb2fd0644597b2966ddd3129edd772c1e7c29f9030b73cb59c15ba78ac9c1e84"
+      },
+      "m02_local": {
+        "path": "tracking/evidence/m02/local/2026-10-28T16-43-07-185Z-63e90f8d.json",
+        "sha256": "55e402ac7f34a8438ea803c63ca41d4e4873f6586dbec2f38d8b9ad95d70da44"
+      }
+    },
+    "source_seals": {
+      "tools/test-db.mjs": "bce8403709755174e8f95c7a76b8cfb20289cdb48cc5b990f1f7e0509c18bfa0",
+      "tools/test-m01-replay-scope.mjs": "d86fab248876f325071ac40bcced8065e70323b9f897b770e20699624bf446e4",
+      "tools/test-m02-local.mjs": "754eab76807ca152ab32d7d517b77e2f8d2af8a074110ceb43a442b61c086590",
+      "tools/local-postgres.mjs": "49929bce8eb51194d9299cfd9639e537eb237daaec76c15740cb88059604e2de"
+    },
+    "readback_sha256": "24d305c117aa61888de98a6dbfb732a20cc53c527804e192f735adc0e7715189",
+    "reviewed_manifest_sha256": "f46e1c80e16f495c9933cb1650ed125df1cde3160e1561470e7ef9e50e543f1c",
+    "release_helper_sha256": "3f1c6b10e62e9713aaa511f332bcc554f9254ad4eec8564a02f59d6bf4fa8336"
+  },
+  "result": "failed",
+  "application_status": "not_attempted",
+  "application_verified_by_readback": false,
+  "runtime_flag_changed": false,
+  "identity_provisioned": false,
+  "provider_or_service_provisioned": false,
+  "seeds": false,
+  "vault_sync": false,
+  "raw_diagnostics_recorded": false,
+  "pipeline_acceptance": false,
+  "before_mode": "pending",
+  "before": {
+    "counts": {
+      "audience_presets": 3,
+      "audit": 5,
+      "auth": 1,
+      "buckets": 1,
+      "capabilities": 4,
+      "client_memberships": 1,
+      "clients": 1,
+      "idempotency": 5,
+      "media": 1,
+      "project_memberships": 1,
+      "projects": 1,
+      "storage_objects": 1,
+      "uploads": 1,
+      "verification_keys": 1,
+      "workspaces": 1
+    },
+    "database": "postgres",
+    "functions": [
+      {
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": false,
+        "execute": {
+          "anon": false,
+          "authenticated": false,
+          "eps_api_owner": true,
+          "eps_logo_verify_owner": true,
+          "service_role": false
+        },
+        "identity_arguments": "p_operation text, p_key text, p_input jsonb",
+        "language": "plpgsql",
+        "name": "eps.idempotency_begin",
+        "owner": "eps_api_owner",
+        "public_execute": false,
+        "returns": "jsonb",
+        "signature": "eps.idempotency_begin(text, text, jsonb)",
+        "volatility": "v",
+        "source_sha256": "371d53a5a691efdfd599198050ef72fd8d43649c7b0c5ca3d62418cfd134e0e4"
+      },
+      {
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "execute": {
+          "anon": false,
+          "authenticated": true,
+          "eps_api_owner": true,
+          "eps_logo_verify_owner": true,
+          "service_role": false
+        },
+        "identity_arguments": "p_preset_id uuid, p_input jsonb, p_idempotency_key text",
+        "language": "plpgsql",
+        "name": "public.eps_archive_audience_preset",
+        "owner": "eps_api_owner",
+        "public_execute": false,
+        "returns": "jsonb",
+        "signature": "public.eps_archive_audience_preset(uuid, jsonb, text)",
+        "volatility": "v",
+        "source_sha256": "74ec29089d3f34da63bccf3fcb8cebf201d9fb3863c094bf8e51962725034ae9"
+      },
+      {
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "execute": {
+          "anon": false,
+          "authenticated": true,
+          "eps_api_owner": true,
+          "eps_logo_verify_owner": true,
+          "service_role": false
+        },
+        "identity_arguments": "p_upload_id uuid, p_idempotency_key text",
+        "language": "plpgsql",
+        "name": "public.eps_cancel_logo_upload",
+        "owner": "eps_api_owner",
+        "public_execute": false,
+        "returns": "jsonb",
+        "signature": "public.eps_cancel_logo_upload(uuid, text)",
+        "volatility": "v",
+        "source_sha256": "b93ee5472e80939982b6608610d0fe11e98c96ae623face589e0eb132530f6ed"
+      },
+      {
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "execute": {
+          "anon": false,
+          "authenticated": true,
+          "eps_api_owner": true,
+          "eps_logo_verify_owner": true,
+          "service_role": false
+        },
+        "identity_arguments": "p_input jsonb, p_idempotency_key text",
+        "language": "plpgsql",
+        "name": "public.eps_create_audience_preset",
+        "owner": "eps_api_owner",
+        "public_execute": false,
+        "returns": "jsonb",
+        "signature": "public.eps_create_audience_preset(jsonb, text)",
+        "volatility": "v",
+        "source_sha256": "1bf092d3a2207e66eaee5cc7b43d6ad321d5395c09a93e07b8b4e8af19eee71e"
+      },
+      {
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "execute": {
+          "anon": false,
+          "authenticated": true,
+          "eps_api_owner": true,
+          "eps_logo_verify_owner": true,
+          "service_role": false
+        },
+        "identity_arguments": "p_input jsonb, p_idempotency_key text",
+        "language": "plpgsql",
+        "name": "public.eps_create_workspace",
+        "owner": "eps_api_owner",
+        "public_execute": false,
+        "returns": "jsonb",
+        "signature": "public.eps_create_workspace(jsonb, text)",
+        "volatility": "v",
+        "source_sha256": "f3421ecfce937f8255f23cd0c238590f090ad5498da8f4a9cf60fea3c603d487"
+      },
+      {
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "execute": {
+          "anon": false,
+          "authenticated": true,
+          "eps_api_owner": true,
+          "eps_logo_verify_owner": true,
+          "service_role": false
+        },
+        "identity_arguments": "p_upload_id uuid, p_input jsonb, p_idempotency_key text, p_payload text, p_mac text",
+        "language": "plpgsql",
+        "name": "public.eps_finalize_logo_completion",
+        "owner": "eps_logo_verify_owner",
+        "public_execute": false,
+        "returns": "jsonb",
+        "signature": "public.eps_finalize_logo_completion(uuid, jsonb, text, text, text)",
+        "volatility": "v",
+        "source_sha256": "5f44276b6ef99748d5a3a0265b82db8c46971b87484249d5e4d8915a78975ce2"
+      },
+      {
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "execute": {
+          "anon": false,
+          "authenticated": true,
+          "eps_api_owner": true,
+          "eps_logo_verify_owner": true,
+          "service_role": false
+        },
+        "identity_arguments": "",
+        "language": "plpgsql",
+        "name": "public.eps_get_capabilities",
+        "owner": "eps_api_owner",
+        "public_execute": false,
+        "returns": "jsonb",
+        "signature": "public.eps_get_capabilities()",
+        "volatility": "s",
+        "source_sha256": "678d697c7f17dbf9725933a2f6ba7368f9ab5b0e6466cc543b57da0575bff9f5"
+      },
+      {
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "execute": {
+          "anon": false,
+          "authenticated": true,
+          "eps_api_owner": true,
+          "eps_logo_verify_owner": true,
+          "service_role": false
+        },
+        "identity_arguments": "p_asset_id uuid",
+        "language": "plpgsql",
+        "name": "public.eps_get_logo_media",
+        "owner": "eps_api_owner",
+        "public_execute": false,
+        "returns": "jsonb",
+        "signature": "public.eps_get_logo_media(uuid)",
+        "volatility": "s",
+        "source_sha256": "cb1b09f3cf1917e4cd8ca77c7bd2f4579acc7971e8009f81ccce7a9eb52d745d"
+      },
+      {
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "execute": {
+          "anon": false,
+          "authenticated": true,
+          "eps_api_owner": true,
+          "eps_logo_verify_owner": true,
+          "service_role": false
+        },
+        "identity_arguments": "p_upload_id uuid",
+        "language": "plpgsql",
+        "name": "public.eps_get_logo_upload",
+        "owner": "eps_api_owner",
+        "public_execute": false,
+        "returns": "jsonb",
+        "signature": "public.eps_get_logo_upload(uuid)",
+        "volatility": "s",
+        "source_sha256": "c9dd6484b4798f0e276f0c71b81ca25f54e0a987848386d663f30a6283868216"
+      },
+      {
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "execute": {
+          "anon": false,
+          "authenticated": true,
+          "eps_api_owner": true,
+          "eps_logo_verify_owner": true,
+          "service_role": false
+        },
+        "identity_arguments": "p_project_id uuid",
+        "language": "plpgsql",
+        "name": "public.eps_get_project",
+        "owner": "eps_api_owner",
+        "public_execute": false,
+        "returns": "jsonb",
+        "signature": "public.eps_get_project(uuid)",
+        "volatility": "s",
+        "source_sha256": "23c5decc156464b8dc4f02a41767f15564d449babd3be04855ca441e1fc9b07d"
+      },
+      {
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "execute": {
+          "anon": false,
+          "authenticated": true,
+          "eps_api_owner": true,
+          "eps_logo_verify_owner": true,
+          "service_role": false
+        },
+        "identity_arguments": "p_workspace_id uuid",
+        "language": "plpgsql",
+        "name": "public.eps_get_workspace",
+        "owner": "eps_api_owner",
+        "public_execute": false,
+        "returns": "jsonb",
+        "signature": "public.eps_get_workspace(uuid)",
+        "volatility": "s",
+        "source_sha256": "403053da109f75d63f41641b4f8d85d83cef53330fa371aedb909a4656ea65d4"
+      },
+      {
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "execute": {
+          "anon": false,
+          "authenticated": true,
+          "eps_api_owner": true,
+          "eps_logo_verify_owner": true,
+          "service_role": false
+        },
+        "identity_arguments": "p_q text, p_cursor text, p_limit integer",
+        "language": "plpgsql",
+        "name": "public.eps_list_audience_presets",
+        "owner": "eps_api_owner",
+        "public_execute": false,
+        "returns": "jsonb",
+        "signature": "public.eps_list_audience_presets(text, text, integer)",
+        "volatility": "s",
+        "source_sha256": "6f9c45058d643965a8d285287afe00d4edb3fe898a21425ff37df3255c830387"
+      },
+      {
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "execute": {
+          "anon": false,
+          "authenticated": true,
+          "eps_api_owner": true,
+          "eps_logo_verify_owner": true,
+          "service_role": false
+        },
+        "identity_arguments": "p_q text, p_cursor text, p_limit integer",
+        "language": "plpgsql",
+        "name": "public.eps_list_projects",
+        "owner": "eps_api_owner",
+        "public_execute": false,
+        "returns": "jsonb",
+        "signature": "public.eps_list_projects(text, text, integer)",
+        "volatility": "s",
+        "source_sha256": "503dad45ca532beba179298cb0cbf52e03b3eb3eb5a5f202438ecc7a703480cf"
+      },
+      {
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "execute": {
+          "anon": false,
+          "authenticated": true,
+          "eps_api_owner": true,
+          "eps_logo_verify_owner": true,
+          "service_role": false
+        },
+        "identity_arguments": "p_q text, p_cursor text, p_limit integer, p_project_id uuid",
+        "language": "plpgsql",
+        "name": "public.eps_list_workspaces",
+        "owner": "eps_api_owner",
+        "public_execute": false,
+        "returns": "jsonb",
+        "signature": "public.eps_list_workspaces(text, text, integer, uuid)",
+        "volatility": "s",
+        "source_sha256": "7f80c9ed544105d29657c46e424d1d666ccbaa233ed23b05930598912b438ac2"
+      },
+      {
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "execute": {
+          "anon": false,
+          "authenticated": true,
+          "eps_api_owner": true,
+          "eps_logo_verify_owner": true,
+          "service_role": false
+        },
+        "identity_arguments": "p_upload_id uuid, p_input jsonb, p_idempotency_key text",
+        "language": "plpgsql",
+        "name": "public.eps_prepare_logo_completion",
+        "owner": "eps_api_owner",
+        "public_execute": false,
+        "returns": "jsonb",
+        "signature": "public.eps_prepare_logo_completion(uuid, jsonb, text)",
+        "volatility": "v",
+        "source_sha256": "1edefc96a2786085b5ad0101d176feb5b782128b3eb1db91b03182039a847e9b"
+      },
+      {
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "execute": {
+          "anon": false,
+          "authenticated": true,
+          "eps_api_owner": true,
+          "eps_logo_verify_owner": true,
+          "service_role": false
+        },
+        "identity_arguments": "p_input jsonb, p_idempotency_key text",
+        "language": "plpgsql",
+        "name": "public.eps_reserve_logo_upload",
+        "owner": "eps_api_owner",
+        "public_execute": false,
+        "returns": "jsonb",
+        "signature": "public.eps_reserve_logo_upload(jsonb, text)",
+        "volatility": "v",
+        "source_sha256": "5637110ee9d0f611ecdb69ffb14a015d1f77612800e6f1bf9ccf3e6f42004d22"
+      },
+      {
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "execute": {
+          "anon": false,
+          "authenticated": true,
+          "eps_api_owner": true,
+          "eps_logo_verify_owner": true,
+          "service_role": false
+        },
+        "identity_arguments": "p_preset_id uuid, p_input jsonb, p_idempotency_key text",
+        "language": "plpgsql",
+        "name": "public.eps_update_audience_preset",
+        "owner": "eps_api_owner",
+        "public_execute": false,
+        "returns": "jsonb",
+        "signature": "public.eps_update_audience_preset(uuid, jsonb, text)",
+        "volatility": "v",
+        "source_sha256": "7d8d70888e5656abee85431f38dfbd6386969fdcfeeeef7731764f85a3b2c990"
+      },
+      {
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "execute": {
+          "anon": false,
+          "authenticated": true,
+          "eps_api_owner": true,
+          "eps_logo_verify_owner": true,
+          "service_role": false
+        },
+        "identity_arguments": "p_project_id uuid, p_input jsonb, p_idempotency_key text",
+        "language": "plpgsql",
+        "name": "public.eps_update_project",
+        "owner": "eps_api_owner",
+        "public_execute": false,
+        "returns": "jsonb",
+        "signature": "public.eps_update_project(uuid, jsonb, text)",
+        "volatility": "v",
+        "source_sha256": "88bc4be7c50c8a11716fe9478cb02347bdbbba08513319f166d85a8c24cdee4c"
+      },
+      {
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "execute": {
+          "anon": false,
+          "authenticated": true,
+          "eps_api_owner": true,
+          "eps_logo_verify_owner": true,
+          "service_role": false
+        },
+        "identity_arguments": "p_workspace_id uuid, p_input jsonb, p_idempotency_key text",
+        "language": "plpgsql",
+        "name": "public.eps_update_workspace",
+        "owner": "eps_api_owner",
+        "public_execute": false,
+        "returns": "jsonb",
+        "signature": "public.eps_update_workspace(uuid, jsonb, text)",
+        "volatility": "v",
+        "source_sha256": "0acaf6c86760ca8b4e65fde42ee2a457bbf23cb6b72beae40220a0e38047918a"
+      }
+    ],
+    "jobs_policies": [],
+    "jobs_roles": [],
+    "query_role": "postgres",
+    "queue_acls": [],
+    "queue_counts": null,
+    "relations": [
+      {
+        "forced_rls": true,
+        "name": "eps.audience_presets",
+        "owner": "postgres",
+        "rls": true
+      },
+      {
+        "forced_rls": true,
+        "name": "eps.audit_events",
+        "owner": "postgres",
+        "rls": true
+      },
+      {
+        "forced_rls": true,
+        "name": "eps.idempotency_records",
+        "owner": "postgres",
+        "rls": true
+      },
+      {
+        "forced_rls": true,
+        "name": "eps.logo_verification_keys",
+        "owner": "postgres",
+        "rls": true
+      },
+      {
+        "forced_rls": true,
+        "name": "eps.media_assets",
+        "owner": "postgres",
+        "rls": true
+      },
+      {
+        "forced_rls": true,
+        "name": "eps.upload_sessions",
+        "owner": "postgres",
+        "rls": true
+      },
+      {
+        "forced_rls": true,
+        "name": "eps.user_workspace_preferences",
+        "owner": "postgres",
+        "rls": true
+      },
+      {
+        "forced_rls": true,
+        "name": "eps.workspaces",
+        "owner": "postgres",
+        "rls": true
+      },
+      {
+        "forced_rls": true,
+        "name": "public.app_capability_grants",
+        "owner": "postgres",
+        "rls": true
+      },
+      {
+        "forced_rls": true,
+        "name": "public.client_memberships",
+        "owner": "postgres",
+        "rls": true
+      },
+      {
+        "forced_rls": true,
+        "name": "public.clients",
+        "owner": "postgres",
+        "rls": true
+      },
+      {
+        "forced_rls": true,
+        "name": "public.project_memberships",
+        "owner": "postgres",
+        "rls": true
+      },
+      {
+        "forced_rls": true,
+        "name": "public.projects",
+        "owner": "postgres",
+        "rls": true
+      }
+    ],
+    "unrestricted_visibility": true,
+    "versions": [
+      "20261028010943",
+      "20261028013324",
+      "20261028013655",
+      "20261028024205",
+      "20261028072515"
+    ]
+  }
+}

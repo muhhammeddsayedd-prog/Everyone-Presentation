@@ -1,0 +1,23 @@
+python : test_count_drift_preserves_confirmed_application_and_both_snapshots (test_processing_release.ProcessingRelease
+RecoveryTests.test_count_drift_preserves_confirmed_application_and_both_snapshots) ... ok
+At line:2 char:1
++ python -m unittest discover -s tests/operations -p "test_*.py" -v *>  ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (test_count_drif...apshots) ... ok:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+test_existing_applied_history_stays_verified_while_redundant_push_is_refused (test_processing_release.ProcessingRelease
+RecoveryTests.test_existing_applied_history_stays_verified_while_redundant_push_is_refused) ... ok
+test_existing_partial_history_prevents_a_second_mutator 
+(test_processing_release.ProcessingReleaseRecoveryTests.test_existing_partial_history_prevents_a_second_mutator) ... ok
+test_lost_push_response_keeps_verified_applied_readback_without_retrying (test_processing_release.ProcessingReleaseReco
+veryTests.test_lost_push_response_keeps_verified_applied_readback_without_retrying) ... ok
+test_lost_readback_after_push_preserves_unknown_outcome_and_attempt (test_processing_release.ProcessingReleaseRecoveryT
+ests.test_lost_readback_after_push_preserves_unknown_outcome_and_attempt) ... ok
+test_partial_apply_keeps_partial_history_and_refuses_to_claim_success (test_processing_release.ProcessingReleaseRecover
+yTests.test_partial_apply_keeps_partial_history_and_refuses_to_claim_success) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.211s
+
+OK

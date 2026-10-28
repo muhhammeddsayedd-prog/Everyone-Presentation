@@ -1,0 +1,196 @@
+
+> everyone-presentation-studio@0.1.0 test
+> npm run test:unit && npm run test:contracts && npm run test:jobs && npm run test:integrations && npm run test:worker && npm run test:central
+
+
+> everyone-presentation-studio@0.1.0 test:unit
+> node tools/run-tests.mjs tests/domain/*.test.ts tests/server/*.test.ts
+
+✔ fixture adapter is denied by both production environment signals (2.7115ms)
+✔ project access and central edits use current capabilities and canonical client versions (100.67ms)
+✔ workspace concurrent create and retry persist one resource across service instances (87.8096ms)
+✔ separate Node processes serialize the same workspace creation without lost writes (355.1259ms)
+✔ workspace edits race safely and output preference is per user without changing draft (95.9868ms)
+✔ logo completion verifies stored bytes, scope, persistence and non-destructive removal (192.4658ms)
+✔ upload ownership, cancellation and image verification fail without creating ready media (115.4647ms)
+✔ audience policies require settings authority, keep row versions and archive explicitly (60.4359ms)
+✔ search pagination excludes inaccessible and archived projects and rejects foreign cursors (42.5803ms)
+✔ grounded extraction produces ordered explicit slots without multiplying people by scenes (197.8187ms)
+✔ zero or omitted headcount is invalid; unknown count stays null with a provisional slot (2.1984ms)
+✔ no extracted roles leaves pending requirements; unknown names never become invented cast facts (0.6894ms)
+✔ manual edits preserve original evidence and resolve only explicitly confirmed clarification entries (1.8068ms)
+✔ source and draft version guards prevent a late extraction overwriting manual corrections (1.6861ms)
+✔ reducing three slots to two requires explicit retirement and preserves assignment history (2.2663ms)
+✔ allocation budgets reject large or aggregate headcounts before allocating while preserving valid counts (1.2816ms)
+✔ growth retains existing IDs/order/labels and never reuses archived ordinals or IDs (0.9836ms)
+✔ confirming an unknown count retains the provisional slot identity and original unknown count (0.9426ms)
+✔ resize rejects stale, duplicate, foreign and wrong-number retirement choices without allocating IDs (1.7892ms)
+✔ manual roles and slot labels are ordinary versioned edits with strict input and stable source order (1.9235ms)
+✔ callback failure URL cannot change the deterministic server-rendered sign-in markup (15.9854ms)
+✔ email sending limits and request throttling have distinct safe retry states (0.8104ms)
+✔ documented email configuration codes do not become generic 429 retry advice (0.4312ms)
+✔ unknown throttling stays generic and delivery failures do not claim a definite SMTP cause (0.8101ms)
+✔ provider messages, bodies, addresses and unknown codes never enter the HTTP error response (34.9329ms)
+✔ invalid sign-in inputs never invoke the email provider (1.6223ms)
+✔ a valid request uses one provider call and the configured callback without accepting client options (0.5939ms)
+✔ returned and thrown provider failures are mapped without automatic mail retries (0.5165ms)
+✔ probe requires every explicit development guard; production denial occurs before session or cloud access (16.1911ms)
+✔ probe route rejects bearer substitution and foreign origins without invoking cookie session APIs (5.1806ms)
+✔ installed SDK probe verifies approved bytes through real Sharp/receipt and exposes only sanitized outcomes (118.6484ms)
+✔ unexpected upsert capability aborts before any object transfer or Ready publication (8.5934ms)
+✔ unexpected signed replay success stops later mutations and retains verified byte evidence (18.1927ms)
+✔ filtered empty delete is reported as no effect only after Ready bytes remain verified (37.5178ms)
+✔ RLS-hidden Ready mutation404 is no effect only while authenticated original bytes remain readable (57.1803ms)
+✔ mint404, generic400 and transport5xx cannot masquerade as expected Storage outcomes (68.3422ms)
+✔ denied responses cannot hide byte changes from replay, direct upsert or update attempts (60.4885ms)
+✔ wrong project stops before reserve and private transport failures are redacted (9.8421ms)
+✔ fixture runtime denies production, staging, non-loopback and unmapped central mode (3.9762ms)
+✔ signed development sessions reject tampering, wrong signing key, and expiry (2.2261ms)
+✔ mutation origin checks use Host and Origin despite Next internal URL normalization (5.9918ms)
+✔ logo verifier decodes actual transparent images and rejects mislabeled or truncated content (21.7972ms)
+✔ body limits reject streaming overflow without trusting Content-Length (7.1535ms)
+✔ logo transfer keeps fixture authentication local and omits app credentials on scoped external transfer (1.449ms)
+✔ logo verifier readiness requires dedicated server configuration and never reflects secret values (1.1351ms)
+✔ job list preserves cursor envelope, bounded filters and verified actor (57.4046ms)
+✔ invalid or ambiguous list filters fail before querying any scope (4.9336ms)
+✔ retry and cancel forward concurrency and the same intent without accepting actor overrides (103.0387ms)
+✔ unsupported job routes and methods cannot fall through to an operation (1.0976ms)
+✔ service denial remains scoped and dependency exceptions never expose secrets (1.9239ms)
+ℹ tests 50
+ℹ suites 0
+ℹ pass 50
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2093.4389
+
+> everyone-presentation-studio@0.1.0 test:contracts
+> node tools/run-tests.mjs tests/contracts/*.test.ts
+
+✔ runtime schemas are sealed to the current authoritative OpenAPI source (13.4475ms)
+✔ foundation projections conform to authoritative OpenAPI schemas (223.5134ms)
+✔ strict input contract rejects forged authority and missing revision (14.7357ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1111.3129
+
+> everyone-presentation-studio@0.1.0 test:jobs
+> node tools/run-tests.mjs tests/jobs/*.test.ts
+
+✔ enqueue atomically records the job/outbox and concurrent idempotent requests reuse one job (12.9747ms)
+✔ stage lease has one claim winner and callback duplicates cannot repeat domain effects (12.2553ms)
+✔ user/project and worker scopes are checked and credentials cannot enter durable job input (6.1559ms)
+✔ event ID/sequence conflicts, lease credentials and out-of-order events cannot corrupt progress (8.1257ms)
+✔ heartbeat extends a lease and expiry recovery fences the old attempt with delayed bounded retry (12.6667ms)
+✔ retry budget is per stage/input while total lease attempts remain monotonic across stages (15.1328ms)
+✔ schema-invalid success is terminal without app effects or scheduling the next stage (10.5842ms)
+✔ domain commit and event/next-outbox commit share rollback, while changed drafts can wait without edits (4.6831ms)
+✔ cancellation is durable, idempotent and prevents late effects and unsent dispatch (6.4462ms)
+✔ outbox crash recovery is at-least-once with lease fencing and accepted-dispatch acknowledgement (7.6834ms)
+✔ bounded failed dispatch becomes actionable and explicit retry reuses the same job (9.1885ms)
+✔ completed stages return saved results and three sequential stages finish without redundant work (6.5556ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 684.4962
+
+> everyone-presentation-studio@0.1.0 test:integrations
+> node tools/run-tests.mjs tests/integrations/*.test.ts
+
+✔ known transient provider and dispatch failures map to the generic job retry vocabulary (1.9813ms)
+✔ only finite nonnegative retry hints cross the seam, rounded up to bounded seconds (1.7031ms)
+✔ invalid source, schema/evidence failure and refusal are terminal and discard provider text/details (0.6576ms)
+✔ unknown errors, access/quota/configuration issues and cancellation never become automatic retries (0.5445ms)
+✔ dispatch sends a bounded IDs-only envelope with header auth, idempotency and no redirects (6.8115ms)
+✔ untrusted envelope fields and invalid destinations fail before HTTP (1.6724ms)
+✔ dispatch response errors expose status/retry hint only and do not retry internally (4.2244ms)
+✔ timeout and caller cancellation are distinct bounded outcomes (10.852ms)
+✔ strict extraction isolates untrusted source and returns original missing values/evidence/versions (10.129ms)
+✔ official pinned SDK serializes the strict Responses request with injected HTTP fixture only (27.2217ms)
+✔ missing key/model and invalid prepared input fail before any transport call (1.9963ms)
+✔ refusal, incomplete responses and unexpected tool output never become extraction results (3.6118ms)
+✔ full application bounds and evidence mappings reject schema-valid invented citations (5.9152ms)
+✔ provider errors are redacted and classify retry without hidden adapter retries (2.4949ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1286.4186
+
+> everyone-presentation-studio@0.1.0 test:worker
+> node tools/run-tests.mjs tests/worker/*.test.ts
+
+✔ UTF-8 preparation preserves Arabic/mixed source and exact paragraph evidence offsets (2.5252ms)
+✔ genuine DOCX extracts supplied English and Arabic paragraph text without HTML execution (52.7373ms)
+✔ genuine two-page PDF retains page references; scanned/no-text PDF requests vision or manual text (1889.5088ms)
+✔ real prepared paragraph indices resolve exact source/page/text in the extraction evidence validator (10.2442ms)
+✔ malformed input, unsupported legacy Word and unsafe archive paths fail with actionable typed errors (12.4002ms)
+✔ byte, text, page and DOCX expansion limits reject bounded denial-of-service inputs (66.5099ms)
+✔ DOCX rejects entity declarations and encrypted entries before text parsing (7.4875ms)
+✔ DOCX relationship policy checks decoded XML attributes regardless of namespace prefix (9.0159ms)
+✔ DOCX rejects corrupt entry checksums even when expanded byte counts still match (2.4242ms)
+✔ prepared output is reserved, written and verified before returning the exact callback projection (1.6111ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7533.2714
+
+> everyone-presentation-studio@0.1.0 test:central
+> node tools/run-tests.mjs packages/central/test/*.test.ts
+
+✔ public configuration rejects missing/privileged keys and credential-bearing URLs without exposing values (3.5648ms)
+✔ fresh auth verification binds the actor and every curated RPC to the same user token (77.4886ms)
+✔ auth rejection and anonymous users cannot produce a central operation client (3.4377ms)
+✔ temporary auth service failure and throttling remain retryable instead of becoming invalid-login errors (3.0947ms)
+✔ strict inputs, malformed/private responses and unwired storage fail before claiming success (3.4177ms)
+✔ configured central logo journey verifies actual streamed bytes, updates workspace, replays safely and intersects capabilities (50.1386ms)
+✔ read-only logo configuration preserves Ready reads, reuse, cancel and completed replay without enabling uploads (25.7927ms)
+✔ known database errors keep typed status and safe revision while raw SQL diagnostics stay private (0.7327ms)
+✔ SSR request factory forwards auth cookies together with required private cache headers (8.2898ms)
+✔ job facade binds every fixed RPC and trace label to the verified user (75.2093ms)
+✔ job list validates filters and exact public cursor/page shape (6.8774ms)
+✔ private job fields, malformed counters and unrecognized provider error detail fail closed (13.1998ms)
+✔ actor mismatch and malformed mutations never reach a job RPC (2.8472ms)
+✔ contracted optional nullable reason is preserved exactly and nontext is rejected (5.8166ms)
+✔ provider diagnostics are redacted while known stale-version errors retain only bounded revision (5.5859ms)
+✔ receipt verifies original signed bytes and returns immutable exact scoped claims (5.406ms)
+✔ a changed payload, another signing key or a tampered MAC cannot authorize completion (1.6412ms)
+✔ a valid server proof cannot move between actor, reservation, asset, workspace, attempt, key or content scopes (2.6413ms)
+✔ expired, future-issued, inverted, fractional and overlong lifetimes are rejected (1.8226ms)
+✔ strict claims reject unknown fields, wrong purpose/audience/schema and unsafe numeric/media/path values (4.5643ms)
+✔ encoded/decoded limits and exact MAC size fail before decoding unbounded attacker data (0.9133ms)
+✔ valid MACs do not bypass strict UTF8, JSON object, missing-field and duplicate-field checks (1.3749ms)
+✔ key and expected scope validation never expose secret bytes or accept permissive defaults (1.2811ms)
+✔ user-scoped SDK mint sets explicit false without mutating shared headers; streamed bytes produce a bound verified receipt (103.2052ms)
+✔ completed replay rechecks scope before returning cached results and does not download, decode or sign again (9.5761ms)
+✔ closed or expired upload sessions return no upload capability or transfer headers (6.2594ms)
+✔ wrong actor, bucket/key mismatch and unexpected signed destination never reach a writable transfer (7.1988ms)
+✔ invalid configuration and unexpected input or private columns fail without exposing provider capabilities (3.7646ms)
+✔ stream overflow and stalled storage are bounded before decode or Ready publication (25.2901ms)
+✔ missing bytes, mismatched checksum and undecodable content never receive a receipt (11.3365ms)
+✔ media reads recheck scope and exact immutable bytes; cancellation does not delete Storage objects (13.6421ms)
+ℹ tests 31
+ℹ suites 0
+ℹ pass 31
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1135.5638

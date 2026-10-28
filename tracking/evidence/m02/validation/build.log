@@ -1,0 +1,38 @@
+
+> everyone-presentation-studio@0.1.0 build
+> npm run build --workspace @eps/web
+
+
+> @eps/web@0.1.0 build
+> next build
+
+▲ Next.js 16.4.3 (Turbopack)
+- Environments: .env.local
+✓ Running next.config.ts took 138ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 4.5s
+  Running TypeScript ...
+  Finished TypeScript in 5.0s ...
+  Collecting page data using 13 workers ...
+  Generating static pages using 13 workers (0/3) ...
+✓ Generating static pages using 13 workers (3/3) in 1304ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ƒ /[...path]
+├ ƒ /api/auth/callback
+├ ƒ /api/auth/sign-in
+├ ƒ /api/dev/central-logo-probe
+├ ƒ /api/dev/session
+├ ƒ /api/dev/uploads/[upload_id]/bytes
+├ ƒ /api/session
+├ ƒ /api/v1/[...segments]
+└ ƒ /dev/central-logo-probe
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
