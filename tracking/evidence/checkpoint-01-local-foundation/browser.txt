@@ -1,0 +1,17 @@
+
+> everyone-presentation-studio@0.1.0 test:e2e
+> playwright test
+
+
+Running 4 tests using 1 worker
+
+  ok 1 [chromium] › tests\e2e\api-contracts.spec.ts:39:5 › actual HTTP envelopes enforce auth, idempotency, revision and strict input boundaries (1.3s)
+  ok 2 [chromium] › tests\e2e\api-contracts.spec.ts:76:5 › audience preset HTTP lifecycle is strict and settings authority is independent of project preparation (378ms)
+  ok 3 [chromium] › tests\e2e\foundation.spec.ts:22:5 › persistent M01 development journey: shared edits, real logo bytes and accessible steps (9.1s)
+  ok 4 [chromium] › tests\e2e\foundation.spec.ts:82:5 › acting-user scope is enforced in UI and direct requests (3.0s)
+
+  4 passed (17.2s)
+(node:39012) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3852) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)

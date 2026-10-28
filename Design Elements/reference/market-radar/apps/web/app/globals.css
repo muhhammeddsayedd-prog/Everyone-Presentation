@@ -1,0 +1,101 @@
+@import 'tailwindcss';
+@import '../styles/tokens.css';
+
+@theme inline {
+  --color-bg: var(--color-bg);
+  --color-surface-1: var(--color-surface-1);
+  --color-surface-2: var(--color-surface-2);
+  --color-surface-3: var(--color-surface-3);
+  --color-border: var(--color-border);
+  --color-border-strong: var(--color-border-strong);
+  --color-fg: var(--color-text-primary);
+  --color-fg-secondary: var(--color-text-secondary);
+  --color-fg-muted: var(--color-text-muted);
+  --color-fg-label: var(--color-text-label);
+  --color-accent: var(--color-accent);
+  --color-accent-strong: var(--color-accent-strong);
+  --color-accent-deep: var(--color-accent-deep);
+  --color-accent-soft: var(--color-accent-soft);
+  --color-on-accent: var(--color-text-on-accent);
+  --color-success: var(--color-success);
+  --color-warning: var(--color-warning);
+  --color-danger: var(--color-danger);
+  --color-info: var(--color-info);
+  --color-vimeo: var(--platform-vimeo);
+  --color-instagram: var(--platform-instagram);
+  --color-website: var(--platform-website);
+  --color-linkedin: var(--platform-linkedin);
+  --color-youtube: var(--platform-youtube);
+  --color-news: var(--platform-news);
+  --font-sans: var(--font-placeholder);
+  --font-arabic: var(--font-arabic);
+  --font-mono: var(--font-mono);
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-full: var(--radius-full);
+  --breakpoint-xs: 375px;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+  --ease-standard: var(--ease-standard);
+}
+
+:root {
+  /* M00 uses the token stack's system fallback; brand font files arrive in M09. */
+  --font-placeholder: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --placeholder-wordmark-width: 240px;
+}
+
+body {
+  margin: var(--space-0);
+  background: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: var(--font-placeholder);
+  font-weight: var(--weight-medium);
+  -webkit-font-smoothing: antialiased;
+}
+
+.placeholder {
+  display: grid;
+  grid-template-rows: 1fr auto 1fr;
+  min-height: 100svh;
+  padding: max(var(--space-6), env(safe-area-inset-top)) max(var(--space-6), env(safe-area-inset-right))
+    max(var(--space-6), env(safe-area-inset-bottom)) max(var(--space-6), env(safe-area-inset-left));
+  text-align: center;
+}
+
+.placeholder-main {
+  grid-row: 2;
+  display: grid;
+  justify-items: center;
+  gap: var(--space-6);
+  min-width: 0;
+}
+
+.placeholder-wordmark {
+  width: min(var(--placeholder-wordmark-width), 100%);
+  height: auto;
+  /* External SVG currentColor defaults to black. Keep the supplied paths intact. */
+  filter: brightness(0) invert(1);
+}
+
+.placeholder-label {
+  margin: var(--space-0);
+  color: var(--color-text-label);
+  font-size: var(--text-body);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-body);
+  letter-spacing: var(--tracking-micro);
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.placeholder-footer {
+  grid-row: 3;
+  align-self: end;
+  color: var(--color-text-label);
+  font-size: var(--text-small);
+  line-height: var(--leading-small);
+}

@@ -1,0 +1,136 @@
+
+> everyone-presentation-studio@0.1.0 test
+> npm run test:unit && npm run test:contracts && npm run test:jobs && npm run test:integrations && npm run test:worker && npm run test:central
+
+
+> everyone-presentation-studio@0.1.0 test:unit
+> node tools/run-tests.mjs tests/domain/*.test.ts tests/server/*.test.ts
+
+✔ fixture adapter is denied by both production environment signals (3.0927ms)
+✔ project access and central edits use current capabilities and canonical client versions (115.3015ms)
+✔ workspace concurrent create and retry persist one resource across service instances (72.959ms)
+✔ separate Node processes serialize the same workspace creation without lost writes (273.4751ms)
+✔ workspace edits race safely and output preference is per user without changing draft (64.6554ms)
+✔ logo completion verifies stored bytes, scope, persistence and non-destructive removal (119.3073ms)
+✔ upload ownership, cancellation and image verification fail without creating ready media (47.424ms)
+✔ audience policies require settings authority, keep row versions and archive explicitly (42.9137ms)
+✔ search pagination excludes inaccessible and archived projects and rejects foreign cursors (29.2557ms)
+✔ fixture runtime denies production, staging, non-loopback and unmapped central mode (2.6909ms)
+✔ signed development sessions reject tampering, wrong signing key, and expiry (1.8231ms)
+✔ mutation origin checks use Host and Origin despite Next internal URL normalization (5.4128ms)
+✔ logo verifier decodes actual transparent images and rejects mislabeled or truncated content (31.511ms)
+✔ body limits reject streaming overflow without trusting Content-Length (7.4612ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1558.4947
+
+> everyone-presentation-studio@0.1.0 test:contracts
+> node tools/run-tests.mjs tests/contracts/*.test.ts
+
+✔ runtime schemas are sealed to the current authoritative OpenAPI source (311.4001ms)
+✔ foundation projections conform to authoritative OpenAPI schemas (257.0491ms)
+✔ strict input contract rejects forged authority and missing revision (31.4483ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1532.6872
+
+> everyone-presentation-studio@0.1.0 test:jobs
+> node tools/run-tests.mjs tests/jobs/*.test.ts
+
+✔ enqueue atomically records the job/outbox and concurrent idempotent requests reuse one job (7.6161ms)
+✔ stage lease has one claim winner and callback duplicates cannot repeat domain effects (4.783ms)
+✔ user/project and worker scopes are checked and credentials cannot enter durable job input (2.156ms)
+✔ event ID/sequence conflicts, lease credentials and out-of-order events cannot corrupt progress (4.0165ms)
+✔ heartbeat extends a lease and expiry recovery fences the old attempt with delayed bounded retry (5.3553ms)
+✔ retry budget is per stage/input while total lease attempts remain monotonic across stages (5.5773ms)
+✔ schema-invalid success is terminal without app effects or scheduling the next stage (1.2487ms)
+✔ domain commit and event/next-outbox commit share rollback, while changed drafts can wait without edits (1.6688ms)
+✔ cancellation is durable, idempotent and prevents late effects and unsent dispatch (2.5562ms)
+✔ outbox crash recovery is at-least-once with lease fencing and accepted-dispatch acknowledgement (2.8313ms)
+✔ bounded failed dispatch becomes actionable and explicit retry reuses the same job (3.1694ms)
+✔ completed stages return saved results and three sequential stages finish without redundant work (3.3913ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 578.1429
+
+> everyone-presentation-studio@0.1.0 test:integrations
+> node tools/run-tests.mjs tests/integrations/*.test.ts
+
+✔ known transient provider and dispatch failures map to the generic job retry vocabulary (1.7245ms)
+✔ only finite nonnegative retry hints cross the seam, rounded up to bounded seconds (1.5363ms)
+✔ invalid source, schema/evidence failure and refusal are terminal and discard provider text/details (0.569ms)
+✔ unknown errors, access/quota/configuration issues and cancellation never become automatic retries (0.5202ms)
+✔ dispatch sends a bounded IDs-only envelope with header auth, idempotency and no redirects (5.7012ms)
+✔ untrusted envelope fields and invalid destinations fail before HTTP (1.5284ms)
+✔ dispatch response errors expose status/retry hint only and do not retry internally (3.9306ms)
+✔ timeout and caller cancellation are distinct bounded outcomes (12.5625ms)
+✔ strict extraction isolates untrusted source and returns original missing values/evidence/versions (8.5991ms)
+✔ official pinned SDK serializes the strict Responses request with injected HTTP fixture only (21.345ms)
+✔ missing key/model and invalid prepared input fail before any transport call (1.2244ms)
+✔ refusal, incomplete responses and unexpected tool output never become extraction results (1.4197ms)
+✔ full application bounds and evidence mappings reject schema-valid invented citations (3.2562ms)
+✔ provider errors are redacted and classify retry without hidden adapter retries (1.7665ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1631.6782
+
+> everyone-presentation-studio@0.1.0 test:worker
+> node tools/run-tests.mjs tests/worker/*.test.ts
+
+✔ UTF-8 preparation preserves Arabic/mixed source and exact paragraph evidence offsets (2.4606ms)
+✔ genuine DOCX extracts supplied English and Arabic paragraph text without HTML execution (66.2264ms)
+✔ genuine two-page PDF retains page references; scanned/no-text PDF requests vision or manual text (1373.6211ms)
+✔ real prepared paragraph indices resolve exact source/page/text in the extraction evidence validator (10.0335ms)
+✔ malformed input, unsupported legacy Word and unsafe archive paths fail with actionable typed errors (29.3992ms)
+✔ byte, text, page and DOCX expansion limits reject bounded denial-of-service inputs (93.9826ms)
+✔ DOCX rejects entity declarations and encrypted entries before text parsing (7.01ms)
+✔ DOCX relationship policy checks decoded XML attributes regardless of namespace prefix (9.1335ms)
+✔ DOCX rejects corrupt entry checksums even when expanded byte counts still match (2.6372ms)
+✔ prepared output is reserved, written and verified before returning the exact callback projection (1.5766ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2802.1585
+
+> everyone-presentation-studio@0.1.0 test:central
+> node tools/run-tests.mjs packages/central/test/*.test.ts
+
+✔ public configuration rejects missing/privileged keys and credential-bearing URLs without exposing values (2.9489ms)
+✔ fresh auth verification binds the actor and every curated RPC to the same user token (57.3298ms)
+✔ auth rejection and anonymous users cannot produce a central operation client (3.0348ms)
+✔ temporary auth service failure and throttling remain retryable instead of becoming invalid-login errors (2.5337ms)
+✔ strict inputs, malformed/private responses and unwired storage fail before claiming success (3.1638ms)
+✔ known database errors keep typed status and safe revision while raw SQL diagnostics stay private (0.8573ms)
+✔ SSR request factory forwards auth cookies together with required private cache headers (7.4584ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 883.7789

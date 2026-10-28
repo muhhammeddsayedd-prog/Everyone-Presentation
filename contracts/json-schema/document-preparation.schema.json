@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.everyone.example/document-preparation.schema.json",
+  "title": "Prepared document source",
+  "description": "Application contract. Adapt supported provider JSON Schema subset and validate again server-side. Example domain is not a live service.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "source_asset_id": {
+      "$ref": "#/$defs/Id"
+    },
+    "text_asset_id": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Id"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "page_assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "page": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "asset_id": {
+            "$ref": "#/$defs/Id"
+          }
+        },
+        "required": [
+          "page",
+          "asset_id"
+        ]
+      }
+    },
+    "paragraph_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "extraction_method": {
+      "type": "string",
+      "enum": [
+        "plain_text",
+        "pdf_text",
+        "pdf_pages",
+        "docx_text",
+        "converted_pdf"
+      ]
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "source_asset_id",
+    "text_asset_id",
+    "page_assets",
+    "paragraph_count",
+    "extraction_method",
+    "warnings"
+  ],
+  "$defs": {
+    "Id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+    }
+  }
+}

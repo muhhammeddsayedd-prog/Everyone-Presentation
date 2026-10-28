@@ -1,0 +1,79 @@
+# Local runtime bootstrap only. Not a reproduction of the undiscovered central schema.
+# Supabase CLI 2.122.0. Official configuration:
+# https://supabase.com/docs/guides/local-development/cli/config
+project_id = "eps-local-dev"
+
+[api]
+enabled = false
+port = 55431
+schemas = ["public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+auto_expose_new_tables = false
+
+[db]
+port = 55432
+shadow_port = 55430
+major_version = 17
+health_timeout = "2m"
+
+[db.pooler]
+enabled = false
+port = 55439
+pool_mode = "transaction"
+default_pool_size = 20
+max_client_conn = 100
+
+# No central migration baseline is known. Do not auto-apply sample SQL or seeds.
+[db.migrations]
+enabled = false
+schema_paths = []
+
+[db.seed]
+enabled = false
+sql_paths = []
+
+[realtime]
+enabled = false
+
+[studio]
+enabled = false
+port = 55433
+api_url = "http://127.0.0.1"
+
+[local_smtp]
+enabled = false
+port = 55434
+
+[storage]
+enabled = false
+file_size_limit = "50MiB"
+
+[storage.s3_protocol]
+enabled = false
+
+[storage.analytics]
+enabled = false
+
+[storage.vector]
+enabled = false
+
+[auth]
+enabled = false
+site_url = "http://127.0.0.1:3000"
+additional_redirect_urls = []
+enable_signup = false
+enable_anonymous_sign_ins = false
+
+[edge_runtime]
+enabled = false
+policy = "per_worker"
+inspector_port = 55438
+
+[analytics]
+enabled = false
+port = 55437
+backend = "postgres"
+
+[experimental.pgdelta]
+enabled = false

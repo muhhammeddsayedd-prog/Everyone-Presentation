@@ -1,0 +1,20 @@
+{
+  "observed_at": "2026-10-28T01:17:08.678Z",
+  "scope": "guard refusals against owned local container; no app migration executed",
+  "results": [
+    {
+      "scenario": "design_reference_rejected",
+      "command": "node tools/local-postgres.mjs replay --file contracts/database/design-reference.sql",
+      "exit_code": 1,
+      "result": "passed",
+      "diagnostic": "Only root migration files or explicit reviewed DB tests are allowed."
+    },
+    {
+      "scenario": "unreviewed_root_migration_rejected",
+      "command": "node tools/local-postgres.mjs replay --file supabase/migrations/20261028010943_m01_canonical_foundation.sql",
+      "exit_code": 1,
+      "result": "passed",
+      "diagnostic": "This SQL file has no explicit reviewed hash. Root must review and record the exact file first."
+    }
+  ]
+}

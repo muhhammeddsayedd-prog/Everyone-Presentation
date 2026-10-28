@@ -1,0 +1,196 @@
+{
+  "fixture_version": "1.0",
+  "synthetic": true,
+  "base_fixture": "casting-happy-path.json",
+  "kind": "scenario_recipes_not_json_patch",
+  "scenarios": [
+    {
+      "id": "EDGE-01",
+      "name": "All slots empty",
+      "setup": "Remove all active assignments; keep roles and slots.",
+      "expected": {
+        "selection_pages": 6,
+        "shortlist_pages": 6,
+        "candidate_pages": 0,
+        "pending_pages": 5
+      }
+    },
+    {
+      "id": "EDGE-02",
+      "name": "No roles yet",
+      "setup": "Remove all roles, slots and assignments; keep a valid central project/workspace.",
+      "expected": {
+        "selection_pages": 2,
+        "shortlist_pages": 2,
+        "ordered_slide_kinds": [
+          "cover",
+          "pending"
+        ],
+        "no_fictional_role_created": true,
+        "pending_scope": "workspace_requirements"
+      }
+    },
+    {
+      "id": "EDGE-03",
+      "name": "Main does not imply Shortlist",
+      "setup": "Set assignment_father_omar Main using atomic replacement; keep its shortlisted false. Previous Main becomes Backup.",
+      "expected": {
+        "father_main": "assignment_father_omar",
+        "father_backup": "assignment_father_samir",
+        "selection_pages": 8,
+        "shortlist_pages": 6,
+        "shortlist_excludes": [
+          "assignment_father_omar"
+        ]
+      }
+    },
+    {
+      "id": "EDGE-04",
+      "name": "Same candidate independent slots",
+      "setup": "Set only assignment_manager_samir shortlisted false and notes changed.",
+      "expected": {
+        "selection_pages": 8,
+        "shortlist_pages": 6,
+        "shortlist_pending_slots": [
+          "slot_manager_1",
+          "slot_waiter_2",
+          "slot_waiter_3"
+        ],
+        "father_samir_unchanged": true
+      }
+    },
+    {
+      "id": "EDGE-05",
+      "name": "Direct shortlist assignment",
+      "setup": "Assign candidate_lina to slot_waiter_3 with explicit shortlisted true, default Option.",
+      "expected": {
+        "selection_pages": 8,
+        "shortlist_pages": 6,
+        "slot_waiter_3_candidate": "candidate_lina",
+        "position": "option",
+        "zero_frames_placeholder": true
+      }
+    },
+    {
+      "id": "EDGE-06",
+      "name": "Long wording",
+      "setup": "Set candidate_samir skills_experience to a deliberately long supplied paragraph and assignment notes to 1000 characters.",
+      "expected": {
+        "review_flags_overflow": true,
+        "no_silent_clipping": true,
+        "shortened_assignment_wording_preserves_library_full_text": true
+      }
+    },
+    {
+      "id": "EDGE-07",
+      "name": "Frame shortfall",
+      "setup": "Run variants with Omar selected frame counts 2, 1 and 0.",
+      "expected": {
+        "candidate_pages_unchanged": true,
+        "no_duplicated_or_synthetic_frames": true,
+        "zero_frame_label": "Image not provided"
+      }
+    },
+    {
+      "id": "EDGE-08",
+      "name": "Unknown headcount",
+      "setup": "Add a role with headcount null and a provisional slot.",
+      "expected": {
+        "source_headcount_remains_null": true,
+        "needs_clarification": true,
+        "provisional_slot_visibly_marked": true
+      }
+    },
+    {
+      "id": "EDGE-09",
+      "name": "Unreviewed reusable",
+      "setup": "Add candidate_omar to a second accessible project before confirming Reviewed.",
+      "expected": {
+        "reuse_allowed_for_approved_cast_user": true,
+        "review_status": "unreviewed",
+        "second_project_availability_not_copied": true
+      }
+    },
+    {
+      "id": "EDGE-10",
+      "name": "New video preserves old version",
+      "setup": "Generate V1; select replacement Omar media; generate V2.",
+      "expected": {
+        "v1_original_media_pinned": true,
+        "v2_replacement_media": true,
+        "v1_feedback_remains_v1": true
+      }
+    },
+    {
+      "id": "EDGE-11",
+      "name": "Guest scope",
+      "setup": "Create two valid guest links to same client_agency series and a separate internal series.",
+      "expected": {
+        "external_feedback_shared_across_same_series_links": true,
+        "internal_notes_excluded": true,
+        "latest_internal_version_never_exposed": true
+      }
+    },
+    {
+      "id": "EDGE-12",
+      "name": "Version completion order",
+      "setup": "Queue V2 then V3; complete V3 before V2.",
+      "expected": {
+        "latest_ready_version": "V3",
+        "late_v2_never_moves_pointer_back": true
+      }
+    },
+    {
+      "id": "EDGE-13",
+      "name": "Duplicate callback",
+      "setup": "Deliver successful scan callback twice with same job attempt/result identity.",
+      "expected": {
+        "candidate_created_once": true,
+        "media_set_created_once": true,
+        "same_resource_ids_returned": true
+      }
+    },
+    {
+      "id": "EDGE-14",
+      "name": "Stale scan result",
+      "setup": "Edit reusable supplied fact after scan starts, before scan callback.",
+      "expected": {
+        "confirmed_edit_not_clobbered": true,
+        "typed_stale_write_or_safe_reconciliation": true,
+        "no_dedicated_fact_conflict_ui": true
+      }
+    },
+    {
+      "id": "EDGE-15",
+      "name": "External PDF authorization",
+      "setup": "Generate link-scoped V1 PDF; open media in fresh browser; disable new PDF downloads; then revoke parent link.",
+      "expected": {
+        "fresh_browser_plays_v1_while_link_valid": true,
+        "download_disable_denies_new_export_downloads": true,
+        "existing_pdf_playback_survives_download_disable": true,
+        "revocation_denies_playback": true
+      }
+    },
+    {
+      "id": "EDGE-16",
+      "name": "Extend parent link",
+      "setup": "Create external V1 PDF, then intentionally extend the active parent review link expiry.",
+      "expected": {
+        "same_pdf_uses_extended_access": true,
+        "non_revoked_media_grants_extended": true,
+        "separately_revoked_grants_not_restored": true
+      }
+    },
+    {
+      "id": "EDGE-17",
+      "name": "Partial 200-video batch",
+      "setup": "Create 200 distinct upload records; include corrupt, silent and valid synthetic technical files; use bounded concurrency.",
+      "expected": {
+        "independent_per_file_results": true,
+        "successful_results_usable_before_batch_end": true,
+        "retry_only_failed_stages": true,
+        "no_fixed_claim_of_200_simultaneous_jobs": true
+      }
+    }
+  ]
+}

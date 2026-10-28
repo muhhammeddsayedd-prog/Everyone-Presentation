@@ -1,0 +1,79 @@
+{
+  "version": 1,
+  "migrations": [
+    {
+      "path": "supabase/migrations/20261028010943_m01_canonical_foundation.sql",
+      "sha256": "8a5f3ed7727a72051e630307d2daecab8c4a74054398a6425e73bd85e17568b9",
+      "reviewed_by": "root integration owner with independent static SQL review",
+      "reviewed_at": "2026-10-28T01:30:17.425363+00:00"
+    },
+    {
+      "path": "supabase/migrations/20261028013324_m01_identity_role_inheritance.sql",
+      "sha256": "5382efe9fbdf9c194010257e0ac0024dcb447207522036560056d5d1a4e20e30",
+      "reviewed_by": "root integration owner",
+      "reviewed_at": "2026-10-28T01:35:35.408074+00:00"
+    },
+    {
+      "path": "supabase/migrations/20261028013655_m01_workspace_scope_alias.sql",
+      "sha256": "67ddb2cff9fed9c42d34657e833c613aec4afd2769543a991bbac84da355db64",
+      "reviewed_by": "root integration owner",
+      "reviewed_at": "2026-10-28T01:38:22.441203+00:00"
+    }
+  ],
+  "tests": [
+    {
+      "path": "tests/db/m01-foundation.sql",
+      "sha256": "4f5a3d7cb7b040548ec05de11ffcf3d11ca03dea69209ab77952e6bcddf19627",
+      "reviewed_by": "root integration owner with independent static SQL review",
+      "reviewed_at": "2026-10-28T01:30:17.425363+00:00"
+    },
+    {
+      "path": "tests/db/m01-race-cleanup.sql",
+      "sha256": "41ee8e6a5aef148dc05ca44a9379ce651e14f2c1ca8a54a63dba5dbeb00492ae",
+      "reviewed_by": "root integration owner with independent static SQL review",
+      "reviewed_at": "2026-10-28T01:30:17.425363+00:00"
+    },
+    {
+      "path": "tests/db/m01-race-distinct-a.sql",
+      "sha256": "2443c44eb35c64477338f00fa5140779d9c1308ed3fca17116af950bf1e44707",
+      "reviewed_by": "root integration owner, explicit session/lock timing added",
+      "reviewed_at": "2026-10-28T01:39:38.320437+00:00"
+    },
+    {
+      "path": "tests/db/m01-race-distinct-b.sql",
+      "sha256": "fbb1ee4ee90ca2fa36e26cc2f8be97092252732b2280e175f3071a949e2947f7",
+      "reviewed_by": "root integration owner, explicit session/lock timing added",
+      "reviewed_at": "2026-10-28T01:39:38.320437+00:00"
+    },
+    {
+      "path": "tests/db/m01-race-same-a.sql",
+      "sha256": "a7664569f5d734aaa0f83f6bc60f9463dcd659b9939c4ed55fce967b16c4fb4e",
+      "reviewed_by": "root integration owner, explicit session/lock timing added",
+      "reviewed_at": "2026-10-28T01:39:38.320437+00:00"
+    },
+    {
+      "path": "tests/db/m01-race-same-b.sql",
+      "sha256": "c315af73a594a10f7ad536161dd39776c3847b5e42c4ab11608ef2b547a257e1",
+      "reviewed_by": "root integration owner, explicit session/lock timing added",
+      "reviewed_at": "2026-10-28T01:39:38.320437+00:00"
+    },
+    {
+      "path": "tests/db/m01-race-setup.sql",
+      "sha256": "5405bdb3688656020ea40bfddead1e22fcaf6a62ebdc6c403836b360a560db3d",
+      "reviewed_by": "root integration owner with independent static SQL review",
+      "reviewed_at": "2026-10-28T01:30:17.425363+00:00"
+    },
+    {
+      "path": "tests/db/m01-race-verify.sql",
+      "sha256": "aa1cabcb0a5cfe4ccc552cba433986d6fd1bfbbcebf0b52d08e9fb2af822559d",
+      "reviewed_by": "root integration owner with independent static SQL review",
+      "reviewed_at": "2026-10-28T01:30:17.425363+00:00"
+    },
+    {
+      "path": "tests/db/m01-role-inheritance.sql",
+      "sha256": "0e4ca2c58fe3133faf77e3bf79c574c305b1409d7d8c82f39a29b10829d33525",
+      "reviewed_by": "root integration owner",
+      "reviewed_at": "2026-10-28T01:35:35.408074+00:00"
+    }
+  ]
+}

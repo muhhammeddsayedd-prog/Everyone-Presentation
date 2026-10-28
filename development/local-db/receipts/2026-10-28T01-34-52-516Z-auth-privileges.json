@@ -1,0 +1,26 @@
+{
+  "action": "auth-privileges",
+  "observed_at": "2026-10-28T01:34:52.516Z",
+  "workspace_key": "ffaf4984e0e7402cd2f54f81",
+  "scope": "owned local Docker container only; no cloud operations",
+  "container": "eps-presentation-canonical-pg17-local",
+  "operation": "read-only catalog inspection",
+  "privileges": {
+    "query_role": "postgres",
+    "auth_schema_owner": "supabase_admin",
+    "anon_auth_usage": true,
+    "authenticated_auth_usage": true,
+    "postgres_auth_usage": true,
+    "eps_api_owner_auth_usage": false,
+    "postgres_auth_grant_option": false,
+    "postgres_uid_grant_option": false,
+    "postgres_jwt_grant_option": false,
+    "postgres_authenticated_membership": {
+      "admin": true,
+      "inherit": true,
+      "set": true
+    },
+    "existing_app_tables": 6
+  },
+  "baseline_changes": "none; inspection performed no grants, schema changes or data writes"
+}

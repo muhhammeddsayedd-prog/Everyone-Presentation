@@ -1,0 +1,236 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.everyone.example/candidate-extraction.schema.json",
+  "title": "Evidence-backed candidate facts",
+  "description": "Application contract. Adapt supported provider JSON Schema subset and validate again server-side. Example domain is not a live service.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "type": "string"
+    },
+    "source_asset_id": {
+      "$ref": "#/$defs/Id"
+    },
+    "facts": {
+      "$ref": "#/$defs/CandidateFacts"
+    },
+    "project_availability_statement": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "field_path": {
+            "type": "string"
+          },
+          "source": {
+            "$ref": "#/$defs/SourceReference"
+          }
+        },
+        "required": [
+          "field_path",
+          "source"
+        ]
+      }
+    },
+    "uncertainties": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "field_path": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "field_path",
+          "reason"
+        ]
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "source_asset_id",
+    "facts",
+    "project_availability_statement",
+    "evidence",
+    "uncertainties"
+  ],
+  "$defs": {
+    "CandidateFacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/NullableText"
+        },
+        "casting_id": {
+          "$ref": "#/$defs/NullableText",
+          "description": "Create/extract null allocates generated casting ID; update null preserves current ID. Non-null changes must be unique. Candidate UUID remains identity."
+        },
+        "age_or_range": {
+          "$ref": "#/$defs/NullableText"
+        },
+        "stated_gender": {
+          "$ref": "#/$defs/NullableText"
+        },
+        "height_measurements": {
+          "$ref": "#/$defs/NullableText"
+        },
+        "languages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "accents": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "skills_experience": {
+          "$ref": "#/$defs/NullableText"
+        },
+        "city": {
+          "$ref": "#/$defs/NullableText"
+        },
+        "previous_projects_roles": {
+          "$ref": "#/$defs/NullableText"
+        },
+        "classification": {
+          "$ref": "#/$defs/NullableText"
+        }
+      },
+      "required": [
+        "name",
+        "casting_id",
+        "age_or_range",
+        "stated_gender",
+        "height_measurements",
+        "languages",
+        "accents",
+        "skills_experience",
+        "city",
+        "previous_projects_roles",
+        "classification"
+      ]
+    },
+    "Id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+    },
+    "NullableText": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "SourceReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "asset_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "page": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "paragraph": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "segment_index": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "start_ms": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "end_ms": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "quote": {
+          "$ref": "#/$defs/NullableText"
+        }
+      },
+      "required": [
+        "asset_id",
+        "page",
+        "paragraph",
+        "segment_index",
+        "start_ms",
+        "end_ms",
+        "quote"
+      ]
+    }
+  }
+}

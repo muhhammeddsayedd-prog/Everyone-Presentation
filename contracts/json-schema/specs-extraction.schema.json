@@ -1,0 +1,337 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.everyone.example/specs-extraction.schema.json",
+  "title": "Specs extraction result",
+  "description": "Application contract. Adapt supported provider JSON Schema subset and validate again server-side. Example domain is not a live service.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "type": "string"
+    },
+    "source_asset_id": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Id"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "source_language_codes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "roles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "source_role_key": {
+            "type": "string"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "headcount": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "category": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "requirements": {
+            "$ref": "#/$defs/RoleRequirements"
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/SourceReference"
+            }
+          },
+          "clarifications": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "field_path": {
+                  "type": "string"
+                },
+                "reason": {
+                  "type": "string"
+                },
+                "source": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/$defs/SourceReference"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "field_path",
+                "reason",
+                "source"
+              ]
+            }
+          }
+        },
+        "required": [
+          "source_role_key",
+          "name",
+          "headcount",
+          "category",
+          "requirements",
+          "evidence",
+          "clarifications"
+        ]
+      }
+    },
+    "general_instructions": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "clarifications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "field_path": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "source": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/SourceReference"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "field_path",
+          "reason",
+          "source"
+        ]
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "source_asset_id",
+    "source_language_codes",
+    "roles",
+    "general_instructions",
+    "clarifications"
+  ],
+  "$defs": {
+    "Id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+    },
+    "NullableText": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "RoleRequirements": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "age_range": {
+          "$ref": "#/$defs/NullableText"
+        },
+        "gender_requirement": {
+          "$ref": "#/$defs/NullableText"
+        },
+        "appearance_performance": {
+          "$ref": "#/$defs/NullableText"
+        },
+        "languages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "accents": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "skills": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "scene_references": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "shoot_dates": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "location": {
+          "$ref": "#/$defs/NullableText"
+        },
+        "availability_requirements": {
+          "$ref": "#/$defs/NullableText"
+        },
+        "other_instructions": {
+          "$ref": "#/$defs/NullableText"
+        }
+      },
+      "required": [
+        "age_range",
+        "gender_requirement",
+        "appearance_performance",
+        "languages",
+        "accents",
+        "skills",
+        "scene_references",
+        "shoot_dates",
+        "location",
+        "availability_requirements",
+        "other_instructions"
+      ]
+    },
+    "SourceReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "asset_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "page": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "paragraph": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "segment_index": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "start_ms": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "end_ms": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "quote": {
+          "$ref": "#/$defs/NullableText"
+        }
+      },
+      "required": [
+        "asset_id",
+        "page",
+        "paragraph",
+        "segment_index",
+        "start_ms",
+        "end_ms",
+        "quote"
+      ]
+    }
+  }
+}

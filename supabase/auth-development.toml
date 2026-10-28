@@ -1,0 +1,8 @@
+# Partial cloud configuration: only the local application's canonical sign-in URL.
+# Apply through the scoped helper after inspecting its exact two-field diff.
+# Email confirmation, signup, provider, MFA and all service settings remain untouched.
+project_id = "everyone-presentation-auth-development"
+
+[auth]
+site_url = "http://127.0.0.1:3000"
+additional_redirect_urls = ["http://127.0.0.1:3000/api/auth/callback"]

@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.everyone.example/presentation-render-result.schema.json",
+  "title": "Validated canonical presentation render",
+  "description": "Application contract. Adapt supported provider JSON Schema subset and validate again server-side. Example domain is not a live service.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "version_id": {
+      "$ref": "#/$defs/Id"
+    },
+    "manifest_asset_id": {
+      "$ref": "#/$defs/Id"
+    },
+    "pdf_asset_id": {
+      "$ref": "#/$defs/Id"
+    },
+    "pdf_sha256": {
+      "type": "string"
+    },
+    "page_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "template_version": {
+      "type": "string"
+    },
+    "validation_passed": {
+      "type": "boolean",
+      "const": true
+    },
+    "overflow_count": {
+      "type": "integer",
+      "const": 0
+    },
+    "renderer_build": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "version_id",
+    "manifest_asset_id",
+    "pdf_asset_id",
+    "pdf_sha256",
+    "page_count",
+    "template_version",
+    "validation_passed",
+    "overflow_count",
+    "renderer_build"
+  ],
+  "$defs": {
+    "Id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+    }
+  }
+}

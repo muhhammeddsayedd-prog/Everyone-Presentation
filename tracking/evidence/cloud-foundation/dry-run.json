@@ -1,0 +1,30 @@
+{
+  "observed_at": "2026-10-28T01:47:40.111089+00:00",
+  "target": "pyibofyctwnqpvktepse",
+  "action": "dry-run",
+  "command": "npx.cmd --yes supabase@2.122.0 db push --linked --project-ref pyibofyctwnqpvktepse --skip-vault --yes --output-format json --dry-run",
+  "exit_code": 0,
+  "hashes": {
+    "20261028010943_m01_canonical_foundation.sql": "8a5f3ed7727a72051e630307d2daecab8c4a74054398a6425e73bd85e17568b9",
+    "20261028013324_m01_identity_role_inheritance.sql": "5382efe9fbdf9c194010257e0ac0024dcb447207522036560056d5d1a4e20e30",
+    "20261028013655_m01_workspace_scope_alias.sql": "67ddb2cff9fed9c42d34657e833c613aec4afd2769543a991bbac84da355db64"
+  },
+  "pending_migrations": [
+    "20261028010943_m01_canonical_foundation.sql",
+    "20261028013324_m01_identity_role_inheritance.sql",
+    "20261028013655_m01_workspace_scope_alias.sql"
+  ],
+  "preflight": {
+    "auth_users": 0,
+    "business_collisions": [],
+    "eps_schema_present": false,
+    "postgres_version": "17.11",
+    "query_role": "postgres",
+    "role_collisions": [],
+    "storage_buckets": 0
+  },
+  "vault_sync": false,
+  "seeds": false,
+  "raw_diagnostics": "ignored .local/cloud-release/ only",
+  "application_verified_by_readback": false
+}

@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.everyone.example/frame-selection.schema.json",
+  "title": "Real source frame selection",
+  "description": "Application contract. Adapt supported provider JSON Schema subset and validate again server-side. Example domain is not a live service.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "type": "string"
+    },
+    "source_asset_id": {
+      "$ref": "#/$defs/Id"
+    },
+    "selected_frames": {
+      "type": "array",
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "frame_asset_id": {
+            "$ref": "#/$defs/Id"
+          },
+          "reason": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "frame_asset_id",
+          "reason"
+        ]
+      }
+    },
+    "insufficient_frames_reason": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "source_asset_id",
+    "selected_frames",
+    "insufficient_frames_reason"
+  ],
+  "$defs": {
+    "Id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+    }
+  }
+}

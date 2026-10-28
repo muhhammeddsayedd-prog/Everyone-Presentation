@@ -1,0 +1,86 @@
+# M01 private logo storage and verification boundary
+
+Status: concrete proposal for root integration review, 2026-10-28. No SQL, bucket, key or cloud mutation has been performed for this proposal. Root must coordinate the implementation assignment before executable changes. Existing canonical migrations and authenticated actor permissions remain authoritative. Real user enrollment remains an independent live acceptance gate.
+
+## Recommendation
+
+Keep the public upload contracts unchanged. Reserve an exact private object using the acting user's JWT; issue a direct Supabase `signed_put` transfer with **upsert disabled**; download the resulting object under that same verified user; fully decode/hash its actual bytes in the bounded M01 web verifier; and commit Ready only with a short-lived, purpose-bound HMAC verification receipt. The receipt is signed by a server-only logo verification key and verified by a separate narrow non-login SQL function-owner role. Ordinary authenticated callers cannot turn their own JSON claims into Ready.
+
+This uses the existing Supabase HTTPS/user-JWT integration and the already-installed PostgreSQL `pgcrypto` extension. It introduces one narrowly scoped verification key, not a service-role key, fake user, unrestricted DB connection, worker admin account, or alternate database. The receipt is an internal server-to-database assertion; it is never an ordinary MCP tool, public operation argument, browser response or audit payload.
+
+The critical signed-upload condition must be demonstrated against actual Storage before enabling uploads: **a user must be unable to mint an upsert-capable signed token for any reserved logo path, including a path that does not yet exist**. Merely omitting UPDATE policies is insufficient evidence for that missing-object case. The policy must reject the sign-upload operation when its effective `x-upsert` flag is true. The implementation must prove that Storage's trusted request operation/headers reach the policy as expected. If that cannot be established, keep this transfer unavailable and use the explicitly reviewed alternative below; never assume a Ready object is immutable.
+
+## Evidence and limits
+
+- Current canonical foundation has private `eps.media_assets`, actor/resource checks, twelve RPCs and an empty upload-purpose capability list. It has no completed private upload boundary.
+- Recorded central discovery lists `pgcrypto 1.3`; actual `hmac` function schema/privileges still need a bounded metadata check before writing the migration. Do not assume it is in `public` when the extension is installed in `extensions`.
+- Current supported Supabase documentation describes standard uploads for small files and recommends resumable uploads above 6 MB. The M01 logo limit remains 5 MiB, PNG/JPEG/WebP. [Standard uploads](https://supabase.com/docs/guides/storage/uploads/standard-uploads)
+- Storage uses policies on `storage.objects`; overwriting has additional policy requirements. These statements do not prove signed-token immutability by themselves. [Access control](https://supabase.com/docs/guides/storage/security/access-control)
+- Signed upload URLs work without another authentication step and have a documented two-hour provider lifetime. The installed SDK supports an `upsert` flag at signed-token creation; later upload options do not remove a token's previously granted upsert authority. [Signed upload URLs](https://supabase.com/docs/reference/javascript/storage-from-createsigneduploadurl), [signed upload transfer](https://supabase.com/docs/reference/javascript/storage-from-uploadtosignedurl); locally inspected `node_modules/@supabase/storage-js/src/packages/StorageFileApi.ts`.
+- Storage documents exact operation-aware policy helpers, but their presence/operation context in this hosted project remains unverified. Require the installed helper or a reviewed equivalent based on actual Storage request context; do not silently treat an absent context as allowed. [Storage policy helpers](https://supabase.com/docs/guides/storage/schema/helper-functions), [official operation names](https://github.com/supabase/storage/blob/master/src/http/routes/operations.ts)
+- PostgreSQL documents keyed HMAC in `pgcrypto`. Actual receipt handling still needs SQL/Node agreement and adversarial tests. [PostgreSQL 17 pgcrypto](https://www.postgresql.org/docs/17/pgcrypto.html)
+
+## Concrete flow
+
+1. `create_upload_session` rechecks current actor capability **and resource scope** before any idempotent replay. A workspace presentation logo requires workspace write/project write scope; explicitly changing a shared canonical client default additionally requires canonical client write permission. Reserving a workspace logo never changes the shared default implicitly.
+2. In one transaction reserve `media_assets.status=uploading` plus an `eps.upload_sessions` row: generated upload/asset UUIDs, uploader `auth.uid()`, workspace, fixed purpose, expected MIME/size/checksum when supplied, bucket/key, reservation revision, open state, creation/expiry and idempotency/audit linkage. The caller cannot choose bucket, key, uploader, Ready, dimensions or actual checksum.
+3. The server uses its existing **user-scoped** Supabase client to request a signed upload URL for that exact reserved key with `{upsert:false}`. The INSERT policy accepts only an active reservation owned by the JWT actor, current workspace permission and the exact fixed bucket/key. For sign-upload operations it must also reject any effective upsert flag other than false/absent. No general folder-wide upload policy is added.
+4. Return the existing `UploadSession`: `id`, `asset_id`, `protocol:'signed_put'`, `upload_url`, needed transfer headers, `expires_at`, `status`, `maximum_bytes`. Bytes travel directly to private Storage. The signed URL is a scoped bearer capability: no-store response, no referrer, no URLs/tokens in logs or tracking. No service credential is involved.
+5. `complete_upload` accepts exactly the current public `CompleteUpload` fields. The web domain adapter first loads the persisted reservation under the acting user's verified JWT and current scope. It constructs the Storage destination from that record, then streams the **actual stored bytes** under that same user JWT with a hard 5 MiB limit and bounded timeout. It must not fetch a caller URL, trust only HEAD/metadata, or buffer an unbounded `Blob` before checking size.
+6. The verifier hashes those bytes and fully decodes them with pinned Sharp, PNG/JPEG/WebP allowlist, single-image check and the existing bounded pixel policy. Match actual size/type/checksum to the reservation and public completion assertions. Preserve original bytes, alpha and aspect ratio. A MIME label, declared width or uploaded JSON is never verification. Corrupt data fails without altering other work.
+7. Only after that actual verification, the server signs the internal receipt below. The final SQL function locks the upload/asset row, derives the actor from `auth.uid()`, rechecks current workspace/client scope and reservation state, verifies the signed byte payload, validates every bound field against stored reservation/object identity, and atomically commits actual media metadata, Ready, completed upload state, idempotency and audit. It does not pin the workspace logo or edit a client default.
+8. Return the exact `UploadCompletion`: Ready `MediaAsset`, `processing_job_id:null`, `status:'ready'`. There is no fake render/scan job. Workspace pin/placement and optional canonical client-default update remain separate existing operations with their own row versions.
+
+Use a logical upload expiry compatible with the actual provider transfer lifetime; start with the documented two-hour maximum, not a claimed custom TTL unsupported by the SDK. DB expiry/cancellation always denies completion. A previously issued non-upsert upload capability may still deliver private orphan bytes until its provider expiry. This is disclosed as a transfer limit, not Ready publication or continued app access.
+
+## Internal verifier receipt
+
+Transport two internal strings to the verifier RPC: base64url encoded UTF-8 JSON payload bytes and a 32-byte HMAC-SHA256 signature. Verify over the **exact original payload bytes**, then parse/validate their strict field allowlist. Do not re-serialize JSONB and assume Node's whitespace/key order matches. A bounded payload contains:
+
+- schema/audience `eps.logo-verification.v1`, key ID, issue/expiry timestamps (maximum 120 seconds);
+- upload ID, asset ID, reservation revision, acting principal, workspace and fixed purpose;
+- exact bucket/key, actual stored byte count and SHA256, decoded MIME, width and height;
+- verification ID tied to this completion attempt.
+
+No signature/key appears in normal logs, outbox, audit, browser/MCP responses or ordinary idempotency payloads. The verifier checks a fixed 32-byte MAC using a reviewed constant-work comparison; do not claim PostgreSQL bytea `=` is a constant-time MAC verifier. Validation includes future-time tolerance, maximum receipt age, active key period, exact purpose/audience and all reserved identities. Changing any bound field invalidates the proof. A proof cannot authorize a profile edit, different project, arbitrary storage key or later worker stage.
+
+The public idempotency hash covers upload ID plus the ordinary `CompleteUpload` body, not ephemeral server proof bytes. Scope checks precede any cached response. A valid completed replay returns its original public result without re-running verification; a failed/uncommitted attempt can be verified again with a fresh receipt under the same logical request. Different public input under the same key fails. Row locking ensures two completion requests produce one Ready transition and one logical side effect.
+
+## SQL identities and grants
+
+| Identity | Necessary authority | Deliberate limits |
+|---|---|---|
+| `authenticated` acting user | Execute upload/read/cancel RPCs and Storage policies for its own allowed resources | No direct private table DML, no verification-key access, no direct Ready update, no verifier role membership |
+| Existing `eps_api_owner` | Narrow reservation create/read/cancel plus initial uploading metadata; policy helper resolves current JWT actor and exact object relationship | Cannot read verification keys or update media into Ready; INSERT/UPDATE policies constrain allowed initial/cancel states |
+| New `eps_logo_verify_owner` | Non-login, non-superuser, non-BYPASSRLS; inherit existing `authenticated` managed-auth access with SET/admin false; own only completion-verification functions; read purpose-scoped verification key; update exact reserved upload/media verification columns; append audit/idempotency | No ownership of app tables, no general Storage DML, no login credential, no worker execution permission, no generic context setter or arbitrary SQL function |
+| Authorized migration/secret provisioner | Create reviewed objects/policies and provision/rotate only the logo key through the existing release process | Never put key values in the migration, Git, chat, SQL echo or receipts; no application use of this identity |
+
+Keep the key in a private purpose-scoped `eps.logo_verification_keys` table with RLS and no anon/authenticated/service-role/default grants. Only the verifier role can read the relevant active logo key. Do **not** grant a runtime role access to all `vault.decrypted_secrets` or reuse the OpenAI/n8n/guest signing secret. The web process receives the matching dedicated 256-bit secret via server configuration. Key IDs permit rotation with a short overlap bounded by receipt lifetime. Missing key/configuration is an honest unavailable error.
+
+The curated completion RPC can be callable by `authenticated`, but it is owned by the separate verifier role and requires the non-forgeable server receipt. A caller with only user JWT + arbitrary JSON cannot satisfy that authority. This is the explicit distinction between a user operation and trusted byte verification; an `X-Verified` header, `verified:true`, actor ID or producer role is not that distinction.
+
+## Storage policy and read behavior
+
+- Create/reuse one actually observed private brand bucket; proposed new app bucket name is `eps-brand-assets` if no suitable bucket exists. Configure the same 5 MiB/MIME limits, with no public-read setting.
+- Server-generated immutable keys use the asset UUID and allowlisted extension. Original filenames are bounded display metadata.
+- INSERT policy helper reads reservations and permissions; it never queries `storage.objects`, avoiding policy recursion. It derives JWT identity, never a caller principal field. The helper may return only a boolean; no private secret or generic signing path is exposed.
+- Actual sign-upload upsert enforcement is a prerequisite: validate trusted operation context plus captured `x-upsert`; deny unknown/missing operation context where the rule requires it. Test direct SDK/HTTP bypass attempts, not only the BFF's `{upsert:false}` choice.
+- No ordinary UPDATE/DELETE policy for logo objects. A Ready object's bytes cannot be overwritten, moved or deleted by its uploader. Check signed upload tokens issued before completion as well as standard update/upsert calls after completion.
+- Storage SELECT permits the uploader's current open reservation for verification, and Ready assets visible through current workspace/client/pin relationships. It does not allow shared viewing of arbitrary unverified uploads. Reuse follows selected workspace/client pins, not just origin ownership.
+- `get_media` returns only the exact safe `MediaAsset` projection. Actual preview/content issuance repeats resource authorization. Use authenticated same-origin media delivery or explicitly bounded authorization; never `getPublicUrl` for private assets.
+- Removing workspace selection clears its reference only. Replacing creates a new asset/key. Cancel/failed validation leaves private orphan material for separately authorized reference-aware cleanup; it does not delete shared/historical assets.
+
+## Alternative and tradeoff
+
+| Approach | Benefit | Cost / gate |
+|---|---|---|
+| Recommended user JWT + receipt-bound SQL verifier | Reuses current HTTPS auth/RPC path, keeps direct upload contract, no privileged DB login or service-role key; dedicated authority is restricted to verified logo completion | One dedicated key must be securely provisioned/rotated in server and private DB; real signed-upsert denial and constant-work MAC handling must be demonstrated |
+| Execute-only restricted PostgreSQL verifier login | Explicit database service identity; no HMAC receipt/key table; future job-only execute functions can use the same service pattern | Adds a new server DB credential and verified pooler/direct-connect path, rotation/hosting requirements, and explicit stored-reservation actor context. Still no arbitrary actor/scope setter, direct table DML, service-role key or worker-wide power |
+
+If the hosted Storage API cannot reliably deny upsert-signed capabilities at issuance, do not keep the recommended direct signed transfer by assumption. A narrowly documented transport adaptation can use bounded same-origin authenticated logo transfer and ordinary user-JWT Storage upload, with sign-upload operations denied entirely. That requires an explicit API transport/operation-policy amendment and actual permission tests; it is not silently labelled an unchanged direct signed upload.
+
+## Extension boundary and implementation acceptance
+
+Reuse reservation identity, immutable key, source/size/hash checks and proof validation machinery in M02/M03. A future worker proof must additionally bind producing job/stage, attempt UUID, lease/fence and allowed output key; it must be issued through a job-scoped service path and a distinct key/audience. The M01 logo key is not distributed to workers, and a logo proof never becomes a generic job callback credential.
+
+Before enabling the upload-purpose capability, required evidence is: reviewed additive migration and replay; actual role/RLS tests for forged proof/metadata, cross-project/actor/key mismatch, stale reservation, revoked permission replay, expired/cancelled upload and duplicate/concurrent completion; real private Storage byte transfer; absent/corrupt/oversize/mismatched image failures; signed-upsert creation before object existence denied; preissued token cannot overwrite Ready bytes; actual Sharp decode/hash and immutable bytes after replacement/removal; no public/unauthorized reads; API/MCP upload completion parity; secret/proof/token redaction. Separate local SQL fixtures, injected Storage responses and real hosted transfer evidence. Missing real user credentials do not prevent implementing the isolated code/tests, but do block hosted user-journey acceptance.

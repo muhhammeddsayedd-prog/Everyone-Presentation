@@ -1,0 +1,25 @@
+{
+  "recorded_at": "2026-10-28T02:04:03Z",
+  "clock_source": "clock.curr_time UTC after the read-only refresh",
+  "scope": "Authorized read-only connector metadata; no database/provider/workflow/hosting writes",
+  "n8n": {
+    "tool": "mcp__codex_apps__n8n_search_projects",
+    "input": { "limit": 20 },
+    "is_error": true,
+    "code": -32603,
+    "message": "Internal error",
+    "workspace_metadata_obtained": false,
+    "interpretation": "The connected project-list path remains unavailable; this does not prove that the business has no n8n workspace or credentials."
+  },
+  "vercel": {
+    "tool": "mcp__codex_apps__vercel_list_projects",
+    "input": { "search": "Everyone", "limit": "20" },
+    "is_error": false,
+    "projects": [],
+    "pagination": { "count": 0 },
+    "scope_selected": "Default authenticated scope; no team override",
+    "interpretation": "No Everyone-name match in this queried scope. Other team scopes and differently named projects were not inspected. This is not evidence that Vercel is unused by the business."
+  },
+  "hosting_vendor_selected": false,
+  "credentials_requested_or_printed": false
+}

@@ -1,0 +1,188 @@
+{
+  "hmac_functions": [
+    {
+      "authenticated_execute": true,
+      "identity": "hmac(bytea,bytea,text)",
+      "owner": "postgres",
+      "schema": "extensions"
+    },
+    {
+      "authenticated_execute": true,
+      "identity": "hmac(text,text,text)",
+      "owner": "postgres",
+      "schema": "extensions"
+    }
+  ],
+  "object_policies": [],
+  "observed_at": "2026-10-28T02:37:52.769726+00:00",
+  "storage_columns": [
+    {
+      "column": "id",
+      "table": "buckets",
+      "type": "text"
+    },
+    {
+      "column": "name",
+      "table": "buckets",
+      "type": "text"
+    },
+    {
+      "column": "owner",
+      "table": "buckets",
+      "type": "uuid"
+    },
+    {
+      "column": "created_at",
+      "table": "buckets",
+      "type": "timestamp with time zone"
+    },
+    {
+      "column": "updated_at",
+      "table": "buckets",
+      "type": "timestamp with time zone"
+    },
+    {
+      "column": "public",
+      "table": "buckets",
+      "type": "boolean"
+    },
+    {
+      "column": "avif_autodetection",
+      "table": "buckets",
+      "type": "boolean"
+    },
+    {
+      "column": "file_size_limit",
+      "table": "buckets",
+      "type": "bigint"
+    },
+    {
+      "column": "allowed_mime_types",
+      "table": "buckets",
+      "type": "ARRAY"
+    },
+    {
+      "column": "owner_id",
+      "table": "buckets",
+      "type": "text"
+    },
+    {
+      "column": "type",
+      "table": "buckets",
+      "type": "USER-DEFINED"
+    },
+    {
+      "column": "versioning_status",
+      "table": "buckets",
+      "type": "text"
+    },
+    {
+      "column": "lifecycle_configuration",
+      "table": "buckets",
+      "type": "jsonb"
+    },
+    {
+      "column": "lifecycle_configuration_generation",
+      "table": "buckets",
+      "type": "uuid"
+    },
+    {
+      "column": "id",
+      "table": "objects",
+      "type": "uuid"
+    },
+    {
+      "column": "bucket_id",
+      "table": "objects",
+      "type": "text"
+    },
+    {
+      "column": "name",
+      "table": "objects",
+      "type": "text"
+    },
+    {
+      "column": "owner",
+      "table": "objects",
+      "type": "uuid"
+    },
+    {
+      "column": "created_at",
+      "table": "objects",
+      "type": "timestamp with time zone"
+    },
+    {
+      "column": "updated_at",
+      "table": "objects",
+      "type": "timestamp with time zone"
+    },
+    {
+      "column": "last_accessed_at",
+      "table": "objects",
+      "type": "timestamp with time zone"
+    },
+    {
+      "column": "metadata",
+      "table": "objects",
+      "type": "jsonb"
+    },
+    {
+      "column": "path_tokens",
+      "table": "objects",
+      "type": "ARRAY"
+    },
+    {
+      "column": "version",
+      "table": "objects",
+      "type": "text"
+    },
+    {
+      "column": "owner_id",
+      "table": "objects",
+      "type": "text"
+    },
+    {
+      "column": "user_metadata",
+      "table": "objects",
+      "type": "jsonb"
+    },
+    {
+      "column": "archived_at",
+      "table": "objects",
+      "type": "timestamp with time zone"
+    },
+    {
+      "column": "is_delete_marker",
+      "table": "objects",
+      "type": "boolean"
+    },
+    {
+      "column": "is_versioned",
+      "table": "objects",
+      "type": "boolean"
+    }
+  ],
+  "storage_helpers": [
+    {
+      "authenticated_execute": true,
+      "definition": "CREATE OR REPLACE FUNCTION storage.allow_any_operation(expected_operations text[])\n RETURNS boolean\n LANGUAGE sql\n STABLE\nAS $function$\n  WITH current_operation AS (\n    SELECT storage.operation() AS raw_operation\n  ),\n  normalized AS (\n    SELECT CASE\n      WHEN raw_operation LIKE 'storage.%' THEN substr(raw_operation, 9)\n      ELSE raw_operation\n    END AS current_operation\n    FROM current_operation\n  )\n  SELECT EXISTS (\n    SELECT 1\n    FROM normalized n\n    CROSS JOIN LATERAL unnest(expected_operations) AS expected_operation\n    WHERE expected_operation IS NOT NULL\n      AND expected_operation <> ''\n      AND n.current_operation = CASE\n        WHEN expected_operation LIKE 'storage.%' THEN substr(expected_operation, 9)\n        ELSE expected_operation\n      END\n  );\n$function$\n",
+      "identity": "storage.allow_any_operation(text[])",
+      "owner": "supabase_storage_admin",
+      "security_definer": false
+    },
+    {
+      "authenticated_execute": true,
+      "definition": "CREATE OR REPLACE FUNCTION storage.allow_only_operation(expected_operation text)\n RETURNS boolean\n LANGUAGE sql\n STABLE\nAS $function$\n  WITH current_operation AS (\n    SELECT storage.operation() AS raw_operation\n  ),\n  normalized AS (\n    SELECT\n      CASE\n        WHEN raw_operation LIKE 'storage.%' THEN substr(raw_operation, 9)\n        ELSE raw_operation\n      END AS current_operation,\n      CASE\n        WHEN expected_operation LIKE 'storage.%' THEN substr(expected_operation, 9)\n        ELSE expected_operation\n      END AS requested_operation\n    FROM current_operation\n  )\n  SELECT CASE\n    WHEN requested_operation IS NULL OR requested_operation = '' THEN FALSE\n    ELSE COALESCE(current_operation = requested_operation, FALSE)\n  END\n  FROM normalized;\n$function$\n",
+      "identity": "storage.allow_only_operation(text)",
+      "owner": "supabase_storage_admin",
+      "security_definer": false
+    },
+    {
+      "authenticated_execute": true,
+      "definition": "CREATE OR REPLACE FUNCTION storage.operation()\n RETURNS text\n LANGUAGE plpgsql\n STABLE\nAS $function$\nBEGIN\n    RETURN current_setting('storage.operation', true);\nEND;\n$function$\n",
+      "identity": "storage.operation()",
+      "owner": "supabase_storage_admin",
+      "security_definer": false
+    }
+  ]
+}

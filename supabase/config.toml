@@ -1,0 +1,15 @@
+# Canonical migration source for the owner-confirmed Everyone-Presentation project.
+# The existing cloud link remains under ignored .temp/. Never run local reset/seed here.
+# No auth/storage/service configuration is declared or pushed by this file.
+project_id = "everyone-presentation-studio"
+
+[db]
+major_version = 17
+
+[db.migrations]
+enabled = true
+schema_paths = []
+
+[db.seed]
+enabled = false
+sql_paths = []

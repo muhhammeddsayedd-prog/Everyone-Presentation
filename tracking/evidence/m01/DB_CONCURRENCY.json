@@ -1,0 +1,39 @@
+{
+  "environment": "owned isolated local Supabase PostgreSQL only",
+  "result": "PASS",
+  "proof": "separate database backends, overlapping starts, observed transaction/advisory lock wait, one workspace per project and exact idempotency/audit counts; owned fixtures cleaned",
+  "sessions": [
+    {
+      "file": "tests/db/m01-race-same-a.sql",
+      "receipt": "development/local-db/receipts/2026-10-28T01-39-49-049Z-test.json",
+      "session_pid": 5730,
+      "claim_started_at": "2026-10-28T01:39:47.98922+00:00",
+      "claim_returned_at": "2026-10-28T01:39:48.014817+00:00",
+      "claim_duration_ms": 25.6
+    },
+    {
+      "file": "tests/db/m01-race-same-b.sql",
+      "receipt": "development/local-db/receipts/2026-10-28T01-39-50-058Z-test.json",
+      "session_pid": 5729,
+      "claim_started_at": "2026-10-28T01:39:47.989149+00:00",
+      "claim_returned_at": "2026-10-28T01:39:49.022073+00:00",
+      "claim_duration_ms": 1032.92
+    },
+    {
+      "file": "tests/db/m01-race-distinct-b.sql",
+      "receipt": "development/local-db/receipts/2026-10-28T01-39-57-652Z-test.json",
+      "session_pid": 5786,
+      "claim_started_at": "2026-10-28T01:39:56.58653+00:00",
+      "claim_returned_at": "2026-10-28T01:39:56.610673+00:00",
+      "claim_duration_ms": 24.14
+    },
+    {
+      "file": "tests/db/m01-race-distinct-a.sql",
+      "receipt": "development/local-db/receipts/2026-10-28T01-39-58-665Z-test.json",
+      "session_pid": 5785,
+      "claim_started_at": "2026-10-28T01:39:56.586505+00:00",
+      "claim_returned_at": "2026-10-28T01:39:57.635977+00:00",
+      "claim_duration_ms": 1049.47
+    }
+  ]
+}

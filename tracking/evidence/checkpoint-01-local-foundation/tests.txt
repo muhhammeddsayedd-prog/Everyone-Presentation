@@ -1,0 +1,117 @@
+
+> everyone-presentation-studio@0.1.0 test
+> npm run test:unit && npm run test:contracts && npm run test:jobs && npm run test:integrations && npm run test:worker
+
+
+> everyone-presentation-studio@0.1.0 test:unit
+> tsx --test tests/domain/*.test.ts tests/server/*.test.ts
+
+✔ fixture adapter is denied by both production environment signals (3.1345ms)
+✔ project access and central edits use current capabilities and canonical client versions (114.5585ms)
+✔ workspace concurrent create and retry persist one resource across service instances (75.6469ms)
+✔ separate Node processes serialize the same workspace creation without lost writes (293.044ms)
+✔ workspace edits race safely and output preference is per user without changing draft (69.5419ms)
+✔ logo completion verifies stored bytes, scope, persistence and non-destructive removal (156.0283ms)
+✔ upload ownership, cancellation and image verification fail without creating ready media (59.8227ms)
+✔ audience policies require settings authority, keep row versions and archive explicitly (74.3945ms)
+✔ search pagination excludes inaccessible and archived projects and rejects foreign cursors (30.098ms)
+✔ fixture runtime denies production, staging, non-loopback and unmapped central mode (2.8378ms)
+✔ signed development sessions reject tampering, wrong signing key, and expiry (3.9568ms)
+✔ mutation origin checks use Host and Origin despite Next internal URL normalization (9.0993ms)
+✔ logo verifier decodes actual transparent images and rejects mislabeled or truncated content (41.0885ms)
+✔ body limits reject streaming overflow without trusting Content-Length (7.8363ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1332.5166
+
+> everyone-presentation-studio@0.1.0 test:contracts
+> tsx --test tests/contracts/*.test.ts
+
+✔ runtime schemas are sealed to the current authoritative OpenAPI source (19.0296ms)
+✔ foundation projections conform to authoritative OpenAPI schemas (197.0625ms)
+✔ strict input contract rejects forged authority and missing revision (14.2237ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1058.5941
+
+> everyone-presentation-studio@0.1.0 test:jobs
+> tsx --test tests/jobs/*.test.ts
+
+✔ enqueue atomically records the job/outbox and concurrent idempotent requests reuse one job (6.9967ms)
+✔ stage lease has one claim winner and callback duplicates cannot repeat domain effects (4.5265ms)
+✔ user/project and worker scopes are checked and credentials cannot enter durable job input (2.1915ms)
+✔ event ID/sequence conflicts, lease credentials and out-of-order events cannot corrupt progress (3.765ms)
+✔ heartbeat extends a lease and expiry recovery fences the old attempt with delayed bounded retry (4.825ms)
+✔ retry budget is per stage/input while total lease attempts remain monotonic across stages (4.4102ms)
+✔ schema-invalid success is terminal without app effects or scheduling the next stage (1.2533ms)
+✔ domain commit and event/next-outbox commit share rollback, while changed drafts can wait without edits (1.7445ms)
+✔ cancellation is durable, idempotent and prevents late effects and unsent dispatch (10.7362ms)
+✔ outbox crash recovery is at-least-once with lease fencing and accepted-dispatch acknowledgement (2.1359ms)
+✔ bounded failed dispatch becomes actionable and explicit retry reuses the same job (2.5915ms)
+✔ completed stages return saved results and three sequential stages finish without redundant work (3.2487ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 375.459
+
+> everyone-presentation-studio@0.1.0 test:integrations
+> tsx --test tests/integrations/*.test.ts
+
+✔ known transient provider and dispatch failures map to the generic job retry vocabulary (2.3867ms)
+✔ only finite nonnegative retry hints cross the seam, rounded up to bounded seconds (2.5103ms)
+✔ invalid source, schema/evidence failure and refusal are terminal and discard provider text/details (0.7111ms)
+✔ unknown errors, access/quota/configuration issues and cancellation never become automatic retries (0.6827ms)
+✔ dispatch sends a bounded IDs-only envelope with header auth, idempotency and no redirects (7.2831ms)
+✔ untrusted envelope fields and invalid destinations fail before HTTP (4.0749ms)
+✔ dispatch response errors expose status/retry hint only and do not retry internally (5.4912ms)
+✔ timeout and caller cancellation are distinct bounded outcomes (10.644ms)
+✔ strict extraction isolates untrusted source and returns original missing values/evidence/versions (11.2842ms)
+✔ official pinned SDK serializes the strict Responses request with injected HTTP fixture only (28.5924ms)
+✔ missing key/model and invalid prepared input fail before any transport call (1.5468ms)
+✔ refusal, incomplete responses and unexpected tool output never become extraction results (1.487ms)
+✔ full application bounds and evidence mappings reject schema-valid invented citations (4.3179ms)
+✔ provider errors are redacted and classify retry without hidden adapter retries (2.3695ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1373.0571
+
+> everyone-presentation-studio@0.1.0 test:worker
+> tsx --test tests/worker/*.test.ts
+
+✔ UTF-8 preparation preserves Arabic/mixed source and exact paragraph evidence offsets (2.6499ms)
+✔ genuine DOCX extracts supplied English and Arabic paragraph text without HTML execution (50.3569ms)
+✔ genuine two-page PDF retains page references; scanned/no-text PDF requests vision or manual text (1457.7794ms)
+✔ real prepared paragraph indices resolve exact source/page/text in the extraction evidence validator (11.1972ms)
+✔ malformed input, unsupported legacy Word and unsafe archive paths fail with actionable typed errors (19.4825ms)
+✔ byte, text, page and DOCX expansion limits reject bounded denial-of-service inputs (71.0083ms)
+✔ DOCX rejects entity declarations and encrypted entries before text parsing (8.2829ms)
+✔ DOCX relationship policy checks decoded XML attributes regardless of namespace prefix (10.6053ms)
+✔ DOCX rejects corrupt entry checksums even when expanded byte counts still match (2.6242ms)
+✔ prepared output is reserved, written and verified before returning the exact callback projection (1.7703ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2640.7271

@@ -1,0 +1,4304 @@
+openapi: 3.1.0
+jsonSchemaDialect: https://json-schema.org/draft/2020-12/schema
+info:
+  title: Everyone Presentation Studio API — M04 implementation subset
+  version: 1.0.0-design
+  description: Design contract, not a deployed API. UI, API, MCP and workflow callbacks use shared domain operations.
+    Database discovery may adapt physical storage without changing agreed product semantics. IDs are opaque. All
+    internal endpoints enforce capability AND project/library scope. Missing facts/open slots are allowed; invalid
+    access/integrity/render data is not.
+servers:
+- url: /api/v1
+  description: Same-origin versioned API
+paths:
+  /roles/{role_id}/candidate-filters:
+    get:
+      operationId: suggest_candidate_filters
+      summary: Suggest editable source-backed library filters for a role
+      tags:
+      - roles
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/SuggestedCandidateFilters'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: workspaces.read AND cast.read
+      x-mcp-exposed: true
+      x-shared-service-operation: suggest_candidate_filters
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: role_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+  /roles/{role_id}/slots/resize:
+    post:
+      operationId: resize_role_slots
+      summary: Resize slot count with explicit retirement choices
+      tags:
+      - roles
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/Role'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: workspaces.write
+      x-mcp-exposed: true
+      x-shared-service-operation: resize_role_slots
+      description: Reducing an occupied role requires explicit retire_slot_ids. Preserve historical version_slides.
+        Never silently discard assignments.
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: role_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResizeSlots'
+  /candidates:
+    get:
+      operationId: search_candidates
+      summary: Search shared cast library by supplied profile attributes
+      tags:
+      - candidates
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Candidate'
+                  page:
+                    $ref: '#/components/schemas/Page'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+                - page
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: cast.read
+      x-mcp-exposed: true
+      x-shared-service-operation: search_candidates
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: q
+        in: query
+        schema:
+          type: string
+      - name: include_unknown
+        in: query
+        schema:
+          type: boolean
+          default: true
+        description: Structured filters may include unknown values explicitly labelled unknown; unknown does not
+          mean requirements met. Does not bypass q text search.
+      - name: age_or_range
+        in: query
+        schema:
+          type: string
+      - name: stated_gender
+        in: query
+        schema:
+          type: string
+      - name: height_measurements
+        in: query
+        schema:
+          type: string
+      - name: language
+        in: query
+        schema:
+          type: string
+      - name: accent
+        in: query
+        schema:
+          type: string
+      - name: skill
+        in: query
+        schema:
+          type: string
+      - name: city
+        in: query
+        schema:
+          type: string
+      - name: previous_project_role
+        in: query
+        schema:
+          type: string
+      - name: classification
+        in: query
+        schema:
+          type: string
+      - name: review_status
+        in: query
+        schema:
+          type: string
+      - name: cursor
+        in: query
+        schema:
+          type: string
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 25
+    post:
+      operationId: create_candidate
+      summary: Create manually entered Unreviewed candidate
+      tags:
+      - candidates
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/Candidate'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: cast.write
+      x-mcp-exposed: true
+      x-shared-service-operation: create_candidate
+      security:
+      - InternalBearer: []
+      parameters:
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CandidateCreate'
+  /candidates/{candidate_id}:
+    get:
+      operationId: get_candidate
+      summary: Read reusable candidate profile
+      tags:
+      - candidates
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/Candidate'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: cast.read
+      x-mcp-exposed: true
+      x-shared-service-operation: get_candidate
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: candidate_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+    patch:
+      operationId: update_candidate
+      summary: Save confirmed corrections to reusable facts
+      tags:
+      - candidates
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/Candidate'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: cast.write
+      x-mcp-exposed: true
+      x-shared-service-operation: update_candidate
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: candidate_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CandidatePatch'
+  /candidates/{candidate_id}/reviewed:
+    post:
+      operationId: confirm_candidate_reviewed
+      summary: Confirm current candidate information and mark Reviewed
+      tags:
+      - candidates
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/Candidate'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: cast.review
+      x-mcp-exposed: true
+      x-shared-service-operation: confirm_candidate_reviewed
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: candidate_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfirmReviewed'
+  /candidates/{candidate_id}/archive:
+    post:
+      operationId: archive_candidate
+      summary: Archive library candidate without erasing snapshots
+      tags:
+      - candidates
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/Success'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: cast.write
+      x-mcp-exposed: true
+      x-shared-service-operation: archive_candidate
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: candidate_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArchiveRequest'
+  /candidates/{candidate_id}/media:
+    get:
+      operationId: get_candidate_media
+      summary: Read candidate source recordings, transcript and frames
+      tags:
+      - candidates
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CandidateMedia'
+                  page:
+                    $ref: '#/components/schemas/Page'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+                - page
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: cast.read
+      x-mcp-exposed: true
+      x-shared-service-operation: get_candidate_media
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: candidate_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      - name: cursor
+        in: query
+        schema:
+          type: string
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 25
+  /candidate-media/{candidate_media_id}/frames:
+    put:
+      operationId: update_candidate_frames
+      summary: Choose and order up to three library default real frames
+      tags:
+      - candidate-media
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/CandidateMedia'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: cast.write
+      x-mcp-exposed: true
+      x-shared-service-operation: update_candidate_frames
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: candidate_media_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FrameSelection'
+  /candidate-media/{candidate_media_id}/frames/extract:
+    post:
+      operationId: extract_candidate_frames
+      summary: Extract real frames at chosen video timestamps
+      tags:
+      - candidate-media
+      responses:
+        '202':
+          description: Accepted; poll returned job
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/JobAccepted'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: cast.upload
+      x-mcp-exposed: true
+      x-shared-service-operation: extract_candidate_frames
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: candidate_media_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FrameExtraction'
+  /candidates/{candidate_id}/duplicates:
+    get:
+      operationId: list_duplicate_matches
+      summary: Read evidence-based possible library matches
+      tags:
+      - candidates
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DuplicateMatch'
+                  page:
+                    $ref: '#/components/schemas/Page'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+                - page
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: cast.read
+      x-mcp-exposed: true
+      x-shared-service-operation: list_duplicate_matches
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: candidate_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      - name: cursor
+        in: query
+        schema:
+          type: string
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 25
+  /candidates/{candidate_id}/duplicates/resolve:
+    post:
+      operationId: resolve_duplicate
+      summary: Keep new candidate or explicitly link scanned record to existing profile
+      tags:
+      - candidates
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/Candidate'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: cast.write
+      x-mcp-exposed: true
+      x-shared-service-operation: resolve_duplicate
+      description: No face recognition or automatic identity merge. Link live references atomically, preserve snapshots,
+        do not overwrite existing confirmed facts automatically.
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: candidate_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DuplicateResolution'
+  /workspaces/{workspace_id}/candidates:
+    get:
+      operationId: list_workspace_candidates
+      summary: List project pool including unassigned candidates
+      tags:
+      - workspaces
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/WorkspaceCandidate'
+                  page:
+                    $ref: '#/components/schemas/Page'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+                - page
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: workspaces.read
+      x-mcp-exposed: true
+      x-shared-service-operation: list_workspace_candidates
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: workspace_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      - name: cursor
+        in: query
+        schema:
+          type: string
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 25
+    post:
+      operationId: add_workspace_candidate
+      summary: Reuse library candidate in project and pin chosen media
+      tags:
+      - workspaces
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/WorkspaceCandidate'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: workspaces.write AND cast.read
+      x-mcp-exposed: true
+      x-shared-service-operation: add_workspace_candidate
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: workspace_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkspaceCandidateCreate'
+  /workspace-candidates/{workspace_candidate_id}:
+    patch:
+      operationId: update_workspace_candidate
+      summary: Edit project availability, selected media and internal notes
+      tags:
+      - workspace-candidates
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/WorkspaceCandidate'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: workspaces.write
+      x-mcp-exposed: true
+      x-shared-service-operation: update_workspace_candidate
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: workspace_candidate_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkspaceCandidatePatch'
+  /workspace-candidates/{workspace_candidate_id}/remove:
+    post:
+      operationId: remove_workspace_candidate
+      summary: Remove candidate from project pool and active assignments
+      tags:
+      - workspace-candidates
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/Success'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: workspaces.write
+      x-mcp-exposed: true
+      x-shared-service-operation: remove_workspace_candidate
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: workspace_candidate_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArchiveRequest'
+  /workspaces/{workspace_id}/assignments:
+    get:
+      operationId: list_assignments
+      summary: List active assignments; Selection is all of these
+      tags:
+      - workspaces
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Assignment'
+                  page:
+                    $ref: '#/components/schemas/Page'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+                - page
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: workspaces.read
+      x-mcp-exposed: true
+      x-shared-service-operation: list_assignments
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: workspace_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      - name: output_type
+        in: query
+        schema:
+          type: string
+          enum:
+          - selection
+          - shortlist
+      - name: cursor
+        in: query
+        schema:
+          type: string
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 25
+    post:
+      operationId: create_assignment
+      summary: Assign candidate to slot as Option, optionally explicitly Shortlisted
+      tags:
+      - workspaces
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/Assignment'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: workspaces.write
+      x-mcp-exposed: true
+      x-shared-service-operation: create_assignment
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: workspace_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignmentCreate'
+  /assignments/{assignment_id}:
+    patch:
+      operationId: update_assignment
+      summary: Edit Option/Backup, explicit Shortlist and slide wording
+      tags:
+      - assignments
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/Assignment'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: workspaces.write
+      x-mcp-exposed: true
+      x-shared-service-operation: update_assignment
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: assignment_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignmentPatch'
+  /slots/{slot_id}/main:
+    put:
+      operationId: set_slot_main
+      summary: Atomically set or clear the one Main in a slot
+      tags:
+      - slots
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/SetSlotMainResult'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: workspaces.write
+      x-mcp-exposed: true
+      x-shared-service-operation: set_slot_main
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: slot_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetSlotMain'
+  /slots/{slot_id}/main/undo:
+    post:
+      operationId: undo_slot_main
+      summary: Undo prior Main change if affected slot is unchanged
+      tags:
+      - slots
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/SetSlotMainResult'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: workspaces.write
+      x-mcp-exposed: true
+      x-shared-service-operation: undo_slot_main
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: slot_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MainUndo'
+  /assignments/{assignment_id}/remove:
+    post:
+      operationId: remove_assignment
+      summary: Remove active slot assignment while retaining version history
+      tags:
+      - assignments
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/Success'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: workspaces.write
+      x-mcp-exposed: true
+      x-shared-service-operation: remove_assignment
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: assignment_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArchiveRequest'
+  /workspaces/{workspace_id}/order:
+    put:
+      operationId: reorder_workspace
+      summary: Apply role, slot and assignment ordering transactionally
+      tags:
+      - workspaces
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/Workspace'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: workspaces.write
+      x-mcp-exposed: true
+      x-shared-service-operation: reorder_workspace
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: workspace_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReorderWorkspace'
+  /workspaces/{workspace_id}/review:
+    get:
+      operationId: get_workspace_review
+      summary: Get missing facts, Pending slots, text overflow and generation readiness
+      tags:
+      - workspaces
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/WorkspaceReview'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: workspaces.read
+      x-mcp-exposed: true
+      x-shared-service-operation: get_workspace_review
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: workspace_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      - name: series_id
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+        description: Audience-scoped series chosen for final review; output/template/policy resolved from it.
+      - name: output_type
+        in: query
+        schema:
+          type: string
+          enum:
+          - selection
+          - shortlist
+  /ai-suggestions:
+    post:
+      operationId: create_ai_suggestion
+      summary: Prepare optional contextual or wording assistance
+      tags:
+      - ai-suggestions
+      responses:
+        '202':
+          description: Accepted; poll returned job
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/JobAccepted'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: workspaces.write
+      x-mcp-exposed: true
+      x-shared-service-operation: create_ai_suggestion
+      security:
+      - InternalBearer: []
+      parameters:
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AiSuggestionCreate'
+  /ai-suggestions/{suggestion_id}:
+    get:
+      operationId: get_ai_suggestion
+      summary: Read suggestion without changing facts or choices
+      tags:
+      - ai-suggestions
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/AiSuggestion'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: workspaces.read
+      x-mcp-exposed: true
+      x-shared-service-operation: get_ai_suggestion
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: suggestion_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+  /audience-presets:
+    get:
+      operationId: list_audience_presets
+      summary: List saved audience presets
+      tags:
+      - audience-presets
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AudiencePreset'
+                  page:
+                    $ref: '#/components/schemas/Page'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+                - page
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: workspaces.read
+      x-mcp-exposed: true
+      x-shared-service-operation: list_audience_presets
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: cursor
+        in: query
+        schema:
+          type: string
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 25
+  /presentation-series:
+    get:
+      operationId: list_presentation_series
+      summary: List scoped presentation series
+      tags:
+      - presentation-series
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PresentationSeries'
+                  page:
+                    $ref: '#/components/schemas/Page'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+                - page
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: workspaces.read
+      x-mcp-exposed: true
+      x-shared-service-operation: list_presentation_series
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: workspace_id
+        in: query
+        schema:
+          $ref: '#/components/schemas/Id'
+      - name: output_type
+        in: query
+        schema:
+          type: string
+          enum:
+          - selection
+          - shortlist
+      - name: cursor
+        in: query
+        schema:
+          type: string
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 25
+    post:
+      operationId: create_presentation_series
+      summary: Create/reuse series scoped to workspace, output and audience snapshot
+      tags:
+      - presentation-series
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/PresentationSeries'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: presentations.generate
+      x-mcp-exposed: true
+      x-shared-service-operation: create_presentation_series
+      security:
+      - InternalBearer: []
+      parameters:
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PresentationSeriesCreate'
+  /presentation-series/{series_id}:
+    get:
+      operationId: get_presentation_series
+      summary: Read series and latest ready version pointer
+      tags:
+      - presentation-series
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/PresentationSeries'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: workspaces.read
+      x-mcp-exposed: true
+      x-shared-service-operation: get_presentation_series
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: series_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+    patch:
+      operationId: update_presentation_series
+      summary: Rename/archive a series without changing its audience scope
+      tags:
+      - presentation-series
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/PresentationSeries'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: presentations.generate
+      x-mcp-exposed: true
+      x-shared-service-operation: update_presentation_series
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: series_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PresentationSeriesPatch'
+components:
+  securitySchemes:
+    InternalBearer:
+      type: http
+      scheme: bearer
+      description: Verified acting-user access token. Issuer/audience/auth integration established in M00; never
+        use service_role in browser/MCP client.
+    ReviewToken:
+      type: apiKey
+      in: header
+      name: X-Review-Token
+      description: Raw expiring bearer review token only for initial exchange. Never log.
+    ReviewSession:
+      type: apiKey
+      in: header
+      name: X-Review-Session
+      description: Short-lived session scoped to one link/series; server verifies link live for every request. Cookie
+        adapter may be used by browser.
+    MediaGrant:
+      type: apiKey
+      in: header
+      name: X-Media-Grant
+      description: Secret embedded in private external PDF, bound to one export and fixed version; parent link live-view
+        grant required.
+    ServiceBearer:
+      type: http
+      scheme: bearer
+      description: Narrow service identity plus per-job lease token; not an internal user token.
+  schemas:
+    PresentationSeriesPatch:
+      type: object
+      additionalProperties: false
+      properties:
+        row_version:
+          $ref: '#/components/schemas/RowVersion'
+        title:
+          type: string
+        archived:
+          type: boolean
+      required:
+      - row_version
+    RowVersion:
+      type: integer
+      minimum: 1
+      description: Optimistic version from the last read of the mutated resource; stale write returns 409.
+    Id:
+      type: string
+      minLength: 1
+      maxLength: 200
+      description: Opaque resource identifier. Do not parse business meaning or assume source database PK type.
+    ErrorResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        request_id:
+          type: string
+        error:
+          $ref: '#/components/schemas/Error'
+      required:
+      - request_id
+      - error
+    Error:
+      type: object
+      additionalProperties: false
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+          additionalProperties: true
+        retryable:
+          type: boolean
+      required:
+      - code
+      - message
+      - details
+      - retryable
+    Warning:
+      type: object
+      additionalProperties: false
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        entity_id:
+          anyOf:
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
+      required:
+      - code
+      - message
+      - entity_id
+    PresentationSeries:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        workspace_id:
+          $ref: '#/components/schemas/Id'
+        output_type:
+          type: string
+          enum:
+          - selection
+          - shortlist
+        audience_preset_id:
+          $ref: '#/components/schemas/Id'
+        audience_snapshot:
+          $ref: '#/components/schemas/AudiencePreset'
+        title:
+          type: string
+        latest_ready_version_id:
+          anyOf:
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
+        latest_ready_version_no:
+          anyOf:
+          - type: integer
+            minimum: 1
+          - type: 'null'
+        row_version:
+          $ref: '#/components/schemas/RowVersion'
+        archived:
+          type: boolean
+      required:
+      - id
+      - workspace_id
+      - output_type
+      - audience_preset_id
+      - audience_snapshot
+      - title
+      - latest_ready_version_id
+      - latest_ready_version_no
+      - row_version
+      - archived
+    AudiencePreset:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        key:
+          type: string
+        label:
+          type: string
+        scope:
+          type: string
+          enum:
+          - internal
+          - external
+        settings:
+          type: object
+          additionalProperties: false
+          properties: {}
+          required: []
+        archived:
+          type: boolean
+        row_version:
+          $ref: '#/components/schemas/RowVersion'
+      required:
+      - id
+      - key
+      - label
+      - scope
+      - settings
+      - archived
+      - row_version
+    PresentationSeriesCreate:
+      type: object
+      additionalProperties: false
+      properties:
+        workspace_id:
+          $ref: '#/components/schemas/Id'
+        output_type:
+          type: string
+          enum:
+          - selection
+          - shortlist
+        audience_preset_id:
+          $ref: '#/components/schemas/Id'
+        title:
+          type: string
+      required:
+      - workspace_id
+      - output_type
+      - audience_preset_id
+    Page:
+      type: object
+      additionalProperties: false
+      properties:
+        next_cursor:
+          anyOf:
+          - type: string
+          - type: 'null'
+      required:
+      - next_cursor
+    AiSuggestion:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        target_id:
+          $ref: '#/components/schemas/Id'
+        target_row_version:
+          $ref: '#/components/schemas/RowVersion'
+        status:
+          type: string
+          enum:
+          - queued
+          - running
+          - succeeded
+          - failed
+          - cancelled
+        suggested_text:
+          $ref: '#/components/schemas/NullableText'
+        proposed_changes:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              field:
+                type: string
+              old_value:
+                $ref: '#/components/schemas/NullableText'
+              new_value:
+                $ref: '#/components/schemas/NullableText'
+            required:
+            - field
+            - old_value
+            - new_value
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/Warning'
+      required:
+      - id
+      - target_id
+      - target_row_version
+      - status
+      - suggested_text
+      - proposed_changes
+      - warnings
+    NullableText:
+      anyOf:
+      - type: string
+      - type: 'null'
+    AiSuggestionCreate:
+      type: object
+      additionalProperties: false
+      properties:
+        workspace_id:
+          $ref: '#/components/schemas/Id'
+        capability:
+          type: string
+          enum:
+          - slide_shorten
+          - normalize_english
+          - contextual_instruction
+        target_type:
+          type: string
+          enum:
+          - assignment
+          - role
+          - workspace_candidate
+          - candidate
+        target_id:
+          $ref: '#/components/schemas/Id'
+        target_row_version:
+          $ref: '#/components/schemas/RowVersion'
+        field:
+          type: string
+        instruction:
+          type: string
+        source_text:
+          type: string
+      required:
+      - workspace_id
+      - capability
+      - target_type
+      - target_id
+      - target_row_version
+      - instruction
+    JobAccepted:
+      type: object
+      additionalProperties: false
+      properties:
+        job_id:
+          $ref: '#/components/schemas/Id'
+        resource_id:
+          anyOf:
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
+        poll_url:
+          type: string
+        status:
+          type: string
+          const: queued
+      required:
+      - job_id
+      - resource_id
+      - poll_url
+      - status
+    WorkspaceReview:
+      type: object
+      additionalProperties: false
+      properties:
+        workspace_id:
+          $ref: '#/components/schemas/Id'
+        input_fingerprint:
+          type: string
+          pattern: ^[a-f0-9]{64}$
+        draft_revision:
+          type: integer
+        output_type:
+          type: string
+          enum:
+          - selection
+          - shortlist
+        candidate_slide_count:
+          type: integer
+        pending_slide_count:
+          type: integer
+        issues:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReviewIssue'
+        can_generate:
+          type: boolean
+        unreviewed_candidate_ids:
+          type: array
+          items:
+            $ref: '#/components/schemas/Id'
+      required:
+      - workspace_id
+      - input_fingerprint
+      - draft_revision
+      - output_type
+      - candidate_slide_count
+      - pending_slide_count
+      - issues
+      - can_generate
+      - unreviewed_candidate_ids
+    ReviewIssue:
+      type: object
+      additionalProperties: false
+      properties:
+        code:
+          type: string
+        severity:
+          type: string
+          enum:
+          - information
+          - warning
+          - blocking
+        entity_id:
+          anyOf:
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
+        field:
+          $ref: '#/components/schemas/NullableText'
+        message:
+          type: string
+        repair_action:
+          $ref: '#/components/schemas/NullableText'
+      required:
+      - code
+      - severity
+      - entity_id
+      - field
+      - message
+      - repair_action
+    ReorderWorkspace:
+      type: object
+      additionalProperties: false
+      properties:
+        row_version:
+          $ref: '#/components/schemas/RowVersion'
+        role_ids:
+          type: array
+          items:
+            $ref: '#/components/schemas/Id'
+        slot_ids_by_role:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/Id'
+        assignment_ids_by_slot:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/Id'
+      required:
+      - row_version
+    Workspace:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        project_id:
+          $ref: '#/components/schemas/Id'
+        module:
+          const: casting
+          type: string
+        title:
+          type: string
+          description: Read-only canonical project display name; edit through update_project
+        logo_asset_id:
+          anyOf:
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
+        logo_placement:
+          type: string
+          enum:
+          - cover
+          - every_slide
+        active_output:
+          type: string
+          enum:
+          - selection
+          - shortlist
+        row_version:
+          $ref: '#/components/schemas/RowVersion'
+        draft_revision:
+          type: integer
+          minimum: 0
+        has_unpublished_changes:
+          type: boolean
+        created_at:
+          $ref: '#/components/schemas/DateTime'
+        updated_at:
+          $ref: '#/components/schemas/DateTime'
+      required:
+      - id
+      - project_id
+      - module
+      - title
+      - logo_asset_id
+      - logo_placement
+      - active_output
+      - row_version
+      - draft_revision
+      - has_unpublished_changes
+      - created_at
+      - updated_at
+    DateTime:
+      type: string
+      format: date-time
+    ArchiveRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        row_version:
+          $ref: '#/components/schemas/RowVersion'
+        reason:
+          $ref: '#/components/schemas/NullableText'
+      required:
+      - row_version
+    Success:
+      type: object
+      additionalProperties: false
+      properties:
+        success:
+          type: boolean
+          const: true
+        affected_ids:
+          type: array
+          items:
+            $ref: '#/components/schemas/Id'
+      required:
+      - success
+      - affected_ids
+    MainUndo:
+      type: object
+      additionalProperties: false
+      properties:
+        undo_event_id:
+          $ref: '#/components/schemas/Id'
+        slot_id:
+          $ref: '#/components/schemas/Id'
+        expected_slot_row_version:
+          $ref: '#/components/schemas/RowVersion'
+        restore_assignment_positions:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              assignment_id:
+                $ref: '#/components/schemas/Id'
+              position:
+                $ref: '#/components/schemas/Position'
+            required:
+            - assignment_id
+            - position
+      required:
+      - undo_event_id
+      - slot_id
+      - expected_slot_row_version
+      - restore_assignment_positions
+    Position:
+      type: string
+      enum:
+      - option
+      - backup
+      - main
+    SetSlotMainResult:
+      type: object
+      additionalProperties: false
+      properties:
+        slot:
+          $ref: '#/components/schemas/Slot'
+        affected_assignments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Assignment'
+        undo:
+          anyOf:
+          - $ref: '#/components/schemas/MainUndo'
+          - type: 'null'
+      required:
+      - slot
+      - affected_assignments
+      - undo
+    Assignment:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        workspace_id:
+          $ref: '#/components/schemas/Id'
+        slot_id:
+          $ref: '#/components/schemas/Id'
+        workspace_candidate_id:
+          $ref: '#/components/schemas/Id'
+        position:
+          $ref: '#/components/schemas/Position'
+        shortlist_included:
+          type: boolean
+        presentation_notes:
+          $ref: '#/components/schemas/NullableText'
+        internal_notes:
+          $ref: '#/components/schemas/NullableText'
+        slide_wording:
+          $ref: '#/components/schemas/SlideWording'
+        sort_order:
+          type: integer
+          minimum: 0
+        row_version:
+          $ref: '#/components/schemas/RowVersion'
+        archived:
+          type: boolean
+      required:
+      - id
+      - workspace_id
+      - slot_id
+      - workspace_candidate_id
+      - position
+      - shortlist_included
+      - presentation_notes
+      - internal_notes
+      - slide_wording
+      - sort_order
+      - row_version
+      - archived
+    SlideWording:
+      type: object
+      additionalProperties: false
+      properties:
+        name_or_id:
+          $ref: '#/components/schemas/NullableText'
+        age_or_range:
+          $ref: '#/components/schemas/NullableText'
+        height_measurements:
+          $ref: '#/components/schemas/NullableText'
+        languages_accents:
+          $ref: '#/components/schemas/NullableText'
+        skills_experience:
+          $ref: '#/components/schemas/NullableText'
+        city:
+          $ref: '#/components/schemas/NullableText'
+        previous_projects_roles:
+          $ref: '#/components/schemas/NullableText'
+        classification:
+          $ref: '#/components/schemas/NullableText'
+        availability:
+          $ref: '#/components/schemas/NullableText'
+        presentation_notes:
+          $ref: '#/components/schemas/NullableText'
+      required: []
+    Slot:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        role_id:
+          $ref: '#/components/schemas/Id'
+        label:
+          type: string
+        sort_order:
+          type: integer
+          minimum: 0
+        row_version:
+          $ref: '#/components/schemas/RowVersion'
+        archived:
+          type: boolean
+      required:
+      - id
+      - role_id
+      - label
+      - sort_order
+      - row_version
+      - archived
+    SetSlotMain:
+      type: object
+      additionalProperties: false
+      properties:
+        assignment_id:
+          anyOf:
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
+        expected_slot_row_version:
+          $ref: '#/components/schemas/RowVersion'
+        replacement_behavior:
+          type: string
+          const: move_previous_to_backup
+      required:
+      - assignment_id
+      - expected_slot_row_version
+      - replacement_behavior
+    AssignmentPatch:
+      type: object
+      additionalProperties: false
+      properties:
+        row_version:
+          $ref: '#/components/schemas/RowVersion'
+        position:
+          type: string
+          enum:
+          - option
+          - backup
+        shortlist_included:
+          type: boolean
+        presentation_notes:
+          $ref: '#/components/schemas/NullableText'
+        internal_notes:
+          $ref: '#/components/schemas/NullableText'
+        slide_wording:
+          $ref: '#/components/schemas/SlideWording'
+      required:
+      - row_version
+    AssignmentCreate:
+      type: object
+      additionalProperties: false
+      properties:
+        expected_slot_row_version:
+          $ref: '#/components/schemas/RowVersion'
+        slot_id:
+          $ref: '#/components/schemas/Id'
+        workspace_candidate_id:
+          $ref: '#/components/schemas/Id'
+        shortlist_included:
+          type: boolean
+          default: false
+        presentation_notes:
+          $ref: '#/components/schemas/NullableText'
+      required:
+      - slot_id
+      - workspace_candidate_id
+      - expected_slot_row_version
+    WorkspaceCandidatePatch:
+      type: object
+      additionalProperties: false
+      properties:
+        row_version:
+          $ref: '#/components/schemas/RowVersion'
+        selected_candidate_media_id:
+          anyOf:
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
+        selected_frame_asset_ids:
+          type: array
+          items:
+            $ref: '#/components/schemas/Id'
+          maxItems: 3
+          uniqueItems: true
+        availability:
+          $ref: '#/components/schemas/NullableText'
+        fresh_material_required:
+          type: boolean
+        media_confirmed:
+          type: boolean
+        internal_notes:
+          $ref: '#/components/schemas/NullableText'
+      required:
+      - row_version
+    WorkspaceCandidate:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        workspace_id:
+          $ref: '#/components/schemas/Id'
+        candidate_id:
+          $ref: '#/components/schemas/Id'
+        selected_candidate_media_id:
+          anyOf:
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
+        selected_frame_asset_ids:
+          type: array
+          items:
+            $ref: '#/components/schemas/Id'
+          maxItems: 3
+          uniqueItems: true
+        availability:
+          $ref: '#/components/schemas/NullableText'
+        fresh_material_required:
+          type: boolean
+        media_confirmed:
+          type: boolean
+        internal_notes:
+          $ref: '#/components/schemas/NullableText'
+        row_version:
+          $ref: '#/components/schemas/RowVersion'
+      required:
+      - id
+      - workspace_id
+      - candidate_id
+      - selected_candidate_media_id
+      - selected_frame_asset_ids
+      - availability
+      - fresh_material_required
+      - media_confirmed
+      - internal_notes
+      - row_version
+    WorkspaceCandidateCreate:
+      type: object
+      additionalProperties: false
+      properties:
+        candidate_id:
+          $ref: '#/components/schemas/Id'
+        selected_candidate_media_id:
+          anyOf:
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
+        availability:
+          $ref: '#/components/schemas/NullableText'
+        fresh_material_required:
+          type: boolean
+      required:
+      - candidate_id
+    DuplicateResolution:
+      type: object
+      additionalProperties: false
+      properties:
+        row_version:
+          $ref: '#/components/schemas/RowVersion'
+        action:
+          type: string
+          enum:
+          - keep_new
+          - link_existing
+        existing_candidate_id:
+          $ref: '#/components/schemas/Id'
+        existing_candidate_row_version:
+          $ref: '#/components/schemas/RowVersion'
+      required:
+      - row_version
+      - action
+      allOf:
+      - if:
+          properties:
+            action:
+              const: link_existing
+        then:
+          required:
+          - existing_candidate_id
+          - existing_candidate_row_version
+    Candidate:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        facts:
+          $ref: '#/components/schemas/CandidateFacts'
+        review_status:
+          type: string
+          enum:
+          - unreviewed
+          - reviewed
+        reviewed_at:
+          anyOf:
+          - $ref: '#/components/schemas/DateTime'
+          - type: 'null'
+        reviewed_by:
+          anyOf:
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
+        search_match:
+          anyOf:
+          - type: object
+            additionalProperties: false
+            properties:
+              matched_filter_fields:
+                type: array
+                items:
+                  type: string
+              unknown_filter_fields:
+                type: array
+                items:
+                  type: string
+            required:
+            - matched_filter_fields
+            - unknown_filter_fields
+          - type: 'null'
+        possible_duplicate:
+          type: boolean
+        merged_into_candidate_id:
+          anyOf:
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
+        archived:
+          type: boolean
+        row_version:
+          $ref: '#/components/schemas/RowVersion'
+        created_at:
+          $ref: '#/components/schemas/DateTime'
+        updated_at:
+          $ref: '#/components/schemas/DateTime'
+      required:
+      - id
+      - facts
+      - review_status
+      - reviewed_at
+      - reviewed_by
+      - search_match
+      - possible_duplicate
+      - merged_into_candidate_id
+      - archived
+      - row_version
+      - created_at
+      - updated_at
+    CandidateFacts:
+      type: object
+      additionalProperties: false
+      properties:
+        name:
+          $ref: '#/components/schemas/NullableText'
+        casting_id:
+          $ref: '#/components/schemas/NullableText'
+          description: Create/extract null allocates generated casting ID; update null preserves current ID. Non-null
+            changes must be unique. Candidate UUID remains identity.
+        age_or_range:
+          $ref: '#/components/schemas/NullableText'
+        stated_gender:
+          $ref: '#/components/schemas/NullableText'
+        height_measurements:
+          $ref: '#/components/schemas/NullableText'
+        languages:
+          type: array
+          items:
+            type: string
+        accents:
+          type: array
+          items:
+            type: string
+        skills_experience:
+          $ref: '#/components/schemas/NullableText'
+        city:
+          $ref: '#/components/schemas/NullableText'
+        previous_projects_roles:
+          $ref: '#/components/schemas/NullableText'
+        classification:
+          $ref: '#/components/schemas/NullableText'
+      required:
+      - name
+      - casting_id
+      - age_or_range
+      - stated_gender
+      - height_measurements
+      - languages
+      - accents
+      - skills_experience
+      - city
+      - previous_projects_roles
+      - classification
+    DuplicateMatch:
+      type: object
+      additionalProperties: false
+      properties:
+        candidate_id:
+          $ref: '#/components/schemas/Id'
+        display_name:
+          $ref: '#/components/schemas/NullableText'
+        match_reasons:
+          type: array
+          items:
+            type: string
+      required:
+      - candidate_id
+      - display_name
+      - match_reasons
+    FrameExtraction:
+      type: object
+      additionalProperties: false
+      properties:
+        source_asset_id:
+          $ref: '#/components/schemas/Id'
+        timestamps_ms:
+          type: array
+          items:
+            type: integer
+            minimum: 0
+          minItems: 1
+          maxItems: 10
+          uniqueItems: true
+      required:
+      - source_asset_id
+      - timestamps_ms
+    FrameSelection:
+      type: object
+      additionalProperties: false
+      properties:
+        row_version:
+          $ref: '#/components/schemas/RowVersion'
+        selected_frame_asset_ids:
+          type: array
+          items:
+            $ref: '#/components/schemas/Id'
+          maxItems: 3
+          uniqueItems: true
+      required:
+      - row_version
+      - selected_frame_asset_ids
+    CandidateMedia:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        candidate_id:
+          $ref: '#/components/schemas/Id'
+        source_asset_id:
+          $ref: '#/components/schemas/Id'
+        preview_asset_id:
+          anyOf:
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
+        transcript_asset_id:
+          anyOf:
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
+        original_transcript:
+          $ref: '#/components/schemas/NullableText'
+        languages:
+          type: array
+          items:
+            type: string
+        available_frames:
+          type: array
+          items:
+            $ref: '#/components/schemas/Frame'
+        selected_frame_asset_ids:
+          type: array
+          items:
+            $ref: '#/components/schemas/Id'
+          maxItems: 3
+          uniqueItems: true
+        row_version:
+          $ref: '#/components/schemas/RowVersion'
+      required:
+      - id
+      - candidate_id
+      - source_asset_id
+      - preview_asset_id
+      - transcript_asset_id
+      - original_transcript
+      - languages
+      - available_frames
+      - selected_frame_asset_ids
+      - row_version
+    Frame:
+      type: object
+      additionalProperties: false
+      properties:
+        asset_id:
+          $ref: '#/components/schemas/Id'
+        source_asset_id:
+          $ref: '#/components/schemas/Id'
+        timestamp_ms:
+          type: integer
+          minimum: 0
+        width:
+          type: integer
+          minimum: 1
+        height:
+          type: integer
+          minimum: 1
+        quality_flags:
+          type: array
+          items:
+            type: string
+      required:
+      - asset_id
+      - source_asset_id
+      - timestamp_ms
+      - width
+      - height
+      - quality_flags
+    ConfirmReviewed:
+      type: object
+      additionalProperties: false
+      properties:
+        row_version:
+          $ref: '#/components/schemas/RowVersion'
+        confirmation_note:
+          $ref: '#/components/schemas/NullableText'
+      required:
+      - row_version
+    CandidatePatch:
+      type: object
+      additionalProperties: false
+      properties:
+        row_version:
+          $ref: '#/components/schemas/RowVersion'
+        facts:
+          $ref: '#/components/schemas/CandidateFacts'
+      required:
+      - row_version
+      - facts
+    CandidateCreate:
+      type: object
+      additionalProperties: false
+      properties:
+        facts:
+          $ref: '#/components/schemas/CandidateFacts'
+        source_asset_ids:
+          type: array
+          items:
+            $ref: '#/components/schemas/Id'
+      required:
+      - facts
+    ResizeSlots:
+      type: object
+      additionalProperties: false
+      properties:
+        row_version:
+          $ref: '#/components/schemas/RowVersion'
+        desired_count:
+          type: integer
+          minimum: 1
+        retire_slot_ids:
+          type: array
+          items:
+            $ref: '#/components/schemas/Id'
+      required:
+      - row_version
+      - desired_count
+    Role:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        workspace_id:
+          $ref: '#/components/schemas/Id'
+        name:
+          type: string
+        headcount:
+          anyOf:
+          - type: integer
+            minimum: 1
+          - type: 'null'
+        category:
+          $ref: '#/components/schemas/NullableText'
+        requirements:
+          $ref: '#/components/schemas/RoleRequirements'
+        clarifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/Clarification'
+        sort_order:
+          type: integer
+          minimum: 0
+        row_version:
+          $ref: '#/components/schemas/RowVersion'
+        archived:
+          type: boolean
+      required:
+      - id
+      - workspace_id
+      - name
+      - headcount
+      - category
+      - requirements
+      - clarifications
+      - sort_order
+      - row_version
+      - archived
+    Clarification:
+      type: object
+      additionalProperties: false
+      properties:
+        field_path:
+          type: string
+        reason:
+          type: string
+        source:
+          anyOf:
+          - $ref: '#/components/schemas/SourceReference'
+          - type: 'null'
+        resolved:
+          type: boolean
+      required:
+      - field_path
+      - reason
+      - source
+      - resolved
+    SourceReference:
+      type: object
+      additionalProperties: false
+      properties:
+        asset_id:
+          anyOf:
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
+        page:
+          anyOf:
+          - type: integer
+            minimum: 1
+          - type: 'null'
+        paragraph:
+          anyOf:
+          - type: integer
+            minimum: 0
+          - type: 'null'
+        segment_index:
+          anyOf:
+          - type: integer
+            minimum: 0
+          - type: 'null'
+        start_ms:
+          anyOf:
+          - type: integer
+            minimum: 0
+          - type: 'null'
+        end_ms:
+          anyOf:
+          - type: integer
+            minimum: 0
+          - type: 'null'
+        quote:
+          $ref: '#/components/schemas/NullableText'
+      required:
+      - asset_id
+      - page
+      - paragraph
+      - segment_index
+      - start_ms
+      - end_ms
+      - quote
+    RoleRequirements:
+      type: object
+      additionalProperties: false
+      properties:
+        age_range:
+          $ref: '#/components/schemas/NullableText'
+        gender_requirement:
+          $ref: '#/components/schemas/NullableText'
+        appearance_performance:
+          $ref: '#/components/schemas/NullableText'
+        languages:
+          type: array
+          items:
+            type: string
+        accents:
+          type: array
+          items:
+            type: string
+        skills:
+          type: array
+          items:
+            type: string
+        scene_references:
+          type: array
+          items:
+            type: string
+        shoot_dates:
+          type: array
+          items:
+            type: string
+        location:
+          $ref: '#/components/schemas/NullableText'
+        availability_requirements:
+          $ref: '#/components/schemas/NullableText'
+        other_instructions:
+          $ref: '#/components/schemas/NullableText'
+      required:
+      - age_range
+      - gender_requirement
+      - appearance_performance
+      - languages
+      - accents
+      - skills
+      - scene_references
+      - shoot_dates
+      - location
+      - availability_requirements
+      - other_instructions
+    SuggestedCandidateFilters:
+      type: object
+      additionalProperties: false
+      properties:
+        role_id:
+          $ref: '#/components/schemas/Id'
+        include_unknown:
+          type: boolean
+          const: true
+        suggested_filters:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              field:
+                type: string
+                enum:
+                - age_or_range
+                - stated_gender
+                - language
+                - accent
+                - skill
+                - classification
+              value:
+                type: string
+              source_field:
+                type: string
+            required:
+            - field
+            - value
+            - source_field
+        explanations:
+          type: array
+          items:
+            type: string
+      required:
+      - role_id
+      - include_unknown
+      - suggested_filters
+      - explanations
+  parameters:
+    IdempotencyKey:
+      name: Idempotency-Key
+      in: header
+      required: true
+      schema:
+        type: string
+        minLength: 16
+        maxLength: 200
+      description: Scoped to actor+operation; replay same body returns original response; different body returns
+        409.

@@ -1,0 +1,44 @@
+{
+  "observed_date": "2026-10-28",
+  "display_timezone": "Africa/Cairo",
+  "workspace": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio",
+  "scope": "Initial local read-only discovery; no cloud access and no application acceptance",
+  "starting_state": {
+    "git_repository": false,
+    "git_result": "fatal: not a git repository (or any of the parent directories): .git",
+    "app_directories_present": [],
+    "configuration_files": [".env.example"],
+    "matching_process_environment_names": [],
+    "environment_name_filter": "SUPABASE|DATABASE|OPENAI|N8N|WORKER|CENTRAL|AUTH|VERCEL|NEXT_PUBLIC|APP_ENV|APP_BASE",
+    "applicable_ancestor_instructions": ["D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\AGENTS.md"]
+  },
+  "observed_versions": {
+    "node": "v24.18.0",
+    "npm": "11.16.0",
+    "pnpm": "10.34.7",
+    "python": "3.14.7",
+    "python3": "3.14.7",
+    "git": "2.55.0.windows.2",
+    "docker_cli": "29.6.1",
+    "docker_engine": "29.6.1"
+  },
+  "commands_not_on_path": ["supabase", "ffmpeg", "ffprobe", "psql"],
+  "commands_executed": [
+    {"command": "Get-Command node,npm.cmd,pnpm.cmd,corepack.cmd,docker,supabase,ffmpeg,ffprobe,python,python3,git,psql", "result": "Available commands and absent PATH entries recorded above; each was queried independently"},
+    {"command": "node --version", "result": "v24.18.0"},
+    {"command": "npm.cmd --version", "result": "11.16.0"},
+    {"command": "pnpm.cmd --version", "result": "10.34.7"},
+    {"command": "python --version", "result": "Python 3.14.7"},
+    {"command": "python3 --version", "result": "Python 3.14.7"},
+    {"command": "git --version", "result": "git version 2.55.0.windows.2"},
+    {"command": "docker --version", "result": "Docker version 29.6.1, build 8900f1d"},
+    {"command": "docker info --format '{{json .ServerVersion}}'", "result": "29.6.1", "exit_code": 0},
+    {"command": "git rev-parse --show-toplevel", "result": "Not a Git repository", "exit_code": 1},
+    {"command": "node '.\\Design Elements\\verify.mjs'", "exit_code": 0, "result": {"status": "PASS", "checkedFiles": 30, "copiedSources": 21, "darkTokens": 136, "lightOverrides": 32, "localLinks": 55, "scope": "Snapshot integrity and static consistency; no browser or application execution"}}
+  ],
+  "limitations": [
+    "No provider environment names were present in this process; this does not establish absence of credentials in all secret managers or connected plugins.",
+    "Installed versions are observations, not independently verified support or deployment-version selections.",
+    "A healthy Docker daemon is not proof of local Supabase bootstrap, migration replay or database access isolation."
+  ]
+}

@@ -1,0 +1,130 @@
+# Complete during M00 from actual authorized read-only discovery.
+# This is a template, not a verified description of Everyone's cloud database.
+document_version: '1.0'
+status: unverified
+verified_at: null
+verified_by: null
+supabase_project_ref: null
+postgres_version: null
+canonical_migration_repository: null
+canonical_migration_baseline: null
+migration_owner: null
+app_schema: eps
+runtime_access_strategy: null # dedicated non-owner DB role or curated user-scoped RPC
+
+canonical_entities:
+  project:
+    schema: null
+    table: null
+    primary_key: [] # [{column: ..., sql_type: ...}]
+    display_name_field: null
+    client_relationship: null
+    lifecycle_fields: []
+    authorized_read_adapter: null
+    authorized_write_function_or_adapter: null
+    project_access_source: null
+    physical_fk_from_binding: null
+  client:
+    schema: null
+    table: null
+    primary_key: []
+    display_name_field: null
+    logo_asset_field_or_relation: null
+    authorized_write_function_or_adapter: null
+    physical_fk_from_binding: null
+  principal:
+    auth_provider: null
+    auth_subject_mapping: null
+    schema: null
+    table: null
+    primary_key: []
+    capability_source: null
+    membership_source: null
+    deactivation_behavior: null
+    physical_fk_from_binding: null
+  candidate:
+    reuse_existing: null
+    schema: null
+    table: null
+    primary_key: []
+    casting_extension_relation: null
+    duplicate_identity_conventions: null
+    physical_fk_from_binding: null
+
+candidate_field_ownership:
+  # Set owner=canonical or casting_extension and record actual physical path.
+  display_name: {owner: null, path: null, write_adapter: null}
+  casting_id: {owner: null, path: null, write_adapter: null}
+  stated_age_range: {owner: null, path: null, write_adapter: null}
+  gender_stated: {owner: null, path: null, write_adapter: null}
+  measurements: {owner: null, path: null, write_adapter: null}
+  languages_accents: {owner: null, path: null, write_adapter: null}
+  skills_experience: {owner: null, path: null, write_adapter: null}
+  city: {owner: null, path: null, write_adapter: null}
+  previous_projects: {owner: null, path: null, write_adapter: null}
+  classification: {owner: null, path: null, write_adapter: null}
+  review_status: {owner: null, path: null, write_adapter: null}
+
+storage:
+  media_registry: null
+  source_bucket: null
+  derived_bucket: null
+  presentation_bucket: null
+  all_selected_buckets_private: null
+  max_file_size_policy: null
+  resumable_upload_policy: null
+  backup_and_retention: null
+
+logical_table_mapping:
+  # Fill each canonical logical entity with reuse/extend/add/adapt and physical target.
+  integration_bindings: {decision: null, physical_target: null}
+  workspaces: {decision: null, physical_target: null}
+  specs: {decision: null, physical_target: null}
+  roles: {decision: null, physical_target: null}
+  slots: {decision: null, physical_target: null}
+  media_assets: {decision: null, physical_target: null}
+  candidates: {decision: null, physical_target: null}
+  candidate_media: {decision: null, physical_target: null}
+  workspace_candidates: {decision: null, physical_target: null}
+  assignments: {decision: null, physical_target: null}
+  audience_presets: {decision: null, physical_target: null}
+  presentation_series: {decision: null, physical_target: null}
+  presentation_versions: {decision: null, physical_target: null}
+  version_slides: {decision: null, physical_target: null}
+  review_links: {decision: null, physical_target: null}
+  presentation_exports: {decision: null, physical_target: null}
+  review_media_grants: {decision: null, physical_target: null}
+  guest_sessions: {decision: null, physical_target: null}
+  feedback_comments: {decision: null, physical_target: null}
+  feedback_preferences: {decision: null, physical_target: null}
+  jobs: {decision: null, physical_target: null}
+  job_events: {decision: null, physical_target: null}
+  outbox_events: {decision: null, physical_target: null}
+  idempotency_records: {decision: null, physical_target: null}
+  audit_events: {decision: null, physical_target: null}
+
+capability_mapping:
+  projects.read: null
+  projects.write: null
+  workspaces.read: null
+  workspaces.write: null
+  cast.read: null
+  cast.upload: null
+  cast.write: null
+  cast.review: null
+  presentations.generate: null
+  review_links.manage: null
+  settings.manage: null
+  operations.read: null
+  operations.retry: null
+
+external_dependencies:
+  n8n_cloud_instance_reference: null # never store credentials here
+  openai_project_reference: null
+  web_hosting: null
+  worker_hosting: null
+  secret_manager_reference: null
+  canonical_app_regression_test_reference: null
+
+adaptations: [] # {decision_id, evidence, impact, migration, tests}
+unresolved_access_dependencies: [] # no secrets or fabricated completed checks

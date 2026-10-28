@@ -1,0 +1,26 @@
+# Development pack validation
+
+Date: 27 October 2026. These checks validate the specification, not the future app.
+
+**Validation result: PASS.** 325 schema, syntax, structural, reference, parity and business-contract assertions passed.
+
+## Scope
+
+- 85 API paths, 101 unique operations and 80 intended internal MCP tools.
+- 25 proposed design tables; foreign-key table references and execution guards checked.
+- 11 standalone JSON schemas; source references and AI-object key contracts checked.
+- 76 unique acceptance cases; all 36 business rules represented.
+- Fixture Selection = 8 pages and Shortlist = 6 pages, independently derived in correct order.
+- 81 source-document local file links checked.
+- Full JSON Schema meta-validation passed
+- Full OpenAPI meta-validation passed
+- PostgreSQL SQL syntax parsed: 63 statements; no SQL executed
+
+## Limitations
+
+- Reference SQL was not executed against a database; function-body compilation, migration semantics and RLS behavior require M00–M07 implementation tests.
+- No cloud database, OpenAI request, n8n execution, live application, actual production PDF or MCP client was tested by this pack checker.
+
+## Reproduce
+
+Run `python3 tools/validate_pack.py --report`. For complete meta-validation install tools/requirements.txt in an isolated environment, then run with `--strict`. M00 must also validate the chosen actual implementation toolchain. No app/service gate is marked complete by this report.

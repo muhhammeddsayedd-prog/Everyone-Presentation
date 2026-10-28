@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.everyone.example/presentation-export-result.schema.json",
+  "title": "Validated link-scoped PDF export result",
+  "description": "Application contract. Adapt supported provider JSON Schema subset and validate again server-side. Example domain is not a live service.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "export_id": {
+      "$ref": "#/$defs/Id"
+    },
+    "version_id": {
+      "$ref": "#/$defs/Id"
+    },
+    "review_link_id": {
+      "$ref": "#/$defs/Id"
+    },
+    "pdf_asset_id": {
+      "$ref": "#/$defs/Id"
+    },
+    "media_grant_id": {
+      "$ref": "#/$defs/Id"
+    },
+    "pdf_sha256": {
+      "type": "string"
+    },
+    "page_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "template_version": {
+      "type": "string"
+    },
+    "validation_passed": {
+      "type": "boolean",
+      "const": true
+    },
+    "renderer_build": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "export_id",
+    "version_id",
+    "review_link_id",
+    "pdf_asset_id",
+    "media_grant_id",
+    "pdf_sha256",
+    "page_count",
+    "template_version",
+    "validation_passed",
+    "renderer_build"
+  ],
+  "$defs": {
+    "Id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+    }
+  }
+}

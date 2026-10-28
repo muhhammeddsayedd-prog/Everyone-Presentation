@@ -1,0 +1,217 @@
+{
+  "pack_version": "1.0",
+  "updated_at": "2026-10-28",
+  "implementation_started": true,
+  "current_milestone": "M01",
+  "milestones": [
+    {
+      "id": "M00",
+      "title": "Discovery and contracts",
+      "status": "verified",
+      "depends_on": [],
+      "commits": [],
+      "migrations": [],
+      "evidence": [
+        "tracking/discovery/central-metadata.json",
+        "tracking/discovery/central-services.json",
+        "tracking/discovery/linked-project-metadata.json",
+        "tracking/discovery/local-runtime-evidence.json",
+        "contracts/database/central-schema-map.yaml",
+        "tracking/discovery/auth-privileges.json",
+        "tracking/discovery/auth-role-membership.json",
+        "tracking/evidence/m01/DB_CONCURRENCY.json",
+        "tracking/evidence/cloud-foundation/readback.json",
+        "development/local-db/README.md"
+      ],
+      "blockers": [],
+      "next_action": "Discovery complete for the owner-confirmed new canonical system; continue M01 runtime integration with documented provider/release gates."
+    },
+    {
+      "id": "M01",
+      "title": "Foundation, project and logo",
+      "status": "in_progress",
+      "depends_on": [
+        "M00"
+      ],
+      "commits": [],
+      "migrations": [
+        {
+          "file": "supabase/migrations/20261028010943_m01_canonical_foundation.sql",
+          "local": "applied",
+          "cloud": "applied",
+          "target": "pyibofyctwnqpvktepse",
+          "evidence": "tracking/evidence/cloud-foundation/readback.json"
+        },
+        {
+          "file": "supabase/migrations/20261028013324_m01_identity_role_inheritance.sql",
+          "local": "applied",
+          "cloud": "applied",
+          "target": "pyibofyctwnqpvktepse",
+          "evidence": "tracking/evidence/cloud-foundation/readback.json"
+        },
+        {
+          "file": "supabase/migrations/20261028013655_m01_workspace_scope_alias.sql",
+          "local": "applied",
+          "cloud": "applied",
+          "target": "pyibofyctwnqpvktepse",
+          "evidence": "tracking/evidence/cloud-foundation/readback.json"
+        }
+      ],
+      "evidence": [
+        "apps/web/",
+        "packages/domain/",
+        "tests/domain/",
+        "tests/server/",
+        "tests/contracts/",
+        "tests/e2e/",
+        "tracking/evidence/m01/UI_VERIFICATION.md",
+        "packages/central/",
+        "tracking/evidence/cloud-foundation/",
+        "development/local-db/receipts/"
+      ],
+      "blockers": [
+        "First Producer email/real sign-in and real initial project data pending.",
+        "Central private logo reservation/verification/storage not implemented; upload policy is empty."
+      ],
+      "next_action": "Complete scoped private central logo uploads and enroll the actual first Producer, then demonstrate real authorized project writeback and reload."
+    },
+    {
+      "id": "M02",
+      "title": "Specs, roles and durable pipeline",
+      "status": "in_progress",
+      "depends_on": [
+        "M01"
+      ],
+      "commits": [],
+      "migrations": [],
+      "evidence": [
+        "packages/jobs/",
+        "packages/integrations/",
+        "apps/worker/",
+        "tests/jobs/",
+        "tests/integrations/",
+        "tests/worker/"
+      ],
+      "blockers": [
+        "Independent components only; no connected central jobs/outbox/worker/n8n/OpenAI/UI flow."
+      ],
+      "next_action": "Implement central transactional repository and scoped service/assets, wire specs/roles/slots API/UI and actual WF-01."
+    },
+    {
+      "id": "M03",
+      "title": "Media, library and video processing",
+      "status": "not_started",
+      "depends_on": [
+        "M02"
+      ],
+      "commits": [],
+      "migrations": [],
+      "evidence": [],
+      "blockers": [],
+      "next_action": "Read milestone packet and inspect actual prerequisites."
+    },
+    {
+      "id": "M04",
+      "title": "Assignments and final review",
+      "status": "not_started",
+      "depends_on": [
+        "M03"
+      ],
+      "commits": [],
+      "migrations": [],
+      "evidence": [],
+      "blockers": [],
+      "next_action": "Read milestone packet and inspect actual prerequisites."
+    },
+    {
+      "id": "M05",
+      "title": "Template, versioning and PDF",
+      "status": "not_started",
+      "depends_on": [
+        "M04"
+      ],
+      "commits": [],
+      "migrations": [],
+      "evidence": [],
+      "blockers": [],
+      "next_action": "Read milestone packet and inspect actual prerequisites."
+    },
+    {
+      "id": "M06",
+      "title": "External review and delivery",
+      "status": "not_started",
+      "depends_on": [
+        "M05"
+      ],
+      "commits": [],
+      "migrations": [],
+      "evidence": [],
+      "blockers": [],
+      "next_action": "Read milestone packet and inspect actual prerequisites."
+    },
+    {
+      "id": "M07",
+      "title": "API/MCP and production readiness",
+      "status": "not_started",
+      "depends_on": [
+        "M06"
+      ],
+      "commits": [],
+      "migrations": [],
+      "evidence": [],
+      "blockers": [],
+      "next_action": "Read milestone packet and inspect actual prerequisites."
+    }
+  ],
+  "release_gates": {
+    "canonical_database_mapping": {
+      "status": "verified",
+      "scope": "M00 discovery and canonical foundation only",
+      "evidence": "tracking/evidence/cloud-foundation/readback.json"
+    },
+    "local_synthetic_m01": {
+      "status": "implemented_unverified",
+      "evidence": "tracking/evidence/m01/UI_VERIFICATION.md"
+    },
+    "real_provider_pipeline": {
+      "status": "not_run"
+    },
+    "pdf_guest_mcp_restore_deploy": {
+      "status": "not_run"
+    },
+    "real_user_m01": {
+      "status": "not_run",
+      "reason": "First actual Producer sign-in/project required; no cloud user or business fixtures created."
+    }
+  },
+  "development_tooling": {
+    "codex_skills": {
+      "status": "verified",
+      "source": ".claude/skills",
+      "destination": ".agents/skills",
+      "expected_skills": 53,
+      "expected_source_files": 550,
+      "installed_skills": 53,
+      "installed_payload_files": 550,
+      "adapted_files": 71,
+      "validated_on": "2026-10-28",
+      "evidence": [
+        "SKILLS_LOCK.json",
+        "tracking/SKILLS_VALIDATION.json",
+        "tracking/SKILLS_CREATOR_VALIDATION.json",
+        "tracking/SKILLS_REVIEW.json",
+        "tracking/SKILLS_PACK_VALIDATION.json"
+      ],
+      "retained_initial_failure": "tracking/SKILLS_VALIDATION.initial.json",
+      "acceptance": [
+        "complete source coverage",
+        "Codex frontmatter",
+        "source and installed SHA256 integrity",
+        "local support links",
+        "project rule reconciliation"
+      ],
+      "scope": "Project-local skill setup only; does not advance app milestones or verify integrations."
+    }
+  },
+  "notes": "M00 verified after explicit new-canonical owner amendment and read-only discovery/local proof. M01 cloud foundation has three applied/read-back migrations,12 scoped RPCs and real anonymous sign-in UI; private storage and actual Producer journey remain incomplete. M02 isolated components only. No app deployment, real AI/n8n processing, PDF/guest/MCP/restore acceptance."
+}

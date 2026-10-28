@@ -1,0 +1,227 @@
+{
+  "suite": "M01 real local PostgreSQL acceptance",
+  "run_id": "f749acf9-d618-4858-b081-7c8b81a5c2b4",
+  "started_at": "2026-10-28T02:07:05.456Z",
+  "result": "passed",
+  "scope": "owned isolated local Docker PostgreSQL only; no cloud calls",
+  "stages": [
+    {
+      "name": "migration-replay",
+      "path": "supabase/migrations/20261028010943_m01_canonical_foundation.sql",
+      "reviewed_at": "2026-10-28T01:30:17.425363+00:00",
+      "reviewed_by": "root integration owner with independent static SQL review",
+      "started_at": "2026-10-28T02:07:06.550Z",
+      "result": "already_applied",
+      "receipt": "development/local-db/receipts/2026-10-28T02-07-07-845Z-replay.json",
+      "sha256": "8a5f3ed7727a72051e630307d2daecab8c4a74054398a6425e73bd85e17568b9",
+      "finished_at": "2026-10-28T02:07:07.846Z",
+      "duration_ms": 1295.83
+    },
+    {
+      "name": "migration-replay",
+      "path": "supabase/migrations/20261028013324_m01_identity_role_inheritance.sql",
+      "reviewed_at": "2026-10-28T01:35:35.408074+00:00",
+      "reviewed_by": "root integration owner",
+      "started_at": "2026-10-28T02:07:07.846Z",
+      "result": "already_applied",
+      "receipt": "development/local-db/receipts/2026-10-28T02-07-09-170Z-replay.json",
+      "sha256": "5382efe9fbdf9c194010257e0ac0024dcb447207522036560056d5d1a4e20e30",
+      "finished_at": "2026-10-28T02:07:09.171Z",
+      "duration_ms": 1325.51
+    },
+    {
+      "name": "migration-replay",
+      "path": "supabase/migrations/20261028013655_m01_workspace_scope_alias.sql",
+      "reviewed_at": "2026-10-28T01:38:22.441203+00:00",
+      "reviewed_by": "root integration owner",
+      "started_at": "2026-10-28T02:07:09.172Z",
+      "result": "already_applied",
+      "receipt": "development/local-db/receipts/2026-10-28T02-07-10-477Z-replay.json",
+      "sha256": "67ddb2cff9fed9c42d34657e833c613aec4afd2769543a991bbac84da355db64",
+      "finished_at": "2026-10-28T02:07:10.478Z",
+      "duration_ms": 1306.08
+    },
+    {
+      "name": "identity-role-proof",
+      "path": "tests/db/m01-role-inheritance.sql",
+      "reviewed_at": "2026-10-28T01:35:35.408074+00:00",
+      "reviewed_by": "root integration owner",
+      "started_at": "2026-10-28T02:07:10.478Z",
+      "result": "passed",
+      "receipt": "development/local-db/receipts/2026-10-28T02-07-11-802Z-test.json",
+      "sha256": "0e4ca2c58fe3133faf77e3bf79c574c305b1409d7d8c82f39a29b10829d33525",
+      "finished_at": "2026-10-28T02:07:11.803Z",
+      "duration_ms": 1325.11
+    },
+    {
+      "name": "foundation-role-and-domain-assertions",
+      "path": "tests/db/m01-foundation.sql",
+      "reviewed_at": "2026-10-28T01:30:17.425363+00:00",
+      "reviewed_by": "root integration owner with independent static SQL review",
+      "started_at": "2026-10-28T02:07:11.803Z",
+      "result": "passed",
+      "receipt": "development/local-db/receipts/2026-10-28T02-07-13-627Z-test.json",
+      "sha256": "4f5a3d7cb7b040548ec05de11ffcf3d11ca03dea69209ab77952e6bcddf19627",
+      "finished_at": "2026-10-28T02:07:13.628Z",
+      "duration_ms": 1825.06
+    },
+    {
+      "name": "concurrency-fixture-setup",
+      "path": "tests/db/m01-race-setup.sql",
+      "reviewed_at": "2026-10-28T01:30:17.425363+00:00",
+      "reviewed_by": "root integration owner with independent static SQL review",
+      "started_at": "2026-10-28T02:07:13.628Z",
+      "result": "passed",
+      "receipt": "development/local-db/receipts/2026-10-28T02-07-14-908Z-test.json",
+      "sha256": "5405bdb3688656020ea40bfddead1e22fcaf6a62ebdc6c403836b360a560db3d",
+      "finished_at": "2026-10-28T02:07:14.909Z",
+      "duration_ms": 1280.71
+    },
+    {
+      "name": "same-key-claim-1",
+      "path": "tests/db/m01-race-same-a.sql",
+      "reviewed_at": "2026-10-28T01:39:38.320437+00:00",
+      "reviewed_by": "root integration owner, explicit session/lock timing added",
+      "started_at": "2026-10-28T02:07:14.909Z",
+      "result": "passed",
+      "receipt": "development/local-db/receipts/2026-10-28T02-07-17-196Z-test.json",
+      "sha256": "a7664569f5d734aaa0f83f6bc60f9463dcd659b9939c4ed55fce967b16c4fb4e",
+      "finished_at": "2026-10-28T02:07:17.198Z",
+      "duration_ms": 2288.55
+    },
+    {
+      "name": "same-key-claim-2",
+      "path": "tests/db/m01-race-same-b.sql",
+      "reviewed_at": "2026-10-28T01:39:38.320437+00:00",
+      "reviewed_by": "root integration owner, explicit session/lock timing added",
+      "started_at": "2026-10-28T02:07:14.909Z",
+      "result": "passed",
+      "receipt": "development/local-db/receipts/2026-10-28T02-07-18-196Z-test.json",
+      "sha256": "c315af73a594a10f7ad536161dd39776c3847b5e42c4ab11608ef2b547a257e1",
+      "finished_at": "2026-10-28T02:07:18.198Z",
+      "duration_ms": 3288.72
+    },
+    {
+      "name": "distinct-key-claim-1",
+      "path": "tests/db/m01-race-distinct-a.sql",
+      "reviewed_at": "2026-10-28T01:39:38.320437+00:00",
+      "reviewed_by": "root integration owner, explicit session/lock timing added",
+      "started_at": "2026-10-28T02:07:18.200Z",
+      "result": "passed",
+      "receipt": "development/local-db/receipts/2026-10-28T02-07-20-506Z-test.json",
+      "sha256": "2443c44eb35c64477338f00fa5140779d9c1308ed3fca17116af950bf1e44707",
+      "finished_at": "2026-10-28T02:07:20.507Z",
+      "duration_ms": 2307.78
+    },
+    {
+      "name": "distinct-key-claim-2",
+      "path": "tests/db/m01-race-distinct-b.sql",
+      "reviewed_at": "2026-10-28T01:39:38.320437+00:00",
+      "reviewed_by": "root integration owner, explicit session/lock timing added",
+      "started_at": "2026-10-28T02:07:18.200Z",
+      "result": "passed",
+      "receipt": "development/local-db/receipts/2026-10-28T02-07-21-557Z-test.json",
+      "sha256": "fbb1ee4ee90ca2fa36e26cc2f8be97092252732b2280e175f3071a949e2947f7",
+      "finished_at": "2026-10-28T02:07:21.559Z",
+      "duration_ms": 3359.13
+    },
+    {
+      "name": "concurrency-domain-effects",
+      "path": "tests/db/m01-race-verify.sql",
+      "reviewed_at": "2026-10-28T01:30:17.425363+00:00",
+      "reviewed_by": "root integration owner with independent static SQL review",
+      "started_at": "2026-10-28T02:07:21.559Z",
+      "result": "passed",
+      "receipt": "development/local-db/receipts/2026-10-28T02-07-23-020Z-test.json",
+      "sha256": "aa1cabcb0a5cfe4ccc552cba433986d6fd1bfbbcebf0b52d08e9fb2af822559d",
+      "finished_at": "2026-10-28T02:07:23.021Z",
+      "duration_ms": 1462.03
+    },
+    {
+      "name": "scoped-concurrency-fixture-cleanup",
+      "path": "tests/db/m01-race-cleanup.sql",
+      "reviewed_at": "2026-10-28T01:30:17.425363+00:00",
+      "reviewed_by": "root integration owner with independent static SQL review",
+      "started_at": "2026-10-28T02:07:23.021Z",
+      "result": "passed",
+      "receipt": "development/local-db/receipts/2026-10-28T02-07-24-333Z-test.json",
+      "sha256": "41ee8e6a5aef148dc05ca44a9379ce651e14f2c1ca8a54a63dba5dbeb00492ae",
+      "finished_at": "2026-10-28T02:07:24.334Z",
+      "duration_ms": 1312.34
+    }
+  ],
+  "concurrency_pairs": [
+    {
+      "name": "same-key-claim",
+      "result": "passed",
+      "distinct_database_backends": true,
+      "overlapping_reviewed_transaction_windows": true,
+      "claim_exceeded_900_ms": true,
+      "start_gap_ms": 13.155,
+      "proof": "Actual SQL backend/timestamp markers, with peer transaction locks held by the reviewed 1-second server sleep. Wait-event sampling is not claimed.",
+      "sessions": [
+        {
+          "file": "tests/db/m01-race-same-a.sql",
+          "receipt": "development/local-db/receipts/2026-10-28T02-07-17-196Z-test.json",
+          "session_pid": 11669,
+          "claim_started_at": "2026-10-28T02:07:16.129353+00:00",
+          "claim_returned_at": "2026-10-28T02:07:16.15695+00:00",
+          "claim_duration_ms": 27.597
+        },
+        {
+          "file": "tests/db/m01-race-same-b.sql",
+          "receipt": "development/local-db/receipts/2026-10-28T02-07-18-196Z-test.json",
+          "session_pid": 11670,
+          "claim_started_at": "2026-10-28T02:07:16.142508+00:00",
+          "claim_returned_at": "2026-10-28T02:07:17.165182+00:00",
+          "claim_duration_ms": 1022.674
+        }
+      ]
+    },
+    {
+      "name": "distinct-key-claim",
+      "result": "passed",
+      "distinct_database_backends": true,
+      "overlapping_reviewed_transaction_windows": true,
+      "claim_exceeded_900_ms": true,
+      "start_gap_ms": 0.229,
+      "proof": "Actual SQL backend/timestamp markers, with peer transaction locks held by the reviewed 1-second server sleep. Wait-event sampling is not claimed.",
+      "sessions": [
+        {
+          "file": "tests/db/m01-race-distinct-a.sql",
+          "receipt": "development/local-db/receipts/2026-10-28T02-07-20-506Z-test.json",
+          "session_pid": 11711,
+          "claim_started_at": "2026-10-28T02:07:19.451981+00:00",
+          "claim_returned_at": "2026-10-28T02:07:19.4775+00:00",
+          "claim_duration_ms": 25.519
+        },
+        {
+          "file": "tests/db/m01-race-distinct-b.sql",
+          "receipt": "development/local-db/receipts/2026-10-28T02-07-21-557Z-test.json",
+          "session_pid": 11712,
+          "claim_started_at": "2026-10-28T02:07:19.45221+00:00",
+          "claim_returned_at": "2026-10-28T02:07:20.508263+00:00",
+          "claim_duration_ms": 1056.053
+        }
+      ]
+    }
+  ],
+  "cleanup": {
+    "setup_confirmed": true,
+    "attempted": true,
+    "result": "passed",
+    "receipt": "development/local-db/receipts/2026-10-28T02-07-24-333Z-test.json"
+  },
+  "limitations": "Local SQL/role/concurrency evidence; hosted auth, storage, web integration and production are separate gates.",
+  "environment": {
+    "container": "eps-presentation-canonical-pg17-local",
+    "image_digest": "public.ecr.aws/supabase/postgres@sha256:6942962433a569e87f228b4d4ab7e11db5deca64e43babb3a038443ad6c4f1bb",
+    "database": "postgres",
+    "system_identifier": "7701520506262638626",
+    "host_ip": "127.0.0.1",
+    "host_port": "55433"
+  },
+  "reviewed_manifest_sha256": "69df4c08563304c7b0c4a3f47a1d5854170bc1834d5d042e9950c1bc34fcd747",
+  "finished_at": "2026-10-28T02:07:24.335Z",
+  "duration_ms": 18879.36
+}

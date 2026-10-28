@@ -1,0 +1,37 @@
+{
+  "action": "start",
+  "observed_at": "2026-10-28T01:14:02.808Z",
+  "workspace_key": "ffaf4984e0e7402cd2f54f81",
+  "scope": "owned local Docker container only; no cloud operations",
+  "engine": {
+    "context": "desktop-linux",
+    "endpoint_kind": "npipe"
+  },
+  "container": "eps-presentation-canonical-pg17-local",
+  "image_tag": "public.ecr.aws/supabase/postgres:17.6.1.167",
+  "image_digest": "public.ecr.aws/supabase/postgres@sha256:6942962433a569e87f228b4d4ab7e11db5deca64e43babb3a038443ad6c4f1bb",
+  "image_id": "sha256:6942962433a569e87f228b4d4ab7e11db5deca64e43babb3a038443ad6c4f1bb",
+  "volume": "eps-presentation-canonical-pg17-data-v1",
+  "bindings": [
+    {
+      "host_ip": "127.0.0.1",
+      "host_port": "55433",
+      "container_port": "5432/tcp"
+    }
+  ],
+  "database": {
+    "database": "postgres",
+    "user": "postgres",
+    "server_version": "17.6",
+    "system_identifier": "7701520506262638626",
+    "connection": "container_unix_socket",
+    "auth_users_present": true,
+    "auth_uid_present": true,
+    "managed_roles": [
+      "anon",
+      "authenticated",
+      "postgres",
+      "service_role"
+    ]
+  }
+}

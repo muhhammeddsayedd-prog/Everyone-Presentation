@@ -1,0 +1,262 @@
+{
+  "observed_at": "2026-10-28T01:51:11.069521+00:00",
+  "target": "pyibofyctwnqpvktepse",
+  "result": "PASS",
+  "scope": "actual cloud migration/ownership/grant/RLS metadata and non-personal counts; no user fixtures or auth journey",
+  "readback": {
+    "audience_defaults": [
+      {
+        "key": "agency",
+        "scope": "external"
+      },
+      {
+        "key": "client",
+        "scope": "external"
+      },
+      {
+        "key": "internal_production",
+        "scope": "internal"
+      }
+    ],
+    "authenticated_canonical_update": false,
+    "authenticated_private_select": false,
+    "canonical_relations": [
+      {
+        "force_rls": true,
+        "rls": true,
+        "schema": "eps",
+        "table": "audience_presets"
+      },
+      {
+        "force_rls": true,
+        "rls": true,
+        "schema": "eps",
+        "table": "audit_events"
+      },
+      {
+        "force_rls": true,
+        "rls": true,
+        "schema": "eps",
+        "table": "idempotency_records"
+      },
+      {
+        "force_rls": true,
+        "rls": true,
+        "schema": "eps",
+        "table": "media_assets"
+      },
+      {
+        "force_rls": true,
+        "rls": true,
+        "schema": "eps",
+        "table": "user_workspace_preferences"
+      },
+      {
+        "force_rls": true,
+        "rls": true,
+        "schema": "eps",
+        "table": "workspaces"
+      },
+      {
+        "force_rls": true,
+        "rls": true,
+        "schema": "public",
+        "table": "app_capability_grants"
+      },
+      {
+        "force_rls": true,
+        "rls": true,
+        "schema": "public",
+        "table": "client_memberships"
+      },
+      {
+        "force_rls": true,
+        "rls": true,
+        "schema": "public",
+        "table": "clients"
+      },
+      {
+        "force_rls": true,
+        "rls": true,
+        "schema": "public",
+        "table": "project_memberships"
+      },
+      {
+        "force_rls": true,
+        "rls": true,
+        "schema": "public",
+        "table": "projects"
+      }
+    ],
+    "counts": {
+      "audience_presets": 3,
+      "auth_users": 0,
+      "buckets": 0,
+      "capability_grants": 0,
+      "clients": 0,
+      "media": 0,
+      "memberships": 0,
+      "projects": 0,
+      "workspaces": 0
+    },
+    "identity_inheritance": {
+      "admin": false,
+      "inherit": true,
+      "set": false
+    },
+    "migrations": [
+      {
+        "name": "m01_canonical_foundation",
+        "version": "20261028010943"
+      },
+      {
+        "name": "m01_identity_role_inheritance",
+        "version": "20261028013324"
+      },
+      {
+        "name": "m01_workspace_scope_alias",
+        "version": "20261028013655"
+      }
+    ],
+    "postgres_version": "17.11",
+    "reverse_membership": false,
+    "runtime_roles": [
+      {
+        "bypassrls": false,
+        "create_role": false,
+        "login": false,
+        "name": "eps_api_owner",
+        "superuser": false
+      },
+      {
+        "bypassrls": false,
+        "create_role": false,
+        "login": false,
+        "name": "eps_draft_owner",
+        "superuser": false
+      }
+    ],
+    "user_rpc_security": [
+      {
+        "anonymous_execute": false,
+        "authenticated_execute": true,
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "name": "eps_archive_audience_preset",
+        "owner": "eps_api_owner"
+      },
+      {
+        "anonymous_execute": false,
+        "authenticated_execute": true,
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "name": "eps_create_audience_preset",
+        "owner": "eps_api_owner"
+      },
+      {
+        "anonymous_execute": false,
+        "authenticated_execute": true,
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "name": "eps_create_workspace",
+        "owner": "eps_api_owner"
+      },
+      {
+        "anonymous_execute": false,
+        "authenticated_execute": true,
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "name": "eps_get_capabilities",
+        "owner": "eps_api_owner"
+      },
+      {
+        "anonymous_execute": false,
+        "authenticated_execute": true,
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "name": "eps_get_project",
+        "owner": "eps_api_owner"
+      },
+      {
+        "anonymous_execute": false,
+        "authenticated_execute": true,
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "name": "eps_get_workspace",
+        "owner": "eps_api_owner"
+      },
+      {
+        "anonymous_execute": false,
+        "authenticated_execute": true,
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "name": "eps_list_audience_presets",
+        "owner": "eps_api_owner"
+      },
+      {
+        "anonymous_execute": false,
+        "authenticated_execute": true,
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "name": "eps_list_projects",
+        "owner": "eps_api_owner"
+      },
+      {
+        "anonymous_execute": false,
+        "authenticated_execute": true,
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "name": "eps_list_workspaces",
+        "owner": "eps_api_owner"
+      },
+      {
+        "anonymous_execute": false,
+        "authenticated_execute": true,
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "name": "eps_update_audience_preset",
+        "owner": "eps_api_owner"
+      },
+      {
+        "anonymous_execute": false,
+        "authenticated_execute": true,
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "name": "eps_update_project",
+        "owner": "eps_api_owner"
+      },
+      {
+        "anonymous_execute": false,
+        "authenticated_execute": true,
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "name": "eps_update_workspace",
+        "owner": "eps_api_owner"
+      }
+    ]
+  }
+}

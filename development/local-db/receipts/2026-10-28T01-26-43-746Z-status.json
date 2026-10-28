@@ -1,0 +1,29 @@
+{
+  "action": "status",
+  "observed_at": "2026-10-28T01:26:43.746Z",
+  "workspace_key": "ffaf4984e0e7402cd2f54f81",
+  "scope": "owned local Docker container only; no cloud operations",
+  "container": "eps-presentation-canonical-pg17-local",
+  "database": {
+    "database": "postgres",
+    "user": "postgres",
+    "server_version": "17.6",
+    "system_identifier": "7701520506262638626",
+    "connection": "container_unix_socket",
+    "auth_users_present": true,
+    "auth_uid_present": true,
+    "auth_jwt_present": true,
+    "managed_roles": [
+      "anon",
+      "authenticated",
+      "postgres",
+      "service_role"
+    ]
+  },
+  "bindings": [
+    {
+      "host_ip": "127.0.0.1",
+      "host_port": "55433"
+    }
+  ]
+}

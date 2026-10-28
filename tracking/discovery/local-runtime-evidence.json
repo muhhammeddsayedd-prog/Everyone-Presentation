@@ -1,0 +1,53 @@
+{
+  "observed_date": "2026-10-28",
+  "scope": "Disposable local Supabase runtime preflight only; no central schema reproduction",
+  "supabase_cli": "2.122.0",
+  "project_id": "eps-local-dev",
+  "config": "supabase/config.toml",
+  "guard": {
+    "command": ".\\.venv-skills\\Scripts\\python.exe -X utf8 tools/local-db.py guard",
+    "exit_code": 0,
+    "status": "PASS",
+    "target": {"host": "127.0.0.1", "port": 55432},
+    "migrations_enabled": false,
+    "seed_enabled": false
+  },
+  "negative_target_checks": {
+    "command": ".\\.venv-skills\\Scripts\\python.exe -X utf8 tools/local-db-check.py",
+    "exit_code": 0,
+    "status": "PASS",
+    "checks": [
+      "expected_local_configuration_accepted",
+      "non_loopback_database_denied",
+      "linked_cloud_metadata_denied",
+      "different_project_denied"
+    ],
+    "side_effects": "Temporary local fixture directories only; no Docker/cloud/process mutation"
+  },
+  "bootstrap_attempt": {
+    "command": ".\\.venv-skills\\Scripts\\python.exe -X utf8 tools/local-db.py start",
+    "exit_code": 1,
+    "status": "FAIL",
+    "code": "DATABASE_BINDING_NOT_EXPECTED_LOOPBACK",
+    "observed_docker_bindings": [
+      {"HostIp": "127.0.0.1", "HostPort": "55432"},
+      {"HostIp": "::", "HostPort": "55432"}
+    ],
+    "host_listener_observation": {"LocalAddress": "127.0.0.1", "LocalPort": 55432},
+    "interpretation": "Docker advertised an unexpected IPv6 wildcard despite the documented loopback network option. Probe rejected this; no safe-bootstrap or read-only-query success claimed."
+  },
+  "recovery": {
+    "command": "npx.cmd --yes supabase@2.122.0 stop --project-id eps-local-dev",
+    "exit_code": 0,
+    "result": {"project_id_filter": "eps-local-dev", "backup": true, "message": "Stopped supabase local development setup."},
+    "owned_container_present_after_stop": false,
+    "retained_network": "eps-local-dev-loopback",
+    "retained_backup_volume": "supabase_db_eps-local-dev",
+    "unrelated_containers_or_volumes_changed": false,
+    "followup_change": "Start wrapper now automatically stops only a verified same-project, same-workspace runtime if its safety probe fails. This new cleanup branch was code-reviewed, not exercised in another start attempt."
+  },
+  "central_schema_replay": "not_run_missing_discovered_baseline",
+  "application_migrations": {"authored": [], "local_applied": [], "staging_applied": [], "production_applied": []},
+  "not_executed": ["cloud query", "cloud mutation", "cloud login or link", "reset", "seed", "guarded design-reference SQL", "service workflow", "deployment"],
+  "retained_tooling_failure": "One inline PowerShell/Python negative-check attempt failed with an unterminated-string SyntaxError before execution. Replaced with tools/local-db-check.py, which passed."
+}

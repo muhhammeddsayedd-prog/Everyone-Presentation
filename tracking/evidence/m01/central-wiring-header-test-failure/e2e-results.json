@@ -1,0 +1,333 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\node_modules\\@playwright\\test\\cli.js",
+      "test"
+    ],
+    "configFile": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\playwright.config.ts",
+    "rootDir": "D:/Everyone/Presentation/Everyone-Presentation-Studio/tests/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "D:/Everyone/Presentation/Everyone-Presentation-Studio/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "D:/Everyone/Presentation/Everyone-Presentation-Studio/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "chromium",
+        "testDir": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e",
+        "snapshotDir": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 90000,
+        "use": {
+          "baseURL": "http://127.0.0.1:3000",
+          "trace": "off",
+          "screenshot": "only-on-failure",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36",
+          "viewport": {
+            "width": 1280,
+            "height": 720
+          },
+          "screen": {
+            "width": 1920,
+            "height": 1080
+          },
+          "deviceScaleFactor": 1,
+          "isMobile": false,
+          "hasTouch": false,
+          "defaultBrowserType": "chromium"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "chromium"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/e2e-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": {
+      "command": "npm run dev",
+      "url": "http://127.0.0.1:3000",
+      "reuseExistingServer": true,
+      "timeout": 120000
+    }
+  },
+  "suites": [
+    {
+      "title": "api-contracts.spec.ts",
+      "file": "api-contracts.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "actual HTTP envelopes enforce auth, idempotency, revision and strict input boundaries",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 1918,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"no-store\"\u001b[39m\nReceived: \u001b[31m\"private, no-cache, no-store, must-revalidate, max-age=0\"\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"no-store\"\u001b[39m\nReceived: \u001b[31m\"private, no-cache, no-store, must-revalidate, max-age=0\"\u001b[39m\n    at error (D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\api-contracts.spec.ts:29:47)\n    at D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\api-contracts.spec.ts:40:3",
+                    "location": {
+                      "file": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\api-contracts.spec.ts",
+                      "column": 47,
+                      "line": 29
+                    },
+                    "snippet": "  27 |   expect(Object.keys(body).sort()).toEqual(['error', 'request_id']);\n  28 |   expect(body.error.code).toBe(code);\n> 29 |   expect(response.headers()['cache-control']).toBe('no-store');\n     |                                               ^\n  30 | }\n  31 | async function login(request: APIRequestContext, actorId: string) {\n  32 |   const response = await request.post('/api/dev/session', { headers: headers(), data: { actor_id: actorId } });"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\api-contracts.spec.ts",
+                        "column": 47,
+                        "line": 29
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"no-store\"\u001b[39m\nReceived: \u001b[31m\"private, no-cache, no-store, must-revalidate, max-age=0\"\u001b[39m\n\n  27 |   expect(Object.keys(body).sort()).toEqual(['error', 'request_id']);\n  28 |   expect(body.error.code).toBe(code);\n> 29 |   expect(response.headers()['cache-control']).toBe('no-store');\n     |                                               ^\n  30 | }\n  31 | async function login(request: APIRequestContext, actorId: string) {\n  32 |   const response = await request.post('/api/dev/session', { headers: headers(), data: { actor_id: actorId } });\n    at error (D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\api-contracts.spec.ts:29:47)\n    at D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\api-contracts.spec.ts:40:3"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T01:26:38.873Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\test-results\\api-contracts-actual-HTTP--d8b87-and-strict-input-boundaries-chromium\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\api-contracts.spec.ts",
+                    "column": 47,
+                    "line": 29
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "aa3677a73aad62004270-6fde744b854b4f1a148a",
+          "file": "api-contracts.spec.ts",
+          "line": 39,
+          "column": 5
+        },
+        {
+          "title": "audience preset HTTP lifecycle is strict and settings authority is independent of project preparation",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 650,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"no-store\"\u001b[39m\nReceived: \u001b[31m\"private, no-cache, no-store, must-revalidate, max-age=0\"\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"no-store\"\u001b[39m\nReceived: \u001b[31m\"private, no-cache, no-store, must-revalidate, max-age=0\"\u001b[39m\n    at success (D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\api-contracts.spec.ts:20:47)\n    at D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\api-contracts.spec.ts:83:14",
+                    "location": {
+                      "file": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\api-contracts.spec.ts",
+                      "column": 47,
+                      "line": 20
+                    },
+                    "snippet": "  18 |   expect(body.request_id).toMatch(/^[0-9a-f-]{36}$/i);\n  19 |   validateContract(schema, body.data);\n> 20 |   expect(response.headers()['cache-control']).toBe('no-store');\n     |                                               ^\n  21 |   return body.data as T;\n  22 | }\n  23 | async function error(response: APIResponse, status: number, code: string) {"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\api-contracts.spec.ts",
+                        "column": 47,
+                        "line": 20
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"no-store\"\u001b[39m\nReceived: \u001b[31m\"private, no-cache, no-store, must-revalidate, max-age=0\"\u001b[39m\n\n  18 |   expect(body.request_id).toMatch(/^[0-9a-f-]{36}$/i);\n  19 |   validateContract(schema, body.data);\n> 20 |   expect(response.headers()['cache-control']).toBe('no-store');\n     |                                               ^\n  21 |   return body.data as T;\n  22 | }\n  23 | async function error(response: APIResponse, status: number, code: string) {\n    at success (D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\api-contracts.spec.ts:20:47)\n    at D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\api-contracts.spec.ts:83:14"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T01:26:42.006Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\test-results\\api-contracts-audience-pre-d1590-dent-of-project-preparation-chromium\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\api-contracts.spec.ts",
+                    "column": 47,
+                    "line": 20
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "aa3677a73aad62004270-bb2c8ad418dfb14b8a73",
+          "file": "api-contracts.spec.ts",
+          "line": 76,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "foundation.spec.ts",
+      "file": "foundation.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "persistent M01 development journey: shared edits, real logo bytes and accessible steps",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 10939,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T01:26:43.665Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6b60d0cacd30be8ae473-65a12f2cbffb62089c6e",
+          "file": "foundation.spec.ts",
+          "line": 22,
+          "column": 5
+        },
+        {
+          "title": "acting-user scope is enforced in UI and direct requests",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2201,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T01:26:54.811Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6b60d0cacd30be8ae473-da3e03dd4b5ae32fd4ab",
+          "file": "foundation.spec.ts",
+          "line": 82,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-28T01:26:35.173Z",
+    "duration": 21984.634000000002,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 2,
+    "flaky": 0
+  }
+}

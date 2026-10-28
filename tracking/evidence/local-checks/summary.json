@@ -1,0 +1,85 @@
+{
+  "environment": "local Windows / Node 24; cloud writes and provider execution excluded",
+  "checks": [
+    {
+      "check": "typecheck",
+      "command": "npm.cmd run typecheck",
+      "scope": "static TypeScript",
+      "started_at": "2026-10-28T02:04:37.386223+00:00",
+      "finished_at": "2026-10-28T02:04:45.600813+00:00",
+      "exit_code": 0,
+      "status": "PASS",
+      "output": "typecheck.txt"
+    },
+    {
+      "check": "lint",
+      "command": "npm.cmd run lint",
+      "scope": "static application lint, zero warnings",
+      "started_at": "2026-10-28T02:04:45.601246+00:00",
+      "finished_at": "2026-10-28T02:04:54.257634+00:00",
+      "exit_code": 0,
+      "status": "PASS",
+      "output": "lint.txt"
+    },
+    {
+      "check": "tests",
+      "command": "npm.cmd test",
+      "scope": "synthetic domain/job/adapter tests and actual synthetic binary parsing",
+      "started_at": "2026-10-28T02:04:54.258223+00:00",
+      "finished_at": "2026-10-28T02:05:09.991076+00:00",
+      "exit_code": 0,
+      "status": "PASS",
+      "output": "tests.txt"
+    },
+    {
+      "check": "browser",
+      "command": "npm.cmd run test:e2e",
+      "scope": "actual local browser and HTTP against synthetic persistent adapter",
+      "started_at": "2026-10-28T02:05:09.991519+00:00",
+      "finished_at": "2026-10-28T02:05:41.682953+00:00",
+      "exit_code": 0,
+      "status": "PASS",
+      "output": "browser.txt"
+    },
+    {
+      "check": "build",
+      "command": "npm.cmd run build",
+      "scope": "compilation only, not production serving",
+      "started_at": "2026-10-28T02:05:41.683701+00:00",
+      "finished_at": "2026-10-28T02:05:54.798505+00:00",
+      "exit_code": 0,
+      "status": "PASS",
+      "output": "build.txt"
+    },
+    {
+      "check": "production-guard",
+      "command": "npm.cmd run check:production-guard",
+      "scope": "fixture denial regression",
+      "started_at": "2026-10-28T02:05:54.798948+00:00",
+      "finished_at": "2026-10-28T02:05:56.382083+00:00",
+      "exit_code": 0,
+      "status": "PASS",
+      "output": "production-guard.txt"
+    },
+    {
+      "check": "pack",
+      "command": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\.venv-skills\\Scripts\\python.exe -X utf8 tools/validate_pack.py --strict",
+      "scope": "static specification consistency",
+      "started_at": "2026-10-28T02:05:56.382623+00:00",
+      "finished_at": "2026-10-28T02:06:07.277657+00:00",
+      "exit_code": 0,
+      "status": "PASS",
+      "output": "pack.txt"
+    },
+    {
+      "check": "skills",
+      "command": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\.venv-skills\\Scripts\\python.exe -X utf8 tools/manage_project_skills.py",
+      "scope": "static project skill integrity",
+      "started_at": "2026-10-28T02:06:07.278423+00:00",
+      "finished_at": "2026-10-28T02:06:09.109066+00:00",
+      "exit_code": 0,
+      "status": "PASS",
+      "output": "skills.txt"
+    }
+  ]
+}

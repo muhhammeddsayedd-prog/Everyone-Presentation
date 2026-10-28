@@ -1,0 +1,45 @@
+{
+  "name": "everyone-presentation-studio",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "packageManager": "npm@11.16.0",
+  "scripts": {
+    "dev": "npm run dev --workspace @eps/web",
+    "dev:web": "npm run dev --workspace @eps/web",
+    "build": "npm run build --workspace @eps/web",
+    "start": "npm run start --workspace @eps/web",
+    "lint": "eslint apps packages tests tools/*.ts --max-warnings 0",
+    "typecheck": "tsc --noEmit",
+    "test": "npm run test:unit && npm run test:contracts && npm run test:jobs && npm run test:integrations && npm run test:worker && npm run test:central",
+    "test:unit": "node tools/run-tests.mjs tests/domain/*.test.ts tests/server/*.test.ts",
+    "test:contracts": "node tools/run-tests.mjs tests/contracts/*.test.ts",
+    "test:e2e": "playwright test",
+    "check:production-guard": "tsx tools/check-production-guard.ts",
+    "test:jobs": "node tools/run-tests.mjs tests/jobs/*.test.ts",
+    "test:integrations": "node tools/run-tests.mjs tests/integrations/*.test.ts",
+    "test:worker": "node tools/run-tests.mjs tests/worker/*.test.ts",
+    "test:db": "node tools/test-db.mjs",
+    "dev:central": "node tools/dev-central.mjs",
+    "test:central": "node tools/run-tests.mjs packages/central/test/*.test.ts"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.1",
+    "@types/node": "24.19.2",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "eslint": "10.13.0",
+    "tsx": "4.23.15",
+    "typescript": "6.0.3",
+    "@eslint/js": "10.0.1",
+    "typescript-eslint": "8.72.1",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "@next/eslint-plugin-next": "16.4.3"
+  }
+}

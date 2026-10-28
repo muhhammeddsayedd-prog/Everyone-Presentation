@@ -1,0 +1,31 @@
+{
+  "observed_at": "2026-10-28T01:52:23.813745+00:00",
+  "target": "pyibofyctwnqpvktepse",
+  "action": "apply",
+  "source": "supabase/auth-development.toml",
+  "sha256": "7553fada80c97cb930fb679125b1a4bc75122421efe59dd9104e0b0f7b866389",
+  "declared_changes": [
+    {
+      "path": [
+        "auth",
+        "additional_redirect_urls"
+      ],
+      "before": [],
+      "after": [
+        "http://127.0.0.1:3000/api/auth/callback"
+      ]
+    },
+    {
+      "path": [
+        "auth",
+        "site_url"
+      ],
+      "before": "http://localhost:3000",
+      "after": "http://127.0.0.1:3000"
+    }
+  ],
+  "diff_exit_code": 0,
+  "cloud_configuration_applied": true,
+  "secrets_or_email_messages_sent": false,
+  "apply_exit_code": 0
+}

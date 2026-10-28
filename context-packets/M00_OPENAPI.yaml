@@ -1,0 +1,467 @@
+openapi: 3.1.0
+jsonSchemaDialect: https://json-schema.org/draft/2020-12/schema
+info:
+  title: Everyone Presentation Studio API — M00 implementation subset
+  version: 1.0.0-design
+  description: Design contract, not a deployed API. UI, API, MCP and workflow callbacks use shared domain operations.
+    Database discovery may adapt physical storage without changing agreed product semantics. IDs are opaque. All
+    internal endpoints enforce capability AND project/library scope. Missing facts/open slots are allowed; invalid
+    access/integrity/render data is not.
+servers:
+- url: /api/v1
+  description: Same-origin versioned API
+paths:
+  /capabilities:
+    get:
+      operationId: get_capabilities
+      summary: Read acting-user capabilities and configured input limits
+      tags:
+      - capabilities
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/Capabilities'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: workspaces.read
+      x-mcp-exposed: true
+      x-shared-service-operation: get_capabilities
+      security:
+      - InternalBearer: []
+      parameters: []
+  /projects:
+    get:
+      operationId: list_projects
+      summary: List authorized existing central projects
+      tags:
+      - projects
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Project'
+                  page:
+                    $ref: '#/components/schemas/Page'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+                - page
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: projects.read
+      x-mcp-exposed: true
+      x-shared-service-operation: list_projects
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: q
+        in: query
+        schema:
+          type: string
+      - name: cursor
+        in: query
+        schema:
+          type: string
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 25
+  /projects/{project_id}:
+    get:
+      operationId: get_project
+      summary: Read canonical project/client data through integration adapter
+      tags:
+      - projects
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/Project'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: projects.read
+      x-mcp-exposed: true
+      x-shared-service-operation: get_project
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+components:
+  securitySchemes:
+    InternalBearer:
+      type: http
+      scheme: bearer
+      description: Verified acting-user access token. Issuer/audience/auth integration established in M00; never
+        use service_role in browser/MCP client.
+    ReviewToken:
+      type: apiKey
+      in: header
+      name: X-Review-Token
+      description: Raw expiring bearer review token only for initial exchange. Never log.
+    ReviewSession:
+      type: apiKey
+      in: header
+      name: X-Review-Session
+      description: Short-lived session scoped to one link/series; server verifies link live for every request. Cookie
+        adapter may be used by browser.
+    MediaGrant:
+      type: apiKey
+      in: header
+      name: X-Media-Grant
+      description: Secret embedded in private external PDF, bound to one export and fixed version; parent link live-view
+        grant required.
+    ServiceBearer:
+      type: http
+      scheme: bearer
+      description: Narrow service identity plus per-job lease token; not an internal user token.
+  schemas:
+    Id:
+      type: string
+      minLength: 1
+      maxLength: 200
+      description: Opaque resource identifier. Do not parse business meaning or assume source database PK type.
+    ErrorResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        request_id:
+          type: string
+        error:
+          $ref: '#/components/schemas/Error'
+      required:
+      - request_id
+      - error
+    Error:
+      type: object
+      additionalProperties: false
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+          additionalProperties: true
+        retryable:
+          type: boolean
+      required:
+      - code
+      - message
+      - details
+      - retryable
+    Warning:
+      type: object
+      additionalProperties: false
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        entity_id:
+          anyOf:
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
+      required:
+      - code
+      - message
+      - entity_id
+    Project:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        name:
+          type: string
+        client_id:
+          anyOf:
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
+        client_name:
+          $ref: '#/components/schemas/NullableText'
+        client_logo_asset_id:
+          anyOf:
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
+        row_version:
+          $ref: '#/components/schemas/RowVersion'
+        client_row_version:
+          anyOf:
+          - $ref: '#/components/schemas/RowVersion'
+          - type: 'null'
+        casting_workspace_id:
+          anyOf:
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
+        can_edit:
+          type: boolean
+      required:
+      - id
+      - name
+      - client_id
+      - client_name
+      - client_logo_asset_id
+      - row_version
+      - client_row_version
+      - casting_workspace_id
+      - can_edit
+    RowVersion:
+      type: integer
+      minimum: 1
+      description: Optimistic version from the last read of the mutated resource; stale write returns 409.
+    NullableText:
+      anyOf:
+      - type: string
+      - type: 'null'
+    Page:
+      type: object
+      additionalProperties: false
+      properties:
+        next_cursor:
+          anyOf:
+          - type: string
+          - type: 'null'
+      required:
+      - next_cursor
+    Capabilities:
+      type: object
+      additionalProperties: false
+      properties:
+        principal_id:
+          $ref: '#/components/schemas/Id'
+        capabilities:
+          type: array
+          items:
+            type: string
+        timezone:
+          type: string
+        enabled_modules:
+          type: array
+          items:
+            type: string
+        upload_policy:
+          $ref: '#/components/schemas/UploadPolicy'
+      required:
+      - principal_id
+      - capabilities
+      - timezone
+      - enabled_modules
+      - upload_policy
+    UploadPolicy:
+      type: object
+      additionalProperties: false
+      properties:
+        allowed_mime_types:
+          type: array
+          items:
+            type: string
+        maximum_file_bytes:
+          type: integer
+          minimum: 1
+        recommended_batch_size:
+          type: integer
+          const: 200
+        available_purposes:
+          type: array
+          items:
+            type: string
+            enum:
+            - specs
+            - candidate_video
+            - candidate_support
+            - client_logo
+      required:
+      - allowed_mime_types
+      - maximum_file_bytes
+      - recommended_batch_size
+      - available_purposes

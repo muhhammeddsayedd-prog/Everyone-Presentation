@@ -1,0 +1,13 @@
+{
+  "name": "@eps/central",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": { ".": "./src/index.ts" },
+  "engines": { "node": ">=24 <25" },
+  "dependencies": {
+    "@eps/domain": "0.1.0",
+    "@supabase/supabase-js": "2.118.0",
+    "@supabase/ssr": "0.12.7"
+  }
+}

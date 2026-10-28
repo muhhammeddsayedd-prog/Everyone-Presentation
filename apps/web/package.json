@@ -1,0 +1,20 @@
+{
+  "name": "@eps/web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --hostname 127.0.0.1 --port 3000",
+    "build": "next build",
+    "start": "node ../../tools/start-web.mjs"
+  },
+  "dependencies": {
+    "@eps/domain": "0.1.0",
+    "next": "16.4.3",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "sharp": "0.35.5",
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1",
+    "@eps/central": "0.1.0"
+  }
+}

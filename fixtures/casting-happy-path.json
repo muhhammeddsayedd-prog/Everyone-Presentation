@@ -1,0 +1,435 @@
+{
+  "fixture_version": "1.0",
+  "kind": "domain_fixture_not_sql_seed",
+  "synthetic": true,
+  "notice": "All people, facts, dates and projects are fictional. Symbolic IDs must be mapped by local test factories. Media references require synthetic test assets or authorized representative recordings; this JSON contains no real candidate media.",
+  "project": {
+    "id": "project_demo",
+    "name": "Everyday, extraordinary — synthetic test",
+    "client_id": "client_demo",
+    "client_name": "Sample Client — synthetic test",
+    "already_exists_in_central_test_system": true,
+    "shoot_date": "2026-11-18",
+    "shoot_city": "Cairo"
+  },
+  "workspace": {
+    "id": "workspace_demo",
+    "project_id": "project_demo",
+    "logo_asset_id": "asset_logo_demo",
+    "logo_placement": "cover",
+    "template_key": "everyone_casting_v1",
+    "audience_preset": "client_agency"
+  },
+  "roles": [
+    {
+      "id": "role_father",
+      "name": "Father",
+      "headcount": 1,
+      "sort_order": 0,
+      "requirements": {
+        "category": "Featured",
+        "scenes": [
+          "Kitchen — scene 1",
+          "Living room — scene 3"
+        ],
+        "age_range": "40–50",
+        "gender": "Male",
+        "appearance_performance": "Warm, natural family performance",
+        "languages_accents_skills": "Arabic, Egyptian accent; natural dialogue",
+        "shoot_dates": "18 November 2026",
+        "location": "Cairo",
+        "availability": "Available for the full shoot day",
+        "instructions": "One Father across both scenes; do not create a second role per scene."
+      }
+    },
+    {
+      "id": "role_manager",
+      "name": "Manager",
+      "headcount": 1,
+      "sort_order": 1,
+      "requirements": {
+        "category": "Featured",
+        "scenes": [
+          "Office — scene 2"
+        ],
+        "age_range": "35–50",
+        "gender": null,
+        "appearance_performance": "Confident office delivery",
+        "languages_accents_skills": "Arabic and English dialogue",
+        "shoot_dates": "18 November 2026",
+        "location": "Cairo",
+        "availability": null,
+        "instructions": "Gender and availability not supplied; mark Needs clarification."
+      }
+    },
+    {
+      "id": "role_waiter",
+      "name": "Waiter",
+      "headcount": 3,
+      "sort_order": 2,
+      "requirements": {
+        "category": "Featured",
+        "scenes": [
+          "Cafe — scene 4"
+        ],
+        "age_range": "20–35",
+        "gender": null,
+        "appearance_performance": "Comfortable carrying a tray",
+        "languages_accents_skills": "Arabic; basic physical coordination",
+        "shoot_dates": "18 November 2026",
+        "location": "Cairo",
+        "availability": "Full day",
+        "instructions": "Create Waiter 1, Waiter 2, Waiter 3 as individual slots."
+      }
+    }
+  ],
+  "slots": [
+    {
+      "id": "slot_father_1",
+      "role_id": "role_father",
+      "name": "Father 1",
+      "sort_order": 0
+    },
+    {
+      "id": "slot_manager_1",
+      "role_id": "role_manager",
+      "name": "Manager 1",
+      "sort_order": 0
+    },
+    {
+      "id": "slot_waiter_1",
+      "role_id": "role_waiter",
+      "name": "Waiter 1",
+      "sort_order": 0
+    },
+    {
+      "id": "slot_waiter_2",
+      "role_id": "role_waiter",
+      "name": "Waiter 2",
+      "sort_order": 1
+    },
+    {
+      "id": "slot_waiter_3",
+      "role_id": "role_waiter",
+      "name": "Waiter 3",
+      "sort_order": 2
+    }
+  ],
+  "candidates": [
+    {
+      "id": "candidate_samir",
+      "casting_id": "CAST-DEMO-001",
+      "review_status": "reviewed",
+      "facts": {
+        "name": "Samir Hassan",
+        "age": "42",
+        "gender": "Male",
+        "height_measurements": "178 cm",
+        "languages_accents": "Arabic — Egyptian; English",
+        "skills_experience": "Acting and natural dialogue",
+        "city": "Cairo",
+        "previous_projects_roles": "Fictional breakfast advert — Father",
+        "category": "Featured"
+      },
+      "media_set_id": "media_samir_intro",
+      "source_transcript": "transcripts/samir-introduction-en.txt",
+      "frame_count": 3
+    },
+    {
+      "id": "candidate_omar",
+      "casting_id": "CAST-DEMO-002",
+      "review_status": "unreviewed",
+      "facts": {
+        "name": "Omar Nabil",
+        "age": "28",
+        "gender": "Male",
+        "height_measurements": null,
+        "languages_accents": "Arabic — Egyptian; English",
+        "skills_experience": "Acting; comfortable carrying trays",
+        "city": "Cairo",
+        "previous_projects_roles": null,
+        "category": "Featured"
+      },
+      "media_set_id": "media_omar_intro",
+      "source_transcript": "transcripts/omar-introduction-mixed.txt",
+      "frame_count": 2
+    },
+    {
+      "id": "candidate_maya",
+      "casting_id": "CAST-DEMO-003",
+      "review_status": "reviewed",
+      "facts": {
+        "name": "Maya Adel",
+        "age": "38",
+        "gender": "Female",
+        "height_measurements": "168 cm",
+        "languages_accents": "Arabic — Egyptian; English",
+        "skills_experience": "Acting and improvisation",
+        "city": "Giza",
+        "previous_projects_roles": "Fictional workplace scene — Presenter",
+        "category": "Lead"
+      },
+      "media_set_id": "media_maya_intro",
+      "source_transcript": "transcripts/maya-introduction-ar.txt",
+      "frame_count": 3
+    },
+    {
+      "id": "candidate_lina",
+      "casting_id": "CAST-DEMO-004",
+      "review_status": "unreviewed",
+      "facts": {
+        "name": "Lina Demo",
+        "age": null,
+        "gender": null,
+        "height_measurements": null,
+        "languages_accents": null,
+        "skills_experience": null,
+        "city": null,
+        "previous_projects_roles": null,
+        "category": null
+      },
+      "media_set_id": null,
+      "source_transcript": null,
+      "frame_count": 0
+    }
+  ],
+  "workspace_candidates": [
+    {
+      "id": "wc_samir",
+      "candidate_id": "candidate_samir",
+      "workspace_id": "workspace_demo",
+      "availability": "Available for 18 November 2026",
+      "selected_media_set_id": "media_samir_intro"
+    },
+    {
+      "id": "wc_omar",
+      "candidate_id": "candidate_omar",
+      "workspace_id": "workspace_demo",
+      "availability": "Not yet confirmed",
+      "selected_media_set_id": "media_omar_intro"
+    },
+    {
+      "id": "wc_maya",
+      "candidate_id": "candidate_maya",
+      "workspace_id": "workspace_demo",
+      "availability": null,
+      "selected_media_set_id": "media_maya_intro"
+    },
+    {
+      "id": "wc_lina",
+      "candidate_id": "candidate_lina",
+      "workspace_id": "workspace_demo",
+      "availability": null,
+      "selected_media_set_id": null
+    }
+  ],
+  "assignments": [
+    {
+      "id": "assignment_father_samir",
+      "slot_id": "slot_father_1",
+      "workspace_candidate_id": "wc_samir",
+      "candidate_id": "candidate_samir",
+      "position": "main",
+      "shortlisted": true,
+      "sort_order": 0,
+      "presentation_notes": "Natural family scene option",
+      "slide_wording": {},
+      "internal_note": "INTERNAL ONLY: fictional rate discussion; never publish."
+    },
+    {
+      "id": "assignment_father_omar",
+      "slot_id": "slot_father_1",
+      "workspace_candidate_id": "wc_omar",
+      "candidate_id": "candidate_omar",
+      "position": "option",
+      "shortlisted": false,
+      "sort_order": 1,
+      "presentation_notes": null,
+      "slide_wording": {},
+      "internal_note": null
+    },
+    {
+      "id": "assignment_manager_samir",
+      "slot_id": "slot_manager_1",
+      "workspace_candidate_id": "wc_samir",
+      "candidate_id": "candidate_samir",
+      "position": "backup",
+      "shortlisted": true,
+      "sort_order": 0,
+      "presentation_notes": "Separate Manager choice",
+      "slide_wording": {},
+      "internal_note": null
+    },
+    {
+      "id": "assignment_manager_maya",
+      "slot_id": "slot_manager_1",
+      "workspace_candidate_id": "wc_maya",
+      "candidate_id": "candidate_maya",
+      "position": "option",
+      "shortlisted": false,
+      "sort_order": 1,
+      "presentation_notes": "Office delivery option",
+      "slide_wording": {},
+      "internal_note": null
+    },
+    {
+      "id": "assignment_waiter1_omar",
+      "slot_id": "slot_waiter_1",
+      "workspace_candidate_id": "wc_omar",
+      "candidate_id": "candidate_omar",
+      "position": "main",
+      "shortlisted": true,
+      "sort_order": 0,
+      "presentation_notes": "Tray performance supplied in introduction",
+      "slide_wording": {},
+      "internal_note": null
+    },
+    {
+      "id": "assignment_waiter2_maya",
+      "slot_id": "slot_waiter_2",
+      "workspace_candidate_id": "wc_maya",
+      "candidate_id": "candidate_maya",
+      "position": "option",
+      "shortlisted": false,
+      "sort_order": 0,
+      "presentation_notes": null,
+      "slide_wording": {},
+      "internal_note": null
+    }
+  ],
+  "selected_frames": [
+    {
+      "media_set_id": "media_samir_intro",
+      "frames": [
+        {
+          "asset_id": "frame_samir_1",
+          "timestamp_ms": 1200
+        },
+        {
+          "asset_id": "frame_samir_2",
+          "timestamp_ms": 5200
+        },
+        {
+          "asset_id": "frame_samir_3",
+          "timestamp_ms": 9300
+        }
+      ]
+    },
+    {
+      "media_set_id": "media_omar_intro",
+      "frames": [
+        {
+          "asset_id": "frame_omar_1",
+          "timestamp_ms": 1000
+        },
+        {
+          "asset_id": "frame_omar_2",
+          "timestamp_ms": 6000
+        }
+      ]
+    },
+    {
+      "media_set_id": "media_maya_intro",
+      "frames": [
+        {
+          "asset_id": "frame_maya_1",
+          "timestamp_ms": 1500
+        },
+        {
+          "asset_id": "frame_maya_2",
+          "timestamp_ms": 5800
+        },
+        {
+          "asset_id": "frame_maya_3",
+          "timestamp_ms": 10000
+        }
+      ]
+    }
+  ],
+  "expected": {
+    "selection": {
+      "page_count": 8,
+      "candidate_page_count": 6,
+      "pending_page_count": 1,
+      "ordered_slides": [
+        {
+          "kind": "cover"
+        },
+        {
+          "kind": "candidate",
+          "assignment_id": "assignment_father_samir"
+        },
+        {
+          "kind": "candidate",
+          "assignment_id": "assignment_father_omar"
+        },
+        {
+          "kind": "candidate",
+          "assignment_id": "assignment_manager_samir"
+        },
+        {
+          "kind": "candidate",
+          "assignment_id": "assignment_manager_maya"
+        },
+        {
+          "kind": "candidate",
+          "assignment_id": "assignment_waiter1_omar"
+        },
+        {
+          "kind": "candidate",
+          "assignment_id": "assignment_waiter2_maya"
+        },
+        {
+          "kind": "pending",
+          "slot_id": "slot_waiter_3"
+        }
+      ]
+    },
+    "shortlist": {
+      "page_count": 6,
+      "candidate_page_count": 3,
+      "pending_page_count": 2,
+      "ordered_slides": [
+        {
+          "kind": "cover"
+        },
+        {
+          "kind": "candidate",
+          "assignment_id": "assignment_father_samir"
+        },
+        {
+          "kind": "candidate",
+          "assignment_id": "assignment_manager_samir"
+        },
+        {
+          "kind": "candidate",
+          "assignment_id": "assignment_waiter1_omar"
+        },
+        {
+          "kind": "pending",
+          "slot_id": "slot_waiter_2"
+        },
+        {
+          "kind": "pending",
+          "slot_id": "slot_waiter_3"
+        }
+      ]
+    },
+    "excluded_unassigned_candidate_ids": [
+      "candidate_lina"
+    ],
+    "repeated_candidate": {
+      "candidate_id": "candidate_samir",
+      "slots": [
+        "slot_father_1",
+        "slot_manager_1"
+      ],
+      "selection_slide_count": 2,
+      "shortlist_slide_count": 2
+    },
+    "missing_field_rendering": "Not provided",
+    "never_in_external_payload": [
+      "INTERNAL ONLY: fictional rate discussion; never publish."
+    ]
+  }
+}

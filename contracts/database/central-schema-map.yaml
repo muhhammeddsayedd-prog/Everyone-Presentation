@@ -1,0 +1,218 @@
+# M00 record, 2026-10-28. Unknown cloud identifiers remain null deliberately.
+# This file is not a deployable schema or a verified description of the cloud.
+document_version: '1.0'
+status: canonical_cloud_foundation_applied_and_read_back_real_user_journey_unverified
+verified_at: '2026-10-28T01:51:11.069521+00:00'
+verified_by: Root integration owner cloud readback; scope is schema/role/migration metadata, not real-user acceptance.
+observed_date: '2026-10-28'
+evidence: tracking/discovery/README.md
+supabase_project_ref: pyibofyctwnqpvktepse
+postgres_version: '17.11'
+selected_project:
+  name: Everyone-Presentation
+  region: eu-west-1
+  status: ACTIVE_HEALTHY
+  created_at: '2026-10-27T23:32:29.131306Z'
+  metadata_observed_at: '2026-10-28T00:52:20.635659+00:00'
+  metadata_receipt: tracking/discovery/central-metadata.json
+  identity_receipt: tracking/discovery/linked-project-metadata.json
+  canonical_business_source_confirmed: true
+  confirmation: Product owner explicitly selected this inspected empty project as canonical on 2026-10-28.
+  schemas: [auth, extensions, graphql, graphql_public, public, realtime, storage, vault]
+  initial_empty_receipt: tracking/discovery/central-metadata.json; original observed_at preserved.
+  current_readback_receipt: tracking/evidence/cloud-foundation/readback.json
+  current_readback_at: '2026-10-28T01:51:11.069521+00:00'
+  public_app_relations: [clients, projects, project_memberships, client_memberships, app_capability_grants]
+  eps_schema_present: true
+  supabase_migrations_schema_present: true
+  user_rpc_count: 12
+  forced_rls_relation_count: 11
+  authenticated_direct_canonical_update: false
+  authenticated_direct_private_select: false
+  grant_inventory_scope: Current cloud readback confirms RPC ownership/execute/search_path, private-table and canonical-write denials, runtime-role flags and one-way identity inheritance.
+canonical_migration_repository: This repository, supabase/migrations; no remote is configured.
+canonical_migration_baseline: ['20261028010943', '20261028013324', '20261028013655']
+migration_owner: Product owner; Codex authors under the repository release rules.
+new_schema_state: Three immutable source migrations applied locally and to the approved canonical cloud; exact hashes in tracking/evidence/cloud-foundation/apply.json.
+local_application_state:
+  initial_migration: Applied in separately guarded local runtime; first actual role suite failed on Auth schema access.
+  forward_fix: supabase/migrations/20261028013324_m01_identity_role_inheritance.sql applied locally; focused role inheritance proof passed.
+  workspace_alias_fix: supabase/migrations/20261028013655_m01_workspace_scope_alias.sql applied locally after the real PLpgSQL alias failure.
+  foundation_suite: Passed; development/local-db/receipts/2026-10-28T01-38-26-560Z-test.json. Earlier failed runs and rolled-back fixtures retained separately.
+  concurrency_proof: Same-key and distinct-key independent-session races passed with backend PID/timestamp receipts; scoped cleanup passed. See development/local-db/receipts/2026-10-28T01-46-46-146Z-test-db-summary-8fbb2c6b.json.
+  initial_history_preserved: true
+  cloud_migrations_applied: ['20261028010943', '20261028013324', '20261028013655']
+cloud_application:
+  observed_at: '2026-10-28T01:49:13.227154+00:00'
+  receipt: tracking/evidence/cloud-foundation/apply.json
+  readback: tracking/evidence/cloud-foundation/readback.json
+  vault_sync: false
+  seeds: false
+  current_counts: {auth_users: 0, clients: 0, projects: 0, workspaces: 0, memberships: 0, capability_grants: 0, media: 0, buckets: 0, audience_presets: 3}
+  real_user_journey: not_run
+app_schema: eps # logical proposed private schema, not observed cloud state
+runtime_access_strategy: User JWT with server getUser verification and curated auth.uid-derived RPC; private eps RLS with non-owner non-BYPASSRLS function roles. Forward fix uses one-way inherited authenticated identity privileges with SET/admin disabled.
+
+canonical_entities:
+  project:
+    schema: public
+    table: projects
+    primary_key: [{column: id, sql_type: uuid}]
+    display_name_field: name
+    client_relationship: public.projects.client_id -> public.clients.id
+    lifecycle_fields: [archived_at, row_version]
+    authorized_read_adapter: public.eps_list_projects / public.eps_get_project; authenticated SELECT under RLS.
+    authorized_write_function_or_adapter: public.eps_update_project
+    project_access_source: public.project_memberships plus public.app_capability_grants.
+    physical_fk_from_binding: Not needed; eps.workspaces.project_id directly references public.projects.id.
+    decision: Establish new canonical table by explicit owner decision.
+    mapping_state: Applied and read back in approved canonical cloud; baseline empty receipt retained. No real project rows yet.
+  client:
+    schema: public
+    table: clients
+    primary_key: [{column: id, sql_type: uuid}]
+    display_name_field: name
+    logo_asset_field_or_relation: public.clients.logo_asset_id -> eps.media_assets.id
+    authorized_write_function_or_adapter: public.eps_update_project checks separate canonical client membership/write revision.
+    physical_fk_from_binding: Direct public.projects.client_id foreign key.
+    decision: Establish new canonical table by explicit owner decision.
+    mapping_state: Applied and read back in canonical cloud; no real client rows yet.
+  principal:
+    auth_provider: Supabase Auth; managed auth.uid/auth.jwt functions observed.
+    auth_subject_mapping: Verified user JWT sub -> auth.users.id; server getUser verifies each request.
+    schema: auth
+    table: users
+    primary_key: [{column: id, sql_type: uuid}]
+    capability_source: public.app_capability_grants, explicit active per-principal grants.
+    membership_source: public.project_memberships and public.client_memberships, active/can_write scope.
+    deactivation_behavior: Current membership/grants rechecked by RLS; anonymous JWT denied; server verifies auth user/session. Soft deletion/token revocation window remains an auth integration gate.
+    physical_fk_from_binding: Direct auth.users(id) foreign keys, no shadow user directory.
+    decision: Reuse managed Auth and establish explicit canonical membership/capability records.
+    mapping_state: Auth key/functions observed and membership/RPC changes cloud-applied/read back; no auth users or grants created.
+  candidate:
+    reuse_existing: false
+    schema: null
+    table: null
+    primary_key: []
+    casting_extension_relation: null
+    duplicate_identity_conventions: null
+    physical_fk_from_binding: null
+    decision: No existing cast/person records in approved empty canonical source; design canonical reusable casting fields in M03 without a duplicate live owner.
+
+candidate_field_ownership:
+  # Actual empty baseline contained no candidate/person fields. Physical paths are
+  # null because M03 has not created that single reusable owner, not because a
+  # discovered existing fact owner was left unmapped. Do not duplicate live facts.
+  display_name: {owner: unverified, path: null, write_adapter: null}
+  casting_id: {owner: unverified, path: null, write_adapter: null}
+  stated_age_range: {owner: unverified, path: null, write_adapter: null}
+  gender_stated: {owner: unverified, path: null, write_adapter: null}
+  measurements: {owner: unverified, path: null, write_adapter: null}
+  languages_accents: {owner: unverified, path: null, write_adapter: null}
+  skills_experience: {owner: unverified, path: null, write_adapter: null}
+  city: {owner: unverified, path: null, write_adapter: null}
+  previous_projects: {owner: unverified, path: null, write_adapter: null}
+  classification: {owner: unverified, path: null, write_adapter: null}
+  review_status: {owner: unverified, path: null, write_adapter: null}
+
+storage:
+  media_registry: eps.media_assets
+  observed_buckets: []
+  observed_bucket_count: 0
+  observation: Current cloud readback confirms no buckets/media; upload pipeline remains unimplemented.
+  source_bucket: null
+  derived_bucket: null
+  presentation_bucket: null
+  all_selected_buckets_private: null
+  max_file_size_policy: No bucket policy exists; minimal logo registry constrains metadata to 5 MiB, with uploads unavailable.
+  resumable_upload_policy: No current cloud bucket/upload implementation; candidate resumable transport remains M03.
+  backup_and_retention: null
+  required_boundary: All originals, derivatives and PDFs private; verified scoped access only.
+
+logical_table_mapping:
+  # Proposed responsibilities from the pack; no physical cloud target confirmed.
+  integration_bindings: {decision: unnecessary_for_new_uuid_canonical_entities, physical_target: null}
+  workspaces: {decision: cloud_applied_read_back_M01, physical_target: eps.workspaces}
+  specs: {decision: proposed_app_extension_pending_discovery, physical_target: null}
+  roles: {decision: proposed_app_extension_pending_discovery, physical_target: null}
+  slots: {decision: proposed_app_extension_pending_discovery, physical_target: null}
+  media_assets: {decision: minimal_logo_registry_cloud_applied_storage_pipeline_unimplemented, physical_target: eps.media_assets}
+  candidates: {decision: reuse_or_extend_canonical_pending_discovery, physical_target: null}
+  candidate_media: {decision: reuse_or_extend_existing_media_pending_discovery, physical_target: null}
+  workspace_candidates: {decision: proposed_app_extension_pending_discovery, physical_target: null}
+  assignments: {decision: proposed_app_extension_pending_discovery, physical_target: null}
+  audience_presets: {decision: cloud_applied_three_defaults_read_back_M01, physical_target: eps.audience_presets}
+  presentation_series: {decision: proposed_app_extension_pending_discovery, physical_target: null}
+  presentation_versions: {decision: proposed_app_extension_pending_discovery, physical_target: null}
+  version_slides: {decision: proposed_app_extension_pending_discovery, physical_target: null}
+  review_links: {decision: proposed_app_extension_pending_discovery, physical_target: null}
+  presentation_exports: {decision: proposed_app_extension_pending_discovery, physical_target: null}
+  review_media_grants: {decision: proposed_app_extension_pending_discovery, physical_target: null}
+  guest_sessions: {decision: proposed_app_extension_pending_discovery, physical_target: null}
+  feedback_comments: {decision: proposed_app_extension_pending_discovery, physical_target: null}
+  feedback_preferences: {decision: proposed_app_extension_pending_discovery, physical_target: null}
+  jobs: {decision: proposed_durable_app_extension_pending_discovery, physical_target: null}
+  job_events: {decision: proposed_durable_app_extension_pending_discovery, physical_target: null}
+  outbox_events: {decision: proposed_durable_app_extension_pending_discovery, physical_target: null}
+  idempotency_records: {decision: cloud_applied_read_back_M01, physical_target: eps.idempotency_records}
+  audit_events: {decision: cloud_applied_read_back_M01, physical_target: eps.audit_events}
+
+capability_mapping:
+  # M01 physical mapping is cloud-applied/read back; actual-user grants remain unprovisioned.
+  projects.read: Active app_capability_grants row plus active project_memberships read scope.
+  projects.write: Active app_capability_grants row plus writable project scope; client fields additionally require writable client_memberships.
+  workspaces.read: Active app_capability_grants row plus permitted active canonical project.
+  workspaces.write: Active app_capability_grants row plus writable canonical project membership, independent of projects.write.
+  cast.read: Capability enum established; library operations await M03.
+  cast.upload: Capability enum established; upload/scan operations await M03.
+  cast.write: Capability enum established; reusable-fact operations await M03.
+  cast.review: Capability enum established; confirmation operation awaits M04.
+  presentations.generate: Capability enum established; generation operation awaits M05.
+  review_links.manage: Capability enum established; link operations await M06.
+  settings.manage: Active app_capability_grants row; audience-preset management RPC.
+  operations.read: Capability enum established; central jobs repository wiring remains unimplemented.
+  operations.retry: Capability enum established; central jobs repository wiring remains unimplemented.
+capability_plan: tracking/discovery/runtime-and-access.md
+
+external_dependencies:
+  n8n_cloud_instance_reference: null
+  openai_project_reference: null
+  web_hosting: null
+  worker_hosting: null
+  secret_manager_reference: null
+  canonical_app_regression_test_reference: tests/db/m01-foundation.sql and race files; actual local role/RLS/concurrency run passed, cloud real-user journey not run.
+
+observed_local_environment:
+  repository_kind: specification_pack_without_git_history
+  configuration_files_at_start: [.env.example]
+  matching_provider_environment_names_at_start: []
+  node: 24.18.0
+  npm: 11.16.0
+  pnpm: 10.34.7
+  python: 3.14.7
+  docker_cli: 29.6.1
+  docker_engine: 29.6.1
+  tools_absent_from_path_at_start: [supabase, ffmpeg, ffprobe, psql]
+  fixtures: synthetic_only
+  local_replay_status_at_start: not_run
+  approved_font_binaries_present: false
+  actual_casting_pdf_references_present_locally: false
+
+adaptations:
+  - decision_id: M00-NEW-CANONICAL-OWNER-DECISION
+    evidence: tracking/DECISIONS.md and tracking/discovery/canonical-ownership.md
+    impact: Owner explicitly approved the inspected empty project as canonical; no existing business data is replaced.
+    migration: Three coordinated immutable M01 migrations applied locally/cloud; readback receipt in tracking/evidence/cloud-foundation/readback.json.
+    tests: Guarded local role/RLS suite and real independent-session races passed; no synthetic cloud users/projects seeded.
+  - decision_id: M00-LOCAL-FIXTURE-BOUNDARY
+    evidence: tracking/discovery/local-inventory.json
+    impact: Continue isolated local development; production fixture mode must fail closed.
+    migration: No physical central migration authored by this discovery subtask.
+    tests: Production-denial, scope and persistence tests required in local implementation.
+unresolved_access_dependencies:
+  - Real signed-in user and real canonical project journey; no cloud auth users/projects/grants are provisioned yet.
+  - Canonical auth configuration and end-to-end user-token verification, including lifecycle/session revocation behavior.
+  - Private storage buckets, policies, limits, retention and restore mechanism.
+  - Existing hosting, CI/CD, worker platform and secret-management conventions; fresh Vercel Everyone-name query succeeded with zero matches in the default scope only.
+  - Authorized OpenAI and n8n integration configuration and representative samples; fresh n8n project-list call still failed with -32603.
+  - Intended delegated Claude clients and OAuth compatibility.
