@@ -762,6 +762,8 @@ M02 next exact step: convert the reviewed candidate to a CLI-created local migra
 
 Fresh hosted Auth ACL metadata at08:34:25Z confirms postgres SELECT plus id-column UPDATE permission needed for the planned FOR SHARE row lock (tracking/evidence/m01/central-enrollment/auth-lock-readiness.json). No Auth row was read/written by that check; the actual signed-in grant transaction remains unrun.
 
+Local code checkpoints: b85ee32 (requested canonical setup/scoped logo capability), e48fa86 (isolated M02 candidate/SDK/evidence). A documentation seal follows. Source archive manifests describe their exact input snapshot; a later archive-scan receipt is necessarily outside the archive it checks. Prior ignored source archives are retained under dist/checkpoints/ before refreshing the current archive. No remote/push/deployment exists.
+
 
 ---
 
