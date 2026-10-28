@@ -1,15 +1,15 @@
 import { createHash } from 'node:crypto';
 import { prepareDocumentIsolated, type DocumentProcessOptions } from './process.ts';
-import { DocumentPreparationError, type PrepareDocumentInput, type ExtractionMethod } from './types.ts';
+import { DocumentPreparationError, type DocumentPreparationInput, type ExtractionMethod } from './types.ts';
 
 export interface DocumentStageScope { jobId: string; attemptId: string; leaseToken: string }
 export interface DocumentStoragePort {
-  reserveOutput(input: { job_id: string; attempt_id: string; lease_token: string; asset_kind: 'document_text'; filename: string; mime_type: 'application/json'; expected_size_bytes: number; parent_asset_id: string; time_offset_ms: null }): Promise<{ assetId: string }>;
+  reserveOutput(input: { job_id: string; attempt_id: string; lease_token: string; asset_kind: 'document_text'; filename: string; mime_type: 'application/json'; expected_size_bytes: number; parent_asset_id: string | null; time_offset_ms: null }): Promise<{ assetId: string }>;
   writeOutput(input: { scope: DocumentStageScope; assetId: string; bytes: Uint8Array; mimeType: 'application/json' }): Promise<void>;
   completeOutput(input: { job_id: string; attempt_id: string; lease_token: string; asset_id: string; sha256: string; actual_size_bytes: number; width: null; height: null; duration_ms: null }): Promise<void>;
 }
 export interface DocumentPreparationResult {
-  source_asset_id: string;
+  source_asset_id: string | null;
   text_asset_id: string | null;
   page_assets: { page: number; asset_id: string }[];
   paragraph_count: number;
@@ -17,7 +17,7 @@ export interface DocumentPreparationResult {
   warnings: string[];
 }
 
-export async function prepareAndStoreDocument(input: PrepareDocumentInput, scope: DocumentStageScope, storage: DocumentStoragePort, options: DocumentProcessOptions = {}): Promise<DocumentPreparationResult> {
+export async function prepareAndStoreDocument(input: DocumentPreparationInput, scope: DocumentStageScope, storage: DocumentStoragePort, options: DocumentProcessOptions = {}): Promise<DocumentPreparationResult> {
   if (![scope.jobId, scope.attemptId, scope.leaseToken].every(value => typeof value === 'string' && value.trim())) throw new DocumentPreparationError('INVALID_JOB_SCOPE', 'An active authenticated job attempt and lease are required.');
   const stage = { ...scope };
   const prepared = await prepareDocumentIsolated(input, options);

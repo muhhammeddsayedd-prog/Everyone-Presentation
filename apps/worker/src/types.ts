@@ -17,11 +17,14 @@ export class DocumentPreparationError extends Error {
   }
 }
 
-export interface PrepareDocumentInput { bytes: Uint8Array; mimeType: string; sourceAssetId: string }
+/** Asset mode remains compatible with existing callers and always requires an asset. */
+export interface PrepareDocumentInput { sourceKind?: 'asset'; bytes: Uint8Array; mimeType: string; sourceAssetId: string }
+export interface PreparePastedTextInput { sourceKind: 'pasted_text'; text: string; sourceAssetId: null }
+export type DocumentPreparationInput = PrepareDocumentInput | PreparePastedTextInput;
 export interface SourceParagraph { index: number; page: number | null; start: number; end: number; text: string }
 export type ExtractionMethod = 'plain_text' | 'pdf_text' | 'docx_text';
 export interface PreparedDocument {
-  sourceAssetId: string;
+  sourceAssetId: string | null;
   sourceSha256: string;
   text: string;
   paragraphs: SourceParagraph[];

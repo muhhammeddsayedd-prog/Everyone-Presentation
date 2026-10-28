@@ -1,8 +1,10 @@
 // Fixed one-document stdin/stdout protocol. Never accepts paths, commands,
 // callback URLs or runtime options. No environment file or provider key is read.
 import { prepareDocument } from './prepare.ts';
+import { preparePastedText } from './pasted-text.ts';
 import process from 'node:process';
 import { Buffer } from 'node:buffer';
+import { TextDecoder } from 'node:util';
 const maximumInput = Math.ceil(20 * 1024 * 1024 / 3) * 4 + 4096;
 const chunks = []; let total = 0;
 try {
@@ -12,12 +14,15 @@ try {
     chunks.push(chunk);
   }
   const value = JSON.parse(Buffer.concat(chunks).toString('utf8'));
-  if (!value || Object.keys(value).sort().join(',') !== 'bytes,mimeType,sourceAssetId' || typeof value.bytes !== 'string'
-    || typeof value.mimeType !== 'string' || value.mimeType.length > 200 || typeof value.sourceAssetId !== 'string'
-    || !value.sourceAssetId.trim() || value.sourceAssetId.length > 200) throw new Error('Invalid parser protocol.');
+  if (!value || Object.keys(value).sort().join(',') !== 'bytes,mimeType,sourceAssetId,sourceKind' || typeof value.bytes !== 'string'
+    || typeof value.mimeType !== 'string' || value.mimeType.length > 200
+    || !['asset', 'pasted_text'].includes(value.sourceKind)
+    || (value.sourceKind === 'pasted_text' ? value.sourceAssetId !== null || value.mimeType !== 'text/plain'
+      : typeof value.sourceAssetId !== 'string' || !value.sourceAssetId.trim() || value.sourceAssetId.length > 200)) throw new Error('Invalid parser protocol.');
   const bytes = Buffer.from(value.bytes, 'base64');
   if (bytes.toString('base64') !== value.bytes) throw new Error('Invalid byte encoding.');
-  const result = await prepareDocument({ bytes, mimeType: value.mimeType, sourceAssetId: value.sourceAssetId });
+  const result = value.sourceKind === 'pasted_text' ? preparePastedText(new TextDecoder('utf-8', { fatal: true, ignoreBOM: true }).decode(bytes))
+    : await prepareDocument({ bytes, mimeType: value.mimeType, sourceAssetId: value.sourceAssetId });
   process.stdout.write(JSON.stringify({ ok: true, result }));
 } catch (error) {
   // The parent accepts only known codes and supplies its own safe wording.

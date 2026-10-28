@@ -9461,6 +9461,7 @@ components:
           type: string
         row_version:
           $ref: '#/components/schemas/RowVersion'
+          description: Current Spec.row_version, not the workspace version. Omission is accepted only for a locked pristine initial Spec; other source submissions require its current version.
       required: []
       description: Exactly one of source_asset_id or source_text is required. Existing initial record may be corrected,
         not versioned as a specs revision product.
@@ -11586,7 +11587,14 @@ components:
           type: string
         status:
           type: string
-          const: queued
+          enum:
+          - queued
+          - running
+          - waiting_for_input
+          - succeeded
+          - failed
+          - cancelled
+          description: Recorded durable job status for this acknowledgement. Reusing an existing job reports its current status; an idempotent replay may retain its original acknowledgement. Read poll_url for current status.
       required:
       - job_id
       - resource_id
@@ -11807,6 +11815,7 @@ components:
         result:
           type: object
           additionalProperties: true
+          description: Validated by the allowlisted job/stage result schema. prepare_document uses contracts/json-schema/document-preparation.schema.json; source_asset_id is null only for direct pasted text, while real files require their verified asset ID.
         error:
           anyOf:
           - $ref: '#/components/schemas/Error'

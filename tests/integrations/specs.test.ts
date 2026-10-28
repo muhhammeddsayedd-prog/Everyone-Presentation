@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import OpenAI from 'openai';
 import { extractSpecs, IntegrationError, openAISpecsConfigFromEnv } from '../../packages/integrations/src/index.ts';
 import type { SpecsExtraction, SpecsExtractionInput } from '../../packages/integrations/src/index.ts';
+import { SPECS_PROVIDER_SCHEMA } from '../../packages/integrations/src/specs-schema.ts';
 
 // All responses below are deterministic synthetic fixtures; no provider calls occur.
 const config = { apiKey: 'unit-test-placeholder-key', model: 'configured-test-model' };
@@ -78,6 +79,85 @@ test('official pinned SDK serializes the strict Responses request with injected 
   assert.ok(sent);
   assert.equal((sent as Record<string, unknown>).model, config.model);
   assert.equal(extracted.metadata.request_id, 'req_sdk_fixture');
+});
+
+// Process globals are restored even on failure; this file's top-level tests are
+// serial, and Node's test runner isolates it from the other test files.
+test('default real SDK ignores unrelated host routing, credentials, headers and logging', { concurrency: false }, async (t) => {
+  const names = ['OPENAI_BASE_URL', 'OPENAI_ORG_ID', 'OPENAI_PROJECT_ID', 'OPENAI_LOG',
+    'OPENAI_ADMIN_KEY', 'OPENAI_CUSTOM_HEADERS'] as const;
+  const saved = new Map(names.map(name => [name, process.env[name]]));
+  const originalFetch = globalThis.fetch;
+  const logs: unknown[][] = [];
+  const consoleMocks = (['error', 'warn', 'info', 'debug', 'log'] as const)
+    .map(name => t.mock.method(console, name, (...args: unknown[]) => { logs.push(args); }));
+  const calls: { url: string; headers: Headers; body: Record<string, unknown> }[] = [];
+  let mode: 'valid' | 'bad-schema' | 'bad-evidence' | 'unavailable' = 'valid';
+  try {
+    Object.assign(process.env, {
+      OPENAI_BASE_URL: 'https://synthetic-unrelated-provider.example.invalid/v1',
+      OPENAI_ORG_ID: 'synthetic-unrelated-org', OPENAI_PROJECT_ID: 'synthetic-unrelated-project',
+      OPENAI_LOG: 'debug', OPENAI_ADMIN_KEY: 'synthetic-unrelated-admin-key',
+      OPENAI_CUSTOM_HEADERS: ['Authorization: Bearer synthetic-custom-key',
+        'OpenAI-ORGANIZATION: synthetic-custom-org', 'OPENAI-PROJECT: synthetic-custom-project',
+        'X-Unrelated-Secret: synthetic-host-secret', 'Host: synthetic-unrelated-provider.example.invalid',
+        'Content-Type: text/plain', 'Accept: text/html', 'api-key: synthetic-other-provider-key'].join('\n'),
+    });
+    globalThis.fetch = async (url, init) => {
+      calls.push({ url: url instanceof Request ? url.url : String(url),
+        headers: new Headers(init?.headers), body: JSON.parse(String(init?.body)) as Record<string, unknown> });
+      if (mode === 'unavailable') return new Response(JSON.stringify({ error: {
+        message: 'synthetic-private-provider-body', type: 'server_error' } }),
+      { status: 500, headers: { 'Content-Type': 'application/json', 'x-request-id': 'req_sdk_unavailable' } });
+      const payload = result();
+      if (mode === 'bad-schema') payload.roles[0].headcount = 0;
+      if (mode === 'bad-evidence') payload.roles[0].evidence[0].quote = 'A synthetic invented quotation';
+      return new Response(JSON.stringify(response(payload)), { status: 200,
+        headers: { 'Content-Type': 'application/json', 'x-request-id': 'req_sdk_environment' } });
+    };
+    // No injected SpecsTransport: exercise extractSpecs' actual SDK construction.
+    const extracted = await extractSpecs(input, config);
+    assert.equal(calls.length, 1);
+    assert.equal(calls[0].url, 'https://api.openai.com/v1/responses');
+    assert.equal(calls[0].headers.get('authorization'), `Bearer ${config.apiKey}`);
+    for (const header of ['openai-organization', 'openai-project', 'x-unrelated-secret', 'host', 'api-key']) {
+      assert.equal(calls[0].headers.has(header), false, `Host header must not be inherited: ${header}`);
+    }
+    assert.equal(calls[0].headers.get('content-type'), 'application/json');
+    assert.equal(calls[0].headers.get('accept'), 'application/json');
+    assert.equal(calls[0].body.model, config.model);
+    assert.equal(calls[0].body.store, false);
+    assert.equal(calls[0].body.stream, false);
+    assert.deepEqual(calls[0].body.tools, []);
+    assert.deepEqual(calls[0].body.text, { format: {
+      type: 'json_schema', name: 'specs_extraction_v1', strict: true, schema: SPECS_PROVIDER_SCHEMA } });
+    assert.deepEqual(extracted.result, result());
+    assert.equal(extracted.metadata.request_id, 'req_sdk_environment');
+    assert.equal(extracted.metadata.requested_model, config.model);
+    assert.equal(extracted.metadata.resolved_model, 'resolved-test-snapshot');
+    assert.equal(logs.length, 0, 'SDK must not emit request/provider body logs');
+
+    mode = 'bad-schema';
+    await assert.rejects(extractSpecs(input, config), errorCode('AI_RESULT_INVALID'));
+    assert.equal(calls.length, 2);
+    mode = 'bad-evidence';
+    await assert.rejects(extractSpecs(input, config), errorCode('AI_EVIDENCE_INVALID'));
+    assert.equal(calls.length, 3);
+    mode = 'unavailable';
+    await assert.rejects(extractSpecs(input, config), errorCode('OPENAI_UNAVAILABLE'));
+    assert.equal(calls.length, 4, 'SDK must not retry the failed HTTP attempt');
+    assert.equal(logs.length, 0, 'SDK error handling must not log provider bodies');
+    assert.ok(calls.every(call => call.url === 'https://api.openai.com/v1/responses'
+      && call.headers.get('authorization') === `Bearer ${config.apiKey}`));
+  } finally {
+    globalThis.fetch = originalFetch;
+    for (const name of names) {
+      const value = saved.get(name);
+      if (value === undefined) Reflect.deleteProperty(process.env, name);
+      else process.env[name] = value;
+    }
+    for (const method of consoleMocks) method.mock.restore();
+  }
 });
 
 test('missing key/model and invalid prepared input fail before any transport call', async () => {

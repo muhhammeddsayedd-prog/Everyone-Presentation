@@ -41,6 +41,19 @@ function checkedConfig(config: OpenAISpecsConfig): Required<OpenAISpecsConfig> {
   return { apiKey: config.apiKey.trim(), model: config.model, timeoutMs, maxOutputTokens };
 }
 
+function isolatedSDKHeaders(apiKey: string): Record<string, string | null> {
+  // SDK7.45.1 merges OPENAI_CUSTOM_HEADERS into its defaults. Its supported
+  // null overrides remove inherited values; inspect names only, never log them.
+  const inheritedNames = (process.env.OPENAI_CUSTOM_HEADERS ?? '').split('\n')
+    .filter(line => line.includes(':')).map(line => line.slice(0, line.indexOf(':')).trim().toLowerCase());
+  return {
+    ...Object.fromEntries(inheritedNames.map(name => [name, null])),
+    authorization: `Bearer ${apiKey}`, 'api-key': null,
+    'openai-organization': null, 'openai-project': null,
+    'content-type': 'application/json', accept: 'application/json',
+  };
+}
+
 function validateInput(input: SpecsExtractionInput): string {
   if (!input || typeof input !== 'object' || !safeIdentifier(input.correlationId) || !/^[a-f0-9]{64}$/.test(input.inputHash)
     || (input.sourceAssetId !== null && !safeIdentifier(input.sourceAssetId))
@@ -160,7 +173,9 @@ export async function extractSpecs(
   };
   // Application jobs own retries. Do not multiply attempts inside the SDK.
   const send = transport ?? ((body, requestSignal) => new OpenAI({
-    apiKey: config.apiKey, timeout: config.timeoutMs, maxRetries: 0,
+    apiKey: config.apiKey, adminAPIKey: null, organization: null, project: null, webhookSecret: null,
+    baseURL: 'https://api.openai.com/v1', logLevel: 'off', defaultHeaders: isolatedSDKHeaders(config.apiKey),
+    timeout: config.timeoutMs, maxRetries: 0,
   }).responses.create(body, { signal: requestSignal }));
   const deadline = AbortSignal.timeout(config.timeoutMs);
   const requestSignal = signal ? AbortSignal.any([signal, deadline]) : deadline;

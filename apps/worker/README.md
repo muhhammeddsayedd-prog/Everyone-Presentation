@@ -14,6 +14,16 @@ This package implements the M02 document preparation library and a separate pars
 
 A PDF with some text-free pages returns a warning identifying those pages. This is partial text preparation, not proof that image-based requirements have been read. Complex PDF reading order and fonts require verification on authorized representative samples.
 
+Direct pasted text uses `preparePastedText(text)`, or the explicit input
+`{ sourceKind: 'pasted_text', text, sourceAssetId: null }` with
+`prepareDocumentIsolated` / `prepareAndStoreDocument`. It hashes the original
+UTF8 encoding before LF normalization, preserves Arabic/mixed text and stable
+paragraph offsets, and rejects empty/whitespace, invalid Unicode, binary control
+characters and normal byte/text/paragraph limits. No source file/asset is created
+or assumed. Asset-mode calls retain their mandatory real `sourceAssetId`.
+The fixed subprocess protocol distinguishes these modes and accepts no path,
+URL or executable option. A URL appearing inside supplied text remains data.
+
 ## Interface and ownership
 
 `prepareDocument({ bytes, mimeType, sourceAssetId })` returns:
@@ -22,6 +32,14 @@ A PDF with some text-free pages returns a warning identifying those pages. This 
 - Prepared source text and `extractionMethod` (`plain_text`, `pdf_text`, `docx_text`).
 - Paragraphs with stable zero-based `index`, nullable one-based PDF `page`, exact `text`, and zero-based UTF-16 `start`/exclusive `end` offsets into the returned text.
 - Explicit preparation warnings. Parser exceptions are replaced with actionable typed errors; raw private source/parser details are not logged.
+
+`PreparedDocument.sourceAssetId` and the document-preparation callback's
+`source_asset_id` are nullable only for direct pasted text. A stored text
+derivative for that mode has `parent_asset_id: null`; job/attempt/lease ownership
+must still be verified by the real storage port. A null original source does not
+make a derivative Ready or bypass output reservation/completion. The current
+port tests use injected synthetic storage; real document storage and service
+callback authorization remain unimplemented.
 
 The source asset ID is an opaque reference, not a path. This function accepts no network URL, filename path, SQL, shell command or executable task from uploaded material. Source text is returned as data even when it contains instructions or HTML-like text.
 
@@ -68,7 +86,7 @@ npm.cmd exec -- eslint apps/worker tests/worker --max-warnings 0
 npm.cmd run typecheck
 ```
 
-The earlier Windows/Node24.18.0 checkpoint passed10/10 direct document tests. The new checkpoint passes17/17 worker tests: the same genuine PDF/DOCX fixtures also cross the actual child process, with deadline/cancellation/recovery, two-child admission and paragraph allocation checks. Worker lint and repository typecheck pass. These are generated genuine source structures, not parser stubs or cloud/provider acceptance. The direct tests retain Arabic/mixed text, evidence offsets, unsupported/corrupt/no-text paths, archive/CRC/relationship checks and output verification coverage.
+The earlier Windows/Node24.18.0 checkpoint passed10/10 direct document tests. The c2df325 checkpoint passed17/17 worker tests: the same genuine PDF/DOCX fixtures also crossed the actual child process, with deadline/cancellation/recovery, two-child admission and paragraph allocation checks. The direct-pasted-text follow-up passes22/22, retaining all seventeen and adding five real preparation/process/contract seams. These are generated genuine source structures, not parser stubs or cloud/provider acceptance. The direct tests retain Arabic/mixed text, evidence offsets, unsupported/corrupt/no-text paths, archive/CRC/relationship checks and output verification coverage.
 
 The initial focused test failed because implementation did not exist. Independent review then reproduced two real preflight gaps: XML relationship regex bypass and unchecked CRC. Each received a failing regression before its fix; the final ten-test run passed. Initial control-character regex lint errors and XML nullable-attribute type errors were corrected without suppressing their checks. The originally one-based paragraph ordinal was replaced with the shared zero-based index before any integrated consumer was published.
 

@@ -59,6 +59,10 @@ export function parseSpecSubmit(value: unknown): SpecSubmit {
   if (result.source_text !== undefined && !result.source_text.trim()) {
     throw new DomainError('SPECS_SOURCE_REQUIRED', 'Provide readable source text or a Ready specs document.');
   }
+  if (result.source_text !== undefined) for (const character of result.source_text) {
+    const point = character.codePointAt(0)!;
+    if (point >= 0xd800 && point <= 0xdfff || point < 32 && ![9, 10, 13].includes(point)) invalid();
+  }
   if (Object.hasOwn(item, 'row_version')) result.row_version = integer(item.row_version, 1);
   return result;
 }

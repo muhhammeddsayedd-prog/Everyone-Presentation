@@ -1,7 +1,8 @@
 import { spawn } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
-import { DOCUMENT_LIMITS, DocumentPreparationError, type PrepareDocumentInput, type PreparedDocument } from './types.ts';
+import { DOCUMENT_LIMITS, DocumentPreparationError, type DocumentPreparationInput, type PreparedDocument } from './types.ts';
+import { pastedTextBytes } from './pasted-text.ts';
 
 const sourceDirectory = fileURLToPath(new URL('./', import.meta.url));
 const dependencies = fileURLToPath(new URL('../../../node_modules/', import.meta.url));
@@ -25,7 +26,8 @@ const failure = (code: string, message: string, retryable = false) => new Docume
 const invalidResult = () => failure('DOCUMENT_PROCESS_FAILED', 'The document process did not return a valid result. The source was retained.', true);
 const record = (value: unknown): value is Record<string, unknown> => Boolean(value) && typeof value === 'object' && !Array.isArray(value);
 const exact = (value: Record<string, unknown>, names: string[]) => Object.keys(value).length === names.length && names.every(name => Object.hasOwn(value, name));
-function resultFromBytes(bytes: Buffer, input: PrepareDocumentInput): PreparedDocument {
+interface ProcessSource { sourceKind: 'asset' | 'pasted_text'; sourceAssetId: string | null; mimeType: string; bytes: Buffer }
+function resultFromBytes(bytes: Buffer, input: ProcessSource): PreparedDocument {
   let envelope: unknown;
   try { envelope = JSON.parse(bytes.toString('utf8')); } catch { throw invalidResult(); }
   if (!record(envelope)) throw invalidResult();
@@ -54,19 +56,28 @@ function resultFromBytes(bytes: Buffer, input: PrepareDocumentInput): PreparedDo
  * deadline. Node permissions are defense in depth, NOT an OS sandbox/RSS limit.
  * Native parser dependencies require addons; production still needs container
  * CPU/RSS/egress enforcement. No uploaded command, filename or URL is accepted. */
-export async function prepareDocumentIsolated(input: PrepareDocumentInput, options: DocumentProcessOptions = {}): Promise<PreparedDocument> {
-  if (!input || !(input.bytes instanceof Uint8Array) || input.bytes.length === 0) throw failure('SOURCE_UNREADABLE', messages.SOURCE_UNREADABLE);
-  if (input.bytes.length > DOCUMENT_LIMITS.maximumBytes) throw failure('DOCUMENT_LIMIT_EXCEEDED', messages.DOCUMENT_LIMIT_EXCEEDED);
-  if (typeof input.sourceAssetId !== 'string' || !input.sourceAssetId.trim() || input.sourceAssetId.length > 200) throw failure('INVALID_SOURCE_REFERENCE', messages.INVALID_SOURCE_REFERENCE);
-  if (typeof input.mimeType !== 'string' || input.mimeType.length > 200) throw failure('DOCUMENT_TYPE_UNSUPPORTED', messages.DOCUMENT_TYPE_UNSUPPORTED);
-  if (!['text/plain', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'].includes(input.mimeType)) throw failure('DOCUMENT_TYPE_UNSUPPORTED', messages.DOCUMENT_TYPE_UNSUPPORTED);
+export async function prepareDocumentIsolated(input: DocumentPreparationInput, options: DocumentProcessOptions = {}): Promise<PreparedDocument> {
+  if (!input || typeof input !== 'object') throw failure('SOURCE_UNREADABLE', messages.SOURCE_UNREADABLE);
+  let source: ProcessSource;
+  if (input.sourceKind === 'pasted_text') {
+    if (input.sourceAssetId !== null) throw failure('INVALID_SOURCE_REFERENCE', messages.INVALID_SOURCE_REFERENCE);
+    if (!exact(input as unknown as Record<string, unknown>, ['sourceKind', 'sourceAssetId', 'text'])) throw failure('SOURCE_UNREADABLE', messages.SOURCE_UNREADABLE);
+    source = { sourceKind: 'pasted_text', sourceAssetId: null, mimeType: 'text/plain', bytes: pastedTextBytes(input.text) };
+  } else {
+    if (!(input.bytes instanceof Uint8Array) || input.bytes.length === 0) throw failure('SOURCE_UNREADABLE', messages.SOURCE_UNREADABLE);
+    if (input.bytes.length > DOCUMENT_LIMITS.maximumBytes) throw failure('DOCUMENT_LIMIT_EXCEEDED', messages.DOCUMENT_LIMIT_EXCEEDED);
+    if (typeof input.sourceAssetId !== 'string' || !input.sourceAssetId.trim() || input.sourceAssetId.length > 200) throw failure('INVALID_SOURCE_REFERENCE', messages.INVALID_SOURCE_REFERENCE);
+    if (input.sourceKind !== undefined && input.sourceKind !== 'asset') throw failure('SOURCE_UNREADABLE', messages.SOURCE_UNREADABLE);
+    if (typeof input.mimeType !== 'string' || input.mimeType.length > 200) throw failure('DOCUMENT_TYPE_UNSUPPORTED', messages.DOCUMENT_TYPE_UNSUPPORTED);
+    if (!['text/plain', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'].includes(input.mimeType)) throw failure('DOCUMENT_TYPE_UNSUPPORTED', messages.DOCUMENT_TYPE_UNSUPPORTED);
+    source = { sourceKind: 'asset', sourceAssetId: input.sourceAssetId, mimeType: input.mimeType, bytes: Buffer.from(input.bytes) };
+  }
   const timeout = options.timeoutMs ?? 30_000;
   if (!Number.isSafeInteger(timeout) || timeout < 1 || timeout > 30_000) throw failure('DOCUMENT_PROCESS_CONFIGURATION_INVALID', 'The parser deadline must be between 1 and 30000 milliseconds.');
   if (options.signal?.aborted) throw failure('DOCUMENT_PREPARATION_CANCELLED', 'Document preparation was cancelled.');
   if (active >= maximumConcurrent) throw failure('DOCUMENT_PREPARATION_BUSY', 'Both document parser slots are busy. Retry when one is available.', true);
-  // Snapshot caller-owned mutable bytes before starting the asynchronous work.
-  const source = { ...input, bytes: Buffer.from(input.bytes) };
-  const payload = JSON.stringify({ sourceAssetId: source.sourceAssetId, mimeType: source.mimeType, bytes: source.bytes.toString('base64') });
+  // Snapshot caller-owned data before asynchronous work; no URL/path is accepted.
+  const payload = JSON.stringify({ sourceKind: source.sourceKind, sourceAssetId: source.sourceAssetId, mimeType: source.mimeType, bytes: source.bytes.toString('base64') });
   const environment: NodeJS.ProcessEnv = { NODE_ENV: 'production' };
   for (const name of ['SystemRoot', 'WINDIR', 'TEMP', 'TMP', 'LANG']) if (process.env[name]) environment[name] = process.env[name];
   active++;

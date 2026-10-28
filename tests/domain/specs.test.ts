@@ -25,6 +25,13 @@ const extraction = (count: number | null = 3): SpecsExtraction => ({
 });
 const allocator = () => { let next = 0; return () => `allocated-${++next}`; };
 const code = (expected: string) => (error: unknown) => error instanceof DomainError && error.code === expected;
+test('spec submission preserves valid source text and rejects invalid Unicode or binary controls before persistence', () => {
+  const supplied = 'المطلوب\r\nRole: Waiter';
+  assert.equal(parseSpecSubmit({ source_text: supplied }).source_text, supplied);
+  for (const source_text of ['unpaired\ud800', 'nul\0value', 'binary\u0001value']) {
+    assert.throws(() => parseSpecSubmit({ source_text }), code('VALIDATION_FAILED'));
+  }
+});
 function draft(count: number | null = 3) {
   const ids = allocator();
   const empty = createEmptySpecsDraft({ id: 'spec-1', workspace_id: 'workspace-1', draft_revision: 0 });

@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "x-source-sha256": "59d16ecede826a54270e346ce714b93a40bb4f5c73868521fef672e0d8cf9365",
+  "x-source-sha256": "d716b8d9fa420b1c4d195eb89065455c0da7d1070e6e9c472a2b603a7dfc048e",
   "$defs": {
     "Id": {
       "type": "string",
@@ -608,7 +608,8 @@
           "type": "string"
         },
         "row_version": {
-          "$ref": "#/$defs/RowVersion"
+          "$ref": "#/$defs/RowVersion",
+          "description": "Current Spec.row_version, not the workspace version. Omission is accepted only for a locked pristine initial Spec; other source submissions require its current version."
         }
       },
       "required": [],
@@ -3787,7 +3788,15 @@
         },
         "status": {
           "type": "string",
-          "const": "queued"
+          "enum": [
+            "queued",
+            "running",
+            "waiting_for_input",
+            "succeeded",
+            "failed",
+            "cancelled"
+          ],
+          "description": "Recorded durable job status for this acknowledgement. Reusing an existing job reports its current status; an idempotent replay may retain its original acknowledgement. Read poll_url for current status."
         }
       },
       "required": [
@@ -4111,7 +4120,8 @@
         },
         "result": {
           "type": "object",
-          "additionalProperties": true
+          "additionalProperties": true,
+          "description": "Validated by the allowlisted job/stage result schema. prepare_document uses contracts/json-schema/document-preparation.schema.json; source_asset_id is null only for direct pasted text, while real files require their verified asset ID."
         },
         "error": {
           "anyOf": [

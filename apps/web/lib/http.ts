@@ -48,6 +48,6 @@ export async function readBoundedBody(request: Request, maximum: number) {
 }
 export async function readJson(request: Request) {
   if (request.headers.get('content-type')?.split(';')[0] !== 'application/json') throw new DomainError('VALIDATION_ERROR', 'Use application/json.', 400);
-  try { return JSON.parse(Buffer.from(await readBoundedBody(request, 64 * 1024)).toString('utf8')); }
+  try { return JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(await readBoundedBody(request, 64 * 1024))); }
   catch (e) { if (e instanceof DomainError) throw e; throw new DomainError('VALIDATION_ERROR', 'Malformed JSON body.', 400); }
 }

@@ -48,8 +48,10 @@ does not demonstrate model generation, workflow execution or the full pipeline.
 It does not modify either provider or choose a model. The documented candidate
 used for an availability boolean is currently `gpt-6.1-sol`; its
 [official model page](https://developers.openai.com/api/docs/models/gpt-6.1-sol)
-lists Structured Outputs. This remains unevaluated in this application until
-actual schema/source checks pass.
+lists Structured Outputs. On2026-10-28, the user-selected model passed one real
+[synthetic source evaluation](../tracking/evidence/m02/provider-evaluation/README.md)
+with the strict result schema and source checks. This establishes one observed
+extraction, not representative accuracy or the integrated n8n/worker pipeline.
 
 The request shapes follow [OpenAI's model-list API](https://developers.openai.com/api/reference/resources/models/methods/list)
 and [n8n API authentication](https://docs.n8n.io/connect/n8n-api/authentication.md),
