@@ -1,0 +1,7 @@
+# Isolated logo verification receipt
+
+Implemented in `packages/central/src/logo-receipt.ts`; eight adversarial tests in `packages/central/test/logo-receipt.test.ts`. Root reran `node tools/run-tests.mjs packages/central/test/logo-receipt.test.ts`: 8 passed, zero failures/skips. An independent agent reviewed cryptography, exact schema, timestamps, decoding bounds and scope binding; no substantive bypass was found. Its TypeScript narrowing correction passed typecheck.
+
+The module authenticates exact original bytes with HMAC-SHA256, uses a required 32-byte server key and fixed 32-byte timing-safe MAC comparison, rejects unbounded/noncanonical base64url before allocation, parses fatal UTF-8, rejects duplicate/alternate JSON representations and unknown fields, and enforces a maximum 120-second receipt lifetime. Actor, reservation, asset, workspace, verification epoch, revision, destination and content size/type/checksum are bound. Tests use only synthetic keys/data, including correctly signed malformed payloads.
+
+This is an internal server library. Signing a receipt is not image verification. The wrapper must first retrieve and decode actual stored bytes, while SQL must independently recheck current actor/resource scope, reservation state, idempotency and proof fields at commit. The proposed database verifier, private key provisioning, Storage byte transfer and real-user acceptance are not established by these tests. No real key was generated or stored for this module.
