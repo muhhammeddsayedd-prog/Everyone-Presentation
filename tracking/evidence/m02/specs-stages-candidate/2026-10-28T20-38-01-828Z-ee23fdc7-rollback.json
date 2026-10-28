@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0",
+  "run_id": "ee23fdc7-c9da-4632-b476-99e74627ef99",
+  "started_at": "2026-10-28T20:38:00.337Z",
+  "result": "failed",
+  "candidate": "development/m02/specs-stages-candidate.sql",
+  "assertions": "tests/db/m02-specs-stages-candidate.sql",
+  "hashes": {
+    "candidate": "2b18b4137cf9c796dc3d569cb9cb82a606fe8c96558ab71dce214f7f56108457",
+    "assertions": "4a958b846777b8ce823f263d2690714d90a3285ee90546a128034c1c1623fe99"
+  },
+  "harness_sha256": "6fe547fdc24c623347565dabc577680596d2f11c3360b05782babe4f85472959",
+  "cloud_called": false,
+  "provider_called": false,
+  "assignments_integrated": false,
+  "concurrent_sessions_tested": false,
+  "persisted_kernel_tested": false,
+  "source_submission_tested": false,
+  "pipeline_config_enabled": false,
+  "service_identity_provisioned": false,
+  "job_callbacks_tested": false,
+  "promotion_performed": false,
+  "scope": "Private specs stage kernel and initial publication in one owned-local rollback transaction. One SQL transaction only; no multi-backend, HTTP, provider, native executor, n8n or deployed pipeline acceptance.",
+  "error": "The pinned local daemon/container must match the verified ownership, image, volume and loopback publication.",
+  "finished_at": "2026-10-28T20:38:01.828Z"
+}

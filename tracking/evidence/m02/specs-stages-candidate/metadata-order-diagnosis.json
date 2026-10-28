@@ -1,0 +1,30 @@
+{
+  "recorded_at": "2026-10-28T20:41:29.479138+00:00",
+  "scope": "Read-only local Docker metadata diagnosis preceding the stage rehearsal",
+  "all_seven_fields_semantically_equal": true,
+  "serialization_mismatch": "Mounts object property order only",
+  "full_inspect_mount_keys": [
+    "Type",
+    "Name",
+    "Source",
+    "Destination",
+    "Driver",
+    "Mode",
+    "RW",
+    "Propagation"
+  ],
+  "template_json_mount_keys": [
+    "Destination",
+    "Driver",
+    "Mode",
+    "Name",
+    "Propagation",
+    "RW",
+    "Source",
+    "Type"
+  ],
+  "fix": "node:util isDeepStrictEqual retains keys/values/types/array order; endpoint and immutable ID checks unchanged",
+  "db_called_by_diagnosis": false,
+  "writes_performed": false,
+  "raw_metadata_values_recorded": false
+}
