@@ -2,6 +2,7 @@ export const DOCUMENT_LIMITS = Object.freeze({
   maximumBytes: 20 * 1024 * 1024,
   maximumPages: 200,
   maximumTextCharacters: 2_000_000,
+  maximumParagraphs: 10_000,
   maximumZipEntries: 1_000,
   maximumZipEntryBytes: 16 * 1024 * 1024,
   maximumZipExpandedBytes: 40 * 1024 * 1024,
@@ -10,9 +11,9 @@ export const DOCUMENT_LIMITS = Object.freeze({
 
 export class DocumentPreparationError extends Error {
   readonly code: string;
-  readonly retryable = false;
-  constructor(code: string, message: string) {
-    super(message); this.name = 'DocumentPreparationError'; this.code = code;
+  readonly retryable: boolean;
+  constructor(code: string, message: string, retryable = false) {
+    super(message); this.name = 'DocumentPreparationError'; this.code = code; this.retryable = retryable;
   }
 }
 
@@ -47,7 +48,10 @@ export function mapParagraphs(text: string, page: number | null, baseOffset = 0,
   const result: SourceParagraph[] = [];
   let offset = 0; let start: number | null = null; let end = 0;
   function flush() {
-    if (start !== null) result.push({ index: firstIndex + result.length, page, start: baseOffset + start, end: baseOffset + end, text: text.slice(start, end) });
+    if (start !== null) {
+      if (firstIndex + result.length >= DOCUMENT_LIMITS.maximumParagraphs) throw limitExceeded('The source exceeds 10,000 paragraphs. Split it or paste the relevant requirements.');
+      result.push({ index: firstIndex + result.length, page, start: baseOffset + start, end: baseOffset + end, text: text.slice(start, end) });
+    }
     start = null;
   }
   for (const line of text.split('\n')) {

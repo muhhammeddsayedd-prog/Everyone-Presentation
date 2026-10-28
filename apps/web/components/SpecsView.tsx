@@ -2,12 +2,13 @@
 
 import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import type { Role, Spec } from '@eps/domain';
+import type { Role, Spec, Workspace, ReorderWorkspace } from '@eps/domain';
 import { api, ApiError, errorMessage, mutation } from './api';
 import { ErrorNotice, Loading } from './Feedback';
 import { Clarifications, RoleEditor } from './RoleEditor';
 import { roleCreate } from './specs-form';
 import { Icon } from './Icon';
+import { prepareRoleMove, readRoleOrder, type RoleOrderReader } from './role-order-form';
 
 function Instructions({ spec, canWrite, onSaved, onDirtyChange }: { spec: Spec; canWrite: boolean; onSaved: (spec: Spec) => void; onDirtyChange: (id: string, dirty: boolean) => void }) {
   const [text, setText] = useState(spec.normalized_instructions ?? '');
@@ -83,9 +84,15 @@ export function SpecsView({ workspaceId, projectId, canWrite, onDirtyChange, onW
   const [spec, setSpec] = useState<Spec | null>(null); const [roles, setRoles] = useState<Role[]>([]);
   const [cursor, setCursor] = useState<string | null>(null); const [loading, setLoading] = useState(true); const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState(''); const [refresh, setRefresh] = useState(0);
+  const [reordering, setReordering] = useState(false); const [orderPending, setOrderPending] = useState(false);
+  const [orderError, setOrderError] = useState(''); const [orderStatus, setOrderStatus] = useState('');
+  const [orderNeedsReload, setOrderNeedsReload] = useState(false);
+  const orderIntent = useRef<{ input: ReorderWorkspace; key: string } | null>(null);
+  const orderActive = useRef(false); const orderSequence = useRef(0); const orderAbort = useRef<AbortController | null>(null);
   const [dirty, setDirty] = useState<Record<string, boolean>>({});
   const dirtyChanged = useCallback((id: string, value: boolean) => setDirty(current => current[id] === value ? current : { ...current, [id]: value }), []);
-  const hasUnsaved = Object.values(dirty).some(Boolean);
+  const hasUnsaved = Object.values(dirty).some(Boolean) || orderPending || reordering;
+  useEffect(() => () => { orderSequence.current++; orderAbort.current?.abort(); }, [workspaceId]);
   useEffect(() => { onDirtyChange(hasUnsaved); return () => onDirtyChange(false); }, [hasUnsaved, onDirtyChange]);
   useEffect(() => {
     let current = true; const abort = new AbortController(); const signal = AbortSignal.any([abort.signal, AbortSignal.timeout(20_000)]);
@@ -96,8 +103,50 @@ export function SpecsView({ workspaceId, projectId, canWrite, onDirtyChange, onW
     return () => { current = false; abort.abort(); };
   }, [workspaceId, refresh]);
   function reload() {
-    if (hasUnsaved && !window.confirm('Discard unsaved requirement changes and reload the saved details?')) return;
+    if (reordering) return;
+    if (hasUnsaved && !window.confirm('Reload saved requirements and discard local edits? An unconfirmed save may already be stored.')) return;
+    orderIntent.current = null; setOrderPending(false); setOrderError(''); setOrderStatus(''); setOrderNeedsReload(false);
     setLoading(true); setRefresh(value => value + 1);
+  }
+  function orderReader(signal: AbortSignal): RoleOrderReader {
+    return { getWorkspace: async () => (await api<Workspace>(`/api/v1/workspaces/${encodeURIComponent(workspaceId)}`, { signal })).data,
+      listRoles: async cursor => api<Role[]>(`/api/v1/workspaces/${encodeURIComponent(workspaceId)}/roles?limit=100${cursor ? `&cursor=${encodeURIComponent(cursor)}` : ''}`, { signal }) };
+  }
+  async function reorder(roleId?: string, direction?: -1 | 1) {
+    if (orderActive.current || !canWrite || (!orderIntent.current && (hasUnsaved || cursor || orderNeedsReload || loadingMore))) return;
+    orderActive.current = true; setReordering(true); setOrderError(''); setOrderStatus('');
+    const sequence = ++orderSequence.current; const abort = new AbortController(); orderAbort.current = abort;
+    const signal = AbortSignal.any([abort.signal, AbortSignal.timeout(20_000)]);
+    let writeConfirmed = false;
+    try {
+      if (!orderIntent.current) {
+        if (!roleId || !direction) return;
+        const prepared = await prepareRoleMove(orderReader(signal), workspaceId, roles, roleId, direction);
+        if (sequence !== orderSequence.current) return;
+        orderIntent.current = { input: prepared.input, key: crypto.randomUUID() }; setOrderPending(true);
+      }
+      const intent = orderIntent.current;
+      const result = await api<Workspace>(`/api/v1/workspaces/${encodeURIComponent(workspaceId)}/order`, {
+        ...mutation('PUT', intent.input), signal, headers: { 'Idempotency-Key': intent.key },
+      });
+      writeConfirmed = true;
+      if (result.data.id !== workspaceId || result.data.project_id !== projectId) throw new Error('The saved workspace could not be confirmed. Reload saved requirements.');
+      const snapshot = await readRoleOrder(orderReader(signal), workspaceId);
+      if (sequence !== orderSequence.current) return;
+      setRoles(snapshot.roles); setCursor(null); orderIntent.current = null; setOrderPending(false);
+      setOrderStatus(JSON.stringify(snapshot.roles.map(role => role.id)) === JSON.stringify(intent.input.role_ids)
+        ? 'Role order saved.' : 'Role order was saved. Newer role changes are shown.');
+      onWorkspaceChanged();
+    } catch (reason) {
+      if (sequence !== orderSequence.current) return;
+      setOrderError(errorMessage(reason));
+      if (!orderIntent.current) setOrderNeedsReload(true);
+      else if (!writeConfirmed && reason instanceof ApiError && (reason.status < 500 || reason.code === 'FEATURE_NOT_IMPLEMENTED')) {
+        orderIntent.current = null; setOrderPending(false); setOrderNeedsReload(reason.status === 409);
+      }
+    } finally {
+      if (sequence === orderSequence.current) { orderActive.current = false; setReordering(false); }
+    }
   }
   function roleSaved(next: Role) {
     setRoles(current => {
@@ -123,13 +172,23 @@ export function SpecsView({ workspaceId, projectId, canWrite, onDirtyChange, onW
       {spec.source_text ? <details className="source-brief"><summary>Read the supplied source</summary><pre dir="auto">{spec.source_text}</pre></details> : <p className="small muted">{spec.source_asset_id ? 'A source document is recorded.' : 'No source brief supplied.'}</p>}
       {spec.processing_job_id && <Link className="small" href={`/processing?job=${encodeURIComponent(spec.processing_job_id)}`}>View source processing</Link>}
     </section>
-    <Instructions key={`${spec.id}/${refresh}`} spec={spec} canWrite={canWrite} onSaved={next => { setSpec(current => current && current.row_version > next.row_version ? current : next); onWorkspaceChanged(); }} onDirtyChange={dirtyChanged} />
-    <section className="editor-section"><div className="section-heading"><div><h2>Roles and individual slots</h2><p>A role may cover several scenes. Its headcount determines the number of slots.</p></div><button className="button button-small button-quiet" onClick={reload}>Reload saved requirements</button></div>
-      {roles.length ? <div className="role-list">{roles.map(role => <RoleEditor key={`${role.id}/${refresh}`} role={role} canWrite={canWrite} onSaved={roleSaved} onArchived={id => setRoles(current => current.filter(role => role.id !== id))} onWorkspaceChanged={onWorkspaceChanged} onDirtyChange={dirtyChanged} onReload={reload} />)}</div>
+    <Instructions key={`${spec.id}/${refresh}`} spec={spec} canWrite={canWrite && !reordering && !orderPending} onSaved={next => { setSpec(current => current && current.row_version > next.row_version ? current : next); onWorkspaceChanged(); }} onDirtyChange={dirtyChanged} />
+    <section className="editor-section"><div className="section-heading"><div><h2>Roles and individual slots</h2><p>A role may cover several scenes. Its headcount determines the number of slots.</p></div><button className="button button-small button-quiet" disabled={reordering} onClick={reload}>Reload saved requirements</button></div>
+      {canWrite && roles.length > 1 && <p className="small muted">Save any edits and load all roles before changing their order.</p>}
+      <p className="save-state" role="status" aria-live="polite">{reordering ? 'Saving role order…' : orderStatus}</p>
+      {orderError && <ErrorNotice message={orderError} retry={orderPending ? () => { void reorder(); } : undefined} />}
+      {orderPending && !reordering && <p className="small muted">The order could not be confirmed. Retry this same change or reload the saved requirements before editing.</p>}
+      {roles.length ? <div className="role-list">{roles.map((role, index) => <div key={`${role.id}/${refresh}`}>
+        {canWrite && roles.length > 1 && <div className="section-heading"><p className="small muted">Role {index + 1}: {role.name}</p><div className="button-row">
+          <button className="button button-small button-quiet" aria-label={`Move ${role.name} up`} disabled={index === 0 || hasUnsaved || Boolean(cursor) || loadingMore || orderNeedsReload} onClick={() => { void reorder(role.id, -1); }}>Move up</button>
+          <button className="button button-small button-quiet" aria-label={`Move ${role.name} down`} disabled={index === roles.length - 1 || hasUnsaved || Boolean(cursor) || loadingMore || orderNeedsReload} onClick={() => { void reorder(role.id, 1); }}>Move down</button>
+        </div></div>}
+        <RoleEditor role={role} canWrite={canWrite && !reordering && !orderPending} onSaved={roleSaved} onArchived={id => setRoles(current => current.filter(role => role.id !== id))} onWorkspaceChanged={onWorkspaceChanged} onDirtyChange={dirtyChanged} onReload={reload} />
+      </div>)}</div>
         : <div className="requirements-empty"><h3>No casting requirements yet</h3><p className="muted">Add a role when its requirements are available. You can continue while information is missing.</p></div>}
       {cursor && <div className="load-more"><button className="button button-small" disabled={loadingMore} onClick={loadMore}>{loadingMore ? 'Loading…' : 'Load more roles'}</button></div>}
     </section>
-    {canWrite && <AddRole workspaceId={workspaceId} onCreated={role => { roleSaved(role); onWorkspaceChanged(); }} onDirtyChange={dirtyChanged} />}
+    {canWrite && !reordering && !orderPending && <AddRole workspaceId={workspaceId} onCreated={role => { roleSaved(role); onWorkspaceChanged(); }} onDirtyChange={dirtyChanged} />}
     <footer className="workspace-footer"><p className="small muted">Missing requirements do not block preparation.</p><Link className="button button-primary" href={`/projects/${projectId}/casting/${workspaceId}/cast`}>Continue to Candidates<Icon name="arrow" /></Link></footer>
   </div>;
 }

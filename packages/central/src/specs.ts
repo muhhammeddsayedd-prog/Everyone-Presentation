@@ -1,9 +1,10 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { DomainError, parseResizeSlots, parseRoleCreate, parseRolePatch, parseSlotPatch, parseSpecPatch,
+import { DomainError, parseReorderWorkspace, parseResizeSlots, parseRoleCreate, parseRolePatch, parseSlotPatch, parseSpecPatch,
   type Actor, type MutationContext, type Page, type ResizeSlots, type Role, type RoleCreate,
-  type RolePatch, type Slot, type SlotPatch, type Spec, type SpecPatch } from '@eps/domain';
+  type RolePatch, type Slot, type SlotPatch, type Spec, type SpecPatch, type ReorderWorkspace, type Workspace } from '@eps/domain';
 import { verifyCentralUser } from './client.ts';
 import { centralRpcError } from './errors.ts';
+import { workspaceDto } from './dto.ts';
 
 export interface SpecsListOptions { cursor?: string; limit?: number }
 export interface SpecsArchiveInput { row_version: number; reason?: string | null }
@@ -13,6 +14,8 @@ const manualErrors = new Map<string, { status: number; message: string }>([
   ['SLOT_RETIREMENT_REQUIRED', { status: 409, message: 'Choose the excess slots to archive and review their assignments.' }],
   ['SLOT_RETIREMENT_INVALID', { status: 409, message: 'Choose exactly the excess active slots from this role.' }],
   ['SPECS_STATE_INVALID', { status: 409, message: 'The role or slots changed unexpectedly. Reload before trying again.' }],
+  ['ROLE_ORDER_INVALID', { status: 409, message: 'The active role list changed. Reload before reordering roles.' }],
+  ['FEATURE_NOT_IMPLEMENTED', { status: 503, message: 'This ordering operation is not available yet. Your saved order has been kept.' }],
   ['ASSIGNMENT_RETIREMENT_UNAVAILABLE', { status: 503, message: 'Slot retirement is unavailable. You can continue editing requirements.' }],
 ]);
 const fail = (): never => { throw new DomainError('CENTRAL_RESPONSE_INVALID', 'Central specs data did not match its public contract.', 503); };
@@ -92,6 +95,9 @@ export async function createCentralSpecs(client: SupabaseClient) {
       }
       const { data, error } = await request;
       if (error) {
+        if (name === 'eps_reorder_workspace' && error.code === 'PGRST202') {
+          throw new DomainError('FEATURE_NOT_IMPLEMENTED', 'Role ordering is not available yet. Your saved order has been kept.', 503);
+        }
         const known = error.code === 'P0001' ? manualErrors.get(error.message) : undefined;
         if (known) throw new DomainError(error.message, known.message, known.status);
         throw centralRpcError(error);
@@ -109,6 +115,11 @@ export async function createCentralSpecs(client: SupabaseClient) {
     return context?.idempotencyKey ?? null;
   }
   return {
+    async reorderWorkspace(actor: Actor, workspaceId: string, input: ReorderWorkspace, context?: MutationContext): Promise<Workspace> {
+      const key = mutation(actor, workspaceId, context); const parsed = parseReorderWorkspace(input);
+      const result = workspaceDto(await rpc(actor, 'eps_reorder_workspace', { p_workspace_id: workspaceId, p_input: parsed, p_idempotency_key: key }, context));
+      if (result.id !== workspaceId) fail(); return result;
+    },
     async getSpecs(actor: Actor, workspaceId: string): Promise<Spec> {
       checkActor(actor); if (!isId(workspaceId)) invalid();
       const result = specDto(await rpc(actor, 'eps_get_specs', { p_workspace_id: workspaceId }));

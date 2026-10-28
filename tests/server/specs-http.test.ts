@@ -21,6 +21,7 @@ function service() {
     listRoles: operation('roles', { data: [role], page: { next_cursor: null } }), createRole: operation('create', role),
     updateRole: operation('role', role), archiveRole: operation('archive', { success: true, affected_ids: ['role', 'slot'] }),
     listSlots: operation('slots', { data: [slot], page: { next_cursor: null } }), resizeRoleSlots: operation('resize', role), updateSlot: operation('slot', slot),
+    reorderWorkspace: operation('order', { id: 'workspace', row_version: 2 }),
   } as unknown as SpecsOperations;
   return { specs, calls };
 }
@@ -37,6 +38,22 @@ test('manual route matcher leaves future Main/filter routes to their owning feat
   }
   for (const path of [['workspaces'], ['jobs'], ['slots', 'slot', 'main'], ['roles', 'role', 'candidate-filters'],
     ['workspaces', 'workspace', 'candidates'], ['roles', 'role', 'slots', 'unknown']]) assert.equal(isManualSpecsRoute(path), false);
+});
+
+test('existing workspace order PUT preserves intent and refuses unsupported maps before dispatch', async () => {
+  const { specs, calls } = service(); const path = ['workspaces', 'workspace', 'order'];
+  assert.equal(isManualSpecsRoute(path), true);
+  const input = { row_version: 19, role_ids: ['b', 'a'] };
+  const response = await handleSpecsRequest(request(path, 'PUT', input), path, actor, specs, context);
+  assert.equal(response.status, 200); assert.deepEqual((await response.json()).data, { id: 'workspace', row_version: 2 });
+  assert.deepEqual(calls[0], { name: 'order', args: [actor, 'workspace', input, context] });
+  for (const maps of [{ slot_ids_by_role: {} }, { assignment_ids_by_slot: {} }]) {
+    await assert.rejects(handleSpecsRequest(request(path, 'PUT', { row_version: 19, ...maps }), path, actor, specs, context),
+      (error: unknown) => error instanceof DomainError && error.status === 503);
+  }
+  await assert.rejects(handleSpecsRequest(request(path, 'PUT', { row_version: 19, role_ids: ['a'], principal_id: 'other' }), path, actor, specs, context));
+  await assert.rejects(handleSpecsRequest(request(path, 'POST', input), path, actor, specs, context));
+  assert.equal(calls.length, 1);
 });
 
 test('all nine manual routes preserve exact envelopes, actor, versions and mutation intent', async () => {

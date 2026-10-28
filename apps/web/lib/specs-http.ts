@@ -1,4 +1,4 @@
-import { DomainError, parseSpecSubmit, type Actor, type MutationContext, type ResizeSlots,
+import { DomainError, parseReorderWorkspace, parseSpecSubmit, type Actor, type MutationContext, type ResizeSlots, type ReorderWorkspace,
   type RoleCreate, type RolePatch, type SlotPatch, type SpecPatch, type SpecSubmit } from '@eps/domain';
 import type { CentralSpecs, SpecsArchiveInput, SpecsListOptions } from '@eps/central';
 import { json, NO_STORE, readJson } from './http';
@@ -6,7 +6,7 @@ import { validateContract } from './validation';
 
 export type SpecsOperations = CentralSpecs;
 export function isManualSpecsRoute(segments: string[]): boolean {
-  return segments[0] === 'workspaces' && segments.length === 3 && ['specs', 'roles'].includes(segments[2])
+  return segments[0] === 'workspaces' && segments.length === 3 && ['specs', 'roles', 'order'].includes(segments[2])
     || segments[0] === 'roles' && (segments.length === 2 || segments.length === 3 && ['archive', 'slots'].includes(segments[2])
       || segments.length === 4 && segments[2] === 'slots' && segments[3] === 'resize')
     || segments[0] === 'slots' && segments.length === 2;
@@ -41,6 +41,10 @@ export async function handleSpecsRequest(request: Request, segments: string[], a
     return paged(await specs.listSlots(actor, segments[1], listOptions(url)));
   }
   if (url.search) invalid();
+  if (segments[0] === 'workspaces' && segments[2] === 'order' && method === 'PUT') {
+    const input = parseReorderWorkspace(await body<ReorderWorkspace>('ReorderWorkspace'));
+    return json(await specs.reorderWorkspace(actor, segments[1], input, context), context.requestId);
+  }
   if (segments[0] === 'workspaces' && segments[2] === 'specs') {
     if (method === 'GET') return json(await specs.getSpecs(actor, segments[1]), context.requestId);
     if (method === 'PATCH') return json(await specs.updateSpecs(actor, segments[1], await body<SpecPatch>('SpecPatch'), context), context.requestId);
