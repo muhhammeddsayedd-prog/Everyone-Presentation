@@ -4,10 +4,10 @@ import { readRuntimeConfig } from './config';
 
 export const NO_STORE = { 'Cache-Control': 'private, no-cache, no-store, must-revalidate, max-age=0',
   Expires: '0', Pragma: 'no-cache', Vary: 'Cookie', 'X-Content-Type-Options': 'nosniff' };
-export function json(data: unknown, requestId = randomUUID(), status = 200) {
+export function json(data: unknown, requestId: string = randomUUID(), status = 200) {
   return Response.json({ request_id: requestId, data }, { status, headers: NO_STORE });
 }
-export function failure(error: unknown, requestId = randomUUID()) {
+export function failure(error: unknown, requestId: string = randomUUID()) {
   if (error instanceof DomainError) return Response.json({ request_id: requestId, error: {
     code: error.code, message: error.message, details: error.details ?? {}, retryable: error.retryable ?? false
   } }, { status: error.status, headers: NO_STORE });

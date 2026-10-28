@@ -36,6 +36,12 @@
       "sha256": "82a4f2ec03efc0787aa58e5f1e68ab626e5dddb5e4c645444103456757bf4251",
       "reviewed_by": "root implementation and discovery_review independent exact-byte SQL review; local-only replay authorization",
       "reviewed_at": "2026-10-28T16:37:19.111124+00:00"
+    },
+    {
+      "path": "supabase/migrations/20261028162800_m02_jobs_outbox.sql",
+      "sha256": "f619b3dfb9d964ab5902d04941b8cd59b44e9da36f1ab3f7b10bd45298ff4013",
+      "reviewed_by": "root integration owner with discovery_review independent exact-source/lock/RLS/restart static review; owned local execution only",
+      "reviewed_at": "2026-10-28T16:41:46.180602+00:00"
     }
   ],
   "tests": [
@@ -141,6 +147,126 @@
       "sha256": "451d4e20f7aa95a380868ccc10bfe3c00b2dbf67747c43b36e3299bc92eb2fbe",
       "reviewed_by": "root authorized guarded LOCAL replay; discovery agent static review of scoped capability metadata and rollback fixtures; cloud review pending",
       "reviewed_at": "2026-10-28T07:36:02.282159+00:00"
+    },
+    {
+      "path": "tests/db/m02-jobs-outbox.sql",
+      "sha256": "d6c96529bf1588f9c053c8449b6f2f6bec5ae443263a441b47cbecbd091ff30b",
+      "reviewed_by": "root integration owner with discovery_review independent exact-source/lock/RLS/restart static review; owned local execution only",
+      "reviewed_at": "2026-10-28T16:41:46.180602+00:00"
+    },
+    {
+      "path": "tests/db/m02-local-cancel-a.sql",
+      "sha256": "8b7b7b2a429e371d99746194b3ae5afc85e910ad1c7a678fbeb179730358bef3",
+      "reviewed_by": "root integration owner with discovery_review independent exact-source/lock/RLS/restart static review; owned local execution only",
+      "reviewed_at": "2026-10-28T16:41:46.180602+00:00"
+    },
+    {
+      "path": "tests/db/m02-local-cancel-finish-b.sql",
+      "sha256": "75c984bc70911ee5f4fd6e4363ef42c0c1adec74d0610888f63cd0ebd0de897e",
+      "reviewed_by": "root integration owner with discovery_review independent exact-source/lock/RLS/restart static review; owned local execution only",
+      "reviewed_at": "2026-10-28T16:41:46.180602+00:00"
+    },
+    {
+      "path": "tests/db/m02-local-cancel-first-prepare.sql",
+      "sha256": "6f42a81f7301492b64900e1e09476af4d96668c53dec10e51a6ad4b595207412",
+      "reviewed_by": "root integration owner with discovery_review independent exact-source/lock/RLS/restart static review; owned local execution only",
+      "reviewed_at": "2026-10-28T16:41:46.180602+00:00"
+    },
+    {
+      "path": "tests/db/m02-local-claim-a.sql",
+      "sha256": "b35454aa4680a8e9042ac9b99fa554673aae25e8e43231c1a15bc5fa208d8438",
+      "reviewed_by": "root integration owner with discovery_review independent exact-source/lock/RLS/restart static review; owned local execution only",
+      "reviewed_at": "2026-10-28T16:41:46.180602+00:00"
+    },
+    {
+      "path": "tests/db/m02-local-claim-b.sql",
+      "sha256": "d16ddf6c8e91439f31acdcad1268015d9352e426dd5fa8f5aeb1099b92119f11",
+      "reviewed_by": "root integration owner with discovery_review independent exact-source/lock/RLS/restart static review; owned local execution only",
+      "reviewed_at": "2026-10-28T16:41:46.180602+00:00"
+    },
+    {
+      "path": "tests/db/m02-local-cleanup.sql",
+      "sha256": "0c02a514d4efc8cb198ae5d51b4af3d797c663c61c8598f7c1011a8ed2b3950e",
+      "reviewed_by": "root integration owner with discovery_review independent exact-source/lock/RLS/restart static review; owned local execution only",
+      "reviewed_at": "2026-10-28T16:41:46.180602+00:00"
+    },
+    {
+      "path": "tests/db/m02-local-enqueue-a.sql",
+      "sha256": "e0874f5c0d216283cd4e8add709887ce6301a4ca99b975a7db70bd0ea5361290",
+      "reviewed_by": "root integration owner with discovery_review independent exact-source/lock/RLS/restart static review; owned local execution only",
+      "reviewed_at": "2026-10-28T16:41:46.180602+00:00"
+    },
+    {
+      "path": "tests/db/m02-local-enqueue-b.sql",
+      "sha256": "96ca888d071e287c75d577329a90e7243326aba3877cbd4d5a5cac1a69c9e31e",
+      "reviewed_by": "root integration owner with discovery_review independent exact-source/lock/RLS/restart static review; owned local execution only",
+      "reviewed_at": "2026-10-28T16:41:46.180602+00:00"
+    },
+    {
+      "path": "tests/db/m02-local-finish-a.sql",
+      "sha256": "712592d1c0c5cfd3aa450340c7c56131e06c653c7919ffe1e127ae27f164efc1",
+      "reviewed_by": "root integration owner with discovery_review independent exact-source/lock/RLS/restart static review; owned local execution only",
+      "reviewed_at": "2026-10-28T16:41:46.180602+00:00"
+    },
+    {
+      "path": "tests/db/m02-local-finish-cancel-b.sql",
+      "sha256": "d9eb8fce41bd70aaea8abeb1fa52d21d59aeea1be039d06ff52f43c605848a53",
+      "reviewed_by": "root integration owner with discovery_review independent exact-source/lock/RLS/restart static review; owned local execution only",
+      "reviewed_at": "2026-10-28T16:41:46.180602+00:00"
+    },
+    {
+      "path": "tests/db/m02-local-finish-first-prepare.sql",
+      "sha256": "c849643963ccbec06025992406ee60ea90355e50d7ed8defa58afec96ba47c5d",
+      "reviewed_by": "root integration owner with discovery_review independent exact-source/lock/RLS/restart static review; owned local execution only",
+      "reviewed_at": "2026-10-28T16:41:46.180602+00:00"
+    },
+    {
+      "path": "tests/db/m02-local-restart-claim.sql",
+      "sha256": "065b8a4326c1ea6bb3cbad8e522d99c2a37a87befafd5e8427c3cf55583cb341",
+      "reviewed_by": "root integration owner with discovery_review independent exact-source/lock/RLS/restart static review; owned local execution only",
+      "reviewed_at": "2026-10-28T16:41:46.180602+00:00"
+    },
+    {
+      "path": "tests/db/m02-local-restart-prepare.sql",
+      "sha256": "161729fa426640cee7127429201900ff653dd46970df77e6185c5c29a47a8e86",
+      "reviewed_by": "root integration owner with discovery_review independent exact-source/lock/RLS/restart static review; owned local execution only",
+      "reviewed_at": "2026-10-28T16:41:46.180602+00:00"
+    },
+    {
+      "path": "tests/db/m02-local-restart-recover.sql",
+      "sha256": "c33813ed6c4bd7c4eb21ada045c973a7330a83a633ed2335349461cd300368be",
+      "reviewed_by": "root integration owner with discovery_review independent exact-source/lock/RLS/restart static review; owned local execution only",
+      "reviewed_at": "2026-10-28T16:41:46.180602+00:00"
+    },
+    {
+      "path": "tests/db/m02-local-revoke-a.sql",
+      "sha256": "f44e752a303864da5d4b0235d5e221612848f653879cbb655e4274dc2f046b81",
+      "reviewed_by": "root integration owner with discovery_review independent exact-source/lock/RLS/restart static review; owned local execution only",
+      "reviewed_at": "2026-10-28T16:41:46.180602+00:00"
+    },
+    {
+      "path": "tests/db/m02-local-revoke-b.sql",
+      "sha256": "f643385e822f696a7a27d7425d86fdd53f2c87940a14443752490f823daff007",
+      "reviewed_by": "root integration owner with discovery_review independent exact-source/lock/RLS/restart static review; owned local execution only",
+      "reviewed_at": "2026-10-28T16:41:46.180602+00:00"
+    },
+    {
+      "path": "tests/db/m02-local-setup.sql",
+      "sha256": "dd3541cd36fd6c5030489576212912697a3583cac8251fad610936256cc1b368",
+      "reviewed_by": "root integration owner with discovery_review independent exact-source/lock/RLS/restart static review; owned local execution only",
+      "reviewed_at": "2026-10-28T16:41:46.180602+00:00"
+    },
+    {
+      "path": "tests/db/m02-local-single-claim-b.sql",
+      "sha256": "45abc09ca318b8e212a84cbf9ae1a9eaaae3b5df05da940a90f9a223b695a582",
+      "reviewed_by": "root integration owner with discovery_review independent exact-source/lock/RLS/restart static review; owned local execution only",
+      "reviewed_at": "2026-10-28T16:41:46.180602+00:00"
+    },
+    {
+      "path": "tests/db/m02-local-verify.sql",
+      "sha256": "203c781cc2c1f833e2e4a03427f948ee26c651390ad620698ee275334b2645cd",
+      "reviewed_by": "root integration owner with discovery_review independent exact-source/lock/RLS/restart static review; owned local execution only",
+      "reviewed_at": "2026-10-28T16:41:46.180602+00:00"
     }
   ],
   "local_baselines": [

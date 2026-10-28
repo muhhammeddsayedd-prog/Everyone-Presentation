@@ -1,0 +1,14 @@
+begin;
+set local application_name='eps_m02_cancel_a';
+do $$ begin if current_setting('eps.local_fixture_tests',true) is distinct from 'eps-presentation-canonical-pg17-local' or not exists(select 1 from eps_local_guard.m02_fixture where id=1 and marker='EPS M02 LOCAL DURABILITY V1') then raise exception 'LOCAL_TARGET_REQUIRED'; end if; end $$;
+select set_config('eps.m02.job',(select id::text from eps.jobs where workspace_id='7c111111-1111-4111-8111-111111111111' and resource_id='7d444444-4444-4444-8444-444444444444'),true);
+select set_config('request.jwt.claim.sub','7a111111-1111-4111-8111-111111111111',true);
+select set_config('request.jwt.claims','{"sub":"7a111111-1111-4111-8111-111111111111","role":"authenticated","is_anonymous":false}',true);
+select jsonb_build_object('phase','started','session_pid',pg_backend_pid(),'at',clock_timestamp());
+set local role authenticated;
+do $$ begin if public.eps_cancel_job(current_setting('eps.m02.job')::uuid,'{"row_version":1,"reason":null}','m02-local-cancel-first')->>'status' is distinct from 'cancelled' then raise exception 'M02_CANCEL_FIRST_FAILED'; end if; end $$;
+reset role;
+select jsonb_build_object('phase','returned','session_pid',pg_backend_pid(),'at',clock_timestamp());
+select jsonb_build_object('phase','holding','session_pid',pg_backend_pid(),'at',clock_timestamp());
+select pg_sleep(4);
+commit;

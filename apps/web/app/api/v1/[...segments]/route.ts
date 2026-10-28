@@ -5,6 +5,8 @@ import { currentActor } from '../../../../lib/session';
 import { getStudio } from '../../../../lib/studio';
 import { failure, json, NO_STORE, readJson, requireSameOrigin } from '../../../../lib/http';
 import { validateContract } from '../../../../lib/validation';
+import { handleJobRequest } from '../../../../lib/job-http';
+import { getJobs } from '../../../../lib/jobs';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -16,10 +18,11 @@ async function handle(request: Request, context: Context) {
     const method = request.method;
     if (method !== 'GET') requireSameOrigin(request, true);
     const actor = (await currentActor())!;
-    const studio = await getStudio();
     const { segments: s } = await context.params;
     const mutation = { idempotencyKey: request.headers.get('Idempotency-Key') ?? undefined, requestId,
       clientType: request.headers.has('authorization') ? 'api' as const : 'browser' as const };
+    if (s[0] === 'jobs') return await handleJobRequest(request, s, actor, await getJobs(), mutation);
+    const studio = await getStudio();
     const url = new URL(request.url);
     const list = { q: url.searchParams.get('q') ?? undefined, cursor: url.searchParams.get('cursor') ?? undefined,
       limit: url.searchParams.has('limit') ? Number(url.searchParams.get('limit')) : undefined };

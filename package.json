@@ -26,6 +26,8 @@
     "test:integrations": "node tools/run-tests.mjs tests/integrations/*.test.ts",
     "test:worker": "node tools/run-tests.mjs tests/worker/*.test.ts",
     "test:db": "node tools/test-db.mjs",
+    "test:db:m02": "node tools/test-m02-local.mjs",
+    "test:db:replay-scope": "node tools/test-m01-replay-scope.mjs fixed",
     "dev:central": "node tools/dev-central.mjs",
     "test:central": "node tools/run-tests.mjs packages/central/test/*.test.ts"
   },
