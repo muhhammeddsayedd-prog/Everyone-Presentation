@@ -1,8 +1,8 @@
 # Development progress — Everyone Presentation Studio
 
-**Last updated:** 2026-10-28 · **Pack:** 1.0 · **Current milestone:** M01 — in progress
+**Last updated:** 2026-10-29 · **Pack:** 1.0 · **Current milestone:** M01 — in progress
 
-**Current reality:** M00 is verified; M01/M02 remain in progress; M03-M07 have not started. Nine immutable migrations remain applied locally/cloud. Both provider APIs passed access checks, and one real synthetic gpt-6.1-sol extraction passed with3 roles/5 slots and2988 tokens; no integrated database apply or n8n run occurred. Committed source submission facade/native attempt executor and188 local module tests/build/lint/typecheck pass. The submit SQL candidate passed one exact owned-local rollback. Stage/application SQL also passes its separate owned-local rollback; no persistent/integrated proof, migration10 or new cloud business write is claimed. The owner chose local container testing and hosting later. Full hosted UI/Storage, source replacement/form, purpose-aware document storage, authenticated transport/dispatcher/WF01 and production remain unfinished. Historical browser19/c2df325 is separate evidence.
+**Current reality:** M00 is verified; M01/M02 remain in progress; M03-M07 have not started. Local migration10 now retains original inputs and proves prepare/extract/apply with the real native parser and database transactions. Pasted-source intake, safe retries and manual-edit protection are implemented. The native four-case proof includes duplicate callbacks, ordinary scoped SQL correction, cancellation, an actual database restart and reclaim; its provider responses are synthetic. All test fixtures/login/defaults/catalog/counts were restored. Local internal TRUST proves role authorization, not credential authentication. The last cloud readback remains9; no cloud call, hosting choice or real provider call occurred in this session. Full service/Storage/n8n/MCP/PDF/release acceptance remains unverified.
 
 The machine-readable status mirror is [tracking/progress.json](tracking/progress.json). Update this file and that file together whenever work status changes. Evidence fields must describe actual work only.
 
@@ -12,7 +12,7 @@ The machine-readable status mirror is [tracking/progress.json](tracking/progress
 |---|---|---|---|---|
 | M00 Discovery and contracts | verified | tracking/discovery/; central-schema-map.yaml | Actual new canonical ownership/auth/history, guarded local replay and provider capability inventory | Continue M01; future provider/release gates remain explicit |
 | M01 Foundation, project and logo | in_progress | apps/web/; packages/domain/; packages/central/; 6 M01 migrations applied | Real cloud schema/readback and local role/race proof; synthetic full UI plus central anonymous UI | Finish scoped central uploads and actual Producer/project journey |
-| M02 Specs, roles and first durable pipeline | in_progress | 3 M02 migrations applied; scoped jobs/specs/order API/SDK/editor and Processing UI | Nine-version jobs29 stages/six pairs/restart, manual24/four pairs, order23/four pairs; one real synthetic OpenAI sample | Finish source persistence/service leases/typed apply, source form/storage and local dispatcher/worker/WF-01 |
+| M02 Specs, roles and first durable pipeline | in_progress | 3 shared M02 migrations plus local-only pipeline10; source/manual/Processing UI | Local10 persisted SQL and native four-case/restart/cleanup proof;195 module/26 operational tests; controlled source7 and existing7 journeys | Authenticated gateway, document storage, concurrent publication/revocation, dispatcher/WF01 and real service acceptance |
 | M03 Media, library and video processing | not_started | None | Real uploads/transcripts/frames; reuse/duplicate handling; independent failures | Depends on M02 |
 | M04 Assignments and final review | not_started | None | Selection/Shortlist rules; one-Main concurrency; edits/confirmation | Depends on M03 |
 | M05 Template, versioning and PDF | not_started | None | Frozen manifests; real viewer/PDF; historical media; render recovery | Depends on M04 |
@@ -26,6 +26,22 @@ The machine-readable status mirror is [tracking/progress.json](tracking/progress
 `in_progress` or `implemented_unverified → blocked` when a required dependency is unavailable; record the prior state and work still possible. `verified → in_progress` when a later change invalidates acceptance. A milestone with any unrun required integration check cannot be `verified`. Documentation corrections alone do not change implementation status.
 
 ## Session log (append newest first)
+
+### 2026-10-29 - Local source persistence and native pipeline proved
+
+- Commits: UI `6ac2ada`, provider scalar guard `cac474f`, retained pipeline/proof `2e38b6d`.
+- Implemented the pasted-source form, same-key retry after unknown outcomes, fresh-version reload, dirty-edit protection and persistent job links. New7 controlled source journeys and existing7 specs/order journeys pass; final1440/320 views were inspected. These are intercepted browser fixtures, not hosted Auth/Storage.
+- CLI-generated `20261028222030_m02_specs_pipeline.sql` (SHA1e5319bb...) is applied **only locally**. It retains immutable exact UTF8 inputs per job, original extraction/role origin IDs and working facts across correction/configuration changes. Initial apply rejects changed/nonempty working drafts; old queued/running work becomes INPUT_CHANGED without overwriting facts. Exact authorized ACK replay remains available while processing is paused.
+- Corrected candidate rollback tracking/evidence/m02/specs-pipeline-candidate/2026-10-28T22-23-06-800Z-0b783b98-rollback.json and persisted10 assertions tracking/evidence/m02/specs-pipeline-local/2026-10-28T22-41-11-276Z-491d3795-rollback.json pass. The initial broad manual-response privacy assertion and the promotion ACL-equality failure remain failed. Read-only tracking/evidence/m02/specs-pipeline-local-reconciliation/2026-10-28T22-39-25-741Z-ff19e860.json verifies only17 reviewed EXEC additions across13 old helpers and releases the exact dead-owner lock; no reapply/reset or original receipt rewrite.
+- Actual logging tracking/evidence/m02/native-logging/2026-10-28T22-52-38-127Z-5128e4cc.json and native tracking/evidence/m02/native-executor/2026-10-28T23-00-53-971Z-c26f43c2.json pass. Real parser/adapter/SQL use separate commits; BOM/CRLF/UTF16 maps/hash match, duplicate callbacks do not duplicate facts, source correction protects manual facts, cancellation blocks late publication, and actual restart preserves/reclaims/fences leases. Two concurrent client claims have one winner; server lock overlap is unproven. All fixtures/test login/defaults/catalog/row digests/counts and HBA are restored.
+- The first logging run failed before any private bind because socket peer mapping rejected the custom role; cleanup passed. The observed container loopback uses TRUST. The final fixed nobody/direct-role path tests authorization only, with credential authentication explicitly false. No HBA/Auth/provider configuration changed. Malformed JSONB casts stay inside the safe handler; provider NUL/lone surrogates fail with one safe RESULT_INVALID callback before SQL.
+- 195 module tests (85/5/12/18/34/41),26 operational tests, full/scoped lint, typecheck, isolated production build and production fixture denial pass. All53 project-local skills validate with zero errors/warnings. No paid provider/cloud call or hosting selection occurred. M01/M02 remain in progress.
+
+### 2026-10-29 - Local persistence and source intake resumed
+
+- Resumed from clean2da44cf and the actual9-version/candidate proofs. Existing migration bytes, completed enrollment, private keys, unrelated records and historical failures stay preserved; hosting remains deferred by owner choice.
+- Planned acceptance: immutable per-job source/provenance with ordinary correction, combined local rollback then coordinated persistent local history, actual native/SQL paragraph+hash+result integration, source/publication/revocation races and restart recovery, plus controlled source-form intent/dirty/stale behavior. No local fixture will be described as live n8n/hosted Auth/Storage.
+- Parallel ownership: domain retention/SQL candidate; native executor integration transport/harness; source intake UI. Root coordinates migration/history, DB execution, independent review and final evidence.
 
 ### 2026-10-28 20:46Z - Initial three-stage SQL rollback proof
 
@@ -207,7 +223,7 @@ Copy and fill this template at the end of every implementation session:
 
 ## Current blockers
 
-- The owner reports successful sign-in and Dummy Test visibility, then closed review tabs. The connected Person1 tab was last signed out. Full signed-in project/workspace/logo acceptance and the guarded hosted Storage probe remain unrun. Do not repeat enrollment, restore removed grants or request more sign-in emails while independent implementation continues.
-- Cloud aggregate counts include one workspace, media/upload record and Storage object. Exact bytes, Ready/selected-logo state, signed transfer and overwrite/revocation acceptance are unverified; an optional scoped metadata query timed out without a result. Existing data must be preserved.
-- n8n discovery still returns MCP-32603. OpenAI model/key and worker/service runtime configuration, representative authorized specs/video, six missing fonts/approved template, hosting and intended Claude clients remain concrete integration/release gates. The local document parser is a tested library, not a deployed native worker.
-- Source submit, lease-bound stage/event/result commits, output reservations, service identity and assignment-aware retirement are unfinished. M03-M07 have not started. Never reset or seed the linked cloud root.
+- Owner-reported sign-in/project visibility and closed review tabs remain separate from the unrun full hosted M01 logo/Storage journey. Preserve existing account, keys and grants; do not send more sign-in links or reopen visible review tabs.
+- Cloud migration10, authenticated service gateway, private document uploads/outputs, actual dispatcher/recovery scheduling and Studio WF01 are unrun. Local TRUST is not credential-authentication evidence. Hosting remains deferred.
+- Source correction retains old evidence/manual facts; automatic publication into a nonempty working draft waits. Concurrent source/publication/revocation barriers, file/vision paths and full real-provider processing still require acceptance.
+- Earlier provider access and one real synthetic OpenAI component evaluation are historical, not the native synthetic-provider run. M03-M07, representative media/fonts/template, Claude parity, PDF/guest, restore/sizing/deployment remain unfinished. Never reset/seed the linked cloud root.

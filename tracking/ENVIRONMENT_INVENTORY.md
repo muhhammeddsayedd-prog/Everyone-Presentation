@@ -1,8 +1,20 @@
 # Environment inventory and discovery record
 
-Updated 2026-10-28. Current observations are separate from historical empty-target discovery and production acceptance. No secrets recorded.
+Updated2026-10-29. Current local observations below supersede the dated historical inventory. No secrets recorded.
 
-## Canonical system and migration ownership
+## Current local checkpoint
+
+Local10 `20261028222030_m02_specs_pipeline.sql` is applied; the linked cloud was last verified9 at19:31Z and was not queried/mutated in this session. The canonical root migration history is shared; no reset/seed or second production database exists. Owned local container/system7701520506262638626/loopback55433/official PG17.6 image are preserved. Actual restart/native proof: `tracking/evidence/m02/native-executor/2026-10-28T23-00-53-971Z-c26f43c2.json`; full fixture/role/default/catalog/row digest/count baseline restored.
+
+Source form and retained-input/stage kernel are implemented, with current manual facts/evidence protected. Actual parser/adapter/SQL integration uses synthetic Responses and scoped synthetic Auth fixture rows only. Internal container127.0.0.1:5432 uses TRUST; fixed nobody/direct-role tests do not prove credential authentication. HBA checksum05a300... is unchanged before/after. Socket peer denial is retained as failed/cleaned evidence, not hidden by a config change.
+
+Current gates:195 module/26 operational tests, lint/typecheck, isolated build, production denial; source7/existing7 controlled browser journeys and1440/320 visuals;53 local skills with zero errors/warnings. `tracking/evidence/m02/local-persistence-session/quality.json` binds scopes. Authenticated hosted UI/Storage, gateway/service credentials, file uploads/output storage, dispatcher/WF01, full real provider and later release gates are unverified. Hosting remains deferred. Private `.env.worker.local` stays ignored and unchanged; historical API access/model/sample results below are not fresh observations or integrated pipeline proof.
+
+## Historical inventory through the preceding checkpoints
+
+The following dated records are preserved as historical evidence; counts, serving/profile state and pending-work statements apply to their own checkpoints.
+
+### Canonical system and migration ownership
 
 The owner explicitly confirmed the formerly empty Everyone-Presentation Supabase project (`pyibofyctwnqpvktepse`, eu-west-1, PostgreSQL17.11) as the new canonical business system. This resolves the original existing-schema dependency. This repository now owns the single coordinated migration history. M00 read-only discovery ended before the subsequent authorized M01 additive application.
 
@@ -12,7 +24,7 @@ Canonical owners: public.clients, public.projects, public.project_memberships, p
 
 Managed auth grantability was inspected in cloud and matched locally: postgres cannot grant Auth schema/function privileges directly, but has ADMIN on authenticated. The reviewed forward fix uses one-way INHERIT=true, SET=false, ADMIN=false membership for the private nonlogin API owner. Existing auth owners/RLS remain unchanged. Source/receipts preserve the original failed grants and PL/pgSQL alias failure, corrected through immutable forward migrations.
 
-## Actual application serving and authentication
+### Actual application serving and authentication
 
 - Central development app runs at http://127.0.0.1:3000 via npm.cmd run dev:central. Actual anonymous browser/API checks passed; fixture endpoints return403 and internal data returns401. Desktop/320px captures: tracking/evidence/cloud-foundation/.
 - Real public Auth settings read returned200 with email enabled, signup enabled and confirmation required. Only the development site URL and exact callback allowlist were updated after reviewing a two-field config diff. No email, user or session was created by that setup.
@@ -21,7 +33,7 @@ Managed auth grantability was inspected in cloud and matched locally: postgres c
 - Five migrations are applied/read back. Scoped client_logo capability metadata is enabled only for active workspace grants+writable project scope. The owned central dev server was restarted in session63564 with the private verifier and development upload flag; the standard launcher defaults off without that flag. Hosted actual user-JWT transfer/immutability remains unrun. Ready metadata/content, cancellation and completed replay work independently of upload verifier availability. Explicit client-default reuse is implemented and fixture-browser tested. No real cloud image bytes are stored or claimed.
 - Fixture mode remains development/test only and is denied by production/staging guards. npm.cmd start intentionally refuses release while required acceptance is unfinished. No app deployment or production serving occurred.
 
-## Local runtime and tests
+### Local runtime and tests
 
 Original pack had no application or Git history. A local Git repo and npm workspaces now contain Next web/API, shared domain, central adapter, isolated jobs/integrations and document-worker modules. No remote/push exists.
 
@@ -33,7 +45,7 @@ The earlier CLI-local eps-local-dev attempt failed an IPv6 binding probe and was
 
 Synthetic browser tests run on dedicated127.0.0.1:3100 with a separate build directory/state, leaving central mode independent. The full local check recorder is tools/verify_local.py. The later read-only/reuse runtime checkpoint passes 80 application tests, four browser/HTTP journeys and build, with lint/typecheck separately passed. Tests distinguish fixture SDK transport from actual synthetic binary parsing and actual PostgreSQL/HTTP/browser execution. Auth network traces are disabled; earlier signed fixture traces are retained privately under ignored .local/ with sanitized hash receipts.
 
-## Providers, hosting, native worker and release gates
+### Providers, hosting, native worker and release gates
 
 Current code checkpoint da77ab4 passes188 module tests, build/lint/typecheck and production fixture denial; parser container commit4440d31 and SQL candidate/proof commit74ae183 have separate exact receipts. Historical80/159/170-test results below or in dated records are not the current code gate. Current cloud9 readback19:31Z verifies32 public RPCs/60 routines/19 forced-RLS tables;33 advisor WARN remain, including the Auth setting. Required M01 hosted UI/Storage and full M02/M07 acceptance remain unverified.
 

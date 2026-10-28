@@ -1,6 +1,6 @@
 {
   "pack_version": "1.0",
-  "updated_at": "2026-10-28",
+  "updated_at": "2026-10-29",
   "implementation_started": true,
   "current_milestone": "M01",
   "milestones": [
@@ -159,7 +159,10 @@
         "527fa79",
         "da77ab4",
         "4440d31",
-        "74ae183"
+        "74ae183",
+        "6ac2ada",
+        "cac474f",
+        "2e38b6d"
       ],
       "migrations": [
         {
@@ -183,6 +186,15 @@
           "target": "pyibofyctwnqpvktepse",
           "evidence": "tracking/evidence/cloud-role-order/2026-10-28T19-31-14-242836Z-dc97d5dc-readback.json",
           "prior_candidate_evidence": "tracking/evidence/m02/role-order-candidate/2026-10-28T18-38-43-326Z-7d3f360e-rollback.json"
+        },
+        {
+          "file": "supabase/migrations/20261028222030_m02_specs_pipeline.sql",
+          "local": "applied",
+          "cloud": "not_run",
+          "target": "owned local eps-presentation-canonical-pg17-local system7701520506262638626 only",
+          "evidence": "tracking/evidence/m02/specs-pipeline-local/2026-10-28T22-41-11-276Z-491d3795-rollback.json",
+          "promotion_evidence": "tracking/evidence/m02/specs-pipeline-local-promotion/2026-10-28T22-26-28-140Z-b32c1d2d.json",
+          "reconciliation_evidence": "tracking/evidence/m02/specs-pipeline-local-reconciliation/2026-10-28T22-39-25-741Z-ff19e860.json"
         }
       ],
       "evidence": [
@@ -234,15 +246,26 @@
         "tracking/evidence/m02/provider-access/stage-auth-policies.json",
         "tracking/evidence/m02/document-container/2026-10-28T20-25-30-385Z-181a29f5.json",
         "tracking/evidence/m02/document-container/2026-10-28T20-25-50-772Z-preflight-negatives.json",
-        "tracking/evidence/m02/specs-stages-candidate/2026-10-28T20-46-58-625Z-a863a766-rollback.json"
+        "tracking/evidence/m02/specs-stages-candidate/2026-10-28T20-46-58-625Z-a863a766-rollback.json",
+        "tracking/evidence/m02/specs-pipeline-candidate/2026-10-28T22-23-06-800Z-0b783b98-rollback.json",
+        "tracking/evidence/m02/specs-pipeline-local-promotion/2026-10-28T22-26-28-140Z-b32c1d2d.json",
+        "tracking/evidence/m02/specs-pipeline-local-reconciliation/2026-10-28T22-39-25-741Z-ff19e860.json",
+        "tracking/evidence/m02/specs-pipeline-local/2026-10-28T22-41-11-276Z-491d3795-rollback.json",
+        "tracking/evidence/m02/native-logging/2026-10-28T22-52-38-127Z-5128e4cc.json",
+        "tracking/evidence/m02/native-executor/2026-10-28T23-00-53-971Z-c26f43c2.json",
+        "tracking/evidence/m02/local-persistence-session/quality.json",
+        "tracking/evidence/m02/source-intake-ui/final-visual/summary.json",
+        "tracking/evidence/m02/specs-pipeline-candidate/2026-10-28T22-19-52-273Z-2d2ea6e7-rollback.json",
+        "tracking/evidence/m02/native-logging/2026-10-28T22-46-01-384Z-e5a88a1d.json"
       ],
       "blockers": [
-        "M01 full signed-in hosted logo/Storage journey remains unverified after owner closed review tabs.",
-        "Nine migrations, manual specs/role-only order and Processing UI are connected. Submit facade exists, but source persistence/configuration RPC is still a candidate/unapplied path; source form, stage callbacks/atomic apply, service identity, output storage and deployed worker/WF-01 remain unfinished.",
-        "OpenAI/n8n API access succeeded and one real synthetic OpenAI extraction passed without DB apply/cloud business writes/n8n calls. n8n MCP still -32603; unrelated inactive W05 inventory is not Studio WF-01 or a reused Drive connector.",
-        "Local188-module/build/lint/typecheck/production-guard checks pass; source submit rollback passes. The complete initial stage/apply SQL rollback now passes, but remains a candidate without persistent/multi-backend/integrated proof or migration10/cloud. User selected local testing and hosting later. No authenticated gateway, source form, source replacement, document storage or StudioWF01 execution is demonstrated."
+        "Full signed-in hosted M01 logo/Storage journey is unverified after the owner closed review tabs; preserve completed enrollment and grants.",
+        "Pasted source UI, immutable retained inputs, stage transactions and initial publication are implemented and proved on local migration10. Cloud10 is not applied; its historical cloud checkpoint remains9. The central source form can still return503 until that backend/runtime is released.",
+        "No authenticated production service gateway, private output reservation/document upload path, dispatcher/recovery scheduler or Studio WF01 run. The local Docker/psql TRUST route proves database role authorization only; credential authentication remains unverified.",
+        "Native integration used real SQL/parser/adapter with synthetic provider responses. The earlier one real OpenAI component evaluation remains separate; no real OpenAI+n8n+worker full pipeline evidence.",
+        "Initial publication deliberately waits on changed/nonempty working facts. No automatic correction merge, HTTP source-correction proof, server lock-overlap proof or concurrent source/publication/revocation race proof is claimed. Purpose-aware PDF/Word/vision and remaining M02 acceptance still require work."
       ],
-      "next_action": "Compose the separately reviewed submit/stage candidates for persistent LOCAL rehearsal; prove cross-runtime paragraph/hash parity, concurrent publication/revocation, retry/restart and immutable replacement-input retention before any coordinated migration10. Then connect source form, authenticated transport/output storage, dispatcher and StudioWF01 locally. Hosting remains deferred."
+      "next_action": "Implement the authenticated service gateway and purpose-aware private input/output storage using the canonical domain functions; honor real service idempotency and current requester scope. Add exact concurrent source/publication/revocation tests, dispatcher/recovery scheduling and Studio WF01. Keep the local TRUST psql adapter test-only. Hosting remains deferred by owner direction; M01/M02 are not verified."
     },
     {
       "id": "M03",
@@ -336,6 +359,15 @@
     "real_user_m01": {
       "status": "not_run",
       "reason": "Historical14:09 inspection/14:10 grants establish readiness and four scoped capabilities. Owner subsequently reports working login/project visibility then closed review tabs; full authenticated UI/hosted Storage acceptance remains unrun. Do not recreate setup or infer Ready bytes from aggregate counts."
+    },
+    "local_specs_pipeline": {
+      "status": "verified",
+      "scope": "Owned local pasted-text SQL/native vertical slice with synthetic Responses; database-role authorization via TRUST only. Not whole M02, credential authentication, HTTP, n8n or production acceptance.",
+      "evidence": [
+        "tracking/evidence/m02/specs-pipeline-local/2026-10-28T22-41-11-276Z-491d3795-rollback.json",
+        "tracking/evidence/m02/native-logging/2026-10-28T22-52-38-127Z-5128e4cc.json",
+        "tracking/evidence/m02/native-executor/2026-10-28T23-00-53-971Z-c26f43c2.json"
+      ]
     }
   },
   "development_tooling": {
@@ -367,7 +399,7 @@
       "scope": "Project-local skill setup only; does not advance app milestones or verify integrations."
     }
   },
-  "notes": "M00 verified; M01/M02 in progress; M03-M07 not started. Nine migrations local/cloud. Provider access and one synthetic gpt-6.1-sol extraction passed (3 roles/5 slots,2988 tokens); no pipeline DB apply or n8n run. Source submission rollback and188 local module tests/build/lint/typecheck pass. Native executor committed; stage/application SQL, source replacement/form, document storage, service transport/dispatcher/WF01 remain unfinished. User selected local testing and hosting later. Historical browser19/c2df325 remains separate. HostedM01/PDF/guest/MCP/restore/production unverified.",
+  "notes": "M00 verified; M01/M02 in progress; M03-M07 not started. Local10 applied and proved; cloud last verified9 with no new cloud write this session. Source intake UI plus retained inputs and native SQL pipeline/restart pass with synthetic provider responses and full baseline cleanup. 195 module/26 operational tests, lint/typecheck/build pass. Local TRUST does not prove credential authentication. Real service gateway/storage/dispatcher/WF01, hosted M01, PDF/guest/MCP/restore/production remain unverified; hosting deferred.",
   "latest_checkpoint": {
     "cloud_history_versions": 9,
     "cloud_readback": "tracking/evidence/cloud-role-order/2026-10-28T19-31-14-242836Z-dc97d5dc-readback.json",
@@ -450,6 +482,40 @@
       "cloud_called": false,
       "provider_called": false,
       "history_versions": 9
+    },
+    "last_cloud_observation_at": "2026-10-28T19:31:14Z",
+    "local_history_versions": 10,
+    "local_persistence_2026_10_29": {
+      "migration": "20261028222030",
+      "migration_sha256": "1e5319bb81be1f12896f7efb5a2cb7706653b79eb440a4dc1aaaca4ed9556895",
+      "proofs": {
+        "candidate": "tracking/evidence/m02/specs-pipeline-candidate/2026-10-28T22-23-06-800Z-0b783b98-rollback.json",
+        "promotion_failed": "tracking/evidence/m02/specs-pipeline-local-promotion/2026-10-28T22-26-28-140Z-b32c1d2d.json",
+        "reconciliation": "tracking/evidence/m02/specs-pipeline-local-reconciliation/2026-10-28T22-39-25-741Z-ff19e860.json",
+        "persisted": "tracking/evidence/m02/specs-pipeline-local/2026-10-28T22-41-11-276Z-491d3795-rollback.json",
+        "logging": "tracking/evidence/m02/native-logging/2026-10-28T22-52-38-127Z-5128e4cc.json",
+        "native": "tracking/evidence/m02/native-executor/2026-10-28T23-00-53-971Z-c26f43c2.json",
+        "quality": "tracking/evidence/m02/local-persistence-session/quality.json",
+        "ui": "tracking/evidence/m02/source-intake-ui/final-visual/summary.json"
+      },
+      "module_tests": 195,
+      "operational_tests": 26,
+      "source_browser_cases": 7,
+      "existing_specs_order_browser_cases": 7,
+      "actual_database_restart": true,
+      "provider_transport": "synthetic-only",
+      "credential_authentication_verified": false,
+      "local_auth_method": "trust",
+      "source_correction_path": "scoped SQL RPC, not HTTP",
+      "server_lock_overlap_proven": false,
+      "baseline_restored": true,
+      "cloud_mutated_this_session": false,
+      "hosting_selected": false,
+      "code_commits": [
+        "6ac2ada",
+        "cac474f",
+        "2e38b6d"
+      ]
     }
   },
   "historical_notes": [
@@ -457,5 +523,36 @@
       "scope": "Prior superseded pre-manual8 note retained as history, not current state.",
       "text": "M00 verified. Owner reports successful sign-in and Dummy Test visibility; review tabs were then closed. Seven migrations local/five cloud; proposed cloud release pending. Fixed11 replay cases and M02local27-stage/six-pair/restart/cleanup proof pass;120 module tests, lint/typecheck/build and four synthetic browser journeys pass. Hosted logo, real AI/n8n, native render/PDF, guest, MCP, restore and production acceptance remain unverified."
     }
-  ]
+  ],
+  "active_session": {
+    "started_at": "2026-10-28T22:05:26.369418+00:00",
+    "client_date": "2026-10-29",
+    "scope": "Next M02 local persistence and source intake slice; hosting deferred",
+    "planned_evidence": [
+      "Combined retained-input candidate rollback with source/provenance/authority guards",
+      "Coordinated local-only persistence using canonical migration history after review",
+      "Actual SQL to native executor paragraph/hash/result integration in separate committed transactions",
+      "Concurrent source/publication/revocation and restart/recovery proofs",
+      "Controlled source intake UI tests with exact intent retries and stale/dirty protection"
+    ],
+    "external_scope": "No new hosting, cloud reset/seed, fake Auth identity, sign-in email or reopened review tab.",
+    "latest_observed_at": "2026-10-28T22:29:11.388104+00:00",
+    "state": "local_slice_completed",
+    "completed_at": "2026-10-28T23:06:31.475204+00:00",
+    "actual_evidence": {
+      "candidate": "tracking/evidence/m02/specs-pipeline-candidate/2026-10-28T22-23-06-800Z-0b783b98-rollback.json",
+      "promotion_failed": "tracking/evidence/m02/specs-pipeline-local-promotion/2026-10-28T22-26-28-140Z-b32c1d2d.json",
+      "reconciliation": "tracking/evidence/m02/specs-pipeline-local-reconciliation/2026-10-28T22-39-25-741Z-ff19e860.json",
+      "persisted": "tracking/evidence/m02/specs-pipeline-local/2026-10-28T22-41-11-276Z-491d3795-rollback.json",
+      "logging": "tracking/evidence/m02/native-logging/2026-10-28T22-52-38-127Z-5128e4cc.json",
+      "native": "tracking/evidence/m02/native-executor/2026-10-28T23-00-53-971Z-c26f43c2.json",
+      "quality": "tracking/evidence/m02/local-persistence-session/quality.json",
+      "ui": "tracking/evidence/m02/source-intake-ui/final-visual/summary.json"
+    },
+    "remaining_planned_checks": [
+      "Actual concurrent source/publication/revocation barriers and server lock overlap",
+      "Authenticated HTTP gateway and deployed/runtime credentials",
+      "Real provider+n8n pipeline and purpose-aware files"
+    ]
+  }
 }

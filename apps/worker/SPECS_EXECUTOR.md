@@ -20,7 +20,7 @@ characters. No token, private input or raw provider error is logged.
 The initial implemented source path is pasted text with a null original asset.
 Preparation hashes unchanged UTF8/BOM/CRLF text and invokes the separate parser
 process. Its completion carries only the documented preparation metadata, with
-null file derivatives. The SQL candidate independently reconstructs and stores
+null file derivatives. Local migration10 independently reconstructs and stores
 the paragraph map privately. No source or derivative asset is manufactured.
 File uploads and production output reservation remain unfinished.
 
@@ -45,8 +45,7 @@ Apply invokes no model. The `specs-application.v1` callback carries only
 `{specs_id,workspace_id}` from the lease-fenced input. The central transaction
 loads its saved extraction, checks current authority/source/draft state and
 computes roles, slots and summary. The executor cannot supply arbitrary patches
-or declare how many facts were saved. The current candidate is initial-source
-only; ordinary source replacement still needs immutable internal input retention.
+or declare how many facts were saved. Immutable per-job inputs and origin pointers retain prior source/extraction after ordinary correction. Initial publication rejects changed/nonempty working facts; it does not merge away producer edits.
 
 Heartbeats default to20 seconds and serialize with the terminal callback. The
 timer is stopped and any pending heartbeat is resolved before completion. An
@@ -61,6 +60,11 @@ Twelve tests cover actual isolated text preparation, actual adapter/schema logic
 with synthetic provider output, SQL-shaped response/token compatibility,
 heartbeats, late/unknown/unresolved callbacks, transport deadlines, expiry during
 input reads, safe errors, tampering and caller mutation.
-They do not demonstrate service authentication, n8n orchestration, real database
-leases or production operation. The separately recorded one real OpenAI
+Those unit tests do not demonstrate service authentication, n8n orchestration or production operation. The separately recorded one real OpenAI
 synthetic evaluation did not run this executor or its gateway.
+
+## Observed local SQL integration
+
+The separate [native proof](../../tracking/evidence/m02/native-executor/2026-10-28T23-00-53-971Z-c26f43c2.json) executes this helper against persisted local10 through a fixed test-only psql transport. It proves exact JS/SQL paragraph/hash projection, stage commits, callback replay, correction/cancellation and actual graceful database restart/reclaim/fencing. Responses are synthetic; no provider key is loaded. The initial jobs are synthetic direct SQL fixtures; correction uses the actual scoped SQL RPC, not HTTP. Concurrent clients have one lease winner; server lock overlap is not proved.
+
+The official local image uses internal loopback TRUST. Its ephemeral narrow LOGIN/OS-nobody path tests SQL role authorization, not credential authentication or a production service identity. HBA, fixtures, test role/defaults/descriptions and full row/catalog baseline are restored. [Logging proof](../../tracking/evidence/m02/native-logging/2026-10-28T22-52-38-127Z-5128e4cc.json) observes public controls but no synthetic private bind marker, including NUL/surrogate rejection. This Docker/psql adapter must remain local-test-only; production still needs authenticated gateway/storage/dispatcher/WF01.
