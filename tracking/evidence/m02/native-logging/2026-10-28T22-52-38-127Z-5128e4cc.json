@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-28T22:51:53.123Z",
+  "run_id": "5128e4cc-f807-43c8-9842-2f378c8a7012",
+  "result": "passed",
+  "scope": "Owned-local trusted container-loopback DB-role authorization and private-bind logging prerequisite only",
+  "credential_authentication_verified": false,
+  "provider_called": false,
+  "cloud_called": false,
+  "raw_logs_recorded": false,
+  "sentinel_recorded": false,
+  "global_logging_changed": false,
+  "hba_changed": false,
+  "pipeline_tested": false,
+  "sources": [
+    {
+      "path": "supabase/migrations/20261028222030_m02_specs_pipeline.sql",
+      "sha256": "1e5319bb81be1f12896f7efb5a2cb7706653b79eb440a4dc1aaaca4ed9556895"
+    },
+    {
+      "path": "tools/lib/native-specs-local-transport.mjs",
+      "sha256": "57f2b5dca8ea6e04542366c93283a2bf22a63c8d918918a0b00561b3b31758d9"
+    },
+    {
+      "path": "tools/lib/native-specs-local-login.mjs",
+      "sha256": "c48e0e71c2b75b7ed76b506acf2585ade86079947b66cdf72a50853a18b58d87"
+    }
+  ],
+  "harness_sha256": "772de70ea9d2fafad7b0080e8c8dec08b73eb4632534fcd7bb2f210cfaca282c",
+  "container_id": "bcada04d62e45079815770de1ecad783c0522f1f3970ea8ed59f171f365829d9",
+  "hba_sha256": "05a3001844d0d4c02690e4a7091f0cb73dcd29d8b5c5df940f493901f9eca40d",
+  "local_auth_method": "trust",
+  "connection": "container_ipv4_loopback",
+  "mode": "docker_stderr",
+  "log_driver": "json-file",
+  "container_started_at": "2026-10-28T19:04:40.43304322Z",
+  "role_authorization_verified": true,
+  "window_since": "2026-10-28T22:52:08.222Z",
+  "window_until": "2026-10-28T22:52:21.617Z",
+  "window_bytes": 670,
+  "proof": {
+    "control_present": true,
+    "raw_absent": true,
+    "hex_absent": true,
+    "base64_absent": true
+  },
+  "private_operation": "scoped missing-job and invalid-JSONB rejection",
+  "rejections": [
+    {
+      "probe": "ascii_missing_job",
+      "code": "RESOURCE_NOT_FOUND",
+      "status": 404,
+      "unknown": false
+    },
+    {
+      "probe": "nul_jsonb",
+      "code": "NATIVE_RPC_FAILED",
+      "status": 503,
+      "unknown": false
+    },
+    {
+      "probe": "unpaired_surrogate_jsonb",
+      "code": "NATIVE_RPC_FAILED",
+      "status": 503,
+      "unknown": false
+    }
+  ],
+  "synthetic_sentinel_only": true,
+  "private_bind_sentinel_absent": true,
+  "invalid_jsonb_rejection_sanitized": true,
+  "fixture_removed": true,
+  "baseline_restored": true,
+  "hba_after_sha256": "05a3001844d0d4c02690e4a7091f0cb73dcd29d8b5c5df940f493901f9eca40d",
+  "hba_unchanged": true,
+  "lock_removed": true,
+  "finished_at": "2026-10-28T22:52:38.127Z"
+}

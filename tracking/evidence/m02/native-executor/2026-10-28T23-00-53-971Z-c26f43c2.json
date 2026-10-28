@@ -1,0 +1,152 @@
+{
+  "schema_version": "1.0",
+  "run_id": "c26f43c2-4614-45d1-8c79-613daf70eacb",
+  "started_at": "2026-10-28T22:58:18.162Z",
+  "result": "passed",
+  "harness_sha256": "d2dda0b8d248c5bdca1e7b0daea6ac927e736aaaa9747f3e6acf17db3d4a1910",
+  "migration_sha256": "1e5319bb81be1f12896f7efb5a2cb7706653b79eb440a4dc1aaaca4ed9556895",
+  "scope": "Owned local10, direct narrow role via inside-container loopback TRUST, actual native parser/executor and strict adapter with synthetic Responses only.",
+  "credential_authentication_verified": false,
+  "local_auth_method": "trust",
+  "local_route": "inside-container127.0.0.1:5432",
+  "provider_transport": "synthetic-only",
+  "actual_provider_called": false,
+  "cloud_called": false,
+  "runtime_gateway_user_jwt_used": false,
+  "source_correction_fixture_actor": "synthetic-authenticated-only",
+  "source_correction_path": "scoped-sql-rpc-not-http",
+  "worker_provider_configuration_read": false,
+  "provider_credentials_loaded": false,
+  "local_runtime_ownership_files_read": true,
+  "hosted_pipeline_accepted": false,
+  "cases": [
+    {
+      "job_id": "7f980000-0000-4000-8000-000000000001",
+      "outcome": "succeeded",
+      "stages": [
+        {
+          "stage": "prepare_document",
+          "committed_status": "queued",
+          "exact_callback_duplicate": true
+        },
+        {
+          "stage": "extract_specs",
+          "committed_status": "queued",
+          "exact_callback_duplicate": true
+        },
+        {
+          "stage": "apply_specs",
+          "committed_status": "succeeded",
+          "exact_callback_duplicate": true
+        }
+      ],
+      "adapter_calls": 1,
+      "sql_js_paragraph_mapping": true,
+      "prepared_projection_hash_matches": true,
+      "provider_transport": "synthetic-only"
+    },
+    {
+      "job_id": "7f980000-0000-4000-8000-000000000002",
+      "outcome": "cancelled",
+      "stages": [
+        {
+          "stage": "prepare_document",
+          "committed_status": "queued",
+          "exact_callback_duplicate": true
+        },
+        {
+          "stage": "extract_specs",
+          "committed_status": "queued",
+          "exact_callback_duplicate": true
+        },
+        {
+          "stage": "apply_specs",
+          "cancelled_callback_stale": true
+        }
+      ],
+      "adapter_calls": 1,
+      "sql_js_paragraph_mapping": true,
+      "prepared_projection_hash_matches": true,
+      "provider_transport": "synthetic-only"
+    },
+    {
+      "job_id": "7f980000-0000-4000-8000-000000000003",
+      "outcome": "source_changed",
+      "stages": [
+        {
+          "stage": "prepare_document",
+          "committed_status": "queued",
+          "exact_callback_duplicate": true
+        },
+        {
+          "stage": "extract_specs",
+          "committed_status": "queued",
+          "exact_callback_duplicate": true
+        },
+        {
+          "stage": "apply_specs",
+          "committed_status": "waiting_for_input",
+          "exact_callback_duplicate": true
+        }
+      ],
+      "adapter_calls": 1,
+      "sql_js_paragraph_mapping": true,
+      "prepared_projection_hash_matches": true,
+      "provider_transport": "synthetic-only"
+    },
+    {
+      "job_id": "7f980000-0000-4000-8000-000000000004",
+      "outcome": "succeeded",
+      "stages": [
+        {
+          "stage": "prepare_document",
+          "committed_status": "queued",
+          "exact_callback_duplicate": true
+        },
+        {
+          "stage": "extract_specs",
+          "committed_status": "queued",
+          "exact_callback_duplicate": true
+        },
+        {
+          "stage": "apply_specs",
+          "committed_status": "succeeded",
+          "exact_callback_duplicate": true
+        }
+      ],
+      "adapter_calls": 1,
+      "sql_js_paragraph_mapping": true,
+      "prepared_projection_hash_matches": true,
+      "provider_transport": "synthetic-only"
+    }
+  ],
+  "phase": "verify_fixture_effects",
+  "current_case": null,
+  "hba_sha256": "05a3001844d0d4c02690e4a7091f0cb73dcd29d8b5c5df940f493901f9eca40d",
+  "login_creation_attempted": true,
+  "local_direct_role_authorization_verified": true,
+  "fixture_setup_attempted": true,
+  "recovery_claim_pair": {
+    "concurrent_client_requests": true,
+    "separate_direct_sessions": true,
+    "one_live_winner": true,
+    "one_known_already_running": true,
+    "server_lock_overlap_proven": false
+  },
+  "restart_reconnected_restricted_role": true,
+  "database_restart_and_reclaim": {
+    "actual_restart": true,
+    "active_lease_refused": true,
+    "synthetic_expiry_used": true,
+    "old_attempt_fenced": true
+  },
+  "fixture_invariants_verified": true,
+  "operations_completed": true,
+  "cleanup_phase": "verify_hba_after",
+  "owned_backends_settled": true,
+  "fixture_cleanup": "passed",
+  "baseline_restored": true,
+  "hba_unchanged": true,
+  "hba_after_sha256": "05a3001844d0d4c02690e4a7091f0cb73dcd29d8b5c5df940f493901f9eca40d",
+  "finished_at": "2026-10-28T23:00:53.971Z"
+}

@@ -1,0 +1,106 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-28T22:16:08.723126+00:00",
+  "client_date": "2026-10-29",
+  "environment": "local Windows Node24; controlled browser3100 and owned development3000",
+  "source_ui_commit": "6ac2ada",
+  "result": "passed",
+  "checks": [
+    {
+      "command": "npm.cmd test",
+      "exit_code": 0,
+      "scope": "All existing domain/server,contract,jobs,integration,worker,central suites; synthetic provider transport only in this run"
+    },
+    {
+      "command": "npm.cmd run lint",
+      "exit_code": 0
+    },
+    {
+      "command": "npm.cmd run typecheck",
+      "exit_code": 0
+    },
+    {
+      "command": "$env:EPS_TEST_SERVER = 'true'; npm.cmd run build",
+      "exit_code": 0,
+      "dist_dir": ".next-e2e"
+    },
+    {
+      "command": "npm.cmd run check:production-guard",
+      "exit_code": 0
+    },
+    {
+      "command": "node --test tests/operations/native-specs-transport.test.mjs",
+      "exit_code": 0,
+      "tests": 5
+    },
+    {
+      "command": ".venv-skills/Scripts/python.exe -X utf8 tools/manage_project_skills.py",
+      "exit_code": 0,
+      "canonical_skills": 53,
+      "errors": 0,
+      "warnings": 0
+    }
+  ],
+  "controlled_browser": {
+    "new_source_journeys": 7,
+    "new_source_passed": 7,
+    "existing_specs_order_journeys": 7,
+    "existing_specs_order_passed": 7,
+    "visual_widths": [
+      1440,
+      320
+    ],
+    "final_evidence": "tracking/evidence/m02/source-intake-ui/final-visual/summary.json",
+    "retained_failures": [
+      "tracking/evidence/m02/source-intake-ui/2026-10-28T22-10-01-551Z-startup-failure.json",
+      "tracking/evidence/m02/source-intake-ui/first-browser-run/summary.json"
+    ]
+  },
+  "development_http_readback": {
+    "url": "http://127.0.0.1:3000/projects",
+    "route_status": 200,
+    "studio_shell_found": true,
+    "framework_error_string_found": false,
+    "script_count": 17,
+    "all_scripts_200": true,
+    "process_id": 44912,
+    "parent_process_id": 41464,
+    "wrapper_process_id": 42568,
+    "wrapper": "tools/dev-central.mjs",
+    "signed_in_ui_verified": false
+  },
+  "retained_execution_note": "An initial successful build omitted EPS_TEST_SERVER and wrote .next; repeated successfully in .next-e2e after browser window release. Subsequent owned3000 route and all17 script responses were HTTP200. No authenticated browser acceptance inferred. Generated next-env.d.ts restored.",
+  "cloud_called": false,
+  "real_provider_called": false,
+  "sign_in_email_sent": false,
+  "hosting_selected": false,
+  "limits": [
+    "This receipt does not prove live pipeline, n8n, hosted Auth/Storage, service deployment, private bytes restoration or production acceptance."
+  ],
+  "final_validation": {
+    "recorded_at": "2026-10-28T23:06:31.475204+00:00",
+    "module_tests": 195,
+    "suite_counts": {
+      "unit_server": 85,
+      "contracts": 5,
+      "jobs": 12,
+      "integrations": 18,
+      "worker": 34,
+      "central": 41
+    },
+    "module_failures": 0,
+    "operational_tests": 26,
+    "operational_failures": 0,
+    "lint": "passed",
+    "new_javascript_tool_lint": "passed",
+    "typecheck": "passed",
+    "build": "passed",
+    "build_output": ".next-e2e",
+    "production_guard": "passed",
+    "new_provider_output_scalar_guard": "NUL/lone UTF16 rejected before callback; valid Unicode retained",
+    "real_provider_called": false,
+    "cloud_called": false,
+    "native_evidence": "tracking/evidence/m02/native-executor/2026-10-28T23-00-53-971Z-c26f43c2.json",
+    "logging_evidence": "tracking/evidence/m02/native-logging/2026-10-28T22-52-38-127Z-5128e4cc.json"
+  }
+}

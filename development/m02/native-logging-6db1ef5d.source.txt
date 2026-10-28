@@ -1,0 +1,318 @@
+/** PREPARATION ONLY until root seals actual local10 sources and log directory.
+ * No generic admin query/path/target interface. Never writes captured log bytes.
+ */
+import { Buffer } from 'node:buffer';
+import { spawn } from 'node:child_process';
+import { createHash, randomUUID } from 'node:crypto';
+import { lstat, mkdir, open, readFile, realpath, unlink, writeFile } from 'node:fs/promises';
+import path from 'node:path';
+import process from 'node:process';
+import { clearTimeout, setTimeout } from 'node:timers';
+import { pathToFileURL } from 'node:url';
+import { createNativeSpecsLocalTransport, verifyNativeSpecsLocalTarget, NativeSpecsTransportError } from './lib/native-specs-local-transport.mjs';
+import { createNativeSpecsLocalLogin, probeNativeSpecsLocalLogin, inspectNativeSpecsLocalLogin, dropNativeSpecsLocalLogin } from './lib/native-specs-local-login.mjs';
+
+const ROOT = path.resolve(import.meta.dirname, '..');
+const ENDPOINT = process.platform === 'win32' ? 'npipe:////./pipe/dockerDesktopLinuxEngine' : 'unix:///var/run/docker.sock';
+const LOCK = path.join(ROOT, '.local/local-postgres/test-db.lock');
+const MIGRATION = 'supabase/migrations/20261028222030_m02_specs_pipeline.sql';
+const VERSIONS = ['20261028010943', '20261028013324', '20261028013655', '20261028024205', '20261028072515',
+  '20261028162702', '20261028162800', '20261028172320', '20261028184145', '20261028222030'];
+// Root fills these only after reviewed local10 promotion/readback. No inference
+// from candidate/rollback success, no automatic resealing from current bytes.
+// Docker mode/driver are root-observed at22:29:37Z. Executable source hashes
+// remain unset until actual local10 reconciliation and tests are complete.
+const SEALS = Object.freeze({ migration: '1e5319bb81be1f12896f7efb5a2cb7706653b79eb440a4dc1aaaca4ed9556895', transport: '32cc98215ff819e9dc34466989d1e2841d258fd05527eb93dfcb890020f31330', login: 'a92f4ff0698b57aad48c416f2c520423ad2746a84a0cdb3300a0b0b117f011cf', mode: 'docker_stderr', logDirectory: null, logDriver: 'json-file' });
+const FIXED_SOURCES = [
+  ['migration', MIGRATION], ['transport', 'tools/lib/native-specs-local-transport.mjs'], ['login', 'tools/lib/native-specs-local-login.mjs'],
+];
+const MISSING_JOB = '7e9f0000-0000-4000-8000-000000000001';
+const ATTEMPT = '7d9f0000-0000-4000-8000-000000000001';
+const WINDOW_LIMIT = 1024 * 1024;
+const sha = value => createHash('sha256').update(value).digest('hex');
+function fail(code) { throw new Error(code); }
+function requireValue(value, code) { if (!value) fail(code); }
+const record = value => Boolean(value) && typeof value === 'object' && !Array.isArray(value);
+const count = value => Number.isSafeInteger(value) && value >= 0;
+export function loggingProofPrepared(seals = SEALS) {
+  return FIXED_SOURCES.every(([key]) => typeof seals[key] === 'string' && /^[a-f0-9]{64}$/u.test(seals[key]))
+    && (seals.mode === 'collector_file' && typeof seals.logDirectory === 'string' && /^[A-Za-z0-9_-]{1,80}$/u.test(seals.logDirectory)
+      || seals.mode === 'docker_stderr' && ['json-file', 'local'].includes(seals.logDriver));
+}
+/** Pure synthetic fixtures. These values enter the fixed bind only, never SQL. */
+export function loggingProbeEvents(runId, sentinel) {
+  requireValue(typeof runId === 'string' && /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/u.test(runId)
+    && typeof sentinel === 'string' && /^EPS_SYNTHETIC_PRIVATE_SENTINEL_[A-Za-z0-9_-]{1,128}$/u.test(sentinel), 'LOG_PROBE_INPUT_INVALID');
+  return [
+    { name: 'ascii_missing_job', code: 'RESOURCE_NOT_FOUND', status: 404, suffix: '' },
+    { name: 'nul_jsonb', code: 'NATIVE_RPC_FAILED', status: 503, suffix: '\u0000' },
+    { name: 'unpaired_surrogate_jsonb', code: 'NATIVE_RPC_FAILED', status: 503, suffix: '\ud800' },
+  ].map(({ name, code, status, suffix }) => ({ name, code, status,
+    event: { job_id: MISSING_JOB, attempt_id: ATTEMPT, event_id: `synthetic-logging-${runId}-${name}`,
+      lease_token: 'synthetic-nonsecret-lease', stage: 'prepare_document', input_hash: '0'.repeat(64), sequence: 1, event_type: 'failed',
+      error: { code: 'PROCESSING_FAILED', message: sentinel + suffix, details: {}, retryable: false } } }));
+}
+export function expectedLoggingRejection(error, probe) {
+  return error instanceof NativeSpecsTransportError && error.code === probe.code && error.status === probe.status && error.unknown === false;
+}
+/** Pure metadata checks; a path supplied here is never an executable file API. */
+export function readLoggingSnapshot(value, directory) {
+  requireValue(record(value) && /^[A-Za-z0-9_-]{1,80}$/u.test(directory)
+    && value.collector === 'on' && value.destination === 'stderr' && value.truncate === 'off'
+    && value.directory === directory && typeof value.file === 'string'
+    && value.file.startsWith(directory + '/') && /^[A-Za-z0-9_.-]{1,180}$/u.test(value.file.slice(directory.length + 1))
+    && value.file.slice(directory.length + 1) !== '.' && !value.file.includes('..') && count(value.size), 'LOGGING_NOT_OBSERVABLE');
+  return { collector: value.collector, destination: value.destination, truncate: value.truncate,
+    directory, file: value.file, size: value.size };
+}
+function base64Fragments(sentinel) {
+  const bytes = Buffer.from(sentinel); const fragments = [];
+  // Complete interior groups cover all three byte alignments when a whole JSON
+  // payload, rather than the sentinel alone, is base64/base64url encoded.
+  for (const offset of [0, 1, 2]) {
+    const encoded = Buffer.concat([Buffer.alloc(offset), bytes]).toString('base64');
+    const fragment = encoded.slice(offset ? 4 : 0, Math.floor((offset + bytes.length) / 3) * 4);
+    fragments.push(fragment, fragment.replaceAll('+', '-').replaceAll('/', '_'));
+  }
+  return fragments;
+}
+function assessContents(bytes, controls, sentinel) {
+  requireValue(Buffer.isBuffer(bytes) && bytes.length <= WINDOW_LIMIT, 'LOG_WINDOW_CHANGED');
+  requireValue(Array.isArray(controls) && controls.length === 2 && controls.every(value => typeof value === 'string' && /^[A-Za-z0-9_-]{16,160}$/u.test(value))
+    && typeof sentinel === 'string' && /^[A-Za-z0-9_-]{32,200}$/u.test(sentinel), 'LOG_PROBE_INPUT_INVALID');
+  const text = bytes.toString('utf8');
+  requireValue(text.indexOf(controls[0]) >= 0 && text.indexOf(controls[1]) > text.indexOf(controls[0]), 'PUBLIC_LOG_CONTROL_NOT_OBSERVED');
+  const hex = Buffer.from(sentinel).toString('hex');
+  const compact = text.replace(/\s+/gu, '');
+  requireValue(!text.includes(sentinel) && !compact.toLowerCase().includes(hex)
+    && base64Fragments(sentinel).every(fragment => !compact.includes(fragment)), 'PRIVATE_SENTINEL_VISIBLE');
+  return { control_present: true, raw_absent: true, hex_absent: true, base64_absent: true };
+}
+export function assessLoggingWindow(before, after, bytes, controls, sentinel) {
+  requireValue(before.file === after.file && before.directory === after.directory && after.size >= before.size
+    && before.collector === after.collector && before.destination === after.destination && before.truncate === after.truncate
+    && after.size - before.size <= WINDOW_LIMIT && Buffer.isBuffer(bytes) && bytes.length === after.size - before.size, 'LOG_WINDOW_CHANGED');
+  return assessContents(bytes, controls, sentinel);
+}
+export function readDockerLoggingSnapshot(value, driver) {
+  requireValue(record(value) && ['json-file', 'local'].includes(driver) && value.driver === driver
+    && typeof value.id === 'string' && /^[a-f0-9]{64}$/u.test(value.id) && typeof value.started_at === 'string'
+    && Number.isFinite(Date.parse(value.started_at)) && value.collector === 'off' && value.destination === 'stderr' && value.file === null,
+  'DOCKER_LOGGING_NOT_OBSERVABLE');
+  return { id: value.id, started_at: value.started_at, driver, collector: value.collector, destination: value.destination, file: null };
+}
+export function assessDockerLoggingWindow(before, after, bytes, controls, sentinel) {
+  requireValue(before.id === after.id && before.started_at === after.started_at && before.driver === after.driver
+    && before.collector === after.collector && before.destination === after.destination, 'DOCKER_LOG_TARGET_CHANGED');
+  return assessContents(bytes, controls, sentinel);
+}
+
+/** Only the observed pinned container and internally generated UTC window. */
+async function dockerLogWindow(containerId, since, until) {
+  const lower = Date.parse(since); const upper = Date.parse(until);
+  requireValue(Number.isFinite(lower) && Number.isFinite(upper) && upper >= lower && upper - lower <= 60_000
+    && [since, until].every(value => /^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d{3}Z$/u.test(value)), 'DOCKER_LOG_CURSOR_INVALID');
+  return await new Promise((resolve, reject) => {
+    const child = spawn('docker', ['--host', ENDPOINT, 'logs', '--since', since, '--until', until, '--timestamps', containerId],
+      { cwd: ROOT, shell: false, windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] });
+    const chunks = []; let size = 0; let failed = false;
+    const stop = () => { failed = true; child.kill(); }; const timer = setTimeout(stop, 8000);
+    const consume = chunk => { size += chunk.length; if (size > WINDOW_LIMIT) stop(); else chunks.push(chunk); };
+    child.stdout.on('data', consume); child.stderr.on('data', consume); child.on('error', () => { failed = true; });
+    child.on('close', code => { clearTimeout(timer);
+      if (failed || code !== 0) reject(new Error('DOCKER_LOG_WINDOW_UNOBSERVABLE')); else resolve(Buffer.concat(chunks));
+    });
+  });
+}
+async function sealedSources() {
+  requireValue(loggingProofPrepared(), 'NATIVE_LOGGING_UNSEALED');
+  const result = [];
+  for (const [key, file] of FIXED_SOURCES) {
+    const absolute = path.resolve(ROOT, file); const info = await lstat(absolute);
+    requireValue(info.isFile() && !info.isSymbolicLink() && info.size <= 1024 * 1024 && await realpath(absolute) === absolute, 'LOGGING_SOURCE_UNSAFE');
+    const digest = sha(await readFile(absolute)); requireValue(digest === SEALS[key], 'LOGGING_SOURCE_CHANGED'); result.push({ path: file, sha256: digest });
+  }
+  const manifest = JSON.parse(await readFile(path.join(ROOT, 'development/local-db/reviewed.json'), 'utf8'));
+  requireValue(manifest.version === 1 && Array.isArray(manifest.migrations) && manifest.migrations.length === 10
+    && manifest.migrations.every((entry, index) => entry.path.slice(20, 34) === VERSIONS[index] && /^[a-f0-9]{64}$/u.test(entry.sha256))
+    && manifest.migrations[9].path === MIGRATION && manifest.migrations[9].sha256 === SEALS.migration, 'LOCAL_TEN_MANIFEST_REQUIRED');
+  return { sources: result, migrations: manifest.migrations.map(({ path, sha256 }) => [path, sha256]) };
+}
+
+/** This only runs fixed local SQL below, under the verified immutable container.
+ * Arguments, provider source and tokens never enter this admin seam.
+ */
+async function admin(containerId, sql, label) {
+  const target = await verifyNativeSpecsLocalTarget(); requireValue(target.container.Id === containerId, 'LOGGING_TARGET_CHANGED');
+  return await new Promise((resolve, reject) => {
+    const child = spawn('docker', ['--host', ENDPOINT, 'exec', '--user', 'postgres', '-i', containerId,
+      'env', '-i', 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin', 'HOME=/tmp', 'PGPASSFILE=/dev/null',
+      'PGCONNECT_TIMEOUT=3', 'PGAPPNAME=' + label, 'psql', '-X', '-q', '-A', '-t', '-w', '-v', 'ON_ERROR_STOP=1',
+      '-v', 'VERBOSITY=sqlstate', '-v', 'SHOW_CONTEXT=never', '-h', '/var/run/postgresql', '-U', 'supabase_admin', '-d', 'postgres'],
+    { cwd: ROOT, shell: false, windowsHide: true, stdio: ['pipe', 'pipe', 'pipe'] });
+    let stdout = ''; let length = 0; let errors = 0; let unknown = false;
+    const interrupt = () => { unknown = true; child.kill(); };
+    const timer = setTimeout(interrupt, 12_000);
+    child.stdin.on('error', () => {});
+    child.stdout.on('data', chunk => { length += chunk.length; if (length > 3 * 1024 * 1024) interrupt(); else stdout += chunk.toString('utf8'); });
+    child.stderr.on('data', chunk => { errors += chunk.length; if (errors > 65536) interrupt(); });
+    child.on('error', () => { unknown = true; });
+    child.on('close', code => { clearTimeout(timer);
+      if (unknown || code !== 0) reject(new Error('LOGGING_ADMIN_UNCONFIRMED'));
+      else { try { const rows = stdout.split(/\r?\n/u).filter(line => line.startsWith('{')).map(line => JSON.parse(line)); requireValue(rows.length === 1, 'LOGGING_RESPONSE_INVALID'); resolve(rows[0]); } catch { reject(new Error('LOGGING_RESPONSE_INVALID')); } }
+    });
+    child.stdin.end(sql);
+  });
+}
+const META = `jsonb_build_object('collector',current_setting('logging_collector'),'destination',current_setting('log_destination'),
+ 'directory',current_setting('log_directory'),'truncate',current_setting('log_truncate_on_rotation'),
+ 'file',pg_current_logfile('stderr'),'size',(pg_stat_file(pg_current_logfile('stderr'),true)).size)`;
+const BASELINE = `begin read only; set local statement_timeout='8s';
+do $counts$ declare item record; amount bigint; counts jsonb:='{}'; begin
+ for item in select n.nspname,c.relname from pg_class c join pg_namespace n on n.oid=c.relnamespace
+  where n.nspname in('eps','public','auth','storage','eps_local_guard','supabase_migrations') and c.relkind in('r','p') order by n.nspname,c.relname loop
+  execute format('select count(*) from %I.%I',item.nspname,item.relname) into amount;
+  counts:=counts||jsonb_build_object(item.nspname||'.'||item.relname,amount);
+ end loop; perform set_config('eps.native_logging.counts',counts::text,true);
+end $counts$;
+select jsonb_build_object('versions',(select jsonb_agg(version order by version) from supabase_migrations.schema_migrations),
+ 'migrations',(select jsonb_agg(jsonb_build_array(path,sha256) order by path) from eps_local_guard.migration_replay),
+ 'missing_job',not exists(select 1 from eps.jobs where id='${MISSING_JOB}'::uuid),
+ 'counts',current_setting('eps.native_logging.counts')::jsonb,
+ 'roles_sha256',(select encode(sha256(convert_to(coalesce(jsonb_agg(to_jsonb(v) order by oid),'[]')::text,'UTF8')),'hex') from pg_roles v),
+ 'memberships_sha256',(select encode(sha256(convert_to(coalesce(jsonb_agg(to_jsonb(v) order by roleid,member,grantor),'[]')::text,'UTF8')),'hex') from pg_auth_members v),
+ 'defaults_sha256',(select encode(sha256(convert_to(coalesce(jsonb_agg(to_jsonb(v) order by setrole,setdatabase),'[]')::text,'UTF8')),'hex') from pg_db_role_setting v),
+ 'descriptions_sha256',(select encode(sha256(convert_to(coalesce(jsonb_agg(to_jsonb(v) order by objoid,classoid),'[]')::text,'UTF8')),'hex') from pg_shdescription v)); rollback;`;
+
+async function main() {
+  requireValue(process.argv.length === 2 && /^v24\./u.test(process.version), 'FIXED_NODE24_INVOCATION_REQUIRED');
+  const runId = randomUUID(); const label = `eps-native-logging-${runId}`; const controls = [`EPS_PUBLIC_BEGIN_${runId}`, `EPS_PUBLIC_END_${runId}`];
+  const sentinel = `EPS_SYNTHETIC_PRIVATE_SENTINEL_${randomUUID()}`;
+  const receipt = { schema_version: '1.0', observed_at: new Date().toISOString(), run_id: runId, result: 'failed',
+    scope: 'Owned-local direct-login private-bind logging prerequisite only', provider_called: false, cloud_called: false,
+    raw_logs_recorded: false, sentinel_recorded: false, global_logging_changed: false, hba_changed: false, pipeline_tested: false };
+  let ownedLock = false; let before; let target; let transport; let setupAttempted = false; let settled = false;
+  // Every executable operation is fixed here. No exported function takes SQL,
+  // role, filename, target or arbitrary command input.
+  async function operation(kind, offset) {
+    let sql;
+    if (kind === 'baseline') sql = BASELINE;
+    else if (kind === 'metadata') sql = `begin read only; set local statement_timeout='8s'; select ${META}; rollback;`;
+    else if (kind === 'start' || kind === 'end') {
+      const control = controls[kind === 'start' ? 0 : 1];
+      sql = `begin; set local statement_timeout='8s'; set local log_statement='all'; select jsonb_build_object('control','${control}'); rollback;`;
+    } else if (kind === 'settled') sql = `begin read only; set local statement_timeout='8s'; select jsonb_build_object('remaining',count(*)) from pg_stat_activity
+ where pid<>pg_backend_pid() and (application_name='${label}' or application_name='eps-native-specs-login-fixture' or application_name like 'eps-native-specs-${runId}-%'); rollback;`;
+    else if (kind === 'window') {
+      requireValue(count(offset), 'LOG_WINDOW_OFFSET_INVALID');
+      sql = `begin read only; set local statement_timeout='8s'; with metadata as(select ${META} value), content as(
+ select value,case when value->>'directory'='${SEALS.logDirectory}' and value->>'file' ~ '^${SEALS.logDirectory}/[A-Za-z0-9_.-]+$'
+  and position('..' in value->>'file')=0 and (value->>'size')::bigint between ${offset} and ${offset + WINDOW_LIMIT}
+  then pg_read_binary_file(value->>'file',${offset},(value->>'size')::bigint-${offset},false) else null end bytes from metadata)
+ select jsonb_build_object('metadata',value,'content_hex',encode(bytes,'hex')) from content; rollback;`;
+    } else fail('FIXED_LOG_OPERATION_REQUIRED');
+    return admin(target.container.Id, sql, label);
+  }
+  async function settle() {
+    if (transport) await transport.settle();
+    for (let attempt = 0; attempt < 20; attempt++) {
+      const result = await operation('settled');
+      if (result.remaining === 0) return true;
+      await new Promise(resolve => setTimeout(resolve, 250));
+    }
+    fail('LOGGING_BACKEND_UNSETTLED');
+  }
+  try {
+    const sources = await sealedSources(); receipt.sources = sources.sources; receipt.harness_sha256 = sha(await readFile(import.meta.filename));
+    target = await verifyNativeSpecsLocalTarget(); receipt.container_id = target.container.Id;
+    await mkdir(path.dirname(LOCK), { recursive: true }); const handle = await open(LOCK, 'wx', 0o600);
+    try { await handle.writeFile(JSON.stringify({ run_id: runId, pid: process.pid })); await handle.sync(); ownedLock = true; } finally { await handle.close(); }
+    before = await operation('baseline');
+    requireValue(JSON.stringify(before.versions) === JSON.stringify(VERSIONS) && JSON.stringify(before.migrations) === JSON.stringify(sources.migrations)
+      && before.missing_job === true, 'EXACT_LOCAL_TEN_BASELINE_REQUIRED');
+    const metadata = await operation('metadata'); receipt.mode = SEALS.mode;
+    let start;
+    if (SEALS.mode === 'collector_file') {
+      start = readLoggingSnapshot(metadata, SEALS.logDirectory); receipt.logfile = start.file; receipt.window_start = start.size;
+    } else {
+      start = readDockerLoggingSnapshot({ ...metadata, id: target.container.Id, started_at: target.container.State.StartedAt,
+        driver: target.container.HostConfig.LogConfig.Type }, SEALS.logDriver);
+      receipt.log_driver = start.driver; receipt.container_started_at = start.started_at;
+    }
+    setupAttempted = true; await createNativeSpecsLocalLogin(runId); await probeNativeSpecsLocalLogin(runId);
+    const since = new Date().toISOString();
+    await operation('start');
+    transport = createNativeSpecsLocalTransport(runId);
+    const rejections = [];
+    for (const probe of loggingProbeEvents(runId, sentinel)) {
+      let rejected = false;
+      try { await transport.recordEvent(probe.event, globalThis.AbortSignal.timeout(12_000)); }
+      catch (error) { if (expectedLoggingRejection(error, probe)) rejected = true; else throw error; }
+      requireValue(rejected, 'LOGGING_REJECTION_UNCONFIRMED');
+      rejections.push({ probe: probe.name, code: probe.code, status: probe.status, unknown: false });
+    }
+    await transport.settle(); await operation('end');
+    const until = new Date(Date.now() + 2000).toISOString();
+    if (SEALS.mode === 'docker_stderr') { receipt.window_since = since; receipt.window_until = until; }
+    let proof;
+    for (let attempt = 0; attempt < 20; attempt++) {
+      let bytes; let after;
+      if (SEALS.mode === 'collector_file') {
+        const window = await operation('window', start.size); after = readLoggingSnapshot(window.metadata, SEALS.logDirectory);
+        requireValue(typeof window.content_hex === 'string' && /^(?:[a-f0-9]{2})*$/u.test(window.content_hex), 'LOG_WINDOW_UNOBSERVABLE');
+        bytes = Buffer.from(window.content_hex, 'hex');
+      } else {
+        const observed = await verifyNativeSpecsLocalTarget();
+        const identity = { id: observed.container.Id, started_at: observed.container.State.StartedAt, driver: observed.container.HostConfig.LogConfig.Type };
+        after = readDockerLoggingSnapshot({ ...await operation('metadata'), ...identity }, SEALS.logDriver);
+        requireValue(after.id === start.id && after.started_at === start.started_at, 'DOCKER_LOG_TARGET_CHANGED');
+        bytes = await dockerLogWindow(start.id, since, until);
+        const checked = await verifyNativeSpecsLocalTarget();
+        requireValue(checked.container.Id === start.id && checked.container.State.StartedAt === start.started_at
+          && checked.container.HostConfig.LogConfig.Type === start.driver, 'DOCKER_LOG_TARGET_CHANGED');
+      }
+      try { proof = SEALS.mode === 'collector_file' ? assessLoggingWindow(start, after, bytes, controls, sentinel)
+        : assessDockerLoggingWindow(start, after, bytes, controls, sentinel);
+        receipt.window_bytes = bytes.length; if (SEALS.mode === 'collector_file') receipt.window_end = after.size; break; }
+      catch (error) { if (error.message !== 'PUBLIC_LOG_CONTROL_NOT_OBSERVED') throw error; }
+      await new Promise(resolve => setTimeout(resolve, 250));
+    }
+    requireValue(proof, 'PUBLIC_LOG_CONTROL_NOT_OBSERVED'); receipt.proof = proof;
+    receipt.private_operation = 'scoped missing-job and invalid-JSONB rejection'; receipt.rejections = rejections;
+    receipt.synthetic_sentinel_only = true; receipt.private_bind_sentinel_absent = true;
+    receipt.invalid_jsonb_rejection_sanitized = true;
+    const finalSources = await sealedSources();
+    requireValue(JSON.stringify(finalSources.sources) === JSON.stringify(receipt.sources)
+      && sha(await readFile(import.meta.filename)) === receipt.harness_sha256, 'LOGGING_SOURCE_CHANGED');
+  } catch (error) { receipt.failure_code = /^[A-Z_]{1,100}$/u.test(error?.message ?? '') ? error.message : 'NATIVE_LOGGING_PROOF_FAILED'; }
+  finally {
+    if (target && ownedLock) {
+      try {
+        settled = await settle();
+        if (setupAttempted) { const fixture = await inspectNativeSpecsLocalLogin(runId); if (fixture.present) {
+          try { await dropNativeSpecsLocalLogin(runId); }
+          catch { const independent = await inspectNativeSpecsLocalLogin(runId); requireValue(!independent.present, 'LOGGING_ROLE_CLEANUP_UNCONFIRMED'); }
+        } receipt.fixture_removed = true; }
+        else receipt.fixture_not_created = true;
+        settled = await settle();
+        if (before) { const after = await operation('baseline'); receipt.baseline_restored = JSON.stringify(after) === JSON.stringify(before); requireValue(receipt.baseline_restored, 'LOGGING_BASELINE_NOT_RESTORED'); }
+      } catch { receipt.cleanup_unconfirmed = true; settled = false; }
+    }
+    if (ownedLock && settled) {
+      try { const owner = JSON.parse(await readFile(LOCK, 'utf8')); requireValue(owner.run_id === runId && owner.pid === process.pid, 'LOGGING_LOCK_CHANGED'); await unlink(LOCK); receipt.lock_removed = true; }
+      catch { receipt.cleanup_unconfirmed = true; }
+    }
+    if (receipt.proof && receipt.baseline_restored && receipt.fixture_removed && receipt.lock_removed
+      && receipt.synthetic_sentinel_only === true && receipt.private_bind_sentinel_absent === true
+      && receipt.invalid_jsonb_rejection_sanitized === true
+      && !receipt.cleanup_unconfirmed && !receipt.failure_code) receipt.result = 'passed';
+    receipt.finished_at = new Date().toISOString(); const directory = path.join(ROOT, 'tracking/evidence/m02/native-logging'); await mkdir(directory, { recursive: true });
+    const file = path.join(directory, `${receipt.finished_at.replace(/[:.]/gu, '-')}-${runId.slice(0, 8)}.json`);
+    await writeFile(file, JSON.stringify(receipt, null, 2) + '\n', { flag: 'wx' });
+    process.stdout.write(`Native logging prerequisite: ${receipt.result}\nReceipt: ${path.relative(ROOT, file).replaceAll('\\', '/')}\n`);
+    if (receipt.result !== 'passed') process.exitCode = 1;
+  }
+}
+if (process.argv[1] && pathToFileURL(path.resolve(process.argv[1])).href === import.meta.url) {
+  main().catch(() => { process.stderr.write('Native logging prerequisite could not start; details suppressed.\n'); process.exitCode = 1; });
+}

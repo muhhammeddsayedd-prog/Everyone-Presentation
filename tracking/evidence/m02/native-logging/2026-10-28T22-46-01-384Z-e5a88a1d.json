@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-28T22:45:42.500Z",
+  "run_id": "e5a88a1d-49a8-493d-b07d-cc47ababf752",
+  "result": "failed",
+  "scope": "Owned-local direct-login private-bind logging prerequisite only",
+  "provider_called": false,
+  "cloud_called": false,
+  "raw_logs_recorded": false,
+  "sentinel_recorded": false,
+  "global_logging_changed": false,
+  "hba_changed": false,
+  "pipeline_tested": false,
+  "sources": [
+    {
+      "path": "supabase/migrations/20261028222030_m02_specs_pipeline.sql",
+      "sha256": "1e5319bb81be1f12896f7efb5a2cb7706653b79eb440a4dc1aaaca4ed9556895"
+    },
+    {
+      "path": "tools/lib/native-specs-local-transport.mjs",
+      "sha256": "32cc98215ff819e9dc34466989d1e2841d258fd05527eb93dfcb890020f31330"
+    },
+    {
+      "path": "tools/lib/native-specs-local-login.mjs",
+      "sha256": "a92f4ff0698b57aad48c416f2c520423ad2746a84a0cdb3300a0b0b117f011cf"
+    }
+  ],
+  "harness_sha256": "6db1ef5d069f6e349628b364b19cebbe6e3119282648b13abeb80555717f9793",
+  "container_id": "bcada04d62e45079815770de1ecad783c0522f1f3970ea8ed59f171f365829d9",
+  "mode": "docker_stderr",
+  "log_driver": "json-file",
+  "container_started_at": "2026-10-28T19:04:40.43304322Z",
+  "failure_code": "LOCAL_LOGIN_SOCKET_REJECTED",
+  "fixture_removed": true,
+  "baseline_restored": true,
+  "lock_removed": true,
+  "finished_at": "2026-10-28T22:46:01.384Z"
+}
