@@ -1,0 +1,2747 @@
+{
+  "observed_at": "2026-10-28T18:18:56.952672+00:00",
+  "target": "pyibofyctwnqpvktepse",
+  "action": "dry-run",
+  "inputs": {
+    "migration_hashes": {
+      "20261028010943_m01_canonical_foundation.sql": "8a5f3ed7727a72051e630307d2daecab8c4a74054398a6425e73bd85e17568b9",
+      "20261028013324_m01_identity_role_inheritance.sql": "5382efe9fbdf9c194010257e0ac0024dcb447207522036560056d5d1a4e20e30",
+      "20261028013655_m01_workspace_scope_alias.sql": "67ddb2cff9fed9c42d34657e833c613aec4afd2769543a991bbac84da355db64",
+      "20261028024205_m01_private_logo_boundary.sql": "b04af5119b4e384bd96136573eec39e69f21a0ffb7d9f4aeb07bbf48f2976b9d",
+      "20261028072515_m01_logo_upload_capability.sql": "4dbd400092d7743b02dd0769ae511c208e6f4f349428fc0e7f0fb9c573ba4b24",
+      "20261028162702_m01_replay_scope_refresh.sql": "82a4f2ec03efc0787aa58e5f1e68ab626e5dddb5e4c645444103456757bf4251",
+      "20261028162800_m02_jobs_outbox.sql": "f619b3dfb9d964ab5902d04941b8cd59b44e9da36f1ab3f7b10bd45298ff4013",
+      "20261028172320_m02_manual_specs_draft.sql": "8ab866a49cb2e01eabf3b83076fe4519a60255263d0a1a170ef3ba9718a2349c"
+    },
+    "proofs": {
+      "prior_cloud": {
+        "path": "tracking/evidence/cloud-processing-foundation/2026-10-28T16-56-29-737639Z-6e03dbf9-readback.json",
+        "sha256": "79e3e233a22d4b9cc7ff0f3937bd86648c720741a3b15658a7f1fb88ae2b213e"
+      },
+      "initial_backfill": {
+        "path": "tracking/evidence/m02/specs-local/2026-10-28T18-02-35-594Z-b35f9f60.json",
+        "sha256": "6b1f88c9341292125ba35a2111ba231c795fdcda209d079b8cf6a2648ddddcd8"
+      },
+      "full_db": {
+        "path": "development/local-db/receipts/2026-10-28T18-07-49-870Z-test-db-summary-68140882.json",
+        "sha256": "645afb935651e81456cfd24ba41c4220543208a99a40b0e37f55139e381588f4"
+      },
+      "m01_replay": {
+        "path": "tracking/evidence/m01/replay-scope/2026-10-28T18-10-19-748Z-fixed.json",
+        "sha256": "48329a160356b0d189917c75c8d742b0b901fbea23920ed176e9a28d452f5b83"
+      },
+      "m02_local": {
+        "path": "tracking/evidence/m02/local/2026-10-28T18-08-57-532Z-7930ab51.json",
+        "sha256": "891079d3d52eafe6ca03e97b977871e3e244482aa6b1e5ed1b329a6544e55756"
+      },
+      "manual_specs": {
+        "path": "tracking/evidence/m02/specs-local/2026-10-28T18-07-04-016Z-0fdcf864.json",
+        "sha256": "972fa5ceedba89333b2c6a6c49435b74787f795be4cf8271aa5b44920cb70c06"
+      },
+      "local_contract": {
+        "path": "tracking/evidence/cloud-manual-specs/local-contract.json",
+        "sha256": "15a4f012fab2e35c971ed8614e47f15f5f7cf947e19e9d91393d77d11e7181ad"
+      }
+    },
+    "source_seals": {
+      "tools/test-db.mjs": "b8b38abd637883e63c44b5412fa5b9a0e359bd840eb549aacc4455f11729562b",
+      "tools/test-m01-replay-scope.mjs": "7286314bc425f35ac8a85a8fb8f8d8042d647975a9957674b589378bad6f06eb",
+      "tools/test-m02-local.mjs": "8564f61f153493dd87ec7c996828ccfcdb73fd489d3a1929dca679dc4c4cb078",
+      "tools/test-m02-specs-local.mjs": "886d219d86d7172265d4675965ea38537e3b3bccbe73236ae88b5a08a182953a",
+      "tools/local-postgres.mjs": "49929bce8eb51194d9299cfd9639e537eb237daaec76c15740cb88059604e2de"
+    },
+    "readback_sha256": "f4abfc3c8a73647d61d4abdf7152d674af51194fc02f52ebf5c0d214aeb54c07",
+    "policy_expressions_sha256": "7e40691629b22e2b24772d7269a2f0cca8da026c9354ab602d92cba46a7ebe0f",
+    "reviewed_manifest_sha256": "bcf8b19113aa3281edadbdc211a701ade5e8c762d4776d1d968747c0b7a10f2d",
+    "release_helper_sha256": "d535de68948547acb205881d336f525f272e1d032c1059ba4da12a8f5784d62f",
+    "historical_helper_sha256": "3f1c6b10e62e9713aaa511f332bcc554f9254ad4eec8564a02f59d6bf4fa8336",
+    "historical_sql_sha256": "24d305c117aa61888de98a6dbfb732a20cc53c527804e192f735adc0e7715189"
+  },
+  "result": "passed",
+  "application_status": "verified_pending",
+  "application_verified_by_readback": false,
+  "schema_cache_notified": false,
+  "runtime_flag_changed": false,
+  "identity_provisioned": false,
+  "provider_or_service_provisioned": false,
+  "seeds": false,
+  "vault_sync": false,
+  "raw_diagnostics_recorded": false,
+  "pipeline_acceptance": false,
+  "before_mode": "pending",
+  "before": {
+    "base": {
+      "counts": {
+        "audience_presets": 3,
+        "audit": 5,
+        "auth": 1,
+        "buckets": 1,
+        "capabilities": 4,
+        "client_memberships": 1,
+        "clients": 1,
+        "idempotency": 5,
+        "media": 1,
+        "project_memberships": 1,
+        "projects": 1,
+        "storage_objects": 1,
+        "uploads": 1,
+        "verification_keys": 1,
+        "workspaces": 1
+      },
+      "database": "postgres",
+      "functions": [
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": false,
+            "eps_api_owner": false,
+            "eps_jobs_dispatcher": true,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": false,
+            "service_role": false
+          },
+          "identity_arguments": "p_limit integer",
+          "language": "plpgsql",
+          "name": "eps.claim_job_outbox",
+          "owner": "eps_jobs_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "eps.claim_job_outbox(integer)",
+          "volatility": "v",
+          "source_sha256": "02ff40fb76b95d3ac1d95b313906dbf02e6a63475a7c5f68b8ded4dd88978c33"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": false,
+            "eps_api_owner": false,
+            "eps_jobs_dispatcher": true,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": false,
+            "service_role": false
+          },
+          "identity_arguments": "p_outbox_id uuid, p_lease_token text, p_accepted boolean",
+          "language": "plpgsql",
+          "name": "eps.finish_job_outbox",
+          "owner": "eps_jobs_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "eps.finish_job_outbox(uuid, text, boolean)",
+          "volatility": "v",
+          "source_sha256": "0b07beec58e50172712ee9ef12ef07cf3c5da8cb06f7810211980be95e5dcae7"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": false,
+          "execute": {
+            "anon": false,
+            "authenticated": false,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_operation text, p_key text, p_input jsonb",
+          "language": "plpgsql",
+          "name": "eps.idempotency_begin",
+          "owner": "eps_api_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "eps.idempotency_begin(text, text, jsonb)",
+          "volatility": "v",
+          "source_sha256": "1293ecb22392a1c84a1cd7ed925daf2e77ddb20fdb4b09401b235ee72f53af71"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": false,
+          "execute": {
+            "anon": false,
+            "authenticated": false,
+            "eps_api_owner": false,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": false,
+            "service_role": false
+          },
+          "identity_arguments": "p_job eps.jobs",
+          "language": "sql",
+          "name": "eps.jobs_add_dispatch",
+          "owner": "eps_jobs_owner",
+          "public_execute": false,
+          "returns": "void",
+          "signature": "eps.jobs_add_dispatch(eps.jobs)",
+          "volatility": "v",
+          "source_sha256": "492f6eebb5c3e09905d2ed1271799c11db7a851698298a83295bd167986bb60b"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": false,
+            "eps_api_owner": false,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": false,
+            "service_role": false
+          },
+          "identity_arguments": "p_workspace uuid, p_action text",
+          "language": "sql",
+          "name": "eps.jobs_can_access",
+          "owner": "eps_jobs_owner",
+          "public_execute": false,
+          "returns": "boolean",
+          "signature": "eps.jobs_can_access(uuid, text)",
+          "volatility": "s",
+          "source_sha256": "5171db1971598aac78cfb3c0e4d8a65b3cb41da185a2b31b17a42d4b20c751cb"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": false,
+          "execute": {
+            "anon": false,
+            "authenticated": false,
+            "eps_api_owner": false,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": false,
+            "service_role": false
+          },
+          "identity_arguments": "",
+          "language": "sql",
+          "name": "eps.jobs_dispatch_mode",
+          "owner": "eps_jobs_owner",
+          "public_execute": false,
+          "returns": "boolean",
+          "signature": "eps.jobs_dispatch_mode()",
+          "volatility": "s",
+          "source_sha256": "3d0c6ab2d57f77306d3c3ae2efd3cf5e3d249901ecac80169a502d698b9a8d84"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": false,
+          "execute": {
+            "anon": false,
+            "authenticated": false,
+            "eps_api_owner": false,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": false,
+            "service_role": false
+          },
+          "identity_arguments": "p_job uuid",
+          "language": "sql",
+          "name": "eps.jobs_dto",
+          "owner": "eps_jobs_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "eps.jobs_dto(uuid)",
+          "volatility": "s",
+          "source_sha256": "f543148bb07b8f572bddad844555dca82bddf36af99fdae84dbb46517117590a"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": false,
+          "execute": {
+            "anon": false,
+            "authenticated": false,
+            "eps_api_owner": false,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": false,
+            "service_role": false
+          },
+          "identity_arguments": "p_input jsonb",
+          "language": "sql",
+          "name": "eps.jobs_hash_v1",
+          "owner": "eps_jobs_owner",
+          "public_execute": false,
+          "returns": "text",
+          "signature": "eps.jobs_hash_v1(jsonb)",
+          "volatility": "i",
+          "source_sha256": "8fec3e35ed8e6cd6cf8cfd1c926c1d8429c9e1beb8f894652b3eeec4e0ff0974"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": false,
+          "execute": {
+            "anon": false,
+            "authenticated": false,
+            "eps_api_owner": false,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": false,
+            "service_role": false
+          },
+          "identity_arguments": "p_operation text, p_key text, p_input jsonb, p_response jsonb",
+          "language": "plpgsql",
+          "name": "eps.jobs_remember",
+          "owner": "eps_jobs_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "eps.jobs_remember(text, text, jsonb, jsonb)",
+          "volatility": "v",
+          "source_sha256": "5967dc00a965c105fd9a10018b6c6edde7dc811db1694a10ece49e921ee13048"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": false,
+            "eps_api_owner": false,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": false,
+            "service_role": false
+          },
+          "identity_arguments": "p_workspace_id uuid, p_input jsonb, p_idempotency_key text",
+          "language": "plpgsql",
+          "name": "eps.m02_enqueue_specs_job",
+          "owner": "eps_jobs_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "eps.m02_enqueue_specs_job(uuid, jsonb, text)",
+          "volatility": "v",
+          "source_sha256": "ec1988614c89d0627bb0efb993aa23b53370092cfd9fa55cf26a604c7bfabea7"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_preset_id uuid, p_input jsonb, p_idempotency_key text",
+          "language": "plpgsql",
+          "name": "public.eps_archive_audience_preset",
+          "owner": "eps_api_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_archive_audience_preset(uuid, jsonb, text)",
+          "volatility": "v",
+          "source_sha256": "74ec29089d3f34da63bccf3fcb8cebf201d9fb3863c094bf8e51962725034ae9"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_job_id uuid, p_input jsonb, p_idempotency_key text",
+          "language": "plpgsql",
+          "name": "public.eps_cancel_job",
+          "owner": "eps_jobs_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_cancel_job(uuid, jsonb, text)",
+          "volatility": "v",
+          "source_sha256": "601b0246f5ef907f9e02f5f39fc11c9b650cc42baa81bab31dbcb08d0faa2403"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_upload_id uuid, p_idempotency_key text",
+          "language": "plpgsql",
+          "name": "public.eps_cancel_logo_upload",
+          "owner": "eps_api_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_cancel_logo_upload(uuid, text)",
+          "volatility": "v",
+          "source_sha256": "b93ee5472e80939982b6608610d0fe11e98c96ae623face589e0eb132530f6ed"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_input jsonb, p_idempotency_key text",
+          "language": "plpgsql",
+          "name": "public.eps_create_audience_preset",
+          "owner": "eps_api_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_create_audience_preset(jsonb, text)",
+          "volatility": "v",
+          "source_sha256": "1bf092d3a2207e66eaee5cc7b43d6ad321d5395c09a93e07b8b4e8af19eee71e"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_input jsonb, p_idempotency_key text",
+          "language": "plpgsql",
+          "name": "public.eps_create_workspace",
+          "owner": "eps_api_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_create_workspace(jsonb, text)",
+          "volatility": "v",
+          "source_sha256": "f3421ecfce937f8255f23cd0c238590f090ad5498da8f4a9cf60fea3c603d487"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_upload_id uuid, p_input jsonb, p_idempotency_key text, p_payload text, p_mac text",
+          "language": "plpgsql",
+          "name": "public.eps_finalize_logo_completion",
+          "owner": "eps_logo_verify_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_finalize_logo_completion(uuid, jsonb, text, text, text)",
+          "volatility": "v",
+          "source_sha256": "5f44276b6ef99748d5a3a0265b82db8c46971b87484249d5e4d8915a78975ce2"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "",
+          "language": "plpgsql",
+          "name": "public.eps_get_capabilities",
+          "owner": "eps_api_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_get_capabilities()",
+          "volatility": "s",
+          "source_sha256": "678d697c7f17dbf9725933a2f6ba7368f9ab5b0e6466cc543b57da0575bff9f5"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_job_id uuid",
+          "language": "plpgsql",
+          "name": "public.eps_get_job",
+          "owner": "eps_jobs_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_get_job(uuid)",
+          "volatility": "v",
+          "source_sha256": "12b0ca41408f90e234e572e141a1f4c29b5974f56901d47e24fb9b156b70a810"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_asset_id uuid",
+          "language": "plpgsql",
+          "name": "public.eps_get_logo_media",
+          "owner": "eps_api_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_get_logo_media(uuid)",
+          "volatility": "s",
+          "source_sha256": "cb1b09f3cf1917e4cd8ca77c7bd2f4579acc7971e8009f81ccce7a9eb52d745d"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_upload_id uuid",
+          "language": "plpgsql",
+          "name": "public.eps_get_logo_upload",
+          "owner": "eps_api_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_get_logo_upload(uuid)",
+          "volatility": "s",
+          "source_sha256": "c9dd6484b4798f0e276f0c71b81ca25f54e0a987848386d663f30a6283868216"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_project_id uuid",
+          "language": "plpgsql",
+          "name": "public.eps_get_project",
+          "owner": "eps_api_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_get_project(uuid)",
+          "volatility": "s",
+          "source_sha256": "23c5decc156464b8dc4f02a41767f15564d449babd3be04855ca441e1fc9b07d"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_workspace_id uuid",
+          "language": "plpgsql",
+          "name": "public.eps_get_workspace",
+          "owner": "eps_api_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_get_workspace(uuid)",
+          "volatility": "s",
+          "source_sha256": "403053da109f75d63f41641b4f8d85d83cef53330fa371aedb909a4656ea65d4"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_q text, p_cursor text, p_limit integer",
+          "language": "plpgsql",
+          "name": "public.eps_list_audience_presets",
+          "owner": "eps_api_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_list_audience_presets(text, text, integer)",
+          "volatility": "s",
+          "source_sha256": "6f9c45058d643965a8d285287afe00d4edb3fe898a21425ff37df3255c830387"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_workspace_id uuid, p_status text, p_cursor uuid, p_limit integer",
+          "language": "plpgsql",
+          "name": "public.eps_list_jobs",
+          "owner": "eps_jobs_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_list_jobs(uuid, text, uuid, integer)",
+          "volatility": "v",
+          "source_sha256": "582adfd0958de33dc0d1eac0ffb55feb7be303bf7fd7f3a46d5850cfe530352d"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_q text, p_cursor text, p_limit integer",
+          "language": "plpgsql",
+          "name": "public.eps_list_projects",
+          "owner": "eps_api_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_list_projects(text, text, integer)",
+          "volatility": "s",
+          "source_sha256": "503dad45ca532beba179298cb0cbf52e03b3eb3eb5a5f202438ecc7a703480cf"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_q text, p_cursor text, p_limit integer, p_project_id uuid",
+          "language": "plpgsql",
+          "name": "public.eps_list_workspaces",
+          "owner": "eps_api_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_list_workspaces(text, text, integer, uuid)",
+          "volatility": "s",
+          "source_sha256": "7f80c9ed544105d29657c46e424d1d666ccbaa233ed23b05930598912b438ac2"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_upload_id uuid, p_input jsonb, p_idempotency_key text",
+          "language": "plpgsql",
+          "name": "public.eps_prepare_logo_completion",
+          "owner": "eps_api_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_prepare_logo_completion(uuid, jsonb, text)",
+          "volatility": "v",
+          "source_sha256": "1edefc96a2786085b5ad0101d176feb5b782128b3eb1db91b03182039a847e9b"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_input jsonb, p_idempotency_key text",
+          "language": "plpgsql",
+          "name": "public.eps_reserve_logo_upload",
+          "owner": "eps_api_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_reserve_logo_upload(jsonb, text)",
+          "volatility": "v",
+          "source_sha256": "5637110ee9d0f611ecdb69ffb14a015d1f77612800e6f1bf9ccf3e6f42004d22"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_job_id uuid, p_input jsonb, p_idempotency_key text",
+          "language": "plpgsql",
+          "name": "public.eps_retry_job",
+          "owner": "eps_jobs_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_retry_job(uuid, jsonb, text)",
+          "volatility": "v",
+          "source_sha256": "f5ef70c8cff5621f603712d6bebe5b50775a5669112d4921dc3183aa348db41a"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_preset_id uuid, p_input jsonb, p_idempotency_key text",
+          "language": "plpgsql",
+          "name": "public.eps_update_audience_preset",
+          "owner": "eps_api_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_update_audience_preset(uuid, jsonb, text)",
+          "volatility": "v",
+          "source_sha256": "7d8d70888e5656abee85431f38dfbd6386969fdcfeeeef7731764f85a3b2c990"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_project_id uuid, p_input jsonb, p_idempotency_key text",
+          "language": "plpgsql",
+          "name": "public.eps_update_project",
+          "owner": "eps_api_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_update_project(uuid, jsonb, text)",
+          "volatility": "v",
+          "source_sha256": "88bc4be7c50c8a11716fe9478cb02347bdbbba08513319f166d85a8c24cdee4c"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_workspace_id uuid, p_input jsonb, p_idempotency_key text",
+          "language": "plpgsql",
+          "name": "public.eps_update_workspace",
+          "owner": "eps_api_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_update_workspace(uuid, jsonb, text)",
+          "volatility": "v",
+          "source_sha256": "0acaf6c86760ca8b4e65fde42ee2a457bbf23cb6b72beae40220a0e38047918a"
+        }
+      ],
+      "jobs_policies": [
+        {
+          "check": "false",
+          "command": "*",
+          "name": "eps_jobs_no_buckets",
+          "permissive": false,
+          "roles": [
+            "eps_jobs_dispatcher",
+            "eps_jobs_owner"
+          ],
+          "table": "storage.buckets",
+          "using": "false"
+        },
+        {
+          "check": "false",
+          "command": "*",
+          "name": "eps_jobs_no_objects",
+          "permissive": false,
+          "roles": [
+            "eps_jobs_dispatcher",
+            "eps_jobs_owner"
+          ],
+          "table": "storage.objects",
+          "using": "false"
+        },
+        {
+          "check": null,
+          "command": "r",
+          "name": "job_events_read",
+          "permissive": true,
+          "roles": [
+            "eps_jobs_owner"
+          ],
+          "table": "eps.job_events",
+          "using": "(EXISTS ( SELECT 1\n   FROM eps.jobs job\n  WHERE (job.id = job_events.job_id)))"
+        },
+        {
+          "check": "((principal_id = auth.uid()) AND (action = ANY (ARRAY['jobs.enqueue'::text, 'jobs.retry'::text, 'jobs.cancel'::text])))",
+          "command": "a",
+          "name": "jobs_audit",
+          "permissive": true,
+          "roles": [
+            "eps_jobs_owner"
+          ],
+          "table": "eps.audit_events",
+          "using": null
+        },
+        {
+          "check": "((principal_id = auth.uid()) AND (operation = ANY (ARRAY['jobs.enqueue'::text, 'jobs.retry'::text, 'jobs.cancel'::text])))",
+          "command": "*",
+          "name": "jobs_idempotency",
+          "permissive": true,
+          "roles": [
+            "eps_jobs_owner"
+          ],
+          "table": "eps.idempotency_records",
+          "using": "((principal_id = auth.uid()) AND (operation = ANY (ARRAY['jobs.enqueue'::text, 'jobs.retry'::text, 'jobs.cancel'::text])))"
+        },
+        {
+          "check": "((NOT eps.jobs_dispatch_mode()) AND (requested_by = auth.uid()) AND eps.jobs_can_access(workspace_id, 'enqueue'::text) AND (status = 'queued'::text) AND (stage = 'prepare_document'::text) AND (attempt = 0) AND (current_attempt_id IS NULL) AND (lease_token_digest IS NULL) AND (dispatch_generation = 1))",
+          "command": "a",
+          "name": "jobs_insert",
+          "permissive": true,
+          "roles": [
+            "eps_jobs_owner"
+          ],
+          "table": "eps.jobs",
+          "using": null
+        },
+        {
+          "check": null,
+          "command": "r",
+          "name": "jobs_read",
+          "permissive": true,
+          "roles": [
+            "eps_jobs_owner"
+          ],
+          "table": "eps.jobs",
+          "using": "(eps.jobs_dispatch_mode() OR eps.jobs_can_access(workspace_id, 'read'::text) OR eps.jobs_can_access(workspace_id, 'enqueue'::text) OR eps.jobs_can_access(workspace_id, 'operate'::text))"
+        },
+        {
+          "check": "(eps.jobs_dispatch_mode() OR eps.jobs_can_access(workspace_id, 'operate'::text))",
+          "command": "w",
+          "name": "jobs_update",
+          "permissive": true,
+          "roles": [
+            "eps_jobs_owner"
+          ],
+          "table": "eps.jobs",
+          "using": "(eps.jobs_dispatch_mode() OR eps.jobs_can_access(workspace_id, 'operate'::text))"
+        },
+        {
+          "check": null,
+          "command": "r",
+          "name": "jobs_workspace_identity",
+          "permissive": true,
+          "roles": [
+            "eps_jobs_owner"
+          ],
+          "table": "eps.workspaces",
+          "using": "((archived_at IS NULL) AND eps.project_scope(project_id, false) AND (eps.has_capability('workspaces.read'::text) OR eps.has_capability('workspaces.write'::text) OR eps.has_capability('operations.read'::text) OR eps.has_capability('operations.retry'::text)))"
+        },
+        {
+          "check": "(eps.jobs_dispatch_mode() OR (EXISTS ( SELECT 1\n   FROM eps.jobs job\n  WHERE ((job.id = outbox_events.job_id) AND (eps.jobs_can_access(job.workspace_id, 'enqueue'::text) OR eps.jobs_can_access(job.workspace_id, 'operate'::text))))))",
+          "command": "a",
+          "name": "outbox_insert",
+          "permissive": true,
+          "roles": [
+            "eps_jobs_owner"
+          ],
+          "table": "eps.outbox_events",
+          "using": null
+        },
+        {
+          "check": null,
+          "command": "r",
+          "name": "outbox_read",
+          "permissive": true,
+          "roles": [
+            "eps_jobs_owner"
+          ],
+          "table": "eps.outbox_events",
+          "using": "(eps.jobs_dispatch_mode() OR (EXISTS ( SELECT 1\n   FROM eps.jobs job\n  WHERE (job.id = outbox_events.job_id))))"
+        },
+        {
+          "check": "eps.jobs_dispatch_mode()",
+          "command": "w",
+          "name": "outbox_update",
+          "permissive": true,
+          "roles": [
+            "eps_jobs_owner"
+          ],
+          "table": "eps.outbox_events",
+          "using": "eps.jobs_dispatch_mode()"
+        }
+      ],
+      "jobs_roles": [
+        {
+          "api_owner_member": false,
+          "auth_usage": false,
+          "authenticated_member": false,
+          "bypass_rls": false,
+          "create_db": false,
+          "create_role": false,
+          "eps_create": false,
+          "inherit": false,
+          "jwt_execute": true,
+          "key_select": false,
+          "login": false,
+          "name": "eps_jobs_dispatcher",
+          "parents": [],
+          "public_create": false,
+          "superuser": false,
+          "uid_execute": true
+        },
+        {
+          "api_owner_member": false,
+          "auth_usage": true,
+          "authenticated_member": false,
+          "bypass_rls": false,
+          "create_db": false,
+          "create_role": false,
+          "eps_create": false,
+          "inherit": false,
+          "jwt_execute": true,
+          "key_select": false,
+          "login": false,
+          "name": "eps_jobs_owner",
+          "parents": [
+            {
+              "admin": false,
+              "inherit": true,
+              "name": "authenticated",
+              "set": false
+            }
+          ],
+          "public_create": false,
+          "superuser": false,
+          "uid_execute": true
+        }
+      ],
+      "query_role": "postgres",
+      "queue_acls": [
+        {
+          "delete": false,
+          "insert": false,
+          "references": false,
+          "role": "anon",
+          "select": false,
+          "table": "eps.job_events",
+          "trigger": false,
+          "truncate": false,
+          "update": false
+        },
+        {
+          "delete": false,
+          "insert": false,
+          "references": false,
+          "role": "authenticated",
+          "select": false,
+          "table": "eps.job_events",
+          "trigger": false,
+          "truncate": false,
+          "update": false
+        },
+        {
+          "delete": false,
+          "insert": false,
+          "references": false,
+          "role": "eps_api_owner",
+          "select": false,
+          "table": "eps.job_events",
+          "trigger": false,
+          "truncate": false,
+          "update": false
+        },
+        {
+          "delete": false,
+          "insert": false,
+          "references": false,
+          "role": "eps_jobs_dispatcher",
+          "select": false,
+          "table": "eps.job_events",
+          "trigger": false,
+          "truncate": false,
+          "update": false
+        },
+        {
+          "delete": false,
+          "insert": false,
+          "references": false,
+          "role": "eps_jobs_owner",
+          "select": true,
+          "table": "eps.job_events",
+          "trigger": false,
+          "truncate": false,
+          "update": false
+        },
+        {
+          "delete": false,
+          "insert": false,
+          "references": false,
+          "role": "eps_logo_verify_owner",
+          "select": false,
+          "table": "eps.job_events",
+          "trigger": false,
+          "truncate": false,
+          "update": false
+        },
+        {
+          "delete": false,
+          "insert": false,
+          "references": false,
+          "role": "service_role",
+          "select": false,
+          "table": "eps.job_events",
+          "trigger": false,
+          "truncate": false,
+          "update": false
+        },
+        {
+          "delete": false,
+          "insert": false,
+          "references": false,
+          "role": "anon",
+          "select": false,
+          "table": "eps.jobs",
+          "trigger": false,
+          "truncate": false,
+          "update": false
+        },
+        {
+          "delete": false,
+          "insert": false,
+          "references": false,
+          "role": "authenticated",
+          "select": false,
+          "table": "eps.jobs",
+          "trigger": false,
+          "truncate": false,
+          "update": false
+        },
+        {
+          "delete": false,
+          "insert": false,
+          "references": false,
+          "role": "eps_api_owner",
+          "select": false,
+          "table": "eps.jobs",
+          "trigger": false,
+          "truncate": false,
+          "update": false
+        },
+        {
+          "delete": false,
+          "insert": false,
+          "references": false,
+          "role": "eps_jobs_dispatcher",
+          "select": false,
+          "table": "eps.jobs",
+          "trigger": false,
+          "truncate": false,
+          "update": false
+        },
+        {
+          "delete": false,
+          "insert": true,
+          "references": false,
+          "role": "eps_jobs_owner",
+          "select": true,
+          "table": "eps.jobs",
+          "trigger": false,
+          "truncate": false,
+          "update": true
+        },
+        {
+          "delete": false,
+          "insert": false,
+          "references": false,
+          "role": "eps_logo_verify_owner",
+          "select": false,
+          "table": "eps.jobs",
+          "trigger": false,
+          "truncate": false,
+          "update": false
+        },
+        {
+          "delete": false,
+          "insert": false,
+          "references": false,
+          "role": "service_role",
+          "select": false,
+          "table": "eps.jobs",
+          "trigger": false,
+          "truncate": false,
+          "update": false
+        },
+        {
+          "delete": false,
+          "insert": false,
+          "references": false,
+          "role": "anon",
+          "select": false,
+          "table": "eps.outbox_events",
+          "trigger": false,
+          "truncate": false,
+          "update": false
+        },
+        {
+          "delete": false,
+          "insert": false,
+          "references": false,
+          "role": "authenticated",
+          "select": false,
+          "table": "eps.outbox_events",
+          "trigger": false,
+          "truncate": false,
+          "update": false
+        },
+        {
+          "delete": false,
+          "insert": false,
+          "references": false,
+          "role": "eps_api_owner",
+          "select": false,
+          "table": "eps.outbox_events",
+          "trigger": false,
+          "truncate": false,
+          "update": false
+        },
+        {
+          "delete": false,
+          "insert": false,
+          "references": false,
+          "role": "eps_jobs_dispatcher",
+          "select": false,
+          "table": "eps.outbox_events",
+          "trigger": false,
+          "truncate": false,
+          "update": false
+        },
+        {
+          "delete": false,
+          "insert": true,
+          "references": false,
+          "role": "eps_jobs_owner",
+          "select": true,
+          "table": "eps.outbox_events",
+          "trigger": false,
+          "truncate": false,
+          "update": true
+        },
+        {
+          "delete": false,
+          "insert": false,
+          "references": false,
+          "role": "eps_logo_verify_owner",
+          "select": false,
+          "table": "eps.outbox_events",
+          "trigger": false,
+          "truncate": false,
+          "update": false
+        },
+        {
+          "delete": false,
+          "insert": false,
+          "references": false,
+          "role": "service_role",
+          "select": false,
+          "table": "eps.outbox_events",
+          "trigger": false,
+          "truncate": false,
+          "update": false
+        }
+      ],
+      "queue_counts": {
+        "events": 0,
+        "jobs": 0,
+        "outbox": 0
+      },
+      "relations": [
+        {
+          "forced_rls": true,
+          "name": "eps.audience_presets",
+          "owner": "postgres",
+          "rls": true
+        },
+        {
+          "forced_rls": true,
+          "name": "eps.audit_events",
+          "owner": "postgres",
+          "rls": true
+        },
+        {
+          "forced_rls": true,
+          "name": "eps.idempotency_records",
+          "owner": "postgres",
+          "rls": true
+        },
+        {
+          "forced_rls": true,
+          "name": "eps.job_events",
+          "owner": "postgres",
+          "rls": true
+        },
+        {
+          "forced_rls": true,
+          "name": "eps.jobs",
+          "owner": "postgres",
+          "rls": true
+        },
+        {
+          "forced_rls": true,
+          "name": "eps.logo_verification_keys",
+          "owner": "postgres",
+          "rls": true
+        },
+        {
+          "forced_rls": true,
+          "name": "eps.media_assets",
+          "owner": "postgres",
+          "rls": true
+        },
+        {
+          "forced_rls": true,
+          "name": "eps.outbox_events",
+          "owner": "postgres",
+          "rls": true
+        },
+        {
+          "forced_rls": true,
+          "name": "eps.upload_sessions",
+          "owner": "postgres",
+          "rls": true
+        },
+        {
+          "forced_rls": true,
+          "name": "eps.user_workspace_preferences",
+          "owner": "postgres",
+          "rls": true
+        },
+        {
+          "forced_rls": true,
+          "name": "eps.workspaces",
+          "owner": "postgres",
+          "rls": true
+        },
+        {
+          "forced_rls": true,
+          "name": "public.app_capability_grants",
+          "owner": "postgres",
+          "rls": true
+        },
+        {
+          "forced_rls": true,
+          "name": "public.client_memberships",
+          "owner": "postgres",
+          "rls": true
+        },
+        {
+          "forced_rls": true,
+          "name": "public.clients",
+          "owner": "postgres",
+          "rls": true
+        },
+        {
+          "forced_rls": true,
+          "name": "public.project_memberships",
+          "owner": "postgres",
+          "rls": true
+        },
+        {
+          "forced_rls": true,
+          "name": "public.projects",
+          "owner": "postgres",
+          "rls": true
+        }
+      ],
+      "unrestricted_visibility": true,
+      "versions": [
+        "20261028010943",
+        "20261028013324",
+        "20261028013655",
+        "20261028024205",
+        "20261028072515",
+        "20261028162702",
+        "20261028162800"
+      ]
+    },
+    "manual": {
+      "archived_workspaces": 0,
+      "column_acls": [],
+      "counts": null,
+      "functions": [],
+      "policies": [],
+      "relations": [],
+      "roles": [],
+      "support_acls": [],
+      "table_acls": [],
+      "triggers": [],
+      "workspace_column_acls": [],
+      "workspace_state_sha256": "377634cf985fe37ec1ba104db28cadc91b3520f37bb0add24c70ab3249afed0a"
+    }
+  },
+  "attempt_receipt": "2026-10-28T18-19-04-486848Z-ef7229b5-dry-run-attempt.json",
+  "exit_code": 0,
+  "pending_migrations": [
+    "20261028172320_m02_manual_specs_draft.sql"
+  ],
+  "after_mode": "pending",
+  "readback": {
+    "base": {
+      "counts": {
+        "audience_presets": 3,
+        "audit": 5,
+        "auth": 1,
+        "buckets": 1,
+        "capabilities": 4,
+        "client_memberships": 1,
+        "clients": 1,
+        "idempotency": 5,
+        "media": 1,
+        "project_memberships": 1,
+        "projects": 1,
+        "storage_objects": 1,
+        "uploads": 1,
+        "verification_keys": 1,
+        "workspaces": 1
+      },
+      "database": "postgres",
+      "functions": [
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": false,
+            "eps_api_owner": false,
+            "eps_jobs_dispatcher": true,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": false,
+            "service_role": false
+          },
+          "identity_arguments": "p_limit integer",
+          "language": "plpgsql",
+          "name": "eps.claim_job_outbox",
+          "owner": "eps_jobs_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "eps.claim_job_outbox(integer)",
+          "volatility": "v",
+          "source_sha256": "02ff40fb76b95d3ac1d95b313906dbf02e6a63475a7c5f68b8ded4dd88978c33"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": false,
+            "eps_api_owner": false,
+            "eps_jobs_dispatcher": true,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": false,
+            "service_role": false
+          },
+          "identity_arguments": "p_outbox_id uuid, p_lease_token text, p_accepted boolean",
+          "language": "plpgsql",
+          "name": "eps.finish_job_outbox",
+          "owner": "eps_jobs_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "eps.finish_job_outbox(uuid, text, boolean)",
+          "volatility": "v",
+          "source_sha256": "0b07beec58e50172712ee9ef12ef07cf3c5da8cb06f7810211980be95e5dcae7"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": false,
+          "execute": {
+            "anon": false,
+            "authenticated": false,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_operation text, p_key text, p_input jsonb",
+          "language": "plpgsql",
+          "name": "eps.idempotency_begin",
+          "owner": "eps_api_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "eps.idempotency_begin(text, text, jsonb)",
+          "volatility": "v",
+          "source_sha256": "1293ecb22392a1c84a1cd7ed925daf2e77ddb20fdb4b09401b235ee72f53af71"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": false,
+          "execute": {
+            "anon": false,
+            "authenticated": false,
+            "eps_api_owner": false,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": false,
+            "service_role": false
+          },
+          "identity_arguments": "p_job eps.jobs",
+          "language": "sql",
+          "name": "eps.jobs_add_dispatch",
+          "owner": "eps_jobs_owner",
+          "public_execute": false,
+          "returns": "void",
+          "signature": "eps.jobs_add_dispatch(eps.jobs)",
+          "volatility": "v",
+          "source_sha256": "492f6eebb5c3e09905d2ed1271799c11db7a851698298a83295bd167986bb60b"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": false,
+            "eps_api_owner": false,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": false,
+            "service_role": false
+          },
+          "identity_arguments": "p_workspace uuid, p_action text",
+          "language": "sql",
+          "name": "eps.jobs_can_access",
+          "owner": "eps_jobs_owner",
+          "public_execute": false,
+          "returns": "boolean",
+          "signature": "eps.jobs_can_access(uuid, text)",
+          "volatility": "s",
+          "source_sha256": "5171db1971598aac78cfb3c0e4d8a65b3cb41da185a2b31b17a42d4b20c751cb"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": false,
+          "execute": {
+            "anon": false,
+            "authenticated": false,
+            "eps_api_owner": false,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": false,
+            "service_role": false
+          },
+          "identity_arguments": "",
+          "language": "sql",
+          "name": "eps.jobs_dispatch_mode",
+          "owner": "eps_jobs_owner",
+          "public_execute": false,
+          "returns": "boolean",
+          "signature": "eps.jobs_dispatch_mode()",
+          "volatility": "s",
+          "source_sha256": "3d0c6ab2d57f77306d3c3ae2efd3cf5e3d249901ecac80169a502d698b9a8d84"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": false,
+          "execute": {
+            "anon": false,
+            "authenticated": false,
+            "eps_api_owner": false,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": false,
+            "service_role": false
+          },
+          "identity_arguments": "p_job uuid",
+          "language": "sql",
+          "name": "eps.jobs_dto",
+          "owner": "eps_jobs_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "eps.jobs_dto(uuid)",
+          "volatility": "s",
+          "source_sha256": "f543148bb07b8f572bddad844555dca82bddf36af99fdae84dbb46517117590a"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": false,
+          "execute": {
+            "anon": false,
+            "authenticated": false,
+            "eps_api_owner": false,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": false,
+            "service_role": false
+          },
+          "identity_arguments": "p_input jsonb",
+          "language": "sql",
+          "name": "eps.jobs_hash_v1",
+          "owner": "eps_jobs_owner",
+          "public_execute": false,
+          "returns": "text",
+          "signature": "eps.jobs_hash_v1(jsonb)",
+          "volatility": "i",
+          "source_sha256": "8fec3e35ed8e6cd6cf8cfd1c926c1d8429c9e1beb8f894652b3eeec4e0ff0974"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": false,
+          "execute": {
+            "anon": false,
+            "authenticated": false,
+            "eps_api_owner": false,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": false,
+            "service_role": false
+          },
+          "identity_arguments": "p_operation text, p_key text, p_input jsonb, p_response jsonb",
+          "language": "plpgsql",
+          "name": "eps.jobs_remember",
+          "owner": "eps_jobs_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "eps.jobs_remember(text, text, jsonb, jsonb)",
+          "volatility": "v",
+          "source_sha256": "5967dc00a965c105fd9a10018b6c6edde7dc811db1694a10ece49e921ee13048"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": false,
+            "eps_api_owner": false,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": false,
+            "service_role": false
+          },
+          "identity_arguments": "p_workspace_id uuid, p_input jsonb, p_idempotency_key text",
+          "language": "plpgsql",
+          "name": "eps.m02_enqueue_specs_job",
+          "owner": "eps_jobs_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "eps.m02_enqueue_specs_job(uuid, jsonb, text)",
+          "volatility": "v",
+          "source_sha256": "ec1988614c89d0627bb0efb993aa23b53370092cfd9fa55cf26a604c7bfabea7"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_preset_id uuid, p_input jsonb, p_idempotency_key text",
+          "language": "plpgsql",
+          "name": "public.eps_archive_audience_preset",
+          "owner": "eps_api_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_archive_audience_preset(uuid, jsonb, text)",
+          "volatility": "v",
+          "source_sha256": "74ec29089d3f34da63bccf3fcb8cebf201d9fb3863c094bf8e51962725034ae9"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_job_id uuid, p_input jsonb, p_idempotency_key text",
+          "language": "plpgsql",
+          "name": "public.eps_cancel_job",
+          "owner": "eps_jobs_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_cancel_job(uuid, jsonb, text)",
+          "volatility": "v",
+          "source_sha256": "601b0246f5ef907f9e02f5f39fc11c9b650cc42baa81bab31dbcb08d0faa2403"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_upload_id uuid, p_idempotency_key text",
+          "language": "plpgsql",
+          "name": "public.eps_cancel_logo_upload",
+          "owner": "eps_api_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_cancel_logo_upload(uuid, text)",
+          "volatility": "v",
+          "source_sha256": "b93ee5472e80939982b6608610d0fe11e98c96ae623face589e0eb132530f6ed"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_input jsonb, p_idempotency_key text",
+          "language": "plpgsql",
+          "name": "public.eps_create_audience_preset",
+          "owner": "eps_api_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_create_audience_preset(jsonb, text)",
+          "volatility": "v",
+          "source_sha256": "1bf092d3a2207e66eaee5cc7b43d6ad321d5395c09a93e07b8b4e8af19eee71e"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_input jsonb, p_idempotency_key text",
+          "language": "plpgsql",
+          "name": "public.eps_create_workspace",
+          "owner": "eps_api_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_create_workspace(jsonb, text)",
+          "volatility": "v",
+          "source_sha256": "f3421ecfce937f8255f23cd0c238590f090ad5498da8f4a9cf60fea3c603d487"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_upload_id uuid, p_input jsonb, p_idempotency_key text, p_payload text, p_mac text",
+          "language": "plpgsql",
+          "name": "public.eps_finalize_logo_completion",
+          "owner": "eps_logo_verify_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_finalize_logo_completion(uuid, jsonb, text, text, text)",
+          "volatility": "v",
+          "source_sha256": "5f44276b6ef99748d5a3a0265b82db8c46971b87484249d5e4d8915a78975ce2"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "",
+          "language": "plpgsql",
+          "name": "public.eps_get_capabilities",
+          "owner": "eps_api_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_get_capabilities()",
+          "volatility": "s",
+          "source_sha256": "678d697c7f17dbf9725933a2f6ba7368f9ab5b0e6466cc543b57da0575bff9f5"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_job_id uuid",
+          "language": "plpgsql",
+          "name": "public.eps_get_job",
+          "owner": "eps_jobs_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_get_job(uuid)",
+          "volatility": "v",
+          "source_sha256": "12b0ca41408f90e234e572e141a1f4c29b5974f56901d47e24fb9b156b70a810"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_asset_id uuid",
+          "language": "plpgsql",
+          "name": "public.eps_get_logo_media",
+          "owner": "eps_api_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_get_logo_media(uuid)",
+          "volatility": "s",
+          "source_sha256": "cb1b09f3cf1917e4cd8ca77c7bd2f4579acc7971e8009f81ccce7a9eb52d745d"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_upload_id uuid",
+          "language": "plpgsql",
+          "name": "public.eps_get_logo_upload",
+          "owner": "eps_api_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_get_logo_upload(uuid)",
+          "volatility": "s",
+          "source_sha256": "c9dd6484b4798f0e276f0c71b81ca25f54e0a987848386d663f30a6283868216"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_project_id uuid",
+          "language": "plpgsql",
+          "name": "public.eps_get_project",
+          "owner": "eps_api_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_get_project(uuid)",
+          "volatility": "s",
+          "source_sha256": "23c5decc156464b8dc4f02a41767f15564d449babd3be04855ca441e1fc9b07d"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_workspace_id uuid",
+          "language": "plpgsql",
+          "name": "public.eps_get_workspace",
+          "owner": "eps_api_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_get_workspace(uuid)",
+          "volatility": "s",
+          "source_sha256": "403053da109f75d63f41641b4f8d85d83cef53330fa371aedb909a4656ea65d4"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_q text, p_cursor text, p_limit integer",
+          "language": "plpgsql",
+          "name": "public.eps_list_audience_presets",
+          "owner": "eps_api_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_list_audience_presets(text, text, integer)",
+          "volatility": "s",
+          "source_sha256": "6f9c45058d643965a8d285287afe00d4edb3fe898a21425ff37df3255c830387"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_workspace_id uuid, p_status text, p_cursor uuid, p_limit integer",
+          "language": "plpgsql",
+          "name": "public.eps_list_jobs",
+          "owner": "eps_jobs_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_list_jobs(uuid, text, uuid, integer)",
+          "volatility": "v",
+          "source_sha256": "582adfd0958de33dc0d1eac0ffb55feb7be303bf7fd7f3a46d5850cfe530352d"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_q text, p_cursor text, p_limit integer",
+          "language": "plpgsql",
+          "name": "public.eps_list_projects",
+          "owner": "eps_api_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_list_projects(text, text, integer)",
+          "volatility": "s",
+          "source_sha256": "503dad45ca532beba179298cb0cbf52e03b3eb3eb5a5f202438ecc7a703480cf"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_q text, p_cursor text, p_limit integer, p_project_id uuid",
+          "language": "plpgsql",
+          "name": "public.eps_list_workspaces",
+          "owner": "eps_api_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_list_workspaces(text, text, integer, uuid)",
+          "volatility": "s",
+          "source_sha256": "7f80c9ed544105d29657c46e424d1d666ccbaa233ed23b05930598912b438ac2"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_upload_id uuid, p_input jsonb, p_idempotency_key text",
+          "language": "plpgsql",
+          "name": "public.eps_prepare_logo_completion",
+          "owner": "eps_api_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_prepare_logo_completion(uuid, jsonb, text)",
+          "volatility": "v",
+          "source_sha256": "1edefc96a2786085b5ad0101d176feb5b782128b3eb1db91b03182039a847e9b"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_input jsonb, p_idempotency_key text",
+          "language": "plpgsql",
+          "name": "public.eps_reserve_logo_upload",
+          "owner": "eps_api_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_reserve_logo_upload(jsonb, text)",
+          "volatility": "v",
+          "source_sha256": "5637110ee9d0f611ecdb69ffb14a015d1f77612800e6f1bf9ccf3e6f42004d22"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_job_id uuid, p_input jsonb, p_idempotency_key text",
+          "language": "plpgsql",
+          "name": "public.eps_retry_job",
+          "owner": "eps_jobs_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_retry_job(uuid, jsonb, text)",
+          "volatility": "v",
+          "source_sha256": "f5ef70c8cff5621f603712d6bebe5b50775a5669112d4921dc3183aa348db41a"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_preset_id uuid, p_input jsonb, p_idempotency_key text",
+          "language": "plpgsql",
+          "name": "public.eps_update_audience_preset",
+          "owner": "eps_api_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_update_audience_preset(uuid, jsonb, text)",
+          "volatility": "v",
+          "source_sha256": "7d8d70888e5656abee85431f38dfbd6386969fdcfeeeef7731764f85a3b2c990"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_project_id uuid, p_input jsonb, p_idempotency_key text",
+          "language": "plpgsql",
+          "name": "public.eps_update_project",
+          "owner": "eps_api_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_update_project(uuid, jsonb, text)",
+          "volatility": "v",
+          "source_sha256": "88bc4be7c50c8a11716fe9478cb02347bdbbba08513319f166d85a8c24cdee4c"
+        },
+        {
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "execute": {
+            "anon": false,
+            "authenticated": true,
+            "eps_api_owner": true,
+            "eps_jobs_dispatcher": false,
+            "eps_jobs_owner": true,
+            "eps_logo_verify_owner": true,
+            "service_role": false
+          },
+          "identity_arguments": "p_workspace_id uuid, p_input jsonb, p_idempotency_key text",
+          "language": "plpgsql",
+          "name": "public.eps_update_workspace",
+          "owner": "eps_api_owner",
+          "public_execute": false,
+          "returns": "jsonb",
+          "signature": "public.eps_update_workspace(uuid, jsonb, text)",
+          "volatility": "v",
+          "source_sha256": "0acaf6c86760ca8b4e65fde42ee2a457bbf23cb6b72beae40220a0e38047918a"
+        }
+      ],
+      "jobs_policies": [
+        {
+          "check": "false",
+          "command": "*",
+          "name": "eps_jobs_no_buckets",
+          "permissive": false,
+          "roles": [
+            "eps_jobs_dispatcher",
+            "eps_jobs_owner"
+          ],
+          "table": "storage.buckets",
+          "using": "false"
+        },
+        {
+          "check": "false",
+          "command": "*",
+          "name": "eps_jobs_no_objects",
+          "permissive": false,
+          "roles": [
+            "eps_jobs_dispatcher",
+            "eps_jobs_owner"
+          ],
+          "table": "storage.objects",
+          "using": "false"
+        },
+        {
+          "check": null,
+          "command": "r",
+          "name": "job_events_read",
+          "permissive": true,
+          "roles": [
+            "eps_jobs_owner"
+          ],
+          "table": "eps.job_events",
+          "using": "(EXISTS ( SELECT 1\n   FROM eps.jobs job\n  WHERE (job.id = job_events.job_id)))"
+        },
+        {
+          "check": "((principal_id = auth.uid()) AND (action = ANY (ARRAY['jobs.enqueue'::text, 'jobs.retry'::text, 'jobs.cancel'::text])))",
+          "command": "a",
+          "name": "jobs_audit",
+          "permissive": true,
+          "roles": [
+            "eps_jobs_owner"
+          ],
+          "table": "eps.audit_events",
+          "using": null
+        },
+        {
+          "check": "((principal_id = auth.uid()) AND (operation = ANY (ARRAY['jobs.enqueue'::text, 'jobs.retry'::text, 'jobs.cancel'::text])))",
+          "command": "*",
+          "name": "jobs_idempotency",
+          "permissive": true,
+          "roles": [
+            "eps_jobs_owner"
+          ],
+          "table": "eps.idempotency_records",
+          "using": "((principal_id = auth.uid()) AND (operation = ANY (ARRAY['jobs.enqueue'::text, 'jobs.retry'::text, 'jobs.cancel'::text])))"
+        },
+        {
+          "check": "((NOT eps.jobs_dispatch_mode()) AND (requested_by = auth.uid()) AND eps.jobs_can_access(workspace_id, 'enqueue'::text) AND (status = 'queued'::text) AND (stage = 'prepare_document'::text) AND (attempt = 0) AND (current_attempt_id IS NULL) AND (lease_token_digest IS NULL) AND (dispatch_generation = 1))",
+          "command": "a",
+          "name": "jobs_insert",
+          "permissive": true,
+          "roles": [
+            "eps_jobs_owner"
+          ],
+          "table": "eps.jobs",
+          "using": null
+        },
+        {
+          "check": null,
+          "command": "r",
+          "name": "jobs_read",
+          "permissive": true,
+          "roles": [
+            "eps_jobs_owner"
+          ],
+          "table": "eps.jobs",
+          "using": "(eps.jobs_dispatch_mode() OR eps.jobs_can_access(workspace_id, 'read'::text) OR eps.jobs_can_access(workspace_id, 'enqueue'::text) OR eps.jobs_can_access(workspace_id, 'operate'::text))"
+        },
+        {
+          "check": "(eps.jobs_dispatch_mode() OR eps.jobs_can_access(workspace_id, 'operate'::text))",
+          "command": "w",
+          "name": "jobs_update",
+          "permissive": true,
+          "roles": [
+            "eps_jobs_owner"
+          ],
+          "table": "eps.jobs",
+          "using": "(eps.jobs_dispatch_mode() OR eps.jobs_can_access(workspace_id, 'operate'::text))"
+        },
+        {
+          "check": null,
+          "command": "r",
+          "name": "jobs_workspace_identity",
+          "permissive": true,
+          "roles": [
+            "eps_jobs_owner"
+          ],
+          "table": "eps.workspaces",
+          "using": "((archived_at IS NULL) AND eps.project_scope(project_id, false) AND (eps.has_capability('workspaces.read'::text) OR eps.has_capability('workspaces.write'::text) OR eps.has_capability('operations.read'::text) OR eps.has_capability('operations.retry'::text)))"
+        },
+        {
+          "check": "(eps.jobs_dispatch_mode() OR (EXISTS ( SELECT 1\n   FROM eps.jobs job\n  WHERE ((job.id = outbox_events.job_id) AND (eps.jobs_can_access(job.workspace_id, 'enqueue'::text) OR eps.jobs_can_access(job.workspace_id, 'operate'::text))))))",
+          "command": "a",
+          "name": "outbox_insert",
+          "permissive": true,
+          "roles": [
+            "eps_jobs_owner"
+          ],
+          "table": "eps.outbox_events",
+          "using": null
+        },
+        {
+          "check": null,
+          "command": "r",
+          "name": "outbox_read",
+          "permissive": true,
+          "roles": [
+            "eps_jobs_owner"
+          ],
+          "table": "eps.outbox_events",
+          "using": "(eps.jobs_dispatch_mode() OR (EXISTS ( SELECT 1\n   FROM eps.jobs job\n  WHERE (job.id = outbox_events.job_id))))"
+        },
+        {
+          "check": "eps.jobs_dispatch_mode()",
+          "command": "w",
+          "name": "outbox_update",
+          "permissive": true,
+          "roles": [
+            "eps_jobs_owner"
+          ],
+          "table": "eps.outbox_events",
+          "using": "eps.jobs_dispatch_mode()"
+        }
+      ],
+      "jobs_roles": [
+        {
+          "api_owner_member": false,
+          "auth_usage": false,
+          "authenticated_member": false,
+          "bypass_rls": false,
+          "create_db": false,
+          "create_role": false,
+          "eps_create": false,
+          "inherit": false,
+          "jwt_execute": true,
+          "key_select": false,
+          "login": false,
+          "name": "eps_jobs_dispatcher",
+          "parents": [],
+          "public_create": false,
+          "superuser": false,
+          "uid_execute": true
+        },
+        {
+          "api_owner_member": false,
+          "auth_usage": true,
+          "authenticated_member": false,
+          "bypass_rls": false,
+          "create_db": false,
+          "create_role": false,
+          "eps_create": false,
+          "inherit": false,
+          "jwt_execute": true,
+          "key_select": false,
+          "login": false,
+          "name": "eps_jobs_owner",
+          "parents": [
+            {
+              "admin": false,
+              "inherit": true,
+              "name": "authenticated",
+              "set": false
+            }
+          ],
+          "public_create": false,
+          "superuser": false,
+          "uid_execute": true
+        }
+      ],
+      "query_role": "postgres",
+      "queue_acls": [
+        {
+          "delete": false,
+          "insert": false,
+          "references": false,
+          "role": "anon",
+          "select": false,
+          "table": "eps.job_events",
+          "trigger": false,
+          "truncate": false,
+          "update": false
+        },
+        {
+          "delete": false,
+          "insert": false,
+          "references": false,
+          "role": "authenticated",
+          "select": false,
+          "table": "eps.job_events",
+          "trigger": false,
+          "truncate": false,
+          "update": false
+        },
+        {
+          "delete": false,
+          "insert": false,
+          "references": false,
+          "role": "eps_api_owner",
+          "select": false,
+          "table": "eps.job_events",
+          "trigger": false,
+          "truncate": false,
+          "update": false
+        },
+        {
+          "delete": false,
+          "insert": false,
+          "references": false,
+          "role": "eps_jobs_dispatcher",
+          "select": false,
+          "table": "eps.job_events",
+          "trigger": false,
+          "truncate": false,
+          "update": false
+        },
+        {
+          "delete": false,
+          "insert": false,
+          "references": false,
+          "role": "eps_jobs_owner",
+          "select": true,
+          "table": "eps.job_events",
+          "trigger": false,
+          "truncate": false,
+          "update": false
+        },
+        {
+          "delete": false,
+          "insert": false,
+          "references": false,
+          "role": "eps_logo_verify_owner",
+          "select": false,
+          "table": "eps.job_events",
+          "trigger": false,
+          "truncate": false,
+          "update": false
+        },
+        {
+          "delete": false,
+          "insert": false,
+          "references": false,
+          "role": "service_role",
+          "select": false,
+          "table": "eps.job_events",
+          "trigger": false,
+          "truncate": false,
+          "update": false
+        },
+        {
+          "delete": false,
+          "insert": false,
+          "references": false,
+          "role": "anon",
+          "select": false,
+          "table": "eps.jobs",
+          "trigger": false,
+          "truncate": false,
+          "update": false
+        },
+        {
+          "delete": false,
+          "insert": false,
+          "references": false,
+          "role": "authenticated",
+          "select": false,
+          "table": "eps.jobs",
+          "trigger": false,
+          "truncate": false,
+          "update": false
+        },
+        {
+          "delete": false,
+          "insert": false,
+          "references": false,
+          "role": "eps_api_owner",
+          "select": false,
+          "table": "eps.jobs",
+          "trigger": false,
+          "truncate": false,
+          "update": false
+        },
+        {
+          "delete": false,
+          "insert": false,
+          "references": false,
+          "role": "eps_jobs_dispatcher",
+          "select": false,
+          "table": "eps.jobs",
+          "trigger": false,
+          "truncate": false,
+          "update": false
+        },
+        {
+          "delete": false,
+          "insert": true,
+          "references": false,
+          "role": "eps_jobs_owner",
+          "select": true,
+          "table": "eps.jobs",
+          "trigger": false,
+          "truncate": false,
+          "update": true
+        },
+        {
+          "delete": false,
+          "insert": false,
+          "references": false,
+          "role": "eps_logo_verify_owner",
+          "select": false,
+          "table": "eps.jobs",
+          "trigger": false,
+          "truncate": false,
+          "update": false
+        },
+        {
+          "delete": false,
+          "insert": false,
+          "references": false,
+          "role": "service_role",
+          "select": false,
+          "table": "eps.jobs",
+          "trigger": false,
+          "truncate": false,
+          "update": false
+        },
+        {
+          "delete": false,
+          "insert": false,
+          "references": false,
+          "role": "anon",
+          "select": false,
+          "table": "eps.outbox_events",
+          "trigger": false,
+          "truncate": false,
+          "update": false
+        },
+        {
+          "delete": false,
+          "insert": false,
+          "references": false,
+          "role": "authenticated",
+          "select": false,
+          "table": "eps.outbox_events",
+          "trigger": false,
+          "truncate": false,
+          "update": false
+        },
+        {
+          "delete": false,
+          "insert": false,
+          "references": false,
+          "role": "eps_api_owner",
+          "select": false,
+          "table": "eps.outbox_events",
+          "trigger": false,
+          "truncate": false,
+          "update": false
+        },
+        {
+          "delete": false,
+          "insert": false,
+          "references": false,
+          "role": "eps_jobs_dispatcher",
+          "select": false,
+          "table": "eps.outbox_events",
+          "trigger": false,
+          "truncate": false,
+          "update": false
+        },
+        {
+          "delete": false,
+          "insert": true,
+          "references": false,
+          "role": "eps_jobs_owner",
+          "select": true,
+          "table": "eps.outbox_events",
+          "trigger": false,
+          "truncate": false,
+          "update": true
+        },
+        {
+          "delete": false,
+          "insert": false,
+          "references": false,
+          "role": "eps_logo_verify_owner",
+          "select": false,
+          "table": "eps.outbox_events",
+          "trigger": false,
+          "truncate": false,
+          "update": false
+        },
+        {
+          "delete": false,
+          "insert": false,
+          "references": false,
+          "role": "service_role",
+          "select": false,
+          "table": "eps.outbox_events",
+          "trigger": false,
+          "truncate": false,
+          "update": false
+        }
+      ],
+      "queue_counts": {
+        "events": 0,
+        "jobs": 0,
+        "outbox": 0
+      },
+      "relations": [
+        {
+          "forced_rls": true,
+          "name": "eps.audience_presets",
+          "owner": "postgres",
+          "rls": true
+        },
+        {
+          "forced_rls": true,
+          "name": "eps.audit_events",
+          "owner": "postgres",
+          "rls": true
+        },
+        {
+          "forced_rls": true,
+          "name": "eps.idempotency_records",
+          "owner": "postgres",
+          "rls": true
+        },
+        {
+          "forced_rls": true,
+          "name": "eps.job_events",
+          "owner": "postgres",
+          "rls": true
+        },
+        {
+          "forced_rls": true,
+          "name": "eps.jobs",
+          "owner": "postgres",
+          "rls": true
+        },
+        {
+          "forced_rls": true,
+          "name": "eps.logo_verification_keys",
+          "owner": "postgres",
+          "rls": true
+        },
+        {
+          "forced_rls": true,
+          "name": "eps.media_assets",
+          "owner": "postgres",
+          "rls": true
+        },
+        {
+          "forced_rls": true,
+          "name": "eps.outbox_events",
+          "owner": "postgres",
+          "rls": true
+        },
+        {
+          "forced_rls": true,
+          "name": "eps.upload_sessions",
+          "owner": "postgres",
+          "rls": true
+        },
+        {
+          "forced_rls": true,
+          "name": "eps.user_workspace_preferences",
+          "owner": "postgres",
+          "rls": true
+        },
+        {
+          "forced_rls": true,
+          "name": "eps.workspaces",
+          "owner": "postgres",
+          "rls": true
+        },
+        {
+          "forced_rls": true,
+          "name": "public.app_capability_grants",
+          "owner": "postgres",
+          "rls": true
+        },
+        {
+          "forced_rls": true,
+          "name": "public.client_memberships",
+          "owner": "postgres",
+          "rls": true
+        },
+        {
+          "forced_rls": true,
+          "name": "public.clients",
+          "owner": "postgres",
+          "rls": true
+        },
+        {
+          "forced_rls": true,
+          "name": "public.project_memberships",
+          "owner": "postgres",
+          "rls": true
+        },
+        {
+          "forced_rls": true,
+          "name": "public.projects",
+          "owner": "postgres",
+          "rls": true
+        }
+      ],
+      "unrestricted_visibility": true,
+      "versions": [
+        "20261028010943",
+        "20261028013324",
+        "20261028013655",
+        "20261028024205",
+        "20261028072515",
+        "20261028162702",
+        "20261028162800"
+      ]
+    },
+    "manual": {
+      "archived_workspaces": 0,
+      "column_acls": [],
+      "counts": null,
+      "functions": [],
+      "policies": [],
+      "relations": [],
+      "roles": [],
+      "support_acls": [],
+      "table_acls": [],
+      "triggers": [],
+      "workspace_column_acls": [],
+      "workspace_state_sha256": "377634cf985fe37ec1ba104db28cadc91b3520f37bb0add24c70ab3249afed0a"
+    }
+  },
+  "finished_at": "2026-10-28T18:19:16.641525+00:00"
+}

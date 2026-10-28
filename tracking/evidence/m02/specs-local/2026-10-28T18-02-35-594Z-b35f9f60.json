@@ -1,0 +1,355 @@
+{
+  "schema_version": "1.0",
+  "run_id": "b35f9f60-6567-45f2-be89-1d8f219bb106",
+  "started_at": "2026-10-28T18:02:16.279Z",
+  "result": "failed",
+  "stages": [
+    {
+      "name": "committed-pre-DDL-backfill-fixture",
+      "path": "tests/db/m02-specs-local-prelude.sql",
+      "sha256": "64c71a701be9394cdf6872ee4fb4691189b7d4c21badc43b7c34e2d301195720",
+      "result": "passed",
+      "started_at": "2026-10-28T18:02:18.916Z",
+      "markers": [],
+      "finished_at": "2026-10-28T18:02:20.248Z",
+      "duration_ms": 1332
+    },
+    {
+      "name": "migration-replay",
+      "path": "supabase/migrations/20261028010943_m01_canonical_foundation.sql",
+      "sha256": "8a5f3ed7727a72051e630307d2daecab8c4a74054398a6425e73bd85e17568b9",
+      "result": "already_applied",
+      "receipt": "development/local-db/receipts/2026-10-28T18-02-21-548Z-replay.json"
+    },
+    {
+      "name": "migration-replay",
+      "path": "supabase/migrations/20261028013324_m01_identity_role_inheritance.sql",
+      "sha256": "5382efe9fbdf9c194010257e0ac0024dcb447207522036560056d5d1a4e20e30",
+      "result": "already_applied",
+      "receipt": "development/local-db/receipts/2026-10-28T18-02-22-883Z-replay.json"
+    },
+    {
+      "name": "migration-replay",
+      "path": "supabase/migrations/20261028013655_m01_workspace_scope_alias.sql",
+      "sha256": "67ddb2cff9fed9c42d34657e833c613aec4afd2769543a991bbac84da355db64",
+      "result": "already_applied",
+      "receipt": "development/local-db/receipts/2026-10-28T18-02-24-267Z-replay.json"
+    },
+    {
+      "name": "migration-replay",
+      "path": "supabase/migrations/20261028024205_m01_private_logo_boundary.sql",
+      "sha256": "b04af5119b4e384bd96136573eec39e69f21a0ffb7d9f4aeb07bbf48f2976b9d",
+      "result": "already_applied",
+      "receipt": "development/local-db/receipts/2026-10-28T18-02-25-657Z-replay.json"
+    },
+    {
+      "name": "migration-replay",
+      "path": "supabase/migrations/20261028072515_m01_logo_upload_capability.sql",
+      "sha256": "4dbd400092d7743b02dd0769ae511c208e6f4f349428fc0e7f0fb9c573ba4b24",
+      "result": "already_applied",
+      "receipt": "development/local-db/receipts/2026-10-28T18-02-27-087Z-replay.json"
+    },
+    {
+      "name": "migration-replay",
+      "path": "supabase/migrations/20261028162702_m01_replay_scope_refresh.sql",
+      "sha256": "82a4f2ec03efc0787aa58e5f1e68ab626e5dddb5e4c645444103456757bf4251",
+      "result": "already_applied",
+      "receipt": "development/local-db/receipts/2026-10-28T18-02-28-471Z-replay.json"
+    },
+    {
+      "name": "migration-replay",
+      "path": "supabase/migrations/20261028162800_m02_jobs_outbox.sql",
+      "sha256": "f619b3dfb9d964ab5902d04941b8cd59b44e9da36f1ab3f7b10bd45298ff4013",
+      "result": "already_applied",
+      "receipt": "development/local-db/receipts/2026-10-28T18-02-29-822Z-replay.json"
+    },
+    {
+      "name": "migration-replay",
+      "path": "supabase/migrations/20261028172320_m02_manual_specs_draft.sql",
+      "sha256": "8ab866a49cb2e01eabf3b83076fe4519a60255263d0a1a170ef3ba9718a2349c",
+      "result": "applied",
+      "receipt": "development/local-db/receipts/2026-10-28T18-02-31-494Z-replay.json"
+    },
+    {
+      "name": "manual-owner-source-identity-column-ACL",
+      "path": "tests/db/m02-specs-local-column-acl.sql",
+      "sha256": "e7549cdf253879374fe5d83f097a9ca734b6880d5a6d8c0ed657d6b1ead3f43f",
+      "result": "passed",
+      "started_at": "2026-10-28T18:02:31.497Z",
+      "markers": [],
+      "finished_at": "2026-10-28T18:02:32.807Z",
+      "duration_ms": 1310
+    },
+    {
+      "name": "strict-owned-fixture-cleanup",
+      "path": "tests/db/m02-specs-local-cleanup.sql",
+      "sha256": "011e7b4f851badb5a06677309b2c88c427125bfda8aa7a47f6fad32857077100",
+      "result": "passed",
+      "started_at": "2026-10-28T18:02:32.812Z",
+      "markers": [],
+      "finished_at": "2026-10-28T18:02:34.202Z",
+      "duration_ms": 1390
+    }
+  ],
+  "concurrency": [],
+  "cloud_called": false,
+  "provider_called": false,
+  "source_submission_tested": false,
+  "assignment_retirement_integrated": false,
+  "job_callbacks_tested": false,
+  "scope": "Persisted manual-specs migration, local real-role SQL assertions, separate-backend races and strict owned fixture cleanup only.",
+  "environment": {
+    "container": "eps-presentation-canonical-pg17-local",
+    "system_identifier": "7701520506262638626",
+    "host_ip": "127.0.0.1",
+    "host_port": "55433"
+  },
+  "reviewed_manifest_sha256": "bcf8b19113aa3281edadbdc211a701ade5e8c762d4776d1d968747c0b7a10f2d",
+  "expected_versions": [
+    "20261028010943",
+    "20261028013324",
+    "20261028013655",
+    "20261028024205",
+    "20261028072515",
+    "20261028162702",
+    "20261028162800",
+    "20261028172320"
+  ],
+  "before": {
+    "counts": {
+      "eps.jobs": 0,
+      "auth.users": 0,
+      "auth.instances": 0,
+      "eps.job_events": 0,
+      "eps.workspaces": 0,
+      "public.clients": 0,
+      "public.projects": 0,
+      "storage.buckets": 1,
+      "storage.objects": 0,
+      "eps.audit_events": 0,
+      "eps.media_assets": 0,
+      "eps.outbox_events": 0,
+      "auth.refresh_tokens": 0,
+      "eps.upload_sessions": 0,
+      "eps.audience_presets": 3,
+      "auth.audit_log_entries": 0,
+      "auth.schema_migrations": 7,
+      "eps.idempotency_records": 0,
+      "eps_local_guard.instance": 1,
+      "public.client_memberships": 0,
+      "eps.logo_verification_keys": 0,
+      "public.project_memberships": 0,
+      "public.app_capability_grants": 0,
+      "eps.user_workspace_preferences": 0,
+      "eps_local_guard.migration_replay": 7,
+      "eps_local_guard.storage_baseline": 1,
+      "supabase_migrations.schema_migrations": 7
+    },
+    "versions": [
+      "20261028010943",
+      "20261028013324",
+      "20261028013655",
+      "20261028024205",
+      "20261028072515",
+      "20261028162702",
+      "20261028162800"
+    ],
+    "query_role": "postgres",
+    "unrestricted": true,
+    "specs_boundary": null,
+    "specs_relations": 0
+  },
+  "first_migration_application": true,
+  "migration8_result": "applied",
+  "error": "Historical assertions may not control transactions.",
+  "cleanup": "passed",
+  "after": {
+    "counts": {
+      "eps.jobs": 0,
+      "eps.roles": 0,
+      "eps.slots": 0,
+      "eps.specs": 0,
+      "auth.users": 0,
+      "auth.instances": 0,
+      "eps.job_events": 0,
+      "eps.workspaces": 0,
+      "public.clients": 0,
+      "public.projects": 0,
+      "storage.buckets": 1,
+      "storage.objects": 0,
+      "eps.audit_events": 0,
+      "eps.media_assets": 0,
+      "eps.outbox_events": 0,
+      "auth.refresh_tokens": 0,
+      "eps.upload_sessions": 0,
+      "eps.audience_presets": 3,
+      "auth.audit_log_entries": 0,
+      "auth.schema_migrations": 7,
+      "eps.idempotency_records": 0,
+      "eps_local_guard.instance": 1,
+      "public.client_memberships": 0,
+      "eps.logo_verification_keys": 0,
+      "public.project_memberships": 0,
+      "public.app_capability_grants": 0,
+      "eps.user_workspace_preferences": 0,
+      "eps_local_guard.migration_replay": 8,
+      "eps_local_guard.storage_baseline": 1,
+      "supabase_migrations.schema_migrations": 8
+    },
+    "versions": [
+      "20261028010943",
+      "20261028013324",
+      "20261028013655",
+      "20261028024205",
+      "20261028072515",
+      "20261028162702",
+      "20261028162800",
+      "20261028172320"
+    ],
+    "query_role": "postgres",
+    "unrestricted": true,
+    "specs_boundary": {
+      "rpcs": [
+        {
+          "anon": false,
+          "name": "eps_archive_role",
+          "owner": "eps_specs_owner",
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "service": false,
+          "authenticated": true
+        },
+        {
+          "anon": false,
+          "name": "eps_create_role",
+          "owner": "eps_specs_owner",
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "service": false,
+          "authenticated": true
+        },
+        {
+          "anon": false,
+          "name": "eps_get_specs",
+          "owner": "eps_specs_owner",
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "service": false,
+          "authenticated": true
+        },
+        {
+          "anon": false,
+          "name": "eps_list_roles",
+          "owner": "eps_specs_owner",
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "service": false,
+          "authenticated": true
+        },
+        {
+          "anon": false,
+          "name": "eps_list_slots",
+          "owner": "eps_specs_owner",
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "service": false,
+          "authenticated": true
+        },
+        {
+          "anon": false,
+          "name": "eps_resize_role_slots",
+          "owner": "eps_specs_owner",
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "service": false,
+          "authenticated": true
+        },
+        {
+          "anon": false,
+          "name": "eps_update_role",
+          "owner": "eps_specs_owner",
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "service": false,
+          "authenticated": true
+        },
+        {
+          "anon": false,
+          "name": "eps_update_slot",
+          "owner": "eps_specs_owner",
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "service": false,
+          "authenticated": true
+        },
+        {
+          "anon": false,
+          "name": "eps_update_specs",
+          "owner": "eps_specs_owner",
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "service": false,
+          "authenticated": true
+        }
+      ],
+      "roles": [
+        {
+          "name": "eps_specs_initializer",
+          "login": false,
+          "bypass": false,
+          "superuser": false
+        },
+        {
+          "name": "eps_specs_owner",
+          "login": false,
+          "bypass": false,
+          "superuser": false
+        }
+      ],
+      "relations": [
+        {
+          "rls": true,
+          "name": "roles",
+          "force": true,
+          "owner": "postgres"
+        },
+        {
+          "rls": true,
+          "name": "slots",
+          "force": true,
+          "owner": "postgres"
+        },
+        {
+          "rls": true,
+          "name": "specs",
+          "force": true,
+          "owner": "postgres"
+        }
+      ],
+      "no_direct_user_tables": true,
+      "no_processing_enqueue": true,
+      "initializer_only_workspace_insert": true
+    },
+    "specs_relations": 3
+  },
+  "all_business_counts_restored": true,
+  "finished_at": "2026-10-28T18:02:35.594Z"
+}

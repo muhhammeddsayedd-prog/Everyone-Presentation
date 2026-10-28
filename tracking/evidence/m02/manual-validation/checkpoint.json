@@ -1,0 +1,44 @@
+{
+  "captured_at": "2026-10-28T18:30:11.011510+00:00",
+  "source_commit": "7deab1c",
+  "checkpoint": "manual specs editor before subsequent reorder/Processing changes",
+  "module_tests": {
+    "unit_server": 65,
+    "contracts": 3,
+    "jobs": 12,
+    "integrations": 14,
+    "worker_synthetic_documents": 10,
+    "central": 35,
+    "total": 139,
+    "failed": 0
+  },
+  "lint": "passed",
+  "typecheck": "passed",
+  "separate_output_build": "passed",
+  "controlled_browser": {
+    "passed": 7,
+    "failed": 0,
+    "real_auth_storage_provider_called": false,
+    "traces": "off",
+    "checked_widths": [
+      320,
+      768,
+      1024,
+      1440
+    ],
+    "page_errors": 0,
+    "node_color_warnings_retained": true
+  },
+  "offline_release_tests": 18,
+  "tools_tests": 20,
+  "log_sha256": {
+    "build.log": "8f123eafee9b15c4b26c1977950ae11c601535cc939c0c32d9ee33e14a45e2e4",
+    "controlled-browser.log": "08e74b83594fbc52db9ef673d37b5869ef4fec19c7fd19b8620e4ceef4b59a72",
+    "lint.log": "539cc13d984b4714cec1517b53e05e520c78e4fedba2a9c2c0c63759715f6ed4",
+    "modules.log": "d604c6414d012a53fd2654967a4b79855188852b6ac9d9edff9cce1bf81551fb",
+    "offline-release.log": "e7ef40aaac4dcc2cf9533e1ae2b9a83d216dc98b807a601da1f2ea2e86a3f7e7",
+    "tools.log": "c7c67d510db633207eabdd145f84c7573733dbe927d7c6f46b9abd8a8c134b60",
+    "typecheck.log": "ed5321f77007f6709ce8738a60cac3ae8978a6f61001237d9713d189711f7b60"
+  },
+  "production_acceptance": false
+}

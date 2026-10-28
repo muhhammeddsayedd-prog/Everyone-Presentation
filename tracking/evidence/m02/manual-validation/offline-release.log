@@ -1,0 +1,49 @@
+python : test_changed_preflight_refuses_dispatch_even_with_a_successful_dry_run (test_manual_specs_release.ManualSpecsR
+eleaseTests.test_changed_preflight_refuses_dispatch_even_with_a_successful_dry_run) ... ok
+At line:2 char:60
++ ... t -Last 20; python -X utf8 -m unittest discover -s tests/operations - ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (test_changed_pr...dry_run) ... ok:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+test_count_and_workspace_version_drift_keep_confirmed_history_for_reconciliation (test_manual_specs_release.ManualSpecs
+ReleaseTests.test_count_and_workspace_version_drift_keep_confirmed_history_for_reconciliation) ... ok
+test_existing_applied_history_prevents_a_second_apply 
+(test_manual_specs_release.ManualSpecsReleaseTests.test_existing_applied_history_prevents_a_second_apply) ... ok
+test_existing_verified_state_is_retained_when_later_readback_fails 
+(test_manual_specs_release.ManualSpecsReleaseTests.test_existing_verified_state_is_retained_when_later_readback_fails) 
+... ok
+test_invalid_postapply_catalog_is_retained_without_claiming_verified_apply (test_manual_specs_release.ManualSpecsReleas
+eTests.test_invalid_postapply_catalog_is_retained_without_claiming_verified_apply) ... ok
+test_lost_dispatch_response_retains_verified_apply_and_never_retries (test_manual_specs_release.ManualSpecsReleaseTests
+.test_lost_dispatch_response_retains_verified_apply_and_never_retries) ... ok
+test_lost_readback_after_dispatch_keeps_unknown_outcome_and_attempt (test_manual_specs_release.ManualSpecsReleaseTests.
+test_lost_readback_after_dispatch_keeps_unknown_outcome_and_attempt) ... ok
+test_missing_catalog_seal_blocks_before_any_transport 
+(test_manual_specs_release.ManualSpecsReleaseTests.test_missing_catalog_seal_blocks_before_any_transport) ... ok
+test_nonempty_backfill_is_preserved_and_reported_after_confirmed_application (test_manual_specs_release.ManualSpecsRele
+aseTests.test_nonempty_backfill_is_preserved_and_reported_after_confirmed_application) ... ok
+test_nonordinary_relations_are_collisions_before_migration 
+(test_manual_specs_release.ManualSpecsReleaseTests.test_nonordinary_relations_are_collisions_before_migration) ... ok
+test_pending_readback_success_does_not_claim_migration_applied 
+(test_manual_specs_release.ManualSpecsReleaseTests.test_pending_readback_success_does_not_claim_migration_applied) ... 
+ok
+test_successful_apply_requires_pristine_backfill_and_retains_exact_snapshots (test_manual_specs_release.ManualSpecsRele
+aseTests.test_successful_apply_requires_pristine_backfill_and_retains_exact_snapshots) ... ok
+test_count_drift_preserves_confirmed_application_and_both_snapshots (test_processing_release.ProcessingReleaseRecoveryT
+ests.test_count_drift_preserves_confirmed_application_and_both_snapshots) ... ok
+test_existing_applied_history_stays_verified_while_redundant_push_is_refused (test_processing_release.ProcessingRelease
+RecoveryTests.test_existing_applied_history_stays_verified_while_redundant_push_is_refused) ... ok
+test_existing_partial_history_prevents_a_second_mutator 
+(test_processing_release.ProcessingReleaseRecoveryTests.test_existing_partial_history_prevents_a_second_mutator) ... ok
+test_lost_push_response_keeps_verified_applied_readback_without_retrying (test_processing_release.ProcessingReleaseReco
+veryTests.test_lost_push_response_keeps_verified_applied_readback_without_retrying) ... ok
+test_lost_readback_after_push_preserves_unknown_outcome_and_attempt (test_processing_release.ProcessingReleaseRecoveryT
+ests.test_lost_readback_after_push_preserves_unknown_outcome_and_attempt) ... ok
+test_partial_apply_keeps_partial_history_and_refuses_to_claim_success (test_processing_release.ProcessingReleaseRecover
+yTests.test_partial_apply_keeps_partial_history_and_refuses_to_claim_success) ... ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.734s
+
+OK

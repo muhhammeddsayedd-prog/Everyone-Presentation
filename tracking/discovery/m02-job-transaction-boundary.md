@@ -170,7 +170,7 @@ table remained, and all seven migrations plus three forced-RLS queue relations
 and restricted dispatcher ACLs remained. Any unexpected data causes preservation
 and a nonzero test result. Root's later M01 regression run is separate evidence.
 
-Still required: specs/source/role/slot schema and submission, stage-claim/heartbeat/
+At that checkpoint still required: specs/source/role/slot schema and submission, stage-claim/heartbeat/
 callback fencing and typed result application, source revision guards, scoped
 worker output reservations, real dispatcher/recovery process, service identity,
 n8n/OpenAI/document integration, API/UI wiring and all M02 real-service acceptance.
@@ -180,3 +180,7 @@ candidate does not pretend those processing stages have executed.
 ## Subsequent coordinated cloud release
 
 Root subsequently applied migrations six and seven after the exact guarded dry-run. Fresh cloud readback at2026-10-28T16:56:29Z binds the seven versions,22 authenticated public RPCs/32 inspected routines and16 forced-RLS app relations. Existing business/storage counts stayed unchanged; the new queues are empty. See `tracking/evidence/cloud-processing-foundation/RELEASE_REVIEW.md` and its immutable apply/readback receipts. This supersedes only this document's earlier not-yet-applied cloud status; the source/stage/service/provider/UI boundaries remain. Actual security advisors report23 WARN findings:22 intentional scoped RPC findings and one unresolved leaked-password-protection Auth setting.
+
+## Subsequent manual draft persistence
+
+Migration `20261028172320` is now applied locally and in the canonical cloud. The [local checkpoint](database-inventory.md#manual-specs-local-and-cloud-checkpoint) distinguishes the first application/backfill from the preserved driver failure and successful 23-stage/four-blocker-pair rerun. [Cloud readback](../evidence/cloud-manual-specs/2026-10-28T18-21-07-451865Z-b7e8cd80-readback.json), finished 18:21:07.451844Z, verifies exact eight-version history,31 public RPCs/58 routines/19 forced-RLS relations. One pristine current spec was added for the existing workspace; its state hash and all existing base counts were preserved, with no roles/slots yet. Manual drafts/roles/slots can be persisted without a provider, while source setters, submit/enqueue, stage claims/callbacks/apply and real worker/n8n/OpenAI processing remain absent. Assignment retirement is explicitly gated until its actual schema/transaction exists. This release does not extend the jobs execution surface or claim a connected pipeline.

@@ -41,7 +41,10 @@
         "bf31caa",
         "f6164a7b1ba66e2f2ec746041c6de827bf75edb0",
         "b85ee32",
-        "3afcd58"
+        "3afcd58",
+        "0ec0433",
+        "269a35e",
+        "0faf3bc"
       ],
       "migrations": [
         {
@@ -78,6 +81,13 @@
           "cloud": "applied",
           "target": "pyibofyctwnqpvktepse",
           "evidence": "tracking/evidence/cloud-logo-capability/2026-10-28T07-48-14-630664Z-11769197-apply.json"
+        },
+        {
+          "file": "supabase/migrations/20261028162702_m01_replay_scope_refresh.sql",
+          "local": "applied",
+          "cloud": "applied",
+          "target": "pyibofyctwnqpvktepse",
+          "evidence": "tracking/evidence/cloud-processing-foundation/2026-10-28T16-56-29-737639Z-6e03dbf9-readback.json"
         }
       ],
       "evidence": [
@@ -115,13 +125,17 @@
         "tracking/discovery/M01_SIGNED_IN_CHECKPOINT.md",
         "tracking/evidence/m01/signed-in/",
         "apps/web/lib/auth-sign-in.ts",
-        "apps/web/lib/central-logo-probe.ts"
+        "apps/web/lib/central-logo-probe.ts",
+        "tracking/evidence/m01/replay-scope/",
+        "development/local-db/receipts/2026-10-28T18-07-49-870Z-test-db-summary-68140882.json",
+        "tracking/evidence/m01/replay-scope/2026-10-28T18-10-19-748Z-fixed.json",
+        "tracking/evidence/cloud-manual-specs/2026-10-28T18-21-07-451865Z-b7e8cd80-readback.json"
       ],
       "blockers": [
-        "Real confirmed Producer identity and four scoped grants are read back, but the connected Chrome Person1 profile remains logged out after HTTP429 email throttling; authenticated shared-record/workspace UI acceptance is unrun. The owner's sign-in in another Chrome is user-reported.",
-        "Hosted private Storage transfer, operation-header/upsert immutability and user reload/revocation acceptance remain unrun."
+        "Owner reports signed-in project visibility, then closed review tabs. Connected Person1 was last signed out; full authenticated shared-record/workspace UI journey remains unrun.",
+        "Hosted private Storage bytes, Ready/selected-logo state, operation-header/upsert immutability, reload and revocation acceptance remain unrun; aggregate nonempty counts are not acceptance."
       ],
-      "next_action": "Recover the already-enrolled user session in connected Chrome without regranting/recreating records; select Dummy Test, create/reuse its workspace through the app, complete the normal M01 journey and guarded hosted Storage probe. Probe is development-enabled but not executed; no Auth/rate settings changed."
+      "next_action": "Complete independent M02 work without reopening closed review tabs. When an actual signed-in session is available, run the existing M01 journey and guarded Storage probe using its normal identity; never repeat completed setup or restore removed grants."
     },
     {
       "id": "M02",
@@ -132,9 +146,28 @@
       ],
       "commits": [
         "369a77de5de1401723b399ba1440b1575938ac41",
-        "e48fa86"
+        "e48fa86",
+        "0ef61f9",
+        "269a35e",
+        "0faf3bc",
+        "7deab1c"
       ],
-      "migrations": [],
+      "migrations": [
+        {
+          "file": "supabase/migrations/20261028162800_m02_jobs_outbox.sql",
+          "local": "applied",
+          "cloud": "applied",
+          "target": "pyibofyctwnqpvktepse",
+          "evidence": "tracking/evidence/cloud-processing-foundation/2026-10-28T16-56-29-737639Z-6e03dbf9-readback.json"
+        },
+        {
+          "file": "supabase/migrations/20261028172320_m02_manual_specs_draft.sql",
+          "local": "applied",
+          "cloud": "applied",
+          "target": "pyibofyctwnqpvktepse",
+          "evidence": "tracking/evidence/cloud-manual-specs/2026-10-28T18-21-07-451865Z-b7e8cd80-readback.json"
+        }
+      ],
       "evidence": [
         "packages/jobs/",
         "packages/integrations/",
@@ -148,14 +181,26 @@
         "tests/db/m02-jobs-outbox.sql",
         "tools/test-m02-candidate.mjs",
         "tracking/discovery/m02-job-transaction-boundary.md",
-        "tracking/evidence/m02/candidate/"
+        "tracking/evidence/m02/candidate/",
+        "packages/domain/SPECS.md",
+        "apps/web/lib/job-http.ts",
+        "tracking/evidence/m02/local/",
+        "tracking/evidence/m02/http/",
+        "tracking/evidence/m02/validation/",
+        "tracking/evidence/m02/specs-local/2026-10-28T18-07-04-016Z-0fdcf864.json",
+        "tracking/evidence/m02/local/2026-10-28T18-08-57-532Z-7930ab51.json",
+        "tracking/evidence/cloud-manual-specs/2026-10-28T18-21-07-451865Z-b7e8cd80-readback.json",
+        "tracking/evidence/m02/manual-validation/",
+        "packages/central/src/specs.ts",
+        "apps/web/components/SpecsView.tsx",
+        "tests/operations/test_manual_specs_release.py"
       ],
       "blockers": [
-        "M01 actual confirmed Producer/Storage journey remains unverified.",
-        "M02 job/outbox DDL is a rollback-only local candidate, not a persisted migration; two-session/restart, stage callbacks, scoped source/apply and service identity proof remain unrun.",
-        "Real n8n/OpenAI configuration, representative authorized files and connected worker/API/UI remain unavailable or unfinished."
+        "M01 full signed-in hosted logo/Storage journey remains unverified after owner closed review tabs.",
+        "Eight migrations and manual specs CRUD/editor are connected; source submission, stage callbacks, service identity, output reservations and full provider flow remain unfinished. Role ordering and Processing UI are being implemented.",
+        "Fresh18:16Z n8n project discovery returns MCP-32603; OpenAI model/key and worker/provider runtime configuration are absent."
       ],
-      "next_action": "Review the rehearsed candidate into a CLI-created local migration with release-independent guards, prove persisted dedupe/claim concurrency and restart durability, then implement stage fencing/output reservations and source-locked specs submit/apply before WF-01/UI/provider acceptance."
+      "next_action": "Finish role ordering and Processing UI, then implement scoped specs source submission, stage/event/atomic result operations and separate worker/WF-01. Keep real-provider and hosted-browser acceptance distinct."
     },
     {
       "id": "M03",
@@ -273,5 +318,5 @@
       "scope": "Project-local skill setup only; does not advance app milestones or verify integrations."
     }
   },
-  "notes": "M00 verified. M01 scoped enrollment complete with four active grants and project/client write memberships; connected-browser authentication remains blocked by provider email429. Guarded dev-only Storage probe is prepared, with actual401/403HTTP gates, but no authenticated workspace/media proof. Current104 module tests, lint/typecheck/build and four synthetic browser journeys pass; earlier SQL/Python proofs retain timestamps. M02 candidate only. No production or real AI/n8n/PDF/guest/MCP/restore acceptance."
+  "notes": "M00 verified. Owner reports successful sign-in and Dummy Test visibility; review tabs were then closed. Seven migrations local/five cloud; proposed cloud release pending. Fixed11 replay cases and M02local27-stage/six-pair/restart/cleanup proof pass;120 module tests, lint/typecheck/build and four synthetic browser journeys pass. Hosted logo, real AI/n8n, native render/PDF, guest, MCP, restore and production acceptance remain unverified."
 }

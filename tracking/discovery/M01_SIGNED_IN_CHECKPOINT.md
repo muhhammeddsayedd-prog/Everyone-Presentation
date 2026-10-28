@@ -1,5 +1,22 @@
 # M01 enrollment and browser recovery checkpoint
 
+Current update after the eight-version release: the owner reports working login
+and project visibility, then closed review tabs. Connected Person1 was last signed
+out; no review tabs were reopened or emails sent afterward. Fresh aggregate
+readback completed at 18:21:07.451844Z preserves one Auth user/client/project/workspace/
+media/upload/Storage object, four capabilities and the existing key, unchanged
+by release. These counts do not establish Ready media, selected logo or bytes.
+The optional scoped CLI query timed out without returning and was not retried.
+The eighth migration adds one pristine current spec for that workspace, with zero
+roles/slots; the existing workspace-state hash is unchanged. It establishes no new
+authenticated browser observation. See [release review](../evidence/cloud-manual-specs/RELEASE_REVIEW.md)
+and [actual readback](../evidence/cloud-manual-specs/2026-10-28T18-21-07-451865Z-b7e8cd80-readback.json).
+Owned process 30061 enables the reviewed probe; hosted execution has NEVER run.
+M01 remains in progress. The dated enrollment/recovery observations below are
+history, not a current empty-account/workspace or open-browser assertion.
+
+## Historical enrollment and recovery observations
+
 The owner reported a successful email sign-in in another Chrome profile and an
 unauthorized/empty project screen. Actual read-only Auth inspection at14:09:34Z
 matched one confirmed, signed-in, nonanonymous, nondeleted, nonbanned account.
@@ -8,7 +25,7 @@ exactly the four M01 capabilities plus writable membership for Dummy Test and
 Dummy Client. The transaction and readback passed. It created no Auth user,
 workspace or media. These are setup operations, not an acting-user API journey.
 
-Fresh scoped administrator metadata at14:54:01Z confirms both writable memberships,
+Historical scoped administrator metadata at14:54:01Z confirms both writable memberships,
 all four capabilities, requested canonical names, row versions1 and no archived
 record. That snapshot has no workspaces, upload sessions or Ready logos for the
 test project. See `tracking/evidence/m01/signed-in/scoped-live-metadata.json`.
@@ -56,23 +73,28 @@ The owned central server was restarted in session30061 with development logo
 verification and `EPS_CENTRAL_LOGO_PROBE_ENABLED=true`; `.env.local` was not edited.
 Actual HTTP checks at14:46:11Z confirm anonymous401, bearer substitution403 and
 foreign-origin403 with no-store responses. They did not execute the Storage probe.
-The connected Chrome tab1091386285 remains signed out and is kept as a handoff.
+At that recovery checkpoint, connected Chrome tab1091386285 was signed out.
+The owner subsequently closed review tabs; no active review tab is claimed now.
 No live signing, byte transfer, overwrite, cancellation or normal workspace/logo
 journey is established by having this helper.
 
 ## Validation and next action
 
-Current root validation in `tracking/evidence/m01/signed-in/validation/` passes
+Historical root validation in `tracking/evidence/m01/signed-in/validation/` passes
 104 module tests, lint, typecheck and a build using the separate `.next-e2e`
 output. Four browser/HTTP journeys pass against the explicitly synthetic adapter
 on3100, with traces off. The probe's ten tests use the installed SDK with
 injected transport plus actual Sharp/HMAC work; they are not hosted Storage
 acceptance. Earlier SQL/race/Python checks retain their own timestamps.
 
-Recover the enrolled user's session in the connected Chrome profile, or reopen
-the original profile if its session is still active. Request/open any new email
-link in the same profile, without repeated automated requests. No re-enrollment
-or regrant is needed. Then select the existing canonical project, create/reuse
-its workspace through the app, run the normal M01 journey and the guarded probe,
-and record actual receipts. M01 remains in progress. n8n's latest actual project
+When UI acceptance resumes, verify the enrolled user's normal session and use
+the existing canonical project/workspace; no re-enrollment, regrant or record
+recreation is needed. Run the normal M01 journey and guarded probe and record
+actual results. The enabled probe itself supplies no hosted acceptance. Root's
+later local checkpoint reports 120 module tests, lint/typecheck/build and four
+fixture browser journeys passed; warnings remain recorded. The current exact
+eight-version database proofs remain separate from those fixtures. M01 remains
+in progress. Fresh advisors report 32 WARN (31 curated public-definer plus
+unresolved leaked-password protection); no Auth/billing change was made.
+n8n's latest actual project
 lookup still returned MCP-32603; M02 and later live provider/release gates remain.
