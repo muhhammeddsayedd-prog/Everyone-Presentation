@@ -14,11 +14,23 @@ At 2026-10-28T07:46:18Z the bounded setup action created and read back:
 | Project | 4b70c8ce-18bd-4a8c-b5a9-bc1156c06463 |
 | Private setup request | 403dcd71-0753-41e9-b448-e5a439886a1f |
 
-The Auth lookup for the requested email still matched zero accounts at this
-readback. Producer grants remain absent. The user must request/open the email
-sign-in link at http://127.0.0.1:3000/projects in the same browser profile. Never
-copy callback links, codes, cookies or tokens into chat or tracking. The agent has
-not requested an email, created a fake account or bypassed confirmation.
+The initial Auth lookup matched zero accounts; the 07:57 and 08:30 observations
+remain historical. At 2026-10-28T14:09:34.372709Z, actual read-only inspection matched
+one confirmed, previously signed-in, nonanonymous, nondeleted, nonbanned principal:
+`0a79a703-caba-47e5-93d4-42e32197037a`. At 14:10:07.994212Z the reviewed grant action
+completed and read back exactly active `projects.read`, `projects.write`,
+`workspaces.read`, `workspaces.write` plus writable membership for the project and
+client above. The principal UUID was pinned to the existing private setup request.
+No Auth user, workspace or media was written by setup.
+
+The owner reports a successful sign-in in another Chrome. The connected Chrome
+Person1 profile remains logged out; its login attempt received generic HTTP429
+email throttling. These observations do not prove an authenticated app journey.
+The 14:17:24.131722Z read-only Auth configuration check found
+`auth.email.max_frequency=1m0s`; it does not expose SMTP configuration or the
+project email quota. No Auth/rate setting changed and no email was sent by the
+agent. Never copy callback links, codes, cookies or tokens into chat or tracking.
+No fake account or confirmation bypass was used.
 
 `tools/producer_bootstrap.py` accepts only `prepare`, `inspect`, `records` and
 `grants` against the fixed linked target. Its owner intent and protected state are
@@ -51,6 +63,14 @@ Actual proof is separate:
 
 - `tracking/evidence/m01/producer-bootstrap/`: prepared state and successful cloud
   creation/readback, with identity flags and resource IDs only.
+- `tracking/evidence/m01/producer-bootstrap/2026-10-28T14-09-59-341574Z-inspect.json`:
+  actual readiness predicates and unique principal, observed 14:09:34.372709Z.
+- `tracking/evidence/m01/producer-bootstrap/2026-10-28T14-10-26-482481Z-grants.json`:
+  phase completed, exact four active capabilities and two write memberships,
+  observed 14:10:07.994212Z; no Auth user/workspace creation.
+- `tracking/evidence/m01/signed-in/auth-email-delivery-config.json`: allowlisted
+  read-only configuration metadata, observed 14:17:24.131722Z; no setting changes
+  or email request in that inspection.
 - `tracking/evidence/m01/2026-10-28T07-46-04-309Z-producer-bootstrap-local.json`:
   24 synthetic SQL action invocations in one real local PostgreSQL rollback;
   before/after counts all zero. It covers collisions, label-preserving replay,
@@ -63,7 +83,10 @@ Actual proof is separate:
   no managed cloud Auth DDL or privileges changed. The successful rehearsal
   verifies the added Auth row-lock operation locally, not hosted sign-in.
 
-Next: run `python -X utf8 tools/producer_bootstrap.py inspect` after human sign-in,
-then `grants` if the readiness predicates pass. Reload the browser and perform the
-actual M01 journey. M01 remains in progress until that journey and hosted Storage
-HTTP/byte acceptance pass.
+Next: establish this principal's session in the connected browser at
+http://127.0.0.1:3000/projects and perform the actual M01 project/workspace journey
+and hosted Storage HTTP/byte checks. Enrollment is completed; do not recreate
+records, prepare new IDs or restore grants to resolve a logged-out browser.
+Auth recovery UX and a safe development logo acceptance probe are under
+implementation; the probe is not enabled or run. M01 remains in progress until
+the authenticated journey and hosted Storage acceptance pass.

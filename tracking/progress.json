@@ -107,13 +107,20 @@
         "tracking/evidence/m01/producer-bootstrap/",
         "tracking/evidence/m01/producer-bootstrap-local.json",
         "tracking/evidence/cloud-logo-capability/",
-        "tracking/evidence/m01/central-enrollment/"
+        "tracking/evidence/m01/central-enrollment/",
+        "tracking/evidence/m01/producer-bootstrap/2026-10-28T14-09-59-341574Z-inspect.json",
+        "tracking/evidence/m01/producer-bootstrap/2026-10-28T14-10-26-482481Z-grants.json",
+        "tracking/evidence/m01/signed-in/auth-email-delivery-config.json",
+        "tracking/discovery/M01_SIGNED_IN_CHECKPOINT.md",
+        "tracking/evidence/m01/signed-in/",
+        "apps/web/lib/auth-sign-in.ts",
+        "apps/web/lib/central-logo-probe.ts"
       ],
       "blockers": [
-        "Actual confirmed Producer sign-in, scoped grants and authenticated shared-record/workspace journey are not yet observed.",
+        "Real confirmed Producer identity and four scoped grants are read back, but the connected Chrome Person1 profile remains logged out after HTTP429 email throttling; authenticated shared-record/workspace UI acceptance is unrun. The owner's sign-in in another Chrome is user-reported.",
         "Hosted private Storage transfer, operation-header/upsert immutability and user reload/revocation acceptance remain unrun."
       ],
-      "next_action": "Inspect the private owner email after actual human sign-in; pin and grant the documented scoped M01 permissions, reload the central app and complete real project/workspace/logo acceptance. Requested canonical test records already exist; never recreate or seed them."
+      "next_action": "Recover the already-enrolled user session in connected Chrome without regranting/recreating records; select Dummy Test, create/reuse its workspace through the app, complete the normal M01 journey and guarded hosted Storage probe. Probe is development-enabled but not executed; no Auth/rate settings changed."
     },
     {
       "id": "M02",
@@ -233,7 +240,7 @@
     },
     "real_user_m01": {
       "status": "not_run",
-      "reason": "First actual Producer sign-in/project required; no cloud user or business fixtures created."
+      "reason": "Actual Auth inspection at 14:09 and reviewed grants/readback at 14:10 establish one ready principal, four active M01 capabilities and writable scope for the requested canonical test pair. Connected Chrome remains logged out after HTTP429; authenticated UI and hosted Storage acceptance are unrun. No Auth user, workspace or media was created by setup."
     }
   },
   "development_tooling": {
@@ -265,5 +272,5 @@
       "scope": "Project-local skill setup only; does not advance app milestones or verify integrations."
     }
   },
-  "notes": "M00 verified. M01 has five applied/read-back migrations,18scoped RPCs/13forced-RLS app relations and requested canonical test records; actual Producer/Storage journey pending. M02 adds a SQL rollback candidate and six SDK tests, not persisted processing. Current module tests86, Python operational tests20; earlier browser/build evidence stays historical. No production app or real provider/PDF/guest/MCP/restore acceptance."
+  "notes": "M00 verified. M01 scoped enrollment complete with four active grants and project/client write memberships; connected-browser authentication remains blocked by provider email429. Guarded dev-only Storage probe is prepared, with actual401/403HTTP gates, but no authenticated workspace/media proof. Current104 module tests, lint/typecheck/build and four synthetic browser journeys pass; earlier SQL/Python proofs retain timestamps. M02 candidate only. No production or real AI/n8n/PDF/guest/MCP/restore acceptance."
 }

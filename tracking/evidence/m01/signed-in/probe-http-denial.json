@@ -1,0 +1,28 @@
+{
+  "observed_at": "2026-10-28T14:46:11.313Z",
+  "result": "passed",
+  "scope": "actual central development HTTP denial gates only",
+  "results": [
+    {
+      "case": "anonymous_cookie_only",
+      "status": 401,
+      "code": "AUTH_REQUIRED",
+      "no_store": true
+    },
+    {
+      "case": "bearer_substitution",
+      "status": 403,
+      "code": "ACCESS_DENIED",
+      "no_store": true
+    },
+    {
+      "case": "foreign_origin",
+      "status": 403,
+      "code": "ACCESS_DENIED",
+      "no_store": true
+    }
+  ],
+  "auth_email_sent": false,
+  "storage_probe_executed": false,
+  "credentials_exported": false
+}

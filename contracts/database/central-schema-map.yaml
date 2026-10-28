@@ -79,7 +79,7 @@ logo_verifier_configuration:
   public_secret_or_raw_cli_output_recorded: false
   launcher_boundary: Strict completed/target-bound two-field loader passes key configuration through child environment only; no upload flag or key value is printed.
   launcher_loader_probe: Root reported passed; separate from full process startup/relaunch and Storage HTTP acceptance.
-  running_server_state: Owned central process relaunched with protected configuration and explicit development flag; session63564, anonymous HTTP/sign-in UI checked.
+  running_server_state: Owned central process relaunched with protected configuration and explicit development flag; session30061, anonymous HTTP/sign-in UI checked.
   runtime_enabled: true
   database_upload_purposes_disabled: false
   evidence_scope: Key match remains the timestamped04:06 inspection; later process runtime receipt is tracking/evidence/m01/central-enrollment/runtime.json. Neither establishes real-user/Storage acceptance or changes the immutable zero-key release snapshot.
@@ -199,7 +199,7 @@ logical_table_mapping:
   audit_events: {decision: cloud_applied_read_back_M01, physical_target: eps.audit_events}
 
 capability_mapping:
-  # M01 physical mapping is cloud-applied/read back; actual-user grants remain unprovisioned.
+  # M01 physical mapping is cloud-applied/read back; four scoped actual-user grants completed at 14:10Z.
   projects.read: Active app_capability_grants row plus active project_memberships read scope.
   projects.write: Active app_capability_grants row plus writable project scope; client fields additionally require writable client_memberships.
   workspaces.read: Active app_capability_grants row plus permitted active canonical project.
@@ -251,8 +251,8 @@ adaptations:
     migration: Discovery does not apply cloud changes; root release receipts separately record authorized application.
     tests: Production-denial, scope and persistence tests required in local implementation.
 unresolved_access_dependencies:
-  - Real signed-in user/project journey remains unrun. Owner-requested canonical test project/client exist; latest private-email lookup finds0 Auth accounts and no grants/workspace were created.
-  - Actual signed-in user-token journey and lifecycle/session revocation behavior; loopback Auth settings are already configured.
+  - Actual authenticated UI/project journey remains unrun. One real ready principal and four scoped grants plus project/client write memberships were read back at 14:09/14:10Z; connected Chrome Person1 remains logged out after HTTP429, while another-Chrome sign-in is owner-reported. Setup wrote no Auth user/workspace/media.
+  - Connected-browser user-token journey and lifecycle/session revocation behavior; loopback Auth settings are configured, max_frequency 1m0s was inspected at 14:17Z without changes, and SMTP/project email quota are not exposed by this CLI check.
   - Hosted signed-upsert denial and private byte/Sharp acceptance remain unrun after the owned development restart; candidate/derivative/PDF buckets, retention and restore remain later gates.
   - Existing hosting, CI/CD, worker platform and secret-management conventions; fresh Vercel Everyone-name query succeeded with zero matches in the default scope only.
   - Authorized OpenAI and n8n integration configuration and representative samples; fresh n8n project-list call still failed with -32603.
@@ -263,8 +263,32 @@ current_owner_setup:
   client_id: f4a9937c-f575-4975-bdea-fb83b85e48c3
   project_id: 4b70c8ce-18bd-4a8c-b5a9-bc1156c06463
   receipt_directory: tracking/evidence/m01/producer-bootstrap/
-  latest_auth_inspection: 2026-10-28T08:30:14.379285+00:00
-  principal_matches: 0
-  grant_state: Pending actual confirmed human sign-in; no Auth writes or workspace creation.
+  latest_auth_inspection: '2026-10-28T14:09:34.372709+00:00'
+  auth_inspection_receipt: tracking/evidence/m01/producer-bootstrap/2026-10-28T14-09-59-341574Z-inspect.json
+  principal_matches: 1
+  principal_id: 0a79a703-caba-47e5-93d4-42e32197037a
+  principal_readiness: Unique confirmed, previously signed-in, nonanonymous, nondeleted, nonbanned account observed; not connected-browser session proof.
+  grant_state: Completed and read back; no Auth user, workspace or media written by setup.
+  grants_observed_at: '2026-10-28T14:10:07.994212+00:00'
+  grants_receipt: tracking/evidence/m01/producer-bootstrap/2026-10-28T14-10-26-482481Z-grants.json
+  active_capabilities: [projects.read, projects.write, workspaces.read, workspaces.write]
+  project_membership: write
+  client_membership: write
+  connected_browser_session: Logged out in Chrome Person1 after generic HTTP429 email throttle; owner reports sign-in in another Chrome.
+  auth_rate_metadata:
+    observed_at: '2026-10-28T14:17:24.131722+00:00'
+    email_max_frequency: 1m0s
+    smtp_and_project_email_quota_exposed_by_cli_check: false
+    settings_changed: false
+    receipt: tracking/evidence/m01/signed-in/auth-email-delivery-config.json
+  authenticated_ui_and_storage_acceptance: not_run
+  development_logo_acceptance_probe: Under implementation; not enabled or run.
   bootstrap_identity_copied_to_source: false
   inherited_design_reference_contact_preserved: true
+
+development_acceptance_probe:
+  enabled_in_owned_process: true
+  process_session: 30061
+  hosted_authenticated_execution: not_run
+  actual_anonymous_bearer_origin_denials: passed
+  boundary: tracking/discovery/M01_SIGNED_IN_CHECKPOINT.md
