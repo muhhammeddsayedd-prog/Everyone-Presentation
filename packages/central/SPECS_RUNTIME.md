@@ -34,6 +34,12 @@ logging settings before private parameters are sent. No acting-user principal
 is manufactured. Existing database functions independently authorize each
 stored requester and validate source, scope, attempt and lease.
 
+A rollback-only canonical database probe observed PostgreSQL17/Supautils granting
+the creator `postgres` one administrative membership, granted by `supabase_admin`,
+with INHERIT and SET both false. The guard permits at most that exact incoming
+edge. The runtime's two outgoing inherited executor/dispatcher memberships remain
+exact, with ADMIN and SET false; no other incoming or outgoing edge is accepted.
+
 The gateway exposes `claimOutbox`, `finishOutbox`, `claim`, `getInput`,
 `recordEvent`, `recover` and `close`. Function names and SQL are fixed;
 arguments use unnamed extended-query parameters. Connections and transactions

@@ -1,0 +1,51 @@
+{
+  "observed_at": "2026-10-28T23:43:55.299245+00:00",
+  "target": "pyibofyctwnqpvktepse",
+  "scope": "rollback-only NOLOGIN role logging configuration; no credential or business writes",
+  "sql_sha256": "b62c1c64cfd1f23896b8359c66bed684d8c35038404ef2fd1fb5ab24045263e9",
+  "exit_code": 0,
+  "result": "passed",
+  "metadata": [
+    {
+      "probe": {
+        "incoming_after": [
+          {
+            "admin": false,
+            "grantor": "postgres",
+            "inherit": true,
+            "member": "postgres",
+            "set": true
+          },
+          {
+            "admin": true,
+            "grantor": "supabase_admin",
+            "inherit": false,
+            "member": "postgres",
+            "set": false
+          }
+        ],
+        "incoming_before": [
+          {
+            "admin": true,
+            "grantor": "supabase_admin",
+            "inherit": false,
+            "member": "postgres",
+            "set": false
+          }
+        ],
+        "role": "eps_specs_runtime_probe",
+        "settings": [
+          "log_statement=none",
+          "log_parameter_max_length=0",
+          "log_parameter_max_length_on_error=0",
+          "log_min_error_statement=panic",
+          "log_min_duration_statement=-1",
+          "auto_explain.log_min_duration=-1",
+          "auto_explain.log_parameter_max_length=0",
+          "auto_explain.log_nested_statements=false",
+          "pg_stat_statements.track=none"
+        ]
+      }
+    }
+  ]
+}

@@ -124,7 +124,12 @@ const IDENTITY_SQL = `select (
   and not r.rolsuper and not r.rolbypassrls and not r.rolcreatedb and not r.rolcreaterole and not r.rolreplication and r.rolconnlimit between 1 and 4)
  and (select count(*)=2 and bool_and(g.rolname in('eps_jobs_executor','eps_jobs_dispatcher') and m.inherit_option and not m.set_option and not m.admin_option)
   from pg_catalog.pg_auth_members m join pg_catalog.pg_roles g on g.oid=m.roleid
-  where m.member=(select oid from pg_catalog.pg_roles where rolname=current_user) or m.roleid=(select oid from pg_catalog.pg_roles where rolname=current_user))
+  where m.member=(select oid from pg_catalog.pg_roles where rolname=current_user))
+ and (select count(*)<=1 and coalesce(bool_and(member.rolname='postgres' and grantor.rolname='supabase_admin'
+   and m.admin_option and not m.inherit_option and not m.set_option),true)
+  from pg_catalog.pg_auth_members m join pg_catalog.pg_roles member on member.oid=m.member
+  join pg_catalog.pg_roles grantor on grantor.oid=m.grantor
+  where m.roleid=(select oid from pg_catalog.pg_roles where rolname=current_user))
  and not has_schema_privilege(current_user,'eps','CREATE') and not has_schema_privilege(current_user,'public','CREATE')
  and not exists(select 1 from pg_catalog.pg_class c join pg_catalog.pg_namespace n on n.oid=c.relnamespace
   where c.relkind in('r','p') and n.nspname in('eps','public','auth','storage')

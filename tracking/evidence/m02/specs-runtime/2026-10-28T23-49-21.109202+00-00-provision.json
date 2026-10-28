@@ -1,0 +1,52 @@
+{
+  "observed_at": "2026-10-28T23:49:21.109202+00:00",
+  "target": "pyibofyctwnqpvktepse",
+  "sql_sha256": "3bafab7043c6230d3b3f96dc64a672ea75552edca71f6676e6372728a16df4b2",
+  "status": "completed",
+  "automatic_retry": false,
+  "result": "passed",
+  "role_metadata": {
+    "role": "eps_specs_runtime",
+    "expires_at": "2026-11-27T23:49:28.693263+00:00",
+    "memberships": [
+      {
+        "admin": false,
+        "grantor": "postgres",
+        "inherit": true,
+        "member": "eps_specs_runtime",
+        "parent": "eps_jobs_dispatcher",
+        "set": false
+      },
+      {
+        "admin": false,
+        "grantor": "postgres",
+        "inherit": true,
+        "member": "eps_specs_runtime",
+        "parent": "eps_jobs_executor",
+        "set": false
+      },
+      {
+        "admin": true,
+        "grantor": "supabase_admin",
+        "inherit": false,
+        "member": "postgres",
+        "parent": "eps_specs_runtime",
+        "set": false
+      }
+    ],
+    "settings": [
+      "log_statement=none",
+      "log_parameter_max_length=0",
+      "log_parameter_max_length_on_error=0",
+      "log_min_error_statement=panic",
+      "log_min_duration_statement=-1",
+      "auto_explain.log_min_duration=-1",
+      "auto_explain.log_parameter_max_length=0",
+      "auto_explain.log_nested_statements=false",
+      "pg_stat_statements.track=none"
+    ]
+  },
+  "secret_recorded": false,
+  "private_file_acl_verified": true,
+  "global_settings_modified": false
+}

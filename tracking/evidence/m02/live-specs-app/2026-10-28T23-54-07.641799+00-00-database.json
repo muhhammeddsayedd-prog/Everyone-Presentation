@@ -1,0 +1,207 @@
+{
+  "observed_at": "2026-10-28T23:54:07.641799+00:00",
+  "target": "pyibofyctwnqpvktepse",
+  "scope": "Actual canonical persisted synthetic app sample metadata readback; separate from UI and component tests",
+  "result": "passed",
+  "checks": {
+    "single_job": true,
+    "succeeded": true,
+    "one_attempt_per_stage": true,
+    "original_utf8_retained": true,
+    "real_provider_metadata": true,
+    "exact_roles_and_slots": true,
+    "all_origins_match": true,
+    "missing_manager_values_not_invented": true,
+    "three_dispatched_stages": true
+  },
+  "sql_sha256": "39a4b4bf16c75b852761c1337d8c381a54ff39c87199d23a01a9c3d8e4e401e2",
+  "observed": {
+    "database": "postgres",
+    "draft": {
+      "current_job_matches": true,
+      "language_codes": [
+        "en",
+        "ar"
+      ],
+      "normalized_english_present": true,
+      "origin_job_matches": true,
+      "role_count": 3,
+      "roles": [
+        {
+          "active_slots": 1,
+          "availability_unprovided": false,
+          "gender_unprovided": false,
+          "headcount": 1,
+          "name": "Father",
+          "origin_job_matches": true,
+          "row_version": 1,
+          "scene_count": 2
+        },
+        {
+          "active_slots": 1,
+          "availability_unprovided": true,
+          "gender_unprovided": true,
+          "headcount": 1,
+          "name": "Manager",
+          "origin_job_matches": true,
+          "row_version": 1,
+          "scene_count": 1
+        },
+        {
+          "active_slots": 3,
+          "availability_unprovided": false,
+          "gender_unprovided": true,
+          "headcount": 3,
+          "name": "Waiter",
+          "origin_job_matches": true,
+          "row_version": 1,
+          "scene_count": 1
+        }
+      ],
+      "row_version": 3,
+      "slot_count": 5,
+      "source_row_version": 2,
+      "spec_id": "73a1a500-acfe-48cc-91ba-53a83b895118"
+    },
+    "events": [
+      {
+        "created_at": "2026-10-28T23:51:48.322836+00:00",
+        "receipt_status": "queued",
+        "sequence": 1,
+        "stage": "prepare_document",
+        "type": "succeeded"
+      },
+      {
+        "created_at": "2026-10-28T23:52:12.103147+00:00",
+        "receipt_status": "queued",
+        "sequence": 1,
+        "stage": "extract_specs",
+        "type": "succeeded"
+      },
+      {
+        "created_at": "2026-10-28T23:52:18.013267+00:00",
+        "receipt_status": "succeeded",
+        "sequence": 1,
+        "stage": "apply_specs",
+        "type": "succeeded"
+      }
+    ],
+    "job": {
+      "completed_stages": [
+        {
+          "attempt_id": "ab2f2737-3de1-4447-a8c2-2ad55aeec3c1",
+          "completed_at": "2026-10-28T23:51:48.312332+00:00",
+          "input_hash": "f3abc8e82a11fe5b93c9d30eeb10d21be787d57c8326e005ff2c4533fd93bb8a",
+          "result": {
+            "stage_output_id": "536ce9e7-121f-4dc8-9e3a-a88a7dd93a28"
+          },
+          "result_schema": "document-preparation.v1",
+          "stage": "prepare_document"
+        },
+        {
+          "attempt_id": "73cb8446-2223-44a3-b534-41b5aac23d72",
+          "completed_at": "2026-10-28T23:52:12.089841+00:00",
+          "input_hash": "f3abc8e82a11fe5b93c9d30eeb10d21be787d57c8326e005ff2c4533fd93bb8a",
+          "result": {
+            "stage_output_id": "b1302e41-68b7-4fe5-a6a4-a140aafbf841"
+          },
+          "result_schema": "specs-extraction-stage.v1",
+          "stage": "extract_specs"
+        },
+        {
+          "attempt_id": "bc72c3ce-abb9-4e99-95a8-07b4de1de237",
+          "completed_at": "2026-10-28T23:52:17.986105+00:00",
+          "input_hash": "f3abc8e82a11fe5b93c9d30eeb10d21be787d57c8326e005ff2c4533fd93bb8a",
+          "result": {
+            "clarification_count": 3,
+            "role_count": 3,
+            "slot_count": 5,
+            "specs_id": "73a1a500-acfe-48cc-91ba-53a83b895118",
+            "workspace_id": "098d5b48-42a3-475b-b562-735c9eafce80"
+          },
+          "result_schema": "specs-application.v1",
+          "stage": "apply_specs"
+        }
+      ],
+      "created_at": "2026-10-28T23:51:42.724779+00:00",
+      "error_code": null,
+      "id": "3ba110dd-711c-4c7f-aa89-0f4578310543",
+      "n8n_execution_id": "31260",
+      "resource_id": "73a1a500-acfe-48cc-91ba-53a83b895118",
+      "row_version": 7,
+      "stage": "apply_specs",
+      "stage_attempts": {
+        "apply_specs": 1,
+        "extract_specs": 1,
+        "prepare_document": 1
+      },
+      "status": "succeeded",
+      "updated_at": "2026-10-28T23:52:17.986105+00:00",
+      "workspace_id": "098d5b48-42a3-475b-b562-735c9eafce80"
+    },
+    "outbox": [
+      {
+        "attempt_count": 1,
+        "delivered_at": "2026-10-28T23:51:46.287825+00:00",
+        "dispatch_generation": 1,
+        "status": "delivered"
+      },
+      {
+        "attempt_count": 1,
+        "delivered_at": "2026-10-28T23:51:53.898051+00:00",
+        "dispatch_generation": 2,
+        "status": "delivered"
+      },
+      {
+        "attempt_count": 1,
+        "delivered_at": "2026-10-28T23:52:16.255853+00:00",
+        "dispatch_generation": 3,
+        "status": "delivered"
+      }
+    ],
+    "provider": {
+      "prompt_sha256": "ab03fd026edb3d139fd93fdd51cb475474d6c4e3c8f6395b65014574e7e29eee",
+      "prompt_version": "spec_extract_v1.0.0",
+      "provider": "openai",
+      "provider_schema_sha256": "d73a11450f2714c5649ab9a663f0a3483f68feefd1f482bc62575a9a608a1216",
+      "request_reference_present": true,
+      "requested_model": "gpt-6.1-sol",
+      "resolved_model": "gpt-6.1-sol",
+      "response_reference_present": true,
+      "schema_sha256": "e8ffee51eee20f687abbfc12c2476248ccb5a59c1122fde418bc89db3ff58085",
+      "schema_version": "1.0",
+      "sdk_version": "7.45.1",
+      "usage": {
+        "input_tokens": 1400,
+        "output_tokens": 1572,
+        "total_tokens": 2972
+      }
+    },
+    "query_role": "postgres",
+    "sample_job_count": 1,
+    "source": {
+      "arabic_preserved": true,
+      "bytes": 1114,
+      "original_hash_verified": true,
+      "original_sha256": "2d267edd68d6b3e3bc1f0a0bf280abafdbc4a7148071f3528a4539673fb3d4fa",
+      "retained_rows": 1
+    },
+    "stages": [
+      {
+        "attempt_id": "ab2f2737-3de1-4447-a8c2-2ad55aeec3c1",
+        "created_at": "2026-10-28T23:51:48.318187+00:00",
+        "result_schema": "document-preparation.v1",
+        "result_sha256": "c9d0e8f9e1334cfcaa4e7bfc62b109f7436c5a351a912627e8f7af80ab3d806c",
+        "stage": "prepare_document"
+      },
+      {
+        "attempt_id": "73cb8446-2223-44a3-b534-41b5aac23d72",
+        "created_at": "2026-10-28T23:52:12.100006+00:00",
+        "result_schema": "specs-extraction-stage.v1",
+        "result_sha256": "9c75f094196f54f6fa653e0763cd6f504268e53051002bf265d68646771648c6",
+        "stage": "extract_specs"
+      }
+    ]
+  },
+  "raw_source_provider_payloads_or_credentials_recorded": false
+}
