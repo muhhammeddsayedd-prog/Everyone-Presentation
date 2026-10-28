@@ -421,7 +421,7 @@ Completion means a permitted human and Claude can independently carry out the re
 
 **Last updated:** 2026-10-28 · **Pack:** 1.0 · **Current milestone:** M01 — in progress
 
-**Current reality:** M00 is verified for the owner-confirmed canonical Supabase system. Five reviewed M01 migrations are applied/read back locally and in cloud; 18 scoped RPCs, 13 forced-RLS app relations and the private branding boundary remain intact. The requested Dummy Test / Dummy Client records now exist. Producer grants await an actual confirmed sign-in. The central dev server was restarted with the private verifier and development upload flag; signed-in Storage acceptance remains unrun. Local DB proof now includes 21 stages and three race pairs, plus a separate 24-action bootstrap rollback. The earlier application checkpoint has 80 tests and four fixture browser journeys; it is not live-user proof. M02 has isolated components; the production app is incomplete.
+**Current reality:** M00 is verified for the owner-confirmed canonical Supabase system. Five reviewed M01 migrations are applied/read back locally and in cloud; 18 scoped RPCs, 13 forced-RLS app relations and the private branding boundary remain intact. The requested Dummy Test / Dummy Client records now exist. Producer grants await an actual confirmed sign-in. The central dev server was restarted with the private verifier and development upload flag; signed-in Storage acceptance remains unrun. Local DB proof now includes 21 stages and three race pairs, plus a separate 24-action bootstrap rollback. The current module suite passes86 tests with lint/typecheck; the earlier four fixture browser journeys/build remain separately timestamped, not fresh live-user proof. M02 has isolated components; the production app is incomplete.
 
 The machine-readable status mirror is [tracking/progress.json](../tracking/progress.json). Update this file and that file together whenever work status changes. Evidence fields must describe actual work only.
 
@@ -431,7 +431,7 @@ The machine-readable status mirror is [tracking/progress.json](../tracking/progr
 |---|---|---|---|---|
 | M00 Discovery and contracts | verified | tracking/discovery/; central-schema-map.yaml | Actual new canonical ownership/auth/history, guarded local replay and provider capability inventory | Continue M01; future provider/release gates remain explicit |
 | M01 Foundation, project and logo | in_progress | apps/web/; packages/domain/; packages/central/; 5 applied migrations | Real cloud schema/readback and local role/race proof; synthetic full UI plus central anonymous UI | Finish scoped central uploads and actual Producer/project journey |
-| M02 Specs, roles and first durable pipeline | in_progress | packages/jobs/; packages/integrations/; apps/worker/ | Isolated rule/adapter/parser tests; no persisted central jobs, workflow or specs UI | Connect transactional repository, scoped assets/services and editable specs slice |
+| M02 Specs, roles and first durable pipeline | in_progress | Existing modules; development/m02/jobs-outbox-candidate.sql; central jobs facade | Candidate real SQL rollback plus six SDK tests; no persisted M02 migration, concurrent/restart/provider/UI proof | Review/freeze local migration and prove durable concurrency/restart, then stage callbacks/specs slice |
 | M03 Media, library and video processing | not_started | None | Real uploads/transcripts/frames; reuse/duplicate handling; independent failures | Depends on M02 |
 | M04 Assignments and final review | not_started | None | Selection/Shortlist rules; one-Main concurrency; edits/confirmation | Depends on M03 |
 | M05 Template, versioning and PDF | not_started | None | Frozen manifests; real viewer/PDF; historical media; render recovery | Depends on M04 |
@@ -445,6 +445,14 @@ The machine-readable status mirror is [tracking/progress.json](../tracking/progr
 `in_progress` or `implemented_unverified → blocked` when a required dependency is unavailable; record the prior state and work still possible. `verified → in_progress` when a later change invalidates acceptance. A milestone with any unrun required integration check cannot be `verified`. Documentation corrections alone do not change implementation status.
 
 ## Session log (append newest first)
+
+### 2026-10-28 - Isolated M02 job/outbox candidate rehearsed
+
+- Added private job/event/outbox candidate DDL, user-scoped get/list/retry/cancel facade and six adversarial SDK tests. No sixth root migration or cloud/service identity was created. The candidate is deliberately unexported/unwired and is not a fake multi-RPC transaction repository.
+- Independent review fixed nullable reason parity and consistent JOB-before-OUTBOX lock order. Root's exact-byte rollback rehearsal passed at08:24:38Z, restoring five migration versions,30 app policies, zero candidate tables/roles/functions and zero fixture counts. Atomic outbox failure, dedupe, denied scopes, lease expiry/stale ACK, retry/cancel budgets and revoked replay are covered. Real two-session/restart/stage/provider/UI proof remains unrun.
+- The first rehearsal failed before DDL because a harness replacement string changed PostgreSQL dollar delimiters. The failure is preserved; callback substitution fixed the harness, the successful composed SQL digest is recorded, and candidate bytes were unchanged.
+- Current npm module suite passes86 tests, with lint/typecheck pass; evidence is in tracking/evidence/m02/candidate/. Operational Python checks pass20 tests (14bootstrap,3release recovery,3source privacy exception). A known-private-material scan preserves the unchanged supplied design reference's existing business contact under an exact-file-hash exception, while refusing any verifier key or new setup identity copy.
+- M01 code/setup checkpoint: b85ee32. The latest actual private-email inspection at08:30:14Z still finds0 accounts; the requested canonical test pair remains ready with no grants/workspace/media. The sign-in and hosted Storage gates remain pending.
 
 ### 2026-10-28 - Owner test records created; scoped logo capability enabled
 
@@ -703,7 +711,7 @@ Chrome browser1 handoff tab1091386187 shows the real sign-in page. It has an ext
 
 The fifth migration advertises client_logo only to an ordinary user with active workspace read/write and at least one writable active canonical project. The app also requires decoder+signer readiness. Every target/storage/completion still validates scope; ready reads/reuse/cancel/replay survive missing verification. Actual signed-in hosted Storage HTTP/upsert/byte acceptance is still unrun. No cloud image bytes are stored.
 
-Owner-requested test records now exist: Dummy Client f4a9937c-f575-4975-bdea-fb83b85e48c3; Dummy Test project4b70c8ce-18bd-4a8c-b5a9-bc1156c06463. These are explicitly supplied test records, not production casting facts or a generic cloud seed. Latest private-email Auth inspection07:57:37Z found0 matching users; grants and workspace remain absent. tools/producer_bootstrap.py preserves protected immutable request/IDs and only writes in durable pending phases. Never prepare fresh IDs, adopt names, recreate confirmed records or restore revoked grants. See tracking/discovery/PRODUCER_BOOTSTRAP.md and its actual cloud/local receipts.
+Owner-requested test records now exist: Dummy Client f4a9937c-f575-4975-bdea-fb83b85e48c3; Dummy Test project4b70c8ce-18bd-4a8c-b5a9-bc1156c06463. These are explicitly supplied test records, not production casting facts or a generic cloud seed. Latest private-email Auth inspection08:30:14Z found0 matching users; grants and workspace remain absent. tools/producer_bootstrap.py preserves protected immutable request/IDs and only writes in durable pending phases. Never prepare fresh IDs, adopt names, recreate confirmed records or restore revoked grants. See tracking/discovery/PRODUCER_BOOTSTRAP.md and its actual cloud/local receipts.
 
 `npm.cmd run dev` is the separately labelled synthetic app. Do not start it on the same occupied port. Fixture Playwright tests own port3100, separate state and build output. The actual local PostgreSQL container is fingerprinted/owned on127.0.0.1:55433. Its Storage catalog is a deliberately simulated SQL fixture, not an Auth/Storage HTTP service. Never reset/seed/start the CLI-linked root. Root config enables the single migration history, disables seeds, and cloud pushes skip Vault.
 
@@ -735,6 +743,16 @@ Local Git only, no remote/push. Initial checkpoints:369a77d, fdf0e11, bf31caa; e
 That earlier code checkpoint includes the source/private-material scan in tracking/evidence/source-logo-checkpoint-scan.json. Post-configuration cloud key ACL/RLS/readiness passed in tracking/evidence/cloud-logo-verifier/readiness.json. A documentation-only follow-up records this commit; consult git log for its own SHA.
 
 Current enrollment/code checkpoint is recorded in Git history after the existing ea05453 documentation seal. New source archive/scan receipts must be refreshed after this checkpoint; do not describe the prior archive hash as current.
+
+## Latest isolated M02 checkpoint
+
+M01 setup/source checkpoint b85ee32 is committed locally. M02 now has a reviewed candidate outside root migrations: development/m02/jobs-outbox-candidate.sql (SHA2566d11982be08f17c435196d60891844b5691a9375af25b7b3e440bf9353506281), assertion file tests/db/m02-jobs-outbox.sql (d6c96529bf1588f9c053c8449b6f2f6bec5ae443263a441b47cbecbd091ff30b), and unexported central jobs.ts facade with six SDK tests. Candidate SQL ran once successfully inside a single real PostgreSQL rollback: tracking/evidence/m02/candidate/2026-10-28T08-24-38-296Z-rollback.json. Five-version history,30policies, all zero fixture counts and zero candidate objects/roles/functions were restored. No sixth migration was created/applied anywhere.
+
+Root full module suite passes86 tests; lint/typecheck pass (same directory). Separate Python operational tests pass20. The earlier4fixture browser/build checkpoint is historical and was not rerun for an unexported backend module. Preserve the earlier failed harness dollar-substitution attempt; the corrected callback composition records submitted SQL SHA256. Review fixed nullable reason parity and JOB-before-OUTBOX locking, with no claimed two-session proof.
+
+M02 next exact step: convert the reviewed candidate to a CLI-created local migration with proper release guards, then prove real concurrent enqueue/claim/cancel and process restart on the owned local DB. Do not push it to cloud or claim durable pipeline completion from rollback proof. Stage claim/callback/apply_specs, source/spec FKs, output reservations, actual service identity, dispatcher/n8n/OpenAI, worker/runtime and specs/Processing API/UI remain unfinished. See tracking/discovery/m02-job-transaction-boundary.md. M01 private sign-in remains the first live user gate, latest Auth lookup08:30:14Z still0.
+
+Fresh hosted Auth ACL metadata at08:34:25Z confirms postgres SELECT plus id-column UPDATE permission needed for the planned FOR SHARE row lock (tracking/evidence/m01/central-enrollment/auth-lock-readiness.json). No Auth row was read/written by that check; the actual signed-in grant transaction remains unrun.
 
 
 ---

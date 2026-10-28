@@ -1,0 +1,68 @@
+{
+  "observed_at": "2026-10-28T08:23:59.899Z",
+  "result": "failed",
+  "environment": "owned isolated local PostgreSQL; synthetic Auth/Storage catalog",
+  "candidate_path": "development/m02/jobs-outbox-candidate.sql",
+  "assertions_path": "tests/db/m02-jobs-outbox.sql",
+  "hashes": {
+    "candidate": "6d11982be08f17c435196d60891844b5691a9375af25b7b3e440bf9353506281",
+    "assertions": "d6c96529bf1588f9c053c8449b6f2f6bec5ae443263a441b47cbecbd091ff30b"
+  },
+  "rolled_back": false,
+  "catalog_and_rows_restored": true,
+  "before": {
+    "versions": [
+      "20261028010943",
+      "20261028013324",
+      "20261028013655",
+      "20261028024205",
+      "20261028072515"
+    ],
+    "row_counts": {
+      "auth": 0,
+      "audit": 0,
+      "clients": 0,
+      "projects": 0,
+      "workspaces": 0,
+      "idempotency": 0,
+      "capabilities": 0,
+      "client_memberships": 0,
+      "project_memberships": 0
+    },
+    "candidate_roles": 0,
+    "app_policy_count": 30,
+    "candidate_tables": 0,
+    "candidate_functions": 0
+  },
+  "after": {
+    "versions": [
+      "20261028010943",
+      "20261028013324",
+      "20261028013655",
+      "20261028024205",
+      "20261028072515"
+    ],
+    "row_counts": {
+      "auth": 0,
+      "audit": 0,
+      "clients": 0,
+      "projects": 0,
+      "workspaces": 0,
+      "idempotency": 0,
+      "capabilities": 0,
+      "client_memberships": 0,
+      "project_memberships": 0
+    },
+    "candidate_roles": 0,
+    "app_policy_count": 30,
+    "candidate_tables": 0,
+    "candidate_functions": 0
+  },
+  "cloud_called": false,
+  "concurrent_sessions_tested": false,
+  "restart_tested": false,
+  "worker_callbacks_tested": false,
+  "provider_called": false,
+  "reason": "ERROR:  syntax error at or near \"$\"\nLINE 1: do $ begin\n           ^\n",
+  "limitations": "Single transaction DDL/role/SQL assertions only; no persisted M02 migration, concurrent claims, process restart, stage callbacks, specs UI or provider acceptance."
+}

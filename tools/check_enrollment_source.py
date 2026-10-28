@@ -9,6 +9,7 @@ import hashlib
 import json
 import subprocess
 import sys
+import zipfile
 
 from package_pack import ROOT, source_files
 
@@ -87,11 +88,33 @@ def main():
         offset = end + size + 2
     if offset != len(packed):
         raise ValueError('Staged blob response had unexpected trailing content.')
-    receipt = {'observed_at': datetime.datetime.now(datetime.timezone.utc).isoformat(), 'result': 'passed' if not working_matches and not staged_matches else 'failed',
+    archive = ROOT / 'dist/Everyone-Presentation-Studio-Source.zip'
+    archive_scan = None
+    if archive.exists():
+        if not archive.resolve().is_relative_to(ROOT.resolve()):
+            raise ValueError('Source archive resolved outside this workspace.')
+        matches = []; inherited = []
+        with zipfile.ZipFile(archive) as bundle:
+            archive_entries = [item for item in bundle.infolist() if not item.is_dir()]
+            if len(archive_entries) > 10000 or sum(item.file_size for item in archive_entries) > 256_000_000:
+                raise ValueError('Source archive exceeds the bounded checkpoint scan.')
+            for item in archive_entries:
+                prefix = ROOT.name + '/'
+                if not item.filename.startswith(prefix) or any(part in ('', '.', '..') for part in item.filename[len(prefix):].split('/')):
+                    raise ValueError('Source archive entry is outside its fixed package root.')
+                category = classify(item.filename[len(prefix):], bundle.read(item), secret_patterns, identity_patterns)
+                if category == 'inherited_reference_contact':
+                    inherited.append(item.filename)
+                elif category:
+                    matches.append(item.filename)
+        archive_scan = {'path': archive.relative_to(ROOT).as_posix(), 'sha256': hashlib.sha256(archive.read_bytes()).hexdigest(),
+                        'entries': len(archive_entries), 'matches': matches, 'preserved_original_reference_contact': inherited}
+    receipt = {'observed_at': datetime.datetime.now(datetime.timezone.utc).isoformat(), 'result': 'passed' if not working_matches and not staged_matches and not (archive_scan and archive_scan['matches']) else 'failed',
                'scope': 'known local private verifier in four encodings and owner email in two encodings; no provider calls',
                'eligible_source_files': len(paths), 'staged_blobs': len(entries), 'working_tree_matches': working_matches, 'staged_matches': staged_matches,
                'preserved_original_reference_contact': {'working_tree': inherited_working, 'staged': inherited_staged,
                   'reason': 'Exact unchanged supplied design document already contained the business contact; no new setup identity copy is allowed. Keys are never exempted.'},
+               'source_archive': archive_scan,
                'private_values_or_digests_recorded': False, 'limitations': 'Does not prove absence of unknown secrets, private traces, provider correctness or production readiness.'}
     output = ROOT / 'tracking/evidence/m01/central-enrollment/source-private-scan.json'
     output.write_text(json.dumps(receipt, indent=2) + '\n', encoding='utf-8')

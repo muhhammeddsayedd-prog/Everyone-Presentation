@@ -72,3 +72,5 @@ The included standalone HTML is a UX reference with simulated AI and permissive 
 See [PACK_VALIDATION.md](PACK_VALIDATION.md) for what was checked in this documentation pack. Application implementation, cloud database execution and production acceptance are separate, future work tracked from M00.
 
 For bounded initial setup, retain the existing private state and use `python -X utf8 tools/producer_bootstrap.py inspect` after the owner signs in, then `grants` when readiness passes. `node tools/test-producer-bootstrap.mjs` rehearses fixed synthetic SQL locally with rollback; it cannot target cloud. Never prepare a second set of IDs for the existing test pair.
+
+The newer isolated M02 checkpoint passes86 module tests, lint/typecheck and a real SQL rollback rehearsal; see [its scope](tracking/discovery/m02-job-transaction-boundary.md). Its candidate has not been persisted or connected to providers/UI. Earlier browser/build results remain historical.

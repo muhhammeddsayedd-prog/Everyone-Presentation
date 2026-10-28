@@ -2,7 +2,7 @@
 
 **Last updated:** 2026-10-28 · **Pack:** 1.0 · **Current milestone:** M01 — in progress
 
-**Current reality:** M00 is verified for the owner-confirmed canonical Supabase system. Five reviewed M01 migrations are applied/read back locally and in cloud; 18 scoped RPCs, 13 forced-RLS app relations and the private branding boundary remain intact. The requested Dummy Test / Dummy Client records now exist. Producer grants await an actual confirmed sign-in. The central dev server was restarted with the private verifier and development upload flag; signed-in Storage acceptance remains unrun. Local DB proof now includes 21 stages and three race pairs, plus a separate 24-action bootstrap rollback. The earlier application checkpoint has 80 tests and four fixture browser journeys; it is not live-user proof. M02 has isolated components; the production app is incomplete.
+**Current reality:** M00 is verified for the owner-confirmed canonical Supabase system. Five reviewed M01 migrations are applied/read back locally and in cloud; 18 scoped RPCs, 13 forced-RLS app relations and the private branding boundary remain intact. The requested Dummy Test / Dummy Client records now exist. Producer grants await an actual confirmed sign-in. The central dev server was restarted with the private verifier and development upload flag; signed-in Storage acceptance remains unrun. Local DB proof now includes 21 stages and three race pairs, plus a separate 24-action bootstrap rollback. The current module suite passes86 tests with lint/typecheck; the earlier four fixture browser journeys/build remain separately timestamped, not fresh live-user proof. M02 has isolated components; the production app is incomplete.
 
 The machine-readable status mirror is [tracking/progress.json](tracking/progress.json). Update this file and that file together whenever work status changes. Evidence fields must describe actual work only.
 
@@ -12,7 +12,7 @@ The machine-readable status mirror is [tracking/progress.json](tracking/progress
 |---|---|---|---|---|
 | M00 Discovery and contracts | verified | tracking/discovery/; central-schema-map.yaml | Actual new canonical ownership/auth/history, guarded local replay and provider capability inventory | Continue M01; future provider/release gates remain explicit |
 | M01 Foundation, project and logo | in_progress | apps/web/; packages/domain/; packages/central/; 5 applied migrations | Real cloud schema/readback and local role/race proof; synthetic full UI plus central anonymous UI | Finish scoped central uploads and actual Producer/project journey |
-| M02 Specs, roles and first durable pipeline | in_progress | packages/jobs/; packages/integrations/; apps/worker/ | Isolated rule/adapter/parser tests; no persisted central jobs, workflow or specs UI | Connect transactional repository, scoped assets/services and editable specs slice |
+| M02 Specs, roles and first durable pipeline | in_progress | Existing modules; development/m02/jobs-outbox-candidate.sql; central jobs facade | Candidate real SQL rollback plus six SDK tests; no persisted M02 migration, concurrent/restart/provider/UI proof | Review/freeze local migration and prove durable concurrency/restart, then stage callbacks/specs slice |
 | M03 Media, library and video processing | not_started | None | Real uploads/transcripts/frames; reuse/duplicate handling; independent failures | Depends on M02 |
 | M04 Assignments and final review | not_started | None | Selection/Shortlist rules; one-Main concurrency; edits/confirmation | Depends on M03 |
 | M05 Template, versioning and PDF | not_started | None | Frozen manifests; real viewer/PDF; historical media; render recovery | Depends on M04 |
@@ -26,6 +26,14 @@ The machine-readable status mirror is [tracking/progress.json](tracking/progress
 `in_progress` or `implemented_unverified → blocked` when a required dependency is unavailable; record the prior state and work still possible. `verified → in_progress` when a later change invalidates acceptance. A milestone with any unrun required integration check cannot be `verified`. Documentation corrections alone do not change implementation status.
 
 ## Session log (append newest first)
+
+### 2026-10-28 - Isolated M02 job/outbox candidate rehearsed
+
+- Added private job/event/outbox candidate DDL, user-scoped get/list/retry/cancel facade and six adversarial SDK tests. No sixth root migration or cloud/service identity was created. The candidate is deliberately unexported/unwired and is not a fake multi-RPC transaction repository.
+- Independent review fixed nullable reason parity and consistent JOB-before-OUTBOX lock order. Root's exact-byte rollback rehearsal passed at08:24:38Z, restoring five migration versions,30 app policies, zero candidate tables/roles/functions and zero fixture counts. Atomic outbox failure, dedupe, denied scopes, lease expiry/stale ACK, retry/cancel budgets and revoked replay are covered. Real two-session/restart/stage/provider/UI proof remains unrun.
+- The first rehearsal failed before DDL because a harness replacement string changed PostgreSQL dollar delimiters. The failure is preserved; callback substitution fixed the harness, the successful composed SQL digest is recorded, and candidate bytes were unchanged.
+- Current npm module suite passes86 tests, with lint/typecheck pass; evidence is in tracking/evidence/m02/candidate/. Operational Python checks pass20 tests (14bootstrap,3release recovery,3source privacy exception). A known-private-material scan preserves the unchanged supplied design reference's existing business contact under an exact-file-hash exception, while refusing any verifier key or new setup identity copy.
+- M01 code/setup checkpoint: b85ee32. The latest actual private-email inspection at08:30:14Z still finds0 accounts; the requested canonical test pair remains ready with no grants/workspace/media. The sign-in and hosted Storage gates remain pending.
 
 ### 2026-10-28 - Owner test records created; scoped logo capability enabled
 

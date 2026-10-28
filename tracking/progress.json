@@ -39,7 +39,8 @@
         "369a77de5de1401723b399ba1440b1575938ac41",
         "fdf0e11",
         "bf31caa",
-        "f6164a7b1ba66e2f2ec746041c6de827bf75edb0"
+        "f6164a7b1ba66e2f2ec746041c6de827bf75edb0",
+        "b85ee32"
       ],
       "migrations": [
         {
@@ -131,12 +132,21 @@
         "apps/worker/",
         "tests/jobs/",
         "tests/integrations/",
-        "tests/worker/"
+        "tests/worker/",
+        "development/m02/jobs-outbox-candidate.sql",
+        "packages/central/src/jobs.ts",
+        "packages/central/test/jobs.test.ts",
+        "tests/db/m02-jobs-outbox.sql",
+        "tools/test-m02-candidate.mjs",
+        "tracking/discovery/m02-job-transaction-boundary.md",
+        "tracking/evidence/m02/candidate/"
       ],
       "blockers": [
-        "Independent components only; no connected central jobs/outbox/worker/n8n/OpenAI/UI flow."
+        "M01 actual confirmed Producer/Storage journey remains unverified.",
+        "M02 job/outbox DDL is a rollback-only local candidate, not a persisted migration; two-session/restart, stage callbacks, scoped source/apply and service identity proof remain unrun.",
+        "Real n8n/OpenAI configuration, representative authorized files and connected worker/API/UI remain unavailable or unfinished."
       ],
-      "next_action": "Implement central transactional repository and scoped service/assets, wire specs/roles/slots API/UI and actual WF-01."
+      "next_action": "Review the rehearsed candidate into a CLI-created local migration with release-independent guards, prove persisted dedupe/claim concurrency and restart durability, then implement stage fencing/output reservations and source-locked specs submit/apply before WF-01/UI/provider acceptance."
     },
     {
       "id": "M03",
@@ -254,5 +264,5 @@
       "scope": "Project-local skill setup only; does not advance app milestones or verify integrations."
     }
   },
-  "notes": "M00 verified for owner-confirmed canonical system. M01 has five applied/read-back migrations,18 scoped RPCs,13 forced-RLS app relations and owner-requested test project/client records; real Auth enrollment and signed-in Storage acceptance remain incomplete. M02 isolated components only. No production app, real AI/n8n processing, PDF/guest/MCP/restore acceptance."
+  "notes": "M00 verified. M01 has five applied/read-back migrations,18scoped RPCs/13forced-RLS app relations and requested canonical test records; actual Producer/Storage journey pending. M02 adds a SQL rollback candidate and six SDK tests, not persisted processing. Current module tests86, Python operational tests20; earlier browser/build evidence stays historical. No production app or real provider/PDF/guest/MCP/restore acceptance."
 }
