@@ -1,0 +1,41 @@
+{
+  "started_at": "2026-10-28T16:32:42.792Z",
+  "mode": "baseline",
+  "result": "failed",
+  "migration": "supabase/migrations/20261028162702_m01_replay_scope_refresh.sql",
+  "migration_sha256": "82a4f2ec03efc0787aa58e5f1e68ab626e5dddb5e4c645444103456757bf4251",
+  "harness_sha256": "c52e4842d2dc27528bd2f8d82f639a02e58935ed7f24a3ca9ef7ac16c0b1bddb",
+  "scope": "fingerprinted owned local PostgreSQL; synthetic Auth catalog and directly seeded replay cache, no Auth/Storage HTTP",
+  "cloud_called": false,
+  "service_credentials_used": false,
+  "cases": [],
+  "cleanup": {
+    "attempted": true,
+    "result": "passed"
+  },
+  "limitations": "Tests idempotency wait/revocation only; no real media transfer, receipt MAC acceptance, later row-lock revocation, provider or UI claim.",
+  "before": {
+    "auth": 0,
+    "audit": 0,
+    "media": 0,
+    "clients": 0,
+    "presets": 3,
+    "uploads": 0,
+    "projects": 0,
+    "workspaces": 0,
+    "idempotency": 0
+  },
+  "reason": "ERROR:  AUTH_REQUIRED\nDETAIL:  {\"status\": 401, \"message\": \"Sign in to continue.\"}\nCONTEXT:  PL/pgSQL function eps.fail(text,text,integer,bigint) line 2 at RAISE\nSQL statement \"SELECT eps.fail('AUTH_REQUIRED','Sign in to continue.',401)\"\nPL/pgSQL function eps.require_capability(text) line 2 at PERFORM\nSQL statement \"SELECT eps.require_capability('projects.write')\"\nPL/pgSQL function public.eps_update_project(uuid,jsonb,text) line 2 at PERFORM\n",
+  "after": {
+    "auth": 0,
+    "audit": 0,
+    "media": 0,
+    "clients": 0,
+    "presets": 3,
+    "uploads": 0,
+    "projects": 0,
+    "workspaces": 0,
+    "idempotency": 0
+  },
+  "finished_at": "2026-10-28T16:32:53.574Z"
+}

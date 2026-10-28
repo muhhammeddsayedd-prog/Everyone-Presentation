@@ -30,6 +30,12 @@
       "sha256": "4dbd400092d7743b02dd0769ae511c208e6f4f349428fc0e7f0fb9c573ba4b24",
       "reviewed_by": "root authorized guarded LOCAL replay; discovery agent static review of scoped capability metadata and rollback fixtures; cloud review pending",
       "reviewed_at": "2026-10-28T07:36:02.282159+00:00"
+    },
+    {
+      "path": "supabase/migrations/20261028162702_m01_replay_scope_refresh.sql",
+      "sha256": "82a4f2ec03efc0787aa58e5f1e68ab626e5dddb5e4c645444103456757bf4251",
+      "reviewed_by": "root implementation and discovery_review independent exact-byte SQL review; local-only replay authorization",
+      "reviewed_at": "2026-10-28T16:37:19.111124+00:00"
     }
   ],
   "tests": [

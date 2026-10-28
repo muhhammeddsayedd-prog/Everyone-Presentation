@@ -1,0 +1,173 @@
+{
+  "started_at": "2026-10-28T16:37:25.916Z",
+  "mode": "fixed",
+  "result": "passed",
+  "migration": "supabase/migrations/20261028162702_m01_replay_scope_refresh.sql",
+  "migration_sha256": "82a4f2ec03efc0787aa58e5f1e68ab626e5dddb5e4c645444103456757bf4251",
+  "harness_sha256": "d86fab248876f325071ac40bcced8065e70323b9f897b770e20699624bf446e4",
+  "scope": "fingerprinted owned local PostgreSQL; synthetic Auth catalog and directly seeded replay cache, no Auth/Storage HTTP",
+  "cloud_called": false,
+  "service_credentials_used": false,
+  "cases": [
+    {
+      "name": "project",
+      "operation": "update_project",
+      "revoke": "membership",
+      "holder_pid": 191603,
+      "waiter_pid": 191624,
+      "exact_advisory_wait_observed": true,
+      "legitimate_replay_passed": true,
+      "denied_after_concurrent_revocation": true,
+      "code": "RESOURCE_NOT_FOUND",
+      "composed_input_sha256": "3d60c9a5995eabd9c4a3f7f7dd62b24b2309b6af47cd286a357a535ee75b7798"
+    },
+    {
+      "name": "client",
+      "operation": "update_project",
+      "revoke": "client",
+      "holder_pid": 191695,
+      "waiter_pid": 191737,
+      "exact_advisory_wait_observed": true,
+      "legitimate_replay_passed": true,
+      "denied_after_concurrent_revocation": true,
+      "code": "CAPABILITY_REQUIRED",
+      "composed_input_sha256": "62b5fad6379b57ffe4d5162c21589deb928184400a7df6c6c47750af5a02924c"
+    },
+    {
+      "name": "create-workspace",
+      "operation": "create_workspace",
+      "revoke": "membership",
+      "holder_pid": 191806,
+      "waiter_pid": 191828,
+      "exact_advisory_wait_observed": true,
+      "legitimate_replay_passed": true,
+      "denied_after_concurrent_revocation": true,
+      "code": "RESOURCE_NOT_FOUND",
+      "composed_input_sha256": "853f6a3a979d49cfc5166f7871156cb6c35e99d1d798a96ead4952f467d2c74d"
+    },
+    {
+      "name": "workspace",
+      "operation": "update_workspace",
+      "revoke": "membership",
+      "holder_pid": 191900,
+      "waiter_pid": 191914,
+      "exact_advisory_wait_observed": true,
+      "legitimate_replay_passed": true,
+      "denied_after_concurrent_revocation": true,
+      "code": "RESOURCE_NOT_FOUND",
+      "composed_input_sha256": "3ee796c1c9318464a06eb8461fdba8d53c275afbaaa67d68a5034a107831fe08"
+    },
+    {
+      "name": "reserve",
+      "operation": "create_upload_session",
+      "revoke": "membership",
+      "holder_pid": 191983,
+      "waiter_pid": 192005,
+      "exact_advisory_wait_observed": true,
+      "legitimate_replay_passed": true,
+      "denied_after_concurrent_revocation": true,
+      "code": "RESOURCE_NOT_FOUND",
+      "composed_input_sha256": "843068ea602ae9a00b4abc14d1091fbeb8e6423ea8d8f41d8aad7fd03c936644"
+    },
+    {
+      "name": "prepare",
+      "operation": "complete_upload",
+      "revoke": "membership",
+      "holder_pid": 192075,
+      "waiter_pid": 192096,
+      "exact_advisory_wait_observed": true,
+      "legitimate_replay_passed": true,
+      "denied_after_concurrent_revocation": true,
+      "code": "RESOURCE_NOT_FOUND",
+      "composed_input_sha256": "48ae604454afd1f797d1f7b2d40f671fd3d07b660eccd0a74e33c95432c65e8e"
+    },
+    {
+      "name": "finalize",
+      "operation": "complete_upload",
+      "revoke": "membership",
+      "holder_pid": 192160,
+      "waiter_pid": 192182,
+      "exact_advisory_wait_observed": true,
+      "legitimate_replay_passed": true,
+      "denied_after_concurrent_revocation": true,
+      "code": "RESOURCE_NOT_FOUND",
+      "composed_input_sha256": "48ae604454afd1f797d1f7b2d40f671fd3d07b660eccd0a74e33c95432c65e8e"
+    },
+    {
+      "name": "cancel",
+      "operation": "cancel_upload",
+      "revoke": "membership",
+      "holder_pid": 192251,
+      "waiter_pid": 192273,
+      "exact_advisory_wait_observed": true,
+      "legitimate_replay_passed": true,
+      "denied_after_concurrent_revocation": true,
+      "code": "RESOURCE_NOT_FOUND",
+      "composed_input_sha256": "25870faabdc28e839085a2eabaef3ffec2e1bc34c7993ec65cdac39a110308f4"
+    },
+    {
+      "name": "create-preset",
+      "operation": "create_audience_preset",
+      "revoke": "settings",
+      "holder_pid": 192342,
+      "waiter_pid": 192357,
+      "exact_advisory_wait_observed": true,
+      "legitimate_replay_passed": true,
+      "denied_after_concurrent_revocation": true,
+      "code": "CAPABILITY_REQUIRED",
+      "composed_input_sha256": "a37f27227cf72052cb194a52ef5e36a21b057baa728a06cb3f54dcc3749982a6"
+    },
+    {
+      "name": "update-preset",
+      "operation": "update_audience_preset",
+      "revoke": "settings",
+      "holder_pid": 192428,
+      "waiter_pid": 192449,
+      "exact_advisory_wait_observed": true,
+      "legitimate_replay_passed": true,
+      "denied_after_concurrent_revocation": true,
+      "code": "CAPABILITY_REQUIRED",
+      "composed_input_sha256": "e65bb19b55c58620b1e18daac9c7a4694494d423b2da671762dc244cfa215c98"
+    },
+    {
+      "name": "archive-preset",
+      "operation": "archive_audience_preset",
+      "revoke": "settings",
+      "holder_pid": 192521,
+      "waiter_pid": 192556,
+      "exact_advisory_wait_observed": true,
+      "legitimate_replay_passed": true,
+      "denied_after_concurrent_revocation": true,
+      "code": "CAPABILITY_REQUIRED",
+      "composed_input_sha256": "4f7937ac7c51f1771e85a540cb80bdf46150aa4430b305d7d705c945ba2514e0"
+    }
+  ],
+  "cleanup": {
+    "attempted": true,
+    "result": "passed"
+  },
+  "limitations": "Tests idempotency wait/revocation only; no real media transfer, receipt MAC acceptance, later row-lock revocation, provider or UI claim.",
+  "before": {
+    "auth": 0,
+    "audit": 0,
+    "media": 0,
+    "clients": 0,
+    "presets": 3,
+    "uploads": 0,
+    "projects": 0,
+    "workspaces": 0,
+    "idempotency": 0
+  },
+  "after": {
+    "auth": 0,
+    "audit": 0,
+    "media": 0,
+    "clients": 0,
+    "presets": 3,
+    "uploads": 0,
+    "projects": 0,
+    "workspaces": 0,
+    "idempotency": 0
+  },
+  "finished_at": "2026-10-28T16:38:40.784Z"
+}

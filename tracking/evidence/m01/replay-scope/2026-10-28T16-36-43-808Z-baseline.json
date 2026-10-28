@@ -1,0 +1,173 @@
+{
+  "started_at": "2026-10-28T16:35:32.684Z",
+  "mode": "baseline",
+  "result": "vulnerability_reproduced",
+  "migration": "supabase/migrations/20261028162702_m01_replay_scope_refresh.sql",
+  "migration_sha256": "82a4f2ec03efc0787aa58e5f1e68ab626e5dddb5e4c645444103456757bf4251",
+  "harness_sha256": "efbfd4bffd00983a755bb85d5c692d29bdea2ae8ba4e2b37331190af6543f46f",
+  "scope": "fingerprinted owned local PostgreSQL; synthetic Auth catalog and directly seeded replay cache, no Auth/Storage HTTP",
+  "cloud_called": false,
+  "service_credentials_used": false,
+  "cases": [
+    {
+      "name": "project",
+      "operation": "update_project",
+      "revoke": "membership",
+      "holder_pid": 190335,
+      "waiter_pid": 190350,
+      "exact_advisory_wait_observed": true,
+      "legitimate_replay_passed": true,
+      "denied_after_concurrent_revocation": false,
+      "code": null,
+      "composed_input_sha256": "3d60c9a5995eabd9c4a3f7f7dd62b24b2309b6af47cd286a357a535ee75b7798"
+    },
+    {
+      "name": "client",
+      "operation": "update_project",
+      "revoke": "client",
+      "holder_pid": 190421,
+      "waiter_pid": 190442,
+      "exact_advisory_wait_observed": true,
+      "legitimate_replay_passed": true,
+      "denied_after_concurrent_revocation": false,
+      "code": null,
+      "composed_input_sha256": "62b5fad6379b57ffe4d5162c21589deb928184400a7df6c6c47750af5a02924c"
+    },
+    {
+      "name": "create-workspace",
+      "operation": "create_workspace",
+      "revoke": "membership",
+      "holder_pid": 190512,
+      "waiter_pid": 190534,
+      "exact_advisory_wait_observed": true,
+      "legitimate_replay_passed": true,
+      "denied_after_concurrent_revocation": false,
+      "code": null,
+      "composed_input_sha256": "853f6a3a979d49cfc5166f7871156cb6c35e99d1d798a96ead4952f467d2c74d"
+    },
+    {
+      "name": "workspace",
+      "operation": "update_workspace",
+      "revoke": "membership",
+      "holder_pid": 190607,
+      "waiter_pid": 190621,
+      "exact_advisory_wait_observed": true,
+      "legitimate_replay_passed": true,
+      "denied_after_concurrent_revocation": false,
+      "code": null,
+      "composed_input_sha256": "3ee796c1c9318464a06eb8461fdba8d53c275afbaaa67d68a5034a107831fe08"
+    },
+    {
+      "name": "reserve",
+      "operation": "create_upload_session",
+      "revoke": "membership",
+      "holder_pid": 190690,
+      "waiter_pid": 190712,
+      "exact_advisory_wait_observed": true,
+      "legitimate_replay_passed": true,
+      "denied_after_concurrent_revocation": true,
+      "code": "RESOURCE_NOT_FOUND",
+      "composed_input_sha256": "843068ea602ae9a00b4abc14d1091fbeb8e6423ea8d8f41d8aad7fd03c936644"
+    },
+    {
+      "name": "prepare",
+      "operation": "complete_upload",
+      "revoke": "membership",
+      "holder_pid": 190784,
+      "waiter_pid": 190819,
+      "exact_advisory_wait_observed": true,
+      "legitimate_replay_passed": true,
+      "denied_after_concurrent_revocation": false,
+      "code": null,
+      "composed_input_sha256": "48ae604454afd1f797d1f7b2d40f671fd3d07b660eccd0a74e33c95432c65e8e"
+    },
+    {
+      "name": "finalize",
+      "operation": "complete_upload",
+      "revoke": "membership",
+      "holder_pid": 190888,
+      "waiter_pid": 190910,
+      "exact_advisory_wait_observed": true,
+      "legitimate_replay_passed": true,
+      "denied_after_concurrent_revocation": false,
+      "code": null,
+      "composed_input_sha256": "48ae604454afd1f797d1f7b2d40f671fd3d07b660eccd0a74e33c95432c65e8e"
+    },
+    {
+      "name": "cancel",
+      "operation": "cancel_upload",
+      "revoke": "membership",
+      "holder_pid": 190982,
+      "waiter_pid": 190996,
+      "exact_advisory_wait_observed": true,
+      "legitimate_replay_passed": true,
+      "denied_after_concurrent_revocation": false,
+      "code": null,
+      "composed_input_sha256": "25870faabdc28e839085a2eabaef3ffec2e1bc34c7993ec65cdac39a110308f4"
+    },
+    {
+      "name": "create-preset",
+      "operation": "create_audience_preset",
+      "revoke": "settings",
+      "holder_pid": 191066,
+      "waiter_pid": 191088,
+      "exact_advisory_wait_observed": true,
+      "legitimate_replay_passed": true,
+      "denied_after_concurrent_revocation": false,
+      "code": null,
+      "composed_input_sha256": "a37f27227cf72052cb194a52ef5e36a21b057baa728a06cb3f54dcc3749982a6"
+    },
+    {
+      "name": "update-preset",
+      "operation": "update_audience_preset",
+      "revoke": "settings",
+      "holder_pid": 191158,
+      "waiter_pid": 191180,
+      "exact_advisory_wait_observed": true,
+      "legitimate_replay_passed": true,
+      "denied_after_concurrent_revocation": false,
+      "code": null,
+      "composed_input_sha256": "e65bb19b55c58620b1e18daac9c7a4694494d423b2da671762dc244cfa215c98"
+    },
+    {
+      "name": "archive-preset",
+      "operation": "archive_audience_preset",
+      "revoke": "settings",
+      "holder_pid": 191249,
+      "waiter_pid": 191264,
+      "exact_advisory_wait_observed": true,
+      "legitimate_replay_passed": true,
+      "denied_after_concurrent_revocation": false,
+      "code": null,
+      "composed_input_sha256": "4f7937ac7c51f1771e85a540cb80bdf46150aa4430b305d7d705c945ba2514e0"
+    }
+  ],
+  "cleanup": {
+    "attempted": true,
+    "result": "passed"
+  },
+  "limitations": "Tests idempotency wait/revocation only; no real media transfer, receipt MAC acceptance, later row-lock revocation, provider or UI claim.",
+  "before": {
+    "auth": 0,
+    "audit": 0,
+    "media": 0,
+    "clients": 0,
+    "presets": 3,
+    "uploads": 0,
+    "projects": 0,
+    "workspaces": 0,
+    "idempotency": 0
+  },
+  "after": {
+    "auth": 0,
+    "audit": 0,
+    "media": 0,
+    "clients": 0,
+    "presets": 3,
+    "uploads": 0,
+    "projects": 0,
+    "workspaces": 0,
+    "idempotency": 0
+  },
+  "finished_at": "2026-10-28T16:36:43.808Z"
+}

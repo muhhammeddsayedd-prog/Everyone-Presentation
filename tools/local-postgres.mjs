@@ -132,6 +132,26 @@ export async function verifyLocalTarget() {
   if (expected.system_identifier !== observed.system_identifier || expected.workspace_key !== WORKSPACE_KEY || expected.instance_id !== runtime.owned.instance_id) fail('Database fingerprint differs from the recorded owned local volume.');
   return { ...runtime, observed };
 }
+/** Restart only this fingerprinted local container; never remove its volume. */
+export async function restartOwnedLocalTarget(expectedSystemIdentifier) {
+  const before = await verifyLocalTarget();
+  if (typeof expectedSystemIdentifier !== 'string' || expectedSystemIdentifier !== before.observed.system_identifier) fail('Restart requires the current owned local database fingerprint.');
+  const sessions = await psql(before.config.container, "begin read only; select count(*) from pg_stat_activity where backend_type='client backend' and pid<>pg_backend_pid(); rollback;");
+  if (sessions.stdout.trim() !== '0') fail('Local restart refuses other connected client sessions. Preserve their work.');
+  await command(['restart', '--time', '15', before.config.container], { timeout: 45_000 });
+  let ready = false;
+  for (let attempt = 0; attempt < 30; attempt++) {
+    const probe = await command(['exec', before.config.container, 'pg_isready', '-U', 'postgres', '-d', 'postgres'], { allowFailure: true, timeout: 3000 });
+    if (probe.code === 0) { ready = true; break; }
+    await new Promise(done => setTimeout(done, 1000));
+  }
+  if (!ready) fail('Owned local PostgreSQL did not recover after restart. No reset/removal was attempted.');
+  const after = await verifyLocalTarget();
+  if (after.observed.system_identifier !== expectedSystemIdentifier || after.container.Id !== before.container.Id) fail('Restart changed the owned database/container identity.');
+  return receipt('durability-restart', { container: after.config.container, system_identifier: after.observed.system_identifier,
+    same_container: true, same_volume: true, host_ip: '127.0.0.1', host_port: after.config.host_port,
+    scope: 'graceful owned local PostgreSQL container restart only; no process-kill/power-loss/cloud/provider proof' });
+}
 async function inspectManagedAuthPrivileges() {
   const { config } = await verifyLocalTarget();
   const sql = "begin read only; select json_build_object('query_role',current_user,'auth_schema_owner',(select pg_get_userbyid(nspowner) from pg_namespace where nspname='auth'),'anon_auth_usage',has_schema_privilege('anon','auth','USAGE'),'authenticated_auth_usage',has_schema_privilege('authenticated','auth','USAGE'),'postgres_auth_usage',has_schema_privilege('postgres','auth','USAGE'),'eps_api_owner_auth_usage',case when exists(select 1 from pg_roles where rolname='eps_api_owner') then has_schema_privilege('eps_api_owner','auth','USAGE') else null end,'postgres_auth_grant_option',has_schema_privilege('postgres','auth','USAGE WITH GRANT OPTION'),'postgres_uid_grant_option',has_function_privilege('postgres','auth.uid()','EXECUTE WITH GRANT OPTION'),'postgres_jwt_grant_option',has_function_privilege('postgres','auth.jwt()','EXECUTE WITH GRANT OPTION'),'postgres_authenticated_membership',(select json_build_object('admin',m.admin_option,'inherit',m.inherit_option,'set',m.set_option) from pg_auth_members m join pg_roles parent on parent.oid=m.roleid join pg_roles child on child.oid=m.member where parent.rolname='authenticated' and child.rolname='postgres'),'existing_app_tables',(select count(*) from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='eps' and c.relkind='r')); commit;\n";
@@ -279,6 +299,16 @@ async function reviewedFile(relative, kind, reviewGroup = kind) {
   return { entry, sql, normalized };
 }
 function localGuardSql(owned) { return `do $guard$ begin if current_database()<>'postgres' or not exists(select 1 from eps_local_guard.instance where id=1 and workspace_key='${WORKSPACE_KEY}' and instance_id='${owned.instance_id}'::uuid) then raise exception 'VERIFIED_LOCAL_TARGET_REQUIRED'; end if; end $guard$;\n`; }
+/** Internal fixed/reviewed-runner seam, never a CLI accepting arbitrary SQL.
+ * Output stays in caller memory; callers must redact private lease values and
+ * verify exact source hashes before executing mutating statements.
+ */
+export async function runOwnedLocalSql(sql) {
+  if (typeof sql !== 'string' || Buffer.byteLength(sql,'utf8')>512*1024 || /^\s*\\/mu.test(sql)) fail('Owned SQL requires bounded fixed statements without psql metacommands.');
+  const { config, owned, observed } = await verifyLocalTarget();
+  const result = await psql(config.container, localGuardSql(owned) + `set lock_timeout='5s'; set statement_timeout='30s'; select set_config('eps.local_fixture_tests','${config.container}',false);\n` + sql);
+  return { stdout: result.stdout, stderr: result.stderr, system_identifier: observed.system_identifier, container: config.container };
+}
 async function probeLogoBoundary() {
   const { config, owned } = await verifyLocalTarget();
   const migration = await reviewedFile('supabase/migrations/20261028024205_m01_private_logo_boundary.sql', 'migrations', 'candidate_reviews');

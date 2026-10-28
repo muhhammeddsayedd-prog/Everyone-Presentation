@@ -1,0 +1,29 @@
+{
+  "started_at": "2026-10-28T16:32:32.786Z",
+  "mode": "baseline",
+  "result": "failed",
+  "migration": "supabase/migrations/20261028162702_m01_replay_scope_refresh.sql",
+  "migration_sha256": "82a4f2ec03efc0787aa58e5f1e68ab626e5dddb5e4c645444103456757bf4251",
+  "harness_sha256": "b9e66a1a56d6291d6e7be0e869cde26dca2954ef8f33aea694b3aa243f0e5c9c",
+  "scope": "fingerprinted owned local PostgreSQL; synthetic Auth catalog and directly seeded replay cache, no Auth/Storage HTTP",
+  "cloud_called": false,
+  "service_credentials_used": false,
+  "cases": [],
+  "cleanup": {
+    "attempted": false
+  },
+  "limitations": "Tests idempotency wait/revocation only; no real media transfer, receipt MAC acceptance, later row-lock revocation, provider or UI claim.",
+  "before": {
+    "auth": 0,
+    "audit": 0,
+    "media": 0,
+    "clients": 0,
+    "presets": 3,
+    "uploads": 0,
+    "projects": 0,
+    "workspaces": 0,
+    "idempotency": 0
+  },
+  "reason": "ERROR:  syntax error at or near \")\"\nLINE 1: ...rations.schema_migrations where version='20261028162702')));\n                                                                     ^\n",
+  "finished_at": "2026-10-28T16:32:36.706Z"
+}
