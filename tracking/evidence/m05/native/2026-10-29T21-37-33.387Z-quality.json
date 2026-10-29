@@ -1,0 +1,23 @@
+{
+  "observed_at": "2026-10-29T21:37:49.884Z",
+  "scope": "offline_synthetic_native_and_runtime_regression",
+  "command": [
+    "node",
+    "tools/run-tests.mjs",
+    "tests/worker/presentation-*.test.ts",
+    "tests/worker/review-fit.test.ts",
+    "tests/worker/review-fit-stage-executor.test.ts",
+    "tests/worker/review-runtime.test.ts",
+    "tests/worker/startup.test.ts",
+    "packages/central/test/specs-runtime-gateway.test.ts"
+  ],
+  "exit_code": 0,
+  "elapsed_ms": 16497,
+  "tests": 67,
+  "passed": 67,
+  "failed": 0,
+  "stdout_sha256": "eb866cf18a8b5edf09c5d009c7ff502a245df8c2b3ab292ade647caf3ad9924e",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "cloud_or_provider_called": false,
+  "real_cast_or_private_media_used": false
+}

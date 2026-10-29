@@ -1,0 +1,43 @@
+{
+  "observed_at": "2026-10-29T22:21:44.128552+00:00",
+  "result": "passed_offline_activation_preparation",
+  "source_sha256": {
+    "tools/enable_m05_presentation.py": "a2efbb829d2b222d68abd278d31c010a3654dc9df2041b796acd6fe5ef5f41d9",
+    "development/m05/presentation-activation.json": "a9d88a0ceccfe98372829ff2a3069c94cddf37c490a1fb06382cacc15b4536a7",
+    "development/m05/enable-presentation-processing.sql": "2188b95f79344af181430b5c0bd75b686176da11fa08e4aaf109d65716417105",
+    "tools/sql/m05-presentation-readiness.sql": "9edbac4c6ec2f437efaf1621b8e8792b4070e739dd85dd3382a6cc04c5cd4e78",
+    "tests/operations/test_m05_presentation_enable.py": "430b68a3b9879cc34a6f840e09b38197c0cfe072c12279e1ff03b74157ebf443"
+  },
+  "activation_source_seals": 39,
+  "no_cli_current_inputs": "passed",
+  "offline_guards": {
+    "tests": 6,
+    "failed": 0,
+    "command": "python -X utf8 -m unittest discover -s tests/operations -p test_m05_presentation_enable.py"
+  },
+  "bound_cloud_reconciliation": {
+    "path": "tracking/evidence/cloud-m05-presentations/2026-10-29T22-18-18-933100Z-c8396a58-managed-bucket-reconciliation.json",
+    "sha256": "9a9de01c0b463134e9abe43d5c03ae1ad0bb265e366f7303124eb465fa49e1a0"
+  },
+  "bound_actual_startup": {
+    "path": "tracking/evidence/m05/presentation-runtime/2026-10-29T22-18-48-194Z-b4c69635.json",
+    "sha256": "c623e5a9f0d0b074262f4f12435491a09317e8f915268e9b242ea4390b671648"
+  },
+  "bound_live_workflow_probe": {
+    "path": "tracking/evidence/m05/n8n-wf03/2026-10-29T21-56-23-452Z-c2a6be14-probe.json",
+    "sha256": "64de6129499fe780416d1499f59fc405f2a6289363695e8156b48af79267b4bd"
+  },
+  "bound_local_readiness": {
+    "path": "tracking/evidence/m05/readiness-local/2026-10-29T22-15-27-174Z-857c29d1.json",
+    "sha256": "7cc85841379016c74e9eee551f690345bd144d49a6c8ade71cea87e1c9b18aca"
+  },
+  "local_synthetic_preconditions_and_outer_rollback": true,
+  "enabled_configuration_sha256": "69388df849f89243bf156ce081ef69baf3f0a97d404a6a1fa29517a81cb6ffcc",
+  "independent_source_review": "clear",
+  "cloud_called": false,
+  "private_credentials_read": false,
+  "provider_called": false,
+  "browser_called": false,
+  "database_executed_by_this_preparation": false,
+  "boundary": "Startup instantiation verifies the complete authenticated gateway; root owns old-worker idle/ownership/stop/restart and actual enable. This preparation does not enable processing or attest a running background worker."
+}

@@ -153,6 +153,28 @@ test('candidate ports require an explicit enable flag without broadening the aud
   const denied=fixture();await assert.rejects(createSpecsRuntimeGateway(readSpecsRuntimeConfig(env),{poolFactory:denied.factory},undefined,undefined,true),runtimeError('RUNTIME_CONFIG_INVALID','known'));
   assert.equal(denied.configuration(),undefined);
 });
+test('presentation asset ports reuse the same eleven audited functions and require explicit file mode', async () => {
+  const f = fixture(); const files = { storageOrigin: 'https://pyibofyctwnqpvktepse.supabase.co', publishableKey: 'sb_publishable_synthetic_public_file_key' };
+  const gateway = await createSpecsRuntimeGateway(readSpecsRuntimeConfig(env), { poolFactory: f.factory }, files, { keyId: 'synthetic-replay', encryptionKey: 'd'.repeat(64) }, true, true);
+  assert.equal(typeof gateway.presentationFiles?.getAssetAccess, 'function'); assert.equal(gateway.verifiedFunctionOperations, 11);
+  const image = '78900000-0000-4000-8000-000000000004';
+  f.setResponse({ asset_id: image, bucket: 'eps-brand-assets', object_key: `assets/${image}/original.png`, permission: 'read', grant_token: 'c'.repeat(43), expires_at: future, mime_type: 'image/png', size_bytes: 100, sha256: inputHash });
+  const access = await gateway.presentationFiles!.getAssetAccess({ ...scope, asset_id: image, access: 'read' }, AbortSignal.timeout(1000)); assert.equal(access.url, `${files.storageOrigin}/storage/v1/object/authenticated/eps-brand-assets/assets/${image}/original.png`);
+  const calls = f.queries.filter(query => query.text.startsWith('select eps.')); assert.equal(calls.length, 1); assert.equal(calls[0].text, 'select eps.get_job_asset_access($1::jsonb) as value'); assert.equal(calls[0].text.includes(scope.lease_token), false);
+  await gateway.close(); const denied = fixture(); await assert.rejects(createSpecsRuntimeGateway(readSpecsRuntimeConfig(env), { poolFactory: denied.factory }, undefined, undefined, false, true), runtimeError('RUNTIME_CONFIG_INVALID', 'known')); assert.equal(denied.configuration(), undefined);
+});
+test('frozen presentation read envelope has a bounded larger transport; claims and callbacks remain small metadata', async () => {
+  const f = fixture(); const gateway = await createSpecsRuntimeGateway(readSpecsRuntimeConfig(env), { poolFactory: f.factory });
+  f.setResponse({ job_id: job, attempt_id: attempt, stage: 'prepare_presentation', snapshot: { synthetic: 'x'.repeat(300000) } });
+  assert.equal(typeof await gateway.getInput(scope, AbortSignal.timeout(1000)), 'object');
+  f.setResponse({ job_id: job, attempt_id: attempt, stage: 'prepare_presentation', snapshot: { synthetic: 'x'.repeat(16 * 1024 * 1024) } });
+  await assert.rejects(gateway.getInput(scope, AbortSignal.timeout(1000)), runtimeError('INVALID_REQUEST', 'known'));
+  f.setResponse({ ...lease, stage: 'prepare_presentation', input: { input_hash: inputHash, synthetic: 'x'.repeat(300000) } });
+  await assert.rejects(gateway.claim({ job_id: job, stage: 'prepare_presentation', input_hash: inputHash }), runtimeError('INVALID_REQUEST', 'known'));
+  const count = f.queries.filter(query => query.text.startsWith('select eps.')).length;
+  await assert.rejects(gateway.recordEvent({ ...scope, event_id: eventId, stage: 'render_presentation', input_hash: inputHash, sequence: 1, event_type: 'succeeded', result_schema: 'presentation-rendering.v1', result: { bytes: 'x'.repeat(300000) } }, AbortSignal.timeout(1000)), runtimeError('INVALID_REQUEST', 'known'));
+  assert.equal(f.queries.filter(query => query.text.startsWith('select eps.')).length, count); await gateway.close();
+});
 test('HTTP claim replay requires its private key config and uses one exact parameterized function without logging its key', async () => {
   const f=fixture(); const replay={ keyId:'synthetic-replay-v1',encryptionKey:'d'.repeat(64) };
   const gateway=await createSpecsRuntimeGateway(readSpecsRuntimeConfig(env),{ poolFactory:f.factory },undefined,replay);

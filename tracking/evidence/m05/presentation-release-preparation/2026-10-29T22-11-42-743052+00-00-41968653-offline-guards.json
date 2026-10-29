@@ -1,0 +1,43 @@
+{
+  "observed_at": "2026-10-29T22:11:42.743052+00:00",
+  "result": "passed_offline_release_preparation",
+  "migration": "20261029215218_m05_immutable_presentation_versions.sql",
+  "migration_sha256": "09d78c225ca02d436a8b1c2bcc6e55f273dfea116976807af4a8b228b99de5f4",
+  "sources_stable": true,
+  "source_sha256": {
+    "tools/release_m05_presentations.py": "a941afff23c1859d0abd16acdae798849456309bfade72bd27691471fe5f1027",
+    "tools/prepare_m05_presentation_readback.py": "1a3b626823636a8cde1cda55bb916c6ed7400bda22575c746c6baf8906ca0d15",
+    "tools/sql/m05-presentation-new-state.sql": "8e0bbcabd7a622bca69f1e4dc8b8d14a388dd65bad160521adb8e404fd139603",
+    "tests/operations/test_m05_presentation_release.py": "35e4e43c491a5260e662081439204f12b74139c5e1b60299490b0300fd977275",
+    "development/m05/presentation-release.json": "e6ab4b3d468685b18724663337629afb7353e24bab155057a16667c35affbcf8",
+    "development/m05/presentation-release-delta.json": "4fab3dbe3dcf1c153d39b6064abfe1e5496f16e81334e5faecd11d5c7037e7cf",
+    "tools/sql/m05-presentation-readback.sql": "66234c4fda6d3273a4b55dc4e6554127dc1e1eba173a1f96c0b910b942e811f8"
+  },
+  "source_seals_validated": 39,
+  "history_length": 24,
+  "offline_guards": {
+    "command": "python -X utf8 -m unittest discover -s tests/operations -p test_m05_presentation_release.py",
+    "tests": 15,
+    "failed": 0,
+    "exit_code": 0
+  },
+  "actual_local_candidate_and_promotion_bound": true,
+  "actual_two_actor_race_bound": true,
+  "no_cli_current_release_inputs": "passed",
+  "cloud_called": false,
+  "private_credentials_read": false,
+  "provider_called": false,
+  "browser_called": false,
+  "database_execution_by_this_preparation": false,
+  "historical_failures": {
+    "initial_new_state_red_errors": 2,
+    "fixture_fault_catalog_expected_unchanged_corrected": true,
+    "preflight_red_failure": true,
+    "initial_preflight_fixture_unmocked_write_failed_without_file_created": true,
+    "proof_coverage_removal_red_failure": true
+  },
+  "boundaries": [
+    "Local rollback and promotion receipts were executed by the DB lane; this receipt validates their sealed metadata.",
+    "This preparation does not apply or inspect the cloud database, activate processing, start a worker or establish actual PDF/app acceptance."
+  ]
+}

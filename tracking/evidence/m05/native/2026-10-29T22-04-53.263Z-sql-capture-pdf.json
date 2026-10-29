@@ -1,0 +1,245 @@
+{
+  "observed_at": "2026-10-29T22:04:59.629Z",
+  "scope": "fixed_synthetic_sql_capture_to_actual_native_pdf",
+  "database_or_provider_called_by_this_tool": false,
+  "real_cast_or_private_media_used": false,
+  "template_version": "1.1.0",
+  "template_content_sha256": "bbe72bf2bb08f37fe394c75563e2eca3ab8da72b1775db75704d47ae54f4f638",
+  "source_sha256": {
+    "tools/verify-m05-sql-pdf.mts": "a6013446a8ca3dd166c734f883a132d79fe6ab5f1b9ec4bd070f3107d32120e2",
+    "apps/worker/src/presentation-pdf.ts": "8aa880bb0f18bea71546d48f6e0cc91005cb55334ce88ee36d09a25cc55155c6",
+    "apps/worker/src/presentation-pdf-inspect-process.mjs": "0ee0bf41ba77f9725bdb366f02d7b60c438e15ac78049b4971a1cf43b8175e5d",
+    "apps/worker/src/review-fit.ts": "a0b94a93198297953c93e153cd872d47462cccdf4088fbd0041155259dc06a8e",
+    "apps/worker/src/native-browser.ts": "58bb031589d1d8421b19e29273cdc681d4431c76e7536ad4a1747f9154004e46",
+    "packages/domain/src/presentation.ts": "7e6b008c5464ea395ebda0db2030d75c8943d4595a8f722573ee8c5e5258225d",
+    "packages/domain/src/presentation-types.ts": "34524261fdd7535f4006db26c0d8f156e8ad7235bf965d7f4393fb92af1a707a",
+    "packages/templates/src/registered.ts": "0eadab35d4ee1ca0791188d13bd5f5859ba5d2ad909d9e763b5c586a6f19e78b",
+    "packages/templates/src/render.ts": "c7dbfd1418a24387b816fcc746ba85bf4092102c4e9ec6200868ba85bd847f34",
+    "packages/templates/registry.json": "a4cee8acd9675c5038517ce48880350c7bd28f9d1971eef55ab846f0996db53d",
+    "packages/templates/versions/1.1.0/render.ts": "f58d10501fac36e1f2f5b80b2f3e814901972084acf94fe4047434e42db7225c",
+    "packages/templates/versions/1.1.0/registry.json": "e830204db50a226ab8d10e0eef323eca4983f92de17db0647893a8ab355e57e3",
+    "apps/web/public/brand/everyone-logotype-white.svg": "cb1f84c546247f81f7972ede5a374505c3de95d9fe9cee92ff60bda558166b98",
+    "node_modules/bidi-js/dist/bidi.mjs": "59599182ffb089498d0eb4272c1e535a2f6932a4b2589e356f9302fe095bff0b"
+  },
+  "private_artifact_directory": ".local/m05-sql-native/2026-10-29T22-04-53.263Z",
+  "visual_inspection": "pending_independent_page_review",
+  "outputs": [
+    {
+      "output_type": "selection",
+      "capture_file": ".local/m05-contract-fixtures/capture-0.json",
+      "capture_sha256": "f9780f8c5aad35aa3eed3de72ab07c1e3e32a03b4ca0657c413e75bdb0a656a9",
+      "snapshot_sha256": "724db0c85ffce486171948fecea7f050c0de84607481e735206cba677b8b401e",
+      "manifest_sha256": "f66c7c82ba4c182e87e4708341be68ef6a1b46eee8dc9690a68d6696f43e6fef",
+      "inventory_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "snapshot_unchanged": true,
+      "manifest_unchanged": true,
+      "candidate_slides": 6,
+      "pending_slides": 1,
+      "independently_calculated_pages": 8,
+      "distinct_candidate_count": 3,
+      "repeated_person_assignment_pages": 3,
+      "inventory_count": 0,
+      "file": "selection.pdf",
+      "pdf_sha256": "cdc9f3557d6399a00ec203521b08daae6194df1a913e197f97d1d6c182393bc1",
+      "bytes": 93553,
+      "render_proof": {
+        "renderer_version": "everyone-casting-pdf-v1",
+        "chromium_version": "156.0.8078.4",
+        "template_content_sha256": "bbe72bf2bb08f37fe394c75563e2eca3ab8da72b1775db75704d47ae54f4f638",
+        "font_hashes": {
+          "apps/web/public/fonts/IBMPlexSans-Regular.woff2": "ba711a3085ff9f27440b6b9c4550cfc47c97bf36591d5da958b975bb3add8c1a",
+          "apps/web/public/fonts/IBMPlexSans-Medium.woff2": "5660f8a658f8bb50dbc005232f885eadffd2bc1c235c4f6fbb63469d1f9cde6d",
+          "apps/web/public/fonts/IBMPlexSans-SemiBold.woff2": "f78048030eab62e860efa39a0df79e2e5581bf122eb95b9bc42c0b8a4988d205",
+          "apps/web/public/fonts/IBMPlexSansArabic-Regular.woff2": "74112e1b7bf2e2c547989a4e947a60cba6cd1f9156e0065670134636e717199d",
+          "apps/web/public/fonts/IBMPlexSansArabic-Medium.woff2": "c72f6986f50ded745d06e71e508096209c52a55a6b3a81029954e33c52ba1dd2",
+          "apps/web/public/fonts/IBMPlexSansArabic-SemiBold.woff2": "869b2acd0a9660607a2025f0fe1c640110bf23d33417509328f07722922b8063"
+        },
+        "page_count": 8,
+        "width_css_px": 1600,
+        "height_css_px": 900,
+        "overflow_count": 0,
+        "candidate_field_count": 60,
+        "frame_draw_count": 0,
+        "logo_draw_count": 0,
+        "video_link_count": 0,
+        "fonts_ready": true,
+        "images_ready": true,
+        "link_targets_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "rendered_at": "2026-10-29T22:04:53.854Z"
+      },
+      "validation_proof": {
+        "pdf_sha256": "cdc9f3557d6399a00ec203521b08daae6194df1a913e197f97d1d6c182393bc1",
+        "page_count": 8,
+        "width_points": 1200,
+        "height_points": 675.12,
+        "text_regions_checked": 168,
+        "image_draws_checked": 0,
+        "video_links_checked": 0,
+        "embedded_font_count": 3,
+        "validated_at": "2026-10-29T22:04:55.431Z"
+      },
+      "pages": [
+        {
+          "page": 1,
+          "file": "selection-1.png",
+          "sha256": "526fe491c12696653b662caca2ba6813c99cec8e6ebe4b02c938e72715236ef8",
+          "width": 1200,
+          "height": 676
+        },
+        {
+          "page": 2,
+          "file": "selection-2.png",
+          "sha256": "3768d3e20f7a64b378d8a7fc01de40e00e99552106300ae83bfe8dec865511c9",
+          "width": 1200,
+          "height": 676
+        },
+        {
+          "page": 3,
+          "file": "selection-3.png",
+          "sha256": "ec458ee414eebf82315748f46d4b9db0867eac7a1773a1baf91c3ef1d27c3aff",
+          "width": 1200,
+          "height": 676
+        },
+        {
+          "page": 4,
+          "file": "selection-4.png",
+          "sha256": "57a5814f6761df09c810b2c795a37b02190206e85ec3ee52fc3ce2a03d3b0fd6",
+          "width": 1200,
+          "height": 676
+        },
+        {
+          "page": 5,
+          "file": "selection-5.png",
+          "sha256": "4945128d76225d6a8f7fb80802cd0f74a0acc96d270b76f49516169d7a4ad6e0",
+          "width": 1200,
+          "height": 676
+        },
+        {
+          "page": 6,
+          "file": "selection-6.png",
+          "sha256": "bf86a8ae3ffcf8eea20996557455c10e1198a6a54d329024aa5298a080aab18b",
+          "width": 1200,
+          "height": 676
+        },
+        {
+          "page": 7,
+          "file": "selection-7.png",
+          "sha256": "e3ce9e813996275c79fc26e5d8d61cfa1425ced202b1ef98ee73fd73ba0c3685",
+          "width": 1200,
+          "height": 676
+        },
+        {
+          "page": 8,
+          "file": "selection-8.png",
+          "sha256": "087d9a0a18e9997da79e4ec045224401855d81e0eefb88d4e144d257bb06a21a",
+          "width": 1200,
+          "height": 676
+        }
+      ]
+    },
+    {
+      "output_type": "shortlist",
+      "capture_file": ".local/m05-contract-fixtures/capture-1.json",
+      "capture_sha256": "23fb4cf53baa3b05af6f176b83e61004aa4bc766734c81d95a45fd78070f403a",
+      "snapshot_sha256": "fd730186615e30d85de70fb5214f7e47d31f48107719815fe79f68817c8e7669",
+      "manifest_sha256": "44e605c77702dd509a4e8f7bfd1855cce8b639d7668ce629ecbfe9be9a79856b",
+      "inventory_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "snapshot_unchanged": true,
+      "manifest_unchanged": true,
+      "candidate_slides": 3,
+      "pending_slides": 2,
+      "independently_calculated_pages": 6,
+      "distinct_candidate_count": 2,
+      "repeated_person_assignment_pages": 1,
+      "inventory_count": 0,
+      "file": "shortlist.pdf",
+      "pdf_sha256": "9321ca85e8e8caf352db8c13d86e093e1bb25084d15327e78bbd6c595f47ec6a",
+      "bytes": 74273,
+      "render_proof": {
+        "renderer_version": "everyone-casting-pdf-v1",
+        "chromium_version": "156.0.8078.4",
+        "template_content_sha256": "bbe72bf2bb08f37fe394c75563e2eca3ab8da72b1775db75704d47ae54f4f638",
+        "font_hashes": {
+          "apps/web/public/fonts/IBMPlexSans-Regular.woff2": "ba711a3085ff9f27440b6b9c4550cfc47c97bf36591d5da958b975bb3add8c1a",
+          "apps/web/public/fonts/IBMPlexSans-Medium.woff2": "5660f8a658f8bb50dbc005232f885eadffd2bc1c235c4f6fbb63469d1f9cde6d",
+          "apps/web/public/fonts/IBMPlexSans-SemiBold.woff2": "f78048030eab62e860efa39a0df79e2e5581bf122eb95b9bc42c0b8a4988d205",
+          "apps/web/public/fonts/IBMPlexSansArabic-Regular.woff2": "74112e1b7bf2e2c547989a4e947a60cba6cd1f9156e0065670134636e717199d",
+          "apps/web/public/fonts/IBMPlexSansArabic-Medium.woff2": "c72f6986f50ded745d06e71e508096209c52a55a6b3a81029954e33c52ba1dd2",
+          "apps/web/public/fonts/IBMPlexSansArabic-SemiBold.woff2": "869b2acd0a9660607a2025f0fe1c640110bf23d33417509328f07722922b8063"
+        },
+        "page_count": 6,
+        "width_css_px": 1600,
+        "height_css_px": 900,
+        "overflow_count": 0,
+        "candidate_field_count": 30,
+        "frame_draw_count": 0,
+        "logo_draw_count": 0,
+        "video_link_count": 0,
+        "fonts_ready": true,
+        "images_ready": true,
+        "link_targets_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "rendered_at": "2026-10-29T22:04:57.479Z"
+      },
+      "validation_proof": {
+        "pdf_sha256": "9321ca85e8e8caf352db8c13d86e093e1bb25084d15327e78bbd6c595f47ec6a",
+        "page_count": 6,
+        "width_points": 1200,
+        "height_points": 675.12,
+        "text_regions_checked": 126,
+        "image_draws_checked": 0,
+        "video_links_checked": 0,
+        "embedded_font_count": 3,
+        "validated_at": "2026-10-29T22:04:59.023Z"
+      },
+      "pages": [
+        {
+          "page": 1,
+          "file": "shortlist-1.png",
+          "sha256": "3029fc47ee4f462557378714fbd6dd2e89550bea323233046858286c417a6e19",
+          "width": 1200,
+          "height": 676
+        },
+        {
+          "page": 2,
+          "file": "shortlist-2.png",
+          "sha256": "3768d3e20f7a64b378d8a7fc01de40e00e99552106300ae83bfe8dec865511c9",
+          "width": 1200,
+          "height": 676
+        },
+        {
+          "page": 3,
+          "file": "shortlist-3.png",
+          "sha256": "e24070097c7a3c40638571862bf9eaa02a389823d790cee09dcadd2bf2c50a55",
+          "width": 1200,
+          "height": 676
+        },
+        {
+          "page": 4,
+          "file": "shortlist-4.png",
+          "sha256": "8aa1ab5f0228d6f094910130a9d29015ccc7a45b5508b9085232418e320e0679",
+          "width": 1200,
+          "height": 676
+        },
+        {
+          "page": 5,
+          "file": "shortlist-5.png",
+          "sha256": "a78377b30fdff04a8bfd8bf6cffd215f46ffd9c965e56cdd4a62996d10bcddba",
+          "width": 1200,
+          "height": 676
+        },
+        {
+          "page": 6,
+          "file": "shortlist-6.png",
+          "sha256": "53d5acd78ed6d1350d6e05f96d59cab064e10aa082d52b2093a3c2008147340a",
+          "width": 1200,
+          "height": 676
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Synthetic immutable captures provided by DB fixture harness; no live canonical DB read or app download by this tool.",
+    "Empty selected media is a supported source fixture; real geometric image coverage is separately proven by native representative artifacts.",
+    "No maximum-capacity, hosting, guest or production claim."
+  ]
+}

@@ -16,6 +16,8 @@ import { handleCastingRequest, isCastingRoute } from '../../../../lib/casting-ht
 import { getCastingService } from '../../../../lib/casting';
 import { handleReviewRequest, isReviewRoute } from '../../../../lib/review-http';
 import { getReviewService } from '../../../../lib/review';
+import { getPresentationService } from '../../../../lib/presentation';
+import { handlePresentationRequest, isPresentationRoute } from '../../../../lib/presentation-http';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -31,6 +33,7 @@ async function handle(request: Request, context: Context) {
     const mutation = { idempotencyKey: request.headers.get('Idempotency-Key') ?? undefined, requestId,
       clientType: request.headers.has('authorization') ? 'api' as const : 'browser' as const };
     if (s[0] === 'jobs') return await handleJobRequest(request, s, actor, await getJobs(), mutation);
+    if (isPresentationRoute(s)) return await handlePresentationRequest(request, s, actor, await getPresentationService(), mutation);
     if (isReviewRoute(s)) return await handleReviewRequest(request, s, actor, await getReviewService(), mutation);
     // Canonical20 composes the full assignment/order transactions. Dispatch
     // before the older role-only specs mapping; failures must never fall through.

@@ -138,6 +138,12 @@
       "sha256": "1bf897c3c6dcae03c96f0d434ba61edfc89b01d2c700dc4e8c11ce17e285832c",
       "reviewed_by": "Root integration owner: independently reviewed atomic proposal/source guard; source-bound rollback plus actual source-busy and two-principal lock/replay races passed. No22 or business/runtime/config mutations.",
       "reviewed_at": "2026-10-29T20:46:06.513297+00:00"
+    },
+    {
+      "path": "supabase/migrations/20261029215218_m05_immutable_presentation_versions.sql",
+      "sha256": "09d78c225ca02d436a8b1c2bcc6e55f273dfea116976807af4a8b228b99de5f4",
+      "reviewed_by": "Codex M05 immutable capture, RLS and race review; independent root/API review; source-bound rollback proof 9e1811b5",
+      "reviewed_at": "2026-10-29T22:10:48.812Z"
     }
   ],
   "tests": [

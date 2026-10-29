@@ -1,0 +1,107 @@
+{
+  "observed_at": "2026-10-29T22:46:40.524986+00:00",
+  "result": "verified_browser_journey_and_canonical_bytes",
+  "scope": "Connected signed-in Producer app; canonical Supabase and existing n8n Cloud; local worker",
+  "hosting_deferred": true,
+  "database_observers": [
+    "tracking/evidence/m05/app-capture/2026-10-29T22-29-41-196785Z-f8c50293.json",
+    "tracking/evidence/m05/app-capture/2026-10-29T22-43-01-866603Z-a630f28c.json"
+  ],
+  "downloads": [
+    {
+      "version_id": "47b39b6c-ffc4-41fb-ac11-70a697bf19de",
+      "filename": "everyone-selection-v1.pdf",
+      "sha256": "6cb70be4122557fad74a212f7470d8e11a52cee6667a1366de3ebb22f3a5a28a",
+      "bytes": 113482,
+      "page_count": 6,
+      "actual_browser_download": true,
+      "matches_canonical": true
+    },
+    {
+      "version_id": "beeba12d-8a95-4ef7-8d0e-d9d32be9278d",
+      "filename": "everyone-shortlist-v1.pdf",
+      "sha256": "3e875330f311eccc1268afaa842b6dfc0afcfa0b0396d66205525f2ba18fb874",
+      "bytes": 78907,
+      "page_count": 6,
+      "actual_browser_download": true,
+      "matches_canonical": true
+    },
+    {
+      "version_id": "bd795ab9-1247-4f64-9703-61142959b1b0",
+      "filename": "everyone-selection-v2.pdf",
+      "sha256": "38bae0b8cb44fe08368b99add025cc09b1648229e4f6c6d0c6d7783e84faa4a3",
+      "bytes": 113597,
+      "page_count": 6,
+      "actual_browser_download": true,
+      "matches_canonical": true
+    }
+  ],
+  "v1_repeat_after_v2": {
+    "filename": "everyone-selection-v1 (1).pdf",
+    "sha256": "6cb70be4122557fad74a212f7470d8e11a52cee6667a1366de3ebb22f3a5a28a",
+    "byte_for_byte_identical": true,
+    "entire_observed_v1_metadata_unchanged": true
+  },
+  "browser_checks": {
+    "old_template_generation_block_shown": true,
+    "selection_template": "1.1.0",
+    "shortlist_template": "1.1.0",
+    "selection_counts": [
+      3,
+      2,
+      6
+    ],
+    "shortlist_counts": [
+      1,
+      4,
+      6
+    ],
+    "new_wording_in_v2": 1,
+    "new_wording_in_v1_after_v2": 0,
+    "old_fit_invalidated_after_wording_save": true,
+    "fresh_fit_completed_before_v2": true,
+    "draft_change_summary_display_fields": 1,
+    "pending_requirement_labels": 12,
+    "actual_frame_carousel": [
+      {
+        "position": 1,
+        "timestamp_ms": 3120,
+        "width": 800,
+        "height": 480
+      },
+      {
+        "position": 2,
+        "timestamp_ms": 12480
+      }
+    ],
+    "review_to_generation_exact_series_preserved": true,
+    "generation_to_review_exact_series_preserved": true
+  },
+  "original_video_playback": {
+    "observed_at": "2026-10-29T22:30:34.622Z",
+    "version_id": "47b39b6c-ffc4-41fb-ac11-70a697bf19de",
+    "asset_id": "20c0ed17-5705-4056-a53d-9898384d4187",
+    "currentTime": 19.776009,
+    "duration": 19.776009,
+    "ended": true,
+    "error": null,
+    "paused": true,
+    "playedRanges": 1
+  },
+  "anonymous_denial_receipt": "tracking/evidence/m05/anonymous-access/2026-10-29T22-44-30-406Z-ab883e30.json",
+  "connected_browser_console_boundary": {
+    "instrumentation_root_attribute_hydration_mismatch": [
+      "data-tricentis-frame-token",
+      "toscacontainsshadowdom",
+      "openrequests"
+    ],
+    "stream_and_listener_warnings_observed": true,
+    "clean_production_console_claimed": false
+  },
+  "not_claimed": [
+    "Independent factual accuracy of other real profiles",
+    "Independent source-image pixel identity",
+    "Guest links or exports",
+    "Hosted worker or production deployment"
+  ]
+}

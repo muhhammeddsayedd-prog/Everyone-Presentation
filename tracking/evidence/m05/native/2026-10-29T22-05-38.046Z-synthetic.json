@@ -1,0 +1,295 @@
+{
+  "observed_at": "2026-10-29T22:05:48.109Z",
+  "scope": "offline_synthetic_actual_pdf_and_png",
+  "provider_or_cloud_called": false,
+  "raw_cast_or_private_media_used": false,
+  "visual_inspection": "pending_independent_page_review",
+  "source_sha256": {
+    "packages/templates/src/render.ts": "c7dbfd1418a24387b816fcc746ba85bf4092102c4e9ec6200868ba85bd847f34",
+    "packages/templates/registry.json": "a4cee8acd9675c5038517ce48880350c7bd28f9d1971eef55ab846f0996db53d",
+    "packages/templates/src/registered.ts": "0eadab35d4ee1ca0791188d13bd5f5859ba5d2ad909d9e763b5c586a6f19e78b",
+    "packages/templates/versions/1.1.0/render.ts": "f58d10501fac36e1f2f5b80b2f3e814901972084acf94fe4047434e42db7225c",
+    "packages/templates/versions/1.1.0/registry.json": "e830204db50a226ab8d10e0eef323eca4983f92de17db0647893a8ab355e57e3",
+    "apps/web/public/brand/everyone-logotype-white.svg": "cb1f84c546247f81f7972ede5a374505c3de95d9fe9cee92ff60bda558166b98",
+    "apps/worker/src/presentation-pdf.ts": "8aa880bb0f18bea71546d48f6e0cc91005cb55334ce88ee36d09a25cc55155c6",
+    "apps/worker/src/presentation-pdf-inspect-process.mjs": "0ee0bf41ba77f9725bdb366f02d7b60c438e15ac78049b4971a1cf43b8175e5d",
+    "apps/worker/src/presentation-stage-executor.ts": "97fc66ff385b0726dc16d6aceaa6d4a10e501a606b7de75cd6dc0a6056357d4d",
+    "apps/worker/src/presentation-assets.ts": "46f66e9daf302bdaad65fd665fd03142a01c1a0523b10d855b97e726f1a2a2a0",
+    "apps/worker/src/review-fit.ts": "a0b94a93198297953c93e153cd872d47462cccdf4088fbd0041155259dc06a8e",
+    "apps/worker/src/native-browser.ts": "58bb031589d1d8421b19e29273cdc681d4431c76e7536ad4a1747f9154004e46",
+    "apps/worker/src/runtime.ts": "c1839dad2eaedcbb04cb42c7773613f4623eaffcdc90554de937bf19b55d91a4",
+    "apps/worker/src/runtime-main.ts": "d9b8ec665d8f047ec53d4162d82c2b4961e49c28fc1964fa9c82f950596827b9",
+    "apps/worker/src/runtime-types.ts": "c9769003e3831388537e55cf52f8ef22cd573593a018cf1951e3277a4dadb4de",
+    "apps/worker/src/n8n-orchestrator.ts": "caf3ad7e1967feb254065cb1965f6bd39c25f4859fa5645391e0c76de000d601",
+    "packages/central/src/presentation-runtime-assets.ts": "97dffe041c3430e5f4d5d2c702cc43a8bba962de6c969b952ebecefd69e303b4",
+    "packages/central/src/specs-runtime-gateway.ts": "cecb54d868f686ee8b7fb435411912f9b81d44df28d021c196800851356f7361",
+    "packages/domain/src/presentation.ts": "7e6b008c5464ea395ebda0db2030d75c8943d4595a8f722573ee8c5e5258225d",
+    "packages/domain/src/presentation-types.ts": "34524261fdd7535f4006db26c0d8f156e8ad7235bf965d7f4393fb92af1a707a",
+    "packages/integrations/src/n8n-dispatch.ts": "cb03a6bff13283d931ec475d2e439807e6e26c0f7c7efe23f09d3b0c9d32c2fb",
+    "tests/worker/presentation-native-fixture.ts": "d42d81ec2504b4217bee57dda7e0a15e8acd1a45c34c6193e1669e66b6659d63",
+    "tools/verify-presentation-native.mts": "8c71b4b0224fa6535a9fa42694042b4a9809b840ddc5ef29c8d279cabc8fbbf2",
+    "node_modules/bidi-js/dist/bidi.mjs": "59599182ffb089498d0eb4272c1e535a2f6932a4b2589e356f9302fe095bff0b"
+  },
+  "pdf_skill_marker": {
+    "invoked_once_before_first_authoring": true,
+    "exit_code": 0,
+    "expected_output_count": 2,
+    "tool_chunk_id": "b1029a"
+  },
+  "private_artifact_directory": ".local/m05-native/2026-10-29T22-05-38.046Z",
+  "outputs": [
+    {
+      "name": "all-frame-counts",
+      "file": "all-frame-counts.pdf",
+      "pdf_sha256": "6472b459dc74bc1a94c8bf0a039b21bfdac9dba87fae0b6702aa5e43404c3fed",
+      "bytes": 83136,
+      "rendered": {
+        "renderer_version": "everyone-casting-pdf-v1",
+        "chromium_version": "156.0.8078.4",
+        "template_content_sha256": "bbe72bf2bb08f37fe394c75563e2eca3ab8da72b1775db75704d47ae54f4f638",
+        "font_hashes": {
+          "apps/web/public/fonts/IBMPlexSans-Regular.woff2": "ba711a3085ff9f27440b6b9c4550cfc47c97bf36591d5da958b975bb3add8c1a",
+          "apps/web/public/fonts/IBMPlexSans-Medium.woff2": "5660f8a658f8bb50dbc005232f885eadffd2bc1c235c4f6fbb63469d1f9cde6d",
+          "apps/web/public/fonts/IBMPlexSans-SemiBold.woff2": "f78048030eab62e860efa39a0df79e2e5581bf122eb95b9bc42c0b8a4988d205",
+          "apps/web/public/fonts/IBMPlexSansArabic-Regular.woff2": "74112e1b7bf2e2c547989a4e947a60cba6cd1f9156e0065670134636e717199d",
+          "apps/web/public/fonts/IBMPlexSansArabic-Medium.woff2": "c72f6986f50ded745d06e71e508096209c52a55a6b3a81029954e33c52ba1dd2",
+          "apps/web/public/fonts/IBMPlexSansArabic-SemiBold.woff2": "869b2acd0a9660607a2025f0fe1c640110bf23d33417509328f07722922b8063"
+        },
+        "page_count": 5,
+        "width_css_px": 1600,
+        "height_css_px": 900,
+        "overflow_count": 0,
+        "candidate_field_count": 40,
+        "frame_draw_count": 6,
+        "logo_draw_count": 5,
+        "video_link_count": 4,
+        "fonts_ready": true,
+        "images_ready": true,
+        "link_targets_sha256": "be7a52975e5dd922382e64ae002adf31f989260269e9658c22f2fdbc1d931719",
+        "rendered_at": "2026-10-29T22:05:38.729Z"
+      },
+      "validated": {
+        "pdf_sha256": "6472b459dc74bc1a94c8bf0a039b21bfdac9dba87fae0b6702aa5e43404c3fed",
+        "page_count": 5,
+        "width_points": 1200,
+        "height_points": 675.12,
+        "text_regions_checked": 95,
+        "image_draws_checked": 11,
+        "video_links_checked": 4,
+        "embedded_font_count": 4,
+        "validated_at": "2026-10-29T22:05:40.634Z"
+      },
+      "pages": [
+        {
+          "page": 1,
+          "file": "all-frame-counts-1.png",
+          "sha256": "c4affb950dc8cb7e233f811fc2dde1be386f16078b356b5268beaaaacf4a6dca",
+          "width": 1200,
+          "height": 676
+        },
+        {
+          "page": 2,
+          "file": "all-frame-counts-2.png",
+          "sha256": "2c8706b20fe444fcfbd98eefb0475af8a7f93d241b125998f3ecb46a302d5d79",
+          "width": 1200,
+          "height": 676
+        },
+        {
+          "page": 3,
+          "file": "all-frame-counts-3.png",
+          "sha256": "231704f4ee616259743be0c894d539c42e900b6e3de9b3fdbe1a23a088f937e3",
+          "width": 1200,
+          "height": 676
+        },
+        {
+          "page": 4,
+          "file": "all-frame-counts-4.png",
+          "sha256": "216aca00f52d90184dcecdcf567cd20e2927ea5aac1030d6d081603abb1d6eab",
+          "width": 1200,
+          "height": 676
+        },
+        {
+          "page": 5,
+          "file": "all-frame-counts-5.png",
+          "sha256": "57c50443fd4a11c896ce2d04d14f0e5898aa693c5055dc5e8751c0e2dd0622ef",
+          "width": 1200,
+          "height": 676
+        }
+      ]
+    },
+    {
+      "name": "wrapped-arabic",
+      "file": "wrapped-arabic.pdf",
+      "pdf_sha256": "8e045e5e9f5fe7eac2e171b9bed29d6312916d37c52bd7b0a39ff06a76f3c3f6",
+      "bytes": 37736,
+      "rendered": {
+        "renderer_version": "everyone-casting-pdf-v1",
+        "chromium_version": "156.0.8078.4",
+        "template_content_sha256": "bbe72bf2bb08f37fe394c75563e2eca3ab8da72b1775db75704d47ae54f4f638",
+        "font_hashes": {
+          "apps/web/public/fonts/IBMPlexSans-Regular.woff2": "ba711a3085ff9f27440b6b9c4550cfc47c97bf36591d5da958b975bb3add8c1a",
+          "apps/web/public/fonts/IBMPlexSans-Medium.woff2": "5660f8a658f8bb50dbc005232f885eadffd2bc1c235c4f6fbb63469d1f9cde6d",
+          "apps/web/public/fonts/IBMPlexSans-SemiBold.woff2": "f78048030eab62e860efa39a0df79e2e5581bf122eb95b9bc42c0b8a4988d205",
+          "apps/web/public/fonts/IBMPlexSansArabic-Regular.woff2": "74112e1b7bf2e2c547989a4e947a60cba6cd1f9156e0065670134636e717199d",
+          "apps/web/public/fonts/IBMPlexSansArabic-Medium.woff2": "c72f6986f50ded745d06e71e508096209c52a55a6b3a81029954e33c52ba1dd2",
+          "apps/web/public/fonts/IBMPlexSansArabic-SemiBold.woff2": "869b2acd0a9660607a2025f0fe1c640110bf23d33417509328f07722922b8063"
+        },
+        "page_count": 2,
+        "width_css_px": 1600,
+        "height_css_px": 900,
+        "overflow_count": 0,
+        "candidate_field_count": 10,
+        "frame_draw_count": 0,
+        "logo_draw_count": 0,
+        "video_link_count": 1,
+        "fonts_ready": true,
+        "images_ready": true,
+        "link_targets_sha256": "5cc10c497bdff6090d745c56a41a0beadd0cd66d952e4e728fa14ecd3dc5bb1b",
+        "rendered_at": "2026-10-29T22:05:42.590Z"
+      },
+      "validated": {
+        "pdf_sha256": "8e045e5e9f5fe7eac2e171b9bed29d6312916d37c52bd7b0a39ff06a76f3c3f6",
+        "page_count": 2,
+        "width_points": 1200,
+        "height_points": 675.12,
+        "text_regions_checked": 26,
+        "image_draws_checked": 0,
+        "video_links_checked": 1,
+        "embedded_font_count": 4,
+        "validated_at": "2026-10-29T22:05:43.960Z"
+      },
+      "pages": [
+        {
+          "page": 1,
+          "file": "wrapped-arabic-1.png",
+          "sha256": "871556ce07c545972cf83b664690195246746e35b601442ad7396a02ff06a09d",
+          "width": 1200,
+          "height": 676
+        },
+        {
+          "page": 2,
+          "file": "wrapped-arabic-2.png",
+          "sha256": "8c75cc06beabde04b01745bd5d4f23cd9b81b35dbe5d539a888ee7ce7909a7ac",
+          "width": 1200,
+          "height": 676
+        }
+      ]
+    },
+    {
+      "name": "pending-requirements",
+      "file": "pending-requirements.pdf",
+      "pdf_sha256": "04c23046b7f0abaaeccaf7ac973f5921f559edec1ce14da79be06dbdbda9c1a4",
+      "bytes": 33562,
+      "rendered": {
+        "renderer_version": "everyone-casting-pdf-v1",
+        "chromium_version": "156.0.8078.4",
+        "template_content_sha256": "bbe72bf2bb08f37fe394c75563e2eca3ab8da72b1775db75704d47ae54f4f638",
+        "font_hashes": {
+          "apps/web/public/fonts/IBMPlexSans-Regular.woff2": "ba711a3085ff9f27440b6b9c4550cfc47c97bf36591d5da958b975bb3add8c1a",
+          "apps/web/public/fonts/IBMPlexSans-Medium.woff2": "5660f8a658f8bb50dbc005232f885eadffd2bc1c235c4f6fbb63469d1f9cde6d",
+          "apps/web/public/fonts/IBMPlexSans-SemiBold.woff2": "f78048030eab62e860efa39a0df79e2e5581bf122eb95b9bc42c0b8a4988d205",
+          "apps/web/public/fonts/IBMPlexSansArabic-Regular.woff2": "74112e1b7bf2e2c547989a4e947a60cba6cd1f9156e0065670134636e717199d",
+          "apps/web/public/fonts/IBMPlexSansArabic-Medium.woff2": "c72f6986f50ded745d06e71e508096209c52a55a6b3a81029954e33c52ba1dd2",
+          "apps/web/public/fonts/IBMPlexSansArabic-SemiBold.woff2": "869b2acd0a9660607a2025f0fe1c640110bf23d33417509328f07722922b8063"
+        },
+        "page_count": 2,
+        "width_css_px": 1600,
+        "height_css_px": 900,
+        "overflow_count": 0,
+        "candidate_field_count": 0,
+        "frame_draw_count": 0,
+        "logo_draw_count": 2,
+        "video_link_count": 0,
+        "fonts_ready": true,
+        "images_ready": true,
+        "link_targets_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "rendered_at": "2026-10-29T22:05:44.623Z"
+      },
+      "validated": {
+        "pdf_sha256": "04c23046b7f0abaaeccaf7ac973f5921f559edec1ce14da79be06dbdbda9c1a4",
+        "page_count": 2,
+        "width_points": 1200,
+        "height_points": 675.12,
+        "text_regions_checked": 30,
+        "image_draws_checked": 2,
+        "video_links_checked": 0,
+        "embedded_font_count": 3,
+        "validated_at": "2026-10-29T22:05:45.947Z"
+      },
+      "pages": [
+        {
+          "page": 1,
+          "file": "pending-requirements-1.png",
+          "sha256": "c4affb950dc8cb7e233f811fc2dde1be386f16078b356b5268beaaaacf4a6dca",
+          "width": 1200,
+          "height": 676
+        },
+        {
+          "page": 2,
+          "file": "pending-requirements-2.png",
+          "sha256": "82da6cd25d9809e1e0554d2fc862b7b84ad373cb3f6bdac133e2a7eb2c061ea7",
+          "width": 1200,
+          "height": 676
+        }
+      ]
+    },
+    {
+      "name": "no-role-pending",
+      "file": "no-role-pending.pdf",
+      "pdf_sha256": "3058043ccf2f59d9f690f82d1acb10724a2f327bfdf2415fb588dbe75cded554",
+      "bytes": 32182,
+      "rendered": {
+        "renderer_version": "everyone-casting-pdf-v1",
+        "chromium_version": "156.0.8078.4",
+        "template_content_sha256": "bbe72bf2bb08f37fe394c75563e2eca3ab8da72b1775db75704d47ae54f4f638",
+        "font_hashes": {
+          "apps/web/public/fonts/IBMPlexSans-Regular.woff2": "ba711a3085ff9f27440b6b9c4550cfc47c97bf36591d5da958b975bb3add8c1a",
+          "apps/web/public/fonts/IBMPlexSans-Medium.woff2": "5660f8a658f8bb50dbc005232f885eadffd2bc1c235c4f6fbb63469d1f9cde6d",
+          "apps/web/public/fonts/IBMPlexSans-SemiBold.woff2": "f78048030eab62e860efa39a0df79e2e5581bf122eb95b9bc42c0b8a4988d205",
+          "apps/web/public/fonts/IBMPlexSansArabic-Regular.woff2": "74112e1b7bf2e2c547989a4e947a60cba6cd1f9156e0065670134636e717199d",
+          "apps/web/public/fonts/IBMPlexSansArabic-Medium.woff2": "c72f6986f50ded745d06e71e508096209c52a55a6b3a81029954e33c52ba1dd2",
+          "apps/web/public/fonts/IBMPlexSansArabic-SemiBold.woff2": "869b2acd0a9660607a2025f0fe1c640110bf23d33417509328f07722922b8063"
+        },
+        "page_count": 2,
+        "width_css_px": 1600,
+        "height_css_px": 900,
+        "overflow_count": 0,
+        "candidate_field_count": 0,
+        "frame_draw_count": 0,
+        "logo_draw_count": 2,
+        "video_link_count": 0,
+        "fonts_ready": true,
+        "images_ready": true,
+        "link_targets_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "rendered_at": "2026-10-29T22:05:46.654Z"
+      },
+      "validated": {
+        "pdf_sha256": "3058043ccf2f59d9f690f82d1acb10724a2f327bfdf2415fb588dbe75cded554",
+        "page_count": 2,
+        "width_points": 1200,
+        "height_points": 675.12,
+        "text_regions_checked": 30,
+        "image_draws_checked": 2,
+        "video_links_checked": 0,
+        "embedded_font_count": 3,
+        "validated_at": "2026-10-29T22:05:47.889Z"
+      },
+      "pages": [
+        {
+          "page": 1,
+          "file": "no-role-pending-1.png",
+          "sha256": "c4affb950dc8cb7e233f811fc2dde1be386f16078b356b5268beaaaacf4a6dca",
+          "width": 1200,
+          "height": 676
+        },
+        {
+          "page": 2,
+          "file": "no-role-pending-2.png",
+          "sha256": "d36da640a0de7be0a48c844fafb46babe8ffe39a83db7782a0a6095194dcc21f",
+          "width": 1200,
+          "height": 676
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,229 @@
+{
+  "observed_at": "2026-10-29T22:16:07.911742+00:00",
+  "target": "pyibofyctwnqpvktepse",
+  "result": "captured",
+  "read_only": true,
+  "sql": "tools/sql/m05-presentation-bucket-reconciliation.sql",
+  "sql_sha256": "1171f8b5ec49cceb6be79f26f5d1348bf79966e046e7124fc7b378cc2aa0ea49",
+  "state": {
+    "bucket_fields": {
+      "avif_autodetection": false,
+      "lifecycle_configuration": null,
+      "lifecycle_configuration_generation": null,
+      "type": "STANDARD",
+      "versioning_status": "DISABLED"
+    },
+    "columns": [
+      {
+        "default": "false",
+        "generated": "",
+        "identity": "",
+        "name": "avif_autodetection",
+        "not_null": false,
+        "position": 7,
+        "type": "boolean",
+        "type_metadata": {
+          "base": null,
+          "enum_labels": null,
+          "kind": "b",
+          "name": "bool",
+          "schema": "pg_catalog",
+          "type_default": null,
+          "type_not_null": false
+        }
+      },
+      {
+        "default": null,
+        "generated": "",
+        "identity": "",
+        "name": "lifecycle_configuration",
+        "not_null": false,
+        "position": 13,
+        "type": "jsonb",
+        "type_metadata": {
+          "base": null,
+          "enum_labels": null,
+          "kind": "b",
+          "name": "jsonb",
+          "schema": "pg_catalog",
+          "type_default": null,
+          "type_not_null": false
+        }
+      },
+      {
+        "default": null,
+        "generated": "",
+        "identity": "",
+        "name": "lifecycle_configuration_generation",
+        "not_null": false,
+        "position": 14,
+        "type": "uuid",
+        "type_metadata": {
+          "base": null,
+          "enum_labels": null,
+          "kind": "b",
+          "name": "uuid",
+          "schema": "pg_catalog",
+          "type_default": null,
+          "type_not_null": false
+        }
+      },
+      {
+        "default": "'STANDARD'::storage.buckettype",
+        "generated": "",
+        "identity": "",
+        "name": "type",
+        "not_null": true,
+        "position": 11,
+        "type": "storage.buckettype",
+        "type_metadata": {
+          "base": null,
+          "enum_labels": [
+            "STANDARD",
+            "ANALYTICS",
+            "VECTOR"
+          ],
+          "kind": "e",
+          "name": "buckettype",
+          "schema": "storage",
+          "type_default": null,
+          "type_not_null": false
+        }
+      },
+      {
+        "default": "'DISABLED'::text",
+        "generated": "",
+        "identity": "",
+        "name": "versioning_status",
+        "not_null": true,
+        "position": 12,
+        "type": "text",
+        "type_metadata": {
+          "base": null,
+          "enum_labels": null,
+          "kind": "b",
+          "name": "text",
+          "schema": "pg_catalog",
+          "type_default": null,
+          "type_not_null": false
+        }
+      }
+    ],
+    "constraints": [
+      {
+        "columns": [
+          "lifecycle_configuration",
+          "lifecycle_configuration_generation"
+        ],
+        "deferrable": false,
+        "definition": "CHECK (((lifecycle_configuration IS NULL) = (lifecycle_configuration_generation IS NULL)))",
+        "initially_deferred": false,
+        "name": "buckets_lifecycle_configuration_pair_check",
+        "type": "c",
+        "validated": true
+      },
+      {
+        "columns": [
+          "lifecycle_configuration"
+        ],
+        "deferrable": false,
+        "definition": "CHECK (((lifecycle_configuration IS NULL) OR ((jsonb_typeof(lifecycle_configuration) = 'object'::text) AND (lifecycle_configuration ? 'rules'::text) AND\nCASE\n    WHEN (jsonb_typeof((lifecycle_configuration -> 'rules'::text)) = 'array'::text) THEN ((jsonb_array_length((lifecycle_configuration -> 'rules'::text)) >= 1) AND (jsonb_array_length((lifecycle_configuration -> 'rules'::text)) <= 1000))\n    ELSE false\nEND)))",
+        "initially_deferred": false,
+        "name": "buckets_lifecycle_configuration_shape_check",
+        "type": "c",
+        "validated": true
+      },
+      {
+        "columns": [
+          "type",
+          "lifecycle_configuration",
+          "lifecycle_configuration_generation"
+        ],
+        "deferrable": false,
+        "definition": "CHECK (((type = 'STANDARD'::storage.buckettype) OR ((lifecycle_configuration IS NULL) AND (lifecycle_configuration_generation IS NULL))))",
+        "initially_deferred": false,
+        "name": "buckets_lifecycle_configuration_standard_only_check",
+        "type": "c",
+        "validated": true
+      },
+      {
+        "columns": [
+          "id"
+        ],
+        "deferrable": false,
+        "definition": "PRIMARY KEY (id)",
+        "initially_deferred": false,
+        "name": "buckets_pkey",
+        "type": "p",
+        "validated": true
+      },
+      {
+        "columns": [
+          "versioning_status"
+        ],
+        "deferrable": false,
+        "definition": "CHECK ((versioning_status = 'DISABLED'::text))",
+        "initially_deferred": false,
+        "name": "buckets_versioning_dark_check",
+        "type": "c",
+        "validated": true
+      },
+      {
+        "columns": [
+          "type",
+          "versioning_status"
+        ],
+        "deferrable": false,
+        "definition": "CHECK (((type = 'STANDARD'::storage.buckettype) OR (versioning_status = 'DISABLED'::text)))",
+        "initially_deferred": false,
+        "name": "buckets_versioning_standard_only_check",
+        "type": "c",
+        "validated": true
+      },
+      {
+        "columns": [
+          "versioning_status"
+        ],
+        "deferrable": false,
+        "definition": "CHECK ((versioning_status = ANY (ARRAY['DISABLED'::text, 'ENABLED'::text, 'SUSPENDED'::text])))",
+        "initially_deferred": false,
+        "name": "buckets_versioning_status_check",
+        "type": "c",
+        "validated": true
+      }
+    ],
+    "database": "postgres",
+    "query_role": "postgres",
+    "schema_version": "1.0",
+    "unrestricted_visibility": true,
+    "versions": [
+      "20261028010943",
+      "20261028013324",
+      "20261028013655",
+      "20261028024205",
+      "20261028072515",
+      "20261028162702",
+      "20261028162800",
+      "20261028172320",
+      "20261028184145",
+      "20261028222030",
+      "20261029001520",
+      "20261029003941",
+      "20261029070038",
+      "20261029090500",
+      "20261029090724",
+      "20261029094600",
+      "20261029100500",
+      "20261029133455",
+      "20261029135318",
+      "20261029174841",
+      "20261029180953",
+      "20261029202629",
+      "20261029203953",
+      "20261029215218"
+    ]
+  },
+  "application_mutations": false,
+  "secrets_or_source_objects_returned": false,
+  "hosting_deferred": true
+}

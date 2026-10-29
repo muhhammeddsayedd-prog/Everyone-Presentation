@@ -1,0 +1,36 @@
+{
+  "observed_at": "2026-10-29T22:17:17.752780+00:00",
+  "result": "passed_offline_reconciliation_preparation",
+  "source_sha256": {
+    "tools/reconcile_m05_presentation_bucket.py": "e57953743961ee007773cc7e06e0356fa4eb8bf2c74304a5cb8dafd1a2539eac",
+    "development/m05/presentation-bucket-reconciliation.json": "21c88f77b3c104ccc8cf2e73ded642c5d5930d0a47b726dc4a2e70bc2e244add",
+    "tools/sql/m05-presentation-bucket-reconciliation.sql": "1171f8b5ec49cceb6be79f26f5d1348bf79966e046e7124fc7b378cc2aa0ea49",
+    "tests/operations/test_m05_presentation_bucket_recovery.py": "6be544f07201e174f31ca564319b8612e2dad7d1fbaa5e37028a1da39444bac5"
+  },
+  "offline_guards": {
+    "command": "python -X utf8 -m unittest discover -s tests/operations -p test_m05_presentation_bucket_recovery.py",
+    "tests": 6,
+    "failed": 0,
+    "executed_in_this_preparation_turn": true
+  },
+  "no_cli_current_inputs": "passed",
+  "bound_actual_column_count": 5,
+  "bound_actual_constraint_count": 7,
+  "original_failed_apply_sha256": "8f8523693d4800357b5c7f8157f86400debc3f838d05ea54300fa90a89e8980f",
+  "original_failed_readback_sha256": "025f98f17d51ffaf2b0e78b4d25348ede0d3ea261d980ddd0149061ee094a2eb",
+  "normalization_only_fields": [
+    "avif_autodetection",
+    "lifecycle_configuration",
+    "lifecycle_configuration_generation",
+    "type",
+    "versioning_status"
+  ],
+  "new_bucket_base_keys_unchanged": true,
+  "cloud_called": false,
+  "provider_called": false,
+  "private_credential_files_read": false,
+  "browser_called": false,
+  "write_operations": 0,
+  "historical_test_fixture_alias_failure_corrected": true,
+  "boundary": "Offline evidence only. Root must review and execute the new fixed read-only helper for fresh canonical metadata and full state verification; original migration helper, proofs, failures and claim remain unchanged."
+}

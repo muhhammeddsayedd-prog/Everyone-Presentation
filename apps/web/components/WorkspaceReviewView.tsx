@@ -5,12 +5,17 @@ import { useCallback, useEffect, useEffectEvent, useRef, useState } from 'react'
 import type { AiSuggestion, AudiencePreset, CandidateMedia, PresentationSeries, ReviewJobAccepted, ReviewSlide, WorkspaceReview } from '@eps/domain';
 import { slideWordingFields, type SlideWordingField } from '../../../packages/domain/src/casting-types.ts';
 import { REVIEW_FIELD_LABELS } from '../../../packages/templates/src/render.ts';
+import { PENDING_REQUIREMENT_LABELS } from '../../../packages/templates/versions/1.1.0/render.ts';
 import { api, ApiError, errorMessage, mutation, type Actor, type Envelope } from './api';
 import { ErrorNotice, Loading } from './Feedback';
 import { CandidateFrameImage } from './CandidateFrameImage';
 
-interface Props { workspaceId: string; projectId: string; actor: Actor; initialOutput: 'selection' | 'shortlist'; onDirtyChange: (value: boolean) => void; onWorkspaceChanged: () => void }
+interface Props { workspaceId: string; projectId: string; actor: Actor; initialOutput: 'selection' | 'shortlist'; requestedSeriesId?: string | null; onSeriesChanged?: (value: string) => void; onDirtyChange: (value: boolean) => void; onWorkspaceChanged: () => void }
 interface Intent { path: string; init: RequestInit; label: string; refresh?: boolean; accepted?: (data: unknown) => void }
+function fitFieldLabel(field: string) {
+  const key = field.replace(/^requirements\./, '');
+  return REVIEW_FIELD_LABELS[field as SlideWordingField] ?? PENDING_REQUIREMENT_LABELS[key as keyof typeof PENDING_REQUIREMENT_LABELS] ?? field;
+}
 async function allRows<T>(path: string, signal: AbortSignal) {
   const result: T[] = []; const seen = new Set<string>(); let cursor: string | null = null;
   for (let page = 0; page < 100; page++) {
@@ -23,7 +28,7 @@ async function allRows<T>(path: string, signal: AbortSignal) {
 }
 
 export function WorkspaceReviewView(props: Props) { return <ReviewScope key={`${props.actor.id}:${props.workspaceId}`} {...props} />; }
-function ReviewScope({ workspaceId, projectId, actor, initialOutput, onDirtyChange, onWorkspaceChanged }: Props) {
+function ReviewScope({ workspaceId, projectId, actor, initialOutput, requestedSeriesId, onSeriesChanged, onDirtyChange, onWorkspaceChanged }: Props) {
   const [series, setSeries] = useState<PresentationSeries[]>([]); const [presets, setPresets] = useState<AudiencePreset[]>([]);
   const [seriesId, setSeriesId] = useState(''); const [output, setOutput] = useState(initialOutput); const [presetId, setPresetId] = useState('');
   const [review, setReview] = useState<WorkspaceReview | null>(null); const [loading, setLoading] = useState(true); const [refresh, setRefresh] = useState(0);
@@ -40,6 +45,7 @@ function ReviewScope({ workspaceId, projectId, actor, initialOutput, onDirtyChan
   const canCreate = actor.capabilities?.includes('presentations.generate') === true;
   const selected = selectedId ? review?.slides.find(row => row.kind === 'candidate' && row.assignment_id === selectedId) ?? null : null;
   const locked = busy || uncertain || applying;
+  useEffect(() => { if (seriesId) onSeriesChanged?.(seriesId); }, [seriesId, onSeriesChanged]);
   useEffect(() => { alive.current = true; return () => { alive.current = false; }; }, []);
   useEffect(() => { onDirtyChange(edited || locked); return () => onDirtyChange(false); }, [edited, locked, onDirtyChange]);
   const reload = useCallback(() => setRefresh(value => value + 1), []);
@@ -61,11 +67,12 @@ function ReviewScope({ workspaceId, projectId, actor, initialOutput, onDirtyChan
       .then(([choices, audiences]) => { if (!current) return;
         if (choices.some(row => row.workspace_id !== workspaceId)) throw new Error('The saved series belongs to a different workspace.');
         const active = choices.filter(row => !row.archived); const available = audiences.filter(row => !row.archived);
+        if (requestedSeriesId && !active.some(row => row.id === requestedSeriesId)) throw new Error('The linked review series is unavailable in this workspace. Choose a review context from the workspace again.');
         setSeries(active); setPresets(available); setPresetId(value => available.some(row => row.id === value) ? value : available[0]?.id ?? '');
-        setSeriesId(value => active.some(row => row.id === value) ? value : active.find(row => row.output_type === initialOutput)?.id ?? active[0]?.id ?? ''); setError('');
+        setSeriesId(value => active.some(row => row.id === value) ? value : requestedSeriesId ?? active.find(row => row.output_type === initialOutput && row.template_version === '1.1.0')?.id ?? active.find(row => row.output_type === initialOutput)?.id ?? active[0]?.id ?? ''); setError('');
       }).catch(reason => { if (current) setError(errorMessage(reason)); }).finally(() => { if (current) setLoading(false); });
     return () => { current = false; controller.abort(); };
-  }, [workspaceId, initialOutput, refresh]);
+  }, [workspaceId, initialOutput, requestedSeriesId, refresh]);
   useEffect(() => {
     if (!seriesId) return;
     const controller = new AbortController(); let current = true;
@@ -132,12 +139,12 @@ function ReviewScope({ workspaceId, projectId, actor, initialOutput, onDirtyChan
   const base = `/projects/${projectId}/casting/${workspaceId}`;
   return <section className="workspace-review" aria-busy={loading || busy}><header className="section-heading"><div><h2>Final review</h2><p>Choose the output, audience and registered template before reviewing the exact draft.</p></div><button className="button" disabled={locked || edited || loading} onClick={reload}>Refresh review</button></header>
     {error && <ErrorNotice message={error} />}{notice && <p role="status">{notice}</p>}{uncertain && <div className="notice" role="status"><p>Other changes stay locked until this request is confirmed.</p><button className="button" disabled={busy} onClick={() => { if (intent.current) void send(intent.current, true); }}>Retry same change</button></div>}
-    <fieldset className="review-context" disabled={locked || edited}><legend>Presentation context</legend><label>Saved series<select aria-label="Saved review series" value={seriesId} onChange={event => { setSeriesId(event.target.value); setReview(null); setSelectedId(null); setProposal(null); setSuggestionId(null); setFitJob(null); }}><option value="">Choose or create a series</option>{series.map(row => <option key={row.id} value={row.id}>{row.title} · {row.output_type} · {row.audience_snapshot.label}</option>)}</select></label><div className="form-grid"><label>Output for a new series<select value={output} onChange={event => setOutput(event.target.value as typeof output)}><option value="selection">Cast Selection</option><option value="shortlist">Cast Shortlist</option></select></label><label>Audience for a new series<select value={presetId} onChange={event => setPresetId(event.target.value)}>{presets.map(row => <option key={row.id} value={row.id}>{row.label} · {row.scope}</option>)}</select></label></div><p className="small muted">Everyone Casting 1.0.0 · registered layout and bundled fonts. Changing audience policy creates a separate series.</p><button className="button" disabled={!canCreate || !presetId || loading} onClick={createSeries}>Create / reuse review series</button>{!canCreate && <p className="small">Creating a series requires presentation generation permission.</p>}</fieldset>
+    <fieldset className="review-context" disabled={locked || edited}><legend>Presentation context</legend><label>Saved series<select aria-label="Saved review series" value={seriesId} onChange={event => { setSeriesId(event.target.value); setReview(null); setSelectedId(null); setProposal(null); setSuggestionId(null); setFitJob(null); }}><option value="">Choose or create a series</option>{series.map(row => <option key={row.id} value={row.id}>{row.title} · {row.output_type} · {row.audience_snapshot.label} / template {row.template_version}</option>)}</select></label><div className="form-grid"><label>Output for a new series<select value={output} onChange={event => setOutput(event.target.value as typeof output)}><option value="selection">Cast Selection</option><option value="shortlist">Cast Shortlist</option></select></label><label>Audience for a new series<select value={presetId} onChange={event => setPresetId(event.target.value)}>{presets.map(row => <option key={row.id} value={row.id}>{row.label} · {row.scope}</option>)}</select></label></div><p className="small muted">Everyone Casting {review?.template.version ?? 'current registered layout'} · registered layout and bundled fonts. Changing audience policy creates a separate series.</p><button className="button" disabled={!canCreate || !presetId || loading} onClick={createSeries}>Create / reuse review series</button>{!canCreate && <p className="small">Creating a series requires presentation generation permission.</p>}</fieldset>
     {loading ? <Loading /> : !review ? <p>Choose or create a saved series to review its casting output.</p> : <><div className="section-heading"><div><h3>{review.cover.title}</h3><p>{review.candidate_slide_count} candidate slide{review.candidate_slide_count === 1 ? '' : 's'} · {review.pending_slide_count} Pending slot{review.pending_slide_count === 1 ? '' : 's'}</p></div><span className="badge">Working draft · revision {review.draft_revision}</span></div>
       <section className="notice review-checks"><h3>Content and layout checks</h3><p>Missing facts, Unreviewed profiles, fewer frames and open slots remain permitted. Reviewed confirms facts; it does not approve casting.</p><p>Layout: {review.fit.status === 'measured' ? review.fit.overflows.length ? `${review.fit.overflows.length} fields need repair` : 'Measured with the registered template and fonts' : review.fit.status === 'failed' ? 'Measurement failed; retry after fixing the reported problem' : 'Not measured yet'}</p>
         <button className="button" disabled={!canWrite || locked || edited || !!fitJob} onClick={() => void send({ path: `/api/v1/workspaces/${workspaceId}/review/fit`, init: mutation('POST', { series_id: seriesId, expected_input_fingerprint: review.input_fingerprint }), label: 'Layout check', refresh: false, accepted: data => setFitJob((data as ReviewJobAccepted).job_id) })}>{fitJob ? 'Measuring layout…' : 'Check actual layout fit'}</button>{fitJob && <Link href={`/processing?job=${fitJob}`}>Open layout processing</Link>}
         {!!review.issues.length && <ul>{review.issues.map((issue, index) => <li key={`${issue.code}:${index}`}>{issue.message}{issue.repair_action && ` · ${issue.repair_action}`}</li>)}</ul>}
-        {!!review.fit.overflows.length && <ul>{review.fit.overflows.map((issue, index) => <li key={index}>Page {issue.slide_index + 1} · {REVIEW_FIELD_LABELS[issue.field as SlideWordingField] ?? issue.field}: {Math.ceil(issue.overflow_px)}px {issue.axis} overflow. Edit wording or the source field.</li>)}</ul>}
+        {!!review.fit.overflows.length && <ul>{review.fit.overflows.map((issue, index) => <li key={index}>Page {issue.slide_index + 1} · {fitFieldLabel(issue.field)}: {Math.ceil(issue.overflow_px)}px {issue.axis} overflow. Edit wording or the source field.</li>)}</ul>}
       </section>
       <ol className="review-slides">{review.slides.map((slide, index) => <li key={slide.assignment_id ?? slide.slot_id ?? 'requirements-pending'}><div><span className="small muted">Slide {index + 2}</span><h3>{slide.role_name} · {slide.slot_label}</h3><p>{slide.kind === 'pending' ? 'Pending' : `${slide.fields.name_or_id} · ${slide.position} · ${slide.review_status === 'reviewed' ? 'Reviewed facts' : 'Unreviewed facts'}`}</p></div>{slide.kind === 'candidate' ? <button className="button" disabled={locked || edited} onClick={() => open(slide)} aria-label={`Review ${slide.slot_label}`}>Review assignment</button> : <p className="small">No assignment is included for this output. This slot gets a Pending page.</p>}</li>)}</ol>
       {selected && <section className="review-inspector" aria-labelledby="assignment-review-heading"><div className="section-heading"><div><h3 id="assignment-review-heading">Assignment review</h3><p>{selected.role_name} · {selected.slot_label}</p></div><button className="button" disabled={locked || edited} onClick={() => { setSelectedId(null); setSuggestionId(null); setProposal(null); }}>Close assignment</button></div>
@@ -151,7 +158,7 @@ function ReviewScope({ workspaceId, projectId, actor, initialOutput, onDirtyChan
         </fieldset>
         <fieldset disabled={!canWrite || locked || wordingDirty}><legend>Availability for this project</legend><label>Project availability<input value={availability} onChange={event => { setAvailability(event.target.value); setAvailabilityDirty(true); setSuggestionId(null); setSuggestionFingerprint(null); setProposal(null); }} maxLength={8000} /></label><button className="button" disabled={!availabilityDirty} onClick={() => void send({ path: `/api/v1/workspace-candidates/${selected.workspace_candidate_id}`, init: mutation('PATCH', { row_version: selected.workspace_candidate_row_version, availability: availability.trim() || null }), label: 'Project availability' })}>Save project availability</button><button className="button" disabled={!availabilityDirty} onClick={() => { setAvailability(selected.source_fields.availability === 'Not provided' ? '' : selected.source_fields.availability); setAvailabilityDirty(false); }}>Discard availability edit</button></fieldset>
       </section>}
-      <footer className="workspace-footer"><Link className="button" href={`${base}/organize`}>Back to Casting</Link><p className="small">{review.can_generate ? 'Review inputs and measured layout are ready for generation.' : 'Review the reported content and technical checks before generation.'}</p><Link className="button" href={`${base}/presentations`}>Open Presentation</Link></footer>
+      <footer className="workspace-footer"><Link className="button" href={`${base}/organize`}>Back to Casting</Link><p className="small">{review.can_generate ? 'Review inputs and measured layout are ready for generation.' : 'Review the reported content and technical checks before generation.'}</p><Link className="button" href={`${base}/presentations?series_id=${review.series_id}`}>Open Presentation</Link></footer>
     </>}
   </section>;
 }

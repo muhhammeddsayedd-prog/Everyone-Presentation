@@ -1,0 +1,38 @@
+{
+  "scope": "retained offline development failures; synthetic data only",
+  "failures": [
+    {
+      "check": "historical 1.0.0 actual PDF visual branding",
+      "artifact_receipt": "tracking/evidence/m05/native/2026-10-29T21-25-49.083Z-synthetic.json",
+      "finding": "The original currentColor SVG rendered black against the black presentation background; the brand was not readable.",
+      "disposition": "Original renderer, registry and SVG remain byte-identical. Separately registered 1.1.0 pins a geometry-preserving white SVG variant. Historical artifact is not final M05 visual acceptance."
+    },
+    {
+      "check": "new 1.1.0 default public brand path",
+      "tool_chunk_id": "afef54",
+      "tests": 3,
+      "passed": 2,
+      "failed": 1,
+      "error_code": "TEMPLATE_ASSET_SOURCE_INVALID",
+      "finding": "The copied source allowlist rejected the new default white SVG route. Native data-URI loading had hidden the default-path failure.",
+      "fix_scope": "Only the new 1.1.0 renderer allowlist was changed; the retained 1.0.0 implementation was preserved.",
+      "green_tool_chunk_id": "26e759",
+      "green_tests": 3,
+      "green_passed": 3,
+      "final_template_content_sha256": "bbe72bf2bb08f37fe394c75563e2eca3ab8da72b1775db75704d47ae54f4f638"
+    },
+    {
+      "check": "WF03 generic runtime routing before implementation",
+      "tool_chunk_id": "8dc380",
+      "tests": 2,
+      "passed": 0,
+      "failed": 2,
+      "finding": "The existing dispatch envelope rejected the new presentation kind/stages; no native executor could run.",
+      "disposition": "Added four closed tuples, mode-gated executor and dedicated startup routing. Final focused regression receipt records current successful coverage."
+    }
+  ],
+  "final_visual_addendum": "tracking/evidence/m05/native/2026-10-29T21-35-02.883Z-visual-review.json",
+  "final_focused_regression": "tracking/evidence/m05/native/2026-10-29T21-37-33.387Z-quality.json",
+  "cloud_or_provider_called": false,
+  "real_cast_or_private_media_used": false
+}

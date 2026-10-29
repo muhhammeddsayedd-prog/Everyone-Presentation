@@ -1,0 +1,97 @@
+{
+  "observed_at": "2026-10-29T22:51:11.914476+00:00",
+  "result": "passed",
+  "scope": "M05 completion checks; deterministic/native/controlled/live scopes separated",
+  "gates": {
+    "modules": {
+      "command": "npm.cmd test",
+      "tests": 613,
+      "pass": 613,
+      "groups": [
+        222,
+        9,
+        12,
+        45,
+        183,
+        142
+      ],
+      "fail": 0,
+      "raw_log_sha256": "d69c58e23e0174000e13934b1635609e6db6e48bd8ee712b08fe6961bc1d2247"
+    },
+    "controlled_browsers": {
+      "command": "npm.cmd run test:e2e",
+      "tests": 57,
+      "pass": 57,
+      "fail": 0,
+      "skipped": 0,
+      "raw_log_sha256": "0b0c1d873348089b026447cf1bf540bedf379b0df59b7016176ced845f68bb96",
+      "json_result_sha256": "6af767b854fa1391752986c7151beb65820fc3a8ab3618184fe77f47f8162c70",
+      "includes": "Exact context navigation, duplicate/unavailable series, unknown ACK, image/pagination recovery,390px viewer and media denial"
+    },
+    "operational_offline": {
+      "receipt": "tracking/evidence/m03/final-offline-checks/2026-10-29T22-29-32-760991Z-e5d29347.json",
+      "sha256": "dc281f8593e5e1d64d11e79e25a3476597bff2a7e851d5c5e59b4f32da193e0e",
+      "node_tests": 143,
+      "python_tests": 355,
+      "sources_stable": true
+    },
+    "supplementary_offline": {
+      "receipt": "tracking/evidence/m05/operations/2026-10-29T22-31-46-769227Z-23772627-supplementary-offline-typescript.json",
+      "tests": 7,
+      "pass": 7,
+      "geometry_case_also_in_final_module_suite": true
+    },
+    "production_fixture_denial": {
+      "command": "npm.cmd run check:production-guard",
+      "result": "passed",
+      "guards": [
+        "NODE_ENV",
+        "APP_ENV"
+      ],
+      "tool_output_chunk": "9d943d"
+    },
+    "project_local_skills": {
+      "canonical_skills": 53,
+      "files": 550,
+      "errors": 0,
+      "warnings": 0,
+      "scope": "Static integrity, no runtime or hosting acceptance",
+      "tool_output_chunk": "26fd9c"
+    },
+    "actual_anonymous_api": {
+      "receipt": "tracking/evidence/m05/anonymous-access/2026-10-29T22-44-30-406Z-ab883e30.json",
+      "requests": 11,
+      "all_status": 401,
+      "credentials_or_cookies_used": false
+    },
+    "lint": {
+      "result": "passed",
+      "raw_log_sha256": "dcf04cf56739f2f68b315b919013254295716cfac4a2b9aaca7e25ee40e8f2db"
+    },
+    "typecheck": {
+      "result": "passed",
+      "raw_log_sha256": "63dbaa165359a370f81fa6d619a1569ad84c24a4a726e0b4e03bb94528b8dd4f"
+    },
+    "build": {
+      "result": "passed",
+      "raw_log_sha256": "1607bc0afb049e2b622f2cb654c92fd481c472774cd752d2a1fdca1d7b81c419"
+    }
+  },
+  "live_evidence": [
+    "tracking/evidence/m05/live-app/2026-10-29T22-46-40-524986Z-5f2674be.json",
+    "tracking/evidence/m05/app-capture/2026-10-29T22-43-01-866603Z-a630f28c.json",
+    "tracking/evidence/m05/live-artifacts/2026-10-29T22-36-17.626Z.json",
+    "tracking/evidence/m05/live-artifacts/2026-10-29T22-36-17.626Z-visual-review.json",
+    "tracking/evidence/m05/live-artifacts/2026-10-29T22-47-00.640Z.json",
+    "tracking/evidence/m05/live-artifacts/2026-10-29T22-47-00.640Z-visual-review.json"
+  ],
+  "old_activation_fixture_binding": "Original test/provenance retained activation-source-history; completed4a529fc8 binds those bytes. Later offline EVIDENCE.glob fixture isolation did not reseal old helper/config/claim; old current_inputs now denies changed working test. Future state uses app observer.",
+  "historical_failures_preserved": true,
+  "limits": [
+    "Broader labelled English/mixed semantic evaluation unverified",
+    "Downloaded-PDF inspection did not independently compare source-image pixel identity",
+    "Connected Chrome instrumentation hydration/stream warnings recorded in live journey; clean production console not claimed",
+    "Guest delivery, external Claude OAuth, metadata-plus-media restore and hosting not accepted"
+  ],
+  "hosting_deferred": true
+}

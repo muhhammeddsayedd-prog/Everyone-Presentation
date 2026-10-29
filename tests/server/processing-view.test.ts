@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import type { CentralJob } from '@eps/central';
-import { jobStageLabel, jobFailureMessage, processingDelay, readJobPage, retainJobIntent, workspaceResultHref } from '../../apps/web/components/processing-view.ts';
+import { jobStageLabel, jobFailureMessage, processingActions, readProcessingJob, processingDelay, readJobPage, retainJobIntent, workspaceResultHref } from '../../apps/web/components/processing-view.ts';
 
 const job: CentralJob = { id: 'job-1', workspace_id: 'workspace-1', kind: 'specs_extract', status: 'failed', stage: 'extract_specs',
   attempt: 1, progress_completed: 1, progress_total: 3, batch_id: null, input_asset_id: null, resource_id: null,
@@ -67,4 +67,18 @@ test('wording and measured-layout jobs return to their exact workspace review', 
     assert.equal(workspaceResultHref({ ...job, kind }, { id: 'workspace-1', project_id: 'actual-project' }), '/projects/actual-project/casting/workspace-1/review');
   }
   assert.equal(jobStageLabel('measure_review_fit'), 'Measuring template layout');
+});
+
+
+test('presentation recovery uses explicit current server actions instead of generic retry hints', () => {
+  const failed = { ...job, kind: 'presentation_render' as const, stage: 'render_presentation', can_retry: false, can_cancel: false };
+  assert.deepEqual(processingActions(failed), { retry: false, cancel: false });
+  assert.deepEqual(processingActions({ ...failed, error: { ...job.error!, retryable: false }, can_retry: true }), { retry: true, cancel: false });
+  assert.throws(() => readProcessingJob({ ...failed, can_retry: undefined }));
+  assert.throws(() => readProcessingJob({ ...failed, status: 'succeeded', can_retry: true }));
+  assert.equal(jobStageLabel('prepare_presentation'), 'Preparing captured version');
+  assert.equal(jobStageLabel('render_presentation'), 'Rendering PDF');
+  assert.equal(jobStageLabel('validate_presentation'), 'Checking PDF and media');
+  assert.equal(jobStageLabel('publish_presentation'), 'Saving ready version');
+  assert.equal(workspaceResultHref(failed, { id: 'workspace-1', project_id: 'actual-project' }), '/projects/actual-project/casting/workspace-1/presentations');
 });

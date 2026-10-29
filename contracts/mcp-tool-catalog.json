@@ -12632,6 +12632,16 @@
                     "type": "null"
                   }
                 ]
+              },
+              "role_category": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
               }
             },
             "required": [
@@ -15025,8 +15035,8 @@
       "description": "List fixed generated versions",
       "operationId": "list_versions",
       "http": {
-        "method": "GET",
-        "path": "/presentation-series/{series_id}/versions"
+        "path": "/presentation-series/{series_id}/versions",
+        "method": "GET"
       },
       "capability": "workspaces.read",
       "inputSchema": {
@@ -15134,6 +15144,92 @@
               "main"
             ]
           },
+          "PresentationRenderContext": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "cover": {
+                "$ref": "#/$defs/ReviewCover"
+              },
+              "template": {
+                "$ref": "#/$defs/TemplateIdentity"
+              },
+              "slide_contexts": {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 1000,
+                "items": {
+                  "$ref": "#/$defs/PresentationSlideContext"
+                }
+              }
+            },
+            "required": [
+              "cover",
+              "template",
+              "slide_contexts"
+            ]
+          },
+          "PresentationSlideContext": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "slide_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "role_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "slot_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "provisional": {
+                "type": "boolean"
+              },
+              "review_status": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "enum": [
+                      "reviewed",
+                      "unreviewed"
+                    ]
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "frames": {
+                "type": "array",
+                "maxItems": 3,
+                "items": {
+                  "$ref": "#/$defs/ReviewFrame"
+                }
+              }
+            },
+            "required": [
+              "slide_id",
+              "role_id",
+              "slot_id",
+              "provisional",
+              "review_status",
+              "frames"
+            ]
+          },
           "PresentationVersion": {
             "type": "object",
             "additionalProperties": false,
@@ -15169,13 +15265,16 @@
                 "type": "string"
               },
               "manifest_hash": {
-                "type": "string"
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
               },
               "slides": {
                 "type": "array",
                 "items": {
                   "$ref": "#/$defs/VersionSlide"
-                }
+                },
+                "minItems": 2,
+                "maxItems": 1000
               },
               "pdf_asset_id": {
                 "anyOf": [
@@ -15202,6 +15301,33 @@
               },
               "generation_job_id": {
                 "$ref": "#/$defs/Id"
+              },
+              "manifest_asset_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "generated_by": {
+                "$ref": "#/$defs/Id"
+              },
+              "failure_code": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^[A-Z][A-Z0-9_]{0,99}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "render_context": {
+                "$ref": "#/$defs/PresentationRenderContext"
               }
             },
             "required": [
@@ -15217,7 +15343,102 @@
               "pdf_asset_id",
               "created_at",
               "ready_at",
-              "generation_job_id"
+              "generation_job_id",
+              "manifest_asset_id",
+              "generated_by",
+              "failure_code",
+              "render_context"
+            ],
+            "description": "Internal fixed-version projection. All content and render_context derive from its immutable snapshot; no private storage destinations or live library values are returned. Ready requires both manifest and PDF assets."
+          },
+          "ReviewCover": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "project_name": {
+                "type": "string"
+              },
+              "client_name": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "title": {
+                "type": "string"
+              },
+              "output_type": {
+                "type": "string",
+                "enum": [
+                  "selection",
+                  "shortlist"
+                ]
+              },
+              "logo_asset_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "logo_placement": {
+                "type": "string",
+                "enum": [
+                  "cover",
+                  "every_slide"
+                ]
+              }
+            },
+            "required": [
+              "project_name",
+              "client_name",
+              "title",
+              "output_type",
+              "logo_asset_id",
+              "logo_placement"
+            ]
+          },
+          "ReviewFrame": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "asset_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "source_asset_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "timestamp_ms": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "width": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "height": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            },
+            "required": [
+              "asset_id",
+              "source_asset_id",
+              "timestamp_ms",
+              "width",
+              "height",
+              "sha256"
             ]
           },
           "RoleRequirements": {
@@ -15335,6 +15556,31 @@
               "presentation_notes"
             ]
           },
+          "TemplateIdentity": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "key": {
+                "$ref": "#/$defs/Id"
+              },
+              "version": {
+                "$ref": "#/$defs/Id"
+              },
+              "content_sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "font_key": {
+                "$ref": "#/$defs/Id"
+              }
+            },
+            "required": [
+              "key",
+              "version",
+              "content_sha256",
+              "font_key"
+            ]
+          },
           "VersionSlide": {
             "type": "object",
             "additionalProperties": false,
@@ -15439,6 +15685,16 @@
                     "type": "null"
                   }
                 ]
+              },
+              "role_category": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
               }
             },
             "required": [
@@ -15455,7 +15711,8 @@
               "requirements",
               "frame_asset_ids",
               "video_asset_id",
-              "logo_asset_id"
+              "logo_asset_id",
+              "role_category"
             ]
           },
           "Warning": {
@@ -15499,8 +15756,8 @@
       "description": "Capture immutable input and enqueue validated presentation rendering",
       "operationId": "generate_version",
       "http": {
-        "method": "POST",
-        "path": "/presentation-series/{series_id}/versions"
+        "path": "/presentation-series/{series_id}/versions",
+        "method": "POST"
       },
       "capability": "presentations.generate",
       "inputSchema": {
@@ -15541,7 +15798,15 @@
                 "minimum": 0
               },
               "generation_note": {
-                "$ref": "#/$defs/NullableText"
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "maxLength": 8000
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
               }
             },
             "required": [
@@ -15555,16 +15820,6 @@
             "minLength": 1,
             "maxLength": 200,
             "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
-          },
-          "NullableText": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
           },
           "RowVersion": {
             "type": "integer",
@@ -15682,8 +15937,8 @@
       "description": "Read fixed version manifest and ordered slides",
       "operationId": "get_version",
       "http": {
-        "method": "GET",
-        "path": "/versions/{version_id}"
+        "path": "/versions/{version_id}",
+        "method": "GET"
       },
       "capability": "workspaces.read",
       "inputSchema": {
@@ -15756,6 +16011,92 @@
               "main"
             ]
           },
+          "PresentationRenderContext": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "cover": {
+                "$ref": "#/$defs/ReviewCover"
+              },
+              "template": {
+                "$ref": "#/$defs/TemplateIdentity"
+              },
+              "slide_contexts": {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 1000,
+                "items": {
+                  "$ref": "#/$defs/PresentationSlideContext"
+                }
+              }
+            },
+            "required": [
+              "cover",
+              "template",
+              "slide_contexts"
+            ]
+          },
+          "PresentationSlideContext": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "slide_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "role_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "slot_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "provisional": {
+                "type": "boolean"
+              },
+              "review_status": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "enum": [
+                      "reviewed",
+                      "unreviewed"
+                    ]
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "frames": {
+                "type": "array",
+                "maxItems": 3,
+                "items": {
+                  "$ref": "#/$defs/ReviewFrame"
+                }
+              }
+            },
+            "required": [
+              "slide_id",
+              "role_id",
+              "slot_id",
+              "provisional",
+              "review_status",
+              "frames"
+            ]
+          },
           "PresentationVersion": {
             "type": "object",
             "additionalProperties": false,
@@ -15791,13 +16132,16 @@
                 "type": "string"
               },
               "manifest_hash": {
-                "type": "string"
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
               },
               "slides": {
                 "type": "array",
                 "items": {
                   "$ref": "#/$defs/VersionSlide"
-                }
+                },
+                "minItems": 2,
+                "maxItems": 1000
               },
               "pdf_asset_id": {
                 "anyOf": [
@@ -15824,6 +16168,33 @@
               },
               "generation_job_id": {
                 "$ref": "#/$defs/Id"
+              },
+              "manifest_asset_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "generated_by": {
+                "$ref": "#/$defs/Id"
+              },
+              "failure_code": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^[A-Z][A-Z0-9_]{0,99}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "render_context": {
+                "$ref": "#/$defs/PresentationRenderContext"
               }
             },
             "required": [
@@ -15839,7 +16210,102 @@
               "pdf_asset_id",
               "created_at",
               "ready_at",
-              "generation_job_id"
+              "generation_job_id",
+              "manifest_asset_id",
+              "generated_by",
+              "failure_code",
+              "render_context"
+            ],
+            "description": "Internal fixed-version projection. All content and render_context derive from its immutable snapshot; no private storage destinations or live library values are returned. Ready requires both manifest and PDF assets."
+          },
+          "ReviewCover": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "project_name": {
+                "type": "string"
+              },
+              "client_name": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "title": {
+                "type": "string"
+              },
+              "output_type": {
+                "type": "string",
+                "enum": [
+                  "selection",
+                  "shortlist"
+                ]
+              },
+              "logo_asset_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "logo_placement": {
+                "type": "string",
+                "enum": [
+                  "cover",
+                  "every_slide"
+                ]
+              }
+            },
+            "required": [
+              "project_name",
+              "client_name",
+              "title",
+              "output_type",
+              "logo_asset_id",
+              "logo_placement"
+            ]
+          },
+          "ReviewFrame": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "asset_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "source_asset_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "timestamp_ms": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "width": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "height": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            },
+            "required": [
+              "asset_id",
+              "source_asset_id",
+              "timestamp_ms",
+              "width",
+              "height",
+              "sha256"
             ]
           },
           "RoleRequirements": {
@@ -15957,6 +16423,31 @@
               "presentation_notes"
             ]
           },
+          "TemplateIdentity": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "key": {
+                "$ref": "#/$defs/Id"
+              },
+              "version": {
+                "$ref": "#/$defs/Id"
+              },
+              "content_sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "font_key": {
+                "$ref": "#/$defs/Id"
+              }
+            },
+            "required": [
+              "key",
+              "version",
+              "content_sha256",
+              "font_key"
+            ]
+          },
           "VersionSlide": {
             "type": "object",
             "additionalProperties": false,
@@ -16061,6 +16552,16 @@
                     "type": "null"
                   }
                 ]
+              },
+              "role_category": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
               }
             },
             "required": [
@@ -16077,7 +16578,8 @@
               "requirements",
               "frame_asset_ids",
               "video_asset_id",
-              "logo_asset_id"
+              "logo_asset_id",
+              "role_category"
             ]
           },
           "Warning": {
@@ -16121,8 +16623,8 @@
       "description": "Obtain authorized fixed-version PDF download",
       "operationId": "download_version_pdf",
       "http": {
-        "method": "POST",
-        "path": "/versions/{version_id}/pdf"
+        "path": "/versions/{version_id}/pdf",
+        "method": "POST"
       },
       "capability": "workspaces.read",
       "inputSchema": {
@@ -18508,6 +19010,14 @@
               },
               "frame_extraction": {
                 "$ref": "#/$defs/FrameExtractionOutcome"
+              },
+              "can_retry": {
+                "type": "boolean",
+                "description": "Current server-derived action for presentation_render, independent of the lifetime attempt count."
+              },
+              "can_cancel": {
+                "type": "boolean",
+                "description": "Current server-derived cancellation action for presentation_render."
               }
             },
             "required": [
@@ -18532,24 +19042,18 @@
                 "if": {
                   "properties": {
                     "kind": {
-                      "const": "frame_extract"
-                    },
-                    "status": {
-                      "const": "succeeded"
+                      "const": "presentation_render"
                     }
-                  }
+                  },
+                  "required": [
+                    "kind"
+                  ]
                 },
                 "then": {
                   "required": [
-                    "frame_extraction"
+                    "can_retry",
+                    "can_cancel"
                   ]
-                },
-                "else": {
-                  "not": {
-                    "required": [
-                      "frame_extraction"
-                    ]
-                  }
                 }
               }
             ]
@@ -18857,6 +19361,14 @@
               },
               "frame_extraction": {
                 "$ref": "#/$defs/FrameExtractionOutcome"
+              },
+              "can_retry": {
+                "type": "boolean",
+                "description": "Current server-derived action for presentation_render, independent of the lifetime attempt count."
+              },
+              "can_cancel": {
+                "type": "boolean",
+                "description": "Current server-derived cancellation action for presentation_render."
               }
             },
             "required": [
@@ -18881,24 +19393,18 @@
                 "if": {
                   "properties": {
                     "kind": {
-                      "const": "frame_extract"
-                    },
-                    "status": {
-                      "const": "succeeded"
+                      "const": "presentation_render"
                     }
-                  }
+                  },
+                  "required": [
+                    "kind"
+                  ]
                 },
                 "then": {
                   "required": [
-                    "frame_extraction"
+                    "can_retry",
+                    "can_cancel"
                   ]
-                },
-                "else": {
-                  "not": {
-                    "required": [
-                      "frame_extraction"
-                    ]
-                  }
                 }
               }
             ]
@@ -19400,6 +19906,14 @@
               },
               "frame_extraction": {
                 "$ref": "#/$defs/FrameExtractionOutcome"
+              },
+              "can_retry": {
+                "type": "boolean",
+                "description": "Current server-derived action for presentation_render, independent of the lifetime attempt count."
+              },
+              "can_cancel": {
+                "type": "boolean",
+                "description": "Current server-derived cancellation action for presentation_render."
               }
             },
             "required": [
@@ -19424,24 +19938,18 @@
                 "if": {
                   "properties": {
                     "kind": {
-                      "const": "frame_extract"
-                    },
-                    "status": {
-                      "const": "succeeded"
+                      "const": "presentation_render"
                     }
-                  }
+                  },
+                  "required": [
+                    "kind"
+                  ]
                 },
                 "then": {
                   "required": [
-                    "frame_extraction"
+                    "can_retry",
+                    "can_cancel"
                   ]
-                },
-                "else": {
-                  "not": {
-                    "required": [
-                      "frame_extraction"
-                    ]
-                  }
                 }
               }
             ]
@@ -21209,6 +21717,136 @@
         "readOnlyHint": false,
         "destructiveHint": false,
         "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "play_version_media",
+      "description": "Authorize the original video retained by an exact fixed version",
+      "operationId": "play_version_media",
+      "http": {
+        "path": "/versions/{version_id}/media/{asset_id}/playback",
+        "method": "POST"
+      },
+      "capability": "workspaces.read",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "version_id": {
+            "$ref": "#/$defs/Id"
+          },
+          "asset_id": {
+            "$ref": "#/$defs/Id"
+          }
+        },
+        "required": [
+          "version_id",
+          "asset_id"
+        ],
+        "$defs": {
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          }
+        }
+      },
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "request_id": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/$defs/VersionMediaPlayback"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/Warning"
+            }
+          }
+        },
+        "required": [
+          "request_id",
+          "data"
+        ],
+        "$defs": {
+          "DateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          },
+          "VersionMediaPlayback": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "asset_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "url": {
+                "type": "string",
+                "format": "uri"
+              },
+              "expires_at": {
+                "$ref": "#/$defs/DateTime"
+              },
+              "mime_type": {
+                "type": "string"
+              },
+              "source_version_id": {
+                "$ref": "#/$defs/Id"
+              }
+            },
+            "required": [
+              "asset_id",
+              "url",
+              "expires_at",
+              "mime_type",
+              "source_version_id"
+            ]
+          },
+          "Warning": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "entity_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "code",
+              "message",
+              "entity_id"
+            ]
+          }
+        }
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": false,
         "openWorldHint": false
       }
     }

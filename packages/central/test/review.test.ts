@@ -48,6 +48,14 @@ test('exact review scope, counts and measured-fit fingerprint reject malformed c
     h.set(bad); await assert.rejects(h.api.getWorkspaceReview(actor, 'workspace', { series_id: 'series' }), code('CENTRAL_RESPONSE_INVALID'));
   }
 });
+test('new1.1 review requires explicit nullable category while legacy1.0 responses retain their shape', async () => {
+  const h = await fixture(); const legacy = review(); h.set(legacy);
+  assert.deepEqual(await h.api.getWorkspaceReview(actor, 'workspace', { series_id: 'series' }), legacy);
+  const current = { ...legacy, template: { ...legacy.template, version: '1.1.0' } }; h.set(current);
+  await assert.rejects(h.api.getWorkspaceReview(actor, 'workspace', { series_id: 'series' }), code('CENTRAL_RESPONSE_INVALID'));
+  current.slides = current.slides.map(slide => ({ ...slide, role_category: null })); h.set(current);
+  assert.deepEqual(await h.api.getWorkspaceReview(actor, 'workspace', { series_id: 'series' }), current);
+});
 
 test('AI and layout jobs use durable acknowledgements and never accept arbitrary poll URLs', async () => {
   const h = await fixture(); const job = { job_id: 'job', resource_id: 'suggestion', poll_url: '/api/v1/jobs/job', status: 'queued' as const };

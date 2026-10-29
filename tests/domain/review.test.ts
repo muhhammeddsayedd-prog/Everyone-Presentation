@@ -39,6 +39,13 @@ test('ten fields, independent notes/wording, missing content and explicit Shortl
   input.candidates[0].facts.height_measurements = '178 cm';
   assert.equal(projectReviewSlides(input).filter(row => row.kind === 'candidate' && row.fields.height_measurements === '178 cm').length, 2);
 });
+test('new review projections carry supplied role category separately and preserve legacy shape when absent', () => {
+  const input = source(); assert.equal(Object.hasOwn(projectReviewSlides(input)[0], 'role_category'), false);
+  input.roles[0].category = 'Synthetic category'; input.roles[1].category = null;
+  const slides = projectReviewSlides(input); assert.equal(slides[0].role_category, 'Synthetic category');
+  assert.equal(slides[1].role_category, null); assert.equal(slides[2].role_category, null);
+  assert.equal(slides[0].requirements.other_instructions, null);
+});
 
 test('foreign relations, duplicate assignments and unavailable selected media fail rather than fabricate', () => {
   const foreign = source(); foreign.pool[0].workspace_id = 'other'; assert.throws(() => projectReviewSlides(foreign));

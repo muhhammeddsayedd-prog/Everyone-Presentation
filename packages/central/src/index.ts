@@ -9,6 +9,8 @@ export { createCentralSpecs } from './specs.ts';
 export type { CentralSpecs, SpecsListOptions, SpecsArchiveInput, SpecsArchiveResult } from './specs.ts';
 export { createCentralCasting } from './casting.ts';
 export { createCentralReview } from './review.ts';
+export { createCentralPresentations } from './presentation.ts';
+export type { CentralPresentationOptions } from './presentation.ts';
 export { createCentralCandidates } from './candidates.ts';
 export type { CentralCandidates, CandidateVersionInput, CandidateSuccess } from './candidates.ts';
 export { createCentralCandidateFilters } from './candidate-filters.ts';

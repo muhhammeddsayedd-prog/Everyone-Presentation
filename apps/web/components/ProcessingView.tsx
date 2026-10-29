@@ -7,7 +7,7 @@ import { ApiError, api, type Actor, type Project, type Workspace } from './api';
 import { ErrorNotice, Loading } from './Feedback';
 import { useRuntimeMode } from './RuntimeMode';
 import {frameOutcomeSummary} from '../lib/frame-outcome-summary';
-import { JOB_KINDS, JOB_STATUSES, STATUS_LABELS, jobFailureMessage, jobStageLabel, processingDelay, processingHref,
+import { JOB_KINDS, JOB_STATUSES, STATUS_LABELS, jobFailureMessage, processingActions, jobStageLabel, processingDelay, processingHref,
   readJobPage, readProcessingJob, retainJobIntent, validProcessingId, workspaceResultHref,
   type JobAction, type JobIntent, type JobPage, type ProcessingJob, type ProcessingStatus } from './processing-view';
 
@@ -145,6 +145,7 @@ function JobDetail({ id, status, cursor, canOperate, onDirtyChange }: { id: stri
   function reload() { setIntent(null); setStale(false); setOperationError(''); setSaved(''); setConfirmCancel(false); state.reload(); }
   async function operate(action: JobAction) {
     if (!job || busy || !canOperate || stale) return;
+    const confirmingUnknown = intent !== null;
     const request = retainJobIntent(intent, job, action, () => crypto.randomUUID()); setIntent(request); setBusy(true); setOperationError(''); setSaved(''); setConfirmCancel(false);
     const active = new AbortController(); controller.current = active;
     const deadline = setTimeout(() => active.abort(new DOMException('The request deadline elapsed.', 'TimeoutError')), 20_000);
@@ -155,15 +156,17 @@ function JobDetail({ id, status, cursor, canOperate, onDirtyChange }: { id: stri
       state.accept(next); setIntent(null); setSaved(action === 'retry' ? 'Retry request saved.' : 'Cancellation request saved. Any completed work is retained.');
     } catch (reason) {
       if (!mounted.current) return;
-      if (reason instanceof ApiError && reason.status === 409) {
+      if (confirmingUnknown) {
+        setOperationError('The earlier request is still unconfirmed. Retry this same request when access is available to check its saved outcome.');
+      } else if (reason instanceof ApiError && reason.status === 409) {
         setIntent(null); setStale(true); setOperationError('This job changed or this operation is no longer available. Reload its saved details before choosing another action.');
       } else if (reason instanceof ApiError && [401, 403, 404].includes(reason.status)) {
         setIntent(null); state.clear(); setOperationError(readError(reason)); state.reload();
       } else setOperationError('The request could not be confirmed. Retry this same request to check its saved outcome.');
     } finally { clearTimeout(deadline); if (mounted.current) setBusy(false); }
   }
-  const retryable = job?.status === 'failed' && job.error?.retryable === true;
-  const cancellable = job && !['succeeded', 'cancelled'].includes(job.status);
+  const retryable = job ? processingActions(job).retry : false;
+  const cancellable = job ? processingActions(job).cancel : false;
   return <>
     <Link className="back-link" href={processingHref({ status, cursor })}>← All processing jobs</Link>
     <header className="page-heading"><div><h1>{job ? JOB_KINDS[job.kind] : 'Processing job'}</h1><p>Saved state is retained when you refresh or leave this page.</p></div><button className="button button-small button-quiet" disabled={busy || Boolean(intent)} onClick={reload}>Reload job details</button></header>
@@ -176,7 +179,7 @@ function JobDetail({ id, status, cursor, canOperate, onDirtyChange }: { id: stri
         {job.status === 'cancelled' && <p className="small">Cancellation is recorded. Any work already completed is retained.</p>}
         <p className="small muted" role="status">{state.checking && !busy && !intent ? 'Checking saved status…' : state.checkedAt ? `Last checked ${dateLabel(state.checkedAt)}` : 'Reading saved status…'}</p>
       </section>
-      <section className="editor-section"><div className="section-heading"><h2>Project and result</h2></div><WorkspaceDestination key={`${job.id}/${job.workspace_id}`} job={job} /></section>
+      <section className="editor-section"><div className="section-heading"><h2>Project and result</h2></div><WorkspaceDestination key={`${job.id}/${job.workspace_id}`} job={job} />{job.kind === 'presentation_render' && job.resource_id && <><Link className="button" href={`/presentations/versions/${encodeURIComponent(job.resource_id)}`}>Open saved version</Link><p className="small muted">Retrying uses this captured version, including its original words and media.</p></>}</section>
       {canOperate && <section className="editor-section processing-actions"><div className="section-heading"><h2>Recovery</h2><span className="save-state" role="status" aria-live="polite">{busy ? 'Saving…' : operationError ? 'Could not confirm' : saved || 'Up to date'}</span></div>
         <p className="small muted">Cancellation is best-effort. Completed work is retained; retrying resumes eligible failed work.</p>
         {!intent && !stale && <div className="button-row">{retryable && <button className="button" disabled={busy} onClick={() => { void operate('retry'); }}>Retry failed processing</button>}{cancellable && <button className="button button-quiet" disabled={busy} onClick={() => setConfirmCancel(true)}>Cancel processing</button>}{!retryable && !cancellable && <p className="small muted">No recovery action is available for this saved state.</p>}</div>}

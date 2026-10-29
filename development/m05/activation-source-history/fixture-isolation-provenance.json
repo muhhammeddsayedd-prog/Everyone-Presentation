@@ -1,0 +1,34 @@
+{
+  "observed_at": "2026-10-29T22:29:31.458823+00:00",
+  "action": "root_authorized_offline_fixture_history_isolation",
+  "original_source": "tests/operations/test_m05_presentation_enable.py",
+  "original_sha256": "430b68a3b9879cc34a6f840e09b38197c0cfe072c12279e1ff03b74157ebf443",
+  "retained_original": "development/m05/activation-source-history/430b68a3b9879cc34a6f840e09b38197c0cfe072c12279e1ff03b74157ebf443-test_m05_presentation_enable.py",
+  "activation_configuration": "development/m05/presentation-activation.json",
+  "activation_configuration_sha256": "a9d88a0ceccfe98372829ff2a3069c94cddf37c490a1fb06382cacc15b4536a7",
+  "temporary_unsealed_test_proposal": "development/m05/activation-source-history/f0c1bb4310d11bce1ea3f6324400e0a8e82ceddb96e893293c5caa25cca24fc5-unsealed-fixture-isolation-proposal.py",
+  "temporary_proposal_sha256": "f0c1bb4310d11bce1ea3f6324400e0a8e82ceddb96e893293c5caa25cca24fc5",
+  "failure_receipt": "tracking/evidence/m03/final-offline-checks/2026-10-29T22-24-58-660577Z-582b3a9f.json",
+  "reason": "Original fixture mocks the durable claim but not retained activation-attempt history, so real historical evidence leaks into the synthetic lost-ack setup. Sealed source restored; external bounded test isolation is under review.",
+  "sealed_helpers_configuration_claim_or_proofs_changed": false,
+  "cloud_called": false,
+  "current_fixture_sha256": "f0c1bb4310d11bce1ea3f6324400e0a8e82ceddb96e893293c5caa25cca24fc5",
+  "historical_activation_receipt_suffix": "4a529fc8",
+  "historical_activation_binds_retained_original": true,
+  "current_historical_activation_inputs_expected_to_deny_changed_fixture": true,
+  "future_operational_state_observer": "tools/capture-m05-app.py",
+  "root_decision": "Apply simple fixture-only EVIDENCE.glob mock; preserve archived sealed test and all activation helpers/configuration/claim/proofs unchanged. No adjacent monkeypatch adapter.",
+  "intermediate_receipts": [
+    "tracking/evidence/m03/final-offline-checks/2026-10-29T22-24-58-660577Z-582b3a9f.json",
+    "tracking/evidence/m03/final-offline-checks/2026-10-29T22-27-39-591086Z-3cef3005.json"
+  ],
+  "final_current_offline_wrapper_receipt": "tracking/evidence/m03/final-offline-checks/2026-10-29T22-29-32-760991Z-e5d29347.json",
+  "supplementary_m05_typescript_receipt": "tracking/evidence/m05/operations/2026-10-29T22-31-46-769227Z-23772627-supplementary-offline-typescript.json",
+  "final_current_fixture_sha256": "f0c1bb4310d11bce1ea3f6324400e0a8e82ceddb96e893293c5caa25cca24fc5",
+  "final_offline_counts": {
+    "node_operations_tools": 143,
+    "python_operations": 355,
+    "supplementary_m05_typescript_native": 7
+  },
+  "final_current_source_checks_passed": true
+}

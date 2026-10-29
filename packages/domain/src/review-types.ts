@@ -17,7 +17,7 @@ export interface ReviewIssue { code: string; severity: 'information' | 'warning'
 export type ReviewFields = Record<SlideWordingField, string>;
 export interface ReviewFrame { asset_id: string; source_asset_id: string; timestamp_ms: number; width: number; height: number; sha256: string }
 export interface ReviewSlide {
-  kind: 'candidate' | 'pending'; role_id: string | null; role_name: string; slot_id: string | null; slot_label: string;
+  kind: 'candidate' | 'pending'; role_id: string | null; role_name: string; role_category?: string | null; slot_id: string | null; slot_label: string;
   assignment_id: string | null; workspace_candidate_id: string | null; candidate_id: string | null; candidate_media_id: string | null;
   position: AssignmentPosition | null; review_status: 'unreviewed' | 'reviewed' | null;
   assignment_row_version: number | null; workspace_candidate_row_version: number | null; candidate_row_version: number | null;
@@ -73,7 +73,7 @@ export interface ReviewOperations {
  * coherent-snapshot fingerprinting remain in the transactional adapter. */
 export interface ReviewProjectionInput {
   workspace_id: string; output_type: CastingOutput;
-  roles: { id: string; workspace_id: string; name: string; sort_order: number; archived: boolean; requirements?: RoleRequirements }[];
+  roles: { id: string; workspace_id: string; name: string; category?: string | null; sort_order: number; archived: boolean; requirements?: RoleRequirements }[];
   slots: { id: string; role_id: string; label: string; sort_order: number; archived: boolean; provisional?: boolean }[];
   pool: { id: string; workspace_id: string; candidate_id: string; selected_candidate_media_id: string | null; selected_frame_asset_ids: string[]; availability: string | null; fresh_material_required: boolean; row_version: number }[];
   candidates: { id: string; facts: CandidateFacts; review_status: 'unreviewed' | 'reviewed'; archived: boolean; row_version: number }[];

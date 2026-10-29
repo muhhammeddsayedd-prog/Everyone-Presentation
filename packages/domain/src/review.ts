@@ -102,5 +102,9 @@ export function projectReviewSlides(input: ReviewProjectionInput): ReviewSlide[]
     }
   }
   if (!roles.length) pending(undefined, undefined);
+  // Legacy1.0 inputs keep their exact projection shape. New reviewed inputs
+  // supply the separate role category explicitly rather than hiding it in notes.
+  const categories = new Map(roles.map(role => [role.id, role.category]));
+  for (const slide of result) { const category = slide.role_id ? categories.get(slide.role_id) : undefined; if (category !== undefined) slide.role_category = category; }
   return result;
 }

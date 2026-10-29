@@ -12,6 +12,23 @@ const SAFE_ERRORS: Record<string, string> = {
   LEASE_EXPIRED: 'The processing lease expired.', DISPATCH_UNAVAILABLE: 'The processing request could not be dispatched.',
   INPUT_CHANGED: 'The source or draft changed; existing edits were preserved.', PROCESSING_FAILED: 'Processing failed; existing data was preserved.',
   RETRY_EXHAUSTED: 'The bounded retry budget was exhausted.',
+  PDF_TEMPLATE_MISMATCH: 'The captured presentation template or fonts are unavailable.',
+  PDF_ASSET_INVALID: 'A captured presentation image failed verification.',
+  PDF_OVERFLOW: 'Captured presentation content does not fit. Correct the working draft and generate a new version.',
+  PDF_RENDER_FAILED: 'The fixed-version PDF could not be rendered. Retry uses the same captured content.',
+  PDF_VALIDATION_FAILED: 'The generated PDF failed its independent integrity or layout checks.',
+  PDF_ABORTED: 'The presentation attempt stopped before publication.',
+  PDF_BUDGET_EXCEEDED: 'This fixed presentation exceeds the supported rendering budget.',
+  JOB_CANCELLED: 'This presentation job was cancelled. Generate a new version to continue.',
+  PDF_SOURCE_UNAVAILABLE: 'A captured source asset is unavailable or failed verification.',
+  PDF_TEMPLATE_UNAVAILABLE: 'The captured presentation template or fonts are unavailable.',
+  PDF_LAYOUT_OVERFLOW: 'Captured content overflows its registered layout. Correct the draft and generate a new version.',
+  PDF_INVALID: 'The generated PDF failed validation.',
+  PDF_PAGE_COUNT_MISMATCH: 'The PDF page count does not match the captured presentation.',
+  PDF_LINKS_INVALID: 'The PDF original-video links do not match the fixed version.',
+  PDF_OUTPUT_UNVERIFIED: 'The stored presentation artifacts could not be verified.',
+  SNAPSHOT_INVALID: 'The captured presentation snapshot failed its integrity check.',
+  PERMISSION_CHANGED: 'The original requester no longer has the required presentation permissions.',
 };
 export interface FrameExtractionOutcome {
   requested_count: number; extracted_count: number; unavailable_timestamps_ms: number[];
@@ -22,6 +39,7 @@ export interface CentralJob {
   attempt: number; progress_completed: number; progress_total: number | null; batch_id: string | null; input_asset_id: string | null;
   resource_id: string | null; error: { code: string; message: string; details: Record<string, string | number>; retryable: boolean } | null;
   created_at: string; updated_at: string; row_version: number; frame_extraction?: FrameExtractionOutcome;
+  can_retry?: boolean; can_cancel?: boolean;
 }
 export interface JobListOptions { workspace_id?: string; status?: typeof STATUSES[number]; cursor?: string; limit?: number }
 export interface JobMutationInput { row_version: number; reason?: string | null }
@@ -33,7 +51,8 @@ const id = (value: unknown): value is string => typeof value === 'string' && val
 const count = (value: unknown): value is number => typeof value === 'number' && Number.isSafeInteger(value) && value >= 0;
 function jobDto(value: unknown): CentralJob {
   const hasOutcome=Object.hasOwn(object(value),'frame_extraction');
-  const row = exact(value, ['id', 'workspace_id', 'kind', 'status', 'stage', 'attempt', 'progress_completed', 'progress_total', 'batch_id', 'input_asset_id', 'resource_id', 'error', 'created_at', 'updated_at', 'row_version',...(hasOutcome?['frame_extraction']:[])]);
+  const hasActions = object(value).kind === 'presentation_render' || Object.hasOwn(object(value), 'can_retry') || Object.hasOwn(object(value), 'can_cancel');
+  const row = exact(value, ['id', 'workspace_id', 'kind', 'status', 'stage', 'attempt', 'progress_completed', 'progress_total', 'batch_id', 'input_asset_id', 'resource_id', 'error', 'created_at', 'updated_at', 'row_version',...(hasOutcome?['frame_extraction']:[]), ...(hasActions ? ['can_retry', 'can_cancel'] : [])]);
   if(hasOutcome!==(row.kind==='frame_extract'&&row.status==='succeeded'))fail();
   if(hasOutcome){
     const outcome=exact(row.frame_extraction,['requested_count','extracted_count','unavailable_timestamps_ms','warnings']);
@@ -57,6 +76,9 @@ function jobDto(value: unknown): CentralJob {
       || details.retry_after_seconds !== undefined && (typeof details.retry_after_seconds !== 'number' || !Number.isFinite(details.retry_after_seconds) || details.retry_after_seconds < 0 || details.retry_after_seconds > 86400)) fail();
     row.error = { code: error.code, message: SAFE_ERRORS[error.code], details: structuredClone(details), retryable: error.retryable };
   }
+  if (hasActions && (row.kind !== 'presentation_render' || typeof row.can_retry !== 'boolean' || typeof row.can_cancel !== 'boolean'
+    || row.can_retry && (row.status !== 'failed' || row.error === null || object(row.error).code === 'JOB_CANCELLED')
+    || row.can_cancel && !['queued', 'running', 'waiting_for_input'].includes(row.status as string))) fail();
   return structuredClone(row) as unknown as CentralJob;
 }
 

@@ -5,13 +5,17 @@ import path from 'node:path';
 import { chromium, type Browser } from 'playwright';
 import type { ReviewFit, TemplateIdentity, WorkspaceReview } from '../../../packages/domain/src/review-types.ts';
 import { workspaceReviewDto } from '../../../packages/central/src/review-dto.ts';
-import { renderReviewDocument, type TemplateAssets } from '../../../packages/templates/src/render.ts';
+import type { TemplateAssets } from '../../../packages/templates/src/render.ts';
+import { renderRegisteredReviewDocument } from '../../../packages/templates/src/registered.ts';
 import { nativeBrowserEnvironment } from './native-browser.ts';
 
 const ROOT = path.resolve(import.meta.dirname, '../../..');
 const RENDERER = 'packages/templates/src/render.ts';
 const REGISTRY = 'packages/templates/registry.json';
 const BRAND = 'apps/web/public/brand/everyone-logotype.svg';
+const COMPLETE_RENDERER = 'packages/templates/versions/1.1.0/render.ts';
+const COMPLETE_REGISTRY = 'packages/templates/versions/1.1.0/registry.json';
+const COMPLETE_BRAND = 'apps/web/public/brand/everyone-logotype-white.svg';
 // Fit checks the registered logo box; factual/image verification is separate.
 // This inert pixel creates the same fixed-size conditional element without
 // loading any private client image or changing the frozen template.
@@ -20,6 +24,7 @@ const sha = (bytes: Uint8Array | string) => createHash('sha256').update(bytes).d
 // Bind this loaded module to its renderer source. Updating a registered layout
 // requires a fresh worker, rather than measuring with an older cached function.
 const LOADED_RENDERER_SHA = sha(readFileSync(path.join(ROOT, RENDERER)));
+const LOADED_COMPLETE_RENDERER_SHA = sha(readFileSync(path.join(ROOT, COMPLETE_RENDERER)));
 export const REVIEW_FIT_RENDERER_VERSION = 'everyone-casting-fit-v1';
 export interface ReviewFitMeasurement {
   schema_version: '1.0'; input_fingerprint: string; template_content_sha256: string; renderer_version: string; chromium_version: string;
@@ -47,12 +52,14 @@ async function publicRead(relative: string): Promise<Uint8Array> {
 export async function loadReviewTemplateAssets(expected: TemplateIdentity, options: { read?: (file: string) => Promise<Uint8Array> } = {}): Promise<{ assets: TemplateAssets; font_hashes: Record<string, string> }> {
   try {
     const read = options.read ? (relative: string) => options.read!(path.join(ROOT, relative)) : publicRead;
-    const registry: unknown = JSON.parse(new TextDecoder('utf8', { fatal: true }).decode(await read(REGISTRY)));
+    const complete = expected.version === '1.1.0'; if (!complete && expected.version !== '1.0.0') fail('FIT_TEMPLATE_MISMATCH');
+    const registryFile = complete ? COMPLETE_REGISTRY : REGISTRY; const rendererFile = complete ? COMPLETE_RENDERER : RENDERER; const brandFile = complete ? COMPLETE_BRAND : BRAND; const loadedSha = complete ? LOADED_COMPLETE_RENDERER_SHA : LOADED_RENDERER_SHA;
+    const registry: unknown = JSON.parse(new TextDecoder('utf8', { fatal: true }).decode(await read(registryFile)));
     if (!object(registry) || registry.key !== expected.key || registry.version !== expected.version || registry.font_key !== expected.font_key || registry.content_sha256 !== expected.content_sha256 || !digest(expected.content_sha256)) fail('FIT_TEMPLATE_MISMATCH');
     const body = { ...registry }; delete body.content_sha256;
-    if (registry.renderer_path !== RENDERER || registry.brand_path !== BRAND) fail('FIT_TEMPLATE_MISMATCH');
-    const renderer = await read(RENDERER); const brand = await read(BRAND);
-    if (sha(canonical(body)) !== expected.content_sha256 || registry.width !== 1600 || registry.height !== 900 || registry.renderer_sha256 !== LOADED_RENDERER_SHA || sha(renderer) !== LOADED_RENDERER_SHA || sha(brand) !== registry.brand_sha256 || !Array.isArray(registry.fonts) || registry.fonts.length !== 6) fail('FIT_TEMPLATE_MISMATCH');
+    if (registry.renderer_path !== rendererFile || registry.brand_path !== brandFile) fail('FIT_TEMPLATE_MISMATCH');
+    const renderer = await read(rendererFile); const brand = await read(brandFile);
+    if (sha(canonical(body)) !== expected.content_sha256 || registry.width !== 1600 || registry.height !== 900 || registry.renderer_sha256 !== loadedSha || sha(renderer) !== loadedSha || sha(brand) !== registry.brand_sha256 || !Array.isArray(registry.fonts) || registry.fonts.length !== 6) fail('FIT_TEMPLATE_MISMATCH');
     const font_hashes: Record<string, string> = {}; const fontFaces: NonNullable<TemplateAssets['fontFaces']> = [];
     for (const font of registry.fonts) {
       if (!object(font) || typeof font.path !== 'string' || !digest(font.sha256)) fail('FIT_TEMPLATE_MISMATCH');
@@ -90,7 +97,7 @@ export async function measureReviewFit(supplied: WorkspaceReview, options: Revie
     // A non-navigated relative link preserves the registered footer text/DOM.
     // Fit does not mint or inspect original-video access credentials.
     const videoHrefs = Object.fromEntries(review.slides.flatMap(slide => slide.video_asset_id ? [[slide.video_asset_id, '/original-video']] : []));
-    const page = await context.newPage(); await page.setContent(renderReviewDocument(review, { ...pinned.assets, imageSources, videoHrefs }), { waitUntil: 'load', timeout });
+    const page = await context.newPage(); await page.setContent(renderRegisteredReviewDocument(review, { ...pinned.assets, imageSources, videoHrefs }), { waitUntil: 'load', timeout });
     const loaded = await page.evaluate(async () => {
       await Promise.all(['Latin', 'Arabic'].flatMap(family => [400, 500, 600].map(weight => document.fonts.load(`${weight} 23px ${family}`, family === 'Arabic' ? 'تجربة' : 'Example'))));
       await document.fonts.ready;

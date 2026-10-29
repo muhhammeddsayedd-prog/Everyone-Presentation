@@ -1,0 +1,22 @@
+{
+  "recorded_at": "2026-10-29T22:07:48Z",
+  "connector_observed_at": null,
+  "connector_observation_time_note": "Observed during this continuation; the tool result did not supply an event timestamp. The separate bootstrap receipts retain their actual timestamps.",
+  "scope": "Read-only connector availability followed by dedicated fixed WF03 API bootstrap",
+  "connector_operation": "n8n.get_workflow_details",
+  "known_workflow_id": "Nu4bvU634yTLnRy1",
+  "connector_result": "MCP_INTERNAL_ERROR",
+  "connector_code": -32603,
+  "fallback": "Existing authenticated management API through tools/provision-presentation-n8n.mjs",
+  "full_node_definitions_available": false,
+  "node_contract_boundary": "The API node-type endpoint returned HTTP401. The exact active live-tested WF01 graph verified the same three pinned node contracts; credential schema was separately read and validated.",
+  "bootstrap_actions": ["inspect", "credential", "draft", "publish", "probe"],
+  "workflow_id": "kE4qSEcugaKhIoJU",
+  "active_version_id": "ffbb0c6e-7fd9-4d34-bd89-7a7b52455756",
+  "credential_reference_id": "dPJl1LfIqjEoGdpo",
+  "metadata_stage_executions": ["31445", "31446", "31447", "31448"],
+  "metadata_probes_claimed_database_work": false,
+  "metadata_probes_invoked_provider_or_renderer": false,
+  "unrelated_workflows_modified": false,
+  "hosting_deferred": true
+}

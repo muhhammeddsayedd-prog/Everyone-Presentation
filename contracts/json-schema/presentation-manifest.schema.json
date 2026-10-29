@@ -426,6 +426,16 @@
               "type": "null"
             }
           ]
+        },
+        "role_category": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
@@ -442,7 +452,8 @@
         "requirements",
         "frame_asset_ids",
         "video_asset_id",
-        "logo_asset_id"
+        "logo_asset_id",
+        "role_category"
       ]
     }
   }

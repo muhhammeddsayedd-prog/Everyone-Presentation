@@ -1,0 +1,110 @@
+{
+  "observed_at": "2026-10-29T21:40:08.143Z",
+  "scope": "offline_synthetic_actual_pdf_visual_review",
+  "result": "pass",
+  "template_version": "1.1.0",
+  "template_content_sha256": "bbe72bf2bb08f37fe394c75563e2eca3ab8da72b1775db75704d47ae54f4f638",
+  "final_artifact_receipt": {
+    "path": "tracking/evidence/m05/native/2026-10-29T21-39-22.135Z-synthetic.json",
+    "sha256": "71c46094e47d77a015e4f378586b6d5303c2500749ecba2f14d00d68cca15125"
+  },
+  "visually_inspected_png_receipt": {
+    "path": "tracking/evidence/m05/native/2026-10-29T21-29-01.248Z-synthetic.json",
+    "sha256": "9cc7ff0ea7ef5fd2121acc60b941a8f4f89120c41c2fb002084c3464cec7ec53"
+  },
+  "inspector": "independent_native_worker_agent_image_review",
+  "reviewed_pages": [
+    {
+      "artifact": "all-frame-counts",
+      "page": 1,
+      "sha256": "c4affb950dc8cb7e233f811fc2dde1be386f16078b356b5268beaaaacf4a6dca",
+      "identical_to_independently_viewed_png": true
+    },
+    {
+      "artifact": "all-frame-counts",
+      "page": 2,
+      "sha256": "2c8706b20fe444fcfbd98eefb0475af8a7f93d241b125998f3ecb46a302d5d79",
+      "identical_to_independently_viewed_png": true
+    },
+    {
+      "artifact": "all-frame-counts",
+      "page": 3,
+      "sha256": "231704f4ee616259743be0c894d539c42e900b6e3de9b3fdbe1a23a088f937e3",
+      "identical_to_independently_viewed_png": true
+    },
+    {
+      "artifact": "all-frame-counts",
+      "page": 4,
+      "sha256": "216aca00f52d90184dcecdcf567cd20e2927ea5aac1030d6d081603abb1d6eab",
+      "identical_to_independently_viewed_png": true
+    },
+    {
+      "artifact": "all-frame-counts",
+      "page": 5,
+      "sha256": "57c50443fd4a11c896ce2d04d14f0e5898aa693c5055dc5e8751c0e2dd0622ef",
+      "identical_to_independently_viewed_png": true
+    },
+    {
+      "artifact": "wrapped-arabic",
+      "page": 1,
+      "sha256": "871556ce07c545972cf83b664690195246746e35b601442ad7396a02ff06a09d",
+      "identical_to_independently_viewed_png": true
+    },
+    {
+      "artifact": "wrapped-arabic",
+      "page": 2,
+      "sha256": "8c75cc06beabde04b01745bd5d4f23cd9b81b35dbe5d539a888ee7ce7909a7ac",
+      "identical_to_independently_viewed_png": true
+    },
+    {
+      "artifact": "pending-requirements",
+      "page": 1,
+      "sha256": "c4affb950dc8cb7e233f811fc2dde1be386f16078b356b5268beaaaacf4a6dca",
+      "identical_to_independently_viewed_png": true
+    },
+    {
+      "artifact": "pending-requirements",
+      "page": 2,
+      "sha256": "82da6cd25d9809e1e0554d2fc862b7b84ad373cb3f6bdac133e2a7eb2c061ea7",
+      "identical_to_independently_viewed_png": true
+    },
+    {
+      "artifact": "no-role-pending",
+      "page": 1,
+      "sha256": "c4affb950dc8cb7e233f811fc2dde1be386f16078b356b5268beaaaacf4a6dca",
+      "identical_to_independently_viewed_png": true
+    },
+    {
+      "artifact": "no-role-pending",
+      "page": 2,
+      "sha256": "d36da640a0de7be0a48c844fafb46babe8ffe39a83db7782a0a6095194dcc21f",
+      "identical_to_independently_viewed_png": true
+    }
+  ],
+  "findings": {
+    "readable_white_brand": true,
+    "all_ten_candidate_fields_readable": true,
+    "zero_one_two_three_frames_same_page": true,
+    "wide_tall_aspect_preserved": true,
+    "transparent_client_logo_preserved": true,
+    "arabic_mixed_soft_wrap_readable": true,
+    "pending_category_and_all_eleven_requirement_labels": true,
+    "missing_values_visible": true,
+    "no_role_pending_fallback_readable": true,
+    "no_observed_clipping_or_overlap": true
+  },
+  "limitations": [
+    "Synthetic geometric images and text only; no real cast accuracy or app download claim.",
+    "Representative eleven pages, not a maximum-capacity or hosting test.",
+    "Historical 1.0.0 black-on-black branding artifacts remain failed visual evidence; retained byte-identical.",
+    "Earlier 1.1.0 native data-URI artifacts predate default-path allowlist fix; fresh final source binding is separate."
+  ],
+  "budget_callback_followup": {
+    "tool_chunk_id": "8df171",
+    "tests": 5,
+    "passed": 5,
+    "failed": 0,
+    "code": "PDF_BUDGET_EXCEEDED",
+    "automatic_retry": false
+  }
+}

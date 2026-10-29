@@ -1,0 +1,81 @@
+{
+  "observed_at": "2026-10-29T22:44:30.406Z",
+  "result": "passed",
+  "scope": "Actual anonymous local API calls for existing canonical Ready versions and their exact retained artifacts",
+  "input_receipt": "tracking/evidence/m05/app-capture/2026-10-29T22-43-01-866603Z-a630f28c.json",
+  "input_receipt_sha256": "fd173d35df0cabae1265e32d96e0735c5d29b96983e8f3277f934f7a203a453f",
+  "credentials_or_browser_session_loaded": false,
+  "authenticated_user_impersonated": false,
+  "response_bodies_retained": false,
+  "provider_called": false,
+  "guest_link_or_export_created": false,
+  "hosting_deferred": true,
+  "checks": [
+    {
+      "method": "GET",
+      "route": "/api/v1/versions/47b39b6c-ffc4-41fb-ac11-70a697bf19de",
+      "http_status": 401,
+      "denied": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/versions/47b39b6c-ffc4-41fb-ac11-70a697bf19de/pdf/content",
+      "http_status": 401,
+      "denied": true
+    },
+    {
+      "method": "POST",
+      "route": "/api/v1/versions/47b39b6c-ffc4-41fb-ac11-70a697bf19de/pdf",
+      "http_status": 401,
+      "denied": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/versions/bd795ab9-1247-4f64-9703-61142959b1b0",
+      "http_status": 401,
+      "denied": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/versions/bd795ab9-1247-4f64-9703-61142959b1b0/pdf/content",
+      "http_status": 401,
+      "denied": true
+    },
+    {
+      "method": "POST",
+      "route": "/api/v1/versions/bd795ab9-1247-4f64-9703-61142959b1b0/pdf",
+      "http_status": 401,
+      "denied": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/versions/beeba12d-8a95-4ef7-8d0e-d9d32be9278d",
+      "http_status": 401,
+      "denied": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/versions/beeba12d-8a95-4ef7-8d0e-d9d32be9278d/pdf/content",
+      "http_status": 401,
+      "denied": true
+    },
+    {
+      "method": "POST",
+      "route": "/api/v1/versions/beeba12d-8a95-4ef7-8d0e-d9d32be9278d/pdf",
+      "http_status": 401,
+      "denied": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/versions/47b39b6c-ffc4-41fb-ac11-70a697bf19de/media/e6285fb5-eb94-4fb0-90ab-27475cd51842/content",
+      "http_status": 401,
+      "denied": true
+    },
+    {
+      "method": "POST",
+      "route": "/api/v1/versions/47b39b6c-ffc4-41fb-ac11-70a697bf19de/media/20c0ed17-5705-4056-a53d-9898384d4187/playback",
+      "http_status": 401,
+      "denied": true
+    }
+  ]
+}

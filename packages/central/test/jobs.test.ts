@@ -32,6 +32,19 @@ test('review-fit and suggestion jobs retain the same bounded public polling cont
     assert.deepEqual(await jobs.getJob(actor, jobId), row);
   }
 });
+test('presentation jobs expose explicit current-authority actions independent of their lifetime attempt count', async () => {
+  const row = { ...job, kind: 'presentation_render', status: 'failed', stage: 'render_presentation', attempt: 10, resource_id: 'synthetic-version', can_retry: true, can_cancel: false,
+    error: { code: 'PDF_RENDER_FAILED', message: 'Must be replaced by the fixed safe message', details: {}, retryable: false } };
+  const fixture = service(row); const result = await (await createCentralJobs(fixture.client)).getJob(actor, jobId);
+  assert.equal(result.can_retry, true); assert.equal(result.can_cancel, false); assert.equal(result.attempt, 10);
+  assert.equal(result.error!.message, 'The fixed-version PDF could not be rendered. Retry uses the same captured content.');
+  for (const bad of [{ ...row, can_cancel: true }, { ...row, status: 'succeeded', error: null }, { ...row, kind: 'specs_extract' },
+    { ...row, error: { ...row.error, code: 'JOB_CANCELLED' } }]) {
+    const h = service(bad); await assert.rejects((await createCentralJobs(h.client)).getJob(actor, jobId), code('CENTRAL_RESPONSE_INVALID'));
+  }
+  const missing: Record<string, unknown> = { ...row }; delete missing.can_retry; delete missing.can_cancel;
+  const h = service(missing); await assert.rejects((await createCentralJobs(h.client)).getJob(actor, jobId), code('CENTRAL_RESPONSE_INVALID'));
+});
 test('frame jobs expose only bounded timestamp outcomes and reject private payloads',async()=>{
   const outcome={requested_count:3,extracted_count:1,unavailable_timestamps_ms:[1500],warnings:['FRAME_TIMESTAMP_SHARED','FRAME_TIMESTAMP_UNAVAILABLE']};
   const row={...job,kind:'frame_extract',status:'succeeded',stage:'apply_frames',frame_extraction:outcome};

@@ -1,0 +1,86 @@
+{
+  "observed_at": "2026-10-29T22:17:11.649700+00:00",
+  "result": "captured",
+  "target": "pyibofyctwnqpvktepse",
+  "read_only": true,
+  "provider_called_by_observer": false,
+  "browser_session_used": false,
+  "private_payloads_or_signed_urls_published": false,
+  "hosting_deferred": true,
+  "state": {
+    "database": "postgres",
+    "migration_versions": [
+      "20261028010943",
+      "20261028013324",
+      "20261028013655",
+      "20261028024205",
+      "20261028072515",
+      "20261028162702",
+      "20261028162800",
+      "20261028172320",
+      "20261028184145",
+      "20261028222030",
+      "20261029001520",
+      "20261029003941",
+      "20261029070038",
+      "20261029090500",
+      "20261029090724",
+      "20261029094600",
+      "20261029100500",
+      "20261029133455",
+      "20261029135318",
+      "20261029174841",
+      "20261029180953",
+      "20261029202629",
+      "20261029203953",
+      "20261029215218"
+    ],
+    "observed_at": "2026-10-29T22:17:18.075869+00:00",
+    "processing_enabled": false,
+    "protected": {
+      "m02_waiting_preserved": true,
+      "owner_confirmed_profile_still_reviewed": true,
+      "reviewed_source_sha256": "ffe461d30d48b32d90f1165627e2d104b6817f61d96a5a4bd9dcd6ff1964fc0a"
+    },
+    "query_role": "postgres",
+    "series": [
+      {
+        "id": "bbdafa60-1530-4317-a9f8-dd8d45b489ec",
+        "latest_ready_version_id": null,
+        "latest_ready_version_no": null,
+        "next_version_no": 1,
+        "output_type": "selection",
+        "template_version": "1.0.0"
+      },
+      {
+        "id": "f89b29c8-650c-48d4-b6fd-0ed78460c618",
+        "latest_ready_version_id": null,
+        "latest_ready_version_no": null,
+        "next_version_no": 1,
+        "output_type": "shortlist",
+        "template_version": "1.0.0"
+      }
+    ],
+    "unrestricted_visibility": true,
+    "versions": []
+  },
+  "source_sha256": {
+    "tools/sql/m05-app-capture.sql": "5988e3e67295848de278b7dcf5d314943a82f69c1bdd1cdabac8ed146842a27d",
+    "development/local-db/reviewed.json": "0f47cf1deb4db8f87154229bbde56d23776b635faa378cee424a38ca851b6c85",
+    "tools/capture-m05-app.py": "23779d1954796454a9cc4e3af0153069703063b6903799f0bc57b69e37ece4d3",
+    "tools/release_m04_casting.py": "ca855cda402566ebe8c6a78174a44dfcc9e878d7f0a320a6b7251a783ade2226",
+    "tools/release_foundation.py": "02aac0cefc4b46419c7d5a086da672398716cf7ee73882602574cff99659d751",
+    "tools/release_m04_review.py": "451ca1ef4fbb916fe3a30a20db19d0eec590c203c1bcd7cfada8bcba6bbab200",
+    "packages/templates/versions/1.1.0/registry.json": "e830204db50a226ab8d10e0eef323eca4983f92de17db0647893a8ab355e57e3",
+    "packages/templates/versions/1.1.0/render.ts": "f58d10501fac36e1f2f5b80b2f3e814901972084acf94fe4047434e42db7225c",
+    "apps/worker/src/presentation-pdf.ts": "8aa880bb0f18bea71546d48f6e0cc91005cb55334ce88ee36d09a25cc55155c6",
+    "apps/worker/src/presentation-pdf-inspect-process.mjs": "0ee0bf41ba77f9725bdb366f02d7b60c438e15ac78049b4971a1cf43b8175e5d",
+    "apps/worker/src/presentation-stage-executor.ts": "97fc66ff385b0726dc16d6aceaa6d4a10e501a606b7de75cd6dc0a6056357d4d",
+    "packages/central/src/presentation.ts": "5be4f8ffd8f21523014dc5d4c300ba23fc13e4403cf94c81ae39aa3423f854e0",
+    "apps/web/components/PresentationVersionView.tsx": "a90b8f2f1bba0575604d93dabcdf59be6e8b27913a7b1d16a7982d1cfd937287",
+    "apps/web/components/WorkspacePresentationView.tsx": "379fc52c529dff3fb8379d5eb5d0df58e7416ba7a27741cb5a3024d0e05d82b9",
+    "apps/web/components/PresentationIndex.tsx": "9846a2fb594a1bb26c9edd645b61d5e00b0b84c129e9a35865699f2ec987049a",
+    "apps/web/components/VersionAssetImage.tsx": "43bb1a04db9706f0a0a7d74ea1b40761de4ced894ea03a1efbbab7683f0141d0"
+  },
+  "sources_stable": true
+}

@@ -1,0 +1,42 @@
+{
+  "observed_at": "2026-10-29T22:23:11.797855+00:00",
+  "result": "passed",
+  "scope": "Offline synthetic metadata/privacy tests and mocked CLI transport only; exporter not executed against cloud.",
+  "cloud_called": false,
+  "provider_called": false,
+  "private_credentials_or_live_snapshots_loaded": false,
+  "source_sha256": {
+    "tools/capture-m05-app.py": "23779d1954796454a9cc4e3af0153069703063b6903799f0bc57b69e37ece4d3",
+    "tools/sql/m05-app-capture.sql": "5988e3e67295848de278b7dcf5d314943a82f69c1bdd1cdabac8ed146842a27d",
+    "tests/operations/test_m05_app_capture.py": "22ce9b49da361b62544de123257643ca19e39d820aad73406ac3b2e21837ad60",
+    "tools/export-m05-private-snapshot.py": "39c51141a1970d7e34b1085155b9507535272b4d2cbd57529ca6770ee5c18c34",
+    "tests/operations/test_m05_private_snapshot_export.py": "d6a58f8d67c6598415fc913f6ac492316150e9b315df7d4da44f462fcb9cb9c2",
+    "tools/release_foundation.py": "02aac0cefc4b46419c7d5a086da672398716cf7ee73882602574cff99659d751",
+    "tools/provision_logo_verifier.py": "660f2eb0d15b1ed17801ecef22270dbb389fdf93181c340f16d715fc2b3a340c"
+  },
+  "sources_stable": true,
+  "results": [
+    {
+      "test_pattern": "test_m05_app_capture.py",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "371baaf0c1e1ba4208830024572ac11f6b90a96fe5d02b18017f4768c57ae87a",
+      "passed_tests": 8
+    },
+    {
+      "test_pattern": "test_m05_private_snapshot_export.py",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "b842e69f61fdb74fca97abe5a4b748d9bae3073a8c186e19930d2ceedce90775",
+      "passed_tests": 8
+    }
+  ],
+  "passed_tests": 16,
+  "unsafe_logging_transport_mutation": {
+    "scope": "Old logging function import modeled by test-variable rebinding only; no actual CLI invocation.",
+    "result": "expected_red",
+    "tests_run": 1,
+    "assertion_failures": 1,
+    "errors": 0
+  }
+}

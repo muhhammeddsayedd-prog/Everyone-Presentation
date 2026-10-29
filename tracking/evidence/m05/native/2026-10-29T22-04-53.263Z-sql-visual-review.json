@@ -1,0 +1,115 @@
+{
+  "observed_at": "2026-10-29T22:09:52.723Z",
+  "scope": "offline_fixed_synthetic_sql_captures_actual_pdf_visual_review",
+  "result": "passed",
+  "artifact_receipt": {
+    "path": "tracking/evidence/m05/native/2026-10-29T22-04-53.263Z-sql-capture-pdf.json",
+    "sha256": "997c91f5494fd7775c451d1906ee1c833045c00af8189b76f2a322b9d7f14179"
+  },
+  "template_content_sha256": "bbe72bf2bb08f37fe394c75563e2eca3ab8da72b1775db75704d47ae54f4f638",
+  "reviewer": "native_worker_agent_independent_page_images",
+  "pages": [
+    {
+      "output_type": "selection",
+      "page": 1,
+      "sha256": "526fe491c12696653b662caca2ba6813c99cec8e6ebe4b02c938e72715236ef8",
+      "viewed": true
+    },
+    {
+      "output_type": "selection",
+      "page": 2,
+      "sha256": "3768d3e20f7a64b378d8a7fc01de40e00e99552106300ae83bfe8dec865511c9",
+      "viewed": true
+    },
+    {
+      "output_type": "selection",
+      "page": 3,
+      "sha256": "ec458ee414eebf82315748f46d4b9db0867eac7a1773a1baf91c3ef1d27c3aff",
+      "viewed": true
+    },
+    {
+      "output_type": "selection",
+      "page": 4,
+      "sha256": "57a5814f6761df09c810b2c795a37b02190206e85ec3ee52fc3ce2a03d3b0fd6",
+      "viewed": true
+    },
+    {
+      "output_type": "selection",
+      "page": 5,
+      "sha256": "4945128d76225d6a8f7fb80802cd0f74a0acc96d270b76f49516169d7a4ad6e0",
+      "viewed": true
+    },
+    {
+      "output_type": "selection",
+      "page": 6,
+      "sha256": "bf86a8ae3ffcf8eea20996557455c10e1198a6a54d329024aa5298a080aab18b",
+      "viewed": true
+    },
+    {
+      "output_type": "selection",
+      "page": 7,
+      "sha256": "e3ce9e813996275c79fc26e5d8d61cfa1425ced202b1ef98ee73fd73ba0c3685",
+      "viewed": true
+    },
+    {
+      "output_type": "selection",
+      "page": 8,
+      "sha256": "087d9a0a18e9997da79e4ec045224401855d81e0eefb88d4e144d257bb06a21a",
+      "viewed": true
+    },
+    {
+      "output_type": "shortlist",
+      "page": 1,
+      "sha256": "3029fc47ee4f462557378714fbd6dd2e89550bea323233046858286c417a6e19",
+      "viewed": true
+    },
+    {
+      "output_type": "shortlist",
+      "page": 2,
+      "sha256": "3768d3e20f7a64b378d8a7fc01de40e00e99552106300ae83bfe8dec865511c9",
+      "viewed": true
+    },
+    {
+      "output_type": "shortlist",
+      "page": 3,
+      "sha256": "e24070097c7a3c40638571862bf9eaa02a389823d790cee09dcadd2bf2c50a55",
+      "viewed": true
+    },
+    {
+      "output_type": "shortlist",
+      "page": 4,
+      "sha256": "8aa1ab5f0228d6f094910130a9d29015ccc7a45b5508b9085232418e320e0679",
+      "viewed": true
+    },
+    {
+      "output_type": "shortlist",
+      "page": 5,
+      "sha256": "a78377b30fdff04a8bfd8bf6cffd215f46ffd9c965e56cdd4a62996d10bcddba",
+      "viewed": true
+    },
+    {
+      "output_type": "shortlist",
+      "page": 6,
+      "sha256": "53d5acd78ed6d1350d6e05f96d59cab064e10aa082d52b2093a3c2008147340a",
+      "viewed": true
+    }
+  ],
+  "checks": {
+    "selection_exact8": true,
+    "shortlist_exact6": true,
+    "cover_and_native_page_order_readable": true,
+    "one_candidate_page_per_included_assignment": true,
+    "repeated_person_pages_preserved": true,
+    "options_without_main_permitted": true,
+    "all_ten_fields_and_missing_values_visible": true,
+    "pending_category_and_all_eleven_labels_visible": true,
+    "white_brand_readable": true,
+    "no_observed_clipping_or_overlap": true,
+    "snapshots_and_manifests_unchanged": true
+  },
+  "limitations": [
+    "Synthetic immutable captures provided by DB fixture harness; no live canonical DB read or app download by this tool.",
+    "Empty selected media is a supported source fixture; real geometric image coverage is separately proven by native representative artifacts.",
+    "No maximum-capacity, hosting, guest or production claim."
+  ]
+}

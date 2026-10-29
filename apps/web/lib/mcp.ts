@@ -13,6 +13,8 @@ import { handleCastingRequest, isCastingRoute } from './casting-http';
 import { handleReviewRequest, isReviewRoute } from './review-http';
 import type { CastingOperations } from '@eps/domain';
 import type { ReviewOperations } from '@eps/domain';
+import type { PresentationOperations } from '@eps/domain';
+import { handlePresentationRequest, isPresentationRoute } from './presentation-http';
 import { handleMediaPlaybackRequest, isMediaPlaybackRoute } from './media-http';
 import { failure, json, NO_STORE } from './http';
 
@@ -27,12 +29,13 @@ const IMPLEMENTED = new Set(['get_capabilities','list_projects','get_project','u
   'list_workspace_candidates','add_workspace_candidate','update_workspace_candidate','remove_workspace_candidate']);
 const CASTING_TOOLS = new Set(['list_assignments','create_assignment','update_assignment','set_slot_main','undo_slot_main','remove_assignment']);
 const REVIEW_TOOLS = new Set(['list_presentation_series','create_presentation_series','get_presentation_series','update_presentation_series','get_workspace_review','create_ai_suggestion','get_ai_suggestion','request_workspace_review_fit','get_casting_retirement','undo_casting_retirement']);
-const entries = catalog.tools.filter(tool => IMPLEMENTED.has(tool.name) || CASTING_TOOLS.has(tool.name) || REVIEW_TOOLS.has(tool.name));
+const PRESENTATION_TOOLS = new Set(['list_versions', 'generate_version', 'get_version', 'download_version_pdf', 'play_version_media']);
+const entries = catalog.tools.filter(tool => IMPLEMENTED.has(tool.name) || CASTING_TOOLS.has(tool.name) || REVIEW_TOOLS.has(tool.name) || PRESENTATION_TOOLS.has(tool.name));
 const ajv = new Ajv2020({ allErrors: true, strict: false }); addFormats(ajv);
 const checks = new Map(entries.map(tool => [tool.name, ajv.compile(tool.inputSchema)]));
-export interface McpServices { studio: Awaited<ReturnType<typeof createCentralStudio>>; specs: SpecsOperations; jobs: JobOperations; candidates: CandidatesOperations; casting?: CastingOperations; review?: ReviewOperations }
-export function implementedMcpTools(castingEnabled = false, reviewEnabled = false): Tool[] {
-  return entries.filter(tool => (castingEnabled || !CASTING_TOOLS.has(tool.name)) && (reviewEnabled || !REVIEW_TOOLS.has(tool.name))).map(({ name, description, inputSchema, outputSchema, annotations }) =>
+export interface McpServices { studio: Awaited<ReturnType<typeof createCentralStudio>>; specs: SpecsOperations; jobs: JobOperations; candidates: CandidatesOperations; casting?: CastingOperations; review?: ReviewOperations; presentation?: PresentationOperations }
+export function implementedMcpTools(castingEnabled = false, reviewEnabled = false, presentationEnabled = false): Tool[] {
+  return entries.filter(tool => (castingEnabled || !CASTING_TOOLS.has(tool.name)) && (reviewEnabled || !REVIEW_TOOLS.has(tool.name)) && (presentationEnabled || !PRESENTATION_TOOLS.has(tool.name))).map(({ name, description, inputSchema, outputSchema, annotations }) =>
     // JSON-import inference widens literal schema values. The checked-in catalog
     // is validated by AJV here and by the official SDK in protocol tests.
     ({ name, description, inputSchema, outputSchema, annotations }) as unknown as Tool);
@@ -83,7 +86,9 @@ export async function invokeMcpTool(name: string, supplied: unknown, actor: Acto
   try {
     const { request, segments: s, input } = operationRequest(name, supplied);
     const context = { requestId, clientType: 'mcp' as const, idempotencyKey: input.idempotency_key as string | undefined };
-    if (isReviewRoute(s) && services.review) response = await handleReviewRequest(request, s, actor, services.review, context);
+    if (isPresentationRoute(s) && services.presentation) response = await handlePresentationRequest(request, s, actor, services.presentation, context);
+    else if (PRESENTATION_TOOLS.has(name)) throw new DomainError('FEATURE_NOT_IMPLEMENTED', 'Fixed presentations are not available in this server composition.', 503);
+    else if (isReviewRoute(s) && services.review) response = await handleReviewRequest(request, s, actor, services.review, context);
     else if (REVIEW_TOOLS.has(name)) throw new DomainError('FEATURE_NOT_IMPLEMENTED', 'Presentation review is not available in this server composition.', 503);
     else if (isCastingRoute(s) && services.casting) response = await handleCastingRequest(request, s, actor, services.casting, context);
     else if (CASTING_TOOLS.has(name)) throw new DomainError('FEATURE_NOT_IMPLEMENTED', 'Casting assignments are not available in this server composition.', 503);
@@ -125,7 +130,7 @@ export async function invokeMcpTool(name: string, supplied: unknown, actor: Acto
 
 export function createStudioMcpServer(actor: Actor, services: McpServices) {
   const server = new Server({ name: 'everyone-presentation-studio-local', version: '0.1.0' }, { capabilities: { tools: {} } });
-  server.setRequestHandler('tools/list', async () => ({ tools: implementedMcpTools(Boolean(services.casting), Boolean(services.review)) }));
+  server.setRequestHandler('tools/list', async () => ({ tools: implementedMcpTools(Boolean(services.casting), Boolean(services.review), Boolean(services.presentation)) }));
   server.setRequestHandler('tools/call', async request => invokeMcpTool(request.params.name, request.params.arguments ?? {}, actor, services));
   return server;
 }

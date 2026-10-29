@@ -33,7 +33,9 @@ function frame(value: unknown): ReviewFrame {
   return structuredClone(row) as unknown as ReviewFrame;
 }
 function slide(value: unknown): ReviewSlide {
-  const row = reviewRecord(value, ['kind', 'role_id', 'role_name', 'slot_id', 'slot_label', 'assignment_id', 'workspace_candidate_id', 'candidate_id', 'candidate_media_id', 'position', 'review_status', 'assignment_row_version', 'workspace_candidate_row_version', 'candidate_row_version', 'requirements', 'provisional', 'fields', 'source_fields', 'frames', 'video_asset_id']);
+  const hasCategory = Boolean(value && typeof value === 'object' && Object.hasOwn(value, 'role_category'));
+  const row = reviewRecord(value, ['kind', 'role_id', 'role_name', ...(hasCategory ? ['role_category'] : []), 'slot_id', 'slot_label', 'assignment_id', 'workspace_candidate_id', 'candidate_id', 'candidate_media_id', 'position', 'review_status', 'assignment_row_version', 'workspace_candidate_row_version', 'candidate_row_version', 'requirements', 'provisional', 'fields', 'source_fields', 'frames', 'video_asset_id']);
+  if (hasCategory && !nullable(row.role_category, string)) fail();
   if (!['candidate', 'pending'].includes(row.kind as string) || !string(row.role_name) || !string(row.slot_label)
     || typeof row.provisional !== 'boolean' || !['role_id', 'slot_id', 'assignment_id', 'workspace_candidate_id', 'candidate_id', 'candidate_media_id', 'video_asset_id'].every(key => nullable(row[key], isId)) || !Array.isArray(row.frames) || row.frames.length > 3) fail();
   let requirements; try { requirements = parseRoleRequirements(row.requirements); } catch { fail(); }
@@ -63,6 +65,7 @@ export function workspaceReviewDto(value: unknown): WorkspaceReview {
   const cover = reviewRecord(row.cover, ['project_name', 'client_name', 'title', 'output_type', 'logo_asset_id', 'logo_placement']);
   if (!string(cover.project_name) || !nullable(cover.client_name, string) || !string(cover.title) || cover.output_type !== row.output_type || !nullable(cover.logo_asset_id, isId) || !['cover', 'every_slide'].includes(cover.logo_placement as string)) fail();
   const slides = row.slides.map(slide); const candidateSlides = slides.filter(row => row.kind === 'candidate');
+  if (template.version === '1.1.0' && slides.some(item => !Object.hasOwn(item, 'role_category'))) fail();
   if (candidateSlides.length !== row.candidate_slide_count || slides.length - candidateSlides.length !== row.pending_slide_count || new Set(candidateSlides.map(row => row.assignment_id)).size !== candidateSlides.length || new Set(candidateSlides.map(row => `${row.slot_id}:${row.candidate_id}`)).size !== candidateSlides.length) fail();
   const unreviewed = [...new Set(candidateSlides.filter(row => row.review_status === 'unreviewed').map(row => row.candidate_id!))];
   if (unreviewed.length !== row.unreviewed_candidate_ids.length || unreviewed.some(id => !(row.unreviewed_candidate_ids as string[]).includes(id))) fail();

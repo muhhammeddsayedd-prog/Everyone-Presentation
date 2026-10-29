@@ -3,18 +3,21 @@ import { X509Certificate } from 'node:crypto';
 import { Client, Pool, type ClientConfig, type PoolConfig } from 'pg';
 import { createSpecsRuntimeAssets, type SpecsRuntimeAssetConfig, type SpecsAssetOperation } from './specs-runtime-assets.ts';
 import { createCandidateRuntimeAssets } from './candidate-runtime-assets.ts';
+import { createPresentationRuntimeAssets } from './presentation-runtime-assets.ts';
 import type { JobEvent, JobEventReceipt, StageClaim, StageLease } from '../../jobs/src/types.ts';
 
 export const SPECS_RUNTIME_ROLE = 'eps_specs_runtime';
 export const SPECS_RUNTIME_PROJECT = 'pyibofyctwnqpvktepse';
 export const SPECS_RUNTIME_HOST = 'aws-0-eu-west-1.pooler.supabase.com';
-const STAGES = ['prepare_document', 'extract_specs', 'apply_specs','prepare_candidate','transcribe_candidate','extract_candidate','select_frames','apply_candidate','extract_frames','apply_frames','prepare_suggestion','generate_suggestion','validate_suggestion','measure_review_fit'];
+const PRESENTATION_STAGES = ['prepare_presentation', 'render_presentation', 'validate_presentation', 'publish_presentation'];
+const STAGES = ['prepare_document', 'extract_specs', 'apply_specs','prepare_candidate','transcribe_candidate','extract_candidate','select_frames','apply_candidate','extract_frames','apply_frames','prepare_suggestion','generate_suggestion','validate_suggestion','measure_review_fit', ...PRESENTATION_STAGES];
 const KIND_STAGES: Readonly<Record<string, readonly string[]>> = {
   specs_extract: ['prepare_document', 'extract_specs', 'apply_specs'],
   candidate_scan: ['prepare_candidate', 'transcribe_candidate', 'extract_candidate', 'select_frames', 'apply_candidate'],
   frame_extract: ['extract_frames', 'apply_frames'],
   ai_suggestion: ['prepare_suggestion', 'generate_suggestion', 'validate_suggestion'],
   review_fit: ['measure_review_fit'],
+  presentation_render: PRESENTATION_STAGES,
 };
 const STATUSES = ['queued', 'running', 'waiting_for_input', 'succeeded', 'failed', 'cancelled'];
 const UUID = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/u;
@@ -84,13 +87,13 @@ function integer(value: unknown, maximum = 100): asserts value is number {
 function token(value: unknown): asserts value is string {
   if (typeof value !== 'string' || value.length < 1 || value.length > 1024 || /[\s\p{C}]/u.test(value)) fail('INVALID_REQUEST', 400);
 }
-function safeJson(value: unknown, maximum = 294_912): string {
+function safeJson(value: unknown, maximum = 294_912, maximumNodes = 100_000): string {
   let json: string;
   try { json = JSON.stringify(value); } catch { return fail('INVALID_REQUEST', 400); }
   if (typeof json !== 'string' || Buffer.byteLength(json, 'utf8') > maximum) fail('INVALID_REQUEST', 400);
   const parsed: unknown = JSON.parse(json); let nodes = 0;
   function check(item: unknown, depth: number): void {
-    if (++nodes > 100_000 || depth > 32) fail('INVALID_REQUEST', 400);
+    if (++nodes > maximumNodes || depth > 32) fail('INVALID_REQUEST', 400);
     if (typeof item === 'string') {
       for (const character of item) {
         const point = character.codePointAt(0)!;
@@ -212,8 +215,9 @@ function leaseDto(value: unknown, input: StageClaim): StageLease {
 /** Direct authenticated DB gateway. It is not an HTTP ServiceBearer façade and
  * makes no exact-key claim-response replay claim. Unknown writes stop the worker. */
 export async function createSpecsRuntimeGateway(supplied: SpecsRuntimeConfig, dependencies: SpecsRuntimeDependencies = {}, fileConfiguration?: SpecsRuntimeAssetConfig,
-  replayConfiguration?: SpecsClaimReplayConfig,candidateEnabled=false) {
+  replayConfiguration?: SpecsClaimReplayConfig,candidateEnabled=false,presentationEnabled=false) {
   if(typeof candidateEnabled!=='boolean'||candidateEnabled&&fileConfiguration===undefined)fail('RUNTIME_CONFIG_INVALID');
+  if(typeof presentationEnabled!=='boolean'||presentationEnabled&&fileConfiguration===undefined)fail('RUNTIME_CONFIG_INVALID');
   if (replayConfiguration !== undefined && (!exact(replayConfiguration,['keyId','encryptionKey'])
     || typeof replayConfiguration.keyId !== 'string' || !/^[A-Za-z0-9._-]{1,64}$/u.test(replayConfiguration.keyId)
     || typeof replayConfiguration.encryptionKey !== 'string' || !/^[a-f0-9]{64}$/u.test(replayConfiguration.encryptionKey))) fail('RUNTIME_CONFIG_INVALID');
@@ -221,6 +225,8 @@ export async function createSpecsRuntimeGateway(supplied: SpecsRuntimeConfig, de
     await execute(ASSET_SQL[operation],[safeJson(input,operation==='prepare' ? 44*1024*1024 : 294_912)],signal));
   const candidateAssets=!candidateEnabled||fileConfiguration===undefined?undefined:createCandidateRuntimeAssets(fileConfiguration,async(operation,input,signal)=>
     await execute(ASSET_SQL[operation],[safeJson(input,409_600)],signal));
+  const presentationAssets=!presentationEnabled||fileConfiguration===undefined?undefined:createPresentationRuntimeAssets(fileConfiguration,async(operation,input,signal)=>
+    await execute(ASSET_SQL[operation],[safeJson(input)],signal));
   const config = checkedConfig(supplied);
   // pg consults ambient PG* for omitted/falsy options. Refuse that alternate
   // configuration source without mutating the host process environment.
@@ -291,6 +297,7 @@ export async function createSpecsRuntimeGateway(supplied: SpecsRuntimeConfig, de
     get verifiedFunctionOperations(){return functionOperations;},
     files: assets,
     candidateFiles:candidateAssets,
+    presentationFiles:presentationAssets,
     async claimOutbox(limit: number, signal?: AbortSignal) {
       integer(limit); const row = response(await execute('select eps.claim_job_outbox($1::integer) as value', [limit], signal), ['leases']);
       if (!Array.isArray(row.leases) || row.leases.length > limit) fail('RUNTIME_RESPONSE_INVALID', 503, 'unknown');
@@ -328,6 +335,9 @@ export async function createSpecsRuntimeGateway(supplied: SpecsRuntimeConfig, de
       if (!exact(scope, ['job_id', 'attempt_id', 'lease_token']) || !id(scope.job_id) || !id(scope.attempt_id)) fail('INVALID_REQUEST', 400); token(scope.lease_token);
       const result = await execute('select eps.get_specs_stage_input($1::uuid,$2::uuid,$3::text) as value', [scope.job_id, scope.attempt_id, scope.lease_token], signal);
       if (!object(result) || result.job_id !== scope.job_id || result.attempt_id !== scope.attempt_id || !STAGES.includes(String(result.stage))) fail('RUNTIME_RESPONSE_INVALID', 503, 'unknown');
+      // Only frozen presentation snapshots need the larger read envelope. This
+      // never expands claim/event/asset write sizes or other job kinds.
+      if (PRESENTATION_STAGES.includes(String(result.stage))) safeJson(result, 16 * 1024 * 1024, 500_000);
       return result; // The native executor independently validates the exact stage shape before provider work.
     },
     async recordEvent(event: JobEvent, signal: AbortSignal): Promise<JobEventReceipt> {

@@ -1,0 +1,89 @@
+{
+  "observed_at": "2026-10-29T21:49:07.959820+00:00",
+  "result": "passed_synthetic_sql_api_parity",
+  "scope": "Independent offline strict decoding of the DB-agent supplied actual synthetic local SQL capture outputs, not execution of SQL or live service.",
+  "upstream_local_sql_proof": {
+    "path": "tracking/evidence/m05/versions-local/2026-10-29T21-47-30-425Z-e5668320.json",
+    "sha256": "31b771fb29d4d23dcaf2fc39846961f7e23ae49a0aa6eb85d26452bfd350e385"
+  },
+  "checker_commands": [
+    [
+      "node",
+      "--import",
+      "tsx",
+      "tools/check-presentation-sql-snapshot.mts",
+      ".local/m05-contract-fixtures/capture-0.json"
+    ],
+    [
+      "node",
+      "--import",
+      "tsx",
+      "tools/check-presentation-sql-snapshot.mts",
+      ".local/m05-contract-fixtures/capture-1.json"
+    ]
+  ],
+  "captures": [
+    {
+      "fixture": ".local/m05-contract-fixtures/capture-0.json",
+      "fixture_bytes_sha256": "3c49e1bb2cc1a0d506fa25cdbfef12dea149a41cc6b981608eb4074376d79e9c",
+      "version_id": "485f4b22-5037-4a3f-86c0-68e9f06d7367",
+      "series_id": "c7778f37-8b6b-48a8-90d5-2bc3906d4ff2",
+      "output_type": "selection",
+      "page_count": 8,
+      "candidate_slide_count": 6,
+      "pending_slide_count": 1,
+      "asset_count": 0,
+      "snapshot_sha256": "5e63c991bff1de8b55838ca27f58ab5ad98fd55aa801a1243e1cc900b917de11",
+      "manifest_sha256": "91020db9fbc1c38b250ad353830c1fa4e16f5fc496bbce549ff355fec4b13be8"
+    },
+    {
+      "fixture": ".local/m05-contract-fixtures/capture-1.json",
+      "fixture_bytes_sha256": "6e35775cda67efcc658709d9864e314cb6682505a5c0d5804d6fe9d68f5ed364",
+      "version_id": "bdef6b71-32a3-4311-a70e-a1cfac742c7b",
+      "series_id": "4b9a21cf-0897-4dd7-8ce3-300c29f6aac6",
+      "output_type": "shortlist",
+      "page_count": 6,
+      "candidate_slide_count": 3,
+      "pending_slide_count": 2,
+      "asset_count": 0,
+      "snapshot_sha256": "13e5018d9ae58743988ee3aa182ea315e36871a11caaabe7adbc2717e291157e",
+      "manifest_sha256": "4af6cdc909bb996c7a1af2cf728192c2ede9abef988e3ca6f8c13773edf11eb0"
+    }
+  ],
+  "fixture_bytes_unchanged_since_checker_observation": true,
+  "verified": [
+    "strict private snapshot",
+    "final registered1.1 identity and six font hashes",
+    "exact sorted content hashes",
+    "derived closed public manifest",
+    "safe internal render_context",
+    "version identity/number/capture date/draft/fingerprint/manifest hash",
+    "separate role category and all11 requirement keys",
+    "no private destinations in published values"
+  ],
+  "checker_tests": {
+    "command": "node tools/run-tests.mjs tests/operations/presentation-sql-snapshot.test.ts",
+    "passed": 3,
+    "failed": 0,
+    "includes_actual_cli_subprocess": true,
+    "setup_failure_retained": "Initial imported top-level await was incompatible with CJS test output; wrapped entrypoint without changing decoding rules."
+  },
+  "pure_category_regression": {
+    "command": "node tools/run-tests.mjs tests/domain/presentation.test.ts",
+    "passed": 8,
+    "failed": 0,
+    "helper_changed": false
+  },
+  "source_sha256": {
+    "tools/check-presentation-sql-snapshot.mts": "2b4114db3ae558b31f13b7b7ad9a47f4e98b2cb3649bc205bb48eae854f118ac",
+    "tests/operations/presentation-sql-snapshot.test.ts": "75fdd0587970bf7a0bc335a6151a07574de32be46288dffc1df9b35355b573ba",
+    "packages/domain/src/presentation-types.ts": "34524261fdd7535f4006db26c0d8f156e8ad7235bf965d7f4393fb92af1a707a",
+    "packages/domain/src/presentation.ts": "7e6b008c5464ea395ebda0db2030d75c8943d4595a8f722573ee8c5e5258225d",
+    "packages/templates/versions/1.1.0/registry.json": "e830204db50a226ab8d10e0eef323eca4983f92de17db0647893a8ab355e57e3"
+  },
+  "no_raw_facts_transcripts_or_notes_published": true,
+  "private_configuration_read": false,
+  "database_or_cloud_called_by_this_check": false,
+  "native_pdf_or_asset_bytes_claimed": false,
+  "hosting_deferred": true
+}

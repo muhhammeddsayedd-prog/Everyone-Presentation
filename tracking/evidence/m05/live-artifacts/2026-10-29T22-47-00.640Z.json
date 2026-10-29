@@ -1,0 +1,174 @@
+{
+  "observed_at": "2026-10-29T22:47:09.016Z",
+  "scope": "offline_authorized_downloaded_pdf_exact_snapshot_and_source_images",
+  "result": "validated",
+  "intent_composite_sha256": "3f28233536f9b9b6bd5aebd029f3d4e78850f0ede5833da0e2147255563f8e05",
+  "source_sha256": {
+    "tools/inspect-m05-live-pdf.mts": "861eb3e76b85a7da2aba4a73a10a1e7fe4a334c743f34f501b63b0a8425bb59f",
+    "tools/m05-live-geometry.mts": "806675e7fc27cbf6014880bf1c9deb37d455610160b2c632be83a052f5d34360",
+    "tools/m05-live-private-file.py": "22eca63012749e47617497df5483bbd0cb915a42b7490900f696f1e4eae347f1",
+    "tools/provision_logo_verifier.py": "660f2eb0d15b1ed17801ecef22270dbb389fdf93181c340f16d715fc2b3a340c",
+    "apps/worker/src/presentation-pdf.ts": "8aa880bb0f18bea71546d48f6e0cc91005cb55334ce88ee36d09a25cc55155c6",
+    "apps/worker/src/presentation-pdf-inspect-process.mjs": "0ee0bf41ba77f9725bdb366f02d7b60c438e15ac78049b4971a1cf43b8175e5d",
+    "apps/worker/src/review-fit.ts": "a0b94a93198297953c93e153cd872d47462cccdf4088fbd0041155259dc06a8e",
+    "apps/worker/src/native-browser.ts": "58bb031589d1d8421b19e29273cdc681d4431c76e7536ad4a1747f9154004e46",
+    "packages/domain/src/presentation.ts": "7e6b008c5464ea395ebda0db2030d75c8943d4595a8f722573ee8c5e5258225d",
+    "packages/templates/src/registered.ts": "0eadab35d4ee1ca0791188d13bd5f5859ba5d2ad909d9e763b5c586a6f19e78b",
+    "packages/templates/versions/1.1.0/registry.json": "e830204db50a226ab8d10e0eef323eca4983f92de17db0647893a8ab355e57e3",
+    "packages/templates/versions/1.1.0/render.ts": "f58d10501fac36e1f2f5b80b2f3e814901972084acf94fe4047434e42db7225c"
+  },
+  "sources_stable": true,
+  "provider_or_database_called": false,
+  "browser_session_or_credentials_loaded": false,
+  "private_facts_or_signed_urls_published": false,
+  "private_artifact_directory": ".local/m05-live/inspections/2026-10-29T22-47-00.640Z",
+  "visual_inspection": "pending_independent_page_review",
+  "versions": [
+    {
+      "version_id": "beeba12d-8a95-4ef7-8d0e-d9d32be9278d",
+      "snapshot_sha256": "0eee876fc6d48e906ca593066255147c25f436e23fbcb182c083af44f5270607",
+      "downloaded_pdf_sha256": "3e875330f311eccc1268afaa842b6dfc0afcfa0b0396d66205525f2ba18fb874",
+      "downloaded_bytes_match_expected": true,
+      "source_image_count": 0,
+      "independently_verified_source_body_count": 0,
+      "all_source_image_bodies_independently_verified": true,
+      "validation_mode": "exact_snapshot_with_all_available_source_bodies",
+      "independent_pdf_pixel_identity_compared": false,
+      "actual_worker_source_byte_proof_is_separate": true,
+      "validation": {
+        "pdf_sha256": "3e875330f311eccc1268afaa842b6dfc0afcfa0b0396d66205525f2ba18fb874",
+        "page_count": 6,
+        "width_points": 1200,
+        "height_points": 675.12,
+        "text_regions_checked": 134,
+        "image_draws_checked": 0,
+        "video_links_checked": 0,
+        "embedded_font_count": 3,
+        "validated_at": "2026-10-29T22:47:02.147Z"
+      },
+      "pages": [
+        {
+          "page": 1,
+          "file": "beeba12d-8a95-4ef7-8d0e-d9d32be9278d-1.png",
+          "sha256": "d1c5d8237ecbe447812c1853c429a5ff5fb0ae161915736bfb99870e3022813b",
+          "width": 1200,
+          "height": 676,
+          "owner_system_only": true
+        },
+        {
+          "page": 2,
+          "file": "beeba12d-8a95-4ef7-8d0e-d9d32be9278d-2.png",
+          "sha256": "bf3bc8acc74374d6fe3b2c300609616ac414cc636e2bf3a62cddbf27fcc6ee4c",
+          "width": 1200,
+          "height": 676,
+          "owner_system_only": true
+        },
+        {
+          "page": 3,
+          "file": "beeba12d-8a95-4ef7-8d0e-d9d32be9278d-3.png",
+          "sha256": "0ab09e0bb457e6f22cc9630cdee4d385cf571da0382363154c7b4c5838f0bf04",
+          "width": 1200,
+          "height": 676,
+          "owner_system_only": true
+        },
+        {
+          "page": 4,
+          "file": "beeba12d-8a95-4ef7-8d0e-d9d32be9278d-4.png",
+          "sha256": "06794be9a432a2adc6b69a39b8cd950cd21a7dcbb2e0a88c4dd2032397dd49f9",
+          "width": 1200,
+          "height": 676,
+          "owner_system_only": true
+        },
+        {
+          "page": 5,
+          "file": "beeba12d-8a95-4ef7-8d0e-d9d32be9278d-5.png",
+          "sha256": "058c3945bd5fd4850594061d52808ea878539b59a3d6a24100a94e658457ac62",
+          "width": 1200,
+          "height": 676,
+          "owner_system_only": true
+        },
+        {
+          "page": 6,
+          "file": "beeba12d-8a95-4ef7-8d0e-d9d32be9278d-6.png",
+          "sha256": "baac1144523ee1201951dc9dfa92aa68155d2b05253b9c748d9a3a14d3fa4e92",
+          "width": 1200,
+          "height": 676,
+          "owner_system_only": true
+        }
+      ]
+    },
+    {
+      "version_id": "bd795ab9-1247-4f64-9703-61142959b1b0",
+      "snapshot_sha256": "d0fcf483928df49b9d61b167c24e356de3cdb36b6cd97473b1e50c2b4e516971",
+      "downloaded_pdf_sha256": "38bae0b8cb44fe08368b99add025cc09b1648229e4f6c6d0c6d7783e84faa4a3",
+      "downloaded_bytes_match_expected": true,
+      "source_image_count": 2,
+      "independently_verified_source_body_count": 0,
+      "all_source_image_bodies_independently_verified": false,
+      "validation_mode": "exact_snapshot_text_links_and_declared_frame_geometry_without_image_bodies",
+      "independent_pdf_pixel_identity_compared": false,
+      "actual_worker_source_byte_proof_is_separate": true,
+      "validation": {
+        "pdf_sha256": "38bae0b8cb44fe08368b99add025cc09b1648229e4f6c6d0c6d7783e84faa4a3",
+        "page_count": 6,
+        "width_points": 1200,
+        "height_points": 675.12,
+        "text_regions_checked": 126,
+        "image_draws_checked": 2,
+        "video_links_checked": 1,
+        "embedded_font_count": 3,
+        "validated_at": "2026-10-29T22:47:06.544Z"
+      },
+      "pages": [
+        {
+          "page": 1,
+          "file": "bd795ab9-1247-4f64-9703-61142959b1b0-1.png",
+          "sha256": "b8f391ffeb6d0c496baaf167f836dbb10453338de1ed46620c770f2b8b9cd3b1",
+          "width": 1200,
+          "height": 676,
+          "owner_system_only": true
+        },
+        {
+          "page": 2,
+          "file": "bd795ab9-1247-4f64-9703-61142959b1b0-2.png",
+          "sha256": "359085ca43990a64b319eef5e4745d59f3e5f5d6592412f4639a0b06a916e6ee",
+          "width": 1200,
+          "height": 676,
+          "owner_system_only": true
+        },
+        {
+          "page": 3,
+          "file": "bd795ab9-1247-4f64-9703-61142959b1b0-3.png",
+          "sha256": "0ab09e0bb457e6f22cc9630cdee4d385cf571da0382363154c7b4c5838f0bf04",
+          "width": 1200,
+          "height": 676,
+          "owner_system_only": true
+        },
+        {
+          "page": 4,
+          "file": "bd795ab9-1247-4f64-9703-61142959b1b0-4.png",
+          "sha256": "70e37efdd243425b62abf9aab39a3b99e70d54d172885051c898180d49d1816f",
+          "width": 1200,
+          "height": 676,
+          "owner_system_only": true
+        },
+        {
+          "page": 5,
+          "file": "bd795ab9-1247-4f64-9703-61142959b1b0-5.png",
+          "sha256": "058c3945bd5fd4850594061d52808ea878539b59a3d6a24100a94e658457ac62",
+          "width": 1200,
+          "height": 676,
+          "owner_system_only": true
+        },
+        {
+          "page": 6,
+          "file": "bd795ab9-1247-4f64-9703-61142959b1b0-6.png",
+          "sha256": "baac1144523ee1201951dc9dfa92aa68155d2b05253b9c748d9a3a14d3fa4e92",
+          "width": 1200,
+          "height": 676,
+          "owner_system_only": true
+        }
+      ]
+    }
+  ]
+}

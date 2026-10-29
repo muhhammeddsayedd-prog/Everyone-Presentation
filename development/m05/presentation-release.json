@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.0",
+  "migration": {
+    "path": "supabase/migrations/20261029215218_m05_immutable_presentation_versions.sql",
+    "sha256": "09d78c225ca02d436a8b1c2bcc6e55f273dfea116976807af4a8b228b99de5f4"
+  },
+  "baseline_manifest": {
+    "path": "development/m05/presentation-baseline23.json",
+    "sha256": "c3f68019cee90f56b9de2c74261e5e803ee556ecabfd39966b0af3c07c719b42"
+  },
+  "reviewed_manifest": {
+    "path": "development/local-db/reviewed.json",
+    "sha256": "0f47cf1deb4db8f87154229bbde56d23776b635faa378cee424a38ca851b6c85"
+  },
+  "local_proof": {
+    "path": "tracking/evidence/m05/versions-local/2026-10-29T22-10-01-204Z-9e1811b5.json",
+    "sha256": "3e7e0e0ec42ecf1857b80b35db655f34dadd47444e5e8a7cc9414cbfe91909b0"
+  },
+  "promotion": {
+    "path": "tracking/evidence/m05/presentation-promotion/2026-10-29T22-10-57-848Z-3587be8c.json",
+    "sha256": "722f63b8bafbf11f7776cb71077e80a3de44122fa2b7fd17bb71c811b759cdf6"
+  },
+  "race_proof": {
+    "path": "tracking/evidence/m05/presentation-race-local/2026-10-29T22-09-10-701Z-7c35b61c.json",
+    "sha256": "38c8ae39a795dead3ed27e1ca29e5ceff7658c206889aaf12b0e8e7d3ebfb0ca"
+  },
+  "delta": {
+    "path": "development/m05/presentation-release-delta.json",
+    "sha256": "4fab3dbe3dcf1c153d39b6064abfe1e5496f16e81334e5faecd11d5c7037e7cf"
+  },
+  "readback": {
+    "path": "tools/sql/m05-presentation-readback.sql",
+    "sha256": "66234c4fda6d3273a4b55dc4e6554127dc1e1eba173a1f96c0b910b942e811f8"
+  },
+  "source_seals": {
+    "development/local-db/instance.json": "778d29222b0a6b604451a494dab6ca6ffabb7357d5b700794400bf35cc79c198",
+    "development/local-db/reviewed.json": "0f47cf1deb4db8f87154229bbde56d23776b635faa378cee424a38ca851b6c85",
+    "development/m05/finalize.sql": "f526cdaf04e397079a66e187c2ed354711fbf13045a064118666a25319a1697f",
+    "development/m05/presentation-assets.sql": "e8cd2f6beede33031abeae0f40ee0af36faab88268f1b921a31d0ec2b9fd66f3",
+    "development/m05/presentation-baseline23.json": "c3f68019cee90f56b9de2c74261e5e803ee556ecabfd39966b0af3c07c719b42",
+    "development/m05/presentation-processing.sql": "b2c7a34634fa829920589076f11d92cbd02fdb4583685c81dbe14dd293e76cdc",
+    "development/m05/presentation-release-delta.json": "4fab3dbe3dcf1c153d39b6064abfe1e5496f16e81334e5faecd11d5c7037e7cf",
+    "development/m05/template-forward.sql": "c9ab70e37fb9be5e56acad709757f9fc5fd6abbe3d2643c91dbc80d044493306",
+    "development/m05/versions.sql": "c58da9c85659c29d55d06013044ad48280abf1d9dfbbdac51a63e688b924339d",
+    "supabase/migrations/20261028222030_m02_specs_pipeline.sql": "1e5319bb81be1f12896f7efb5a2cb7706653b79eb440a4dc1aaaca4ed9556895",
+    "supabase/migrations/20261029215218_m05_immutable_presentation_versions.sql": "09d78c225ca02d436a8b1c2bcc6e55f273dfea116976807af4a8b228b99de5f4",
+    "tests/db/m04-assignments-fixture.sql": "cb5f418fee0dc3a9b00a9ddeaa3971f5df1c3384c459905baa19b4e04f1d9cb4",
+    "tests/db/m05-lifecycle.sql": "3df9ad72dacb137475c84e540d90440116f29103f02fc377a2cd9930ff80e62a",
+    "tests/db/m05-no-role.sql": "c722bd2c2a0caabaa28d075eb242a23c9cb2c2f5d209170f1ac13675cfcab0a6",
+    "tests/db/m05-processing.sql": "814aca9c60ad7d679bcee020d3e305bd89e25b5919fbdfc11941a3f634da9ada",
+    "tests/db/m05-retention.sql": "486fcbf8ccc9910a3d50bf9c48ce4b956d42f0eb9d2b6e4b9df3bcb2ac159c44",
+    "tests/db/m05-versions-fixture.sql": "da13283bc15481fc1bb76b9d36a3360c3a30d7b6cc06b7c0a979e25e086c636d",
+    "tests/db/m05-versions.sql": "e1cb9867d36c174b3517924299bb4b600c38569b2a805334f0fb2c385930e670",
+    "tests/operations/test_m05_presentation_release.py": "35e4e43c491a5260e662081439204f12b74139c5e1b60299490b0300fd977275",
+    "tools/local-postgres.mjs": "49929bce8eb51194d9299cfd9639e537eb237daaec76c15740cb88059604e2de",
+    "tools/m05-presentation-private-fixture-file.py": "47d8b14b1ce1cf0a1e47ef984e01f70f0c7298351df13396260dc0b46e3ed832",
+    "tools/prepare_m04_review_readback.py": "63d6ef02e51e0d732c780541aacdb203712db3368317ea7fc804821acc111663",
+    "tools/prepare_m05_presentation_readback.py": "1a3b626823636a8cde1cda55bb916c6ed7400bda22575c746c6baf8906ca0d15",
+    "tools/promote-m05-presentation-local.mjs": "4fd9a9dfa48b0b7f4e74e5635312e1e239307ce1a84d899d0092196070b8c506",
+    "tools/provision_logo_verifier.py": "660f2eb0d15b1ed17801ecef22270dbb389fdf93181c340f16d715fc2b3a340c",
+    "tools/release_foundation.py": "02aac0cefc4b46419c7d5a086da672398716cf7ee73882602574cff99659d751",
+    "tools/release_m03_remaining.py": "5a608e480c7afb56a1b49c7a683c238d950301c589c1ff91348368f486995b7e",
+    "tools/release_specs_read_operation.py": "a68be68c78bb20b59216e5aabd9b568bb0d46ef9fd35097ceb78392f85ad304e",
+    "tools/sql/m04-casting-readback.sql": "13cc727a2e2e34321c6bbee2c98a3b7c85af88445fe1a1effd067d895fe5456f",
+    "tools/sql/m04-review-catalog.sql": "36a5b4a3368a5d37092159fcacd18360731aeae5851410f37850c612387529cc",
+    "tools/sql/m04-review-local-snapshot.sql": "7fbd8618363597ff158c429f6127c1eab0e51dce170d740c96f368c604b24d46",
+    "tools/sql/m04-review-new-state.sql": "ef20862443f40d83bb080efa849ab3fdb9e900947a8f12df3c1a347baa413896",
+    "tools/sql/m05-presentation-new-state.sql": "8e0bbcabd7a622bca69f1e4dc8b8d14a388dd65bad160521adb8e404fd139603",
+    "tools/sql/m05-presentation-readback.sql": "66234c4fda6d3273a4b55dc4e6554127dc1e1eba173a1f96c0b910b942e811f8",
+    "tools/test-m05-presentation-race-local.mjs": "30390ddcaca551e4cd6217cad4c45b137769e44232f6007cb71fea1da5516b6b",
+    "tools/test-m05-versions-local.mjs": "c4c9a372ca453db3681614588d3c93c726d317ae28445200ebcabd53e587eebe",
+    "tracking/evidence/m05/presentation-promotion/2026-10-29T22-10-57-848Z-3587be8c.json": "722f63b8bafbf11f7776cb71077e80a3de44122fa2b7fd17bb71c811b759cdf6",
+    "tracking/evidence/m05/presentation-race-local/2026-10-29T22-09-10-701Z-7c35b61c.json": "38c8ae39a795dead3ed27e1ca29e5ceff7658c206889aaf12b0e8e7d3ebfb0ca",
+    "tracking/evidence/m05/versions-local/2026-10-29T22-10-01-204Z-9e1811b5.json": "3e7e0e0ec42ecf1857b80b35db655f34dadd47444e5e8a7cc9414cbfe91909b0"
+  },
+  "required_markers": [
+    "M05_ACTUAL_CAPTURE_SELECTION8_SHORTLIST6_ORDER_TEN_FIELDS_CATEGORY_PENDING_PASSED",
+    "M05_FOUR_STAGES_FROZEN_INPUT_ASSETS_REPLAY_RETENTION_READY_POINTER_AND_READ_PASSED",
+    "M05_STRICT_GENERATE_GUARDS_CANCEL_LATE_CALLBACK_SAFE_FAILURE_EXPLICIT_RETRY_AND_RECOVERY_PASSED",
+    "M05_IMMUTABLE_MEDIA_PINS_ARCHIVE_DEFAULT_CHANGES_NARROW_STORAGE_AND_CURRENT_PROJECT_AUTH_PASSED",
+    "M05_NO_ROLE_TWO_PAGES_COMPLETE_PENDING_AND_FOREIGN_VERSION_DENIAL_PASSED"
+  ]
+}

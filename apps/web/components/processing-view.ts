@@ -14,6 +14,7 @@ const STAGES: Record<string, string> = { prepare_document: 'Document preparation
   prepare_candidate: 'Video preparation', transcribe_candidate: 'Original-language transcription', extract_candidate: 'Supplied fact extraction',
   apply_candidate: 'Saving candidate profile', apply_frames: 'Saving extracted frames',
   prepare_suggestion: 'Preparing supplied text', generate_suggestion: 'Drafting wording suggestion', validate_suggestion: 'Validating wording proposal', measure_review_fit: 'Measuring template layout',
+  prepare_presentation: 'Preparing captured version', render_presentation: 'Rendering PDF', validate_presentation: 'Checking PDF and media', publish_presentation: 'Saving ready version',
   render: 'Presentation layout', export_pdf: 'PDF preparation' };
 const FAILURES: Record<string, string> = { SOURCE_UNREADABLE: 'The supplied source could not be read.', UNSUPPORTED_FORMAT: 'The supplied source format is unsupported.',
   RESULT_INVALID: 'The result could not be validated. Existing work has been retained.', EXTRACTION_REFUSED: 'Extraction could not complete for this input.',
@@ -38,7 +39,12 @@ export function readProcessingJob(value: unknown, expectedId?: string): Processi
     || !count(value.row_version) || value.row_version < 1
     || ![value.created_at, value.updated_at].every(date => typeof date === 'string' && date.length <= 100 && Number.isFinite(Date.parse(date)))) invalid();
   if (value.error !== null && (!record(value.error) || typeof value.error.code !== 'string' || typeof value.error.retryable !== 'boolean')) invalid();
+  if (value.kind === 'presentation_render' && (typeof value.can_retry !== 'boolean' || typeof value.can_cancel !== 'boolean' || ['succeeded', 'cancelled'].includes(value.status as string) && (value.can_retry || value.can_cancel))) invalid();
   return structuredClone(value) as unknown as ProcessingJob;
+}
+export function processingActions(job: ProcessingJob): { retry: boolean; cancel: boolean } {
+  return job.kind === 'presentation_render' ? { retry: job.can_retry === true, cancel: job.can_cancel === true }
+    : { retry: job.status === 'failed' && job.error?.retryable === true, cancel: !['succeeded', 'cancelled'].includes(job.status) };
 }
 export function readJobPage(value: unknown, status: ProcessingStatus | null, requestedCursor: string | null): JobPage {
   if (!record(value) || !Array.isArray(value.data) || value.data.length > 25 || !record(value.page)
@@ -62,7 +68,7 @@ export function processingDelay(status: ProcessingStatus | null, failures: numbe
 }
 export function workspaceResultHref(job: Pick<ProcessingJob, 'workspace_id' | 'kind'>, workspace: { id: string; project_id: string }): string {
   if (!job.workspace_id || workspace.id !== job.workspace_id || !validProcessingId(workspace.project_id)) invalid();
-  const step = job.kind === 'specs_extract' ? 'specs' : ['candidate_scan', 'frame_extract'].includes(job.kind) ? 'cast' : ['ai_suggestion', 'review_fit'].includes(job.kind) ? 'review' : 'project';
+  const step = job.kind === 'specs_extract' ? 'specs' : ['candidate_scan', 'frame_extract'].includes(job.kind) ? 'cast' : ['ai_suggestion', 'review_fit'].includes(job.kind) ? 'review' : job.kind === 'presentation_render' ? 'presentations' : 'project';
   return `/projects/${encodeURIComponent(workspace.project_id)}/casting/${encodeURIComponent(workspace.id)}/${step}`;
 }
 export function processingHref({ job, status, cursor }: { job?: string | null; status?: ProcessingStatus | null; cursor?: string | null } = {}): string {

@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "x-source-sha256": "1da5727ec61d0fcaa66053624e6eeae9c81df10e4569ff507645460ecdfb6d6a",
+  "x-source-sha256": "c6b8f61565e8efc0a45aeae4cb8b3096b254e45cccf583de71a5b17db748f5ff",
   "$defs": {
     "Id": {
       "type": "string",
@@ -2991,7 +2991,15 @@
           "minimum": 0
         },
         "generation_note": {
-          "$ref": "#/$defs/NullableText"
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 8000
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
@@ -3152,6 +3160,16 @@
               "type": "null"
             }
           ]
+        },
+        "role_category": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
@@ -3168,7 +3186,8 @@
         "requirements",
         "frame_asset_ids",
         "video_asset_id",
-        "logo_asset_id"
+        "logo_asset_id",
+        "role_category"
       ]
     },
     "PresentationVersion": {
@@ -3206,13 +3225,16 @@
           "type": "string"
         },
         "manifest_hash": {
-          "type": "string"
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
         },
         "slides": {
           "type": "array",
           "items": {
             "$ref": "#/$defs/VersionSlide"
-          }
+          },
+          "minItems": 2,
+          "maxItems": 1000
         },
         "pdf_asset_id": {
           "anyOf": [
@@ -3239,6 +3261,33 @@
         },
         "generation_job_id": {
           "$ref": "#/$defs/Id"
+        },
+        "manifest_asset_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "generated_by": {
+          "$ref": "#/$defs/Id"
+        },
+        "failure_code": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[A-Z][A-Z0-9_]{0,99}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "render_context": {
+          "$ref": "#/$defs/PresentationRenderContext"
         }
       },
       "required": [
@@ -3254,8 +3303,13 @@
         "pdf_asset_id",
         "created_at",
         "ready_at",
-        "generation_job_id"
-      ]
+        "generation_job_id",
+        "manifest_asset_id",
+        "generated_by",
+        "failure_code",
+        "render_context"
+      ],
+      "description": "Internal fixed-version projection. All content and render_context derive from its immutable snapshot; no private storage destinations or live library values are returned. Ready requires both manifest and PDF assets."
     },
     "ExternalPresentationVersion": {
       "type": "object",
@@ -4123,6 +4177,14 @@
         },
         "frame_extraction": {
           "$ref": "#/$defs/FrameExtractionOutcome"
+        },
+        "can_retry": {
+          "type": "boolean",
+          "description": "Current server-derived action for presentation_render, independent of the lifetime attempt count."
+        },
+        "can_cancel": {
+          "type": "boolean",
+          "description": "Current server-derived cancellation action for presentation_render."
         }
       },
       "required": [
@@ -4147,24 +4209,18 @@
           "if": {
             "properties": {
               "kind": {
-                "const": "frame_extract"
-              },
-              "status": {
-                "const": "succeeded"
+                "const": "presentation_render"
               }
-            }
+            },
+            "required": [
+              "kind"
+            ]
           },
           "then": {
             "required": [
-              "frame_extraction"
+              "can_retry",
+              "can_cancel"
             ]
-          },
-          "else": {
-            "not": {
-              "required": [
-                "frame_extraction"
-              ]
-            }
           }
         }
       ]
@@ -5077,6 +5133,16 @@
               "type": "null"
             }
           ]
+        },
+        "role_category": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
@@ -5374,6 +5440,121 @@
         "success",
         "affected_ids",
         "workspace_row_version"
+      ]
+    },
+    "PresentationSlideContext": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "slide_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "role_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "slot_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "provisional": {
+          "type": "boolean"
+        },
+        "review_status": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "reviewed",
+                "unreviewed"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "frames": {
+          "type": "array",
+          "maxItems": 3,
+          "items": {
+            "$ref": "#/$defs/ReviewFrame"
+          }
+        }
+      },
+      "required": [
+        "slide_id",
+        "role_id",
+        "slot_id",
+        "provisional",
+        "review_status",
+        "frames"
+      ]
+    },
+    "PresentationRenderContext": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "cover": {
+          "$ref": "#/$defs/ReviewCover"
+        },
+        "template": {
+          "$ref": "#/$defs/TemplateIdentity"
+        },
+        "slide_contexts": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 1000,
+          "items": {
+            "$ref": "#/$defs/PresentationSlideContext"
+          }
+        }
+      },
+      "required": [
+        "cover",
+        "template",
+        "slide_contexts"
+      ]
+    },
+    "VersionMediaPlayback": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "asset_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "expires_at": {
+          "$ref": "#/$defs/DateTime"
+        },
+        "mime_type": {
+          "type": "string"
+        },
+        "source_version_id": {
+          "$ref": "#/$defs/Id"
+        }
+      },
+      "required": [
+        "asset_id",
+        "url",
+        "expires_at",
+        "mime_type",
+        "source_version_id"
       ]
     }
   }

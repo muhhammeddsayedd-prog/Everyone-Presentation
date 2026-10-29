@@ -14,7 +14,7 @@ function initialJob(id: string, status: CentralJob['status']): CentralJob {
     error: status === 'failed' ? { code: 'DEPENDENCY_UNAVAILABLE', message: privateText, details: {}, retryable: true } : null,
     row_version: 1, created_at: '2026-10-28T00:00:00Z', updated_at: '2026-10-28T00:00:00Z' };
 }
-async function controlledJobs(page: Page, options: { readOnly?: boolean; empty?: boolean; fixture?: boolean; loseRetry?: boolean; staleCancel?: boolean } = {}) {
+async function controlledJobs(page: Page, options: { readOnly?: boolean; empty?: boolean; fixture?: boolean; loseRetry?: boolean; denyConfirmation?: boolean; staleCancel?: boolean } = {}) {
   const jobs = new Map([[jobId, initialJob(jobId, 'failed')], [nextJobId, { ...initialJob(nextJobId, 'running'), stage: privateText }]]);
   const reads: string[] = []; const mutations: { path: string; key: string; body: unknown }[] = []; const unexpected: string[] = [];
   const errors: string[] = []; page.on('pageerror', error => errors.push(error.message));
@@ -38,7 +38,7 @@ async function controlledJobs(page: Page, options: { readOnly?: boolean; empty?:
       if (request.method() === 'GET') { reads.push(path); return envelope(job); }
       if (request.method() === 'POST' && match[2]) {
         const key = request.headers()['idempotency-key']; mutations.push({ path, key, body: request.postDataJSON() });
-        if (saved.has(key)) return envelope(saved.get(key));
+        if (saved.has(key)) { if (options.denyConfirmation && mutations.length === 2) return failure('CAPABILITY_REQUIRED', 403); return envelope(saved.get(key)); }
         if (match[2] === 'cancel' && options.staleCancel) {
           jobs.set(job.id, { ...job, status: 'succeeded', row_version: 2, progress_completed: 3 }); return failure('STALE_RESOURCE_VERSION', 409);
         }
@@ -174,4 +174,19 @@ test('controlled stale page response cannot replace a newer status filter after 
     await expect(page.getByText('Processing step', { exact: true })).toHaveCount(0);
     expect(model.errors).toEqual([]);
   } finally { release?.(); }
+});
+
+
+test('controlled unknown retry survives a later access denial with the original key and body', async ({ page }) => {
+  const model = await controlledJobs(page, { loseRetry: true, denyConfirmation: true });
+  await page.goto(`/processing?job=${jobId}`);
+  await page.getByRole('button', { name: 'Retry failed processing', exact: true }).click();
+  await page.getByRole('button', { name: 'Retry this retry request', exact: true }).click();
+  await expect(page.getByText(/earlier request is still unconfirmed/)).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Reload job details', exact: true })).toBeDisabled();
+  await page.getByRole('button', { name: 'Retry this retry request', exact: true }).click();
+  await expect(page.locator('.processing-detail .badge')).toHaveText('Queued');
+  expect(model.mutations).toHaveLength(3);
+  expect(model.mutations[1]).toEqual(model.mutations[0]); expect(model.mutations[2]).toEqual(model.mutations[0]);
+  expect(model.jobs.size).toBe(2); expect(model.errors).toEqual([]);
 });

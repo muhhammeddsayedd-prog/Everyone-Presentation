@@ -5,6 +5,7 @@ import { executeCandidateStage, type CandidateStageOptions } from './candidate-s
 import { executeFrameStage, type FrameStageOptions } from './frame-stage-executor.ts';
 import { executeReviewStage, type ReviewStageOptions } from './review-stage-executor.ts';
 import { executeReviewFitStage, type ReviewFitStageOptions } from './review-fit-stage-executor.ts';
+import { executePresentationStage, type PresentationStageOptions } from './presentation-stage-executor.ts';
 import { validateSpecsWorkOrder } from './n8n-orchestrator.ts';
 import type { SpecsStageRouter, StageRuntimeGateway, WorkerNotice } from './runtime-types.ts';
 
@@ -22,7 +23,7 @@ function safeCode(error: unknown): string {
 }
 const unknown = (error: unknown) => !object(error) || error.outcome !== 'known';
 function invalid(): never { throw new Error('WORKER_CONTRACT_INVALID'); }
-interface RuntimeOptions { openAI: OpenAISpecsConfig; signal?: AbortSignal; execute?: typeof executeSpecsStage; gatewayTimeoutMs?: number; files?: SpecsExecutionOptions['files']; vision?: SpecsExecutionOptions['vision']; candidate?: Omit<CandidateStageOptions, 'signal'>; executeCandidate?: typeof executeCandidateStage; frames?: Omit<FrameStageOptions, 'signal'>; executeFrames?: typeof executeFrameStage; review?: Omit<ReviewStageOptions, 'signal'>; executeReview?: typeof executeReviewStage; fit?: Omit<ReviewFitStageOptions, 'signal'>; executeFit?: typeof executeReviewFitStage }
+interface RuntimeOptions { openAI: OpenAISpecsConfig; signal?: AbortSignal; execute?: typeof executeSpecsStage; gatewayTimeoutMs?: number; files?: SpecsExecutionOptions['files']; vision?: SpecsExecutionOptions['vision']; candidate?: Omit<CandidateStageOptions, 'signal'>; executeCandidate?: typeof executeCandidateStage; frames?: Omit<FrameStageOptions, 'signal'>; executeFrames?: typeof executeFrameStage; review?: Omit<ReviewStageOptions, 'signal'>; executeReview?: typeof executeReviewStage; fit?: Omit<ReviewFitStageOptions, 'signal'>; executeFit?: typeof executeReviewFitStage; presentation?: Omit<PresentationStageOptions, 'signal'>; executePresentation?: typeof executePresentationStage }
 /** Public storage configuration is opt-in, fixed-target and separate from the
  * protected five-field database/webhook configuration. No ambient JWT fallback. */
 export function specsWorkerFilesConfiguration(environment: Record<string, string | undefined>): { storageOrigin: string; publishableKey: string } | undefined {
@@ -65,6 +66,7 @@ export async function processNextSpecsStage(gateway: StageRuntimeGateway, router
     if (order.kind === 'candidate_scan' && !options.candidate) invalid();
     if (order.kind === 'frame_extract' && !options.frames) invalid();
     if (order.kind === 'ai_suggestion' && !options.review || order.kind === 'review_fit' && !options.fit) invalid();
+    if (order.kind === 'presentation_render' && !options.presentation) invalid();
     if (options.signal?.aborted) return { event: 'dispatch_unconfirmed', job_id: envelope.job_id, stage: envelope.stage };
     claimAttempted = true;
     const lease = await bounded(signal => gateway.claim({ job_id: order.job_id, stage: order.stage, input_hash: order.input_hash,
@@ -79,7 +81,9 @@ export async function processNextSpecsStage(gateway: StageRuntimeGateway, router
     }
     acknowledged = true;
     if (!lease.already_completed) {
-      const execution = order.kind === 'review_fit'
+      const execution = order.kind === 'presentation_render'
+        ? await (options.executePresentation ?? executePresentationStage)(lease, gateway, { ...options.presentation!, signal: options.signal })
+        : order.kind === 'review_fit'
         ? await (options.executeFit ?? executeReviewFitStage)(lease, gateway, { ...options.fit!, signal: options.signal })
         : order.kind === 'ai_suggestion'
         ? await (options.executeReview ?? executeReviewStage)(lease, gateway, { ...options.review!, signal: options.signal })

@@ -1,0 +1,916 @@
+{
+  "run_id": "8055b48c-aa66-4bb6-9861-f5f9656f8ea3",
+  "started_at": "2026-10-29T21:54:52.042Z",
+  "result": "failed",
+  "mode": "candidate",
+  "cloud_called": false,
+  "provider_called": false,
+  "hosted_credential_files_read": false,
+  "scope": "Actual two-actor immutable version capture, shared-source and allocation races on a disposable network-none PG17 clone of reviewed catalog/application local23; all Auth row data and large objects excluded. No canonical promotion or login-secret dump.",
+  "source_seals": {
+    "supabase/migrations/20261029215218_m05_immutable_presentation_versions.sql": "14de8a1780124d611fa2aaa4e9816b38117826e21ac20ce4e7210254aa03cb9f",
+    "tests/db/m05-versions-fixture.sql": "da13283bc15481fc1bb76b9d36a3360c3a30d7b6cc06b7c0a979e25e086c636d",
+    "tests/db/m04-assignments-fixture.sql": "cb5f418fee0dc3a9b00a9ddeaa3971f5df1c3384c459905baa19b4e04f1d9cb4",
+    "tools/sql/m04-review-local-snapshot.sql": "7fbd8618363597ff158c429f6127c1eab0e51dce170d740c96f368c604b24d46",
+    "development/local-db/reviewed.json": "c3f68019cee90f56b9de2c74261e5e803ee556ecabfd39966b0af3c07c719b42",
+    "development/local-db/instance.json": "778d29222b0a6b604451a494dab6ca6ffabb7357d5b700794400bf35cc79c198",
+    "tools/m05-presentation-private-fixture-file.py": "47d8b14b1ce1cf0a1e47ef984e01f70f0c7298351df13396260dc0b46e3ed832",
+    "tools/provision_logo_verifier.py": "660f2eb0d15b1ed17801ecef22270dbb389fdf93181c340f16d715fc2b3a340c",
+    "tools/sql/m04-review-catalog.sql": "36a5b4a3368a5d37092159fcacd18360731aeae5851410f37850c612387529cc",
+    "tools/test-m05-presentation-race-local.mjs": "683b6395beae83df32d59bcd7c2f13b9e6edbfe8b172f9eb32a74e5bc2c67398",
+    "supabase/migrations/20261028222030_m02_specs_pipeline.sql": "1e5319bb81be1f12896f7efb5a2cb7706653b79eb440a4dc1aaaca4ed9556895",
+    "tests/db/m05-versions.sql": "e1cb9867d36c174b3517924299bb4b600c38569b2a805334f0fb2c385930e670",
+    "development/m05/versions.sql": "c58da9c85659c29d55d06013044ad48280abf1d9dfbbdac51a63e688b924339d",
+    "development/m05/template-forward.sql": "c9ab70e37fb9be5e56acad709757f9fc5fd6abbe3d2643c91dbc80d044493306",
+    "development/m05/presentation-processing.sql": "c2bf43bb39f77f41eb95e54fb510c80794f4f3f93989b2177683d59f918177d8",
+    "development/m05/presentation-assets.sql": "e8cd2f6beede33031abeae0f40ee0af36faab88268f1b921a31d0ec2b9fd66f3",
+    "development/m05/finalize.sql": "f526cdaf04e397079a66e187c2ed354711fbf13045a064118666a25319a1697f"
+  },
+  "harness_sha256": "683b6395beae83df32d59bcd7c2f13b9e6edbfe8b172f9eb32a74e5bc2c67398",
+  "native_image": "public.ecr.aws/supabase/postgres@sha256:6942962433a569e87f228b4d4ab7e11db5deca64e43babb3a038443ad6c4f1bb",
+  "before": {
+    "business": {
+      "eps.jobs": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.roles": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.slots": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.specs": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.candidates": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.job_events": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.workspaces": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "public.clients": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.assignments": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "public.projects": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.audit_events": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.media_assets": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.outbox_events": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.ai_suggestions": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.candidate_media": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.support_uploads": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.upload_sessions": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.audience_presets": {
+        "rows": 3,
+        "sha256": "eb011925a2ce2b90e5d05f9d3d429f982ecbdeff40e384472f12f2b27cf3c705"
+      },
+      "eps.candidate_support": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.candidate_uploads": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.review_fit_results": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.specs_asset_config": {
+        "rows": 1,
+        "sha256": "c628171680739f1fecb14b9ee8e78ae41752f7487ad904a2ab8a62ed82178255"
+      },
+      "eps.specs_asset_grants": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.idempotency_records": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.presentation_series": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.specs_source_inputs": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.cast_operation_notes": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.specs_stage_payloads": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.workspace_candidates": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.review_stage_payloads": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.specs_pipeline_config": {
+        "rows": 1,
+        "sha256": "5449176c66e66558b18ba02dec2b2a24a784a7c5e8cdb859e03bfb75eb70ad79"
+      },
+      "eps.specs_upload_sessions": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "public.client_memberships": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.candidate_asset_config": {
+        "rows": 1,
+        "sha256": "e90fc6de593ab542cf3f23a24fd714bae929e278603f4515f9e8e145e1f75fa7"
+      },
+      "eps.candidate_asset_grants": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.candidate_media_frames": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.logo_verification_keys": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.presentation_templates": {
+        "rows": 1,
+        "sha256": "294f5ab5c4f85b420df19d3a4fa5c5327d12474e4f9f157f98714f7b11b894a5"
+      },
+      "public.project_memberships": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.frame_extraction_config": {
+        "rows": 1,
+        "sha256": "f18a192cd6c5fda9ef3ffdab82cf51656242e9c60b2f0a0426dee41e1c004a3e"
+      },
+      "eps.job_stage_claim_replays": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.specs_file_preparations": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.specs_verification_keys": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.assignment_change_events": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.candidate_stage_payloads": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.candidate_support_config": {
+        "rows": 1,
+        "sha256": "bd12feb29f67ef5e8957aee7374db3d3f6edee16a11489229f22fe2494fc370d"
+      },
+      "eps.review_processing_config": {
+        "rows": 1,
+        "sha256": "5f2d99affdc54f1c16e0ee92ef16804ebea28cb06a9d993df4a3e407efd4c617"
+      },
+      "public.app_capability_grants": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.frame_extraction_requests": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.support_verification_keys": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.user_workspace_preferences": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.assignment_change_consumptions": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "versions": [
+      "20261028010943",
+      "20261028013324",
+      "20261028013655",
+      "20261028024205",
+      "20261028072515",
+      "20261028162702",
+      "20261028162800",
+      "20261028172320",
+      "20261028184145",
+      "20261028222030",
+      "20261029001520",
+      "20261029003941",
+      "20261029070038",
+      "20261029090500",
+      "20261029090724",
+      "20261029094600",
+      "20261029100500",
+      "20261029133455",
+      "20261029135318",
+      "20261029174841",
+      "20261029180953",
+      "20261029202629",
+      "20261029203953"
+    ],
+    "roles_sha256": "d2840d2d6c190a1569ba7574b7b5f2d0b306b9dc5113b346a2b30c67465fa601",
+    "catalog_sha256": "b8288754cca5762c42bbf26775d13a54b98dd9745c0c54c308177089b6003cf6"
+  },
+  "managed_auth_before": {
+    "auth_relations": [
+      {
+        "acl": "{supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin,postgres=arwdDxtm/supabase_auth_admin}",
+        "rls": false,
+        "rows": 0,
+        "owner": "supabase_auth_admin",
+        "table": "audit_log_entries",
+        "forced_rls": false,
+        "physical_row_revision_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "acl": "{supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin,postgres=arwdDxtm/supabase_auth_admin}",
+        "rls": false,
+        "rows": 0,
+        "owner": "supabase_auth_admin",
+        "table": "instances",
+        "forced_rls": false,
+        "physical_row_revision_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "acl": "{supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin,postgres=arwdDxtm/supabase_auth_admin}",
+        "rls": false,
+        "rows": 0,
+        "owner": "supabase_auth_admin",
+        "table": "refresh_tokens",
+        "forced_rls": false,
+        "physical_row_revision_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "acl": "{supabase_auth_admin=arwdDxtm/supabase_auth_admin}",
+        "rls": false,
+        "rows": 7,
+        "owner": "supabase_auth_admin",
+        "table": "schema_migrations",
+        "forced_rls": false,
+        "physical_row_revision_sha256": "b3263018c658e07a2d041e9f20086220f19e9a6b06fc9596e99d56ebca559429"
+      },
+      {
+        "acl": "{supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin,postgres=arwdDxtm/supabase_auth_admin}",
+        "rls": false,
+        "rows": 0,
+        "owner": "supabase_auth_admin",
+        "table": "users",
+        "forced_rls": false,
+        "physical_row_revision_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  "dump_preflight": {
+    "auth_schema_only": true,
+    "extension_secret_tables": false,
+    "unmanaged_public_relations_or_functions": false
+  },
+  "auth_row_data_and_large_objects_excluded": true,
+  "private_artifacts_owner_system_protected": true,
+  "container_creation_attempted": true,
+  "startup_observation": {
+    "process_names": [
+      "bash",
+      ".postgres-wrapp"
+    ],
+    "init_complete_marker_observed": true,
+    "last_readiness_code": 0,
+    "final_server": {
+      "postmaster_pid": 1,
+      "system_identifier": "7702211689007108145",
+      "postmaster_started_at": "2026-10-29T21:55:08.218348+00:00",
+      "process_chain": [
+        {
+          "pid": 1,
+          "process_name": ".postgres-wrapp",
+          "parent_pid": 0
+        }
+      ]
+    }
+  },
+  "disposable": {
+    "name": "eps-m05-presentation-race-8055b48c",
+    "container_id": "fdd7591cbd5b33141be67e6a42b6a8273941194394c39babd1bdae79a7662fd3",
+    "system_identifier": "7702211689007108145",
+    "network": "none",
+    "published_ports": 0,
+    "labels_verified": true,
+    "tmpfs_data": true,
+    "final_postmaster_observed": true,
+    "dumped_login_credentials": false
+  },
+  "nologin_owner_and_membership_provenance_matches23": true,
+  "original_between_constraints_restored_from_sealed_migration": 4,
+  "public_schema_acl_restored_exactly": true,
+  "pinned_managed_extensions_restored_exactly": true,
+  "pinned_managed_event_triggers_restored_exactly": true,
+  "clone_snapshot": {
+    "business": {
+      "eps.jobs": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.roles": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.slots": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.specs": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.candidates": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.job_events": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.workspaces": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "public.clients": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.assignments": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "public.projects": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.audit_events": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.media_assets": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.outbox_events": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.ai_suggestions": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.candidate_media": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.support_uploads": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.upload_sessions": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.audience_presets": {
+        "rows": 3,
+        "sha256": "eb011925a2ce2b90e5d05f9d3d429f982ecbdeff40e384472f12f2b27cf3c705"
+      },
+      "eps.candidate_support": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.candidate_uploads": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.review_fit_results": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.specs_asset_config": {
+        "rows": 1,
+        "sha256": "c628171680739f1fecb14b9ee8e78ae41752f7487ad904a2ab8a62ed82178255"
+      },
+      "eps.specs_asset_grants": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.idempotency_records": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.presentation_series": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.specs_source_inputs": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.cast_operation_notes": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.specs_stage_payloads": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.workspace_candidates": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.review_stage_payloads": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.specs_pipeline_config": {
+        "rows": 1,
+        "sha256": "5449176c66e66558b18ba02dec2b2a24a784a7c5e8cdb859e03bfb75eb70ad79"
+      },
+      "eps.specs_upload_sessions": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "public.client_memberships": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.candidate_asset_config": {
+        "rows": 1,
+        "sha256": "e90fc6de593ab542cf3f23a24fd714bae929e278603f4515f9e8e145e1f75fa7"
+      },
+      "eps.candidate_asset_grants": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.candidate_media_frames": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.logo_verification_keys": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.presentation_templates": {
+        "rows": 1,
+        "sha256": "294f5ab5c4f85b420df19d3a4fa5c5327d12474e4f9f157f98714f7b11b894a5"
+      },
+      "public.project_memberships": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.frame_extraction_config": {
+        "rows": 1,
+        "sha256": "f18a192cd6c5fda9ef3ffdab82cf51656242e9c60b2f0a0426dee41e1c004a3e"
+      },
+      "eps.job_stage_claim_replays": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.specs_file_preparations": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.specs_verification_keys": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.assignment_change_events": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.candidate_stage_payloads": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.candidate_support_config": {
+        "rows": 1,
+        "sha256": "bd12feb29f67ef5e8957aee7374db3d3f6edee16a11489229f22fe2494fc370d"
+      },
+      "eps.review_processing_config": {
+        "rows": 1,
+        "sha256": "5f2d99affdc54f1c16e0ee92ef16804ebea28cb06a9d993df4a3e407efd4c617"
+      },
+      "public.app_capability_grants": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.frame_extraction_requests": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.support_verification_keys": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.user_workspace_preferences": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.assignment_change_consumptions": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "versions": [
+      "20261028010943",
+      "20261028013324",
+      "20261028013655",
+      "20261028024205",
+      "20261028072515",
+      "20261028162702",
+      "20261028162800",
+      "20261028172320",
+      "20261028184145",
+      "20261028222030",
+      "20261029001520",
+      "20261029003941",
+      "20261029070038",
+      "20261029090500",
+      "20261029090724",
+      "20261029094600",
+      "20261029100500",
+      "20261029133455",
+      "20261029135318",
+      "20261029174841",
+      "20261029180953",
+      "20261029202629",
+      "20261029203953"
+    ],
+    "roles_sha256": "d2840d2d6c190a1569ba7574b7b5f2d0b306b9dc5113b346a2b30c67465fa601",
+    "catalog_sha256": "b8288754cca5762c42bbf26775d13a54b98dd9745c0c54c308177089b6003cf6"
+  },
+  "reviewed_catalog_and_application_snapshot_matches23": true,
+  "busy_then_changed_source": {
+    "real_source_writer_held": true,
+    "nowait_denied_code": "INPUT_CHANGED",
+    "no_partial_allocation": true,
+    "review_before_source_commit": true,
+    "after_commit_denied_code": "INPUT_CHANGED"
+  },
+  "concurrent_allocation": {
+    "two_distinct_authorized_principals": true,
+    "actual_workspace_lock_wait_observed": true,
+    "distinct_version_ids": true,
+    "sequential_numbers": [
+      4,
+      5
+    ],
+    "no_gap_or_duplicate": true
+  },
+  "private_diagnostic": ".local/m05-presentation-race/8055b48c-aa66-4bb6-9861-f5f9656f8ea3/diagnostic.json",
+  "diagnostic": "M05_ISOLATED_RACE_UNCONFIRMED",
+  "disposable_cleanup_verified": true,
+  "after": {
+    "business": {
+      "eps.jobs": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.roles": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.slots": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.specs": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.candidates": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.job_events": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.workspaces": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "public.clients": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.assignments": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "public.projects": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.audit_events": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.media_assets": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.outbox_events": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.ai_suggestions": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.candidate_media": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.support_uploads": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.upload_sessions": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.audience_presets": {
+        "rows": 3,
+        "sha256": "eb011925a2ce2b90e5d05f9d3d429f982ecbdeff40e384472f12f2b27cf3c705"
+      },
+      "eps.candidate_support": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.candidate_uploads": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.review_fit_results": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.specs_asset_config": {
+        "rows": 1,
+        "sha256": "c628171680739f1fecb14b9ee8e78ae41752f7487ad904a2ab8a62ed82178255"
+      },
+      "eps.specs_asset_grants": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.idempotency_records": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.presentation_series": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.specs_source_inputs": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.cast_operation_notes": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.specs_stage_payloads": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.workspace_candidates": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.review_stage_payloads": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.specs_pipeline_config": {
+        "rows": 1,
+        "sha256": "5449176c66e66558b18ba02dec2b2a24a784a7c5e8cdb859e03bfb75eb70ad79"
+      },
+      "eps.specs_upload_sessions": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "public.client_memberships": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.candidate_asset_config": {
+        "rows": 1,
+        "sha256": "e90fc6de593ab542cf3f23a24fd714bae929e278603f4515f9e8e145e1f75fa7"
+      },
+      "eps.candidate_asset_grants": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.candidate_media_frames": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.logo_verification_keys": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.presentation_templates": {
+        "rows": 1,
+        "sha256": "294f5ab5c4f85b420df19d3a4fa5c5327d12474e4f9f157f98714f7b11b894a5"
+      },
+      "public.project_memberships": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.frame_extraction_config": {
+        "rows": 1,
+        "sha256": "f18a192cd6c5fda9ef3ffdab82cf51656242e9c60b2f0a0426dee41e1c004a3e"
+      },
+      "eps.job_stage_claim_replays": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.specs_file_preparations": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.specs_verification_keys": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.assignment_change_events": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.candidate_stage_payloads": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.candidate_support_config": {
+        "rows": 1,
+        "sha256": "bd12feb29f67ef5e8957aee7374db3d3f6edee16a11489229f22fe2494fc370d"
+      },
+      "eps.review_processing_config": {
+        "rows": 1,
+        "sha256": "5f2d99affdc54f1c16e0ee92ef16804ebea28cb06a9d993df4a3e407efd4c617"
+      },
+      "public.app_capability_grants": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.frame_extraction_requests": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.support_verification_keys": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.user_workspace_preferences": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.assignment_change_consumptions": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "versions": [
+      "20261028010943",
+      "20261028013324",
+      "20261028013655",
+      "20261028024205",
+      "20261028072515",
+      "20261028162702",
+      "20261028162800",
+      "20261028172320",
+      "20261028184145",
+      "20261028222030",
+      "20261029001520",
+      "20261029003941",
+      "20261029070038",
+      "20261029090500",
+      "20261029090724",
+      "20261029094600",
+      "20261029100500",
+      "20261029133455",
+      "20261029135318",
+      "20261029174841",
+      "20261029180953",
+      "20261029202629",
+      "20261029203953"
+    ],
+    "roles_sha256": "d2840d2d6c190a1569ba7574b7b5f2d0b306b9dc5113b346a2b30c67465fa601",
+    "catalog_sha256": "b8288754cca5762c42bbf26775d13a54b98dd9745c0c54c308177089b6003cf6"
+  },
+  "canonical23_unchanged": true,
+  "managed_auth_after": {
+    "auth_relations": [
+      {
+        "acl": "{supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin,postgres=arwdDxtm/supabase_auth_admin}",
+        "rls": false,
+        "rows": 0,
+        "owner": "supabase_auth_admin",
+        "table": "audit_log_entries",
+        "forced_rls": false,
+        "physical_row_revision_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "acl": "{supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin,postgres=arwdDxtm/supabase_auth_admin}",
+        "rls": false,
+        "rows": 0,
+        "owner": "supabase_auth_admin",
+        "table": "instances",
+        "forced_rls": false,
+        "physical_row_revision_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "acl": "{supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin,postgres=arwdDxtm/supabase_auth_admin}",
+        "rls": false,
+        "rows": 0,
+        "owner": "supabase_auth_admin",
+        "table": "refresh_tokens",
+        "forced_rls": false,
+        "physical_row_revision_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "acl": "{supabase_auth_admin=arwdDxtm/supabase_auth_admin}",
+        "rls": false,
+        "rows": 7,
+        "owner": "supabase_auth_admin",
+        "table": "schema_migrations",
+        "forced_rls": false,
+        "physical_row_revision_sha256": "b3263018c658e07a2d041e9f20086220f19e9a6b06fc9596e99d56ebca559429"
+      },
+      {
+        "acl": "{supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin,postgres=arwdDxtm/supabase_auth_admin}",
+        "rls": false,
+        "rows": 0,
+        "owner": "supabase_auth_admin",
+        "table": "users",
+        "forced_rls": false,
+        "physical_row_revision_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  "managed_auth_metadata_and_row_revisions_preserved": true,
+  "sources_stable": true,
+  "pre_handoff_source_checks": 6,
+  "finished_at": "2026-10-29T21:56:01.708Z"
+}

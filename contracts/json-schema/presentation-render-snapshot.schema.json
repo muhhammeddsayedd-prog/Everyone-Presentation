@@ -1,0 +1,870 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.everyone.example/presentation-render-snapshot.schema.json",
+  "title": "Private immutable render snapshot",
+  "description": "Private server/worker contract. Never returned as a user or guest payload. Domain validation additionally enforces exact ordered slide, selected-source, inventory and byte budgets.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "hash_protocol": {
+      "const": "eps-cast-canonical-v1"
+    },
+    "version_id": {
+      "$ref": "#/$defs/Id"
+    },
+    "series_id": {
+      "$ref": "#/$defs/Id"
+    },
+    "workspace_id": {
+      "$ref": "#/$defs/Id"
+    },
+    "project_id": {
+      "$ref": "#/$defs/Id"
+    },
+    "version_no": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "created_at": {
+      "$ref": "#/$defs/DateTime"
+    },
+    "input_workspace_row_version": {
+      "$ref": "#/$defs/RowVersion"
+    },
+    "input_draft_revision": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "input_fingerprint": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "template": {
+      "$ref": "#/$defs/FrozenTemplate"
+    },
+    "render_configuration": {
+      "$ref": "#/$defs/RenderConfiguration"
+    },
+    "audience_snapshot": {
+      "$ref": "#/$defs/AudiencePreset"
+    },
+    "cover": {
+      "$ref": "#/$defs/ReviewCover"
+    },
+    "slides": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 1000,
+      "items": {
+        "$ref": "#/$defs/FrozenSlide"
+      }
+    },
+    "asset_inventory": {
+      "type": "array",
+      "maxItems": 4001,
+      "items": {
+        "$ref": "#/$defs/FrozenAsset"
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "hash_protocol",
+    "version_id",
+    "series_id",
+    "workspace_id",
+    "project_id",
+    "version_no",
+    "created_at",
+    "input_workspace_row_version",
+    "input_draft_revision",
+    "input_fingerprint",
+    "template",
+    "render_configuration",
+    "audience_snapshot",
+    "cover",
+    "slides",
+    "asset_inventory"
+  ],
+  "$defs": {
+    "AudiencePreset": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "key": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "scope": {
+          "type": "string",
+          "enum": [
+            "internal",
+            "external"
+          ]
+        },
+        "settings": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {},
+          "required": []
+        },
+        "archived": {
+          "type": "boolean"
+        },
+        "row_version": {
+          "$ref": "#/$defs/RowVersion"
+        }
+      },
+      "required": [
+        "id",
+        "key",
+        "label",
+        "scope",
+        "settings",
+        "archived",
+        "row_version"
+      ]
+    },
+    "DateTime": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "Id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+    },
+    "NullableText": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "Position": {
+      "type": "string",
+      "enum": [
+        "option",
+        "backup",
+        "main"
+      ]
+    },
+    "RoleRequirements": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "age_range": {
+          "$ref": "#/$defs/NullableText"
+        },
+        "gender_requirement": {
+          "$ref": "#/$defs/NullableText"
+        },
+        "appearance_performance": {
+          "$ref": "#/$defs/NullableText"
+        },
+        "languages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "accents": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "skills": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "scene_references": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "shoot_dates": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "location": {
+          "$ref": "#/$defs/NullableText"
+        },
+        "availability_requirements": {
+          "$ref": "#/$defs/NullableText"
+        },
+        "other_instructions": {
+          "$ref": "#/$defs/NullableText"
+        }
+      },
+      "required": [
+        "age_range",
+        "gender_requirement",
+        "appearance_performance",
+        "languages",
+        "accents",
+        "skills",
+        "scene_references",
+        "shoot_dates",
+        "location",
+        "availability_requirements",
+        "other_instructions"
+      ]
+    },
+    "RowVersion": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Optimistic version from the last read of the mutated resource; stale write returns 409."
+    },
+    "SlideFields": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name_or_id": {
+          "type": "string"
+        },
+        "age_or_range": {
+          "type": "string"
+        },
+        "height_measurements": {
+          "type": "string"
+        },
+        "languages_accents": {
+          "type": "string"
+        },
+        "skills_experience": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "previous_projects_roles": {
+          "type": "string"
+        },
+        "classification": {
+          "type": "string"
+        },
+        "availability": {
+          "type": "string"
+        },
+        "presentation_notes": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name_or_id",
+        "age_or_range",
+        "height_measurements",
+        "languages_accents",
+        "skills_experience",
+        "city",
+        "previous_projects_roles",
+        "classification",
+        "availability",
+        "presentation_notes"
+      ]
+    },
+    "VersionSlide": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "version_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "order": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "cover",
+            "candidate",
+            "pending"
+          ]
+        },
+        "assignment_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "candidate_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "role_label": {
+          "$ref": "#/$defs/NullableText"
+        },
+        "slot_label": {
+          "$ref": "#/$defs/NullableText"
+        },
+        "position": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Position"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "fields": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SlideFields"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "requirements": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/RoleRequirements"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "frame_asset_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Id"
+          },
+          "maxItems": 3
+        },
+        "video_asset_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "logo_asset_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "role_category": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "version_id",
+        "order",
+        "kind",
+        "assignment_id",
+        "candidate_id",
+        "role_label",
+        "slot_label",
+        "position",
+        "fields",
+        "requirements",
+        "frame_asset_ids",
+        "video_asset_id",
+        "logo_asset_id",
+        "role_category"
+      ]
+    },
+    "ReviewCover": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "project_name": {
+          "type": "string"
+        },
+        "client_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "title": {
+          "type": "string"
+        },
+        "output_type": {
+          "type": "string",
+          "enum": [
+            "selection",
+            "shortlist"
+          ]
+        },
+        "logo_asset_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "logo_placement": {
+          "type": "string",
+          "enum": [
+            "cover",
+            "every_slide"
+          ]
+        }
+      },
+      "required": [
+        "project_name",
+        "client_name",
+        "title",
+        "output_type",
+        "logo_asset_id",
+        "logo_placement"
+      ]
+    },
+    "ReviewFrame": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "asset_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "source_asset_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "timestamp_ms": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "asset_id",
+        "source_asset_id",
+        "timestamp_ms",
+        "width",
+        "height",
+        "sha256"
+      ]
+    },
+    "FrozenTemplate": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "key": {
+          "$ref": "#/$defs/Id"
+        },
+        "version": {
+          "$ref": "#/$defs/Id"
+        },
+        "content_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "font_key": {
+          "$ref": "#/$defs/Id"
+        },
+        "font_hashes": {
+          "type": "object",
+          "minProperties": 6,
+          "maxProperties": 6,
+          "propertyNames": {
+            "pattern": "^apps/web/public/fonts/IBMPlexSans(?:Arabic)?-(?:Regular|Medium|SemiBold)\\.woff2$"
+          },
+          "additionalProperties": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      },
+      "required": [
+        "key",
+        "version",
+        "content_sha256",
+        "font_key",
+        "font_hashes"
+      ]
+    },
+    "FrozenAsset": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "asset_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "asset_kind": {
+          "type": "string",
+          "enum": [
+            "client_logo",
+            "candidate_frame",
+            "candidate_video"
+          ]
+        },
+        "mime_type": {
+          "type": "string"
+        },
+        "byte_size": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 268435456
+        },
+        "bucket": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,99}$"
+        },
+        "object_key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "width": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "height": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "duration_ms": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1800000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "source_asset_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "timestamp_ms": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1800000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "asset_id",
+        "sha256",
+        "asset_kind",
+        "mime_type",
+        "byte_size",
+        "bucket",
+        "object_key",
+        "width",
+        "height",
+        "duration_ms",
+        "source_asset_id",
+        "timestamp_ms"
+      ]
+    },
+    "FrozenSlide": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "version_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "order": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "cover",
+            "candidate",
+            "pending"
+          ]
+        },
+        "assignment_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "candidate_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "role_label": {
+          "$ref": "#/$defs/NullableText"
+        },
+        "slot_label": {
+          "$ref": "#/$defs/NullableText"
+        },
+        "position": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Position"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "fields": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SlideFields"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "requirements": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/RoleRequirements"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "frame_asset_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Id"
+          },
+          "maxItems": 3
+        },
+        "video_asset_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "logo_asset_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "role_category": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "role_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "slot_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "candidate_media_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "provisional": {
+          "type": "boolean"
+        },
+        "review_status": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "reviewed",
+                "unreviewed"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "frames": {
+          "type": "array",
+          "maxItems": 3,
+          "items": {
+            "$ref": "#/$defs/ReviewFrame"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "version_id",
+        "order",
+        "kind",
+        "assignment_id",
+        "candidate_id",
+        "role_label",
+        "slot_label",
+        "position",
+        "fields",
+        "requirements",
+        "frame_asset_ids",
+        "video_asset_id",
+        "logo_asset_id",
+        "role_category",
+        "role_id",
+        "slot_id",
+        "candidate_media_id",
+        "provisional",
+        "review_status",
+        "frames"
+      ]
+    },
+    "RenderConfiguration": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "renderer_version": {
+          "const": "everyone-casting-pdf-v1"
+        },
+        "application_origin": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 1000,
+          "description": "Captured from owner-managed server configuration, never request Origin/Host/body."
+        }
+      },
+      "required": [
+        "renderer_version",
+        "application_origin"
+      ]
+    }
+  }
+}

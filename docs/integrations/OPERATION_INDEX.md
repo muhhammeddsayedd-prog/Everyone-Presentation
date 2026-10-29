@@ -110,3 +110,6 @@ Generated from the handoff contract. `openapi.yaml` owns schemas and paths; the 
 | `request_workspace_review_fit` | `POST /workspaces/{workspace_id}/review/fit` | workspaces.write | Yes |
 | `get_casting_retirement` | `GET /workspaces/{workspace_id}/retirements/{resource_id}` | workspaces.write | Yes |
 | `undo_casting_retirement` | `POST /workspaces/{workspace_id}/retirements/{event_id}/undo` | workspaces.write | Yes |
+| `play_version_media` | `POST /versions/{version_id}/media/{asset_id}/playback` | workspaces.read | Yes |
+| `get_version_media_content` | `GET /versions/{version_id}/media/{asset_id}/content` | workspaces.read | No; binary companion to playback/download |
+| `get_version_pdf_content` | `GET /versions/{version_id}/pdf/content` | workspaces.read | No; binary companion to playback/download |

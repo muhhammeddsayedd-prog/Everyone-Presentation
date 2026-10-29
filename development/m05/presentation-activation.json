@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0",
+  "cloud_reconciliation": {
+    "path": "tracking/evidence/cloud-m05-presentations/2026-10-29T22-18-18-933100Z-c8396a58-managed-bucket-reconciliation.json",
+    "sha256": "9a9de01c0b463134e9abe43d5c03ae1ad0bb265e366f7303124eb465fa49e1a0"
+  },
+  "workflow_publish": {
+    "path": "tracking/evidence/m05/n8n-wf03/2026-10-29T21-56-13-976Z-66e499f9-publish.json",
+    "sha256": "39c489fdbd7571e7de4645b736483e44ec6a0eec3cbab2b98516e4d8c0fec408"
+  },
+  "workflow_probe": {
+    "path": "tracking/evidence/m05/n8n-wf03/2026-10-29T21-56-23-452Z-c2a6be14-probe.json",
+    "sha256": "64de6129499fe780416d1499f59fc405f2a6289363695e8156b48af79267b4bd"
+  },
+  "startup": {
+    "path": "tracking/evidence/m05/presentation-runtime/2026-10-29T22-18-48-194Z-b4c69635.json",
+    "sha256": "c623e5a9f0d0b074262f4f12435491a09317e8f915268e9b242ea4390b671648"
+  },
+  "local_readiness": {
+    "path": "tracking/evidence/m05/readiness-local/2026-10-29T22-15-27-174Z-857c29d1.json",
+    "sha256": "7cc85841379016c74e9eee551f690345bd144d49a6c8ade71cea87e1c9b18aca"
+  },
+  "enabled_configuration_sha256": "69388df849f89243bf156ce081ef69baf3f0a97d404a6a1fa29517a81cb6ffcc",
+  "source_seals": {
+    "apps/web/public/brand/everyone-logotype-white.svg": "cb1f84c546247f81f7972ede5a374505c3de95d9fe9cee92ff60bda558166b98",
+    "apps/worker/src/n8n-orchestrator.ts": "caf3ad7e1967feb254065cb1965f6bd39c25f4859fa5645391e0c76de000d601",
+    "apps/worker/src/native-browser.ts": "58bb031589d1d8421b19e29273cdc681d4431c76e7536ad4a1747f9154004e46",
+    "apps/worker/src/presentation-assets.ts": "46f66e9daf302bdaad65fd665fd03142a01c1a0523b10d855b97e726f1a2a2a0",
+    "apps/worker/src/presentation-pdf-inspect-process.mjs": "0ee0bf41ba77f9725bdb366f02d7b60c438e15ac78049b4971a1cf43b8175e5d",
+    "apps/worker/src/presentation-pdf.ts": "8aa880bb0f18bea71546d48f6e0cc91005cb55334ce88ee36d09a25cc55155c6",
+    "apps/worker/src/presentation-stage-executor.ts": "97fc66ff385b0726dc16d6aceaa6d4a10e501a606b7de75cd6dc0a6056357d4d",
+    "apps/worker/src/runtime-main.ts": "d9b8ec665d8f047ec53d4162d82c2b4961e49c28fc1964fa9c82f950596827b9",
+    "apps/worker/src/runtime-types.ts": "c9769003e3831388537e55cf52f8ef22cd573593a018cf1951e3277a4dadb4de",
+    "apps/worker/src/runtime.ts": "c1839dad2eaedcbb04cb42c7773613f4623eaffcdc90554de937bf19b55d91a4",
+    "development/local-db/instance.json": "778d29222b0a6b604451a494dab6ca6ffabb7357d5b700794400bf35cc79c198",
+    "development/local-db/reviewed.json": "0f47cf1deb4db8f87154229bbde56d23776b635faa378cee424a38ca851b6c85",
+    "development/m05/enable-presentation-processing.sql": "2188b95f79344af181430b5c0bd75b686176da11fa08e4aaf109d65716417105",
+    "development/m05/presentation-bucket-reconciliation.json": "21c88f77b3c104ccc8cf2e73ded642c5d5930d0a47b726dc4a2e70bc2e244add",
+    "packages/central/src/presentation-runtime-assets.ts": "97dffe041c3430e5f4d5d2c702cc43a8bba962de6c969b952ebecefd69e303b4",
+    "packages/central/src/specs-runtime-gateway.ts": "cecb54d868f686ee8b7fb435411912f9b81d44df28d021c196800851356f7361",
+    "packages/integrations/src/n8n-dispatch.ts": "cb03a6bff13283d931ec475d2e439807e6e26c0f7c7efe23f09d3b0c9d32c2fb",
+    "packages/templates/versions/1.1.0/registry.json": "e830204db50a226ab8d10e0eef323eca4983f92de17db0647893a8ab355e57e3",
+    "packages/templates/versions/1.1.0/render.ts": "f58d10501fac36e1f2f5b80b2f3e814901972084acf94fe4047434e42db7225c",
+    "supabase/migrations/20261029215218_m05_immutable_presentation_versions.sql": "09d78c225ca02d436a8b1c2bcc6e55f273dfea116976807af4a8b228b99de5f4",
+    "tests/operations/test_m05_presentation_enable.py": "430b68a3b9879cc34a6f840e09b38197c0cfe072c12279e1ff03b74157ebf443",
+    "tools/build-presentation-wf03.mjs": "9e160d960d5db98752d7617363693e035b509730541c7802375352f5f50f1337",
+    "tools/build-specs-wf01.mjs": "edec87bcf115a25511e70fc9f2a81857409e3108152202b6890ff26915cb136d",
+    "tools/candidate-runtime-env.mjs": "d3f7e8edf77263e591c75319108830992865bca27eb14141069d002699c5f2e2",
+    "tools/check-presentation-runtime.mts": "15e063ee9ace79783f05011b9cddc32bffc071d823c5826a2e7f64f9af4f7c1a",
+    "tools/frame-runtime-env.mjs": "c040f3fe835005cca14e0d3d6b21c85529c6e3528c41e37302b86f671d41a23d",
+    "tools/local-postgres.mjs": "49929bce8eb51194d9299cfd9639e537eb237daaec76c15740cb88059604e2de",
+    "tools/pdf-vision-env.mjs": "f0af6074d3fe5924f5cc520d7393b8db088339a65b39b0bc79bd7089ce81be18",
+    "tools/presentation-runtime-env.mjs": "e8241f2c81a2f062f6df680be9d9226669ddd87d16b5b5e120ed6e6cbe2db0e1",
+    "tools/provision-presentation-n8n.mjs": "e10b313c6a6ebba6abee3dabab880ada1c801b3dfd687e766bd31fc050cc9d60",
+    "tools/reconcile_m05_presentation_bucket.py": "e57953743961ee007773cc7e06e0356fa4eb8bf2c74304a5cb8dafd1a2539eac",
+    "tools/review-runtime-env.mjs": "444f919d15c9a45cd834656fe400e01705a146cf9b67c880842be86e54739f64",
+    "tools/sql/m05-presentation-readback.sql": "66234c4fda6d3273a4b55dc4e6554127dc1e1eba173a1f96c0b910b942e811f8",
+    "tools/sql/m05-presentation-readiness.sql": "9edbac4c6ec2f437efaf1621b8e8792b4070e739dd85dd3382a6cc04c5cd4e78",
+    "tools/start-specs-worker.mjs": "db28356b4c4ff089fe9665d2f9dbb74b58806d375be0c6b8eb135e9afd300e9b",
+    "tools/test-m05-readiness-local.mjs": "fc77cb2c50e406b606c20b77bbe73021d7ec2c4b781147ec0bb7c00df770147e",
+    "tools/worker-files-env.mjs": "4a484ac8db37403bcd0bfe33db9e89b7a8bc76521e75325efefe07e718a73466",
+    "tools/worker-private-env.mjs": "ef935580876c9150b8150947c3796dd4760d1ad2910bc3bf322dd5015eea4d79",
+    "tools/worker-runtime-env.mjs": "658a4a45dd3b48ef1e0074203a34f46fbcb9a35e509c92deed67027444c048b6"
+  }
+}
