@@ -29,6 +29,7 @@ The machine-readable status mirror is [tracking/progress.json](tracking/progress
 
 ### 2026-10-29 - Uploaded specs verified through the real app
 
+- Implementation commit `4152aa766a3a6a0440e4dc4d5822556c908194c3`; exact implementation source/index/ZIP private-value scan passed with zero matches. The final tracking checkpoint has its own ignored archive/scan receipt.
 - Fixed the observed hosted Storage1.80.2 metadata-read operation mismatch with additive migration20261029070038. Exactly3 SELECT expressions changed; cloud readback preserved data and all unrelated authorities. Local RED/GREEN and persisted-role rollback proofs passed. The first pre-dispatch apply blocked on a tuple/list receipt comparison bug; old sources/receipts remain, and the corrected JSON round-trip regression passes.
 - Real PDF c50391c2 and Arabic DOCX ff514619 completed all3 n8n stages and OpenAI3384/3286tokens, each yielding3roles/5slots with grounded page/paragraph references. Original PDF reservation/bytes recovered without a new upload intent. See [file proof](tracking/evidence/m02/live-specs-files/README.md).
 - [Four missing/invalid capability reads](tracking/evidence/m02/specs-runtime/2026-10-29T07-29-20-473Z-storage-denials.json) were denied. [Corrupt-file verification](tracking/evidence/m02/specs-protection/corrupt-file-verification.json) retained all facts and5jobs; the earlier diff-only AX comparison failure remains documented, with no fabricated HTTP-status claim.

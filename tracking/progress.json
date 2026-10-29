@@ -163,7 +163,8 @@
         "6ac2ada",
         "cac474f",
         "2e38b6d",
-        "6a911d1"
+        "6a911d1",
+        "4152aa766a3a6a0440e4dc4d5822556c908194c3"
       ],
       "migrations": [
         {
@@ -478,10 +479,11 @@
     "quality_receipt": "tracking/evidence/m02/specs-file-checks/2026-10-29-live-files-final-checks.json",
     "pack_checks": 325,
     "source_base_commit": "69d40b79626c6eb81a817a372829abce31b774fe",
-    "source_commit": null,
+    "source_commit": "4152aa766a3a6a0440e4dc4d5822556c908194c3",
     "source_privacy_verification": "Exact final source/index/ZIP scan and archive identity are recorded in ignored dist/SOURCE_CHECKPOINT.json. Historical scans remain distinct.",
     "source_privacy_receipt": "dist/SOURCE_CHECKPOINT.json",
-    "scanner_incident_receipt": "tracking/evidence/security/private-scan-alias-incident.json"
+    "scanner_incident_receipt": "tracking/evidence/security/private-scan-alias-incident.json",
+    "implementation_source_archive_sha256": "c513f491db54e6603b6b24516d6ae9faa09199f387f6c4eb84fabebe4df931b8"
   },
   "historical_notes": [
     {
@@ -540,7 +542,7 @@
       "state": "Real file jobs and protected manual-edit result observed; local outward-only worker, endurance unverified",
       "historical_intermittent_failure_cause": "unconfirmed"
     },
-    "implementation_commit": "6a911d1a2cdb086640da4566bb714741be9b3d81",
+    "implementation_commit": "4152aa766a3a6a0440e4dc4d5822556c908194c3",
     "resumed_at": "2026-10-29T06:14:28.005278+00:00",
     "file_url_access": "owner enabled; actual browser attachment succeeded",
     "completed_at": "2026-10-29T07:45:32.739620+00:00",
@@ -554,7 +556,8 @@
       "reason": "INPUT_CHANGED protects deliberate synthetic manual note",
       "active_roles": 3,
       "active_slots": 5
-    }
+    },
+    "previous_implementation_commit": "6a911d1a2cdb086640da4566bb714741be9b3d81"
   },
   "historical_sessions": [
     {

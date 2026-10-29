@@ -2,7 +2,7 @@
 
 ## Current checkpoint: real uploaded specs workflow verified
 
-Updated 2026-10-29T07:45:32.739620+00:00. The requested local-worker specs workflow has been tested through the signed-in app. Hosting remains deferred. M00 verified; M01/M02 in progress; M03-M07 not started.
+Updated 2026-10-29T07:45:32.739620+00:00. Implementation commit `4152aa766a3a6a0440e4dc4d5822556c908194c3`. The requested local-worker specs workflow has been tested through the signed-in app. Hosting remains deferred. M00 verified; M01/M02 in progress; M03-M07 not started.
 
 - Coordinated local/cloud history is13. Migration20261029070038_m02_specs_read_operation.sql (040151ec...) adds the exact hosted metadata GET operation to3 existing SELECT predicates; all business/lease checks and other permissions remain. Cloud release/readback: [tracking/evidence/cloud-specs-read-operation/2026-10-29T07-22-46-245766Z-0a6a9099-readback.json](evidence/cloud-specs-read-operation/2026-10-29T07-22-46-245766Z-0a6a9099-readback.json). Do not rerun initial-state helpers or reapply13.
 - Actual file app proof: [tracking/evidence/m02/live-specs-files/2026-10-29T07-27-45-389593+00-00-f054a457-metadata.json](evidence/m02/live-specs-files/2026-10-29T07-27-45-389593+00-00-f054a457-metadata.json). PDF c50391c2-da84-4ee0-9fd8-a2782eed234e used3384 OpenAI tokens; DOCX ff514619-4106-4221-8663-6429241f687b used3286. Both committed3 stages, produced3roles/5slots, retained exact originals/private prepared JSON and grounded references. DOCX preserved Arabic and6paragraphs. Earlier sources/origins are archived and retained.

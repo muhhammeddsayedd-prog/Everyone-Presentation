@@ -456,6 +456,7 @@ The machine-readable status mirror is [tracking/progress.json](../tracking/progr
 
 ### 2026-10-29 - Uploaded specs verified through the real app
 
+- Implementation commit `4152aa766a3a6a0440e4dc4d5822556c908194c3`; exact implementation source/index/ZIP private-value scan passed with zero matches. The final tracking checkpoint has its own ignored archive/scan receipt.
 - Fixed the observed hosted Storage1.80.2 metadata-read operation mismatch with additive migration20261029070038. Exactly3 SELECT expressions changed; cloud readback preserved data and all unrelated authorities. Local RED/GREEN and persisted-role rollback proofs passed. The first pre-dispatch apply blocked on a tuple/list receipt comparison bug; old sources/receipts remain, and the corrected JSON round-trip regression passes.
 - Real PDF c50391c2 and Arabic DOCX ff514619 completed all3 n8n stages and OpenAI3384/3286tokens, each yielding3roles/5slots with grounded page/paragraph references. Original PDF reservation/bytes recovered without a new upload intent. See [file proof](../tracking/evidence/m02/live-specs-files/README.md).
 - [Four missing/invalid capability reads](../tracking/evidence/m02/specs-runtime/2026-10-29T07-29-20-473Z-storage-denials.json) were denied. [Corrupt-file verification](../tracking/evidence/m02/specs-protection/corrupt-file-verification.json) retained all facts and5jobs; the earlier diff-only AX comparison failure remains documented, with no fabricated HTTP-status claim.
@@ -832,7 +833,7 @@ No questionnaire is needed to settle the product flow. Ask only if a discovered 
 
 ## Current checkpoint: real uploaded specs workflow verified
 
-Updated 2026-10-29T07:45:32.739620+00:00. The requested local-worker specs workflow has been tested through the signed-in app. Hosting remains deferred. M00 verified; M01/M02 in progress; M03-M07 not started.
+Updated 2026-10-29T07:45:32.739620+00:00. Implementation commit `4152aa766a3a6a0440e4dc4d5822556c908194c3`. The requested local-worker specs workflow has been tested through the signed-in app. Hosting remains deferred. M00 verified; M01/M02 in progress; M03-M07 not started.
 
 - Coordinated local/cloud history is13. Migration20261029070038_m02_specs_read_operation.sql (040151ec...) adds the exact hosted metadata GET operation to3 existing SELECT predicates; all business/lease checks and other permissions remain. Cloud release/readback: [tracking/evidence/cloud-specs-read-operation/2026-10-29T07-22-46-245766Z-0a6a9099-readback.json](../tracking/evidence/cloud-specs-read-operation/2026-10-29T07-22-46-245766Z-0a6a9099-readback.json). Do not rerun initial-state helpers or reapply13.
 - Actual file app proof: [tracking/evidence/m02/live-specs-files/2026-10-29T07-27-45-389593+00-00-f054a457-metadata.json](../tracking/evidence/m02/live-specs-files/2026-10-29T07-27-45-389593+00-00-f054a457-metadata.json). PDF c50391c2-da84-4ee0-9fd8-a2782eed234e used3384 OpenAI tokens; DOCX ff514619-4106-4221-8663-6429241f687b used3286. Both committed3 stages, produced3roles/5slots, retained exact originals/private prepared JSON and grounded references. DOCX preserved Arabic and6paragraphs. Earlier sources/origins are archived and retained.
