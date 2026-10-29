@@ -1,0 +1,59 @@
+{
+  "observed_at": "2026-10-29T18:31:37.121637+00:00",
+  "result": "passed",
+  "scope": "Controlled HTTP/DOM lifecycle confirmation only, using synthetic data and loopback3100. No hosted Auth/canonical mutation/media/provider claim.",
+  "command": "npx.cmd playwright test tests/e2e/casting-retirement-ui.spec.ts tests/e2e/specs-ui.spec.ts --output=.local/m04-retirement-ui/third/artifacts --reporter=line,json",
+  "private_result": ".local/m04-retirement-ui/third/results.json",
+  "result_sha256": "406103c110043fc427a06ce03fd0c43c2e3b8253ef3241bb576aa804d137ebc0",
+  "stats": {
+    "startTime": "2026-10-29T18:25:34.027Z",
+    "duration": 21002.009000000002,
+    "expected": 7,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "source_sha256": {
+    "apps/web/components/casting-retirement.ts": "d5725074c5666bcb6c80cabd3f7a6950b9ebe62e868fce158f029a9dd797fcf8",
+    "apps/web/components/CastingRetirementReview.tsx": "432420832b05650fd53a10a964a55481b436479418094a5355a454a2096c0060",
+    "apps/web/components/WorkspaceCandidatesView.tsx": "2be5bc8548a2fd94e8a1f41403ab6a099c39447452cb26234ebd14670e2dc98e",
+    "apps/web/components/RoleEditor.tsx": "df850ceca27d4b1ebae2770d5403a45b9ffe34f97919b304eb7c748f406902cf",
+    "apps/web/components/RoleSlots.tsx": "6ce45c25c25a95f7967a7b25b22edd252df3535aa797948a88330e1f588cec69",
+    "tests/server/casting-retirement.test.ts": "bcd975eacf1ad0c1b50067f7621b05a1e9787f6ff27e3071a7e9c4ba7e3f5f7b",
+    "tests/e2e/casting-retirement-ui.spec.ts": "042197ac360ccec3e41b97efef03e40a2ccf016941f95b85e73a13bf6e10be5e",
+    "tests/e2e/specs-ui.spec.ts": "dd76806c07dcfa0ed90d69d1c507b085c7f1f57cb3ca5359eae638ce04d9028f"
+  },
+  "source_binding": "Post-browser hashes match subsequent source-stable unit/type/lint gate.",
+  "quality_receipt": "tracking/evidence/m04/retirement-ui/2026-10-29T18-28-39-523264Z-861e4dd2-quality.json",
+  "unit_and_form_tests": 8,
+  "independent_reviewers": [
+    "root: clear, no P1/P2",
+    "m04_database: clear, no P1/P2, read-only"
+  ],
+  "covered": [
+    "Failed preview cannot submit; Retry reads real choices",
+    "Full bounded Selection/role/slot/pool scope and revision checks",
+    "Explicit all-active scope includes choices added after current snapshot",
+    "Lost ACK then403 thenACK retains exact key/body and one effect",
+    "Role-wide Main/Shortlist/notes consequences",
+    "Selected-slot reduction retains other choices",
+    "Original specs, unknown-create and stale-edit regressions"
+  ],
+  "retained_failed_runs": [
+    {
+      "report": ".local/m04-retirement-ui/first/results.json",
+      "pass": 3,
+      "fail": 4,
+      "reason": "New fixture omitted required RoleCreate.requirements; four new cases failed before app path"
+    },
+    {
+      "report": ".local/m04-retirement-ui/second/results.json",
+      "pass": 3,
+      "fail": 4,
+      "reason": "New fixture provided empty requirements rather than required null/array fields; four new cases failed before app path"
+    }
+  ],
+  "cloud_called": false,
+  "provider_called": false,
+  "hosting_deferred": true
+}

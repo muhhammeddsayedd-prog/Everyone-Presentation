@@ -9,9 +9,40 @@ import tempfile
 import unittest
 from pathlib import Path
 from unittest.mock import patch
+from candidate_pipeline_historical_fixture import sealed_bytes, put
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'tools'))
 import release_m03_remaining as release
+
+
+@contextlib.contextmanager
+def historical19_root():
+    """Retain fixed17->19 admission after the application advances its history."""
+    manifest='development/local-db/reviewed.json'
+    retained='tracking/evidence/m04/migration-preparation/baseline19-reviewed-manifest.json'
+    seals={release.READBACK:release.READBACK_SHA,release.PROOF:release.PROOF_SHA,
+      release.BASELINE_MANIFEST:release.BASELINE_MANIFEST_SHA,release.BASE_MANIFEST:release.BASE_MANIFEST_SHA,
+      release.PROMOTION:release.PROMOTION_SHA,release.RESUBMISSION_PROOF:release.RESUBMISSION_PROOF_SHA,
+      release.RESUBMISSION_PROMOTION:release.RESUBMISSION_PROMOTION_SHA,**release.DEPENDENCY_SEALS}
+    proof=json.loads(sealed_bytes(release.PROOF,release.PROOF_SHA))
+    resubmission=json.loads(sealed_bytes(release.RESUBMISSION_PROOF,release.RESUBMISSION_PROOF_SHA))
+    for evidence in(proof,resubmission):
+        seals.update({path:digest for path,digest in evidence['source_seals'].items() if path!=manifest})
+    for path,evidence in(('tools/test-m03-remaining-composed.mjs',proof),('tools/test-m03-frame-resubmission.mjs',resubmission),
+      ('tools/promote-m03-remaining-local.mjs',json.loads(sealed_bytes(release.PROMOTION,release.PROMOTION_SHA))),
+      ('tools/promote-m03-frame-resubmission-local.mjs',json.loads(sealed_bytes(release.RESUBMISSION_PROMOTION,release.RESUBMISSION_PROMOTION_SHA)))):
+        seals[path]=evidence['harness_sha256']
+    manifest_bytes=sealed_bytes(retained,release.MANIFEST_SHA)
+    reviewed=json.loads(manifest_bytes)
+    if len(reviewed['migrations'])!=19:raise AssertionError('Historical positive root must have exactly19 migrations.')
+    with tempfile.TemporaryDirectory(prefix='eps-historical-remaining19-')as directory:
+        root=Path(directory)
+        for path,digest in seals.items():put(root,path,sealed_bytes(path,digest))
+        put(root,manifest,manifest_bytes)
+        for row in reviewed['migrations']:put(root,row['path'],sealed_bytes(row['path'],row['sha256']))
+        put(root,'supabase/.temp/project-ref',(release.TARGET+'\n').encode())
+        put(root,'supabase/config.toml',b'[db.migrations]\nenabled=true\n[db.seed]\nenabled=false\n')
+        yield root
 
 
 class M03RemainingReleaseTests(unittest.TestCase):
@@ -22,6 +53,20 @@ class M03RemainingReleaseTests(unittest.TestCase):
 
     def compare(self,before=None,after=None):
         return release.compare_states(before or self.before,after or self.after,self.before,self.after)
+
+    def test_sealed_historical19_inputs_pass_without_cli(self):
+        with historical19_root()as root,patch.object(release,'ROOT',root),patch.object(release,'cli_call',side_effect=AssertionError('Offline source guard must never invoke CLI.'))as call:
+            self.assertEqual(len(release.current_release_inputs()['versions']),19)
+            call.assert_not_called()
+
+    def test_retained20_and21_are_denied_by_the_unchanged_historical_guard(self):
+        later=[('tracking/evidence/m04/migration-preparation/reviewed20-manifest.json','f8e9c48d19a66b38b81eee6f6a7d10e01d8604a9aed9e60e0de1f0f1dc610f14'),
+          ('tracking/evidence/m03/frame-vision-preparation/reviewed21-manifest.json','1ecec87384926fea82b433d3ddfde386f64d09c17a946ac2aa6fd51b4831dedc')]
+        with historical19_root()as root,patch.object(release,'ROOT',root),patch.object(release,'cli_call',side_effect=AssertionError('Offline source guard must never invoke CLI.'))as call:
+            for path,digest in later:
+                put(root,'development/local-db/reviewed.json',sealed_bytes(path,digest))
+                with self.subTest(manifest=path),self.assertRaises(ValueError):release.current_release_inputs()
+            call.assert_not_called()
 
     def test_exact_reviewed_local_delta_passes(self):
         result=self.compare()

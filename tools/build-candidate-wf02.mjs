@@ -7,7 +7,7 @@ export function mapCandidateStageEnvelope(body,executionId) {
   const safe = value => typeof value === 'string' && /^[A-Za-z0-9._:-]{1,200}$/u.test(value);
   const handlers = {
     prepare_candidate: 'native.prepare_candidate', transcribe_candidate: 'openai.transcribe_candidate',
-    extract_candidate: 'openai.extract_candidate', select_frames: 'native.select_frames', apply_candidate: 'domain.apply_candidate',
+    extract_candidate: 'openai.extract_candidate', select_frames: 'openai.select_frames', apply_candidate: 'domain.apply_candidate',
     extract_frames: 'native.extract_frames', apply_frames: 'domain.apply_frames',
   };
   const invalid = () => ({ status: 400, body: { error: { code: 'DISPATCH_ENVELOPE_INVALID', message: 'Use the published candidate stage envelope.' } } });

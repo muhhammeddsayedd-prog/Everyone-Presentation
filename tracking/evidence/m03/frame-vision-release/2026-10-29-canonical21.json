@@ -1,0 +1,83 @@
+{
+  "observed_at": "2026-10-29T19:02:02.695256+00:00",
+  "status": "canonical_and_owned_local21_applied_independent_readback_passed",
+  "migration": "supabase/migrations/20261029180953_m03_frame_vision_selection.sql",
+  "migration_sha256": "bcd12794eccfa590e5d160f62dfd67838c8186376cddda1952f291c50d03bec8",
+  "local_and_canonical_history_versions": 21,
+  "local_runtime_role_present": false,
+  "local_runtime_boundary": "Owned reference has runtime=null; preserved exactly. Canonical actual11-operation identity/authority independently checked.",
+  "actual_canonical_runtime_execute_operations": 11,
+  "source_sha256": {
+    "supabase/migrations/20261029180953_m03_frame_vision_selection.sql": "bcd12794eccfa590e5d160f62dfd67838c8186376cddda1952f291c50d03bec8",
+    "development/m03/frame-vision.sql": "4bb97be4ef25ef4a3c54a4c11d671818c96d178d49a7ec031f32a8b7785d1e1d",
+    "tests/db/m03-frame-vision-contract.sql": "31f036c403ca318c3a0aba4c445deb205800ed16e887a4328c64ec8cc83e668c",
+    "tools/test-m03-frame-vision-local.mjs": "3f1e6897fcfd9938ee84848b9c28e677963f2000f506ce8d0993c4cda4781aa4",
+    "tools/promote-m03-frame-vision-local.mjs": "d79328aa4a482f43b8ef4be6c65b5dd699e342aa12acd9ad717f5f6a3bdb35d9",
+    "tools/release_m03_frame_vision.py": "ad204243508a713b84ede8da421d4ec99ba2cae3bc7c9ee80c1361364ae4eea6",
+    "tests/operations/frame-vision-local-promotion.test.mjs": "e2ac337318d0009c1c6aa5778e083620b48747452993336a1cd76eabf8e4f1b8",
+    "tests/operations/test_frame_vision_release.py": "1faf8790c25642cd13c2800808c224ada8490fd90b422400bdf4ddd0996e2a2e",
+    "development/m03/FRAME_VISION_RELEASE.md": "0f55f2df9f80e7e20541274ee4b790a8db74d1dae675e6ed1fc3f2063896a78d",
+    "development/local-db/reviewed.json": "1ecec87384926fea82b433d3ddfde386f64d09c17a946ac2aa6fd51b4831dedc"
+  },
+  "local_rollback_proof": "tracking/evidence/m03/frame-vision-local/2026-10-29T18-35-46-743Z-9826d8e6.json",
+  "local_promotion": "tracking/evidence/m03/frame-vision-promotion/2026-10-29T18-41-31-828Z-a531b6a9.json",
+  "canonical_apply": "tracking/evidence/cloud-m03-frame-vision/2026-10-29T18-56-12-908406Z-1de4c13c-apply.json",
+  "canonical_apply_sha256": "f4a2337961d0136644f7d105776d385ffc57b7fa3d7662c989062ceca2153f69",
+  "canonical_readback": "tracking/evidence/cloud-m03-frame-vision/2026-10-29T18-59-19-587474Z-975447af-readback.json",
+  "canonical_readback_sha256": "a53efe2a740da5f9cf5b4a9096b6c0b01e3391a6baf59126a017d51ca80b4605",
+  "canonical_comparison": {
+    "business_rows_and_media_pins_preserved": true,
+    "only_three_function_bodies_and_one_check_changed": true,
+    "all_other_catalog_and_runtime11_preserved": true,
+    "managed_auth_and_schema_defaults_preserved": true,
+    "changed_functions": [
+      {
+        "signature": "eps.candidate_validate_stage(eps.jobs, text, jsonb)",
+        "before_sha256": "589872c63d25ccb09c687a8d526de4fc2b9bdd1b920f6b29d2bdca5bc6c7dd4f",
+        "after_sha256": "0a219c30d21030638fdf0a2647b73bf98e9850b4c4c860568f5fdf1826a9820a"
+      },
+      {
+        "signature": "eps.get_candidate_stage_input(uuid, uuid, text)",
+        "before_sha256": "ada1115b9c21882720dfead385906a574074a6f8c2018423425bf1644d16dce4",
+        "after_sha256": "242f9e3d9f7ecd79300a3e844ffec8e2e836000558811714f506051629f2d983"
+      },
+      {
+        "signature": "eps.apply_candidate_scan(uuid, uuid, text, text, jsonb)",
+        "before_sha256": "8eda11a2c488b1d99d1f5ca17350124a082be192ae24a57e63e24d0c15506770",
+        "after_sha256": "4dcd22600e0024f57e3f1520e6976beb043fc201ca4f7c2043a954fd155f4874"
+      }
+    ]
+  },
+  "safe_public_constraint": {
+    "before": "CHECK (((cardinality(processing_issues) <= 4) AND (processing_issues <@ ARRAY['NO_AUDIO'::text, 'TRANSCRIPTION_FAILED'::text, 'EXTRACTION_FAILED'::text, 'INSUFFICIENT_FRAMES'::text])))",
+    "after": "CHECK (((cardinality(processing_issues) <= 5) AND (processing_issues <@ ARRAY['NO_AUDIO'::text, 'TRANSCRIPTION_FAILED'::text, 'EXTRACTION_FAILED'::text, 'INSUFFICIENT_FRAMES'::text, 'FRAME_SELECTION_UNAVAILABLE'::text])))"
+  },
+  "m04_assignment_rows_preserved": 3,
+  "all_business_counts_and_hashes_preserved": true,
+  "protected_m02_exact": true,
+  "runtime_auth_defaults_configuration_exact": true,
+  "native_configuration_table_hash_preserved": true,
+  "no_identity_key_or_native_configuration_actions_performed": true,
+  "n8n_changed_by_this_agent": false,
+  "provider_called_by_this_agent": false,
+  "private_worker_configuration_read_or_changed": false,
+  "one_shot_claim_retained": true,
+  "never_reapply21": true,
+  "tests": {
+    "final_local_promotion_offline": 5,
+    "canonical_guard_offline": 10,
+    "local_sql": "Meaningful old-contract RED then full3body/one-check GREEN, snapshot/history/fixture rollback verified.",
+    "parse": "CurrentSQL9statements/fixture16; no provider or native credit.",
+    "harness_and_promotion_scoped_lint": "passed",
+    "source_binding": "Mutation after preflight denied before dispatch; immutable checked SQL used by owned runner; readback cached on failure."
+  },
+  "historical_sources_and_failures_preserved": [
+    "tracking/evidence/m03/frame-vision-local/2026-10-29T18-12-56-123Z-067567fa.json",
+    "tracking/evidence/m03/frame-vision-local/2026-10-29T18-18-09-293Z-d028607b.json",
+    "tracking/evidence/m03/frame-vision-preparation/"
+  ],
+  "real_ai_frame_quality_verified": false,
+  "metadata_plus_media_restore_verified": false,
+  "hosting_deferred": true,
+  "next": "Root may resume app observation and separately publish/verify metadata-only WF02 openai.select_frames handler, restart only verified owned worker with unchanged native image/private configuration, then submit new authorized real app job and inspect actual selected source frames/provider metadata. Preserve old jobs/facts/pins; independent speech/fact/language quality remains separate."
+}

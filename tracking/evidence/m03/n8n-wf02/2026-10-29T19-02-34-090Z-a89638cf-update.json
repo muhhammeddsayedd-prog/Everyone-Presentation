@@ -1,0 +1,57 @@
+{
+  "observed_at": "2026-10-29T19:02:34.090Z",
+  "result": "passed",
+  "action": "update",
+  "workflow_id": "gfhxzvSkprS2CI4o",
+  "version_id": "b65979f6-de1e-4d09-8b58-308784e5d9dc",
+  "active": true,
+  "active_version_field_verified": true,
+  "graph_verified": true,
+  "execution_payload_retention": "none",
+  "unrelated_workflows_modified": false,
+  "automatic_retry": false,
+  "observations": [
+    {
+      "operation": "workflow_readback",
+      "method": "GET",
+      "http_status": 200,
+      "bytes": 11290
+    },
+    {
+      "operation": "known_wf01_contract",
+      "method": "GET",
+      "http_status": 200,
+      "bytes": 10472
+    },
+    {
+      "operation": "credential_schema",
+      "method": "GET",
+      "http_status": 200,
+      "bytes": 273
+    },
+    {
+      "operation": "workflow_update",
+      "method": "PUT",
+      "http_status": 200,
+      "bytes": 10392
+    },
+    {
+      "operation": "workflow_readback",
+      "method": "GET",
+      "http_status": 200,
+      "bytes": 10886
+    },
+    {
+      "operation": "workflow_activate",
+      "method": "POST",
+      "http_status": 200,
+      "bytes": 10786
+    },
+    {
+      "operation": "workflow_readback",
+      "method": "GET",
+      "http_status": 200,
+      "bytes": 11290
+    }
+  ]
+}

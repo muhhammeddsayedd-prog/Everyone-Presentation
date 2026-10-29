@@ -4,8 +4,8 @@ Implemented locally in new `packages/domain/src/casting-types.ts` and `casting.t
 The public shapes match the existing OpenAPI/MCP assignment contracts. Domain
 code provides strict boundary parsers, a typed service seam and immutable
 transaction plans. New `packages/central/src/casting.ts` implements the verified
-user RPC adapter, including full reorder maps. It is not wired into the shared
-studio, HTTP or MCP yet and no actual database operation was called by this agent.
+user RPC adapter, including full reorder maps. Its request-scoped web factory and shared HTTP/MCP mappings are now composed
+after canonical20 readback; see current integration evidence below.
 Root owns those integrations; the SQL agent owns constrained
 RPCs, RLS, durable idempotency/audit and actual two-session race proof. Hosting is
 deferred. No existing M03 file, barrel, migration or activation source was changed.
@@ -19,7 +19,7 @@ plus current project read. These operations do not grant shared-fact editing or
 factual confirmation. A permitted contributor can organize casting without
 `cast.write`/`cast.review`.
 
-| Operation | HTTP | Body / success data | Planned SQL RPC |
+| Operation | HTTP | Body / success data | SQL RPC |
 | --- | --- | --- | --- |
 | `list_assignments` | `GET /workspaces/{workspace_id}/assignments` | `output_type?`, `cursor?`, `limit?`; `Assignment[]` plus page | `public.eps_list_assignments(uuid,text,text,integer)` |
 | `create_assignment` | `POST /workspaces/{workspace_id}/assignments` | `AssignmentCreate` / `Assignment`,201 | `public.eps_create_assignment(uuid,jsonb,text)` |
@@ -45,7 +45,8 @@ The adapter binds public results to these parents and route IDs, validates the
 Main inverse/affected rows, and rejects malformed/private/cross-scope DTO fields.
 No new external HTTP/MCP operation exposes this internal read.
 
-All mutation context keys are bounded1..200 characters, required, preserved
+Internal mutation context keys are bounded1..200 characters; public HTTP/MCP
+Idempotency-Key inputs are16..200. Keys are required, preserved
 exactly and rejected for header control characters. Request correlation and
 `clientType=browser|api|mcp` are metadata, never authority. The central adapter
 derives the acting principal from its current verified user session/JWT; it must
@@ -147,7 +148,7 @@ Typed domain errors: `VALIDATION_FAILED`400, `AUTH_REQUIRED`401,
 `MAIN_UNDO_ALREADY_USED`409 and `ASSIGNMENT_STATE_INVALID`409. The last protects an
 inconsistent server projection; it is not a mechanism to repair conflicting rows.
 
-## Evidence and remaining integration
+## Historical first-slice evidence and remaining integration
 
 Sixteen focused domain tests pass, including independent two-role choices,
 Shortlist/Main separation, current-version no-ops, strict inputs, null overrides,
@@ -166,7 +167,7 @@ switch full reorder composition; scoped retirement and
 duplicate-collapse hooks. SQL/list/idempotency/race proofs, actual API/MCP/browser
 journeys, Pending/cover projection, series/review/template/AI and M05 remain open.
 
-## Unwired board handoff
+## Historical unwired board handoff (superseded)
 
 `apps/web/components/CastingBoard.tsx` is a new standalone client component; root
 has added the responsive `casting-board-layout` styling separately. Props are
@@ -192,3 +193,11 @@ Typecheck/scoped lint pass; no browser, responsive rendering, keyboard runtime,
 actual API/MCP or persisted board acceptance is claimed here. Move/copy actions,
 display-wording editing, candidate inspection drawer and final Review remain
 later M04 integration work, not silently completed by this first board slice.
+
+## Current integration - 29 October 2026
+
+Canonical20 composes assignment/lifecycle persistence. Its [independent readback](../../tracking/evidence/cloud-m04-casting/2026-10-29T18-06-32-278912Z-2e383297-readback.json) preserves existing data/Auth/runtime11. Shared barrels, request-scoped factory and HTTP/local MCP are connected; full casting order precedes the older role-only mapping, with no failure fallback. [API activation evidence](../../tracking/evidence/m04/api-integration/2026-10-29T18-31-37-121637Z-554f99d9-activated.json) separates30 synthetic SDK/HTTP/protocol checks from root actual app acceptance. Six new tools require the composed casting service; the existing reorder tool remains unique.
+
+Project candidate removal, role archive and selected-slot reduction show complete scoped previews before their single final confirmation. The current list is informative; confirmation explicitly retires all active choices in the scope, including choices added afterward. No unchanged-set guarantee or new SQL/request field is implied. Incomplete/unavailable pages cannot submit. Mutation retries retain exact intent, and an earlier unconfirmed result stays unconfirmed after a later denial. Main/Shortlist/assignment-note consequences and retained shared facts/media/versions are explicit. Existing API/MCP reads expose the same scope; public operations are unchanged.
+
+[Controlled lifecycle browser evidence](../../tracking/evidence/m04/retirement-ui/2026-10-29T18-31-37-121637Z-6944467c-browser.json) records7/7 scenarios, alongside8 source-stable helper/form tests, typecheck and lint. Earlier fixture-setup failures are retained. These checks do not claim actual canonical retirement or whole-M04 acceptance. Root owns actual app evidence, mounted board/pointer controls and remaining series/review/template/wording work. Hosting stays deferred.

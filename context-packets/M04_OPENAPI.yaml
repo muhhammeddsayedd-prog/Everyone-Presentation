@@ -4012,7 +4012,7 @@ components:
         processing_issues:
           type: array
           uniqueItems: true
-          maxItems: 4
+          maxItems: 5
           description: Safe persisted technical outcomes; originals and useful material remain available. Raw provider
             errors stay private.
           items:
@@ -4022,6 +4022,7 @@ components:
             - TRANSCRIPTION_FAILED
             - EXTRACTION_FAILED
             - INSUFFICIENT_FRAMES
+            - FRAME_SELECTION_UNAVAILABLE
         available_frames:
           type: array
           items:

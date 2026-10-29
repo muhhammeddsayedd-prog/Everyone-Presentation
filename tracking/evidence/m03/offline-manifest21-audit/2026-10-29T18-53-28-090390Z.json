@@ -1,0 +1,67 @@
+{
+    "observed_at":  "2026-10-29T18:53:28.2881892Z",
+    "result":  "passed",
+    "scope":  "Offline historical migration test admission with current application history21; production release and activation guards unchanged",
+    "changed_files":  [
+                          "tests/operations/test_m03_remaining_release.py"
+                      ],
+    "source_sha256":  {
+                          "tests/operations/test_m03_remaining_release.py":  "7c6449787dfe2172863212a1eda1f4d6ed22208aa9cdb9c23867fcc3654c28a6",
+                          "tools/check-final-offline-regressions.py":  "58d5e5b3f9ae57eb6c8f91755bccf2283ef4d873da28cdb6c43e62e14b487fe2",
+                          "tools/release_m03_remaining.py":  "5a608e480c7afb56a1b49c7a683c238d950301c589c1ff91348368f486995b7e",
+                          "tests/operations/candidate_pipeline_historical_fixture.py":  "ca933aceb29a54f3a3db673ea610d9f1e7c9a9c3166b058f56849b672f7ff020"
+                      },
+    "positive_fixture":  {
+                             "migrations":  19,
+                             "root":  "isolated temporary directory",
+                             "sha256":  "f504c4745bfb1ac31c7ba30d42153fe965dcc9e3451821808b3b4050122985b2",
+                             "original_source_evidence_seals_enforced":  true,
+                             "manifest":  "tracking/evidence/m04/migration-preparation/baseline19-reviewed-manifest.json"
+                         },
+    "later_history_denials":  [
+                                  {
+                                      "sha256":  "f8e9c48d19a66b38b81eee6f6a7d10e01d8604a9aed9e60e0de1f0f1dc610f14",
+                                      "migrations":  20
+                                  },
+                                  {
+                                      "sha256":  "1ecec87384926fea82b433d3ddfde386f64d09c17a946ac2aa6fd51b4831dedc",
+                                      "migrations":  21
+                                  }
+                              ],
+    "focused_red":  {
+                        "production_guard_weakened":  false,
+                        "cause":  "New exact19 positive admission used current21 root; original fixed manifest seal denied it as required",
+                        "errors":  1,
+                        "tests":  19,
+                        "passed":  18
+                    },
+    "focused_green":  {
+                          "command":  ".\\.venv-skills\\Scripts\\python.exe -X utf8 -m unittest discover -s tests/operations -p test_m03_remaining_release.py",
+                          "errors":  0,
+                          "tests":  20,
+                          "passed":  20
+                      },
+    "private_log_sha256":  {
+                               ".local/offline-manifest21-audit/remaining19-red.txt":  "c97da25fa5662d682ade0d83dd67ce896e33252f82720d750a4f6038a0d37901",
+                               ".local/offline-manifest21-audit/remaining19-green.txt":  "b08e1ee435af81d4215365d1a6688219ccbe958a580863067eff95c7ae85af47"
+                           },
+    "fixed_offline_receipt":  "tracking/evidence/m03/final-offline-checks/2026-10-29T18-51-47-077731Z-cd7ab0dc.json",
+    "fixed_offline_results":  {
+                                  "node":  "120/120 passed",
+                                  "sources_stable":  true,
+                                  "python":  "221/221 passed"
+                              },
+    "reviewed_test_boundaries":  [
+                                     "M04 release20 and vision21 use retained exact manifests in temporary roots with CLI fail-fast mocks",
+                                     "M03 remaining19 positive source admission uses original source/proof/promotion seals",
+                                     "Node operations/tools use pure builders/comparators or injected HTTP/executor/filesystem seams",
+                                     "Python operations main paths use mocked dispatch and isolated metadata; no live entrypoint executed"
+                                 ],
+    "cloud_called":  false,
+    "provider_called":  false,
+    "database_called":  false,
+    "private_credentials_loaded":  false,
+    "actual_cli_called":  false,
+    "production_guard_changed":  false,
+    "hosting_deferred":  true
+}

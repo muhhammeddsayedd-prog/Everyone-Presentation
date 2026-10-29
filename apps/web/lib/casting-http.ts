@@ -37,6 +37,7 @@ export async function handleCastingRequest(request:Request,s:string[],actor:Acto
   :s[0]==='slots'&&s.length===3&&method==='PUT'?'main'
   :s[0]==='slots'&&s.length===4&&method==='POST'?'undo':null;
  if(!operation)throw new DomainError('RESOURCE_NOT_FOUND','This casting operation is unavailable.',404);
+ if(typeof context.idempotencyKey!=='string'||context.idempotencyKey.length<16||context.idempotencyKey.length>200)throw new DomainError('IDEMPOTENCY_KEY_REQUIRED','Provide an Idempotency-Key between 16 and 200 characters.',400);
  const mutation=parseCastingMutationContext(context);
  const body=await readJson(request);
  const checked=(schema:string)=>validateContract(schema,body);

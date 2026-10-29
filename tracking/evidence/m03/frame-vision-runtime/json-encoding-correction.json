@@ -1,0 +1,29 @@
+{
+  "observed_at": "2026-10-29T19:20:50.670347+00:00",
+  "reason": "Strict pack check found PowerShell UTF8 BOM in three new runtime receipts; removed only BOM without changing JSON values. Failed pack report/original byte files retained privately.",
+  "failed_checks": 330,
+  "failed_json_paths": 3,
+  "changes": [
+    {
+      "path": "tracking/evidence/m03/frame-vision-runtime/first-start-failed.json",
+      "before_sha256": "d3d23deb182287b509e9a9f11ad3256d378cac2b7f5f3a1813852772e2f3e4b0",
+      "after_sha256": "28802d01cd83f0f7f6a2ede25ee7c5d42d95e13361dbf53532ff09b97984acbd",
+      "json_value_unchanged": true
+    },
+    {
+      "path": "tracking/evidence/m03/frame-vision-runtime/new-worker-owned.json",
+      "before_sha256": "8c675fdb6b863f54d1f3466fab8712160df067875c5dcdaea2f9a2a70b9ab931",
+      "after_sha256": "6ec0f3cd186e6bf622f695ec9ea9c557f1fc84b47a30e931ae46784a7f6c3a40",
+      "json_value_unchanged": true
+    },
+    {
+      "path": "tracking/evidence/m03/frame-vision-runtime/old-worker-stopped.json",
+      "before_sha256": "3d0a44a51b87ada6bd9bddb9a4ba0f8ddd5b38eb3a8fbfb6d724f881c223cca5",
+      "after_sha256": "501bd2d5cb168f6c5ab2b288eed6edee3a672f2aa861133691c16619da98821f",
+      "json_value_unchanged": true
+    }
+  ],
+  "cloud_called": false,
+  "runtime_changed": false,
+  "hosting_deferred": true
+}

@@ -35,6 +35,7 @@ async function controlledWorkspace(page: Page, options: { empty?: boolean; loseC
     if (method === 'GET' && path === `/api/v1/workspaces/${workspaceId}`) return envelope(workspace());
     if (method === 'GET' && path === `/api/v1/workspaces/${workspaceId}/specs`) return envelope(draft.spec);
     if (method === 'PATCH' && path === `/api/v1/workspaces/${workspaceId}/specs`) { draft = editSpecs(draft, request.postDataJSON()); return envelope(draft.spec); }
+    if (method === 'GET' && [`/api/v1/workspaces/${workspaceId}/candidates`, `/api/v1/workspaces/${workspaceId}/assignments`].includes(path)) return route.fulfill({ json: { request_id: 'synthetic-ui-request', data: [], page: { next_cursor: null } } });
     if (method === 'GET' && path === `/api/v1/workspaces/${workspaceId}/roles`) return route.fulfill({ json: { request_id: 'synthetic-ui-request', data: draft.roles.filter(role => !role.archived).map(roleToDto), page: { next_cursor: null } } });
     const key = request.headers()['idempotency-key'];
     if (method === 'POST' && path === `/api/v1/workspaces/${workspaceId}/roles`) {
@@ -98,9 +99,11 @@ test('controlled specs UI preserves supplied text, count clarifications and expl
   expect(model.rolePatches).toHaveLength(1); // Count confirmation did not reopen its old marker through autosave.
   expect(model.slots().some(slot => slot.id === model.originalSlot && !slot.archived)).toBe(true);
   await article.getByLabel('Required people', { exact: true }).fill('2');
-  await expect(article.getByRole('button', { name: 'Archive selected slots' })).toBeDisabled();
+  await expect(article.getByRole('button', { name: 'Review slot reduction' })).toBeDisabled();
   await article.getByRole('group', { name: 'Choose slots to archive' }).getByRole('checkbox', { name: 'Waiter 1', exact: true }).check();
-  await article.getByRole('button', { name: 'Archive selected slots' }).click();
+  await article.getByRole('button', { name: 'Review slot reduction' }).click();
+  await expect(article.getByRole('region', { name: 'Review casting removal' })).toBeVisible();
+  await article.getByRole('button', { name: 'Confirm archive selected slots', exact: true }).click();
   await expect.poll(() => model.roles()[0].headcount).toBe(2);
   expect(model.slots().find(slot => slot.id === model.originalSlot)?.archived).toBe(true);
   expect(model.slots()).toHaveLength(3);

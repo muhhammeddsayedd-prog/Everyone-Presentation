@@ -1,0 +1,142 @@
+{
+  "observed_at": "2026-10-29T18:35:26.013271+00:00",
+  "status": "public_technical_issue_three_body_candidate_pending_actual_sql_rehearsal",
+  "source_frozen": true,
+  "source_sha256": {
+    "packages/integrations/src/openai-frames.ts": "4ecdd46fcc2e660390c7ec051c23afd5aa421ef0f752bf31013b91eb5803de86",
+    "packages/integrations/src/prompts/frame-selection-v1.ts": "a37c19c7ccb5a84a3d46a44f7695aa3fcf1ea407a00ba161309a4ae3d5fa7811",
+    "apps/worker/src/candidate-assets.ts": "c30867a9ff244f771dbfd4168964214cc229b1e7d0a4b208bc24e4d6afb89108",
+    "apps/worker/src/candidate-scan.ts": "6c89cf431d5f81157a91f2f5a9a504d52643139272d99566b47b9b44bbfa93b1",
+    "apps/worker/src/candidate-stage-executor.ts": "e436a5f278af7ebcd8b3a49a8fb9f7fcaa3c66972120582b7b8913d12c0f68bd",
+    "tests/integrations/openai-frames.test.ts": "79b3205535c94af1a90f1fa2e742f89d505a5454e7fd1013050786074f2e38b3",
+    "tests/worker/candidate-assets.test.ts": "51953b1caabfc7d451c930d9a1c2cc5ad6251d17bc6b5b6f8ca713920f928819",
+    "tests/worker/candidate-scan.test.ts": "c3e019bdd676b4273c8ba8c761656055f1f4b940d34c87502173ac5796ebd300",
+    "tests/worker/candidate-stage-executor.test.ts": "d4a4b9f54f16f249b6e39a5a149c3f9f8ed6713411cc419943d95635b95271a3",
+    "development/m03/frame-vision.sql": "4bb97be4ef25ef4a3c54a4c11d671818c96d178d49a7ec031f32a8b7785d1e1d",
+    "tests/db/m03-frame-vision-contract.sql": "31f036c403ca318c3a0aba4c445deb205800ed16e887a4328c64ec8cc83e668c"
+  },
+  "requirements_found": {
+    "missing_image_aware_selection": "M03 packet steps4-5 require AI technical selection; prior runtime used native exposure/detail/dHash only.",
+    "actual_stored_selected_frame_inspection": {
+      "asset_id": "1b814add-bd54-4a26-a832-b508b99d75de",
+      "candidate_id": "aeff8e0a-3095-4d46-a1cd-e9ee3a4a3464",
+      "timestamp_ms": 3440,
+      "sha256": "c2b4447d5f3b3a4e1da6fa7a48c581455c622ada492563bdd3b3e5c379624275",
+      "dimensions": [
+        853,
+        480
+      ],
+      "bytes": 22736,
+      "downloaded_file_hash_matches_canonical": true,
+      "independent_visual_observation": "Selected real source frame shows closed eyes; does not establish representative frame quality.",
+      "private_image_location": ".local/m04-app/selected-3440.jpg",
+      "media_bytes_in_this_receipt": false
+    }
+  },
+  "implementation": {
+    "provider": "OpenAI Responses through existing requestMediaResponse",
+    "sdk": "7.45.1 unchanged",
+    "configured_model_reused": "gpt-6.1-sol; no model/configuration switch",
+    "actual_image_inputs": true,
+    "maximum_samples": 12,
+    "maximum_frame_bytes": 2097152,
+    "maximum_aggregate_frame_bytes": 25165824,
+    "remote_image_urls_allowed": false,
+    "tool_calls_allowed": false,
+    "provider_storage_enabled": false,
+    "output_scope": "Only allowlisted source/frame IDs, technical reason enums and explicit insufficiency",
+    "frame_fingerprint": "SHA256 of ordered frame ID/source ID/PTS/width/height/SHA joined by LF; frames separated by double LF",
+    "new_stage_fields": [
+      "selection_method",
+      "metadata",
+      "provider_error_code (failure only)"
+    ],
+    "selection_methods": [
+      "openai_vision",
+      "manual_required",
+      "no_frames"
+    ],
+    "deterministic_automatic_fallback": false,
+    "provider_failure": "Zero automatic picks, originals/all sampled frames retained; transient retries first and manual partial after third attempt.",
+    "ui_partial_enum": "INSUFFICIENT_FRAMES",
+    "ui_partial_copy": "Fewer than three frames were selected. You can continue or choose other available frames.",
+    "history": "Fresh four-key callbacks rejected. Only already-stored matching historical payload may use old shape; cached ACK replay remains before validation.",
+    "public_technical_issue": "FRAME_SELECTION_UNAVAILABLE is appended only for validated manual_required; legitimate vision0/2 picks remain insufficiency. Existing four safe issues plus one new code, max5 CHECK."
+  },
+  "validation": {
+    "meaningful_red": {
+      "command": "node tools/run-tests.mjs tests/worker/candidate-stage-executor.test.ts",
+      "tests": 17,
+      "passed": 15,
+      "failed": 2,
+      "cause": "No frame-byte/provider call; heuristic picks still returned after simulated provider failure."
+    },
+    "green": {
+      "command": "node tools/run-tests.mjs tests/integrations/openai-frames.test.ts tests/worker/candidate-stage-executor.test.ts tests/worker/candidate-assets.test.ts tests/worker/candidate-scan.test.ts",
+      "tests": 38,
+      "passed": 38,
+      "failed": 0
+    },
+    "typecheck": {
+      "command": "npm.cmd run typecheck",
+      "exit_code": 0
+    },
+    "scoped_lint": {
+      "exit_code": 0,
+      "warnings": 0,
+      "files": [
+        "packages/integrations/src/openai-frames.ts",
+        "packages/integrations/src/prompts/frame-selection-v1.ts",
+        "apps/worker/src/candidate-assets.ts",
+        "apps/worker/src/candidate-scan.ts",
+        "apps/worker/src/candidate-stage-executor.ts",
+        "tests/integrations/openai-frames.test.ts",
+        "tests/worker/candidate-assets.test.ts",
+        "tests/worker/candidate-scan.test.ts",
+        "tests/worker/candidate-stage-executor.test.ts"
+      ]
+    },
+    "sql_syntax_only": {
+      "development/m03/frame-vision.sql": 5,
+      "tests/db/m03-frame-vision-contract.sql": 16,
+      "database_called": false
+    },
+    "sql_peer_review_correction": "Restricted historical branch after independent review identified a fresh heuristic downgrade possibility. Actual local rehearsal reproduced old-contract RED but found CRLF-vs-LF multiline replacement seam mismatch. Three literal old/new seams now normalize CRLF to LF before exact occurrence checks. Failed source/fixture/candidate/harness bytes and failed receipt067567fa remain retained. Added positive null-usage and genuinely empty-pool SQL cases. Root required public technical-failure visibility: third narrow apply function body and one exact max5/subset5 CHECK replacement. Old2-body proof d028607b remains historical; current SQL proof pending."
+  },
+  "official_documentation": [
+    {
+      "url": "https://developers.openai.com/api/docs/guides/images-vision",
+      "used_for": "Responses input_image with embedded JPEG data and multiple images"
+    },
+    {
+      "url": "https://developers.openai.com/api/docs/guides/structured-outputs",
+      "used_for": "Strict JSON schema with additionalProperties false and required keys"
+    },
+    {
+      "url": "https://developers.openai.com/api/docs/models/gpt-6.1-sol",
+      "used_for": "Existing configured model supports image input, Responses and Structured Outputs"
+    },
+    {
+      "url": "https://www.postgresql.org/docs/current/sql-createfunction.html",
+      "used_for": "CREATE OR REPLACE retains ownership/ACLs; draft additionally checks all non-source attributes"
+    }
+  ],
+  "remaining_steps": [
+    "Independent code/security review of11 sealed source/test/SQL files.",
+    "Actual owned-local21 three-body/one-check rollback proof from exact20, including safe public unavailable issue, legitimate0/2vision/no false provider warning, bad fifth/max6 code denial and legacy exact ACK metadata.",
+    "CLI-generate additive21 only after proof, then guarded target-specific release and independent readback; no migration created/applied by this agent.",
+    "Coordinate work-order handler native.select_frames to openai.select_frames in worker/n8n builder/live workflow; unchanged metadata-only routing and credential reference.",
+    "Keep native image ea6e27d158a843fee524d7f43f2f88a4ede8bc58e8ac32578b7dec5c1594ba6b; no native rebuild is required.",
+    "Restart only the verified owned worker after SQL/n8n readiness; use a new explicitly authorized real app job and capture metadata/usage/selected image hashes and independent image quality. Preserve old selections and job evidence.",
+    "Independent speech/fact accuracy, confirmed English/mixed spoken language, correction rates and factual Reviewed remain unverified; no provider self-consistency or script-count proxy."
+  ],
+  "cloud_called": false,
+  "provider_called": false,
+  "database_called": false,
+  "n8n_changed": false,
+  "runtime_changed": false,
+  "private_configuration_changed": false,
+  "browser_used_by_this_agent": false,
+  "real_facts_or_media_written_to_tracked_files": false,
+  "hosting_deferred": true
+}

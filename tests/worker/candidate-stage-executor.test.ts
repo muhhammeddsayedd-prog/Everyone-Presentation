@@ -22,6 +22,59 @@ function setup(stage = 'prepare_candidate') {
   const gateway: CandidateStageGateway = { getInput: async () => input, recordEvent: async (event: JobEvent) => { events.push(event); return { event_id: event.event_id, applied: true, duplicate: false, stale: false, job_status: 'running' as const }; } };
   return { events, writes, active, input, assets, options, gateway };
 }
+
+test('frame selection inspects verified sampled bytes through the scoped port and records vision provenance', async () => {
+  const state = setup('select_frames'); let reads = 0; let selected = 0;
+  state.gateway.getInput = async () => ({ ...state.input, prepared });
+  Object.assign(state.options.assets, { readFrame: async (_scope: unknown, reference: { asset_id: string; sha256: string }) => { reads++; assert.equal(reference.asset_id, 'temporary-frame'); assert.equal(reference.sha256, hash); return bytes; } });
+  Object.assign(state.options, { selectFrames: async (input: { source_asset_id: string; frames: { bytes: Uint8Array }[] }) => {
+    selected++; assert.equal(input.source_asset_id, source.asset_id); assert.deepEqual(input.frames[0].bytes, bytes);
+    return { result: { schema_version: '1.0', source_asset_id: source.asset_id, selected_frames: [{ frame_asset_id: 'temporary-frame', reason: 'Clear real source frame.' }], insufficient_frames_reason: 'One verified sample available.' }, metadata: { provider: 'openai', sdk_version: '7.45.1', requested_model: 'extraction-test', resolved_model: 'extraction-test', response_id: 'resp_test', request_id: 'req_test', input_sha256: state.active.input.input_hash, prompt_version: 'frame_selection_vision_v1', usage: null } };
+  } });
+  await executeCandidateStage(state.active, state.gateway, state.options);
+  assert.equal(reads, 1); assert.equal(selected, 1);
+  const terminal = state.events.at(-1)!; assert.equal(terminal.event_type, 'succeeded'); assert.equal(terminal.result!.selection_method, 'openai_vision');
+  assert.equal((terminal.result!.metadata as { provider: string }).provider, 'openai'); assert.doesNotMatch(JSON.stringify(terminal.result), /"bytes"|data:image|private-test-token/u);
+});
+test('frame provider failure explicitly requires manual picks instead of presenting deterministic picks as reviewed', async () => {
+  const state = setup('select_frames');
+  state.gateway.getInput = async () => ({ ...state.input, prepared });
+  Object.assign(state.options.assets, { readFrame: async () => bytes });
+  Object.assign(state.options, { selectFrames: async () => { throw new IntegrationError('OPENAI_ACCESS_DENIED', 'Private upstream payload'); } });
+  await executeCandidateStage(state.active, state.gateway, state.options);
+  const terminal = state.events.at(-1)!; assert.equal(terminal.event_type, 'succeeded');
+  assert.deepEqual(terminal.result!.selected_frames, []); assert.equal(terminal.result!.selection_method, 'manual_required');
+  assert.equal(terminal.result!.provider_error_code, 'OPENAI_ACCESS_DENIED'); assert.equal(terminal.result!.metadata, null);
+  assert.match(String(terminal.result!.insufficient_frames_reason), /manual/i); assert.doesNotMatch(JSON.stringify(terminal), /Private upstream payload/u);
+});
+test('transient frame review retries before the explicit exhausted-budget manual partial', async () => {
+  for (const partial of [false, true]) {
+    const state = setup('select_frames'); let calls = 0;
+    state.gateway.getInput = async () => ({ ...state.input, prepared, allow_partial_frame_selection: partial });
+    state.options.assets.readFrame = async () => bytes;
+    state.options.selectFrames = async () => { calls++; throw new IntegrationError('OPENAI_UNAVAILABLE', 'Safe transient failure.', true); };
+    await executeCandidateStage(state.active, state.gateway, state.options); assert.equal(calls, 1);
+    const terminal = state.events.at(-1)!; assert.equal(terminal.event_type, partial ? 'succeeded' : 'failed');
+    if (partial) { assert.deepEqual(terminal.result!.selected_frames, []); assert.equal(terminal.result!.selection_method, 'manual_required'); }
+    else { assert.equal(terminal.error!.retryable, true); assert.equal(terminal.result, undefined); }
+  }
+});
+test('corrupt sampled frame bytes are rejected before vision and cannot become a manual provider fallback', async () => {
+  const state = setup('select_frames'); let calls = 0;
+  state.gateway.getInput = async () => ({ ...state.input, prepared, allow_partial_frame_selection: true });
+  state.options.assets.readFrame = async () => new Uint8Array([9, 9, 9]);
+  state.options.selectFrames = async () => { calls++; throw new Error('Unexpected provider call'); };
+  await executeCandidateStage(state.active, state.gateway, state.options);
+  assert.equal(calls, 0); assert.equal(state.events.at(-1)!.event_type, 'failed'); assert.equal(state.events.at(-1)!.result, undefined);
+});
+test('stale heartbeat aborts frame review without publishing selected images', async () => {
+  const state = setup('select_frames'); state.options.heartbeatMs = 10; let calls = 0;
+  state.gateway.getInput = async () => ({ ...state.input, prepared }); state.options.assets.readFrame = async () => bytes;
+  state.options.selectFrames = async (_input, _config, signal) => { calls++; await new Promise<void>(resolve => { signal!.addEventListener('abort', () => resolve(), { once: true }); }); throw new IntegrationError('PROCESSING_CANCELLED', 'Cancelled.'); };
+  state.gateway.recordEvent = async event => { state.events.push(event); return { event_id: event.event_id, applied: false, duplicate: false, stale: true, job_status: 'queued' }; };
+  await assert.rejects(executeCandidateStage(state.active, state.gateway, state.options), { code: 'LEASE_STALE' });
+  assert.equal(calls, 1); assert.equal(state.events.some(event => event.event_type === 'succeeded'), false);
+});
 test('prepare stage registers real derivatives and callback contains references, never bytes or tokens', async () => {
   const state = setup(); await executeCandidateStage(state.active, state.gateway, state.options);
   assert.equal(state.writes.length, 1); const event = state.events.at(-1)!; assert.equal(event.event_type, 'succeeded'); assert.equal(event.result_schema, 'media-preparation.v1');

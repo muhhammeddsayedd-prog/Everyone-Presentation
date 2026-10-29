@@ -3,10 +3,10 @@ import type { JobEvent, JobEventReceipt, JsonObject, StageLease } from '@eps/job
 import { IntegrationError } from '../../../packages/integrations/src/errors.ts';
 import { integrationErrorToJobFailure } from '../../../packages/integrations/src/job-errors.ts';
 import { extractCandidate, transcribeAudio, type OpenAIMediaConfig } from '../../../packages/integrations/src/openai-media.ts';
+import { selectVisionFrames, type VisionFrame } from '../../../packages/integrations/src/openai-frames.ts';
 import type { TranscriptSource } from '../../../packages/integrations/src/media-types.ts';
 import { validateFrameSelection } from '../../../packages/integrations/src/media-schema.ts';
 import { prepareVideoIsolated } from './video-container.ts';
-import { selectRealFrames } from './video-quality.ts';
 import { VIDEO_LIMITS, VideoPreparationError, type RealFrame, type VideoInput, type VideoProbe } from './video-types.ts';
 import { CandidateCallbackError, deliverCandidateCallback } from './candidate-callback.ts';
 import { SpecsRuntimeGatewayError, specsRuntimeFailureDiagnostics } from '@eps/central/specs-runtime';
@@ -17,6 +17,8 @@ export interface CandidateSourceAsset extends Omit<CandidateStageAsset, 'sha256'
 export interface CandidateStageAssets {
   /** Adapter verifies active lease, exact asset scope and original/derivative ownership. */
   read(scope: CandidateStageScope, asset: CandidateSourceAsset, signal: AbortSignal, options?: { preparingOriginal: true }): Promise<Uint8Array>;
+  /** Exact prepared frame ID/hash; canonical capability supplies the bounded size. */
+  readFrame?(scope: CandidateStageScope, asset: { asset_id: string; sha256: string }, signal: AbortSignal): Promise<Uint8Array>;
   /** Adapter reserves, uploads, verifies checksum/body and finalizes a new immutable
    * private asset under this lease. No arbitrary object destination is accepted. */
   write(scope: CandidateStageScope, output: { purpose: 'audio' | 'candidate_frame' | 'transcript'; output_key: string; source_asset_id: string; mime_type: string; sha256: string; bytes: Uint8Array;
@@ -32,7 +34,7 @@ export interface CandidateStageGateway {
   getInput(scope: CandidateStageScope, signal: AbortSignal): Promise<unknown>;
   recordEvent(event: JobEvent, signal: AbortSignal): Promise<JobEventReceipt>;
 }
-type CandidateStageOperation = 'validate_stage_input' | 'read_source' | 'prepare_media' | 'write_audio' | 'write_frame' | 'read_audio' | 'transcribe_audio' | 'write_transcript' | 'read_transcript' | 'extract_facts' | 'extract_frames' | 'select_frames' | 'prepare_application';
+type CandidateStageOperation = 'validate_stage_input' | 'read_source' | 'prepare_media' | 'write_audio' | 'write_frame' | 'read_audio' | 'transcribe_audio' | 'write_transcript' | 'read_transcript' | 'extract_facts' | 'extract_frames' | 'read_frames' | 'select_frames' | 'prepare_application';
 export interface CandidateStageDiagnostic {
   job_id: string; attempt_id: string; stage: string; input_hash: string; operation: CandidateStageOperation;
   error_kind: 'native' | 'integration' | 'gateway' | 'javascript' | 'unknown'; code: string;
@@ -41,7 +43,7 @@ export interface CandidateStageDiagnostic {
 export interface CandidateStageOptions { assets: CandidateStageAssets; imageId: string; transcription: OpenAIMediaConfig; extraction: OpenAIMediaConfig;
   signal?: AbortSignal; heartbeatMs?: number; gatewayTimeoutMs?: number;
   onDiagnostic?: (value: CandidateStageDiagnostic) => void;
-  prepare?: typeof prepareVideoIsolated; transcribe?: typeof transcribeAudio; extract?: typeof extractCandidate }
+  prepare?: typeof prepareVideoIsolated; transcribe?: typeof transcribeAudio; extract?: typeof extractCandidate; selectFrames?: typeof selectVisionFrames }
 export class CandidateExecutionError extends Error {
   constructor(readonly code: 'INVALID_STAGE_SCOPE' | 'STAGE_INPUT_INVALID' | 'CALLBACK_UNCONFIRMED' | 'LEASE_STALE' | 'PROCESSING_CANCELLED') { super('The candidate attempt could not be confirmed. Durable state determines recovery.'); this.name = 'CandidateExecutionError'; }
 }
@@ -58,7 +60,7 @@ const videoDiagnosticCodes = new Set(['VIDEO_ASSET_CAPABILITY_INVALID', 'VIDEO_A
   'VIDEO_FRAME_INVALID', 'VIDEO_SOURCE_INVALID', 'VIDEO_TEMP_OWNERSHIP_INVALID', 'VIDEO_TOOL_UNAVAILABLE', 'VIDEO_TYPE_UNSUPPORTED', 'VIDEO_UNREADABLE']);
 const videoSourceCodes = new Set(['VIDEO_TYPE_UNSUPPORTED', 'VIDEO_UNREADABLE', 'VIDEO_DECODE_FAILED', 'VIDEO_LIMIT_EXCEEDED', 'VIDEO_TIMESTAMP_INVALID']);
 const integrationDiagnosticCodes = new Set(['MEDIA_ASSET_INVALID', 'OPENAI_CONFIGURATION_INVALID', 'TRANSCRIPTION_SOURCE_INVALID', 'TRANSCRIPTION_RESULT_INVALID', 'TRANSCRIPTION_EMPTY',
-  'CANDIDATE_SOURCE_INVALID', 'AI_REFUSAL', 'AI_RESULT_INVALID', 'AI_EVIDENCE_INVALID', 'AI_EVIDENCE_MISSING', 'AI_SOURCE_MISMATCH', 'AI_RESPONSE_INVALID', 'AI_RESPONSE_INCOMPLETE', 'AI_RESPONSE_NOT_COMPLETE', 'AI_OUTPUT_UNEXPECTED', 'AI_FRAME_RESULT_INVALID', 'AI_FRAME_REFERENCE_INVALID',
+  'CANDIDATE_SOURCE_INVALID', 'FRAME_SELECTION_INPUT_INVALID', 'AI_REFUSAL', 'AI_RESULT_INVALID', 'AI_EVIDENCE_INVALID', 'AI_EVIDENCE_MISSING', 'AI_SOURCE_MISMATCH', 'AI_RESPONSE_INVALID', 'AI_RESPONSE_INCOMPLETE', 'AI_RESPONSE_NOT_COMPLETE', 'AI_OUTPUT_UNEXPECTED', 'AI_FRAME_RESULT_INVALID', 'AI_FRAME_REFERENCE_INVALID',
   'PROCESSING_CANCELLED', 'OPENAI_TIMEOUT', 'OPENAI_ACCESS_DENIED', 'OPENAI_QUOTA_EXCEEDED', 'OPENAI_RATE_LIMITED', 'OPENAI_REQUEST_REJECTED', 'OPENAI_UNAVAILABLE']);
 const gatewayDiagnosticCodes = new Set(['INVALID_REQUEST', 'RESOURCE_NOT_FOUND', 'CAPABILITY_REQUIRED', 'LEASE_INVALID', 'INPUT_CHANGED', 'INPUT_HASH_MISMATCH', 'JOB_CANCELLED',
   'JOB_ALREADY_RUNNING', 'JOB_NOT_AVAILABLE', 'RETRY_EXHAUSTED', 'STAGE_OUT_OF_ORDER', 'STAGE_STATE_INVALID', 'STALE_STAGE_LEASE', 'EVENT_ID_CONFLICT', 'EVENT_SEQUENCE_CONFLICT', 'RESULT_INVALID', 'INVALID_TRANSITION',
@@ -204,8 +206,27 @@ export async function executeCandidateStage(lease: StageLease, gateway: Candidat
       }
       schema = 'candidate-extraction-stage.v1';
     } else if (lease.stage === 'select_frames') {
-      operation = 'select_frames';
-      const prepared = preparedReferences(input.prepared, source); result = validateFrameSelection(selectRealFrames(source.asset_id, prepared.sampled_frames), source.asset_id, prepared.sampled_frames) as unknown as JsonObject; schema = 'frame-selection-stage.v1';
+      const prepared = preparedReferences(input.prepared, source);
+      if (!prepared.sampled_frames.length) result = { schema_version: '1.0', source_asset_id: source.asset_id, selected_frames: [], insufficient_frames_reason: 'No real source frames were prepared; manual material selection remains available.', selection_method: 'no_frames', metadata: null };
+      else {
+        if (!options.assets.readFrame) fail('STAGE_INPUT_INVALID'); operation = 'read_frames'; const frames: VisionFrame[] = [];
+        for (const frame of prepared.sampled_frames) {
+          const bytes = await options.assets.readFrame(scope, { asset_id: frame.frame_asset_id, sha256: frame.sha256 }, signal);
+          if (!(bytes instanceof Uint8Array) || !bytes.length || bytes.length > VIDEO_LIMITS.maximumFrameBytes || sha(bytes) !== frame.sha256) throw new IntegrationError('MEDIA_ASSET_INVALID', 'The private source frame failed checksum verification.');
+          frames.push({ frame_asset_id: frame.frame_asset_id, source_asset_id: frame.source_asset_id, timestamp_ms: frame.timestamp_ms, width: frame.width, height: frame.height, sha256: frame.sha256, bytes });
+        }
+        try {
+          operation = 'select_frames'; const output = await (options.selectFrames ?? selectVisionFrames)({ source_asset_id: source.asset_id, input_hash: lease.input.input_hash as string, frames }, options.extraction, signal);
+          const selection = validateFrameSelection(output.result, source.asset_id, prepared.sampled_frames);
+          result = { ...selection, selection_method: 'openai_vision', metadata: output.metadata } as unknown as JsonObject;
+        } catch (error) {
+          const providerCodes = ['AI_REFUSAL', 'AI_FRAME_RESULT_INVALID', 'AI_FRAME_REFERENCE_INVALID', 'AI_SOURCE_MISMATCH', 'AI_RESPONSE_NOT_COMPLETE', 'AI_OUTPUT_UNEXPECTED', 'OPENAI_ACCESS_DENIED', 'OPENAI_QUOTA_EXCEEDED', 'OPENAI_RATE_LIMITED', 'OPENAI_TIMEOUT', 'OPENAI_UNAVAILABLE', 'OPENAI_REQUEST_REJECTED'];
+          if (error instanceof IntegrationError && providerCodes.includes(error.code) && (!error.retryable || input.allow_partial_frame_selection === true))
+            result = { schema_version: '1.0', source_asset_id: source.asset_id, selected_frames: [], insufficient_frames_reason: 'Automatic frame review was unavailable; choose real source frames manually.', selection_method: 'manual_required', provider_error_code: error.code, metadata: null };
+          else throw error;
+        }
+      }
+      schema = 'frame-selection-stage.v1';
     } else { operation = 'prepare_application'; result = { source_asset_id: source.asset_id }; schema = 'candidate-application.v1'; }
   } catch (error) {
     await stop(); if (signal.aborted) fail(options.signal?.aborted ? 'PROCESSING_CANCELLED' : 'LEASE_STALE'); if (error instanceof CandidateExecutionError) throw error;

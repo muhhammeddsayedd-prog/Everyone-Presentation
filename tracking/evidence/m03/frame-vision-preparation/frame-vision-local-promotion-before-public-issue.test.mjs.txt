@@ -1,0 +1,71 @@
+import assert from 'node:assert/strict';
+import { Buffer } from 'node:buffer';
+import { createHash } from 'node:crypto';
+import { readFile } from 'node:fs/promises';
+import { test } from 'node:test';
+import { URL } from 'node:url';
+import { VISION_MIGRATION, VISION_MIGRATION_SHA, VISION_PROOF, compareVisionPromotion, dispatchVisionPromotion, prepareVisionPromotionDispatch, validateVisionPromotionManifest } from '../../tools/promote-m03-frame-vision-local.mjs';
+const root = new URL('../../', import.meta.url);
+const baseline = JSON.parse(await readFile(new URL('tracking/evidence/m04/migration-preparation/reviewed20-manifest.json', root)));
+const proof = JSON.parse(await readFile(new URL(VISION_PROOF, root)));
+const manifest = () => ({ ...globalThis.structuredClone(baseline), migrations: [...globalThis.structuredClone(baseline.migrations), { path: VISION_MIGRATION, sha256: VISION_MIGRATION_SHA, reviewed_by: 'Synthetic offline manifest fixture', reviewed_at: '2026-10-29T18:00:00Z' }] });
+
+test('vision21 requires exact reviewed20 prefix plus the exact reviewed candidate', () => {
+  validateVisionPromotionManifest(manifest(), baseline);
+  for (const change of ['prior', 'sha', 'path', 'review', 'date', 'extra']) {
+    const changed = manifest();
+    if (change === 'prior') changed.migrations[0].sha256 = '0'.repeat(64);
+    else if (change === 'sha') changed.migrations[20].sha256 = '0'.repeat(64);
+    else if (change === 'path') changed.migrations[20].path = 'supabase/migrations/20261029180953_unreviewed.sql';
+    else if (change === 'review') changed.migrations[20].reviewed_by = '';
+    else if (change === 'date') changed.migrations[20].reviewed_at = 'invalid';
+    else changed.migrations.push(changed.migrations[20]);
+    assert.throws(() => validateVisionPromotionManifest(changed, baseline), change);
+  }
+});
+test('exact two-function candidate21 state passes without changing media or authority', () => {
+  const result = compareVisionPromotion(proof.before, proof.expected, proof);
+  assert.equal(result.exactly_two_function_bodies_changed, true); assert.equal(result.business_and_project_pins_preserved, true);
+});
+test('facts, existing frame pins, runtime, schema/Auth state and extra function privileges are fenced', () => {
+  for (const change of ['facts', 'pins', 'runtime', 'auth', 'schema', 'acl']) {
+    const after = globalThis.structuredClone(proof.expected);
+    if (change === 'facts') after.data_sha256['eps.candidates'] = '0'.repeat(64);
+    else if (change === 'pins') after.data_sha256['eps.workspace_candidates'] = '0'.repeat(64);
+    else if (change === 'runtime') after.runtime = { unreviewed: true };
+    else if (change === 'auth') after.managed_auth.rls = !after.managed_auth.rls;
+    else if (change === 'schema') after.schema_defaults.public.public_create = true;
+    else after.catalog.functions[0].execute.authenticated = !after.catalog.functions[0].execute.authenticated;
+    assert.throws(() => compareVisionPromotion(proof.before, after, proof), change);
+  }
+});
+async function dispatchFixture() {
+  const checked = manifest(); const manifestBytes = Buffer.from(JSON.stringify(checked));
+  const paths = new Set([VISION_PROOF, 'tools/test-m03-frame-vision-local.mjs', ...Object.keys(proof.source_seals), ...checked.migrations.map(row => row.path)]);
+  const files = new Map(await Promise.all([...paths].map(async file => [file, await readFile(new URL(file, root))])));
+  files.set('development/local-db/reviewed.json', manifestBytes);
+  const read = async file => { assert(files.has(file)); return Buffer.from(files.get(file)); };
+  return { files, read, manifestSha: createHash('sha256').update(manifestBytes).digest('hex') };
+}
+test('source or manifest drift after successful preflight is denied before any execution', async () => {
+  for (const file of ['development/local-db/reviewed.json', VISION_MIGRATION, 'tools/sql/m04-casting-readback.sql', 'packages/integrations/src/openai-frames.ts']) {
+    const { files, read, manifestSha } = await dispatchFixture();
+    await prepareVisionPromotionDispatch(manifestSha, read);
+    await Promise.resolve(); // Models the awaited target/snapshot gap after preflight.
+    files.set(file, Buffer.concat([files.get(file), Buffer.from('\n-- synthetic unreviewed change\n')]));
+    let dispatched = false;
+    await assert.rejects(() => dispatchVisionPromotion(manifestSha, { read, execute: async () => { dispatched = true; } }));
+    assert.equal(dispatched, false, file);
+  }
+});
+test('dispatch passes immutable checked SQL to the owned runner without a later migration reread', async () => {
+  const { files, read, manifestSha } = await dispatchFixture(); const original = files.get(VISION_MIGRATION).toString('utf8');
+  let calls = 0;
+  const result = await dispatchVisionPromotion(manifestSha, { read, execute: async sql => {
+    calls++; files.set(VISION_MIGRATION, Buffer.from('select unreviewed_dispatch_marker;'));
+    assert.ok(sql.includes(original)); assert.ok(!sql.includes('unreviewed_dispatch_marker'));
+    assert.ok(sql.includes('pg_advisory_xact_lock(166824721,701)')); assert.ok(sql.includes('eps_local_guard.migration_replay'));
+    return 'synthetic execution acknowledgement';
+  } });
+  assert.equal(calls, 1); assert.equal(result, 'synthetic execution acknowledgement');
+});

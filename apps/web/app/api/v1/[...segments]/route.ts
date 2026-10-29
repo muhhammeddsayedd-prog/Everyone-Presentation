@@ -12,6 +12,8 @@ import { getSpecsService } from '../../../../lib/specs';
 import { getCandidatesService } from '../../../../lib/candidates';
 import { handleCandidatesRequest, isCandidatesRoute } from '../../../../lib/candidates-http';
 import { handleMediaPlaybackRequest, isMediaPlaybackRoute } from '../../../../lib/media-http';
+import { handleCastingRequest, isCastingRoute } from '../../../../lib/casting-http';
+import { getCastingService } from '../../../../lib/casting';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -27,6 +29,9 @@ async function handle(request: Request, context: Context) {
     const mutation = { idempotencyKey: request.headers.get('Idempotency-Key') ?? undefined, requestId,
       clientType: request.headers.has('authorization') ? 'api' as const : 'browser' as const };
     if (s[0] === 'jobs') return await handleJobRequest(request, s, actor, await getJobs(), mutation);
+    // Canonical20 composes the full assignment/order transactions. Dispatch
+    // before the older role-only specs mapping; failures must never fall through.
+    if (isCastingRoute(s)) return await handleCastingRequest(request, s, actor, await getCastingService(), mutation);
     if (isManualSpecsRoute(s)) return await handleSpecsRequest(request, s, actor, await getSpecsService(), mutation);
     if (isCandidatesRoute(s)) return await handleCandidatesRequest(request, s, actor, await getCandidatesService(), mutation);
     const studio = await getStudio();

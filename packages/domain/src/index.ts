@@ -11,6 +11,8 @@ export * from './candidates.ts';
 export * from './candidate-filters.ts';
 export * from './candidate-frame-extraction.ts';
 export * from './candidate-support.ts';
+export * from './casting-types.ts';
+export * from './casting.ts';
 
 export const FIXTURE_ACTORS = Object.freeze({ producer: '10000000-0000-4000-8000-000000000001', contributor: '10000000-0000-4000-8000-000000000002', library_viewer: '10000000-0000-4000-8000-000000000003', outsider: '10000000-0000-4000-8000-000000000004' });
 export const FIXTURE_PROJECTS = Object.freeze({ first: '20000000-0000-4000-8000-000000000001', second: '20000000-0000-4000-8000-000000000002', other: '20000000-0000-4000-8000-000000000003', archived: '20000000-0000-4000-8000-000000000004' });

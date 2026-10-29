@@ -1,0 +1,82 @@
+{
+  "observed_at": "2026-10-29T19:17:46.552664+00:00",
+  "result": "source_bound_first_frame_and_thumbnail_diversity_reviewed",
+  "job_id": "9a5ddb61-6a9a-4157-b6be-8653cf2eadef",
+  "observer_receipt": "tracking/evidence/m03/frame-vision-app/2026-10-29T19-12-45-337511Z-5acae3bc.json",
+  "observer_receipt_sha256": "d0cacb93b838d32e5b141668cc0182ba7cbd5c5f066322b2f0b1436240a1d6f7",
+  "scope": "Independent technical visual inspection of one actual canonical downloaded JPEG and the saved app grid. No images or personal fields copied into this receipt.",
+  "first_selected_frame": {
+    "asset_id": "c2d1c6c9-389c-4cf8-9788-0f9fba371a8f",
+    "timestamp_ms": 1720,
+    "sha256": "6155a6f9c70f5d06c4d450b1fffcf4c0d3d70884b7eb41a8d0b2738e0b235499",
+    "size_bytes": 19863,
+    "actual_width": 853,
+    "actual_height": 480,
+    "canonical_bytes_match": true,
+    "inspection_resolution": "actual 853x480 JPEG",
+    "eyes_observed_open": true,
+    "obvious_motion_blur_observed": false,
+    "technical_framing": "Frontal upper-body framing with the head contained in the image. Facial detail is visible without obvious movement smear.",
+    "technical_review": "passes this source-specific open-eyes, no-obvious-motion-blur check"
+  },
+  "grid_screenshot": {
+    "sha256": "d7844087e4f0ff6bf3bc9015a1b091e8fc95f1de7dc44eadfbc13ee29ecb9478",
+    "size_bytes": 210774,
+    "actual_format": "jpeg",
+    "width": 2550,
+    "height": 2380,
+    "inspection_resolution": "saved screenshot, selected images visible as thumbnails; displayed image was scaled for review",
+    "selected_timestamps_ms": [
+      1720,
+      5160,
+      18920
+    ],
+    "relative_framings": [
+      {
+        "timestamp_ms": 1720,
+        "view": "closer frontal upper-body view"
+      },
+      {
+        "timestamp_ms": 5160,
+        "view": "distinct wider frontal body view"
+      },
+      {
+        "timestamp_ms": 18920,
+        "view": "distinct side/profile-oriented body view"
+      }
+    ],
+    "three_distinct_technical_framings_visible": true
+  },
+  "other_selected_frames": [
+    {
+      "asset_id": "f2a60dcd-f319-4472-adab-c3a80d88912d",
+      "timestamp_ms": 5160,
+      "canonical_sha256": "76c195895f1af9404efce593b3f48035f557463664e3828db235eb0923d7d05e",
+      "review_evidence": "app grid thumbnail only",
+      "downloaded_original_inspected": false,
+      "full_resolution_clarity_verified": false
+    },
+    {
+      "asset_id": "26d345e8-e30e-4fa8-b78c-76282c0fc475",
+      "timestamp_ms": 18920,
+      "canonical_sha256": "357910a9fcec31206edf92ea67c12d016354e0f84ec74eabef2e8285f9d8df14",
+      "review_evidence": "app grid thumbnail only",
+      "downloaded_original_inspected": false,
+      "full_resolution_clarity_verified": false
+    }
+  ],
+  "limits": [
+    "The second and third original downloads timed out and were not inspected at full resolution; their diversity assessment is limited to displayed thumbnails.",
+    "Open eyes and lack of obvious blur were independently checked only for the first canonical JPEG.",
+    "This single-source technical review does not establish broad frame-selection accuracy or speech/fact accuracy."
+  ],
+  "all_three_full_resolution_quality_verified": false,
+  "personal_facts_transcribed": false,
+  "identity_or_demographic_inference_performed": false,
+  "casting_suitability_inference_performed": false,
+  "factual_review_performed": false,
+  "english_or_mixed_semantic_acceptance_claimed": false,
+  "browser_or_cloud_called": false,
+  "private_image_bytes_copied_to_tracking": false,
+  "hosting_deferred": true
+}

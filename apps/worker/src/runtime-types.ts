@@ -8,7 +8,7 @@ export interface StageWorkOrder {
   schema_version: '1.0';
   event_id: string; job_id: string; kind: 'specs_extract' | 'candidate_scan' | 'frame_extract'; stage: SpecsStage | CandidateStage | FrameStage; input_hash: string; correlation_id: string;
   workflow_execution_id: string;
-  handler: 'native.prepare_document' | 'openai.extract_specs' | 'domain.apply_specs' | 'native.prepare_candidate' | 'openai.transcribe_candidate' | 'openai.extract_candidate' | 'native.select_frames' | 'domain.apply_candidate' | 'native.extract_frames' | 'domain.apply_frames';
+  handler: 'native.prepare_document' | 'openai.extract_specs' | 'domain.apply_specs' | 'native.prepare_candidate' | 'openai.transcribe_candidate' | 'openai.extract_candidate' | 'openai.select_frames' | 'domain.apply_candidate' | 'native.extract_frames' | 'domain.apply_frames';
 }
 /** Construct only after the adapter has verified its authenticated narrow LOGIN.
  * No user JWT, SET ROLE, public endpoint or connection target comes from a job. */

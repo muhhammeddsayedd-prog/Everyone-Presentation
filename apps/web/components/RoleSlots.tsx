@@ -5,6 +5,7 @@ import type { ResizeSlots, Role, Slot } from '@eps/domain';
 import { api, ApiError, errorMessage } from './api';
 import { ErrorNotice } from './Feedback';
 import { buildResizeRequest, readSlotPage, retainSlotIntent, type SlotIntent } from './role-slots-form';
+import { CastingRetirementReview } from './CastingRetirementReview';
 
 interface Props {
   role: Role;
@@ -37,6 +38,7 @@ function RoleSlotsEditor({ role, canWrite, onRoleSaved, onWorkspaceChanged, onDi
   const [review, setReview] = useState<CountReview | null>(null);
   const [countState, setCountState] = useState<SaveState>('idle');
   const [countError, setCountError] = useState('');
+  const [retirementInput, setRetirementInput] = useState<ResizeSlots | null>(null);
   const [dirtyLabels, setDirtyLabels] = useState<string[]>([]);
   const alive = useRef(true);
   const currentRole = useRef(role);
@@ -93,7 +95,7 @@ function RoleSlotsEditor({ role, canWrite, onRoleSaved, onWorkspaceChanged, onDi
   try { body = buildResizeRequest({ ...role, headcount: baseline, row_version: review?.rowVersion ?? role.row_version }, text, selected, page.slots, complete); }
   catch (error) { reviewMessage = errorMessage(error); }
   const changed = baseline === null || Number(text) !== baseline;
-  const countDisabled = !canWrite || countState === 'saving' || page.loading || page.stale || dirtyLabels.length > 0 || !body || !changed;
+  const countDisabled = !canWrite || countState === 'saving' || retirementInput !== null || page.loading || page.stale || dirtyLabels.length > 0 || !body || !changed;
   function editCount(value: string) {
     setReview(current => ({ text: value, selected: [], rowVersion: current?.rowVersion ?? role.row_version, headcount: current ? current.headcount : role.headcount }));
     setCountState('idle'); setCountError('');
@@ -104,8 +106,18 @@ function RoleSlotsEditor({ role, canWrite, onRoleSaved, onWorkspaceChanged, onDi
     setCountState('idle'); setCountError('');
   }
   function resetCount() { setReview(null); setCountState('idle'); setCountError(''); intent.current = null; }
+  function countSaved(data: Role, submitted: ResizeSlots) {
+    if (!data || typeof data !== 'object' || data.id !== role.id || data.workspace_id !== role.workspace_id || data.headcount !== submitted.desired_count
+      || !Number.isSafeInteger(data.row_version) || data.row_version <= submitted.row_version || data.archived !== false) {
+      throw new Error('The saved count response could not be verified. Retry the same change to confirm it.');
+    }
+    if (data.row_version < currentRole.current.row_version) throw new Error('This count was saved earlier, but the role changed again. Reset the count review to the latest saved details.');
+    setReview(null); setRetirementInput(null); intent.current = null; setCountState('saved');
+    onRoleSaved(data); onWorkspaceChanged(); void loadPage(null, true);
+  }
   async function saveCount() {
     if (countDisabled || !body || countPending.current) return;
+    if (excess > 0) { setRetirementInput(structuredClone(body)); return; }
     countPending.current = true;
     const submitted = retainSlotIntent(intent.current, body, () => crypto.randomUUID()); intent.current = submitted;
     const controller = new AbortController(); countRequest.current = controller;
@@ -116,14 +128,7 @@ function RoleSlotsEditor({ role, canWrite, onRoleSaved, onWorkspaceChanged, onDi
         method: 'POST', signal: controller.signal, headers: { 'Idempotency-Key': submitted.key }, body: JSON.stringify(submitted.body),
       });
       if (!alive.current) return;
-      if (!result.data || typeof result.data !== 'object' || result.data.id !== role.id || result.data.workspace_id !== role.workspace_id || result.data.headcount !== submitted.body.desired_count
-        || !Number.isSafeInteger(result.data.row_version) || result.data.row_version <= submitted.body.row_version || result.data.archived !== false) {
-        throw new Error('The saved count response could not be verified. Retry the same change to confirm it.');
-      }
-      if (result.data.row_version < currentRole.current.row_version) throw new Error('This count was saved earlier, but the role changed again. Reset the count review to the latest saved details.');
-      setReview(null); intent.current = null; setCountState('saved');
-      onRoleSaved(result.data); onWorkspaceChanged();
-      void loadPage(null, true);
+      countSaved(result.data, submitted.body);
     } catch (error) {
       if (alive.current) {
         setCountState('failed');
@@ -135,6 +140,7 @@ function RoleSlotsEditor({ role, canWrite, onRoleSaved, onWorkspaceChanged, onDi
   }
 
   return <section aria-label={`Slots for ${role.name || 'unnamed role'}`} className="role-slots" data-role-id={role.id}>
+    <fieldset className="presentation-read-lock" disabled={retirementInput !== null}>
     <div className="section-heading"><div><h4>Individual slots</h4><p className="small muted">{role.headcount === null ? 'Count not provided. One provisional slot keeps this role open.' : `${role.headcount} required ${role.headcount === 1 ? 'person' : 'people'}.`}</p></div>
       <span className="save-state" role="status" aria-live="polite">{countState === 'saving' ? 'Saving count…' : countState === 'failed' ? 'Count save failed' : review ? 'Unsaved count review' : countState === 'saved' ? 'Count saved' : role.headcount === null ? 'Count not provided' : 'Count up to date'}</span></div>
     {role.headcount === null && <span className="badge">Needs clarification · provisional slot</span>}
@@ -150,7 +156,7 @@ function RoleSlotsEditor({ role, canWrite, onRoleSaved, onWorkspaceChanged, onDi
     </fieldset>}
     {review && reviewMessage && <p className="field-error">{reviewMessage}</p>}
     {dirtyLabels.length > 0 && <p className="small muted">Save or discard pending label edits before changing the count.</p>}
-    <div className="button-row"><button type="button" className="button button-small" disabled={countDisabled} onClick={() => void saveCount()}>{countState === 'saving' ? 'Saving…' : excess > 0 ? 'Archive selected slots' : role.headcount === null ? 'Confirm required count' : 'Update required count'}</button>
+    <div className="button-row"><button type="button" className="button button-small" disabled={countDisabled} onClick={() => void saveCount()}>{countState === 'saving' ? 'Saving…' : excess > 0 ? 'Review slot reduction' : role.headcount === null ? 'Confirm required count' : 'Update required count'}</button>
       {review && <button type="button" className="button button-quiet button-small" disabled={countState === 'saving'} onClick={resetCount}>Reset count review</button>}</div>
     {countError && <ErrorNotice message={`The count change could not be confirmed. ${countError}`} retry={!countDisabled ? () => void saveCount() : undefined} />}
     {page.loading && <p role="status" aria-live="polite">Loading slots…</p>}
@@ -162,6 +168,12 @@ function RoleSlotsEditor({ role, canWrite, onRoleSaved, onWorkspaceChanged, onDi
     <div className="button-row">{page.nextCursor !== null && <button type="button" className="button button-small" disabled={page.loading || page.stale} onClick={() => void loadPage(page.nextCursor, false)}>Load more slots (up to 100)</button>}
       <button type="button" className="button button-quiet button-small" disabled={page.loading || countState === 'saving' || dirtyLabels.length > 0 || review !== null} onClick={() => void loadPage(null, true)}>Reload saved slots</button></div>
     {!canWrite && <p className="small muted">Slot changes require a saved role and workspace write access.</p>}
+    </fieldset>
+    {retirementInput && <CastingRetirementReview<Role> key={JSON.stringify(retirementInput)} workspaceId={role.workspace_id}
+      scope={{ kind: 'slots', id: role.id, row_version: retirementInput.row_version, slot_ids: retirementInput.retire_slot_ids ?? [] }}
+      scopeLabel="the selected slots and all their casting assignments" confirmLabel="Confirm archive selected slots" cancelLabel="Keep selected slots"
+      request={{ path: `/api/v1/roles/${encodeURIComponent(role.id)}/slots/resize`, body: retirementInput }}
+      onSaved={data => countSaved(data, retirementInput)} onCancel={() => setRetirementInput(null)} />}
   </section>;
 }
 

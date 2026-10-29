@@ -83,6 +83,14 @@ function outputAsset(value: unknown, input: Write, size: number): { id: string; 
 export function createCandidateStageAssets(port: CandidateFilesPort, configuration: CandidateAssetsConfiguration): CandidateStageAssets {
   return {
     async read(context, input, signal, options) { scope(context); reference(input); const access = parseCandidateAssetAccess(await bounded(requestSignal => port.getAssetAccess({ ...context, asset_id: input.asset_id, access: 'read' }, requestSignal), configuration, signal), input, { scope: context, method: 'GET', preparingOriginal: options?.preparingOriginal }, configuration); return body(access, input, configuration, signal); },
+    async readFrame(context, input, signal) {
+      scope(context); if (!exact(input, ['asset_id', 'sha256']) || !UUID.test(input.asset_id) || !HASH.test(input.sha256)) invalid();
+      const value = await bounded(requestSignal => port.getAssetAccess({ ...context, asset_id: input.asset_id, access: 'read' }, requestSignal), configuration, signal);
+      if (!object(value) || !Number.isSafeInteger(value.size_bytes) || Number(value.size_bytes) < 1 || Number(value.size_bytes) > VIDEO_LIMITS.maximumFrameBytes) invalid();
+      const expected = { asset_id: input.asset_id, sha256: input.sha256, mime_type: 'image/jpeg', size_bytes: value.size_bytes as number };
+      const access = parseCandidateAssetAccess(value, expected, { scope: context, method: 'GET' }, configuration);
+      return body(access, expected, configuration, signal);
+    },
     async write(context, input, signal): Promise<CandidateStageAsset> {
       scope(context); if (!UUID.test(input.source_asset_id) || !(input.bytes instanceof Uint8Array) || !input.bytes.length || input.bytes.length > maximum(input.mime_type) || sha(input.bytes) !== input.sha256) invalid();
       const audio = /^audio_(\d|1[0-5])$/u.exec(input.output_key); const frame = /^frame_(\d|1[01])$/u.exec(input.output_key);

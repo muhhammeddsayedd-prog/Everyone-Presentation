@@ -47,8 +47,8 @@ function mediaDto(value: unknown): CandidateMedia {
     || !(row.preview_asset_id === null || isId(row.preview_asset_id)) || !(row.transcript_asset_id === null || isId(row.transcript_asset_id))
     || !isNullableText(row.original_transcript) || !strings(row.languages) || !Array.isArray(row.available_frames)
     || row.available_frames.length > 100 || !strings(row.selected_frame_asset_ids) || row.selected_frame_asset_ids.length > 3
-    || !strings(row.processing_issues) || row.processing_issues.length > 4 || new Set(row.processing_issues).size !== row.processing_issues.length
-    || row.processing_issues.some(code => !['NO_AUDIO','TRANSCRIPTION_FAILED','EXTRACTION_FAILED','INSUFFICIENT_FRAMES'].includes(code))) failed();
+    || !strings(row.processing_issues) || row.processing_issues.length > 5 || new Set(row.processing_issues).size !== row.processing_issues.length
+    || row.processing_issues.some(code => !['NO_AUDIO','TRANSCRIPTION_FAILED','EXTRACTION_FAILED','INSUFFICIENT_FRAMES','FRAME_SELECTION_UNAVAILABLE'].includes(code))) failed();
   const frames = (row.available_frames as unknown[]).map(frame => frameDto(frame, row.source_asset_id as string));
   const selected = row.selected_frame_asset_ids as string[];
   if (new Set(frames.map(frame => frame.asset_id)).size !== frames.length || new Set(selected).size !== selected.length || selected.some(id => !frames.some(frame => frame.asset_id === id))) failed();

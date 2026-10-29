@@ -1,0 +1,40 @@
+{
+  "observed_at": "2026-10-29T18:28:56.153430+00:00",
+  "result": "passed",
+  "source_sha256": {
+    "apps/web/components/casting-retirement.ts": "d5725074c5666bcb6c80cabd3f7a6950b9ebe62e868fce158f029a9dd797fcf8",
+    "apps/web/components/CastingRetirementReview.tsx": "432420832b05650fd53a10a964a55481b436479418094a5355a454a2096c0060",
+    "apps/web/components/WorkspaceCandidatesView.tsx": "2be5bc8548a2fd94e8a1f41403ab6a099c39447452cb26234ebd14670e2dc98e",
+    "apps/web/components/RoleEditor.tsx": "df850ceca27d4b1ebae2770d5403a45b9ffe34f97919b304eb7c748f406902cf",
+    "apps/web/components/RoleSlots.tsx": "6ce45c25c25a95f7967a7b25b22edd252df3535aa797948a88330e1f588cec69",
+    "tests/server/casting-retirement.test.ts": "bcd975eacf1ad0c1b50067f7621b05a1e9787f6ff27e3071a7e9c4ba7e3f5f7b",
+    "tests/e2e/casting-retirement-ui.spec.ts": "042197ac360ccec3e41b97efef03e40a2ccf016941f95b85e73a13bf6e10be5e",
+    "tests/e2e/specs-ui.spec.ts": "dd76806c07dcfa0ed90d69d1c507b085c7f1f57cb3ca5359eae638ce04d9028f"
+  },
+  "sources_stable": true,
+  "groups": [
+    {
+      "name": "unit",
+      "exit_code": 0,
+      "stdout_sha256": "2f8328fe731d0805bf557bbe510aee9ce3dd5bf12cf383d601df2e94b0e819ef",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "typecheck",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "lint",
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "unit_tests": 8,
+  "raw_diagnostics": ".local/m04-retirement-final/2026-10-29T18-28-39-523264Z-861e4dd2",
+  "cloud_or_provider_called": false,
+  "private_configuration_read": false,
+  "hosting_deferred": true
+}

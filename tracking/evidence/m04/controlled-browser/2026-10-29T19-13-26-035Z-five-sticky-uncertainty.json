@@ -1,0 +1,141 @@
+{
+  "observed_at": "2026-10-29T19:14:52.418706+00:00",
+  "result": "passed",
+  "scope": "Final controlled Chromium board HTTP/DOM regression with synthetic fixtures after sticky uncertainty correction. Separate from prior signed-in canonical observations.",
+  "green": {
+    "report": ".local/m04-app/sticky-unknown-green/e2e-results.json",
+    "sha256": "dbdc0515b25dbc09ebc350df7955074b637b1c529998ffa706bd6d963d5458f7",
+    "stats": {
+      "startTime": "2026-10-29T19:13:26.035Z",
+      "duration": 14905.513,
+      "expected": 5,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "tests": [
+      {
+        "title": "casting integration persists one output control and independent same-person assignments",
+        "ok": true,
+        "results": [
+          {
+            "status": "passed",
+            "duration_ms": 2220
+          }
+        ]
+      },
+      {
+        "title": "casting unknown write locks changes and retries exactly without a second effect",
+        "ok": true,
+        "results": [
+          {
+            "status": "passed",
+            "duration_ms": 1310
+          }
+        ]
+      },
+      {
+        "title": "casting retains an unknown write after a later denial until the same acknowledgement returns",
+        "ok": true,
+        "results": [
+          {
+            "status": "passed",
+            "duration_ms": 1500
+          }
+        ]
+      },
+      {
+        "title": "casting read-only and narrow-screen states retain keyboard access without writes",
+        "ok": true,
+        "results": [
+          {
+            "status": "passed",
+            "duration_ms": 1142
+          }
+        ]
+      },
+      {
+        "title": "casting pointer and keyboard ordering share the saved order across reload",
+        "ok": true,
+        "results": [
+          {
+            "status": "passed",
+            "duration_ms": 1690
+          }
+        ]
+      }
+    ]
+  },
+  "source_sha256": {
+    "apps/web/components/CastingBoard.tsx": "0f81588e487f0234bbb29e82294fb44c6fc83dc4a86aa6035cf0defeb76f82eb",
+    "apps/web/components/WorkspaceView.tsx": "ae55b9ee36c358566cd23c8947bb5cfa8b8d187f8bb7ffd84ddb0744684f3f95",
+    "tests/e2e/casting-board-ui.spec.ts": "d8b558ebeba517a8c78f61d940ca64d1767073f386ababe17cd476d1def46e14"
+  },
+  "source_binding_scope": "Hashes sealed after the five-case controlled GREEN report; full source-stable app test/lint/build gates will be rerun separately. The old signed-in journey source hashes and outcomes remain historical.",
+  "root_observed_green_session": "99601",
+  "change": "Once a write outcome is unknown, a later denied retry preserves the frozen intent and uncertainty until the same cached acknowledgement returns.",
+  "new_regression": {
+    "scenario": "Lost write acknowledgement503, later retry403, then original cached acknowledgement",
+    "expected_identical_PATCH_requests": 3,
+    "expected_effects": 1,
+    "keeps_reload_and_new_Main_disabled_until_ack": true,
+    "page_errors": 0,
+    "test_assertions_read_from": "tests/e2e/casting-board-ui.spec.ts:128"
+  },
+  "meaningful_red": {
+    "report": ".local/m04-app/sticky-unknown-red/e2e-results.json",
+    "sha256": "db175c49c85b8d365c7e25e4b5f640659e7188758f02b28b9e017f9a84699c74",
+    "stats": {
+      "startTime": "2026-10-29T19:12:54.049Z",
+      "duration": 13733.734999999999,
+      "expected": 0,
+      "skipped": 0,
+      "unexpected": 1,
+      "flaky": 0
+    },
+    "tests": [
+      {
+        "title": "casting retains an unknown write after a later denial until the same acknowledgement returns",
+        "ok": false,
+        "results": [
+          {
+            "status": "failed",
+            "duration_ms": 6608
+          }
+        ]
+      }
+    ],
+    "root_observed_session": "77214",
+    "cause": "After the denied retry, the previous implementation dropped uncertainty and removed Retry same change; the new regression failed before the source fix.",
+    "acceptance_credit": "Meaningful behavior RED, distinct from the earlier selector failure"
+  },
+  "earlier_selector_failure": {
+    "report": ".local/m04-app/sticky-first-selector-failure/e2e-results.json",
+    "sha256": "520cada0348d954bfc2b3f79acd70b292cb88dd65322994c250d3b8ca7de1b96",
+    "stats": {
+      "startTime": "2026-10-29T19:12:10.745Z",
+      "duration": 8747.235999999999,
+      "expected": 0,
+      "skipped": 0,
+      "unexpected": 1,
+      "flaky": 0
+    },
+    "tests": [
+      {
+        "title": "casting retains an unknown write after a later denial until the same acknowledgement returns",
+        "ok": false,
+        "results": [
+          {
+            "status": "failed",
+            "duration_ms": 1487
+          }
+        ]
+      }
+    ],
+    "acceptance_credit": "Fixture/selector setup failure only; not the meaningful behavior RED"
+  },
+  "historical_four_receipt": "tracking/evidence/m04/controlled-browser/2026-10-29T18-51-10-895Z-four-before-sticky-fix.json",
+  "cloud_called": false,
+  "provider_called": false,
+  "hosting_deferred": true
+}

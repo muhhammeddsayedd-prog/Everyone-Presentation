@@ -1,0 +1,167 @@
+{
+  "observed_at": "2026-10-29T18:08:31.227328+00:00",
+  "status": "migration20_applied_local_and_canonical_independent_readback_passed",
+  "source_sha256": {
+    "supabase/migrations/20261029174841_m04_casting_assignments_lifecycle.sql": "2825681bf529f1b32db2473749180901f0961b025e8da847b38ad49c06f4b900",
+    "tools/prepare-m04-casting-migration.mjs": "28803ecaeeadb6654857dc67223d422b01ef4bf0d7867bd29265ed8363e55add",
+    "tools/test-m04-casting-migration-local.mjs": "27a10f171959c9dc49eb61efaf40b4b95a7b08a975126d70fd1b0311fdea5e92",
+    "tools/promote-m04-casting-local.mjs": "aaa35319ef79a79a961a8dcb0aca15d5f1c71078e7be0a4c40f1c22fd9172452",
+    "tools/release_m04_casting.py": "ca855cda402566ebe8c6a78174a44dfcc9e878d7f0a320a6b7251a783ade2226",
+    "tools/sql/m04-casting-readback.sql": "13cc727a2e2e34321c6bbee2c98a3b7c85af88445fe1a1effd067d895fe5456f",
+    "tests/operations/m04-migration-composition.test.mjs": "df649e0ead72c359c35da97f735f1239c79b0eb31b10dcba13d9ba800b72fbdf",
+    "tests/operations/m04-local-promotion.test.mjs": "d52c2029e5646830436c749f37a6a81aeb4b4c9df7f13921faf71e4ead7bad49",
+    "tests/operations/test_m04_casting_release.py": "c5f4b5f9951289d68c900f03e5a3491fec348349139c9cc991bc9057a2eb8d9f",
+    "development/m04/MIGRATION20_RELEASE.md": "573c7c257ac32f244990d7bafbf7c89a3b1558d52568d0eec2e2ead18ce1c2ba",
+    "development/local-db/reviewed.json": "f8e9c48d19a66b38b81eee6f6a7d10e01d8604a9aed9e60e0de1f0f1dc610f14"
+  },
+  "local_history_versions": 20,
+  "canonical_history_versions": 20,
+  "local_rollback_proof": "tracking/evidence/m04/migration-local/2026-10-29T17-50-48-101Z-2d85109f.json",
+  "local_promotion": "tracking/evidence/m04/migration-promotion/2026-10-29T17-55-46-337Z-813da042.json",
+  "canonical_apply": "tracking/evidence/cloud-m04-casting/2026-10-29T18-04-35-944214Z-beeda9c6-apply.json",
+  "canonical_readback": "tracking/evidence/cloud-m04-casting/2026-10-29T18-06-32-278912Z-2e383297-readback.json",
+  "canonical_apply_sha256": "75050385d556e7b8d7a5547cb1b671cb31b3c4d7d533ae5516ba5863798843e6",
+  "canonical_readback_sha256": "aeb701ffbc5a842abe3a14d3e223c9cd059f8aa0f2debdcf2649dba66cf66cfb",
+  "canonical_comparison": {
+    "business_rows_preserved": true,
+    "exact_reviewed_catalog_delta": true,
+    "runtime11_and_configuration_unchanged": true,
+    "new_casting_tables_empty": true,
+    "managed_auth_and_schema_defaults_preserved": true,
+    "managed_storage_derived_flags": 3,
+    "managed_storage_absent_local_fixture_rows": [
+      [
+        "constraints",
+        "storage.buckets",
+        "buckets_name_key"
+      ],
+      [
+        "constraints",
+        "storage.objects",
+        "objects_bucket_id_fkey"
+      ],
+      [
+        "constraints",
+        "storage.objects",
+        "objects_bucket_id_name_key"
+      ],
+      [
+        "indexes",
+        "storage.buckets",
+        "buckets_name_key"
+      ],
+      [
+        "indexes",
+        "storage.objects",
+        "objects_bucket_id_name_key"
+      ]
+    ]
+  },
+  "new_tables_at_release": {
+    "eps.assignments": 0,
+    "eps.assignment_change_events": 0,
+    "eps.assignment_change_consumptions": 0
+  },
+  "new_roles": [
+    {
+      "bypass_rls": false,
+      "create_db": false,
+      "create_role": false,
+      "incoming": [
+        {
+          "admin": false,
+          "inherit": true,
+          "name": "postgres",
+          "set": true
+        },
+        {
+          "admin": true,
+          "inherit": false,
+          "name": "postgres",
+          "set": false
+        }
+      ],
+      "inherit": false,
+      "login": false,
+      "name": "eps_casting_guard_owner",
+      "parents": [],
+      "replication": false,
+      "schema_create": {
+        "auth": false,
+        "eps": false,
+        "extensions": false,
+        "public": false,
+        "storage": false
+      },
+      "schema_usage": {
+        "auth": false,
+        "eps": true,
+        "extensions": false,
+        "public": true,
+        "storage": false
+      },
+      "superuser": false
+    },
+    {
+      "bypass_rls": false,
+      "create_db": false,
+      "create_role": false,
+      "incoming": [
+        {
+          "admin": false,
+          "inherit": true,
+          "name": "postgres",
+          "set": true
+        },
+        {
+          "admin": true,
+          "inherit": false,
+          "name": "postgres",
+          "set": false
+        }
+      ],
+      "inherit": false,
+      "login": false,
+      "name": "eps_casting_owner",
+      "parents": [
+        {
+          "admin": false,
+          "inherit": true,
+          "name": "authenticated",
+          "set": false
+        }
+      ],
+      "replication": false,
+      "schema_create": {
+        "auth": false,
+        "eps": false,
+        "extensions": false,
+        "public": false,
+        "storage": false
+      },
+      "schema_usage": {
+        "auth": true,
+        "eps": true,
+        "extensions": true,
+        "public": true,
+        "storage": true
+      },
+      "superuser": false
+    }
+  ],
+  "runtime_execute_operations": 11,
+  "protected_m02_preserved": true,
+  "all_previous_business_hashes_preserved": true,
+  "tests": {
+    "node_composition_and_local_promotion": 7,
+    "python_canonical_release_guards": 10,
+    "scoped_lint": "passed after explicit Node URL/globalThis imports",
+    "independent_review": "m04_api clear; independent3Node promotion and10Python canonical guard checks passed"
+  },
+  "canonical_calls": "Pinned CLI read-only discovery/planning, one authorized apply and independent readback; no provider/configuration/Auth identity/key/runtime changes.",
+  "one_shot_apply_claim_retained": true,
+  "never_repeat_migration20": true,
+  "metadata_plus_media_restore_tested": false,
+  "hosting_deferred": true,
+  "next": "Root may compose app/API/MCP against canonical20. M03 frame-vision work must be a separate post20 migration and must not modify20."
+}

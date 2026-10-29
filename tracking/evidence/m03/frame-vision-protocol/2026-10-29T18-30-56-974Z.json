@@ -1,0 +1,98 @@
+{
+  "observed_at": "2026-10-29T18:30:56.974Z",
+  "status": "offline_protocol_verified_not_activated",
+  "scope": "Only candidate_scan/select_frames handler changes from native.select_frames to openai.select_frames.",
+  "source_frozen": true,
+  "source_sha256": {
+    "apps/worker/src/runtime-types.ts": "68c14e7d4b594651962ab5275d42ed902cda5593dc8f4f4ae4f61ff18512033c",
+    "apps/worker/src/n8n-orchestrator.ts": "c5e95a1c00c65b8a71137efe100cd772bdd02880abb9f65b49672d235b075d58",
+    "tools/build-candidate-wf02.mjs": "c64710c7cd3e98a2b71977761abf16ec4d8274b287da4b2b41550f8c3f8b64bd",
+    "n8n/eps-wf02-candidate-stage.json": "5f6ec4e97186ef66fe04c78f1afed290648ac286f7a3499c8ff66146f1ca0a32",
+    "tests/worker/frame-vision-dispatch.test.ts": "9d6c2b1de2c5ebeceeaa8dff34df7b9753f345c12887a57555f5d92ecd0ad682",
+    "tests/operations/frame-vision-wf02.test.mjs": "61bc33046c731334b8fc40fcee0d3cecd9590ba499485bf14e668d6aa12604c8",
+    "n8n/history/3e317cce613e8d2e791fd75ed3ee59cabb470dec7686353b7a99aa5a96a9a41c-wf02-source.json": "3e317cce613e8d2e791fd75ed3ee59cabb470dec7686353b7a99aa5a96a9a41c"
+  },
+  "sealed_vision_non_sql_source_unchanged": [
+    "packages/integrations/src/openai-frames.ts",
+    "packages/integrations/src/prompts/frame-selection-v1.ts",
+    "apps/worker/src/candidate-assets.ts",
+    "apps/worker/src/candidate-scan.ts",
+    "apps/worker/src/candidate-stage-executor.ts",
+    "tests/integrations/openai-frames.test.ts",
+    "tests/worker/candidate-assets.test.ts",
+    "tests/worker/candidate-scan.test.ts",
+    "tests/worker/candidate-stage-executor.test.ts"
+  ],
+  "workflow": {
+    "prior_byte_sha256": "3e317cce613e8d2e791fd75ed3ee59cabb470dec7686353b7a99aa5a96a9a41c",
+    "prior_canonical_sha256": "450a70153088f22571c1bfa4068a8da04f3720c671eb2d415bfbd1d3eb820b36",
+    "new_byte_sha256": "5f6ec4e97186ef66fe04c78f1afed290648ac286f7a3499c8ff66146f1ca0a32",
+    "new_canonical_sha256": "012c642a2be35d60ae1d804b63d3556b548dd3517780a69bff973465414ce942",
+    "private_reviewed_new_backup": ".local/m03-frame-vision/wf02-5f6ec4e97186ef66fe04c78f1afed290648ac286f7a3499c8ff66146f1ca0a32-reviewed-new.json",
+    "credential_reference_preserved": true,
+    "connections_and_node_versions_preserved": true,
+    "metadata_only_eight_input_nine_output": true,
+    "frame_extract_and_other_handlers_unchanged": true
+  },
+  "validation": {
+    "red": {
+      "worker": {
+        "command": "node tools/run-tests.mjs tests/worker/frame-vision-dispatch.test.ts",
+        "tests": 3,
+        "pass": 0,
+        "fail": 3,
+        "reason": "Old native selector emitted/accepted; new OpenAI work order rejected."
+      },
+      "native_builder": {
+        "command": "node --test tests/operations/frame-vision-wf02.test.mjs",
+        "tests": 4,
+        "pass": 1,
+        "fail": 3,
+        "reason": "Old native selector serialized/exported and old graph accepted."
+      },
+      "initial_harness_correction": "The first combined TSX test attempted Function.toString serialization after tsx injected __name. Split the actual serialized expression checks into native node --test; no production change for that test harness issue."
+    },
+    "green": [
+      {
+        "command": "node tools/run-tests.mjs tests/worker/frame-vision-dispatch.test.ts tests/worker/candidate-dispatch.test.ts tests/worker/n8n-orchestrator.test.ts",
+        "tests": 9,
+        "pass": 9,
+        "fail": 0,
+        "skipped": 0
+      },
+      {
+        "command": "node --test tests/operations/frame-vision-wf02.test.mjs tests/operations/candidate-n8n-provision.test.mjs",
+        "tests": 9,
+        "pass": 9,
+        "fail": 0,
+        "skipped": 0
+      }
+    ],
+    "typecheck": {
+      "command": "npm.cmd run typecheck",
+      "exit_code": 0
+    },
+    "eslint": {
+      "command": "npx.cmd eslint apps/worker/src/runtime-types.ts apps/worker/src/n8n-orchestrator.ts tools/build-candidate-wf02.mjs tests/worker/frame-vision-dispatch.test.ts tests/operations/frame-vision-wf02.test.mjs --max-warnings 0",
+      "exit_code": 0
+    },
+    "boundary": "Offline fake transport and VM expression execution only; no live n8n validation, publication or provider proof."
+  },
+  "activation_preconditions": [
+    "Root coordinates SQL21 verification, owned worker pause and workflow update; no old-worker/new-handler overlap.",
+    "Existing tools/provision-candidate-n8n.mjs is unchanged. Its update action expects the current export to be the PRIOR graph matching the private journal and live published version.",
+    "Immediately before update, root privately verifies journal target/workflow/version/canonical hash without printing credentials; verify prior 3e317c... byte SHA and 450a7015... canonical SHA against receipt.",
+    "Preserve reviewed NEW backup and verify new byte/canonical hashes. Temporarily stage the exact prior history bytes at n8n/eps-wf02-candidate-stage.json. Do not alter the private journal.",
+    "Run node tools/provision-candidate-n8n.mjs update ONCE under root authorization; it verifies live prior graph and pinned metadata, builds the reviewed new graph, PUTs/activates exact version, independently reads back activeVersionId, archives prior and writes new export. Unknown write outcome: stop and reconcile, never blindly retry.",
+    "Verify regenerated export new byte SHA and canonical SHA match this receipt, then node tools/provision-candidate-n8n.mjs probe for all seven metadata routes,401/403 and400 fences before verified owned worker restart.",
+    "Keep native image ea6e27d158a843fee524d7f43f2f88a4ede8bc58e8ac32578b7dec5c1594ba6b unchanged. Real app vision provider/usage and independently inspected selected source frames remain separate acceptance."
+  ],
+  "publish_helper_sha256": "772bf51ebbf296a542c4b004bd899c8584c91afcb172dadd7c506ff38e0f2c65",
+  "cloud_called": false,
+  "provider_called": false,
+  "database_called": false,
+  "n8n_published": false,
+  "private_configuration_read_or_changed": false,
+  "runtime_changed": false,
+  "hosting_deferred": true
+}

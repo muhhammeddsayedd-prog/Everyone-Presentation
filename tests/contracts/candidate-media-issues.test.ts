@@ -5,7 +5,7 @@ import { validateContract } from '../../apps/web/lib/validation.ts';
 
 test('CandidateMedia technical outcomes are required fixed codes across HTTP and self-contained MCP outputs', async () => {
   const item = { id: 'media', candidate_id: 'candidate', source_asset_id: 'source', preview_asset_id: null, transcript_asset_id: null,
-    original_transcript: null, languages: [], available_frames: [], selected_frame_asset_ids: [], processing_issues: ['TRANSCRIPTION_FAILED','INSUFFICIENT_FRAMES'], row_version: 1 };
+    original_transcript: null, languages: [], available_frames: [], selected_frame_asset_ids: [], processing_issues: ['TRANSCRIPTION_FAILED','INSUFFICIENT_FRAMES','FRAME_SELECTION_UNAVAILABLE'], row_version: 1 };
   validateContract('CandidateMedia', item);
   const { processing_issues: ignored, ...missing } = item; void ignored;
   assert.throws(() => validateContract('CandidateMedia', missing));
@@ -17,6 +17,6 @@ test('CandidateMedia technical outcomes are required fixed codes across HTTP and
   for (const tool of definitions) {
     const schema = tool.outputSchema.$defs!.CandidateMedia;
     assert(schema.required.includes('processing_issues'));
-    assert.deepEqual(schema.properties.processing_issues.items?.enum, ['NO_AUDIO','TRANSCRIPTION_FAILED','EXTRACTION_FAILED','INSUFFICIENT_FRAMES']);
+    assert.deepEqual(schema.properties.processing_issues.items?.enum, ['NO_AUDIO','TRANSCRIPTION_FAILED','EXTRACTION_FAILED','INSUFFICIENT_FRAMES','FRAME_SELECTION_UNAVAILABLE']);
   }
 });

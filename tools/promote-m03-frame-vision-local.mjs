@@ -1,0 +1,114 @@
+/** Fixed reviewed20->21 local function/check promotion; root extends reviewed manifest first. */
+import assert from 'node:assert/strict';
+import { Buffer } from 'node:buffer';
+import { createHash, randomUUID } from 'node:crypto';
+import { mkdir, open, readFile, unlink, writeFile } from 'node:fs/promises';
+import path from 'node:path';
+import process from 'node:process';
+import { pathToFileURL } from 'node:url';
+import { runOwnedLocalSql, verifyLocalTarget } from './local-postgres.mjs';
+
+const ROOT = path.resolve(import.meta.dirname, '..');
+export const VISION_MIGRATION = 'supabase/migrations/20261029180953_m03_frame_vision_selection.sql';
+export const VISION_MIGRATION_SHA = 'bcd12794eccfa590e5d160f62dfd67838c8186376cddda1952f291c50d03bec8';
+export const VISION_PROOF = 'tracking/evidence/m03/frame-vision-local/2026-10-29T18-35-46-743Z-9826d8e6.json';
+export const VISION_PROOF_SHA = '4f372cacb8453f9f5045d546dba0ae53d1f7bf78863afaeb7eef603f180e9452';
+const BASELINE = 'tracking/evidence/m04/migration-preparation/reviewed20-manifest.json';
+const BASELINE_SHA = 'f8e9c48d19a66b38b81eee6f6a7d10e01d8604a9aed9e60e0de1f0f1dc610f14';
+const QUERY = 'tools/sql/m04-casting-readback.sql';
+const QUERY_SHA = '13cc727a2e2e34321c6bbee2c98a3b7c85af88445fe1a1effd067d895fe5456f';
+const LOCK = path.join(ROOT, '.local/local-postgres/test-db.lock');
+const sha = value => createHash('sha256').update(value).digest('hex');
+export function validateVisionPromotionManifest(manifest, baseline) {
+  assert.equal(baseline.migrations.length, 20); assert.equal(manifest.migrations.length, 21, 'REVIEWED_TWENTY_ONE_MANIFEST_REQUIRED');
+  assert.deepEqual(manifest.migrations.slice(0, 20), baseline.migrations, 'PREVIOUS_TWENTY_MANIFEST_ENTRIES_CHANGED');
+  const last = manifest.migrations[20]; assert.equal(last.path, VISION_MIGRATION); assert.equal(last.sha256, VISION_MIGRATION_SHA);
+  assert.equal(typeof last.reviewed_by, 'string'); assert(last.reviewed_by.trim()); assert.equal(typeof last.reviewed_at, 'string'); assert(Number.isFinite(Date.parse(last.reviewed_at)));
+}
+export function compareVisionPromotion(before, after, proof) {
+  assert.deepEqual(before, proof.before, 'FRESH_LOCAL20_DIFFERS_FROM_PROVEN_BASELINE'); assert.deepEqual(after, proof.expected, 'LOCAL21_DIFFERS_FROM_EXACT_REVIEWED_STATE');
+  assert.deepEqual(after.versions, [...before.versions, '20261029180953']);
+  const masked = globalThis.structuredClone(after); masked.versions = before.versions;
+  assert.equal(proof.changed_functions.length, 3);
+  for (const change of proof.changed_functions) {
+    assert(['eps.candidate_validate_stage(eps.jobs, text, jsonb)', 'eps.get_candidate_stage_input(uuid, uuid, text)', 'eps.apply_candidate_scan(uuid, uuid, text, text, jsonb)'].includes(change.signature));
+    const old = before.catalog.functions.find(row => row.signature === change.signature); const next = masked.catalog.functions.find(row => row.signature === change.signature);
+    assert(old && next); assert.equal(old.source_sha256, change.before_sha256); assert.equal(next.source_sha256, change.after_sha256); assert.notEqual(next.source_sha256, old.source_sha256); next.source_sha256 = old.source_sha256;
+  }
+  const change = proof.changed_constraint; assert.equal(change.table, 'eps.candidate_media'); assert.equal(change.name, 'candidate_media_processing_issues_check');
+  const oldCheck = before.catalog.constraints.find(row => row.table === change.table && row.name === change.name); const nextCheck = masked.catalog.constraints.find(row => row.table === change.table && row.name === change.name);
+  assert(oldCheck && nextCheck); assert.equal(oldCheck.definition, change.before_definition); assert.equal(nextCheck.definition, change.after_definition); assert.notEqual(oldCheck.definition, nextCheck.definition); nextCheck.definition = oldCheck.definition;
+  assert.deepEqual(masked, before, 'ONLY_THREE_FUNCTION_BODIES_ONE_TECHNICAL_CHECK_AND_HISTORY_MAY_CHANGE');
+  return { business_and_project_pins_preserved: true, exactly_three_function_bodies_and_one_safe_check_changed: true, all_function_attributes_and_authorities_preserved: true, runtime11_auth_schema_defaults_and_configuration_unchanged: true };
+}
+/** Revalidate immediately before dispatch and bind execution to the checked
+ * immutable SQL string. The owned runner must never re-read the migration. */
+export async function prepareVisionPromotionDispatch(expectedManifestSha, read = file => readFile(path.join(ROOT, file))) {
+  assert.match(expectedManifestSha, /^[a-f0-9]{64}$/u);
+  const proofBytes = await read(VISION_PROOF); assert.equal(sha(proofBytes), VISION_PROOF_SHA); const proof = JSON.parse(proofBytes);
+  for (const [file, digest] of Object.entries(proof.source_seals)) if (file !== 'development/local-db/reviewed.json') assert.equal(sha(await read(file)), digest, 'DISPATCH_PROVEN_SOURCE_CHANGED');
+  assert.equal(sha(await read('tools/test-m03-frame-vision-local.mjs')), proof.harness_sha256);
+  const baseline = await read(BASELINE); assert.equal(sha(baseline), BASELINE_SHA);
+  const manifestBytes = await read('development/local-db/reviewed.json'); assert.equal(sha(manifestBytes), expectedManifestSha, 'DISPATCH_MANIFEST_CHANGED');
+  const manifest = JSON.parse(manifestBytes); validateVisionPromotionManifest(manifest, JSON.parse(baseline));
+  for (const row of manifest.migrations) assert.equal(sha(await read(row.path)), row.sha256, 'DISPATCH_REVIEWED_MIGRATION_CHANGED');
+  assert.equal(sha(await read(QUERY)), QUERY_SHA, 'DISPATCH_READBACK_CHANGED');
+  const migration = Buffer.from(await read(VISION_MIGRATION)); assert.equal(sha(migration), VISION_MIGRATION_SHA, 'DISPATCH_CANDIDATE_CHANGED');
+  return `begin;set local lock_timeout='5s';set local statement_timeout='45s';select pg_advisory_xact_lock(166824721,701);
+do $identity$begin if current_user<>'postgres'or current_database()<>'postgres'or(select system_identifier::text from pg_control_system())<>'7701520506262638626'
+ then raise exception'EXACT_OWNED_LOCAL_POSTGRES_REQUIRED';end if;
+ if exists(select 1 from supabase_migrations.schema_migrations where version='20261029180953')or exists(select 1 from eps_local_guard.migration_replay where path='${VISION_MIGRATION}')then raise exception'MIGRATION_ALREADY_RECORDED';end if;end $identity$;
+${migration.toString('utf8')}
+insert into supabase_migrations.schema_migrations(version,statements,name)values('20261029180953',array[]::text[],'m03_frame_vision_selection');
+insert into eps_local_guard.migration_replay(path,sha256)values('${VISION_MIGRATION}','${VISION_MIGRATION_SHA}');commit;\n`;
+}
+/** Purely injected execution seam permits offline drift tests; production uses
+ * only the existing exact owned-local runner and the pinned SQL string above. */
+export async function dispatchVisionPromotion(expectedManifestSha, ports = {}) {
+  const sql = await prepareVisionPromotionDispatch(expectedManifestSha, ports.read);
+  return (ports.execute ?? runOwnedLocalSql)(sql);
+}
+async function snapshot(query) {
+  const result = await runOwnedLocalSql(query); const rows = result.stdout.split(/\r?\n/u).filter(line => line.startsWith('{')).map(line => JSON.parse(line));
+  assert.equal(rows.length, 1); assert.equal(rows[0].query_role, 'postgres'); assert.equal(rows[0].unrestricted_visibility, true); return rows[0];
+}
+async function main() {
+  assert.equal(process.argv.length, 2);
+  const report = { run_id: randomUUID(), started_at: new Date().toISOString(), result: 'failed', cloud_called: false, provider_called: false,
+    migration: VISION_MIGRATION, migration_sha256: VISION_MIGRATION_SHA, proof: VISION_PROOF, proof_sha256: VISION_PROOF_SHA,
+    baseline_manifest: BASELINE, baseline_manifest_sha256: BASELINE_SHA, readback: QUERY, readback_sha256: QUERY_SHA,
+    harness_sha256: sha(await readFile(import.meta.filename)), scope: 'Exact reviewed local20-to21 three-function/one-safe-CHECK/history change only; no fixture/provider, image, key, configuration or hosting change.' };
+  let ownsLock = false; let dispatched = false; let query;
+  try {
+    const bytes = await readFile(path.join(ROOT, VISION_PROOF)); assert.equal(sha(bytes), VISION_PROOF_SHA); const proof = JSON.parse(bytes);
+    assert.equal(proof.result, 'passed'); assert.equal(proof.cloud_called, false); assert.equal(proof.provider_called, false); assert.equal(proof.hosted_credential_files_read, false);
+    for (const key of ['red_reproduced', 'red_rollback_verified', 'rollback_verified', 'sources_stable', 'assertions_passed', 'owned_backend_settled', 'only_three_function_bodies_and_one_check_changed']) assert.equal(proof[key], true);
+    assert.equal(proof.migration_sha256, VISION_MIGRATION_SHA); assert.equal(proof.markers.length, 1); assert.deepEqual(proof.before, proof.after);
+    for (const [file, digest] of Object.entries(proof.source_seals)) if (file !== 'development/local-db/reviewed.json') assert.equal(sha(await readFile(path.join(ROOT, file))), digest, 'PROVEN_SOURCE_CHANGED');
+    assert.equal(sha(await readFile(path.join(ROOT, 'tools/test-m03-frame-vision-local.mjs'))), proof.harness_sha256);
+    const baselineBytes = await readFile(path.join(ROOT, BASELINE)); assert.equal(sha(baselineBytes), BASELINE_SHA); assert.equal(proof.source_seals['development/local-db/reviewed.json'], BASELINE_SHA);
+    const manifestBytes = await readFile(path.join(ROOT, 'development/local-db/reviewed.json')); const manifest = JSON.parse(manifestBytes); validateVisionPromotionManifest(manifest, JSON.parse(baselineBytes));
+    for (const row of manifest.migrations) assert.equal(sha(await readFile(path.join(ROOT, row.path))), row.sha256);
+    query = await readFile(path.join(ROOT, QUERY), 'utf8'); assert.equal(sha(query), QUERY_SHA);
+    const lock = await open(LOCK, 'wx', 0o600); try { await lock.writeFile(JSON.stringify({ run_id: report.run_id, pid: process.pid })); ownsLock = true; } finally { await lock.close(); }
+    const target = await verifyLocalTarget(); assert.equal(target.observed.system_identifier, '7701520506262638626'); assert.equal(target.config.container, 'eps-presentation-canonical-pg17-local');
+    report.before = await snapshot(query); assert.deepEqual(report.before, proof.before);
+    const pinnedSql = await prepareVisionPromotionDispatch(sha(manifestBytes));
+    dispatched = true; const result = await runOwnedLocalSql(pinnedSql); report.promotion = { migration: VISION_MIGRATION, sha256: VISION_MIGRATION_SHA, result: 'applied', stdout_sha256: sha(result.stdout), stderr_sha256: sha(result.stderr) };
+    report.after = await snapshot(query); report.comparison = compareVisionPromotion(report.before, report.after, proof);
+    const actual = await verifyLocalTarget(); assert.equal(actual.container.Id, target.container.Id); assert.equal(actual.observed.system_identifier, target.observed.system_identifier);
+    report.business_and_old_catalog_preserved = true; report.result = 'passed';
+  } catch {
+    report.dispatch_attempted = dispatched; report.diagnostic = dispatched ? 'LOCAL21_PROMOTION_OUTCOME_UNCONFIRMED' : 'LOCAL21_PROMOTION_PRECONDITION_UNCONFIRMED';
+    if (ownsLock && query) { try { report.unverified_readback = await snapshot(query); } catch { /* Unconfirmed writes retain the lock. */ } }
+    process.exitCode = 1;
+  } finally {
+    if (ownsLock && (!dispatched || report.result === 'passed')) { const lock = JSON.parse(await readFile(LOCK, 'utf8')); assert.equal(lock.run_id, report.run_id); assert.equal(lock.pid, process.pid); await unlink(LOCK); }
+    report.lock_retained = ownsLock && dispatched && report.result !== 'passed'; report.finished_at = new Date().toISOString();
+    const directory = path.join(ROOT, 'tracking/evidence/m03/frame-vision-promotion'); await mkdir(directory, { recursive: true }); const file = path.join(directory, `${report.finished_at.replace(/[:.]/gu, '-')}-${report.run_id.slice(0, 8)}.json`); await writeFile(file, JSON.stringify(report, null, 2) + '\n', { flag: 'wx' });
+    process.stdout.write(JSON.stringify({ result: report.result, receipt: path.relative(ROOT, file).replaceAll('\\', '/'), cloud_called: false, lock_retained: report.lock_retained, diagnostic: report.diagnostic }) + '\n');
+  }
+}
+if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) main().catch(() => {
+  process.stderr.write('Local21 promotion stopped; no cloud fallback.\n'); process.exitCode = 1;
+});

@@ -7,6 +7,7 @@ export { createCentralJobs } from './jobs.ts';
 export type { CentralJob, JobListOptions, JobMutationInput, FrameExtractionOutcome } from './jobs.ts';
 export { createCentralSpecs } from './specs.ts';
 export type { CentralSpecs, SpecsListOptions, SpecsArchiveInput, SpecsArchiveResult } from './specs.ts';
+export { createCentralCasting } from './casting.ts';
 export { createCentralCandidates } from './candidates.ts';
 export type { CentralCandidates, CandidateVersionInput, CandidateSuccess } from './candidates.ts';
 export { createCentralCandidateFilters } from './candidate-filters.ts';

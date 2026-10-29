@@ -31,7 +31,7 @@ export interface CandidateExtraction {
   evidence: { field_path: string; source: SourceReference }[]; uncertainties: { field_path: string; reason: string }[];
 }
 export interface CandidateFrame { asset_id: string; source_asset_id: string; timestamp_ms: number; width: number; height: number; quality_flags: string[] }
-export type CandidateProcessingIssue = 'NO_AUDIO' | 'TRANSCRIPTION_FAILED' | 'EXTRACTION_FAILED' | 'INSUFFICIENT_FRAMES';
+export type CandidateProcessingIssue = 'NO_AUDIO' | 'TRANSCRIPTION_FAILED' | 'EXTRACTION_FAILED' | 'INSUFFICIENT_FRAMES' | 'FRAME_SELECTION_UNAVAILABLE';
 export interface CandidateMedia {
   id: string; candidate_id: string; source_asset_id: string; preview_asset_id: string | null;
   transcript_asset_id: string | null; original_transcript: string | null; languages: string[];

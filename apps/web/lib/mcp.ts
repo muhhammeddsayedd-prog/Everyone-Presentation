@@ -9,6 +9,8 @@ import catalog from '../../../contracts/mcp-tool-catalog.json';
 import { handleSpecsRequest, isManualSpecsRoute, type SpecsOperations } from './specs-http';
 import { handleJobRequest, type JobOperations } from './job-http';
 import { handleCandidatesRequest, isCandidatesRoute, type CandidatesOperations } from './candidates-http';
+import { handleCastingRequest, isCastingRoute } from './casting-http';
+import type { CastingOperations } from '@eps/domain';
 import { handleMediaPlaybackRequest, isMediaPlaybackRoute } from './media-http';
 import { failure, json, NO_STORE } from './http';
 
@@ -21,12 +23,13 @@ const IMPLEMENTED = new Set(['get_capabilities','list_projects','get_project','u
   'get_candidate_media','update_candidate_frames','list_duplicate_matches','resolve_duplicate','suggest_candidate_filters','extract_candidate_frames',
   'list_candidate_support','archive_candidate_support',
   'list_workspace_candidates','add_workspace_candidate','update_workspace_candidate','remove_workspace_candidate']);
-const entries = catalog.tools.filter(tool => IMPLEMENTED.has(tool.name));
+const CASTING_TOOLS = new Set(['list_assignments','create_assignment','update_assignment','set_slot_main','undo_slot_main','remove_assignment']);
+const entries = catalog.tools.filter(tool => IMPLEMENTED.has(tool.name) || CASTING_TOOLS.has(tool.name));
 const ajv = new Ajv2020({ allErrors: true, strict: false }); addFormats(ajv);
 const checks = new Map(entries.map(tool => [tool.name, ajv.compile(tool.inputSchema)]));
-export interface McpServices { studio: Awaited<ReturnType<typeof createCentralStudio>>; specs: SpecsOperations; jobs: JobOperations; candidates: CandidatesOperations }
-export function implementedMcpTools(): Tool[] {
-  return entries.map(({ name, description, inputSchema, outputSchema, annotations }) =>
+export interface McpServices { studio: Awaited<ReturnType<typeof createCentralStudio>>; specs: SpecsOperations; jobs: JobOperations; candidates: CandidatesOperations; casting?: CastingOperations }
+export function implementedMcpTools(castingEnabled = false): Tool[] {
+  return entries.filter(tool => castingEnabled || !CASTING_TOOLS.has(tool.name)).map(({ name, description, inputSchema, outputSchema, annotations }) =>
     // JSON-import inference widens literal schema values. The checked-in catalog
     // is validated by AJV here and by the official SDK in protocol tests.
     ({ name, description, inputSchema, outputSchema, annotations }) as unknown as Tool);
@@ -77,7 +80,9 @@ export async function invokeMcpTool(name: string, supplied: unknown, actor: Acto
   try {
     const { request, segments: s, input } = operationRequest(name, supplied);
     const context = { requestId, clientType: 'mcp' as const, idempotencyKey: input.idempotency_key as string | undefined };
-    if (isManualSpecsRoute(s)) response = await handleSpecsRequest(request, s, actor, services.specs, context);
+    if (isCastingRoute(s) && services.casting) response = await handleCastingRequest(request, s, actor, services.casting, context);
+    else if (CASTING_TOOLS.has(name)) throw new DomainError('FEATURE_NOT_IMPLEMENTED', 'Casting assignments are not available in this server composition.', 503);
+    else if (isManualSpecsRoute(s)) response = await handleSpecsRequest(request, s, actor, services.specs, context);
     else if (s[0] === 'jobs') response = await handleJobRequest(request, s, actor, services.jobs, context);
     else if (isCandidatesRoute(s)) response = await handleCandidatesRequest(request, s, actor, services.candidates, context);
     else if (isMediaPlaybackRoute(s)) response = await handleMediaPlaybackRequest(request, s, actor, services.studio, requestId);
@@ -115,7 +120,7 @@ export async function invokeMcpTool(name: string, supplied: unknown, actor: Acto
 
 export function createStudioMcpServer(actor: Actor, services: McpServices) {
   const server = new Server({ name: 'everyone-presentation-studio-local', version: '0.1.0' }, { capabilities: { tools: {} } });
-  server.setRequestHandler('tools/list', async () => ({ tools: implementedMcpTools() }));
+  server.setRequestHandler('tools/list', async () => ({ tools: implementedMcpTools(Boolean(services.casting)) }));
   server.setRequestHandler('tools/call', async request => invokeMcpTool(request.params.name, request.params.arguments ?? {}, actor, services));
   return server;
 }

@@ -1,0 +1,65 @@
+{
+  "observed_at": "2026-10-29T19:02:33.940Z",
+  "status": "offline_observer_verified_not_invoked",
+  "source_frozen": true,
+  "source_sha256": {
+    "tools/capture-m03-frame-vision.py": "1b5a2e6e3364b594b013ed70a212a949e80fb938a64f84182062e1d14af738d3",
+    "tools/sql/m03-frame-vision-app-readback.sql": "de702b6ba6e9e8e5437015ed394bf8271c52c7fc9f70693426cd069ebd3e2f69",
+    "tests/operations/test_m03_frame_vision_capture.py": "d6116fa70eaf13b5a172f6b9e0937ca6ed68347883066ad0037269b8980f13a6"
+  },
+  "fixed_scope": {
+    "workspace_id": "e470aefd-e0f7-480c-bf0d-170cb2cb7069",
+    "project_id": "bd14d10f-b1c5-4d6a-8b4d-e5c48208433c",
+    "source_sha256": "ffe461d30d48b32d90f1165627e2d104b6817f61d96a5a4bd9dcd6ff1964fc0a",
+    "source_size_bytes": 4316429,
+    "no_existing_candidate_target": true,
+    "required_history_count": 21,
+    "required_history_tail": [
+      "20261029174841",
+      "20261029180953"
+    ]
+  },
+  "validation": {
+    "command": ".\\.venv-skills\\Scripts\\python.exe -X utf8 -m unittest discover -s tests/operations -p test_m03_frame_vision_capture.py -v",
+    "tests": 11,
+    "pass": 11,
+    "fail": 0,
+    "skipped": 0,
+    "meaningful_red": "Unconstrained validation stub accepted wrong source/job/workspace, raw private fields, invented or swapped frames, legacy/manual AI claims and malformed usage. Initial RED ran8 methods/53 subtest failures; one uppercase-intent test used all-numeric UUID and was corrected to actual uppercase hex before GREEN. No production bypass introduced.",
+    "additional_test_harness_correction": "A missing space before for in one new test comprehension caused a temporary import SyntaxError; corrected before the final11/11 run.",
+    "cross_language": "Fake transport to actual TypeScript selectVisionFrames confirms independent Python ordered frame fingerprint and dynamic strict schema SHA match actual adapter output; no OpenAI network transport invoked.",
+    "sql": "pglast parses7 statements: read-only repeatable-read BEGIN,3 SET LOCAL,assert-only DO,SELECT,ROLLBACK. Parse only; no DB schema compilation or SQL execution.",
+    "baseline": "Pinned existing public metadata receipt covers9 original profiles and108 real frame hashes. Retention will be checked against current canonical rows only when root invokes the observer."
+  },
+  "privacy": {
+    "public_projection": "Strict identifiers, hashes, technical geometry/counts, fixed method/issue/model enums and null-or-bounded token usage only. Response/request IDs hashed.",
+    "excluded": [
+      "transcripts",
+      "fact values",
+      "free provider reasons",
+      "image bytes",
+      "filenames/local source paths",
+      "Auth rows",
+      "secrets",
+      "signed URLs",
+      "lease tokens"
+    ],
+    "raw_stage_payload_capture_needed": false,
+    "existing_private_cli_logger_reused": true,
+    "ignored_intent_path": ".local/m03-frame-vision/app-job-intent.json"
+  },
+  "next_exact_action": {
+    "owner": "root",
+    "precondition": "After SQL21 + live n8n new handler readback + verified owned worker restart and fresh app upload completes, create protected ignored intent containing exactly one new lowercase UUID job_id; no SQL/target/file parameters.",
+    "command": ".\\.venv-skills\\Scripts\\python.exe -X utf8 tools/capture-m03-frame-vision.py",
+    "expected_receipt_directory": "tracking/evidence/m03/frame-vision-app",
+    "retry_boundary": "Read-only observer has no mutation/retry side effect; preserve every receipt. Do not interpret an unconfirmed observation as AI success."
+  },
+  "evidence_boundary": "Persisted native source download SHA + canonical asset SHA are compared with permitted local bytes SHA. Observer makes no S3 roundtrip, visual quality, English/mixed spoken-language, speech accuracy, factual Reviewed or full billed usage claim. Parent M04 observer separately owns old project pins/protected M02.",
+  "cloud_called": false,
+  "sql_executed": false,
+  "provider_called": false,
+  "private_credentials_or_runtime_configuration_read": false,
+  "main_invoked": false,
+  "hosting_deferred": true
+}

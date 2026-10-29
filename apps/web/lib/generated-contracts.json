@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "x-source-sha256": "bab07d140de0a32ee9422837402ed1ef57a1f1d49ac01a4caafaa6aa787eaac4",
+  "x-source-sha256": "1bfcb57134dd7021dde477e784a25c3d7fcbcbc4dc2a145f23b7fd583793554a",
   "$defs": {
     "Id": {
       "type": "string",
@@ -1689,7 +1689,7 @@
         "processing_issues": {
           "type": "array",
           "uniqueItems": true,
-          "maxItems": 4,
+          "maxItems": 5,
           "description": "Safe persisted technical outcomes; originals and useful material remain available. Raw provider errors stay private.",
           "items": {
             "type": "string",
@@ -1697,7 +1697,8 @@
               "NO_AUDIO",
               "TRANSCRIPTION_FAILED",
               "EXTRACTION_FAILED",
-              "INSUFFICIENT_FRAMES"
+              "INSUFFICIENT_FRAMES",
+              "FRAME_SELECTION_UNAVAILABLE"
             ]
           }
         },

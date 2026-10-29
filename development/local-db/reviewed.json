@@ -114,6 +114,18 @@
       "sha256": "e816ad6b491626ace489efd256b56c322d25d9101de94e5fb8b24d2d4b745048",
       "reviewed_by": "root integration owner with independent m03_domain SQL review and m02_parity promotion review; reproduced terminal-dedupe defect and GREEN local18 rollback prooff0b71f9a",
       "reviewed_at": "2026-10-29T14:01:55.006326+00:00"
+    },
+    {
+      "path": "supabase/migrations/20261029174841_m04_casting_assignments_lifecycle.sql",
+      "sha256": "2825681bf529f1b32db2473749180901f0961b025e8da847b38ad49c06f4b900",
+      "reviewed_by": "root integration owner and m04_api independent review; exact20 rollback8markers and prior two-actor Main race passed",
+      "reviewed_at": "2026-10-29T17:55:14.258213+00:00"
+    },
+    {
+      "path": "supabase/migrations/20261029180953_m03_frame_vision_selection.sql",
+      "sha256": "bcd12794eccfa590e5d160f62dfd67838c8186376cddda1952f291c50d03bec8",
+      "reviewed_by": "root independent SQL/promotion/public-outcome review; peer vision/legacy checks; actual3body+oneCHECK RED/GREEN rollback9826d8e6; immutable dispatch drift guards",
+      "reviewed_at": "2026-10-29T18:40:52.330308+00:00"
     }
   ],
   "tests": [

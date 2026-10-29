@@ -1,0 +1,16 @@
+{
+  "migration": "supabase/migrations/20261029180953_m03_frame_vision_selection.sql",
+  "migration_sha256": "89b6530f83ce50ea2744446a2fcd8d14305e98d61336400e48a13bc2067b450b",
+  "source": "development/m03/frame-vision.sql",
+  "source_sha256": "e0b50a7a3efa0f25d0aa08a0022fefdb54400451f50d8c67b8645400c5122136",
+  "baseline_manifest_sha256": "f8e9c48d19a66b38b81eee6f6a7d10e01d8604a9aed9e60e0de1f0f1dc610f14",
+  "source_bytes_preserved": true,
+  "adaptation": "Normalize only literal anchor/new-text CRLF to LF to match already-normalized pg_get_functiondef, retaining exact source occurrence guards. Candidate is still unapplied.",
+  "historical_candidate": "tracking/evidence/m03/frame-vision-preparation/20261029180953-before-anchor-normalization.sql.txt",
+  "historical_draft": "tracking/evidence/m03/frame-vision-preparation/frame-vision-before-anchor-normalization.sql.txt",
+  "historical_harness": "tracking/evidence/m03/frame-vision-preparation/test-m03-frame-vision-before-anchor-normalization.mjs.txt",
+  "failed_receipt": "tracking/evidence/m03/frame-vision-local/2026-10-29T18-12-56-123Z-067567fa.json",
+  "sql_executed_by_composition": false,
+  "history_changed": false,
+  "hosting_deferred": true
+}

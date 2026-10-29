@@ -44,3 +44,10 @@ test('casting forwards permission and concurrency errors intact for HTTP and MCP
  const service={setSlotMain:async()=>{throw denied;}}as unknown as CastingOperations,s=['slots','s','main'];
  await assert.rejects(handleCastingRequest(req(s.join('/'),'PUT',{assignment_id:null,expected_slot_row_version:4,replacement_behavior:'move_previous_to_backup'}),s,actor,service,ctx),error=>error===denied);
 });
+test('casting public mutations enforce the shared published idempotency header bounds',async()=>{
+ const{service,calls}=stub(),s=['assignments','a'];
+ for(const key of [undefined,'short','x'.repeat(201)])await assert.rejects(handleCastingRequest(req(s.join('/'),'PATCH',{row_version:1}),s,actor,service,{...ctx,idempotencyKey:key}),error=>error instanceof DomainError&&error.code==='IDEMPOTENCY_KEY_REQUIRED');
+ assert.equal(calls.length,0);
+ await handleCastingRequest(req(s.join('/'),'PATCH',{row_version:1}),s,actor,service,{...ctx,idempotencyKey:'x'.repeat(16)});
+ assert.equal(calls.length,1);
+});

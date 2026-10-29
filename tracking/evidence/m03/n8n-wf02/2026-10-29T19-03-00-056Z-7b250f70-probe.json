@@ -1,0 +1,72 @@
+{
+  "observed_at": "2026-10-29T19:03:00.056Z",
+  "result": "passed",
+  "action": "probe",
+  "workflow_id": "gfhxzvSkprS2CI4o",
+  "stages": [
+    {
+      "kind": "candidate_scan",
+      "stage": "prepare_candidate",
+      "http_status": 200,
+      "execution_id": "31410",
+      "bound_response": true
+    },
+    {
+      "kind": "candidate_scan",
+      "stage": "transcribe_candidate",
+      "http_status": 200,
+      "execution_id": "31411",
+      "bound_response": true
+    },
+    {
+      "kind": "candidate_scan",
+      "stage": "extract_candidate",
+      "http_status": 200,
+      "execution_id": "31412",
+      "bound_response": true
+    },
+    {
+      "kind": "candidate_scan",
+      "stage": "select_frames",
+      "http_status": 200,
+      "execution_id": "31413",
+      "bound_response": true
+    },
+    {
+      "kind": "candidate_scan",
+      "stage": "apply_candidate",
+      "http_status": 200,
+      "execution_id": "31414",
+      "bound_response": true
+    },
+    {
+      "kind": "frame_extract",
+      "stage": "extract_frames",
+      "http_status": 200,
+      "execution_id": "31415",
+      "bound_response": true
+    },
+    {
+      "kind": "frame_extract",
+      "stage": "apply_frames",
+      "http_status": 200,
+      "execution_id": "31416",
+      "bound_response": true
+    }
+  ],
+  "unauthorized_http_status": 403,
+  "invalid_http_status": 400,
+  "malformed_stage_http_status": 400,
+  "real_workflow_executions": true,
+  "database_work_claimed": false,
+  "provider_invoked": false,
+  "hosting_deferred": true,
+  "observations": [
+    {
+      "operation": "workflow_readback",
+      "method": "GET",
+      "http_status": 200,
+      "bytes": 11290
+    }
+  ]
+}

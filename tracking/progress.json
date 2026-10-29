@@ -356,6 +356,13 @@
           "cloud": "applied",
           "target": "pyibofyctwnqpvktepse",
           "evidence": "tracking/evidence/cloud-m03-remaining/2026-10-29T14-27-32-733612Z-f4f2ecc5-readback.json"
+        },
+        {
+          "file": "supabase/migrations/20261029180953_m03_frame_vision_selection.sql",
+          "local": "applied",
+          "cloud": "applied",
+          "target": "pyibofyctwnqpvktepse",
+          "evidence": "tracking/evidence/cloud-m03-frame-vision/2026-10-29T18-59-19-587474Z-975447af-readback.json"
         }
       ],
       "evidence": [
@@ -389,13 +396,22 @@
         "tracking/evidence/m03/processing-label-fix/browser.json",
         "tracking/evidence/m03/remaining-current-quality/2026-10-29T17-30-44-566Z-2cf2934d.json",
         "tracking/evidence/m03/final-offline-checks/2026-10-29T17-29-55-584851Z-2f213bbb.json",
-        "tracking/evidence/m03/support-archive-contract/2026-10-29T17-30-21-297467Z-f92f7908.json"
+        "tracking/evidence/m03/support-archive-contract/2026-10-29T17-30-21-297467Z-f92f7908.json",
+        "tracking/evidence/cloud-m03-frame-vision/2026-10-29T18-59-19-587474Z-975447af-readback.json",
+        "tracking/evidence/m03/frame-vision-app/2026-10-29T19-12-45-337511Z-5acae3bc.json",
+        "tracking/evidence/m03/frame-vision-technical-review/2026-10-29T19-17-46-554410Z-fe4c5c01.json",
+        "tracking/evidence/m03/frame-vision-runtime/new-worker-owned.json",
+        "tracking/evidence/m03/n8n-wf02/2026-10-29T19-02-34-090Z-a89638cf-update.json",
+        "tracking/evidence/m03/remaining-current-quality/2026-10-29T19-15-04-160Z-c9cb8866.json",
+        "tracking/evidence/m03/final-offline-checks/2026-10-29T19-14-15-459555Z-07066d14.json"
       ],
       "blockers": [
-        "Independent spoken-fact answer key/error/correction rates and representative-frame quality remain unverified. No confirmed English-only sample or mixed-speech semantic pass; one new transcript has Arabic and Latin script only.",
-        "Scanned-profile factual Reviewed confirmation remains unverified pending that independent factual check. Producer/manual and denied-contributor transaction/protocol checks are separate evidence."
+        "Independent spoken-fact answer key/error/correction rates and confirmed English-only/mixed-speech semantic acceptance remain unverified; script counts do not prove spoken language.",
+        "Scanned-profile factual Reviewed confirmation remains unverified pending independent factual review. No real profile was marked Reviewed merely to complete a gate.",
+        "New OpenAI vision technically passed on one app-uploaded real source: one selected JPEG is independently full-resolution verified; remaining two picks have thumbnail diversity review only. Full-resolution representative-frame quality across the sample set remains incomplete.",
+        "Authenticated PDF preview is observed, but supporting PDF/DOCX byte-download roundtrip remains unverified after browser download timeouts."
       ],
-      "next_action": "Keep technical app/provider evidence, old failures and protected M02 exact. Complete independent speech/fact/frame-quality and scanned Reviewed acceptance when real answer-key/English material is available; continue M04 independently. Hosting deferred."
+      "next_action": "Retain the new real OpenAI vision proof and all old facts/pins/failures. Complete independent speech/fact quality, full-resolution remaining frame review, scanned factual Reviewed and document download checks when attainable; continue M04 series/review independently. Hosting deferred."
     },
     {
       "id": "M04",
@@ -407,7 +423,15 @@
       "commits": [
         "68cc7958305cfa252f06311f9006934a231abe73"
       ],
-      "migrations": [],
+      "migrations": [
+        {
+          "file": "supabase/migrations/20261029174841_m04_casting_assignments_lifecycle.sql",
+          "local": "applied",
+          "cloud": "applied",
+          "target": "pyibofyctwnqpvktepse",
+          "evidence": "tracking/evidence/cloud-m04-casting/2026-10-29T18-06-32-278912Z-2e383297-readback.json"
+        }
+      ],
       "evidence": [
         "development/m04/IMPLEMENTATION_PLAN.md",
         "development/m04/ASSIGNMENT_CONTRACT.md",
@@ -419,10 +443,19 @@
         "tracking/evidence/m04/main-race-local/2026-10-29T16-44-42-247Z-f410889c.json",
         "tracking/evidence/m04/assignment-handoff/2026-10-29T16-49-57-775830Z.json",
         "tracking/evidence/m03/remaining-current-quality/2026-10-29T17-30-44-566Z-2cf2934d.json",
-        "tracking/evidence/m03/final-offline-checks/2026-10-29T17-29-55-584851Z-2f213bbb.json"
+        "tracking/evidence/m03/final-offline-checks/2026-10-29T17-29-55-584851Z-2f213bbb.json",
+        "tracking/evidence/cloud-m04-casting/2026-10-29T18-06-32-278912Z-2e383297-readback.json",
+        "tracking/evidence/m04/ACCEPTANCE_MATRIX.md",
+        "tracking/evidence/m04/api-integration/2026-10-29T18-31-37-121637Z-554f99d9-activated.json",
+        "tracking/evidence/m04/live-app/2026-10-29-casting-journey.json",
+        "tracking/evidence/m04/app-capture/2026-10-29T19-16-43-336622Z-5e14943e.json",
+        "tracking/evidence/m04/controlled-browser/2026-10-29T19-13-26-035Z-five-sticky-uncertainty.json",
+        "tracking/evidence/m04/retirement-ui/2026-10-29T18-31-37-121637Z-6944467c-browser.json",
+        "tracking/evidence/m03/remaining-current-quality/2026-10-29T19-15-04-160Z-c9cb8866.json",
+        "tracking/evidence/m03/final-offline-checks/2026-10-29T19-14-15-459555Z-07066d14.json"
       ],
       "blockers": [],
-      "next_action": "Compose/review additive20 from frozen f19d1946 assignment and0c9719e9 lifecycle fragments, promote locally then guarded canonical release; wire shared domain/central/HTTP/MCP/Casting board (full order before M02 handler only when ready). Finish signed-in app/MCP, series/template/review/fit/WF05 and retirement Undo/drag slices. No M04 cloud migration yet."
+      "next_action": "Continue M04 with minimal presentation-series create/reuse/read/list and audience/template context, then exact series_id deterministic ten-field review/fit projection, grounded optional WF05 wording and typed retirement Undo. Casting board/shared API/MCP, migration20 and signed-in Main/Shortlist/order/notes/removal are integrated and proven. Do not reapply20/21 or repeat enrollment/provisioning; hosting deferred."
     },
     {
       "id": "M05",
@@ -588,62 +621,44 @@
     }
   ],
   "active_session": {
-    "started_at": "2026-10-29T12:41:53.578831+00:00",
-    "request": "Finish remaining M03, test through the app, then proceed M04; hosting deferred.",
-    "base_commit": "a8b607e05a197821234a1152f6b827bd09c33ff0",
-    "status": "in_progress",
-    "plan": [
-      "True resumable uploads and permitted supporting file association",
-      "Source-backed editable role filter suggestions",
-      "Correct future frame geometry and chosen timestamp extraction",
-      "Additive coordinated migration after fresh discovery/local proof/review",
-      "Actual app acceptance and remaining media quality/reuse/duplicate checks",
-      "Continue independent M04 while M03 language/answer-key quality acceptance remains explicit"
-    ],
+    "started_at": "2026-10-29T17:49:12.076185+00:00",
+    "request": "Continue M04 app integration and remaining M03 checks; hosting deferred.",
+    "base_commit": "4083ebab97946a7149f08290ca86a61703785c89",
+    "status": "checkpoint_complete",
     "hosting_deferred": true,
     "planned_evidence": [
-      "Focused domain/adapter/worker/security tests",
-      "Local SQL rollback/concurrency proof and additive cloud readback",
-      "Real browser upload/resume/support/filter/frame actions",
-      "Actual permitted media/provider metadata and independent quality boundaries"
+      "Exact additive20 composition, local rollback/promotion and guarded canonical apply/readback preserving19 business/Auth/runtime11 and protected M02",
+      "Shared HTTP/MCP assignment/Main/Undo/order service composition and schema validation",
+      "Casting board actual signed-in app persistence, independent same-person role choices, Shortlist/Main/order and safe notes",
+      "Remaining M03 media/document quality observations with true semantic/English groundtruth limits retained"
     ],
-    "previous_session_checkpoint": "tracking/sessions/2026-10-29-before-m03-remaining.json",
-    "updated_at": "2026-10-29T17:32:11.900201+00:00",
-    "cloud_history_versions": 19,
-    "local_history_versions": 19,
-    "cloud_release": "tracking/evidence/cloud-m03-remaining/2026-10-29T14-27-32-733612Z-f4f2ecc5-readback.json",
-    "application_quality": "tracking/evidence/m03/remaining-current-quality/2026-10-29T17-30-44-566Z-2cf2934d.json",
-    "application_tests": 478,
-    "cloud_runtime_operations": 11,
-    "m04_status": "first_slice_local_sql_race_verified_ui_unwired",
-    "support_key_status": "Encrypted canonical bootstrap and separate DB/local activation passed; private key not logged",
-    "actual_app_acceptance": "Core M03 features and all9 additional real scans passed technical app/provider checks; semantic/language/frame-quality/scanned Reviewed acceptance remains unverified",
-    "real_batch_after_browser_close": {
-      "completed": 9,
-      "new_ready_frames": 108,
-      "selected_frames": 27,
-      "visible_project_profiles": 11,
-      "all_nine_new_ids_visible": true,
-      "worker_restart_launcher_pid": 20016,
-      "evidence": "tracking/evidence/m03/remaining-app/real-batch-results.json"
+    "ownership": {
+      "root": "App integration, browser acceptance, release review and orchestration",
+      "m04_database": "Migration composition and local proof; no cloud mutation until reviewed",
+      "m04_api": "Shared service and HTTP/MCP integration",
+      "m03_acceptance": "Remaining M03 evidence review and attainable checks"
     },
-    "application_sources_sealed": 434,
-    "application_build_environment": {
-      "EPS_TEST_SERVER": "true",
-      "build_output": ".next-e2e",
-      "production_build_served": false,
-      "dev_server_build_output": ".next"
-    },
-    "skills_integrity": "53 skills, zero errors/warnings; tracking/SKILLS_VALIDATION.json",
-    "offline_operational_quality": "tracking/evidence/m03/final-offline-checks/2026-10-29T17-29-55-584851Z-2f213bbb.json",
-    "offline_node_tests": 104,
-    "offline_python_tests": 192,
-    "m04_sql_kernel": "tracking/evidence/m04/assignments-local/2026-10-29T16-25-14-012Z-b33636d0.json",
-    "m04_main_race": "tracking/evidence/m04/main-race-local/2026-10-29T16-44-42-247Z-f410889c.json",
-    "post_app_canonical": "tracking/evidence/m03/final-canonical/2026-10-29T16-32-19-570378Z-7a1e0a1c.json",
-    "implementation_commit": "68cc7958305cfa252f06311f9006934a231abe73",
-    "support_archive_contract": "tracking/evidence/m03/support-archive-contract/2026-10-29T17-30-21-297467Z-f92f7908.json",
-    "source_identity_and_private_scan": "dist/SOURCE_CHECKPOINT.json"
+    "updated_at": "2026-10-29T19:19:34.352513+00:00",
+    "canonical_history_versions": 21,
+    "local_history_versions": 21,
+    "m04_api_active": true,
+    "m04_controlled_board_tests": 5,
+    "m04_controlled_retirement_tests": 7,
+    "m04_retirement_unit_tests": 8,
+    "m03_frame_vision_status": "Local/canonical21 and active WF02 rollout verified; real app job9a5ddb61 completed5stages/12images/3OpenAI picks; independent first-frame/full-grid technical review, remaining semantic/full-resolution quality gates explicit",
+    "m03_public_failure_outcome_tests": 7,
+    "m04_canonical_readback": "tracking/evidence/m04/app-capture/2026-10-29T19-16-43-336622Z-5e14943e.json",
+    "application_gate": "tracking/evidence/m03/remaining-current-quality/2026-10-29T19-15-04-160Z-c9cb8866.json",
+    "operational_gate": "tracking/evidence/m03/final-offline-checks/2026-10-29T19-14-15-459555Z-07066d14.json",
+    "app_tests": 505,
+    "node_operations_and_tools": 120,
+    "python_operations": 232,
+    "m03_vision_app_capture": "tracking/evidence/m03/frame-vision-app/2026-10-29T19-12-45-337511Z-5acae3bc.json",
+    "m04_status": "in_progress",
+    "m03_status": "implemented_unverified",
+    "production_deployment_verified": false,
+    "unrelated_concurrent_work": "Screenshots catalogue left untouched/excluded from this task archive; original local exclude restored after checkpoint.",
+    "git_whitespace_check": "Two known extra-blank-at-EOF warnings in applied migration20 and sealed frame-vision-dispatch.test.ts; other task paths pass."
   },
   "historical_sessions": [
     {
@@ -744,6 +759,64 @@
         "active_slots": 5
       },
       "previous_implementation_commit": "6a911d1a2cdb086640da4566bb714741be9b3d81"
+    },
+    {
+      "started_at": "2026-10-29T12:41:53.578831+00:00",
+      "request": "Finish remaining M03, test through the app, then proceed M04; hosting deferred.",
+      "base_commit": "a8b607e05a197821234a1152f6b827bd09c33ff0",
+      "status": "in_progress",
+      "plan": [
+        "True resumable uploads and permitted supporting file association",
+        "Source-backed editable role filter suggestions",
+        "Correct future frame geometry and chosen timestamp extraction",
+        "Additive coordinated migration after fresh discovery/local proof/review",
+        "Actual app acceptance and remaining media quality/reuse/duplicate checks",
+        "Continue independent M04 while M03 language/answer-key quality acceptance remains explicit"
+      ],
+      "hosting_deferred": true,
+      "planned_evidence": [
+        "Focused domain/adapter/worker/security tests",
+        "Local SQL rollback/concurrency proof and additive cloud readback",
+        "Real browser upload/resume/support/filter/frame actions",
+        "Actual permitted media/provider metadata and independent quality boundaries"
+      ],
+      "previous_session_checkpoint": "tracking/sessions/2026-10-29-before-m03-remaining.json",
+      "updated_at": "2026-10-29T17:32:11.900201+00:00",
+      "cloud_history_versions": 19,
+      "local_history_versions": 19,
+      "cloud_release": "tracking/evidence/cloud-m03-remaining/2026-10-29T14-27-32-733612Z-f4f2ecc5-readback.json",
+      "application_quality": "tracking/evidence/m03/remaining-current-quality/2026-10-29T17-30-44-566Z-2cf2934d.json",
+      "application_tests": 478,
+      "cloud_runtime_operations": 11,
+      "m04_status": "first_slice_local_sql_race_verified_ui_unwired",
+      "support_key_status": "Encrypted canonical bootstrap and separate DB/local activation passed; private key not logged",
+      "actual_app_acceptance": "Core M03 features and all9 additional real scans passed technical app/provider checks; semantic/language/frame-quality/scanned Reviewed acceptance remains unverified",
+      "real_batch_after_browser_close": {
+        "completed": 9,
+        "new_ready_frames": 108,
+        "selected_frames": 27,
+        "visible_project_profiles": 11,
+        "all_nine_new_ids_visible": true,
+        "worker_restart_launcher_pid": 20016,
+        "evidence": "tracking/evidence/m03/remaining-app/real-batch-results.json"
+      },
+      "application_sources_sealed": 434,
+      "application_build_environment": {
+        "EPS_TEST_SERVER": "true",
+        "build_output": ".next-e2e",
+        "production_build_served": false,
+        "dev_server_build_output": ".next"
+      },
+      "skills_integrity": "53 skills, zero errors/warnings; tracking/SKILLS_VALIDATION.json",
+      "offline_operational_quality": "tracking/evidence/m03/final-offline-checks/2026-10-29T17-29-55-584851Z-2f213bbb.json",
+      "offline_node_tests": 104,
+      "offline_python_tests": 192,
+      "m04_sql_kernel": "tracking/evidence/m04/assignments-local/2026-10-29T16-25-14-012Z-b33636d0.json",
+      "m04_main_race": "tracking/evidence/m04/main-race-local/2026-10-29T16-44-42-247Z-f410889c.json",
+      "post_app_canonical": "tracking/evidence/m03/final-canonical/2026-10-29T16-32-19-570378Z-7a1e0a1c.json",
+      "implementation_commit": "68cc7958305cfa252f06311f9006934a231abe73",
+      "support_archive_contract": "tracking/evidence/m03/support-archive-contract/2026-10-29T17-30-21-297467Z-f92f7908.json",
+      "source_identity_and_private_scan": "dist/SOURCE_CHECKPOINT.json"
     }
   ],
   "historical_checkpoints": [

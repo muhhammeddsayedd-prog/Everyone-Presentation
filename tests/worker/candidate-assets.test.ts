@@ -36,6 +36,17 @@ test('original reads verify actual MIME, bounded size and SHA before native work
   const wrongMime = createCandidateStageAssets(port, { ...configuration, fetch: async () => new Response(bytes, { headers: { 'content-type': 'application/octet-stream' } }) });
   await assert.rejects(wrongMime.read(scope, input, new AbortController().signal), { code: 'VIDEO_ASSET_TRANSFER_FAILED' });
 });
+test('prepared frame reads bind exact ID/hash and canonical bounded size before requesting bytes', async () => {
+  let reads = 0; const frameAccess = access(output, 'GET', 'image/jpeg');
+  const port = { getAssetAccess: async () => frameAccess, reserveOutput: async () => { throw new Error('unused'); }, completeOutput: async () => { throw new Error('unused'); } };
+  const assets = createCandidateStageAssets(port, { ...configuration, fetch: async () => { reads++; return new Response(bytes, { headers: { 'content-type': 'image/jpeg' } }); } });
+  assert.deepEqual(await assets.readFrame!(scope, { asset_id: output, sha256: digest }, new AbortController().signal), Buffer.from(bytes)); assert.equal(reads, 1);
+  for (const patch of [{ size_bytes: 2 * 1024 * 1024 + 1 }, { sha256: null }, { mime_type: 'image/svg+xml' }, { asset_id: original }, { url: frameAccess.url.replace(job, original) }]) {
+    Object.assign(frameAccess, access(output, 'GET', 'image/jpeg'), patch);
+    await assert.rejects(assets.readFrame!(scope, { asset_id: output, sha256: digest }, new AbortController().signal), { code: 'VIDEO_ASSET_CAPABILITY_INVALID' });
+  }
+  assert.equal(reads, 1);
+});
 test('only initial video preparation may read an unverified capability with a known declaration, and actual bytes must match it', async () => {
   let reads = 0; let writes = 0;
   const port = { getAssetAccess: async () => access(original, 'GET', 'video/mp4', null), reserveOutput: async () => { writes++; throw new Error('Unexpected reservation'); }, completeOutput: async () => { writes++; throw new Error('Unexpected Ready transition'); } };

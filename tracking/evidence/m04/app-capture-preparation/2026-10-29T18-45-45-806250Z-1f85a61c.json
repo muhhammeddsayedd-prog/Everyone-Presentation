@@ -1,0 +1,48 @@
+{
+  "observed_at": "2026-10-29T18:45:45.806250+00:00",
+  "result": "prepared",
+  "scope": "Fixed read-only Dummy Test casting observer; not invoked. Root must finish M04 journey and verify canonical21 before capture.",
+  "entrypoint": ".venv-skills/Scripts/python.exe -X utf8 tools/capture-m04-app.py",
+  "source_sha256": {
+    "tools/capture-m04-app.py": "343c53ddec8a9f1a9562688f193867b35ed87b09f1a36c0086e606c704fe65bf",
+    "tools/sql/m04-app-capture.sql": "70e7dba3de5f8f27458aa2be2396ce90ece4c3429d2c0e0e1dcb4371c4e0ae79",
+    "tests/operations/test_m04_app_capture.py": "84155e8ffb03af95291f40f3fed695fdb07470a516509a23d7fe451750dde7df"
+  },
+  "offline_tests": {
+    "command": ".venv-skills/Scripts/python.exe -X utf8 -m unittest discover -s tests/operations -p test_m04_app_capture.py",
+    "tests": 7,
+    "pass": 7,
+    "fail": 0,
+    "cli_mock": "fail-fast; no external call"
+  },
+  "sql_syntax": {
+    "parser": "pglast",
+    "statements": 7,
+    "top_statement_types": [
+      "TransactionStmt",
+      "VariableSetStmt",
+      "VariableSetStmt",
+      "VariableSetStmt",
+      "DoStmt",
+      "SelectStmt",
+      "TransactionStmt"
+    ],
+    "executed": false
+  },
+  "independent_review": {
+    "root": "Target/projection/privacy/read-only clear; requested all-preservation acceptance gate implemented",
+    "m04_database": "Read-only/DTO/target/seals clear; classification concern resolved by all-preservation gate"
+  },
+  "acceptance_boundary": "Captured exit0 requires all three preservation flags and all invariants true. Counts, Main/Shortlist/pending observations derive from actual scoped rows, not an expected business fixture. Failed preservation keeps allowlisted observed state in a failed receipt.",
+  "preservation_flags": [
+    "protected_m02_unchanged",
+    "old_candidate_facts_unchanged",
+    "old_project_pins_and_availability_unchanged"
+  ],
+  "data_boundary": "IDs, revisions/order/status, counts, audit transition IDs/positions and SHA256 of notes/wording/facts/pins only. No Auth rows, keys, raw notes/facts, filenames, URLs, private audit payload or provider calls.",
+  "release_comparator_used": false,
+  "query_invoked": false,
+  "cloud_called": false,
+  "mutations_requested": false,
+  "hosting_deferred": true
+}

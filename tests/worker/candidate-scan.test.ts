@@ -15,3 +15,10 @@ test('provider outage retains independent source/frame result and retryable stag
     transcribe: async () => { throw new IntegrationError('OPENAI_RATE_LIMITED', 'Retry later.', true); } });
   assert.equal(value.source_sha256, prepared.source_sha256); assert.deepEqual(value.issues, [{ stage: 'transcribe', code: 'OPENAI_RATE_LIMITED', retryable: true }]);
 });
+test('callable scan records image review failure honestly and retains available source images', async () => {
+  const frame = { frame_asset_id: 'frame1', source_asset_id: 'video1', timestamp_ms: 100, width: 10, height: 10, sha256: 'b'.repeat(64), bytes: new Uint8Array([0xff, 0xd8, 0xff]), quality_flags: [], quality: { luminance: 100, contrast: 20, sharpness: 100, difference_hash: '0000000000000000' } };
+  let calls = 0;
+  const result = await scanCandidateVideo({ source_asset_id: 'video1', mime_type: 'video/mp4', bytes: new Uint8Array([1]) }, config, { prepare: async () => ({ ...prepared, sampled_frames: [frame] }), selectFrames: async () => { calls++; throw new IntegrationError('OPENAI_TIMEOUT', 'Timed out.', true); } });
+  assert.equal(calls, 1); assert.equal(result.frame_selection_method, 'manual_required'); assert.deepEqual(result.frame_selection.selected_frames, []); assert.equal(result.prepared.sampled_frames.length, 1);
+  assert.equal(result.status, 'partial'); assert.equal(result.issues.at(-1)!.stage, 'select_frames'); assert.equal(result.issues.at(-1)!.code, 'OPENAI_TIMEOUT'); assert.equal(result.provider_metadata.length, 0);
+});

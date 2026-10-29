@@ -1,0 +1,70 @@
+{
+  "observed_at": "2026-10-29T18:01:04.505352+00:00",
+  "result": "passed",
+  "scope": "Prepared M04 API facade, HTTP boundary and optional MCP composition with synthetic transports; app router/route factory composition remains held until canonical20 readback. No live integration claim.",
+  "public_operations": [
+    "list_assignments",
+    "create_assignment",
+    "update_assignment",
+    "set_slot_main",
+    "undo_slot_main",
+    "remove_assignment",
+    "reorder_workspace"
+  ],
+  "new_mcp_tools_require_composed_casting_service": true,
+  "old_m02_role_only_ordering_preserved_when_uncomposed": true,
+  "no_fallback_after_casting_dispatch": true,
+  "public_idempotency_bounds": [
+    16,
+    200
+  ],
+  "red": {
+    "command": "node tools/run-tests.mjs tests/server/casting-mcp.test.ts tests/server/casting-http.test.ts",
+    "tests": 11,
+    "pass": 6,
+    "fail": 5,
+    "observed_failures": [
+      "Missing facade exports",
+      "Missing casting tool advertisement/dispatch",
+      "Full reorder routed through old M02 parser",
+      "Missing public minimum idempotency key length"
+    ]
+  },
+  "green": {
+    "command": "node tools/run-tests.mjs tests/server/casting-mcp.test.ts tests/server/casting-http.test.ts tests/server/mcp.test.ts packages/central/test/casting.test.ts",
+    "tests": 30,
+    "pass": 30,
+    "fail": 0,
+    "skipped": 0,
+    "cancelled": 0
+  },
+  "typecheck_exit_code": 0,
+  "scoped_eslint_exit_code": 0,
+  "independent_reviews": [
+    {
+      "reviewer": "root",
+      "result": "clear; no P1/P2"
+    },
+    {
+      "reviewer": "m04_database",
+      "result": "clear; no P1/P2; read-only"
+    }
+  ],
+  "source_sha256": {
+    "packages/domain/src/index.ts": "3f5aee85b83ef10fbc8272ce98cb8019e7be4df68b0e71a392273483c79ff2a2",
+    "packages/central/src/index.ts": "782aa718f9c07b89db133f81077fbbba4f48a72d9125e18c1853faf2f98a09f5",
+    "apps/web/lib/casting.ts": "2863503964cfc3d96db13bed96d37433d65d7f22b0577f0d673df60d6f7da2cd",
+    "apps/web/lib/casting-http.ts": "cb1775ea8de19ad8cf94db8151d1e1d77974b913fa1d57ddabeafdb3ea0f0422",
+    "apps/web/lib/mcp.ts": "c5cd39ce762c986340121db67fb31e16b5576110af721628f1b70ac68b251a4e",
+    "tests/server/casting-http.test.ts": "55117b683eaaca914a53e2983775132692e1e3e7dea33f54772486720736eb81",
+    "tests/server/casting-mcp.test.ts": "254249c4aad2f7ac1402280388f4fc975b4e4f85df0f79160785a6a303aa8ada",
+    "tests/server/mcp.test.ts": "24cd87fbd563ac4ab54e0f5c084956b81c2ea4d29473bee84cbf07fe650d69aa",
+    "packages/central/test/casting.test.ts": "5b5c00d00b8dd1183b4f5c3fcfa3a9c2fce9b53c155745152a75ca34ee0d53eb"
+  },
+  "source_hash_timing": "Recorded after focused tests/reviews; final root source-stability gate remains separate.",
+  "canonical_sql_called": false,
+  "private_configuration_read": false,
+  "provider_called": false,
+  "app_routes_composed": false,
+  "hosting_deferred": true
+}

@@ -1,0 +1,62 @@
+{
+  "observed_at": "2026-10-29T19:12:28.018406+00:00",
+  "result": "passed",
+  "scope": "Historical controlled HTTP/DOM Chromium board run before subsequent sticky-uncertainty correction; synthetic fixtures, separate from actual signed-in canonical journey.",
+  "stats": {
+    "startTime": "2026-10-29T18:51:10.895Z",
+    "duration": 13475.46,
+    "expected": 4,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "tests": [
+    {
+      "title": "casting integration persists one output control and independent same-person assignments",
+      "result": "passed",
+      "duration_ms": 2493
+    },
+    {
+      "title": "casting unknown write locks changes and retries exactly without a second effect",
+      "result": "passed",
+      "duration_ms": 1321
+    },
+    {
+      "title": "casting read-only and narrow-screen states retain keyboard access without writes",
+      "result": "passed",
+      "duration_ms": 1001
+    },
+    {
+      "title": "casting pointer and keyboard ordering share the saved order across reload",
+      "result": "passed",
+      "duration_ms": 1680
+    }
+  ],
+  "raw_report": ".local/m04-app/controlled-four-before-sticky-fix/e2e-results.json",
+  "raw_report_sha256": "f300ff3a7296d7cf12469853d01e5f6a0c15c938e4d76efc5bf03a44c8d1559c",
+  "source_sha256": {
+    "apps/web/components/CastingBoard.tsx": "e6d93e693f491727802c2442080ddff62531e5246bdae0fdb8d7f1a6619b6c9f",
+    "apps/web/components/WorkspaceView.tsx": "ae55b9ee36c358566cd23c8947bb5cfa8b8d187f8bb7ffd84ddb0744684f3f95",
+    "tests/e2e/casting-board-ui.spec.ts": "32d402ed6c41a5180d4714bcb319e7bd33c9bf848f0e195a77ac0000feb0668b"
+  },
+  "source_binding_scope": "Post-run source snapshot from the completed source-stable505/lint/build gate and signed-in journey metadata. These are the final sequential-read-fence checkpoint hashes before the subsequent sticky-uncertainty correction; source hashes were not recorded by Playwright at test start. The test source has since changed.",
+  "source_snapshot_receipt": "tracking/evidence/m03/remaining-current-quality/2026-10-29T19-08-19-809Z-b0b09050.json",
+  "source_snapshot_receipt_sha256": "3016c4ba07083458689c4f3d3e17488690f71c5de19472a80aedf5344ce3282f",
+  "root_observed_session": "70185",
+  "preserved_before_report_overwrite": true,
+  "covered": [
+    "Persisted single output control and independent same-person assignments",
+    "Unknown503 write followed by exact same-key/body retry and one effect",
+    "Read-only/narrow-screen keyboard access",
+    "Real Chromium dragstart/dragover/drop and keyboard order saved across reload"
+  ],
+  "not_covered": [
+    "Lost write acknowledgement followed by403 must retain uncertainty: newly foundP2, correction and regression pending",
+    "Hosted Auth/canonical mutations",
+    "External Claude OAuth",
+    "Production or hosting acceptance"
+  ],
+  "cloud_called": false,
+  "provider_called": false,
+  "hosting_deferred": true
+}

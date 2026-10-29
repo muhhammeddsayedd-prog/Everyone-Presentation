@@ -6,6 +6,7 @@ import { api, errorMessage, mutation } from './api';
 import { ErrorNotice } from './Feedback';
 import { rebaseRoleForm, requirementFields, roleForm, rolePatch, type RoleForm } from './specs-form';
 import { RoleSlots } from './RoleSlots';
+import { CastingRetirementReview } from './CastingRetirementReview';
 
 export function Clarifications({ entries, disabled, onChange, level = 4 }: { entries: SpecsClarification[]; disabled: boolean; onChange: (entries: SpecsClarification[]) => void; level?: 3 | 4 }) {
   if (!entries.length) return null;
@@ -31,9 +32,8 @@ export function RoleEditor({ role, canWrite, onSaved, onArchived, onWorkspaceCha
     setForm(current => rebaseRoleForm(current, roleForm(previousRole), role));
   }
   const [saving, setSaving] = useState(false); const [error, setError] = useState(''); const [saved, setSaved] = useState(false);
-  const [archiveReview, setArchiveReview] = useState(false); const [archiving, setArchiving] = useState(false);
+  const [archiveReview, setArchiveReview] = useState(false); const archiving = archiveReview;
   const intent = useRef<{ key: string; input: string } | null>(null);
-  const archiveIntent = useRef<string | null>(null);
   const dirty = JSON.stringify(rolePatch(form, role.row_version)) !== JSON.stringify(rolePatch(roleForm(role), role.row_version));
   useEffect(() => {
     onDirtyChange(role.id, dirty || saving || archiving);
@@ -58,14 +58,10 @@ export function RoleEditor({ role, canWrite, onSaved, onArchived, onWorkspaceCha
     return () => clearTimeout(timer);
   });
   function change(patch: Partial<RoleForm>) { setForm(current => ({ ...current, ...patch })); setSaved(false); }
-  async function archive() {
-    if (!canWrite || archiving || dirty || saving) return;
-    archiveIntent.current ??= crypto.randomUUID(); setArchiving(true); setError('');
-    try {
-      await api(`/api/v1/roles/${encodeURIComponent(role.id)}/archive`, { ...mutation('POST', { row_version: role.row_version, reason: null }), signal: AbortSignal.timeout(20_000), headers: { 'Idempotency-Key': archiveIntent.current } });
-      onArchived(role.id); onWorkspaceChanged();
-    } catch (reason) { setError(errorMessage(reason)); }
-    finally { setArchiving(false); }
+  function archiveSaved(value: unknown) {
+    const result = value as { success?: unknown; affected_ids?: unknown } | null;
+    if (!result || result.success !== true || !Array.isArray(result.affected_ids) || !result.affected_ids.includes(role.id)) throw new Error('The role archive response could not be confirmed. Retry the same removal.');
+    onArchived(role.id); onWorkspaceChanged();
   }
   const label = role.name || 'Unnamed role';
   return <article className="role-editor" aria-label={`${label} requirements`}>
@@ -80,11 +76,12 @@ export function RoleEditor({ role, canWrite, onSaved, onArchived, onWorkspaceCha
         }} />{multiple && <span className="small muted">One entry per line.</span>}</div>)}
     </div><Clarifications entries={form.clarifications} disabled={!canWrite || archiving} onChange={clarifications => change({ clarifications })} />
       {canWrite && <div className="button-row"><button className="button button-small" disabled={!dirty || saving || archiving} onClick={save}>{saving ? 'Saving…' : 'Save requirements'}</button>
-        <button className="button button-small button-quiet" disabled={saving || dirty} onClick={() => setArchiveReview(value => !value)}>Remove role</button></div>}
+        <button className="button button-small button-quiet" disabled={saving || dirty || archiveReview} onClick={() => setArchiveReview(true)}>Remove role</button></div>}
     </details>
     {error && <><ErrorNotice message={error} /><div className="button-row"><button className="button button-small" disabled={saving || archiving || !dirty} onClick={save}>Retry saving</button><button className="button button-small button-quiet" onClick={onReload}>Reload saved requirements</button></div></>}
-    {archiveReview && <div className="notice"><div><p>Archive {label} and its {role.headcount ?? 1} active {(role.headcount ?? 1) === 1 ? 'slot' : 'slots'}?</p><p className="small">Their history is retained. Existing presentation versions and reusable profiles stay saved.</p></div>
-      <div className="button-row"><button className="button button-small" disabled={archiving || dirty || saving} onClick={archive}>{archiving ? 'Archiving…' : 'Confirm archive'}</button><button className="button button-small button-quiet" disabled={archiving} onClick={() => setArchiveReview(false)}>Keep role</button></div></div>}
+    {archiveReview && <CastingRetirementReview key={`${role.id}:${role.row_version}`} workspaceId={role.workspace_id} scope={{ kind: 'role', id: role.id, row_version: role.row_version }}
+      scopeLabel={`the role ${label}, its active slots and all their casting assignments`} confirmLabel="Confirm archive" cancelLabel="Keep role"
+      request={{ path: `/api/v1/roles/${encodeURIComponent(role.id)}/archive`, body: { row_version: role.row_version, reason: null } }} onSaved={archiveSaved} onCancel={() => setArchiveReview(false)} />}
     <RoleSlots role={role} canWrite={canWrite && !dirty && !saving && !archiving} onRoleSaved={onSaved} onWorkspaceChanged={onWorkspaceChanged} onDirtyChange={onDirtyChange} />
   </article>;
 }
