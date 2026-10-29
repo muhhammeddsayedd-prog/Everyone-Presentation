@@ -43,7 +43,7 @@ function isCode(code: string, status: number) { return (error: unknown) => error
 
 test('capabilities report the effective candidate environment bound for HTTP/MCP and browser sessions', async () => {
   const maximumBytes = 50 * 1024 * 1024;
-  const service = fakeService({ rpc: () => ({ ...capabilities, capabilities: [...capabilities.capabilities, 'cast.upload', 'workspaces.write'], upload_policy: { ...capabilities.upload_policy,
+  const service = fakeService({ rpc: () => ({ ...capabilities, capabilities: [...capabilities.capabilities, 'cast.read','cast.upload', 'workspaces.write'], upload_policy: { ...capabilities.upload_policy,
     maximum_file_bytes: 256 * 1024 * 1024, available_purposes: ['candidate_video'] } }) });
   const studio = await createCentralStudio(createBearerUserClient({ ...config, accessToken: token }, { fetch: service.fetcher }),
     { candidate: { storageOrigin: config.url, maximumBytes } });

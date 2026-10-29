@@ -1,0 +1,23 @@
+{
+  "run_id": "bce959bd-e91d-4242-a22f-3014705177b2",
+  "started_at": "2026-10-29T14:18:57.345Z",
+  "result": "passed",
+  "cloud_called": false,
+  "provider_called": false,
+  "activation_private_configuration_read": false,
+  "source_seals": {
+    "tools/sql/m03-frame-enable-template.sql": "fe3f05305dd5eee3619928ebc609b4898e2431d61b2467c7237cc4d23d393ca1",
+    "tools/sql/m03-remaining-readback.sql": "c8e74d2bd7399682c984ad79b8f1732fd074056bf6ac065c19407948bfcc7b72",
+    "tools/configure-m03-frames.py": "cffc63289281bbe52826bd34a9ae82d2746864b0c804f70a540963c2e0ce1dc0",
+    "tools/m03_remaining_activation.py": "0e22a04a17854595018bf1d7d5997bbe0830da0426c07be46b1fb4f86be8353d",
+    "tools/test-m03-frame-activation-local.mjs": "39daf3cdd0865b4a71272b864131132856b4a2855251a7d6762bbe663ec4b2a3"
+  },
+  "scope": "Owned local19 oneframeconfigchange with supportdisabled/keymetadata untouched; transactionrolledback. No key query or app/provider/configflag acceptance.",
+  "before_sha256": "f918c6ca071960c67bc0b798493a152f85e9d15a950116f0effe9e2b5e468484",
+  "frame_only_sql_round_trip": true,
+  "owned_backend_settled": true,
+  "rollback_verified": true,
+  "after_sha256": "f918c6ca071960c67bc0b798493a152f85e9d15a950116f0effe9e2b5e468484",
+  "sources_stable": true,
+  "finished_at": "2026-10-29T14:19:07.678Z"
+}

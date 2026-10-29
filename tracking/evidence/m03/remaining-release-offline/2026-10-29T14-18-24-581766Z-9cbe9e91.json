@@ -1,0 +1,38 @@
+{
+  "observed_at": "2026-10-29T14:18:24.581850+00:00",
+  "result": "passed",
+  "scope": "Offline Python release comparator/dispatch guard tests; all service seams mocked or pure",
+  "command": [
+    ".venv-skills/Scripts/python.exe",
+    "-X",
+    "utf8",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/operations",
+    "-p",
+    "test_m03_remaining_release.py",
+    "-v"
+  ],
+  "exit_code": 0,
+  "test_count": 18,
+  "reported_duration_seconds": 22.737,
+  "actual_test_output_reference": {
+    "exec_session_id": 89848,
+    "final_chunk_id": "88cdd4",
+    "summary": "Ran 18 tests; OK"
+  },
+  "source_hash_timing": "Recorded after completed test run; no before/after source stability claim for this run",
+  "source_hashes": {
+    "tools/release_m03_remaining.py": "5a608e480c7afb56a1b49c7a683c238d950301c589c1ff91348368f486995b7e",
+    "tools/sql/m03-remaining-readback.sql": "c8e74d2bd7399682c984ad79b8f1732fd074056bf6ac065c19407948bfcc7b72",
+    "tests/operations/test_m03_remaining_release.py": "9972a386bd395e253466a5e4420ef60f947d7fb41d832344affddad80aba6d74"
+  },
+  "pure_retained_cloud_before_diagnosis": "tracking/evidence/m03/remaining-release-preflight-diagnosis/2026-10-29T14-17-41-039816Z-1e110cdf.json",
+  "independent_review": "m03_worker: no P1/P2; two focused missing-managed-row regressions passed",
+  "cloud_called": false,
+  "provider_called": false,
+  "database_changed": false,
+  "configuration_changed": false
+}

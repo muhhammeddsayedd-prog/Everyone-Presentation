@@ -5,6 +5,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { frameQuality } from './video-quality.ts';
 import { VIDEO_LIMITS, VideoPreparationError, type PreparedVideo, type RealFrame, type VideoInput, type VideoProbe } from './video-types.ts';
+import { videoDisplayGeometry } from './video-geometry.ts';
 
 const hash = (bytes: Uint8Array) => createHash('sha256').update(bytes).digest('hex');
 function bad(code: string): never { throw new VideoPreparationError(code); }
@@ -74,27 +75,42 @@ export async function prepareVideoNative(input: VideoInput, signal?: AbortSignal
     await writeFile(original, input.bytes, { flag: 'wx', mode: 0o600 });
     const rawProbe = await native('ffprobe', ['-v', 'error', '-protocol_whitelist', 'file,pipe', '-format_whitelist', 'mov,matroska,webm', '-show_format', '-show_streams', '-of', 'json', original], combined);
     let envelope: unknown; try { envelope = JSON.parse(rawProbe.stdout.toString('utf8')); } catch { bad('VIDEO_UNREADABLE'); }
-    const probe = parseVideoProbe(envelope); const warnings: string[] = []; const frames: RealFrame[] = []; const audio: PreparedVideo['audio_chunks'] = [];
+    const probe = parseVideoProbe(envelope); const geometry = videoDisplayGeometry(envelope, probe); const warnings: string[] = []; const frames: RealFrame[] = []; const audio: PreparedVideo['audio_chunks'] = [];
     if (options.timestampsMs && (options.probeOnly || !Array.isArray(options.timestampsMs) || !options.timestampsMs.length || options.timestampsMs.length > VIDEO_LIMITS.maximumSamples
       || new Set(options.timestampsMs).size !== options.timestampsMs.length || options.timestampsMs.some(timestamp => !Number.isSafeInteger(timestamp) || timestamp < 0 || timestamp >= probe.duration_ms))) bad('VIDEO_TIMESTAMP_INVALID');
-    if (options.probeOnly) return { source_asset_id: input.source_asset_id, source_sha256: hash(input.bytes), probe, audio_chunks: [], sampled_frames: [], warnings: [], implementation_version: 'video-preparation.v1', ffmpeg_version: (await native('ffmpeg', ['-version'], combined)).stdout.toString('utf8').split('\n')[0] };
+    if (options.probeOnly) return { source_asset_id: input.source_asset_id, source_sha256: hash(input.bytes), probe, display_geometry: geometry, audio_chunks: [], sampled_frames: [], warnings: [], implementation_version: 'video-preparation.v1', ffmpeg_version: (await native('ffmpeg', ['-version'], combined)).stdout.toString('utf8').split('\n')[0] };
     const requestedSamples = options.timestampsMs?.length ?? Math.min(VIDEO_LIMITS.maximumSamples, Math.max(1, Math.ceil(probe.duration_ms / 1000)));
     const spacing = probe.duration_ms / 1000 / (requestedSamples + 1);
     const selection = options.timestampsMs ? [...options.timestampsMs].sort((a, b) => a - b).map(timestamp => `gte(t\\,${timestamp / 1000})*(isnan(prev_selected_t)+lt(prev_selected_t\\,${timestamp / 1000}))`).join('+')
       : `gte(t\\,${spacing})*(isnan(prev_selected_t)+gte(t-prev_selected_t\\,${spacing}))`;
-    try {
-      const decoded = await native('ffmpeg', [...inputArgs, '-i', original, '-an', '-vf', `select=${selection},showinfo,scale='min(1280,iw)':'min(1280,ih)':force_original_aspect_ratio=decrease,setsar=1`, '-fps_mode', 'vfr', '-frames:v', String(requestedSamples), '-q:v', '3', '-fs', String(24 * 1024 * 1024), path.join(directory, 'frame-%02d.jpg')], combined);
-      const stamps = [...decoded.stderr.matchAll(/\bn:\s*\d+\s+pts:\s*[-\d]+\s+pts_time:([\d.e+-]+)/gu)].map(match => Math.round(Number(match[1]) * 1000));
-      for (let index = 0; index < Math.min(stamps.length, requestedSamples); index++) {
-        const file = path.join(directory, `frame-${String(index + 1).padStart(2, '0')}.jpg`); const bytes = await fileBytes(file, VIDEO_LIMITS.maximumFrameBytes);
-        const timestamp_ms = stamps[index]; if (!Number.isSafeInteger(timestamp_ms) || timestamp_ms < 0 || timestamp_ms >= probe.duration_ms) bad('VIDEO_FRAME_INVALID');
+    async function frame(file: string, timestamp_ms: number, requested_timestamp_ms?: number) {
+        const bytes = await fileBytes(file, VIDEO_LIMITS.maximumFrameBytes);
+        if (!Number.isSafeInteger(timestamp_ms) || timestamp_ms < 0 || timestamp_ms >= probe.duration_ms || requested_timestamp_ms !== undefined && timestamp_ms < requested_timestamp_ms) bad('VIDEO_FRAME_INVALID');
         const gray = await native('ffmpeg', ['-nostdin', '-v', 'error', '-threads', '1', '-filter_threads', '1', '-i', file, '-vf', 'scale=32:32', '-pix_fmt', 'gray', '-frames:v', '1', '-f', 'rawvideo', 'pipe:1'], combined, 1024);
         const quality = frameQuality(gray.stdout); const quality_flags: string[] = [];
         if (quality.luminance < 12 || quality.luminance > 243) quality_flags.push('EXPOSURE_LIMIT'); if (quality.contrast < 8) quality_flags.push('LOW_DETAIL');
         const checksum = hash(bytes);
-        if (frames.some(frame => frame.sha256 === checksum)) { warnings.push('DUPLICATE_FRAME_SAMPLES'); continue; }
-        frames.push({ frame_asset_id: `frame-${checksum}`, source_asset_id: input.source_asset_id, timestamp_ms, ...jpegSize(bytes), sha256: checksum, bytes, quality_flags, quality });
+        if (frames.some(frame => frame.sha256 === checksum)) { warnings.push(requested_timestamp_ms === undefined ? 'DUPLICATE_FRAME_SAMPLES' : 'FRAME_TIMESTAMP_SHARED'); if (requested_timestamp_ms === undefined) return; }
+        const size = jpegSize(bytes); if (size.width !== geometry.width || size.height !== geometry.height) bad('VIDEO_FRAME_INVALID');
+        frames.push({ frame_asset_id: `frame-${checksum}`, source_asset_id: input.source_asset_id, timestamp_ms, ...size, ...(requested_timestamp_ms === undefined ? {} : { requested_timestamp_ms }), sha256: checksum, bytes, quality_flags, quality });
+    }
+    if (options.timestampsMs) {
+      // Decode one requested timestamp at a time so nearby requests that share
+      // a real frame remain individually traceable. select preserves source
+      // PTS; frames:v1 stops after the first actual frame at/after that request.
+      for (const [index, requested] of [...options.timestampsMs].sort((a, b) => a - b).entries()) {
+        try {
+          const file = path.join(directory, `requested-${index}.jpg`);
+          const decoded = await native('ffmpeg', [...inputArgs, '-i', original, '-an', '-vf', `select=gte(t\\,${requested / 1000}),showinfo,scale=${geometry.width}:${geometry.height},setsar=1`, '-fps_mode', 'vfr', '-frames:v', '1', '-q:v', '3', '-fs', String(VIDEO_LIMITS.maximumFrameBytes), file], combined);
+          const stamp = /\bn:\s*\d+\s+pts:\s*[-\d]+\s+pts_time:([\d.e+-]+)/u.exec(decoded.stderr);
+          if (!stamp) { warnings.push('FRAME_TIMESTAMP_UNAVAILABLE'); continue; }
+          await frame(file, Math.round(Number(stamp[1]) * 1000), requested);
+        } catch (error) { if (combined.aborted) throw error; warnings.push('FRAME_TIMESTAMP_UNAVAILABLE'); if (error instanceof VideoPreparationError && error.code === 'VIDEO_DECODE_FAILED') warnings.push('FRAME_PREPARATION_FAILED'); }
       }
+    } else try {
+      const decoded = await native('ffmpeg', [...inputArgs, '-i', original, '-an', '-vf', `select=${selection},showinfo,scale=${geometry.width}:${geometry.height},setsar=1`, '-fps_mode', 'vfr', '-frames:v', String(requestedSamples), '-q:v', '3', '-fs', String(24 * 1024 * 1024), path.join(directory, 'frame-%02d.jpg')], combined);
+      const stamps = [...decoded.stderr.matchAll(/\bn:\s*\d+\s+pts:\s*[-\d]+\s+pts_time:([\d.e+-]+)/gu)].map(match => Math.round(Number(match[1]) * 1000));
+      for (let index = 0; index < Math.min(stamps.length, requestedSamples); index++) await frame(path.join(directory, `frame-${String(index + 1).padStart(2, '0')}.jpg`), stamps[index]);
     } catch (error) { if (combined.aborted) throw error; warnings.push('FRAME_PREPARATION_FAILED'); }
     if (!frames.length) warnings.push('NO_USABLE_FRAMES');
     if (options.timestampsMs) { if (frames.length < requestedSamples) warnings.push('FRAME_TIMESTAMP_UNAVAILABLE'); }
@@ -114,7 +130,7 @@ export async function prepareVideoNative(input: VideoInput, signal?: AbortSignal
       } catch (error) { if (combined.aborted) throw error; warnings.push('AUDIO_PREPARATION_FAILED'); }
     } else warnings.push('NO_AUDIO_STREAM');
     const version = (await native('ffmpeg', ['-version'], combined)).stdout.toString('utf8').split('\n')[0];
-    return { source_asset_id: input.source_asset_id, source_sha256: hash(input.bytes), probe, audio_chunks: audio, sampled_frames: frames, warnings: [...new Set(warnings)], implementation_version: 'video-preparation.v1', ffmpeg_version: version };
+    return { source_asset_id: input.source_asset_id, source_sha256: hash(input.bytes), probe, ...(options.timestampsMs ? { display_geometry: geometry } : {}), audio_chunks: audio, sampled_frames: frames, warnings: [...new Set(warnings)], implementation_version: 'video-preparation.v1', ffmpeg_version: version };
   } finally {
     // This exact directory was created above; no uploaded value names a target.
     const owned = await realpath(directory);

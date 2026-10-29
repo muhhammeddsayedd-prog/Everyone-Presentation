@@ -41,6 +41,45 @@ function capabilityService() {
   return { client, capabilities, purposes, mime, legacy };
 }
 
+test('support media uses fresh global authority, strict purpose checks and only typed404 fallback',async()=>{
+  const paths:string[]=[];let mode='ready';let capabilities=['cast.read'];
+  const supportKey=`assets/${video}/original.jpg`;
+  const asset={...frameAsset,id:video,purpose:'candidate_support',filename:'reference.jpg',source_asset_id:null,source_timestamp_ms:null};
+  const envelope={asset,bucket:'eps-candidate-support',object_key:supportKey};
+  const denied=()=>Response.json({code:'P0001',message:'CAPABILITY_REQUIRED',details:'{"status":403}'},{status:400});
+  const client=createBearerUserClient({url:origin,publishableKey:'sb_publishable_synthetic_key',accessToken:token},{fetch:async(input,init)=>{
+    const path=new URL(input instanceof Request?input.url:String(input)).pathname;paths.push(path);
+    assert.equal(new Headers(init?.headers).get('Authorization'),`Bearer ${token}`);
+    if(path==='/auth/v1/user')return Response.json({id:principal,aud:'authenticated',role:'authenticated',is_anonymous:false});
+    if(path.endsWith('/eps_get_capabilities'))return Response.json({principal_id:principal,capabilities,timezone:'Africa/Cairo',enabled_modules:['casting'],upload_policy:{allowed_mime_types:[],maximum_file_bytes:268435456,recommended_batch_size:200,available_purposes:[]}});
+    if(path.endsWith('/eps_get_candidate_support_asset')){
+      if(mode==='denied')return denied();
+      if(mode==='missing')return Response.json({code:'P0001',message:'RESOURCE_NOT_FOUND',details:'{"status":404}'},{status:400});
+      return Response.json(mode==='invalid'?{...envelope,asset:{...asset,purpose:'candidate_frame'}}:envelope);
+    }
+    if(path.endsWith('/eps_get_candidate_asset'))return Response.json({asset:frameAsset,bucket:'eps-candidate-outputs',object_key:frameKey});
+    if(path.endsWith('/eps_get_logo_media'))return Response.json(envelope);
+    if(path===`/storage/v1/object/info/eps-candidate-support/${supportKey}`)return Response.json({id:video,name:supportKey,bucket_id:'eps-candidate-support',size:jpeg.length,content_type:'image/jpeg'});
+    if(path===`/storage/v1/object/eps-candidate-support/${supportKey}`)return new Response(jpeg);
+    if(path===`/storage/v1/object/info/eps-candidate-outputs/${frameKey}`)return Response.json({id:frame,name:frameKey,bucket_id:'eps-candidate-outputs',size:jpeg.length,content_type:'image/jpeg'});
+    if(path===`/storage/v1/object/eps-candidate-outputs/${frameKey}`)return new Response(jpeg);
+    throw new Error('Unexpected supporting-file destination');
+  }});
+  const studio=await createCentralStudio(client,{supportRead:{storageOrigin:origin},candidateRead:{storageOrigin:origin},logoRead:{storageOrigin:origin,brandBucket:'eps-brand-assets'}});
+  const names=()=>paths.filter(path=>path.includes('/rest/v1/rpc/')).map(path=>path.split('/').at(-1));paths.length=0;
+  assert.deepEqual(await studio.getMediaContent(actor,video),{bytes:jpeg,mimeType:'image/jpeg'});
+  assert.deepEqual(names(),['eps_get_capabilities','eps_get_candidate_support_asset','eps_get_candidate_support_asset']);
+  for(const [changed,code] of [['denied','CAPABILITY_REQUIRED'],['invalid','CENTRAL_RESPONSE_INVALID']]){
+    mode=changed;paths.length=0;await assert.rejects(studio.getMediaContent(actor,video),error=>error instanceof DomainError&&error.code===code);
+    assert.deepEqual(names(),['eps_get_capabilities','eps_get_candidate_support_asset']);assert.equal(paths.some(path=>path.startsWith('/storage/')),false);
+  }
+  mode='missing';paths.length=0;assert.deepEqual(await studio.getMediaContent(actor,frame),{bytes:jpeg,mimeType:'image/jpeg'});
+  assert.deepEqual(names(),['eps_get_capabilities','eps_get_candidate_support_asset','eps_get_candidate_asset','eps_get_candidate_asset']);
+  capabilities=[];mode='denied';paths.length=0;
+  await assert.rejects(studio.getMediaContent(actor,video),error=>error instanceof DomainError&&error.code==='CAPABILITY_REQUIRED');
+  assert.deepEqual(names(),['eps_get_capabilities','eps_get_logo_media','eps_get_candidate_support_asset']);assert.equal(paths.some(path=>path.startsWith('/storage/')),false);
+});
+
 test('enabled authorized candidate uploads extend legacy M02 purposes/MIME policy and compose independent purpose limits', async () => {
   const service = capabilityService(); const maximumBytes = 50 * 1024 * 1024;
   const studio = await createCentralStudio(service.client, { ...service.legacy, candidate: { storageOrigin: origin, maximumBytes } });
@@ -63,7 +102,7 @@ test('read-only or currently revoked candidate authority never advertises video 
   assert.deepEqual(disabled.available_purposes, ['client_logo', 'specs']); assert.equal(disabled.maximum_file_bytes, 20 * 1024 * 1024);
   assert.equal(disabled.allowed_mime_types.some(mime => videoTypes.includes(mime)), false);
   const enabled = await createCentralStudio(service.client, { ...service.legacy, candidate: { storageOrigin: origin, maximumBytes: 50 * 1024 * 1024 } });
-  for (const capability of ['cast.upload', 'workspaces.write']) {
+  for (const capability of ['cast.read','cast.upload', 'workspaces.write']) {
     service.capabilities.splice(service.capabilities.indexOf(capability), 1);
     const revoked = (await enabled.getCapabilities(actor)).upload_policy;
     assert.equal(revoked.available_purposes.includes('candidate_video'), false);

@@ -1,0 +1,19 @@
+{
+  "observed_at": "2026-10-29T16:38:46.971545+00:00",
+  "phase": "red",
+  "command": "node tools/run-tests.mjs tests/server/processing-view.test.ts",
+  "observed_exit_code": 1,
+  "tests": 6,
+  "pass": 4,
+  "fail": 2,
+  "failures": [
+    "Candidate stages fall back to Processing step",
+    "Candidate/frame result links go to project rather than cast"
+  ],
+  "source_hashes": {
+    "apps/web/components/processing-view.ts": "3dec63602dc4ea51ea6a5b8e1ebd33c19a5a4941254ad491005ce4e6542fdfbf",
+    "apps/web/components/ProcessingView.tsx": "e9c723b1f4bdeb6f68e2ed291ec5be4d7d7f863f1bd0d7f87c4875df493bb33b",
+    "tests/server/processing-view.test.ts": "b635084ee78761a90b18db1e182c5a01fe84e639b3947a970f44defce513a887"
+  },
+  "provider_or_cloud_called": false
+}

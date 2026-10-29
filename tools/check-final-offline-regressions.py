@@ -23,7 +23,7 @@ def files():
 
 def sources(test_files):
     paths=set(test_files)
-    for directory in ('tools','packages','apps/worker/src','apps/web/lib','supabase/migrations'):
+    for directory in ('tools','packages','apps/worker/src','apps/web/lib','supabase/migrations','tests/operations'):
         for file in (ROOT/directory).rglob('*'):
             if file.is_file() and file.suffix in ('.mjs','.py','.ts','.sql') and '__pycache__' not in file.parts:
                 paths.add(file)

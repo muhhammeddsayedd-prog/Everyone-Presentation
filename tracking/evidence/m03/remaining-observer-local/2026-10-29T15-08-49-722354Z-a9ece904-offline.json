@@ -1,0 +1,35 @@
+{
+  "result": "passed",
+  "observed_at": "2026-10-29T15:08:50.135000+00:00",
+  "scope": "Offline parser/privacy/scope tests only; all service seams uncalled or mocked",
+  "command": [
+    ".venv-skills/Scripts/python.exe",
+    "-X",
+    "utf8",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/operations",
+    "-p",
+    "test_m03_remaining_live_capture.py",
+    "-v"
+  ],
+  "exit_code": 0,
+  "test_count": 9,
+  "log": "tracking/evidence/m03/remaining-observer-local/2026-10-29T15-08-49-722354Z-a9ece904-offline.log",
+  "log_sha256": "5a064fb28ecd1ccc54dc03f2c8dad58a24206b2c80e5a626c1bce2cf831cbba5",
+  "source_hashes": {
+    "tools/capture-m03-remaining-live.py": "9b3e44284d556f6e184d5dd9db0a59b54d28d03f4ae8998ab02160bd8bebc33c",
+    "tools/sql/m03-remaining-live-readback.sql": "d92846579d62f748284595394d03be6dda33a9372ef487f226ff59ef771f4b49",
+    "tests/operations/test_m03_remaining_live_capture.py": "afb0f66a0d6e8d74e0ef659957918489f77b8596775a08f89e4670431b7f5eb7",
+    "tools/capture-m03-live.py": "d54121365fdf41efb02fc0dce50566c3428c097a6f01c2544996e075f3e03677",
+    "tools/sql/m03-live-readback.sql": "16434bad7d3c466bf7778d74afec946cfbef2f423b6d58a3eb152b12939a5456"
+  },
+  "sources_stable": true,
+  "local_read_only_compile_receipt": "tracking/evidence/m03/remaining-observer-local/2026-10-29T15-04-51-789Z-0e6a34ad.json",
+  "query_body_executed": false,
+  "cloud_called": false,
+  "provider_called": false,
+  "business_rows_changed": false
+}

@@ -32,7 +32,7 @@ export interface CandidateStageGateway {
   getInput(scope: CandidateStageScope, signal: AbortSignal): Promise<unknown>;
   recordEvent(event: JobEvent, signal: AbortSignal): Promise<JobEventReceipt>;
 }
-type CandidateStageOperation = 'validate_stage_input' | 'read_source' | 'prepare_media' | 'write_audio' | 'write_frame' | 'read_audio' | 'transcribe_audio' | 'write_transcript' | 'read_transcript' | 'extract_facts' | 'select_frames' | 'prepare_application';
+type CandidateStageOperation = 'validate_stage_input' | 'read_source' | 'prepare_media' | 'write_audio' | 'write_frame' | 'read_audio' | 'transcribe_audio' | 'write_transcript' | 'read_transcript' | 'extract_facts' | 'extract_frames' | 'select_frames' | 'prepare_application';
 export interface CandidateStageDiagnostic {
   job_id: string; attempt_id: string; stage: string; input_hash: string; operation: CandidateStageOperation;
   error_kind: 'native' | 'integration' | 'gateway' | 'javascript' | 'unknown'; code: string;
@@ -64,7 +64,7 @@ const gatewayDiagnosticCodes = new Set(['INVALID_REQUEST', 'RESOURCE_NOT_FOUND',
   'JOB_ALREADY_RUNNING', 'JOB_NOT_AVAILABLE', 'RETRY_EXHAUSTED', 'STAGE_OUT_OF_ORDER', 'STAGE_STATE_INVALID', 'STALE_STAGE_LEASE', 'EVENT_ID_CONFLICT', 'EVENT_SEQUENCE_CONFLICT', 'RESULT_INVALID', 'INVALID_TRANSITION',
   'FEATURE_NOT_IMPLEMENTED', 'DEPENDENCY_UNAVAILABLE', 'SLOT_ALLOCATION_LIMIT_EXCEEDED', 'IDEMPOTENCY_KEY_REUSED', 'SPECS_STATE_INVALID', 'CLAIM_REPLAY_KEY_UNAVAILABLE',
   'RUNTIME_CONFIG_INVALID', 'RUNTIME_AUTH_UNVERIFIED', 'RUNTIME_ROLE_UNVERIFIED', 'RUNTIME_UNAVAILABLE', 'RUNTIME_RESPONSE_INVALID', 'RUNTIME_ABORTED', 'RUNTIME_CLOSED']);
-function diagnostic(error: unknown): Pick<CandidateStageDiagnostic, 'error_kind' | 'code' | 'gateway_outcome' | 'gateway_phase' | 'transport_code'> {
+export function projectCandidateStageFailure(error: unknown): Pick<CandidateStageDiagnostic, 'error_kind' | 'code' | 'gateway_outcome' | 'gateway_phase' | 'transport_code'> {
   try {
     if (error instanceof VideoPreparationError) { const code = error.code; return { error_kind: 'native', code: videoDiagnosticCodes.has(code) ? code : 'VIDEO_FAILURE_UNCONFIRMED' }; }
     if (error instanceof IntegrationError) { const code = error.code; return { error_kind: 'integration', code: integrationDiagnosticCodes.has(code) ? code : 'INTEGRATION_FAILURE_UNCONFIRMED' }; }
@@ -209,7 +209,7 @@ export async function executeCandidateStage(lease: StageLease, gateway: Candidat
     } else { operation = 'prepare_application'; result = { source_asset_id: source.asset_id }; schema = 'candidate-application.v1'; }
   } catch (error) {
     await stop(); if (signal.aborted) fail(options.signal?.aborted ? 'PROCESSING_CANCELLED' : 'LEASE_STALE'); if (error instanceof CandidateExecutionError) throw error;
-    try { options.onDiagnostic?.({ job_id: lease.job_id, attempt_id: lease.attempt_id, stage: lease.stage, input_hash: lease.input.input_hash as string, operation, ...diagnostic(error) }); }
+    try { options.onDiagnostic?.({ job_id: lease.job_id, attempt_id: lease.attempt_id, stage: lease.stage, input_hash: lease.input.input_hash as string, operation, ...projectCandidateStageFailure(error) }); }
     catch { /* An operator sink cannot change the durable outcome or repeat work. */ }
     let failure;
     if (error instanceof VideoPreparationError) {

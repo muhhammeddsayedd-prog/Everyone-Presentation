@@ -1,0 +1,32 @@
+{
+  "observed_at": "2026-10-29T16:03:47.176Z",
+  "scope": "Fixed owned local19 READ ONLY role membership projection; no role password/auth row/private configuration/cloud access.",
+  "memberships": [
+    {
+      "set": true,
+      "role": "authenticated",
+      "admin": true,
+      "member": "postgres",
+      "grantor": "supabase_admin",
+      "inherit": true
+    },
+    {
+      "set": true,
+      "role": "eps_api_owner",
+      "admin": false,
+      "member": "postgres",
+      "grantor": "postgres",
+      "inherit": true
+    },
+    {
+      "set": false,
+      "role": "eps_api_owner",
+      "admin": true,
+      "member": "postgres",
+      "grantor": "supabase_admin",
+      "inherit": false
+    }
+  ],
+  "cloud_called": false,
+  "role_or_data_changed": false
+}

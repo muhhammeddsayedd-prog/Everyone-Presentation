@@ -1,0 +1,37 @@
+# Active M03/M04 continuation checkpoint
+
+User request: finish remaining M03 through the app, then continue M04. Hosting remains deferred. This is an intermediate checkpoint; work is ongoing and source changes are uncommitted from a8b607e05a197821234a1152f6b827bd09c33ff0. The old dist archive/checkpoint is not current.
+
+## Canonical and runtime state
+
+- Local/cloud exact19. Migrations18/19 are immutable and already applied: 20261029133455 SHA2e190e001b2bda044d9c90da4287f54e5839b0af7ffec84d4c93083909c944fb; 20261029135318 SHAe816ad6b491626ace489efd256b56c322d25d9101de94e5fb8b24d2d4b745048. Do not reapply. Final cloud release readback f4f2ecc5 at14:27:32 under tracking/evidence/cloud-m03-remaining/. Runtime11 ports unchanged.
+- Protected M02 job b3f90268-147d-41d4-8875-2a6435df1496 remains waiting_for_input/INPUT_CHANGED, original manual note preserved. Do not retry/overwrite to clear it.
+- WF02 gfhxzvSkprS2CI4o active e764edf5-9d03-42b7-8b5d-4052c37ac1ff; seven real metadata probes passed90256095. Connector MCP still errors; authorized private management API fallback works.
+- Candidate image upgraded once to sha256:ea6e27d158a843fee524d7f43f2f88a4ede8bc58e8ac32578b7dec5c1594ba6b. Native10 actual cases/SAR proof pass. Old images/media are retained. Do not repeat one-shot private pin upgrade.
+- Frame DB/local flags enabled (91a4e91f/c0bd75c0). Support canonical encrypted bootstrap4b5ee8d6 succeeded15:07:45, separate support DB activationd1c5fea4 and local activationf6fdd3f9 succeeded. Keys remain private. Do NOT rerun bootstrap/enable/pin writes. Never use retired literal-key/combined activation helpers.
+- Current hidden local web launcher12248, logs .local/specs-runtime/web-m03-support-v1.*. Current worker launcher20016, logs worker-m03-restart-v2.*. Verify process ownership before stopping/restarting. Web is loopback3000; no hosting/public worker listener.
+
+## M03 implemented and observed
+
+- All four missing features implemented with HTTP/MCP contracts. Sealed application gate1e843067:443/443 tests+lint+build passed before new M04 sources; do not describe it as coverage of later new files.
+- Core observed app actions and private AX hashes: tracking/evidence/m03/remaining-app/continuation-summary.json. Signed-in Producer; true37,253,969-byte TUS pause at25,165,824, reload/reselect/nonzero resume to completion; jobfdc6e813-b074-4f8a-ba4d-2622a271bd81 canonical once, silent/no-provider case. Canonical24983a6c proves exact source/hash, one intent/asset/job, manual facts and both project pins retained.
+- Four supporting PNG/TXT/PDF/DOCX fixtures saved through app; canonical6c8fbe27/9818231d prove all Ready hashes match, facts unchanged, one text archive retains Ready original/object. PNG link opened actual320x180 image. Browser download helpers timed out; byte-download roundtrip is unverified, not reported as app success.
+- Father role12742abd age40-50 suggestion from requirements.age_range filled one editable age filter. Unknown checkbox stayed included; edited20-30 and explicit unknown exclusion observed.
+- Frame jobe2d2a395-db54-48d4-9427-865cf58419d6 appended actual source PTS1280/4520/9520 for1250/4500/9500 requests; all three decoded in browser853x480. Old project pins retained. Tail job4ac006e4-c9f4-4212-b846-943a725fa424 completed0 frames with19799ms explicitly unavailable.
+- Queued frame job865c4799-6942-47c8-be3a-192ef18d803f cancelled in app; new same2250ms intent yielded different job85b6897b-07e4-4e8d-9a5b-fc1afb7379f6 (currently queued/processing). Never resurrect old terminal job.
+- Scanned Unreviewed d5e665b3 reused in Dummy Test with two pins; original Dummy Reuse has three. Explicit synthetic keep_new67a82049 and link_existing9ef4803d->b7341092 tested; source retained. Earlier failed three candidate jobs remain evidence.
+- Additional nine authorized real intros uploaded from C:/Users/iway/Downloads/Videos (all except prior IMG_2854). One transfer interrupted, same-file retry completed. All nine Processing requested before closing upload tab and restarting verified drained worker. Current restart log shows9 prepare+9 transcribe, extraction progressing. No final nine-job completion claim yet.
+- Read-only observer tools/capture-m03-remaining-live.py is reviewed/frozen, exact19/two-workspace/max64 metadata. Use root-only when needed. Retained read timeout072b0d8d, no mutation; sequential later13851ce7/3dd329e6 passed. Do not rewrite old4-job observer. New support observer tools/capture-m03-support-live.py handles only four fixed synthetic asset IDs and no secrets/text.
+- Independent spoken-fact answer key/correction rates and confirmed English-only material remain unavailable. User says mostly Arabic, sometimes English. Do not mark M03 verified from parsing, provider output or script-letter counts. Proceed independent M04 while keeping this acceptance boundary explicit.
+
+## M04 active local work
+
+- Read development/m04/IMPLEMENTATION_PLAN.md and ASSIGNMENT_CONTRACT.md; no numbered M04 migration, promotion or cloud write exists.
+- m02_parity owns new domain casting-types.ts/casting.ts, central casting.ts and new unwired CastingBoard.tsx. Strict active assignment/explicit Shortlist/Option Main Backup/Main inverse semantics, same-user SDK and current query/result fences. Root authored unwired apps/web/lib/casting-http.ts and6 passing mapping tests (corrected-count receipt; original count failure retained). No UI/API/MCP wiring is claimed yet.
+- m03_worker owns new development/m04/assignments.sql, rollback kernel and isolated Main-race helper. Single-session non-owner kernel passed77e9b705/3d49f671. Actual isolated two-session race is in preparation; no race acceptance yet. Authorized separate network-none/noport/tmpfs container replay of exact local19 synthetic-only data, nonsecret nologin owner roles only, exact-ID labeled cleanup and canonical snapshot preservation.
+- m03_domain owns lifecycle-forward.sql/tests: scoped retirement/removal/specs_machine_baseline and post19 duplicate/support merge preservation, including hidden-project/replay checks. Compose atomically with assignment table before any promotion; no intermediate deployed table-existence503 regressions.
+- Main transitions use dedicated set_slot_main, including demotion; patch position option/backup on current Main returnsMAIN_OPERATION_REQUIRED. Notes/shortlist/wording may edit a Main. Published Success is {success:true,affected_ids:[]}.64KiB per request, bounded accumulated wording/event storage; no undocumented10k cap. Notes/private fields never render externally.
+
+## Next exact work
+
+Finish current nine real scans, observe canonical metadata and reopen resulting profiles; preserve failures and report actual language/accuracy limits. Complete current M04 composed rollback/real race/independent review and board authoring, then coordinate additive migration + app/API/MCP vertical slice. Finish documentation/decisions/progress, strict pack+53skills integrity, current tests/build/privacy scan and source archive/checkpoint once sources freeze. Never include private real-media/AX/PNGs/key files in source archive. Use .venv-skills/Scripts/python.exe -X utf8, npm.cmd and PowerShell; no PATH python or global skills. Earlier checkpoints retained under tracking/handoffs/.

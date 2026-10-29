@@ -3,10 +3,9 @@ jsonSchemaDialect: https://json-schema.org/draft/2020-12/schema
 info:
   title: Everyone Presentation Studio API
   version: 1.0.0-design
-  description: Design contract, not a deployed API. UI, API, MCP and workflow callbacks use shared domain operations.
-    Database discovery may adapt physical storage without changing agreed product semantics. IDs are opaque. All
-    internal endpoints enforce capability AND project/library scope. Missing facts/open slots are allowed; invalid
-    access/integrity/render data is not.
+  description: Design contract, not a deployed API. UI, API, MCP and workflow callbacks use shared domain operations. Database discovery may adapt
+    physical storage without changing agreed product semantics. IDs are opaque. All internal endpoints enforce capability AND project/library
+    scope. Missing facts/open slots are allowed; invalid access/integrity/render data is not.
 servers:
 - url: /api/v1
   description: Same-origin versioned API
@@ -355,8 +354,7 @@ paths:
       x-capability: projects.write
       x-mcp-exposed: true
       x-shared-service-operation: update_project
-      description: Updates canonical business records, not presentation-only name overrides. Client mutations also
-        compare expected_client_row_version.
+      description: Updates canonical business records, not presentation-only name overrides. Client mutations also compare expected_client_row_version.
       security:
       - InternalBearer: []
       parameters:
@@ -1607,8 +1605,7 @@ paths:
       x-capability: workspaces.write
       x-mcp-exposed: true
       x-shared-service-operation: resize_role_slots
-      description: Reducing an occupied role requires explicit retire_slot_ids. Preserve historical version_slides.
-        Never silently discard assignments.
+      description: Reducing an occupied role requires explicit retire_slot_ids. Preserve historical version_slides. Never silently discard assignments.
       security:
       - InternalBearer: []
       parameters:
@@ -1806,8 +1803,8 @@ paths:
         schema:
           type: boolean
           default: true
-        description: Structured filters may include unknown values explicitly labelled unknown; unknown does not
-          mean requirements met. Does not bypass q text search.
+        description: Structured filters may include unknown values explicitly labelled unknown; unknown does not mean requirements met. Does not
+          bypass q text search.
       - name: age_or_range
         in: query
         schema:
@@ -2739,8 +2736,8 @@ paths:
       x-capability: cast.write
       x-mcp-exposed: true
       x-shared-service-operation: resolve_duplicate
-      description: No face recognition or automatic identity merge. Link live references atomically, preserve snapshots,
-        do not overwrite existing confirmed facts automatically.
+      description: No face recognition or automatic identity merge. Link live references atomically, preserve snapshots, do not overwrite existing
+        confirmed facts automatically.
       security:
       - InternalBearer: []
       parameters:
@@ -9043,13 +9040,206 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/JobEvent'
+  /candidates/{candidate_id}/supporting-files:
+    get:
+      operationId: list_candidate_support
+      summary: List private supporting files attached to a candidate
+      tags:
+      - candidate-media
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CandidateSupport'
+                  page:
+                    $ref: '#/components/schemas/Page'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+                - page
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: cast.read
+      x-mcp-exposed: true
+      x-shared-service-operation: list_candidate_support
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: candidate_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      - name: cursor
+        in: query
+        schema:
+          type: string
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 25
+  /candidate-support/{candidate_support_id}/archive:
+    post:
+      operationId: archive_candidate_support
+      summary: Archive a supporting-file association without deleting retained bytes
+      tags:
+      - candidate-media
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/Success'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: cast.write
+      x-mcp-exposed: true
+      x-shared-service-operation: archive_candidate_support
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: candidate_support_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArchiveRequest'
 components:
   securitySchemes:
     InternalBearer:
       type: http
       scheme: bearer
-      description: Verified acting-user access token. Issuer/audience/auth integration established in M00; never
-        use service_role in browser/MCP client.
+      description: Verified acting-user access token. Issuer/audience/auth integration established in M00; never use service_role in browser/MCP
+        client.
     ReviewToken:
       type: apiKey
       in: header
@@ -9059,14 +9249,12 @@ components:
       type: apiKey
       in: header
       name: X-Review-Session
-      description: Short-lived session scoped to one link/series; server verifies link live for every request. Cookie
-        adapter may be used by browser.
+      description: Short-lived session scoped to one link/series; server verifies link live for every request. Cookie adapter may be used by browser.
     MediaGrant:
       type: apiKey
       in: header
       name: X-Media-Grant
-      description: Secret embedded in private external PDF, bound to one export and fixed version; parent link live-view
-        grant required.
+      description: Secret embedded in private external PDF, bound to one export and fixed version; parent link live-view grant required.
     ServiceBearer:
       type: http
       scheme: bearer
@@ -9080,8 +9268,7 @@ components:
         type: string
         minLength: 16
         maxLength: 200
-      description: Scoped to actor+operation; replay same body returns original response; different body returns
-        409.
+      description: Scoped to actor+operation; replay same body returns original response; different body returns 409.
   schemas:
     Id:
       type: string
@@ -9461,10 +9648,11 @@ components:
           type: string
         row_version:
           $ref: '#/components/schemas/RowVersion'
-          description: Current Spec.row_version, not the workspace version. Omission is accepted only for a locked pristine initial Spec; other source submissions require its current version.
+          description: Current Spec.row_version, not the workspace version. Omission is accepted only for a locked pristine initial Spec; other
+            source submissions require its current version.
       required: []
-      description: Exactly one of source_asset_id or source_text is required. Existing initial record may be corrected,
-        not versioned as a specs revision product.
+      description: Exactly one of source_asset_id or source_text is required. Existing initial record may be corrected, not versioned as a specs
+        revision product.
       oneOf:
       - required:
         - source_asset_id
@@ -9716,8 +9904,8 @@ components:
           $ref: '#/components/schemas/NullableText'
         casting_id:
           $ref: '#/components/schemas/NullableText'
-          description: Create/extract null allocates generated casting ID; update null preserves current ID. Non-null
-            changes must be unique. Candidate UUID remains identity.
+          description: Create/extract null allocates generated casting ID; update null preserves current ID. Non-null changes must be unique.
+            Candidate UUID remains identity.
         age_or_range:
           $ref: '#/components/schemas/NullableText'
         stated_gender:
@@ -9962,6 +10150,15 @@ components:
       - filename
       - mime_type
       - size_bytes
+      allOf:
+      - if:
+          properties:
+            purpose:
+              const: candidate_support
+        then:
+          required:
+          - workspace_id
+          - candidate_id
     UploadSession:
       type: object
       additionalProperties: false
@@ -9997,6 +10194,35 @@ components:
         maximum_bytes:
           type: integer
           minimum: 1
+        upload_metadata:
+          type: object
+          additionalProperties: false
+          properties:
+            bucketName:
+              type: string
+              minLength: 1
+              maxLength: 2000
+            objectName:
+              type: string
+              minLength: 1
+              maxLength: 2000
+            contentType:
+              type: string
+              minLength: 1
+              maxLength: 2000
+            cacheControl:
+              type: string
+              minLength: 1
+              maxLength: 2000
+          required:
+          - bucketName
+          - objectName
+          - contentType
+          - cacheControl
+          description: Exact server-reserved TUS metadata. Never accept a caller-selected destination.
+        chunk_size:
+          type: integer
+          const: 6291456
       required:
       - id
       - asset_id
@@ -10021,6 +10247,14 @@ components:
               type: 'null'
             upload_headers:
               maxProperties: 0
+      - if:
+          properties:
+            protocol:
+              const: tus
+        then:
+          required:
+          - upload_metadata
+          - chunk_size
     UploadCompletion:
       type: object
       additionalProperties: false
@@ -10192,6 +10426,7 @@ components:
           items:
             type: integer
             minimum: 0
+            maximum: 1799999
           minItems: 1
           maxItems: 10
           uniqueItems: true
@@ -11161,8 +11396,8 @@ components:
           $ref: '#/components/schemas/Id'
         grant_token:
           type: string
-          description: Secret issued to active renderer only; store only verifier server-side and embed in private
-            PDF. Never place raw token in jobs, outbox, manifest, logs or callback.
+          description: Secret issued to active renderer only; store only verifier server-side and embed in private PDF. Never place raw token
+            in jobs, outbox, manifest, logs or callback.
         version_id:
           $ref: '#/components/schemas/Id'
         export_id:
@@ -11570,6 +11805,8 @@ components:
           $ref: '#/components/schemas/DateTime'
         row_version:
           $ref: '#/components/schemas/RowVersion'
+        frame_extraction:
+          $ref: '#/components/schemas/FrameExtractionOutcome'
       required:
       - id
       - workspace_id
@@ -11586,6 +11823,20 @@ components:
       - created_at
       - updated_at
       - row_version
+      allOf:
+      - if:
+          properties:
+            kind:
+              const: frame_extract
+            status:
+              const: succeeded
+        then:
+          required:
+          - frame_extraction
+        else:
+          not:
+            required:
+            - frame_extraction
     JobAccepted:
       type: object
       additionalProperties: false
@@ -11607,7 +11858,8 @@ components:
           - succeeded
           - failed
           - cancelled
-          description: Recorded durable job status for this acknowledgement. Reusing an existing job reports its current status; an idempotent replay may retain its original acknowledgement. Read poll_url for current status.
+          description: Recorded durable job status for this acknowledgement. Reusing an existing job reports its current status; an idempotent
+            replay may retain its original acknowledgement. Read poll_url for current status.
       required:
       - job_id
       - resource_id
@@ -11661,8 +11913,9 @@ components:
           type: string
           minLength: 1
           maxLength: 100
-          pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]*$'
-          description: Stable logical output name within this job attempt. Retries with the same key and metadata reuse the same immutable reservation; conflicting metadata is rejected.
+          pattern: ^[A-Za-z0-9][A-Za-z0-9._:-]*$
+          description: Stable logical output name within this job attempt. Retries with the same key and metadata reuse the same immutable reservation;
+            conflicting metadata is rejected.
         asset_kind:
           type: string
           enum:
@@ -11758,7 +12011,9 @@ components:
           $ref: '#/components/schemas/Id'
         access:
           type: string
-          enum: [read, write]
+          enum:
+          - read
+          - write
           default: read
           description: Lease-scoped exact-object access. Write is only a newly reserved immutable output, never an original.
       required:
@@ -11769,7 +12024,8 @@ components:
     ServiceAssetAccess:
       type: object
       additionalProperties: false
-      description: Private service-only transfer capability. Headers are credentials and must not enter URLs, ordinary job metadata, logs or n8n envelopes. Exact object, method and lifetime are lease-bound; no arbitrary destination/signing interface exists.
+      description: Private service-only transfer capability. Headers are credentials and must not enter URLs, ordinary job metadata, logs or n8n
+        envelopes. Exact object, method and lifetime are lease-bound; no arbitrary destination/signing interface exists.
       properties:
         asset_id:
           $ref: '#/components/schemas/Id'
@@ -11778,7 +12034,9 @@ components:
           format: uri
         method:
           type: string
-          enum: [GET, POST]
+          enum:
+          - GET
+          - POST
         headers:
           type: object
           additionalProperties:
@@ -11794,17 +12052,28 @@ components:
           anyOf:
           - type: string
           - type: 'null'
-      required: [asset_id, url, method, headers, expires_at, mime_type, size_bytes, sha256]
+      required:
+      - asset_id
+      - url
+      - method
+      - headers
+      - expires_at
+      - mime_type
+      - size_bytes
+      - sha256
     JobOutputReservationResult:
       type: object
       additionalProperties: false
-      description: Actual immutable derivative reservation plus a lease-bound transfer capability. This is a direct new-object POST, not a signed-upload PUT or an upsert grant.
+      description: Actual immutable derivative reservation plus a lease-bound transfer capability. This is a direct new-object POST, not a signed-upload
+        PUT or an upsert grant.
       properties:
         asset:
           $ref: '#/components/schemas/MediaAsset'
         access:
           $ref: '#/components/schemas/ServiceAssetAccess'
-      required: [asset, access]
+      required:
+      - asset
+      - access
     ServiceStageClaim:
       type: object
       additionalProperties: false
@@ -11879,7 +12148,8 @@ components:
         result:
           type: object
           additionalProperties: true
-          description: Validated by the allowlisted job/stage result schema. prepare_document uses contracts/json-schema/document-preparation.schema.json; source_asset_id is null only for direct pasted text, while real files require their verified asset ID.
+          description: Validated by the allowlisted job/stage result schema. prepare_document uses contracts/json-schema/document-preparation.schema.json;
+            source_asset_id is null only for direct pasted text, while real files require their verified asset ID.
         error:
           anyOf:
           - $ref: '#/components/schemas/Error'
@@ -11948,4 +12218,60 @@ components:
           type: string
       required:
       - row_version
+    CandidateSupport:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        row_version:
+          type: integer
+          minimum: 1
+        candidate_id:
+          $ref: '#/components/schemas/Id'
+        asset:
+          $ref: '#/components/schemas/MediaAsset'
+        created_at:
+          $ref: '#/components/schemas/DateTime'
+      required:
+      - id
+      - row_version
+      - candidate_id
+      - asset
+      - created_at
+      description: Explicit supporting attachment, separate from extracted frames and reusable facts.
+    FrameExtractionOutcome:
+      type: object
+      additionalProperties: false
+      properties:
+        requested_count:
+          type: integer
+          minimum: 1
+          maximum: 10
+        extracted_count:
+          type: integer
+          minimum: 0
+          maximum: 10
+        unavailable_timestamps_ms:
+          type: array
+          maxItems: 10
+          uniqueItems: true
+          items:
+            type: integer
+            minimum: 0
+            maximum: 1799999
+        warnings:
+          type: array
+          maxItems: 2
+          uniqueItems: true
+          items:
+            type: string
+            enum:
+            - FRAME_TIMESTAMP_SHARED
+            - FRAME_TIMESTAMP_UNAVAILABLE
+      required:
+      - requested_count
+      - extracted_count
+      - unavailable_timestamps_ms
+      - warnings
 x-contract-status: implementation specification; verify with generated routes and contract tests

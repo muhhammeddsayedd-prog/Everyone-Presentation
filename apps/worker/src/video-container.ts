@@ -38,7 +38,7 @@ async function inspect(kind: 'image' | 'container', identifier: string): Promise
   let value: unknown; try { value = JSON.parse(raw.stdout); } catch { fail('VIDEO_CONTAINER_INSPECTION_FAILED'); }
   if (!Array.isArray(value) || value.length !== 1 || !object(value[0])) fail('VIDEO_CONTAINER_INSPECTION_FAILED'); return value[0];
 }
-function resultFromJSON(text: string, input: VideoInput): PreparedVideo {
+function resultFromJSON(text: string, input: VideoInput, requestedTimestamps?: number[]): PreparedVideo {
   let envelope: unknown; try { envelope = JSON.parse(text); } catch { fail('VIDEO_PROCESS_FAILED'); }
   if (!object(envelope)) fail('VIDEO_PROCESS_FAILED');
   if (envelope.ok === false && typeof envelope.code === 'string' && /^VIDEO_[A-Z_]{1,80}$/u.test(envelope.code)) fail(envelope.code);
@@ -48,6 +48,13 @@ function resultFromJSON(text: string, input: VideoInput): PreparedVideo {
     || !Array.isArray(value.warnings) || value.warnings.length > 32 || value.warnings.some(warning => typeof warning !== 'string' || !/^[A-Z_]{1,100}$/u.test(warning))
     || typeof value.ffmpeg_version !== 'string' || !/^ffmpeg version [\w.+:~-]{1,100} /u.test(value.ffmpeg_version)) fail('VIDEO_PROCESS_FAILED');
   const probe = value.probe;
+  if (value.display_geometry !== undefined) {
+    const geometry = value.display_geometry;
+    if (!object(geometry) || Object.keys(geometry).sort().join(',') !== 'display_aspect_ratio,height,sample_aspect_ratio,width'
+      || !['width', 'height'].every(key => Number.isSafeInteger(geometry[key]) && Number(geometry[key]) >= 1 && Number(geometry[key]) <= 1280)
+      || !['sample_aspect_ratio', 'display_aspect_ratio'].every(key => object(geometry[key]) && Object.keys(geometry[key]).sort().join(',') === 'denominator,numerator'
+        && Number.isSafeInteger(geometry[key].numerator) && Number(geometry[key].numerator) > 0 && Number.isSafeInteger(geometry[key].denominator) && Number(geometry[key].denominator) > 0)) fail('VIDEO_PROCESS_FAILED');
+  }
   // Revalidate returned metadata through the same bounded probe contract.
   parseVideoProbe({ format: { format_name: probe.container, duration: typeof probe.duration_ms === 'number' ? probe.duration_ms / 1000 : null, start_time: 0 }, streams: [{ codec_type: 'video', codec_name: probe.video_codec, width: probe.width, height: probe.height, avg_frame_rate: `${probe.frame_rate}/1` }] });
   function bytes(raw: unknown, maximum: number, expectedHash: unknown): Uint8Array {
@@ -62,6 +69,8 @@ function resultFromJSON(text: string, input: VideoInput): PreparedVideo {
   const frames = value.sampled_frames.map(raw => {
     if (!object(raw) || raw.source_asset_id !== input.source_asset_id || typeof raw.sha256 !== 'string' || raw.frame_asset_id !== `frame-${raw.sha256}`
       || typeof raw.timestamp_ms !== 'number' || !Number.isSafeInteger(raw.timestamp_ms) || raw.timestamp_ms < 0 || raw.timestamp_ms >= Number(probe.duration_ms)
+      || requestedTimestamps && (typeof raw.requested_timestamp_ms !== 'number' || !requestedTimestamps.includes(raw.requested_timestamp_ms) || raw.timestamp_ms < raw.requested_timestamp_ms)
+      || !requestedTimestamps && raw.requested_timestamp_ms !== undefined
       || typeof raw.width !== 'number' || !Number.isSafeInteger(raw.width) || raw.width < 1 || raw.width > 1280 || typeof raw.height !== 'number' || !Number.isSafeInteger(raw.height) || raw.height < 1 || raw.height > 1280
       || !object(raw.quality) || !['luminance', 'contrast', 'sharpness'].every(key => typeof raw.quality === 'object' && raw.quality !== null && Number.isFinite((raw.quality as Record<string, unknown>)[key]))
       || typeof raw.quality.difference_hash !== 'string' || !/^[a-f0-9]{16}$/u.test(raw.quality.difference_hash) || !Array.isArray(raw.quality_flags)
@@ -78,7 +87,7 @@ export async function prepareVideoIsolated(input: VideoInput, options: { imageId
   options = { ...options, timestampsMs: options?.timestampsMs ? [...options.timestampsMs] : undefined };
   if (options.timestampsMs && (!Array.isArray(options.timestampsMs) || !options.timestampsMs.length || options.timestampsMs.length > VIDEO_LIMITS.maximumSamples || new Set(options.timestampsMs).size !== options.timestampsMs.length || options.timestampsMs.some(timestamp => !Number.isSafeInteger(timestamp) || timestamp < 0 || timestamp >= VIDEO_LIMITS.maximumDurationMs))) fail('VIDEO_TIMESTAMP_INVALID');
   const payload = { source_asset_id: input.source_asset_id, mime_type: input.mime_type, bytes: Buffer.from(input.bytes).toString('base64'), probe_only: options.probeOnly ?? false, timestamps_ms: options.timestampsMs ?? null };
-  return resultFromJSON(await runOwnedNativeMedia(JSON.stringify(payload), options), input);
+  return resultFromJSON(await runOwnedNativeMedia(JSON.stringify(payload), options), input, options.timestampsMs);
 }
 /** Internal fixed-protocol seam shared by native video and PDF raster images.
  * Only locally built, immutable EPS-owned image IDs are accepted. */

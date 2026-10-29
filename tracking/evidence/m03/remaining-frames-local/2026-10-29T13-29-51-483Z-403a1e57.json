@@ -1,0 +1,23 @@
+{
+  "run_id": "403a1e57-12ed-4db3-9179-9870fb4ad773",
+  "started_at": "2026-10-29T13:29:43.080Z",
+  "result": "failed",
+  "cloud_called": false,
+  "provider_called": false,
+  "hosted_credential_files_read": false,
+  "scope": "Synthetic frame metadata through exact runtime/asset/callback ports and requester-only public jobs, in separate fixture savepoints with full rollback. No real bytes/native/provider/app acceptance.",
+  "source_seals": {
+    "development/m03/remaining-frames.sql": "3a3bae7cc52dc7a5dfe05077b26818b825af75490419c31d15fa5dca111b6ce0",
+    "development/m03/remaining-frame-user-jobs.sql": "dbe022afff0e823be41cb1713a7d2b72037fc4adb0e8404db74dca9a90d6034a",
+    "tests/db/m03-frame-fixture.sql": "9d0ba5cafb985dd3b34d31fb37cfb279ece0aea773be0733683bd2de46eca1dd",
+    "tests/db/m03-frame-kernel.sql": "58e4c1cc04a9154cd5112ce2c2b1eb068f8cb60ae9ad28e36694156534e35054",
+    "tests/db/m03-frame-user-jobs.sql": "4a5d679b83d38a2f74e11b089128c41215e130701a8a2888f5b5ce9d86b466b6"
+  },
+  "harness_sha256": "aeaf84b432421dab79508b6414b7c2f928387ad0f097a5fdbf3fcabb9d194bba",
+  "before_sha256": "1e454663e4f30604d95c19476fecd3e7e0a3bd06cbcdf46a1a9ca8b86eb659ac",
+  "diagnostic": "ERROR:  null value in column \"resource_id\" of relation \"jobs\" violates not-null constraint\nDETAIL:  Failing row contains (7f6f0000-0000-4000-8000-000000000001, 7f2f0000-0000-4000-8000-000000000001, 7f1f0000-0000-4000-8000-000000000001, candidate_scan, null, null, null, {\"synthetic_historical_metadata_fixture\": true}, dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd, eps.candidate-input.pg-jsonb.v1, dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd, succeeded, apply_candidate, 0, null, null, null, null, 0, {}, [], 0, null, null, null, 2026-10-29 13:29:48.231922+00, null, 1, synthetic-existing-frame-lineage, null, 2026-10-29 13:29:48.231922+00, 2026-10-29 13:29:48.231922+00, 1).\n",
+  "after_sha256": "1e454663e4f30604d95c19476fecd3e7e0a3bd06cbcdf46a1a9ca8b86eb659ac",
+  "rollback_verified": true,
+  "sources_stable": true,
+  "finished_at": "2026-10-29T13:29:51.483Z"
+}

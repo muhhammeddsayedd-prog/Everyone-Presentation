@@ -1,0 +1,23 @@
+{
+  "run_id": "30271e14-1d3e-437d-b26e-ac57bee718f6",
+  "started_at": "2026-10-29T12:50:29.792Z",
+  "result": "passed",
+  "cloud_called": false,
+  "provider_called": false,
+  "hosted_credential_files_read": false,
+  "scope": "Synthetic roles/current edits and capability/project/archived/guest denials in one rolled-back owned-local transaction. No app/browser/provider acceptance.",
+  "source_seals": {
+    "development/m03/remaining-filters.sql": "460de287071017f3b6f28aac94467506e0479494d8a68217277ae77a1dc4d74d",
+    "tests/db/m03-candidate-filters.sql": "8f5d3374af61cd5f1ccad044fc8ff8b2ae5bff41b20a90ec7d15bc0aba542244"
+  },
+  "harness_sha256": "dc7bb1b9cdd44ee3bb45bfd38110729e8fe0ebf73f72e59b3b4e4e051b882876",
+  "before_sha256": "5c45599d21d6803c0c04d2bd43eca8b24c1d1ad113c71d0ff602405523b934f5",
+  "assertions_passed": true,
+  "transaction_completed_to_rollback": true,
+  "stdout_sha256": "2b914296f5990274d4c54e47766c646cbed81e9e710be344c11e5637209799cd",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "after_sha256": "5c45599d21d6803c0c04d2bd43eca8b24c1d1ad113c71d0ff602405523b934f5",
+  "rollback_verified": true,
+  "sources_stable": true,
+  "finished_at": "2026-10-29T12:50:41.080Z"
+}

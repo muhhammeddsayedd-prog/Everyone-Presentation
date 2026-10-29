@@ -11,7 +11,7 @@ const host = process.platform === 'win32' ? 'npipe:////./pipe/dockerDesktopLinux
 const context = process.platform === 'win32' ? 'desktop-linux' : 'default';
 if (process.argv.length !== 2 || !['linux', 'win32'].includes(process.platform) || process.env.DOCKER_HOST && process.env.DOCKER_HOST !== host
   || process.env.DOCKER_CONTEXT && process.env.DOCKER_CONTEXT !== context || ['DOCKER_TLS', 'DOCKER_TLS_VERIFY', 'DOCKER_CERT_PATH'].some(name => process.env[name])) throw new Error('Local media build target rejected.');
-const names = ['apps/worker/Dockerfile.media', ...['video-process.mjs', 'video-native.ts', 'video-types.ts', 'video-quality.ts'].map(name => `apps/worker/src/${name}`)].sort();
+const names = ['apps/worker/Dockerfile.media', ...['video-process.mjs', 'video-native.ts', 'video-types.ts', 'video-quality.ts', 'video-geometry.ts'].map(name => `apps/worker/src/${name}`)].sort();
 const parts = []; const manifest = [];
 for (const name of names) {
   const file = path.join(root, name); const info = await lstat(file); assert(info.isFile() && !info.isSymbolicLink()); assert.equal((await realpath(file)).toLowerCase(), file.toLowerCase());

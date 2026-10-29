@@ -1,0 +1,26 @@
+{
+  "run_id": "c1ccbcfe-0098-4e4d-b7e0-6fc20851d694",
+  "started_at": "2026-10-29T14:50:46.574Z",
+  "result": "passed",
+  "cloud_called": false,
+  "provider_called": false,
+  "activation_private_configuration_read": false,
+  "source_seals": {
+    "tools/sql/m03-support-enable-template.sql": "b16a48670edc0b52e7f04047f844e0f858b3518babd94a6ca2fff3f7b1138283",
+    "tools/sql/m03-support-hmac-template.sql": "62c2cbfec775892a45b90b5db7049c1285fdafd7d36c3a110999bb0971e66466",
+    "tools/sql/m03-remaining-readback.sql": "c8e74d2bd7399682c984ad79b8f1732fd074056bf6ac065c19407948bfcc7b72",
+    "tools/configure-m03-support.py": "7489081df330f89a7343799cbc34c8cc9f775235e6629960f4626387d0af0903",
+    "tools/m03_remaining_activation.py": "0e22a04a17854595018bf1d7d5997bbe0830da0426c07be46b1fb4f86be8353d",
+    "tools/test-m03-support-activation-local.mjs": "ba1da965c32354dd2c949895d3676945cc1b81899c0d5478af01f860a5cbed79"
+  },
+  "scope": "Synthetic owned local19 key only; wrong HMAC denied, matching public challenge enables support while FRAME_ENABLED and key remain unchanged. Entire transaction rolls back; no actual flags/key/cloud.",
+  "before_sha256": "f918c6ca071960c67bc0b798493a152f85e9d15a950116f0effe9e2b5e468484",
+  "compiler_sha256": "68a1a25799250502c51a63f7865e15a9bde624fdc94adebe5a916158cef4e00e",
+  "wrong_hmac_rejected": true,
+  "support_only_sql_round_trip": true,
+  "owned_backend_settled": true,
+  "rollback_verified": true,
+  "after_sha256": "f918c6ca071960c67bc0b798493a152f85e9d15a950116f0effe9e2b5e468484",
+  "sources_stable": true,
+  "finished_at": "2026-10-29T14:50:57.177Z"
+}

@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-29T12:59:20.445Z",
+  "scope": "Authorized real source read and chosen-frame decode under the scrubbed worker projector; metadata only, no service or provider call",
+  "result": "passed",
+  "source_bytes": 3968236,
+  "source_sha256": "260b82845e677126cfcdc0d99479eaf22eec13c84f6a4c8845e7fd95c49d1010",
+  "image_id": "sha256:ea6e27d158a843fee524d7f43f2f88a4ede8bc58e8ac32578b7dec5c1594ba6b",
+  "scrubbed_path_empty": true,
+  "probe": {
+    "duration_ms": 19800,
+    "width": 800,
+    "height": 480,
+    "rotation_degrees": 0,
+    "frame_rate": 25,
+    "video_codec": "h264",
+    "audio_codec": "aac",
+    "has_audio": true,
+    "container": "mov,mp4,m4a,3gp,3g2,mj2",
+    "source_start_ms": 0
+  },
+  "display_geometry": {
+    "sample_aspect_ratio": {
+      "numerator": 16,
+      "denominator": 15
+    },
+    "display_aspect_ratio": {
+      "numerator": 12800,
+      "denominator": 7200
+    },
+    "width": 853,
+    "height": 480
+  },
+  "ffmpeg_version": "ffmpeg version 5.1.9-0+deb12u1 Copyright (c) 2000-2026 the FFmpeg developers",
+  "frames": [
+    {
+      "requested_timestamp_ms": 1560,
+      "timestamp_ms": 1560,
+      "width": 853,
+      "height": 480,
+      "size_bytes": 16200,
+      "sha256": "40ab57d54d7bc109a26ede1eeba8d7b659c470a47e4cb0e10928071a77c690bf"
+    },
+    {
+      "requested_timestamp_ms": 12480,
+      "timestamp_ms": 12480,
+      "width": 853,
+      "height": 480,
+      "size_bytes": 18868,
+      "sha256": "759104bda212f7cc0b8a3d357e966a2ccf0e9efa92723a94de2985f018cecb30"
+    }
+  ],
+  "warnings": [],
+  "provider_called": false,
+  "cloud_called": false,
+  "source_or_images_written": false,
+  "harness_sha256": "103bfb374a0d82177cb9579dfea0f24fac397d0907fbf3cdc674d4f9a385b0d5",
+  "child_sha256": "8722e769e95e37754df11a1887bf7486d272dab6602ddacb01ca77b3bb0f2325"
+}

@@ -1,0 +1,16 @@
+{
+  "observed_at": "2026-10-29T16:39:44.567842+00:00",
+  "phase": "green",
+  "command": "node tools/run-tests.mjs tests/server/processing-view.test.ts",
+  "observed_exit_code": 0,
+  "tests": 6,
+  "pass": 6,
+  "fail": 0,
+  "source_hashes": {
+    "apps/web/components/processing-view.ts": "ee17fc71c9b9b3a22a6ebeafe44eb8f6f73b4cf4c2d92ffe483e4dc2dc89b501",
+    "apps/web/components/ProcessingView.tsx": "521ca6e85c8c501cf5955df88d730d28f27cc007fc5c13cd18c11543f53c3fa1",
+    "tests/server/processing-view.test.ts": "b635084ee78761a90b18db1e182c5a01fe84e639b3947a970f44defce513a887"
+  },
+  "change": "Map real candidate/frame stages and route their workspace results to Candidates; terminal success says Processing complete instead of unreported counter.",
+  "provider_or_cloud_called": false
+}

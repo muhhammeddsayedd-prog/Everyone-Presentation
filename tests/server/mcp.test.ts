@@ -15,11 +15,11 @@ function services() {
     studio: { getProject: operation } } as unknown as McpServices;
   return { ports, calls };
 }
-test('implemented M01/M02 and candidate-library tools are advertised; private callbacks and pending media extraction stay absent', () => {
+test('implemented candidate tools include filters and frame extraction; private callbacks and future generation stay absent', () => {
   const names = implementedMcpTools().map(tool => tool.name);
   for (const name of ['get_specs','submit_specs','list_roles','resize_role_slots','reorder_workspace','retry_job','get_project','create_upload_session']) assert.ok(names.includes(name));
-  for (const name of ['search_candidates','create_candidate','confirm_candidate_reviewed','update_candidate_frames','list_duplicate_matches','resolve_duplicate','add_workspace_candidate','play_media']) assert.ok(names.includes(name));
-  for (const name of ['claim_job_stage','record_job_event','extract_candidate_frames','generate_version','guest_open_review']) assert.ok(!names.includes(name));
+  for (const name of ['search_candidates','create_candidate','confirm_candidate_reviewed','update_candidate_frames','list_duplicate_matches','resolve_duplicate','add_workspace_candidate','play_media','suggest_candidate_filters','extract_candidate_frames']) assert.ok(names.includes(name));
+  for (const name of ['claim_job_stage','record_job_event','generate_version','guest_open_review']) assert.ok(!names.includes(name));
   assert.equal(new Set(names).size, names.length);
 });
 test('MCP exposes the same scoped original-media playback operation without arbitrary fetch destinations', async () => {
@@ -32,6 +32,18 @@ test('MCP exposes the same scoped original-media playback operation without arbi
     assert.equal((await invokeMcpTool('play_media',{asset_id:'asset',...extra},actor,ports)).isError,true);
   }
   assert.equal(calls.length,1);
+});
+test('MCP role filters and chosen frame jobs use the shared actor-scoped operations',async()=>{
+  const {ports,calls}=services();
+  ports.candidates.suggestCandidateFilters=async(...args)=>{calls.push(args);return {role_id:'role',include_unknown:true,suggested_filters:[],explanations:[]};};
+  ports.candidates.extractCandidateFrames=async(...args)=>{calls.push(args);return {job_id:'job',resource_id:'media',poll_url:'/api/v1/jobs/job',status:'queued'};};
+  assert.equal((await invokeMcpTool('suggest_candidate_filters',{role_id:'role'},actor,ports)).isError,undefined);
+  assert.deepEqual(calls[0],[actor,'role']);
+  const body={source_asset_id:'source',timestamps_ms:[1234]};
+  assert.equal((await invokeMcpTool('extract_candidate_frames',{candidate_media_id:'media',body,idempotency_key:'synthetic-frame-intent'},actor,ports,'frame-request')).isError,undefined);
+  assert.deepEqual(calls[1],[actor,'media',body,{requestId:'frame-request',clientType:'mcp',idempotencyKey:'synthetic-frame-intent'}]);
+  assert.equal((await invokeMcpTool('extract_candidate_frames',{candidate_media_id:'media',body:{...body,url:'https://outside.invalid'},idempotency_key:'synthetic-frame-intent'},actor,ports)).isError,true);
+  assert.equal(calls.length,2);
 });
 test('MCP candidate creation preserves null facts and explicit identity/permission boundaries through the app operation', async () => {
   const { ports, calls } = services();

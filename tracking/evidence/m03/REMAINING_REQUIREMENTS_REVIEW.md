@@ -1,5 +1,25 @@
 # Independent M03 requirements review
 
+## Current continuation update - 2026-10-29
+
+The four implementation gaps below are now implemented with their core live app
+journeys observed. Canonical/local migrations18/19, updated WF02, private support
+verification and corrected native display geometry are active. True nonzero TUS
+resume/reload/cancel, four supporting types/archive, editable source-backed role
+filters and chosen/tail/cancelled/fresh timestamp extraction passed through the app.
+Nine additional authorized real introductions completed after browser close and
+worker restart and reappeared in the project. See the current
+[acceptance matrix](ACCEPTANCE_MATRIX.md), [app summary](remaining-app/continuation-summary.json)
+and [real-batch result](remaining-app/real-batch-results.json).
+
+Required independent speech/factual/frame-quality evaluation, a confirmed
+English-only sample and scanned-profile factual confirmation remain unverified.
+One new transcript has Arabic and Latin script; this alone is not mixed-speech
+acceptance. M03 must not be marked verified. The dated findings below describe
+the earlier implementation and are retained as history.
+
+## Historical pre18/19 implementation review
+
 Initial review against `milestones/M03_MEDIA_LIBRARY.md`, the authoritative
 API/MCP operations, PRD and `docs/integrations/AI_SPECIFICATION.md` was recorded on
 2026-10-29 before migration 17 reconciliation and runtime activation. The update

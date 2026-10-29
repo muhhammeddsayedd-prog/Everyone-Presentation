@@ -1,0 +1,134 @@
+{
+  "result": "passed",
+  "observed_at": "2026-10-29T14:17:41.039934+00:00",
+  "scope": "Pure projection of retained failed preflight metadata only; no cloud readback or migration execution",
+  "failed_receipt": "tracking/evidence/cloud-m03-remaining/2026-10-29T14-10-40-791267Z-9c677238-dry-run.json",
+  "failed_receipt_sha256": "312ea6773c2fd25a2687f7b6da87c26de38075bdb4ce2396c2120ed942980f91",
+  "failed_dispatch_attempted": false,
+  "failed_attempt_receipt_present": false,
+  "known_unchanged_missing_local_fixture_rows": [
+    {
+      "kind": "constraints",
+      "table": "storage.buckets",
+      "name": "buckets_name_key",
+      "reviewed_reference_unchanged": true,
+      "local_metadata": {
+        "name": "buckets_name_key",
+        "table": "storage.buckets",
+        "validated": true,
+        "definition": "UNIQUE (name)"
+      }
+    },
+    {
+      "kind": "constraints",
+      "table": "storage.objects",
+      "name": "objects_bucket_id_fkey",
+      "reviewed_reference_unchanged": true,
+      "local_metadata": {
+        "name": "objects_bucket_id_fkey",
+        "table": "storage.objects",
+        "validated": true,
+        "definition": "FOREIGN KEY (bucket_id) REFERENCES storage.buckets(id)"
+      }
+    },
+    {
+      "kind": "constraints",
+      "table": "storage.objects",
+      "name": "objects_bucket_id_name_key",
+      "reviewed_reference_unchanged": true,
+      "local_metadata": {
+        "name": "objects_bucket_id_name_key",
+        "table": "storage.objects",
+        "validated": true,
+        "definition": "UNIQUE (bucket_id, name)"
+      }
+    },
+    {
+      "kind": "indexes",
+      "table": "storage.buckets",
+      "name": "buckets_name_key",
+      "reviewed_reference_unchanged": true,
+      "local_metadata": {
+        "name": "buckets_name_key",
+        "ready": true,
+        "table": "storage.buckets",
+        "valid": true,
+        "definition": "CREATE UNIQUE INDEX buckets_name_key ON storage.buckets USING btree (name)"
+      }
+    },
+    {
+      "kind": "indexes",
+      "table": "storage.objects",
+      "name": "objects_bucket_id_name_key",
+      "reviewed_reference_unchanged": true,
+      "local_metadata": {
+        "name": "objects_bucket_id_name_key",
+        "ready": true,
+        "table": "storage.objects",
+        "valid": true,
+        "definition": "CREATE UNIQUE INDEX objects_bucket_id_name_key ON storage.objects USING btree (bucket_id, name)"
+      }
+    }
+  ],
+  "actual_cloud_storage_constraint_and_index_rows_preserved_exactly": true,
+  "expected_catalog_projection_verified": true,
+  "projected_catalog_sha256": "ebecd5a3ef381d3390f205be8191ecf3a591bf2c113b7353069f59815ed86be2",
+  "managed_storage_derived_flags": 0,
+  "helper_sha256": "5a608e480c7afb56a1b49c7a683c238d950301c589c1ff91348368f486995b7e",
+  "inputs": {
+    "migration": "20261029135318_m03_frame_request_resubmission.sql",
+    "migration_sha256": "e816ad6b491626ace489efd256b56c322d25d9101de94e5fb8b24d2d4b745048",
+    "migrations": [
+      {
+        "migration": "20261029133455_m03_remaining_media_library.sql",
+        "sha256": "2e190e001b2bda044d9c90da4287f54e5839b0af7ffec84d4c93083909c944fb"
+      },
+      {
+        "migration": "20261029135318_m03_frame_request_resubmission.sql",
+        "sha256": "e816ad6b491626ace489efd256b56c322d25d9101de94e5fb8b24d2d4b745048"
+      }
+    ],
+    "proof": "tracking/evidence/m03/remaining-composed-local/2026-10-29T13-43-40-528Z-97b70205.json",
+    "proof_sha256": "04f7e98ea89d6ed8550ee56b8c19fa4ee4f112c5625a27af05608c4db535cba0",
+    "promotion": "tracking/evidence/m03/remaining-promotion/2026-10-29T13-49-25-671Z-06ab16d1.json",
+    "promotion_sha256": "8a6a761c04bb04de88bc9b4147c7e624ab4b7d1b3aa111cd8c562103148eae6b",
+    "manifest_sha256": "f504c4745bfb1ac31c7ba30d42153fe965dcc9e3451821808b3b4050122985b2",
+    "readback_sha256": "c8e74d2bd7399682c984ad79b8f1732fd074056bf6ac065c19407948bfcc7b72",
+    "resubmission_proof": "tracking/evidence/m03/frame-resubmission-local/2026-10-29T13-58-19-049Z-f0b71f9a.json",
+    "resubmission_proof_sha256": "73368b041323340ecc2009bb4432cabb311b8a961a96d48f788547227b28f676",
+    "resubmission_promotion": "tracking/evidence/m03/frame-resubmission-promotion/2026-10-29T14-02-13-973Z-4999b031.json",
+    "resubmission_promotion_sha256": "3f58d21977f054af732af51dbaecacde825638a3328cc4bd121380529eda54e2",
+    "versions": [
+      "20261028010943",
+      "20261028013324",
+      "20261028013655",
+      "20261028024205",
+      "20261028072515",
+      "20261028162702",
+      "20261028162800",
+      "20261028172320",
+      "20261028184145",
+      "20261028222030",
+      "20261029001520",
+      "20261029003941",
+      "20261029070038",
+      "20261029090500",
+      "20261029090724",
+      "20261029094600",
+      "20261029100500",
+      "20261029133455",
+      "20261029135318"
+    ],
+    "dependencies": {
+      "tools/release_foundation.py": "02aac0cefc4b46419c7d5a086da672398716cf7ee73882602574cff99659d751",
+      "tools/release_specs_read_operation.py": "a68be68c78bb20b59216e5aabd9b568bb0d46ef9fd35097ceb78392f85ad304e",
+      "tools/provision_logo_verifier.py": "660f2eb0d15b1ed17801ecef22270dbb389fdf93181c340f16d715fc2b3a340c"
+    },
+    "helper_sha256": "5a608e480c7afb56a1b49c7a683c238d950301c589c1ff91348368f486995b7e"
+  },
+  "cloud_called": false,
+  "provider_called": false,
+  "database_changed": false,
+  "automatic_retry": false,
+  "application_verified_by_readback": false
+}

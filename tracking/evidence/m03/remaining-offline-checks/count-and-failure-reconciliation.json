@@ -1,0 +1,43 @@
+{
+  "recorded_at": "2026-10-29T13:41:45.410545+00:00",
+  "original_receipt": "tracking/evidence/m03/remaining-offline-checks/2026-10-29T13-38-07-254435Z-c30e7e6b.json",
+  "original_result_retained": "failed",
+  "original_count_parser_issue": "Captured stdout only; Node test reporter used stderr. Original zero counters are not a claim that zero tests ran.",
+  "actual_suite_counts": {
+    "tests": [
+      155,
+      7,
+      12,
+      28,
+      126,
+      115
+    ],
+    "pass": [
+      155,
+      7,
+      12,
+      28,
+      126,
+      114
+    ],
+    "fail": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ]
+  },
+  "actual_totals": {
+    "tests": 443,
+    "pass": 442,
+    "fail": 1
+  },
+  "diagnostic_sha256": "b0eb9c7e549f5ffbd9ced3f72956545dca8fcf58810811268f422ceb54d85a44",
+  "test_failure": "One capability test fixture omitted newly required cast.read; fixture now includes all actual required grants.",
+  "lint_failures": "Two synchronous state updates in role-filter effects and one unused synthetic transport argument. Corrected without disabling lint.",
+  "rerun_pending": true,
+  "prior_invalid_reconciliation": "tracking/evidence/m03/remaining-offline-checks/count-and-failure-reconciliation-invalid-parser.json",
+  "count_capture_fix": "ASCII-safe reporter-prefix regex over stdout and stderr; shell pipeline changed the literal Unicode prefix in the original script."
+}

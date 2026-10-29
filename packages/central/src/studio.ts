@@ -8,6 +8,7 @@ import { audienceDto, capabilitiesDto, listDto, projectDto, successDto, workspac
 import { createLogoStorageAdapter, type LogoStorageOptions } from './logo-storage.ts';
 import { createSpecsStorageAdapter, type SpecsStorageOptions } from './specs-storage.ts';
 import { createCandidateStorageAdapter } from './candidate-storage.ts';
+import {createCandidateSupportStorageAdapter,type SupportStorageOptions} from './candidate-support-storage.ts';
 
 export interface CentralStudioOptions {
   logo?: Omit<LogoStorageOptions, 'client' | 'rpc' | 'now' | 'downloadTimeoutMs'>;
@@ -17,6 +18,8 @@ export interface CentralStudioOptions {
   candidate?: { storageOrigin: string; maximumBytes?: number };
   /** Ready reads remain available independently of upload readiness/limits. */
   candidateRead?: { storageOrigin: string };
+  support?: Omit<SupportStorageOptions,'client'|'rpc'|'now'|'downloadTimeoutMs'>;
+  supportRead?: Pick<SupportStorageOptions,'storageOrigin'>;
 }
 
 function invalid(message: string): never { throw new DomainError('VALIDATION_FAILED', message, 400); }
@@ -59,7 +62,7 @@ function scopedMediaPurpose(value: unknown, requestedId: string) {
     || !text(value.bucket,100) || !text(value.object_key,2000) || !record(value.asset)) return malformed();
   const asset = value.asset;
   if (Object.keys(asset).length !== fields.length || fields.some(field=>!Object.hasOwn(asset,field)) || asset.id !== requestedId
-    || typeof asset.purpose !== 'string' || !['client_logo','specs','candidate_video','candidate_frame','audio','transcript'].includes(asset.purpose)
+    || typeof asset.purpose !== 'string' || !['client_logo','specs','candidate_video','candidate_support','candidate_frame','audio','transcript'].includes(asset.purpose)
     || !text(asset.filename,255) || !text(asset.mime_type,200) || !number(asset.size_bytes,1)
     || !(asset.sha256 === null || typeof asset.sha256 === 'string' && /^[a-f0-9]{64}$/u.test(asset.sha256))
     || typeof asset.status !== 'string' || !['uploading','ready','failed','quarantined','archived'].includes(asset.status)
@@ -121,9 +124,18 @@ export async function createCentralStudio(client: SupabaseClient, options: Centr
     cancelUpload: (actor,id,context) => rpc(actor,'eps_cancel_candidate_upload',{p_upload_id:identifier(id),p_idempotency_key:key(context,true)},raw,context),
     getMedia: (actor,id) => rpc(actor,'eps_get_candidate_asset',{p_asset_id:identifier(id)},raw),
   }}) : undefined;
+  const supportOptions=options.support??options.supportRead;
+  const support=supportOptions?await createCandidateSupportStorageAdapter({...supportOptions,uploadsEnabled:options.support!==undefined,client,rpc:{
+    reserveUpload:(actor,input,context)=>rpc(actor,'eps_reserve_support_upload',{p_input:input,p_idempotency_key:key(context,true)},raw,context),
+    getUpload:(actor,id)=>rpc(actor,'eps_get_support_upload',{p_upload_id:identifier(id)},raw),
+    prepareCompletion:(actor,id,input,context)=>rpc(actor,'eps_prepare_support_completion',{p_upload_id:identifier(id),p_input:input,p_idempotency_key:key(context,true)},raw,context),
+    finalizeCompletion:(actor,id,input,proof,context)=>rpc(actor,'eps_finalize_support_completion',{p_upload_id:identifier(id),p_input:input,p_idempotency_key:key(context,true),p_payload:proof.payload,p_mac:proof.mac},raw,context),
+    cancelUpload:(actor,id,context)=>rpc(actor,'eps_cancel_support_upload',{p_upload_id:identifier(id),p_idempotency_key:key(context,true)},raw,context),
+    getMedia:(actor,id)=>rpc(actor,'eps_get_candidate_support_asset',{p_asset_id:identifier(id)},raw),
+  }}):undefined;
   async function storageFor(actor: Actor, id: string, media = false) {
     checkActor(actor);
-    if (!logo && !specs && !candidate) return centralStoragePending();
+    if (!logo && !specs && !candidate && !support) return centralStoragePending();
     const args = media ? { p_asset_id: identifier(id) } : { p_upload_id: identifier(id) };
     // Only a typed not-found selects the next scope probe. Denial or malformed
     // metadata never falls through. Upload routing stays purpose-specific.
@@ -132,8 +144,9 @@ export async function createCentralStudio(client: SupabaseClient, options: Centr
       {adapter:logo,operation:media?'eps_get_logo_media':'eps_get_logo_upload'},
       ...(specs ? [{adapter:specs,operation:media?'eps_get_specs_media':'eps_get_specs_upload'}] : []),
       ...(candidate ? [{adapter:candidate,operation:media?'eps_get_candidate_asset':'eps_get_candidate_upload'}] : []),
+      ...(support ? [{adapter:support,operation:media?'eps_get_candidate_support_asset':'eps_get_support_upload'}] : []),
     ];
-    if (media && candidate) {
+    if (media && (candidate||support)) {
       // Library media is authorized by global cast.read, independently of the
       // originating project's logo/specs scope. Use freshly verified central
       // capabilities solely to order probes; each own RPC still authorizes now.
@@ -142,6 +155,8 @@ export async function createCentralStudio(client: SupabaseClient, options: Centr
       if (capabilities.capabilities.includes('cast.read')) {
         const index = adapters.findIndex(entry=>entry.operation==='eps_get_candidate_asset');
         if (index >= 0) adapters.unshift(...adapters.splice(index,1));
+        const supportIndex=adapters.findIndex(entry=>entry.operation==='eps_get_candidate_support_asset');
+        if(supportIndex>=0)adapters.unshift(...adapters.splice(supportIndex,1));
       }
     }
     for (const entry of adapters) {
@@ -150,8 +165,9 @@ export async function createCentralStudio(client: SupabaseClient, options: Centr
         if (media) {
           const purpose = scopedMediaPurpose(scoped,id);
           if (entry.operation==='eps_get_candidate_asset' && !['candidate_video','candidate_frame','audio','transcript'].includes(purpose)
-            || entry.operation==='eps_get_specs_media' && purpose!=='specs') throw new DomainError('CENTRAL_RESPONSE_INVALID','The private media scope returned an unexpected purpose.',503);
-          return (purpose === 'client_logo' ? logo : purpose === 'specs' ? specs : candidate) ?? centralStoragePending();
+            || entry.operation==='eps_get_specs_media' && purpose!=='specs'
+            || entry.operation==='eps_get_candidate_support_asset'&&purpose!=='candidate_support') throw new DomainError('CENTRAL_RESPONSE_INVALID','The private media scope returned an unexpected purpose.',503);
+          return (purpose === 'client_logo' ? logo : purpose === 'specs' ? specs : purpose==='candidate_support'?support:candidate) ?? centralStoragePending();
         }
         return entry.adapter ?? centralStoragePending();
       }
@@ -167,19 +183,22 @@ export async function createCentralStudio(client: SupabaseClient, options: Centr
       const result = await rpc(actor, 'eps_get_capabilities', {}, capabilitiesDto);
       if (result.principal_id !== identity.principal_id) throw new DomainError('CENTRAL_RESPONSE_INVALID', 'Central capabilities did not match the verified account.', 503);
       const videoMimes = ['video/mp4', 'video/quicktime', 'video/webm', 'video/x-matroska'];
-      const candidateAllowed = candidate?.uploadReady === true && result.capabilities.includes('cast.upload') && result.capabilities.includes('workspaces.write');
+      const candidateAllowed = candidate?.uploadReady === true && result.capabilities.includes('cast.read') && result.capabilities.includes('cast.upload') && result.capabilities.includes('workspaces.write');
+      const supportAllowed=support?.uploadReady===true&&result.capabilities.includes('cast.upload')&&result.capabilities.includes('cast.read')&&result.capabilities.includes('workspaces.write');
       const policy = result.upload_policy; const legacyMaximum = policy.maximum_file_bytes;
       policy.available_purposes = [...new Set(policy.available_purposes.filter(purpose => purpose === 'client_logo' && logo?.uploadReady === true
-        || purpose === 'specs' && specs?.uploadReady === true || purpose === 'candidate_video' && candidateAllowed))];
+        || purpose === 'specs' && specs?.uploadReady === true || purpose === 'candidate_video' && candidateAllowed ||purpose==='candidate_support'&&supportAllowed))];
       // The existing M02 RPC advertises its own purposes only. The separately
       // configured M03 adapter can extend discovery; reservation SQL still
       // rechecks the verified user's current authority, config and file limits.
       if (candidateAllowed && !policy.available_purposes.includes('candidate_video')) policy.available_purposes.push('candidate_video');
+      if(supportAllowed&&!policy.available_purposes.includes('candidate_support'))policy.available_purposes.push('candidate_support');
       policy.allowed_mime_types = [...new Set([...policy.allowed_mime_types.filter(mime => !videoMimes.includes(mime)), ...(candidateAllowed ? videoMimes : [])])];
+      if(supportAllowed)policy.allowed_mime_types=[...new Set([...policy.allowed_mime_types,'image/png','image/jpeg','image/webp','application/pdf','application/vnd.openxmlformats-officedocument.wordprocessingml.document','text/plain'])];
       // This is the global envelope across enabled purposes. Their independent
       // adapters retain the 5MiB logo /20MiB document and configured video caps.
       const limits = policy.available_purposes.map(purpose => purpose === 'candidate_video' ? candidate!.maximumBytes
-        : Math.min(legacyMaximum, purpose === 'client_logo' ? 5 * 1024 * 1024 : 20 * 1024 * 1024));
+        : purpose==='candidate_support'?support!.maximumBytes:Math.min(legacyMaximum, purpose === 'client_logo' ? 5 * 1024 * 1024 : 20 * 1024 * 1024));
       if (limits.length) policy.maximum_file_bytes = Math.max(...limits);
       return result;
     },
@@ -224,6 +243,10 @@ export async function createCentralStudio(client: SupabaseClient, options: Centr
       if(input.purpose==='candidate_video') {
         if(typeof input.workspace_id!=='string')invalid('A candidate introduction requires a workspace identifier.');
         return candidate?candidate.createUploadSession(actor,{...input,purpose:'candidate_video',workspace_id:input.workspace_id},context):centralStoragePending();
+      }
+      if(input.purpose==='candidate_support'){
+        if(typeof input.workspace_id!=='string'||typeof input.candidate_id!=='string')invalid('A supporting file requires an explicit candidate and workspace.');
+        return support?support.createUploadSession(actor,input,context):centralStoragePending();
       }
       return centralStoragePending();
     },

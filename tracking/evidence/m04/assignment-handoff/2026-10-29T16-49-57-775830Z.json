@@ -1,0 +1,66 @@
+{
+  "observed_at": "2026-10-29T16:49:57.775830+00:00",
+  "status": "local_assignment_database_slice_proven_not_released",
+  "source_frozen": true,
+  "cloud_called": false,
+  "provider_called": false,
+  "hosting_deferred": true,
+  "numbered_migration_created_or_promoted": false,
+  "schema_history_versions": 19,
+  "source_sha256": {
+    "development/m04/assignments.sql": "f19d194646b73e2510aa5e3ceb3ae8f311d6541095f71b7b34ab733ec77cd93f",
+    "development/m04/lifecycle-forward.sql": "0c9719e912df0390073cb5818c1e7bc0eace899b84f0b9f7d02655e93ee0a35a",
+    "tests/db/m04-assignments-fixture.sql": "cb5f418fee0dc3a9b00a9ddeaa3971f5df1c3384c459905baa19b4e04f1d9cb4",
+    "tests/db/m04-assignments.sql": "bd864d83d37f6cb94248759728a58e56b48de3ad897a288a28b517d323b20c53",
+    "tests/db/m04-assignment-bounds.sql": "3a400cbeb7ef50723f6005525358e19cd0a66da5bf4ff2b68f01f335f91c5902",
+    "tests/db/m04-lifecycle.sql": "04aad7d354e08fca8c98c33a16308b9922b415c14b33ded52d4708f31ba96c6f",
+    "tools/test-m04-assignments-local.mjs": "72de466a339065b0ab544c2812d8a5791aafb9808955c3d6ace647c164ae80d6",
+    "tools/test-m04-main-race-local.mjs": "6d87c7f3dc344eb26f32f1dec0f7fdbc7a3a4512a9b8bee9c739ffac99f4d677",
+    "tools/m04-private-fixture-file.py": "d3a554359271777c006e76bae67e18b5a4f2cb8b36721c8f7dad0e2079209004",
+    "development/m04/ASSIGNMENT_DATABASE.md": "c04539b8e9c48327501f0901579cf3e9fb7d1b4837925ed4fd9d0659dab0c732"
+  },
+  "proofs": [
+    {
+      "path": "tracking/evidence/m04/assignments-local/2026-10-29T16-25-14-012Z-b33636d0.json",
+      "sha256": "86064360a77d9ddd7cf8f3371fc3fe74ceb860ca305ade60b9e3a16dae3d5d5c",
+      "result": "passed"
+    },
+    {
+      "path": "tracking/evidence/m04/main-race-local/2026-10-29T16-44-42-247Z-f410889c.json",
+      "sha256": "0255aa6df6423abc175a5cd660a4251683f29e1f86e19ff759f64488b7ae9d87",
+      "result": "passed"
+    }
+  ],
+  "race": {
+    "simultaneous_nonowner_sessions": 2,
+    "distinct_authorized_actors": 2,
+    "isolation": "read committed",
+    "second_lock_wait_observed": true,
+    "elapsed_ms": 1832,
+    "winner_committed": true,
+    "loser_code": "STALE_RESOURCE_VERSION",
+    "active_main_count": 1,
+    "slot_revision": 4,
+    "main_events": 1,
+    "original_ack_replay": true
+  },
+  "revocation_after_wait": {
+    "lock_wait_observed": true,
+    "denied_code": "CAPABILITY_REQUIRED",
+    "no_second_main_event": true
+  },
+  "canonical19_unchanged": true,
+  "canonical_auth_metadata_and_physical_row_revisions_preserved": true,
+  "disposable_cleanup_verified": true,
+  "source_stability_confirmed": true,
+  "shared_local_db_lock_present": false,
+  "remaining_vertical_steps": [
+    "Root compose assignments.sql and lifecycle-forward.sql atomically with reviewed M04 fragments; no table-only release.",
+    "Export domain/central casting modules and compose authenticated CastingOperations in CentralStudio behind the appropriate database-ready gate.",
+    "Wire casting-http.ts into catch-all routing and the matching MCP operations; switch full reorder from the M02 role-only path only with M04 enabled.",
+    "Mount CastingBoard with current-user permissions, active output, dirty state, focus/save/stale recovery, then perform actual HTTP/MCP/browser acceptance.",
+    "Implement the remaining M04 persistent series, template identity, ordered ten-field Selection/Shortlist/Pending projection and review/fit interfaces.",
+    "Implement real scoped WF-05 contextual AI suggestions and normal versioned apply paths; no automatic fact/casting decisions.",
+    "Root owns guarded numbered migration/promotion/cloud proof and M04 acceptance/ledgers; hosting remains deferred."
+  ]
+}

@@ -3,16 +3,19 @@ import copy,json,sys,unittest
 from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
+from candidate_pipeline_historical_fixture import historical17_root, install_current19_fixture, RUNTIME16, RUNTIME16_SHA
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'tools'))
 import release_candidate_pipeline as release
 
 class CandidatePipelineReleaseTests(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        cls.promotion=release.read_json(release.PROMOTION)
+    def setUp(self):
+        self.root=self.enterContext(historical17_root(release,{RUNTIME16:RUNTIME16_SHA}))
+        self.enterContext(patch.object(release,'ROOT',self.root))
+        self.cli=self.enterContext(patch.object(release,'cli_call',side_effect=AssertionError('No live CLI in offline release tests.')))
+        self.promotion=release.read_json(release.PROMOTION)
         # Historical successful cloud16 readback, used offline as an exact
         # role-shape fixture. It is not a fresh credential authentication test.
-        cls.observed_runtime=release.read_json('tracking/evidence/cloud-pdf-vision/2026-10-29T09-54-06-914141Z-9a0506a9-apply.json')['readback']['runtime']
+        self.observed_runtime=release.read_json(RUNTIME16)['readback']['runtime']
     def identity(self):
         state=copy.deepcopy(self.promotion['before'])
         state['runtime']=copy.deepcopy(self.observed_runtime)
@@ -22,6 +25,16 @@ class CandidatePipelineReleaseTests(unittest.TestCase):
         with patch.object(release,'call',return_value=response):return release.inspect()
     def test_pinned_local_evidence_and_history_pass_without_cloud(self):
         _,versions=release.prerequisites();self.assertEqual(len(versions),16)
+        self.cli.assert_not_called()
+    def test_current19_history_is_rejected_before_any_cli(self):
+        install_current19_fixture(self.root)
+        with self.assertRaises(ValueError):release.prerequisites()
+        self.cli.assert_not_called()
+    def test_historical_source_byte_drift_is_rejected_before_any_cli(self):
+        source=self.root/release.READBACK
+        source.write_bytes(source.read_bytes()+b'\n-- synthetic offline drift\n')
+        with self.assertRaises(ValueError):release.prerequisites()
+        self.cli.assert_not_called()
     def test_expected_catalog_delta_and_json_bridge_roundtrip(self):
         release.compare(self.promotion['before'],self.promotion['after'])
         actual=self.inspect(self.identity())['runtime'];self.assertEqual(actual['name'],'eps_specs_runtime');self.assertIs(actual['inherit'],False)

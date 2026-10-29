@@ -1,0 +1,26 @@
+{
+  "run_id": "75de1f0e-4b34-4218-b1e5-e0e0b2875b9d",
+  "started_at": "2026-10-29T13:31:52.709Z",
+  "result": "passed",
+  "cloud_called": false,
+  "provider_called": false,
+  "hosted_credential_files_read": false,
+  "scope": "Synthetic frame metadata through exact runtime/asset/callback ports and requester-only public jobs, in separate fixture savepoints with full rollback. No real bytes/native/provider/app acceptance.",
+  "source_seals": {
+    "development/m03/remaining-frames.sql": "3a3bae7cc52dc7a5dfe05077b26818b825af75490419c31d15fa5dca111b6ce0",
+    "development/m03/remaining-frame-user-jobs.sql": "dbe022afff0e823be41cb1713a7d2b72037fc4adb0e8404db74dca9a90d6034a",
+    "tests/db/m03-frame-fixture.sql": "c6cc973e9b3f09b0ebe3460d50825d1d1aa9e2324c73d16d5426bc82decb88fc",
+    "tests/db/m03-frame-kernel.sql": "a16e45432314dc7add099b3c1c44a4325fa89ce20979d2774f8c55543dde0beb",
+    "tests/db/m03-frame-user-jobs.sql": "14f5e7fe473489618322c76a4f0f0b62732ff1f3dfd9bb0d57663119bfd21b32"
+  },
+  "harness_sha256": "aeaf84b432421dab79508b6414b7c2f928387ad0f097a5fdbf3fcabb9d194bba",
+  "before_sha256": "1e454663e4f30604d95c19476fecd3e7e0a3bd06cbcdf46a1a9ca8b86eb659ac",
+  "assertions_passed": true,
+  "transaction_completed_to_rollback": true,
+  "stdout_sha256": "53d12d48bc31f1c6bc78cb4531e12ed726535032a1da5d582db01060caf62bfb",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "after_sha256": "1e454663e4f30604d95c19476fecd3e7e0a3bd06cbcdf46a1a9ca8b86eb659ac",
+  "rollback_verified": true,
+  "sources_stable": true,
+  "finished_at": "2026-10-29T13:32:02.050Z"
+}

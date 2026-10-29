@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "x-source-sha256": "fe72c262fd1e21be545fad32f6c7a9712e76da71b419385d44b3f33216e493d6",
+  "x-source-sha256": "de369af9433da85a1e2e4b01c88653d67932262654edf48f4ea5e358f1f4a1b6",
   "$defs": {
     "Id": {
       "type": "string",
@@ -1356,6 +1356,23 @@
         "filename",
         "mime_type",
         "size_bytes"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "purpose": {
+                "const": "candidate_support"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "workspace_id",
+              "candidate_id"
+            ]
+          }
+        }
       ]
     },
     "UploadSession": {
@@ -1408,6 +1425,43 @@
         "maximum_bytes": {
           "type": "integer",
           "minimum": 1
+        },
+        "upload_metadata": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "bucketName": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            "objectName": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            "contentType": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            "cacheControl": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            }
+          },
+          "required": [
+            "bucketName",
+            "objectName",
+            "contentType",
+            "cacheControl"
+          ],
+          "description": "Exact server-reserved TUS metadata. Never accept a caller-selected destination."
+        },
+        "chunk_size": {
+          "type": "integer",
+          "const": 6291456
         }
       },
       "required": [
@@ -1445,6 +1499,21 @@
                 "maxProperties": 0
               }
             }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "protocol": {
+                "const": "tus"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "upload_metadata",
+              "chunk_size"
+            ]
           }
         }
       ]
@@ -1696,7 +1765,8 @@
           "type": "array",
           "items": {
             "type": "integer",
-            "minimum": 0
+            "minimum": 0,
+            "maximum": 1799999
           },
           "minItems": 1,
           "maxItems": 10,
@@ -3762,6 +3832,9 @@
         },
         "row_version": {
           "$ref": "#/$defs/RowVersion"
+        },
+        "frame_extraction": {
+          "$ref": "#/$defs/FrameExtractionOutcome"
         }
       },
       "required": [
@@ -3780,6 +3853,32 @@
         "created_at",
         "updated_at",
         "row_version"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "frame_extract"
+              },
+              "status": {
+                "const": "succeeded"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "frame_extraction"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "frame_extraction"
+              ]
+            }
+          }
+        }
       ]
     },
     "JobAccepted": {
@@ -4328,6 +4427,80 @@
       },
       "required": [
         "row_version"
+      ]
+    },
+    "CandidateSupport": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "row_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "candidate_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "asset": {
+          "$ref": "#/$defs/MediaAsset"
+        },
+        "created_at": {
+          "$ref": "#/$defs/DateTime"
+        }
+      },
+      "required": [
+        "id",
+        "row_version",
+        "candidate_id",
+        "asset",
+        "created_at"
+      ],
+      "description": "Explicit supporting attachment, separate from extracted frames and reusable facts."
+    },
+    "FrameExtractionOutcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "requested_count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "extracted_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "unavailable_timestamps_ms": {
+          "type": "array",
+          "maxItems": 10,
+          "uniqueItems": true,
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1799999
+          }
+        },
+        "warnings": {
+          "type": "array",
+          "maxItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "FRAME_TIMESTAMP_SHARED",
+              "FRAME_TIMESTAMP_UNAVAILABLE"
+            ]
+          }
+        }
+      },
+      "required": [
+        "requested_count",
+        "extracted_count",
+        "unavailable_timestamps_ms",
+        "warnings"
       ]
     }
   }

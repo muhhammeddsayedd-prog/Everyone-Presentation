@@ -10,7 +10,9 @@ export const JOB_KINDS: Record<ProcessingJob['kind'], string> = { specs_extract:
   ai_suggestion: 'AI suggestion', presentation_render: 'Presentation generation', presentation_export: 'PDF export' };
 export const STATUS_LABELS: Record<ProcessingStatus, string> = { queued: 'Queued', running: 'In progress', waiting_for_input: 'Needs input', succeeded: 'Completed', failed: 'Failed', cancelled: 'Cancelled' };
 const STAGES: Record<string, string> = { prepare_document: 'Document preparation', extract_specs: 'Requirements extraction', apply_specs: 'Applying requirements',
-  prepare_media: 'Media preparation', transcribe: 'Spoken information', extract_facts: 'Supplied facts', extract_frames: 'Frame extraction', select_frames: 'Clear frame selection',
+  prepare_media: 'Media preparation', transcribe: 'Spoken information', extract_facts: 'Supplied facts', extract_frames: 'Frame extraction', select_frames: 'Source frame selection',
+  prepare_candidate: 'Video preparation', transcribe_candidate: 'Original-language transcription', extract_candidate: 'Supplied fact extraction',
+  apply_candidate: 'Saving candidate profile', apply_frames: 'Saving extracted frames',
   render: 'Presentation layout', export_pdf: 'PDF preparation' };
 const FAILURES: Record<string, string> = { SOURCE_UNREADABLE: 'The supplied source could not be read.', UNSUPPORTED_FORMAT: 'The supplied source format is unsupported.',
   RESULT_INVALID: 'The result could not be validated. Existing work has been retained.', EXTRACTION_REFUSED: 'Extraction could not complete for this input.',
@@ -59,7 +61,8 @@ export function processingDelay(status: ProcessingStatus | null, failures: numbe
 }
 export function workspaceResultHref(job: Pick<ProcessingJob, 'workspace_id' | 'kind'>, workspace: { id: string; project_id: string }): string {
   if (!job.workspace_id || workspace.id !== job.workspace_id || !validProcessingId(workspace.project_id)) invalid();
-  return `/projects/${encodeURIComponent(workspace.project_id)}/casting/${encodeURIComponent(workspace.id)}/${job.kind === 'specs_extract' ? 'specs' : 'project'}`;
+  const step = job.kind === 'specs_extract' ? 'specs' : ['candidate_scan', 'frame_extract'].includes(job.kind) ? 'cast' : 'project';
+  return `/projects/${encodeURIComponent(workspace.project_id)}/casting/${encodeURIComponent(workspace.id)}/${step}`;
 }
 export function processingHref({ job, status, cursor }: { job?: string | null; status?: ProcessingStatus | null; cursor?: string | null } = {}): string {
   const query = new URLSearchParams();

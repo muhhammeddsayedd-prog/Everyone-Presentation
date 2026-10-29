@@ -1,5 +1,7 @@
 """Offline activation boundary tests; no CLI, config mutation or cloud call."""
 import copy, importlib.util, json, pathlib, re, sys, unittest
+from unittest.mock import patch
+from candidate_pipeline_historical_fixture import historical17_root, install_current19_fixture
 ROOT=pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(ROOT/'tools'))
 spec=importlib.util.spec_from_file_location('candidate_activation',ROOT/'tools/configure-candidate-pipeline.py')
@@ -10,9 +12,12 @@ import release_candidate_pipeline as release
 
 
 class ActivationTests(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        cls.snapshot=json.loads((ROOT/release.PROMOTION).read_bytes())['after']
+    def setUp(self):
+        self.root=self.enterContext(historical17_root(release,activation.SEALS))
+        self.enterContext(patch.object(release,'ROOT',self.root))
+        self.enterContext(patch.object(activation,'ROOT',self.root))
+        self.cli=self.enterContext(patch.object(release,'cli_call',side_effect=AssertionError('No live CLI in offline activation tests.')))
+        self.snapshot=json.loads((self.root/release.PROMOTION).read_bytes())['after']
 
     def state(self):
         snapshot=copy.deepcopy(self.snapshot)
@@ -32,11 +37,23 @@ class ActivationTests(unittest.TestCase):
         with self.assertRaises(ValueError):activation.arguments(['--force','--receipt','2026-proof.json'])
         expected=activation.versions()
         for file in (activation.INSPECT,activation.ENABLE):
-            source=(ROOT/file).read_text()
+            source=(self.root/file).read_text()
             self.assertEqual(re.findall(r"'(2026[0-9]{10})'",source),expected)
-        sql=(ROOT/activation.ENABLE).read_text()
+        sql=(self.root/activation.ENABLE).read_text()
         self.assertEqual(len(re.findall(r'(?im)^\s*update\s+',sql)),1)
         self.assertFalse(re.search(r'(?im)^\s*(create|alter|grant|revoke|drop|delete|insert)\s+',sql))
+
+    def test_current19_history_is_not_accepted_by_fixed17_activation(self):
+        install_current19_fixture(self.root)
+        with self.assertRaises(ValueError):activation.versions()
+        self.cli.assert_not_called()
+
+    def test_frozen_migration_byte_drift_is_rejected_before_activation(self):
+        manifest=json.loads((self.root/'development/local-db/reviewed.json').read_bytes())
+        source=self.root/manifest['migrations'][0]['path']
+        source.write_bytes(source.read_bytes()+b'\n-- synthetic offline drift\n')
+        with self.assertRaises(ValueError):activation.versions()
+        self.cli.assert_not_called()
 
     def test_only_exact_config_change_is_allowed(self):
         before=self.state();after=self.changed(before)

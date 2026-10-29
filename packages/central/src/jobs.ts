@@ -13,11 +13,15 @@ const SAFE_ERRORS: Record<string, string> = {
   INPUT_CHANGED: 'The source or draft changed; existing edits were preserved.', PROCESSING_FAILED: 'Processing failed; existing data was preserved.',
   RETRY_EXHAUSTED: 'The bounded retry budget was exhausted.',
 };
+export interface FrameExtractionOutcome {
+  requested_count: number; extracted_count: number; unavailable_timestamps_ms: number[];
+  warnings: ('FRAME_TIMESTAMP_SHARED'|'FRAME_TIMESTAMP_UNAVAILABLE')[];
+}
 export interface CentralJob {
   id: string; workspace_id: string | null; kind: typeof KINDS[number]; status: typeof STATUSES[number]; stage: string;
   attempt: number; progress_completed: number; progress_total: number | null; batch_id: string | null; input_asset_id: string | null;
   resource_id: string | null; error: { code: string; message: string; details: Record<string, string | number>; retryable: boolean } | null;
-  created_at: string; updated_at: string; row_version: number;
+  created_at: string; updated_at: string; row_version: number; frame_extraction?: FrameExtractionOutcome;
 }
 export interface JobListOptions { workspace_id?: string; status?: typeof STATUSES[number]; cursor?: string; limit?: number }
 export interface JobMutationInput { row_version: number; reason?: string | null }
@@ -28,7 +32,18 @@ function exact(value: unknown, fields: string[]) { const result = object(value);
 const id = (value: unknown): value is string => typeof value === 'string' && value.length > 0 && value.length <= 200;
 const count = (value: unknown): value is number => typeof value === 'number' && Number.isSafeInteger(value) && value >= 0;
 function jobDto(value: unknown): CentralJob {
-  const row = exact(value, ['id', 'workspace_id', 'kind', 'status', 'stage', 'attempt', 'progress_completed', 'progress_total', 'batch_id', 'input_asset_id', 'resource_id', 'error', 'created_at', 'updated_at', 'row_version']);
+  const hasOutcome=Object.hasOwn(object(value),'frame_extraction');
+  const row = exact(value, ['id', 'workspace_id', 'kind', 'status', 'stage', 'attempt', 'progress_completed', 'progress_total', 'batch_id', 'input_asset_id', 'resource_id', 'error', 'created_at', 'updated_at', 'row_version',...(hasOutcome?['frame_extraction']:[])]);
+  if(hasOutcome!==(row.kind==='frame_extract'&&row.status==='succeeded'))fail();
+  if(hasOutcome){
+    const outcome=exact(row.frame_extraction,['requested_count','extracted_count','unavailable_timestamps_ms','warnings']);
+    if(!count(outcome.requested_count)||outcome.requested_count<1||outcome.requested_count>10||!count(outcome.extracted_count)||outcome.extracted_count>outcome.requested_count
+      ||!Array.isArray(outcome.unavailable_timestamps_ms)||outcome.unavailable_timestamps_ms.length>outcome.requested_count
+      ||outcome.unavailable_timestamps_ms.some(time=>!count(time)||time>=1_800_000)||new Set(outcome.unavailable_timestamps_ms).size!==outcome.unavailable_timestamps_ms.length
+      ||outcome.extracted_count+outcome.unavailable_timestamps_ms.length>outcome.requested_count
+      ||!Array.isArray(outcome.warnings)||outcome.warnings.length>2||new Set(outcome.warnings).size!==outcome.warnings.length
+      ||outcome.warnings.some(warning=>!['FRAME_TIMESTAMP_SHARED','FRAME_TIMESTAMP_UNAVAILABLE'].includes(warning)))fail();
+  }
   if (!id(row.id) || ![row.workspace_id, row.batch_id, row.input_asset_id, row.resource_id].every(value => value === null || id(value))
     || !KINDS.includes(row.kind as CentralJob['kind']) || !STATUSES.includes(row.status as CentralJob['status']) || !id(row.stage)
     || !count(row.attempt) || !count(row.progress_completed) || !(row.progress_total === null || count(row.progress_total) && row.progress_total >= row.progress_completed)

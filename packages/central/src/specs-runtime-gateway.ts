@@ -8,7 +8,7 @@ import type { JobEvent, JobEventReceipt, StageClaim, StageLease } from '../../jo
 export const SPECS_RUNTIME_ROLE = 'eps_specs_runtime';
 export const SPECS_RUNTIME_PROJECT = 'pyibofyctwnqpvktepse';
 export const SPECS_RUNTIME_HOST = 'aws-0-eu-west-1.pooler.supabase.com';
-const STAGES = ['prepare_document', 'extract_specs', 'apply_specs','prepare_candidate','transcribe_candidate','extract_candidate','select_frames','apply_candidate'];
+const STAGES = ['prepare_document', 'extract_specs', 'apply_specs','prepare_candidate','transcribe_candidate','extract_candidate','select_frames','apply_candidate','extract_frames','apply_frames'];
 const STATUSES = ['queued', 'running', 'waiting_for_input', 'succeeded', 'failed', 'cancelled'];
 const UUID = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/u;
 const HASH = /^[a-f0-9]{64}$/u;
@@ -292,7 +292,7 @@ export async function createSpecsRuntimeGateway(supplied: SpecsRuntimeConfig, de
         const envelope = response(item.envelope, ['event_id', 'event_type', 'contract_version', 'job_id', 'kind', 'stage', 'input_hash', 'correlation_id']);
         if (!id(item.id) || typeof item.lease_token !== 'string' || !/^[A-Za-z0-9_-]{43}$/u.test(item.lease_token) || !date(item.lease_expires_at)
           || envelope.event_id !== item.id || envelope.event_type !== 'job.stage_ready' || envelope.contract_version !== '1.0' || !id(envelope.job_id)
-          || !['specs_extract','candidate_scan'].includes(String(envelope.kind)) || !STAGES.includes(String(envelope.stage)) || typeof envelope.input_hash !== 'string' || !HASH.test(envelope.input_hash)
+          || !['specs_extract','candidate_scan','frame_extract'].includes(String(envelope.kind)) || !STAGES.includes(String(envelope.stage)) || typeof envelope.input_hash !== 'string' || !HASH.test(envelope.input_hash)
           || typeof envelope.correlation_id !== 'string' || !/^[A-Za-z0-9._:-]{1,200}$/u.test(envelope.correlation_id)) fail('RUNTIME_RESPONSE_INVALID', 503, 'unknown');
       }
       return row;
@@ -328,7 +328,7 @@ export async function createSpecsRuntimeGateway(supplied: SpecsRuntimeConfig, de
         || !id(event.event_id) || !id(event.job_id) || !id(event.attempt_id) || !STAGES.includes(event.stage) || !HASH.test(event.input_hash)
         || !['heartbeat', 'progress', 'succeeded', 'failed'].includes(event.event_type)) fail('INVALID_REQUEST', 400);
       integer(event.sequence, Number.MAX_SAFE_INTEGER); token(event.lease_token);
-      const row = response(await execute('select eps.record_job_event($1::jsonb) as value', [safeJson(event,event.stage.endsWith('_candidate')||event.stage==='select_frames'?409_600:294_912)], signal), ['event_id', 'applied', 'duplicate', 'stale', 'job_status']);
+      const row = response(await execute('select eps.record_job_event($1::jsonb) as value', [safeJson(event,event.stage.endsWith('_candidate')||event.stage.endsWith('_frames')?409_600:294_912)], signal), ['event_id', 'applied', 'duplicate', 'stale', 'job_status']);
       if (row.event_id !== event.event_id || !['applied', 'duplicate', 'stale'].every(key => typeof row[key] === 'boolean')
         || !row.applied && !row.duplicate && !row.stale || !STATUSES.includes(String(row.job_status))) fail('RUNTIME_RESPONSE_INVALID', 503, 'unknown');
       return row as unknown as JobEventReceipt;

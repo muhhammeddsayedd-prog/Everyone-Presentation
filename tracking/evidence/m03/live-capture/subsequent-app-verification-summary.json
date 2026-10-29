@@ -1,0 +1,51 @@
+{
+  "result": "subsequent_app_media_and_usage_evidence_linked",
+  "recorded_at": "2026-10-29T12:46:14.323523+00:00",
+  "inputs": {
+    "historical_metadata": {
+      "path": "tracking/evidence/m03/live-capture/first-success-metadata-summary.json",
+      "sha256": "f5d4d5a810b886b6b7931144135cb3fdcd5c7ad5c19c081cf5465b85171b0a14"
+    },
+    "browser_media": {
+      "path": "tracking/evidence/m03/app-media-read/browser-media-success.json",
+      "sha256": "70474409f0ac3ca9b14e9089dc856b2fcf4ed54d8ae4ce0748ae1140a7261e3a"
+    },
+    "independent_app_asr_usage": {
+      "path": "tracking/evidence/m03/live-capture/app-transcription-usage.json",
+      "sha256": "e1e6ad1cdf275b4758cd3056c55cb7b298221735b66a3ff53533e0608495a1dc"
+    }
+  },
+  "historical_root_attestation_retained_unchanged": true,
+  "independent_app_asr_usage": {
+    "observed_at": "2026-10-29T12:04:50.45995+00:00",
+    "usage_seconds": 20,
+    "usage_type_is_duration": true,
+    "requested_model_matches": true,
+    "sdk_matches": true,
+    "source": "Fixed read-only committed app-job payload, independent of service probe."
+  },
+  "browser_media": {
+    "observed_at": "2026-10-29T12:05:20.154Z",
+    "field_count": 11,
+    "not_provided_visible": true,
+    "loaded_image_count": 12,
+    "all_loaded_images_800x480": true,
+    "arabic_transcript_visible": true,
+    "owner_attested_expanded_text_characters": 159,
+    "video_ready_state": 4,
+    "video_duration_seconds": 19.776009,
+    "video_display_width": 853,
+    "video_display_height": 480,
+    "project_pins_preserved": [
+      3120,
+      12480,
+      14040
+    ],
+    "shared_frame_selection_restored": true
+  },
+  "sar_and_visual_quality_verified": false,
+  "semantic_accuracy_verified": false,
+  "english_or_mixed_coverage_verified": false,
+  "whole_m03_verified": false,
+  "additional_service_calls": false
+}

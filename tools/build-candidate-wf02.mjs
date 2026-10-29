@@ -8,11 +8,13 @@ export function mapCandidateStageEnvelope(body,executionId) {
   const handlers = {
     prepare_candidate: 'native.prepare_candidate', transcribe_candidate: 'openai.transcribe_candidate',
     extract_candidate: 'openai.extract_candidate', select_frames: 'native.select_frames', apply_candidate: 'domain.apply_candidate',
+    extract_frames: 'native.extract_frames', apply_frames: 'domain.apply_frames',
   };
   const invalid = () => ({ status: 400, body: { error: { code: 'DISPATCH_ENVELOPE_INVALID', message: 'Use the published candidate stage envelope.' } } });
   if (!body || typeof body !== 'object' || Array.isArray(body) || Object.keys(body).length !== fields.length
     || fields.some(key => !Object.hasOwn(body, key))
-    || body.event_type !== 'job.stage_ready' || body.contract_version !== '1.0' || body.kind !== 'candidate_scan'
+    || body.event_type !== 'job.stage_ready' || body.contract_version !== '1.0'
+    || !(body.kind === 'candidate_scan' && ['prepare_candidate','transcribe_candidate','extract_candidate','select_frames','apply_candidate'].includes(body.stage) || body.kind === 'frame_extract' && ['extract_frames','apply_frames'].includes(body.stage))
     || !safe(body.event_id) || !safe(body.job_id) || !safe(body.correlation_id) || typeof body.stage !== 'string' || !Object.hasOwn(handlers, body.stage)
     || typeof body.input_hash !== 'string' || !/^[a-f0-9]{64}$/u.test(body.input_hash)) return invalid();
   if (!safe(executionId)) return { status: 500, body: { error: { code: 'WF02_EXECUTION_ID_INVALID', message: 'The candidate work order could not be prepared.' } } };

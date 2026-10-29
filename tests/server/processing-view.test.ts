@@ -15,6 +15,15 @@ test('ordinary processing labels never echo untrusted stages or provider message
   assert.equal(jobFailureMessage({ ...job.error!, code: 'SECRET_CODE', message: 'secret' }), 'Processing could not complete. Existing work has been retained.');
 });
 
+test('actual candidate and frame stages have understandable public labels', () => {
+  assert.equal(jobStageLabel('prepare_candidate'), 'Video preparation');
+  assert.equal(jobStageLabel('transcribe_candidate'), 'Original-language transcription');
+  assert.equal(jobStageLabel('extract_candidate'), 'Supplied fact extraction');
+  assert.equal(jobStageLabel('select_frames'), 'Source frame selection');
+  assert.equal(jobStageLabel('apply_candidate'), 'Saving candidate profile');
+  assert.equal(jobStageLabel('apply_frames'), 'Saving extracted frames');
+});
+
 test('job pages reject duplicate rows, changing filters and nonadvancing cursors', () => {
   const page = { data: [job], page: { next_cursor: 'job-1' } };
   assert.deepEqual(readJobPage(page, 'failed', null).jobs, [job]);
@@ -48,4 +57,7 @@ test('workspace results use the returned project scope and reject cross-workspac
   assert.equal(workspaceResultHref(job, { id: 'workspace-1', project_id: 'actual-project' }), '/projects/actual-project/casting/workspace-1/specs');
   assert.throws(() => workspaceResultHref(job, { id: 'other-workspace', project_id: 'actual-project' }));
   assert.throws(() => workspaceResultHref(job, { id: 'workspace-1', project_id: '' }));
+  for (const kind of ['candidate_scan', 'frame_extract'] as const) {
+    assert.equal(workspaceResultHref({ ...job, kind }, { id: 'workspace-1', project_id: 'actual-project' }), '/projects/actual-project/casting/workspace-1/cast');
+  }
 });

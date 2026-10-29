@@ -1,0 +1,47 @@
+{
+  "observed_at": "2026-10-29T15:01:20.321801+00:00",
+  "result": "authoring_review_passed",
+  "target": "pyibofyctwnqpvktepse",
+  "scope": "Root-executed encrypted support-key bootstrap/recovery and support-only DB/local activation; no app acceptance claim.",
+  "bootstrap_source_seals": {
+    "tools/m03_support_pgp.py": "eedb038565be416d3a107ab810ab5f3600aa37c364678e6d2c622bfa82772426",
+    "tools/provision-m03-support-pgp.py": "add096f92b40094d4e7b9334412e036bd64cd4701fa476b03d6f7aa22bf36499",
+    "tools/m03_remaining_activation.py": "0e22a04a17854595018bf1d7d5997bbe0830da0426c07be46b1fb4f86be8353d",
+    "tools/provision_logo_verifier.py": "660f2eb0d15b1ed17801ecef22270dbb389fdf93181c340f16d715fc2b3a340c",
+    "tools/release_foundation.py": "02aac0cefc4b46419c7d5a086da672398716cf7ee73882602574cff99659d751",
+    "tools/sql/m03-support-pgp-bootstrap-template.sql": "b892576cf30cc46148575b7f28fa320f00a3552ebfa33dc17a56ca79fb7bc247",
+    "tools/sql/m03-support-pgp-recover-template.sql": "6e6997c538492dd84566aa2e2dfc9d9b022be333432aaed43c3f5e6bfe2d30e6",
+    "tools/private-key-bootstrap/bootstrap.mjs": "82bf256bc3fdfefa43777d3766b62ce4399ddcf14db6ee2086dea506404dbc9f",
+    "tools/private-key-bootstrap/package.json": "32d579f2f53b9516ae8b51570dba71875bf23e37c57599da341b9d5c8735f51d",
+    "tools/private-key-bootstrap/package-lock.json": "d89d2847c8963079936d69d4b7ebff0160594e7d1a2e59540e1d573b34f783ea"
+  },
+  "support_activation_source_seals": {
+    "tools/configure-m03-support.py": "e9826c78b3d9d0a2ea5b9f2e91f78fbecb4806da4c5bbb459c36ad49e1a6de3c",
+    "tools/m03_remaining_activation.py": "0e22a04a17854595018bf1d7d5997bbe0830da0426c07be46b1fb4f86be8353d",
+    "tools/configure-m03-remaining.py": "82a9ee048eec241ad8587d84dfc007775afc4b0ec78bdc56d3020f05372a16ec",
+    "tools/m03_support_pgp.py": "eedb038565be416d3a107ab810ab5f3600aa37c364678e6d2c622bfa82772426",
+    "tools/provision_logo_verifier.py": "660f2eb0d15b1ed17801ecef22270dbb389fdf93181c340f16d715fc2b3a340c",
+    "tools/release_foundation.py": "02aac0cefc4b46419c7d5a086da672398716cf7ee73882602574cff99659d751",
+    "tools/sql/m03-support-hmac-template.sql": "62c2cbfec775892a45b90b5db7049c1285fdafd7d36c3a110999bb0971e66466",
+    "tools/sql/m03-support-enable-template.sql": "b16a48670edc0b52e7f04047f844e0f858b3518babd94a6ca2fff3f7b1138283"
+  },
+  "local_bootstrap_proof": "tracking/evidence/m03/support-pgp-bootstrap/2026-10-29T14-55-18-919Z-93c51ea0-local.json",
+  "local_support_activation_proof": "tracking/evidence/m03/remaining-activation/2026-10-29T14-55-41-455Z-d0a50e2e-support-template-local.json",
+  "verification": {
+    "python_bootstrap_tests": 7,
+    "python_support_activation_tests": 5,
+    "rsa_v4_nonce_hmac_tests": 1,
+    "scoped_node_lint": "passed",
+    "python_compile": "passed",
+    "current_public_proof_gates": "passed",
+    "independent_review_agent": "/root/m03_worker",
+    "review_remaining_p1_p2": 0,
+    "source_mutation_before_cli_child_ipc_and_private_write_regressions": "passed"
+  },
+  "sql_compilers_and_crypto_unchanged_since_local_proofs": true,
+  "cloud_support_write_attempted": false,
+  "real_private_configuration_read_or_changed_during_authoring": false,
+  "provider_called": false,
+  "hosting_deferred": true,
+  "known_boundary": "Root must coordinate quiescent before/after snapshot window, then explicitly execute reviewed helpers. Historical failed canary attempts retained."
+}

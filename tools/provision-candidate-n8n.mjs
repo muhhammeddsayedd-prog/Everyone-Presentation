@@ -182,12 +182,12 @@ export async function provisionCandidateN8n(mode, dependencies = {}) {
       const response = await webhookFetch(candidate.N8N_CANDIDATE_DISPATCH_URL, { method: 'POST', redirect: 'error', signal: globalThis.AbortSignal.timeout(15_000), headers: { 'Content-Type': 'application/json', ...(authenticated ? { Authorization: `Bearer ${candidate.N8N_CANDIDATE_DISPATCH_SECRET}` } : {}) }, body: JSON.stringify(body) });
       if (!authenticated) { await response.body?.cancel(); return { status: response.status }; } return boundedJSON(response, 16_384);
     }
-    const stages = ['prepare_candidate', 'transcribe_candidate', 'extract_candidate', 'select_frames', 'apply_candidate'];
-    for (const stage of stages) {
-      const envelope = { event_id: randomUUID(), event_type: 'job.stage_ready', contract_version: '1.0', job_id: randomUUID(), kind: 'candidate_scan', stage, input_hash: 'a'.repeat(64), correlation_id: 'wf02-contract-' + randomUUID() };
+    const stages = [...['prepare_candidate', 'transcribe_candidate', 'extract_candidate', 'select_frames', 'apply_candidate'].map(stage => ({ kind: 'candidate_scan', stage })), ...['extract_frames','apply_frames'].map(stage => ({ kind: 'frame_extract', stage }))];
+    for (const { kind, stage } of stages) {
+      const envelope = { event_id: randomUUID(), event_type: 'job.stage_ready', contract_version: '1.0', job_id: randomUUID(), kind, stage, input_hash: 'a'.repeat(64), correlation_id: 'wf02-contract-' + randomUUID() };
       const response = await probe(envelope); const expected = mapCandidateStageEnvelope(envelope, response.value?.workflow_execution_id);
       if (response.status !== 200 || expected.status !== 200 || canonical(response.value) !== canonical(expected.body)) fail('WF02_PROBE_UNCONFIRMED');
-      probes.push({ stage, http_status: response.status, execution_id: response.value.workflow_execution_id, bound_response: true });
+      probes.push({ kind, stage, http_status: response.status, execution_id: response.value.workflow_execution_id, bound_response: true });
     }
     const unauthorized = await probe({}, false); const invalid = await probe({}); const malformed = await probe({ event_id: randomUUID(), event_type: 'job.stage_ready', contract_version: '1.0', job_id: randomUUID(), kind: 'candidate_scan', stage: { toString: 'invalid', valueOf: 'invalid' }, input_hash: 'a'.repeat(64), correlation_id: 'wf02-malformed-stage' });
     if (![401, 403].includes(unauthorized.status) || invalid.status !== 400 || invalid.value?.error?.code !== 'DISPATCH_ENVELOPE_INVALID' || malformed.status !== 400 || malformed.value?.error?.code !== 'DISPATCH_ENVELOPE_INVALID') fail('WF02_PROBE_UNCONFIRMED');

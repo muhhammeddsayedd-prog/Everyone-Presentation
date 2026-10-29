@@ -6,6 +6,7 @@ import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import { ApiError, api, type Actor, type Project, type Workspace } from './api';
 import { ErrorNotice, Loading } from './Feedback';
 import { useRuntimeMode } from './RuntimeMode';
+import {frameOutcomeSummary} from '../lib/frame-outcome-summary';
 import { JOB_KINDS, JOB_STATUSES, STATUS_LABELS, jobFailureMessage, jobStageLabel, processingDelay, processingHref,
   readJobPage, readProcessingJob, retainJobIntent, validProcessingId, workspaceResultHref,
   type JobAction, type JobIntent, type JobPage, type ProcessingJob, type ProcessingStatus } from './processing-view';
@@ -65,6 +66,7 @@ function usePolling<T>(read: (signal: AbortSignal) => Promise<T>, delay: (data: 
 }
 
 function JobProgress({ job }: { job: ProcessingJob }) {
+  if (job.status === 'succeeded') return <p className="processing-progress">Processing complete.</p>;
   return <div className="processing-progress">
     {job.progress_total !== null && job.progress_total > 0
       ? <><progress aria-label={`${JOB_KINDS[job.kind]} progress`} value={job.progress_completed} max={job.progress_total} /><span>{job.progress_completed} of {job.progress_total} completed</span></>
@@ -169,7 +171,7 @@ function JobDetail({ id, status, cursor, canOperate, onDirtyChange }: { id: stri
     {!job && state.loading ? <Loading label="Loading processing job…" /> : job && <>
       <section className="editor-section processing-detail"><div className="section-heading"><h2>Processing status</h2><span className="badge">{STATUS_LABELS[job.status]}</span></div>
         <dl className="processing-facts"><div><dt>Stage</dt><dd>{jobStageLabel(job.stage)}</dd></div><div><dt>Submitted</dt><dd><time dateTime={job.created_at}>{dateLabel(job.created_at)}</time></dd></div><div><dt>Last saved update</dt><dd><time dateTime={job.updated_at}>{dateLabel(job.updated_at)}</time></dd></div></dl>
-        <JobProgress job={job} />{job.error && <div className="notice notice-error"><p>{jobFailureMessage(job.error)}</p></div>}
+        <JobProgress job={job} />{job.frame_extraction&&<p className="notice" role="status">{frameOutcomeSummary(job.frame_extraction)}</p>}{job.error && <div className="notice notice-error"><p>{jobFailureMessage(job.error)}</p></div>}
         {job.status === 'waiting_for_input' && <p className="small">This job needs input before it can continue. Open its workspace to review the available requirements.</p>}
         {job.status === 'cancelled' && <p className="small">Cancellation is recorded. Any work already completed is retained.</p>}
         <p className="small muted" role="status">{state.checking && !busy && !intent ? 'Checking saved status…' : state.checkedAt ? `Last checked ${dateLabel(state.checkedAt)}` : 'Reading saved status…'}</p>

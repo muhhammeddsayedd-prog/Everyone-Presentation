@@ -1,0 +1,23 @@
+{
+  "run_id": "df48a6a3-03d1-486e-95aa-b52b1e53ec38",
+  "started_at": "2026-10-29T13:25:34.172Z",
+  "result": "failed",
+  "cloud_called": false,
+  "provider_called": false,
+  "hosted_credential_files_read": false,
+  "scope": "Synthetic frame metadata through exact runtime/asset/callback ports and requester-only public jobs, in separate fixture savepoints with full rollback. No real bytes/native/provider/app acceptance.",
+  "source_seals": {
+    "development/m03/remaining-frames.sql": "3a3bae7cc52dc7a5dfe05077b26818b825af75490419c31d15fa5dca111b6ce0",
+    "development/m03/remaining-frame-user-jobs.sql": "35c541b2d06475a3950ba9e49e195601924bc86ee32a5e152830f94a79957250",
+    "tests/db/m03-frame-fixture.sql": "a5b417eebab9b35b0252d07b37031a78fa4caf895eaba45a82fd07195c50e5f8",
+    "tests/db/m03-frame-kernel.sql": "9b95739199232d7242b482702ef2c6c0c3d6d4ed8743b02e90fc4a8f2dafb1b2",
+    "tests/db/m03-frame-user-jobs.sql": "6e0191b4da8dfc9391642889f4f415feafb124661e932ec01724cd59b9a71f1f"
+  },
+  "harness_sha256": "aeaf84b432421dab79508b6414b7c2f928387ad0f097a5fdbf3fcabb9d194bba",
+  "before_sha256": "1e454663e4f30604d95c19476fecd3e7e0a3bd06cbcdf46a1a9ca8b86eb659ac",
+  "diagnostic": "ERROR:  new row for relation \"media_assets\" violates check constraint \"media_assets_typed_purpose_check\"\nDETAIL:  Failing row contains (7f4f0000-0000-4000-8000-000000000002, 7f2f0000-0000-4000-8000-000000000001, null, candidate_frame, synthetic-existing.jpg, image/jpeg, eps-candidate-outputs, synthetic-frame-fixture/7f4f0000-0000-4000-8000-000000000002.jpg, 1000, bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb, 320, 240, ready, 2026-10-29 13:25:38.701152+00, 7f4f0000-0000-4000-8000-000000000001, null, null, null, null, 500, null).\n",
+  "after_sha256": "1e454663e4f30604d95c19476fecd3e7e0a3bd06cbcdf46a1a9ca8b86eb659ac",
+  "rollback_verified": true,
+  "sources_stable": true,
+  "finished_at": "2026-10-29T13:25:42.393Z"
+}

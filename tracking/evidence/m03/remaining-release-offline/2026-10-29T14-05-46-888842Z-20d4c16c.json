@@ -1,0 +1,88 @@
+{
+  "observed_at": "2026-10-29T14:06:10.560514+00:00",
+  "result": "passed",
+  "scope": "Offline unit/pure metadata guards only; all release CLI/service seams mocked; no live acceptance",
+  "command": [
+    ".venv-skills/Scripts/python.exe",
+    "-X",
+    "utf8",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests/operations",
+    "-p",
+    "test_m03_remaining_release.py",
+    "-v"
+  ],
+  "exit_code": 0,
+  "test_count": 16,
+  "log": "tracking/evidence/m03/remaining-release-offline/2026-10-29T14-05-46-888842Z-20d4c16c-unittest.log",
+  "log_sha256": "9122b109377a2eed5d3cda2c5eba5617ecf641f7cc53b1e14ba8f7a9b9bf7a4a",
+  "source_hashes": {
+    "tools/release_m03_remaining.py": "d1da1967c3a00286298519d215ec5d73e0387e0f68496116b1c799d698514688",
+    "tools/sql/m03-remaining-readback.sql": "c8e74d2bd7399682c984ad79b8f1732fd074056bf6ac065c19407948bfcc7b72",
+    "tests/operations/test_m03_remaining_release.py": "994b3d44eec8ee91d4fd4c5cf99b3d9f9dd7ec05ea302c2b1e6fa3e30239234d",
+    "supabase/migrations/20261029133455_m03_remaining_media_library.sql": "2e190e001b2bda044d9c90da4287f54e5839b0af7ffec84d4c93083909c944fb",
+    "supabase/migrations/20261029135318_m03_frame_request_resubmission.sql": "e816ad6b491626ace489efd256b56c322d25d9101de94e5fb8b24d2d4b745048",
+    "development/local-db/reviewed.json": "f504c4745bfb1ac31c7ba30d42153fe965dcc9e3451821808b3b4050122985b2"
+  },
+  "sources_stable": true,
+  "pure_release_prerequisites_verified": true,
+  "inputs": {
+    "migration": "20261029135318_m03_frame_request_resubmission.sql",
+    "migration_sha256": "e816ad6b491626ace489efd256b56c322d25d9101de94e5fb8b24d2d4b745048",
+    "migrations": [
+      {
+        "migration": "20261029133455_m03_remaining_media_library.sql",
+        "sha256": "2e190e001b2bda044d9c90da4287f54e5839b0af7ffec84d4c93083909c944fb"
+      },
+      {
+        "migration": "20261029135318_m03_frame_request_resubmission.sql",
+        "sha256": "e816ad6b491626ace489efd256b56c322d25d9101de94e5fb8b24d2d4b745048"
+      }
+    ],
+    "proof": "tracking/evidence/m03/remaining-composed-local/2026-10-29T13-43-40-528Z-97b70205.json",
+    "proof_sha256": "04f7e98ea89d6ed8550ee56b8c19fa4ee4f112c5625a27af05608c4db535cba0",
+    "promotion": "tracking/evidence/m03/remaining-promotion/2026-10-29T13-49-25-671Z-06ab16d1.json",
+    "promotion_sha256": "8a6a761c04bb04de88bc9b4147c7e624ab4b7d1b3aa111cd8c562103148eae6b",
+    "manifest_sha256": "f504c4745bfb1ac31c7ba30d42153fe965dcc9e3451821808b3b4050122985b2",
+    "readback_sha256": "c8e74d2bd7399682c984ad79b8f1732fd074056bf6ac065c19407948bfcc7b72",
+    "resubmission_proof": "tracking/evidence/m03/frame-resubmission-local/2026-10-29T13-58-19-049Z-f0b71f9a.json",
+    "resubmission_proof_sha256": "73368b041323340ecc2009bb4432cabb311b8a961a96d48f788547227b28f676",
+    "resubmission_promotion": "tracking/evidence/m03/frame-resubmission-promotion/2026-10-29T14-02-13-973Z-4999b031.json",
+    "resubmission_promotion_sha256": "3f58d21977f054af732af51dbaecacde825638a3328cc4bd121380529eda54e2",
+    "versions": [
+      "20261028010943",
+      "20261028013324",
+      "20261028013655",
+      "20261028024205",
+      "20261028072515",
+      "20261028162702",
+      "20261028162800",
+      "20261028172320",
+      "20261028184145",
+      "20261028222030",
+      "20261029001520",
+      "20261029003941",
+      "20261029070038",
+      "20261029090500",
+      "20261029090724",
+      "20261029094600",
+      "20261029100500",
+      "20261029133455",
+      "20261029135318"
+    ],
+    "dependencies": {
+      "tools/release_foundation.py": "02aac0cefc4b46419c7d5a086da672398716cf7ee73882602574cff99659d751",
+      "tools/release_specs_read_operation.py": "a68be68c78bb20b59216e5aabd9b568bb0d46ef9fd35097ceb78392f85ad304e",
+      "tools/provision_logo_verifier.py": "660f2eb0d15b1ed17801ecef22270dbb389fdf93181c340f16d715fc2b3a340c"
+    },
+    "helper_sha256": "d1da1967c3a00286298519d215ec5d73e0387e0f68496116b1c799d698514688"
+  },
+  "cloud_called": false,
+  "provider_called": false,
+  "native_called": false,
+  "configuration_changed": false,
+  "database_changed": false
+}

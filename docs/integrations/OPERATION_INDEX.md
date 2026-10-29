@@ -105,3 +105,5 @@ Generated from the handoff contract. `openapi.yaml` owns schemas and paths; the 
 | `record_job_event` | `POST /internal/jobs/events` | service.job-scoped (service-only) | No |
 | `complete_job_stage` | `POST /internal/jobs/complete` | service.job-scoped (service-only) | No |
 | `fail_job_stage` | `POST /internal/jobs/fail` | service.job-scoped (service-only) | No |
+| `list_candidate_support` | `GET /candidates/{candidate_id}/supporting-files` | cast.read | Yes |
+| `archive_candidate_support` | `POST /candidate-support/{candidate_support_id}/archive` | cast.write | Yes |

@@ -25,6 +25,15 @@ function service(response: unknown = job, status = 200) {
   return { calls, client: createBearerUserClient({ ...config, accessToken: token }, { fetch: fetcher }) };
 }
 const code = (expected: string) => (value: unknown) => value instanceof DomainError && value.code === expected;
+test('frame jobs expose only bounded timestamp outcomes and reject private payloads',async()=>{
+  const outcome={requested_count:3,extracted_count:1,unavailable_timestamps_ms:[1500],warnings:['FRAME_TIMESTAMP_SHARED','FRAME_TIMESTAMP_UNAVAILABLE']};
+  const row={...job,kind:'frame_extract',status:'succeeded',stage:'apply_frames',frame_extraction:outcome};
+  const fixture=service(row);assert.deepEqual((await(await createCentralJobs(fixture.client)).getJob(actor,jobId)).frame_extraction,outcome);
+  for(const changed of [{...outcome,original_transcript:'private'}, {...outcome,requested_count:11}, {...outcome,unavailable_timestamps_ms:[-1]}, {...outcome,warnings:['PRIVATE_DETAIL'] }]){
+    const bad=service({...row,frame_extraction:changed});await assert.rejects((await createCentralJobs(bad.client)).getJob(actor,jobId),code('CENTRAL_RESPONSE_INVALID'));
+  }
+  const ordinary=service({...job,frame_extraction:outcome});await assert.rejects((await createCentralJobs(ordinary.client)).getJob(actor,jobId),code('CENTRAL_RESPONSE_INVALID'));
+});
 
 test('job facade binds every fixed RPC and trace label to the verified user', async () => {
   const fixture = service(); const jobs = await createCentralJobs(fixture.client);

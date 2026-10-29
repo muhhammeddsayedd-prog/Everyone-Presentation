@@ -1,0 +1,45 @@
+{
+  "observed_at": "2026-10-29T13:59:56.602Z",
+  "result": "passed",
+  "action": "inspect",
+  "instance_version": null,
+  "node_versions": [
+    {
+      "name": "n8n-nodes-base.webhook",
+      "selected_version": 2.1
+    },
+    {
+      "name": "n8n-nodes-base.set",
+      "selected_version": 3.4
+    },
+    {
+      "name": "n8n-nodes-base.respondToWebhook",
+      "selected_version": 1.4
+    }
+  ],
+  "node_metadata_sha256": "5bc7839dc9e3cbaeb6888ad1439c67a7c617f75e4a355a2b2ada497e80d6d22d",
+  "credential_schema_verified": true,
+  "contract_source": "Published live-tested WF01 same three pinned node types; full node definitions unavailable (HTTP401).",
+  "metadata_http_statuses": [
+    200,
+    401,
+    200
+  ],
+  "credentials_modified": false,
+  "workflows_modified": false,
+  "workflows_executed": false,
+  "observations": [
+    {
+      "operation": "known_wf01_contract",
+      "method": "GET",
+      "http_status": 200,
+      "bytes": 10472
+    },
+    {
+      "operation": "credential_schema",
+      "method": "GET",
+      "http_status": 200,
+      "bytes": 273
+    }
+  ]
+}

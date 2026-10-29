@@ -1,0 +1,119 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-29T12:52:16.075Z",
+  "image_id": "sha256:ea6e27d158a843fee524d7f43f2f88a4ede8bc58e8ac32578b7dec5c1594ba6b",
+  "environment": "local Docker Linux, network-disabled media decoding",
+  "source": "synthetic FFmpeg lavfi only; no real transcription or factual accuracy claim",
+  "provider_called": false,
+  "hosted": false,
+  "passed": true,
+  "tests": [
+    {
+      "name": "actual-decode-timestamped-frames-audio",
+      "result": "passed",
+      "elapsed_ms": 3389,
+      "ffmpeg_version": "ffmpeg version 5.1.9-0+deb12u1 Copyright (c) 2000-2026 the FFmpeg developers",
+      "audio_chunks": 1,
+      "frames": 3,
+      "timestamps_ms": [
+        520,
+        1040,
+        1560
+      ]
+    },
+    {
+      "name": "probe-only-produces-no-derivatives",
+      "result": "passed",
+      "elapsed_ms": 2108
+    },
+    {
+      "name": "manual-extraction-uses-only-requested-real-source-times",
+      "result": "passed",
+      "elapsed_ms": 2904,
+      "timestamps_ms": [
+        80,
+        1280
+      ],
+      "actual_video_lead_ms": 80
+    },
+    {
+      "name": "manual-timestamp-out-of-duration-is-rejected",
+      "result": "passed",
+      "elapsed_ms": 2142
+    },
+    {
+      "name": "nearby-chosen-times-keep-real-PTS-and-explicit-unavailable-tail",
+      "result": "passed",
+      "elapsed_ms": 5673,
+      "requested_timestamps_ms": [
+        0,
+        1,
+        39,
+        40,
+        2079
+      ],
+      "frames": [
+        {
+          "requested_timestamp_ms": 0,
+          "actual_timestamp_ms": 80
+        },
+        {
+          "requested_timestamp_ms": 1,
+          "actual_timestamp_ms": 80
+        },
+        {
+          "requested_timestamp_ms": 39,
+          "actual_timestamp_ms": 80
+        },
+        {
+          "requested_timestamp_ms": 40,
+          "actual_timestamp_ms": 80
+        }
+      ],
+      "warnings": [
+        "FRAME_TIMESTAMP_SHARED",
+        "FRAME_TIMESTAMP_UNAVAILABLE"
+      ]
+    },
+    {
+      "name": "actual-anamorphic-SAR-normalizes-square-pixel-JPEG-display-geometry",
+      "result": "passed",
+      "elapsed_ms": 3908,
+      "coded_width": 800,
+      "coded_height": 480,
+      "sample_aspect_ratio": {
+        "numerator": 16,
+        "denominator": 15
+      },
+      "output_width": 853,
+      "output_height": 480,
+      "frames": 2
+    },
+    {
+      "name": "aborted-native-request-cannot-return-publishable-frames",
+      "result": "passed",
+      "elapsed_ms": 2
+    },
+    {
+      "name": "silent-short-video-keeps-real-frame-with-zero-selection",
+      "result": "passed",
+      "elapsed_ms": 2846,
+      "frames": 1,
+      "warnings": [
+        "SILENT_AUDIO_CHUNK"
+      ]
+    },
+    {
+      "name": "portrait-no-audio-preserves-aspect-partial",
+      "result": "passed",
+      "elapsed_ms": 2692,
+      "width": 90,
+      "height": 160
+    },
+    {
+      "name": "corrupt-source-terminal-and-owned-cleanup",
+      "result": "passed",
+      "elapsed_ms": 2239
+    }
+  ]
+}

@@ -12,13 +12,17 @@ const password = 'synthetic-database-private-value-Hh8Ii9Jj0';
 const dispatch = 'synthetic-webhook-private-value-Kk1Ll2Mm3';
 const logo = Buffer.alloc(32, 81); const specs = Buffer.alloc(32, 97);
 const jobBearer='synthetic-job-bearer-private-Nn4Oo5Pp6';const claimKey='c9385abe372f41a5d043f28d6e0cab6245018739e2fab471085ddb562980f64d';const candidateSecret='synthetic-candidate-dispatch-private-Qq7Rr8Ss9';
+const supportKey='7e43a1fbd29405c8e610b2fc38da915067ab4c9238e1f0bda249c3de16a58f07';
 const material = { worker: Buffer.from(`OPENAI_API_KEY=${openai}\nN8N_API_KEY=${n8n}\n`),
   runtime: Buffer.from(`EPS_SPECS_PG_PASSWORD=${password}\nN8N_DISPATCH_SECRET=${dispatch}\n`),
   logo: Buffer.from(JSON.stringify({ LOGO_VERIFICATION_KEY_ID: 'eps-logo-dev-20261028-v1', LOGO_VERIFICATION_KEY_BASE64URL: logo.toString('base64url') }) + '\n'),
   specs: Buffer.from(JSON.stringify({ SPECS_VERIFICATION_KEY_ID: 'eps-specs-dev-20261029-v1', SPECS_VERIFICATION_KEY_BASE64URL: specs.toString('base64url') }) + '\n'),
-  jobService:Buffer.from(`EPS_JOB_SERVICE_BEARER=${jobBearer}\nEPS_JOB_CLAIM_KEY_HEX=${claimKey}\n`),candidate:Buffer.from(`N8N_CANDIDATE_DISPATCH_SECRET=${candidateSecret}\n`) };
+  jobService:Buffer.from(`EPS_JOB_SERVICE_BEARER=${jobBearer}\nEPS_JOB_CLAIM_KEY_HEX=${claimKey}\n`),candidate:Buffer.from(`N8N_CANDIDATE_DISPATCH_SECRET=${candidateSecret}\n`),support:Buffer.from(`EPS_SUPPORT_VERIFIER_KEY_HEX=${supportKey}\n`) };
 const patterns = privatePatterns(material);
 const sha = value => createHash('sha256').update(value).digest('hex');
+test('support verifier is covered as raw key bytes, hex and encoded artifacts',()=>{
+ for(const value of [Buffer.from(supportKey),Buffer.from(supportKey,'hex')]) for(const encoded of [value,Buffer.from(value.toString('base64')),Buffer.from(value.toString('hex'))])assert.equal(containsPrivateValue(encoded,patterns),true);
+});
 test('new isolated job-service and candidate-dispatch secrets are covered in source and encoded artifacts',()=>{
  for(const value of [jobBearer,claimKey,candidateSecret])for(const bytes of [Buffer.from(value),Buffer.from(Buffer.from(value).toString('base64url')),Buffer.from(value,'utf16le')])assert.equal(containsPrivateValue(bytes,patterns),true);
 });
@@ -68,7 +72,7 @@ test('actual parsed values and binary keys are found in raw, hex, base64, base64
 });
 
 test('a rotated private input after pattern capture blocks a clean result without exposing old/new values', () => {
-  const before = [0, 1, 2, 3,4,5].map(index => ({ dev: 1n, ino: BigInt(index), size: 100n, mtimeNs: 2n, ctimeNs: 3n }));
+  const before = [0, 1, 2, 3,4,5,6].map(index => ({ dev: 1n, ino: BigInt(index), size: 100n, mtimeNs: 2n, ctimeNs: 3n }));
   requirePrivateSnapshot(before, before.map(value => ({ ...value })));
   const after = before.map(value => ({ ...value })); after[2].mtimeNs++;
   assert.throws(() => requirePrivateSnapshot(before, after), error => error instanceof PrivateScanError && error.code === 'PRIVATE_SCAN_CONFIGURATION_CHANGED');

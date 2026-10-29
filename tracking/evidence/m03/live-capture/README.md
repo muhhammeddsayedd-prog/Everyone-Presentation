@@ -27,6 +27,22 @@ capture do not imply no usage. Root separately attested 20 usage seconds from th
 private committed app-job metadata. This is separate from the direct service
 probe and does not establish complete project billing.
 
+Subsequent evidence is linked in the
+[app verification supplement](subsequent-app-verification-summary.json).
+The [fixed read-only app ASR usage receipt](app-transcription-usage.json) now
+independently confirms 20 duration-based usage seconds in the committed app job,
+with the configured model and SDK matching. The historical root-attested label
+above and the original derived summary remain unchanged.
+
+The [actual app media receipt](../app-media-read/browser-media-success.json)
+records all twelve images loaded at800×480, eleven field properties with missing
+values visible, the expanded Arabic transcript, original video readyState4 and
+19.776-second playback metadata. Root recorded159 expanded transcript characters.
+A shared-frame edit left the project's three old pins intact and its shared
+default order was restored. Private AX/screenshots remain ignored. Browser video
+display853×480 versus coded/JPEG800×480 is a separate SAR geometry concern; this
+receipt does not establish SAR correctness, visual quality or semantic accuracy.
+
 Two pre-provider handoff defects were fixed: the
 [worker asset adapter](../../../../apps/worker/src/candidate-assets.ts) now permits
 an unverified original only for initial preparation while verifying the actual

@@ -1,0 +1,53 @@
+{
+  "schema_version": "m03-remaining-upload-implementation.v1",
+  "observed_at": "2026-10-29T13:32:44.332689+00:00",
+  "scope": "Local implementation/testing only. Not deployment or actual hosted TUS/CORS/app acceptance.",
+  "source_sha256": {
+    "packages/domain/src/types.ts": "4b4a388941c7f612a819ea33c0a9cc153a01bab37319921c83eeb98998fca87d",
+    "packages/domain/src/candidate-support.ts": "35ed42483946a7ef8ef3b7bfaff02dfe332c4f4cc3f151784fc4b7ce694b4d89",
+    "packages/central/src/tus-upload-session.ts": "29966f307e5fe5114ca3d443f1155a6952806b3797f16e1a8ee88ec1b6d98473",
+    "packages/central/src/candidate-storage.ts": "4ca7c9a3613c607ea97cfa8f176372e41d27354c6aa3b185028e926dbf04254e",
+    "packages/central/src/candidate-support.ts": "21ab799602ce1c7ee38acc25090c0becdf0fceca37c54a31c50dbef2d7beff1a",
+    "packages/central/src/candidate-support-storage.ts": "c7efdc45c3851aef6656ac28575588b3ebebd6786ccea5fc158c3890434d438a",
+    "packages/central/src/support-receipt.ts": "7329034c43e30a4515a00a9774ec1fdb4c8445240e3009302ebf50ad8d9d763f",
+    "apps/web/lib/resumable-transfer.ts": "fe92d7ab21133cff645e00f04cdd96859bdead31b6e29e15d245b1ed6716f87e",
+    "apps/web/lib/candidate-transfer-intent.ts": "f0cbfdff2f74c640f01c1ab418fad70c9c49d2b0fa2764c0d2987c75e53ae99e",
+    "apps/web/lib/candidate-support-original.ts": "d6e3f55cd9e3c92d0fee975d59f380f2a8924f0e112c1ffd816fe828e4775e10",
+    "apps/web/components/CandidateResumableUploads.tsx": "48b9609a4419763f86377c18b0136740801fe48445199409202bed9067c25f89",
+    "apps/web/components/SupportingFiles.tsx": "b04a9bb438b1d192fe1d596c533570dc2f70cec0d06ad743cb34b9bbc08018ae",
+    "development/m03/remaining-uploads.sql": "377caf4e5bbc33b36f479a16bc6f5d35a87036b5c26c1b9ebfdcbbb6123a7287",
+    "tests/db/m03-support-uploads.sql": "a876d5362c24501e958882697c6ec06ae1d0d3e5ea8c01595fba1f1f1ef524a4",
+    "tools/test-m03-remaining-uploads.mjs": "3e20457a98db129762ed2a3bb0a8af503e5fab1dbf548da09acceb3ef4a15f85",
+    "packages/central/test/candidate-storage.test.ts": "b5f89b45757c6f02379f1d99a70e7aead6dfa1c31fb5ddd5f6d26dcf962da04d",
+    "packages/central/test/candidate-support-storage.test.ts": "e96907e69d4e62e5e501ba58b3a85584655d1f453709aa09ff356bfd0d92ce1f",
+    "packages/central/test/candidate-support.test.ts": "bd4ea5b3844dcbf36b1dd8c0a790e3e869ac168a7d1f7bb3d0fdf64b13392c02",
+    "packages/central/test/support-receipt.test.ts": "16e92c04ca1a130abe2c14bf7b2cdf9ba5ac251e0165a6b00f2a21a5339651ba",
+    "tests/server/resumable-transfer.test.ts": "117cef4eeb76c602928d35d0b61a648af57edf259e8f377a67d2f94addd078f8",
+    "tests/server/candidate-transfer-intent.test.ts": "b74c9c25759636f408f6a27ecfab707ba92a9ab03d6d91a3677e8f89dd49dd03",
+    "tests/server/candidate-support-original.test.ts": "8f2e95deca457410c7323839c09b5a02f406643156bb3dcde2338468840f2bc3"
+  },
+  "latest_sql_rollback_receipt": {
+    "path": "tracking/evidence/m03/support-local/2026-10-29T13-29-01-939Z-2aa1867c.json",
+    "sha256": "637c7bd69468d9ca9d6dea0676b13a3a6fbbd8a1e5bf6563a358e5ceb5222faf"
+  },
+  "verification": {
+    "focused_tests_passed": 25,
+    "focused_tests_failed": 0,
+    "full_typecheck_exit": 0,
+    "scoped_eslint_exit": 0,
+    "local_sql_full_rollback": true,
+    "local_sql_source_stability": true,
+    "independent_agent_review": "m03_domain reported no remaining P1/P2 in SQL/storage/receipt after strict status correction; independent SDK/receipt8 passed."
+  },
+  "not_claimed": [
+    "actual Supabase TUS/CORS/offset acceptance",
+    "actual supporting-file app acceptance",
+    "new cloud migration or configuration/key provisioning",
+    "whole M03 verification",
+    "hosting",
+    "provider work"
+  ],
+  "cloud_called": false,
+  "provider_called": false,
+  "old_migration17_edited": false
+}

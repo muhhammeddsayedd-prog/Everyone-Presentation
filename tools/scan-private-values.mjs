@@ -23,6 +23,7 @@ const PRIVATE = [
   ['.env.worker.local', 16 * 1024], ['.env.worker-runtime.local', 64 * 1024],
   ['.local/cloud-logo-provision/verifier.json', 512], ['.local/specs-assets-verifier/verifier.json', 512],
   ['.env.job-service.local',4096],['.env.candidate-runtime.local',4096],
+  ['.env.support-runtime.local',1024],
 ];
 const digest = bytes => createHash('sha256').update(bytes).digest('hex');
 export class PrivateScanError extends Error {
@@ -54,10 +55,12 @@ function envSecrets(bytes, names) {
   } catch { return fail('PRIVATE_SCAN_CONFIGURATION_UNAVAILABLE'); }
 }
 /** Pure synthetic-test seam. Never serialize or print the returned patterns. */
-export function privatePatterns({ worker, runtime, logo, specs,jobService,candidate }) {
+export function privatePatterns({ worker, runtime, logo, specs,jobService,candidate,support }) {
+  const [supportHex]=envSecrets(support,['EPS_SUPPORT_VERIFIER_KEY_HEX']);
+  if(!/^[a-f0-9]{64}$/u.test(supportHex.toString('utf8')))fail('PRIVATE_SCAN_CONFIGURATION_UNAVAILABLE');
   const secrets = [...envSecrets(worker, ['OPENAI_API_KEY', 'N8N_API_KEY']), ...envSecrets(runtime, ['EPS_SPECS_PG_PASSWORD', 'N8N_DISPATCH_SECRET']),
     keyJson(logo, 'LOGO', 'eps-logo-dev-20261028-v1'), keyJson(specs, 'SPECS', 'eps-specs-dev-20261029-v1'),
-    ...envSecrets(jobService,['EPS_JOB_SERVICE_BEARER','EPS_JOB_CLAIM_KEY_HEX']),...envSecrets(candidate,['N8N_CANDIDATE_DISPATCH_SECRET'])];
+    ...envSecrets(jobService,['EPS_JOB_SERVICE_BEARER','EPS_JOB_CLAIM_KEY_HEX']),...envSecrets(candidate,['N8N_CANDIDATE_DISPATCH_SECRET']),supportHex,Buffer.from(supportHex.toString('utf8'),'hex')];
   const patterns = new Map();
   const add = bytes => { if (bytes.length) patterns.set(bytes.toString('hex'), bytes); };
   for (const raw of secrets) {
@@ -229,7 +232,7 @@ export async function scanFixedPrivateValues() {
   const selected = await readSourceInventory();
   phase = 'private_configuration';
   const material = []; for (const [relative, maximum] of PRIVATE) material.push(await boundedFile(path.join(ROOT, relative), maximum, true));
-  const patterns = privatePatterns({ worker: material[0].bytes, runtime: material[1].bytes, logo: material[2].bytes, specs: material[3].bytes,jobService:material[4].bytes,candidate:material[5].bytes });
+  const patterns = privatePatterns({ worker: material[0].bytes, runtime: material[1].bytes, logo: material[2].bytes, specs: material[3].bytes,jobService:material[4].bytes,candidate:material[5].bytes,support:material[6].bytes });
   const expected = new Map(); const identities = new Map(); let sourceBytes = 0; let sourceHits = 0;
   phase = 'source_bytes';
   for (const relative of selected) {
@@ -265,7 +268,7 @@ export async function scanFixedPrivateValues() {
   } catch { fail('PRIVATE_SCAN_CONFIGURATION_CHANGED'); }
   requirePrivateSnapshot(material.map(item => item.identity), privateAfter);
   const hits = sourceHits + staged.hits + indexPathHits + zipped.hits;
-  return { result: hits ? 'failed' : 'passed', private_value_found: hits > 0, private_configuration_sources: 6, private_value_families: 9,
+  return { result: hits ? 'failed' : 'passed', private_value_found: hits > 0, private_configuration_sources: 7, private_value_families: 10,
     source_files: selected.length, source_bytes: sourceBytes, source_hits: sourceHits, staged_entries: indexEntries, staged_blobs: staged.blobs,
     staged_blob_bytes: staged.bytes, staged_hits: staged.hits + indexPathHits, archive_entries: zipped.entries, archive_bytes_expanded: zipped.bytes,
     archive_hits: zipped.hits, manifest_integrity_verified: zipped.manifest_integrity_verified, source_and_archive_stable: true, private_input_snapshot_stable: true,

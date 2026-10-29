@@ -1,0 +1,25 @@
+{
+  "run_id": "5a148612-8535-4a61-a790-eb0e18aa9ac0",
+  "started_at": "2026-10-29T14:08:42.729Z",
+  "result": "failed",
+  "cloud_called": false,
+  "provider_called": false,
+  "activation_private_configuration_read": false,
+  "source_seals": {
+    "tools/sql/m03-remaining-key-template.sql": "831007fcde569772d1ab8e52a69fb65d0b859b653519403060ac442cd4193564",
+    "tools/sql/m03-remaining-admin-guard.sql": "e03375b4d3ca17f610e3dffd5fef5c0058637a8b2783a97b1ef26dc10550b5e7",
+    "tools/sql/m03-remaining-readback.sql": "c8e74d2bd7399682c984ad79b8f1732fd074056bf6ac065c19407948bfcc7b72",
+    "tools/m03_remaining_activation.py": "9825d548f74ee92e1ee822a5dfe420e0d078019d9c549511d79343252dd00cb1",
+    "tools/test-m03-remaining-activation-local.mjs": "2c2d7563a35e96ff0bd9c9e08a635648df449e89722e8305519aafa2e72c68ae"
+  },
+  "template_sha256": "831007fcde569772d1ab8e52a69fb65d0b859b653519403060ac442cd4193564",
+  "admin_guard_sha256": "e03375b4d3ca17f610e3dffd5fef5c0058637a8b2783a97b1ef26dc10550b5e7",
+  "scope": "Owned local19 synthetic fixed key/config SQL round trip, outer COMMIT replaced with ROLLBACK; statement-text canary checked without resetting statistics. No real key/private config/native/provider/app acceptance.",
+  "before_sha256": "f918c6ca071960c67bc0b798493a152f85e9d15a950116f0effe9e2b5e468484",
+  "diagnostic": "LOCAL_TEMPLATE_ASSERTION_UNCONFIRMED",
+  "owned_backend_settled": true,
+  "rollback_verified": true,
+  "after_sha256": "f918c6ca071960c67bc0b798493a152f85e9d15a950116f0effe9e2b5e468484",
+  "sources_stable": true,
+  "finished_at": "2026-10-29T14:08:53.290Z"
+}

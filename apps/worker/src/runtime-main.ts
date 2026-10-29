@@ -7,10 +7,11 @@ import { N8nSpecsOrchestrator } from './n8n-orchestrator.ts';
 import { runSpecsWorker, specsWorkerFilesConfiguration } from './runtime.ts';
 import { createCandidateStageAssets } from './candidate-assets.ts';
 import type { CandidateStageOptions } from './candidate-stage-executor.ts';
+import type { FrameStageOptions } from './frame-stage-executor.ts';
 import type { SpecsStageRouter } from './runtime-types.ts';
 
 const startupCodes = new Set(['WORKER_RUNTIME_SCOPE_INVALID','OPENAI_KEY_REQUIRED','OPENAI_EXTRACTION_MODEL_REQUIRED','OPENAI_CONFIGURATION_INVALID',
-  'N8N_RUNTIME_CONFIGURATION_REQUIRED','RUNTIME_CONFIG_INVALID','RUNTIME_AUTH_UNVERIFIED','RUNTIME_ROLE_UNVERIFIED','RUNTIME_UNAVAILABLE','DEPENDENCY_UNAVAILABLE', 'CANDIDATE_RUNTIME_CONFIGURATION_INVALID', 'PDF_VISION_CONFIGURATION_INVALID']);
+  'N8N_RUNTIME_CONFIGURATION_REQUIRED','RUNTIME_CONFIG_INVALID','RUNTIME_AUTH_UNVERIFIED','RUNTIME_ROLE_UNVERIFIED','RUNTIME_UNAVAILABLE','DEPENDENCY_UNAVAILABLE', 'CANDIDATE_RUNTIME_CONFIGURATION_INVALID', 'FRAME_RUNTIME_CONFIGURATION_INVALID', 'PDF_VISION_CONFIGURATION_INVALID']);
 function startupCode(error: unknown): string {
   try { const code = error !== null && typeof error === 'object' && 'code' in error ? error.code : undefined;
     return typeof code === 'string' && startupCodes.has(code) ? code : 'WORKER_STARTUP_UNCONFIRMED'; }
@@ -46,21 +47,25 @@ export async function verifySpecsWorkerStartup(environment: Readonly<Record<stri
     const vision = visionEnabled === 'true' ? { imageId: environment.EPS_PDF_RASTER_IMAGE_ID! } : undefined;
     const enabled = environment.EPS_CANDIDATE_MEDIA_ENABLED;
     if (enabled !== undefined && enabled !== 'false' && enabled !== 'true') throw { code: 'CANDIDATE_RUNTIME_CONFIGURATION_INVALID' };
+    const framesEnabled = environment.EPS_FRAME_EXTRACTION_ENABLED;
+    if (framesEnabled !== undefined && framesEnabled !== 'false' && framesEnabled !== 'true' || framesEnabled === 'true' && (!fileConfiguration || !/^sha256:[a-f0-9]{64}$/u.test(environment.EPS_FRAME_IMAGE_ID ?? ''))) throw { code: 'FRAME_RUNTIME_CONFIGURATION_INVALID' };
     let candidateConfiguration: Omit<CandidateStageOptions, 'assets'> | undefined;
     if (enabled === 'true') {
       if (!fileConfiguration || !/^sha256:[a-f0-9]{64}$/u.test(environment.EPS_MEDIA_IMAGE_ID ?? '')) throw { code: 'CANDIDATE_RUNTIME_CONFIGURATION_INVALID' };
       const transcription = openAIMediaConfigFromEnv('transcription', environment); const extraction = openAIMediaConfigFromEnv('extraction', environment);
+      candidateConfiguration = { imageId: environment.EPS_MEDIA_IMAGE_ID!, transcription, extraction };
+    }
+    if (enabled === 'true' || framesEnabled === 'true') {
       const candidateRouter = new N8nSpecsOrchestrator({ url: environment.N8N_CANDIDATE_DISPATCH_URL ?? '', secret: environment.N8N_CANDIDATE_DISPATCH_SECRET ?? '' });
       if (environment.N8N_CANDIDATE_DISPATCH_SECRET === environment.N8N_DISPATCH_SECRET || environment.N8N_CANDIDATE_DISPATCH_URL === environment.N8N_DISPATCH_URL) throw { code: 'CANDIDATE_RUNTIME_CONFIGURATION_INVALID' };
-      router = { route: (envelope, signal) => envelope.kind === 'candidate_scan' ? candidateRouter.route(envelope, signal) : specsRouter.route(envelope, signal) };
-      candidateConfiguration = { imageId: environment.EPS_MEDIA_IMAGE_ID!, transcription, extraction };
+      router = { route: (envelope, signal) => envelope.kind === 'candidate_scan' || envelope.kind === 'frame_extract' ? candidateRouter.route(envelope, signal) : specsRouter.route(envelope, signal) };
     }
     checkpoint = 'gateway_verification'; const configuration = readSpecsRuntimeConfig(environment);
     let gateway: Awaited<ReturnType<typeof createSpecsRuntimeGateway>> | undefined;
     // Only pre-work availability may retry. Each failed factory closes its own
     // pool; no claim, recovery, n8n request or provider execution has begun.
     for (attempts = 1; attempts <= 3; attempts++) {
-      try { gateway = await createGateway(configuration, {}, fileConfiguration, undefined, enabled === 'true'); break; }
+      try { gateway = await createGateway(configuration, {}, fileConfiguration, undefined, enabled === 'true' || framesEnabled === 'true'); break; }
       catch (error) { const code = startupCode(error);
         if (attempts === 3 || code !== 'RUNTIME_UNAVAILABLE' && code !== 'DEPENDENCY_UNAVAILABLE') throw error;
         await wait(attempts * 500);
@@ -68,12 +73,18 @@ export async function verifySpecsWorkerStartup(environment: Readonly<Record<stri
     }
     if (!gateway) throw new Error('Gateway startup unconfirmed.');
     let candidate: CandidateStageOptions | undefined;
+    let frames: FrameStageOptions | undefined;
     if (candidateConfiguration && fileConfiguration) {
       const port = gateway.candidateFiles;
       if (!port || typeof port.getAssetAccess !== 'function' || typeof port.reserveOutput !== 'function' || typeof port.completeOutput !== 'function') { await gateway.close(); throw { code: 'CANDIDATE_RUNTIME_CONFIGURATION_INVALID' }; }
       candidate = { ...candidateConfiguration, assets: createCandidateStageAssets(port, { publishableKey: fileConfiguration.publishableKey }) };
     }
-    return { openAI, router, fileConfiguration, gateway, candidate, vision };
+    if (framesEnabled === 'true' && fileConfiguration) {
+      const port = gateway.candidateFiles;
+      if (!port || typeof port.getAssetAccess !== 'function' || typeof port.reserveOutput !== 'function' || typeof port.completeOutput !== 'function') { await gateway.close(); throw { code: 'FRAME_RUNTIME_CONFIGURATION_INVALID' }; }
+      frames = { imageId: environment.EPS_FRAME_IMAGE_ID!, assets: createCandidateStageAssets(port, { publishableKey: fileConfiguration.publishableKey }) };
+    }
+    return { openAI, router, fileConfiguration, gateway, candidate, frames, vision };
   } catch (error) {
     throw new SpecsWorkerStartupError(checkpoint, startupCode(error), filesRequested, attempts, specsRuntimeFailureDiagnostics(error));
   }
@@ -82,7 +93,7 @@ export async function verifySpecsWorkerStartup(environment: Readonly<Record<stri
 /** Server-only entry. Provider/DB/webhook credentials arrive by a scrubbed child
  * environment; the n8n management key is never an acceptable runtime input. */
 async function main(): Promise<void> {
-  const { openAI, router, fileConfiguration, gateway, candidate, vision } = await verifySpecsWorkerStartup();
+  const { openAI, router, fileConfiguration, gateway, candidate, frames, vision } = await verifySpecsWorkerStartup();
   const controller = new AbortController();
   const stop = () => controller.abort();
   const message = (value: unknown) => { if (value && typeof value === 'object' && Object.keys(value).length === 1
@@ -91,6 +102,7 @@ async function main(): Promise<void> {
   process.stdout.write(JSON.stringify({ event: 'specs_worker_started', authentication: 'narrow_database_login', orchestration: 'n8n_required' }) + '\n');
   try { await runSpecsWorker(gateway, router, { openAI, signal: controller.signal,
     candidate: candidate ? { ...candidate, onDiagnostic: value => process.stdout.write(JSON.stringify({ event: value.error_kind === 'native' ? 'candidate_video_processing_failed' : 'candidate_stage_processing_failed', ...value }) + '\n') } : undefined,
+    frames: frames ? { ...frames, onDiagnostic: value => process.stdout.write(JSON.stringify({ event: 'frame_processing_failed', ...value }) + '\n') } : undefined,
     vision: vision ? { ...vision, onMetadata: metadata => process.stdout.write(JSON.stringify({ event: 'document_vision_page_processed', ...metadata }) + '\n') } : undefined,
     files: fileConfiguration && gateway.files ? { port: gateway.files, publishableKey: fileConfiguration.publishableKey } : undefined,
     notice: event => process.stdout.write(JSON.stringify(event) + '\n') }); }

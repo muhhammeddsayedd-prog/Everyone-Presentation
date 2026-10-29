@@ -1,0 +1,52 @@
+{
+  "observed_at": "2026-10-29T14:17:52.415310+00:00",
+  "target": "pyibofyctwnqpvktepse",
+  "result": "passed",
+  "sql": "tools/sql/m03-admin-settings-readonly.sql",
+  "sql_sha256": "f07400f1576d7acbf0e298fb940c251bfb62c86e87309dca86d47b377eeb3d2d",
+  "cloud_write_attempted": false,
+  "read_only": true,
+  "application_tables_read": false,
+  "private_configuration_read": false,
+  "key_query_submitted": false,
+  "metadata": {
+    "bypass_rls": true,
+    "database": "postgres",
+    "query_role": "postgres",
+    "session_role": "postgres",
+    "set_privileges": {
+      "auto_explain.log_min_duration": false,
+      "auto_explain.log_parameter_max_length": false,
+      "log_min_duration_sample": false,
+      "log_min_duration_statement": false,
+      "log_min_error_statement": false,
+      "log_parameter_max_length": false,
+      "log_parameter_max_length_on_error": false,
+      "log_statement": false,
+      "pg_stat_statements.track": false,
+      "pg_stat_statements.track_utility": false
+    },
+    "settings": {
+      "auto_explain.log_min_duration": "10000",
+      "auto_explain.log_parameter_max_length": "-1",
+      "log_executor_stats": "off",
+      "log_min_duration_sample": "-1",
+      "log_min_duration_statement": "-1",
+      "log_min_error_statement": "error",
+      "log_parameter_max_length": "-1",
+      "log_parameter_max_length_on_error": "0",
+      "log_parser_stats": "off",
+      "log_planner_stats": "off",
+      "log_statement": "ddl",
+      "log_statement_stats": "off",
+      "log_transaction_sample_rate": "0",
+      "pg_stat_statements.track": "top",
+      "pg_stat_statements.track_utility": "on",
+      "pgaudit.log": "none"
+    },
+    "superuser": false
+  },
+  "all_required_settings_present": true,
+  "all_required_set_privileges": false,
+  "finished_at": "2026-10-29T14:18:00.627150+00:00"
+}

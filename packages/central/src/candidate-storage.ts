@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { DomainError, type Actor, type CompleteUpload, type MediaAsset, type MutationContext, type UploadCompletion, type UploadSession, type UploadSessionCreate } from '@eps/domain';
 import { verifyCentralUser } from './client.ts';
+import {candidateTusSession} from './tus-upload-session.ts';
 const MAXIMUM = 256 * 1024 * 1024; const FRAME_MAXIMUM = 2 * 1024 * 1024;
 const UUID_PATTERN = '[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}'; const UUID = new RegExp(`^${UUID_PATTERN}$`, 'u');
 const FORMATS = { 'video/mp4': 'mp4', 'video/quicktime': 'mov', 'video/webm': 'webm', 'video/x-matroska': 'mkv' } as const;
@@ -86,18 +87,8 @@ export async function createCandidateStorageAdapter(options: CandidateStorageOpt
     if (target.origin !== origin.origin || target.pathname !== wanted || target.username || target.password || target.hash || target.searchParams.getAll('token').length !== 1 || !target.searchParams.get('token') || [...target.searchParams.keys()].some(key => key !== 'token')) invalid(); return target;
   }
   async function session(item: Reservation): Promise<UploadSession> {
-    const status = item.status === 'open' && Date.parse(item.expires_at) <= now() ? 'expired' : item.status;
-    let upload_url: string | null = null; const started = now(); let expires = Date.parse(item.expires_at);
-    if (status === 'open' && uploadsEnabled) {
-      uploadSize(item.expected_size_bytes);
-      const result = await options.client.storage.from(item.bucket).setHeader('x-upsert', 'false').createSignedUploadUrl(item.object_key, { upsert: false }); if (result.error || !result.data) throw storageError(result.error);
-      const target = signedURL(result.data.signedUrl, item.bucket, item.object_key, true);
-      if (result.data.path !== item.object_key || result.data.token !== target.searchParams.get('token')) invalid(); upload_url = target.href;
-      // Official signed-upload lifetime is two hours; never advertise a longer
-      // capability lifetime even when reservation metadata outlives it.
-      expires = Math.min(expires, started + 2 * 60 * 60 * 1000);
-    }
-    return { id: item.upload_id, asset_id: item.asset.id, protocol: 'signed_put', upload_url, upload_headers: upload_url ? { 'Content-Type': item.expected_mime_type, 'x-upsert': 'false' } : {}, expires_at: new Date(expires).toISOString(), status, maximum_bytes: maximum };
+    if(item.status==='open' && uploadsEnabled) uploadSize(item.expected_size_bytes);
+    return candidateTusSession({id:item.upload_id,assetId:item.asset.id,bucket:item.bucket,objectKey:item.object_key,mime:item.expected_mime_type,expiresAt:item.expires_at,status:item.status,maximum,enabled:uploadsEnabled},{client:options.client,storageOrigin:origin.origin,now});
   }
   async function media(acting: Actor, assetId: string) { if (!id(assetId)) inputError(); const result = fields(await options.rpc.getMedia(acting, assetId), ['asset', 'bucket', 'object_key']); const item = asset(result.asset); if (item.id !== assetId || item.status !== 'ready') invalid(); return { asset: item, ...destination(result.bucket, result.object_key, item) }; }
   return {
@@ -115,6 +106,15 @@ export async function createCandidateStorageAdapter(options: CandidateStorageOpt
       uploadSize(input.actual_size_bytes);
       const reserved = reservation(await options.rpc.getUpload(acting, uploadId), acting, uploadId);
       if (reserved.expected_size_bytes !== input.actual_size_bytes || input.sha256 && reserved.expected_sha256 && input.sha256 !== reserved.expected_sha256) inputError();
+      if(reserved.status==='open'){
+        let timer:ReturnType<typeof setTimeout>|undefined;
+        try{
+          const deadline=new Promise<never>((_resolve,reject)=>{timer=setTimeout(()=>reject(new DomainError('STORAGE_TIMEOUT','Video transfer confirmation timed out. Resume to check it.',503,{},true)),timeout);});
+          const info=await Promise.race([options.client.storage.from(reserved.bucket).info(reserved.object_key),deadline]);
+          if(info.error||!info.data){if(Number(info.error?.status)===404||Number((info.error as {statusCode?:unknown}|null)?.statusCode)===404)throw new DomainError('UPLOAD_INCOMPLETE','The video transfer has not finished. Resume its stored byte offset.',409);throw storageError(info.error);}
+          if(info.data.size!==reserved.expected_size_bytes||info.data.contentType!==reserved.expected_mime_type)throw new DomainError('SOURCE_UNREADABLE','Stored video type or size differs from this reserved file.',422);
+        }finally{clearTimeout(timer);}
+      }
       // The web request never downloads/decodes this video or marks it Ready.
       // The native leased stage establishes actual size/hash/container/probe.
       const value = fields(await options.rpc.completeUpload(acting, uploadId, input, context), ['asset', 'processing_job_id', 'status']); const item = asset(value.asset);

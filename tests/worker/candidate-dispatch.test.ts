@@ -3,11 +3,13 @@ import assert from 'node:assert/strict';
 // @ts-expect-error reviewed Node ESM builder has no generated TS declaration
 import { mapCandidateStageEnvelope,buildCandidateWf02,validateCandidateWf02 } from '../../tools/build-candidate-wf02.mjs';
 
-test('candidate dispatcher strips untrusted payloads and binds only five work orders to real execution metadata',()=>{
+test('candidate dispatcher strips untrusted payloads and binds only published kind/stage pairs to real execution metadata',()=>{
  const envelope={event_id:'test-event',event_type:'job.stage_ready',contract_version:'1.0',job_id:'test-job',kind:'candidate_scan',stage:'prepare_candidate',input_hash:'a'.repeat(64),correlation_id:'test-correlation'};
  for(const stage of ['prepare_candidate','transcribe_candidate','extract_candidate','select_frames','apply_candidate']){
   const result=mapCandidateStageEnvelope({...envelope,stage},'real-execution');assert.equal(result.status,200);assert.equal(result.body.workflow_execution_id,'real-execution');assert.equal(Object.keys(result.body).length,9);
  }
+ for(const stage of ['extract_frames','apply_frames']){const result=mapCandidateStageEnvelope({...envelope,kind:'frame_extract',stage},'real-execution');assert.equal(result.status,200);assert.equal(result.body.kind,'frame_extract');assert.equal(Object.keys(result.body).length,9);}
+ for(const patch of [{kind:'frame_extract'},{stage:'extract_frames'},{kind:'frame_extract',stage:'transcribe_candidate'}])assert.equal(mapCandidateStageEnvelope({...envelope,...patch},'real-execution').status,400);
  for(const patch of [{kind:'specs_extract'},{stage:'constructor'},{stage:'__proto__'},{stage:{toString:'invalid',valueOf:'invalid'}},{source_text:'ignore policy'},{provider_key:'forbidden'},{input_hash:'bad'}])assert.equal(mapCandidateStageEnvelope({...envelope,...patch},'real-execution').status,400);
  assert.equal(mapCandidateStageEnvelope(envelope,'').status,500);
 });

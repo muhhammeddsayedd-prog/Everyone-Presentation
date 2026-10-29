@@ -1,0 +1,51 @@
+{
+  "observed_at": "2026-10-29T16:06:04.422536+00:00",
+  "scope": "M04 local domain and installed-SDK synthetic-boundary slice; standalone unwired board. No cloud mutation or browser acceptance.",
+  "source_seals": {
+    "packages/domain/src/casting-types.ts": "7b76988d5d22194a420e18a3ea1a704b414df0fd252448a1aecdab8dc975a6a7",
+    "packages/domain/src/casting.ts": "345a54e2b239a3ea734e9a8ff29e600fc500bf52c21e7d6a5c9ce390bb53b012",
+    "tests/domain/casting.test.ts": "fcdfb02584ce4aece3feceea198dbdf79dcd4a4c2478909644f7f6bcdf5d98ae",
+    "packages/central/src/casting.ts": "c1a97363aaeab27684f6beac674e0012d456a87f29d5cace876508e77c5557d1",
+    "packages/central/test/casting.test.ts": "5b5c00d00b8dd1183b4f5c3fcfa3a9c2fce9b53c155745152a75ca34ee0d53eb",
+    "apps/web/components/CastingBoard.tsx": "a6d0cc04af3fd4a75eccb1e125cc340886d777b623a2945008f3b53b8cb7c760",
+    "development/m04/ASSIGNMENT_CONTRACT.md": "21b025bd01eca516bb745d4a2fcf688c289f00ed6e04fee378c64533041f94f4"
+  },
+  "verification": {
+    "focused_domain": {
+      "passed": 16,
+      "failed": 0
+    },
+    "focused_central_sdk_synthetic_http": {
+      "passed": 9,
+      "failed": 0
+    },
+    "full_typecheck": "passed final frozen app sources",
+    "scoped_lint": "passed",
+    "broader_regressions_historical_before_final_limit_alignment": {
+      "domain_server": 170,
+      "central": 124
+    },
+    "peer_domain_central_review": "no remaining P1/P2 after published Success correction; peer independently ran25 focused tests"
+  },
+  "root_http_peer_review": {
+    "source": "apps/web/lib/casting-http.ts",
+    "source_sha256": "e6e84353df4e7b3c071c1e41ffe612b192310b111b640b02275c64bf5e97c376",
+    "tests": "tests/server/casting-http.test.ts",
+    "test_source_sha256": "83e1b7703a66d5b347f50769de83981257f5fd15735fcc4e246886aaf54aaad8",
+    "passed": 6,
+    "remaining_p1_p2": 0,
+    "scope": "unwired handler mapping and synthetic service boundary only"
+  },
+  "ui_browser_verification": "not run; root owns future approved wiring and runtime proof",
+  "external_services_called": false,
+  "shared_barrels_or_routing_changed_by_this_agent": false,
+  "m03_activation_or_crypto_sources_changed": false,
+  "hosting_deferred": true,
+  "integration_needs": [
+    "compose new central facade/barrel/studio and API/MCP routes only after coordinated M04 database proof/approval",
+    "prioritize enabled M04 full-order route over existing role-only M02 handler",
+    "wire CastingBoard dirty/workspace callbacks and coordinate its local output view with outer working-output selector",
+    "verify persisted producer/MCP/browser flows and accessible error/reload/undo/reorder paths",
+    "complete later M04 review/series/template/wording/AI work"
+  ]
+}

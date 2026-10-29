@@ -4,11 +4,11 @@ import addFormats from 'ajv-formats';
 import { Server, type CallToolResult, type Tool } from '@modelcontextprotocol/server';
 import { DomainError, type Actor, type WorkspaceCreate, type WorkspacePatch, type ProjectPatch,
   type UploadSessionCreate, type CompleteUpload, type AudiencePresetCreate, type AudiencePresetPatch } from '@eps/domain';
-import type { createCentralStudio, CentralCandidates } from '@eps/central';
+import type { createCentralStudio } from '@eps/central';
 import catalog from '../../../contracts/mcp-tool-catalog.json';
 import { handleSpecsRequest, isManualSpecsRoute, type SpecsOperations } from './specs-http';
 import { handleJobRequest, type JobOperations } from './job-http';
-import { handleCandidatesRequest, isCandidatesRoute } from './candidates-http';
+import { handleCandidatesRequest, isCandidatesRoute, type CandidatesOperations } from './candidates-http';
 import { handleMediaPlaybackRequest, isMediaPlaybackRoute } from './media-http';
 import { failure, json, NO_STORE } from './http';
 
@@ -18,12 +18,13 @@ const IMPLEMENTED = new Set(['get_capabilities','list_projects','get_project','u
   'complete_upload','cancel_upload','get_media','play_media','list_audience_presets','create_audience_preset','update_audience_preset',
   'archive_audience_preset','list_jobs','get_job','retry_job','cancel_job',
   'search_candidates','create_candidate','get_candidate','update_candidate','confirm_candidate_reviewed','archive_candidate',
-  'get_candidate_media','update_candidate_frames','list_duplicate_matches','resolve_duplicate',
+  'get_candidate_media','update_candidate_frames','list_duplicate_matches','resolve_duplicate','suggest_candidate_filters','extract_candidate_frames',
+  'list_candidate_support','archive_candidate_support',
   'list_workspace_candidates','add_workspace_candidate','update_workspace_candidate','remove_workspace_candidate']);
 const entries = catalog.tools.filter(tool => IMPLEMENTED.has(tool.name));
 const ajv = new Ajv2020({ allErrors: true, strict: false }); addFormats(ajv);
 const checks = new Map(entries.map(tool => [tool.name, ajv.compile(tool.inputSchema)]));
-export interface McpServices { studio: Awaited<ReturnType<typeof createCentralStudio>>; specs: SpecsOperations; jobs: JobOperations; candidates: CentralCandidates }
+export interface McpServices { studio: Awaited<ReturnType<typeof createCentralStudio>>; specs: SpecsOperations; jobs: JobOperations; candidates: CandidatesOperations }
 export function implementedMcpTools(): Tool[] {
   return entries.map(({ name, description, inputSchema, outputSchema, annotations }) =>
     // JSON-import inference widens literal schema values. The checked-in catalog

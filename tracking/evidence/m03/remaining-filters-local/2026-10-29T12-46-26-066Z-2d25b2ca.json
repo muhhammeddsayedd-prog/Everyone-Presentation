@@ -1,0 +1,20 @@
+{
+  "run_id": "2d25b2ca-b653-4609-85d9-5675b7ba176a",
+  "started_at": "2026-10-29T12:46:18.357Z",
+  "result": "failed",
+  "cloud_called": false,
+  "provider_called": false,
+  "hosted_credential_files_read": false,
+  "scope": "Synthetic roles/current edits and capability/project/archived/guest denials in one rolled-back owned-local transaction. No app/browser/provider acceptance.",
+  "source_seals": {
+    "development/m03/remaining-filters.sql": "460de287071017f3b6f28aac94467506e0479494d8a68217277ae77a1dc4d74d",
+    "tests/db/m03-candidate-filters.sql": "13fe43aaf935bc3d883a34cd9131c471119926cc21113146a52f092fb03ae757"
+  },
+  "harness_sha256": "79d4f28b9672e05029a1113d2b0ad3dae2e5140c06f38ea698fdfd40b0e44311",
+  "before_sha256": "5c45599d21d6803c0c04d2bd43eca8b24c1d1ad113c71d0ff602405523b934f5",
+  "diagnostic": "ERROR:  permission denied to set role \"supabase_auth_admin\"\n",
+  "after_sha256": "5c45599d21d6803c0c04d2bd43eca8b24c1d1ad113c71d0ff602405523b934f5",
+  "rollback_verified": true,
+  "sources_stable": true,
+  "finished_at": "2026-10-29T12:46:26.066Z"
+}

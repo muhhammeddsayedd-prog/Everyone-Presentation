@@ -1,0 +1,30 @@
+{
+  "observed_at": "2026-10-29T15:20:40.059350+00:00",
+  "target": "pyibofyctwnqpvktepse",
+  "result": "unconfirmed",
+  "read_only": true,
+  "scope": "Actual fixed two-workspace candidate/frame job metadata, at most64 jobs; no semantic quality/provider billing completeness claim.",
+  "sql_sha256": "d92846579d62f748284595394d03be6dda33a9372ef487f226ff59ef771f4b49",
+  "harness_sha256": "9b3e44284d556f6e184d5dd9db0a59b54d28d03f4ae8998ab02160bd8bebc33c",
+  "source_seals": {
+    "tools/sql/m03-remaining-live-readback.sql": "d92846579d62f748284595394d03be6dda33a9372ef487f226ff59ef771f4b49",
+    "tools/release_foundation.py": "02aac0cefc4b46419c7d5a086da672398716cf7ee73882602574cff99659d751",
+    "tracking/evidence/m03/remaining-activation/2026-10-29T14-32-31-436430Z-91a4e91f-frame-db-enable.json": "3c93deec049be043027e8dcd2c2a83f162e4ad67847d4a5c3695c1b60f1473d7",
+    "tracking/evidence/m03/remaining-app/scanned-reuse-two-frames.json": "8662ecf7e13f7707c067aa8533ef4384a6ad672a6243e563cdf58ff9754b9841",
+    "tracking/evidence/m02/specs-protection/2026-10-29T07-41-19-350729+00-00-72ea632b-metadata.json": "ed1808fcaf6be97391439d27f98f34656f1b40cd711c03df94ae1879246b6351",
+    "tools/capture-m03-live.py": "d54121365fdf41efb02fc0dce50566c3428c097a6f01c2544996e075f3e03677",
+    "tools/sql/m03-live-readback.sql": "16434bad7d3c466bf7778d74afec946cfbef2f423b6d58a3eb152b12939a5456"
+  },
+  "baseline_candidate_rows_sha256": "33b9641e6f84ebc813871315584d44b94d9c9149453c8f5076eb1acade77897b",
+  "cloud_called": true,
+  "provider_called": false,
+  "storage_http_called": false,
+  "mutations_requested": false,
+  "raw_private_payloads_recorded": false,
+  "retention_boundary": "Facts-only retention is not inferred if the entire candidate-row fingerprint changed. Current rows are not used as their own baseline.",
+  "pin_baseline_boundary": "Original d5 triple is from prior8b24096b metadata; other-project first-two choice is owner-attested plus saved/reloaded browser summary. Manual target other-project null choice is owner-attested. Origin first-media autopin may legitimately change.",
+  "provider_boundary": "Absent persisted metadata is not zero provider billing; historical failures may lack completed-stage usage.",
+  "n8n_boundary": "Only last workflow execution ID is retained by jobs; stage events/outbox do not enumerate every execution.",
+  "native_boundary": "SQL records PTS/dimensions/geometry/hashes, not image-byte quality; image launch and browser evidence remain separate.",
+  "code": "M03_REMAINING_LIVE_METADATA_UNCONFIRMED"
+}

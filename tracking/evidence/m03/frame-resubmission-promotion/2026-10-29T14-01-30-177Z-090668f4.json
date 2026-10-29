@@ -1,0 +1,21 @@
+{
+  "run_id": "090668f4-94db-4597-bcd5-65f31acbf76e",
+  "started_at": "2026-10-29T14:01:30.019Z",
+  "result": "failed",
+  "cloud_called": false,
+  "provider_called": false,
+  "migration": "supabase/migrations/20261029135318_m03_frame_request_resubmission.sql",
+  "migration_sha256": "e816ad6b491626ace489efd256b56c322d25d9101de94e5fb8b24d2d4b745048",
+  "proof": "tracking/evidence/m03/frame-resubmission-local/2026-10-29T13-58-19-049Z-f0b71f9a.json",
+  "proof_sha256": "73368b041323340ecc2009bb4432cabb311b8a961a96d48f788547227b28f676",
+  "readback": "tools/sql/m03-remaining-readback.sql",
+  "readback_sha256": "c8e74d2bd7399682c984ad79b8f1732fd074056bf6ac065c19407948bfcc7b72",
+  "baseline_manifest": "tracking/evidence/m03/remaining-preparation/baseline18-reviewed-manifest.json",
+  "baseline_manifest_sha256": "ac7a72b6e694e69ad6d59441ccb5b3f65d4de2ea9965c787489ce4e96c230853",
+  "harness_sha256": "c8d538e7a86c2c78fb0d79260f5c9e4b413f014e3287b24b3bc47cf1e90db39a",
+  "scope": "Exact reviewed18-to19 local function/history change only. No fixtures, native/provider, hosting or configuration activation.",
+  "dispatch_attempted": false,
+  "diagnostic": "LOCAL19_PROMOTION_PRECONDITION_UNCONFIRMED",
+  "lock_retained": false,
+  "finished_at": "2026-10-29T14:01:30.177Z"
+}

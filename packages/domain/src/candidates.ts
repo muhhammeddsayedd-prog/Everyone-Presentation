@@ -123,6 +123,14 @@ export function confirmCandidateFacts(before: StoredCandidate, input: CandidateC
   return { ...structuredClone(before), review_status: 'reviewed', reviewed_at: now, reviewed_by: actor.principal_id,
     reviewed_facts_fingerprint: candidateFactsFingerprint(before.facts, before.field_sources), row_version: before.row_version + 1, updated_at: now };
 }
+function searchText(value: string): string { return value.replace(/^[ \t\r\n]+|[ \t\r\n]+$/gu, ''); }
+/** Interpret only explicitly stated bounded integer ages/ranges. Raw facts remain untouched. */
+function suppliedAgeBounds(value: string): [number, number] | null {
+  const match = /^([0-9]{1,3})(?: *[-–—] *([0-9]{1,3}))?$/u.exec(searchText(value));
+  if (!match) return null;
+  const minimum = Number(match[1]); const maximum = Number(match[2] ?? match[1]);
+  return minimum <= maximum && maximum <= 130 ? [minimum, maximum] : null;
+}
 export function candidateSearchMatch(facts: CandidateFacts, search: CandidateSearch): CandidateSearchMatch | null {
   const lower = (value: string) => value.toLocaleLowerCase('en');
   const haystack = lower(fields.map(field => Array.isArray(facts[field]) ? facts[field].join(' ') : facts[field] ?? '').join(' '));
@@ -131,9 +139,17 @@ export function candidateSearchMatch(facts: CandidateFacts, search: CandidateSea
   const map = { language: 'languages', accent: 'accents', skill: 'skills_experience', previous_project_role: 'previous_projects_roles' } as const;
   for (const key of filters) if (search[key]?.trim()) {
     const field = Object.hasOwn(map, key) ? map[key as keyof typeof map] : key as keyof CandidateFacts;
-    const value = facts[field];
+    const value = facts[field]; const wanted = searchText(search[key]!);
     if (value === null || Array.isArray(value) && value.length === 0) { if (search.include_unknown === false) return null; result.unknown_filter_fields.push(key); }
-    else if ((Array.isArray(value) ? value : [value]).some(item => lower(item).includes(lower(search[key]!)))) result.matched_filter_fields.push(key);
+    else if (key === 'stated_gender' && typeof value === 'string') {
+      if (lower(searchText(value)) !== lower(wanted)) return null;
+      result.matched_filter_fields.push(key);
+    } else if (key === 'age_or_range' && typeof value === 'string') {
+      const actualAge = suppliedAgeBounds(value); const wantedAge = suppliedAgeBounds(wanted);
+      if (actualAge && wantedAge ? actualAge[0] > wantedAge[1] || wantedAge[0] > actualAge[1] : !lower(value).includes(lower(wanted))) return null;
+      result.matched_filter_fields.push(key);
+    }
+    else if ((Array.isArray(value) ? value : [value]).some(item => lower(item).includes(lower(wanted)))) result.matched_filter_fields.push(key);
     else return null;
   }
   return result;

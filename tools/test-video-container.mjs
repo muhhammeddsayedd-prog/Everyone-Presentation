@@ -30,6 +30,24 @@ await check('actual-decode-timestamped-frames-audio', async () => { const value 
 await check('probe-only-produces-no-derivatives', async () => { const value = await prepareVideoIsolated({ source_asset_id: 'synthetic-probe', bytes: audible, mime_type: 'video/mp4' }, { ...options, probeOnly: true }); assert(value.probe.has_audio); assert.equal(value.audio_chunks.length, 0); assert.equal(value.sampled_frames.length, 0); return {}; });
 await check('manual-extraction-uses-only-requested-real-source-times', async () => { const value = await prepareVideoIsolated({ source_asset_id: 'synthetic-manual', bytes: audible, mime_type: 'video/mp4' }, { ...options, timestampsMs: [0, 1250] }); assert.equal(value.audio_chunks.length, 0); assert.equal(value.sampled_frames.length, 2); assert(value.sampled_frames[0].timestamp_ms >= 0 && value.sampled_frames[0].timestamp_ms <= 100); assert(value.sampled_frames[1].timestamp_ms >= 1250 && value.sampled_frames[1].timestamp_ms <= 1290); return { timestamps_ms: value.sampled_frames.map(frame => frame.timestamp_ms), actual_video_lead_ms: value.sampled_frames[0].timestamp_ms }; });
 await check('manual-timestamp-out-of-duration-is-rejected', async () => { await assert.rejects(prepareVideoIsolated({ source_asset_id: 'synthetic-manual-invalid', bytes: audible, mime_type: 'video/mp4' }, { ...options, timestampsMs: [9999] }), { code: 'VIDEO_TIMESTAMP_INVALID' }); return {}; });
+await check('nearby-chosen-times-keep-real-PTS-and-explicit-unavailable-tail', async () => {
+  const probe = await prepareVideoIsolated({ source_asset_id: 'synthetic-nearby-probe', bytes: audible, mime_type: 'video/mp4' }, { ...options, probeOnly: true });
+  const tail = probe.probe.duration_ms - 1; const requested = [0, 1, 39, 40, tail];
+  const value = await prepareVideoIsolated({ source_asset_id: 'synthetic-nearby', bytes: audible, mime_type: 'video/mp4' }, { ...options, timestampsMs: requested });
+  assert.equal(value.audio_chunks.length, 0); assert(value.sampled_frames.length >= 4); assert(value.warnings.includes('FRAME_TIMESTAMP_UNAVAILABLE'));
+  for (const frame of value.sampled_frames) { assert(frame.timestamp_ms >= frame.requested_timestamp_ms); assert(frame.timestamp_ms - frame.requested_timestamp_ms <= 100); }
+  return { requested_timestamps_ms: requested, frames: value.sampled_frames.map(frame => ({ requested_timestamp_ms: frame.requested_timestamp_ms, actual_timestamp_ms: frame.timestamp_ms })), warnings: value.warnings };
+});
+const anamorphic = await fixture(['-f', 'lavfi', '-i', 'testsrc2=size=800x480:rate=25', '-t', '1', '-vf', 'setsar=16/15', '-c:v', 'libx264', '-an']);
+await check('actual-anamorphic-SAR-normalizes-square-pixel-JPEG-display-geometry', async () => {
+  const value = await prepareVideoIsolated({ source_asset_id: 'synthetic-anamorphic', bytes: anamorphic, mime_type: 'video/mp4' }, { ...options, timestampsMs: [0, 500] });
+  assert.equal(value.probe.width, 800); assert.equal(value.probe.height, 480); assert.deepEqual(value.display_geometry.sample_aspect_ratio, { numerator: 16, denominator: 15 });
+  assert.equal(value.sampled_frames.length, 2); for (const frame of value.sampled_frames) { assert.equal(frame.width, 853); assert.equal(frame.height, 480); }
+  return { coded_width: 800, coded_height: 480, sample_aspect_ratio: value.display_geometry.sample_aspect_ratio, output_width: 853, output_height: 480, frames: 2 };
+});
+await check('aborted-native-request-cannot-return-publishable-frames', async () => {
+  const controller = new AbortController(); controller.abort(); await assert.rejects(prepareVideoIsolated({ source_asset_id: 'synthetic-cancelled', bytes: audible, mime_type: 'video/mp4' }, { ...options, signal: controller.signal, timestampsMs: [0] }), { code: 'VIDEO_PREPARATION_CANCELLED' }); return {};
+});
 const silent = await fixture(['-f', 'lavfi', '-i', 'color=black:size=160x90:rate=25', '-f', 'lavfi', '-i', 'anullsrc=r=16000:cl=mono', '-t', '0.3', '-c:v', 'libx264', '-c:a', 'aac']);
 await check('silent-short-video-keeps-real-frame-with-zero-selection', async () => { const value = await prepareVideoIsolated({ source_asset_id: 'synthetic-silent', bytes: silent, mime_type: 'video/mp4' }, options); assert(value.probe.duration_ms < 1000); assert.equal(value.audio_chunks.length, 0); assert(value.sampled_frames.length > 0); assert(value.warnings.includes('SILENT_AUDIO_CHUNK')); assert.equal(selectRealFrames(value.source_asset_id, value.sampled_frames).selected_frames.length, 0); return { frames: value.sampled_frames.length, warnings: value.warnings }; });
 const noAudio = await fixture(['-f', 'lavfi', '-i', 'testsrc2=size=90x160:rate=25', '-t', '1', '-c:v', 'libx264', '-an']);

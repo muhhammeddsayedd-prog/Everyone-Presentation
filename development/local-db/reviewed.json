@@ -102,6 +102,18 @@
       "sha256": "4af04b4a3fb050e39aa23958c3f82e304cc7d7a1f450a5d93f7f50bc001bd836",
       "reviewed_by": "root integration owner and independent worker exact composition/Storage/lease bridge review; corrected five-public-RPC grant allowlist plus 26 private helper ACL negatives; rollback cfce26d3 passed; owned local17 promotion only",
       "reviewed_at": "2026-10-29T10:22:28.753177+00:00"
+    },
+    {
+      "path": "supabase/migrations/20261029133455_m03_remaining_media_library.sql",
+      "sha256": "2e190e001b2bda044d9c90da4287f54e5839b0af7ffec84d4c93083909c944fb",
+      "reviewed_by": "root integration owner after reciprocal independent source reviews by m03_domain, m03_worker and m02_parity; exact combined rollback proof97b70205 and no unresolved P1/P2",
+      "reviewed_at": "2026-10-29T13:49:14.370841+00:00"
+    },
+    {
+      "path": "supabase/migrations/20261029135318_m03_frame_request_resubmission.sql",
+      "sha256": "e816ad6b491626ace489efd256b56c322d25d9101de94e5fb8b24d2d4b745048",
+      "reviewed_by": "root integration owner with independent m03_domain SQL review and m02_parity promotion review; reproduced terminal-dedupe defect and GREEN local18 rollback prooff0b71f9a",
+      "reviewed_at": "2026-10-29T14:01:55.006326+00:00"
     }
   ],
   "tests": [

@@ -22,10 +22,18 @@ export interface WorkspacePatch { row_version: number; logo_asset_id?: string | 
 export interface AudiencePreset { id: string; key: string; label: string; scope: 'internal' | 'external'; settings: Record<string, never>; archived: boolean; row_version: number }
 export interface AudiencePresetCreate { key?: string; label: string; scope: 'internal' | 'external'; settings: Record<string, never> }
 export interface AudiencePresetPatch { row_version: number; label?: string; settings?: Record<string, never> }
-export interface UploadSessionCreate { workspace_id?: string; candidate_id?: string; batch_id?: string; purpose: 'client_logo' | 'specs' | 'candidate_video' | 'candidate_support'; filename: string; mime_type: string; size_bytes: number; sha256?: string }
+interface UploadFileInput { filename: string; mime_type: string; size_bytes: number; sha256?: string; batch_id?: string }
+export type UploadSessionCreate = UploadFileInput & (
+  { purpose: 'client_logo' | 'specs' | 'candidate_video'; workspace_id?: string; candidate_id?: string }
+  | { purpose: 'candidate_support'; workspace_id: string; candidate_id: string }
+);
+export interface TusUploadMetadata { bucketName: string; objectName: string; contentType: string; cacheControl: string }
 export interface UploadSession {
-  id: string; asset_id: string; protocol: 'signed_put'; upload_url: string | null; upload_headers: Record<string, string>;
+  id: string; asset_id: string; protocol: 'signed_put' | 'tus'; upload_url: string | null; upload_headers: Record<string, string>;
   expires_at: string; status: 'open' | 'completed' | 'cancelled' | 'expired'; maximum_bytes: number;
+  /** Required for TUS sessions; exact server-reserved destination, never caller-selected. */
+  upload_metadata?: TusUploadMetadata;
+  chunk_size?: 6291456;
 }
 export interface MediaAsset {
   id: string; purpose: 'client_logo' | 'specs' | 'candidate_video' | 'candidate_support' | 'candidate_frame' | 'audio' | 'transcript' | 'preview_video' | 'presentation_pdf' | 'presentation_preview' | 'presentation_manifest' | 'document_text' | 'document_page'; filename: string; mime_type: string; size_bytes: number; sha256: string | null;
