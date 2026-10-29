@@ -1,6 +1,7 @@
 import { currentActor } from './session';
 import { getStudio } from './studio';
 import { readRuntimeConfig } from './config';
+import { readCentralConfig } from '@eps/central';
 
 export async function getSessionData() {
   const mode = readRuntimeConfig().adapterMode;
@@ -13,5 +14,6 @@ export async function getSessionData() {
   const name = mode === 'local_fixture' ? actors.find(item => item.id === actor.principal_id)?.name ?? 'Development user'
     : ('verifiedIdentity' in studio ? studio.verifiedIdentity.email : null) ?? 'Everyone user';
   return { mode, actor: { id: actor.principal_id, name, capabilities: capabilities.capabilities,
-    upload_purposes: capabilities.upload_policy.available_purposes }, actors };
+    upload_purposes: capabilities.upload_policy.available_purposes }, actors,
+    ...(mode === 'supabase' ? { storage_origin: readCentralConfig(process.env).url } : {}) };
 }

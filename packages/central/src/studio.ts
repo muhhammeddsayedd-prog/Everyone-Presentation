@@ -6,10 +6,13 @@ import { verifyCentralUser } from './client.ts';
 import { centralRpcError } from './errors.ts';
 import { audienceDto, capabilitiesDto, listDto, projectDto, successDto, workspaceDto } from './dto.ts';
 import { createLogoStorageAdapter, type LogoStorageOptions } from './logo-storage.ts';
+import { createSpecsStorageAdapter, type SpecsStorageOptions } from './specs-storage.ts';
 
 export interface CentralStudioOptions {
   logo?: Omit<LogoStorageOptions, 'client' | 'rpc' | 'now' | 'downloadTimeoutMs'>;
   logoRead?: Pick<LogoStorageOptions, 'storageOrigin' | 'brandBucket'>;
+  specs?: Omit<SpecsStorageOptions, 'client' | 'rpc' | 'now' | 'downloadTimeoutMs'>;
+  specsRead?: Pick<SpecsStorageOptions, 'storageOrigin'>;
 }
 
 function invalid(message: string): never { throw new DomainError('VALIDATION_FAILED', message, 400); }
@@ -24,7 +27,7 @@ function identifier(value: string) {
 }
 function key(context?: MutationContext, required = false) {
   const value = context?.idempotencyKey;
-  if (value !== undefined && (typeof value !== 'string' || !value.trim() || value.length > 200) || required && value === undefined) invalid('A valid Idempotency-Key is required for this operation.');
+  if (value !== undefined && (typeof value !== 'string' || !value.trim() || value.length < 16 || value.length > 200) || required && value === undefined) invalid('A valid Idempotency-Key is required for this operation.');
   return value ?? null;
 }
 function listArguments(options: ListOptions & { project_id?: string }, projectFilter = false) {
@@ -36,7 +39,7 @@ function listArguments(options: ListOptions & { project_id?: string }, projectFi
     ...(projectFilter ? { p_project_id: options.project_id === undefined ? null : identifier(options.project_id) } : {}) };
 }
 function centralStoragePending(): never {
-  throw new DomainError('FEATURE_NOT_IMPLEMENTED', 'Private logo upload and media delivery are not wired to central Storage yet. Existing project data remains available.', 503);
+  throw new DomainError('FEATURE_NOT_IMPLEMENTED', 'This private upload or media operation is not available yet. Existing project data remains available.', 503);
 }
 
 /** Verified once for this request; each RPC derives authorization from the same user's JWT. */
@@ -73,6 +76,29 @@ export async function createCentralStudio(client: SupabaseClient, options: Centr
     cancelUpload: (actor, uploadId, context) => rpc(actor, 'eps_cancel_logo_upload', { p_upload_id: identifier(uploadId), p_idempotency_key: key(context, true) }, raw, context),
     getMedia: (actor, assetId) => rpc(actor, 'eps_get_logo_media', { p_asset_id: identifier(assetId) }, raw),
   } }) : undefined;
+  const specsOptions = options.specs ?? options.specsRead;
+  const specs = specsOptions ? await createSpecsStorageAdapter({ ...specsOptions, client, rpc: {
+    reserveUpload: (actor, input, context) => rpc(actor, 'eps_reserve_specs_upload', { p_input: input, p_idempotency_key: key(context, true) }, raw, context),
+    getUpload: (actor, uploadId) => rpc(actor, 'eps_get_specs_upload', { p_upload_id: identifier(uploadId) }, raw),
+    prepareCompletion: (actor, uploadId, input, context) => rpc(actor, 'eps_prepare_specs_completion', { p_upload_id: identifier(uploadId), p_input: input, p_idempotency_key: key(context, true) }, raw, context),
+    finalizeCompletion: (actor, uploadId, input, proof, context) => rpc(actor, 'eps_finalize_specs_completion', { p_upload_id: identifier(uploadId), p_input: input, p_idempotency_key: key(context, true), p_payload: proof.payload, p_mac: proof.mac }, raw, context),
+    cancelUpload: (actor, uploadId, context) => rpc(actor, 'eps_cancel_specs_upload', { p_upload_id: identifier(uploadId), p_idempotency_key: key(context, true) }, raw, context),
+    getMedia: (actor, assetId) => rpc(actor, 'eps_get_specs_media', { p_asset_id: identifier(assetId) }, raw),
+  } }) : undefined;
+  async function storageFor(actor: Actor, id: string, media = false) {
+    checkActor(actor);
+    if (!logo && !specs) return centralStoragePending();
+    const args = media ? { p_asset_id: identifier(id) } : { p_upload_id: identifier(id) };
+    // Only the scoped lookup's typed not-found selects the other purpose. A
+    // later Storage failure, denied scope, or malformed DTO never redirects it.
+    try { await rpc(actor, media ? 'eps_get_logo_media' : 'eps_get_logo_upload', args, raw); }
+    catch (error) {
+      if (!(error instanceof DomainError && error.code === 'RESOURCE_NOT_FOUND' && error.status === 404) || !specs) throw error;
+      await rpc(actor, media ? 'eps_get_specs_media' : 'eps_get_specs_upload', args, raw);
+      return specs;
+    }
+    return logo ?? centralStoragePending();
+  }
   return {
     verifiedIdentity: identity,
     fixtureActors(): { id: string; display_name: string; role: string }[] { return []; },
@@ -80,7 +106,8 @@ export async function createCentralStudio(client: SupabaseClient, options: Centr
     async getCapabilities(actor: Actor) {
       const result = await rpc(actor, 'eps_get_capabilities', {}, capabilitiesDto);
       if (result.principal_id !== identity.principal_id) throw new DomainError('CENTRAL_RESPONSE_INVALID', 'Central capabilities did not match the verified account.', 503);
-      result.upload_policy.available_purposes = result.upload_policy.available_purposes.filter(purpose => purpose === 'client_logo' && logo?.uploadReady === true);
+      result.upload_policy.available_purposes = result.upload_policy.available_purposes.filter(purpose => purpose === 'client_logo' && logo?.uploadReady === true
+        || purpose === 'specs' && specs?.uploadReady === true);
       return result;
     },
     async listProjects(actor: Actor, options: ListOptions = {}) { return rpc(actor, 'eps_list_projects', listArguments(options), value => listDto(value, projectDto)); },
@@ -112,13 +139,23 @@ export async function createCentralStudio(client: SupabaseClient, options: Centr
       strictInput(input, ['row_version', 'reason'], ['row_version']);
       return rpc(actor, 'eps_archive_audience_preset', { p_preset_id: identifier(id), p_input: input, p_idempotency_key: key(context, true) }, successDto, context);
     },
-    async createUploadSession(actor: Actor, input: UploadSessionCreate, context?: MutationContext): Promise<UploadSession> { checkActor(actor); return logo ? logo.createUploadSession(actor, input, context) : centralStoragePending(); },
-    async getUploadSession(actor: Actor, id: string): Promise<UploadSession> { checkActor(actor); return logo ? logo.getUploadSession(actor, id) : centralStoragePending(); },
-    async completeUpload(actor: Actor, id: string, input: CompleteUpload, context?: MutationContext): Promise<UploadCompletion> { checkActor(actor); return logo ? logo.completeUpload(actor, id, input, context) : centralStoragePending(); },
-    async cancelUpload(actor: Actor, id: string, context?: MutationContext): Promise<{ success: true; affected_ids: string[] }> { checkActor(actor); return logo ? logo.cancelUpload(actor, id, context) : centralStoragePending(); },
+    async createUploadSession(actor: Actor, input: UploadSessionCreate, context?: MutationContext): Promise<UploadSession> {
+      checkActor(actor);
+      strictInput(input, ['workspace_id', 'candidate_id', 'batch_id', 'purpose', 'filename', 'mime_type', 'size_bytes', 'sha256'], ['purpose', 'filename', 'mime_type', 'size_bytes']);
+      if (!['client_logo', 'specs', 'candidate_video', 'candidate_support'].includes(input.purpose)) invalid('Provide a supported upload purpose.');
+      if (input.purpose === 'client_logo') return logo ? logo.createUploadSession(actor, input, context) : centralStoragePending();
+      if (input.purpose === 'specs') {
+        if (typeof input.workspace_id !== 'string') invalid('A document requires a workspace identifier.');
+        return specs ? specs.createUploadSession(actor, { ...input, purpose: 'specs', workspace_id: input.workspace_id }, context) : centralStoragePending();
+      }
+      return centralStoragePending();
+    },
+    async getUploadSession(actor: Actor, id: string): Promise<UploadSession> { return (await storageFor(actor, id)).getUploadSession(actor, id); },
+    async completeUpload(actor: Actor, id: string, input: CompleteUpload, context?: MutationContext): Promise<UploadCompletion> { return (await storageFor(actor, id)).completeUpload(actor, id, input, context); },
+    async cancelUpload(actor: Actor, id: string, context?: MutationContext): Promise<{ success: true; affected_ids: string[] }> { return (await storageFor(actor, id)).cancelUpload(actor, id, context); },
     async storeUploadedLogo(actor: Actor, _id: string, _bytes: Uint8Array): Promise<{ size_bytes: number; sha256: string }> { void _id; void _bytes; checkActor(actor); return centralStoragePending(); },
-    async getMedia(actor: Actor, id: string): Promise<MediaAsset> { checkActor(actor); return logo ? logo.getMedia(actor, id) : centralStoragePending(); },
-    async getMediaContent(actor: Actor, id: string): Promise<{ bytes: Buffer; mimeType: string }> { checkActor(actor); return logo ? logo.getMediaContent(actor, id) : centralStoragePending(); },
+    async getMedia(actor: Actor, id: string): Promise<MediaAsset> { return (await storageFor(actor, id, true)).getMedia(actor, id); },
+    async getMediaContent(actor: Actor, id: string): Promise<{ bytes: Buffer; mimeType: string }> { return (await storageFor(actor, id, true)).getMediaContent(actor, id); },
   };
 }
 export type CentralStudio = Awaited<ReturnType<typeof createCentralStudio>>;

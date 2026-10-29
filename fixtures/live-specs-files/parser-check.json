@@ -1,0 +1,31 @@
+{
+  "observed_at": "2026-10-29T00:00:43.414Z",
+  "result": "passed",
+  "scope": "Actual isolated native PDF/DOCX parsers with local synthetic IDs and files only",
+  "cases": [
+    {
+      "path": "synthetic-casting-english.pdf",
+      "source_sha256": "5619ce39c4d4f9e661fd59196ec1cd50a7c281f5618412c34a3b3eef003a1e83",
+      "actual_parser": "pdf_text",
+      "paragraph_count": 1,
+      "characters": 1046,
+      "expected_role_text_present": true,
+      "arabic_preserved": null
+    },
+    {
+      "path": "synthetic-casting-mixed.docx",
+      "source_sha256": "a6a4fc469abbff576425a6ac7272f8f4d870cb2bc800ed289638d77a6e4384ef",
+      "actual_parser": "docx_text",
+      "paragraph_count": 6,
+      "characters": 1039,
+      "expected_role_text_present": true,
+      "arabic_preserved": true
+    }
+  ],
+  "cloud_called": false,
+  "provider_called": false,
+  "visual_review": {
+    "pdf": "One rendered page inspected; readable, no clipping",
+    "docx": "Not claimed; package/parser input only"
+  }
+}

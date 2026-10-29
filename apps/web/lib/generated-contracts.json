@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "x-source-sha256": "d716b8d9fa420b1c4d195eb89065455c0da7d1070e6e9c472a2b603a7dfc048e",
+  "x-source-sha256": "07e6bb66382b6dc9209ea155e3cfecb1a509512a372444916fee07404ee54e91",
   "$defs": {
     "Id": {
       "type": "string",
@@ -3869,6 +3869,13 @@
         "lease_token": {
           "type": "string"
         },
+        "output_key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+          "description": "Stable logical output name within this job attempt. Retries with the same key and metadata reuse the same immutable reservation; conflicting metadata is rejected."
+        },
         "asset_kind": {
           "type": "string",
           "enum": [
@@ -3919,6 +3926,7 @@
         "job_id",
         "attempt_id",
         "lease_token",
+        "output_key",
         "asset_kind",
         "filename",
         "mime_type",
@@ -4011,6 +4019,15 @@
         },
         "asset_id": {
           "$ref": "#/$defs/Id"
+        },
+        "access": {
+          "type": "string",
+          "enum": [
+            "read",
+            "write"
+          ],
+          "default": "read",
+          "description": "Lease-scoped exact-object access. Write is only a newly reserved immutable output, never an original."
         }
       },
       "required": [
@@ -4018,6 +4035,80 @@
         "attempt_id",
         "lease_token",
         "asset_id"
+      ]
+    },
+    "ServiceAssetAccess": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Private service-only transfer capability. Headers are credentials and must not enter URLs, ordinary job metadata, logs or n8n envelopes. Exact object, method and lifetime are lease-bound; no arbitrary destination/signing interface exists.",
+      "properties": {
+        "asset_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "method": {
+          "type": "string",
+          "enum": [
+            "GET",
+            "POST"
+          ]
+        },
+        "headers": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "expires_at": {
+          "$ref": "#/$defs/DateTime"
+        },
+        "mime_type": {
+          "type": "string"
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "asset_id",
+        "url",
+        "method",
+        "headers",
+        "expires_at",
+        "mime_type",
+        "size_bytes",
+        "sha256"
+      ]
+    },
+    "JobOutputReservationResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Actual immutable derivative reservation plus a lease-bound transfer capability. This is a direct new-object POST, not a signed-upload PUT or an upsert grant.",
+      "properties": {
+        "asset": {
+          "$ref": "#/$defs/MediaAsset"
+        },
+        "access": {
+          "$ref": "#/$defs/ServiceAssetAccess"
+        }
+      },
+      "required": [
+        "asset",
+        "access"
       ]
     },
     "ServiceStageClaim": {

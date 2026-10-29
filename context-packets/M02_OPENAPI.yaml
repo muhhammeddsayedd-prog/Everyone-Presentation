@@ -1849,7 +1849,7 @@ paths:
                   request_id:
                     type: string
                   data:
-                    $ref: '#/components/schemas/UploadSession'
+                    $ref: '#/components/schemas/JobOutputReservationResult'
                   warnings:
                     type: array
                     items:
@@ -2023,7 +2023,7 @@ paths:
                   request_id:
                     type: string
                   data:
-                    $ref: '#/components/schemas/Playback'
+                    $ref: '#/components/schemas/ServiceAssetAccess'
                   warnings:
                     type: array
                     items:
@@ -2646,34 +2646,60 @@ components:
           type: string
         asset_id:
           $ref: '#/components/schemas/Id'
+        access:
+          type: string
+          enum:
+          - read
+          - write
+          default: read
+          description: Lease-scoped exact-object access. Write is only a newly reserved immutable output, never
+            an original.
       required:
       - job_id
       - attempt_id
       - lease_token
       - asset_id
-    Playback:
+    ServiceAssetAccess:
       type: object
       additionalProperties: false
+      description: Private service-only transfer capability. Headers are credentials and must not enter URLs, ordinary
+        job metadata, logs or n8n envelopes. Exact object, method and lifetime are lease-bound; no arbitrary destination/signing
+        interface exists.
       properties:
         asset_id:
           $ref: '#/components/schemas/Id'
         url:
           type: string
           format: uri
+        method:
+          type: string
+          enum:
+          - GET
+          - POST
+        headers:
+          type: object
+          additionalProperties:
+            type: string
         expires_at:
           $ref: '#/components/schemas/DateTime'
         mime_type:
           type: string
-        source_version_id:
+        size_bytes:
+          type: integer
+          minimum: 1
+        sha256:
           anyOf:
-          - $ref: '#/components/schemas/Id'
+          - type: string
           - type: 'null'
       required:
       - asset_id
       - url
+      - method
+      - headers
       - expires_at
       - mime_type
-      - source_version_id
+      - size_bytes
+      - sha256
     JobOutputComplete:
       type: object
       additionalProperties: false
@@ -2807,6 +2833,13 @@ components:
           $ref: '#/components/schemas/Id'
         lease_token:
           type: string
+        output_key:
+          type: string
+          minLength: 1
+          maxLength: 100
+          pattern: ^[A-Za-z0-9][A-Za-z0-9._:-]*$
+          description: Stable logical output name within this job attempt. Retries with the same key and metadata
+            reuse the same immutable reservation; conflicting metadata is rejected.
         asset_kind:
           type: string
           enum:
@@ -2839,71 +2872,26 @@ components:
       - job_id
       - attempt_id
       - lease_token
+      - output_key
       - asset_kind
       - filename
       - mime_type
       - expected_size_bytes
       - parent_asset_id
       - time_offset_ms
-    UploadSession:
+    JobOutputReservationResult:
       type: object
       additionalProperties: false
+      description: Actual immutable derivative reservation plus a lease-bound transfer capability. This is a direct
+        new-object POST, not a signed-upload PUT or an upsert grant.
       properties:
-        id:
-          $ref: '#/components/schemas/Id'
-        asset_id:
-          $ref: '#/components/schemas/Id'
-        protocol:
-          type: string
-          enum:
-          - tus
-          - signed_put
-        upload_url:
-          description: A scoped transfer URL for an open session. Closed sessions return null and empty upload_headers.
-          anyOf:
-          - type: string
-            format: uri
-          - type: 'null'
-        upload_headers:
-          type: object
-          additionalProperties:
-            type: string
-        expires_at:
-          $ref: '#/components/schemas/DateTime'
-        status:
-          type: string
-          enum:
-          - open
-          - completed
-          - cancelled
-          - expired
-        maximum_bytes:
-          type: integer
-          minimum: 1
+        asset:
+          $ref: '#/components/schemas/MediaAsset'
+        access:
+          $ref: '#/components/schemas/ServiceAssetAccess'
       required:
-      - id
-      - asset_id
-      - protocol
-      - upload_url
-      - upload_headers
-      - expires_at
-      - status
-      - maximum_bytes
-      allOf:
-      - if:
-          properties:
-            status:
-              const: open
-        then:
-          properties:
-            upload_url:
-              type: string
-        else:
-          properties:
-            upload_url:
-              type: 'null'
-            upload_headers:
-              maxProperties: 0
+      - asset
+      - access
     JobMutation:
       type: object
       additionalProperties: false
@@ -3036,6 +3024,29 @@ components:
           - type: 'null'
       required:
       - next_cursor
+    Playback:
+      type: object
+      additionalProperties: false
+      properties:
+        asset_id:
+          $ref: '#/components/schemas/Id'
+        url:
+          type: string
+          format: uri
+        expires_at:
+          $ref: '#/components/schemas/DateTime'
+        mime_type:
+          type: string
+        source_version_id:
+          anyOf:
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
+      required:
+      - asset_id
+      - url
+      - expires_at
+      - mime_type
+      - source_version_id
     Success:
       type: object
       additionalProperties: false
@@ -3084,6 +3095,65 @@ components:
       - asset
       - processing_job_id
       - status
+    UploadSession:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        asset_id:
+          $ref: '#/components/schemas/Id'
+        protocol:
+          type: string
+          enum:
+          - tus
+          - signed_put
+        upload_url:
+          description: A scoped transfer URL for an open session. Closed sessions return null and empty upload_headers.
+          anyOf:
+          - type: string
+            format: uri
+          - type: 'null'
+        upload_headers:
+          type: object
+          additionalProperties:
+            type: string
+        expires_at:
+          $ref: '#/components/schemas/DateTime'
+        status:
+          type: string
+          enum:
+          - open
+          - completed
+          - cancelled
+          - expired
+        maximum_bytes:
+          type: integer
+          minimum: 1
+      required:
+      - id
+      - asset_id
+      - protocol
+      - upload_url
+      - upload_headers
+      - expires_at
+      - status
+      - maximum_bytes
+      allOf:
+      - if:
+          properties:
+            status:
+              const: open
+        then:
+          properties:
+            upload_url:
+              type: string
+        else:
+          properties:
+            upload_url:
+              type: 'null'
+            upload_headers:
+              maxProperties: 0
     UploadSessionCreate:
       type: object
       additionalProperties: false

@@ -2,7 +2,8 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import type { StageLease } from '@eps/jobs';
 import type { StageRuntimeGateway, SpecsStageRouter } from '../../apps/worker/src/runtime-types.ts';
-import { processNextSpecsStage, runSpecsWorker } from '../../apps/worker/src/runtime.ts';
+import { processNextSpecsStage, runSpecsWorker, specsWorkerFilesConfiguration } from '../../apps/worker/src/runtime.ts';
+import type { SpecsAssetPort } from '../../apps/worker/src/specs-assets.ts';
 
 const job = '11111111-1111-4111-8111-111111111111';
 const envelope = { event_id: '22222222-2222-4222-8222-222222222222', event_type: 'job.stage_ready' as const,
@@ -26,6 +27,26 @@ function fixture() {
     receipt: { event_id: 'test-event', applied: true, duplicate: false, stale: false, job_status: 'queued' as const } }; } };
 }
 const options = { apiKey: 'synthetic-injected-executor-only', model: 'synthetic-model' };
+
+test('file mode is explicit and fixed-target, with no user JWT or service-key fallback', () => {
+  assert.equal(specsWorkerFilesConfiguration({ SUPABASE_URL: 'https://foreign.invalid' }), undefined);
+  assert.equal(specsWorkerFilesConfiguration({ EPS_SPECS_FILES_ENABLED: 'false' }), undefined);
+  const enabled = { EPS_SPECS_FILES_ENABLED: 'true', SUPABASE_URL: 'https://pyibofyctwnqpvktepse.supabase.co', SUPABASE_PUBLISHABLE_KEY: 'sb_publishable_synthetic_public_key' };
+  assert.deepEqual(specsWorkerFilesConfiguration(enabled), { storageOrigin: enabled.SUPABASE_URL, publishableKey: enabled.SUPABASE_PUBLISHABLE_KEY });
+  for (const bad of [{ ...enabled, SUPABASE_URL: 'https://foreign.invalid' }, { ...enabled, SUPABASE_PUBLISHABLE_KEY: 'eyJsynthetic-user-jwt' },
+    { ...enabled, SUPABASE_PUBLISHABLE_KEY: 'sb_secret_synthetic-private-key' }, { ...enabled, EPS_SPECS_FILES_ENABLED: '1' }]) assert.throws(() => specsWorkerFilesConfiguration(bad));
+});
+test('optional verified file port reaches the executor only after the n8n order and durable ACK', async () => {
+  const f = fixture(); const forbidden = async (): Promise<never> => { throw new Error('No Storage transfer in this test.'); };
+  const port: SpecsAssetPort = { getAssetAccess: forbidden, reserveOutput: forbidden, completeOutput: forbidden, storePreparation: forbidden };
+  let received = false;
+  const result = await processNextSpecsStage(f.gateway, f.router, { openAI: options, files: { port, publishableKey: 'sb_publishable_synthetic_public_key' },
+    execute: async (_lease, _gateway, supplied) => {
+      assert.deepEqual(f.calls, ['outbox', 'n8n', 'claim', 'ack']); assert.ok(supplied); assert.equal(supplied.files?.port, port);
+      assert.equal(supplied.files?.publishableKey, 'sb_publishable_synthetic_public_key'); received = true; return f.execution();
+    } });
+  assert.equal(received, true); assert.equal(result.event, 'stage_callback_committed');
+});
 
 test('actual n8n work order and durable dispatch acknowledgement precede costly execution', async () => {
   const f = fixture(); const result = await processNextSpecsStage(f.gateway, f.router, { openAI: options, execute: f.execution });
@@ -74,4 +95,37 @@ test('serial polling schedules recovery, stops on abort, and closes the authenti
   await runSpecsWorker(f.gateway, f.router, { openAI: options, signal: controller.signal,
     sleep: async () => { controller.abort(); } });
   assert.equal(recovered, 1); assert.equal(closed, 1); assert.ok(!f.calls.includes('provider'));
+});
+test('idle dispatch diagnostics retain only fixed gateway codes and never driver messages or properties', async () => {
+  for (const code of ['RUNTIME_UNAVAILABLE', 'RUNTIME_RESPONSE_INVALID', 'RUNTIME_ROLE_UNVERIFIED', 'DEPENDENCY_UNAVAILABLE', 'private-code-containing-source']) {
+    const f = fixture();
+    f.gateway.claimOutbox = async () => { throw { code, message: 'private connection/source diagnostic', detail: 'secret-token', outcome: 'unknown' }; };
+    const notice = await processNextSpecsStage(f.gateway, f.router, { openAI: options, execute: f.execution });
+    assert.deepEqual(notice, { event: 'dispatch_unconfirmed', code: code.startsWith('private-') ? 'WORKER_OPERATION_UNCONFIRMED' : code });
+    assert.deepEqual(f.calls, []);
+  }
+});
+test('idle recovery diagnostics preserve fixed gateway codes with generic fallback and no private payload', async () => {
+  for (const code of ['RUNTIME_UNAVAILABLE', 'RUNTIME_RESPONSE_INVALID', 'DEPENDENCY_UNAVAILABLE', 'private-recovery-code']) {
+    const f = fixture(); const controller = new AbortController(); const notices: unknown[] = [];
+    f.gateway.claimOutbox = async () => ({ leases: [] });
+    f.gateway.recover = async () => { throw { code, message: 'private SQL/source diagnostic', parameters: ['private-token'] }; };
+    await runSpecsWorker(f.gateway, f.router, { openAI: options, signal: controller.signal, notice: notice => notices.push(notice),
+      sleep: async () => { controller.abort(); } });
+    assert.deepEqual(notices, [{ event: 'recovery_unconfirmed', code: code.startsWith('private-') ? 'WORKER_OPERATION_UNCONFIRMED' : code }]);
+    assert.deepEqual(f.calls, []);
+  }
+});
+test('hostile code getters cannot bypass diagnostic redaction or break the worker loop', async () => {
+  for (const hostile of [() => { let reads = 0; return { get code() { return ++reads <= 2 ? 'RUNTIME_UNAVAILABLE' : 'private-getter-value'; } }; },
+    () => ({ get code(): string { throw new Error('private-getter-error'); } })]) {
+    const f = fixture(); f.gateway.claimOutbox = async () => { throw hostile(); };
+    const result = await processNextSpecsStage(f.gateway, f.router, { openAI: options });
+    assert.ok(['RUNTIME_UNAVAILABLE', 'WORKER_OPERATION_UNCONFIRMED'].includes(result.code!));
+    assert.doesNotMatch(JSON.stringify(result), /private/u);
+    const controller = new AbortController(); const notices: unknown[] = [];
+    f.gateway.claimOutbox = async () => ({ leases: [] }); f.gateway.recover = async () => { throw hostile(); };
+    await runSpecsWorker(f.gateway, f.router, { openAI: options, signal: controller.signal, notice: value => notices.push(value), sleep: async () => { controller.abort(); } });
+    assert.equal(notices.length, 1); assert.doesNotMatch(JSON.stringify(notices), /private/u);
+  }
 });

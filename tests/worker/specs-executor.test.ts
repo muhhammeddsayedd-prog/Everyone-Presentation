@@ -5,6 +5,9 @@ import { executeSpecsStage, DOCUMENT_PREPARATION_VERSION, SpecsExecutionError, t
 import { preparePastedText } from '../../apps/worker/src/pasted-text.ts';
 import { extractSpecs, IntegrationError } from '@eps/integrations';
 import type { JobEvent, JobEventReceipt, StageLease } from '@eps/jobs';
+import { prepareDocumentIsolated } from '../../apps/worker/src/process.ts';
+import { pdf } from './document-fixtures.ts';
+import type { SpecsAssetPort } from '../../apps/worker/src/specs-assets.ts';
 
 const source = '\ufeffWaiter needed.\r\nالعمر غير محدد.\r\n\r\nNo shoot date.';
 const sourceHash = createHash('sha256').update(source).digest('hex');
@@ -42,6 +45,65 @@ const syntheticExtract: typeof extractSpecs = (input, config, _transport, signal
   output: [{ type: 'message', role: 'assistant', status: 'completed', content: [{ type: 'output_text', text: JSON.stringify(emptyResult) }] }],
   usage: { input_tokens: 10, output_tokens: 20, total_tokens: 30 },
 }), signal);
+
+test('file extraction binds actual source asset and PDF pages before the strict adapter; malformed page/offset maps cannot call it', async () => {
+  const sourceAsset = '11111111-1111-4111-8111-111111111111'; const bytes = pdf(['Waiter required.', 'Father in scene three.']);
+  const prepared = await prepareDocumentIsolated({ sourceKind: 'asset', sourceAssetId: sourceAsset, bytes, mimeType: 'application/pdf' });
+  async function run(mutate?: (value: Record<string, unknown>) => void) {
+    const f = fixture('extract_specs'); f.lease.input = { ...f.lease.input, schema_version: '1.1', source_asset_id: sourceAsset, source_hash: prepared.sourceSha256 };
+    const value: Record<string, unknown> = { ...f.input, source_kind: 'asset', source_asset_id: sourceAsset, source_sha256: prepared.sourceSha256,
+      text: prepared.text, paragraphs: structuredClone(prepared.paragraphs) };
+    mutate?.(value); f.gateway.getInput = async () => value; let calls = 0;
+    const execute = executeSpecsStage(f.lease, f.gateway, { openAI, extract: async (input, config, _transport, signal) => {
+      calls++; assert.equal(input.sourceAssetId, sourceAsset); assert.deepEqual(input.paragraphs.map(p => p.page), [1, 2]);
+      return await extractSpecs(input, config, async () => ({ status: 'completed', model: 'synthetic-model', id: 'resp_file_synthetic', error: null,
+        output: [{ type: 'message', role: 'assistant', status: 'completed', content: [{ type: 'output_text', text: JSON.stringify({ ...emptyResult, source_asset_id: sourceAsset }) }] }],
+      }), signal);
+    } });
+    if (mutate) { await assert.rejects(execute, (error: unknown) => error instanceof SpecsExecutionError && error.code === 'STAGE_INPUT_INVALID'); assert.equal(calls, 0); }
+    else { await execute; assert.equal(calls, 1); assert.equal((f.events[0].result?.result as Record<string, unknown>).source_asset_id, sourceAsset); }
+  }
+  await run();
+  for (const mutate of [
+    (value: Record<string, unknown>) => { value.source_asset_id = '22222222-2222-4222-8222-222222222222'; },
+    (value: Record<string, unknown>) => { (value.paragraphs as { page: number | null }[])[1].page = null; },
+    (value: Record<string, unknown>) => { (value.paragraphs as { page: number }[])[1].page = 0; },
+    (value: Record<string, unknown>) => { const rows=value.paragraphs as { page: number }[]; rows[0].page=2;rows[1].page=1; },
+    (value: Record<string, unknown>) => { (value.paragraphs as { start: number }[])[1].start++; },
+  ]) await run(mutate);
+});
+
+test('file preparation requires an explicit port and publishes refs only after verified transfer and private preparation storage', async () => {
+  const f = fixture(); f.lease.job_id='33333333-3333-4333-8333-333333333333'; f.lease.attempt_id='44444444-4444-4444-8444-444444444444';
+  const originalId='11111111-1111-4111-8111-111111111111'; const outputId='22222222-2222-4222-8222-222222222222';
+  f.lease.input={...f.lease.input,schema_version:'1.1',source_asset_id:originalId};
+  f.gateway.getInput=async()=>({job_id:f.lease.job_id,attempt_id:f.lease.attempt_id,stage:'prepare_document',input_hash:f.lease.input.input_hash,
+    correlation_id:'synthetic-file-prepare',configuration,source_kind:'asset',source_asset_id:originalId,source_sha256:sourceHash,
+    mime_type:'text/plain',size_bytes:Buffer.byteLength(source,'utf8')});
+  await assert.rejects(executeSpecsStage(f.lease,f.gateway),error=>error instanceof SpecsExecutionError&&error.code==='STAGE_INPUT_INVALID');
+  assert.equal(f.events.length,0);
+  const publicKey='sb_publishable_synthetic_worker_key'; let expectedSize=0;let uploaded:Buffer|undefined;let readBack=false;let stored=false;
+  const asset=(ready:boolean)=>({id:outputId,purpose:'document_text',filename:'prepared-document.json',mime_type:'application/json',size_bytes:expectedSize,
+    sha256:ready&&uploaded?createHash('sha256').update(uploaded).digest('hex'):null,status:ready?'ready':'uploading',duration_ms:null,width:null,height:null,
+    source_asset_id:originalId,source_timestamp_ms:null,created_at:'2026-10-29T00:00:00Z'});
+  const access=(original:boolean,write=false)=>({asset_id:original?originalId:outputId,
+    url:`https://pyibofyctwnqpvktepse.supabase.co/storage/v1/object/${write?'':'authenticated/'}${original?`eps-specs-assets/assets/${originalId}/original.txt`:`eps-specs-outputs/jobs/${f.lease.job_id}/attempts/${f.lease.attempt_id}/${outputId}.json`}`,
+    method:write?'POST':'GET',headers:{apikey:publicKey,Authorization:`Bearer ${publicKey}`,'x-eps-asset-grant':'synthetic-capability',
+      ...(write?{'Content-Type':'application/json','x-upsert':'false'}:{})},expires_at:new Date(Date.now()+60_000).toISOString(),
+    mime_type:original?'text/plain':'application/json',size_bytes:original?Buffer.byteLength(source):expectedSize,sha256:original?sourceHash:null});
+  const port:SpecsAssetPort={async getAssetAccess(input){return access(input.asset_id===originalId);},
+    async reserveOutput(input){expectedSize=input.expected_size_bytes;return{asset:asset(false),access:access(false,true)};},
+    async completeOutput(input){assert.equal(readBack,true);assert.equal(input.sha256,createHash('sha256').update(uploaded!).digest('hex'));return asset(true);},
+    async storePreparation(input){assert.equal(input.payload_utf8,uploaded!.toString('utf8'));stored=true;return{stored:true};}};
+  const record=f.gateway.recordEvent; f.gateway.recordEvent=async(event,signal)=>{if(event.event_type==='succeeded')assert.equal(stored,true);return record(event,signal);};
+  await executeSpecsStage(f.lease,f.gateway,{files:{port,publishableKey:publicKey,fetch:async(url,init)=>{
+    if(String(url).endsWith('original.txt'))return new Response(Buffer.from(source),{headers:{'content-type':'text/plain'}});
+    if(init?.method==='POST'){uploaded=Buffer.from(init.body as Uint8Array);return new Response('{}',{status:201});}
+    readBack=true;return new Response(new Uint8Array(uploaded!),{headers:{'content-type':'application/json'}});
+  }}});
+  assert.equal(f.events.length,1);assert.equal(f.events[0].result?.source_asset_id,originalId);assert.equal(f.events[0].result?.text_asset_id,outputId);
+  assert.ok(!JSON.stringify(f.events[0].result).includes('Waiter'));
+});
 
 test('real parser preparation accepts PostgreSQL JSON key order, keeps original hash and publishes refs-only metadata', async () => {
   const { lease, gateway, events, prepared } = fixture();

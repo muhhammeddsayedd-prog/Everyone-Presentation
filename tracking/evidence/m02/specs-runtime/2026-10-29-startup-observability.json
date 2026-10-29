@@ -1,0 +1,93 @@
+{
+  "observed_at": "2026-10-29T01:28:10.733127+00:00",
+  "scope": "Worker startup and fixed-code-only availability diagnostics; no migration/config/role/provider/source changes.",
+  "initial_failure": {
+    "parent_pid": 33464,
+    "result": "failed",
+    "diagnostics": "historical generic startup error",
+    "cause": "unconfirmed",
+    "evidence": "Root-observed existing protected process record/logs retained; not relabeled as fixed or attributed to network."
+  },
+  "scrubbed_startup_probes": {
+    "parent_projection": "passed",
+    "actual_scrubbed_child": "passed",
+    "provenance": "Earlier session actual tool executions; constructor-only, explicitly closed gateway. No daemon or job execution."
+  },
+  "v2_worker": {
+    "parent_pid": 44176,
+    "startup": "observed_started",
+    "stage_callback_committed": 3,
+    "stderr_bytes_observed": 0,
+    "idle_failures": "observed interspersed dispatch/recovery failures with generic historical code",
+    "cause": "unconfirmed",
+    "logs": "Existing protected worker-files-v2 stdout/stderr retained."
+  },
+  "v3_failure": {
+    "parent_pid": 44112,
+    "checkpoint": "gateway_verification",
+    "code": "RUNTIME_UNAVAILABLE",
+    "files_requested": true,
+    "provenance": "Root-reported actual launch at01:22:47Z; prior failure artifacts retained.",
+    "cause": "unconfirmed"
+  },
+  "readonly_health_proofs": [
+    "tracking/evidence/m02/specs-runtime/2026-10-29T01-21-15-440Z-files-authenticated-gateway.json",
+    "tracking/evidence/m02/specs-runtime/2026-10-29T01-26-32-053Z-connection-health.json"
+  ],
+  "constructor_probes_only": true,
+  "no_jobs_claimed": true,
+  "no_source_requested": true,
+  "no_provider_or_storage_or_n8n_called": true,
+  "no_normal_daemon_started_by_this_change": true,
+  "behavior": {
+    "startup_gateway_attempts_max": 3,
+    "retry_codes": [
+      "RUNTIME_UNAVAILABLE",
+      "DEPENDENCY_UNAVAILABLE"
+    ],
+    "retry_delays_ms": [
+      500,
+      1000
+    ],
+    "guard_failures_terminal": true,
+    "operation_retries_added": false,
+    "timeouts_tls_acl_connlimit_and_pool_release_unchanged": true,
+    "diagnostics": "Only fixed phase and allowlisted transport/SQLSTATE code plus bounded integer elapsed_ms; never raw message/cause/SQL/parameters."
+  },
+  "checks": {
+    "worker_tests": {
+      "pass": 67,
+      "fail": 0
+    },
+    "gateway_tests": {
+      "pass": 14,
+      "fail": 0
+    },
+    "worker_env_checker_tests": {
+      "pass": 9,
+      "fail": 0
+    },
+    "typecheck": "passed",
+    "lint": "passed"
+  },
+  "sources": {
+    "apps/worker/src/runtime-main.ts": "b165a388e37b4df6c32b786a7d38fea9d3cd992edd850ec19afbe300ac98c2bd",
+    "apps/worker/src/runtime.ts": "062e109bf1e7b605773543c1cb8ee12d6768c267d7814e9e2804cebb6da01981",
+    "apps/worker/src/runtime-types.ts": "760ba393b4f1d23f3eced4be1152b9532d38cbf3e620098f019137e607b3abb1",
+    "packages/central/src/specs-runtime-gateway.ts": "766822398e976be9338ac69a7778094a6b1c89c09a3bc3c2635d30de04bae830",
+    "tests/worker/startup.test.ts": "6069bb981d98117fc617f4da47d83d86c874d1100bfa0194b351c25642f901e5",
+    "tests/worker/runtime.test.ts": "f1d5e0dbd901c184ce41ed0596716c9f0553c77d3394c0cea9f9220280af678e",
+    "packages/central/test/specs-runtime-gateway.test.ts": "347b7c07696533d7766e1cd144b907bebe451edbf973da69c88ddeee3e76b0b2"
+  },
+  "historical_archives": {
+    "development/m02/runtime-main-before-startup-observability.source.txt": "d615f87059b5698d9426c6c66c6d53417bf620d7f1ee1cefb20f05d455bf7a95",
+    "development/m02/runtime-before-idle-observability.source.txt": "85633de9923e32d67e0888ae9a9294d51f7113d71f22a28ea60723f003c3e00e",
+    "development/m02/specs-runtime-gateway-before-startup-diagnostics.source.txt": "40c16a8b0d630dface941e258e92684b4c1b83af1ad74227c019edc25a041a71"
+  },
+  "historical_release_source_seals_modified": false,
+  "limits": [
+    "Intermittent startup/idle root cause not established by successful constructor checks.",
+    "No live file upload/Storage acceptance or hosting claim.",
+    "Root exclusively coordinates daemon restart and browser actions."
+  ]
+}

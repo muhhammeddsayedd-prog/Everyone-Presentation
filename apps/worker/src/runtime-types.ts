@@ -27,4 +27,7 @@ export interface WorkerNotice {
   job_id?: string;
   stage?: SpecsStage;
   code?: string;
+  gateway_phase?: string;
+  transport_code?: string;
+  elapsed_ms?: number;
 }

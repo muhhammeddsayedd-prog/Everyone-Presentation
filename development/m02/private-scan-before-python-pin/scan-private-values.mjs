@@ -1,0 +1,279 @@
+/** Fixed source/index/package scanner. Importing performs no IO. Private values
+ * and derived encodings stay in this process's memory and are never reported. */
+import { Buffer } from 'node:buffer';
+import { createHash, randomUUID } from 'node:crypto';
+import { constants } from 'node:fs';
+import { lstat, mkdir, open, realpath, writeFile } from 'node:fs/promises';
+import { spawn } from 'node:child_process';
+import path from 'node:path';
+import process from 'node:process';
+import { parseEnv, TextDecoder } from 'node:util';
+import { pathToFileURL } from 'node:url';
+import { crc32 } from 'node:zlib';
+import { clearTimeout, setTimeout } from 'node:timers';
+import yauzl from 'yauzl';
+
+const ROOT = path.resolve(import.meta.dirname, '..');
+const PREFIX = 'Everyone-Presentation-Studio/';
+const ZIP = path.join(ROOT, 'dist/Everyone-Presentation-Studio-Source.zip');
+const LIMITS = { files: 20_000, entry: 64 * 1024 * 1024, total: 512 * 1024 * 1024, manifest: 16 * 1024 * 1024, commandMs: 300_000 };
+const PRIVATE = [
+  ['.env.worker.local', 16 * 1024], ['.env.worker-runtime.local', 64 * 1024],
+  ['.local/cloud-logo-provision/verifier.json', 512], ['.local/specs-assets-verifier/verifier.json', 512],
+];
+const digest = bytes => createHash('sha256').update(bytes).digest('hex');
+export class PrivateScanError extends Error {
+  constructor(code = 'PRIVATE_SCAN_UNCONFIRMED') { super(code); this.code = code; }
+}
+const fail = (code = 'PRIVATE_SCAN_UNCONFIRMED') => { throw new PrivateScanError(code); };
+const exact = (value, keys) => value && typeof value === 'object' && !Array.isArray(value)
+  && Object.keys(value).length === keys.length && keys.every(key => Object.hasOwn(value, key));
+function decode(bytes) { try { return new TextDecoder('utf-8', { fatal: true, ignoreBOM: true }).decode(bytes); } catch { return fail(); } }
+function keyJson(bytes, prefix, keyId) {
+  try {
+    const text = decode(bytes); const value = JSON.parse(text);
+    if (!exact(value, [`${prefix}_VERIFICATION_KEY_ID`, `${prefix}_VERIFICATION_KEY_BASE64URL`])
+      || value[`${prefix}_VERIFICATION_KEY_ID`] !== keyId || JSON.stringify(value) + '\n' !== text) fail();
+    const encoded = value[`${prefix}_VERIFICATION_KEY_BASE64URL`];
+    if (typeof encoded !== 'string' || !/^[A-Za-z0-9_-]{43}$/u.test(encoded)) fail();
+    const raw = Buffer.from(encoded, 'base64url'); if (raw.length !== 32 || raw.toString('base64url') !== encoded) fail(); return raw;
+  } catch { return fail('PRIVATE_SCAN_CONFIGURATION_UNAVAILABLE'); }
+}
+function envSecrets(bytes, names) {
+  try {
+    const text = decode(bytes).replace(/^\ufeff/u, ''); const parsed = parseEnv(text);
+    return names.map(name => {
+      const declarations = text.match(new RegExp(`^[ \\t]*(?:export[ \\t]+)?${name}[ \\t]*=`, 'gmu'));
+      const value = parsed[name];
+      if (!declarations || declarations.length !== 1 || typeof value !== 'string' || !value || Buffer.byteLength(value) > 16 * 1024 || /[\r\n\0]/u.test(value)) fail();
+      return Buffer.from(value, 'utf8');
+    });
+  } catch { return fail('PRIVATE_SCAN_CONFIGURATION_UNAVAILABLE'); }
+}
+/** Pure synthetic-test seam. Never serialize or print the returned patterns. */
+export function privatePatterns({ worker, runtime, logo, specs }) {
+  const secrets = [...envSecrets(worker, ['OPENAI_API_KEY', 'N8N_API_KEY']), ...envSecrets(runtime, ['EPS_SPECS_PG_PASSWORD', 'N8N_DISPATCH_SECRET']),
+    keyJson(logo, 'LOGO', 'eps-logo-dev-20261028-v1'), keyJson(specs, 'SPECS', 'eps-specs-dev-20261029-v1')];
+  const patterns = new Map();
+  const add = bytes => { if (bytes.length) patterns.set(bytes.toString('hex'), bytes); };
+  for (const raw of secrets) {
+    const forms = [raw];
+    for (const value of [raw.toString('hex'), raw.toString('hex').toUpperCase(), raw.toString('base64'), raw.toString('base64').replace(/=+$/u, ''), raw.toString('base64url')]) {
+      forms.push(Buffer.from(value), Buffer.from(value, 'utf16le'));
+    }
+    const text = raw.toString('utf8'); if (Buffer.from(text).equals(raw)) {
+      forms.push(Buffer.from(text, 'utf16le'), Buffer.from(JSON.stringify(text).slice(1, -1)));
+    }
+    for (const form of forms) {
+      add(form);
+      for (const encoded of [form.toString('hex'), form.toString('hex').toUpperCase(), form.toString('base64'), form.toString('base64url')]) {
+        add(Buffer.from(encoded)); add(Buffer.from(encoded, 'utf16le'));
+      }
+      // Complete interior groups detect a credential inside a larger encoded
+      // JSON/script regardless of its three-byte alignment or suffix padding.
+      // This also covers base64 of UTF16, rather than only UTF16 of base64.
+      for (const offset of [0, 1, 2]) {
+        const encoded = Buffer.concat([Buffer.alloc(offset), form]).toString('base64');
+        const fragment = encoded.slice(offset ? 4 : 0, Math.floor((offset + form.length) / 3) * 4);
+        if (!fragment) fail('PRIVATE_SCAN_CONFIGURATION_UNAVAILABLE');
+        for (const value of [fragment, fragment.replaceAll('+', '-').replaceAll('/', '_')]) {
+          add(Buffer.from(value)); add(Buffer.from(value, 'utf16le'));
+        }
+      }
+    }
+  }
+  return [...patterns.values()];
+}
+export function containsPrivateValue(bytes, patterns) {
+  if (!(bytes instanceof Uint8Array) || !Array.isArray(patterns) || !patterns.length || !patterns.every(pattern => Buffer.isBuffer(pattern) && pattern.length)) fail();
+  const input = Buffer.from(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+  return patterns.some(pattern => Buffer.isBuffer(pattern) && pattern.length && input.indexOf(pattern) !== -1);
+}
+function safeRelative(name) {
+  return typeof name === 'string' && name && name.length <= 4096 && !/[\\\0:]/u.test(name) && !name.startsWith('/')
+    && name.split('/').every(part => part && part !== '.' && part !== '..');
+}
+const same = (left, right) => left.dev === right.dev && left.ino === right.ino && left.size === right.size && left.mtimeNs === right.mtimeNs && left.ctimeNs === right.ctimeNs;
+export function requirePrivateSnapshot(before, after) {
+  if (!Array.isArray(before) || !Array.isArray(after) || before.length !== PRIVATE.length || after.length !== PRIVATE.length
+    || before.some((value, index) => !same(value, after[index]))) fail('PRIVATE_SCAN_CONFIGURATION_CHANGED');
+}
+const samePath = (left, right) => process.platform === 'win32' ? left.toLowerCase() === right.toLowerCase() : left === right;
+async function boundedFile(file, maximum, privateFile = false) {
+  let handle;
+  try {
+    const before = await lstat(file, { bigint: true });
+    if (!before.isFile() || before.isSymbolicLink() || before.nlink !== 1n || before.size < 0n || before.size > BigInt(maximum)
+      || !samePath(await realpath(file), file)) fail();
+    if (privateFile && process.platform !== 'win32' && (before.uid !== BigInt(process.geteuid()) || (before.mode & 0o077n) !== 0n)) fail();
+    handle = await open(file, constants.O_RDONLY | (constants.O_NOFOLLOW ?? 0));
+    const opened = await handle.stat({ bigint: true }); if (!same(before, opened)) fail();
+    const bytes = Buffer.alloc(Number(opened.size) + 1); let length = 0;
+    while (length < bytes.length) { const next = await handle.read(bytes, length, bytes.length - length, null); if (!next.bytesRead) break; length += next.bytesRead; }
+    const after = await handle.stat({ bigint: true }); const current = await lstat(file, { bigint: true });
+    if (length !== Number(opened.size) || !same(opened, after) || !same(opened, current) || !samePath(await realpath(file), file)) fail();
+    return { bytes: bytes.subarray(0, length), identity: current };
+  } catch { return fail(privateFile ? 'PRIVATE_SCAN_CONFIGURATION_UNAVAILABLE' : 'PRIVATE_SCAN_INPUT_UNAVAILABLE'); }
+  finally { try { await handle?.close(); } catch { fail(); } }
+}
+function commandEnvironment() {
+  return Object.fromEntries(['PATH', 'Path', 'PATHEXT', 'SystemRoot', 'WINDIR', 'TEMP', 'TMP', 'USERPROFILE', 'HOME'].filter(key => typeof process.env[key] === 'string').map(key => [key, process.env[key]]));
+}
+async function command(program, args, input, maximum = LIMITS.total) {
+  return new Promise((resolve, reject) => {
+    let complete = false; let size = 0; let errorBytes = 0; const chunks = [];
+    const child = spawn(program, args, { cwd: ROOT, env: commandEnvironment(), windowsHide: true, shell: false, stdio: ['pipe', 'pipe', 'pipe'] });
+    const finish = error => { if (complete) return; complete = true; clearTimeout(timer); if (error) { child.kill(); reject(new PrivateScanError()); } else resolve(Buffer.concat(chunks)); };
+    const timer = setTimeout(() => finish(true), LIMITS.commandMs);
+    child.on('error', () => finish(true)); child.on('close', code => finish(code !== 0));
+    child.stdout.on('data', part => { size += part.length; if (size > maximum) finish(true); else chunks.push(part); });
+    // Drain but never retain or publish raw child diagnostics.
+    child.stderr.on('data', part => { errorBytes += part.length; if (errorBytes > 1024 * 1024) finish(true); });
+    child.stdin.on('error', () => finish(true)); child.stdin.end(input);
+  });
+}
+async function eligibleSources() {
+  const code = 'import sys,json;sys.path.insert(0,"tools");from package_pack import source_files;print(json.dumps([name for name,_ in source_files()]))';
+  const selected = JSON.parse(decode(await command('python', ['-c', code], undefined, 16 * 1024 * 1024)));
+  if (!Array.isArray(selected) || !selected.length || selected.length > LIMITS.files || !selected.every(safeRelative) || new Set(selected).size !== selected.length) fail();
+  return selected;
+}
+export function inspectGitBatch(bytes, objects, patterns) {
+  let offset = 0; let hits = 0; let total = 0;
+  for (const object of objects) {
+    const newline = bytes.indexOf(10, offset); if (newline < offset || newline - offset > 256) fail();
+    const header = bytes.subarray(offset, newline).toString('ascii').split(' ');
+    if (header.length !== 3 || header[0] !== object || header[1] !== 'blob' || !/^(0|[1-9][0-9]*)$/u.test(header[2])) fail();
+    const size = Number(header[2]); total += size;
+    if (!Number.isSafeInteger(size) || size > LIMITS.entry || total > LIMITS.total || newline + size + 1 >= bytes.length) fail();
+    const content = bytes.subarray(newline + 1, newline + 1 + size); if (containsPrivateValue(content, patterns)) hits++;
+    offset = newline + size + 2; if (bytes[offset - 1] !== 10) fail();
+  }
+  if (offset !== bytes.length) fail(); return { blobs: objects.length, bytes: total, hits };
+}
+function validateManifest(value, expected, actual) {
+  if (!exact(value, ['project', 'kind', 'observed_at', 'status', 'supplied_manifest', 'files']) || value.project !== 'Everyone Presentation Studio'
+    || value.kind !== 'current development source' || typeof value.observed_at !== 'string' || !Number.isFinite(Date.parse(value.observed_at))
+    || typeof value.status !== 'string' || typeof value.supplied_manifest !== 'string' || !Array.isArray(value.files) || value.files.length !== expected.size) fail();
+  const seen = new Set();
+  for (const row of value.files) {
+    if (!exact(row, ['path', 'bytes', 'sha256']) || !safeRelative(row.path) || seen.has(row.path) || !Number.isSafeInteger(row.bytes) || row.bytes < 0
+      || !/^[a-f0-9]{64}$/u.test(row.sha256) || !expected.has(row.path) || !actual.has(row.path)) fail();
+    seen.add(row.path);
+    for (const item of [expected.get(row.path), actual.get(row.path)]) if (row.bytes !== item.bytes || row.sha256 !== item.sha256) fail('PRIVATE_SCAN_ARCHIVE_STALE');
+  }
+}
+/** Real ZIP structure/CRC + exact source-manifest parity; synthetic buffers are
+ * accepted only through this pure offline seam, never from CLI arguments. */
+export async function inspectPackZip(bytes, expected, patterns) {
+  if (!Buffer.isBuffer(bytes) || bytes.length > LIMITS.total || !(expected instanceof Map) || !expected.size || expected.size > LIMITS.files) fail();
+  return new Promise((resolve, reject) => {
+    yauzl.fromBuffer(bytes, { lazyEntries: true, strictFileNames: true, validateEntrySizes: true }, (error, zip) => {
+      if (error || !zip) { reject(new PrivateScanError()); return; }
+      let settled = false; let total = 0; let hits = 0; let entries = 0; let manifest; let active;
+      const seen = new Set(); const actual = new Map();
+      const stop = () => { if (settled) return; settled = true; clearTimeout(timer); active?.destroy(); zip.close(); reject(new PrivateScanError()); };
+      const timer = setTimeout(stop, LIMITS.commandMs);
+      zip.on('error', stop);
+      zip.on('end', () => {
+        if (settled) return;
+        try { if (!manifest || entries !== expected.size + 1 || actual.size !== expected.size) fail(); validateManifest(manifest, expected, actual);
+          settled = true; clearTimeout(timer); resolve({ entries, bytes: total, hits, manifest_integrity_verified: true }); } catch { stop(); }
+      });
+      zip.on('entry', entry => {
+        const relative = entry.fileName.startsWith(PREFIX) ? entry.fileName.slice(PREFIX.length) : '';
+        if (++entries > LIMITS.files + 1 || !safeRelative(relative) || seen.has(relative.toLowerCase()) || entry.isEncrypted()
+          || ((entry.externalFileAttributes >>> 16) & 0o170000) === 0o120000 || ![0, 8].includes(entry.compressionMethod)
+          || !Number.isSafeInteger(entry.uncompressedSize) || entry.uncompressedSize < 0 || entry.uncompressedSize > LIMITS.entry
+          || total + entry.uncompressedSize > LIMITS.total || relative !== 'SOURCE_MANIFEST.json' && !expected.has(relative)) { stop(); return; }
+        seen.add(relative.toLowerCase());
+        zip.openReadStream(entry, (readError, stream) => {
+          if (readError || !stream || settled) { stream?.destroy(); stop(); return; } active = stream;
+          void (async () => {
+            let size = 0; let checksum = 0; const sha = createHash('sha256'); const chunks = [];
+            let tail = Buffer.alloc(0); let hit = containsPrivateValue(Buffer.from(entry.fileName), patterns);
+            const overlap = Math.max(...patterns.map(pattern => pattern.length)) - 1;
+            for await (const part of stream) {
+              size += part.length; total += part.length; if (size > entry.uncompressedSize || total > LIMITS.total) fail();
+              checksum = crc32(part, checksum); sha.update(part);
+              const combined = Buffer.concat([tail, part]); hit ||= containsPrivateValue(combined, patterns); tail = combined.subarray(Math.max(0, combined.length - overlap));
+              if (relative === 'SOURCE_MANIFEST.json') { if (size > LIMITS.manifest) fail(); chunks.push(part); }
+            }
+            if (size !== entry.uncompressedSize || checksum !== entry.crc32) fail(); if (hit) hits++;
+            if (relative === 'SOURCE_MANIFEST.json') manifest = JSON.parse(decode(Buffer.concat(chunks)));
+            else actual.set(relative, { bytes: size, sha256: sha.digest('hex') });
+            if (!settled) zip.readEntry();
+          })().catch(stop);
+        });
+      });
+      if (zip.entryCount !== expected.size + 1) stop(); else zip.readEntry();
+    });
+  });
+}
+export async function scanFixedPrivateValues() {
+  const selected = await eligibleSources();
+  const material = []; for (const [relative, maximum] of PRIVATE) material.push(await boundedFile(path.join(ROOT, relative), maximum, true));
+  const patterns = privatePatterns({ worker: material[0].bytes, runtime: material[1].bytes, logo: material[2].bytes, specs: material[3].bytes });
+  const expected = new Map(); const identities = new Map(); let sourceBytes = 0; let sourceHits = 0;
+  for (const relative of selected) {
+    const item = await boundedFile(path.join(ROOT, relative), LIMITS.entry); sourceBytes += item.bytes.length;
+    if (sourceBytes > LIMITS.total) fail();
+    if (containsPrivateValue(item.bytes, patterns) || containsPrivateValue(Buffer.from(relative), patterns)) sourceHits++;
+    expected.set(relative, { bytes: item.bytes.length, sha256: digest(item.bytes) }); identities.set(relative, item.identity);
+  }
+  const index = decode(await command('git', ['ls-files', '--stage', '-z'], undefined, 16 * 1024 * 1024)); const objects = new Set(); let indexEntries = 0; let indexPathHits = 0;
+  for (const row of index.split('\0').filter(Boolean)) {
+    const match = /^(100644|100755) ([a-f0-9]{40}|[a-f0-9]{64}) 0\t(.+)$/u.exec(row);
+    if (!match || !safeRelative(match[3]) || !expected.has(match[3]) || ++indexEntries > LIMITS.files) fail();
+    objects.add(match[2]); if (containsPrivateValue(Buffer.from(match[3]), patterns)) indexPathHits++;
+  }
+  if (!objects.size) fail();
+  const staged = inspectGitBatch(await command('git', ['cat-file', '--batch'], [...objects].join('\n') + '\n', LIMITS.total + LIMITS.files * 256), [...objects], patterns);
+  const archive = await boundedFile(ZIP, LIMITS.total); const zipped = await inspectPackZip(archive.bytes, expected, patterns);
+  const finalSelected = await eligibleSources(); if (JSON.stringify(finalSelected) !== JSON.stringify(selected)) fail();
+  for (const relative of selected) if (!same(await lstat(path.join(ROOT, relative), { bigint: true }), identities.get(relative))) fail();
+  if (!same(await lstat(ZIP, { bigint: true }), archive.identity)) fail();
+  if (decode(await command('git', ['ls-files', '--stage', '-z'], undefined, 16 * 1024 * 1024)) !== index) fail();
+  const privateAfter = [];
+  try {
+    for (const [relative] of PRIVATE) {
+      const file = path.join(ROOT, relative); if (!samePath(await realpath(file), file)) fail();
+      privateAfter.push(await lstat(file, { bigint: true }));
+    }
+  } catch { fail('PRIVATE_SCAN_CONFIGURATION_CHANGED'); }
+  requirePrivateSnapshot(material.map(item => item.identity), privateAfter);
+  const hits = sourceHits + staged.hits + indexPathHits + zipped.hits;
+  return { result: hits ? 'failed' : 'passed', private_value_found: hits > 0, private_configuration_sources: 4, private_value_families: 6,
+    source_files: selected.length, source_bytes: sourceBytes, source_hits: sourceHits, staged_entries: indexEntries, staged_blobs: staged.blobs,
+    staged_blob_bytes: staged.bytes, staged_hits: staged.hits + indexPathHits, archive_entries: zipped.entries, archive_bytes_expanded: zipped.bytes,
+    archive_hits: zipped.hits, manifest_integrity_verified: zipped.manifest_integrity_verified, source_and_archive_stable: true, private_input_snapshot_stable: true,
+    identities_scanned: false, private_values_or_digests_recorded: false, external_network_called: false };
+}
+async function receiptDirectory() {
+  if (!samePath(await realpath(ROOT), ROOT)) fail();
+  let current = ROOT;
+  for (const component of ['dist', 'checkpoints', 'private-values']) {
+    current = path.join(current, component);
+    try { await mkdir(current); } catch (error) { if (error?.code !== 'EEXIST') fail(); }
+    const info = await lstat(current);
+    if (!info.isDirectory() || info.isSymbolicLink() || !samePath(await realpath(current), current)) fail();
+  }
+  return current;
+}
+async function main() {
+  if (process.argv.length !== 3 || process.argv[2] !== 'scan' || !/^v24\./u.test(process.version)) fail();
+  let result;
+  try { result = await scanFixedPrivateValues(); }
+  catch (error) { result = { result: 'blocked', code: error instanceof PrivateScanError ? error.code : 'PRIVATE_SCAN_UNCONFIRMED',
+    private_values_or_digests_recorded: false, external_network_called: false }; }
+  const report = { schema_version: '1.0', observed_at: new Date().toISOString(), scope: 'Fixed current private values in Git-eligible source, staged blob bytes and exact source ZIP', ...result };
+  // Post-archive receipts are deliberately ignored source. Recording this
+  // result must not invalidate the exact source/ZIP checkpoint just checked.
+  const directory = await receiptDirectory();
+  const filename = report.observed_at.replace(/[:.]/gu, '-') + '-' + randomUUID().slice(0, 8) + '.json';
+  await writeFile(path.join(directory, filename), JSON.stringify(report, null, 2) + '\n', { flag: 'wx' });
+  process.stdout.write(JSON.stringify(report) + '\n'); if (report.result !== 'passed') process.exitCode = 1;
+}
+if (process.argv[1] && pathToFileURL(path.resolve(process.argv[1])).href === import.meta.url) main().catch(() => {
+  process.stderr.write('Private value scan was not confirmed; private diagnostics suppressed.\n'); process.exitCode = 1;
+});

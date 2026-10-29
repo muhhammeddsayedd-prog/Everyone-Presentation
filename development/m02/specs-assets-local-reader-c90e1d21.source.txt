@@ -1,0 +1,55 @@
+/** Fixed read-only catalogue checkpoint. No SQL/target/path arguments. */
+import assert from 'node:assert/strict';
+import { spawn } from 'node:child_process';
+import { createHash, randomUUID } from 'node:crypto';
+import { mkdir, open, readFile, unlink, writeFile } from 'node:fs/promises';
+import path from 'node:path';
+import process from 'node:process';
+import { clearTimeout, setTimeout } from 'node:timers';
+import { verifyNativeSpecsLocalTarget } from './lib/native-specs-local-transport.mjs';
+
+const ROOT = path.resolve(import.meta.dirname, '..');
+const FILE = 'tools/sql/specs-assets-readback.sql';
+const SOURCE = 'e8a9796c0f21d103032008162f4c710e6cb4b8266c72d7b36ec409dca852178c';
+const LOCK = path.join(ROOT, '.local/local-postgres/test-db.lock');
+const ENDPOINT = process.platform === 'win32' ? 'npipe:////./pipe/dockerDesktopLinuxEngine' : 'unix:///var/run/docker.sock';
+const sha256 = value => createHash('sha256').update(value).digest('hex');
+async function main() {
+  assert(process.argv.length === 2 && /^v24\./u.test(process.version));
+  const source = await readFile(path.join(ROOT, FILE)); assert.equal(sha256(source), SOURCE);
+  const runId = randomUUID(); let ownsLock = false;
+  try {
+    const handle = await open(LOCK, 'wx', 0o600);
+    try { await handle.writeFile(JSON.stringify({ run_id: runId, pid: process.pid })); await handle.sync(); ownsLock = true; }
+    finally { await handle.close(); }
+    const target = await verifyNativeSpecsLocalTarget(); const containerId = target.container.Id;
+    const stdout = await new Promise((resolve, reject) => {
+      const child = spawn('docker', ['--host', ENDPOINT, 'exec', '--user', 'postgres', '-i', containerId,
+        'psql', '-X', '-q', '-A', '-t', '-v', 'ON_ERROR_STOP=1', '-h', '/var/run/postgresql', '-U', 'postgres', '-d', 'postgres'],
+      { cwd: ROOT, shell: false, windowsHide: true, stdio: ['pipe', 'pipe', 'pipe'] });
+      let output = ''; let failed = false;
+      const timer = setTimeout(() => { failed = true; child.kill(); }, 45_000);
+      child.stdout.on('data', chunk => { output += chunk.toString('utf8'); if (output.length > 16 * 1024 * 1024) { failed = true; child.kill(); } });
+      child.stderr.resume(); child.stdin.on('error', () => {});
+      child.on('error', () => { clearTimeout(timer); reject(new Error('LOCAL_READBACK_UNCONFIRMED')); });
+      child.on('close', code => { clearTimeout(timer); if (code !== 0 || failed) reject(new Error('LOCAL_READBACK_UNCONFIRMED')); else resolve(output); });
+      child.stdin.end(source);
+    });
+    const rows = stdout.split(/\r?\n/u).filter(line => line.startsWith('{')).map(line => JSON.parse(line));
+    assert.equal(rows.length, 1); const state = rows[0];
+    assert(state.query_role === 'postgres' && state.database === 'postgres' && state.unrestricted_visibility === true);
+    assert.equal((await verifyNativeSpecsLocalTarget()).container.Id, containerId);
+    const receipt = { observed_at: new Date().toISOString(), cloud_called: false, read_only: true,
+      system_identifier: target.observed.system_identifier, container_id: containerId, readback_file: FILE, readback_sha256: SOURCE,
+      harness_sha256: sha256(await readFile(import.meta.filename)), readback: state };
+    const directory = path.join(ROOT, 'tracking/evidence/cloud-specs-assets'); await mkdir(directory, { recursive: true });
+    const file = path.join(directory, `${receipt.observed_at.replace(/[:.]/gu, '-')}-${runId.slice(0, 8)}-local-contract.json`);
+    await writeFile(file, JSON.stringify(receipt, null, 2) + '\n', { flag: 'wx' });
+    process.stdout.write(JSON.stringify({ result: 'passed', file: path.relative(ROOT, file).replaceAll('\\', '/'),
+      versions: state.versions.length, functions: state.catalog.functions.length, relations: state.catalog.relations.length,
+      catalogue_sha256: sha256(JSON.stringify(state.catalog)), cloud_called: false }) + '\n');
+  } finally {
+    if (ownsLock) { const owner = JSON.parse(await readFile(LOCK, 'utf8')); assert(owner.run_id === runId && owner.pid === process.pid); await unlink(LOCK); }
+  }
+}
+main().catch(() => { process.stderr.write('Fixed local catalogue readback unconfirmed; no raw SQL diagnostics retained.\n'); process.exitCode = 1; });

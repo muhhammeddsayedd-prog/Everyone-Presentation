@@ -26,6 +26,19 @@ job metadata or browser responses. The child receives an explicit environment
 allowlist. It receives no n8n management API key, Supabase service-role key,
 ambient database URL or OpenAI endpoint/header override.
 
+File transfers are separately opt-in through `EPS_SPECS_FILES_ENABLED=true` in
+the launcher's environment. The default performs no web configuration read and
+keeps the six-operation gateway. When enabled, the launcher reads only the fixed
+`apps/web/.env.local` file and projects `SUPABASE_URL` and
+`SUPABASE_PUBLISHABLE_KEY`; the origin must match this canonical project and the
+key must be a public `sb_publishable_` key. Other web/server fields never enter
+the worker child. The protected five-field runtime file remains unchanged.
+The gateway then requires exactly the additional assets group and four scoped
+operations before supplying the optional file port to the executor. Missing
+grants or configuration fail closed. This code path and its injected tests do
+not enable SQL flags, provision a key, restart a worker or prove hosted Storage
+HTTP behavior.
+
 The authenticated gateway factory verifies the dedicated database LOGIN and its
 narrow authority before polling. The normal runtime uses parameterized PostgreSQL
 operations with verified TLS. The separate Docker/psql/TRUST integration proof is

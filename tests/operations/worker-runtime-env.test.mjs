@@ -21,3 +21,14 @@ test('child environment contains scoped provider/runtime values and excludes man
   const punctuation = 'synthetic"quoted\\password';
   assert.equal(createSpecsWorkerEnvironment(provider, { ...fixture, EPS_SPECS_PG_PASSWORD: punctuation }).EPS_SPECS_PG_PASSWORD, punctuation);
 });
+test('file-enabled child receives only the explicit public storage configuration outside the private five fields', () => {
+  const provider = { OPENAI_API_KEY: 'synthetic-openai', OPENAI_EXTRACTION_MODEL: 'synthetic-model' };
+  const publicStorage = { EPS_SPECS_FILES_ENABLED: 'true', SUPABASE_URL: 'https://pyibofyctwnqpvktepse.supabase.co',
+    SUPABASE_PUBLISHABLE_KEY: 'sb_publishable_synthetic_public_key' };
+  const child = createSpecsWorkerEnvironment(provider, fixture, { SUPABASE_URL: 'https://foreign.invalid',
+    SUPABASE_SERVICE_ROLE_KEY: 'synthetic-do-not-copy', EPS_SPECS_FILES_ENABLED: 'true' }, publicStorage);
+  assert.equal(child.EPS_SPECS_FILES_ENABLED, 'true'); assert.equal(child.SUPABASE_URL, publicStorage.SUPABASE_URL);
+  assert.equal(child.SUPABASE_PUBLISHABLE_KEY, publicStorage.SUPABASE_PUBLISHABLE_KEY);
+  assert.equal(child.SUPABASE_SERVICE_ROLE_KEY, undefined);
+  assert.equal(createSpecsWorkerEnvironment(provider, fixture, publicStorage).EPS_SPECS_FILES_ENABLED, undefined);
+});

@@ -1,0 +1,12 @@
+{
+  "kind": "preserved scanner source before interpreter pin",
+  "original_scanner_sha256": "2904fa65d66252812332769bf73e2356140eb5836de56361200c6fad4dfce311",
+  "original_tests_sha256": "adc95c1f4fd170a9bccceb68e3aebf12eba85a0a88fec562c01b2707a4654cee",
+  "failed_scan_observed_at": "2026-10-29T01:34:23.450Z",
+  "failed_scan_result": "blocked",
+  "failed_scan_code": "PRIVATE_SCAN_UNCONFIRMED",
+  "diagnosis": "Generic Python resolved a Windows installer alias under the scrubbed child environment and created a workspace Python installation. Its new source-eligible files made the existing archive stale. Git index and batch structure passed independently with synthetic patterns; archive structure blocked without loading private values.",
+  "correction": "Use the existing fixed project virtual-environment interpreter, recheck executable identity, and report only a fixed coarse failing phase. Keep exact source/index/archive and private-input stability guards.",
+  "historical_receipt_modified": false,
+  "private_values_or_digests_recorded": false
+}

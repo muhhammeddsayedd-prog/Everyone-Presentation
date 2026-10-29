@@ -60,6 +60,18 @@
       "sha256": "1e5319bb81be1f12896f7efb5a2cb7706653b79eb440a4dc1aaaca4ed9556895",
       "reviewed_by": "root integration owner with foundation_domain, foundation_ui and discovery_review exact-core review; rollback0b783b98 passed; owned local application only; cloud not reviewed here",
       "reviewed_at": "2026-10-28T22:24:02.206801+00:00"
+    },
+    {
+      "path": "supabase/migrations/20261029001520_m02_specs_assets.sql",
+      "sha256": "9b35e8efdfc5184252ab4ecfe1a50861c8991dadf2b20544d481b51b3b7fb288",
+      "reviewed_by": "root integration owner with independent discovery and domain SQL/storage/receipt/source/archive reviews; actual owned-local candidate87b rollback proof6d1ccc32; local promotion only pending persisted11/cloud gates",
+      "reviewed_at": "2026-10-29T00:15:59.149446+00:00"
+    },
+    {
+      "path": "supabase/migrations/20261029003941_m02_specs_mime_guard.sql",
+      "sha256": "5a4439e9dd5262cae7e6f813997c4c9506db3eb74fe4ea95d2a352726effb549",
+      "reviewed_by": "root integration owner plus domain and discovery independent scalar/owner/ACL review; actual local11 candidate rollback b269f7d7 passed; additive local promotion only pending cloud gates",
+      "reviewed_at": "2026-10-29T00:47:29.907151+00:00"
     }
   ],
   "tests": [

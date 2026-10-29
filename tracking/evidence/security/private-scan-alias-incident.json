@@ -1,0 +1,20 @@
+{
+  "recorded_at": "2026-10-29T01:38:56.120820+00:00",
+  "event": "Private scanner default Python alias created a workspace runtime",
+  "failed_scan_observed_at": "2026-10-29T01:34:23.450Z",
+  "failed_scan_result": "blocked",
+  "original_folder": "Python/",
+  "observed_folder_created_at": "2026-10-29T01:33:52.400Z",
+  "observed_folder_last_write_at": "2026-10-29T01:34:18.523Z",
+  "git_tracked_files_before_move": 0,
+  "preservation": "Moved with native PowerShell within the verified workspace to ignored .local/private-scan-python-alias-quarantine-20261029; no recursive delete.",
+  "unexpected_runtime": "pythoncore-3.15-64 plus bin and _cache",
+  "ownership_evidence": "Directory absent from packaged2465 eligible source files before the first scanner run; creation interval matches that run; no tracked files.",
+  "original_failed_receipt_changed": false,
+  "correction": "The original external_network_called:false field describes intended scanner code only; it cannot attest to installer-side network behavior. That behavior was not observed. No private values were emitted.",
+  "fix": "Use only the existing project .venv-skills/Scripts/python.exe, with no PATH Python/installer fallback. Source/index/archive must be regenerated and actual scan repeated after the fix.",
+  "source_package_file_count_during_incident": 4800,
+  "prior_source_package_file_count": 2465,
+  "new_runtime_executed_for_app": false,
+  "hosting_changed": false
+}

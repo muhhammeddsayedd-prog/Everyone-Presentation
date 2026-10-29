@@ -1,0 +1,46 @@
+{
+  "recorded_at": "2026-10-29T01:31:40.905105+00:00",
+  "environment": "Local Windows, Node24, repository module test runner",
+  "command": "npm.cmd test",
+  "exit_code": 0,
+  "result": "passed",
+  "module_tests": 274,
+  "suites": {
+    "unit": 99,
+    "contracts": 6,
+    "jobs": 12,
+    "integrations": 18,
+    "worker": 67,
+    "central": 72
+  },
+  "failures": 0,
+  "skips": 0,
+  "scope": "Deterministic/local module suites. Real Supabase/n8n/OpenAI browser results have separate receipts; this result does not prove uploaded-file or production acceptance.",
+  "typecheck": {
+    "command": "npm.cmd run typecheck",
+    "exit_code": 0,
+    "executor": "foundation_domain",
+    "scope": "Current startup/gateway/worker sources"
+  },
+  "lint": {
+    "command": "npm.cmd run lint",
+    "exit_code": 0,
+    "executor": "foundation_domain"
+  },
+  "source_sha256": {
+    "apps/worker/src/runtime-main.ts": "b165a388e37b4df6c32b786a7d38fea9d3cd992edd850ec19afbe300ac98c2bd",
+    "apps/worker/src/runtime.ts": "062e109bf1e7b605773543c1cb8ee12d6768c267d7814e9e2804cebb6da01981",
+    "packages/central/src/specs-runtime-gateway.ts": "766822398e976be9338ac69a7778094a6b1c89c09a3bc3c2635d30de04bae830",
+    "tools/scan-private-values.mjs": "2904fa65d66252812332769bf73e2356140eb5836de56361200c6fad4dfce311"
+  },
+  "additional_checks": "tracking/evidence/m02/specs-file-checks/root-commands.json",
+  "file_app_acceptance": "pending browser file attachment permission",
+  "hosting_deployed": false,
+  "pack_validation": {
+    "command": ".\\.venv-skills\\Scripts\\python.exe -X utf8 tools/validate_pack.py --strict",
+    "result": "passed",
+    "checks": 325,
+    "errors": 0,
+    "scope": "Pack structure/contracts only; no live service, worker, browser or production acceptance."
+  }
+}

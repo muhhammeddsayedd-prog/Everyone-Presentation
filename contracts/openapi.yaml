@@ -8367,7 +8367,7 @@ paths:
                   request_id:
                     type: string
                   data:
-                    $ref: '#/components/schemas/UploadSession'
+                    $ref: '#/components/schemas/JobOutputReservationResult'
                   warnings:
                     type: array
                     items:
@@ -8541,7 +8541,7 @@ paths:
                   request_id:
                     type: string
                   data:
-                    $ref: '#/components/schemas/Playback'
+                    $ref: '#/components/schemas/ServiceAssetAccess'
                   warnings:
                     type: array
                     items:
@@ -11644,6 +11644,12 @@ components:
           $ref: '#/components/schemas/Id'
         lease_token:
           type: string
+        output_key:
+          type: string
+          minLength: 1
+          maxLength: 100
+          pattern: '^[A-Za-z0-9][A-Za-z0-9._:-]*$'
+          description: Stable logical output name within this job attempt. Retries with the same key and metadata reuse the same immutable reservation; conflicting metadata is rejected.
         asset_kind:
           type: string
           enum:
@@ -11676,6 +11682,7 @@ components:
       - job_id
       - attempt_id
       - lease_token
+      - output_key
       - asset_kind
       - filename
       - mime_type
@@ -11736,11 +11743,55 @@ components:
           type: string
         asset_id:
           $ref: '#/components/schemas/Id'
+        access:
+          type: string
+          enum: [read, write]
+          default: read
+          description: Lease-scoped exact-object access. Write is only a newly reserved immutable output, never an original.
       required:
       - job_id
       - attempt_id
       - lease_token
       - asset_id
+    ServiceAssetAccess:
+      type: object
+      additionalProperties: false
+      description: Private service-only transfer capability. Headers are credentials and must not enter URLs, ordinary job metadata, logs or n8n envelopes. Exact object, method and lifetime are lease-bound; no arbitrary destination/signing interface exists.
+      properties:
+        asset_id:
+          $ref: '#/components/schemas/Id'
+        url:
+          type: string
+          format: uri
+        method:
+          type: string
+          enum: [GET, POST]
+        headers:
+          type: object
+          additionalProperties:
+            type: string
+        expires_at:
+          $ref: '#/components/schemas/DateTime'
+        mime_type:
+          type: string
+        size_bytes:
+          type: integer
+          minimum: 1
+        sha256:
+          anyOf:
+          - type: string
+          - type: 'null'
+      required: [asset_id, url, method, headers, expires_at, mime_type, size_bytes, sha256]
+    JobOutputReservationResult:
+      type: object
+      additionalProperties: false
+      description: Actual immutable derivative reservation plus a lease-bound transfer capability. This is a direct new-object POST, not a signed-upload PUT or an upsert grant.
+      properties:
+        asset:
+          $ref: '#/components/schemas/MediaAsset'
+        access:
+          $ref: '#/components/schemas/ServiceAssetAccess'
+      required: [asset, access]
     ServiceStageClaim:
       type: object
       additionalProperties: false

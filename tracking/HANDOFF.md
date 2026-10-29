@@ -1,5 +1,63 @@
 # Current Codex handoff
 
+## Current checkpoint: real specs processing; uploaded-file app proof blocked
+
+Updated2026-10-29 after actual worker observation01:30:20Z. The active request remains **finish specs with real OpenAI and test through the app; keep hosting deferred**. This supersedes current-state wording in the retained historical sections below. M00 verified; M01/M02 in_progress; M03-M07 not_started. Do not call M02 or uploaded-file acceptance complete.
+
+### Exact next action
+
+The owner was asked through the pending async question to enable **Allow access to file URLs** for the ChatGPT extension at chrome://extensions, or attach the prepared files manually. The documented chooser reached the actual file control but setFiles failed on that missing permission. Windows native computer control is unavailable. No alternate browser/session import, user JWT export, fake upload job or source ingestion route was used. Wait for the real access change or actual owner attachment; elapsed time is not approval.
+
+Connected Chrome1/Person1 tab1091386549 is genuinely signed in, left on Dummy Test Specs with document mode selected. Preserve that session and do not send another sign-in link. After access is ready, use the normal Choose document/filechooser flow for fixtures/live-specs-files/synthetic-casting-english.pdf, then synthetic-casting-mixed.docx. Each should pass actual private original upload/completion, native prepared-JSON upload/readback, real WF01/OpenAI and safe machine-baseline replacement. Then test corrupt-document.pdf and manual-instruction correction while extraction is pending. **Do not edit existing working facts before the two positive file runs:** the current generated baseline is untouched and deliberately eligible for replacement. Real missing-count/age/date, assigned-slot races and full API/MCP/Storage release checks remain separately incomplete.
+
+### Current services and data
+
+- Canonical Supabase pyibofyctwnqpvktepse now has exact12 local/cloud migrations; new11SHA9b35e8efdfc5184252ab4ecfe1a50861c8991dadf2b20544d481b51b3b7fb288,12SHA5a4439e9dd5262cae7e6f813997c4c9506db3eb74fe4ea95d2a352726effb549. Fresh readback tracking/evidence/cloud-specs-assets/2026-10-29T00-58-48-399742Z-cf9b507d-readback.json verifies the additive schema and preserved old records/catalog. Existing migration bytes were not changed. Original failed/unconfirmed10/11 receipts remain failed with bounded read-only reconciliations; never blindly reapply.
+- One independent document-verifier key was server-generated once into protected owner+SYSTEM files. Actual activation enables all3 document flags and adds only eps_specs_assets_executor to existing eps_specs_runtime. Exact10operations/3inherit-only groups, no direct table/Auth authority. No service-role or acting-user token in the worker. The actual first Producer received only absent operations.retry after fixed current-scope checks; existing grants/memberships/Auth rows are unchanged.
+- Dedicated published n8n WF01 Nu4bvU634yTLnRy1 uses Header Auth credential reference DgZ83IpyrbinQ9gW. It routes metadata-only real work orders; execution payload retention is disabled. Existing unrelated workflows remain untouched. MCP discovery failed-32603; authenticated management API fallback was used. The HTTP ServiceBearer facade/MCP release proof is still separate from the actual direct PG port.
+- Local web launcher PID40532 / observed listener child21424 serves127.0.0.1:3000 from this checkout. Explicit CENTRAL_SPECS_UPLOADS_ENABLED=true is process-only. Protected private key loading is already wired; do not recreate keys or rewrite .env.local.
+- Current local worker launcher PID45596 was started01:28:40.944Z, explicit EPS_SPECS_FILES_ENABLED=true, recorded .local/specs-runtime/worker-files-v4-process.json; corresponding v4 stdout/stderr logs are ignored and contain sanitized notices only. At01:30:20 it was alive with startup+three recovery_completed notices and no failures. Verify ownership/current status freshly before stopping or asserting serving. No public listener/tunnel or hosting was introduced.
+- Runtime uses fixed official CA/hostname TLS and actual SCRAM PG authentication. Password expiry was2026-11-27T23:49:28.693263Z. Keep .env.worker.local, .env.worker-runtime.local and all .local config private. Existing selected model isgpt-6.1-sol; OpenAI SDK7.45.1. Do not ask for credentials again.
+
+### Actual acceptance boundaries
+
+1. First app job3ba110dd-711c-4c7f-aa89-0f4578310543 succeeded through real n8n/OpenAI2972tokens, original1114UTF8bytes/Arabic/en+ar retained. Father1/Manager1/Waiter3; repeated scenes did not multiply people. Reload during processing, explicit saved-facts load and same-source same-job reuse were observed. Missing Manager gender/availability remain null.
+2. Actual UI queued cancellation64788c14-ffab-44a5-94e1-5b7e512979c1 passed with zero stage/provider attempts and retained all facts. Screenshot/UI and fixed read-only metadata are in tracking/evidence/m02/live-specs-cancellation/.
+3. Actual UI job1e1104aa-2e0f-4f6f-8bd3-7e04ac09e7ed stayed Queued across browser reload while no worker was running, then completed after worker relaunch through all3 n8n stages/OpenAI2970tokens. Current3roles/5slots have new origin IDs; old3roles/5slots are archived with original source evidence preserved. See tracking/evidence/m02/live-specs-restart/. This is queued-before-worker-relaunch, not database restart or in-flight expired-lease proof.
+4. Real PDF/DOCX native parser fixtures, local SQL source/asset/receipt/lease/replacement assertions and19 controlled/intercepted source/file UI journeys passed. **No uploaded PDF/DOCX has yet run through actual Storage/OpenAI in the app.** The file-proof harness tools/capture-live-specs-files.py is intentionally unsealed until actual file job IDs exist.
+5. First file-mode startup33464 failed with a generic suppressed diagnostic. v2worker44176 did complete the real job, then had intermittent idle gateway failures; v344112 failed with actual gateway_verification/RUNTIME_UNAVAILABLE/files_requestedtrue. Cause remains unconfirmed. No timeout/ACL/TLS/connection limit was weakened. New safe primitive diagnostics and three availability-only pre-work startup attempts are implemented; auth/TLS/config/role failures stay terminal. Exact earlier gateway/main/runtime sources are archived under development/m02/*observability*.source.*. Current v4 observation is separate from those historical failures.
+6. Current root npm test passed274module tests (99unit,6contracts,12jobs,18integrations,67worker,72central), no failure/skip. Typecheck/lint pass; web build, production fixture denial and53-skill integrity passed. See tracking/evidence/m02/specs-file-checks/ for dated prior/full-suite and root command scopes; current full-suite receipt is tracking/evidence/m02/specs-file-checks/final-modules.json. Known browser extension hydration/MetaMask warnings are distinct from app acceptance; no clean-console claim. FullPage screenshot timed out once; documented getScreenshot worked and artifacts are retained.
+
+### Safe continuation and release
+
+The first actual private-value scan stopped rather than approving a changed archive. Its scrubbed PATH Python invocation triggered the Windows Python installer alias and created an untracked Python/ runtime inside this checkout. Exact timestamps/absence from the earlier package/no tracked files established ownership; only that folder was moved, without deletion, into .local/private-scan-python-alias-quarantine-20261029. See tracking/evidence/security/private-scan-alias-incident.json. The original blocked receipt and unverified a23aae75 ZIP are preserved; the latter is ignored .local/private-scan-source-a23aae75-unverified.zip. Current scanner pins the existing .venv-skills interpreter and never uses PATH Python. Do not undo that fix or claim the historical no-network field attests to installer behavior. Final matching source/index/ZIP privacy verification is still being finalized.
+
+Use current health checks with explicit file mode, for example EPS_SPECS_FILES_ENABLED=true then node --import tsx tools/check-specs-files-runtime.mjs. Old initial-state release/enable/provision helpers are deliberately source/state sealed and must not be rerun against active data/keys/flags. No reset/seed, Auth fabrication, assignment guessing or deletion of prior facts/media. Hosting remains deferred. Complete the file/UI gates, update these ledgers and source checkpoint; M03 has not started.
+
+---
+
+## Superseded interim checkpoint retained below
+
+## Live specs checkpoint in progress
+
+Updated2026-10-29 after actual live app proof at2026-10-28T23:54:07Z. This section supersedes the older local-only checkpoint retained below. The active user request is to finish real specs processing through the app, with hosting deferred. Work is still in progress on PDF/DOCX; do not end at this interim checkpoint.
+
+Cloud10 is applied. The original apply4b711 receipt remains failed because duplicate creator membership rows had nondeterministic ordering. Read-only reconciliation06621ead SHA24ca991887de11abef0807f1850c350bf582811acd2faf60dab7f84f2eb4d11d verified every source/ACL/RLS/catalog field and preserved original business/source/branding data; no reapply or grant change. See tracking/evidence/cloud-specs-pipeline/.
+
+Actual local worker uses the fixed canonical session pooler, official CA and SCRAM-only pg8.23.1. Dedicated eps_specs_runtime has only executor/dispatcher inheritance with SET/ADMIN false; its managed creator incoming ADMIN edge has INHERIT/SET false. Private role logging is disabled/redacted, global settings unchanged. Protected runtime/provider files remain ignored; never print them. Runtime process launcher PID32520 is recorded with start time under .local/specs-runtime/worker-process.json and runs outward only. Stop/restart only owned processes after coordinated SQL11 release; no public listener/tunnel/hosting.
+
+Existing n8n Cloud has dedicated published WF01 Nu4bvU634yTLnRy1, credential reference DgZ83IpyrbinQ9gW. API readback and real three-handler/unauthenticated/malformed probes passed; MCP remains -32603. All execution-payload retention flags are off. No unrelated workflow/credential was changed.
+
+The owner signed in again at the request of this new app test. Connected Chrome Person1 tab1091386549 is signed in on Dummy Test Specs; old direction to keep all review tabs closed is superseded by the new explicit app-test request. Do not extract cookies/JWT, impersonate users or send another link. Root controls the real browser exclusively.
+
+First actual app job3ba110dd-711c-4c7f-aa89-0f4578310543 completed all three stages with real OpenAI2972tokens. Workspace098d5b48-42a3-475b-b562-735c9eafce80, Spec73a1a500-acfe-48cc-91ba-53a83b895118. Father1/Manager1/Waiter3, five slots. Original1114 UTF8 bytes/hash/Arabic preserved; languages en/ar; Manager gender/availability null. Browser reload while processing, explicit Load saved requirements, editable forms and repeat-source same1job/1attempt-perstage passed. No manual fact edits yet, preserving machine baseline for file replacement. Canonical proof: tracking/evidence/m02/live-specs-app/2026-10-28T23-54-07.641799+00-00-database.json. Screenshot reloaded-processing.png shows COMPLETED after reload, before explicit load; do not label that image in-progress.
+
+Commits this continuation:9ce23f5 runtime,89b896b source-result UI,3fb4cf9 liveWF01,2e8fd39 cloud10release,128807c real app proof. Current uncommitted work is additive11 file assets and file UI/runtime wiring, root tracking and fixture preparation. Agents own coordinated pieces; do not restore their work.
+
+Next: finish locally rehearsed/reviewed11, private document-verifier key, strict public-only Storage config projection, and real Storage positive/negative capability/immutability gates. Only then enable document flags and run fixtures/live-specs-files PDF/DOCX through the actual signed-in app. Their real isolated parsers passed; PDF rendered/inspected; no Word visual layout claim (internal OOXML/parser input only). Then test manual-edit protection/retry/cancel/restart, update tracking, run final required checks, preserve old source ZIP and package a new scanned checkpoint. Full M01 Storage, HTTP/MCP facade and production release acceptance remain separate/unverified. Hosting remains deferred.
+
+---
+
 Updated2026-10-29 after local native proof completed2026-10-28T23:00:53Z. Client date and actual UTC receipts are separate. M00 verified; M01/M02 in_progress; M03-M07 not_started. This section supersedes older current-state claims below.
 
 ## Owner direction and current implementation

@@ -1,0 +1,60 @@
+import process from 'node:process';
+import path from 'node:path';
+import { pathToFileURL } from 'node:url';
+import { createSpecsRuntimeGateway, readSpecsRuntimeConfig } from '@eps/central/specs-runtime';
+import { openAISpecsConfigFromEnv } from '@eps/integrations';
+import { N8nSpecsOrchestrator } from './n8n-orchestrator.ts';
+import { runSpecsWorker, specsWorkerFilesConfiguration } from './runtime.ts';
+
+const startupCodes = new Set(['WORKER_RUNTIME_SCOPE_INVALID','OPENAI_KEY_REQUIRED','OPENAI_EXTRACTION_MODEL_REQUIRED','OPENAI_CONFIGURATION_INVALID',
+  'N8N_RUNTIME_CONFIGURATION_REQUIRED','RUNTIME_CONFIG_INVALID','RUNTIME_AUTH_UNVERIFIED','RUNTIME_ROLE_UNVERIFIED','RUNTIME_UNAVAILABLE']);
+type StartupCheckpoint = 'runtime_scope' | 'provider_configuration' | 'orchestration_configuration' | 'file_configuration' | 'gateway_verification';
+export class SpecsWorkerStartupError extends Error {
+  constructor(readonly checkpoint: StartupCheckpoint, readonly code: string, readonly files_requested: boolean) {
+    super('Specs worker startup could not be confirmed. Private diagnostics are suppressed.'); this.name = 'SpecsWorkerStartupError';
+  }
+}
+/** Validate the exact startup path without polling, recovering, claiming,
+ * contacting n8n/OpenAI/Storage, or reading job/source data. The returned
+ * context contains server configuration and must never be serialized. */
+export async function verifySpecsWorkerStartup(environment: Readonly<Record<string, string | undefined>> = process.env,
+  createGateway: typeof createSpecsRuntimeGateway = createSpecsRuntimeGateway) {
+  let checkpoint: StartupCheckpoint = 'runtime_scope';
+  const filesRequested = environment.EPS_SPECS_FILES_ENABLED === 'true';
+  try {
+    if (environment.N8N_API_KEY || !/^v24\./u.test(process.version)) throw Object.assign(new Error('Worker scope invalid.'), { code: 'WORKER_RUNTIME_SCOPE_INVALID' });
+    checkpoint = 'provider_configuration'; const openAI = openAISpecsConfigFromEnv(environment);
+    checkpoint = 'orchestration_configuration';
+    const router = new N8nSpecsOrchestrator({ url: environment.N8N_DISPATCH_URL ?? '', secret: environment.N8N_DISPATCH_SECRET ?? '' });
+    checkpoint = 'file_configuration'; const fileConfiguration = specsWorkerFilesConfiguration(environment);
+    checkpoint = 'gateway_verification'; const gateway = await createGateway(readSpecsRuntimeConfig(environment), {}, fileConfiguration);
+    return { openAI, router, fileConfiguration, gateway };
+  } catch (error) {
+    let code = 'WORKER_STARTUP_UNCONFIRMED';
+    if (error && typeof error === 'object' && 'code' in error && typeof error.code === 'string' && startupCodes.has(error.code)) code = error.code;
+    throw new SpecsWorkerStartupError(checkpoint, code, filesRequested);
+  }
+}
+
+/** Server-only entry. Provider/DB/webhook credentials arrive by a scrubbed child
+ * environment; the n8n management key is never an acceptable runtime input. */
+async function main(): Promise<void> {
+  const { openAI, router, fileConfiguration, gateway } = await verifySpecsWorkerStartup();
+  const controller = new AbortController();
+  const stop = () => controller.abort();
+  const message = (value: unknown) => { if (value && typeof value === 'object' && Object.keys(value).length === 1
+    && 'type' in value && value.type === 'shutdown') stop(); };
+  process.once('SIGINT', stop); process.once('SIGTERM', stop); process.once('disconnect', stop); process.on('message', message);
+  process.stdout.write(JSON.stringify({ event: 'specs_worker_started', authentication: 'narrow_database_login', orchestration: 'n8n_required' }) + '\n');
+  try { await runSpecsWorker(gateway, router, { openAI, signal: controller.signal,
+    files: fileConfiguration && gateway.files ? { port: gateway.files, publishableKey: fileConfiguration.publishableKey } : undefined,
+    notice: event => process.stdout.write(JSON.stringify(event) + '\n') }); }
+  finally { process.removeListener('SIGINT', stop); process.removeListener('SIGTERM', stop); process.removeListener('disconnect', stop); process.removeListener('message', message);
+    if (process.connected) process.disconnect(); }
+}
+if (process.argv[1] && pathToFileURL(path.resolve(process.argv[1])).href === import.meta.url) main().catch(error => {
+  const diagnostic = error instanceof SpecsWorkerStartupError
+    ? { checkpoint: error.checkpoint, code: error.code, files_requested: error.files_requested }
+    : { checkpoint: 'processing_loop', code: 'WORKER_STARTUP_UNCONFIRMED', files_requested: process.env.EPS_SPECS_FILES_ENABLED === 'true' };
+  process.stderr.write(JSON.stringify({ event: 'specs_worker_start_failed', ...diagnostic }) + '\n'); process.exitCode = 1;
+});

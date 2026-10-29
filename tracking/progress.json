@@ -135,10 +135,10 @@
         "tracking/evidence/m01/replay-scope/2026-10-28T19-09-29-124Z-fixed.json"
       ],
       "blockers": [
-        "Owner reports signed-in project visibility, then closed review tabs. Connected Person1 was last signed out; full authenticated shared-record/workspace UI journey remains unrun.",
+        "Connected Chrome is now signed in and the canonical Dummy Test workspace is observed. Full shared-record mutation and private logo/Storage journey remains unrun.",
         "Hosted private Storage bytes, Ready/selected-logo state, operation-header/upsert immutability, reload and revocation acceptance remain unrun; aggregate nonempty counts are not acceptance."
       ],
-      "next_action": "Complete independent M02 work without reopening closed review tabs. When an actual signed-in session is available, run the existing M01 journey and guarded Storage probe using its normal identity; never repeat completed setup or restore removed grants."
+      "next_action": "Use the current signed-in Studio tab for the remaining M01 shared-record and guarded logo/Storage acceptance. Enrollment and existing grants are already complete; preserve unrelated data."
     },
     {
       "id": "M02",
@@ -190,11 +190,28 @@
         {
           "file": "supabase/migrations/20261028222030_m02_specs_pipeline.sql",
           "local": "applied",
-          "cloud": "not_run",
-          "target": "owned local eps-presentation-canonical-pg17-local system7701520506262638626 only",
-          "evidence": "tracking/evidence/m02/specs-pipeline-local/2026-10-28T22-41-11-276Z-491d3795-rollback.json",
+          "cloud": "applied",
+          "target": "pyibofyctwnqpvktepse",
+          "evidence": "tracking/evidence/cloud-specs-pipeline/2026-10-28T23-48-48-579255Z-06621ead-readback.json",
           "promotion_evidence": "tracking/evidence/m02/specs-pipeline-local-promotion/2026-10-28T22-26-28-140Z-b32c1d2d.json",
-          "reconciliation_evidence": "tracking/evidence/m02/specs-pipeline-local-reconciliation/2026-10-28T22-39-25-741Z-ff19e860.json"
+          "reconciliation_evidence": "tracking/evidence/m02/specs-pipeline-local-reconciliation/2026-10-28T22-39-25-741Z-ff19e860.json",
+          "local_evidence": "tracking/evidence/m02/specs-pipeline-local/2026-10-28T22-41-11-276Z-491d3795-rollback.json"
+        },
+        {
+          "file": "supabase/migrations/20261029001520_m02_specs_assets.sql",
+          "sha256": "9b35e8efdfc5184252ab4ecfe1a50861c8991dadf2b20544d481b51b3b7fb288",
+          "local": "applied",
+          "cloud": "applied",
+          "target": "pyibofyctwnqpvktepse",
+          "evidence": "tracking/evidence/cloud-specs-assets/2026-10-29T00-58-48-399742Z-cf9b507d-readback.json"
+        },
+        {
+          "file": "supabase/migrations/20261029003941_m02_specs_mime_guard.sql",
+          "sha256": "5a4439e9dd5262cae7e6f813997c4c9506db3eb74fe4ea95d2a352726effb549",
+          "local": "applied",
+          "cloud": "applied",
+          "target": "pyibofyctwnqpvktepse",
+          "evidence": "tracking/evidence/cloud-specs-assets/2026-10-29T00-58-48-399742Z-cf9b507d-readback.json"
         }
       ],
       "evidence": [
@@ -256,16 +273,24 @@
         "tracking/evidence/m02/local-persistence-session/quality.json",
         "tracking/evidence/m02/source-intake-ui/final-visual/summary.json",
         "tracking/evidence/m02/specs-pipeline-candidate/2026-10-28T22-19-52-273Z-2d2ea6e7-rollback.json",
-        "tracking/evidence/m02/native-logging/2026-10-28T22-46-01-384Z-e5a88a1d.json"
+        "tracking/evidence/m02/native-logging/2026-10-28T22-46-01-384Z-e5a88a1d.json",
+        "tracking/evidence/cloud-specs-pipeline/2026-10-28T23-48-48-579255Z-06621ead-readback.json",
+        "tracking/evidence/m02/live-specs-app/2026-10-28T23-54-07.641799+00-00-database.json",
+        "tracking/evidence/cloud-specs-assets/2026-10-29T00-58-48-399742Z-cf9b507d-readback.json",
+        "tracking/evidence/m02/live-specs-restart/2026-10-29T01-20-45-384033+00-00-7529509b-metadata.json",
+        "tracking/evidence/m02/live-specs-cancellation/2026-10-29T01-14-20-624210+00-00-111d53b2-metadata.json",
+        "tracking/evidence/m02/specs-file-checks/README.md",
+        "tracking/evidence/m02/specs-assets-activation/2026-10-29T01-07-57.844714Z-bed1c09f-03a1-485a-9c27-a4c865f86996-enable.json",
+        "tracking/evidence/m02/specs-runtime/2026-10-29T01-08-47-128Z-files-authenticated-gateway.json",
+        "tracking/evidence/m02/specs-verifier/2026-10-29T00-59-55.618318Z-a5f8b2d2-92d2-47bb-a97c-d6248cf4c3ce-provision.json"
       ],
       "blockers": [
-        "Full signed-in hosted M01 logo/Storage journey is unverified after the owner closed review tabs; preserve completed enrollment and grants.",
-        "Pasted source UI, immutable retained inputs, stage transactions and initial publication are implemented and proved on local migration10. Cloud10 is not applied; its historical cloud checkpoint remains9. The central source form can still return503 until that backend/runtime is released.",
-        "No authenticated production service gateway, private output reservation/document upload path, dispatcher/recovery scheduler or Studio WF01 run. The local Docker/psql TRUST route proves database role authorization only; credential authentication remains unverified.",
-        "Native integration used real SQL/parser/adapter with synthetic provider responses. The earlier one real OpenAI component evaluation remains separate; no real OpenAI+n8n+worker full pipeline evidence.",
-        "Initial publication deliberately waits on changed/nonempty working facts. No automatic correction merge, HTTP source-correction proof, server lock-overlap proof or concurrent source/publication/revocation race proof is claimed. Purpose-aware PDF/Word/vision and remaining M02 acceptance still require work."
+        "Real PDF/DOCX/corrupt-file app and private Storage HTTP acceptance are pending Chrome extension file URL permission; native computer pipe is unavailable. No file job has been fabricated.",
+        "Earlier intermittent gateway availability failures are preserved; v4 starts with bounded availability-only startup retries and safe diagnostics. Long-running health and exact underlying cause remain unverified.",
+        "Manual-edit-while-processing and remaining real retry/failure/concurrency checks remain; untouched machine baseline is preserved for the pending uploaded-file tests.",
+        "Full M01 logo/Storage, exact-key HTTP ServiceBearer facade and API/MCP release acceptance remain separate and incomplete. Hosting is deferred."
       ],
-      "next_action": "Implement the authenticated service gateway and purpose-aware private input/output storage using the canonical domain functions; honor real service idempotency and current requester scope. Add exact concurrent source/publication/revocation tests, dispatcher/recovery scheduling and Studio WF01. Keep the local TRUST psql adapter test-only. Hosting remains deferred by owner direction; M01/M02 are not verified."
+      "next_action": "Enable browser file URL access or owner attaches the prepared files; run real PDF/DOCX/private Storage through the signed-in app, then invalid input and pending manual-edit protection. Preserve current untouched generated baseline."
     },
     {
       "id": "M03",
@@ -344,21 +369,26 @@
       "evidence": "tracking/evidence/m01/UI_VERIFICATION.md"
     },
     "real_provider_pipeline": {
-      "status": "not_run",
-      "scope": "End-to-end pipeline not run; one real synthetic OpenAI component evaluation is separate.",
+      "status": "implemented_unverified",
+      "scope": "Actual signed-in pasted and queued-before-worker-relaunch jobs completed through real n8n/OpenAI and canonical publication. Uploaded PDF/DOCX and remaining M02 acceptance are pending.",
       "component_evidence": [
         "tracking/evidence/m02/provider-access/2026-10-28T19-07-58-393Z-presence.json",
         "tracking/evidence/m02/provider-access/2026-10-28T19-08-27-697Z-read-only-access.json",
         "tracking/evidence/m02/provider-access/2026-10-28T19-32-50-135Z-n8n-discovery.json",
         "tracking/evidence/m02/provider-evaluation/2026-10-28T19-31-30-526Z-0cfe7e61.json"
+      ],
+      "evidence": [
+        "tracking/evidence/m02/live-specs-app/2026-10-28T23-54-07.641799+00-00-database.json",
+        "tracking/evidence/m02/live-specs-restart/2026-10-29T01-20-45-384033+00-00-7529509b-metadata.json",
+        "tracking/evidence/m02/live-specs-cancellation/2026-10-29T01-14-20-624210+00-00-111d53b2-metadata.json"
       ]
     },
     "pdf_guest_mcp_restore_deploy": {
       "status": "not_run"
     },
     "real_user_m01": {
-      "status": "not_run",
-      "reason": "Historical14:09 inspection/14:10 grants establish readiness and four scoped capabilities. Owner subsequently reports working login/project visibility then closed review tabs; full authenticated UI/hosted Storage acceptance remains unrun. Do not recreate setup or infer Ready bytes from aggregate counts."
+      "status": "implemented_unverified",
+      "reason": "Actual signed-in canonical project/workspace and Specs interactions are observed; full logo/shared-record/Storage acceptance is separate. Existing initial Producer now has operations.retry in addition to the four active M01 grants, derived from their genuine first job; no Auth identity was created."
     },
     "local_specs_pipeline": {
       "status": "verified",
@@ -399,96 +429,119 @@
       "scope": "Project-local skill setup only; does not advance app milestones or verify integrations."
     }
   },
-  "notes": "M00 verified; M01/M02 in progress; M03-M07 not started. Local10 applied and proved; cloud last verified9 with no new cloud write this session. Source intake UI plus retained inputs and native SQL pipeline/restart pass with synthetic provider responses and full baseline cleanup. 195 module/26 operational tests, lint/typecheck/build pass. Local TRUST does not prove credential authentication. Real service gateway/storage/dispatcher/WF01, hosted M01, PDF/guest/MCP/restore/production remain unverified; hosting deferred.",
+  "notes": "M00 verified; M01/M02 in progress; M03-M07 not started. Twelve coordinated migrations local/cloud, private verifier and file flags enabled. Real signed-in pasted app and queued-before-worker-relaunch processing produced3roles/5slots through n8n and OpenAI; original facts/source history retained, queued cancellation passed. Uploaded PDF/DOCX/corrupt-file app, manual-edit pending-result and full API/MCP/Storage/release gates remain incomplete. Worker startup availability retries and safe diagnostics are implemented; v4 is locally running, while earlier intermittent failure cause remains unconfirmed. Hosting remains deferred.",
   "latest_checkpoint": {
-    "cloud_history_versions": 9,
-    "cloud_readback": "tracking/evidence/cloud-role-order/2026-10-28T19-31-14-242836Z-dc97d5dc-readback.json",
-    "cloud_apply": "tracking/evidence/cloud-role-order/2026-10-28T19-23-27-369394Z-bc35d553-apply.json",
-    "public_rpcs": 32,
-    "inspected_routines": 60,
-    "forced_rls_tables": 19,
-    "existing_base_counts_and_source_order_preferences_workspace_hashes_preserved": true,
-    "local_proofs": [
-      "development/local-db/receipts/2026-10-28T19-03-28-322Z-test-db-summary-499067f3.json",
-      "tracking/evidence/m01/replay-scope/2026-10-28T19-09-29-124Z-fixed.json",
-      "tracking/evidence/m02/local/2026-10-28T19-05-03-586Z-35d591fb.json",
-      "tracking/evidence/m02/specs-local/2026-10-28T19-06-45-233Z-5698a461.json",
-      "tracking/evidence/m02/role-order-local/2026-10-28T19-02-20-589Z-b9d09e55.json"
+    "observed_at": "2026-10-29T01:31:20.424119+00:00",
+    "scope": "Actual local app with real canonical Supabase, n8n and OpenAI; uploaded-file app acceptance still pending browser permission.",
+    "cloud_history_versions": 12,
+    "local_history_versions": 12,
+    "cloud_readback": "tracking/evidence/cloud-specs-assets/2026-10-29T00-58-48-399742Z-cf9b507d-readback.json",
+    "business_records_preserved_by_release": true,
+    "pasted_app_proof": "tracking/evidence/m02/live-specs-app/2026-10-28T23-54-07.641799+00-00-database.json",
+    "restart_app_proof": "tracking/evidence/m02/live-specs-restart/2026-10-29T01-20-45-384033+00-00-7529509b-metadata.json",
+    "queued_cancellation_proof": "tracking/evidence/m02/live-specs-cancellation/2026-10-29T01-14-20-624210+00-00-111d53b2-metadata.json",
+    "actual_app_openai_jobs": 2,
+    "actual_app_openai_tokens": [
+      2972,
+      2970
     ],
-    "provider_presence": "tracking/evidence/m02/provider-access/2026-10-28T19-07-58-393Z-presence.json",
-    "provider_access": "tracking/evidence/m02/provider-access/2026-10-28T19-08-27-697Z-read-only-access.json",
-    "n8n_api_discovery": "tracking/evidence/m02/provider-access/2026-10-28T19-32-50-135Z-n8n-discovery.json",
-    "synthetic_openai_evaluation": "tracking/evidence/m02/provider-evaluation/2026-10-28T19-31-30-526Z-0cfe7e61.json",
-    "requested_model": "gpt-6.1-sol",
-    "resolved_model": "gpt-6.1-sol",
-    "usage": {
-      "input_tokens": 1413,
-      "output_tokens": 1575,
-      "total_tokens": 2988
+    "active_roles": 3,
+    "active_slots": 5,
+    "prior_roles_archived": 3,
+    "prior_slots_archived": 5,
+    "file_upload_app_acceptance": "blocked: Chrome extension lacks file URL access; native computer pipe unavailable",
+    "worker_health": "v4 launcher45596 alive at01:30:20Z; startup plus three recovery completions, no errors in this short observation. Earlier intermittent gateway failures remain historical/unexplained; bounded availability-only startup retry and safe diagnostics implemented.",
+    "hosting_selected": false,
+    "production_acceptance": false,
+    "module_tests": 274,
+    "module_suite_counts": {
+      "unit": 99,
+      "contracts": 6,
+      "jobs": 12,
+      "integrations": 18,
+      "worker": 67,
+      "central": 72
     },
-    "database_apply": false,
-    "cloud_business_writes_from_evaluation": false,
-    "n8n_workflow_run": false,
-    "pipeline_acceptance": false,
-    "historical_code_validation": {
-      "commit": "c2df325",
-      "module_tests": 159,
-      "controlled_browser_cases": 19,
-      "offline_configuration_tests": 15,
-      "evidence": "tracking/evidence/m02/extended-validation/"
+    "quality_receipt": "tracking/evidence/m02/specs-file-checks/final-modules.json",
+    "pack_checks": 325,
+    "source_privacy_verification": "Initial scan blocked after PATH Python alias created unexpected runtime; quarantined without deletion, scanner pins existing venv; final refreshed scan pending.",
+    "scanner_incident_receipt": "tracking/evidence/security/private-scan-alias-incident.json"
+  },
+  "historical_notes": [
+    {
+      "scope": "Prior superseded pre-manual8 note retained as history, not current state.",
+      "text": "M00 verified. Owner reports successful sign-in and Dummy Test visibility; review tabs were then closed. Seven migrations local/five cloud; proposed cloud release pending. Fixed11 replay cases and M02local27-stage/six-pair/restart/cleanup proof pass;120 module tests, lint/typecheck/build and four synthetic browser journeys pass. Hosted logo, real AI/n8n, native render/PDF, guest, MCP, restore and production acceptance remain unverified."
+    }
+  ],
+  "active_session": {
+    "started_at": "2026-10-28T23:26:50.235318+00:00",
+    "client_date": "2026-10-29",
+    "scope": "Finish specs workflow with real OpenAI and actual app verification; local worker only, hosting deferred.",
+    "status": "in_progress",
+    "planned_acceptance": [
+      "Real narrow SCRAM/TLS service connection with current requester domain guards",
+      "Reviewed additive cloud kernel release and readback, no reset/seed or placeholder Auth identity",
+      "Real scoped Studio WF01 routing and private OpenAI processing from persisted app submissions",
+      "Actual signed-in app source-to-editable-facts/reload journey, retry/cancel/manual-edit protection",
+      "Purpose-aware PDF/DOCX input flow with truthful unsupported format handling",
+      "Tests, source privacy, handoff and source checkpoint"
+    ],
+    "hosting_selected": false,
+    "live_pasted_specs": {
+      "status": "verified_local_app_with_real_cloud_services",
+      "job_id": "3ba110dd-711c-4c7f-aa89-0f4578310543",
+      "workspace_id": "098d5b48-42a3-475b-b562-735c9eafce80",
+      "database_receipt": "tracking/evidence/m02/live-specs-app/2026-10-28T23-54-07.641799+00-00-database.json",
+      "real_openai_tokens": 2972,
+      "role_count": 3,
+      "slot_count": 5,
+      "same_source_job_count_after_repeat": 1,
+      "reload_during_processing": true,
+      "hosting_deferred": true
     },
-    "later_provider_validation": {
-      "module_tests": 170,
-      "suite_counts": {
-        "unit_server": 80,
-        "contracts": 5,
-        "jobs": 12,
-        "integrations": 15,
-        "worker": 22,
-        "central": 36
-      },
-      "lint": "passed",
-      "typecheck": "passed",
-      "evidence": "tracking/evidence/m02/provider-validation/",
-      "scope": "Before latest submit facade changes; no new browser/build claim."
+    "checked_at": "2026-10-29T01:31:20.424119+00:00",
+    "live_restart_specs": {
+      "job_id": "1e1104aa-2e0f-4f6f-8bd3-7e04ac09e7ed",
+      "status": "succeeded",
+      "real_openai_tokens": 2970,
+      "evidence": "tracking/evidence/m02/live-specs-restart/2026-10-29T01-20-45-384033+00-00-7529509b-metadata.json",
+      "scope": "Queued before local worker relaunch; browser reload preserved job. Not an in-flight lease expiry or database restart proof."
     },
-    "post_submit_facade_broad_validation": {
-      "module_tests": 188,
-      "code_commit": "da77ab4",
-      "typecheck": "passed",
-      "lint": "passed_after_const_fix",
-      "build": "passed",
-      "production_guard": "passed",
-      "evidence": "tracking/evidence/m02/provider-validation/checkpoint.json",
-      "new_browser_run": false
+    "live_cancel": {
+      "job_id": "64788c14-ffab-44a5-94e1-5b7e512979c1",
+      "status": "cancelled",
+      "provider_calls": 0,
+      "evidence": "tracking/evidence/m02/live-specs-cancellation/2026-10-29T01-14-20-624210+00-00-111d53b2-metadata.json"
     },
-    "hosting_choice": "User chose local container testing; hosting later.",
-    "submit_rollback": "tracking/evidence/m02/specs-submit-candidate/2026-10-28T20-10-13-695Z-350ca6d9-rollback.json",
-    "local_parser_container": {
-      "commit": "4440d31",
-      "parser_cases": 7,
-      "target_rejection_cases": 3,
-      "proof": "tracking/evidence/m02/document-container/2026-10-28T20-25-30-385Z-181a29f5.json",
-      "negative_proof": "tracking/evidence/m02/document-container/2026-10-28T20-25-50-772Z-preflight-negatives.json",
-      "hosted_worker": false,
-      "one_ms_scope": "Ownership-checked cleanup mechanics only; not resource endurance."
-    },
-    "specs_stage_rollback": {
-      "proof": "tracking/evidence/m02/specs-stages-candidate/2026-10-28T20-46-58-625Z-a863a766-rollback.json",
-      "result": "passed",
-      "full_catalog_counts_restored": true,
-      "persistent_kernel": false,
-      "multi_backend": false,
-      "cloud_called": false,
-      "provider_called": false,
-      "history_versions": 9
-    },
-    "last_cloud_observation_at": "2026-10-28T19:31:14Z",
-    "local_history_versions": 10,
-    "local_persistence_2026_10_29": {
-      "migration": "20261028222030",
-      "migration_sha256": "1e5319bb81be1f12896f7efb5a2cb7706653b79eb440a4dc1aaaca4ed9556895",
-      "proofs": {
+    "cloud_history_versions": 12,
+    "local_history_versions": 12,
+    "file_app_acceptance": "awaiting_browser_file_permission",
+    "worker_runtime": {
+      "launcher_pid": 45596,
+      "started_at": "2026-10-29T01:28:40.9440589Z",
+      "file_mode": true,
+      "last_observed_at": "2026-10-29T01:30:20Z",
+      "state": "started and recovered; short observation only",
+      "historical_intermittent_failure_cause": "unconfirmed"
+    }
+  },
+  "historical_sessions": [
+    {
+      "started_at": "2026-10-28T22:05:26.369418+00:00",
+      "client_date": "2026-10-29",
+      "scope": "Next M02 local persistence and source intake slice; hosting deferred",
+      "planned_evidence": [
+        "Combined retained-input candidate rollback with source/provenance/authority guards",
+        "Coordinated local-only persistence using canonical migration history after review",
+        "Actual SQL to native executor paragraph/hash/result integration in separate committed transactions",
+        "Concurrent source/publication/revocation and restart/recovery proofs",
+        "Controlled source intake UI tests with exact intent retries and stale/dirty protection"
+      ],
+      "external_scope": "No new hosting, cloud reset/seed, fake Auth identity, sign-in email or reopened review tab.",
+      "latest_observed_at": "2026-10-28T22:29:11.388104+00:00",
+      "state": "local_slice_completed",
+      "completed_at": "2026-10-28T23:06:31.475204+00:00",
+      "actual_evidence": {
         "candidate": "tracking/evidence/m02/specs-pipeline-candidate/2026-10-28T22-23-06-800Z-0b783b98-rollback.json",
         "promotion_failed": "tracking/evidence/m02/specs-pipeline-local-promotion/2026-10-28T22-26-28-140Z-b32c1d2d.json",
         "reconciliation": "tracking/evidence/m02/specs-pipeline-local-reconciliation/2026-10-28T22-39-25-741Z-ff19e860.json",
@@ -498,61 +551,131 @@
         "quality": "tracking/evidence/m02/local-persistence-session/quality.json",
         "ui": "tracking/evidence/m02/source-intake-ui/final-visual/summary.json"
       },
-      "module_tests": 195,
-      "operational_tests": 26,
-      "source_browser_cases": 7,
-      "existing_specs_order_browser_cases": 7,
-      "actual_database_restart": true,
-      "provider_transport": "synthetic-only",
-      "credential_authentication_verified": false,
-      "local_auth_method": "trust",
-      "source_correction_path": "scoped SQL RPC, not HTTP",
-      "server_lock_overlap_proven": false,
-      "baseline_restored": true,
-      "cloud_mutated_this_session": false,
-      "hosting_selected": false,
-      "code_commits": [
-        "6ac2ada",
-        "cac474f",
-        "2e38b6d"
+      "remaining_planned_checks": [
+        "Actual concurrent source/publication/revocation barriers and server lock overlap",
+        "Authenticated HTTP gateway and deployed/runtime credentials",
+        "Real provider+n8n pipeline and purpose-aware files"
       ]
     }
-  },
-  "historical_notes": [
-    {
-      "scope": "Prior superseded pre-manual8 note retained as history, not current state.",
-      "text": "M00 verified. Owner reports successful sign-in and Dummy Test visibility; review tabs were then closed. Seven migrations local/five cloud; proposed cloud release pending. Fixed11 replay cases and M02local27-stage/six-pair/restart/cleanup proof pass;120 module tests, lint/typecheck/build and four synthetic browser journeys pass. Hosted logo, real AI/n8n, native render/PDF, guest, MCP, restore and production acceptance remain unverified."
-    }
   ],
-  "active_session": {
-    "started_at": "2026-10-28T22:05:26.369418+00:00",
-    "client_date": "2026-10-29",
-    "scope": "Next M02 local persistence and source intake slice; hosting deferred",
-    "planned_evidence": [
-      "Combined retained-input candidate rollback with source/provenance/authority guards",
-      "Coordinated local-only persistence using canonical migration history after review",
-      "Actual SQL to native executor paragraph/hash/result integration in separate committed transactions",
-      "Concurrent source/publication/revocation and restart/recovery proofs",
-      "Controlled source intake UI tests with exact intent retries and stale/dirty protection"
-    ],
-    "external_scope": "No new hosting, cloud reset/seed, fake Auth identity, sign-in email or reopened review tab.",
-    "latest_observed_at": "2026-10-28T22:29:11.388104+00:00",
-    "state": "local_slice_completed",
-    "completed_at": "2026-10-28T23:06:31.475204+00:00",
-    "actual_evidence": {
-      "candidate": "tracking/evidence/m02/specs-pipeline-candidate/2026-10-28T22-23-06-800Z-0b783b98-rollback.json",
-      "promotion_failed": "tracking/evidence/m02/specs-pipeline-local-promotion/2026-10-28T22-26-28-140Z-b32c1d2d.json",
-      "reconciliation": "tracking/evidence/m02/specs-pipeline-local-reconciliation/2026-10-28T22-39-25-741Z-ff19e860.json",
-      "persisted": "tracking/evidence/m02/specs-pipeline-local/2026-10-28T22-41-11-276Z-491d3795-rollback.json",
-      "logging": "tracking/evidence/m02/native-logging/2026-10-28T22-52-38-127Z-5128e4cc.json",
-      "native": "tracking/evidence/m02/native-executor/2026-10-28T23-00-53-971Z-c26f43c2.json",
-      "quality": "tracking/evidence/m02/local-persistence-session/quality.json",
-      "ui": "tracking/evidence/m02/source-intake-ui/final-visual/summary.json"
-    },
-    "remaining_planned_checks": [
-      "Actual concurrent source/publication/revocation barriers and server lock overlap",
-      "Authenticated HTTP gateway and deployed/runtime credentials",
-      "Real provider+n8n pipeline and purpose-aware files"
-    ]
-  }
+  "historical_checkpoints": [
+    {
+      "cloud_history_versions": 9,
+      "cloud_readback": "tracking/evidence/cloud-role-order/2026-10-28T19-31-14-242836Z-dc97d5dc-readback.json",
+      "cloud_apply": "tracking/evidence/cloud-role-order/2026-10-28T19-23-27-369394Z-bc35d553-apply.json",
+      "public_rpcs": 32,
+      "inspected_routines": 60,
+      "forced_rls_tables": 19,
+      "existing_base_counts_and_source_order_preferences_workspace_hashes_preserved": true,
+      "local_proofs": [
+        "development/local-db/receipts/2026-10-28T19-03-28-322Z-test-db-summary-499067f3.json",
+        "tracking/evidence/m01/replay-scope/2026-10-28T19-09-29-124Z-fixed.json",
+        "tracking/evidence/m02/local/2026-10-28T19-05-03-586Z-35d591fb.json",
+        "tracking/evidence/m02/specs-local/2026-10-28T19-06-45-233Z-5698a461.json",
+        "tracking/evidence/m02/role-order-local/2026-10-28T19-02-20-589Z-b9d09e55.json"
+      ],
+      "provider_presence": "tracking/evidence/m02/provider-access/2026-10-28T19-07-58-393Z-presence.json",
+      "provider_access": "tracking/evidence/m02/provider-access/2026-10-28T19-08-27-697Z-read-only-access.json",
+      "n8n_api_discovery": "tracking/evidence/m02/provider-access/2026-10-28T19-32-50-135Z-n8n-discovery.json",
+      "synthetic_openai_evaluation": "tracking/evidence/m02/provider-evaluation/2026-10-28T19-31-30-526Z-0cfe7e61.json",
+      "requested_model": "gpt-6.1-sol",
+      "resolved_model": "gpt-6.1-sol",
+      "usage": {
+        "input_tokens": 1413,
+        "output_tokens": 1575,
+        "total_tokens": 2988
+      },
+      "database_apply": false,
+      "cloud_business_writes_from_evaluation": false,
+      "n8n_workflow_run": false,
+      "pipeline_acceptance": false,
+      "historical_code_validation": {
+        "commit": "c2df325",
+        "module_tests": 159,
+        "controlled_browser_cases": 19,
+        "offline_configuration_tests": 15,
+        "evidence": "tracking/evidence/m02/extended-validation/"
+      },
+      "later_provider_validation": {
+        "module_tests": 170,
+        "suite_counts": {
+          "unit_server": 80,
+          "contracts": 5,
+          "jobs": 12,
+          "integrations": 15,
+          "worker": 22,
+          "central": 36
+        },
+        "lint": "passed",
+        "typecheck": "passed",
+        "evidence": "tracking/evidence/m02/provider-validation/",
+        "scope": "Before latest submit facade changes; no new browser/build claim."
+      },
+      "post_submit_facade_broad_validation": {
+        "module_tests": 188,
+        "code_commit": "da77ab4",
+        "typecheck": "passed",
+        "lint": "passed_after_const_fix",
+        "build": "passed",
+        "production_guard": "passed",
+        "evidence": "tracking/evidence/m02/provider-validation/checkpoint.json",
+        "new_browser_run": false
+      },
+      "hosting_choice": "User chose local container testing; hosting later.",
+      "submit_rollback": "tracking/evidence/m02/specs-submit-candidate/2026-10-28T20-10-13-695Z-350ca6d9-rollback.json",
+      "local_parser_container": {
+        "commit": "4440d31",
+        "parser_cases": 7,
+        "target_rejection_cases": 3,
+        "proof": "tracking/evidence/m02/document-container/2026-10-28T20-25-30-385Z-181a29f5.json",
+        "negative_proof": "tracking/evidence/m02/document-container/2026-10-28T20-25-50-772Z-preflight-negatives.json",
+        "hosted_worker": false,
+        "one_ms_scope": "Ownership-checked cleanup mechanics only; not resource endurance."
+      },
+      "specs_stage_rollback": {
+        "proof": "tracking/evidence/m02/specs-stages-candidate/2026-10-28T20-46-58-625Z-a863a766-rollback.json",
+        "result": "passed",
+        "full_catalog_counts_restored": true,
+        "persistent_kernel": false,
+        "multi_backend": false,
+        "cloud_called": false,
+        "provider_called": false,
+        "history_versions": 9
+      },
+      "last_cloud_observation_at": "2026-10-28T19:31:14Z",
+      "local_history_versions": 10,
+      "local_persistence_2026_10_29": {
+        "migration": "20261028222030",
+        "migration_sha256": "1e5319bb81be1f12896f7efb5a2cb7706653b79eb440a4dc1aaaca4ed9556895",
+        "proofs": {
+          "candidate": "tracking/evidence/m02/specs-pipeline-candidate/2026-10-28T22-23-06-800Z-0b783b98-rollback.json",
+          "promotion_failed": "tracking/evidence/m02/specs-pipeline-local-promotion/2026-10-28T22-26-28-140Z-b32c1d2d.json",
+          "reconciliation": "tracking/evidence/m02/specs-pipeline-local-reconciliation/2026-10-28T22-39-25-741Z-ff19e860.json",
+          "persisted": "tracking/evidence/m02/specs-pipeline-local/2026-10-28T22-41-11-276Z-491d3795-rollback.json",
+          "logging": "tracking/evidence/m02/native-logging/2026-10-28T22-52-38-127Z-5128e4cc.json",
+          "native": "tracking/evidence/m02/native-executor/2026-10-28T23-00-53-971Z-c26f43c2.json",
+          "quality": "tracking/evidence/m02/local-persistence-session/quality.json",
+          "ui": "tracking/evidence/m02/source-intake-ui/final-visual/summary.json"
+        },
+        "module_tests": 195,
+        "operational_tests": 26,
+        "source_browser_cases": 7,
+        "existing_specs_order_browser_cases": 7,
+        "actual_database_restart": true,
+        "provider_transport": "synthetic-only",
+        "credential_authentication_verified": false,
+        "local_auth_method": "trust",
+        "source_correction_path": "scoped SQL RPC, not HTTP",
+        "server_lock_overlap_proven": false,
+        "baseline_restored": true,
+        "cloud_mutated_this_session": false,
+        "hosting_selected": false,
+        "code_commits": [
+          "6ac2ada",
+          "cac474f",
+          "2e38b6d"
+        ]
+      }
+    }
+  ]
 }

@@ -4,6 +4,7 @@ import { readRuntimeConfig } from './config';
 import { createCentralStudio, readCentralConfig, type CentralStudioOptions } from '@eps/central';
 import { getCentralClient } from './central-client';
 import { readCentralLogoOptions } from './logo-config';
+import { readCentralSpecsOptions } from './specs-config';
 
 export async function decodeLogo(bytes: Uint8Array) {
   const image = sharp(bytes, { limitInputPixels: 40_000_000, animated: false, failOn: 'warning' });
@@ -20,13 +21,18 @@ export async function getStudio() {
   if (config.adapterMode === 'supabase') {
     const central = readCentralConfig();
     let logo: CentralStudioOptions['logo'];
+    let specs: CentralStudioOptions['specs'];
     try { logo = readCentralLogoOptions(decodeLogo); }
     catch (error) {
       // A missing upload verifier must not take existing Ready media offline.
       if (!(error instanceof DomainError) || error.code !== 'LOGO_STORAGE_CONFIGURATION_REQUIRED') throw error;
     }
-    return createCentralStudio(await getCentralClient(), { logo,
-      logoRead: { storageOrigin: central.url, brandBucket: 'eps-brand-assets' } });
+    try { specs = readCentralSpecsOptions(); }
+    catch (error) {
+      if (!(error instanceof DomainError) || error.code !== 'SPECS_STORAGE_CONFIGURATION_REQUIRED') throw error;
+    }
+    return createCentralStudio(await getCentralClient(), { logo, specs,
+      logoRead: { storageOrigin: central.url, brandBucket: 'eps-brand-assets' }, specsRead: { storageOrigin: central.url } });
   }
   return createStudio({ dataDir: config.dataDir, environment: config.environment,
     adapterMode: 'local_fixture', appBaseUrl: config.baseUrl, decodeLogo });

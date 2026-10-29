@@ -5,6 +5,7 @@ import type { JobEvent, JobEventReceipt, JsonObject, StageLease } from '@eps/job
 import { prepareDocumentIsolated } from './process.ts';
 import { preparePastedText } from './pasted-text.ts';
 import { DocumentPreparationError, type SourceParagraph } from './types.ts';
+import { prepareSpecsFileStage, type SpecsAssetPort, type SpecsSourceMime } from './specs-assets.ts';
 
 export const DOCUMENT_PREPARATION_VERSION = 'document-preparation.v1';
 export interface SpecsStageGateway {
@@ -19,6 +20,8 @@ export interface SpecsExecutionOptions {
   gatewayTimeoutMs?: number;
   /** Deterministic adapter injection only; normal runtime uses the real SDK. */
   extract?: typeof extractSpecs;
+  /** Optional real file capability port. Absence cannot fall back to pasted text. */
+  files?: { port: SpecsAssetPort; publishableKey: string; fetch?: typeof fetch };
 }
 export class SpecsExecutionError extends Error {
   constructor(readonly code: 'INVALID_STAGE_SCOPE' | 'STAGE_INPUT_INVALID' | 'CALLBACK_UNCONFIRMED' | 'LEASE_STALE' | 'PROCESSING_CANCELLED') {
@@ -36,8 +39,9 @@ const statuses = ['queued', 'running', 'waiting_for_input', 'succeeded', 'failed
 const common = ['job_id', 'attempt_id', 'stage', 'input_hash', 'correlation_id', 'configuration'];
 type Configuration = { document_preparation_version: string; model_version: string; prompt_version: string; result_schema_version: string };
 interface InputBase { correlation_id: string; configuration: Configuration }
-type StageInput = InputBase & ({ stage: 'prepare_document'; source_text: string; source_sha256: string }
-  | { stage: 'extract_specs'; text: string; paragraphs: SourceParagraph[]; source_sha256: string }
+type StageInput = InputBase & ({ stage: 'prepare_document'; source_kind: 'pasted_text'; source_text: string; source_sha256: string }
+  | { stage: 'prepare_document'; source_kind: 'asset'; source_asset_id: string; source_sha256: string; mime_type: SpecsSourceMime; size_bytes: number }
+  | { stage: 'extract_specs'; source_asset_id: string | null; text: string; paragraphs: SourceParagraph[]; source_sha256: string }
   | { stage: 'apply_specs'; specs_id: string; workspace_id: string });
 
 function parseInput(value: unknown, lease: StageLease): StageInput {
@@ -58,25 +62,44 @@ function parseInput(value: unknown, lease: StageLease): StageInput {
     return { ...base, stage: 'apply_specs', specs_id: value.specs_id, workspace_id: value.workspace_id };
   }
   const sourceFields = ['source_kind', 'source_asset_id', 'source_sha256'];
-  if (value.source_kind !== 'pasted_text' || value.source_asset_id !== null || !digest(value.source_sha256)
+  const file = value.source_kind === 'asset';
+  if ((!file && value.source_kind !== 'pasted_text') || !digest(value.source_sha256)
     || value.source_sha256 !== lease.input.source_hash) fail('STAGE_INPUT_INVALID');
+  if (file ? typeof value.source_asset_id !== 'string' || !/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/u.test(value.source_asset_id)
+    || value.source_asset_id !== lease.input.source_asset_id || lease.input.schema_version !== '1.1'
+    : value.source_asset_id !== null || lease.input.source_asset_id !== undefined && lease.input.source_asset_id !== null) fail('STAGE_INPUT_INVALID');
   if (value.stage === 'prepare_document') {
+    if (file) {
+      if (!exact(value, [...common, ...sourceFields, 'mime_type', 'size_bytes'])
+        || !['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain'].includes(String(value.mime_type))
+        || typeof value.size_bytes !== 'number' || !Number.isSafeInteger(value.size_bytes) || value.size_bytes < 1 || value.size_bytes > 20 * 1024 * 1024) fail('STAGE_INPUT_INVALID');
+      return { ...base, stage: 'prepare_document', source_kind: 'asset', source_asset_id: value.source_asset_id as string,
+        source_sha256: value.source_sha256, mime_type: value.mime_type as SpecsSourceMime, size_bytes: value.size_bytes };
+    }
     if (!exact(value, [...common, ...sourceFields, 'source_text']) || typeof value.source_text !== 'string'
       || hash(value.source_text) !== value.source_sha256) fail('STAGE_INPUT_INVALID');
-    return { ...base, stage: 'prepare_document', source_text: value.source_text, source_sha256: value.source_sha256 };
+    return { ...base, stage: 'prepare_document', source_kind: 'pasted_text', source_text: value.source_text, source_sha256: value.source_sha256 };
   }
   if (value.stage !== 'extract_specs' || !exact(value, [...common, ...sourceFields, 'text', 'paragraphs'])
     || typeof value.text !== 'string' || !Array.isArray(value.paragraphs)) fail('STAGE_INPUT_INVALID');
   // Reconstruct the worker's LF/UTF16 paragraph mapping; reject injected text,
   // offsets, extra fields and reordered evidence before any provider request.
   const prepared = preparePastedText(value.text);
+  const paged = file && (value.paragraphs as unknown[]).some(paragraph => object(paragraph) && paragraph.page !== null);
+  let previousPage = 0;
   if (prepared.text !== value.text || prepared.paragraphs.length !== value.paragraphs.length
     || prepared.paragraphs.some((paragraph, index) => {
       const supplied = (value.paragraphs as unknown[])[index];
-      return !object(supplied) || !exact(supplied, ['index', 'page', 'start', 'end', 'text'])
-        || Object.entries(paragraph).some(([key, item]) => supplied[key] !== item);
+      if (!object(supplied) || !exact(supplied, ['index', 'page', 'start', 'end', 'text'])
+        || Object.entries(paragraph).some(([key, item]) => key !== 'page' && supplied[key] !== item)) return true;
+      if (!paged) return supplied.page !== null;
+      if (typeof supplied.page !== 'number' || !Number.isSafeInteger(supplied.page) || supplied.page < 1 || supplied.page > 200 || supplied.page < previousPage) return true;
+      previousPage = supplied.page; return false;
     })) fail('STAGE_INPUT_INVALID');
-  return { ...base, stage: 'extract_specs', text: value.text, paragraphs: prepared.paragraphs, source_sha256: value.source_sha256 };
+  const paragraphs = prepared.paragraphs.map((paragraph, index) => ({ ...paragraph,
+    page: paged ? (value.paragraphs as SourceParagraph[])[index].page : null }));
+  return { ...base, stage: 'extract_specs', source_asset_id: file ? value.source_asset_id as string : null,
+    text: value.text, paragraphs, source_sha256: value.source_sha256 };
 }
 
 /** Execute ONE already-claimed attempt. No scheduler, HTTP service, SQL, secret
@@ -87,6 +110,7 @@ export async function executeSpecsStage(lease: StageLease, gateway: SpecsStageGa
   try { lease = structuredClone(lease); } catch { fail('INVALID_STAGE_SCOPE'); }
   const openAI = options.openAI ? { ...options.openAI } : undefined;
   const extract = options.extract ?? extractSpecs;
+  const files = options.files ? { ...options.files } : undefined;
   const externalSignal = options.signal;
   if (!lease || !id(lease.job_id) || !['prepare_document', 'extract_specs', 'apply_specs'].includes(lease.stage)
     || typeof lease.already_completed !== 'boolean') fail('INVALID_STAGE_SCOPE');
@@ -151,14 +175,21 @@ export async function executeSpecsStage(lease: StageLease, gateway: SpecsStageGa
   let result: JsonObject; let schema: string;
   try {
     if (input.stage === 'prepare_document') {
-      const prepared = await prepareDocumentIsolated({ sourceKind: 'pasted_text', sourceAssetId: null, text: input.source_text }, { signal });
-      if (prepared.sourceSha256 !== input.source_sha256) fail('STAGE_INPUT_INVALID');
-      result = { source_asset_id: null, text_asset_id: null, page_assets: [], paragraph_count: prepared.paragraphs.length,
-        extraction_method: prepared.extractionMethod, warnings: prepared.warnings };
+      if (input.source_kind === 'asset') {
+        if (!files) fail('STAGE_INPUT_INVALID');
+        result = await prepareSpecsFileStage({ source_asset_id: input.source_asset_id, source_sha256: input.source_sha256,
+          mime_type: input.mime_type, size_bytes: input.size_bytes }, { job_id: lease.job_id, attempt_id: lease.attempt_id, lease_token: lease.lease_token },
+        files.port, { publishableKey: files.publishableKey, fetch: files.fetch, signal }) as unknown as JsonObject;
+      } else {
+        const prepared = await prepareDocumentIsolated({ sourceKind: 'pasted_text', sourceAssetId: null, text: input.source_text }, { signal });
+        if (prepared.sourceSha256 !== input.source_sha256) fail('STAGE_INPUT_INVALID');
+        result = { source_asset_id: null, text_asset_id: null, page_assets: [], paragraph_count: prepared.paragraphs.length,
+          extraction_method: prepared.extractionMethod, warnings: prepared.warnings };
+      }
       schema = 'document-preparation.v1';
     } else if (input.stage === 'extract_specs') {
       if (!openAI || openAI.model !== input.configuration.model_version) fail('STAGE_INPUT_INVALID');
-      const output = await extract({ sourceAssetId: null,
+      const output = await extract({ sourceAssetId: input.source_asset_id,
         paragraphs: input.paragraphs.map(({ index, page, text }) => ({ index, page, text })), correlationId: input.correlation_id,
         inputHash: lease.input.input_hash as string }, openAI, undefined, signal);
       result = output as unknown as JsonObject; schema = 'specs-extraction-stage.v1';

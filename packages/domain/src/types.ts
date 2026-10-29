@@ -22,18 +22,18 @@ export interface WorkspacePatch { row_version: number; logo_asset_id?: string | 
 export interface AudiencePreset { id: string; key: string; label: string; scope: 'internal' | 'external'; settings: Record<string, never>; archived: boolean; row_version: number }
 export interface AudiencePresetCreate { key?: string; label: string; scope: 'internal' | 'external'; settings: Record<string, never> }
 export interface AudiencePresetPatch { row_version: number; label?: string; settings?: Record<string, never> }
-export interface UploadSessionCreate { workspace_id?: string; candidate_id?: string; batch_id?: string; purpose: 'client_logo'; filename: string; mime_type: string; size_bytes: number; sha256?: string }
+export interface UploadSessionCreate { workspace_id?: string; candidate_id?: string; batch_id?: string; purpose: 'client_logo' | 'specs' | 'candidate_video' | 'candidate_support'; filename: string; mime_type: string; size_bytes: number; sha256?: string }
 export interface UploadSession {
   id: string; asset_id: string; protocol: 'signed_put'; upload_url: string | null; upload_headers: Record<string, string>;
   expires_at: string; status: 'open' | 'completed' | 'cancelled' | 'expired'; maximum_bytes: number;
 }
 export interface MediaAsset {
-  id: string; purpose: 'client_logo'; filename: string; mime_type: string; size_bytes: number; sha256: string | null;
+  id: string; purpose: 'client_logo' | 'specs' | 'candidate_video' | 'candidate_support' | 'candidate_frame' | 'audio' | 'transcript' | 'preview_video' | 'presentation_pdf' | 'presentation_preview' | 'presentation_manifest' | 'document_text' | 'document_page'; filename: string; mime_type: string; size_bytes: number; sha256: string | null;
   status: 'uploading' | 'ready' | 'failed' | 'quarantined' | 'archived'; duration_ms: number | null;
   width: number | null; height: number | null; source_asset_id: string | null; source_timestamp_ms: number | null; created_at: string;
 }
 export interface CompleteUpload { sha256?: string; actual_size_bytes: number; start_processing: boolean }
-export interface UploadCompletion { asset: MediaAsset; processing_job_id: null; status: 'ready' }
+export interface UploadCompletion { asset: MediaAsset; processing_job_id: string | null; status: 'ready' | 'queued' }
 export interface LogoDecoded { mimeType: string; width: number; height: number }
 export interface StudioOptions {
   dataDir: string; environment: Environment; adapterMode: 'local_fixture'; appBaseUrl?: string;

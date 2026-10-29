@@ -7,11 +7,13 @@ import { setTimeout, clearTimeout } from 'node:timers';
 import { pathToFileURL } from 'node:url';
 import { loadWorkerPrivateEnvironment } from './worker-private-env.mjs';
 import { loadWorkerRuntimeEnvironment, createSpecsWorkerEnvironment } from './worker-runtime-env.mjs';
+import { loadWorkerFilesEnvironment } from './worker-files-env.mjs';
 
 async function main() {
   if (process.argv.length !== 2 || !/^v24\./u.test(process.version)) throw new Error('FIXED_WORKER_NODE24_COMMAND_REQUIRED');
   const provider = await loadWorkerPrivateEnvironment(); const runtime = await loadWorkerRuntimeEnvironment();
-  const environment = createSpecsWorkerEnvironment(provider, runtime, process.env);
+  const files = await loadWorkerFilesEnvironment();
+  const environment = createSpecsWorkerEnvironment(provider, runtime, process.env, files);
   const child = spawn(process.execPath, ['--import', 'tsx', 'apps/worker/src/runtime-main.ts'], {
     cwd: path.resolve(import.meta.dirname, '..'), env: environment, windowsHide: true, shell: false,
     stdio: ['ignore', 'inherit', 'inherit', 'ipc'],

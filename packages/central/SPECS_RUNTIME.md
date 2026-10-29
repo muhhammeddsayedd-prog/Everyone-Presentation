@@ -62,6 +62,35 @@ Tests inject transport results and use synthetic SCRAM messages; they do not
 prove a live cloud login, production authentication, TLS certificate chain or
 real OpenAI/n8n processing. Root owns provisioning, release and real execution.
 
+## Optional file capability port
+
+`createSpecsRuntimeGateway(config, dependencies, {storageOrigin, publishableKey})`
+adds the private `files` port only when explicitly configured. Its identity check
+then requires exactly three inherited groups, including
+`eps_specs_assets_executor`, and exactly ten service functions. Default text-only
+construction retains the two groups and six functions above. Adding a group to
+the database alone does not silently enable the file mode.
+
+The four extra parameterized operations reserve immutable document outputs,
+issue lease-bound object access, complete verified output metadata, and store
+the exact private preparation. The mapper accepts only the fixed canonical
+Storage origin and an `sb_publishable_` key. It returns GET access through the
+authenticated-object route, or POST access for one newly reserved output. The
+opaque grant lives only in `x-eps-asset-grant`; no grant is placed in a URL.
+Ready output replay requests GET and never remints write authority.
+
+The native worker verifies the downloaded original's size and SHA256 before
+parsing. It uploads the derived JSON once, downloads and hashes the stored
+bytes, then completes it and stores its private payload before sending a
+refs-only terminal callback. The private preparation is bounded to20MiB and
+rejects invalid Unicode before SQL. Lost operation responses remain unknown
+and are never retried by this gateway.
+
+File mode remains gated by the reviewed additive database release, dedicated
+role grants, actual hosted Storage header/operation/privacy tests and explicit
+launcher readiness. Offline SDK/transport tests prove none of those hosted
+conditions. There is no service-role, user JWT, JWT-signing or S3 fallback.
+
 Primary references: [parameterized queries](https://node-postgres.com/features/queries),
 [client configuration](https://node-postgres.com/apis/client),
 [TLS configuration](https://node-postgres.com/features/ssl), and

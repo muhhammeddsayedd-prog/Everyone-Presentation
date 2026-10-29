@@ -14,6 +14,24 @@ test('runtime schemas are sealed to the current authoritative OpenAPI source', a
     'Regenerate runtime schemas with tools/generate_runtime_contracts.py after a contract change.');
 });
 
+test('private file transfer contracts require explicit header access and stable output identity', () => {
+  const scope = { job_id: '70000000-0000-4000-8000-000000000001', attempt_id: '70000000-0000-4000-8000-000000000002', lease_token: 'synthetic-private-lease' };
+  const access = { asset_id: '70000000-0000-4000-8000-000000000003', url: 'https://synthetic.invalid/storage/v1/object/authenticated/eps-specs-assets/original.pdf',
+    method: 'GET', headers: { 'x-eps-asset-grant': 'synthetic-private-grant' }, expires_at: '2026-10-29T00:00:00Z', mime_type: 'application/pdf', size_bytes: 17, sha256: 'a'.repeat(64) };
+  validateContract('ServiceAssetAccess', access);
+  assert.throws(() => validateContract('ServiceAssetAccess', { ...access, method: 'PUT' }));
+  const { headers: _headers, ...legacyPlayback } = access; void _headers;
+  assert.throws(() => validateContract('ServiceAssetAccess', legacyPlayback));
+  assert.throws(() => validateContract('ServiceAssetAccess', { ...access, token: 'unannounced-authority' }));
+  const output = { ...scope, output_key: 'document_text', asset_kind: 'document_text', filename: 'prepared-document.json', mime_type: 'application/json', expected_size_bytes: 100,
+    parent_asset_id: access.asset_id, time_offset_ms: null };
+  validateContract('JobOutputReservation', output);
+  const { output_key: _key, ...withoutStableKey } = output; void _key;
+  assert.throws(() => validateContract('JobOutputReservation', withoutStableKey));
+  validateContract('JobAssetAccess', { ...scope, asset_id: access.asset_id, access: 'read' });
+  assert.throws(() => validateContract('JobAssetAccess', { ...scope, asset_id: access.asset_id, access: 'delete' }));
+});
+
 test('foundation projections conform to authoritative OpenAPI schemas', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'eps-contracts-'));
   try {

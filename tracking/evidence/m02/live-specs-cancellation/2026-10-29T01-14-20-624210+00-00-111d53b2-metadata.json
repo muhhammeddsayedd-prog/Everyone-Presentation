@@ -1,0 +1,98 @@
+{
+  "observed_at": "2026-10-29T01:14:20.624210+00:00",
+  "target": "pyibofyctwnqpvktepse",
+  "result": "passed",
+  "read_only": true,
+  "sql_sha256": "55f20c19fd682484dbd4e652d45799c62b5fbbece3ad22466ce78bba778f8982",
+  "scope": "App-confirmed queued cancellation metadata; no source payloads or external provider ledger query.",
+  "cloud_mutated": false,
+  "provider_called": false,
+  "raw_source_provider_payloads_or_credentials_recorded": false,
+  "checks": {
+    "exact_target": true,
+    "cancelled_before_any_stage": true,
+    "no_stage_or_provider_payload": true,
+    "no_outbox_sent": true,
+    "original_source_retained": true,
+    "original_three_roles_five_slots_untouched": true
+  },
+  "observed": {
+    "database": "postgres",
+    "draft": {
+      "active_role_count": 3,
+      "active_slot_count": 5,
+      "archived_role_count": 0,
+      "archived_slot_count": 0,
+      "current_job_is_cancelled_target": true,
+      "extraction_origin_job_id": "3ba110dd-711c-4c7f-aa89-0f4578310543",
+      "original_extraction_matches": true,
+      "role_origins": [
+        {
+          "active_slots": 1,
+          "role_id": "a3c82443-4889-48a3-afdf-825df05f8d51",
+          "row_version": 1,
+          "slot_versions_unchanged": true,
+          "source_job_id": "3ba110dd-711c-4c7f-aa89-0f4578310543",
+          "source_role_matches": true
+        },
+        {
+          "active_slots": 1,
+          "role_id": "e7aa0438-0807-4877-ac11-8bd15e34e535",
+          "row_version": 1,
+          "slot_versions_unchanged": true,
+          "source_job_id": "3ba110dd-711c-4c7f-aa89-0f4578310543",
+          "source_role_matches": true
+        },
+        {
+          "active_slots": 3,
+          "role_id": "63138ca5-0c37-43eb-a300-101435949f5e",
+          "row_version": 1,
+          "slot_versions_unchanged": true,
+          "source_job_id": "3ba110dd-711c-4c7f-aa89-0f4578310543",
+          "source_role_matches": true
+        }
+      ],
+      "row_version": 4,
+      "source_row_version": 3,
+      "spec_id": "73a1a500-acfe-48cc-91ba-53a83b895118",
+      "untouched_machine_facts": true
+    },
+    "job": {
+      "attempt": 0,
+      "cancel_requested": true,
+      "completed_stage_count": 0,
+      "id": "64788c14-ffab-44a5-94e1-5b7e512979c1",
+      "n8n_execution_id": null,
+      "resource_id": "73a1a500-acfe-48cc-91ba-53a83b895118",
+      "result_is_null": true,
+      "row_version": 2,
+      "stage": "prepare_document",
+      "stage_attempts": {},
+      "status": "cancelled",
+      "workspace_id": "098d5b48-42a3-475b-b562-735c9eafce80"
+    },
+    "original": {
+      "immutable_rows": 1,
+      "job_id": "3ba110dd-711c-4c7f-aa89-0f4578310543",
+      "original_hash_verified": true,
+      "source_sha256": "2d267edd68d6b3e3bc1f0a0bf280abafdbc4a7148071f3528a4539673fb3d4fa",
+      "source_version": 2,
+      "status": "succeeded"
+    },
+    "outbox": [
+      {
+        "attempt_count": 0,
+        "delivered": false,
+        "id": "eb652bbe-930b-40dd-825e-42db13c49e23",
+        "leased": false,
+        "stage": "prepare_document",
+        "status": "pending"
+      }
+    ],
+    "private_file_preparation_count": 0,
+    "provider_or_preparation_payload_count": 0,
+    "query_role": "postgres",
+    "stage_event_count": 0,
+    "target_count": 1
+  }
+}

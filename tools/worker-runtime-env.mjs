@@ -6,6 +6,7 @@ import { lstat, open, realpath } from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
 import { parseEnv, TextDecoder } from 'node:util';
+import { checkedWorkerFilesEnvironment } from './worker-files-env.mjs';
 
 const FILE = path.resolve(import.meta.dirname, '..', '.env.worker-runtime.local');
 const MAXIMUM = 64 * 1024;
@@ -47,11 +48,12 @@ export async function loadWorkerRuntimeEnvironment({ io = files } = {}) {
     } finally { await handle.close(); }
   } catch { return invalid(); }
 }
-export function createSpecsWorkerEnvironment(provider, runtime, environment = {}) {
+export function createSpecsWorkerEnvironment(provider, runtime, environment = {}, fileEnvironment = {}) {
   if (!provider || typeof provider.OPENAI_API_KEY !== 'string' || !provider.OPENAI_API_KEY.trim()
     || typeof provider.OPENAI_EXTRACTION_MODEL !== 'string' || !provider.OPENAI_EXTRACTION_MODEL.trim()) invalid();
   const scoped = checked(runtime);
-  const child = { NODE_ENV: 'production', OPENAI_API_KEY: provider.OPENAI_API_KEY, OPENAI_EXTRACTION_MODEL: provider.OPENAI_EXTRACTION_MODEL, ...scoped };
+  const child = { NODE_ENV: 'production', OPENAI_API_KEY: provider.OPENAI_API_KEY, OPENAI_EXTRACTION_MODEL: provider.OPENAI_EXTRACTION_MODEL,
+    ...scoped, ...checkedWorkerFilesEnvironment(fileEnvironment) };
   for (const key of ['SystemRoot', 'WINDIR', 'TEMP', 'TMP', 'LANG']) if (typeof environment[key] === 'string') child[key] = environment[key];
   return child;
 }

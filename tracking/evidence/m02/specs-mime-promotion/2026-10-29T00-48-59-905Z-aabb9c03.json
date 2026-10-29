@@ -1,0 +1,43 @@
+{
+  "observed_at": "2026-10-29T00:48:51.895Z",
+  "run_id": "aabb9c03-4151-4068-9466-7d2cc0ed77ba",
+  "result": "passed",
+  "scope": "Fixed local12 function-only promotion with actual data and owner/ACL preservation",
+  "cloud_called": false,
+  "file": "supabase/migrations/20261029003941_m02_specs_mime_guard.sql",
+  "migration_sha256": "5a4439e9dd5262cae7e6f813997c4c9506db3eb74fe4ea95d2a352726effb549",
+  "promotion": {
+    "receipt": "development/local-db/receipts/2026-10-29T00-48-56-934Z-replay.json",
+    "action": "replay",
+    "observed_at": "2026-10-29T00:48:56.934Z",
+    "workspace_key": "ffaf4984e0e7402cd2f54f81",
+    "scope": "owned local Docker container only; no cloud operations",
+    "container": "eps-presentation-canonical-pg17-local",
+    "file": "supabase/migrations/20261029003941_m02_specs_mime_guard.sql",
+    "sha256": "5a4439e9dd5262cae7e6f813997c4c9506db3eb74fe4ea95d2a352726effb549",
+    "result": "applied",
+    "warnings": ""
+  },
+  "observed_versions": [
+    "20261028010943",
+    "20261028013324",
+    "20261028013655",
+    "20261028024205",
+    "20261028072515",
+    "20261028162702",
+    "20261028162800",
+    "20261028172320",
+    "20261028184145",
+    "20261028222030",
+    "20261029001520",
+    "20261029003941"
+  ],
+  "changed_function": {
+    "name": "public.eps_reserve_specs_upload",
+    "before_source_sha256": "3d270f04764c903bb3ad19ca494b65fb3f1d3611814292bf5a76197ec4311eba",
+    "after_source_sha256": "24c6486f0a6f19a997ab42b5e790ea1ace74599a390d4a5b0da8f3830ad1d563"
+  },
+  "business_rows_preserved": true,
+  "only_reviewed_function_body_changed": true,
+  "finished_at": "2026-10-29T00:48:59.905Z"
+}

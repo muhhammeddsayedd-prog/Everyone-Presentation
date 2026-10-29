@@ -1,0 +1,20 @@
+{
+  "failed_receipt": "tracking/evidence/m02/specs-assets-candidate/2026-10-29T00-10-42-274Z-4077c988-rollback.json",
+  "failed_receipt_sha256": "f5552c4807cb73f99f9b16baaa3bb155e518ae96f6725a4c3177743e89e89ffb",
+  "sources": {
+    "development/m02/specs-assets-candidate.sql": {
+      "archive": "development/m02/specs-assets-candidate-87b1296d.source.txt",
+      "sha256": "87b1296d96860a0ab1d4ccc6e551bfdc2a3d0d53c2dcd9f82ae7e2f0c149f9da"
+    },
+    "tests/db/m02-specs-assets-candidate.sql": {
+      "archive": "development/m02/specs-assets-assertions-ed79191d.source.txt",
+      "sha256": "ed79191d2d21ff8a68f4cf722360fa0086375b4efef0ba2253ab44655fbd61d9"
+    },
+    "tools/test-m02-specs-assets-candidate.mjs": {
+      "archive": "development/m02/specs-assets-runner-e44dc54f.source.txt",
+      "sha256": "e44dc54f422acd7a245d36570a8fdfeafb192036f069570a4ab1f07eee60a5d7"
+    }
+  },
+  "result": "failed",
+  "no_acceptance_claim": true
+}

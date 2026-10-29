@@ -3,3 +3,7 @@
 * -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 # Preserve exact raw acceptance records, including their original whitespace.
 tracking/evidence/** -whitespace
+# PDF xref rows contain significant trailing spaces; inspect the original bytes
+# with the document tools rather than applying text whitespace fixes.
+fixtures/live-specs-files/*.pdf binary
+fixtures/live-specs-files/*.docx binary

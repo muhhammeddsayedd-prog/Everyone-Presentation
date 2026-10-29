@@ -23,7 +23,7 @@ const scope = { job_id: job, attempt_id: attempt, lease_token: lease.lease_token
 function fixture() {
   const queries: { text: string; values: unknown[] }[] = [];
   const released: boolean[] = []; let configuration: PoolConfig | undefined; let closed = false;
-  let allowed = true; let failure: unknown; let response: unknown = lease;
+  let allowed = true; let failure: unknown; let connectFailure: unknown; let response: unknown = lease;
   let queryHook: ((text: string) => Promise<void>) | undefined;
   const client: SpecsRuntimeSqlClient = {
     query: async (text, values = []) => {
@@ -34,9 +34,9 @@ function fixture() {
       return { rows: [] };
     }, release: destroy => { released.push(destroy === true); },
   };
-  const pool: SpecsRuntimePool = { connect: async () => client, end: async () => { closed = true; }, on: () => {} };
+  const pool: SpecsRuntimePool = { connect: async () => { if (connectFailure) throw connectFailure; return client; }, end: async () => { closed = true; }, on: () => {} };
   return { queries, released, setAllowed: (value: boolean) => { allowed = value; },
-    setFailure: (value: unknown) => { failure = value; }, setResponse: (value: unknown) => { response = value; },
+    setFailure: (value: unknown) => { failure = value; }, setConnectFailure: (value: unknown) => { connectFailure = value; }, setResponse: (value: unknown) => { response = value; },
     setQueryHook: (value: (text: string) => Promise<void>) => { queryHook = value; },
     configuration: () => configuration, closed: () => closed,
     factory: (config: PoolConfig) => { configuration = config; return pool; } };
@@ -81,6 +81,42 @@ test('incorrect role/table/function/logging scope fails the factory closed and c
   assert.equal(f.closed(), true); assert.equal(f.queries.some(query => query.text.startsWith('select eps.')), false);
 });
 
+test('file mode explicitly requires the third execute-only group and four additional fixed operations', async () => {
+  const f = fixture(); const original = '78900000-0000-4000-8000-000000000004';
+  const files = { storageOrigin: 'https://pyibofyctwnqpvktepse.supabase.co', publishableKey: 'sb_publishable_synthetic_public_file_key' };
+  const gateway = await createSpecsRuntimeGateway(readSpecsRuntimeConfig(env), { poolFactory: f.factory }, files);
+  const identity = f.queries.find(query => query.text.includes(' as allowed'))!.text;
+  assert.ok(identity.includes('count(*)=3') && identity.includes('count(*)=10') && identity.includes('eps_specs_assets_executor'));
+  assert.ok(identity.includes('eps.store_specs_preparation(jsonb)') && identity.includes('has_any_column_privilege'));
+  f.setResponse({ asset_id: original, bucket: 'eps-specs-assets', object_key: `assets/${original}/original.pdf`, permission: 'read',
+    grant_token: 'd'.repeat(43), expires_at: future, mime_type: 'application/pdf', size_bytes: 100, sha256: inputHash });
+  const result = await gateway.files!.getAssetAccess({ ...scope, asset_id: original }, AbortSignal.timeout(1000));
+  assert.equal(result.url, `${files.storageOrigin}/storage/v1/object/authenticated/eps-specs-assets/assets/${original}/original.pdf`);
+  const call = f.queries.find(query => query.text === 'select eps.get_job_asset_access($1::jsonb) as value')!;
+  assert.ok(call); assert.equal(call.text.includes(lease.lease_token), false);
+  assert.deepEqual(JSON.parse(call.values[0] as string), { ...scope, asset_id: original });
+  f.setResponse({ stored: true });
+  const payload = JSON.stringify({ synthetic: 'private-prepared-text', text: 'x'.repeat(300_000) });
+  await gateway.files!.storePreparation({ ...scope, asset_id: original, payload_utf8: payload }, AbortSignal.timeout(1000));
+  const preparation = f.queries.find(query => query.text === 'select eps.store_specs_preparation($1::jsonb) as value')!;
+  assert.ok(preparation && !preparation.text.includes('private-prepared-text'));
+  assert.equal(JSON.parse(preparation.values[0] as string).payload_utf8, payload);
+  f.setFailure({ code: 'ECONNRESET', message: 'synthetic-private-transport-body' });
+  const attempts = f.queries.filter(query => query.text === 'select eps.store_specs_preparation($1::jsonb) as value').length;
+  await assert.rejects(gateway.files!.storePreparation({ ...scope, asset_id: original, payload_utf8: payload }, AbortSignal.timeout(1000)),
+    runtimeError('RUNTIME_UNAVAILABLE', 'unknown'));
+  assert.equal(f.queries.filter(query => query.text === 'select eps.store_specs_preparation($1::jsonb) as value').length, attempts + 1);
+  await gateway.close();
+});
+
+test('invalid optional file target is denied before constructing the private database pool', async () => {
+  const f = fixture();
+  await assert.rejects(createSpecsRuntimeGateway(readSpecsRuntimeConfig(env), { poolFactory: f.factory },
+    { storageOrigin: 'https://untrusted.example.invalid', publishableKey: 'sb_publishable_synthetic_public_file_key' }),
+  runtimeError('RUNTIME_CONFIG_INVALID', 'known'));
+  assert.equal(f.configuration(), undefined);
+});
+
 test('six operations use fixed extended-query parameters with no private SQL interpolation', async () => {
   const f = fixture(); const gateway = await createSpecsRuntimeGateway(readSpecsRuntimeConfig(env), { poolFactory: f.factory });
   assert.deepEqual(await gateway.claim({ job_id: job, stage: 'prepare_document', input_hash: inputHash }), lease);
@@ -119,6 +155,39 @@ test('database domain rejections are known and redacted; network/commit/unknown 
   f.setFailure({ code: 'ECONNRESET', message: 'synthetic-private-connection-string' });
   await assert.rejects(gateway.claim({ job_id: job, stage: 'prepare_document', input_hash: inputHash }), runtimeError('RUNTIME_UNAVAILABLE', 'unknown'));
   assert.equal(f.released.at(-1), true); await gateway.close();
+});
+test('startup diagnostics expose only fixed phase/transport codes, and auth/TLS failures cannot be retried as availability', async () => {
+  for (const [failure, code, transport] of [
+    [{ code: 'ECONNRESET', message: 'synthetic-private-host-or-password' }, 'RUNTIME_UNAVAILABLE', 'ECONNRESET'],
+    [new Error('Connection terminated due to connection timeout'), 'RUNTIME_UNAVAILABLE', 'CONNECT_TIMEOUT'],
+    [new Error('timeout exceeded when trying to connect'), 'RUNTIME_UNAVAILABLE', 'CONNECT_TIMEOUT'],
+    [{ code: '28P01', message: 'synthetic-private-password' }, 'RUNTIME_AUTH_UNVERIFIED', '28P01'],
+    [{ code: 'ERR_TLS_CERT_ALTNAME_INVALID', message: 'synthetic-private-certificate' }, 'RUNTIME_CONFIG_INVALID', 'ERR_TLS_CERT_ALTNAME_INVALID'],
+    [{ code: 'synthetic-private-code', message: 'synthetic-private-body' }, 'RUNTIME_UNAVAILABLE', undefined],
+  ] as const) {
+    const f = fixture(); f.setConnectFailure(failure);
+    await assert.rejects(createSpecsRuntimeGateway(readSpecsRuntimeConfig(env), { poolFactory: f.factory }), error => {
+      assert.ok(error instanceof SpecsRuntimeGatewayError); const diagnostic = error as SpecsRuntimeGatewayError & { gateway_phase: string; transport_code?: string; elapsed_ms: number };
+      assert.equal(diagnostic.code, code); assert.equal(diagnostic.gateway_phase, 'connect'); assert.equal(diagnostic.transport_code, transport);
+      assert.ok(Number.isSafeInteger(diagnostic.elapsed_ms) && diagnostic.elapsed_ms >= 0);
+      assert.doesNotMatch(JSON.stringify(error), /synthetic-private/u); return true;
+    });
+    assert.equal(f.queries.length, 0); assert.equal(f.closed(), true);
+  }
+});
+test('private SQL and commit diagnostics preserve unknown outcomes without copying raw driver data', async () => {
+  for (const phase of ['operation', 'commit'] as const) {
+    const f = fixture(); const gateway = await createSpecsRuntimeGateway(readSpecsRuntimeConfig(env), { poolFactory: f.factory });
+    if (phase === 'operation') f.setFailure({ code: '53300', message: 'synthetic-private-connection-body' });
+    else f.setQueryHook(async text => { if (text === 'commit') throw { code: 'ECONNRESET', message: 'synthetic-private-commit-body' }; });
+    await assert.rejects(gateway.claim({ job_id: job, stage: 'prepare_document', input_hash: inputHash }), error => {
+      assert.ok(error instanceof SpecsRuntimeGatewayError); const diagnostic = error as SpecsRuntimeGatewayError & { gateway_phase: string; transport_code: string };
+      assert.equal(diagnostic.code, 'RUNTIME_UNAVAILABLE'); assert.equal(diagnostic.outcome, 'unknown');
+      assert.equal(diagnostic.gateway_phase, phase); assert.equal(diagnostic.transport_code, phase === 'operation' ? '53300' : 'ECONNRESET');
+      assert.doesNotMatch(JSON.stringify(error), /synthetic-private/u); return true;
+    });
+    assert.equal(f.queries.filter(query => query.text.startsWith('select eps.')).length, 1); await gateway.close();
+  }
 });
 
 test('aborted input cannot start a transaction or query and closed gateway cannot reconnect', async () => {

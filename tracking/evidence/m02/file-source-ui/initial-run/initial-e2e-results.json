@@ -1,0 +1,988 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "tests/e2e/file-source-intake-ui.spec.ts",
+      "tests/e2e/source-intake-ui.spec.ts",
+      "--output=test-results/file-source-ui"
+    ],
+    "configFile": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\playwright.config.ts",
+    "rootDir": "D:/Everyone/Presentation/Everyone-Presentation-Studio/tests/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "D:/Everyone/Presentation/Everyone-Presentation-Studio/test-results/file-source-ui",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "D:/Everyone/Presentation/Everyone-Presentation-Studio/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\test-results\\file-source-ui",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "chromium",
+        "testDir": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e",
+        "snapshotDir": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 90000,
+        "use": {
+          "baseURL": "http://127.0.0.1:3100",
+          "trace": "off",
+          "screenshot": "only-on-failure",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36",
+          "viewport": {
+            "width": 1280,
+            "height": 720
+          },
+          "screen": {
+            "width": 1920,
+            "height": 1080
+          },
+          "deviceScaleFactor": 1,
+          "isMobile": false,
+          "hasTouch": false,
+          "defaultBrowserType": "chromium"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "chromium"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/e2e-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": {
+      "command": "node tools/dev-test-server.mjs",
+      "url": "http://127.0.0.1:3100",
+      "reuseExistingServer": false,
+      "timeout": 120000
+    }
+  },
+  "suites": [
+    {
+      "title": "file-source-intake-ui.spec.ts",
+      "file": "file-source-intake-ui.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "controlled file acceptance preserves original bytes, uses real returned asset and restores durable source/job after reload",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 6128,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m1\u001b[39m\nReceived: \u001b[31m0\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m1\u001b[39m\nReceived: \u001b[31m0\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n    at D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\file-source-intake-ui.spec.ts:92:88",
+                    "location": {
+                      "file": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\file-source-intake-ui.spec.ts",
+                      "column": 88,
+                      "line": 92
+                    },
+                    "snippet": "  90 |   const model = await fileWorkspace(page); model.hold(); await page.goto(view); await selectFile(page);\n  91 |   await page.getByRole('button', { name: 'Process document', exact: true }).click();\n> 92 |   await expect.poll(() => model.calls.filter(call => call.path === sourcePath).length).toBe(1);\n     |                                                                                        ^\n  93 |   expect(model.spec().source_text).toBe('Previously saved source');\n  94 |   await expect(page.getByRole('button', { name: 'Saving document…' })).toBeDisabled();\n  95 |   await expect(page.getByLabel('General instructions', { exact: true })).toHaveAttribute('readonly', '');"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\file-source-intake-ui.spec.ts",
+                        "column": 88,
+                        "line": 92
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m1\u001b[39m\nReceived: \u001b[31m0\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n\n  90 |   const model = await fileWorkspace(page); model.hold(); await page.goto(view); await selectFile(page);\n  91 |   await page.getByRole('button', { name: 'Process document', exact: true }).click();\n> 92 |   await expect.poll(() => model.calls.filter(call => call.path === sourcePath).length).toBe(1);\n     |                                                                                        ^\n  93 |   expect(model.spec().source_text).toBe('Previously saved source');\n  94 |   await expect(page.getByRole('button', { name: 'Saving document…' })).toBeDisabled();\n  95 |   await expect(page.getByLabel('General instructions', { exact: true })).toHaveAttribute('readonly', '');\n    at D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\file-source-intake-ui.spec.ts:92:88"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T23:59:44.674Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\test-results\\file-source-ui\\file-source-intake-ui-cont-81a6a-ble-source-job-after-reload-chromium\\test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\test-results\\file-source-ui\\file-source-intake-ui-cont-81a6a-ble-source-job-after-reload-chromium\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\file-source-intake-ui.spec.ts",
+                    "column": 88,
+                    "line": 92
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "501c7ffd956e28a27c1b-b98ff5f303b0ca34692b",
+          "file": "file-source-intake-ui.spec.ts",
+          "line": 89,
+          "column": 5
+        },
+        {
+          "title": "controlled unknown immutable PUT checks completion before any retry and locks local mode changes",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 6264,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('link', { name: 'View accepted processing' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('link', { name: 'View accepted processing' }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('link', { name: 'View accepted processing' })\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('link', { name: 'View accepted processing' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('link', { name: 'View accepted processing' }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('link', { name: 'View accepted processing' })\u001b[22m\n\n    at D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\file-source-intake-ui.spec.ts:114:155",
+                    "location": {
+                      "file": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\file-source-intake-ui.spec.ts",
+                      "column": 155,
+                      "line": 114
+                    },
+                    "snippet": "  112 |   await expect(page.getByRole('button', { name: 'Retry this file request' })).toBeVisible(); await expect(page.getByRole('button', { name: 'Paste text', exact: true })).toBeDisabled();\n  113 |   await expect(page.getByLabel('General instructions', { exact: true })).toHaveAttribute('readonly', '');\n> 114 |   await page.getByRole('button', { name: 'Retry this file request' }).click(); await expect(page.getByRole('link', { name: 'View accepted processing' })).toBeVisible();\n      |                                                                                                                                                           ^\n  115 |   expect(model.transfers).toHaveLength(1); expect(model.calls.filter(call => call.path === '/api/v1/uploads')).toHaveLength(1);\n  116 |   expect(model.calls.filter(call => call.path.endsWith('/complete'))).toHaveLength(1);\n  117 | });"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\file-source-intake-ui.spec.ts",
+                        "column": 155,
+                        "line": 114
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('link', { name: 'View accepted processing' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('link', { name: 'View accepted processing' }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('link', { name: 'View accepted processing' })\u001b[22m\n\n\n  112 |   await expect(page.getByRole('button', { name: 'Retry this file request' })).toBeVisible(); await expect(page.getByRole('button', { name: 'Paste text', exact: true })).toBeDisabled();\n  113 |   await expect(page.getByLabel('General instructions', { exact: true })).toHaveAttribute('readonly', '');\n> 114 |   await page.getByRole('button', { name: 'Retry this file request' }).click(); await expect(page.getByRole('link', { name: 'View accepted processing' })).toBeVisible();\n      |                                                                                                                                                           ^\n  115 |   expect(model.transfers).toHaveLength(1); expect(model.calls.filter(call => call.path === '/api/v1/uploads')).toHaveLength(1);\n  116 |   expect(model.calls.filter(call => call.path.endsWith('/complete'))).toHaveLength(1);\n  117 | });\n    at D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\file-source-intake-ui.spec.ts:114:155"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T23:59:51.809Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\test-results\\file-source-ui\\file-source-intake-ui-cont-ecd87-nd-locks-local-mode-changes-chromium\\test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\test-results\\file-source-ui\\file-source-intake-ui-cont-ecd87-nd-locks-local-mode-changes-chromium\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\file-source-intake-ui.spec.ts",
+                    "column": 155,
+                    "line": 114
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "501c7ffd956e28a27c1b-0345dd79eabcbcaaf08d",
+          "file": "file-source-intake-ui.spec.ts",
+          "line": 110,
+          "column": 5
+        },
+        {
+          "title": "controlled stale submit reloads the Spec version while reusing the verified original",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 6016,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeDisabled\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('button', { name: 'Process document', exact: true })\nExpected: disabled\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeDisabled\" getByRole('button', { name: 'Process document', exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: 'Process document', exact: true })\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeDisabled\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('button', { name: 'Process document', exact: true })\nExpected: disabled\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeDisabled\" getByRole('button', { name: 'Process document', exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: 'Process document', exact: true })\u001b[22m\n\n    at D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\file-source-intake-ui.spec.ts:121:85",
+                    "location": {
+                      "file": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\file-source-intake-ui.spec.ts",
+                      "column": 85,
+                      "line": 121
+                    },
+                    "snippet": "  119 | test('controlled stale submit reloads the Spec version while reusing the verified original', async ({ page }) => {\n  120 |   const model = await fileWorkspace(page, 'stale'); await page.goto(view); await selectFile(page); await page.getByRole('button', { name: 'Process document', exact: true }).click();\n> 121 |   await expect(page.getByRole('button', { name: 'Process document', exact: true })).toBeDisabled();\n      |                                                                                     ^\n  122 |   await page.locator('.source-file-intake').getByRole('button', { name: 'Reload saved requirements', exact: true }).click();\n  123 |   await expect(page.getByRole('button', { name: 'Process document', exact: true })).toBeEnabled(); await page.getByRole('button', { name: 'Process document', exact: true }).click();\n  124 |   await expect(page.getByRole('link', { name: 'View accepted processing' })).toBeVisible();"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\file-source-intake-ui.spec.ts",
+                        "column": 85,
+                        "line": 121
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeDisabled\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('button', { name: 'Process document', exact: true })\nExpected: disabled\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeDisabled\" getByRole('button', { name: 'Process document', exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: 'Process document', exact: true })\u001b[22m\n\n\n  119 | test('controlled stale submit reloads the Spec version while reusing the verified original', async ({ page }) => {\n  120 |   const model = await fileWorkspace(page, 'stale'); await page.goto(view); await selectFile(page); await page.getByRole('button', { name: 'Process document', exact: true }).click();\n> 121 |   await expect(page.getByRole('button', { name: 'Process document', exact: true })).toBeDisabled();\n      |                                                                                     ^\n  122 |   await page.locator('.source-file-intake').getByRole('button', { name: 'Reload saved requirements', exact: true }).click();\n  123 |   await expect(page.getByRole('button', { name: 'Process document', exact: true })).toBeEnabled(); await page.getByRole('button', { name: 'Process document', exact: true }).click();\n  124 |   await expect(page.getByRole('link', { name: 'View accepted processing' })).toBeVisible();\n    at D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\file-source-intake-ui.spec.ts:121:85"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T23:59:59.318Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\test-results\\file-source-ui\\file-source-intake-ui-cont-d66bb-using-the-verified-original-chromium\\test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\test-results\\file-source-ui\\file-source-intake-ui-cont-d66bb-using-the-verified-original-chromium\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\file-source-intake-ui.spec.ts",
+                    "column": 85,
+                    "line": 121
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "501c7ffd956e28a27c1b-eefc83a3186a7752f6b2",
+          "file": "file-source-intake-ui.spec.ts",
+          "line": 119,
+          "column": 5
+        },
+        {
+          "title": "controlled unknown-complete retains confirmed checkpoints and retries exact intent",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 6274,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('button', { name: 'Process document', exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('button', { name: 'Process document', exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: 'Process document', exact: true })\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('button', { name: 'Process document', exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('button', { name: 'Process document', exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: 'Process document', exact: true })\u001b[22m\n\n    at D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\file-source-intake-ui.spec.ts:133:85",
+                    "location": {
+                      "file": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\file-source-intake-ui.spec.ts",
+                      "column": 85,
+                      "line": 133
+                    },
+                    "snippet": "  131 |   const model = await fileWorkspace(page, mode); await page.goto(view); await selectFile(page); await page.getByRole('button', { name: 'Process document', exact: true }).click();\n  132 |   await page.getByRole('button', { name: mode === 'refresh-failure' ? 'Reload accepted document' : 'Retry this file request', exact: true }).click();\n> 133 |   await expect(page.getByRole('button', { name: 'Process document', exact: true })).toBeVisible();\n      |                                                                                     ^\n  134 |   await expect(page.getByRole('link', { name: 'View accepted processing' })).toBeVisible();\n  135 |   expect(model.transfers).toHaveLength(1); expect(model.calls.filter(call => call.path === '/api/v1/uploads')).toHaveLength(1);\n  136 |   const repeatPath = mode === 'unknown-complete' ? `/api/v1/uploads/${uploadId}/complete` : sourcePath;"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\file-source-intake-ui.spec.ts",
+                        "column": 85,
+                        "line": 133
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('button', { name: 'Process document', exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('button', { name: 'Process document', exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: 'Process document', exact: true })\u001b[22m\n\n\n  131 |   const model = await fileWorkspace(page, mode); await page.goto(view); await selectFile(page); await page.getByRole('button', { name: 'Process document', exact: true }).click();\n  132 |   await page.getByRole('button', { name: mode === 'refresh-failure' ? 'Reload accepted document' : 'Retry this file request', exact: true }).click();\n> 133 |   await expect(page.getByRole('button', { name: 'Process document', exact: true })).toBeVisible();\n      |                                                                                     ^\n  134 |   await expect(page.getByRole('link', { name: 'View accepted processing' })).toBeVisible();\n  135 |   expect(model.transfers).toHaveLength(1); expect(model.calls.filter(call => call.path === '/api/v1/uploads')).toHaveLength(1);\n  136 |   const repeatPath = mode === 'unknown-complete' ? `/api/v1/uploads/${uploadId}/complete` : sourcePath;\n    at D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\file-source-intake-ui.spec.ts:133:85"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T00:00:06.419Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\test-results\\file-source-ui\\file-source-intake-ui-cont-965e2-ts-and-retries-exact-intent-chromium\\test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\test-results\\file-source-ui\\file-source-intake-ui-cont-965e2-ts-and-retries-exact-intent-chromium\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\file-source-intake-ui.spec.ts",
+                    "column": 85,
+                    "line": 133
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "501c7ffd956e28a27c1b-b48bebff5d4f18346d84",
+          "file": "file-source-intake-ui.spec.ts",
+          "line": 130,
+          "column": 92
+        },
+        {
+          "title": "controlled unknown-submit retains confirmed checkpoints and retries exact intent",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 6319,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('button', { name: 'Process document', exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('button', { name: 'Process document', exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: 'Process document', exact: true })\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('button', { name: 'Process document', exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('button', { name: 'Process document', exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: 'Process document', exact: true })\u001b[22m\n\n    at D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\file-source-intake-ui.spec.ts:133:85",
+                    "location": {
+                      "file": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\file-source-intake-ui.spec.ts",
+                      "column": 85,
+                      "line": 133
+                    },
+                    "snippet": "  131 |   const model = await fileWorkspace(page, mode); await page.goto(view); await selectFile(page); await page.getByRole('button', { name: 'Process document', exact: true }).click();\n  132 |   await page.getByRole('button', { name: mode === 'refresh-failure' ? 'Reload accepted document' : 'Retry this file request', exact: true }).click();\n> 133 |   await expect(page.getByRole('button', { name: 'Process document', exact: true })).toBeVisible();\n      |                                                                                     ^\n  134 |   await expect(page.getByRole('link', { name: 'View accepted processing' })).toBeVisible();\n  135 |   expect(model.transfers).toHaveLength(1); expect(model.calls.filter(call => call.path === '/api/v1/uploads')).toHaveLength(1);\n  136 |   const repeatPath = mode === 'unknown-complete' ? `/api/v1/uploads/${uploadId}/complete` : sourcePath;"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\file-source-intake-ui.spec.ts",
+                        "column": 85,
+                        "line": 133
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('button', { name: 'Process document', exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('button', { name: 'Process document', exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: 'Process document', exact: true })\u001b[22m\n\n\n  131 |   const model = await fileWorkspace(page, mode); await page.goto(view); await selectFile(page); await page.getByRole('button', { name: 'Process document', exact: true }).click();\n  132 |   await page.getByRole('button', { name: mode === 'refresh-failure' ? 'Reload accepted document' : 'Retry this file request', exact: true }).click();\n> 133 |   await expect(page.getByRole('button', { name: 'Process document', exact: true })).toBeVisible();\n      |                                                                                     ^\n  134 |   await expect(page.getByRole('link', { name: 'View accepted processing' })).toBeVisible();\n  135 |   expect(model.transfers).toHaveLength(1); expect(model.calls.filter(call => call.path === '/api/v1/uploads')).toHaveLength(1);\n  136 |   const repeatPath = mode === 'unknown-complete' ? `/api/v1/uploads/${uploadId}/complete` : sourcePath;\n    at D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\file-source-intake-ui.spec.ts:133:85"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T00:00:13.867Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\test-results\\file-source-ui\\file-source-intake-ui-cont-78156-ts-and-retries-exact-intent-chromium\\test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\test-results\\file-source-ui\\file-source-intake-ui-cont-78156-ts-and-retries-exact-intent-chromium\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\file-source-intake-ui.spec.ts",
+                    "column": 85,
+                    "line": 133
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "501c7ffd956e28a27c1b-425cf384d881b2d8ccfb",
+          "file": "file-source-intake-ui.spec.ts",
+          "line": 130,
+          "column": 92
+        },
+        {
+          "title": "controlled refresh-failure retains confirmed checkpoints and retries exact intent",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "timedOut",
+                  "duration": 90131,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 90000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 90000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 90000ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\file-source-intake-ui.spec.ts",
+                        "column": 142,
+                        "line": 132
+                      },
+                      "message": "Error: locator.click: Test timeout of 90000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'Reload accepted document', exact: true })\u001b[22m\n\n\n  130 |   await expect(page.getByRole('link', { name: 'View accepted processing' })).toBeVisible();\n  131 |   const submits = model.calls.filter(call => call.path === sourcePath); expect(submits.map(call => call.body.row_version)).toEqual([7, 9]);\n> 132 |   expect(submits[1].key).not.toBe(submits[0].key); expect(submits.every(call => call.body.source_asset_id === assetId)).toBe(true);\n      |                                                                                                                                    ^\n  133 |   expect(model.transfers).toHaveLength(1); expect(model.calls.filter(call => call.path.endsWith('/complete'))).toHaveLength(1);\n  134 | });\n  135 |\n    at D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tests\\e2e\\file-source-intake-ui.spec.ts:132:142"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T00:00:21.283Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\test-results\\file-source-ui\\file-source-intake-ui-cont-929ea-ts-and-retries-exact-intent-chromium\\test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\test-results\\file-source-ui\\file-source-intake-ui-cont-929ea-ts-and-retries-exact-intent-chromium\\error-context.md"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "501c7ffd956e28a27c1b-78f4cb2b68e83c89a1e4",
+          "file": "file-source-intake-ui.spec.ts",
+          "line": 130,
+          "column": 92
+        },
+        {
+          "title": "controlled unavailable submit preserves selected original and allows manual work; dirty mode switch requires consent",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2138,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T00:01:52.579Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "501c7ffd956e28a27c1b-330ee5d9e34a028c23c2",
+          "file": "file-source-intake-ui.spec.ts",
+          "line": 141,
+          "column": 5
+        },
+        {
+          "title": "controlled no-capability cannot select or send original bytes",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1025,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T00:01:54.876Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "501c7ffd956e28a27c1b-22200ffbd8c9d4077da4",
+          "file": "file-source-intake-ui.spec.ts",
+          "line": 152,
+          "column": 65
+        },
+        {
+          "title": "controlled no-origin cannot select or send original bytes",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 948,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T00:01:55.927Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "501c7ffd956e28a27c1b-030cbe8915af0e268ef1",
+          "file": "file-source-intake-ui.spec.ts",
+          "line": 152,
+          "column": 65
+        }
+      ]
+    },
+    {
+      "title": "source-intake-ui.spec.ts",
+      "file": "source-intake-ui.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "controlled pasted intake preserves saved source until acceptance, then persists correction and job link",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1997,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T00:01:56.906Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9363f1523c3474717ede-44726f6c436f1a182d9e",
+          "file": "source-intake-ui.spec.ts",
+          "line": 84,
+          "column": 5
+        },
+        {
+          "title": "controlled lost acceptance response retries identical key/body and creates no second job",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1045,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T00:01:58.921Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9363f1523c3474717ede-ddcbaf512dca29645da2",
+          "file": "source-intake-ui.spec.ts",
+          "line": 107,
+          "column": 5
+        },
+        {
+          "title": "controlled processing readiness failure retains pasted text and allows manual editing",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1859,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T00:01:59.981Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9363f1523c3474717ede-deb91e7b288b471943de",
+          "file": "source-intake-ui.spec.ts",
+          "line": 120,
+          "column": 5
+        },
+        {
+          "title": "controlled stale source reload retains correction and submits with freshly read Spec version",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1256,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T00:02:01.854Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9363f1523c3474717ede-5ae62946a8553bf1c14c",
+          "file": "source-intake-ui.spec.ts",
+          "line": 129,
+          "column": 5
+        },
+        {
+          "title": "controlled dirty manual saves block source replacement without discarding either text",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1900,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T00:02:03.127Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9363f1523c3474717ede-09ae228888a8bbef8a74",
+          "file": "source-intake-ui.spec.ts",
+          "line": 137,
+          "column": 5
+        },
+        {
+          "title": "controlled accepted request refresh failure retries only persisted reads",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1109,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T00:02:05.048Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9363f1523c3474717ede-c4c586267c887ba7225b",
+          "file": "source-intake-ui.spec.ts",
+          "line": 146,
+          "column": 5
+        },
+        {
+          "title": "controlled read-only source has no submit action",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 902,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T00:02:06.185Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9363f1523c3474717ede-f15c1e825a21e27082a8",
+          "file": "source-intake-ui.spec.ts",
+          "line": 152,
+          "column": 5
+        },
+        {
+          "title": "controlled completed source is loaded from persisted reads only after dirty local forms are resolved",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1709,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T00:02:07.103Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9363f1523c3474717ede-32132cf7cfda1de9b66e",
+          "file": "source-intake-ui.spec.ts",
+          "line": 156,
+          "column": 5
+        },
+        {
+          "title": "controlled source status rejects a different Spec job and never displays provider diagnostics",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1106,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T00:02:08.831Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9363f1523c3474717ede-e7e58da4cabc8d93edec",
+          "file": "source-intake-ui.spec.ts",
+          "line": 181,
+          "column": 5
+        },
+        {
+          "title": "controlled saved source navigates through actual Processing actions and returns to its cancelled job after reload",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2307,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T00:02:09.955Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9363f1523c3474717ede-4fcfa304a41d320027ae",
+          "file": "source-intake-ui.spec.ts",
+          "line": 196,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-28T23:59:38.545Z",
+    "duration": 154282.486,
+    "expected": 13,
+    "skipped": 0,
+    "unexpected": 6,
+    "flaky": 0
+  }
+}

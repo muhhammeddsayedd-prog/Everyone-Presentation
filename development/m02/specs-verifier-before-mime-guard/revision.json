@@ -1,0 +1,22 @@
+{
+  "observed_at": "2026-10-29T00:41:50.324852+00:00",
+  "reason": "Preserve reviewed, unexecuted exact11 provisioning source before exact12 MIME guard amendment",
+  "executed": false,
+  "sources": [
+    {
+      "source": "tools/provision_specs_verifier.py",
+      "snapshot": "development/m02/specs-verifier-before-mime-guard/provision_specs_verifier.py",
+      "sha256": "77b00bf12fa5d11a8a14b3acf6b8915780fb1bb3d10b39f445a8578c8f6e8c20"
+    },
+    {
+      "source": "tools/sql/provision-specs-verifier.sql",
+      "snapshot": "development/m02/specs-verifier-before-mime-guard/provision-specs-verifier.sql",
+      "sha256": "dfe21d2ffddb78a011e2bd1d1f40375b1d6ac6ba30170e44d8d929a4d55dadac"
+    },
+    {
+      "source": "tests/tools/test_provision_specs_verifier.py",
+      "snapshot": "development/m02/specs-verifier-before-mime-guard/test_provision_specs_verifier.py",
+      "sha256": "4215831cd3cbd6fa78261ddfb1c32bd4d32ec48360372690358a35a1225cb6de"
+    }
+  ]
+}

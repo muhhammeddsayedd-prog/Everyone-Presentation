@@ -1,0 +1,152 @@
+{
+  "observed_at": "2026-10-29T01:20:45.384033+00:00",
+  "target": "pyibofyctwnqpvktepse",
+  "read_only": true,
+  "result": "passed",
+  "sql_sha256": "5c23b3a866b7a3a96e95365032bbf1c4aa5e376b4ace940ccb5f76a7f9bab5c0",
+  "scope": "Actual app request queued before worker relaunch, then completed. Not a database restart, in-flight expiry or current idle-worker health proof.",
+  "worker_health_asserted": false,
+  "provider_called_by_inspector": false,
+  "cloud_mutated": false,
+  "raw_source_provider_payloads_or_credentials_recorded": false,
+  "checks": {
+    "exact_completed_job": true,
+    "three_real_stages": true,
+    "all_three_dispatches_delivered": true,
+    "exact_retained_source": true,
+    "real_provider_metadata": true,
+    "new_origin_three_roles_five_slots": true,
+    "old_three_roles_five_slots_archived_and_retained": true,
+    "cancelled_predecessor_never_executed": true
+  },
+  "observed": {
+    "cancelled_predecessor": {
+      "attempt": 0,
+      "job_id": "64788c14-ffab-44a5-94e1-5b7e512979c1",
+      "n8n_execution_id": null,
+      "outbox_attempts": 0,
+      "outbox_deliveries": 0,
+      "payloads": 0,
+      "stage_attempts": {},
+      "status": "cancelled"
+    },
+    "database": "postgres",
+    "draft": {
+      "active_origins": true,
+      "active_roles": 3,
+      "active_slots": 5,
+      "archived_roles": 3,
+      "archived_slots": 5,
+      "current_job_is_target": true,
+      "extraction_origin_is_target": true,
+      "original_roles_retained": true,
+      "original_slots_retained": true,
+      "row_version": 6,
+      "source_row_version": 4,
+      "spec_id": "73a1a500-acfe-48cc-91ba-53a83b895118",
+      "untouched_current_machine_facts": true
+    },
+    "job": {
+      "attempt": 3,
+      "completed_stages": [
+        {
+          "attempt_id": "b196d5ef-5f1a-4039-96a1-59d3139ca4b7",
+          "completed_at": "2026-10-29T01:17:23.958188+00:00",
+          "result_schema": "document-preparation.v1",
+          "stage": "prepare_document"
+        },
+        {
+          "attempt_id": "20183ec9-bece-4f81-825c-cdec9ef00e19",
+          "completed_at": "2026-10-29T01:17:48.673282+00:00",
+          "result_schema": "specs-extraction-stage.v1",
+          "stage": "extract_specs"
+        },
+        {
+          "attempt_id": "6c569547-5e96-46c5-89a4-21a1cde3056e",
+          "completed_at": "2026-10-29T01:18:05.35574+00:00",
+          "result_schema": "specs-application.v1",
+          "stage": "apply_specs"
+        }
+      ],
+      "job_id": "1e1104aa-2e0f-4f6f-8bd3-7e04ac09e7ed",
+      "last_n8n_execution_id": "31265",
+      "result": {
+        "clarification_count": 3,
+        "role_count": 3,
+        "slot_count": 5,
+        "specs_id": "73a1a500-acfe-48cc-91ba-53a83b895118",
+        "workspace_id": "098d5b48-42a3-475b-b562-735c9eafce80"
+      },
+      "spec_id": "73a1a500-acfe-48cc-91ba-53a83b895118",
+      "stage": "apply_specs",
+      "stage_attempts": {
+        "apply_specs": 1,
+        "extract_specs": 1,
+        "prepare_document": 1
+      },
+      "status": "succeeded",
+      "workspace_id": "098d5b48-42a3-475b-b562-735c9eafce80"
+    },
+    "outbox": [
+      {
+        "attempt_count": 1,
+        "delivered_at": "2026-10-29T01:17:19.812919+00:00",
+        "generation": 1,
+        "id": "bb8decd9-2c09-485c-9e28-9b75b5f8d820",
+        "input_hash_matches": true,
+        "stage": "prepare_document",
+        "status": "delivered"
+      },
+      {
+        "attempt_count": 1,
+        "delivered_at": "2026-10-29T01:17:30.325316+00:00",
+        "generation": 2,
+        "id": "b3d2ee96-3cd4-49ba-a973-fea26bc979b3",
+        "input_hash_matches": true,
+        "stage": "extract_specs",
+        "status": "delivered"
+      },
+      {
+        "attempt_count": 1,
+        "delivered_at": "2026-10-29T01:18:01.285613+00:00",
+        "generation": 3,
+        "id": "9846ffd4-227a-41ae-b060-bd2875916139",
+        "input_hash_matches": true,
+        "stage": "apply_specs",
+        "status": "delivered"
+      }
+    ],
+    "provider": {
+      "frozen_model_matches": true,
+      "input_hash_matches": true,
+      "prompt_sha256": "ab03fd026edb3d139fd93fdd51cb475474d6c4e3c8f6395b65014574e7e29eee",
+      "prompt_version": "spec_extract_v1.0.0",
+      "provider": "openai",
+      "provider_schema_sha256": "d73a11450f2714c5649ab9a663f0a3483f68feefd1f482bc62575a9a608a1216",
+      "requested_model": "gpt-6.1-sol",
+      "resolved_model": "gpt-6.1-sol",
+      "response_reference_present": true,
+      "schema_sha256": "e8ffee51eee20f687abbfc12c2476248ccb5a59c1122fde418bc89db3ff58085",
+      "schema_version": "1.0",
+      "sdk_version": "7.45.1",
+      "usage": {
+        "input_tokens": 1434,
+        "output_tokens": 1536,
+        "total_tokens": 2970
+      }
+    },
+    "query_role": "postgres",
+    "source": {
+      "arabic_preserved": true,
+      "bytes": 1214,
+      "matches_lf_normalized_original_plus_label": true,
+      "matches_original_plus_label": true,
+      "no_manufactured_asset": true,
+      "original_hash_verified": true,
+      "original_input_retained": true,
+      "source_row_version": 4,
+      "source_sha256": "5daa80d4609aa0c53e39c5fa63d69f376af0d4ef6f6e7f6104e342eea04ad280"
+    },
+    "target_count": 1
+  }
+}

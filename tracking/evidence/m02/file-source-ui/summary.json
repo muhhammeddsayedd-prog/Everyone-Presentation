@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-29T00:02:18.455Z",
+  "finished_at": "2026-10-29T00:03:21.058Z",
+  "scope": "Controlled intercepted browser UI and HTTP state only",
+  "runtime": "Next development, isolated .next-e2e, EPS_TEST_SERVER=true, port3100",
+  "headless": true,
+  "traces": "off",
+  "api_intercepted": true,
+  "storage_intercepted": true,
+  "real_auth_tested": false,
+  "real_provider_called": false,
+  "database_called": false,
+  "real_storage_called": false,
+  "first_run": {
+    "startTime": "2026-10-28T23:59:38.545Z",
+    "duration": 154282.486,
+    "expected": 13,
+    "skipped": 0,
+    "unexpected": 6,
+    "flaky": 0
+  },
+  "first_run_failure": "Native browser fetch passed as an object method lost its expected receiver. Fixed with an arrow wrapper; initial failures retained. Source was amended during the first run, so only the complete final run establishes the final browser result.",
+  "final_run": {
+    "startTime": "2026-10-29T00:02:18.455Z",
+    "duration": 35358.363,
+    "expected": 19,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "new_file_cases": 9,
+  "existing_source_cases": 10,
+  "source_sha256": {
+    "apps/web/components/FileSourceIntake.tsx": "6397959971b0ca6d0ba1f5cd30ee96f06338f38ff016f743a0eec2ca4ed48181",
+    "apps/web/components/file-source-intake.ts": "1a7415e3e20e33e7dff37d79dc36e7ee004b73934ee92b647aefc5d39ad3ea5e",
+    "apps/web/components/SourceIntake.tsx": "79c7dd7373feff18d7426d704d31ff1ee0d6b3125d71f22f05d49c87e1b54787",
+    "apps/web/components/SpecsView.tsx": "89b256d23856bcd4117082dd6f8fb03438cefaaab2529af68fe4a15ac3ca15f2",
+    "apps/web/components/WorkspaceView.tsx": "d2f82384a46cc377ef7714f36f9326546cb18f18e9e59366ea4b6f135ba2f622",
+    "apps/web/components/StudioApp.tsx": "590c27ff219b05fbf9199f5ce9a870a5f3de1585dcd42b59535aa0c185ad4665",
+    "apps/web/components/api.ts": "ff860bfd9314d95219e9294bbc2ed021171fb1903b8d06aec2c271019cd01238",
+    "apps/web/lib/session-data.ts": "b8756e76744c4ddebf54181568e221e49205955e5a8fe91e3cd3e141b927b145",
+    "tests/server/file-source-intake.test.ts": "046ec21fdb8b12d667e54f86a511a2a6d0f7823901f74314240291005b63a093",
+    "tests/e2e/file-source-intake-ui.spec.ts": "22e91ff12d81692db16e5e47bd999990ae0bd3fd90865ac92f5bde36d7d9a800"
+  },
+  "pure_helper_tests": {
+    "passed": 9,
+    "scope": "File source intent and existing pasted-source intent tests"
+  },
+  "full_typecheck": "passed",
+  "scoped_lint": "passed",
+  "listener_3100_after_run": 0,
+  "screenshots_inspected": {
+    "widths": [
+      1440,
+      320
+    ],
+    "horizontal_overflow": false
+  },
+  "screenshots": [
+    "tracking/evidence/m02/file-source-ui/final-run/file-source-intake-ui-cont-81a6a-ble-source-job-after-reload-chromium/file-source-1440.png",
+    "tracking/evidence/m02/file-source-ui/final-run/file-source-intake-ui-cont-81a6a-ble-source-job-after-reload-chromium/file-source-320.png"
+  ]
+}

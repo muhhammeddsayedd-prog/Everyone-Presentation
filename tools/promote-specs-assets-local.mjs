@@ -1,0 +1,64 @@
+/** One reviewed local11 promotion; no cloud, fixtures, keys or enablement. */
+import assert from 'node:assert/strict';
+import { createHash, randomUUID } from 'node:crypto';
+import { mkdir, open, readFile, unlink, writeFile } from 'node:fs/promises';
+import path from 'node:path';
+import process from 'node:process';
+import { runOwnedLocalSql, runReviewedSqlFile } from './local-postgres.mjs';
+import { verifyNativeSpecsLocalTarget } from './lib/native-specs-local-transport.mjs';
+const root = path.resolve(import.meta.dirname, '..');
+const file = 'supabase/migrations/20261029001520_m02_specs_assets.sql';
+const seal = '9b35e8efdfc5184252ab4ecfe1a50861c8991dadf2b20544d481b51b3b7fb288';
+const readback = 'tools/sql/specs-assets-readback.sql';
+const readbackSeal = 'e8a9796c0f21d103032008162f4c710e6cb4b8266c72d7b36ec409dca852178c';
+const proof = 'tracking/evidence/m02/specs-assets-candidate/2026-10-29T00-13-09-548Z-6d1ccc32-rollback.json';
+const lock = path.join(root, '.local/local-postgres/test-db.lock');
+const hash = value => createHash('sha256').update(value).digest('hex');
+const report = { observed_at: new Date().toISOString(), run_id: randomUUID(), result: 'unconfirmed',
+  scope: 'Reviewed local11 migration promotion and preserved data readback only', cloud_called: false,
+  private_key_provisioned: false, feature_enabled: false, file, migration_sha256: seal };
+let owns = false; let dispatched = false;
+async function snapshot() {
+  const source = await readFile(path.join(root, readback)); assert.equal(hash(source), readbackSeal);
+  const result = await runOwnedLocalSql(source.toString('utf8'));
+  const rows = result.stdout.split(/\r?\n/u).filter(line => line.startsWith('{')).map(line => JSON.parse(line));
+  assert.equal(rows.length, 1); assert.equal(rows[0].query_role, 'postgres');
+  return rows[0];
+}
+async function main() {
+  assert.equal(process.argv.length, 2); assert.equal(hash(await readFile(path.join(root, file))), seal);
+  assert.equal(hash(await readFile(path.join(root, 'development/local-db/reviewed.json'))), '921ba61281a33f20b41d0994cc776ad826d0ac770858ef3973632bf57651ce98');
+  const localProof = JSON.parse(await readFile(path.join(root, proof), 'utf8'));
+  assert(localProof.result === 'passed' && localProof.rollback_verified && localProof.catalog_and_all_counts_restored
+    && localProof.machine_replacement_tested && localProof.job_callbacks_tested && localProof.cloud_called === false);
+  const handle = await open(lock, 'wx', 0o600);
+  try { await handle.writeFile(JSON.stringify({ run_id: report.run_id, pid: process.pid })); await handle.sync(); owns = true; }
+  finally { await handle.close(); }
+  const target = await verifyNativeSpecsLocalTarget(); report.system_identifier = target.observed.system_identifier;
+  report.before = await snapshot(); assert.equal(report.before.versions.length, 10);
+  assert.equal(report.before.versions.at(-1), '20261028222030');
+  const directory = path.join(root, 'tracking/evidence/m02/specs-assets-promotion'); await mkdir(directory, { recursive: true });
+  await writeFile(path.join(directory, report.run_id + '-attempt.json'), JSON.stringify(report, null, 2) + '\n', { flag: 'wx' });
+  dispatched = true; report.promotion = await runReviewedSqlFile(file);
+  report.after = await snapshot(); assert.equal(report.after.versions.length, 11);
+  assert.equal(report.after.versions.at(-1), '20261029001520');
+  for (const [name, amount] of Object.entries(report.before.counts)) {
+    assert.equal(report.after.counts[name], name === 'storage.buckets' ? Number(amount) + 2 : amount);
+  }
+  for (const [name, digest] of Object.entries(report.before.data_sha256)) assert.equal(report.after.data_sha256[name], digest);
+  assert.equal((await verifyNativeSpecsLocalTarget()).container.Id, target.container.Id);
+  report.result = 'passed'; report.business_rows_preserved = true;
+}
+try { await main(); }
+catch { report.result = 'unconfirmed'; report.dispatch_attempted = dispatched; report.automatic_retry = false;
+  if (owns) { try { report.unverified_readback = await snapshot(); } catch { /* preserve unknown */ } }
+  process.exitCode = 1;
+} finally {
+  if (owns) { const owner = JSON.parse(await readFile(lock, 'utf8')); assert(owner.run_id === report.run_id && owner.pid === process.pid); await unlink(lock); }
+  report.finished_at = new Date().toISOString();
+  const directory = path.join(root, 'tracking/evidence/m02/specs-assets-promotion'); await mkdir(directory, { recursive: true });
+  const output = path.join(directory, report.finished_at.replace(/[:.]/gu, '-') + '-' + report.run_id.slice(0, 8) + '.json');
+  await writeFile(output, JSON.stringify(report, null, 2) + '\n', { flag: 'wx' });
+  console.log(JSON.stringify({ result: report.result, dispatch_attempted: dispatched, cloud_called: false,
+    business_rows_preserved: report.business_rows_preserved === true, receipt: path.relative(root, output).replaceAll('\\', '/') }));
+}

@@ -1,5 +1,6 @@
 import { validateStageReadyEnvelope, type OpenAISpecsConfig, type StageReadyEnvelope } from '@eps/integrations';
-import { executeSpecsStage } from './specs-executor.ts';
+import { specsRuntimeFailureDiagnostics } from '@eps/central/specs-runtime';
+import { executeSpecsStage, type SpecsExecutionOptions } from './specs-executor.ts';
 import { validateSpecsWorkOrder } from './n8n-orchestrator.ts';
 import type { SpecsStageRouter, StageRuntimeGateway, WorkerNotice } from './runtime-types.ts';
 
@@ -8,11 +9,26 @@ const uuid = (value: unknown): value is string => typeof value === 'string' && /
 const exact = (value: Record<string, unknown>, fields: string[]) => Object.keys(value).length === fields.length && fields.every(field => Object.hasOwn(value, field));
 const codes = new Set(['JOB_ALREADY_RUNNING', 'JOB_NOT_AVAILABLE', 'INPUT_CHANGED', 'INPUT_HASH_MISMATCH', 'CAPABILITY_REQUIRED',
   'RESOURCE_NOT_FOUND', 'RETRY_EXHAUSTED', 'STAGE_OUT_OF_ORDER', 'LEASE_STALE', 'CALLBACK_UNCONFIRMED', 'PROCESSING_CANCELLED',
-  'N8N_RUNTIME_CONFIGURATION_REQUIRED', 'N8N_WORK_ORDER_INVALID', 'N8N_ORCHESTRATION_UNCONFIRMED']);
-const safeCode = (error: unknown) => object(error) && typeof error.code === 'string' && codes.has(error.code) ? error.code : 'WORKER_OPERATION_UNCONFIRMED';
+  'N8N_RUNTIME_CONFIGURATION_REQUIRED', 'N8N_WORK_ORDER_INVALID', 'N8N_ORCHESTRATION_UNCONFIRMED',
+  'RUNTIME_CONFIG_INVALID', 'RUNTIME_AUTH_UNVERIFIED', 'RUNTIME_ROLE_UNVERIFIED', 'RUNTIME_UNAVAILABLE',
+  'RUNTIME_RESPONSE_INVALID', 'RUNTIME_ABORTED', 'RUNTIME_CLOSED', 'DEPENDENCY_UNAVAILABLE']);
+function safeCode(error: unknown): string {
+  try { const code = object(error) ? error.code : undefined; return typeof code === 'string' && codes.has(code) ? code : 'WORKER_OPERATION_UNCONFIRMED'; }
+  catch { return 'WORKER_OPERATION_UNCONFIRMED'; }
+}
 const unknown = (error: unknown) => !object(error) || error.outcome !== 'known';
 function invalid(): never { throw new Error('WORKER_CONTRACT_INVALID'); }
-interface RuntimeOptions { openAI: OpenAISpecsConfig; signal?: AbortSignal; execute?: typeof executeSpecsStage; gatewayTimeoutMs?: number }
+interface RuntimeOptions { openAI: OpenAISpecsConfig; signal?: AbortSignal; execute?: typeof executeSpecsStage; gatewayTimeoutMs?: number; files?: SpecsExecutionOptions['files'] }
+/** Public storage configuration is opt-in, fixed-target and separate from the
+ * protected five-field database/webhook configuration. No ambient JWT fallback. */
+export function specsWorkerFilesConfiguration(environment: Record<string, string | undefined>): { storageOrigin: string; publishableKey: string } | undefined {
+  const enabled = environment.EPS_SPECS_FILES_ENABLED;
+  if (enabled === undefined || enabled === 'false') return undefined;
+  if (enabled !== 'true' || environment.SUPABASE_URL !== 'https://pyibofyctwnqpvktepse.supabase.co'
+    || typeof environment.SUPABASE_PUBLISHABLE_KEY !== 'string' || environment.SUPABASE_PUBLISHABLE_KEY.length > 4096
+    || !/^sb_publishable_[A-Za-z0-9_-]{8,}$/u.test(environment.SUPABASE_PUBLISHABLE_KEY)) invalid();
+  return { storageOrigin: environment.SUPABASE_URL, publishableKey: environment.SUPABASE_PUBLISHABLE_KEY };
+}
 async function bounded<T>(operation: (signal: AbortSignal) => Promise<T>, options: RuntimeOptions): Promise<T> {
   const timeout = options.gatewayTimeoutMs ?? 15_000;
   if (!Number.isSafeInteger(timeout) || timeout < 1 || timeout > 30_000) invalid();
@@ -25,6 +41,7 @@ async function bounded<T>(operation: (signal: AbortSignal) => Promise<T>, option
   finally { clearTimeout(timer); options.signal?.removeEventListener('abort', abort); }
 }
 export async function processNextSpecsStage(gateway: StageRuntimeGateway, router: SpecsStageRouter, options: RuntimeOptions): Promise<WorkerNotice> {
+  const files = options.files ? { ...options.files } : undefined;
   let event: { id: string; lease_token: string; envelope: StageReadyEnvelope } | undefined;
   let claimAttempted = false; let finishAttempted = false; let acknowledged = false;
   try {
@@ -55,15 +72,15 @@ export async function processNextSpecsStage(gateway: StageRuntimeGateway, router
     }
     acknowledged = true;
     if (!lease.already_completed) {
-      const execution = await (options.execute ?? executeSpecsStage)(lease, gateway, { openAI: options.openAI, signal: options.signal });
+      const execution = await (options.execute ?? executeSpecsStage)(lease, gateway, { openAI: options.openAI, signal: options.signal, files });
       if (!execution.already_completed && (!execution.receipt?.applied || execution.receipt.stale)) invalid();
     }
     return { event: 'stage_callback_committed', job_id: order.job_id, stage: order.stage };
   } catch (error) {
     const scope = event ? { job_id: event.envelope.job_id, stage: event.envelope.stage } : {};
-    if (acknowledged) return { event: 'stage_unconfirmed', ...scope, code: safeCode(error) };
+    if (acknowledged) return { event: 'stage_unconfirmed', ...scope, code: safeCode(error), ...specsRuntimeFailureDiagnostics(error) };
     if (!event || finishAttempted || options.signal?.aborted || claimAttempted && unknown(error)) {
-      return { event: 'dispatch_unconfirmed', ...scope, code: safeCode(error) };
+      return { event: 'dispatch_unconfirmed', ...scope, code: safeCode(error), ...specsRuntimeFailureDiagnostics(error) };
     }
     try {
       // Another worker's live lease is already durable. A duplicate dispatch may
@@ -72,7 +89,7 @@ export async function processNextSpecsStage(gateway: StageRuntimeGateway, router
       const dispatch = event;
       await bounded(signal => gateway.finishOutbox(dispatch.id, dispatch.lease_token, busy, signal), options);
     } catch { return { event: 'dispatch_unconfirmed', ...scope, code: 'WORKER_OPERATION_UNCONFIRMED' }; }
-    return { event: 'dispatch_rejected', ...scope, code: safeCode(error) };
+    return { event: 'dispatch_rejected', ...scope, code: safeCode(error), ...specsRuntimeFailureDiagnostics(error) };
   }
 }
 export interface SpecsWorkerOptions extends RuntimeOptions {
@@ -100,7 +117,7 @@ export async function runSpecsWorker(gateway: StageRuntimeGateway, router: Specs
       try { const value = await bounded(signal => gateway.recover(25, signal), options);
         if (!object(value) || !Number.isSafeInteger(value.recovered) || (value.recovered as number) < 0) invalid();
         notify({ event: 'recovery_completed' });
-      } catch { notify({ event: 'recovery_unconfirmed', code: 'WORKER_OPERATION_UNCONFIRMED' }); }
+      } catch (error) { notify({ event: 'recovery_unconfirmed', code: safeCode(error), ...specsRuntimeFailureDiagnostics(error) }); }
       recoverAt = clock() + recovery;
     }
     const result = await processNextSpecsStage(gateway, router, options); if (result.event !== 'idle') notify(result);

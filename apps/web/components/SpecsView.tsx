@@ -80,8 +80,8 @@ function AddRole({ workspaceId, onCreated, onDirtyChange }: { workspaceId: strin
   </form>;
 }
 
-export function SpecsView({ workspaceId, projectId, canWrite, onDirtyChange, onWorkspaceChanged }: {
-  workspaceId: string; projectId: string; canWrite: boolean; onDirtyChange: (dirty: boolean) => void; onWorkspaceChanged: () => void;
+export function SpecsView({ workspaceId, projectId, canWrite, uploadPurposes = [], storageOrigin, onDirtyChange, onWorkspaceChanged }: {
+  workspaceId: string; projectId: string; canWrite: boolean; uploadPurposes?: readonly string[]; storageOrigin?: string; onDirtyChange: (dirty: boolean) => void; onWorkspaceChanged: () => void;
 }) {
   const [spec, setSpec] = useState<Spec | null>(null); const [roles, setRoles] = useState<Role[]>([]);
   const [cursor, setCursor] = useState<string | null>(null); const [loading, setLoading] = useState(true); const [loadingMore, setLoadingMore] = useState(false);
@@ -173,7 +173,7 @@ export function SpecsView({ workspaceId, projectId, canWrite, onDirtyChange, onW
   if (loading) return <Loading label="Opening saved requirements…" />;
   if (!spec) return <ErrorNotice message={error || 'Requirements are unavailable.'} retry={reload} />;
   return <div className="specs-view">{error && <ErrorNotice message={error} retry={reload} />}
-    <SourceIntake key={`${workspaceId}/${spec.id}/${refresh}`} spec={spec} canWrite={canWrite} manualEditsPending={manualEditsPending} onDirtyChange={dirtyChanged} onLockChange={sourceLockChanged}
+    <SourceIntake key={`${workspaceId}/${spec.id}/${refresh}`} spec={spec} canWrite={canWrite} uploadPurposes={uploadPurposes} storageOrigin={storageOrigin} manualEditsPending={manualEditsPending} onDirtyChange={dirtyChanged} onLockChange={sourceLockChanged}
       onPersisted={(saved, savedRoles, nextCursor) => { setSpec(saved); setRoles(savedRoles); setCursor(nextCursor); setSourceEpoch(value => value + 1); onWorkspaceChanged(); }} />
     {spec.processing_job_id && <SpecsProcessing key={`${workspaceId}/${spec.id}/${spec.processing_job_id}`} workspaceId={workspaceId} specId={spec.id} jobId={spec.processing_job_id}
       loadBlocked={hasUnsaved || sourceLocked || loadingMore} onReload={reload} />}

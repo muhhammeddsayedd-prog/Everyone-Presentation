@@ -1,6 +1,7 @@
 import { Buffer } from 'node:buffer';
 import { X509Certificate } from 'node:crypto';
 import { Client, Pool, type ClientConfig, type PoolConfig } from 'pg';
+import { createSpecsRuntimeAssets, type SpecsRuntimeAssetConfig, type SpecsAssetOperation } from './specs-runtime-assets.ts';
 import type { JobEvent, JobEventReceipt, StageClaim, StageLease } from '../../jobs/src/types.ts';
 
 export const SPECS_RUNTIME_ROLE = 'eps_specs_runtime';
@@ -19,12 +20,45 @@ const DOMAIN_STATUS = new Map<string, number>([
   ...['INPUT_CHANGED', 'INPUT_HASH_MISMATCH', 'JOB_CANCELLED', 'JOB_ALREADY_RUNNING', 'JOB_NOT_AVAILABLE',
     'RETRY_EXHAUSTED', 'STAGE_OUT_OF_ORDER', 'STAGE_STATE_INVALID', 'STALE_STAGE_LEASE', 'EVENT_ID_CONFLICT',
     'EVENT_SEQUENCE_CONFLICT', 'RESULT_INVALID', 'INVALID_TRANSITION'].map(code => [code, 409] as const),
-  ['FEATURE_NOT_IMPLEMENTED', 503], ['SLOT_ALLOCATION_LIMIT_EXCEEDED', 409],
+  ['FEATURE_NOT_IMPLEMENTED', 503], ['DEPENDENCY_UNAVAILABLE',503], ['SLOT_ALLOCATION_LIMIT_EXCEEDED', 409],
+  ['IDEMPOTENCY_KEY_REUSED',409], ['SPECS_STATE_INVALID',409],
 ]);
+const GATEWAY_PHASES = new Set(['connect', 'begin', 'role_verification', 'operation', 'commit']);
+const TLS_CODES = new Set(['ERR_TLS_CERT_ALTNAME_INVALID', 'CERT_HAS_EXPIRED', 'CERT_NOT_YET_VALID', 'SELF_SIGNED_CERT_IN_CHAIN',
+  'DEPTH_ZERO_SELF_SIGNED_CERT', 'UNABLE_TO_VERIFY_LEAF_SIGNATURE', 'UNABLE_TO_GET_ISSUER_CERT_LOCALLY']);
+const TRANSPORT_CODES = new Set(['CONNECT_TIMEOUT', 'ECONNRESET', 'ETIMEDOUT', 'ECONNREFUSED', 'EHOSTUNREACH', 'ENETUNREACH',
+  'ENOTFOUND', 'EAI_AGAIN', 'EPIPE', '08000', '08001', '08003', '08004', '08006', '08007', '08P01', '28P01', '28000',
+  '53300', '57P01', '57P02', '57P03', '55P03', '57014', '40001', '40P01', ...TLS_CODES]);
+export interface SpecsRuntimeFailureDiagnostics { gateway_phase?: string; transport_code?: string; elapsed_ms?: number }
+/** Fixed primitives only. Never copy a driver message, cause, SQL or parameters.
+ * Read each property once; hostile getters are treated as missing diagnostics. */
+export function specsRuntimeFailureDiagnostics(error: unknown): SpecsRuntimeFailureDiagnostics {
+  try {
+    if (error === null || typeof error !== 'object') return {};
+    const value = error as Record<string, unknown>; const phase = value.gateway_phase; const code = value.transport_code; const elapsed = value.elapsed_ms;
+    return { ...(typeof phase === 'string' && GATEWAY_PHASES.has(phase) ? { gateway_phase: phase } : {}),
+      ...(typeof code === 'string' && TRANSPORT_CODES.has(code) ? { transport_code: code } : {}),
+      ...(Number.isSafeInteger(elapsed) && (elapsed as number) >= 0 && (elapsed as number) <= 3_600_000 ? { elapsed_ms: elapsed as number } : {}) };
+  } catch { return {}; }
+}
+function driverCode(error: unknown, phase: string): string | undefined {
+  try {
+    if (error === null || typeof error !== 'object') return undefined;
+    const value = error as Record<string, unknown>; const code = value.code;
+    if (typeof code === 'string' && TRANSPORT_CODES.has(code)) return code;
+    // Exact static strings from the installed pg-pool3.14.0 timeout branches.
+    // Match only in memory; the message itself is never exposed or retained.
+    const message = value.message;
+    if (phase === 'connect' && (message === 'Connection terminated due to connection timeout' || message === 'timeout exceeded when trying to connect')) return 'CONNECT_TIMEOUT';
+  } catch { /* Unknown driver shape remains redacted. */ }
+  return undefined;
+}
 
 export class SpecsRuntimeGatewayError extends Error {
-  constructor(readonly code: string, readonly status = 503, readonly outcome: 'known' | 'unknown' = 'unknown') {
+  readonly gateway_phase?: string; readonly transport_code?: string; readonly elapsed_ms?: number;
+  constructor(readonly code: string, readonly status = 503, readonly outcome: 'known' | 'unknown' = 'unknown', diagnostic: SpecsRuntimeFailureDiagnostics = {}) {
     super('The scoped processing operation could not be confirmed.'); this.name = 'SpecsRuntimeGatewayError';
+    const safe = specsRuntimeFailureDiagnostics(diagnostic); this.gateway_phase = safe.gateway_phase; this.transport_code = safe.transport_code; this.elapsed_ms = safe.elapsed_ms;
   }
 }
 function fail(code: string, status = 503, outcome: 'known' | 'unknown' = 'known'): never {
@@ -116,13 +150,15 @@ export interface SpecsRuntimeDependencies { /** Offline transport injection; nev
   poolFactory?: (config: PoolConfig) => SpecsRuntimePool }
 
 // Metadata only. No Auth rows, business records, passwords or source are read.
-const IDENTITY_SQL = `select (
+const FILE_FUNCTIONS = ['eps.get_job_asset_access(jsonb)','eps.reserve_job_output(jsonb)','eps.complete_job_output(jsonb)','eps.store_specs_preparation(jsonb)'];
+const ASSET_SQL: Record<SpecsAssetOperation,string> = { access:'select eps.get_job_asset_access($1::jsonb) as value',reserve:'select eps.reserve_job_output($1::jsonb) as value',complete:'select eps.complete_job_output($1::jsonb) as value',prepare:'select eps.store_specs_preparation($1::jsonb) as value' };
+const identitySql = (files: boolean) => `select (
  current_user=$1 and session_user=$1 and current_database()='postgres'
  and coalesce(current_setting('request.jwt.claim.sub',true),'')=''
  and coalesce(nullif(current_setting('request.jwt.claims',true),''),'{}')='{}'
  and exists(select 1 from pg_catalog.pg_roles r where r.rolname=current_user and r.rolcanlogin and not r.rolinherit
   and not r.rolsuper and not r.rolbypassrls and not r.rolcreatedb and not r.rolcreaterole and not r.rolreplication and r.rolconnlimit between 1 and 4)
- and (select count(*)=2 and bool_and(g.rolname in('eps_jobs_executor','eps_jobs_dispatcher') and m.inherit_option and not m.set_option and not m.admin_option)
+ and (select count(*)=${files ? 3 : 2} and bool_and(g.rolname in('eps_jobs_executor','eps_jobs_dispatcher'${files ? ",'eps_specs_assets_executor'" : ''}) and m.inherit_option and not m.set_option and not m.admin_option)
   from pg_catalog.pg_auth_members m join pg_catalog.pg_roles g on g.oid=m.roleid
   where m.member=(select oid from pg_catalog.pg_roles where rolname=current_user))
  and (select count(*)<=1 and coalesce(bool_and(member.rolname='postgres' and grantor.rolname='supabase_admin'
@@ -135,7 +171,7 @@ const IDENTITY_SQL = `select (
   where c.relkind in('r','p') and n.nspname in('eps','public','auth','storage')
   and (has_table_privilege(current_user,c.oid,'SELECT,INSERT,UPDATE,DELETE,TRUNCATE,REFERENCES,TRIGGER,MAINTAIN')
    or has_any_column_privilege(current_user,c.oid,'SELECT,INSERT,UPDATE,REFERENCES')))
- and (select count(*)=6 and bool_and(p.oid=any(array[${SERVICE_FUNCTIONS.map(name => `'${name}'::regprocedure`).join(',')}]))
+ and (select count(*)=${files ? 10 : 6} and bool_and(p.oid=any(array[${[...SERVICE_FUNCTIONS,...(files ? FILE_FUNCTIONS : [])].map(name => `'${name}'::regprocedure`).join(',')}]))
   from pg_catalog.pg_proc p join pg_catalog.pg_namespace n on n.oid=p.pronamespace
   where (n.nspname='eps' or n.nspname='public' and (p.proname like 'eps\\_%' escape '\\' or p.prosecdef)) and has_function_privilege(current_user,p.oid,'EXECUTE'))
  and not exists(select 1 from pg_catalog.pg_shdepend d where d.refclassid='pg_authid'::regclass
@@ -161,7 +197,9 @@ function leaseDto(value: unknown, input: StageClaim): StageLease {
 
 /** Direct authenticated DB gateway. It is not an HTTP ServiceBearer façade and
  * makes no exact-key claim-response replay claim. Unknown writes stop the worker. */
-export async function createSpecsRuntimeGateway(supplied: SpecsRuntimeConfig, dependencies: SpecsRuntimeDependencies = {}) {
+export async function createSpecsRuntimeGateway(supplied: SpecsRuntimeConfig, dependencies: SpecsRuntimeDependencies = {}, fileConfiguration?: SpecsRuntimeAssetConfig) {
+  const assets = fileConfiguration === undefined ? undefined : createSpecsRuntimeAssets(fileConfiguration, async (operation,input,signal) =>
+    await execute(ASSET_SQL[operation],[safeJson(input,operation==='prepare' ? 44*1024*1024 : 294_912)],signal));
   const config = checkedConfig(supplied);
   // pg consults ambient PG* for omitted/falsy options. Refuse that alternate
   // configuration source without mutating the host process environment.
@@ -179,6 +217,7 @@ export async function createSpecsRuntimeGateway(supplied: SpecsRuntimeConfig, de
   async function execute(sql: string | null, values: unknown[] = [], signal?: AbortSignal): Promise<unknown> {
     if (closed) fail('RUNTIME_CLOSED'); if (signal?.aborted) fail('RUNTIME_ABORTED', 503);
     let client: SpecsRuntimeSqlClient | undefined; let released = false; let privateSent = false;
+    let phase = 'connect'; const started = performance.now();
     let abort!: () => void;
     const interrupted = new Promise<never>((_resolve, reject) => {
       abort = () => { if (client && !released) { released = true; client.release(true); }
@@ -192,28 +231,35 @@ export async function createSpecsRuntimeGateway(supplied: SpecsRuntimeConfig, de
       client = await pool.connect();
       signal?.addEventListener('abort', abort, { once: true });
       if (signal?.aborted) abort();
-      await query('begin');
-      const identity = await query(IDENTITY_SQL, [SPECS_RUNTIME_ROLE]);
+      phase = 'begin'; await query('begin');
+      phase = 'role_verification';
+      const identity = await query(identitySql(assets !== undefined), [SPECS_RUNTIME_ROLE]);
       if (!identity || identity.rows.length !== 1 || !exact(identity.rows[0], ['allowed']) || identity.rows[0].allowed !== true) fail('RUNTIME_ROLE_UNVERIFIED');
       let value: unknown;
       if (sql !== null) {
-        privateSent = true; const result = await query(sql, values);
+        phase = 'operation'; privateSent = true; const result = await query(sql, values);
         if (!result || result.rows.length !== 1 || !exact(result.rows[0], ['value'])) fail('RUNTIME_RESPONSE_INVALID', 503, 'unknown');
         value = result.rows[0].value;
       }
-      await query('commit'); return value;
+      phase = 'commit'; await query('commit'); return value;
     } catch (error) {
+      const diagnostic = { gateway_phase: phase, transport_code: driverCode(error, phase), elapsed_ms: Math.ceil(performance.now() - started) };
       if (client && !released) { try { await client.query('rollback'); } catch { /* Destroy this connection below. */ } }
-      if (error instanceof SpecsRuntimeGatewayError) throw error;
-      if (object(error) && error.code === 'P0001' && typeof error.message === 'string') {
-        const status = DOMAIN_STATUS.get(error.message); if (status) fail(error.message, status);
+      if (error instanceof SpecsRuntimeGatewayError) throw new SpecsRuntimeGatewayError(error.code, error.status, error.outcome, diagnostic);
+      let code: unknown; let message: unknown;
+      try { if (object(error)) { code = error.code; if (code === 'P0001') message = error.message; } } catch { /* Never expose arbitrary error getters. */ }
+      if (code === 'P0001' && typeof message === 'string') {
+        const status = DOMAIN_STATUS.get(message); if (status) throw new SpecsRuntimeGatewayError(message, status, 'known', diagnostic);
       }
-      if (object(error) && ['55P03', '57014', '40001', '40P01'].includes(String(error.code))) fail('DEPENDENCY_UNAVAILABLE', 503);
-      return fail('RUNTIME_UNAVAILABLE', 503, 'unknown');
+      if (code === '28P01' || code === '28000') throw new SpecsRuntimeGatewayError('RUNTIME_AUTH_UNVERIFIED', 503, 'known', diagnostic);
+      if (typeof code === 'string' && TLS_CODES.has(code)) throw new SpecsRuntimeGatewayError('RUNTIME_CONFIG_INVALID', 503, 'known', diagnostic);
+      if (typeof code === 'string' && ['55P03', '57014', '40001', '40P01'].includes(code)) throw new SpecsRuntimeGatewayError('DEPENDENCY_UNAVAILABLE', 503, 'known', diagnostic);
+      throw new SpecsRuntimeGatewayError('RUNTIME_UNAVAILABLE', 503, 'unknown', diagnostic);
     } finally { signal?.removeEventListener('abort', abort); if (client && !released) client.release(true); }
   }
   try { await execute(null); } catch (error) { closed = true; try { await pool.end(); } catch { /* No raw diagnostics. */ } throw error; }
   return {
+    files: assets,
     async claimOutbox(limit: number, signal?: AbortSignal) {
       integer(limit); const row = response(await execute('select eps.claim_job_outbox($1::integer) as value', [limit], signal), ['leases']);
       if (!Array.isArray(row.leases) || row.leases.length > limit) fail('RUNTIME_RESPONSE_INVALID', 503, 'unknown');
