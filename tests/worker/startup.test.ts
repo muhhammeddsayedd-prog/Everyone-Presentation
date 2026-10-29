@@ -71,3 +71,9 @@ test('startup never retries configuration/auth/role or unknown errors and captur
     assert.equal(factories, 1); assert.deepEqual(delays, []);
   }
 });
+test('PDF vision flag requires immutable native image and otherwise remains disabled', async () => {
+  const factory = (async () => ({ close: async () => {} })) as never;
+  const disabled = await verifySpecsWorkerStartup(environment, factory); assert.equal(disabled.vision, undefined);
+  const enabled = await verifySpecsWorkerStartup({ ...environment, EPS_PDF_VISION_ENABLED: 'true', EPS_PDF_RASTER_IMAGE_ID: `sha256:${'a'.repeat(64)}` }, factory); assert.equal(enabled.vision?.imageId, `sha256:${'a'.repeat(64)}`);
+  await assert.rejects(verifySpecsWorkerStartup({ ...environment, EPS_PDF_VISION_ENABLED: 'true', EPS_PDF_RASTER_IMAGE_ID: 'mutable:latest' }, factory), error => error instanceof SpecsWorkerStartupError && error.code === 'PDF_VISION_CONFIGURATION_INVALID');
+});

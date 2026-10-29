@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-29T09:58:40.299Z",
+  "image_id": "sha256:59b6728cdbf37a54b466239020839936d78ccd10eec2e964f9d1af78cb7cc0ed",
+  "environment": "local Docker Linux, network-disabled media decoding",
+  "source": "synthetic FFmpeg lavfi only; no real transcription or factual accuracy claim",
+  "provider_called": false,
+  "hosted": false,
+  "passed": true,
+  "tests": [
+    {
+      "name": "actual-decode-timestamped-frames-audio",
+      "result": "passed",
+      "elapsed_ms": 3639,
+      "ffmpeg_version": "ffmpeg version 5.1.9-0+deb12u1 Copyright (c) 2000-2026 the FFmpeg developers",
+      "audio_chunks": 1,
+      "frames": 3,
+      "timestamps_ms": [
+        520,
+        1040,
+        1560
+      ]
+    },
+    {
+      "name": "probe-only-produces-no-derivatives",
+      "result": "passed",
+      "elapsed_ms": 2220
+    },
+    {
+      "name": "manual-extraction-uses-only-requested-real-source-times",
+      "result": "passed",
+      "elapsed_ms": 2740,
+      "timestamps_ms": [
+        80,
+        1280
+      ],
+      "actual_video_lead_ms": 80
+    },
+    {
+      "name": "manual-timestamp-out-of-duration-is-rejected",
+      "result": "passed",
+      "elapsed_ms": 2049
+    },
+    {
+      "name": "silent-short-video-keeps-real-frame-with-zero-selection",
+      "result": "passed",
+      "elapsed_ms": 2825,
+      "frames": 1,
+      "warnings": [
+        "SILENT_AUDIO_CHUNK"
+      ]
+    },
+    {
+      "name": "portrait-no-audio-preserves-aspect-partial",
+      "result": "passed",
+      "elapsed_ms": 2360,
+      "width": 90,
+      "height": 160
+    },
+    {
+      "name": "corrupt-source-terminal-and-owned-cleanup",
+      "result": "passed",
+      "elapsed_ms": 2031
+    }
+  ]
+}

@@ -41,6 +41,17 @@ function fakeService(overrides: { authStatus?: number; user?: typeof user; rpc?:
 }
 function isCode(code: string, status: number) { return (error: unknown) => error instanceof DomainError && error.code === code && error.status === status; }
 
+test('capabilities report the effective candidate environment bound for HTTP/MCP and browser sessions', async () => {
+  const maximumBytes = 50 * 1024 * 1024;
+  const service = fakeService({ rpc: () => ({ ...capabilities, capabilities: [...capabilities.capabilities, 'cast.upload', 'workspaces.write'], upload_policy: { ...capabilities.upload_policy,
+    maximum_file_bytes: 256 * 1024 * 1024, available_purposes: ['candidate_video'] } }) });
+  const studio = await createCentralStudio(createBearerUserClient({ ...config, accessToken: token }, { fetch: service.fetcher }),
+    { candidate: { storageOrigin: config.url, maximumBytes } });
+  const policy = (await studio.getCapabilities(actor)).upload_policy;
+  assert.equal(policy.maximum_file_bytes, maximumBytes);
+  assert.deepEqual(policy.available_purposes, ['candidate_video']);
+});
+
 test('public configuration rejects missing/privileged keys and credential-bearing URLs without exposing values', () => {
   assert.throws(() => readCentralConfig({ SUPABASE_URL: config.url, SUPABASE_SERVER_KEY: 'not-an-accepted-fallback' }), isCode('CENTRAL_CONFIGURATION_REQUIRED', 503));
   for (const publishableKey of ['sb_secret_synthetic-sensitive', 'legacy-service-role-jwt', '']) assert.throws(() => readCentralConfig({ SUPABASE_URL: config.url, SUPABASE_PUBLISHABLE_KEY: publishableKey }), error => isCode('CENTRAL_CONFIGURATION_REQUIRED', 503)(error) && !String(error).includes(publishableKey || 'never-match'));

@@ -6,6 +6,7 @@ import { prepareDocumentIsolated } from './process.ts';
 import { preparePastedText } from './pasted-text.ts';
 import { DocumentPreparationError, type SourceParagraph } from './types.ts';
 import { prepareSpecsFileStage, type SpecsAssetPort, type SpecsSourceMime } from './specs-assets.ts';
+import type { PdfOCRMetadata } from '../../../packages/integrations/src/openai-pdf-ocr.ts';
 
 export const DOCUMENT_PREPARATION_VERSION = 'document-preparation.v1';
 export interface SpecsStageGateway {
@@ -22,6 +23,7 @@ export interface SpecsExecutionOptions {
   extract?: typeof extractSpecs;
   /** Optional real file capability port. Absence cannot fall back to pasted text. */
   files?: { port: SpecsAssetPort; publishableKey: string; fetch?: typeof fetch };
+  vision?: { imageId: string; onMetadata?: (metadata: PdfOCRMetadata & { rasterizer_version: string; job_id: string; attempt_id: string; input_hash: string }) => void };
 }
 export class SpecsExecutionError extends Error {
   constructor(readonly code: 'INVALID_STAGE_SCOPE' | 'STAGE_INPUT_INVALID' | 'CALLBACK_UNCONFIRMED' | 'LEASE_STALE' | 'PROCESSING_CANCELLED') {
@@ -179,7 +181,9 @@ export async function executeSpecsStage(lease: StageLease, gateway: SpecsStageGa
         if (!files) fail('STAGE_INPUT_INVALID');
         result = await prepareSpecsFileStage({ source_asset_id: input.source_asset_id, source_sha256: input.source_sha256,
           mime_type: input.mime_type, size_bytes: input.size_bytes }, { job_id: lease.job_id, attempt_id: lease.attempt_id, lease_token: lease.lease_token },
-        files.port, { publishableKey: files.publishableKey, fetch: files.fetch, signal }) as unknown as JsonObject;
+        files.port, { publishableKey: files.publishableKey, fetch: files.fetch, signal,
+          ...(options.vision && openAI && openAI.model === input.configuration.model_version ? { vision: { imageId: options.vision.imageId, openAI,
+            onMetadata: metadata => options.vision?.onMetadata?.({ ...metadata, job_id: lease.job_id, attempt_id: lease.attempt_id, input_hash: lease.input.input_hash as string }) } } : {}) }) as unknown as JsonObject;
       } else {
         const prepared = await prepareDocumentIsolated({ sourceKind: 'pasted_text', sourceAssetId: null, text: input.source_text }, { signal });
         if (prepared.sourceSha256 !== input.source_sha256) fail('STAGE_INPUT_INVALID');

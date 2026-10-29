@@ -1,0 +1,28 @@
+{
+  "run_id": "d1df98bf-63cf-4582-a45c-90bfd8dece1b",
+  "started_at": "2026-10-29T09:26:22.034Z",
+  "result": "failed",
+  "cloud_called": false,
+  "provider_called": false,
+  "credential_files_read": false,
+  "scope": "Synthetic SQL only: complete silent/zero-frame path, private payloads, callback replay and scoped asset fences; no native/video/Storage HTTP or provider acceptance.",
+  "source_seals": {
+    "development/m03/candidate-kernel-tables.sql": "7e5062f253c21b7fd345735fe10fb90a5079d4dd397871880f49f5250e94f08e",
+    "development/m03/candidate-user-assets.sql": "4752861ea0a43eabedb4b46baeab6a68bdf8a987bd4812e814ed3a5aecfed251",
+    "development/m03/candidate-kernel.sql": "ab8d1a2a713493c62040526221cb0549b86526fe69e145e1c17d1627e098e8e3",
+    "development/m03/candidate-kernel-enqueue.sql": "0f799af0a705906c763988b890238c293cdbac00c8908af229faba02f333f910",
+    "development/m03/candidates-apply-candidate.sql": "1c22052c57a70eec87c6d2f5a109657fdda6cdf595c45990caa278f451871d4b",
+    "development/m03/candidate-kernel-events.sql": "c0b8b93888df153623394903eb4b98b454148de1cc7dc667dde51471100aa204",
+    "development/m03/candidate-kernel-assets.sql": "45ef069ec78026ae351a85fc29a9d9f8426d8326e8d1db1d0facda86367672c0",
+    "development/m03/candidate-kernel-dispatch.sql": "5fbf7c32c073995b8890f4eb9ec60ea0f903c14ad1b7ccab9428edc696ab2284",
+    "development/m03/candidate-storage-policies.sql": "50fa9144989268e1722e77f0cb3a83eeec0c8ea0f1aefaa16a22468de5b40e56",
+    "tests/db/m03-candidate-kernel.sql": "ac94e4952157d3e613ed1963ad261fe188a2868d63842834a8a2f85e203304f2"
+  },
+  "harness_sha256": "07b19db71aa7bfe94b92cfff4c0b5ddcedfe1274e6cac0089317d858df492868",
+  "before_sha256": "da91d4b58ecdaff139b8e53d70da9f1bc963da9cd67a3f4b1a08536b1a082d71",
+  "diagnostic": "ERROR:  INPUT_CHANGED\nDETAIL:  {\"status\": 409, \"message\": \"The candidate application could not be validated.\"}\nCONTEXT:  PL/pgSQL function eps.fail(text,text,integer,bigint) line 2 at RAISE\nSQL statement \"SELECT eps.fail(p_code,'The candidate application could not be validated.',case when p_code='LEASE_INVALID' then 403 when p_code='RESOURCE_NOT_FOUND' then 404 else 409 end)\"\nPL/pgSQL function eps.candidate_apply_assert(boolean,text) line 2 at PERFORM\nSQL statement \"SELECT eps.candidate_apply_assert(found and workspace.project_id::text=job.input->>'project_id','INPUT_CHANGED')\"\nPL/pgSQL function eps.apply_candidate_scan(uuid,uuid,text,text,jsonb) line 17 at PERFORM\nSQL statement \"SELECT eps.apply_candidate_scan((lease->>'job_id')::uuid,(lease->>'attempt_id')::uuid,lease->>'lease_token',lease#>>'{input,input_hash}',jsonb_build_object('source_asset_id',asset))\"\nPL/pgSQL function inline_code_block line 27 at PERFORM\n",
+  "after_sha256": "da91d4b58ecdaff139b8e53d70da9f1bc963da9cd67a3f4b1a08536b1a082d71",
+  "rollback_verified": true,
+  "sources_stable": true,
+  "finished_at": "2026-10-29T09:26:31.065Z"
+}

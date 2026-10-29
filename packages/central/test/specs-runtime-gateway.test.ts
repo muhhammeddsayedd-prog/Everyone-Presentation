@@ -4,7 +4,7 @@ import { rootCertificates } from 'node:tls';
 import { createHmac, pbkdf2Sync } from 'node:crypto';
 import { EventEmitter } from 'node:events';
 import { PassThrough } from 'node:stream';
-import type { Client, ClientConfig, PoolConfig } from 'pg';
+import { Pool, type Client, type ClientConfig, type PoolConfig } from 'pg';
 import { createSpecsRuntimeGateway, readSpecsRuntimeConfig, SpecsRuntimeGatewayError,
   type SpecsRuntimePool, type SpecsRuntimeSqlClient } from '../src/specs-runtime-gateway.ts';
 
@@ -29,7 +29,7 @@ function fixture() {
     query: async (text, values = []) => {
       queries.push({ text, values });
       if (queryHook) await queryHook(text);
-      if (text.includes(' as allowed')) return { rows: [{ allowed }] };
+      if (text.includes(' as allowed')) return { rows: [{ allowed,function_operations:text.includes('select count(*)=11')?11:text.includes('select count(*)=7')?7:text.includes('count(*)=3')?10:6 }] };
       if (text.startsWith('select eps.')) { if (failure) throw failure; return { rows: [{ value: response }] }; }
       return { rows: [] };
     }, release: destroy => { released.push(destroy === true); },
@@ -67,11 +67,47 @@ test('factory pins normal SDK TLS, target and narrow role verification before re
   assert.equal(config.connectionString, undefined); assert.equal(config.max, 2); assert.equal(config.pipeline, false);
   assert.deepEqual(config.ssl, { ca: rootCertificates[0], rejectUnauthorized: true, servername: env.EPS_SPECS_PG_HOST, minVersion: 'TLSv1.2' });
   assert.equal(config.enableChannelBinding, true); assert.equal(config.sslnegotiation, 'postgres');
+  assert.equal(config.connectionTimeoutMillis,3000);assert.equal(config.idleTimeoutMillis,30000);
+  assert.equal(config.min,0);assert.equal(config.maxLifetimeSeconds,300);
+  const identity=f.queries.find(query=>query.text.includes(' as allowed'))!.text;
+  assert.match(identity,/r\.rolvaliduntil is not null/u);
+  assert.match(identity,/r\.rolvaliduntil > pg_catalog\.clock_timestamp\(\)/u);
+  assert.match(identity,/r\.rolvaliduntil < 'infinity'::timestamptz/u);
   assert.ok(f.queries.some(query => query.text.includes('current_user') && query.text.includes('session_user')
     && query.text.includes('has_any_column_privilege') && query.text.includes('has_function_privilege')));
   assert.equal(f.queries.some(query => /set\s+(local\s+)?role|request\.jwt/iu.test(query.text)
     && !query.text.includes(' as allowed')), false);
   await gateway.close(); assert.equal(f.closed(), true);
+});
+
+test('actual pinned pg Pool reuses a committed synthetic client and re-verifies identity before every operation',async()=>{
+  let created=0;let destroyed=0;let verifications=0;let operations=0;let allowed=true;
+  // Actual pg-pool lifecycle with a synthetic SQL client: no socket, database,
+  // credential lookup, TLS handshake or provider is exercised by this test.
+  class PooledSqlClient extends EventEmitter {
+    _queryable=true;_ending=false;
+    constructor(){super();created++;}
+    connect(callback:(error?:Error)=>void){queueMicrotask(()=>callback());}
+    end(callback?:()=>void){this._ending=true;destroyed++;this.emit('end');callback?.();}
+    async query(text:string){
+      if(text.includes(' as allowed')){verifications++;return {rows:[{allowed,function_operations:6}]};}
+      if(text.startsWith('select eps.')){operations++;return {rows:[{value:{recovered:0}}]};}
+      return {rows:[]};
+    }
+  }
+  let pool:Pool|undefined;
+  const gateway=await createSpecsRuntimeGateway(readSpecsRuntimeConfig(env),{poolFactory:config=>{
+    pool=new Pool({...config,Client:PooledSqlClient as unknown as typeof Client});return pool as unknown as SpecsRuntimePool;
+  }});
+  try{
+    assert.equal(created,1);assert.equal(destroyed,0);assert.equal(pool!.idleCount,1);
+    await gateway.recover(1);await gateway.recover(1);
+    assert.equal(created,1);assert.equal(destroyed,0);assert.equal(verifications,3);assert.equal(operations,2);
+    assert.equal(pool!.idleCount,1);
+    allowed=false;
+    await assert.rejects(gateway.recover(1),runtimeError('RUNTIME_ROLE_UNVERIFIED','known'));
+    assert.equal(operations,2);assert.equal(verifications,4);assert.equal(destroyed,1);assert.equal(pool!.totalCount,0);
+  }finally{await gateway.close();}
 });
 
 test('incorrect role/table/function/logging scope fails the factory closed and closes its pool', async () => {
@@ -85,6 +121,7 @@ test('file mode explicitly requires the third execute-only group and four additi
   const f = fixture(); const original = '78900000-0000-4000-8000-000000000004';
   const files = { storageOrigin: 'https://pyibofyctwnqpvktepse.supabase.co', publishableKey: 'sb_publishable_synthetic_public_file_key' };
   const gateway = await createSpecsRuntimeGateway(readSpecsRuntimeConfig(env), { poolFactory: f.factory }, files);
+  assert.equal(gateway.candidateFiles,undefined);
   const identity = f.queries.find(query => query.text.includes(' as allowed'))!.text;
   assert.ok(identity.includes('count(*)=3') && identity.includes('count(*)=10') && identity.includes('eps_specs_assets_executor'));
   assert.ok(identity.includes('eps.store_specs_preparation(jsonb)') && identity.includes('has_any_column_privilege'));
@@ -107,6 +144,31 @@ test('file mode explicitly requires the third execute-only group and four additi
     runtimeError('RUNTIME_UNAVAILABLE', 'unknown'));
   assert.equal(f.queries.filter(query => query.text === 'select eps.store_specs_preparation($1::jsonb) as value').length, attempts + 1);
   await gateway.close();
+});
+test('candidate ports require an explicit enable flag without broadening the audited runtime authority',async()=>{
+  const f=fixture();const files={storageOrigin:'https://pyibofyctwnqpvktepse.supabase.co',publishableKey:'sb_publishable_synthetic_public_file_key'};
+  const gateway=await createSpecsRuntimeGateway(readSpecsRuntimeConfig(env),{poolFactory:f.factory},files,undefined,true);
+  assert.equal(typeof gateway.candidateFiles?.getAssetAccess,'function');assert.equal(gateway.verifiedFunctionOperations,10);
+  await gateway.close();
+  const denied=fixture();await assert.rejects(createSpecsRuntimeGateway(readSpecsRuntimeConfig(env),{poolFactory:denied.factory},undefined,undefined,true),runtimeError('RUNTIME_CONFIG_INVALID','known'));
+  assert.equal(denied.configuration(),undefined);
+});
+test('HTTP claim replay requires its private key config and uses one exact parameterized function without logging its key', async () => {
+  const f=fixture(); const replay={ keyId:'synthetic-replay-v1',encryptionKey:'d'.repeat(64) };
+  const gateway=await createSpecsRuntimeGateway(readSpecsRuntimeConfig(env),{ poolFactory:f.factory },undefined,replay);
+  const identity=f.queries.find(query=>query.text.includes(' as allowed'))!.text;
+  assert.ok(identity.includes('count(*)=7')&&identity.includes('eps.claim_job_stage_replay(jsonb,text,text,text)'));
+  const input={ job_id:job,stage:'prepare_document',input_hash:inputHash };
+  assert.deepEqual(await gateway.claimWithReplay(input,'synthetic-replay-intent'),lease);
+  const call=f.queries.find(query=>query.text==='select eps.claim_job_stage_replay($1::jsonb,$2::text,$3::text,$4::text) as value')!;
+  assert.deepEqual(call.values,[JSON.stringify(input),'synthetic-replay-intent',replay.keyId,replay.encryptionKey]);
+  assert.equal(call.text.includes(replay.encryptionKey),false);
+  await assert.rejects(gateway.claimWithReplay({ ...input,principal_id:'forged' } as never,'synthetic-replay-intent'),runtimeError('INVALID_REQUEST','known'));
+  await gateway.close();
+  for(const changed of [{ encryptionKey:'invalid' },{ keyId:'invalid key' }]) {
+    const fixtureValue=fixture();await assert.rejects(createSpecsRuntimeGateway(readSpecsRuntimeConfig(env),{ poolFactory:fixtureValue.factory },undefined,{ ...replay,...changed }),runtimeError('RUNTIME_CONFIG_INVALID','known'));
+    assert.equal(fixtureValue.configuration(),undefined);
+  }
 });
 
 test('invalid optional file target is denied before constructing the private database pool', async () => {
@@ -210,7 +272,7 @@ test('commit response loss and cancellation after query dispatch remain unknown 
     await assert.rejects(gateway.claim({ job_id: job, stage: 'prepare_document', input_hash: inputHash }, controller.signal),
       runtimeError(cancel ? 'RUNTIME_ABORTED' : 'RUNTIME_UNAVAILABLE', 'unknown'));
     assert.equal(f.queries.filter(query => query.text.startsWith('select eps.')).length, 1);
-    assert.equal(f.released.at(-1), true); await gateway.close();
+    assert.deepEqual(f.released,[false,true],'Only the acknowledged startup transaction is returned; lost commit or abort destroys exactly once.'); await gateway.close();
   }
 });
 

@@ -7,6 +7,10 @@ export { createCentralJobs } from './jobs.ts';
 export type { CentralJob, JobListOptions, JobMutationInput } from './jobs.ts';
 export { createCentralSpecs } from './specs.ts';
 export type { CentralSpecs, SpecsListOptions, SpecsArchiveInput, SpecsArchiveResult } from './specs.ts';
+export { createCentralCandidates } from './candidates.ts';
+export type { CentralCandidates, CandidateVersionInput, CandidateSuccess } from './candidates.ts';
+export { createCandidateStorageAdapter } from './candidate-storage.ts';
+export type { CandidateStorageOptions, CandidateStorageRpcPort, CandidateUploadInput, CandidatePlayback } from './candidate-storage.ts';
 export { signLogoReceipt, verifyLogoReceipt, LogoReceiptError, LOGO_RECEIPT_VERSION, LOGO_RECEIPT_AUDIENCE,
   LOGO_RECEIPT_MAX_PAYLOAD_BYTES, LOGO_RECEIPT_MAX_TTL_SECONDS } from './logo-receipt.ts';
 export type { LogoReceipt, LogoReceiptClaims, LogoReceiptScope, LogoReceiptClock } from './logo-receipt.ts';

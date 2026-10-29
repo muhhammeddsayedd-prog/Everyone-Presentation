@@ -1,0 +1,28 @@
+{
+  "run_id": "5375c154-f671-40f9-99bc-e05d7216db0c",
+  "started_at": "2026-10-29T09:25:40.871Z",
+  "result": "failed",
+  "cloud_called": false,
+  "provider_called": false,
+  "credential_files_read": false,
+  "scope": "Synthetic SQL only: complete silent/zero-frame path, private payloads, callback replay and scoped asset fences; no native/video/Storage HTTP or provider acceptance.",
+  "source_seals": {
+    "development/m03/candidate-kernel-tables.sql": "7e5062f253c21b7fd345735fe10fb90a5079d4dd397871880f49f5250e94f08e",
+    "development/m03/candidate-user-assets.sql": "4752861ea0a43eabedb4b46baeab6a68bdf8a987bd4812e814ed3a5aecfed251",
+    "development/m03/candidate-kernel.sql": "ab8d1a2a713493c62040526221cb0549b86526fe69e145e1c17d1627e098e8e3",
+    "development/m03/candidate-kernel-enqueue.sql": "0f799af0a705906c763988b890238c293cdbac00c8908af229faba02f333f910",
+    "development/m03/candidates-apply-candidate.sql": "1c22052c57a70eec87c6d2f5a109657fdda6cdf595c45990caa278f451871d4b",
+    "development/m03/candidate-kernel-events.sql": "c0b8b93888df153623394903eb4b98b454148de1cc7dc667dde51471100aa204",
+    "development/m03/candidate-kernel-assets.sql": "45ef069ec78026ae351a85fc29a9d9f8426d8326e8d1db1d0facda86367672c0",
+    "development/m03/candidate-kernel-dispatch.sql": "5fbf7c32c073995b8890f4eb9ec60ea0f903c14ad1b7ccab9428edc696ab2284",
+    "development/m03/candidate-storage-policies.sql": "50fa9144989268e1722e77f0cb3a83eeec0c8ea0f1aefaa16a22468de5b40e56",
+    "tests/db/m03-candidate-kernel.sql": "b5f4f1da9bb5e7556a4972094bfeaa8ec6fc554a591ab001584bd1cf918804f9"
+  },
+  "harness_sha256": "07b19db71aa7bfe94b92cfff4c0b5ddcedfe1274e6cac0089317d858df492868",
+  "before_sha256": "da91d4b58ecdaff139b8e53d70da9f1bc963da9cd67a3f4b1a08536b1a082d71",
+  "diagnostic": "ERROR:  CANDIDATE_KERNEL_ASSERTION: atomic profile application completes\nCONTEXT:  PL/pgSQL function pg_temp_0.kernel_assert(boolean,text) line 2 at RAISE\nSQL statement \"SELECT pg_temp.kernel_assert(receipt->>'job_status'='succeeded','atomic profile application completes')\"\nPL/pgSQL function inline_code_block line 24 at PERFORM\n",
+  "after_sha256": "da91d4b58ecdaff139b8e53d70da9f1bc963da9cd67a3f4b1a08536b1a082d71",
+  "rollback_verified": true,
+  "sources_stable": true,
+  "finished_at": "2026-10-29T09:25:49.520Z"
+}

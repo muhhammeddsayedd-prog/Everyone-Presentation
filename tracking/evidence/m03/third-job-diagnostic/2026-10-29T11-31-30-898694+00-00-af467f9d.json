@@ -1,0 +1,202 @@
+{
+  "observed_at": "2026-10-29T11:31:30.898694+00:00",
+  "target": "pyibofyctwnqpvktepse",
+  "result": "captured",
+  "job_id": "237d0b59-4763-4229-ba32-f04fe2f29c79",
+  "read_only": true,
+  "sql_sha256": "5abae6f3f2bdcecd167a079a36d2ad70c770696726479cb25e61fcdd696d38c6",
+  "harness_sha256": "5b00bdb10f0b01d4f8ab10a29aa8018fdb1cdae8d4d6826d7df9b6cfaabf59cc",
+  "provider_called": false,
+  "storage_http_called": false,
+  "mutations_requested": false,
+  "grant_digests_or_private_content_recorded": false,
+  "proof": {
+    "database": "postgres",
+    "derivatives": [
+      {
+        "asset_count": 1,
+        "attempt_id": "53597a41-1349-465e-a949-048ded726fc8",
+        "checksummed_assets": 1,
+        "maximum_size_bytes": 79816,
+        "maximum_timestamp_ms": null,
+        "minimum_size_bytes": 79816,
+        "minimum_timestamp_ms": null,
+        "purpose": "audio",
+        "stage": "prepare_candidate",
+        "status": "ready"
+      },
+      {
+        "asset_count": 12,
+        "attempt_id": "53597a41-1349-465e-a949-048ded726fc8",
+        "checksummed_assets": 12,
+        "maximum_size_bytes": 19398,
+        "maximum_timestamp_ms": 18720,
+        "minimum_size_bytes": 13320,
+        "minimum_timestamp_ms": 1560,
+        "purpose": "candidate_frame",
+        "stage": "prepare_candidate",
+        "status": "ready"
+      },
+      {
+        "asset_count": 1,
+        "attempt_id": "be97ade7-00f6-49b4-a583-d3cfbd8bb290",
+        "checksummed_assets": 1,
+        "maximum_size_bytes": 79816,
+        "maximum_timestamp_ms": null,
+        "minimum_size_bytes": 79816,
+        "minimum_timestamp_ms": null,
+        "purpose": "audio",
+        "stage": "prepare_candidate",
+        "status": "ready"
+      },
+      {
+        "asset_count": 6,
+        "attempt_id": "be97ade7-00f6-49b4-a583-d3cfbd8bb290",
+        "checksummed_assets": 6,
+        "maximum_size_bytes": 19398,
+        "maximum_timestamp_ms": 9360,
+        "minimum_size_bytes": 15471,
+        "minimum_timestamp_ms": 1560,
+        "purpose": "candidate_frame",
+        "stage": "prepare_candidate",
+        "status": "ready"
+      },
+      {
+        "asset_count": 1,
+        "attempt_id": "be97ade7-00f6-49b4-a583-d3cfbd8bb290",
+        "checksummed_assets": 0,
+        "maximum_size_bytes": 17650,
+        "maximum_timestamp_ms": 10920,
+        "minimum_size_bytes": 17650,
+        "minimum_timestamp_ms": 10920,
+        "purpose": "candidate_frame",
+        "stage": "prepare_candidate",
+        "status": "uploading"
+      }
+    ],
+    "grants": [
+      {
+        "attempt_id": "53597a41-1349-465e-a949-048ded726fc8",
+        "expired_count": 1,
+        "grant_count": 1,
+        "permission": "read",
+        "purpose": "audio",
+        "revoked_count": 0,
+        "stage": "prepare_candidate"
+      },
+      {
+        "attempt_id": "53597a41-1349-465e-a949-048ded726fc8",
+        "expired_count": 12,
+        "grant_count": 12,
+        "permission": "read",
+        "purpose": "candidate_frame",
+        "revoked_count": 0,
+        "stage": "prepare_candidate"
+      },
+      {
+        "attempt_id": "53597a41-1349-465e-a949-048ded726fc8",
+        "expired_count": 1,
+        "grant_count": 1,
+        "permission": "read",
+        "purpose": "candidate_video",
+        "revoked_count": 0,
+        "stage": "prepare_candidate"
+      },
+      {
+        "attempt_id": "53597a41-1349-465e-a949-048ded726fc8",
+        "expired_count": 1,
+        "grant_count": 1,
+        "permission": "write",
+        "purpose": "audio",
+        "revoked_count": 0,
+        "stage": "prepare_candidate"
+      },
+      {
+        "attempt_id": "53597a41-1349-465e-a949-048ded726fc8",
+        "expired_count": 12,
+        "grant_count": 12,
+        "permission": "write",
+        "purpose": "candidate_frame",
+        "revoked_count": 0,
+        "stage": "prepare_candidate"
+      },
+      {
+        "attempt_id": "be97ade7-00f6-49b4-a583-d3cfbd8bb290",
+        "expired_count": 1,
+        "grant_count": 1,
+        "permission": "read",
+        "purpose": "audio",
+        "revoked_count": 0,
+        "stage": "prepare_candidate"
+      },
+      {
+        "attempt_id": "be97ade7-00f6-49b4-a583-d3cfbd8bb290",
+        "expired_count": 7,
+        "grant_count": 7,
+        "permission": "read",
+        "purpose": "candidate_frame",
+        "revoked_count": 0,
+        "stage": "prepare_candidate"
+      },
+      {
+        "attempt_id": "be97ade7-00f6-49b4-a583-d3cfbd8bb290",
+        "expired_count": 1,
+        "grant_count": 1,
+        "permission": "read",
+        "purpose": "candidate_video",
+        "revoked_count": 0,
+        "stage": "prepare_candidate"
+      },
+      {
+        "attempt_id": "be97ade7-00f6-49b4-a583-d3cfbd8bb290",
+        "expired_count": 1,
+        "grant_count": 1,
+        "permission": "write",
+        "purpose": "audio",
+        "revoked_count": 0,
+        "stage": "prepare_candidate"
+      },
+      {
+        "attempt_id": "be97ade7-00f6-49b4-a583-d3cfbd8bb290",
+        "expired_count": 7,
+        "grant_count": 7,
+        "permission": "write",
+        "purpose": "candidate_frame",
+        "revoked_count": 0,
+        "stage": "prepare_candidate"
+      },
+      {
+        "attempt_id": "a39d21f5-a896-46f2-b711-7ec4d98178d5",
+        "expired_count": 1,
+        "grant_count": 1,
+        "permission": "read",
+        "purpose": "audio",
+        "revoked_count": 0,
+        "stage": "transcribe_candidate"
+      }
+    ],
+    "job": {
+      "completed_stage_count": 1,
+      "current_attempt_id": "a39d21f5-a896-46f2-b711-7ec4d98178d5",
+      "error_retryable": false,
+      "input_sha256": "be2ced847bdf91ef7c6700205a4d1f6efc5eaff030985571b931f511b440802c",
+      "job_id": "237d0b59-4763-4229-ba32-f04fe2f29c79",
+      "known_error_code": "PROCESSING_FAILED",
+      "private_payload_count": 1,
+      "stage": "transcribe_candidate",
+      "stage_attempts": {
+        "prepare_candidate": 2,
+        "transcribe_candidate": 1
+      },
+      "status": "failed",
+      "transcription_payload_present": false,
+      "workspace_id": "e470aefd-e0f7-480c-bf0d-170cb2cb7069"
+    },
+    "observed_at": "2026-10-29T11:31:36.084098+00:00",
+    "protected_m02": {
+      "manual_note_retained": true,
+      "still_waiting": true
+    },
+    "query_role": "postgres"
+  }
+}

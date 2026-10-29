@@ -1,0 +1,7 @@
+# Existing inspected official Node base, and observed Debian bookworm security package.
+FROM node@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+RUN apt-get update -qq && apt-get install --no-install-recommends -y ffmpeg=7:5.1.9-0+deb12u1 && rm -rf /var/lib/apt/lists/*
+WORKDIR /opt/eps
+COPY apps/worker/src/video-process.mjs apps/worker/src/video-native.ts apps/worker/src/video-types.ts apps/worker/src/video-quality.ts ./apps/worker/src/
+USER 1000:1000
+ENTRYPOINT ["/usr/bin/timeout","--signal=KILL","185s","node","--max-old-space-size=512","/opt/eps/apps/worker/src/video-process.mjs"]

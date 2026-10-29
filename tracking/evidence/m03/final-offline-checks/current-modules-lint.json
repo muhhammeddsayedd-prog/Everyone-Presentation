@@ -1,0 +1,46 @@
+{
+  "observed_at": "2026-10-29T11:14:00.097750+00:00",
+  "started_at": "2026-10-29T11:13:32.527123+00:00",
+  "environment": "Local Windows, installed pinned npm workspace",
+  "result": "passed",
+  "checks": {
+    "modules": {
+      "command": [
+        "npm.cmd",
+        "test"
+      ],
+      "exit_code": 0,
+      "tests_by_group": [
+        133,
+        7,
+        12,
+        28,
+        101,
+        93
+      ],
+      "failures_by_group": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "output_sha256": "27c3b53c6c65daff09ac755f98ab3f8fd30b8a4be0e3ed6eeb64c5104608d1d1"
+    },
+    "lint": {
+      "command": [
+        "npm.cmd",
+        "run",
+        "lint"
+      ],
+      "exit_code": 0,
+      "tests_by_group": [],
+      "failures_by_group": [],
+      "output_sha256": "111a1b2f91f0b0f0ef630cc22626f6b5f6c69b69d01b7528b682ada1b0eec459"
+    }
+  },
+  "provider_called": false,
+  "cloud_called": false,
+  "scope": "Offline module regressions and global ESLint; not live browser/native/provider acceptance"
+}

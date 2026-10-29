@@ -1,0 +1,75 @@
+{
+  "observed_at": "2026-10-29T10:34:46.224093+00:00",
+  "scope": "Independent static review of current M03 UI/API/central wiring, not a browser reproduction or live media acceptance.",
+  "result": "changes_needed",
+  "file_sha256": {
+    "apps/web/components/CastLibraryView.tsx": "1b6701301f4a346007686ee8d70b12c1ef5d167dfaf745abc20a81102cf67bd7",
+    "apps/web/components/WorkspaceCandidatesView.tsx": "87b79b1bee2ab28b2d746d3a919af6657d55deda06e5a4217d5a4437d6181d46",
+    "apps/web/components/CandidateDetailView.tsx": "5e526e6badae5cc48a000905a5d7f17ad023bcfc34068bedfc926bb5ff947ffe",
+    "apps/web/components/CandidateFactsEditor.tsx": "b8dc1889b6b1f5d5929a475c007d1173c280446fc1c66b4a75793082871ea5ed",
+    "apps/web/lib/candidate-config.ts": "9aa71783c848644598d3b67a5b78f742a21e92fa931c9b2bb73bb84b947e09fe",
+    "apps/web/lib/candidates-http.ts": "7a5fc194da670ceac7c0876a6bc1be298f4ecd1712133c04670fbb919a8e67aa",
+    "apps/web/lib/media-http.ts": "a23f71beea5f8f128ffb7fb38a8dadb75ae4a3f094e507b8751abb0d48a88cd9",
+    "apps/web/lib/studio.ts": "d826deed2acf9d75642bd791be6785ef2fdd128caa37b4b0178361aac88c2d11",
+    "packages/central/src/studio.ts": "c4e3b125367b541fb6595f5ee97e283b2ed27eb8de3fdc3bacfdb81cc72ea2a9"
+  },
+  "findings": [
+    {
+      "severity": "P2",
+      "file": "apps/web/components/WorkspaceCandidatesView.tsx",
+      "line": 52,
+      "issue": "Interrupted video uploads cannot resume across page reload, and cached signed URLs are reused on retry.",
+      "effect": "React-only state loses the stable session/intents after reload; an expired signed URL cannot be renewed from the retry control. This misses the M03 interrupt/reload/resume acceptance path.",
+      "remedy": "Persist a bounded actor/workspace upload manifest without URLs/headers/tokens/file bytes; reselect and checksum-match files, retrieve the existing session to renew its scoped URL, and replay its completion intent."
+    },
+    {
+      "severity": "P2",
+      "file": "apps/web/components/WorkspaceCandidatesView.tsx",
+      "line": 59,
+      "issue": "A supported video whose File.type is empty is declared video/mp4.",
+      "effect": "A valid MKV/WebM is reserved with the wrong declared MIME and fails the native magic/type check even though the picker offers that format.",
+      "remedy": "Resolve a supported declared MIME using the known filename extension when the browser omits MIME; native content validation must remain authoritative."
+    },
+    {
+      "severity": "P2",
+      "file": "packages/central/src/studio.ts",
+      "line": 90,
+      "issue": "Disabling candidate uploads also removes the adapter used for existing Ready playback and frame reads.",
+      "effect": "With uploads flag false, profile RPC reads work but candidate playback returns unavailable and frame content cannot select its adapter.",
+      "remedy": "Provide independent candidateRead wiring like logoRead/specsRead, with upload mutations disabled and Ready read authorization preserved."
+    },
+    {
+      "severity": "P2",
+      "file": "apps/web/components/CastLibraryView.tsx",
+      "line": 23,
+      "issue": "Older filter requests may overwrite newer library search results.",
+      "effect": "Debouncing cancels only the pending timer, not an already-started request; a slow old response can replace the current filtered result set and cursor.",
+      "remedy": "Cancel obsolete requests and/or bind updates to a current request generation and filter fingerprint."
+    },
+    {
+      "severity": "P2",
+      "file": "apps/web/components/WorkspaceCandidatesView.tsx",
+      "line": 29,
+      "issue": "The error retry reload bypasses the dirty-card guard used by the header reload.",
+      "effect": "If a card has unsaved choices and the server row version changed, retrying a list error replaces its version-keyed card and discards those choices.",
+      "remedy": "Route every full-list reload through the same dirty-state gate, while allowing append-only pagination."
+    }
+  ],
+  "api_boundary_review": {
+    "verified_current_actor_and_shared_service": true,
+    "strict_mutation_schemas_and_same_origin_guard": true,
+    "private_no_store_responses": true,
+    "playback_id_only_no_body_or_query_authority": true,
+    "default_upload_flag_false_does_not_throw": true,
+    "no_p1_auth_or_raw_media_leak_found": true
+  },
+  "reviewer_executed_tests": {
+    "command": "node tools/run-tests.mjs tests/server/candidates-http.test.ts tests/server/candidate-config.test.ts tests/server/media-http.test.ts",
+    "passed": 6,
+    "failed": 0
+  },
+  "source_edits": false,
+  "cloud_called": false,
+  "provider_called": false,
+  "hosting_deferred": true
+}

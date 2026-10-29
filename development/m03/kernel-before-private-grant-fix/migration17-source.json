@@ -1,0 +1,23 @@
+{
+  "observed_at": "2026-10-29T10:07:03.045Z",
+  "migration": "supabase/migrations/20261029100500_m03_candidate_pipeline.sql",
+  "migration_sha256": "ad414a8b52ed7556bfdfc95e8595a6b44b5bcfbf807116f81c53116decca5d80",
+  "proof": "tracking/evidence/m03/kernel-local/2026-10-29T09-57-52-726Z-e814d619.json",
+  "proof_sha256": "63e046a28be6063da28a7ef469e4c7e90ceae52782f02833e4a3e9447cbb4c33",
+  "source_seals": {
+    "development/m03/candidate-kernel-tables.sql": "7e5062f253c21b7fd345735fe10fb90a5079d4dd397871880f49f5250e94f08e",
+    "development/m03/candidate-user-assets.sql": "a8a0caed0138f8497840ec50b4f528974a6e2dc1425eee4072a1b84942f82312",
+    "development/m03/candidate-kernel.sql": "ab8d1a2a713493c62040526221cb0549b86526fe69e145e1c17d1627e098e8e3",
+    "development/m03/candidate-kernel-enqueue.sql": "c9b644e979c32954c8dee4e6d027122c61247dfa9900d29887bf4a1fedd4c523",
+    "development/m03/candidates-apply-candidate.sql": "27620e95e1d2be68b360130c1ab69174213b53a634e06299866280a1bef8f313",
+    "development/m03/candidate-kernel-events.sql": "af958308e6d32b6ec8733d039d778611e889908691bd4882ec5f6cfb2636bf83",
+    "development/m03/candidate-kernel-assets.sql": "f9e5bd820de7a7457f7025a5ecf5ab8bfbd4854eba6391a24655f39bbc3d8b75",
+    "development/m03/candidate-kernel-dispatch.sql": "5fbf7c32c073995b8890f4eb9ec60ea0f903c14ad1b7ccab9428edc696ab2284",
+    "development/m03/candidate-storage-policies.sql": "50fa9144989268e1722e77f0cb3a83eeec0c8ea0f1aefaa16a22468de5b40e56",
+    "development/m03/candidate-library-lifecycle-forward.sql": "fb1d926007c418752d7ba09b7859362e724a5d94cecd728e316bd7a55c60846e"
+  },
+  "only_guard_adaptation": "One local rehearsal condition removed from apply composition; strict16-history migration guard replaces it.",
+  "sql_executed": false,
+  "cloud_called": false,
+  "runtime_enabled": false
+}

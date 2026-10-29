@@ -1,0 +1,38 @@
+# Development pack validation
+
+Date: 27 October 2026. These checks validate the specification, not the future app.
+
+**Validation result: FAIL.** 324 schema, syntax, structural, reference, parity and business-contract assertions passed.
+
+## Scope
+
+- 85 API paths, 101 unique operations and 80 intended internal MCP tools.
+- 25 proposed design tables; foreign-key table references and execution guards checked.
+- 11 standalone JSON schemas; source references and AI-object key contracts checked.
+- 76 unique acceptance cases; all 36 business rules represented.
+- Fixture Selection = 8 pages and Shortlist = 6 pages, independently derived in correct order.
+- 514 source-document local file links checked.
+- Full JSON Schema meta-validation passed
+- Full OpenAPI meta-validation passed
+- PostgreSQL SQL syntax parsed: 63 statements; no SQL executed
+
+## Limitations
+
+- Vendored skills, tooling/dependency environments, Git metadata, private local state, linked-provider metadata and generated runtime/test output are excluded from pack-source checks. Validate installed skills and application behavior with their separate checks.
+- Reference SQL was not executed against a database; function-body compilation, migration semantics and RLS behavior require M00–M07 implementation tests.
+- No cloud database, OpenAI request, n8n execution, live application, actual production PDF or MCP client was tested by this pack checker.
+
+## Errors
+
+- JSON parse tracking\evidence\m03\candidate-activation\provider-file-protection.json: Unexpected UTF-8 BOM (decode using utf-8-sig): line 1 column 1 (char 0)
+- 928 JSON source files parse
+- Broken local link tracking\handoffs\2026-10-29-before-m02-close-m03.md -> evidence/cloud-specs-read-operation/2026-10-29T07-22-46-245766Z-0a6a9099-readback.json
+- Broken local link tracking\handoffs\2026-10-29-before-m02-close-m03.md -> evidence/m02/live-specs-files/2026-10-29T07-27-45-389593+00-00-f054a457-metadata.json
+- Broken local link tracking\handoffs\2026-10-29-before-m02-close-m03.md -> evidence/m02/specs-protection/manual-edit-comparison.json
+- Broken local link tracking\handoffs\2026-10-29-before-m02-close-m03.md -> evidence/m02/specs-protection/manual-protected.png
+- Broken local link tracking\handoffs\2026-10-29-before-m02-close-m03.md -> evidence/m02/specs-protection/corrupt-file-verification.json
+- Broken local link tracking\handoffs\2026-10-29-before-m02-close-m03.md -> evidence/m02/specs-runtime/2026-10-29T07-29-20-473Z-storage-denials.json
+
+## Reproduce
+
+Run `python3 tools/validate_pack.py --report`. For complete meta-validation install tools/requirements.txt in an isolated environment, then run with `--strict`. M00 must also validate the chosen actual implementation toolchain. No app/service gate is marked complete by this report.

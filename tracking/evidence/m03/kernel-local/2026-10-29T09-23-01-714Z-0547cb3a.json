@@ -1,0 +1,27 @@
+{
+  "run_id": "0547cb3a-f392-4d16-978c-3f14dcd66e57",
+  "started_at": "2026-10-29T09:22:52.933Z",
+  "result": "failed",
+  "cloud_called": false,
+  "provider_called": false,
+  "credential_files_read": false,
+  "scope": "Synthetic SQL only: complete silent/zero-frame path, private payloads, callback replay and scoped asset fences; no native/video/Storage HTTP or provider acceptance.",
+  "source_seals": {
+    "development/m03/candidate-kernel-tables.sql": "7e5062f253c21b7fd345735fe10fb90a5079d4dd397871880f49f5250e94f08e",
+    "development/m03/candidate-user-assets.sql": "4752861ea0a43eabedb4b46baeab6a68bdf8a987bd4812e814ed3a5aecfed251",
+    "development/m03/candidate-kernel.sql": "6b36d4dbf0053253480fc896d870446cc7ff0d331fe71b2b7075425765d00505",
+    "development/m03/candidate-kernel-enqueue.sql": "0f799af0a705906c763988b890238c293cdbac00c8908af229faba02f333f910",
+    "development/m03/candidates-apply-candidate.sql": "5bf976c58021c32f4b349b6cb4d6b5591f3c088c1a9faab7ff2c51f1bc96f178",
+    "development/m03/candidate-kernel-events.sql": "c3ed8b822d0e60ee7ad9c79978dd84bb9d5e28a5a3accd74bad24f817077096b",
+    "development/m03/candidate-kernel-assets.sql": "45ef069ec78026ae351a85fc29a9d9f8426d8326e8d1db1d0facda86367672c0",
+    "development/m03/candidate-kernel-dispatch.sql": "5fbf7c32c073995b8890f4eb9ec60ea0f903c14ad1b7ccab9428edc696ab2284",
+    "development/m03/candidate-storage-policies.sql": "50fa9144989268e1722e77f0cb3a83eeec0c8ea0f1aefaa16a22468de5b40e56",
+    "tests/db/m03-candidate-kernel.sql": "fb2a62c4d45b5b1a10f290e6dd80efb2f1f60f7f31be444a7f8a7694ddf23335"
+  },
+  "harness_sha256": "474454dfe4c41fb4181be67ed2a02e85b934a9f43c95ec60ad719f30ba34e71c",
+  "before_sha256": "da91d4b58ecdaff139b8e53d70da9f1bc963da9cd67a3f4b1a08536b1a082d71",
+  "diagnostic": "ERROR:  CANDIDATE_CLAIM_DIAGNOSTIC status=failed available=2026-10-29 09:22:58.151654+00 now=2026-10-29 09:22:58.175746+00\nCONTEXT:  PL/pgSQL function eps.claim_candidate_job_stage(jsonb) line 16 at RAISE\nPL/pgSQL function eps.claim_job_stage(jsonb) line 3 at RETURN\nPL/pgSQL function pg_temp_0.kernel_claim() line 3 at RETURN\nPL/pgSQL function inline_code_block line 19 at assignment\n",
+  "after_sha256": "da91d4b58ecdaff139b8e53d70da9f1bc963da9cd67a3f4b1a08536b1a082d71",
+  "rollback_verified": true,
+  "finished_at": "2026-10-29T09:23:01.714Z"
+}

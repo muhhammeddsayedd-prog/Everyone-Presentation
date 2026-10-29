@@ -78,6 +78,30 @@
       "sha256": "040151ec89b461be2dc0c1d4ab8446652062488aac5f63822129d497ecf1702e",
       "reviewed_by": "root and discovery_review: exact candidate7012e48c independently reviewed and actual owned-local RED/GREEN rollback passed; promotion changes only Candidate-only comment to Additive13",
       "reviewed_at": "2026-10-29T07:03:59.447477+00:00"
+    },
+    {
+      "path": "supabase/migrations/20261029090500_m02_service_claim_replay.sql",
+      "sha256": "705d7432ab8cbe04fa5a94e090e1ce55e36c622590c09e0ce922ac5a59c6baf2",
+      "reviewed_by": "root integration owner; candidate14 ciphertext, revalidation, expiry, tombstones and execute-only grants reviewed; owned-local rollback06d070d5 passed",
+      "reviewed_at": "2026-10-29T08:58:01.693954+00:00"
+    },
+    {
+      "path": "supabase/migrations/20261029090724_m03_candidate_library.sql",
+      "sha256": "2a84e240fa1ed3a283a483775e797e7ef1bafeea36d2d11ace17e06b857d8b8d",
+      "reviewed_by": "root integration owner static candidate core grant/RLS/provenance review and explicit local15 promotion authorization; actual local14 rollback proof25b670e9 retained",
+      "reviewed_at": "2026-10-29T09:09:58.277Z"
+    },
+    {
+      "path": "supabase/migrations/20261029094600_m02_pdf_vision.sql",
+      "sha256": "5b7ad204f6dddde82ae829577ea1130fd426a3998797460871baad20d789cb50",
+      "reviewed_by": "root integration owner; exact15 guard, normalized source hashes, page/method anchors reviewed; local RED/GREEN c6863e17 passed",
+      "reviewed_at": "2026-10-29T09:48:00.056637+00:00"
+    },
+    {
+      "path": "supabase/migrations/20261029100500_m03_candidate_pipeline.sql",
+      "sha256": "4af04b4a3fb050e39aa23958c3f82e304cc7d7a1f450a5d93f7f50bc001bd836",
+      "reviewed_by": "root integration owner and independent worker exact composition/Storage/lease bridge review; corrected five-public-RPC grant allowlist plus 26 private helper ACL negatives; rollback cfce26d3 passed; owned local17 promotion only",
+      "reviewed_at": "2026-10-29T10:22:28.753177+00:00"
     }
   ],
   "tests": [

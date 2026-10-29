@@ -1,0 +1,156 @@
+-- Fixed M03 library14/15 catalogue/data snapshot. No original/provider text,
+-- verification secrets, passwords or Storage grant values are returned.
+-- Auth/key secrets are never read or hashed; counts plus nonsecret lifecycle
+-- metadata are retained. This is metadata parity, not fresh HTTP byte proof.
+begin isolation level repeatable read read only;
+set local statement_timeout='30s';
+set local search_path='';
+set local timezone='UTC';
+do $release$
+declare catalogue jsonb; data_counts jsonb:='{}'; data_hashes jsonb:='{}'; relation record;
+ amount bigint; checksum text; assets_state jsonb; runtime_state jsonb; source_config jsonb; added_fields_null boolean:=true; candidate_fields_null boolean:=true; row_expression text;
+begin
+ for relation in select n.nspname,c.relname from pg_class c join pg_namespace n on n.oid=c.relnamespace
+  where c.relkind in('r','p') and (n.nspname='eps' or n.nspname='public' and c.relname in
+   ('clients','projects','project_memberships','client_memberships','app_capability_grants')
+   or n.nspname='auth' and c.relname='users' or n.nspname='storage' and c.relname in('buckets','objects'))
+  order by n.nspname,c.relname loop
+  execute format('select count(*) from %I.%I',relation.nspname,relation.relname) into amount;
+  data_counts:=data_counts||jsonb_build_object(relation.nspname||'.'||relation.relname,amount);
+  -- Never fingerprint managed Auth rows or verification/grant secrets.
+  -- Nonsecret key/grant lifecycle metadata is fingerprinted separately below.
+  if relation.nspname='auth' or relation.relname in('logo_verification_keys','specs_verification_keys','specs_asset_grants') then continue; end if;
+  -- Every existing business/media/source/queue/preparation field is fingerprinted.
+  row_expression:=case when relation.nspname='eps' and relation.relname='media_assets' then '(to_jsonb(row_value)-''source_timestamp_ms''-''duration_ms'')' else 'to_jsonb(row_value)' end;
+  execute format('select encode(sha256(convert_to(coalesce(string_agg(%s::text,E''\n'' order by %s::text),''''),''UTF8'')),''hex'') from %I.%I row_value',row_expression,row_expression,relation.nspname,relation.relname) into checksum;
+  data_hashes:=data_hashes||jsonb_build_object(relation.nspname||'.'||relation.relname,checksum);
+ end loop;
+
+
+ select data_hashes || jsonb_build_object(
+  'eps.logo_verification_keys:metadata',(select encode(sha256(convert_to(coalesce(string_agg(to_jsonb(k)::text,E'\n' order by to_jsonb(k)::text),''),'UTF8')),'hex') from (select key_id,purpose,not_before,not_after,revoked_at,created_at from eps.logo_verification_keys) k),
+  'eps.specs_verification_keys:metadata',(select encode(sha256(convert_to(coalesce(string_agg(to_jsonb(k)::text,E'\n' order by to_jsonb(k)::text),''),'UTF8')),'hex') from (select key_id,purpose,not_before,not_after,revoked_at,created_at from eps.specs_verification_keys) k),
+  'eps.specs_asset_grants:metadata',(select encode(sha256(convert_to(coalesce(string_agg(to_jsonb(g)::text,E'\n' order by to_jsonb(g)::text),''),'UTF8')),'hex') from (select id,job_id,attempt_id,input_hash,asset_id,bucket,object_key,permission,created_at,expires_at,revoked_at from eps.specs_asset_grants) g)
+ ) into data_hashes;
+
+ select jsonb_build_object(
+ 'functions',(select coalesce(jsonb_agg(jsonb_build_object('name',n.nspname||'.'||p.proname,
+  'signature',n.nspname||'.'||p.proname||'('||oidvectortypes(p.proargtypes)||')',
+  'arguments',pg_get_function_identity_arguments(p.oid),'returns',pg_get_function_result(p.oid),
+  'source_sha256',encode(sha256(convert_to(replace(p.prosrc,E'\r\n',E'\n'),'UTF8')),'hex'),
+  'owner',pg_get_userbyid(p.proowner),'language',l.lanname,'definer',p.prosecdef,'volatility',p.provolatile,'config',p.proconfig,
+  'explicit_acl',(select coalesce(jsonb_agg(jsonb_build_object('grantor',pg_get_userbyid(a.grantor),'grantee',case when a.grantee=0 then 'PUBLIC' else pg_get_userbyid(a.grantee) end,
+    'privilege',a.privilege_type,'grantable',a.is_grantable) order by pg_get_userbyid(a.grantor),case when a.grantee=0 then 'PUBLIC' else pg_get_userbyid(a.grantee) end,a.privilege_type,a.is_grantable),'[]')
+    from aclexplode(coalesce(p.proacl,acldefault('f',p.proowner))) a),
+  'public_execute',exists(select 1 from aclexplode(coalesce(p.proacl,acldefault('f',p.proowner))) a where a.grantee=0 and a.privilege_type='EXECUTE'),
+  'execute',(select jsonb_object_agg(r.rolname,has_function_privilege(r.oid,p.oid,'EXECUTE') order by r.rolname) from pg_roles r
+   where r.rolname in('anon','authenticated','service_role') or r.rolname like 'eps\_%' escape '\' and r.rolname<>'eps_specs_runtime'))
+  order by n.nspname,p.proname,oidvectortypes(p.proargtypes)),'[]')
+  from pg_proc p join pg_namespace n on n.oid=p.pronamespace join pg_language l on l.oid=p.prolang
+  where n.nspname='eps' or n.nspname='public' and p.proname like 'eps\_%' escape '\'
+    or n.nspname='storage' and p.proname in('operation','allow_only_operation','allow_any_operation')),
+ 'relations',(select coalesce(jsonb_agg(jsonb_build_object('name',n.nspname||'.'||c.relname,'kind',c.relkind,
+  'owner',pg_get_userbyid(c.relowner),'rls',c.relrowsecurity,'forced_rls',c.relforcerowsecurity,
+  'explicit_acl',(select coalesce(jsonb_agg(jsonb_build_object('grantor',pg_get_userbyid(a.grantor),'grantee',case when a.grantee=0 then 'PUBLIC' else pg_get_userbyid(a.grantee) end,
+    'privilege',a.privilege_type,'grantable',a.is_grantable) order by pg_get_userbyid(a.grantor),case when a.grantee=0 then 'PUBLIC' else pg_get_userbyid(a.grantee) end,a.privilege_type,a.is_grantable),'[]')
+    from aclexplode(coalesce(c.relacl,acldefault('r',c.relowner))) a)) order by n.nspname,c.relname),'[]')
+  from pg_class c join pg_namespace n on n.oid=c.relnamespace where c.relkind in('r','p','v','m','f','S')
+   and(n.nspname='eps' or n.nspname='public' and c.relname in('clients','projects','project_memberships','client_memberships','app_capability_grants') or n.nspname='storage' and c.relname in('buckets','objects'))),
+ 'columns',(select coalesce(jsonb_agg(jsonb_build_object('table',n.nspname||'.'||c.relname,'name',a.attname,
+  'position',a.attnum,'type',format_type(a.atttypid,a.atttypmod),'not_null',a.attnotnull,'identity',a.attidentity,'generated',a.attgenerated,
+  'default',pg_get_expr(d.adbin,d.adrelid),
+  'explicit_acl',(select coalesce(jsonb_agg(jsonb_build_object('grantor',pg_get_userbyid(acl.grantor),'grantee',case when acl.grantee=0 then 'PUBLIC' else pg_get_userbyid(acl.grantee) end,
+    'privilege',acl.privilege_type,'grantable',acl.is_grantable) order by pg_get_userbyid(acl.grantor),case when acl.grantee=0 then 'PUBLIC' else pg_get_userbyid(acl.grantee) end,acl.privilege_type,acl.is_grantable),'[]')
+    from aclexplode(a.attacl) acl)) order by n.nspname,c.relname,a.attnum),'[]')
+  from pg_attribute a join pg_class c on c.oid=a.attrelid join pg_namespace n on n.oid=c.relnamespace
+  left join pg_attrdef d on d.adrelid=a.attrelid and d.adnum=a.attnum
+  where a.attnum>0 and not a.attisdropped and c.relkind in('r','p','v','m','f')
+   and(n.nspname='eps' or n.nspname='public' and c.relname in('clients','projects','project_memberships','client_memberships','app_capability_grants') or n.nspname='storage' and c.relname in('buckets','objects'))),
+ 'roles',(select coalesce(jsonb_agg(jsonb_build_object('name',r.rolname,'login',r.rolcanlogin,'inherit',r.rolinherit,
+  'superuser',r.rolsuper,'bypass_rls',r.rolbypassrls,'create_db',r.rolcreatedb,'create_role',r.rolcreaterole,'replication',r.rolreplication,
+  'schema_usage',(select jsonb_object_agg(n.nspname,has_schema_privilege(r.oid,n.oid,'USAGE') order by n.nspname) from pg_namespace n where n.nspname in('eps','public','auth','storage','extensions')),
+  'schema_create',(select jsonb_object_agg(n.nspname,has_schema_privilege(r.oid,n.oid,'CREATE') order by n.nspname) from pg_namespace n where n.nspname in('eps','public','auth','storage','extensions')),
+  'parents',(select coalesce(jsonb_agg(jsonb_build_object('name',parent.rolname,'admin',m.admin_option,'inherit',m.inherit_option,'set',m.set_option)
+   order by parent.rolname,m.admin_option,m.inherit_option,m.set_option),'[]') from pg_auth_members m join pg_roles parent on parent.oid=m.roleid where m.member=r.oid),
+  -- Runtime identity is checked independently before this exact operational
+  -- membership edge is excluded from the reproducible NOLOGIN catalogue.
+  'incoming',(select coalesce(jsonb_agg(jsonb_build_object('name',member.rolname,'admin',m.admin_option,'inherit',m.inherit_option,'set',m.set_option)
+   order by member.rolname,m.admin_option,m.inherit_option,m.set_option),'[]') from pg_auth_members m join pg_roles member on member.oid=m.member
+   where m.roleid=r.oid and member.rolname<>'eps_specs_runtime')) order by r.rolname),'[]')
+  from pg_roles r where r.rolname like 'eps\_%' escape '\' and r.rolname<>'eps_specs_runtime'),
+ 'table_acls',(select coalesce(jsonb_agg(jsonb_build_object('table',n.nspname||'.'||c.relname,'role',r.rolname,
+  'select',has_table_privilege(r.oid,c.oid,'SELECT'),'insert',has_table_privilege(r.oid,c.oid,'INSERT'),'update',has_table_privilege(r.oid,c.oid,'UPDATE'),
+  'delete',has_table_privilege(r.oid,c.oid,'DELETE'),'truncate',has_table_privilege(r.oid,c.oid,'TRUNCATE'),
+  'references',has_table_privilege(r.oid,c.oid,'REFERENCES'),'trigger',has_table_privilege(r.oid,c.oid,'TRIGGER'),
+  'maintain',has_table_privilege(r.oid,c.oid,'MAINTAIN')) order by n.nspname,c.relname,r.rolname),'[]')
+  from pg_class c join pg_namespace n on n.oid=c.relnamespace cross join pg_roles r where c.relkind in('r','p')
+   and(n.nspname='eps' or n.nspname='public' and c.relname in('clients','projects','project_memberships','client_memberships','app_capability_grants') or n.nspname='storage' and c.relname in('buckets','objects'))
+   and(r.rolname in('anon','authenticated','service_role') or r.rolname like 'eps\_%' escape '\' and r.rolname<>'eps_specs_runtime')),
+ 'column_acls',(select coalesce(jsonb_agg(jsonb_build_object('table',n.nspname||'.'||c.relname,'column',a.attname,'role',r.rolname,
+  'select',has_column_privilege(r.oid,c.oid,a.attnum,'SELECT'),'insert',has_column_privilege(r.oid,c.oid,a.attnum,'INSERT'),
+  'update',has_column_privilege(r.oid,c.oid,a.attnum,'UPDATE'),'references',has_column_privilege(r.oid,c.oid,a.attnum,'REFERENCES'))
+  order by n.nspname,c.relname,a.attname,r.rolname),'[]') from pg_attribute a join pg_class c on c.oid=a.attrelid
+  join pg_namespace n on n.oid=c.relnamespace cross join pg_roles r where a.attnum>0 and not a.attisdropped and c.relkind in('r','p')
+   and(n.nspname='eps' or n.nspname='public' and c.relname in('clients','projects','project_memberships','client_memberships','app_capability_grants') or n.nspname='storage' and c.relname in('buckets','objects'))
+   and(r.rolname in('anon','authenticated','service_role') or r.rolname like 'eps\_%' escape '\' and r.rolname<>'eps_specs_runtime')),
+ 'policies',(select coalesce(jsonb_agg(jsonb_build_object('table',n.nspname||'.'||c.relname,'name',p.polname,'command',p.polcmd,
+  'permissive',p.polpermissive,'roles',(select jsonb_agg(case when roleid=0 then 'PUBLIC' else pg_get_userbyid(roleid) end
+    order by case when roleid=0 then 'PUBLIC' else pg_get_userbyid(roleid) end) from unnest(p.polroles) roles(roleid)),
+  'using',pg_get_expr(p.polqual,p.polrelid),'check',pg_get_expr(p.polwithcheck,p.polrelid)) order by n.nspname,c.relname,p.polname),'[]')
+  from pg_policy p join pg_class c on c.oid=p.polrelid join pg_namespace n on n.oid=c.relnamespace
+  where n.nspname='eps' or n.nspname='public' and c.relname in('clients','projects','project_memberships','client_memberships','app_capability_grants') or n.nspname='storage' and c.relname in('buckets','objects')
+   or n.nspname='storage'),
+ 'constraints',(select coalesce(jsonb_agg(jsonb_build_object('table',n.nspname||'.'||c.relname,'name',k.conname,'definition',pg_get_constraintdef(k.oid),'validated',k.convalidated)
+  order by n.nspname,c.relname,k.conname),'[]') from pg_constraint k join pg_class c on c.oid=k.conrelid join pg_namespace n on n.oid=c.relnamespace
+  where n.nspname='eps' or n.nspname='public' and c.relname in('clients','projects','project_memberships','client_memberships','app_capability_grants') or n.nspname='storage' and c.relname in('buckets','objects')),
+ 'indexes',(select coalesce(jsonb_agg(jsonb_build_object('table',n.nspname||'.'||c.relname,'name',i.relname,'definition',pg_get_indexdef(i.oid),'valid',x.indisvalid,'ready',x.indisready)
+  order by n.nspname,c.relname,i.relname),'[]') from pg_index x join pg_class c on c.oid=x.indrelid join pg_class i on i.oid=x.indexrelid join pg_namespace n on n.oid=c.relnamespace
+  where n.nspname='eps' or n.nspname='public' and c.relname in('clients','projects','project_memberships','client_memberships','app_capability_grants') or n.nspname='storage' and c.relname in('buckets','objects')),
+ 'triggers',(select coalesce(jsonb_agg(jsonb_build_object('table',n.nspname||'.'||c.relname,'name',t.tgname,'enabled',t.tgenabled,'definition',pg_get_triggerdef(t.oid))
+  order by n.nspname,c.relname,t.tgname),'[]') from pg_trigger t join pg_class c on c.oid=t.tgrelid join pg_namespace n on n.oid=c.relnamespace
+  where not t.tgisinternal and(n.nspname='eps' or n.nspname='public' and c.relname in('clients','projects','project_memberships','client_memberships','app_capability_grants') or n.nspname='storage' and c.relname in('buckets','objects')))
+ ) into catalogue;
+
+ select jsonb_build_object('name',r.rolname,'login',r.rolcanlogin,'inherit',r.rolinherit,'superuser',r.rolsuper,'bypass_rls',r.rolbypassrls,
+  'create_db',r.rolcreatedb,'create_role',r.rolcreaterole,'replication',r.rolreplication,'connection_limit',r.rolconnlimit,'valid_until',r.rolvaliduntil,
+  'parents',(select coalesce(jsonb_agg(jsonb_build_object('name',p.rolname,'grantor',pg_get_userbyid(m.grantor),'admin',m.admin_option,'inherit',m.inherit_option,'set',m.set_option) order by p.rolname),'[]')
+    from pg_auth_members m join pg_roles p on p.oid=m.roleid where m.member=r.oid),
+  'incoming',(select coalesce(jsonb_agg(jsonb_build_object('name',p.rolname,'grantor',pg_get_userbyid(m.grantor),'admin',m.admin_option,'inherit',m.inherit_option,'set',m.set_option) order by p.rolname,m.admin_option,m.inherit_option,m.set_option),'[]')
+    from pg_auth_members m join pg_roles p on p.oid=m.member where m.roleid=r.oid),
+  'settings',(select coalesce(jsonb_agg(jsonb_build_object('database',s.setdatabase,
+    'values',(select coalesce(jsonb_agg(value order by value),'[]') from unnest(s.setconfig) entries(value)
+      where split_part(value,'=',1) in('log_statement','log_parameter_max_length','log_parameter_max_length_on_error','log_min_error_statement',
+        'log_min_duration_statement','auto_explain.log_min_duration','auto_explain.log_parameter_max_length','auto_explain.log_nested_statements','pg_stat_statements.track')),
+    'unknown_setting',exists(select 1 from unnest(s.setconfig) entries(value) where split_part(value,'=',1) not in
+      ('log_statement','log_parameter_max_length','log_parameter_max_length_on_error','log_min_error_statement','log_min_duration_statement',
+       'auto_explain.log_min_duration','auto_explain.log_parameter_max_length','auto_explain.log_nested_statements','pg_stat_statements.track'))) order by s.setdatabase),'[]')
+    from pg_db_role_setting s where s.setrole=r.oid),
+  'schema_create',exists(select 1 from pg_namespace n where n.nspname in('eps','public','auth','storage') and has_schema_privilege(r.oid,n.oid,'CREATE')),
+  'table_authority',exists(select 1 from pg_class c join pg_namespace n on n.oid=c.relnamespace where c.relkind in('r','p')
+    and(n.nspname='eps' or n.nspname='public' and c.relname in('clients','projects','project_memberships','client_memberships','app_capability_grants') or n.nspname='storage' and c.relname in('buckets','objects') or n.nspname='auth' and c.relname='users')
+    and(has_table_privilege(r.oid,c.oid,'SELECT,INSERT,UPDATE,DELETE,TRUNCATE,REFERENCES,TRIGGER,MAINTAIN') or has_any_column_privilege(r.oid,c.oid,'SELECT,INSERT,UPDATE,REFERENCES'))),
+  'execute',(select coalesce(jsonb_agg(n.nspname||'.'||p.proname||'('||oidvectortypes(p.proargtypes)||')' order by n.nspname,p.proname,oidvectortypes(p.proargtypes)),'[]')
+    from pg_proc p join pg_namespace n on n.oid=p.pronamespace where(n.nspname='eps' or n.nspname='public' and p.proname like 'eps\_%' escape '\') and has_function_privilege(r.oid,p.oid,'EXECUTE')))
+ into runtime_state from pg_roles r where r.rolname='eps_specs_runtime';
+
+ select to_jsonb(c) into source_config from eps.specs_pipeline_config c where id=1;
+ if to_regclass('eps.specs_asset_config') is not null then
+  execute $assets$select jsonb_build_object('config',(select to_jsonb(c) from eps.specs_asset_config c where id=1),
+   'keys',(select count(*) from eps.specs_verification_keys),'uploads',(select count(*) from eps.specs_upload_sessions),
+   'grants',(select count(*) from eps.specs_asset_grants),'preparations',(select count(*) from eps.specs_file_preparations))$assets$ into assets_state;
+  execute $pristine$select not exists(select 1 from eps.media_assets where source_asset_id is not null or producing_job_id is not null
+    or producing_attempt_id is not null or output_stage is not null or output_key is not null)
+   and not exists(select 1 from eps.specs_source_inputs where source_asset_id is not null or source_mime_type is not null or source_size_bytes is not null)$pristine$ into added_fields_null;
+ end if;
+ if exists(select 1 from pg_attribute where attrelid='eps.media_assets'::regclass and attname='duration_ms' and not attisdropped) then
+  execute 'select not exists(select 1 from eps.media_assets where duration_ms is not null or source_timestamp_ms is not null)' into candidate_fields_null;
+ end if;
+ perform set_config('eps.read_operation_release.snapshot',jsonb_build_object('query_role',current_user,'database',current_database(),
+  'unrestricted_visibility',(select rolsuper or rolbypassrls from pg_roles where rolname=current_user),
+  'versions',(select jsonb_agg(version order by version) from supabase_migrations.schema_migrations),
+  'catalog',catalogue,'counts',data_counts,'data_sha256',data_hashes,'runtime',runtime_state,'source_config',source_config,'assets',assets_state,
+  'release_additions_pristine',added_fields_null,'candidate_media_extensions_pristine',candidate_fields_null,
+  'buckets',(select coalesce(jsonb_agg(jsonb_build_object('id',id,'name',name,'public',public,'file_size_limit',file_size_limit,'allowed_mime_types',allowed_mime_types) order by id),'[]') from storage.buckets where id in('eps-specs-assets','eps-specs-outputs')))::text,true);
+end $release$;
+select current_setting('eps.read_operation_release.snapshot')::jsonb as candidates_library_release;
+rollback;

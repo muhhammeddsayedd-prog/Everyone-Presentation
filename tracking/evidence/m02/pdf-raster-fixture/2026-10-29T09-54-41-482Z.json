@@ -1,0 +1,46 @@
+{
+  "observed_at": "2026-10-29T09:54:41.482Z",
+  "scope": "Synthetic image-only English/Arabic and digital-header hybrid PDF fixture preparation",
+  "image_id": "sha256:52110c040822f1f1ecfd087518daa7583569c64a641dbdfe6585b5e8b7a98979",
+  "font": "Windows Arial; Arabic shaping visually checked",
+  "provider_called": false,
+  "fixtures": [
+    {
+      "label": "scanned-brief",
+      "sha256": "2f1508bf45a46ae81f3459b1507db58f1e9af41591a0367b643dce973823225f",
+      "size_bytes": 213626,
+      "page_count": 2,
+      "pdfjs_page_text_characters": [
+        0,
+        0
+      ],
+      "pdftotext_non_whitespace_characters": 0,
+      "image_coverage": [
+        {
+          "page": 1,
+          "image_coverage": 1
+        },
+        {
+          "page": 2,
+          "image_coverage": 1
+        }
+      ]
+    },
+    {
+      "label": "hybrid-header-brief",
+      "sha256": "047558fbe288298e9ffe52cfac0f2fa81d445b95a1c607bcd40b5abc00d613f2",
+      "size_bytes": 119036,
+      "page_count": 1,
+      "pdfjs_page_text_characters": [
+        45
+      ],
+      "pdftotext_non_whitespace_characters": 37,
+      "image_coverage": [
+        {
+          "page": 1,
+          "image_coverage": 0.87890625
+        }
+      ]
+    }
+  ]
+}

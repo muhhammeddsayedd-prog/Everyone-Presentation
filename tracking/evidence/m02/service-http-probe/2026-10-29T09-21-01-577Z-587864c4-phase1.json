@@ -1,0 +1,24 @@
+{
+  "observed_at": "2026-10-29T09:21:01.577Z",
+  "action": "phase1",
+  "result": "unconfirmed",
+  "probe_id": "587864c4-8605-4585-ad60-dd67ef942f2e",
+  "job_id": "1515e047-9108-4069-a951-71aeec9fc554",
+  "workspace_id": "e470aefd-e0f7-480c-bf0d-170cb2cb7069",
+  "stage": "prepare_document",
+  "input_hash": "5f0646f0dea960bb99b101530a4791c312280476579935597de82ddfd5acd8ae",
+  "attempt_id": "f00281b1-7f3c-4fc3-afab-46a6d81603a8",
+  "lease_expires_at": "2026-10-29T09:22:29.241191+00:00",
+  "checks": {
+    "wrong_service_bearer_denied": true,
+    "same_key_exact_lease_replay": true,
+    "same_key_changed_payload_denied": true
+  },
+  "dedicated_service_bearer": true,
+  "browser_or_user_token_loaded": false,
+  "provider_called": false,
+  "n8n_called": false,
+  "database_called_directly": false,
+  "protected_job_touched": false,
+  "raw_lease_storage": "Encrypted in ignored .local/m02-service-http-probe/encrypted-state.json only"
+}

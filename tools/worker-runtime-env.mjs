@@ -52,7 +52,7 @@ export function createSpecsWorkerEnvironment(provider, runtime, environment = {}
   if (!provider || typeof provider.OPENAI_API_KEY !== 'string' || !provider.OPENAI_API_KEY.trim()
     || typeof provider.OPENAI_EXTRACTION_MODEL !== 'string' || !provider.OPENAI_EXTRACTION_MODEL.trim()) invalid();
   const scoped = checked(runtime);
-  const child = { NODE_ENV: 'production', OPENAI_API_KEY: provider.OPENAI_API_KEY, OPENAI_EXTRACTION_MODEL: provider.OPENAI_EXTRACTION_MODEL,
+  const child = { NODE_ENV: 'production', PATH:'', OPENAI_API_KEY: provider.OPENAI_API_KEY, OPENAI_EXTRACTION_MODEL: provider.OPENAI_EXTRACTION_MODEL,
     ...scoped, ...checkedWorkerFilesEnvironment(fileEnvironment) };
   for (const key of ['SystemRoot', 'WINDIR', 'TEMP', 'TMP', 'LANG']) if (typeof environment[key] === 'string') child[key] = environment[key];
   return child;

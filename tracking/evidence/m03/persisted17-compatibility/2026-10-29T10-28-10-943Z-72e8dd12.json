@@ -1,0 +1,28 @@
+{
+  "run_id": "72e8dd12-d75d-49f9-b650-fd7d2e5bbec5",
+  "started_at": "2026-10-29T10:27:36.403Z",
+  "result": "passed",
+  "cloud_called": false,
+  "provider_called": false,
+  "credential_files_read": false,
+  "scope": "Persisted17 synthetic SQL: existing M02 PDF/DOCX/vision through new bridges and seven M03 state/permission cases in separate rolled-back fixture transactions; no native/bytes/provider/cloud.",
+  "source_seals": {
+    "tests/db/m02-specs-assets-candidate.sql": "636c08a295d2fd21e8e904b6b0b9e13be6ac0fe87874e6718a8a13c834eb33b4",
+    "tests/db/m02-pdf-vision-prepare.sql": "02d6d359d23d636b21e17e6a212d3436029c5ca3f42a7191b0318a2d5675422c",
+    "tests/db/m02-pdf-vision-assertions.sql": "889842720cd638323702386fdcf5462a71cd9487cd7dea322aa2698dc03735e0",
+    "tests/db/m03-candidate-kernel.sql": "3cfb13781e6970443f44462d9fec467a1451bf5abb2e76412f00fba746832acd",
+    "tests/db/m03-candidate-kernel-behavior.sql": "5c3bef154d77ddfa93744146e65622ea442fc51efeb813bb8d31e10aeb20d352",
+    "tests/db/m03-candidate-lifecycle.sql": "e7e1d87b1a4b0d86b28768fe624c0f90bda6b2620aa051af51f1db104f747070",
+    "tests/db/m03-candidate-partial-issues.sql": "5555a5d6bfc91c618909fb5d1fc866fe0aa2bd2287da0cf73e99c897f5f13d32",
+    "tests/db/m03-candidate-batch-control.sql": "c353dc51c49c3e8ee24d89617dba5c5b808c574449d34138b60686d70dd5d30b"
+  },
+  "harness_sha256": "bcc7f724f456062ae7799617dd167cef241f6490976e802088e3f313321d01a1",
+  "before_sha256": "1e454663e4f30604d95c19476fecd3e7e0a3bd06cbcdf46a1a9ca8b86eb659ac",
+  "specs_assets_and_vision_dispatch_passed": true,
+  "assertions_passed": true,
+  "transaction_completed_to_rollback": true,
+  "after_sha256": "1e454663e4f30604d95c19476fecd3e7e0a3bd06cbcdf46a1a9ca8b86eb659ac",
+  "rollback_verified": true,
+  "sources_stable": true,
+  "finished_at": "2026-10-29T10:28:10.943Z"
+}

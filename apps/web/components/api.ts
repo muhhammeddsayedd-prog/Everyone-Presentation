@@ -1,4 +1,4 @@
-export type Actor = { id: string; name: string; description?: string; capabilities?: string[]; upload_purposes?: string[] };
+export type Actor = { id: string; name: string; description?: string; capabilities?: string[]; upload_purposes?: string[]; upload_maximum_bytes?: number };
 export type Session = { mode?: 'local_fixture' | 'supabase'; actor: Actor | null; actors: Actor[]; storage_origin?: string };
 export type Project = { id: string; name: string; client_id: string | null; client_name: string | null; client_logo_asset_id: string | null; row_version: number; client_row_version: number | null; casting_workspace_id: string | null; can_edit: boolean };
 export type Workspace = { id: string; project_id: string; title: string; module: 'casting'; logo_asset_id: string | null; logo_placement: 'cover' | 'every_slide'; active_output: 'selection' | 'shortlist'; row_version: number; draft_revision: number; has_unpublished_changes: boolean; created_at: string; updated_at: string };

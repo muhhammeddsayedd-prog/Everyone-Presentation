@@ -1,0 +1,95 @@
+{
+  "result": "passed",
+  "target": "pyibofyctwnqpvktepse",
+  "scope": "Real isolated HTTP recovery through worker, n8n and OpenAI; metadata and synthetic-case booleans only",
+  "proof": {
+    "database": "postgres",
+    "draft": {
+      "active_roles": 1,
+      "active_slots": 1,
+      "clarifications": 7,
+      "date_not_invented": true,
+      "unknown_age": true,
+      "unknown_category": true,
+      "unknown_gender": true,
+      "unknown_headcount": true
+    },
+    "http_attempt_events": {
+      "deliberate_failures": 1,
+      "heartbeats": 1
+    },
+    "job": {
+      "completed_stages": [
+        {
+          "schema": "document-preparation.v1",
+          "stage": "prepare_document"
+        },
+        {
+          "schema": "specs-extraction-stage.v1",
+          "stage": "extract_specs"
+        },
+        {
+          "schema": "specs-application.v1",
+          "stage": "apply_specs"
+        }
+      ],
+      "id": "1515e047-9108-4069-a951-71aeec9fc554",
+      "n8n_execution_id": "31291",
+      "stage": "apply_specs",
+      "stage_attempts": {
+        "apply_specs": 1,
+        "extract_specs": 1,
+        "prepare_document": 3
+      },
+      "status": "succeeded"
+    },
+    "observed_at": "2026-10-29T09:30:49.647806+00:00",
+    "outbox": [
+      {
+        "generation": 1,
+        "stage": "prepare_document",
+        "status": "dead"
+      },
+      {
+        "generation": 2,
+        "stage": "prepare_document",
+        "status": "delivered"
+      },
+      {
+        "generation": 3,
+        "stage": "extract_specs",
+        "status": "delivered"
+      },
+      {
+        "generation": 4,
+        "stage": "apply_specs",
+        "status": "delivered"
+      }
+    ],
+    "protected_source": {
+      "manual_note_retained": true,
+      "still_waiting": true
+    },
+    "provider": {
+      "frozen_model_matches": true,
+      "provider": "openai",
+      "requested_model": "gpt-6.1-sol",
+      "resolved_model": "gpt-6.1-sol",
+      "response_reference_present": true,
+      "sdk_version": "7.45.1",
+      "usage": {
+        "input_tokens": 1179,
+        "output_tokens": 1054,
+        "total_tokens": 2233
+      }
+    },
+    "query_role": "postgres",
+    "source": {
+      "arabic_preserved": true,
+      "hash_verified": true,
+      "one_retained_source": true,
+      "sha256": "210842b6a551204aa4e5df67d2b8b69f234342bb363c8ec45056ed49d478eaed"
+    },
+    "target_count": 1
+  }
+}

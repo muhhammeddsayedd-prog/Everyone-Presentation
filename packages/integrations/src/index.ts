@@ -5,3 +5,6 @@ export { N8nDispatcher, n8nDispatchConfigFromEnv, validateStageReadyEnvelope } f
 export type { N8nDispatchConfig, StageReadyEnvelope, DispatchFetch } from './n8n-dispatch.ts';
 export type * from './specs-types.ts';
 export * from './job-errors.ts';
+export { transcribeAudio, extractCandidate, joinTranscriptChunks, openAIMediaConfigFromEnv } from './openai-media.ts';
+export type { OpenAIMediaConfig, TranscriptionTransport, CandidateTransport } from './openai-media.ts';
+export type * from './media-types.ts';

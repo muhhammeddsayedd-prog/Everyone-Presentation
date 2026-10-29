@@ -1,6 +1,7 @@
 import { validateStageReadyEnvelope, type OpenAISpecsConfig, type StageReadyEnvelope } from '@eps/integrations';
 import { specsRuntimeFailureDiagnostics } from '@eps/central/specs-runtime';
 import { executeSpecsStage, type SpecsExecutionOptions } from './specs-executor.ts';
+import { executeCandidateStage, type CandidateStageOptions } from './candidate-stage-executor.ts';
 import { validateSpecsWorkOrder } from './n8n-orchestrator.ts';
 import type { SpecsStageRouter, StageRuntimeGateway, WorkerNotice } from './runtime-types.ts';
 
@@ -18,7 +19,7 @@ function safeCode(error: unknown): string {
 }
 const unknown = (error: unknown) => !object(error) || error.outcome !== 'known';
 function invalid(): never { throw new Error('WORKER_CONTRACT_INVALID'); }
-interface RuntimeOptions { openAI: OpenAISpecsConfig; signal?: AbortSignal; execute?: typeof executeSpecsStage; gatewayTimeoutMs?: number; files?: SpecsExecutionOptions['files'] }
+interface RuntimeOptions { openAI: OpenAISpecsConfig; signal?: AbortSignal; execute?: typeof executeSpecsStage; gatewayTimeoutMs?: number; files?: SpecsExecutionOptions['files']; vision?: SpecsExecutionOptions['vision']; candidate?: Omit<CandidateStageOptions, 'signal'>; executeCandidate?: typeof executeCandidateStage }
 /** Public storage configuration is opt-in, fixed-target and separate from the
  * protected five-field database/webhook configuration. No ambient JWT fallback. */
 export function specsWorkerFilesConfiguration(environment: Record<string, string | undefined>): { storageOrigin: string; publishableKey: string } | undefined {
@@ -58,6 +59,7 @@ export async function processNextSpecsStage(gateway: StageRuntimeGateway, router
     if (envelope.event_id !== row.id) invalid();
     event = { id: row.id, lease_token: row.lease_token, envelope };
     const order = validateSpecsWorkOrder(await router.route(envelope, options.signal), envelope);
+    if (order.kind === 'candidate_scan' && !options.candidate) invalid();
     if (options.signal?.aborted) return { event: 'dispatch_unconfirmed', job_id: envelope.job_id, stage: envelope.stage };
     claimAttempted = true;
     const lease = await bounded(signal => gateway.claim({ job_id: order.job_id, stage: order.stage, input_hash: order.input_hash,
@@ -72,8 +74,10 @@ export async function processNextSpecsStage(gateway: StageRuntimeGateway, router
     }
     acknowledged = true;
     if (!lease.already_completed) {
-      const execution = await (options.execute ?? executeSpecsStage)(lease, gateway, { openAI: options.openAI, signal: options.signal, files });
-      if (!execution.already_completed && (!execution.receipt?.applied || execution.receipt.stale)) invalid();
+      const execution = order.kind === 'candidate_scan'
+        ? await (options.executeCandidate ?? executeCandidateStage)(lease, gateway, { ...options.candidate!, signal: options.signal })
+        : await (options.execute ?? executeSpecsStage)(lease, gateway, { openAI: options.openAI, signal: options.signal, files, vision: options.vision });
+      if (!execution.already_completed && (!execution.receipt || !execution.receipt.applied && !execution.receipt.duplicate || execution.receipt.stale)) invalid();
     }
     return { event: 'stage_callback_committed', job_id: order.job_id, stage: order.stage };
   } catch (error) {

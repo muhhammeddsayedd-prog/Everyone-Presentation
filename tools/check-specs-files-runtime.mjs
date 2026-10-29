@@ -18,9 +18,11 @@ export async function checkSpecsFilesRuntime({ environment = process.env, loadRu
     const runtime = await loadRuntime(); const files = await loadFiles({ environment });
     if (files.EPS_SPECS_FILES_ENABLED !== 'true') throw Object.assign(new Error('File runtime mode is not configured.'), { code: 'RUNTIME_CONFIG_INVALID' });
     const gateway = await createGateway(readSpecsRuntimeConfig(runtime), {}, { storageOrigin: files.SUPABASE_URL, publishableKey: files.SUPABASE_PUBLISHABLE_KEY });
-    await gateway.close();
+    const operations=gateway.verifiedFunctionOperations;await gateway.close();
+    if(![10,11].includes(operations))throw Object.assign(new Error('Function scope is unavailable.'),{code:'RUNTIME_ROLE_UNVERIFIED'});
     return { ...common, result: 'passed', real_network: true, credential_authentication: 'SCRAM server proof verified by pinned SDK',
-      tls_ca_and_hostname_verified: true, dedicated_current_and_session_role_verified: true, exact_function_operations: 10,
+      tls_ca_and_hostname_verified: true, dedicated_current_and_session_role_verified: true, exact_function_operations: operations,
+      base_specs_function_operations:10,claim_replay_function_enabled:operations===11,
       exact_runtime_groups: 3, app_table_and_auth_authority_denied: true, effective_private_logging_verified: true };
   } catch (error) {
     const allowed = new Set(['RUNTIME_CONFIG_INVALID','RUNTIME_AUTH_UNVERIFIED','RUNTIME_ROLE_UNVERIFIED','RUNTIME_UNAVAILABLE']);

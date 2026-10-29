@@ -14,6 +14,6 @@ export async function getSessionData() {
   const name = mode === 'local_fixture' ? actors.find(item => item.id === actor.principal_id)?.name ?? 'Development user'
     : ('verifiedIdentity' in studio ? studio.verifiedIdentity.email : null) ?? 'Everyone user';
   return { mode, actor: { id: actor.principal_id, name, capabilities: capabilities.capabilities,
-    upload_purposes: capabilities.upload_policy.available_purposes }, actors,
+    upload_purposes: capabilities.upload_policy.available_purposes, upload_maximum_bytes: capabilities.upload_policy.maximum_file_bytes }, actors,
     ...(mode === 'supabase' ? { storage_origin: readCentralConfig(process.env).url } : {}) };
 }

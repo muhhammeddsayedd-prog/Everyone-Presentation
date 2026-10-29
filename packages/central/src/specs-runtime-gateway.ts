@@ -2,12 +2,13 @@ import { Buffer } from 'node:buffer';
 import { X509Certificate } from 'node:crypto';
 import { Client, Pool, type ClientConfig, type PoolConfig } from 'pg';
 import { createSpecsRuntimeAssets, type SpecsRuntimeAssetConfig, type SpecsAssetOperation } from './specs-runtime-assets.ts';
+import { createCandidateRuntimeAssets } from './candidate-runtime-assets.ts';
 import type { JobEvent, JobEventReceipt, StageClaim, StageLease } from '../../jobs/src/types.ts';
 
 export const SPECS_RUNTIME_ROLE = 'eps_specs_runtime';
 export const SPECS_RUNTIME_PROJECT = 'pyibofyctwnqpvktepse';
 export const SPECS_RUNTIME_HOST = 'aws-0-eu-west-1.pooler.supabase.com';
-const STAGES = ['prepare_document', 'extract_specs', 'apply_specs'];
+const STAGES = ['prepare_document', 'extract_specs', 'apply_specs','prepare_candidate','transcribe_candidate','extract_candidate','select_frames','apply_candidate'];
 const STATUSES = ['queued', 'running', 'waiting_for_input', 'succeeded', 'failed', 'cancelled'];
 const UUID = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/u;
 const HASH = /^[a-f0-9]{64}$/u;
@@ -22,6 +23,7 @@ const DOMAIN_STATUS = new Map<string, number>([
     'EVENT_SEQUENCE_CONFLICT', 'RESULT_INVALID', 'INVALID_TRANSITION'].map(code => [code, 409] as const),
   ['FEATURE_NOT_IMPLEMENTED', 503], ['DEPENDENCY_UNAVAILABLE',503], ['SLOT_ALLOCATION_LIMIT_EXCEEDED', 409],
   ['IDEMPOTENCY_KEY_REUSED',409], ['SPECS_STATE_INVALID',409],
+  ['CLAIM_REPLAY_KEY_UNAVAILABLE',503],
 ]);
 const GATEWAY_PHASES = new Set(['connect', 'begin', 'role_verification', 'operation', 'commit']);
 const TLS_CODES = new Set(['ERR_TLS_CERT_ALTNAME_INVALID', 'CERT_HAS_EXPIRED', 'CERT_NOT_YET_VALID', 'SELF_SIGNED_CERT_IN_CHAIN',
@@ -94,6 +96,7 @@ function safeJson(value: unknown, maximum = 294_912): string {
 }
 
 export interface SpecsRuntimeConfig { host: string; password: string; caPem: string }
+export interface SpecsClaimReplayConfig { keyId: string; encryptionKey: string }
 function checkedConfig(value: unknown): SpecsRuntimeConfig {
   if (typeof window !== 'undefined' || !exact(value, ['host', 'password', 'caPem'])
     || value.host !== SPECS_RUNTIME_HOST
@@ -152,12 +155,14 @@ export interface SpecsRuntimeDependencies { /** Offline transport injection; nev
 // Metadata only. No Auth rows, business records, passwords or source are read.
 const FILE_FUNCTIONS = ['eps.get_job_asset_access(jsonb)','eps.reserve_job_output(jsonb)','eps.complete_job_output(jsonb)','eps.store_specs_preparation(jsonb)'];
 const ASSET_SQL: Record<SpecsAssetOperation,string> = { access:'select eps.get_job_asset_access($1::jsonb) as value',reserve:'select eps.reserve_job_output($1::jsonb) as value',complete:'select eps.complete_job_output($1::jsonb) as value',prepare:'select eps.store_specs_preparation($1::jsonb) as value' };
-const identitySql = (files: boolean) => `select (
+const REPLAY_FUNCTION = 'eps.claim_job_stage_replay(jsonb,text,text,text)';
+const identitySql = (files: boolean, replay: boolean) => `select (
  current_user=$1 and session_user=$1 and current_database()='postgres'
  and coalesce(current_setting('request.jwt.claim.sub',true),'')=''
  and coalesce(nullif(current_setting('request.jwt.claims',true),''),'{}')='{}'
  and exists(select 1 from pg_catalog.pg_roles r where r.rolname=current_user and r.rolcanlogin and not r.rolinherit
-  and not r.rolsuper and not r.rolbypassrls and not r.rolcreatedb and not r.rolcreaterole and not r.rolreplication and r.rolconnlimit between 1 and 4)
+  and not r.rolsuper and not r.rolbypassrls and not r.rolcreatedb and not r.rolcreaterole and not r.rolreplication and r.rolconnlimit between 1 and 4
+  and r.rolvaliduntil is not null and r.rolvaliduntil > pg_catalog.clock_timestamp() and r.rolvaliduntil < 'infinity'::timestamptz)
  and (select count(*)=${files ? 3 : 2} and bool_and(g.rolname in('eps_jobs_executor','eps_jobs_dispatcher'${files ? ",'eps_specs_assets_executor'" : ''}) and m.inherit_option and not m.set_option and not m.admin_option)
   from pg_catalog.pg_auth_members m join pg_catalog.pg_roles g on g.oid=m.roleid
   where m.member=(select oid from pg_catalog.pg_roles where rolname=current_user))
@@ -171,7 +176,7 @@ const identitySql = (files: boolean) => `select (
   where c.relkind in('r','p') and n.nspname in('eps','public','auth','storage')
   and (has_table_privilege(current_user,c.oid,'SELECT,INSERT,UPDATE,DELETE,TRUNCATE,REFERENCES,TRIGGER,MAINTAIN')
    or has_any_column_privilege(current_user,c.oid,'SELECT,INSERT,UPDATE,REFERENCES')))
- and (select count(*)=${files ? 10 : 6} and bool_and(p.oid=any(array[${[...SERVICE_FUNCTIONS,...(files ? FILE_FUNCTIONS : [])].map(name => `'${name}'::regprocedure`).join(',')}]))
+ and (select ${replay ? `count(*)=${files ? 11 : 7}` : `(count(*)=${files ? 10 : 6} or count(*)=${files ? 11 : 7})`} and bool_and(p.oid=any(array[${[...SERVICE_FUNCTIONS,...(files ? FILE_FUNCTIONS : []),REPLAY_FUNCTION].map(name => `to_regprocedure('${name}')`).join(',')}]))
   from pg_catalog.pg_proc p join pg_catalog.pg_namespace n on n.oid=p.pronamespace
   where (n.nspname='eps' or n.nspname='public' and (p.proname like 'eps\\_%' escape '\\' or p.prosecdef)) and has_function_privilege(current_user,p.oid,'EXECUTE'))
  and not exists(select 1 from pg_catalog.pg_shdepend d where d.refclassid='pg_authid'::regclass
@@ -182,7 +187,9 @@ const identitySql = (files: boolean) => `select (
  and coalesce(current_setting('pgaudit.log',true),'none')='none' and coalesce(current_setting('pgaudit.log_parameter',true),'off') in('off','false','0')
  and coalesce(current_setting('pgaudit.role',true),'')='' and coalesce(current_setting('auto_explain.log_min_duration',true),'-1') in('-1','-1ms')
  and coalesce(current_setting('auto_explain.log_parameter_max_length',true),'0')='0'
-) as allowed`;
+) as allowed,(select count(*)::integer from pg_catalog.pg_proc p join pg_catalog.pg_namespace n on n.oid=p.pronamespace
+ where (n.nspname='eps' or n.nspname='public' and (p.proname like 'eps\\_%' escape '\\' or p.prosecdef))
+ and has_function_privilege(current_user,p.oid,'EXECUTE')) as function_operations`;
 
 function response(value: unknown, fields: string[]): Record<string, unknown> {
   if (!exact(value, fields)) fail('RUNTIME_RESPONSE_INVALID', 503, 'unknown'); return value;
@@ -197,9 +204,16 @@ function leaseDto(value: unknown, input: StageClaim): StageLease {
 
 /** Direct authenticated DB gateway. It is not an HTTP ServiceBearer façade and
  * makes no exact-key claim-response replay claim. Unknown writes stop the worker. */
-export async function createSpecsRuntimeGateway(supplied: SpecsRuntimeConfig, dependencies: SpecsRuntimeDependencies = {}, fileConfiguration?: SpecsRuntimeAssetConfig) {
+export async function createSpecsRuntimeGateway(supplied: SpecsRuntimeConfig, dependencies: SpecsRuntimeDependencies = {}, fileConfiguration?: SpecsRuntimeAssetConfig,
+  replayConfiguration?: SpecsClaimReplayConfig,candidateEnabled=false) {
+  if(typeof candidateEnabled!=='boolean'||candidateEnabled&&fileConfiguration===undefined)fail('RUNTIME_CONFIG_INVALID');
+  if (replayConfiguration !== undefined && (!exact(replayConfiguration,['keyId','encryptionKey'])
+    || typeof replayConfiguration.keyId !== 'string' || !/^[A-Za-z0-9._-]{1,64}$/u.test(replayConfiguration.keyId)
+    || typeof replayConfiguration.encryptionKey !== 'string' || !/^[a-f0-9]{64}$/u.test(replayConfiguration.encryptionKey))) fail('RUNTIME_CONFIG_INVALID');
   const assets = fileConfiguration === undefined ? undefined : createSpecsRuntimeAssets(fileConfiguration, async (operation,input,signal) =>
     await execute(ASSET_SQL[operation],[safeJson(input,operation==='prepare' ? 44*1024*1024 : 294_912)],signal));
+  const candidateAssets=!candidateEnabled||fileConfiguration===undefined?undefined:createCandidateRuntimeAssets(fileConfiguration,async(operation,input,signal)=>
+    await execute(ASSET_SQL[operation],[safeJson(input,409_600)],signal));
   const config = checkedConfig(supplied);
   // pg consults ambient PG* for omitted/falsy options. Refuse that alternate
   // configuration source without mutating the host process environment.
@@ -210,13 +224,13 @@ export async function createSpecsRuntimeGateway(supplied: SpecsRuntimeConfig, de
     application_name: 'eps-specs-runtime', fallback_application_name: 'eps-specs-runtime', client_encoding: 'UTF8',
     options: '-c search_path=pg_catalog', pipeline: false, max: 2, min: 0, connectionTimeoutMillis: 3000,
     statement_timeout: 8000, lock_timeout: 2000, query_timeout: 10_000, idle_in_transaction_session_timeout: 10_000,
-    idleTimeoutMillis: 10_000, maxLifetimeSeconds: 300, Client: ScramOnlyClient };
+    idleTimeoutMillis: 30_000, maxLifetimeSeconds: 300, Client: ScramOnlyClient };
   const pool = dependencies.poolFactory ? dependencies.poolFactory(pgConfig) : new Pool(pgConfig);
   pool.on('error', () => { /* Never log a driver error or credential-bearing client. */ });
-  let closed = false;
+  let closed = false;let functionOperations:number|undefined;
   async function execute(sql: string | null, values: unknown[] = [], signal?: AbortSignal): Promise<unknown> {
     if (closed) fail('RUNTIME_CLOSED'); if (signal?.aborted) fail('RUNTIME_ABORTED', 503);
-    let client: SpecsRuntimeSqlClient | undefined; let released = false; let privateSent = false;
+    let client: SpecsRuntimeSqlClient | undefined; let released = false; let privateSent = false; let committed = false;
     let phase = 'connect'; const started = performance.now();
     let abort!: () => void;
     const interrupted = new Promise<never>((_resolve, reject) => {
@@ -233,15 +247,17 @@ export async function createSpecsRuntimeGateway(supplied: SpecsRuntimeConfig, de
       if (signal?.aborted) abort();
       phase = 'begin'; await query('begin');
       phase = 'role_verification';
-      const identity = await query(identitySql(assets !== undefined), [SPECS_RUNTIME_ROLE]);
-      if (!identity || identity.rows.length !== 1 || !exact(identity.rows[0], ['allowed']) || identity.rows[0].allowed !== true) fail('RUNTIME_ROLE_UNVERIFIED');
+      const identity = await query(identitySql(assets !== undefined,replayConfiguration !== undefined), [SPECS_RUNTIME_ROLE]);
+      if (!identity || identity.rows.length !== 1 || !exact(identity.rows[0], ['allowed','function_operations']) || identity.rows[0].allowed !== true
+        || ![...(replayConfiguration!==undefined?[]:[assets!==undefined?10:6]),assets!==undefined?11:7].includes(identity.rows[0].function_operations as number)) fail('RUNTIME_ROLE_UNVERIFIED');
+      functionOperations=identity.rows[0].function_operations as number;
       let value: unknown;
       if (sql !== null) {
         phase = 'operation'; privateSent = true; const result = await query(sql, values);
         if (!result || result.rows.length !== 1 || !exact(result.rows[0], ['value'])) fail('RUNTIME_RESPONSE_INVALID', 503, 'unknown');
         value = result.rows[0].value;
       }
-      phase = 'commit'; await query('commit'); return value;
+      phase = 'commit'; await query('commit'); committed = true; return value;
     } catch (error) {
       const diagnostic = { gateway_phase: phase, transport_code: driverCode(error, phase), elapsed_ms: Math.ceil(performance.now() - started) };
       if (client && !released) { try { await client.query('rollback'); } catch { /* Destroy this connection below. */ } }
@@ -255,11 +271,19 @@ export async function createSpecsRuntimeGateway(supplied: SpecsRuntimeConfig, de
       if (typeof code === 'string' && TLS_CODES.has(code)) throw new SpecsRuntimeGatewayError('RUNTIME_CONFIG_INVALID', 503, 'known', diagnostic);
       if (typeof code === 'string' && ['55P03', '57014', '40001', '40P01'].includes(code)) throw new SpecsRuntimeGatewayError('DEPENDENCY_UNAVAILABLE', 503, 'known', diagnostic);
       throw new SpecsRuntimeGatewayError('RUNTIME_UNAVAILABLE', 503, 'unknown', diagnostic);
-    } finally { signal?.removeEventListener('abort', abort); if (client && !released) client.release(true); }
+    } finally {
+      signal?.removeEventListener('abort', abort);
+      // Acknowledged COMMIT leaves a clean connection for the bounded pool.
+      // Failure, abort or lost acknowledgement always destroys it. Identity,
+      // finite credential expiry and logging scope are rechecked next checkout.
+      if (client && !released) client.release(!committed);
+    }
   }
   try { await execute(null); } catch (error) { closed = true; try { await pool.end(); } catch { /* No raw diagnostics. */ } throw error; }
   return {
+    get verifiedFunctionOperations(){return functionOperations;},
     files: assets,
+    candidateFiles:candidateAssets,
     async claimOutbox(limit: number, signal?: AbortSignal) {
       integer(limit); const row = response(await execute('select eps.claim_job_outbox($1::integer) as value', [limit], signal), ['leases']);
       if (!Array.isArray(row.leases) || row.leases.length > limit) fail('RUNTIME_RESPONSE_INVALID', 503, 'unknown');
@@ -268,7 +292,7 @@ export async function createSpecsRuntimeGateway(supplied: SpecsRuntimeConfig, de
         const envelope = response(item.envelope, ['event_id', 'event_type', 'contract_version', 'job_id', 'kind', 'stage', 'input_hash', 'correlation_id']);
         if (!id(item.id) || typeof item.lease_token !== 'string' || !/^[A-Za-z0-9_-]{43}$/u.test(item.lease_token) || !date(item.lease_expires_at)
           || envelope.event_id !== item.id || envelope.event_type !== 'job.stage_ready' || envelope.contract_version !== '1.0' || !id(envelope.job_id)
-          || envelope.kind !== 'specs_extract' || !STAGES.includes(String(envelope.stage)) || typeof envelope.input_hash !== 'string' || !HASH.test(envelope.input_hash)
+          || !['specs_extract','candidate_scan'].includes(String(envelope.kind)) || !STAGES.includes(String(envelope.stage)) || typeof envelope.input_hash !== 'string' || !HASH.test(envelope.input_hash)
           || typeof envelope.correlation_id !== 'string' || !/^[A-Za-z0-9._:-]{1,200}$/u.test(envelope.correlation_id)) fail('RUNTIME_RESPONSE_INVALID', 503, 'unknown');
       }
       return row;
@@ -284,6 +308,15 @@ export async function createSpecsRuntimeGateway(supplied: SpecsRuntimeConfig, de
         || input.workflow_execution_id !== undefined && (typeof input.workflow_execution_id !== 'string' || !/^[A-Za-z0-9._:-]{1,200}$/u.test(input.workflow_execution_id))) fail('INVALID_REQUEST', 400);
       return leaseDto(await execute('select eps.claim_job_stage($1::jsonb) as value', [safeJson(input)], signal), input);
     },
+    async claimWithReplay(input: StageClaim, idempotencyKey: string, signal?: AbortSignal): Promise<StageLease> {
+      if (!replayConfiguration) fail('FEATURE_NOT_IMPLEMENTED');
+      if (!object(input) || Object.keys(input).some(key => !['job_id','stage','input_hash','workflow_execution_id'].includes(key))
+        || !id(input.job_id) || !STAGES.includes(input.stage) || !HASH.test(input.input_hash)
+        || input.workflow_execution_id !== undefined && (typeof input.workflow_execution_id !== 'string' || !/^[A-Za-z0-9._:-]{1,200}$/u.test(input.workflow_execution_id))
+        || typeof idempotencyKey !== 'string' || !/^[A-Za-z0-9._:-]{16,200}$/u.test(idempotencyKey)) fail('INVALID_REQUEST',400);
+      return leaseDto(await execute('select eps.claim_job_stage_replay($1::jsonb,$2::text,$3::text,$4::text) as value',
+        [safeJson(input),idempotencyKey,replayConfiguration.keyId,replayConfiguration.encryptionKey],signal),input);
+    },
     async getInput(scope: { job_id: string; attempt_id: string; lease_token: string }, signal: AbortSignal): Promise<unknown> {
       if (!exact(scope, ['job_id', 'attempt_id', 'lease_token']) || !id(scope.job_id) || !id(scope.attempt_id)) fail('INVALID_REQUEST', 400); token(scope.lease_token);
       const result = await execute('select eps.get_specs_stage_input($1::uuid,$2::uuid,$3::text) as value', [scope.job_id, scope.attempt_id, scope.lease_token], signal);
@@ -295,7 +328,7 @@ export async function createSpecsRuntimeGateway(supplied: SpecsRuntimeConfig, de
         || !id(event.event_id) || !id(event.job_id) || !id(event.attempt_id) || !STAGES.includes(event.stage) || !HASH.test(event.input_hash)
         || !['heartbeat', 'progress', 'succeeded', 'failed'].includes(event.event_type)) fail('INVALID_REQUEST', 400);
       integer(event.sequence, Number.MAX_SAFE_INTEGER); token(event.lease_token);
-      const row = response(await execute('select eps.record_job_event($1::jsonb) as value', [safeJson(event)], signal), ['event_id', 'applied', 'duplicate', 'stale', 'job_status']);
+      const row = response(await execute('select eps.record_job_event($1::jsonb) as value', [safeJson(event,event.stage.endsWith('_candidate')||event.stage==='select_frames'?409_600:294_912)], signal), ['event_id', 'applied', 'duplicate', 'stale', 'job_status']);
       if (row.event_id !== event.event_id || !['applied', 'duplicate', 'stale'].every(key => typeof row[key] === 'boolean')
         || !row.applied && !row.duplicate && !row.stale || !STATUSES.includes(String(row.job_status))) fail('RUNTIME_RESPONSE_INVALID', 503, 'unknown');
       return row as unknown as JobEventReceipt;

@@ -1,0 +1,53 @@
+{
+  "observed_at": "2026-10-29T11:17:37.372196+00:00",
+  "started_at": "2026-10-29T11:17:10.902614+00:00",
+  "environment": "Local Windows, installed pinned npm workspace",
+  "result": "passed",
+  "checks": {
+    "modules": {
+      "command": [
+        "npm.cmd",
+        "test"
+      ],
+      "exit_code": 0,
+      "tests_by_group": [
+        133,
+        7,
+        12,
+        28,
+        102,
+        93
+      ],
+      "failures_by_group": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "output_sha256": "592810bc9bae79c5135193032002c7cd807fa35b54172f3a427bb9f67029bd68"
+    },
+    "lint": {
+      "command": [
+        "npm.cmd",
+        "run",
+        "lint"
+      ],
+      "exit_code": 0,
+      "tests_by_group": [],
+      "failures_by_group": [],
+      "output_sha256": "111a1b2f91f0b0f0ef630cc22626f6b5f6c69b69d01b7528b682ada1b0eec459"
+    }
+  },
+  "sources": {
+    "apps/worker/src/candidate-assets.ts": "d29b1778b5a33861b0127e57e668dfc4141f406090bf820a53528180c02a2270",
+    "apps/worker/src/candidate-stage-executor.ts": "c05079ffc9720884e6dc46f6bf0ba59be32a8161eddfcb3445518f1c52504651",
+    "apps/worker/src/runtime-main.ts": "7610ed781eba7ec20030478ed0500b58510b722309bc2fd86be448d3698f274e",
+    "packages/central/src/studio.ts": "ef0034387dd1c0bcbbfef8fe4449cb8b03cadc77f62109fe4c9d1a1ecc42a4b2",
+    "apps/web/components/WorkspaceCandidatesView.tsx": "79cd5d5d477d61aa781d361e2196fd5bc89ec96fa60c412294574385fdddd2f5"
+  },
+  "provider_called": false,
+  "cloud_called": false,
+  "scope": "Offline current module regressions and global ESLint; live worker executes separately"
+}

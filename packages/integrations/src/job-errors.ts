@@ -20,6 +20,7 @@ const generic = {
 
 const mappings = new Map<string, GenericFailure>([
   ['SPECS_SOURCE_INVALID', generic.source], ['SPECS_SOURCE_UNREADABLE', generic.source],
+  ['PDF_OCR_INPUT_INVALID', generic.source], ['PDF_OCR_RESULT_INVALID', generic.result], ['PDF_OCR_RESPONSE_INVALID', generic.result],
   ['AI_REFUSAL', generic.refusal],
   ...['AI_RESULT_INVALID', 'AI_EVIDENCE_INVALID', 'AI_EVIDENCE_MISSING', 'AI_SOURCE_MISMATCH', 'AI_ROLE_KEYS_INVALID',
     'AI_RESPONSE_INVALID', 'AI_RESPONSE_INCOMPLETE', 'AI_RESPONSE_NOT_COMPLETE', 'AI_OUTPUT_UNEXPECTED']

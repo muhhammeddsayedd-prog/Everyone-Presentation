@@ -1,0 +1,27 @@
+{
+  "observed_at": "2026-10-29T09:45:55.464Z",
+  "image_id": "sha256:0f0b87ed3ba6b42f78a1e76026edea5860bd3e2bd9dc9313a4cec010a0910b8e",
+  "environment": "Owned local network-disabled Poppler container only",
+  "provider_called": false,
+  "hosted": false,
+  "passed": true,
+  "tests": [
+    {
+      "name": "native-page-raster-source-hash-and-real-page-numbers",
+      "result": "passed",
+      "rasterizer_version": "pdftoppm version 22.12.0",
+      "page": 2,
+      "width": 1583,
+      "height": 2048,
+      "sha256": "dbcb323bc1006b3485260970df2fa1621ffebde2b0ecfa93bda12218d04c4430"
+    },
+    {
+      "name": "corrupt-source-rejected-without-provider-work",
+      "result": "passed"
+    },
+    {
+      "name": "missing-source-page-rejected-honestly",
+      "result": "passed"
+    }
+  ]
+}

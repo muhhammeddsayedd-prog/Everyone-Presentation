@@ -22,7 +22,7 @@ export interface PrepareDocumentInput { sourceKind?: 'asset'; bytes: Uint8Array;
 export interface PreparePastedTextInput { sourceKind: 'pasted_text'; text: string; sourceAssetId: null }
 export type DocumentPreparationInput = PrepareDocumentInput | PreparePastedTextInput;
 export interface SourceParagraph { index: number; page: number | null; start: number; end: number; text: string }
-export type ExtractionMethod = 'plain_text' | 'pdf_text' | 'docx_text';
+export type ExtractionMethod = 'plain_text' | 'pdf_text' | 'pdf_vision' | 'docx_text';
 export interface PreparedDocument {
   sourceAssetId: string | null;
   sourceSha256: string;

@@ -3,6 +3,8 @@ import type { MediaAsset } from '@eps/domain';
 import { prepareDocumentIsolated } from './process.ts';
 import { DocumentPreparationError, type PreparedDocument } from './types.ts';
 import type { DocumentPreparationResult, DocumentStoragePort } from './storage.ts';
+import { preparePdfWithVision, type PdfVisionOptions } from './pdf-vision.ts';
+import { IntegrationError } from '../../../packages/integrations/src/errors.ts';
 
 const ORIGIN = 'https://pyibofyctwnqpvktepse.supabase.co';
 const MAXIMUM = 20 * 1024 * 1024;
@@ -22,7 +24,7 @@ export interface SpecsAssetPort {
   completeOutput(input: Parameters<DocumentStoragePort['completeOutput']>[0], signal: AbortSignal): Promise<unknown>;
   storePreparation(input: SpecsAssetScope & { asset_id: string; payload_utf8: string }, signal: AbortSignal): Promise<unknown>;
 }
-export interface SpecsAssetOptions { publishableKey: string; fetch?: typeof fetch; signal?: AbortSignal; timeoutMs?: number; now?: () => number }
+export interface SpecsAssetOptions { publishableKey: string; fetch?: typeof fetch; signal?: AbortSignal; timeoutMs?: number; now?: () => number; vision?: Omit<PdfVisionOptions, 'signal'> }
 const object = (value: unknown): value is Record<string, unknown> => Boolean(value) && typeof value === 'object' && !Array.isArray(value);
 const exact = (value: unknown, fields: string[]): value is Record<string, unknown> => object(value) && Object.keys(value).length === fields.length && fields.every(key => Object.hasOwn(value, key));
 const positive = (value: unknown): value is number => typeof value === 'number' && Number.isSafeInteger(value) && value > 0 && value <= MAXIMUM;
@@ -147,7 +149,9 @@ export async function prepareSpecsFileStage(supplied: SpecsFileInput, suppliedSc
     const original = parseServiceAssetAccess(await bounded(signal => port.getAssetAccess({ ...scope, asset_id: input.source_asset_id, access: 'read' }, signal), options),
       { scope, assetId: input.source_asset_id, mode: 'original', method: 'GET', mime: input.mime_type, size: input.size_bytes, hash: input.source_sha256 }, options);
     const source = await readAccess(original, input.source_sha256, options);
-    const prepared = await prepareDocumentIsolated({ sourceKind: 'asset', sourceAssetId: input.source_asset_id, mimeType: input.mime_type, bytes: source }, { signal: options.signal });
+    const prepared = input.mime_type === 'application/pdf' && options.vision
+      ? await preparePdfWithVision(source, input.source_asset_id, { ...options.vision, signal: options.signal })
+      : await prepareDocumentIsolated({ sourceKind: 'asset', sourceAssetId: input.source_asset_id, mimeType: input.mime_type, bytes: source }, { signal: options.signal });
     const payload = serializeSpecsPreparation(prepared); const bytes = Buffer.from(payload, 'utf8');
     if (!positive(bytes.length)) invalid(); const digest = sha(bytes);
     const reservation = await bounded(signal => port.reserveOutput({ ...scope, output_key: 'document_text', asset_kind: 'document_text', filename: 'prepared-document.json',
@@ -169,5 +173,5 @@ export async function prepareSpecsFileStage(supplied: SpecsFileInput, suppliedSc
     if (!exact(saved, ['stored']) || saved.stored !== true) invalid();
     return { source_asset_id: input.source_asset_id, text_asset_id: asset.id, page_assets: [], paragraph_count: prepared.paragraphs.length,
       extraction_method: prepared.extractionMethod, warnings: prepared.warnings };
-  } catch (error) { if (error instanceof DocumentPreparationError) throw error; transferFailure(); }
+  } catch (error) { if (error instanceof DocumentPreparationError || error instanceof IntegrationError) throw error; transferFailure(); }
 }

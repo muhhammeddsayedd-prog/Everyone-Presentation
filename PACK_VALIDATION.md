@@ -11,13 +11,14 @@ Date: 27 October 2026. These checks validate the specification, not the future a
 - 11 standalone JSON schemas; source references and AI-object key contracts checked.
 - 76 unique acceptance cases; all 36 business rules represented.
 - Fixture Selection = 8 pages and Shortlist = 6 pages, independently derived in correct order.
-- 81 source-document local file links checked.
+- 508 source-document local file links checked.
 - Full JSON Schema meta-validation passed
 - Full OpenAPI meta-validation passed
 - PostgreSQL SQL syntax parsed: 63 statements; no SQL executed
 
 ## Limitations
 
+- Vendored skills, tooling/dependency environments, Git metadata, private local state, linked-provider metadata and generated runtime/test output are excluded from pack-source checks. Validate installed skills and application behavior with their separate checks.
 - Reference SQL was not executed against a database; function-body compilation, migration semantics and RLS behavior require M00–M07 implementation tests.
 - No cloud database, OpenAI request, n8n execution, live application, actual production PDF or MCP client was tested by this pack checker.
 

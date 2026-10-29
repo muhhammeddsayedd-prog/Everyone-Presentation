@@ -1,0 +1,23 @@
+{
+  "run_id": "06d070d5-3702-4834-8c40-6cff9a15899a",
+  "started_at": "2026-10-29T08:54:56.012Z",
+  "result": "passed",
+  "candidate": "development/m02/service-claim-replay-candidate.sql",
+  "assertions": "tests/db/m02-service-claim-replay.sql",
+  "source_seals": {
+    "candidate": "705d7432ab8cbe04fa5a94e090e1ce55e36c622590c09e0ce922ac5a59c6baf2",
+    "assertions": "98438c7e44285c20bc698776bca0fbc13728f0f3a49159f8771cae1af6f97bd8",
+    "readback": "8c23cba328e8eef38c99520807dcb680895b94b5508dc307932d01b5fda76a2f"
+  },
+  "harness_sha256": "ef57c008502f4d1f2e1cfb0c869ee7cf5423ea1ad6c0f48660f480a5d19b09bd",
+  "cloud_called": false,
+  "provider_called": false,
+  "credentials_read": false,
+  "scope": "Synthetic local SQL replay/expiry/access/ciphertext behavior; no HTTP, provider or deployed service proof.",
+  "before_catalog_sha256": "d7b6665c840d4c36f4ff33631448282b33b9c965db1046f564c829931a6b5ece",
+  "assertions_passed": true,
+  "transaction_completed_to_rollback": true,
+  "after_catalog_sha256": "d7b6665c840d4c36f4ff33631448282b33b9c965db1046f564c829931a6b5ece",
+  "rollback_verified": true,
+  "finished_at": "2026-10-29T08:55:09.367Z"
+}

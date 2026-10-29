@@ -101,7 +101,7 @@ export function FileSourceIntake({ spec, canWrite, uploadPurposes, storageOrigin
     <div className="field"><label htmlFor={inputId}>Document source</label><input ref={input} id={inputId} className="file-input" type="file" tabIndex={-1}
       accept=".pdf,.docx,.txt,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain"
       disabled={!allowed || busy || hasRequest} aria-describedby={helpId} onChange={event => { const file = event.target.files?.[0]; if (file) choose(file); }} />
-      <p id={helpId} className="small muted">Text-rich PDF, DOCX or UTF-8 text · up to 20 MiB. Save legacy .doc as DOCX. For scanned PDFs, paste the brief when readable text is unavailable.</p>
+      <p id={helpId} className="small muted">PDF, DOCX or UTF-8 text · up to 20 MiB. Save legacy .doc as DOCX. Scanned pages need vision processing; review the transcribed wording. If vision processing is unavailable, paste the brief.</p>
       <div className="button-row"><button className="button button-small button-quiet" type="button" disabled={!allowed || busy || hasRequest} onClick={() => input.current?.click()}>Choose document</button>
         {selected && <span className="small" dir="auto">{selected.name}</span>}</div></div>
     {!allowed && <p className="small muted">Document uploads are not available with the current workspace access. Paste text or edit requirements manually.</p>}

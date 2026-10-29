@@ -14,10 +14,11 @@ test('runtime configuration requires exactly the five private runtime fields', (
 });
 test('child environment contains scoped provider/runtime values and excludes management and ambient overrides', () => {
   const provider = { OPENAI_API_KEY: 'synthetic-openai', OPENAI_EXTRACTION_MODEL: 'synthetic-model', N8N_API_KEY: 'must-not-propagate' };
-  const child = createSpecsWorkerEnvironment(provider, fixture, { N8N_API_KEY: 'ambient', DATABASE_URL: 'ambient', OPENAI_BASE_URL: 'https://attacker.test', SystemRoot: 'synthetic-os' });
+  const child = createSpecsWorkerEnvironment(provider, fixture, { N8N_API_KEY: 'ambient', DATABASE_URL: 'ambient', OPENAI_BASE_URL: 'https://attacker.test', SystemRoot: 'synthetic-os', Path: 'ambient-search-path', PATH: 'ambient-search-path' });
   assert.equal(child.OPENAI_API_KEY, provider.OPENAI_API_KEY); assert.equal(child.SystemRoot, 'synthetic-os');
   assert.equal(child.N8N_API_KEY, undefined); assert.equal(child.DATABASE_URL, undefined); assert.equal(child.OPENAI_BASE_URL, undefined);
   assert.equal(child.NODE_ENV, 'production'); assert.equal(child.N8N_DISPATCH_SECRET, fixture.N8N_DISPATCH_SECRET);
+  assert.equal(child.PATH, ''); assert.equal(child.Path, undefined);
   const punctuation = 'synthetic"quoted\\password';
   assert.equal(createSpecsWorkerEnvironment(provider, { ...fixture, EPS_SPECS_PG_PASSWORD: punctuation }).EPS_SPECS_PG_PASSWORD, punctuation);
 });

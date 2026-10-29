@@ -10130,6 +10130,18 @@ components:
           type: array
           items:
             type: string
+        processing_issues:
+          type: array
+          uniqueItems: true
+          maxItems: 4
+          description: Safe persisted technical outcomes; originals and useful material remain available. Raw provider errors stay private.
+          items:
+            type: string
+            enum:
+            - NO_AUDIO
+            - TRANSCRIPTION_FAILED
+            - EXTRACTION_FAILED
+            - INSUFFICIENT_FRAMES
         available_frames:
           type: array
           items:
@@ -10150,6 +10162,7 @@ components:
       - transcript_asset_id
       - original_transcript
       - languages
+      - processing_issues
       - available_frames
       - selected_frame_asset_ids
       - row_version

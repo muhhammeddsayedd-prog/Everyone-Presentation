@@ -1,0 +1,29 @@
+{
+  "run_id": "1007aaa6-5a20-498b-b805-534f01ee983e",
+  "started_at": "2026-10-29T09:35:17.602Z",
+  "result": "failed",
+  "cloud_called": false,
+  "provider_called": false,
+  "credential_files_read": false,
+  "scope": "Synthetic SQL only: complete silent/zero-frame path, private payloads, callback replay and scoped asset fences; no native/video/Storage HTTP or provider acceptance.",
+  "source_seals": {
+    "development/m03/candidate-kernel-tables.sql": "7e5062f253c21b7fd345735fe10fb90a5079d4dd397871880f49f5250e94f08e",
+    "development/m03/candidate-user-assets.sql": "a8a0caed0138f8497840ec50b4f528974a6e2dc1425eee4072a1b84942f82312",
+    "development/m03/candidate-kernel.sql": "ab8d1a2a713493c62040526221cb0549b86526fe69e145e1c17d1627e098e8e3",
+    "development/m03/candidate-kernel-enqueue.sql": "c9b644e979c32954c8dee4e6d027122c61247dfa9900d29887bf4a1fedd4c523",
+    "development/m03/candidates-apply-candidate.sql": "44b709bad97865dd1817ab410ff11e4afd441cb65f64f34f1ba3c1293b6df63a",
+    "development/m03/candidate-kernel-events.sql": "af958308e6d32b6ec8733d039d778611e889908691bd4882ec5f6cfb2636bf83",
+    "development/m03/candidate-kernel-assets.sql": "f9e5bd820de7a7457f7025a5ecf5ab8bfbd4854eba6391a24655f39bbc3d8b75",
+    "development/m03/candidate-kernel-dispatch.sql": "5fbf7c32c073995b8890f4eb9ec60ea0f903c14ad1b7ccab9428edc696ab2284",
+    "development/m03/candidate-storage-policies.sql": "50fa9144989268e1722e77f0cb3a83eeec0c8ea0f1aefaa16a22468de5b40e56",
+    "tests/db/m03-candidate-kernel.sql": "ac94e4952157d3e613ed1963ad261fe188a2868d63842834a8a2f85e203304f2",
+    "tests/db/m03-candidate-kernel-behavior.sql": "d93efa879a3becdde86534c37a74cb47b8c28fec3d72bb5201d1fe1ae5bd4177"
+  },
+  "harness_sha256": "7d78e345cd08f5ce3e7aba8afd636e83770caab499761226f4b92630b5666f45",
+  "before_sha256": "da91d4b58ecdaff139b8e53d70da9f1bc963da9cd67a3f4b1a08536b1a082d71",
+  "diagnostic": "ERROR:  CANDIDATE_KERNEL_ASSERTION: new media does not replace project chosen recording\nCONTEXT:  PL/pgSQL function pg_temp_15.kernel_assert(boolean,text) line 2 at RAISE\nSQL statement \"SELECT pg_temp.kernel_assert((select selected_candidate_media_id=chosen from eps.workspace_candidates where id=current_setting('eps.behavior.pool')::uuid),'new media does not replace project chosen recording')\"\nPL/pgSQL function inline_code_block line 18 at PERFORM\n",
+  "after_sha256": "da91d4b58ecdaff139b8e53d70da9f1bc963da9cd67a3f4b1a08536b1a082d71",
+  "rollback_verified": true,
+  "sources_stable": true,
+  "finished_at": "2026-10-29T09:35:27.203Z"
+}

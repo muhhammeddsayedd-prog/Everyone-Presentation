@@ -1,0 +1,75 @@
+{
+  "observed_at": "2026-10-29T10:20:19.122534+00:00",
+  "target": "pyibofyctwnqpvktepse",
+  "result": "ocr_metadata_captured",
+  "scope": "Actual image-only synthetic PDF processed through the signed-in app; OCR event projection and fixed read-only canonical metadata.",
+  "job_id": "e7316bb7-4c40-4460-8d17-15503ba12315",
+  "source_asset_id": "c7a82096-7a56-415c-9ba1-eeb4bbb0e708",
+  "source_sha256": "2f1508bf45a46ae81f3459b1507db58f1e9af41591a0367b643dce973823225f",
+  "read_only": true,
+  "cloud_called_by_capture": false,
+  "provider_called_by_capture": false,
+  "storage_http_called_by_capture": false,
+  "raw_source_images_provider_bodies_or_credentials_recorded": false,
+  "log": {
+    "path": ".local/specs-runtime/worker-pdf-vision-v1.stdout.log",
+    "sha256": "5f438622409c1742f9a430dd7a07b9e124c83c5e7303b2d7988bcfb8b31a5eaf",
+    "bytes": 3518,
+    "modified_at": "2026-10-29T10:20:13.230318+00:00"
+  },
+  "harness_sha256": "fb9373d5b0d38c84d45040617d4dcd56eab57818e4e06c2c059ed965f13ac6c8",
+  "ocr_pages": [
+    {
+      "job_id": "e7316bb7-4c40-4460-8d17-15503ba12315",
+      "attempt_id": "c27e374a-d1c5-4497-abda-b173014e6127",
+      "input_hash": "c86a713b7b100ead3f345631b72ab80abe06e52c64b5dfa033278b6415598197",
+      "source_asset_id": "c7a82096-7a56-415c-9ba1-eeb4bbb0e708",
+      "source_sha256": "2f1508bf45a46ae81f3459b1507db58f1e9af41591a0367b643dce973823225f",
+      "page": 1,
+      "provider": "openai",
+      "sdk_version": "7.45.1",
+      "requested_model": "gpt-6.1-sol",
+      "resolved_model": "gpt-6.1-sol",
+      "prompt_version": "pdf-page-ocr.v1",
+      "prompt_sha256": "2f3890d1a42ba12d3b5459c835242d3bf89a9b44162ba230d5ac1d81f2e53d17",
+      "schema_sha256": "adf7dc76a4b2b6eabb296774dfc8f8a832c4635ba1e226469bb090628f4a5850",
+      "image_sha256": "5479d61fac8f02738b30a3bdb4cab93d346400fe8b67e8443470d5347afe2e71",
+      "elapsed_ms": 4620,
+      "rasterizer_version": "pdftoppm version 22.12.0",
+      "usage": {
+        "input_tokens": 3157,
+        "output_tokens": 142,
+        "total_tokens": 3299
+      },
+      "response_reference_present": true,
+      "response_id_sha256": "c0531da333838fdea147df87ffdec351f0cf35e73986653df1e2ea1603893b3e",
+      "request_reference_present": true
+    },
+    {
+      "job_id": "e7316bb7-4c40-4460-8d17-15503ba12315",
+      "attempt_id": "c27e374a-d1c5-4497-abda-b173014e6127",
+      "input_hash": "c86a713b7b100ead3f345631b72ab80abe06e52c64b5dfa033278b6415598197",
+      "source_asset_id": "c7a82096-7a56-415c-9ba1-eeb4bbb0e708",
+      "source_sha256": "2f1508bf45a46ae81f3459b1507db58f1e9af41591a0367b643dce973823225f",
+      "page": 2,
+      "provider": "openai",
+      "sdk_version": "7.45.1",
+      "requested_model": "gpt-6.1-sol",
+      "resolved_model": "gpt-6.1-sol",
+      "prompt_version": "pdf-page-ocr.v1",
+      "prompt_sha256": "2f3890d1a42ba12d3b5459c835242d3bf89a9b44162ba230d5ac1d81f2e53d17",
+      "schema_sha256": "adf7dc76a4b2b6eabb296774dfc8f8a832c4635ba1e226469bb090628f4a5850",
+      "image_sha256": "9c1f8762e84d56f0bdc6c1533b3dbdad1870b27d9f3fbf6a530dc42d797aa274",
+      "elapsed_ms": 5298,
+      "rasterizer_version": "pdftoppm version 22.12.0",
+      "usage": {
+        "input_tokens": 3157,
+        "output_tokens": 259,
+        "total_tokens": 3416
+      },
+      "response_reference_present": true,
+      "response_id_sha256": "989cf8caf3008ca1101118b0fc1146b1e1fb8c3c2bb75a830b83ff7f64b2da59",
+      "request_reference_present": true
+    }
+  ]
+}

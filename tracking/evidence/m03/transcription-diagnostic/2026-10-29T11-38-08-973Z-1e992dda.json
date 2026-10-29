@@ -1,0 +1,52 @@
+{
+  "run_id": "1e992dda-9608-4d1b-a802-be4fed8dc36c",
+  "started_at": "2026-10-29T11:38:06.220Z",
+  "result": "passed",
+  "scope": "One root-authorized direct OpenAI transcription diagnosis from the already-authorized private cached derivative; not an app/job/n8n acceptance run.",
+  "source_asset_id": "b4dc1c1d-6b7c-45b1-a4ed-b0063372b57f",
+  "source_sha256": "260b82845e677126cfcdc0d99479eaf22eec13c84f6a4c8845e7fd95c49d1010",
+  "audio_sha256": "cccfa052790adb1cb4b8c528dc1082abea3aa0bf987a8adae2d7e6b32c233e63",
+  "cloud_database_called": false,
+  "storage_called": false,
+  "n8n_called": false,
+  "worker_restarted": false,
+  "job_or_lease_modified": false,
+  "provider_invocation_attempted": true,
+  "provider_invocation_succeeded": true,
+  "provider_invocation_uncertain": false,
+  "raw_source_transcript_provider_body_or_credentials_in_public_receipt": false,
+  "requested_model": "gpt-transcribe",
+  "sdk_version": "7.45.1",
+  "audio_bytes": 79816,
+  "audio_duration_ms": 19800,
+  "private_cache_sha256": "8797137f72e12455a6ecbf7f6d4cb084ca1d95fd0e201d2c4f84f42f54846081",
+  "harness_sha256": "e39a5c9bf565b28487dbc4946b762f4ac093ad3c7b9fcb50f613c3f8e056ff3d",
+  "elapsed_ms": 2731,
+  "private_product_output_saved": true,
+  "private_product_sha256": "fce250942ad3c4a9a709448bccf8d654ace6f7a8c5c34c54cbe9f1e6201a7bc2",
+  "segment_count": 1,
+  "text_sha256": "188a0adabc9f9c13a1c955ee5829b51b1fb1f46195d5329b1ff2bccef13750b7",
+  "text_characters": 152,
+  "has_arabic": true,
+  "has_latin": false,
+  "provider_metadata": [
+    {
+      "provider": "openai",
+      "sdk_version": "7.45.1",
+      "requested_model": "gpt-transcribe",
+      "resolved_model": null,
+      "prompt_version": "transcription-original-language.v1",
+      "input_sha256": "cccfa052790adb1cb4b8c528dc1082abea3aa0bf987a8adae2d7e6b32c233e63",
+      "audio_duration_ms": 19800,
+      "request_id_present": true,
+      "request_id_sha256": "f7d3707844be0283cf94e8c10c9d9a28b1e18a32680958d4b1e6a432d4ce822b",
+      "response_id_present": false,
+      "response_id_sha256": null,
+      "usage": {
+        "seconds": 20
+      }
+    }
+  ],
+  "request_status": "completed",
+  "finished_at": "2026-10-29T11:38:08.973Z"
+}

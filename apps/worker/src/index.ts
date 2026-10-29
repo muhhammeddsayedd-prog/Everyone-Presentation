@@ -4,3 +4,8 @@ export * from './process.ts';
 export { preparePastedText } from './pasted-text.ts';
 export * from './storage.ts';
 export * from './specs-executor.ts';
+export * from './video-types.ts';
+export { prepareVideoIsolated } from './video-container.ts';
+export { scanCandidateVideo } from './candidate-scan.ts';
+export { executeCandidateStage } from './candidate-stage-executor.ts';
+export { createCandidateStageAssets } from './candidate-assets.ts';

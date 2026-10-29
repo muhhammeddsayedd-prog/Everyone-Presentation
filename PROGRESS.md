@@ -1,8 +1,8 @@
 # Development progress — Everyone Presentation Studio
 
-**Last updated:** 2026-10-29 · **Pack:** 1.0 · **Current milestone:** M01 — in progress
+**Last updated:** 2026-10-29 · **Pack:** 1.0 · **Current milestone:** M03 — in progress
 
-**Current reality:** M00 is verified; M01/M02 remain in progress; M03-M07 have not started. Thirteen coordinated migrations are applied locally and to the canonical Supabase project. Actual signed-in PDF and mixed English/Arabic DOCX processing passed through private Storage, the local native worker, n8n and OpenAI (3384/3286 tokens), producing3roles/5slots with grounded references and retained originals/earlier origins. Corrupt input created no processing job or fact changes; four ungranted reads were denied. A further real extraction retained a pending manual correction and all existing facts, ending intentionally Needs input/INPUT_CHANGED. Hosting remains deferred; full M01/facade/MCP/recovery/restore/production acceptance is separate.
+**Current reality:** M00 and M02 are verified within their acceptance scopes; M01 remains in progress and M03 is in progress. Seventeen coordinated migrations are applied locally and to canonical Supabase. One real Arabic introduction completed all five app stages with private Storage, n8n, native processing and OpenAI;12 frames load,3 are selected, transcript/fields/unknowns render, the original loads, and shared frame edits preserve project pins. Three failed jobs remain retained. Four M03 feature gaps, independent quality/language coverage (including a SAR geometry follow-up), and full release proof remain. Hosting stays deferred.
 
 The machine-readable status mirror is [tracking/progress.json](tracking/progress.json). Update this file and that file together whenever work status changes. Evidence fields must describe actual work only.
 
@@ -12,8 +12,8 @@ The machine-readable status mirror is [tracking/progress.json](tracking/progress
 |---|---|---|---|---|
 | M00 Discovery and contracts | verified | tracking/discovery/; central-schema-map.yaml | Actual new canonical ownership/auth/history, guarded local replay and provider capability inventory | Continue M01; future provider/release gates remain explicit |
 | M01 Foundation, project and logo | in_progress | apps/web/; packages/domain/; packages/central/; 6 M01 migrations applied | Real cloud schema/readback and local role/race proof; synthetic full UI plus central anonymous UI | Finish scoped central uploads and actual Producer/project journey |
-| M02 Specs, roles and first durable pipeline | in_progress | Local/cloud13, live WF01 and local private file worker | Actual PDF/DOCX/private Storage/OpenAI, corrupt-file no-job rejection and manual protection; prior pasted/cancel/relaunch proofs retained | Finish remaining facade/MCP/recovery acceptance; preserve intentional protected test job; hosting deferred |
-| M03 Media, library and video processing | not_started | None | Real uploads/transcripts/frames; reuse/duplicate handling; independent failures | Depends on M02 |
+| M02 Specs, roles and first durable pipeline | verified | Local/cloud14+16, live WF01 and private document worker | Acceptance matrix: real text/PDF/DOCX/scanned PDF, protected edits, HTTP replay/restart/recovery and local MCP | Continue M03; M07 external OAuth/restore/hosting/endurance remain separate |
+| M03 Media, library and video processing | in_progress | Local/cloud15+17; canonical library, API/MCP, private video intake and worker | Actual manual two-project reuse; one real Arabic video/OpenAI success,12 loaded frames, original loading and independent pin checks; failures retained | Finish live vertical path and four documented feature gaps; hosting deferred |
 | M04 Assignments and final review | not_started | None | Selection/Shortlist rules; one-Main concurrency; edits/confirmation | Depends on M03 |
 | M05 Template, versioning and PDF | not_started | None | Frozen manifests; real viewer/PDF; historical media; render recovery | Depends on M04 |
 | M06 External review and delivery | not_started | None | Latest-ready scoped links; guest feedback; link-scoped PDFs; expiry/revoke | Depends on M05 |
@@ -26,6 +26,23 @@ The machine-readable status mirror is [tracking/progress.json](tracking/progress
 `in_progress` or `implemented_unverified → blocked` when a required dependency is unavailable; record the prior state and work still possible. `verified → in_progress` when a later change invalidates acceptance. A milestone with any unrun required integration check cannot be `verified`. Documentation corrections alone do not change implementation status.
 
 ## Session log (append newest first)
+
+### 2026-10-29 - Actual M03 video path and private frame display verified
+
+- App job55415ff2 completed five stages with a Ready19.8-second original, private Arabic transcript,4 source-grounded populated/7unknown extraction fields, OpenAI1649 extraction tokens and separately read-back20 seconds of transcription usage. All12 registered JPEGs load through authenticated content;3 are selected. All11 fact properties (ten conceptual fields), unknown wording and transcript render. Actual profile remains Unreviewed with age-as-of unknown. See [canonical evidence](tracking/evidence/m03/live-capture/README.md) and [browser metadata proof](tracking/evidence/m03/app-media-read/browser-media-success.json).
+- Fixed actual generic-media routing that treated candidate frames as logos. Fresh principal-matched global cast.read selects the strict candidate reader before legacy project-scoped probes; only typed404 permits fallback. Readers recheck their own authorization/metadata. A frame preview failure now has explicit UI feedback. Original-video metadata loads; semantic/SAR quality remains separate.
+- Actual shared frame edit persisted while project pins stayed at3.12/12.48/14.04 seconds; the shared default order was restored. The synthetic profile also has independent availability in the two canonical projects. No casting approval or invented personal fact was created.
+- Three real failed video jobs remain. Third attempt recovered an expired prepare lease but later failed with PROCESSING_FAILED; its exact cause and any prior provider billing remain unconfirmed. A direct diagnostic service probe passed but receives no app-flow credit. Reviewed clean-pool reuse, finite-expiry checks and callback-only identical-event retry improve recovery without provider recomputation or wider TLS/ACL authority.
+- Current391 module tests and global lint pass; earlier operational88/Python132 checks have separate retained receipts. Initial evidence-count collection failure is preserved with read-only count reconciliation. Final build/source/archive/privacy verification is recorded separately. M03 stays in progress; see [remaining requirements](tracking/evidence/m03/REMAINING_REQUIREMENTS_REVIEW.md).
+
+### 2026-10-29 - M02 acceptance closed; M03 canonical library and pipeline in development
+
+- M02 now verified against [the acceptance matrix](tracking/evidence/m02/ACCEPTANCE_MATRIX.md). Actual scanned two-page English/Arabic PDF completed OCR6715 plus extraction2682 tokens, private original/derivative integrity, grounded references and saved editable requirements. Actual ServiceBearer same-event replay survives web restart and real n8n/OpenAI2233-token recovery. Original manual-protected job remains untouched.
+- Canonical migration15/library and17/pipeline were applied once. Their conservative comparison failures remain retained; bounded read-only reconciliation establishes only pre-existing managed Storage catalog differences, all at-apply business preservation and unchanged runtime11. Subsequent authorized app writes are recorded separately.
+- Created owner-authorized Dummy Reuse Test under the existing Dummy Client; reused the synthetic manual profile from both projects with different saved availability. Default Reviewed semantics, manual facts and strict private media operations are implemented. No placeholder Auth user was created.
+- Candidate processing enabled in the canonical singleton and protected local configuration after reviewed dry-runs/readback. Global Storage50MiB cap is explicitly advertised/enforced without changing the retained256MiB technical target or provider plan. Native work stays local, with no hosting selected.
+- Three real-video attempts retain observed failures. Exact-image native decoding succeeds; declared-vs-verified checksum and strict audio-reference handoffs were fixed with RED/GREEN regressions. Connection churn and callback acknowledgement resilience are being verified before the next app attempt. No video AI/factual accuracy acceptance is fabricated.
+- Remaining M03 requirements are explicit in [the review](tracking/evidence/m03/REMAINING_REQUIREMENTS_REVIEW.md): true resumable progress/cancel, supporting attachments, role filter suggestions and chosen-timestamp frame extraction. M01/logo and M07/release proof remain separate.
 
 ### 2026-10-29 - Uploaded specs verified through the real app
 

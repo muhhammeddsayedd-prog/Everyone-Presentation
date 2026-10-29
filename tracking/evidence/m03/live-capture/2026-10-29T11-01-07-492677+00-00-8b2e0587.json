@@ -1,0 +1,143 @@
+{
+  "observed_at": "2026-10-29T11:01:07.492677+00:00",
+  "target": "pyibofyctwnqpvktepse",
+  "result": "captured",
+  "read_only": true,
+  "workspace_id": "e470aefd-e0f7-480c-bf0d-170cb2cb7069",
+  "project_id": "bd14d10f-b1c5-4d6a-8b4d-e5c48208433c",
+  "sql_sha256": "16434bad7d3c466bf7778d74afec946cfbef2f423b6d58a3eb152b12939a5456",
+  "harness_sha256": "d54121365fdf41efb02fc0dce50566c3428c097a6f01c2544996e075f3e03677",
+  "protected_m02_baseline": "tracking/evidence/m02/specs-protection/2026-10-29T07-41-19-350729+00-00-72ea632b-metadata.json",
+  "protected_m02_baseline_sha256": "ed1808fcaf6be97391439d27f98f34656f1b40cd711c03df94ae1879246b6351",
+  "cloud_called": true,
+  "provider_called": false,
+  "storage_http_called": false,
+  "mutations_requested": false,
+  "raw_private_payloads_recorded": false,
+  "scope": "Actual fixed-workspace candidate jobs: canonical metadata only. No semantic accuracy, native image bytes or billing completeness claim.",
+  "n8n_boundary": "Database retains the last workflow execution ID only; stage events/outbox metadata do not enumerate five individual workflow IDs.",
+  "native_image_boundary": "Preparation records implementation and FFmpeg metadata; configured immutable image is evidenced separately by activation/launch receipts.",
+  "proof": {
+    "configuration": {
+      "enabled": true,
+      "extraction_model": "gpt-6.1-sol",
+      "media_implementation_version": "video-preparation.v1",
+      "prompt_version": "candidate-v1",
+      "schema_version": "1.0",
+      "transcription_model": "gpt-transcribe"
+    },
+    "database": "postgres",
+    "job_count": 1,
+    "jobs": [
+      {
+        "application": null,
+        "attempt_count": 1,
+        "attempts": [
+          {
+            "attempt_id": "aebdebb3-4dca-4283-9a86-0be2e5eec2d7",
+            "events": 1,
+            "failed_events": 1,
+            "first_at": "2026-10-29T11:00:19.809703+00:00",
+            "first_sequence": 1,
+            "heartbeats": 0,
+            "last_at": "2026-10-29T11:00:19.809703+00:00",
+            "last_sequence": 1,
+            "progress_events": 0,
+            "stage": "prepare_candidate",
+            "succeeded_events": 0
+          }
+        ],
+        "batch_id": null,
+        "cancel_requested": false,
+        "completed_stages": [],
+        "configuration": {
+          "extraction_model": "gpt-6.1-sol",
+          "media_implementation_version": "video-preparation.v1",
+          "prompt_version": "candidate-v1",
+          "schema_version": "1.0",
+          "transcription_model": "gpt-transcribe"
+        },
+        "created_at": "2026-10-29T11:00:11.376887+00:00",
+        "error_code": "SOURCE_UNREADABLE",
+        "error_sha256": "c2a6c30ad3aa259f5ea7680ed1e4a017eef5178f3464d0210f6693a88ae8f4f4",
+        "extraction": null,
+        "input_sha256": "18694c76b5c89d81a741183c4b98d78c3a0df83097cbb27b2caef96989fdffd0",
+        "job_id": "3a535387-bc1a-4e31-9bb4-34369d758238",
+        "n8n_execution_id": "31309",
+        "outbox": [
+          {
+            "attempt_count": 1,
+            "delivered_at": "2026-10-29T11:00:16.68938+00:00",
+            "dispatch_generation": 1,
+            "input_hash_matches": true,
+            "last_error_present": false,
+            "outbox_id": "6b99fb29-e93d-4167-b58a-60a74b12a9f4",
+            "stage": "prepare_candidate",
+            "status": "delivered"
+          }
+        ],
+        "preparation": null,
+        "providers": [],
+        "row_version": 3,
+        "source": {
+          "asset_id": "570f4097-bfb4-4283-8573-1c17d093d619",
+          "duration_ms": null,
+          "frozen_source_matches": null,
+          "height": null,
+          "private_path_bound": true,
+          "sha256": null,
+          "size_bytes": 3968236,
+          "status": "uploading",
+          "width": null
+        },
+        "source_asset_id": "570f4097-bfb4-4283-8573-1c17d093d619",
+        "stage": "prepare_candidate",
+        "stage_attempts": {
+          "apply_candidate": 0,
+          "extract_candidate": 0,
+          "prepare_candidate": 1,
+          "select_frames": 0,
+          "transcribe_candidate": 0
+        },
+        "status": "failed",
+        "transcription": null,
+        "updated_at": "2026-10-29T11:00:19.80607+00:00",
+        "upload_id": "da3f42a2-af6b-468f-8119-9c7024312a63"
+      }
+    ],
+    "observed_at": "2026-10-29T11:01:15.321468+00:00",
+    "project_id": "bd14d10f-b1c5-4d6a-8b4d-e5c48208433c",
+    "protected_m02": {
+      "job_checkpoint_unchanged": true,
+      "manual_note_retained": true,
+      "spec_checkpoint_unchanged": true
+    },
+    "query_role": "postgres",
+    "workspace_id": "e470aefd-e0f7-480c-bf0d-170cb2cb7069"
+  },
+  "summary": {
+    "outcomes": {
+      "queued": 0,
+      "running": 0,
+      "waiting_for_input": 0,
+      "succeeded": 0,
+      "failed": 1,
+      "cancelled": 0
+    },
+    "jobs": [
+      {
+        "job_id": "3a535387-bc1a-4e31-9bb4-34369d758238",
+        "status": "failed",
+        "five_stages_committed": false,
+        "source_ready": false,
+        "provider_metadata_rows": 0,
+        "transcript_present": false,
+        "extraction_present": false,
+        "grounded_locators": null,
+        "candidate_media_applied": false,
+        "partial_material": false
+      }
+    ],
+    "protected_m02_unchanged": true
+  }
+}

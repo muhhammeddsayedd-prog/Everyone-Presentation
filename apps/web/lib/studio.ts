@@ -5,6 +5,7 @@ import { createCentralStudio, readCentralConfig, type CentralStudioOptions } fro
 import { getCentralClient } from './central-client';
 import { readCentralLogoOptions } from './logo-config';
 import { readCentralSpecsOptions } from './specs-config';
+import { readCentralCandidateOptions } from './candidate-config';
 
 export async function decodeLogo(bytes: Uint8Array) {
   const image = sharp(bytes, { limitInputPixels: 40_000_000, animated: false, failOn: 'warning' });
@@ -31,8 +32,8 @@ export async function getStudio() {
     catch (error) {
       if (!(error instanceof DomainError) || error.code !== 'SPECS_STORAGE_CONFIGURATION_REQUIRED') throw error;
     }
-    return createCentralStudio(await getCentralClient(), { logo, specs,
-      logoRead: { storageOrigin: central.url, brandBucket: 'eps-brand-assets' }, specsRead: { storageOrigin: central.url } });
+    return createCentralStudio(await getCentralClient(), { logo, specs, candidate: readCentralCandidateOptions(),
+      logoRead: { storageOrigin: central.url, brandBucket: 'eps-brand-assets' }, specsRead: { storageOrigin: central.url }, candidateRead: { storageOrigin: central.url } });
   }
   return createStudio({ dataDir: config.dataDir, environment: config.environment,
     adapterMode: 'local_fixture', appBaseUrl: config.baseUrl, decodeLogo });

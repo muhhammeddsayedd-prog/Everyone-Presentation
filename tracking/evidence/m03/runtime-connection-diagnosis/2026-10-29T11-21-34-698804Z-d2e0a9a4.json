@@ -1,0 +1,25 @@
+{
+  "observed_at": "2026-10-29T11:21:43.176954+00:00",
+  "target": "pyibofyctwnqpvktepse",
+  "scope": "Read-only aggregate activity for eps_specs_runtime only; no SQL text, source, user rows, PID, IP, credentials or process action",
+  "read_only": true,
+  "sql_sha256": "7352507adc9061035b28dac47cd7c9e5755a2894eba1457b750f5765dfecec04",
+  "exit_code": 0,
+  "configuration_changed": false,
+  "worker_stopped": false,
+  "result": "captured",
+  "activity": {
+    "connection_limit": 4,
+    "observed_at": "2026-10-29T11:21:43.044419+00:00",
+    "runtime_role": "eps_specs_runtime",
+    "states": [
+      {
+        "backend_count": 2,
+        "state": "idle",
+        "wait_event": "ClientRead",
+        "wait_event_type": "Client"
+      }
+    ],
+    "total_runtime_backends": 2
+  }
+}

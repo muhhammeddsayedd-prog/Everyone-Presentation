@@ -1,0 +1,53 @@
+{
+  "observed_at": "2026-10-29T09:53:41.231Z",
+  "result": "passed",
+  "action": "probe",
+  "workflow_id": "gfhxzvSkprS2CI4o",
+  "stages": [
+    {
+      "stage": "prepare_candidate",
+      "http_status": 200,
+      "execution_id": "31295",
+      "bound_response": true
+    },
+    {
+      "stage": "transcribe_candidate",
+      "http_status": 200,
+      "execution_id": "31296",
+      "bound_response": true
+    },
+    {
+      "stage": "extract_candidate",
+      "http_status": 200,
+      "execution_id": "31297",
+      "bound_response": true
+    },
+    {
+      "stage": "select_frames",
+      "http_status": 200,
+      "execution_id": "31298",
+      "bound_response": true
+    },
+    {
+      "stage": "apply_candidate",
+      "http_status": 200,
+      "execution_id": "31299",
+      "bound_response": true
+    }
+  ],
+  "unauthorized_http_status": 403,
+  "invalid_http_status": 400,
+  "malformed_stage_http_status": 400,
+  "real_workflow_executions": true,
+  "database_work_claimed": false,
+  "provider_invoked": false,
+  "hosting_deferred": true,
+  "observations": [
+    {
+      "operation": "workflow_readback",
+      "method": "GET",
+      "http_status": 200,
+      "bytes": 10680
+    }
+  ]
+}

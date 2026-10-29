@@ -1,0 +1,164 @@
+{
+  "name": "Process candidate stages - Everyone Presentation Studio WF02",
+  "nodes": [
+    {
+      "id": "33c30000-0000-4000-8000-000000000001",
+      "name": "Receive candidate stage",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "33c30000-0000-4000-8000-000000000005",
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "eps-wf02-candidate-stage-v1",
+        "authentication": "headerAuth",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "AqFQHldQ9wmoxg7V",
+          "name": "Everyone Presentation Studio WF02 local dispatch"
+        }
+      },
+      "notes": "Dedicated dispatch credential reference only. This API carries job metadata; no source, provider payload, lease or result belongs in n8n."
+    },
+    {
+      "id": "33c30000-0000-4000-8000-000000000002",
+      "name": "Validate stage envelope",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        320,
+        0
+      ],
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={{ (function mapCandidateStageEnvelope(body,executionId) {\n  const fields=['event_id','event_type','contract_version','job_id','kind','stage','input_hash','correlation_id'];\n  const safe=value=>typeof value==='string'&&/^[A-Za-z0-9._:-]{1,200}$/u.test(value);\n  const handlers={prepare_candidate:'native.prepare_candidate',transcribe_candidate:'openai.transcribe_candidate',extract_candidate:'openai.extract_candidate',select_frames:'native.select_frames',apply_candidate:'domain.apply_candidate'};\n  const invalid=()=>({status:400,body:{error:{code:'DISPATCH_ENVELOPE_INVALID',message:'Use the published candidate stage envelope.'}}});\n  if(!body||typeof body!=='object'||Array.isArray(body)||Object.keys(body).length!==fields.length||fields.some(key=>!Object.hasOwn(body,key))\n    ||body.event_type!=='job.stage_ready'||body.contract_version!=='1.0'||body.kind!=='candidate_scan'||!safe(body.event_id)||!safe(body.job_id)||!safe(body.correlation_id)\n    ||typeof body.stage!=='string'||!Object.hasOwn(handlers,body.stage)||typeof body.input_hash!=='string'||!/^[a-f0-9]{64}$/u.test(body.input_hash))return invalid();\n  if(!safe(executionId))return {status:500,body:{error:{code:'WF02_INTERNAL_ERROR',message:'The candidate work order could not be prepared.'}}};\n  return {status:200,body:{schema_version:'1.0',event_id:body.event_id,job_id:body.job_id,kind:body.kind,stage:body.stage,input_hash:body.input_hash,\n    correlation_id:body.correlation_id,workflow_execution_id:executionId,handler:handlers[body.stage]}};\n})($('Receive candidate stage').first().json.body, $execution.id) }}",
+        "includeOtherFields": false,
+        "options": {
+          "stripBinary": true,
+          "dotNotation": false
+        }
+      },
+      "onError": "continueErrorOutput",
+      "notes": "Closed eight-field envelope. Build only the nine-field work order, bind the real execution ID and remove every inbound header/other field. Database outbox and native worker own retry, source access and completion."
+    },
+    {
+      "id": "33c30000-0000-4000-8000-000000000003",
+      "name": "Respond with work order",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        680,
+        0
+      ],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $('Validate stage envelope').first().json.body }}",
+        "options": {
+          "responseCode": "={{ $('Validate stage envelope').first().json.status }}",
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "Cache-Control",
+                "value": "no-store"
+              }
+            ]
+          }
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "id": "33c30000-0000-4000-8000-000000000004",
+      "name": "Respond with internal error",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        680,
+        260
+      ],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ ({ error: { code: \"WF02_INTERNAL_ERROR\", message: \"The candidate work order could not be prepared.\" } }) }}",
+        "options": {
+          "responseCode": 500,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "Cache-Control",
+                "value": "no-store"
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Receive candidate stage": {
+      "main": [
+        [
+          {
+            "node": "Validate stage envelope",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate stage envelope": {
+      "main": [
+        [
+          {
+            "node": "Respond with work order",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond with internal error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond with work order": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Respond with internal error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Africa/Cairo",
+    "executionTimeout": 30,
+    "saveDataErrorExecution": "none",
+    "saveDataSuccessExecution": "none",
+    "saveManualExecutions": false,
+    "saveExecutionProgress": false,
+    "callerPolicy": "none",
+    "availableInMCP": false
+  }
+}

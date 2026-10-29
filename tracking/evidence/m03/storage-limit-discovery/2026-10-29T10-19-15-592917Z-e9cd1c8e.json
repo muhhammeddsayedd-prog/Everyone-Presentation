@@ -1,0 +1,24 @@
+{
+  "observed_at": "2026-10-29T10:19:22.133067+00:00",
+  "target": "pyibofyctwnqpvktepse",
+  "action": "read-only existing-credential config pull --dry-run",
+  "command": "npx.cmd --yes supabase@2.122.0 config pull --dry-run --project-ref pyibofyctwnqpvktepse --output-format json --workdir <isolated ignored task directory>",
+  "cli_exit_code": 0,
+  "setting": "storage.file_size_limit",
+  "configured": "50MiB",
+  "maximum_bytes": 52428800,
+  "app_native_candidate_maximum_bytes": 268435456,
+  "global_limit_permits_app_maximum": false,
+  "plan": "unknown; not inferred from limit",
+  "project_and_repo_config_unchanged": true,
+  "project_or_repo_config_written": false,
+  "credentials_created_or_extracted": false,
+  "raw_config_or_diagnostics_retained": false,
+  "source_sha256": "5845773849c369b439a57b069738d901fa5896d9a911dbe823ca47cb1f528891",
+  "request_scope": "metadata only; no upload, bucket mutation, plan or billing action",
+  "sources": [
+    "https://supabase.com/docs/guides/storage/uploads/file-limits",
+    "https://supabase.com/docs/reference/api/v1-get-storage-config"
+  ],
+  "local_comparison_only": "1B is a private local comparator, never a project configuration change"
+}

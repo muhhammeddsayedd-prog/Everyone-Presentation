@@ -206,29 +206,31 @@ canonical_entities:
     mapping_state: Auth key/functions observed and membership/RPC changes cloud-applied/read back; no auth users or grants created.
   candidate:
     reuse_existing: false
-    schema: null
-    table: null
-    primary_key: []
-    casting_extension_relation: null
-    duplicate_identity_conventions: null
-    physical_fk_from_binding: null
-    decision: No existing cast/person records in approved empty canonical source; design canonical reusable casting fields in M03 without a duplicate live owner.
+    schema: eps
+    table: candidates
+    primary_key: [{column: id, sql_type: uuid}]
+    casting_extension_relation: No competing person table; eps.candidates is the single reusable supplied-fact owner in the approved initially empty source.
+    duplicate_identity_conventions: Stable UUID identity; case-insensitive unique casting_id; a supplied scanned source_casting_id can suggest an explicit match without forcing a merge. Same name alone only suggests a match.
+    physical_fk_from_binding: Direct eps.candidate_media.candidate_id and eps.workspace_candidates.candidate_id foreign keys.
+    decision: No existing cast/person records existed in the owner-approved canonical source; M03 establishes one reusable owner rather than copying facts from another live system.
+    mapping_state: Migration20261029090724 applied locally/cloud. Captured release preserved old rows; fresh catalog/history reconciled read-only at2026-10-29T09:17:36Z. Live scan/worker and UI acceptance remain separate.
+    mapping_evidence: tracking/evidence/cloud-candidate-library/2026-10-29T09-17-36-634213Z-0cad2e2b-managed-storage-readonly-reconcile.json
 
 candidate_field_ownership:
-  # Actual empty baseline contained no candidate/person fields. Physical paths are
-  # null because M03 has not created that single reusable owner, not because a
-  # discovered existing fact owner was left unmapped. Do not duplicate live facts.
-  display_name: {owner: unverified, path: null, write_adapter: null}
-  casting_id: {owner: unverified, path: null, write_adapter: null}
-  stated_age_range: {owner: unverified, path: null, write_adapter: null}
-  gender_stated: {owner: unverified, path: null, write_adapter: null}
-  measurements: {owner: unverified, path: null, write_adapter: null}
-  languages_accents: {owner: unverified, path: null, write_adapter: null}
-  skills_experience: {owner: unverified, path: null, write_adapter: null}
-  city: {owner: unverified, path: null, write_adapter: null}
-  previous_projects: {owner: unverified, path: null, write_adapter: null}
-  classification: {owner: unverified, path: null, write_adapter: null}
-  review_status: {owner: unverified, path: null, write_adapter: null}
+  # Single canonical owner created by M03 after the verified empty baseline.
+  # Raw supplied wording is retained. Search currently uses supplied text/arrays;
+  # no demographic inference or fabricated structured measurement is stored.
+  display_name: {owner: eps.candidates, path: facts.name, write_adapter: public.eps_update_candidate}
+  casting_id: {owner: eps.candidates, path: casting_id and facts.casting_id, write_adapter: public.eps_update_candidate}
+  stated_age_range: {owner: eps.candidates, path: facts.age_or_range with age_as_of observation date, write_adapter: public.eps_update_candidate}
+  gender_stated: {owner: eps.candidates, path: facts.stated_gender, write_adapter: public.eps_update_candidate}
+  measurements: {owner: eps.candidates, path: facts.height_measurements, write_adapter: public.eps_update_candidate}
+  languages_accents: {owner: eps.candidates, path: facts.languages and facts.accents, write_adapter: public.eps_update_candidate}
+  skills_experience: {owner: eps.candidates, path: facts.skills_experience, write_adapter: public.eps_update_candidate}
+  city: {owner: eps.candidates, path: facts.city, write_adapter: public.eps_update_candidate}
+  previous_projects: {owner: eps.candidates, path: facts.previous_projects_roles, write_adapter: public.eps_update_candidate}
+  classification: {owner: eps.candidates, path: facts.classification, write_adapter: public.eps_update_candidate}
+  review_status: {owner: eps.candidates, path: reviewed_at/reviewed_by/reviewed_facts_fingerprint checked by eps.cast_is_reviewed, write_adapter: public.eps_confirm_candidate_reviewed}
 
 storage:
   media_registry: eps.media_assets

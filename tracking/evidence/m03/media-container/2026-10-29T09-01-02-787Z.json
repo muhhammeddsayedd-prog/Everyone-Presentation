@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-29T09:01:20.745Z",
+  "image_id": "sha256:6a8e5866cc32791ce44c7c405b15f5a7500c1188fabd41a5db382d7b2453a653",
+  "environment": "local Docker Linux, network-disabled media decoding",
+  "source": "synthetic FFmpeg lavfi only; no real transcription or factual accuracy claim",
+  "provider_called": false,
+  "hosted": false,
+  "passed": true,
+  "tests": [
+    {
+      "name": "actual-decode-timestamped-frames-audio",
+      "result": "passed",
+      "elapsed_ms": 3625,
+      "ffmpeg_version": "ffmpeg version 5.1.9-0+deb12u1 Copyright (c) 2000-2026 the FFmpeg developers",
+      "audio_chunks": 1,
+      "frames": 3,
+      "timestamps_ms": [
+        520,
+        1040,
+        1560
+      ]
+    },
+    {
+      "name": "probe-only-produces-no-derivatives",
+      "result": "passed",
+      "elapsed_ms": 2609
+    },
+    {
+      "name": "silent-short-video-keeps-real-frame-with-zero-selection",
+      "result": "passed",
+      "elapsed_ms": 2835,
+      "frames": 1,
+      "warnings": [
+        "SILENT_AUDIO_CHUNK"
+      ]
+    },
+    {
+      "name": "portrait-no-audio-preserves-aspect-partial",
+      "result": "passed",
+      "elapsed_ms": 2424,
+      "width": 720,
+      "height": 1280
+    },
+    {
+      "name": "corrupt-source-terminal-and-owned-cleanup",
+      "result": "passed",
+      "elapsed_ms": 2376
+    }
+  ]
+}

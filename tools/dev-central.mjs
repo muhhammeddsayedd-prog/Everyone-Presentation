@@ -6,6 +6,7 @@ import process from 'node:process';
 import { parseEnv, TextDecoder } from 'node:util';
 import { pathToFileURL } from 'node:url';
 import { optionalPrivateSpecsEnvironment } from './private-specs-env.mjs';
+import { optionalPrivateJobServiceEnvironment } from './private-job-service-env.mjs';
 const root = path.resolve(import.meta.dirname, '..');
 const keyId = 'eps-logo-dev-20261028-v1';
 const keyFields = ['LOGO_VERIFICATION_KEY_ID', 'LOGO_VERIFICATION_KEY_BASE64URL'];
@@ -102,11 +103,13 @@ async function main() {
   if (!/^\d{4,5}$/u.test(port) || Number(port) > 65535) throw new Error('EPS_DEV_PORT must be a valid local development port.');
   const logo = await optionalPrivateLogoEnvironment();
   const specs = await optionalPrivateSpecsEnvironment();
+  const jobService = await optionalPrivateJobServiceEnvironment();
   if (logo.unavailable) process.stderr.write('Private logo verification is unavailable; central development will continue with uploads disabled.\n');
   if (specs.unavailable) process.stderr.write('Private document verification is unavailable; central development will continue with document uploads disabled.\n');
+  if (jobService.unavailable) process.stderr.write('Private job service is unavailable; central development will continue with service callbacks disabled.\n');
   const child = spawn(process.execPath, [path.join(root, 'node_modules/next/dist/bin/next'), 'dev', '--hostname', '127.0.0.1', '--port', port], {
     cwd: path.join(root, 'apps/web'), stdio: 'inherit',
-    env: { ...process.env, ...logo.environment, ...specs.environment, CENTRAL_ADAPTER_MODE: 'supabase', APP_BASE_URL: `http://127.0.0.1:${port}`, APP_ENV: 'development' }
+    env: { ...process.env, ...logo.environment, ...specs.environment, ...jobService.environment, CENTRAL_ADAPTER_MODE: 'supabase', APP_BASE_URL: `http://127.0.0.1:${port}`, APP_ENV: 'development' }
   });
   child.on('exit', code => { process.exitCode = code ?? 1; });
 }

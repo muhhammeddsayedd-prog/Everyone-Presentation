@@ -1,0 +1,44 @@
+{
+    "observed_at":  "2026-10-29T10:28:35.7526039Z",
+    "scope":  "Independent static review of composed candidate pipeline17, private kernel/dispatch/assets/RLS and exact catalog comparator. No cloud/provider execution by reviewer.",
+    "migration":  "supabase/migrations/20261029100500_m03_candidate_pipeline.sql",
+    "migration_sha256":  "4af04b4a3fb050e39aa23958c3f82e304cc7d7a1f450a5d93f7f50bc001bd836",
+    "result":  "no_unresolved_blocking_finding",
+    "resolved_findings":  [
+                              {
+                                  "fix":  "Exact five public regprocedure grant allowlist; two user Storage booleans remain explicitly granted.",
+                                  "regression":  "26 exact private helper signatures denied to authenticated/anon, five public upload RPCs auth-only, three Storage boolean predicates explicitly allowed.",
+                                  "bug":  "LIKE eps_% also matched eps.internal_helpers and granted authenticated EXECUTE to four private upload helpers.",
+                                  "location":  "candidate-user-assets.sql grant loop",
+                                  "severity":  "P2"
+                              }
+                          ],
+    "static_checks":  {
+                          "reviewed_sixteen_history_guard":  true,
+                          "private_stage_payloads_and_public_identifiers_only":  true,
+                          "active_requester_source_lease_and_input_fences":  true,
+                          "restrictive_private_storage_guards":  true,
+                          "no_new_runtime_execute_grants":  true,
+                          "single_local_guard_adaptation":  true,
+                          "closed_dispatch_bridges_with_old_source_hashes":  true,
+                          "current_fragment_and_test_seals_match":  true,
+                          "exact_ten_fragment_composition":  true
+                      },
+    "reused_evidence":  {
+                            "catalog":  "tracking/evidence/m03/kernel-catalog/2026-10-29T10-20-30-781Z-5b008cdd.json",
+                            "scope":  "Author-run local rollback proofs, inspected by reviewer; not live media/provider acceptance.",
+                            "behavior":  "tracking/evidence/m03/kernel-local/2026-10-29T10-17-45-307Z-cfce26d3.json"
+                        },
+    "reviewer_executed_tests":  {
+                                    "command":  "node --test tests/operations/candidate-pipeline-comparison.test.mjs",
+                                    "failed":  0,
+                                    "passed":  4
+                                },
+    "reviewer_implementation_changes":  "Focused negative ACL assertions in tests/db/m03-candidate-kernel.sql only; no migration edits or promotion.",
+    "limitations":  [
+                        "Static review and local SQL proof do not establish live candidate video/provider/Storage HTTP acceptance.",
+                        "Hosting remains deferred."
+                    ],
+    "cloud_called":  false,
+    "provider_called":  false
+}

@@ -1,0 +1,22 @@
+{
+  "run_id": "ac0fb074-a60d-45e8-af68-3687cf6c50f8",
+  "started_at": "2026-10-29T08:54:03.117Z",
+  "result": "failed",
+  "candidate": "development/m02/service-claim-replay-candidate.sql",
+  "assertions": "tests/db/m02-service-claim-replay.sql",
+  "source_seals": {
+    "candidate": "1f34cdaf58a83d3c5ecc88bc2e4da11adea24451b86313bb10589ec377768497",
+    "assertions": "98438c7e44285c20bc698776bca0fbc13728f0f3a49159f8771cae1af6f97bd8",
+    "readback": "8c23cba328e8eef38c99520807dcb680895b94b5508dc307932d01b5fda76a2f"
+  },
+  "harness_sha256": "3cea428bd7e38b2bc0a0471b26f330b5ee8a4d1819262b2ddce47c105d7edd65",
+  "cloud_called": false,
+  "provider_called": false,
+  "credentials_read": false,
+  "scope": "Synthetic local SQL replay/expiry/access/ciphertext behavior; no HTTP, provider or deployed service proof.",
+  "before_catalog_sha256": "d7b6665c840d4c36f4ff33631448282b33b9c965db1046f564c829931a6b5ece",
+  "error": "ERROR:  permission denied for schema eps\n",
+  "after_catalog_sha256": "d7b6665c840d4c36f4ff33631448282b33b9c965db1046f564c829931a6b5ece",
+  "rollback_verified": true,
+  "finished_at": "2026-10-29T08:54:12.915Z"
+}

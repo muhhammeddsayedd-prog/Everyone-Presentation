@@ -7,12 +7,16 @@ import { centralRpcError } from './errors.ts';
 import { audienceDto, capabilitiesDto, listDto, projectDto, successDto, workspaceDto } from './dto.ts';
 import { createLogoStorageAdapter, type LogoStorageOptions } from './logo-storage.ts';
 import { createSpecsStorageAdapter, type SpecsStorageOptions } from './specs-storage.ts';
+import { createCandidateStorageAdapter } from './candidate-storage.ts';
 
 export interface CentralStudioOptions {
   logo?: Omit<LogoStorageOptions, 'client' | 'rpc' | 'now' | 'downloadTimeoutMs'>;
   logoRead?: Pick<LogoStorageOptions, 'storageOrigin' | 'brandBucket'>;
   specs?: Omit<SpecsStorageOptions, 'client' | 'rpc' | 'now' | 'downloadTimeoutMs'>;
   specsRead?: Pick<SpecsStorageOptions, 'storageOrigin'>;
+  candidate?: { storageOrigin: string; maximumBytes?: number };
+  /** Ready reads remain available independently of upload readiness/limits. */
+  candidateRead?: { storageOrigin: string };
 }
 
 function invalid(message: string): never { throw new DomainError('VALIDATION_FAILED', message, 400); }
@@ -40,6 +44,30 @@ function listArguments(options: ListOptions & { project_id?: string }, projectFi
 }
 function centralStoragePending(): never {
   throw new DomainError('FEATURE_NOT_IMPLEMENTED', 'This private upload or media operation is not available yet. Existing project data remains available.', 503);
+}
+
+/** Legacy media scope RPCs can project another purpose's asset. This validates
+ * only a bounded routing hint; the chosen adapter must fetch/validate its own
+ * exact current-user record before returning metadata, signing or reading bytes. */
+function scopedMediaPurpose(value: unknown, requestedId: string) {
+  const malformed = (): never => { throw new DomainError('CENTRAL_RESPONSE_INVALID', 'The private media scope response did not match its contract.', 503); };
+  const record = (entry: unknown): entry is Record<string, unknown> => Boolean(entry) && typeof entry === 'object' && !Array.isArray(entry);
+  const fields = ['id','purpose','filename','mime_type','size_bytes','sha256','status','duration_ms','width','height','source_asset_id','source_timestamp_ms','created_at'];
+  const text = (entry: unknown, maximum: number) => typeof entry === 'string' && entry.length > 0 && entry.length <= maximum && !/[\p{C}]/u.test(entry);
+  const number = (entry: unknown, minimum: number) => typeof entry === 'number' && Number.isSafeInteger(entry) && entry >= minimum;
+  if (!record(value) || Object.keys(value).length !== 3 || !Object.hasOwn(value,'asset') || !Object.hasOwn(value,'bucket') || !Object.hasOwn(value,'object_key')
+    || !text(value.bucket,100) || !text(value.object_key,2000) || !record(value.asset)) return malformed();
+  const asset = value.asset;
+  if (Object.keys(asset).length !== fields.length || fields.some(field=>!Object.hasOwn(asset,field)) || asset.id !== requestedId
+    || typeof asset.purpose !== 'string' || !['client_logo','specs','candidate_video','candidate_frame','audio','transcript'].includes(asset.purpose)
+    || !text(asset.filename,255) || !text(asset.mime_type,200) || !number(asset.size_bytes,1)
+    || !(asset.sha256 === null || typeof asset.sha256 === 'string' && /^[a-f0-9]{64}$/u.test(asset.sha256))
+    || typeof asset.status !== 'string' || !['uploading','ready','failed','quarantined','archived'].includes(asset.status)
+    || !['duration_ms','source_timestamp_ms'].every(field=>asset[field] === null || number(asset[field],0))
+    || !['width','height'].every(field=>asset[field] === null || number(asset[field],1))
+    || !(asset.source_asset_id === null || text(asset.source_asset_id,200))
+    || typeof asset.created_at !== 'string' || !Number.isFinite(Date.parse(asset.created_at))) return malformed();
+  return asset.purpose;
 }
 
 /** Verified once for this request; each RPC derives authorization from the same user's JWT. */
@@ -85,19 +113,51 @@ export async function createCentralStudio(client: SupabaseClient, options: Centr
     cancelUpload: (actor, uploadId, context) => rpc(actor, 'eps_cancel_specs_upload', { p_upload_id: identifier(uploadId), p_idempotency_key: key(context, true) }, raw, context),
     getMedia: (actor, assetId) => rpc(actor, 'eps_get_specs_media', { p_asset_id: identifier(assetId) }, raw),
   } }) : undefined;
+  const candidateOptions = options.candidate ?? options.candidateRead;
+  const candidate = candidateOptions ? await createCandidateStorageAdapter({ ...candidateOptions, uploadsEnabled: options.candidate !== undefined, client, rpc: {
+    reserveUpload: (actor,input,context) => rpc(actor,'eps_reserve_candidate_upload',{p_input:input,p_idempotency_key:key(context,true)},raw,context),
+    getUpload: (actor,id) => rpc(actor,'eps_get_candidate_upload',{p_upload_id:identifier(id)},raw),
+    completeUpload: (actor,id,input,context) => rpc(actor,'eps_complete_candidate_upload',{p_upload_id:identifier(id),p_input:input,p_idempotency_key:key(context,true)},raw,context),
+    cancelUpload: (actor,id,context) => rpc(actor,'eps_cancel_candidate_upload',{p_upload_id:identifier(id),p_idempotency_key:key(context,true)},raw,context),
+    getMedia: (actor,id) => rpc(actor,'eps_get_candidate_asset',{p_asset_id:identifier(id)},raw),
+  }}) : undefined;
   async function storageFor(actor: Actor, id: string, media = false) {
     checkActor(actor);
-    if (!logo && !specs) return centralStoragePending();
+    if (!logo && !specs && !candidate) return centralStoragePending();
     const args = media ? { p_asset_id: identifier(id) } : { p_upload_id: identifier(id) };
-    // Only the scoped lookup's typed not-found selects the other purpose. A
-    // later Storage failure, denied scope, or malformed DTO never redirects it.
-    try { await rpc(actor, media ? 'eps_get_logo_media' : 'eps_get_logo_upload', args, raw); }
-    catch (error) {
-      if (!(error instanceof DomainError && error.code === 'RESOURCE_NOT_FOUND' && error.status === 404) || !specs) throw error;
-      await rpc(actor, media ? 'eps_get_specs_media' : 'eps_get_specs_upload', args, raw);
-      return specs;
+    // Only a typed not-found selects the next scope probe. Denial or malformed
+    // metadata never falls through. Upload routing stays purpose-specific.
+    // Preserve the original logo scope probe even without a local logo verifier.
+    const adapters = [
+      {adapter:logo,operation:media?'eps_get_logo_media':'eps_get_logo_upload'},
+      ...(specs ? [{adapter:specs,operation:media?'eps_get_specs_media':'eps_get_specs_upload'}] : []),
+      ...(candidate ? [{adapter:candidate,operation:media?'eps_get_candidate_asset':'eps_get_candidate_upload'}] : []),
+    ];
+    if (media && candidate) {
+      // Library media is authorized by global cast.read, independently of the
+      // originating project's logo/specs scope. Use freshly verified central
+      // capabilities solely to order probes; each own RPC still authorizes now.
+      const capabilities = await rpc(actor,'eps_get_capabilities',{},capabilitiesDto);
+      if (capabilities.principal_id !== identity.principal_id) throw new DomainError('CENTRAL_RESPONSE_INVALID','Central capabilities did not match the verified account.',503);
+      if (capabilities.capabilities.includes('cast.read')) {
+        const index = adapters.findIndex(entry=>entry.operation==='eps_get_candidate_asset');
+        if (index >= 0) adapters.unshift(...adapters.splice(index,1));
+      }
     }
-    return logo ?? centralStoragePending();
+    for (const entry of adapters) {
+      try {
+        const scoped = await rpc(actor,entry.operation,args,raw);
+        if (media) {
+          const purpose = scopedMediaPurpose(scoped,id);
+          if (entry.operation==='eps_get_candidate_asset' && !['candidate_video','candidate_frame','audio','transcript'].includes(purpose)
+            || entry.operation==='eps_get_specs_media' && purpose!=='specs') throw new DomainError('CENTRAL_RESPONSE_INVALID','The private media scope returned an unexpected purpose.',503);
+          return (purpose === 'client_logo' ? logo : purpose === 'specs' ? specs : candidate) ?? centralStoragePending();
+        }
+        return entry.adapter ?? centralStoragePending();
+      }
+      catch(error) { if (!(error instanceof DomainError&&error.code==='RESOURCE_NOT_FOUND'&&error.status===404))throw error; }
+    }
+    throw new DomainError('RESOURCE_NOT_FOUND','Private upload or media not found.',404);
   }
   return {
     verifiedIdentity: identity,
@@ -106,8 +166,21 @@ export async function createCentralStudio(client: SupabaseClient, options: Centr
     async getCapabilities(actor: Actor) {
       const result = await rpc(actor, 'eps_get_capabilities', {}, capabilitiesDto);
       if (result.principal_id !== identity.principal_id) throw new DomainError('CENTRAL_RESPONSE_INVALID', 'Central capabilities did not match the verified account.', 503);
-      result.upload_policy.available_purposes = result.upload_policy.available_purposes.filter(purpose => purpose === 'client_logo' && logo?.uploadReady === true
-        || purpose === 'specs' && specs?.uploadReady === true);
+      const videoMimes = ['video/mp4', 'video/quicktime', 'video/webm', 'video/x-matroska'];
+      const candidateAllowed = candidate?.uploadReady === true && result.capabilities.includes('cast.upload') && result.capabilities.includes('workspaces.write');
+      const policy = result.upload_policy; const legacyMaximum = policy.maximum_file_bytes;
+      policy.available_purposes = [...new Set(policy.available_purposes.filter(purpose => purpose === 'client_logo' && logo?.uploadReady === true
+        || purpose === 'specs' && specs?.uploadReady === true || purpose === 'candidate_video' && candidateAllowed))];
+      // The existing M02 RPC advertises its own purposes only. The separately
+      // configured M03 adapter can extend discovery; reservation SQL still
+      // rechecks the verified user's current authority, config and file limits.
+      if (candidateAllowed && !policy.available_purposes.includes('candidate_video')) policy.available_purposes.push('candidate_video');
+      policy.allowed_mime_types = [...new Set([...policy.allowed_mime_types.filter(mime => !videoMimes.includes(mime)), ...(candidateAllowed ? videoMimes : [])])];
+      // This is the global envelope across enabled purposes. Their independent
+      // adapters retain the 5MiB logo /20MiB document and configured video caps.
+      const limits = policy.available_purposes.map(purpose => purpose === 'candidate_video' ? candidate!.maximumBytes
+        : Math.min(legacyMaximum, purpose === 'client_logo' ? 5 * 1024 * 1024 : 20 * 1024 * 1024));
+      if (limits.length) policy.maximum_file_bytes = Math.max(...limits);
       return result;
     },
     async listProjects(actor: Actor, options: ListOptions = {}) { return rpc(actor, 'eps_list_projects', listArguments(options), value => listDto(value, projectDto)); },
@@ -148,6 +221,10 @@ export async function createCentralStudio(client: SupabaseClient, options: Centr
         if (typeof input.workspace_id !== 'string') invalid('A document requires a workspace identifier.');
         return specs ? specs.createUploadSession(actor, { ...input, purpose: 'specs', workspace_id: input.workspace_id }, context) : centralStoragePending();
       }
+      if(input.purpose==='candidate_video') {
+        if(typeof input.workspace_id!=='string')invalid('A candidate introduction requires a workspace identifier.');
+        return candidate?candidate.createUploadSession(actor,{...input,purpose:'candidate_video',workspace_id:input.workspace_id},context):centralStoragePending();
+      }
       return centralStoragePending();
     },
     async getUploadSession(actor: Actor, id: string): Promise<UploadSession> { return (await storageFor(actor, id)).getUploadSession(actor, id); },
@@ -156,6 +233,7 @@ export async function createCentralStudio(client: SupabaseClient, options: Centr
     async storeUploadedLogo(actor: Actor, _id: string, _bytes: Uint8Array): Promise<{ size_bytes: number; sha256: string }> { void _id; void _bytes; checkActor(actor); return centralStoragePending(); },
     async getMedia(actor: Actor, id: string): Promise<MediaAsset> { return (await storageFor(actor, id, true)).getMedia(actor, id); },
     async getMediaContent(actor: Actor, id: string): Promise<{ bytes: Buffer; mimeType: string }> { return (await storageFor(actor, id, true)).getMediaContent(actor, id); },
+    async playMedia(actor:Actor,id:string) { checkActor(actor);return candidate?candidate.playMedia(actor,id):centralStoragePending(); },
   };
 }
 export type CentralStudio = Awaited<ReturnType<typeof createCentralStudio>>;

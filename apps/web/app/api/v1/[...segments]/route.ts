@@ -9,6 +9,9 @@ import { handleJobRequest } from '../../../../lib/job-http';
 import { getJobs } from '../../../../lib/jobs';
 import { handleSpecsRequest, isManualSpecsRoute } from '../../../../lib/specs-http';
 import { getSpecsService } from '../../../../lib/specs';
+import { getCandidatesService } from '../../../../lib/candidates';
+import { handleCandidatesRequest, isCandidatesRoute } from '../../../../lib/candidates-http';
+import { handleMediaPlaybackRequest, isMediaPlaybackRoute } from '../../../../lib/media-http';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -25,6 +28,7 @@ async function handle(request: Request, context: Context) {
       clientType: request.headers.has('authorization') ? 'api' as const : 'browser' as const };
     if (s[0] === 'jobs') return await handleJobRequest(request, s, actor, await getJobs(), mutation);
     if (isManualSpecsRoute(s)) return await handleSpecsRequest(request, s, actor, await getSpecsService(), mutation);
+    if (isCandidatesRoute(s)) return await handleCandidatesRequest(request, s, actor, await getCandidatesService(), mutation);
     const studio = await getStudio();
     const url = new URL(request.url);
     const list = { q: url.searchParams.get('q') ?? undefined, cursor: url.searchParams.get('cursor') ?? undefined,
@@ -54,6 +58,7 @@ async function handle(request: Request, context: Context) {
     }
     if (s[0] === 'media') {
       if (s.length === 2 && method === 'GET') return json(await studio.getMedia(actor, s[1]), requestId);
+      if (isMediaPlaybackRoute(s) && 'playMedia' in studio) return await handleMediaPlaybackRequest(request, s, actor, studio, requestId);
       if (s.length === 3 && s[2] === 'content' && method === 'GET') {
         const media = await studio.getMediaContent(actor, s[1]);
         return new Response(new Uint8Array(media.bytes), { headers: { ...NO_STORE, 'Content-Type': media.mimeType } });

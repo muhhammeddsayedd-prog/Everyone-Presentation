@@ -1,0 +1,22 @@
+{
+  "run_id": "1d06251b-4c9c-462f-b043-c0c52a7a8218",
+  "started_at": "2026-10-29T11:34:53.075Z",
+  "result": "passed",
+  "cloud_called": false,
+  "provider_called": false,
+  "storage_http_called": false,
+  "scope": "Owned local synthetic rollback: real SQL grant -> central mapper -> real worker byte adapter -> OpenAI transcription adapter with controlled synthetic transport; no live job or provider mutation.",
+  "real_sql_prior_audio_grant_mapped": true,
+  "real_worker_adapter_verified_synthetic_bytes": true,
+  "actual_transcription_adapter_validated_chunk_with_synthetic_transport": true,
+  "sql_mapper_calls": 1,
+  "synthetic_fetch_calls": 1,
+  "synthetic_transcription_transport_calls": 1,
+  "rollback_verified": true,
+  "source_seals": {
+    "packages/central/src/candidate-runtime-assets.ts": "a410e44ceab6956a97ecb5e912479560e0d772e8e93a60dad0735ca77c3b5339",
+    "apps/worker/src/candidate-assets.ts": "d29b1778b5a33861b0127e57e668dfc4141f406090bf820a53528180c02a2270",
+    "packages/integrations/src/openai-media.ts": "6f61aa99f5970e63ef63f99b7091a7649d5e997a396b996de9e086df164bb7fd"
+  },
+  "finished_at": "2026-10-29T11:34:59.068Z"
+}

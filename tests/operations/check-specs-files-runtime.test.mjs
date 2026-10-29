@@ -18,9 +18,10 @@ test('file checker constructs the explicit public third option and closes withou
       return { EPS_SPECS_FILES_ENABLED: 'true', SUPABASE_URL: 'https://pyibofyctwnqpvktepse.supabase.co', SUPABASE_PUBLISHABLE_KEY: 'sb_publishable_synthetic_public_key' }; },
     createGateway: async (_config, dependencies, publicConfig) => { constructions++; assert.deepEqual(dependencies, {});
       assert.deepEqual(publicConfig, { storageOrigin: 'https://pyibofyctwnqpvktepse.supabase.co', publishableKey: 'sb_publishable_synthetic_public_key' });
-      return { close: async () => { closes++; } }; } });
+      return { verifiedFunctionOperations:11,close: async () => { closes++; } }; } });
   assert.equal(value.result, 'passed'); assert.equal(constructions, 1); assert.equal(closes, 1);
-  assert.equal(value.exact_runtime_groups, 3); assert.equal(value.exact_function_operations, 10);
+  assert.equal(value.exact_runtime_groups, 3); assert.equal(value.exact_function_operations, 11);
+  assert.equal(value.base_specs_function_operations,10);assert.equal(value.claim_replay_function_enabled,true);
   for (const field of ['jobs_claimed','source_requested','provider_called','storage_requested','worker_started','provider_configuration_loaded']) assert.equal(value[field], false);
 });
 test('checker never serializes private configuration or unknown driver errors', async () => {

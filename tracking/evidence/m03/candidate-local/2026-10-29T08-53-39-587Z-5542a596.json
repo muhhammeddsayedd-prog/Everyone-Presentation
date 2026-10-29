@@ -1,0 +1,22 @@
+{
+  "run_id": "5542a596-5168-448c-b64a-1f717b1cc949",
+  "started_at": "2026-10-29T08:53:31.413Z",
+  "result": "failed",
+  "cloud_called": false,
+  "provider_called": false,
+  "media_bytes_tested": false,
+  "candidate_ddl_persisted": false,
+  "source_seals": {
+    "development/m03/candidates-candidate.sql": "175c9ed4be4b20d484a1f7306902429830c9045aebeed28440be6b8feefd6bec",
+    "development/m03/candidates-assertions.sql": "62eac65eb714c5fd501f9bd981f022f0382987fac518053d27d9dee44f26fce5",
+    "tools/local-postgres.mjs": "49929bce8eb51194d9299cfd9639e537eb237daaec76c15740cb88059604e2de"
+  },
+  "harness_sha256": "35e8ae2e0b8a5b25270a407f576c0fa4fc62c68bdd3764ed8033632de9e54345",
+  "scope": "Owned local13 rollback DDL and synthetic canonical memberships; manual fact/review/search/duplicate/project-pool permissions only.",
+  "system_identifier": "7701520506262638626",
+  "container_id": "bcada04d62e45079815770de1ecad783c0522f1f3970ea8ed59f171f365829d9",
+  "failure_code": "M03_LOCAL_CANDIDATE_UNCONFIRMED",
+  "diagnostic": "ERROR:  syntax error at or near \"from\"\nLINE 1: ...(string_agg(row_digest,' order by row_digest),')) from (sele...\n                                                             ^\nQUERY:  select count(*),md5(coalesce(string_agg(row_digest,' order by row_digest),')) from (select md5(row_to_json(value)::text) row_digest from auth.users value) rows\nCONTEXT:  PL/pgSQL function inline_code_block line 3 at EXECUTE\n",
+  "owned_backend_settled": true,
+  "finished_at": "2026-10-29T08:53:39.587Z"
+}

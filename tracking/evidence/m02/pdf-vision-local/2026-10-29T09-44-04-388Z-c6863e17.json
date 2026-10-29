@@ -1,0 +1,27 @@
+{
+  "run_id": "c6863e17-d5d6-48a7-b253-3b2e93dedc10",
+  "started_at": "2026-10-29T09:43:49.796Z",
+  "result": "passed",
+  "cloud_called": false,
+  "provider_called": false,
+  "source_files_read": false,
+  "credential_files_read": false,
+  "native_ocr_tested": false,
+  "scope": "Owned local15 synthetic document service pipeline regression plus truthful pdf_vision RED/GREEN/page/mime guards. No native raster, image, actual OCR, HTTP or provider acceptance.",
+  "source_seals": {
+    "tests/db/m02-specs-assets-candidate.sql": "636c08a295d2fd21e8e904b6b0b9e13be6ac0fe87874e6718a8a13c834eb33b4",
+    "tests/db/m02-pdf-vision-prepare.sql": "02d6d359d23d636b21e17e6a212d3436029c5ca3f42a7191b0318a2d5675422c",
+    "development/m02/pdf-vision-compatibility-candidate.sql": "5b7ad204f6dddde82ae829577ea1130fd426a3998797460871baad20d789cb50",
+    "tests/db/m02-pdf-vision-assertions.sql": "889842720cd638323702386fdcf5462a71cd9487cd7dea322aa2698dc03735e0"
+  },
+  "harness_sha256": "9ee6aa7e744980b07b5cbeb71547c319e52a5a8eb9cdf0dfbc984d6c781b0e2a",
+  "before_sha256": "2e494f5359821ddcaa10c516e27ac3f9f7785ab4fcc6aa3316d1a02d17f664ee",
+  "red_rejected_before_patch": true,
+  "green_private_paged_preparation_and_callback": true,
+  "prior_document_pipeline_fixture_passed": true,
+  "transaction_completed_to_rollback": true,
+  "after_sha256": "2e494f5359821ddcaa10c516e27ac3f9f7785ab4fcc6aa3316d1a02d17f664ee",
+  "rollback_verified": true,
+  "sources_stable": true,
+  "finished_at": "2026-10-29T09:44:04.388Z"
+}

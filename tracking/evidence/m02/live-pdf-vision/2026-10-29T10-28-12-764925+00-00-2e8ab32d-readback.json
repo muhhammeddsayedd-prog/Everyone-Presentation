@@ -1,0 +1,428 @@
+{
+  "observed_at": "2026-10-29T10:28:12.764925+00:00",
+  "target": "pyibofyctwnqpvktepse",
+  "result": "passed",
+  "scope": "Actual image-only synthetic PDF processed through the signed-in app; OCR event projection and fixed read-only canonical metadata.",
+  "job_id": "e7316bb7-4c40-4460-8d17-15503ba12315",
+  "workspace_id": "e470aefd-e0f7-480c-bf0d-170cb2cb7069",
+  "project_id": "bd14d10f-b1c5-4d6a-8b4d-e5c48208433c",
+  "source_asset_id": "c7a82096-7a56-415c-9ba1-eeb4bbb0e708",
+  "source_sha256": "2f1508bf45a46ae81f3459b1507db58f1e9af41591a0367b643dce973823225f",
+  "read_only": true,
+  "cloud_called_by_capture": true,
+  "provider_called_by_capture": false,
+  "storage_http_called_by_capture": false,
+  "raw_source_images_provider_bodies_or_credentials_recorded": false,
+  "log": {
+    "path": ".local/specs-runtime/worker-pdf-vision-v1.stdout.log",
+    "sha256": "4c236f95b140904c8c8db83d922dda0d512c53f1067e81667788ee99ce932b1b",
+    "bytes": 4375,
+    "modified_at": "2026-10-29T10:28:04.589600+00:00"
+  },
+  "harness_sha256": "7dd409d9677d183b15b2644c58a7cc388f73d78787df5c11f3c4136ff8ec5ed6",
+  "phase": "acceptance_checks",
+  "sql_sha256": "a5732d46a476cc593abedeb6403463b4aa4cfad7be081fd15e00c95d1e45f215",
+  "checks": {
+    "fixed_completed_job": true,
+    "actual_three_stage_n8n_path": true,
+    "exact_ready_original": true,
+    "honest_private_vision_preparation": true,
+    "ocr_receipts_match_committed_preparation": true,
+    "real_extraction_provider_metadata": true,
+    "actual_source_evidence_grounded": true,
+    "saved_draft_and_pending_slots": true,
+    "synthetic_fixture_facts_and_unknowns": true,
+    "protected_original_work_retained": true
+  },
+  "proof": {
+    "database": "postgres",
+    "draft": {
+      "active_roles": 1,
+      "active_slots": 1,
+      "current_job_is_target": true,
+      "extraction_origin_is_target": true,
+      "provisional_slots": 1,
+      "role_fixture_checks": {
+        "age_not_invented": true,
+        "arabic_required": true,
+        "archive_clerk": true,
+        "cairo_retained": true,
+        "calendar_date_not_invented": true,
+        "date_clarification_present": true,
+        "english_required": true,
+        "headcount_not_invented": true,
+        "relative_monday_retained": true,
+        "scene_11_retained": true,
+        "scene_9_retained": true
+      }
+    },
+    "job": {
+      "completed_stages": [
+        {
+          "attempt_id": "c27e374a-d1c5-4497-abda-b173014e6127",
+          "completed_at": "2026-10-29T10:11:56.352794+00:00",
+          "schema": "document-preparation.v1",
+          "stage": "prepare_document"
+        },
+        {
+          "attempt_id": "bf3ddcfa-de67-41d3-ace1-05467e436229",
+          "completed_at": "2026-10-29T10:12:19.474153+00:00",
+          "schema": "specs-extraction-stage.v1",
+          "stage": "extract_specs"
+        },
+        {
+          "attempt_id": "25b76fe8-47f9-42c0-b113-1cd147076a99",
+          "completed_at": "2026-10-29T10:12:26.181671+00:00",
+          "schema": "specs-application.v1",
+          "stage": "apply_specs"
+        }
+      ],
+      "id": "e7316bb7-4c40-4460-8d17-15503ba12315",
+      "input_sha256": "c86a713b7b100ead3f345631b72ab80abe06e52c64b5dfa033278b6415598197",
+      "n8n_execution_id": "31304",
+      "project_id": "bd14d10f-b1c5-4d6a-8b4d-e5c48208433c",
+      "spec_id": "4fc2fde5-f486-4494-af05-ae51bae3f514",
+      "stage": "apply_specs",
+      "stage_attempts": {
+        "apply_specs": 1,
+        "extract_specs": 1,
+        "prepare_document": 1
+      },
+      "status": "succeeded",
+      "workspace_id": "e470aefd-e0f7-480c-bf0d-170cb2cb7069"
+    },
+    "observed_at": "2026-10-29T10:28:18.476092+00:00",
+    "outbox": [
+      {
+        "attempt_count": 1,
+        "generation": 1,
+        "input_hash_matches": true,
+        "stage": "prepare_document",
+        "status": "delivered"
+      },
+      {
+        "attempt_count": 1,
+        "generation": 2,
+        "input_hash_matches": true,
+        "stage": "extract_specs",
+        "status": "delivered"
+      },
+      {
+        "attempt_count": 1,
+        "generation": 3,
+        "input_hash_matches": true,
+        "stage": "apply_specs",
+        "status": "delivered"
+      }
+    ],
+    "preparation": {
+      "arabic_preserved": true,
+      "attempt_id": "c27e374a-d1c5-4497-abda-b173014e6127",
+      "derivative_bytes": 3258,
+      "derivative_path_bound": true,
+      "derivative_sha256": "cf2162e980849231f740a08a866c6626dea1b537aed0875a854e558e876de166",
+      "method": "pdf_vision",
+      "original_asset_and_hash_bound": true,
+      "pages": [
+        1,
+        2
+      ],
+      "paragraph_count": 22,
+      "paragraphs": [
+        {
+          "end": 30,
+          "index": 0,
+          "page": 1,
+          "start": 0
+        },
+        {
+          "end": 51,
+          "index": 1,
+          "page": 1,
+          "start": 32
+        },
+        {
+          "end": 69,
+          "index": 2,
+          "page": 1,
+          "start": 53
+        },
+        {
+          "end": 89,
+          "index": 3,
+          "page": 1,
+          "start": 71
+        },
+        {
+          "end": 115,
+          "index": 4,
+          "page": 1,
+          "start": 91
+        },
+        {
+          "end": 155,
+          "index": 5,
+          "page": 1,
+          "start": 117
+        },
+        {
+          "end": 172,
+          "index": 6,
+          "page": 1,
+          "start": 157
+        },
+        {
+          "end": 199,
+          "index": 7,
+          "page": 1,
+          "start": 174
+        },
+        {
+          "end": 239,
+          "index": 8,
+          "page": 1,
+          "start": 201
+        },
+        {
+          "end": 274,
+          "index": 9,
+          "page": 1,
+          "start": 241
+        },
+        {
+          "end": 320,
+          "index": 10,
+          "page": 1,
+          "start": 276
+        },
+        {
+          "end": 357,
+          "index": 11,
+          "page": 2,
+          "start": 322
+        },
+        {
+          "end": 394,
+          "index": 12,
+          "page": 2,
+          "start": 359
+        },
+        {
+          "end": 410,
+          "index": 13,
+          "page": 2,
+          "start": 396
+        },
+        {
+          "end": 427,
+          "index": 14,
+          "page": 2,
+          "start": 412
+        },
+        {
+          "end": 452,
+          "index": 15,
+          "page": 2,
+          "start": 429
+        },
+        {
+          "end": 490,
+          "index": 16,
+          "page": 2,
+          "start": 454
+        },
+        {
+          "end": 511,
+          "index": 17,
+          "page": 2,
+          "start": 492
+        },
+        {
+          "end": 540,
+          "index": 18,
+          "page": 2,
+          "start": 513
+        },
+        {
+          "end": 574,
+          "index": 19,
+          "page": 2,
+          "start": 542
+        },
+        {
+          "end": 601,
+          "index": 20,
+          "page": 2,
+          "start": 576
+        },
+        {
+          "end": 645,
+          "index": 21,
+          "page": 2,
+          "start": 603
+        }
+      ],
+      "prepared_characters": 645,
+      "private_json_sha256": "cf2162e980849231f740a08a866c6626dea1b537aed0875a854e558e876de166",
+      "ready_derivative_matches_exact_json": true,
+      "text_asset_id": "50b067e6-6c18-4ffc-92ad-5b2695c1e443"
+    },
+    "protected_source": {
+      "manual_note_retained": true,
+      "still_waiting": true
+    },
+    "provider": {
+      "frozen_model_matches": true,
+      "input_hash_matches": true,
+      "prompt_sha256": "ab03fd026edb3d139fd93fdd51cb475474d6c4e3c8f6395b65014574e7e29eee",
+      "prompt_version": "spec_extract_v1.0.0",
+      "provider": "openai",
+      "requested_model": "gpt-6.1-sol",
+      "resolved_model": "gpt-6.1-sol",
+      "response_reference_present": true,
+      "schema_sha256": "e8ffee51eee20f687abbfc12c2476248ccb5a59c1122fde418bc89db3ff58085",
+      "sdk_version": "7.45.1",
+      "usage": {
+        "input_tokens": 1511,
+        "output_tokens": 1171,
+        "total_tokens": 2682
+      }
+    },
+    "query_role": "postgres",
+    "references": {
+      "all_grounded": true,
+      "count": 10,
+      "locators": [
+        {
+          "asset_id": "c7a82096-7a56-415c-9ba1-eeb4bbb0e708",
+          "grounded": true,
+          "page": 1,
+          "paragraph": 1
+        },
+        {
+          "asset_id": "c7a82096-7a56-415c-9ba1-eeb4bbb0e708",
+          "grounded": true,
+          "page": 1,
+          "paragraph": 2
+        },
+        {
+          "asset_id": "c7a82096-7a56-415c-9ba1-eeb4bbb0e708",
+          "grounded": true,
+          "page": 1,
+          "paragraph": 5
+        },
+        {
+          "asset_id": "c7a82096-7a56-415c-9ba1-eeb4bbb0e708",
+          "grounded": true,
+          "page": 1,
+          "paragraph": 6
+        },
+        {
+          "asset_id": "c7a82096-7a56-415c-9ba1-eeb4bbb0e708",
+          "grounded": true,
+          "page": 1,
+          "paragraph": 7
+        },
+        {
+          "asset_id": "c7a82096-7a56-415c-9ba1-eeb4bbb0e708",
+          "grounded": true,
+          "page": 2,
+          "paragraph": 19
+        },
+        {
+          "asset_id": "c7a82096-7a56-415c-9ba1-eeb4bbb0e708",
+          "grounded": true,
+          "page": 2,
+          "paragraph": 20
+        },
+        {
+          "asset_id": "c7a82096-7a56-415c-9ba1-eeb4bbb0e708",
+          "grounded": true,
+          "page": 1,
+          "paragraph": 4
+        },
+        {
+          "asset_id": "c7a82096-7a56-415c-9ba1-eeb4bbb0e708",
+          "grounded": true,
+          "page": 1,
+          "paragraph": 3
+        },
+        {
+          "asset_id": "c7a82096-7a56-415c-9ba1-eeb4bbb0e708",
+          "grounded": true,
+          "page": 1,
+          "paragraph": 7
+        }
+      ],
+      "pages": [
+        1,
+        2
+      ]
+    },
+    "source": {
+      "asset_id": "c7a82096-7a56-415c-9ba1-eeb4bbb0e708",
+      "fixed_fixture_hash_matches": true,
+      "frozen_source_matches": true,
+      "mime_type": "application/pdf",
+      "private_path_bound": true,
+      "sha256": "2f1508bf45a46ae81f3459b1507db58f1e9af41591a0367b643dce973823225f",
+      "size_bytes": 213626,
+      "status": "ready"
+    },
+    "target_count": 1
+  },
+  "ocr_pages": [
+    {
+      "job_id": "e7316bb7-4c40-4460-8d17-15503ba12315",
+      "attempt_id": "c27e374a-d1c5-4497-abda-b173014e6127",
+      "input_hash": "c86a713b7b100ead3f345631b72ab80abe06e52c64b5dfa033278b6415598197",
+      "source_asset_id": "c7a82096-7a56-415c-9ba1-eeb4bbb0e708",
+      "source_sha256": "2f1508bf45a46ae81f3459b1507db58f1e9af41591a0367b643dce973823225f",
+      "page": 1,
+      "provider": "openai",
+      "sdk_version": "7.45.1",
+      "requested_model": "gpt-6.1-sol",
+      "resolved_model": "gpt-6.1-sol",
+      "prompt_version": "pdf-page-ocr.v1",
+      "prompt_sha256": "2f3890d1a42ba12d3b5459c835242d3bf89a9b44162ba230d5ac1d81f2e53d17",
+      "schema_sha256": "adf7dc76a4b2b6eabb296774dfc8f8a832c4635ba1e226469bb090628f4a5850",
+      "image_sha256": "5479d61fac8f02738b30a3bdb4cab93d346400fe8b67e8443470d5347afe2e71",
+      "elapsed_ms": 4620,
+      "rasterizer_version": "pdftoppm version 22.12.0",
+      "usage": {
+        "input_tokens": 3157,
+        "output_tokens": 142,
+        "total_tokens": 3299
+      },
+      "response_reference_present": true,
+      "response_id_sha256": "c0531da333838fdea147df87ffdec351f0cf35e73986653df1e2ea1603893b3e",
+      "request_reference_present": true
+    },
+    {
+      "job_id": "e7316bb7-4c40-4460-8d17-15503ba12315",
+      "attempt_id": "c27e374a-d1c5-4497-abda-b173014e6127",
+      "input_hash": "c86a713b7b100ead3f345631b72ab80abe06e52c64b5dfa033278b6415598197",
+      "source_asset_id": "c7a82096-7a56-415c-9ba1-eeb4bbb0e708",
+      "source_sha256": "2f1508bf45a46ae81f3459b1507db58f1e9af41591a0367b643dce973823225f",
+      "page": 2,
+      "provider": "openai",
+      "sdk_version": "7.45.1",
+      "requested_model": "gpt-6.1-sol",
+      "resolved_model": "gpt-6.1-sol",
+      "prompt_version": "pdf-page-ocr.v1",
+      "prompt_sha256": "2f3890d1a42ba12d3b5459c835242d3bf89a9b44162ba230d5ac1d81f2e53d17",
+      "schema_sha256": "adf7dc76a4b2b6eabb296774dfc8f8a832c4635ba1e226469bb090628f4a5850",
+      "image_sha256": "9c1f8762e84d56f0bdc6c1533b3dbdad1870b27d9f3fbf6a530dc42d797aa274",
+      "elapsed_ms": 5298,
+      "rasterizer_version": "pdftoppm version 22.12.0",
+      "usage": {
+        "input_tokens": 3157,
+        "output_tokens": 259,
+        "total_tokens": 3416
+      },
+      "response_reference_present": true,
+      "response_id_sha256": "989cf8caf3008ca1101118b0fc1146b1e1fb8c3c2bb75a830b83ff7f64b2da59",
+      "request_reference_present": true
+    }
+  ]
+}

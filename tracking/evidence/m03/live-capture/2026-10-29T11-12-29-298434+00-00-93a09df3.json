@@ -1,0 +1,265 @@
+{
+  "observed_at": "2026-10-29T11:12:29.298434+00:00",
+  "target": "pyibofyctwnqpvktepse",
+  "result": "captured",
+  "read_only": true,
+  "workspace_id": "e470aefd-e0f7-480c-bf0d-170cb2cb7069",
+  "project_id": "bd14d10f-b1c5-4d6a-8b4d-e5c48208433c",
+  "sql_sha256": "16434bad7d3c466bf7778d74afec946cfbef2f423b6d58a3eb152b12939a5456",
+  "harness_sha256": "d54121365fdf41efb02fc0dce50566c3428c097a6f01c2544996e075f3e03677",
+  "protected_m02_baseline": "tracking/evidence/m02/specs-protection/2026-10-29T07-41-19-350729+00-00-72ea632b-metadata.json",
+  "protected_m02_baseline_sha256": "ed1808fcaf6be97391439d27f98f34656f1b40cd711c03df94ae1879246b6351",
+  "cloud_called": true,
+  "provider_called": false,
+  "storage_http_called": false,
+  "mutations_requested": false,
+  "raw_private_payloads_recorded": false,
+  "scope": "Actual fixed-workspace candidate jobs: canonical metadata only. No semantic accuracy, native image bytes or billing completeness claim.",
+  "n8n_boundary": "Database retains the last workflow execution ID only; stage events/outbox metadata do not enumerate five individual workflow IDs.",
+  "native_image_boundary": "Preparation records implementation and FFmpeg metadata; configured immutable image is evidenced separately by activation/launch receipts.",
+  "proof": {
+    "configuration": {
+      "enabled": true,
+      "extraction_model": "gpt-6.1-sol",
+      "media_implementation_version": "video-preparation.v1",
+      "prompt_version": "candidate-v1",
+      "schema_version": "1.0",
+      "transcription_model": "gpt-transcribe"
+    },
+    "database": "postgres",
+    "job_count": 2,
+    "jobs": [
+      {
+        "application": null,
+        "attempt_count": 1,
+        "attempts": [
+          {
+            "attempt_id": "aebdebb3-4dca-4283-9a86-0be2e5eec2d7",
+            "events": 1,
+            "failed_events": 1,
+            "first_at": "2026-10-29T11:00:19.809703+00:00",
+            "first_sequence": 1,
+            "heartbeats": 0,
+            "last_at": "2026-10-29T11:00:19.809703+00:00",
+            "last_sequence": 1,
+            "progress_events": 0,
+            "stage": "prepare_candidate",
+            "succeeded_events": 0
+          }
+        ],
+        "batch_id": null,
+        "cancel_requested": false,
+        "completed_stages": [],
+        "configuration": {
+          "extraction_model": "gpt-6.1-sol",
+          "media_implementation_version": "video-preparation.v1",
+          "prompt_version": "candidate-v1",
+          "schema_version": "1.0",
+          "transcription_model": "gpt-transcribe"
+        },
+        "created_at": "2026-10-29T11:00:11.376887+00:00",
+        "error_code": "SOURCE_UNREADABLE",
+        "error_sha256": "c2a6c30ad3aa259f5ea7680ed1e4a017eef5178f3464d0210f6693a88ae8f4f4",
+        "extraction": null,
+        "input_sha256": "18694c76b5c89d81a741183c4b98d78c3a0df83097cbb27b2caef96989fdffd0",
+        "job_id": "3a535387-bc1a-4e31-9bb4-34369d758238",
+        "n8n_execution_id": "31309",
+        "outbox": [
+          {
+            "attempt_count": 1,
+            "delivered_at": "2026-10-29T11:00:16.68938+00:00",
+            "dispatch_generation": 1,
+            "input_hash_matches": true,
+            "last_error_present": false,
+            "outbox_id": "6b99fb29-e93d-4167-b58a-60a74b12a9f4",
+            "stage": "prepare_candidate",
+            "status": "delivered"
+          }
+        ],
+        "preparation": null,
+        "providers": [],
+        "row_version": 3,
+        "source": {
+          "asset_id": "570f4097-bfb4-4283-8573-1c17d093d619",
+          "duration_ms": null,
+          "frozen_source_matches": null,
+          "height": null,
+          "private_path_bound": true,
+          "sha256": null,
+          "size_bytes": 3968236,
+          "status": "uploading",
+          "width": null
+        },
+        "source_asset_id": "570f4097-bfb4-4283-8573-1c17d093d619",
+        "stage": "prepare_candidate",
+        "stage_attempts": {
+          "apply_candidate": 0,
+          "extract_candidate": 0,
+          "prepare_candidate": 1,
+          "select_frames": 0,
+          "transcribe_candidate": 0
+        },
+        "status": "failed",
+        "transcription": null,
+        "updated_at": "2026-10-29T11:00:19.80607+00:00",
+        "upload_id": "da3f42a2-af6b-468f-8119-9c7024312a63"
+      },
+      {
+        "application": null,
+        "attempt_count": 2,
+        "attempts": [
+          {
+            "attempt_id": "105c5e58-7f05-41c3-96aa-44cb06dcce3a",
+            "events": 5,
+            "failed_events": 0,
+            "first_at": "2026-10-29T11:11:26.007996+00:00",
+            "first_sequence": 1,
+            "heartbeats": 4,
+            "last_at": "2026-10-29T11:12:32.311682+00:00",
+            "last_sequence": 5,
+            "progress_events": 0,
+            "stage": "prepare_candidate",
+            "succeeded_events": 1
+          }
+        ],
+        "batch_id": null,
+        "cancel_requested": false,
+        "completed_stages": [
+          {
+            "attempt_id": "105c5e58-7f05-41c3-96aa-44cb06dcce3a",
+            "completed_at": "2026-10-29T11:12:32.301485+00:00",
+            "input_hash_matches": true,
+            "result_schema": "media-preparation.v1",
+            "stage": "prepare_candidate",
+            "stage_output_id": "76806dbb-bf43-4d11-9c31-3e3ca52cd460"
+          }
+        ],
+        "configuration": {
+          "extraction_model": "gpt-6.1-sol",
+          "media_implementation_version": "video-preparation.v1",
+          "prompt_version": "candidate-v1",
+          "schema_version": "1.0",
+          "transcription_model": "gpt-transcribe"
+        },
+        "created_at": "2026-10-29T11:10:57.40055+00:00",
+        "error_code": null,
+        "error_sha256": null,
+        "extraction": null,
+        "input_sha256": "cea4aa2b97eac78b34fd3d93c11ed4d6470f63303bb87e8e5c7ee8ede5d72216",
+        "job_id": "2c5d4582-44e1-4fe2-b49b-d574cf872680",
+        "n8n_execution_id": "31311",
+        "outbox": [
+          {
+            "attempt_count": 1,
+            "delivered_at": "2026-10-29T11:11:03.030662+00:00",
+            "dispatch_generation": 1,
+            "input_hash_matches": true,
+            "last_error_present": false,
+            "outbox_id": "e9ed0ea1-43d3-4d96-b33c-569c06272d8d",
+            "stage": "prepare_candidate",
+            "status": "delivered"
+          },
+          {
+            "attempt_count": 1,
+            "delivered_at": "2026-10-29T11:12:35.807959+00:00",
+            "dispatch_generation": 2,
+            "input_hash_matches": true,
+            "last_error_present": false,
+            "outbox_id": "b075d834-a53d-441f-b795-679bae20bf93",
+            "stage": "transcribe_candidate",
+            "status": "delivered"
+          }
+        ],
+        "preparation": {
+          "attempt_id": "105c5e58-7f05-41c3-96aa-44cb06dcce3a",
+          "audio_chunk_count": 1,
+          "duration_ms": 19800,
+          "ffmpeg_version": "5.1.9-0+deb12u1",
+          "ffmpeg_version_sha256": "9cdd658c93b143ee8be4773fae64427ed742b38139b44274d41fe33a428fa2de",
+          "has_audio": true,
+          "height": 480,
+          "implementation_version": "video-preparation.v1",
+          "payload_id": "76806dbb-bf43-4d11-9c31-3e3ca52cd460",
+          "payload_sha256": "4819f55aabfb098090315f0b23e4c163ed52c16b30d8cb64d666b03bd4b2ce17",
+          "rotation_degrees": 0,
+          "sampled_frame_count": 12,
+          "source_sha256_matches": true,
+          "warning_count": 0,
+          "width": 800
+        },
+        "providers": [],
+        "row_version": 8,
+        "source": {
+          "asset_id": "a48e23bd-2c81-4d1f-8edb-64131bef1a12",
+          "duration_ms": 19800,
+          "frozen_source_matches": true,
+          "height": 480,
+          "private_path_bound": true,
+          "sha256": "260b82845e677126cfcdc0d99479eaf22eec13c84f6a4c8845e7fd95c49d1010",
+          "size_bytes": 3968236,
+          "status": "ready",
+          "width": 800
+        },
+        "source_asset_id": "a48e23bd-2c81-4d1f-8edb-64131bef1a12",
+        "stage": "transcribe_candidate",
+        "stage_attempts": {
+          "apply_candidate": 0,
+          "extract_candidate": 0,
+          "prepare_candidate": 1,
+          "select_frames": 0,
+          "transcribe_candidate": 1
+        },
+        "status": "running",
+        "transcription": null,
+        "updated_at": "2026-10-29T11:12:35.055368+00:00",
+        "upload_id": "f330f432-e63c-4e4a-b2ba-6ba161b96bd1"
+      }
+    ],
+    "observed_at": "2026-10-29T11:12:36.167206+00:00",
+    "project_id": "bd14d10f-b1c5-4d6a-8b4d-e5c48208433c",
+    "protected_m02": {
+      "job_checkpoint_unchanged": true,
+      "manual_note_retained": true,
+      "spec_checkpoint_unchanged": true
+    },
+    "query_role": "postgres",
+    "workspace_id": "e470aefd-e0f7-480c-bf0d-170cb2cb7069"
+  },
+  "summary": {
+    "outcomes": {
+      "queued": 0,
+      "running": 1,
+      "waiting_for_input": 0,
+      "succeeded": 0,
+      "failed": 1,
+      "cancelled": 0
+    },
+    "jobs": [
+      {
+        "job_id": "3a535387-bc1a-4e31-9bb4-34369d758238",
+        "status": "failed",
+        "five_stages_committed": false,
+        "source_ready": false,
+        "provider_metadata_rows": 0,
+        "transcript_present": false,
+        "extraction_present": false,
+        "grounded_locators": null,
+        "candidate_media_applied": false,
+        "partial_material": false
+      },
+      {
+        "job_id": "2c5d4582-44e1-4fe2-b49b-d574cf872680",
+        "status": "running",
+        "five_stages_committed": false,
+        "source_ready": true,
+        "provider_metadata_rows": 0,
+        "transcript_present": false,
+        "extraction_present": false,
+        "grounded_locators": null,
+        "candidate_media_applied": false,
+        "partial_material": false
+      }
+    ],
+    "protected_m02_unchanged": true
+  }
+}
