@@ -2620,6 +2620,13 @@ components:
           $ref: '#/components/schemas/RowVersion'
         frame_extraction:
           $ref: '#/components/schemas/FrameExtractionOutcome'
+        can_retry:
+          type: boolean
+          description: Current server-derived action for presentation_render, independent of the lifetime attempt
+            count.
+        can_cancel:
+          type: boolean
+          description: Current server-derived cancellation action for presentation_render.
       required:
       - id
       - workspace_id
@@ -2640,16 +2647,13 @@ components:
       - if:
           properties:
             kind:
-              const: frame_extract
-            status:
-              const: succeeded
+              const: presentation_render
+          required:
+          - kind
         then:
           required:
-          - frame_extraction
-        else:
-          not:
-            required:
-            - frame_extraction
+          - can_retry
+          - can_cancel
     FrameExtractionOutcome:
       type: object
       additionalProperties: false
@@ -2773,10 +2777,13 @@ components:
           type: string
         manifest_hash:
           type: string
+          pattern: ^[a-f0-9]{64}$
         slides:
           type: array
           items:
             $ref: '#/components/schemas/VersionSlide'
+          minItems: 2
+          maxItems: 1000
         pdf_asset_id:
           anyOf:
           - $ref: '#/components/schemas/Id'
@@ -2789,6 +2796,19 @@ components:
           - type: 'null'
         generation_job_id:
           $ref: '#/components/schemas/Id'
+        manifest_asset_id:
+          anyOf:
+          - &id001
+            $ref: '#/components/schemas/Id'
+          - type: 'null'
+        generated_by: *id001
+        failure_code:
+          anyOf:
+          - type: string
+            pattern: ^[A-Z][A-Z0-9_]{0,99}$
+          - type: 'null'
+        render_context:
+          $ref: '#/components/schemas/PresentationRenderContext'
       required:
       - id
       - series_id
@@ -2803,6 +2823,140 @@ components:
       - created_at
       - ready_at
       - generation_job_id
+      - manifest_asset_id
+      - generated_by
+      - failure_code
+      - render_context
+      description: Internal fixed-version projection. All content and render_context derive from its immutable snapshot;
+        no private storage destinations or live library values are returned. Ready requires both manifest and PDF
+        assets.
+    PresentationRenderContext:
+      type: object
+      additionalProperties: false
+      properties:
+        cover:
+          $ref: '#/components/schemas/ReviewCover'
+        template:
+          $ref: '#/components/schemas/TemplateIdentity'
+        slide_contexts:
+          type: array
+          minItems: 2
+          maxItems: 1000
+          items:
+            $ref: '#/components/schemas/PresentationSlideContext'
+      required:
+      - cover
+      - template
+      - slide_contexts
+    PresentationSlideContext:
+      type: object
+      additionalProperties: false
+      properties:
+        slide_id: &id002
+          $ref: '#/components/schemas/Id'
+        role_id:
+          anyOf:
+          - *id002
+          - type: 'null'
+        slot_id:
+          anyOf:
+          - *id002
+          - type: 'null'
+        provisional:
+          type: boolean
+        review_status:
+          anyOf:
+          - type: string
+            enum:
+            - reviewed
+            - unreviewed
+          - type: 'null'
+        frames:
+          type: array
+          maxItems: 3
+          items:
+            $ref: '#/components/schemas/ReviewFrame'
+      required:
+      - slide_id
+      - role_id
+      - slot_id
+      - provisional
+      - review_status
+      - frames
+    ReviewFrame:
+      type: object
+      additionalProperties: false
+      properties:
+        asset_id: &id003
+          $ref: '#/components/schemas/Id'
+        source_asset_id: *id003
+        timestamp_ms:
+          type: integer
+          minimum: 0
+        width:
+          type: integer
+          minimum: 1
+        height:
+          type: integer
+          minimum: 1
+        sha256:
+          type: string
+          pattern: ^[a-f0-9]{64}$
+      required:
+      - asset_id
+      - source_asset_id
+      - timestamp_ms
+      - width
+      - height
+      - sha256
+    TemplateIdentity:
+      type: object
+      additionalProperties: false
+      properties:
+        key: &id004
+          $ref: '#/components/schemas/Id'
+        version: *id004
+        content_sha256:
+          type: string
+          pattern: ^[a-f0-9]{64}$
+        font_key: *id004
+      required:
+      - key
+      - version
+      - content_sha256
+      - font_key
+    ReviewCover:
+      type: object
+      additionalProperties: false
+      properties:
+        project_name: &id005
+          type: string
+        client_name:
+          anyOf:
+          - *id005
+          - type: 'null'
+        title: *id005
+        output_type:
+          type: string
+          enum:
+          - selection
+          - shortlist
+        logo_asset_id:
+          anyOf:
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
+        logo_placement:
+          type: string
+          enum:
+          - cover
+          - every_slide
+      required:
+      - project_name
+      - client_name
+      - title
+      - output_type
+      - logo_asset_id
+      - logo_placement
     VersionSlide:
       type: object
       additionalProperties: false
@@ -2857,6 +3011,10 @@ components:
           anyOf:
           - $ref: '#/components/schemas/Id'
           - type: 'null'
+        role_category:
+          anyOf:
+          - type: string
+          - type: 'null'
       required:
       - id
       - version_id
@@ -2872,6 +3030,7 @@ components:
       - frame_asset_ids
       - video_asset_id
       - logo_asset_id
+      - role_category
     RoleRequirements:
       type: object
       additionalProperties: false
@@ -2974,7 +3133,10 @@ components:
           type: integer
           minimum: 0
         generation_note:
-          $ref: '#/components/schemas/NullableText'
+          anyOf:
+          - type: string
+            maxLength: 8000
+          - type: 'null'
       required:
       - expected_workspace_row_version
       - expected_draft_revision
@@ -3023,13 +3185,13 @@ components:
           $ref: '#/components/schemas/RowVersion'
         archived:
           type: boolean
-        template_key: &id001
+        template_key: &id006
           $ref: '#/components/schemas/Id'
-        template_version: *id001
+        template_version: *id006
         template_content_sha256:
           type: string
           pattern: ^[a-f0-9]{64}$
-        font_key: *id001
+        font_key: *id006
       required:
       - id
       - workspace_id
@@ -3221,31 +3383,31 @@ components:
           - pending
         role_id:
           anyOf:
-          - &id002
+          - &id007
             $ref: '#/components/schemas/Id'
           - type: 'null'
-        role_name: &id003
+        role_name: &id008
           type: string
         slot_id:
           anyOf:
-          - *id002
+          - *id007
           - type: 'null'
-        slot_label: *id003
+        slot_label: *id008
         assignment_id:
           anyOf:
-          - *id002
+          - *id007
           - type: 'null'
         workspace_candidate_id:
           anyOf:
-          - *id002
+          - *id007
           - type: 'null'
         candidate_id:
           anyOf:
-          - *id002
+          - *id007
           - type: 'null'
         candidate_media_id:
           anyOf:
-          - *id002
+          - *id007
           - type: 'null'
         position:
           anyOf:
@@ -3289,7 +3451,11 @@ components:
             $ref: '#/components/schemas/ReviewFrame'
         video_asset_id:
           anyOf:
-          - *id002
+          - *id007
+          - type: 'null'
+        role_category:
+          anyOf:
+          - type: string
           - type: 'null'
       required:
       - kind
@@ -3312,32 +3478,6 @@ components:
       - source_fields
       - frames
       - video_asset_id
-    ReviewFrame:
-      type: object
-      additionalProperties: false
-      properties:
-        asset_id: &id004
-          $ref: '#/components/schemas/Id'
-        source_asset_id: *id004
-        timestamp_ms:
-          type: integer
-          minimum: 0
-        width:
-          type: integer
-          minimum: 1
-        height:
-          type: integer
-          minimum: 1
-        sha256:
-          type: string
-          pattern: ^[a-f0-9]{64}$
-      required:
-      - asset_id
-      - source_asset_id
-      - timestamp_ms
-      - width
-      - height
-      - sha256
     ReviewFields:
       type: object
       additionalProperties: false
@@ -3373,54 +3513,6 @@ components:
       - classification
       - availability
       - presentation_notes
-    ReviewCover:
-      type: object
-      additionalProperties: false
-      properties:
-        project_name: &id005
-          type: string
-        client_name:
-          anyOf:
-          - *id005
-          - type: 'null'
-        title: *id005
-        output_type:
-          type: string
-          enum:
-          - selection
-          - shortlist
-        logo_asset_id:
-          anyOf:
-          - $ref: '#/components/schemas/Id'
-          - type: 'null'
-        logo_placement:
-          type: string
-          enum:
-          - cover
-          - every_slide
-      required:
-      - project_name
-      - client_name
-      - title
-      - output_type
-      - logo_asset_id
-      - logo_placement
-    TemplateIdentity:
-      type: object
-      additionalProperties: false
-      properties:
-        key: &id006
-          $ref: '#/components/schemas/Id'
-        version: *id006
-        content_sha256:
-          type: string
-          pattern: ^[a-f0-9]{64}$
-        font_key: *id006
-      required:
-      - key
-      - version
-      - content_sha256
-      - font_key
     ReviewIssue:
       type: object
       additionalProperties: false

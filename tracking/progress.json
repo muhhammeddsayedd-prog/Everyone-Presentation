@@ -1,8 +1,8 @@
 {
   "pack_version": "1.0",
-  "updated_at": "2026-10-29",
+  "updated_at": "2026-10-30",
   "implementation_started": true,
-  "current_milestone": "M05",
+  "current_milestone": "M06",
   "milestones": [
     {
       "id": "M00",
@@ -412,7 +412,7 @@
       "blockers": [
         "English-only/mixed speech and the broader independently labelled real semantic evaluation set remain unverified. One Arabic clip has two independently checked populated facts; no overall accuracy or correction-rate claim."
       ],
-      "next_action": "Retain the completed full-resolution three-pick review, five authenticated artifact byte matches, independently grounded two-fact correction/Reviewed and current preservation. Complete broader English/mixed semantic evaluation when labelled material is available; continue authorized M05. Hosting deferred."
+      "next_action": "Broader independently labelled English/mixed semantic evaluation remains unverified. Preserve owner-confirmed two-fact Reviewed and old9/108 evidence; continue independently authorized M06 while labels/materials remain unavailable. Hosting deferred."
     },
     {
       "id": "M04",
@@ -477,22 +477,45 @@
         "packages/templates/registry.json"
       ],
       "blockers": [],
-      "next_action": "Continue M05 immutable versions/viewer/PDF from the exact series/fingerprint and measured registered template. Preserve migrations20-23, ready source media, existing grants and runtime11. Hosting deferred."
+      "next_action": "M04 and M05 completed within their matrices; continue M06 scoped external review/delivery while preserving assignments, frozen versions, private notes, current authority and hosting deferral."
     },
     {
       "id": "M05",
       "title": "Template, versioning and PDF",
-      "status": "in_progress",
+      "status": "verified",
       "depends_on": [
         "M04"
       ],
-      "commits": [],
-      "migrations": [],
+      "commits": [
+        "51aa4c5c179cfe2d94a7ffac0270b17d2fe18815"
+      ],
+      "migrations": [
+        {
+          "file": "supabase/migrations/20261029215218_m05_immutable_presentation_versions.sql",
+          "sha256": "09d78c225ca02d436a8b1c2bcc6e55f273dfea116976807af4a8b228b99de5f4",
+          "local": "applied",
+          "cloud": "applied",
+          "target": "pyibofyctwnqpvktepse",
+          "evidence": "tracking/evidence/cloud-m05-presentations/2026-10-29T22-18-18-933100Z-c8396a58-managed-bucket-reconciliation.json",
+          "activation": "tracking/evidence/m05/presentation-activation/2026-10-29T22-22-47-241238+00-00-4a529fc8-enable.json"
+        }
+      ],
       "evidence": [
-        "development/m05/CONTRACT_REVIEW.md"
+        "development/m05/ACCEPTANCE.md",
+        "tracking/evidence/m05/ACCEPTANCE_MATRIX.md",
+        "tracking/evidence/m05/versions-local/2026-10-29T22-10-01-204Z-9e1811b5.json",
+        "tracking/evidence/m05/presentation-race-local/2026-10-29T22-09-10-701Z-7c35b61c.json",
+        "tracking/evidence/m05/native/2026-10-29T22-04-53.263Z-sql-capture-pdf.json",
+        "tracking/evidence/m05/native/2026-10-29T22-05-38.046Z-synthetic.json",
+        "tracking/evidence/m05/live-app/2026-10-29T22-46-40-524986Z-5f2674be.json",
+        "tracking/evidence/m05/app-capture/2026-10-29T22-43-01-866603Z-a630f28c.json",
+        "tracking/evidence/m05/live-artifacts/2026-10-29T22-36-17.626Z.json",
+        "tracking/evidence/m05/live-artifacts/2026-10-29T22-47-00.640Z.json",
+        "tracking/evidence/m05/anonymous-access/2026-10-29T22-44-30-406Z-ab883e30.json",
+        "tracking/evidence/m05/quality/2026-10-29-final.json"
       ],
       "blockers": [],
-      "next_action": "Agree typed private immutable renderer snapshot/public manifest, then implement coherent generation with three stale-input guards, native WF03 PDF/artifact lifecycle, snapshot-only viewer and authenticated version media/download. Hosting deferred."
+      "next_action": "M05 complete within its matrix. Continue M06 scoped guest links, viewed-version feedback and access-only PDF variants; preserve all Ready snapshots, existing source pins and hosting deferral."
     },
     {
       "id": "M06",
@@ -505,7 +528,7 @@
       "migrations": [],
       "evidence": [],
       "blockers": [],
-      "next_action": "Read milestone packet and inspect actual prerequisites."
+      "next_action": "Read M06 packet and M05 handoff; implement expiring/revocable exact-series review grants, feedback on the viewed version and link-scoped PDF access variants without changing saved content. Hosting remains deferred."
     },
     {
       "id": "M07",
@@ -556,7 +579,8 @@
       ]
     },
     "pdf_guest_mcp_restore_deploy": {
-      "status": "not_run"
+      "status": "not_run",
+      "scope": "Combined future M06/M07 guest delivery, external Claude OAuth, restore and production deployment gate. Canonical internal PDF is separately verified by M05; this combined gate remains not_run."
     },
     "real_user_m01": {
       "status": "implemented_unverified",
@@ -610,28 +634,41 @@
       "scope": "Project-local skill setup only; does not advance app milestones or verify integrations."
     }
   },
-  "notes": "M00 verified; M01/M02 in progress; M03-M07 not started. Thirteen coordinated migrations local/cloud. Real pasted, PDF and mixed Arabic DOCX app processing through n8n/OpenAI passed; private originals/derivatives and previous origins retained. Corrupt-file no-job rejection, four ungranted Storage reads and late manual-edit protection passed with stated evidence scopes. Final Dummy Test job intentionally Needs input to preserve its manual note and prior3roles/5slots. Full facade/MCP/recovery/restore/production acceptance remains incomplete. Hosting deferred.",
+  "notes": "M00/M02/M04/M05 verified within scoped matrices; M01 in progress; M03 implemented_unverified for broader independently labelled semantic evaluation; M06/M07 not started. Local/canonical history24, current template1.1.0, three actual Ready versions/three downloaded PDFs/all18 pages independently checked, V1 metadata and repeated PDF bytes unchanged after V2. Final613 module/57 browser/143 Node/355 Python checks pass with7 supplementary checks and explicit overlap. Hosting/production, guest delivery, external Claude OAuth, restore/endurance, exact General Sans parity and independent downloaded-image pixel identity remain outside completed scope. See current handoff/matrices and ignored dist/SOURCE_CHECKPOINT.json for final source/archive privacy identity.",
   "latest_checkpoint": {
-    "milestone": "M04",
+    "milestone": "M05",
     "status": "verified",
-    "observed_at": "2026-10-29T21:04:46.846381+00:00",
-    "canonical_migration_count": 23,
-    "canonical_observer": "tracking/evidence/m04/review-app-capture/2026-10-29T21-01-02-629938Z-1fea890a.json",
-    "actual_app_journey": "tracking/evidence/m04/review-live-app/2026-10-29-final-review-journey.json",
-    "quality": "tracking/evidence/m04/review-quality/2026-10-29-final.json",
+    "observed_at": "2026-10-29T22:54:46.026863+00:00",
+    "implementation_commit": "51aa4c5c179cfe2d94a7ffac0270b17d2fe18815",
+    "canonical_migration_count": 24,
+    "local_migration_count": 24,
+    "template_version": "1.1.0",
+    "canonical_observer": "tracking/evidence/m05/app-capture/2026-10-29T22-43-01-866603Z-a630f28c.json",
+    "actual_app_journey": "tracking/evidence/m05/live-app/2026-10-29T22-46-40-524986Z-5f2674be.json",
+    "quality": "tracking/evidence/m05/quality/2026-10-29-final.json",
+    "ready_versions": 3,
+    "actual_pdf_downloads": 3,
+    "v1_repeated_bytes_identical": true,
     "hosting_deferred": true,
-    "next_milestone": "M05"
+    "production_deployment_verified": false,
+    "next_milestone": "M06"
   },
   "historical_notes": [
     {
       "scope": "Prior superseded pre-manual8 note retained as history, not current state.",
       "text": "M00 verified. Owner reports successful sign-in and Dummy Test visibility; review tabs were then closed. Seven migrations local/five cloud; proposed cloud release pending. Fixed11 replay cases and M02local27-stage/six-pair/restart/cleanup proof pass;120 module tests, lint/typecheck/build and four synthetic browser journeys pass. Hosted logo, real AI/n8n, native render/PDF, guest, MCP, restore and production acceptance remain unverified."
+    },
+    {
+      "scope": "Preserved former unlabelled13-migration status note",
+      "original_observed_at": null,
+      "superseded_at": "2026-10-29T23:04:25.713963+00:00",
+      "text": "M00 verified; M01/M02 in progress; M03-M07 not started. Thirteen coordinated migrations local/cloud. Real pasted, PDF and mixed Arabic DOCX app processing through n8n/OpenAI passed; private originals/derivatives and previous origins retained. Corrupt-file no-job rejection, four ungranted Storage reads and late manual-edit protection passed with stated evidence scopes. Final Dummy Test job intentionally Needs input to preserve its manual note and prior3roles/5slots. Full facade/MCP/recovery/restore/production acceptance remains incomplete. Hosting deferred."
     }
   ],
   "active_session": {
     "started_at": "2026-10-29T21:04:46.846381+00:00",
     "milestone": "M05",
-    "status": "in_progress",
+    "status": "checkpoint_complete",
     "authorization": "Owner requested completion of M03/M04 followed by the next milestone; hosting remains deferred",
     "base_commit": "fe90400e7bab0e0c43038d2baebf6e1e96d95568",
     "m04_completed_at": "2026-10-29T21:04:46.846381+00:00",
@@ -646,7 +683,28 @@
     "unrelated_paths_preserved": [
       "Screenshots/",
       "redesign-output/"
-    ]
+    ],
+    "finished_at": "2026-10-29T22:54:46.026863+00:00",
+    "implementation_commit": "51aa4c5c179cfe2d94a7ffac0270b17d2fe18815",
+    "current_checkpoint": {
+      "milestone": "M05",
+      "status": "verified",
+      "observed_at": "2026-10-29T22:54:46.026863+00:00",
+      "implementation_commit": "51aa4c5c179cfe2d94a7ffac0270b17d2fe18815",
+      "canonical_migration_count": 24,
+      "local_migration_count": 24,
+      "template_version": "1.1.0",
+      "canonical_observer": "tracking/evidence/m05/app-capture/2026-10-29T22-43-01-866603Z-a630f28c.json",
+      "actual_app_journey": "tracking/evidence/m05/live-app/2026-10-29T22-46-40-524986Z-5f2674be.json",
+      "quality": "tracking/evidence/m05/quality/2026-10-29-final.json",
+      "ready_versions": 3,
+      "actual_pdf_downloads": 3,
+      "v1_repeated_bytes_identical": true,
+      "hosting_deferred": true,
+      "production_deployment_verified": false,
+      "next_milestone": "M06"
+    },
+    "source_artifact_record": "dist/SOURCE_CHECKPOINT.json; written after final delivery commit"
   },
   "historical_sessions": [
     {
@@ -1069,6 +1127,17 @@
       "implementation_archive_sha256": "0ccf37645aa78c4c7ddd86154ae2c413bb4ed1bd2c3be7df131ca20d4860900e",
       "implementation_privacy_scan_passed": true,
       "implementation_privacy_families": 9
+    },
+    {
+      "milestone": "M04",
+      "status": "verified",
+      "observed_at": "2026-10-29T21:04:46.846381+00:00",
+      "canonical_migration_count": 23,
+      "canonical_observer": "tracking/evidence/m04/review-app-capture/2026-10-29T21-01-02-629938Z-1fea890a.json",
+      "actual_app_journey": "tracking/evidence/m04/review-live-app/2026-10-29-final-review-journey.json",
+      "quality": "tracking/evidence/m04/review-quality/2026-10-29-final.json",
+      "hosting_deferred": true,
+      "next_milestone": "M05"
     }
   ],
   "session_checkpoints": [

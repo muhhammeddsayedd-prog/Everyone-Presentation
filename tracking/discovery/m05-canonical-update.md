@@ -1,0 +1,9 @@
+# M05 additive canonical discovery update
+
+Observed through the exact24 readback and separately pinned managed Storage metadata, not inferred from design SQL. Target remains the owner-selected Everyone-Presentation project. All prior discovery snapshots retain their original dates.
+
+Migration24 adds eps.presentation_processing_config, eps.presentation_versions, eps.version_slides, eps.presentation_version_assets and eps.presentation_asset_grants; retained template1.1.0; a private64MiB output bucket. It extends existing constrained functions/owners and the existing11 runtime operations. No login/Auth identity or broad service-role permission was added. Metadata/asset rows and private physical identities remain distinct from public safe version DTOs.
+
+[Managed bucket columns](../evidence/m05/managed-bucket-metadata/2026-10-29T22-16-07-911742Z-d07ccf2f.json) explicitly capture the five extra managed columns/defaults/types/enums/constraints omitted from the local bucket shape. [Read-only reconciliation](../evidence/cloud-m05-presentations/2026-10-29T22-18-18-933100Z-c8396a58-managed-bucket-reconciliation.json) proves their exact values on the new bucket and preserves the original failed comparator receipts. All other compared old catalog/business/managed Auth metadata/counts/defaults/runtime/Storage/configuration and intended additions match. Do not normalize away unknown future differences.
+
+[Single-flag enable](../evidence/m05/presentation-activation/2026-10-29T22-22-47-241238+00-00-4a529fc8-enable.json) is separate from DDL. [Latest app observer](../evidence/m05/app-capture/2026-10-29T22-43-01-866603Z-a630f28c.json) has three Ready versions, verified captured hashes/retained asset identities and preserved M02/Reviewed source state. Data/ACL details and exact native-versus-injected test boundaries are in the M05 acceptance matrix. Hosting remains deferred.
