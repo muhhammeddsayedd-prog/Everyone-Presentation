@@ -3,6 +3,9 @@ import assert from 'node:assert/strict';
 import { DomainError } from '@eps/domain';
 import { handleCandidatesRequest,isCandidatesRoute } from '../../apps/web/lib/candidates-http.ts';
 import type { CandidatesOperations as CentralCandidates } from '../../apps/web/lib/candidates-http.ts';
+import { createBearerUserClient } from '../../packages/central/src/client.ts';
+import { createCentralCandidateSupport } from '../../packages/central/src/candidate-support.ts';
+import { validateContract } from '../../apps/web/lib/validation.ts';
 const actor={principal_id:'verified-current-user'};
 const context={requestId:'candidate-http-test',clientType:'mcp' as const,idempotencyKey:'synthetic-candidate-intent'};
 function request(path:string,method='GET',body?:unknown){return new Request('http://127.0.0.1/api/v1/'+path,{method,headers:{'Content-Type':'application/json'},...(body===undefined?{}:{body:JSON.stringify(body)})});}
@@ -44,14 +47,26 @@ test('chosen timestamp extraction uses the bounded schema and same actor intent'
  assert.equal(calls.length,1);
 });
 test('supporting-file routes keep pagination, revision and acting-user authority',async()=>{
- const calls:unknown[][]=[];const service={listCandidateSupport:async(...args:unknown[])=>{calls.push(args);return {data:[],page:{next_cursor:null}};},archiveCandidateSupport:async(...args:unknown[])=>{calls.push(args);return {ok:true};}} as unknown as CentralCandidates;
+ const calls:unknown[][]=[];const service={listCandidateSupport:async(...args:unknown[])=>{calls.push(args);return {data:[],page:{next_cursor:null}};},archiveCandidateSupport:async(...args:unknown[])=>{calls.push(args);return {success:true,affected_ids:['support']};}} as unknown as CentralCandidates;
  const list=['candidates','candidate','supporting-files'];const archive=['candidate-support','support','archive'];
  assert.equal(isCandidatesRoute(archive),true);
  assert.equal((await handleCandidatesRequest(request(list.join('/')+'?limit=25'),list,actor,service,context)).status,200);
  assert.deepEqual(calls[0],[actor,'candidate',{limit:25}]);
- assert.equal((await handleCandidatesRequest(request(archive.join('/'),'POST',{row_version:2}),archive,actor,service,context)).status,200);
+ const archived=await handleCandidatesRequest(request(archive.join('/'),'POST',{row_version:2}),archive,actor,service,context);assert.equal(archived.status,200);validateContract('Success',(await archived.json()).data);
  assert.deepEqual(calls[1],[actor,'support',{row_version:2},context]);
  await assert.rejects(handleCandidatesRequest(request(list.join('/')+'?principal_id=other'),list,actor,service,context),DomainError);
  await assert.rejects(handleCandidatesRequest(request(archive.join('/'),'POST',{row_version:2,delete_asset:true}),archive,actor,service,context),DomainError);
+ for(const reason of [null,'Unsupported reason'])await assert.rejects(handleCandidatesRequest(request(archive.join('/'),'POST',{row_version:2,reason}),archive,actor,service,context),DomainError);
  assert.equal(calls.length,2);
+});
+
+test('support archive HTTP response maps the installed SDK private acknowledgement to the published Success',async()=>{
+ const principal='10000000-0000-4000-8000-000000000001',support='30000000-0000-4000-8000-000000000001';let rpcCalls=0;
+ const client=createBearerUserClient({url:'https://synthetic-support.example.invalid',publishableKey:'sb_publishable_synthetic',accessToken:'synthetic-user-token'},{fetch:async(input,init)=>{
+  const url=new URL(input instanceof Request?input.url:String(input));if(url.pathname==='/auth/v1/user')return Response.json({id:principal,role:'authenticated',aud:'authenticated',is_anonymous:false});
+  assert.equal(url.pathname,'/rest/v1/rpc/eps_archive_candidate_support');assert.equal(JSON.parse(String(init?.body)).p_support_id,support);rpcCalls++;return Response.json({ok:true});
+ }});
+ const service=await createCentralCandidateSupport(client),path=['candidate-support',support,'archive'];
+ const response=await handleCandidatesRequest(request(path.join('/'),'POST',{row_version:1}),path,{principal_id:principal},service as unknown as CentralCandidates,context);
+ const result=await response.json();assert.equal(response.status,200);validateContract('Success',result.data);assert.deepEqual(result,{request_id:context.requestId,data:{success:true,affected_ids:[support]}});assert.equal(rpcCalls,1);
 });

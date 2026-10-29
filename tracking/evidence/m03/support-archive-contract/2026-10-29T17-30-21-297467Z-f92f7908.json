@@ -1,0 +1,86 @@
+{
+  "recorded_at": "2026-10-29T17:30:21.297082+00:00",
+  "result": "passed",
+  "scope": "Offline M03 supporting-file archive contract correction; installed SDK fetch is mocked, official MCP transport is in-memory. No live app, cloud, database, provider, Storage or private credential calls.",
+  "correction": {
+    "private_rpc_acknowledgement": "Exactly {ok:true}; malformed or additional fields fail closed.",
+    "public_response": "Published Success {success:true, affected_ids:[validated support ID]}.",
+    "request_schema": "CandidateSupportArchive requires only row_version; reason (including null), deletion flags and other fields rejected before HTTP/MCP service access.",
+    "shared_idempotency_policy_unchanged": {
+      "minimum": 16,
+      "maximum": 200
+    },
+    "sql_and_migrations_changed": false
+  },
+  "red": {
+    "command": [
+      "node",
+      "tools/run-tests.mjs",
+      "packages/central/test/candidate-support.test.ts",
+      "tests/server/candidates-http.test.ts",
+      "tests/server/mcp.test.ts"
+    ],
+    "exit_code": 1,
+    "tests": 20,
+    "passed": 16,
+    "failed": 4,
+    "failures": [
+      "Adapter exposed private acknowledgement instead of Success.",
+      "HTTP admitted unsupported reason.",
+      "Installed SDK adapter HTTP response failed published Success validation.",
+      "Official MCP advertised schema admitted unsupported reason."
+    ]
+  },
+  "green": {
+    "command": [
+      "node",
+      "tools/run-tests.mjs",
+      "packages/central/test/candidate-support.test.ts",
+      "tests/server/candidates-http.test.ts",
+      "tests/server/mcp.test.ts",
+      "tests/contracts/foundation.test.ts"
+    ],
+    "exit_code": 0,
+    "tests": 24,
+    "passed": 24,
+    "failed": 0,
+    "sources_stable": true
+  },
+  "additional_checks": {
+    "global_typecheck_exit_code": 0,
+    "scoped_eslint_exit_code": 0,
+    "generator_regeneration_in_temporary_clone_byte_stable": true,
+    "generated_files_compared": 4,
+    "source_diff_check": "No code, test or contract changes after the final green source capture.",
+    "intermediate_test_setup_issues_resolved": [
+      "Use the existing official MCP SDK validator export instead of an unavailable root Ajv import.",
+      "Annotate the SDK protocol/schema type boundary; final typecheck passed."
+    ]
+  },
+  "independent_review": {
+    "reviewer": "m03_worker",
+    "result": "clear",
+    "p1_p2_findings": 0,
+    "independently_passed_tests": 24
+  },
+  "source_seals": {
+    "packages/central/src/candidate-support.ts": "bdbe3df4bd6dc455de74a2ace13b22b34c045a57f202cec917f3d3e9070606fc",
+    "packages/domain/src/candidate-support.ts": "5104d5ed90f4c08c17b8889a4a625b226d250fda29c2776b7d83aff0c57e28b5",
+    "packages/central/test/candidate-support.test.ts": "e8fbbaff34fa482d0a626ceabd422cd0df6328c32b193b0ca022d773c05236d6",
+    "apps/web/lib/candidates-http.ts": "b53846006b2d681defc4a3719d660031f2fd146024daba99069c97351e920db9",
+    "tests/server/candidates-http.test.ts": "47c478b2d05e1356395f7dbbc89eff73ac2f7ee89936881dbcea812a83bbdfa0",
+    "tests/server/mcp.test.ts": "24cd87fbd563ac4ab54e0f5c084956b81c2ea4d29473bee84cbf07fe650d69aa",
+    "tools/update_m03_remaining_contracts.py": "b5197464f08525751ec61f083c752751a120da25cd2b611fc4993ec2cabb678d",
+    "contracts/openapi.yaml": "bab07d140de0a32ee9422837402ed1ef57a1f1d49ac01a4caafaa6aa787eaac4",
+    "contracts/mcp-tool-catalog.json": "73f474a8f20a36f689b3cb265ecf6a7af3d60303fe5a795d928e5237dc07f1c7",
+    "apps/web/lib/generated-contracts.json": "59494e2d11304839774546aed5df3dd49655663dc689574632a78876c64341c6",
+    "docs/integrations/API_CONTRACT.md": "c8ed167d95a1d0e76e4f5d99971991d136cc1d3d81b211fa392aa800a8b836ee",
+    "development/m03/REMAINING_UPLOADS_PLAN.md": "2d2e7d8f7deba2bdf8c4291c2a9bee8af46efbc57c3b91b81a481e4b70310b71"
+  },
+  "cloud_called": false,
+  "database_called": false,
+  "provider_called": false,
+  "storage_called": false,
+  "private_credentials_read": false,
+  "runtime_configuration_changed": false
+}

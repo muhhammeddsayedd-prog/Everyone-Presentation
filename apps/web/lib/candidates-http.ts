@@ -4,7 +4,7 @@ import { DomainError, type Actor, type CandidateCreate, type CandidatePatch, typ
 import type { getCandidatesService } from './candidates';
 import { json, NO_STORE, readJson } from './http';
 import { validateContract } from './validation';
-import type { FrameExtractionInput } from '@eps/domain';
+import type { FrameExtractionInput,CandidateSupportArchive } from '@eps/domain';
 
 export type CandidatesOperations = Awaited<ReturnType<typeof getCandidatesService>>;
 export function isCandidatesRoute(s: string[]) {
@@ -38,7 +38,7 @@ export async function handleCandidatesRequest(request: Request, s: string[], act
   if (s[0] === 'candidates' && s.length === 3 && s[2] === 'supporting-files' && method === 'GET') return paged(await service.listCandidateSupport(actor,s[1],search(url,false)));
   if (url.search) invalid();
   if (s[0] === 'roles' && method === 'GET') return json(await service.suggestCandidateFilters(actor, s[1]), context.requestId);
-  if (s[0] === 'candidate-support' && method === 'POST') return json(await service.archiveCandidateSupport(actor,s[1],await body<{row_version:number}>('ArchiveRequest'),context),context.requestId);
+  if (s[0] === 'candidate-support' && method === 'POST') return json(await service.archiveCandidateSupport(actor,s[1],await body<CandidateSupportArchive>('CandidateSupportArchive'),context),context.requestId);
   if (s[0] === 'candidate-media' && s.length === 4 && method === 'POST') return json(await service.extractCandidateFrames(actor,s[1],await body<FrameExtractionInput>('FrameExtraction'),context),context.requestId,202);
   if (s[0] === 'candidates') {
     if (s.length === 1 && method === 'POST') return json(await service.createCandidate(actor, await body<CandidateCreate>('CandidateCreate'), context), context.requestId, 201);

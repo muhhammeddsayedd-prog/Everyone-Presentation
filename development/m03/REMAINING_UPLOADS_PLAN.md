@@ -106,8 +106,14 @@ eps_archive_candidate_support(p_support_id,p_input,p_idempotency_key)
 ```
 
 List default25/max100 returns `{data,page:{next_cursor}}`. CandidateSupport is
-`{id,row_version,candidate_id,asset,created_at}`; archive takes `{row_version}` and
-returns `{ok:true}`. CompleteUpload must set `start_processing:false` for support;
+`{id,row_version,candidate_id,asset,created_at}`. The SQL archive RPC takes
+`{row_version}` and returns the private acknowledgement `{ok:true}`. The Central
+adapter validates that exact acknowledgement and returns the published HTTP/MCP
+`Success` value `{success:true,affected_ids:[candidate_support_id]}`. The strict
+`CandidateSupportArchive` request schema accepts only `row_version`; `reason`
+and asset-deletion fields are rejected before the service is called. This is an
+additive M03 association operation, not a change to generic archive requests.
+CompleteUpload must set `start_processing:false` for support;
 support never creates a job. No attach endpoint exists: reservation requires
 `candidate_id` and `workspace_id` and current cast.read+cast.upload+workspace write.
 

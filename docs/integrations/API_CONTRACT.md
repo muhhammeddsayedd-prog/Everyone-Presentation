@@ -101,6 +101,17 @@ A completed new candidate scan creates an immediately visible Unreviewed record.
 
 Profile edits and `confirm_candidate_reviewed` check library editor capabilities. Reviewed is projected from the saved confirmed reusable-facts fingerprint and current canonical/extension facts; an outside app’s fact edit cannot leave a stale Reviewed badge. Project availability and template changes do not reset this fact-review status. Confirmation may include confirmed absence of values; Reviewed does not mean every field is populated and does not mean final booking approval.
 
+Supporting-file association archival is the additive M03 operation
+`archive_candidate_support`. HTTP and MCP accept only
+`CandidateSupportArchive: {row_version}` with an Idempotency-Key and current
+`cast.write` authority. `reason`, deletion flags and other fields are rejected;
+this operation does not use the generic `ArchiveRequest`. Its public response
+is `Success: {success:true, affected_ids:[candidate_support_id]}` inside the
+normal response envelope. The adapter validates the private SQL acknowledgement
+`{ok:true}` and maps it to that public shape. Archival retains the private asset
+and does not alter candidate facts. Other archive operations keep their own
+published request contracts.
+
 ### Project media and assignments
 
 `workspace_candidates` holds project availability, selected candidate media/frames and internal notes. The Library’s default frame selection can change without rewriting another workspace’s chosen material. `update_workspace_candidate` validates that every selected frame belongs to its selected source media; maximum three, fewer allowed. No automatically substituting the newest candidate video into an existing presentation.

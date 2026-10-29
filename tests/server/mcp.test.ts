@@ -4,6 +4,9 @@ import { DomainError } from '@eps/domain';
 import { createStudioMcpServer, implementedMcpTools, invokeMcpTool, requireLocalMcpRequest, type McpServices } from '../../apps/web/lib/mcp.ts';
 import { Client, InMemoryTransport, StreamableHTTPClientTransport } from '@modelcontextprotocol/client';
 import { createMcpHandler } from '@modelcontextprotocol/server';
+import { AjvJsonSchemaValidator } from '@modelcontextprotocol/client/validators/ajv';
+import { createBearerUserClient } from '../../packages/central/src/client.ts';
+import { createCentralCandidateSupport } from '../../packages/central/src/candidate-support.ts';
 
 const actor = { principal_id: 'synthetic-producer' };
 function services() {
@@ -15,6 +18,30 @@ function services() {
     studio: { getProject: operation } } as unknown as McpServices;
   return { ports, calls };
 }
+
+test('support archive publishes version-only input and Success through the official MCP client',async()=>{
+ const principal='10000000-0000-4000-8000-000000000001',support='30000000-0000-4000-8000-000000000001';let rpcCalls=0;
+ const sdk=createBearerUserClient({url:'https://synthetic-support.example.invalid',publishableKey:'sb_publishable_synthetic',accessToken:'synthetic-user-token'},{fetch:async(input,init)=>{
+  const url=new URL(input instanceof Request?input.url:String(input));if(url.pathname==='/auth/v1/user')return Response.json({id:principal,role:'authenticated',aud:'authenticated',is_anonymous:false});
+  assert.equal(url.pathname,'/rest/v1/rpc/eps_archive_candidate_support');assert.equal(JSON.parse(String(init?.body)).p_support_id,support);rpcCalls++;return Response.json({ok:true});
+ }});
+ const{ports}=services();ports.candidates.archiveCandidateSupport=(await createCentralCandidateSupport(sdk)).archiveCandidateSupport;
+ const acting={principal_id:principal},server=createStudioMcpServer(acting,ports),client=new Client({name:'eps-support-archive-test',version:'1.0.0'});
+ const[clientTransport,serverTransport]=InMemoryTransport.createLinkedPair();await server.connect(serverTransport);await client.connect(clientTransport);
+ try{
+  const tool=(await client.listTools()).tools.find(v=>v.name==='archive_candidate_support')!;assert.ok(tool);
+  // The protocol DTO permits wider JSON values than the SDK validator's schema
+  // type; compilation below validates the advertised schemas at runtime.
+  type Schema=Parameters<AjvJsonSchemaValidator['getValidator']>[0];
+  const validator=new AjvJsonSchemaValidator(),inputCheck=validator.getValidator(tool.inputSchema as Schema),outputCheck=validator.getValidator(tool.outputSchema as Schema);
+  const args={candidate_support_id:support,body:{row_version:1},idempotency_key:'synthetic-support-archive'};assert.equal(inputCheck(args).valid,true);
+  for(const reason of [null,'Unsupported reason'])assert.equal(inputCheck({...args,body:{...args.body,reason}}).valid,false);
+  const result=await client.callTool({name:tool.name,arguments:args});assert.equal(result.isError,undefined);assert.equal(outputCheck(result.structuredContent).valid,true);
+  assert.deepEqual((result.structuredContent as {data:unknown}).data,{success:true,affected_ids:[support]});assert.equal(outputCheck({request_id:'test',data:{ok:true}}).valid,false);
+  for(const reason of [null,'Unsupported reason'])assert.equal((await invokeMcpTool(tool.name,{...args,body:{...args.body,reason}},acting,ports)).isError,true);
+  assert.equal(rpcCalls,1);
+ }finally{await client.close();await server.close();}
+});
 test('implemented candidate tools include filters and frame extraction; private callbacks and future generation stay absent', () => {
   const names = implementedMcpTools().map(tool => tool.name);
   for (const name of ['get_specs','submit_specs','list_roles','resize_role_slots','reorder_workspace','retry_job','get_project','create_upload_session']) assert.ok(names.includes(name));

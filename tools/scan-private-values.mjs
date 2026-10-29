@@ -18,7 +18,11 @@ const PREFIX = 'Everyone-Presentation-Studio/';
 const ZIP = path.join(ROOT, 'dist/Everyone-Presentation-Studio-Source.zip');
 const PYTHON = path.join(ROOT, '.venv-skills', process.platform === 'win32' ? 'Scripts/python.exe' : 'bin/python');
 const PHASES = new Set(['source_inventory', 'private_configuration', 'source_bytes', 'index_listing', 'index_blobs', 'archive_structure', 'source_stability', 'private_stability']);
-const LIMITS = { files: 20_000, entry: 64 * 1024 * 1024, total: 512 * 1024 * 1024, manifest: 16 * 1024 * 1024, commandMs: 300_000 };
+// The retained source/evidence inventory is 704,051,170 bytes. Aggregate growth
+// does not increase a single file/read batch or the compressed archive buffer.
+export const privateScanLimits = Object.freeze({ files: 20_000, entry: 64 * 1024 * 1024, total: 1024 * 1024 * 1024,
+  batch: 64 * 1024 * 1024, compressedZip: 128 * 1024 * 1024, manifest: 16 * 1024 * 1024, commandMs: 300_000 });
+const LIMITS = privateScanLimits;
 const PRIVATE = [
   ['.env.worker.local', 16 * 1024], ['.env.worker-runtime.local', 64 * 1024],
   ['.local/cloud-logo-provision/verifier.json', 512], ['.local/specs-assets-verifier/verifier.json', 512],
@@ -32,6 +36,16 @@ export class PrivateScanError extends Error {
 const fail = (code = 'PRIVATE_SCAN_UNCONFIRMED') => { throw new PrivateScanError(code); };
 const exact = (value, keys) => value && typeof value === 'object' && !Array.isArray(value)
   && Object.keys(value).length === keys.length && keys.every(key => Object.hasOwn(value, key));
+/** Pure metadata accounting; source, expanded ZIP and unique staged bytes use
+ * the same 1GiB bound without ever allocating that aggregate in one Buffer. */
+export function accumulateScanBytes(total, size) {
+  if (!Number.isSafeInteger(total) || total < 0 || total > LIMITS.total || !Number.isSafeInteger(size) || size < 0
+    || size > LIMITS.entry || total + size > LIMITS.total) fail();
+  return total + size;
+}
+export function requireCompressedZipSize(size) {
+  if (!Number.isSafeInteger(size) || size < 0 || size > LIMITS.compressedZip) fail();
+}
 function decode(bytes) { try { return new TextDecoder('utf-8', { fatal: true, ignoreBOM: true }).decode(bytes); } catch { return fail(); } }
 function keyJson(bytes, prefix, keyId) {
   try {
@@ -126,14 +140,17 @@ async function boundedFile(file, maximum, privateFile = false) {
 function commandEnvironment() {
   return Object.fromEntries(['PATH', 'Path', 'PATHEXT', 'SystemRoot', 'WINDIR', 'TEMP', 'TMP', 'USERPROFILE', 'HOME'].filter(key => typeof process.env[key] === 'string').map(key => [key, process.env[key]]));
 }
-async function command(program, args, input, maximum = LIMITS.total) {
+async function command(program, args, input, maximum = LIMITS.batch) {
   return new Promise((resolve, reject) => {
     let complete = false; let size = 0; let errorBytes = 0; const chunks = [];
     const child = spawn(program, args, { cwd: ROOT, env: commandEnvironment(), windowsHide: true, shell: false, stdio: ['pipe', 'pipe', 'pipe'] });
-    const finish = error => { if (complete) return; complete = true; clearTimeout(timer); if (error) { child.kill(); reject(new PrivateScanError()); } else resolve(Buffer.concat(chunks)); };
+    const finish = error => { if (complete) return; complete = true; clearTimeout(timer);
+      if (error) { chunks.length = 0; child.kill(); reject(new PrivateScanError()); }
+      else { const output = Buffer.concat(chunks); chunks.length = 0; resolve(output); }
+    };
     const timer = setTimeout(() => finish(true), LIMITS.commandMs);
     child.on('error', () => finish(true)); child.on('close', code => finish(code !== 0));
-    child.stdout.on('data', part => { size += part.length; if (size > maximum) finish(true); else chunks.push(part); });
+    child.stdout.on('data', part => { if (complete) return; size += part.length; if (size > maximum) finish(true); else chunks.push(part); });
     // Drain but never retain or publish raw child diagnostics.
     child.stderr.on('data', part => { errorBytes += part.length; if (errorBytes > 1024 * 1024) finish(true); });
     child.stdin.on('error', () => finish(true)); child.stdin.end(input);
@@ -154,18 +171,79 @@ export async function readSourceInventory(runCommand = inventoryCommand) {
   if (!Array.isArray(selected) || !selected.length || selected.length > LIMITS.files || !selected.every(safeRelative) || new Set(selected).size !== selected.length) fail();
   return selected;
 }
-export function inspectGitBatch(bytes, objects, patterns) {
+function requireObjectIds(objects) {
+  if (!Array.isArray(objects) || !objects.length || objects.length > LIMITS.files
+    || !objects.every(value => typeof value === 'string' && /^(?:[a-f0-9]{40}|[a-f0-9]{64})$/u.test(value))
+    || new Set(objects).size !== objects.length) fail();
+}
+/** Metadata-only Git preflight. Missing/nonblob/reordered/duplicate responses
+ * cannot become an incomplete clean scan or an unbounded payload request. */
+export function inspectGitObjectMetadata(bytes, objects) {
+  requireObjectIds(objects);
+  if (!Buffer.isBuffer(bytes) || bytes.length > LIMITS.files * 256) fail();
+  const lines = bytes.toString('latin1').split('\n');
+  if (lines.pop() !== '' || lines.length !== objects.length) fail();
+  let total = 0;
+  return lines.map((line, index) => {
+    const header = line.split(' ');
+    if (line.length > 256 || header.length !== 3 || header[0] !== objects[index] || header[1] !== 'blob' || !/^(0|[1-9][0-9]*)$/u.test(header[2])) fail();
+    const size = Number(header[2]); total = accumulateScanBytes(total, size);
+    return { object: objects[index], bytes: size };
+  });
+}
+function requireBatchPayloadLimit(maximum) {
+  if (!Number.isSafeInteger(maximum) || maximum < 1 || maximum > LIMITS.batch) fail();
+}
+/** Payload bytes stay<=64MiB; exact ASCII headers/trailing newlines are separately
+ * budgeted so a valid 64MiB entry remains supported. Tests may only narrow this
+ * ceiling; no CLI option can alter it. No aggregate payload Buffer. */
+export function planGitBlobBatches(metadata, maximum = LIMITS.batch) {
+  requireBatchPayloadLimit(maximum);
+  if (!Array.isArray(metadata)) fail(); requireObjectIds(metadata.map(value => value?.object));
+  let total = 0; const batches = []; let batch = { entries: [], bytes: 0, wire_bytes: 0 };
+  for (const value of metadata) {
+    if (!exact(value, ['object', 'bytes'])) fail(); total = accumulateScanBytes(total, value.bytes); if (value.bytes > maximum) fail();
+    if (batch.entries.length && batch.bytes + value.bytes > maximum) { batches.push(batch); batch = { entries: [], bytes: 0, wire_bytes: 0 }; }
+    batch.entries.push({ object: value.object, bytes: value.bytes }); batch.bytes += value.bytes;
+    batch.wire_bytes += value.bytes + Buffer.byteLength(`${value.object} blob ${value.bytes}\n`) + 1;
+  }
+  if (batch.entries.length) batches.push(batch);
+  return { blobs: metadata.length, bytes: total, batches };
+}
+export function inspectGitBatch(bytes, objects, patterns, expectedSizes) {
+  requireObjectIds(objects);
+  if (!Buffer.isBuffer(bytes) || bytes.length > LIMITS.batch + objects.length * 256) fail();
+  if (expectedSizes !== undefined && (!(expectedSizes instanceof Map) || expectedSizes.size !== objects.length
+    || objects.some(object => !expectedSizes.has(object)))) fail();
   let offset = 0; let hits = 0; let total = 0;
   for (const object of objects) {
     const newline = bytes.indexOf(10, offset); if (newline < offset || newline - offset > 256) fail();
-    const header = bytes.subarray(offset, newline).toString('ascii').split(' ');
+    const header = bytes.subarray(offset, newline).toString('latin1').split(' ');
     if (header.length !== 3 || header[0] !== object || header[1] !== 'blob' || !/^(0|[1-9][0-9]*)$/u.test(header[2])) fail();
-    const size = Number(header[2]); total += size;
-    if (!Number.isSafeInteger(size) || size > LIMITS.entry || total > LIMITS.total || newline + size + 1 >= bytes.length) fail();
+    const size = Number(header[2]); total = accumulateScanBytes(total, size);
+    if (total > LIMITS.batch || expectedSizes !== undefined && expectedSizes.get(object) !== size || newline + size + 1 >= bytes.length) fail();
     const content = bytes.subarray(newline + 1, newline + 1 + size); if (containsPrivateValue(content, patterns)) hits++;
     offset = newline + size + 2; if (bytes[offset - 1] !== 10) fail();
   }
   if (offset !== bytes.length) fail(); return { blobs: objects.length, bytes: total, hits };
+}
+/** Synthetic command injection is test-only, as with inventoryCommand above.
+ * Both Git phases disable replacements and lazy network fetches. */
+export async function scanGitObjects(objects, patterns, runCommand = command, maximum = LIMITS.batch) {
+  requireBatchPayloadLimit(maximum);
+  requireObjectIds(objects); const requested = [...objects]; containsPrivateValue(Buffer.alloc(0), patterns);
+  const gitArgs = ['--no-replace-objects', '--no-lazy-fetch', 'cat-file'];
+  const metadata = inspectGitObjectMetadata(await runCommand('git', [...gitArgs, '--batch-check'], requested.join('\n') + '\n', LIMITS.files * 256), requested);
+  const plan = planGitBlobBatches(metadata, maximum); const seen = new Set(); let blobs = 0; let bytes = 0; let hits = 0;
+  for (const batch of plan.batches) {
+    const ids = batch.entries.map(value => value.object); const sizes = new Map(batch.entries.map(value => [value.object, value.bytes]));
+    const result = inspectGitBatch(await runCommand('git', [...gitArgs, '--batch'], ids.join('\n') + '\n', batch.wire_bytes), ids, patterns, sizes);
+    if (result.blobs !== ids.length || result.bytes !== batch.bytes) fail();
+    for (const object of ids) { if (seen.has(object)) fail(); seen.add(object); }
+    blobs += result.blobs; bytes += result.bytes; hits += result.hits;
+  }
+  if (blobs !== plan.blobs || bytes !== plan.bytes || seen.size !== requested.length || requested.some(object => !seen.has(object))) fail();
+  return { blobs, bytes, hits, batches: plan.batches.length, coverage_verified: true };
 }
 function validateManifest(value, expected, actual) {
   if (!exact(value, ['project', 'kind', 'observed_at', 'status', 'supplied_manifest', 'files']) || value.project !== 'Everyone Presentation Studio'
@@ -182,7 +260,8 @@ function validateManifest(value, expected, actual) {
 /** Real ZIP structure/CRC + exact source-manifest parity; synthetic buffers are
  * accepted only through this pure offline seam, never from CLI arguments. */
 export async function inspectPackZip(bytes, expected, patterns) {
-  if (!Buffer.isBuffer(bytes) || bytes.length > LIMITS.total || !(expected instanceof Map) || !expected.size || expected.size > LIMITS.files) fail();
+  if (!Buffer.isBuffer(bytes) || !(expected instanceof Map) || !expected.size || expected.size > LIMITS.files) fail();
+  requireCompressedZipSize(bytes.length);
   return new Promise((resolve, reject) => {
     yauzl.fromBuffer(bytes, { lazyEntries: true, strictFileNames: true, validateEntrySizes: true }, (error, zip) => {
       if (error || !zip) { reject(new PrivateScanError()); return; }
@@ -200,7 +279,7 @@ export async function inspectPackZip(bytes, expected, patterns) {
         const relative = entry.fileName.startsWith(PREFIX) ? entry.fileName.slice(PREFIX.length) : '';
         if (++entries > LIMITS.files + 1 || !safeRelative(relative) || seen.has(relative.toLowerCase()) || entry.isEncrypted()
           || ((entry.externalFileAttributes >>> 16) & 0o170000) === 0o120000 || ![0, 8].includes(entry.compressionMethod)
-          || !Number.isSafeInteger(entry.uncompressedSize) || entry.uncompressedSize < 0 || entry.uncompressedSize > LIMITS.entry
+          || !Number.isSafeInteger(entry.uncompressedSize) || entry.uncompressedSize < 0 || entry.uncompressedSize > (relative === 'SOURCE_MANIFEST.json' ? LIMITS.manifest : LIMITS.entry)
           || total + entry.uncompressedSize > LIMITS.total || relative !== 'SOURCE_MANIFEST.json' && !expected.has(relative)) { stop(); return; }
         seen.add(relative.toLowerCase());
         zip.openReadStream(entry, (readError, stream) => {
@@ -210,7 +289,7 @@ export async function inspectPackZip(bytes, expected, patterns) {
             let tail = Buffer.alloc(0); let hit = containsPrivateValue(Buffer.from(entry.fileName), patterns);
             const overlap = Math.max(...patterns.map(pattern => pattern.length)) - 1;
             for await (const part of stream) {
-              size += part.length; total += part.length; if (size > entry.uncompressedSize || total > LIMITS.total) fail();
+              size += part.length; total = accumulateScanBytes(total, part.length); if (size > entry.uncompressedSize) fail();
               checksum = crc32(part, checksum); sha.update(part);
               const combined = Buffer.concat([tail, part]); hit ||= containsPrivateValue(combined, patterns); tail = combined.subarray(Math.max(0, combined.length - overlap));
               if (relative === 'SOURCE_MANIFEST.json') { if (size > LIMITS.manifest) fail(); chunks.push(part); }
@@ -236,8 +315,7 @@ export async function scanFixedPrivateValues() {
   const expected = new Map(); const identities = new Map(); let sourceBytes = 0; let sourceHits = 0;
   phase = 'source_bytes';
   for (const relative of selected) {
-    const item = await boundedFile(path.join(ROOT, relative), LIMITS.entry); sourceBytes += item.bytes.length;
-    if (sourceBytes > LIMITS.total) fail();
+    const item = await boundedFile(path.join(ROOT, relative), LIMITS.entry); sourceBytes = accumulateScanBytes(sourceBytes, item.bytes.length);
     if (containsPrivateValue(item.bytes, patterns) || containsPrivateValue(Buffer.from(relative), patterns)) sourceHits++;
     expected.set(relative, { bytes: item.bytes.length, sha256: digest(item.bytes) }); identities.set(relative, item.identity);
   }
@@ -250,9 +328,9 @@ export async function scanFixedPrivateValues() {
   }
   if (!objects.size) fail();
   phase = 'index_blobs';
-  const staged = inspectGitBatch(await command('git', ['cat-file', '--batch'], [...objects].join('\n') + '\n', LIMITS.total + LIMITS.files * 256), [...objects], patterns);
+  const staged = await scanGitObjects([...objects], patterns);
   phase = 'archive_structure';
-  const archive = await boundedFile(ZIP, LIMITS.total); const zipped = await inspectPackZip(archive.bytes, expected, patterns);
+  const archive = await boundedFile(ZIP, LIMITS.compressedZip); const zipped = await inspectPackZip(archive.bytes, expected, patterns);
   phase = 'source_stability';
   const finalSelected = await readSourceInventory(); if (JSON.stringify(finalSelected) !== JSON.stringify(selected)) fail();
   for (const relative of selected) if (!same(await lstat(path.join(ROOT, relative), { bigint: true }), identities.get(relative))) fail();
@@ -270,7 +348,8 @@ export async function scanFixedPrivateValues() {
   const hits = sourceHits + staged.hits + indexPathHits + zipped.hits;
   return { result: hits ? 'failed' : 'passed', private_value_found: hits > 0, private_configuration_sources: 7, private_value_families: 10,
     source_files: selected.length, source_bytes: sourceBytes, source_hits: sourceHits, staged_entries: indexEntries, staged_blobs: staged.blobs,
-    staged_blob_bytes: staged.bytes, staged_hits: staged.hits + indexPathHits, archive_entries: zipped.entries, archive_bytes_expanded: zipped.bytes,
+    staged_blob_bytes: staged.bytes, staged_batches: staged.batches, staged_coverage_verified: staged.coverage_verified,
+    staged_hits: staged.hits + indexPathHits, archive_entries: zipped.entries, archive_bytes_expanded: zipped.bytes,
     archive_hits: zipped.hits, manifest_integrity_verified: zipped.manifest_integrity_verified, source_and_archive_stable: true, private_input_snapshot_stable: true,
     identities_scanned: false, private_values_or_digests_recorded: false, external_network_called: false };
   } catch (error) { throw new PrivateScanError(error instanceof PrivateScanError ? error.code : 'PRIVATE_SCAN_UNCONFIRMED', phase); }

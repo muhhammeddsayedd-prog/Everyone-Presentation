@@ -20,6 +20,10 @@ schemas['CandidateSupport']={'type':'object','additionalProperties':False,'prope
     'asset':{'$ref':'#/components/schemas/MediaAsset'},'created_at':{'$ref':'#/components/schemas/DateTime'}},
     'required':['id','row_version','candidate_id','asset','created_at'],
     'description':'Explicit supporting attachment, separate from extracted frames and reusable facts.'}
+schemas['CandidateSupportArchive']={'type':'object','additionalProperties':False,
+    'properties':{'row_version':copy.deepcopy(schemas['ArchiveRequest']['properties']['row_version'])},
+    'required':['row_version'],
+    'description':'Archive only the supporting-file association at its current version. No reason, asset deletion or other fields are accepted.'}
 schemas['FrameExtraction']['properties']['timestamps_ms']['items']['maximum']=1799999
 schemas['FrameExtractionOutcome']={'type':'object','additionalProperties':False,'properties':{
     'requested_count':{'type':'integer','minimum':1,'maximum':10},'extracted_count':{'type':'integer','minimum':0,'maximum':10},
@@ -38,6 +42,7 @@ listing['responses']['200']['content']['application/json']['schema']['properties
 archive=copy.deepcopy(api['paths']['/candidates/{candidate_id}/archive']['post'])
 archive.update(operationId='archive_candidate_support',summary='Archive a supporting-file association without deleting retained bytes',tags=['candidate-media'])
 archive['x-shared-service-operation']='archive_candidate_support';archive['parameters'][0]['name']='candidate_support_id'
+archive['requestBody']['content']['application/json']['schema']={'$ref':'#/components/schemas/CandidateSupportArchive'}
 api['paths']['/candidates/{candidate_id}/supporting-files']={'get':listing}
 api['paths']['/candidate-support/{candidate_support_id}/archive']={'post':archive}
 file.write_text(yaml.safe_dump(api,sort_keys=False,allow_unicode=True,width=140),encoding='utf8')

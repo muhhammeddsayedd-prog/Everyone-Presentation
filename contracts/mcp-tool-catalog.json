@@ -19735,7 +19735,7 @@
             "maxLength": 200
           },
           "body": {
-            "$ref": "#/$defs/ArchiveRequest"
+            "$ref": "#/$defs/CandidateSupportArchive"
           }
         },
         "required": [
@@ -19744,36 +19744,24 @@
           "body"
         ],
         "$defs": {
-          "ArchiveRequest": {
+          "CandidateSupportArchive": {
             "type": "object",
             "additionalProperties": false,
             "properties": {
               "row_version": {
                 "$ref": "#/$defs/RowVersion"
-              },
-              "reason": {
-                "$ref": "#/$defs/NullableText"
               }
             },
             "required": [
               "row_version"
-            ]
+            ],
+            "description": "Archive only the supporting-file association at its current version. No reason, asset deletion or other fields are accepted."
           },
           "Id": {
             "type": "string",
             "minLength": 1,
             "maxLength": 200,
             "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
-          },
-          "NullableText": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
           },
           "RowVersion": {
             "type": "integer",

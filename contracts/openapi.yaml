@@ -9232,7 +9232,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ArchiveRequest'
+              $ref: '#/components/schemas/CandidateSupportArchive'
 components:
   securitySchemes:
     InternalBearer:
@@ -12274,4 +12274,13 @@ components:
       - extracted_count
       - unavailable_timestamps_ms
       - warnings
+    CandidateSupportArchive:
+      type: object
+      additionalProperties: false
+      properties:
+        row_version:
+          $ref: '#/components/schemas/RowVersion'
+      required:
+      - row_version
+      description: Archive only the supporting-file association at its current version. No reason, asset deletion or other fields are accepted.
 x-contract-status: implementation specification; verify with generated routes and contract tests

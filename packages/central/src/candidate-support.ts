@@ -1,6 +1,6 @@
 import type {SupabaseClient} from '@supabase/supabase-js';
 import {DomainError,type Actor,type MutationContext} from '@eps/domain';
-import type {CandidateSupport} from '../../domain/src/candidate-support.ts';
+import type {CandidateSupport,CandidateSupportArchive} from '../../domain/src/candidate-support.ts';
 import {verifyCentralUser} from './client.ts';import {centralRpcError} from './errors.ts';
 const UUID=/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/u;
 const invalid=():never=>{throw new DomainError('CENTRAL_RESPONSE_INVALID','Central supporting files did not match their contract.',503);};
@@ -19,7 +19,14 @@ export async function createCentralCandidateSupport(client:SupabaseClient){
  async function rpc(name:string,args:Record<string,unknown>,context?:MutationContext){try{let query=client.rpc(name,args);if(context?.requestId){if(!/^[A-Za-z0-9._:-]{1,128}$/u.test(context.requestId))throw new DomainError('INVALID_REQUEST','Provide a bounded request correlation ID.',400);query=query.setHeader('X-EPS-Request-ID',context.requestId);}if(context?.clientType){if(!['browser','api','mcp'].includes(context.clientType))throw new DomainError('INVALID_REQUEST','Provide a supported client type.',400);query=query.setHeader('X-EPS-Client-Type',context.clientType);}const r=await query;if(r.error)throw centralRpcError(r.error);return r.data;}catch(e){if(e instanceof DomainError)throw e;throw new DomainError('DEPENDENCY_UNAVAILABLE','Supporting files are temporarily unavailable.',503,{},true);}}
  return{
   async listCandidateSupport(acting:Actor,candidateId:string,options:{cursor?:string;limit?:number}={}){actor(acting);if(!options||typeof options!=='object'||Array.isArray(options)||Object.keys(options).some(k=>!['cursor','limit'].includes(k))||!UUID.test(candidateId)||options.cursor!==undefined&&!UUID.test(options.cursor)||options.limit!==undefined&&(!Number.isInteger(options.limit)||options.limit<1||options.limit>100))throw new DomainError('INVALID_REQUEST','Provide a candidate and bounded supporting-file page.',400);const r=exact(await rpc('eps_list_candidate_support',{p_candidate_id:candidateId,p_cursor:options.cursor??null,p_limit:options.limit??25}),['data','page']);const p=exact(r.page,['next_cursor']);if(!Array.isArray(r.data)||r.data.length>(options.limit??25)||!(p.next_cursor===null||typeof p.next_cursor==='string'&&UUID.test(p.next_cursor)))invalid();const data=(r.data as unknown[]).map(v=>dto(v,candidateId));if(new Set(data.map(v=>v.id)).size!==data.length)invalid();return{data,page:{next_cursor:p.next_cursor as string|null}};},
-  async archiveCandidateSupport(acting:Actor,id:string,input:{row_version:number},context?:MutationContext){actor(acting);if(!UUID.test(id)||!input||Object.keys(input).join(',')!=='row_version'||!Number.isSafeInteger(input.row_version)||input.row_version<1)throw new DomainError('INVALID_REQUEST','Provide the current supporting-file version.',400);if(typeof context?.idempotencyKey!=='string'||context.idempotencyKey.trim().length<16||context.idempotencyKey.length>200)throw new DomainError('IDEMPOTENCY_KEY_REQUIRED','Provide an Idempotency-Key.',400);const r=exact(await rpc('eps_archive_candidate_support',{p_support_id:id,p_input:input,p_idempotency_key:context.idempotencyKey},context),['ok']);if(r.ok!==true)invalid();return{ok:true as const};}
+  async archiveCandidateSupport(acting:Actor,id:string,input:CandidateSupportArchive,context?:MutationContext){
+   actor(acting);
+   if(!UUID.test(id)||!input||typeof input!=='object'||Array.isArray(input)||Object.keys(input).join(',')!=='row_version'||!Number.isSafeInteger(input.row_version)||input.row_version<1)throw new DomainError('INVALID_REQUEST','Provide the current supporting-file version.',400);
+   if(typeof context?.idempotencyKey!=='string'||context.idempotencyKey.trim().length<16||context.idempotencyKey.length>200)throw new DomainError('IDEMPOTENCY_KEY_REQUIRED','Provide an Idempotency-Key.',400);
+   const acknowledgement=exact(await rpc('eps_archive_candidate_support',{p_support_id:id,p_input:input,p_idempotency_key:context.idempotencyKey},context),['ok']);
+   if(acknowledgement.ok!==true)invalid();
+   return{success:true as const,affected_ids:[id]};
+  }
  };
 }
 export type CentralCandidateSupport=Awaited<ReturnType<typeof createCentralCandidateSupport>>;

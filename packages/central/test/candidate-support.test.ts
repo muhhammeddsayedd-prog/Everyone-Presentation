@@ -6,7 +6,16 @@ async function harness(){let response:unknown={data:[row],page:{next_cursor:null
 const code=(v:string)=>(e:unknown)=>e instanceof DomainError&&e.code===v;
 test('support list projects exact candidate and bounded cursor page while archive carries stable mutation correlation',async()=>{
  const h=await harness();assert.deepEqual(await h.api.listCandidateSupport({principal_id:principal},candidate,{limit:1}),{data:[row],page:{next_cursor:null}});assert.equal(h.requests[0].body.p_limit,1);
- h.set({ok:true});assert.deepEqual(await h.api.archiveCandidateSupport({principal_id:principal},support,{row_version:1},{idempotencyKey:'synthetic-support-archive',requestId:'synthetic-request',clientType:'mcp'}),{ok:true});assert.equal(h.requests[1].body.p_idempotency_key,'synthetic-support-archive');assert.equal(h.requests[1].headers.get('X-EPS-Request-ID'),'synthetic-request');assert.equal(h.requests[1].headers.get('X-EPS-Client-Type'),'mcp');
+ h.set({ok:true});assert.deepEqual(await h.api.archiveCandidateSupport({principal_id:principal},support,{row_version:1},{idempotencyKey:'synthetic-support-archive',requestId:'synthetic-request',clientType:'mcp'}),{success:true,affected_ids:[support]});assert.equal(h.requests[1].body.p_idempotency_key,'synthetic-support-archive');assert.equal(h.requests[1].headers.get('X-EPS-Request-ID'),'synthetic-request');assert.equal(h.requests[1].headers.get('X-EPS-Client-Type'),'mcp');
+});
+
+test('support archive rejects unsupported request fields and never treats malformed private acknowledgements as Success',async()=>{
+ const h=await harness();const context={idempotencyKey:'synthetic-support-archive'};
+ for(const input of [{row_version:1,reason:null},{row_version:1,reason:'Unsupported reason'},{row_version:1,delete_asset:true},[],null])await assert.rejects(h.api.archiveCandidateSupport({principal_id:principal},support,input as never,context),code('INVALID_REQUEST'));
+ assert.equal(h.requests.length,0);
+ for(const acknowledgement of [{ok:false},{ok:'true'},{ok:true,private_payload:'must-not-escape'},{success:true,affected_ids:[support]},null,[]]){
+  h.set(acknowledgement);await assert.rejects(h.api.archiveCandidateSupport({principal_id:principal},support,{row_version:1},context),error=>code('CENTRAL_RESPONSE_INVALID')(error)&&!JSON.stringify(error).includes('must-not-escape'));
+ }
 });
 test('foreign actor, unknown page inputs and forged support DTOs never become public attachments',async()=>{
  const h=await harness();await assert.rejects(h.api.listCandidateSupport({principal_id:asset},candidate),code('ACCESS_DENIED'));await assert.rejects(h.api.listCandidateSupport({principal_id:principal},candidate,{limit:101}),code('INVALID_REQUEST'));await assert.rejects(h.api.listCandidateSupport({principal_id:principal},candidate,{raw_query:'private'} as never),code('INVALID_REQUEST'));assert.equal(h.requests.length,0);

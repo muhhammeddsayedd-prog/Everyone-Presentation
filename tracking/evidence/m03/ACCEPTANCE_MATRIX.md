@@ -28,3 +28,5 @@ is implied. Independent M04 development may continue while the quality gates
 above remain explicit; M03 must not be marked verified yet.
 
 Current session gates: [475 app tests/lint/build](remaining-current-quality/2026-10-29T16-59-51-257Z-900566f0.json), [100 Node plus192 Python operational checks](final-offline-checks/2026-10-29T17-00-19-996537Z-c1b499b1.json), [final post-app canonical state](final-canonical/2026-10-29T16-32-19-570378Z-7a1e0a1c.json), and [Processing UI correction](processing-label-fix/browser.json). They do not close the independent quality gates above.
+
+Final source gates: [478 app tests, lint and isolated build](remaining-current-quality/2026-10-29T17-30-44-566Z-2cf2934d.json), [104 Node and192 Python operations](final-offline-checks/2026-10-29T17-29-55-584851Z-2f213bbb.json), and [support archive API/MCP correction](support-archive-contract/2026-10-29T17-30-21-297467Z-f92f7908.json). Earlier receipts keep their original scope and counts. These checks do not close independent quality acceptance.

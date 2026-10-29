@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "x-source-sha256": "de369af9433da85a1e2e4b01c88653d67932262654edf48f4ea5e358f1f4a1b6",
+  "x-source-sha256": "bab07d140de0a32ee9422837402ed1ef57a1f1d49ac01a4caafaa6aa787eaac4",
   "$defs": {
     "Id": {
       "type": "string",
@@ -4502,6 +4502,19 @@
         "unavailable_timestamps_ms",
         "warnings"
       ]
+    },
+    "CandidateSupportArchive": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "row_version": {
+          "$ref": "#/$defs/RowVersion"
+        }
+      },
+      "required": [
+        "row_version"
+      ],
+      "description": "Archive only the supporting-file association at its current version. No reason, asset deletion or other fields are accepted."
     }
   }
 }
