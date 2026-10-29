@@ -1,0 +1,58 @@
+{
+  "observed_at": "2026-10-29T19:45:51.888513+00:00",
+  "result": "passed_focused_offline_checks",
+  "component_regressions": {
+    "command": "node tools/run-tests.mjs tests/server/candidate-frame-preview.test.ts",
+    "tests": 2,
+    "pass": 2,
+    "fail": 0,
+    "scope": "Synthetic SSR authenticated resource link, isolated tab, read-only preview and no link nested in selection label"
+  },
+  "local_comparator": {
+    "command": ".\\.venv-skills\\Scripts\\python.exe -X utf8 -m unittest discover -s tests/operations -p test_m03_browser_artifacts.py",
+    "tests": 10,
+    "pass": 10,
+    "fail": 0,
+    "scope": "Pure metadata/checksum/magic/intent tests and owned tiny local file/path denial tests; no credentials, browser, network or cloud"
+  },
+  "scoped_eslint": {
+    "result": "passed",
+    "warnings": 0
+  },
+  "parent_frame_changes": "Exactly two outer card labels replaced with div and separate checkbox labels; existing media GET and permissions unchanged. Other parent bytes retained.",
+  "history": [
+    {
+      "result": "RED0of2componenttests",
+      "receipt": "tracking/evidence/m03/frame-fullsize-preview/red-before-link.json"
+    },
+    {
+      "result": "Partial1of2componenttests after guarded parent rewrite stopped before writes",
+      "receipt": "tracking/evidence/m03/frame-fullsize-preview/partial-parent-guard.json"
+    },
+    {
+      "result": "Python initial absent-module import error then6of6GREEN; added bounded read tests exposed Windows ctime path/fd disagreement with7passes1error, fixed without dropping size/mtime/device/inode fences"
+    }
+  ],
+  "windows_file_identity": {
+    "observed": "Python3.14 Windows lstat creation-time ctime can differ from fd ctime while explicit birthtime agrees",
+    "change": "Use explicit Windows birthtime alongside dev/inode/size/mtime; retain POSIX ctime",
+    "official_reference": "https://docs.python.org/3.14/library/os.html#os.stat_result",
+    "regression_tests": 2
+  },
+  "source_sha256": {
+    "apps/web/components/CandidateFrameImage.tsx": "86fac0ae63d80cbcf28145e8a1874b2e60cbef88a237b8309ff25c9a4d98112a",
+    "apps/web/components/CandidateDetailView.tsx": "83ede068602aa23ae61fc49b7101dbcc8290a7a094cd8ed19ce70b1745eb1160",
+    "apps/web/components/WorkspaceCandidatesView.tsx": "e3eb29de8cfeaa8035dae5e65b3f64d215ed00921b478b2b284b57aae12c635b",
+    "tests/server/candidate-frame-preview.test.ts": "66ea8c8f3d5837892e7465a7cefcf87c52f2e77f93f35ca06cd513e3b5b17625",
+    "tools/verify-m03-browser-artifacts.py": "af6a5899571e5d53f5f422c03716eebc284542a1bc309f9bf650922c08daccd7",
+    "tests/operations/test_m03_browser_artifacts.py": "754f86b678f564aea00290ea50cbfe451d93bbc0273c952cb2a6ba7534419094"
+  },
+  "browser_acceptance": "not_run_by_this_subtask; root owns CUA and actual downloaded files",
+  "local_download_verifier_invoked_on_actual_files": false,
+  "factual_reviewed_or_language_accuracy_claimed": false,
+  "cloud_called": false,
+  "provider_called": false,
+  "existing_private_config_read": false,
+  "private_images_paths_or_facts_in_receipt": false,
+  "hosting_deferred": true
+}

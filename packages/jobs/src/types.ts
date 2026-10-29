@@ -1,6 +1,6 @@
 export type Json = null | boolean | number | string | Json[] | { [key: string]: Json };
 export type JsonObject = { [key: string]: Json };
-export type JobKind = 'specs_extract' | 'candidate_scan' | 'frame_extract' | 'ai_suggestion' | 'presentation_render' | 'presentation_export';
+export type JobKind = 'specs_extract' | 'candidate_scan' | 'frame_extract' | 'ai_suggestion' | 'review_fit' | 'presentation_render' | 'presentation_export';
 export type JobStatus = 'queued' | 'running' | 'waiting_for_input' | 'succeeded' | 'failed' | 'cancelled';
 export interface JobActor { principal_id: string; client_type: 'browser' | 'api' | 'mcp' | 'service' }
 export interface JobErrorDto { code: string; message: string; details: JsonObject; retryable: boolean }

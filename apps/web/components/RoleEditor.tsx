@@ -19,9 +19,10 @@ export function Clarifications({ entries, disabled, onChange, level = 4 }: { ent
   </div>)}</div>;
 }
 
-export function RoleEditor({ role, canWrite, onSaved, onArchived, onWorkspaceChanged, onDirtyChange, onReload }: {
+export function RoleEditor({ role, canWrite, onSaved, onArchived, onWorkspaceChanged, onDirtyChange, onReload, onRetired }: {
   role: Role; canWrite: boolean; onSaved: (role: Role) => void; onArchived: (id: string) => void;
   onWorkspaceChanged: () => void; onDirtyChange: (id: string, dirty: boolean) => void; onReload: () => void;
+  onRetired?: (resourceId: string, label: string) => void;
 }) {
   const [form, setForm] = useState<RoleForm>(() => roleForm(role));
   const [previousRole, setPreviousRole] = useState(role);
@@ -61,7 +62,7 @@ export function RoleEditor({ role, canWrite, onSaved, onArchived, onWorkspaceCha
   function archiveSaved(value: unknown) {
     const result = value as { success?: unknown; affected_ids?: unknown } | null;
     if (!result || result.success !== true || !Array.isArray(result.affected_ids) || !result.affected_ids.includes(role.id)) throw new Error('The role archive response could not be confirmed. Retry the same removal.');
-    onArchived(role.id); onWorkspaceChanged();
+    onRetired?.(role.id, 'role removal'); onArchived(role.id); onWorkspaceChanged();
   }
   const label = role.name || 'Unnamed role';
   return <article className="role-editor" aria-label={`${label} requirements`}>
@@ -82,6 +83,6 @@ export function RoleEditor({ role, canWrite, onSaved, onArchived, onWorkspaceCha
     {archiveReview && <CastingRetirementReview key={`${role.id}:${role.row_version}`} workspaceId={role.workspace_id} scope={{ kind: 'role', id: role.id, row_version: role.row_version }}
       scopeLabel={`the role ${label}, its active slots and all their casting assignments`} confirmLabel="Confirm archive" cancelLabel="Keep role"
       request={{ path: `/api/v1/roles/${encodeURIComponent(role.id)}/archive`, body: { row_version: role.row_version, reason: null } }} onSaved={archiveSaved} onCancel={() => setArchiveReview(false)} />}
-    <RoleSlots role={role} canWrite={canWrite && !dirty && !saving && !archiving} onRoleSaved={onSaved} onWorkspaceChanged={onWorkspaceChanged} onDirtyChange={onDirtyChange} />
+    <RoleSlots role={role} canWrite={canWrite && !dirty && !saving && !archiving} onRoleSaved={onSaved} onWorkspaceChanged={onWorkspaceChanged} onDirtyChange={onDirtyChange} onRetired={onRetired} />
   </article>;
 }

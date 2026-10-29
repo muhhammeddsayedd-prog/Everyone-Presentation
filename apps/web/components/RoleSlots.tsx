@@ -13,6 +13,7 @@ interface Props {
   onRoleSaved: (role: Role) => void;
   onWorkspaceChanged: () => void;
   onDirtyChange: (id: string, dirty: boolean) => void;
+  onRetired?: (resourceId: string, label: string) => void;
 }
 type SaveState = 'idle' | 'saving' | 'saved' | 'failed';
 interface PageState { slots: Slot[]; nextCursor: string | null; loaded: boolean; loading: boolean; stale: boolean; error: string }
@@ -30,7 +31,7 @@ function RoleSlotsDisclosure(props: Props) {
   }}><summary>Individual slots</summary>{opened && <RoleSlotsEditor {...props} />}</details>;
 }
 
-function RoleSlotsEditor({ role, canWrite, onRoleSaved, onWorkspaceChanged, onDirtyChange }: Props) {
+function RoleSlotsEditor({ role, canWrite, onRoleSaved, onWorkspaceChanged, onDirtyChange, onRetired }: Props) {
   const countId = useId();
   const helpId = useId();
   const [page, setPage] = useState<PageState>({ slots: [], nextCursor: null, loaded: false, loading: true, stale: true, error: '' });
@@ -113,7 +114,7 @@ function RoleSlotsEditor({ role, canWrite, onRoleSaved, onWorkspaceChanged, onDi
     }
     if (data.row_version < currentRole.current.row_version) throw new Error('This count was saved earlier, but the role changed again. Reset the count review to the latest saved details.');
     setReview(null); setRetirementInput(null); intent.current = null; setCountState('saved');
-    onRoleSaved(data); onWorkspaceChanged(); void loadPage(null, true);
+    onRoleSaved(data); if (submitted.retire_slot_ids?.length) onRetired?.(role.id, 'slot reduction'); onWorkspaceChanged(); void loadPage(null, true);
   }
   async function saveCount() {
     if (countDisabled || !body || countPending.current) return;

@@ -61,3 +61,10 @@ test('workspace results use the returned project scope and reject cross-workspac
     assert.equal(workspaceResultHref({ ...job, kind }, { id: 'workspace-1', project_id: 'actual-project' }), '/projects/actual-project/casting/workspace-1/cast');
   }
 });
+
+test('wording and measured-layout jobs return to their exact workspace review', () => {
+  for (const kind of ['ai_suggestion', 'review_fit'] as const) {
+    assert.equal(workspaceResultHref({ ...job, kind }, { id: 'workspace-1', project_id: 'actual-project' }), '/projects/actual-project/casting/workspace-1/review');
+  }
+  assert.equal(jobStageLabel('measure_review_fit'), 'Measuring template layout');
+});

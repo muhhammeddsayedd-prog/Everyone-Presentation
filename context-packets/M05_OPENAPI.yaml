@@ -737,6 +737,7 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/IdempotencyKey'
       requestBody:
         required: true
         content:
@@ -1496,7 +1497,7 @@ paths:
                   request_id:
                     type: string
                   data:
-                    $ref: '#/components/schemas/UploadSession'
+                    $ref: '#/components/schemas/JobOutputReservationResult'
                   warnings:
                     type: array
                     items:
@@ -1670,7 +1671,7 @@ paths:
                   request_id:
                     type: string
                   data:
-                    $ref: '#/components/schemas/Playback'
+                    $ref: '#/components/schemas/ServiceAssetAccess'
                   warnings:
                     type: array
                     items:
@@ -2293,34 +2294,60 @@ components:
           type: string
         asset_id:
           $ref: '#/components/schemas/Id'
+        access:
+          type: string
+          enum:
+          - read
+          - write
+          default: read
+          description: Lease-scoped exact-object access. Write is only a newly reserved immutable output, never
+            an original.
       required:
       - job_id
       - attempt_id
       - lease_token
       - asset_id
-    Playback:
+    ServiceAssetAccess:
       type: object
       additionalProperties: false
+      description: Private service-only transfer capability. Headers are credentials and must not enter URLs, ordinary
+        job metadata, logs or n8n envelopes. Exact object, method and lifetime are lease-bound; no arbitrary destination/signing
+        interface exists.
       properties:
         asset_id:
           $ref: '#/components/schemas/Id'
         url:
           type: string
           format: uri
+        method:
+          type: string
+          enum:
+          - GET
+          - POST
+        headers:
+          type: object
+          additionalProperties:
+            type: string
         expires_at:
           $ref: '#/components/schemas/DateTime'
         mime_type:
           type: string
-        source_version_id:
+        size_bytes:
+          type: integer
+          minimum: 1
+        sha256:
           anyOf:
-          - $ref: '#/components/schemas/Id'
+          - type: string
           - type: 'null'
       required:
       - asset_id
       - url
+      - method
+      - headers
       - expires_at
       - mime_type
-      - source_version_id
+      - size_bytes
+      - sha256
     JobOutputComplete:
       type: object
       additionalProperties: false
@@ -2454,6 +2481,13 @@ components:
           $ref: '#/components/schemas/Id'
         lease_token:
           type: string
+        output_key:
+          type: string
+          minLength: 1
+          maxLength: 100
+          pattern: ^[A-Za-z0-9][A-Za-z0-9._:-]*$
+          description: Stable logical output name within this job attempt. Retries with the same key and metadata
+            reuse the same immutable reservation; conflicting metadata is rejected.
         asset_kind:
           type: string
           enum:
@@ -2486,71 +2520,26 @@ components:
       - job_id
       - attempt_id
       - lease_token
+      - output_key
       - asset_kind
       - filename
       - mime_type
       - expected_size_bytes
       - parent_asset_id
       - time_offset_ms
-    UploadSession:
+    JobOutputReservationResult:
       type: object
       additionalProperties: false
+      description: Actual immutable derivative reservation plus a lease-bound transfer capability. This is a direct
+        new-object POST, not a signed-upload PUT or an upsert grant.
       properties:
-        id:
-          $ref: '#/components/schemas/Id'
-        asset_id:
-          $ref: '#/components/schemas/Id'
-        protocol:
-          type: string
-          enum:
-          - tus
-          - signed_put
-        upload_url:
-          description: A scoped transfer URL for an open session. Closed sessions return null and empty upload_headers.
-          anyOf:
-          - type: string
-            format: uri
-          - type: 'null'
-        upload_headers:
-          type: object
-          additionalProperties:
-            type: string
-        expires_at:
-          $ref: '#/components/schemas/DateTime'
-        status:
-          type: string
-          enum:
-          - open
-          - completed
-          - cancelled
-          - expired
-        maximum_bytes:
-          type: integer
-          minimum: 1
+        asset:
+          $ref: '#/components/schemas/MediaAsset'
+        access:
+          $ref: '#/components/schemas/ServiceAssetAccess'
       required:
-      - id
-      - asset_id
-      - protocol
-      - upload_url
-      - upload_headers
-      - expires_at
-      - status
-      - maximum_bytes
-      allOf:
-      - if:
-          properties:
-            status:
-              const: open
-        then:
-          properties:
-            upload_url:
-              type: string
-        else:
-          properties:
-            upload_url:
-              type: 'null'
-            upload_headers:
-              maxProperties: 0
+      - asset
+      - access
     JobMutation:
       type: object
       additionalProperties: false
@@ -2584,6 +2573,7 @@ components:
           - ai_suggestion
           - presentation_render
           - presentation_export
+          - review_fit
         status:
           type: string
           enum:
@@ -2628,6 +2618,8 @@ components:
           $ref: '#/components/schemas/DateTime'
         row_version:
           $ref: '#/components/schemas/RowVersion'
+        frame_extraction:
+          $ref: '#/components/schemas/FrameExtractionOutcome'
       required:
       - id
       - workspace_id
@@ -2644,6 +2636,54 @@ components:
       - created_at
       - updated_at
       - row_version
+      allOf:
+      - if:
+          properties:
+            kind:
+              const: frame_extract
+            status:
+              const: succeeded
+        then:
+          required:
+          - frame_extraction
+        else:
+          not:
+            required:
+            - frame_extraction
+    FrameExtractionOutcome:
+      type: object
+      additionalProperties: false
+      properties:
+        requested_count:
+          type: integer
+          minimum: 1
+          maximum: 10
+        extracted_count:
+          type: integer
+          minimum: 0
+          maximum: 10
+        unavailable_timestamps_ms:
+          type: array
+          maxItems: 10
+          uniqueItems: true
+          items:
+            type: integer
+            minimum: 0
+            maximum: 1799999
+        warnings:
+          type: array
+          maxItems: 2
+          uniqueItems: true
+          items:
+            type: string
+            enum:
+            - FRAME_TIMESTAMP_SHARED
+            - FRAME_TIMESTAMP_UNAVAILABLE
+      required:
+      - requested_count
+      - extracted_count
+      - unavailable_timestamps_ms
+      - warnings
     JobAccepted:
       type: object
       additionalProperties: false
@@ -2983,6 +3023,13 @@ components:
           $ref: '#/components/schemas/RowVersion'
         archived:
           type: boolean
+        template_key: &id001
+          $ref: '#/components/schemas/Id'
+        template_version: *id001
+        template_content_sha256:
+          type: string
+          pattern: ^[a-f0-9]{64}$
+        font_key: *id001
       required:
       - id
       - workspace_id
@@ -2994,6 +3041,10 @@ components:
       - latest_ready_version_no
       - row_version
       - archived
+      - template_key
+      - template_version
+      - template_content_sha256
+      - font_key
     AudiencePreset:
       type: object
       additionalProperties: false
@@ -3075,6 +3126,19 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Id'
+        series_id:
+          $ref: '#/components/schemas/Id'
+        template:
+          $ref: '#/components/schemas/TemplateIdentity'
+        cover:
+          $ref: '#/components/schemas/ReviewCover'
+        slides:
+          type: array
+          maxItems: 10000
+          items:
+            $ref: '#/components/schemas/ReviewSlide'
+        fit:
+          $ref: '#/components/schemas/ReviewFit'
       required:
       - workspace_id
       - input_fingerprint
@@ -3085,6 +3149,278 @@ components:
       - issues
       - can_generate
       - unreviewed_candidate_ids
+      - series_id
+      - template
+      - cover
+      - slides
+      - fit
+    ReviewFit:
+      type: object
+      additionalProperties: false
+      properties:
+        status:
+          type: string
+          enum:
+          - unmeasured
+          - measured
+          - failed
+        input_fingerprint:
+          anyOf:
+          - type: string
+            pattern: ^[a-f0-9]{64}$
+          - type: 'null'
+        measured_at:
+          anyOf:
+          - $ref: '#/components/schemas/DateTime'
+          - type: 'null'
+        overflows:
+          type: array
+          maxItems: 10000
+          items:
+            $ref: '#/components/schemas/ReviewFitOverflow'
+        error_code:
+          anyOf:
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
+      required:
+      - status
+      - input_fingerprint
+      - measured_at
+      - overflows
+      - error_code
+    ReviewFitOverflow:
+      type: object
+      additionalProperties: false
+      properties:
+        slide_index:
+          type: integer
+          minimum: 0
+        field:
+          $ref: '#/components/schemas/Id'
+        axis:
+          type: string
+          enum:
+          - horizontal
+          - vertical
+        overflow_px:
+          type: number
+          exclusiveMinimum: 0
+      required:
+      - slide_index
+      - field
+      - axis
+      - overflow_px
+    ReviewSlide:
+      type: object
+      additionalProperties: false
+      properties:
+        kind:
+          type: string
+          enum:
+          - candidate
+          - pending
+        role_id:
+          anyOf:
+          - &id002
+            $ref: '#/components/schemas/Id'
+          - type: 'null'
+        role_name: &id003
+          type: string
+        slot_id:
+          anyOf:
+          - *id002
+          - type: 'null'
+        slot_label: *id003
+        assignment_id:
+          anyOf:
+          - *id002
+          - type: 'null'
+        workspace_candidate_id:
+          anyOf:
+          - *id002
+          - type: 'null'
+        candidate_id:
+          anyOf:
+          - *id002
+          - type: 'null'
+        candidate_media_id:
+          anyOf:
+          - *id002
+          - type: 'null'
+        position:
+          anyOf:
+          - type: string
+            enum:
+            - main
+            - option
+            - backup
+          - type: 'null'
+        review_status:
+          anyOf:
+          - type: string
+            enum:
+            - reviewed
+            - unreviewed
+          - type: 'null'
+        assignment_row_version:
+          anyOf:
+          - $ref: '#/components/schemas/RowVersion'
+          - type: 'null'
+        workspace_candidate_row_version:
+          anyOf:
+          - $ref: '#/components/schemas/RowVersion'
+          - type: 'null'
+        candidate_row_version:
+          anyOf:
+          - $ref: '#/components/schemas/RowVersion'
+          - type: 'null'
+        requirements:
+          $ref: '#/components/schemas/RoleRequirements'
+        provisional:
+          type: boolean
+        fields:
+          $ref: '#/components/schemas/ReviewFields'
+        source_fields:
+          $ref: '#/components/schemas/ReviewFields'
+        frames:
+          type: array
+          maxItems: 3
+          items:
+            $ref: '#/components/schemas/ReviewFrame'
+        video_asset_id:
+          anyOf:
+          - *id002
+          - type: 'null'
+      required:
+      - kind
+      - role_id
+      - role_name
+      - slot_id
+      - slot_label
+      - assignment_id
+      - workspace_candidate_id
+      - candidate_id
+      - candidate_media_id
+      - position
+      - review_status
+      - assignment_row_version
+      - workspace_candidate_row_version
+      - candidate_row_version
+      - requirements
+      - provisional
+      - fields
+      - source_fields
+      - frames
+      - video_asset_id
+    ReviewFrame:
+      type: object
+      additionalProperties: false
+      properties:
+        asset_id: &id004
+          $ref: '#/components/schemas/Id'
+        source_asset_id: *id004
+        timestamp_ms:
+          type: integer
+          minimum: 0
+        width:
+          type: integer
+          minimum: 1
+        height:
+          type: integer
+          minimum: 1
+        sha256:
+          type: string
+          pattern: ^[a-f0-9]{64}$
+      required:
+      - asset_id
+      - source_asset_id
+      - timestamp_ms
+      - width
+      - height
+      - sha256
+    ReviewFields:
+      type: object
+      additionalProperties: false
+      properties:
+        name_or_id:
+          type: string
+        age_or_range:
+          type: string
+        height_measurements:
+          type: string
+        languages_accents:
+          type: string
+        skills_experience:
+          type: string
+        city:
+          type: string
+        previous_projects_roles:
+          type: string
+        classification:
+          type: string
+        availability:
+          type: string
+        presentation_notes:
+          type: string
+      required:
+      - name_or_id
+      - age_or_range
+      - height_measurements
+      - languages_accents
+      - skills_experience
+      - city
+      - previous_projects_roles
+      - classification
+      - availability
+      - presentation_notes
+    ReviewCover:
+      type: object
+      additionalProperties: false
+      properties:
+        project_name: &id005
+          type: string
+        client_name:
+          anyOf:
+          - *id005
+          - type: 'null'
+        title: *id005
+        output_type:
+          type: string
+          enum:
+          - selection
+          - shortlist
+        logo_asset_id:
+          anyOf:
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
+        logo_placement:
+          type: string
+          enum:
+          - cover
+          - every_slide
+      required:
+      - project_name
+      - client_name
+      - title
+      - output_type
+      - logo_asset_id
+      - logo_placement
+    TemplateIdentity:
+      type: object
+      additionalProperties: false
+      properties:
+        key: &id006
+          $ref: '#/components/schemas/Id'
+        version: *id006
+        content_sha256:
+          type: string
+          pattern: ^[a-f0-9]{64}$
+        font_key: *id006
+      required:
+      - key
+      - version
+      - content_sha256
+      - font_key
     ReviewIssue:
       type: object
       additionalProperties: false
@@ -3114,6 +3450,29 @@ components:
       - field
       - message
       - repair_action
+    Playback:
+      type: object
+      additionalProperties: false
+      properties:
+        asset_id:
+          $ref: '#/components/schemas/Id'
+        url:
+          type: string
+          format: uri
+        expires_at:
+          $ref: '#/components/schemas/DateTime'
+        mime_type:
+          type: string
+        source_version_id:
+          anyOf:
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
+      required:
+      - asset_id
+      - url
+      - expires_at
+      - mime_type
+      - source_version_id
   parameters:
     IdempotencyKey:
       name: Idempotency-Key

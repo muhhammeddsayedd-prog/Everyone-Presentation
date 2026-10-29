@@ -8,10 +8,12 @@ import { runSpecsWorker, specsWorkerFilesConfiguration } from './runtime.ts';
 import { createCandidateStageAssets } from './candidate-assets.ts';
 import type { CandidateStageOptions } from './candidate-stage-executor.ts';
 import type { FrameStageOptions } from './frame-stage-executor.ts';
+import type { ReviewStageOptions } from './review-stage-executor.ts';
+import type { ReviewFitStageOptions } from './review-fit-stage-executor.ts';
 import type { SpecsStageRouter } from './runtime-types.ts';
 
 const startupCodes = new Set(['WORKER_RUNTIME_SCOPE_INVALID','OPENAI_KEY_REQUIRED','OPENAI_EXTRACTION_MODEL_REQUIRED','OPENAI_CONFIGURATION_INVALID',
-  'N8N_RUNTIME_CONFIGURATION_REQUIRED','RUNTIME_CONFIG_INVALID','RUNTIME_AUTH_UNVERIFIED','RUNTIME_ROLE_UNVERIFIED','RUNTIME_UNAVAILABLE','DEPENDENCY_UNAVAILABLE', 'CANDIDATE_RUNTIME_CONFIGURATION_INVALID', 'FRAME_RUNTIME_CONFIGURATION_INVALID', 'PDF_VISION_CONFIGURATION_INVALID']);
+  'N8N_RUNTIME_CONFIGURATION_REQUIRED','RUNTIME_CONFIG_INVALID','RUNTIME_AUTH_UNVERIFIED','RUNTIME_ROLE_UNVERIFIED','RUNTIME_UNAVAILABLE','DEPENDENCY_UNAVAILABLE', 'CANDIDATE_RUNTIME_CONFIGURATION_INVALID', 'FRAME_RUNTIME_CONFIGURATION_INVALID', 'PDF_VISION_CONFIGURATION_INVALID', 'REVIEW_RUNTIME_CONFIGURATION_INVALID']);
 function startupCode(error: unknown): string {
   try { const code = error !== null && typeof error === 'object' && 'code' in error ? error.code : undefined;
     return typeof code === 'string' && startupCodes.has(code) ? code : 'WORKER_STARTUP_UNCONFIRMED'; }
@@ -60,6 +62,19 @@ export async function verifySpecsWorkerStartup(environment: Readonly<Record<stri
       if (environment.N8N_CANDIDATE_DISPATCH_SECRET === environment.N8N_DISPATCH_SECRET || environment.N8N_CANDIDATE_DISPATCH_URL === environment.N8N_DISPATCH_URL) throw { code: 'CANDIDATE_RUNTIME_CONFIGURATION_INVALID' };
       router = { route: (envelope, signal) => envelope.kind === 'candidate_scan' || envelope.kind === 'frame_extract' ? candidateRouter.route(envelope, signal) : specsRouter.route(envelope, signal) };
     }
+    let review: Omit<ReviewStageOptions, 'signal'> | undefined; let fit: Omit<ReviewFitStageOptions, 'signal'> | undefined;
+    const reviewEnabled = environment.EPS_REVIEW_ENABLED;
+    if (reviewEnabled !== undefined && reviewEnabled !== 'true' && reviewEnabled !== 'false') throw { code: 'REVIEW_RUNTIME_CONFIGURATION_INVALID' };
+    if (reviewEnabled === 'true') {
+      let destination: URL; let base: URL;
+      try { destination = new URL(environment.N8N_REVIEW_DISPATCH_URL ?? ''); base = new URL(environment.N8N_DISPATCH_URL ?? ''); } catch { throw { code: 'REVIEW_RUNTIME_CONFIGURATION_INVALID' }; }
+      if (destination.origin !== base.origin || destination.pathname !== '/webhook/eps-wf05-review-suggestion-stage-v1' || !/^[a-f0-9]{64}$/u.test(environment.N8N_REVIEW_DISPATCH_SECRET ?? '')
+        || [environment.N8N_DISPATCH_SECRET, environment.N8N_CANDIDATE_DISPATCH_SECRET].includes(environment.N8N_REVIEW_DISPATCH_SECRET)
+        || [environment.N8N_DISPATCH_URL, environment.N8N_CANDIDATE_DISPATCH_URL].includes(environment.N8N_REVIEW_DISPATCH_URL)) throw { code: 'REVIEW_RUNTIME_CONFIGURATION_INVALID' };
+      const reviewRouter = new N8nSpecsOrchestrator({ url: environment.N8N_REVIEW_DISPATCH_URL!, secret: environment.N8N_REVIEW_DISPATCH_SECRET! });
+      const prior = router; router = { route: (envelope, signal) => envelope.kind === 'ai_suggestion' || envelope.kind === 'review_fit' ? reviewRouter.route(envelope, signal) : prior.route(envelope, signal) };
+      review = { openAI: openAIMediaConfigFromEnv('extraction', environment) }; fit = {};
+    }
     checkpoint = 'gateway_verification'; const configuration = readSpecsRuntimeConfig(environment);
     let gateway: Awaited<ReturnType<typeof createSpecsRuntimeGateway>> | undefined;
     // Only pre-work availability may retry. Each failed factory closes its own
@@ -84,7 +99,7 @@ export async function verifySpecsWorkerStartup(environment: Readonly<Record<stri
       if (!port || typeof port.getAssetAccess !== 'function' || typeof port.reserveOutput !== 'function' || typeof port.completeOutput !== 'function') { await gateway.close(); throw { code: 'FRAME_RUNTIME_CONFIGURATION_INVALID' }; }
       frames = { imageId: environment.EPS_FRAME_IMAGE_ID!, assets: createCandidateStageAssets(port, { publishableKey: fileConfiguration.publishableKey }) };
     }
-    return { openAI, router, fileConfiguration, gateway, candidate, frames, vision };
+    return { openAI, router, fileConfiguration, gateway, candidate, frames, vision, review, fit };
   } catch (error) {
     throw new SpecsWorkerStartupError(checkpoint, startupCode(error), filesRequested, attempts, specsRuntimeFailureDiagnostics(error));
   }
@@ -93,14 +108,14 @@ export async function verifySpecsWorkerStartup(environment: Readonly<Record<stri
 /** Server-only entry. Provider/DB/webhook credentials arrive by a scrubbed child
  * environment; the n8n management key is never an acceptable runtime input. */
 async function main(): Promise<void> {
-  const { openAI, router, fileConfiguration, gateway, candidate, frames, vision } = await verifySpecsWorkerStartup();
+  const { openAI, router, fileConfiguration, gateway, candidate, frames, vision, review, fit } = await verifySpecsWorkerStartup();
   const controller = new AbortController();
   const stop = () => controller.abort();
   const message = (value: unknown) => { if (value && typeof value === 'object' && Object.keys(value).length === 1
     && 'type' in value && value.type === 'shutdown') stop(); };
   process.once('SIGINT', stop); process.once('SIGTERM', stop); process.once('disconnect', stop); process.on('message', message);
   process.stdout.write(JSON.stringify({ event: 'specs_worker_started', authentication: 'narrow_database_login', orchestration: 'n8n_required' }) + '\n');
-  try { await runSpecsWorker(gateway, router, { openAI, signal: controller.signal,
+  try { await runSpecsWorker(gateway, router, { openAI, signal: controller.signal, review, fit,
     candidate: candidate ? { ...candidate, onDiagnostic: value => process.stdout.write(JSON.stringify({ event: value.error_kind === 'native' ? 'candidate_video_processing_failed' : 'candidate_stage_processing_failed', ...value }) + '\n') } : undefined,
     frames: frames ? { ...frames, onDiagnostic: value => process.stdout.write(JSON.stringify({ event: 'frame_processing_failed', ...value }) + '\n') } : undefined,
     vision: vision ? { ...vision, onMetadata: metadata => process.stdout.write(JSON.stringify({ event: 'document_vision_page_processed', ...metadata }) + '\n') } : undefined,

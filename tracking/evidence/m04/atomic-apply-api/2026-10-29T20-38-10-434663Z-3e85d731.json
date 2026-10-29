@@ -1,0 +1,86 @@
+{
+  "observed_at": "2026-10-29T20:38:10.434663+00:00",
+  "result": "passed_scoped_atomic_guard_transport_and_controlled_ui",
+  "scope": "Assignment AI apply guard contracts/parser/actor RPC transport, synthetic HTTP/MCP and controlled browser. Canonical23 transaction/concurrency/live acceptance remain separate DB/root proof.",
+  "focused_tests": {
+    "command": "node tools/run-tests.mjs tests/domain/casting.test.ts packages/central/test/casting.test.ts tests/server/casting-mcp.test.ts tests/server/assignment-review-guard.test.ts tests/contracts/*.test.ts",
+    "passed": 39,
+    "failed": 0,
+    "skipped": 0
+  },
+  "controlled_browser": {
+    "command": "npm.cmd run test:e2e -- tests/e2e/review-ui.spec.ts",
+    "stats": {
+      "startTime": "2026-10-29T20:36:48.976Z",
+      "duration": 11069.653,
+      "expected": 1,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "report_sha256": "c37af5781362a01a6bc34b84ecb1804220545e2fe78171a9ed66fef1c6d51abc",
+    "raw_ignored": true
+  },
+  "meaningful_red": {
+    "domain_central_mcp": {
+      "passed": 28,
+      "failed": 3,
+      "reason": "newguard rejected before parser/contracts extension"
+    },
+    "browser": {
+      "stats": {
+        "startTime": "2026-10-29T20:35:32.012Z",
+        "duration": 10138.944,
+        "expected": 0,
+        "skipped": 0,
+        "unexpected": 1,
+        "flaky": 0
+      },
+      "reason": "acceptedAIApply sent no ai_suggestion_id before guardbody fix",
+      "report_sha256": "5c592897fa0a2bcfc16c515668c037a4ecd284122cb0265ed2a395762028abd8",
+      "raw_ignored": true
+    }
+  },
+  "checks": {
+    "typecheck": "passed",
+    "eslint": "8 selected implementation/test files; zero warnings"
+  },
+  "guard": {
+    "operation": "update_assignment",
+    "optional_all_or_none": [
+      "ai_suggestion_id",
+      "expected_series_id",
+      "expected_input_fingerprint"
+    ],
+    "guarded_body": "row_version and exactly one nonempty slide_wording field plus three guards; no casting choice/private-note changes",
+    "manual_patch": "unchanged",
+    "fixture_model": "fails closed for guarded apply because fixture state has no canonical proposal/context"
+  },
+  "ui_assertions": [
+    "Capturedproposal/series/fingerprint sent in normal PATCH",
+    "Late suggestion cannot replace manual dirty edit",
+    "Clean fullfingerprint-only source city refresh updates textarea while assignmentrevision unchanged",
+    "Clean project availability refresh updates editor while assignmentrevision unchanged",
+    "Dirty wording and availability lock refresh; discard restores latest values"
+  ],
+  "source_sha256": {
+    "packages/domain/src/casting-types.ts": "b9965e4f466499c658b3979c3be81267ae214195fda28c51601b7ba5ac304e21",
+    "packages/domain/src/casting.ts": "81e07fe433ac50327e1886e796100eeffb1df0002061e765c9f9505c0bb6a0b9",
+    "apps/web/components/WorkspaceReviewView.tsx": "951fbead7fd0d69593b1e7bf6ee762867ba1439b58f91890c180b53af3683400",
+    "contracts/openapi.yaml": "1da5727ec61d0fcaa66053624e6eeae9c81df10e4569ff507645460ecdfb6d6a",
+    "contracts/mcp-tool-catalog.json": "597527f806c897d97338d6e76100cee093bc72631f6481923bc9689682773041",
+    "apps/web/lib/generated-contracts.json": "742423fc91820957ac1709f8008ef09248b9888dee8935bbb134f310be6be881",
+    "tools/update_m04_guard_contracts.py": "4915aa4a0e3dbff302073b7139750de4066202634bd373c883e639bb46bfa009",
+    "tests/domain/casting.test.ts": "1f7631ebf6442ad9952b94066032bca27140a3d2efae9103154d0ba26f2afff0",
+    "packages/central/test/casting.test.ts": "cfdd21f6c4c8e2fd3049cf41e721b8f65bbebb3735a9c6a98c51c005854cce30",
+    "tests/server/casting-mcp.test.ts": "0548fa338f6224271345e186eba7f268929e0663416ade4a57053c8b0b6cba1e",
+    "tests/server/assignment-review-guard.test.ts": "005be9678da3454bcb226659a253c118659554ed9542646fdfbe0334b8b9100b",
+    "tests/e2e/review-ui.spec.ts": "2450291efec6b8d5530e771a9d658488d8cb86f82cbb0c77908db24924e888f7"
+  },
+  "source_binding_scope": "Post-run selectedsource snapshot, including root cleanrefresh effect; no repositorywide source freeze claimed.",
+  "sealed22_or_releasehelper_modified": false,
+  "cloud_called": false,
+  "provider_called": false,
+  "private_configuration_read": false,
+  "hosting_deferred": true
+}

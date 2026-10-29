@@ -52,6 +52,7 @@ test('official MCP client advertises composed casting and validates all seven sh
       ['list_assignments', { workspace_id: 'workspace', output_type: 'selection', limit: 25 }, 'listAssignments', ['workspace', { output_type: 'selection', limit: 25 }]],
       ['create_assignment', { workspace_id: 'workspace', body: { slot_id: 'slot', workspace_candidate_id: 'participation', expected_slot_row_version: 1, shortlist_included: true }, idempotency_key: key }, 'createAssignment'],
       ['update_assignment', { assignment_id: 'assignment', body: { row_version: 1, presentation_notes: 'This assignment only' }, idempotency_key: key }, 'updateAssignment'],
+      ['update_assignment', { assignment_id: 'assignment', body: { row_version: 1, slide_wording: { skills_experience: 'Confirmed proposal' }, ai_suggestion_id: 'suggestion', expected_series_id: 'series', expected_input_fingerprint: 'a'.repeat(64) }, idempotency_key: key }, 'updateAssignment'],
       ['set_slot_main', { slot_id: 'slot', body: { assignment_id: 'assignment', expected_slot_row_version: 1, replacement_behavior: 'move_previous_to_backup' }, idempotency_key: key }, 'setSlotMain'],
       ['undo_slot_main', { slot_id: 'slot', body: inverse, idempotency_key: key }, 'undoSlotMain'],
       ['remove_assignment', { assignment_id: 'assignment', body: { row_version: 3, reason: 'This slot only' }, idempotency_key: key }, 'removeAssignment'],
@@ -70,11 +71,11 @@ test('official MCP client advertises composed casting and validates all seven sh
         assert.deepEqual(call[3], args.body);
       }
     }
-    assert.equal(calls.length, 7); assert.ok(calls.every(row => row[0] !== 'legacyReorderWorkspace'));
-    for (const extra of [{ principal_id: 'forged' }, { body: { row_version: 1, position: 'main' } }]) {
+    assert.equal(calls.length, 8); assert.ok(calls.every(row => row[0] !== 'legacyReorderWorkspace'));
+    for (const extra of [{ principal_id: 'forged' }, { body: { row_version: 1, position: 'main' } }, { body: { row_version: 1, ai_suggestion_id: 'suggestion' } }]) {
       assert.equal((await invokeMcpTool('update_assignment', { assignment_id: 'assignment', body: { row_version: 1 }, idempotency_key: key, ...extra }, actor, services)).isError, true);
     }
-    assert.equal(calls.length, 7);
+    assert.equal(calls.length, 8);
   } finally { await client.close(); await server.close(); }
 });
 

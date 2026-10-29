@@ -1,0 +1,45 @@
+{
+  "observed_at": "2026-10-29T20:03:18.653Z",
+  "result": "both_remaining_selected_frames_full_resolution_reviewed",
+  "scope": "Independent technical visual inspection and byte/dimension match for the two previously thumbnail-only selected frames. No identity, demographics, factual extraction, suitability or language judgment.",
+  "browser_download_byte_receipt": "tracking/evidence/m03/browser-artifact-bytes/2026-10-29T20-00-21-884419Z-47eb8b6e.json",
+  "browser_download_byte_receipt_sha256": "aebaf31250fe4f2959b72c2b0fbd2907592bcbb55bcf57d426faab2e56a1b6e8",
+  "reviewed_frames": [
+    {
+      "asset_id": "f2a60dcd-f319-4472-adab-c3a80d88912d",
+      "timestamp_ms": 5160,
+      "sha256": "76c195895f1af9404efce593b3f48035f557463664e3828db235eb0923d7d05e",
+      "size_bytes": 20152,
+      "actual_width": 853,
+      "actual_height": 480,
+      "actual_format": "jpeg",
+      "inspection_resolution": "Actual full-resolution 853x480 source JPEG via local image viewer",
+      "eyes_observed_open": true,
+      "obvious_motion_smear_observed": false,
+      "framing": "Wider frontal source framing; head and torso contained, with more of the lower body visible than the first selected close view.",
+      "technical_review": "Passes this source-specific technical clarity and distinct-framing check"
+    },
+    {
+      "asset_id": "26d345e8-e30e-4fa8-b78c-76282c0fc475",
+      "timestamp_ms": 18920,
+      "sha256": "357910a9fcec31206edf92ea67c12d016354e0f84ec74eabef2e8285f9d8df14",
+      "size_bytes": 19328,
+      "actual_width": 853,
+      "actual_height": 480,
+      "actual_format": "jpeg",
+      "inspection_resolution": "Actual full-resolution 853x480 source JPEG via local image viewer",
+      "eyes_observed_open": true,
+      "obvious_motion_smear_observed": false,
+      "framing": "Distinct side-oriented torso framing with the head turned toward the camera; head remains contained.",
+      "technical_review": "Passes this source-specific technical clarity and distinct-framing check"
+    }
+  ],
+  "first_selected_frame_prior_review": "tracking/evidence/m03/frame-vision-technical-review/2026-10-29T19-17-46-554410Z-fe4c5c01.json",
+  "all_three_selected_frames_now_have_full_resolution_technical_review": true,
+  "scope_limit": "One authorized source clip, not every historical frame/clip or English/mixed speech. No generated-image, identity-recognition, source-fact or casting-approval assertion.",
+  "raw_images_or_paths_in_receipt": false,
+  "cloud_called": false,
+  "provider_called": false,
+  "browser_called_by_this_reviewer": false,
+  "hosting_deferred": true
+}

@@ -1,8 +1,8 @@
 # Development progress — Everyone Presentation Studio
 
-**Last updated:** 2026-10-29 - **Pack:** 1.0 - **Current work:** M04; M03 implemented_unverified
+**Last updated:** 2026-10-29 - **Pack:** 1.0 - **Current work:** M05; M04 verified; M03 implemented_unverified
 
-**Current reality:** M00 and M02 remain verified; M01 remains in progress. Twenty-one migrations are applied locally/cloud. M04 Casting is mounted with shared acting-user API/MCP and actual signed-in Main/Undo, independent roles/Shortlist/notes, order/reload and safe candidate removal proof. A real app upload now completes genuine OpenAI visual selection of12 actual frames into3 picks; original nine profiles/facts/frames and protected M02 remain unchanged. M03 stays implemented_unverified for independent speech/fact, remaining full-resolution frame and scanned Reviewed acceptance. M04 stays in_progress for series/template context, complete review/fit, wording and retirement Undo. Current505 app tests,120 Node operational and232 Python checks, lint and isolated production build pass; controlled board5 and retirement7 have separate scopes. Hosting stays deferred.
+**Current reality:** M00/M02/M04 are verified within their scoped acceptance matrices; M01 remains in progress. Local and canonical history is23. M04 now has exact audience/output series, ten-field review, real OpenAI/n8n wording preview/discard/guarded Apply, actual font-measured fit for both final outputs, typed retirement Undo, two-frame original-source playback and current preservation proof. The final dummy output has3 assignments/1Main/1Shortlist. All563 module,51 controlled browser,133 Node operational and312 Python checks pass; final review/mobile check, lint, typecheck and build also pass. M03 full-size frames, five file byte matches and the independently grounded two-fact Reviewed check are closed; broader independently labelled English/mixed semantic evaluation remains unverified. M05 starts immutable version/viewer/PDF development. Hosting stays deferred.
 
 The machine-readable status mirror is [tracking/progress.json](tracking/progress.json). Update this file and that file together whenever work status changes. Evidence fields must describe actual work only.
 
@@ -13,9 +13,9 @@ The machine-readable status mirror is [tracking/progress.json](tracking/progress
 | M00 Discovery and contracts | verified | tracking/discovery/; central-schema-map.yaml | Actual new canonical ownership/auth/history, guarded local replay and provider capability inventory | Continue M01; future provider/release gates remain explicit |
 | M01 Foundation, project and logo | in_progress | apps/web/; packages/domain/; packages/central/; 6 M01 migrations applied | Real cloud schema/readback and local role/race proof; synthetic full UI plus central anonymous UI | Finish scoped central uploads and actual Producer/project journey |
 | M02 Specs, roles and first durable pipeline | verified | Local/cloud14+16, live WF01 and private document worker | Acceptance matrix: real text/PDF/DOCX/scanned PDF, protected edits, HTTP replay/restart/recovery and local MCP | Continue M03; M07 external OAuth/restore/hosting/endurance remain separate |
-| M03 Media, library and video processing | implemented_unverified | Local/cloud15+17+18+19+21; real OpenAI vision app job | Nine earlier scans retained; fresh5-stage/12-image/3-pick vision proof; independently inspected first actual JPEG and full grid | Independent language/factual accuracy, full-resolution remaining frames, scanned Reviewed and document byte-download checks remain unverified |
-| M04 Assignments and final review | in_progress | Migration20 local/canonical; mounted board and shared HTTP/MCP | Real Main replacement/Undo, same-person role choices/notes/Shortlist, keyboard order/reload/removal;5 controlled board tests; final canonical preservation | Continue series/template identity, complete ten-field review/fit, optional WF05 wording and typed retirement Undo |
-| M05 Template, versioning and PDF | not_started | None | Frozen manifests; real viewer/PDF; historical media; render recovery | Depends on M04 |
+| M03 Media, library and video processing | implemented_unverified | Local/cloud15+17+18+19+21; scoped closeout | Three full-size actual picks;5 artifact byte matches; one Arabic profile corrected/Reviewed from2 independent facts; old9/108 preserved | Broader labelled English/mixed real semantic evaluation remains unverified |
+| M04 Assignments and final review | verified | Local/canonical20+22+23; actual review journey and acceptance matrix | Exact series/ten fields,2 real AI jobs,3 native fits/2 current zero-overflow, role Undo/reload,2-frame playback, stale-source two-user races; current preservation | Continue M05; retain immutable history and hosting deferral |
+| M05 Template, versioning and PDF | in_progress | development/m05/CONTRACT_REVIEW.md; implementation starts from verified M04 | Frozen manifests/render snapshots; real viewer/PDF; authenticated historical media; render recovery | Implement coherent generation and native PDF lifecycle; hosting deferred |
 | M06 External review and delivery | not_started | None | Latest-ready scoped links; guest feedback; link-scoped PDFs; expiry/revoke | Depends on M05 |
 | M07 API/MCP and production readiness | not_started | None | Real Claude parity; live integrations; restore/deploy evidence | Depends on M06 |
 
@@ -26,6 +26,20 @@ The machine-readable status mirror is [tracking/progress.json](tracking/progress
 `in_progress` or `implemented_unverified → blocked` when a required dependency is unavailable; record the prior state and work still possible. `verified → in_progress` when a later change invalidates acceptance. A milestone with any unrun required integration check cannot be `verified`. Documentation corrections alone do not change implementation status.
 
 ## Session log (append newest first)
+
+### 2026-10-29 - M04 verified and M05 started
+
+- Canonical/local22 adds exact series/review, optional wording jobs, native measured fit and typed retirement Undo; additive23 closes the proposal GET-to-save shared-source race. Both applied once with independent canonical preservation readback. Four worker lock races and two-principal AI-save races passed locally.
+- Signed-in app proof: two grounded OpenAI jobs (preview/discard; guarded Apply),3 native fit jobs including2 current zero-overflow outputs, role retirement/restoration/reload, and an existing two-frame Option with original transcript/video playback. Library facts, old choices/private notes, source frames and protected M02 remain intact. See [actual journey](tracking/evidence/m04/review-live-app/2026-10-29-final-review-journey.json), [current observer](tracking/evidence/m04/review-app-capture/2026-10-29T21-01-02-629938Z-1fea890a.json) and [quality](tracking/evidence/m04/review-quality/2026-10-29-final.json).
+- Fixed independently reproduced late-proposal/manual-edit, stale clean inspector, Pending/null inspector and unsupported media pagination failures. Final responsive review check has a real390px controlled viewport and no document horizontal overflow; actual connected browser remained desktop.
+- M03's completed scoped checks and remaining semantic limit are in [SCOPED_CLOSEOUT](tracking/evidence/m03/SCOPED_CLOSEOUT.md). No overall accuracy, English/mixed benchmark, PDF, external OAuth, guest or hosting acceptance is inferred.
+- M05 starts with three generation guards, separately typed immutable renderer snapshot/public manifest, four native render stages, retained version assets and authenticated fixed-version viewer/PDF/video routes. No M06 guest tokens/exports are invented. Unrelated Screenshots and redesign-output are preserved.
+
+
+### 2026-10-29 - M03 final checks and M04 review resumed
+
+- Owner requested remaining M03/M04 completion and next milestone, with hosting deferred. Basefe90400; unrelatedScreenshots catalogue preserved. Active work: full-size authenticated media review, registered template/fonts, series-bound review and real measured fit, contextual wording pipeline and revision-fenced retirement Undo. Ledger start recorded after initial inspection/isolated source work; no new acceptance credited at start.
+- Independent spoken-fact answer key requested asynchronously; app/provider output will not serve as its own factual verification. Continue unaffected implementation.
 
 ### 2026-10-29 19:19Z - M04 Casting integrated; genuine M03 vision checked through app
 

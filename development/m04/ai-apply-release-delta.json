@@ -1,0 +1,263 @@
+{
+  "schema_version": "1.0",
+  "created": {
+    "policies|eps.jobs.review_apply_source_lock|cmd": "UPDATE",
+    "policies|eps.jobs.review_apply_source_lock|qual": "(eps.has_capability('cast.read'::text) AND eps.has_capability('workspaces.write'::text))",
+    "policies|eps.roles.review_apply_source_lock|cmd": "UPDATE",
+    "policies|eps.slots.review_apply_source_lock|cmd": "UPDATE",
+    "policies|eps.specs.review_apply_source_lock|cmd": "UPDATE",
+    "policies|eps.jobs.review_apply_source_lock|roles": [
+      "eps_review_owner"
+    ],
+    "policies|eps.roles.review_apply_source_lock|qual": "(eps.has_capability('cast.read'::text) AND eps.has_capability('workspaces.write'::text))",
+    "policies|eps.slots.review_apply_source_lock|qual": "(eps.has_capability('cast.read'::text) AND eps.has_capability('workspaces.write'::text))",
+    "policies|eps.specs.review_apply_source_lock|qual": "(eps.has_capability('cast.read'::text) AND eps.has_capability('workspaces.write'::text))",
+    "policies|eps.roles.review_apply_source_lock|roles": [
+      "eps_review_owner"
+    ],
+    "policies|eps.slots.review_apply_source_lock|roles": [
+      "eps_review_owner"
+    ],
+    "policies|eps.specs.review_apply_source_lock|roles": [
+      "eps_review_owner"
+    ],
+    "policies|eps.jobs.review_apply_source_no_write|cmd": "UPDATE",
+    "policies|eps.jobs.review_apply_source_no_write|qual": "true",
+    "policies|eps.roles.review_apply_source_no_write|cmd": "UPDATE",
+    "policies|eps.slots.review_apply_source_no_write|cmd": "UPDATE",
+    "policies|eps.specs.review_apply_source_no_write|cmd": "UPDATE",
+    "policies|eps.candidates.review_apply_source_lock|cmd": "UPDATE",
+    "policies|eps.jobs.review_apply_source_no_write|roles": [
+      "eps_review_owner"
+    ],
+    "policies|eps.roles.review_apply_source_no_write|qual": "true",
+    "policies|eps.slots.review_apply_source_no_write|qual": "true",
+    "policies|eps.specs.review_apply_source_no_write|qual": "true",
+    "policies|public.clients.review_apply_source_lock|cmd": "UPDATE",
+    "policies|eps.assignments.review_apply_source_lock|cmd": "UPDATE",
+    "policies|eps.candidates.review_apply_source_lock|qual": "(eps.has_capability('cast.read'::text) AND eps.has_capability('workspaces.write'::text))",
+    "policies|eps.jobs.review_apply_source_lock|permissive": "PERMISSIVE",
+    "policies|eps.jobs.review_apply_source_lock|with_check": "false",
+    "policies|eps.roles.review_apply_source_no_write|roles": [
+      "eps_review_owner"
+    ],
+    "policies|eps.slots.review_apply_source_no_write|roles": [
+      "eps_review_owner"
+    ],
+    "policies|eps.specs.review_apply_source_no_write|roles": [
+      "eps_review_owner"
+    ],
+    "policies|public.clients.review_apply_source_lock|qual": "(eps.has_capability('cast.read'::text) AND eps.has_capability('workspaces.write'::text))",
+    "policies|public.projects.review_apply_source_lock|cmd": "UPDATE",
+    "policies|eps.assignments.review_apply_source_lock|qual": "(eps.has_capability('cast.read'::text) AND eps.has_capability('workspaces.write'::text))",
+    "policies|eps.candidates.review_apply_source_lock|roles": [
+      "eps_review_owner"
+    ],
+    "policies|eps.media_assets.review_apply_source_lock|cmd": "UPDATE",
+    "policies|eps.roles.review_apply_source_lock|permissive": "PERMISSIVE",
+    "policies|eps.roles.review_apply_source_lock|with_check": "false",
+    "policies|eps.slots.review_apply_source_lock|permissive": "PERMISSIVE",
+    "policies|eps.slots.review_apply_source_lock|with_check": "false",
+    "policies|eps.specs.review_apply_source_lock|permissive": "PERMISSIVE",
+    "policies|eps.specs.review_apply_source_lock|with_check": "false",
+    "policies|public.clients.review_apply_source_lock|roles": [
+      "eps_review_owner"
+    ],
+    "policies|public.projects.review_apply_source_lock|qual": "(eps.has_capability('cast.read'::text) AND eps.has_capability('workspaces.write'::text))",
+    "policies|eps.assignments.review_apply_source_lock|roles": [
+      "eps_review_owner"
+    ],
+    "policies|eps.media_assets.review_apply_source_lock|qual": "(eps.has_capability('cast.read'::text) AND eps.has_capability('workspaces.write'::text))",
+    "policies|public.projects.review_apply_source_lock|roles": [
+      "eps_review_owner"
+    ],
+    "functions|eps.assert_assignment_ai_apply(uuid,jsonb)|acl": "{eps_review_owner=X/eps_review_owner,eps_casting_owner=X/eps_review_owner}",
+    "policies|eps.candidates.review_apply_source_no_write|cmd": "UPDATE",
+    "policies|eps.media_assets.review_apply_source_lock|roles": [
+      "eps_review_owner"
+    ],
+    "policies|public.clients.review_apply_source_no_write|cmd": "UPDATE",
+    "functions|eps.assert_assignment_ai_apply(uuid,jsonb)|kind": "f",
+    "policies|eps.assignments.review_apply_source_no_write|cmd": "UPDATE",
+    "policies|eps.candidate_media.review_apply_source_lock|cmd": "UPDATE",
+    "policies|eps.candidates.review_apply_source_no_write|qual": "true",
+    "policies|eps.jobs.review_apply_source_no_write|permissive": "RESTRICTIVE",
+    "policies|eps.jobs.review_apply_source_no_write|with_check": "false",
+    "policies|public.clients.review_apply_source_no_write|qual": "true",
+    "policies|public.projects.review_apply_source_no_write|cmd": "UPDATE",
+    "functions|eps.assert_assignment_ai_apply(uuid,jsonb)|owner": "eps_review_owner",
+    "policies|eps.assignments.review_apply_source_no_write|qual": "true",
+    "policies|eps.candidate_media.review_apply_source_lock|qual": "(eps.has_capability('cast.read'::text) AND eps.has_capability('workspaces.write'::text))",
+    "policies|eps.candidates.review_apply_source_no_write|roles": [
+      "eps_review_owner"
+    ],
+    "policies|eps.media_assets.review_apply_source_no_write|cmd": "UPDATE",
+    "policies|eps.roles.review_apply_source_no_write|permissive": "RESTRICTIVE",
+    "policies|eps.roles.review_apply_source_no_write|with_check": "false",
+    "policies|eps.slots.review_apply_source_no_write|permissive": "RESTRICTIVE",
+    "policies|eps.slots.review_apply_source_no_write|with_check": "false",
+    "policies|eps.specs.review_apply_source_no_write|permissive": "RESTRICTIVE",
+    "policies|eps.specs.review_apply_source_no_write|with_check": "false",
+    "policies|public.clients.review_apply_source_no_write|roles": [
+      "eps_review_owner"
+    ],
+    "policies|public.projects.review_apply_source_no_write|qual": "true",
+    "functions|eps.assert_assignment_ai_apply(uuid,jsonb)|config": [
+      "search_path=\"\""
+    ],
+    "functions|eps.assert_assignment_ai_apply(uuid,jsonb)|strict": false,
+    "policies|eps.assignments.review_apply_source_no_write|roles": [
+      "eps_review_owner"
+    ],
+    "policies|eps.candidate_media.review_apply_source_lock|roles": [
+      "eps_review_owner"
+    ],
+    "policies|eps.candidates.review_apply_source_lock|permissive": "PERMISSIVE",
+    "policies|eps.candidates.review_apply_source_lock|with_check": "false",
+    "policies|eps.media_assets.review_apply_source_no_write|qual": "true",
+    "policies|public.clients.review_apply_source_lock|permissive": "PERMISSIVE",
+    "policies|public.clients.review_apply_source_lock|with_check": "false",
+    "policies|public.projects.review_apply_source_no_write|roles": [
+      "eps_review_owner"
+    ],
+    "functions|eps.assert_assignment_ai_apply(uuid,jsonb)|definer": true,
+    "functions|eps.assert_assignment_ai_apply(uuid,jsonb)|returns": "void",
+    "functions|eps.assert_assignment_ai_apply(uuid,jsonb)|support": null,
+    "policies|eps.assignments.review_apply_source_lock|permissive": "PERMISSIVE",
+    "policies|eps.assignments.review_apply_source_lock|with_check": "false",
+    "policies|eps.media_assets.review_apply_source_no_write|roles": [
+      "eps_review_owner"
+    ],
+    "policies|public.projects.review_apply_source_lock|permissive": "PERMISSIVE",
+    "policies|public.projects.review_apply_source_lock|with_check": "false",
+    "functions|eps.assert_assignment_ai_apply(uuid,jsonb)|language": "plpgsql",
+    "functions|eps.assert_assignment_ai_apply(uuid,jsonb)|parallel": "u",
+    "policies|eps.candidate_media.review_apply_source_no_write|cmd": "UPDATE",
+    "policies|eps.media_assets.review_apply_source_lock|permissive": "PERMISSIVE",
+    "policies|eps.media_assets.review_apply_source_lock|with_check": "false",
+    "functions|eps.assert_assignment_ai_apply(uuid,jsonb)|leakproof": false,
+    "policies|eps.candidate_media.review_apply_source_no_write|qual": "true",
+    "policies|eps.workspace_candidates.review_apply_source_lock|cmd": "UPDATE",
+    "functions|eps.assert_assignment_ai_apply(uuid,jsonb)|volatility": "v",
+    "policies|eps.candidate_media.review_apply_source_no_write|roles": [
+      "eps_review_owner"
+    ],
+    "policies|eps.candidates.review_apply_source_no_write|permissive": "RESTRICTIVE",
+    "policies|eps.candidates.review_apply_source_no_write|with_check": "false",
+    "policies|eps.workspace_candidates.review_apply_source_lock|qual": "(eps.has_capability('cast.read'::text) AND eps.has_capability('workspaces.write'::text))",
+    "policies|public.clients.review_apply_source_no_write|permissive": "RESTRICTIVE",
+    "policies|public.clients.review_apply_source_no_write|with_check": "false",
+    "policies|eps.assignments.review_apply_source_no_write|permissive": "RESTRICTIVE",
+    "policies|eps.assignments.review_apply_source_no_write|with_check": "false",
+    "policies|eps.candidate_media.review_apply_source_lock|permissive": "PERMISSIVE",
+    "policies|eps.candidate_media.review_apply_source_lock|with_check": "false",
+    "policies|eps.candidate_media_frames.review_apply_source_lock|cmd": "UPDATE",
+    "policies|eps.presentation_templates.review_apply_source_lock|cmd": "UPDATE",
+    "policies|eps.workspace_candidates.review_apply_source_lock|roles": [
+      "eps_review_owner"
+    ],
+    "policies|public.projects.review_apply_source_no_write|permissive": "RESTRICTIVE",
+    "policies|public.projects.review_apply_source_no_write|with_check": "false",
+    "policies|eps.candidate_media_frames.review_apply_source_lock|qual": "(eps.has_capability('cast.read'::text) AND eps.has_capability('workspaces.write'::text))",
+    "policies|eps.media_assets.review_apply_source_no_write|permissive": "RESTRICTIVE",
+    "policies|eps.media_assets.review_apply_source_no_write|with_check": "false",
+    "policies|eps.presentation_templates.review_apply_source_lock|qual": "(eps.has_capability('cast.read'::text) AND eps.has_capability('workspaces.write'::text))",
+    "functions|eps.assert_assignment_ai_apply(uuid,jsonb)|source_sha256": "a4bf99860ae96a40d6f4bbc29f090d1dbd2c6d8338109a9b31e19c37a3916014",
+    "policies|eps.candidate_media_frames.review_apply_source_lock|roles": [
+      "eps_review_owner"
+    ],
+    "policies|eps.presentation_templates.review_apply_source_lock|roles": [
+      "eps_review_owner"
+    ],
+    "policies|eps.workspace_candidates.review_apply_source_no_write|cmd": "UPDATE",
+    "policies|eps.workspace_candidates.review_apply_source_no_write|qual": "true",
+    "policies|eps.candidate_media.review_apply_source_no_write|permissive": "RESTRICTIVE",
+    "policies|eps.candidate_media.review_apply_source_no_write|with_check": "false",
+    "policies|eps.candidate_media_frames.review_apply_source_no_write|cmd": "UPDATE",
+    "policies|eps.presentation_templates.review_apply_source_no_write|cmd": "UPDATE",
+    "policies|eps.workspace_candidates.review_apply_source_no_write|roles": [
+      "eps_review_owner"
+    ],
+    "policies|eps.candidate_media_frames.review_apply_source_no_write|qual": "true",
+    "policies|eps.presentation_templates.review_apply_source_no_write|qual": "true",
+    "policies|eps.workspace_candidates.review_apply_source_lock|permissive": "PERMISSIVE",
+    "policies|eps.workspace_candidates.review_apply_source_lock|with_check": "false",
+    "functions|eps.assert_assignment_ai_apply(uuid,jsonb)|argument_defaults": null,
+    "policies|eps.candidate_media_frames.review_apply_source_no_write|roles": [
+      "eps_review_owner"
+    ],
+    "policies|eps.presentation_templates.review_apply_source_no_write|roles": [
+      "eps_review_owner"
+    ],
+    "functions|eps.assert_assignment_ai_apply(uuid,jsonb)|identity_arguments": "p_assignment_id uuid, p_input jsonb",
+    "policies|eps.candidate_media_frames.review_apply_source_lock|permissive": "PERMISSIVE",
+    "policies|eps.candidate_media_frames.review_apply_source_lock|with_check": "false",
+    "policies|eps.presentation_templates.review_apply_source_lock|permissive": "PERMISSIVE",
+    "policies|eps.presentation_templates.review_apply_source_lock|with_check": "false",
+    "policies|eps.workspace_candidates.review_apply_source_no_write|permissive": "RESTRICTIVE",
+    "policies|eps.workspace_candidates.review_apply_source_no_write|with_check": "false",
+    "policies|eps.candidate_media_frames.review_apply_source_no_write|permissive": "RESTRICTIVE",
+    "policies|eps.candidate_media_frames.review_apply_source_no_write|with_check": "false",
+    "policies|eps.presentation_templates.review_apply_source_no_write|permissive": "RESTRICTIVE",
+    "policies|eps.presentation_templates.review_apply_source_no_write|with_check": "false"
+  },
+  "changed": {
+    "columns|eps.jobs.id|acl": {
+      "before": "{eps_specs_submit_owner=r/postgres,eps_specs_assets_owner=r/postgres}",
+      "after": "{eps_specs_submit_owner=r/postgres,eps_specs_assets_owner=r/postgres,eps_review_owner=w/postgres}"
+    },
+    "columns|eps.roles.id|acl": {
+      "before": null,
+      "after": "{eps_review_owner=w/postgres}"
+    },
+    "columns|eps.slots.id|acl": {
+      "before": null,
+      "after": "{eps_review_owner=w/postgres}"
+    },
+    "columns|eps.specs.id|acl": {
+      "before": "{eps_specs_upload_owner=r/postgres,eps_specs_verify_owner=r/postgres}",
+      "after": "{eps_specs_upload_owner=r/postgres,eps_specs_verify_owner=r/postgres,eps_review_owner=w/postgres}"
+    },
+    "columns|eps.candidates.id|acl": {
+      "before": "{eps_candidate_stage_owner=w/postgres,eps_casting_owner=r/postgres}",
+      "after": "{eps_candidate_stage_owner=w/postgres,eps_casting_owner=r/postgres,eps_review_owner=w/postgres}"
+    },
+    "columns|public.clients.id|acl": {
+      "before": null,
+      "after": "{eps_review_owner=w/postgres}"
+    },
+    "columns|eps.assignments.id|acl": {
+      "before": null,
+      "after": "{eps_review_owner=w/postgres}"
+    },
+    "columns|public.projects.id|acl": {
+      "before": "{eps_draft_owner=r/postgres,eps_specs_stage_owner=r/postgres,eps_specs_apply_owner=r/postgres,eps_candidate_stage_owner=r/postgres,eps_candidate_apply_owner=r/postgres}",
+      "after": "{eps_draft_owner=r/postgres,eps_specs_stage_owner=r/postgres,eps_specs_apply_owner=r/postgres,eps_candidate_stage_owner=r/postgres,eps_candidate_apply_owner=r/postgres,eps_review_owner=w/postgres}"
+    },
+    "columns|eps.media_assets.id|acl": {
+      "before": "{eps_api_owner=a/postgres,eps_specs_upload_owner=a/postgres,eps_specs_assets_owner=a/postgres,eps_candidate_upload_owner=a/postgres,eps_candidate_assets_owner=a/postgres,eps_support_upload_owner=a/postgres}",
+      "after": "{eps_api_owner=a/postgres,eps_specs_upload_owner=a/postgres,eps_specs_assets_owner=a/postgres,eps_candidate_upload_owner=a/postgres,eps_candidate_assets_owner=a/postgres,eps_support_upload_owner=a/postgres,eps_review_owner=w/postgres}"
+    },
+    "columns|eps.candidate_media.id|acl": {
+      "before": null,
+      "after": "{eps_review_owner=w/postgres}"
+    },
+    "columns|eps.workspace_candidates.id|acl": {
+      "before": "{eps_casting_owner=w/postgres}",
+      "after": "{eps_casting_owner=w/postgres,eps_review_owner=w/postgres}"
+    },
+    "columns|eps.presentation_templates.key|acl": {
+      "before": null,
+      "after": "{eps_review_owner=w/postgres}"
+    },
+    "columns|eps.candidate_media_frames.candidate_media_id|acl": {
+      "before": null,
+      "after": "{eps_review_owner=w/postgres}"
+    },
+    "functions|public.eps_update_assignment(uuid,jsonb,text)|source_sha256": {
+      "before": "e64451907fa024c01b50b68d9eca2e974e8dd072727c968383f7f1bfbfa3f91b",
+      "after": "f9212a47a949be39d75078b1cf15b69049342fa97ebaf4bb808cb4326b539d54"
+    }
+  },
+  "deleted": {}
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "migration": {
+    "path": "supabase/migrations/20261029203953_m04_ai_apply_source_guard.sql",
+    "sha256": "1bf897c3c6dcae03c96f0d434ba61edfc89b01d2c700dc4e8c11ce17e285832c"
+  },
+  "baseline_manifest": {
+    "path": "development/m04/ai-apply-baseline22.json",
+    "sha256": "148000f868d674d9c4bccc1c0ccad9cf86fe22352ca8f41e6d31066916ec1a5a"
+  },
+  "reviewed_manifest": {
+    "path": "development/local-db/reviewed.json",
+    "sha256": "c3f68019cee90f56b9de2c74261e5e803ee556ecabfd39966b0af3c07c719b42"
+  },
+  "local_proof": {
+    "path": "tracking/evidence/m04/ai-apply-local/2026-10-29T20-45-15-704Z-a6092cd2.json",
+    "sha256": "d1c28d5eeacdfac899cfcd3919086bed2bf981880bb96b6414277171cb30f021"
+  },
+  "promotion": {
+    "path": "tracking/evidence/m04/ai-apply-promotion/2026-10-29T20-46-14-728Z-ad032cca.json",
+    "sha256": "2033658e4ca0b24f9079613519cd56d9973fe073f1741af4018e4a5fb1087928"
+  },
+  "race_proof": {
+    "path": "tracking/evidence/m04/ai-apply-race-local/2026-10-29T20-43-20-673Z-d1cd9227.json",
+    "sha256": "764e2045fe7a74eb4c20c1d55cfaedf90318bc2d571843e336aba6706ced851f"
+  },
+  "delta": {
+    "path": "development/m04/ai-apply-release-delta.json",
+    "sha256": "ea68bade004de1e356263bd122cdc36373c761fc513f6e4c56a7bafbffd725d4"
+  },
+  "readback": {
+    "path": "tools/sql/m04-ai-apply-readback.sql",
+    "sha256": "072651c96971aa810b4556d26f45537e709243afbc7acea674f78a69ad0adf5e"
+  },
+  "source_seals": {
+    "development/local-db/instance.json": "778d29222b0a6b604451a494dab6ca6ffabb7357d5b700794400bf35cc79c198",
+    "development/local-db/reviewed.json": "c3f68019cee90f56b9de2c74261e5e803ee556ecabfd39966b0af3c07c719b42",
+    "development/m04/ai-apply-baseline22.json": "148000f868d674d9c4bccc1c0ccad9cf86fe22352ca8f41e6d31066916ec1a5a",
+    "development/m04/ai-apply-release-delta.json": "ea68bade004de1e356263bd122cdc36373c761fc513f6e4c56a7bafbffd725d4",
+    "development/m04/assignment-ai-apply-forward.sql": "1bf897c3c6dcae03c96f0d434ba61edfc89b01d2c700dc4e8c11ce17e285832c",
+    "supabase/migrations/20261028222030_m02_specs_pipeline.sql": "1e5319bb81be1f12896f7efb5a2cb7706653b79eb440a4dc1aaaca4ed9556895",
+    "supabase/migrations/20261029203953_m04_ai_apply_source_guard.sql": "1bf897c3c6dcae03c96f0d434ba61edfc89b01d2c700dc4e8c11ce17e285832c",
+    "tests/db/m04-ai-apply.sql": "648edd9f84cb92e11a43e9135f67ae2a0387d25820a0f090b8c0b07f197c43ff",
+    "tests/db/m04-assignments-fixture.sql": "cb5f418fee0dc3a9b00a9ddeaa3971f5df1c3384c459905baa19b4e04f1d9cb4",
+    "tests/operations/test_m04_ai_apply_release.py": "ca56c35f6e2905f0c6d08f8caf16b7aec0d3f43517072cd2fb9a43dfc939aa38",
+    "tools/local-postgres.mjs": "49929bce8eb51194d9299cfd9639e537eb237daaec76c15740cb88059604e2de",
+    "tools/m04-ai-apply-private-fixture-file.py": "76ab8d27699d9a646a4941d2cf6db62511043050bac1f6f823a8b7a853b16928",
+    "tools/prepare_m04_review_readback.py": "63d6ef02e51e0d732c780541aacdb203712db3368317ea7fc804821acc111663",
+    "tools/promote-m04-ai-apply-local.mjs": "369e5d400e4dd4b41985ed4b5af4b44b8cb4e087f2ea1c1ef5f7315255967834",
+    "tools/provision_logo_verifier.py": "660f2eb0d15b1ed17801ecef22270dbb389fdf93181c340f16d715fc2b3a340c",
+    "tools/release_foundation.py": "02aac0cefc4b46419c7d5a086da672398716cf7ee73882602574cff99659d751",
+    "tools/release_m03_remaining.py": "5a608e480c7afb56a1b49c7a683c238d950301c589c1ff91348368f486995b7e",
+    "tools/release_specs_read_operation.py": "a68be68c78bb20b59216e5aabd9b568bb0d46ef9fd35097ceb78392f85ad304e",
+    "tools/sql/m04-ai-apply-readback.sql": "072651c96971aa810b4556d26f45537e709243afbc7acea674f78a69ad0adf5e",
+    "tools/sql/m04-casting-readback.sql": "13cc727a2e2e34321c6bbee2c98a3b7c85af88445fe1a1effd067d895fe5456f",
+    "tools/sql/m04-review-catalog.sql": "36a5b4a3368a5d37092159fcacd18360731aeae5851410f37850c612387529cc",
+    "tools/sql/m04-review-local-snapshot.sql": "7fbd8618363597ff158c429f6127c1eab0e51dce170d740c96f368c604b24d46",
+    "tools/sql/m04-review-new-state.sql": "ef20862443f40d83bb080efa849ab3fdb9e900947a8f12df3c1a347baa413896",
+    "tools/test-m04-ai-apply-local.mjs": "19a5ba95f0261ac9798219b8a138420568e680824948007fbbf1c3169b6b7710",
+    "tools/test-m04-ai-apply-race-local.mjs": "0f99a7201873111a5434b460e676ef895e8bf3d8a2274a580c96fe6227a4544b",
+    "tracking/evidence/m04/ai-apply-local/2026-10-29T20-45-15-704Z-a6092cd2.json": "d1c28d5eeacdfac899cfcd3919086bed2bf981880bb96b6414277171cb30f021",
+    "tracking/evidence/m04/ai-apply-race-local/2026-10-29T20-43-20-673Z-d1cd9227.json": "764e2045fe7a74eb4c20c1d55cfaedf90318bc2d571843e336aba6706ced851f"
+  },
+  "required_markers": [
+    "M04_AI_APPLY_SHARED_FACTS_AVAILABILITY_AND_FULL_REVIEW_FENCED_PASSED",
+    "M04_AI_APPLY_STRICT_ONE_FIELD_AND_GUARD_TYPES_PASSED",
+    "M04_AI_APPLY_ACK_CURRENT_AUTHORITY_MANUAL_EDIT_AND_LOCK_ONLY_RLS_PASSED"
+  ]
+}

@@ -10630,10 +10630,136 @@
               },
               "slide_wording": {
                 "$ref": "#/$defs/SlideWording"
+              },
+              "ai_suggestion_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "expected_series_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "expected_input_fingerprint": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
               }
             },
             "required": [
               "row_version"
+            ],
+            "description": "Manual assignment edits remain independent. Explicit AI proposal apply supplies all three review guards and exactly one nonempty slide-wording field; the canonical transaction verifies current proposal/source/series context before writing.",
+            "allOf": [
+              {
+                "if": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "ai_suggestion_id"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "expected_series_id"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "expected_input_fingerprint"
+                      ]
+                    }
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "ai_suggestion_id",
+                    "expected_series_id",
+                    "expected_input_fingerprint",
+                    "slide_wording"
+                  ],
+                  "not": {
+                    "anyOf": [
+                      {
+                        "required": [
+                          "position"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "shortlist_included"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "presentation_notes"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "internal_notes"
+                        ]
+                      }
+                    ]
+                  },
+                  "properties": {
+                    "slide_wording": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "minProperties": 1,
+                      "maxProperties": 1,
+                      "properties": {
+                        "name_or_id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "pattern": "[^ \\t\\r\\n]"
+                        },
+                        "age_or_range": {
+                          "type": "string",
+                          "minLength": 1,
+                          "pattern": "[^ \\t\\r\\n]"
+                        },
+                        "height_measurements": {
+                          "type": "string",
+                          "minLength": 1,
+                          "pattern": "[^ \\t\\r\\n]"
+                        },
+                        "languages_accents": {
+                          "type": "string",
+                          "minLength": 1,
+                          "pattern": "[^ \\t\\r\\n]"
+                        },
+                        "skills_experience": {
+                          "type": "string",
+                          "minLength": 1,
+                          "pattern": "[^ \\t\\r\\n]"
+                        },
+                        "city": {
+                          "type": "string",
+                          "minLength": 1,
+                          "pattern": "[^ \\t\\r\\n]"
+                        },
+                        "previous_projects_roles": {
+                          "type": "string",
+                          "minLength": 1,
+                          "pattern": "[^ \\t\\r\\n]"
+                        },
+                        "classification": {
+                          "type": "string",
+                          "minLength": 1,
+                          "pattern": "[^ \\t\\r\\n]"
+                        },
+                        "availability": {
+                          "type": "string",
+                          "minLength": 1,
+                          "pattern": "[^ \\t\\r\\n]"
+                        },
+                        "presentation_notes": {
+                          "type": "string",
+                          "minLength": 1,
+                          "pattern": "[^ \\t\\r\\n]"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
             ]
           },
           "Id": {
@@ -11994,8 +12120,8 @@
       "description": "Get missing facts, Pending slots, text overflow and generation readiness",
       "operationId": "get_workspace_review",
       "http": {
-        "method": "GET",
-        "path": "/workspaces/{workspace_id}/review"
+        "path": "/workspaces/{workspace_id}/review",
+        "method": "GET"
       },
       "capability": "workspaces.read",
       "inputSchema": {
@@ -12051,6 +12177,10 @@
           "data"
         ],
         "$defs": {
+          "DateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
           "Id": {
             "type": "string",
             "minLength": 1,
@@ -12065,6 +12195,233 @@
               {
                 "type": "null"
               }
+            ]
+          },
+          "ReviewCover": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "project_name": {
+                "type": "string"
+              },
+              "client_name": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "title": {
+                "type": "string"
+              },
+              "output_type": {
+                "type": "string",
+                "enum": [
+                  "selection",
+                  "shortlist"
+                ]
+              },
+              "logo_asset_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "logo_placement": {
+                "type": "string",
+                "enum": [
+                  "cover",
+                  "every_slide"
+                ]
+              }
+            },
+            "required": [
+              "project_name",
+              "client_name",
+              "title",
+              "output_type",
+              "logo_asset_id",
+              "logo_placement"
+            ]
+          },
+          "ReviewFields": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name_or_id": {
+                "type": "string"
+              },
+              "age_or_range": {
+                "type": "string"
+              },
+              "height_measurements": {
+                "type": "string"
+              },
+              "languages_accents": {
+                "type": "string"
+              },
+              "skills_experience": {
+                "type": "string"
+              },
+              "city": {
+                "type": "string"
+              },
+              "previous_projects_roles": {
+                "type": "string"
+              },
+              "classification": {
+                "type": "string"
+              },
+              "availability": {
+                "type": "string"
+              },
+              "presentation_notes": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "name_or_id",
+              "age_or_range",
+              "height_measurements",
+              "languages_accents",
+              "skills_experience",
+              "city",
+              "previous_projects_roles",
+              "classification",
+              "availability",
+              "presentation_notes"
+            ]
+          },
+          "ReviewFit": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "status": {
+                "type": "string",
+                "enum": [
+                  "unmeasured",
+                  "measured",
+                  "failed"
+                ]
+              },
+              "input_fingerprint": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "measured_at": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/DateTime"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "overflows": {
+                "type": "array",
+                "maxItems": 10000,
+                "items": {
+                  "$ref": "#/$defs/ReviewFitOverflow"
+                }
+              },
+              "error_code": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "status",
+              "input_fingerprint",
+              "measured_at",
+              "overflows",
+              "error_code"
+            ]
+          },
+          "ReviewFitOverflow": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "slide_index": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "field": {
+                "$ref": "#/$defs/Id"
+              },
+              "axis": {
+                "type": "string",
+                "enum": [
+                  "horizontal",
+                  "vertical"
+                ]
+              },
+              "overflow_px": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              }
+            },
+            "required": [
+              "slide_index",
+              "field",
+              "axis",
+              "overflow_px"
+            ]
+          },
+          "ReviewFrame": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "asset_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "source_asset_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "timestamp_ms": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "width": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "height": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            },
+            "required": [
+              "asset_id",
+              "source_asset_id",
+              "timestamp_ms",
+              "width",
+              "height",
+              "sha256"
             ]
           },
           "ReviewIssue": {
@@ -12109,6 +12466,292 @@
               "field",
               "message",
               "repair_action"
+            ]
+          },
+          "ReviewSlide": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "candidate",
+                  "pending"
+                ]
+              },
+              "role_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "role_name": {
+                "type": "string"
+              },
+              "slot_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "slot_label": {
+                "type": "string"
+              },
+              "assignment_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "workspace_candidate_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "candidate_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "candidate_media_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "position": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "enum": [
+                      "main",
+                      "option",
+                      "backup"
+                    ]
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "review_status": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "enum": [
+                      "reviewed",
+                      "unreviewed"
+                    ]
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "assignment_row_version": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/RowVersion"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "workspace_candidate_row_version": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/RowVersion"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "candidate_row_version": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/RowVersion"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "requirements": {
+                "$ref": "#/$defs/RoleRequirements"
+              },
+              "provisional": {
+                "type": "boolean"
+              },
+              "fields": {
+                "$ref": "#/$defs/ReviewFields"
+              },
+              "source_fields": {
+                "$ref": "#/$defs/ReviewFields"
+              },
+              "frames": {
+                "type": "array",
+                "maxItems": 3,
+                "items": {
+                  "$ref": "#/$defs/ReviewFrame"
+                }
+              },
+              "video_asset_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "kind",
+              "role_id",
+              "role_name",
+              "slot_id",
+              "slot_label",
+              "assignment_id",
+              "workspace_candidate_id",
+              "candidate_id",
+              "candidate_media_id",
+              "position",
+              "review_status",
+              "assignment_row_version",
+              "workspace_candidate_row_version",
+              "candidate_row_version",
+              "requirements",
+              "provisional",
+              "fields",
+              "source_fields",
+              "frames",
+              "video_asset_id"
+            ]
+          },
+          "RoleRequirements": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "age_range": {
+                "$ref": "#/$defs/NullableText"
+              },
+              "gender_requirement": {
+                "$ref": "#/$defs/NullableText"
+              },
+              "appearance_performance": {
+                "$ref": "#/$defs/NullableText"
+              },
+              "languages": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "accents": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "skills": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "scene_references": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "shoot_dates": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "location": {
+                "$ref": "#/$defs/NullableText"
+              },
+              "availability_requirements": {
+                "$ref": "#/$defs/NullableText"
+              },
+              "other_instructions": {
+                "$ref": "#/$defs/NullableText"
+              }
+            },
+            "required": [
+              "age_range",
+              "gender_requirement",
+              "appearance_performance",
+              "languages",
+              "accents",
+              "skills",
+              "scene_references",
+              "shoot_dates",
+              "location",
+              "availability_requirements",
+              "other_instructions"
+            ]
+          },
+          "RowVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Optimistic version from the last read of the mutated resource; stale write returns 409."
+          },
+          "TemplateIdentity": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "key": {
+                "$ref": "#/$defs/Id"
+              },
+              "version": {
+                "$ref": "#/$defs/Id"
+              },
+              "content_sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "font_key": {
+                "$ref": "#/$defs/Id"
+              }
+            },
+            "required": [
+              "key",
+              "version",
+              "content_sha256",
+              "font_key"
             ]
           },
           "Warning": {
@@ -12179,6 +12822,25 @@
                 "items": {
                   "$ref": "#/$defs/Id"
                 }
+              },
+              "series_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "template": {
+                "$ref": "#/$defs/TemplateIdentity"
+              },
+              "cover": {
+                "$ref": "#/$defs/ReviewCover"
+              },
+              "slides": {
+                "type": "array",
+                "maxItems": 10000,
+                "items": {
+                  "$ref": "#/$defs/ReviewSlide"
+                }
+              },
+              "fit": {
+                "$ref": "#/$defs/ReviewFit"
               }
             },
             "required": [
@@ -12190,7 +12852,12 @@
               "pending_slide_count",
               "issues",
               "can_generate",
-              "unreviewed_candidate_ids"
+              "unreviewed_candidate_ids",
+              "series_id",
+              "template",
+              "cover",
+              "slides",
+              "fit"
             ]
           }
         }
@@ -12207,8 +12874,8 @@
       "description": "Prepare optional contextual or wording assistance",
       "operationId": "create_ai_suggestion",
       "http": {
-        "method": "POST",
-        "path": "/ai-suggestions"
+        "path": "/ai-suggestions",
+        "method": "POST"
       },
       "capability": "workspaces.write",
       "inputSchema": {
@@ -12263,10 +12930,13 @@
                 "type": "string"
               },
               "instruction": {
-                "type": "string"
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 8000
               },
               "source_text": {
-                "type": "string"
+                "type": "string",
+                "maxLength": 65536
               }
             },
             "required": [
@@ -12275,7 +12945,122 @@
               "target_type",
               "target_id",
               "target_row_version",
-              "instruction"
+              "instruction",
+              "field"
+            ],
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "target_type": {
+                      "const": "assignment"
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "field": {
+                      "type": "string",
+                      "enum": [
+                        "name_or_id",
+                        "age_or_range",
+                        "height_measurements",
+                        "languages_accents",
+                        "skills_experience",
+                        "city",
+                        "previous_projects_roles",
+                        "classification",
+                        "availability",
+                        "presentation_notes"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "target_type": {
+                      "const": "candidate"
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "field": {
+                      "type": "string",
+                      "enum": [
+                        "name",
+                        "age_or_range",
+                        "height_measurements",
+                        "skills_experience",
+                        "city",
+                        "previous_projects_roles",
+                        "classification"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "target_type": {
+                      "const": "role"
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "field": {
+                      "type": "string",
+                      "enum": [
+                        "name",
+                        "requirements.age_range",
+                        "requirements.appearance_performance",
+                        "requirements.location",
+                        "requirements.availability_requirements",
+                        "requirements.other_instructions"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "target_type": {
+                      "const": "workspace_candidate"
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "field": {
+                      "type": "string",
+                      "enum": [
+                        "availability"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "capability": {
+                      "const": "slide_shorten"
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "target_type": {
+                      "const": "assignment"
+                    }
+                  }
+                }
+              }
             ]
           },
           "Id": {
@@ -12400,8 +13185,8 @@
       "description": "Read suggestion without changing facts or choices",
       "operationId": "get_ai_suggestion",
       "http": {
-        "method": "GET",
-        "path": "/ai-suggestions/{suggestion_id}"
+        "path": "/ai-suggestions/{suggestion_id}",
+        "method": "GET"
       },
       "capability": "workspaces.read",
       "inputSchema": {
@@ -12464,6 +13249,7 @@
                 "enum": [
                   "queued",
                   "running",
+                  "waiting_for_input",
                   "succeeded",
                   "failed",
                   "cancelled"
@@ -13233,8 +14019,8 @@
       "description": "List scoped presentation series",
       "operationId": "list_presentation_series",
       "http": {
-        "method": "GET",
-        "path": "/presentation-series"
+        "path": "/presentation-series",
+        "method": "GET"
       },
       "capability": "workspaces.read",
       "inputSchema": {
@@ -13420,6 +14206,19 @@
               },
               "archived": {
                 "type": "boolean"
+              },
+              "template_key": {
+                "$ref": "#/$defs/Id"
+              },
+              "template_version": {
+                "$ref": "#/$defs/Id"
+              },
+              "template_content_sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "font_key": {
+                "$ref": "#/$defs/Id"
               }
             },
             "required": [
@@ -13432,7 +14231,11 @@
               "latest_ready_version_id",
               "latest_ready_version_no",
               "row_version",
-              "archived"
+              "archived",
+              "template_key",
+              "template_version",
+              "template_content_sha256",
+              "font_key"
             ]
           },
           "RowVersion": {
@@ -13481,8 +14284,8 @@
       "description": "Create/reuse series scoped to workspace, output and audience snapshot",
       "operationId": "create_presentation_series",
       "http": {
-        "method": "POST",
-        "path": "/presentation-series"
+        "path": "/presentation-series",
+        "method": "POST"
       },
       "capability": "presentations.generate",
       "inputSchema": {
@@ -13661,6 +14464,19 @@
               },
               "archived": {
                 "type": "boolean"
+              },
+              "template_key": {
+                "$ref": "#/$defs/Id"
+              },
+              "template_version": {
+                "$ref": "#/$defs/Id"
+              },
+              "template_content_sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "font_key": {
+                "$ref": "#/$defs/Id"
               }
             },
             "required": [
@@ -13673,7 +14489,11 @@
               "latest_ready_version_id",
               "latest_ready_version_no",
               "row_version",
-              "archived"
+              "archived",
+              "template_key",
+              "template_version",
+              "template_content_sha256",
+              "font_key"
             ]
           },
           "RowVersion": {
@@ -13722,8 +14542,8 @@
       "description": "Read series and latest ready version pointer",
       "operationId": "get_presentation_series",
       "http": {
-        "method": "GET",
-        "path": "/presentation-series/{series_id}"
+        "path": "/presentation-series/{series_id}",
+        "method": "GET"
       },
       "capability": "workspaces.read",
       "inputSchema": {
@@ -13869,6 +14689,19 @@
               },
               "archived": {
                 "type": "boolean"
+              },
+              "template_key": {
+                "$ref": "#/$defs/Id"
+              },
+              "template_version": {
+                "$ref": "#/$defs/Id"
+              },
+              "template_content_sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "font_key": {
+                "$ref": "#/$defs/Id"
               }
             },
             "required": [
@@ -13881,7 +14714,11 @@
               "latest_ready_version_id",
               "latest_ready_version_no",
               "row_version",
-              "archived"
+              "archived",
+              "template_key",
+              "template_version",
+              "template_content_sha256",
+              "font_key"
             ]
           },
           "RowVersion": {
@@ -13930,8 +14767,8 @@
       "description": "Rename/archive a series without changing its audience scope",
       "operationId": "update_presentation_series",
       "http": {
-        "method": "PATCH",
-        "path": "/presentation-series/{series_id}"
+        "path": "/presentation-series/{series_id}",
+        "method": "PATCH"
       },
       "capability": "presentations.generate",
       "inputSchema": {
@@ -13941,12 +14778,18 @@
           "series_id": {
             "$ref": "#/$defs/Id"
           },
+          "idempotency_key": {
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 200
+          },
           "body": {
             "$ref": "#/$defs/PresentationSeriesPatch"
           }
         },
         "required": [
           "series_id",
+          "idempotency_key",
           "body"
         ],
         "$defs": {
@@ -14104,6 +14947,19 @@
               },
               "archived": {
                 "type": "boolean"
+              },
+              "template_key": {
+                "$ref": "#/$defs/Id"
+              },
+              "template_version": {
+                "$ref": "#/$defs/Id"
+              },
+              "template_content_sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "font_key": {
+                "$ref": "#/$defs/Id"
               }
             },
             "required": [
@@ -14116,7 +14972,11 @@
               "latest_ready_version_id",
               "latest_ready_version_no",
               "row_version",
-              "archived"
+              "archived",
+              "template_key",
+              "template_version",
+              "template_content_sha256",
+              "font_key"
             ]
           },
           "RowVersion": {
@@ -17560,7 +18420,8 @@
                   "frame_extract",
                   "ai_suggestion",
                   "presentation_render",
-                  "presentation_export"
+                  "presentation_export",
+                  "review_fit"
                 ]
               },
               "status": {
@@ -17908,7 +18769,8 @@
                   "frame_extract",
                   "ai_suggestion",
                   "presentation_render",
-                  "presentation_export"
+                  "presentation_export",
+                  "review_fit"
                 ]
               },
               "status": {
@@ -18450,7 +19312,8 @@
                   "frame_extract",
                   "ai_suggestion",
                   "presentation_render",
-                  "presentation_export"
+                  "presentation_export",
+                  "review_fit"
                 ]
               },
               "status": {
@@ -19852,6 +20715,499 @@
       "annotations": {
         "readOnlyHint": false,
         "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "request_workspace_review_fit",
+      "description": "Measure the exact selected template against a captured review fingerprint",
+      "operationId": "request_workspace_review_fit",
+      "http": {
+        "path": "/workspaces/{workspace_id}/review/fit",
+        "method": "POST"
+      },
+      "capability": "workspaces.write",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "workspace_id": {
+            "$ref": "#/$defs/Id"
+          },
+          "idempotency_key": {
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 200
+          },
+          "body": {
+            "$ref": "#/$defs/ReviewFitRequest"
+          }
+        },
+        "required": [
+          "workspace_id",
+          "idempotency_key",
+          "body"
+        ],
+        "$defs": {
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          },
+          "ReviewFitRequest": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "series_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "expected_input_fingerprint": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            },
+            "required": [
+              "series_id",
+              "expected_input_fingerprint"
+            ]
+          }
+        }
+      },
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "request_id": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/$defs/JobAccepted"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/Warning"
+            }
+          }
+        },
+        "required": [
+          "request_id",
+          "data"
+        ],
+        "$defs": {
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          },
+          "JobAccepted": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "job_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "resource_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "poll_url": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "queued",
+                  "running",
+                  "waiting_for_input",
+                  "succeeded",
+                  "failed",
+                  "cancelled"
+                ],
+                "description": "Recorded durable job status for this acknowledgement. Reusing an existing job reports its current status; an idempotent replay may retain its original acknowledgement. Read poll_url for current status."
+              }
+            },
+            "required": [
+              "job_id",
+              "resource_id",
+              "poll_url",
+              "status"
+            ]
+          },
+          "Warning": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "entity_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "code",
+              "message",
+              "entity_id"
+            ]
+          }
+        }
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "get_casting_retirement",
+      "description": "Read the latest typed restoration choice for a retired resource",
+      "operationId": "get_casting_retirement",
+      "http": {
+        "path": "/workspaces/{workspace_id}/retirements/{resource_id}",
+        "method": "GET"
+      },
+      "capability": "workspaces.write",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "workspace_id": {
+            "$ref": "#/$defs/Id"
+          },
+          "resource_id": {
+            "$ref": "#/$defs/Id"
+          }
+        },
+        "required": [
+          "workspace_id",
+          "resource_id"
+        ],
+        "$defs": {
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          }
+        }
+      },
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "request_id": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/$defs/CastingRetirement"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/Warning"
+            }
+          }
+        },
+        "required": [
+          "request_id",
+          "data"
+        ],
+        "$defs": {
+          "CastingRetirement": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "workspace_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "resource_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "operation": {
+                "type": "string",
+                "enum": [
+                  "retire_slots",
+                  "archive_role",
+                  "remove_workspace_candidate"
+                ]
+              },
+              "undo_event_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "expected_workspace_row_version": {
+                "$ref": "#/$defs/RowVersion"
+              },
+              "assignment_ids": {
+                "type": "array",
+                "uniqueItems": true,
+                "maxItems": 1000,
+                "items": {
+                  "$ref": "#/$defs/Id"
+                }
+              },
+              "slot_ids": {
+                "type": "array",
+                "uniqueItems": true,
+                "maxItems": 1000,
+                "items": {
+                  "$ref": "#/$defs/Id"
+                }
+              },
+              "main_count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "shortlist_count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "can_undo": {
+                "type": "boolean"
+              },
+              "unavailable_reason": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "workspace_id",
+              "resource_id",
+              "operation",
+              "undo_event_id",
+              "expected_workspace_row_version",
+              "assignment_ids",
+              "slot_ids",
+              "main_count",
+              "shortlist_count",
+              "can_undo",
+              "unavailable_reason"
+            ]
+          },
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          },
+          "RowVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Optimistic version from the last read of the mutated resource; stale write returns 409."
+          },
+          "Warning": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "entity_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "code",
+              "message",
+              "entity_id"
+            ]
+          }
+        }
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "undo_casting_retirement",
+      "description": "Restore a retirement with its current workspace revision and recorded inverse",
+      "operationId": "undo_casting_retirement",
+      "http": {
+        "path": "/workspaces/{workspace_id}/retirements/{event_id}/undo",
+        "method": "POST"
+      },
+      "capability": "workspaces.write",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "workspace_id": {
+            "$ref": "#/$defs/Id"
+          },
+          "event_id": {
+            "$ref": "#/$defs/Id"
+          },
+          "idempotency_key": {
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 200
+          },
+          "body": {
+            "$ref": "#/$defs/CastingRetirementUndo"
+          }
+        },
+        "required": [
+          "workspace_id",
+          "event_id",
+          "idempotency_key",
+          "body"
+        ],
+        "$defs": {
+          "CastingRetirementUndo": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "expected_workspace_row_version": {
+                "$ref": "#/$defs/RowVersion"
+              }
+            },
+            "required": [
+              "expected_workspace_row_version"
+            ]
+          },
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          },
+          "RowVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Optimistic version from the last read of the mutated resource; stale write returns 409."
+          }
+        }
+      },
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "request_id": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/$defs/CastingRetirementUndoResult"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/Warning"
+            }
+          }
+        },
+        "required": [
+          "request_id",
+          "data"
+        ],
+        "$defs": {
+          "CastingRetirementUndoResult": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "success": {
+                "type": "boolean",
+                "const": true
+              },
+              "affected_ids": {
+                "type": "array",
+                "uniqueItems": true,
+                "maxItems": 10000,
+                "items": {
+                  "$ref": "#/$defs/Id"
+                }
+              },
+              "workspace_row_version": {
+                "$ref": "#/$defs/RowVersion"
+              }
+            },
+            "required": [
+              "success",
+              "affected_ids",
+              "workspace_row_version"
+            ]
+          },
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          },
+          "RowVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Optimistic version from the last read of the mutated resource; stale write returns 409."
+          },
+          "Warning": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "entity_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "code",
+              "message",
+              "entity_id"
+            ]
+          }
+        }
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": false,
         "idempotentHint": true,
         "openWorldHint": false
       }

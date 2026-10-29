@@ -1,0 +1,36 @@
+{
+  "started_at": "2026-10-29T20:13:09.170335+00:00",
+  "finished_at": "2026-10-29T20:13:11.229300+00:00",
+  "result": "passed",
+  "scope": "Focused source-bound factual confirmation observer preparation only. No cloud or owner-key read.",
+  "observer_cloud_called": false,
+  "private_owner_key_read": false,
+  "provider_called": false,
+  "browser_called": false,
+  "hosting_deferred": true,
+  "source_seals": {
+    "tools/capture-m03-reviewed.py": "10bb5c20ab1c0ef95251cf571f708b5987a329529001144678c226002a4d93d7",
+    "tools/sql/m03-reviewed-readback.sql": "c84ccd40e52915b49c4d2fbe5d30d1a622465be69bf128332928d4d33115c271",
+    "tests/operations/test_m03_reviewed_capture.py": "8bea73c20d7c3f5d655085c5e1309794f3d759a6c95f6ee7aeca4f429bb77366"
+  },
+  "sources_stable": true,
+  "tests": {
+    "command": "python -X utf8 -m unittest discover -s tests/operations -p test_m03_reviewed_capture.py",
+    "passed": 13,
+    "exit_code": 0
+  },
+  "local_read_only_sql_compilation": {
+    "local_readonly_sql_compiled": true,
+    "synthetic_target_has_no_real_subject": true,
+    "cloud_called": false
+  },
+  "local_sql_exit_code": 0,
+  "raw_diagnostics_private": true,
+  "prior_failures": [
+    "Initial RED: helper absent; unittest import error.",
+    "First local SQL compile unconfirmed; corrected extraction JSON subtraction parentheses.",
+    "First 10-test run: selected-frame negative fixture shared its baseline list; deep-copied fixture then 10/10 passed."
+  ],
+  "canonical_capture_performed": false,
+  "limits": "No actual-source Reviewed, answer-key match or capability status is claimed by this preparation receipt."
+}

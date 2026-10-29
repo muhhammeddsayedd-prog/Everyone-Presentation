@@ -1,0 +1,74 @@
+{
+  "observed_at": "2026-10-29T21:03:41.060097+00:00",
+  "result": "passed",
+  "scope": "M04 completion gates; controlled/offline checks separate from actual integration receipts",
+  "gates": {
+    "module_tests": {
+      "command": "npm.cmd test",
+      "tests": 563,
+      "pass": 563,
+      "fail": 0,
+      "groups": [
+        207,
+        7,
+        12,
+        45,
+        159,
+        133
+      ],
+      "raw_log_sha256": "2e1b197fa02032ab73a4706505697e7e520fb7cd97312b4e27aea0dae2aeafed"
+    },
+    "controlled_browsers": {
+      "command": "npm.cmd run test:e2e",
+      "tests": 51,
+      "pass": 51,
+      "raw_log_sha256": "a89f8ab89c4eb293b49b1cae1d6166db33d477694d89b4f5f98fa3341f2770f3"
+    },
+    "final_review_targeted": {
+      "command": "npx.cmd playwright test tests/e2e/review-ui.spec.ts --workers=1",
+      "tests": 1,
+      "pass": 1,
+      "scope": "Final CSS/labels; proposal/source/guard/refresh/dirty journey;390px controlled viewport with zero document horizontal overflow",
+      "private_screenshot_sha256": "b09ef4def92807cc828ab4d50d3f211aff49eb8fc8ac266a16592f08834df407",
+      "screenshot_dimensions": [
+        390,
+        4062
+      ]
+    },
+    "operational_offline": {
+      "receipt": "tracking/evidence/m03/final-offline-checks/2026-10-29T20-58-05-290049Z-bc413b39.json",
+      "sha256": "1ccd05834047003ad4180fa53a0c7ed9380e51c342c379220c0fb32e62b30198",
+      "node_tests": 133,
+      "python_tests": 312
+    },
+    "typecheck": {
+      "result": "passed",
+      "raw_log_sha256": "63dbaa165359a370f81fa6d619a1569ad84c24a4a726e0b4e03bb94528b8dd4f"
+    },
+    "lint": {
+      "result": "passed",
+      "raw_log_sha256": "dcf04cf56739f2f68b315b919013254295716cfac4a2b9aaca7e25ee40e8f2db",
+      "final_scoped_eslint": "passed"
+    },
+    "final_build": {
+      "result": "passed",
+      "raw_log_sha256": "a150544812875fdc6d71c26ef7f884fee31397394c6e54dc7338535734388583"
+    }
+  },
+  "historical_failures_preserved": [
+    "tracking/evidence/m03/final-offline-checks/2026-10-29T20-54-08-388120Z-7d775955.json"
+  ],
+  "corrections": "Historical producer fixture pins immutable22. Exact old vision-routing bytes retained for historical seals; frozen observer still rejects changed current routing. Release scopes remain unchanged.",
+  "source_sha256": {
+    "apps/web/components/WorkspaceReviewView.tsx": "f19327d0b2181fc2644a1487f7c17826bcaacfc3b4363d18dc080949ead21bab",
+    "apps/web/app/globals.css": "82032cf2fa93fa31404e872c67f95a7581928234e6cf74e74712a0519f0bf3b5",
+    "tests/e2e/review-ui.spec.ts": "00d97dddf235dee6f7ea7c07a16a5b430539ad07f6235b81212973ea1b3e3c31",
+    "tests/operations/test_producer_generation.py": "26a815a77ef97d6a99384068f5c32d53293edfba5121b9ecc72358e827e297c4",
+    "tests/operations/test_m03_frame_vision_capture.py": "02f032de072d8839c2589c661fe5e08cd032c5c8bf7437f1319491ce507fa99a"
+  },
+  "boundaries": [
+    "Controlled fixtures are separate from signed-in canonical app, OpenAI/n8n and native-worker receipts",
+    "No PDF, guest, externalOAuth or hosting acceptance"
+  ],
+  "hosting_deferred": true
+}

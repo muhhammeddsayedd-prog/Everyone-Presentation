@@ -7,6 +7,22 @@ import { createAssignment, updateAssignment, setSlotMain, undoSlotMain, removeAs
 
 const authority: CastingAuthority = { principal_id: 'producer', project_id: 'project', capabilities: ['workspaces.read', 'workspaces.write'], can_read: true, can_write: true };
 const code = (value: string) => (error: unknown) => error instanceof DomainError && error.code === value;
+
+test('AI wording apply requires one nonempty override and a complete canonical review guard', () => {
+  const guard = { ai_suggestion_id: 'suggestion', expected_series_id: 'series', expected_input_fingerprint: 'a'.repeat(64) };
+  const patch = { row_version: 1, slide_wording: { skills_experience: 'Preserved wording' }, ...guard };
+  assert.deepEqual(parseAssignmentPatch(patch), patch);
+  for (const value of [
+    { row_version: 1, ai_suggestion_id: 'suggestion' }, { ...patch, expected_series_id: undefined },
+    { ...patch, expected_input_fingerprint: null }, { ...patch, expected_input_fingerprint: 'A'.repeat(64) },
+    { ...patch, position: 'backup' }, { ...patch, shortlist_included: true }, { ...patch, presentation_notes: 'extra' },
+    { ...patch, internal_notes: 'extra' }, { ...patch, slide_wording: {} },
+    { ...patch, slide_wording: { city: 'Cairo', skills_experience: 'Another field' } },
+    { ...patch, slide_wording: { skills_experience: null } }, { ...patch, slide_wording: { skills_experience: ' ' } },
+  ]) assert.throws(() => parseAssignmentPatch(value), code('VALIDATION_FAILED'));
+  // The fixture-only casting state has no canonical proposal/source records.
+  assert.throws(() => updateAssignment({} as CastingDraft, authority, 'assignment', patch), code('FEATURE_NOT_IMPLEMENTED'));
+});
 function assignment(id: string, slot_id = 'slot-one', workspace_candidate_id = 'pool-one', position: Assignment['position'] = 'option'): Assignment {
   return { id, workspace_id: 'workspace', slot_id, workspace_candidate_id, position, shortlist_included: false,
     presentation_notes: null, internal_notes: null, slide_wording: {}, sort_order: 0, row_version: 1, archived: false };

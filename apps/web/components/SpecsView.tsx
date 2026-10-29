@@ -11,6 +11,7 @@ import { Icon } from './Icon';
 import { prepareRoleMove, readRoleOrder, type RoleOrderReader } from './role-order-form';
 import { SourceIntake } from './SourceIntake';
 import { SpecsProcessing } from './SpecsProcessing';
+import { RetirementUndo } from './RetirementUndo';
 
 function Instructions({ spec, canWrite, onSaved, onDirtyChange }: { spec: Spec; canWrite: boolean; onSaved: (spec: Spec) => void; onDirtyChange: (id: string, dirty: boolean) => void }) {
   const [text, setText] = useState(spec.normalized_instructions ?? '');
@@ -90,11 +91,15 @@ export function SpecsView({ workspaceId, projectId, canWrite, uploadPurposes = [
   const [orderError, setOrderError] = useState(''); const [orderStatus, setOrderStatus] = useState('');
   const [orderNeedsReload, setOrderNeedsReload] = useState(false);
   const [sourceLocked, setSourceLocked] = useState(false); const [sourceEpoch, setSourceEpoch] = useState(0);
+  const [retirement, setRetirement] = useState<{ resourceId: string; label: string } | null>(null); const [undoLocked, setUndoLocked] = useState(false);
   const sourceLockChanged = useCallback((locked: boolean) => setSourceLocked(locked), []);
   const orderIntent = useRef<{ input: ReorderWorkspace; key: string } | null>(null);
   const orderActive = useRef(false); const orderSequence = useRef(0); const orderAbort = useRef<AbortController | null>(null);
   const [dirty, setDirty] = useState<Record<string, boolean>>({});
   const dirtyChanged = useCallback((id: string, value: boolean) => setDirty(current => current[id] === value ? current : { ...current, [id]: value }), []);
+  const retirementDirty = useCallback((value: boolean) => { setUndoLocked(value); dirtyChanged('retirement-undo', value); }, [dirtyChanged]);
+  const retired = useCallback((resourceId: string, label: string) => setRetirement({ resourceId, label }), []);
+  const otherEdits = Object.entries(dirty).some(([id, value]) => id !== 'retirement-undo' && value) || orderPending || reordering || sourceLocked;
   const hasUnsaved = Object.values(dirty).some(Boolean) || orderPending || reordering;
   const manualEditsPending = Object.entries(dirty).some(([id, value]) => id !== 'spec-source' && value) || orderPending || reordering;
   useEffect(() => () => { orderSequence.current++; orderAbort.current?.abort(); }, [workspaceId]);
@@ -172,7 +177,8 @@ export function SpecsView({ workspaceId, projectId, canWrite, uploadPurposes = [
   }
   if (loading) return <Loading label="Opening saved requirements…" />;
   if (!spec) return <ErrorNotice message={error || 'Requirements are unavailable.'} retry={reload} />;
-  return <div className="specs-view">{error && <ErrorNotice message={error} retry={reload} />}
+  return <div className="specs-view">{retirement && <RetirementUndo workspaceId={workspaceId} resourceId={retirement.resourceId} label={retirement.label} canWrite={canWrite} disabled={otherEdits} onDirtyChange={retirementDirty} onDismiss={() => setRetirement(null)} onRestored={() => { setRetirement(null); setUndoLocked(false); setLoading(true); setRefresh(value => value + 1); onWorkspaceChanged(); }} />}
+    <fieldset className="presentation-read-lock" disabled={undoLocked}>{error && <ErrorNotice message={error} retry={reload} />}
     <SourceIntake key={`${workspaceId}/${spec.id}/${refresh}`} spec={spec} canWrite={canWrite} uploadPurposes={uploadPurposes} storageOrigin={storageOrigin} manualEditsPending={manualEditsPending} onDirtyChange={dirtyChanged} onLockChange={sourceLockChanged}
       onPersisted={(saved, savedRoles, nextCursor) => { setSpec(saved); setRoles(savedRoles); setCursor(nextCursor); setSourceEpoch(value => value + 1); onWorkspaceChanged(); }} />
     {spec.processing_job_id && <SpecsProcessing key={`${workspaceId}/${spec.id}/${spec.processing_job_id}`} workspaceId={workspaceId} specId={spec.id} jobId={spec.processing_job_id}
@@ -188,12 +194,12 @@ export function SpecsView({ workspaceId, projectId, canWrite, uploadPurposes = [
           <button className="button button-small button-quiet" aria-label={`Move ${role.name} up`} disabled={index === 0 || hasUnsaved || Boolean(cursor) || loadingMore || orderNeedsReload} onClick={() => { void reorder(role.id, -1); }}>Move up</button>
           <button className="button button-small button-quiet" aria-label={`Move ${role.name} down`} disabled={index === roles.length - 1 || hasUnsaved || Boolean(cursor) || loadingMore || orderNeedsReload} onClick={() => { void reorder(role.id, 1); }}>Move down</button>
         </div></div>}
-        <RoleEditor role={role} canWrite={canWrite && !reordering && !orderPending && !sourceLocked} onSaved={roleSaved} onArchived={id => setRoles(current => current.filter(role => role.id !== id))} onWorkspaceChanged={onWorkspaceChanged} onDirtyChange={dirtyChanged} onReload={reload} />
+        <RoleEditor role={role} canWrite={canWrite && !reordering && !orderPending && !sourceLocked && !undoLocked} onSaved={roleSaved} onArchived={id => setRoles(current => current.filter(role => role.id !== id))} onWorkspaceChanged={onWorkspaceChanged} onDirtyChange={dirtyChanged} onReload={reload} onRetired={retired} />
       </div>)}</div>
         : <div className="requirements-empty"><h3>No casting requirements yet</h3><p className="muted">Add a role when its requirements are available. You can continue while information is missing.</p></div>}
       {cursor && <div className="load-more"><button className="button button-small" disabled={loadingMore} onClick={loadMore}>{loadingMore ? 'Loading…' : 'Load more roles'}</button></div>}
     </section>
     {canWrite && !reordering && !orderPending && !sourceLocked && <AddRole workspaceId={workspaceId} onCreated={role => { roleSaved(role); onWorkspaceChanged(); }} onDirtyChange={dirtyChanged} />}
     <footer className="workspace-footer"><p className="small muted">Missing requirements do not block preparation.</p><Link className="button button-primary" href={`/projects/${projectId}/casting/${workspaceId}/cast`}>Continue to Candidates<Icon name="arrow" /></Link></footer>
-  </div>;
+    </fieldset></div>;
 }

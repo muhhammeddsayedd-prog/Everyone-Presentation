@@ -1,0 +1,24 @@
+{
+  "observed_at": "2026-10-29T20:51:13.312309+00:00",
+  "result": "passed_offline_preparation",
+  "source_seals": {
+    "tools/capture-m04-review.py": "75f0a306c4d0c2a018a0e65c6dba291fd768b1e74dd2c7b4090b927d603b0ff1",
+    "tests/operations/test_m04_review_capture.py": "1d31c35792433ec67424658e6cdeb553e4be7baf839b58a8296f8b224ccd633d",
+    "tools/sql/m04-review-capture.sql": "8acbd0eb138847f42791c3ca716a7bfc514b34896197694320d73d14d58e20c1"
+  },
+  "tests": {
+    "passed": 18,
+    "command": "python -X utf8 -m unittest discover -s tests/operations -p test_m04_review_capture.py",
+    "environment": "isolated Windows Python / pglast; synthetic metadata and sealed public baselines"
+  },
+  "cloud_called": false,
+  "private_files_read": false,
+  "provider_or_browser_called": false,
+  "scope": "Metadata validator, SQL AST, source allowlist and preservation checks only. Root executes actual read-only capture separately.",
+  "current_application_file_hashes_recorded_by_observer": 16,
+  "loaded_browser_or_worker_source_attested": false,
+  "actual_total_rectangles_persisted": false,
+  "pdf_or_semantic_quality_claimed": false,
+  "prior_test_failures": "First expanded17-test run found a synthetic-fixture alias missing the already removed archived pool, plus an overbroad privacy assertion that confused an internal boolean comparison with returned proposal text; fixture and assertion corrected, final17 then18 tests passed.",
+  "hosting_deferred": true
+}

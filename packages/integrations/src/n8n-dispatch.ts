@@ -6,8 +6,8 @@ export interface StageReadyEnvelope {
   event_type: 'job.stage_ready';
   contract_version: '1.0';
   job_id: string;
-  kind: 'specs_extract' | 'candidate_scan' | 'frame_extract';
-  stage: 'prepare_document' | 'extract_specs' | 'apply_specs' | 'prepare_candidate' | 'transcribe_candidate' | 'extract_candidate' | 'select_frames' | 'apply_candidate' | 'extract_frames' | 'apply_frames';
+  kind: 'specs_extract' | 'candidate_scan' | 'frame_extract' | 'ai_suggestion' | 'review_fit';
+  stage: 'prepare_document' | 'extract_specs' | 'apply_specs' | 'prepare_candidate' | 'transcribe_candidate' | 'extract_candidate' | 'select_frames' | 'apply_candidate' | 'extract_frames' | 'apply_frames' | 'prepare_suggestion' | 'generate_suggestion' | 'validate_suggestion' | 'measure_review_fit';
   input_hash: string;
   correlation_id: string;
 }
@@ -53,7 +53,9 @@ export function validateStageReadyEnvelope(value: StageReadyEnvelope): void {
     || value.event_type !== 'job.stage_ready' || value.contract_version !== '1.0'
     || !(value.kind === 'specs_extract' && ['prepare_document', 'extract_specs', 'apply_specs'].includes(value.stage)
       || value.kind === 'candidate_scan' && ['prepare_candidate', 'transcribe_candidate', 'extract_candidate', 'select_frames', 'apply_candidate'].includes(value.stage)
-      || value.kind === 'frame_extract' && ['extract_frames', 'apply_frames'].includes(value.stage))
+      || value.kind === 'frame_extract' && ['extract_frames', 'apply_frames'].includes(value.stage)
+      || value.kind === 'ai_suggestion' && ['prepare_suggestion', 'generate_suggestion', 'validate_suggestion'].includes(value.stage)
+      || value.kind === 'review_fit' && value.stage === 'measure_review_fit')
     || typeof value.input_hash !== 'string' || !/^[a-f0-9]{64}$/.test(value.input_hash)) {
     throw new IntegrationError('DISPATCH_ENVELOPE_INVALID', 'The outbox dispatch envelope is invalid.');
   }

@@ -1,0 +1,33 @@
+{
+  "observed_at": "2026-10-29T20:17:46.956300+00:00",
+  "result": "observer_projection_repaired_offline",
+  "failed_capture_preserved": "tracking/evidence/m03/reviewed-source-readback/2026-10-29T20-14-10-444507Z-e8e3eae0.json",
+  "failed_capture_sha256": "6868c807fc81309a07c3450179980b40ffe56edd035e38aeed432efdecbf9235",
+  "diagnosis": "The observer read extraction from the wrong persisted stage result key. Canonical apply reads payload.result.",
+  "source_seals": {
+    "tools/capture-m03-reviewed.py": "43d516035d4484dde26c40f13a3ad45411030a3e556e306252c3fd37dd6d1e60",
+    "tools/sql/m03-reviewed-readback.sql": "221d54398b5d5bbfe575a3eb115b9bf7114700d6576b344681750c86e1546cc4",
+    "tests/operations/test_m03_reviewed_capture.py": "c6e66a1473c34029f7dca7b7cb34932f31a6c54af2626951d97d0cbf22ece0d9"
+  },
+  "tests": {
+    "passed": 14,
+    "command": "python -X utf8 -m unittest discover -s tests/operations -p test_m03_reviewed_capture.py",
+    "environment": "isolated Windows Python; unit validation and PostgreSQL AST parse only"
+  },
+  "saved_output_checks": {
+    "effective_reviewed": true,
+    "fingerprint_matches": true,
+    "reviewer_and_manual_name_actor_bound": true,
+    "other_supplied_facts_preserved": true,
+    "persisted_extraction_projection": false
+  },
+  "remaining_saved_fences_passed_only_in_diagnostic_with_known_bad_projection_ignored": true,
+  "diagnostic_is_canonical_pass": false,
+  "actual_cloud_requery_performed": false,
+  "local_database_requeried_for_repair": false,
+  "owner_key_read_only_in_private_memory": true,
+  "owner_key_or_scalar_hashes_published": false,
+  "repair": "Use canonical payload.result and bind source, schema, completed payload ID, attempt and input hash.",
+  "hosting_deferred": true,
+  "limits": "A new reviewed read-only capture is required to verify the corrected SQL projection. This receipt does not upgrade the failed capture."
+}

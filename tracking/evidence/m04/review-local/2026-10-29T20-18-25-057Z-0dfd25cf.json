@@ -1,0 +1,1869 @@
+{
+  "run_id": "0dfd25cf-286f-48af-adb4-e459b2fc9324",
+  "started_at": "2026-10-29T20:18:13.330Z",
+  "result": "passed",
+  "mode": "candidate",
+  "scope": "Owned local21 SQL compilation, non-owner public RPC behavior and exact transaction rollback; synthetic Auth claims, not hosted authentication.",
+  "cloud_called": false,
+  "provider_called": false,
+  "hosted_credentials_loaded": false,
+  "source_sha256": {
+    "development/m04/review-series.sql": "49c66fa82117650c4715e21ce492af2175954b27bd61adc3ba90a97763861a7c",
+    "tests/db/m04-review.sql": "5d92584130409a18f1dfb4c8906bed2619439bf61879de9fac94ed9598c823bb",
+    "tests/db/m04-assignments-fixture.sql": "cb5f418fee0dc3a9b00a9ddeaa3971f5df1c3384c459905baa19b4e04f1d9cb4",
+    "tools/sql/m04-review-local-snapshot.sql": "43518150193380e729e20007dd65883e7f11f31e27d381ea19236790f0292375",
+    "development/local-db/reviewed.json": "1ecec87384926fea82b433d3ddfde386f64d09c17a946ac2aa6fd51b4831dedc",
+    "development/m04/retirement-undo.sql": "7aba3fec35aa2c2d8b76307741a9930bddbc44f9de6f8dedbc67390413aea348",
+    "tests/db/m04-retirement-undo.sql": "3bca37fdf7d405a93bc967c4d08708597812d179fe6a4fea6599e1d1472fc60d",
+    "development/m04/review-processing.sql": "a07efc6bcf6c9907c0aad763a4c6315f06d31bb33b6791bd53f9feaebef4631c",
+    "tests/db/m04-review-processing.sql": "e6115087b9eac3d0bb1b7f35ade621070c719e7e58411720514f99a58c5612df",
+    "tools/sql/m04-review-catalog.sql": "7bd5809288ae450d08f33f14ba16ebed5c6cb8d727c246506c18c0848f6076f7"
+  },
+  "markers": [
+    "M04_REVIEW_SERIES_POLICY_SNAPSHOT_SCOPE_REPLAY_PASSED",
+    "M04_REVIEW_TEN_FIELDS_ORDER_PENDING_AND_SHARED_FACT_FINGERPRINT_PASSED",
+    "M04_REVIEW_MEDIA_PIN_HASH_ORDER_AND_UNRELATED_PROCESSING_STABILITY_PASSED",
+    "M04_REVIEW_SCOPE_REVIEWED_PERMISSION_AND_TEMPLATE_BINDING_PASSED",
+    "M04_ROLE_RETIREMENT_TYPED_UNDO_HISTORY_AND_REPLAY_PASSED",
+    "M04_POOL_RETIREMENT_UNDO_MAIN_CONFLICT_STALE_AND_LIBRARY_PRESERVATION_PASSED",
+    "M04_SLOT_RETIREMENT_COMPLETE_INVERSE_CURRENT_AUTHORITY_PASSED",
+    "M04_AI_DURABLE_THREE_STAGES_SOURCE_BINDING_REPLAY_AND_NO_AUTOAPPLY_PASSED",
+    "M04_AI_SHARED_SOURCE_CHANGE_WITHOUT_ASSIGNMENT_REVISION_BLOCKS_PUBLISH_PASSED",
+    "M04_NATIVE_FIT_JOB_HASH_FONT_FENCE_AND_MISSING_CONTENT_FLEXIBILITY_PASSED",
+    "M04_FIT_CANONICAL_CHANGED_INPUT_AND_PRIVATE_SERVICE_SCOPE_PASSED",
+    "M04_PUBLIC_NEW_KIND_CANCEL_RETRY_REPLAY_AND_LATE_CALLBACK_PASSED",
+    "M04_DIRECT_RPC_NULL_AND_WRONG_TYPE_INPUTS_REJECTED_PASSED"
+  ],
+  "catalog_delta": {
+    "created": {
+      "roles|eps_review_owner|login": false,
+      "roles|eps_review_owner|super": false,
+      "types|eps.ai_suggestions|acl": null,
+      "tables|eps.ai_suggestions|acl": "{postgres=arwdDxtm/postgres,eps_review_owner=arw/postgres,eps_review_stage_owner=rw/postgres}",
+      "tables|eps.ai_suggestions|rls": true,
+      "types|eps.ai_suggestions|base": null,
+      "types|eps.ai_suggestions|kind": "c",
+      "roles|eps_review_owner|inherit": false,
+      "types|eps.ai_suggestions|owner": "postgres",
+      "tables|eps.ai_suggestions|owner": "postgres",
+      "roles|eps_review_owner|bypassrls": false,
+      "roles|eps_review_owner|create_db": false,
+      "types|eps.ai_suggestions|default": null,
+      "types|eps.review_fit_results|acl": null,
+      "columns|eps.ai_suggestions.id|acl": null,
+      "tables|eps.review_fit_results|acl": "{postgres=arwdDxtm/postgres,eps_review_stage_owner=ar/postgres,eps_review_owner=r/postgres}",
+      "tables|eps.review_fit_results|rls": true,
+      "types|eps.ai_suggestions|not_null": false,
+      "types|eps.presentation_series|acl": null,
+      "types|eps.review_fit_results|base": null,
+      "types|eps.review_fit_results|kind": "c",
+      "columns|eps.ai_suggestions.id|type": "uuid",
+      "roles|eps_review_owner|create_role": false,
+      "roles|eps_review_stage_owner|login": false,
+      "roles|eps_review_stage_owner|super": false,
+      "tables|eps.presentation_series|acl": "{postgres=arwdDxtm/postgres,eps_review_owner=arw/postgres,eps_review_stage_owner=r/postgres}",
+      "tables|eps.presentation_series|rls": true,
+      "types|eps.presentation_series|base": null,
+      "types|eps.presentation_series|kind": "c",
+      "types|eps.review_fit_results|owner": "postgres",
+      "tables|eps.ai_suggestions|force_rls": true,
+      "tables|eps.review_fit_results|owner": "postgres",
+      "types|eps.presentation_series|owner": "postgres",
+      "types|eps.review_stage_payloads|acl": null,
+      "columns|eps.ai_suggestions.field|acl": null,
+      "roles|eps_review_stage_owner|inherit": false,
+      "tables|eps.presentation_series|owner": "postgres",
+      "tables|eps.review_stage_payloads|acl": "{postgres=arwdDxtm/postgres,eps_review_stage_owner=ar/postgres}",
+      "tables|eps.review_stage_payloads|rls": true,
+      "types|eps.ai_suggestions|enum_labels": null,
+      "types|eps.presentation_templates|acl": null,
+      "types|eps.review_fit_results|default": null,
+      "types|eps.review_stage_payloads|base": null,
+      "types|eps.review_stage_payloads|kind": "c",
+      "columns|eps.ai_suggestions.field|type": "text",
+      "columns|eps.ai_suggestions.id|default": null,
+      "columns|eps.ai_suggestions.job_id|acl": null,
+      "functions|eps.review_is_job(uuid)|acl": "{eps_review_stage_owner=X/eps_review_stage_owner,eps_specs_stage_owner=X/eps_review_stage_owner}",
+      "tables|eps.presentation_templates|acl": "{postgres=arwdDxtm/postgres,eps_review_owner=r/postgres,eps_review_stage_owner=r/postgres}",
+      "tables|eps.presentation_templates|rls": true,
+      "types|eps.presentation_series|default": null,
+      "types|eps.presentation_templates|base": null,
+      "types|eps.presentation_templates|kind": "c",
+      "types|eps.review_fit_results|not_null": false,
+      "types|eps.review_stage_payloads|owner": "postgres",
+      "columns|eps.ai_suggestions.id|identity": "",
+      "columns|eps.ai_suggestions.id|not_null": true,
+      "columns|eps.ai_suggestions.job_id|type": "uuid",
+      "columns|eps.presentation_series.id|acl": null,
+      "roles|eps_review_stage_owner|bypassrls": false,
+      "roles|eps_review_stage_owner|create_db": false,
+      "tables|eps.review_stage_payloads|owner": "postgres",
+      "types|eps.presentation_series|not_null": false,
+      "types|eps.presentation_templates|owner": "postgres",
+      "types|eps.review_processing_config|acl": null,
+      "columns|eps.ai_suggestions.id|generated": "",
+      "columns|eps.ai_suggestions.proposal|acl": null,
+      "columns|eps.presentation_series.id|type": "uuid",
+      "functions|eps.review_is_job(uuid)|owner": "eps_review_stage_owner",
+      "indexes|eps.review_fit_scope|definition": "CREATE INDEX review_fit_scope ON eps.review_fit_results USING btree (series_id, input_fingerprint, completed_at DESC)",
+      "tables|eps.presentation_templates|owner": "postgres",
+      "tables|eps.review_fit_results|force_rls": true,
+      "tables|eps.review_processing_config|acl": "{postgres=arwdDxtm/postgres,eps_review_owner=r/postgres,eps_review_stage_owner=r/postgres}",
+      "tables|eps.review_processing_config|rls": true,
+      "types|eps.review_processing_config|base": null,
+      "types|eps.review_processing_config|kind": "c",
+      "types|eps.review_stage_payloads|default": null,
+      "columns|eps.ai_suggestions.field|default": null,
+      "columns|eps.ai_suggestions.proposal|type": "jsonb",
+      "columns|eps.ai_suggestions.target_id|acl": null,
+      "columns|eps.review_stage_payloads.id|acl": null,
+      "functions|eps.review_is_job(uuid)|config": [
+        "search_path=\"\""
+      ],
+      "policies|eps.roles.review_roles_read|cmd": "SELECT",
+      "policies|eps.roles.review_stage_read|cmd": "SELECT",
+      "policies|eps.slots.review_slots_read|cmd": "SELECT",
+      "policies|eps.slots.review_stage_read|cmd": "SELECT",
+      "policies|eps.specs.review_specs_read|cmd": "SELECT",
+      "policies|eps.specs.review_stage_read|cmd": "SELECT",
+      "roles|eps_review_stage_owner|create_role": false,
+      "tables|eps.presentation_series|force_rls": true,
+      "types|eps.presentation_templates|default": null,
+      "types|eps.review_fit_results|enum_labels": null,
+      "types|eps.review_processing_config|owner": "postgres",
+      "types|eps.review_stage_payloads|not_null": false,
+      "columns|eps.ai_suggestions.created_at|acl": null,
+      "columns|eps.ai_suggestions.field|identity": "",
+      "columns|eps.ai_suggestions.field|not_null": true,
+      "columns|eps.ai_suggestions.job_id|default": null,
+      "columns|eps.ai_suggestions.target_id|type": "uuid",
+      "columns|eps.presentation_series.title|acl": null,
+      "columns|eps.review_fit_results.job_id|acl": null,
+      "columns|eps.review_fit_results.result|acl": null,
+      "columns|eps.review_fit_results.status|acl": null,
+      "columns|eps.review_stage_payloads.id|type": "uuid",
+      "functions|eps.review_is_job(uuid)|definer": true,
+      "memberships|eps_review_owner>postgres|set": true,
+      "policies|eps.roles.review_roles_read|qual": "eps.review_scope(workspace_id)",
+      "policies|eps.roles.review_stage_read|qual": "true",
+      "policies|eps.slots.review_slots_read|qual": "eps.review_scope(workspace_id)",
+      "policies|eps.slots.review_stage_read|qual": "true",
+      "policies|eps.specs.review_specs_read|qual": "eps.review_scope(workspace_id)",
+      "policies|eps.specs.review_stage_read|qual": "true",
+      "tables|eps.review_processing_config|owner": "postgres",
+      "types|eps.presentation_series|enum_labels": null,
+      "types|eps.presentation_templates|not_null": false,
+      "columns|eps.ai_suggestions.created_at|type": "timestamp with time zone",
+      "columns|eps.ai_suggestions.field|generated": "",
+      "columns|eps.ai_suggestions.job_id|identity": "",
+      "columns|eps.ai_suggestions.job_id|not_null": false,
+      "columns|eps.ai_suggestions.target_type|acl": null,
+      "columns|eps.presentation_series.id|default": "gen_random_uuid()",
+      "columns|eps.presentation_series.title|type": "text",
+      "columns|eps.presentation_templates.key|acl": null,
+      "columns|eps.review_fit_results.job_id|type": "uuid",
+      "columns|eps.review_fit_results.result|type": "jsonb",
+      "columns|eps.review_fit_results.status|type": "text",
+      "indexes|eps.ai_suggestions_pkey|definition": "CREATE UNIQUE INDEX ai_suggestions_pkey ON eps.ai_suggestions USING btree (id)",
+      "policies|eps.audit_events.review_audit|cmd": "INSERT",
+      "policies|eps.roles.review_roles_read|roles": [
+        "eps_review_owner"
+      ],
+      "policies|eps.roles.review_stage_read|roles": [
+        "eps_review_stage_owner"
+      ],
+      "policies|eps.slots.review_slots_read|roles": [
+        "eps_review_owner"
+      ],
+      "policies|eps.slots.review_stage_read|roles": [
+        "eps_review_stage_owner"
+      ],
+      "policies|eps.specs.review_specs_read|roles": [
+        "eps_review_owner"
+      ],
+      "policies|eps.specs.review_stage_read|roles": [
+        "eps_review_stage_owner"
+      ],
+      "tables|eps.review_stage_payloads|force_rls": true,
+      "types|eps.review_processing_config|default": null,
+      "columns|eps.ai_suggestions.job_id|generated": "",
+      "columns|eps.ai_suggestions.proposal|default": null,
+      "columns|eps.ai_suggestions.target_type|type": "text",
+      "columns|eps.ai_suggestions.workspace_id|acl": null,
+      "columns|eps.presentation_series.id|identity": "",
+      "columns|eps.presentation_series.id|not_null": true,
+      "columns|eps.presentation_templates.key|type": "text",
+      "columns|eps.review_processing_config.id|acl": null,
+      "columns|eps.review_stage_payloads.stage|acl": null,
+      "memberships|eps_review_owner>postgres|admin": false,
+      "policies|eps.audit_events.review_audit|qual": null,
+      "policies|eps.jobs.review_jobs_user_read|cmd": "SELECT",
+      "tables|eps.presentation_templates|force_rls": true,
+      "types|eps.review_processing_config|not_null": false,
+      "types|eps.review_stage_payloads|enum_labels": null,
+      "columns|eps.ai_suggestions.proposal|identity": "",
+      "columns|eps.ai_suggestions.proposal|not_null": false,
+      "columns|eps.ai_suggestions.target_id|default": null,
+      "columns|eps.ai_suggestions.workspace_id|type": "uuid",
+      "columns|eps.presentation_series.archived|acl": null,
+      "columns|eps.presentation_series.font_key|acl": null,
+      "columns|eps.presentation_series.id|generated": "",
+      "columns|eps.review_fit_results.series_id|acl": null,
+      "columns|eps.review_processing_config.id|type": "boolean",
+      "columns|eps.review_stage_payloads.id|default": "gen_random_uuid()",
+      "columns|eps.review_stage_payloads.job_id|acl": null,
+      "columns|eps.review_stage_payloads.stage|type": "text",
+      "functions|eps.review_is_job(uuid)|volatility": "v",
+      "functions|eps.review_scope(uuid,boolean)|acl": "{eps_review_owner=X/eps_review_owner}",
+      "policies|eps.audit_events.review_audit|roles": [
+        "eps_review_owner"
+      ],
+      "policies|eps.jobs.review_jobs_user_read|qual": "((kind = ANY (ARRAY['ai_suggestion'::text, 'review_fit'::text])) AND eps.review_scope(workspace_id))",
+      "types|eps.presentation_templates|enum_labels": null,
+      "columns|eps.ai_suggestions.created_at|default": "clock_timestamp()",
+      "columns|eps.ai_suggestions.proposal|generated": "",
+      "columns|eps.ai_suggestions.target_id|identity": "",
+      "columns|eps.ai_suggestions.target_id|not_null": true,
+      "columns|eps.presentation_series.archived|type": "boolean",
+      "columns|eps.presentation_series.font_key|type": "text",
+      "columns|eps.presentation_series.title|default": null,
+      "columns|eps.review_fit_results.error_code|acl": null,
+      "columns|eps.review_fit_results.job_id|default": null,
+      "columns|eps.review_fit_results.result|default": null,
+      "columns|eps.review_fit_results.series_id|type": "uuid",
+      "columns|eps.review_fit_results.status|default": null,
+      "columns|eps.review_stage_payloads.id|identity": "",
+      "columns|eps.review_stage_payloads.id|not_null": true,
+      "columns|eps.review_stage_payloads.job_id|type": "uuid",
+      "columns|eps.review_stage_payloads.payload|acl": null,
+      "memberships|eps_review_owner>postgres|inherit": true,
+      "policies|eps.candidates.review_stage_read|cmd": "SELECT",
+      "policies|eps.jobs.review_jobs_user_insert|cmd": "INSERT",
+      "policies|eps.jobs.review_jobs_user_read|roles": [
+        "eps_review_owner"
+      ],
+      "policies|eps.workspaces.review_stage_read|cmd": "SELECT",
+      "policies|public.clients.review_stage_read|cmd": "SELECT",
+      "tables|eps.review_processing_config|force_rls": true,
+      "columns|eps.ai_suggestions.created_at|identity": "",
+      "columns|eps.ai_suggestions.created_at|not_null": true,
+      "columns|eps.ai_suggestions.target_id|generated": "",
+      "columns|eps.ai_suggestions.target_type|default": null,
+      "columns|eps.presentation_series.created_at|acl": null,
+      "columns|eps.presentation_series.title|identity": "",
+      "columns|eps.presentation_series.title|not_null": true,
+      "columns|eps.presentation_series.updated_at|acl": null,
+      "columns|eps.presentation_templates.key|default": null,
+      "columns|eps.presentation_templates.version|acl": null,
+      "columns|eps.review_fit_results.error_code|type": "text",
+      "columns|eps.review_fit_results.job_id|identity": "",
+      "columns|eps.review_fit_results.job_id|not_null": true,
+      "columns|eps.review_fit_results.result|identity": "",
+      "columns|eps.review_fit_results.result|not_null": false,
+      "columns|eps.review_fit_results.status|identity": "",
+      "columns|eps.review_fit_results.status|not_null": true,
+      "columns|eps.review_processing_config.model|acl": null,
+      "columns|eps.review_stage_payloads.id|generated": "",
+      "columns|eps.review_stage_payloads.payload|type": "jsonb",
+      "functions|eps.review_require(uuid,boolean)|acl": "{eps_review_owner=X/eps_review_owner}",
+      "functions|eps.review_scope(uuid,boolean)|owner": "eps_review_owner",
+      "indexes|eps.review_fit_results_pkey|definition": "CREATE UNIQUE INDEX review_fit_results_pkey ON eps.review_fit_results USING btree (job_id)",
+      "memberships|authenticated>eps_review_owner|set": false,
+      "policies|eps.assignments.review_stage_read|cmd": "SELECT",
+      "policies|eps.candidates.review_stage_read|qual": "true",
+      "policies|eps.jobs.review_jobs_service_read|cmd": "SELECT",
+      "policies|eps.jobs.review_jobs_user_insert|qual": null,
+      "policies|eps.workspaces.review_stage_read|qual": "true",
+      "policies|public.clients.review_stage_read|qual": "true",
+      "policies|public.projects.review_stage_read|cmd": "SELECT",
+      "types|eps.review_processing_config|enum_labels": null,
+      "columns|eps.ai_suggestions.created_at|generated": "",
+      "columns|eps.ai_suggestions.target_type|identity": "",
+      "columns|eps.ai_suggestions.target_type|not_null": true,
+      "columns|eps.ai_suggestions.workspace_id|default": null,
+      "columns|eps.presentation_series.created_at|type": "timestamp with time zone",
+      "columns|eps.presentation_series.output_type|acl": null,
+      "columns|eps.presentation_series.row_version|acl": null,
+      "columns|eps.presentation_series.title|generated": "",
+      "columns|eps.presentation_series.updated_at|type": "timestamp with time zone",
+      "columns|eps.presentation_templates.font_key|acl": null,
+      "columns|eps.presentation_templates.key|identity": "",
+      "columns|eps.presentation_templates.key|not_null": true,
+      "columns|eps.presentation_templates.version|type": "text",
+      "columns|eps.review_fit_results.completed_at|acl": null,
+      "columns|eps.review_fit_results.job_id|generated": "",
+      "columns|eps.review_fit_results.result|generated": "",
+      "columns|eps.review_fit_results.status|generated": "",
+      "columns|eps.review_fit_results.workspace_id|acl": null,
+      "columns|eps.review_processing_config.id|default": "true",
+      "columns|eps.review_processing_config.model|type": "text",
+      "columns|eps.review_stage_payloads.stage|default": null,
+      "functions|eps.claim_review_job_stage(jsonb)|acl": "{eps_review_stage_owner=X/eps_review_stage_owner,eps_specs_stage_owner=X/eps_review_stage_owner}",
+      "functions|eps.review_is_job(uuid)|source_sha256": "474965fbdae416f6648a3b45e2de3345779357fc5205f4360f774f962990ba46",
+      "functions|eps.review_scope(uuid,boolean)|config": [
+        "search_path=\"\""
+      ],
+      "indexes|eps.presentation_series_pkey|definition": "CREATE UNIQUE INDEX presentation_series_pkey ON eps.presentation_series USING btree (id)",
+      "memberships|eps_review_stage_owner>postgres|set": true,
+      "policies|eps.assignments.review_stage_read|qual": "true",
+      "policies|eps.candidates.review_stage_read|roles": [
+        "eps_review_stage_owner"
+      ],
+      "policies|eps.jobs.review_jobs_service_read|qual": "(kind = ANY (ARRAY['ai_suggestion'::text, 'review_fit'::text]))",
+      "policies|eps.jobs.review_jobs_user_insert|roles": [
+        "eps_review_owner"
+      ],
+      "policies|eps.media_assets.review_stage_read|cmd": "SELECT",
+      "policies|eps.roles.review_roles_read|permissive": "PERMISSIVE",
+      "policies|eps.roles.review_roles_read|with_check": null,
+      "policies|eps.roles.review_stage_read|permissive": "PERMISSIVE",
+      "policies|eps.roles.review_stage_read|with_check": null,
+      "policies|eps.slots.review_slots_read|permissive": "PERMISSIVE",
+      "policies|eps.slots.review_slots_read|with_check": null,
+      "policies|eps.slots.review_stage_read|permissive": "PERMISSIVE",
+      "policies|eps.slots.review_stage_read|with_check": null,
+      "policies|eps.specs.review_specs_read|permissive": "PERMISSIVE",
+      "policies|eps.specs.review_specs_read|with_check": null,
+      "policies|eps.specs.review_stage_read|permissive": "PERMISSIVE",
+      "policies|eps.specs.review_stage_read|with_check": null,
+      "policies|eps.workspaces.review_stage_read|roles": [
+        "eps_review_stage_owner"
+      ],
+      "policies|public.clients.review_stage_read|roles": [
+        "eps_review_stage_owner"
+      ],
+      "policies|public.projects.review_stage_read|qual": "true",
+      "columns|eps.ai_suggestions.target_type|generated": "",
+      "columns|eps.ai_suggestions.workspace_id|identity": "",
+      "columns|eps.ai_suggestions.workspace_id|not_null": true,
+      "columns|eps.presentation_series.archived|default": "false",
+      "columns|eps.presentation_series.font_key|default": null,
+      "columns|eps.presentation_series.output_type|type": "text",
+      "columns|eps.presentation_series.row_version|type": "bigint",
+      "columns|eps.presentation_series.template_key|acl": null,
+      "columns|eps.presentation_series.workspace_id|acl": null,
+      "columns|eps.presentation_templates.font_key|type": "text",
+      "columns|eps.presentation_templates.key|generated": "",
+      "columns|eps.review_fit_results.completed_at|type": "timestamp with time zone",
+      "columns|eps.review_fit_results.series_id|default": null,
+      "columns|eps.review_fit_results.workspace_id|type": "uuid",
+      "columns|eps.review_processing_config.enabled|acl": null,
+      "columns|eps.review_processing_config.id|identity": "",
+      "columns|eps.review_processing_config.id|not_null": true,
+      "columns|eps.review_stage_payloads.attempt_id|acl": null,
+      "columns|eps.review_stage_payloads.created_at|acl": null,
+      "columns|eps.review_stage_payloads.input_hash|acl": null,
+      "columns|eps.review_stage_payloads.job_id|default": null,
+      "columns|eps.review_stage_payloads.stage|identity": "",
+      "columns|eps.review_stage_payloads.stage|not_null": true,
+      "functions|eps.record_review_job_event(jsonb)|acl": "{eps_review_stage_owner=X/eps_review_stage_owner,eps_specs_stage_owner=X/eps_review_stage_owner}",
+      "functions|eps.review_fields(jsonb,text,text)|acl": "{eps_review_owner=X/eps_review_owner,eps_review_stage_owner=X/eps_review_owner}",
+      "functions|eps.review_replay(text,text,jsonb)|acl": "{eps_review_owner=X/eps_review_owner}",
+      "functions|eps.review_require(uuid,boolean)|owner": "eps_review_owner",
+      "functions|eps.review_scope(uuid,boolean)|definer": false,
+      "functions|public.eps_get_ai_suggestion(uuid)|acl": "{eps_review_owner=X/eps_review_owner,authenticated=X/eps_review_owner}",
+      "indexes|eps.ai_suggestions_job_id_key|definition": "CREATE UNIQUE INDEX ai_suggestions_job_id_key ON eps.ai_suggestions USING btree (job_id)",
+      "memberships|authenticated>eps_review_owner|admin": false,
+      "policies|eps.assignments.review_stage_read|roles": [
+        "eps_review_stage_owner"
+      ],
+      "policies|eps.jobs.review_jobs_service_read|roles": [
+        "eps_review_stage_owner"
+      ],
+      "policies|eps.jobs.review_jobs_service_update|cmd": "UPDATE",
+      "policies|eps.media_assets.review_assets_read|cmd": "SELECT",
+      "policies|eps.media_assets.review_stage_read|qual": "true",
+      "policies|public.projects.review_stage_read|roles": [
+        "eps_review_stage_owner"
+      ],
+      "columns|eps.ai_suggestions.target_row_version|acl": null,
+      "columns|eps.ai_suggestions.workspace_id|generated": "",
+      "columns|eps.presentation_series.archived|identity": "",
+      "columns|eps.presentation_series.archived|not_null": true,
+      "columns|eps.presentation_series.font_key|identity": "",
+      "columns|eps.presentation_series.font_key|not_null": true,
+      "columns|eps.presentation_series.template_key|type": "text",
+      "columns|eps.presentation_series.workspace_id|type": "uuid",
+      "columns|eps.presentation_templates.registered|acl": null,
+      "columns|eps.review_fit_results.error_code|default": null,
+      "columns|eps.review_fit_results.series_id|identity": "",
+      "columns|eps.review_fit_results.series_id|not_null": true,
+      "columns|eps.review_processing_config.enabled|type": "boolean",
+      "columns|eps.review_processing_config.id|generated": "",
+      "columns|eps.review_stage_payloads.attempt_id|type": "uuid",
+      "columns|eps.review_stage_payloads.created_at|type": "timestamp with time zone",
+      "columns|eps.review_stage_payloads.input_hash|type": "text",
+      "columns|eps.review_stage_payloads.job_id|identity": "",
+      "columns|eps.review_stage_payloads.job_id|not_null": true,
+      "columns|eps.review_stage_payloads.payload|default": null,
+      "columns|eps.review_stage_payloads.stage|generated": "",
+      "functions|eps.claim_review_job_stage(jsonb)|owner": "eps_review_stage_owner",
+      "functions|eps.review_require(uuid,boolean)|config": [
+        "search_path=\"\""
+      ],
+      "functions|eps.review_snapshot(uuid,uuid,text)|acl": "{eps_review_owner=X/eps_review_owner}",
+      "functions|eps.review_stage_lock(uuid,boolean)|acl": "{eps_review_stage_owner=X/eps_review_stage_owner,eps_specs_stage_owner=X/eps_review_stage_owner}",
+      "indexes|eps.review_stage_payloads_pkey|definition": "CREATE UNIQUE INDEX review_stage_payloads_pkey ON eps.review_stage_payloads USING btree (id)",
+      "memberships|eps_review_stage_owner>postgres|admin": false,
+      "policies|eps.audit_events.review_audit|permissive": "PERMISSIVE",
+      "policies|eps.audit_events.review_audit|with_check": "((principal_id = auth.uid()) AND (action ~~ 'review.%'::text))",
+      "policies|eps.job_events.review_events_service|cmd": "ALL",
+      "policies|eps.jobs.review_jobs_service_update|qual": "(kind = ANY (ARRAY['ai_suggestion'::text, 'review_fit'::text]))",
+      "policies|eps.media_assets.review_assets_read|qual": "(((purpose = 'client_logo'::text) AND (((origin_workspace_id IS NOT NULL) AND eps.review_scope(origin_workspace_id)) OR ((client_id IS NOT NULL) AND (EXISTS ( SELECT 1\n   FROM public.clients c\n  WHERE (c.id = media_assets.client_id)))))) OR (eps.has_capability('cast.read'::text) AND ((purpose = ANY (ARRAY['candidate_video'::text, 'candidate_frame'::text])) AND ((EXISTS ( SELECT 1\n   FROM eps.candidate_media m\n  WHERE (m.source_asset_id = media_assets.id))) OR (EXISTS ( SELECT 1\n   FROM eps.candidate_media_frames f\n  WHERE (f.asset_id = media_assets.id)))))))",
+      "policies|eps.media_assets.review_stage_read|roles": [
+        "eps_review_stage_owner"
+      ],
+      "policies|eps.workspaces.review_workspace_lock|cmd": "UPDATE",
+      "policies|eps.workspaces.review_workspace_read|cmd": "SELECT",
+      "policies|storage.buckets.eps_review_no_bucket|cmd": "ALL",
+      "columns|eps.ai_suggestions.target_row_version|type": "bigint",
+      "columns|eps.presentation_series.archived|generated": "",
+      "columns|eps.presentation_series.created_at|default": "clock_timestamp()",
+      "columns|eps.presentation_series.font_key|generated": "",
+      "columns|eps.presentation_series.updated_at|default": "clock_timestamp()",
+      "columns|eps.presentation_templates.font_hashes|acl": null,
+      "columns|eps.presentation_templates.registered|type": "boolean",
+      "columns|eps.presentation_templates.version|default": null,
+      "columns|eps.review_fit_results.error_code|identity": "",
+      "columns|eps.review_fit_results.error_code|not_null": false,
+      "columns|eps.review_fit_results.series_id|generated": "",
+      "columns|eps.review_processing_config.model|default": null,
+      "columns|eps.review_stage_payloads.job_id|generated": "",
+      "columns|eps.review_stage_payloads.payload|identity": "",
+      "columns|eps.review_stage_payloads.payload|not_null": true,
+      "columns|eps.review_stage_payloads.workspace_id|acl": null,
+      "functions|eps.claim_review_job_stage(jsonb)|config": [
+        "search_path=\"\""
+      ],
+      "functions|eps.record_review_job_event(jsonb)|owner": "eps_review_stage_owner",
+      "functions|eps.review_body(jsonb,text[],text[])|acl": "{eps_review_owner=X/eps_review_owner}",
+      "functions|eps.review_fields(jsonb,text,text)|owner": "eps_review_owner",
+      "functions|eps.review_replay(text,text,jsonb)|owner": "eps_review_owner",
+      "functions|eps.review_require(uuid,boolean)|definer": false,
+      "functions|public.eps_get_ai_suggestion(uuid)|owner": "eps_review_owner",
+      "indexes|eps.presentation_templates_pkey|definition": "CREATE UNIQUE INDEX presentation_templates_pkey ON eps.presentation_templates USING btree (key, version)",
+      "memberships|authenticated>eps_review_owner|inherit": true,
+      "policies|eps.candidate_media.review_stage_read|cmd": "SELECT",
+      "policies|eps.candidates.review_candidates_read|cmd": "SELECT",
+      "policies|eps.job_events.review_events_service|qual": "(EXISTS ( SELECT 1\n   FROM eps.jobs j\n  WHERE (j.id = job_events.job_id)))",
+      "policies|eps.jobs.review_jobs_service_update|roles": [
+        "eps_review_stage_owner"
+      ],
+      "policies|eps.jobs.review_jobs_user_read|permissive": "PERMISSIVE",
+      "policies|eps.jobs.review_jobs_user_read|with_check": null,
+      "policies|eps.media_assets.review_assets_read|roles": [
+        "eps_review_owner"
+      ],
+      "policies|eps.workspaces.review_workspace_lock|qual": "((archived_at IS NULL) AND eps.project_scope(project_id, true) AND (eps.has_capability('presentations.generate'::text) OR eps.has_capability('workspaces.write'::text)))",
+      "policies|eps.workspaces.review_workspace_read|qual": "((archived_at IS NULL) AND eps.project_scope(project_id, false) AND (eps.has_capability('workspaces.read'::text) OR eps.has_capability('presentations.generate'::text)))",
+      "policies|storage.buckets.eps_review_no_bucket|qual": "false",
+      "policies|storage.objects.eps_review_no_storage|cmd": "ALL",
+      "columns|eps.ai_suggestions.bound_context_sha256|acl": null,
+      "columns|eps.presentation_series.created_at|identity": "",
+      "columns|eps.presentation_series.created_at|not_null": true,
+      "columns|eps.presentation_series.output_type|default": null,
+      "columns|eps.presentation_series.row_version|default": "1",
+      "columns|eps.presentation_series.updated_at|identity": "",
+      "columns|eps.presentation_series.updated_at|not_null": true,
+      "columns|eps.presentation_templates.font_hashes|type": "jsonb",
+      "columns|eps.presentation_templates.font_key|default": null,
+      "columns|eps.presentation_templates.version|identity": "",
+      "columns|eps.presentation_templates.version|not_null": true,
+      "columns|eps.review_fit_results.completed_at|default": "clock_timestamp()",
+      "columns|eps.review_fit_results.error_code|generated": "",
+      "columns|eps.review_fit_results.workspace_id|default": null,
+      "columns|eps.review_processing_config.model|identity": "",
+      "columns|eps.review_processing_config.model|not_null": true,
+      "columns|eps.review_stage_payloads.payload|generated": "",
+      "columns|eps.review_stage_payloads.result_schema|acl": null,
+      "columns|eps.review_stage_payloads.workspace_id|type": "uuid",
+      "functions|eps.claim_review_job_stage(jsonb)|definer": true,
+      "functions|eps.record_review_job_event(jsonb)|config": [
+        "search_path=\"\""
+      ],
+      "functions|eps.review_fields(jsonb,text,text)|config": [
+        "search_path=\"\""
+      ],
+      "functions|eps.review_replay(text,text,jsonb)|config": [
+        "search_path=\"\""
+      ],
+      "functions|eps.review_scope(uuid,boolean)|volatility": "s",
+      "functions|eps.review_snapshot(uuid,uuid,text)|owner": "eps_review_owner",
+      "functions|eps.review_stage_lock(uuid,boolean)|owner": "eps_review_stage_owner",
+      "functions|public.eps_get_ai_suggestion(uuid)|config": [
+        "search_path=\"\""
+      ],
+      "memberships|eps_review_stage_owner>postgres|inherit": true,
+      "policies|eps.candidate_media.review_stage_read|qual": "true",
+      "policies|eps.candidates.review_candidates_read|qual": "eps.has_capability('cast.read'::text)",
+      "policies|eps.job_events.review_events_service|roles": [
+        "eps_review_stage_owner"
+      ],
+      "policies|eps.review_fit_results.review_fit_read|cmd": "SELECT",
+      "policies|eps.workspaces.review_workspace_lock|roles": [
+        "eps_review_owner"
+      ],
+      "policies|eps.workspaces.review_workspace_read|roles": [
+        "eps_review_owner"
+      ],
+      "policies|storage.buckets.eps_review_no_bucket|roles": [
+        "eps_review_owner"
+      ],
+      "policies|storage.objects.eps_review_no_storage|qual": "false",
+      "columns|eps.ai_suggestions.bound_context_sha256|type": "text",
+      "columns|eps.presentation_series.created_at|generated": "",
+      "columns|eps.presentation_series.output_type|identity": "",
+      "columns|eps.presentation_series.output_type|not_null": true,
+      "columns|eps.presentation_series.row_version|identity": "",
+      "columns|eps.presentation_series.row_version|not_null": true,
+      "columns|eps.presentation_series.template_key|default": null,
+      "columns|eps.presentation_series.template_version|acl": null,
+      "columns|eps.presentation_series.updated_at|generated": "",
+      "columns|eps.presentation_series.workspace_id|default": null,
+      "columns|eps.presentation_templates.font_key|identity": "",
+      "columns|eps.presentation_templates.font_key|not_null": true,
+      "columns|eps.presentation_templates.version|generated": "",
+      "columns|eps.review_fit_results.completed_at|identity": "",
+      "columns|eps.review_fit_results.completed_at|not_null": true,
+      "columns|eps.review_fit_results.input_fingerprint|acl": null,
+      "columns|eps.review_fit_results.workspace_id|identity": "",
+      "columns|eps.review_fit_results.workspace_id|not_null": true,
+      "columns|eps.review_processing_config.enabled|default": "false",
+      "columns|eps.review_processing_config.model|generated": "",
+      "columns|eps.review_stage_payloads.attempt_id|default": null,
+      "columns|eps.review_stage_payloads.created_at|default": "clock_timestamp()",
+      "columns|eps.review_stage_payloads.input_hash|default": null,
+      "columns|eps.review_stage_payloads.result_schema|type": "text",
+      "functions|eps.record_review_job_event(jsonb)|definer": true,
+      "functions|eps.recover_review_job_stages(integer)|acl": "{eps_review_stage_owner=X/eps_review_stage_owner,eps_specs_stage_owner=X/eps_review_stage_owner}",
+      "functions|eps.review_body(jsonb,text[],text[])|owner": "eps_review_owner",
+      "functions|eps.review_fields(jsonb,text,text)|definer": false,
+      "functions|eps.review_replay(text,text,jsonb)|definer": false,
+      "functions|eps.review_snapshot(uuid,uuid,text)|config": [
+        "search_path=\"\""
+      ],
+      "functions|eps.review_stage_lock(uuid,boolean)|config": [
+        "search_path=\"\""
+      ],
+      "functions|public.eps_get_ai_suggestion(uuid)|definer": true,
+      "indexes|eps.review_processing_config_pkey|definition": "CREATE UNIQUE INDEX review_processing_config_pkey ON eps.review_processing_config USING btree (id)",
+      "policies|eps.assignments.review_assignments_read|cmd": "SELECT",
+      "policies|eps.candidate_media.review_stage_read|roles": [
+        "eps_review_stage_owner"
+      ],
+      "policies|eps.candidates.review_candidates_read|roles": [
+        "eps_review_owner"
+      ],
+      "policies|eps.candidates.review_stage_read|permissive": "PERMISSIVE",
+      "policies|eps.candidates.review_stage_read|with_check": null,
+      "policies|eps.jobs.review_jobs_user_insert|permissive": "PERMISSIVE",
+      "policies|eps.jobs.review_jobs_user_insert|with_check": "((kind = ANY (ARRAY['ai_suggestion'::text, 'review_fit'::text])) AND (requested_by = auth.uid()) AND (status = 'queued'::text) AND (stage = ANY (ARRAY['prepare_suggestion'::text, 'measure_review_fit'::text])) AND (attempt = 0) AND (dispatch_generation = 1) AND (current_attempt_id IS NULL) AND (lease_token_digest IS NULL) AND eps.review_scope(workspace_id) AND eps.project_scope(( SELECT workspaces.project_id\n   FROM eps.workspaces\n  WHERE (workspaces.id = jobs.workspace_id)), true) AND eps.has_capability('cast.read'::text) AND (((kind = 'ai_suggestion'::text) AND eps.has_capability('workspaces.write'::text)) OR ((kind = 'review_fit'::text) AND eps.has_capability('workspaces.write'::text))))",
+      "policies|eps.outbox_events.review_outbox_service|cmd": "ALL",
+      "policies|eps.review_fit_results.review_fit_read|qual": "eps.review_scope(workspace_id)",
+      "policies|eps.workspaces.review_stage_read|permissive": "PERMISSIVE",
+      "policies|eps.workspaces.review_stage_read|with_check": null,
+      "policies|public.clients.review_stage_read|permissive": "PERMISSIVE",
+      "policies|public.clients.review_stage_read|with_check": null,
+      "policies|storage.objects.eps_review_no_storage|roles": [
+        "eps_review_owner"
+      ],
+      "columns|eps.ai_suggestions.target_row_version|default": null,
+      "columns|eps.presentation_series.audience_snapshot|acl": null,
+      "columns|eps.presentation_series.output_type|generated": "",
+      "columns|eps.presentation_series.row_version|generated": "",
+      "columns|eps.presentation_series.scope_fingerprint|acl": null,
+      "columns|eps.presentation_series.template_key|identity": "",
+      "columns|eps.presentation_series.template_key|not_null": true,
+      "columns|eps.presentation_series.template_version|type": "text",
+      "columns|eps.presentation_series.workspace_id|identity": "",
+      "columns|eps.presentation_series.workspace_id|not_null": true,
+      "columns|eps.presentation_templates.content_sha256|acl": null,
+      "columns|eps.presentation_templates.font_key|generated": "",
+      "columns|eps.presentation_templates.registered|default": "true",
+      "columns|eps.review_fit_results.completed_at|generated": "",
+      "columns|eps.review_fit_results.input_fingerprint|type": "text",
+      "columns|eps.review_fit_results.workspace_id|generated": "",
+      "columns|eps.review_processing_config.enabled|identity": "",
+      "columns|eps.review_processing_config.enabled|not_null": true,
+      "columns|eps.review_stage_payloads.attempt_id|identity": "",
+      "columns|eps.review_stage_payloads.attempt_id|not_null": true,
+      "columns|eps.review_stage_payloads.created_at|identity": "",
+      "columns|eps.review_stage_payloads.created_at|not_null": true,
+      "columns|eps.review_stage_payloads.input_hash|identity": "",
+      "columns|eps.review_stage_payloads.input_hash|not_null": true,
+      "functions|eps.review_body(jsonb,text[],text[])|config": [
+        "search_path=\"\""
+      ],
+      "functions|eps.review_require(uuid,boolean)|volatility": "s",
+      "functions|eps.review_snapshot(uuid,uuid,text)|definer": false,
+      "functions|eps.review_stage_lock(uuid,boolean)|definer": true,
+      "functions|eps.review_validate_fit(eps.jobs,jsonb)|acl": "{eps_review_stage_owner=X/eps_review_stage_owner}",
+      "policies|eps.assignments.review_assignments_read|qual": "eps.review_scope(workspace_id)",
+      "policies|eps.assignments.review_stage_read|permissive": "PERMISSIVE",
+      "policies|eps.assignments.review_stage_read|with_check": null,
+      "policies|eps.audience_presets.review_presets_read|cmd": "SELECT",
+      "policies|eps.jobs.review_jobs_service_read|permissive": "PERMISSIVE",
+      "policies|eps.jobs.review_jobs_service_read|with_check": null,
+      "policies|eps.outbox_events.review_outbox_service|qual": "(EXISTS ( SELECT 1\n   FROM eps.jobs j\n  WHERE (j.id = outbox_events.job_id)))",
+      "policies|eps.review_fit_results.review_fit_read|roles": [
+        "eps_review_owner"
+      ],
+      "policies|public.projects.review_stage_read|permissive": "PERMISSIVE",
+      "policies|public.projects.review_stage_read|with_check": null,
+      "columns|eps.ai_suggestions.target_row_version|identity": "",
+      "columns|eps.ai_suggestions.target_row_version|not_null": true,
+      "columns|eps.presentation_series.audience_preset_id|acl": null,
+      "columns|eps.presentation_series.audience_snapshot|type": "jsonb",
+      "columns|eps.presentation_series.scope_fingerprint|type": "text",
+      "columns|eps.presentation_series.template_key|generated": "",
+      "columns|eps.presentation_series.workspace_id|generated": "",
+      "columns|eps.presentation_templates.content_sha256|type": "text",
+      "columns|eps.presentation_templates.font_hashes|default": null,
+      "columns|eps.presentation_templates.registered|identity": "",
+      "columns|eps.presentation_templates.registered|not_null": true,
+      "columns|eps.review_processing_config.enabled|generated": "",
+      "columns|eps.review_stage_payloads.attempt_id|generated": "",
+      "columns|eps.review_stage_payloads.created_at|generated": "",
+      "columns|eps.review_stage_payloads.input_hash|generated": "",
+      "columns|eps.review_stage_payloads.workspace_id|default": null,
+      "functions|eps.claim_review_job_stage(jsonb)|volatility": "v",
+      "functions|eps.recover_review_job_stages(integer)|owner": "eps_review_stage_owner",
+      "functions|eps.review_body(jsonb,text[],text[])|definer": false,
+      "functions|eps.review_scope(uuid,boolean)|source_sha256": "29b10d89c838b103b2794108b872e416d31832687c60b5419441c00ff0f7b8f2",
+      "functions|eps.review_snapshot_data(uuid,uuid,text)|acl": "{eps_review_owner=X/eps_review_owner,eps_review_stage_owner=X/eps_review_owner}",
+      "functions|public.eps_get_presentation_series(uuid)|acl": "{eps_review_owner=X/eps_review_owner,authenticated=X/eps_review_owner}",
+      "policies|eps.assignments.review_assignments_read|roles": [
+        "eps_review_owner"
+      ],
+      "policies|eps.audience_presets.review_presets_read|qual": "(eps.has_capability('workspaces.read'::text) OR eps.has_capability('presentations.generate'::text))",
+      "policies|eps.audit_events.casting_retirement_audit|cmd": "INSERT",
+      "policies|eps.media_assets.review_stage_read|permissive": "PERMISSIVE",
+      "policies|eps.media_assets.review_stage_read|with_check": null,
+      "policies|eps.outbox_events.review_outbox_service|roles": [
+        "eps_review_stage_owner"
+      ],
+      "policies|eps.outbox_events.review_outbox_user_read|cmd": "SELECT",
+      "policies|eps.presentation_series.review_stage_read|cmd": "SELECT",
+      "policies|eps.review_fit_results.review_fit_service|cmd": "ALL",
+      "policies|eps.workspace_candidates.review_pool_read|cmd": "SELECT",
+      "columns|eps.ai_suggestions.bound_context_sha256|default": null,
+      "columns|eps.ai_suggestions.target_row_version|generated": "",
+      "columns|eps.presentation_series.audience_preset_id|type": "uuid",
+      "columns|eps.presentation_series.next_version_number|acl": null,
+      "columns|eps.presentation_templates.font_hashes|identity": "",
+      "columns|eps.presentation_templates.font_hashes|not_null": true,
+      "columns|eps.presentation_templates.registered|generated": "",
+      "columns|eps.review_processing_config.prompt_version|acl": null,
+      "columns|eps.review_stage_payloads.result_schema|default": null,
+      "columns|eps.review_stage_payloads.workspace_id|identity": "",
+      "columns|eps.review_stage_payloads.workspace_id|not_null": true,
+      "functions|eps.record_review_job_event(jsonb)|volatility": "v",
+      "functions|eps.recover_review_job_stages(integer)|config": [
+        "search_path=\"\""
+      ],
+      "functions|eps.review_fields(jsonb,text,text)|volatility": "i",
+      "functions|eps.review_replay(text,text,jsonb)|volatility": "v",
+      "functions|eps.review_stage_source_matches(eps.jobs)|acl": "{eps_review_stage_owner=X/eps_review_stage_owner,eps_specs_stage_owner=X/eps_review_stage_owner}",
+      "functions|eps.review_validate_fit(eps.jobs,jsonb)|owner": "eps_review_stage_owner",
+      "functions|public.eps_get_ai_suggestion(uuid)|volatility": "s",
+      "indexes|eps.presentation_series_active_scope|definition": "CREATE UNIQUE INDEX presentation_series_active_scope ON eps.presentation_series USING btree (workspace_id, output_type, scope_fingerprint) WHERE (NOT archived)",
+      "indexes|eps.presentation_series_workspace_id|definition": "CREATE INDEX presentation_series_workspace_id ON eps.presentation_series USING btree (workspace_id, id)",
+      "policies|eps.ai_suggestions.review_suggestions_read|cmd": "SELECT",
+      "policies|eps.audience_presets.review_presets_read|roles": [
+        "eps_review_owner"
+      ],
+      "policies|eps.audit_events.casting_retirement_audit|qual": null,
+      "policies|eps.idempotency_records.review_idempotency|cmd": "ALL",
+      "policies|eps.jobs.review_jobs_service_update|permissive": "PERMISSIVE",
+      "policies|eps.jobs.review_jobs_service_update|with_check": "(kind = ANY (ARRAY['ai_suggestion'::text, 'review_fit'::text]))",
+      "policies|eps.media_assets.review_assets_read|permissive": "PERMISSIVE",
+      "policies|eps.media_assets.review_assets_read|with_check": null,
+      "policies|eps.outbox_events.review_outbox_user_read|qual": "(EXISTS ( SELECT 1\n   FROM eps.jobs j\n  WHERE ((j.id = outbox_events.job_id) AND (j.kind = ANY (ARRAY['ai_suggestion'::text, 'review_fit'::text])))))",
+      "policies|eps.presentation_series.review_series_read|cmd": "SELECT",
+      "policies|eps.presentation_series.review_stage_read|qual": "true",
+      "policies|eps.review_fit_results.review_fit_service|qual": "true",
+      "policies|eps.workspace_candidates.review_pool_read|qual": "eps.review_scope(workspace_id)",
+      "policies|eps.workspace_candidates.review_stage_read|cmd": "SELECT",
+      "policies|eps.workspaces.review_stage_workspace_lock|cmd": "UPDATE",
+      "columns|eps.ai_suggestions.bound_context_sha256|identity": "",
+      "columns|eps.ai_suggestions.bound_context_sha256|not_null": true,
+      "columns|eps.presentation_series.next_version_number|type": "bigint",
+      "columns|eps.presentation_series.template_version|default": null,
+      "columns|eps.presentation_templates.font_hashes|generated": "",
+      "columns|eps.review_fit_results.input_fingerprint|default": null,
+      "columns|eps.review_processing_config.prompt_version|type": "text",
+      "columns|eps.review_stage_payloads.result_schema|identity": "",
+      "columns|eps.review_stage_payloads.result_schema|not_null": true,
+      "columns|eps.review_stage_payloads.workspace_id|generated": "",
+      "functions|eps.get_review_stage_input(uuid,uuid,text)|acl": "{eps_review_stage_owner=X/eps_review_stage_owner,eps_specs_stage_owner=X/eps_review_stage_owner}",
+      "functions|eps.recover_review_job_stages(integer)|definer": true,
+      "functions|eps.review_require(uuid,boolean)|source_sha256": "4753ba17766e2c7d00943122d481d228bb07255da8822bc537e7dd1845a6ec9f",
+      "functions|eps.review_snapshot(uuid,uuid,text)|volatility": "s",
+      "functions|eps.review_snapshot_data(uuid,uuid,text)|owner": "eps_review_owner",
+      "functions|eps.review_stage_can_write(uuid,uuid,text)|acl": "{eps_review_stage_owner=X/eps_review_stage_owner}",
+      "functions|eps.review_stage_lock(uuid,boolean)|volatility": "v",
+      "functions|eps.review_validate_fit(eps.jobs,jsonb)|config": [
+        "search_path=\"\""
+      ],
+      "functions|public.eps_get_presentation_series(uuid)|owner": "eps_review_owner",
+      "functions|public.eps_list_presentation_series(jsonb)|acl": "{eps_review_owner=X/eps_review_owner,authenticated=X/eps_review_owner}",
+      "policies|eps.ai_suggestions.review_suggestions_read|qual": "(eps.review_scope(workspace_id) AND eps.has_capability('cast.read'::text))",
+      "policies|eps.audit_events.casting_retirement_audit|roles": [
+        "eps_casting_owner"
+      ],
+      "policies|eps.idempotency_records.review_idempotency|qual": "((principal_id = auth.uid()) AND (operation ~~ 'review.%'::text))",
+      "policies|eps.job_events.review_events_service|permissive": "PERMISSIVE",
+      "policies|eps.job_events.review_events_service|with_check": "(EXISTS ( SELECT 1\n   FROM eps.jobs j\n  WHERE (j.id = job_events.job_id)))",
+      "policies|eps.outbox_events.review_outbox_user_insert|cmd": "INSERT",
+      "policies|eps.outbox_events.review_outbox_user_read|roles": [
+        "eps_review_owner"
+      ],
+      "policies|eps.presentation_series.review_series_read|qual": "(eps.review_scope(workspace_id) OR eps.review_scope(workspace_id, true))",
+      "policies|eps.presentation_series.review_stage_read|roles": [
+        "eps_review_stage_owner"
+      ],
+      "policies|eps.review_fit_results.review_fit_service|roles": [
+        "eps_review_stage_owner"
+      ],
+      "policies|eps.workspace_candidates.review_pool_read|roles": [
+        "eps_review_owner"
+      ],
+      "policies|eps.workspace_candidates.review_stage_read|qual": "true",
+      "policies|eps.workspaces.review_stage_workspace_lock|qual": "true",
+      "policies|eps.workspaces.review_workspace_lock|permissive": "PERMISSIVE",
+      "policies|eps.workspaces.review_workspace_lock|with_check": "false",
+      "policies|eps.workspaces.review_workspace_read|permissive": "PERMISSIVE",
+      "policies|eps.workspaces.review_workspace_read|with_check": null,
+      "policies|storage.buckets.eps_review_no_bucket|permissive": "RESTRICTIVE",
+      "policies|storage.buckets.eps_review_no_bucket|with_check": "false",
+      "policies|storage.buckets.eps_review_stage_no_buckets|cmd": "ALL",
+      "policies|storage.objects.eps_review_stage_no_storage|cmd": "ALL",
+      "columns|eps.ai_suggestions.bound_context_sha256|generated": "",
+      "columns|eps.presentation_series.audience_snapshot|default": null,
+      "columns|eps.presentation_series.scope_fingerprint|default": null,
+      "columns|eps.presentation_series.template_version|identity": "",
+      "columns|eps.presentation_series.template_version|not_null": true,
+      "columns|eps.presentation_templates.content_sha256|default": null,
+      "columns|eps.review_fit_results.input_fingerprint|identity": "",
+      "columns|eps.review_fit_results.input_fingerprint|not_null": true,
+      "columns|eps.review_processing_config.renderer_version|acl": null,
+      "columns|eps.review_stage_payloads.result_schema|generated": "",
+      "functions|eps.claim_review_job_stage(jsonb)|source_sha256": "eb9ca868b4525c6a088317c1a6d2a7f94c2bcf504466d501c22bbdf479ba35e4",
+      "functions|eps.review_body(jsonb,text[],text[])|volatility": "i",
+      "functions|eps.review_snapshot_data(uuid,uuid,text)|config": [
+        "search_path=\"\""
+      ],
+      "functions|eps.review_stage_source_matches(eps.jobs)|owner": "eps_review_stage_owner",
+      "functions|eps.review_validate_fit(eps.jobs,jsonb)|definer": false,
+      "functions|public.eps_create_ai_suggestion(jsonb,text)|acl": "{eps_review_owner=X/eps_review_owner,authenticated=X/eps_review_owner}",
+      "functions|public.eps_get_presentation_series(uuid)|config": [
+        "search_path=\"\""
+      ],
+      "policies|eps.ai_suggestions.review_suggestions_insert|cmd": "INSERT",
+      "policies|eps.ai_suggestions.review_suggestions_read|roles": [
+        "eps_review_owner"
+      ],
+      "policies|eps.candidate_media.review_stage_read|permissive": "PERMISSIVE",
+      "policies|eps.candidate_media.review_stage_read|with_check": null,
+      "policies|eps.candidate_media_frames.review_stage_read|cmd": "SELECT",
+      "policies|eps.candidates.review_candidates_read|permissive": "PERMISSIVE",
+      "policies|eps.candidates.review_candidates_read|with_check": null,
+      "policies|eps.idempotency_records.review_idempotency|roles": [
+        "eps_review_owner"
+      ],
+      "policies|eps.outbox_events.review_outbox_user_insert|qual": null,
+      "policies|eps.presentation_series.review_series_insert|cmd": "INSERT",
+      "policies|eps.presentation_series.review_series_read|roles": [
+        "eps_review_owner"
+      ],
+      "policies|eps.presentation_series.review_series_update|cmd": "UPDATE",
+      "policies|eps.presentation_templates.review_stage_read|cmd": "SELECT",
+      "policies|eps.workspace_candidates.review_stage_read|roles": [
+        "eps_review_stage_owner"
+      ],
+      "policies|eps.workspaces.review_stage_workspace_lock|roles": [
+        "eps_review_stage_owner"
+      ],
+      "policies|public.project_memberships.review_stage_read|cmd": "SELECT",
+      "policies|storage.buckets.eps_review_stage_no_buckets|qual": "false",
+      "policies|storage.objects.eps_review_no_storage|permissive": "RESTRICTIVE",
+      "policies|storage.objects.eps_review_no_storage|with_check": "false",
+      "policies|storage.objects.eps_review_stage_no_storage|qual": "false",
+      "columns|eps.presentation_series.audience_preset_id|default": null,
+      "columns|eps.presentation_series.audience_snapshot|identity": "",
+      "columns|eps.presentation_series.audience_snapshot|not_null": true,
+      "columns|eps.presentation_series.scope_fingerprint|identity": "",
+      "columns|eps.presentation_series.scope_fingerprint|not_null": true,
+      "columns|eps.presentation_series.template_version|generated": "",
+      "columns|eps.presentation_templates.content_sha256|identity": "",
+      "columns|eps.presentation_templates.content_sha256|not_null": true,
+      "columns|eps.review_fit_results.input_fingerprint|generated": "",
+      "columns|eps.review_processing_config.renderer_version|type": "text",
+      "functions|eps.casting_retirement_state(uuid,uuid,uuid)|acl": "{eps_casting_owner=X/eps_casting_owner}",
+      "functions|eps.get_review_stage_input(uuid,uuid,text)|owner": "eps_review_stage_owner",
+      "functions|eps.record_review_job_event(jsonb)|source_sha256": "599efc2f4c951ee1e2ed976accfd2ff7698035c0434feecd980002184191b41c",
+      "functions|eps.review_fields(jsonb,text,text)|source_sha256": "6c8a284b7971a601f41da4a7473714caec1c7408b1b1b140255566a933f58c9d",
+      "functions|eps.review_replay(text,text,jsonb)|source_sha256": "e9873d8356431f54111e5a4ee86cae2c1c7bea8a1f085769d25cd8fd54709360",
+      "functions|eps.review_snapshot_data(uuid,uuid,text)|definer": false,
+      "functions|eps.review_stage_can_write(uuid,uuid,text)|owner": "eps_review_stage_owner",
+      "functions|eps.review_stage_source_matches(eps.jobs)|config": [
+        "search_path=\"\""
+      ],
+      "functions|eps.review_validate_proposal(eps.jobs,jsonb)|acl": "{eps_review_stage_owner=X/eps_review_stage_owner}",
+      "functions|public.eps_get_ai_suggestion(uuid)|source_sha256": "ac46cb5b99407f08de9122a56a25895356756d6ff91807993215928c4ad367dd",
+      "functions|public.eps_get_casting_retirement(uuid,uuid)|acl": "{eps_casting_owner=X/eps_casting_owner,authenticated=X/eps_casting_owner}",
+      "functions|public.eps_get_presentation_series(uuid)|definer": true,
+      "functions|public.eps_list_presentation_series(jsonb)|owner": "eps_review_owner",
+      "policies|eps.ai_suggestions.review_suggestions_insert|qual": null,
+      "policies|eps.ai_suggestions.review_suggestions_service|cmd": "ALL",
+      "policies|eps.candidate_media_frames.review_stage_read|qual": "true",
+      "policies|eps.outbox_events.review_outbox_user_insert|roles": [
+        "eps_review_owner"
+      ],
+      "policies|eps.presentation_series.review_series_insert|qual": null,
+      "policies|eps.presentation_series.review_series_update|qual": "eps.review_scope(workspace_id, true)",
+      "policies|eps.presentation_templates.review_stage_read|qual": "true",
+      "policies|eps.review_fit_results.review_fit_read|permissive": "PERMISSIVE",
+      "policies|eps.review_fit_results.review_fit_read|with_check": null,
+      "policies|public.project_memberships.review_stage_read|qual": "true",
+      "policies|storage.buckets.eps_review_stage_no_buckets|roles": [
+        "eps_review_stage_owner"
+      ],
+      "policies|storage.objects.eps_review_stage_no_storage|roles": [
+        "eps_review_stage_owner"
+      ],
+      "columns|eps.presentation_series.audience_preset_id|identity": "",
+      "columns|eps.presentation_series.audience_preset_id|not_null": true,
+      "columns|eps.presentation_series.audience_snapshot|generated": "",
+      "columns|eps.presentation_series.latest_ready_version_id|acl": null,
+      "columns|eps.presentation_series.latest_ready_version_no|acl": null,
+      "columns|eps.presentation_series.next_version_number|default": "1",
+      "columns|eps.presentation_series.scope_fingerprint|generated": "",
+      "columns|eps.presentation_series.template_content_sha256|acl": null,
+      "columns|eps.presentation_templates.content_sha256|generated": "",
+      "columns|eps.review_processing_config.prompt_version|default": null,
+      "functions|eps.get_review_stage_input(uuid,uuid,text)|config": [
+        "search_path=\"\""
+      ],
+      "functions|eps.recover_review_job_stages(integer)|volatility": "v",
+      "functions|eps.review_snapshot(uuid,uuid,text)|source_sha256": "f0815e014144f1345b4679d96114aab6b358d95df317e3cfe6ac6b59989813cb",
+      "functions|eps.review_stage_can_write(uuid,uuid,text)|config": [
+        "search_path=\"\""
+      ],
+      "functions|eps.review_stage_lock(uuid,boolean)|source_sha256": "0dde5965ee17113283e76f3a8ac22160a5a1498645c293418cd4b7014d128d95",
+      "functions|eps.review_stage_source_matches(eps.jobs)|definer": true,
+      "functions|public.eps_create_ai_suggestion(jsonb,text)|owner": "eps_review_owner",
+      "functions|public.eps_list_presentation_series(jsonb)|config": [
+        "search_path=\"\""
+      ],
+      "policies|eps.ai_suggestions.review_suggestions_insert|roles": [
+        "eps_review_owner"
+      ],
+      "policies|eps.ai_suggestions.review_suggestions_service|qual": "true",
+      "policies|eps.assignments.review_assignments_read|permissive": "PERMISSIVE",
+      "policies|eps.assignments.review_assignments_read|with_check": null,
+      "policies|eps.candidate_media_frames.review_stage_read|roles": [
+        "eps_review_stage_owner"
+      ],
+      "policies|eps.outbox_events.review_outbox_service|permissive": "PERMISSIVE",
+      "policies|eps.outbox_events.review_outbox_service|with_check": "(EXISTS ( SELECT 1\n   FROM eps.jobs j\n  WHERE (j.id = outbox_events.job_id)))",
+      "policies|eps.presentation_series.review_series_insert|roles": [
+        "eps_review_owner"
+      ],
+      "policies|eps.presentation_series.review_series_update|roles": [
+        "eps_review_owner"
+      ],
+      "policies|eps.presentation_templates.review_stage_read|roles": [
+        "eps_review_stage_owner"
+      ],
+      "policies|public.app_capability_grants.review_stage_read|cmd": "SELECT",
+      "policies|public.project_memberships.review_stage_read|roles": [
+        "eps_review_stage_owner"
+      ],
+      "columns|eps.presentation_series.audience_preset_id|generated": "",
+      "columns|eps.presentation_series.latest_ready_version_id|type": "uuid",
+      "columns|eps.presentation_series.latest_ready_version_no|type": "bigint",
+      "columns|eps.presentation_series.next_version_number|identity": "",
+      "columns|eps.presentation_series.next_version_number|not_null": true,
+      "columns|eps.presentation_series.template_content_sha256|type": "text",
+      "columns|eps.review_processing_config.prompt_version|identity": "",
+      "columns|eps.review_processing_config.prompt_version|not_null": true,
+      "functions|eps.casting_retirement_state(uuid,uuid,uuid)|owner": "eps_casting_owner",
+      "functions|eps.get_review_stage_input(uuid,uuid,text)|definer": true,
+      "functions|eps.review_body(jsonb,text[],text[])|source_sha256": "6baf5f1dff6184a7746283407773c6bd0cc0431d1c20bf000a0776294506b539",
+      "functions|eps.review_series_dto(eps.presentation_series)|acl": "{eps_review_owner=X/eps_review_owner}",
+      "functions|eps.review_stage_can_write(uuid,uuid,text)|definer": false,
+      "functions|eps.review_target_context(uuid,text,uuid,text)|acl": "{eps_review_owner=X/eps_review_owner,eps_review_stage_owner=X/eps_review_owner}",
+      "functions|eps.review_validate_fit(eps.jobs,jsonb)|volatility": "s",
+      "functions|eps.review_validate_proposal(eps.jobs,jsonb)|owner": "eps_review_stage_owner",
+      "functions|public.eps_create_ai_suggestion(jsonb,text)|config": [
+        "search_path=\"\""
+      ],
+      "functions|public.eps_get_casting_retirement(uuid,uuid)|owner": "eps_casting_owner",
+      "functions|public.eps_list_presentation_series(jsonb)|definer": true,
+      "policies|eps.ai_suggestions.review_suggestions_service|roles": [
+        "eps_review_stage_owner"
+      ],
+      "policies|eps.audience_presets.review_presets_read|permissive": "PERMISSIVE",
+      "policies|eps.audience_presets.review_presets_read|with_check": null,
+      "policies|eps.candidate_media.review_candidate_media_read|cmd": "SELECT",
+      "policies|public.app_capability_grants.review_stage_read|qual": "true",
+      "columns|eps.presentation_series.next_version_number|generated": "",
+      "columns|eps.review_processing_config.prompt_version|generated": "",
+      "columns|eps.review_processing_config.renderer_version|default": null,
+      "constraints|eps.ai_suggestions.ai_suggestions_pkey|definition": "PRIMARY KEY (id)",
+      "functions|eps.casting_retirement_state(uuid,uuid,uuid)|config": [
+        "search_path=\"\""
+      ],
+      "functions|eps.review_issue(text,text,uuid,text,text,text)|acl": "{eps_review_owner=X/eps_review_owner,eps_review_stage_owner=X/eps_review_owner}",
+      "functions|eps.review_remember(text,text,jsonb,jsonb,uuid)|acl": "{eps_review_owner=X/eps_review_owner}",
+      "functions|eps.review_snapshot_data(uuid,uuid,text)|volatility": "s",
+      "functions|eps.review_validate_proposal(eps.jobs,jsonb)|config": [
+        "search_path=\"\""
+      ],
+      "functions|public.eps_create_ai_suggestion(jsonb,text)|definer": true,
+      "functions|public.eps_get_casting_retirement(uuid,uuid)|config": [
+        "search_path=\"\""
+      ],
+      "functions|public.eps_get_presentation_series(uuid)|volatility": "s",
+      "functions|public.eps_get_workspace_review(uuid,uuid,text)|acl": "{eps_review_owner=X/eps_review_owner,authenticated=X/eps_review_owner}",
+      "policies|eps.ai_suggestions.review_suggestions_job_update|cmd": "UPDATE",
+      "policies|eps.audit_events.casting_retirement_audit|permissive": "PERMISSIVE",
+      "policies|eps.audit_events.casting_retirement_audit|with_check": "((principal_id = auth.uid()) AND (action = 'casting.undo_retirement'::text))",
+      "policies|eps.candidate_media.review_candidate_media_read|qual": "eps.has_capability('cast.read'::text)",
+      "policies|eps.outbox_events.review_outbox_user_read|permissive": "PERMISSIVE",
+      "policies|eps.outbox_events.review_outbox_user_read|with_check": null,
+      "policies|eps.presentation_series.review_stage_read|permissive": "PERMISSIVE",
+      "policies|eps.presentation_series.review_stage_read|with_check": null,
+      "policies|eps.presentation_templates.review_templates_read|cmd": "SELECT",
+      "policies|eps.review_fit_results.review_fit_service|permissive": "PERMISSIVE",
+      "policies|eps.review_fit_results.review_fit_service|with_check": "true",
+      "policies|eps.workspace_candidates.review_pool_read|permissive": "PERMISSIVE",
+      "policies|eps.workspace_candidates.review_pool_read|with_check": null,
+      "policies|public.app_capability_grants.review_stage_read|roles": [
+        "eps_review_stage_owner"
+      ],
+      "columns|eps.review_processing_config.renderer_version|identity": "",
+      "columns|eps.review_processing_config.renderer_version|not_null": true,
+      "functions|eps.casting_retirement_state(uuid,uuid,uuid)|definer": false,
+      "functions|eps.recover_review_job_stages(integer)|source_sha256": "3cf763aadc3d93f52cc75ad6bd200d7af7b0cb1c8e9f7b48dc8e5e042c7ec3ac",
+      "functions|eps.review_series_dto(eps.presentation_series)|owner": "eps_review_owner",
+      "functions|eps.review_stage_source_matches(eps.jobs)|volatility": "v",
+      "functions|eps.review_target_context(uuid,text,uuid,text)|owner": "eps_review_owner",
+      "functions|eps.review_template_dto(eps.presentation_series)|acl": "{eps_review_owner=X/eps_review_owner,eps_review_stage_owner=X/eps_review_owner}",
+      "functions|eps.review_validate_proposal(eps.jobs,jsonb)|definer": false,
+      "functions|public.eps_get_casting_retirement(uuid,uuid)|definer": true,
+      "policies|eps.ai_suggestions.review_suggestions_job_update|qual": "(eps.review_scope(workspace_id) AND eps.has_capability('workspaces.write'::text))",
+      "policies|eps.ai_suggestions.review_suggestions_read|permissive": "PERMISSIVE",
+      "policies|eps.ai_suggestions.review_suggestions_read|with_check": null,
+      "policies|eps.candidate_media.review_candidate_media_read|roles": [
+        "eps_review_owner"
+      ],
+      "policies|eps.idempotency_records.review_idempotency|permissive": "PERMISSIVE",
+      "policies|eps.idempotency_records.review_idempotency|with_check": "((principal_id = auth.uid()) AND (operation ~~ 'review.%'::text))",
+      "policies|eps.presentation_series.review_series_read|permissive": "PERMISSIVE",
+      "policies|eps.presentation_series.review_series_read|with_check": null,
+      "policies|eps.presentation_templates.review_templates_read|qual": "(registered AND (eps.has_capability('workspaces.read'::text) OR eps.has_capability('presentations.generate'::text)))",
+      "policies|eps.review_stage_payloads.review_payloads_service|cmd": "ALL",
+      "policies|eps.workspace_candidates.review_stage_read|permissive": "PERMISSIVE",
+      "policies|eps.workspace_candidates.review_stage_read|with_check": null,
+      "policies|eps.workspaces.review_stage_workspace_lock|permissive": "PERMISSIVE",
+      "policies|eps.workspaces.review_stage_workspace_lock|with_check": "false",
+      "columns|eps.presentation_series.latest_ready_version_id|default": null,
+      "columns|eps.presentation_series.latest_ready_version_no|default": null,
+      "columns|eps.presentation_series.template_content_sha256|default": null,
+      "columns|eps.review_processing_config.renderer_version|generated": "",
+      "functions|eps.get_review_stage_input(uuid,uuid,text)|volatility": "v",
+      "functions|eps.review_issue(text,text,uuid,text,text,text)|owner": "eps_review_owner",
+      "functions|eps.review_remember(text,text,jsonb,jsonb,uuid)|owner": "eps_review_owner",
+      "functions|eps.review_series_dto(eps.presentation_series)|config": [
+        "search_path=\"\""
+      ],
+      "functions|eps.review_stage_can_write(uuid,uuid,text)|volatility": "v",
+      "functions|eps.review_target_context(uuid,text,uuid,text)|config": [
+        "search_path=\"\""
+      ],
+      "functions|eps.review_validate_fit(eps.jobs,jsonb)|source_sha256": "263dead6ca6f56b6ff7c78793ba0a73fb582657ada82864a479ed03275f48cf3",
+      "functions|public.eps_create_presentation_series(jsonb,text)|acl": "{eps_review_owner=X/eps_review_owner,authenticated=X/eps_review_owner}",
+      "functions|public.eps_get_workspace_review(uuid,uuid,text)|owner": "eps_review_owner",
+      "functions|public.eps_list_presentation_series(jsonb)|volatility": "s",
+      "policies|eps.ai_suggestions.review_suggestions_job_update|roles": [
+        "eps_review_owner"
+      ],
+      "policies|eps.outbox_events.review_outbox_user_insert|permissive": "PERMISSIVE",
+      "policies|eps.outbox_events.review_outbox_user_insert|with_check": "(EXISTS ( SELECT 1\n   FROM eps.jobs j\n  WHERE ((j.id = outbox_events.job_id) AND (j.kind = ANY (ARRAY['ai_suggestion'::text, 'review_fit'::text])) AND (j.requested_by = auth.uid()) AND (j.status = 'queued'::text))))",
+      "policies|eps.presentation_templates.review_templates_read|roles": [
+        "eps_review_owner"
+      ],
+      "policies|eps.review_stage_payloads.review_payloads_service|qual": "true",
+      "policies|storage.buckets.eps_review_stage_no_buckets|permissive": "RESTRICTIVE",
+      "policies|storage.buckets.eps_review_stage_no_buckets|with_check": "false",
+      "policies|storage.objects.eps_review_stage_no_storage|permissive": "RESTRICTIVE",
+      "policies|storage.objects.eps_review_stage_no_storage|with_check": "false",
+      "columns|eps.presentation_series.latest_ready_version_id|identity": "",
+      "columns|eps.presentation_series.latest_ready_version_id|not_null": false,
+      "columns|eps.presentation_series.latest_ready_version_no|identity": "",
+      "columns|eps.presentation_series.latest_ready_version_no|not_null": false,
+      "columns|eps.presentation_series.template_content_sha256|identity": "",
+      "columns|eps.presentation_series.template_content_sha256|not_null": true,
+      "functions|eps.review_issue(text,text,uuid,text,text,text)|config": [
+        "search_path=\"\""
+      ],
+      "functions|eps.review_remember(text,text,jsonb,jsonb,uuid)|config": [
+        "search_path=\"\""
+      ],
+      "functions|eps.review_series_dto(eps.presentation_series)|definer": false,
+      "functions|eps.review_snapshot_data(uuid,uuid,text)|source_sha256": "ba6e8c5501f5d9c7299b0ceb50dfc770de851d673bc6ec2c9ab98b134f5fc12a",
+      "functions|eps.review_target_context(uuid,text,uuid,text)|definer": false,
+      "functions|eps.review_template_dto(eps.presentation_series)|owner": "eps_review_owner",
+      "functions|public.eps_create_ai_suggestion(jsonb,text)|volatility": "v",
+      "functions|public.eps_get_presentation_series(uuid)|source_sha256": "7577db48f7bab055e11331e0552de7332a28fe6a6e9ed6404f7dc5104caaa337",
+      "functions|public.eps_get_workspace_review(uuid,uuid,text)|config": [
+        "search_path=\"\""
+      ],
+      "policies|eps.ai_suggestions.review_suggestions_insert|permissive": "PERMISSIVE",
+      "policies|eps.ai_suggestions.review_suggestions_insert|with_check": "(eps.review_scope(workspace_id) AND eps.project_scope(( SELECT workspaces.project_id\n   FROM eps.workspaces\n  WHERE (workspaces.id = ai_suggestions.workspace_id)), true) AND eps.has_capability('workspaces.write'::text) AND eps.has_capability('cast.read'::text))",
+      "policies|eps.candidate_media_frames.review_stage_read|permissive": "PERMISSIVE",
+      "policies|eps.candidate_media_frames.review_stage_read|with_check": null,
+      "policies|eps.presentation_series.review_series_insert|permissive": "PERMISSIVE",
+      "policies|eps.presentation_series.review_series_insert|with_check": "eps.review_scope(workspace_id, true)",
+      "policies|eps.presentation_series.review_series_update|permissive": "PERMISSIVE",
+      "policies|eps.presentation_series.review_series_update|with_check": "eps.review_scope(workspace_id, true)",
+      "policies|eps.presentation_templates.review_stage_read|permissive": "PERMISSIVE",
+      "policies|eps.presentation_templates.review_stage_read|with_check": null,
+      "policies|eps.review_stage_payloads.review_payloads_service|roles": [
+        "eps_review_stage_owner"
+      ],
+      "policies|public.project_memberships.review_stage_read|permissive": "PERMISSIVE",
+      "policies|public.project_memberships.review_stage_read|with_check": null,
+      "columns|eps.presentation_series.latest_ready_version_id|generated": "",
+      "columns|eps.presentation_series.latest_ready_version_no|generated": "",
+      "columns|eps.presentation_series.template_content_sha256|generated": "",
+      "functions|eps.casting_retirement_state(uuid,uuid,uuid)|volatility": "s",
+      "functions|eps.review_issue(text,text,uuid,text,text,text)|definer": false,
+      "functions|eps.review_remember(text,text,jsonb,jsonb,uuid)|definer": false,
+      "functions|eps.review_stage_source_matches(eps.jobs)|source_sha256": "d31de474e110e1909daa6151ee488f8115fe0af33077b2e47b41f6f365419eb1",
+      "functions|eps.review_template_dto(eps.presentation_series)|config": [
+        "search_path=\"\""
+      ],
+      "functions|eps.review_validate_proposal(eps.jobs,jsonb)|volatility": "i",
+      "functions|public.eps_create_presentation_series(jsonb,text)|owner": "eps_review_owner",
+      "functions|public.eps_get_casting_retirement(uuid,uuid)|volatility": "s",
+      "functions|public.eps_get_workspace_review(uuid,uuid,text)|definer": true,
+      "policies|eps.ai_suggestions.review_suggestions_service|permissive": "PERMISSIVE",
+      "policies|eps.ai_suggestions.review_suggestions_service|with_check": "true",
+      "functions|eps.get_review_stage_input(uuid,uuid,text)|source_sha256": "86fc1c9ecd2d4302759fe626fe43a27df2a2e6b5d84cd654d478f1f970c71c09",
+      "functions|eps.review_stage_can_write(uuid,uuid,text)|source_sha256": "9a2367539d0043346dc0bf292580b0f5146799c151487530a551d1136984971e",
+      "functions|eps.review_template_dto(eps.presentation_series)|definer": false,
+      "functions|public.eps_create_presentation_series(jsonb,text)|config": [
+        "search_path=\"\""
+      ],
+      "functions|public.eps_list_presentation_series(jsonb)|source_sha256": "31f0e076ff0f112c038ddcf417aeb926a1cf00ba8d047bd98b5016403e7874d6",
+      "policies|public.app_capability_grants.review_stage_read|permissive": "PERMISSIVE",
+      "policies|public.app_capability_grants.review_stage_read|with_check": null,
+      "constraints|eps.ai_suggestions.ai_suggestions_job_id_key|definition": "UNIQUE (job_id)",
+      "functions|eps.review_series_dto(eps.presentation_series)|volatility": "i",
+      "functions|eps.review_target_context(uuid,text,uuid,text)|volatility": "s",
+      "functions|public.eps_create_ai_suggestion(jsonb,text)|source_sha256": "a6d9469d65bccd81d46fc86d085aa53ae6317eb31b8a14145abe228c1e54c8c3",
+      "functions|public.eps_create_presentation_series(jsonb,text)|definer": true,
+      "policies|eps.candidate_media.review_candidate_media_read|permissive": "PERMISSIVE",
+      "policies|eps.candidate_media.review_candidate_media_read|with_check": null,
+      "policies|eps.idempotency_records.casting_retirement_idempotency|cmd": "ALL",
+      "constraints|eps.ai_suggestions.ai_suggestions_job_id_fkey|definition": "FOREIGN KEY (job_id) REFERENCES eps.jobs(id)",
+      "functions|eps.casting_retirement_state(uuid,uuid,uuid)|source_sha256": "7e758ffbed61ef381c1d141b639b00723162ab3d5ae244944cfc2a1596effab3",
+      "functions|eps.review_issue(text,text,uuid,text,text,text)|volatility": "i",
+      "functions|eps.review_remember(text,text,jsonb,jsonb,uuid)|volatility": "v",
+      "functions|eps.review_validate_proposal(eps.jobs,jsonb)|source_sha256": "c56c5831ebe44526b38f058a5c4e2c72036634f822b01f5ef1d0a5a07670e6f0",
+      "functions|public.eps_get_casting_retirement(uuid,uuid)|source_sha256": "8700c22756335c7dcabbb73c6801a9cdd9bf14bf6733c9707dad2a85deeea71b",
+      "functions|public.eps_get_workspace_review(uuid,uuid,text)|volatility": "s",
+      "functions|public.eps_update_presentation_series(uuid,jsonb,text)|acl": "{eps_review_owner=X/eps_review_owner,authenticated=X/eps_review_owner}",
+      "policies|eps.ai_suggestions.review_suggestions_job_update|permissive": "PERMISSIVE",
+      "policies|eps.ai_suggestions.review_suggestions_job_update|with_check": "(eps.review_scope(workspace_id) AND eps.has_capability('workspaces.write'::text))",
+      "policies|eps.candidate_media_frames.review_candidate_frames_read|cmd": "SELECT",
+      "policies|eps.idempotency_records.casting_retirement_idempotency|qual": "((principal_id = auth.uid()) AND (operation = 'casting.undo_retirement'::text))",
+      "policies|eps.presentation_templates.review_templates_read|permissive": "PERMISSIVE",
+      "policies|eps.presentation_templates.review_templates_read|with_check": null,
+      "constraints|eps.review_fit_results.review_fit_results_pkey|definition": "PRIMARY KEY (job_id)",
+      "functions|eps.review_template_dto(eps.presentation_series)|volatility": "i",
+      "policies|eps.candidate_media_frames.review_candidate_frames_read|qual": "eps.has_capability('cast.read'::text)",
+      "policies|eps.idempotency_records.casting_retirement_idempotency|roles": [
+        "eps_casting_owner"
+      ],
+      "policies|eps.review_stage_payloads.review_payloads_service|permissive": "PERMISSIVE",
+      "policies|eps.review_stage_payloads.review_payloads_service|with_check": "true",
+      "policies|eps.workspace_candidates.casting_pool_retirement_restore|cmd": "UPDATE",
+      "constraints|eps.review_fit_results.review_fit_results_check|definition": "CHECK ((((status = 'measured'::text) AND (result IS NOT NULL) AND (error_code IS NULL)) OR ((status = 'failed'::text) AND (result IS NULL) AND (error_code IS NOT NULL))))",
+      "functions|eps.review_series_dto(eps.presentation_series)|source_sha256": "7e9e21679486ed31e036bd0e5ffb342698697b1b257d1d65d0f476c5837b978d",
+      "functions|eps.review_target_context(uuid,text,uuid,text)|source_sha256": "d2312bd892c3a98e2ae4ac5c42e68b06289f30a6285a2e19a9e10be2755d1928",
+      "functions|public.eps_create_presentation_series(jsonb,text)|volatility": "v",
+      "functions|public.eps_undo_casting_retirement(uuid,uuid,jsonb,text)|acl": "{eps_casting_owner=X/eps_casting_owner,authenticated=X/eps_casting_owner}",
+      "functions|public.eps_update_presentation_series(uuid,jsonb,text)|owner": "eps_review_owner",
+      "policies|eps.candidate_media_frames.review_candidate_frames_read|roles": [
+        "eps_review_owner"
+      ],
+      "policies|eps.workspace_candidates.casting_pool_retirement_restore|qual": "eps.casting_scope(workspace_id, true)",
+      "constraints|eps.ai_suggestions.ai_suggestions_proposal_check|definition": "CHECK (((proposal IS NULL) OR (jsonb_typeof(proposal) = 'object'::text)))",
+      "constraints|eps.presentation_series.presentation_series_pkey|definition": "PRIMARY KEY (id)",
+      "functions|eps.review_issue(text,text,uuid,text,text,text)|source_sha256": "c7632f9e4314f6e2ef0b3fa6718a12d22f6fccd2248af999c366cce04e107561",
+      "functions|eps.review_remember(text,text,jsonb,jsonb,uuid)|source_sha256": "4535704c355dbdb25df8156267237833f5f48b9755e0ed9260479bd3d3237004",
+      "functions|public.eps_get_workspace_review(uuid,uuid,text)|source_sha256": "f1aa46bf5008f57e680a841dc94f888f9194631e10e3ba34ed39c199fda0e9c8",
+      "functions|public.eps_update_presentation_series(uuid,jsonb,text)|config": [
+        "search_path=\"\""
+      ],
+      "policies|eps.review_processing_config.review_processing_config_read|cmd": "SELECT",
+      "policies|eps.workspace_candidates.casting_pool_retirement_restore|roles": [
+        "eps_casting_owner"
+      ],
+      "constraints|eps.presentation_series.presentation_series_check|definition": "CHECK (((latest_ready_version_id IS NULL) = (latest_ready_version_no IS NULL)))",
+      "functions|eps.review_template_dto(eps.presentation_series)|source_sha256": "d80147f9ba4ad2fa77d3d5db36bcfc8700d0e8b6e4dc17b998238cec928d97c4",
+      "functions|public.eps_undo_casting_retirement(uuid,uuid,jsonb,text)|owner": "eps_casting_owner",
+      "functions|public.eps_update_presentation_series(uuid,jsonb,text)|definer": true,
+      "indexes|eps.review_stage_payloads_job_id_stage_input_hash_key|definition": "CREATE UNIQUE INDEX review_stage_payloads_job_id_stage_input_hash_key ON eps.review_stage_payloads USING btree (job_id, stage, input_hash)",
+      "policies|eps.review_processing_config.review_processing_config_read|qual": "true",
+      "functions|public.eps_create_presentation_series(jsonb,text)|source_sha256": "3e8ee724bf684c8ce3b890d3b474ad424aaedfe450d89814aa69367f74f2fdd0",
+      "functions|public.eps_undo_casting_retirement(uuid,uuid,jsonb,text)|config": [
+        "search_path=\"\""
+      ],
+      "policies|eps.review_processing_config.review_processing_config_read|roles": [
+        "eps_review_owner",
+        "eps_review_stage_owner"
+      ],
+      "constraints|eps.ai_suggestions.ai_suggestions_target_type_check|definition": "CHECK ((target_type = ANY (ARRAY['assignment'::text, 'role'::text, 'workspace_candidate'::text, 'candidate'::text])))",
+      "constraints|eps.ai_suggestions.ai_suggestions_workspace_id_fkey|definition": "FOREIGN KEY (workspace_id) REFERENCES eps.workspaces(id)",
+      "functions|public.eps_undo_casting_retirement(uuid,uuid,jsonb,text)|definer": true,
+      "policies|eps.idempotency_records.casting_retirement_idempotency|permissive": "PERMISSIVE",
+      "policies|eps.idempotency_records.casting_retirement_idempotency|with_check": "((principal_id = auth.uid()) AND (operation = 'casting.undo_retirement'::text))",
+      "constraints|eps.review_stage_payloads.review_stage_payloads_pkey|definition": "PRIMARY KEY (id)",
+      "functions|public.eps_request_workspace_review_fit(uuid,uuid,jsonb,text)|acl": "{eps_review_owner=X/eps_review_owner,authenticated=X/eps_review_owner}",
+      "functions|public.eps_update_presentation_series(uuid,jsonb,text)|volatility": "v",
+      "policies|eps.candidate_media_frames.review_candidate_frames_read|permissive": "PERMISSIVE",
+      "policies|eps.candidate_media_frames.review_candidate_frames_read|with_check": null,
+      "constraints|eps.review_fit_results.review_fit_results_job_id_fkey|definition": "FOREIGN KEY (job_id) REFERENCES eps.jobs(id)",
+      "functions|eps.casting_record_retirement_undo(uuid,uuid,jsonb,jsonb,uuid)|acl": "{eps_casting_owner=X/eps_casting_owner}",
+      "policies|eps.workspace_candidates.casting_pool_retirement_restore|permissive": "PERMISSIVE",
+      "policies|eps.workspace_candidates.casting_pool_retirement_restore|with_check": "eps.casting_scope(workspace_id, true)",
+      "constraints|eps.presentation_templates.presentation_templates_pkey|definition": "PRIMARY KEY (key, version)",
+      "constraints|eps.review_fit_results.review_fit_results_status_check|definition": "CHECK ((status = ANY (ARRAY['measured'::text, 'failed'::text])))",
+      "functions|public.eps_request_workspace_review_fit(uuid,uuid,jsonb,text)|owner": "eps_review_owner",
+      "functions|public.eps_undo_casting_retirement(uuid,uuid,jsonb,text)|volatility": "v",
+      "functions|eps.casting_record_retirement_undo(uuid,uuid,jsonb,jsonb,uuid)|owner": "eps_casting_owner",
+      "functions|public.eps_request_workspace_review_fit(uuid,uuid,jsonb,text)|config": [
+        "search_path=\"\""
+      ],
+      "functions|public.eps_update_presentation_series(uuid,jsonb,text)|source_sha256": "85b4b5d5c44ccad6a16d1905310070c3ad29ec89d6b591a6a09ad803cc1b7890",
+      "policies|eps.review_processing_config.review_processing_config_read|permissive": "PERMISSIVE",
+      "policies|eps.review_processing_config.review_processing_config_read|with_check": null,
+      "constraints|eps.review_fit_results.review_fit_results_series_id_fkey|definition": "FOREIGN KEY (series_id) REFERENCES eps.presentation_series(id)",
+      "functions|eps.casting_record_retirement_undo(uuid,uuid,jsonb,jsonb,uuid)|config": [
+        "search_path=\"\""
+      ],
+      "functions|public.eps_request_workspace_review_fit(uuid,uuid,jsonb,text)|definer": true,
+      "functions|eps.casting_record_retirement_undo(uuid,uuid,jsonb,jsonb,uuid)|definer": false,
+      "functions|public.eps_undo_casting_retirement(uuid,uuid,jsonb,text)|source_sha256": "8aacc8c030a16c5a53880e49b6c19548cbb36886e83684a44a0ebb594633a96c",
+      "constraints|eps.review_processing_config.review_processing_config_pkey|definition": "PRIMARY KEY (id)",
+      "constraints|eps.review_fit_results.review_fit_results_workspace_id_fkey|definition": "FOREIGN KEY (workspace_id) REFERENCES eps.workspaces(id)",
+      "constraints|eps.review_stage_payloads.review_stage_payloads_job_id_fkey|definition": "FOREIGN KEY (job_id) REFERENCES eps.jobs(id)",
+      "functions|public.eps_request_workspace_review_fit(uuid,uuid,jsonb,text)|volatility": "v",
+      "constraints|eps.ai_suggestions.ai_suggestions_bound_context_sha256_check|definition": "CHECK ((bound_context_sha256 ~ '^[a-f0-9]{64}$'::text))",
+      "functions|eps.casting_record_retirement_undo(uuid,uuid,jsonb,jsonb,uuid)|volatility": "v",
+      "constraints|eps.presentation_series.presentation_series_output_type_check|definition": "CHECK ((output_type = ANY (ARRAY['selection'::text, 'shortlist'::text])))",
+      "constraints|eps.presentation_series.presentation_series_row_version_check|definition": "CHECK (((row_version >= 1) AND (row_version <= '9007199254740991'::bigint)))",
+      "constraints|eps.presentation_series.presentation_series_workspace_id_fkey|definition": "FOREIGN KEY (workspace_id) REFERENCES eps.workspaces(id) ON DELETE RESTRICT",
+      "constraints|eps.review_stage_payloads.review_stage_payloads_payload_check|definition": "CHECK (((jsonb_typeof(payload) = 'object'::text) AND (octet_length((payload)::text) <= 1048576)))",
+      "constraints|eps.review_processing_config.review_processing_config_id_check|definition": "CHECK (id)",
+      "functions|public.eps_request_workspace_review_fit(uuid,uuid,jsonb,text)|source_sha256": "a32753610028eee4159a7e4c1f252356714bab113cf6cf89ab184c7aa98bc73a",
+      "functions|eps.casting_record_retirement_undo(uuid,uuid,jsonb,jsonb,uuid)|source_sha256": "e44f84f2c2d0349ecaac66aadb3db7380553ec2c714a48f212cc2bf4a686a4e9",
+      "constraints|eps.review_fit_results.review_fit_results_input_fingerprint_check|definition": "CHECK ((input_fingerprint ~ '^[a-f0-9]{64}$'::text))",
+      "constraints|eps.review_processing_config.review_processing_config_model_check|definition": "CHECK ((model ~ '^[A-Za-z0-9._-]{1,200}$'::text))",
+      "constraints|eps.review_stage_payloads.review_stage_payloads_workspace_id_fkey|definition": "FOREIGN KEY (workspace_id) REFERENCES eps.workspaces(id)",
+      "constraints|eps.presentation_series.presentation_series_audience_preset_id_fkey|definition": "FOREIGN KEY (audience_preset_id) REFERENCES eps.audience_presets(id) ON DELETE RESTRICT",
+      "constraints|eps.presentation_series.presentation_series_audience_snapshot_check|definition": "CHECK ((jsonb_typeof(audience_snapshot) = 'object'::text))",
+      "constraints|eps.presentation_series.presentation_series_scope_fingerprint_check|definition": "CHECK ((scope_fingerprint ~ '^[a-f0-9]{64}$'::text))",
+      "constraints|eps.presentation_templates.presentation_templates_font_hashes_check|definition": "CHECK ((jsonb_typeof(font_hashes) = 'object'::text))",
+      "constraints|eps.presentation_series.presentation_series_next_version_number_check|definition": "CHECK (((next_version_number >= 1) AND (next_version_number <= '9007199254740991'::bigint)))",
+      "constraints|eps.presentation_templates.presentation_templates_content_sha256_check|definition": "CHECK ((content_sha256 ~ '^[a-f0-9]{64}$'::text))",
+      "constraints|eps.presentation_series.presentation_series_latest_ready_version_no_check|definition": "CHECK (((latest_ready_version_no >= 1) AND (latest_ready_version_no <= '9007199254740991'::bigint)))",
+      "constraints|eps.presentation_series.presentation_series_template_content_sha256_check|definition": "CHECK ((template_content_sha256 ~ '^[a-f0-9]{64}$'::text))",
+      "constraints|eps.review_stage_payloads.review_stage_payloads_job_id_stage_input_hash_key|definition": "UNIQUE (job_id, stage, input_hash)",
+      "constraints|eps.presentation_series.presentation_series_template_key_template_version_fkey|definition": "FOREIGN KEY (template_key, template_version) REFERENCES eps.presentation_templates(key, version) ON DELETE RESTRICT"
+    },
+    "changed": {
+      "schemas|eps|acl": {
+        "before": "{postgres=UC/postgres,authenticated=U/postgres,eps_api_owner=U/postgres,eps_draft_owner=U/postgres,eps_logo_verify_owner=U/postgres,eps_jobs_owner=U/postgres,eps_jobs_dispatcher=U/postgres,eps_specs_owner=U/postgres,eps_specs_initializer=U/postgres,eps_specs_submit_owner=U/postgres,eps_specs_stage_owner=U/postgres,eps_specs_apply_owner=U/postgres,eps_jobs_executor=U/postgres,eps_specs_upload_owner=U/postgres,eps_specs_verify_owner=U/postgres,eps_specs_assets_owner=U/postgres,eps_specs_assets_executor=U/postgres,anon=U/postgres,eps_cast_owner=U/postgres,eps_candidate_stage_owner=U/postgres,eps_candidate_assets_owner=U/postgres,eps_candidate_upload_owner=U/postgres,eps_candidate_apply_owner=U/postgres,eps_support_upload_owner=U/postgres,eps_support_verify_owner=U/postgres,eps_casting_owner=U/postgres,eps_casting_guard_owner=U/postgres}",
+        "after": "{postgres=UC/postgres,authenticated=U/postgres,eps_api_owner=U/postgres,eps_draft_owner=U/postgres,eps_logo_verify_owner=U/postgres,eps_jobs_owner=U/postgres,eps_jobs_dispatcher=U/postgres,eps_specs_owner=U/postgres,eps_specs_initializer=U/postgres,eps_specs_submit_owner=U/postgres,eps_specs_stage_owner=U/postgres,eps_specs_apply_owner=U/postgres,eps_jobs_executor=U/postgres,eps_specs_upload_owner=U/postgres,eps_specs_verify_owner=U/postgres,eps_specs_assets_owner=U/postgres,eps_specs_assets_executor=U/postgres,anon=U/postgres,eps_cast_owner=U/postgres,eps_candidate_stage_owner=U/postgres,eps_candidate_assets_owner=U/postgres,eps_candidate_upload_owner=U/postgres,eps_candidate_apply_owner=U/postgres,eps_support_upload_owner=U/postgres,eps_support_verify_owner=U/postgres,eps_casting_owner=U/postgres,eps_casting_guard_owner=U/postgres,eps_review_owner=U/postgres,eps_review_stage_owner=U/postgres}"
+      },
+      "schemas|public|acl": {
+        "before": "{pg_database_owner=UC/pg_database_owner,=U/pg_database_owner,postgres=U/pg_database_owner,anon=U/pg_database_owner,authenticated=U/pg_database_owner,service_role=U/pg_database_owner,eps_api_owner=U/pg_database_owner,eps_draft_owner=U/pg_database_owner,eps_logo_verify_owner=U/pg_database_owner,eps_jobs_owner=U/pg_database_owner,eps_specs_owner=U/pg_database_owner,eps_specs_submit_owner=U/pg_database_owner,eps_specs_stage_owner=U/pg_database_owner,eps_specs_apply_owner=U/pg_database_owner,eps_specs_upload_owner=U/pg_database_owner,eps_specs_verify_owner=U/pg_database_owner,eps_specs_assets_owner=U/pg_database_owner,eps_cast_owner=U/pg_database_owner,eps_candidate_stage_owner=U/pg_database_owner,eps_candidate_assets_owner=U/pg_database_owner,eps_candidate_upload_owner=U/pg_database_owner,eps_candidate_apply_owner=U/pg_database_owner,eps_support_upload_owner=U/pg_database_owner,eps_support_verify_owner=U/pg_database_owner,eps_casting_owner=U/pg_database_owner}",
+        "after": "{pg_database_owner=UC/pg_database_owner,=U/pg_database_owner,postgres=U/pg_database_owner,anon=U/pg_database_owner,authenticated=U/pg_database_owner,service_role=U/pg_database_owner,eps_api_owner=U/pg_database_owner,eps_draft_owner=U/pg_database_owner,eps_logo_verify_owner=U/pg_database_owner,eps_jobs_owner=U/pg_database_owner,eps_specs_owner=U/pg_database_owner,eps_specs_submit_owner=U/pg_database_owner,eps_specs_stage_owner=U/pg_database_owner,eps_specs_apply_owner=U/pg_database_owner,eps_specs_upload_owner=U/pg_database_owner,eps_specs_verify_owner=U/pg_database_owner,eps_specs_assets_owner=U/pg_database_owner,eps_cast_owner=U/pg_database_owner,eps_candidate_stage_owner=U/pg_database_owner,eps_candidate_assets_owner=U/pg_database_owner,eps_candidate_upload_owner=U/pg_database_owner,eps_candidate_apply_owner=U/pg_database_owner,eps_support_upload_owner=U/pg_database_owner,eps_support_verify_owner=U/pg_database_owner,eps_casting_owner=U/pg_database_owner,eps_review_owner=U/pg_database_owner,eps_review_stage_owner=U/pg_database_owner}"
+      },
+      "tables|eps.jobs|acl": {
+        "before": "{postgres=arwdDxtm/postgres,eps_jobs_owner=arw/postgres,eps_specs_stage_owner=r/postgres,eps_specs_apply_owner=r/postgres,eps_candidate_stage_owner=rw/postgres,eps_candidate_upload_owner=ar/postgres,eps_candidate_apply_owner=r/postgres,eps_candidate_assets_owner=r/postgres,eps_cast_owner=ar/postgres}",
+        "after": "{postgres=arwdDxtm/postgres,eps_jobs_owner=arw/postgres,eps_specs_stage_owner=r/postgres,eps_specs_apply_owner=r/postgres,eps_candidate_stage_owner=rw/postgres,eps_candidate_upload_owner=ar/postgres,eps_candidate_apply_owner=r/postgres,eps_candidate_assets_owner=r/postgres,eps_cast_owner=ar/postgres,eps_review_owner=ar/postgres,eps_review_stage_owner=rw/postgres}"
+      },
+      "tables|eps.roles|acl": {
+        "before": "{postgres=arwdDxtm/postgres,eps_specs_owner=r/postgres,eps_specs_apply_owner=r/postgres,eps_casting_owner=r/postgres}",
+        "after": "{postgres=arwdDxtm/postgres,eps_specs_owner=r/postgres,eps_specs_apply_owner=r/postgres,eps_casting_owner=r/postgres,eps_review_owner=r/postgres,eps_review_stage_owner=r/postgres}"
+      },
+      "tables|eps.slots|acl": {
+        "before": "{postgres=arwdDxtm/postgres,eps_specs_owner=r/postgres,eps_specs_apply_owner=r/postgres,eps_casting_owner=r/postgres}",
+        "after": "{postgres=arwdDxtm/postgres,eps_specs_owner=r/postgres,eps_specs_apply_owner=r/postgres,eps_casting_owner=r/postgres,eps_review_owner=r/postgres,eps_review_stage_owner=r/postgres}"
+      },
+      "tables|eps.specs|acl": {
+        "before": "{postgres=arwdDxtm/postgres,eps_specs_owner=r/postgres,eps_specs_submit_owner=r/postgres,eps_specs_stage_owner=r/postgres,eps_specs_apply_owner=r/postgres}",
+        "after": "{postgres=arwdDxtm/postgres,eps_specs_owner=r/postgres,eps_specs_submit_owner=r/postgres,eps_specs_stage_owner=r/postgres,eps_specs_apply_owner=r/postgres,eps_review_owner=r/postgres,eps_review_stage_owner=r/postgres}"
+      },
+      "tables|eps.candidates|acl": {
+        "before": "{postgres=arwdDxtm/postgres,eps_cast_owner=ar/postgres,eps_candidate_upload_owner=r/postgres,eps_candidate_apply_owner=ar/postgres,eps_support_upload_owner=r/postgres,eps_support_verify_owner=r/postgres,eps_candidate_stage_owner=r/postgres}",
+        "after": "{postgres=arwdDxtm/postgres,eps_cast_owner=ar/postgres,eps_candidate_upload_owner=r/postgres,eps_candidate_apply_owner=ar/postgres,eps_support_upload_owner=r/postgres,eps_support_verify_owner=r/postgres,eps_candidate_stage_owner=r/postgres,eps_review_owner=r/postgres,eps_review_stage_owner=r/postgres}"
+      },
+      "tables|eps.job_events|acl": {
+        "before": "{postgres=arwdDxtm/postgres,eps_jobs_owner=r/postgres,eps_specs_stage_owner=ar/postgres,eps_candidate_stage_owner=ar/postgres}",
+        "after": "{postgres=arwdDxtm/postgres,eps_jobs_owner=r/postgres,eps_specs_stage_owner=ar/postgres,eps_candidate_stage_owner=ar/postgres,eps_review_stage_owner=ar/postgres}"
+      },
+      "tables|eps.workspaces|acl": {
+        "before": "{postgres=arwdDxtm/postgres,eps_api_owner=arw/postgres,eps_cast_owner=r/postgres,eps_candidate_upload_owner=r/postgres}",
+        "after": "{postgres=arwdDxtm/postgres,eps_api_owner=arw/postgres,eps_cast_owner=r/postgres,eps_candidate_upload_owner=r/postgres,eps_review_owner=r/postgres,eps_review_stage_owner=r/postgres}"
+      },
+      "tables|public.clients|acl": {
+        "before": "{postgres=arwdDxtm/postgres,authenticated=r/postgres,eps_api_owner=r/postgres}",
+        "after": "{postgres=arwdDxtm/postgres,authenticated=r/postgres,eps_api_owner=r/postgres,eps_review_stage_owner=r/postgres}"
+      },
+      "tables|eps.assignments|acl": {
+        "before": "{postgres=arwdDxtm/postgres,eps_casting_owner=arw/postgres}",
+        "after": "{postgres=arwdDxtm/postgres,eps_casting_owner=arw/postgres,eps_review_owner=r/postgres,eps_review_stage_owner=r/postgres}"
+      },
+      "tables|public.projects|acl": {
+        "before": "{postgres=arwdDxtm/postgres,authenticated=r/postgres,eps_api_owner=r/postgres}",
+        "after": "{postgres=arwdDxtm/postgres,authenticated=r/postgres,eps_api_owner=r/postgres,eps_review_stage_owner=r/postgres}"
+      },
+      "tables|eps.audit_events|acl": {
+        "before": "{postgres=arwdDxtm/postgres,eps_api_owner=a/postgres,eps_logo_verify_owner=a/postgres,eps_jobs_owner=a/postgres,eps_specs_owner=a/postgres,eps_specs_submit_owner=a/postgres,eps_specs_upload_owner=a/postgres,eps_specs_verify_owner=a/postgres,eps_cast_owner=a/postgres,eps_candidate_upload_owner=a/postgres,eps_support_upload_owner=a/postgres,eps_support_verify_owner=a/postgres}",
+        "after": "{postgres=arwdDxtm/postgres,eps_api_owner=a/postgres,eps_logo_verify_owner=a/postgres,eps_jobs_owner=a/postgres,eps_specs_owner=a/postgres,eps_specs_submit_owner=a/postgres,eps_specs_upload_owner=a/postgres,eps_specs_verify_owner=a/postgres,eps_cast_owner=a/postgres,eps_candidate_upload_owner=a/postgres,eps_support_upload_owner=a/postgres,eps_support_verify_owner=a/postgres,eps_review_owner=a/postgres}"
+      },
+      "tables|eps.media_assets|acl": {
+        "before": "{postgres=arwdDxtm/postgres,eps_api_owner=r/postgres,eps_logo_verify_owner=r/postgres,eps_specs_upload_owner=r/postgres,eps_specs_verify_owner=r/postgres,eps_specs_assets_owner=r/postgres,eps_specs_submit_owner=r/postgres,eps_specs_stage_owner=r/postgres,eps_specs_apply_owner=r/postgres,eps_cast_owner=r/postgres,eps_candidate_upload_owner=r/postgres,eps_candidate_stage_owner=r/postgres,eps_candidate_apply_owner=r/postgres,eps_candidate_assets_owner=r/postgres,eps_support_upload_owner=r/postgres,eps_support_verify_owner=r/postgres}",
+        "after": "{postgres=arwdDxtm/postgres,eps_api_owner=r/postgres,eps_logo_verify_owner=r/postgres,eps_specs_upload_owner=r/postgres,eps_specs_verify_owner=r/postgres,eps_specs_assets_owner=r/postgres,eps_specs_submit_owner=r/postgres,eps_specs_stage_owner=r/postgres,eps_specs_apply_owner=r/postgres,eps_cast_owner=r/postgres,eps_candidate_upload_owner=r/postgres,eps_candidate_stage_owner=r/postgres,eps_candidate_apply_owner=r/postgres,eps_candidate_assets_owner=r/postgres,eps_support_upload_owner=r/postgres,eps_support_verify_owner=r/postgres,eps_review_owner=r/postgres,eps_review_stage_owner=r/postgres}"
+      },
+      "tables|eps.outbox_events|acl": {
+        "before": "{postgres=arwdDxtm/postgres,eps_jobs_owner=arw/postgres,eps_specs_stage_owner=ar/postgres,eps_candidate_stage_owner=ar/postgres,eps_candidate_upload_owner=a/postgres,eps_cast_owner=a/postgres}",
+        "after": "{postgres=arwdDxtm/postgres,eps_jobs_owner=arw/postgres,eps_specs_stage_owner=ar/postgres,eps_candidate_stage_owner=ar/postgres,eps_candidate_upload_owner=a/postgres,eps_cast_owner=a/postgres,eps_review_owner=ar/postgres,eps_review_stage_owner=ar/postgres}"
+      },
+      "columns|eps.workspaces.id|acl": {
+        "before": "{eps_draft_owner=r/postgres,eps_jobs_owner=r/postgres,eps_specs_owner=r/postgres,eps_specs_submit_owner=r/postgres,eps_specs_stage_owner=r/postgres,eps_specs_apply_owner=r/postgres,eps_specs_upload_owner=r/postgres,eps_specs_verify_owner=r/postgres,eps_candidate_stage_owner=rw/postgres,eps_candidate_upload_owner=rw/postgres,eps_candidate_apply_owner=r/postgres,eps_support_upload_owner=r/postgres,eps_support_verify_owner=r/postgres,eps_casting_owner=r/postgres}",
+        "after": "{eps_draft_owner=r/postgres,eps_jobs_owner=r/postgres,eps_specs_owner=r/postgres,eps_specs_submit_owner=r/postgres,eps_specs_stage_owner=r/postgres,eps_specs_apply_owner=r/postgres,eps_specs_upload_owner=r/postgres,eps_specs_verify_owner=r/postgres,eps_candidate_stage_owner=rw/postgres,eps_candidate_upload_owner=rw/postgres,eps_candidate_apply_owner=r/postgres,eps_support_upload_owner=r/postgres,eps_support_verify_owner=r/postgres,eps_casting_owner=r/postgres,eps_review_owner=w/postgres,eps_review_stage_owner=w/postgres}"
+      },
+      "tables|eps.candidate_media|acl": {
+        "before": "{postgres=arwdDxtm/postgres,eps_cast_owner=ar/postgres,eps_candidate_upload_owner=r/postgres,eps_candidate_apply_owner=ar/postgres,eps_candidate_stage_owner=r/postgres}",
+        "after": "{postgres=arwdDxtm/postgres,eps_cast_owner=ar/postgres,eps_candidate_upload_owner=r/postgres,eps_candidate_apply_owner=ar/postgres,eps_candidate_stage_owner=r/postgres,eps_review_owner=r/postgres,eps_review_stage_owner=r/postgres}"
+      },
+      "columns|eps.roles.headcount|acl": {
+        "before": "{eps_specs_owner=aw/postgres,eps_specs_apply_owner=a/postgres}",
+        "after": "{eps_specs_owner=aw/postgres,eps_specs_apply_owner=a/postgres,eps_casting_owner=w/postgres}"
+      },
+      "tables|eps.audience_presets|acl": {
+        "before": "{postgres=arwdDxtm/postgres,eps_api_owner=arw/postgres}",
+        "after": "{postgres=arwdDxtm/postgres,eps_api_owner=arw/postgres,eps_review_owner=r/postgres}"
+      },
+      "columns|eps.roles.archived_at|acl": {
+        "before": "{eps_specs_owner=w/postgres,eps_specs_apply_owner=w/postgres}",
+        "after": "{eps_specs_owner=w/postgres,eps_specs_apply_owner=w/postgres,eps_casting_owner=w/postgres}"
+      },
+      "columns|eps.slots.archived_at|acl": {
+        "before": "{eps_specs_owner=w/postgres,eps_specs_apply_owner=w/postgres}",
+        "after": "{eps_specs_owner=w/postgres,eps_specs_apply_owner=w/postgres,eps_casting_owner=w/postgres}"
+      },
+      "columns|eps.slots.provisional|acl": {
+        "before": "{eps_specs_owner=aw/postgres,eps_specs_apply_owner=a/postgres}",
+        "after": "{eps_specs_owner=aw/postgres,eps_specs_apply_owner=a/postgres,eps_casting_owner=w/postgres}"
+      },
+      "functions|eps.input_uuid(text)|acl": {
+        "before": "{eps_api_owner=X/eps_api_owner,eps_specs_owner=X/eps_api_owner,eps_specs_submit_owner=X/eps_api_owner,eps_specs_upload_owner=X/eps_api_owner,eps_specs_verify_owner=X/eps_api_owner,eps_jobs_owner=X/eps_api_owner,eps_specs_assets_owner=X/eps_api_owner,eps_cast_owner=X/eps_api_owner,eps_candidate_upload_owner=X/eps_api_owner,eps_candidate_apply_owner=X/eps_api_owner,eps_candidate_assets_owner=X/eps_api_owner,eps_support_upload_owner=X/eps_api_owner,eps_support_verify_owner=X/eps_api_owner}",
+        "after": "{eps_api_owner=X/eps_api_owner,eps_specs_owner=X/eps_api_owner,eps_specs_submit_owner=X/eps_api_owner,eps_specs_upload_owner=X/eps_api_owner,eps_specs_verify_owner=X/eps_api_owner,eps_jobs_owner=X/eps_api_owner,eps_specs_assets_owner=X/eps_api_owner,eps_cast_owner=X/eps_api_owner,eps_candidate_upload_owner=X/eps_api_owner,eps_candidate_apply_owner=X/eps_api_owner,eps_candidate_assets_owner=X/eps_api_owner,eps_support_upload_owner=X/eps_api_owner,eps_support_verify_owner=X/eps_api_owner,eps_review_stage_owner=X/eps_api_owner}"
+      },
+      "tables|eps.idempotency_records|acl": {
+        "before": "{postgres=arwdDxtm/postgres,eps_api_owner=ar/postgres,eps_logo_verify_owner=ar/postgres,eps_jobs_owner=ar/postgres,eps_specs_owner=ar/postgres,eps_specs_submit_owner=ar/postgres,eps_specs_upload_owner=ar/postgres,eps_specs_verify_owner=ar/postgres,eps_cast_owner=ar/postgres,eps_candidate_upload_owner=ar/postgres,eps_support_upload_owner=ar/postgres,eps_support_verify_owner=ar/postgres,eps_casting_owner=ar/postgres}",
+        "after": "{postgres=arwdDxtm/postgres,eps_api_owner=ar/postgres,eps_logo_verify_owner=ar/postgres,eps_jobs_owner=ar/postgres,eps_specs_owner=ar/postgres,eps_specs_submit_owner=ar/postgres,eps_specs_upload_owner=ar/postgres,eps_specs_verify_owner=ar/postgres,eps_cast_owner=ar/postgres,eps_candidate_upload_owner=ar/postgres,eps_support_upload_owner=ar/postgres,eps_support_verify_owner=ar/postgres,eps_casting_owner=ar/postgres,eps_review_owner=ar/postgres}"
+      },
+      "tables|eps.workspace_candidates|acl": {
+        "before": "{postgres=arwdDxtm/postgres,eps_cast_owner=ar/postgres,eps_candidate_apply_owner=ar/postgres,eps_casting_owner=r/postgres}",
+        "after": "{postgres=arwdDxtm/postgres,eps_cast_owner=ar/postgres,eps_candidate_apply_owner=ar/postgres,eps_casting_owner=r/postgres,eps_review_owner=r/postgres,eps_review_stage_owner=r/postgres}"
+      },
+      "columns|eps.roles.clarifications|acl": {
+        "before": "{eps_specs_owner=aw/postgres,eps_specs_apply_owner=a/postgres}",
+        "after": "{eps_specs_owner=aw/postgres,eps_specs_apply_owner=a/postgres,eps_casting_owner=w/postgres}"
+      },
+      "functions|eps.casting_text(jsonb)|acl": {
+        "before": "{eps_casting_owner=X/eps_casting_owner}",
+        "after": "{eps_casting_owner=X/eps_casting_owner,eps_review_owner=X/eps_casting_owner}"
+      },
+      "functions|eps.casting_uuid(jsonb)|acl": {
+        "before": "{eps_casting_owner=X/eps_casting_owner}",
+        "after": "{eps_casting_owner=X/eps_casting_owner,eps_review_owner=X/eps_casting_owner}"
+      },
+      "tables|eps.candidate_media_frames|acl": {
+        "before": "{postgres=arwdDxtm/postgres,eps_cast_owner=ar/postgres,eps_candidate_upload_owner=r/postgres,eps_candidate_apply_owner=ar/postgres,eps_candidate_stage_owner=ar/postgres}",
+        "after": "{postgres=arwdDxtm/postgres,eps_cast_owner=ar/postgres,eps_candidate_upload_owner=r/postgres,eps_candidate_apply_owner=ar/postgres,eps_candidate_stage_owner=ar/postgres,eps_review_owner=r/postgres,eps_review_stage_owner=r/postgres}"
+      },
+      "tables|public.project_memberships|acl": {
+        "before": "{postgres=arwdDxtm/postgres,authenticated=r/postgres,eps_api_owner=r/postgres}",
+        "after": "{postgres=arwdDxtm/postgres,authenticated=r/postgres,eps_api_owner=r/postgres,eps_review_stage_owner=r/postgres}"
+      },
+      "functions|eps.has_capability(text)|acl": {
+        "before": "{eps_api_owner=X/eps_api_owner,authenticated=X/eps_api_owner,eps_jobs_owner=X/eps_api_owner,eps_specs_owner=X/eps_api_owner,eps_cast_owner=X/eps_api_owner,eps_candidate_upload_owner=X/eps_api_owner,eps_support_upload_owner=X/eps_api_owner,eps_support_verify_owner=X/eps_api_owner,eps_casting_owner=X/eps_api_owner}",
+        "after": "{eps_api_owner=X/eps_api_owner,authenticated=X/eps_api_owner,eps_jobs_owner=X/eps_api_owner,eps_specs_owner=X/eps_api_owner,eps_cast_owner=X/eps_api_owner,eps_candidate_upload_owner=X/eps_api_owner,eps_support_upload_owner=X/eps_api_owner,eps_support_verify_owner=X/eps_api_owner,eps_casting_owner=X/eps_api_owner,eps_review_owner=X/eps_api_owner}"
+      },
+      "functions|eps.cast_canonical(jsonb)|acl": {
+        "before": "{eps_cast_owner=X/eps_cast_owner,eps_candidate_apply_owner=X/eps_cast_owner,eps_casting_owner=X/eps_cast_owner}",
+        "after": "{eps_cast_owner=X/eps_cast_owner,eps_candidate_apply_owner=X/eps_cast_owner,eps_casting_owner=X/eps_cast_owner,eps_review_owner=X/eps_cast_owner,eps_review_stage_owner=X/eps_cast_owner}"
+      },
+      "tables|public.app_capability_grants|acl": {
+        "before": "{postgres=arwdDxtm/postgres,authenticated=r/postgres,eps_api_owner=r/postgres}",
+        "after": "{postgres=arwdDxtm/postgres,authenticated=r/postgres,eps_api_owner=r/postgres,eps_review_stage_owner=r/postgres}"
+      },
+      "functions|eps.casting_version(jsonb)|acl": {
+        "before": "{eps_casting_owner=X/eps_casting_owner}",
+        "after": "{eps_casting_owner=X/eps_casting_owner,eps_review_owner=X/eps_casting_owner}"
+      },
+      "functions|eps.casting_advance(bigint)|acl": {
+        "before": "{eps_casting_owner=X/eps_casting_owner}",
+        "after": "{eps_casting_owner=X/eps_casting_owner,eps_review_owner=X/eps_casting_owner}"
+      },
+      "functions|eps.require_capability(text)|acl": {
+        "before": "{eps_api_owner=X/eps_api_owner,eps_logo_verify_owner=X/eps_api_owner,eps_jobs_owner=X/eps_api_owner,eps_specs_owner=X/eps_api_owner,eps_specs_submit_owner=X/eps_api_owner,eps_specs_upload_owner=X/eps_api_owner,eps_specs_verify_owner=X/eps_api_owner,eps_cast_owner=X/eps_api_owner,eps_candidate_upload_owner=X/eps_api_owner,eps_support_upload_owner=X/eps_api_owner,eps_support_verify_owner=X/eps_api_owner,eps_casting_owner=X/eps_api_owner}",
+        "after": "{eps_api_owner=X/eps_api_owner,eps_logo_verify_owner=X/eps_api_owner,eps_jobs_owner=X/eps_api_owner,eps_specs_owner=X/eps_api_owner,eps_specs_submit_owner=X/eps_api_owner,eps_specs_upload_owner=X/eps_api_owner,eps_specs_verify_owner=X/eps_api_owner,eps_cast_owner=X/eps_api_owner,eps_candidate_upload_owner=X/eps_api_owner,eps_support_upload_owner=X/eps_api_owner,eps_support_verify_owner=X/eps_api_owner,eps_casting_owner=X/eps_api_owner,eps_review_owner=X/eps_api_owner}"
+      },
+      "functions|eps.casting_body(jsonb,text[])|acl": {
+        "before": "{eps_casting_owner=X/eps_casting_owner}",
+        "after": "{eps_casting_owner=X/eps_casting_owner,eps_review_owner=X/eps_casting_owner}"
+      },
+      "functions|eps.job_requester_active(uuid)|acl": {
+        "before": "{postgres=X/postgres,eps_specs_stage_owner=X/postgres,eps_specs_apply_owner=X/postgres,eps_candidate_stage_owner=X/postgres,eps_candidate_apply_owner=X/postgres}",
+        "after": "{postgres=X/postgres,eps_specs_stage_owner=X/postgres,eps_specs_apply_owner=X/postgres,eps_candidate_stage_owner=X/postgres,eps_candidate_apply_owner=X/postgres,eps_review_stage_owner=X/postgres}"
+      },
+      "functions|eps.project_scope(uuid,boolean)|acl": {
+        "before": "{eps_api_owner=X/eps_api_owner,authenticated=X/eps_api_owner,eps_jobs_owner=X/eps_api_owner,eps_specs_owner=X/eps_api_owner,eps_cast_owner=X/eps_api_owner,eps_candidate_upload_owner=X/eps_api_owner,eps_casting_owner=X/eps_api_owner}",
+        "after": "{eps_api_owner=X/eps_api_owner,authenticated=X/eps_api_owner,eps_jobs_owner=X/eps_api_owner,eps_specs_owner=X/eps_api_owner,eps_cast_owner=X/eps_api_owner,eps_candidate_upload_owner=X/eps_api_owner,eps_casting_owner=X/eps_api_owner,eps_review_owner=X/eps_api_owner}"
+      },
+      "columns|eps.workspace_candidates.updated_at|acl": {
+        "before": "{eps_cast_owner=w/postgres}",
+        "after": "{eps_cast_owner=w/postgres,eps_casting_owner=w/postgres}"
+      },
+      "constraints|eps.jobs.jobs_kind_check|definition": {
+        "before": "CHECK ((kind = ANY (ARRAY['specs_extract'::text, 'candidate_scan'::text, 'frame_extract'::text])))",
+        "after": "CHECK ((kind = ANY (ARRAY['specs_extract'::text, 'candidate_scan'::text, 'frame_extract'::text, 'ai_suggestion'::text, 'review_fit'::text])))"
+      },
+      "functions|eps.cast_fingerprint(jsonb,jsonb)|acl": {
+        "before": "{eps_cast_owner=X/eps_cast_owner,eps_candidate_apply_owner=X/eps_cast_owner}",
+        "after": "{eps_cast_owner=X/eps_cast_owner,eps_candidate_apply_owner=X/eps_cast_owner,eps_review_owner=X/eps_cast_owner,eps_review_stage_owner=X/eps_cast_owner}"
+      },
+      "columns|eps.workspace_candidates.archived_at|acl": {
+        "before": "{eps_cast_owner=w/postgres}",
+        "after": "{eps_cast_owner=w/postgres,eps_casting_owner=w/postgres}"
+      },
+      "columns|eps.workspace_candidates.row_version|acl": {
+        "before": "{eps_cast_owner=w/postgres}",
+        "after": "{eps_cast_owner=w/postgres,eps_casting_owner=w/postgres}"
+      },
+      "constraints|eps.jobs.jobs_stage_check|definition": {
+        "before": "CHECK ((stage = ANY (ARRAY['prepare_document'::text, 'extract_specs'::text, 'apply_specs'::text, 'prepare_candidate'::text, 'transcribe_candidate'::text, 'extract_candidate'::text, 'select_frames'::text, 'apply_candidate'::text, 'extract_frames'::text, 'apply_frames'::text])))",
+        "after": "CHECK ((stage = ANY (ARRAY['prepare_document'::text, 'extract_specs'::text, 'apply_specs'::text, 'prepare_candidate'::text, 'transcribe_candidate'::text, 'extract_candidate'::text, 'select_frames'::text, 'apply_candidate'::text, 'extract_frames'::text, 'apply_frames'::text, 'prepare_suggestion'::text, 'generate_suggestion'::text, 'validate_suggestion'::text, 'measure_review_fit'::text])))"
+      },
+      "functions|eps.fail(text,text,integer,bigint)|acl": {
+        "before": "{eps_api_owner=X/eps_api_owner,eps_logo_verify_owner=X/eps_api_owner,eps_jobs_owner=X/eps_api_owner,eps_specs_owner=X/eps_api_owner,eps_specs_submit_owner=X/eps_api_owner,eps_specs_stage_owner=X/eps_api_owner,eps_specs_apply_owner=X/eps_api_owner,eps_specs_upload_owner=X/eps_api_owner,eps_specs_verify_owner=X/eps_api_owner,eps_specs_assets_owner=X/eps_api_owner,eps_cast_owner=X/eps_api_owner,eps_candidate_upload_owner=X/eps_api_owner,eps_candidate_stage_owner=X/eps_api_owner,eps_candidate_apply_owner=X/eps_api_owner,eps_candidate_assets_owner=X/eps_api_owner,eps_support_upload_owner=X/eps_api_owner,eps_support_verify_owner=X/eps_api_owner,eps_casting_owner=X/eps_api_owner}",
+        "after": "{eps_api_owner=X/eps_api_owner,eps_logo_verify_owner=X/eps_api_owner,eps_jobs_owner=X/eps_api_owner,eps_specs_owner=X/eps_api_owner,eps_specs_submit_owner=X/eps_api_owner,eps_specs_stage_owner=X/eps_api_owner,eps_specs_apply_owner=X/eps_api_owner,eps_specs_upload_owner=X/eps_api_owner,eps_specs_verify_owner=X/eps_api_owner,eps_specs_assets_owner=X/eps_api_owner,eps_cast_owner=X/eps_api_owner,eps_candidate_upload_owner=X/eps_api_owner,eps_candidate_stage_owner=X/eps_api_owner,eps_candidate_apply_owner=X/eps_api_owner,eps_candidate_assets_owner=X/eps_api_owner,eps_support_upload_owner=X/eps_api_owner,eps_support_verify_owner=X/eps_api_owner,eps_casting_owner=X/eps_api_owner,eps_review_owner=X/eps_api_owner,eps_review_stage_owner=X/eps_api_owner}"
+      },
+      "functions|eps.claim_job_stage(jsonb)|source_sha256": {
+        "before": "a1dc5c518d686b1423c5fb3f8defee6b81b85b39c23a607059d706d396363322",
+        "after": "79700d4ec759eb26d67e5256ac146b7d3adcbd450c935ed8c6f36a78fd045338"
+      },
+      "functions|eps.specs_stage_assert(boolean,text)|acl": {
+        "before": "{eps_specs_stage_owner=X/eps_specs_stage_owner,eps_specs_apply_owner=X/eps_specs_stage_owner,eps_specs_assets_owner=X/eps_specs_stage_owner,eps_candidate_stage_owner=X/eps_specs_stage_owner,eps_candidate_upload_owner=X/eps_specs_stage_owner,eps_candidate_assets_owner=X/eps_specs_stage_owner,eps_cast_owner=X/eps_specs_stage_owner}",
+        "after": "{eps_specs_stage_owner=X/eps_specs_stage_owner,eps_specs_apply_owner=X/eps_specs_stage_owner,eps_specs_assets_owner=X/eps_specs_stage_owner,eps_candidate_stage_owner=X/eps_specs_stage_owner,eps_candidate_upload_owner=X/eps_specs_stage_owner,eps_candidate_assets_owner=X/eps_specs_stage_owner,eps_cast_owner=X/eps_specs_stage_owner,eps_review_stage_owner=X/eps_specs_stage_owner}"
+      },
+      "functions|eps.record_job_event(jsonb)|source_sha256": {
+        "before": "0cafccb9f712f73a3c7e22605ac61407a2486c07e0a650263db9a82889b0c873",
+        "after": "2addc85893d7abaab1e8ce9402a91956f8b7591998b0ad48b0be8e88ae74d1ac"
+      },
+      "functions|eps.idempotency_begin(text,text,jsonb)|acl": {
+        "before": "{eps_api_owner=X/eps_api_owner,eps_logo_verify_owner=X/eps_api_owner,eps_jobs_owner=X/eps_api_owner,eps_specs_owner=X/eps_api_owner,eps_specs_submit_owner=X/eps_api_owner,eps_specs_upload_owner=X/eps_api_owner,eps_specs_verify_owner=X/eps_api_owner,eps_cast_owner=X/eps_api_owner,eps_candidate_upload_owner=X/eps_api_owner,eps_support_upload_owner=X/eps_api_owner,eps_support_verify_owner=X/eps_api_owner,eps_casting_owner=X/eps_api_owner}",
+        "after": "{eps_api_owner=X/eps_api_owner,eps_logo_verify_owner=X/eps_api_owner,eps_jobs_owner=X/eps_api_owner,eps_specs_owner=X/eps_api_owner,eps_specs_submit_owner=X/eps_api_owner,eps_specs_upload_owner=X/eps_api_owner,eps_specs_verify_owner=X/eps_api_owner,eps_cast_owner=X/eps_api_owner,eps_candidate_upload_owner=X/eps_api_owner,eps_support_upload_owner=X/eps_api_owner,eps_support_verify_owner=X/eps_api_owner,eps_casting_owner=X/eps_api_owner,eps_review_owner=X/eps_api_owner}"
+      },
+      "constraints|eps.jobs.jobs_kind_stage_check|definition": {
+        "before": "CHECK ((((kind = 'specs_extract'::text) AND (stage = ANY (ARRAY['prepare_document'::text, 'extract_specs'::text, 'apply_specs'::text]))) OR ((kind = 'candidate_scan'::text) AND (stage = ANY (ARRAY['prepare_candidate'::text, 'transcribe_candidate'::text, 'extract_candidate'::text, 'select_frames'::text, 'apply_candidate'::text]))) OR ((kind = 'frame_extract'::text) AND (stage = ANY (ARRAY['extract_frames'::text, 'apply_frames'::text])))))",
+        "after": "CHECK ((((kind = 'specs_extract'::text) AND (stage = ANY (ARRAY['prepare_document'::text, 'extract_specs'::text, 'apply_specs'::text]))) OR ((kind = 'candidate_scan'::text) AND (stage = ANY (ARRAY['prepare_candidate'::text, 'transcribe_candidate'::text, 'extract_candidate'::text, 'select_frames'::text, 'apply_candidate'::text]))) OR ((kind = 'frame_extract'::text) AND (stage = ANY (ARRAY['extract_frames'::text, 'apply_frames'::text]))) OR ((kind = 'ai_suggestion'::text) AND (stage = ANY (ARRAY['prepare_suggestion'::text, 'generate_suggestion'::text, 'validate_suggestion'::text]))) OR ((kind = 'review_fit'::text) AND (stage = 'measure_review_fit'::text))))"
+      },
+      "functions|eps.recover_job_stages(integer)|source_sha256": {
+        "before": "c1bdac48813a2a6061ea4c8ff8a353329e9fa0e0d32d8beef93b334cebcd08fd",
+        "after": "6bf6d08b48682b377f408125b3a9c9cdeadce54a3f0b8b555009114d73a1e75a"
+      },
+      "functions|eps.specs_stage_error(text,boolean,jsonb)|acl": {
+        "before": "{eps_specs_stage_owner=X/eps_specs_stage_owner,eps_candidate_stage_owner=X/eps_specs_stage_owner}",
+        "after": "{eps_specs_stage_owner=X/eps_specs_stage_owner,eps_candidate_stage_owner=X/eps_specs_stage_owner,eps_review_stage_owner=X/eps_specs_stage_owner}"
+      },
+      "functions|eps.specs_stage_shape(jsonb,text[],text[])|acl": {
+        "before": "{eps_specs_stage_owner=X/eps_specs_stage_owner,eps_specs_apply_owner=X/eps_specs_stage_owner,eps_specs_assets_owner=X/eps_specs_stage_owner,eps_candidate_stage_owner=X/eps_specs_stage_owner,eps_candidate_assets_owner=X/eps_specs_stage_owner,eps_cast_owner=X/eps_specs_stage_owner}",
+        "after": "{eps_specs_stage_owner=X/eps_specs_stage_owner,eps_specs_apply_owner=X/eps_specs_stage_owner,eps_specs_assets_owner=X/eps_specs_stage_owner,eps_candidate_stage_owner=X/eps_specs_stage_owner,eps_candidate_assets_owner=X/eps_specs_stage_owner,eps_cast_owner=X/eps_specs_stage_owner,eps_review_stage_owner=X/eps_specs_stage_owner}"
+      },
+      "functions|eps.specs_stage_integer(jsonb,bigint,bigint)|acl": {
+        "before": "{eps_specs_stage_owner=X/eps_specs_stage_owner,eps_specs_apply_owner=X/eps_specs_stage_owner,eps_specs_assets_owner=X/eps_specs_stage_owner,eps_candidate_stage_owner=X/eps_specs_stage_owner,eps_cast_owner=X/eps_specs_stage_owner}",
+        "after": "{eps_specs_stage_owner=X/eps_specs_stage_owner,eps_specs_apply_owner=X/eps_specs_stage_owner,eps_specs_assets_owner=X/eps_specs_stage_owner,eps_candidate_stage_owner=X/eps_specs_stage_owner,eps_cast_owner=X/eps_specs_stage_owner,eps_review_stage_owner=X/eps_specs_stage_owner}"
+      },
+      "constraints|eps.job_events.job_events_stage_check|definition": {
+        "before": "CHECK ((stage = ANY (ARRAY['prepare_document'::text, 'extract_specs'::text, 'apply_specs'::text, 'prepare_candidate'::text, 'transcribe_candidate'::text, 'extract_candidate'::text, 'select_frames'::text, 'apply_candidate'::text, 'extract_frames'::text, 'apply_frames'::text])))",
+        "after": "CHECK ((stage = ANY (ARRAY['prepare_document'::text, 'extract_specs'::text, 'apply_specs'::text, 'prepare_candidate'::text, 'transcribe_candidate'::text, 'extract_candidate'::text, 'select_frames'::text, 'apply_candidate'::text, 'extract_frames'::text, 'apply_frames'::text, 'prepare_suggestion'::text, 'generate_suggestion'::text, 'validate_suggestion'::text, 'measure_review_fit'::text])))"
+      },
+      "constraints|eps.jobs.jobs_input_hash_version_check|definition": {
+        "before": "CHECK ((input_hash_version = ANY (ARRAY['eps.specs-input.pg-jsonb.v1'::text, 'eps.candidate-input.pg-jsonb.v1'::text, 'eps.frame-input.pg-jsonb.v1'::text])))",
+        "after": "CHECK ((input_hash_version = ANY (ARRAY['eps.specs-input.pg-jsonb.v1'::text, 'eps.candidate-input.pg-jsonb.v1'::text, 'eps.frame-input.pg-jsonb.v1'::text, 'eps.review-job-input.pg-jsonb.v1'::text])))"
+      },
+      "functions|eps.get_specs_stage_input(uuid,uuid,text)|source_sha256": {
+        "before": "89d180bb49abd83b5e00b3a0ac37037bbabbe136682123952a337f92b46f63b4",
+        "after": "32a84ecbec0d15d8b6aeaa795b52e9e59867e0daa8af4b04ff356c6831a0d81e"
+      },
+      "constraints|eps.outbox_events.outbox_events_stage_check|definition": {
+        "before": "CHECK ((stage = ANY (ARRAY['prepare_document'::text, 'extract_specs'::text, 'apply_specs'::text, 'prepare_candidate'::text, 'transcribe_candidate'::text, 'extract_candidate'::text, 'select_frames'::text, 'apply_candidate'::text, 'extract_frames'::text, 'apply_frames'::text])))",
+        "after": "CHECK ((stage = ANY (ARRAY['prepare_document'::text, 'extract_specs'::text, 'apply_specs'::text, 'prepare_candidate'::text, 'transcribe_candidate'::text, 'extract_candidate'::text, 'select_frames'::text, 'apply_candidate'::text, 'extract_frames'::text, 'apply_frames'::text, 'prepare_suggestion'::text, 'generate_suggestion'::text, 'validate_suggestion'::text, 'measure_review_fit'::text])))"
+      },
+      "functions|eps.claim_job_stage_replay(jsonb,text,text,text)|source_sha256": {
+        "before": "3848197d49b97eb0a9b28d688b07771b895c2bf57166ab64072abac1e29369b9",
+        "after": "b5fbff3b697fd1a575baa7209fe792b94256d765756172fe5878e9c8ae6a8f8e"
+      }
+    },
+    "deleted": {}
+  },
+  "catalog_before_sha256": "4c78b584c39c9dc50505dd914499e832ef16cf987311f8247d6c115da0902e68",
+  "catalog_expected_sha256": "42e78de3930948af77c7ce1309f8389cd8d4dd2f8eeb69d9fed4a5def415c79c",
+  "behavior_assertions_passed": true,
+  "stdout_sha256": "e97976a07db24eb3e988a18a49cd84f6757ba43336b59c758dafd86d148386eb",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "owned_backend_settled": true,
+  "before": {
+    "business": {
+      "eps.jobs": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.roles": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.slots": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.specs": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.candidates": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.job_events": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.workspaces": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "public.clients": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.assignments": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "public.projects": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.audit_events": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.media_assets": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.outbox_events": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.candidate_media": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.support_uploads": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.upload_sessions": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.audience_presets": {
+        "rows": 3,
+        "sha256": "eb011925a2ce2b90e5d05f9d3d429f982ecbdeff40e384472f12f2b27cf3c705"
+      },
+      "eps.candidate_support": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.candidate_uploads": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.specs_asset_config": {
+        "rows": 1,
+        "sha256": "c628171680739f1fecb14b9ee8e78ae41752f7487ad904a2ab8a62ed82178255"
+      },
+      "eps.specs_asset_grants": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.idempotency_records": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.specs_source_inputs": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.cast_operation_notes": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.specs_stage_payloads": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.workspace_candidates": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.specs_pipeline_config": {
+        "rows": 1,
+        "sha256": "5449176c66e66558b18ba02dec2b2a24a784a7c5e8cdb859e03bfb75eb70ad79"
+      },
+      "eps.specs_upload_sessions": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "public.client_memberships": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.candidate_asset_config": {
+        "rows": 1,
+        "sha256": "e90fc6de593ab542cf3f23a24fd714bae929e278603f4515f9e8e145e1f75fa7"
+      },
+      "eps.candidate_asset_grants": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.candidate_media_frames": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.logo_verification_keys": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "public.project_memberships": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.frame_extraction_config": {
+        "rows": 1,
+        "sha256": "f18a192cd6c5fda9ef3ffdab82cf51656242e9c60b2f0a0426dee41e1c004a3e"
+      },
+      "eps.job_stage_claim_replays": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.specs_file_preparations": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.specs_verification_keys": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.assignment_change_events": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.candidate_stage_payloads": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.candidate_support_config": {
+        "rows": 1,
+        "sha256": "bd12feb29f67ef5e8957aee7374db3d3f6edee16a11489229f22fe2494fc370d"
+      },
+      "public.app_capability_grants": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.frame_extraction_requests": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.support_verification_keys": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.user_workspace_preferences": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.assignment_change_consumptions": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "versions": [
+      "20261028010943",
+      "20261028013324",
+      "20261028013655",
+      "20261028024205",
+      "20261028072515",
+      "20261028162702",
+      "20261028162800",
+      "20261028172320",
+      "20261028184145",
+      "20261028222030",
+      "20261029001520",
+      "20261029003941",
+      "20261029070038",
+      "20261029090500",
+      "20261029090724",
+      "20261029094600",
+      "20261029100500",
+      "20261029133455",
+      "20261029135318",
+      "20261029174841",
+      "20261029180953"
+    ],
+    "roles_sha256": "8b9eb161ac21dab9b114053436dcdc55390ef0536fccf02e7e20146c5d7e0ebc",
+    "catalog_sha256": "a9251f63843612c810e56ecb5839c514d24bbb437c2a1a90da5a3c5d9609bfe6"
+  },
+  "after": {
+    "business": {
+      "eps.jobs": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.roles": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.slots": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.specs": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.candidates": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.job_events": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.workspaces": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "public.clients": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.assignments": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "public.projects": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.audit_events": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.media_assets": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.outbox_events": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.candidate_media": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.support_uploads": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.upload_sessions": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.audience_presets": {
+        "rows": 3,
+        "sha256": "eb011925a2ce2b90e5d05f9d3d429f982ecbdeff40e384472f12f2b27cf3c705"
+      },
+      "eps.candidate_support": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.candidate_uploads": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.specs_asset_config": {
+        "rows": 1,
+        "sha256": "c628171680739f1fecb14b9ee8e78ae41752f7487ad904a2ab8a62ed82178255"
+      },
+      "eps.specs_asset_grants": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.idempotency_records": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.specs_source_inputs": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.cast_operation_notes": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.specs_stage_payloads": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.workspace_candidates": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.specs_pipeline_config": {
+        "rows": 1,
+        "sha256": "5449176c66e66558b18ba02dec2b2a24a784a7c5e8cdb859e03bfb75eb70ad79"
+      },
+      "eps.specs_upload_sessions": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "public.client_memberships": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.candidate_asset_config": {
+        "rows": 1,
+        "sha256": "e90fc6de593ab542cf3f23a24fd714bae929e278603f4515f9e8e145e1f75fa7"
+      },
+      "eps.candidate_asset_grants": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.candidate_media_frames": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.logo_verification_keys": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "public.project_memberships": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.frame_extraction_config": {
+        "rows": 1,
+        "sha256": "f18a192cd6c5fda9ef3ffdab82cf51656242e9c60b2f0a0426dee41e1c004a3e"
+      },
+      "eps.job_stage_claim_replays": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.specs_file_preparations": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.specs_verification_keys": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.assignment_change_events": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.candidate_stage_payloads": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.candidate_support_config": {
+        "rows": 1,
+        "sha256": "bd12feb29f67ef5e8957aee7374db3d3f6edee16a11489229f22fe2494fc370d"
+      },
+      "public.app_capability_grants": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.frame_extraction_requests": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.support_verification_keys": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.user_workspace_preferences": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "eps.assignment_change_consumptions": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "versions": [
+      "20261028010943",
+      "20261028013324",
+      "20261028013655",
+      "20261028024205",
+      "20261028072515",
+      "20261028162702",
+      "20261028162800",
+      "20261028172320",
+      "20261028184145",
+      "20261028222030",
+      "20261029001520",
+      "20261029003941",
+      "20261029070038",
+      "20261029090500",
+      "20261029090724",
+      "20261029094600",
+      "20261029100500",
+      "20261029133455",
+      "20261029135318",
+      "20261029174841",
+      "20261029180953"
+    ],
+    "roles_sha256": "8b9eb161ac21dab9b114053436dcdc55390ef0536fccf02e7e20146c5d7e0ebc",
+    "catalog_sha256": "a9251f63843612c810e56ecb5839c514d24bbb437c2a1a90da5a3c5d9609bfe6"
+  },
+  "rollback_verified": true,
+  "sources_stable": true,
+  "finished_at": "2026-10-29T20:18:25.057Z"
+}

@@ -5258,6 +5258,7 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/IdempotencyKey'
       requestBody:
         required: true
         content:
@@ -9233,6 +9234,282 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CandidateSupportArchive'
+  /workspaces/{workspace_id}/review/fit:
+    post:
+      operationId: request_workspace_review_fit
+      summary: Measure the exact selected template against a captured review fingerprint
+      tags:
+      - review
+      responses:
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '202':
+          description: Accepted; poll returned job
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/JobAccepted'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+      x-capability: workspaces.write
+      x-mcp-exposed: true
+      x-shared-service-operation: request_workspace_review_fit
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: workspace_id
+        in: path
+        required: true
+        schema: &id008
+          $ref: '#/components/schemas/Id'
+      - &id009
+        $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReviewFitRequest'
+  /workspaces/{workspace_id}/retirements/{resource_id}:
+    get:
+      operationId: get_casting_retirement
+      summary: Read the latest typed restoration choice for a retired resource
+      tags:
+      - review
+      responses:
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/CastingRetirement'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+      x-capability: workspaces.write
+      x-mcp-exposed: true
+      x-shared-service-operation: get_casting_retirement
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: workspace_id
+        in: path
+        required: true
+        schema: *id008
+      - name: resource_id
+        in: path
+        required: true
+        schema: *id008
+  /workspaces/{workspace_id}/retirements/{event_id}/undo:
+    post:
+      operationId: undo_casting_retirement
+      summary: Restore a retirement with its current workspace revision and recorded inverse
+      tags:
+      - review
+      responses:
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: Accepted; poll returned job
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/CastingRetirementUndoResult'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+      x-capability: workspaces.write
+      x-mcp-exposed: true
+      x-shared-service-operation: undo_casting_retirement
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: workspace_id
+        in: path
+        required: true
+        schema: *id008
+      - name: event_id
+        in: path
+        required: true
+        schema: *id008
+      - *id009
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CastingRetirementUndo'
 components:
   securitySchemes:
     InternalBearer:
@@ -10671,8 +10948,89 @@ components:
           $ref: '#/components/schemas/NullableText'
         slide_wording:
           $ref: '#/components/schemas/SlideWording'
+        ai_suggestion_id:
+          $ref: '#/components/schemas/Id'
+        expected_series_id:
+          $ref: '#/components/schemas/Id'
+        expected_input_fingerprint:
+          type: string
+          pattern: ^[a-f0-9]{64}$
       required:
       - row_version
+      description: Manual assignment edits remain independent. Explicit AI proposal apply supplies all three review guards and exactly one nonempty
+        slide-wording field; the canonical transaction verifies current proposal/source/series context before writing.
+      allOf:
+      - if:
+          anyOf:
+          - required:
+            - ai_suggestion_id
+          - required:
+            - expected_series_id
+          - required:
+            - expected_input_fingerprint
+        then:
+          required:
+          - ai_suggestion_id
+          - expected_series_id
+          - expected_input_fingerprint
+          - slide_wording
+          not:
+            anyOf:
+            - required:
+              - position
+            - required:
+              - shortlist_included
+            - required:
+              - presentation_notes
+            - required:
+              - internal_notes
+          properties:
+            slide_wording:
+              type: object
+              additionalProperties: false
+              minProperties: 1
+              maxProperties: 1
+              properties:
+                name_or_id:
+                  type: string
+                  minLength: 1
+                  pattern: '[^ \t\r\n]'
+                age_or_range:
+                  type: string
+                  minLength: 1
+                  pattern: '[^ \t\r\n]'
+                height_measurements:
+                  type: string
+                  minLength: 1
+                  pattern: '[^ \t\r\n]'
+                languages_accents:
+                  type: string
+                  minLength: 1
+                  pattern: '[^ \t\r\n]'
+                skills_experience:
+                  type: string
+                  minLength: 1
+                  pattern: '[^ \t\r\n]'
+                city:
+                  type: string
+                  minLength: 1
+                  pattern: '[^ \t\r\n]'
+                previous_projects_roles:
+                  type: string
+                  minLength: 1
+                  pattern: '[^ \t\r\n]'
+                classification:
+                  type: string
+                  minLength: 1
+                  pattern: '[^ \t\r\n]'
+                availability:
+                  type: string
+                  minLength: 1
+                  pattern: '[^ \t\r\n]'
+                presentation_notes:
+                  type: string
+                  minLength: 1
+                  pattern: '[^ \t\r\n]'
     SetSlotMain:
       type: object
       additionalProperties: false
@@ -10819,6 +11177,18 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Id'
+        series_id: *id008
+        template:
+          $ref: '#/components/schemas/TemplateIdentity'
+        cover:
+          $ref: '#/components/schemas/ReviewCover'
+        slides:
+          type: array
+          maxItems: 10000
+          items:
+            $ref: '#/components/schemas/ReviewSlide'
+        fit:
+          $ref: '#/components/schemas/ReviewFit'
       required:
       - workspace_id
       - input_fingerprint
@@ -10829,6 +11199,11 @@ components:
       - issues
       - can_generate
       - unreviewed_candidate_ids
+      - series_id
+      - template
+      - cover
+      - slides
+      - fit
     AiSuggestionCreate:
       type: object
       additionalProperties: false
@@ -10856,8 +11231,11 @@ components:
           type: string
         instruction:
           type: string
+          minLength: 1
+          maxLength: 8000
         source_text:
           type: string
+          maxLength: 65536
       required:
       - workspace_id
       - capability
@@ -10865,6 +11243,76 @@ components:
       - target_id
       - target_row_version
       - instruction
+      - field
+      allOf:
+      - if:
+          properties:
+            target_type:
+              const: assignment
+        then:
+          properties:
+            field:
+              type: string
+              enum:
+              - name_or_id
+              - age_or_range
+              - height_measurements
+              - languages_accents
+              - skills_experience
+              - city
+              - previous_projects_roles
+              - classification
+              - availability
+              - presentation_notes
+      - if:
+          properties:
+            target_type:
+              const: candidate
+        then:
+          properties:
+            field:
+              type: string
+              enum:
+              - name
+              - age_or_range
+              - height_measurements
+              - skills_experience
+              - city
+              - previous_projects_roles
+              - classification
+      - if:
+          properties:
+            target_type:
+              const: role
+        then:
+          properties:
+            field:
+              type: string
+              enum:
+              - name
+              - requirements.age_range
+              - requirements.appearance_performance
+              - requirements.location
+              - requirements.availability_requirements
+              - requirements.other_instructions
+      - if:
+          properties:
+            target_type:
+              const: workspace_candidate
+        then:
+          properties:
+            field:
+              type: string
+              enum:
+              - availability
+      - if:
+          properties:
+            capability:
+              const: slide_shorten
+        then:
+          properties:
+            target_type:
+              const: assignment
     AiSuggestion:
       type: object
       additionalProperties: false
@@ -10880,6 +11328,7 @@ components:
           enum:
           - queued
           - running
+          - waiting_for_input
           - succeeded
           - failed
           - cancelled
@@ -11014,6 +11463,12 @@ components:
           $ref: '#/components/schemas/RowVersion'
         archived:
           type: boolean
+        template_key: *id008
+        template_version: *id008
+        template_content_sha256: &id010
+          type: string
+          pattern: ^[a-f0-9]{64}$
+        font_key: *id008
       required:
       - id
       - workspace_id
@@ -11025,6 +11480,10 @@ components:
       - latest_ready_version_no
       - row_version
       - archived
+      - template_key
+      - template_version
+      - template_content_sha256
+      - font_key
     PresentationSeriesCreate:
       type: object
       additionalProperties: false
@@ -11762,6 +12221,7 @@ components:
           - ai_suggestion
           - presentation_render
           - presentation_export
+          - review_fit
         status:
           type: string
           enum:
@@ -12284,4 +12744,338 @@ components:
       required:
       - row_version
       description: Archive only the supporting-file association at its current version. No reason, asset deletion or other fields are accepted.
+    ReviewFields:
+      type: object
+      additionalProperties: false
+      properties:
+        name_or_id:
+          type: string
+        age_or_range:
+          type: string
+        height_measurements:
+          type: string
+        languages_accents:
+          type: string
+        skills_experience:
+          type: string
+        city:
+          type: string
+        previous_projects_roles:
+          type: string
+        classification:
+          type: string
+        availability:
+          type: string
+        presentation_notes:
+          type: string
+      required:
+      - name_or_id
+      - age_or_range
+      - height_measurements
+      - languages_accents
+      - skills_experience
+      - city
+      - previous_projects_roles
+      - classification
+      - availability
+      - presentation_notes
+    TemplateIdentity:
+      type: object
+      additionalProperties: false
+      properties:
+        key: *id008
+        version: *id008
+        content_sha256: *id010
+        font_key: *id008
+      required:
+      - key
+      - version
+      - content_sha256
+      - font_key
+    ReviewFrame:
+      type: object
+      additionalProperties: false
+      properties:
+        asset_id: *id008
+        source_asset_id: *id008
+        timestamp_ms: &id012
+          type: integer
+          minimum: 0
+        width:
+          type: integer
+          minimum: 1
+        height:
+          type: integer
+          minimum: 1
+        sha256: *id010
+      required:
+      - asset_id
+      - source_asset_id
+      - timestamp_ms
+      - width
+      - height
+      - sha256
+    ReviewSlide:
+      type: object
+      additionalProperties: false
+      properties:
+        kind:
+          type: string
+          enum:
+          - candidate
+          - pending
+        role_id:
+          anyOf:
+          - *id008
+          - type: 'null'
+        role_name: &id011
+          type: string
+        slot_id:
+          anyOf:
+          - *id008
+          - type: 'null'
+        slot_label: *id011
+        assignment_id:
+          anyOf:
+          - *id008
+          - type: 'null'
+        workspace_candidate_id:
+          anyOf:
+          - *id008
+          - type: 'null'
+        candidate_id:
+          anyOf:
+          - *id008
+          - type: 'null'
+        candidate_media_id:
+          anyOf:
+          - *id008
+          - type: 'null'
+        position:
+          anyOf:
+          - type: string
+            enum:
+            - main
+            - option
+            - backup
+          - type: 'null'
+        review_status:
+          anyOf:
+          - type: string
+            enum:
+            - reviewed
+            - unreviewed
+          - type: 'null'
+        assignment_row_version:
+          anyOf:
+          - $ref: '#/components/schemas/RowVersion'
+          - type: 'null'
+        workspace_candidate_row_version:
+          anyOf:
+          - $ref: '#/components/schemas/RowVersion'
+          - type: 'null'
+        candidate_row_version:
+          anyOf:
+          - $ref: '#/components/schemas/RowVersion'
+          - type: 'null'
+        requirements:
+          $ref: '#/components/schemas/RoleRequirements'
+        provisional: &id013
+          type: boolean
+        fields:
+          $ref: '#/components/schemas/ReviewFields'
+        source_fields:
+          $ref: '#/components/schemas/ReviewFields'
+        frames:
+          type: array
+          maxItems: 3
+          items:
+            $ref: '#/components/schemas/ReviewFrame'
+        video_asset_id:
+          anyOf:
+          - *id008
+          - type: 'null'
+      required:
+      - kind
+      - role_id
+      - role_name
+      - slot_id
+      - slot_label
+      - assignment_id
+      - workspace_candidate_id
+      - candidate_id
+      - candidate_media_id
+      - position
+      - review_status
+      - assignment_row_version
+      - workspace_candidate_row_version
+      - candidate_row_version
+      - requirements
+      - provisional
+      - fields
+      - source_fields
+      - frames
+      - video_asset_id
+    ReviewFitOverflow:
+      type: object
+      additionalProperties: false
+      properties:
+        slide_index: *id012
+        field: *id008
+        axis:
+          type: string
+          enum:
+          - horizontal
+          - vertical
+        overflow_px:
+          type: number
+          exclusiveMinimum: 0
+      required:
+      - slide_index
+      - field
+      - axis
+      - overflow_px
+    ReviewFit:
+      type: object
+      additionalProperties: false
+      properties:
+        status:
+          type: string
+          enum:
+          - unmeasured
+          - measured
+          - failed
+        input_fingerprint:
+          anyOf:
+          - *id010
+          - type: 'null'
+        measured_at:
+          anyOf:
+          - $ref: '#/components/schemas/DateTime'
+          - type: 'null'
+        overflows:
+          type: array
+          maxItems: 10000
+          items:
+            $ref: '#/components/schemas/ReviewFitOverflow'
+        error_code:
+          anyOf:
+          - *id008
+          - type: 'null'
+      required:
+      - status
+      - input_fingerprint
+      - measured_at
+      - overflows
+      - error_code
+    ReviewCover:
+      type: object
+      additionalProperties: false
+      properties:
+        project_name: *id011
+        client_name:
+          anyOf:
+          - *id011
+          - type: 'null'
+        title: *id011
+        output_type:
+          type: string
+          enum:
+          - selection
+          - shortlist
+        logo_asset_id:
+          anyOf:
+          - *id008
+          - type: 'null'
+        logo_placement:
+          type: string
+          enum:
+          - cover
+          - every_slide
+      required:
+      - project_name
+      - client_name
+      - title
+      - output_type
+      - logo_asset_id
+      - logo_placement
+    ReviewFitRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        series_id: *id008
+        expected_input_fingerprint: *id010
+      required:
+      - series_id
+      - expected_input_fingerprint
+    CastingRetirement:
+      type: object
+      additionalProperties: false
+      properties:
+        workspace_id: *id008
+        resource_id: *id008
+        operation:
+          type: string
+          enum:
+          - retire_slots
+          - archive_role
+          - remove_workspace_candidate
+        undo_event_id: *id008
+        expected_workspace_row_version:
+          $ref: '#/components/schemas/RowVersion'
+        assignment_ids:
+          type: array
+          uniqueItems: true
+          maxItems: 1000
+          items: *id008
+        slot_ids:
+          type: array
+          uniqueItems: true
+          maxItems: 1000
+          items: *id008
+        main_count: *id012
+        shortlist_count: *id012
+        can_undo: *id013
+        unavailable_reason:
+          anyOf:
+          - *id011
+          - type: 'null'
+      required:
+      - workspace_id
+      - resource_id
+      - operation
+      - undo_event_id
+      - expected_workspace_row_version
+      - assignment_ids
+      - slot_ids
+      - main_count
+      - shortlist_count
+      - can_undo
+      - unavailable_reason
+    CastingRetirementUndo:
+      type: object
+      additionalProperties: false
+      properties:
+        expected_workspace_row_version:
+          $ref: '#/components/schemas/RowVersion'
+      required:
+      - expected_workspace_row_version
+    CastingRetirementUndoResult:
+      type: object
+      additionalProperties: false
+      properties:
+        success:
+          type: boolean
+          const: true
+        affected_ids:
+          type: array
+          uniqueItems: true
+          maxItems: 10000
+          items: *id008
+        workspace_row_version:
+          $ref: '#/components/schemas/RowVersion'
+      required:
+      - success
+      - affected_ids
+      - workspace_row_version
 x-contract-status: implementation specification; verify with generated routes and contract tests

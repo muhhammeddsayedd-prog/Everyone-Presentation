@@ -1,0 +1,67 @@
+{
+  "observed_at": "2026-10-29T20:01:51.402936+00:00",
+  "result": "passed",
+  "scope": "Pure wording adapter/stage/WF05 mapper regression checks; actual SDK is exercised only against replaced fake fetch. Global typecheck at this checkpoint is separate from final full-app gates.",
+  "groups": [
+    {
+      "group": "focused-tests",
+      "exit_code": 0,
+      "result": "passed",
+      "stdout_sha256": "9626c72cf406d652ffa6d3ff5d2654b99658449377f349ead765964c6b62e8bb",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "counts": {
+        "tests": 23,
+        "pass": 23,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "group": "scoped-eslint",
+      "exit_code": 0,
+      "result": "passed",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "group": "typecheck",
+      "exit_code": 0,
+      "result": "passed",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "owned_source_sha256": {
+    "packages/integrations/src/openai-wording.ts": "41831042a2f4adbffb92a9d37bd04d9a71dbfa501e79a296a3cd5c874ee718cf",
+    "packages/integrations/src/prompts/wording-v1.ts": "a17139592fda416af2bef1955ceaaab558c8003c74248cb281f642ee2f59851a",
+    "apps/worker/src/review-stage-executor.ts": "389c3a807bc4e49f581f0c00d206438a8865a482697201867d60ec358e56a2a4",
+    "tests/integrations/openai-wording.test.ts": "9c132c876d1fff142696f3efb206304b5f6013995bd5c89701a29d0e0e24f77e",
+    "tests/worker/review-stage-executor.test.ts": "0bed3de708641b2d9a4c49a930bea25bf98253f4d608f942e5078a41324aadf4",
+    "tools/build-review-wf05.mjs": "6830d9db4c0e9588dca8590451f45ee6b7ba240a1519ce356874732038350ee1",
+    "tests/operations/review-wf05.test.mjs": "b08ba97fec9f3f172ff95d91ee769f6d302dc21ecbc84f6e632abba13b347a57",
+    "n8n/eps-wf05-review-assistance.template.json": "73428973bf128fd6b4d226229a98dfcf902e68bb008b81f3b3985888f041ad7b"
+  },
+  "owned_sources_stable": true,
+  "n8n_mcp_metadata_reads": {
+    "sdk_reference_import": "blocked_-32603",
+    "node_types_Webhook2_1_Set3_4_Respond1_4": "blocked_-32603",
+    "existing_exact_reviewed_graph_reused": true,
+    "live_n8n_validation_claimed": false
+  },
+  "workflow_template_only": true,
+  "workflow_credentials_bound": false,
+  "workflow_created_activated_or_changed": false,
+  "private_config_loaded_by_checks": false,
+  "real_provider_called": false,
+  "real_database_called": false,
+  "browser_called": false,
+  "factual_semantic_equivalence_proven": false,
+  "ordinary_preview_apply_required": true,
+  "known_guard_limit": "Conservative numeric/range/negation/material-qualifier/name/budget guards catch obvious unsupported changes. They do not prove semantic fidelity. No source/library/Shortlist/position write port exists in this executor.",
+  "provider_shape": "Assignment requests validate the published six-key slide-wording.schema.json; normalized stage payload contains deterministic proposed_changes and existing MediaProviderMetadata. Other targets use explicit target_id.",
+  "database_source_fence": "DB owns current actor, target revision and full shared-source/template context comparison at claim/getInput/finalvalidate; worker compares frozen13-key job input to exact17-key stage input.",
+  "history": "Tests initially failed for absent new adapter/executor/builder modules. During implementation TypeScript test schema union narrowing was corrected; no failed run is relabelled as a live pass.",
+  "hosting_deferred": true
+}

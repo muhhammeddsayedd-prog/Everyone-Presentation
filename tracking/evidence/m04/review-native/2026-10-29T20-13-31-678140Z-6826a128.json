@@ -1,0 +1,108 @@
+{
+  "observed_at": "2026-10-29T20:13:31.678140+00:00",
+  "result": "passed_tests_typecheck_failed_superseded",
+  "supersedes_receipt": "tracking/evidence/m04/review-native/2026-10-29T20-13-01-921929Z-8d634abf.json (tests passed; typecheck claim corrected to TS7016 failure before declaration fix)",
+  "scope": "M04 actual local Chromium layout plus synthetic scoped lease/protocol/gateway/startup proof. No canonical Auth/DB/OpenAI/n8n execution.",
+  "focused_tests": {
+    "command": "node tools/run-tests.mjs packages/central/test/specs-runtime-gateway.test.ts tests/worker/startup.test.ts tests/worker/review-fit.test.ts tests/worker/review-fit-stage-executor.test.ts tests/worker/review-runtime.test.ts tests/operations/review-runtime-env.test.mjs",
+    "passed": 41,
+    "failed": 0,
+    "skipped": 0
+  },
+  "native_browser": {
+    "tests": 4,
+    "actual_browser": true,
+    "actual_pinned_fonts": true,
+    "actual_scrubbed_production_child": true,
+    "page_network": "all requests aborted; zero required for pass",
+    "private_media": "not requested; fixed-size image placeholders only",
+    "fixture": "synthetic ten-field candidate; exact overflowing field and Arabic/source preservation"
+  },
+  "meaningful_red": {
+    "gateway_kind_stage_binding": "18 passed,1 failed: review_fit accepted suggestion stage before exact binding fix",
+    "native_initial_missing_module": true,
+    "runtime_initial_unknown_tuples": true
+  },
+  "contract_tests": {
+    "command": "node tools/run-tests.mjs tests/server/review-http-mcp.test.ts tests/contracts/*.test.ts",
+    "passed": 10,
+    "failed": 0,
+    "skipped": 0
+  },
+  "checks": {
+    "typecheck": "failed TS2769 NODE_ENV absent in declaration; corrected in next receipt",
+    "eslint": "15 selected TS/TSX implementation and test files, zero warnings"
+  },
+  "configuration": {
+    "file": ".env.review-runtime.local",
+    "fields": [
+      "EPS_REVIEW_ENABLED",
+      "N8N_REVIEW_DISPATCH_URL",
+      "N8N_REVIEW_DISPATCH_SECRET"
+    ],
+    "optional_missing": "review disabled",
+    "workflow_path": "/webhook/eps-wf05-review-suggestion-stage-v1",
+    "new_database_ports": 0,
+    "new_runtime_role_memberships": 0
+  },
+  "template": {
+    "key": "everyone-casting",
+    "version": "1.0.0",
+    "content_sha256": "8cfc99e874b2810d782f0a447628039e52e48a337fe1ce5b6286799c56e90001",
+    "font_key": "everyone-casting-fonts-v1",
+    "renderer_unchanged": true
+  },
+  "bounds": {
+    "fit_snapshot_bytes": 8388608,
+    "fit_slides": 1000,
+    "fit_event_bytes": 1048576,
+    "lease_input_bytes_unchanged": 294912,
+    "native_timeout_ms": 60000
+  },
+  "behaviors": [
+    "Exact frozen snapshot and template binding before measurement",
+    "Actual scroll width/height measurement for all ten candidate fields plus cover/Pending/page bounds",
+    "Fixed callback event retried without recomputing fit",
+    "Heartbeat serialization, cancellation and stale ownership suppress late success",
+    "Four review stage tuples routed to WF05 using metadata only",
+    "Existing eleven runtime operations and actor scope preserved",
+    "Retirement GET capability aligned to workspaces.write"
+  ],
+  "source_binding_scope": "Post-run selected source snapshot; no repository-wide stability claim during parallel root implementation.",
+  "source_sha256": {
+    "apps/worker/src/review-fit.ts": "f7a42edcef003bc0f2790673675776870d72ac732e6182f86dc16bcdb7f37b58",
+    "apps/worker/src/review-fit-stage-executor.ts": "719549121da5b6ad4e66694fbab4fce14b5fbf8489a469d72679ce70ece714f4",
+    "apps/worker/src/runtime-main.ts": "e2bbdde255ec2f83f1f84cd9be5b7163e732ff96721346185da40fbe605f5a66",
+    "apps/worker/src/runtime.ts": "fc511e8152b5419889c01dfc82e7d94223d14dcec8f18df66791286e69eecb45",
+    "apps/worker/src/runtime-types.ts": "03afea4007d676faf3470f458afe5c27471a9f7396357a5c01aa71ebcd55c315",
+    "apps/worker/src/n8n-orchestrator.ts": "fedd4bd4e1551a8e66ee574e79f9ec87695ddf5af17940a5af7f770f71703455",
+    "apps/worker/package.json": "4761c6cea61093e8c4479603fba0bffc180e76e8546c5fb4ce9c47c1e8731971",
+    "package-lock.json": "7e9ca92083dbd23d3f00eebe2f4423d284f85a4c4372b595212715dbbd9e622e",
+    "packages/central/src/specs-runtime-gateway.ts": "815b3b4e75b67be1ac0529267053b63e85070d778dbd2d83f648681683494c9a",
+    "packages/integrations/src/n8n-dispatch.ts": "79fb0d1f05052ff34f0ad1f806305191439f1a6348e01fef36eb8bb8c64658de",
+    "tools/review-runtime-env.mjs": "444f919d15c9a45cd834656fe400e01705a146cf9b67c880842be86e54739f64",
+    "tools/worker-runtime-env.d.mts": "cdd02871ebe45d4ab028a22368709229a7d2e52c7e307db965d504a5d7b03e3e",
+    "tools/start-specs-worker.mjs": "f0d11ea9ec14bdc26df581420728f5196d1e88981e6abdf6c9e729493d64cb93",
+    "tests/worker/review-fit.test.ts": "bad1411ec5dbd5c0068d7ea783223608ff79f15e2e607dfb76cfd8fbf525d3be",
+    "tests/worker/review-fit-stage-executor.test.ts": "de6991270dc3c8af94992e8370bbb58afe4e16a2f1f9167b0e7b326a4a11ec1f",
+    "tests/worker/review-fit-fixture.ts": "ae23706908b67b32c7375d9a29a051a524058e804deb8752a905255cb971c2c1",
+    "tests/worker/review-fit-child-fixture.ts": "906b94c308a0ab7164a8845627a958e3645ecd237860652236e428f37ca61915",
+    "tests/worker/review-runtime.test.ts": "119962e5455ab0719282a4e54f185672b251b98d385d17b7825ef9b3e788e30e",
+    "tests/worker/startup.test.ts": "1fc08c8b6c6eb6b0fb34365936c76117d4160ff1b4263df50a0eec2626c27f6f",
+    "tests/operations/review-runtime-env.test.mjs": "d43c7a552e5822e123df5846ea021ab97f467665934902cee619ee0819dae6f1",
+    "packages/central/test/specs-runtime-gateway.test.ts": "eecfd10f52b7d3e3c93c431e67644757cec2ec68dab052add77d21996adce501",
+    "packages/templates/registry.json": "a4cee8acd9675c5038517ce48880350c7bd28f9d1971eef55ab846f0996db53d",
+    "packages/templates/src/render.ts": "c7dbfd1418a24387b816fcc746ba85bf4092102c4e9ec6200868ba85bd847f34",
+    "contracts/openapi.yaml": "4c1590f5f135606c912686e2a5cba7a054ac065d2d7231b572dd7c80d58d46fa",
+    "contracts/mcp-tool-catalog.json": "9ee8af0ab7dd3f83cc3265c1d7bf77ffc8b9b0462b448d3ae1c7574980767f23",
+    "apps/web/lib/generated-contracts.json": "2c09a555c5b6ce0e45875de32294559550503ce53962e0c496a7ff7cf39713c9",
+    "tools/update_m04_review_contracts.py": "f650b1caa495823b810ce156cc7b70c7f332b7c9565cf849f36bce942484bb27",
+    "docs/integrations/OPERATION_INDEX.md": "1e561ed47e575c958d7cc3ed98e01ca193b96b970a065e951abb6846af403527"
+  },
+  "cloud_called": false,
+  "provider_called": false,
+  "n8n_called": false,
+  "private_configuration_read": false,
+  "live_worker_restarted": false,
+  "hosting_deferred": true
+}

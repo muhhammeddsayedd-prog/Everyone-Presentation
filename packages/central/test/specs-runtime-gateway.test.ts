@@ -199,6 +199,34 @@ test('six operations use fixed extended-query parameters with no private SQL int
   await gateway.close();
 });
 
+test('review jobs reuse fixed scoped claim/input/event ports and bind every outbox kind to its exact stages', async () => {
+  const f = fixture(); const gateway = await createSpecsRuntimeGateway(readSpecsRuntimeConfig(env), { poolFactory: f.factory });
+  for (const [kind, stage] of [['ai_suggestion', 'prepare_suggestion'], ['ai_suggestion', 'generate_suggestion'], ['ai_suggestion', 'validate_suggestion'], ['review_fit', 'measure_review_fit']]) {
+    f.setResponse({ ...lease, stage }); assert.equal((await gateway.claim({ job_id: job, stage, input_hash: inputHash })).stage, stage);
+    f.setResponse({ ...scope, stage, input_hash: inputHash }); assert.equal((await gateway.getInput(scope, AbortSignal.timeout(1000)) as { stage: string }).stage, stage);
+    const envelope = { event_id: eventId, event_type: 'job.stage_ready', contract_version: '1.0', job_id: job, kind, stage, input_hash: inputHash, correlation_id: 'synthetic-review' };
+    f.setResponse({ leases: [{ id: eventId, lease_token: 'c'.repeat(43), lease_expires_at: future, envelope }] });
+    assert.equal((await gateway.claimOutbox(1)).leases instanceof Array, true);
+    f.setResponse({ leases: [{ id: eventId, lease_token: 'c'.repeat(43), lease_expires_at: future, envelope: { ...envelope, stage: kind === 'review_fit' ? 'generate_suggestion' : 'measure_review_fit' } }] });
+    await assert.rejects(gateway.claimOutbox(1), runtimeError('RUNTIME_RESPONSE_INVALID', 'unknown'));
+  }
+  const identity = f.queries.find(query => query.text.includes(' as allowed'))!.text;
+  assert.ok(identity.includes('count(*)=6')); assert.equal(gateway.verifiedFunctionOperations, 6);
+  for (const call of f.queries.filter(query => query.text.startsWith('select eps.'))) assert.match(call.text, /^select eps\.(?:claim_job_stage\(\$1::jsonb\)|get_specs_stage_input\(\$1::uuid,\$2::uuid,\$3::text\)|claim_job_outbox\(\$1::integer\)) as value$/u);
+  await gateway.close();
+});
+
+test('only native fit callbacks receive the explicit one MiB transport budget', async () => {
+  const f = fixture(); const gateway = await createSpecsRuntimeGateway(readSpecsRuntimeConfig(env), { poolFactory: f.factory });
+  f.setResponse({ event_id: eventId, applied: true, duplicate: false, stale: false, job_status: 'succeeded' });
+  const event = { ...scope, event_id: eventId, stage: 'measure_review_fit', input_hash: inputHash, sequence: 1, event_type: 'succeeded' as const, result_schema: 'review-fit-measurement.v1', result: { synthetic: 'x'.repeat(500_000) } };
+  await gateway.recordEvent(event, AbortSignal.timeout(1000));
+  const count = f.queries.filter(query => query.text.startsWith('select eps.')).length;
+  await assert.rejects(gateway.recordEvent({ ...event, stage: 'prepare_document' }, AbortSignal.timeout(1000)), runtimeError('INVALID_REQUEST', 'known'));
+  await assert.rejects(gateway.recordEvent({ ...event, result: { synthetic: 'x'.repeat(1_048_576) } }, AbortSignal.timeout(1000)), runtimeError('INVALID_REQUEST', 'known'));
+  assert.equal(f.queries.filter(query => query.text.startsWith('select eps.')).length, count); await gateway.close();
+});
+
 test('malformed/NUL/surrogate request data is rejected before private SQL without repairing Unicode', async () => {
   const f = fixture(); const gateway = await createSpecsRuntimeGateway(readSpecsRuntimeConfig(env), { poolFactory: f.factory });
   for (const message of ['synthetic-private\u0000', 'synthetic-private\ud800', 'synthetic-private\udfff']) {

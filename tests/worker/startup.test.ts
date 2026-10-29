@@ -77,3 +77,33 @@ test('PDF vision flag requires immutable native image and otherwise remains disa
   const enabled = await verifySpecsWorkerStartup({ ...environment, EPS_PDF_VISION_ENABLED: 'true', EPS_PDF_RASTER_IMAGE_ID: `sha256:${'a'.repeat(64)}` }, factory); assert.equal(enabled.vision?.imageId, `sha256:${'a'.repeat(64)}`);
   await assert.rejects(verifySpecsWorkerStartup({ ...environment, EPS_PDF_VISION_ENABLED: 'true', EPS_PDF_RASTER_IMAGE_ID: 'mutable:latest' }, factory), error => error instanceof SpecsWorkerStartupError && error.code === 'PDF_VISION_CONFIGURATION_INVALID');
 });
+
+test('review processing is disabled by default and requires a separate fixed workflow secret before gateway creation', async () => {
+  let calls = 0; const factory = (async () => { calls++; return { close: async () => {} }; }) as never;
+  const disabled = await verifySpecsWorkerStartup(environment, factory); assert.equal(disabled.review, undefined); assert.equal(disabled.fit, undefined); assert.equal(calls, 1);
+  const enabled = { ...environment, EPS_REVIEW_ENABLED: 'true', N8N_REVIEW_DISPATCH_URL: 'https://synthetic.app.n8n.cloud/webhook/eps-wf05-review-suggestion-stage-v1', N8N_REVIEW_DISPATCH_SECRET: 'a'.repeat(64) };
+  for (const patch of [{ EPS_REVIEW_ENABLED: 'yes' }, { N8N_REVIEW_DISPATCH_URL: 'https://different.app.n8n.cloud/webhook/eps-wf05-review-suggestion-stage-v1' },
+    { N8N_REVIEW_DISPATCH_URL: enabled.N8N_REVIEW_DISPATCH_URL + '?key=private' }, { N8N_REVIEW_DISPATCH_URL: environment.N8N_DISPATCH_URL },
+    { N8N_REVIEW_DISPATCH_SECRET: environment.N8N_DISPATCH_SECRET }, { N8N_REVIEW_DISPATCH_SECRET: '' }]) {
+    await assert.rejects(verifySpecsWorkerStartup({ ...enabled, ...patch }, factory), error => error instanceof SpecsWorkerStartupError && ['REVIEW_RUNTIME_CONFIGURATION_INVALID', 'N8N_RUNTIME_CONFIGURATION_REQUIRED'].includes(error.code) && !JSON.stringify(error).includes('private'));
+  }
+  assert.equal(calls, 1); const result = await verifySpecsWorkerStartup(enabled, factory);
+  assert.equal(result.review?.openAI.apiKey, environment.OPENAI_API_KEY); assert.deepEqual(result.fit, {}); assert.equal(calls, 2);
+});
+
+test('enabled review metadata goes only to WF05 while specs retains its existing destination', { concurrency: false }, async () => {
+  const previous = globalThis.fetch; const destinations: string[] = [];
+  globalThis.fetch = async (destination, request) => {
+    destinations.push(String(destination)); const envelope = JSON.parse(request!.body as string);
+    assert.equal(request!.redirect, 'error'); assert.equal(Object.keys(envelope).length, 8);
+    const scope = { ...envelope }; delete scope.event_type; delete scope.contract_version;
+    return new Response(JSON.stringify({ ...scope, schema_version: '1.0', workflow_execution_id: 'synthetic-workflow', handler: envelope.kind === 'review_fit' ? 'native.measure_review_fit' : 'native.prepare_document' }), { headers: { 'Content-Type': 'application/json' } });
+  };
+  try {
+    const reviewUrl = 'https://synthetic.app.n8n.cloud/webhook/eps-wf05-review-suggestion-stage-v1';
+    const result = await verifySpecsWorkerStartup({ ...environment, EPS_REVIEW_ENABLED: 'true', N8N_REVIEW_DISPATCH_URL: reviewUrl, N8N_REVIEW_DISPATCH_SECRET: 'a'.repeat(64) }, (async () => ({ close: async () => {} })) as never);
+    const envelope = { event_type: 'job.stage_ready' as const, contract_version: '1.0' as const, event_id: 'synthetic-event', job_id: 'synthetic-job', kind: 'review_fit' as const, stage: 'measure_review_fit' as const, input_hash: 'b'.repeat(64), correlation_id: 'synthetic-request' };
+    await result.router.route(envelope); await result.router.route({ ...envelope, kind: 'specs_extract', stage: 'prepare_document' });
+    assert.deepEqual(destinations, [reviewUrl, environment.N8N_DISPATCH_URL]);
+  } finally { globalThis.fetch = previous; }
+});

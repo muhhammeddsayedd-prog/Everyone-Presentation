@@ -47,6 +47,14 @@ test('assignment create/update/remove use exact curated RPC params, stable key, 
   assert.equal(h.calls.at(-1)?.name, 'eps_remove_assignment');
 });
 
+test('guarded wording apply forwards exact proposal/series/fingerprint to the same actor RPC without a separate preflight write', async () => {
+  const h = await fixture(); const input = { row_version: 1, slide_wording: { skills_experience: 'Confirmed proposal' },
+    ai_suggestion_id: event, expected_series_id: workspace, expected_input_fingerprint: 'b'.repeat(64) };
+  await h.api.updateAssignment(actor, assignmentId, input, trace);
+  assert.deepEqual(h.calls.map(row => row.name), ['eps_get_casting_context', 'eps_update_assignment']);
+  assert.deepEqual(h.calls.at(-1)?.args, { p_assignment_id: assignmentId, p_input: input, p_idempotency_key: trace.idempotencyKey });
+});
+
 test('published Main and Undo params bind exact slot/workspace/role/affected rows and inverse', async () => {
   const h = await fixture(); h.set(mainResult());
   const main = { assignment_id: assignmentId, expected_slot_row_version: 1, replacement_behavior: 'move_previous_to_backup' as const };

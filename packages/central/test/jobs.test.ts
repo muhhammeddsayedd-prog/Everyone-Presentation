@@ -25,6 +25,13 @@ function service(response: unknown = job, status = 200) {
   return { calls, client: createBearerUserClient({ ...config, accessToken: token }, { fetch: fetcher }) };
 }
 const code = (expected: string) => (value: unknown) => value instanceof DomainError && value.code === expected;
+test('review-fit and suggestion jobs retain the same bounded public polling contract', async () => {
+  for (const kind of ['review_fit', 'ai_suggestion']) {
+    const row = { ...job, kind, stage: kind === 'review_fit' ? 'measure_review_fit' : 'prepare_suggestion', resource_id: 'synthetic-resource' };
+    const fixture = service(row); const jobs = await createCentralJobs(fixture.client);
+    assert.deepEqual(await jobs.getJob(actor, jobId), row);
+  }
+});
 test('frame jobs expose only bounded timestamp outcomes and reject private payloads',async()=>{
   const outcome={requested_count:3,extracted_count:1,unavailable_timestamps_ms:[1500],warnings:['FRAME_TIMESTAMP_SHARED','FRAME_TIMESTAMP_UNAVAILABLE']};
   const row={...job,kind:'frame_extract',status:'succeeded',stage:'apply_frames',frame_extraction:outcome};

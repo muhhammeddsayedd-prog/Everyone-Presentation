@@ -139,7 +139,20 @@ class FrameVisionCaptureTests(unittest.TestCase):
         old=capture.expected_profiles(json.loads(batch_bytes),json.loads(baseline_bytes));self.assertEqual(len(old),9);self.assertEqual(sum(len(row['frames'])for row in old),108)
         template=(ROOT/capture.SQL).read_bytes();self.assertEqual(capture.sha(template),capture.SQL_SHA)
         for row in old:self.assertEqual(template.decode().count(row['job_id']),1)
-        for file,digest in capture.SEALS.items():self.assertEqual(capture.sha((ROOT/file).read_bytes()),digest,file)
+        history=json.loads((ROOT/'development/m03/frame-vision-source-history/manifest.json').read_bytes())
+        self.assertEqual(history['source_commit'],'fe90400e7bab0e0c43038d2baebf6e1e96d95568')
+        archived={row['source']:row for row in history['files']}
+        self.assertEqual(set(archived),{'apps/worker/src/n8n-orchestrator.ts','apps/worker/src/runtime-types.ts'})
+        for file,digest in capture.SEALS.items():
+            artifact=archived[file]['artifact'] if file in archived else file
+            self.assertEqual(capture.sha((ROOT/artifact).read_bytes()),digest,file)
+            if file in archived:
+                self.assertEqual(archived[file]['sha256'],digest)
+                # Later review routing is legitimate, but the old observer must
+                # continue denying current changed code rather than reseal it.
+                self.assertNotEqual(capture.sha((ROOT/file).read_bytes()),digest)
+                with patch.object(capture,'checked_path',return_value=ROOT/file):
+                    with self.assertRaises(ValueError):capture.sealed(file,digest)
     def test_python_fingerprint_and_schema_match_actual_typescript_adapter_without_provider(self):
         state,_,_=fixture();frames=state['preparation']['sampled_frames']
         script="""import {selectVisionFrames} from './packages/integrations/src/openai-frames.ts';

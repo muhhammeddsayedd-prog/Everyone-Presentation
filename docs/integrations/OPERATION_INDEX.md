@@ -107,3 +107,6 @@ Generated from the handoff contract. `openapi.yaml` owns schemas and paths; the 
 | `fail_job_stage` | `POST /internal/jobs/fail` | service.job-scoped (service-only) | No |
 | `list_candidate_support` | `GET /candidates/{candidate_id}/supporting-files` | cast.read | Yes |
 | `archive_candidate_support` | `POST /candidate-support/{candidate_support_id}/archive` | cast.write | Yes |
+| `request_workspace_review_fit` | `POST /workspaces/{workspace_id}/review/fit` | workspaces.write | Yes |
+| `get_casting_retirement` | `GET /workspaces/{workspace_id}/retirements/{resource_id}` | workspaces.write | Yes |
+| `undo_casting_retirement` | `POST /workspaces/{workspace_id}/retirements/{event_id}/undo` | workspaces.write | Yes |

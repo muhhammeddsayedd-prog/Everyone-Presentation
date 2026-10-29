@@ -1,0 +1,18 @@
+{
+  "observed_at": "2026-10-29T19:41:11.576100+00:00",
+  "command": "node tools/run-tests.mjs tests/server/candidate-frame-preview.test.ts",
+  "result": "failed_red",
+  "tests": 2,
+  "pass": 0,
+  "fail": 2,
+  "cause": "No full-size source link exists before implementation; expected authenticated href missing.",
+  "source_sha256": {
+    "apps/web/components/CandidateFrameImage.tsx": "6d6f24ca62cc87911a300698c097613a7e802d3ebe6adde63acc72265e4a655d",
+    "apps/web/components/CandidateDetailView.tsx": "464976d554fc7efe9166bd7a8b48fc6f0f4d7f8ba859313bcd6395434fa42167",
+    "apps/web/components/WorkspaceCandidatesView.tsx": "2be5bc8548a2fd94e8a1f41403ab6a099c39447452cb26234ebd14670e2dc98e",
+    "tests/server/candidate-frame-preview.test.ts": "66ea8c8f3d5837892e7465a7cefcf87c52f2e77f93f35ca06cd513e3b5b17625"
+  },
+  "cloud_called": false,
+  "browser_called": false,
+  "personal_fixture_used": false
+}

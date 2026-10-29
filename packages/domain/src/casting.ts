@@ -41,12 +41,19 @@ export function parseAssignmentCreate(value: unknown): AssignmentCreate {
     ...(Object.hasOwn(input, 'presentation_notes') ? { presentation_notes: nullable(input.presentation_notes) } : {}) });
 }
 export function parseAssignmentPatch(value: unknown): AssignmentPatch {
-  const input = object(value, ['row_version', 'position', 'shortlist_included', 'presentation_notes', 'internal_notes', 'slide_wording'], ['row_version']);
+  const guards = ['ai_suggestion_id', 'expected_series_id', 'expected_input_fingerprint'] as const;
+  const input = object(value, ['row_version', 'position', 'shortlist_included', 'presentation_notes', 'internal_notes', 'slide_wording', ...guards], ['row_version']);
   const result: AssignmentPatch = { row_version: revision(input.row_version) };
   if (Object.hasOwn(input, 'position')) { if (input.position !== 'option' && input.position !== 'backup') invalid(); result.position = input.position; }
   if (Object.hasOwn(input, 'shortlist_included')) result.shortlist_included = boolean(input.shortlist_included);
   for (const key of ['presentation_notes', 'internal_notes'] as const) if (Object.hasOwn(input, key)) result[key] = nullable(input[key]);
   if (Object.hasOwn(input, 'slide_wording')) result.slide_wording = parseSlideWording(input.slide_wording);
+  if (guards.some(key => Object.hasOwn(input, key))) {
+    if (!guards.every(key => Object.hasOwn(input, key)) || Object.keys(input).some(key => !['row_version', 'slide_wording', ...guards].includes(key))
+      || !result.slide_wording || Object.keys(result.slide_wording).length !== 1 || Object.values(result.slide_wording).some(value => typeof value !== 'string' || !value)
+      || typeof input.expected_input_fingerprint !== 'string' || !/^[a-f0-9]{64}$/u.test(input.expected_input_fingerprint)) invalid();
+    result.ai_suggestion_id = id(input.ai_suggestion_id); result.expected_series_id = id(input.expected_series_id); result.expected_input_fingerprint = input.expected_input_fingerprint;
+  }
   return boundedRequest(result);
 }
 export function parseSetSlotMain(value: unknown): SetSlotMain {
@@ -153,7 +160,9 @@ export function createAssignment(before: CastingDraft, authority: CastingAuthori
   draft.assignments.push(item); slot.row_version = next(slot.row_version); return transition(before, draft, item, true);
 }
 export function updateAssignment(before: CastingDraft, authority: CastingAuthority, assignmentId: string, value: unknown): CastingTransition<Assignment> {
-  const input = parseAssignmentPatch(value); const draft = authorized(before, authority, true); const item = activeAssignment(draft, id(assignmentId)); compare(input.row_version, item.row_version);
+  const input = parseAssignmentPatch(value);
+  if (input.ai_suggestion_id !== undefined) throw new DomainError('FEATURE_NOT_IMPLEMENTED', 'Guarded AI apply requires canonical proposal and source validation.', 503);
+  const draft = authorized(before, authority, true); const item = activeAssignment(draft, id(assignmentId)); compare(input.row_version, item.row_version);
   if (input.position !== undefined && item.position === 'main') throw new DomainError('MAIN_OPERATION_REQUIRED', 'Use the slot Main operation to clear or replace its Main.', 409);
   const previous = structuredClone(item);
   for (const key of ['position', 'shortlist_included', 'presentation_notes', 'internal_notes'] as const) if (Object.hasOwn(input, key)) Object.assign(item, { [key]: input[key] });

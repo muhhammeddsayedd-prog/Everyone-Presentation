@@ -11,6 +11,7 @@ import { loadWorkerFilesEnvironment } from './worker-files-env.mjs';
 import { loadCandidateRuntimeEnvironment } from './candidate-runtime-env.mjs';
 import { loadPdfVisionEnvironment } from './pdf-vision-env.mjs';
 import { loadFrameRuntimeEnvironment } from './frame-runtime-env.mjs';
+import { loadReviewRuntimeEnvironment } from './review-runtime-env.mjs';
 
 async function main() {
   if (process.argv.length !== 2 || !/^v24\./u.test(process.version)) throw new Error('FIXED_WORKER_NODE24_COMMAND_REQUIRED');
@@ -19,7 +20,8 @@ async function main() {
   const candidate = await loadCandidateRuntimeEnvironment();
   const pdfVision = await loadPdfVisionEnvironment();
   const frames = await loadFrameRuntimeEnvironment();
-  const environment = { ...createSpecsWorkerEnvironment(provider, runtime, process.env, files), ...candidate, ...pdfVision, ...frames };
+  const review = await loadReviewRuntimeEnvironment();
+  const environment = { ...createSpecsWorkerEnvironment(provider, runtime, process.env, files), ...candidate, ...pdfVision, ...frames, ...review };
   const child = spawn(process.execPath, ['--import', 'tsx', 'apps/worker/src/runtime-main.ts'], {
     cwd: path.resolve(import.meta.dirname, '..'), env: environment, windowsHide: true, shell: false,
     stdio: ['ignore', 'inherit', 'inherit', 'ipc'],

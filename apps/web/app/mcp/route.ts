@@ -9,6 +9,7 @@ import { readRuntimeConfig } from '../../lib/config';
 import { getStudio } from '../../lib/studio';
 import { getCandidatesService } from '../../lib/candidates';
 import { getCastingService } from '../../lib/casting';
+import { getReviewService } from '../../lib/review';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -19,7 +20,7 @@ async function handle(request: Request) {
     // getStudio returns the same centrally verified adapter and upload options
     // as the UI. The type fallback is unreachable in this central-only route.
     const studio = await getStudio() as Awaited<ReturnType<typeof createCentralStudio>>;
-    const services = { studio, specs: await getSpecsService(), jobs: await getJobs(), candidates: await getCandidatesService(), casting: await getCastingService() };
+    const services = { studio, specs: await getSpecsService(), jobs: await getJobs(), candidates: await getCandidatesService(), casting: await getCastingService(), review: await getReviewService() };
     const handler = createMcpHandler(() => createStudioMcpServer(actor, services), {
       legacy: 'stateless', responseMode: 'json', maxRequestBodySize: 96 * 1024, onerror: () => { /* Private errors never enter generic logs. */ },
     });

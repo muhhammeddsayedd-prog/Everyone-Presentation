@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "migration": {
+    "path": "supabase/migrations/20261029202629_m04_review_series_processing.sql",
+    "sha256": "3f1543b9d4b525d486287f2f00711270ed1fbdc30911dac3aea725aee50679e4"
+  },
+  "baseline_manifest": {
+    "path": "development/m04/review-baseline21.json",
+    "sha256": "1ecec87384926fea82b433d3ddfde386f64d09c17a946ac2aa6fd51b4831dedc"
+  },
+  "reviewed_manifest": {
+    "path": "development/local-db/reviewed.json",
+    "sha256": "148000f868d674d9c4bccc1c0ccad9cf86fe22352ca8f41e6d31066916ec1a5a"
+  },
+  "local_proof": {
+    "path": "tracking/evidence/m04/review-local/2026-10-29T20-28-40-932Z-1473f485.json",
+    "sha256": "7d8005b472ac9184bfe19e61217d3b07f7b25b1e9eff4f03b1313804032396ff"
+  },
+  "promotion": {
+    "path": "tracking/evidence/m04/review-promotion/2026-10-29T20-30-04-910Z-e247b93c.json",
+    "sha256": "05a9174c30955799a1c5216c130846cb2a5fef87ee58e6774f5d32d25f646126"
+  },
+  "race_proof": {
+    "path": "tracking/evidence/m04/review-race-local/2026-10-29T20-25-05-251Z-7b9b9fa1.json",
+    "sha256": "f6b46f0a8e23f3bc69ec00f4fef45f7287e84fd3e0b605a1753fec45f5ba95b0"
+  },
+  "delta": {
+    "path": "development/m04/review-release-delta.json",
+    "sha256": "bfc6788119231e358adc3885de76b793451acfdb22a16e918aef0c3e2443501c"
+  },
+  "readback": {
+    "path": "tools/sql/m04-review-readback.sql",
+    "sha256": "0553c35775b668e33c06179d7748ead1e6e3a7fe1bb05f13070a5499f83148d1"
+  },
+  "source_seals": {
+    "development/local-db/instance.json": "778d29222b0a6b604451a494dab6ca6ffabb7357d5b700794400bf35cc79c198",
+    "development/local-db/reviewed.json": "148000f868d674d9c4bccc1c0ccad9cf86fe22352ca8f41e6d31066916ec1a5a",
+    "development/m04/retirement-undo.sql": "7aba3fec35aa2c2d8b76307741a9930bddbc44f9de6f8dedbc67390413aea348",
+    "development/m04/review-baseline21.json": "1ecec87384926fea82b433d3ddfde386f64d09c17a946ac2aa6fd51b4831dedc",
+    "development/m04/review-processing.sql": "a07efc6bcf6c9907c0aad763a4c6315f06d31bb33b6791bd53f9feaebef4631c",
+    "development/m04/review-release-delta.json": "bfc6788119231e358adc3885de76b793451acfdb22a16e918aef0c3e2443501c",
+    "development/m04/review-series.sql": "49c66fa82117650c4715e21ce492af2175954b27bd61adc3ba90a97763861a7c",
+    "supabase/migrations/20261028222030_m02_specs_pipeline.sql": "1e5319bb81be1f12896f7efb5a2cb7706653b79eb440a4dc1aaaca4ed9556895",
+    "supabase/migrations/20261029202629_m04_review_series_processing.sql": "3f1543b9d4b525d486287f2f00711270ed1fbdc30911dac3aea725aee50679e4",
+    "tests/db/m04-assignments-fixture.sql": "cb5f418fee0dc3a9b00a9ddeaa3971f5df1c3384c459905baa19b4e04f1d9cb4",
+    "tests/db/m04-retirement-undo.sql": "3bca37fdf7d405a93bc967c4d08708597812d179fe6a4fea6599e1d1472fc60d",
+    "tests/db/m04-review-processing.sql": "e6115087b9eac3d0bb1b7f35ade621070c719e7e58411720514f99a58c5612df",
+    "tests/db/m04-review.sql": "5d92584130409a18f1dfb4c8906bed2619439bf61879de9fac94ed9598c823bb",
+    "tests/operations/test_m04_review_release.py": "9e72452562b5006982342d8a719da2cd67a9b743e2725cb5f61a62bf3acbb2d2",
+    "tools/local-postgres.mjs": "49929bce8eb51194d9299cfd9639e537eb237daaec76c15740cb88059604e2de",
+    "tools/m04-review-private-fixture-file.py": "b9d3faa05a9339f1843901e887bf6ba7e384410f791a4a92df05710fe921eaab",
+    "tools/prepare_m04_review_readback.py": "63d6ef02e51e0d732c780541aacdb203712db3368317ea7fc804821acc111663",
+    "tools/promote-m04-review-local.mjs": "75f7d2d71892b91debc66a840a30baefa1178d9f6bf76aec174426c60307a9ab",
+    "tools/provision_logo_verifier.py": "660f2eb0d15b1ed17801ecef22270dbb389fdf93181c340f16d715fc2b3a340c",
+    "tools/release_foundation.py": "02aac0cefc4b46419c7d5a086da672398716cf7ee73882602574cff99659d751",
+    "tools/release_m03_remaining.py": "5a608e480c7afb56a1b49c7a683c238d950301c589c1ff91348368f486995b7e",
+    "tools/release_manual_specs.py": "d535de68948547acb205881d336f525f272e1d032c1059ba4da12a8f5784d62f",
+    "tools/release_processing_foundation.py": "3f1c6b10e62e9713aaa511f332bcc554f9254ad4eec8564a02f59d6bf4fa8336",
+    "tools/release_role_order.py": "72de7c089a359d9ab9b77ec6f8fde912c529f5c03a2aea7b352fa91e177ab310",
+    "tools/release_specs_assets.py": "2a5926c2362d8ea246d3d6b9b43f09bbf5a662288cc8126b1cbf9a7f2ffbcaaa",
+    "tools/release_specs_pipeline.py": "6804c900be5837084e2e860c3cdd1d85461ad4af4e8169e716595cb02c232dc2",
+    "tools/release_specs_read_operation.py": "a68be68c78bb20b59216e5aabd9b568bb0d46ef9fd35097ceb78392f85ad304e",
+    "tools/sql/m04-casting-readback.sql": "13cc727a2e2e34321c6bbee2c98a3b7c85af88445fe1a1effd067d895fe5456f",
+    "tools/sql/m04-review-catalog.sql": "36a5b4a3368a5d37092159fcacd18360731aeae5851410f37850c612387529cc",
+    "tools/sql/m04-review-local-snapshot.sql": "7fbd8618363597ff158c429f6127c1eab0e51dce170d740c96f368c604b24d46",
+    "tools/sql/m04-review-new-state.sql": "ef20862443f40d83bb080efa849ab3fdb9e900947a8f12df3c1a347baa413896",
+    "tools/sql/m04-review-readback.sql": "0553c35775b668e33c06179d7748ead1e6e3a7fe1bb05f13070a5499f83148d1",
+    "tools/test-m04-review-local.mjs": "798ac5fdb5353b79960995569dc6f7e3a69f6d6a3362347ade6d136ec0dfad89",
+    "tools/test-m04-review-race-local.mjs": "02ad91ba056b5f7bf06a5649c7bda86d90f502643c8390afb4123e19fb854e76",
+    "tracking/evidence/m04/review-local/2026-10-29T20-28-40-932Z-1473f485.json": "7d8005b472ac9184bfe19e61217d3b07f7b25b1e9eff4f03b1313804032396ff",
+    "tracking/evidence/m04/review-race-local/2026-10-29T20-25-05-251Z-7b9b9fa1.json": "f6b46f0a8e23f3bc69ec00f4fef45f7287e84fd3e0b605a1753fec45f5ba95b0"
+  },
+  "required_markers": [
+    "M04_REVIEW_SERIES_POLICY_SNAPSHOT_SCOPE_REPLAY_PASSED",
+    "M04_REVIEW_TEN_FIELDS_ORDER_PENDING_AND_SHARED_FACT_FINGERPRINT_PASSED",
+    "M04_REVIEW_MEDIA_PIN_HASH_ORDER_AND_UNRELATED_PROCESSING_STABILITY_PASSED",
+    "M04_REVIEW_SCOPE_REVIEWED_PERMISSION_AND_TEMPLATE_BINDING_PASSED",
+    "M04_ROLE_RETIREMENT_TYPED_UNDO_HISTORY_AND_REPLAY_PASSED",
+    "M04_POOL_RETIREMENT_UNDO_MAIN_CONFLICT_STALE_AND_LIBRARY_PRESERVATION_PASSED",
+    "M04_SLOT_RETIREMENT_COMPLETE_INVERSE_CURRENT_AUTHORITY_PASSED",
+    "M04_AI_DURABLE_THREE_STAGES_SOURCE_BINDING_REPLAY_AND_NO_AUTOAPPLY_PASSED",
+    "M04_AI_SHARED_SOURCE_CHANGE_WITHOUT_ASSIGNMENT_REVISION_BLOCKS_PUBLISH_PASSED",
+    "M04_NATIVE_FIT_JOB_HASH_FONT_FENCE_AND_MISSING_CONTENT_FLEXIBILITY_PASSED",
+    "M04_FIT_CANONICAL_CHANGED_INPUT_AND_PRIVATE_SERVICE_SCOPE_PASSED",
+    "M04_PUBLIC_NEW_KIND_CANCEL_RETRY_REPLAY_AND_LATE_CALLBACK_PASSED",
+    "M04_DIRECT_RPC_NULL_AND_WRONG_TYPE_INPUTS_REJECTED_PASSED"
+  ]
+}

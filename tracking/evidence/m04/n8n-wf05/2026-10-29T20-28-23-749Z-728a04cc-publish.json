@@ -1,0 +1,45 @@
+{
+  "observed_at": "2026-10-29T20:28:23.749Z",
+  "result": "passed",
+  "action": "publish",
+  "workflow_id": "PEeZeBWzY3uoVzYL",
+  "version_id": "836c70ad-8088-4b06-ac6c-78d225de3cea",
+  "active": true,
+  "active_version_field_verified": true,
+  "graph_verified": true,
+  "hosting_deferred": true,
+  "public_worker_listener": false,
+  "automatic_retry": false,
+  "observations": [
+    {
+      "operation": "workflow_readback",
+      "method": "GET",
+      "http_status": 200,
+      "bytes": 5655
+    },
+    {
+      "operation": "known_wf01_contract",
+      "method": "GET",
+      "http_status": 200,
+      "bytes": 10472
+    },
+    {
+      "operation": "credential_schema",
+      "method": "GET",
+      "http_status": 200,
+      "bytes": 273
+    },
+    {
+      "operation": "workflow_activate",
+      "method": "POST",
+      "http_status": 200,
+      "bytes": 10123
+    },
+    {
+      "operation": "workflow_readback",
+      "method": "GET",
+      "http_status": 200,
+      "bytes": 10627
+    }
+  ]
+}

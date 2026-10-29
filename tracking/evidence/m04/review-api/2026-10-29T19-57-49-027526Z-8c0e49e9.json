@@ -1,0 +1,84 @@
+{
+  "observed_at": "2026-10-29T19:57:49.015956+00:00",
+  "result": "passed_scoped_offline_and_controlled_ui",
+  "scope": "M04 review series/domain/central/HTTP/MCP contract mapping and typed retirement Undo UI. Synthetic HTTP/DOM and SDK transport, no canonical SQL/Auth/provider acceptance.",
+  "focused_tests": {
+    "command": "node tools/run-tests.mjs tests/server/retirement-undo.test.ts tests/domain/review.test.ts packages/central/test/review.test.ts packages/central/test/jobs.test.ts tests/server/review-http-mcp.test.ts tests/server/casting-mcp.test.ts",
+    "tests": 26,
+    "passed": 26,
+    "failed": 0,
+    "skipped": 0
+  },
+  "controlled_browser": {
+    "command": "npm.cmd run test:e2e -- tests/e2e/retirement-undo-ui.spec.ts tests/e2e/casting-retirement-ui.spec.ts tests/e2e/specs-ui.spec.ts",
+    "passed": 10,
+    "failed": 0,
+    "skipped": 0,
+    "duration_ms": 25662.384000000002,
+    "new_undo_cases": 3,
+    "prior_retirement_cases": 4,
+    "prior_specs_cases": 3,
+    "report_sha256": "3d71b4da12334deb371eccabe20b590ab660e1393ab2e82e72ec3849ee9ffcc8",
+    "raw_report_ignored": true
+  },
+  "meaningful_red": {
+    "scope": "Initial confirmed removal lacked persistent Undo host",
+    "failed": 1,
+    "passed": 0,
+    "report_sha256": "ea36913aeedf33398157a583fa845a36046c766bd4d9ce575838c4769f4a52c0",
+    "raw_report_ignored": true
+  },
+  "other_red": {
+    "domain_missing_module": true,
+    "central_missing_module": true,
+    "new_review_fit_polling_test_pass7_fail1_before_kind_addition": true,
+    "mcp_pass6_fail1_before_series_patch_idempotency_contract_alignment": true
+  },
+  "behaviors": [
+    "Fixture Selection8/Shortlist6 with cover; exacttenfields/Pending and sourcefacts retained",
+    "Independent assignment notes/wording, shared-height updates acrosssamepersonassignments",
+    "Exactseriesrequired; response scope/counts/fitfingerprint crosschecks",
+    "OfficialSDK10optionalreviewtools and acting-user/idempotency parity; absence neverfallsback",
+    "AIexplicitallowlistedtargetfield and truthfulwaiting_for_input; source_textnotcanonicalauthority",
+    "TypedGETretirementeffect plusPOSTinverse; newerchoicesunavailable",
+    "Undo503then403thenexactACKretains3identicalrequests/oneeffectandlocksothercontrols"
+  ],
+  "lint": {
+    "result": "passed",
+    "scope": "20 selected implementation/test files; zero warnings"
+  },
+  "source_sha256": {
+    "packages/domain/src/review-types.ts": "a7164e142a3a51f4f5df49ca72fe848e57621322fef8451f8f4c9c492ad0c9a3",
+    "packages/domain/src/review.ts": "25b9cc9afff001999465dc24f3eaa2ac86696e5038c4fac3eebb2db1e90b80cf",
+    "packages/domain/src/index.ts": "94c66a32be12b1a165e2f73bcd6e3c0df94f7a190ac36f6897ebf4a1a63ccd08",
+    "packages/central/src/review.ts": "10392f8676c506213c69339248cac2f6a7dd3a88775ff2d0d439edca6e88c731",
+    "packages/central/src/review-dto.ts": "606e420761604b1e475a58ba3b9f5a30f767d604cf27f13c217bbd5b01cb995a",
+    "packages/central/src/index.ts": "bd34311e9b8e4dc0a4477053ee83b4a49184f5d2c80bf2eaf7185046c13fceeb",
+    "packages/central/src/jobs.ts": "96f47d0848a6857ce92e709f1536d57752906a62eee8ce07423671c4c82f9aea",
+    "apps/web/lib/review.ts": "79eaed84d6ec2a4b0fb95331695e22ffb53f911318db6229e13866a78f25152f",
+    "apps/web/lib/review-http.ts": "6ee3f01eca5b8f5a06f3be0536e4c5d2645cecfdcaff4e2f63aa6911c9c3fe9c",
+    "apps/web/lib/mcp.ts": "0e06aa7c780b6002de9d3632c6ee37af657bbcceb1a00011301dcee531102aef",
+    "contracts/openapi.yaml": "d6bfd5af7ac78213906f5902c7026c7784d52e5e50bfd27d600e48b1f560ece5",
+    "contracts/mcp-tool-catalog.json": "3c75249d4191dc797cf963b9b2d6c2866f7ecd059ae790da6d281b0ea8b76ee0",
+    "apps/web/lib/generated-contracts.json": "59fbb17fcfd372bf230b35aaba6cee31dfeffd2cea18c53085398a0217e23fc5",
+    "apps/web/components/RetirementUndo.tsx": "3635b9e12e75eff5229dd5053e511dbd7d0b0c37abb7908f2178bb676ff3aef1",
+    "apps/web/components/retirement-undo.ts": "ddbb1895d592ac5756323b56bbc0b7d4d6b6e9c6328647e6529eaa88ba103ab0",
+    "apps/web/components/RoleEditor.tsx": "85878b4ab3ad36e8d2439edbf54506cd4ec601f6f7f8f9d9ff6da994fd8ed8cb",
+    "apps/web/components/RoleSlots.tsx": "1d7e63c02d22d32ae5ad0fb5d343799853ae09ea4a3d92c19de0b717b6d1b57a",
+    "apps/web/components/SpecsView.tsx": "0ad02fcd124fc85d01121db1c9e5a5cc2f168a6134cf5783921a7cd807ea8d63",
+    "apps/web/components/WorkspaceCandidatesView.tsx": "715f402193eae354918d76917d3df9222ec8e217d176cc6fc65b62071888016a",
+    "tests/domain/review.test.ts": "16ca7a630d31525f50942e59f7bcb4ffdd98cf10cd8b05c76d2fb050a3bc610a",
+    "packages/central/test/review.test.ts": "70d6623f8bccd6da3aa98aeee70cbcf2bdd776d3998f028e2732f943bcef609b",
+    "packages/central/test/jobs.test.ts": "13a1cbb214ad895b8482f8b698dd8c29a84da4b7c29b3090b03dab8ba2ed9353",
+    "tests/server/review-http-mcp.test.ts": "92e905e58462fa1a6dfa152e6aebde29cb83ab1708ef463f63d2b9cf7b56bb68",
+    "tests/server/retirement-undo.test.ts": "c369a8a56c315e9de284d5943bce80d074faf7268772dc6a9e0becb1c1a1db86",
+    "tests/e2e/retirement-undo-ui.spec.ts": "36683932824b603b1d09e48af8c99bd3d3b39144bfaa34dc73a72e113adbd0e1",
+    "tools/update_m04_review_contracts.py": "915af35c2a1796cc2ff19cccf860493ec980aacf6918121fa4b110df33b04361"
+  },
+  "source_binding_scope": "Post-run own-source snapshot. Repository-global source stability during parallel root review/template work is not claimed.",
+  "cloud_called": false,
+  "provider_called": false,
+  "n8n_called": false,
+  "private_configuration_read": false,
+  "hosting_deferred": true
+}

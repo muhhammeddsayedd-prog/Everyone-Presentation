@@ -1,0 +1,20 @@
+{
+  "observed_at": "2026-10-29T20:33:22.808Z",
+  "result": "unconfirmed",
+  "cloud_called": false,
+  "provider_called": false,
+  "hosted_credentials_loaded": false,
+  "source_seals": {
+    "tools/sql/enable-producer-generation.sql": "b153688f95b2eac16561053a50caf96230284142e80d5a40480fbf9832bb38ba",
+    "tools/sql/producer-generation-readback.sql": "d0dafc01b8b56f630519a45109c600dc19fc1c541fc60ee4b4800a026b854a1c",
+    "tools/sql/producer-generation-local-fixture.sql": "e94fcad96c167739a34444c3df96a9e57f4522a07e2d829b044da815d68acd93",
+    "tools/complete_producer_generation.py": "1f13eda5fdf92b2fab11f530896c21200446488cd6b4812e91f79764fb4b26d8",
+    "development/local-db/reviewed.json": "148000f868d674d9c4bccc1c0ccad9cf86fe22352ca8f41e6d31066916ec1a5a",
+    "tools/local-postgres.mjs": "49929bce8eb51194d9299cfd9639e537eb237daaec76c15740cb88059604e2de"
+  },
+  "harness_sha256": "63428de95430e2822a8bb0884a509f2cfc2bb0c0b36ee3837533af32425c58d0",
+  "scope": "Exact absent-only administrative SQL under synthetic fixed-ID rows in one rolled-back owned PostgreSQL22 transaction.",
+  "hosting_deferred": true,
+  "rollback_verified": true,
+  "code": "PRODUCER_GENERATION_LOCAL_UNCONFIRMED"
+}

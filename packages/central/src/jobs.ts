@@ -4,7 +4,7 @@ import { verifyCentralUser } from './client.ts';
 import { centralRpcError } from './errors.ts';
 
 const STATUSES = ['queued', 'running', 'waiting_for_input', 'succeeded', 'failed', 'cancelled'] as const;
-const KINDS = ['specs_extract', 'candidate_scan', 'frame_extract', 'ai_suggestion', 'presentation_render', 'presentation_export'] as const;
+const KINDS = ['specs_extract', 'candidate_scan', 'frame_extract', 'ai_suggestion', 'review_fit', 'presentation_render', 'presentation_export'] as const;
 const SAFE_ERRORS: Record<string, string> = {
   SOURCE_UNREADABLE: 'The supplied source cannot be read.', UNSUPPORTED_FORMAT: 'The source format is unsupported.',
   RESULT_INVALID: 'The processing result failed validation.', EXTRACTION_REFUSED: 'Extraction could not complete for this input.',

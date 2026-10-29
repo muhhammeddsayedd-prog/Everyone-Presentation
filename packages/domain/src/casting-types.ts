@@ -24,6 +24,8 @@ export interface AssignmentCreate {
 export interface AssignmentPatch {
   row_version: number; position?: 'option' | 'backup'; shortlist_included?: boolean;
   presentation_notes?: string | null; internal_notes?: string | null; slide_wording?: SlideWording;
+  /** All three bind an explicit AI apply inside the canonical assignment transaction. */
+  ai_suggestion_id?: string; expected_series_id?: string; expected_input_fingerprint?: string;
 }
 export interface SetSlotMain {
   assignment_id: string | null; expected_slot_row_version: number; replacement_behavior: 'move_previous_to_backup';
