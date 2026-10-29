@@ -1,0 +1,68 @@
+{
+  "observed_at": "2026-10-29T07:12:29.894Z",
+  "result": "passed",
+  "read_only": true,
+  "cloud_called": false,
+  "system_identifier": "7701520506262638626",
+  "readback_sha256": "8c23cba328e8eef38c99520807dcb680895b94b5508dc307932d01b5fda76a2f",
+  "catalog_sha256": "d268208b5b618f2de626d6944f17ba9c96a5e7065e4823a8cb40a9b11cfef173",
+  "harness_sha256": "70a8815edc2fd35bb5eb771317b8ab58e222bfb4acf7bfc2a3a838fd06b0d485",
+  "policy_contract": {
+    "query_role": "postgres",
+    "database": "postgres",
+    "unrestricted_visibility": true,
+    "versions": [
+      "20261028010943",
+      "20261028013324",
+      "20261028013655",
+      "20261028024205",
+      "20261028072515",
+      "20261028162702",
+      "20261028162800",
+      "20261028172320",
+      "20261028184145",
+      "20261028222030",
+      "20261029001520",
+      "20261029003941",
+      "20261029070038"
+    ],
+    "catalog": {
+      "policies": [
+        {
+          "name": "eps_specs_capability_read",
+          "check": null,
+          "roles": [
+            "anon"
+          ],
+          "table": "storage.objects",
+          "using": "((bucket_id = ANY (ARRAY['eps-specs-assets'::text, 'eps-specs-outputs'::text])) AND (storage.allow_only_operation('object.get_authenticated'::text) OR storage.allow_only_operation('object.get_authenticated_info'::text)) AND eps.specs_storage_capability(bucket_id, name, 'read'::text))",
+          "command": "r",
+          "permissive": true
+        },
+        {
+          "name": "eps_specs_original_read",
+          "check": null,
+          "roles": [
+            "authenticated"
+          ],
+          "table": "storage.objects",
+          "using": "((bucket_id = 'eps-specs-assets'::text) AND (storage.allow_only_operation('object.get_authenticated'::text) OR storage.allow_only_operation('object.get_authenticated_info'::text)) AND eps.specs_storage_original_read(bucket_id, name))",
+          "command": "r",
+          "permissive": true
+        },
+        {
+          "name": "eps_specs_read_guard",
+          "check": null,
+          "roles": [
+            "PUBLIC"
+          ],
+          "table": "storage.objects",
+          "using": "((bucket_id <> ALL (ARRAY['eps-specs-assets'::text, 'eps-specs-outputs'::text])) OR ((storage.allow_only_operation('object.get_authenticated'::text) OR storage.allow_only_operation('object.get_authenticated_info'::text)) AND (((bucket_id = 'eps-specs-assets'::text) AND eps.specs_storage_original_read(bucket_id, name)) OR eps.specs_storage_capability(bucket_id, name, 'read'::text))))",
+          "command": "r",
+          "permissive": false
+        }
+      ]
+    },
+    "runtime": null
+  }
+}

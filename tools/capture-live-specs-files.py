@@ -14,13 +14,24 @@ import uuid
 from release_foundation import ROOT, TARGET, call
 
 VERSIONS = ['20261028010943', '20261028013324', '20261028013655', '20261028024205', '20261028072515', '20261028162702',
-            '20261028162800', '20261028172320', '20261028184145', '20261028222030', '20261029001520', '20261029003941']
+            '20261028162800', '20261028172320', '20261028184145', '20261028222030', '20261029001520', '20261029003941', '20261029070038']
 
 SQL = 'tools/sql/live-specs-files-readback.sql'
 SQL_SHA256 = 'fd05d73fa50b7c2c1b608101b1b34eea8784f846cca61ebfca81390036920c5c'
-JOB_EXPECTATIONS = None  # UUID -> {source_sha256, mime_type, arabic_expected}
-RELEASE_PROOF = 'tracking/evidence/cloud-specs-assets/2026-10-29T00-58-48-399742Z-cf9b507d-readback.json'
-RELEASE_PROOF_SHA256 = 'e239f91b8806a48e2a22f7072094251c0681fd138f7e7aa9b63ac96e4cebec5b'
+JOB_EXPECTATIONS = {
+    'c50391c2-da84-4ee0-9fd8-a2782eed234e': {
+        'source_sha256': '5619ce39c4d4f9e661fd59196ec1cd50a7c281f5618412c34a3b3eef003a1e83',
+        'mime_type': 'application/pdf',
+        'arabic_expected': False,
+    },
+    'ff514619-4106-4221-8663-6429241f687b': {
+        'source_sha256': 'a6a4fc469abbff576425a6ac7272f8f4d870cb2bc800ed289638d77a6e4384ef',
+        'mime_type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'arabic_expected': True,
+    },
+}
+RELEASE_PROOF = 'tracking/evidence/cloud-specs-read-operation/2026-10-29T07-22-46-245766Z-0a6a9099-readback.json'
+RELEASE_PROOF_SHA256 = 'bbb54bcd0633b55ef866eee6828c01e9b66bca413daff83d06a7e421464e3b0b'
 WORKSPACE = '098d5b48-42a3-475b-b562-735c9eafce80'
 PROJECT = '4b70c8ce-18bd-4a8c-b5a9-bc1156c06463'
 EVIDENCE = ROOT / 'tracking/evidence/m02/live-specs-files'

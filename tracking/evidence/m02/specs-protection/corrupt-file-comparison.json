@@ -1,0 +1,19 @@
+{
+  "observed_at": "2026-10-29T07:31:17.896935+00:00",
+  "result": "failed",
+  "scope": "Actual corrupt-file app rejection and canonical before/after comparison; no HTTP status assertion.",
+  "before": "tracking/evidence/m02/specs-protection/2026-10-29T07-29-17-511752+00-00-4ce7dd50-metadata.json",
+  "after": "tracking/evidence/m02/specs-protection/2026-10-29T07-30-27-654126+00-00-f063f1a3-metadata.json",
+  "checks": {
+    "spec_unchanged": true,
+    "roles_unchanged": true,
+    "slots_unchanged": true,
+    "jobs_unchanged": true,
+    "one_rejected_original_remains_unready": true,
+    "manual_instructions_enabled": false,
+    "scoped_error_visible": false
+  },
+  "job_count_before": 5,
+  "job_count_after": 5,
+  "new_upload_id": "36b70bff-1251-4771-a05d-a9bb30ad3951"
+}

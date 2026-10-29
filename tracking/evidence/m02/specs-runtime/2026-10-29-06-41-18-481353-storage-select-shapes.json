@@ -1,0 +1,43 @@
+{
+  "observed_at": "2026-10-29T06:41:18.480761+00:00",
+  "target": "pyibofyctwnqpvktepse",
+  "writes_requested": false,
+  "stats_reset_requested": false,
+  "query_text_recorded": false,
+  "sql_sha256": "00bf1031224267eb37f09cfbe2e6ee8d7fa43fda8301d2e6366f03164e0463dd",
+  "result": "passed",
+  "observed": {
+    "limit": 80,
+    "observed_at": "2026-10-29T06:41:18.178508+00:00",
+    "query_role": "postgres",
+    "query_text_recorded": false,
+    "statements": [
+      {
+        "calls": 10,
+        "filters_archived_at_null": true,
+        "mentions_delete_marker": true,
+        "mentions_version": true,
+        "query_sha256": "1c4291ef425f68564b04c9057a9c8eae73e1a4e2ba98adcc900bcb4c479f4bd3",
+        "role": "authenticated",
+        "rows": 0,
+        "uses_for_key_share": false,
+        "uses_for_share": false,
+        "uses_for_update": false
+      },
+      {
+        "calls": 2,
+        "filters_archived_at_null": true,
+        "mentions_delete_marker": false,
+        "mentions_version": true,
+        "query_sha256": "f1f3d3998825c79bf188a043551b5140441217391ae9a2510a5bfee9c2a0b510",
+        "role": "service_role",
+        "rows": 0,
+        "uses_for_key_share": false,
+        "uses_for_share": false,
+        "uses_for_update": true
+      }
+    ],
+    "stats_reset_requested": false,
+    "writes_requested": false
+  }
+}

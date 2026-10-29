@@ -1,0 +1,61 @@
+{
+  "observed_at": "2026-10-29T07:08:22.203Z",
+  "run_id": "34f2e77e-7a83-46c8-b864-34eb9955e6a2",
+  "result": "passed",
+  "file": "supabase/migrations/20261029070038_m02_specs_read_operation.sql",
+  "migration_sha256": "040151ec89b461be2dc0c1d4ab8446652062488aac5f63822129d497ecf1702e",
+  "manifest_sha256": "b03d02089e81e13dd5ec8b4245ecfdc81cd6f08e6e4e24ef97933e5d30d77a6c",
+  "candidate_proof": "tracking/evidence/m02/specs-read-operation-candidate/2026-10-29T06-58-54-461Z-156cc7e0-rollback.json",
+  "candidate_proof_sha256": "02b560e8259bccaacfb665e4558ed771eb6af40935e535504815b00da6d04e7f",
+  "cloud_called": false,
+  "promotion_retry": false,
+  "scope": "Only three reviewed Storage SELECT policy expressions change on owned local12→13; all data/roles/functions/other policies preserved.",
+  "promotion": {
+    "receipt": "development/local-db/receipts/2026-10-29T07-08-27-086Z-replay.json",
+    "action": "replay",
+    "observed_at": "2026-10-29T07:08:27.086Z",
+    "workspace_key": "ffaf4984e0e7402cd2f54f81",
+    "scope": "owned local Docker container only; no cloud operations",
+    "container": "eps-presentation-canonical-pg17-local",
+    "file": "supabase/migrations/20261029070038_m02_specs_read_operation.sql",
+    "sha256": "040151ec89b461be2dc0c1d4ab8446652062488aac5f63822129d497ecf1702e",
+    "result": "applied",
+    "warnings": ""
+  },
+  "observed_versions": [
+    "20261028010943",
+    "20261028013324",
+    "20261028013655",
+    "20261028024205",
+    "20261028072515",
+    "20261028162702",
+    "20261028162800",
+    "20261028172320",
+    "20261028184145",
+    "20261028222030",
+    "20261029001520",
+    "20261029003941",
+    "20261029070038"
+  ],
+  "business_rows_preserved": true,
+  "only_three_reviewed_read_predicates_changed": true,
+  "policy_effects": [
+    {
+      "name": "eps_specs_original_read",
+      "before_using_sha256": "f6d2d1289247f9f9483a2e1c6b98da96af6f5fafbe695531919cfde36bf7193e",
+      "after_using_sha256": "743bd89c5821ba0de2d57bd432c27f9963dd6bb69cda5e1f47d9dd62d403649d"
+    },
+    {
+      "name": "eps_specs_capability_read",
+      "before_using_sha256": "ec091021f817dba389632dfd7897323df82b2ed4882a70983457f84c045969b1",
+      "after_using_sha256": "20f819f0ceb92b068be6344b9d19b7fde4844d2816092a8953eec117923c7ca8"
+    },
+    {
+      "name": "eps_specs_read_guard",
+      "before_using_sha256": "108d82ff37bea506f7e825f0c8e507b7b162d7427c2b2d8350c6eae011743ae0",
+      "after_using_sha256": "6ea6a14a40847852f0e92d6d410938aa18996a8e0fd13b73183276350b8063c2"
+    }
+  ],
+  "lock_retained": false,
+  "finished_at": "2026-10-29T07:08:30.135Z"
+}

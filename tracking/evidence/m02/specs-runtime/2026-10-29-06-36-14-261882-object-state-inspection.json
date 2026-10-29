@@ -1,0 +1,41 @@
+{
+  "observed_at": "2026-10-29T06:36:14.261227+00:00",
+  "target": "pyibofyctwnqpvktepse",
+  "writes_requested": false,
+  "user_impersonation_requested": false,
+  "sql_sha256": "fdf436759d95c12f968f9a2924b2c4768261c60a0b1b8ad530daf0fc3b8d2a8f",
+  "result": "passed",
+  "observed": {
+    "bucket_state": {
+      "public": false,
+      "versioning_column": false,
+      "versioning_enabled": null,
+      "versioning_enabled_column": false,
+      "versioning_state": null
+    },
+    "object_rows": 1,
+    "object_state": {
+      "archived": false,
+      "archived_at_column": true,
+      "current_version_present": false,
+      "delete_marker": false,
+      "delete_marker_column": true,
+      "deleted": false,
+      "deleted_at_column": false,
+      "is_current": null,
+      "is_latest": null,
+      "version_id_present": false,
+      "version_present": true,
+      "version_uuid": "38def8be-0028-4c09-b301-a3b39b48c657"
+    },
+    "object_versions_relation_present": false,
+    "observed_at": "2026-10-29T06:36:13.089697+00:00",
+    "query_role": "postgres",
+    "visibility_columns": [
+      "archived_at",
+      "is_delete_marker",
+      "version"
+    ],
+    "writes_requested": false
+  }
+}

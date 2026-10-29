@@ -213,7 +213,8 @@
           "cloud": "applied",
           "target": "pyibofyctwnqpvktepse",
           "evidence": "tracking/evidence/cloud-specs-assets/2026-10-29T00-58-48-399742Z-cf9b507d-readback.json"
-        }
+        },
+        "supabase/migrations/20261029070038_m02_specs_read_operation.sql"
       ],
       "evidence": [
         "packages/jobs/",
@@ -285,15 +286,21 @@
         "tracking/evidence/m02/specs-runtime/2026-10-29T01-08-47-128Z-files-authenticated-gateway.json",
         "tracking/evidence/m02/specs-verifier/2026-10-29T00-59-55.618318Z-a5f8b2d2-92d2-47bb-a97c-d6248cf4c3ce-provision.json",
         "tracking/evidence/m02/specs-file-checks/final-modules.json",
-        "tracking/evidence/security/2026-10-29-precommit-private-values.json"
+        "tracking/evidence/security/2026-10-29-precommit-private-values.json",
+        "tracking/evidence/cloud-specs-read-operation/2026-10-29T07-22-46-245766Z-0a6a9099-readback.json",
+        "tracking/evidence/m02/live-specs-files/2026-10-29T07-27-45-389593+00-00-f054a457-metadata.json",
+        "tracking/evidence/m02/specs-protection/manual-edit-comparison.json",
+        "tracking/evidence/m02/specs-protection/corrupt-file-verification.json",
+        "tracking/evidence/m02/specs-runtime/2026-10-29T07-29-20-473Z-storage-denials.json",
+        "tracking/discovery/specs-storage-read-operations.md",
+        "tracking/evidence/m02/specs-file-checks/2026-10-29-resumed-modules.json"
       ],
       "blockers": [
-        "Real PDF/DOCX/corrupt-file app and private Storage HTTP acceptance are pending Chrome extension file URL permission; native computer pipe is unavailable. No file job has been fabricated.",
-        "Earlier intermittent gateway availability failures are preserved; v4 starts with bounded availability-only startup retries and safe diagnostics. Long-running health and exact underlying cause remain unverified.",
-        "Manual-edit-while-processing and remaining real retry/failure/concurrency checks remain; untouched machine baseline is preserved for the pending uploaded-file tests.",
-        "Full M01 logo/Storage, exact-key HTTP ServiceBearer facade and API/MCP release acceptance remain separate and incomplete. Hosting is deferred."
+        "Remaining exact HTTP ServiceBearer/API/MCP acceptance and real failure/retry/concurrency cases are not fully verified.",
+        "Earlier intermittent worker availability notices include confirmed connection timeouts; long-running endurance and the original pre-diagnostic startup failures remain separate/unverified.",
+        "Full M01 shared-record/logo/Storage, restore and production release acceptance remain incomplete. Hosting stays deferred."
       ],
-      "next_action": "Enable browser file URL access or owner attaches the prepared files; run real PDF/DOCX/private Storage through the signed-in app, then invalid input and pending manual-edit protection. Preserve current untouched generated baseline."
+      "next_action": "Continue the first incomplete M01 shared-record/logo gates and remaining M02 facade/recovery acceptance. Preserve the intentional b3f90268 INPUT_CHANGED/manual correction; do not auto-retry or replace those facts. M03 has not started."
     },
     {
       "id": "M03",
@@ -373,7 +380,7 @@
     },
     "real_provider_pipeline": {
       "status": "implemented_unverified",
-      "scope": "Actual signed-in pasted and queued-before-worker-relaunch jobs completed through real n8n/OpenAI and canonical publication. Uploaded PDF/DOCX and remaining M02 acceptance are pending.",
+      "scope": "Actual signed-in pasted, PDF and mixed Arabic DOCX jobs completed through real native preparation/private Storage/n8n/OpenAI and canonical publication. Ungranted reads, corrupt rejection and pending manual protection are verified. Remaining full M02 facade/failure/recovery acceptance is unverified.",
       "component_evidence": [
         "tracking/evidence/m02/provider-access/2026-10-28T19-07-58-393Z-presence.json",
         "tracking/evidence/m02/provider-access/2026-10-28T19-08-27-697Z-read-only-access.json",
@@ -383,7 +390,11 @@
       "evidence": [
         "tracking/evidence/m02/live-specs-app/2026-10-28T23-54-07.641799+00-00-database.json",
         "tracking/evidence/m02/live-specs-restart/2026-10-29T01-20-45-384033+00-00-7529509b-metadata.json",
-        "tracking/evidence/m02/live-specs-cancellation/2026-10-29T01-14-20-624210+00-00-111d53b2-metadata.json"
+        "tracking/evidence/m02/live-specs-cancellation/2026-10-29T01-14-20-624210+00-00-111d53b2-metadata.json",
+        "tracking/evidence/m02/live-specs-files/2026-10-29T07-27-45-389593+00-00-f054a457-metadata.json",
+        "tracking/evidence/m02/specs-protection/manual-edit-comparison.json",
+        "tracking/evidence/m02/specs-runtime/2026-10-29T07-29-20-473Z-storage-denials.json",
+        "tracking/evidence/m02/specs-protection/corrupt-file-verification.json"
       ]
     },
     "pdf_guest_mcp_restore_deploy": {
@@ -432,45 +443,45 @@
       "scope": "Project-local skill setup only; does not advance app milestones or verify integrations."
     }
   },
-  "notes": "M00 verified; M01/M02 in progress; M03-M07 not started. Twelve coordinated migrations local/cloud, private verifier and file flags enabled. Real signed-in pasted app and queued-before-worker-relaunch processing produced3roles/5slots through n8n and OpenAI; original facts/source history retained, queued cancellation passed. Uploaded PDF/DOCX/corrupt-file app, manual-edit pending-result and full API/MCP/Storage/release gates remain incomplete. Worker startup availability retries and safe diagnostics are implemented; v4 is locally running, while earlier intermittent failure cause remains unconfirmed. Hosting remains deferred.",
+  "notes": "M00 verified; M01/M02 in progress; M03-M07 not started. Thirteen coordinated migrations local/cloud. Real pasted, PDF and mixed Arabic DOCX app processing through n8n/OpenAI passed; private originals/derivatives and previous origins retained. Corrupt-file no-job rejection, four ungranted Storage reads and late manual-edit protection passed with stated evidence scopes. Final Dummy Test job intentionally Needs input to preserve its manual note and prior3roles/5slots. Full facade/MCP/recovery/restore/production acceptance remains incomplete. Hosting deferred.",
   "latest_checkpoint": {
-    "observed_at": "2026-10-29T01:31:20.424119+00:00",
-    "scope": "Actual local app with real canonical Supabase, n8n and OpenAI; uploaded-file app acceptance still pending browser permission.",
-    "cloud_history_versions": 12,
-    "local_history_versions": 12,
-    "cloud_readback": "tracking/evidence/cloud-specs-assets/2026-10-29T00-58-48-399742Z-cf9b507d-readback.json",
+    "observed_at": "2026-10-29T07:57:03.855710+00:00",
+    "scope": "Actual local app with real canonical Supabase, private uploaded PDF/DOCX processing through n8n/OpenAI, scoped rejection/privacy and pending-manual protection. Full M01/M02 acceptance remains incomplete.",
+    "cloud_history_versions": 13,
+    "local_history_versions": 13,
+    "cloud_readback": "tracking/evidence/cloud-specs-read-operation/2026-10-29T07-22-46-245766Z-0a6a9099-readback.json",
     "business_records_preserved_by_release": true,
-    "pasted_app_proof": "tracking/evidence/m02/live-specs-app/2026-10-28T23-54-07.641799+00-00-database.json",
-    "restart_app_proof": "tracking/evidence/m02/live-specs-restart/2026-10-29T01-20-45-384033+00-00-7529509b-metadata.json",
-    "queued_cancellation_proof": "tracking/evidence/m02/live-specs-cancellation/2026-10-29T01-14-20-624210+00-00-111d53b2-metadata.json",
-    "actual_app_openai_jobs": 2,
+    "file_upload_app_acceptance": "verified_local_app_with_real_cloud_services",
+    "file_proof": "tracking/evidence/m02/live-specs-files/2026-10-29T07-27-45-389593+00-00-f054a457-metadata.json",
+    "manual_protection_proof": "tracking/evidence/m02/specs-protection/manual-edit-comparison.json",
+    "reload_proof": "tracking/evidence/m02/specs-protection/reload-verification.json",
+    "actual_app_openai_jobs_with_saved_metadata": 7,
     "actual_app_openai_tokens": [
       2972,
-      2970
+      2970,
+      3384,
+      3286,
+      3258,
+      3249,
+      3152
     ],
     "active_roles": 3,
     "active_slots": 5,
-    "prior_roles_archived": 3,
-    "prior_slots_archived": 5,
-    "file_upload_app_acceptance": "blocked: Chrome extension lacks file URL access; native computer pipe unavailable",
-    "worker_health": "v4 launcher45596 alive at01:30:20Z; startup plus three recovery completions, no errors in this short observation. Earlier intermittent gateway failures remain historical/unexplained; bounded availability-only startup retry and safe diagnostics implemented.",
+    "prior_roles_archived": 15,
+    "prior_slots_archived": 25,
+    "current_protected_job": "b3f90268-147d-41d4-8875-2a6435df1496",
+    "current_protected_status": "waiting_for_input/INPUT_CHANGED",
+    "worker_health": "Owned worker16808/launcher45596 and web21424 confirmed alive at final local process check; file execution observed. Endurance remains unverified.",
     "hosting_selected": false,
     "production_acceptance": false,
     "module_tests": 274,
-    "module_suite_counts": {
-      "unit": 99,
-      "contracts": 6,
-      "jobs": 12,
-      "integrations": 18,
-      "worker": 67,
-      "central": 72
-    },
-    "quality_receipt": "tracking/evidence/m02/specs-file-checks/final-modules.json",
+    "quality_receipt": "tracking/evidence/m02/specs-file-checks/2026-10-29-live-files-final-checks.json",
     "pack_checks": 325,
-    "source_privacy_verification": "passed for exact implementation commit6a911d1 source/index/ZIP; final tracking-only archive gets a separate post-archive receipt",
-    "scanner_incident_receipt": "tracking/evidence/security/private-scan-alias-incident.json",
-    "source_commit": "6a911d1a2cdb086640da4566bb714741be9b3d81",
-    "source_privacy_receipt": "tracking/evidence/security/2026-10-29-precommit-private-values.json"
+    "source_base_commit": "69d40b79626c6eb81a817a372829abce31b774fe",
+    "source_commit": null,
+    "source_privacy_verification": "Exact final source/index/ZIP scan and archive identity are recorded in ignored dist/SOURCE_CHECKPOINT.json. Historical scans remain distinct.",
+    "source_privacy_receipt": "dist/SOURCE_CHECKPOINT.json",
+    "scanner_incident_receipt": "tracking/evidence/security/private-scan-alias-incident.json"
   },
   "historical_notes": [
     {
@@ -482,7 +493,7 @@
     "started_at": "2026-10-28T23:26:50.235318+00:00",
     "client_date": "2026-10-29",
     "scope": "Finish specs workflow with real OpenAI and actual app verification; local worker only, hosting deferred.",
-    "status": "awaiting_user_file_access",
+    "status": "completed",
     "planned_acceptance": [
       "Real narrow SCRAM/TLS service connection with current requester domain guards",
       "Reviewed additive cloud kernel release and readback, no reset/seed or placeholder Auth identity",
@@ -504,7 +515,7 @@
       "reload_during_processing": true,
       "hosting_deferred": true
     },
-    "checked_at": "2026-10-29T01:45:40.573226+00:00",
+    "checked_at": "2026-10-29T07:45:32.739620+00:00",
     "live_restart_specs": {
       "job_id": "1e1104aa-2e0f-4f6f-8bd3-7e04ac09e7ed",
       "status": "succeeded",
@@ -518,18 +529,32 @@
       "provider_calls": 0,
       "evidence": "tracking/evidence/m02/live-specs-cancellation/2026-10-29T01-14-20-624210+00-00-111d53b2-metadata.json"
     },
-    "cloud_history_versions": 12,
-    "local_history_versions": 12,
-    "file_app_acceptance": "awaiting_browser_file_permission",
+    "cloud_history_versions": 13,
+    "local_history_versions": 13,
+    "file_app_acceptance": "verified: real PDF/DOCX private Storage/native worker/n8n/OpenAI app processing, scoped corrupt rejection, denied ungranted reads and pending-manual-edit protection",
     "worker_runtime": {
       "launcher_pid": 45596,
       "started_at": "2026-10-29T01:28:40.9440589Z",
       "file_mode": true,
-      "last_observed_at": "2026-10-29T01:30:20Z",
-      "state": "started and recovered; short observation only",
+      "last_observed_at": "2026-10-29T07:41:19.350729+00:00",
+      "state": "Real file jobs and protected manual-edit result observed; local outward-only worker, endurance unverified",
       "historical_intermittent_failure_cause": "unconfirmed"
     },
-    "implementation_commit": "6a911d1a2cdb086640da4566bb714741be9b3d81"
+    "implementation_commit": "6a911d1a2cdb086640da4566bb714741be9b3d81",
+    "resumed_at": "2026-10-29T06:14:28.005278+00:00",
+    "file_url_access": "owner enabled; actual browser attachment succeeded",
+    "completed_at": "2026-10-29T07:45:32.739620+00:00",
+    "live_file_evidence": "tracking/evidence/m02/live-specs-files/2026-10-29T07-27-45-389593+00-00-f054a457-metadata.json",
+    "manual_protection_evidence": "tracking/evidence/m02/specs-protection/manual-edit-comparison.json",
+    "corrupt_file_evidence": "tracking/evidence/m02/specs-protection/corrupt-file-verification.json",
+    "storage_denial_evidence": "tracking/evidence/m02/specs-runtime/2026-10-29T07-29-20-473Z-storage-denials.json",
+    "current_test_job": {
+      "job_id": "b3f90268-147d-41d4-8875-2a6435df1496",
+      "status": "waiting_for_input",
+      "reason": "INPUT_CHANGED protects deliberate synthetic manual note",
+      "active_roles": 3,
+      "active_slots": 5
+    }
   },
   "historical_sessions": [
     {
@@ -682,6 +707,45 @@
           "2e38b6d"
         ]
       }
+    },
+    {
+      "observed_at": "2026-10-29T01:31:20.424119+00:00",
+      "scope": "Actual local app with real canonical Supabase, n8n and OpenAI; uploaded-file app acceptance still pending browser permission.",
+      "cloud_history_versions": 12,
+      "local_history_versions": 12,
+      "cloud_readback": "tracking/evidence/cloud-specs-assets/2026-10-29T00-58-48-399742Z-cf9b507d-readback.json",
+      "business_records_preserved_by_release": true,
+      "pasted_app_proof": "tracking/evidence/m02/live-specs-app/2026-10-28T23-54-07.641799+00-00-database.json",
+      "restart_app_proof": "tracking/evidence/m02/live-specs-restart/2026-10-29T01-20-45-384033+00-00-7529509b-metadata.json",
+      "queued_cancellation_proof": "tracking/evidence/m02/live-specs-cancellation/2026-10-29T01-14-20-624210+00-00-111d53b2-metadata.json",
+      "actual_app_openai_jobs": 2,
+      "actual_app_openai_tokens": [
+        2972,
+        2970
+      ],
+      "active_roles": 3,
+      "active_slots": 5,
+      "prior_roles_archived": 3,
+      "prior_slots_archived": 5,
+      "file_upload_app_acceptance": "blocked: Chrome extension lacks file URL access; native computer pipe unavailable",
+      "worker_health": "v4 launcher45596 alive at01:30:20Z; startup plus three recovery completions, no errors in this short observation. Earlier intermittent gateway failures remain historical/unexplained; bounded availability-only startup retry and safe diagnostics implemented.",
+      "hosting_selected": false,
+      "production_acceptance": false,
+      "module_tests": 274,
+      "module_suite_counts": {
+        "unit": 99,
+        "contracts": 6,
+        "jobs": 12,
+        "integrations": 18,
+        "worker": 67,
+        "central": 72
+      },
+      "quality_receipt": "tracking/evidence/m02/specs-file-checks/final-modules.json",
+      "pack_checks": 325,
+      "source_privacy_verification": "passed for exact implementation commit6a911d1 source/index/ZIP; final tracking-only archive gets a separate post-archive receipt",
+      "scanner_incident_receipt": "tracking/evidence/security/private-scan-alias-incident.json",
+      "source_commit": "6a911d1a2cdb086640da4566bb714741be9b3d81",
+      "source_privacy_receipt": "tracking/evidence/security/2026-10-29-precommit-private-values.json"
     }
   ]
 }

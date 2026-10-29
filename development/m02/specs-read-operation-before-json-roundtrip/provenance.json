@@ -1,0 +1,26 @@
+{
+  "recorded_at": "2026-10-29T07:19:47.100689+00:00",
+  "sources": [
+    {
+      "source": "tools/release_specs_read_operation.py",
+      "archive": "development/m02/specs-read-operation-before-json-roundtrip/release_specs_read_operation.py",
+      "sha256": "5a4372c8049f36e4e0e55df11a4f2b19527b76794a8d857a1ef648b1f67acf44"
+    },
+    {
+      "source": "tests/operations/test_specs_read_operation_release.py",
+      "archive": "development/m02/specs-read-operation-before-json-roundtrip/test_specs_read_operation_release.py",
+      "sha256": "fac48f00c59b6670a23b9e5bed5ca1099700293f5b23f3a8f989a8d0d5d6946d"
+    }
+  ],
+  "immutable_receipts": [
+    {
+      "path": "tracking/evidence/cloud-specs-read-operation/2026-10-29T07-18-21-024855Z-fdce4f00-dry-run.json",
+      "sha256": "0217f6483bbb2dd42d11f71ccaa724c7dc3785384f59b5553f02b39382a4177f"
+    },
+    {
+      "path": "tracking/evidence/cloud-specs-read-operation/2026-10-29T07-18-34-850120Z-2cf4502a-apply.json",
+      "sha256": "65ce0e6994d0e6393b23015b956af7ed8b85924311b70b81ecfa2294ca75af01"
+    }
+  ],
+  "scope": "Archive before canonical JSON-equivalent dry-run input comparison fix. Apply was blocked before dispatch; no policy or history changes from this failed invocation."
+}

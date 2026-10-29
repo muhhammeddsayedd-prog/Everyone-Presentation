@@ -1,0 +1,15 @@
+{
+  "observed_on": "2026-10-29",
+  "scope": "Pure comparison of the successful dry-run receipt, its failed pre-dispatch apply receipt and current public prerequisites. No CLI or database operation was invoked by this diagnosis.",
+  "dry_run": "2026-10-29T07-18-21-024855Z-fdce4f00-dry-run.json",
+  "failed_apply": "2026-10-29T07-18-34-850120Z-2cf4502a-apply.json",
+  "observed": {
+    "python_input_equality": false,
+    "canonical_json_input_equality": true,
+    "dry_and_failed_preflight_equal": true,
+    "dry_result_passed": true,
+    "apply_dispatch_attempted": false
+  },
+  "cause": "Tuple-valued source-proof pairs become arrays when persisted as JSON. Direct Python object equality rejected the otherwise identical receipt.",
+  "correction": "Compare canonical JSON values while retaining exact source, freshness, target, preflight and pending-migration requirements. A new dry-run is required for the corrected helper."
+}

@@ -1,5 +1,27 @@
 # Current Codex handoff
 
+## Current checkpoint: real uploaded specs workflow verified
+
+Updated 2026-10-29T07:45:32.739620+00:00. The requested local-worker specs workflow has been tested through the signed-in app. Hosting remains deferred. M00 verified; M01/M02 in progress; M03-M07 not started.
+
+- Coordinated local/cloud history is13. Migration20261029070038_m02_specs_read_operation.sql (040151ec...) adds the exact hosted metadata GET operation to3 existing SELECT predicates; all business/lease checks and other permissions remain. Cloud release/readback: [tracking/evidence/cloud-specs-read-operation/2026-10-29T07-22-46-245766Z-0a6a9099-readback.json](evidence/cloud-specs-read-operation/2026-10-29T07-22-46-245766Z-0a6a9099-readback.json). Do not rerun initial-state helpers or reapply13.
+- Actual file app proof: [tracking/evidence/m02/live-specs-files/2026-10-29T07-27-45-389593+00-00-f054a457-metadata.json](evidence/m02/live-specs-files/2026-10-29T07-27-45-389593+00-00-f054a457-metadata.json). PDF c50391c2-da84-4ee0-9fd8-a2782eed234e used3384 OpenAI tokens; DOCX ff514619-4106-4221-8663-6429241f687b used3286. Both committed3 stages, produced3roles/5slots, retained exact originals/private prepared JSON and grounded references. DOCX preserved Arabic and6paragraphs. Earlier sources/origins are archived and retained.
+- Final intentional test job **b3f90268-147d-41d4-8875-2a6435df1496** is **waiting_for_input / INPUT_CHANGED**. A manual instruction was saved while extraction was active; real OpenAI3152tokens returned, but every existing role/slot ID/value and prior extraction origin stayed unchanged. The synthetic manual note is retained. This is the expected guard, not a processing outage; do not auto-retry, erase or overwrite it. [Comparison](evidence/m02/specs-protection/manual-edit-comparison.json), [screenshot](evidence/m02/specs-protection/manual-protected.png).
+- Two earlier timing setup jobs33c246e8 and966446c1 finished before a manual edit and are ordinary successful runs, not manual-protection proof. Current active facts originate from966446c1. The final scope has8 jobs including the earlier queued cancellation.
+- [Corrupt-file proof](evidence/m02/specs-protection/corrupt-file-verification.json) compares unchanged spec/roles/slots/jobs and actual UI/DOM evidence. Its original comparison remains failed because a diff-only AX artifact lacked the asserted text. No HTTP422 assertion is made. The rejected original remains private/unready; no deletion or processing job occurred. [Four negative GETs](evidence/m02/specs-runtime/2026-10-29T07-29-20-473Z-storage-denials.json) denied missing/invalid grants with canonical legacy400/404, without source-body reads.
+- Worker remains local/outward-only, launcher45596/child16808 (verify current ownership before action); web listener21424 on127.0.0.1:3000. The actual07:01 runtime check verified SCRAM, CA/hostname,10 operations/3groups and no table/Auth authority. Existing private provider/runtime/verifier files remain ignored. Do not export user JWT/cookies or introduce service-role credentials. Early generic gateway failures remain distinct from later diagnosed connect timeouts; endurance is unverified.
+- The release-tool tuple/list JSON comparison bug stopped the first apply before dispatch. Original failed2cf4502a receipt and5a43 source are preserved; corrected a68be68c regression12/12 passed, followed by actual dry-run/apply/readback. Temporary upload diagnostics were removed; the4 app/server files match prior HEAD69d40b7. No placeholder identities, cloud reset/seed, public worker, tunnel or hosting choice was introduced.
+
+The final scoped-tool lint check required an explicit node:buffer import in the persisted local runner. Its exact executed70a881 source and actual a68be68c release/test sources are retained under development/m02/specs-read-operation-persisted-before-buffer-import/. Current f729db74 runner was rerun successfully in local13 with full rollback (2026-10-29T07-48-55-998Z-44970c8e). The historical release helper keeps its original seals and intentionally refuses changed inputs/current business state; do not reapply it. Manual note and Needs input survived a real browser reload; see evidence/m02/specs-protection/reload-verification.json.
+
+Next: finish first-incomplete M01 shared-record/logo acceptance and remaining M02 exact HTTP ServiceBearer/API/MCP and real failure/recovery gates before M03. Preserve the intentional protected draft. Continue with the relevant milestone packet; do not reopen settled requirements or credential/sign-in questions. Source archives/checkpoint/private-value scans under ignored dist are development handoffs, not production deployment proof.
+
+---
+
+## Superseded checkpoint retained below
+
+# Current Codex handoff
+
 ## Current checkpoint: real specs processing; uploaded-file app proof blocked
 
 Updated2026-10-29 after actual worker observation01:30:20Z. The active request remains **finish specs with real OpenAI and test through the app; keep hosting deferred**. This supersedes current-state wording in the retained historical sections below. M00 verified; M01/M02 in_progress; M03-M07 not_started. Do not call M02 or uploaded-file acceptance complete.

@@ -1,0 +1,54 @@
+{
+  "observed_at": "2026-10-29T07:50:30.993206+00:00",
+  "scope": "Final source/tool/pack checks for the local real-service file slice; not full milestone or production acceptance.",
+  "module_tests": {
+    "result": "passed",
+    "count": 274,
+    "receipt": "tracking/evidence/m02/specs-file-checks/2026-10-29-resumed-modules.json"
+  },
+  "typecheck": {
+    "result": "passed",
+    "command": "npm.cmd run typecheck"
+  },
+  "lint": {
+    "result": "passed",
+    "command": "npm.cmd run lint"
+  },
+  "scoped_mjs_lint": {
+    "result": "passed",
+    "note": "Initial missing explicit Buffer import diagnosed; executed sources archived, import corrected and lint passed."
+  },
+  "operations_tests": {
+    "storage_denials": 7,
+    "release_receipt_guard": 12,
+    "result": "passed"
+  },
+  "sql_policy_checks": {
+    "candidate": "passed RED/GREEN and exact rollback",
+    "persisted_current_runner": "passed, tracking/evidence/m02/specs-read-operation-local/2026-10-29T07-48-55-998Z-44970c8e-rollback.json",
+    "cloud_readback": "passed, 2026-10-29T07-22-46-245766Z-0a6a9099"
+  },
+  "pack_source_checks": {
+    "result": "passed",
+    "checks": 325,
+    "actual_app_tested_by_pack_checker": false
+  },
+  "skills_integrity": {
+    "result": "passed",
+    "canonical_skills": 53,
+    "errors": 0,
+    "warnings": 0,
+    "runtime_activation_attested": false
+  },
+  "build": {
+    "scope": "Previous successful isolated web build/production guard reused; the four temporary app/server probes were restored exactly to HEAD69d40b7. No final UI/bundle implementation changed.",
+    "fresh_build_claimed": false,
+    "prior_receipt": "tracking/evidence/m02/specs-file-checks/root-commands.json"
+  },
+  "historical_failures_preserved": [
+    "pre-dispatch tuple/list receipt guard failure",
+    "diff-only AX corrupt comparison",
+    "missed manual-edit timing setup runs"
+  ],
+  "hosting_selected": false
+}

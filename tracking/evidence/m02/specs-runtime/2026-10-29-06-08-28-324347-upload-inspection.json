@@ -1,0 +1,56 @@
+{
+  "observed_at": "2026-10-29T06:08:28.323947+00:00",
+  "target": "pyibofyctwnqpvktepse",
+  "writes_requested": false,
+  "sql_sha256": "4200eab17bdb4192f815ab8e10b3b529e8b1fb3828628316da21ac9b9ba1b309",
+  "result": "passed",
+  "observed": {
+    "database": "postgres",
+    "file_jobs": [],
+    "flags": {
+      "capabilities_enabled": true,
+      "file_pipeline_enabled": true,
+      "uploads_enabled": true
+    },
+    "observed_at": "2026-10-29T06:08:27.455649+00:00",
+    "query_role": "postgres",
+    "rpcs": {
+      "finalize": true,
+      "get": true,
+      "prepare": true,
+      "reserve": true
+    },
+    "spec": {
+      "processing_job_id": "1e1104aa-2e0f-4f6f-8bd3-7e04ac09e7ed",
+      "row_version": 6,
+      "source_asset_id": null,
+      "source_extraction_job_id": "1e1104aa-2e0f-4f6f-8bd3-7e04ac09e7ed",
+      "source_row_version": 4,
+      "spec_id": "73a1a500-acfe-48cc-91ba-53a83b895118",
+      "workspace_draft_revision": 7,
+      "workspace_row_version": 8
+    },
+    "uploads": [
+      {
+        "asset_id": "64e07944-43b9-46a0-aef2-92430a38773c",
+        "asset_sha256": null,
+        "asset_status": "uploading",
+        "completed_at": null,
+        "created_at": "2026-10-29T06:04:44.181497+00:00",
+        "expected_filename_matches": true,
+        "expected_mime_type": "application/pdf",
+        "expected_sha256": "5619ce39c4d4f9e661fd59196ec1cd50a7c281f5618412c34a3b3eef003a1e83",
+        "expected_size_bytes": 1827,
+        "expired": false,
+        "object_metadata_present": true,
+        "status": "open",
+        "upload_id": "e2b251a0-a25c-4919-a722-28c6ff84f408"
+      }
+    ],
+    "verification_key": {
+      "expected_active_key_count": 1,
+      "purpose_key_count": 1
+    },
+    "writes_requested": false
+  }
+}

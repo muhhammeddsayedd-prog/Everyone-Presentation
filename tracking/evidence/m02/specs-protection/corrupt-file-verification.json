@@ -1,0 +1,24 @@
+{
+  "observed_at": "2026-10-29T07:43:13.577735+00:00",
+  "result": "passed",
+  "before": "tracking/evidence/m02/specs-protection/2026-10-29T07-29-17-511752+00-00-4ce7dd50-metadata.json",
+  "after": "tracking/evidence/m02/specs-protection/2026-10-29T07-30-27-654126+00-00-f063f1a3-metadata.json",
+  "checks": {
+    "spec_unchanged": true,
+    "roles_unchanged": true,
+    "slots_unchanged": true,
+    "jobs_unchanged": true,
+    "rejected_original_not_ready": true,
+    "manual_editing_available_after_discard": true
+  },
+  "job_count_before": 5,
+  "job_count_after": 5,
+  "ui_error_evidence": {
+    "kind": "Root visually observed actual CUA AX result and screenshot",
+    "message": "The document could not be accepted. Choose a valid text-rich PDF, DOCX or UTF-8 text file.",
+    "screenshot": "tracking/evidence/m02/live-specs-files/ui/corrupt-rejected.png",
+    "sha256": "821c1fa55ca0a31c0d03b20fa2de934ac3af4ea1bfef6d1127076e913b2e5c54"
+  },
+  "historical_comparison": "corrupt-file-comparison.json remains failed: diff-only AX capture lacked the strings needed for its text assertions. The canonical data checks passed there. This verification separates actual DOM and visual evidence from metadata comparison.",
+  "http_status_asserted": false
+}

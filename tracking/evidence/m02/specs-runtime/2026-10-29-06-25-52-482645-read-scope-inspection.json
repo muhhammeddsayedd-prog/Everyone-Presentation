@@ -1,0 +1,157 @@
+{
+  "observed_at": "2026-10-29T06:25:52.482186+00:00",
+  "target": "pyibofyctwnqpvktepse",
+  "writes_requested": false,
+  "user_impersonation_requested": false,
+  "sql_sha256": "201f848b072933288976e2003f3141fc0895ba6bf3a94de29a87ea3e0808e022",
+  "result": "passed",
+  "observed": {
+    "effective_helper_access": {
+      "authenticated_eps_usage": true,
+      "authenticated_operation_execute": true,
+      "authenticated_original_read_execute": true,
+      "owner_auth_uid_execute": true,
+      "owner_auth_usage": true,
+      "owner_logo_scope_execute": true,
+      "owner_media_select": true,
+      "owner_upload_select": true
+    },
+    "helper_catalog": [
+      {
+        "definition_sha256": "f9081936ae7c19cb58ef4e1e39301ac782d740974bfc88af2fb06834db2c10f4",
+        "empty_search_path": true,
+        "historical_definition_matches": null,
+        "identity": "eps.specs_storage_original_read(text,text)",
+        "owner": "eps_specs_upload_owner",
+        "security_definer": true,
+        "unexpected_function_settings": false,
+        "volatility": "v"
+      },
+      {
+        "definition_sha256": "a12f88ff4e00a9a63c24a93ea5b120e790be63a3555e840656c6525ff6dc0a85",
+        "empty_search_path": false,
+        "historical_definition_matches": true,
+        "identity": "storage.allow_only_operation(text)",
+        "owner": "supabase_storage_admin",
+        "security_definer": false,
+        "unexpected_function_settings": false,
+        "volatility": "s"
+      },
+      {
+        "definition_sha256": "45b3c213bf286ff7601da09fd91d246339d8c79e0bd573bfb6984d806841fcde",
+        "empty_search_path": false,
+        "historical_definition_matches": true,
+        "identity": "storage.operation()",
+        "owner": "supabase_storage_admin",
+        "security_definer": false,
+        "unexpected_function_settings": false,
+        "volatility": "s"
+      }
+    ],
+    "object_metadata": {
+      "etag_matches_local_fixture_md5": true,
+      "mime_matches": true,
+      "present": true,
+      "size_matches": true
+    },
+    "observed_at": "2026-10-29T06:25:52.212764+00:00",
+    "query_role": "postgres",
+    "read_policies": [
+      {
+        "command": "r",
+        "name": "eps_specs_original_read",
+        "permissive": true,
+        "relation": "storage.objects",
+        "roles": [
+          "authenticated"
+        ],
+        "using_sha256": "f6d2d1289247f9f9483a2e1c6b98da96af6f5fafbe695531919cfde36bf7193e"
+      },
+      {
+        "command": "*",
+        "name": "eps_specs_owners_no_objects",
+        "permissive": false,
+        "relation": "storage.objects",
+        "roles": [
+          "eps_specs_upload_owner",
+          "eps_specs_verify_owner",
+          "eps_specs_assets_owner"
+        ],
+        "using_sha256": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+      },
+      {
+        "command": "r",
+        "name": "eps_specs_read_guard",
+        "permissive": false,
+        "relation": "storage.objects",
+        "roles": [
+          "public"
+        ],
+        "using_sha256": "108d82ff37bea506f7e825f0c8e507b7b162d7427c2b2d8350c6eae011743ae0"
+      },
+      {
+        "command": "r",
+        "name": "specs_original_read",
+        "permissive": true,
+        "relation": "eps.media_assets",
+        "roles": [
+          "eps_specs_upload_owner",
+          "eps_specs_verify_owner"
+        ],
+        "using_sha256": "de483a342f799ca90ae848731be127b2a3711b7179349a8fdc5e6020f67ed0f7"
+      },
+      {
+        "command": "r",
+        "name": "specs_upload_read",
+        "permissive": true,
+        "relation": "eps.specs_upload_sessions",
+        "roles": [
+          "eps_specs_upload_owner",
+          "eps_specs_verify_owner"
+        ],
+        "using_sha256": "c18baf9ccc1599d087a6425ec9bc53d1006de1ecd8ebf3a67458010f4e4e1890"
+      }
+    ],
+    "relations": [
+      {
+        "force_rls": true,
+        "identity": "eps.media_assets",
+        "owner": "postgres",
+        "rls": true
+      },
+      {
+        "force_rls": true,
+        "identity": "eps.specs_upload_sessions",
+        "owner": "postgres",
+        "rls": true
+      },
+      {
+        "force_rls": false,
+        "identity": "storage.objects",
+        "owner": "supabase_storage_admin",
+        "rls": true
+      }
+    ],
+    "stored_principal_predicates": {
+      "active_project_membership": true,
+      "asset_path_matches": true,
+      "asset_uploading": true,
+      "asset_workspace_matches": true,
+      "bound_to_first_actual_requester": true,
+      "current_auth_eligible": true,
+      "original_purpose": true,
+      "project_active": true,
+      "projects_read": true,
+      "session_expires_at": "2026-10-29T08:04:44.181497+00:00",
+      "session_open": true,
+      "session_unexpired": true,
+      "spec_version_matches": true,
+      "workspace_active": true,
+      "workspaces_read": true,
+      "workspaces_write": true,
+      "writable_project_membership": true
+    },
+    "user_impersonation_requested": false,
+    "writes_requested": false
+  }
+}

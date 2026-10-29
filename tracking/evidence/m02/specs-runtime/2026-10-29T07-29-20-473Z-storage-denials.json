@@ -1,0 +1,41 @@
+{
+  "observed_at": "2026-10-29T07:29:20.473Z",
+  "result": "passed",
+  "http_requests": 4,
+  "source_bodies_read": false,
+  "error_bodies_inspected": true,
+  "object_mutations_requested": false,
+  "user_credentials_loaded": false,
+  "database_called": false,
+  "provider_called": false,
+  "checks": [
+    {
+      "asset_id": "64e07944-43b9-46a0-aef2-92430a38773c",
+      "case": "missing_capability",
+      "http_status": 400,
+      "denied": true,
+      "legacy_error_matched": true
+    },
+    {
+      "asset_id": "64e07944-43b9-46a0-aef2-92430a38773c",
+      "case": "invalid_capability",
+      "http_status": 400,
+      "denied": true,
+      "legacy_error_matched": true
+    },
+    {
+      "asset_id": "f94b4d49-e3d7-41cb-b936-a03570b3ccf3",
+      "case": "missing_capability",
+      "http_status": 400,
+      "denied": true,
+      "legacy_error_matched": true
+    },
+    {
+      "asset_id": "f94b4d49-e3d7-41cb-b936-a03570b3ccf3",
+      "case": "invalid_capability",
+      "http_status": 400,
+      "denied": true,
+      "legacy_error_matched": true
+    }
+  ]
+}

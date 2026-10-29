@@ -1,0 +1,33 @@
+{
+  "observed_at": "2026-10-29T07:42:40.485088+00:00",
+  "result": "passed",
+  "scope": "Actual app manual autosave during visible extraction; later real provider result cannot overwrite existing requirements. No conflict/revision-manager UI added.",
+  "before": "tracking/evidence/m02/specs-protection/2026-10-29T07-38-19-852074+00-00-ab323b81-metadata.json",
+  "after": "tracking/evidence/m02/specs-protection/2026-10-29T07-41-19-350729+00-00-72ea632b-metadata.json",
+  "job_id": "b3f90268-147d-41d4-8875-2a6435df1496",
+  "checks": {
+    "baseline_instruction_matches_observed_text": true,
+    "manual_instruction_retained": true,
+    "all_roles_unchanged": true,
+    "all_slots_unchanged": true,
+    "previous_extraction_origin_retained": true,
+    "previous_extraction_payload_retained": true,
+    "new_job_waits_for_input": true,
+    "real_provider_result_retained": true,
+    "preparation_and_extraction_completed": true,
+    "one_new_job": true
+  },
+  "provider_usage": {
+    "input_tokens": 1421,
+    "metadata_rows": 1,
+    "output_tokens": 1731,
+    "total_tokens": 3152
+  },
+  "active_roles": 3,
+  "active_slots": 5,
+  "ui_screenshot": "tracking/evidence/m02/specs-protection/manual-protected.png",
+  "extra_timing_setup_jobs_without_manual_edits": [
+    "33c246e8-6df1-489d-8092-dcd093598182",
+    "966446c1-1bb4-421b-8915-94fb543460eb"
+  ]
+}
