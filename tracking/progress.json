@@ -162,7 +162,8 @@
         "74ae183",
         "6ac2ada",
         "cac474f",
-        "2e38b6d"
+        "2e38b6d",
+        "6a911d1"
       ],
       "migrations": [
         {
@@ -282,7 +283,9 @@
         "tracking/evidence/m02/specs-file-checks/README.md",
         "tracking/evidence/m02/specs-assets-activation/2026-10-29T01-07-57.844714Z-bed1c09f-03a1-485a-9c27-a4c865f86996-enable.json",
         "tracking/evidence/m02/specs-runtime/2026-10-29T01-08-47-128Z-files-authenticated-gateway.json",
-        "tracking/evidence/m02/specs-verifier/2026-10-29T00-59-55.618318Z-a5f8b2d2-92d2-47bb-a97c-d6248cf4c3ce-provision.json"
+        "tracking/evidence/m02/specs-verifier/2026-10-29T00-59-55.618318Z-a5f8b2d2-92d2-47bb-a97c-d6248cf4c3ce-provision.json",
+        "tracking/evidence/m02/specs-file-checks/final-modules.json",
+        "tracking/evidence/security/2026-10-29-precommit-private-values.json"
       ],
       "blockers": [
         "Real PDF/DOCX/corrupt-file app and private Storage HTTP acceptance are pending Chrome extension file URL permission; native computer pipe is unavailable. No file job has been fabricated.",
@@ -464,8 +467,10 @@
     },
     "quality_receipt": "tracking/evidence/m02/specs-file-checks/final-modules.json",
     "pack_checks": 325,
-    "source_privacy_verification": "Initial scan blocked after PATH Python alias created unexpected runtime; quarantined without deletion, scanner pins existing venv; final refreshed scan pending.",
-    "scanner_incident_receipt": "tracking/evidence/security/private-scan-alias-incident.json"
+    "source_privacy_verification": "passed for exact implementation commit6a911d1 source/index/ZIP; final tracking-only archive gets a separate post-archive receipt",
+    "scanner_incident_receipt": "tracking/evidence/security/private-scan-alias-incident.json",
+    "source_commit": "6a911d1a2cdb086640da4566bb714741be9b3d81",
+    "source_privacy_receipt": "tracking/evidence/security/2026-10-29-precommit-private-values.json"
   },
   "historical_notes": [
     {
@@ -477,7 +482,7 @@
     "started_at": "2026-10-28T23:26:50.235318+00:00",
     "client_date": "2026-10-29",
     "scope": "Finish specs workflow with real OpenAI and actual app verification; local worker only, hosting deferred.",
-    "status": "in_progress",
+    "status": "awaiting_user_file_access",
     "planned_acceptance": [
       "Real narrow SCRAM/TLS service connection with current requester domain guards",
       "Reviewed additive cloud kernel release and readback, no reset/seed or placeholder Auth identity",
@@ -499,7 +504,7 @@
       "reload_during_processing": true,
       "hosting_deferred": true
     },
-    "checked_at": "2026-10-29T01:31:20.424119+00:00",
+    "checked_at": "2026-10-29T01:45:40.573226+00:00",
     "live_restart_specs": {
       "job_id": "1e1104aa-2e0f-4f6f-8bd3-7e04ac09e7ed",
       "status": "succeeded",
@@ -523,7 +528,8 @@
       "last_observed_at": "2026-10-29T01:30:20Z",
       "state": "started and recovered; short observation only",
       "historical_intermittent_failure_cause": "unconfirmed"
-    }
+    },
+    "implementation_commit": "6a911d1a2cdb086640da4566bb714741be9b3d81"
   },
   "historical_sessions": [
     {

@@ -64,6 +64,5 @@ M01/M02 remain in progress; hosting and production release acceptance remain
 unverified. The first actual private-value scan blocked; the original failed
 receipt is preserved. The [incident record](../../security/private-scan-alias-incident.json)
 documents the unexpected Python installer activity, quarantine and fixed-interpreter
-correction. No actual private values were reported. The corrected scan awaits a
-matching rebuilt ZIP and current Git index. Post-archive receipts belong in ignored
+correction. No actual private values were reported. The corrected actual scan [passed on the implementation checkpoint](../../security/2026-10-29-precommit-private-values.json): no current private-value match in the exact source, staged bytes or archive; source/manifest/private-input stability passed. A final tracking-only archive has its own ignored post-archive receipt. Post-archive receipts belong in ignored
 `dist/checkpoints/private-values/` so recording them cannot invalidate ZIP/source parity.

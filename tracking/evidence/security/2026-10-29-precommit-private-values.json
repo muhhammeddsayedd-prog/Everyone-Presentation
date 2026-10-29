@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-29T01:43:38.481Z",
+  "scope": "Fixed current private values in Git-eligible source, staged blob bytes and exact source ZIP",
+  "result": "passed",
+  "private_value_found": false,
+  "private_configuration_sources": 4,
+  "private_value_families": 6,
+  "source_files": 2471,
+  "source_bytes": 69117414,
+  "source_hits": 0,
+  "staged_entries": 2471,
+  "staged_blobs": 1947,
+  "staged_blob_bytes": 60731965,
+  "staged_hits": 0,
+  "archive_entries": 2472,
+  "archive_bytes_expanded": 69599525,
+  "archive_hits": 0,
+  "manifest_integrity_verified": true,
+  "source_and_archive_stable": true,
+  "private_input_snapshot_stable": true,
+  "identities_scanned": false,
+  "private_values_or_digests_recorded": false,
+  "external_network_called": false,
+  "binding": {
+    "source_commit": "6a911d1a2cdb086640da4566bb714741be9b3d81",
+    "archive_sha256": "734426b4dd412d03a467f6158b11127685fa7646ca0ef31d7c565856b1c5bfc6",
+    "archive_bytes": 17665725,
+    "preserved_archive": "dist/checkpoints/2026-10-29-6a911d1-Source.zip",
+    "scope": "Exact precommit source/index/ZIP that became commit6a911d1; subsequent tracking-only changes require their own final archive scan."
+  }
+}
