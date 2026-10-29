@@ -29,6 +29,8 @@ The machine-readable status mirror is [tracking/progress.json](tracking/progress
 
 ### 2026-10-29 - Actual M03 video path and private frame display verified
 
+- Implementation commit `7f4533f400140c8c002fe6b2b51aae09400ab38f`; exact implementation source/index/archive private-value scan passed across9 secret families. Final documentation/archive identity is recorded separately in ignored `dist/SOURCE_CHECKPOINT.json`.
+
 - App job55415ff2 completed five stages with a Ready19.8-second original, private Arabic transcript,4 source-grounded populated/7unknown extraction fields, OpenAI1649 extraction tokens and separately read-back20 seconds of transcription usage. All12 registered JPEGs load through authenticated content;3 are selected. All11 fact properties (ten conceptual fields), unknown wording and transcript render. Actual profile remains Unreviewed with age-as-of unknown. See [canonical evidence](tracking/evidence/m03/live-capture/README.md) and [browser metadata proof](tracking/evidence/m03/app-media-read/browser-media-success.json).
 - Fixed actual generic-media routing that treated candidate frames as logos. Fresh principal-matched global cast.read selects the strict candidate reader before legacy project-scoped probes; only typed404 permits fallback. Readers recheck their own authorization/metadata. A frame preview failure now has explicit UI feedback. Original-video metadata loads; semantic/SAR quality remains separate.
 - Actual shared frame edit persisted while project pins stayed at3.12/12.48/14.04 seconds; the shared default order was restored. The synthetic profile also has independent availability in the two canonical projects. No casting approval or invented personal fact was created.

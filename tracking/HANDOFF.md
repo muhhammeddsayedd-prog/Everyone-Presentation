@@ -1,5 +1,7 @@
 # Current handoff - Everyone Presentation Studio
 
+Implementation commit `7f4533f400140c8c002fe6b2b51aae09400ab38f`. The final documentation/source archive checkpoint is recorded separately in ignored `dist/SOURCE_CHECKPOINT.json`.
+
 M02 is verified by `tracking/evidence/m02/ACCEPTANCE_MATRIX.md`; M03 is in progress. M01/logo/shared-record release checks remain separate. Hosting is explicitly deferred. Do not restart the requirements interview or select/deploy hosting.
 
 ## Current evidence

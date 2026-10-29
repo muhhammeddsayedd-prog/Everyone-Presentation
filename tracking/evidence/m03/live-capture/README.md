@@ -61,3 +61,9 @@ the failed attempt's behavior. The fourth app job now supplies the successful
 canonical pipeline evidence above. Actual app frame/playback checks, semantic
 accuracy and English/mixed-source coverage remain separate acceptance evidence
 for the integration owner. Earlier failures remain retained.
+
+## Subsequent app display and independent pin proof
+
+The [actual browser metadata proof](../app-media-read/browser-media-success.json) verifies all12 authenticated JPEGs loaded, all11 fact properties with unknown wording, the expanded original Arabic transcript and original-video metadata. A saved shared frame edit left the project pins at3.12/12.48/14.04 seconds; the shared default was restored. The [preview routing failure](../app-media-read/preview-routing-failure.json) remains preserved. Fresh principal-matched cast.read now selects the candidate reader before legacy project-scoped reads; only404 permits fallback and each selected reader rechecks scope/strict metadata.
+
+[Independent canonical usage readback](app-transcription-usage.json) now confirms20 seconds from the successful app job itself; this supersedes reliance on the earlier root attestation without changing its historical label. It is separate from the direct diagnostic service probe. No further paid call was used for this readback. Semantic factual accuracy, broad English/mixed coverage and SAR/display geometry quality remain unverified. Real transcript/portrait AX/PNGs remain ignored/private.
