@@ -389,3 +389,5 @@ Owner authorized guest sharing and feedback from verified M05/fa7233e. Database,
 ## 2026-10-30 M07 live access follow-up
 
 Read [the live verification guide](development/m07/live-settings/README.md), [current29 issuer proof](development/m07/oauth-hook29/README.md) and [inert issuer30 review package](development/m07/issuer-release30/README.md). The settings capability completion has already dispatched and must never be repeated. Settings is restored to Africa/Cairo/template1.1.0 at revision3. Actual OAuth remains disabled; the next release must use fresh canonical metadata and a coordinated new migration, not frozen history28/29 harness rewrites. Full provider, representative/deployed and manual acceptance remain separate gates.
+
+Checkpoint implementation/evidence commit: `ff6851185102f576c0b8c0b9780e07fca8ad87f7`. Later metadata-only annotations leave tested app/SQL/helper sources unchanged. Pack source validation passed359 checks/1400 local links; provider activation remains pending required confirmation.

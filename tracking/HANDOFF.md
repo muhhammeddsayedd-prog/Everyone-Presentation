@@ -2,6 +2,8 @@
 
 M07 remains **in progress; production release unverified**. AT-072 manual screen-reader and broader independently labelled M03 English/mixed semantic checks remain pending, mobile testing stays skipped and hosting/public exposure/deployment stays deferred. The owner will configure and log in Claude Code. Do not create `.mcp.json`, start its login/model calls, copy client credentials, enroll Producer again, seed/reset cloud, repeat completed settings/grants or retry protected M02 job `b3f90268-147d-41d4-8875-2a6435df1496`.
 
+Implementation/evidence commit: **ff6851185102f576c0b8c0b9780e07fca8ad87f7**. Later metadata annotations do not change tested code/SQL/helpers. Static pack validation passed359 checks/1400 local links; the staged76-file private-family check passed with zero hits (10 fixed private inputs/14 families, not a full-source/PII/archive scan).
+
 The prior live Settings handoff is preserved byte-for-byte [here](handoffs/2026-10-30-before-m07-app-oauth.md.txt). It links earlier29/restore/source archive and M06 PDF evidence; dated runtime/provider observations there are superseded below.
 
 ## What actually passed
