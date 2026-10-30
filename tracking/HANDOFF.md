@@ -2,6 +2,8 @@
 
 M07 remains **in progress; production release unverified**. The owner keeps AT-072 manual screen-reader and broader independently labelled M03 English/mixed semantic checks pending, mobile testing skipped and hosting deferred. Do not reopen requirements, enroll an account again, retry the protected M02 job, reset/seed cloud, or repeat completed release29/setup actions.
 
+Implementation/evidence commit: bace13b55daa77cb0edd947f1f96440b98ebdd3b. This retains75 reviewed follow-up paths; later metadata-only commits do not change its tested application source.
+
 ## Latest completed follow-up
 
 [Actual scoped summary](evidence/m07/live-settings-oauth/2026-10-30-followup-summary.json) and [guide](../development/m07/live-settings/README.md) record the actual existing Producer session and authenticated Supabase dashboard. The connector still reports installed:false, but read-only dashboard discovery is complete. The earlier complete M07 handoff is preserved exactly [here](handoffs/2026-10-30-before-m07-live-settings.md.txt); use it for frozen release29, restore, workload, source archive and protected historical evidence details.
