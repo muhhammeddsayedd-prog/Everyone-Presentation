@@ -1,0 +1,110 @@
+{
+  "observed_at": "2026-10-30T10:05:47.173Z",
+  "result": "validated",
+  "scope": "Offline authorized guest PDF inspection against frozen snapshot and its retained asset inventory; grant URL annotations only in memory",
+  "intent_composite_sha256": "241b80bd476c5a896c01d373fd9b366220753ea65dc8304262577a0ef1268e88",
+  "source_sha256": {
+    "tools/inspect-m06-live-pdf.mts": "52c032f60081804b624142af3d8e56464c623dff532041082a7b71f49bbfee56",
+    "tools/m06-live-geometry.mts": "5c33c5d7ac579cf165ff145c0973c9b6619d48258785b8c74d4b1e651ab72898",
+    "tools/m06-live-private-file.py": "6cd56571109f2791f1c511314c4e5ab88a845196982b537969a00bbdf10ce114",
+    "tools/provision_logo_verifier.py": "660f2eb0d15b1ed17801ecef22270dbb389fdf93181c340f16d715fc2b3a340c",
+    "apps/worker/src/presentation-pdf.ts": "c1360dbbaaaac8a05366313797b243cb352425d38437ab65bfd326e4b5afff6e",
+    "apps/worker/src/presentation-pdf-inspect-process.mjs": "0ee0bf41ba77f9725bdb366f02d7b60c438e15ac78049b4971a1cf43b8175e5d",
+    "apps/worker/src/review-fit.ts": "a0b94a93198297953c93e153cd872d47462cccdf4088fbd0041155259dc06a8e",
+    "apps/worker/src/native-browser.ts": "58bb031589d1d8421b19e29273cdc681d4431c76e7536ad4a1747f9154004e46",
+    "packages/domain/src/presentation.ts": "7e6b008c5464ea395ebda0db2030d75c8943d4595a8f722573ee8c5e5258225d",
+    "packages/templates/src/registered.ts": "0eadab35d4ee1ca0791188d13bd5f5859ba5d2ad909d9e763b5c586a6f19e78b",
+    "packages/templates/versions/1.1.0/registry.json": "e830204db50a226ab8d10e0eef323eca4983f92de17db0647893a8ab355e57e3",
+    "packages/templates/versions/1.1.0/render.ts": "f58d10501fac36e1f2f5b80b2f3e814901972084acf94fe4047434e42db7225c"
+  },
+  "sources_stable": true,
+  "cloud_or_provider_called": false,
+  "authenticated_browser_session_or_credentials_loaded": false,
+  "native_offline_layout_browser_used": true,
+  "private_facts_or_grant_urls_published": false,
+  "private_artifact_directory": ".local/m06-live/inspections/2026-10-30T10-05-40.085Z",
+  "visual_inspection": "pending_independent_page_review",
+  "hosting_deferred": true,
+  "exports": [
+    {
+      "version_id": "6e379406-6b87-4dbb-a6fb-8078eb1ce5ac",
+      "export_id": "d683edb1-91fa-4a80-b022-8ce499506e78",
+      "review_link_id": "243b8e61-b9e2-4988-9697-a07b72a84cc8",
+      "snapshot_sha256": "f5a8417530342f21c7fcf5eae82cc5f4a52f034316d324af5a38ef2b977429bb",
+      "downloaded_pdf_sha256": "f1b17a5decd2d3407b6242d7201154a156f30b1370d9e79d930519a587b5f2eb",
+      "downloaded_bytes_match_expected": true,
+      "expected_artifact_scope_source": "Protected owner intent; database/API export and link provenance is recorded separately by the live observer.",
+      "source_image_count": 2,
+      "independently_verified_source_body_count": 2,
+      "all_source_image_bodies_independently_verified": true,
+      "validation_mode": "fixed_snapshot_with_all_source_image_bodies_and_scoped_guest_annotations",
+      "raw_grant_or_url_published": false,
+      "guest_annotation_count": 1,
+      "same_grant_for_all_video_links": true,
+      "no_video_grant_scope_observable": false,
+      "independent_pdf_pixel_identity_compared": false,
+      "actual_worker_source_byte_proof_is_separate": true,
+      "validation": {
+        "pdf_sha256": "f1b17a5decd2d3407b6242d7201154a156f30b1370d9e79d930519a587b5f2eb",
+        "page_count": 6,
+        "width_points": 1200,
+        "height_points": 675.12,
+        "text_regions_checked": 126,
+        "image_draws_checked": 2,
+        "video_links_checked": 1,
+        "embedded_font_count": 3,
+        "validated_at": "2026-10-30T10:05:44.770Z"
+      },
+      "pages": [
+        {
+          "page": 1,
+          "file": "d683edb1-91fa-4a80-b022-8ce499506e78-1.png",
+          "sha256": "8c61269c50786f727f2e016aaa43050ff0748b81add73e3e6a770d88582e3298",
+          "width": 1200,
+          "height": 676,
+          "owner_system_only": true
+        },
+        {
+          "page": 2,
+          "file": "d683edb1-91fa-4a80-b022-8ce499506e78-2.png",
+          "sha256": "359085ca43990a64b319eef5e4745d59f3e5f5d6592412f4639a0b06a916e6ee",
+          "width": 1200,
+          "height": 676,
+          "owner_system_only": true
+        },
+        {
+          "page": 3,
+          "file": "d683edb1-91fa-4a80-b022-8ce499506e78-3.png",
+          "sha256": "0ab09e0bb457e6f22cc9630cdee4d385cf571da0382363154c7b4c5838f0bf04",
+          "width": 1200,
+          "height": 676,
+          "owner_system_only": true
+        },
+        {
+          "page": 4,
+          "file": "d683edb1-91fa-4a80-b022-8ce499506e78-4.png",
+          "sha256": "70e37efdd243425b62abf9aab39a3b99e70d54d172885051c898180d49d1816f",
+          "width": 1200,
+          "height": 676,
+          "owner_system_only": true
+        },
+        {
+          "page": 5,
+          "file": "d683edb1-91fa-4a80-b022-8ce499506e78-5.png",
+          "sha256": "058c3945bd5fd4850594061d52808ea878539b59a3d6a24100a94e658457ac62",
+          "width": 1200,
+          "height": 676,
+          "owner_system_only": true
+        },
+        {
+          "page": 6,
+          "file": "d683edb1-91fa-4a80-b022-8ce499506e78-6.png",
+          "sha256": "baac1144523ee1201951dc9dfa92aa68155d2b05253b9c748d9a3a14d3fa4e92",
+          "width": 1200,
+          "height": 676,
+          "owner_system_only": true
+        }
+      ]
+    }
+  ]
+}

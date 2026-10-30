@@ -524,7 +524,9 @@
       "depends_on": [
         "M05"
       ],
-      "commits": [],
+      "commits": [
+        "278985e75764121fcf2b71f3a4cfcdb5830baa23"
+      ],
       "migrations": [
         {
           "file": "supabase/migrations/20261030002634_m06_guest_review_feedback_exports.sql",
@@ -577,13 +579,14 @@
         "tracking/evidence/m06/controlled-browser/2026-10-30-expiry-dst-green.json",
         "tracking/evidence/m06/controlled-browser/2026-10-30-transcript-language-green.json",
         "tracking/evidence/m06/api-contracts/2026-10-30-observers28-frozen.json",
-        "tracking/evidence/m06/skills/2026-10-30T03-15-16-766806Z-static-integrity-receipt.json"
+        "tracking/evidence/m06/skills/2026-10-30T03-15-16-766806Z-static-integrity-receipt.json",
+        "tracking/evidence/m06/live-artifacts/2026-10-30-v5-independent-visual-review.json",
+        "tracking/evidence/m06/live-artifacts/2026-10-30T10-05-40.085Z.json"
       ],
       "blockers": [
-        "AT-072 manual assistive-technology check not performed",
-        "Latest V5 PDF client transfer completed; native Save As completion and saved-file bytes are pending owner response (four earlier guest files verified)"
+        "AT-072 manual assistive-technology check not performed"
       ],
-      "next_action": "Finish the pending native V5 PDF save if the owner responds, and record manual AT-072 acceptance when available. Further manual phone testing is waived. Keep M03 broader labelled semantic evaluation and hosting deferred; M07 remains not started.",
+      "next_action": "Record manual AT-072 acceptance when available. V5 native PDF save is verified; do not repeat generation/download. Further phone testing is waived. Preserve M03 broader semantic limits and deferred hosting; M07 remains not started.",
       "owner_acceptance_overrides": [
         {
           "observed_at": "2026-10-30T03:00:27.165762+00:00",
@@ -603,9 +606,9 @@
         },
         "counts_may_overlap_across_receipts": true,
         "composed_current_receipt": "tracking/evidence/m06/quality/2026-10-30T03-57-34-127660Z-87226dbf-validator-operational-overlay.json",
-        "private_values_and_final_source_archive": "Final post-commit identity and exact source/index/ZIP scan belong in ignored dist/SOURCE_CHECKPOINT.json; not claimed here before execution."
+        "private_values_and_final_source_archive": "Prior frozen278985e source/index/ZIP and scan remain in dist/SOURCE_CHECKPOINT.json. This later PDF acceptance evidence/docs are outside that archive; final follow-up identity is in dist/M06_PDF_SAVE_CHECKPOINT.json."
       },
-      "delivery_identity_record": "dist/SOURCE_CHECKPOINT.json; actual final commit, tree, source ZIP and fixed-private-value receipt"
+      "delivery_identity_record": "Prior frozen278985e source/index/ZIP and scan remain in dist/SOURCE_CHECKPOINT.json. This later PDF acceptance evidence/docs are outside that archive; final follow-up identity is in dist/M06_PDF_SAVE_CHECKPOINT.json."
     },
     {
       "id": "M07",
@@ -683,7 +686,7 @@
     },
     "m06_guest_delivery": {
       "status": "implemented_unverified",
-      "scope": "M00/M02/M04/M05 remain verified within scoped matrices; M01 in progress; M03 and M06 implemented_unverified. Canonical/local28. M06 actual guest feedback, four saved guest PDF files (first three/all18pages independently inspected), original V1 PDF video after V3, full live link lifecycle, and V5 frozen source transcript are evidenced. Actual anonymous/internal V5 transcript SHA matches private captured source; post28 V4 video remains playable/not_captured. C2 link rotation preserves exact expiry. Fifth V5 PDF is Ready and transferred by client; native save/actual file remains pending. Final composed quality passes83controlled browsers/693modules and146Node/538Python/12n8n/12supplements with overlap explained. Manual phone testing waived; AT-072 remains unverified. Hosting deferred; external OAuth, restore/endurance and production remain M07 work. Final exact source/index/ZIP privacy identity belongs in dist/SOURCE_CHECKPOINT.json after actual execution.",
+      "scope": "M06 actual guest feedback/lifecycle and V5 frozen source remain evidenced. Owner-saved V5 now matches113628canonical bytes/hash and passes offline validation plus independent six-page visual review. Five guest files are byte-verified;24pages across the first three and fifth exports are visually inspected, with V4 byte-only. AT-072 remains unverified, mobile is waived, M03 broader labelled semantic evaluation remains unverified, and hosting is deferred. Runtime/app/schema/SQL and the8722quality checkpoint are unchanged. Prior frozen278985e source/index/ZIP and scan remain in dist/SOURCE_CHECKPOINT.json. This later PDF acceptance evidence/docs are outside that archive; final follow-up identity is in dist/M06_PDF_SAVE_CHECKPOINT.json.",
       "evidence": [
         "tracking/evidence/m06/ACCEPTANCE_MATRIX.md",
         "development/m06/ACCEPTANCE.md",
@@ -702,7 +705,9 @@
         "tracking/evidence/m06/controlled-browser/2026-10-30-expiry-dst-green.json",
         "tracking/evidence/m06/controlled-browser/2026-10-30-transcript-language-green.json",
         "tracking/evidence/m06/api-contracts/2026-10-30-observers28-frozen.json",
-        "tracking/evidence/m06/skills/2026-10-30T03-15-16-766806Z-static-integrity-receipt.json"
+        "tracking/evidence/m06/skills/2026-10-30T03-15-16-766806Z-static-integrity-receipt.json",
+        "tracking/evidence/m06/live-artifacts/2026-10-30-v5-independent-visual-review.json",
+        "tracking/evidence/m06/live-artifacts/2026-10-30T10-05-40.085Z.json"
       ]
     }
   },
@@ -735,11 +740,11 @@
       "scope": "Project-local skill setup only; does not advance app milestones or verify integrations."
     }
   },
-  "notes": "M00/M02/M04/M05 remain verified within scoped matrices; M01 in progress; M03 and M06 implemented_unverified. Canonical/local28. M06 actual guest feedback, four saved guest PDF files (first three/all18pages independently inspected), original V1 PDF video after V3, full live link lifecycle, and V5 frozen source transcript are evidenced. Actual anonymous/internal V5 transcript SHA matches private captured source; post28 V4 video remains playable/not_captured. C2 link rotation preserves exact expiry. Fifth V5 PDF is Ready and transferred by client; native save/actual file remains pending. Final composed quality passes83controlled browsers/693modules and146Node/538Python/12n8n/12supplements with overlap explained. Manual phone testing waived; AT-072 remains unverified. Hosting deferred; external OAuth, restore/endurance and production remain M07 work. Final exact source/index/ZIP privacy identity belongs in dist/SOURCE_CHECKPOINT.json after actual execution.",
+  "notes": "M06 actual guest feedback/lifecycle and V5 frozen source remain evidenced. Owner-saved V5 now matches113628canonical bytes/hash and passes offline validation plus independent six-page visual review. Five guest files are byte-verified;24pages across the first three and fifth exports are visually inspected, with V4 byte-only. AT-072 remains unverified, mobile is waived, M03 broader labelled semantic evaluation remains unverified, and hosting is deferred. Runtime/app/schema/SQL and the8722quality checkpoint are unchanged. Prior frozen278985e source/index/ZIP and scan remain in dist/SOURCE_CHECKPOINT.json. This later PDF acceptance evidence/docs are outside that archive; final follow-up identity is in dist/M06_PDF_SAVE_CHECKPOINT.json.",
   "latest_checkpoint": {
     "milestone": "M06",
     "status": "implemented_unverified",
-    "observed_at": "2026-10-30T03:49:37.480221+00:00",
+    "observed_at": "2026-10-30T10:09:04.368918+00:00",
     "base_commit": "fa7233ee95dd03ed2c8221a1d04bc9b5bca822fe",
     "canonical_migration_count": 28,
     "local_migration_count": 28,
@@ -748,9 +753,9 @@
     "actual_app_journey": "tracking/evidence/m06/live-app/2026-10-30-v5-transcript-app.json",
     "quality": "tracking/evidence/m06/quality/2026-10-30T03-57-34-127660Z-87226dbf-validator-operational-overlay.json",
     "guest_series_ready_versions": 5,
-    "actual_guest_pdf_files_verified": 4,
-    "independently_inspected_guest_pdf_pages": 18,
-    "latest_v5_pdf_save": "Pending owner/native dialog; Ready and client transfer only",
+    "actual_guest_pdf_files_verified": 5,
+    "independently_inspected_guest_pdf_pages": 24,
+    "latest_v5_pdf_save": "Verified: actual Downloads bytes/hash, offline frozen-content/source-image/annotation checks and independent six-page visual review",
     "video_transcript": "Actual anonymous and signed-in V5 match frozen159codepoints/271UTF8bytes; oldV4 remainsnot_captured",
     "manual_gates": [
       "AT-072 assistive technology"
@@ -759,7 +764,10 @@
     "hosting_deferred": true,
     "production_deployment_verified": false,
     "m03_status": "implemented_unverified",
-    "next_milestone": "M07 not started"
+    "next_milestone": "M07 not started",
+    "latest_v5_pdf_evidence": "tracking/evidence/m06/live-artifacts/2026-10-30-v5-independent-visual-review.json",
+    "followup_base_commit": "278985e75764121fcf2b71f3a4cfcdb5830baa23",
+    "followup_scope": "Evidence/documentation only; app/runtime/schema/SQL unchanged; prior frozen ZIP retained"
   },
   "historical_notes": [
     {
@@ -782,7 +790,7 @@
     "current_checkpoint": {
       "milestone": "M06",
       "status": "implemented_unverified",
-      "observed_at": "2026-10-30T03:49:37.480221+00:00",
+      "observed_at": "2026-10-30T10:09:04.368918+00:00",
       "base_commit": "fa7233ee95dd03ed2c8221a1d04bc9b5bca822fe",
       "canonical_migration_count": 28,
       "local_migration_count": 28,
@@ -791,9 +799,9 @@
       "actual_app_journey": "tracking/evidence/m06/live-app/2026-10-30-v5-transcript-app.json",
       "quality": "tracking/evidence/m06/quality/2026-10-30T03-57-34-127660Z-87226dbf-validator-operational-overlay.json",
       "guest_series_ready_versions": 5,
-      "actual_guest_pdf_files_verified": 4,
-      "independently_inspected_guest_pdf_pages": 18,
-      "latest_v5_pdf_save": "Pending owner/native dialog; Ready and client transfer only",
+      "actual_guest_pdf_files_verified": 5,
+      "independently_inspected_guest_pdf_pages": 24,
+      "latest_v5_pdf_save": "Verified: actual Downloads bytes/hash, offline frozen-content/source-image/annotation checks and independent six-page visual review",
       "video_transcript": "Actual anonymous and signed-in V5 match frozen159codepoints/271UTF8bytes; oldV4 remainsnot_captured",
       "manual_gates": [
         "AT-072 assistive technology"
@@ -802,15 +810,18 @@
       "hosting_deferred": true,
       "production_deployment_verified": false,
       "m03_status": "implemented_unverified",
-      "next_milestone": "M07 not started"
+      "next_milestone": "M07 not started",
+      "latest_v5_pdf_evidence": "tracking/evidence/m06/live-artifacts/2026-10-30-v5-independent-visual-review.json",
+      "followup_base_commit": "278985e75764121fcf2b71f3a4cfcdb5830baa23",
+      "followup_scope": "Evidence/documentation only; app/runtime/schema/SQL unchanged; prior frozen ZIP retained"
     },
     "hosting_deferred": true,
     "unrelated_paths_preserved": [
       "Screenshots/",
       "redesign-output/"
     ],
-    "source_artifact_record": "dist/SOURCE_CHECKPOINT.json; final exact delivery identity is generated after the actual source/index/ZIP scan and Git closeout",
-    "updated_at": "2026-10-30T04:03:38.691075+00:00"
+    "source_artifact_record": "Prior frozen278985e source/index/ZIP and scan remain in dist/SOURCE_CHECKPOINT.json. This later PDF acceptance evidence/docs are outside that archive; final follow-up identity is in dist/M06_PDF_SAVE_CHECKPOINT.json.",
+    "updated_at": "2026-10-30T10:09:04.368918+00:00"
   },
   "historical_sessions": [
     {
@@ -1303,6 +1314,34 @@
       "hosting_deferred": true,
       "production_deployment_verified": false,
       "next_milestone": "M06"
+    },
+    {
+      "scope": "Before owner-confirmed V5 saved-file acceptance",
+      "checkpoint": {
+        "milestone": "M06",
+        "status": "implemented_unverified",
+        "observed_at": "2026-10-30T03:49:37.480221+00:00",
+        "base_commit": "fa7233ee95dd03ed2c8221a1d04bc9b5bca822fe",
+        "canonical_migration_count": 28,
+        "local_migration_count": 28,
+        "template_version": "1.1.0",
+        "canonical_observer": "tracking/evidence/m06/app-capture28/2026-10-30T03-41-59-550514Z-e6594989.json",
+        "actual_app_journey": "tracking/evidence/m06/live-app/2026-10-30-v5-transcript-app.json",
+        "quality": "tracking/evidence/m06/quality/2026-10-30T03-57-34-127660Z-87226dbf-validator-operational-overlay.json",
+        "guest_series_ready_versions": 5,
+        "actual_guest_pdf_files_verified": 4,
+        "independently_inspected_guest_pdf_pages": 18,
+        "latest_v5_pdf_save": "Pending owner/native dialog; Ready and client transfer only",
+        "video_transcript": "Actual anonymous and signed-in V5 match frozen159codepoints/271UTF8bytes; oldV4 remainsnot_captured",
+        "manual_gates": [
+          "AT-072 assistive technology"
+        ],
+        "manual_phone_testing": "Waived by explicit owner instruction; existing controlled regressions retained without physical-device pass",
+        "hosting_deferred": true,
+        "production_deployment_verified": false,
+        "m03_status": "implemented_unverified",
+        "next_milestone": "M07 not started"
+      }
     }
   ],
   "session_checkpoints": [
@@ -1390,6 +1429,38 @@
         "production_deployment_verified": false,
         "m03_status": "implemented_unverified",
         "next_milestone": "M07 not started"
+      }
+    },
+    {
+      "observed_at": "2026-10-30T10:09:04.368918+00:00",
+      "scope": "Owner-saved V5 PDF acceptance only",
+      "checkpoint": {
+        "milestone": "M06",
+        "status": "implemented_unverified",
+        "observed_at": "2026-10-30T10:09:04.368918+00:00",
+        "base_commit": "fa7233ee95dd03ed2c8221a1d04bc9b5bca822fe",
+        "canonical_migration_count": 28,
+        "local_migration_count": 28,
+        "template_version": "1.1.0",
+        "canonical_observer": "tracking/evidence/m06/app-capture28/2026-10-30T03-41-59-550514Z-e6594989.json",
+        "actual_app_journey": "tracking/evidence/m06/live-app/2026-10-30-v5-transcript-app.json",
+        "quality": "tracking/evidence/m06/quality/2026-10-30T03-57-34-127660Z-87226dbf-validator-operational-overlay.json",
+        "guest_series_ready_versions": 5,
+        "actual_guest_pdf_files_verified": 5,
+        "independently_inspected_guest_pdf_pages": 24,
+        "latest_v5_pdf_save": "Verified: actual Downloads bytes/hash, offline frozen-content/source-image/annotation checks and independent six-page visual review",
+        "video_transcript": "Actual anonymous and signed-in V5 match frozen159codepoints/271UTF8bytes; oldV4 remainsnot_captured",
+        "manual_gates": [
+          "AT-072 assistive technology"
+        ],
+        "manual_phone_testing": "Waived by explicit owner instruction; existing controlled regressions retained without physical-device pass",
+        "hosting_deferred": true,
+        "production_deployment_verified": false,
+        "m03_status": "implemented_unverified",
+        "next_milestone": "M07 not started",
+        "latest_v5_pdf_evidence": "tracking/evidence/m06/live-artifacts/2026-10-30-v5-independent-visual-review.json",
+        "followup_base_commit": "278985e75764121fcf2b71f3a4cfcdb5830baa23",
+        "followup_scope": "Evidence/documentation only; app/runtime/schema/SQL unchanged; prior frozen ZIP retained"
       }
     }
   ]

@@ -5,8 +5,11 @@ video playback and live access lifecycle work through canonical history 28.
 The saved-video source-transcript companion and Cairo DST expiry-display fixes
 are implemented and tested below. M06 remains **implemented_unverified** pending
 AT-072 manual screen-reader acceptance. AT-054 physical phone-keyboard testing
-is owner-deferred, not passed; the owner waived further mobile testing. Final
-privacy/source/package closeout is root-owned. Hosting remains deferred; broader
+is owner-deferred, not passed; the owner waived further mobile testing. The
+V5 native save is now verified: five saved PDFs, with 24 independently reviewed
+pages across the first three and fifth; V4 remains byte-only. The preserved
+278985e source ZIP/scanner checkpoint predates this follow-up. Hosting remains
+deferred; broader
 independently labelled M03 English/mixed semantic evaluation remains unverified.
 
 The [acceptance matrix](../../tracking/evidence/m06/ACCEPTANCE_MATRIX.md) separates
@@ -170,10 +173,27 @@ C's QA link was rotated to generation 2 for a fresh session, preserving expiry
 2026-11-29T01:29:33.666060Z exactly. The new account-free session opened Ready V5
 before identification. V5 export d683edb1-91fa-4a80-b022-8ce499506e78 reached
 Ready through the existing export pipeline, and the guarded client transfer
-completed without error. Its native Save As prompt still awaits the owner:
-**a fifth saved file and its independent visual inspection are not claimed**.
-The first four verified downloads and the three-export/18-page independent
-inspection above remain accepted and are not replaced by a transfer ACK.
+completed without error. The [earlier app receipt](../../tracking/evidence/m06/live-app/2026-10-30-v5-transcript-app.json)
+correctly records its then-pending native Save As dialog and
+actual_saved_file_verified=false. That historical observation is preserved.
+The owner subsequently confirmed "Saved to Downloads"; the [protected input proof](../../tracking/evidence/m06/live-artifacts/2026-10-30T10-05-18-057482Z-v5-protected-download-inputs.json)
+verifies the saved PDF against canonical export metadata and the exact frozen
+snapshot, preserving an owner/SYSTEM-only copy without publishing its text or
+raw grant URLs.
+
+The [V5 six-page offline inspector](../../tracking/evidence/m06/live-artifacts/2026-10-30T10-05-40.085Z.json)
+and [independent root visual review](../../tracking/evidence/m06/live-artifacts/2026-10-30-v5-independent-visual-review.json)
+now close the native save gate. The actual file has 113,628 bytes, SHA256
+`f1b17a5decd2d3407b6242d7201154a156f30b1370d9e79d930519a587b5f2eb`,
+matching canonical metadata. The inspector verifies frozen content/layout and
+both actual selected JPEG bodies. All six rendered pages were independently
+viewed: legible cover, three candidate slides with ten fields, both actual frames
+together, and two Pending slides; no clipping, overlap or missing glyphs were
+observed. Five actual guest PDFs are now saved and byte-verified. The first three
+plus this fifth PDF account for **24 independently reviewed pages**; the fourth
+V4 PDF retains byte-only acceptance. This offline file follow-up makes no new
+URL-navigation, original-video playback, factual confirmation or manual
+assistive-technology claim.
 
 The companion is revealed on demand beside the opened original video, outside
 the ten candidate fields and PDF composition. Existing Generate captures it once
@@ -249,9 +269,9 @@ journey through navigation/carousel state, preferences, comments and the video
 transcript. The previous implementation gap is fixed; automated accessibility
 and keyboard checks do not replace that manual journey. **AT-054 is owner-deferred,
 not passed**: further mobile testing was explicitly waived, so no additional
-physical-phone test is requested. Root owns the final privacy/source/index/archive
-scan, packaging and source checkpoint. The additional V5 native save is pending;
-its missing saved-file receipt does not erase the four prior verified downloads.
+physical-phone test is requested. The native V5 save is now verified by the
+later saved-byte/inspector/visual receipts; the earlier pending observation is
+retained. Hosting and broader release acceptance remain separate.
 
 Historical 25 transport/bootstrap failures, n8n auto-publication/name/lexer probes,
 clone/fixture errors, forward 26 credential/retry REDs, Storage NoSuchKey/composed
@@ -260,6 +280,22 @@ private export and the unchanged-budget WF02/default-parallel timeout remain
 retained. Later receipts explain fixes; old source seals and observations are not
 rewritten. The V5 actual browser receipt also records reconnect/focus failures
 and a development hydration warning; no clean production-console claim is made.
+
+## Preserved source package and follow-up scope
+
+The source ZIP/checkpoint for commit `278985e75764121fcf2b71f3a4cfcdb5830baa23`
+is preserved as the frozen package before this V5 saved-file acceptance
+follow-up. Its archive SHA256 is
+`a1f8db6eeff770600b2f5758426cb0585aa3745d82210be2b336a001d3e6b385`.
+The prior source/index/ZIP private-value scan and ignored source checkpoint
+remain bound to that package; their bytes and recorded scope are unchanged.
+This follow-up adds only PDF acceptance evidence and documentation, which are
+not included in that ZIP. A separate ignored acceptance follow-up record may
+identify the later documentation/evidence commit without relabelling the prior
+archive as current. No regenerated archive, app-gate rerun, provider execution
+or new long private-value scan is claimed; app/runtime/schema/SQL and current
+8722 composed quality remain unchanged. The saved PDF, source assets and rendered
+page images stay private, outside source and archives.
 
 The current observer preserves the three old M05 Ready versions, protected M02
 waiting/INPUT_CHANGED/manual text, and the owner-confirmed M03 Reviewed profile
