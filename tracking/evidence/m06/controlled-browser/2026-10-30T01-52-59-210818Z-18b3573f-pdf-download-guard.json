@@ -1,0 +1,188 @@
+{
+  "observed_at": "2026-10-30T01:53:18.998625+00:00",
+  "result": "passed",
+  "scope": "Controlled observed-JSON-download UX fix: validate complete bounded PDF before normal/keyboard Blob save; not actual canonical PDF delivery or private downloaded-file inspection.",
+  "groups": [
+    {
+      "name": "unit4",
+      "arguments": [
+        "node",
+        "tools/run-tests.mjs",
+        "tests/server/guest-pdf-transfer.test.ts"
+      ],
+      "started_at": "2026-10-30T01:52:59.212246+00:00",
+      "finished_at": "2026-10-30T01:52:59.927758+00:00",
+      "exit_code": 0,
+      "log_sha256": {
+        "stdout": "cf5461a1c5a17fe34f1f3f28b2c2a9242640efd124cd9868a87a3833b93136f7",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "counts": {
+        "tests": 4,
+        "pass": 4,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "lint",
+      "arguments": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "apps/web/components/GuestPdfDownload.tsx",
+        "apps/web/components/guest-pdf-transfer.ts",
+        "tests/server/guest-pdf-transfer.test.ts",
+        "tests/e2e/m06-pdf-download-guard.spec.ts",
+        "--max-warnings",
+        "0"
+      ],
+      "started_at": "2026-10-30T01:52:59.212771+00:00",
+      "finished_at": "2026-10-30T01:53:03.324323+00:00",
+      "exit_code": 0,
+      "log_sha256": {
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "typecheck",
+      "arguments": [
+        "node",
+        "node_modules/typescript/bin/tsc",
+        "--noEmit"
+      ],
+      "started_at": "2026-10-30T01:52:59.213648+00:00",
+      "finished_at": "2026-10-30T01:53:18.993222+00:00",
+      "exit_code": 0,
+      "log_sha256": {
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "controlled_browser": {
+    "raw": ".local/m06-api/pdf-download-guard-final.browser.json",
+    "sha256": "cbfacaed58254f5c9746f49b2dcf8340e4cdad128aeeeb566cc947c850b7a415",
+    "stats": {
+      "startTime": "2026-10-30T01:50:46.786Z",
+      "duration": 12239.613,
+      "expected": 3,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "cases": [
+      "HTTP 503 and 403 JSON responses each create no artifact, show a fixed safe error, retain the original href and explicitly retry the same export GET; one prepare only. Valid retry saves exact PDF bytes with the fixed export filename.",
+      "Keyboard download locks slide/version/unload navigation while transferring, resumes on completion and uses the same-origin cookie context, no-store, no-referrer and redirect rejection."
+    ]
+  },
+  "red": {
+    "raw": ".local/m06-api/pdf-download-guard-red/red.json",
+    "sha256": "c82d651b168bb840890dd10c38c001c162ed3cb56cf92a6376c2805d9e0d3cff",
+    "groups": [
+      {
+        "name": "unit",
+        "arguments": [
+          "node",
+          "tools/run-tests.mjs",
+          "tests/server/guest-pdf-transfer.test.ts"
+        ],
+        "exit_code": 1
+      },
+      {
+        "name": "browser",
+        "arguments": [
+          "node",
+          "node_modules/@playwright/test/cli.js",
+          "test",
+          "tests/e2e/m06-pdf-download-guard.spec.ts",
+          "--workers=1",
+          "--reporter=json"
+        ],
+        "exit_code": 1,
+        "stats": {
+          "startTime": "2026-10-30T01:47:30.462Z",
+          "duration": 29391.279000000002,
+          "expected": 0,
+          "skipped": 0,
+          "unexpected": 3,
+          "flaky": 0
+        }
+      }
+    ],
+    "unit": "1 pass /3 fail: the unvalidated stub accepted invalid status/MIME/size/signature and exposed the synthetic provider exception.",
+    "browser": "0 pass /3 fail on the existing raw anchor: no safe error notice or transfer navigation lock.",
+    "initial_unit_fixture_adjustment": "An initial never-ending invalid-header fixture was made finite before the retained RED. Only three exact task-owned Node test processes were stopped.",
+    "selector_only_correction_verified": true,
+    "old_test_sha256": "4c7810f2fca73502d210faa0d1385dfb9cdafb2c85ddd4a22080240099e9d0b6",
+    "current_test_sha256": "39e6a1bc3f075b1c37e83c1cf8ca0d39d2117a06747f130364f36ccbe5609a62"
+  },
+  "retained_intermediate_green_attempt": {
+    "raw": ".local/m06-api/pdf-download-guard-green.browser.json",
+    "sha256": "ba200ed2e216569eea19c024d6a8d5063fa7076aa9424318aaf4aacb46dd37db",
+    "stats": {
+      "startTime": "2026-10-30T01:49:20.156Z",
+      "duration": 29660.15,
+      "expected": 10,
+      "skipped": 0,
+      "unexpected": 2,
+      "flaky": 0
+    },
+    "explanation": "All nine previous guest cases and the new keyboard case passed. Two new error cases found a second alert from the Next route announcer. The selector now targets the fixed error notice; assertions and implementation were not relaxed."
+  },
+  "sources_stable": true,
+  "source_sha256": {
+    "apps/web/components/GuestPdfDownload.tsx": "205c399ef6ff3c7daab86de375fa63faa5cb57ed59811113153f7f344d9d41a7",
+    "apps/web/components/guest-pdf-transfer.ts": "a5dde3a6697da8f19d7aac09c9511412010dd8727ed87a7d6c521d6201a90e03",
+    "tests/server/guest-pdf-transfer.test.ts": "08bd0914154729d42362c555bacccaeac99ab26081efa8278feb207bd873e547",
+    "tests/e2e/m06-pdf-download-guard.spec.ts": "39e6a1bc3f075b1c37e83c1cf8ca0d39d2117a06747f130364f36ccbe5609a62",
+    "development/m06/storage27-review-release.json": "dfd71ad4285c3d67a671ff5eeca036341ecb68c0b1c6cd30860b6b1c3b0a4703",
+    "package.json": "ded0a0347e3182816065829981661e127b89cf904305583ee8cbd4d9ac3d3d62",
+    "package-lock.json": "e5dc549024c9f995bff64034c45b0d774c7df65269ab35dfa02c74250daa88f7",
+    "tests/e2e/api-contracts.spec.ts": "a61ea19b67a2af836ecd4e5baa50d78a55610b1aa861c945178b246513c6cb71",
+    "tests/e2e/casting-board-ui.spec.ts": "d8b558ebeba517a8c78f61d940ca64d1767073f386ababe17cd476d1def46e14",
+    "tests/e2e/casting-retirement-ui.spec.ts": "042197ac360ccec3e41b97efef03e40a2ccf016941f95b85e73a13bf6e10be5e",
+    "tests/e2e/file-source-intake-ui.spec.ts": "22e91ff12d81692db16e5e47bd999990ae0bd3fd90865ac92f5bde36d7d9a800",
+    "tests/e2e/foundation.spec.ts": "c244cf587468d69126d6850e57b0611de6c0b5872bae48bfd653451d21781cbb",
+    "tests/e2e/guest-review-ui.spec.ts": "004c7587dfdc84fc76d781ad0f87e91cca95b879932fa42c3987fc6bea670ba7",
+    "tests/e2e/guest-sharing-recovery.spec.ts": "1f76b5e9cd634b9663ab57a9509b79c2264a92702262a1a122b684464bd9a221",
+    "tests/e2e/m06-review-findings.spec.ts": "be585f7240aaf456218985b5df8642b0c8da7666aaba078c5ce2c2419b682a70",
+    "tests/e2e/presentation-recovery.spec.ts": "8b7cc90b98a448f2acf5ffb269bf2bc358ad4cfd6a1ebdc67ffcd09e15be549a",
+    "tests/e2e/presentation-ui.spec.ts": "0d608b705ccfbf2265d743f0c59923934db3b279ccb0b09d15674bdda88df947",
+    "tests/e2e/processing-ui.spec.ts": "4c8344a1f5ba8b9c55d37ac370c619219e97bab303962df2dad993620414d2e0",
+    "tests/e2e/retirement-undo-ui.spec.ts": "36683932824b603b1d09e48af8c99bd3d3b39144bfaa34dc73a72e113adbd0e1",
+    "tests/e2e/review-ui.spec.ts": "00d97dddf235dee6f7ea7c07a16a5b430539ad07f6235b81212973ea1b3e3c31",
+    "tests/e2e/role-order-ui.spec.ts": "055fba662e4577f070fa075b0bd6b258ca28c49cb7a62845350e35a5a62fac5a",
+    "tests/e2e/source-intake-ui.spec.ts": "3f6a2abf97b854f231b52e6e2c66c5e453ccc1098d9be8f9ea7e9c199f8d0b2c",
+    "tests/e2e/specs-ui.spec.ts": "dd76806c07dcfa0ed90d69d1c507b085c7f1f57cb3ca5359eae638ce04d9028f"
+  },
+  "release33_dependencies_unchanged": true,
+  "release33_control_sha256": "dfd71ad4285c3d67a671ff5eeca036341ecb68c0b1c6cd30860b6b1c3b0a4703",
+  "existing_e2e_files_edited_by_this_fix": [],
+  "max_pdf_bytes": 67108864,
+  "validations": [
+    "HTTP 200",
+    "application/pdf MIME",
+    "required valid Content-Length at most64 MiB",
+    "actual bytes equal declared length and at most64 MiB",
+    "first five bytes are %PDF-"
+  ],
+  "safe_error_uses_provider_body": false,
+  "server_or_api_contract_changed": false,
+  "normal_or_keyboard_clicks_guarded": true,
+  "anchor_href_copy_or_modifier_semantics_preserved": true,
+  "object_url_cleanup_scope": "At most one retained URL per component; revoked on replacement, unmount or a60-second timer (source review).",
+  "cloud_or_provider_called": false,
+  "private_runtime_configuration_loaded": false,
+  "hosting_deferred": true,
+  "private_raw_directory": ".local/m06-api/2026-10-30T01-52-59-210818Z-18b3573f",
+  "limits": [
+    "PDF signature validation is a UX guard, not a full PDF parser or independent canonical content/hash inspection.",
+    "Copied URLs, modifier clicks and context-menu browser actions retain anchor semantics; normal and keyboard clicks use the guard.",
+    "The user-reported content JSON file was not found for inspection; no actual error-artifact bytes are claimed.",
+    "Existing66 test files were not edited; nine relevant old guest cases passed in the retained focused run. The full current69-test suite belongs to the root final gate."
+  ],
+  "release33_after_capture_verified_at": "2026-10-30T01:54:43.591008+00:00"
+}

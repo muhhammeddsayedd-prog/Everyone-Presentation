@@ -1,0 +1,52 @@
+{
+  "observed_at": "2026-10-30T00:34:58.982Z",
+  "result": "passed",
+  "action": "repair",
+  "workflow_id": "kE4qSEcugaKhIoJU",
+  "before_version_id": "0e206327-20ff-4cb1-953a-7b7476495b80",
+  "version_id": "eba0dccc-913b-4e26-a445-7b325fc886dd",
+  "active_graph_verified": true,
+  "draft_graph_verified": true,
+  "put_auto_publication_verified": true,
+  "activate_called": false,
+  "automatic_retry": false,
+  "serialization": {
+    "mapper_lexical_tokens_identical": true,
+    "only_whitespace_changed": true,
+    "prior_internal_closing_delimiters": 3,
+    "new_internal_closing_delimiters": 0,
+    "node_versions_credential_route_connections_settings_unchanged": true
+  },
+  "source_seals": {
+    "development/m06/workflow-source-history/3b43f65491d874a780c142bb93f02b3fef53ed9f30c225d154781e0d0b3fbb9f-live-matching-before-serialization-graph.json.txt": "3b43f65491d874a780c142bb93f02b3fef53ed9f30c225d154781e0d0b3fbb9f",
+    "development/m06/workflow-source-history/366e06ec562cb75f8800b3bcafbd23e0a7aca1f124a9501201b7dbe6faafbada-build-guest-export-wf03.mjs.txt": "366e06ec562cb75f8800b3bcafbd23e0a7aca1f124a9501201b7dbe6faafbada",
+    "tools/update-guest-export-n8n.mjs": "7af688e4f8fe4bff0ca6ca2a58dad0d525b525ec4e754391f7cb479b27400420",
+    ".local/m06-review/wf03-update.json": "053738ae13326d84c8d8147c20f30012afa74d47eefcf9949e4e4645cfbee7f3",
+    "tracking/evidence/m06/n8n-wf03/2026-10-30T00-27-49-900Z-d2e5ed6c-probe.json": "1740c19ac9932d1f5d907abb6a05042758d4714295f9dff67852f4aded61555a",
+    "tracking/evidence/m06/n8n-wf03/2026-10-30-expression-lexer-diagnosis.json": "08747eaa82c46b457b7d96abc9f96b30e6776d15b9e0ac3636126c7ad5f9e2c1",
+    "tools/repair-m06-wf03-expression.mjs": "264d8680d447516848adbea4156639868c2d808fecc097958139c5fb71d83410",
+    "tools/build-guest-export-wf03.mjs": "028ad314cc4cc96e18897ed0a1f2bb0c6aa0e3339f73ce5a84938d1fd35320a3",
+    "tools/build-presentation-wf03.mjs": "9e160d960d5db98752d7617363693e035b509730541c7802375352f5f50f1337",
+    "tools/m06-wf03-expression.test.mjs": "8627aa3d6550e7f5f5e22ffd187c50ddd1dc40d186509fd030d12cb6b4b8bdf7"
+  },
+  "unrelated_workflows_modified": false,
+  "credentials_modified": false,
+  "hosting_deferred": true,
+  "observations": [
+    {
+      "method": "GET",
+      "http_status": 200,
+      "bytes": 10349
+    },
+    {
+      "method": "PUT",
+      "http_status": 200,
+      "bytes": 9871
+    },
+    {
+      "method": "GET",
+      "http_status": 200,
+      "bytes": 10365
+    }
+  ]
+}

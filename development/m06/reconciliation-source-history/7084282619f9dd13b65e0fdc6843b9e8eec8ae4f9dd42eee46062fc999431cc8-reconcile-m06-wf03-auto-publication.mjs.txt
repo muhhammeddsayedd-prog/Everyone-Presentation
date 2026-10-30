@@ -1,0 +1,73 @@
+/** Read-only cloud reconciliation of one already completed PUT. This helper
+ * cannot update, activate, publish, create or execute an n8n workflow. It may
+ * reconcile the local journal only after exact original/active graph proof. */
+import {Buffer}from'node:buffer';
+import{createHash,randomUUID}from'node:crypto';
+import{lstat,mkdir,readFile,realpath,rename,writeFile}from'node:fs/promises';
+import path from'node:path';
+import{pathToFileURL}from'node:url';
+import{loadWorkerPrivateEnvironment}from'./worker-private-env.mjs';
+import{loadPresentationRuntimeEnvironment}from'./presentation-runtime-env.mjs';
+import{buildPresentationWf03,PRESENTATION_WF03_CREDENTIAL_NAME}from'./build-presentation-wf03.mjs';
+import{buildGuestExportWf03,validateGuestExportWf03}from'./build-guest-export-wf03.mjs';
+
+const ROOT=path.resolve(import.meta.dirname,'..');const WORKFLOW='kE4qSEcugaKhIoJU';const CREDENTIAL='dPJl1LfIqjEoGdpo';
+const BEFORE='ffbb0c6e-7fd9-4d34-bd89-7a7b52455756';const AFTER='0e206327-20ff-4cb1-953a-7b7476495b80';
+const HELPER='tools/reconcile-m06-wf03-auto-publication.mjs';const JOURNAL='.local/m06-review/wf03-update.json';
+const ATTEMPT='tracking/evidence/m06/n8n-wf03/2026-10-30T00-22-29-546Z-5a262bd8-update.json';
+const CLAIM='.local/m06-review/wf03-update-dispatch.claim';
+const BOUND={
+ 'tools/update-guest-export-n8n.mjs':'7af688e4f8fe4bff0ca6ca2a58dad0d525b525ec4e754391f7cb479b27400420',
+ 'tools/build-guest-export-wf03.mjs':'366e06ec562cb75f8800b3bcafbd23e0a7aca1f124a9501201b7dbe6faafbada',
+ [ATTEMPT]:'377d88d4b4ed99be55569ec2c2d4df066460d026f85e935cc826cd199b8683ea',
+ [CLAIM]:'20c9f6356f33909dfad1408d88dd28d2d114fc29e575c1dcb23f76c0f29ce60f',
+ [JOURNAL]:'6113ba5ad20c470018c570c7fb49ba050faed8cdeeb3a57ae50d67b552c5b62f',
+};
+const hash=v=>createHash('sha256').update(v).digest('hex');
+const canonical=v=>JSON.stringify(v,(_key,item)=>item&&typeof item==='object'&&!Array.isArray(item)?Object.fromEntries(Object.entries(item).sort(([a],[b])=>a.localeCompare(b))):item);
+class ReconciliationError extends Error{constructor(code){super('The fixed WF03 read-only reconciliation could not be confirmed. Original records remain retained.');this.code=code;}}
+function require(value,code='M06_WF03_RECONCILIATION_UNCONFIRMED'){if(!value)throw new ReconciliationError(code);}
+/** Pure proof of the observed instance behavior. It neither mutates the journal
+ * nor infers publication from HTTP200. Both saved and active graphs must match. */
+export function verifyWf03AutoPublication(value,journal){
+ require(journal&&journal.schema_version==='1.0'&&journal.workflow_id===WORKFLOW&&journal.credential_id===CREDENTIAL&&journal.before_version_id===BEFORE&&journal.status==='update_unconfirmed','M06_WF03_ORIGINAL_JOURNAL_REQUIRED');
+ const credential={id:CREDENTIAL,name:PRESENTATION_WF03_CREDENTIAL_NAME};const old=buildPresentationWf03(credential);const next=buildGuestExportWf03(credential);
+ require(journal.before_graph_sha256===hash(canonical({nodes:old.nodes,connections:old.connections,settings:old.settings}))&&journal.next_graph_sha256===hash(canonical(next)),'M06_WF03_GRAPH_BINDING_CHANGED');
+ require(value&&value.id===WORKFLOW&&value.active===true&&value.versionId===AFTER&&value.activeVersionId===AFTER,'M06_WF03_AUTO_PUBLICATION_NOT_OBSERVED');
+ require(value.activeVersion&&value.activeVersion.versionId===AFTER&&value.activeVersion.workflowId===WORKFLOW,'M06_WF03_ACTIVE_VERSION_SCOPE_INVALID');
+ try{validateGuestExportWf03(value,credential);validateGuestExportWf03({...value.activeVersion,settings:value.settings},credential);}catch{throw new ReconciliationError('M06_WF03_EXACT_ACTIVE_GRAPH_REQUIRED');}
+ return{workflow_id:WORKFLOW,before_version_id:BEFORE,version_id:AFTER,active_version_id:AFTER,auto_publication_verified:true,draft_graph_verified:true,active_graph_verified:true,pinned_node_versions_credential_route_settings_verified:true,additional_cloud_writes:false};
+}
+async function boundFile(relative,expected){
+ const file=path.join(ROOT,relative);const info=await lstat(file,{bigint:true});require(info.isFile()&&!info.isSymbolicLink()&&info.nlink===1n&&info.size<=65536n&&(await realpath(file)).toLowerCase()===file.toLowerCase(),'M06_WF03_BOUND_FILE_INVALID');
+ const bytes=await readFile(file);require(expected===undefined||hash(bytes)===expected,'M06_WF03_ORIGINAL_SOURCE_CHANGED');return{bytes,sha256:hash(bytes)};
+}
+async function originals(){const result={};for(const[relative,expected]of Object.entries(BOUND))result[relative]=await boundFile(relative,expected);return result;}
+async function getWorkflow(config){
+ const response=await fetch(config.N8N_BASE_URL+'/api/v1/workflows/'+WORKFLOW,{method:'GET',redirect:'error',signal:AbortSignal.timeout(15000),headers:{'X-N8N-API-KEY':config.N8N_API_KEY,Accept:'application/json'}});
+ require(response.status===200,'M06_WF03_READ_ONLY_GET_FAILED');const reader=response.body?.getReader();require(reader,'M06_WF03_READ_ONLY_BODY_MISSING');const chunks=[];let size=0;
+ try{for(;;){const part=await reader.read();if(part.done)break;size+=part.value.length;if(size>2*1024*1024){await reader.cancel();throw new ReconciliationError('M06_WF03_READ_ONLY_BODY_LIMIT');}chunks.push(part.value);}}finally{reader.releaseLock();}
+ let value;try{value=JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(Buffer.concat(chunks)));}catch{throw new ReconciliationError('M06_WF03_READ_ONLY_BODY_INVALID');}return{value,http_status:response.status,bytes:size};
+}
+export async function reconcileWf03AutoPublication(){
+ const source=await boundFile(HELPER);const input=await originals();const attempt=JSON.parse(input[ATTEMPT].bytes.toString('utf8'));const claim=JSON.parse(input[CLAIM].bytes.toString('utf8'));const journal=JSON.parse(input[JOURNAL].bytes.toString('utf8'));
+ require(attempt.result==='unconfirmed'&&attempt.action==='update'&&attempt.phase==='update'&&attempt.code==='M06_WF03_DRAFT_UNCONFIRMED'&&attempt.workflow_id===WORKFLOW&&attempt.automatic_retry===false,'M06_WF03_ORIGINAL_FAILED_ATTEMPT_REQUIRED');
+ require(claim.action==='update'&&claim.attempted_at==='2026-10-30T00:22:28.977Z'&&claim.automatic_retry===false,'M06_WF03_ORIGINAL_CLAIM_REQUIRED');
+ require(attempt.observations.filter(item=>item.method==='PUT').length===1&&attempt.observations.every(item=>item.http_status===200&&['GET','PUT'].includes(item.method)),'M06_WF03_ORIGINAL_DISPATCH_UNCONFIRMED');
+ const config=await loadWorkerPrivateEnvironment();const runtime=await loadPresentationRuntimeEnvironment();require(config.N8N_API_KEY&&config.N8N_BASE_URL===journal.target_origin&&runtime.N8N_PRESENTATION_DISPATCH_URL===config.N8N_BASE_URL+'/webhook/eps-wf03-presentation-stage-v1','M06_WF03_TARGET_BINDING_INVALID');
+ const retained=await boundFile('.local/presentation-runtime/n8n-bootstrap.json');const old=JSON.parse(retained.bytes.toString('utf8'));
+ require(old.workflow_id===WORKFLOW&&old.credential_id===CREDENTIAL&&old.version_id===BEFORE&&old.status==='published'&&old.target_origin===config.N8N_BASE_URL&&old.secret_sha256===hash(runtime.N8N_PRESENTATION_DISPATCH_SECRET),'M06_WF03_RETAINED_CREDENTIAL_BINDING_INVALID');
+ const response=await getWorkflow(config);const proof=verifyWf03AutoPublication(response.value,journal);
+ const checked=await originals();require(Object.keys(input).every(p=>checked[p].sha256===input[p].sha256)&&(await boundFile(HELPER)).sha256===source.sha256&&(await boundFile('.local/presentation-runtime/n8n-bootstrap.json')).sha256===retained.sha256,'M06_WF03_INPUT_CHANGED_DURING_READ');
+ const observed=new Date().toISOString();const suffix=observed.replace(/[:.]/gu,'-')+'-'+randomUUID().slice(0,8);const receipt='tracking/evidence/m06/n8n-wf03/'+suffix+'-auto-publication-reconciliation.json';
+ const backup='.local/m06-review/wf03-update-before-auto-publication-reconciliation.json';const localClaim='.local/m06-review/wf03-auto-publication-reconciliation.claim';
+ await writeFile(path.join(ROOT,localClaim),JSON.stringify({observed_at:observed,action:'local_journal_reconciliation',original_attempt:ATTEMPT,original_journal_sha256:BOUND[JOURNAL],cloud_write_attempted:false,automatic_retry:false})+'\n',{flag:'wx',mode:0o600});
+ await writeFile(path.join(ROOT,backup),input[JOURNAL].bytes,{flag:'wx',mode:0o600});require((await boundFile(backup)).sha256===BOUND[JOURNAL],'M06_WF03_BACKUP_UNCONFIRMED');
+ const next={...journal,status:'published',version_id:AFTER,publication_observed_at:attempt.observed_at,reconciled_at:observed,reconciliation:{kind:'put_auto_publication',receipt,original_attempt:ATTEMPT,original_attempt_sha256:BOUND[ATTEMPT],original_claim:CLAIM,original_claim_sha256:BOUND[CLAIM],original_journal_backup:backup,original_journal_sha256:BOUND[JOURNAL],no_additional_cloud_write:true}};
+ require((await boundFile(JOURNAL)).sha256===BOUND[JOURNAL],'M06_WF03_JOURNAL_CHANGED_BEFORE_LOCAL_UPDATE');const temporary=path.join(ROOT,'.local/m06-review/wf03-update-reconciled-'+randomUUID()+'.json');const nextBytes=Buffer.from(JSON.stringify(next,null,2)+'\n');await writeFile(temporary,nextBytes,{flag:'wx',mode:0o600});await rename(temporary,path.join(ROOT,JOURNAL));require((await boundFile(JOURNAL)).sha256===hash(nextBytes),'M06_WF03_LOCAL_JOURNAL_UPDATE_UNCONFIRMED');
+ for(const[p,expected]of Object.entries(BOUND))if(p!==JOURNAL)require((await boundFile(p)).sha256===expected,'M06_WF03_ORIGINAL_EVIDENCE_CHANGED');
+ const report={schema_version:'1.0',observed_at:observed,result:'passed',action:'read_only_auto_publication_reconciliation',...proof,original_failed_attempt:ATTEMPT,original_failed_attempt_sha256:BOUND[ATTEMPT],original_claim:CLAIM,original_claim_sha256:BOUND[CLAIM],original_journal_sha256:BOUND[JOURNAL],original_journal_backup:backup,original_journal_backup_sha256:BOUND[JOURNAL],reconciled_journal_sha256:hash(nextBytes),local_journal_status:'published',local_journal_only_updated:true,original_helper_builder_receipt_claim_unchanged:true,source_sha256:{...Object.fromEntries(Object.entries(BOUND).filter(([p])=>p.startsWith('tools/'))),[HELPER]:source.sha256},cloud_requests:[{method:'GET',workflow_id:WORKFLOW,http_status:response.http_status,bytes:response.bytes}],cloud_write_attempted:false,workflow_activated_by_this_helper:false,workflow_executed_by_this_helper:false,credentials_modified:false,raw_tokens_or_credentials_recorded:false,hosting_deferred:true,publication_timing:'Original PUT had already published the observed version before its original failed comparison receipt; exact instant is not inferred.'};
+ await mkdir(path.dirname(path.join(ROOT,receipt)),{recursive:true});await writeFile(path.join(ROOT,receipt),JSON.stringify(report,null,2)+'\n',{flag:'wx'});return{...report,receipt};
+}
+async function main(){require(process.argv.length===3&&process.argv[2]==='reconcile','M06_WF03_RECONCILE_ACTION_REQUIRED');try{process.stdout.write(JSON.stringify(await reconcileWf03AutoPublication())+'\n');}catch(error){process.stderr.write(JSON.stringify({result:'unconfirmed',action:'read_only_auto_publication_reconciliation',code:error instanceof ReconciliationError?error.code:'M06_WF03_RECONCILIATION_UNCONFIRMED',cloud_write_attempted:false,automatic_retry:false,original_records_preserved:true})+'\n');process.exitCode=1;}}
+if(process.argv[1]&&pathToFileURL(path.resolve(process.argv[1])).href===import.meta.url)void main();

@@ -1,0 +1,78 @@
+{
+  "observed_at": "2026-10-30T02:35:45.392501+00:00",
+  "result": "passed_controlled_browser",
+  "scope": "Narrow producer inline lifecycle confirmation and unchanged-expiry precision fix; controlled fixtures, no canonical lifecycle action credited.",
+  "green": {
+    "raw": ".local/m06-api/link-confirmation-final.json",
+    "sha256": "852cc288e94a4155af9d29d299b67350addf4d150cdded0c6da243390d079eb6",
+    "stats": {
+      "startTime": "2026-10-30T02:31:33.591Z",
+      "duration": 13787.143,
+      "expected": 4,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    }
+  },
+  "red_lifecycle": {
+    "raw": ".local/m06-api/link-confirmation-red/red.json",
+    "sha256": "424948557e390a400bc27088e81ebbead93bc9eb1d6b05b692bcce4f3104485e",
+    "stats": {
+      "startTime": "2026-10-30T02:25:10.503Z",
+      "duration": 113874.033,
+      "expected": 0,
+      "skipped": 0,
+      "unexpected": 3,
+      "flaky": 0
+    },
+    "reason": "Native dialog observed and no inline confirmation group; no lifecycle dispatch after cancellation."
+  },
+  "red_expiry": {
+    "raw": ".local/m06-api/link-expiry-red/red.json",
+    "sha256": "57416cc3e4b7765d5fdf6de088faee0fb1eed3b9034ceb2ec4bfdb1dde86be3a",
+    "stats": {
+      "startTime": "2026-10-30T02:28:04.831Z",
+      "duration": 8721.928,
+      "expected": 0,
+      "skipped": 0,
+      "unexpected": 1,
+      "flaky": 0
+    },
+    "reason": "Download-only PATCH included expires_at truncated to minute precision."
+  },
+  "retained_first_green_attempt": {
+    "raw": ".local/m06-api/link-confirmation-green.json",
+    "sha256": "5dec417cadbf346cdc6193f35c103ab5bc34fafa0c95b3942899eca5368583ca",
+    "stats": {
+      "startTime": "2026-10-30T02:29:05.790Z",
+      "duration": 108089.078,
+      "expected": 5,
+      "skipped": 0,
+      "unexpected": 1,
+      "flaky": 0
+    },
+    "reason": "All three lifecycle scenarios and two existing sharing cases passed. The explicit date-edit step used an exact label omitting help text, then timed out. The new test selector was corrected without changing its expected payload."
+  },
+  "initial_three_lifecycle_assertion_bodies_unchanged": true,
+  "existing_e2e_files_compared": 17,
+  "existing69_e2e_files_match_prior_quality_sha256": true,
+  "prior_quality_preserved": true,
+  "source_sha256": {
+    "apps/web/components/ReviewLinksPanel.tsx": "49cd473cc26dd8fc32d1764e41bfab998aa25403400088d74c6995f56cbca690",
+    "tests/e2e/m06-link-confirmation.spec.ts": "4c95a239e74f2ec4d186ac27eada542f761125dd66c795c4d55857fc21b02692",
+    "apps/web/components/review-client.ts": "23a734ca662a6a2ef57d61b6df4a2acf615bfafd691aa7bc2294a821214f2358",
+    "development/m06/storage27-review-release.json": "dfd71ad4285c3d67a671ff5eeca036341ecb68c0b1c6cd30860b6b1c3b0a4703"
+  },
+  "release33_dependencies_exact": true,
+  "behaviors": [
+    "Opening/cancelling never dispatches a lifecycle mutation; Cancel retains copied URL and unsent label.",
+    "Only explicit Confirm rotate/revoke dispatches one frozen link/row-version intent; other link/form writes are disabled while choosing.",
+    "No native dialog or modal role; normal document keyboard focus moves to Cancel and returns to the invoking control.",
+    "Unknown rotation keeps the exact idempotency key, path and row_version through503 then403 to the same cached ACK; one effect.",
+    "Unchanged expiry is absent from download-only PATCH, preserving exact seconds/milliseconds. Explicit date edit supplies its browser-local ISO timestamp."
+  ],
+  "api_sql_changed": false,
+  "cloud_or_provider_called": false,
+  "hosting_deferred": true,
+  "full_current_quality": "Pending full sequential gates after separately assigned429 test sources freeze."
+}

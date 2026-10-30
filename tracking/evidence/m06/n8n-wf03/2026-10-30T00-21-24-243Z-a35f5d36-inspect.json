@@ -1,0 +1,48 @@
+{
+  "observed_at": "2026-10-30T00:21:24.243Z",
+  "result": "passed",
+  "action": "inspect",
+  "workflow_id": "kE4qSEcugaKhIoJU",
+  "before_version_id": "ffbb0c6e-7fd9-4d34-bd89-7a7b52455756",
+  "graph_verified": true,
+  "instance_version": null,
+  "node_versions": [
+    {
+      "name": "n8n-nodes-base.webhook",
+      "selected_version": 2.1
+    },
+    {
+      "name": "n8n-nodes-base.set",
+      "selected_version": 3.4
+    },
+    {
+      "name": "n8n-nodes-base.respondToWebhook",
+      "selected_version": 1.4
+    }
+  ],
+  "node_metadata_sha256": "5bc7839dc9e3cbaeb6888ad1439c67a7c617f75e4a355a2b2ada497e80d6d22d",
+  "credential_schema_verified": true,
+  "contract_source": "Exact retained published/live-tested WF03 three node contracts; full type definitions HTTP401. No node type/version/credential/settings change.",
+  "metadata_http_statuses": [
+    200,
+    401,
+    200
+  ],
+  "credentials_modified": false,
+  "workflows_modified": false,
+  "workflows_executed": false,
+  "observations": [
+    {
+      "operation": "workflow_readback",
+      "method": "GET",
+      "http_status": 200,
+      "bytes": 10385
+    },
+    {
+      "operation": "credential_schema",
+      "method": "GET",
+      "http_status": 200,
+      "bytes": 273
+    }
+  ]
+}

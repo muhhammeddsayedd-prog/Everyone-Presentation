@@ -282,6 +282,9 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ReviewLinkCreate'
+      description: External-audience series only. A link may be created before Ready output; its guest viewer then
+        shows Preparing. Default expiry is exactly30 days and is not renewed by generation. Raw bearer returned
+        only on create/rotation; encrypted exact creation replay retained24h and cleaned on later token operations.
   /review-links/{review_link_id}:
     patch:
       operationId: update_review_link
@@ -367,6 +370,7 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/OptionalIdempotencyKey'
       requestBody:
         required: true
         content:
@@ -830,6 +834,7 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/OptionalIdempotencyKey'
       requestBody:
         required: true
         content:
@@ -1579,7 +1584,9 @@ paths:
                   request_id:
                     type: string
                   data:
-                    $ref: '#/components/schemas/GuestAccess'
+                    anyOf:
+                    - $ref: '#/components/schemas/GuestAccess'
+                    - $ref: '#/components/schemas/GuestBrowserAccess'
                   warnings:
                     type: array
                     items:
@@ -1640,7 +1647,19 @@ paths:
       x-shared-service-operation: guest_open_review
       security:
       - ReviewToken: []
-      parameters: []
+      parameters:
+      - name: X-EPS-Review-Browser
+        in: header
+        required: false
+        schema:
+          type: string
+          enum:
+          - '1'
+        description: Same-origin browser cookie adapter; response omits raw session secret.
+      x-browser-cookie-adapter: eps_review_<guest_session_id without dashes>; HttpOnly; SameSite=Strict; Path=/api/v1/review;
+        Secure on HTTPS; expires no later than session/link
+      x-browser-csrf: Exact trusted Host and Origin required for cookie/browser writes. Explicit header credentials
+        may omit Origin; a supplied foreign Origin is denied.
   /review/identity:
     put:
       operationId: guest_identify
@@ -1659,7 +1678,9 @@ paths:
                   request_id:
                     type: string
                   data:
-                    $ref: '#/components/schemas/GuestAccess'
+                    anyOf:
+                    - $ref: '#/components/schemas/GuestAccess'
+                    - $ref: '#/components/schemas/GuestBrowserAccess'
                   warnings:
                     type: array
                     items:
@@ -1720,13 +1741,34 @@ paths:
       x-shared-service-operation: guest_identify
       security:
       - ReviewSession: []
-      parameters: []
+      parameters:
+      - $ref: '#/components/parameters/OptionalIdempotencyKey'
+      - name: X-Review-Context
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id selects its own HttpOnly cookie. Different link tabs never overwrite
+          one another.
+      - name: X-EPS-Review-Browser
+        in: header
+        required: false
+        schema:
+          type: string
+          enum:
+          - '1'
+        description: Same-origin browser cookie adapter; response omits raw session secret.
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/GuestIdentity'
+      x-browser-cookie-adapter: eps_review_<guest_session_id without dashes>; HttpOnly; SameSite=Strict; Path=/api/v1/review;
+        Secure on HTTPS; expires no later than session/link
+      x-browser-csrf: Exact trusted Host and Origin required for cookie/browser writes. Explicit header credentials
+        may omit Origin; a supplied foreign Origin is denied.
   /review/presentation:
     get:
       operationId: guest_get_current_version
@@ -1735,7 +1777,8 @@ paths:
       - review
       responses:
         '200':
-          description: Successful operation
+          description: Latest Ready external version, or data:null while the valid series has no Ready version (Preparing).
+            Generation never renews link expiry.
           content:
             application/json:
               schema:
@@ -1745,7 +1788,9 @@ paths:
                   request_id:
                     type: string
                   data:
-                    $ref: '#/components/schemas/ExternalPresentationVersion'
+                    anyOf:
+                    - $ref: '#/components/schemas/ExternalPresentationVersion'
+                    - type: 'null'
                   warnings:
                     type: array
                     items:
@@ -1806,7 +1851,17 @@ paths:
       x-shared-service-operation: guest_get_current_version
       security:
       - ReviewSession: []
-      parameters: []
+      parameters:
+      - name: X-Review-Context
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id selects its own HttpOnly cookie. Different link tabs never overwrite
+          one another.
+      x-browser-cookie-adapter: eps_review_<guest_session_id without dashes>; HttpOnly; SameSite=Strict; Path=/api/v1/review;
+        Secure on HTTPS; expires no later than session/link
   /review/versions/{version_id}:
     get:
       operationId: guest_get_version
@@ -1892,6 +1947,16 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/Id'
+      - name: X-Review-Context
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id selects its own HttpOnly cookie. Different link tabs never overwrite
+          one another.
+      x-browser-cookie-adapter: eps_review_<guest_session_id without dashes>; HttpOnly; SameSite=Strict; Path=/api/v1/review;
+        Secure on HTTPS; expires no later than session/link
   /review/versions/{version_id}/feedback:
     get:
       operationId: guest_list_feedback
@@ -1988,6 +2053,16 @@ paths:
           minimum: 1
           maximum: 100
           default: 25
+      - name: X-Review-Context
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id selects its own HttpOnly cookie. Different link tabs never overwrite
+          one another.
+      x-browser-cookie-adapter: eps_review_<guest_session_id without dashes>; HttpOnly; SameSite=Strict; Path=/api/v1/review;
+        Secure on HTTPS; expires no later than session/link
   /review/versions/{version_id}/comments:
     post:
       operationId: guest_create_comment
@@ -2074,12 +2149,24 @@ paths:
         schema:
           $ref: '#/components/schemas/Id'
       - $ref: '#/components/parameters/IdempotencyKey'
+      - name: X-Review-Context
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id selects its own HttpOnly cookie. Different link tabs never overwrite
+          one another.
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/GuestCommentCreate'
+      x-browser-cookie-adapter: eps_review_<guest_session_id without dashes>; HttpOnly; SameSite=Strict; Path=/api/v1/review;
+        Secure on HTTPS; expires no later than session/link
+      x-browser-csrf: Exact trusted Host and Origin required for cookie/browser writes. Explicit header credentials
+        may omit Origin; a supplied foreign Origin is denied.
   /review/comments/{comment_id}:
     patch:
       operationId: guest_update_comment
@@ -2165,12 +2252,25 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/OptionalIdempotencyKey'
+      - name: X-Review-Context
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id selects its own HttpOnly cookie. Different link tabs never overwrite
+          one another.
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/GuestCommentPatch'
+      x-browser-cookie-adapter: eps_review_<guest_session_id without dashes>; HttpOnly; SameSite=Strict; Path=/api/v1/review;
+        Secure on HTTPS; expires no later than session/link
+      x-browser-csrf: Exact trusted Host and Origin required for cookie/browser writes. Explicit header credentials
+        may omit Origin; a supplied foreign Origin is denied.
   /review/versions/{version_id}/preferences:
     put:
       operationId: guest_set_preference
@@ -2257,12 +2357,24 @@ paths:
         schema:
           $ref: '#/components/schemas/Id'
       - $ref: '#/components/parameters/IdempotencyKey'
+      - name: X-Review-Context
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id selects its own HttpOnly cookie. Different link tabs never overwrite
+          one another.
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/PreferenceSet'
+      x-browser-cookie-adapter: eps_review_<guest_session_id without dashes>; HttpOnly; SameSite=Strict; Path=/api/v1/review;
+        Secure on HTTPS; expires no later than session/link
+      x-browser-csrf: Exact trusted Host and Origin required for cookie/browser writes. Explicit header credentials
+        may omit Origin; a supplied foreign Origin is denied.
   /review/versions/{version_id}/pdf-exports:
     post:
       operationId: guest_prepare_pdf_export
@@ -2352,6 +2464,18 @@ paths:
         schema:
           $ref: '#/components/schemas/Id'
       - $ref: '#/components/parameters/IdempotencyKey'
+      - name: X-Review-Context
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id selects its own HttpOnly cookie. Different link tabs never overwrite
+          one another.
+      x-browser-cookie-adapter: eps_review_<guest_session_id without dashes>; HttpOnly; SameSite=Strict; Path=/api/v1/review;
+        Secure on HTTPS; expires no later than session/link
+      x-browser-csrf: Exact trusted Host and Origin required for cookie/browser writes. Explicit header credentials
+        may omit Origin; a supplied foreign Origin is denied.
   /review/pdf-exports/{export_id}:
     get:
       operationId: guest_get_pdf_export
@@ -2437,6 +2561,16 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/Id'
+      - name: X-Review-Context
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id selects its own HttpOnly cookie. Different link tabs never overwrite
+          one another.
+      x-browser-cookie-adapter: eps_review_<guest_session_id without dashes>; HttpOnly; SameSite=Strict; Path=/api/v1/review;
+        Secure on HTTPS; expires no later than session/link
   /review/pdf-exports/{export_id}/download:
     post:
       operationId: guest_download_pdf_export
@@ -2522,6 +2656,18 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/Id'
+      - name: X-Review-Context
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id selects its own HttpOnly cookie. Different link tabs never overwrite
+          one another.
+      x-browser-cookie-adapter: eps_review_<guest_session_id without dashes>; HttpOnly; SameSite=Strict; Path=/api/v1/review;
+        Secure on HTTPS; expires no later than session/link
+      x-browser-csrf: Exact trusted Host and Origin required for cookie/browser writes. Explicit header credentials
+        may omit Origin; a supplied foreign Origin is denied.
   /review-media/versions/{version_id}/media/{asset_id}/playback:
     post:
       operationId: play_review_media
@@ -2540,7 +2686,7 @@ paths:
                   request_id:
                     type: string
                   data:
-                    $ref: '#/components/schemas/Playback'
+                    $ref: '#/components/schemas/VersionMediaPlayback'
                   warnings:
                     type: array
                     items:
@@ -2612,6 +2758,17 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/Id'
+      - name: X-EPS-Review-Browser
+        in: header
+        required: false
+        schema:
+          type: string
+          enum:
+          - '1'
+        description: Same-origin browser cookie adapter; response omits raw session secret.
+      description: Browser first exchange uses X-Media-Grant and exact same Origin; stores HttpOnly cookie bound
+        to the fixed version/asset, then returns local proxy URL without the secret. Reload may use that cookie
+        after initial /m/:grant URL is replaced. Parent link is checked on every request.
   /review/versions/{version_id}/media/{asset_id}:
     post:
       operationId: guest_play_media
@@ -2630,7 +2787,7 @@ paths:
                   request_id:
                     type: string
                   data:
-                    $ref: '#/components/schemas/Playback'
+                    $ref: '#/components/schemas/VersionMediaPlayback'
                   warnings:
                     type: array
                     items:
@@ -2702,6 +2859,18 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/Id'
+      - name: X-Review-Context
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id selects its own HttpOnly cookie. Different link tabs never overwrite
+          one another.
+      x-browser-cookie-adapter: eps_review_<guest_session_id without dashes>; HttpOnly; SameSite=Strict; Path=/api/v1/review;
+        Secure on HTTPS; expires no later than session/link
+      x-browser-csrf: Exact trusted Host and Origin required for cookie/browser writes. Explicit header credentials
+        may omit Origin; a supplied foreign Origin is denied.
   /internal/jobs/outputs:
     post:
       operationId: reserve_job_output
@@ -2720,7 +2889,7 @@ paths:
                   request_id:
                     type: string
                   data:
-                    $ref: '#/components/schemas/UploadSession'
+                    $ref: '#/components/schemas/JobOutputReservationResult'
                   warnings:
                     type: array
                     items:
@@ -2894,7 +3063,7 @@ paths:
                   request_id:
                     type: string
                   data:
-                    $ref: '#/components/schemas/Playback'
+                    $ref: '#/components/schemas/ServiceAssetAccess'
                   warnings:
                     type: array
                     items:
@@ -3413,13 +3582,15 @@ components:
       in: header
       name: X-Review-Session
       description: Short-lived session scoped to one link/series; server verifies link live for every request. Cookie
-        adapter may be used by browser.
+        adapter may be used by browser. Browser uses the documented scoped HttpOnly cookie adapter; raw credentials
+        are never stored in browser localStorage/sessionStorage.
     MediaGrant:
       type: apiKey
       in: header
       name: X-Media-Grant
       description: Secret embedded in private external PDF, bound to one export and fixed version; parent link live-view
-        grant required.
+        grant required. Browser uses the documented scoped HttpOnly cookie adapter; raw credentials are never stored
+        in browser localStorage/sessionStorage.
     ServiceBearer:
       type: http
       scheme: bearer
@@ -3645,34 +3816,60 @@ components:
           type: string
         asset_id:
           $ref: '#/components/schemas/Id'
+        access:
+          type: string
+          enum:
+          - read
+          - write
+          default: read
+          description: Lease-scoped exact-object access. Write is only a newly reserved immutable output, never
+            an original.
       required:
       - job_id
       - attempt_id
       - lease_token
       - asset_id
-    Playback:
+    ServiceAssetAccess:
       type: object
       additionalProperties: false
+      description: Private service-only transfer capability. Headers are credentials and must not enter URLs, ordinary
+        job metadata, logs or n8n envelopes. Exact object, method and lifetime are lease-bound; no arbitrary destination/signing
+        interface exists.
       properties:
         asset_id:
           $ref: '#/components/schemas/Id'
         url:
           type: string
           format: uri
+        method:
+          type: string
+          enum:
+          - GET
+          - POST
+        headers:
+          type: object
+          additionalProperties:
+            type: string
         expires_at:
           $ref: '#/components/schemas/DateTime'
         mime_type:
           type: string
-        source_version_id:
+        size_bytes:
+          type: integer
+          minimum: 1
+        sha256:
           anyOf:
-          - $ref: '#/components/schemas/Id'
+          - type: string
           - type: 'null'
       required:
       - asset_id
       - url
+      - method
+      - headers
       - expires_at
       - mime_type
-      - source_version_id
+      - size_bytes
+      - sha256
     JobOutputComplete:
       type: object
       additionalProperties: false
@@ -3806,6 +4003,13 @@ components:
           $ref: '#/components/schemas/Id'
         lease_token:
           type: string
+        output_key:
+          type: string
+          minLength: 1
+          maxLength: 100
+          pattern: ^[A-Za-z0-9][A-Za-z0-9._:-]*$
+          description: Stable logical output name within this job attempt. Retries with the same key and metadata
+            reuse the same immutable reservation; conflicting metadata is rejected.
         asset_kind:
           type: string
           enum:
@@ -3838,71 +4042,117 @@ components:
       - job_id
       - attempt_id
       - lease_token
+      - output_key
       - asset_kind
       - filename
       - mime_type
       - expected_size_bytes
       - parent_asset_id
       - time_offset_ms
-    UploadSession:
+    JobOutputReservationResult:
+      type: object
+      additionalProperties: false
+      description: Actual immutable derivative reservation plus a lease-bound transfer capability. This is a direct
+        new-object POST, not a signed-upload PUT or an upsert grant.
+      properties:
+        asset:
+          $ref: '#/components/schemas/MediaAsset'
+        access:
+          $ref: '#/components/schemas/ServiceAssetAccess'
+      required:
+      - asset
+      - access
+    VersionMediaPlayback:
       type: object
       additionalProperties: false
       properties:
-        id:
+        asset_id:
+          $ref: '#/components/schemas/Id'
+        url:
+          type: string
+          format: uri
+        expires_at:
+          $ref: '#/components/schemas/DateTime'
+        mime_type:
+          type: string
+        source_version_id:
+          $ref: '#/components/schemas/Id'
+        transcript:
+          $ref: '#/components/schemas/VersionTranscriptCompanion'
+      required:
+      - asset_id
+      - url
+      - expires_at
+      - mime_type
+      - source_version_id
+    VersionTranscriptCompanion:
+      type: object
+      additionalProperties: false
+      properties:
+        version_id:
           $ref: '#/components/schemas/Id'
         asset_id:
           $ref: '#/components/schemas/Id'
-        protocol:
-          type: string
-          enum:
-          - tus
-          - signed_put
-        upload_url:
-          description: A scoped transfer URL for an open session. Closed sessions return null and empty upload_headers.
-          anyOf:
-          - type: string
-            format: uri
-          - type: 'null'
-        upload_headers:
-          type: object
-          additionalProperties:
-            type: string
-        expires_at:
-          $ref: '#/components/schemas/DateTime'
         status:
           type: string
           enum:
-          - open
-          - completed
-          - cancelled
-          - expired
-        maximum_bytes:
-          type: integer
-          minimum: 1
+          - available
+          - not_provided
+          - not_captured
+        original_text:
+          anyOf:
+          - &id003
+            type: string
+            minLength: 1
+            maxLength: 200000
+            pattern: ^[^\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]*\S[^\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]*$
+          - type: 'null'
+        languages:
+          type: array
+          maxItems: 100
+          items:
+            type: string
+            minLength: 1
+            maxLength: 1000
+            pattern: ^[^\u0000-\u001f\u007f]*\S[^\u0000-\u001f\u007f]*$
+        source_kind:
+          type: string
+          const: source_transcript
+        source_sha256:
+          anyOf:
+          - &id004
+            type: string
+            pattern: ^[a-f0-9]{64}$
+          - type: 'null'
       required:
-      - id
+      - version_id
       - asset_id
-      - protocol
-      - upload_url
-      - upload_headers
-      - expires_at
       - status
-      - maximum_bytes
+      - original_text
+      - languages
+      - source_kind
+      - source_sha256
+      description: Plain original source text captured immutably with this version/video. Not slide wording, captions
+        or factual review. No live-library fallback; legacy versions explicitly report not_captured.
       allOf:
       - if:
           properties:
             status:
-              const: open
+              const: available
+          required:
+          - status
         then:
           properties:
-            upload_url:
-              type: string
+            original_text: *id003
+            source_sha256: *id004
         else:
           properties:
-            upload_url:
+            original_text:
               type: 'null'
-            upload_headers:
-              maxProperties: 0
+            source_sha256:
+              type: 'null'
+            languages:
+              maxItems: 0
     PdfDownload:
       type: object
       additionalProperties: false
@@ -4099,6 +4349,8 @@ components:
           - internal
         body:
           type: string
+          minLength: 1
+          maxLength: 10000
         parent_comment_id:
           anyOf:
           - $ref: '#/components/schemas/Id'
@@ -4201,6 +4453,13 @@ components:
           $ref: '#/components/schemas/DateTime'
         download_enabled:
           type: boolean
+        cover:
+          $ref: '#/components/schemas/ReviewCover'
+        template_version:
+          type: string
+        template_content_hash:
+          type: string
+          pattern: ^[a-f0-9]{64}$
       required:
       - id
       - series_id
@@ -4211,6 +4470,43 @@ components:
       - slides
       - created_at
       - download_enabled
+      - cover
+      - template_version
+      - template_content_hash
+      description: Closed external projection from the exact immutable external-audience version. Frozen branding
+        is included; private render destinations, internal notes and review diagnostics are excluded.
+    ReviewCover:
+      type: object
+      additionalProperties: false
+      properties:
+        project_name: &id005
+          type: string
+        client_name:
+          anyOf:
+          - *id005
+          - type: 'null'
+        title: *id005
+        output_type:
+          type: string
+          enum:
+          - selection
+          - shortlist
+        logo_asset_id:
+          anyOf:
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
+        logo_placement:
+          type: string
+          enum:
+          - cover
+          - every_slide
+      required:
+      - project_name
+      - client_name
+      - title
+      - output_type
+      - logo_asset_id
+      - logo_placement
     VersionSlide:
       type: object
       additionalProperties: false
@@ -4265,6 +4561,10 @@ components:
           anyOf:
           - $ref: '#/components/schemas/Id'
           - type: 'null'
+        role_category:
+          anyOf:
+          - type: string
+          - type: 'null'
       required:
       - id
       - version_id
@@ -4280,6 +4580,7 @@ components:
       - frame_asset_ids
       - video_asset_id
       - logo_asset_id
+      - role_category
     RoleRequirements:
       type: object
       additionalProperties: false
@@ -4384,6 +4685,33 @@ components:
           maxLength: 160
       required:
       - display_name
+    GuestBrowserAccess:
+      type: object
+      additionalProperties: false
+      properties:
+        expires_at:
+          $ref: '#/components/schemas/DateTime'
+        series_id:
+          $ref: '#/components/schemas/Id'
+        version_id:
+          anyOf:
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
+        download_enabled:
+          type: boolean
+        display_name:
+          $ref: '#/components/schemas/NullableText'
+        guest_session_id:
+          $ref: '#/components/schemas/Id'
+      required:
+      - expires_at
+      - series_id
+      - version_id
+      - download_enabled
+      - display_name
+      - guest_session_id
+      description: Cookie-based browser adapter. Raw session credential exists only in a scoped HttpOnly SameSite=Strict
+        cookie; guest_session_id is a public context selector, never a bearer.
     GuestAccess:
       type: object
       additionalProperties: false
@@ -4453,6 +4781,7 @@ components:
           - ai_suggestion
           - presentation_render
           - presentation_export
+          - review_fit
         status:
           type: string
           enum:
@@ -4497,6 +4826,15 @@ components:
           $ref: '#/components/schemas/DateTime'
         row_version:
           $ref: '#/components/schemas/RowVersion'
+        frame_extraction:
+          $ref: '#/components/schemas/FrameExtractionOutcome'
+        can_retry:
+          type: boolean
+          description: Current server-derived action for presentation_render, independent of the lifetime attempt
+            count.
+        can_cancel:
+          type: boolean
+          description: Current server-derived cancellation action for presentation_render.
       required:
       - id
       - workspace_id
@@ -4513,6 +4851,61 @@ components:
       - created_at
       - updated_at
       - row_version
+      allOf:
+      - if:
+          properties:
+            kind:
+              const: presentation_render
+          required:
+          - kind
+        then:
+          required:
+          - can_retry
+          - can_cancel
+      - if:
+          properties:
+            kind:
+              const: presentation_export
+          required:
+          - kind
+        then:
+          required:
+          - can_retry
+          - can_cancel
+    FrameExtractionOutcome:
+      type: object
+      additionalProperties: false
+      properties:
+        requested_count:
+          type: integer
+          minimum: 1
+          maximum: 10
+        extracted_count:
+          type: integer
+          minimum: 0
+          maximum: 10
+        unavailable_timestamps_ms:
+          type: array
+          maxItems: 10
+          uniqueItems: true
+          items:
+            type: integer
+            minimum: 0
+            maximum: 1799999
+        warnings:
+          type: array
+          maxItems: 2
+          uniqueItems: true
+          items:
+            type: string
+            enum:
+            - FRAME_TIMESTAMP_SHARED
+            - FRAME_TIMESTAMP_UNAVAILABLE
+      required:
+      - requested_count
+      - extracted_count
+      - unavailable_timestamps_ms
+      - warnings
     JobAccepted:
       type: object
       additionalProperties: false
@@ -4647,6 +5040,7 @@ components:
           $ref: '#/components/schemas/RowVersion'
         label:
           type: string
+          maxLength: 160
         expires_at:
           $ref: '#/components/schemas/DateTime'
         download_enabled:
@@ -4661,6 +5055,7 @@ components:
           $ref: '#/components/schemas/Id'
         label:
           type: string
+          maxLength: 160
         expires_at:
           $ref: '#/components/schemas/DateTime'
         download_enabled:
@@ -4696,10 +5091,13 @@ components:
           type: string
         manifest_hash:
           type: string
+          pattern: ^[a-f0-9]{64}$
         slides:
           type: array
           items:
             $ref: '#/components/schemas/VersionSlide'
+          minItems: 2
+          maxItems: 1000
         pdf_asset_id:
           anyOf:
           - $ref: '#/components/schemas/Id'
@@ -4712,6 +5110,19 @@ components:
           - type: 'null'
         generation_job_id:
           $ref: '#/components/schemas/Id'
+        manifest_asset_id:
+          anyOf:
+          - &id006
+            $ref: '#/components/schemas/Id'
+          - type: 'null'
+        generated_by: *id006
+        failure_code:
+          anyOf:
+          - type: string
+            pattern: ^[A-Z][A-Z0-9_]{0,99}$
+          - type: 'null'
+        render_context:
+          $ref: '#/components/schemas/PresentationRenderContext'
       required:
       - id
       - series_id
@@ -4726,6 +5137,108 @@ components:
       - created_at
       - ready_at
       - generation_job_id
+      - manifest_asset_id
+      - generated_by
+      - failure_code
+      - render_context
+      description: Internal fixed-version projection. All content and render_context derive from its immutable snapshot;
+        no private storage destinations or live library values are returned. Ready requires both manifest and PDF
+        assets.
+    PresentationRenderContext:
+      type: object
+      additionalProperties: false
+      properties:
+        cover:
+          $ref: '#/components/schemas/ReviewCover'
+        template:
+          $ref: '#/components/schemas/TemplateIdentity'
+        slide_contexts:
+          type: array
+          minItems: 2
+          maxItems: 1000
+          items:
+            $ref: '#/components/schemas/PresentationSlideContext'
+      required:
+      - cover
+      - template
+      - slide_contexts
+    PresentationSlideContext:
+      type: object
+      additionalProperties: false
+      properties:
+        slide_id: &id007
+          $ref: '#/components/schemas/Id'
+        role_id:
+          anyOf:
+          - *id007
+          - type: 'null'
+        slot_id:
+          anyOf:
+          - *id007
+          - type: 'null'
+        provisional:
+          type: boolean
+        review_status:
+          anyOf:
+          - type: string
+            enum:
+            - reviewed
+            - unreviewed
+          - type: 'null'
+        frames:
+          type: array
+          maxItems: 3
+          items:
+            $ref: '#/components/schemas/ReviewFrame'
+      required:
+      - slide_id
+      - role_id
+      - slot_id
+      - provisional
+      - review_status
+      - frames
+    ReviewFrame:
+      type: object
+      additionalProperties: false
+      properties:
+        asset_id: &id008
+          $ref: '#/components/schemas/Id'
+        source_asset_id: *id008
+        timestamp_ms:
+          type: integer
+          minimum: 0
+        width:
+          type: integer
+          minimum: 1
+        height:
+          type: integer
+          minimum: 1
+        sha256:
+          type: string
+          pattern: ^[a-f0-9]{64}$
+      required:
+      - asset_id
+      - source_asset_id
+      - timestamp_ms
+      - width
+      - height
+      - sha256
+    TemplateIdentity:
+      type: object
+      additionalProperties: false
+      properties:
+        key: &id009
+          $ref: '#/components/schemas/Id'
+        version: *id009
+        content_sha256:
+          type: string
+          pattern: ^[a-f0-9]{64}$
+        font_key: *id009
+      required:
+      - key
+      - version
+      - content_sha256
+      - font_key
   parameters:
     IdempotencyKey:
       name: Idempotency-Key
@@ -4737,3 +5250,13 @@ components:
         maxLength: 200
       description: Scoped to actor+operation; replay same body returns original response; different body returns
         409.
+    OptionalIdempotencyKey:
+      name: Idempotency-Key
+      in: header
+      required: false
+      schema:
+        type: string
+        minLength: 16
+        maxLength: 200
+      description: Optional exact-response replay for an uncertain mutation acknowledgement. A repeated key must
+        keep the identical semantic request; current authority is rechecked.

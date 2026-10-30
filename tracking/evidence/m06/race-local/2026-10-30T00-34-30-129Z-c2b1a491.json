@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "run_id": "c2b1a491-ce0f-43fd-9b56-81ca2a718016",
+  "started_at": "2026-10-30T00:34:19.702Z",
+  "result": "failed",
+  "cloud_called": false,
+  "provider_called": false,
+  "private_configuration_loaded": false,
+  "scope": "Actual separate authenticated PostgreSQL sessions in one task-owned disposable DB clone of isolated local25; original postgres DB read-only. Synthetic Auth and metadata only; no network/port/login/role/password export or real media.",
+  "source_seals": {
+    "tools/test-m06-race-local.mjs": "bfaad2f2280cfd78eb30e7253f60f0dc639452c05f140ac66cf93542ac75e6c2",
+    "tools/sql/m06-review-readback.sql": "50c1212c529425f190e9a7e17ec89f76f9c2078d878bcc8e1ee10521e78af1d8",
+    "development/m06/frozen-release.json": "82b0cea9ffd09711198b67b93a7fc2e09d923366dbf431e6e47821d41ed82b0a",
+    "development/local-db/reviewed.json": "696297092815d3a51b6991b8fd118b1eee34bfa25672c120366227905d49bf43",
+    "tests/db/m04-assignments-fixture.sql": "cb5f418fee0dc3a9b00a9ddeaa3971f5df1c3384c459905baa19b4e04f1d9cb4",
+    "tests/db/m05-versions-fixture.sql": "da13283bc15481fc1bb76b9d36a3360c3a30d7b6cc06b7c0a979e25e086c636d",
+    "tests/db/m05-versions.sql": "e1cb9867d36c174b3517924299bb4b600c38569b2a805334f0fb2c385930e670",
+    "tests/db/m05-processing.sql": "814aca9c60ad7d679bcee020d3e305bd89e25b5919fbdfc11941a3f634da9ada"
+  },
+  "migration_path": "supabase/migrations/20261030002634_m06_guest_review_feedback_exports.sql",
+  "migration_sha256": "2c72507216efdcd3e9dcea3f9b94270b19e1275ebcd2fcf91dad9253ddde8d2a",
+  "pristine_empty_auth_and_verifier_preflight": true,
+  "diagnostic": "OWNED_M06_RACE_UNCONFIRMED",
+  "private_diagnostic": ".local/m06-race/c2b1a491-ce0f-43fd-9b56-81ca2a718016/diagnostic.json",
+  "disposable_cleanup_verified": false,
+  "canonical25_unchanged": true,
+  "before_metadata_sha256": "7d966d4a6921ea27caad9a3bc479011888948c23f705946a32fdb2236a376d24",
+  "after_metadata_sha256": "7d966d4a6921ea27caad9a3bc479011888948c23f705946a32fdb2236a376d24",
+  "finished_at": "2026-10-30T00:34:30.129Z"
+}

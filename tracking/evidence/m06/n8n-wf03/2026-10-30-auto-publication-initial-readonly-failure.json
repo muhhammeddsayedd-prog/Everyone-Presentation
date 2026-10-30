@@ -1,0 +1,25 @@
+{
+  "recorded_at": "2026-10-30T00:27:11.066914+00:00",
+  "result": "failed",
+  "action": "initial_read_only_auto_publication_reconciliation",
+  "source_helper_sha256": "7084282619f9dd13b65e0fdc6843b9e8eec8ae4f9dd42eee46062fc999431cc8",
+  "source_helper_archive": "development/m06/reconciliation-source-history/7084282619f9dd13b65e0fdc6843b9e8eec8ae4f9dd42eee46062fc999431cc8-reconcile-m06-wf03-auto-publication.mjs.txt",
+  "source_helper_archive_byte_identical": true,
+  "reported_failure_code": "M06_WF03_EXACT_ACTIVE_GRAPH_REQUIRED",
+  "root_tool_chunk": "248dec",
+  "root_read_only_diagnostic_chunk": "5e4e9b",
+  "observed_at": "Not reconstructed; root tool references preserve original execution chronology. recorded_at is this addendum creation time.",
+  "observed_cause": "Top-level workflow name and settings matched expected graph; activeVersion.name was null while activeVersion nodes and connections matched. Comparator incorrectly required optional activeVersion.name.",
+  "cloud_write_attempted": false,
+  "local_reconciliation_claim_absent": true,
+  "local_journal_update_not_performed": true,
+  "original_bound_files_unchanged": true,
+  "bound_file_sha256": {
+    ".local/m06-review/wf03-update.json": "6113ba5ad20c470018c570c7fb49ba050faed8cdeeb3a57ae50d67b552c5b62f",
+    ".local/m06-review/wf03-update-dispatch.claim": "20c9f6356f33909dfad1408d88dd28d2d114fc29e575c1dcb23f76c0f29ce60f",
+    "tools/update-guest-export-n8n.mjs": "7af688e4f8fe4bff0ca6ca2a58dad0d525b525ec4e754391f7cb479b27400420",
+    "tools/build-guest-export-wf03.mjs": "366e06ec562cb75f8800b3bcafbd23e0a7aca1f124a9501201b7dbe6faafbada",
+    "tracking/evidence/m06/n8n-wf03/2026-10-30T00-22-29-546Z-5a262bd8-update.json": "377d88d4b4ed99be55569ec2c2d4df066460d026f85e935cc826cd199b8683ea"
+  },
+  "next_action": "Add null-version-name regression and compare exact top-level name/settings with exact active nodes/connections while retaining strict workflow/version identities."
+}

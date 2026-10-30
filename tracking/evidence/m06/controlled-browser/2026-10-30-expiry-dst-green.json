@@ -1,0 +1,48 @@
+{
+  "schema": "eps.m06.expiry-dst-regression.v1",
+  "observed_at": "2026-10-30T02:48:04.137861+00:00",
+  "result": "passed",
+  "scope": "Synthetic independently imported helper and controlled Cairo app UI; no canonical or provider calls",
+  "red": "tracking/evidence/m06/controlled-browser/2026-10-30-expiry-dst-red.json",
+  "unchanged_red_test_sources": true,
+  "source_sha256": {
+    "apps/web/components/review-link-expiry.ts": "09a22845d48aaaa603279203b8bbf0a0b5ffb2a2c2f41e55a23bff65a1169d72",
+    "apps/web/components/ReviewLinksPanel.tsx": "ed019abcab33a32c1050ae2e11cbb19cfe560c6a11a0b8e5ece9b7737d75589e",
+    "tests/server/review-link-expiry.test.ts": "91519f15b58d13a1703800924fd39935dac0a18449b8cadb4ce514bbe931dc5c",
+    "tests/e2e/m06-link-expiry-dst.spec.ts": "d2c29612aa1e280b38b8084ff14a69a1c93be95d303f033a2cd08ea18bcdc522",
+    "tests/e2e/m06-link-confirmation.spec.ts": "4c95a239e74f2ec4d186ac27eada542f761125dd66c795c4d55857fc21b02692"
+  },
+  "commands": [
+    {
+      "command": "node tools/run-tests.mjs tests/server/review-link-expiry.test.ts",
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "tool_output": "d6bbf8"
+    },
+    {
+      "command": "npx.cmd playwright test tests/e2e/m06-link-expiry-dst.spec.ts tests/e2e/m06-link-confirmation.spec.ts",
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0,
+      "seconds": 14.2,
+      "tool_output": "4b4b1a"
+    },
+    {
+      "command": "npx.cmd eslint apps/web/components/ReviewLinksPanel.tsx apps/web/components/review-link-expiry.ts tests/server/review-link-expiry.test.ts tests/e2e/m06-link-expiry-dst.spec.ts --max-warnings 0",
+      "exit_code": 0,
+      "tool_output": "34e176"
+    }
+  ],
+  "claims": [
+    "Cairo DST,UTC and positive half-hour offset dates display correct local minute.",
+    "Actual Cairo UI preserves full original seconds when download-only edit omits expiry; explicit local minute edit serializes intended exact UTC time.",
+    "Existing four inline lifecycle/uncertain-request/expiry UI cases remain unchanged and pass."
+  ],
+  "line_endings": "Original ReviewLinksPanel LF bytes preserved; incidental CRLF write was normalized before final five-case run. Prior pre-normalization successful run retained privately, not added to counts.",
+  "earlier_quality_receipt": "tracking/evidence/m06/quality/2026-10-30T02-39-14-028843Z-805e65f9-final.json",
+  "earlier_quality_receipt_sha256": "03a167c44a3a17420c29efffaa24b7a1025603a72e3f151a09eabe3e26321c5f",
+  "earlier_quality_preserved": true,
+  "private_report": ".local/m06-dst/green/e2e-results.json",
+  "hosting_deferred": true
+}

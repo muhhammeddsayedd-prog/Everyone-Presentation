@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "run_id": "abba75e3-b6f5-410a-a6bb-4c6e269ef9ee",
+  "started_at": "2026-10-30T01:37:05.478Z",
+  "result": "passed",
+  "mode": "candidate27",
+  "scope": "Owned isolated local26; synthetic asset/Storage metadata and real anon/authenticated composed SELECT, all candidate DDL/data rolled back",
+  "cloud_called": false,
+  "provider_called": false,
+  "application_worker_guest_configuration_loaded": false,
+  "secret_columns_excluded_before_readback_hashing": true,
+  "source_seals": {
+    "development/m06/storage-rls-forward.sql": "9e3ab85655c2fa0490aba07118fe730dae2c6193f651c3ba086910d82b7eb171",
+    "tools/sql/m06-forward26-readback.sql": "0132f92677d703d50c44a06670cbab5632f4abe9d4303171c2ab1709f7086fc5",
+    "tests/db/m04-assignments-fixture.sql": "cb5f418fee0dc3a9b00a9ddeaa3971f5df1c3384c459905baa19b4e04f1d9cb4",
+    "tests/db/m05-versions-fixture.sql": "da13283bc15481fc1bb76b9d36a3360c3a30d7b6cc06b7c0a979e25e086c636d",
+    "tests/db/m05-versions.sql": "e1cb9867d36c174b3517924299bb4b600c38569b2a805334f0fb2c385930e670",
+    "tests/db/m05-processing.sql": "814aca9c60ad7d679bcee020d3e305bd89e25b5919fbdfc11941a3f634da9ada",
+    "tests/db/m06-credential-admission.sql": "341affad7dafa70c922eb1c668ab0c1a9cc714fd31b035024577c617fc377a03",
+    "tests/db/m06-storage-rls.sql": "21079a79debb33d1d4f57667cb0eabe1822f544957e23383899f2511c4bde7f5",
+    "tests/db/m06-storage-worker-hook.sql": "a524383a39c8a23889c62c3d863332eeda4073adb8f0513dbe87ce5ae6422b87",
+    "tools/test-m06-storage-rls-local.mjs": "c70344624196338a0b9c25de44a3d20430e70b9e2b743c630550ac8f3c3d95a0",
+    "tools/local-postgres.mjs": "49929bce8eb51194d9299cfd9639e537eb237daaec76c15740cb88059604e2de",
+    "development/local-db/instance.json": "778d29222b0a6b604451a494dab6ca6ffabb7357d5b700794400bf35cc79c198",
+    "development/m06/baseline26-reviewed.json": "d478c64785b7086113d1af3dc773df04ecdf407ec23a7066350ec13b71ea0abe"
+  },
+  "markers": [
+    "M06_STORAGE_EXISTING_WORKER_COMPOSED_READ_PRESERVED_PASSED",
+    "M06_STORAGE_REAL_ANON_AUTHENTICATED_FRAME_LOGO_VIDEO_PDF_GET_INFO_ONLY_PASSED",
+    "M06_STORAGE_PARENT_SESSION_GRANT_SCOPE_EXPIRY_REVOKE_ROTATION_DOWNLOAD_DISABLE_COMPOSED_DENIAL_PASSED",
+    "M06_STORAGE_INTERNAL_MANAGE_EXPORT_GET_INFO_SIGN_READER_DENIED_CANONICAL_READER_PRESERVED_PASSED"
+  ],
+  "behavior_passed": true,
+  "stdout_sha256": "3e14a3979603151e94878ead359bbc431dd8d37bd2a65323d545e8d76d812d16",
+  "sources_stable": true,
+  "backend_settled": true,
+  "rollback_verified": true,
+  "original_safe_snapshot_sha256": "d1a02cd6c285b5baa4a651a260fb52aad5950c47e9d1532cdb6236357a1b4eb1",
+  "after_safe_snapshot_sha256": "d1a02cd6c285b5baa4a651a260fb52aad5950c47e9d1532cdb6236357a1b4eb1",
+  "finished_at": "2026-10-30T01:37:21.791Z"
+}

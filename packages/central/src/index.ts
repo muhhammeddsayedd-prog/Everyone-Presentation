@@ -11,6 +11,8 @@ export { createCentralCasting } from './casting.ts';
 export { createCentralReview } from './review.ts';
 export { createCentralPresentations } from './presentation.ts';
 export type { CentralPresentationOptions } from './presentation.ts';
+export { createCentralGuestReviews, createCentralReviewLinks } from './guest-reviews.ts';
+export type { ReviewServiceOptions } from './guest-reviews.ts';
 export { createCentralCandidates } from './candidates.ts';
 export type { CentralCandidates, CandidateVersionInput, CandidateSuccess } from './candidates.ts';
 export { createCentralCandidateFilters } from './candidate-filters.ts';

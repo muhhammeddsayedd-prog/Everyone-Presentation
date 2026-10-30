@@ -1,0 +1,62 @@
+{
+  "observed_at": "2026-10-30T02:56:35.348647+00:00",
+  "result": "PASS",
+  "scope": "Controlled synthetic local Chromium UI; no actual cloud/grant/media decoder claim",
+  "final_native_process": {
+    "observed_at": "2026-10-30T02:53:46.172848+00:00",
+    "exit_code": 0,
+    "stats": {
+      "startTime": "2026-10-30T02:53:31.666Z",
+      "duration": 14420.34,
+      "expected": 6,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "errors": 0,
+    "log_sha256": "e7f52eece823c54758b5cb4f5460fcf629f8a3617d8fa22a8494988b08ef457e"
+  },
+  "source_hashes_observed_after_run": {
+    "apps/web/components/SourceTranscript.tsx": "ea6d52733ff65a8b61a752bfdab970ecc00224bae2166ab33a2f203444cba5e5",
+    "apps/web/components/GuestReviewView.tsx": "66ce0836e2e282800b686fa6beab870614b9f2beb2862c4a67b77b85bf67d1b4",
+    "apps/web/components/GrantMediaView.tsx": "ab853c0b99bc094035df0ab9278ef48df25e110536ac98c88d1d9d6c04d8c6f0",
+    "apps/web/components/PresentationVersionView.tsx": "1d591b3866bca32eff2527775ac552690f9be0ab0c85d97d3ed2fc666580e9a4",
+    "apps/web/app/globals.css": "a4f41447d474e999810c4800a8d7cc154f51ad9cfb39cbfc1dea24dc4d49b50e",
+    "tests/e2e/version-transcript-ui.spec.ts": "25047e81fd4cc579ac80f54a45eaa80ece4018e0ea6f87803c7a90d899aafc2b"
+  },
+  "red": {
+    "initial_tests_failed": 6,
+    "product_missing_companion_cases": 5,
+    "initial_internal_fixture_incomplete": true,
+    "corrected_internal_red_failed_at_missing_read_source_summary": true,
+    "raw_initial_report_sha256": "fc03507569d7bf590614a07c410512ea52b16bc136834ac900e791e3167ab6bb",
+    "corrected_internal_report_sha256": "1a6903c3e0ee2fc953b02b16718a879c4bba0484ca14498f7323c490fdbf3810"
+  },
+  "intermediate_green": {
+    "passed": 4,
+    "failed": 2,
+    "fixture_findings": [
+      "React development StrictMode may perform same authorized grant read twice; assert exact scope rather than one mount",
+      "Next route announcer also has alert role; scope the asserted application error"
+    ],
+    "raw_report_sha256": "490b8b69934ac9581ed5cd2bc9da3287e371bbfa71e5ff9cb9f185c900f0d92f",
+    "product_source_changed_for_fixture_corrections": false
+  },
+  "capture_correction": {
+    "prior_six_pass_report_sha256": "039dddeb4a7a9b54c13570a665f2ca1236618aa9581a39cf67aad1682256829b",
+    "powershell_native_stderr_warning_became_shell_error": true,
+    "final_python_subprocess_return_code": 0,
+    "test_cases_or_assertions_changed_for_capture": false
+  },
+  "acceptance": [
+    "Original escaped multilingual text is revealed with native keyboard details outside ten-field candidate article",
+    "Grant and internal fixed-version players share captured companion without live library reads",
+    "Old version reports not_captured; no live-source fallback",
+    "Refresh authorization denial removes prior text",
+    "Wrong version/video tuple never renders text"
+  ],
+  "native_video_decode_or_real_source_accuracy_claimed": false,
+  "manual_screen_reader_claimed": false,
+  "additional_mobile_testing": "owner requested skip",
+  "hosting_deferred": true
+}

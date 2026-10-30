@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "run_id": "a7493d50-34c9-464c-bf6e-f81e243848c4",
+  "started_at": "2026-10-30T00:45:05.699Z",
+  "result": "passed",
+  "mode": "candidate26",
+  "scope": "Owned local25 with explicit synthetic external frozen versions and backend/guest identities, current roles; bounded26 DDL/protocol all rolled back. No cloud/provider/private config.",
+  "cloud_called": false,
+  "provider_called": false,
+  "private_configuration_loaded": false,
+  "source_seals": {
+    "development/m06/credential-admission-forward.sql": "1f2d6cae1097faa0405098a269a344500a1007a34c03a77c6cf87ecff2485e5a",
+    "development/m06/guest-export-retry-forward.sql": "6005374b8ff15322d8965ddae22f8aae1197a17482a40c3ac4ade3ad39ec30b2",
+    "tests/db/m04-assignments-fixture.sql": "cb5f418fee0dc3a9b00a9ddeaa3971f5df1c3384c459905baa19b4e04f1d9cb4",
+    "tests/db/m05-versions-fixture.sql": "da13283bc15481fc1bb76b9d36a3360c3a30d7b6cc06b7c0a979e25e086c636d",
+    "tests/db/m05-versions.sql": "e1cb9867d36c174b3517924299bb4b600c38569b2a805334f0fb2c385930e670",
+    "tests/db/m05-processing.sql": "814aca9c60ad7d679bcee020d3e305bd89e25b5919fbdfc11941a3f634da9ada",
+    "tests/db/m06-credential-admission.sql": "341affad7dafa70c922eb1c668ab0c1a9cc714fd31b035024577c617fc377a03",
+    "tests/db/m06-guest-export-retry.sql": "16d1e715a2204bbf925be985b9bf54b65c4caa5b2a31a29560f3a0d43500f24c",
+    "tools/test-m06-forward26-local.mjs": "7ab4db962a635cd3d03db34edf554223731fbe471d7e16fabfd42964a64a9f5b",
+    "tools/sql/m04-review-local-snapshot.sql": "7fbd8618363597ff158c429f6127c1eab0e51dce170d740c96f368c604b24d46"
+  },
+  "markers": [
+    "M06_26_UNSIGNED_DIRECT_RPC_AND_PRIVATE_VERIFIER_DENIAL_PASSED",
+    "M06_26_ACTOR_OPERATION_SUBJECT_INPUT_IDK_DIGEST_CIPHERTEXT_MAC_AND_FRESH_ACK_REPLAY_PASSED",
+    "M06_26_ROTATION_UNSIGNED_NONCE_REPLAY_DENIED_FRESH_ACK_ONCE_PASSED",
+    "M06_26_CURRENT_AUTHORITY_AND_NONCE_ROW_IDEMPOTENCY_TRANSACTION_ROLLBACK_PASSED",
+    "M06_26_REAL_ANON_FAILED_PREPARE_REQUEUES_SAME_FROZEN_EXPORT_JOB_IDK_ONCE_AND_ONLY_STAGE_BUDGET_PASSED",
+    "M06_26_RETRY_MONOTONIC_ATTEMPT_FRESH_LEASE_GRANT_ARTIFACT_PATH_AND_READY_VERSION_UNCHANGED_PASSED",
+    "M06_26_CANCELLED_TERMINAL_FOREIGN_LINK_SESSION_PRIVATE_RETRY_DENIAL_AND_GRANT_REVOCATION_PASSED"
+  ],
+  "behavior_passed": true,
+  "stdout_sha256": "dc5b26f748442c577b31b1330cedbc4c5d794f18e901726efd2923e57dab1208",
+  "sources_stable": true,
+  "backend_settled": true,
+  "rollback_verified": true,
+  "finished_at": "2026-10-30T00:45:20.762Z"
+}

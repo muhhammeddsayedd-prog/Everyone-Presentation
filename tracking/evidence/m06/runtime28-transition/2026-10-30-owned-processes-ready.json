@@ -1,0 +1,55 @@
+{
+    "observed_at":  "2026-10-30T03:17:37.3395909+00:00",
+    "result":  "started_and_owned",
+    "source_count":  23,
+    "startup_sources_unchanged":  true,
+    "authenticated_gateway_operations":  12,
+    "startup_proof":  "tracking/evidence/m06/guest-export-runtime/2026-10-30T03-15-25-486Z-b0f4cf8d.json",
+    "processes":  [
+                      {
+                          "role":  "worker_launcher",
+                          "process_id":  52092,
+                          "parent_process_id":  52812,
+                          "created_at":  "2026-10-30T03:15:21.6955300Z",
+                          "command":  "\"C:\\Program Files\\nodejs\\node.exe\" tools/start-specs-worker.mjs"
+                      },
+                      {
+                          "role":  "worker",
+                          "process_id":  58540,
+                          "parent_process_id":  52092,
+                          "created_at":  "2026-10-30T03:15:21.9310330Z",
+                          "command":  "\"C:\\Program Files\\nodejs\\node.exe\" --import tsx apps/worker/src/runtime-main.ts"
+                      },
+                      {
+                          "role":  "web_launcher",
+                          "process_id":  28980,
+                          "parent_process_id":  52812,
+                          "created_at":  "2026-10-30T03:15:21.7511320Z",
+                          "command":  "\"C:\\Program Files\\nodejs\\node.exe\" tools/dev-central.mjs"
+                      },
+                      {
+                          "role":  "web_cli",
+                          "process_id":  27208,
+                          "parent_process_id":  28980,
+                          "created_at":  "2026-10-30T03:15:21.9912220Z",
+                          "command":  "\"C:\\Program Files\\nodejs\\node.exe\" D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\node_modules\\next\\dist\\bin\\next dev --hostname 127.0.0.1 --port 3000"
+                      },
+                      {
+                          "role":  "web_server",
+                          "process_id":  52636,
+                          "parent_process_id":  27208,
+                          "created_at":  "2026-10-30T03:15:22.4357080Z",
+                          "command":  "\"C:\\Program Files\\nodejs\\node.exe\" D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\node_modules\\next\\dist\\server\\lib\\start-server.js"
+                      }
+                  ],
+    "initial_all_child_count_guard_refused_before_any_process_mutation":  true,
+    "known_windows_console_host_children_excluded_from_node_tree":  true,
+    "worker_stderr_bytes":  0,
+    "web_stderr_bytes":  0,
+    "specs_files_enabled_at_launch":  true,
+    "guest_exports_enabled_at_launch":  true,
+    "process_environment_directly_read":  false,
+    "old_owned_process_ids_absent":  true,
+    "loopback_port3000_owner":  52636,
+    "hosting_deferred":  true
+}

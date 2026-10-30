@@ -1,0 +1,36 @@
+{
+  "recorded_at": "2026-10-30T00:31:02.920204+00:00",
+  "scope": "Exact bytes before M06 WF03 expression serialization repair",
+  "active_workflow_id": "kE4qSEcugaKhIoJU",
+  "active_version_id": "0e206327-20ff-4cb1-953a-7b7476495b80",
+  "entries": [
+    {
+      "original": "tools/build-guest-export-wf03.mjs",
+      "sha256": "366e06ec562cb75f8800b3bcafbd23e0a7aca1f124a9501201b7dbe6faafbada",
+      "archive": "development/m06/workflow-source-history/366e06ec562cb75f8800b3bcafbd23e0a7aca1f124a9501201b7dbe6faafbada-build-guest-export-wf03.mjs.txt",
+      "bytes": 3482
+    },
+    {
+      "original": "tools/update-guest-export-n8n.mjs",
+      "sha256": "7af688e4f8fe4bff0ca6ca2a58dad0d525b525ec4e754391f7cb479b27400420",
+      "archive": "development/m06/workflow-source-history/7af688e4f8fe4bff0ca6ca2a58dad0d525b525ec4e754391f7cb479b27400420-update-guest-export-n8n.mjs.txt",
+      "bytes": 15593
+    },
+    {
+      "original": "tools/reconcile-m06-wf03-auto-publication.mjs",
+      "sha256": "65511435e435bf7f81b2d28d73acfd4baff81e097dc918b2d60305aa98a9a4db",
+      "archive": "development/m06/workflow-source-history/65511435e435bf7f81b2d28d73acfd4baff81e097dc918b2d60305aa98a9a4db-reconcile-m06-wf03-auto-publication.mjs.txt",
+      "bytes": 11496
+    },
+    {
+      "original": "Generated now from frozen builder and matched exact saved live graph via GET; prior n8n export file never existed",
+      "sha256": "3b43f65491d874a780c142bb93f02b3fef53ed9f30c225d154781e0d0b3fbb9f",
+      "archive": "development/m06/workflow-source-history/3b43f65491d874a780c142bb93f02b3fef53ed9f30c225d154781e0d0b3fbb9f-live-matching-before-serialization-graph.json.txt",
+      "bytes": 6189
+    }
+  ],
+  "reason": "Unescaped internal double-closing-brace sequences terminate the n8n outer expression before the mapper function completes. Original standalone NodeVM tests omitted that lexer boundary.",
+  "past_reconciliation_bound_source_intentionally_historical_after_repair": true,
+  "original_failed_proofs_preserved": true,
+  "cloud_write_attempted": false
+}

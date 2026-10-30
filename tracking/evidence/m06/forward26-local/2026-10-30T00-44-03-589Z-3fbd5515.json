@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "run_id": "3fbd5515-49fc-4235-9303-b5dbcb5ed6a9",
+  "started_at": "2026-10-30T00:43:49.238Z",
+  "result": "failed",
+  "mode": "red25-retry",
+  "scope": "Owned local25 with explicit synthetic external frozen versions and backend/guest identities, current roles; bounded26 DDL/protocol all rolled back. No cloud/provider/private config.",
+  "cloud_called": false,
+  "provider_called": false,
+  "private_configuration_loaded": false,
+  "source_seals": {
+    "development/m06/credential-admission-forward.sql": "1f2d6cae1097faa0405098a269a344500a1007a34c03a77c6cf87ecff2485e5a",
+    "development/m06/guest-export-retry-forward.sql": "3bd47d1b1216de12ef54cd0552c40a347171789cb1243152242e93852067596d",
+    "tests/db/m04-assignments-fixture.sql": "cb5f418fee0dc3a9b00a9ddeaa3971f5df1c3384c459905baa19b4e04f1d9cb4",
+    "tests/db/m05-versions-fixture.sql": "da13283bc15481fc1bb76b9d36a3360c3a30d7b6cc06b7c0a979e25e086c636d",
+    "tests/db/m05-versions.sql": "e1cb9867d36c174b3517924299bb4b600c38569b2a805334f0fb2c385930e670",
+    "tests/db/m05-processing.sql": "814aca9c60ad7d679bcee020d3e305bd89e25b5919fbdfc11941a3f634da9ada",
+    "tests/db/m06-credential-admission.sql": "341affad7dafa70c922eb1c668ab0c1a9cc714fd31b035024577c617fc377a03",
+    "tests/db/m06-guest-export-retry.sql": "a93fccbef5def420e9ce5bcb3d531b958fedc70d7e0cb7a793c4c5a9e26d4227",
+    "tools/test-m06-forward26-local.mjs": "c38f0b3c967ae3883be0335751c75a200d606531a687e5529f8ecfcdfbf06d04",
+    "tools/sql/m04-review-local-snapshot.sql": "7fbd8618363597ff158c429f6127c1eab0e51dce170d740c96f368c604b24d46"
+  },
+  "private_diagnostic": ".local/m06-forward26/3fbd5515-49fc-4235-9303-b5dbcb5ed6a9/diagnostic.txt",
+  "meaningful_red_observed": false,
+  "backend_settled": true,
+  "rollback_verified": true,
+  "finished_at": "2026-10-30T00:44:03.589Z"
+}

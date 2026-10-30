@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-import type { PresentationVersion, VersionSlide } from '@eps/domain';
+import type { PresentationVersion, VersionSlide, VersionMediaPlayback, VersionTranscriptCompanion } from '@eps/domain';
 import { presentationCanonicalJson } from '../../../packages/domain/src/presentation';
 import { slideWordingFields } from '../../../packages/domain/src/casting-types';
 import completeRegistry from '../../../packages/templates/versions/1.1.0/registry.json';
@@ -11,6 +11,7 @@ import { REVIEW_FIELD_LABELS } from '../../../packages/templates/src/render';
 import { api, errorMessage, mutation, type Actor } from './api';
 import { ErrorNotice, Loading } from './Feedback';
 import { VersionAssetImage } from './VersionAssetImage';
+import { SourceTranscript } from './SourceTranscript';
 
 interface Props { versionId: string; actor: Actor; embedded?: boolean; expectedSeriesId?: string; onSettled?: () => void }
 export function PresentationVersionView(props: Props) { return <VersionScope key={`${props.actor.id}:${props.versionId}`} {...props} />; }
@@ -49,7 +50,7 @@ function VersionScope({ versionId, embedded = false, expectedSeriesId, onSettled
     {error && <ErrorNotice message={error} retry={reload} />}
     {version.status !== 'ready' && <div className={`notice${version.status === 'failed' ? ' notice-error' : ''}`}><p>{version.status === 'failed' ? 'The PDF did not finish. Existing ready versions remain available.' : 'The captured content is saved. Its PDF is still processing.'}</p><Link className="button" href={`/processing?job=${version.generation_job_id}`}>Open generation processing</Link></div>}
     {version.status === 'failed' && <p className="small">An authorized retry uses this same captured version.</p>}
-    <div className="button-row saved-version-actions">{version.status === 'ready' && <><a className="button button-primary" href={`/api/v1/versions/${version.id}/pdf/content`} download>Download PDF</a><a className="button" href={`/api/v1/versions/${version.id}/pdf/content`} target="_blank" rel="noreferrer">Open saved PDF</a></>}<Link className="button" href={`/presentations/versions/${version.id}`}>Open version page</Link></div>
+    <div className="button-row saved-version-actions">{version.status === 'ready' && <><a className="button button-primary" href={`/api/v1/versions/${version.id}/pdf/content`} download>Download PDF</a><a className="button" href={`/api/v1/versions/${version.id}/pdf/content`} target="_blank" rel="noreferrer">Open saved PDF</a></>}<Link className="button" href={`/presentations/versions/${version.id}`}>Open version page</Link><Link className="button" href={`/presentations/series/${version.series_id}/sharing`}>Share and review</Link></div>
     {!supported ? <ErrorNotice message="This saved template is unavailable in this viewer. Open the original PDF or restore its registered template." /> : <>
       <nav className="saved-slide-navigation" aria-label="Slides in saved version"><ol>{version.slides.map((item, index) => <li key={item.id}><button className="button" aria-current={index === slideIndex ? 'step' : undefined} aria-label={slideLabel(item, index)} onClick={() => setSlideIndex(index)}>{index + 1}<span>{item.kind === 'cover' ? 'Cover' : `${item.role_label ?? 'Requirements pending'} / ${item.slot_label ?? 'Pending'}`}</span>{item.kind === 'pending' && <span className="badge">Pending</span>}</button></li>)}</ol></nav>
       <div className="saved-slide-controls"><button className="button" disabled={slideIndex === 0} onClick={() => setSlideIndex(value => value - 1)}>Previous slide</button><p role="status">Slide {slideIndex + 1} of {version.slides.length}</p><button className="button" disabled={slideIndex >= version.slides.length - 1} onClick={() => setSlideIndex(value => value + 1)}>Next slide</button></div>
@@ -81,19 +82,20 @@ export function VersionMediaView({ versionId, assetId, actor }: { versionId: str
 }
 function VersionMediaScope({ versionId, assetId }: { versionId: string; assetId: string }) {
   const [url, setUrl] = useState<string | null>(null); const [version, setVersion] = useState<PresentationVersion | null>(null);
+  const [transcript, setTranscript] = useState<VersionTranscriptCompanion>();
   const [error, setError] = useState(''); const [refresh, setRefresh] = useState(0); const [busy, setBusy] = useState(false);
   useEffect(() => { let current = true; const controller = new AbortController();
     api<PresentationVersion>(`/api/v1/versions/${encodeURIComponent(versionId)}`, { signal: AbortSignal.any([controller.signal, AbortSignal.timeout(30000)]) }).then(result => {
       if (!current) return; if (result.data.id !== versionId || !result.data.slides.some(slide => slide.video_asset_id === assetId)) throw new Error('This original introduction is not part of the saved version.'); setVersion(result.data); setError('');
     }).catch(reason => { if (current) setError(errorMessage(reason)); }); return () => { current = false; controller.abort(); };
   }, [versionId, assetId, refresh]);
-  async function play() { setBusy(true); setError(''); setUrl(null);
-    try { const value = (await api<{ source_version_id: string; asset_id: string; url: string }>(`/api/v1/versions/${versionId}/media/${assetId}/playback`, { ...mutation('POST'), signal: AbortSignal.timeout(30000) })).data;
-      if (value.source_version_id !== versionId || value.asset_id !== assetId) throw new Error('Saved media identity changed. Refresh access.'); setUrl(value.url);
+  async function play() { setBusy(true); setError(''); setUrl(null); setTranscript(undefined);
+    try { const value = (await api<VersionMediaPlayback>(`/api/v1/versions/${versionId}/media/${assetId}/playback`, { ...mutation('POST'), signal: AbortSignal.timeout(30000) })).data;
+      if (value.source_version_id !== versionId || value.asset_id !== assetId) throw new Error('Saved media identity changed. Refresh access.'); setUrl(value.url); setTranscript(value.transcript);
     } catch (reason) { setError(errorMessage(reason)); } finally { setBusy(false); }
   }
   return <section className="version-original-media"><Link className="button" href={`/presentations/versions/${versionId}`}>Back to saved version</Link><header className="page-heading"><div><h1>Original introduction</h1>{version && <p>{version.render_context.cover.project_name} · Saved version {version.version_no}</p>}</div></header><p>This link opens the original video retained by this saved version.</p>
     {error && <ErrorNotice message={error} retry={() => { setVersion(null); setUrl(null); setRefresh(value => value + 1); }} />}
-    {!version && !error ? <Loading /> : version && <><button className="button button-primary" disabled={busy} onClick={() => void play()}>{busy ? 'Opening saved video…' : url ? 'Refresh video access' : 'Open saved video'}</button>{url && <video controls preload="metadata" className="candidate-video" src={url} onError={() => setError('Video access expired or the retained video is unavailable. Refresh video access.')} />}</>}
+    {!version && !error ? <Loading /> : version && <><button className="button button-primary" disabled={busy} onClick={() => void play()}>{busy ? 'Opening saved video…' : url ? 'Refresh video access' : 'Open saved video'}</button>{url && <><video controls preload="metadata" className="candidate-video" src={url} onError={() => { setUrl(null); setTranscript(undefined); setError('Video access expired or the retained video is unavailable. Refresh video access.'); }} /><SourceTranscript versionId={versionId} assetId={assetId} transcript={transcript} /></>}</>}
   </section>;
 }

@@ -18,6 +18,10 @@ import { handleReviewRequest, isReviewRoute } from '../../../../lib/review-http'
 import { getReviewService } from '../../../../lib/review';
 import { getPresentationService } from '../../../../lib/presentation';
 import { handlePresentationRequest, isPresentationRoute } from '../../../../lib/presentation-http';
+import { getGuestReviewService, getReviewLinkService } from '../../../../lib/guest';
+import { handleGuestReviewRequest, handleReviewLinkRequest, isGuestReviewRoute, isReviewLinkRoute } from '../../../../lib/guest-http';
+import { readRuntimeConfig } from '../../../../lib/config';
+import { guestOperationClass, logGuestRequestFailure, type GuestOperationClass } from '../../../../lib/guest-error-log';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -25,13 +29,19 @@ type Context = { params: Promise<{ segments: string[] }> };
 
 async function handle(request: Request, context: Context) {
   const requestId = randomUUID();
+  let guestOperation: GuestOperationClass | null = null;
   try {
     const method = request.method;
-    if (method !== 'GET') requireSameOrigin(request, true);
-    const actor = (await currentActor())!;
     const { segments: s } = await context.params;
     const mutation = { idempotencyKey: request.headers.get('Idempotency-Key') ?? undefined, requestId,
       clientType: request.headers.has('authorization') ? 'api' as const : 'browser' as const };
+    if (isGuestReviewRoute(s)) {
+      guestOperation = guestOperationClass(s);
+      return await handleGuestReviewRequest(request, s, getGuestReviewService(), mutation, { origin: readRuntimeConfig().baseUrl });
+    }
+    if (method !== 'GET') requireSameOrigin(request, true);
+    const actor = (await currentActor())!;
+    if (isReviewLinkRoute(s)) return await handleReviewLinkRequest(request, s, actor, await getReviewLinkService(), mutation);
     if (s[0] === 'jobs') return await handleJobRequest(request, s, actor, await getJobs(), mutation);
     if (isPresentationRoute(s)) return await handlePresentationRequest(request, s, actor, await getPresentationService(), mutation);
     if (isReviewRoute(s)) return await handleReviewRequest(request, s, actor, await getReviewService(), mutation);
@@ -82,6 +92,11 @@ async function handle(request: Request, context: Context) {
       if (s.length === 3 && s[2] === 'archive' && method === 'POST') return json(await studio.archiveAudiencePreset(actor, s[1], await body<{ row_version: number }>('ArchiveRequest'), mutation), requestId);
     }
     throw new DomainError('FEATURE_NOT_IMPLEMENTED', 'This operation is pending its implementation milestone.', 503);
-  } catch (e) { return failure(e, requestId); }
+  } catch (e) {
+    if (guestOperation !== null) logGuestRequestFailure(guestOperation, e, requestId);
+    const response = failure(e, requestId);
+    if (e instanceof DomainError && e.status === 429) response.headers.set('Retry-After', '60');
+    return response;
+  }
 }
 export { handle as GET, handle as POST, handle as PATCH, handle as PUT, handle as DELETE };

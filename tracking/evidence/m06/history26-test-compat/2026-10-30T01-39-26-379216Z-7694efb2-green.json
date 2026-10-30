@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-30T01:39:26.367519+00:00",
+  "result": "passed",
+  "cloud_called": false,
+  "provider_called": false,
+  "production26_helpers_changed": false,
+  "fixture_only_byte_replacement_verified": true,
+  "all_existing_test_assertions_and_cases_unchanged": true,
+  "historical26_cases": 9,
+  "new27_adapter_cases": 5,
+  "total_cases": 51,
+  "green_returncode": 0,
+  "red_receipt": "tracking/evidence/m06/history26-test-compat/2026-10-30T01-38-59-192189Z-702918cd-red.json",
+  "red_receipt_sha256": "ef73a65668543504fd1e098c91c4e4ce598fccd89da53a6b77b3c557538f72bd",
+  "preserved_original_source_sha256": "6d6efb6154748a16bccee18c3a0569fca9a3be7a7840aec57629c8ec04453cba",
+  "current_fixture_source_sha256": "2acd87ae5da8036c7fa1854c857b4cbe17fe407e6b2a9eb1812ff403c2f04ce0",
+  "immutable26_manifest": "development/m06/baseline26-reviewed.json",
+  "immutable26_manifest_sha256": "d478c64785b7086113d1af3dc773df04ecdf407ec23a7066350ec13b71ea0abe",
+  "modules": [
+    "tests.operations.test_m06_private_snapshot_export",
+    "tests.operations.test_m06_current27_observers",
+    "tests.operations.test_m06_app_capture",
+    "tests.operations.test_m06_storage27_release"
+  ],
+  "scope": "Actual27 RED factory followed by one SHA-bound immutable26 data-factory change; all nine legacy cases and all existing assertions run unchanged plus new27/parser/release cases. No skipped assertions."
+}

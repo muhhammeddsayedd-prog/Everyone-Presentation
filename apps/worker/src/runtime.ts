@@ -6,6 +6,7 @@ import { executeFrameStage, type FrameStageOptions } from './frame-stage-executo
 import { executeReviewStage, type ReviewStageOptions } from './review-stage-executor.ts';
 import { executeReviewFitStage, type ReviewFitStageOptions } from './review-fit-stage-executor.ts';
 import { executePresentationStage, type PresentationStageOptions } from './presentation-stage-executor.ts';
+import { executePresentationExportStage, type PresentationExportOptions } from './presentation-export-executor.ts';
 import { validateSpecsWorkOrder } from './n8n-orchestrator.ts';
 import type { SpecsStageRouter, StageRuntimeGateway, WorkerNotice } from './runtime-types.ts';
 
@@ -16,14 +17,14 @@ const codes = new Set(['JOB_ALREADY_RUNNING', 'JOB_NOT_AVAILABLE', 'INPUT_CHANGE
   'RESOURCE_NOT_FOUND', 'RETRY_EXHAUSTED', 'STAGE_OUT_OF_ORDER', 'LEASE_STALE', 'CALLBACK_UNCONFIRMED', 'PROCESSING_CANCELLED',
   'N8N_RUNTIME_CONFIGURATION_REQUIRED', 'N8N_WORK_ORDER_INVALID', 'N8N_ORCHESTRATION_UNCONFIRMED',
   'RUNTIME_CONFIG_INVALID', 'RUNTIME_AUTH_UNVERIFIED', 'RUNTIME_ROLE_UNVERIFIED', 'RUNTIME_UNAVAILABLE',
-  'RUNTIME_RESPONSE_INVALID', 'RUNTIME_ABORTED', 'RUNTIME_CLOSED', 'DEPENDENCY_UNAVAILABLE']);
+  'RUNTIME_RESPONSE_INVALID', 'RUNTIME_ABORTED', 'RUNTIME_CLOSED', 'DEPENDENCY_UNAVAILABLE', 'SNAPSHOT_INVALID', 'PERMISSION_CHANGED']);
 function safeCode(error: unknown): string {
   try { const code = object(error) ? error.code : undefined; return typeof code === 'string' && codes.has(code) ? code : 'WORKER_OPERATION_UNCONFIRMED'; }
   catch { return 'WORKER_OPERATION_UNCONFIRMED'; }
 }
 const unknown = (error: unknown) => !object(error) || error.outcome !== 'known';
 function invalid(): never { throw new Error('WORKER_CONTRACT_INVALID'); }
-interface RuntimeOptions { openAI: OpenAISpecsConfig; signal?: AbortSignal; execute?: typeof executeSpecsStage; gatewayTimeoutMs?: number; files?: SpecsExecutionOptions['files']; vision?: SpecsExecutionOptions['vision']; candidate?: Omit<CandidateStageOptions, 'signal'>; executeCandidate?: typeof executeCandidateStage; frames?: Omit<FrameStageOptions, 'signal'>; executeFrames?: typeof executeFrameStage; review?: Omit<ReviewStageOptions, 'signal'>; executeReview?: typeof executeReviewStage; fit?: Omit<ReviewFitStageOptions, 'signal'>; executeFit?: typeof executeReviewFitStage; presentation?: Omit<PresentationStageOptions, 'signal'>; executePresentation?: typeof executePresentationStage }
+interface RuntimeOptions { openAI: OpenAISpecsConfig; signal?: AbortSignal; execute?: typeof executeSpecsStage; gatewayTimeoutMs?: number; files?: SpecsExecutionOptions['files']; vision?: SpecsExecutionOptions['vision']; candidate?: Omit<CandidateStageOptions, 'signal'>; executeCandidate?: typeof executeCandidateStage; frames?: Omit<FrameStageOptions, 'signal'>; executeFrames?: typeof executeFrameStage; review?: Omit<ReviewStageOptions, 'signal'>; executeReview?: typeof executeReviewStage; fit?: Omit<ReviewFitStageOptions, 'signal'>; executeFit?: typeof executeReviewFitStage; presentation?: Omit<PresentationStageOptions, 'signal'>; executePresentation?: typeof executePresentationStage; presentationExport?: Omit<PresentationExportOptions,'signal'>; executePresentationExport?: typeof executePresentationExportStage }
 /** Public storage configuration is opt-in, fixed-target and separate from the
  * protected five-field database/webhook configuration. No ambient JWT fallback. */
 export function specsWorkerFilesConfiguration(environment: Record<string, string | undefined>): { storageOrigin: string; publishableKey: string } | undefined {
@@ -67,6 +68,7 @@ export async function processNextSpecsStage(gateway: StageRuntimeGateway, router
     if (order.kind === 'frame_extract' && !options.frames) invalid();
     if (order.kind === 'ai_suggestion' && !options.review || order.kind === 'review_fit' && !options.fit) invalid();
     if (order.kind === 'presentation_render' && !options.presentation) invalid();
+    if (order.kind === 'presentation_export' && (!options.presentationExport || !gateway.mintReviewMediaGrant)) invalid();
     if (options.signal?.aborted) return { event: 'dispatch_unconfirmed', job_id: envelope.job_id, stage: envelope.stage };
     claimAttempted = true;
     const lease = await bounded(signal => gateway.claim({ job_id: order.job_id, stage: order.stage, input_hash: order.input_hash,
@@ -81,7 +83,9 @@ export async function processNextSpecsStage(gateway: StageRuntimeGateway, router
     }
     acknowledged = true;
     if (!lease.already_completed) {
-      const execution = order.kind === 'presentation_render'
+      const execution = order.kind === 'presentation_export'
+        ? await (options.executePresentationExport ?? executePresentationExportStage)(lease, gateway, { ...options.presentationExport!, signal: options.signal })
+        : order.kind === 'presentation_render'
         ? await (options.executePresentation ?? executePresentationStage)(lease, gateway, { ...options.presentation!, signal: options.signal })
         : order.kind === 'review_fit'
         ? await (options.executeFit ?? executeReviewFitStage)(lease, gateway, { ...options.fit!, signal: options.signal })

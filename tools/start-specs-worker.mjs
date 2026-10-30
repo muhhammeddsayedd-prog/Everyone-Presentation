@@ -23,7 +23,8 @@ async function main() {
   const frames = await loadFrameRuntimeEnvironment();
   const review = await loadReviewRuntimeEnvironment();
   const presentation = await loadPresentationRuntimeEnvironment();
-  const environment = { ...createSpecsWorkerEnvironment(provider, runtime, process.env, files), ...candidate, ...pdfVision, ...frames, ...review, ...presentation };
+  const environment = { ...createSpecsWorkerEnvironment(provider, runtime, process.env, files), ...candidate, ...pdfVision, ...frames, ...review, ...presentation,
+    ...(process.env.EPS_GUEST_EXPORTS_ENABLED === undefined ? {} : { EPS_GUEST_EXPORTS_ENABLED: process.env.EPS_GUEST_EXPORTS_ENABLED }) };
   const child = spawn(process.execPath, ['--import', 'tsx', 'apps/worker/src/runtime-main.ts'], {
     cwd: path.resolve(import.meta.dirname, '..'), env: environment, windowsHide: true, shell: false,
     stdio: ['ignore', 'inherit', 'inherit', 'ipc'],

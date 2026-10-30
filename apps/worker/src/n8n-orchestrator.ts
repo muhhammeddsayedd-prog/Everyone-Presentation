@@ -4,7 +4,7 @@ import type { SpecsStageRouter, StageWorkOrder } from './runtime-types.ts';
 const handlers = { prepare_document: 'native.prepare_document', extract_specs: 'openai.extract_specs', apply_specs: 'domain.apply_specs',
   prepare_candidate: 'native.prepare_candidate', transcribe_candidate: 'openai.transcribe_candidate', extract_candidate: 'openai.extract_candidate', select_frames: 'openai.select_frames', apply_candidate: 'domain.apply_candidate', extract_frames: 'native.extract_frames', apply_frames: 'domain.apply_frames',
   prepare_suggestion: 'domain.prepare_suggestion', generate_suggestion: 'openai.generate_suggestion', validate_suggestion: 'domain.validate_suggestion', measure_review_fit: 'native.measure_review_fit',
-  prepare_presentation: 'native.prepare_presentation', render_presentation: 'native.render_presentation', validate_presentation: 'native.validate_presentation', publish_presentation: 'domain.publish_presentation' } as const;
+  prepare_presentation: 'native.prepare_presentation', render_presentation: 'native.render_presentation', validate_presentation: 'native.validate_presentation', publish_presentation: 'domain.publish_presentation', render_export: 'native.render_export' } as const;
 const fields = ['schema_version', 'event_id', 'job_id', 'kind', 'stage', 'input_hash', 'correlation_id', 'workflow_execution_id', 'handler'];
 export class SpecsOrchestrationError extends Error {
   constructor(readonly code: 'N8N_RUNTIME_CONFIGURATION_REQUIRED' | 'N8N_WORK_ORDER_INVALID' | 'N8N_ORCHESTRATION_UNCONFIRMED') {

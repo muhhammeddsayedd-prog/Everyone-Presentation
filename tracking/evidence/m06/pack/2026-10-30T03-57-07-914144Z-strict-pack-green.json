@@ -1,0 +1,60 @@
+{
+  "schema": "eps.m06.strict-pack-validation.v1",
+  "observed_at": "2026-10-30T03:57:07.914144+00:00",
+  "result": "passed",
+  "commands": [
+    {
+      "command": ".\\.venv-skills\\Scripts\\python.exe -X utf8 -m unittest discover -s tests/operations -p test_pack_json_encoding.py -v",
+      "exit_code": 0,
+      "tests": 3,
+      "passed": 3,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "tool_output": "312e47"
+    },
+    {
+      "command": ".\\.venv-skills\\Scripts\\python.exe -X utf8 tools/validate_pack.py --strict --report",
+      "exit_code": 0,
+      "tool_output": "c2d287"
+    }
+  ],
+  "strict_summary": {
+    "status": "PASS",
+    "checks": 357,
+    "errors": [],
+    "api_paths": 98,
+    "api_operations": 114,
+    "mcp_tools": 86,
+    "sql_design_tables": 25,
+    "json_schemas": 12,
+    "acceptance_cases": 76
+  },
+  "limitations": [
+    "Static docs/schema/structural/reference/parity/business-contract checks; full JSONSchema/OpenAPI meta-validation and referenceSQL syntax parser only.",
+    "No app/runtime/provider/cloud/SQLexecution/nativePDF/MCPclient acceptance is inferred.",
+    "Vendoredskills/environments/generatedruntime/private local state excluded; separately verified.",
+    "Generated PACK report retains the original specification header date; this receipt observed_at is the actual run time."
+  ],
+  "report": "tracking/evidence/m06/pack/2026-10-30T03-57-07-914144Z-PACK_VALIDATION.md",
+  "report_sha256": "a59f5d75bcc36b12bc7a2269a109d393c789dafc6e3ff7b443b2ca205a8f112b",
+  "previous_report_preserved": {
+    "previous_report": "tracking/evidence/m06/pack/2026-10-30T03-52-58-938189Z-previous-PACK_VALIDATION.md",
+    "previous_sha256": "65ec80b100eda9c46f47c99cbef4e7e95afe1861527e3dc10f8d1a39e68fc787"
+  },
+  "failure_receipt": "tracking/evidence/m06/pack/2026-10-30T03-54-43-261940Z-failed-validation-receipt.json",
+  "focused_red": "tracking/evidence/m06/pack/2026-10-30-bom-focused-red.json",
+  "unchanged_red_test_bytes": true,
+  "validator_original": "tracking/evidence/m06/pack/2026-10-30-before-bom-fix-validate_pack.py.txt",
+  "source_sha256": {
+    "tools/validate_pack.py": "3048d31fd4d55f97e878e97d4260b1b3249011c357a731b8e4ae8efa94659e33",
+    "tests/operations/test_pack_json_encoding.py": "b44e7ac712eb342d2edac04361663a078e2caf67078fc5a62414428a0ca3d97a"
+  },
+  "historical_receipt": "tracking/evidence/m06/runtime27-transition/2026-10-30-owned-runtime-quiesced.json",
+  "historical_receipt_sha256": "2bb7e1d08dd33195c16443ebc19a4bb14f1ae9100d99582f3d27a69f10c3e2ad",
+  "historical_receipt_bytes_unchanged": true,
+  "release34_pins_unchanged": true,
+  "validator_is_release_pin": false,
+  "operational_overlay_required": true,
+  "hosting_deferred": true
+}

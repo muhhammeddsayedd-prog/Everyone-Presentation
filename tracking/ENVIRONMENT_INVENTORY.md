@@ -1,5 +1,9 @@
 # Environment inventory and discovery record
 
+## 2026-10-30 M06 current environment checkpoint
+
+Canonical/local history is28 on owner-selected Everyone-Presentation (`pyibofyctwnqpvktepse`). Existing Producer and central project/client/library records are reused. Local web is127.0.0.1:3000 (owned server52636); native worker58540 has no new runtime privilege, and its23 startup sources remain exact with12 authenticated gateway operations. The guest verifier/replay keys stay in protected ignored `.env.guest-runtime.local`; raw values are not part of this inventory. The existing n8n WF03 repair and all28 additive migrations/readbacks are recorded in [HANDOFF.md](HANDOFF.md). No hosting provider/deployment was selected. Process/session state is checkpoint-specific; verify ownership and current evidence before reuse. Further manual phone testing was waived; manual AT-072 and the latest native PDF save remain pending.
+
 Updated2026-10-29. Current local observations below supersede the dated historical inventory. No secrets recorded.
 
 ## Current local checkpoint

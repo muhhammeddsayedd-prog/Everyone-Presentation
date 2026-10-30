@@ -1,0 +1,62 @@
+{
+  "observed_at": "2026-10-30T00:31:40.549Z",
+  "result": "reproduced_failure",
+  "scope": "Official pinned expression lexer, compiled in bounded offline VM; no instance implementation/version is inferred",
+  "official_source": {
+    "observed_at": "2026-10-30T00:30:40.771Z",
+    "source_url": "https://raw.githubusercontent.com/n8n-io/n8n/b09efb706cc9f8b7f4d4328e5bfe13fee9e145eb/packages/@n8n/tournament/src/ExpressionSplitter.ts",
+    "source_commit": "b09efb706cc9f8b7f4d4328e5bfe13fee9e145eb",
+    "source_file": "packages/@n8n/tournament/src/ExpressionSplitter.ts",
+    "source_sha256": "079f3e8724799938ad7482167e136084dd9cfa9e84882ed13f7866aa01c4cada",
+    "source_bytes": 2721,
+    "commit_metadata_url": "https://api.github.com/repos/n8n-io/n8n/commits?path=packages/%40n8n/tournament/src/ExpressionSplitter.ts&per_page=1",
+    "source_saved_only_locally": ".local/m06-n8n-expression/ExpressionSplitter.ts",
+    "instance_version_inferred": false
+  },
+  "active_workflow_id": "kE4qSEcugaKhIoJU",
+  "active_version_id": "0e206327-20ff-4cb1-953a-7b7476495b80",
+  "mapper_javascript_standalone_valid": true,
+  "outer_n8n_expression_double_close_pairs": 4,
+  "first_closing_delimiter": 668,
+  "actual_outer_closing_delimiter": 1729,
+  "lexer_chunks": [
+    {
+      "type": "text",
+      "characters": 1,
+      "hasClosingBrackets": null
+    },
+    {
+      "type": "code",
+      "characters": 665,
+      "hasClosingBrackets": true
+    },
+    {
+      "type": "text",
+      "characters": 1061,
+      "hasClosingBrackets": null
+    }
+  ],
+  "lexed_code_error_class": "SyntaxError",
+  "execution_metadata_read": {
+    "observed_at": "2026-10-30T00:29:03.693Z",
+    "http_status": 200,
+    "items": 0,
+    "tool_chunk": "d71d80",
+    "retention": "No success/error execution data saved; no headers or payload were retrieved"
+  },
+  "live_graph_read": {
+    "observed_at": "2026-10-30T00:31:02.736Z",
+    "http_status": 200,
+    "exact_broken_graph_confirmed": true,
+    "tool_chunk": "8fb099"
+  },
+  "root_failed_probe_receipt": "tracking/evidence/m06/n8n-wf03/2026-10-30T00-27-49-900Z-d2e5ed6c-probe.json",
+  "root_single_metadata_error_tool_chunk": "dbb8f5",
+  "root_single_metadata_http_status": 500,
+  "root_single_metadata_error_code": "WF03_INTERNAL_ERROR",
+  "cloud_write_attempted": false,
+  "database_work_claimed": false,
+  "provider_invoked": false,
+  "raw_auth_headers_or_private_execution_payload_recorded": false,
+  "diagnosis": "Internal adjacent object-literal closing braces prematurely end the n8n expression. The standalone mapper VM test did not model outer template lexing."
+}

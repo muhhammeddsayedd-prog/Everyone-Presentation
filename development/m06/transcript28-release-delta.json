@@ -1,0 +1,241 @@
+{
+  "schema_version": "1.0",
+  "created": {
+    "types|eps.presentation_video_transcripts|acl": null,
+    "tables|eps.presentation_video_transcripts|acl": "{postgres=arwdDxtm/postgres,eps_review_owner=ar/postgres,eps_guest_owner=r/postgres}",
+    "tables|eps.presentation_video_transcripts|rls": true,
+    "types|eps.presentation_video_transcripts|base": null,
+    "types|eps.presentation_video_transcripts|kind": "c",
+    "types|eps.presentation_video_transcripts|owner": "postgres",
+    "tables|eps.presentation_video_transcripts|owner": "postgres",
+    "types|eps.presentation_video_transcripts|default": null,
+    "types|eps.presentation_video_transcripts|not_null": false,
+    "tables|eps.presentation_video_transcripts|force_rls": true,
+    "indexes|eps.presentation_video_transcripts_pkey|live": true,
+    "types|eps.presentation_video_transcripts|enum_labels": null,
+    "columns|eps.presentation_video_transcripts.status|acl": null,
+    "indexes|eps.presentation_video_transcript_source|live": true,
+    "indexes|eps.presentation_video_transcripts_pkey|ready": true,
+    "indexes|eps.presentation_video_transcripts_pkey|valid": true,
+    "columns|eps.presentation_video_transcripts.status|type": "text",
+    "indexes|eps.presentation_video_transcript_source|ready": true,
+    "indexes|eps.presentation_video_transcript_source|valid": true,
+    "columns|eps.presentation_video_transcripts.languages|acl": null,
+    "columns|eps.presentation_video_transcripts.languages|type": "text[]",
+    "columns|eps.presentation_video_transcripts.status|default": null,
+    "columns|eps.presentation_video_transcripts.version_id|acl": null,
+    "columns|eps.presentation_video_transcripts.captured_at|acl": null,
+    "columns|eps.presentation_video_transcripts.status|identity": "",
+    "columns|eps.presentation_video_transcripts.status|not_null": true,
+    "columns|eps.presentation_video_transcripts.version_id|type": "uuid",
+    "functions|eps.presentation_video_transcript(uuid,uuid)|acl": "{eps_review_owner=X/eps_review_owner,eps_guest_owner=X/eps_review_owner}",
+    "indexes|eps.presentation_video_transcripts_pkey|definition": "CREATE UNIQUE INDEX presentation_video_transcripts_pkey ON eps.presentation_video_transcripts USING btree (version_id, video_asset_id)",
+    "columns|eps.presentation_video_transcripts.captured_at|type": "timestamp with time zone",
+    "columns|eps.presentation_video_transcripts.status|generated": "",
+    "functions|eps.presentation_video_transcript(uuid,uuid)|kind": "f",
+    "indexes|eps.presentation_video_transcript_source|definition": "CREATE INDEX presentation_video_transcript_source ON eps.presentation_video_transcripts USING btree (candidate_media_id, version_id)",
+    "columns|eps.presentation_video_transcripts.languages|default": "'{}'::text[]",
+    "columns|eps.presentation_video_transcripts.original_text|acl": null,
+    "columns|eps.presentation_video_transcripts.source_sha256|acl": null,
+    "functions|eps.presentation_video_transcript(uuid,uuid)|owner": "eps_review_owner",
+    "columns|eps.presentation_video_transcripts.languages|identity": "",
+    "columns|eps.presentation_video_transcripts.languages|not_null": true,
+    "columns|eps.presentation_video_transcripts.original_text|type": "text",
+    "columns|eps.presentation_video_transcripts.source_sha256|type": "text",
+    "columns|eps.presentation_video_transcripts.version_id|default": null,
+    "columns|eps.presentation_video_transcripts.video_asset_id|acl": null,
+    "functions|eps.presentation_source_languages_valid(text[])|acl": "{eps_review_owner=X/eps_review_owner}",
+    "functions|eps.presentation_video_transcript(uuid,uuid)|config": [
+      "search_path=\"\""
+    ],
+    "functions|eps.presentation_video_transcript(uuid,uuid)|strict": false,
+    "columns|eps.presentation_video_transcripts.captured_at|default": null,
+    "columns|eps.presentation_video_transcripts.languages|generated": "",
+    "columns|eps.presentation_video_transcripts.version_id|identity": "",
+    "columns|eps.presentation_video_transcripts.version_id|not_null": true,
+    "columns|eps.presentation_video_transcripts.video_asset_id|type": "uuid",
+    "functions|eps.capture_presentation_video_transcripts(uuid)|acl": "{eps_review_owner=X/eps_review_owner}",
+    "functions|eps.presentation_source_languages_valid(text[])|kind": "f",
+    "functions|eps.presentation_source_text_valid(text,integer)|acl": "{eps_review_owner=X/eps_review_owner}",
+    "functions|eps.presentation_video_transcript(uuid,uuid)|definer": false,
+    "functions|eps.presentation_video_transcript(uuid,uuid)|returns": "jsonb",
+    "functions|eps.presentation_video_transcript(uuid,uuid)|support": null,
+    "columns|eps.presentation_video_transcripts.captured_at|identity": "",
+    "columns|eps.presentation_video_transcripts.captured_at|not_null": true,
+    "columns|eps.presentation_video_transcripts.version_id|generated": "",
+    "functions|eps.capture_presentation_video_transcripts(uuid)|kind": "f",
+    "functions|eps.presentation_source_languages_valid(text[])|owner": "eps_review_owner",
+    "functions|eps.presentation_source_text_valid(text,integer)|kind": "f",
+    "functions|eps.presentation_video_transcript(uuid,uuid)|language": "plpgsql",
+    "functions|eps.presentation_video_transcript(uuid,uuid)|parallel": "u",
+    "columns|eps.presentation_video_transcripts.captured_at|generated": "",
+    "columns|eps.presentation_video_transcripts.original_text|default": null,
+    "columns|eps.presentation_video_transcripts.source_sha256|default": null,
+    "functions|eps.capture_presentation_video_transcripts(uuid)|owner": "eps_review_owner",
+    "functions|eps.presentation_source_languages_valid(text[])|config": [
+      "search_path=\"\""
+    ],
+    "functions|eps.presentation_source_languages_valid(text[])|strict": false,
+    "functions|eps.presentation_source_text_valid(text,integer)|owner": "eps_review_owner",
+    "functions|eps.presentation_video_transcript(uuid,uuid)|leakproof": false,
+    "columns|eps.presentation_video_transcripts.candidate_media_id|acl": null,
+    "columns|eps.presentation_video_transcripts.original_text|identity": "",
+    "columns|eps.presentation_video_transcripts.original_text|not_null": false,
+    "columns|eps.presentation_video_transcripts.source_sha256|identity": "",
+    "columns|eps.presentation_video_transcripts.source_sha256|not_null": false,
+    "columns|eps.presentation_video_transcripts.video_asset_id|default": null,
+    "functions|eps.capture_presentation_video_transcripts(uuid)|config": [
+      "search_path=\"\""
+    ],
+    "functions|eps.capture_presentation_video_transcripts(uuid)|strict": false,
+    "functions|eps.presentation_source_languages_valid(text[])|definer": false,
+    "functions|eps.presentation_source_languages_valid(text[])|returns": "boolean",
+    "functions|eps.presentation_source_languages_valid(text[])|support": null,
+    "functions|eps.presentation_source_text_valid(text,integer)|config": [
+      "search_path=\"\""
+    ],
+    "functions|eps.presentation_source_text_valid(text,integer)|strict": false,
+    "functions|eps.presentation_video_transcript(uuid,uuid)|volatility": "s",
+    "columns|eps.presentation_video_transcripts.candidate_media_id|type": "uuid",
+    "columns|eps.presentation_video_transcripts.original_text|generated": "",
+    "columns|eps.presentation_video_transcripts.source_sha256|generated": "",
+    "columns|eps.presentation_video_transcripts.video_asset_id|identity": "",
+    "columns|eps.presentation_video_transcripts.video_asset_id|not_null": true,
+    "functions|eps.capture_presentation_video_transcripts(uuid)|definer": false,
+    "functions|eps.capture_presentation_video_transcripts(uuid)|returns": "integer",
+    "functions|eps.capture_presentation_video_transcripts(uuid)|support": null,
+    "functions|eps.presentation_source_languages_valid(text[])|language": "sql",
+    "functions|eps.presentation_source_languages_valid(text[])|parallel": "u",
+    "functions|eps.presentation_source_text_valid(text,integer)|definer": false,
+    "functions|eps.presentation_source_text_valid(text,integer)|returns": "boolean",
+    "functions|eps.presentation_source_text_valid(text,integer)|support": null,
+    "columns|eps.presentation_video_transcripts.video_asset_id|generated": "",
+    "functions|eps.capture_presentation_video_transcripts(uuid)|language": "plpgsql",
+    "functions|eps.capture_presentation_video_transcripts(uuid)|parallel": "u",
+    "functions|eps.presentation_source_languages_valid(text[])|leakproof": false,
+    "functions|eps.presentation_source_text_valid(text,integer)|language": "sql",
+    "functions|eps.presentation_source_text_valid(text,integer)|parallel": "u",
+    "functions|eps.capture_presentation_video_transcripts(uuid)|leakproof": false,
+    "functions|eps.presentation_source_languages_valid(text[])|volatility": "i",
+    "functions|eps.presentation_source_text_valid(text,integer)|leakproof": false,
+    "functions|eps.presentation_video_transcript(uuid,uuid)|source_sha256": "325cbcb4ee88da51a6402294a4a9dc21440243302e91a9e516e334c2b7b93df3",
+    "columns|eps.presentation_video_transcripts.candidate_media_id|default": null,
+    "functions|eps.capture_presentation_video_transcripts(uuid)|volatility": "v",
+    "functions|eps.presentation_source_text_valid(text,integer)|volatility": "i",
+    "columns|eps.presentation_video_transcripts.candidate_media_id|identity": "",
+    "columns|eps.presentation_video_transcripts.candidate_media_id|not_null": true,
+    "columns|eps.presentation_video_transcripts.candidate_media_id|generated": "",
+    "columns|eps.presentation_video_transcripts.source_media_row_version|acl": null,
+    "functions|eps.presentation_source_languages_valid(text[])|source_sha256": "903daa223824da148762108aebc2a28ac815de854fbd1f99e9492fc6877c40b7",
+    "columns|eps.presentation_video_transcripts.source_media_row_version|type": "bigint",
+    "functions|eps.capture_presentation_video_transcripts(uuid)|source_sha256": "c6bb3252211990359ef879356fc81fdaa9ba49bf5fbcb8bdc8483091a67538d3",
+    "functions|eps.presentation_source_text_valid(text,integer)|source_sha256": "a2a6aa16fbd8eac2ab47b5e8eda905012ddc00abb4123b3c1ffb2713c2a3d196",
+    "functions|eps.presentation_video_transcript(uuid,uuid)|argument_defaults": null,
+    "functions|eps.presentation_video_transcript(uuid,uuid)|identity_arguments": "p_version uuid, p_asset uuid",
+    "columns|eps.presentation_video_transcripts.source_media_row_version|default": null,
+    "functions|eps.presentation_source_languages_valid(text[])|argument_defaults": null,
+    "columns|eps.presentation_video_transcripts.source_media_row_version|identity": "",
+    "columns|eps.presentation_video_transcripts.source_media_row_version|not_null": true,
+    "functions|eps.capture_presentation_video_transcripts(uuid)|argument_defaults": null,
+    "functions|eps.presentation_source_languages_valid(text[])|identity_arguments": "p_languages text[]",
+    "functions|eps.presentation_source_text_valid(text,integer)|argument_defaults": null,
+    "columns|eps.presentation_video_transcripts.source_media_row_version|generated": "",
+    "functions|eps.capture_presentation_video_transcripts(uuid)|identity_arguments": "p_version uuid",
+    "functions|eps.presentation_source_text_valid(text,integer)|identity_arguments": "p_text text, p_maximum integer",
+    "policies|eps.presentation_video_transcripts.presentation_video_transcript_capture|cmd": "INSERT",
+    "policies|eps.presentation_video_transcripts.presentation_video_transcript_capture|qual": null,
+    "policies|eps.presentation_video_transcripts.presentation_video_transcript_capture|roles": [
+      "eps_review_owner"
+    ],
+    "policies|eps.presentation_video_transcripts.presentation_video_transcript_guest_read|cmd": "SELECT",
+    "policies|eps.presentation_video_transcripts.presentation_video_transcript_guest_read|qual": "true",
+    "policies|eps.presentation_video_transcripts.presentation_video_transcript_guest_read|roles": [
+      "eps_guest_owner"
+    ],
+    "policies|eps.presentation_video_transcripts.presentation_video_transcript_internal_read|cmd": "SELECT",
+    "triggers|eps.presentation_video_transcripts.presentation_video_transcript_immutable|enabled": "O",
+    "policies|eps.presentation_video_transcripts.presentation_video_transcript_capture|permissive": "PERMISSIVE",
+    "policies|eps.presentation_video_transcripts.presentation_video_transcript_capture|with_check": "(((version_id)::text = current_setting('eps.presentation.transcript_capture_version'::text, true)) AND (EXISTS ( SELECT 1\n   FROM ((eps.presentation_versions v\n     JOIN eps.presentation_version_assets p ON (((p.version_id = v.id) AND (p.asset_id = presentation_video_transcripts.video_asset_id) AND (p.asset_kind = 'candidate_video'::text))))\n     JOIN eps.candidate_media m ON (((m.id = presentation_video_transcripts.candidate_media_id) AND (m.source_asset_id = p.asset_id))))\n  WHERE ((v.id = presentation_video_transcripts.version_id) AND (v.status = 'queued'::text) AND (v.generated_by = auth.uid()) AND eps.presentation_scope(v.workspace_id, true) AND (presentation_video_transcripts.captured_at = v.created_at) AND (presentation_video_transcripts.source_media_row_version = m.row_version) AND (EXISTS ( SELECT 1\n           FROM eps.version_slides d\n          WHERE ((d.version_id = v.id) AND (d.kind = 'candidate'::text) AND ((d.snapshot ->> 'candidate_media_id'::text) = (m.id)::text) AND ((d.snapshot ->> 'video_asset_id'::text) = (p.asset_id)::text)))) AND (((presentation_video_transcripts.status = 'available'::text) AND (presentation_video_transcripts.original_text = m.original_transcript) AND (presentation_video_transcripts.languages = m.languages)) OR ((presentation_video_transcripts.status = 'not_provided'::text) AND ((m.original_transcript IS NULL) OR (m.original_transcript !~ '[^\t\n\r    -     　﻿]'::text))))))))",
+    "policies|eps.presentation_video_transcripts.presentation_video_transcript_internal_read|qual": "(EXISTS ( SELECT 1\n   FROM eps.presentation_versions v\n  WHERE ((v.id = presentation_video_transcripts.version_id) AND eps.presentation_scope(v.workspace_id))))",
+    "constraints|eps.presentation_video_transcripts.presentation_video_transcripts_pkey|definition": "PRIMARY KEY (version_id, video_asset_id)",
+    "policies|eps.presentation_video_transcripts.presentation_video_transcript_internal_read|roles": [
+      "eps_review_owner"
+    ],
+    "constraints|eps.presentation_video_transcripts.presentation_video_transcripts_check|definition": "CHECK ((((status = 'available'::text) AND (original_text IS NOT NULL) AND eps.presentation_source_text_valid(original_text, 200000) AND (source_sha256 IS NOT NULL) AND (source_sha256 ~ '^[a-f0-9]{64}$'::text) AND (source_sha256 = encode(sha256(convert_to(original_text, 'UTF8'::name)), 'hex'::text))) OR ((status = 'not_provided'::text) AND (original_text IS NULL) AND (source_sha256 IS NULL) AND (languages = '{}'::text[]))))",
+    "triggers|eps.presentation_video_transcripts.presentation_video_transcript_immutable|definition": "CREATE TRIGGER presentation_video_transcript_immutable BEFORE DELETE OR UPDATE ON eps.presentation_video_transcripts FOR EACH ROW EXECUTE FUNCTION eps.presentation_immutable_row()",
+    "policies|eps.presentation_video_transcripts.presentation_video_transcript_guest_read|permissive": "PERMISSIVE",
+    "policies|eps.presentation_video_transcripts.presentation_video_transcript_guest_read|with_check": null,
+    "policies|eps.presentation_video_transcripts.presentation_video_transcript_internal_read|permissive": "PERMISSIVE",
+    "policies|eps.presentation_video_transcripts.presentation_video_transcript_internal_read|with_check": null,
+    "constraints|eps.presentation_video_transcripts.presentation_video_transcripts_status_check|definition": "CHECK ((status = ANY (ARRAY['available'::text, 'not_provided'::text])))",
+    "constraints|eps.presentation_video_transcripts.presentation_video_transcripts_languages_check|definition": "CHECK (eps.presentation_source_languages_valid(languages))",
+    "constraints|eps.presentation_video_transcripts.presentation_video_transcripts_candidate_media_id_fkey|definition": "FOREIGN KEY (candidate_media_id) REFERENCES eps.candidate_media(id) ON DELETE RESTRICT",
+    "constraints|eps.presentation_video_transcripts.presentation_video_transcripts_source_media_row_version_check|definition": "CHECK (((source_media_row_version >= 1) AND (source_media_row_version <= '9007199254740991'::bigint)))",
+    "constraints|eps.presentation_video_transcripts.presentation_video_transcripts_version_id_video_asset_id_fkey|definition": "FOREIGN KEY (version_id, video_asset_id) REFERENCES eps.presentation_version_assets(version_id, asset_id) ON DELETE RESTRICT"
+  },
+  "changed": {
+    "functions|public.eps_generate_version(uuid,jsonb,text)|source_sha256": {
+      "before": "1be2e4902217a7d1fe71c09537156fc5fda499bea258a40006baca8877b693bb",
+      "after": "24ca35b55309fb8522b0ee04b65e7eee231204a2cf9d334a3cf2318703d8c68d"
+    },
+    "functions|public.eps_get_version_asset(uuid,uuid,text)|source_sha256": {
+      "before": "dca8ddec35db307e9f52186d674cf8414344048e17feed6a5be5ed5ad8f6be1e",
+      "after": "aa8d36adc907e981199033291026c90e049c6e618e155d41051b1c06da31fd3e"
+    },
+    "functions|eps.guest_asset_issue(uuid,text,uuid,uuid,text,uuid)|source_sha256": {
+      "before": "9fb14e95e0c8a75185aeda016161ce5147c5fedd1989fc9a15ba5f777867143c",
+      "after": "09c79db6af4131a04ed3228a7cd847e4dde55e560ac77b48080dcffddb9f64ed"
+    }
+  },
+  "deleted": {},
+  "new_state": {
+    "config": {
+      "enabled": false,
+      "key_bytes": null,
+      "key_present": false,
+      "replay_ttl_seconds": 86400,
+      "session_ttl_seconds": 3600
+    },
+    "tables": {
+      "review_links": {
+        "count": 0
+      },
+      "guest_sessions": {
+        "count": 0
+      },
+      "feedback_comments": {
+        "count": 0
+      },
+      "guest_idempotency": {
+        "count": 0
+      },
+      "guest_asset_grants": {
+        "count": 0
+      },
+      "review_link_replays": {
+        "count": 0
+      },
+      "review_media_grants": {
+        "count": 0
+      },
+      "feedback_preferences": {
+        "count": 0
+      },
+      "presentation_exports": {
+        "count": 0
+      },
+      "review_gateway_rates": {
+        "count": 0
+      },
+      "review_gateway_config": {
+        "count": 1
+      },
+      "review_gateway_nonces": {
+        "count": 0
+      },
+      "presentation_video_transcripts": {
+        "count": 0
+      }
+    }
+  }
+}

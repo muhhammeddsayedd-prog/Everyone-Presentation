@@ -1,0 +1,32 @@
+{
+  "schema": "eps.m06.expiry-dst-regression.v1",
+  "observed_at": "2026-10-30T02:46:54.420681+00:00",
+  "result": "genuine_red",
+  "scope": "Exact existing datetime-local conversion under synthetic Africa/Cairo DST input; no canonical calls or personal fixtures",
+  "source_sha256": {
+    "apps/web/components/review-link-expiry.ts": "3f5fae9a27e79dcc25601944c16a13c40be6121d5681bcc1ebbe901ea2bd863e",
+    "apps/web/components/ReviewLinksPanel.tsx": "49cd473cc26dd8fc32d1764e41bfab998aa25403400088d74c6995f56cbca690",
+    "tests/server/review-link-expiry.test.ts": "91519f15b58d13a1703800924fd39935dac0a18449b8cadb4ce514bbe931dc5c",
+    "tests/e2e/m06-link-expiry-dst.spec.ts": "d2c29612aa1e280b38b8084ff14a69a1c93be95d303f033a2cd08ea18bcdc522"
+  },
+  "unit": {
+    "command": "node tools/run-tests.mjs tests/server/review-link-expiry.test.ts",
+    "passed": 2,
+    "failed": 1,
+    "skipped": 0,
+    "tool_output": "99c975"
+  },
+  "browser": {
+    "command": "npx.cmd playwright test tests/e2e/m06-link-expiry-dst.spec.ts",
+    "passed": 0,
+    "failed": 1,
+    "skipped": 0,
+    "tool_output": "2bbafb"
+  },
+  "actual": "2026-10-29T22:00",
+  "expected": "2026-10-29T21:00",
+  "input": "2026-10-29T18:00:56.789Z",
+  "earlier_quality_unchanged": "tracking/evidence/m06/quality/2026-10-30T02-39-14-028843Z-805e65f9-final.json",
+  "private_originals": ".local/m06-dst/red",
+  "hosting_deferred": true
+}

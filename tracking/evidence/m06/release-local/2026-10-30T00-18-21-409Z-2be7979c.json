@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "run_id": "2be7979c-3dc7-4e8f-8f88-d8dcd336a6cf",
+  "started_at": "2026-10-30T00:18:13.477Z",
+  "result": "failed",
+  "cloud_called": false,
+  "provider_called": false,
+  "private_configuration_loaded": false,
+  "scope": "Owned isolated local24 only; exact candidate DDL, catalog additions/changes, old noncredential business data and managed Auth metadata/counts, disabled key-absent state; all rolled back.",
+  "source_seals": {
+    "development/m06/schema.sql": "4bc8ec3c595289d461429cb1fd3c437f3c417a63107e4af28b1f28441c63f207",
+    "development/m06/links.sql": "a04d2f161edc9b72d5f6c5857f216045c4839e0c24f958f92a03a3dd70b2f433",
+    "development/m06/feedback.sql": "6208097630756dfb63e445b82c8bb783baa8fd56faa254c040031bbdb0080007",
+    "development/m06/exports.sql": "f57b0d90c2da69f4fb7705ccb37d799e1718723c1e7ff4f0a94e2f8b8c577347",
+    "development/m06/gateway.sql": "069ed0f201d9db7616e99c6f93b5184b1e32ca757b4f21a4a60a17c2b1afd4c7",
+    "development/m06/export-processing.sql": "b11fd564a63f7785be396bb81083fd9c380570911d1eb496e4ee2d26097c0d8d",
+    "development/m06/finalize.sql": "f6d831ccb0d13fcdd99c65a20321115a5956057b0ae06b84732cfbecb77458f1",
+    "development/m06/baseline24-reviewed.json": "0f47cf1deb4db8f87154229bbde56d23776b635faa378cee424a38ca851b6c85",
+    "development/m06/candidate.sql": "81c42d03ea88c4de3cb23712699c97737b9abac4d36e214a4c3cefab0bf770ac",
+    "development/m06/candidate-inputs.json": "7c36c6d3587fca72f77429efc9ccc5537d24f7c7e1d202fc02402e2e91ee7745",
+    "tools/sql/m04-review-catalog.sql": "36a5b4a3368a5d37092159fcacd18360731aeae5851410f37850c612387529cc",
+    "tools/sql/m06-review-data.sql": "95b0b5eafc29b297e6d508b76b76c3bd142d1cd12302016d47c0d66c3b91f982",
+    "tools/sql/m06-review-new-state.sql": "4822a39c5855cb90308048c96050e8d8793be2680b608fb7de5e84363954f717",
+    "tools/prove-m06-release-local.mjs": "b6d5a875721583161a45aa1a0d64d97a89c11ad933c389c00659b0cd8843c650"
+  },
+  "private_diagnostic": ".local/m06-release/2be7979c-3dc7-4e8f-8f88-d8dcd336a6cf/diagnostic.txt",
+  "backend_settled": true,
+  "rollback_verified": true,
+  "finished_at": "2026-10-30T00:18:21.409Z"
+}

@@ -1,0 +1,63 @@
+{
+  "observed_at": "2026-10-30T03:10:48.620022+00:00",
+  "result": "idle",
+  "target": "pyibofyctwnqpvktepse",
+  "read_only": true,
+  "web_already_stopped": true,
+  "fixed_readiness_query": "tools/sql/m06-guest26-readiness.sql",
+  "query_sha256": "5779dc713bcd9dde6ac4d6cb463d5ff409554bc8b30eb187a7b8bcae7f75388d",
+  "state": {
+    "active_jobs": 0,
+    "database": "postgres",
+    "gateway": {
+      "count": 1,
+      "enabled": true,
+      "key_bytes": 32,
+      "key_present": true,
+      "replay_ttl_seconds": 86400,
+      "session_ttl_seconds": 3600
+    },
+    "leased_outbox": 0,
+    "presentation_processing_enabled": true,
+    "protected_m02": {
+      "error_code": "INPUT_CHANGED",
+      "id": "b3f90268-147d-41d4-8875-2a6435df1496",
+      "manual_note_retained": true,
+      "status": "waiting_for_input"
+    },
+    "query_role": "postgres",
+    "schema_version": "1.0",
+    "unrestricted_visibility": true,
+    "versions": [
+      "20261028010943",
+      "20261028013324",
+      "20261028013655",
+      "20261028024205",
+      "20261028072515",
+      "20261028162702",
+      "20261028162800",
+      "20261028172320",
+      "20261028184145",
+      "20261028222030",
+      "20261029001520",
+      "20261029003941",
+      "20261029070038",
+      "20261029090500",
+      "20261029090724",
+      "20261029094600",
+      "20261029100500",
+      "20261029133455",
+      "20261029135318",
+      "20261029174841",
+      "20261029180953",
+      "20261029202629",
+      "20261029203953",
+      "20261029215218",
+      "20261030002634",
+      "20261030004643",
+      "20261030013832"
+    ]
+  },
+  "key_or_private_credentials_read": false,
+  "hosting_deferred": true
+}

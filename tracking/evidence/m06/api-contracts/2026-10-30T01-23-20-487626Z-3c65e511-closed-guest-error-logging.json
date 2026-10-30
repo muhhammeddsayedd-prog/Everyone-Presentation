@@ -1,0 +1,105 @@
+{
+  "observed_at": "2026-10-30T01:23:40.442774+00:00",
+  "result": "failed",
+  "scope": "Secret-safe closed guest route error diagnostics; injected HTTP/Storage responses and actual route configuration failure, no live media acceptance.",
+  "groups": [
+    {
+      "name": "focused20",
+      "arguments": [
+        "node",
+        "tools/run-tests.mjs",
+        "tests/server/guest-error-log.test.ts",
+        "tests/server/guest-http.test.ts",
+        "packages/central/test/guest-storage.test.ts"
+      ],
+      "started_at": "2026-10-30T01:23:20.493544+00:00",
+      "finished_at": "2026-10-30T01:23:22.391080+00:00",
+      "exit_code": 0,
+      "log_sha256": {
+        "stdout": "5ba0bbc908253fd1407ac86926c6a2a97d9b049b0b2d7ee0f8862395ba9de1a7",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "counts": {
+        "tests": 20,
+        "pass": 20,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "lint",
+      "arguments": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "apps/web/lib/guest-error-log.ts",
+        "apps/web/app/api/v1/[...segments]/route.ts",
+        "tests/server/guest-error-log.test.ts",
+        "--max-warnings",
+        "0"
+      ],
+      "started_at": "2026-10-30T01:23:20.494017+00:00",
+      "finished_at": "2026-10-30T01:23:24.134664+00:00",
+      "exit_code": 0,
+      "log_sha256": {
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "typecheck",
+      "arguments": [
+        "node",
+        "node_modules/typescript/bin/tsc",
+        "--noEmit"
+      ],
+      "started_at": "2026-10-30T01:23:20.494790+00:00",
+      "finished_at": "2026-10-30T01:23:40.426252+00:00",
+      "exit_code": 2,
+      "log_sha256": {
+        "stdout": "5c618dd22c5af0613fc285cf3b39f4e962e9315ed70292eff95efd32d34306d1",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "sources_stable": true,
+  "source_sha256": {
+    "apps/web/lib/guest-error-log.ts": "65bc54c7183113a19f6c9ab150d7ecbe88ce10b09b74a2f8321616f16e20cf12",
+    "tests/server/guest-error-log.test.ts": "6e4cb5584f3119862e51e3dbb29bdf6ff6b386ba42035d0c419ac9754d601155",
+    "apps/web/app/api/v1/[...segments]/route.ts": "dff1f9f23676687d533810fbbcd399b235290ed06ebda2a8268f524ff28981c0",
+    "apps/web/lib/guest-http.ts": "ece831b02bd270d35c886cdb3ef0ba377aac6e99493b7868d5a546477079cc73",
+    "apps/web/lib/guest.ts": "7cc1dcfd57a95c5d31b6186c81e6a1c6f95cac591dab75f791ac999fdd64e662",
+    "apps/web/lib/http.ts": "3ac3eade9a12394ad7ee0b5f2468c03724274f677ce56d08a9c4322a374df740",
+    "packages/central/src/guest-storage.ts": "6bc4f7e13bee815ab42c7414db62c6c2f0b0a58dfeeb69cbcdf617b39f596ad8",
+    "packages/central/test/guest-storage.test.ts": "96847ebf644a50e3f19938b448ffb44310639b0603a0c1ee5cc912ee5d64fb83",
+    "packages/central/src/guest-reviews.ts": "bc7f2ebcb5b3cd024a4c439225b2068fa086661da608c9144740af410d1329e2",
+    "tests/server/guest-http.test.ts": "88c8c219bd7a8185c41e7f0899e751c2c248dfd89f28bfb46e75cc78aee2acfa",
+    "package.json": "ded0a0347e3182816065829981661e127b89cf904305583ee8cbd4d9ac3d3d62",
+    "package-lock.json": "e5dc549024c9f995bff64034c45b0d774c7df65269ab35dfa02c74250daa88f7"
+  },
+  "red": {
+    "private_raw_path": ".local/m06-api/guest-error-log-red.json",
+    "sha256": "f5f2211818ac16fcacb6a1b88cd0d426195cc9f0095f4afc0d3fbdfb7fd57d98",
+    "tests": 4,
+    "pass": 0,
+    "fail": 4,
+    "test_source_unchanged": true,
+    "failure": "Absent log emission, classification and actual route hook."
+  },
+  "public_log_fields_only": [
+    "event",
+    "operation_class",
+    "status",
+    "code",
+    "request_id"
+  ],
+  "private_raw_directory": ".local/m06-api/2026-10-30T01-23-20-487626Z-3c65e511",
+  "stream_limit": "Route catch records errors before returning a Response; failures after body streaming begins are not caught by this logger.",
+  "cloud_or_provider_called": false,
+  "private_runtime_credentials_loaded": false,
+  "configuration_changed": false,
+  "guest_proxy_changed": false,
+  "hosting_deferred": true,
+  "current_offline_gate_note": "New logger/route source supersedes prior634 source snapshot; a final gate rerun should wait for any actual media fix."
+}

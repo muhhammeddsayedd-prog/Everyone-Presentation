@@ -1,0 +1,27 @@
+{
+  "observed_at": "2026-10-30T00:44:30.871058+00:00",
+  "result": "red_confirmed",
+  "scope": "Controlled local Chromium intercepted API fixtures; no canonical/real guest or provider claim",
+  "command": "npm.cmd run test:e2e -- tests/e2e/m06-review-findings.spec.ts",
+  "tests": 3,
+  "failed": 3,
+  "passed": 0,
+  "skipped": 0,
+  "flaky": 0,
+  "raw_result_sha256": "2043a8837eea050d828669acff4f000379023165cccc96cfab22fe86ed934685",
+  "source_sha256": {
+    "tests/e2e/m06-review-findings.spec.ts": "b113eb28000925febb157c5afbe204b666067825ca9bcfb9ae3396b35ee34e52",
+    "apps/web/components/GuestReviewView.tsx": "c3aabfdd1a20ff13f8306ff1fa1ae68489468c8989e3a88d093614d085b4f040",
+    "apps/web/components/GuestPdfDownload.tsx": "519035fa0af9b5e9c3216b51ce684f5f7973941866547c06c83c050164cb9d4d",
+    "apps/web/components/review-client.ts": "23a734ca662a6a2ef57d61b6df4a2acf615bfafd691aa7bc2294a821214f2358"
+  },
+  "findings": [
+    "PDF busy/uncertain state does not protect slide, version and beforeUnload navigation; same503/403/ACK intent was retained",
+    "Delayed older update response offers V1 after newer V2 was opened",
+    "Lower latest version number is offered as new instead of ignored"
+  ],
+  "fixture_history": "InitialBfixture assumed one presentation read; StrictMode duplicate initial reads stalled it. Initialrawresult retained privately; phase-gated final fixture produced three genuine behavior failures.",
+  "fixture_personal_data": false,
+  "private_tokens_or_urls_recorded": false,
+  "hosting_deferred": true
+}

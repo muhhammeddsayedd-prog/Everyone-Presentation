@@ -1,0 +1,54 @@
+{
+  "observed_at": "2026-10-30T00:34:09.786Z",
+  "result": "passed",
+  "scope": "Pinned official lexer on full n8n expression + original/fixed standalone mapper semantic equivalence; offline only",
+  "official_lexer": {
+    "observed_at": "2026-10-30T00:30:40.771Z",
+    "source_url": "https://raw.githubusercontent.com/n8n-io/n8n/b09efb706cc9f8b7f4d4328e5bfe13fee9e145eb/packages/@n8n/tournament/src/ExpressionSplitter.ts",
+    "source_commit": "b09efb706cc9f8b7f4d4328e5bfe13fee9e145eb",
+    "source_file": "packages/@n8n/tournament/src/ExpressionSplitter.ts",
+    "source_sha256": "079f3e8724799938ad7482167e136084dd9cfa9e84882ed13f7866aa01c4cada",
+    "source_bytes": 2721,
+    "commit_metadata_url": "https://api.github.com/repos/n8n-io/n8n/commits?path=packages/%40n8n/tournament/src/ExpressionSplitter.ts&per_page=1",
+    "source_saved_only_locally": ".local/m06-n8n-expression/ExpressionSplitter.ts",
+    "instance_version_inferred": false
+  },
+  "serialization": {
+    "mapper_lexical_tokens_identical": true,
+    "only_whitespace_changed": true,
+    "prior_internal_closing_delimiters": 3,
+    "new_internal_closing_delimiters": 0,
+    "node_versions_credential_route_connections_settings_unchanged": true
+  },
+  "cases": 37,
+  "all_valid_and_invalid_kind_stage_pairs_compared": true,
+  "source_before": "development/m06/workflow-source-history/3b43f65491d874a780c142bb93f02b3fef53ed9f30c225d154781e0d0b3fbb9f-live-matching-before-serialization-graph.json.txt",
+  "source_before_sha256": "3b43f65491d874a780c142bb93f02b3fef53ed9f30c225d154781e0d0b3fbb9f",
+  "builder_after_sha256": "028ad314cc4cc96e18897ed0a1f2bb0c6aa0e3339f73ce5a84938d1fd35320a3",
+  "candidate_graph": "development/m06/wf03-lexer-fixed-candidate.json",
+  "candidate_graph_sha256": "e0cb7f88d11baae509981f2b4d0b3925ab5d038028373a03a5048e783ef21a4f",
+  "lexer_chunks": [
+    {
+      "type": "text",
+      "characters": 1,
+      "hasClosingBrackets": null
+    },
+    {
+      "type": "code",
+      "characters": 1734,
+      "hasClosingBrackets": true
+    }
+  ],
+  "old_internal_delimiters": 3,
+  "new_internal_delimiters": 0,
+  "lexed_full_code_compiles": true,
+  "red_tool_chunk": "b015aa",
+  "green_tools_chunk": "bfce01",
+  "graph_repair_helper_sha256": "264d8680d447516848adbea4156639868c2d808fecc097958139c5fb71d83410",
+  "cloud_write_attempted": false,
+  "provider_invoked": false,
+  "database_work_claimed": false,
+  "instance_version_inferred": false,
+  "original_failed_proofs_preserved": true,
+  "old_reconciliation_bound_source_now_historical": true
+}

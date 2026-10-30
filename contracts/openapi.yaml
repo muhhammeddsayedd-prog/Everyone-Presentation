@@ -5792,6 +5792,9 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ReviewLinkCreate'
+      description: External-audience series only. A link may be created before Ready output; its guest viewer then shows Preparing. Default expiry
+        is exactly30 days and is not renewed by generation. Raw bearer returned only on create/rotation; encrypted exact creation replay retained24h
+        and cleaned on later token operations.
   /review-links/{review_link_id}:
     patch:
       operationId: update_review_link
@@ -5877,6 +5880,7 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/OptionalIdempotencyKey'
       requestBody:
         required: true
         content:
@@ -6331,6 +6335,7 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/OptionalIdempotencyKey'
       requestBody:
         required: true
         content:
@@ -7233,7 +7238,9 @@ paths:
                   request_id:
                     type: string
                   data:
-                    $ref: '#/components/schemas/GuestAccess'
+                    anyOf:
+                    - $ref: '#/components/schemas/GuestAccess'
+                    - $ref: '#/components/schemas/GuestBrowserAccess'
                   warnings:
                     type: array
                     items:
@@ -7294,7 +7301,19 @@ paths:
       x-shared-service-operation: guest_open_review
       security:
       - ReviewToken: []
-      parameters: []
+      parameters:
+      - name: X-EPS-Review-Browser
+        in: header
+        required: false
+        schema:
+          type: string
+          enum:
+          - '1'
+        description: Same-origin browser cookie adapter; response omits raw session secret.
+      x-browser-cookie-adapter: eps_review_<guest_session_id without dashes>; HttpOnly; SameSite=Strict; Path=/api/v1/review; Secure on HTTPS;
+        expires no later than session/link
+      x-browser-csrf: Exact trusted Host and Origin required for cookie/browser writes. Explicit header credentials may omit Origin; a supplied
+        foreign Origin is denied.
   /review/identity:
     put:
       operationId: guest_identify
@@ -7313,7 +7332,9 @@ paths:
                   request_id:
                     type: string
                   data:
-                    $ref: '#/components/schemas/GuestAccess'
+                    anyOf:
+                    - $ref: '#/components/schemas/GuestAccess'
+                    - $ref: '#/components/schemas/GuestBrowserAccess'
                   warnings:
                     type: array
                     items:
@@ -7374,13 +7395,33 @@ paths:
       x-shared-service-operation: guest_identify
       security:
       - ReviewSession: []
-      parameters: []
+      parameters:
+      - $ref: '#/components/parameters/OptionalIdempotencyKey'
+      - name: X-Review-Context
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id selects its own HttpOnly cookie. Different link tabs never overwrite one another.
+      - name: X-EPS-Review-Browser
+        in: header
+        required: false
+        schema:
+          type: string
+          enum:
+          - '1'
+        description: Same-origin browser cookie adapter; response omits raw session secret.
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/GuestIdentity'
+      x-browser-cookie-adapter: eps_review_<guest_session_id without dashes>; HttpOnly; SameSite=Strict; Path=/api/v1/review; Secure on HTTPS;
+        expires no later than session/link
+      x-browser-csrf: Exact trusted Host and Origin required for cookie/browser writes. Explicit header credentials may omit Origin; a supplied
+        foreign Origin is denied.
   /review/presentation:
     get:
       operationId: guest_get_current_version
@@ -7389,7 +7430,8 @@ paths:
       - review
       responses:
         '200':
-          description: Successful operation
+          description: Latest Ready external version, or data:null while the valid series has no Ready version (Preparing). Generation never renews
+            link expiry.
           content:
             application/json:
               schema:
@@ -7399,7 +7441,9 @@ paths:
                   request_id:
                     type: string
                   data:
-                    $ref: '#/components/schemas/ExternalPresentationVersion'
+                    anyOf:
+                    - $ref: '#/components/schemas/ExternalPresentationVersion'
+                    - type: 'null'
                   warnings:
                     type: array
                     items:
@@ -7460,7 +7504,16 @@ paths:
       x-shared-service-operation: guest_get_current_version
       security:
       - ReviewSession: []
-      parameters: []
+      parameters:
+      - name: X-Review-Context
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id selects its own HttpOnly cookie. Different link tabs never overwrite one another.
+      x-browser-cookie-adapter: eps_review_<guest_session_id without dashes>; HttpOnly; SameSite=Strict; Path=/api/v1/review; Secure on HTTPS;
+        expires no later than session/link
   /review/versions/{version_id}:
     get:
       operationId: guest_get_version
@@ -7546,6 +7599,15 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/Id'
+      - name: X-Review-Context
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id selects its own HttpOnly cookie. Different link tabs never overwrite one another.
+      x-browser-cookie-adapter: eps_review_<guest_session_id without dashes>; HttpOnly; SameSite=Strict; Path=/api/v1/review; Secure on HTTPS;
+        expires no later than session/link
   /review/versions/{version_id}/feedback:
     get:
       operationId: guest_list_feedback
@@ -7633,6 +7695,15 @@ paths:
           $ref: '#/components/schemas/Id'
       - *id002
       - *id003
+      - name: X-Review-Context
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id selects its own HttpOnly cookie. Different link tabs never overwrite one another.
+      x-browser-cookie-adapter: eps_review_<guest_session_id without dashes>; HttpOnly; SameSite=Strict; Path=/api/v1/review; Secure on HTTPS;
+        expires no later than session/link
   /review/versions/{version_id}/comments:
     post:
       operationId: guest_create_comment
@@ -7719,12 +7790,23 @@ paths:
         schema:
           $ref: '#/components/schemas/Id'
       - $ref: '#/components/parameters/IdempotencyKey'
+      - name: X-Review-Context
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id selects its own HttpOnly cookie. Different link tabs never overwrite one another.
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/GuestCommentCreate'
+      x-browser-cookie-adapter: eps_review_<guest_session_id without dashes>; HttpOnly; SameSite=Strict; Path=/api/v1/review; Secure on HTTPS;
+        expires no later than session/link
+      x-browser-csrf: Exact trusted Host and Origin required for cookie/browser writes. Explicit header credentials may omit Origin; a supplied
+        foreign Origin is denied.
   /review/comments/{comment_id}:
     patch:
       operationId: guest_update_comment
@@ -7810,12 +7892,24 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/OptionalIdempotencyKey'
+      - name: X-Review-Context
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id selects its own HttpOnly cookie. Different link tabs never overwrite one another.
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/GuestCommentPatch'
+      x-browser-cookie-adapter: eps_review_<guest_session_id without dashes>; HttpOnly; SameSite=Strict; Path=/api/v1/review; Secure on HTTPS;
+        expires no later than session/link
+      x-browser-csrf: Exact trusted Host and Origin required for cookie/browser writes. Explicit header credentials may omit Origin; a supplied
+        foreign Origin is denied.
   /review/versions/{version_id}/preferences:
     put:
       operationId: guest_set_preference
@@ -7902,12 +7996,23 @@ paths:
         schema:
           $ref: '#/components/schemas/Id'
       - $ref: '#/components/parameters/IdempotencyKey'
+      - name: X-Review-Context
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id selects its own HttpOnly cookie. Different link tabs never overwrite one another.
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/PreferenceSet'
+      x-browser-cookie-adapter: eps_review_<guest_session_id without dashes>; HttpOnly; SameSite=Strict; Path=/api/v1/review; Secure on HTTPS;
+        expires no later than session/link
+      x-browser-csrf: Exact trusted Host and Origin required for cookie/browser writes. Explicit header credentials may omit Origin; a supplied
+        foreign Origin is denied.
   /review/versions/{version_id}/pdf-exports:
     post:
       operationId: guest_prepare_pdf_export
@@ -7997,6 +8102,17 @@ paths:
         schema:
           $ref: '#/components/schemas/Id'
       - $ref: '#/components/parameters/IdempotencyKey'
+      - name: X-Review-Context
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id selects its own HttpOnly cookie. Different link tabs never overwrite one another.
+      x-browser-cookie-adapter: eps_review_<guest_session_id without dashes>; HttpOnly; SameSite=Strict; Path=/api/v1/review; Secure on HTTPS;
+        expires no later than session/link
+      x-browser-csrf: Exact trusted Host and Origin required for cookie/browser writes. Explicit header credentials may omit Origin; a supplied
+        foreign Origin is denied.
   /review/pdf-exports/{export_id}:
     get:
       operationId: guest_get_pdf_export
@@ -8082,6 +8198,15 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/Id'
+      - name: X-Review-Context
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id selects its own HttpOnly cookie. Different link tabs never overwrite one another.
+      x-browser-cookie-adapter: eps_review_<guest_session_id without dashes>; HttpOnly; SameSite=Strict; Path=/api/v1/review; Secure on HTTPS;
+        expires no later than session/link
   /review/pdf-exports/{export_id}/download:
     post:
       operationId: guest_download_pdf_export
@@ -8167,6 +8292,17 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/Id'
+      - name: X-Review-Context
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id selects its own HttpOnly cookie. Different link tabs never overwrite one another.
+      x-browser-cookie-adapter: eps_review_<guest_session_id without dashes>; HttpOnly; SameSite=Strict; Path=/api/v1/review; Secure on HTTPS;
+        expires no later than session/link
+      x-browser-csrf: Exact trusted Host and Origin required for cookie/browser writes. Explicit header credentials may omit Origin; a supplied
+        foreign Origin is denied.
   /review-media/versions/{version_id}/media/{asset_id}/playback:
     post:
       operationId: play_review_media
@@ -8185,7 +8321,7 @@ paths:
                   request_id:
                     type: string
                   data:
-                    $ref: '#/components/schemas/Playback'
+                    $ref: '#/components/schemas/VersionMediaPlayback'
                   warnings:
                     type: array
                     items:
@@ -8257,6 +8393,17 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/Id'
+      - name: X-EPS-Review-Browser
+        in: header
+        required: false
+        schema:
+          type: string
+          enum:
+          - '1'
+        description: Same-origin browser cookie adapter; response omits raw session secret.
+      description: Browser first exchange uses X-Media-Grant and exact same Origin; stores HttpOnly cookie bound to the fixed version/asset, then
+        returns local proxy URL without the secret. Reload may use that cookie after initial /m/:grant URL is replaced. Parent link is checked
+        on every request.
   /review/versions/{version_id}/media/{asset_id}:
     post:
       operationId: guest_play_media
@@ -8275,7 +8422,7 @@ paths:
                   request_id:
                     type: string
                   data:
-                    $ref: '#/components/schemas/Playback'
+                    $ref: '#/components/schemas/VersionMediaPlayback'
                   warnings:
                     type: array
                     items:
@@ -8347,6 +8494,17 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/Id'
+      - name: X-Review-Context
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id selects its own HttpOnly cookie. Different link tabs never overwrite one another.
+      x-browser-cookie-adapter: eps_review_<guest_session_id without dashes>; HttpOnly; SameSite=Strict; Path=/api/v1/review; Secure on HTTPS;
+        expires no later than session/link
+      x-browser-csrf: Exact trusted Host and Origin required for cookie/browser writes. Explicit header credentials may omit Origin; a supplied
+        foreign Origin is denied.
   /internal/jobs/outputs:
     post:
       operationId: reserve_job_output
@@ -9755,6 +9913,580 @@ paths:
         in: path
         required: true
         schema: *id010
+  /review/session:
+    get:
+      operationId: guest_get_session
+      summary: Resume the exact cookie-selected guest context after removing the initial URL bearer token
+      tags:
+      - review
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/GuestBrowserAccess'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: scoped-review
+      x-mcp-exposed: false
+      x-shared-service-operation: guest_identify
+      security:
+      - ReviewSession: []
+      parameters:
+      - name: X-Review-Context
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id selects its own HttpOnly cookie. Different link tabs never overwrite one another.
+      x-browser-cookie-adapter: eps_review_<guest_session_id without dashes>; HttpOnly; SameSite=Strict; Path=/api/v1/review; Secure on HTTPS;
+        expires no later than session/link
+      x-browser-csrf: Exact trusted Host and Origin required for cookie/browser writes. Explicit header credentials may omit Origin; a supplied
+        foreign Origin is denied.
+  /pdf-exports/{export_id}/content:
+    get:
+      operationId: get_pdf_export_content
+      summary: Proxy private exact-version content with request-time parent authorization and bounded byte ranges
+      tags:
+      - pdf-exports
+      responses:
+        '200':
+          description: Private no-store content; no redirect or publicly issued signed Storage URL.
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '206':
+          description: Verified single partial range; exact Content-Range/Content-Length and Accept-Ranges:bytes.
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        '416':
+          description: Unsupported or unsatisfiable byte range.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: review_links.manage
+      x-mcp-exposed: false
+      x-shared-service-operation: get_pdf_export_content
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: export_id
+        in: path
+        required: true
+        schema: &id011
+          $ref: '#/components/schemas/Id'
+      - name: Range
+        in: header
+        required: false
+        schema:
+          type: string
+          maxLength: 50
+        description: One bytes=start-end, bytes=start- or bytes=-suffix range. Multiple or unsatisfiable ranges return416.
+  /review/pdf-exports/{export_id}/content:
+    get:
+      operationId: guest_get_pdf_export_content
+      summary: Proxy private exact-version content with request-time parent authorization and bounded byte ranges
+      tags:
+      - review
+      responses:
+        '200':
+          description: Private no-store content; no redirect or publicly issued signed Storage URL.
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '206':
+          description: Verified single partial range; exact Content-Range/Content-Length and Accept-Ranges:bytes.
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        '416':
+          description: Unsupported or unsatisfiable byte range.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: scoped-review
+      x-mcp-exposed: false
+      x-shared-service-operation: guest_get_pdf_export_content
+      security:
+      - ReviewSession: []
+      parameters:
+      - name: export_id
+        in: path
+        required: true
+        schema: *id011
+      - name: Range
+        in: header
+        required: false
+        schema:
+          type: string
+          maxLength: 50
+        description: One bytes=start-end, bytes=start- or bytes=-suffix range. Multiple or unsatisfiable ranges return416.
+      - name: X-Review-Context
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id selects its own HttpOnly cookie. Different link tabs never overwrite one another.
+      - name: review_context
+        in: query
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id for native img/video/download cookie selection; never a raw credential. Allowed on binary GET only.
+      x-browser-cookie-adapter: eps_review_<guest_session_id without dashes>; HttpOnly; SameSite=Strict; Path=/api/v1/review; Secure on HTTPS;
+        expires no later than session/link
+  /review/versions/{version_id}/media/{asset_id}/content:
+    get:
+      operationId: guest_get_media_content
+      summary: Proxy private exact-version content with request-time parent authorization and bounded byte ranges
+      tags:
+      - review
+      responses:
+        '200':
+          description: Private no-store content; no redirect or publicly issued signed Storage URL.
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+            image/png:
+              schema:
+                type: string
+                format: binary
+            image/webp:
+              schema:
+                type: string
+                format: binary
+            video/mp4:
+              schema:
+                type: string
+                format: binary
+            video/quicktime:
+              schema:
+                type: string
+                format: binary
+            video/webm:
+              schema:
+                type: string
+                format: binary
+            video/x-matroska:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '206':
+          description: Verified single partial range; exact Content-Range/Content-Length and Accept-Ranges:bytes.
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+            image/png:
+              schema:
+                type: string
+                format: binary
+            image/webp:
+              schema:
+                type: string
+                format: binary
+            video/mp4:
+              schema:
+                type: string
+                format: binary
+            video/quicktime:
+              schema:
+                type: string
+                format: binary
+            video/webm:
+              schema:
+                type: string
+                format: binary
+            video/x-matroska:
+              schema:
+                type: string
+                format: binary
+        '416':
+          description: Unsupported or unsatisfiable byte range.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: scoped-review
+      x-mcp-exposed: false
+      x-shared-service-operation: guest_get_media_content
+      security:
+      - ReviewSession: []
+      parameters:
+      - name: version_id
+        in: path
+        required: true
+        schema: *id011
+      - name: asset_id
+        in: path
+        required: true
+        schema: *id011
+      - name: Range
+        in: header
+        required: false
+        schema:
+          type: string
+          maxLength: 50
+        description: One bytes=start-end, bytes=start- or bytes=-suffix range. Multiple or unsatisfiable ranges return416.
+      - name: X-Review-Context
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id selects its own HttpOnly cookie. Different link tabs never overwrite one another.
+      - name: review_context
+        in: query
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id for native img/video/download cookie selection; never a raw credential. Allowed on binary GET only.
+      x-browser-cookie-adapter: eps_review_<guest_session_id without dashes>; HttpOnly; SameSite=Strict; Path=/api/v1/review; Secure on HTTPS;
+        expires no later than session/link
+  /review-media/versions/{version_id}/media/{asset_id}/content:
+    get:
+      operationId: get_review_media_content
+      summary: Proxy private exact-version content with request-time parent authorization and bounded byte ranges
+      tags:
+      - review
+      responses:
+        '200':
+          description: Private no-store content; no redirect or publicly issued signed Storage URL.
+          content:
+            video/mp4:
+              schema:
+                type: string
+                format: binary
+            video/quicktime:
+              schema:
+                type: string
+                format: binary
+            video/webm:
+              schema:
+                type: string
+                format: binary
+            video/x-matroska:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '206':
+          description: Verified single partial range; exact Content-Range/Content-Length and Accept-Ranges:bytes.
+          content:
+            video/mp4:
+              schema:
+                type: string
+                format: binary
+            video/quicktime:
+              schema:
+                type: string
+                format: binary
+            video/webm:
+              schema:
+                type: string
+                format: binary
+            video/x-matroska:
+              schema:
+                type: string
+                format: binary
+        '416':
+          description: Unsupported or unsatisfiable byte range.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: scoped-review
+      x-mcp-exposed: false
+      x-shared-service-operation: get_review_media_content
+      security:
+      - MediaGrant: []
+      parameters:
+      - name: version_id
+        in: path
+        required: true
+        schema: *id011
+      - name: asset_id
+        in: path
+        required: true
+        schema: *id011
+      - name: Range
+        in: header
+        required: false
+        schema:
+          type: string
+          maxLength: 50
+        description: One bytes=start-end, bytes=start- or bytes=-suffix range. Multiple or unsatisfiable ranges return416.
+      x-browser-cookie-adapter: Version/asset-scoped HttpOnly grant cookie, created by play_review_media browser exchange; every request revalidates
+        parent link.
 components:
   securitySchemes:
     InternalBearer:
@@ -9772,11 +10504,13 @@ components:
       in: header
       name: X-Review-Session
       description: Short-lived session scoped to one link/series; server verifies link live for every request. Cookie adapter may be used by browser.
+        Browser uses the documented scoped HttpOnly cookie adapter; raw credentials are never stored in browser localStorage/sessionStorage.
     MediaGrant:
       type: apiKey
       in: header
       name: X-Media-Grant
-      description: Secret embedded in private external PDF, bound to one export and fixed version; parent link live-view grant required.
+      description: Secret embedded in private external PDF, bound to one export and fixed version; parent link live-view grant required. Browser
+        uses the documented scoped HttpOnly cookie adapter; raw credentials are never stored in browser localStorage/sessionStorage.
     ServiceBearer:
       type: http
       scheme: bearer
@@ -9791,6 +10525,16 @@ components:
         minLength: 16
         maxLength: 200
       description: Scoped to actor+operation; replay same body returns original response; different body returns 409.
+    OptionalIdempotencyKey:
+      name: Idempotency-Key
+      in: header
+      required: false
+      schema:
+        type: string
+        minLength: 16
+        maxLength: 200
+      description: Optional exact-response replay for an uncertain mutation acknowledgement. A repeated key must keep the identical semantic request;
+        current authority is rechecked.
   schemas:
     Id:
       type: string
@@ -11710,7 +12454,7 @@ components:
           type: boolean
         template_key: *id008
         template_version: *id008
-        template_content_sha256: &id011
+        template_content_sha256: &id012
           type: string
           pattern: ^[a-f0-9]{64}$
         font_key: *id008
@@ -11998,6 +12742,13 @@ components:
           $ref: '#/components/schemas/DateTime'
         download_enabled:
           type: boolean
+        cover:
+          $ref: '#/components/schemas/ReviewCover'
+        template_version:
+          type: string
+        template_content_hash:
+          type: string
+          pattern: ^[a-f0-9]{64}$
       required:
       - id
       - series_id
@@ -12008,6 +12759,11 @@ components:
       - slides
       - created_at
       - download_enabled
+      - cover
+      - template_version
+      - template_content_hash
+      description: Closed external projection from the exact immutable external-audience version. Frozen branding is included; private render
+        destinations, internal notes and review diagnostics are excluded.
     PdfDownload:
       type: object
       additionalProperties: false
@@ -12207,6 +12963,7 @@ components:
           $ref: '#/components/schemas/Id'
         label:
           type: string
+          maxLength: 160
         expires_at:
           $ref: '#/components/schemas/DateTime'
         download_enabled:
@@ -12222,6 +12979,7 @@ components:
           $ref: '#/components/schemas/RowVersion'
         label:
           type: string
+          maxLength: 160
         expires_at:
           $ref: '#/components/schemas/DateTime'
         download_enabled:
@@ -12299,6 +13057,8 @@ components:
           - internal
         body:
           type: string
+          minLength: 1
+          maxLength: 10000
         parent_comment_id:
           anyOf:
           - $ref: '#/components/schemas/Id'
@@ -12569,6 +13329,16 @@ components:
           properties:
             kind:
               const: presentation_render
+          required:
+          - kind
+        then:
+          required:
+          - can_retry
+          - can_cancel
+      - if:
+          properties:
+            kind:
+              const: presentation_export
           required:
           - kind
         then:
@@ -13062,7 +13832,7 @@ components:
       properties:
         key: *id008
         version: *id008
-        content_sha256: *id011
+        content_sha256: *id012
         font_key: *id008
       required:
       - key
@@ -13075,7 +13845,7 @@ components:
       properties:
         asset_id: *id008
         source_asset_id: *id008
-        timestamp_ms: &id013
+        timestamp_ms: &id014
           type: integer
           minimum: 0
         width:
@@ -13084,7 +13854,7 @@ components:
         height:
           type: integer
           minimum: 1
-        sha256: *id011
+        sha256: *id012
       required:
       - asset_id
       - source_asset_id
@@ -13105,13 +13875,13 @@ components:
           anyOf:
           - *id008
           - type: 'null'
-        role_name: &id012
+        role_name: &id013
           type: string
         slot_id:
           anyOf:
           - *id008
           - type: 'null'
-        slot_label: *id012
+        slot_label: *id013
         assignment_id:
           anyOf:
           - *id008
@@ -13157,7 +13927,7 @@ components:
           - type: 'null'
         requirements:
           $ref: '#/components/schemas/RoleRequirements'
-        provisional: &id014
+        provisional: &id015
           type: boolean
         fields:
           $ref: '#/components/schemas/ReviewFields'
@@ -13201,7 +13971,7 @@ components:
       type: object
       additionalProperties: false
       properties:
-        slide_index: *id013
+        slide_index: *id014
         field: *id008
         axis:
           type: string
@@ -13228,7 +13998,7 @@ components:
           - failed
         input_fingerprint:
           anyOf:
-          - *id011
+          - *id012
           - type: 'null'
         measured_at:
           anyOf:
@@ -13253,12 +14023,12 @@ components:
       type: object
       additionalProperties: false
       properties:
-        project_name: *id012
+        project_name: *id013
         client_name:
           anyOf:
-          - *id012
+          - *id013
           - type: 'null'
-        title: *id012
+        title: *id013
         output_type:
           type: string
           enum:
@@ -13285,7 +14055,7 @@ components:
       additionalProperties: false
       properties:
         series_id: *id008
-        expected_input_fingerprint: *id011
+        expected_input_fingerprint: *id012
       required:
       - series_id
       - expected_input_fingerprint
@@ -13314,12 +14084,12 @@ components:
           uniqueItems: true
           maxItems: 1000
           items: *id008
-        main_count: *id013
-        shortlist_count: *id013
-        can_undo: *id014
+        main_count: *id014
+        shortlist_count: *id014
+        can_undo: *id015
         unavailable_reason:
           anyOf:
-          - *id012
+          - *id013
           - type: 'null'
       required:
       - workspace_id
@@ -13425,10 +14195,107 @@ components:
         mime_type:
           type: string
         source_version_id: *id010
+        transcript:
+          $ref: '#/components/schemas/VersionTranscriptCompanion'
       required:
       - asset_id
       - url
       - expires_at
       - mime_type
       - source_version_id
+    GuestBrowserAccess:
+      type: object
+      additionalProperties: false
+      properties:
+        expires_at:
+          $ref: '#/components/schemas/DateTime'
+        series_id:
+          $ref: '#/components/schemas/Id'
+        version_id:
+          anyOf:
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
+        download_enabled:
+          type: boolean
+        display_name:
+          $ref: '#/components/schemas/NullableText'
+        guest_session_id:
+          $ref: '#/components/schemas/Id'
+      required:
+      - expires_at
+      - series_id
+      - version_id
+      - download_enabled
+      - display_name
+      - guest_session_id
+      description: Cookie-based browser adapter. Raw session credential exists only in a scoped HttpOnly SameSite=Strict cookie; guest_session_id
+        is a public context selector, never a bearer.
+    VersionTranscriptCompanion:
+      type: object
+      additionalProperties: false
+      properties:
+        version_id:
+          $ref: '#/components/schemas/Id'
+        asset_id:
+          $ref: '#/components/schemas/Id'
+        status:
+          type: string
+          enum:
+          - available
+          - not_provided
+          - not_captured
+        original_text:
+          anyOf:
+          - &id016
+            type: string
+            minLength: 1
+            maxLength: 200000
+            pattern: ^[^\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]*\S[^\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]*$
+          - type: 'null'
+        languages:
+          type: array
+          maxItems: 100
+          items:
+            type: string
+            minLength: 1
+            maxLength: 1000
+            pattern: ^[^\u0000-\u001f\u007f]*\S[^\u0000-\u001f\u007f]*$
+        source_kind:
+          type: string
+          const: source_transcript
+        source_sha256:
+          anyOf:
+          - &id017
+            type: string
+            pattern: ^[a-f0-9]{64}$
+          - type: 'null'
+      required:
+      - version_id
+      - asset_id
+      - status
+      - original_text
+      - languages
+      - source_kind
+      - source_sha256
+      description: Plain original source text captured immutably with this version/video. Not slide wording, captions or factual review. No live-library
+        fallback; legacy versions explicitly report not_captured.
+      allOf:
+      - if:
+          properties:
+            status:
+              const: available
+          required:
+          - status
+        then:
+          properties:
+            original_text: *id016
+            source_sha256: *id017
+        else:
+          properties:
+            original_text:
+              type: 'null'
+            source_sha256:
+              type: 'null'
+            languages:
+              maxItems: 0
 x-contract-status: implementation specification; verify with generated routes and contract tests

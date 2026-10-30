@@ -1,0 +1,34 @@
+{
+  "schema": "eps.m06.static-skill-integrity.v1",
+  "observed_at": "2026-10-30T03:15:04.562822+00:00",
+  "result": "passed",
+  "command": ".\\.venv-skills\\Scripts\\python.exe -X utf8 tools/manage_project_skills.py --report",
+  "command_exit_code": 0,
+  "tool_output": "785fb8",
+  "scope": "Static project-local inventory, entrypoint metadata, exact supplied/installed file hashes and local Markdown links only. No install, bundled payload/script execution, provider, cloud/database, browser, worker restart or application acceptance.",
+  "canonical_skills": 53,
+  "source_files": 550,
+  "installed_files": 550,
+  "adapted_files": 71,
+  "local_markdown_links_checked": 436,
+  "errors": [],
+  "warnings": [],
+  "report": "tracking/evidence/m06/skills/2026-10-30T03-15-16-766806Z-SKILLS_VALIDATION.json",
+  "report_sha256": "696dac76ce8f36b09d8997739fa5d5bc7c10f48398c7f0fce16447a4dad2bda9",
+  "current_report": "tracking/SKILLS_VALIDATION.json",
+  "previous_report_preserved_exactly": {
+    "previous_report": "tracking/evidence/m06/skills/2026-10-30T03-15-02-080307Z-previous-SKILLS_VALIDATION.json",
+    "previous_sha256": "a3dcb9335edccab63c30ca62f818754ecb7d21eba179717efeeaeb3141d8df4e",
+    "previous_observed_at": "2026-10-28T00:32:48.795580+00:00"
+  },
+  "validation_sources_sha256": {
+    "tools/manage_project_skills.py": "e55b6f931c202a86279e39ba6cfd6b17eb2126f798d2259d5e0a49c38ae58dce",
+    "tools/skills-requirements.lock.txt": "058036003bbbea2ecf3ea350dcded22c17bada8139d92b50d1c1ff2158b89a08",
+    "SKILLS_LOCK.json": "e6b28d5722311a0a8109c522ae76b77ece5361bc845d1117db63978c903ddfda",
+    ".agents/SKILL_POLICY.md": "a76b80ebdf8ee52323a47223e860b30a68ca8293fa31064fa721aafd72e5ffcd",
+    "SKILLS_SETUP.md": "ad21e622483eb9ae4ac9ed3336255381340fdbd41037154971bedf91cb447bc0"
+  },
+  "source_tree_sha256": "2d44fb85e09505e8bb55780f7158cb7efc115c3947e6661e0b60c70a5d0594c0",
+  "environment": "local Windows; Python 3.14.7",
+  "hosting_deferred": true
+}

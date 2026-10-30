@@ -38,6 +38,10 @@ def pointer(doc, ref):
         value = value[item.replace("~1", "/").replace("~0", "~")]
     return value
 
+def read_json_source(path: Path):
+    # Accept an optional Windows UTF-8 BOM without rewriting source evidence.
+    return json.loads(path.read_text(encoding="utf-8-sig"))
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--strict", action="store_true", help="Require optional full JSON Schema/OpenAPI validators")
@@ -57,7 +61,7 @@ def main():
     docs = {}
     for p in json_files:
         try:
-            docs[p.relative_to(ROOT).as_posix()] = json.loads(p.read_text())
+            docs[p.relative_to(ROOT).as_posix()] = read_json_source(p)
         except Exception as exc:
             errors.append(f"JSON parse {p.relative_to(ROOT)}: {exc}")
     check(len(docs) == len(json_files), f"{len(json_files)} JSON source files parse")

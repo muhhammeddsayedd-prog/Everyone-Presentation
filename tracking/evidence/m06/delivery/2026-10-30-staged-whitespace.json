@@ -1,0 +1,37 @@
+{
+  "observed_at": "2026-10-30T04:04:55.710249+00:00",
+  "full_check_exit_code": 2,
+  "full_check_findings": "Only exact six frozen SQL blank-EOF files and one byte-preserved historical CRCRLF handoff archive",
+  "scope_check_exit_code": 0,
+  "exceptions": {
+    "development/m06/candidate.sql": {
+      "sha256": "2c72507216efdcd3e9dcea3f9b94270b19e1275ebcd2fcf91dad9253ddde8d2a",
+      "reason": "Preserve applied/release-sealed SQL bytes"
+    },
+    "development/m06/candidate26.sql": {
+      "sha256": "a0fb9dfec8cdae2718719d455ed11b4f25dd9b79e8fc9de19bd53c229b64089e",
+      "reason": "Preserve applied/release-sealed SQL bytes"
+    },
+    "development/m06/candidate28.sql": {
+      "sha256": "6334ea62a49966963e675c61e6a73d2acb5981d35f261cf2dff519d097905178",
+      "reason": "Preserve applied/release-sealed SQL bytes"
+    },
+    "supabase/migrations/20261030002634_m06_guest_review_feedback_exports.sql": {
+      "sha256": "2c72507216efdcd3e9dcea3f9b94270b19e1275ebcd2fcf91dad9253ddde8d2a",
+      "reason": "Preserve applied/release-sealed SQL bytes"
+    },
+    "supabase/migrations/20261030004643_m06_credential_admission_guest_retry.sql": {
+      "sha256": "a0fb9dfec8cdae2718719d455ed11b4f25dd9b79e8fc9de19bd53c229b64089e",
+      "reason": "Preserve applied/release-sealed SQL bytes"
+    },
+    "supabase/migrations/20261030030717_m06_frozen_video_source_transcripts.sql": {
+      "sha256": "6334ea62a49966963e675c61e6a73d2acb5981d35f261cf2dff519d097905178",
+      "reason": "Preserve applied/release-sealed SQL bytes"
+    },
+    "tracking/handoffs/2026-10-30-before-m06-live-closeout.md.txt": {
+      "sha256": "ee041a3a23028a4ec05216df3891fc11bcffb0e623ad1c245077397bb46a5a34",
+      "reason": "Preserve historical handoff bytes; current handoff is normalized"
+    }
+  },
+  "source_or_history_rewritten": false
+}

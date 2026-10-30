@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "x-source-sha256": "c6b8f61565e8efc0a45aeae4cb8b3096b254e45cccf583de71a5b17db748f5ff",
+  "x-source-sha256": "444ac73e96d5a01f1bdf295e7d03e520e8eeec64b92a5dc916f992a5520d5f70",
   "$defs": {
     "Id": {
       "type": "string",
@@ -3350,6 +3350,16 @@
         },
         "download_enabled": {
           "type": "boolean"
+        },
+        "cover": {
+          "$ref": "#/$defs/ReviewCover"
+        },
+        "template_version": {
+          "type": "string"
+        },
+        "template_content_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
         }
       },
       "required": [
@@ -3361,8 +3371,12 @@
         "status",
         "slides",
         "created_at",
-        "download_enabled"
-      ]
+        "download_enabled",
+        "cover",
+        "template_version",
+        "template_content_hash"
+      ],
+      "description": "Closed external projection from the exact immutable external-audience version. Frozen branding is included; private render destinations, internal notes and review diagnostics are excluded."
     },
     "PdfDownload": {
       "type": "object",
@@ -3655,7 +3669,8 @@
           "$ref": "#/$defs/Id"
         },
         "label": {
-          "type": "string"
+          "type": "string",
+          "maxLength": 160
         },
         "expires_at": {
           "$ref": "#/$defs/DateTime"
@@ -3677,7 +3692,8 @@
           "$ref": "#/$defs/RowVersion"
         },
         "label": {
-          "type": "string"
+          "type": "string",
+          "maxLength": 160
         },
         "expires_at": {
           "$ref": "#/$defs/DateTime"
@@ -3795,7 +3811,9 @@
           ]
         },
         "body": {
-          "type": "string"
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 10000
         },
         "parent_comment_id": {
           "anyOf": [
@@ -4210,6 +4228,24 @@
             "properties": {
               "kind": {
                 "const": "presentation_render"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "required": [
+              "can_retry",
+              "can_cancel"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "presentation_export"
               }
             },
             "required": [
@@ -5547,6 +5583,9 @@
         },
         "source_version_id": {
           "$ref": "#/$defs/Id"
+        },
+        "transcript": {
+          "$ref": "#/$defs/VersionTranscriptCompanion"
         }
       },
       "required": [
@@ -5555,6 +5594,155 @@
         "expires_at",
         "mime_type",
         "source_version_id"
+      ]
+    },
+    "GuestBrowserAccess": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "expires_at": {
+          "$ref": "#/$defs/DateTime"
+        },
+        "series_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "version_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "download_enabled": {
+          "type": "boolean"
+        },
+        "display_name": {
+          "$ref": "#/$defs/NullableText"
+        },
+        "guest_session_id": {
+          "$ref": "#/$defs/Id"
+        }
+      },
+      "required": [
+        "expires_at",
+        "series_id",
+        "version_id",
+        "download_enabled",
+        "display_name",
+        "guest_session_id"
+      ],
+      "description": "Cookie-based browser adapter. Raw session credential exists only in a scoped HttpOnly SameSite=Strict cookie; guest_session_id is a public context selector, never a bearer."
+    },
+    "VersionTranscriptCompanion": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "version_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "asset_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "available",
+            "not_provided",
+            "not_captured"
+          ]
+        },
+        "original_text": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200000,
+              "pattern": "^[^\\u0000-\\u0008\\u000b\\u000c\\u000e-\\u001f\\u007f]*\\S[^\\u0000-\\u0008\\u000b\\u000c\\u000e-\\u001f\\u007f]*$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "languages": {
+          "type": "array",
+          "maxItems": 100,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000,
+            "pattern": "^[^\\u0000-\\u001f\\u007f]*\\S[^\\u0000-\\u001f\\u007f]*$"
+          }
+        },
+        "source_kind": {
+          "type": "string",
+          "const": "source_transcript"
+        },
+        "source_sha256": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "version_id",
+        "asset_id",
+        "status",
+        "original_text",
+        "languages",
+        "source_kind",
+        "source_sha256"
+      ],
+      "description": "Plain original source text captured immutably with this version/video. Not slide wording, captions or factual review. No live-library fallback; legacy versions explicitly report not_captured.",
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "available"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "original_text": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200000,
+                "pattern": "^[^\\u0000-\\u0008\\u000b\\u000c\\u000e-\\u001f\\u007f]*\\S[^\\u0000-\\u0008\\u000b\\u000c\\u000e-\\u001f\\u007f]*$"
+              },
+              "source_sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "original_text": {
+                "type": "null"
+              },
+              "source_sha256": {
+                "type": "null"
+              },
+              "languages": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
       ]
     }
   }

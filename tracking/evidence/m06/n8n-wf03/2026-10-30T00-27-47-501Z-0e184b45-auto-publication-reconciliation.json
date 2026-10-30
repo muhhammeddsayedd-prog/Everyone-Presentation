@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-30T00:27:47.501Z",
+  "result": "passed",
+  "action": "read_only_auto_publication_reconciliation",
+  "workflow_id": "kE4qSEcugaKhIoJU",
+  "before_version_id": "ffbb0c6e-7fd9-4d34-bd89-7a7b52455756",
+  "version_id": "0e206327-20ff-4cb1-953a-7b7476495b80",
+  "active_version_id": "0e206327-20ff-4cb1-953a-7b7476495b80",
+  "auto_publication_verified": true,
+  "draft_graph_verified": true,
+  "active_graph_verified": true,
+  "pinned_node_versions_credential_route_settings_verified": true,
+  "additional_cloud_writes": false,
+  "original_failed_attempt": "tracking/evidence/m06/n8n-wf03/2026-10-30T00-22-29-546Z-5a262bd8-update.json",
+  "original_failed_attempt_sha256": "377d88d4b4ed99be55569ec2c2d4df066460d026f85e935cc826cd199b8683ea",
+  "original_claim": ".local/m06-review/wf03-update-dispatch.claim",
+  "original_claim_sha256": "20c9f6356f33909dfad1408d88dd28d2d114fc29e575c1dcb23f76c0f29ce60f",
+  "original_journal_sha256": "6113ba5ad20c470018c570c7fb49ba050faed8cdeeb3a57ae50d67b552c5b62f",
+  "original_journal_backup": ".local/m06-review/wf03-update-before-auto-publication-reconciliation.json",
+  "original_journal_backup_sha256": "6113ba5ad20c470018c570c7fb49ba050faed8cdeeb3a57ae50d67b552c5b62f",
+  "reconciled_journal_sha256": "053738ae13326d84c8d8147c20f30012afa74d47eefcf9949e4e4645cfbee7f3",
+  "local_journal_status": "published",
+  "local_journal_only_updated": true,
+  "original_helper_builder_receipt_claim_unchanged": true,
+  "source_sha256": {
+    "tools/update-guest-export-n8n.mjs": "7af688e4f8fe4bff0ca6ca2a58dad0d525b525ec4e754391f7cb479b27400420",
+    "tools/build-guest-export-wf03.mjs": "366e06ec562cb75f8800b3bcafbd23e0a7aca1f124a9501201b7dbe6faafbada",
+    "tools/reconcile-m06-wf03-auto-publication.mjs": "65511435e435bf7f81b2d28d73acfd4baff81e097dc918b2d60305aa98a9a4db"
+  },
+  "cloud_requests": [
+    {
+      "method": "GET",
+      "workflow_id": "kE4qSEcugaKhIoJU",
+      "http_status": 200,
+      "bytes": 10349
+    }
+  ],
+  "cloud_write_attempted": false,
+  "workflow_activated_by_this_helper": false,
+  "workflow_executed_by_this_helper": false,
+  "credentials_modified": false,
+  "raw_tokens_or_credentials_recorded": false,
+  "hosting_deferred": true,
+  "publication_timing": "Original PUT had already published the observed version before its original failed comparison receipt; exact instant is not inferred."
+}

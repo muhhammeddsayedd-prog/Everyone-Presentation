@@ -1,0 +1,124 @@
+{
+  "schema_version": "1.0",
+  "created": {
+    "policies|eps.guest_sessions.export_retry_session_read|cmd": "SELECT",
+    "policies|eps.guest_sessions.export_retry_session_read|qual": "true",
+    "policies|eps.guest_sessions.export_retry_session_read|roles": [
+      "eps_review_stage_owner"
+    ],
+    "functions|eps.retry_guest_pdf_export(uuid,uuid,uuid,uuid)|acl": "{eps_review_stage_owner=X/eps_review_stage_owner,eps_guest_owner=X/eps_review_stage_owner}",
+    "functions|eps.retry_guest_pdf_export(uuid,uuid,uuid,uuid)|kind": "f",
+    "functions|eps.retry_guest_pdf_export(uuid,uuid,uuid,uuid)|owner": "eps_review_stage_owner",
+    "functions|eps.retry_guest_pdf_export(uuid,uuid,uuid,uuid)|config": [
+      "search_path=\"\""
+    ],
+    "functions|eps.retry_guest_pdf_export(uuid,uuid,uuid,uuid)|strict": false,
+    "policies|eps.guest_sessions.export_retry_session_read|permissive": "PERMISSIVE",
+    "policies|eps.guest_sessions.export_retry_session_read|with_check": null,
+    "functions|eps.retry_guest_pdf_export(uuid,uuid,uuid,uuid)|definer": true,
+    "functions|eps.retry_guest_pdf_export(uuid,uuid,uuid,uuid)|returns": "eps.presentation_exports",
+    "functions|eps.retry_guest_pdf_export(uuid,uuid,uuid,uuid)|support": null,
+    "functions|eps.retry_guest_pdf_export(uuid,uuid,uuid,uuid)|language": "plpgsql",
+    "functions|eps.retry_guest_pdf_export(uuid,uuid,uuid,uuid)|parallel": "u",
+    "functions|eps.retry_guest_pdf_export(uuid,uuid,uuid,uuid)|leakproof": false,
+    "functions|eps.retry_guest_pdf_export(uuid,uuid,uuid,uuid)|volatility": "v",
+    "functions|eps.retry_guest_pdf_export(uuid,uuid,uuid,uuid)|source_sha256": "075e50772f63d445517bb27e789b55e2b9bec5a1e13228492dd1d7ddba7ba4f8",
+    "functions|eps.review_credential_admit(uuid,text,uuid,jsonb,text,jsonb)|acl": "{eps_guest_owner=X/eps_guest_owner,eps_review_owner=X/eps_guest_owner}",
+    "functions|eps.retry_guest_pdf_export(uuid,uuid,uuid,uuid)|argument_defaults": "NULL::uuid",
+    "functions|eps.review_credential_admit(uuid,text,uuid,jsonb,text,jsonb)|kind": "f",
+    "functions|eps.retry_guest_pdf_export(uuid,uuid,uuid,uuid)|identity_arguments": "p_export_id uuid, p_link_id uuid, p_version_id uuid, p_session uuid",
+    "functions|eps.review_credential_admit(uuid,text,uuid,jsonb,text,jsonb)|owner": "eps_guest_owner",
+    "functions|eps.review_credential_admit(uuid,text,uuid,jsonb,text,jsonb)|config": [
+      "search_path=\"\""
+    ],
+    "functions|eps.review_credential_admit(uuid,text,uuid,jsonb,text,jsonb)|strict": false,
+    "functions|eps.review_credential_admit(uuid,text,uuid,jsonb,text,jsonb)|definer": true,
+    "functions|eps.review_credential_admit(uuid,text,uuid,jsonb,text,jsonb)|returns": "void",
+    "functions|eps.review_credential_admit(uuid,text,uuid,jsonb,text,jsonb)|support": null,
+    "functions|eps.review_credential_admit(uuid,text,uuid,jsonb,text,jsonb)|language": "plpgsql",
+    "functions|eps.review_credential_admit(uuid,text,uuid,jsonb,text,jsonb)|parallel": "u",
+    "functions|eps.review_credential_admit(uuid,text,uuid,jsonb,text,jsonb)|leakproof": false,
+    "functions|eps.review_credential_admit(uuid,text,uuid,jsonb,text,jsonb)|volatility": "v",
+    "functions|eps.review_credential_admit(uuid,text,uuid,jsonb,text,jsonb)|source_sha256": "d96d4099f351ecaa9098a4f2539219bc387a67134686fc20073da497a5646050",
+    "functions|eps.review_credential_admit(uuid,text,uuid,jsonb,text,jsonb)|argument_defaults": null,
+    "functions|eps.review_credential_admit(uuid,text,uuid,jsonb,text,jsonb)|identity_arguments": "p_actor uuid, p_operation text, p_subject uuid, p_input jsonb, p_idempotency_key text, p_credential jsonb"
+  },
+  "changed": {
+    "columns|eps.guest_sessions.id|acl": {
+      "before": null,
+      "after": "{eps_review_stage_owner=r/postgres}"
+    },
+    "columns|eps.guest_sessions.expires_at|acl": {
+      "before": null,
+      "after": "{eps_review_stage_owner=r/postgres}"
+    },
+    "columns|eps.guest_sessions.review_link_id|acl": {
+      "before": null,
+      "after": "{eps_review_stage_owner=r/postgres}"
+    },
+    "columns|eps.guest_sessions.link_token_generation|acl": {
+      "before": null,
+      "after": "{eps_review_stage_owner=r/postgres}"
+    },
+    "functions|eps.guest_prepare_export(uuid,uuid,text,uuid)|source_sha256": {
+      "before": "783d54b66d38a6e33279722a19459e68427bb6a12c198678dff3870ba39c02db",
+      "after": "274d8c09314057c119ae8cd39f7c95aeb85775cb672a34ee5c013c76c994ac07"
+    },
+    "functions|public.eps_create_review_link(uuid,jsonb,jsonb,text)|source_sha256": {
+      "before": "3ade5c58360ef5b7784e31be13b847d91aa1aa9f07f96bc2c9ed917762411e31",
+      "after": "21d70405e0091d4dcc0a3e8e503672f30ee26de488e21df57c96d0d94928b52d"
+    },
+    "functions|public.eps_rotate_review_link(uuid,jsonb,jsonb,text)|source_sha256": {
+      "before": "fac06878045b05dbb5770a22cc02068c20fd42068161f4fc0c1589cd98179a94",
+      "after": "10fc75a60494924ea63a7b3e5a7a42a4f2a596384357af611dd78a1155394428"
+    }
+  },
+  "deleted": {},
+  "new_state": {
+    "config": {
+      "enabled": false,
+      "key_bytes": null,
+      "key_present": false,
+      "replay_ttl_seconds": 86400,
+      "session_ttl_seconds": 3600
+    },
+    "tables": {
+      "review_links": {
+        "count": 0
+      },
+      "guest_sessions": {
+        "count": 0
+      },
+      "feedback_comments": {
+        "count": 0
+      },
+      "guest_idempotency": {
+        "count": 0
+      },
+      "guest_asset_grants": {
+        "count": 0
+      },
+      "review_link_replays": {
+        "count": 0
+      },
+      "review_media_grants": {
+        "count": 0
+      },
+      "feedback_preferences": {
+        "count": 0
+      },
+      "presentation_exports": {
+        "count": 0
+      },
+      "review_gateway_rates": {
+        "count": 0
+      },
+      "review_gateway_config": {
+        "count": 1
+      },
+      "review_gateway_nonces": {
+        "count": 0
+      }
+    }
+  }
+}

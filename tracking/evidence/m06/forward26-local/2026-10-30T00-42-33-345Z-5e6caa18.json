@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "run_id": "5e6caa18-9c46-4f1b-90c0-a1cb367fc170",
+  "started_at": "2026-10-30T00:42:19.074Z",
+  "result": "passed",
+  "mode": "candidate26",
+  "scope": "Owned local25 with explicit synthetic external frozen versions and backend/guest identities, current roles; bounded26 DDL/protocol all rolled back. No cloud/provider/private config.",
+  "cloud_called": false,
+  "provider_called": false,
+  "private_configuration_loaded": false,
+  "source_seals": {
+    "development/m06/credential-admission-forward.sql": "1f2d6cae1097faa0405098a269a344500a1007a34c03a77c6cf87ecff2485e5a",
+    "tests/db/m04-assignments-fixture.sql": "cb5f418fee0dc3a9b00a9ddeaa3971f5df1c3384c459905baa19b4e04f1d9cb4",
+    "tests/db/m05-versions-fixture.sql": "da13283bc15481fc1bb76b9d36a3360c3a30d7b6cc06b7c0a979e25e086c636d",
+    "tests/db/m05-versions.sql": "e1cb9867d36c174b3517924299bb4b600c38569b2a805334f0fb2c385930e670",
+    "tests/db/m05-processing.sql": "814aca9c60ad7d679bcee020d3e305bd89e25b5919fbdfc11941a3f634da9ada",
+    "tests/db/m06-credential-admission.sql": "341affad7dafa70c922eb1c668ab0c1a9cc714fd31b035024577c617fc377a03",
+    "tools/test-m06-forward26-local.mjs": "98592a0918880eed2abecce199f221a217a7140ba9d3318b07f0a20e2bac2ae4",
+    "tools/sql/m04-review-local-snapshot.sql": "7fbd8618363597ff158c429f6127c1eab0e51dce170d740c96f368c604b24d46"
+  },
+  "markers": [
+    "M06_26_UNSIGNED_DIRECT_RPC_AND_PRIVATE_VERIFIER_DENIAL_PASSED",
+    "M06_26_ACTOR_OPERATION_SUBJECT_INPUT_IDK_DIGEST_CIPHERTEXT_MAC_AND_FRESH_ACK_REPLAY_PASSED",
+    "M06_26_ROTATION_UNSIGNED_NONCE_REPLAY_DENIED_FRESH_ACK_ONCE_PASSED",
+    "M06_26_CURRENT_AUTHORITY_AND_NONCE_ROW_IDEMPOTENCY_TRANSACTION_ROLLBACK_PASSED"
+  ],
+  "behavior_passed": true,
+  "stdout_sha256": "a88b6ee03487c511d9d8379e5080bca55e1e7280d4ec327e10885768ec1b997a",
+  "sources_stable": true,
+  "backend_settled": true,
+  "rollback_verified": true,
+  "finished_at": "2026-10-30T00:42:33.345Z"
+}

@@ -52,7 +52,13 @@ export interface PresentationVersion {
 }
 export interface VersionListOptions { cursor?: string; limit?: number }
 export interface PdfDownload { version_id: string; download_url: string; expires_at: string; filename: string; size_bytes: number }
-export interface VersionMediaPlayback { asset_id: string; url: string; expires_at: string; mime_type: string; source_version_id: string }
+/** Original source text captured separately from slide wording when this video
+ * was published. It never changes the frozen slide or PDF composition. */
+export interface VersionTranscriptCompanion {
+  version_id: string; asset_id: string; status: 'available' | 'not_provided' | 'not_captured';
+  original_text: string | null; languages: string[]; source_kind: 'source_transcript'; source_sha256: string | null;
+}
+export interface VersionMediaPlayback { asset_id: string; url: string; expires_at: string; mime_type: string; source_version_id: string; transcript?: VersionTranscriptCompanion }
 export interface PresentationContent { bytes: Uint8Array; mimeType: string; filename?: string }
 export type PresentationMutationContext = MutationContext & { idempotencyKey: string };
 export interface PresentationOperations {

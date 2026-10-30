@@ -1,0 +1,49 @@
+{
+  "observed_at": "2026-10-30T00:53:11.452151+00:00",
+  "result": "passed",
+  "scope": "Controlled local Chromium API fixtures; no actual canonical guest/PDF/provider claim",
+  "command": "npm.cmd run test:e2e -- tests/e2e/m06-review-findings.spec.ts",
+  "tests": 5,
+  "passed": 5,
+  "failed": 0,
+  "skipped": 0,
+  "flaky": 0,
+  "raw_result_sha256": "311df13ce737a2bdc81cd8e41f7f9d3c1042f646fa37b02bd3910d28ae52cb0a",
+  "source_after_sha256": {
+    "tests/e2e/m06-review-findings.spec.ts": "be585f7240aaf456218985b5df8642b0c8da7666aaba078c5ce2c2419b682a70",
+    "apps/web/components/GuestReviewView.tsx": "b84f41071207c60005e9ce9bb58222a65fd5e194be1150433a4190917d4502c2",
+    "apps/web/components/GuestPdfDownload.tsx": "8f47d4910d42a5688880983240b51fbe033b9c5f4f31abe845f12ca4f04ccdd2",
+    "apps/web/components/review-client.ts": "23a734ca662a6a2ef57d61b6df4a2acf615bfafd691aa7bc2294a821214f2358"
+  },
+  "red_receipts": [
+    "tracking/evidence/m06/controlled-browser/2026-10-30T00-44-30-872151Z-7831d9ed-review-findings-red.json",
+    "tracking/evidence/m06/controlled-browser/2026-10-30T00-51-31-687812Z-96ba2fef-cancelled-export-red.json"
+  ],
+  "first_three_red_test_bytes_preserved": true,
+  "first_three_red_prefix_sha256": "b113eb28000925febb157c5afbe204b666067825ca9bcfb9ae3396b35ee34e52",
+  "cancelled_red_test_source_identical": true,
+  "additive_controls": [
+    "same-ID frozen content remains unchanged",
+    "JOB_CANCELLED explicit terminal state/no retry"
+  ],
+  "verified_behavior": [
+    "Busy/unknown PDF preparation gates slide controls and beforeUnload; unknown preparation also disables the offered version switch",
+    "Identical503->403->cachedACK request retained; exactlyonecontrolledallocation",
+    "Acknowledgedqueued background preparation permits continued review",
+    "Older delayed response cannot offerdowngrade after newercheck/version switch",
+    "Lower version number ignored",
+    "Sameversionidentitycannotreplacefrozencover/title/candidatewords",
+    "Cancelled exportshowscancelled andoffersnoRetry/Prepare action",
+    "390pxnohorizontaloverflow"
+  ],
+  "port3100_listener_count_after": 0,
+  "port_check_tool_chunk": "4add66",
+  "component_owner": "m06_worker",
+  "private_values_recorded": false,
+  "hosting_deferred": true,
+  "scope_correction": {
+    "recorded_at": "2026-10-30T00:53:35.384468+00:00",
+    "original_label": "Busy and unknown PDF preparation gates slide/version/keyboard navigation and beforeUnload",
+    "note": "Keyboard uses the shared canNavigate guard by source inspection. This test file did not separately press keyboard arrows, so independent keyboard browser credit is not claimed."
+  }
+}

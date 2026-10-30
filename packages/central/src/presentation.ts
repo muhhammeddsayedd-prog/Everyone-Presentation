@@ -8,6 +8,7 @@ import { centralRpcError } from './errors.ts';
 import { reviewJobDto } from './review-dto.ts';
 import { presentationRecord, presentationResponseInvalid, presentationVersionDto } from './presentation-dto.ts';
 import { createPresentationStorage, presentationAssetRead } from './presentation-storage.ts';
+import { versionTranscript } from './presentation-transcript.ts';
 export interface CentralPresentationOptions { storageOrigin: string; now?: () => number; downloadTimeoutMs?: number }
 function identifier(value: unknown): string {
   if (typeof value !== 'string' || !value || value.length > 200 || /[\\/\p{C}?#%]/u.test(value)) throw new DomainError('INVALID_REQUEST', 'Provide a bounded presentation identifier.', 400);
@@ -84,8 +85,8 @@ export async function createCentralPresentations(client: SupabaseClient, options
     async playVersionMedia(actor, versionId, assetId) {
       const version = await getVersion(actor, versionId); const id = identifier(assetId);
       if (!version.slides.some(slide => slide.video_asset_id === id)) throw new DomainError('RESOURCE_NOT_FOUND', 'This original video does not belong to the fixed version.', 404);
-      const source = await asset(actor, version.id, id, 'video'); const access = await storage.sign(source);
-      return { asset_id: id, ...access, mime_type: source.asset.mime_type, source_version_id: version.id };
+      const source = await asset(actor, version.id, id, 'video'); const transcript = versionTranscript(source.transcript, version.id, id); const access = await storage.sign(source);
+      return { asset_id: id, ...access, mime_type: source.asset.mime_type, source_version_id: version.id, transcript };
     },
     async getVersionMediaContent(actor, versionId, assetId) {
       const version = await getVersion(actor, versionId); const id = identifier(assetId);

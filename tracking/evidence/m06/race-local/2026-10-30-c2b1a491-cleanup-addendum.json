@@ -1,0 +1,16 @@
+{
+  "observed_at": "2026-10-30T00:35:27.487Z",
+  "result": "passed",
+  "scope": "Exact previously-created task-owned temporary DB cleanup after shared-comment guard fix; original failure receipt untouched",
+  "failed_receipt": "tracking/evidence/m06/race-local/2026-10-30T00-34-30-129Z-c2b1a491.json",
+  "target_owned_local": true,
+  "identity_checked": {
+    "name": "eps_m06_race_c2b1a491ce0f43fd9b5681ca2a718016",
+    "owner": "postgres",
+    "oid": "61692",
+    "shared_comment_matches_run": true
+  },
+  "temporary_database_removed": true,
+  "shared_lock_released": true,
+  "canonical_data_mutation": false
+}

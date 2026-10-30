@@ -1,0 +1,20 @@
+{
+  "schema": "eps.m06.pack-json-encoding-regression.v1",
+  "observed_at": "2026-10-30T03:55:58.224286+00:00",
+  "result": "genuine_red",
+  "command": ".\\.venv-skills\\Scripts\\python.exe -X utf8 -m unittest discover -s tests/operations -p test_pack_json_encoding.py -v",
+  "exit_code": 1,
+  "tests": 3,
+  "passed": 1,
+  "errors": 2,
+  "skipped": 0,
+  "cause": "UTF8BOM source decoding fails both Unicode fixture and unchanged historical Windows receipt; malformed JSON negative controls pass.",
+  "tool_output": "bd8d2f",
+  "source_sha256": {
+    "tools/validate_pack.py": "f0865ee7ebc38576f6a3c9525d80e3212aabaadebb061d0a7d716199be39d79d",
+    "tests/operations/test_pack_json_encoding.py": "b44e7ac712eb342d2edac04361663a078e2caf67078fc5a62414428a0ca3d97a"
+  },
+  "private_originals": ".local/m06-pack-bom-red",
+  "scope": "Static JSON file reading only; no app, provider, SQL, browser or cloud action.",
+  "historical_evidence_modified": false
+}

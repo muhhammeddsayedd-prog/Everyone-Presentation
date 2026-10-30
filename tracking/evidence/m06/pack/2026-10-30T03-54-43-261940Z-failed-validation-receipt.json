@@ -1,0 +1,33 @@
+{
+  "schema": "eps.m06.strict-pack-validation.v1",
+  "observed_at": "2026-10-30T03:54:43.261940+00:00",
+  "result": "failed",
+  "command": ".\\.venv-skills\\Scripts\\python.exe -X utf8 tools/validate_pack.py --strict --report",
+  "exit_code": 1,
+  "tool_output": "c2dc4c",
+  "summary": {
+    "checks_passed": 356,
+    "json_sources": 1602,
+    "errors": [
+      "Historical runtime27 quiescence JSON has UTF8BOM; default JSON source decoding rejects it.",
+      "Aggregate JSON source parse assertion fails."
+    ],
+    "api_paths": 98,
+    "api_operations": 114,
+    "mcp_tools": 86,
+    "sql_design_tables": 25,
+    "json_schemas": 12,
+    "acceptance_cases": 76
+  },
+  "failed_report": "tracking/evidence/m06/pack/2026-10-30T03-54-43-261940Z-failed-PACK_VALIDATION.md",
+  "failed_report_sha256": "6e164f517343337f89b88c66ae08dd02101e3e7f6725c100552558efe5dd41aa",
+  "original_report_preserved": {
+    "previous_report": "tracking/evidence/m06/pack/2026-10-30T03-52-58-938189Z-previous-PACK_VALIDATION.md",
+    "previous_sha256": "65ec80b100eda9c46f47c99cbef4e7e95afe1861527e3dc10f8d1a39e68fc787"
+  },
+  "validator_source_sha256": "771d8e380f24a688fb6349e589581d57a94032baacf806538edd9a8e76287861",
+  "historical_evidence_modified": false,
+  "functional_fix_pending_root_coordination": true,
+  "scope": "Static documentation/schema/referenceSQL-syntax checks only; no app, provider, SQLexecution, cloud, browser or process ownership actions.",
+  "hosting_deferred": true
+}

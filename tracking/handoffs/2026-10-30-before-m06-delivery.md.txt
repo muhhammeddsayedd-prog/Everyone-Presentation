@@ -1,0 +1,90 @@
+# Everyone Presentation Studio - active M06 handoff
+
+
+
+Updated 2026-10-30T03:03:18.679562+00:00. M06 is **in progress** for final DST and transcript accessibility follow-ups. Hosting remains deferred. M03 broader independently labelled English/mixed semantic evaluation remains implemented_unverified; the owner-grounded Ibrahim name/age correction and Reviewed state are preserved. M07 is not started. Prior exact handoff: [archive](handoffs/2026-10-30-before-m06-live-closeout.md.txt).
+
+
+
+## Completed canonical setup - do not repeat
+
+
+
+Local/canonical history is **27**, target `pyibofyctwnqpvktepse`. Migrations25/26/27 are applied once, with separate readbacks. Do not rerun releases, private bootstrap, guest enable or Producer capability completion. Historical25/26 helpers intentionally reject later histories; use new27 observers.
+
+
+
+- Migration25 `20261030002634_m06_guest_review_feedback_exports.sql`, SHA `2c72507216efdcd3e9dcea3f9b94270b19e1275ebcd2fcf91dad9253ddde8d2a`; apply a9218c10, final readonly48f6139e. Initial readback failures remain.
+
+- Migration26 `20261030004643_m06_credential_admission_guest_retry.sql`, SHA `a0fb9dfec8cdae2718719d455ed11b4f25dd9b79e8fc9de19bd53c229b64089e`; apply4586599d/readback83c5768f. Manager credentials need backend HMAC binding; guest failed-export retry is narrowly scoped.
+
+- Migration27 `20261030013832_m06_guest_storage_policy_composition.sql`, SHA `9e3ab85655c2fa0490aba07118fe730dae2c6193f651c3ba086910d82b7eb171`; [apply](evidence/cloud-m06-storage27/2026-10-30T01-44-03-055712Z-b9d43e22-apply.json), [independent readback](evidence/cloud-m06-storage27/2026-10-30T01-44-36-031555Z-0347010f-readback.json). Exact four Storage expressions plus one acyclic media policy changed; all other business/catalog/defaults/Auth metadata/Storage/runtime12/key metadata/flags preserved. Actual NoSuchKey failures and composed-role REDs remain; no transport/header change was made.
+
+- Private guest26 bootstrap2a41f391/full-preservation37edbf14, enable1130c790/readback0ec17331, absent-only Producer review_links.manage8f3dc27b/readback1216bfb7 are complete. `.env.guest-runtime.local` is protected; no raw values in tracking. No Auth identity was created or revoked grant restored.
+
+- WF03 existing `kE4qSEcugaKhIoJU` repaired once (fde4b974), active version `eba0dccc-913b-4e26-a445-7b325fc886dd`, metadata probe43a350e8. Existing credential remains. Original auto-publication and mapper lexer failure are preserved. Actual guest exports ran through n8n/native worker/private Storage; probes alone are not render acceptance.
+
+
+
+## Current local runtime
+
+
+
+Worker40760/launcher45472; web launcher27816/CLI59804/server58924 on127.0.0.1:3000. [Owned restart proof](evidence/m06/runtime27-transition/2026-10-30T01-48-08-2134478Z-a1405fee-owned-processes-ready.json) verifies scripts/parents/creation, old5PIDs absent,23 unchanged startup sources, authenticated12-operation gateway, no worker listener. Flags EPS_SPECS_FILES_ENABLED=true and EPS_GUEST_EXPORTS_ENABLED=true were explicitly supplied at launch. Do not start duplicate workers. Native image remains the M05 pinned image. Reverify process ownership before any future stop/restart.
+
+
+
+Only exact owned processes were quiesced around27; do not disturb other projects. Supabase CLI queries must be **sequential**: parallel temporary-login use previously caused authentication collisions; readonly failures were preserved and reconciled sequentially.
+
+
+
+## Actual app and artifact evidence
+
+
+
+External Client Selection series `9a4a2218-b250-4004-817b-760912305770`, Dummy Test workspace `098d5b48-42a3-475b-b562-735c9eafce80`. V1 `796effc6-93d6-4602-97d7-c1199083114f`; V2 `3a3910f8-45b6-414a-a96a-2c223a72acb7`; V3 `15995571-04b3-468e-9863-caf0db3dde19`. V2/V3 intentionally capture no selected introduction/frames. V1 keeps its original video and2frames. Original M05 internal versions remain unchanged.
+
+
+
+- Actual Preparing-before-Ready, view-before-name, remembered self-declared labels, same-name separate guest edit controls, shared comments/reply/preferences, internal note absent from guest DOM, independent repeated-candidate slot preferences, keyboard navigation, V1 draft preserved on V2 offer, explicit V2 opening: [partial journey](evidence/m06/live-app/2026-10-30T01-29-47-291145Z-07d384ca-partial.json).
+
+- [Actual incognito/mobile](evidence/m06/live-app/2026-10-30-anonymous-mobile.json): Projects sign-in form, no business sign-in, ready review before name;390x844, no document overflow, all10fields captured privately. Override reset.
+
+- Three actual guest PDFs downloaded: A V1 f6d03929, C V2 cf9cbc55, B V2 e55cd9b1. [Combined18-page exact inspection](evidence/m06/live-artifacts/2026-10-30T02-08-52.589Z.json) and [V2 visual review](evidence/m06/live-artifacts/2026-10-30-v2-two-export-independent-visual-review.json). V1 includes both independently verified source JPEG bodies; all6pages match reviewed pixels. Each V2 has0source images/videos; their page pixels match, whole-PDF hashes differ. Inspector evidence does not infer cross-link authorization.
+
+- [Actual original PDF video](evidence/m06/live-app/2026-10-30-original-pdf-video.json): owner manually opened the real PDF/link in incognito after the agent's file:// action was blocked. The agent did not tunnel/serve/navigate a raw extracted grant. It resumed the already observed credential-free HTTP app page using its existing cookie. V1 video20c0ed17 played to9.069s, ready4,853x480,19.776s duration, no error, while latestV3 has no video. Full-duration completion is not claimed. Same anonymous context again showed Projects sign-in and actual internal Projects API AUTH_REQUIRED/no data.
+
+- Actual UI Blob downloads were saved despite CUA download observers missing their events. Files/bytes were verified, not inferred from a timeout. Native source bodies/private PDFs/screenshots stay under protected `.local/m06-live/` or user Downloads, outside Git/ZIP.
+
+- Latest current27 observer before remaining lifecycle: [a9b5c671](evidence/m06/app-capture27/2026-10-30T02-11-46-774910Z-a9b5c671.json). New read-only observer: `tools/capture-m06-app27.py`; private export: `tools/export-m06-private-snapshot27.py <capture27 receipt> <version UUID>`.
+
+
+
+## Latest completed lifecycle/mobile checkpoint
+
+[Final actual lifecycle/mobile](evidence/m06/live-app/2026-10-30-final-lifecycle-mobile.json), [canonical27 capture22d8c593](evidence/m06/app-capture27/2026-10-30T02-37-42-009158Z-22d8c593.json) and [fourth PDF saved-byte proof](evidence/m06/live-artifacts/2026-10-30-v4-mobile-download.json) supersede earlier lifecycle-pending statements above. A/B are revoked; C stays active/downloads enabled. A download-only edit preserved exact2026-11-29T01:09:31.930041Z. Old actualV1PDF video remained Ready4 after downloadsOff, was denied after expiry, restored after explicit extensionto01:09:00Z, and denied after revocation. Two CUA fill-only date edits ACKed unchanged dates; native ArrowUp/Down then committed the actual date state. No false expiry credit was given. B rotatedto2 (CUA clipboard returnedempty; no navigation),3(newReadyV3session333f6bd7),then4; old3rawURL/activeSession denied, new4ReadyV4 worked/downloadsOff, then ordinaryreview denied after B revocation. Cached B3PDF direct actualGET returnedDOWNLOAD_DISABLED, while viewing continued.
+
+V4 `7a4752bc-b277-4981-9c33-5c1f3d64496f` is Ready, captured restored originalintro andONLY3.12/12.48s projectframes after saved-candidate reload. OldV1/V2/V3 metadata unchanged. Incognito C new sessiona28e15da-ca0e-462c-b51f-227baca2308e at390x844 playedvideo10.508s/Ready4/noerror, navigatedroles, identifiedwithrememberedlabel, postedone syntheticFathercomment and downloaded113628B PDFb590351d-0b63-4991-bbe5-66c97dd43baf, SHA3ae23d5cfd403403d2d4ab47122f7639aec5559629676099745a70552db28807 matchingcanonicalmetadata. FourthPDF is byte-onlyaccepted; prior3PDF/all18pages remain independentlyinspected. Viewportreset; ProducerSharingtabmarkedDeliverable, incognitoCmarkedHandoff. Desktopprotected screenshot `.local/m06-live/screenshots/2026-10-30-sharing-desktop.jpg`; fullPagecapturetimedout, normalviewportcapturepassed. Actual mobile syntheticFather screenshot also protected.
+
+## New independently reproduced follow-ups - do before final delivery
+
+1. ReviewLinksPanel inlineconfirmation/expiry-precision fix is frozen SHA49cd473cc26dd8fc32d1764e41bfab998aa25403400088d74c6995f56cbca690. New4focusedtests passed; [receipt4f730761](evidence/m06/controlled-browser/2026-10-30T02-35-45-392501Z-4f730761-inline-link-confirmation.json). Two newHTTP+two390pxUI429cases pass [rate-limit receipt](evidence/m06/controlled-browser/2026-10-30T02-36-25-524624Z-guest-rate-limit.json). APIagent finishing805e pre-follow-up full75E2E/678module quality; do not alter source until they seal/release. It will be historical relative to next changes.
+2. Worker independently reproduced Date.setMinutes() DST error near Cairo2026-10-29: displayhour22 vs correct21. Unchanged download-only omission stillpreservesexactexpiry. Worker owns meaningful timezoneRED/arithmeticfix AFTER805e freeze release; no app edits yet.
+3. GuestReviewView/GrantMediaView/saved VersionMediaView lack source transcript. Existing internal CandidateDetail/WorkspaceReview show current-source transcript. Template62 requires alongside introductions,110 keeps rawtranscript off externalcandidate/PDF composition. This is a concrete implementation gap, not merely an unrun manualAT072 check. DBagent designing additive28: freeze original-language companion for FUTUREversions/selectedoriginalasset, no oldReady/backfill/live-librarylookup. APIagent designing extension to existing VersionMediaPlayback closedresult/three playbackRPCs, reusing current scope and MCPparity. Root owns on-demand accessiblecompanion outsidecandidatearticle/PDF. ExistingGenerate is publishingaction; do not add curation/editor/approvalworkflow. No migration28/code created yet; designagreement needed.
+4. After this verticalslice, complete exactlocalSQL/canonicalpreservation/appnewversion+guest/PDFgrant transcript proof and finalquality. Current history stays27 until authorized additive28apply/readback actuallycomplete. Do not rerun25/26/27/bootstrap/enable/capability/n8nfix. Worker12/gateway/nativePDF need no privilege expansion/providercall fortranscripts.
+5. ManualAT054 physicalphonekeyboard andAT072 screenreader remain unverified. Owner asked howlocaltestingworks; root suppliedofficialMicrosoftNarrator Win+Ctrl+Enter andAndroidChromeUSB portforward3000?localhost:3000 guidance. No LAN/firewall/hosting change made. Async question is still logically pending; do not block unaffected implementation.
+6. Updateallprimaryprogress/acceptancedocs afterfixes, explicitownedstaging/commit, sourcepackage, actualprivatevaluescan and ignoredSOURCE_CHECKPOINT. NO M06commit/archive yet. Basefa7233ee95dd03ed2c8221a1d04bc9b5bca822fe. HistoricalM05ZIP/checkpoint preservedunder.local/source-checkpoints/fa7233e-before-M06/. OriginalGitinfoexclude restored. Preserve unrelatedScreenshots102+redesign-output58files and allhistoricalseals/failures.
+
+Protected M02b3f90268-147d-41d4-8875-2a6435df1496 stayswaiting_for_input/INPUT_CHANGED. M03broaderlabelledEnglish/mixed semantics remainimplemented_unverified; ownergroundedIbrahimReviewed preserved. M07notstarted; hostingdeferred. Production/restore/externalOAuth/endurance remain unverified.
+
+
+## Latest accessibility implementation checkpoint
+
+- Owner explicitly waived further mobile testing. Retain existing390px evidence; AT-054 physical phone keyboard is owner-deferred, not passed. AT-072 manual assistive technology remains separately unverified. No new user permission is needed for normal implementation/release work already authorized.
+- DST fix is implemented/frozen: `ReviewLinksPanel` now imports the arithmetic local-expiry helper. Three timezone cases and five browser cases pass with genuine Cairo RED retained. See `tracking/evidence/m06/controlled-browser/2026-10-30-expiry-dst-green.json`.
+- Shared transcript DTO/domain/central/HTTP/MCP implementation is frozen. Existing playback operations carry the optional seven-field `VersionTranscriptCompanion` only after current exact video authorization; strict tuple/SHA/text/control/language validation. Twelve new cases,44 related tests, targeted lint and whole tsc passed: `tracking/evidence/m06/api-contracts/2026-10-30T02-55-32-734140Z-transcript-companion.json`. No new runtime operation, worker/PDF/render/snapshot field or route/tool. All23 startup and33 old-release sources remain byte-exact.
+- Root owns `SourceTranscript.tsx`, three player integrations (`GuestReviewView`, `GrantMediaView`, `PresentationVersionView`), four CSS rules and `tests/e2e/version-transcript-ui.spec.ts`. Source companion is native details/summary with escaped original text, focusable dir=auto region and provided language labels/known singleton language attribute. It stays outside candidate article/ten fields/PDF. Refresh/error hides old text, legacy reports not_captured without live fallback; wrong tuple does not render text. Worker independent review found no blocking UI defect; neutral source copy avoids inventing automatic provenance for imports.
+- Root seven browser cases PASS with actual subprocess exit0: `tracking/evidence/m06/controlled-browser/2026-10-30-transcript-language-green.json`, SHA149ac40ada703f4b77092784efc3c01913a5f57099dbb1d898b774609e4a6581. Earlier6-case receipt remains; first initialRED had5 product missing-companion paths plus1 incomplete internal fixture, corrected internalRED then failed at missing summary. Intermediate4/6 failures were test-only StrictMode read-count and Next alert-selector assumptions. All reports/original player/test bytes remain under `.local/m06-transcript-ui/`. A PowerShell native-stderr warning gave shell exit1 despite6 tests passing; Python subprocess rerun confirmed true0. New language-name scenario failed against the byte-identical prior6-case component before final7GREEN; initial harness Unicode-literal assertion and proposalGREEN are explicitly retained, not productRED credit.
+- Actual incognito V4 legacy video is still Ready4/853x480/19.776s and now honestly displays not_captured: `tracking/evidence/m06/live-app/2026-10-30-legacy-transcript-before28.json`. This is before28 and is not new-table acceptance. Current guest tab1091386688 is on Waiter V4; its comment draft was empty before navigation.
+- DB agent is implementing guarded additive28/local behavior proof/release helper. Initial compile PASS; first behavior attempt failed due a synthetic fixture variable ambiguity and rolled back completely. Candidate is unpromoted; canonical/local reviewed history remains27. API agent is offloading new28 metadata/private-snapshot observers and immutable historical27 fixture isolation. Worker owns independent SQL/release review; language control parity fixed; ECMA whitespace classification matches JS.trim and C1 is preserved. No cloud action has occurred for28.
+- Next: finish local meaningful capture/immutability/authorization/replay/lifecycle proof and guarded release preparation, then root freshly verifies/quiesces ONLY owned runtime before one exact canonical28 apply plus independent readback. Restart unchanged worker12/startup23; verify new generated V5 captures source and guest/internal/PDF-grant playback companion, old versions stay untouched. Complete final integrated693-module/83-browser plus updated offline/pack/privacy/source delivery gates. Source changes after805e mean805e is historical pre-fix evidence. No M06 commit/current source ZIP yet; all original unrelated160 files remain out of owned staging/package. Hosting deferred; M03 limits retained; M07 not started.

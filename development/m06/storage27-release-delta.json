@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0",
+  "created": {
+    "policies|eps.media_assets.m06_internal_export_asset_read|cmd": "SELECT",
+    "policies|eps.media_assets.m06_internal_export_asset_read|qual": "((purpose = 'presentation_pdf'::text) AND (bucket = 'eps-presentation-outputs'::text) AND (status = 'ready'::text) AND (output_stage = 'render_export'::text) AND eps.has_capability('review_links.manage'::text) AND (EXISTS ( SELECT 1\n   FROM ((eps.presentation_exports e\n     JOIN eps.review_links l ON ((l.id = e.review_link_id)))\n     JOIN eps.review_media_grants g ON ((g.id = e.media_grant_id)))\n  WHERE ((e.pdf_asset_id = media_assets.id) AND (e.job_id = media_assets.producing_job_id) AND (e.status = 'ready'::text) AND (e.export_revision = l.export_revision) AND (e.parent_token_generation = l.token_generation) AND l.download_enabled AND eps.guest_link_live(l.*) AND eps.review_link_scope(l.series_id) AND (g.review_link_id = l.id) AND (g.version_id = e.version_id) AND (g.export_id = e.id) AND (g.parent_token_generation = l.token_generation) AND (g.revoked_at IS NULL) AND (g.expires_at > clock_timestamp())))))",
+    "policies|eps.media_assets.m06_internal_export_asset_read|roles": [
+      "eps_review_owner"
+    ],
+    "policies|eps.media_assets.m06_internal_export_asset_read|permissive": "PERMISSIVE",
+    "policies|eps.media_assets.m06_internal_export_asset_read|with_check": null
+  },
+  "changed": {
+    "policies|storage.objects.eps_logo_read_guard|qual": {
+      "before": "((bucket_id <> 'eps-brand-assets'::text) OR eps.logo_storage_read_allowed(bucket_id, name) OR ((storage.allow_only_operation('object.get_authenticated'::text) OR storage.allow_only_operation('object.get_authenticated_info'::text)) AND eps.presentation_capability_allowed(bucket_id, name, 'read'::text)) OR ((storage.allow_only_operation('object.get_authenticated'::text) OR storage.allow_only_operation('object.get_authenticated_info'::text) OR storage.allow_only_operation('object.sign'::text)) AND eps.presentation_storage_read_allowed(bucket_id, name)) OR ((storage.allow_only_operation('object.get_authenticated'::text) OR storage.allow_only_operation('object.get_authenticated_info'::text)) AND eps.export_capability_allowed(bucket_id, name, 'read'::text)))",
+      "after": "((bucket_id <> 'eps-brand-assets'::text) OR eps.logo_storage_read_allowed(bucket_id, name) OR ((storage.allow_only_operation('object.get_authenticated'::text) OR storage.allow_only_operation('object.get_authenticated_info'::text)) AND eps.presentation_capability_allowed(bucket_id, name, 'read'::text)) OR ((storage.allow_only_operation('object.get_authenticated'::text) OR storage.allow_only_operation('object.get_authenticated_info'::text) OR storage.allow_only_operation('object.sign'::text)) AND eps.presentation_storage_read_allowed(bucket_id, name)) OR ((storage.allow_only_operation('object.get_authenticated'::text) OR storage.allow_only_operation('object.get_authenticated_info'::text)) AND eps.export_capability_allowed(bucket_id, name, 'read'::text)) OR ((bucket_id = ANY (ARRAY['eps-brand-assets'::text, 'eps-candidate-assets'::text, 'eps-candidate-outputs'::text, 'eps-presentation-outputs'::text])) AND (storage.allow_only_operation('object.get_authenticated'::text) OR storage.allow_only_operation('object.get_authenticated_info'::text)) AND eps.guest_storage_allowed(bucket_id, name)))"
+    },
+    "policies|storage.objects.eps_candidate_read_guard|qual": {
+      "before": "((bucket_id <> ALL (ARRAY['eps-candidate-assets'::text, 'eps-candidate-outputs'::text])) OR ((storage.allow_only_operation('object.get_authenticated'::text) OR storage.allow_only_operation('object.get_authenticated_info'::text)) AND (eps.candidate_storage_read_allowed(bucket_id, name) OR eps.candidate_capability_allowed(bucket_id, name, 'read'::text))) OR (storage.allow_only_operation('object.sign'::text) AND eps.candidate_storage_read_allowed(bucket_id, name)) OR ((bucket_id = 'eps-candidate-assets'::text) AND storage.allow_only_operation('object.get_authenticated_info'::text) AND eps.candidate_pending_info_allowed(bucket_id, name)) OR ((storage.allow_only_operation('object.get_authenticated'::text) OR storage.allow_only_operation('object.get_authenticated_info'::text)) AND eps.presentation_capability_allowed(bucket_id, name, 'read'::text)) OR ((storage.allow_only_operation('object.get_authenticated'::text) OR storage.allow_only_operation('object.get_authenticated_info'::text) OR storage.allow_only_operation('object.sign'::text)) AND eps.presentation_storage_read_allowed(bucket_id, name)) OR ((storage.allow_only_operation('object.get_authenticated'::text) OR storage.allow_only_operation('object.get_authenticated_info'::text)) AND eps.export_capability_allowed(bucket_id, name, 'read'::text)))",
+      "after": "((bucket_id <> ALL (ARRAY['eps-candidate-assets'::text, 'eps-candidate-outputs'::text])) OR ((storage.allow_only_operation('object.get_authenticated'::text) OR storage.allow_only_operation('object.get_authenticated_info'::text)) AND (eps.candidate_storage_read_allowed(bucket_id, name) OR eps.candidate_capability_allowed(bucket_id, name, 'read'::text))) OR (storage.allow_only_operation('object.sign'::text) AND eps.candidate_storage_read_allowed(bucket_id, name)) OR ((bucket_id = 'eps-candidate-assets'::text) AND storage.allow_only_operation('object.get_authenticated_info'::text) AND eps.candidate_pending_info_allowed(bucket_id, name)) OR ((storage.allow_only_operation('object.get_authenticated'::text) OR storage.allow_only_operation('object.get_authenticated_info'::text)) AND eps.presentation_capability_allowed(bucket_id, name, 'read'::text)) OR ((storage.allow_only_operation('object.get_authenticated'::text) OR storage.allow_only_operation('object.get_authenticated_info'::text) OR storage.allow_only_operation('object.sign'::text)) AND eps.presentation_storage_read_allowed(bucket_id, name)) OR ((storage.allow_only_operation('object.get_authenticated'::text) OR storage.allow_only_operation('object.get_authenticated_info'::text)) AND eps.export_capability_allowed(bucket_id, name, 'read'::text)) OR ((bucket_id = ANY (ARRAY['eps-brand-assets'::text, 'eps-candidate-assets'::text, 'eps-candidate-outputs'::text, 'eps-presentation-outputs'::text])) AND (storage.allow_only_operation('object.get_authenticated'::text) OR storage.allow_only_operation('object.get_authenticated_info'::text)) AND eps.guest_storage_allowed(bucket_id, name)))"
+    },
+    "policies|storage.objects.m06_guest_storage_select|qual": {
+      "before": "eps.guest_storage_allowed(bucket_id, name)",
+      "after": "(eps.guest_storage_allowed(bucket_id, name) AND (bucket_id = ANY (ARRAY['eps-brand-assets'::text, 'eps-candidate-assets'::text, 'eps-candidate-outputs'::text, 'eps-presentation-outputs'::text])) AND (storage.allow_only_operation('object.get_authenticated'::text) OR storage.allow_only_operation('object.get_authenticated_info'::text)))"
+    },
+    "policies|storage.objects.presentation_output_read_guard|qual": {
+      "before": "((bucket_id <> 'eps-presentation-outputs'::text) OR ((storage.allow_only_operation('object.get_authenticated'::text) OR storage.allow_only_operation('object.get_authenticated_info'::text)) AND (eps.presentation_storage_read_allowed(bucket_id, name) OR eps.presentation_capability_allowed(bucket_id, name, 'read'::text))) OR (storage.allow_only_operation('object.sign'::text) AND eps.presentation_storage_read_allowed(bucket_id, name)) OR ((storage.allow_only_operation('object.get_authenticated'::text) OR storage.allow_only_operation('object.get_authenticated_info'::text)) AND eps.export_capability_allowed(bucket_id, name, 'read'::text)))",
+      "after": "((bucket_id <> 'eps-presentation-outputs'::text) OR ((storage.allow_only_operation('object.get_authenticated'::text) OR storage.allow_only_operation('object.get_authenticated_info'::text)) AND (eps.presentation_storage_read_allowed(bucket_id, name) OR eps.presentation_capability_allowed(bucket_id, name, 'read'::text))) OR (storage.allow_only_operation('object.sign'::text) AND eps.presentation_storage_read_allowed(bucket_id, name)) OR ((storage.allow_only_operation('object.get_authenticated'::text) OR storage.allow_only_operation('object.get_authenticated_info'::text)) AND eps.export_capability_allowed(bucket_id, name, 'read'::text)) OR ((bucket_id = ANY (ARRAY['eps-brand-assets'::text, 'eps-candidate-assets'::text, 'eps-candidate-outputs'::text, 'eps-presentation-outputs'::text])) AND (storage.allow_only_operation('object.get_authenticated'::text) OR storage.allow_only_operation('object.get_authenticated_info'::text)) AND eps.guest_storage_allowed(bucket_id, name)) OR ((bucket_id = 'eps-presentation-outputs'::text) AND (storage.allow_only_operation('object.get_authenticated'::text) OR storage.allow_only_operation('object.get_authenticated_info'::text) OR storage.allow_only_operation('object.sign'::text)) AND eps.export_storage_read_allowed(bucket_id, name)))"
+    }
+  },
+  "deleted": {},
+  "new_state": {
+    "config": {
+      "enabled": false,
+      "key_bytes": null,
+      "key_present": false,
+      "replay_ttl_seconds": 86400,
+      "session_ttl_seconds": 3600
+    },
+    "tables": {
+      "review_links": {
+        "count": 0
+      },
+      "guest_sessions": {
+        "count": 0
+      },
+      "feedback_comments": {
+        "count": 0
+      },
+      "guest_idempotency": {
+        "count": 0
+      },
+      "guest_asset_grants": {
+        "count": 0
+      },
+      "review_link_replays": {
+        "count": 0
+      },
+      "review_media_grants": {
+        "count": 0
+      },
+      "feedback_preferences": {
+        "count": 0
+      },
+      "presentation_exports": {
+        "count": 0
+      },
+      "review_gateway_rates": {
+        "count": 0
+      },
+      "review_gateway_config": {
+        "count": 1
+      },
+      "review_gateway_nonces": {
+        "count": 0
+      }
+    }
+  }
+}

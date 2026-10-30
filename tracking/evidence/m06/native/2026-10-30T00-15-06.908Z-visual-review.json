@@ -1,0 +1,28 @@
+{
+  "observed_at": "2026-10-30T00:17:57.068357+00:00",
+  "source_receipt": "tracking/evidence/m06/native/2026-10-30T00-15-06.908Z-access-only.json",
+  "source_receipt_sha256": "120f8a6d31f183f55a359de0ffab3b773c57ea0aa84958786c467d49b5a36ba5",
+  "scope": "Manual actual-PNG review of six offline synthetic guest export pages; no live/browser/factual claim",
+  "result": "passed",
+  "reviewer": "m06_worker",
+  "all_six_pages_viewed": true,
+  "reviewed_pages": [
+    "export-1.png",
+    "export-2.png",
+    "export-3.png",
+    "export-4.png",
+    "export-5.png",
+    "export-6.png"
+  ],
+  "findings": [
+    "Cover and white brand readable; synthetic transparent logo retained.",
+    "Candidate pages retain all ten labels; explicit missing image on zero-frame page.",
+    "Bilingual Arabic/English sample remains readable without clipping.",
+    "One/two/three actual geometric frames stay contained without stretch.",
+    "Pending page includes category and all eleven requirement labels.",
+    "No observed overlap, clipped text or blank missing font."
+  ],
+  "pixel_comparison": "Canonical and guest page PNG hashes match exactly on all six pages; separate proof compares normalized actual text styles and geometry.",
+  "raw_tokens_or_source_personal_media_recorded": false,
+  "hosting_deferred": true
+}

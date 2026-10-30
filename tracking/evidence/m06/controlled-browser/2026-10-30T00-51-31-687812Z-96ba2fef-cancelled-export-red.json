@@ -1,0 +1,23 @@
+{
+  "observed_at": "2026-10-30T00:51:31.687070+00:00",
+  "result": "red_confirmed",
+  "scope": "Controlled Chromium fixture only; no provider or canonical guest invocation",
+  "command": "npm.cmd run test:e2e -- tests/e2e/m06-review-findings.spec.ts --grep \"cancelled export\"",
+  "tests": 1,
+  "passed": 0,
+  "failed": 1,
+  "skipped": 0,
+  "raw_result_sha256": "7a4ce5de887ff07a04e965c60616327119f0f4b1ddba73e5c6682375c161edba",
+  "source_sha256": {
+    "tests/e2e/m06-review-findings.spec.ts": "be585f7240aaf456218985b5df8642b0c8da7666aaba078c5ce2c2419b682a70",
+    "apps/web/components/GuestReviewView.tsx": "b84f41071207c60005e9ce9bb58222a65fd5e194be1150433a4190917d4502c2",
+    "apps/web/components/GuestPdfDownload.tsx": "4b4ca0384f31cd2c6afd2017e5f8018daa027187d5ca54ebad8d75aac47214e0"
+  },
+  "finding": "JOB_CANCELLED export was displayed as retryable failed preparation; explicit cancelled state was absent.",
+  "prior_three_red_cases_unchanged": true,
+  "added_controls": [
+    "same-version frozen content",
+    "terminal cancellation without retry"
+  ],
+  "hosting_deferred": true
+}

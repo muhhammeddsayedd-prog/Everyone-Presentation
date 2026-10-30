@@ -1,0 +1,292 @@
+{
+  "run_id": "64ad65ae-22ed-4ce7-a70d-6987a73e464f",
+  "started_at": "2026-10-30T00:12:14.303Z",
+  "result": "passed",
+  "scope": "Owned isolated local24, candidate DDL and synthetic transactions rolled back; no hosted config, cloud, provider or real media.",
+  "cloud_called": false,
+  "provider_called": false,
+  "hosted_credentials_loaded": false,
+  "source_seals": {
+    "development/m06/schema.sql": "22911aec1dcf055d4ec06ba98cf97fb9de00ab73602a3fdcb9d40c718f575bca",
+    "development/m06/links.sql": "986a2c17c7fa557c339551fa5e0bdce9465580d141b707f40940820e540dc736",
+    "development/m06/feedback.sql": "b97f1d741bc9b6737eb4b68f98a858afa991ddbca13eb4e117609edae48862c9",
+    "development/m06/exports.sql": "6191b131850df50df1cb8fa603fe53e4478713723d67d3f9b2ea7ae64aa11469",
+    "development/m06/gateway.sql": "ecb92640a50b28346fe54dde237596c2dc60b3499eceb82e8d30f448a04a91e8",
+    "development/m06/finalize.sql": "f6d831ccb0d13fcdd99c65a20321115a5956057b0ae06b84732cfbecb77458f1"
+  },
+  "before": {
+    "catalog": "a98124a26d08d447a89ed50ffd81d0e67bfebc672677ae3acaf8fe1aaa6e2fff",
+    "history": [
+      {
+        "name": "m01_canonical_foundation",
+        "version": "20261028010943",
+        "statements": []
+      },
+      {
+        "name": "m01_identity_role_inheritance",
+        "version": "20261028013324",
+        "statements": []
+      },
+      {
+        "name": "m01_workspace_scope_alias",
+        "version": "20261028013655",
+        "statements": []
+      },
+      {
+        "name": "m01_private_logo_boundary",
+        "version": "20261028024205",
+        "statements": []
+      },
+      {
+        "name": "m01_logo_upload_capability",
+        "version": "20261028072515",
+        "statements": []
+      },
+      {
+        "name": "m01_replay_scope_refresh",
+        "version": "20261028162702",
+        "statements": []
+      },
+      {
+        "name": "m02_jobs_outbox",
+        "version": "20261028162800",
+        "statements": []
+      },
+      {
+        "name": "m02_manual_specs_draft",
+        "version": "20261028172320",
+        "statements": []
+      },
+      {
+        "name": "m02_role_order",
+        "version": "20261028184145",
+        "statements": []
+      },
+      {
+        "name": "m02_specs_pipeline",
+        "version": "20261028222030",
+        "statements": []
+      },
+      {
+        "name": "m02_specs_assets",
+        "version": "20261029001520",
+        "statements": []
+      },
+      {
+        "name": "m02_specs_mime_guard",
+        "version": "20261029003941",
+        "statements": []
+      },
+      {
+        "name": "m02_specs_read_operation",
+        "version": "20261029070038",
+        "statements": []
+      },
+      {
+        "name": "m02_service_claim_replay",
+        "version": "20261029090500",
+        "statements": []
+      },
+      {
+        "name": "m03_candidate_library",
+        "version": "20261029090724",
+        "statements": []
+      },
+      {
+        "name": "m02_pdf_vision",
+        "version": "20261029094600",
+        "statements": []
+      },
+      {
+        "name": "m03_candidate_pipeline",
+        "version": "20261029100500",
+        "statements": []
+      },
+      {
+        "name": "m03_remaining_media_library",
+        "version": "20261029133455",
+        "statements": []
+      },
+      {
+        "name": "m03_frame_request_resubmission",
+        "version": "20261029135318",
+        "statements": []
+      },
+      {
+        "name": "m04_casting_assignments_lifecycle",
+        "version": "20261029174841",
+        "statements": []
+      },
+      {
+        "name": "m03_frame_vision_selection",
+        "version": "20261029180953",
+        "statements": []
+      },
+      {
+        "name": "m04_review_series_processing",
+        "version": "20261029202629",
+        "statements": []
+      },
+      {
+        "name": "m04_ai_apply_source_guard",
+        "version": "20261029203953",
+        "statements": []
+      },
+      {
+        "name": "m05_immutable_presentation_versions",
+        "version": "20261029215218",
+        "statements": []
+      }
+    ],
+    "business": "d0a76d66d3421e0c28bb37dbc8eff386dbe4652662fcf1898ee0da1b029b3e3e"
+  },
+  "fixture_seals": {
+    "tests/db/m04-assignments-fixture.sql": "cb5f418fee0dc3a9b00a9ddeaa3971f5df1c3384c459905baa19b4e04f1d9cb4",
+    "tests/db/m05-versions-fixture.sql": "da13283bc15481fc1bb76b9d36a3360c3a30d7b6cc06b7c0a979e25e086c636d",
+    "tests/db/m05-versions.sql": "e1cb9867d36c174b3517924299bb4b600c38569b2a805334f0fb2c385930e670",
+    "tests/db/m05-processing.sql": "814aca9c60ad7d679bcee020d3e305bd89e25b5919fbdfc11941a3f634da9ada"
+  },
+  "fixture_adaptation": "Retained M05 synthetic fixture is composed in-memory with one exact preset key/label/scope replacement to external; original file untouched. Auth RLS enabled only inside outer rollback.",
+  "proof_sha256": "f7c7c25e96a8aac19a76e83b3469187c4da6db10ea5d113461e0ed582dbfda0c",
+  "stdout_sha256": "8aba502804f5c50b4aaa4b4a9ccc41a286fff676e85bed0cf4e6a23b019d0f5a",
+  "markers": [
+    "M06_INTERNAL_DEFAULT30DAY_ENCRYPTED_REPLAY_MISMATCH_AND_LINK_SCOPE_PASSED",
+    "M06_ANON_REAL_ROLE_HMAC_NONCE_REPLAY_NO_SIGNIN_SAFE_LATEST_AND_SCOPE_PASSED",
+    "M06_SHARED_EXTERNAL_FEEDBACK_SAME_NAME_OWNERSHIP_REPLAY_AND_INDEPENDENT_PREFERENCES_PASSED",
+    "M06_INTERNAL_NOTE_FILTER_MODERATION_AND_FIXED_OLD_VERSION_PASSED",
+    "M06_EXPIRY_EXTENSION_NON_REVOKED_ONLY_DOWNLOAD_DISABLE_VIEW_AND_PREPARE_DENIAL_PASSED",
+    "M06_ROTATION_REVOKE_OLD_TOKEN_SESSION_GRANTS_AND_CASTING_PRESERVATION_PASSED"
+  ],
+  "behavior_passed": true,
+  "compile_passed": true,
+  "backend_settled": true,
+  "after": {
+    "catalog": "a98124a26d08d447a89ed50ffd81d0e67bfebc672677ae3acaf8fe1aaa6e2fff",
+    "history": [
+      {
+        "name": "m01_canonical_foundation",
+        "version": "20261028010943",
+        "statements": []
+      },
+      {
+        "name": "m01_identity_role_inheritance",
+        "version": "20261028013324",
+        "statements": []
+      },
+      {
+        "name": "m01_workspace_scope_alias",
+        "version": "20261028013655",
+        "statements": []
+      },
+      {
+        "name": "m01_private_logo_boundary",
+        "version": "20261028024205",
+        "statements": []
+      },
+      {
+        "name": "m01_logo_upload_capability",
+        "version": "20261028072515",
+        "statements": []
+      },
+      {
+        "name": "m01_replay_scope_refresh",
+        "version": "20261028162702",
+        "statements": []
+      },
+      {
+        "name": "m02_jobs_outbox",
+        "version": "20261028162800",
+        "statements": []
+      },
+      {
+        "name": "m02_manual_specs_draft",
+        "version": "20261028172320",
+        "statements": []
+      },
+      {
+        "name": "m02_role_order",
+        "version": "20261028184145",
+        "statements": []
+      },
+      {
+        "name": "m02_specs_pipeline",
+        "version": "20261028222030",
+        "statements": []
+      },
+      {
+        "name": "m02_specs_assets",
+        "version": "20261029001520",
+        "statements": []
+      },
+      {
+        "name": "m02_specs_mime_guard",
+        "version": "20261029003941",
+        "statements": []
+      },
+      {
+        "name": "m02_specs_read_operation",
+        "version": "20261029070038",
+        "statements": []
+      },
+      {
+        "name": "m02_service_claim_replay",
+        "version": "20261029090500",
+        "statements": []
+      },
+      {
+        "name": "m03_candidate_library",
+        "version": "20261029090724",
+        "statements": []
+      },
+      {
+        "name": "m02_pdf_vision",
+        "version": "20261029094600",
+        "statements": []
+      },
+      {
+        "name": "m03_candidate_pipeline",
+        "version": "20261029100500",
+        "statements": []
+      },
+      {
+        "name": "m03_remaining_media_library",
+        "version": "20261029133455",
+        "statements": []
+      },
+      {
+        "name": "m03_frame_request_resubmission",
+        "version": "20261029135318",
+        "statements": []
+      },
+      {
+        "name": "m04_casting_assignments_lifecycle",
+        "version": "20261029174841",
+        "statements": []
+      },
+      {
+        "name": "m03_frame_vision_selection",
+        "version": "20261029180953",
+        "statements": []
+      },
+      {
+        "name": "m04_review_series_processing",
+        "version": "20261029202629",
+        "statements": []
+      },
+      {
+        "name": "m04_ai_apply_source_guard",
+        "version": "20261029203953",
+        "statements": []
+      },
+      {
+        "name": "m05_immutable_presentation_versions",
+        "version": "20261029215218",
+        "statements": []
+      }
+    ],
+    "business": "d0a76d66d3421e0c28bb37dbc8eff386dbe4652662fcf1898ee0da1b029b3e3e"
+  },
+  "rollback_verified": true,
+  "sources_stable": true,
+  "finished_at": "2026-10-30T00:12:29.019Z"
+}

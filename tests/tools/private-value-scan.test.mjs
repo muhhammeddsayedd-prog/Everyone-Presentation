@@ -16,16 +16,23 @@ const jobBearer='synthetic-job-bearer-private-Nn4Oo5Pp6';const claimKey='c9385ab
 const reviewSecret='synthetic-review-dispatch-private-Tt8Uu9Vv0';
 const presentationSecret='synthetic-presentation-dispatch-private-Ww9Xx0Yy1';
 const supportKey='7e43a1fbd29405c8e610b2fc38da915067ab4c9238e1f0bda249c3de16a58f07';
+const guestGatewayKey=createHash('sha256').update('synthetic-m06-guest-gateway-private').digest('hex');
+const guestReplayKey=createHash('sha256').update('synthetic-m06-guest-replay-private').digest('hex');
 const material = { worker: Buffer.from(`OPENAI_API_KEY=${openai}\nN8N_API_KEY=${n8n}\n`),
   runtime: Buffer.from(`EPS_SPECS_PG_PASSWORD=${password}\nN8N_DISPATCH_SECRET=${dispatch}\n`),
   logo: Buffer.from(JSON.stringify({ LOGO_VERIFICATION_KEY_ID: 'eps-logo-dev-20261028-v1', LOGO_VERIFICATION_KEY_BASE64URL: logo.toString('base64url') }) + '\n'),
   specs: Buffer.from(JSON.stringify({ SPECS_VERIFICATION_KEY_ID: 'eps-specs-dev-20261029-v1', SPECS_VERIFICATION_KEY_BASE64URL: specs.toString('base64url') }) + '\n'),
-  jobService:Buffer.from(`EPS_JOB_SERVICE_BEARER=${jobBearer}\nEPS_JOB_CLAIM_KEY_HEX=${claimKey}\n`),candidate:Buffer.from(`N8N_CANDIDATE_DISPATCH_SECRET=${candidateSecret}\n`),support:Buffer.from(`EPS_SUPPORT_VERIFIER_KEY_HEX=${supportKey}\n`),review:Buffer.from(`N8N_REVIEW_DISPATCH_SECRET=${reviewSecret}\n`),presentation:Buffer.from(`N8N_PRESENTATION_DISPATCH_SECRET=${presentationSecret}\n`) };
+  jobService:Buffer.from(`EPS_JOB_SERVICE_BEARER=${jobBearer}\nEPS_JOB_CLAIM_KEY_HEX=${claimKey}\n`),candidate:Buffer.from(`N8N_CANDIDATE_DISPATCH_SECRET=${candidateSecret}\n`),support:Buffer.from(`EPS_SUPPORT_VERIFIER_KEY_HEX=${supportKey}\n`),review:Buffer.from(`N8N_REVIEW_DISPATCH_SECRET=${reviewSecret}\n`),presentation:Buffer.from(`N8N_PRESENTATION_DISPATCH_SECRET=${presentationSecret}\n`),guest:Buffer.from(`EPS_REVIEW_GATEWAY_KEY=${guestGatewayKey}\nEPS_REVIEW_REPLAY_KEY=${guestReplayKey}\n`) };
 const patterns = privatePatterns(material);
 const sha = value => createHash('sha256').update(value).digest('hex');
 const MiB = 1024 * 1024;
 const oid = index => index.toString(16).padStart(40, '0');
 const metadata = entries => Buffer.from(entries.map(value => `${value.object} blob ${value.bytes}\n`).join(''));
+
+test('guest gateway and replay keys are covered as text, raw bytes and encoded artifacts',()=>{
+ const expanded=privatePatterns({...material,guest:Buffer.from(`EPS_REVIEW_GATEWAY_KEY=${guestGatewayKey}\nEPS_REVIEW_REPLAY_KEY=${guestReplayKey}\n`)});
+ for(const value of [guestGatewayKey,guestReplayKey])for(const bytes of [Buffer.from(value),Buffer.from(value,'hex'),Buffer.from(Buffer.from(value,'hex').toString('base64')),Buffer.from(value,'utf16le')])assert.equal(containsPrivateValue(bytes,expanded),true);
+});
 
 test('resource budgets fit retained 704MB while preserving entry/count/manifest and compressed ZIP bounds without allocating those payloads', () => {
   assert.equal(Object.isFrozen(scanner.privateScanLimits), true);
@@ -159,7 +166,7 @@ test('actual parsed values and binary keys are found in raw, hex, base64, base64
 });
 
 test('a rotated private input after pattern capture blocks a clean result without exposing old/new values', () => {
-  const before = [0, 1, 2, 3,4,5,6,7,8].map(index => ({ dev: 1n, ino: BigInt(index), size: 100n, mtimeNs: 2n, ctimeNs: 3n }));
+  const before = [0, 1, 2, 3,4,5,6,7,8,9].map(index => ({ dev: 1n, ino: BigInt(index), size: 100n, mtimeNs: 2n, ctimeNs: 3n }));
   requirePrivateSnapshot(before, before.map(value => ({ ...value })));
   const after = before.map(value => ({ ...value })); after[2].mtimeNs++;
   assert.throws(() => requirePrivateSnapshot(before, after), error => error instanceof PrivateScanError && error.code === 'PRIVATE_SCAN_CONFIGURATION_CHANGED');
@@ -168,7 +175,7 @@ test('a rotated private input after pattern capture blocks a clean result withou
 test('missing/duplicate/partial configuration fails closed instead of reporting an incomplete clean scan', () => {
   for (const changed of [{ worker: Buffer.from('OPENAI_API_KEY=\nN8N_API_KEY=\n') },
     { worker: Buffer.concat([material.worker, Buffer.from(`OPENAI_API_KEY=${openai}\n`)]) }, { runtime: Buffer.from('EPS_SPECS_PG_PASSWORD=only\n') },
-    { specs: Buffer.from('{}\n') }, { logo: Buffer.from(material.logo.toString().replace('"}', '","extra":true}')) },{jobService:Buffer.from('EPS_JOB_SERVICE_BEARER=only\n')},{candidate:Buffer.from('N8N_CANDIDATE_DISPATCH_SECRET=\n')},{review:Buffer.from('N8N_REVIEW_DISPATCH_SECRET=\n')},{presentation:Buffer.from('N8N_PRESENTATION_DISPATCH_SECRET=\n')}]) {
+    { specs: Buffer.from('{}\n') }, { logo: Buffer.from(material.logo.toString().replace('"}', '","extra":true}')) },{jobService:Buffer.from('EPS_JOB_SERVICE_BEARER=only\n')},{candidate:Buffer.from('N8N_CANDIDATE_DISPATCH_SECRET=\n')},{review:Buffer.from('N8N_REVIEW_DISPATCH_SECRET=\n')},{presentation:Buffer.from('N8N_PRESENTATION_DISPATCH_SECRET=\n')},{guest:Buffer.from('EPS_REVIEW_GATEWAY_KEY=\n')},{guest:Buffer.from(`EPS_REVIEW_GATEWAY_KEY=${guestGatewayKey}\nEPS_REVIEW_REPLAY_KEY=${guestGatewayKey}\n`)}]) {
     assert.throws(() => privatePatterns({ ...material, ...changed }), error => error instanceof PrivateScanError && !String(error).includes(openai));
   }
   assert.equal(containsPrivateValue(Buffer.from(openai), privatePatterns({ ...material,

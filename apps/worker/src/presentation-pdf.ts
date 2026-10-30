@@ -27,11 +27,26 @@ export interface PresentationValidationProof {
   image_draws_checked: number; video_links_checked: number; embedded_font_count: number; validated_at: string;
 }
 export interface PresentationPdfOptions { signal?: AbortSignal; timeoutMs?: number }
+/** Secret-bearing response from the export grant port. Never serialize this
+ * access object into a snapshot, job, outbox, diagnostic or callback. */
+export interface PresentationExportMediaAccess { version_id: string; grant_token: string }
 interface ExpectedPage { regions: { field: string; text: string; source_text: string; direction: string; lines: { start: number; end: number; top: number }[]; rect: number[] }[]; images: { width: number; height: number; rect: number[] }[]; links: string[] }
 
 /** No temporary object URL or guest token is allowed into canonical PDF bytes. */
 export function presentationVideoHref(snapshot: RenderSnapshot, assetId: string): string {
   return `${snapshot.render_configuration.application_origin}/presentations/versions/${encodeURIComponent(snapshot.version_id)}/media/${encodeURIComponent(assetId)}`;
+}
+function checkedExportAccess(snapshot: RenderSnapshot, access: PresentationExportMediaAccess) {
+  if (!access || typeof access !== 'object' || Array.isArray(access) || Object.keys(access).length !== 2
+    || !Object.hasOwn(access, 'version_id') || !Object.hasOwn(access, 'grant_token') || access.version_id !== snapshot.version_id
+    || typeof access.grant_token !== 'string' || !/^[A-Za-z0-9_-]{43}$/u.test(access.grant_token)) fail('PDF_ASSET_INVALID');
+  return access;
+}
+export function presentationExportVideoHref(snapshot: RenderSnapshot, assetId: string, access: PresentationExportMediaAccess): string {
+  checkedExportAccess(snapshot, access);
+  if (!snapshot.asset_inventory.some(asset => asset.asset_id === assetId && asset.asset_kind === 'candidate_video')
+    || !snapshot.slides.some(slide => slide.video_asset_id === assetId)) fail('PDF_ASSET_INVALID');
+  return `${snapshot.render_configuration.application_origin}/m/${access.grant_token}/versions/${snapshot.version_id}/media/${assetId}`;
 }
 function checkedSnapshot(supplied: RenderSnapshot, signal?: AbortSignal): RenderSnapshot {
   if (signal?.aborted) fail('PDF_ABORTED');
@@ -62,11 +77,12 @@ export async function preparePresentationAssets(supplied: RenderSnapshot, images
   imageSources(snapshot, images); return pinned;
 }
 async function documentOperation<T>(snapshot: RenderSnapshot, images: ReadonlyMap<string, Uint8Array>, options: PresentationPdfOptions,
-  operation: (page: import('playwright').Page, expected: ExpectedPage[], proof: PresentationRenderProof) => Promise<T>): Promise<T> {
+  operation: (page: import('playwright').Page, expected: ExpectedPage[], proof: PresentationRenderProof) => Promise<T>, exportAccess?: PresentationExportMediaAccess): Promise<T> {
   const timeout = options.timeoutMs ?? 90000; if (!Number.isSafeInteger(timeout) || timeout < 100 || timeout > 120000) fail('PDF_BUDGET_EXCEEDED');
   const pinned = await preparePresentationAssets(snapshot, images, options); const sources = imageSources(snapshot, images);
   const review = reviewFromRenderSnapshot(snapshot);
-  const videoHrefs = Object.fromEntries(snapshot.asset_inventory.filter(asset => asset.asset_kind === 'candidate_video').map(asset => [asset.asset_id, presentationVideoHref(snapshot, asset.asset_id)]));
+  if (exportAccess && (exportAccess.version_id !== snapshot.version_id || Object.keys(exportAccess).length !== 2 || !/^[A-Za-z0-9_-]{43}$/u.test(exportAccess.grant_token))) fail('PDF_ASSET_INVALID');
+  const videoHrefs = Object.fromEntries(snapshot.asset_inventory.filter(asset => asset.asset_kind === 'candidate_video').map(asset => [asset.asset_id, exportAccess ? presentationExportVideoHref(snapshot, asset.asset_id, exportAccess) : presentationVideoHref(snapshot, asset.asset_id)]));
   const controller = new AbortController(); const signal = options.signal ? AbortSignal.any([options.signal, controller.signal]) : controller.signal;
   let browser: Browser | undefined; let abort!: () => void;
   const stopped = new Promise<never>((_resolve, reject) => { abort = () => { void browser?.close().catch(() => undefined); reject(new PresentationPdfError(options.signal?.aborted ? 'PDF_ABORTED' : 'PDF_RENDER_FAILED')); }; signal.addEventListener('abort', abort, { once: true }); if (signal.aborted) abort(); });
@@ -137,11 +153,18 @@ async function documentOperation<T>(snapshot: RenderSnapshot, images: ReadonlyMa
 }
 export async function renderPresentationPdf(supplied: RenderSnapshot, images: ReadonlyMap<string, Uint8Array>, options: PresentationPdfOptions = {}) {
   const snapshot = checkedSnapshot(supplied, options.signal);
+  return renderDocumentPdf(snapshot, images, options);
+}
+async function renderDocumentPdf(snapshot: RenderSnapshot, images: ReadonlyMap<string, Uint8Array>, options: PresentationPdfOptions, exportAccess?: PresentationExportMediaAccess) {
   return documentOperation(snapshot, images, options, async (page, _expected, proof) => {
     const bytes = await page.pdf({ preferCSSPageSize: true, printBackground: true, tagged: true, scale: 1, displayHeaderFooter: false, margin: { top: 0, right: 0, bottom: 0, left: 0 } });
     if (options.signal?.aborted) fail('PDF_ABORTED'); if (!bytes.length || bytes.length > PRESENTATION_PDF_LIMITS.pdfBytes || bytes.subarray(0, 5).toString() !== '%PDF-') fail('PDF_BUDGET_EXCEEDED');
     return { bytes: new Uint8Array(bytes), proof };
-  });
+  }, exportAccess);
+}
+export async function renderPresentationExportPdf(supplied: RenderSnapshot, images: ReadonlyMap<string, Uint8Array>, access: PresentationExportMediaAccess, options: PresentationPdfOptions = {}) {
+  const snapshot = checkedSnapshot(supplied, options.signal);
+  return renderDocumentPdf(snapshot, images, options, checkedExportAccess(snapshot, access));
 }
 async function inspect(bytes: Uint8Array, expected: ExpectedPage[], signal?: AbortSignal): Promise<PresentationValidationProof> {
   const source = fileURLToPath(new URL('./', import.meta.url)); const dependencies = fileURLToPath(new URL('../../../node_modules/', import.meta.url));
@@ -163,5 +186,12 @@ export async function validatePresentationPdf(supplied: RenderSnapshot, images: 
   const snapshot = checkedSnapshot(supplied, options.signal);
   if (!(bytes instanceof Uint8Array) || bytes.length < 100 || bytes.length > PRESENTATION_PDF_LIMITS.pdfBytes || Buffer.from(bytes.subarray(0, 5)).toString() !== '%PDF-') fail('PDF_VALIDATION_FAILED');
   const expected = await documentOperation(snapshot, images, options, async (_page, pages) => pages);
+  return inspect(bytes, expected, options.signal);
+}
+export async function validatePresentationExportPdf(supplied: RenderSnapshot, images: ReadonlyMap<string, Uint8Array>, bytes: Uint8Array, access: PresentationExportMediaAccess, options: PresentationPdfOptions = {}): Promise<PresentationValidationProof> {
+  const snapshot = checkedSnapshot(supplied, options.signal);
+  checkedExportAccess(snapshot, access);
+  if (!(bytes instanceof Uint8Array) || bytes.length < 100 || bytes.length > PRESENTATION_PDF_LIMITS.pdfBytes || Buffer.from(bytes.subarray(0, 5)).toString() !== '%PDF-') fail('PDF_VALIDATION_FAILED');
+  const expected = await documentOperation(snapshot, images, options, async (_page, pages) => pages, access);
   return inspect(bytes, expected, options.signal);
 }

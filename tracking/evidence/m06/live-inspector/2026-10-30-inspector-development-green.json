@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-30T01:10:51.840051+00:00",
+  "result": "passed",
+  "scope": "NEW offline downloaded guest PDF inspector development proof; synthetic native PDF and actual Windows protected output tests, no canonical/cloud/browser-auth/media-provider calls",
+  "source_sha256": {
+    "tools/inspect-m06-live-pdf.mts": "52c032f60081804b624142af3d8e56464c623dff532041082a7b71f49bbfee56",
+    "tools/m06-live-geometry.mts": "5c33c5d7ac579cf165ff145c0973c9b6619d48258785b8c74d4b1e651ab72898",
+    "tools/m06-live-private-file.py": "6cd56571109f2791f1c511314c4e5ab88a845196982b537969a00bbdf10ce114",
+    "tests/operations/m06-live-artifact-intent.test.ts": "8f5b9ae1465b9355e794c359b162f469d773e5d65c2d901db0295dc0c2beabce",
+    "tests/operations/m06-live-private-output.test.ts": "110ece5039a66faa1eea65bbd038f0b8c5cd835167dd37a65f8921f173c13967",
+    "tests/worker/m06-live-geometry.test.ts": "45c11c2e177d9593f8244c9e8a39fa76a6b4430916cbc96bd289eb567ef95a33"
+  },
+  "tests": {
+    "command": "node tools/run-tests.mjs tests/operations/m06-live-artifact-intent.test.ts tests/operations/m06-live-private-output.test.ts tests/worker/m06-live-geometry.test.ts",
+    "passed": 6,
+    "failed": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "tool_chunk_id": "7c6c2c"
+  },
+  "lint": {
+    "result": "passed",
+    "tool_chunk_id": "fc1a0a"
+  },
+  "typecheck": {
+    "result": "passed",
+    "tool_chunk_id": "9c24b8"
+  },
+  "red_receipt": "tracking/evidence/m06/live-inspector/2026-10-30-inspector-boundary-red.json",
+  "checks": [
+    "Closed bounded intent paths, UUIDs and hashes; no token inputs",
+    "One memory-only opaque grant binds every exact frozen page video; rejects canonical/foreign origin/version/media/mixed grants/query/extra links",
+    "Actual OwnerSYSTEM PNG output/readback and overwrite/escape/invalid PNG denial",
+    "Actual synthetic guest PDF text/font/image geometry validation without image bodies; canonical PDF/wrong grant/changed saved fact rejected",
+    "Closed error messages cannot include untrusted private values"
+  ],
+  "startup23_unchanged": true,
+  "startup_proof": "tracking/evidence/m06/guest-export-runtime/2026-10-30T01-00-15-930Z-3d05fbfa.json",
+  "original_m05_helpers_unchanged": true,
+  "original_m05_proof": "tracking/evidence/m05/live-artifacts/2026-10-29T22-47-00.640Z.json",
+  "original_m05_helper_sha256": {
+    "tools/inspect-m05-live-pdf.mts": "861eb3e76b85a7da2aba4a73a10a1e7fe4a334c743f34f501b63b0a8425bb59f",
+    "tools/m05-live-geometry.mts": "806675e7fc27cbf6014880bf1c9deb37d455610160b2c632be83a052f5d34360",
+    "tools/m05-live-private-file.py": "22eca63012749e47617497df5483bbd0cb915a42b7490900f696f1e4eae347f1"
+  },
+  "cloud_or_provider_called": false,
+  "real_private_artifact_inspection_performed": false,
+  "private_facts_or_grant_urls_published": false,
+  "hosting_deferred": true,
+  "limits": [
+    "Actual root-supplied downloads/snapshots are not yet inspected by this development proof.",
+    "Missing source image bodies remain explicitly unverified; independent embedded pixel identity is not claimed.",
+    "Root independently reviews every rendered private page and opens the old PDF video URL through the app."
+  ]
+}

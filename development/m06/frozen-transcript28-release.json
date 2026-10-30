@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "frozen_at": "2026-10-30T03:07:17.156Z",
+  "version": "20261030030717",
+  "migration_path": "supabase/migrations/20261030030717_m06_frozen_video_source_transcripts.sql",
+  "migration_sha256": "6334ea62a49966963e675c61e6a73d2acb5981d35f261cf2dff519d097905178",
+  "migration_bytes": 14303,
+  "baseline": "development/m06/baseline27-reviewed.json",
+  "baseline_sha256": "07daca7c24ebbc774c5c7453cab5c2d2f63292b52533cae8b9e1a809c1b0bd78",
+  "fragments": {
+    "development/m06/transcript-companion-forward.sql": "ef37634afb3c540dc9a846f44e21428e493fa76e5a5eeec0a88c16811f7cb5ff"
+  },
+  "release_proof": "tracking/evidence/m06/transcript28-release-local/2026-10-30T03-04-42-477Z-e9e0b59b.json",
+  "release_proof_sha256": "6c7bad1214506b0041aeeaeda60d142e9745bd0960ff569a184d4301e2c6486f",
+  "behavior_proof": "tracking/evidence/m06/transcript28-local/2026-10-30T03-04-24-606Z-d22399ca.json",
+  "behavior_proof_sha256": "ac0cedff304026539a5a07146b4b528f7bdfcdffba58aea065a726e986e5c294",
+  "bootstrap_proof_scope": "No new bootstrap or key access: new frozen-source table and three guarded Generate/playback ports only; current key metadata is preserved.",
+  "readback_query": "tools/sql/m06-transcript28-readback.sql",
+  "readback_sha256": "48e1abf7300770c25ed5de1f1f70dbc52391d448936a850fb2cf7b49b3775675",
+  "catalog_delta": "development/m06/transcript28-release-delta.json",
+  "catalog_delta_sha256": "f05600901d9417c361f3354be3bd39eb80b739ec8b45c316d50e7afac5167d22",
+  "scope": "Exact additive28 technical review/local promotion only; root independently reviews canonical release. Existing data, configuration, key presence and all prior versions preserved. No cloud, production or hosting claim."
+}

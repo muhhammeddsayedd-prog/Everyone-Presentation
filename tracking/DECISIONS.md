@@ -181,3 +181,35 @@ Retained source evidence exceeds the former512MiB scanner aggregate limit. Keep 
 - Canonical24 committed once. The original exact readback failures are retained: five additional managed defaults on the NEW bucket required a separate read-only, exact-column reconciliation. Only a comparison copy is normalized; all other expected state remains exact. No migration retry or altered historical seal was used.
 - The completed activation's sealed original test is archived before a later fixture-only history isolation fix. Old helper/config/claim are not resealed; historical current_inputs denies changed test source. Current app observers establish later state. Keep this binding distinction visible in future handoffs.
 - Three actual Ready downloads and all18 PDF pages are checked, with V1 exact metadata/bytes preserved after V2. Native fidelity does not establish facts. Broader M03 semantic evaluation, independent source-image pixel comparisons, guest/OAuth/restore, clean production console, endurance and hosting remain explicitly separate.
+
+
+## 2026-10-30 - M06 guest delivery and composed private Storage
+
+- Guest access uses high-entropy bearer exchange, separate self-declared session identity, HttpOnly cookies and current parent checks. Permanent rows store digests. Backend HMAC binds creation/rotation credential admission; encrypted24-hour replay supports exact idempotency without permanent plaintext. No guest receives business credentials.
+- Guest exports bind `(version, review_link, template, export_revision)` to the existing frozen snapshot. The twelfth narrow worker operation mints a fixed-version media grant; raw grant stays in memory/the private PDF, not job/outbox/log fields. Failed export retry keeps the frozen version and replaces invalid attempt grants; cancellation remains terminal.
+- Additive27 preserves and composes existing restrictive Storage predicates with narrow guest GET/info scope, and adds an acyclic manager-export metadata policy. Actual pre27 NoSuchKey delivery failures are retained; no speculative transport/header fix was applied. Releases25/26/27 and independent preservation readbacks are separate evidence.
+- Download-disable stops new preparation/download, while valid previously saved PDF videos keep view access. Actual expiry/extension/revocation/rotation checks now demonstrate these distinctions. A download-only edit omits unchanged expiry to preserve seconds/microseconds. An explicit expiry edit uses the user's entered local time.
+- Lifecycle confirmation is in-page with explicit Cancel/Confirm and focus return, preserving rowversion/idempotency/unknown-write fences. Browser transfer checks status, PDF type/signature and size before saving, and shows safe retry errors instead of saving a JSON error body.
+- The n8n mapper auto-publication and lexer-boundary failure are retained; one narrow repair of the existing WF03 passed actual authenticated probes and real exports. No unrelated workflow, credential or hosting choice changed.
+- Browser file:// policy rejection was respected. Owner manually opened the actual downloaded PDF link; its resulting ordinary HTTP page and original video were then verified. No indirect file serving or extracted-grant navigation was used as a workaround.
+- Actual390px guest video/navigation/comment/download is scoped browser evidence. Physical phone-keyboard and manual assistive-technology acceptance remain explicit (AT-054/AT-072); broader M03 labelled semantic evaluation and M07 release/restore/external OAuth remain open. Hosting stays deferred.
+
+
+## 2026-10-30 - Source transcript accessibility follow-up (implementation in progress)
+
+- Source transcripts belong alongside original-video playback as an on-demand accessibility companion, outside the ten-field candidate slide and PDF composition. This reconciles template62 with110; it does not add a presentation module, factual review, caption claim, source editing or an extra approval workflow. Existing generation publishes its selected spoken introduction plus the companion.
+- Future versions must freeze exact original-language source text/known language for the selected original video under version+asset identity. Existing Ready snapshots/PDFs must not acquire current mutable library text through backfill. Guest and PDF-grant reads retain the same current parent/version/asset access checks; internal notes/diagnostics never enter the companion. Implementation/migration/readback and app proof are pending.
+
+
+## 2026-10-30 - Owner mobile-testing override
+
+The owner explicitly instructed: "We can skip the mobile testing." Further mobile/physical-phone keyboard testing is therefore skipped. Retain the actual390px browser layout, keyboard video playback, role navigation, synthetic comment and saved-byte PDF checks as their original scoped evidence; do not convert them into physical-device acceptance. This instruction does not waive AT-072 manual assistive-technology acceptance or change the hosting deferral.
+
+
+## 2026-10-30 - Frozen transcript companion implemented and verified in the app
+
+The design above is now implemented by additive28, one guarded apply0794757f and independent readbackf6675f04. Future generation freezes original text/known language under exact retained version/video identity after the existing transcript-hash guard and selected-source lock. The companion is outside renderer snapshots, ten-field candidate slides and PDFs. Source language arrays are captured atomically; no additional pre-review fingerprint claim is made for them. Old Ready versions are not backfilled.
+
+Existing internal/session/PDF-grant video operations return the optional closed companion after current authority checks; no new routes, MCP tools, runtime privileges, caption claim or Producer approval workflow. The text is escaped, original-language and keyboard-revealed. Actual V5 anonymous/internal identities match159codepoints/271UTF8bytes, and actual post28 V4 remains playable/not_captured. An operational private-export helper now uses the agreed ECMAScript whitespace set, preserving valid C1 instead of Python's broader strip; the original application gate and exact two-file correction remain separate evidence.
+
+C was rotated for a fresh QA browser session without changing recipients, permissions or the exact2026-11-29T01:29:33.666060Z expiry. Earlier C PDFs remain saved but their old-generation viewing grants are invalidated as designed. The new V5 export is Ready; native file save is pending owner response. Four earlier actual saved files and18 independent page inspections are unchanged evidence. No clean-production-console, manual screen-reader or new hosting acceptance is inferred.

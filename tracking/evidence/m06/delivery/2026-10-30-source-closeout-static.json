@@ -1,0 +1,24 @@
+{
+  "observed_at": "2026-10-30T04:03:38.691075+00:00",
+  "result": "passed",
+  "scope": "Current source documentation/context static pack validation and final normal viewport screenshot; no hosted/manual AT or latest native-save acceptance inferred",
+  "pack": {
+    "command": ".venv-skills/Scripts/python.exe -X utf8 tools/validate_pack.py --strict --report",
+    "exit_code": 0,
+    "checks": 357,
+    "errors": 0,
+    "report": "PACK_VALIDATION.md",
+    "report_sha256": "ab5daff3391a748caae99c3e016e9e84216d70fc701f20f47ae3b6b015af87f9"
+  },
+  "screenshot": {
+    "path": ".local/m06-live/screenshots/2026-10-30-sharing-v5-full.jpg",
+    "bytes": 178367,
+    "sha256": "77a61dd3a09f1c771c9d530532433d545d6dec165e8e8765a72ed963e55c70aa",
+    "viewport": "normal browser; no responsive override",
+    "raw_review_url_visible": false,
+    "console_clean_acceptance": false
+  },
+  "manual_phone_testing": "waived by owner",
+  "AT_072": "unverified",
+  "latest_v5_pdf_native_save": "pending"
+}

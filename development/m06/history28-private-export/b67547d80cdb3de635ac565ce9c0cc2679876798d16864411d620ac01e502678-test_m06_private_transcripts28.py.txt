@@ -1,0 +1,35 @@
+"""Frozen private companion parser only; no provider/CLI or real source text."""
+import copy
+import hashlib
+import importlib.util
+import io
+from pathlib import Path
+import sys
+import unittest
+from unittest import mock
+ROOT=Path(__file__).resolve().parents[2];sys.path.insert(0,str(ROOT/'tools'))
+spec=importlib.util.spec_from_file_location('m06_private_transcript28_test',ROOT/'tools/export-m06-private-transcripts28.py');m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
+def fixture():
+    text='  نص اصطناعي\nSynthetic source\t\r\n';v={'id':'00000000-0000-4000-8000-000000000002','snapshot_sha256':'b'*64}
+    item={'version_id':v['id'],'asset_id':'00000000-0000-4000-8000-000000000003','status':'available','original_text':text,'languages':[' Arabic ','English','English'],'source_kind':'source_transcript','source_sha256':hashlib.sha256(text.encode()).hexdigest()}
+    metadata=[{'asset_id':item['asset_id'],'status':'available','source_sha256':item['source_sha256'],'text_codepoints':len(text),'language_count':3,'languages_sha256':m.h.sha(m.h.canonical(item['languages']))}]
+    return v,item,metadata
+class PrivateTranscripts28Tests(unittest.TestCase):
+    def test_exact_multilingual_source_and_duplicate_languages_preserved(self):
+        v,item,metadata=fixture();self.assertEqual(m.validate_companions([item],v,metadata)['transcripts'],[item])
+    def test_text_hash_language_hash_scope_and_private_extras_fail_closed(self):
+        v,item,metadata=fixture()
+        for change in({'original_text':'changed'},{'languages':['changed','English','English']},{'version_id':'foreign'},{'asset_id':'foreign'},{'source_kind':'reviewed'},{'internal_note':'PRIVATE'}):
+            with self.assertRaises(ValueError):m.validate_companions([{**item,**change}],v,metadata)
+    def test_absence_is_null_and_no_fabricated_languages(self):
+        v,item,metadata=fixture();item.update(status='not_provided',original_text=None,languages=[],source_sha256=None);metadata[0].update(status='not_provided',source_sha256=None,text_codepoints=0,language_count=0,languages_sha256=m.h.sha(m.h.canonical([])))
+        self.assertEqual(m.validate_companions([item],v,metadata)['transcripts'],[item]);self.assertEqual(m.validate_companions([],v,[])['transcripts'],[])
+        with self.assertRaises(ValueError):m.validate_companions([{**item,'original_text':'fake'}],v,metadata)
+    def test_duplicate_or_extra_companion_rejected(self):
+        v,item,metadata=fixture()
+        with self.assertRaises(ValueError):m.validate_companions([item,item],v,metadata)
+    def test_cli_is_not_called_for_wrong_receipt_and_errors_are_closed(self):
+        with mock.patch.object(m,'call',side_effect=AssertionError('No cloud'))as cli,mock.patch('sys.stdout',new_callable=io.StringIO)as out:
+            self.assertEqual(m.main(['tracking/evidence/m06/app-capture27/old.json','bad']),1);cli.assert_not_called()
+        self.assertNotIn('PRIVATE_SYNTHETIC_PAYLOAD_MARKER',out.getvalue());self.assertNotIn('Traceback',out.getvalue());self.assertIn('M06_PRIVATE_COMPANIONS_UNCONFIRMED',out.getvalue())
+if __name__=='__main__':unittest.main()

@@ -1,0 +1,44 @@
+{
+  "observed_at": "2026-10-30T02:59:19.167517+00:00",
+  "result": "PASS",
+  "scope": "Controlled synthetic local Chromium UI; provided source language accessibility follow-up",
+  "native_exit": 0,
+  "red": {
+    "startTime": "2026-10-30T02:58:48.723Z",
+    "duration": 13339.874,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  },
+  "green": {
+    "startTime": "2026-10-30T02:59:03.831Z",
+    "duration": 15254.669,
+    "expected": 7,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "prior_component_byte_identity_verified_against": "tracking/evidence/m06/controlled-browser/2026-10-30-transcript-ui-green.json",
+  "red_expected_missing_lang_attribute": true,
+  "source_sha256": {
+    "apps/web/components/SourceTranscript.tsx": "9113e8b2b92b1adf36be9f46ba8ef3a59b98bcebe9ca77721eeb83eefa662421",
+    "apps/web/components/GuestReviewView.tsx": "66ce0836e2e282800b686fa6beab870614b9f2beb2862c4a67b77b85bf67d1b4",
+    "apps/web/components/GrantMediaView.tsx": "ab853c0b99bc094035df0ab9278ef48df25e110536ac98c88d1d9d6c04d8c6f0",
+    "apps/web/components/PresentationVersionView.tsx": "1d591b3866bca32eff2527775ac552690f9be0ab0c85d97d3ed2fc666580e9a4",
+    "apps/web/app/globals.css": "4c52b5e62291b7174c458a0319566c7028b2b627af5f0478daa1d963635fe505",
+    "tests/e2e/version-transcript-ui.spec.ts": "d479b40a718478a2a355161c81ff1f7aa4ff78239e5720199e8210bf7ffad10f"
+  },
+  "raw_reports_sha256": {
+    "language-red-results.json": "71ff8a131f5303b1f90d66658b21ec8de9b0c4487b1cf7393da22ab8c89f9ae7",
+    "language-final-green-results.json": "f8f2945eaeaba5e3ba941dab30873826cda9166579a0f632f044a1c2e5810abd"
+  },
+  "earlier_harness_literal_encoding_assertion_and_proposal_green_retained": true,
+  "language_values_preserved_in_dto": true,
+  "known_singleton_name_mapped_to_lang": true,
+  "provided_mixed_language_labels_visible": true,
+  "mixed_run_language_segmentation_inferred": false,
+  "live_cloud_or_decoder_or_manual_screen_reader_claimed": false,
+  "additional_mobile_testing": "owner requested skip",
+  "hosting_deferred": true
+}

@@ -1,0 +1,29 @@
+{
+  "observed_at": "2026-10-30T00:22:29.546Z",
+  "result": "unconfirmed",
+  "action": "update",
+  "phase": "update",
+  "code": "M06_WF03_DRAFT_UNCONFIRMED",
+  "workflow_id": "kE4qSEcugaKhIoJU",
+  "automatic_retry": false,
+  "observations": [
+    {
+      "operation": "workflow_readback",
+      "method": "GET",
+      "http_status": 200,
+      "bytes": 10385
+    },
+    {
+      "operation": "workflow_update",
+      "method": "PUT",
+      "http_status": 200,
+      "bytes": 9855
+    },
+    {
+      "operation": "workflow_readback",
+      "method": "GET",
+      "http_status": 200,
+      "bytes": 10349
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.0",
+  "cloud_apply": {
+    "path": "tracking/evidence/cloud-m06-forward26/2026-10-30T00-50-57-984640Z-4586599d-apply.json",
+    "sha256": "7f503a25182efc0fb21012f211e0e7afdf2302ae5fd67e62f7d7466d3f511d56"
+  },
+  "cloud_readback": {
+    "path": "tracking/evidence/cloud-m06-forward26/2026-10-30T00-52-53-907860Z-83c5768f-readback.json",
+    "sha256": "99d799e9feb395c810de10fa4af795d128d161a7ed629fdd7295dd57b53cdde3"
+  },
+  "bootstrap": {
+    "path": "tracking/evidence/m06/guest-bootstrap26/2026-10-30T00-56-45-821531Z-2a41f391-apply.json",
+    "sha256": "871f8737e18d52b2786fa368f9047aeffe34bb49448989e41b52813f5dbabe79"
+  },
+  "bootstrap_preservation": {
+    "path": "tracking/evidence/m06/guest-bootstrap26/2026-10-30T00-59-14-890286Z-37edbf14-full-after.json",
+    "sha256": "9823a9475e49db99ada785de6a0f04430a12f1ba0f6eea0c9dcef5a96616e108"
+  },
+  "workflow_repair": {
+    "path": "tracking/evidence/m06/n8n-wf03/2026-10-30T00-34-58-982Z-fde4b974-expression-repair.json",
+    "sha256": "505e6669e611543912ffef5daa96a6f537252b2666e1e993a445bd95af2d3386"
+  },
+  "workflow_probe": {
+    "path": "tracking/evidence/m06/n8n-wf03/2026-10-30T00-35-04-583Z-43a350e8-expression-probe.json",
+    "sha256": "51ea3df86bae783e9256c19ed1befdd8ce4cd465b47f04f264404248c471cee7"
+  },
+  "startup": {
+    "path": "tracking/evidence/m06/guest-export-runtime/2026-10-30T01-00-15-930Z-3d05fbfa.json",
+    "sha256": "026c6d2761f00aa65d44f19773973dad7416a46081986fece40d46ba1491da2e"
+  },
+  "worker_ready": {
+    "path": "tracking/evidence/m06/worker-transition/2026-10-30T01-05-25-6587558Z-f2b681e9-owned-processes-ready.json",
+    "sha256": "63ca35545c06bcfdf918fd269890ddb648555050b29df927d939502b393b7a33"
+  },
+  "local_readiness": {
+    "path": "tracking/evidence/m06/guest26-readiness-local/2026-10-30T00-56-10-533Z-9b06baf4.json",
+    "sha256": "89b698fea9c21131e5e308d1b0567112ea29a70b9d4195340efa653413eff20b"
+  },
+  "enabled_projection_sha256": "765301c7844e96c6818195b7ef6b2ecd616494522a650000212b5aafbf0c534d",
+  "source_seals": {
+    "apps/worker/src/n8n-orchestrator.ts": "7be252a5115c5f600d0f161458e60b056ec3d2109a634592dc7336792efa5e93",
+    "apps/worker/src/native-browser.ts": "58bb031589d1d8421b19e29273cdc681d4431c76e7536ad4a1747f9154004e46",
+    "apps/worker/src/presentation-assets.ts": "46f66e9daf302bdaad65fd665fd03142a01c1a0523b10d855b97e726f1a2a2a0",
+    "apps/worker/src/presentation-export-executor.ts": "15e4b6f7123c4340f8f0dd6c4869b711c1a4bb3433ce66e14d9b9d6093091e06",
+    "apps/worker/src/presentation-pdf-inspect-process.mjs": "0ee0bf41ba77f9725bdb366f02d7b60c438e15ac78049b4971a1cf43b8175e5d",
+    "apps/worker/src/presentation-pdf.ts": "c1360dbbaaaac8a05366313797b243cb352425d38437ab65bfd326e4b5afff6e",
+    "apps/worker/src/presentation-stage-executor.ts": "97fc66ff385b0726dc16d6aceaa6d4a10e501a606b7de75cd6dc0a6056357d4d",
+    "apps/worker/src/runtime-main.ts": "24111eb360048358fc9133c9f4a6a79d4881677269831484ac62bed4c54e8bfb",
+    "apps/worker/src/runtime-types.ts": "88eebf66c0f7dd1add3a88758a5f25cd309caf82c9620a28ffa1753762b28124",
+    "apps/worker/src/runtime.ts": "1bffa78aeccc34162d50e740837a390ceb3114284c7df68f0dd184a7d9d5de54",
+    "development/local-db/instance.json": "778d29222b0a6b604451a494dab6ca6ffabb7357d5b700794400bf35cc79c198",
+    "development/local-db/reviewed.json": "d478c64785b7086113d1af3dc773df04ecdf407ec23a7066350ec13b71ea0abe",
+    "development/m06/enable-guest26.sql": "97b84fbe7c400db91819de3aaab381a651b39ce5900dff95d6228fa72b4e5d55",
+    "packages/central/src/presentation-runtime-assets.ts": "97dffe041c3430e5f4d5d2c702cc43a8bba962de6c969b952ebecefd69e303b4",
+    "packages/central/src/specs-runtime-gateway.ts": "5e3e6c1b4da316ebac501967769712ecc61d590b68a4e6fd942e50a382f9d1de",
+    "packages/integrations/src/n8n-dispatch.ts": "c1d3fdb9521212a95596ba53b49fc3e949c64e7fb8df0d684c9d82e09b732e34",
+    "supabase/migrations/20261030004643_m06_credential_admission_guest_retry.sql": "a0fb9dfec8cdae2718719d455ed11b4f25dd9b79e8fc9de19bd53c229b64089e",
+    "tests/operations/test_m06_guest26_enable.py": "1c6a7de8dc2fe87ea2c8dc7811b8669f08884c20006690360f4ec4798a20fbbc",
+    "tools/build-guest-export-wf03.mjs": "028ad314cc4cc96e18897ed0a1f2bb0c6aa0e3339f73ce5a84938d1fd35320a3",
+    "tools/build-presentation-wf03.mjs": "9e160d960d5db98752d7617363693e035b509730541c7802375352f5f50f1337",
+    "tools/candidate-runtime-env.mjs": "d3f7e8edf77263e591c75319108830992865bca27eb14141069d002699c5f2e2",
+    "tools/check-guest-export-runtime.mts": "3d7a7cc47473e7bf3a8681b2f712b1581e21022b830c4312518fb2614fef4c2b",
+    "tools/frame-runtime-env.mjs": "c040f3fe835005cca14e0d3d6b21c85529c6e3528c41e37302b86f671d41a23d",
+    "tools/local-postgres.mjs": "49929bce8eb51194d9299cfd9639e537eb237daaec76c15740cb88059604e2de",
+    "tools/pdf-vision-env.mjs": "f0af6074d3fe5924f5cc520d7393b8db088339a65b39b0bc79bd7089ce81be18",
+    "tools/presentation-runtime-env.mjs": "e8241f2c81a2f062f6df680be9d9226669ddd87d16b5b5e120ed6e6cbe2db0e1",
+    "tools/provision-m06-guest26.py": "6929e812f1d848fd13e21a1d44495773710484f5ac6b3c7aaf29dad839411697",
+    "tools/release_m06_forward26.py": "4b58ea0e0c37422c9d61bfd0d562c19c8046c0b4b5508074301be68383b490a3",
+    "tools/repair-m06-wf03-expression.mjs": "264d8680d447516848adbea4156639868c2d808fecc097958139c5fb71d83410",
+    "tools/review-runtime-env.mjs": "444f919d15c9a45cd834656fe400e01705a146cf9b67c880842be86e54739f64",
+    "tools/sql/m06-forward26-readback.sql": "0132f92677d703d50c44a06670cbab5632f4abe9d4303171c2ab1709f7086fc5",
+    "tools/sql/m06-guest26-readiness.sql": "5779dc713bcd9dde6ac4d6cb463d5ff409554bc8b30eb187a7b8bcae7f75388d",
+    "tools/start-specs-worker.mjs": "9514716ca0b3b1825c8658ea06eb7ccd4d6b8b39c9ef30bd9e02e2fc9fab11d7",
+    "tools/test-m06-guest26-readiness-local.mjs": "d980e888f19c911e067ad6bd75cb45f123ede4d9a46ef2d3fac6a5426440ff2f",
+    "tools/worker-files-env.mjs": "4a484ac8db37403bcd0bfe33db9e89b7a8bc76521e75325efefe07e718a73466",
+    "tools/worker-private-env.mjs": "ef935580876c9150b8150947c3796dd4760d1ad2910bc3bf322dd5015eea4d79",
+    "tools/worker-runtime-env.mjs": "658a4a45dd3b48ef1e0074203a34f46fbcb9a35e509c92deed67027444c048b6"
+  }
+}

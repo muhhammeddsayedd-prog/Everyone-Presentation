@@ -1,0 +1,12 @@
+{
+  "schema": "eps.m06.controlled-test-fixture-observation.v1",
+  "observed_at": "2026-10-30T02:35:31.204278+00:00",
+  "result": "test_fixture_selector_failure",
+  "cases": 2,
+  "cause": "Unscoped alert locator also matched the Next route announcer; no application defect or meaningful RED claimed.",
+  "source_sha256": "419ce4d86a593701c227f2878cd747af39daed58e67a7d8b288f35eac8380f13",
+  "command": "npx.cmd playwright test tests/e2e/m06-guest-rate-limit.spec.ts",
+  "tool_output": "2b05f1",
+  "private_details": ".local/m06-rate-limit/fixture-selector-failure",
+  "app_source_changed": false
+}

@@ -1,0 +1,50 @@
+{
+  "schema": "eps.m06.controlled-rate-limit-evidence.v1",
+  "observed_at": "2026-10-30T02:36:25.524624+00:00",
+  "result": "passed",
+  "scope": "New retrospective regressions against existing application behavior; no meaningful application RED or app changes claimed. Synthetic test credentials only; fetch provider intercepted, Playwright API responses controlled. No canonical/cloud calls or live throttling.",
+  "commands": [
+    {
+      "command": "node tools/run-tests.mjs tests/server/m06-guest-rate-limit.test.ts",
+      "tool_output": "8759fb",
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "command": "npx.cmd playwright test tests/e2e/m06-guest-rate-limit.spec.ts",
+      "tool_output": "54cbd9",
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0,
+      "duration_seconds": 10.6
+    },
+    {
+      "command": "npx.cmd eslint tests/server/m06-guest-rate-limit.test.ts tests/e2e/m06-guest-rate-limit.spec.ts --max-warnings 0",
+      "tool_output": "a60545",
+      "exit_code": 0
+    }
+  ],
+  "claims": [
+    "Actual route catch emits429/RATE_LIMITED with Retry-After60 and private no-store; local throttle blocks21st same-credential exchange before backend; independent credential remains usable.",
+    "Actual central error mapping sanitizes RATE_LIMITED provider details and subsequent exchange succeeds.",
+    "Controlled browser displays retry guidance on429 entry, allows explicit retry to Ready content, and does not label it expired or require sign-in.",
+    "Controlled390px feedback429 retains exact draft, locks navigation and new writes, then replays identical method/path/body/context/idempotency key to one comment ACK and unlocks."
+  ],
+  "historical_fixture_failure": "tracking/evidence/m06/controlled-browser/2026-10-30-rate-limit-selector-fixture-failure.json",
+  "fixture_correction": "Scoped alert paragraph avoids unrelated Next route announcer and the retry control text; product assertions retained.",
+  "source_sha256": {
+    "tests/server/m06-guest-rate-limit.test.ts": "464acd78640efeac2f216013d1e5e97bf60805ff83bb927413d021f231ffb450",
+    "tests/e2e/m06-guest-rate-limit.spec.ts": "25bafc49e7ca7af363bf6af420f857cf0141b5ca51508b552e9748ffdc6d1098",
+    "apps/web/app/api/v1/[...segments]/route.ts": "dff1f9f23676687d533810fbbcd399b235290ed06ebda2a8268f524ff28981c0",
+    "apps/web/lib/guest-http.ts": "ece831b02bd270d35c886cdb3ef0ba377aac6e99493b7868d5a546477079cc73",
+    "apps/web/lib/http.ts": "3ac3eade9a12394ad7ee0b5f2468c03724274f677ce56d08a9c4322a374df740",
+    "apps/web/components/review-client.ts": "23a734ca662a6a2ef57d61b6df4a2acf615bfafd691aa7bc2294a821214f2358",
+    "apps/web/components/GuestReviewView.tsx": "b84f41071207c60005e9ce9bb58222a65fd5e194be1150433a4190917d4502c2",
+    "apps/web/components/ReviewFeedbackPanel.tsx": "308299b926dbdb830e6a9948d0e0ba76a3ed068f4ac3c5b0fa65946e0a9afbd7",
+    "packages/central/src/guest-reviews.ts": "bc7f2ebcb5b3cd024a4c439225b2068fa086661da608c9144740af410d1329e2",
+    "tests/fixtures/presentation.ts": "1259ae4ecde92792e52eaf66fcd55ff1ff93a4f68c287b22ebfe9dee0aff2ccf"
+  },
+  "private_report": ".local/m06-rate-limit/passed/e2e-results.json",
+  "hosting_deferred": true
+}

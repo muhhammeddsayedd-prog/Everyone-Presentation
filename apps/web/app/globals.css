@@ -1,4 +1,5 @@
 @import './tokens.css';
+@import './guest.css';
 
 @font-face{font-family:EveryonePresentationLatin;src:url('/fonts/IBMPlexSans-Regular.woff2') format('woff2');font-weight:400;font-display:swap}
 @font-face{font-family:EveryonePresentationLatin;src:url('/fonts/IBMPlexSans-SemiBold.woff2') format('woff2');font-weight:600;font-display:swap}
@@ -310,3 +311,9 @@ legend { margin-bottom: var(--space-3); }
 .processing-detail .notice { margin-top: var(--space-5); }
 .processing-pagination, .processing-actions .notice, .processing-actions > .button { margin-top: var(--space-5); }
 @media (max-width: 767px) { .processing-view .page-heading, .processing-toolbar, .processing-destination { align-items: stretch; flex-direction: column; } .processing-view .page-heading > .button { align-self: flex-start; } .processing-jobs > li, .processing-facts { grid-template-columns: minmax(0,1fr); gap: var(--space-3); } .processing-job-state { align-items: flex-start; } .processing-destination > .button { align-self: flex-start; } }
+
+.playback-transcript { margin-top:var(--space-5); padding:var(--space-4); border:1px solid var(--color-border); border-radius:var(--radius-sm); }
+.playback-transcript summary { cursor:pointer; font-weight:600; }
+.playback-transcript .source-transcript { margin-top:var(--space-4); padding:var(--space-3); }
+
+.playback-transcript p { overflow-wrap:anywhere; }

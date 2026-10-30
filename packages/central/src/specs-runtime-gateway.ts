@@ -10,7 +10,7 @@ export const SPECS_RUNTIME_ROLE = 'eps_specs_runtime';
 export const SPECS_RUNTIME_PROJECT = 'pyibofyctwnqpvktepse';
 export const SPECS_RUNTIME_HOST = 'aws-0-eu-west-1.pooler.supabase.com';
 const PRESENTATION_STAGES = ['prepare_presentation', 'render_presentation', 'validate_presentation', 'publish_presentation'];
-const STAGES = ['prepare_document', 'extract_specs', 'apply_specs','prepare_candidate','transcribe_candidate','extract_candidate','select_frames','apply_candidate','extract_frames','apply_frames','prepare_suggestion','generate_suggestion','validate_suggestion','measure_review_fit', ...PRESENTATION_STAGES];
+const STAGES = ['prepare_document', 'extract_specs', 'apply_specs','prepare_candidate','transcribe_candidate','extract_candidate','select_frames','apply_candidate','extract_frames','apply_frames','prepare_suggestion','generate_suggestion','validate_suggestion','measure_review_fit', ...PRESENTATION_STAGES, 'render_export'];
 const KIND_STAGES: Readonly<Record<string, readonly string[]>> = {
   specs_extract: ['prepare_document', 'extract_specs', 'apply_specs'],
   candidate_scan: ['prepare_candidate', 'transcribe_candidate', 'extract_candidate', 'select_frames', 'apply_candidate'],
@@ -18,6 +18,7 @@ const KIND_STAGES: Readonly<Record<string, readonly string[]>> = {
   ai_suggestion: ['prepare_suggestion', 'generate_suggestion', 'validate_suggestion'],
   review_fit: ['measure_review_fit'],
   presentation_render: PRESENTATION_STAGES,
+  presentation_export: ['render_export'],
 };
 const STATUSES = ['queued', 'running', 'waiting_for_input', 'succeeded', 'failed', 'cancelled'];
 const UUID = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/u;
@@ -33,6 +34,7 @@ const DOMAIN_STATUS = new Map<string, number>([
     'EVENT_SEQUENCE_CONFLICT', 'RESULT_INVALID', 'INVALID_TRANSITION'].map(code => [code, 409] as const),
   ['FEATURE_NOT_IMPLEMENTED', 503], ['DEPENDENCY_UNAVAILABLE',503], ['SLOT_ALLOCATION_LIMIT_EXCEEDED', 409],
   ['IDEMPOTENCY_KEY_REUSED',409], ['SPECS_STATE_INVALID',409],
+  ['SNAPSHOT_INVALID',409], ['PERMISSION_CHANGED',403],
   ['CLAIM_REPLAY_KEY_UNAVAILABLE',503],
 ]);
 const GATEWAY_PHASES = new Set(['connect', 'begin', 'role_verification', 'operation', 'commit']);
@@ -166,7 +168,8 @@ export interface SpecsRuntimeDependencies { /** Offline transport injection; nev
 const FILE_FUNCTIONS = ['eps.get_job_asset_access(jsonb)','eps.reserve_job_output(jsonb)','eps.complete_job_output(jsonb)','eps.store_specs_preparation(jsonb)'];
 const ASSET_SQL: Record<SpecsAssetOperation,string> = { access:'select eps.get_job_asset_access($1::jsonb) as value',reserve:'select eps.reserve_job_output($1::jsonb) as value',complete:'select eps.complete_job_output($1::jsonb) as value',prepare:'select eps.store_specs_preparation($1::jsonb) as value' };
 const REPLAY_FUNCTION = 'eps.claim_job_stage_replay(jsonb,text,text,text)';
-const identitySql = (files: boolean, replay: boolean) => `select (
+const EXPORT_MINT_FUNCTION = 'eps.mint_review_media_grant(jsonb)';
+const identitySql = (files: boolean, replay: boolean, exports: boolean) => `select (
  current_user=$1 and session_user=$1 and current_database()='postgres'
  and coalesce(current_setting('request.jwt.claim.sub',true),'')=''
  and coalesce(nullif(current_setting('request.jwt.claims',true),''),'{}')='{}'
@@ -186,7 +189,7 @@ const identitySql = (files: boolean, replay: boolean) => `select (
   where c.relkind in('r','p') and n.nspname in('eps','public','auth','storage')
   and (has_table_privilege(current_user,c.oid,'SELECT,INSERT,UPDATE,DELETE,TRUNCATE,REFERENCES,TRIGGER,MAINTAIN')
    or has_any_column_privilege(current_user,c.oid,'SELECT,INSERT,UPDATE,REFERENCES')))
- and (select ${replay ? `count(*)=${files ? 11 : 7}` : `(count(*)=${files ? 10 : 6} or count(*)=${files ? 11 : 7})`} and bool_and(p.oid=any(array[${[...SERVICE_FUNCTIONS,...(files ? FILE_FUNCTIONS : []),REPLAY_FUNCTION].map(name => `to_regprocedure('${name}')`).join(',')}]))
+ and (select ${exports ? 'count(*)=12' : replay ? `count(*)=${files ? 11 : 7}` : `(count(*)=${files ? 10 : 6} or count(*)=${files ? 11 : 7})`} and bool_and(p.oid=any(array[${[...SERVICE_FUNCTIONS,...(files ? FILE_FUNCTIONS : []),REPLAY_FUNCTION,...(exports ? [EXPORT_MINT_FUNCTION] : [])].map(name => `to_regprocedure('${name}')`).join(',')}]))
   from pg_catalog.pg_proc p join pg_catalog.pg_namespace n on n.oid=p.pronamespace
   where (n.nspname='eps' or n.nspname='public' and (p.proname like 'eps\\_%' escape '\\' or p.prosecdef)) and has_function_privilege(current_user,p.oid,'EXECUTE'))
  and not exists(select 1 from pg_catalog.pg_shdepend d where d.refclassid='pg_authid'::regclass
@@ -215,9 +218,10 @@ function leaseDto(value: unknown, input: StageClaim): StageLease {
 /** Direct authenticated DB gateway. It is not an HTTP ServiceBearer façade and
  * makes no exact-key claim-response replay claim. Unknown writes stop the worker. */
 export async function createSpecsRuntimeGateway(supplied: SpecsRuntimeConfig, dependencies: SpecsRuntimeDependencies = {}, fileConfiguration?: SpecsRuntimeAssetConfig,
-  replayConfiguration?: SpecsClaimReplayConfig,candidateEnabled=false,presentationEnabled=false) {
+  replayConfiguration?: SpecsClaimReplayConfig,candidateEnabled=false,presentationEnabled=false,exportsEnabled=false) {
   if(typeof candidateEnabled!=='boolean'||candidateEnabled&&fileConfiguration===undefined)fail('RUNTIME_CONFIG_INVALID');
   if(typeof presentationEnabled!=='boolean'||presentationEnabled&&fileConfiguration===undefined)fail('RUNTIME_CONFIG_INVALID');
+  if(typeof exportsEnabled!=='boolean'||exportsEnabled&&!presentationEnabled)fail('RUNTIME_CONFIG_INVALID');
   if (replayConfiguration !== undefined && (!exact(replayConfiguration,['keyId','encryptionKey'])
     || typeof replayConfiguration.keyId !== 'string' || !/^[A-Za-z0-9._-]{1,64}$/u.test(replayConfiguration.keyId)
     || typeof replayConfiguration.encryptionKey !== 'string' || !/^[a-f0-9]{64}$/u.test(replayConfiguration.encryptionKey))) fail('RUNTIME_CONFIG_INVALID');
@@ -260,9 +264,9 @@ export async function createSpecsRuntimeGateway(supplied: SpecsRuntimeConfig, de
       if (signal?.aborted) abort();
       phase = 'begin'; await query('begin');
       phase = 'role_verification';
-      const identity = await query(identitySql(assets !== undefined,replayConfiguration !== undefined), [SPECS_RUNTIME_ROLE]);
+      const identity = await query(identitySql(assets !== undefined,replayConfiguration !== undefined,exportsEnabled), [SPECS_RUNTIME_ROLE]);
       if (!identity || identity.rows.length !== 1 || !exact(identity.rows[0], ['allowed','function_operations']) || identity.rows[0].allowed !== true
-        || ![...(replayConfiguration!==undefined?[]:[assets!==undefined?10:6]),assets!==undefined?11:7].includes(identity.rows[0].function_operations as number)) fail('RUNTIME_ROLE_UNVERIFIED');
+        || !(exportsEnabled ? [12] : [...(replayConfiguration!==undefined?[]:[assets!==undefined?10:6]),assets!==undefined?11:7]).includes(identity.rows[0].function_operations as number)) fail('RUNTIME_ROLE_UNVERIFIED');
       functionOperations=identity.rows[0].function_operations as number;
       let value: unknown;
       if (sql !== null) {
@@ -337,8 +341,17 @@ export async function createSpecsRuntimeGateway(supplied: SpecsRuntimeConfig, de
       if (!object(result) || result.job_id !== scope.job_id || result.attempt_id !== scope.attempt_id || !STAGES.includes(String(result.stage))) fail('RUNTIME_RESPONSE_INVALID', 503, 'unknown');
       // Only frozen presentation snapshots need the larger read envelope. This
       // never expands claim/event/asset write sizes or other job kinds.
-      if (PRESENTATION_STAGES.includes(String(result.stage))) safeJson(result, 16 * 1024 * 1024, 500_000);
+      if (PRESENTATION_STAGES.includes(String(result.stage)) || result.stage === 'render_export') safeJson(result, 16 * 1024 * 1024, 500_000);
       return result; // The native executor independently validates the exact stage shape before provider work.
+    },
+    async mintReviewMediaGrant(scope: { job_id: string; attempt_id: string; lease_token: string }, signal: AbortSignal): Promise<unknown> {
+      if (!exportsEnabled) fail('FEATURE_NOT_IMPLEMENTED');
+      if (!exact(scope, ['job_id', 'attempt_id', 'lease_token']) || !id(scope.job_id) || !id(scope.attempt_id) || !HASH.test(scope.lease_token)) fail('INVALID_REQUEST', 400);
+      const result = await execute('select eps.mint_review_media_grant($1::jsonb) as value', [safeJson(scope)], signal);
+      const row = response(result, ['grant_id','grant_token','version_id','review_link_id','export_id','export_revision','expires_at']);
+      if (!id(row.grant_id) || !id(row.version_id) || !id(row.review_link_id) || !id(row.export_id) || typeof row.grant_token !== 'string'
+        || !/^[A-Za-z0-9_-]{43}$/u.test(row.grant_token) || !Number.isSafeInteger(row.export_revision) || Number(row.export_revision) < 1 || !date(row.expires_at)) fail('RUNTIME_RESPONSE_INVALID', 503, 'unknown');
+      return row; // Secret-bearing memory only; executor emits IDs and proofs.
     },
     async recordEvent(event: JobEvent, signal: AbortSignal): Promise<JobEventReceipt> {
       if (!object(event) || Object.keys(event).some(key => !['event_id', 'job_id', 'attempt_id', 'lease_token', 'stage', 'sequence', 'event_type', 'input_hash', 'result_schema', 'result', 'error'].includes(key))

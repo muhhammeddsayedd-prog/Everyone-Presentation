@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "frozen_at": "2026-10-30T00:26:34.128Z",
+  "version": "20261030002634",
+  "migration_path": "supabase/migrations/20261030002634_m06_guest_review_feedback_exports.sql",
+  "migration_sha256": "2c72507216efdcd3e9dcea3f9b94270b19e1275ebcd2fcf91dad9253ddde8d2a",
+  "migration_bytes": 130807,
+  "baseline": "development/m06/baseline24-reviewed.json",
+  "baseline_sha256": "0f47cf1deb4db8f87154229bbde56d23776b635faa378cee424a38ca851b6c85",
+  "fragments": {
+    "development/m06/schema.sql": "4bc8ec3c595289d461429cb1fd3c437f3c417a63107e4af28b1f28441c63f207",
+    "development/m06/links.sql": "a04d2f161edc9b72d5f6c5857f216045c4839e0c24f958f92a03a3dd70b2f433",
+    "development/m06/feedback.sql": "454cc69d078333d639139532b6f84a82a73b4393f17829cbfd100d633c1e046e",
+    "development/m06/exports.sql": "bf0a33f70432ba6454dfaf7eaba17c81316daeff648bd81522b51d9afa830c9d",
+    "development/m06/gateway.sql": "0b7f0b0731158adcd8288b8de6a502571b5089ff52ab9f0da482ad48d53d2f9a",
+    "development/m06/export-processing.sql": "55bd9f74c8bc59dbda772a29fa5ba86b2323fbacbff5dd2af621b37d3ea3e06f",
+    "development/m06/finalize.sql": "a7a344b87c327617b5db92a375c8f1b01d8f1a8971e891c471a1349330559778"
+  },
+  "release_proof": "tracking/evidence/m06/release-local/2026-10-30T00-25-22-980Z-da1db68f.json",
+  "release_proof_sha256": "009f319dc1de45d71139c3d93700f53c1437b076e5c7dd0ba5c1571866eee50d",
+  "behavior_proof": "tracking/evidence/m06/guest-local/2026-10-30T00-24-31-067Z-6e803f6f.json",
+  "behavior_proof_sha256": "406f7c7273fd83778d8f06ae0d2caa088d33d56c2c9b68b3320974575726c0ce",
+  "pgp_proof": "tracking/evidence/m06/guest-pgp-local/2026-10-30T00-26-16-619Z-0655fdbb.json",
+  "pgp_proof_sha256": "0d6bac82cc8e44c0dc7178787ba9a0492348616ba91c571a518ef88f0a23f6ef",
+  "readback_query": "tools/sql/m06-review-readback.sql",
+  "readback_sha256": "50c1212c529425f190e9a7e17ec89f76f9c2078d878bcc8e1ee10521e78af1d8",
+  "catalog_delta": "development/m06/review-release-delta.json",
+  "catalog_delta_sha256": "94a54ec48bbd8b865c795a7ea4055612f642f99722a41d604d0604639fa062eb",
+  "scope": "Exact additive25 technical review/local promotion only; root independently reviews canonical release. Disabled/null-key config. No cloud, production or hosting claim."
+}

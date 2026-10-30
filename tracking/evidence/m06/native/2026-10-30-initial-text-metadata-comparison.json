@@ -1,0 +1,12 @@
+{
+  "observed_at": "2026-10-30T00:15:04.759058+00:00",
+  "result": "failed",
+  "scope": "Initial offline synthetic native content comparison",
+  "artifact_directory": ".local/m06-native/2026-10-30T00-14-31.896Z",
+  "all_six_page_pngs_byte_identical": true,
+  "failure": "Raw PDF.js text-item JSON hashes differed because generated per-document fontName IDs differ.",
+  "inspection": "Independent comparison of page1 text metadata found fontName as the only differing field.",
+  "fix": "Compare actual inline style/metrics in place of ephemeral generated fontName IDs; keep text, transform, size, direction, styles and exact PNG checks.",
+  "original_artifacts_retained": true,
+  "provider_or_cloud_called": false
+}

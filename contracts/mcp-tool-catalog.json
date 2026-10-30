@@ -16983,7 +16983,8 @@
                 "$ref": "#/$defs/Id"
               },
               "label": {
-                "type": "string"
+                "type": "string",
+                "maxLength": 160
               },
               "expires_at": {
                 "$ref": "#/$defs/DateTime"
@@ -17168,6 +17169,11 @@
           "review_link_id": {
             "$ref": "#/$defs/Id"
           },
+          "idempotency_key": {
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 200
+          },
           "body": {
             "$ref": "#/$defs/ReviewLinkPatch"
           }
@@ -17195,7 +17201,8 @@
                 "$ref": "#/$defs/RowVersion"
               },
               "label": {
-                "type": "string"
+                "type": "string",
+                "maxLength": 160
               },
               "expires_at": {
                 "$ref": "#/$defs/DateTime"
@@ -17868,7 +17875,9 @@
                 ]
               },
               "body": {
-                "type": "string"
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 10000
               },
               "parent_comment_id": {
                 "anyOf": [
@@ -18198,7 +18207,9 @@
                 ]
               },
               "body": {
-                "type": "string"
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 10000
               },
               "parent_comment_id": {
                 "anyOf": [
@@ -18317,6 +18328,11 @@
           "comment_id": {
             "$ref": "#/$defs/Id"
           },
+          "idempotency_key": {
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 200
+          },
           "body": {
             "$ref": "#/$defs/CommentPatch"
           }
@@ -18421,7 +18437,9 @@
                 ]
               },
               "body": {
-                "type": "string"
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 10000
               },
               "parent_comment_id": {
                 "anyOf": [
@@ -19055,6 +19073,24 @@
                     "can_cancel"
                   ]
                 }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "const": "presentation_export"
+                    }
+                  },
+                  "required": [
+                    "kind"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "can_retry",
+                    "can_cancel"
+                  ]
+                }
               }
             ]
           },
@@ -19394,6 +19430,24 @@
                   "properties": {
                     "kind": {
                       "const": "presentation_render"
+                    }
+                  },
+                  "required": [
+                    "kind"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "can_retry",
+                    "can_cancel"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "const": "presentation_export"
                     }
                   },
                   "required": [
@@ -19939,6 +19993,24 @@
                   "properties": {
                     "kind": {
                       "const": "presentation_render"
+                    }
+                  },
+                  "required": [
+                    "kind"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "can_retry",
+                    "can_cancel"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "const": "presentation_export"
                     }
                   },
                   "required": [
@@ -21804,6 +21876,9 @@
               },
               "source_version_id": {
                 "$ref": "#/$defs/Id"
+              },
+              "transcript": {
+                "$ref": "#/$defs/VersionTranscriptCompanion"
               }
             },
             "required": [
@@ -21812,6 +21887,115 @@
               "expires_at",
               "mime_type",
               "source_version_id"
+            ]
+          },
+          "VersionTranscriptCompanion": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "version_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "asset_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "available",
+                  "not_provided",
+                  "not_captured"
+                ]
+              },
+              "original_text": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200000,
+                    "pattern": "^[^\\u0000-\\u0008\\u000b\\u000c\\u000e-\\u001f\\u007f]*\\S[^\\u0000-\\u0008\\u000b\\u000c\\u000e-\\u001f\\u007f]*$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "languages": {
+                "type": "array",
+                "maxItems": 100,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 1000,
+                  "pattern": "^[^\\u0000-\\u001f\\u007f]*\\S[^\\u0000-\\u001f\\u007f]*$"
+                }
+              },
+              "source_kind": {
+                "type": "string",
+                "const": "source_transcript"
+              },
+              "source_sha256": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "version_id",
+              "asset_id",
+              "status",
+              "original_text",
+              "languages",
+              "source_kind",
+              "source_sha256"
+            ],
+            "description": "Plain original source text captured immutably with this version/video. Not slide wording, captions or factual review. No live-library fallback; legacy versions explicitly report not_captured.",
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "status": {
+                      "const": "available"
+                    }
+                  },
+                  "required": [
+                    "status"
+                  ]
+                },
+                "then": {
+                  "properties": {
+                    "original_text": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200000,
+                      "pattern": "^[^\\u0000-\\u0008\\u000b\\u000c\\u000e-\\u001f\\u007f]*\\S[^\\u0000-\\u0008\\u000b\\u000c\\u000e-\\u001f\\u007f]*$"
+                    },
+                    "source_sha256": {
+                      "type": "string",
+                      "pattern": "^[a-f0-9]{64}$"
+                    }
+                  }
+                },
+                "else": {
+                  "properties": {
+                    "original_text": {
+                      "type": "null"
+                    },
+                    "source_sha256": {
+                      "type": "null"
+                    },
+                    "languages": {
+                      "maxItems": 0
+                    }
+                  }
+                }
+              }
             ]
           },
           "Warning": {

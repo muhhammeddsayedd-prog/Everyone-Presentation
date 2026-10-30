@@ -3,17 +3,21 @@ import { DomainError, type MediaAsset } from '@eps/domain';
 import { createHash } from 'node:crypto';
 import { presentationApplicationOrigin } from '../../domain/src/presentation.ts';
 import { presentationRecord, presentationResponseInvalid } from './presentation-dto.ts';
+import { parseVersionTranscript } from '../../domain/src/presentation-transcript.ts';
+import type { VersionTranscriptCompanion } from '../../domain/src/presentation-types.ts';
 
-export interface PresentationAssetRead { asset: MediaAsset; bucket: string; object_key: string }
+export interface PresentationAssetRead { asset: MediaAsset; bucket: string; object_key: string; transcript?: VersionTranscriptCompanion }
 export interface PresentationStorageOptions { client: SupabaseClient; storageOrigin: string; now?: () => number; downloadTimeoutMs?: number }
 function count(value: unknown, maximum = Number.MAX_SAFE_INTEGER): value is number { return typeof value === 'number' && Number.isSafeInteger(value) && value > 0 && value <= maximum; }
 function id(value: unknown): value is string { return typeof value === 'string' && value.length > 0 && value.length <= 200; }
 export function presentationAssetRead(value: unknown): PresentationAssetRead {
-  const row = presentationRecord(value, ['asset', 'bucket', 'object_key']);
+  const hasTranscript = value !== null && typeof value === 'object' && Object.hasOwn(value, 'transcript');
+  const row = presentationRecord(value, ['asset', 'bucket', 'object_key', ...(hasTranscript ? ['transcript'] : [])]);
   const asset = presentationRecord(row.asset, ['id', 'purpose', 'filename', 'mime_type', 'size_bytes', 'sha256', 'status', 'duration_ms', 'width', 'height', 'source_asset_id', 'source_timestamp_ms', 'created_at']);
   if (!id(asset.id) || !['client_logo', 'candidate_frame', 'candidate_video', 'presentation_pdf'].includes(asset.purpose as string)
     || typeof asset.filename !== 'string' || !asset.filename || asset.filename.length > 255 || /[/\\\p{C}]/u.test(asset.filename)
-    || asset.status !== 'ready' || typeof asset.sha256 !== 'string' || !/^[a-f0-9]{64}$/u.test(asset.sha256)
+    || !(asset.status === 'ready' || asset.status === 'archived' && ['client_logo', 'candidate_frame', 'candidate_video'].includes(asset.purpose as string))
+    || typeof asset.sha256 !== 'string' || !/^[a-f0-9]{64}$/u.test(asset.sha256)
     || !count(asset.size_bytes, asset.purpose === 'candidate_video' ? 268435456 : asset.purpose === 'presentation_pdf' ? 67108864 : 20971520)
     || typeof asset.created_at !== 'string' || !Number.isFinite(Date.parse(asset.created_at))
     || typeof row.bucket !== 'string' || !/^[a-z0-9][a-z0-9_-]{0,99}$/u.test(row.bucket)
@@ -25,6 +29,10 @@ export function presentationAssetRead(value: unknown): PresentationAssetRead {
   if (asset.purpose === 'presentation_pdf' ? mime !== 'application/pdf' : asset.purpose === 'candidate_frame' ? mime !== 'image/jpeg'
     : asset.purpose === 'client_logo' ? !['image/png', 'image/jpeg', 'image/webp'].includes(mime as string)
       : !['video/mp4', 'video/quicktime', 'video/webm', 'video/x-matroska'].includes(mime as string)) presentationResponseInvalid();
+  if (Object.hasOwn(row, 'transcript')) {
+    if (asset.purpose !== 'candidate_video') presentationResponseInvalid();
+    try { row.transcript = parseVersionTranscript(row.transcript); } catch { presentationResponseInvalid(); }
+  }
   return structuredClone(row) as unknown as PresentationAssetRead;
 }
 function storageError(error: unknown): DomainError {

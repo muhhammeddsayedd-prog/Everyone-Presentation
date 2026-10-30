@@ -1,0 +1,28 @@
+{
+  "observed_at": "2026-10-30T00:20:53.627393+00:00",
+  "command": "npm.cmd audit --json",
+  "exit_code": 0,
+  "result": "passed",
+  "registry_audit_version": 2,
+  "vulnerabilities": {
+    "info": 0,
+    "low": 0,
+    "moderate": 0,
+    "high": 0,
+    "critical": 0,
+    "total": 0
+  },
+  "dependency_counts": {
+    "prod": 98,
+    "dev": 194,
+    "optional": 75,
+    "peer": 0,
+    "peerOptional": 0,
+    "total": 339
+  },
+  "package_lock_sha256": "e5dc549024c9f995bff64034c45b0d774c7df65269ab35dfa02c74250daa88f7",
+  "raw_local_receipt": ".local/m06-worker-audit.json",
+  "raw_receipt_sha256": "8824ef11331ce0cffd7d4b45f9aed5206ddb7e6bf8071a226dd8991487ad3f1f",
+  "dependency_or_lockfile_changes": false,
+  "scope": "Current npm registry advisory response for locked dependency graph; no exploitability or production acceptance claim"
+}

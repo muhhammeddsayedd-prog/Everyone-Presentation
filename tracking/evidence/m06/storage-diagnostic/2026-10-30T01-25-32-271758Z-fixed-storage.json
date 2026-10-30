@@ -1,0 +1,222 @@
+{
+  "observed_at": "2026-10-30T01:25:32.271328+00:00",
+  "result": "diagnosed",
+  "trusted_backend_diagnostic_only": true,
+  "owner_discovery_query_read_only": true,
+  "exact26_history_and_fixed_live_qa_scope_verified": true,
+  "browser_acceptance": false,
+  "source_sha256": {
+    "tools/diagnose-m06-guest-storage.py": "0c601c0f8e23ca00f340d6f499713c4041d6449e55476548ce549c92abb7f9d9",
+    "tools/diagnose-m06-guest-storage.mts": "4b12ad36d9b608631be48dea5975a1709d97e91ce9169d23228cd5477072e08f",
+    "tools/capture-m06-app.py": "0b836bb1579c25e9c68b608166ee16bd969e827d25eda538270a60a12198cce6",
+    "tools/private-guest-env.mjs": "8219faec7ae333b26ee93e354e3d46618378a27b5ef3a9a18ac96f19e62afa9f",
+    "packages/central/src/guest-storage.ts": "6bc4f7e13bee815ab42c7414db62c6c2f0b0a58dfeeb69cbcdf617b39f596ad8",
+    "packages/central/src/review-credentials.ts": "801104c312c4058d9e83cd03bf0ddbd221e7bfa0883f35f1a39e29915e642499",
+    "packages/central/src/config.ts": "d1eba8e3df2d6c644f4167b05caf6c02dd6560a9dc847d19960cd1178b73ab0c"
+  },
+  "sources_stable": true,
+  "capture_receipt": "tracking/evidence/m06/app-capture/2026-10-30T01-25-10-737758Z-c34144be.json",
+  "capture_receipt_sha256": "d9893157ba7ad5aaeb03aa9ef3e8c50dcb08a592c3cfcdb35b69c72388ae35bb",
+  "diagnostic": {
+    "observed_at": "2026-10-30T01:25:32.216Z",
+    "result": "diagnosed",
+    "scope": "Trusted backend fixed QA session capability and Storage transport diagnostic; no browser acceptance",
+    "observations": [
+      {
+        "asset": "frame",
+        "phase": "gateway_asset",
+        "result": "passed",
+        "http_status": 200
+      },
+      {
+        "asset": "frame",
+        "phase": "metadata",
+        "result": "passed"
+      },
+      {
+        "asset": "frame",
+        "phase": "storage_headers",
+        "transport": "current",
+        "result": "failed",
+        "http_status": 400,
+        "mime_matches": false,
+        "length_matches": false,
+        "size_bytes": 88,
+        "body_sha256": "9d2505709301f205e4135106c7c92c66a58d85a1009b5b823475c6a047de1a9c",
+        "body_truncated": false,
+        "provider_code": "NoSuchKey"
+      },
+      {
+        "asset": "frame",
+        "phase": "proxy",
+        "transport": "current",
+        "result": "failed",
+        "code": "DEPENDENCY_UNAVAILABLE"
+      },
+      {
+        "asset": "frame",
+        "phase": "storage_headers",
+        "transport": "apikey_only",
+        "result": "failed",
+        "http_status": 400,
+        "mime_matches": false,
+        "length_matches": false,
+        "size_bytes": 88,
+        "body_sha256": "9d2505709301f205e4135106c7c92c66a58d85a1009b5b823475c6a047de1a9c",
+        "body_truncated": false,
+        "provider_code": "NoSuchKey"
+      },
+      {
+        "asset": "frame",
+        "phase": "proxy",
+        "transport": "apikey_only",
+        "result": "failed",
+        "code": "DEPENDENCY_UNAVAILABLE"
+      },
+      {
+        "asset": "frame",
+        "phase": "storage_headers",
+        "transport": "authenticated_path",
+        "result": "failed",
+        "http_status": 400,
+        "mime_matches": false,
+        "length_matches": false,
+        "size_bytes": 88,
+        "body_sha256": "9d2505709301f205e4135106c7c92c66a58d85a1009b5b823475c6a047de1a9c",
+        "body_truncated": false,
+        "provider_code": "NoSuchKey"
+      },
+      {
+        "asset": "frame",
+        "phase": "proxy",
+        "transport": "authenticated_path",
+        "result": "failed",
+        "code": "DEPENDENCY_UNAVAILABLE"
+      },
+      {
+        "asset": "frame",
+        "phase": "storage_headers",
+        "transport": "apikey_only_authenticated_path",
+        "result": "failed",
+        "http_status": 400,
+        "mime_matches": false,
+        "length_matches": false,
+        "size_bytes": 88,
+        "body_sha256": "9d2505709301f205e4135106c7c92c66a58d85a1009b5b823475c6a047de1a9c",
+        "body_truncated": false,
+        "provider_code": "NoSuchKey"
+      },
+      {
+        "asset": "frame",
+        "phase": "proxy",
+        "transport": "apikey_only_authenticated_path",
+        "result": "failed",
+        "code": "DEPENDENCY_UNAVAILABLE"
+      },
+      {
+        "asset": "pdf",
+        "phase": "gateway_export",
+        "result": "passed",
+        "http_status": 200
+      },
+      {
+        "asset": "pdf",
+        "phase": "gateway_asset",
+        "result": "passed",
+        "http_status": 200
+      },
+      {
+        "asset": "pdf",
+        "phase": "metadata",
+        "result": "passed"
+      },
+      {
+        "asset": "pdf",
+        "phase": "storage_headers",
+        "transport": "current",
+        "result": "failed",
+        "http_status": 400,
+        "mime_matches": false,
+        "length_matches": false,
+        "size_bytes": 88,
+        "body_sha256": "9d2505709301f205e4135106c7c92c66a58d85a1009b5b823475c6a047de1a9c",
+        "body_truncated": false,
+        "provider_code": "NoSuchKey"
+      },
+      {
+        "asset": "pdf",
+        "phase": "proxy",
+        "transport": "current",
+        "result": "failed",
+        "code": "DEPENDENCY_UNAVAILABLE"
+      },
+      {
+        "asset": "pdf",
+        "phase": "storage_headers",
+        "transport": "apikey_only",
+        "result": "failed",
+        "http_status": 400,
+        "mime_matches": false,
+        "length_matches": false,
+        "size_bytes": 88,
+        "body_sha256": "9d2505709301f205e4135106c7c92c66a58d85a1009b5b823475c6a047de1a9c",
+        "body_truncated": false,
+        "provider_code": "NoSuchKey"
+      },
+      {
+        "asset": "pdf",
+        "phase": "proxy",
+        "transport": "apikey_only",
+        "result": "failed",
+        "code": "DEPENDENCY_UNAVAILABLE"
+      },
+      {
+        "asset": "pdf",
+        "phase": "storage_headers",
+        "transport": "authenticated_path",
+        "result": "failed",
+        "http_status": 400,
+        "mime_matches": false,
+        "length_matches": false,
+        "size_bytes": 88,
+        "body_sha256": "9d2505709301f205e4135106c7c92c66a58d85a1009b5b823475c6a047de1a9c",
+        "body_truncated": false,
+        "provider_code": "NoSuchKey"
+      },
+      {
+        "asset": "pdf",
+        "phase": "proxy",
+        "transport": "authenticated_path",
+        "result": "failed",
+        "code": "DEPENDENCY_UNAVAILABLE"
+      },
+      {
+        "asset": "pdf",
+        "phase": "storage_headers",
+        "transport": "apikey_only_authenticated_path",
+        "result": "failed",
+        "http_status": 400,
+        "mime_matches": false,
+        "length_matches": false,
+        "size_bytes": 88,
+        "body_sha256": "9d2505709301f205e4135106c7c92c66a58d85a1009b5b823475c6a047de1a9c",
+        "body_truncated": false,
+        "provider_code": "NoSuchKey"
+      },
+      {
+        "asset": "pdf",
+        "phase": "proxy",
+        "transport": "apikey_only_authenticated_path",
+        "result": "failed",
+        "code": "DEPENDENCY_UNAVAILABLE"
+      }
+    ],
+    "same_short_capability_per_transport_pair": true,
+    "production_proxy_modified": false,
+    "ordinary_gateway_capabilities_may_be_issued": true,
+    "private_values_published": false,
+    "hosting_deferred": true
+  },
+  "private_values_or_provider_payloads_published": false,
+  "hosting_deferred": true
+}

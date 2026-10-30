@@ -1,0 +1,173 @@
+{
+  "observed_at": "2026-10-30T02:39:24.413Z",
+  "result": "observed_with_explicit_manual_limits",
+  "scope": "Actual canonical local app CUA browser UI; normal Producer and account-free incognito guest; no hosting",
+  "canonical_observer": "tracking/evidence/m06/app-capture27/2026-10-30T02-37-42-009158Z-22d8c593.json",
+  "events": [
+    {
+      "observedAt": "2026-10-30T02:31:33.925Z",
+      "action": "restored project media persisted after Reload saved candidates",
+      "selectedFramesSeconds": [
+        3.12,
+        12.48
+      ],
+      "unselectedExtraSeconds": 14.04
+    },
+    {
+      "observedAt": "2026-10-30T02:31:33.931Z",
+      "action": "V1 public original-video resume baseline",
+      "readyState": 4,
+      "duration": 19.776009,
+      "videoWidth": 853,
+      "videoHeight": 480,
+      "error": null
+    },
+    {
+      "observedAt": "2026-10-30T02:31:42.559Z",
+      "action": "A downloads disabled; original V1 public video fresh GET",
+      "media": [
+        {
+          "duration": 19.776009,
+          "error": null,
+          "height": 480,
+          "readyState": 4,
+          "width": 853
+        }
+      ]
+    },
+    {
+      "observedAt": "2026-10-30T02:31:50.002Z",
+      "action": "A download-only edit preserved exact expiry",
+      "expiresAt": "2026-11-29T01:09:31.930041Z"
+    },
+    {
+      "observedAt": "2026-10-30T02:32:37.105Z",
+      "action": "A expired via actual keyboard date change; old PDF resume denied",
+      "view": "- link \"Skip to presentation\":\n  - /url: \"#guest-content\"\n- banner:\n  - img \"everyone.\"\n  - generic: Presentation review\n- main:\n  - heading \"Original introduction\" [level=1]\n  - paragraph: This video belongs to the saved PDF’s original presentation version.\n  - heading \"This original video is no longer available.\" [level=2]\n  - alert:\n    - paragraph: This review access is unavailable, expired or revoked.\n  - paragraph: Please ask the producer to check the review link.\n  - button \"Retry video access\"\n- contentinfo: everyone. · Presentation Studio\n- button \"Open Next.js Dev Tools\":\n- alert",
+      "expiresAt": "2026-10-28T21:00:00.000000Z",
+      "note": "Two earlier CUA fill-only saves acknowledged unchanged expiry; no expiry acceptance credited to those attempts. Native ArrowUp then ArrowDown committed React date state."
+    },
+    {
+      "observedAt": "2026-10-30T02:32:49.663Z",
+      "action": "A extension restored same original V1 PDF grant, still downloads disabled",
+      "media": [
+        {
+          "duration": 19.776009,
+          "error": null,
+          "height": 480,
+          "readyState": 4,
+          "width": 853
+        }
+      ],
+      "expiresAt": "2026-11-29T01:09:00.000000Z"
+    },
+    {
+      "observedAt": "2026-10-30T02:33:02.065Z",
+      "action": "A revoked; existing PDF resume now denied on fresh request",
+      "view": "- link \"Skip to presentation\":\n  - /url: \"#guest-content\"\n- banner:\n  - img \"everyone.\"\n  - generic: Presentation review\n- main:\n  - heading \"Original introduction\" [level=1]\n  - paragraph: This video belongs to the saved PDF’s original presentation version.\n  - heading \"This original video is no longer available.\" [level=2]\n  - alert:\n    - paragraph: This review access is unavailable, expired or revoked.\n  - paragraph: Please ask the producer to check the review link.\n  - button \"Retry video access\"\n- contentinfo: everyone. · Presentation Studio\n- button \"Open Next.js Dev Tools\":\n- alert"
+    },
+    {
+      "observedAt": "2026-10-30T02:33:23.449Z",
+      "action": "B rotation ACK; Copy UI reported success but CUA clipboard returned empty; no navigation dispatched, no token output",
+      "copiedLength": 0
+    },
+    {
+      "observedAt": "2026-10-30T02:34:16.780Z",
+      "action": "B rotated visible URL opened new session Ready V3 before identity",
+      "publicSessionPath": "http://127.0.0.1:3000/r/review?session=333f6bd7-7a96-4037-bb7d-7eeaec28a05b"
+    },
+    {
+      "observedAt": "2026-10-30T02:34:52.197Z",
+      "action": "B downloads disabled; previously Ready V3 cached download clicked",
+      "view": "- link \"Skip to presentation\":\n  - /url: \"#guest-content\"\n- banner:\n  - img \"everyone.\"\n  - generic: Presentation review\n- main:\n  - paragraph: Cast Selection\n  - heading \"Review presentation\" [level=1]\n  - paragraph: Dummy Test · Dummy Client\n  - paragraph: Viewing version 3\n  - button \"Check for updates\"\n  - link \"Download guest PDF\" [active]:\n    - /url: /api/v1/review/pdf-exports/8061a0fe-4041-498e-b956-6be19ad94b12/content?review_context=333f6bd7-7a96-4037-bb7d-7eeaec28a05b\n  - alert:\n    - paragraph: The PDF download could not be completed. Try again or ask the producer for a current link.\n    - button \"Try again\"\n  - navigation \"Shared presentation slides\":\n    - list:\n      - 'button \"Slide 1: Cover\"':\n        - text: \"1\"\n        - generic: Cover\n      - 'button \"Slide 2: Father / Father 1\"':\n        - text: \"2\"\n        - generic: Father / Father 1\n      - 'button \"Slide 3: Manager / Manager 1\"':\n        - text: \"3\"\n        - generic: Manager / Manager 1\n      - 'button \"Slide 4: Waiter / Waiter 1\"':\n        - text: \"4\"\n        - generic: Waiter / Waiter 1\n      - 'button \"Slide 5: Waiter / Waiter 2\"':\n        - text: \"5\"\n        - generic: Waiter / Waiter 2\n        - generic: Pending\n      - 'button \"Slide 6: Waiter / Waiter 3\"':\n        - text: \"6\"\n        - generic: Waiter / Waiter 3\n        - generic: Pending\n  - button \"Previous slide\" [disabled]\n  - status: Slide 1 of 6\n  - button \"Next slide\"\n  - region \"Shared slide\":\n    - article:\n      - img \"everyone.\"\n      - heading \"Dummy Test\" [level=2]\n      - paragraph: Dummy Client\n      - heading \"Cast Selection\" [level=3]\n      - generic: Version 3 · 6 slides\n  - region \"Feedback on version 3\":\n    - heading \"Feedback\" [level=2]\n    - paragraph: Version 3 · Choose a candidate\n    - button \"Refresh feedback\"\n    - paragraph: External feedback is shared with reviewers of this presentation. Preferences do not change casting positions.\n    - paragraph: Select a candidate slide to review its role and slot.\n- contentinfo: everyone. · Presentation Studio\n- button \"Open Next.js Dev Tools\":\n- button \"Open issues overlay\":\n  - generic: \"0\"\n  - generic: \"1\"\n  - generic: Issue\n- button \"Collapse issues badge\":\n-",
+      "expiryPreserved": "2026-11-29T01:10:08.069501Z"
+    },
+    {
+      "observedAt": "2026-10-30T02:35:13.548Z",
+      "action": "B cached V3 download direct actual GET denied",
+      "response": "- generic: \"{\\\"request_id\\\":\\\"f7e18b0c-08ff-4506-b4e6-5321c66d6778\\\",\\\"error\\\":{\\\"code\\\":\\\"DOWNLOAD_DISABLED\\\",\\\"message\\\":\\\"PDF downloads are disabled for this review link.\\\",\\\"details\\\":{},\\\"retryable\\\":false}}\"",
+      "viewingContinuedOnSyntheticFather": true
+    },
+    {
+      "observedAt": "2026-10-30T02:35:24.227Z",
+      "action": "B token-generation3 active session denied after rotation4",
+      "sessionId": "333f6bd7-7a96-4037-bb7d-7eeaec28a05b",
+      "view": "- link \"Skip to presentation\":\n  - /url: \"#guest-content\"\n- banner:\n  - img \"everyone.\"\n  - generic: Presentation review\n- main:\n  - heading \"This review link is no longer available.\" [level=1]\n  - paragraph: Please ask the producer for a new review link.\n- contentinfo: everyone. · Presentation Studio\n- button \"Open Next.js Dev Tools\":\n- button \"Open issues overlay\":\n  - generic: \"0\"\n  - generic: \"1\"\n  - generic: Issue\n- button \"Collapse issues badge\":\n- alert\n- document:\n  - banner:\n    - link \"SimplyCodes\":\n      - /url: https://simplycodes.com\n      - img \"SimplyCodes\"\n    - button \"Close\""
+    },
+    {
+      "observedAt": "2026-10-30T02:35:29.813Z",
+      "action": "B old raw generation3 URL denied after rotation4",
+      "view": "- link \"Skip to presentation\":\n  - /url: \"#guest-content\"\n- banner:\n  - img \"everyone.\"\n  - generic: Presentation review\n- main:\n  - heading \"This review link is no longer available.\" [level=1]\n  - paragraph: Please ask the producer for a new review link.\n- contentinfo: everyone. · Presentation Studio\n- button \"Open Next.js Dev Tools\":\n- button \"Open issues overlay\":\n  - generic: \"0\"\n  - generic: \"1\"\n  - generic: Issue\n- button \"Collapse issues badge\":\n- alert\n- document:\n  - banner:\n    - link \"SimplyCodes\":\n      - /url: https://simplycodes.com\n      - img \"SimplyCodes\"\n    - button \"Close\""
+    },
+    {
+      "observedAt": "2026-10-30T02:35:50.853Z",
+      "action": "B new rotation4 session opens Ready V4 with downloads disabled; independent C opens same Ready V4 with downloads enabled",
+      "bPublicSessionPath": "http://127.0.0.1:3000/r/review?session=796db5b1-7423-4cae-ac28-1e7e5032bcc2",
+      "cPublicSessionPath": "http://127.0.0.1:3000/r/review?session=a28e15da-ca0e-462c-b51f-227baca2308e",
+      "versionId": "7a4752bc-b277-4981-9c33-5c1f3d64496f",
+      "mobileViewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "observedAt": "2026-10-30T02:36:10.076Z",
+      "action": "C account-free V4 at390x844; actual video played with Space",
+      "video": [
+        {
+          "currentTime": 10.508024,
+          "ended": false,
+          "error": null,
+          "paused": false,
+          "readyState": 4
+        }
+      ]
+    },
+    {
+      "observedAt": "2026-10-30T02:37:25.834Z",
+      "action": "B rotation4 active session denied after revocation; C remains Ready4 independent",
+      "bView": "- link \"Skip to presentation\":\n  - /url: \"#guest-content\"\n- banner:\n  - img \"everyone.\"\n  - generic: Presentation review\n- main:\n  - heading \"This review link is no longer available.\" [level=1]\n  - paragraph: Please ask the producer for a new review link.\n- contentinfo: everyone. · Presentation Studio\n- button \"Open Next.js Dev Tools\":\n- button \"Open issues overlay\":\n  - generic: \"0\"\n  - generic: \"1\"\n  - generic: Issue\n- button \"Collapse issues badge\":\n- alert\n- document:\n  - banner:\n    - link \"SimplyCodes\":\n      - /url: https://simplycodes.com\n      - img \"SimplyCodes\"\n    - button \"Close\"",
+      "cPublicSessionPath": "http://127.0.0.1:3000/r/review?session=a28e15da-ca0e-462c-b51f-227baca2308e",
+      "cExportId": "b590351d-0b63-4991-bbe5-66c97dd43baf"
+    },
+    {
+      "observedAt": "2026-10-30T02:38:29.057Z",
+      "action": "C mobile-width comment persisted on synthetic Father saved V4",
+      "publicSessionPath": "http://127.0.0.1:3000/r/review?session=a28e15da-ca0e-462c-b51f-227baca2308e",
+      "commentTextRecorded": false,
+      "viewport": {
+        "fieldCount": 13,
+        "height": 844,
+        "scrollWidth": 380,
+        "width": 390
+      },
+      "allTenCandidateFieldsObserved": true,
+      "nativePhoneKeyboardExercised": false,
+      "screenReaderExercised": false
+    }
+  ],
+  "extra_mobile_pdf": "tracking/evidence/m06/live-artifacts/2026-10-30-v4-mobile-download.json",
+  "mobile": {
+    "width": 390,
+    "height": 844,
+    "documentScrollWidth": 380,
+    "nativeVideoProgressSeconds": 10.508024,
+    "videoReadyState": 4,
+    "videoError": null,
+    "roleNavigation": true,
+    "syntheticCommentPersisted": true,
+    "pdfActualSavedBytesVerified": true,
+    "viewportOverrideReset": true,
+    "physicalPhoneOrNativeKeyboardClaimed": false,
+    "manualScreenReaderClaimed": false
+  },
+  "retained_checks": [
+    "AT-054 physical phone keyboard remains unverified",
+    "AT-072 manual assistive-technology check remains unverified"
+  ],
+  "privacy": {
+    "rawTokensGrantUrlsCookiesOrPersonalFactsRecorded": false,
+    "rawCredentialFieldsHiddenBeforeScreenshot": true
+  },
+  "hosting_deferred": true
+}

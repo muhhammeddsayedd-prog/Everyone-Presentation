@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "frozen_release": {
+    "path": "development/m06/frozen-storage27-release.json",
+    "sha256": "caea9e2a05043797bd921794e2241223476d388d985d588b80c580e0d43cdab6"
+  },
+  "promotion": {
+    "path": "tracking/evidence/m06/storage27-promotion-local/2026-10-30T01-38-40-683Z-23114a84.json",
+    "sha256": "b36a172d036661bb3f998e86bdfc6cf26b11c9921b59df33094919238591cc3a"
+  },
+  "reviewed_manifest": {
+    "path": "development/local-db/reviewed.json",
+    "sha256": "07daca7c24ebbc774c5c7453cab5c2d2f63292b52533cae8b9e1a809c1b0bd78"
+  },
+  "source_seals": {
+    "development/local-db/instance.json": "778d29222b0a6b604451a494dab6ca6ffabb7357d5b700794400bf35cc79c198",
+    "development/local-db/reviewed.json": "07daca7c24ebbc774c5c7453cab5c2d2f63292b52533cae8b9e1a809c1b0bd78",
+    "development/m06/baseline26-reviewed.json": "d478c64785b7086113d1af3dc773df04ecdf407ec23a7066350ec13b71ea0abe",
+    "development/m06/candidate27-inputs.json": "bc3d0e79c885791565181b3be1e63ddae4f781142e82d5401176ea9dde0223f6",
+    "development/m06/candidate27.sql": "9e3ab85655c2fa0490aba07118fe730dae2c6193f651c3ba086910d82b7eb171",
+    "development/m06/frozen-storage27-release.json": "caea9e2a05043797bd921794e2241223476d388d985d588b80c580e0d43cdab6",
+    "development/m06/storage-rls-forward.sql": "9e3ab85655c2fa0490aba07118fe730dae2c6193f651c3ba086910d82b7eb171",
+    "development/m06/storage27-release-delta.json": "c519fdc9e5cf5fb27e1e85a0be32ae3288d95f0e225a64008a7dd1e0c6fb85e4",
+    "supabase/migrations/20261030013832_m06_guest_storage_policy_composition.sql": "9e3ab85655c2fa0490aba07118fe730dae2c6193f651c3ba086910d82b7eb171",
+    "tests/db/m04-assignments-fixture.sql": "cb5f418fee0dc3a9b00a9ddeaa3971f5df1c3384c459905baa19b4e04f1d9cb4",
+    "tests/db/m05-processing.sql": "814aca9c60ad7d679bcee020d3e305bd89e25b5919fbdfc11941a3f634da9ada",
+    "tests/db/m05-versions-fixture.sql": "da13283bc15481fc1bb76b9d36a3360c3a30d7b6cc06b7c0a979e25e086c636d",
+    "tests/db/m05-versions.sql": "e1cb9867d36c174b3517924299bb4b600c38569b2a805334f0fb2c385930e670",
+    "tests/db/m06-credential-admission.sql": "341affad7dafa70c922eb1c668ab0c1a9cc714fd31b035024577c617fc377a03",
+    "tests/db/m06-storage-rls.sql": "21079a79debb33d1d4f57667cb0eabe1822f544957e23383899f2511c4bde7f5",
+    "tests/db/m06-storage-worker-hook.sql": "a524383a39c8a23889c62c3d863332eeda4073adb8f0513dbe87ce5ae6422b87",
+    "tests/operations/test_m06_storage27_release.py": "fa52b23e60b34465b9d38bc5de0a9befdb71ca0768f56add81a7d4308adfc555",
+    "tools/freeze-promote-m06-storage27-local.mjs": "87e772c0139de2aa87a584deb5f654874d43ed628cfa8fd3efc1712b041a572e",
+    "tools/local-postgres.mjs": "49929bce8eb51194d9299cfd9639e537eb237daaec76c15740cb88059604e2de",
+    "tools/prove-m06-storage27-local.mjs": "2e4907f7931c38363dd4e0237ed07d0eb39f955716639a69417bc542a0beda92",
+    "tools/provision_logo_verifier.py": "660f2eb0d15b1ed17801ecef22270dbb389fdf93181c340f16d715fc2b3a340c",
+    "tools/release_foundation.py": "02aac0cefc4b46419c7d5a086da672398716cf7ee73882602574cff99659d751",
+    "tools/release_logo.py": "efd1de07b3304d8d5c89f29bbeaf77ff2ce1d8d42ffbf885f960c36f506b47f4",
+    "tools/sql/m04-review-catalog.sql": "36a5b4a3368a5d37092159fcacd18360731aeae5851410f37850c612387529cc",
+    "tools/sql/m06-forward26-data.sql": "c6f98f6851797c1814f6cadac9c7b58d1b3a4507843af8aac4b02ea6ecfab143",
+    "tools/sql/m06-forward26-readback.sql": "0132f92677d703d50c44a06670cbab5632f4abe9d4303171c2ab1709f7086fc5",
+    "tools/sql/m06-release-admission.sql": "037b1d92f65d5d9417d95a999cf213d9c0e567235255b34f80e9baf27a99887b",
+    "tools/sql/m06-review-new-state.sql": "4822a39c5855cb90308048c96050e8d8793be2680b608fb7de5e84363954f717",
+    "tools/sql/m06-storage27-readback.sql": "4deaa39055cd486736ff2c3909513a27750145c8f461a7d02f24773a787f8061",
+    "tools/test-m06-storage-rls-local.mjs": "c70344624196338a0b9c25de44a3d20430e70b9e2b743c630550ac8f3c3d95a0",
+    "tracking/evidence/m06/storage-rls-local/2026-10-30T01-37-21-791Z-abba75e3.json": "e7050bc90962d6ac77d0f6d83bf2b55326677122e6696927aa78ee14a2dc9c38",
+    "tracking/evidence/m06/storage27-promotion-local/2026-10-30T01-38-40-683Z-23114a84.json": "b36a172d036661bb3f998e86bdfc6cf26b11c9921b59df33094919238591cc3a",
+    "tracking/evidence/m06/storage27-release-local/2026-10-30T01-38-28-229Z-80e340c2.json": "0b0ec91aac736f59090751e9211acb33809d7f74b849020f19f0f5c40cea6cb0"
+  }
+}

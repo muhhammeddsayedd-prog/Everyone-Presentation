@@ -7,11 +7,12 @@ export type FrameStage = 'extract_frames' | 'apply_frames';
 export type ReviewStage = 'prepare_suggestion' | 'generate_suggestion' | 'validate_suggestion';
 export type FitStage = 'measure_review_fit';
 export type PresentationStage = 'prepare_presentation' | 'render_presentation' | 'validate_presentation' | 'publish_presentation';
+export type ExportStage = 'render_export';
 export interface StageWorkOrder {
   schema_version: '1.0';
-  event_id: string; job_id: string; kind: 'specs_extract' | 'candidate_scan' | 'frame_extract' | 'ai_suggestion' | 'review_fit' | 'presentation_render'; stage: SpecsStage | CandidateStage | FrameStage | ReviewStage | FitStage | PresentationStage; input_hash: string; correlation_id: string;
+  event_id: string; job_id: string; kind: 'specs_extract' | 'candidate_scan' | 'frame_extract' | 'ai_suggestion' | 'review_fit' | 'presentation_render' | 'presentation_export'; stage: SpecsStage | CandidateStage | FrameStage | ReviewStage | FitStage | PresentationStage | ExportStage; input_hash: string; correlation_id: string;
   workflow_execution_id: string;
-  handler: 'native.prepare_document' | 'openai.extract_specs' | 'domain.apply_specs' | 'native.prepare_candidate' | 'openai.transcribe_candidate' | 'openai.extract_candidate' | 'openai.select_frames' | 'domain.apply_candidate' | 'native.extract_frames' | 'domain.apply_frames' | 'domain.prepare_suggestion' | 'openai.generate_suggestion' | 'domain.validate_suggestion' | 'native.measure_review_fit' | 'native.prepare_presentation' | 'native.render_presentation' | 'native.validate_presentation' | 'domain.publish_presentation';
+  handler: 'native.prepare_document' | 'openai.extract_specs' | 'domain.apply_specs' | 'native.prepare_candidate' | 'openai.transcribe_candidate' | 'openai.extract_candidate' | 'openai.select_frames' | 'domain.apply_candidate' | 'native.extract_frames' | 'domain.apply_frames' | 'domain.prepare_suggestion' | 'openai.generate_suggestion' | 'domain.validate_suggestion' | 'native.measure_review_fit' | 'native.prepare_presentation' | 'native.render_presentation' | 'native.validate_presentation' | 'domain.publish_presentation' | 'native.render_export';
 }
 /** Construct only after the adapter has verified its authenticated narrow LOGIN.
  * No user JWT, SET ROLE, public endpoint or connection target comes from a job. */
@@ -21,6 +22,7 @@ export interface StageRuntimeGateway {
   claim(input: StageClaim, signal?: AbortSignal): Promise<StageLease>;
   getInput(scope: { job_id: string; attempt_id: string; lease_token: string }, signal: AbortSignal): Promise<unknown>;
   recordEvent(event: JobEvent, signal: AbortSignal): Promise<JobEventReceipt>;
+  mintReviewMediaGrant?(scope: { job_id: string; attempt_id: string; lease_token: string }, signal: AbortSignal): Promise<unknown>;
   recover(limit: number, signal?: AbortSignal): Promise<unknown>;
   close?(): Promise<void>;
 }
@@ -30,7 +32,7 @@ export interface SpecsStageRouter {
 export interface WorkerNotice {
   event: 'idle' | 'stage_callback_committed' | 'stage_unconfirmed' | 'dispatch_rejected' | 'dispatch_unconfirmed' | 'recovery_completed' | 'recovery_unconfirmed';
   job_id?: string;
-  stage?: SpecsStage | CandidateStage | FrameStage | ReviewStage | FitStage | PresentationStage;
+  stage?: SpecsStage | CandidateStage | FrameStage | ReviewStage | FitStage | PresentationStage | ExportStage;
   code?: string;
   gateway_phase?: string;
   transport_code?: string;

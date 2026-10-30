@@ -1,0 +1,155 @@
+{
+  "observed_at": "2026-10-30T02:55:32.734140+00:00",
+  "result": "focused_local_passed",
+  "scope": "Shared immutable original-video source transcript companion types, closed parsing, exact scope/UTF8 hash validation and existing internal/guest/PDF-grant HTTP plus official MCP playback parity. No new route or semantic operation.",
+  "contract": {
+    "field": "VersionMediaPlayback.transcript",
+    "optional_additive": true,
+    "source_kind": "source_transcript",
+    "statuses": [
+      "available",
+      "not_provided",
+      "not_captured"
+    ],
+    "maximum_original_text_codepoints": 200000,
+    "available_text_exact_untrimmed": true,
+    "source_sha256": "SHA256 of exact original_text UTF8; nullable only for unavailable states",
+    "unavailable_text_hash_null_languages_empty": true,
+    "language_values_and_order_preserved_without_casefold_or_dedup": true,
+    "no_live_library_read_or_legacy_backfill": true,
+    "render_snapshot_manifest_candidate_fields_and_pdf_composition_unchanged": true
+  },
+  "meaningful_reds": {
+    "central": "Two positive regressions fail before optional wrapper/explicit legacy implementation; existing negative guards pass.",
+    "contracts": "All three new HTTP/schema/official SDK regressions fail before the closed schema is extended.",
+    "retained_intermediate": "The first implementation assumed optional-key support in presentationRecord; three pass and legacy absence fails. Fixed by selecting the exact allowed key set, without loosening unknown fields."
+  },
+  "verification": {
+    "new_tests": 12,
+    "new_domain": 4,
+    "new_central": 5,
+    "new_http_official_sdk": 3,
+    "focused_related_tests": 44,
+    "focused_failed_skipped_cancelled_todo": 0,
+    "targeted_lint": "passed",
+    "whole_tsc_no_emit": "passed",
+    "source_only_generation_byte_idempotent": true,
+    "known_existing_tests_edited": false
+  },
+  "source_fence": {
+    "before_and_after_exact": true,
+    "files": 15,
+    "sha256": {
+      "packages/domain/src/presentation-types.ts": "9679d6255ea26d52a0297cde370e6d147c8d8fa7535d68e3d7c7bc3a155f4bd2",
+      "packages/domain/src/presentation-transcript.ts": "58a9652feda7c8319ccd2187cc62babe00f9ce3fabea7bab5bb4b8dd7852ed29",
+      "packages/domain/src/index.ts": "b97f1bbf250447910b8f050270348c55e6a5046b2450108190ea7eb9e2968c8d",
+      "packages/central/src/presentation-transcript.ts": "688786458f9f8ae3858a6d8636d4415b4b982c5f09d465e93906e85ea2462565",
+      "packages/central/src/presentation-storage.ts": "9aaee66a7fc28e7c64b01aea6229047a4f9fbbed1234e9a419b817ccfcfe4e95",
+      "packages/central/src/guest-storage.ts": "4718cb35dc2b77dc261dce1ddcc7e4e9c536493b42122fce1f4b13b4733e6d46",
+      "packages/central/src/presentation.ts": "c733bf1956e9fbaf42a31e93449350511e3b3663b1845c9ebdef2cbc19447552",
+      "packages/central/src/guest-reviews.ts": "e916e0f6551fc35358fef8ec9ea7bfde00483f0cd010e50d3616f03e9d744b5a",
+      "contracts/openapi.yaml": "444ac73e96d5a01f1bdf295e7d03e520e8eeec64b92a5dc916f992a5520d5f70",
+      "contracts/mcp-tool-catalog.json": "02f3a31fc28593bc5d591678e3258b0abcceef2ed82385c81471e12448b40eed",
+      "apps/web/lib/generated-contracts.json": "d2f36db2739e2f7729140e75d0823a1119cc7d293a66e019cca74cc098b77e35",
+      "tools/update_m06_transcript_contracts.py": "0a41f19de67c66e14e8614133e1ed3b512fe35fdd86ae57c9f08fb3b23db17be",
+      "tests/domain/version-transcript.test.ts": "08c8ae1be0f8410b7d67ea8bbfc17e8cbeada145d43cca25b174dadfd5442137",
+      "tests/server/m06-transcript-contracts.test.ts": "1b7df906c6b5742b2daf25b7101f554bde5fdb326076aba3e7b8c64898ea9826",
+      "packages/central/test/m06-transcript.test.ts": "8c54dfa70397ee2a104c4b5c970bb209262b82ba472a9aa4ecf13ba98f6165e3"
+    }
+  },
+  "logs": {
+    "central_red": {
+      "path": ".local/m06-api/transcript-central-red.log",
+      "sha256": "0047a55a5e131fe2cf155991d3dca349bdee8c84fe0b8c48ff6a5d2a91cffab5",
+      "bytes": 6170,
+      "counts": {
+        "tests": 4,
+        "pass": 2,
+        "fail": 2,
+        "skipped": 0,
+        "cancelled": 0,
+        "todo": 0
+      }
+    },
+    "contract_red": {
+      "path": ".local/m06-api/transcript-contract-red.log",
+      "sha256": "459621d22c6c3066c9df4aefd4d2d725bae9a9e293e17e3cc834adcfa4444278",
+      "bytes": 7596,
+      "counts": {
+        "tests": 3,
+        "pass": 0,
+        "fail": 3,
+        "skipped": 0,
+        "cancelled": 0,
+        "todo": 0
+      }
+    },
+    "intermediate_wrapper_failure": {
+      "path": ".local/m06-api/transcript-central-green.log",
+      "sha256": "f87d1611b52b5cb46b3c8e4de3ec24a6ebc67a546e75293648a7a9159dd8176a",
+      "bytes": 3690,
+      "counts": {
+        "tests": 4,
+        "pass": 3,
+        "fail": 1,
+        "skipped": 0,
+        "cancelled": 0,
+        "todo": 0
+      }
+    },
+    "focused_green44": {
+      "path": ".local/m06-api/transcript-source-fenced-tests.log",
+      "sha256": "2f2b0a9fe35ea294ba50bfded33cfe81af61bb207c270fd8ff76915609538ff8",
+      "bytes": 9274,
+      "counts": {
+        "tests": 44,
+        "pass": 44,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "todo": 0
+      }
+    },
+    "targeted_lint": {
+      "path": ".local/m06-api/transcript-source-fenced-lint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "whole_typecheck": {
+      "path": ".local/m06-api/transcript-typecheck.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "byte_idempotent_generation": {
+      "path": ".local/m06-api/transcript-generation-final.log",
+      "sha256": "afcf30c74bbbe30f1320fe10807f137d5a002867f9793baa568f92baf0848dc0",
+      "bytes": 185
+    }
+  },
+  "historical_805e_quality": {
+    "path": "tracking/evidence/m06/quality/2026-10-30T02-39-14-028843Z-805e65f9-final.json",
+    "sha256": "03a167c44a3a17420c29efffaa24b7a1025603a72e3f151a09eabe3e26321c5f",
+    "boundary": "Pre-DST and pre-transcript; preserved unchanged, not claimed as final current implementation quality."
+  },
+  "storage27_release33_preserved": {
+    "path": "development/m06/storage27-review-release.json",
+    "sha256": "dfd71ad4285c3d67a671ff5eeca036341ecb68c0b1c6cd30860b6b1c3b0a4703",
+    "all33_exact": true
+  },
+  "worker_startup23_preserved": {
+    "path": "tracking/evidence/m06/worker-transition/2026-10-30T01-05-25-6587558Z-f2b681e9-owned-processes-ready.json",
+    "sha256": "63ca35545c06bcfdf918fd269890ddb648555050b29df927d939502b393b7a33",
+    "all23_exact": true
+  },
+  "private_credentials_or_real_transcript_fixtures_loaded": false,
+  "hosting_deferred": true,
+  "limits": [
+    "Controlled synthetic transports and source parsers; canonical forward28 capture/authorization and real post28 app transcript evidence are separate.",
+    "Root owns the six player UI tests and player integration; they are not included in these44 cases.",
+    "No caption timing, fact confirmation/Reviewed, manual assistive technology, external OAuth, restore or hosting acceptance is claimed.",
+    "Source hashes cover the15 owned shared-contract/adapter/test files. Root UI and new SQL/release sources are outside this focused source fence.",
+    "This is not a current full693-module/82-E2E/build/offline result; final integrated quality follows the coordinated database/UI freeze."
+  ],
+  "cloud_cli_or_live_provider_calls": false,
+  "runtime_configuration_or_runtime_process_mutations": false
+}

@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "frozen_release": {
+    "path": "development/m06/frozen-forward26-release.json",
+    "sha256": "0549b550592e87175a46857a8fe997279a68228a25cb6e10677c8cb66f915b74"
+  },
+  "promotion": {
+    "path": "tracking/evidence/m06/forward26-promotion-local/2026-10-30T00-47-05-436Z-b1d4bb7b.json",
+    "sha256": "cbbb48d44b9158545eaead9f7c5e7c69c4c0072a2ce140f47b494967888eab1a"
+  },
+  "current_pgp_proof": {
+    "path": "tracking/evidence/m06/guest-pgp26-local/2026-10-30T00-47-44-196Z-0452cfe8.json",
+    "sha256": "03f3312282574ca9fc7416f52099060b5a8328009524f1deadba0ad450a78074"
+  },
+  "reviewed_manifest": {
+    "path": "development/local-db/reviewed.json",
+    "sha256": "d478c64785b7086113d1af3dc773df04ecdf407ec23a7066350ec13b71ea0abe"
+  },
+  "source_seals": {
+    "development/local-db/reviewed.json": "d478c64785b7086113d1af3dc773df04ecdf407ec23a7066350ec13b71ea0abe",
+    "development/m06/baseline25-reviewed.json": "696297092815d3a51b6991b8fd118b1eee34bfa25672c120366227905d49bf43",
+    "development/m06/candidate26-inputs.json": "6d38ea7d5ba6d8ba481d1a71e0f4e462b6e768845b3dcf5c33d459891381aa20",
+    "development/m06/candidate26.sql": "a0fb9dfec8cdae2718719d455ed11b4f25dd9b79e8fc9de19bd53c229b64089e",
+    "development/m06/credential-admission-forward.sql": "1f2d6cae1097faa0405098a269a344500a1007a34c03a77c6cf87ecff2485e5a",
+    "development/m06/forward26-release-delta.json": "6833be64a5b4208f7b46e080cf81c356536b106361603082667401db3d98cbb5",
+    "development/m06/frozen-forward26-release.json": "0549b550592e87175a46857a8fe997279a68228a25cb6e10677c8cb66f915b74",
+    "development/m06/guest-export-retry-forward.sql": "6005374b8ff15322d8965ddae22f8aae1197a17482a40c3ac4ade3ad39ec30b2",
+    "supabase/migrations/20261030004643_m06_credential_admission_guest_retry.sql": "a0fb9dfec8cdae2718719d455ed11b4f25dd9b79e8fc9de19bd53c229b64089e",
+    "tests/operations/test_m06_forward26_release.py": "ad8d1f6aadbb9c482d455205c202785e7af560370ff5d89e8e51ae8d8ebf3f6c",
+    "tools/freeze-promote-m06-forward26-local.mjs": "611afcfb76947819705e9f2079863153862c0c0acd1fa5f2fabf90aa1ceeb4aa",
+    "tools/private-guest-env.mjs": "8219faec7ae333b26ee93e354e3d46618378a27b5ef3a9a18ac96f19e62afa9f",
+    "tools/private-key-bootstrap/bootstrap.mjs": "82bf256bc3fdfefa43777d3766b62ce4399ddcf14db6ee2086dea506404dbc9f",
+    "tools/private-key-bootstrap/package-lock.json": "d89d2847c8963079936d69d4b7ebff0160594e7d1a2e59540e1d573b34f783ea",
+    "tools/private-key-bootstrap/package.json": "32d579f2f53b9516ae8b51570dba71875bf23e37c57599da341b9d5c8735f51d",
+    "tools/prove-m06-forward26-local.mjs": "8c83c9164ffb23822bd2c00c46957075b6556be0f5675ee56cefd29979d74544",
+    "tools/provision-m06-guest.py": "ca48373e8f5f82af7d4a404f05d224a1d8cc13efaf18b94a523dc38616c23b64",
+    "tools/provision-m06-guest26.py": "6929e812f1d848fd13e21a1d44495773710484f5ac6b3c7aaf29dad839411697",
+    "tools/provision_logo_verifier.py": "660f2eb0d15b1ed17801ecef22270dbb389fdf93181c340f16d715fc2b3a340c",
+    "tools/release_foundation.py": "02aac0cefc4b46419c7d5a086da672398716cf7ee73882602574cff99659d751",
+    "tools/sql/m04-review-catalog.sql": "36a5b4a3368a5d37092159fcacd18360731aeae5851410f37850c612387529cc",
+    "tools/sql/m06-forward26-data.sql": "c6f98f6851797c1814f6cadac9c7b58d1b3a4507843af8aac4b02ea6ecfab143",
+    "tools/sql/m06-forward26-readback.sql": "0132f92677d703d50c44a06670cbab5632f4abe9d4303171c2ab1709f7086fc5",
+    "tools/sql/m06-guest-bootstrap-template.sql": "d92c42e857eb5764a036797cf351f8f1af2fbcd050870818ab2b5bd90c19e4e5",
+    "tools/sql/m06-guest-key-state.sql": "aa1a3fb657fb92d8e04dc9fb7f5ce5539a901986ff351372dbfcf4f6070bdf9e",
+    "tools/sql/m06-guest-recover-template.sql": "28a115a3768744dccef91773c45238243f074d797c8643403db106af68757f16",
+    "tools/sql/m06-release-admission.sql": "037b1d92f65d5d9417d95a999cf213d9c0e567235255b34f80e9baf27a99887b",
+    "tools/sql/m06-review-new-state.sql": "4822a39c5855cb90308048c96050e8d8793be2680b608fb7de5e84363954f717",
+    "tools/test-m06-guest-pgp26-local.mjs": "4cde47167ee5d7bb53fb5f63b46ce533ce84789f25f2d0883d4eeabf862c358a",
+    "tracking/evidence/m06/forward26-local/2026-10-30T00-45-20-762Z-a7493d50.json": "b806b33e10d68e7f0d68a8f4a44a408c9dab188664926172c77372a13c7835b9",
+    "tracking/evidence/m06/forward26-release-local/2026-10-30T00-46-20-101Z-255c7bf7.json": "72f5575be161e38a767d78e9b60be2ead80a86104d4442ec2b6b9eca325a2ad4"
+  }
+}

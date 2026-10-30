@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "frozen_at": "2026-10-30T00:46:43.566Z",
+  "version": "20261030004643",
+  "migration_path": "supabase/migrations/20261030004643_m06_credential_admission_guest_retry.sql",
+  "migration_sha256": "a0fb9dfec8cdae2718719d455ed11b4f25dd9b79e8fc9de19bd53c229b64089e",
+  "migration_bytes": 10602,
+  "baseline": "development/m06/baseline25-reviewed.json",
+  "baseline_sha256": "696297092815d3a51b6991b8fd118b1eee34bfa25672c120366227905d49bf43",
+  "fragments": {
+    "development/m06/credential-admission-forward.sql": "1f2d6cae1097faa0405098a269a344500a1007a34c03a77c6cf87ecff2485e5a",
+    "development/m06/guest-export-retry-forward.sql": "6005374b8ff15322d8965ddae22f8aae1197a17482a40c3ac4ade3ad39ec30b2"
+  },
+  "release_proof": "tracking/evidence/m06/forward26-release-local/2026-10-30T00-46-20-101Z-255c7bf7.json",
+  "release_proof_sha256": "72f5575be161e38a767d78e9b60be2ead80a86104d4442ec2b6b9eca325a2ad4",
+  "behavior_proof": "tracking/evidence/m06/forward26-local/2026-10-30T00-45-20-762Z-a7493d50.json",
+  "behavior_proof_sha256": "b806b33e10d68e7f0d68a8f4a44a408c9dab188664926172c77372a13c7835b9",
+  "bootstrap_proof_scope": "Root26 bootstrap requires a separate actual current26 local proof after promotion.",
+  "readback_query": "tools/sql/m06-forward26-readback.sql",
+  "readback_sha256": "0132f92677d703d50c44a06670cbab5632f4abe9d4303171c2ab1709f7086fc5",
+  "catalog_delta": "development/m06/forward26-release-delta.json",
+  "catalog_delta_sha256": "6833be64a5b4208f7b46e080cf81c356536b106361603082667401db3d98cbb5",
+  "scope": "Exact additive25 technical review/local promotion only; root independently reviews canonical release. Disabled/null-key config. No cloud, production or hosting claim."
+}

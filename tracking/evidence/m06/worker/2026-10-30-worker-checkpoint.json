@@ -1,0 +1,76 @@
+{
+  "observed_at": "2026-10-30T00:22:30.741536+00:00",
+  "scope": "M06 worker/native/helper checkpoint; controlled offline proofs remain separate from cloud activation/live guest acceptance",
+  "result": "passed_scoped_checks",
+  "source_sha256": {
+    "apps/worker/src/presentation-pdf.ts": "c1360dbbaaaac8a05366313797b243cb352425d38437ab65bfd326e4b5afff6e",
+    "apps/worker/src/presentation-export-executor.ts": "15e4b6f7123c4340f8f0dd6c4869b711c1a4bb3433ce66e14d9b9d6093091e06",
+    "apps/worker/src/runtime.ts": "1bffa78aeccc34162d50e740837a390ceb3114284c7df68f0dd184a7d9d5de54",
+    "apps/worker/src/runtime-main.ts": "24111eb360048358fc9133c9f4a6a79d4881677269831484ac62bed4c54e8bfb",
+    "apps/worker/src/runtime-types.ts": "88eebf66c0f7dd1add3a88758a5f25cd309caf82c9620a28ffa1753762b28124",
+    "apps/worker/src/n8n-orchestrator.ts": "7be252a5115c5f600d0f161458e60b056ec3d2109a634592dc7336792efa5e93",
+    "packages/central/src/specs-runtime-gateway.ts": "5e3e6c1b4da316ebac501967769712ecc61d590b68a4e6fd942e50a382f9d1de",
+    "packages/integrations/src/n8n-dispatch.ts": "c1d3fdb9521212a95596ba53b49fc3e949c64e7fb8df0d684c9d82e09b732e34",
+    "tools/start-specs-worker.mjs": "9514716ca0b3b1825c8658ea06eb7ccd4d6b8b39c9ef30bd9e02e2fc9fab11d7",
+    "tools/build-guest-export-wf03.mjs": "366e06ec562cb75f8800b3bcafbd23e0a7aca1f124a9501201b7dbe6faafbada",
+    "tools/update-guest-export-n8n.mjs": "7af688e4f8fe4bff0ca6ca2a58dad0d525b525ec4e754391f7cb479b27400420",
+    "tools/check-guest-export-runtime.mts": "3d7a7cc47473e7bf3a8681b2f712b1581e21022b830c4312518fb2614fef4c2b",
+    "tools/verify-m06-export-native.mts": "bd317afe9ac85b0c90a369c604f0b6c50facd0e3dfcefed29e9eab8fb007fdbe",
+    "contracts/json-schema/presentation-export-result.schema.json": "229f98ca99649bf71f4bb16e87e7d57dc418d295dffd35dc1e10b314b4522992",
+    "development/m06/export-processing.sql": "b11fd564a63f7785be396bb81083fd9c380570911d1eb496e4ee2d26097c0d8d",
+    "tests/db/m06-export-processing.sql": "400d762fbad3dc6655d77c8bd1d200e1b4f44266524a0eb65a18a2647feb6d38"
+  },
+  "checks": [
+    {
+      "command": "node tools/run-tests.mjs tests/worker/presentation-*.test.ts packages/central/test/specs-runtime-gateway.test.ts packages/central/test/export-runtime-gateway.test.ts",
+      "tests": 59,
+      "pass": 59,
+      "fail": 0,
+      "tool_output_chunks": [
+        "58fdf6",
+        "19b4f5"
+      ],
+      "note": "Presentation and gateway regression checkpoint; suite overlaps later whole-app gates."
+    },
+    {
+      "command": "node --test tools/build-guest-export-wf03.test.mjs tools/update-guest-export-n8n.test.mjs",
+      "tests": 5,
+      "pass": 5,
+      "fail": 0,
+      "tool_output_chunk": "6b7b1d",
+      "scope": "Synthetic HTTP and workflow mapper tests; no live configuration or requests"
+    },
+    {
+      "command": "npm.cmd run typecheck",
+      "result": "passed",
+      "tool_output_chunks": [
+        "abd598",
+        "9f54af"
+      ]
+    },
+    {
+      "command": "npx.cmd eslint <worker/native/gateway/newtests/tools> --max-warnings 0",
+      "result": "passed",
+      "tool_output_chunks": [
+        "abd598",
+        "9f54af"
+      ]
+    }
+  ],
+  "native_receipt": "tracking/evidence/m06/native/2026-10-30T00-15-06.908Z-access-only.json",
+  "visual_receipt": "tracking/evidence/m06/native/2026-10-30T00-15-06.908Z-visual-review.json",
+  "sql_receipt": "tracking/evidence/m06/guest-local/2026-10-30T00-20-20-564Z-bcf50d4a.json",
+  "sql_scope": "Rollback-only synthetic data and injected artifact metadata; three export-specific markers among eleven combined guest markers. No native or Storage HTTP claim.",
+  "audit_receipt": "tracking/evidence/m06/worker/2026-10-30-npm-audit.json",
+  "helper_live_executed_by_this_agent": false,
+  "cloud_mutation_by_this_agent": false,
+  "worker_restarted_by_this_agent": false,
+  "n8n_helper_source_frozen_for_root_live_actions": true,
+  "hosting_deferred": true,
+  "remaining": [
+    "Root coordinated canonical release/bootstrap/actual12port startup and owned worker transition.",
+    "Root actual WF03 update/readback/publication and metadata probes.",
+    "Root actual two-browser guest feedback and downloaded PDF original-media/expiry/rotation verification.",
+    "Broader M03 independent semantic dataset remains separate."
+  ]
+}

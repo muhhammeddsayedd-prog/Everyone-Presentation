@@ -13,6 +13,7 @@ import type { ReviewFitStageOptions } from './review-fit-stage-executor.ts';
 import type { SpecsStageRouter } from './runtime-types.ts';
 import { createPresentationStageAssets } from './presentation-assets.ts';
 import type { PresentationStageOptions } from './presentation-stage-executor.ts';
+import type { PresentationExportOptions } from './presentation-export-executor.ts';
 
 const startupCodes = new Set(['WORKER_RUNTIME_SCOPE_INVALID','OPENAI_KEY_REQUIRED','OPENAI_EXTRACTION_MODEL_REQUIRED','OPENAI_CONFIGURATION_INVALID',
   'N8N_RUNTIME_CONFIGURATION_REQUIRED','RUNTIME_CONFIG_INVALID','RUNTIME_AUTH_UNVERIFIED','RUNTIME_ROLE_UNVERIFIED','RUNTIME_UNAVAILABLE','DEPENDENCY_UNAVAILABLE', 'CANDIDATE_RUNTIME_CONFIGURATION_INVALID', 'FRAME_RUNTIME_CONFIGURATION_INVALID', 'PDF_VISION_CONFIGURATION_INVALID', 'REVIEW_RUNTIME_CONFIGURATION_INVALID', 'PRESENTATION_RUNTIME_CONFIGURATION_INVALID']);
@@ -78,6 +79,8 @@ export async function verifySpecsWorkerStartup(environment: Readonly<Record<stri
       review = { openAI: openAIMediaConfigFromEnv('extraction', environment) }; fit = {};
     }
     const presentationEnabled = environment.EPS_PRESENTATION_ENABLED;
+    const exportsEnabled = environment.EPS_GUEST_EXPORTS_ENABLED;
+    if (exportsEnabled !== undefined && exportsEnabled !== 'true' && exportsEnabled !== 'false' || exportsEnabled === 'true' && presentationEnabled !== 'true') throw { code: 'PRESENTATION_RUNTIME_CONFIGURATION_INVALID' };
     if (presentationEnabled !== undefined && presentationEnabled !== 'true' && presentationEnabled !== 'false') throw { code: 'PRESENTATION_RUNTIME_CONFIGURATION_INVALID' };
     if (presentationEnabled === 'true') {
       let destination: URL; let base: URL;
@@ -86,14 +89,14 @@ export async function verifySpecsWorkerStartup(environment: Readonly<Record<stri
         || [environment.N8N_DISPATCH_SECRET, environment.N8N_CANDIDATE_DISPATCH_SECRET, environment.N8N_REVIEW_DISPATCH_SECRET].includes(environment.N8N_PRESENTATION_DISPATCH_SECRET)
         || [environment.N8N_DISPATCH_URL, environment.N8N_CANDIDATE_DISPATCH_URL, environment.N8N_REVIEW_DISPATCH_URL].includes(environment.N8N_PRESENTATION_DISPATCH_URL)) throw { code: 'PRESENTATION_RUNTIME_CONFIGURATION_INVALID' };
       const presentationRouter = new N8nSpecsOrchestrator({ url: environment.N8N_PRESENTATION_DISPATCH_URL!, secret: environment.N8N_PRESENTATION_DISPATCH_SECRET! });
-      const prior = router; router = { route: (envelope, signal) => envelope.kind === 'presentation_render' ? presentationRouter.route(envelope, signal) : prior.route(envelope, signal) };
+      const prior = router; router = { route: (envelope, signal) => envelope.kind === 'presentation_render' || exportsEnabled === 'true' && envelope.kind === 'presentation_export' ? presentationRouter.route(envelope, signal) : prior.route(envelope, signal) };
     }
     checkpoint = 'gateway_verification'; const configuration = readSpecsRuntimeConfig(environment);
     let gateway: Awaited<ReturnType<typeof createSpecsRuntimeGateway>> | undefined;
     // Only pre-work availability may retry. Each failed factory closes its own
     // pool; no claim, recovery, n8n request or provider execution has begun.
     for (attempts = 1; attempts <= 3; attempts++) {
-      try { gateway = await createGateway(configuration, {}, fileConfiguration, undefined, enabled === 'true' || framesEnabled === 'true', presentationEnabled === 'true'); break; }
+      try { gateway = await createGateway(configuration, {}, fileConfiguration, undefined, enabled === 'true' || framesEnabled === 'true', presentationEnabled === 'true', exportsEnabled === 'true'); break; }
       catch (error) { const code = startupCode(error);
         if (attempts === 3 || code !== 'RUNTIME_UNAVAILABLE' && code !== 'DEPENDENCY_UNAVAILABLE') throw error;
         await wait(attempts * 500);
@@ -118,7 +121,12 @@ export async function verifySpecsWorkerStartup(environment: Readonly<Record<stri
       if (!port || typeof port.getAssetAccess !== 'function' || typeof port.reserveOutput !== 'function' || typeof port.completeOutput !== 'function') { await gateway.close(); throw { code: 'PRESENTATION_RUNTIME_CONFIGURATION_INVALID' }; }
       presentation = { assets: createPresentationStageAssets(port, { publishableKey: fileConfiguration.publishableKey }) };
     }
-    return { openAI, router, fileConfiguration, gateway, candidate, frames, vision, review, fit, presentation };
+    let presentationExport: PresentationExportOptions | undefined;
+    if (exportsEnabled === 'true') {
+      if (!presentation || typeof gateway.mintReviewMediaGrant !== 'function' || gateway.verifiedFunctionOperations !== 12) { await gateway.close(); throw { code: 'PRESENTATION_RUNTIME_CONFIGURATION_INVALID' }; }
+      presentationExport = { assets: presentation.assets };
+    }
+    return { openAI, router, fileConfiguration, gateway, candidate, frames, vision, review, fit, presentation, presentationExport };
   } catch (error) {
     throw new SpecsWorkerStartupError(checkpoint, startupCode(error), filesRequested, attempts, specsRuntimeFailureDiagnostics(error));
   }
@@ -127,14 +135,14 @@ export async function verifySpecsWorkerStartup(environment: Readonly<Record<stri
 /** Server-only entry. Provider/DB/webhook credentials arrive by a scrubbed child
  * environment; the n8n management key is never an acceptable runtime input. */
 async function main(): Promise<void> {
-  const { openAI, router, fileConfiguration, gateway, candidate, frames, vision, review, fit, presentation } = await verifySpecsWorkerStartup();
+  const { openAI, router, fileConfiguration, gateway, candidate, frames, vision, review, fit, presentation, presentationExport } = await verifySpecsWorkerStartup();
   const controller = new AbortController();
   const stop = () => controller.abort();
   const message = (value: unknown) => { if (value && typeof value === 'object' && Object.keys(value).length === 1
     && 'type' in value && value.type === 'shutdown') stop(); };
   process.once('SIGINT', stop); process.once('SIGTERM', stop); process.once('disconnect', stop); process.on('message', message);
   process.stdout.write(JSON.stringify({ event: 'specs_worker_started', authentication: 'narrow_database_login', orchestration: 'n8n_required' }) + '\n');
-  try { await runSpecsWorker(gateway, router, { openAI, signal: controller.signal, review, fit, presentation,
+  try { await runSpecsWorker(gateway, router, { openAI, signal: controller.signal, review, fit, presentation, presentationExport,
     candidate: candidate ? { ...candidate, onDiagnostic: value => process.stdout.write(JSON.stringify({ event: value.error_kind === 'native' ? 'candidate_video_processing_failed' : 'candidate_stage_processing_failed', ...value }) + '\n') } : undefined,
     frames: frames ? { ...frames, onDiagnostic: value => process.stdout.write(JSON.stringify({ event: 'frame_processing_failed', ...value }) + '\n') } : undefined,
     vision: vision ? { ...vision, onMetadata: metadata => process.stdout.write(JSON.stringify({ event: 'document_vision_page_processed', ...metadata }) + '\n') } : undefined,

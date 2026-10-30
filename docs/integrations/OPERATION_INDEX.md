@@ -113,3 +113,8 @@ Generated from the handoff contract. `openapi.yaml` owns schemas and paths; the 
 | `play_version_media` | `POST /versions/{version_id}/media/{asset_id}/playback` | workspaces.read | Yes |
 | `get_version_media_content` | `GET /versions/{version_id}/media/{asset_id}/content` | workspaces.read | No; binary companion to playback/download |
 | `get_version_pdf_content` | `GET /versions/{version_id}/pdf/content` | workspaces.read | No; binary companion to playback/download |
+| `guest_get_session` | `GET /review/session` | guest | No; browser resume after initial token removal |
+| `get_pdf_export_content` | `GET /pdf-exports/{export_id}/content` | review_links.manage | No; binary companion to export download |
+| `guest_get_pdf_export_content` | `GET /review/pdf-exports/{export_id}/content` | guest | No; binary companion to guest export download |
+| `guest_get_media_content` | `GET /review/versions/{version_id}/media/{asset_id}/content` | guest | No; request-authorized frame/logo/original byte proxy |
+| `get_review_media_content` | `GET /review-media/versions/{version_id}/media/{asset_id}/content` | media-grant | No; fixed-version PDF original byte proxy |

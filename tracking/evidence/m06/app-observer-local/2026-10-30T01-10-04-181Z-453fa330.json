@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "run_id": "453fa330-bba2-47cb-b009-30a08baa3926",
+  "observed_at": "2026-10-30T01:09:57.539Z",
+  "result": "passed",
+  "cloud_called": false,
+  "provider_called": false,
+  "scope": "Owned local26 fixed-workspace metadata query compiles under repeatable-read/read-only; empty local business rows do not establish canonical app or browser acceptance.",
+  "source_seals": {
+    "tools/sql/m06-app-capture.sql": "3ea7b6546bce9a4f82e1a6e1de1c57d20bec7115d86c77bc3ad1946c5d0c81e7",
+    "tools/sql/m06-forward26-readback.sql": "0132f92677d703d50c44a06670cbab5632f4abe9d4303171c2ab1709f7086fc5",
+    "tools/test-m06-app-observer-local.mjs": "2fef6cdf169720c3c4819429e5d32e551d32b06bc4056725b81c6b7ab360ddef",
+    "tools/capture-m06-app.py": "0b836bb1579c25e9c68b608166ee16bd969e827d25eda538270a60a12198cce6",
+    "tests/operations/test_m06_app_capture.py": "35dc6eb0abeb5cd1239dff46f02568f89f544727085dbb2d5172524ac78416f2",
+    "tools/local-postgres.mjs": "49929bce8eb51194d9299cfd9639e537eb237daaec76c15740cb88059604e2de",
+    "development/local-db/instance.json": "778d29222b0a6b604451a494dab6ca6ffabb7357d5b700794400bf35cc79c198",
+    "development/local-db/reviewed.json": "d478c64785b7086113d1af3dc773df04ecdf407ec23a7066350ec13b71ea0abe"
+  },
+  "fixed_readonly_query_compiled": true,
+  "secret_config_not_selected": true,
+  "sources_stable": true,
+  "readonly_state_preserved": true,
+  "lock_released": true,
+  "finished_at": "2026-10-30T01:10:04.181Z"
+}

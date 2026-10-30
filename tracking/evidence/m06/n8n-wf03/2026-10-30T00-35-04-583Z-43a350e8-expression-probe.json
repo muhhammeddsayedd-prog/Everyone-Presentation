@@ -1,0 +1,75 @@
+{
+  "observed_at": "2026-10-30T00:35:04.583Z",
+  "result": "passed",
+  "action": "probe",
+  "workflow_id": "kE4qSEcugaKhIoJU",
+  "version_id": "eba0dccc-913b-4e26-a445-7b325fc886dd",
+  "stages": [
+    {
+      "kind": "presentation_render",
+      "stage": "prepare_presentation",
+      "http_status": 200,
+      "execution_id": "31468",
+      "bound_response": true
+    },
+    {
+      "kind": "presentation_render",
+      "stage": "render_presentation",
+      "http_status": 200,
+      "execution_id": "31469",
+      "bound_response": true
+    },
+    {
+      "kind": "presentation_render",
+      "stage": "validate_presentation",
+      "http_status": 200,
+      "execution_id": "31470",
+      "bound_response": true
+    },
+    {
+      "kind": "presentation_render",
+      "stage": "publish_presentation",
+      "http_status": 200,
+      "execution_id": "31471",
+      "bound_response": true
+    },
+    {
+      "kind": "presentation_export",
+      "stage": "render_export",
+      "http_status": 200,
+      "execution_id": "31472",
+      "bound_response": true
+    }
+  ],
+  "unauthorized_http_status": 403,
+  "rejected_envelopes": [
+    {
+      "http_status": 400,
+      "code": "DISPATCH_ENVELOPE_INVALID"
+    },
+    {
+      "http_status": 400,
+      "code": "DISPATCH_ENVELOPE_INVALID"
+    },
+    {
+      "http_status": 400,
+      "code": "DISPATCH_ENVELOPE_INVALID"
+    },
+    {
+      "http_status": 400,
+      "code": "DISPATCH_ENVELOPE_INVALID"
+    }
+  ],
+  "real_workflow_executions": true,
+  "database_work_claimed": false,
+  "provider_invoked": false,
+  "raw_headers_or_private_payload_recorded": false,
+  "hosting_deferred": true,
+  "observations": [
+    {
+      "method": "GET",
+      "http_status": 200,
+      "bytes": 10365
+    }
+  ]
+}

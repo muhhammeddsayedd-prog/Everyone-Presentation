@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "run_id": "7f8d9ab6-46af-400a-82cc-9ed8a29592ed",
+  "observed_at": "2026-10-30T03:31:23.439Z",
+  "result": "passed",
+  "cloud_called": false,
+  "provider_called": false,
+  "scope": "Owned local28 fixed-workspace metadata query compiles under repeatable-read/read-only; empty local business rows do not establish canonical app or browser acceptance.",
+  "source_seals": {
+    "tools/sql/m06-app-capture28.sql": "970d1fe5eb83e881681d2e96534c65cf3099d326b0f6af1c7e35f1f00060f1c5",
+    "tools/sql/m06-transcript28-readback.sql": "48e1abf7300770c25ed5de1f1f70dbc52391d448936a850fb2cf7b49b3775675",
+    "tools/test-m06-app28-observer-local.mjs": "70686cb6719fc47f0106c947d3e1b865050549d836cb3f6fdc065d33c76ab263",
+    "tools/capture-m06-app28.py": "f9d61aa76ede2aeba02432010339900cd9cfaae981da0726d3d90806ab87cd08",
+    "tests/operations/test_m06_current28_observers.py": "a9cae5bc36f4195197456a245e7491e9a25a8605cefa755ce50abf055e1bf42e",
+    "tools/local-postgres.mjs": "49929bce8eb51194d9299cfd9639e537eb237daaec76c15740cb88059604e2de",
+    "development/local-db/instance.json": "778d29222b0a6b604451a494dab6ca6ffabb7357d5b700794400bf35cc79c198",
+    "development/local-db/reviewed.json": "49f876ce118162e7ed5a96de9ce72b0f32503b19be61eb8795771397bd49649f"
+  },
+  "fixed_readonly_query_compiled": true,
+  "secret_config_not_selected": true,
+  "sources_stable": true,
+  "readonly_state_preserved": true,
+  "lock_released": true,
+  "finished_at": "2026-10-30T03:31:29.651Z"
+}

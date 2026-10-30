@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "run_id": "7be45f28-5ea1-42b4-8223-ddf214a2927b",
+  "started_at": "2026-10-30T03:03:05.001Z",
+  "result": "passed",
+  "mode": "candidate28",
+  "cloud_called": false,
+  "provider_called": false,
+  "application_worker_guest_configuration_loaded": false,
+  "scope": "Owned local27 synthetic source/versions and real existing acting/guest roles; candidateDDL and all fixture rows roll back. No actual source transcripts, native artifacts, workflow, worker or cloud calls.",
+  "source_seals": {
+    "development/m06/transcript-companion-forward.sql": "ef37634afb3c540dc9a846f44e21428e493fa76e5a5eeec0a88c16811f7cb5ff",
+    "tools/sql/m06-storage27-readback.sql": "4deaa39055cd486736ff2c3909513a27750145c8f461a7d02f24773a787f8061",
+    "tools/test-m06-transcript28-local.mjs": "5d05ba3989c749bd12204b351df3322c91f653d4c0f27f90f2dc8be19663fb5b",
+    "tools/local-postgres.mjs": "49929bce8eb51194d9299cfd9639e537eb237daaec76c15740cb88059604e2de",
+    "development/local-db/instance.json": "778d29222b0a6b604451a494dab6ca6ffabb7357d5b700794400bf35cc79c198",
+    "development/m06/baseline27-reviewed.json": "07daca7c24ebbc774c5c7453cab5c2d2f63292b52533cae8b9e1a809c1b0bd78",
+    "tests/db/m04-assignments-fixture.sql": "cb5f418fee0dc3a9b00a9ddeaa3971f5df1c3384c459905baa19b4e04f1d9cb4",
+    "tests/db/m05-versions-fixture.sql": "da13283bc15481fc1bb76b9d36a3360c3a30d7b6cc06b7c0a979e25e086c636d",
+    "tests/db/m05-versions.sql": "e1cb9867d36c174b3517924299bb4b600c38569b2a805334f0fb2c385930e670",
+    "tests/db/m05-processing.sql": "814aca9c60ad7d679bcee020d3e305bd89e25b5919fbdfc11941a3f634da9ada",
+    "tests/db/m06-transcript28-legacy.sql": "ea94d3eeca631729af7270158cbc864eff28728002aae5cd08b7162d9c1f15ad",
+    "tests/db/m06-transcript28.sql": "c5e654371d9dd78e2de9f57bcf17522f206a77f748767eeea4135997d0017614"
+  },
+  "markers": [
+    "M06_TRANSCRIPT_LEGACY_EXPLICIT_ABSENCE_CACHED_ACK_NO_BACKFILL_PRIVATE_BOUNDARY_PASSED",
+    "M06_TRANSCRIPT_ACTUAL_GENERATE_UTF8_HASH_LANGUAGE_ORDER_ONCE_FROZEN_RENDER_SEPARATION_PASSED",
+    "M06_TRANSCRIPT_UNAVAILABLE_SOURCE_STALE_SHA_AND_PRECHECKED_INVALID_SOURCE_NO_ROW_DETAIL_PASSED",
+    "M06_TRANSCRIPT_REAL_GUEST_AND_PDF_GRANT_SAME_FROZEN_VIDEO_PRIVATE_TABLE_BOUNDARY_PASSED",
+    "M06_TRANSCRIPT_FOREIGN_SCOPE_ROTATION_REVOCATION_EXPIRY_DOWNLOAD_VIEW_AND_READY_PRESERVATION_PASSED"
+  ],
+  "behavior_passed": true,
+  "sources_stable": true,
+  "backend_settled": true,
+  "rollback_verified": true,
+  "finished_at": "2026-10-30T03:03:28.953Z"
+}

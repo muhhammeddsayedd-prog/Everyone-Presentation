@@ -146,6 +146,16 @@ Parent expiry, revocation or token rotation denies grant playback. Rotation revo
 
 Short-lived media URLs have a bounded lifetime; revoking the review link prevents new issuance but cannot retract already downloaded bytes. If immediate denial of every subsequent byte request is required, use an authenticated proxy/range endpoint that rechecks the live grant instead of issuing reusable direct URLs. Document the chosen bound in the deployment runbook.
 
+### M06 browser and media companions
+
+The standard guest API retains X-Review-Token for initial exchange and X-Review-Session thereafter. A same-origin browser opts into `X-EPS-Review-Browser: 1` at exchange: its response is closed `GuestBrowserAccess`, without a raw access token, and an HttpOnly SameSite=Strict cookie is stored under its public guest_session_id. `X-Review-Context` selects that cookie on later requests; different link tabs keep independent identities. After the initial URL is removed, `GET /review/session` restores only safe session metadata. Names/company may be remembered as labels; raw review/session/grant credentials must not enter localStorage or sessionStorage.
+
+The guest's fixed version includes its frozen cover and template identity, with no private render context or mutable library lookup. Current-version `data:null` means Preparing before the first Ready version; the link stays scoped to its original external series/output/audience. Optional Idempotency-Key on link/comment PATCH and guest identification supports exact acknowledgement recovery under current authority.
+
+Native image/video/download GET requests may select their cookie using the public `review_context` query value. This query is permitted only on binary companions and never contains a credential. Those routes proxy private bytes with single-range support and revalidate the current parent access for each request, including Storage capability checks. No signed Storage URL is issued externally. A full stream checks its saved checksum; a partial stream verifies the exact range, type and length against the immutable saved asset. Already delivered bytes cannot be recalled.
+
+PDF grant landing exchanges its initial X-Media-Grant under the browser adapter, stores an HttpOnly cookie restricted to the fixed version/asset route, and returns a local content URL containing no raw grant. The initial `/m/:grantToken/...` URL can then be replaced with a public version/asset resume URL. Cookie expiry follows the parent viewing expiry; a transient Storage capability lasts60 seconds and is never a replacement for parent authorization.
+
 ## 7. Async jobs and operations UI
 
 Jobs are durable records in Supabase, not browser promises or n8n execution-screen state. `JobAccepted` returns a job ID, resource ID where available, and poll URL. Poll with backoff or subscribe to authorized status updates; reconnect after navigation. Batch grouping is metadata; every file has independent progress/failure. The planning target of 200 files does not mean 200 simultaneous provider requests.

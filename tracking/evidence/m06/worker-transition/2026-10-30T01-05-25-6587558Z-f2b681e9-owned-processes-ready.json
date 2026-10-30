@@ -1,0 +1,106 @@
+{
+    "schema_version":  "1.0",
+    "observed_at":  "2026-10-30T01:05:25.6290940+00:00",
+    "result":  "started",
+    "scope":  "Owned local worker/web process transition after idle check; no cloud command or process restart performed by this receipt capture.",
+    "worker_id":  45220,
+    "launcher_id":  33528,
+    "web_launcher_id":  54784,
+    "web_cli_id":  14288,
+    "web_server_id":  29264,
+    "new_process_ownership_verified":  true,
+    "old_process_ids_absent":  true,
+    "previous_ownership_verified":  true,
+    "sources_match_authenticated_startup":  true,
+    "source_sha256":  {
+                          "tools/check-guest-export-runtime.mts":  "3d7a7cc47473e7bf3a8681b2f712b1581e21022b830c4312518fb2614fef4c2b",
+                          "tools/start-specs-worker.mjs":  "9514716ca0b3b1825c8658ea06eb7ccd4d6b8b39c9ef30bd9e02e2fc9fab11d7",
+                          "tools/worker-private-env.mjs":  "ef935580876c9150b8150947c3796dd4760d1ad2910bc3bf322dd5015eea4d79",
+                          "tools/worker-runtime-env.mjs":  "658a4a45dd3b48ef1e0074203a34f46fbcb9a35e509c92deed67027444c048b6",
+                          "tools/worker-files-env.mjs":  "4a484ac8db37403bcd0bfe33db9e89b7a8bc76521e75325efefe07e718a73466",
+                          "tools/candidate-runtime-env.mjs":  "d3f7e8edf77263e591c75319108830992865bca27eb14141069d002699c5f2e2",
+                          "tools/pdf-vision-env.mjs":  "f0af6074d3fe5924f5cc520d7393b8db088339a65b39b0bc79bd7089ce81be18",
+                          "tools/frame-runtime-env.mjs":  "c040f3fe835005cca14e0d3d6b21c85529c6e3528c41e37302b86f671d41a23d",
+                          "tools/review-runtime-env.mjs":  "444f919d15c9a45cd834656fe400e01705a146cf9b67c880842be86e54739f64",
+                          "tools/presentation-runtime-env.mjs":  "e8241f2c81a2f062f6df680be9d9226669ddd87d16b5b5e120ed6e6cbe2db0e1",
+                          "apps/worker/src/runtime-main.ts":  "24111eb360048358fc9133c9f4a6a79d4881677269831484ac62bed4c54e8bfb",
+                          "apps/worker/src/runtime.ts":  "1bffa78aeccc34162d50e740837a390ceb3114284c7df68f0dd184a7d9d5de54",
+                          "apps/worker/src/runtime-types.ts":  "88eebf66c0f7dd1add3a88758a5f25cd309caf82c9620a28ffa1753762b28124",
+                          "apps/worker/src/n8n-orchestrator.ts":  "7be252a5115c5f600d0f161458e60b056ec3d2109a634592dc7336792efa5e93",
+                          "apps/worker/src/presentation-export-executor.ts":  "15e4b6f7123c4340f8f0dd6c4869b711c1a4bb3433ce66e14d9b9d6093091e06",
+                          "apps/worker/src/presentation-assets.ts":  "46f66e9daf302bdaad65fd665fd03142a01c1a0523b10d855b97e726f1a2a2a0",
+                          "apps/worker/src/presentation-stage-executor.ts":  "97fc66ff385b0726dc16d6aceaa6d4a10e501a606b7de75cd6dc0a6056357d4d",
+                          "apps/worker/src/presentation-pdf.ts":  "c1360dbbaaaac8a05366313797b243cb352425d38437ab65bfd326e4b5afff6e",
+                          "apps/worker/src/presentation-pdf-inspect-process.mjs":  "0ee0bf41ba77f9725bdb366f02d7b60c438e15ac78049b4971a1cf43b8175e5d",
+                          "apps/worker/src/native-browser.ts":  "58bb031589d1d8421b19e29273cdc681d4431c76e7536ad4a1747f9154004e46",
+                          "packages/central/src/specs-runtime-gateway.ts":  "5e3e6c1b4da316ebac501967769712ecc61d590b68a4e6fd942e50a382f9d1de",
+                          "packages/central/src/presentation-runtime-assets.ts":  "97dffe041c3430e5f4d5d2c702cc43a8bba962de6c969b952ebecefd69e303b4",
+                          "packages/integrations/src/n8n-dispatch.ts":  "c1d3fdb9521212a95596ba53b49fc3e949c64e7fb8df0d684c9d82e09b732e34"
+                      },
+    "source_count":  23,
+    "startup_proof":  "tracking/evidence/m06/guest-export-runtime/2026-10-30T01-00-15-930Z-3d05fbfa.json",
+    "startup_proof_sha256":  "026c6d2761f00aa65d44f19773973dad7416a46081986fece40d46ba1491da2e",
+    "idle_proof":  "tracking/evidence/m06/worker-transition/2026-10-30T01-01-23-635288Z-fad1f2e1-idle.json",
+    "idle_proof_sha256":  "0ba9d860141787c8eed2783ed4519eeca952a40d54550faea4debc0d4b46e2c7",
+    "transition_recorded_at":  "2026-10-30T01:01:44.7596394+00:00",
+    "launch_recorded_at":  "2026-10-30T01:01:45.3564868+00:00",
+    "guest_exports_enabled":  true,
+    "guest_exports_flag_evidence":  "Private owner-written launch metadata records true; sealed launcher forwards EPS_GUEST_EXPORTS_ENABLED to the exact child. Current process environment was not directly read.",
+    "web_private_guest_loader_enabled_at_launch":  true,
+    "public_worker_listener":  false,
+    "worker_tcp_listener_count":  0,
+    "web_loopback_listener":  {
+                                  "process_id":  29264,
+                                  "address":  "127.0.0.1",
+                                  "port":  3000
+                              },
+    "processes":  [
+                      {
+                          "process_id":  33528,
+                          "parent_process_id":  40080,
+                          "image":  "node.exe",
+                          "created_at":  "2026-10-30T01:01:45.2662580Z",
+                          "command":  "\"C:\\Program Files\\nodejs\\node.exe\" tools/start-specs-worker.mjs"
+                      },
+                      {
+                          "process_id":  54784,
+                          "parent_process_id":  40080,
+                          "image":  "node.exe",
+                          "created_at":  "2026-10-30T01:01:45.3148550Z",
+                          "command":  "\"C:\\Program Files\\nodejs\\node.exe\" tools/dev-central.mjs"
+                      },
+                      {
+                          "process_id":  45220,
+                          "parent_process_id":  33528,
+                          "image":  "node.exe",
+                          "created_at":  "2026-10-30T01:01:45.4982170Z",
+                          "command":  "\"C:\\Program Files\\nodejs\\node.exe\" --import tsx apps/worker/src/runtime-main.ts"
+                      },
+                      {
+                          "process_id":  14288,
+                          "parent_process_id":  54784,
+                          "image":  "node.exe",
+                          "created_at":  "2026-10-30T01:01:45.5380580Z",
+                          "command":  "\"C:\\Program Files\\nodejs\\node.exe\" D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\node_modules\\next\\dist\\bin\\next dev --hostname 127.0.0.1 --port 3000"
+                      },
+                      {
+                          "process_id":  29264,
+                          "parent_process_id":  14288,
+                          "image":  "node.exe",
+                          "created_at":  "2026-10-30T01:01:45.9151090Z",
+                          "command":  "\"C:\\Program Files\\nodejs\\node.exe\" D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\node_modules\\next\\dist\\server\\lib\\start-server.js"
+                      }
+                  ],
+    "events":  {
+                   "specs_worker_started":  1,
+                   "recovery_completed":  7,
+                   "other_event_count":  0,
+                   "stderr_bytes":  0
+               },
+    "event_scope":  "Observed sanitized startup/recovery metadata only; does not establish a native export or a live guest journey.",
+    "cloud_query_performed":  false,
+    "cloud_write_performed":  false,
+    "processes_started_or_stopped":  false,
+    "credentials_or_private_payload_published":  false,
+    "hosting_deferred":  true
+}

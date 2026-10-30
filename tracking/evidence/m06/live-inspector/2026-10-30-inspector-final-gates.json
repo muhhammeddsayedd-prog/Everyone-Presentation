@@ -1,0 +1,35 @@
+{
+  "observed_at": "2026-10-30T01:11:41.190688+00:00",
+  "result": "passed",
+  "scope": "Final source-frozen offline inspector validation; no real private artifact inspection",
+  "source_sha256": {
+    "tools/inspect-m06-live-pdf.mts": "52c032f60081804b624142af3d8e56464c623dff532041082a7b71f49bbfee56",
+    "tools/m06-live-geometry.mts": "5c33c5d7ac579cf165ff145c0973c9b6619d48258785b8c74d4b1e651ab72898",
+    "tools/m06-live-private-file.py": "6cd56571109f2791f1c511314c4e5ab88a845196982b537969a00bbdf10ce114",
+    "tests/operations/m06-live-artifact-intent.test.ts": "8f5b9ae1465b9355e794c359b162f469d773e5d65c2d901db0295dc0c2beabce",
+    "tests/operations/m06-live-private-output.test.ts": "110ece5039a66faa1eea65bbd038f0b8c5cd835167dd37a65f8921f173c13967",
+    "tests/worker/m06-live-geometry.test.ts": "45c11c2e177d9593f8244c9e8a39fa76a6b4430916cbc96bd289eb567ef95a33"
+  },
+  "sources_stable": true,
+  "development_proof": "tracking/evidence/m06/live-inspector/2026-10-30-inspector-development-green.json",
+  "development_proof_sha256": "71ac770bd5d04101a46fdb377ed0ae7d502fc4d07d3756e01671ad30540f2f85",
+  "focused_native_and_private_tests": {
+    "passed": 6,
+    "failed": 0,
+    "skipped": 0,
+    "tool_chunk_id": "7c6c2c"
+  },
+  "final_lint": {
+    "passed": true,
+    "tool_chunk_id": "0786c5"
+  },
+  "final_typecheck": {
+    "passed": true,
+    "tool_chunk_id": "ec855b"
+  },
+  "all_final_gates_after_last_source_edit": true,
+  "raw_private_values_or_grants_published": false,
+  "cloud_or_provider_called": false,
+  "startup23_and_original_m05_verified_unchanged_in_development_proof": true,
+  "hosting_deferred": true
+}

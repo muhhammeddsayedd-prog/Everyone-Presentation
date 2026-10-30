@@ -1,0 +1,86 @@
+{
+  "result": "captured",
+  "read_only": true,
+  "target": "pyibofyctwnqpvktepse",
+  "sql_sha256": "35c270d95065684c334531f28a8de9edcd00cfd885681499db981a134fc93d70",
+  "state": {
+    "database": "postgres",
+    "dummy_series": [
+      {
+        "audience_scope": "internal",
+        "id": "a5528d1e-cedc-4439-a377-be3c29a81aec",
+        "latest_ready_version_id": "bd795ab9-1247-4f64-9703-61142959b1b0",
+        "output_type": "selection",
+        "template_version": "1.1.0"
+      },
+      {
+        "audience_scope": "internal",
+        "id": "b448c82e-70b2-4450-84fe-b6d42b6a0da2",
+        "latest_ready_version_id": "beeba12d-8a95-4ef7-8d0e-d9d32be9278d",
+        "output_type": "shortlist",
+        "template_version": "1.1.0"
+      },
+      {
+        "audience_scope": "internal",
+        "id": "bbdafa60-1530-4317-a9f8-dd8d45b489ec",
+        "latest_ready_version_id": null,
+        "output_type": "selection",
+        "template_version": "1.0.0"
+      },
+      {
+        "audience_scope": "internal",
+        "id": "f89b29c8-650c-48d4-b6fd-0ed78460c618",
+        "latest_ready_version_id": null,
+        "output_type": "shortlist",
+        "template_version": "1.0.0"
+      }
+    ],
+    "existing_requester_count": 1,
+    "guest_schema_present": false,
+    "history": [
+      "20261028010943",
+      "20261028013324",
+      "20261028013655",
+      "20261028024205",
+      "20261028072515",
+      "20261028162702",
+      "20261028162800",
+      "20261028172320",
+      "20261028184145",
+      "20261028222030",
+      "20261029001520",
+      "20261029003941",
+      "20261029070038",
+      "20261029090500",
+      "20261029090724",
+      "20261029094600",
+      "20261029100500",
+      "20261029133455",
+      "20261029135318",
+      "20261029174841",
+      "20261029180953",
+      "20261029202629",
+      "20261029203953",
+      "20261029215218"
+    ],
+    "link_manager_rows": {
+      "active": null,
+      "count": 0
+    },
+    "observed_at": "2026-10-30T00:18:13.730301+00:00",
+    "producer_active_capabilities": [
+      "cast.read",
+      "cast.review",
+      "cast.upload",
+      "cast.write",
+      "operations.retry",
+      "presentations.generate",
+      "projects.read",
+      "projects.write",
+      "workspaces.read",
+      "workspaces.write"
+    ],
+    "query_role": "postgres"
+  },
+  "hosting_deferred": true
+}

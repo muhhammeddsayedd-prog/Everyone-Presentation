@@ -95,6 +95,12 @@ Exchange the URL token for a short-lived secure session where feasible. Redact p
 
 View works before identity entry. Before the first comment or preference, collect a display name and optional company. Remember the name for convenience. The session's opaque identity, not that name, determines whose feedback can be edited. All valid guest sessions for the same series see all external feedback. Internal comments/notes must be filtered at the query/projection level, not merely hidden in CSS.
 
+M06's canonical guest gateway accepts credential digests only together with an independent backend HMAC over the exact operation, canonical input, issued-at millisecond timestamp and single-use nonce. A database token digest by itself is therefore insufficient to authorize a request. The proof key is distinct from the AES-GCM creation-replay key; neither reaches browser, MCP, worker job payloads or public receipts. Proofs allow at most30 seconds of future skew and60 seconds of age; nonce replay is rejected. The narrow public wrapper grants no anonymous table access and delegates to private constrained functions.
+
+Browser exchange uses scoped HttpOnly SameSite=Strict cookies and returns no raw session value. A public guest-session context selects the matching cookie, preventing another link tab from silently changing the first tab's author. Browser writes validate the exact configured Host and Origin. Explicit API credential headers may omit Origin; supplied foreign Origin is denied. The app applies bounded global/credential request windows and returns Retry-After on429; database controls remain independent.
+
+Each guest byte request mints a transient60-second asset capability, retains only its digest, and sends the raw capability only to private Storage in a dedicated header. Storage policy repeats session/grant, parent link, generation, expiry, fixed-version and asset membership checks for every request. The application proxies a single validated byte range; it never exposes the Storage capability or signed URL. Previously delivered bytes remain outside revocation's reach.
+
 The viewer requests an exact version ID when sending feedback. The server verifies that the viewed version belongs to the link's series, is Ready, and contains the target slide. A newest-version change during an open review does not reattach the guest's comment to a different version. Show an update banner and let the reviewer open the new version.
 
 ## 5. Media and PDF access

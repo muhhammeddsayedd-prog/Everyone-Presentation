@@ -1,0 +1,23 @@
+{
+  "recorded_at": "2026-10-30T00:27:29.740673+00:00",
+  "result": "passed",
+  "scope": "Offline null activeVersion.name regression and unchanged workflow mapper/update suites; no live request",
+  "tests": 8,
+  "pass": 8,
+  "fail": 0,
+  "red_tool_chunk": "731eba",
+  "green_tool_chunk": "f3ad43",
+  "source_sha256": {
+    "tools/reconcile-m06-wf03-auto-publication.mjs": "65511435e435bf7f81b2d28d73acfd4baff81e097dc918b2d60305aa98a9a4db",
+    "tools/reconcile-m06-wf03-auto-publication.test.mjs": "0eb0382c8d56fce7f3d01e73d5f6f276542d1ad09dc4410cf262147405ba06e8",
+    "tools/update-guest-export-n8n.mjs": "7af688e4f8fe4bff0ca6ca2a58dad0d525b525ec4e754391f7cb479b27400420",
+    "tools/build-guest-export-wf03.mjs": "366e06ec562cb75f8800b3bcafbd23e0a7aca1f124a9501201b7dbe6faafbada"
+  },
+  "prior_failed_read_only_fact": "tracking/evidence/m06/n8n-wf03/2026-10-30-auto-publication-initial-readonly-failure.json",
+  "retained_pre_fix_source": "development/m06/reconciliation-source-history/7084282619f9dd13b65e0fdc6843b9e8eec8ae4f9dd42eee46062fc999431cc8-reconcile-m06-wf03-auto-publication.mjs.txt",
+  "retained_pre_fix_source_sha256": "7084282619f9dd13b65e0fdc6843b9e8eec8ae4f9dd42eee46062fc999431cc8",
+  "fix": "Validate exact top-level workflow name/settings and strict saved/active version+workflow identities. Validate active nodes/connections under that authoritative name/settings without requiring optional activeVersion.name.",
+  "original_update_helper_builder_failed_PUT_receipt_claim_and_journal_unchanged": true,
+  "additional_cloud_write": false,
+  "hosting_deferred": true
+}
