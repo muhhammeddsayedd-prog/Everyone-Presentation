@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import type { CentralJob } from '@eps/central';
-import { jobStageLabel, jobFailureMessage, processingActions, readProcessingJob, processingDelay, readJobPage, retainJobIntent, workspaceResultHref } from '../../apps/web/components/processing-view.ts';
+import { jobStageLabel, jobFailureMessage, processingActions, readProcessingJob, readJobRetryAcknowledgement, processingDelay, readJobPage, retainJobIntent, workspaceResultHref } from '../../apps/web/components/processing-view.ts';
 
 const job: CentralJob = { id: 'job-1', workspace_id: 'workspace-1', kind: 'specs_extract', status: 'failed', stage: 'extract_specs',
   attempt: 1, progress_completed: 1, progress_total: 3, batch_id: null, input_asset_id: null, resource_id: null,
@@ -42,6 +42,21 @@ test('unknown retry preserves the exact original operation, revision and idempot
   assert.equal(same, first); assert.deepEqual(same.body, { row_version: 7 }); assert.equal(keys, 1);
   assert.throws(() => retainJobIntent(first, job, 'cancel', createKey), /Resolve/u);
   assert.equal(retainJobIntent(null, { ...job, row_version: 9 }, 'retry', createKey).body.row_version, 9);
+});
+
+test('retry acknowledgements bind the existing job and safe poll path without inventing a new revision', () => {
+  const acknowledgement = { job_id: job.id, resource_id: null, poll_url: '/api/v1/jobs/job-1', status: 'queued' };
+  for (const status of ['queued', 'running', 'waiting_for_input', 'succeeded', 'failed', 'cancelled']) {
+    assert.deepEqual(readJobRetryAcknowledgement({ ...acknowledgement, status }, job.id), { ...acknowledgement, status });
+  }
+  const intent = retainJobIntent(null, job, 'retry', () => 'original-intent');
+  for (const invalid of [job, { ...acknowledgement, job_id: 'another-job' }, { ...acknowledgement, poll_url: '/api/v1/jobs/another-job' },
+    { ...acknowledgement, poll_url: 'https://arbitrary.invalid/job-1' }, { ...acknowledgement, poll_url: '/api/v1/jobs/job-1?token=private' },
+    { ...acknowledgement, resource_id: {} }, { ...acknowledgement, status: 'unknown' }, { ...acknowledgement, row_version: 9 }]) {
+    assert.throws(() => readJobRetryAcknowledgement(invalid, job.id));
+    assert.equal(retainJobIntent(intent, { ...job, row_version: 9 }, 'retry', () => 'must-not-be-used'), intent);
+  }
+  assert.deepEqual(intent, { jobId: job.id, action: 'retry', body: { row_version: 7 }, key: 'original-intent' });
 });
 
 test('polling backs off within bounds and stops on a confirmed terminal detail', () => {

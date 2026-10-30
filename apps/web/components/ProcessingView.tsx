@@ -9,7 +9,7 @@ import { useRuntimeMode } from './RuntimeMode';
 import { StudioDateTime } from './StudioTimeZone';
 import {frameOutcomeSummary} from '../lib/frame-outcome-summary';
 import { JOB_KINDS, JOB_STATUSES, STATUS_LABELS, jobFailureMessage, processingActions, jobStageLabel, processingDelay, processingHref,
-  readJobPage, readProcessingJob, retainJobIntent, validProcessingId, workspaceResultHref,
+  readJobPage, readProcessingJob, readJobRetryAcknowledgement, retainJobIntent, validProcessingId, workspaceResultHref,
   type JobAction, type JobIntent, type JobPage, type ProcessingJob, type ProcessingStatus } from './processing-view';
 
 function readError(reason: unknown): string {
@@ -151,9 +151,15 @@ function JobDetail({ id, status, cursor, canOperate, onDirtyChange }: { id: stri
     const deadline = setTimeout(() => active.abort(new DOMException('The request deadline elapsed.', 'TimeoutError')), 20_000);
     try {
       const result = await api<unknown>(`/api/v1/jobs/${encodeURIComponent(request.jobId)}/${request.action}`, { method: 'POST', body: JSON.stringify(request.body), headers: { 'Idempotency-Key': request.key }, signal: active.signal });
-      const next = readProcessingJob(result.data, id);
+      let next: ProcessingJob | null = null;
+      if (request.action === 'retry') readJobRetryAcknowledgement(result.data, request.jobId);
+      else next = readProcessingJob(result.data, id);
       if (!mounted.current) return;
-      state.accept(next); setIntent(null); setSaved(action === 'retry' ? 'Retry request saved.' : 'Cancellation request saved. Any completed work is retained.');
+      // A valid retry acknowledgement settles the write. Read the actual saved
+      // revision through polling; a later read failure must never resend it.
+      if (next) state.accept(next);
+      else { state.clear(); state.reload(); }
+      setIntent(null); setSaved(action === 'retry' ? 'Retry request saved.' : 'Cancellation request saved. Any completed work is retained.');
     } catch (reason) {
       if (!mounted.current) return;
       if (confirmingUnknown) {

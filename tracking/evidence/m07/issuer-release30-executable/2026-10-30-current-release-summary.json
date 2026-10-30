@@ -1,0 +1,217 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-10-30T16:19:10.517634+00:00",
+  "scope": "Metadata-only linkage of root-executed canonical30 and prior owned-local proof; no new database/provider/process action",
+  "target": "pyibofyctwnqpvktepse",
+  "canonical_release": {
+    "status": "applied_and_independently_verified_by_root",
+    "history_count": 30,
+    "latest_version": "20261030154824",
+    "migration": {
+      "schema_version": "1.0",
+      "version": "20261030154824",
+      "migration_path": "supabase/migrations/20261030154824_m07_native_oauth_issuer.sql",
+      "migration_sha256": "e5fd2121784c8372743f330664508b2a38a25cd622b24cf6765c570ae6f2a785",
+      "candidate_sha256": "e5fd2121784c8372743f330664508b2a38a25cd622b24cf6765c570ae6f2a785",
+      "cli_version": "2.122.0"
+    },
+    "operations": {
+      "inspect": {
+        "path": "tracking/evidence/m07/issuer-release30-executable/2026-10-30T16-10-37-741009Z-33ba02bf-canonical-inspect.json",
+        "sha256": "366b0459887346fec1d70ea27e8797160dc225676a78421316399093c703d3f9",
+        "action": "inspect",
+        "started_at": "2026-10-30T16:10:30.249959+00:00",
+        "finished_at": "2026-10-30T16:10:37.740812+00:00",
+        "dispatch_attempted": false,
+        "application_verified_by_readback": false
+      },
+      "dry_run": {
+        "path": "tracking/evidence/m07/issuer-release30-executable/2026-10-30T16-11-28-884556Z-4a6dbe09-canonical-dry-run.json",
+        "sha256": "72bd6ab5bacb3007e2f64ab3a66d94d577a30ca37040fff1f918298e283404ba",
+        "action": "dry-run",
+        "started_at": "2026-10-30T16:11:05.378431+00:00",
+        "finished_at": "2026-10-30T16:11:28.884369+00:00",
+        "dispatch_attempted": false,
+        "application_verified_by_readback": false
+      },
+      "apply": {
+        "path": "tracking/evidence/m07/issuer-release30-executable/2026-10-30T16-12-49-727075Z-34f06b25-canonical-apply.json",
+        "sha256": "aba9a050575c22002807439c564c5d92c80d1610f195f9f5756fd3a478147997",
+        "action": "apply",
+        "started_at": "2026-10-30T16:12:18.987907+00:00",
+        "finished_at": "2026-10-30T16:12:49.726924+00:00",
+        "dispatch_attempted": true,
+        "application_verified_by_readback": true
+      },
+      "readback": {
+        "path": "tracking/evidence/m07/issuer-release30-executable/2026-10-30T16-13-26-090472Z-12920568-canonical-readback.json",
+        "sha256": "09ae3f0799a0b5e91450b9dfac867beff92c93b342c1148caadfc5d73e0d3100",
+        "action": "readback",
+        "started_at": "2026-10-30T16:13:18.183524+00:00",
+        "finished_at": "2026-10-30T16:13:26.090295+00:00",
+        "dispatch_attempted": false,
+        "application_verified_by_readback": true
+      }
+    },
+    "raw_catalogue_before_fields": 16613,
+    "raw_catalogue_after_fields": 16655,
+    "exact_delta": {
+      "created": 42,
+      "changed": 8,
+      "deleted": 0
+    },
+    "preservation_checks": {
+      "exact42_created_and8_changed_raw_catalogue_fields": true,
+      "protected_current_data_settings_registry_runtime12_m02_and_old_role_identities_preserved": true,
+      "native_auth_only_execute_no_public_authenticated_anon_service_execute": true,
+      "six_read_columns_no_auth_table_or_column_grants": true,
+      "cli_login_expiry_qualifications": [
+        {
+          "name": "cli_login_postgres",
+          "field": "valid_until",
+          "before": "2026-10-30T16:17:24.243329+00:00",
+          "after": "2026-10-30T16:18:23.461123+00:00",
+          "scope": "only CLI-managed short-login expiry; raw evidence retained, all other role attributes/OIDs exact"
+        }
+      ]
+    },
+    "settings": {
+      "default_review_expiry_days": 30,
+      "default_timezone": "Africa/Cairo",
+      "row_version": 3,
+      "template_version": "1.1.0"
+    },
+    "registry_count": 0,
+    "issuer_role": {
+      "bypassrls": false,
+      "connection_limit": -1,
+      "create_db": false,
+      "create_role": false,
+      "inherit": false,
+      "login": false,
+      "name": "eps_mcp_issuer_owner",
+      "oid": "21362",
+      "replication": false,
+      "super": false,
+      "valid_until": null
+    },
+    "issuer_function": {
+      "source_sha256": "b6e422c7df5cb146e9d0c0aaaad6dfa7fc5373a36179d82284438cf599fd218c",
+      "owner": "eps_mcp_issuer_owner",
+      "acl": "{eps_mcp_issuer_owner=X/eps_mcp_issuer_owner,supabase_auth_admin=X/eps_mcp_issuer_owner}",
+      "definer": true,
+      "config": [
+        "search_path=\"\""
+      ]
+    },
+    "sources_stable": true,
+    "automatic_retry": false
+  },
+  "owned_local_original": {
+    "history_count": 29,
+    "migration30_applied_to_original": false,
+    "issuer_role_and_function_absent": true,
+    "full_original_catalogue_fields": 16430,
+    "original_data_settings_role_oids_attributes_memberships_unchanged": true,
+    "basis": "Passed local proof and root current-scope attestation; this metadata update did not query the DB",
+    "evidence": {
+      "path": "tracking/evidence/m07/issuer-release30-executable/2026-10-30T15-54-37-082Z-36b1483b-local-proof.json",
+      "sha256": "6af3eb1319c3959ccb34f2c7afc80b71a52919cb4dd1f2c16344ff9d3a17e70c"
+    }
+  },
+  "owned_local_disposable_proof": {
+    "history30_committed_only_inside_clone": true,
+    "history30_retained_during_forward_fix": true,
+    "elapsed_ms": 57512,
+    "elapsed_scope": "local test duration, not RTO or issuance SLA",
+    "precommit_real_role_sql_stages": 9,
+    "postcommit_real_role_sql_stages": 9,
+    "after_ddl_and_history_failure_rollbacks_exact": true,
+    "forward_fix_exact_database_surface": true,
+    "owned_database_removed_before_new_role": true,
+    "actual_owned_database_absent": true,
+    "actual_new_role_absent": true,
+    "shared_lock_released": true,
+    "committed_metadata": {
+      "path": "tracking/evidence/m07/issuer-release30-executable/2026-10-30T15-54-37-082Z-36b1483b-committed.json",
+      "sha256": "a026d5117f87db4c5079ad95f2e832b0189bb6f186b1d3ef4bd07c34e1ea0683"
+    },
+    "forward_fix_metadata": {
+      "path": "tracking/evidence/m07/issuer-release30-executable/2026-10-30T15-54-37-082Z-36b1483b-forward-fix.json",
+      "sha256": "a4fa662b0245e4ab8b7608e14b12d4cdf8ad0883eb74d5135ae5cc7d7f478d2c"
+    },
+    "prior_refusal_preserved": {
+      "path": "tracking/evidence/m07/issuer-release30-executable/2026-10-30T15-50-11-884Z-8a0ca519-local-proof.json",
+      "sha256": "1ec93e5f8b3b9b968576a508ea5bd571261292d279e17c561ec7ca6c15831eff"
+    }
+  },
+  "post_release_binding_inspection": {
+    "path": "tracking/evidence/m07/app-oauth/2026-10-30T16-14-01-872234Z-inspect-binding.json",
+    "sha256": "004b0dd967f38846735aec41d12024405a2c87489ee5f4932026f5793b863bdf",
+    "observed_at": "2026-10-30T16:13:55.826846+00:00",
+    "bindings": [],
+    "hook_security": {
+      "auth_admin_execute": true,
+      "auth_admin_no_other_eps_execute": true,
+      "auth_admin_schema": true,
+      "capability_forced_rls": true,
+      "no_issuer_schema_create": true,
+      "no_public_client_execute": true,
+      "owner_and_body": true,
+      "registry_forced_rls": true
+    },
+    "meaning": "DB issuer function installed/private; no actual OAuth client/resource pair is registered at this checkpoint"
+  },
+  "runtime_after30": {
+    "path": "tracking/evidence/m07/app-oauth/2026-10-30-runtime-after30.json",
+    "sha256": "d042f6cb0f88e3b741ad68ad15f0649aecde303f9fd8ab0050bb6234bf264ebe",
+    "observed_at": "2026-10-30T16:15:51.7466007Z",
+    "scope": "Fresh process ownership, parents, creation, commands and loopback listener after30; no environment read",
+    "node_process_count": 5,
+    "worker_chain": [
+      44164,
+      17764
+    ],
+    "web_chain": [
+      44336,
+      58208,
+      59556
+    ],
+    "auxiliary_console_count": 2,
+    "listener": [
+      {
+        "LocalAddress": "127.0.0.1",
+        "LocalPort": 3000,
+        "OwningProcess": 59556
+      }
+    ],
+    "worker_stderr_bytes": 0,
+    "web_stderr_bytes": 162,
+    "qualification": "Dated owned runtime/listener evidence only; verify freshly for later actions; no pristine-console or OAuth-enabled-runtime claim"
+  },
+  "provider_and_client_boundary": {
+    "activation_performed": false,
+    "status_basis": "Root task attestation at this metadata checkpoint, not inferred from function presence",
+    "required_action_time_confirmation": "pending",
+    "client_resource_registry_empty_at_binding_inspection": true,
+    "actual_client_uuid_created_or_bound_by_this_update": false,
+    "provider_hook_invocation_signed_jwt_code_pkce_refresh_revocation_or_claude_login_proven_by_this_release": false,
+    "claude_configuration_login_or_model_calls_by_this_update": false
+  },
+  "preserved_acceptance_scope": {
+    "M07_production_release": "unverified",
+    "AT072_screen_reader": "pending",
+    "M03_broader_semantic_checks": "pending",
+    "mobile": "skipped",
+    "hosting": "deferred",
+    "restore29": "historical local metadata/media proof; does not establish committed issuer30/provider-config restore"
+  },
+  "operational_instruction": "Do not rerun frozen before29 inspect/dryrun/apply. After intentional binding, use dedicated binding/readiness inspection, not the completed release empty-registry readback frame. Keep permanent claim and all historical receipts.",
+  "sealed_sources_unchanged": {
+    "controller_sha256": "01384c2cdbe52cfc5f94b80f5268a162a1fe8b34b197a4ac1e412695dac1d4b7",
+    "source_index": {
+      "path": "development/m07/issuer-release30-executable/SOURCE_INDEX.json",
+      "sha256": "8aa99c1faeba547ff10447b2660d82d8d7f91ca2f3b5ff223d697ac10d96b446"
+    }
+  }
+}

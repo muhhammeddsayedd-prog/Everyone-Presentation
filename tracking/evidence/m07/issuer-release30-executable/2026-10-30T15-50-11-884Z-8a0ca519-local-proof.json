@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "run_id": "8a0ca519-feff-4a2f-88bf-ee6eafc7eee0",
+  "started_at": "2026-10-30T15:50:11.884Z",
+  "result": "failed",
+  "checkpoint": "owned-template-clone",
+  "scope": "NEW exact-owned local DB; real-role synthetic issuer SQL; committed history and exact forward fix; original29 read-only",
+  "cloud_called": false,
+  "provider_called": false,
+  "claude_config_login_or_model_calls": false,
+  "original_database_writes": false,
+  "existing_role_ddl": false,
+  "automatic_retry": false,
+  "private_acl_verified": true,
+  "source_seals": {
+    "development/m07/issuer-release30-executable/run-local.mjs": "701f16b71a2b70658479427388fc92c533f0a78110f8e07ca7c1bfde78b8bc96",
+    "development/m07/issuer-release30-executable/admission.mjs": "48e82d29ad66323f2fe36d80aeeba210fdfbd7b8e754137dad5aede7230628c4",
+    "development/m07/issuer-release30-executable/cleanup.mjs": "9c85263b6f81d386fe0e967f28a1f941b57553422e08742358187397ae442c2c",
+    "development/m07/issuer-release30-executable/discover.sql": "5a30e3bf2bb17f32c932dad9bfac71f8162ff552ae9f12ef05ec6e03aef10f6f",
+    "development/m07/issuer-release30-executable/context.sql": "39adc853999d3a74bb24bf0fcd9b105bf3e8467648948b29ef4135cec089cb18",
+    "development/m07/issuer-release30-executable/candidate.sql": "e5fd2121784c8372743f330664508b2a38a25cd622b24cf6765c570ae6f2a785",
+    "development/m07/issuer-release30-executable/candidate-provenance.json": "123cb399d76db2f6957b3340d45079b9dd85b6a8189e5fa92a4ab7d938f869b0",
+    "development/m07/issuer-release30-executable/release-plan.json": "f723eb36f05ecf8e668d2da57cb7ecfe70a47e5a662ee112e68b504ac798ade4",
+    "supabase/migrations/20261030154824_m07_native_oauth_issuer.sql": "e5fd2121784c8372743f330664508b2a38a25cd622b24cf6765c570ae6f2a785",
+    "development/m07/db/catalog29.sql": "1af59495b01424e6ec2578f6ea1f8ac362829577612c32b2cd373545a58b9098",
+    "development/m07/db/data29.sql": "931581121cf2548af7b244b5638d243176bed9a4a83241bd4f72998ddec90a81",
+    "development/m07/oauth-hook29/candidate.sql": "136de55221d05053f0d3ae40754f641d32d0edf3d8ed73f952c92e1d819bce03",
+    "development/m07/oauth-hook/tests30.sql": "63b1648f2181a1d56685097cd9904622883ae042d7cbaab43923d7905baed2ca",
+    "development/m07/oauth-hook29/tests.sql": "13bc7e3d87a87e58130b82c4a014c34beb9f2a2d29e94aa8c5e7c199be16e14e",
+    "development/m07/oauth-hook29/notices.mjs": "8bcc2600e0bf1e9b436a6b5b9de722a0fde1681df10b52a3fd0138436f2b391c",
+    "development/m07/db/release29-readback.sql": "e38028dbbe87d5c74bd626e9c0ac1297c861d571b4de35ba3d0c7d967694e9de",
+    "tools/local-postgres.mjs": "49929bce8eb51194d9299cfd9639e537eb237daaec76c15740cb88059604e2de",
+    "tools/m07-original-profile29-comparison.mjs": "e5bf4b4c8a1e1a682e303615cb9989340f3d014988488f48d794da643b2cdc20",
+    "development/m07/recovery29/identity.mjs": "c785bf1533031b560ad538fdcf5fbddb00eeb28d5f72e0d5d65524a933ad727d",
+    "development/m07/recovery29/ownership.mjs": "9118e7bd46dff15ccece950f88cd86ffc5b6c3fb86382d89792da5892a38de79"
+  },
+  "canonical_migration": {
+    "path": "supabase/migrations/20261030154824_m07_native_oauth_issuer.sql",
+    "sha256": "e5fd2121784c8372743f330664508b2a38a25cd622b24cf6765c570ae6f2a785",
+    "version": "20261030154824"
+  },
+  "original_before": {
+    "path": "tracking/evidence/m07/issuer-release30-executable/2026-10-30T15-50-11-884Z-8a0ca519-original-before.json",
+    "sha256": "e9c8af5776c501771916d70355ad68f2117a494107aa01fa8fe223849d1be3cf"
+  },
+  "failure_code": "ISSUER30_LOCAL_PROOF_UNCONFIRMED",
+  "actual_owned_database_absent": true,
+  "actual_new_role_absent": true,
+  "original29_full_catalogue_data_settings_roles_oids_memberships_exact": true,
+  "shared_lock_released": true,
+  "finished_at": "2026-10-30T15:50:23.444Z",
+  "elapsed_ms": 11560
+}

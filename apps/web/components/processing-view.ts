@@ -5,6 +5,7 @@ export type ProcessingStatus = ProcessingJob['status'];
 export type JobAction = 'retry' | 'cancel';
 export type JobPage = { jobs: ProcessingJob[]; cursor: string | null };
 export type JobIntent = { jobId: string; action: JobAction; body: { row_version: number }; key: string };
+export type JobRetryAcknowledgement = { job_id: string; resource_id: string | null; poll_url: string; status: ProcessingStatus };
 export const JOB_STATUSES: ProcessingStatus[] = ['queued', 'running', 'waiting_for_input', 'succeeded', 'failed', 'cancelled'];
 export const JOB_KINDS: Record<ProcessingJob['kind'], string> = { specs_extract: 'Specs extraction', candidate_scan: 'Candidate scan', frame_extract: 'Frame extraction',
   ai_suggestion: 'AI suggestion', review_fit: 'Layout fit check', presentation_render: 'Presentation generation', presentation_export: 'PDF export' };
@@ -45,6 +46,14 @@ export function readProcessingJob(value: unknown, expectedId?: string): Processi
 export function processingActions(job: ProcessingJob): { retry: boolean; cancel: boolean } {
   return ['presentation_render', 'presentation_export'].includes(job.kind) ? { retry: job.can_retry === true, cancel: job.can_cancel === true }
     : { retry: job.status === 'failed' && job.error?.retryable === true, cancel: !['succeeded', 'cancelled'].includes(job.status) };
+}
+/** An acknowledgement confirms the frozen retry intent, not a new job revision. */
+export function readJobRetryAcknowledgement(value: unknown, expectedId: string): JobRetryAcknowledgement {
+  if (!record(value) || Object.keys(value).sort().join(',') !== 'job_id,poll_url,resource_id,status'
+    || !validProcessingId(value.job_id) || value.job_id !== expectedId
+    || !(value.resource_id === null || validProcessingId(value.resource_id))
+    || value.poll_url !== `/api/v1/jobs/${encodeURIComponent(expectedId)}` || !JOB_STATUSES.includes(value.status as ProcessingStatus)) invalid();
+  return structuredClone(value) as unknown as JobRetryAcknowledgement;
 }
 export function readJobPage(value: unknown, status: ProcessingStatus | null, requestedCursor: string | null): JobPage {
   if (!record(value) || !Array.isArray(value.data) || value.data.length > 25 || !record(value.page)

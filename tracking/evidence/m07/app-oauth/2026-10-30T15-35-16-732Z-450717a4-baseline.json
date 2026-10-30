@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-30T15:35:12.634Z",
+  "mode": "baseline",
+  "result": "passed",
+  "scope": "Public fixed-origin metadata, MCP challenge, malformed consent input and consent HTML only; no authorization request, details, approval, token or login",
+  "real_credentials_sent": false,
+  "claude_code_configuration_or_login": false,
+  "provider_mutations": false,
+  "hosting_deferred": true,
+  "requests": [
+    {
+      "label": "central-discovery",
+      "status": 404,
+      "bytes": 77,
+      "content_type": "application/json",
+      "no_store": false,
+      "set_cookie": true
+    },
+    {
+      "label": "protected-resource",
+      "status": 404,
+      "bytes": 21,
+      "content_type": "application/json",
+      "no_store": true,
+      "set_cookie": false
+    },
+    {
+      "label": "app-discovery",
+      "status": 404,
+      "bytes": 21,
+      "content_type": "application/json",
+      "no_store": true,
+      "set_cookie": false
+    },
+    {
+      "label": "unauthenticated-mcp",
+      "status": 401,
+      "bytes": 174,
+      "content_type": "application/json",
+      "no_store": true,
+      "set_cookie": false
+    }
+  ],
+  "harness_sha256": "9dc76abad841a7e5fa262f3a466bc3e9b3dad85eeba6d58bd4fe8585fa72c9fa",
+  "finished_at": "2026-10-30T15:35:16.732Z"
+}

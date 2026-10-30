@@ -21,7 +21,9 @@ async function controlledJobs(page: Page, options: { readOnly?: boolean; empty?:
   const saved = new Map<string, CentralJob>(); let lost = false;
   await page.route('**/api/**', async route => {
     const request = route.request(); const url = new URL(request.url()); const path = url.pathname;
-    const envelope = (data: unknown) => route.fulfill({ json: { request_id: 'controlled-processing-ui', data } });
+    const envelope = (data: unknown, status = 200) => route.fulfill({ status, json: { request_id: 'controlled-processing-ui', data } });
+    const mutationEnvelope = (job: CentralJob, action: string) => action === 'retry'
+      ? envelope({ job_id: job.id, resource_id: job.resource_id, poll_url: `/api/v1/jobs/${encodeURIComponent(job.id)}`, status: job.status }, 202) : envelope(job);
     const failure = (code: string, status: number) => route.fulfill({ status, json: { request_id: 'controlled-processing-ui', error: { code, message: privateText, details: {}, retryable: true } } });
     if (path === '/api/session') return envelope({ mode: options.fixture ? 'local_fixture' : 'supabase', actor: {
       id: '91900000-0000-4000-8000-000000000001', name: 'Synthetic Processing Producer', capabilities: ['workspaces.read', ...(options.readOnly ? [] : ['operations.retry'])], upload_purposes: [] }, actors: [] });
@@ -38,14 +40,14 @@ async function controlledJobs(page: Page, options: { readOnly?: boolean; empty?:
       if (request.method() === 'GET') { reads.push(path); return envelope(job); }
       if (request.method() === 'POST' && match[2]) {
         const key = request.headers()['idempotency-key']; mutations.push({ path, key, body: request.postDataJSON() });
-        if (saved.has(key)) { if (options.denyConfirmation && mutations.length === 2) return failure('CAPABILITY_REQUIRED', 403); return envelope(saved.get(key)); }
+        if (saved.has(key)) { if (options.denyConfirmation && mutations.length === 2) return failure('CAPABILITY_REQUIRED', 403); return mutationEnvelope(saved.get(key)!, match[2]); }
         if (match[2] === 'cancel' && options.staleCancel) {
           jobs.set(job.id, { ...job, status: 'succeeded', row_version: 2, progress_completed: 3 }); return failure('STALE_RESOURCE_VERSION', 409);
         }
         const next: CentralJob = { ...job, status: match[2] === 'retry' ? 'queued' : 'cancelled', error: null, row_version: job.row_version + 1 };
         jobs.set(job.id, next); saved.set(key, next);
         if (match[2] === 'retry' && options.loseRetry && !lost) { lost = true; return failure('DEPENDENCY_UNAVAILABLE', 503); }
-        return envelope(next);
+        return mutationEnvelope(next, match[2]);
       }
     }
     if (path === `/api/v1/workspaces/${workspaceId}`) return envelope({ id: workspaceId, project_id: projectId, module: 'casting', title: 'Synthetic workspace',
@@ -89,6 +91,31 @@ test('controlled unknown retry keeps its frozen body/key and never creates anoth
   expect(model.mutations).toHaveLength(2); expect(model.mutations[0]).toEqual(model.mutations[1]);
   expect(model.mutations[0].body).toEqual({ row_version: 1 }); expect(model.jobs.size).toBe(2);
   await expect(page.locator('body')).not.toContainText(privateText); expect(model.errors).toEqual([]);
+});
+
+test('controlled acknowledged retry recovers a failed GET without resubmitting its confirmed intent', async ({ page }) => {
+  const model = await controlledJobs(page, { loseRetry: true }); let denyReads = false; let deniedReads = 0;
+  await page.route(`**/api/v1/jobs/${jobId}`, async route => {
+    if (!denyReads) return route.fallback();
+    deniedReads++;
+    return route.fulfill({ status: 503, json: { request_id: 'controlled-read-unavailable', error: { code: 'DEPENDENCY_UNAVAILABLE', message: privateText } } });
+  });
+  await page.goto(`/processing?job=${jobId}`);
+  await page.getByRole('button', { name: 'Retry failed processing', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Retry this retry request', exact: true })).toBeVisible();
+  denyReads = true;
+  await page.getByRole('button', { name: 'Retry this retry request', exact: true }).click();
+  await expect(page.getByText('Processing could not be refreshed. Try again to read the saved state.', { exact: true })).toBeVisible();
+  expect(deniedReads).toBeGreaterThan(0);
+  await expect(page.getByRole('button', { name: 'Retry this retry request', exact: true })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Retry failed processing', exact: true })).toHaveCount(0);
+  expect(model.mutations).toHaveLength(2); expect(model.mutations[1]).toEqual(model.mutations[0]);
+  denyReads = false;
+  await page.getByRole('button', { name: 'Try again', exact: true }).click();
+  await expect(page.locator('.processing-detail .badge')).toHaveText('Queued');
+  expect(model.mutations).toHaveLength(2); expect(model.mutations[0].body).toEqual({ row_version: 1 });
+  expect(model.jobs.size).toBe(2); expect(model.errors).toEqual([]); expect(model.unexpected).toEqual([]);
+  await expect(page.locator('body')).not.toContainText(privateText);
 });
 
 test('controlled cancellation conflict requires explicit reload and retains completed work', async ({ page }) => {

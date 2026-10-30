@@ -1,0 +1,126 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-10-30T16:21:56.079298+00:00",
+  "scope": "Metadata-only publication of existing deterministic retry-acknowledgement logs; no rerun or operational action. Synthetic central HTTP fixture plus real installed MCP client/validator and one controlled desktop UI case, not a real job retry.",
+  "result": "passed",
+  "published_contract": "retry_job HTTP202 JobAccepted; internal domain/SQL continues returning actual Job",
+  "source_sha256": {
+    "apps/web/lib/job-http.ts": "d2a03687e62cdfcf7ea2be0b2505e2a45750324172fd9b25d06f97af2aa71b7a",
+    "apps/web/components/processing-view.ts": "8f308deb9a0584ab5e149626ffee0583273eaf826b1ff6498922c6a1c098afd2",
+    "apps/web/components/ProcessingView.tsx": "2aaeef7922229be475f8d410f69146be7df83bc24dcd1c7b8b93328cffaa2104",
+    "tests/server/job-http.test.ts": "6595862dc29585f62c5d1cc4126e20ba23a1a518f584e3ac0706de4073078c3d",
+    "tests/server/job-retry-ack.test.ts": "0e8727eeec71ed638d4e4b7d235f4b264e12e972d5b5a9010898913add87c572",
+    "tests/server/processing-view.test.ts": "825046dc8c8bf3952e661d524fad14a234116ffaab4cae60ab825914fba204b1",
+    "tests/e2e/processing-ui.spec.ts": "1ff6cc194b5679a9dde38fac719871472fa42b49efe0db58b578d70334022ed8"
+  },
+  "raw_logs": {
+    "module_red": {
+      "private_raw_path": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\.local\\m07-quality\\retry-ack-module-red.txt",
+      "sha256": "2cbcdaba0f83e865ca29656ec04c2a4d16bc5e9cfa444e8c9de265e73306f099",
+      "bytes": 9352,
+      "last_written_at": "2026-10-30T15:30:38.023199+00:00",
+      "counts": {
+        "tests": 17,
+        "pass": 13,
+        "fail": 4
+      },
+      "test_files": [
+        "tests/server/job-http.test.ts",
+        "tests/server/job-retry-ack.test.ts",
+        "tests/server/processing-view.test.ts"
+      ],
+      "raw_content_copied": false,
+      "red_credit": true
+    },
+    "module_green": {
+      "private_raw_path": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\.local\\m07-quality\\retry-ack-module-green.txt",
+      "sha256": "a17bb664160cc355c53db2266e807e4d5aaa44f8f75fbccdb6f2601c60be77a5",
+      "bytes": 6018,
+      "last_written_at": "2026-10-30T15:32:03.291234+00:00",
+      "counts": {
+        "tests": 30,
+        "pass": 30,
+        "fail": 0
+      },
+      "test_files": [
+        "tests/server/job-http.test.ts",
+        "tests/server/job-retry-ack.test.ts",
+        "tests/server/processing-view.test.ts",
+        "tests/contracts/job-accepted.test.ts",
+        "packages/central/test/jobs.test.ts"
+      ],
+      "raw_content_copied": false,
+      "red_credit": false
+    },
+    "desktop_red": {
+      "private_raw_path": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\.local\\m07-quality\\retry-ack-desktop-red-r2.txt",
+      "sha256": "38bfb215106290bb78986cd0f9316e414aa2b871df4961b3b0f5cce1bc824064",
+      "bytes": 7250,
+      "last_written_at": "2026-10-30T15:31:37.826242+00:00",
+      "counts": {
+        "tests": 1,
+        "pass": 0,
+        "fail": 1
+      },
+      "test_files": [
+        "tests/e2e/processing-ui.spec.ts"
+      ],
+      "raw_content_copied": false,
+      "red_credit": true
+    },
+    "desktop_green": {
+      "private_raw_path": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\.local\\m07-quality\\retry-ack-desktop-green.txt",
+      "sha256": "0b30b717a1cb3e210c0b70d58a9aa237e025e87cf71c0e29f3c9385ec11cb234",
+      "bytes": 2976,
+      "last_written_at": "2026-10-30T15:32:21.930371+00:00",
+      "counts": {
+        "tests": 1,
+        "pass": 1,
+        "fail": 0
+      },
+      "test_files": [
+        "tests/e2e/processing-ui.spec.ts"
+      ],
+      "raw_content_copied": false,
+      "red_credit": false
+    },
+    "initial_zero_selection": {
+      "private_raw_path": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\.local\\m07-quality\\retry-ack-desktop-red.txt",
+      "sha256": "908ac71e631973fb1221717bdde060b327c2be2719e57cd01df38d205300ea03",
+      "bytes": 2172,
+      "last_written_at": "2026-10-30T15:31:08.927340+00:00",
+      "counts": {
+        "tests": 0,
+        "pass": 0,
+        "fail": 0
+      },
+      "test_files": [
+        "tests/e2e/processing-ui.spec.ts"
+      ],
+      "raw_content_copied": false,
+      "red_credit": false
+    }
+  },
+  "desktop_selection": {
+    "file": "tests/e2e/processing-ui.spec.ts",
+    "grep": "controlled acknowledged retry recovers a failed GET",
+    "selected_cases": 1,
+    "case": "controlled acknowledged retry recovers a failed GET without resubmitting its confirmed intent",
+    "EPS_SKIP_MOBILE_TESTS": "true",
+    "mobile_cases_run": 0,
+    "preexisting_mixed_or_narrow_cases_run": 0
+  },
+  "verification": [
+    "Actual central HTTP adapter response projects actual job fields; full Job no longer crosses retry transport success.",
+    "Installed official MCP client receives the same published acknowledgement; actual output validator accepts it.",
+    "Current authority denial and stable actor/idempotency/row-version forwarding retained.",
+    "Malformed or cross-job acknowledgement retains the frozen intent.",
+    "After a valid acknowledgement, subsequent GET failure is recovered by GET without another POST."
+  ],
+  "count_qualification": "Focused30 modules overlap the current755 full module gate. One focused desktop pass is not a fresh comprehensive81-case run; historical80desktop remains dated evidence. Initial zero-selection log is preserved without RED credit.",
+  "raw_private_logs_copied": false,
+  "tests_rerun_by_this_publication": false,
+  "real_job_retry_or_cancel": false,
+  "database_provider_process_client_login_or_model_action": false,
+  "pytest_binding_or_acl_claim_included": false
+}

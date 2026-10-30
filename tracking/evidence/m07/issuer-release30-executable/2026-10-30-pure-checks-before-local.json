@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-10-30T15:46:26.939003+00:00",
+  "scope": "pure local discovery/admission/cleanup and source grammar checks; not DB execution",
+  "red": {
+    "discovery_missing_module": true,
+    "publication_helper_missing": true,
+    "admission_missing_module": true,
+    "cleanup_missing_module": true
+  },
+  "green": {
+    "python_unittest": {
+      "passed": 6,
+      "failed": 0
+    },
+    "node_admission_cleanup": {
+      "passed": 6,
+      "failed": 0
+    },
+    "syntax": "node --check passed for controller/admission"
+  },
+  "parser": "installed pglast outer grammar passed for7-statement read-only discovery and actual ownership boolean predicate; PLpgSQL not semantically executed",
+  "cli_migration_new_help": {
+    "version": "2.122.0",
+    "invoked": true,
+    "generated_file": false
+  },
+  "source_hashes": {
+    "admission.mjs": "48e82d29ad66323f2fe36d80aeeba210fdfbd7b8e754137dad5aede7230628c4",
+    "admission.test.mjs": "e55c1e89eb28a9060c366f54bffa8c435b48906793897cf786e92a6f41ef0ef2",
+    "candidate-provenance.json": "123cb399d76db2f6957b3340d45079b9dd85b6a8189e5fa92a4ab7d938f869b0",
+    "candidate.sql": "e5fd2121784c8372743f330664508b2a38a25cd622b24cf6765c570ae6f2a785",
+    "cleanup.mjs": "e226a7cf8e6c882e9eac1345101f0c2e8d18608db63be8fa28c47ee7ca730608",
+    "cleanup.test.mjs": "c5e68f3f731891690aad553ccef3d2339247c26d8f10be5c2357d34a7102f8be",
+    "context.sql": "39adc853999d3a74bb24bf0fcd9b105bf3e8467648948b29ef4135cec089cb18",
+    "discover.sql": "5a30e3bf2bb17f32c932dad9bfac71f8162ff552ae9f12ef05ec6e03aef10f6f",
+    "discovery-sources.json": "3a3ec36da232d59ce99aba48bd7bf2d7e55407234a4d92a1d61b562f29a946b0",
+    "discovery.py": "addab3a3c704fa37f69ff8aa41abd1589550ccbaea1289c8ba00b68a52393a37",
+    "run-local.mjs": "d806cb7c46498902fcfacd37a15ae83a5b6e2a92563673c6172d49acca2f792d",
+    "test_discovery.py": "f3f15c97f645d0f5fb164452f5792fdd936d9e6883056efd3a64b61f3d91dcbd"
+  },
+  "canonical_apply": false,
+  "local_db_proof_executed": false,
+  "provider_mutation": false
+}

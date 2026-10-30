@@ -11,7 +11,7 @@ Date: 2026-10-30 (UTC). These checks validate the specification and contracts; a
 - 12 standalone JSON schemas; source references and AI-object key contracts checked.
 - 76 unique acceptance cases; all 36 business rules represented.
 - Fixture Selection = 8 pages and Shortlist = 6 pages, independently derived in correct order.
-- 1370 source-document local file links checked.
+- 1400 source-document local file links checked.
 - Full JSON Schema meta-validation passed
 - Full OpenAPI meta-validation passed
 - PostgreSQL SQL syntax parsed: 63 statements; no SQL executed

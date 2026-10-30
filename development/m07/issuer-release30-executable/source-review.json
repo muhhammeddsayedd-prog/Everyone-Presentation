@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-10-30T16:11:46.185527+00:00",
+  "reviewer": "/root/m07_security_review",
+  "scope": "independent source-only clearance for root-authorized inspect/dry-run/single-apply/readback with fresh quiescence; not actual canonical/provider acceptance",
+  "release_source_sha256": "01384c2cdbe52cfc5f94b80f5268a162a1fe8b34b197a4ac1e412695dac1d4b7",
+  "findings_resolved": [
+    "closed Windows-path/claim/attempt/source/before-state boundary before nested reads",
+    "exact role and membership OIDs/name mapping and flag fields before publication",
+    "same complete object inventories for all privilege-role categories",
+    "exclusive protected claim before one push; unknown outcome readback only",
+    "full raw expected42created/8changed catalogue delta and protected state/effective privilege validation"
+  ],
+  "reviewer_executed": {
+    "database": false,
+    "cli": false,
+    "tests": false,
+    "provider": false
+  }
+}

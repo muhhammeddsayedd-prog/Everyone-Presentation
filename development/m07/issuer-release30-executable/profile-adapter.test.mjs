@@ -1,0 +1,7 @@
+import assert from'node:assert/strict';import{test}from'node:test';import{readFile}from'node:fs/promises';
+import{issuerOwnedRestoreProfile}from'./profile-adapter.mjs';
+const receipt=JSON.parse(await readFile('tracking/evidence/m07/recovery29/2026-10-30T12-19-02-143Z-0ec7ead2-diagnostic-report.json','utf8'));
+const expected=JSON.parse(await readFile(receipt.original_catalogue.path,'utf8')),observed=JSON.parse(await readFile(receipt.clone_catalogue.path,'utf8'));
+const owned={name:'eps_m07_issuer30_07000000000040008000000000000001',marker:'eps-m07-issuer30:07000000-0000-4000-8000-000000000001',owner:'postgres',oid:12345};
+test('only new exact owned guard adapts; eight frozen correction statements retain exact scope',()=>{const result=issuerOwnedRestoreProfile(expected,observed,owned);assert.equal(result.differences.length,8);assert(result.sql.includes(owned.name));assert(!result.sql.includes('eps_m07_r29_source_'));assert(!/drop role|create role|alter role/iu.test(result.sql));});
+test('unknown catalogue values and original/mismatched owned identities remain refused',()=>{const changed=structuredClone(observed);changed['tables|eps.app_settings|force_rls']=false;assert.throws(()=>issuerOwnedRestoreProfile(expected,changed,owned));for(const patch of[{name:'postgres'},{marker:'other'},{oid:'12345'}])assert.throws(()=>issuerOwnedRestoreProfile(expected,observed,{...owned,...patch}));});

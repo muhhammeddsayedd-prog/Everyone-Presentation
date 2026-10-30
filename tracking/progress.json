@@ -1,6 +1,6 @@
 {
   "pack_version": "1.0",
-  "updated_at": "2026-10-30T14:50:09.164336+00:00",
+  "updated_at": "2026-10-30T16:23:00.762531+00:00",
   "implementation_started": true,
   "current_milestone": "M07",
   "milestones": [
@@ -629,6 +629,14 @@
           "cloud": "applied",
           "target": "pyibofyctwnqpvktepse",
           "evidence": "tracking/evidence/cloud-m07-29/2026-10-30T11-52-36-310355Z-f553771a-readback.json"
+        },
+        {
+          "file": "supabase/migrations/20261030154824_m07_native_oauth_issuer.sql",
+          "sha256": "e5fd2121784c8372743f330664508b2a38a25cd622b24cf6765c570ae6f2a785",
+          "local": "committed_and_forward_fixed_in_disposable_clone_only; original29 unchanged",
+          "cloud": "applied_and_independently_read_back",
+          "target": "pyibofyctwnqpvktepse",
+          "evidence": "tracking/evidence/m07/issuer-release30-executable/2026-10-30T16-13-26-090472Z-12920568-canonical-readback.json"
         }
       ],
       "evidence": [
@@ -649,14 +657,23 @@
         "tracking/evidence/m07/live-settings-oauth/2026-10-30-followup-summary.json",
         "tracking/evidence/m07/quality/2026-10-30T14-43-09-445Z-8156a75b.json",
         "tracking/evidence/m07/oauth-hook29/2026-10-30T14-37-15-683Z-01f780ed.json",
-        "tracking/evidence/m07/live-settings-oauth/2026-10-30-owned-runtime-fresh.json"
+        "tracking/evidence/m07/live-settings-oauth/2026-10-30-owned-runtime-fresh.json",
+        "tracking/evidence/m07/issuer-release30-executable/2026-10-30T16-12-49-727075Z-34f06b25-canonical-apply.json",
+        "tracking/evidence/m07/issuer-release30-executable/2026-10-30T16-13-26-090472Z-12920568-canonical-readback.json",
+        "tracking/evidence/m07/issuer-release30-executable/2026-10-30T15-54-37-082Z-36b1483b-local-proof.json",
+        "tracking/evidence/m07/quality/2026-10-30T15-37-43-310Z-f3157ddc.json",
+        "tracking/evidence/m07/app-oauth/2026-10-30-runtime-after30.json",
+        "tracking/evidence/m07/app-oauth/2026-10-30T16-14-01-872234Z-inspect-binding.json",
+        "tracking/evidence/m07/app-oauth/2026-10-30-pre-activation-summary.json",
+        "tracking/evidence/m07/issuer-release30-executable/2026-10-30-current-release-summary.json",
+        "development/m07/APP_OAUTH_CONNECTION.md"
       ],
       "blockers": [
-        "Coordinated issuer migration30 and actual OAuth client/hook/resource activation and real delegated end-to-end journey remain unverified.",
+        "Canonical issuer30 is applied and independently verified. Provider OAuth/client/hook activation awaits required browser action-time confirmation; real signed-token/client journey remains unverified and owner handles Claude Code setup/login.",
         "Representative provider cost/endurance and deployed restore/smoke remain unverified; hosting deferred.",
         "AT-072 and broader independently labelled M03 semantics remain pending; mobile skipped by owner."
       ],
-      "next_action": "Prepare fresh canonical issuer preflight and coordinated additive30 proof/release from current29; preserve provider settings, then configure one reviewed local Claude Code public client/hook/resource with browser action-time confirmation before delegated access. Hosting remains deferred.",
+      "next_action": "After explicit browser action-time confirmation, activate prepared provider config, create actual public client, bind its real UUID once, select private native hook, independently inspect ACL/binding, configure and restart owned web, run public ready probes, then deliver exact owner connection/login details.",
       "scope_constraints": {
         "AT_072": "pending",
         "M03_broader_semantic_checks": "pending",
@@ -669,20 +686,20 @@
       "current_checkpoint": {
         "milestone": "M07",
         "status": "in_progress",
-        "observed_at": "2026-10-30T14:50:09.164336+00:00",
-        "base_commit": "e4ffccaaf9aed8cd78207d6ae2d09850a0b0225a",
-        "canonical_migration_count": 29,
+        "observed_at": "2026-10-30T16:23:00.762531+00:00",
+        "base_commit": "407dce2158727d5442f7f88af43a3d79fb989159",
+        "canonical_migration_count": 30,
         "local_migration_count": 29,
-        "canonical_apply": "tracking/evidence/cloud-m07-29/2026-10-30T11-52-15-216806Z-3a0afd9f-apply.json",
-        "canonical_readback": "tracking/evidence/cloud-m07-29/2026-10-30T11-52-36-310355Z-f553771a-readback.json",
-        "quality": "tracking/evidence/m07/quality/2026-10-30T14-43-09-445Z-8156a75b.json",
-        "application_tests": 751,
+        "canonical_apply": "tracking/evidence/m07/issuer-release30-executable/2026-10-30T16-12-49-727075Z-34f06b25-canonical-apply.json",
+        "canonical_readback": "tracking/evidence/m07/issuer-release30-executable/2026-10-30T16-13-26-090472Z-12920568-canonical-readback.json",
+        "quality": "tracking/evidence/m07/quality/2026-10-30T15-37-43-310Z-f3157ddc.json",
+        "application_tests": 755,
         "controlled_desktop_unique_cases": 80,
-        "runtime": "tracking/evidence/m07/live-settings-oauth/2026-10-30-owned-runtime-fresh.json",
+        "runtime": "tracking/evidence/m07/app-oauth/2026-10-30-runtime-after30.json",
         "mcp_tools": 86,
         "openapi_operations": 115,
         "semantic_ui_groups": 13,
-        "hook30": "Local-only candidate, seven SQL stages passed; not a real migration or enabled provider hook",
+        "hook30": "Actual additive30 canonical apply plus independent full raw catalogue readback passed; private native Auth-only function installed. Provider selection/real issuance remains pending.",
         "local_restore": "History29 actual metadata/native4objects/71criticalsources restore, full16430catalogue/Settings/MCP/permissions/lease fences and originalroleOIDpreservation; no StorageHTTP/deployed/RTO claim",
         "native_workload": "200 tiny synthetic files, bounded2,198success/2expectedfail; representative provider capacity/cost unverified",
         "actual_claude_code": "2.1.301 synthetic business5calls only; exact original protocol revision uncaptured",
@@ -692,18 +709,22 @@
         "hosting_deferred": true,
         "production_deployment_verified": false,
         "live_settings_browser": "Passed actual existing Producer UTC save/reload, Cairo restore/reload, revisions1->2->3, browser audit/intents and immutable Ready state readback; one absent-only settings.manage completion, no enrollment/revocation reversal",
-        "provider_access": "Authenticated dashboard read-only discovery completed: OAuth off, no apps/hooks, local SiteURL/one callback, current ECC P256. Connector still installed:false; no provider mutation.",
-        "next_action": "Prepare fresh canonical issuer preflight and coordinated additive30 proof/release from current29; preserve provider settings, then configure one reviewed local Claude Code public client/hook/resource with browser action-time confirmation before delegated access. Hosting remains deferred.",
+        "provider_access": "Required browser action-time confirmation is pending for OAuth Server activation, one public client and native token-hook selection. No provider save/client/hook selection, client binding, OAuth env change or client login has occurred.",
+        "next_action": "After explicit browser action-time confirmation, activate prepared provider config, create actual public client, bind its real UUID once, select private native hook, independently inspect ACL/binding, configure and restart owned web, run public ready probes, then deliver exact owner connection/login details.",
         "desktop_quality": "tracking/evidence/m07/quality/2026-10-30-desktop80-final.json",
         "historical_scope_correction": "Seven older mixed-width cases inadvertently ran; excluded from final desktop80 and not credited to skipped mobile acceptance.",
         "local_restore_evidence": "tracking/evidence/m07/recovery29/2026-10-30T12-25-42-320Z-bda68ef0.json",
         "live_followup": "tracking/evidence/m07/live-settings-oauth/2026-10-30-followup-summary.json",
         "hook29": "tracking/evidence/m07/oauth-hook29/2026-10-30T14-37-15-683Z-01f780ed.json",
-        "controlled_desktop_scope": "Historical frozen80; no controlled Playwright run in this followup. Actual signed-in Settings/Processing checks added separately.",
+        "controlled_desktop_scope": "Prior frozen80 remain historical; current exact focused retry acknowledgment desktop1 passed. Initial zero-selection attempt is not RED credit; mobile was not selected.",
         "current29_local_issuer": "Five pure tests/nine real-role SQL stages passed in rollback-only current29 clone; source/global roles/original exact, clone absent/lock released. No actual issuance or migration30.",
         "live_processing": "Fixed legitimate presentation_export action flags; valid live25-job response/four exports and rendered Processing/Cairo times; protected job not retried",
-        "source_archive": "Prior exact e4ffcca ZIP/scan in ignored dist/SOURCE_CHECKPOINT.json unchanged; followup not in that archive",
-        "implementation_commit": "bace13b55daa77cb0edd947f1f96440b98ebdd3b"
+        "source_archive": "Prior exact e4ffcca ZIP/scan unchanged; this follow-up is unarchived",
+        "implementation_commit": "Pending current checkpoint commit; current source based on407dce2",
+        "source_inputs": 657,
+        "current30_local_issuer": "Disposable clone committed30, two injected failure rollbacks,9 precommit+9 postcommit real-role stages and forward-fix/owned DB+new role removal passed; original local29 and prior global role identities exact.",
+        "app_oauth": "tracking/evidence/m07/app-oauth/2026-10-30-pre-activation-summary.json",
+        "owner_client_configuration_and_login": "Not performed; owner explicitly retained this work"
       }
     }
   ],
@@ -858,24 +879,24 @@
       "scope": "Project-local skill setup only; does not advance app milestones or verify integrations."
     }
   },
-  "notes": "M07 in progress under explicit owner continuation; M06 remains implemented_unverified for AT072 and M03 broader semantic evaluation remains pending. Mobile testing skipped; hosting deferred. See current handoff/start evidence for scoped acceptance.",
+  "notes": "M07 in progress. Canonical30 issuer installed/private; original local29 unchanged. Provider activation awaits required action-time confirmation. Owner configures/logs in Claude Code. M06 AT072 and broader M03 semantics pending; mobile skipped, hosting deferred. No production completion claim.",
   "latest_checkpoint": {
     "milestone": "M07",
     "status": "in_progress",
-    "observed_at": "2026-10-30T14:50:09.164336+00:00",
-    "base_commit": "e4ffccaaf9aed8cd78207d6ae2d09850a0b0225a",
-    "canonical_migration_count": 29,
+    "observed_at": "2026-10-30T16:23:00.762531+00:00",
+    "base_commit": "407dce2158727d5442f7f88af43a3d79fb989159",
+    "canonical_migration_count": 30,
     "local_migration_count": 29,
-    "canonical_apply": "tracking/evidence/cloud-m07-29/2026-10-30T11-52-15-216806Z-3a0afd9f-apply.json",
-    "canonical_readback": "tracking/evidence/cloud-m07-29/2026-10-30T11-52-36-310355Z-f553771a-readback.json",
-    "quality": "tracking/evidence/m07/quality/2026-10-30T14-43-09-445Z-8156a75b.json",
-    "application_tests": 751,
+    "canonical_apply": "tracking/evidence/m07/issuer-release30-executable/2026-10-30T16-12-49-727075Z-34f06b25-canonical-apply.json",
+    "canonical_readback": "tracking/evidence/m07/issuer-release30-executable/2026-10-30T16-13-26-090472Z-12920568-canonical-readback.json",
+    "quality": "tracking/evidence/m07/quality/2026-10-30T15-37-43-310Z-f3157ddc.json",
+    "application_tests": 755,
     "controlled_desktop_unique_cases": 80,
-    "runtime": "tracking/evidence/m07/live-settings-oauth/2026-10-30-owned-runtime-fresh.json",
+    "runtime": "tracking/evidence/m07/app-oauth/2026-10-30-runtime-after30.json",
     "mcp_tools": 86,
     "openapi_operations": 115,
     "semantic_ui_groups": 13,
-    "hook30": "Local-only candidate, seven SQL stages passed; not a real migration or enabled provider hook",
+    "hook30": "Actual additive30 canonical apply plus independent full raw catalogue readback passed; private native Auth-only function installed. Provider selection/real issuance remains pending.",
     "local_restore": "History29 actual metadata/native4objects/71criticalsources restore, full16430catalogue/Settings/MCP/permissions/lease fences and originalroleOIDpreservation; no StorageHTTP/deployed/RTO claim",
     "native_workload": "200 tiny synthetic files, bounded2,198success/2expectedfail; representative provider capacity/cost unverified",
     "actual_claude_code": "2.1.301 synthetic business5calls only; exact original protocol revision uncaptured",
@@ -885,18 +906,22 @@
     "hosting_deferred": true,
     "production_deployment_verified": false,
     "live_settings_browser": "Passed actual existing Producer UTC save/reload, Cairo restore/reload, revisions1->2->3, browser audit/intents and immutable Ready state readback; one absent-only settings.manage completion, no enrollment/revocation reversal",
-    "provider_access": "Authenticated dashboard read-only discovery completed: OAuth off, no apps/hooks, local SiteURL/one callback, current ECC P256. Connector still installed:false; no provider mutation.",
-    "next_action": "Prepare fresh canonical issuer preflight and coordinated additive30 proof/release from current29; preserve provider settings, then configure one reviewed local Claude Code public client/hook/resource with browser action-time confirmation before delegated access. Hosting remains deferred.",
+    "provider_access": "Required browser action-time confirmation is pending for OAuth Server activation, one public client and native token-hook selection. No provider save/client/hook selection, client binding, OAuth env change or client login has occurred.",
+    "next_action": "After explicit browser action-time confirmation, activate prepared provider config, create actual public client, bind its real UUID once, select private native hook, independently inspect ACL/binding, configure and restart owned web, run public ready probes, then deliver exact owner connection/login details.",
     "desktop_quality": "tracking/evidence/m07/quality/2026-10-30-desktop80-final.json",
     "historical_scope_correction": "Seven older mixed-width cases inadvertently ran; excluded from final desktop80 and not credited to skipped mobile acceptance.",
     "local_restore_evidence": "tracking/evidence/m07/recovery29/2026-10-30T12-25-42-320Z-bda68ef0.json",
     "live_followup": "tracking/evidence/m07/live-settings-oauth/2026-10-30-followup-summary.json",
     "hook29": "tracking/evidence/m07/oauth-hook29/2026-10-30T14-37-15-683Z-01f780ed.json",
-    "controlled_desktop_scope": "Historical frozen80; no controlled Playwright run in this followup. Actual signed-in Settings/Processing checks added separately.",
+    "controlled_desktop_scope": "Prior frozen80 remain historical; current exact focused retry acknowledgment desktop1 passed. Initial zero-selection attempt is not RED credit; mobile was not selected.",
     "current29_local_issuer": "Five pure tests/nine real-role SQL stages passed in rollback-only current29 clone; source/global roles/original exact, clone absent/lock released. No actual issuance or migration30.",
     "live_processing": "Fixed legitimate presentation_export action flags; valid live25-job response/four exports and rendered Processing/Cairo times; protected job not retried",
-    "source_archive": "Prior exact e4ffcca ZIP/scan in ignored dist/SOURCE_CHECKPOINT.json unchanged; followup not in that archive",
-    "implementation_commit": "bace13b55daa77cb0edd947f1f96440b98ebdd3b"
+    "source_archive": "Prior exact e4ffcca ZIP/scan unchanged; this follow-up is unarchived",
+    "implementation_commit": "Pending current checkpoint commit; current source based on407dce2",
+    "source_inputs": 657,
+    "current30_local_issuer": "Disposable clone committed30, two injected failure rollbacks,9 precommit+9 postcommit real-role stages and forward-fix/owned DB+new role removal passed; original local29 and prior global role identities exact.",
+    "app_oauth": "tracking/evidence/m07/app-oauth/2026-10-30-pre-activation-summary.json",
+    "owner_client_configuration_and_login": "Not performed; owner explicitly retained this work"
   },
   "historical_notes": [
     {
@@ -912,28 +937,27 @@
   ],
   "active_session": {
     "milestone": "M07",
-    "status": "in_progress",
-    "started_at": "2026-10-30T10:30:27.646281+00:00",
-    "base_commit": "02f9287f8a5dc1b40d2364f904ac499f7c1a54a6",
-    "authorization": "User explicitly requested M07 while retaining AT072 and M03 pending, mobile skipped, hosting deferred.",
+    "status": "awaiting_required_action_time_confirmation",
+    "started_at": "2026-10-30T15:31:41.077979+00:00",
+    "base_commit": "407dce2158727d5442f7f88af43a3d79fb989159",
+    "authorization": "Finish app-side OAuth/MCP setup and give actual connection/login instructions; owner configures Claude Code themselves.",
     "constraints": {
-      "AT_072": "pending",
-      "M03_broader_semantic_checks": "pending",
-      "mobile_testing": "skipped",
       "hosting": "deferred",
-      "cloud_reset_or_seed": "forbidden",
-      "unrelated_paths": "Screenshots102/redesign-output58 retained"
+      "AT072": "pending",
+      "M03_independent_semantics": "pending",
+      "mobile": "skipped",
+      "Claude_Code_configuration_and_login": "owner only",
+      "cloud_reset_or_seed": "forbidden"
     },
     "planned_acceptance": [
-      "Audit and close actual UI/HTTP/domain/MCP parity, schemas, pagination and idempotency with focused regressions.",
-      "Implement and verify official SDK transport and delegated resource-server authentication against current primary documentation; keep external provider/client connection unverified until actual access.",
-      "Prove isolated local metadata-plus-referenced-media backup/restore, checksum and permission/recovery boundaries, preserving canonical data.",
-      "Add bounded workload/observability and operator/client documentation with actual measured versus synthetic/historical scopes.",
-      "Run appropriate deterministic/security/runtime acceptance, record exact unresolved provider/client/deployment gates; hosting remains deferred."
+      "Fresh canonical29 issuer metadata and protected state",
+      "Additive coordinated30 local rollback/commit/forward-fix and canonical readback",
+      "Exact one public OAuth client/native hook/remembered resource binding with provider readback",
+      "Local OAuth MCP metadata/401 and app consent input boundaries; no owner client login",
+      "Published retry acknowledgement parity and focused tests",
+      "Actual nonsecret client ID, exact commands and login instructions"
     ],
-    "start_evidence": "tracking/evidence/m07/2026-10-30-start.json",
-    "updated_at": "2026-10-30T14:50:09.164336+00:00",
-    "current_checkpoint": {
+    "previous_checkpoint": {
       "milestone": "M07",
       "status": "in_progress",
       "observed_at": "2026-10-30T14:50:09.164336+00:00",
@@ -972,20 +996,40 @@
       "source_archive": "Prior exact e4ffcca ZIP/scan in ignored dist/SOURCE_CHECKPOINT.json unchanged; followup not in that archive",
       "implementation_commit": "bace13b55daa77cb0edd947f1f96440b98ebdd3b"
     },
-    "resumed_access_followup": {
-      "base_commit": "e4ffccaaf9aed8cd78207d6ae2d09850a0b0225a",
-      "owner_responses": [
-        "Connected",
-        "Signed in"
-      ],
-      "planned_acceptance": [
-        "Actual Settings save/reload/restore and shared timestamp projection",
-        "Read-only OAuth settings/hook/client/signing discovery",
-        "Post29 local issuer proof",
-        "Focused regressions and current full offline quality"
-      ],
-      "actual_evidence": "tracking/evidence/m07/live-settings-oauth/2026-10-30-followup-summary.json",
-      "milestone_status": "in_progress"
+    "updated_at": "2026-10-30T16:23:00.762531+00:00",
+    "actual_evidence": {
+      "recorded_at": "2026-10-30T16:23:00.762531+00:00",
+      "scope": "Actual root app-side preparation and canonical issuer30; provider activation awaiting explicit action-time confirmation",
+      "canonical_migration_count": 30,
+      "original_local_migration_count": 29,
+      "disposable_local_committed30_and_removed": true,
+      "canonical_apply": "tracking/evidence/m07/issuer-release30-executable/2026-10-30T16-12-49-727075Z-34f06b25-canonical-apply.json",
+      "canonical_independent_readback": "tracking/evidence/m07/issuer-release30-executable/2026-10-30T16-13-26-090472Z-12920568-canonical-readback.json",
+      "local_commit_rollback_forward_fix_proof": "tracking/evidence/m07/issuer-release30-executable/2026-10-30T15-54-37-082Z-36b1483b-local-proof.json",
+      "quality": "tracking/evidence/m07/quality/2026-10-30T15-37-43-310Z-f3157ddc.json",
+      "module_tests": 755,
+      "source_inputs": 657,
+      "focused_retry_ack_checks": "tracking/evidence/m07/app-oauth/2026-10-30-retry-ack-checks.json",
+      "historical_desktop80_is_not_a_new_full_run": true,
+      "runtime_after30": "tracking/evidence/m07/app-oauth/2026-10-30-runtime-after30.json",
+      "pre_activation_binding_inspection": "tracking/evidence/m07/app-oauth/2026-10-30T16-14-01-872234Z-inspect-binding.json",
+      "provider_activation": "Required browser action-time confirmation is pending for OAuth Server activation, one public client and native token-hook selection. No provider save/client/hook selection, client binding, OAuth env change or client login has occurred.",
+      "actual_client_uuid": null,
+      "app_mcp_auth_mode": "local",
+      "planned_public_client_name": "EveryoneStudioLocalM07",
+      "planned_callback": "http://localhost:3118/callback",
+      "mcp_resource": "http://127.0.0.1:3000/mcp",
+      "issuer": "https://pyibofyctwnqpvktepse.supabase.co/auth/v1",
+      "scope_requested": "openid",
+      "claude_code_configuration_or_login_changed": false,
+      "protected_m02_job_retried": false,
+      "AT072": "pending",
+      "M03_broader_semantics": "pending",
+      "mobile": "skipped",
+      "hosting": "deferred",
+      "production_release": "unverified",
+      "source_archive": "Historical e4ffcca source ZIP/scan unchanged; current follow-up unarchived",
+      "release_apply_or_empty_registry_frame_must_not_be_repeated": true
     }
   },
   "historical_sessions": [
@@ -1243,6 +1287,84 @@
       ],
       "source_artifact_record": "Prior frozen278985e source/index/ZIP and scan remain in dist/SOURCE_CHECKPOINT.json. This later PDF acceptance evidence/docs are outside that archive; final follow-up identity is in dist/M06_PDF_SAVE_CHECKPOINT.json.",
       "updated_at": "2026-10-30T10:09:04.368918+00:00"
+    },
+    {
+      "milestone": "M07",
+      "status": "in_progress",
+      "started_at": "2026-10-30T10:30:27.646281+00:00",
+      "base_commit": "02f9287f8a5dc1b40d2364f904ac499f7c1a54a6",
+      "authorization": "User explicitly requested M07 while retaining AT072 and M03 pending, mobile skipped, hosting deferred.",
+      "constraints": {
+        "AT_072": "pending",
+        "M03_broader_semantic_checks": "pending",
+        "mobile_testing": "skipped",
+        "hosting": "deferred",
+        "cloud_reset_or_seed": "forbidden",
+        "unrelated_paths": "Screenshots102/redesign-output58 retained"
+      },
+      "planned_acceptance": [
+        "Audit and close actual UI/HTTP/domain/MCP parity, schemas, pagination and idempotency with focused regressions.",
+        "Implement and verify official SDK transport and delegated resource-server authentication against current primary documentation; keep external provider/client connection unverified until actual access.",
+        "Prove isolated local metadata-plus-referenced-media backup/restore, checksum and permission/recovery boundaries, preserving canonical data.",
+        "Add bounded workload/observability and operator/client documentation with actual measured versus synthetic/historical scopes.",
+        "Run appropriate deterministic/security/runtime acceptance, record exact unresolved provider/client/deployment gates; hosting remains deferred."
+      ],
+      "start_evidence": "tracking/evidence/m07/2026-10-30-start.json",
+      "updated_at": "2026-10-30T14:50:09.164336+00:00",
+      "current_checkpoint": {
+        "milestone": "M07",
+        "status": "in_progress",
+        "observed_at": "2026-10-30T14:50:09.164336+00:00",
+        "base_commit": "e4ffccaaf9aed8cd78207d6ae2d09850a0b0225a",
+        "canonical_migration_count": 29,
+        "local_migration_count": 29,
+        "canonical_apply": "tracking/evidence/cloud-m07-29/2026-10-30T11-52-15-216806Z-3a0afd9f-apply.json",
+        "canonical_readback": "tracking/evidence/cloud-m07-29/2026-10-30T11-52-36-310355Z-f553771a-readback.json",
+        "quality": "tracking/evidence/m07/quality/2026-10-30T14-43-09-445Z-8156a75b.json",
+        "application_tests": 751,
+        "controlled_desktop_unique_cases": 80,
+        "runtime": "tracking/evidence/m07/live-settings-oauth/2026-10-30-owned-runtime-fresh.json",
+        "mcp_tools": 86,
+        "openapi_operations": 115,
+        "semantic_ui_groups": 13,
+        "hook30": "Local-only candidate, seven SQL stages passed; not a real migration or enabled provider hook",
+        "local_restore": "History29 actual metadata/native4objects/71criticalsources restore, full16430catalogue/Settings/MCP/permissions/lease fences and originalroleOIDpreservation; no StorageHTTP/deployed/RTO claim",
+        "native_workload": "200 tiny synthetic files, bounded2,198success/2expectedfail; representative provider capacity/cost unverified",
+        "actual_claude_code": "2.1.301 synthetic business5calls only; exact original protocol revision uncaptured",
+        "manual_screenreader": "AT-072 pending",
+        "M03_broader_semantic_evaluation": "pending",
+        "mobile_testing": "skipped by owner",
+        "hosting_deferred": true,
+        "production_deployment_verified": false,
+        "live_settings_browser": "Passed actual existing Producer UTC save/reload, Cairo restore/reload, revisions1->2->3, browser audit/intents and immutable Ready state readback; one absent-only settings.manage completion, no enrollment/revocation reversal",
+        "provider_access": "Authenticated dashboard read-only discovery completed: OAuth off, no apps/hooks, local SiteURL/one callback, current ECC P256. Connector still installed:false; no provider mutation.",
+        "next_action": "Prepare fresh canonical issuer preflight and coordinated additive30 proof/release from current29; preserve provider settings, then configure one reviewed local Claude Code public client/hook/resource with browser action-time confirmation before delegated access. Hosting remains deferred.",
+        "desktop_quality": "tracking/evidence/m07/quality/2026-10-30-desktop80-final.json",
+        "historical_scope_correction": "Seven older mixed-width cases inadvertently ran; excluded from final desktop80 and not credited to skipped mobile acceptance.",
+        "local_restore_evidence": "tracking/evidence/m07/recovery29/2026-10-30T12-25-42-320Z-bda68ef0.json",
+        "live_followup": "tracking/evidence/m07/live-settings-oauth/2026-10-30-followup-summary.json",
+        "hook29": "tracking/evidence/m07/oauth-hook29/2026-10-30T14-37-15-683Z-01f780ed.json",
+        "controlled_desktop_scope": "Historical frozen80; no controlled Playwright run in this followup. Actual signed-in Settings/Processing checks added separately.",
+        "current29_local_issuer": "Five pure tests/nine real-role SQL stages passed in rollback-only current29 clone; source/global roles/original exact, clone absent/lock released. No actual issuance or migration30.",
+        "live_processing": "Fixed legitimate presentation_export action flags; valid live25-job response/four exports and rendered Processing/Cairo times; protected job not retried",
+        "source_archive": "Prior exact e4ffcca ZIP/scan in ignored dist/SOURCE_CHECKPOINT.json unchanged; followup not in that archive",
+        "implementation_commit": "bace13b55daa77cb0edd947f1f96440b98ebdd3b"
+      },
+      "resumed_access_followup": {
+        "base_commit": "e4ffccaaf9aed8cd78207d6ae2d09850a0b0225a",
+        "owner_responses": [
+          "Connected",
+          "Signed in"
+        ],
+        "planned_acceptance": [
+          "Actual Settings save/reload/restore and shared timestamp projection",
+          "Read-only OAuth settings/hook/client/signing discovery",
+          "Post29 local issuer proof",
+          "Focused regressions and current full offline quality"
+        ],
+        "actual_evidence": "tracking/evidence/m07/live-settings-oauth/2026-10-30-followup-summary.json",
+        "milestone_status": "in_progress"
+      }
     }
   ],
   "historical_checkpoints": [
@@ -1733,6 +1855,47 @@
         "followup_base_commit": "278985e75764121fcf2b71f3a4cfcdb5830baa23",
         "followup_scope": "Evidence/documentation only; app/runtime/schema/SQL unchanged; prior frozen ZIP retained"
       }
+    }
+  ],
+  "checkpoint_history": [
+    {
+      "milestone": "M07",
+      "status": "in_progress",
+      "observed_at": "2026-10-30T14:50:09.164336+00:00",
+      "base_commit": "e4ffccaaf9aed8cd78207d6ae2d09850a0b0225a",
+      "canonical_migration_count": 29,
+      "local_migration_count": 29,
+      "canonical_apply": "tracking/evidence/cloud-m07-29/2026-10-30T11-52-15-216806Z-3a0afd9f-apply.json",
+      "canonical_readback": "tracking/evidence/cloud-m07-29/2026-10-30T11-52-36-310355Z-f553771a-readback.json",
+      "quality": "tracking/evidence/m07/quality/2026-10-30T14-43-09-445Z-8156a75b.json",
+      "application_tests": 751,
+      "controlled_desktop_unique_cases": 80,
+      "runtime": "tracking/evidence/m07/live-settings-oauth/2026-10-30-owned-runtime-fresh.json",
+      "mcp_tools": 86,
+      "openapi_operations": 115,
+      "semantic_ui_groups": 13,
+      "hook30": "Local-only candidate, seven SQL stages passed; not a real migration or enabled provider hook",
+      "local_restore": "History29 actual metadata/native4objects/71criticalsources restore, full16430catalogue/Settings/MCP/permissions/lease fences and originalroleOIDpreservation; no StorageHTTP/deployed/RTO claim",
+      "native_workload": "200 tiny synthetic files, bounded2,198success/2expectedfail; representative provider capacity/cost unverified",
+      "actual_claude_code": "2.1.301 synthetic business5calls only; exact original protocol revision uncaptured",
+      "manual_screenreader": "AT-072 pending",
+      "M03_broader_semantic_evaluation": "pending",
+      "mobile_testing": "skipped by owner",
+      "hosting_deferred": true,
+      "production_deployment_verified": false,
+      "live_settings_browser": "Passed actual existing Producer UTC save/reload, Cairo restore/reload, revisions1->2->3, browser audit/intents and immutable Ready state readback; one absent-only settings.manage completion, no enrollment/revocation reversal",
+      "provider_access": "Authenticated dashboard read-only discovery completed: OAuth off, no apps/hooks, local SiteURL/one callback, current ECC P256. Connector still installed:false; no provider mutation.",
+      "next_action": "Prepare fresh canonical issuer preflight and coordinated additive30 proof/release from current29; preserve provider settings, then configure one reviewed local Claude Code public client/hook/resource with browser action-time confirmation before delegated access. Hosting remains deferred.",
+      "desktop_quality": "tracking/evidence/m07/quality/2026-10-30-desktop80-final.json",
+      "historical_scope_correction": "Seven older mixed-width cases inadvertently ran; excluded from final desktop80 and not credited to skipped mobile acceptance.",
+      "local_restore_evidence": "tracking/evidence/m07/recovery29/2026-10-30T12-25-42-320Z-bda68ef0.json",
+      "live_followup": "tracking/evidence/m07/live-settings-oauth/2026-10-30-followup-summary.json",
+      "hook29": "tracking/evidence/m07/oauth-hook29/2026-10-30T14-37-15-683Z-01f780ed.json",
+      "controlled_desktop_scope": "Historical frozen80; no controlled Playwright run in this followup. Actual signed-in Settings/Processing checks added separately.",
+      "current29_local_issuer": "Five pure tests/nine real-role SQL stages passed in rollback-only current29 clone; source/global roles/original exact, clone absent/lock released. No actual issuance or migration30.",
+      "live_processing": "Fixed legitimate presentation_export action flags; valid live25-job response/four exports and rendered Processing/Cairo times; protected job not retried",
+      "source_archive": "Prior exact e4ffcca ZIP/scan in ignored dist/SOURCE_CHECKPOINT.json unchanged; followup not in that archive",
+      "implementation_commit": "bace13b55daa77cb0edd947f1f96440b98ebdd3b"
     }
   ]
 }

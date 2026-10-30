@@ -1,0 +1,67 @@
+{
+  "observed_at": "2026-10-30T16:13:55.826846+00:00",
+  "target": "pyibofyctwnqpvktepse",
+  "action": "inspect",
+  "scope": "One fixed operator resource/client configuration; no account, capability, provider or job mutation",
+  "result": "passed",
+  "sources": {
+    "development/m07/app-oauth/bind-client.py": "5a0eb95bc9e89bb49ec5f001764efb27921c4b31e0c32dad16fcbd5a5f36e96d",
+    "development/m07/app-oauth/bind-client.sql": "7a0e540f5e7a0357d5cfe962180281e9b1e6c8b642fdc678968cabb373b318b9",
+    "development/m07/app-oauth/inspect-binding.sql": "ce74d342c0f0b43dfbee611dce8f44625234691b659332dbdd3ecc5e92b7bcd6"
+  },
+  "raw_diagnostics_suppressed": true,
+  "exit_code": 0,
+  "inspection": {
+    "bindings": [],
+    "database": "postgres",
+    "history": [
+      "20261028010943",
+      "20261028013324",
+      "20261028013655",
+      "20261028024205",
+      "20261028072515",
+      "20261028162702",
+      "20261028162800",
+      "20261028172320",
+      "20261028184145",
+      "20261028222030",
+      "20261029001520",
+      "20261029003941",
+      "20261029070038",
+      "20261029090500",
+      "20261029090724",
+      "20261029094600",
+      "20261029100500",
+      "20261029133455",
+      "20261029135318",
+      "20261029174841",
+      "20261029180953",
+      "20261029202629",
+      "20261029203953",
+      "20261029215218",
+      "20261030002634",
+      "20261030004643",
+      "20261030013832",
+      "20261030030717",
+      "20261030111549",
+      "20261030154824"
+    ],
+    "hook_present": true,
+    "hook_security": {
+      "auth_admin_execute": true,
+      "auth_admin_no_other_eps_execute": true,
+      "auth_admin_schema": true,
+      "capability_forced_rls": true,
+      "no_issuer_schema_create": true,
+      "no_public_client_execute": true,
+      "owner_and_body": true,
+      "registry_forced_rls": true
+    },
+    "operator": "postgres",
+    "settings": {
+      "row_version": 3,
+      "template_version": "1.1.0",
+      "timezone": "Africa/Cairo"
+    }
+  }
+}

@@ -38,6 +38,8 @@ export async function handleJobRequest(request: Request, segments: string[], act
     const result = segments[2] === 'retry'
       ? await jobs.retryJob(actor, segments[1], input, context)
       : await jobs.cancelJob(actor, segments[1], input, context);
+    if (segments[2] === 'retry') return json({ job_id: result.id, resource_id: result.resource_id,
+      poll_url: `/api/v1/jobs/${encodeURIComponent(result.id)}`, status: result.status }, context.requestId, 202);
     return json(result, context.requestId);
   }
   throw new DomainError('RESOURCE_NOT_FOUND', 'This job operation is unavailable.', 404);

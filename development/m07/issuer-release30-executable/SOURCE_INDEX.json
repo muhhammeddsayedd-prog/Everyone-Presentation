@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.0",
+  "frozen_at": "2026-10-30T16:11:46.230735+00:00",
+  "scope": "issuer30 executable CODE/config source only; mutable receipts/quiescence/README are not sealed here",
+  "files": {
+    "admission.mjs": {
+      "sha256": "48e82d29ad66323f2fe36d80aeeba210fdfbd7b8e754137dad5aede7230628c4",
+      "bytes": 7295
+    },
+    "admission.test.mjs": {
+      "sha256": "e55c1e89eb28a9060c366f54bffa8c435b48906793897cf786e92a6f41ef0ef2",
+      "bytes": 3533
+    },
+    "candidate-provenance.json": {
+      "sha256": "123cb399d76db2f6957b3340d45079b9dd85b6a8189e5fa92a4ab7d938f869b0",
+      "bytes": 1808
+    },
+    "candidate.sql": {
+      "sha256": "e5fd2121784c8372743f330664508b2a38a25cd622b24cf6765c570ae6f2a785",
+      "bytes": 1346949
+    },
+    "cleanup.mjs": {
+      "sha256": "9c85263b6f81d386fe0e967f28a1f941b57553422e08742358187397ae442c2c",
+      "bytes": 1880
+    },
+    "cleanup.test.mjs": {
+      "sha256": "1d59ec98b378aadbe9a5c245d7b043d666dabff4fcf00e29745e135b34907aaf",
+      "bytes": 2256
+    },
+    "context.sql": {
+      "sha256": "39adc853999d3a74bb24bf0fcd9b105bf3e8467648948b29ef4135cec089cb18",
+      "bytes": 4032
+    },
+    "discover.sql": {
+      "sha256": "5a30e3bf2bb17f32c932dad9bfac71f8162ff552ae9f12ef05ec6e03aef10f6f",
+      "bytes": 14555
+    },
+    "discovery-sources.json": {
+      "sha256": "3a3ec36da232d59ce99aba48bd7bf2d7e55407234a4d92a1d61b562f29a946b0",
+      "bytes": 731
+    },
+    "discovery.py": {
+      "sha256": "addab3a3c704fa37f69ff8aa41abd1589550ccbaea1289c8ba00b68a52393a37",
+      "bytes": 9379
+    },
+    "expected-delta.json": {
+      "sha256": "79a372de1167e14d8d5d601c290e2684fb8f93e53b678e8d131f40bcfc49787c",
+      "bytes": 11268
+    },
+    "profile-adapter.mjs": {
+      "sha256": "e404aef595e84902fcf952e0b49c1ebf512909f40500cf8a5c42731c3851fd34",
+      "bytes": 948
+    },
+    "profile-adapter.test.mjs": {
+      "sha256": "477a3d10b646609cc5de45e47bee459a2c5b61074939f2799968c4a2d0540616",
+      "bytes": 1405
+    },
+    "quiescence.schema.json": {
+      "sha256": "0ca00403be0f43a02ff2d8d1d7aa5e08c956b149d822daf9935ac86346f26632",
+      "bytes": 1112
+    },
+    "release-plan.json": {
+      "sha256": "f723eb36f05ecf8e668d2da57cb7ecfe70a47e5a662ee112e68b504ac798ade4",
+      "bytes": 381
+    },
+    "release.py": {
+      "sha256": "01384c2cdbe52cfc5f94b80f5268a162a1fe8b34b197a4ac1e412695dac1d4b7",
+      "bytes": 24653
+    },
+    "run-local.mjs": {
+      "sha256": "3d1eb6af7d6d3d875b405d957e00f3dec5193cb55a8779ecb5e93bf0eb7ad5cc",
+      "bytes": 24203
+    },
+    "source-history/701f16b71a2b70658479427388fc92c533f0a78110f8e07ca7c1bfde78b8bc96-run-local.mjs": {
+      "sha256": "701f16b71a2b70658479427388fc92c533f0a78110f8e07ca7c1bfde78b8bc96",
+      "bytes": 22828
+    },
+    "test_discovery.py": {
+      "sha256": "f3f15c97f645d0f5fb164452f5792fdd936d9e6883056efd3a64b61f3d91dcbd",
+      "bytes": 4941
+    },
+    "test_release.py": {
+      "sha256": "22e7ecdd8b47b8d952c44e82da6ca666add543a03f3111c1ada9ccb17e3486d0",
+      "bytes": 11908
+    },
+    "test_release_claim.py": {
+      "sha256": "20ad8a20d87933b83c6628fd4a4c783ee8101c90e4da3925819ce332fa86518e",
+      "bytes": 4990
+    },
+    "test_release_payload.py": {
+      "sha256": "af10a1dc41fb054ae6287c3cf244806fe84478d49bf6834214045c97c2797d52",
+      "bytes": 1403
+    }
+  },
+  "root_migration": {
+    "path": "supabase/migrations/20261030154824_m07_native_oauth_issuer.sql",
+    "sha256": "e5fd2121784c8372743f330664508b2a38a25cd622b24cf6765c570ae6f2a785"
+  }
+}

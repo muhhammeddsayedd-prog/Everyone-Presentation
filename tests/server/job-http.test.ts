@@ -10,7 +10,7 @@ function service() {
   const jobs = {
     async listJobs(...args: unknown[]) { calls.push(['list', ...args]); return { data: [], page: { next_cursor: 'next-page' } }; },
     async getJob(...args: unknown[]) { calls.push(['get', ...args]); return { id: 'job-1' }; },
-    async retryJob(...args: unknown[]) { calls.push(['retry', ...args]); return { id: 'job-1', status: 'queued' }; },
+    async retryJob(...args: unknown[]) { calls.push(['retry', ...args]); return { id: 'job-1', resource_id: null, status: 'queued' }; },
     async cancelJob(...args: unknown[]) { calls.push(['cancel', ...args]); return { id: 'job-1', status: 'cancelled' }; },
   } as unknown as JobOperations;
   return { jobs, calls };
@@ -43,7 +43,8 @@ test('retry and cancel forward concurrency and the same intent without accepting
   const { jobs, calls } = service();
   for (const operation of ['retry', 'cancel']) {
     const response = await handleJobRequest(request('', 'POST', { row_version: 9, reason: null }), ['jobs', 'job-1', operation], actor, jobs, context);
-    assert.equal(response.status, 200);
+    assert.equal(response.status, operation === 'retry' ? 202 : 200);
+    if (operation === 'retry') assert.deepEqual(await response.json(), { request_id: 'request-1', data: { job_id: 'job-1', resource_id: null, poll_url: '/api/v1/jobs/job-1', status: 'queued' } });
   }
   assert.deepEqual(calls, ['retry', 'cancel'].map(operation => [operation, actor, 'job-1', { row_version: 9, reason: null }, context]));
   for (const body of [{ row_version: 9, principal_id: 'other' }, { row_version: 0 }, { row_version: '9' }, { row_version: 9, lease_token: 'forged' }]) {

@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "scope": "Executable SQL candidate only; no canonical dispatch/provider activation; migration timestamp not generated yet",
+  "prepared_at": "2026-10-30T15:37:32.186Z",
+  "canonical_discovery": {
+    "path": "tracking/evidence/m07/issuer-release30-executable/2026-10-30T15-31-12-986032Z-b19aca5b-canonical-discovery.json",
+    "sha256": "7aab9fc8b793504999e3987750cc81aa69a73f7035a8cbcbac9abbd8c77fd0dc"
+  },
+  "canonical_catalogue_fields": 16613,
+  "canonical_admission_full_raw_catalogue": true,
+  "canonical_existing_role_oid_identities": 61,
+  "cli_managed_role_expiry": "captured as metadata but not normalized or asserted as stable application invariant; full existing identity and safe attributes preserved/read back by release process",
+  "issuer_suffix": {
+    "source": "development/m07/oauth-hook29/candidate.sql",
+    "source_sha256": "136de55221d05053f0d3ae40754f641d32d0edf3d8ed73f952c92e1d819bce03",
+    "byte_offset": 1342214,
+    "bytes": 4735,
+    "sha256": "6fdab1bd84db93d427780f86ff5d8797a4fc67580796f379df4876f7bb269018",
+    "unchanged": true
+  },
+  "candidate_sha256": "e5fd2121784c8372743f330664508b2a38a25cd622b24cf6765c570ae6f2a785",
+  "source_seals": {
+    "development/m07/db/catalog29.sql": "1af59495b01424e6ec2578f6ea1f8ac362829577612c32b2cd373545a58b9098",
+    "development/m07/db/data29.sql": "931581121cf2548af7b244b5638d243176bed9a4a83241bd4f72998ddec90a81",
+    "development/m07/oauth-hook29/candidate.sql": "136de55221d05053f0d3ae40754f641d32d0edf3d8ed73f952c92e1d819bce03",
+    "development/m07/issuer-release30-executable/admission.mjs": "48e82d29ad66323f2fe36d80aeeba210fdfbd7b8e754137dad5aede7230628c4"
+  },
+  "canonical_applied": false,
+  "provider_mutations": false,
+  "migration_file_created": false
+}

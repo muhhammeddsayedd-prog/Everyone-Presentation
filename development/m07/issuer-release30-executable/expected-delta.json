@@ -1,0 +1,126 @@
+{
+  "schema_version": "1.0",
+  "created": {
+    "roles|eps_mcp_issuer_owner|login": false,
+    "roles|eps_mcp_issuer_owner|super": false,
+    "roles|eps_mcp_issuer_owner|inherit": false,
+    "roles|eps_mcp_issuer_owner|bypassrls": false,
+    "roles|eps_mcp_issuer_owner|create_db": false,
+    "roles|eps_mcp_issuer_owner|create_role": false,
+    "roles|eps_mcp_issuer_owner|replication": false,
+    "roles|eps_mcp_issuer_owner|valid_until": null,
+    "roles|eps_mcp_issuer_owner|connection_limit": -1,
+    "functions|eps.mcp_custom_access_token_hook(jsonb)|acl": "{eps_mcp_issuer_owner=X/eps_mcp_issuer_owner,supabase_auth_admin=X/eps_mcp_issuer_owner}",
+    "functions|eps.mcp_custom_access_token_hook(jsonb)|kind": "f",
+    "memberships|eps_mcp_issuer_owner>postgres/postgres|set": true,
+    "functions|eps.mcp_custom_access_token_hook(jsonb)|owner": "eps_mcp_issuer_owner",
+    "functions|eps.mcp_custom_access_token_hook(jsonb)|config": [
+      "search_path=\"\""
+    ],
+    "functions|eps.mcp_custom_access_token_hook(jsonb)|strict": false,
+    "memberships|eps_mcp_issuer_owner>postgres/postgres|admin": false,
+    "functions|eps.mcp_custom_access_token_hook(jsonb)|definer": true,
+    "functions|eps.mcp_custom_access_token_hook(jsonb)|returns": "jsonb",
+    "functions|eps.mcp_custom_access_token_hook(jsonb)|support": null,
+    "functions|eps.mcp_custom_access_token_hook(jsonb)|language": "plpgsql",
+    "functions|eps.mcp_custom_access_token_hook(jsonb)|parallel": "u",
+    "memberships|eps_mcp_issuer_owner>postgres/postgres|grantor": "postgres",
+    "memberships|eps_mcp_issuer_owner>postgres/postgres|inherit": false,
+    "functions|eps.mcp_custom_access_token_hook(jsonb)|leakproof": false,
+    "functions|eps.mcp_custom_access_token_hook(jsonb)|volatility": "s",
+    "memberships|eps_mcp_issuer_owner>postgres/supabase_admin|set": false,
+    "memberships|eps_mcp_issuer_owner>postgres/supabase_admin|admin": true,
+    "functions|eps.mcp_custom_access_token_hook(jsonb)|source_sha256": "b6e422c7df5cb146e9d0c0aaaad6dfa7fc5373a36179d82284438cf599fd218c",
+    "policies|eps.mcp_oauth_resources.mcp_issuer_resource_lookup|cmd": "SELECT",
+    "memberships|eps_mcp_issuer_owner>postgres/supabase_admin|grantor": "supabase_admin",
+    "memberships|eps_mcp_issuer_owner>postgres/supabase_admin|inherit": false,
+    "policies|eps.mcp_oauth_resources.mcp_issuer_resource_lookup|qual": "true",
+    "policies|eps.mcp_oauth_resources.mcp_issuer_resource_lookup|roles": [
+      "eps_mcp_issuer_owner"
+    ],
+    "functions|eps.mcp_custom_access_token_hook(jsonb)|argument_defaults": null,
+    "functions|eps.mcp_custom_access_token_hook(jsonb)|identity_arguments": "event jsonb",
+    "policies|eps.mcp_oauth_resources.mcp_issuer_resource_lookup|permissive": "PERMISSIVE",
+    "policies|eps.mcp_oauth_resources.mcp_issuer_resource_lookup|with_check": null,
+    "policies|public.app_capability_grants.mcp_issuer_capability_lookup|cmd": "SELECT",
+    "policies|public.app_capability_grants.mcp_issuer_capability_lookup|qual": "true",
+    "policies|public.app_capability_grants.mcp_issuer_capability_lookup|roles": [
+      "eps_mcp_issuer_owner"
+    ],
+    "policies|public.app_capability_grants.mcp_issuer_capability_lookup|permissive": "PERMISSIVE",
+    "policies|public.app_capability_grants.mcp_issuer_capability_lookup|with_check": null
+  },
+  "changed": {
+    "schemas|eps|acl": {
+      "before": "{postgres=UC/postgres,authenticated=U/postgres,eps_api_owner=U/postgres,eps_draft_owner=U/postgres,eps_logo_verify_owner=U/postgres,eps_jobs_owner=U/postgres,eps_jobs_dispatcher=U/postgres,eps_specs_owner=U/postgres,eps_specs_initializer=U/postgres,eps_specs_submit_owner=U/postgres,eps_specs_stage_owner=U/postgres,eps_specs_apply_owner=U/postgres,eps_jobs_executor=U/postgres,eps_specs_upload_owner=U/postgres,eps_specs_verify_owner=U/postgres,eps_specs_assets_owner=U/postgres,eps_specs_assets_executor=U/postgres,anon=U/postgres,eps_cast_owner=U/postgres,eps_candidate_stage_owner=U/postgres,eps_candidate_assets_owner=U/postgres,eps_candidate_upload_owner=U/postgres,eps_candidate_apply_owner=U/postgres,eps_support_upload_owner=U/postgres,eps_support_verify_owner=U/postgres,eps_casting_owner=U/postgres,eps_casting_guard_owner=U/postgres,eps_review_owner=U/postgres,eps_review_stage_owner=U/postgres,eps_guest_owner=U/postgres,eps_settings_owner=U/postgres,eps_mcp_session_owner=U/postgres}",
+      "after": "{postgres=UC/postgres,authenticated=U/postgres,eps_api_owner=U/postgres,eps_draft_owner=U/postgres,eps_logo_verify_owner=U/postgres,eps_jobs_owner=U/postgres,eps_jobs_dispatcher=U/postgres,eps_specs_owner=U/postgres,eps_specs_initializer=U/postgres,eps_specs_submit_owner=U/postgres,eps_specs_stage_owner=U/postgres,eps_specs_apply_owner=U/postgres,eps_jobs_executor=U/postgres,eps_specs_upload_owner=U/postgres,eps_specs_verify_owner=U/postgres,eps_specs_assets_owner=U/postgres,eps_specs_assets_executor=U/postgres,anon=U/postgres,eps_cast_owner=U/postgres,eps_candidate_stage_owner=U/postgres,eps_candidate_assets_owner=U/postgres,eps_candidate_upload_owner=U/postgres,eps_candidate_apply_owner=U/postgres,eps_support_upload_owner=U/postgres,eps_support_verify_owner=U/postgres,eps_casting_owner=U/postgres,eps_casting_guard_owner=U/postgres,eps_review_owner=U/postgres,eps_review_stage_owner=U/postgres,eps_guest_owner=U/postgres,eps_settings_owner=U/postgres,eps_mcp_session_owner=U/postgres,eps_mcp_issuer_owner=U/postgres,supabase_auth_admin=U/postgres}"
+    },
+    "schemas|public|acl": {
+      "before": "{pg_database_owner=UC/pg_database_owner,=U/pg_database_owner,postgres=U/pg_database_owner,anon=U/pg_database_owner,authenticated=U/pg_database_owner,service_role=U/pg_database_owner,eps_api_owner=U/pg_database_owner,eps_draft_owner=U/pg_database_owner,eps_logo_verify_owner=U/pg_database_owner,eps_jobs_owner=U/pg_database_owner,eps_specs_owner=U/pg_database_owner,eps_specs_submit_owner=U/pg_database_owner,eps_specs_stage_owner=U/pg_database_owner,eps_specs_apply_owner=U/pg_database_owner,eps_specs_upload_owner=U/pg_database_owner,eps_specs_verify_owner=U/pg_database_owner,eps_specs_assets_owner=U/pg_database_owner,eps_cast_owner=U/pg_database_owner,eps_candidate_stage_owner=U/pg_database_owner,eps_candidate_assets_owner=U/pg_database_owner,eps_candidate_upload_owner=U/pg_database_owner,eps_candidate_apply_owner=U/pg_database_owner,eps_support_upload_owner=U/pg_database_owner,eps_support_verify_owner=U/pg_database_owner,eps_casting_owner=U/pg_database_owner,eps_review_owner=U/pg_database_owner,eps_review_stage_owner=U/pg_database_owner,eps_guest_owner=U/pg_database_owner,eps_settings_owner=U/pg_database_owner,eps_mcp_session_owner=U/pg_database_owner}",
+      "after": "{pg_database_owner=UC/pg_database_owner,=U/pg_database_owner,postgres=U/pg_database_owner,anon=U/pg_database_owner,authenticated=U/pg_database_owner,service_role=U/pg_database_owner,eps_api_owner=U/pg_database_owner,eps_draft_owner=U/pg_database_owner,eps_logo_verify_owner=U/pg_database_owner,eps_jobs_owner=U/pg_database_owner,eps_specs_owner=U/pg_database_owner,eps_specs_submit_owner=U/pg_database_owner,eps_specs_stage_owner=U/pg_database_owner,eps_specs_apply_owner=U/pg_database_owner,eps_specs_upload_owner=U/pg_database_owner,eps_specs_verify_owner=U/pg_database_owner,eps_specs_assets_owner=U/pg_database_owner,eps_cast_owner=U/pg_database_owner,eps_candidate_stage_owner=U/pg_database_owner,eps_candidate_assets_owner=U/pg_database_owner,eps_candidate_upload_owner=U/pg_database_owner,eps_candidate_apply_owner=U/pg_database_owner,eps_support_upload_owner=U/pg_database_owner,eps_support_verify_owner=U/pg_database_owner,eps_casting_owner=U/pg_database_owner,eps_review_owner=U/pg_database_owner,eps_review_stage_owner=U/pg_database_owner,eps_guest_owner=U/pg_database_owner,eps_settings_owner=U/pg_database_owner,eps_mcp_session_owner=U/pg_database_owner,eps_mcp_issuer_owner=U/pg_database_owner}"
+    },
+    "columns|eps.mcp_oauth_resources.enabled|acl": {
+      "before": null,
+      "after": "{eps_mcp_issuer_owner=r/postgres}"
+    },
+    "columns|eps.mcp_oauth_resources.resource|acl": {
+      "before": null,
+      "after": "{eps_mcp_issuer_owner=r/postgres}"
+    },
+    "columns|eps.mcp_oauth_resources.client_id|acl": {
+      "before": null,
+      "after": "{eps_mcp_issuer_owner=r/postgres}"
+    },
+    "columns|public.app_capability_grants.active|acl": {
+      "before": "{eps_specs_stage_owner=r/postgres,eps_specs_apply_owner=r/postgres,eps_candidate_stage_owner=r/postgres,eps_candidate_apply_owner=r/postgres}",
+      "after": "{eps_specs_stage_owner=r/postgres,eps_specs_apply_owner=r/postgres,eps_candidate_stage_owner=r/postgres,eps_candidate_apply_owner=r/postgres,eps_mcp_issuer_owner=r/postgres}"
+    },
+    "columns|public.app_capability_grants.capability|acl": {
+      "before": "{eps_specs_stage_owner=r/postgres,eps_specs_apply_owner=r/postgres,eps_candidate_stage_owner=r/postgres,eps_candidate_apply_owner=r/postgres}",
+      "after": "{eps_specs_stage_owner=r/postgres,eps_specs_apply_owner=r/postgres,eps_candidate_stage_owner=r/postgres,eps_candidate_apply_owner=r/postgres,eps_mcp_issuer_owner=r/postgres}"
+    },
+    "columns|public.app_capability_grants.principal_id|acl": {
+      "before": "{eps_specs_stage_owner=r/postgres,eps_specs_apply_owner=r/postgres,eps_candidate_stage_owner=r/postgres,eps_candidate_apply_owner=r/postgres}",
+      "after": "{eps_specs_stage_owner=r/postgres,eps_specs_apply_owner=r/postgres,eps_candidate_stage_owner=r/postgres,eps_candidate_apply_owner=r/postgres,eps_mcp_issuer_owner=r/postgres}"
+    }
+  },
+  "deleted": {},
+  "provenance": {
+    "canonical_before": {
+      "path": "tracking/evidence/m07/issuer-release30-executable/2026-10-30T15-31-12-986032Z-b19aca5b-canonical-discovery.json",
+      "sha256": "7aab9fc8b793504999e3987750cc81aa69a73f7035a8cbcbac9abbd8c77fd0dc"
+    },
+    "native_committed_proof": {
+      "path": "tracking/evidence/m07/issuer-release30-executable/2026-10-30T15-54-37-082Z-36b1483b-local-proof.json",
+      "sha256": "6af3eb1319c3959ccb34f2c7afc80b71a52919cb4dd1f2c16344ff9d3a17e70c"
+    },
+    "local_before": {
+      "path": "tracking/evidence/m07/issuer-release30-executable/2026-10-30T15-54-37-082Z-36b1483b-original-before.json",
+      "sha256": "e9c8af5776c501771916d70355ad68f2117a494107aa01fa8fe223849d1be3cf"
+    },
+    "local_after": {
+      "path": "tracking/evidence/m07/issuer-release30-executable/2026-10-30T15-54-37-082Z-36b1483b-committed.json",
+      "sha256": "a026d5117f87db4c5079ad95f2e832b0189bb6f186b1d3ef4bd07c34e1ea0683"
+    },
+    "canonical_acl_prefix_mappings": [],
+    "new_role_memberships": [
+      {
+        "set": false,
+        "role": "eps_mcp_issuer_owner",
+        "admin": true,
+        "member": "postgres",
+        "grantor": "supabase_admin",
+        "inherit": false
+      },
+      {
+        "set": true,
+        "role": "eps_mcp_issuer_owner",
+        "admin": false,
+        "member": "postgres",
+        "grantor": "postgres",
+        "inherit": false
+      }
+    ],
+    "function_source_sha256": "b6e422c7df5cb146e9d0c0aaaad6dfa7fc5373a36179d82284438cf599fd218c"
+  }
+}
