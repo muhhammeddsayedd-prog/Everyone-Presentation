@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-30T14:50:30.265Z",
+  "result": "passed",
+  "scope": "local static review-package integrity and installed pglast outer-grammar only; no DB/provider/Supabase or release CLI invocation",
+  "source_hashes_unchanged": true,
+  "exact_issuer_suffix": {
+    "proven_candidate": true,
+    "ancestor": true,
+    "byte_length": 4735,
+    "sha256": "6fdab1bd84db93d427780f86ff5d8797a4fc67580796f379df4876f7bb269018"
+  },
+  "no_executable_ddl_in_review": true,
+  "only_executable_statement_is_review_exception": true,
+  "no_client_resource_dml": true,
+  "canonical_metadata_fresh": false,
+  "parsed": {
+    "inert_review_statement_count": 1,
+    "inert_review_statement_types": [
+      "DoStmt"
+    ],
+    "proposal_statement_count": 21,
+    "proposal_statement_types": [
+      "VariableSetStmt",
+      "VariableSetStmt",
+      "VariableSetStmt",
+      "DoStmt",
+      "CreateRoleStmt",
+      "GrantRoleStmt",
+      "GrantStmt",
+      "GrantStmt",
+      "GrantStmt",
+      "CreatePolicyStmt",
+      "CreatePolicyStmt",
+      "CreateFunctionStmt",
+      "GrantStmt",
+      "AlterOwnerStmt",
+      "VariableSetStmt",
+      "GrantStmt",
+      "GrantStmt",
+      "CommentStmt",
+      "VariableSetStmt",
+      "GrantStmt",
+      "GrantStmt"
+    ],
+    "parser_scope": "outer PostgreSQL grammar only; DO/PLpgSQL bodies not executed or semantically validated"
+  },
+  "files": {
+    "ADMISSION.md": "d6dd9b66e1504a5144966ce6414c4b45a969ef104bb522998dad1ca64f3e271e",
+    "README.md": "6e5d1f98a4d9a58358621edb520e1d7b5b0a6ba90f7bc63947df1399fa31a648",
+    "RELEASE_PLAN.md": "0d78dd791d2a66a783bf5d368d5994220d3acf9c9563f3ea6c1375f8908b7db5",
+    "candidate.review.sql.txt": "b2ed7f08d7178df9a48a63b3683f3b85ba0cc3041568f9c85d26b72b06fb0ba5",
+    "historical29-expected.json": "d461973c85adae162f96b08b585b0bdc20030416132268007350c4e425685345",
+    "provenance.json": "46e81a01053ec3b074010d8b74f4cc56a081843f294fc9429f9893d75a27a61f"
+  },
+  "not_proven": [
+    "SQL or PLpgSQL execution",
+    "canonical freshness or project connection identity",
+    "committed migration/history/rollback/forward-fix",
+    "effective canonical privileges",
+    "provider configuration or JWT/client/refresh acceptance"
+  ],
+  "package_hashes_refreshed_at": "2026-10-30T14:51:53.556Z",
+  "evidence_wording_corrections": [
+    "claim preservation described as unchanged values/JSONB structural equality, not raw JSON bytes",
+    "no Supabase/provider/release CLI invocation; local Python pglast process explicitly recorded",
+    "unrelated existing provider hook state remains unobserved and must be preserved"
+  ]
+}

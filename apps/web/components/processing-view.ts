@@ -39,11 +39,11 @@ export function readProcessingJob(value: unknown, expectedId?: string): Processi
     || !count(value.row_version) || value.row_version < 1
     || ![value.created_at, value.updated_at].every(date => typeof date === 'string' && date.length <= 100 && Number.isFinite(Date.parse(date)))) invalid();
   if (value.error !== null && (!record(value.error) || typeof value.error.code !== 'string' || typeof value.error.retryable !== 'boolean')) invalid();
-  if (value.kind === 'presentation_render' && (typeof value.can_retry !== 'boolean' || typeof value.can_cancel !== 'boolean' || ['succeeded', 'cancelled'].includes(value.status as string) && (value.can_retry || value.can_cancel))) invalid();
+  if (['presentation_render', 'presentation_export'].includes(value.kind) && (typeof value.can_retry !== 'boolean' || typeof value.can_cancel !== 'boolean' || ['succeeded', 'cancelled'].includes(value.status as string) && (value.can_retry || value.can_cancel))) invalid();
   return structuredClone(value) as unknown as ProcessingJob;
 }
 export function processingActions(job: ProcessingJob): { retry: boolean; cancel: boolean } {
-  return job.kind === 'presentation_render' ? { retry: job.can_retry === true, cancel: job.can_cancel === true }
+  return ['presentation_render', 'presentation_export'].includes(job.kind) ? { retry: job.can_retry === true, cancel: job.can_cancel === true }
     : { retry: job.status === 'failed' && job.error?.retryable === true, cancel: !['succeeded', 'cancelled'].includes(job.status) };
 }
 export function readJobPage(value: unknown, status: ProcessingStatus | null, requestedCursor: string | null): JobPage {

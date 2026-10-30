@@ -1,5 +1,17 @@
 # Studio OAuth consent UI and operator setup
 
+## 2026-10-30 live discovery follow-up
+
+Authenticated [dashboard discovery](../../tracking/evidence/m07/live-settings-oauth/2026-10-30-provider-discovery.json) now confirms OAuth disabled, no apps/hooks, SiteURL http://127.0.0.1:3000 and one existing /api/auth/callback redirect, current ECCP256 signing. No provider setting/key/client changed; DCR and authorization-path configured values remain uninspected. [Current29 local issuer proof](oauth-hook29/README.md) passes9stages in rollback only, not a canonical migration or enabled hook.
+
+The consent parser now accepts omitted optional URI/logo metadata from pinned Auth2.197.0 while requiring approved client ID/nonblank name and the same account/scope/redirect checks.13focused tests pass. Initial redirect-only denial remains: provider GETdetails can bind/autoapprove/consume an authorization and does not provide an authoritative client binding on its redirect branch. It must not be used as passive discovery or blindly repeated. [Pinned source](https://github.com/supabase/auth/blob/4eee58f296d9698a1c2c0ae14d7a0b379c7622d3/internal/api/oauthserver/authorize.go).
+
+Installed Claude Code2.1.301 supports preconfigured client ID/fixed port. Prepare exactly one named public client EveryoneStudioLocalM07, no secret, PKCES256/openid, callback **http://localhost:3118/callback**. The development-only resource is http://127.0.0.1:3000/mcp; issuer/JWKS stay existing centralHTTPS. Keep the SiteURL, sign-in callback and signing key. Exact client registration callback is separate from browser sign-in redirects. Pinned Auth same-origin sign-in matching may allow /api/oauth/callback without another allowlist entry; verify the actual flow before adding any rule, never add a broad wildcard. [Claude client documentation](https://code.claude.com/docs/en/mcp#use-pre-configured-oauth-credentials), [Supabase setup](https://supabase.com/docs/guides/auth/oauth-server/getting-started).
+
+Coordinated issuer30 preflight/proof must precede registration/activation. Use the real generated client ID, remembered resource registry and approved-client list. Private per-invocation MCP configuration plus an isolated credential directory avoids global configuration; --scope local alone still writes home settings. No login/model call/configuration change occurred in this follow-up. Browser action-time confirmation applies before creating delegated access. Hosting and hosted conversational client remain deferred.
+
+## Original implementation and operator notes
+
 Implemented locally on2026-10-30. No live OAuth approval, sign-in mail, provider
 configuration, hook enablement, client registration, tunnel or deployment was
 performed by this implementation.

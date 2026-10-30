@@ -1,5 +1,23 @@
 # M07 acceptance matrix
 
+## Current live follow-up - 2026-10-30
+
+M07 remains **in progress; production release unverified**. [Actual scoped summary](live-settings-oauth/2026-10-30-followup-summary.json) supersedes the original signed-out/provider-access labels below. Local/canonical history stays29; no provider/client/hook/migration30 activation occurred.
+
+| Check | Current evidence and exact scope |
+|---|---|
+| Signed-in Settings | **PASS actual central/browser:** existing verified Producer; one absent-only settings.manage completion,12activegrants/othersunchanged; UTC save/reload then Cairo restore/reload, revisions1->2->3, two browser audit/intent records, unchanged Ready versions. [Guide](../../../development/m07/live-settings/README.md). |
+| Processing compatibility | **PASS actual read-only app:** old CENTRAL_RESPONSE_INVALID preserved; fixed render/export action flags and server-derived UI actions. Valid25jobs/four completed exports; visible Processing/Cairo times. No retry/cancel, including protected M02. |
+| Consent metadata | **PASS controlled13cases:** omitted optional provider URI/logo accepted; approved ID/name/account/openid/redirect and unknown-field checks retained. No real consent/token claim. |
+| Current app quality | **PASS751modules/lint/typecheck/production-denial/build**, stable656source inputs. [Receipt](quality/2026-10-30T14-43-09-445Z-8156a75b.json). EPS_TEST_SERVER=true isolated.next-e2e build; no new Playwright run. Prior80desktop stays historical. |
+| Provider discovery | **PASS actual read-only dashboard:** OAuth off/no apps/hooks; existing local SiteURL/one callback; currentECCP256/previousHS256. Connector remains installed:false; no credentials/config changes. DCR/path values uninspected. [Receipt](live-settings-oauth/2026-10-30-provider-discovery.json). |
+| Current29 issuer | **PASS local-only5pure/9native-roleSQLstages:** [proof](oauth-hook29/2026-10-30T14-37-15-683Z-01f780ed.json), exact issuer body, full rollback, original/global-role preservation, clone absent/lock released. Not migration30/provider issuance/refresh. |
+| Retained gates | AT-072 and broader M03 independent semantics **pending**; mobile **skipped**; hosting **deferred**. Full real delegated journey, representative cost/endurance and deployed restore/smoke **unverified**. |
+
+## Historical initial M07 checkpoint
+
+The following original table/receipts retain their dated scopes; the current table above overrides their Settings/provider-access pending labels. Prior restore29 evidence remains independently passed. No old failure or source seal has been rewritten.
+
 Updated2026-10-30 after canonical29 apply/readback and post29 startup proof; new owned runtime is now running, final scoped local quality passes, and authenticated Settings acceptance awaits user sign-in. M07 is **in progress; production release unverified**. `PASS (scope)` means only the named source/controlled/actual-local boundary passed. It is never a substitute for the complete case. No current deployed/human/delegated release journey, endurance or RTO is claimed. Root owns the final composed application gates and progress/handoff update.
 
 | Requirement | Evidence | Result, limit and exact remaining work |

@@ -51,7 +51,8 @@ const id = (value: unknown): value is string => typeof value === 'string' && val
 const count = (value: unknown): value is number => typeof value === 'number' && Number.isSafeInteger(value) && value >= 0;
 function jobDto(value: unknown): CentralJob {
   const hasOutcome=Object.hasOwn(object(value),'frame_extraction');
-  const hasActions = object(value).kind === 'presentation_render' || Object.hasOwn(object(value), 'can_retry') || Object.hasOwn(object(value), 'can_cancel');
+  const actionKind = object(value).kind === 'presentation_render' || object(value).kind === 'presentation_export';
+  const hasActions = actionKind || Object.hasOwn(object(value), 'can_retry') || Object.hasOwn(object(value), 'can_cancel');
   const row = exact(value, ['id', 'workspace_id', 'kind', 'status', 'stage', 'attempt', 'progress_completed', 'progress_total', 'batch_id', 'input_asset_id', 'resource_id', 'error', 'created_at', 'updated_at', 'row_version',...(hasOutcome?['frame_extraction']:[]), ...(hasActions ? ['can_retry', 'can_cancel'] : [])]);
   if(hasOutcome!==(row.kind==='frame_extract'&&row.status==='succeeded'))fail();
   if(hasOutcome){
@@ -76,7 +77,7 @@ function jobDto(value: unknown): CentralJob {
       || details.retry_after_seconds !== undefined && (typeof details.retry_after_seconds !== 'number' || !Number.isFinite(details.retry_after_seconds) || details.retry_after_seconds < 0 || details.retry_after_seconds > 86400)) fail();
     row.error = { code: error.code, message: SAFE_ERRORS[error.code], details: structuredClone(details), retryable: error.retryable };
   }
-  if (hasActions && (row.kind !== 'presentation_render' || typeof row.can_retry !== 'boolean' || typeof row.can_cancel !== 'boolean'
+  if (hasActions && (!actionKind || typeof row.can_retry !== 'boolean' || typeof row.can_cancel !== 'boolean'
     || row.can_retry && (row.status !== 'failed' || row.error === null || object(row.error).code === 'JOB_CANCELLED')
     || row.can_cancel && !['queued', 'running', 'waiting_for_input'].includes(row.status as string))) fail();
   return structuredClone(row) as unknown as CentralJob;

@@ -41,6 +41,43 @@ test('consent displays only provider-verified client/account/scope and rejects m
   }
 });
 
+test('pinned Auth omitempty client metadata supports omitted URI/logo fields without weakening the closed consent view', async () => {
+  // Auth v2.197.0 / commit4eee58f: ClientDetailsResponse omits empty uri/logo_uri.
+  // A display name remains a deliberate Studio approved-client setup requirement.
+  const clients = [
+    { id: clientId, name: details.client.name },
+    { id: clientId, name: details.client.name, uri: details.client.uri },
+    { id: clientId, name: details.client.name, logo_uri: 'https://client.example.invalid/logo.png' },
+    { id: clientId, name: details.client.name, uri: null, logo_uri: null },
+    { id: clientId, name: details.client.name, uri: '', logo_uri: '' },
+  ];
+  for (const client of clients) {
+    const api = { ...provider().api, getAuthorizationDetails: async () => ({ data: { ...details, client }, error: null }) };
+    const result = await inspectOAuthAuthorization(api, authorizationId, identity, config);
+    assert.deepEqual(result, { state: 'consent', authorization_id: authorizationId, client: { id: clientId, name: details.client.name,
+      website: 'uri' in client && client.uri ? 'https://client.example.invalid' : null }, account_email: identity.email, scopes: ['openid'] });
+    const response = await handleOAuthConsentRequest(request(body()), { config, getBrowserContext: async () => ({ ...identity, provider: api }) });
+    assert.equal(response.status, 200);
+    assert.deepEqual(parseOAuthConsentEnvelope(await response.json(), requestId), result);
+    assert.ok(!JSON.stringify(result).includes('logo.png'));
+  }
+});
+
+test('optional client metadata still rejects explicit undefined, malformed fields, unknown authority and unsafe website URLs', async () => {
+  const required = { id: clientId, name: details.client.name };
+  const clients: unknown[] = [{}, { id: clientId }, { name: details.client.name }, { ...required, id: principalId },
+    { ...required, name: null }, { ...required, name: '   ' }, { ...required, name: 'x'.repeat(201) }, { ...required, name: 'bad\nname' },
+    { ...required, capabilities: ['cast.review'] }, { ...required, redirect_url: redirect.redirect_url }];
+  for (const value of [undefined, 1, false, {}, []]) clients.push({ ...required, uri: value }, { ...required, logo_uri: value });
+  for (const uri of ['javascript:alert(1)', 'file:///private', 'data:text/html,secret', 'http://public.invalid/client',
+    'https://user:secret@client.invalid/', 'https://client.invalid/#private', ' https://client.invalid/', 'x'.repeat(4097)]) clients.push({ ...required, uri });
+  clients.push({ ...required, logo_uri: 'x'.repeat(2049) });
+  for (const client of clients) {
+    const api = { ...provider().api, getAuthorizationDetails: async () => ({ data: { ...details, client }, error: null }) };
+    await assert.rejects(inspectOAuthAuthorization(api, authorizationId, identity, config), { code: 'OAUTH_PROVIDER_RESPONSE_INVALID' });
+  }
+});
+
 test('approve/deny use the installed SDK methods once with automatic redirects suppressed', async () => {
   const p = provider();
   const approved = await decideOAuthAuthorization(p.api, authorizationId, 'approve', identity, config);
@@ -156,7 +193,7 @@ test('installed Supabase SSR/OAuth SDK uses the verified HttpOnly browser sessio
     if (url.pathname === '/auth/v1/token') { sdkCalls.push('synthetic-sign-in'); return Response.json({ access_token: accessToken, refresh_token: 'synthetic-only-refresh', expires_in: 3600, token_type: 'bearer', user }); }
     assert.equal(new Headers(init?.headers).get('authorization'), `Bearer ${accessToken}`);
     if (url.pathname === '/auth/v1/user') { sdkCalls.push('verified-user'); return Response.json(user); }
-    if (url.pathname === `/auth/v1/oauth/authorizations/${authorizationId}`) { sdkCalls.push('details'); return Response.json(details); }
+    if (url.pathname === `/auth/v1/oauth/authorizations/${authorizationId}`) { sdkCalls.push('details'); return Response.json({ ...details, client: { id: clientId, name: details.client.name } }); }
     if (url.pathname === `/auth/v1/oauth/authorizations/${authorizationId}/consent`) { sdkCalls.push('approve'); assert.deepEqual(JSON.parse(String(init?.body)), { action: 'approve' }); return Response.json(redirect); }
     throw new Error('Unexpected synthetic SDK route.');
   };

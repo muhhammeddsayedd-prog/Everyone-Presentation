@@ -1,5 +1,11 @@
 # Environment inventory and discovery record
 
+## 2026-10-30 M07 live access follow-up
+
+[Fresh owned runtime](evidence/m07/live-settings-oauth/2026-10-30-owned-runtime-fresh.json) confirms the same five process identities/creation/parents and loopback3000 listener53776. Worker stderr is0; web stderr contains browser-injected hydration attribute differences and one existing guest401, so no clean-console claim is made. No runtime environment or browser credentials were read. [Actual live follow-up](evidence/m07/live-settings-oauth/2026-10-30-followup-summary.json) verifies Settings restored to Cairo/template1.1.0/revision3 and working Processing. Existing Producer now has12 explicit active grants after one absent-only settings.manage completion; no identity was created.
+
+Supabase dashboard is now authenticated and [read-only provider discovery](evidence/m07/live-settings-oauth/2026-10-30-provider-discovery.json) confirms OAuth off, no apps/hooks, local SiteURL and one existing callback, current ECC P256/previousHS256. Connector still reports installed:false. Auth2.197.0/PostgREST14.18/Postgres17.11.0.003 are observed UI versions. Provider settings/keys/client registry remain unchanged; no migration30. Current751 module/lint/typecheck/build/production-denial gates use isolated.next-e2e build, no concurrent Playwright. Local29 issuer rollback proof passes9stages; real issuance/refresh and deployed gates remain unverified. Screen-reader/M03 pending, mobile skipped, hosting deferred. Earlier checkpoints below are historical.
+
 ## 2026-10-30 M07 current environment checkpoint
 
 Local/canonical history29 is confirmed by [independent readback](../tracking/evidence/cloud-m07-29/2026-10-30T11-52-36-310355Z-f553771a-readback.json). Migration SHA6531 preserves old data/Auth/configuration and12 runtime operations; the OAuth resource/client registry starts empty. [Current owned runtime](../tracking/evidence/m07/runtime29-transition/2026-10-30-owned-processes-ready.json) uses worker launcher60408/worker8836 and web launcher33724/Next62080/server53776 on127.0.0.1:3000. Creation/commands/parents and explicit specs-file/guest-export launch flags are recorded; private environment values were not inspected. The authenticated startup probe independently verifies the narrow12-operation gateway. Recheck process ownership before reuse.

@@ -33,17 +33,50 @@ test('review-fit and suggestion jobs retain the same bounded public polling cont
   }
 });
 test('presentation jobs expose explicit current-authority actions independent of their lifetime attempt count', async () => {
-  const row = { ...job, kind: 'presentation_render', status: 'failed', stage: 'render_presentation', attempt: 10, resource_id: 'synthetic-version', can_retry: true, can_cancel: false,
-    error: { code: 'PDF_RENDER_FAILED', message: 'Must be replaced by the fixed safe message', details: {}, retryable: false } };
-  const fixture = service(row); const result = await (await createCentralJobs(fixture.client)).getJob(actor, jobId);
-  assert.equal(result.can_retry, true); assert.equal(result.can_cancel, false); assert.equal(result.attempt, 10);
-  assert.equal(result.error!.message, 'The fixed-version PDF could not be rendered. Retry uses the same captured content.');
-  for (const bad of [{ ...row, can_cancel: true }, { ...row, status: 'succeeded', error: null }, { ...row, kind: 'specs_extract' },
-    { ...row, error: { ...row.error, code: 'JOB_CANCELLED' } }]) {
-    const h = service(bad); await assert.rejects((await createCentralJobs(h.client)).getJob(actor, jobId), code('CENTRAL_RESPONSE_INVALID'));
+  for (const kind of ['presentation_render', 'presentation_export']) {
+    const row = { ...job, kind, status: 'failed', stage: kind === 'presentation_render' ? 'render_presentation' : 'render_export', attempt: 10, resource_id: 'synthetic-version', can_retry: true, can_cancel: false,
+      error: { code: 'PDF_RENDER_FAILED', message: 'Must be replaced by the fixed safe message', details: {}, retryable: false } };
+    const fixture = service(row); const result = await (await createCentralJobs(fixture.client)).getJob(actor, jobId);
+    assert.equal(result.can_retry, true); assert.equal(result.can_cancel, false); assert.equal(result.attempt, 10);
+    assert.equal(result.error!.message, 'The fixed-version PDF could not be rendered. Retry uses the same captured content.');
+    for (const bad of [{ ...row, can_cancel: true }, { ...row, status: 'succeeded', error: null }, { ...row, kind: 'specs_extract' },
+      { ...row, error: { ...row.error, code: 'JOB_CANCELLED' } }]) {
+      const h = service(bad); await assert.rejects((await createCentralJobs(h.client)).getJob(actor, jobId), code('CENTRAL_RESPONSE_INVALID'));
+    }
+    const missing: Record<string, unknown> = { ...row }; delete missing.can_retry; delete missing.can_cancel;
+    const h = service(missing); await assert.rejects((await createCentralJobs(h.client)).getJob(actor, jobId), code('CENTRAL_RESPONSE_INVALID'));
   }
-  const missing: Record<string, unknown> = { ...row }; delete missing.can_retry; delete missing.can_cancel;
-  const h = service(missing); await assert.rejects((await createCentralJobs(h.client)).getJob(actor, jobId), code('CENTRAL_RESPONSE_INVALID'));
+});
+test('mixed job pages accept M06 export action fields while preserving current authority and terminal states', async () => {
+  const exports = [
+    { ...job, id: 'export-queued', kind: 'presentation_export', stage: 'render_export', can_retry: false, can_cancel: false },
+    { ...job, id: 'export-running', kind: 'presentation_export', stage: 'render_export', status: 'running', can_retry: false, can_cancel: true },
+    { ...job, id: 'export-failed', kind: 'presentation_export', stage: 'render_export', status: 'failed', can_retry: false, can_cancel: false,
+      error: { code: 'PDF_RENDER_FAILED', message: 'A bounded diagnostic', details: {}, retryable: true } },
+    { ...job, id: 'export-ready', kind: 'presentation_export', stage: 'render_export', status: 'succeeded', can_retry: false, can_cancel: false },
+    { ...job, id: 'export-cancelled', kind: 'presentation_export', stage: 'render_export', status: 'cancelled', can_retry: false, can_cancel: false },
+  ];
+  const rows = [job, { ...job, id: 'render-queued', kind: 'presentation_render', can_retry: false, can_cancel: false }, ...exports];
+  const fixture = service({ data: rows, page: { next_cursor: null } });
+  const page = await (await createCentralJobs(fixture.client)).listJobs(actor);
+  assert.deepEqual(page.data.map(row => ({ id: row.id, status: row.status, can_retry: row.can_retry, can_cancel: row.can_cancel })),
+    rows.map(row => ({ id: row.id, status: row.status, can_retry: 'can_retry' in row ? row.can_retry : undefined, can_cancel: 'can_cancel' in row ? row.can_cancel : undefined })));
+  assert.deepEqual(page.page, { next_cursor: null });
+  assert.equal(page.data.find(row => row.id === 'export-failed')!.error!.retryable, true);
+});
+test('presentation action fields stay complete, typed and closed to other job kinds', async () => {
+  const exportJob = { ...job, kind: 'presentation_export', stage: 'render_export', can_retry: false, can_cancel: false };
+  const invalidRows: Record<string, unknown>[] = [
+    { ...exportJob, can_retry: undefined }, { ...exportJob, can_cancel: 'false' },
+    { ...exportJob, can_retry: true }, { ...exportJob, status: 'failed', can_cancel: true },
+    { ...exportJob, status: 'cancelled', can_cancel: true }, { ...exportJob, private_export_input: {} },
+  ];
+  const missing = { ...exportJob } as Record<string, unknown>; delete missing.can_cancel; invalidRows.push(missing);
+  for (const kind of ['specs_extract', 'candidate_scan', 'frame_extract', 'ai_suggestion', 'review_fit']) invalidRows.push({ ...exportJob, kind });
+  for (const row of invalidRows) {
+    const fixture = service(row);
+    await assert.rejects((await createCentralJobs(fixture.client)).getJob(actor, jobId), code('CENTRAL_RESPONSE_INVALID'));
+  }
 });
 test('frame jobs expose only bounded timestamp outcomes and reject private payloads',async()=>{
   const outcome={requested_count:3,extracted_count:1,unavailable_timestamps_ms:[1500],warnings:['FRAME_TIMESTAMP_SHARED','FRAME_TIMESTAMP_UNAVAILABLE']};

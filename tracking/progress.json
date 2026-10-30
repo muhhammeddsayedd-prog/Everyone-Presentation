@@ -1,6 +1,6 @@
 {
   "pack_version": "1.0",
-  "updated_at": "2026-10-30T12:29:57.930537+00:00",
+  "updated_at": "2026-10-30T14:50:09.164336+00:00",
   "implementation_started": true,
   "current_milestone": "M07",
   "milestones": [
@@ -617,7 +617,9 @@
       "depends_on": [
         "M06"
       ],
-      "commits": [],
+      "commits": [
+        "e4ffccaaf9aed8cd78207d6ae2d09850a0b0225a"
+      ],
       "migrations": [
         {
           "file": "supabase/migrations/20261030111549_m07_settings_delegated_session.sql",
@@ -642,14 +644,18 @@
         "tracking/evidence/m07/quality/2026-10-30-final-scope.json",
         "tracking/evidence/m07/quality/2026-10-30-desktop80-final.json",
         "tracking/evidence/m07/quality/2026-10-30-final-documentation-overlay.json",
-        "tracking/evidence/m07/recovery29/2026-10-30T12-25-42-320Z-bda68ef0.json"
+        "tracking/evidence/m07/recovery29/2026-10-30T12-25-42-320Z-bda68ef0.json",
+        "tracking/evidence/m07/live-settings-oauth/2026-10-30-followup-summary.json",
+        "tracking/evidence/m07/quality/2026-10-30T14-43-09-445Z-8156a75b.json",
+        "tracking/evidence/m07/oauth-hook29/2026-10-30T14-37-15-683Z-01f780ed.json",
+        "tracking/evidence/m07/live-settings-oauth/2026-10-30-owned-runtime-fresh.json"
       ],
       "blockers": [
-        "Actual Supabase OAuth settings/hook/client inspection unavailable: connector missing and dashboard signed out.",
-        "Actual signed-in Settings check requires connected Studio session; no browser credentials extracted.",
-        "Full real-service delegated Claude journey, representative processing cost/endurance and deployed restore/smoke remain unverified; hosting deferred."
+        "Coordinated issuer migration30 and actual OAuth client/hook/resource activation and real delegated end-to-end journey remain unverified.",
+        "Representative provider cost/endurance and deployed restore/smoke remain unverified; hosting deferred.",
+        "AT-072 and broader independently labelled M03 semantics remain pending; mobile skipped by owner."
       ],
-      "next_action": "Restore authorized Supabase access and Studio sign-in, finish live Settings, discover/preserve current OAuth configuration before any reviewed hook/client activation; hosting remains deferred.",
+      "next_action": "Prepare fresh canonical issuer preflight and coordinated additive30 proof/release from current29; preserve provider settings, then configure one reviewed local Claude Code public client/hook/resource with browser action-time confirmation before delegated access. Hosting remains deferred.",
       "scope_constraints": {
         "AT_072": "pending",
         "M03_broader_semantic_checks": "pending",
@@ -662,16 +668,16 @@
       "current_checkpoint": {
         "milestone": "M07",
         "status": "in_progress",
-        "observed_at": "2026-10-30T12:29:57.930537+00:00",
-        "base_commit": "02f9287f8a5dc1b40d2364f904ac499f7c1a54a6",
+        "observed_at": "2026-10-30T14:50:09.164336+00:00",
+        "base_commit": "e4ffccaaf9aed8cd78207d6ae2d09850a0b0225a",
         "canonical_migration_count": 29,
         "local_migration_count": 29,
         "canonical_apply": "tracking/evidence/cloud-m07-29/2026-10-30T11-52-15-216806Z-3a0afd9f-apply.json",
         "canonical_readback": "tracking/evidence/cloud-m07-29/2026-10-30T11-52-36-310355Z-f553771a-readback.json",
-        "quality": "tracking/evidence/m07/quality/2026-10-30-final-documentation-overlay.json",
-        "application_tests": 747,
+        "quality": "tracking/evidence/m07/quality/2026-10-30T14-43-09-445Z-8156a75b.json",
+        "application_tests": 751,
         "controlled_desktop_unique_cases": 80,
-        "runtime": "tracking/evidence/m07/runtime29-transition/2026-10-30-owned-processes-ready.json",
+        "runtime": "tracking/evidence/m07/live-settings-oauth/2026-10-30-owned-runtime-fresh.json",
         "mcp_tools": 86,
         "openapi_operations": 115,
         "semantic_ui_groups": 13,
@@ -684,12 +690,18 @@
         "mobile_testing": "skipped by owner",
         "hosting_deferred": true,
         "production_deployment_verified": false,
-        "live_settings_browser": "Pending connected Studio sign-in; actual page currently signed out",
-        "provider_access": "Supabase tool not installed/available; dashboard signed out; OAuth discovery404 observed, exact flag unknown",
-        "next_action": "Restore authorized Supabase access and Studio sign-in, finish live Settings, discover/preserve current OAuth configuration before any reviewed hook/client activation; hosting remains deferred.",
+        "live_settings_browser": "Passed actual existing Producer UTC save/reload, Cairo restore/reload, revisions1->2->3, browser audit/intents and immutable Ready state readback; one absent-only settings.manage completion, no enrollment/revocation reversal",
+        "provider_access": "Authenticated dashboard read-only discovery completed: OAuth off, no apps/hooks, local SiteURL/one callback, current ECC P256. Connector still installed:false; no provider mutation.",
+        "next_action": "Prepare fresh canonical issuer preflight and coordinated additive30 proof/release from current29; preserve provider settings, then configure one reviewed local Claude Code public client/hook/resource with browser action-time confirmation before delegated access. Hosting remains deferred.",
         "desktop_quality": "tracking/evidence/m07/quality/2026-10-30-desktop80-final.json",
         "historical_scope_correction": "Seven older mixed-width cases inadvertently ran; excluded from final desktop80 and not credited to skipped mobile acceptance.",
-        "local_restore_evidence": "tracking/evidence/m07/recovery29/2026-10-30T12-25-42-320Z-bda68ef0.json"
+        "local_restore_evidence": "tracking/evidence/m07/recovery29/2026-10-30T12-25-42-320Z-bda68ef0.json",
+        "live_followup": "tracking/evidence/m07/live-settings-oauth/2026-10-30-followup-summary.json",
+        "hook29": "tracking/evidence/m07/oauth-hook29/2026-10-30T14-37-15-683Z-01f780ed.json",
+        "controlled_desktop_scope": "Historical frozen80; no controlled Playwright run in this followup. Actual signed-in Settings/Processing checks added separately.",
+        "current29_local_issuer": "Five pure tests/nine real-role SQL stages passed in rollback-only current29 clone; source/global roles/original exact, clone absent/lock released. No actual issuance or migration30.",
+        "live_processing": "Fixed legitimate presentation_export action flags; valid live25-job response/four exports and rendered Processing/Cairo times; protected job not retried",
+        "source_archive": "Prior exact e4ffcca ZIP/scan in ignored dist/SOURCE_CHECKPOINT.json unchanged; followup not in that archive"
       }
     }
   ],
@@ -796,7 +808,11 @@
         "tracking/evidence/m07/quality/2026-10-30-final-scope.json",
         "tracking/evidence/m07/quality/2026-10-30-desktop80-final.json",
         "tracking/evidence/m07/quality/2026-10-30-final-documentation-overlay.json",
-        "tracking/evidence/m07/recovery29/2026-10-30T12-25-42-320Z-bda68ef0.json"
+        "tracking/evidence/m07/recovery29/2026-10-30T12-25-42-320Z-bda68ef0.json",
+        "tracking/evidence/m07/live-settings-oauth/2026-10-30-followup-summary.json",
+        "tracking/evidence/m07/quality/2026-10-30T14-43-09-445Z-8156a75b.json",
+        "tracking/evidence/m07/oauth-hook29/2026-10-30T14-37-15-683Z-01f780ed.json",
+        "tracking/evidence/m07/live-settings-oauth/2026-10-30-owned-runtime-fresh.json"
       ],
       "scope": "Source/controlled parity, local/canonical29 and scoped native/client/recovery evidence. No full live delegated or production acceptance.",
       "remaining": [
@@ -807,7 +823,8 @@
       "manual_screenreader": "pending",
       "M03_semantic_checks": "pending",
       "mobile": "skipped",
-      "hosting": "deferred"
+      "hosting": "deferred",
+      "notes": "Current751 offline module checks plus actual signed-in Settings/Processing and current29 local issuer proof. Full provider delegation/release remains unverified; hosting deferred."
     }
   },
   "development_tooling": {
@@ -843,16 +860,16 @@
   "latest_checkpoint": {
     "milestone": "M07",
     "status": "in_progress",
-    "observed_at": "2026-10-30T12:29:57.930537+00:00",
-    "base_commit": "02f9287f8a5dc1b40d2364f904ac499f7c1a54a6",
+    "observed_at": "2026-10-30T14:50:09.164336+00:00",
+    "base_commit": "e4ffccaaf9aed8cd78207d6ae2d09850a0b0225a",
     "canonical_migration_count": 29,
     "local_migration_count": 29,
     "canonical_apply": "tracking/evidence/cloud-m07-29/2026-10-30T11-52-15-216806Z-3a0afd9f-apply.json",
     "canonical_readback": "tracking/evidence/cloud-m07-29/2026-10-30T11-52-36-310355Z-f553771a-readback.json",
-    "quality": "tracking/evidence/m07/quality/2026-10-30-final-documentation-overlay.json",
-    "application_tests": 747,
+    "quality": "tracking/evidence/m07/quality/2026-10-30T14-43-09-445Z-8156a75b.json",
+    "application_tests": 751,
     "controlled_desktop_unique_cases": 80,
-    "runtime": "tracking/evidence/m07/runtime29-transition/2026-10-30-owned-processes-ready.json",
+    "runtime": "tracking/evidence/m07/live-settings-oauth/2026-10-30-owned-runtime-fresh.json",
     "mcp_tools": 86,
     "openapi_operations": 115,
     "semantic_ui_groups": 13,
@@ -865,12 +882,18 @@
     "mobile_testing": "skipped by owner",
     "hosting_deferred": true,
     "production_deployment_verified": false,
-    "live_settings_browser": "Pending connected Studio sign-in; actual page currently signed out",
-    "provider_access": "Supabase tool not installed/available; dashboard signed out; OAuth discovery404 observed, exact flag unknown",
-    "next_action": "Restore authorized Supabase access and Studio sign-in, finish live Settings, discover/preserve current OAuth configuration before any reviewed hook/client activation; hosting remains deferred.",
+    "live_settings_browser": "Passed actual existing Producer UTC save/reload, Cairo restore/reload, revisions1->2->3, browser audit/intents and immutable Ready state readback; one absent-only settings.manage completion, no enrollment/revocation reversal",
+    "provider_access": "Authenticated dashboard read-only discovery completed: OAuth off, no apps/hooks, local SiteURL/one callback, current ECC P256. Connector still installed:false; no provider mutation.",
+    "next_action": "Prepare fresh canonical issuer preflight and coordinated additive30 proof/release from current29; preserve provider settings, then configure one reviewed local Claude Code public client/hook/resource with browser action-time confirmation before delegated access. Hosting remains deferred.",
     "desktop_quality": "tracking/evidence/m07/quality/2026-10-30-desktop80-final.json",
     "historical_scope_correction": "Seven older mixed-width cases inadvertently ran; excluded from final desktop80 and not credited to skipped mobile acceptance.",
-    "local_restore_evidence": "tracking/evidence/m07/recovery29/2026-10-30T12-25-42-320Z-bda68ef0.json"
+    "local_restore_evidence": "tracking/evidence/m07/recovery29/2026-10-30T12-25-42-320Z-bda68ef0.json",
+    "live_followup": "tracking/evidence/m07/live-settings-oauth/2026-10-30-followup-summary.json",
+    "hook29": "tracking/evidence/m07/oauth-hook29/2026-10-30T14-37-15-683Z-01f780ed.json",
+    "controlled_desktop_scope": "Historical frozen80; no controlled Playwright run in this followup. Actual signed-in Settings/Processing checks added separately.",
+    "current29_local_issuer": "Five pure tests/nine real-role SQL stages passed in rollback-only current29 clone; source/global roles/original exact, clone absent/lock released. No actual issuance or migration30.",
+    "live_processing": "Fixed legitimate presentation_export action flags; valid live25-job response/four exports and rendered Processing/Cairo times; protected job not retried",
+    "source_archive": "Prior exact e4ffcca ZIP/scan in ignored dist/SOURCE_CHECKPOINT.json unchanged; followup not in that archive"
   },
   "historical_notes": [
     {
@@ -906,20 +929,20 @@
       "Run appropriate deterministic/security/runtime acceptance, record exact unresolved provider/client/deployment gates; hosting remains deferred."
     ],
     "start_evidence": "tracking/evidence/m07/2026-10-30-start.json",
-    "updated_at": "2026-10-30T12:29:57.930537+00:00",
+    "updated_at": "2026-10-30T14:50:09.164336+00:00",
     "current_checkpoint": {
       "milestone": "M07",
       "status": "in_progress",
-      "observed_at": "2026-10-30T12:29:57.930537+00:00",
-      "base_commit": "02f9287f8a5dc1b40d2364f904ac499f7c1a54a6",
+      "observed_at": "2026-10-30T14:50:09.164336+00:00",
+      "base_commit": "e4ffccaaf9aed8cd78207d6ae2d09850a0b0225a",
       "canonical_migration_count": 29,
       "local_migration_count": 29,
       "canonical_apply": "tracking/evidence/cloud-m07-29/2026-10-30T11-52-15-216806Z-3a0afd9f-apply.json",
       "canonical_readback": "tracking/evidence/cloud-m07-29/2026-10-30T11-52-36-310355Z-f553771a-readback.json",
-      "quality": "tracking/evidence/m07/quality/2026-10-30-final-documentation-overlay.json",
-      "application_tests": 747,
+      "quality": "tracking/evidence/m07/quality/2026-10-30T14-43-09-445Z-8156a75b.json",
+      "application_tests": 751,
       "controlled_desktop_unique_cases": 80,
-      "runtime": "tracking/evidence/m07/runtime29-transition/2026-10-30-owned-processes-ready.json",
+      "runtime": "tracking/evidence/m07/live-settings-oauth/2026-10-30-owned-runtime-fresh.json",
       "mcp_tools": 86,
       "openapi_operations": 115,
       "semantic_ui_groups": 13,
@@ -932,12 +955,33 @@
       "mobile_testing": "skipped by owner",
       "hosting_deferred": true,
       "production_deployment_verified": false,
-      "live_settings_browser": "Pending connected Studio sign-in; actual page currently signed out",
-      "provider_access": "Supabase tool not installed/available; dashboard signed out; OAuth discovery404 observed, exact flag unknown",
-      "next_action": "Restore authorized Supabase access and Studio sign-in, finish live Settings, discover/preserve current OAuth configuration before any reviewed hook/client activation; hosting remains deferred.",
+      "live_settings_browser": "Passed actual existing Producer UTC save/reload, Cairo restore/reload, revisions1->2->3, browser audit/intents and immutable Ready state readback; one absent-only settings.manage completion, no enrollment/revocation reversal",
+      "provider_access": "Authenticated dashboard read-only discovery completed: OAuth off, no apps/hooks, local SiteURL/one callback, current ECC P256. Connector still installed:false; no provider mutation.",
+      "next_action": "Prepare fresh canonical issuer preflight and coordinated additive30 proof/release from current29; preserve provider settings, then configure one reviewed local Claude Code public client/hook/resource with browser action-time confirmation before delegated access. Hosting remains deferred.",
       "desktop_quality": "tracking/evidence/m07/quality/2026-10-30-desktop80-final.json",
       "historical_scope_correction": "Seven older mixed-width cases inadvertently ran; excluded from final desktop80 and not credited to skipped mobile acceptance.",
-      "local_restore_evidence": "tracking/evidence/m07/recovery29/2026-10-30T12-25-42-320Z-bda68ef0.json"
+      "local_restore_evidence": "tracking/evidence/m07/recovery29/2026-10-30T12-25-42-320Z-bda68ef0.json",
+      "live_followup": "tracking/evidence/m07/live-settings-oauth/2026-10-30-followup-summary.json",
+      "hook29": "tracking/evidence/m07/oauth-hook29/2026-10-30T14-37-15-683Z-01f780ed.json",
+      "controlled_desktop_scope": "Historical frozen80; no controlled Playwright run in this followup. Actual signed-in Settings/Processing checks added separately.",
+      "current29_local_issuer": "Five pure tests/nine real-role SQL stages passed in rollback-only current29 clone; source/global roles/original exact, clone absent/lock released. No actual issuance or migration30.",
+      "live_processing": "Fixed legitimate presentation_export action flags; valid live25-job response/four exports and rendered Processing/Cairo times; protected job not retried",
+      "source_archive": "Prior exact e4ffcca ZIP/scan in ignored dist/SOURCE_CHECKPOINT.json unchanged; followup not in that archive"
+    },
+    "resumed_access_followup": {
+      "base_commit": "e4ffccaaf9aed8cd78207d6ae2d09850a0b0225a",
+      "owner_responses": [
+        "Connected",
+        "Signed in"
+      ],
+      "planned_acceptance": [
+        "Actual Settings save/reload/restore and shared timestamp projection",
+        "Read-only OAuth settings/hook/client/signing discovery",
+        "Post29 local issuer proof",
+        "Focused regressions and current full offline quality"
+      ],
+      "actual_evidence": "tracking/evidence/m07/live-settings-oauth/2026-10-30-followup-summary.json",
+      "milestone_status": "in_progress"
     }
   },
   "historical_sessions": [
@@ -1533,6 +1577,38 @@
         "followup_base_commit": "278985e75764121fcf2b71f3a4cfcdb5830baa23",
         "followup_scope": "Evidence/documentation only; app/runtime/schema/SQL unchanged; prior frozen ZIP retained"
       }
+    },
+    {
+      "milestone": "M07",
+      "status": "in_progress",
+      "observed_at": "2026-10-30T12:29:57.930537+00:00",
+      "base_commit": "02f9287f8a5dc1b40d2364f904ac499f7c1a54a6",
+      "canonical_migration_count": 29,
+      "local_migration_count": 29,
+      "canonical_apply": "tracking/evidence/cloud-m07-29/2026-10-30T11-52-15-216806Z-3a0afd9f-apply.json",
+      "canonical_readback": "tracking/evidence/cloud-m07-29/2026-10-30T11-52-36-310355Z-f553771a-readback.json",
+      "quality": "tracking/evidence/m07/quality/2026-10-30-final-documentation-overlay.json",
+      "application_tests": 747,
+      "controlled_desktop_unique_cases": 80,
+      "runtime": "tracking/evidence/m07/runtime29-transition/2026-10-30-owned-processes-ready.json",
+      "mcp_tools": 86,
+      "openapi_operations": 115,
+      "semantic_ui_groups": 13,
+      "hook30": "Local-only candidate, seven SQL stages passed; not a real migration or enabled provider hook",
+      "local_restore": "History29 actual metadata/native4objects/71criticalsources restore, full16430catalogue/Settings/MCP/permissions/lease fences and originalroleOIDpreservation; no StorageHTTP/deployed/RTO claim",
+      "native_workload": "200 tiny synthetic files, bounded2,198success/2expectedfail; representative provider capacity/cost unverified",
+      "actual_claude_code": "2.1.301 synthetic business5calls only; exact original protocol revision uncaptured",
+      "manual_screenreader": "AT-072 pending",
+      "M03_broader_semantic_evaluation": "pending",
+      "mobile_testing": "skipped by owner",
+      "hosting_deferred": true,
+      "production_deployment_verified": false,
+      "live_settings_browser": "Pending connected Studio sign-in; actual page currently signed out",
+      "provider_access": "Supabase tool not installed/available; dashboard signed out; OAuth discovery404 observed, exact flag unknown",
+      "next_action": "Restore authorized Supabase access and Studio sign-in, finish live Settings, discover/preserve current OAuth configuration before any reviewed hook/client activation; hosting remains deferred.",
+      "desktop_quality": "tracking/evidence/m07/quality/2026-10-30-desktop80-final.json",
+      "historical_scope_correction": "Seven older mixed-width cases inadvertently ran; excluded from final desktop80 and not credited to skipped mobile acceptance.",
+      "local_restore_evidence": "tracking/evidence/m07/recovery29/2026-10-30T12-25-42-320Z-bda68ef0.json"
     }
   ],
   "session_checkpoints": [

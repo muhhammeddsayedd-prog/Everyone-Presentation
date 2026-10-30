@@ -1,0 +1,23 @@
+{
+  "started_at": "2026-10-30T14:54:09.655227+00:00",
+  "finished_at": "2026-10-30T14:54:46.533496+00:00",
+  "command": ".venv-skills/Scripts/python.exe -X utf8 tools/validate_pack.py --report",
+  "exit_code": 0,
+  "result": {
+    "status": "PASS",
+    "checks": 359,
+    "errors": [],
+    "limitations": [
+      "Vendored skills, tooling/dependency environments, Git metadata, private local state, linked-provider metadata and generated runtime/test output are excluded from pack-source checks. Validate installed skills and application behavior with their separate checks.",
+      "Reference SQL was not executed against a database; function-body compilation, migration semantics and RLS behavior require M00\u2013M07 implementation tests.",
+      "No cloud database, OpenAI request, n8n execution, live application, actual production PDF or MCP client was tested by this pack checker."
+    ],
+    "api_paths": 99,
+    "api_operations": 115,
+    "mcp_tools": 86,
+    "sql_design_tables": 25,
+    "json_schemas": 12,
+    "acceptance_cases": 76
+  },
+  "runtime_tested": false
+}

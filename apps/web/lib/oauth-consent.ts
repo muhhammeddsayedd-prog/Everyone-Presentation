@@ -18,6 +18,12 @@ function invalidInput(): never { throw new DomainError('VALIDATION_FAILED', 'Use
 function providerInvalid(): never { throw new DomainError('OAUTH_PROVIDER_RESPONSE_INVALID', 'The authorization service response could not be verified. Restart the connection from your client.', 503); }
 function unavailable(): never { throw new DomainError('OAUTH_AUTHORIZATION_UNAVAILABLE', 'The authorization request is unavailable. Check its status or restart the connection from your client.', 503, {}, true); }
 function text(value: unknown, maximum: number): value is string { return typeof value === 'string' && value.length > 0 && value.length <= maximum && !/\p{Cc}/u.test(value); }
+function clientDetails(value: unknown): value is Record<string, unknown> {
+  // Auth v2.197.0 ClientDetailsResponse uses omitempty for optional metadata.
+  // Studio still requires an explicitly named, approved client before consent.
+  return object(value) && Object.hasOwn(value, 'id') && Object.hasOwn(value, 'name')
+    && Object.keys(value).every(key => ['id', 'name', 'uri', 'logo_uri'].includes(key));
+}
 export function parseOAuthConsentInput(value: unknown): OAuthConsentInput {
   if (!object(value) || !closed(value, ['authorization_id', 'request_id', 'action']) || typeof value.authorization_id !== 'string' || !OAUTH_UUID.test(value.authorization_id)
     || typeof value.request_id !== 'string' || !OAUTH_UUID.test(value.request_id) || typeof value.action !== 'string' || !['details', 'approve', 'deny'].includes(value.action)) return invalidInput();
@@ -49,17 +55,19 @@ async function details(provider: OAuthConsentProvider, authorizationId: string, 
     return { view: redirect(value, authorizationId, verifiedCallback), callback: verifiedCallback };
   }
   if (!closed(value, ['authorization_id', 'redirect_uri', 'client', 'user', 'scope']) || value.authorization_id !== authorizationId
-    || !object(value.client) || !closed(value.client, ['id', 'name', 'uri', 'logo_uri']) || typeof value.client.id !== 'string'
-    || !config.approvedClientIds.includes(value.client.id) || !text(value.client.name, 200)
+    || !clientDetails(value.client) || typeof value.client.id !== 'string'
+    || !config.approvedClientIds.includes(value.client.id) || !text(value.client.name, 200) || !value.client.name.trim()
     || !object(value.user) || !closed(value.user, ['id', 'email']) || value.user.id !== identity.principalId
     || typeof value.user.email !== 'string' || value.user.email.length > 254 || /\p{Cc}/u.test(value.user.email)
     || value.scope !== 'openid') return providerInvalid();
   let callback: string, website: string | null = null;
+  const uri = Object.hasOwn(value.client, 'uri') ? value.client.uri : null;
+  const logoUri = Object.hasOwn(value.client, 'logo_uri') ? value.client.logo_uri : null;
   try {
     callback = safeOAuthRedirect(value.redirect_uri);
-    if (typeof value.client.uri === 'string' && value.client.uri) website = new URL(safeOAuthRedirect(value.client.uri)).origin;
-    else if (value.client.uri !== '' && value.client.uri !== null) return providerInvalid();
-    if (!(typeof value.client.logo_uri === 'string' || value.client.logo_uri === null) || typeof value.client.logo_uri === 'string' && value.client.logo_uri.length > 2048) return providerInvalid();
+    if (typeof uri === 'string' && uri) website = new URL(safeOAuthRedirect(uri)).origin;
+    else if (uri !== '' && uri !== null) return providerInvalid();
+    if (!(typeof logoUri === 'string' || logoUri === null) || typeof logoUri === 'string' && logoUri.length > 2048) return providerInvalid();
   } catch { return providerInvalid(); }
   const view: OAuthConsentView = { state: 'consent', authorization_id: authorizationId,
     client: { id: value.client.id, name: value.client.name, website }, account_email: identity.email, scopes: ['openid'] };

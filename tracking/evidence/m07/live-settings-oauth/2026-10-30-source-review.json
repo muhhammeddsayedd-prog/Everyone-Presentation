@@ -1,0 +1,22 @@
+{
+  "recorded_at": "2026-10-30T14:55:57.657566+00:00",
+  "scope": "Independent collaboration source reviews received in this turn; reviewer did not execute the tested operations",
+  "result": "no_unresolved_material_source_finding",
+  "sources": {
+    "apps/web/lib/oauth-consent.ts": "a6a998a818edf134c77d79416cb329fb221cb0fab8c6ef5ebc265754c95f879b",
+    "tests/server/oauth-consent.test.ts": "8b3601775db13430397c04199031d6e5f114af36bf8e31105d7fa65445a513c0",
+    "packages/central/src/jobs.ts": "4447ea968f01dbe5179df79df7ffd8be981c57e811c413df16d67d0162c0f675",
+    "packages/central/test/jobs.test.ts": "ae6ba2c26acef1f7c382b50a865994844dc1f0ccb06534e28eb482201f96167f",
+    "apps/web/components/processing-view.ts": "44eeef8b4c910e6116606cc2fc3230286d9a547bb66e0d41c8b3c632640224a8",
+    "tests/server/processing-view.test.ts": "63b9d91577309f0ad5f270f74e28dbd02e25ef4613c154edaecbce1887889f47",
+    "development/m07/live-settings/grant-absent.sql": "0c5796e86ee9aea7f4a2b78fcde380885c42d4c0fa9c75ca144a2ff60c4b19d2"
+  },
+  "required_findings_resolved": [
+    "Settings grant membership race: exact eligible row FOR SHARE; full history share lock/recheck; final time-sensitive identity check; measured active insert and other-grant checksum",
+    "Consent optional Go omitempty metadata: accept omission while preserving ID/name/account/client/scope/redirect/unknown-field checks",
+    "Presentation export actions: complete booleans accepted only for render/export; server action authority retained in UI"
+  ],
+  "test_evidence_separate": "tracking/evidence/m07/quality/2026-10-30T14-43-09-445Z-8156a75b.json",
+  "canonical_grant_dispatched_only_by_root": true,
+  "provider_configuration_changed": false
+}

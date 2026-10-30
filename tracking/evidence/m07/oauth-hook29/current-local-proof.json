@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-10-30T14:39:18.211Z",
+  "status": "passed_current29_local_synthetic_only",
+  "actual_proof": {
+    "path": "tracking/evidence/m07/oauth-hook29/2026-10-30T14-37-15-683Z-01f780ed.json",
+    "sha256": "bb0b33ca91849a123db94b9d09f411405298400f645c0d2944643e3e153acd09"
+  },
+  "guide": "development/m07/oauth-hook29/README.md",
+  "issuer_candidate_sha256": "136de55221d05053f0d3ae40754f641d32d0edf3d8ed73f952c92e1d819bce03",
+  "sql_stages": 9,
+  "pure_tests": 5,
+  "rollback": {
+    "users": 0,
+    "history": 29,
+    "registry": 0,
+    "sessions": 0,
+    "function_absent": true,
+    "issuer_role_absent": true
+  },
+  "original29_full_catalogue_fields": 16430,
+  "original29_preserved": true,
+  "all_global_role_oids_attributes_memberships_preserved": true,
+  "actual_clone_absence": {
+    "eps_m07_hook29_01f780edfe7b40d19ada13a3000bef32": false
+  },
+  "lock_released": true,
+  "limits": [
+    "Synthetic native Auth-role events, not actual signed JWT issuance or provider hook invocation.",
+    "Refresh-labelled events preserve trusted client/scope locally; pinned Auth source describes refresh, but real code/refresh/revocation/gateway/PostgREST acceptance remains unverified.",
+    "No hook registration, OAuth client/resource enablement, canonical migration30, provider configuration or hosting action.",
+    "Original29 existing roles are reused; only the new issuer role/function/policies are created transactionally and rolled back, never dropped manually.",
+    "Known eight dump representations remain unchanged in this disposable clone; source/current29 structural identity and data are independently preserved before/after."
+  ],
+  "historical_failure": "tracking/evidence/m07/oauth-hook29/2026-10-30T14-35-42-343Z-069873ae.json"
+}

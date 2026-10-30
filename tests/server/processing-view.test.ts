@@ -71,14 +71,26 @@ test('wording and measured-layout jobs return to their exact workspace review', 
 
 
 test('presentation recovery uses explicit current server actions instead of generic retry hints', () => {
-  const failed = { ...job, kind: 'presentation_render' as const, stage: 'render_presentation', can_retry: false, can_cancel: false };
-  assert.deepEqual(processingActions(failed), { retry: false, cancel: false });
-  assert.deepEqual(processingActions({ ...failed, error: { ...job.error!, retryable: false }, can_retry: true }), { retry: true, cancel: false });
-  assert.throws(() => readProcessingJob({ ...failed, can_retry: undefined }));
-  assert.throws(() => readProcessingJob({ ...failed, status: 'succeeded', can_retry: true }));
+  for (const kind of ['presentation_render', 'presentation_export'] as const) {
+    const failed = { ...job, kind, stage: kind === 'presentation_render' ? 'render_presentation' : 'render_export', can_retry: false, can_cancel: false };
+    assert.deepEqual(readProcessingJob(failed), failed);
+    assert.deepEqual(processingActions(failed), { retry: false, cancel: false });
+    assert.deepEqual(processingActions({ ...failed, error: { ...job.error!, retryable: false }, can_retry: true }), { retry: true, cancel: false });
+    assert.deepEqual(processingActions({ ...failed, status: 'running', error: null }), { retry: false, cancel: false });
+    assert.deepEqual(processingActions({ ...failed, status: 'running', error: null, can_cancel: true }), { retry: false, cancel: true });
+    for (const status of ['succeeded', 'cancelled'] as const) {
+      const terminal = { ...failed, status, error: null };
+      assert.deepEqual(readProcessingJob(terminal), terminal);
+      assert.deepEqual(processingActions(terminal), { retry: false, cancel: false });
+    }
+    assert.throws(() => readProcessingJob({ ...failed, can_retry: undefined }));
+    assert.throws(() => readProcessingJob({ ...failed, can_cancel: 'false' }));
+    assert.throws(() => readProcessingJob({ ...failed, status: 'succeeded', can_retry: true }));
+    assert.throws(() => readProcessingJob({ ...failed, status: 'cancelled', can_cancel: true }));
+  }
   assert.equal(jobStageLabel('prepare_presentation'), 'Preparing captured version');
   assert.equal(jobStageLabel('render_presentation'), 'Rendering PDF');
   assert.equal(jobStageLabel('validate_presentation'), 'Checking PDF and media');
   assert.equal(jobStageLabel('publish_presentation'), 'Saving ready version');
-  assert.equal(workspaceResultHref(failed, { id: 'workspace-1', project_id: 'actual-project' }), '/projects/actual-project/casting/workspace-1/presentations');
+  assert.equal(workspaceResultHref({ ...job, kind: 'presentation_render' }, { id: 'workspace-1', project_id: 'actual-project' }), '/projects/actual-project/casting/workspace-1/presentations');
 });

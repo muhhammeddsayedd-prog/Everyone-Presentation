@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "reviewed_at": "2026-10-30T14:51:53.562Z",
+  "reviewer": "/root/m07_security_review",
+  "scope": "independent read-only file/diff/hash review of INERT package only; no execution or canonical admission clearance",
+  "result": "no required security or scope finding",
+  "candidate_sha256": "b2ed7f08d7178df9a48a63b3683f3b85ba0cc3041568f9c85d26b72b06fb0ba5",
+  "issuer_suffix_sha256": "6fdab1bd84db93d427780f86ff5d8797a4fc67580796f379df4876f7bb269018",
+  "issuer_suffix_byte_length": 4735,
+  "review_findings": [
+    "single leading exception and block-commented proposal/body leave no executable DDL, including continue-on-error clients",
+    "historical356 selected fields explicitly not fresh/full canonical preflight",
+    "fresh metadata/effective privileges/role absence/mutable baselines/release history/forward-fix remain separate requirements"
+  ],
+  "wording_fixes_applied": [
+    "claim preservation described as unchanged values/JSONB structural equality, not raw JSON bytes",
+    "no Supabase/provider/release CLI invocation; local Python pglast process explicitly recorded",
+    "unrelated existing provider hook state remains unobserved and must be preserved"
+  ],
+  "reviewer_executed": {
+    "database": false,
+    "provider": false,
+    "cli": false,
+    "parser": false
+  },
+  "clearance_excludes": [
+    "executable migration30",
+    "fresh canonical state",
+    "provider activation",
+    "actual signed JWT or refresh/revocation/client acceptance"
+  ]
+}

@@ -1,0 +1,3 @@
+import assert from'node:assert/strict';import{test}from'node:test';import{collectIssuerStages,EXPECTED_ISSUER_STAGES}from'./notices.mjs';
+test('all nine real SQL stage names including CURRENT29 and HISTORY29 survive collection',()=>{const output=EXPECTED_ISSUER_STAGES.map(name=>'NOTICE: '+name).join('\n');assert.deepEqual(collectIssuerStages(output),EXPECTED_ISSUER_STAGES);});
+test('duplicate and unknown notices cannot inflate proof or expose arbitrary diagnostics',()=>{const output=EXPECTED_ISSUER_STAGES[0]+'\n'+EXPECTED_ISSUER_STAGES[0]+'\nHOOK29_PRIVATE_SECRET_PASSED\nprivate transcript';assert.deepEqual(collectIssuerStages(output),[EXPECTED_ISSUER_STAGES[0]]);});

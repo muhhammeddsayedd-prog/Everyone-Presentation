@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-10-30T14:39:18.206Z",
+  "scope": "Pure guard/provenance and closed proof-notice tests, no DB/provider work by this record",
+  "compiler_red": {
+    "result": "ERR_MODULE_NOT_FOUND before prepare module existed",
+    "cases_executed": 0
+  },
+  "collector_red": {
+    "passed": 1,
+    "failed": 1,
+    "reason": "Regex omitted CURRENT29/HISTORY29 markers, reproducing actual stage-count refusal"
+  },
+  "green": {
+    "command": "node --test development/m07/oauth-hook29/prepare.test.mjs development/m07/oauth-hook29/notices.test.mjs",
+    "tests": 5,
+    "failed": 0,
+    "skipped": 0
+  },
+  "source_seals": {
+    "development/m07/oauth-hook29/prepare.mjs": "722df6bf870aeeace34c7552b709b285a67d018a5e9e9cdf661144f5a705842e",
+    "development/m07/oauth-hook29/prepare.test.mjs": "a5d9e708e977485ec23d28b8989d38c43b1844f9740fd446b9bd58194225a489",
+    "development/m07/oauth-hook29/notices.mjs": "8bcc2600e0bf1e9b436a6b5b9de722a0fde1681df10b52a3fd0138436f2b391c",
+    "development/m07/oauth-hook29/notices.test.mjs": "d502085a26762f26408fde1116985fdb962f97788392bb81759cbbb895fe4744"
+  }
+}

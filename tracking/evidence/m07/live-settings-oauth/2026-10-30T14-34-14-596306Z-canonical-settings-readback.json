@@ -1,0 +1,69 @@
+{
+  "observed_at": "2026-10-30T14:34:14.596306+00:00",
+  "target": "pyibofyctwnqpvktepse",
+  "scope": "fixed read-only existing Producer eligibility, grants and Settings metadata; no credentials or Auth rows",
+  "sql_sha256": "eaa4c7fbe79bc89bb35bbd1dd3c8360c211f086969661f99f3838dcab78d5c25",
+  "result": {
+    "audit": [
+      {
+        "action": "settings.update_settings",
+        "client_type": "browser",
+        "created_at": "2026-10-30T14:33:57.43803+00:00",
+        "id": "dfce424e-faeb-43b4-bed2-5396798f9e72",
+        "principal_id": "0a79a703-caba-47e5-93d4-42e32197037a",
+        "request_id": "563d0927-2439-4c72-84f6-0e3aae267ebe"
+      }
+    ],
+    "database": "postgres",
+    "mcp_resource_count": 0,
+    "migration_versions": [
+      "20261028010943",
+      "20261028013324",
+      "20261028013655",
+      "20261028024205",
+      "20261028072515",
+      "20261028162702",
+      "20261028162800",
+      "20261028172320",
+      "20261028184145",
+      "20261028222030",
+      "20261029001520",
+      "20261029003941",
+      "20261029070038",
+      "20261029090500",
+      "20261029090724",
+      "20261029094600",
+      "20261029100500",
+      "20261029133455",
+      "20261029135318",
+      "20261029174841",
+      "20261029180953",
+      "20261029202629",
+      "20261029203953",
+      "20261029215218",
+      "20261030002634",
+      "20261030004643",
+      "20261030013832",
+      "20261030030717",
+      "20261030111549"
+    ],
+    "mutations": [
+      {
+        "created_at": "2026-10-30T14:33:57.43803+00:00",
+        "intent_key": "7dd4b6cf-94d0-4e9c-8c5e-31f07f0e75f3",
+        "request_hash": "620397cbb4d37f62f7c862d4031e04a845c2660af75de0a6bdb3a61eb72b4e9f",
+        "response_row_version": 2,
+        "response_timezone": "UTC"
+      }
+    ],
+    "operator": "postgres",
+    "other_grants_digest": "03b41b63fee4fbc6874e52813538af2e",
+    "ready_versions_digest": "82389bc6f3dcad65aa77104fb6ffc5a0",
+    "settings": {
+      "default_timezone": "UTC",
+      "row_version": 2,
+      "template_version": "1.1.0"
+    },
+    "timezone": "UTC"
+  }
+}

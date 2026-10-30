@@ -1,0 +1,116 @@
+-- REVIEW ONLY. NO DDL IN THIS FILE IS EXECUTABLE: proposal/body are a block comment.
+-- Even a client continuing after this error only encounters comments.
+do $review_only$begin raise exception 'M07_ISSUER30_REVIEW_ONLY_FRESH_PREFLIGHT_REQUIRED';end$review_only$;
+/* BEGIN INERT PROPOSAL. DO NOT EXTRACT FOR DISPATCH WITHOUT THE RELEASE PROOFS.
+-- Proposed canonical admission: HISTORICAL pins, INCOMPLETE until fresh preflight.
+-- The external release controller must bind exact project pyibofyctwnqpvktepse.
+-- A database called postgres does not establish project identity.
+set local search_path='';set local lock_timeout='5s';set local statement_timeout='45s';
+do $issuer30_admission$begin
+ if current_user<>'postgres' or current_database()<>'postgres'
+ or(select array_agg(version order by version)from supabase_migrations.schema_migrations)is distinct from array['20261028010943','20261028013324','20261028013655','20261028024205','20261028072515','20261028162702','20261028162800','20261028172320','20261028184145','20261028222030','20261029001520','20261029003941','20261029070038','20261029090500','20261029090724','20261029094600','20261029100500','20261029133455','20261029135318','20261029174841','20261029180953','20261029202629','20261029203953','20261029215218','20261030002634','20261030004643','20261030013832','20261030030717','20261030111549']::text[]
+ then raise exception 'M07_ISSUER30_EXACT_CANONICAL_HISTORY29_REQUIRED';end if;
+ if exists(select 1 from pg_catalog.pg_roles where rolname='eps_mcp_issuer_owner')
+ or exists(select 1 from pg_catalog.pg_proc p join pg_catalog.pg_namespace n on n.oid=p.pronamespace where n.nspname='eps'and p.proname='mcp_custom_access_token_hook')
+ or exists(select 1 from pg_catalog.pg_policies where(schemaname,tablename,policyname)in(('eps','mcp_oauth_resources','mcp_issuer_resource_lookup'),('public','app_capability_grants','mcp_issuer_capability_lookup')))
+ then raise exception 'M07_ISSUER30_NEW_OBJECTS_MUST_BE_ABSENT';end if;
+ if exists(select 1 from(values
+   ('eps.mcp_claim_uuid(text)','349e340f118aa7edc5df906af303ae43f6193e703c76613ef400b83e4704f2a7'),
+   ('eps.mcp_token_permits_capability(text)','5eb6c1272a78a4ca821569082c54d2b1ce434516585c8eac533c29ec1c445ccc'),
+   ('public.eps_validate_own_oauth_session(text)','9fe44accb3998d924bb0f453c721a33f5603f20e4c245abbf0e46807561891f6'),
+   ('eps.has_capability(text)','f6cffbe4308b858e28d606fcb454ac7aa5c0dcce6ea6d7e8a47c827279358813'),
+   ('public.eps_get_capabilities()','33766419ad2c561145d791704f34bb2dbf503e82ffcfd957acf79a138a5daee5')
+ )v(signature,expected_hash)left join pg_catalog.pg_proc p on p.oid=pg_catalog.to_regprocedure(v.signature)
+ where pg_catalog.encode(pg_catalog.sha256(pg_catalog.convert_to(pg_catalog.replace(p.prosrc,E'\r\n',E'\n'),'UTF8')),'hex')is distinct from v.expected_hash)
+ then raise exception 'M07_ISSUER30_PRESERVED29_SOURCE_MISMATCH';end if;
+ if exists(select 1 from(values
+   ('eps.mcp_claim_uuid(text)','{"owner":"eps_mcp_session_owner","language":"sql","returns":"uuid","definer":false,"volatility":"s","config":["search_path=\"\""],"acl":"{eps_mcp_session_owner=X/eps_mcp_session_owner}"}'::jsonb),
+   ('eps.mcp_token_permits_capability(text)','{"owner":"eps_mcp_session_owner","language":"plpgsql","returns":"boolean","definer":true,"volatility":"s","config":["search_path=\"\""],"acl":"{eps_mcp_session_owner=X/eps_mcp_session_owner,authenticated=X/eps_mcp_session_owner}"}'::jsonb),
+   ('public.eps_validate_own_oauth_session(text)','{"owner":"eps_mcp_session_owner","language":"plpgsql","returns":"jsonb","definer":true,"volatility":"s","config":["search_path=\"\""],"acl":"{eps_mcp_session_owner=X/eps_mcp_session_owner,authenticated=X/eps_mcp_session_owner}"}'::jsonb)
+ )v(signature,expected)left join pg_catalog.pg_proc p on p.oid=pg_catalog.to_regprocedure(v.signature)
+ where pg_catalog.jsonb_build_object('owner',p.proowner::regrole::text,'language',(select lanname from pg_catalog.pg_language where oid=p.prolang),'returns',pg_catalog.pg_get_function_result(p.oid),'definer',p.prosecdef,'volatility',p.provolatile,'config',p.proconfig,'acl',p.proacl::text)is distinct from v.expected)
+ then raise exception 'M07_ISSUER30_PRESERVED29_NARROW_FUNCTION_MISMATCH';end if;
+ if exists(select 1 from(values
+   ('eps_mcp_session_owner','{"login":false,"super":false,"inherit":false,"bypassrls":false,"create_role":false,"create_db":false,"replication":false,"connection_limit":-1,"valid_until":null}'::jsonb),
+   ('eps_settings_owner','{"login":false,"super":false,"inherit":false,"bypassrls":false,"create_role":false,"create_db":false,"replication":false,"connection_limit":-1,"valid_until":null}'::jsonb)
+ )v(role_name,expected)left join pg_catalog.pg_roles r on r.rolname=v.role_name
+ where pg_catalog.jsonb_build_object('login',r.rolcanlogin,'super',r.rolsuper,'inherit',r.rolinherit,'bypassrls',r.rolbypassrls,'create_role',r.rolcreaterole,'create_db',r.rolcreatedb,'replication',r.rolreplication,'connection_limit',r.rolconnlimit,'valid_until',r.rolvaliduntil)is distinct from v.expected)
+ then raise exception 'M07_ISSUER30_PRESERVED29_NARROW_OWNER_MISMATCH';end if;
+ if exists(select 1 from(values
+   ('eps.mcp_oauth_resources','{"owner":"postgres","rls":true,"force_rls":true,"acl":"{postgres=arwdDxtm/postgres,eps_mcp_session_owner=r/postgres}"}'::jsonb),
+   ('eps.app_settings','{"owner":"postgres","rls":true,"force_rls":true,"acl":"{postgres=arwdDxtm/postgres,eps_settings_owner=r/postgres,eps_review_owner=r/postgres}"}'::jsonb)
+ )v(relation_name,expected)left join pg_catalog.pg_class c on c.oid=pg_catalog.to_regclass(v.relation_name)
+ where pg_catalog.jsonb_build_object('owner',c.relowner::regrole::text,'rls',c.relrowsecurity,'force_rls',c.relforcerowsecurity,'acl',c.relacl::text)is distinct from v.expected)
+ then raise exception 'M07_ISSUER30_PRESERVED29_REGISTRY_SETTINGS_MISMATCH';end if;
+ if exists(select 1 from(values('eps.mcp_oauth_resources','resource','text'),('eps.mcp_oauth_resources','client_id','uuid'),('eps.mcp_oauth_resources','enabled','boolean'),('public.app_capability_grants','principal_id','uuid'),('public.app_capability_grants','capability','text'),('public.app_capability_grants','active','boolean'))v(relation_name,column_name,type_name)
+ where not exists(select 1 from pg_catalog.pg_attribute a where a.attrelid=pg_catalog.to_regclass(v.relation_name)and a.attname=v.column_name and pg_catalog.format_type(a.atttypid,a.atttypmod)=v.type_name and a.attnum>0 and not a.attisdropped))
+ or exists(select 1 from(values('eps.mcp_oauth_resources'),('public.app_capability_grants'))v(relation_name)where not exists(select 1 from pg_catalog.pg_class c where c.oid=pg_catalog.to_regclass(v.relation_name)and c.relkind='r'and c.relrowsecurity and c.relforcerowsecurity))
+ then raise exception 'M07_ISSUER30_FORCED_RLS_LOOKUP_COLUMNS_REQUIRED';end if;
+ -- Missing fresh capability-table/schema/default-ACL/effective-privilege/full
+ -- catalogue/role membership pins MUST be supplied in a NEW reviewed artifact.
+ -- Do not remove the external review-only error and dispatch this proposal.
+end$issuer30_admission$;
+
+create role eps_mcp_issuer_owner nologin noinherit nosuperuser nocreatedb nocreaterole noreplication nobypassrls;
+grant eps_mcp_issuer_owner to postgres with inherit false,set true,admin false;
+grant usage on schema eps,public to eps_mcp_issuer_owner;
+grant select(resource,client_id,enabled)on eps.mcp_oauth_resources to eps_mcp_issuer_owner;
+grant select(principal_id,capability,active)on public.app_capability_grants to eps_mcp_issuer_owner;
+-- Native Auth has no acting-user JWT here. The private hook validates the event
+-- principal and filters that exact UUID; this dedicated role reads metadata only.
+create policy mcp_issuer_resource_lookup on eps.mcp_oauth_resources for select to eps_mcp_issuer_owner using(true);
+create policy mcp_issuer_capability_lookup on public.app_capability_grants for select to eps_mcp_issuer_owner using(true);
+
+create function eps.mcp_custom_access_token_hook(event jsonb)returns jsonb
+language plpgsql stable security definer set search_path=''as $$
+declare claims jsonb;cid_text text;cid uuid;uid uuid;resource_uri text;enabled_count bigint;caps jsonb;begin
+ if jsonb_typeof(event)is distinct from'object'or jsonb_typeof(event->'claims')is distinct from'object'
+ then raise exception'MCP_DELEGATION_UNAVAILABLE';end if;
+ claims:=event->'claims';
+ -- Only trusted issuer claims select a registered client. Preserve all browser
+ -- and unrelated OAuth claims, including optional fields, without alteration.
+ if jsonb_typeof(claims->'client_id')is distinct from'string'
+ or claims->>'client_id'!~'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'
+ then return jsonb_build_object('claims',claims);end if;
+ cid_text:=claims->>'client_id';cid:=cid_text::uuid;
+ if not exists(select 1 from eps.mcp_oauth_resources r where r.client_id=cid)
+ then return jsonb_build_object('claims',claims);end if;
+ select count(*),min(r.resource)into enabled_count,resource_uri from eps.mcp_oauth_resources r where r.client_id=cid and r.enabled;
+ if enabled_count<>1
+ or not(claims?&array['iss','aud','exp','iat','sub','role','aal','session_id','email','phone','is_anonymous'])
+ or jsonb_typeof(event->'user_id')is distinct from'string'
+ or event->>'user_id'!~'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'
+ or jsonb_typeof(claims->'sub')is distinct from'string'
+ or claims->>'sub'!~'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'
+ or claims->>'role'is distinct from'authenticated'or claims->'is_anonymous'is distinct from'false'::jsonb
+ or jsonb_typeof(claims->'session_id')is distinct from'string'
+ or claims->>'session_id'!~'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'
+ or jsonb_typeof(claims->'scope')is distinct from'string'
+ or length(claims->>'scope')>256
+ or not('openid'=any(regexp_split_to_array(claims->>'scope',E'\\s+')))
+ then raise exception'MCP_DELEGATION_UNAVAILABLE';end if;
+ uid:=(event->>'user_id')::uuid;
+ if (claims->>'sub')::uuid<>uid then raise exception'MCP_DELEGATION_UNAVAILABLE';end if;
+ -- No auth.uid(), own-session RPC, caller business-capability claim, user
+ -- metadata, client name or top-level client_id is authority at issuance.
+ select coalesce(jsonb_agg(g.capability order by g.capability),'[]'::jsonb)into caps
+ from public.app_capability_grants g where g.principal_id=uid and g.active
+ and g.capability=any(array['projects.read','projects.write','workspaces.read','workspaces.write','cast.read','cast.upload','cast.write','cast.review',
+ 'presentations.generate','review_links.manage','settings.manage','operations.read','operations.retry']);
+ claims:=jsonb_set(claims,'{aud}',to_jsonb(resource_uri));
+ claims:=jsonb_set(claims,'{eps_delegation}',jsonb_build_object('v',1,'resource',resource_uri,'client_id',cid::text,'capabilities',caps));
+ return jsonb_build_object('claims',claims);
+end$$;
+-- PostgreSQL requires CREATE on the containing schema for ownership transfer.
+-- The role cannot log in; this grant exists only inside this transaction.
+grant create on schema eps to eps_mcp_issuer_owner;
+alter function eps.mcp_custom_access_token_hook(jsonb)owner to eps_mcp_issuer_owner;
+set local role eps_mcp_issuer_owner;
+revoke all on function eps.mcp_custom_access_token_hook(jsonb)from public,anon,authenticated,service_role,postgres;
+grant execute on function eps.mcp_custom_access_token_hook(jsonb)to supabase_auth_admin;
+comment on function eps.mcp_custom_access_token_hook(jsonb)is 'LOCAL-only candidate: claims-preserving approved-client resource delegation for native Auth. Not registered as any provider hook.';
+set local role postgres;
+revoke create on schema eps from eps_mcp_issuer_owner;
+grant usage on schema eps to supabase_auth_admin;
+
+END INERT PROPOSAL */

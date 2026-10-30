@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0",
+  "prepared_at": "2026-10-30T14:49:57.976Z",
+  "scope": "REVIEW PACKAGE ONLY; no executable migration30, DB/provider action, registration or activation",
+  "target": "pyibofyctwnqpvktepse",
+  "sources": {
+    "ancestor": {
+      "path": "development/m07/oauth-hook/candidate30.sql",
+      "sha256": "8c2081c02dfda6a6d081a6a3a4eaf76a59bee56c91a5fb24e91becfe32de19ca"
+    },
+    "proven_candidate": {
+      "path": "development/m07/oauth-hook29/candidate.sql",
+      "sha256": "136de55221d05053f0d3ae40754f641d32d0edf3d8ed73f952c92e1d819bce03"
+    },
+    "local_proof": {
+      "path": "tracking/evidence/m07/oauth-hook29/2026-10-30T14-37-15-683Z-01f780ed.json",
+      "sha256": "bb0b33ca91849a123db94b9d09f411405298400f645c0d2944643e3e153acd09"
+    },
+    "canonical29_readback": {
+      "path": "tracking/evidence/cloud-m07-29/2026-10-30T11-52-36-310355Z-f553771a-readback.json",
+      "sha256": "f4d3baee8e27dbcb143df7b5023064de2ec553eb890fa9e2098cda4856e71153"
+    },
+    "canonical_settings_readback": {
+      "path": "tracking/evidence/m07/live-settings-oauth/2026-10-30T14-36-46-194697Z-canonical-settings-readback.json",
+      "sha256": "8accfc1f9e8527bf31dc0f3869aed95e88fb8d099ebe8f5ae9406f4fd3cc808f"
+    },
+    "migration29": {
+      "path": "supabase/migrations/20261030111549_m07_settings_delegated_session.sql",
+      "sha256": "6531e8decab5496e212eb01575aca666cd9e03b0575f92dd66bd380760f84af4"
+    },
+    "pinned_auth_research": {
+      "path": "development/m07/OAUTH_HOOK_RESEARCH.md",
+      "sha256": "81a2d8e2685fb93fca7447d4cd46bc4f2e53a9d098a1bd0f14e7f36fc5cdc7a6"
+    }
+  },
+  "extraction": {
+    "boundary": "\ncreate role eps_mcp_issuer_owner",
+    "source_byte_offset": 1867,
+    "ancestor_byte_offset": 1884,
+    "review_byte_offset": 7111,
+    "byte_length": 4735,
+    "sha256": "6fdab1bd84db93d427780f86ff5d8797a4fc67580796f379df4876f7bb269018",
+    "issuer_body_and_grants_identical_to_proven_and_ancestor": true,
+    "prefix_change": "replace only disposable-local admission with partial canonical history29/source/owner/RLS/new-object guard proposal; preserve full suffix bytes",
+    "inert_container": "unconditional exception followed by block-commented proposal/body; no executable DDL"
+  },
+  "candidate_review_sha256": "b2ed7f08d7178df9a48a63b3683f3b85ba0cc3041568f9c85d26b72b06fb0ba5",
+  "historical_metadata_observed_at": "2026-10-30T11:52:36.310089+00:00",
+  "latest_linked_settings_observed_at": "2026-10-30T14:36:46.194697+00:00",
+  "canonical_metadata_fresh": false,
+  "capability_table_complete_metadata_pinned": false,
+  "issuer_role_function_absence_freshly_proven": false,
+  "provider_hook_configuration_observed": false,
+  "desired_local_client": {
+    "name": "EveryoneStudioLocalM07",
+    "kind": "public PKCE",
+    "redirect_uri": "http://localhost:3118/callback",
+    "claude_version": "2.1.301",
+    "resource": "http://127.0.0.1:3000/mcp",
+    "issuer": "existing central HTTPS issuer",
+    "client_id": null,
+    "created": false,
+    "dcr_desired": false,
+    "dcr_current_observed": false,
+    "site_url_and_signing_changes": false
+  },
+  "performed": {
+    "local_file_reads_and_writes": true,
+    "local_sql_parser_only": true,
+    "database": false,
+    "provider": false,
+    "migration_file_created": false,
+    "client_resource_insertion": false,
+    "activation": false,
+    "hosting": false,
+    "supabase_provider_or_release_cli_invocation": false,
+    "local_python_pglast_process": true
+  },
+  "remaining": [
+    "fresh exact canonical29 structural/source/owner/ACL/RLS/absence/roles preflight",
+    "new exact final admission and release controller",
+    "transaction/history rollback and committed forward-fix proof on owned isolated local resources",
+    "coordinated CLI-generated migration and independent canonical readback",
+    "real client UUID and exact resource binding as separate operation",
+    "existing hook discovery/composition, separately scoped activation and actual signedJWT/refresh/revocation/client acceptance"
+  ]
+}

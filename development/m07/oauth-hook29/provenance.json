@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "scope": "LOCAL rollback-only post29 proof; not migration30 or provider hook setup",
+  "source": "development/m07/oauth-hook/candidate30.sql",
+  "source_sha256": "8c2081c02dfda6a6d081a6a3a4eaf76a59bee56c91a5fb24e91becfe32de19ca",
+  "sha256": "136de55221d05053f0d3ae40754f641d32d0edf3d8ed73f952c92e1d819bce03",
+  "changes": [
+    [
+      "^eps_m07_settings_[a-f0-9]{32}$",
+      "^eps_m07_hook29_[a-f0-9]{32}$"
+    ],
+    [
+      "'owned-local-hook30'",
+      "'owned-local-hook29'"
+    ],
+    [
+      "^eps-m07-owned-hook30:",
+      "^eps-m07-owned-hook29:"
+    ],
+    [
+      "supabase_migrations.schema_migrations)<>28",
+      "supabase_migrations.schema_migrations)<>29"
+    ],
+    [
+      "HOOK30_EXACT_OWNED_LOCAL28_PLUS_CANDIDATE29_REQUIRED",
+      "HOOK29_EXACT_OWNED_CURRENT29_REQUIRED"
+    ]
+  ],
+  "issuer_body_and_grants_byte_identical": true
+}
