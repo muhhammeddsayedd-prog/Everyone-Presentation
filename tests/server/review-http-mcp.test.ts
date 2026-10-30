@@ -6,6 +6,7 @@ import type { ReviewOperations, WorkspaceReview, PresentationSeries } from '../.
 import { handleReviewRequest, isReviewRoute } from '../../apps/web/lib/review-http';
 import { createStudioMcpServer, invokeMcpTool, implementedMcpTools, type McpServices } from '../../apps/web/lib/mcp';
 import { DomainError } from '../../packages/domain/src/types';
+import { syntheticMcpStudio } from '../fixtures/mcp-capabilities.ts';
 
 const actor = { principal_id: 'synthetic-review-producer' }; const hash = 'a'.repeat(64); const key = 'synthetic-review-intent';
 const names = ['list_presentation_series', 'create_presentation_series', 'get_presentation_series', 'update_presentation_series', 'get_workspace_review', 'create_ai_suggestion', 'get_ai_suggestion', 'request_workspace_review_fit', 'get_casting_retirement', 'undo_casting_retirement'];
@@ -27,7 +28,7 @@ function fixture() {
     async getCastingRetirement(...args) { return record('getCastingRetirement', args, { workspace_id: 'workspace', resource_id: 'role', operation: 'archive_role', undo_event_id: 'event', expected_workspace_row_version: 3, assignment_ids: [], slot_ids: ['slot'], main_count: 0, shortlist_count: 0, can_undo: true, unavailable_reason: null }) as Awaited<ReturnType<ReviewOperations['getCastingRetirement']>>; },
     async undoCastingRetirement(...args) { return record('undoCastingRetirement', args, { success: true, affected_ids: ['role', 'slot'], workspace_row_version: 4 }) as Awaited<ReturnType<ReviewOperations['undoCastingRetirement']>>; },
   };
-  return { service, calls, error: (value: DomainError) => { error = value; }, services: { review: service } as McpServices };
+  return { service, calls, error: (value: DomainError) => { error = value; }, services: { review: service, studio: syntheticMcpStudio(actor.principal_id) } as McpServices };
 }
 function request(path: string, method = 'GET', body?: unknown) { return new Request('http://127.0.0.1/api/v1' + path, { method, headers: { 'Content-Type': 'application/json' }, ...(body === undefined ? {} : { body: JSON.stringify(body) }) }); }
 const context = { requestId: 'synthetic-review-http', clientType: 'browser' as const, idempotencyKey: key };

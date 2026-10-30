@@ -1,0 +1,14 @@
+✔ settings patch rejects hidden writes, invalid timezone/version, and unsafe row versions (88.3489ms)
+✔ settings central facade enforces acting identity and forwards stable idempotency and audit metadata (52.0145ms)
+✔ settings response is closed, copied, bounded and never falls back on denied central access (11.0243ms)
+✔ settings mutation rejects a response that does not acknowledge its expected revision and exact patch (7.4355ms)
+✔ settings HTTP rejects malformed or unkeyed mutations before any central change (94.4792ms)
+✔ official MCP settings schemas, acting-user facade and trace metadata agree (473.5254ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2870.3178

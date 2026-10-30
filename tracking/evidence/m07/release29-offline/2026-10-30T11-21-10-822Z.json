@@ -1,0 +1,32 @@
+{
+  "observed_at": "2026-10-30T11:21:10.822Z",
+  "result": "passed",
+  "scope": "Offline fixed29 release guard tests and actual read-only Windows process-absence syntax probe. No CLI, DB, cloud, configuration, process stop or canonical release action.",
+  "source_seals": {
+    "tools/release_m07_29.py": "50166ba33ad302c1cfff95e99771de72821f825083f25088efb5d6c6c2cb6c2e",
+    "tools/freeze-m07-cloud29-review.py": "b028fcde6b90c4edd81ee5a7a6936046b93ef0e6c7c96cb559c348d25828c86b",
+    "tools/promote-m07-local29.mjs": "aa2939a03c784e4e3fab26f426c4c8e79a6d744ef0cfb81e12271f4219162aea",
+    "tests/operations/test_m07_29_release.py": "95963278e71937ed0ace6dd70c90414cd41f69cd1ad9633be02a8274288a0acc",
+    "development/m07/db/release29-plan.json": "47fd50c326b512d1b0a8d73ed19188beeb0a33d96316eea1f368bfaa9b8324fc",
+    "development/m07/db/release29-admission.sql": "54542996e39fb0eb6909eaaeed0d7ad2c24f02d24f98a0d37f876e07b762e8c1"
+  },
+  "tests": {
+    "command": ".venv-skills/Scripts/python.exe -X utf8 -m unittest discover -s tests/operations -p test_m07_29_release.py",
+    "passed": 13,
+    "failed": 0,
+    "exit_code": 0
+  },
+  "syntax": {
+    "node_check_promote_helper": true,
+    "python_compile_helper_and_freezer": true
+  },
+  "process_absence_probe": {
+    "synthetic_unoccupied_pid": 2147483647,
+    "passed": true,
+    "processes_stopped": 0,
+    "command_lines_read": false
+  },
+  "cloud_called": false,
+  "provider_called": false,
+  "migration_or_manifest_inserted": false
+}

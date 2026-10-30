@@ -1,0 +1,231 @@
+/** AT-070 owned LOCAL synthetic DB + filesystem-object restore. Never connect
+ * to cloud, load runtime credentials, reset/seed canonical postgres, or publish. */
+import assert from 'node:assert/strict';
+import { spawn } from 'node:child_process';
+import { createHash, randomUUID } from 'node:crypto';
+import { mkdir, open, readFile, readdir, unlink, writeFile } from 'node:fs/promises';
+import path from 'node:path';
+import { isDeepStrictEqual } from 'node:util';
+import { verifyLocalTarget, runOwnedLocalSql } from '../../../tools/local-postgres.mjs';
+import { createRecoveryBundle, restoreRecoveryBundle, verifyRecoveryBundle } from '../../../tools/m07-recovery-bundle.mjs';
+import { executePresentationStage } from '../../../apps/worker/src/presentation-stage-executor.ts';
+import { executePresentationExportStage } from '../../../apps/worker/src/presentation-export-executor.ts';
+import { prepareVideoIsolated } from '../../../apps/worker/src/video-container.ts';
+import { validatePresentationPdf } from '../../../apps/worker/src/presentation-pdf.ts';
+import { loadOriginalProfile29, assertExactProfileAfter } from '../../../tools/m07-original-profile29-comparison.mjs';
+import { exactRestoreProfileSql } from './profile.mjs';
+import { normalizeDatabaseOid } from './identity.mjs';
+const ROOT = path.resolve(import.meta.dirname, '..', '..', '..');
+const HOST = process.platform === 'win32' ? 'npipe:////./pipe/dockerDesktopLinuxEngine' : 'unix:///var/run/docker.sock';
+const runId = randomUUID(), suffix = runId.replaceAll('-', '');
+const sourceDb = `eps_m07_r29_source_${suffix}`, restoreDb = `eps_m07_r29_restore_${suffix}`;
+const privateRoot = path.join(ROOT, '.local/m07-recovery', runId);
+const sha = value => createHash('sha256').update(value).digest('hex');
+const rows = text => text.split(/\r?\n/u).filter(value => value.startsWith('{')).map(value => JSON.parse(value));
+const literal = value => "'" + String(value).replaceAll("'", "''") + "'";
+const json = value => literal(JSON.stringify(value)) + '::jsonb';
+const actor = '8a1a0000-0000-4000-8000-000000000001';
+const videoId = '8a9f0000-0000-4000-8000-000000000001';
+const mediaId = '8a9f0000-0000-4000-8000-000000000002';
+let target, locked = false, baseline, nativeContainer, originalCatalogue, originalRoles, originalReadback, profile, profilePlan;
+const ownedDbs = new Map(), objects = new Map();
+const report = { schema_version: '1.0', run_id: runId, started_at: new Date().toISOString(), result: 'failed', scope: 'AT-070 history29 synthetic isolated local PostgreSQL + local filesystem object restore; exact known baseline profile preserved', cloud_called: false, provider_called: false, runtime_configuration_loaded: false, canonical_business_writes: false, storage_http_tested: false, deployed_restore_tested: false, checkpoint: 'initialization' };
+async function command(executable, args, { input = '', binary = false, allowFailure = false, timeout = 60000, environment } = {}) {
+  return new Promise((resolve, reject) => {
+    const child = spawn(executable, args, { cwd: ROOT, shell: false, windowsHide: true, env: environment, stdio: ['pipe', 'pipe', 'pipe'] });
+    const out = [], err = []; let size = 0, timedOut = false;
+    const timer = setTimeout(() => { timedOut = true; child.kill(); }, timeout);
+    child.stdout.on('data', chunk => { size += chunk.length; if (size > 96 * 1024 * 1024) child.kill(); else out.push(chunk); });
+    child.stderr.on('data', chunk => { size += chunk.length; if (size > 96 * 1024 * 1024) child.kill(); else err.push(chunk); });
+    child.once('error', () => { clearTimeout(timer); reject(Error('M07_LOCAL_TRANSPORT_FAILED')); });
+    child.once('close', code => { clearTimeout(timer); const stdout = Buffer.concat(out), stderr = Buffer.concat(err).toString('utf8');
+      if (timedOut || code !== 0 && !allowFailure) reject(Object.assign(Error('M07_LOCAL_COMMAND_UNCONFIRMED'), { privateDiagnostic: { code, timedOut, stderr } }));
+      else resolve({ code, stdout: binary ? stdout : stdout.toString('utf8'), stderr }); });
+    child.stdin.on('error', () => {}); child.stdin.end(input);
+  });
+}
+const docker = (args, options) => command('docker', ['--host', HOST, ...args], options);
+const psqlArgs = database => ['exec', '--user', 'postgres', '-i', target.container.Id, 'psql', '-X', '-q', '-A', '-t', '-v', 'ON_ERROR_STOP=1', '-h', '/var/run/postgresql', '-U', 'supabase_admin', '-d', database];
+const marker = database => `eps-m07-recovery29:${runId}:${database === sourceDb ? 'source' : 'restore'}`;
+async function databaseIdentity(database) {
+  assert([sourceDb, restoreDb].includes(database));
+  const values = rows((await docker(psqlArgs('template1'), { input: `begin read only;select jsonb_build_object('oid',oid,'name',datname,'owner',datdba::regrole::text,'comment',shobj_description(oid,'pg_database'),'clients',(select count(*)from pg_stat_activity where datname=${literal(database)}))from pg_database where datname=${literal(database)};rollback;` })).stdout);
+  assert.equal(values.length, 1); const value = values[0]; assert.equal(value.owner, 'postgres'); assert.equal(value.name, database); assert.equal(value.comment, marker(database));value.oid=normalizeDatabaseOid(value.oid);
+  if (ownedDbs.has(database)) assert.equal(value.oid, ownedDbs.get(database)); return value;
+}
+async function createDatabase(database) {
+  assert(/^eps_m07_r29_(?:source|restore)_[a-f0-9]{32}$/u.test(database));
+  await docker(psqlArgs('template1'), { input: `create database "${database}" with template template0 owner postgres;comment on database "${database}" is ${literal(marker(database))};` });
+  ownedDbs.set(database, (await databaseIdentity(database)).oid);
+}
+async function sql(database, body, role = 'postgres', principal, allowFailure = false) {
+  await databaseIdentity(database);
+  assert(['postgres', 'authenticated', 'anon', 'eps_jobs_executor', 'eps_specs_assets_executor', 'eps_jobs_dispatcher'].includes(role));
+  const guard = `do $guard$begin if current_database()<>${literal(database)}or(select shobj_description(oid,'pg_database')from pg_database where datname=current_database())is distinct from ${literal(marker(database))}then raise exception'OWNED_M07_DATABASE_REQUIRED';end if;end$guard$;`;
+  return docker(psqlArgs(database), { input: `set log_statement='none';set log_min_duration_statement=-1;set lock_timeout='5s';set statement_timeout='45s';${guard}begin;set local search_path='';set local timezone='UTC';set local eps.local_fixture_tests='eps-presentation-canonical-pg17-local';set local role ${role};${principal ? `select set_config('request.jwt.claim.sub',${literal(principal)},true),set_config('request.jwt.claims',${json({ sub: principal, role: 'authenticated' })}::text,true);` : ''}${body}\ncommit;`, allowFailure });
+}
+const value = async (...args) => rows((await sql(...args)).stdout).at(-1);
+async function dump(database) {
+  if (database !== 'postgres') await databaseIdentity(database);
+  const result = await docker(['exec', '--user', 'postgres', target.container.Id, 'pg_dump', '-h', '/var/run/postgresql', '-U', 'supabase_admin', '-d', database, '--no-password', '--no-security-labels', '--clean', '--if-exists', '--strict-names', '--no-large-objects', ...['eps', 'public', 'auth', 'storage', 'supabase_migrations', 'extensions'].flatMap(schema => ['--schema', schema]), ...['pg_stat_statements', 'pgcrypto', 'uuid-ossp'].flatMap(extension => ['--extension', extension])]);
+  assert(!/ALTER ROLE[^;]*PASSWORD/iu.test(result.stdout)); assert(!/^\\connect\b/mu.test(result.stdout)); return Buffer.from(result.stdout);
+}
+const baselineSql = `begin read only;do $$declare r record;v text;result jsonb:='{}';begin for r in select n.nspname,c.relname from pg_class c join pg_namespace n on n.oid=c.relnamespace where c.relkind='r'and n.nspname in('eps','public','auth','storage','supabase_migrations','eps_local_guard')order by 1,2 loop execute format('select md5(coalesce(string_agg(to_jsonb(t)::text,E''\\n''order by to_jsonb(t)::text),''''))from %I.%I t',r.nspname,r.relname)into v;result:=result||jsonb_build_object(r.nspname||'.'||r.relname,v);end loop;perform set_config('eps.m07.baseline_rows',result::text,true);end$$;select jsonb_build_object('table_rows',current_setting('eps.m07.baseline_rows')::jsonb,'functions',(select md5(string_agg(pg_get_functiondef(p.oid),E'\\n'order by p.oid::regprocedure::text))from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname in('eps','public')and p.prokind='f'),'grants',(select md5(string_agg(c.oid::text||coalesce(c.relacl::text,''),E'\\n'order by c.oid))from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname in('eps','public','auth','storage')));rollback;`;
+const rolesSql = `begin read only;select jsonb_build_object('roles',(select jsonb_agg(jsonb_build_object('oid',oid,'name',rolname,'login',rolcanlogin,'superuser',rolsuper,'inherit',rolinherit,'bypassrls',rolbypassrls,'create_role',rolcreaterole,'create_db',rolcreatedb,'connection_limit',rolconnlimit,'valid_until',rolvaliduntil)order by rolname)from pg_roles where rolname like'eps_%'or rolname in('postgres','anon','authenticated','service_role','supabase_admin','supabase_auth_admin','pg_database_owner')),'memberships',(select jsonb_agg(jsonb_build_object('role_oid',roleid,'member_oid',member,'grantor_oid',grantor,'admin',admin_option,'inherit',inherit_option,'set',set_option)order by roleid,member,grantor)from pg_auth_members where roleid::regrole::text like'eps_%'or member::regrole::text like'eps_%'));rollback;`;
+async function catalogue(database) { return value(database, await readFile('development/m07/db/catalog29.sql','utf8')); }
+async function preserveOriginalDumpProfile(database, expected) {
+  const before=await catalogue(database);const identity=await databaseIdentity(database);
+  const planned=exactRestoreProfileSql(expected,before,{database,marker:marker(database),oid:identity.oid});
+  await sql(database,planned.sql);assert.deepEqual(await catalogue(database),expected,'RECOVERY29_FULL_RAW_CATALOGUE_REQUIRED');
+  return { corrected_known_fields:planned.differences, complete_catalogue_fields:Object.keys(expected).length, exact_raw_catalogue:true };
+}
+async function settingsBoundary(database) {
+  const settings=await value(database,'select public.eps_get_settings();','authenticated',actor);
+  assert.equal(settings.default_timezone,'Africa/Cairo');assert.equal(settings.template_version,'1.1.0');assert.equal(settings.default_review_expiry_days,30);assert.equal(settings.row_version,1);
+  const denied=await sql(database,'select public.eps_get_settings();','authenticated','8a1a0000-0000-4000-8000-000000000002',true);assert.notEqual(denied.code,0);assert(denied.stderr.includes('CAPABILITY_REQUIRED'));
+  const rows=await value(database,`select jsonb_build_object('settings',to_jsonb(s),'mcp_registry_count',(select count(*)from eps.mcp_oauth_resources),'auth_session_count',(select count(*)from auth.sessions))from eps.app_settings s;`);
+  assert.equal(rows.mcp_registry_count,0);assert.equal(rows.auth_session_count,0);
+  const direct=await sql(database,'select * from eps.mcp_oauth_resources;','authenticated',actor,true);assert.notEqual(direct.code,0);assert(direct.stderr.includes('permission denied'));
+  const inactive=await value(database,`select public.eps_validate_own_oauth_session('http://127.0.0.1:3000/mcp');`,'authenticated',actor);assert.equal(inactive.active,false);assert.deepEqual(inactive.capabilities,[]);
+  return { settings:rows.settings, settings_authorized:true, settings_unauthorized_denied:true,mcp_empty_registry_preserved:true,auth_sessions_empty_preserved:true,mcp_direct_table_denied:true,unsigned_session_inactive:true };
+}
+async function protectArtifacts() {
+  await mkdir(privateRoot, { recursive: true, mode: 0o700 });
+  if (process.platform === 'win32') {
+    const script = `$ErrorActionPreference='Stop';$p=$env:EPS_M07_PRIVATE_ROOT;$sid=[System.Security.Principal.WindowsIdentity]::GetCurrent().User;$acl=New-Object System.Security.AccessControl.DirectorySecurity;$acl.SetAccessRuleProtection($true,$false);foreach($s in @($sid,[System.Security.Principal.SecurityIdentifier]'S-1-5-18')){$r=New-Object System.Security.AccessControl.FileSystemAccessRule($s,'FullControl','ContainerInherit,ObjectInherit','None','Allow');$acl.AddAccessRule($r)};Set-Acl -LiteralPath $p -AclObject $acl;$observed=Get-Acl -LiteralPath $p;if(-not $observed.AreAccessRulesProtected){throw 'ACL_NOT_PROTECTED'};foreach($r in $observed.Access){$v=$r.IdentityReference.Translate([System.Security.Principal.SecurityIdentifier]).Value;if($v -notin @($sid.Value,'S-1-5-18')){throw 'ACL_BROAD_PRINCIPAL'}};Write-Output 'M07_PRIVATE_ACL_VERIFIED'`;
+    const result = await command('powershell.exe', ['-NoProfile', '-NonInteractive', '-Command', script], { environment: { ...process.env, EPS_M07_PRIVATE_ROOT: privateRoot } }); assert.equal(result.stdout.trim(), 'M07_PRIVATE_ACL_VERIFIED');
+  }
+  await writeFile(path.join(privateRoot, 'owner.json'), JSON.stringify({ run_id: runId, purpose: 'm07-synthetic-local-recovery', workspace: ROOT }), { flag: 'wx', mode: 0o600 }); report.private_artifact_acl = process.platform === 'win32' ? 'current-user-and-SYSTEM-only-verified' : 'mode0700';
+}
+async function mediaFixture() {
+  const image = JSON.parse((await docker(['image', 'inspect', 'eps-media:local-76b4944f14af6bde', '--format', '{{json .Id}}'])).stdout);
+  assert(/^sha256:[a-f0-9]{64}$/u.test(image)); report.native_media_image_id = image;
+  const name = `eps-m07-fixture-${suffix}`; nativeContainer = { name, image };
+  const generated = await docker(['run', '--name', name, '--label', `com.everyone.presentation.m07-run=${runId}`, '--network', 'none', '--read-only', '--cap-drop', 'ALL', '--security-opt', 'no-new-privileges', '--memory', '512m', '--memory-swap', '512m', '--cpus', '1', '--pids-limit', '64', '--log-driver', 'none', '--entrypoint', '/usr/bin/ffmpeg', image, '-nostdin', '-v', 'error', '-threads', '1', '-filter_threads', '1', '-f', 'lavfi', '-i', 'testsrc2=size=160x90:rate=25', '-t', '2', '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-an', '-movflags', 'frag_keyframe+empty_moov', '-f', 'mp4', 'pipe:1'], { binary: true, timeout: 30000 });
+  const prepared = await prepareVideoIsolated({ source_asset_id: videoId, bytes: generated.stdout, mime_type: 'video/mp4' }, { imageId: image, probeOnly: true });
+  assert.equal(prepared.probe.width, 160); assert.equal(prepared.probe.height, 90); assert(prepared.probe.duration_ms > 0); return { bytes: generated.stdout, probe: prepared.probe };
+}
+function ports(database) {
+  const gateway = {
+    getInput: scope => value(database, `select eps.get_specs_stage_input(${literal(scope.job_id)}::uuid,${literal(scope.attempt_id)}::uuid,${literal(scope.lease_token)});`, 'eps_jobs_executor'),
+    recordEvent: event => value(database, `select eps.record_job_event(${json(event)});`, 'eps_jobs_executor'),
+    mintReviewMediaGrant: scope => value(database, `select eps.mint_review_media_grant(${json(scope)});`, 'eps_jobs_executor'),
+  };
+  const assets = {
+    async read(scope, asset) { await value(database, `select eps.get_job_asset_access(${json({ ...scope, asset_id: asset.asset_id, access: 'read' })});`, 'eps_specs_assets_executor'); const bytes = objects.get(asset.asset_id); assert(bytes && bytes.length === asset.byte_size || bytes && bytes.length === asset.size_bytes); assert.equal(sha(bytes), asset.sha256); return bytes; },
+    async write(scope, output) {
+      const reserved = await value(database, `select eps.reserve_job_output(${json({ ...scope, output_key: output.purpose, asset_kind: output.purpose, filename: output.purpose === 'presentation_pdf' ? 'presentation.pdf' : 'presentation-manifest.json', mime_type: output.purpose === 'presentation_pdf' ? 'application/pdf' : 'application/json', expected_size_bytes: output.bytes.length, parent_asset_id: null, time_offset_ms: null })});`, 'eps_specs_assets_executor');
+      const assetId = reserved.asset.id; await value(database, `select eps.get_job_asset_access(${json({ ...scope, asset_id: assetId, access: 'write' })});`, 'eps_specs_assets_executor');
+      objects.set(assetId, Buffer.from(output.bytes));
+      const saved = await value(database, `select eps.complete_job_output(${json({ ...scope, asset_id: assetId, sha256: output.sha256, actual_size_bytes: output.bytes.length, width: null, height: null, duration_ms: null })});`, 'eps_specs_assets_executor');
+      return { asset_id: saved.id, sha256: saved.sha256, size_bytes: saved.size_bytes, mime_type: saved.mime_type };
+    },
+  }; return { gateway, assets };
+}
+async function claim(database, jobId, stage, inputHash) { return value(database, `select eps.claim_job_stage_replay(${json({ job_id: jobId, stage, input_hash: inputHash })},${literal(`m07-${runId}-${jobId}-${stage}`)},'m07-synthetic-replay',${literal('7'.repeat(64))});`, 'eps_jobs_executor'); }
+async function permissions(database, scope) {
+  const allowed = await value(database, `select public.eps_get_version_asset(${literal(scope.version_id)}::uuid,${literal(videoId)}::uuid,'video');`, 'authenticated', actor); assert.equal(allowed.asset.id, videoId);
+  const denied = await sql(database, `select public.eps_get_version_asset(${literal(scope.version_id)}::uuid,${literal(videoId)}::uuid,'video');`, 'authenticated', '8a1a0000-0000-4000-8000-000000000099', true); assert.notEqual(denied.code, 0); assert(/RESOURCE_NOT_FOUND|AUTH_REQUIRED|CAPABILITY_REQUIRED/u.test(denied.stderr));
+  const anonymous = await sql(database, 'select * from eps.media_assets limit 1;', 'anon', undefined, true); assert.notEqual(anonymous.code, 0); assert(/permission denied/u.test(anonymous.stderr));
+  const exported = await value(database, `select public.eps_get_pdf_export_asset(${literal(scope.export_id)}::uuid);`, 'authenticated', actor); assert.equal(exported.asset.sha256, sha(objects.get(exported.asset.id)));
+  return { authorized_fixed_video: true, unauthorized_actor_denied: true, anonymous_direct_table_denied: true, authorized_export_hash: exported.asset.sha256 };
+}
+async function inventory(database) { return value(database, `select jsonb_build_object('objects',coalesce(jsonb_agg(jsonb_build_object('asset_id',id,'bucket',bucket,'object_key',object_key,'size_bytes',size_bytes,'sha256',sha256)order by id),'[]'::jsonb))from eps.media_assets where status='ready';`); }
+async function snapshot(database) { return value(database, `select jsonb_build_object('migrations',(select jsonb_agg(to_jsonb(t)order by version)from supabase_migrations.schema_migrations t),'assets',(select jsonb_agg(to_jsonb(t)order by id)from eps.media_assets t),'versions',(select jsonb_agg(to_jsonb(t)order by id)from eps.presentation_versions t),'pins',(select jsonb_agg(to_jsonb(t)order by version_id,asset_id)from eps.presentation_version_assets t),'exports',(select jsonb_agg(to_jsonb(t)order by id)from eps.presentation_exports t),'jobs',(select jsonb_agg(to_jsonb(t)order by id)from eps.jobs t),'outbox',(select jsonb_agg(to_jsonb(t)order by id)from eps.outbox_events t),'transcripts',(select jsonb_agg(to_jsonb(t)order by version_id,video_asset_id)from eps.presentation_video_transcripts t),'auth_users',(select jsonb_agg(to_jsonb(t)order by id)from auth.users t),'auth_sessions',(select jsonb_agg(to_jsonb(t)order by id)from auth.sessions t),'settings',(select jsonb_agg(to_jsonb(t)order by singleton)from eps.app_settings t),'mcp_resources',(select jsonb_agg(to_jsonb(t)order by resource,client_id)from eps.mcp_oauth_resources t));`); }
+async function schema(database) { return value(database, `select jsonb_build_object('functions',(select jsonb_agg(jsonb_build_object('identity',p.oid::regprocedure::text,'owner',p.proowner::regrole::text,'acl',p.proacl::text,'definition',pg_get_functiondef(p.oid))order by p.oid::regprocedure::text)from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname in('eps','public')and p.prokind='f'),'relations',(select jsonb_agg(jsonb_build_object('schema',n.nspname,'name',c.relname,'kind',c.relkind,'owner',c.relowner::regrole::text,'acl',c.relacl::text,'rls',c.relrowsecurity,'force',c.relforcerowsecurity)order by n.nspname,c.relname)from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname in('eps','public','auth','storage')and c.relkind in('r','v','m','S')),'policies',(select jsonb_agg(to_jsonb(p)order by schemaname,tablename,policyname)from pg_policies p where schemaname in('eps','public','auth','storage')),'constraints',(select jsonb_agg(jsonb_build_object('table',c.conrelid::regclass::text,'name',c.conname,'definition',pg_get_constraintdef(c.oid))order by c.conrelid::regclass::text,c.conname)from pg_constraint c join pg_namespace n on n.oid=c.connamespace where n.nspname in('eps','public','auth','storage')));`); }
+async function cleanup() {
+  if (nativeContainer) { const result = await docker(['container', 'inspect', nativeContainer.name], { allowFailure: true }); if (result.code === 0) { const container = JSON.parse(result.stdout)[0]; assert.equal(container.Config.Labels['com.everyone.presentation.m07-run'], runId); assert.equal(container.Image, nativeContainer.image); assert.equal(container.State.Running, false); await docker(['container', 'rm', container.Id]); report.native_fixture_container_removed = true; } }
+  for (const database of [...ownedDbs.keys()].reverse()) { const identity = await databaseIdentity(database); assert.equal(identity.clients, 0); await docker(psqlArgs('template1'), { input: `drop database "${database}";` }); ownedDbs.delete(database); }
+  report.disposable_databases_removed = ownedDbs.size === 0;
+  if (baseline) { const after = rows((await runOwnedLocalSql(baselineSql)).stdout).at(-1); assert(isDeepStrictEqual(baseline, after)); report.original_local_database_unchanged = true; }
+  if(originalCatalogue){const after=rows((await runOwnedLocalSql("begin read only;set local search_path='';set local timezone='UTC';"+await readFile('development/m07/db/catalog29.sql','utf8')+'rollback;')).stdout).at(-1);assert.deepEqual(after,originalCatalogue);report.original29_full_catalogue_unchanged=true;}
+  if(originalReadback){const after=rows((await runOwnedLocalSql(await readFile(profile.readback_query,'utf8'))).stdout).at(-1);assert.deepEqual(after,originalReadback);assertExactProfileAfter(after,profile,profilePlan.version);report.original29_exact_profile_and_settings_state_unchanged=true;}
+  if(originalRoles){const after=rows((await runOwnedLocalSql(rolesSql)).stdout).at(-1);assert.deepEqual(after,originalRoles);report.existing_global_role_oids_attributes_memberships_unchanged=true;}
+  if (locked && report.original_local_database_unchanged && ownedDbs.size === 0) { const owner = JSON.parse(await readFile(path.join(ROOT, '.local/local-postgres/test-db.lock'), 'utf8')); assert.equal(owner.run_id, runId); await unlink(path.join(ROOT, '.local/local-postgres/test-db.lock')); locked = false; report.shared_test_lock_released = true; }
+}
+try {
+  assert.equal(process.argv.length, 2); await protectArtifacts();
+  profile=await loadOriginalProfile29();profilePlan=JSON.parse(await readFile(profile.plan,'utf8'));
+  const reviewed=JSON.parse(await readFile('development/local-db/reviewed.json','utf8'));assert.equal(reviewed.migrations.length,29);assert.equal(reviewed.migrations.at(-1).path,profile.migration_path);assert.equal(reviewed.migrations.at(-1).sha256,profile.migration_sha256);for(const migration of reviewed.migrations)assert.equal(sha(await readFile(migration.path)),migration.sha256);
+  const file = await open(path.join(ROOT, '.local/local-postgres/test-db.lock'), 'wx', 0o600); await file.writeFile(JSON.stringify({ run_id: runId, pid: process.pid })); await file.close(); locked = true;
+  report.checkpoint = 'fresh-preflight'; target = await verifyLocalTarget(); assert.equal(target.observed.system_identifier, '7701520506262638626');
+  const preflight = rows((await runOwnedLocalSql(`begin read only;select jsonb_build_object('migrations',(select count(*)from supabase_migrations.schema_migrations),'users',(select count(*)from auth.users),'jobs',(select count(*)from eps.jobs),'assets',(select count(*)from eps.media_assets),'versions',(select count(*)from eps.presentation_versions),'verifiers',(select count(*)from eps.logo_verification_keys)+(select count(*)from eps.specs_verification_keys)+(select count(*)from eps.support_verification_keys),'guest_key',(select backend_key is not null from eps.review_gateway_config where id),'other_clients',(select count(*)from pg_stat_activity where backend_type='client backend'and pid<>pg_backend_pid()));rollback;`)).stdout).at(-1);
+  assert.deepEqual(preflight, { migrations: 29, users: 0, jobs: 0, assets: 0, versions: 0, verifiers: 0, guest_key: false, other_clients: 0 }); report.preflight = preflight;
+  baseline = rows((await runOwnedLocalSql(baselineSql)).stdout).at(-1); report.original_baseline_sha256 = sha(JSON.stringify(baseline));
+  originalReadback=rows((await runOwnedLocalSql(await readFile(profile.readback_query,'utf8'))).stdout).at(-1);assertExactProfileAfter(originalReadback,profile,profilePlan.version);
+  originalRoles=rows((await runOwnedLocalSql(rolesSql)).stdout).at(-1);assert(originalRoles.roles.some(role=>role.name==='eps_settings_owner'));assert(originalRoles.roles.some(role=>role.name==='eps_mcp_session_owner'));report.existing_global_roles_before=originalRoles;
+  originalCatalogue=rows((await runOwnedLocalSql("begin read only;set local search_path='';set local timezone='UTC';"+await readFile('development/m07/db/catalog29.sql','utf8')+'rollback;')).stdout).at(-1);
+  const originalProof=JSON.parse(await readFile(profile.rehearsal.path,'utf8'));const provenCatalogue=JSON.parse(await readFile(originalProof.full_after_catalogue.path,'utf8'));assert.deepEqual(originalCatalogue,provenCatalogue,'RECOVERY29_PINNED_PROFILE_AFTER_REQUIRED');report.original_catalogue_fields=Object.keys(originalCatalogue).length;report.original_catalogue_sha256=sha(JSON.stringify(originalCatalogue));
+  const registry = JSON.parse(await readFile('packages/templates/versions/1.1.0/registry.json', 'utf8'));
+  const migrationFiles = (await readdir('supabase/migrations')).filter(file => file.endsWith('.sql')).map(file => `supabase/migrations/${file}`);
+  const sourcePaths = ['development/m07/recovery29/run.mjs','development/m07/recovery29/profile.mjs','development/m07/recovery29/profile.test.mjs','development/m07/recovery29/identity.mjs','development/local-db/reviewed.json','tools/m07-original-profile29-comparison.mjs','development/m07/db/catalog29.sql',profile.readback_query,'development/m07/db/release29-original-profile.json',profile.rehearsal.path,originalProof.full_after_catalogue.path,'tools/test-m07-recovery-local.mjs','tools/m07-recovery-bundle.mjs','tests/operations/m07-recovery-bundle.test.mjs','tools/local-postgres.mjs','tests/db/m04-assignments-fixture.sql','tests/db/m05-versions-fixture.sql','apps/worker/src/presentation-stage-executor.ts','apps/worker/src/presentation-export-executor.ts','apps/worker/src/presentation-pdf.ts','apps/worker/src/video-container.ts','packages/templates/versions/1.1.0/registry.json',registry.renderer_path,registry.brand_path,...registry.fonts.map(font=>font.path),'tools/build-candidate-wf02.mjs','tools/build-review-wf05.mjs','tools/build-presentation-wf03.mjs','development/m06/wf03-lexer-fixed-candidate.json','workflows/WF-04-RECOVERY-AND-MAINTENANCE.md',...migrationFiles];
+  const sourceFiles = new Map(await Promise.all([...new Set(sourcePaths)].map(async file => [file, await readFile(file)]))); report.source_seals = Object.fromEntries([...sourceFiles].map(([file, bytes]) => [file, sha(bytes)]));
+  report.checkpoint = 'source-clone'; const initialDump = await dump('postgres'); await createDatabase(sourceDb); await docker(psqlArgs(sourceDb), { input: initialDump });
+  report.source_clone_profile=await preserveOriginalDumpProfile(sourceDb,originalCatalogue);
+  report.checkpoint = 'native-synthetic-video'; const media = await mediaFixture(); objects.set(videoId, media.bytes);
+  report.checkpoint = 'synthetic-domain-capture';
+  const baseFixture = await readFile('tests/db/m04-assignments-fixture.sql', 'utf8');
+  const versionFixture = (await readFile('tests/db/m05-versions-fixture.sql', 'utf8')).replace("'m05-synthetic-internal','Synthetic internal','internal'", "'m07-synthetic-external','Synthetic external','external'");
+  const scope = await value(sourceDb, `set local role supabase_auth_admin;alter table auth.users enable row level security;set local role postgres;${baseFixture}\n${versionFixture}\nset local role postgres;
+insert into public.app_capability_grants(principal_id,capability)values('${actor}','review_links.manage')on conflict do nothing;
+insert into public.app_capability_grants(principal_id,capability)values('${actor}','settings.manage')on conflict do nothing;
+insert into eps.media_assets(id,origin_workspace_id,purpose,filename,mime_type,bucket,object_key,size_bytes,sha256,width,height,duration_ms,status)values('${videoId}',current_setting('eps.casting.fixture.workspace')::uuid,'candidate_video','synthetic-source.mp4','video/mp4','eps-candidate-assets','m07/${suffix}/synthetic-source.mp4',${media.bytes.length},'${sha(media.bytes)}',${media.probe.width},${media.probe.height},${media.probe.duration_ms},'ready');
+insert into eps.candidate_media(id,candidate_id,source_asset_id,original_transcript,languages)values('${mediaId}','8a5a0000-0000-4000-8000-000000000001','${videoId}','Synthetic local recovery fixture. No human or provider data.',array['en']);
+update eps.workspace_candidates set selected_candidate_media_id='${mediaId}',selected_frame_asset_ids='{}',media_confirmed=true where id=current_setting('eps.casting.fixture.pool')::uuid;
+do $$declare r jsonb;j uuid:=gen_random_uuid();begin r:=eps.review_snapshot_data(current_setting('eps.casting.fixture.workspace')::uuid,current_setting('eps.m05.selection')::uuid,null);insert into eps.jobs(id,workspace_id,requested_by,kind,resource_id,input,input_hash,input_hash_version,dedupe_key,stage,correlation_id,status)values(j,current_setting('eps.casting.fixture.workspace')::uuid,'${actor}','review_fit',current_setting('eps.m05.selection')::uuid,'{}',repeat('f',64),'eps.review-job-input.pg-jsonb.v1',eps.presentation_hash(to_jsonb(j)),'measure_review_fit','m07-synthetic-layout-preflight','succeeded');insert into eps.review_fit_results(job_id,workspace_id,series_id,input_fingerprint,status,result)values(j,current_setting('eps.casting.fixture.workspace')::uuid,current_setting('eps.m05.selection')::uuid,r->>'input_fingerprint','measured','{"overflows":[],"measured_at":"2026-10-30T00:00:00.000000Z"}');end$$;
+set local role authenticated;do $$declare r jsonb;a jsonb;begin r:=public.eps_get_workspace_review(current_setting('eps.casting.fixture.workspace')::uuid,current_setting('eps.m05.selection')::uuid,null);a:=public.eps_generate_version(current_setting('eps.m05.selection')::uuid,jsonb_build_object('expected_workspace_row_version',public.eps_get_workspace(current_setting('eps.casting.fixture.workspace')::uuid)->'row_version','expected_draft_revision',r->'draft_revision','expected_input_fingerprint',r->'input_fingerprint'),'m07-synthetic-generate-${suffix}');perform set_config('eps.m07.ack',a::text,true);end$$;set local role postgres;select jsonb_build_object('version_id',current_setting('eps.m07.ack')::jsonb->>'resource_id','job_id',current_setting('eps.m07.ack')::jsonb->>'job_id','series_id',current_setting('eps.m05.selection'),'input_hash',(select input_hash from eps.jobs where id=(current_setting('eps.m07.ack')::jsonb->>'job_id')::uuid));`);
+  const stagePorts = ports(sourceDb); const committed = [];
+  for (const stage of ['prepare_presentation','render_presentation','validate_presentation','publish_presentation']) { report.checkpoint = stage; const lease = await claim(sourceDb, scope.job_id, stage, scope.input_hash); const result = await executePresentationStage(lease, stagePorts.gateway, { assets: stagePorts.assets }); assert.equal(result.receipt.applied, true); assert.equal(result.receipt.stale, false); committed.push(stage); }
+  report.native_domain_stages_committed = committed;
+  report.checkpoint = 'native-export'; const reviewLink = randomUUID();
+  const exportScope = await value(sourceDb, `insert into eps.review_links(id,series_id,label,token_digest,expires_at,created_by)values('${reviewLink}','${scope.series_id}','Synthetic recovery link','${sha(Buffer.from(runId))}',clock_timestamp()+interval'30days','${actor}');set local role authenticated;select public.eps_prepare_pdf_export(${json({ review_link_id: reviewLink, version_id: scope.version_id })},'m07-recovery-export-${suffix}');`, 'postgres', actor);
+  scope.export_id = exportScope.export.id; const exportHash = await value(sourceDb, `select jsonb_build_object('hash',input_hash)from eps.jobs where id='${exportScope.job_id}';`);
+  const exportLease = await claim(sourceDb, exportScope.job_id, 'render_export', exportHash.hash); const exportResult = await executePresentationExportStage(exportLease, stagePorts.gateway, { assets: stagePorts.assets }); assert.equal(exportResult.receipt.applied, true); assert.equal(exportResult.receipt.job_status, 'succeeded');
+  report.before_restore_permissions = await permissions(sourceDb, scope);
+  report.before_restore29_boundaries=await settingsBoundary(sourceDb);assert.equal(report.before_restore29_boundaries.settings.row_version,1);
+  report.checkpoint = 'queued-lease-backup';
+  const pendingJob = await value(sourceDb, `do $$declare r jsonb;a jsonb;begin r:=public.eps_get_workspace_review('8a2a0000-0000-4000-8000-000000000001','${scope.series_id}',null);a:=public.eps_generate_version('${scope.series_id}',jsonb_build_object('expected_workspace_row_version',public.eps_get_workspace('8a2a0000-0000-4000-8000-000000000001')->'row_version','expected_draft_revision',r->'draft_revision','expected_input_fingerprint',r->'input_fingerprint'),'m07-recovery-interrupted-${suffix}');perform set_config('eps.m07.pending',a::text,true);end$$;select current_setting('eps.m07.pending')::jsonb;`, 'authenticated', actor);
+  const pendingHash = await value(sourceDb, `select jsonb_build_object('hash',input_hash)from eps.jobs where id='${pendingJob.job_id}';`);
+  const oldStageLease = await claim(sourceDb, pendingJob.job_id, 'prepare_presentation', pendingHash.hash);
+  const leased = await value(sourceDb, `select eps.claim_job_outbox(1);`, 'eps_jobs_dispatcher'); assert.equal(leased.leases.length, 1); const oldOutbox = leased.leases[0];
+  const sourceSnapshot = await snapshot(sourceDb); const sourceSchema = await schema(sourceDb);const sourceCatalogue=await catalogue(sourceDb);assert.deepEqual(sourceCatalogue,originalCatalogue); const objectInventory = (await inventory(sourceDb)).objects; assert.equal(objectInventory.length, objects.size); const metadata = await dump(sourceDb);
+  report.checkpoint = 'backup-and-filesystem-restore'; const manifest = await createRecoveryBundle({ root: privateRoot, runId, metadata, objects: objectInventory, objectBytes: objects, sourceFiles });
+  await restoreRecoveryBundle(privateRoot, runId); await createDatabase(restoreDb); await docker(psqlArgs(restoreDb), { input: await readFile(path.join(privateRoot, 'restored/metadata.sql')) });
+  report.restored_clone_profile=await preserveOriginalDumpProfile(restoreDb,sourceCatalogue);assert.deepEqual(await catalogue(restoreDb),sourceCatalogue);report.full_raw_catalogue_exact_after_restore=true;
+  const restoredSnapshot = await snapshot(restoreDb); assert(isDeepStrictEqual(sourceSnapshot, restoredSnapshot)); report.metadata_exact_after_restore = true; report.metadata_backup_sha256 = manifest.metadata.sha256;
+  const restoredSchema = await schema(restoreDb); assert(isDeepStrictEqual(sourceSchema, restoredSchema)); report.functions_grants_rls_constraints_exact_after_restore = true; report.restored_schema_sha256 = sha(JSON.stringify(restoredSchema));
+  report.restored_object_count = manifest.objects.length; report.restored_source_count = manifest.sources.length; report.database_migration_count = restoredSnapshot.migrations.length;
+  for (const object of manifest.objects) { const bytes = await readFile(path.join(privateRoot, 'restored', object.file)); assert.equal(sha(bytes), object.sha256); objects.set(object.asset_id, bytes); }
+  report.after_restore_permissions = await permissions(restoreDb, scope); assert.deepEqual(report.before_restore_permissions, report.after_restore_permissions);
+  report.after_restore29_boundaries=await settingsBoundary(restoreDb);assert.deepEqual(report.after_restore29_boundaries,report.before_restore29_boundaries);report.settings_row1_empty_mcp_registry_auth_subset_restored_exactly=true;
+  const restoredVersion = await value(restoreDb, `select jsonb_build_object('snapshot',snapshot,'pdf_asset_id',pdf_asset_id,'status',status)from eps.presentation_versions where id='${scope.version_id}';`); assert.equal(restoredVersion.status, 'ready');
+  report.restored_pdf_validation = await validatePresentationPdf(restoredVersion.snapshot, new Map(), objects.get(restoredVersion.pdf_asset_id));
+  const probe = await prepareVideoIsolated({ source_asset_id: videoId, bytes: objects.get(videoId), mime_type: 'video/mp4' }, { imageId: report.native_media_image_id, probeOnly: true }); assert.deepEqual(probe.probe, media.probe); report.restored_video_probe = probe.probe;
+  report.checkpoint = 'expired-outbox-recovery'; const beforeLease = await value(restoreDb, `select jsonb_build_object('status',status,'attempt_count',attempt_count,'same_digest',lease_token_digest=encode(sha256(convert_to(${literal(oldOutbox.lease_token)},'UTF8')),'hex'))from eps.outbox_events where id='${oldOutbox.id}';`); assert.equal(beforeLease.status, 'leased'); assert.equal(beforeLease.same_digest, true);
+  await sql(restoreDb, `update eps.outbox_events set lease_expires_at=clock_timestamp()-interval'1second'where id='${oldOutbox.id}';`);
+  const next = await value(restoreDb, `select eps.claim_job_outbox(25);`, 'eps_jobs_dispatcher'); const newLease = next.leases.find(row => row.id === oldOutbox.id); assert(newLease); assert.notEqual(newLease.lease_token, oldOutbox.lease_token);
+  const oldAck = await sql(restoreDb, `select eps.finish_job_outbox('${oldOutbox.id}',${literal(oldOutbox.lease_token)},true);`, 'eps_jobs_dispatcher', undefined, true); assert.notEqual(oldAck.code, 0); assert(oldAck.stderr.includes('INVALID_TRANSITION'));
+  const ack = await value(restoreDb, `select eps.finish_job_outbox('${newLease.id}',${literal(newLease.lease_token)},true);`, 'eps_jobs_dispatcher'); assert.deepEqual(ack, { acknowledged: true, stale: false });
+  report.lease_recovery = { committed_lease_restored: true, controlled_expiry: true, same_outbox_id: true, new_token_fence: true, stale_ack_denied: true, current_acknowledgement_applied: true, process_crash_simulated: false };
+  report.checkpoint = 'expired-job-callback-fence';
+  const restoredRunning = await value(restoreDb, `select jsonb_build_object('status',status,'attempt_id',current_attempt_id,'version_status',(select status from eps.presentation_versions where id='${pendingJob.resource_id}'))from eps.jobs where id='${pendingJob.job_id}';`); assert.equal(restoredRunning.status, 'running'); assert.equal(restoredRunning.attempt_id, oldStageLease.attempt_id);
+  await sql(restoreDb, `update eps.jobs set lease_expires_at=clock_timestamp()-interval'1second'where id='${pendingJob.job_id}';`);
+  const recovered = await value(restoreDb, 'select eps.recover_job_stages(25);', 'eps_jobs_executor'); assert.equal(recovered.recovered, 1);
+  const staleCallback = await value(restoreDb, `select eps.record_job_event(${json({ event_id: randomUUID(), job_id: pendingJob.job_id, attempt_id: oldStageLease.attempt_id, lease_token: oldStageLease.lease_token, stage: 'prepare_presentation', input_hash: pendingHash.hash, sequence: 1, event_type: 'heartbeat' })});`, 'eps_jobs_executor'); assert.equal(staleCallback.stale, true); assert.equal(staleCallback.applied, false);
+  const retained = await value(restoreDb, `select jsonb_build_object('job_status',(select status from eps.jobs where id='${pendingJob.job_id}'),'ready_status',status,'pdf_asset_id',pdf_asset_id,'pdf_hash',(select sha256 from eps.media_assets where id=v.pdf_asset_id))from eps.presentation_versions v where id='${scope.version_id}';`); assert.equal(retained.job_status,'queued'); assert.equal(retained.ready_status,'ready'); assert.equal(retained.pdf_hash,sha(objects.get(retained.pdf_asset_id)));
+  report.job_recovery = { running_job_and_attempt_restored: true, controlled_expiry: true, exactly_one_recovered: true, stale_callback_stale_true_applied_false: true, job_queued_for_bounded_retry: true, completed_version_and_pdf_preserved: true };
+  report.checkpoint = 'negative-byte-corruption'; const objectFile = path.join(privateRoot, 'backup', manifest.objects[0].file); const originalBytes = await readFile(objectFile); await writeFile(objectFile, Buffer.from('intentional synthetic corruption'));
+  await assert.rejects(verifyRecoveryBundle(privateRoot, runId, 'backup'), /RECOVERY_CHECKSUM_MISMATCH/); await writeFile(objectFile, originalBytes); await verifyRecoveryBundle(privateRoot, runId, 'backup'); report.tampered_backup_refused = true;
+  await unlink(objectFile); await assert.rejects(verifyRecoveryBundle(privateRoot, runId, 'backup'), { code: 'ENOENT' }); await writeFile(objectFile, originalBytes, { flag: 'wx', mode: 0o600 }); await verifyRecoveryBundle(privateRoot, runId, 'backup'); report.missing_backup_object_refused = true;
+  for (const [file, bytes] of sourceFiles) assert.equal(sha(await readFile(file)), sha(bytes)); report.sources_unchanged_during_rehearsal = true;
+  report.limitations = ['Synthetic generated media and owner-fixture layout preflight; no representative casting, semantic or provider quality result.', 'Native stage executors, validation and real database roles participate; local SQL ports and filesystem byte transport replace Supabase Storage HTTP.', 'Migration/schema and template/font/workflow source bytes are backed up/restored; no deployed workflow/configuration restoration or publication occurred.', 'Two disposable databases use the same pre-existing local roles and pinned cluster, not an independent disaster-recovery cluster or secret restoration.', 'Controlled database timestamp expiry tests outbox fencing; no physical crash/power-loss/endurance or deployed worker/API rollback.', 'Measured local elapsed time is rehearsal duration only, not a promised RTO/RPO, representative processing throughput or provider cost.'];
+  report.result = 'passed'; report.checkpoint = 'complete';
+} catch (error) {
+  report.failure_code = 'M07_LOCAL_RECOVERY_UNCONFIRMED';
+  if (report.private_artifact_acl) await writeFile(path.join(privateRoot, 'failure-private.json'), JSON.stringify({ message: error.message, stack: error.stack, diagnostic: error.privateDiagnostic }, null, 2), { mode: 0o600 });
+} finally {
+  try { await cleanup(); } catch (error) { report.result = 'failed'; report.cleanup_unconfirmed = true; if (report.private_artifact_acl) await writeFile(path.join(privateRoot, 'cleanup-private.json'), JSON.stringify({ message: error.message, diagnostic: error.privateDiagnostic }, null, 2), { mode: 0o600 }); }
+  report.finished_at = new Date().toISOString(); report.elapsed_ms = Date.parse(report.finished_at) - Date.parse(report.started_at); report.private_artifact_directory = path.relative(ROOT, privateRoot).replaceAll('\\','/');
+  const directory = path.join(ROOT, 'tracking/evidence/m07/recovery29'); await mkdir(directory, { recursive: true }); const receipt = path.join(directory, `${report.started_at.replace(/[:.]/gu,'-')}-${runId.slice(0,8)}.json`); await writeFile(receipt, JSON.stringify(report, null, 2) + '\n');
+  console.log(JSON.stringify({ result: report.result, checkpoint: report.checkpoint, evidence: path.relative(ROOT, receipt).replaceAll('\\','/'), disposable_databases_removed: report.disposable_databases_removed, original_local_database_unchanged: report.original_local_database_unchanged, shared_test_lock_released: report.shared_test_lock_released })); if (report.result !== 'passed') process.exitCode = 1;
+}

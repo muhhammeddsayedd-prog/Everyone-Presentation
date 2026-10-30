@@ -1,0 +1,10 @@
+import{normalizeDatabaseOid}from'./identity.mjs';
+const fail=()=>{throw Error('RECOVERY29_CLEANUP_UNCONFIRMED');};
+/** Only an actual fixed-name catalogue lookup may supply null for absence. */
+export function cleanupObservation(expected,observed){
+ if(observed===null)return{absent:true,can_drop:false};
+ if(!observed||expected.attempted!==true||observed.name!==expected.name||observed.owner!=='postgres'||observed.comment!==expected.marker||observed.clients!==0)fail();
+ const oid=normalizeDatabaseOid(observed.oid);if(expected.oid!==undefined&&oid!==normalizeDatabaseOid(expected.oid))fail();
+ return{absent:false,can_drop:true,oid};
+}
+export function assertActualAbsence(names,observations){if(!Array.isArray(names)||names.length===0||names.some(name=>!Object.hasOwn(observations,name)||observations[name]!==false))fail();}

@@ -9,6 +9,7 @@ import { PENDING_REQUIREMENT_LABELS } from '../../../packages/templates/versions
 import { api, ApiError, errorMessage, mutation, type Actor, type Envelope } from './api';
 import { ErrorNotice, Loading } from './Feedback';
 import { CandidateFrameImage } from './CandidateFrameImage';
+import { readCandidateMedia } from './candidate-pages';
 
 interface Props { workspaceId: string; projectId: string; actor: Actor; initialOutput: 'selection' | 'shortlist'; requestedSeriesId?: string | null; onSeriesChanged?: (value: string) => void; onDirtyChange: (value: boolean) => void; onWorkspaceChanged: () => void }
 interface Intent { path: string; init: RequestInit; label: string; refresh?: boolean; accepted?: (data: unknown) => void }
@@ -166,7 +167,7 @@ function ReviewScope({ workspaceId, projectId, actor, initialOutput, requestedSe
 function ReviewSource({ slide }: { slide: ReviewSlide }) {
   const [open, setOpen] = useState(false); const [media, setMedia] = useState<CandidateMedia | null>(null); const [error, setError] = useState(''); const [video, setVideo] = useState<string | null>(null);
   useEffect(() => { if (!open || !slide.candidate_media_id) return; let current = true; const controller = new AbortController();
-    api<CandidateMedia[]>(`/api/v1/candidates/${slide.candidate_id}/media`, { signal: controller.signal }).then(result => { if (current) { const source = result.data.find(row => row.id === slide.candidate_media_id); if (!source || source.source_asset_id !== slide.video_asset_id) throw new Error('The source introduction changed. Refresh the review.'); setError(''); setMedia(source); } }).catch(reason => { if (current) setError(errorMessage(reason)); });
+    readCandidateMedia(slide.candidate_id!, { signal: controller.signal }).then(result => { if (current) { const source = result.data.find(row => row.id === slide.candidate_media_id); if (!source || source.source_asset_id !== slide.video_asset_id) throw new Error('The source introduction changed. Refresh the review.'); setError(''); setMedia(source); } }).catch(reason => { if (current) setError(errorMessage(reason)); });
     return () => { current = false; controller.abort(); };
   }, [open, slide.candidate_id, slide.candidate_media_id, slide.video_asset_id]);
   async function play() { try { if (media) setVideo((await api<{ url: string }>(`/api/v1/media/${media.preview_asset_id ?? media.source_asset_id}/playback`, mutation('POST'))).data.url); } catch (reason) { setError(errorMessage(reason)); } }

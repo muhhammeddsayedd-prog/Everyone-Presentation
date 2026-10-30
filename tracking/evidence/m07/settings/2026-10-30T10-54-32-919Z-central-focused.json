@@ -1,0 +1,26 @@
+{
+  "observed_at": "2026-10-30T10:54:32.919Z",
+  "scope": "Strict domain parsing and request-scoped central RPC transport with controlled responses. Not actual cloud Settings mutation or live provider proof.",
+  "result": "passed",
+  "cloud_called": false,
+  "source_seals": {
+    "packages/domain/src/settings-types.ts": "a748d97559651ffde2f29390903d009f802b1cdb06b7e328741f35b861063215",
+    "packages/domain/src/settings.ts": "2bb935f8ba47b0e3fa8ebe72ddd756d7cbb01e9b44544bb1a5cd5aee90e25d96",
+    "packages/central/src/settings.ts": "7cecd093948bd93f7d858437819a17a3e97ff0b9a048a5387a30c9d78ee4b15b",
+    "packages/central/test/settings.test.ts": "d8fb9e96cb7992f07250f62e66aef5d39d265e1fcd37a3ccf46c33a97d8332c5"
+  },
+  "tests": {
+    "command": "node tools/run-tests.mjs packages/central/test/settings.test.ts",
+    "exit_code": 0,
+    "passed": 4,
+    "failed": 0
+  },
+  "lint": {
+    "command": "node_modules/.bin/eslint.cmd packages/domain/src/settings.ts packages/domain/src/settings-types.ts packages/central/src/settings.ts packages/central/test/settings.test.ts --max-warnings 0",
+    "exit_code": 0
+  },
+  "reds": [
+    "Absent settings module produced ERR_MODULE_NOT_FOUND before implementation.",
+    "Missing mutation acknowledgement validation produced Missing expected rejection before the explicit guard."
+  ]
+}

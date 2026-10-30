@@ -1,0 +1,63 @@
+{
+  "observed_at": "2026-10-30T11:49:10.976951+00:00",
+  "scope": "Configured Studio display timezone carried from existing capability read into session/provider. Read-only UI date formatting only; no SQL/provider/UTC storage/frozen PDF/config changes.",
+  "source_sha256": {
+    "apps/web/lib/session-data.ts": "1597942020ec53bfe81ee157245a5cdb503a321e5b3a3f0dd99ef71a89008e31",
+    "apps/web/components/api.ts": "4d8e97c6688aa46037884c35de2cd60a185fcabfdc1d0cd3725f222cc977137d",
+    "apps/web/components/StudioTimeZone.tsx": "f8e3f910452c075734c530c670730f7a686f79a38f0c6337fbd2c83d623fc891",
+    "apps/web/lib/studio-time-zone.ts": "558f23d7fb94bc8be9aeb1520a9149b9eaf47342bea4fe47280927b99d709baf",
+    "apps/web/components/StudioApp.tsx": "5b23fdabdd5847f4703ac9abd62e366366f80b71ff765bb32926055139824dd6",
+    "apps/web/components/ProcessingView.tsx": "5fcf422fa1e48e37a352ce26906fe169f5d09366650fa103e388b18975a5273a",
+    "apps/web/components/PresentationVersionView.tsx": "0137828f5f23e85603ab4a19dc8b93ccbfb68e9b9cc4c97d990ce19af631dc07",
+    "apps/web/components/CandidateDetailView.tsx": "61a826cd023a440f496ea7cefb8ee418c539150af47ad71c1947bf2704177ff2",
+    "apps/web/components/ReviewLinksPanel.tsx": "aff8295ef84ae512df4370172f48ad75a0d0dfec1d040c042a7f283094f36a7e",
+    "apps/web/components/ReviewFeedbackPanel.tsx": "fe09b01728a79dfffd2ffe34a1838a1d8e5942071d998aa542666772000dde12",
+    "tests/server/studio-time-zone.test.ts": "d95e09f134e6c944a032405584d2321e4c199b6fa0fa78be9f463ad88f32bd66",
+    "tests/server/session-time-zone.test.ts": "183d6a19e4ebfb87de3979029ad934a344518a7b65b08b431681705c1cb71e70",
+    "tests/e2e/studio-time-zone.spec.ts": "82e3b8ab26b68f57b7cfb0353addbb093e6fb25f8230193d8ccdbc358060da8b"
+  },
+  "checks": {
+    "initial_red": "timezone-red.txt; absent new formatter/projection",
+    "module": {
+      "passed": 7,
+      "failed": 0,
+      "log": "timezone-module-green.txt"
+    },
+    "initial_desktop": {
+      "passed": 5,
+      "failed": 1,
+      "reason": "Two Last checked references remained after dateLabel helper removal; corrected to StudioDateTime.",
+      "log": "timezone-desktop-intermediate.txt"
+    },
+    "desktop": {
+      "passed": 6,
+      "failed": 0,
+      "log": "timezone-desktop-green.txt",
+      "mobile": "Not run; desktop files only"
+    },
+    "global_typecheck": {
+      "exit_code": 0,
+      "log": "timezone-typecheck.txt"
+    },
+    "scoped_lint": {
+      "exit_code": 0,
+      "warnings": 0,
+      "log": "timezone-lint-final-result.txt"
+    },
+    "whitespace": {
+      "exit_code": 0
+    }
+  },
+  "boundaries": [
+    "Session timezone optional for old fixtures; missing/invalid zone falls back toAfrica/Cairo.",
+    "Configured UTC/Cairo tested across midnight with browserAmerica/Los_Angeles; server formatting tested under hostPacific/Honolulu.",
+    "Guest shared feedback uses default Cairo context without any privileged settings lookup.",
+    "Existing datetime-local label/conversion/DST tests unchanged; explicit browser-local hint added.",
+    "No SettingsDefaults/consent/maintracking/docs change. Settings navigation uses existing session reload.",
+    "Previous source checkpoints remain historical. Final broader source/quality gates are root-owned."
+  ],
+  "crlf_preserved": {
+    "apps/web/components/StudioApp.tsx": true,
+    "apps/web/components/CandidateDetailView.tsx": true
+  }
+}

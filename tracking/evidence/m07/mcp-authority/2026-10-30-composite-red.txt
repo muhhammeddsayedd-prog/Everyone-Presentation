@@ -1,0 +1,30 @@
+✔ M07 tools/list exposes only the current business capabilities (55.4054ms)
+✖ M07 discovery evaluates the published compound capabilities without replacing resource checks (6.9874ms)
+✔ M07 delegation intersects signed limits with business authority for discovery and calls (168.4874ms)
+✔ M07 capability revocation is re-read for every call and list, without session authority cache (89.65ms)
+✔ M07 malformed successful service output fails closed without publishing its private fields (36.766ms)
+✔ M07 correct published output remains available through the official SDK (6.2096ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 5
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2766.5103
+
+✖ failing tests:
+
+test at tests\server\m07-mcp-authority.test.ts:2:3038
+✖ M07 discovery evaluates the published compound capabilities without replacing resource checks (6.9874ms)
+  AssertionError [ERR_ASSERTION]: suggest_candidate_filters
+      at TestContext.<anonymous> (D:\Everyone\Presentation\Everyone-Presentation-Studio\tests\server\m07-mcp-authority.test.ts:43:14)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

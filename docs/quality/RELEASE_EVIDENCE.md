@@ -1,6 +1,6 @@
 # Release evidence and test-data runbook
 
-**Current state: production release unverified.** M00 discovery is verified after the owner designated the empty project as canonical. Three M01 migrations are applied/read back in cloud and local PostgreSQL; actual role/RLS/race checks and central anonymous UI checks pass. See [cloud foundation](../../tracking/evidence/cloud-foundation/readback.json), [discovery](../../tracking/discovery/README.md), [local UI evidence](../../tracking/evidence/m01/UI_VERIFICATION.md), [operation delivery](../integrations/IMPLEMENTATION_PARITY.md) and [progress](../../PROGRESS.md). Actual Producer/project sign-in/writeback and private central uploads are incomplete. Isolated M02 tests do not prove a connected service pipeline. No real AI evaluation, authenticated Claude/MCP journey, production PDF, app deployment or full release journey is claimed. The remaining sections retain the release requirements.
+**Current state: production release unverified; M07 in progress.** Earlier M02–M06 matrices retain actual canonical/provider/native/browser/PDF/guest evidence, including the owner-saved V5 PDF. Those results must not be relabelled as a fresh M07 release journey. M07 now has86 reconciled user tools, guarded auth/transport/consent and settings sources, controlled permission/schema/UI evidence, a local metadata-plus-media restore, a bounded synthetic native workload and an actual Claude Code compatibility smoke with synthetic business ports. The [M07 matrix](../../tracking/evidence/m07/ACCEPTANCE_MATRIX.md) separates these scopes and links exact receipts. Migration29 is applied once locally and canonically, with [3a0afd9f apply](../../tracking/evidence/cloud-m07-29/2026-10-30T11-52-15-216806Z-3a0afd9f-apply.json) and [f553771a independent readback](../../tracking/evidence/cloud-m07-29/2026-10-30T11-52-36-310355Z-f553771a-readback.json). The post29 authenticated12-operation startup check passes; [new owned runtime](../../tracking/evidence/m07/runtime29-transition/2026-10-30-owned-processes-ready.json) is running. [Actual Settings](../../tracking/evidence/m07/live-app/2026-10-30-settings-sign-in-pending.json) loaded signed out; authenticated read/write proof awaits user sign-in. Public Auth metadata observations and unenabled hook30 remain separate. No hosting or full live delegated/human M07 journey is established. AT-072 and broader M03 semantic evaluation remain pending; mobile testing is skipped.
 
 ## 1. Release identity
 
@@ -22,16 +22,16 @@ Never copy service credentials, bearer review tokens, private source URLs, full 
 
 ## 2. Required evidence groups
 
-| Group | Acceptance cases | Status at document creation | Minimum evidence |
+| Group | Acceptance cases | Current evidence boundary | Still required for release |
 | --- | --- | --- | --- |
-| Discovery and shared DB compatibility | AT-001–005, AT-067 | Not run | Read-only discovery report; mapping; migration diff; local/staging compatibility tests. |
-| Producer workflow and persistence | AT-006–014, AT-025–034 | Not run | Actual browser journey with server-backed state; reload; shared-name write; independent assignment assertions. |
-| Real source processing | AT-015–024, AT-055–062 | Not run | Representative actual files; input/expected/result comparison; job traces; frame source timestamps; partial failure and retry. |
-| Presentation and PDF | AT-035–044 | Not run | Ordered manifests; opened actual PDFs; rendered pages; historical snapshot and link playback tests. |
-| External review | AT-045–054, AT-076 | Not run | Clean-browser access; two-guest feedback; mobile review; expiry/revoke/direct-endpoint tests. |
-| Full API/MCP parity | AT-063–066 | Not run | Operation coverage matrix and real authenticated Claude run under producer and restricted capabilities. |
-| Production operations | AT-068–070, AT-074–075 | Not run | Real staging topology; deployment/recovery rehearsal; observability; scope check. |
-| Accessibility | AT-071–073 | Not run | Keyboard journey; manual screen-reader spot-check; actual contrast/reflow and automation reports. |
+| Discovery and shared DB compatibility | AT-001–005, AT-067 | Historical discovery/foundation, original-profile reconciliation, real-role local29 proof and one-time local/canonical29 apply plus independent readback pass; earlier refusal preserved. | Actual updated runtime/browser/shared-workflow compatibility; preserve the exact applied29/source/readback history. |
+| Producer workflow and persistence | AT-006–014, AT-025–034 | Historical M02/M04/M05/M06 persisted app evidence; M07 desktop fixtures cover paging/settings/retirement. | One coherent fresh M07 human journey against the release services and shared data. |
+| Real source processing | AT-015–024, AT-055–062 | Historical real technical scans and one owner-grounded Arabic Reviewed profile; M03 broader labelled semantics still pending. M07200-file native diagnostic is synthetic/probe-heavy. | Representative independent English/Arabic/mixed ground truth, true provider/storage/queue duration/cost and required recovery. |
+| Presentation and PDF | AT-035–044 | M05/M06 saved-file/native/visual evidence retained; isolated history28 restore validates synthetic PDF/video bytes. | Release-version human/Claude outputs, fixed-media access and layout proof through actual services. |
+| External review | AT-045–054, AT-076 | M06 actual shared feedback/lifecycle/PDF/video evidence retained. | Preserve those guarantees through release. Mobile stays skipped by owner instruction; AT-072 remains distinct. |
+| Full API/MCP parity | AT-063–066 | Source matrix86/86/115; controlled SDK/HTTP/SQL permission/replay tests. Actual Claude Code performs five calls over synthetic ports; exact original protocol revision unrecorded. | Full authorized producer/contributor Claude journeys, real-byte transfer, live OAuth issuance/refresh/revocation and shared app data parity. |
+| Production operations | AT-068–070, AT-074–075 | Isolated history28 metadata/object restore; bounded-two native diagnostic and source scope audit. | Real staging/deployed replacement/rollback, operator correlation audit and environment-specific recovery. No hosting/endurance/RTO pass. |
+| Accessibility | AT-071–073 | Earlier keyboard/controlled automated evidence retained; M07 desktop interaction tests add no screen-reader proof. | AT-072 manual screen-reader journey and remaining non-waived release accessibility evidence. |
 
 Update this table with links to results, not just ticks. A blocked credential or unavailable external service is **Blocked**, not Passed and not silently replaced by a mock.
 
@@ -92,6 +92,8 @@ Use deterministic injected failures at upload completion, outbox dispatch, provi
 
 ## 6. Visual evidence record
 
+The examples below remain the planned representative release dataset, not a denial of existing M05/M06 PDFs. Existing actual files/24 visually reviewed guest pages and the separately validated synthetic recovery PDF have their own source-bound receipts. Do not fill a named fixture's row using an unrelated saved PDF.
+
 For each final template version, save rendered examples for cover, candidate, Pending, 3/2/1/0 frames, long/short/missing fields, long candidate/role names, and logo variants. Open the generated PDF separately from the app preview. Record both manifest results and visual inspection notes.
 
 | Fixture | App viewer | PDF opened | Page/order/text | Video link | Result |
@@ -110,6 +112,8 @@ For each final template version, save rendered examples for cover, candidate, Pe
 
 Do not replace measured values with estimates in this table.
 
+Observed M07 local diagnostics are [documented separately](../../development/m07/WORKLOAD.md):200 tiny distinct hashes/1,420,766bytes,198 successes/two expected failures, peak native concurrency2 and250775ms total. Six files used full preparation; most were probes of the same0.32s/no-audio footage. Attempt p50/p95 was2429/2835ms, with median/p95 local admission delay123639/235457ms. This does not populate the representative provider-processing/cost rows below. The installed Claude Code smoke's reported USD0.0379727 estimated list cost is development-client usage, not embedded OpenAI video/PDF processing cost.
+
 | Measurement | Dataset/environment | Measured value | Interpretation / action |
 | --- | --- | --- | --- |
 | Input videos, total bytes, durations, codecs | Not run | Not measured | Required to interpret every duration/cost result. |
@@ -122,8 +126,14 @@ Do not replace measured values with estimates in this table.
 | Mobile guest page/video load | Not run | Not measured | Record browser/network conditions. |
 | Provider usage/cost reconciliation | Not run | Not measured | Actual model pricing/config as tested, no invented cost estimate. |
 
+## Current composed quality checkpoint
+
+[The final correctly selected80desktop run](../../tracking/evidence/m07/quality/2026-10-30-desktop80-final.json) passes with all seven embedded narrow-viewport cases excluded. The earlier87-case label was overbroad: seven older mixed tests ran320px assertions despite the skip flag. Their historical receipts are preserved/qualified and provide no mobile acceptance. The prior five-case consent rerun also overlaps four existing cases; no counts are added together. Consent server coverage includes11cases: initial metadata-free redirects are denied, only same-request-bound recovery is accepted, and reconnect is unsupported. Hook30 has seven passing local SQL stages, without migration/provider enablement.
+
+[Current final scoped quality](../../tracking/evidence/m07/quality/2026-10-30-final-documentation-overlay.json) passes747module cases,80desktop cases, typecheck/lint/build/production fixture guard; app/test source bytes with separate mapping-documentation overlay are unchanged. The Node24 structuredClone configuration correction did not edit the sealed SQL test. Earlier741/87-scope runs, source-change refusals and locator correction remain historical. These local passes are not full live release acceptance. Post29 restore is still on a bounded follow-up after the OID boundary fix; no success is pre-credited beyond the established partial history28 recovery proof.
+
 ## 8. Release decision and remaining work
 
-Release recommendation stays **Not assessed** until evidence is attached. List each unresolved issue with severity, user impact, owner, workaround if any, and next action. Distinguish a product decision from an infrastructure dependency. Do not restart a broad questionnaire for ordinary engineering choices that already have documented defaults.
+Release remains **unverified** while the matrix's required external/full-journey gates are open. Local/controlled passes do not close them. List each unresolved issue with severity, user impact, owner, workaround if any, and next action. Distinguish a product decision from an infrastructure dependency. Do not restart a broad questionnaire for ordinary engineering choices that already have documented defaults.
 
 The release gate requires: no unresolved critical data/access corruption; complete agreed casting output behavior; real service journey; valid usable PDF; full required Claude/API parity; supported guest feedback/download rules; and operational recovery evidence. A known blocked integration must be disclosed explicitly. The final handoff records what was tested, what remains limited, and how to run/deploy/recover the actual implementation.

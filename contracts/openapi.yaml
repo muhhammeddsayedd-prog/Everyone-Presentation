@@ -2102,6 +2102,7 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/IdempotencyKey'
       requestBody:
         required: true
         content:
@@ -2384,6 +2385,9 @@ paths:
           $ref: '#/components/schemas/Id'
       - *id002
       - *id003
+      description: Returns a stable ID-ordered cursor page. The cursor is bound to the acting user, candidate and operation. Every page rechecks
+        current access. This is a live keyset listing, not a frozen snapshot; refresh from the first page to include later inserts before the
+        cursor. The existing authorized database array RPC is paged by the central adapter; database-side bounded reads are not claimed.
   /candidate-media/{candidate_media_id}/frames:
     put:
       operationId: update_candidate_frames
@@ -2469,6 +2473,7 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/IdempotencyKey'
       requestBody:
         required: true
         content:
@@ -2659,6 +2664,9 @@ paths:
           $ref: '#/components/schemas/Id'
       - *id002
       - *id003
+      description: Returns a stable ID-ordered cursor page. The cursor is bound to the acting user, candidate and operation. Every page rechecks
+        current access. This is a live keyset listing, not a frozen snapshot; refresh from the first page to include later inserts before the
+        cursor. The existing authorized database array RPC is paged by the central adapter; database-side bounded reads are not claimed.
   /candidates/{candidate_id}/duplicates/resolve:
     post:
       operationId: resolve_duplicate
@@ -3541,6 +3549,7 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/IdempotencyKey'
       requestBody:
         required: true
         content:
@@ -6953,7 +6962,8 @@ paths:
       x-shared-service-operation: update_settings
       security:
       - InternalBearer: []
-      parameters: []
+      parameters:
+      - $ref: '#/components/parameters/IdempotencyKey'
       requestBody:
         required: true
         content:
@@ -10487,6 +10497,102 @@ paths:
         description: One bytes=start-end, bytes=start- or bytes=-suffix range. Multiple or unsatisfiable ranges return416.
       x-browser-cookie-adapter: Version/asset-scoped HttpOnly grant cookie, created by play_review_media browser exchange; every request revalidates
         parent link.
+  /media/{asset_id}/content:
+    get:
+      operationId: get_media_content
+      summary: Read currently authorized shared media bytes
+      tags:
+      - media
+      responses:
+        '200':
+          description: Private authenticated exact bytes; no-store and nosniff.
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+            image/png:
+              schema:
+                type: string
+                format: binary
+            image/webp:
+              schema:
+                type: string
+                format: binary
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+            application/vnd.openxmlformats-officedocument.wordprocessingml.document:
+              schema:
+                type: string
+                format: binary
+            text/plain:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: workspaces.read OR cast.read
+      x-mcp-exposed: false
+      x-shared-service-operation: get_media_content
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: asset_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      description: Existing internal byte companion for verified logos, actual candidate frames and supported private documents/attachments. Authorization
+        and current parent scope are rechecked through getMediaContent. No arbitrary storage destination or byte-range support is accepted by
+        this route. For original video use play_media; for immutable saved-version content use its fixed-version companion.
 components:
   securitySchemes:
     InternalBearer:

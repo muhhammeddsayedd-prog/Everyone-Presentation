@@ -1,0 +1,50 @@
+{
+  "observed_at": "2026-10-30T10:46:41.840298+00:00",
+  "scope": "Follow-up reconciliation of six older deterministic MCP fixtures for fresh current capability lookup and strict published success validation. No app/contract/provider/browser operations changed by this subtask.",
+  "changed_fixture_sha256": {
+    "tests/server/mcp.test.ts": "f2106a8f15185496167da1ea081bbbe78b0dde166a6f12a4323f3916ce6985d8",
+    "tests/server/casting-mcp.test.ts": "539e6a6a346e40d4ecf77200504f644dc26e1608f7bb2b2e7cc1bad2f9d3e08a",
+    "tests/server/review-http-mcp.test.ts": "76514a18d761c4d239b21ebd2610f83a28327942651dcc8b5742a2619f2f2338",
+    "tests/server/presentation-mcp.test.ts": "ea7be01138103410ffdc33638a1314086a15afef27ea0a762f78d870126c4305",
+    "tests/server/guest-mcp.test.ts": "be69f1fdc68a5e2182b11ff95d4b5f953b731f4ac4459705cb6d7cf1749858d2",
+    "tests/server/m06-transcript-contracts.test.ts": "6c350fa93d507aa0c7c93b7401baf3a281a0098c6c5817a7b4e9f45895a68dbd",
+    "tests/fixtures/mcp-capabilities.ts": "368d6ce1c15b62590e2fa24944e47c254df4d25012347a0d4fb566ae0f504b9d"
+  },
+  "root_integration_sha256_at_test": {
+    "apps/web/lib/mcp.ts": "485104c9543df6ad635a2aa6f0e2807075f1467a39d673e21b913734667c777b",
+    "apps/web/lib/mcp-capabilities.ts": "791fbb6a03c7ed4be9d39439715fbb5929c142e354e22aeb31e217cb40cb0f60",
+    "apps/web/lib/mcp-output-validation.ts": "30026e1c38953c96cefbdd5c82cc9e3a567c4bf755d8bb7d748481d4be6cd583",
+    "contracts/mcp-tool-catalog.json": "f00f825c5fa5ae8b39a3073ea7835467f0c5048313ca74e95f77cb91b795d213"
+  },
+  "checks": {
+    "initial_integration": {
+      "pass": 13,
+      "fail": 11,
+      "log": "legacy-mcp-integration-red.txt"
+    },
+    "intermediate": {
+      "pass": 23,
+      "fail": 1,
+      "reason": "Composite capabilities still interpreted atomically in concurrent root code; preserved complete advertised-tool assertion.",
+      "log": "legacy-mcp-integration-intermediate.txt"
+    },
+    "final_integration": {
+      "pass": 24,
+      "fail": 0,
+      "skipped": 0,
+      "log": "legacy-mcp-integration-green.txt"
+    },
+    "scoped_lint": {
+      "exit_code": 0,
+      "warnings": 0,
+      "log": "legacy-mcp-fixture-lint.txt"
+    }
+  },
+  "notes": [
+    "Explicit six-file tools/run-tests.mjs list used, not an unexpanded wildcard.",
+    "Synthetic capability DTO is explicitly a deterministic fixture; it neither grants real permissions nor supplies provider evidence.",
+    "Meaningful complete Role/Candidate/Project/Job DTOs replace tiny generic success stubs. Existing actor, request, idempotency, schema, denial, private-error, version and optional-composition assertions remain.",
+    "24-case run overlaps older MCP gates; do not sum separate recorded counts into a unique test total.",
+    "Original 26-file candidate source checkpoint remains historical and untouched."
+  ]
+}

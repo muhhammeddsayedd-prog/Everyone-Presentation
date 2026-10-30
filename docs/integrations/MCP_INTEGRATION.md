@@ -1,6 +1,6 @@
 # Claude / MCP integration and operation parity
 
-**Status:** implementation contract; no MCP server has been deployed or connected. The complete internal tool catalog is `contracts/mcp-tool-catalog.json`. The transport-independent domain operation IDs match `contracts/openapi.yaml`.
+**Status:** an official SDK2.4.0 local adapter, guarded Streamable HTTP composition, delegated resource-verification implementation and controlled protocol evidence exist.86 tools reconcile with the API/source inventory. No configured OAuth issuer, actual intended Claude client journey or public deployment is claimed. The complete internal tool catalog is `contracts/mcp-tool-catalog.json`; [the matrix](IMPLEMENTATION_PARITY.md) and [client runbook](../../development/m07/API_CLIENT_RUNBOOK.md) distinguish implemented sources from live acceptance.
 
 ## 1. Product commitment
 
@@ -18,7 +18,7 @@ Treat the MCP endpoint as a protected resource. Discover/reuse a suitable author
 
 The precise protocol version/SDK version is a release choice to record, not an invented deployed capability. Current and older protocol eras differ; rely on a tested SDK rather than hand-writing an old handshake from memory. Test the actual configured Claude connection, token refresh/revocation and expired login paths.
 
-OAuth scopes may group capabilities (`studio:read`, `studio:write`, `studio:cast-review`, `studio:share`, `studio:admin` as a proposed external vocabulary), but every tool still checks the underlying baseline capability and project/library scope. Do not implement a blanket service-role token as the Claude user identity. Audit `actor_type=agent`, acting principal, client ID and operation/resource IDs; keep agent content and bearer secrets out of generic logs.
+The implemented central-issuer adapter advertises only `openid` for OAuth identity. Business delegation uses the separate issuer-signed `eps_delegation` claim described in [MCP_AUTH.md](../../development/m07/MCP_AUTH.md), intersected with fresh current business capabilities. The earlier proposed `studio:*` vocabulary is not implemented provider support. Compound capability metadata is interpreted explicitly; each tool still checks actual project/library/purpose scope in the shared operation. A service-role token is never the Claude user identity. Client/delegation, acting principal, operation/resource correlation and private audit remain separate from ordinary source/tool content; credentials and payloads must not enter generic logs.
 
 ## 3. Tool catalog mechanics
 

@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-10-30T12:24:22.253Z",
+  "scope": "Additive exact8 observed-pair planner, pure tests and installed-parser checks only; no new media restore by this record",
+  "observed_pairs": "tracking/evidence/m07/recovery29/2026-10-30T12-19-02-143Z-0ec7ead2-diagnostic-differences.json",
+  "observed_pairs_sha256": "ea581b2e795f6c06fe2b950b714957520529517f946bfcf9fb7f100005015d2a",
+  "new_pair_count": 2,
+  "red": {
+    "command": "node --test development/m07/recovery29/profile8.test.mjs",
+    "result": "ERR_MODULE_NOT_FOUND before newprofile8module existed",
+    "cases_executed": 0
+  },
+  "green": {
+    "command": "node --test development/m07/recovery29/profile.test.mjs development/m07/recovery29/ownership.test.mjs development/m07/recovery29/predicate.test.mjs development/m07/recovery29/profile8.test.mjs",
+    "tests": 15,
+    "failed": 0,
+    "skipped": 0
+  },
+  "parser": {
+    "actual_guard_predicates": 9,
+    "full_alter_grant_sql_parsed": true,
+    "broken_numeric_separator_rejected": true,
+    "isolated_pglast": "v7.21"
+  },
+  "source_seals": {
+    "development/m07/recovery29/run.mjs": "d5602e34077b8cce5ad5c100893b6d7b4be984305f9705ce75fed3e90c7fbffd",
+    "development/m07/recovery29/profile8.mjs": "05f37168da8d7e1d58b17be30e0aecc0604657bdfd3cc7fb3162ca5f14378b31",
+    "development/m07/recovery29/profile8.test.mjs": "964ac2c8a014a7cfebd8fa5d730392d80a0140aef5923bfda1ef13025b218fd8",
+    "development/m07/recovery29/observed-pairs.mjs": "78450ba18f7d89ad56e17bfcf816f0f210a0e8b0b3c2441331a70f9dc83bc767",
+    "development/m07/recovery29/profile.mjs": "be0c7b30ca143e6dc054aa82f288d03fd01ed507a15fba1f45667ff412f25520",
+    "development/m07/recovery29/ownership.mjs": "9118e7bd46dff15ccece950f88cd86ffc5b6c3fb86382d89792da5892a38de79",
+    "development/m07/recovery29/predicate.test.mjs": "2cbb7b5e9de6d613b9a494fc154716e77360f4ab0aa69b679611b0b10dee8845"
+  },
+  "no_general_normalization": true,
+  "unknown_pairs_refused": true,
+  "original_postgres_roles_or_data_not_written": true,
+  "cloud_provider_native_called": false
+}

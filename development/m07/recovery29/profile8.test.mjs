@@ -1,0 +1,16 @@
+import assert from'node:assert/strict';
+import{test}from'node:test';
+import{createHash}from'node:crypto';
+import{readFile}from'node:fs/promises';
+import{spawnSync}from'node:child_process';
+import{exactRestoreProfile8Sql,MCP_RESOURCE_EXPRESSION}from'./profile8.mjs';
+import{PAIR_EVIDENCE,OBSERVED_PAIRS}from'./observed-pairs.mjs';
+const read=async file=>JSON.parse(await readFile(file,'utf8'));
+const receipt=await read('tracking/evidence/m07/recovery29/2026-10-30T12-19-02-143Z-0ec7ead2-diagnostic-report.json');
+const expected=await read(receipt.original_catalogue.path),observed=await read(receipt.clone_catalogue.path);
+const guard={database:'eps_m07_r29_source_07000000000040008000000000000001',marker:'eps-m07-recovery29:07000000-0000-4000-8000-000000000001:source',oid:123456};
+test('exact observed eight pairs plan only fixed clone-local changes, preserving postgres grant-option entry',()=>{const result=exactRestoreProfile8Sql(expected,observed,guard);assert.equal(result.differences.length,8);assert.equal((result.sql.match(/drop constraint/gu)||[]).length,5);assert.match(result.sql,/set local role supabase_auth_admin/u);assert.match(result.sql,/revoke all privileges on table auth.sessions from supabase_auth_admin,dashboard_user/u);assert(!/revoke[^;]*auth.sessions[^;]*postgres/u.test(result.sql));assert(!/drop role|create role|alter role/iu.test(result.sql));});
+test('new pair values and evidence are exact source-bound observations',async()=>{assert.equal(createHash('sha256').update(await readFile(PAIR_EVIDENCE.path)).digest('hex'),PAIR_EVIDENCE.sha256);assert.equal(OBSERVED_PAIRS.length,2);for(const pair of OBSERVED_PAIRS){assert.equal(expected[pair.key],pair.source);assert.equal(observed[pair.key],pair.dump_clone);}const migration=(await readFile('supabase/migrations/20261030111549_m07_settings_delegated_session.sql','utf8')).replaceAll('\r\n','\n');assert(migration.includes('check('+MCP_RESOURCE_EXPRESSION+')'));});
+test('extra or changed Auth/MCP representations remain refused',()=>{for(const pair of OBSERVED_PAIRS){const changed=structuredClone(observed);changed[pair.key]+=' ';assert.throws(()=>exactRestoreProfile8Sql(expected,changed,guard),/RECOVERY29_UNKNOWN_CATALOGUE_PAIR/u);}const changed=structuredClone(observed);changed['tables|eps.app_settings|force_rls']=false;assert.throws(()=>exactRestoreProfile8Sql(expected,changed,guard),/RECOVERY29_UNKNOWN_CATALOGUE_PAIR/u);});
+test('already exact catalogues produce no privilege or constraint changes',()=>{const result=exactRestoreProfile8Sql(expected,expected,guard);assert.equal(result.differences.length,0);assert(!/revoke|grant|alter table/u.test(result.sql));});
+test('installed pglast parses all actual planned ALTER/GRANT statements in addition to the separately tested predicate',()=>{const result=exactRestoreProfile8Sql(expected,observed,guard);const script="import sys\nfrom pglast import parse_sql\nprint(len(parse_sql(sys.stdin.read())))";const parsed=spawnSync('.venv-skills/Scripts/python.exe',['-X','utf8','-c',script],{input:result.sql,encoding:'utf8',windowsHide:true,shell:false,timeout:10000});assert.equal(parsed.status,0);assert(Number(parsed.stdout)>10);});

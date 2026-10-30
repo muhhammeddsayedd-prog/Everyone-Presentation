@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-10-30T10:41:58.648Z",
+  "scope": "Synthetic local recovery bundle focused TDD; no DB,cloud,provider or runtime configuration",
+  "red": {
+    "command": "node --test tests/operations/m07-recovery-bundle.test.mjs",
+    "result": "failed",
+    "reason": "ERR_MODULE_NOT_FOUND for tools/m07-recovery-bundle.mjs before implementation",
+    "test_cases_executed": 0
+  },
+  "intermediate": {
+    "result": "6 passed / 1 failed",
+    "reason": "Ownership test chose a different run-root pair, correctly triggering RECOVERY_ROOT_INVALID before ownership guard; test corrected to alter existing owner marker"
+  },
+  "green": {
+    "command": "node --test tests/operations/m07-recovery-bundle.test.mjs",
+    "result": "passed",
+    "tests": 7,
+    "failed": 0,
+    "skipped": 0
+  },
+  "source_seals": {
+    "tools/m07-recovery-bundle.mjs": "0938d274456d19130eaa95554ee5d7b90b364efafed13912fa5c62001193268c",
+    "tests/operations/m07-recovery-bundle.test.mjs": "a5277a230b02c0d0a74d2522b80235f31ed2fa95fe1f31710649dfcdb0e65da9"
+  },
+  "existing_runtime_changed": false,
+  "limits": [
+    "Synthetic byte bundles only. Actual SQL/native restore has a separate receipt.",
+    "This records observed command results from the active session; it is not a separately retained raw-output capture."
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "run_id": "ea033081-e918-4d0b-b7bb-3c09aaa83e8c",
+  "started_at": "2026-10-30T11:41:25.989Z",
+  "result": "passed",
+  "mode": "candidate30",
+  "scope": "Owned disposable local28 clone plus frozen29 and synthetic native-Auth events; no real Auth hook/provider/client acceptance.",
+  "cloud_called": false,
+  "provider_called": false,
+  "provider_credentials_loaded": false,
+  "hook_registered": false,
+  "actual_migration_history_changed": false,
+  "source_seals": {
+    "development/m07/oauth-hook/run-local30.mjs": "f2b437a0c56eaf99fed678600fe75bc57288cdaacb9f51d564b0899a210d440f",
+    "development/m07/oauth-hook/candidate30.sql": "8c2081c02dfda6a6d081a6a3a4eaf76a59bee56c91a5fb24e91becfe32de19ca",
+    "development/m07/oauth-hook/tests30.sql": "63b1648f2181a1d56685097cd9904622883ae042d7cbaab43923d7905baed2ca",
+    "development/m07/db/candidate29.sql": "6531e8decab5496e212eb01575aca666cd9e03b0575f92dd66bd380760f84af4",
+    "development/m07/db/catalog29.sql": "1af59495b01424e6ec2578f6ea1f8ac362829577612c32b2cd373545a58b9098",
+    "development/m07/db/baseline28-reviewed.json": "49f876ce118162e7ed5a96de9ce72b0f32503b19be61eb8795771397bd49649f",
+    "development/m07/db/local-auth-fixture.sql": "9014e4bef1add4be3b6b47f37a8cb9c6158312200632ba6bd43e2b1d1faa68be"
+  },
+  "preflight": {
+    "roles": 0,
+    "users": 0,
+    "migrations": 28,
+    "other_clients": 0,
+    "sessions_present": true
+  },
+  "original_baseline_sha256": "bf31e4fd2ac9e30fb8d55bbb07ba5722b64d81cc5e14225618aec6c9bc885187",
+  "sql_stages": [
+    "HOOK30_INITIAL_REFRESH_CURRENT_GRANTS_AND_ONLY_TWO_CLAIMS_CHANGED_PASSED",
+    "HOOK30_BROWSER_UNKNOWN_CLIENT_TOP_LEVEL_AND_OPTIONAL_CLAIMS_PRESERVED_PASSED",
+    "HOOK30_DISABLED_AMBIGUOUS_IDENTITY_SCOPE_AND_REQUIRED_CLAIM_DENIALS_PASSED",
+    "HOOK30_EMPTY_CURRENT_GRANTS_REMAIN_EMPTY_PASSED",
+    "HOOK30_CURRENT_CAPABILITY_REVOCATION_WITHOUT_USER_JWT_PASSED",
+    "HOOK30_NATIVE_AUTH_ONLY_EXECUTE_AND_NARROW_NONLOGIN_OWNER_PASSED",
+    "HOOK30_REAL_PUBLIC_CALLER_EXECUTION_DENIALS_PASSED"
+  ],
+  "real_role_issuer_and_privilege_proof": true,
+  "owned_candidate_state": {
+    "hook_owner": "eps_mcp_issuer_owner",
+    "user_count": 0,
+    "history_count": 28,
+    "registry_count": 0
+  },
+  "frozen29_and_sources_unchanged": true,
+  "disposable_database_removed": true,
+  "created_roles_removed": 3,
+  "original_local28_data_catalog_roles_and_oids_unchanged": true,
+  "shared_test_lock_released": true,
+  "finished_at": "2026-10-30T11:41:58.323Z",
+  "elapsed_ms": 32334
+}

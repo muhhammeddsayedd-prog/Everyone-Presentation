@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-10-30T12:29:22.986Z",
+  "status": "passed_local_synthetic_only",
+  "actual_proof": {
+    "path": "tracking/evidence/m07/recovery29/2026-10-30T12-25-42-320Z-bda68ef0.json",
+    "sha256": "b2cebc9ae4326675a10b96a7baecae509c24e424471872d94a42865102f1d140"
+  },
+  "semantic_proof": {
+    "path": "tracking/evidence/m07/recovery29/2026-10-30T12-24-32-093Z-1f5b00b2-semantic-proof.json",
+    "sha256": "92b77837eb92c0aa7f5c968e0cdb77314357b9de45a7f93b771c7cbb0a4d8678"
+  },
+  "diagnostic": {
+    "path": "tracking/evidence/m07/recovery29/2026-10-30T12-19-02-143Z-0ec7ead2-diagnostic-report.json",
+    "sha256": "cedfc01c2d03ef73dc4cf09441ad55fa7b1b749847c725e5f1446a6ae3b3d894"
+  },
+  "pure_tests": "tracking/evidence/m07/recovery29/profile8-pure-red-green.json",
+  "source_guide": "development/m07/recovery29/README.md",
+  "measurement": {
+    "elapsed_ms": 107525,
+    "is_rto": false,
+    "objects": 4,
+    "source_entries": 71,
+    "migrations": 29,
+    "raw_catalogue_fields": 16430,
+    "reviewed_known_corrections": 8
+  },
+  "cleanup": {
+    "actual_both_database_absence": {
+      "eps_m07_r29_source_bda68ef0324a4b49be031605d50def5e": false,
+      "eps_m07_r29_restore_bda68ef0324a4b49be031605d50def5e": false
+    },
+    "native_fixture_removed": true,
+    "original29_data_profile_catalogue_unchanged": true,
+    "global_role_oids_attributes_memberships_unchanged": true,
+    "shared_lock_released": true
+  },
+  "limits": [
+    "Synthetic generated media and owner-fixture layout preflight; no representative casting, semantic or provider quality result.",
+    "Native stage executors, validation and real database roles participate; local SQL ports and filesystem byte transport replace Supabase Storage HTTP.",
+    "Migration/schema and template/font/workflow source bytes are backed up/restored; no deployed workflow/configuration restoration or publication occurred.",
+    "Two disposable databases use the same pre-existing local roles and pinned cluster, not an independent disaster-recovery cluster or secret restoration.",
+    "Controlled database timestamp expiry tests outbox fencing; no physical crash/power-loss/endurance or deployed worker/API rollback.",
+    "Measured local elapsed time is rehearsal duration only, not a promised RTO/RPO, representative processing throughput or provider cost."
+  ],
+  "all_historical_failures_preserved": true,
+  "product_gate_sources_unchanged": true
+}

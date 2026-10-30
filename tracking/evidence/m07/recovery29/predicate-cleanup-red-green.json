@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-10-30T12:17:32.037Z",
+  "scope": "Local test-harness SQL predicate serialization and creation-cleanup accounting; no DB/media/provider calls by this record",
+  "red": {
+    "profile_predicate_command": "node --test development/m07/recovery29/profile.test.mjs",
+    "passed": 5,
+    "failed": 1,
+    "reason": "Missing numeric/AND token separator in actual generated predicate"
+  },
+  "parser": {
+    "isolated_python": ".venv-skills/Scripts/python.exe",
+    "pglast_version": "v7.21",
+    "actual_predicates_parsed_as_select": 9,
+    "deliberately_broken_1and_rejected": true,
+    "outer_do_not_used_as_parser_proof": true
+  },
+  "green": {
+    "command": "node --test development/m07/recovery29/profile.test.mjs development/m07/recovery29/ownership.test.mjs development/m07/recovery29/predicate.test.mjs",
+    "tests": 10,
+    "failed": 0,
+    "skipped": 0
+  },
+  "source_seals": {
+    "development/m07/recovery29/diagnose.mjs": "56f950f4d3aed66455f569c4975e364a7959819b989ad4f95e2ddafaf2fd01e6",
+    "development/m07/recovery29/profile.mjs": "be0c7b30ca143e6dc054aa82f288d03fd01ed507a15fba1f45667ff412f25520",
+    "development/m07/recovery29/profile.test.mjs": "599b76d942b95b1fbd24ed59b4cf05ada09ad2eef49fc77edd34b51501737e02",
+    "development/m07/recovery29/ownership.mjs": "9118e7bd46dff15ccece950f88cd86ffc5b6c3fb86382d89792da5892a38de79",
+    "development/m07/recovery29/ownership.test.mjs": "b75ccd0d404a3c46f7f4f3549b8bf89a5067c854d12dda20f598d40e3e7b07ce",
+    "development/m07/recovery29/predicate.test.mjs": "2cbb7b5e9de6d613b9a494fc154716e77360f4ab0aa69b679611b0b10dee8845"
+  },
+  "first_diagnostic_refusal": "tracking/evidence/m07/recovery29/2026-10-30T12-13-36-491Z-1405d5cf-diagnostic-report.json",
+  "historical_diagnostic_source": "development/m07/recovery29/source-history/b8dbcd7e58771115eba3666f4447d6f8905bca1b1738552fe8fef578dc5a8b52-diagnose.mjs.txt",
+  "historical_ownership_source": "development/m07/recovery29/source-history/1371be6851d5cfa1d2091e9a0479ecc004e8ddc0f73937eddd8c8afe7b723b27-ownership.mjs.txt",
+  "no_catalogue_allowlist_expansion": true,
+  "no_product_or_gate_sources_changed": true
+}

@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "run_id": "e5640356-d646-401c-8057-b9edc154a542",
+  "started_at": "2026-10-30T10:35:27.351Z",
+  "result": "failed",
+  "scope": "AT-070 synthetic isolated local PostgreSQL + local filesystem object restore",
+  "cloud_called": false,
+  "provider_called": false,
+  "runtime_configuration_loaded": false,
+  "canonical_business_writes": false,
+  "storage_http_tested": false,
+  "deployed_restore_tested": false,
+  "checkpoint": "fresh-preflight",
+  "private_artifact_acl": "current-user-and-SYSTEM-only-verified",
+  "preflight": {
+    "jobs": 0,
+    "users": 0,
+    "assets": 0,
+    "versions": 0,
+    "guest_key": false,
+    "verifiers": 0,
+    "migrations": 28,
+    "other_clients": 0
+  },
+  "failure_code": "M07_LOCAL_RECOVERY_UNCONFIRMED",
+  "disposable_databases_removed": true,
+  "finished_at": "2026-10-30T10:35:32.047Z",
+  "elapsed_ms": 4696,
+  "private_artifact_directory": ".local/m07-recovery/e5640356-d646-401c-8057-b9edc154a542"
+}

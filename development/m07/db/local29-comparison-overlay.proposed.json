@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0",
+  "status": "proposed_not_executed",
+  "migration_sha256": "6531e8decab5496e212eb01575aca666cd9e03b0575f92dd66bd380760f84af4",
+  "original_local_history": 28,
+  "frozen_clone_protected_sha256": "e0099ebf17f46f9fec46e5cbb9e8c5b2458b4306c8f8d4cdd3213079b11e682b",
+  "original_local_protected_sha256": "5a48e35b64005943ca425860689f571a4dd4332bdc4681d4d858672cb4d250ca",
+  "exhaustive_fields": 16103,
+  "reconciliation": {
+    "path": "tracking/evidence/m07/local29-reconciliation/2026-10-30T11-26-57-791Z-7f8695f6-report.json",
+    "sha256": "de6833e3c751096a10eae974dd44de62e09302dca2d94a7879b2f5378f0ae481"
+  },
+  "semantic_proof": {
+    "path": "tracking/evidence/m07/local29-reconciliation/2026-10-30T11-28-43-234Z-semantic-proof.json",
+    "sha256": "ecbe23409ed4d243c2c2c4905c1d3485a96aae5db53c4346b6206cb05238be70"
+  },
+  "exact_baseline_representation_pairs": [
+    {
+      "key": "schemas|public|acl",
+      "original": "{pg_database_owner=UC/pg_database_owner,=U/pg_database_owner,postgres=U/pg_database_owner,anon=U/pg_database_owner,authenticated=U/pg_database_owner,service_role=U/pg_database_owner,eps_api_owner=U/pg_database_owner,eps_draft_owner=U/pg_database_owner,eps_logo_verify_owner=U/pg_database_owner,eps_jobs_owner=U/pg_database_owner,eps_specs_owner=U/pg_database_owner,eps_specs_submit_owner=U/pg_database_owner,eps_specs_stage_owner=U/pg_database_owner,eps_specs_apply_owner=U/pg_database_owner,eps_specs_upload_owner=U/pg_database_owner,eps_specs_verify_owner=U/pg_database_owner,eps_specs_assets_owner=U/pg_database_owner,eps_cast_owner=U/pg_database_owner,eps_candidate_stage_owner=U/pg_database_owner,eps_candidate_assets_owner=U/pg_database_owner,eps_candidate_upload_owner=U/pg_database_owner,eps_candidate_apply_owner=U/pg_database_owner,eps_support_upload_owner=U/pg_database_owner,eps_support_verify_owner=U/pg_database_owner,eps_casting_owner=U/pg_database_owner,eps_review_owner=U/pg_database_owner,eps_review_stage_owner=U/pg_database_owner,eps_guest_owner=U/pg_database_owner}",
+      "clone": "{pg_database_owner=UC/pg_database_owner,postgres=U/pg_database_owner,anon=U/pg_database_owner,authenticated=U/pg_database_owner,service_role=U/pg_database_owner,eps_api_owner=U/pg_database_owner,eps_draft_owner=U/pg_database_owner,eps_logo_verify_owner=U/pg_database_owner,eps_jobs_owner=U/pg_database_owner,eps_specs_owner=U/pg_database_owner,eps_specs_submit_owner=U/pg_database_owner,eps_specs_stage_owner=U/pg_database_owner,eps_specs_apply_owner=U/pg_database_owner,eps_specs_upload_owner=U/pg_database_owner,eps_specs_verify_owner=U/pg_database_owner,eps_specs_assets_owner=U/pg_database_owner,eps_cast_owner=U/pg_database_owner,eps_candidate_stage_owner=U/pg_database_owner,eps_candidate_assets_owner=U/pg_database_owner,eps_candidate_upload_owner=U/pg_database_owner,eps_candidate_apply_owner=U/pg_database_owner,eps_support_upload_owner=U/pg_database_owner,eps_support_verify_owner=U/pg_database_owner,eps_casting_owner=U/pg_database_owner,eps_review_owner=U/pg_database_owner,eps_review_stage_owner=U/pg_database_owner,eps_guest_owner=U/pg_database_owner}"
+    },
+    {
+      "key": "tables|eps.cast_operation_notes|acl",
+      "original": "{postgres=arwdDxtm/postgres}",
+      "clone": null
+    },
+    {
+      "key": "constraints|eps.specs_pipeline_config.specs_pipeline_config_model_version_check|definition",
+      "original": "CHECK (((model_version IS NULL) OR (((length(model_version) >= 1) AND (length(model_version) <= 200)) AND (model_version = btrim(model_version)))))",
+      "clone": "CHECK (((model_version IS NULL) OR ((length(model_version) >= 1) AND (length(model_version) <= 200) AND (model_version = btrim(model_version)))))"
+    },
+    {
+      "key": "constraints|eps.specs_pipeline_config.specs_pipeline_config_prompt_version_check|definition",
+      "original": "CHECK (((prompt_version IS NULL) OR (((length(prompt_version) >= 1) AND (length(prompt_version) <= 200)) AND (prompt_version = btrim(prompt_version)))))",
+      "clone": "CHECK (((prompt_version IS NULL) OR ((length(prompt_version) >= 1) AND (length(prompt_version) <= 200) AND (prompt_version = btrim(prompt_version)))))"
+    },
+    {
+      "key": "constraints|eps.specs_pipeline_config.specs_pipeline_config_result_schema_version_check|definition",
+      "original": "CHECK (((result_schema_version IS NULL) OR (((length(result_schema_version) >= 1) AND (length(result_schema_version) <= 200)) AND (result_schema_version = btrim(result_schema_version)))))",
+      "clone": "CHECK (((result_schema_version IS NULL) OR ((length(result_schema_version) >= 1) AND (length(result_schema_version) <= 200) AND (result_schema_version = btrim(result_schema_version)))))"
+    },
+    {
+      "key": "constraints|eps.specs_pipeline_config.specs_pipeline_config_document_preparation_version_check|definition",
+      "original": "CHECK (((document_preparation_version IS NULL) OR (((length(document_preparation_version) >= 1) AND (length(document_preparation_version) <= 200)) AND (document_preparation_version = btrim(document_preparation_version)))))",
+      "clone": "CHECK (((document_preparation_version IS NULL) OR ((length(document_preparation_version) >= 1) AND (length(document_preparation_version) <= 200) AND (document_preparation_version = btrim(document_preparation_version)))))"
+    }
+  ],
+  "next_proof": [
+    "Create an owned disposable clone using the source-bound reconstruction path.",
+    "Adjust only that clone: preserve original PUBLIC USAGE, explicit owner-default table ACL and original BETWEEN-derived CHECK representation.",
+    "Require complete raw catalogue equality with the original local28 metadata and unchanged old data/config/Auth counts.",
+    "Execute exact migration29 inside a transaction in the owned clone, capture full and compact before/after states and exact delta, then roll back.",
+    "Verify original28 full metadata/data/role OIDs unchanged, remove owned clone, release shared lock."
+  ],
+  "proposed_guard": "A separate source-pinned current helper consumes the newly observed exact original-profile before/after states. It never normalizes arbitrary ACLs or bypasses a protected-catalogue hash. Frozen clone proof, old helper, source seals, failed precondition receipt, reviewed migration bytes and original database remain unchanged.",
+  "cloud_or_original_mutation_performed": false
+}

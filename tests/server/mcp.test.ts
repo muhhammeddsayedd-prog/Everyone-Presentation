@@ -7,15 +7,27 @@ import { createMcpHandler } from '@modelcontextprotocol/server';
 import { AjvJsonSchemaValidator } from '@modelcontextprotocol/client/validators/ajv';
 import { createBearerUserClient } from '../../packages/central/src/client.ts';
 import { createCentralCandidateSupport } from '../../packages/central/src/candidate-support.ts';
+import { syntheticMcpStudio } from '../fixtures/mcp-capabilities.ts';
+import { presentationRequirements } from '../fixtures/presentation.ts';
 
 const actor = { principal_id: 'synthetic-producer' };
-function services() {
+const role = { id: 'synthetic', workspace_id: 'workspace', name: 'Server', headcount: 1, category: null,
+  requirements: presentationRequirements(), clarifications: [], sort_order: 0, row_version: 2, archived: false };
+function services(principalId = actor.principal_id) {
   const calls: unknown[][] = [];
-  const operation = async (...args: unknown[]) => { calls.push(args); return { id: 'synthetic', row_version: 2 }; };
+  const operation = (result: unknown) => async (...args: unknown[]) => { calls.push(args); return result; };
+  const timestamp = '2026-10-30T00:00:00Z';
+  const candidate = { id: 'synthetic', facts: { name: null, casting_id: null, age_or_range: null, stated_gender: null, height_measurements: null,
+    languages: [], accents: [], skills_experience: null, city: null, previous_projects_roles: null, classification: null },
+    review_status: 'unreviewed', reviewed_at: null, reviewed_by: null, search_match: null, possible_duplicate: false, merged_into_candidate_id: null,
+    archived: false, row_version: 2, created_at: timestamp, updated_at: timestamp };
   const getSpecs = async (...args: unknown[]) => { calls.push(args); return { id: 'spec', workspace_id: 'workspace', source_asset_id: null,
     source_text: 'Synthetic source.', normalized_instructions: null, clarifications: [], row_version: 1, processing_job_id: null }; };
-  const ports = { specs: { updateRole: operation, getSpecs }, jobs: { getJob: operation }, candidates: { createCandidate: operation },
-    studio: { getProject: operation } } as unknown as McpServices;
+  const ports = { specs: { updateRole: operation(role), getSpecs }, jobs: { getJob: operation({ id: 'synthetic', workspace_id: 'workspace', kind: 'specs_extract',
+    status: 'queued', stage: 'extract_specs', attempt: 0, progress_completed: 0, progress_total: null, batch_id: null, input_asset_id: null,
+    resource_id: 'spec', error: null, created_at: timestamp, updated_at: timestamp, row_version: 2 }) }, candidates: { createCandidate: operation(candidate) },
+    studio: { ...syntheticMcpStudio(principalId), getProject: operation({ id: 'synthetic', name: 'Synthetic project', client_id: null, client_name: null,
+      client_logo_asset_id: null, row_version: 2, client_row_version: null, casting_workspace_id: null, can_edit: true }) } } as unknown as McpServices;
   return { ports, calls };
 }
 
@@ -25,7 +37,7 @@ test('support archive publishes version-only input and Success through the offic
   const url=new URL(input instanceof Request?input.url:String(input));if(url.pathname==='/auth/v1/user')return Response.json({id:principal,role:'authenticated',aud:'authenticated',is_anonymous:false});
   assert.equal(url.pathname,'/rest/v1/rpc/eps_archive_candidate_support');assert.equal(JSON.parse(String(init?.body)).p_support_id,support);rpcCalls++;return Response.json({ok:true});
  }});
- const{ports}=services();ports.candidates.archiveCandidateSupport=(await createCentralCandidateSupport(sdk)).archiveCandidateSupport;
+ const{ports}=services(principal);ports.candidates.archiveCandidateSupport=(await createCentralCandidateSupport(sdk)).archiveCandidateSupport;
  const acting={principal_id:principal},server=createStudioMcpServer(acting,ports),client=new Client({name:'eps-support-archive-test',version:'1.0.0'});
  const[clientTransport,serverTransport]=InMemoryTransport.createLinkedPair();await server.connect(serverTransport);await client.connect(clientTransport);
  try{
@@ -87,7 +99,7 @@ test('MCP validates the catalog, passes the fixed acting user and mcp audit cont
   const { ports, calls } = services();
   const result = await invokeMcpTool('update_role', { role_id: 'role', body: { row_version: 1, name: 'Server' } }, actor, ports, 'request-one');
   assert.equal(result.isError, undefined);
-  assert.deepEqual(result.structuredContent, { request_id: 'request-one', data: { id: 'synthetic', row_version: 2 } });
+  assert.deepEqual(result.structuredContent, { request_id: 'request-one', data: role });
   assert.deepEqual(calls, [[actor, 'role', { row_version: 1, name: 'Server' }, { requestId: 'request-one', clientType: 'mcp', idempotencyKey: undefined }]]);
   for (const input of [{ role_id: 'role', body: { row_version: 1, name: 'Server', reviewed_by: 'forged' } },
     { role_id: 'role', principal_id: 'other', body: { row_version: 1 } }, { role_id: '../foreign', body: { row_version: 1 } }]) {

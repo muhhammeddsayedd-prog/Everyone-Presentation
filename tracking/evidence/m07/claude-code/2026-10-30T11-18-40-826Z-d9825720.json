@@ -1,0 +1,217 @@
+{
+  "schema_version": "1.0",
+  "run_id": "d9825720-4e9e-4a89-bf25-1b8949edf83b",
+  "observed_at": "2026-10-30T11:18:40.826Z",
+  "result": "unverified",
+  "scope": "Actual installed Claude Code against current Studio MCP HTTP/SDK transport with clearly synthetic controlled business ports, owned loopback only. Not a real-service or OAuth journey.",
+  "actual_client_called": true,
+  "synthetic_business_data_only": true,
+  "central_called": false,
+  "openai_called": false,
+  "n8n_called": false,
+  "oauth_provider_tested": false,
+  "hosting_tested": false,
+  "private_workspace_context_supplied": false,
+  "credential_files_read_by_harness": false,
+  "global_mcp_settings_hooks_mutation_requested": false,
+  "max_turns": 8,
+  "max_budget_usd": 1.5,
+  "overall_deadline_ms": 120000,
+  "source_seals": {
+    "tools/m07-client-smoke.mjs": "a853bc9e7b184de0a28154c8ce541041689abef38edb26d66cb25f1cd5727865",
+    "tools/m07-client-server.ts": "5c2f2dfc102f26f1d36e19baf8c7c2f942883f5ff1704b6f96f9b93e45ac5cc9",
+    "apps/web/lib/mcp-http.ts": "9ca4b2928b8c77ba271ace8ac05bbf48fc98c8229d511d920cc1dc8750a57c11",
+    "apps/web/lib/mcp.ts": "99e330ebbad5593cec14b5b5f06ccfc56f879c7f462f3cd883b6d3b63d2c6210",
+    "apps/web/lib/mcp-capabilities.ts": "791fbb6a03c7ed4be9d39439715fbb5929c142e354e22aeb31e217cb40cb0f60",
+    "apps/web/lib/mcp-output-validation.ts": "30026e1c38953c96cefbdd5c82cc9e3a567c4bf755d8bb7d748481d4be6cd583",
+    "contracts/mcp-tool-catalog.json": "60d8e003eaa677f41ff085678bbc030bcf2ccc23ae0c55a742886fbc67856f3e",
+    "apps/web/package.json": "90b4dc8394742563e64e780163c6ed9435b7e72faf11d5510c01a1b4505f0e9e"
+  },
+  "retry_attempted": false,
+  "private_acl_verified": true,
+  "empty_external_workdir_verified": true,
+  "client_version": "2.1.301 (Claude Code)",
+  "server_pid": 25776,
+  "loopback_url": "http://127.0.0.1:3117/mcp",
+  "flags": [
+    "--print",
+    "--restricted",
+    "--strict-mcp-config",
+    "--mcp-config",
+    "<private-mcp-config>",
+    "--tools",
+    "",
+    "--allowedTools",
+    "mcp__eps_m07_synthetic__get_capabilities,mcp__eps_m07_synthetic__list_projects,mcp__eps_m07_synthetic__get_project,mcp__eps_m07_synthetic__update_project",
+    "--permission-mode",
+    "dontAsk",
+    "--permission-prompts",
+    "none",
+    "--disable-slash-commands",
+    "--no-chrome",
+    "--no-session-persistence",
+    "--setting-sources",
+    "",
+    "--settings",
+    "<private-settings>",
+    "--system-prompt",
+    "<synthetic-only-system-prompt>",
+    "--output-format",
+    "stream-json",
+    "--verbose",
+    "--max-turns",
+    "8",
+    "--max-budget-usd",
+    "1.50",
+    "--model",
+    "sonnet",
+    "--effort",
+    "low",
+    "--",
+    "<synthetic-only-user-prompt>"
+  ],
+  "exact_allowed_tools": [
+    "mcp__eps_m07_synthetic__get_capabilities",
+    "mcp__eps_m07_synthetic__list_projects",
+    "mcp__eps_m07_synthetic__get_project",
+    "mcp__eps_m07_synthetic__update_project"
+  ],
+  "client_exit_code": 0,
+  "client_timed_out": false,
+  "client_result": {
+    "subtype": "success",
+    "is_error": false,
+    "duration_ms": 10555,
+    "duration_api_ms": 10159,
+    "num_turns": 6,
+    "total_cost_usd": 0.037972700000000005,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 7235,
+      "cache_read_input_tokens": 25727,
+      "output_tokens": 644,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 7235,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "global",
+      "iterations": [],
+      "speed": "standard",
+      "fallback_credit": null
+    },
+    "model_usage": {
+      "claude-sonnet-5-5": {
+        "inputTokens": 10,
+        "outputTokens": 644,
+        "cacheReadInputTokens": 25727,
+        "cacheCreationInputTokens": 7235,
+        "webSearchRequests": 0,
+        "costUSD": 0.037972700000000005,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 0,
+        "canonicalModel": "claude-sonnet-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "permission_denials": []
+  },
+  "client_report": "**Result: success.** All five steps ran in order and every check passed.\n\n- **Project ID:** 72000000-0000-4000-8000-000000000001\n- **Principal ID:** 71000000-0000-4000-8000-000000000001, which matches the expected value.\n- **Final name:** \"Synthetic Claude Code compatibility passed\", an exact match.\n- **Final row_version:** 2, as expected. It was 1 before the update.\n\nI made the update call once, with the idempotency key you gave and row_version 1. The second `get_project` call confirmed the new name and version.",
+  "client_reported_tools": [
+    "mcp__eps_m07_synthetic__get_capabilities",
+    "mcp__eps_m07_synthetic__list_projects",
+    "mcp__eps_m07_synthetic__get_project",
+    "mcp__eps_m07_synthetic__update_project",
+    "mcp__eps_m07_synthetic__get_project"
+  ],
+  "protocol_trace": [
+    {
+      "method": "server/discover",
+      "id": "server-discover-probe-1",
+      "principal_id": "71000000-0000-4000-8000-000000000001"
+    },
+    {
+      "method": "tools/list",
+      "id": 0,
+      "principal_id": "71000000-0000-4000-8000-000000000001"
+    },
+    {
+      "method": "tools/call",
+      "id": 1,
+      "principal_id": "71000000-0000-4000-8000-000000000001",
+      "tool": "get_capabilities",
+      "arguments": {}
+    },
+    {
+      "method": "tools/call",
+      "id": 2,
+      "principal_id": "71000000-0000-4000-8000-000000000001",
+      "tool": "list_projects",
+      "arguments": {
+        "limit": 1
+      }
+    },
+    {
+      "method": "tools/call",
+      "id": 3,
+      "principal_id": "71000000-0000-4000-8000-000000000001",
+      "tool": "get_project",
+      "arguments": {
+        "project_id": "72000000-0000-4000-8000-000000000001"
+      }
+    },
+    {
+      "method": "tools/call",
+      "id": 4,
+      "principal_id": "71000000-0000-4000-8000-000000000001",
+      "tool": "update_project",
+      "arguments": {
+        "project_id": "72000000-0000-4000-8000-000000000001",
+        "idempotency_key": "m07-claude-synthetic-d9825720-4e9e-4a89-bf25-1b8949edf83b",
+        "body": {
+          "row_version": 1,
+          "name": "Synthetic Claude Code compatibility passed"
+        }
+      }
+    },
+    {
+      "method": "tools/call",
+      "id": 5,
+      "principal_id": "71000000-0000-4000-8000-000000000001",
+      "tool": "get_project",
+      "arguments": {
+        "project_id": "72000000-0000-4000-8000-000000000001"
+      }
+    }
+  ],
+  "synthetic_final_state": {
+    "project": {
+      "id": "72000000-0000-4000-8000-000000000001",
+      "name": "Synthetic Claude Code compatibility passed",
+      "client_id": null,
+      "client_name": null,
+      "client_logo_asset_id": null,
+      "row_version": 2,
+      "client_row_version": null,
+      "casting_workspace_id": null,
+      "can_edit": true
+    },
+    "writes": 1
+  },
+  "failure_code": "M07_ACTUAL_CLIENT_SMOKE_UNCONFIRMED",
+  "owned_server_closed": true,
+  "owned_empty_workdir_removed": true,
+  "client_process_exited": true,
+  "finished_at": "2026-10-30T11:18:56.637Z",
+  "elapsed_ms": 15811,
+  "private_raw_logs": ".local/m07-client/d9825720-4e9e-4a89-bf25-1b8949edf83b"
+}

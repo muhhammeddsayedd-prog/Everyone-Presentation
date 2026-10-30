@@ -1,0 +1,911 @@
+{
+  "version": 1,
+  "scope": "Maintained semantic UI inventory plus implementation ports. Source checks supplement behavioral evidence; they are not live acceptance.",
+  "groups": [
+    {
+      "id": "authority",
+      "label": "Acting-user controls and discovery",
+      "ui_sources": [
+        "apps/web/app/api/session/route.ts",
+        "apps/web/components/StudioApp.tsx"
+      ],
+      "operations": [
+        {
+          "operation": "get_capabilities",
+          "domain_symbol": "getCapabilities",
+          "domain_source": "packages/central/src/studio.ts",
+          "http_source": "apps/web/app/api/v1/[...segments]/route.ts"
+        }
+      ]
+    },
+    {
+      "id": "projects",
+      "label": "Select existing project; canonical details; workspace; logo placement/output preference",
+      "ui_sources": [
+        "apps/web/components/ProjectList.tsx",
+        "apps/web/components/ProjectDetails.tsx",
+        "apps/web/components/LogoPanel.tsx",
+        "apps/web/components/WorkspaceView.tsx"
+      ],
+      "operations": [
+        {
+          "operation": "list_projects",
+          "domain_symbol": "listProjects",
+          "domain_source": "packages/central/src/studio.ts",
+          "http_source": "apps/web/app/api/v1/[...segments]/route.ts"
+        },
+        {
+          "operation": "get_project",
+          "domain_symbol": "getProject",
+          "domain_source": "packages/central/src/studio.ts",
+          "http_source": "apps/web/app/api/v1/[...segments]/route.ts"
+        },
+        {
+          "operation": "update_project",
+          "domain_symbol": "updateProject",
+          "domain_source": "packages/central/src/studio.ts",
+          "http_source": "apps/web/app/api/v1/[...segments]/route.ts"
+        },
+        {
+          "operation": "list_workspaces",
+          "domain_symbol": "listWorkspaces",
+          "domain_source": "packages/central/src/studio.ts",
+          "http_source": "apps/web/app/api/v1/[...segments]/route.ts"
+        },
+        {
+          "operation": "create_workspace",
+          "domain_symbol": "createWorkspace",
+          "domain_source": "packages/central/src/studio.ts",
+          "http_source": "apps/web/app/api/v1/[...segments]/route.ts"
+        },
+        {
+          "operation": "get_workspace",
+          "domain_symbol": "getWorkspace",
+          "domain_source": "packages/central/src/studio.ts",
+          "http_source": "apps/web/app/api/v1/[...segments]/route.ts"
+        },
+        {
+          "operation": "update_workspace",
+          "domain_symbol": "updateWorkspace",
+          "domain_source": "packages/central/src/studio.ts",
+          "http_source": "apps/web/app/api/v1/[...segments]/route.ts"
+        }
+      ]
+    },
+    {
+      "id": "specs",
+      "label": "Import/correct specs; create/edit/retire roles and slots",
+      "ui_sources": [
+        "apps/web/components/SpecsView.tsx",
+        "apps/web/components/RoleEditor.tsx",
+        "apps/web/components/RoleSlots.tsx"
+      ],
+      "operations": [
+        {
+          "operation": "get_specs",
+          "domain_symbol": "getSpecs",
+          "domain_source": "packages/central/src/specs.ts",
+          "http_source": "apps/web/lib/specs-http.ts"
+        },
+        {
+          "operation": "submit_specs",
+          "domain_symbol": "submitSpecs",
+          "domain_source": "packages/central/src/specs.ts",
+          "http_source": "apps/web/lib/specs-http.ts"
+        },
+        {
+          "operation": "update_specs",
+          "domain_symbol": "updateSpecs",
+          "domain_source": "packages/central/src/specs.ts",
+          "http_source": "apps/web/lib/specs-http.ts"
+        },
+        {
+          "operation": "list_roles",
+          "domain_symbol": "listRoles",
+          "domain_source": "packages/central/src/specs.ts",
+          "http_source": "apps/web/lib/specs-http.ts"
+        },
+        {
+          "operation": "create_role",
+          "domain_symbol": "createRole",
+          "domain_source": "packages/central/src/specs.ts",
+          "http_source": "apps/web/lib/specs-http.ts"
+        },
+        {
+          "operation": "update_role",
+          "domain_symbol": "updateRole",
+          "domain_source": "packages/central/src/specs.ts",
+          "http_source": "apps/web/lib/specs-http.ts"
+        },
+        {
+          "operation": "archive_role",
+          "domain_symbol": "archiveRole",
+          "domain_source": "packages/central/src/specs.ts",
+          "http_source": "apps/web/lib/specs-http.ts"
+        },
+        {
+          "operation": "list_slots",
+          "domain_symbol": "listSlots",
+          "domain_source": "packages/central/src/specs.ts",
+          "http_source": "apps/web/lib/specs-http.ts"
+        },
+        {
+          "operation": "resize_role_slots",
+          "domain_symbol": "resizeRoleSlots",
+          "domain_source": "packages/central/src/specs.ts",
+          "http_source": "apps/web/lib/specs-http.ts"
+        },
+        {
+          "operation": "update_slot",
+          "domain_symbol": "updateSlot",
+          "domain_source": "packages/central/src/specs.ts",
+          "http_source": "apps/web/lib/specs-http.ts"
+        }
+      ]
+    },
+    {
+      "id": "library",
+      "label": "Search/supplied facts/Reviewed; actual frames; duplicates; support files",
+      "ui_sources": [
+        "apps/web/components/CastLibraryView.tsx",
+        "apps/web/components/CandidateDetailView.tsx",
+        "apps/web/components/RoleFilterSuggestions.tsx",
+        "apps/web/components/CandidateFrameExtraction.tsx",
+        "apps/web/components/SupportingFiles.tsx"
+      ],
+      "operations": [
+        {
+          "operation": "search_candidates",
+          "domain_symbol": "searchCandidates",
+          "domain_source": "packages/central/src/candidates.ts",
+          "http_source": "apps/web/lib/candidates-http.ts"
+        },
+        {
+          "operation": "create_candidate",
+          "domain_symbol": "createCandidate",
+          "domain_source": "packages/central/src/candidates.ts",
+          "http_source": "apps/web/lib/candidates-http.ts"
+        },
+        {
+          "operation": "get_candidate",
+          "domain_symbol": "getCandidate",
+          "domain_source": "packages/central/src/candidates.ts",
+          "http_source": "apps/web/lib/candidates-http.ts"
+        },
+        {
+          "operation": "update_candidate",
+          "domain_symbol": "updateCandidate",
+          "domain_source": "packages/central/src/candidates.ts",
+          "http_source": "apps/web/lib/candidates-http.ts"
+        },
+        {
+          "operation": "confirm_candidate_reviewed",
+          "domain_symbol": "confirmCandidateReviewed",
+          "domain_source": "packages/central/src/candidates.ts",
+          "http_source": "apps/web/lib/candidates-http.ts"
+        },
+        {
+          "operation": "archive_candidate",
+          "domain_symbol": "archiveCandidate",
+          "domain_source": "packages/central/src/candidates.ts",
+          "http_source": "apps/web/lib/candidates-http.ts"
+        },
+        {
+          "operation": "get_candidate_media",
+          "domain_symbol": "getCandidateMedia",
+          "domain_source": "packages/central/src/candidates.ts",
+          "http_source": "apps/web/lib/candidates-http.ts"
+        },
+        {
+          "operation": "update_candidate_frames",
+          "domain_symbol": "updateCandidateFrames",
+          "domain_source": "packages/central/src/candidates.ts",
+          "http_source": "apps/web/lib/candidates-http.ts"
+        },
+        {
+          "operation": "list_duplicate_matches",
+          "domain_symbol": "findCandidateDuplicates",
+          "domain_source": "packages/central/src/candidates.ts",
+          "http_source": "apps/web/lib/candidates-http.ts"
+        },
+        {
+          "operation": "resolve_duplicate",
+          "domain_symbol": "resolveCandidateDuplicate",
+          "domain_source": "packages/central/src/candidates.ts",
+          "http_source": "apps/web/lib/candidates-http.ts"
+        },
+        {
+          "operation": "suggest_candidate_filters",
+          "domain_symbol": "suggestCandidateFilters",
+          "domain_source": "packages/central/src/candidate-filters.ts",
+          "http_source": "apps/web/lib/candidates-http.ts"
+        },
+        {
+          "operation": "extract_candidate_frames",
+          "domain_symbol": "extractCandidateFrames",
+          "domain_source": "packages/central/src/candidate-frame-extraction.ts",
+          "http_source": "apps/web/lib/candidates-http.ts"
+        },
+        {
+          "operation": "list_candidate_support",
+          "domain_symbol": "listCandidateSupport",
+          "domain_source": "packages/central/src/candidate-support.ts",
+          "http_source": "apps/web/lib/candidates-http.ts"
+        },
+        {
+          "operation": "archive_candidate_support",
+          "domain_symbol": "archiveCandidateSupport",
+          "domain_source": "packages/central/src/candidate-support.ts",
+          "http_source": "apps/web/lib/candidates-http.ts"
+        }
+      ]
+    },
+    {
+      "id": "uploads",
+      "label": "Acquire/resume/complete/cancel uploads; metadata and original playback",
+      "ui_sources": [
+        "apps/web/components/LogoPanel.tsx",
+        "apps/web/components/FileSourceIntake.tsx",
+        "apps/web/components/CandidateResumableUploads.tsx",
+        "apps/web/components/CandidateDetailView.tsx"
+      ],
+      "operations": [
+        {
+          "operation": "create_upload_session",
+          "domain_symbol": "createUploadSession",
+          "domain_source": "packages/central/src/studio.ts",
+          "http_source": "apps/web/app/api/v1/[...segments]/route.ts"
+        },
+        {
+          "operation": "get_upload_session",
+          "domain_symbol": "getUploadSession",
+          "domain_source": "packages/central/src/studio.ts",
+          "http_source": "apps/web/app/api/v1/[...segments]/route.ts"
+        },
+        {
+          "operation": "complete_upload",
+          "domain_symbol": "completeUpload",
+          "domain_source": "packages/central/src/studio.ts",
+          "http_source": "apps/web/app/api/v1/[...segments]/route.ts"
+        },
+        {
+          "operation": "cancel_upload",
+          "domain_symbol": "cancelUpload",
+          "domain_source": "packages/central/src/studio.ts",
+          "http_source": "apps/web/app/api/v1/[...segments]/route.ts"
+        },
+        {
+          "operation": "get_media",
+          "domain_symbol": "getMedia",
+          "domain_source": "packages/central/src/studio.ts",
+          "http_source": "apps/web/app/api/v1/[...segments]/route.ts"
+        },
+        {
+          "operation": "play_media",
+          "domain_symbol": "playMedia",
+          "domain_source": "packages/central/src/studio.ts",
+          "http_source": "apps/web/lib/media-http.ts"
+        }
+      ]
+    },
+    {
+      "id": "pool",
+      "label": "Library reuse; project material/availability/notes; removal",
+      "ui_sources": [
+        "apps/web/components/WorkspaceCandidatesView.tsx",
+        "apps/web/components/CastLibraryView.tsx"
+      ],
+      "operations": [
+        {
+          "operation": "list_workspace_candidates",
+          "domain_symbol": "listWorkspaceCandidates",
+          "domain_source": "packages/central/src/candidates.ts",
+          "http_source": "apps/web/lib/candidates-http.ts"
+        },
+        {
+          "operation": "add_workspace_candidate",
+          "domain_symbol": "addWorkspaceCandidate",
+          "domain_source": "packages/central/src/candidates.ts",
+          "http_source": "apps/web/lib/candidates-http.ts"
+        },
+        {
+          "operation": "update_workspace_candidate",
+          "domain_symbol": "updateWorkspaceCandidate",
+          "domain_source": "packages/central/src/candidates.ts",
+          "http_source": "apps/web/lib/candidates-http.ts"
+        },
+        {
+          "operation": "remove_workspace_candidate",
+          "domain_symbol": "removeWorkspaceCandidate",
+          "domain_source": "packages/central/src/candidates.ts",
+          "http_source": "apps/web/lib/candidates-http.ts"
+        }
+      ]
+    },
+    {
+      "id": "casting",
+      "label": "Assign/edit Option/Backup/Shortlist; atomic Main/Undo; reorder",
+      "ui_sources": [
+        "apps/web/components/CastingBoard.tsx"
+      ],
+      "operations": [
+        {
+          "operation": "list_assignments",
+          "domain_symbol": "listAssignments",
+          "domain_source": "packages/central/src/casting.ts",
+          "http_source": "apps/web/lib/casting-http.ts"
+        },
+        {
+          "operation": "create_assignment",
+          "domain_symbol": "createAssignment",
+          "domain_source": "packages/central/src/casting.ts",
+          "http_source": "apps/web/lib/casting-http.ts"
+        },
+        {
+          "operation": "update_assignment",
+          "domain_symbol": "updateAssignment",
+          "domain_source": "packages/central/src/casting.ts",
+          "http_source": "apps/web/lib/casting-http.ts"
+        },
+        {
+          "operation": "set_slot_main",
+          "domain_symbol": "setSlotMain",
+          "domain_source": "packages/central/src/casting.ts",
+          "http_source": "apps/web/lib/casting-http.ts"
+        },
+        {
+          "operation": "undo_slot_main",
+          "domain_symbol": "undoSlotMain",
+          "domain_source": "packages/central/src/casting.ts",
+          "http_source": "apps/web/lib/casting-http.ts"
+        },
+        {
+          "operation": "remove_assignment",
+          "domain_symbol": "removeAssignment",
+          "domain_source": "packages/central/src/casting.ts",
+          "http_source": "apps/web/lib/casting-http.ts"
+        },
+        {
+          "operation": "reorder_workspace",
+          "domain_symbol": "reorderWorkspace",
+          "domain_source": "packages/central/src/casting.ts",
+          "http_source": "apps/web/lib/casting-http.ts"
+        }
+      ]
+    },
+    {
+      "id": "review",
+      "label": "Series/output/audience; exact draft review; wording suggestions/fit; retirement Undo",
+      "ui_sources": [
+        "apps/web/components/WorkspaceReviewView.tsx",
+        "apps/web/components/CastingRetirementReview.tsx",
+        "apps/web/components/RetirementUndo.tsx",
+        "apps/web/components/ReviewSharingView.tsx"
+      ],
+      "operations": [
+        {
+          "operation": "list_presentation_series",
+          "domain_symbol": "listPresentationSeries",
+          "domain_source": "packages/central/src/review.ts",
+          "http_source": "apps/web/lib/review-http.ts"
+        },
+        {
+          "operation": "create_presentation_series",
+          "domain_symbol": "createPresentationSeries",
+          "domain_source": "packages/central/src/review.ts",
+          "http_source": "apps/web/lib/review-http.ts"
+        },
+        {
+          "operation": "get_presentation_series",
+          "domain_symbol": "getPresentationSeries",
+          "domain_source": "packages/central/src/review.ts",
+          "http_source": "apps/web/lib/review-http.ts"
+        },
+        {
+          "operation": "update_presentation_series",
+          "domain_symbol": "updatePresentationSeries",
+          "domain_source": "packages/central/src/review.ts",
+          "http_source": "apps/web/lib/review-http.ts"
+        },
+        {
+          "operation": "get_workspace_review",
+          "domain_symbol": "getWorkspaceReview",
+          "domain_source": "packages/central/src/review.ts",
+          "http_source": "apps/web/lib/review-http.ts"
+        },
+        {
+          "operation": "create_ai_suggestion",
+          "domain_symbol": "createAiSuggestion",
+          "domain_source": "packages/central/src/review.ts",
+          "http_source": "apps/web/lib/review-http.ts"
+        },
+        {
+          "operation": "get_ai_suggestion",
+          "domain_symbol": "getAiSuggestion",
+          "domain_source": "packages/central/src/review.ts",
+          "http_source": "apps/web/lib/review-http.ts"
+        },
+        {
+          "operation": "request_workspace_review_fit",
+          "domain_symbol": "requestWorkspaceReviewFit",
+          "domain_source": "packages/central/src/review.ts",
+          "http_source": "apps/web/lib/review-http.ts"
+        },
+        {
+          "operation": "get_casting_retirement",
+          "domain_symbol": "getCastingRetirement",
+          "domain_source": "packages/central/src/review.ts",
+          "http_source": "apps/web/lib/review-http.ts"
+        },
+        {
+          "operation": "undo_casting_retirement",
+          "domain_symbol": "undoCastingRetirement",
+          "domain_source": "packages/central/src/review.ts",
+          "http_source": "apps/web/lib/review-http.ts"
+        }
+      ]
+    },
+    {
+      "id": "audiences",
+      "label": "Choose/create/edit/archive audience presets",
+      "ui_sources": [
+        "apps/web/components/SettingsView.tsx",
+        "apps/web/components/AudiencePresetRow.tsx",
+        "apps/web/components/WorkspaceReviewView.tsx"
+      ],
+      "operations": [
+        {
+          "operation": "list_audience_presets",
+          "domain_symbol": "listAudiencePresets",
+          "domain_source": "packages/central/src/studio.ts",
+          "http_source": "apps/web/app/api/v1/[...segments]/route.ts"
+        },
+        {
+          "operation": "create_audience_preset",
+          "domain_symbol": "createAudiencePreset",
+          "domain_source": "packages/central/src/studio.ts",
+          "http_source": "apps/web/app/api/v1/[...segments]/route.ts"
+        },
+        {
+          "operation": "update_audience_preset",
+          "domain_symbol": "updateAudiencePreset",
+          "domain_source": "packages/central/src/studio.ts",
+          "http_source": "apps/web/app/api/v1/[...segments]/route.ts"
+        },
+        {
+          "operation": "archive_audience_preset",
+          "domain_symbol": "archiveAudiencePreset",
+          "domain_source": "packages/central/src/studio.ts",
+          "http_source": "apps/web/app/api/v1/[...segments]/route.ts"
+        }
+      ]
+    },
+    {
+      "id": "versions",
+      "label": "Generate/poll/read immutable history; saved PDF/original video",
+      "ui_sources": [
+        "apps/web/components/WorkspacePresentationView.tsx",
+        "apps/web/components/PresentationVersionView.tsx",
+        "apps/web/components/PresentationIndex.tsx"
+      ],
+      "operations": [
+        {
+          "operation": "list_versions",
+          "domain_symbol": "listVersions",
+          "domain_source": "packages/central/src/presentation.ts",
+          "http_source": "apps/web/lib/presentation-http.ts"
+        },
+        {
+          "operation": "generate_version",
+          "domain_symbol": "generateVersion",
+          "domain_source": "packages/central/src/presentation.ts",
+          "http_source": "apps/web/lib/presentation-http.ts"
+        },
+        {
+          "operation": "get_version",
+          "domain_symbol": "getVersion",
+          "domain_source": "packages/central/src/presentation.ts",
+          "http_source": "apps/web/lib/presentation-http.ts"
+        },
+        {
+          "operation": "download_version_pdf",
+          "domain_symbol": "downloadVersionPdf",
+          "domain_source": "packages/central/src/presentation.ts",
+          "http_source": "apps/web/lib/presentation-http.ts"
+        },
+        {
+          "operation": "play_version_media",
+          "domain_symbol": "playVersionMedia",
+          "domain_source": "packages/central/src/presentation.ts",
+          "http_source": "apps/web/lib/presentation-http.ts"
+        }
+      ]
+    },
+    {
+      "id": "sharing",
+      "label": "Create/extend/toggle/revoke/rotate links; feedback; link-scoped PDF exports",
+      "ui_sources": [
+        "apps/web/components/ReviewLinksPanel.tsx",
+        "apps/web/components/ReviewFeedbackPanel.tsx",
+        "apps/web/components/ReviewSharingView.tsx"
+      ],
+      "operations": [
+        {
+          "operation": "list_review_links",
+          "domain_symbol": "listReviewLinks",
+          "domain_source": "packages/central/src/guest-reviews.ts",
+          "http_source": "apps/web/lib/guest-http.ts"
+        },
+        {
+          "operation": "create_review_link",
+          "domain_symbol": "createReviewLink",
+          "domain_source": "packages/central/src/guest-reviews.ts",
+          "http_source": "apps/web/lib/guest-http.ts"
+        },
+        {
+          "operation": "update_review_link",
+          "domain_symbol": "updateReviewLink",
+          "domain_source": "packages/central/src/guest-reviews.ts",
+          "http_source": "apps/web/lib/guest-http.ts"
+        },
+        {
+          "operation": "revoke_review_link",
+          "domain_symbol": "revokeReviewLink",
+          "domain_source": "packages/central/src/guest-reviews.ts",
+          "http_source": "apps/web/lib/guest-http.ts"
+        },
+        {
+          "operation": "rotate_review_link",
+          "domain_symbol": "rotateReviewLink",
+          "domain_source": "packages/central/src/guest-reviews.ts",
+          "http_source": "apps/web/lib/guest-http.ts"
+        },
+        {
+          "operation": "list_feedback",
+          "domain_symbol": "listFeedback",
+          "domain_source": "packages/central/src/guest-reviews.ts",
+          "http_source": "apps/web/lib/guest-http.ts"
+        },
+        {
+          "operation": "create_comment",
+          "domain_symbol": "createComment",
+          "domain_source": "packages/central/src/guest-reviews.ts",
+          "http_source": "apps/web/lib/guest-http.ts"
+        },
+        {
+          "operation": "update_comment",
+          "domain_symbol": "updateComment",
+          "domain_source": "packages/central/src/guest-reviews.ts",
+          "http_source": "apps/web/lib/guest-http.ts"
+        },
+        {
+          "operation": "set_preference",
+          "domain_symbol": "setPreference",
+          "domain_source": "packages/central/src/guest-reviews.ts",
+          "http_source": "apps/web/lib/guest-http.ts"
+        },
+        {
+          "operation": "prepare_pdf_export",
+          "domain_symbol": "preparePdfExport",
+          "domain_source": "packages/central/src/guest-reviews.ts",
+          "http_source": "apps/web/lib/guest-http.ts"
+        },
+        {
+          "operation": "get_pdf_export",
+          "domain_symbol": "getPdfExport",
+          "domain_source": "packages/central/src/guest-reviews.ts",
+          "http_source": "apps/web/lib/guest-http.ts"
+        },
+        {
+          "operation": "download_pdf_export",
+          "domain_symbol": "downloadPdfExport",
+          "domain_source": "packages/central/src/guest-reviews.ts",
+          "http_source": "apps/web/lib/guest-http.ts"
+        }
+      ]
+    },
+    {
+      "id": "jobs",
+      "label": "Inspect durable processing; retry/cancel eligible work",
+      "ui_sources": [
+        "apps/web/components/ProcessingView.tsx",
+        "apps/web/components/SpecsProcessing.tsx"
+      ],
+      "operations": [
+        {
+          "operation": "list_jobs",
+          "domain_symbol": "listJobs",
+          "domain_source": "packages/central/src/jobs.ts",
+          "http_source": "apps/web/lib/job-http.ts"
+        },
+        {
+          "operation": "get_job",
+          "domain_symbol": "getJob",
+          "domain_source": "packages/central/src/jobs.ts",
+          "http_source": "apps/web/lib/job-http.ts"
+        },
+        {
+          "operation": "retry_job",
+          "domain_symbol": "retryJob",
+          "domain_source": "packages/central/src/jobs.ts",
+          "http_source": "apps/web/lib/job-http.ts"
+        },
+        {
+          "operation": "cancel_job",
+          "domain_symbol": "cancelJob",
+          "domain_source": "packages/central/src/jobs.ts",
+          "http_source": "apps/web/lib/job-http.ts"
+        }
+      ]
+    },
+    {
+      "id": "settings",
+      "label": "Read defaults; revision-fenced supported configuration changes",
+      "ui_sources": [
+        "apps/web/components/SettingsDefaults.tsx",
+        "apps/web/components/SettingsView.tsx"
+      ],
+      "operations": [
+        {
+          "operation": "get_settings",
+          "domain_symbol": "getSettings",
+          "domain_source": "packages/central/src/settings.ts",
+          "http_source": "apps/web/lib/settings-http.ts"
+        },
+        {
+          "operation": "update_settings",
+          "domain_symbol": "updateSettings",
+          "domain_source": "packages/central/src/settings.ts",
+          "http_source": "apps/web/lib/settings-http.ts"
+        }
+      ]
+    }
+  ],
+  "excluded_operations": {
+    "guest_open_review": {
+      "implementation": "external_review_or_pdf_grant_identity",
+      "reason": "External audience/session or saved-PDF grant scope, intentionally separate from delegated internal users.",
+      "introduced_m07": false,
+      "sources": [
+        "apps/web/lib/guest-http.ts"
+      ]
+    },
+    "guest_identify": {
+      "implementation": "external_review_or_pdf_grant_identity",
+      "reason": "External audience/session or saved-PDF grant scope, intentionally separate from delegated internal users.",
+      "introduced_m07": false,
+      "sources": [
+        "apps/web/lib/guest-http.ts"
+      ]
+    },
+    "guest_get_current_version": {
+      "implementation": "external_review_or_pdf_grant_identity",
+      "reason": "External audience/session or saved-PDF grant scope, intentionally separate from delegated internal users.",
+      "introduced_m07": false,
+      "sources": [
+        "apps/web/lib/guest-http.ts"
+      ]
+    },
+    "guest_get_version": {
+      "implementation": "external_review_or_pdf_grant_identity",
+      "reason": "External audience/session or saved-PDF grant scope, intentionally separate from delegated internal users.",
+      "introduced_m07": false,
+      "sources": [
+        "apps/web/lib/guest-http.ts"
+      ]
+    },
+    "guest_list_feedback": {
+      "implementation": "external_review_or_pdf_grant_identity",
+      "reason": "External audience/session or saved-PDF grant scope, intentionally separate from delegated internal users.",
+      "introduced_m07": false,
+      "sources": [
+        "apps/web/lib/guest-http.ts"
+      ]
+    },
+    "guest_create_comment": {
+      "implementation": "external_review_or_pdf_grant_identity",
+      "reason": "External audience/session or saved-PDF grant scope, intentionally separate from delegated internal users.",
+      "introduced_m07": false,
+      "sources": [
+        "apps/web/lib/guest-http.ts"
+      ]
+    },
+    "guest_update_comment": {
+      "implementation": "external_review_or_pdf_grant_identity",
+      "reason": "External audience/session or saved-PDF grant scope, intentionally separate from delegated internal users.",
+      "introduced_m07": false,
+      "sources": [
+        "apps/web/lib/guest-http.ts"
+      ]
+    },
+    "guest_set_preference": {
+      "implementation": "external_review_or_pdf_grant_identity",
+      "reason": "External audience/session or saved-PDF grant scope, intentionally separate from delegated internal users.",
+      "introduced_m07": false,
+      "sources": [
+        "apps/web/lib/guest-http.ts"
+      ]
+    },
+    "guest_prepare_pdf_export": {
+      "implementation": "external_review_or_pdf_grant_identity",
+      "reason": "External audience/session or saved-PDF grant scope, intentionally separate from delegated internal users.",
+      "introduced_m07": false,
+      "sources": [
+        "apps/web/lib/guest-http.ts"
+      ]
+    },
+    "guest_get_pdf_export": {
+      "implementation": "external_review_or_pdf_grant_identity",
+      "reason": "External audience/session or saved-PDF grant scope, intentionally separate from delegated internal users.",
+      "introduced_m07": false,
+      "sources": [
+        "apps/web/lib/guest-http.ts"
+      ]
+    },
+    "guest_download_pdf_export": {
+      "implementation": "external_review_or_pdf_grant_identity",
+      "reason": "External audience/session or saved-PDF grant scope, intentionally separate from delegated internal users.",
+      "introduced_m07": false,
+      "sources": [
+        "apps/web/lib/guest-http.ts"
+      ]
+    },
+    "play_review_media": {
+      "implementation": "external_review_or_pdf_grant_identity",
+      "reason": "External audience/session or saved-PDF grant scope, intentionally separate from delegated internal users.",
+      "introduced_m07": false,
+      "sources": [
+        "apps/web/lib/guest-http.ts"
+      ]
+    },
+    "guest_play_media": {
+      "implementation": "external_review_or_pdf_grant_identity",
+      "reason": "External audience/session or saved-PDF grant scope, intentionally separate from delegated internal users.",
+      "introduced_m07": false,
+      "sources": [
+        "apps/web/lib/guest-http.ts"
+      ]
+    },
+    "reserve_job_output": {
+      "implementation": "local_service_http_and_private_gateway",
+      "reason": "Separate verified service credential and current job-stage lease; loopback development/test handler.",
+      "introduced_m07": false,
+      "sources": [
+        "apps/web/lib/job-service-http.ts",
+        "apps/web/app/api/v1/internal/jobs/[...segments]/route.ts"
+      ]
+    },
+    "complete_job_output": {
+      "implementation": "local_service_http_and_private_gateway",
+      "reason": "Separate verified service credential and current job-stage lease; loopback development/test handler.",
+      "introduced_m07": false,
+      "sources": [
+        "apps/web/lib/job-service-http.ts",
+        "apps/web/app/api/v1/internal/jobs/[...segments]/route.ts"
+      ]
+    },
+    "get_job_asset_access": {
+      "implementation": "local_service_http_and_private_gateway",
+      "reason": "Separate verified service credential and current job-stage lease; loopback development/test handler.",
+      "introduced_m07": false,
+      "sources": [
+        "apps/web/lib/job-service-http.ts",
+        "apps/web/app/api/v1/internal/jobs/[...segments]/route.ts"
+      ]
+    },
+    "mint_review_media_grant": {
+      "implementation": "gateway_only_no_next_http_handler",
+      "reason": "Private active-export lease; ordinary acting-user and guest tools cannot mint grants.",
+      "introduced_m07": false,
+      "sources": [
+        "packages/central/src/specs-runtime-gateway.ts"
+      ]
+    },
+    "claim_job_stage": {
+      "implementation": "local_service_http_and_private_gateway",
+      "reason": "Separate verified service credential and current job-stage lease; loopback development/test handler.",
+      "introduced_m07": false,
+      "sources": [
+        "apps/web/lib/job-service-http.ts",
+        "apps/web/app/api/v1/internal/jobs/[...segments]/route.ts"
+      ]
+    },
+    "record_job_event": {
+      "implementation": "local_service_http_and_private_gateway",
+      "reason": "Separate verified service credential and current job-stage lease; loopback development/test handler.",
+      "introduced_m07": false,
+      "sources": [
+        "apps/web/lib/job-service-http.ts",
+        "apps/web/app/api/v1/internal/jobs/[...segments]/route.ts"
+      ]
+    },
+    "complete_job_stage": {
+      "implementation": "local_service_http_and_private_gateway",
+      "reason": "Separate verified service credential and current job-stage lease; loopback development/test handler.",
+      "introduced_m07": false,
+      "sources": [
+        "apps/web/lib/job-service-http.ts",
+        "apps/web/app/api/v1/internal/jobs/[...segments]/route.ts"
+      ]
+    },
+    "fail_job_stage": {
+      "implementation": "local_service_http_and_private_gateway",
+      "reason": "Separate verified service credential and current job-stage lease; loopback development/test handler.",
+      "introduced_m07": false,
+      "sources": [
+        "apps/web/lib/job-service-http.ts",
+        "apps/web/app/api/v1/internal/jobs/[...segments]/route.ts"
+      ]
+    },
+    "get_version_media_content": {
+      "implementation": "authorized_binary_companion",
+      "reason": "Bytes are transferred separately under the same parent authorization; no JSON/base64 user tool.",
+      "introduced_m07": false,
+      "sources": [
+        "apps/web/lib/presentation-http.ts"
+      ]
+    },
+    "get_version_pdf_content": {
+      "implementation": "authorized_binary_companion",
+      "reason": "Bytes are transferred separately under the same parent authorization; no JSON/base64 user tool.",
+      "introduced_m07": false,
+      "sources": [
+        "apps/web/lib/presentation-http.ts"
+      ]
+    },
+    "guest_get_session": {
+      "implementation": "guest_browser_resume",
+      "reason": "Cookie-selected external context; internal agents do not impersonate anonymous reviewers.",
+      "introduced_m07": false,
+      "sources": [
+        "apps/web/lib/guest-http.ts"
+      ]
+    },
+    "get_pdf_export_content": {
+      "implementation": "authorized_binary_companion",
+      "reason": "Bytes are transferred separately under the same parent authorization; no JSON/base64 user tool.",
+      "introduced_m07": false,
+      "sources": [
+        "apps/web/lib/guest-http.ts"
+      ]
+    },
+    "guest_get_pdf_export_content": {
+      "implementation": "authorized_binary_companion",
+      "reason": "Bytes are transferred separately under the same parent authorization; no JSON/base64 user tool.",
+      "introduced_m07": false,
+      "sources": [
+        "apps/web/lib/guest-http.ts"
+      ]
+    },
+    "guest_get_media_content": {
+      "implementation": "authorized_binary_companion",
+      "reason": "Bytes are transferred separately under the same parent authorization; no JSON/base64 user tool.",
+      "introduced_m07": false,
+      "sources": [
+        "apps/web/lib/guest-http.ts"
+      ]
+    },
+    "get_review_media_content": {
+      "implementation": "authorized_binary_companion",
+      "reason": "Bytes are transferred separately under the same parent authorization; no JSON/base64 user tool.",
+      "introduced_m07": false,
+      "sources": [
+        "apps/web/lib/guest-http.ts"
+      ]
+    },
+    "get_media_content": {
+      "implementation": "authorized_binary_companion",
+      "reason": "Bytes are transferred separately under the same parent authorization; no JSON/base64 user tool.",
+      "introduced_m07": true,
+      "sources": [
+        "apps/web/app/api/v1/[...segments]/route.ts"
+      ]
+    }
+  },
+  "ui_exceptions": [
+    "App navigation, expand/collapse, local frame/slide carousel position, unsaved form edits/discard and focus are local presentation state; their saved data/resources use the mapped read/write operations.",
+    "Search/filter edits use query parameters on existing list operations; paginating is the same operation with its returned cursor.",
+    "Authentication/sign-out and OAuth consent are identity protocol flows, not ordinary business tools. Delegated MCP identity has its separate protocol; no human-only business approval gate is introduced.",
+    "Discovery/metadata and series maintenance tools may support a UI workflow without having a dedicated visible button. Browser authority originates through the session adapter; get_capabilities is its API/MCP discovery equivalent."
+  ]
+}

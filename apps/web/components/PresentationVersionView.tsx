@@ -12,6 +12,7 @@ import { api, errorMessage, mutation, type Actor } from './api';
 import { ErrorNotice, Loading } from './Feedback';
 import { VersionAssetImage } from './VersionAssetImage';
 import { SourceTranscript } from './SourceTranscript';
+import { StudioDateTime } from './StudioTimeZone';
 
 interface Props { versionId: string; actor: Actor; embedded?: boolean; expectedSeriesId?: string; onSettled?: () => void }
 export function PresentationVersionView(props: Props) { return <VersionScope key={`${props.actor.id}:${props.versionId}`} {...props} />; }
@@ -45,7 +46,7 @@ function VersionScope({ versionId, embedded = false, expectedSeriesId, onSettled
     && version.render_context.template.content_sha256 === '8cfc99e874b2810d782f0a447628039e52e48a337fe1ce5b6286799c56e90001'
     || version.render_context.template.key === completeRegistry.key && version.render_context.template.version === completeRegistry.version && version.render_context.template.content_sha256 === completeRegistry.content_sha256;
   return <section className="presentation-version" aria-label={`Saved version ${version.version_no}`}>
-    <header className="section-heading"><div><Heading>Saved version {version.version_no}</Heading><p>Captured content · {version.status === 'ready' ? 'Ready' : version.status === 'failed' ? 'Generation failed' : version.status === 'rendering' ? 'Rendering' : 'Queued'} · <time dateTime={version.created_at}>{new Date(version.created_at).toLocaleString()}</time></p></div><button className="button" onClick={reload} disabled={loading}>Refresh saved version</button></header>
+    <header className="section-heading"><div><Heading>Saved version {version.version_no}</Heading><p>Captured content · {version.status === 'ready' ? 'Ready' : version.status === 'failed' ? 'Generation failed' : version.status === 'rendering' ? 'Rendering' : 'Queued'} · <StudioDateTime value={version.created_at} /></p></div><button className="button" onClick={reload} disabled={loading}>Refresh saved version</button></header>
     <p className="small muted">This version keeps its captured words and media. Working-draft edits appear in a future version.</p>
     {error && <ErrorNotice message={error} retry={reload} />}
     {version.status !== 'ready' && <div className={`notice${version.status === 'failed' ? ' notice-error' : ''}`}><p>{version.status === 'failed' ? 'The PDF did not finish. Existing ready versions remain available.' : 'The captured content is saved. Its PDF is still processing.'}</p><Link className="button" href={`/processing?job=${version.generation_job_id}`}>Open generation processing</Link></div>}

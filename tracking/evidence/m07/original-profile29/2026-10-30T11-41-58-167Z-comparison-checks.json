@@ -1,0 +1,26 @@
+{
+  "observed_at": "2026-10-30T11:41:58.167Z",
+  "result": "passed",
+  "scope": "Offline exact source-profile comparison and claim ordering. No current-guard DB call, original DB mutation, promotion retry or cloud execution.",
+  "tests": {
+    "command": "node --test tests/operations/m07-original-profile29.test.mjs",
+    "passed": 6,
+    "failed": 0,
+    "exit_code": 0
+  },
+  "syntax": {
+    "command": "node --check tools/promote-m07-local29-current.mjs",
+    "exit_code": 0
+  },
+  "red": "Missing comparison module produced ERR_MODULE_NOT_FOUND before implementation.",
+  "source_seals": {
+    "tools/promote-m07-local29-current.mjs": "2e818f4de41f4918a914acb33238673888c3f95240703cdf5b93a74ef0f8d255",
+    "tools/m07-original-profile29-comparison.mjs": "e5bf4b4c8a1e1a682e303615cb9989340f3d014988488f48d794da643b2cdc20",
+    "tests/operations/m07-original-profile29.test.mjs": "61152e27d3e612a9719279f869acc5a67c4492332f06296a6a0c417c0ac40a07",
+    "development/m07/db/release29-original-profile.json": "681fe120fea3ee70e35bd2c4ab4734e2b95e89e40ceef5a678f857adfa673cc2",
+    "development/m07/db/release29-original-profile-delta.json": "f87116625e61a66ab065f8d3f2163c8fd8cc91c3afddbd240c584eccf879f05f",
+    "development/m07/db/CURRENT_PROFILE_REVIEW.md": "3b5bc21e1759854da1d3e04a6a38a4aafed01284b52691ba0d7bc5d187cb7ed2"
+  },
+  "cloud_called": false,
+  "provider_called": false
+}

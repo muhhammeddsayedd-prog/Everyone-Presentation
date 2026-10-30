@@ -1,0 +1,8 @@
+import assert from'node:assert/strict';
+import{test}from'node:test';
+import{cleanupObservation,assertActualAbsence}from'./ownership.mjs';
+const expected={name:'eps_m07_r29_diag_07000000000040008000000000000001',marker:'eps-m07-recovery29-diagnostic:07000000-0000-4000-8000-000000000001',attempted:true,oid:undefined};
+const observed={name:expected.name,owner:'postgres',comment:expected.marker,oid:'123456',clients:0};
+test('unknown create outcome cannot be called cleaned without an actual identity/absence observation',()=>{assert.throws(()=>cleanupObservation(expected,undefined),/RECOVERY29_CLEANUP_UNCONFIRMED/u);assert.throws(()=>assertActualAbsence(['source','restore'],{}),/RECOVERY29_CLEANUP_UNCONFIRMED/u);});
+test('post-create identity can be recovered only for the exact attempted marked name',()=>{assert.deepEqual(cleanupObservation(expected,observed),{absent:false,can_drop:true,oid:123456});for(const altered of [{...observed,owner:'foreign'},{...observed,comment:'foreign'},{...observed,name:'unrelated'},{...observed,clients:1},{...observed,oid:'00123'}])assert.throws(()=>cleanupObservation(expected,altered));assert.throws(()=>cleanupObservation({...expected,attempted:false},observed));});
+test('a previously recorded OID cannot be replaced, and absent observation is distinct from drop permission',()=>{assert.throws(()=>cleanupObservation({...expected,oid:99},observed));assert.deepEqual(cleanupObservation(expected,null),{absent:true,can_drop:false});assert.doesNotThrow(()=>assertActualAbsence(['source','restore'],{source:false,restore:false}));assert.throws(()=>assertActualAbsence(['source','restore'],{source:false,restore:true}));});

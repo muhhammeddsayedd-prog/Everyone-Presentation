@@ -1,0 +1,42 @@
+[
+  {
+    "key": "schemas|public|acl",
+    "source": "{pg_database_owner=UC/pg_database_owner,=U/pg_database_owner,postgres=U/pg_database_owner,anon=U/pg_database_owner,authenticated=U/pg_database_owner,service_role=U/pg_database_owner,eps_api_owner=U/pg_database_owner,eps_draft_owner=U/pg_database_owner,eps_logo_verify_owner=U/pg_database_owner,eps_jobs_owner=U/pg_database_owner,eps_specs_owner=U/pg_database_owner,eps_specs_submit_owner=U/pg_database_owner,eps_specs_stage_owner=U/pg_database_owner,eps_specs_apply_owner=U/pg_database_owner,eps_specs_upload_owner=U/pg_database_owner,eps_specs_verify_owner=U/pg_database_owner,eps_specs_assets_owner=U/pg_database_owner,eps_cast_owner=U/pg_database_owner,eps_candidate_stage_owner=U/pg_database_owner,eps_candidate_assets_owner=U/pg_database_owner,eps_candidate_upload_owner=U/pg_database_owner,eps_candidate_apply_owner=U/pg_database_owner,eps_support_upload_owner=U/pg_database_owner,eps_support_verify_owner=U/pg_database_owner,eps_casting_owner=U/pg_database_owner,eps_review_owner=U/pg_database_owner,eps_review_stage_owner=U/pg_database_owner,eps_guest_owner=U/pg_database_owner,eps_settings_owner=U/pg_database_owner,eps_mcp_session_owner=U/pg_database_owner}",
+    "dump_clone": "{pg_database_owner=UC/pg_database_owner,postgres=U/pg_database_owner,anon=U/pg_database_owner,authenticated=U/pg_database_owner,service_role=U/pg_database_owner,eps_api_owner=U/pg_database_owner,eps_draft_owner=U/pg_database_owner,eps_logo_verify_owner=U/pg_database_owner,eps_jobs_owner=U/pg_database_owner,eps_specs_owner=U/pg_database_owner,eps_specs_submit_owner=U/pg_database_owner,eps_specs_stage_owner=U/pg_database_owner,eps_specs_apply_owner=U/pg_database_owner,eps_specs_upload_owner=U/pg_database_owner,eps_specs_verify_owner=U/pg_database_owner,eps_specs_assets_owner=U/pg_database_owner,eps_cast_owner=U/pg_database_owner,eps_candidate_stage_owner=U/pg_database_owner,eps_candidate_assets_owner=U/pg_database_owner,eps_candidate_upload_owner=U/pg_database_owner,eps_candidate_apply_owner=U/pg_database_owner,eps_support_upload_owner=U/pg_database_owner,eps_support_verify_owner=U/pg_database_owner,eps_casting_owner=U/pg_database_owner,eps_review_owner=U/pg_database_owner,eps_review_stage_owner=U/pg_database_owner,eps_guest_owner=U/pg_database_owner,eps_settings_owner=U/pg_database_owner,eps_mcp_session_owner=U/pg_database_owner}"
+  },
+  {
+    "key": "tables|auth.sessions|acl",
+    "source": "{postgres=ar*wdDxtm/supabase_auth_admin,supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}",
+    "dump_clone": "{supabase_auth_admin=arwdDxtm/supabase_auth_admin,postgres=ar*wdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}"
+  },
+  {
+    "key": "tables|eps.cast_operation_notes|acl",
+    "source": "{postgres=arwdDxtm/postgres}",
+    "dump_clone": null
+  },
+  {
+    "key": "constraints|eps.mcp_oauth_resources.mcp_oauth_resources_resource_check|definition",
+    "source": "CHECK ((((length(resource) >= 1) AND (length(resource) <= 2048)) AND (resource !~ '[[:cntrl:][:space:]]'::text) AND ((resource ~ '^https://[^/@?#]+(/[^?#]*)?$'::text) OR (resource ~ '^http://(127\\.0\\.0\\.1|localhost|\\[::1\\])(:[0-9]{1,5})?/mcp$'::text))))",
+    "dump_clone": "CHECK (((length(resource) >= 1) AND (length(resource) <= 2048) AND (resource !~ '[[:cntrl:][:space:]]'::text) AND ((resource ~ '^https://[^/@?#]+(/[^?#]*)?$'::text) OR (resource ~ '^http://(127\\.0\\.0\\.1|localhost|\\[::1\\])(:[0-9]{1,5})?/mcp$'::text))))"
+  },
+  {
+    "key": "constraints|eps.specs_pipeline_config.specs_pipeline_config_model_version_check|definition",
+    "source": "CHECK (((model_version IS NULL) OR (((length(model_version) >= 1) AND (length(model_version) <= 200)) AND (model_version = btrim(model_version)))))",
+    "dump_clone": "CHECK (((model_version IS NULL) OR ((length(model_version) >= 1) AND (length(model_version) <= 200) AND (model_version = btrim(model_version)))))"
+  },
+  {
+    "key": "constraints|eps.specs_pipeline_config.specs_pipeline_config_prompt_version_check|definition",
+    "source": "CHECK (((prompt_version IS NULL) OR (((length(prompt_version) >= 1) AND (length(prompt_version) <= 200)) AND (prompt_version = btrim(prompt_version)))))",
+    "dump_clone": "CHECK (((prompt_version IS NULL) OR ((length(prompt_version) >= 1) AND (length(prompt_version) <= 200) AND (prompt_version = btrim(prompt_version)))))"
+  },
+  {
+    "key": "constraints|eps.specs_pipeline_config.specs_pipeline_config_result_schema_version_check|definition",
+    "source": "CHECK (((result_schema_version IS NULL) OR (((length(result_schema_version) >= 1) AND (length(result_schema_version) <= 200)) AND (result_schema_version = btrim(result_schema_version)))))",
+    "dump_clone": "CHECK (((result_schema_version IS NULL) OR ((length(result_schema_version) >= 1) AND (length(result_schema_version) <= 200) AND (result_schema_version = btrim(result_schema_version)))))"
+  },
+  {
+    "key": "constraints|eps.specs_pipeline_config.specs_pipeline_config_document_preparation_version_check|definition",
+    "source": "CHECK (((document_preparation_version IS NULL) OR (((length(document_preparation_version) >= 1) AND (length(document_preparation_version) <= 200)) AND (document_preparation_version = btrim(document_preparation_version)))))",
+    "dump_clone": "CHECK (((document_preparation_version IS NULL) OR ((length(document_preparation_version) >= 1) AND (length(document_preparation_version) <= 200) AND (document_preparation_version = btrim(document_preparation_version)))))"
+  }
+]

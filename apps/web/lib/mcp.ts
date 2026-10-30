@@ -19,6 +19,10 @@ import { handleReviewLinkRequest, isReviewLinkRoute } from './guest-http';
 import type { ReviewLinkOperations } from '@eps/domain';
 import { handleMediaPlaybackRequest, isMediaPlaybackRoute } from './media-http';
 import { failure, json, NO_STORE } from './http';
+import { validateMcpSuccess } from './mcp-output-validation';
+import { mcpCapabilityAllowed } from './mcp-capabilities';
+import { handleSettingsRequest, isSettingsRoute } from './settings-http';
+import type { SettingsOperations } from '@eps/domain';
 
 const IMPLEMENTED = new Set(['get_capabilities','list_projects','get_project','update_project','list_workspaces','create_workspace',
   'get_workspace','update_workspace','get_specs','submit_specs','update_specs','list_roles','create_role','update_role',
@@ -33,12 +37,14 @@ const CASTING_TOOLS = new Set(['list_assignments','create_assignment','update_as
 const REVIEW_TOOLS = new Set(['list_presentation_series','create_presentation_series','get_presentation_series','update_presentation_series','get_workspace_review','create_ai_suggestion','get_ai_suggestion','request_workspace_review_fit','get_casting_retirement','undo_casting_retirement']);
 const PRESENTATION_TOOLS = new Set(['list_versions', 'generate_version', 'get_version', 'download_version_pdf', 'play_version_media']);
 const SHARING_TOOLS = new Set(['list_review_links', 'create_review_link', 'update_review_link', 'revoke_review_link', 'rotate_review_link', 'list_feedback', 'create_comment', 'update_comment', 'set_preference', 'prepare_pdf_export', 'get_pdf_export', 'download_pdf_export']);
-const entries = catalog.tools.filter(tool => IMPLEMENTED.has(tool.name) || CASTING_TOOLS.has(tool.name) || REVIEW_TOOLS.has(tool.name) || PRESENTATION_TOOLS.has(tool.name) || SHARING_TOOLS.has(tool.name));
+const SETTINGS_TOOLS = new Set(['get_settings', 'update_settings']);
+const entries = catalog.tools.filter(tool => IMPLEMENTED.has(tool.name) || CASTING_TOOLS.has(tool.name) || REVIEW_TOOLS.has(tool.name) || PRESENTATION_TOOLS.has(tool.name) || SHARING_TOOLS.has(tool.name) || SETTINGS_TOOLS.has(tool.name));
 const ajv = new Ajv2020({ allErrors: true, strict: false }); addFormats(ajv);
 const checks = new Map(entries.map(tool => [tool.name, ajv.compile(tool.inputSchema)]));
-export interface McpServices { studio: Awaited<ReturnType<typeof createCentralStudio>>; specs: SpecsOperations; jobs: JobOperations; candidates: CandidatesOperations; casting?: CastingOperations; review?: ReviewOperations; presentation?: PresentationOperations; sharing?: ReviewLinkOperations }
-export function implementedMcpTools(castingEnabled = false, reviewEnabled = false, presentationEnabled = false, sharingEnabled = false): Tool[] {
-  return entries.filter(tool => (castingEnabled || !CASTING_TOOLS.has(tool.name)) && (reviewEnabled || !REVIEW_TOOLS.has(tool.name)) && (presentationEnabled || !PRESENTATION_TOOLS.has(tool.name)) && (sharingEnabled || !SHARING_TOOLS.has(tool.name))).map(({ name, description, inputSchema, outputSchema, annotations }) =>
+export interface McpServices { studio: Awaited<ReturnType<typeof createCentralStudio>>; specs: SpecsOperations; jobs: JobOperations; candidates: CandidatesOperations; casting?: CastingOperations; review?: ReviewOperations; presentation?: PresentationOperations; sharing?: ReviewLinkOperations; settings?: SettingsOperations }
+export interface McpAuthority { allowedCapabilities?: readonly string[] }
+export function implementedMcpTools(castingEnabled = false, reviewEnabled = false, presentationEnabled = false, sharingEnabled = false, settingsEnabled = false): Tool[] {
+  return entries.filter(tool => (castingEnabled || !CASTING_TOOLS.has(tool.name)) && (reviewEnabled || !REVIEW_TOOLS.has(tool.name)) && (presentationEnabled || !PRESENTATION_TOOLS.has(tool.name)) && (sharingEnabled || !SHARING_TOOLS.has(tool.name)) && (settingsEnabled || !SETTINGS_TOOLS.has(tool.name))).map(({ name, description, inputSchema, outputSchema, annotations }) =>
     // JSON-import inference widens literal schema values. The checked-in catalog
     // is validated by AJV here and by the official SDK in protocol tests.
     ({ name, description, inputSchema, outputSchema, annotations }) as unknown as Tool);
@@ -89,7 +95,9 @@ export async function invokeMcpTool(name: string, supplied: unknown, actor: Acto
   try {
     const { request, segments: s, input } = operationRequest(name, supplied);
     const context = { requestId, clientType: 'mcp' as const, idempotencyKey: input.idempotency_key as string | undefined };
-    if (isReviewLinkRoute(s) && services.sharing) response = await handleReviewLinkRequest(request, s, actor, services.sharing, context);
+    if (isSettingsRoute(s) && services.settings) response = await handleSettingsRequest(request, s, actor, services.settings, context);
+    else if (SETTINGS_TOOLS.has(name)) throw new DomainError('FEATURE_NOT_IMPLEMENTED', 'Central settings are not available in this server composition.', 503);
+    else if (isReviewLinkRoute(s) && services.sharing) response = await handleReviewLinkRequest(request, s, actor, services.sharing, context);
     else if (SHARING_TOOLS.has(name)) throw new DomainError('FEATURE_NOT_IMPLEMENTED', 'Guest sharing is not available in this server composition.', 503);
     else if (isPresentationRoute(s) && services.presentation) response = await handlePresentationRequest(request, s, actor, services.presentation, context);
     else if (PRESENTATION_TOOLS.has(name)) throw new DomainError('FEATURE_NOT_IMPLEMENTED', 'Fixed presentations are not available in this server composition.', 503);
@@ -128,14 +136,44 @@ export async function invokeMcpTool(name: string, supplied: unknown, actor: Acto
       }
     }
   } catch (error) { response = failure(error, requestId); }
-  const structuredContent = await response.json() as Record<string, unknown>;
+  let structuredContent: Record<string, unknown>;
+  try {
+    structuredContent = await response.json() as Record<string, unknown>;
+    if (response.ok) structuredContent = validateMcpSuccess(name, structuredContent);
+  } catch (error) {
+    response = failure(error instanceof DomainError ? error : new DomainError('OPERATION_RESPONSE_INVALID', 'The operation result did not match its published contract.', 503), requestId);
+    structuredContent = await response.json() as Record<string, unknown>;
+  }
   return { content: [{ type: 'text', text: response.ok ? `${name} completed.` : `${name} could not be completed. Read the structured error.` }],
     structuredContent, ...(response.ok ? {} : { isError: true }) };
 }
 
-export function createStudioMcpServer(actor: Actor, services: McpServices) {
-  const server = new Server({ name: 'everyone-presentation-studio-local', version: '0.1.0' }, { capabilities: { tools: {} } });
-  server.setRequestHandler('tools/list', async () => ({ tools: implementedMcpTools(Boolean(services.casting), Boolean(services.review), Boolean(services.presentation), Boolean(services.sharing)) }));
-  server.setRequestHandler('tools/call', async request => invokeMcpTool(request.params.name, request.params.arguments ?? {}, actor, services));
+export function createStudioMcpServer(actor: Actor, services: McpServices, authority: McpAuthority = {}) {
+  const server = new Server({ name: 'everyone-presentation-studio', version: '0.1.0' }, { capabilities: { tools: {} } });
+  async function currentCapabilities() {
+    const current = await services.studio.getCapabilities(actor);
+    if (current.principal_id !== actor.principal_id || !Array.isArray(current.capabilities) || current.capabilities.some(value => typeof value !== 'string')) {
+      throw new DomainError('CENTRAL_RESPONSE_INVALID', 'The current account authority could not be verified.', 503);
+    }
+    return new Set(current.capabilities.filter(capability => authority.allowedCapabilities === undefined || authority.allowedCapabilities.includes(capability)));
+  }
+  server.setRequestHandler('tools/list', async () => {
+    const permitted = await currentCapabilities();
+    return { tools: implementedMcpTools(Boolean(services.casting), Boolean(services.review), Boolean(services.presentation), Boolean(services.sharing), Boolean(services.settings))
+      .filter(tool => mcpCapabilityAllowed(entries.find(entry => entry.name === tool.name)!.capability, permitted)) };
+  });
+  server.setRequestHandler('tools/call', async request => {
+    try {
+      const entry = entries.find(tool => tool.name === request.params.name);
+      if (entry && !mcpCapabilityAllowed(entry.capability, await currentCapabilities())) {
+        throw new DomainError('CAPABILITY_REQUIRED', 'Your current delegation and business account do not permit this operation.', 403, { capability: entry.capability });
+      }
+    } catch (error) {
+      const response = failure(error);
+      return { content: [{ type: 'text', text: 'This operation could not be authorized. Read the structured error.' }],
+        structuredContent: await response.json() as Record<string, unknown>, isError: true };
+    }
+    return invokeMcpTool(request.params.name, request.params.arguments ?? {}, actor, services);
+  });
   return server;
 }

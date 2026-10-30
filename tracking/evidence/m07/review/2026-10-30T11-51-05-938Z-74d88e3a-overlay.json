@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-30T11:51:05.938Z",
+  "reviewer_task": "/root/m07_security_review",
+  "result": "no_unresolved_material_source_finding_in_narrow_overlay",
+  "scope": "Independent read-only Processing timezone correction and fixed29 cloud-helper/original-profile/freezer linkage review. No application, CLI, database, provider or helper execution.",
+  "prior_review": {
+    "path": "tracking/evidence/m07/review/2026-10-30T11-47-13-644Z-81de3efe.json",
+    "sha256": "ea50e219c184e1b92e78cc7c484af30b0cb2e62166340c8ece1799e06b290ec3",
+    "preserved": true
+  },
+  "prior_review_source_differences": [
+    {
+      "path": "apps/web/components/ProcessingView.tsx",
+      "before": "aaa08ad5a5629b8bdeddcbfda702de807ba58c5e3c0d803698b6c71fd4feef00",
+      "after": "5fcf422fa1e48e37a352ce26906fe169f5d09366650fa103e388b18975a5273a"
+    }
+  ],
+  "historical_runtime_correction": {
+    "discovered_by": "parent desktop gate",
+    "detail": "The earlier56-source review preceded detection of two stale dateLabel references after that helper was removed. It is not a runtime-pass receipt. Current Processing checkedAt labels were re-read and use StudioDateTime in both list and detail.",
+    "current_dateLabel_reference_present": false,
+    "current_last_checked_component_count": 2
+  },
+  "timezone_followup_sources_read": [
+    "tests/server/session-time-zone.test.ts",
+    "tests/e2e/studio-time-zone.spec.ts"
+  ],
+  "release_helper": {
+    "review_pin": "4486d6b5f5ca363511d68790e58f3fcdce9433e1a388b298810a2d3db0b66779",
+    "profile_pin": "681fe120fea3ee70e35bd2c4ab4734e2b95e89e40ceef5a678f857adfa673cc2",
+    "reviewed": "Fixed review/source seals bind original plan, full16103/16430 catalogue rehearsal/reconciliation and current exact-profile local promotion. validate_profile_delta permits only the exact raw preexisting PUBLIC USAGE insertion on both public ACL sides; canonical protected hash remains actual before-to-after.",
+    "config_sha_pin": "4d348d7a9efa85649df27bc478aa40283fa49b92b1b628a1bc261ca5a5098254",
+    "required_finding": {
+      "location": "tools/freeze-m07-cloud29-review.py:26",
+      "problem": "Nested promotion receipt path was read/hashed before its path and linkage validation.",
+      "resolution": "Fixed profile and local promotion validation now precede source_paths construction. Regression mutates the otherwise real passed receipt to ../M07_SYNTHETIC_REFUSED_PATH and requires boundary.Blocked before target read/hash.",
+      "status": "resolved_in_current_source"
+    },
+    "remaining_material_findings": [],
+    "authorization_to_apply_implied": false
+  },
+  "reviewer_executed_tests": false,
+  "reviewer_executed_release_or_cli": false,
+  "reviewer_called_database_or_provider": false,
+  "application_or_source_edits_by_reviewer": false,
+  "verification_limits": [
+    "Parent tests/rehearsals are separate evidence; their execution is not claimed by this review.",
+    "Review does not prove canonical schema state, quiescence, promotion outcome, provider OAuth, serving or production readiness.",
+    "Any helper CONFIG_SHA-only freeze after this source review still requires the root source seal/config verification."
+  ],
+  "source_sha256": {
+    "apps/web/components/ProcessingView.tsx": "5fcf422fa1e48e37a352ce26906fe169f5d09366650fa103e388b18975a5273a",
+    "tests/server/session-time-zone.test.ts": "183d6a19e4ebfb87de3979029ad934a344518a7b65b08b431681705c1cb71e70",
+    "tests/e2e/studio-time-zone.spec.ts": "82e3b8ab26b68f57b7cfb0353addbb093e6fb25f8230193d8ccdbc358060da8b",
+    "tools/release_m07_29.py": "9d105c1e2b447125516c76f8a69eb7e1041d33aaa6c4e829076c8747b1255f06",
+    "tools/freeze-m07-cloud29-review.py": "192ffcb973a2cc3343a905dc6546f0a61e06e5a0c6620c899bda416fcdf5bc1a",
+    "tests/operations/test_m07_29_release.py": "4e884f73d9ba62212e9e72cd6a001b4a1c5c11ee0a5a9f2369b6f6a8a95c4d12",
+    "development/m07/db/release29-original-profile-review.json": "4486d6b5f5ca363511d68790e58f3fcdce9433e1a388b298810a2d3db0b66779",
+    "development/m07/db/release29-original-profile.json": "681fe120fea3ee70e35bd2c4ab4734e2b95e89e40ceef5a678f857adfa673cc2",
+    "development/m07/db/release29-plan.json": "47fd50c326b512d1b0a8d73ed19188beeb0a33d96316eea1f368bfaa9b8324fc",
+    "development/m07/db/release29-original-profile-delta.json": "f87116625e61a66ab065f8d3f2163c8fd8cc91c3afddbd240c584eccf879f05f",
+    "tools/m07-original-profile29-comparison.mjs": "e5bf4b4c8a1e1a682e303615cb9989340f3d014988488f48d794da643b2cdc20",
+    "tests/operations/m07-original-profile29.test.mjs": "61152e27d3e612a9719279f869acc5a67c4492332f06296a6a0c417c0ac40a07",
+    "tracking/evidence/m07/local29-promotion/2026-10-30T11-43-29-462Z-b17a0d67-current-promote.json": "c2bcce06ce8fef12a2c64875fe1fd6b154baff574f234b90cfc6ac281b586165"
+  }
+}

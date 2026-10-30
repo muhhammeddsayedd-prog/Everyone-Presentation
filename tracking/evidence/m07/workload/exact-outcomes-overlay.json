@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-30T11:04:45.746Z",
+  "result": "passed",
+  "scope": "Offline exact outcome classifier over retained actual native checkpoint, with read-only post-run container observation; no repeated native workload",
+  "native_run_receipt": "tracking/evidence/m07/workload/2026-10-30T10-59-36-690Z-6557c962.json",
+  "native_checkpoint_sha256": "e30bb6da59db840e0d34848ac66cf0a69a1b44c43492443cfc84ff135c8bd952",
+  "original_runner_preserved": "development/m07/workload-source-history/9619c0870253cdb93682972f1503ce93489cbf8297145bf841ff220d4fd1640d-m07-workload-local.mjs.txt",
+  "original_runner_sha256": "9619c0870253cdb93682972f1503ce93489cbf8297145bf841ff220d4fd1640d",
+  "current_source_seals": {
+    "tools/m07-workload-recheck.mjs": "4fabab37b8e9b6ed07382829343022962232eefc4fb30d749c5151ed02bf1bca",
+    "tools/m07-workload-local.mjs": "f766daaef70eb593f3833eafdc18de603c7845e9b1a08b69f37426cc910cc309",
+    "tools/m07-workload-acceptance.mjs": "757e327845f579aa349246e862a5fbe776f3d9fe98d1f07380c4d7c18c01cef8",
+    "tools/m07-workload-acceptance.test.mjs": "d6139c0aec2fb9183106220a2fca8d72c81ba99e5ad7c04051f51f72319dec73",
+    "tools/m07-workload.mjs": "8a0beaab8931f1b36163ab555ac6f693534a1b0fdd2fe918fab5c86f6f4bc34d",
+    "tools/m07-workload.test.mjs": "9d738e7531c38659fcfe2c575953d0214b5ffedf2febb32e7bd2a222776265b4"
+  },
+  "unchanged_native_and_worker_source_seals": true,
+  "only_native_run_source_changed": "tools/m07-workload-local.mjs imports exact outcome classifier and seals its two added source files; no native execution semantics changed",
+  "summary": {
+    "total_files": 200,
+    "total_input_bytes": 1420766,
+    "succeeded": 198,
+    "failed": 2,
+    "unconfirmed": 0,
+    "pending": 0,
+    "running": 0,
+    "total_attempts": 201,
+    "retries": 1,
+    "native_requests": 199,
+    "attempted_input_bytes": 1427906,
+    "peak_inflight": 2,
+    "restarts": 1,
+    "duration_ms": {
+      "p50": 2429,
+      "p95": 2835,
+      "maximum": 3079
+    },
+    "successful_duration_ms": {
+      "p50": 2430,
+      "p95": 2840,
+      "maximum": 3079
+    },
+    "queue_wait_ms": {
+      "p50": 123639,
+      "p95": 235457,
+      "maximum": 245906
+    },
+    "failure_codes": {
+      "VIDEO_DECODE_FAILED": 1,
+      "VIDEO_TYPE_UNSUPPORTED": 1,
+      "VIDEO_CONTAINER_UNAVAILABLE": 1
+    }
+  },
+  "post_run_running_media_containers": 0,
+  "provider_or_database_called": false,
+  "new_native_calls": 0,
+  "assessor_tdd": {
+    "red": "ERR_MODULE_NOT_FOUND before new assessor existed; 0 cases executed",
+    "green": {
+      "tests": 5,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "limits": [
+    "Original native receipt remains bound to its preserved original runner; it is not relabelled as a native run of the current harness.",
+    "This overlay strengthens result classification only; native workloads, providers, queues, deployment and browser evidence were not rerun."
+  ]
+}

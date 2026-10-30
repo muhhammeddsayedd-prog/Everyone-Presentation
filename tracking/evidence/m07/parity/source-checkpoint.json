@@ -1,0 +1,66 @@
+{
+  "observed_at": "2026-10-30T10:43:36.616794+00:00",
+  "base_head": "02f9287f8a5dc1b40d2364f904ac499f7c1a54a6",
+  "scope": "Focused candidate cursor/envelope/idempotency and UI reader slice. Controlled RPC/SDK/desktop only; no cloud/provider/SQL/hosted/actual-Claude acceptance. Other agents have concurrent unsealed changes.",
+  "source_sha256": {
+    "apps/web/lib/candidates-http.ts": "92d724c9867d997b38da3342cfa6ad3d5b8f1ac278294adf3a19238b7fab9245",
+    "apps/web/lib/mcp-output-validation.ts": "30026e1c38953c96cefbdd5c82cc9e3a567c4bf755d8bb7d748481d4be6cd583",
+    "apps/web/lib/generated-contracts.json": "ec30dcab2182c210b36901e86175d5d43a08b3a5cf09b17a2543c6c043fcba59",
+    "apps/web/components/candidate-pages.ts": "2340e009c68a327e6e1d565302c194325db1729c02ecf402ff952368f8ffb8f4",
+    "apps/web/components/CandidateDetailView.tsx": "c67fa00b416a9a4e43d9dfc39eced7934ce8546970d31a9a0c3ef14ef6046055",
+    "apps/web/components/WorkspaceCandidatesView.tsx": "e1726c451001a0979cf5d065ed754f25f213c16e523796c02796c2dd92573c68",
+    "apps/web/components/WorkspaceReviewView.tsx": "7b4871e8e0168282f998e935f2e31ff8bb30526732bc278eb860a81da655fbbe",
+    "packages/central/src/candidate-list.ts": "e714e0d26aec8b1dee6cc67339d6fb27f6728cdd507493fb4ae171ae25aa63f0",
+    "packages/central/src/candidates.ts": "7aa8460869b119bcda97e8bc3b6be545bec7edee1f64cb092d78f269efadd77b",
+    "packages/central/test/candidates.test.ts": "a3c4b49aad8e8e0cc6d7e3564923b64f4e5d565366e60d92e24428ef9e6a80ec",
+    "tests/server/candidate-pages.test.ts": "4e523a7fe0e3d0bfed6f3592752f2a210e8e5d6e32e7946fec3820fb9be2218a",
+    "tests/server/mcp-output-validation.test.ts": "86dae2e70efde30351c2a0b65d3c0731ada1380c49dba7b8ce3c0f9f0cea0acc",
+    "tests/server/m07-candidate-parity.test.ts": "5481ab394e29cb9160404cefeba2b14b358116250d1a1da83096da30f7821f2c",
+    "tests/e2e/candidate-pagination-ui.spec.ts": "601f7e8412e7745ff134db8e3a141c48117851f2d5412e400b744c02db5303bf",
+    "tests/e2e/review-ui.spec.ts": "74711cc6767dba020ec9d63b74cd7b9b2bf226090f4a63db614063b7f2f9e4e8",
+    "contracts/openapi.yaml": "594f760a22fbc40b766012e5baf988bda2a256db725ea360bbf326c96b3ce0cf",
+    "contracts/mcp-tool-catalog.json": "f00f825c5fa5ae8b39a3073ea7835467f0c5048313ca74e95f77cb91b795d213",
+    "tools/check-m07-candidate-intents.mjs": "992acdb4ecea9adeb1e61017e2c0040061f4720ed33a61bd2551e33ee55b5339",
+    "tools/update_m07_candidate_contracts.py": "513e35397bea7b4ea7c0ad2a8374015141cf38ff0e6ecccb7f1ef746e4323346",
+    "development/m07/CANDIDATE_PARITY.md": "04fd298b16e6cbecd17aa84055ad8fea44661a61e6100f7f752af0f819255bd3",
+    "context-packets/M03_CONTEXT.md": "4baff567443cfe53864107532d2ba5920902a5d0891356f6bd95ddb41b1e5fcd",
+    "context-packets/M03_OPENAPI.yaml": "691e90bdc26c5d1bdcfc41a54cbc68aad6fecda68d1cc3a45aad50f12199b143",
+    "context-packets/M04_CONTEXT.md": "b5a72187b8c66f8eeb2fe302ccb42d9562d53f786c8e578a237bf56410db984d",
+    "context-packets/M04_OPENAPI.yaml": "c2c169b96998d8e6edb15c93360226678f70a0b1688206a336574148c211cc62",
+    "context-packets/M07_CONTEXT.md": "6e9321b9cd269f354152ac9199b911e427e98ccffc9cb1567238f8f859f4fb19",
+    "context-packets/M07_OPENAPI.yaml": "01accfc571adab56a47f73697fc5688896df8d8589ec6513349c39bac82e3612"
+  },
+  "checks": {
+    "focused_module_cases": {
+      "pass": 24,
+      "fail": 0,
+      "log": "candidate-boundary-final24-green.txt"
+    },
+    "desktop_controlled_browser": {
+      "pass": 10,
+      "fail": 0,
+      "log": "candidate-desktop-e2e.txt",
+      "mobile": "Not run; EPS_SKIP_MOBILE_TESTS=true omitted existing390px tail"
+    },
+    "scoped_lint": {
+      "exit_code": 0,
+      "warnings": 0,
+      "log": "candidate-lint-green.txt"
+    },
+    "static_pack": {
+      "checks": 357,
+      "errors": 0,
+      "log": "pack-strict-green.txt"
+    },
+    "global_typecheck": "Recorded failed in concurrent root/auth-owned fixture; final composed verification is root-owned."
+  },
+  "historical_files_mutated": false,
+  "sql_migration_diff": [],
+  "root_owned_integrations": [
+    "apps/web/lib/mcp.ts",
+    "apps/web/app/mcp/route.ts",
+    "MCP auth and capabilities",
+    "settings",
+    "final full-suite/build/release tracking"
+  ]
+}

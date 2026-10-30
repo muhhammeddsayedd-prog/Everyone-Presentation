@@ -1,0 +1,159 @@
+/** Local-only owned clone: original28 + immutable candidate29 + issuer candidate30. */
+import assert from 'node:assert/strict';
+import { spawn } from 'node:child_process';
+import { createHash, randomUUID } from 'node:crypto';
+import { mkdir, open, readFile, unlink, writeFile } from 'node:fs/promises';
+import path from 'node:path';
+import { isDeepStrictEqual } from 'node:util';
+import { verifyLocalTarget, runOwnedLocalSql } from '../../../tools/local-postgres.mjs';
+
+const ROOT = path.resolve(import.meta.dirname, '../../..');
+assert(process.argv.length <= 3 && (!process.argv[2] || process.argv[2] === '--red'));
+const red = process.argv[2] === '--red', runId = randomUUID();
+// Frozen29 permits this owned name prefix only; the distinct hook30 comment/GUC fences our SQL.
+const database = `eps_m07_settings_${runId.replaceAll('-', '')}`, marker = `eps-m07-owned-hook30:${runId}`;
+const privateRoot = path.join(ROOT, '.local/m07-oauth-hook30', runId);
+const lockPath = path.join(ROOT, '.local/local-postgres/test-db.lock');
+const CANDIDATE29_SHA = '6531e8decab5496e212eb01575aca666cd9e03b0575f92dd66bd380760f84af4';
+const roleNames = ['eps_settings_owner', 'eps_mcp_session_owner', 'eps_mcp_issuer_owner'];
+const ownedRoles = new Map();
+const sha = value => createHash('sha256').update(value).digest('hex');
+const literal = value => `'${String(value).replaceAll("'", "''")}'`;
+const rows = value => value.split(/\r?\n/u).filter(line => line.startsWith('{')).map(line => JSON.parse(line));
+const report = { schema_version: '1.0', run_id: runId, started_at: new Date().toISOString(), result: 'failed', mode: red ? 'red-no-issuer' : 'candidate30',
+  scope: 'Owned disposable local28 clone plus frozen29 and synthetic native-Auth events; no real Auth hook/provider/client acceptance.',
+  cloud_called: false, provider_called: false, provider_credentials_loaded: false, hook_registered: false, actual_migration_history_changed: false };
+let target, ownedOid, locked = false, originalBefore;
+
+async function command(args, { input = '', allowFailure = false } = {}) {
+  return new Promise((resolve, reject) => {
+    const child = spawn('docker', ['--host', process.platform === 'win32' ? 'npipe:////./pipe/dockerDesktopLinuxEngine' : 'unix:///var/run/docker.sock', ...args], {
+      cwd: ROOT, shell: false, windowsHide: true, stdio: ['pipe', 'pipe', 'pipe'] });
+    let stdout = '', stderr = '', size = 0;
+    const timer = setTimeout(() => child.kill(), 60_000);
+    const collect = (kind, value) => { if (kind === 'out') stdout += value; else stderr += value; size += value.length; if (size > 64 * 1024 * 1024) child.kill(); };
+    child.stdout.setEncoding('utf8').on('data', value => collect('out', value));
+    child.stderr.setEncoding('utf8').on('data', value => collect('err', value));
+    child.once('error', () => { clearTimeout(timer); reject(Error('HOOK30_LOCAL_TRANSPORT_UNAVAILABLE')); });
+    child.once('close', code => { clearTimeout(timer); if (code && !allowFailure) reject(Object.assign(Error('HOOK30_SQL_UNCONFIRMED'), { privateDiagnostic: { code, stderr } }));
+      else resolve({ code, stdout, stderr }); });
+    child.stdin.on('error', () => {}); child.stdin.end(input);
+  });
+}
+const psql = db => ['exec', '--user', 'postgres', '-i', target.container.Id, 'psql', '-X', '-q', '-A', '-t', '-v', 'ON_ERROR_STOP=1',
+  '-h', '/var/run/postgresql', '-U', 'supabase_admin', '-d', db];
+async function identity() {
+  const observed = rows((await command(psql('template1'), { input: `begin read only;select jsonb_build_object('oid',oid,'name',datname,'owner',datdba::regrole::text,
+    'comment',shobj_description(oid,'pg_database'),'clients',(select count(*)from pg_stat_activity where datname=${literal(database)}))from pg_database where datname=${literal(database)};rollback;` })).stdout).at(-1);
+  assert(observed); assert.equal(observed.name, database); assert.equal(observed.owner, 'postgres'); assert.equal(observed.comment, marker);
+  if (ownedOid) assert.equal(observed.oid, ownedOid); return observed;
+}
+async function sql(body, { rollback = false, allowFailure = false } = {}) {
+  await identity();
+  return command(psql(database), { allowFailure, input: `set log_statement='none';set log_min_duration_statement=-1;
+    do $$begin if current_database()<>${literal(database)}or(select shobj_description(oid,'pg_database')from pg_database where datname=current_database())is distinct from${literal(marker)}
+    then raise exception'HOOK30_OWNED_DATABASE_REQUIRED';end if;end$$;
+    begin;set local search_path='';set local lock_timeout='5s';set local statement_timeout='45s';
+    set local eps.local_fixture_tests='eps-presentation-canonical-pg17-local';set local eps.m07_candidate_tests='owned-local29';
+    set local eps.m07_issuer_tests='owned-local-hook30';set local role postgres;
+    ${body}\n${rollback ? 'rollback' : 'commit'};` });
+}
+async function rememberRoles() {
+  const observed = rows((await command(psql('template1'), { input: `select jsonb_build_object('name',rolname,'oid',oid)from pg_roles where rolname in(${roleNames.map(literal).join(',')});` })).stdout);
+  for (const item of observed) { assert(roleNames.includes(item.name)); if (ownedRoles.has(item.name)) assert.equal(ownedRoles.get(item.name), item.oid); else ownedRoles.set(item.name, item.oid); }
+}
+const originalRowsSql = `do $$declare r record;v text;result jsonb:='{}';begin
+ for r in select n.nspname,c.relname from pg_class c join pg_namespace n on n.oid=c.relnamespace where c.relkind='r'
+ and n.nspname in('eps','public','auth','storage','supabase_migrations','eps_local_guard')order by 1,2 loop
+ execute format('select md5(coalesce(string_agg(to_jsonb(t)::text,E''\\n''order by to_jsonb(t)::text),''''))from %I.%I t',r.nspname,r.relname)into v;
+ result:=result||jsonb_build_object(r.nspname||'.'||r.relname,v);end loop;
+ perform set_config('eps.hook30.original_rows',result::text,true);end$$;
+ select jsonb_build_object('rows',current_setting('eps.hook30.original_rows')::jsonb,'roles',(select jsonb_agg(jsonb_build_object('name',rolname,'oid',oid,'super',rolsuper,'login',rolcanlogin,'inherit',rolinherit,'bypass',rolbypassrls,'create_role',rolcreaterole,'create_db',rolcreatedb,'replication',rolreplication)order by rolname)from pg_roles),
+ 'memberships',(select coalesce(jsonb_agg(to_jsonb(m)order by roleid,member),'[]'::jsonb)from pg_auth_members m));`;
+async function originalSnapshot(catalog) {
+  const result = await runOwnedLocalSql(`begin read only;${catalog}\n${originalRowsSql}\nrollback;`);
+  return rows(result.stdout);
+}
+async function cleanup(catalog) {
+  if (ownedOid) {
+    await rememberRoles(); const observed = await identity(); assert.equal(observed.clients, 0);
+    await command(psql('template1'), { input: `drop database "${database}";` });
+    const gone = rows((await command(psql('template1'), { input: `select jsonb_build_object('count',count(*))from pg_database where datname=${literal(database)};` })).stdout).at(-1);
+    assert.equal(gone.count, 0); report.disposable_database_removed = true;
+  }
+  for (const [name, oid] of ownedRoles) {
+    const found = rows((await command(psql('template1'), { input: `select jsonb_build_object('name',rolname,'oid',oid,'login',rolcanlogin,'super',rolsuper,'bypass',rolbypassrls)from pg_roles where rolname=${literal(name)};` })).stdout).at(-1);
+    assert(found); assert.equal(found.name, name); assert.equal(found.oid, oid); assert.equal(found.login, false); assert.equal(found.super, false); assert.equal(found.bypass, false);
+    await command(psql('template1'), { input: `drop role ${name};` });
+  }
+  report.created_roles_removed = ownedRoles.size;
+  if (originalBefore) { const after = await originalSnapshot(catalog); assert(isDeepStrictEqual(originalBefore, after)); report.original_local28_data_catalog_roles_and_oids_unchanged = true; }
+  if (locked) {
+    const lock = JSON.parse(await readFile(lockPath, 'utf8')); assert.equal(lock.run_id, runId); assert.equal(lock.pid, process.pid);
+    await unlink(lockPath); report.shared_test_lock_released = true;
+  }
+}
+
+const sourcePaths = ['development/m07/oauth-hook/run-local30.mjs', 'development/m07/oauth-hook/candidate30.sql', 'development/m07/oauth-hook/tests30.sql',
+  'development/m07/db/candidate29.sql', 'development/m07/db/catalog29.sql', 'development/m07/db/baseline28-reviewed.json', 'development/m07/db/local-auth-fixture.sql'];
+let sources;
+try {
+  await mkdir(privateRoot, { recursive: true });
+  sources = new Map(await Promise.all(sourcePaths.map(async file => [file, await readFile(path.join(ROOT, file), 'utf8')])));
+  assert.equal(sha(sources.get('development/m07/db/candidate29.sql')), CANDIDATE29_SHA);
+  report.source_seals = Object.fromEntries([...sources].map(([file, text]) => [file, sha(text)]));
+  const history = path.join(ROOT, 'development/m07/oauth-hook/source-history'); await mkdir(history, { recursive: true });
+  for (const [file, text] of sources) if (file.startsWith('development/m07/oauth-hook/')) {
+    const copy = path.join(history, `${sha(text)}-${path.basename(file)}.txt`);
+    try { await writeFile(copy, text, { flag: 'wx' }); } catch (error) { if (error.code !== 'EEXIST') throw error; assert.equal(sha(await readFile(copy)), sha(text)); }
+  }
+  target = await verifyLocalTarget();
+  const lock = await open(lockPath, 'wx', 0o600); await lock.writeFile(JSON.stringify({ run_id: runId, pid: process.pid, purpose: 'm07-owned-local-hook30' })); await lock.close(); locked = true;
+  const preflight = rows((await runOwnedLocalSql(`begin read only;select jsonb_build_object('migrations',(select count(*)from supabase_migrations.schema_migrations),
+    'users',(select count(*)from auth.users),'sessions_present',to_regclass('auth.sessions')is not null,
+    'other_clients',(select count(*)from pg_stat_activity where backend_type='client backend'and pid<>pg_backend_pid()),
+    'roles',(select count(*)from pg_roles where rolname in(${roleNames.map(literal).join(',')})));rollback;`)).stdout).at(-1);
+  assert.deepEqual(preflight, { migrations: 28, users: 0, sessions_present: true, other_clients: 0, roles: 0 }); report.preflight = preflight;
+  originalBefore = await originalSnapshot(sources.get('development/m07/db/catalog29.sql')); report.original_baseline_sha256 = sha(JSON.stringify(originalBefore));
+  const dump = await command(['exec', '--user', 'postgres', target.container.Id, 'pg_dump', '-h', '/var/run/postgresql', '-U', 'supabase_admin', '-d', 'postgres',
+    '--no-password', '--no-security-labels', '--clean', '--if-exists', '--strict-names', '--no-large-objects',
+    ...['eps', 'public', 'auth', 'storage', 'supabase_migrations', 'extensions'].flatMap(schema => ['--schema', schema]),
+    ...['pg_stat_statements', 'pgcrypto', 'uuid-ossp'].flatMap(extension => ['--extension', extension])]);
+  assert(!/^\\connect\b/mu.test(dump.stdout));
+  await command(psql('template1'), { input: `create database "${database}"with template template0 owner postgres;comment on database "${database}"is ${literal(marker)};` });
+  ownedOid = (await identity()).oid;
+  await command(psql(database), { input: dump.stdout });
+  // The original's separately established empty managed Auth subset is already
+  // in this dump. Do not rerun/create the auth.sessions fixture on original/clone.
+  await sql(sources.get('development/m07/db/candidate29.sql')); await rememberRoles();
+  if (red) {
+    const before = await sql("do $$begin if to_regprocedure('eps.mcp_custom_access_token_hook(jsonb)')is null then raise exception'HOOK30_ISSUANCE_MISSING';end if;end$$;", { allowFailure: true, rollback: true });
+    assert.notEqual(before.code, 0); assert(before.stderr.includes('HOOK30_ISSUANCE_MISSING')); report.meaningful_red = true;
+  } else {
+    await sql(sources.get('development/m07/oauth-hook/candidate30.sql')); await rememberRoles();
+    const proof = await sql(sources.get('development/m07/oauth-hook/tests30.sql'), { rollback: true });
+    report.sql_stages = [...new Set((proof.stdout + '\n' + proof.stderr).match(/HOOK30_[A-Z_]+_PASSED/gu) ?? [])]; assert.equal(report.sql_stages.length, 7);
+    report.real_role_issuer_and_privilege_proof = true;
+    const persisted = rows((await sql(`select jsonb_build_object('hook_owner',(select proowner::regrole::text from pg_proc where oid='eps.mcp_custom_access_token_hook(jsonb)'::regprocedure),
+      'history_count',(select count(*)from supabase_migrations.schema_migrations),'registry_count',(select count(*)from eps.mcp_oauth_resources),'user_count',(select count(*)from auth.users));`, { rollback: true })).stdout).at(-1);
+    assert.deepEqual(persisted, { hook_owner: 'eps_mcp_issuer_owner', history_count: 28, registry_count: 0, user_count: 0 }); report.owned_candidate_state = persisted;
+  }
+  for (const [file, text] of sources) assert.equal(sha(await readFile(path.join(ROOT, file), 'utf8')), sha(text));
+  report.frozen29_and_sources_unchanged = true; report.result = 'passed';
+} catch (error) {
+  report.failure_code = 'HOOK30_LOCAL_PROOF_UNCONFIRMED';
+  await mkdir(privateRoot, { recursive: true });
+  await writeFile(path.join(privateRoot, 'diagnostic.json'), JSON.stringify({ message: error.message, stack: error.stack, diagnostic: error.privateDiagnostic }, null, 2), { mode: 0o600 });
+  report.private_diagnostic = path.relative(ROOT, path.join(privateRoot, 'diagnostic.json')).replaceAll('\\', '/');
+} finally {
+  try { if (target && locked) await cleanup(sources.get('development/m07/db/catalog29.sql')); }
+  catch (error) { report.result = 'failed'; report.cleanup_unconfirmed = true; await writeFile(path.join(privateRoot, 'cleanup-diagnostic.json'), JSON.stringify({ message: error.message, diagnostic: error.privateDiagnostic }, null, 2), { mode: 0o600 }); }
+  report.finished_at = new Date().toISOString(); report.elapsed_ms = Date.parse(report.finished_at) - Date.parse(report.started_at);
+  const evidenceRoot = path.join(ROOT, 'tracking/evidence/m07/oauth-hook30'); await mkdir(evidenceRoot, { recursive: true });
+  const receipt = path.join(evidenceRoot, `${report.started_at.replace(/[:.]/gu, '-')}-${runId.slice(0, 8)}.json`);
+  await writeFile(receipt, JSON.stringify(report, null, 2) + '\n', { flag: 'wx' });
+  console.log(JSON.stringify({ result: report.result, mode: report.mode, stages: report.sql_stages?.length, meaningful_red: report.meaningful_red,
+    original_unchanged: report.original_local28_data_catalog_roles_and_oids_unchanged, lock_released: report.shared_test_lock_released,
+    evidence: path.relative(ROOT, receipt).replaceAll('\\', '/'), diagnostic: report.private_diagnostic }));
+  if (report.result !== 'passed') process.exitCode = 1;
+}

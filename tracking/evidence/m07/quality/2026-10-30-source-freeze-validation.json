@@ -1,0 +1,39 @@
+{
+  "observed_at": "2026-10-30T12:35:10.223118+00:00",
+  "result": "passed_scoped",
+  "scope": "Final source-only contract/docs/parity and scoped current quality/restore evidence index; package/private-value scan finalization is recorded separately in ignored dist/SOURCE_CHECKPOINT.json.",
+  "application_quality": "tracking/evidence/m07/quality/2026-10-30-final-documentation-overlay.json",
+  "application_quality_sha256": "9b04c6fb88cf4f31d44f9669ddfc8f2bdd023fc47ba52b192df2e41ba64662ad",
+  "app_and_test_inputs_unchanged": true,
+  "module_cases": 747,
+  "desktop_cases": 80,
+  "parity_receipt": "tracking/evidence/m07/parity/2026-10-30-final-29-inventory.json",
+  "static_pack": {
+    "status": "PASS",
+    "checks": 359,
+    "errors": [],
+    "limitations": [
+      "Vendored skills, tooling/dependency environments, Git metadata, private local state, linked-provider metadata and generated runtime/test output are excluded from pack-source checks. Validate installed skills and application behavior with their separate checks.",
+      "Reference SQL was not executed against a database; function-body compilation, migration semantics and RLS behavior require M00\u2013M07 implementation tests.",
+      "No cloud database, OpenAI request, n8n execution, live application, actual production PDF or MCP client was tested by this pack checker."
+    ],
+    "api_paths": 99,
+    "api_operations": 115,
+    "mcp_tools": 86,
+    "sql_design_tables": 25,
+    "json_schemas": 12,
+    "acceptance_cases": 76
+  },
+  "pack_report_sha256": "427ce7e31d2526eb6b873da129b6887eb323e582bc4d72fe2d2ba6b46b6e3301",
+  "current29_restore": "tracking/evidence/m07/recovery29/2026-10-30T12-25-42-320Z-bda68ef0.json",
+  "current29_restore_sha256": "b2cebc9ae4326675a10b96a7baecae509c24e424471872d94a42865102f1d140",
+  "restore_frozen_index": "tracking/evidence/m07/recovery29/FROZEN_INDEX.json",
+  "restore_frozen_index_sha256": "2f03f5967346506a566ed63ea586f1e003442e8565a3fbd8e6b271911b509e09",
+  "live_settings": "Still sign-in page in connected Studio tab; no tree change on final UI observation",
+  "live_oauth": "Unverified; no connector/tool and dashboard signed out, no provider/client/hook changed",
+  "AT072": "pending",
+  "M03_semantics": "pending",
+  "mobile": "owner gate skipped; final80 excludes narrow legacycases, earlier mistakequalified",
+  "hosting": "deferred",
+  "production_release": "unverified"
+}

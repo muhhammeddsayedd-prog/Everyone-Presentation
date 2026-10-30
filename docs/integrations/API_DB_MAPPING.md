@@ -1,6 +1,6 @@
 # API-to-data mapping and ownership
 
-**Status:** logical implementation map. These are proposed `eps` fields, not claims about the uninspected cloud database. M00 replaces physical canonical project/client/person names through the discovery adapter without changing API meaning. See `docs/data/DATABASE_SCHEMA.md` and `contracts/openapi.yaml` together.
+**Status:** logical field meanings plus implemented adapter boundaries. M00 discovery and the current handoff record actual canonical ownership/history; the logical examples below do not replace that discovery or establish fresh cloud state. Read `docs/data/DATABASE_SCHEMA.md`, `contracts/openapi.yaml`, current central adapters and the [operation matrix](IMPLEMENTATION_PARITY.md) together.
 
 ## Identity and shared records
 
@@ -73,6 +73,12 @@ Do not reconstruct raw facts by concatenating lossy search arrays. Do not calcul
 Worker `reserve_job_output` is the only path to new derived output destinations. It validates allowed asset_kind for the active stage, parent source relation and byte/type bounds, then creates the asset reservation. `complete_job_output` verifies the uploaded object and marks it ready. Worker `get_job_asset_access` signs only actual input/output assets belonging to its current stage lease. Expired credentials are refreshed through this operation; no general bucket-path signer is exposed.
 
 Library default frame arrays and workspace-selected arrays are independent. Every selected frame must resolve to an actual source video frame; no arbitrary uploaded face image is accepted as a claimed extracted frame. A supporting image remains supporting material unless a later explicitly defined product feature uses it.
+
+### Implemented shared-media binary companion
+
+`get_media_content` (`GET /media/{asset_id}/content`) maps to the same central `getMediaContent(actor,assetId)` used by frame, logo, specs and supporting-file UI readers. `storageFor` resolves the current user-authorized asset purpose, then the exact storage adapter repeats its scoped lookup and byte/type/hash checks. Unsupported purposes fail explicitly; original candidate video uses `play_media`. This route accepts no bucket/object destination and has no range API. Private no-store/nosniff bytes are separate from JSON metadata and are deliberately not a new MCP tool. Saved-version and guest/PDF-grant byte readers retain their independent immutable-version/live-parent rules.
+
+Candidate-media and duplicate lists now page validated results from the existing authorized array RPCs, with principal/candidate/operation-bound ID cursors. This establishes bounded transport responses, not bounded database retrieval. The three candidate update operations publish the stable idempotency key already required by their central mutation adapter.
 
 ## Casting, versions and feedback
 

@@ -6,6 +6,8 @@ import next from '@next/eslint-plugin-next';
 
 export default defineConfig([
   js.configs.recommended,
+  // Node 24 provides this global to the source-sealed SQL operation tests.
+  { files: ['tests/operations/*.mjs'], languageOptions: { globals: { structuredClone: 'readonly' } } },
   ...ts.configs.recommended,
   { files: ['**/*.ts', '**/*.tsx'], plugins: { 'react-hooks': hooks, '@next/next': next },
     settings: { next: { rootDir: 'apps/web/' } }, rules: {

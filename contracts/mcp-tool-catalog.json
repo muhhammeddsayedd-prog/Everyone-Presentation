@@ -5921,11 +5921,17 @@
           },
           "body": {
             "$ref": "#/$defs/CandidatePatch"
+          },
+          "idempotency_key": {
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 200
           }
         },
         "required": [
           "candidate_id",
-          "body"
+          "body",
+          "idempotency_key"
         ],
         "$defs": {
           "CandidateFacts": {
@@ -7035,11 +7041,17 @@
           },
           "body": {
             "$ref": "#/$defs/FrameSelection"
+          },
+          "idempotency_key": {
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 200
           }
         },
         "required": [
           "candidate_media_id",
-          "body"
+          "body",
+          "idempotency_key"
         ],
         "$defs": {
           "FrameSelection": {
@@ -9696,11 +9708,17 @@
           },
           "body": {
             "$ref": "#/$defs/WorkspaceCandidatePatch"
+          },
+          "idempotency_key": {
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 200
           }
         },
         "required": [
           "workspace_candidate_id",
-          "body"
+          "body",
+          "idempotency_key"
         ],
         "$defs": {
           "Id": {
@@ -20199,10 +20217,16 @@
         "properties": {
           "body": {
             "$ref": "#/$defs/SettingsPatch"
+          },
+          "idempotency_key": {
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 200
           }
         },
         "required": [
-          "body"
+          "body",
+          "idempotency_key"
         ],
         "$defs": {
           "RowVersion": {

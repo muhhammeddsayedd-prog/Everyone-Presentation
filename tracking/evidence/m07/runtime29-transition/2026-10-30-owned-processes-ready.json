@@ -1,0 +1,42 @@
+﻿{
+    "loopback_port3000_owner":  53776,
+    "specs_files_enabled_at_launch":  true,
+    "process_environment_directly_read":  false,
+    "authenticated_startup":  "tracking/evidence/m06/guest-export-runtime/2026-10-30T11-53-17-871Z-d3a747b7.json",
+    "guest_exports_enabled_at_launch":  true,
+    "observed_at":  "2026-10-30T11:58:10.3521179+00:00",
+    "hosting_deferred":  true,
+    "result":  "new_runtime_owned_and_listening",
+    "processes":  [
+                      {
+                          "created_at":  "2026-10-30T11:57:49.8643560Z",
+                          "command":  "\"C:\\Program Files\\nodejs\\node.exe\" --import tsx apps/worker/src/runtime-main.ts",
+                          "parent_process_id":  60408,
+                          "process_id":  8836
+                      },
+                      {
+                          "created_at":  "2026-10-30T11:57:49.6430020Z",
+                          "command":  "\"C:\\Program Files\\nodejs\\node.exe\" tools/dev-central.mjs",
+                          "parent_process_id":  47152,
+                          "process_id":  33724
+                      },
+                      {
+                          "created_at":  "2026-10-30T11:57:50.3638490Z",
+                          "command":  "\"C:\\Program Files\\nodejs\\node.exe\" D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\node_modules\\next\\dist\\server\\lib\\start-server.js",
+                          "parent_process_id":  62080,
+                          "process_id":  53776
+                      },
+                      {
+                          "created_at":  "2026-10-30T11:57:49.5943440Z",
+                          "command":  "\"C:\\Program Files\\nodejs\\node.exe\" tools/start-specs-worker.mjs",
+                          "parent_process_id":  47152,
+                          "process_id":  60408
+                      },
+                      {
+                          "created_at":  "2026-10-30T11:57:49.9174570Z",
+                          "command":  "\"C:\\Program Files\\nodejs\\node.exe\" D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\node_modules\\next\\dist\\bin\\next dev --hostname 127.0.0.1 --port 3000",
+                          "parent_process_id":  33724,
+                          "process_id":  62080
+                      }
+                  ]
+}

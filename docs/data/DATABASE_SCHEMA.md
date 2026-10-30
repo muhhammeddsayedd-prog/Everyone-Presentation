@@ -1,5 +1,10 @@
 # Database schema and data dictionary
 
+## M07 physical implementation overlay
+
+Canonical/local history29 now contains `eps.app_settings` and the operator-owned `eps.mcp_oauth_resources`, with constrained Settings/own-session RPCs and forced RLS. This configuration does not duplicate projects/clients/people or rewrite Ready snapshots. [The physical mapping](../../contracts/database/central-schema-map.yaml) records the exact fields and [independent readback](../../tracking/evidence/cloud-m07-29/2026-10-30T11-52-36-310355Z-f553771a-readback.json) preserves old data/Auth/configuration. The logical design below is retained as the dated contract; its initial uninspected-state wording is historical, not the current discovery state.
+
+
 **Status:** implementation design, version 1.0, 27 October 2026. The live Everyone Supabase schema has not been inspected. This document defines logical responsibilities and invariants, not a claim about existing tables. Read [the contract baseline](../../CONTRACT_BASELINE.md), [discovery and migrations](SUPABASE_DISCOVERY_AND_MIGRATIONS.md), [transaction contracts](TRANSACTION_FUNCTIONS.md), and [access controls](SECURITY_AND_ACCESS.md) together. Exact transport aliases and raw-to-search mappings are defined in [API/database mapping](../integrations/API_DB_MAPPING.md).
 
 ## 1. Ownership before table creation

@@ -36,6 +36,8 @@ export async function handleCandidatesRequest(request: Request, s: string[], act
   if (s[0] === 'candidates' && s.length === 1 && method === 'GET') return paged(await service.searchCandidates(actor, search(url, true)));
   if (s[0] === 'workspaces' && method === 'GET') return paged(await service.listWorkspaceCandidates(actor, s[1], search(url, false)));
   if (s[0] === 'candidates' && s.length === 3 && s[2] === 'supporting-files' && method === 'GET') return paged(await service.listCandidateSupport(actor,s[1],search(url,false)));
+  if (s[0] === 'candidates' && s.length === 3 && s[2] === 'media' && method === 'GET') return paged(await service.getCandidateMedia(actor, s[1], search(url, false)));
+  if (s[0] === 'candidates' && s.length === 3 && s[2] === 'duplicates' && method === 'GET') return paged(await service.findCandidateDuplicates(actor, s[1], search(url, false)));
   if (url.search) invalid();
   if (s[0] === 'roles' && method === 'GET') return json(await service.suggestCandidateFilters(actor, s[1]), context.requestId);
   if (s[0] === 'candidate-support' && method === 'POST') return json(await service.archiveCandidateSupport(actor,s[1],await body<CandidateSupportArchive>('CandidateSupportArchive'),context),context.requestId);
@@ -46,8 +48,6 @@ export async function handleCandidatesRequest(request: Request, s: string[], act
     if (s.length === 2 && method === 'PATCH') return json(await service.updateCandidate(actor, s[1], await body<CandidatePatch>('CandidatePatch'), context), context.requestId);
     if (s.length === 3 && s[2] === 'reviewed' && method === 'POST') return json(await service.confirmCandidateReviewed(actor, s[1], await body<CandidateConfirmation>('ConfirmReviewed'), context), context.requestId);
     if (s.length === 3 && s[2] === 'archive' && method === 'POST') return json(await service.archiveCandidate(actor, s[1], await body<{row_version:number}>('ArchiveRequest'), context), context.requestId);
-    if (s.length === 3 && s[2] === 'media' && method === 'GET') return json(await service.getCandidateMedia(actor, s[1]), context.requestId);
-    if (s.length === 3 && s[2] === 'duplicates' && method === 'GET') return json(await service.findCandidateDuplicates(actor, s[1]), context.requestId);
     if (s.length === 4 && s[2] === 'duplicates' && s[3] === 'resolve' && method === 'POST') return json(await service.resolveCandidateDuplicate(actor, s[1], await body<DuplicateResolution>('DuplicateResolution'), context), context.requestId);
   }
   if (s[0] === 'candidate-media' && s.length === 3 && method === 'PUT') return json(await service.updateCandidateFrames(actor, s[1], await body<FrameSelection>('FrameSelection'), context), context.requestId);

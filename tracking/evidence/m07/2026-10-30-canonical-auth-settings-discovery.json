@@ -1,0 +1,1189 @@
+{
+  "observed_at": "2026-10-30T10:43:00.428328+00:00",
+  "result": "captured",
+  "target": "pyibofyctwnqpvktepse",
+  "read_only": true,
+  "query": "development/m07/db/discovery.sql",
+  "query_sha256": "cc0c4de70298ab258fdefa6bb524c9293a27dea0da8cbfd1d4110ee602e63f02",
+  "cli_version": "2.122.0",
+  "state": {
+    "auth_relations": [
+      {
+        "acl": "{postgres=arwdDxtm/supabase_auth_admin,supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}",
+        "columns": [
+          {
+            "name": "id",
+            "not_null": true,
+            "type": "uuid"
+          },
+          {
+            "name": "authorization_id",
+            "not_null": true,
+            "type": "text"
+          },
+          {
+            "name": "client_id",
+            "not_null": true,
+            "type": "uuid"
+          },
+          {
+            "name": "user_id",
+            "not_null": false,
+            "type": "uuid"
+          },
+          {
+            "name": "redirect_uri",
+            "not_null": true,
+            "type": "text"
+          },
+          {
+            "name": "scope",
+            "not_null": true,
+            "type": "text"
+          },
+          {
+            "name": "state",
+            "not_null": false,
+            "type": "text"
+          },
+          {
+            "name": "resource",
+            "not_null": false,
+            "type": "text"
+          },
+          {
+            "name": "code_challenge",
+            "not_null": false,
+            "type": "text"
+          },
+          {
+            "name": "code_challenge_method",
+            "not_null": false,
+            "type": "auth.code_challenge_method"
+          },
+          {
+            "name": "response_type",
+            "not_null": true,
+            "type": "auth.oauth_response_type"
+          },
+          {
+            "name": "status",
+            "not_null": true,
+            "type": "auth.oauth_authorization_status"
+          },
+          {
+            "name": "authorization_code",
+            "not_null": false,
+            "type": "text"
+          },
+          {
+            "name": "created_at",
+            "not_null": true,
+            "type": "timestamp with time zone"
+          },
+          {
+            "name": "expires_at",
+            "not_null": true,
+            "type": "timestamp with time zone"
+          },
+          {
+            "name": "approved_at",
+            "not_null": false,
+            "type": "timestamp with time zone"
+          },
+          {
+            "name": "nonce",
+            "not_null": false,
+            "type": "text"
+          }
+        ],
+        "constraints": [
+          {
+            "definition": "UNIQUE (authorization_code)",
+            "name": "oauth_authorizations_authorization_code_key",
+            "type": "u"
+          },
+          {
+            "definition": "CHECK ((char_length(authorization_code) <= 255))",
+            "name": "oauth_authorizations_authorization_code_length",
+            "type": "c"
+          },
+          {
+            "definition": "UNIQUE (authorization_id)",
+            "name": "oauth_authorizations_authorization_id_key",
+            "type": "u"
+          },
+          {
+            "definition": "FOREIGN KEY (client_id) REFERENCES auth.oauth_clients(id) ON DELETE CASCADE",
+            "name": "oauth_authorizations_client_id_fkey",
+            "type": "f"
+          },
+          {
+            "definition": "CHECK ((char_length(code_challenge) <= 128))",
+            "name": "oauth_authorizations_code_challenge_length",
+            "type": "c"
+          },
+          {
+            "definition": "CHECK ((expires_at > created_at))",
+            "name": "oauth_authorizations_expires_at_future",
+            "type": "c"
+          },
+          {
+            "definition": "CHECK ((char_length(nonce) <= 255))",
+            "name": "oauth_authorizations_nonce_length",
+            "type": "c"
+          },
+          {
+            "definition": "PRIMARY KEY (id)",
+            "name": "oauth_authorizations_pkey",
+            "type": "p"
+          },
+          {
+            "definition": "CHECK ((char_length(redirect_uri) <= 2048))",
+            "name": "oauth_authorizations_redirect_uri_length",
+            "type": "c"
+          },
+          {
+            "definition": "CHECK ((char_length(resource) <= 2048))",
+            "name": "oauth_authorizations_resource_length",
+            "type": "c"
+          },
+          {
+            "definition": "CHECK ((char_length(scope) <= 4096))",
+            "name": "oauth_authorizations_scope_length",
+            "type": "c"
+          },
+          {
+            "definition": "CHECK ((char_length(state) <= 4096))",
+            "name": "oauth_authorizations_state_length",
+            "type": "c"
+          },
+          {
+            "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+            "name": "oauth_authorizations_user_id_fkey",
+            "type": "f"
+          }
+        ],
+        "force_rls": false,
+        "indexes": [
+          "CREATE UNIQUE INDEX oauth_authorizations_pkey ON auth.oauth_authorizations USING btree (id)",
+          "CREATE UNIQUE INDEX oauth_authorizations_authorization_id_key ON auth.oauth_authorizations USING btree (authorization_id)",
+          "CREATE UNIQUE INDEX oauth_authorizations_authorization_code_key ON auth.oauth_authorizations USING btree (authorization_code)",
+          "CREATE INDEX oauth_auth_pending_exp_idx ON auth.oauth_authorizations USING btree (expires_at) WHERE (status = 'pending'::auth.oauth_authorization_status)"
+        ],
+        "kind": "r",
+        "owner": "supabase_auth_admin",
+        "relation": "oauth_authorizations",
+        "rls": false,
+        "schema": "auth"
+      },
+      {
+        "acl": "{postgres=arwdDxtm/supabase_auth_admin,supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}",
+        "columns": [
+          {
+            "name": "id",
+            "not_null": true,
+            "type": "uuid"
+          },
+          {
+            "name": "provider_type",
+            "not_null": true,
+            "type": "text"
+          },
+          {
+            "name": "code_verifier",
+            "not_null": false,
+            "type": "text"
+          },
+          {
+            "name": "created_at",
+            "not_null": true,
+            "type": "timestamp with time zone"
+          }
+        ],
+        "constraints": [
+          {
+            "definition": "PRIMARY KEY (id)",
+            "name": "oauth_client_states_pkey",
+            "type": "p"
+          }
+        ],
+        "force_rls": false,
+        "indexes": [
+          "CREATE UNIQUE INDEX oauth_client_states_pkey ON auth.oauth_client_states USING btree (id)",
+          "CREATE INDEX idx_oauth_client_states_created_at ON auth.oauth_client_states USING btree (created_at)"
+        ],
+        "kind": "r",
+        "owner": "supabase_auth_admin",
+        "relation": "oauth_client_states",
+        "rls": false,
+        "schema": "auth"
+      },
+      {
+        "acl": "{postgres=arwdDxtm/supabase_auth_admin,supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}",
+        "columns": [
+          {
+            "name": "id",
+            "not_null": true,
+            "type": "uuid"
+          },
+          {
+            "name": "client_secret_hash",
+            "not_null": false,
+            "type": "text"
+          },
+          {
+            "name": "registration_type",
+            "not_null": true,
+            "type": "auth.oauth_registration_type"
+          },
+          {
+            "name": "redirect_uris",
+            "not_null": true,
+            "type": "text"
+          },
+          {
+            "name": "grant_types",
+            "not_null": true,
+            "type": "text"
+          },
+          {
+            "name": "client_name",
+            "not_null": false,
+            "type": "text"
+          },
+          {
+            "name": "client_uri",
+            "not_null": false,
+            "type": "text"
+          },
+          {
+            "name": "logo_uri",
+            "not_null": false,
+            "type": "text"
+          },
+          {
+            "name": "created_at",
+            "not_null": true,
+            "type": "timestamp with time zone"
+          },
+          {
+            "name": "updated_at",
+            "not_null": true,
+            "type": "timestamp with time zone"
+          },
+          {
+            "name": "deleted_at",
+            "not_null": false,
+            "type": "timestamp with time zone"
+          },
+          {
+            "name": "client_type",
+            "not_null": true,
+            "type": "auth.oauth_client_type"
+          },
+          {
+            "name": "token_endpoint_auth_method",
+            "not_null": true,
+            "type": "text"
+          }
+        ],
+        "constraints": [
+          {
+            "definition": "CHECK ((char_length(client_name) <= 1024))",
+            "name": "oauth_clients_client_name_length",
+            "type": "c"
+          },
+          {
+            "definition": "CHECK ((char_length(client_uri) <= 2048))",
+            "name": "oauth_clients_client_uri_length",
+            "type": "c"
+          },
+          {
+            "definition": "CHECK ((char_length(logo_uri) <= 2048))",
+            "name": "oauth_clients_logo_uri_length",
+            "type": "c"
+          },
+          {
+            "definition": "PRIMARY KEY (id)",
+            "name": "oauth_clients_pkey",
+            "type": "p"
+          },
+          {
+            "definition": "CHECK ((token_endpoint_auth_method = ANY (ARRAY['client_secret_basic'::text, 'client_secret_post'::text, 'none'::text])))",
+            "name": "oauth_clients_token_endpoint_auth_method_check",
+            "type": "c"
+          }
+        ],
+        "force_rls": false,
+        "indexes": [
+          "CREATE UNIQUE INDEX oauth_clients_pkey ON auth.oauth_clients USING btree (id)",
+          "CREATE INDEX oauth_clients_deleted_at_idx ON auth.oauth_clients USING btree (deleted_at)"
+        ],
+        "kind": "r",
+        "owner": "supabase_auth_admin",
+        "relation": "oauth_clients",
+        "rls": false,
+        "schema": "auth"
+      },
+      {
+        "acl": "{postgres=arwdDxtm/supabase_auth_admin,supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}",
+        "columns": [
+          {
+            "name": "id",
+            "not_null": true,
+            "type": "uuid"
+          },
+          {
+            "name": "user_id",
+            "not_null": true,
+            "type": "uuid"
+          },
+          {
+            "name": "client_id",
+            "not_null": true,
+            "type": "uuid"
+          },
+          {
+            "name": "scopes",
+            "not_null": true,
+            "type": "text"
+          },
+          {
+            "name": "granted_at",
+            "not_null": true,
+            "type": "timestamp with time zone"
+          },
+          {
+            "name": "revoked_at",
+            "not_null": false,
+            "type": "timestamp with time zone"
+          }
+        ],
+        "constraints": [
+          {
+            "definition": "FOREIGN KEY (client_id) REFERENCES auth.oauth_clients(id) ON DELETE CASCADE",
+            "name": "oauth_consents_client_id_fkey",
+            "type": "f"
+          },
+          {
+            "definition": "PRIMARY KEY (id)",
+            "name": "oauth_consents_pkey",
+            "type": "p"
+          },
+          {
+            "definition": "CHECK (((revoked_at IS NULL) OR (revoked_at >= granted_at)))",
+            "name": "oauth_consents_revoked_after_granted",
+            "type": "c"
+          },
+          {
+            "definition": "CHECK ((char_length(scopes) <= 2048))",
+            "name": "oauth_consents_scopes_length",
+            "type": "c"
+          },
+          {
+            "definition": "CHECK ((char_length(TRIM(BOTH FROM scopes)) > 0))",
+            "name": "oauth_consents_scopes_not_empty",
+            "type": "c"
+          },
+          {
+            "definition": "UNIQUE (user_id, client_id)",
+            "name": "oauth_consents_user_client_unique",
+            "type": "u"
+          },
+          {
+            "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+            "name": "oauth_consents_user_id_fkey",
+            "type": "f"
+          }
+        ],
+        "force_rls": false,
+        "indexes": [
+          "CREATE UNIQUE INDEX oauth_consents_pkey ON auth.oauth_consents USING btree (id)",
+          "CREATE UNIQUE INDEX oauth_consents_user_client_unique ON auth.oauth_consents USING btree (user_id, client_id)",
+          "CREATE INDEX oauth_consents_active_user_client_idx ON auth.oauth_consents USING btree (user_id, client_id) WHERE (revoked_at IS NULL)",
+          "CREATE INDEX oauth_consents_user_order_idx ON auth.oauth_consents USING btree (user_id, granted_at DESC)",
+          "CREATE INDEX oauth_consents_active_client_idx ON auth.oauth_consents USING btree (client_id) WHERE (revoked_at IS NULL)"
+        ],
+        "kind": "r",
+        "owner": "supabase_auth_admin",
+        "relation": "oauth_consents",
+        "rls": false,
+        "schema": "auth"
+      },
+      {
+        "acl": "{postgres=ar*wdDxtm/supabase_auth_admin,supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}",
+        "columns": [
+          {
+            "name": "id",
+            "not_null": true,
+            "type": "uuid"
+          },
+          {
+            "name": "user_id",
+            "not_null": true,
+            "type": "uuid"
+          },
+          {
+            "name": "created_at",
+            "not_null": false,
+            "type": "timestamp with time zone"
+          },
+          {
+            "name": "updated_at",
+            "not_null": false,
+            "type": "timestamp with time zone"
+          },
+          {
+            "name": "factor_id",
+            "not_null": false,
+            "type": "uuid"
+          },
+          {
+            "name": "aal",
+            "not_null": false,
+            "type": "auth.aal_level"
+          },
+          {
+            "name": "not_after",
+            "not_null": false,
+            "type": "timestamp with time zone"
+          },
+          {
+            "name": "refreshed_at",
+            "not_null": false,
+            "type": "timestamp without time zone"
+          },
+          {
+            "name": "user_agent",
+            "not_null": false,
+            "type": "text"
+          },
+          {
+            "name": "ip",
+            "not_null": false,
+            "type": "inet"
+          },
+          {
+            "name": "tag",
+            "not_null": false,
+            "type": "text"
+          },
+          {
+            "name": "oauth_client_id",
+            "not_null": false,
+            "type": "uuid"
+          },
+          {
+            "name": "refresh_token_hmac_key",
+            "not_null": false,
+            "type": "text"
+          },
+          {
+            "name": "refresh_token_counter",
+            "not_null": false,
+            "type": "bigint"
+          },
+          {
+            "name": "scopes",
+            "not_null": false,
+            "type": "text"
+          }
+        ],
+        "constraints": [
+          {
+            "definition": "FOREIGN KEY (oauth_client_id) REFERENCES auth.oauth_clients(id) ON DELETE CASCADE",
+            "name": "sessions_oauth_client_id_fkey",
+            "type": "f"
+          },
+          {
+            "definition": "PRIMARY KEY (id)",
+            "name": "sessions_pkey",
+            "type": "p"
+          },
+          {
+            "definition": "CHECK ((char_length(scopes) <= 4096))",
+            "name": "sessions_scopes_length",
+            "type": "c"
+          },
+          {
+            "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+            "name": "sessions_user_id_fkey",
+            "type": "f"
+          }
+        ],
+        "force_rls": false,
+        "indexes": [
+          "CREATE UNIQUE INDEX sessions_pkey ON auth.sessions USING btree (id)",
+          "CREATE INDEX user_id_created_at_idx ON auth.sessions USING btree (user_id, created_at)",
+          "CREATE INDEX sessions_user_id_idx ON auth.sessions USING btree (user_id)",
+          "CREATE INDEX sessions_not_after_idx ON auth.sessions USING btree (not_after DESC)",
+          "CREATE INDEX sessions_oauth_client_id_idx ON auth.sessions USING btree (oauth_client_id)"
+        ],
+        "kind": "r",
+        "owner": "supabase_auth_admin",
+        "relation": "sessions",
+        "rls": true,
+        "schema": "auth"
+      }
+    ],
+    "auth_session_grants": [
+      {
+        "column": "aal",
+        "grantee": "postgres",
+        "privilege": "INSERT"
+      },
+      {
+        "column": "aal",
+        "grantee": "postgres",
+        "privilege": "REFERENCES"
+      },
+      {
+        "column": "aal",
+        "grantee": "postgres",
+        "privilege": "SELECT"
+      },
+      {
+        "column": "aal",
+        "grantee": "postgres",
+        "privilege": "UPDATE"
+      },
+      {
+        "column": "created_at",
+        "grantee": "postgres",
+        "privilege": "INSERT"
+      },
+      {
+        "column": "created_at",
+        "grantee": "postgres",
+        "privilege": "REFERENCES"
+      },
+      {
+        "column": "created_at",
+        "grantee": "postgres",
+        "privilege": "SELECT"
+      },
+      {
+        "column": "created_at",
+        "grantee": "postgres",
+        "privilege": "UPDATE"
+      },
+      {
+        "column": "factor_id",
+        "grantee": "postgres",
+        "privilege": "INSERT"
+      },
+      {
+        "column": "factor_id",
+        "grantee": "postgres",
+        "privilege": "REFERENCES"
+      },
+      {
+        "column": "factor_id",
+        "grantee": "postgres",
+        "privilege": "SELECT"
+      },
+      {
+        "column": "factor_id",
+        "grantee": "postgres",
+        "privilege": "UPDATE"
+      },
+      {
+        "column": "id",
+        "grantee": "postgres",
+        "privilege": "INSERT"
+      },
+      {
+        "column": "id",
+        "grantee": "postgres",
+        "privilege": "REFERENCES"
+      },
+      {
+        "column": "id",
+        "grantee": "postgres",
+        "privilege": "SELECT"
+      },
+      {
+        "column": "id",
+        "grantee": "postgres",
+        "privilege": "UPDATE"
+      },
+      {
+        "column": "ip",
+        "grantee": "postgres",
+        "privilege": "INSERT"
+      },
+      {
+        "column": "ip",
+        "grantee": "postgres",
+        "privilege": "REFERENCES"
+      },
+      {
+        "column": "ip",
+        "grantee": "postgres",
+        "privilege": "SELECT"
+      },
+      {
+        "column": "ip",
+        "grantee": "postgres",
+        "privilege": "UPDATE"
+      },
+      {
+        "column": "not_after",
+        "grantee": "postgres",
+        "privilege": "INSERT"
+      },
+      {
+        "column": "not_after",
+        "grantee": "postgres",
+        "privilege": "REFERENCES"
+      },
+      {
+        "column": "not_after",
+        "grantee": "postgres",
+        "privilege": "SELECT"
+      },
+      {
+        "column": "not_after",
+        "grantee": "postgres",
+        "privilege": "UPDATE"
+      },
+      {
+        "column": "oauth_client_id",
+        "grantee": "postgres",
+        "privilege": "INSERT"
+      },
+      {
+        "column": "oauth_client_id",
+        "grantee": "postgres",
+        "privilege": "REFERENCES"
+      },
+      {
+        "column": "oauth_client_id",
+        "grantee": "postgres",
+        "privilege": "SELECT"
+      },
+      {
+        "column": "oauth_client_id",
+        "grantee": "postgres",
+        "privilege": "UPDATE"
+      },
+      {
+        "column": "refresh_token_counter",
+        "grantee": "postgres",
+        "privilege": "INSERT"
+      },
+      {
+        "column": "refresh_token_counter",
+        "grantee": "postgres",
+        "privilege": "REFERENCES"
+      },
+      {
+        "column": "refresh_token_counter",
+        "grantee": "postgres",
+        "privilege": "SELECT"
+      },
+      {
+        "column": "refresh_token_counter",
+        "grantee": "postgres",
+        "privilege": "UPDATE"
+      },
+      {
+        "column": "refresh_token_hmac_key",
+        "grantee": "postgres",
+        "privilege": "INSERT"
+      },
+      {
+        "column": "refresh_token_hmac_key",
+        "grantee": "postgres",
+        "privilege": "REFERENCES"
+      },
+      {
+        "column": "refresh_token_hmac_key",
+        "grantee": "postgres",
+        "privilege": "SELECT"
+      },
+      {
+        "column": "refresh_token_hmac_key",
+        "grantee": "postgres",
+        "privilege": "UPDATE"
+      },
+      {
+        "column": "refreshed_at",
+        "grantee": "postgres",
+        "privilege": "INSERT"
+      },
+      {
+        "column": "refreshed_at",
+        "grantee": "postgres",
+        "privilege": "REFERENCES"
+      },
+      {
+        "column": "refreshed_at",
+        "grantee": "postgres",
+        "privilege": "SELECT"
+      },
+      {
+        "column": "refreshed_at",
+        "grantee": "postgres",
+        "privilege": "UPDATE"
+      },
+      {
+        "column": "scopes",
+        "grantee": "postgres",
+        "privilege": "INSERT"
+      },
+      {
+        "column": "scopes",
+        "grantee": "postgres",
+        "privilege": "REFERENCES"
+      },
+      {
+        "column": "scopes",
+        "grantee": "postgres",
+        "privilege": "SELECT"
+      },
+      {
+        "column": "scopes",
+        "grantee": "postgres",
+        "privilege": "UPDATE"
+      },
+      {
+        "column": "tag",
+        "grantee": "postgres",
+        "privilege": "INSERT"
+      },
+      {
+        "column": "tag",
+        "grantee": "postgres",
+        "privilege": "REFERENCES"
+      },
+      {
+        "column": "tag",
+        "grantee": "postgres",
+        "privilege": "SELECT"
+      },
+      {
+        "column": "tag",
+        "grantee": "postgres",
+        "privilege": "UPDATE"
+      },
+      {
+        "column": "updated_at",
+        "grantee": "postgres",
+        "privilege": "INSERT"
+      },
+      {
+        "column": "updated_at",
+        "grantee": "postgres",
+        "privilege": "REFERENCES"
+      },
+      {
+        "column": "updated_at",
+        "grantee": "postgres",
+        "privilege": "SELECT"
+      },
+      {
+        "column": "updated_at",
+        "grantee": "postgres",
+        "privilege": "UPDATE"
+      },
+      {
+        "column": "user_agent",
+        "grantee": "postgres",
+        "privilege": "INSERT"
+      },
+      {
+        "column": "user_agent",
+        "grantee": "postgres",
+        "privilege": "REFERENCES"
+      },
+      {
+        "column": "user_agent",
+        "grantee": "postgres",
+        "privilege": "SELECT"
+      },
+      {
+        "column": "user_agent",
+        "grantee": "postgres",
+        "privilege": "UPDATE"
+      },
+      {
+        "column": "user_id",
+        "grantee": "postgres",
+        "privilege": "INSERT"
+      },
+      {
+        "column": "user_id",
+        "grantee": "postgres",
+        "privilege": "REFERENCES"
+      },
+      {
+        "column": "user_id",
+        "grantee": "postgres",
+        "privilege": "SELECT"
+      },
+      {
+        "column": "user_id",
+        "grantee": "postgres",
+        "privilege": "UPDATE"
+      }
+    ],
+    "eps_owner_roles": [
+      {
+        "bypass_rls": false,
+        "login": false,
+        "name": "eps_api_owner",
+        "superuser": false
+      },
+      {
+        "bypass_rls": false,
+        "login": false,
+        "name": "eps_candidate_apply_owner",
+        "superuser": false
+      },
+      {
+        "bypass_rls": false,
+        "login": false,
+        "name": "eps_candidate_assets_owner",
+        "superuser": false
+      },
+      {
+        "bypass_rls": false,
+        "login": false,
+        "name": "eps_candidate_stage_owner",
+        "superuser": false
+      },
+      {
+        "bypass_rls": false,
+        "login": false,
+        "name": "eps_candidate_upload_owner",
+        "superuser": false
+      },
+      {
+        "bypass_rls": false,
+        "login": false,
+        "name": "eps_cast_owner",
+        "superuser": false
+      },
+      {
+        "bypass_rls": false,
+        "login": false,
+        "name": "eps_casting_guard_owner",
+        "superuser": false
+      },
+      {
+        "bypass_rls": false,
+        "login": false,
+        "name": "eps_casting_owner",
+        "superuser": false
+      },
+      {
+        "bypass_rls": false,
+        "login": false,
+        "name": "eps_draft_owner",
+        "superuser": false
+      },
+      {
+        "bypass_rls": false,
+        "login": false,
+        "name": "eps_guest_owner",
+        "superuser": false
+      },
+      {
+        "bypass_rls": false,
+        "login": false,
+        "name": "eps_jobs_owner",
+        "superuser": false
+      },
+      {
+        "bypass_rls": false,
+        "login": false,
+        "name": "eps_logo_verify_owner",
+        "superuser": false
+      },
+      {
+        "bypass_rls": false,
+        "login": false,
+        "name": "eps_review_owner",
+        "superuser": false
+      },
+      {
+        "bypass_rls": false,
+        "login": false,
+        "name": "eps_review_stage_owner",
+        "superuser": false
+      },
+      {
+        "bypass_rls": false,
+        "login": false,
+        "name": "eps_specs_apply_owner",
+        "superuser": false
+      },
+      {
+        "bypass_rls": false,
+        "login": false,
+        "name": "eps_specs_assets_owner",
+        "superuser": false
+      },
+      {
+        "bypass_rls": false,
+        "login": false,
+        "name": "eps_specs_owner",
+        "superuser": false
+      },
+      {
+        "bypass_rls": false,
+        "login": false,
+        "name": "eps_specs_stage_owner",
+        "superuser": false
+      },
+      {
+        "bypass_rls": false,
+        "login": false,
+        "name": "eps_specs_submit_owner",
+        "superuser": false
+      },
+      {
+        "bypass_rls": false,
+        "login": false,
+        "name": "eps_specs_upload_owner",
+        "superuser": false
+      },
+      {
+        "bypass_rls": false,
+        "login": false,
+        "name": "eps_specs_verify_owner",
+        "superuser": false
+      },
+      {
+        "bypass_rls": false,
+        "login": false,
+        "name": "eps_support_upload_owner",
+        "superuser": false
+      },
+      {
+        "bypass_rls": false,
+        "login": false,
+        "name": "eps_support_verify_owner",
+        "superuser": false
+      }
+    ],
+    "migration_count": 28,
+    "observed_at": "2026-10-30T10:43:00.331867+00:00",
+    "possible_settings_relations": [
+      {
+        "columns": [
+          {
+            "name": "id",
+            "type": "uuid"
+          },
+          {
+            "name": "key",
+            "type": "text"
+          },
+          {
+            "name": "label",
+            "type": "text"
+          },
+          {
+            "name": "scope",
+            "type": "text"
+          },
+          {
+            "name": "settings",
+            "type": "jsonb"
+          },
+          {
+            "name": "archived",
+            "type": "boolean"
+          },
+          {
+            "name": "row_version",
+            "type": "bigint"
+          }
+        ],
+        "relation": "audience_presets",
+        "schema": "eps"
+      },
+      {
+        "columns": [
+          {
+            "name": "id",
+            "type": "boolean"
+          },
+          {
+            "name": "enabled",
+            "type": "boolean"
+          },
+          {
+            "name": "transcription_model",
+            "type": "text"
+          },
+          {
+            "name": "extraction_model",
+            "type": "text"
+          },
+          {
+            "name": "prompt_version",
+            "type": "text"
+          },
+          {
+            "name": "schema_version",
+            "type": "text"
+          },
+          {
+            "name": "media_implementation_version",
+            "type": "text"
+          }
+        ],
+        "relation": "candidate_asset_config",
+        "schema": "eps"
+      },
+      {
+        "columns": [
+          {
+            "name": "id",
+            "type": "boolean"
+          },
+          {
+            "name": "enabled",
+            "type": "boolean"
+          },
+          {
+            "name": "renderer_version",
+            "type": "text"
+          },
+          {
+            "name": "application_origin",
+            "type": "text"
+          },
+          {
+            "name": "max_manifest_bytes",
+            "type": "bigint"
+          },
+          {
+            "name": "max_pdf_bytes",
+            "type": "bigint"
+          },
+          {
+            "name": "max_pages",
+            "type": "integer"
+          }
+        ],
+        "relation": "presentation_processing_config",
+        "schema": "eps"
+      },
+      {
+        "columns": [
+          {
+            "name": "key",
+            "type": "text"
+          },
+          {
+            "name": "version",
+            "type": "text"
+          },
+          {
+            "name": "content_sha256",
+            "type": "text"
+          },
+          {
+            "name": "font_key",
+            "type": "text"
+          },
+          {
+            "name": "font_hashes",
+            "type": "jsonb"
+          },
+          {
+            "name": "registered",
+            "type": "boolean"
+          }
+        ],
+        "relation": "presentation_templates",
+        "schema": "eps"
+      },
+      {
+        "columns": [
+          {
+            "name": "id",
+            "type": "boolean"
+          },
+          {
+            "name": "enabled",
+            "type": "boolean"
+          },
+          {
+            "name": "model",
+            "type": "text"
+          },
+          {
+            "name": "prompt_version",
+            "type": "text"
+          },
+          {
+            "name": "renderer_version",
+            "type": "text"
+          }
+        ],
+        "relation": "review_processing_config",
+        "schema": "eps"
+      },
+      {
+        "columns": [
+          {
+            "name": "id",
+            "type": "smallint"
+          },
+          {
+            "name": "uploads_enabled",
+            "type": "boolean"
+          },
+          {
+            "name": "capabilities_enabled",
+            "type": "boolean"
+          },
+          {
+            "name": "file_pipeline_enabled",
+            "type": "boolean"
+          }
+        ],
+        "relation": "specs_asset_config",
+        "schema": "eps"
+      },
+      {
+        "columns": [
+          {
+            "name": "id",
+            "type": "integer"
+          },
+          {
+            "name": "enabled",
+            "type": "boolean"
+          },
+          {
+            "name": "document_preparation_version",
+            "type": "text"
+          },
+          {
+            "name": "model_version",
+            "type": "text"
+          },
+          {
+            "name": "prompt_version",
+            "type": "text"
+          },
+          {
+            "name": "result_schema_version",
+            "type": "text"
+          }
+        ],
+        "relation": "specs_pipeline_config",
+        "schema": "eps"
+      }
+    ]
+  },
+  "auth_rows_or_credentials_read": false,
+  "hosting_deferred": true
+}

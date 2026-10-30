@@ -1,6 +1,6 @@
 # Application API contract
 
-**Contract:** `contracts/openapi.yaml`, version `1.0.0-design`. **Status:** specified, not deployed. All routes are under `/api/v1`. `OPERATION_INDEX.md` lists the complete operation surface; `MCP_INTEGRATION.md` maps the internal operations to Claude tools. Physical database mappings are established during M00; transport semantics are shared by the browser, API clients and MCP adapter.
+**Contract:** `contracts/openapi.yaml`, version `1.0.0-design`. **Status:** local feature adapters and controlled contract evidence exist; production deployment and the complete M07 journeys remain unverified. The current source inventory reconciles86 user operations/MCP tools and115 OpenAPI operations, including29 deliberate non-tool identities/companions/mechanisms. All business routes are under `/api/v1`. See the generated [implementation matrix](IMPLEMENTATION_PARITY.md), [operation index](OPERATION_INDEX.md), [client runbook](../../development/m07/API_CLIENT_RUNBOOK.md) and current handoff for evidence boundaries. These documents do not establish fresh cloud configuration or client acceptance.
 
 ## 1. One domain service, several callers
 

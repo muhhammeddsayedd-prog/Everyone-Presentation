@@ -35,3 +35,4 @@ export type { SpecsStorageOptions, SpecsStorageAdapter, SpecsStorageRpcPort, Spe
 export { signSpecsReceipt, verifySpecsReceipt, SpecsReceiptError, SPECS_RECEIPT_VERSION, SPECS_RECEIPT_AUDIENCE,
   SPECS_RECEIPT_MAX_PAYLOAD_BYTES, SPECS_RECEIPT_MAX_TTL_SECONDS } from './specs-receipt.ts';
 export type { SpecsReceipt, SpecsReceiptClaims, SpecsReceiptScope, SpecsReceiptClock } from './specs-receipt.ts';
+export { createCentralSettings } from './settings.ts';

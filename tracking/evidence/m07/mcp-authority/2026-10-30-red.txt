@@ -1,0 +1,85 @@
+✖ M07 tools/list exposes only the current business capabilities (140.8212ms)
+✖ M07 delegation intersects signed limits with business authority for discovery and calls (6.6856ms)
+✖ M07 capability revocation is re-read for every call and list, without session authority cache (571.3322ms)
+✖ M07 malformed successful service output fails closed without publishing its private fields (4.3174ms)
+✔ M07 correct published output remains available through the official SDK (4.3697ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 1
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3207.5895
+
+✖ failing tests:
+
+test at tests\server\m07-mcp-authority.test.ts:2:2497
+✖ M07 tools/list exposes only the current business capabilities (140.8212ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(!names.includes('update_project'))
+  
+      at TestContext.<anonymous> (D:\Everyone\Presentation\Everyone-Presentation-Studio\tests\server\m07-mcp-authority.test.ts:33:12)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\server\m07-mcp-authority.test.ts:2:3038
+✖ M07 delegation intersects signed limits with business authority for discovery and calls (6.6856ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(!(await c.client.listTools()).tools.some(tool => tool.name === 'update_project'))
+  
+      at TestContext.<anonymous> (D:\Everyone\Presentation\Everyone-Presentation-Studio\tests\server\m07-mcp-authority.test.ts:41:12)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\server\m07-mcp-authority.test.ts:2:3614
+✖ M07 capability revocation is re-read for every call and list, without session authority cache (571.3322ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(!(await c.client.listTools()).tools.some(tool => tool.name === 'update_project'))
+  
+      at TestContext.<anonymous> (D:\Everyone\Presentation\Everyone-Presentation-Studio\tests\server\m07-mcp-authority.test.ts:53:12)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\server\m07-mcp-authority.test.ts:2:4314
+✖ M07 malformed successful service output fails closed without publishing its private fields (4.3174ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - true
+  
+      at TestContext.<anonymous> (D:\Everyone\Presentation\Everyone-Presentation-Studio\tests\server\m07-mcp-authority.test.ts:59:10)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

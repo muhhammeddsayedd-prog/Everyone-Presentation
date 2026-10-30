@@ -1,5 +1,10 @@
 # Access, authorization, and data boundaries
 
+## M07 current shared permission boundary
+
+The applied29 boundary constrains remembered Studio client/delegation JWTs through `eps.mcp_token_permits_capability` in the shared `eps.has_capability` gate, plus current user/client/session/resource and active capability grants. A delegated token cannot bypass its restriction by calling a public business RPC directly. Normal browser/unrelated-client behavior is preserved. MCP separately verifies signature/issuer/exact audience/approved client and current session. [Auth contract](../../development/m07/MCP_AUTH.md), [local issuer candidate](../../development/m07/oauth-hook/README.md) and [applied readback](../../tracking/evidence/cloud-m07-29/2026-10-30T11-52-36-310355Z-f553771a-readback.json) have separate scopes. Provider OAuth, client registration, hook activation and live revocation remain unverified. Retain disabled registry rows rather than deleting remembered client identities.
+
+
 **Implementation contract, 27 October 2026.** This is part of the app design, not evidence of a completed security review or a configured Supabase project. Read [the baseline](../../CONTRACT_BASELINE.md) and [schema](DATABASE_SCHEMA.md). M00 maps these capabilities to the existing business identity and project-access system.
 
 ## 1. One authorization model for every client

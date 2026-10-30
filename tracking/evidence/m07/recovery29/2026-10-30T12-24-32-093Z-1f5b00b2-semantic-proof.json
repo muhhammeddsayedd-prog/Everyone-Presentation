@@ -1,0 +1,1188 @@
+{
+  "schema_version": "1.0",
+  "run_id": "1f5b00b2-5a68-4cfc-a3ce-18eeb45e248c",
+  "started_at": "2026-10-30T12:24:32.093Z",
+  "result": "passed",
+  "scope": "Independent read-only original29 literal Boolean/URL and ACL/catalogue semantic proof; no business or Auth row reads",
+  "cloud_called": false,
+  "provider_called": false,
+  "native_called": false,
+  "clone_created": false,
+  "database_ddl_or_dml": false,
+  "prior_attempts": [
+    {
+      "path": "tracking/evidence/m07/recovery29/2026-10-30T12-23-31-730Z-081209ad-semantic-proof.json",
+      "result": "failed",
+      "reason": "Fixed literal query used removed lc_ctype GUC on PostgreSQL17.6; now reads pg_database.datctype metadata instead. Original catalogue, all safe role/membership/migration metadata and lock cleanup were confirmed unchanged. A bounded read-only diagnostic rerun returned only this PostgreSQL ERROR."
+    }
+  ],
+  "source_seals": {
+    "development/m07/recovery29/semantic-proof.sql": "1473cc7493bb8e2d19470058cb5633489720bb943b059e8422c239269a449234",
+    "development/m07/recovery29/semantic-proof.mjs": "c3731bb04acdfe30cf90b4288583f625fd8989055a11280f448b0435e78b3f1e",
+    "tools/local-postgres.mjs": "49929bce8eb51194d9299cfd9639e537eb237daaec76c15740cb88059604e2de",
+    "development/m07/db/catalog29.sql": "1af59495b01424e6ec2578f6ea1f8ac362829577612c32b2cd373545a58b9098",
+    "tracking/evidence/m07/recovery29/2026-10-30T12-19-02-143Z-0ec7ead2-diagnostic-differences.json": "ea581b2e795f6c06fe2b950b714957520529517f946bfcf9fb7f100005015d2a",
+    "tracking/evidence/m07/recovery29/2026-10-30T12-19-02-143Z-0ec7ead2-diagnostic-original-catalogue.json": "dcc5e065d77f504deaf1ebbb19a75eee4b940a32bf7dfbf1905e22b4e44f6c19"
+  },
+  "target": {
+    "container": "eps-presentation-canonical-pg17-local",
+    "system_identifier": "7701520506262638626",
+    "database": "postgres",
+    "server_version": "17.6",
+    "connection": "container_unix_socket"
+  },
+  "metadata_before_sha256": "1f4cf5cd358bb724718120255bf503fb1ec3f5f8d8e4f0d8a87468c89ef3ce5c",
+  "catalogue_before_sha256": "9aa2b0cb8229c093241f76af30729078b4392849410443a6f0249c7e3fd17221",
+  "proof": {
+    "builtins": {
+      "rows": [
+        {
+          "schema": "pg_catalog",
+          "identity": "btrim(text)",
+          "proisstrict": true,
+          "proparallel": "s",
+          "provolatile": "i"
+        },
+        {
+          "schema": "pg_catalog",
+          "identity": "int4ge(integer,integer)",
+          "proisstrict": true,
+          "proparallel": "s",
+          "provolatile": "i"
+        },
+        {
+          "schema": "pg_catalog",
+          "identity": "int4le(integer,integer)",
+          "proisstrict": true,
+          "proparallel": "s",
+          "provolatile": "i"
+        },
+        {
+          "schema": "pg_catalog",
+          "identity": "length(text)",
+          "proisstrict": true,
+          "proparallel": "s",
+          "provolatile": "i"
+        },
+        {
+          "schema": "pg_catalog",
+          "identity": "texteq(text,text)",
+          "proisstrict": true,
+          "proparallel": "s",
+          "provolatile": "i"
+        },
+        {
+          "schema": "pg_catalog",
+          "identity": "textregexeq(text,text)",
+          "proisstrict": true,
+          "proparallel": "s",
+          "provolatile": "i"
+        },
+        {
+          "schema": "pg_catalog",
+          "identity": "textregexne(text,text)",
+          "proisstrict": true,
+          "proparallel": "s",
+          "provolatile": "i"
+        }
+      ],
+      "count": 7,
+      "all_strict": true,
+      "all_immutable": true
+    },
+    "environment": {
+      "user": "postgres",
+      "database": "postgres",
+      "lc_ctype": "en_US.UTF-8",
+      "server_version": "17.6",
+      "locale_provider": "i",
+      "server_encoding": "UTF8",
+      "transaction_read_only": "on",
+      "standard_conforming_strings": "on"
+    },
+    "resource_check": {
+      "rows": [
+        {
+          "source": false,
+          "case_id": "carriage_return",
+          "characters": 27,
+          "dump_clone": false,
+          "check_accepts": false
+        },
+        {
+          "source": false,
+          "case_id": "control_1",
+          "characters": 27,
+          "dump_clone": false,
+          "check_accepts": false
+        },
+        {
+          "source": false,
+          "case_id": "delete_127",
+          "characters": 27,
+          "dump_clone": false,
+          "check_accepts": false
+        },
+        {
+          "source": false,
+          "case_id": "em_space",
+          "characters": 27,
+          "dump_clone": false,
+          "check_accepts": false
+        },
+        {
+          "source": false,
+          "case_id": "empty",
+          "characters": 0,
+          "dump_clone": false,
+          "check_accepts": false
+        },
+        {
+          "source": false,
+          "case_id": "http_non_loopback",
+          "characters": 25,
+          "dump_clone": false,
+          "check_accepts": false
+        },
+        {
+          "source": false,
+          "case_id": "http_other_loopback",
+          "characters": 20,
+          "dump_clone": false,
+          "check_accepts": false
+        },
+        {
+          "source": false,
+          "case_id": "http_query",
+          "characters": 24,
+          "dump_clone": false,
+          "check_accepts": false
+        },
+        {
+          "source": false,
+          "case_id": "http_trailing_slash",
+          "characters": 21,
+          "dump_clone": false,
+          "check_accepts": false
+        },
+        {
+          "source": false,
+          "case_id": "https_fragment",
+          "characters": 28,
+          "dump_clone": false,
+          "check_accepts": false
+        },
+        {
+          "source": true,
+          "case_id": "https_host",
+          "characters": 22,
+          "dump_clone": true,
+          "check_accepts": true
+        },
+        {
+          "source": true,
+          "case_id": "https_length_2048",
+          "characters": 2048,
+          "dump_clone": true,
+          "check_accepts": true
+        },
+        {
+          "source": false,
+          "case_id": "https_length_2049",
+          "characters": 2049,
+          "dump_clone": false,
+          "check_accepts": false
+        },
+        {
+          "source": false,
+          "case_id": "https_no_host",
+          "characters": 12,
+          "dump_clone": false,
+          "check_accepts": false
+        },
+        {
+          "source": true,
+          "case_id": "https_path",
+          "characters": 26,
+          "dump_clone": true,
+          "check_accepts": true
+        },
+        {
+          "source": false,
+          "case_id": "https_query",
+          "characters": 30,
+          "dump_clone": false,
+          "check_accepts": false
+        },
+        {
+          "source": true,
+          "case_id": "https_root",
+          "characters": 23,
+          "dump_clone": true,
+          "check_accepts": true
+        },
+        {
+          "source": false,
+          "case_id": "https_uppercase_scheme",
+          "characters": 26,
+          "dump_clone": false,
+          "check_accepts": false
+        },
+        {
+          "source": false,
+          "case_id": "https_userinfo",
+          "characters": 31,
+          "dump_clone": false,
+          "check_accepts": false
+        },
+        {
+          "source": true,
+          "case_id": "ipv4",
+          "characters": 20,
+          "dump_clone": true,
+          "check_accepts": true
+        },
+        {
+          "source": true,
+          "case_id": "ipv6",
+          "characters": 16,
+          "dump_clone": true,
+          "check_accepts": true
+        },
+        {
+          "source": false,
+          "case_id": "leading_space",
+          "characters": 27,
+          "dump_clone": false,
+          "check_accepts": false
+        },
+        {
+          "source": false,
+          "case_id": "line_feed",
+          "characters": 27,
+          "dump_clone": false,
+          "check_accepts": false
+        },
+        {
+          "source": true,
+          "case_id": "localhost",
+          "characters": 20,
+          "dump_clone": true,
+          "check_accepts": true
+        },
+        {
+          "source": false,
+          "case_id": "nbsp",
+          "characters": 27,
+          "dump_clone": false,
+          "check_accepts": false
+        },
+        {
+          "source": null,
+          "case_id": "null",
+          "characters": null,
+          "dump_clone": null,
+          "check_accepts": true
+        },
+        {
+          "source": false,
+          "case_id": "path_space",
+          "characters": 26,
+          "dump_clone": false,
+          "check_accepts": false
+        },
+        {
+          "source": false,
+          "case_id": "plain",
+          "characters": 3,
+          "dump_clone": false,
+          "check_accepts": false
+        },
+        {
+          "source": true,
+          "case_id": "port_1",
+          "characters": 22,
+          "dump_clone": true,
+          "check_accepts": true
+        },
+        {
+          "source": true,
+          "case_id": "port_65535",
+          "characters": 26,
+          "dump_clone": true,
+          "check_accepts": true
+        },
+        {
+          "source": true,
+          "case_id": "port_99999",
+          "characters": 26,
+          "dump_clone": true,
+          "check_accepts": true
+        },
+        {
+          "source": false,
+          "case_id": "port_six_digits",
+          "characters": 27,
+          "dump_clone": false,
+          "check_accepts": false
+        },
+        {
+          "source": true,
+          "case_id": "port_zero",
+          "characters": 22,
+          "dump_clone": true,
+          "check_accepts": true
+        },
+        {
+          "source": false,
+          "case_id": "space_only",
+          "characters": 1,
+          "dump_clone": false,
+          "check_accepts": false
+        },
+        {
+          "source": false,
+          "case_id": "tab",
+          "characters": 27,
+          "dump_clone": false,
+          "check_accepts": false
+        },
+        {
+          "source": false,
+          "case_id": "trailing_space",
+          "characters": 27,
+          "dump_clone": false,
+          "check_accepts": false
+        }
+      ],
+      "cases": 36,
+      "null_semantics": "CHECK accepts TRUE or NULL; NOT NULL separately rejects a NULL resource. PostgreSQL text cannot contain a NUL byte, so U+0000 is outside this input domain.",
+      "actual_constraint": {
+        "definition": "CHECK ((((length(resource) >= 1) AND (length(resource) <= 2048)) AND (resource !~ '[[:cntrl:][:space:]]'::text) AND ((resource ~ '^https://[^/@?#]+(/[^?#]*)?$'::text) OR (resource ~ '^http://(127\\.0\\.0\\.1|localhost|\\[::1\\])(:[0-9]{1,5})?/mcp$'::text))))",
+        "convalidated": true,
+        "resource_not_null": true
+      },
+      "result_mismatches": 0,
+      "check_acceptance_mismatches": 0
+    },
+    "auth_sessions_acl": {
+      "entries": [
+        {
+          "grantee": "16384",
+          "grantor": "16504",
+          "privilege": "DELETE",
+          "is_grantable": false
+        },
+        {
+          "grantee": "16384",
+          "grantor": "16504",
+          "privilege": "INSERT",
+          "is_grantable": false
+        },
+        {
+          "grantee": "16384",
+          "grantor": "16504",
+          "privilege": "MAINTAIN",
+          "is_grantable": false
+        },
+        {
+          "grantee": "16384",
+          "grantor": "16504",
+          "privilege": "REFERENCES",
+          "is_grantable": false
+        },
+        {
+          "grantee": "16384",
+          "grantor": "16504",
+          "privilege": "SELECT",
+          "is_grantable": true
+        },
+        {
+          "grantee": "16384",
+          "grantor": "16504",
+          "privilege": "TRIGGER",
+          "is_grantable": false
+        },
+        {
+          "grantee": "16384",
+          "grantor": "16504",
+          "privilege": "TRUNCATE",
+          "is_grantable": false
+        },
+        {
+          "grantee": "16384",
+          "grantor": "16504",
+          "privilege": "UPDATE",
+          "is_grantable": false
+        },
+        {
+          "grantee": "16504",
+          "grantor": "16504",
+          "privilege": "DELETE",
+          "is_grantable": false
+        },
+        {
+          "grantee": "16504",
+          "grantor": "16504",
+          "privilege": "INSERT",
+          "is_grantable": false
+        },
+        {
+          "grantee": "16504",
+          "grantor": "16504",
+          "privilege": "MAINTAIN",
+          "is_grantable": false
+        },
+        {
+          "grantee": "16504",
+          "grantor": "16504",
+          "privilege": "REFERENCES",
+          "is_grantable": false
+        },
+        {
+          "grantee": "16504",
+          "grantor": "16504",
+          "privilege": "SELECT",
+          "is_grantable": false
+        },
+        {
+          "grantee": "16504",
+          "grantor": "16504",
+          "privilege": "TRIGGER",
+          "is_grantable": false
+        },
+        {
+          "grantee": "16504",
+          "grantor": "16504",
+          "privilege": "TRUNCATE",
+          "is_grantable": false
+        },
+        {
+          "grantee": "16504",
+          "grantor": "16504",
+          "privilege": "UPDATE",
+          "is_grantable": false
+        },
+        {
+          "grantee": "16514",
+          "grantor": "16504",
+          "privilege": "DELETE",
+          "is_grantable": false
+        },
+        {
+          "grantee": "16514",
+          "grantor": "16504",
+          "privilege": "INSERT",
+          "is_grantable": false
+        },
+        {
+          "grantee": "16514",
+          "grantor": "16504",
+          "privilege": "MAINTAIN",
+          "is_grantable": false
+        },
+        {
+          "grantee": "16514",
+          "grantor": "16504",
+          "privilege": "REFERENCES",
+          "is_grantable": false
+        },
+        {
+          "grantee": "16514",
+          "grantor": "16504",
+          "privilege": "SELECT",
+          "is_grantable": false
+        },
+        {
+          "grantee": "16514",
+          "grantor": "16504",
+          "privilege": "TRIGGER",
+          "is_grantable": false
+        },
+        {
+          "grantee": "16514",
+          "grantor": "16504",
+          "privilege": "TRUNCATE",
+          "is_grantable": false
+        },
+        {
+          "grantee": "16514",
+          "grantor": "16504",
+          "privilege": "UPDATE",
+          "is_grantable": false
+        }
+      ],
+      "actual_source_acl": "{postgres=ar*wdDxtm/supabase_auth_admin,supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}",
+      "same_expanded_privileges": true
+    },
+    "three_valued_logic": {
+      "rows": [
+        {
+          "a": false,
+          "b": false,
+          "c": false,
+          "d": false,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": false,
+          "b": false,
+          "c": false,
+          "d": true,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": false,
+          "b": false,
+          "c": false,
+          "d": null,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": false,
+          "b": false,
+          "c": true,
+          "d": false,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": false,
+          "b": false,
+          "c": true,
+          "d": true,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": false,
+          "b": false,
+          "c": true,
+          "d": null,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": false,
+          "b": false,
+          "c": null,
+          "d": false,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": false,
+          "b": false,
+          "c": null,
+          "d": true,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": false,
+          "b": false,
+          "c": null,
+          "d": null,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": false,
+          "b": true,
+          "c": false,
+          "d": false,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": false,
+          "b": true,
+          "c": false,
+          "d": true,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": false,
+          "b": true,
+          "c": false,
+          "d": null,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": false,
+          "b": true,
+          "c": true,
+          "d": false,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": false,
+          "b": true,
+          "c": true,
+          "d": true,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": false,
+          "b": true,
+          "c": true,
+          "d": null,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": false,
+          "b": true,
+          "c": null,
+          "d": false,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": false,
+          "b": true,
+          "c": null,
+          "d": true,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": false,
+          "b": true,
+          "c": null,
+          "d": null,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": false,
+          "b": null,
+          "c": false,
+          "d": false,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": false,
+          "b": null,
+          "c": false,
+          "d": true,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": false,
+          "b": null,
+          "c": false,
+          "d": null,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": false,
+          "b": null,
+          "c": true,
+          "d": false,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": false,
+          "b": null,
+          "c": true,
+          "d": true,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": false,
+          "b": null,
+          "c": true,
+          "d": null,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": false,
+          "b": null,
+          "c": null,
+          "d": false,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": false,
+          "b": null,
+          "c": null,
+          "d": true,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": false,
+          "b": null,
+          "c": null,
+          "d": null,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": true,
+          "b": false,
+          "c": false,
+          "d": false,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": true,
+          "b": false,
+          "c": false,
+          "d": true,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": true,
+          "b": false,
+          "c": false,
+          "d": null,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": true,
+          "b": false,
+          "c": true,
+          "d": false,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": true,
+          "b": false,
+          "c": true,
+          "d": true,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": true,
+          "b": false,
+          "c": true,
+          "d": null,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": true,
+          "b": false,
+          "c": null,
+          "d": false,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": true,
+          "b": false,
+          "c": null,
+          "d": true,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": true,
+          "b": false,
+          "c": null,
+          "d": null,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": true,
+          "b": true,
+          "c": false,
+          "d": false,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": true,
+          "b": true,
+          "c": false,
+          "d": true,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": true,
+          "b": true,
+          "c": false,
+          "d": null,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": true,
+          "b": true,
+          "c": true,
+          "d": false,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": true,
+          "b": true,
+          "c": true,
+          "d": true,
+          "source": true,
+          "dump_clone": true
+        },
+        {
+          "a": true,
+          "b": true,
+          "c": true,
+          "d": null,
+          "source": null,
+          "dump_clone": null
+        },
+        {
+          "a": true,
+          "b": true,
+          "c": null,
+          "d": false,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": true,
+          "b": true,
+          "c": null,
+          "d": true,
+          "source": null,
+          "dump_clone": null
+        },
+        {
+          "a": true,
+          "b": true,
+          "c": null,
+          "d": null,
+          "source": null,
+          "dump_clone": null
+        },
+        {
+          "a": true,
+          "b": null,
+          "c": false,
+          "d": false,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": true,
+          "b": null,
+          "c": false,
+          "d": true,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": true,
+          "b": null,
+          "c": false,
+          "d": null,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": true,
+          "b": null,
+          "c": true,
+          "d": false,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": true,
+          "b": null,
+          "c": true,
+          "d": true,
+          "source": null,
+          "dump_clone": null
+        },
+        {
+          "a": true,
+          "b": null,
+          "c": true,
+          "d": null,
+          "source": null,
+          "dump_clone": null
+        },
+        {
+          "a": true,
+          "b": null,
+          "c": null,
+          "d": false,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": true,
+          "b": null,
+          "c": null,
+          "d": true,
+          "source": null,
+          "dump_clone": null
+        },
+        {
+          "a": true,
+          "b": null,
+          "c": null,
+          "d": null,
+          "source": null,
+          "dump_clone": null
+        },
+        {
+          "a": null,
+          "b": false,
+          "c": false,
+          "d": false,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": null,
+          "b": false,
+          "c": false,
+          "d": true,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": null,
+          "b": false,
+          "c": false,
+          "d": null,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": null,
+          "b": false,
+          "c": true,
+          "d": false,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": null,
+          "b": false,
+          "c": true,
+          "d": true,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": null,
+          "b": false,
+          "c": true,
+          "d": null,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": null,
+          "b": false,
+          "c": null,
+          "d": false,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": null,
+          "b": false,
+          "c": null,
+          "d": true,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": null,
+          "b": false,
+          "c": null,
+          "d": null,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": null,
+          "b": true,
+          "c": false,
+          "d": false,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": null,
+          "b": true,
+          "c": false,
+          "d": true,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": null,
+          "b": true,
+          "c": false,
+          "d": null,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": null,
+          "b": true,
+          "c": true,
+          "d": false,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": null,
+          "b": true,
+          "c": true,
+          "d": true,
+          "source": null,
+          "dump_clone": null
+        },
+        {
+          "a": null,
+          "b": true,
+          "c": true,
+          "d": null,
+          "source": null,
+          "dump_clone": null
+        },
+        {
+          "a": null,
+          "b": true,
+          "c": null,
+          "d": false,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": null,
+          "b": true,
+          "c": null,
+          "d": true,
+          "source": null,
+          "dump_clone": null
+        },
+        {
+          "a": null,
+          "b": true,
+          "c": null,
+          "d": null,
+          "source": null,
+          "dump_clone": null
+        },
+        {
+          "a": null,
+          "b": null,
+          "c": false,
+          "d": false,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": null,
+          "b": null,
+          "c": false,
+          "d": true,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": null,
+          "b": null,
+          "c": false,
+          "d": null,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": null,
+          "b": null,
+          "c": true,
+          "d": false,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": null,
+          "b": null,
+          "c": true,
+          "d": true,
+          "source": null,
+          "dump_clone": null
+        },
+        {
+          "a": null,
+          "b": null,
+          "c": true,
+          "d": null,
+          "source": null,
+          "dump_clone": null
+        },
+        {
+          "a": null,
+          "b": null,
+          "c": null,
+          "d": false,
+          "source": false,
+          "dump_clone": false
+        },
+        {
+          "a": null,
+          "b": null,
+          "c": null,
+          "d": true,
+          "source": null,
+          "dump_clone": null
+        },
+        {
+          "a": null,
+          "b": null,
+          "c": null,
+          "d": null,
+          "source": null,
+          "dump_clone": null
+        }
+      ],
+      "cases": 81,
+      "result_mismatches": 0,
+      "check_acceptance_mismatches": 0
+    }
+  },
+  "limitations": [
+    "81 Boolean cases exhaust conjunction reassociation, including NULL; the finite URL fixtures are additional checks, not exhaustive URI validation.",
+    "Only the two exact observed source/dump pairs are covered. ACL ordering is compared as expanded grantor/grantee/privilege/grant-option entries.",
+    "CHECK TRUE/NULL acceptance and the actual independent NOT NULL flag are proven separately; no INSERT/DDL was used.",
+    "Literal SELECT and system metadata only; no business/Auth rows, clone, native media, provider, cloud or restore execution."
+  ],
+  "metadata_after_sha256": "1f4cf5cd358bb724718120255bf503fb1ec3f5f8d8e4f0d8a87468c89ef3ce5c",
+  "original29_migration_history_and_all_global_role_oids_attributes_memberships_unchanged": true,
+  "catalogue_after_sha256": "9aa2b0cb8229c093241f76af30729078b4392849410443a6f0249c7e3fd17221",
+  "original29_full_raw_catalogue_unchanged": true,
+  "sources_unchanged": true,
+  "shared_lock_released": true,
+  "finished_at": "2026-10-30T12:24:41.290Z",
+  "elapsed_ms": 9197
+}

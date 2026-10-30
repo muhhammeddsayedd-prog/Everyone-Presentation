@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0",
+  "run_id": "0ec7ead2-202b-49f7-b481-c56e4d379603",
+  "started_at": "2026-10-30T12:19:02.144Z",
+  "result": "passed",
+  "scope": "One diagnostics-only owned29 dump clone; safe structural catalogue and exact differences before any correction",
+  "cloud_called": false,
+  "provider_called": false,
+  "native_called": false,
+  "original_database_writes": false,
+  "correction_applied": false,
+  "private_acl_verified": true,
+  "source_seals": {
+    "development/m07/recovery29/diagnose.mjs": "56f950f4d3aed66455f569c4975e364a7959819b989ad4f95e2ddafaf2fd01e6",
+    "development/m07/recovery29/identity.mjs": "c785bf1533031b560ad538fdcf5fbddb00eeb28d5f72e0d5d65524a933ad727d",
+    "development/m07/recovery29/ownership.mjs": "9118e7bd46dff15ccece950f88cd86ffc5b6c3fb86382d89792da5892a38de79",
+    "development/m07/recovery29/ownership.test.mjs": "b75ccd0d404a3c46f7f4f3549b8bf89a5067c854d12dda20f598d40e3e7b07ce",
+    "development/m07/recovery29/predicate.test.mjs": "2cbb7b5e9de6d613b9a494fc154716e77360f4ab0aa69b679611b0b10dee8845",
+    "tools/local-postgres.mjs": "49929bce8eb51194d9299cfd9639e537eb237daaec76c15740cb88059604e2de",
+    "tools/m07-original-profile29-comparison.mjs": "e5bf4b4c8a1e1a682e303615cb9989340f3d014988488f48d794da643b2cdc20",
+    "development/local-db/reviewed.json": "9722f25317f783123ec462227e94aecf65ea1cb27a9b59cf0d6bc07420f5d671",
+    "development/m07/db/catalog29.sql": "1af59495b01424e6ec2578f6ea1f8ac362829577612c32b2cd373545a58b9098",
+    "development/m07/db/release29-readback.sql": "e38028dbbe87d5c74bd626e9c0ac1297c861d571b4de35ba3d0c7d967694e9de"
+  },
+  "original_catalogue": {
+    "path": "tracking/evidence/m07/recovery29/2026-10-30T12-19-02-143Z-0ec7ead2-diagnostic-original-catalogue.json",
+    "sha256": "dcc5e065d77f504deaf1ebbb19a75eee4b940a32bf7dfbf1905e22b4e44f6c19"
+  },
+  "clone_catalogue": {
+    "path": "tracking/evidence/m07/recovery29/2026-10-30T12-19-02-143Z-0ec7ead2-diagnostic-clone-catalogue.json",
+    "sha256": "e447b19613dda77f7e62e14b875a50e5b0f5b7474a28e0a2dc1bc3f5f13a003d"
+  },
+  "differences": {
+    "path": "tracking/evidence/m07/recovery29/2026-10-30T12-19-02-143Z-0ec7ead2-diagnostic-differences.json",
+    "sha256": "ea581b2e795f6c06fe2b950b714957520529517f946bfcf9fb7f100005015d2a"
+  },
+  "original_catalogue_fields": 16430,
+  "clone_catalogue_fields": 16430,
+  "difference_count": 8,
+  "difference_keys": [
+    "schemas|public|acl",
+    "tables|auth.sessions|acl",
+    "tables|eps.cast_operation_notes|acl",
+    "constraints|eps.mcp_oauth_resources.mcp_oauth_resources_resource_check|definition",
+    "constraints|eps.specs_pipeline_config.specs_pipeline_config_model_version_check|definition",
+    "constraints|eps.specs_pipeline_config.specs_pipeline_config_prompt_version_check|definition",
+    "constraints|eps.specs_pipeline_config.specs_pipeline_config_result_schema_version_check|definition",
+    "constraints|eps.specs_pipeline_config.specs_pipeline_config_document_preparation_version_check|definition"
+  ],
+  "no_corrections_executed": true,
+  "actual_owned_clone_absence": {
+    "eps_m07_r29_diag_0ec7ead2202b49f7b481c56e4d379603": false
+  },
+  "owned_clone_removed": true,
+  "original29_state_unchanged": true,
+  "existing_global_role_oids_attributes_memberships_unchanged": true,
+  "original29_full_catalogue_unchanged": true,
+  "shared_lock_released": true,
+  "finished_at": "2026-10-30T12:19:27.059Z",
+  "elapsed_ms": 24915
+}

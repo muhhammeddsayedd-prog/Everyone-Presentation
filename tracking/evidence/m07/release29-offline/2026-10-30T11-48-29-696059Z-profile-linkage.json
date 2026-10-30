@@ -1,0 +1,31 @@
+{
+  "observed_at": "2026-10-30T11:48:29.682418+00:00",
+  "result": "passed",
+  "scope": "File-only bounded cloud original-profile linkage; no CLI or DB calls.",
+  "tests": {
+    "command": ".venv-skills/Scripts/python.exe -X utf8 -m unittest discover -s tests/operations -p test_m07_29_release.py",
+    "passed": 19,
+    "exit_code": 0,
+    "output": "...................\n----------------------------------------------------------------------\nRan 19 tests in 1.090s\n\nOK"
+  },
+  "red": {
+    "suite_count": 17,
+    "missing_validator_errors": 11,
+    "cause": "New profile/source/delta/promotion tests failed with absent load_original_profile, validate_profile_delta and validate_local_promotion before implementation."
+  },
+  "source_seals": {
+    "tools/release_m07_29.py": "74f53eb92cbf0d5e5ad12e64e05b369c18dd867ae832228b69bbc78df0cea7ac",
+    "tools/freeze-m07-cloud29-review.py": "777db3478969ddb8b91654ba7c77aeb4b4e9855ab90d6d89b57e2ad2cb00e743",
+    "tests/operations/test_m07_29_release.py": "9d428be23e2bf550805c03f2e72231bbee79e4eb1e54c1bf1e689783d7efc351",
+    "development/m07/db/CLOUD_PROFILE_LINKAGE.md": "c0129d47c90d38e02ffa38a412273c038a5f1298ad631e5e99d846c1ad6146d7",
+    "development/m07/db/RELEASE.md": "f840a3633ea06a50ac2d05573622a71346e191031c9992f62da54fcc649b0915",
+    "development/m07/db/release29-cloud-review-20261030T114818033239Z.prepared.json": "7948653dfc78395b96551772f957410c168fd50a3479952bc51c6e7943581fb2",
+    "development/m07/db/release29-original-profile-review.json": "4486d6b5f5ca363511d68790e58f3fcdce9433e1a388b298810a2d3db0b66779"
+  },
+  "CONFIG_SHA_pending": true,
+  "frozen_config_absent": true,
+  "cloud_called": false,
+  "provider_called": false,
+  "original_database_writes": false,
+  "helper_pin_changed": false
+}

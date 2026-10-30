@@ -1,0 +1,116 @@
+{
+  "schema_version": "1.0",
+  "assessed_at": "2026-10-30T11:24:57.721Z",
+  "result": "business_compatibility_passed_protocol_capture_unverified",
+  "source_receipt": "tracking/evidence/m07/claude-code/2026-10-30T11-18-40-826Z-d9825720.json",
+  "source_receipt_sha256": "22c127e3e5fe05389addbb7a1ca67a635e2723528f8bac3b97f0ace602e1d055",
+  "source_receipt_preserved": true,
+  "actual_client": "2.1.301 (Claude Code)",
+  "client_result": {
+    "subtype": "success",
+    "is_error": false,
+    "duration_ms": 10555,
+    "duration_api_ms": 10159,
+    "num_turns": 6,
+    "total_cost_usd": 0.037972700000000005,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 7235,
+      "cache_read_input_tokens": 25727,
+      "output_tokens": 644,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 7235,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "global",
+      "iterations": [],
+      "speed": "standard",
+      "fallback_credit": null
+    },
+    "model_usage": {
+      "claude-sonnet-5-5": {
+        "inputTokens": 10,
+        "outputTokens": 644,
+        "cacheReadInputTokens": 25727,
+        "cacheCreationInputTokens": 7235,
+        "webSearchRequests": 0,
+        "costUSD": 0.037972700000000005,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 0,
+        "canonicalModel": "claude-sonnet-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "permission_denials": []
+  },
+  "exact_observed_tools": [
+    "get_capabilities",
+    "list_projects",
+    "get_project",
+    "update_project",
+    "get_project"
+  ],
+  "synthetic_principal_id": "71000000-0000-4000-8000-000000000001",
+  "synthetic_project_id": "72000000-0000-4000-8000-000000000001",
+  "synthetic_final_row_version": 2,
+  "synthetic_updates_committed": 1,
+  "observed_discovery_method": "server/discover",
+  "exact_protocol_revision_captured": false,
+  "transport_source_seals_rechecked": {
+    "apps/web/lib/mcp-http.ts": "9ca4b2928b8c77ba271ace8ac05bbf48fc98c8229d511d920cc1dc8750a57c11",
+    "apps/web/lib/mcp.ts": "99e330ebbad5593cec14b5b5f06ccfc56f879c7f462f3cd883b6d3b63d2c6210",
+    "apps/web/lib/mcp-capabilities.ts": "791fbb6a03c7ed4be9d39439715fbb5929c142e354e22aeb31e217cb40cb0f60",
+    "apps/web/lib/mcp-output-validation.ts": "30026e1c38953c96cefbdd5c82cc9e3a567c4bf755d8bb7d748481d4be6cd583",
+    "contracts/mcp-tool-catalog.json": "60d8e003eaa677f41ff085678bbc030bcf2ccc23ae0c55a742886fbc67856f3e",
+    "apps/web/package.json": "90b4dc8394742563e64e780163c6ed9435b7e72faf11d5510c01a1b4505f0e9e"
+  },
+  "observed_client_isolation": {
+    "no_builtin_tools": true,
+    "all_mcp_tools_from_synthetic_test_server": true,
+    "advertised_mcp_schema_count": 19,
+    "skill_count": 0,
+    "slash_command_count": 0,
+    "additional_directory_count": 0,
+    "permission_mode": "dontAsk",
+    "mcp_servers": [
+      {
+        "name": "eps_m07_synthetic",
+        "status": "connected",
+        "source": "dynamic"
+      }
+    ],
+    "builtin_plugin_registrations": [
+      {
+        "name": "cc-plugin-agents-md"
+      },
+      {
+        "name": "cc-plugin-plugin-authoring"
+      }
+    ],
+    "plugin_tools_or_skills_exercised": false
+  },
+  "capture_failure": "The original harness asserted a negotiated-protocol event but recorded initialize responses only. The real client used modern server/discover; successful business calls were already independently observed by the server.",
+  "capture_fix_validation": "The updated local preflight covers modern server/discover plus the accepted 2026-07-28 revision; that local result is not retroactively claimed as the original client header.",
+  "actual_client_retried": false,
+  "retry_reason": "Combined execution window was preserved; no second model call was made after it approached expiry.",
+  "synthetic_only": true,
+  "real_service_journey_tested": false,
+  "provider_oauth_tested": false,
+  "hosting_tested": false,
+  "cleanup": {
+    "own_loopback_server_closed": true,
+    "own_cli_exited": true,
+    "marker_bounded_temporary_workdir_removed": true,
+    "raw_logs_private_ignored": true
+  }
+}

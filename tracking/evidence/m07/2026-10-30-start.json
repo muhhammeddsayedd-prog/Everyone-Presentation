@@ -1,0 +1,26 @@
+{
+  "observed_at": "2026-10-30T10:30:27.646281+00:00",
+  "milestone": "M07",
+  "status": "in_progress",
+  "base_commit": "02f9287f8a5dc1b40d2364f904ac499f7c1a54a6",
+  "authorization": "User explicitly requested M07 while retaining AT072 and M03 pending, mobile skipped, hosting deferred.",
+  "dependency_override": "Proceed with independent M07 implementation; do not upgrade M06/M03 acceptance.",
+  "prior_handoff": "tracking/handoffs/2026-10-30-before-m07-start.md.txt",
+  "prior_handoff_sha256": "311abe477ce1286f77904e94555a1aaadc78dc2aac7b866f20ef9a5cbcbc8c18",
+  "planned_acceptance": [
+    "Audit and close actual UI/HTTP/domain/MCP parity, schemas, pagination and idempotency with focused regressions.",
+    "Implement and verify official SDK transport and delegated resource-server authentication against current primary documentation; keep external provider/client connection unverified until actual access.",
+    "Prove isolated local metadata-plus-referenced-media backup/restore, checksum and permission/recovery boundaries, preserving canonical data.",
+    "Add bounded workload/observability and operator/client documentation with actual measured versus synthetic/historical scopes.",
+    "Run appropriate deterministic/security/runtime acceptance, record exact unresolved provider/client/deployment gates; hosting remains deferred."
+  ],
+  "constraints": {
+    "AT_072": "pending",
+    "M03_broader_semantic_checks": "pending",
+    "mobile_testing": "skipped",
+    "hosting": "deferred",
+    "cloud_reset_or_seed": "forbidden",
+    "unrelated_paths": "Screenshots102/redesign-output58 retained"
+  },
+  "initial_discovery": "Read-only parallel parity/auth/recovery audit. No provider configuration or business-data mutation performed."
+}

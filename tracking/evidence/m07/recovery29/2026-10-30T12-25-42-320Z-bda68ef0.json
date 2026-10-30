@@ -1,0 +1,1280 @@
+{
+  "schema_version": "1.0",
+  "run_id": "bda68ef0-324a-4b49-be03-1605d50def5e",
+  "started_at": "2026-10-30T12:25:42.320Z",
+  "result": "passed",
+  "scope": "AT-070 history29 synthetic isolated local PostgreSQL + local filesystem object restore; exact known baseline profile preserved",
+  "cloud_called": false,
+  "provider_called": false,
+  "runtime_configuration_loaded": false,
+  "canonical_business_writes": false,
+  "storage_http_tested": false,
+  "deployed_restore_tested": false,
+  "checkpoint": "complete",
+  "private_artifact_acl": "current-user-and-SYSTEM-only-verified",
+  "preflight": {
+    "jobs": 0,
+    "users": 0,
+    "assets": 0,
+    "versions": 0,
+    "guest_key": false,
+    "verifiers": 0,
+    "migrations": 29,
+    "other_clients": 0
+  },
+  "original_baseline_sha256": "89ce5bb54fa39dcb557ce0bf8cf10f98399ea82380357c867581dade24b1b8ee",
+  "existing_global_roles_before": {
+    "roles": [
+      {
+        "oid": "16443",
+        "name": "anon",
+        "login": false,
+        "inherit": true,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "16444",
+        "name": "authenticated",
+        "login": false,
+        "inherit": true,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "16705",
+        "name": "eps_api_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "28423",
+        "name": "eps_candidate_apply_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "28213",
+        "name": "eps_candidate_assets_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "28211",
+        "name": "eps_candidate_stage_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "28215",
+        "name": "eps_candidate_upload_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "22761",
+        "name": "eps_cast_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "33540",
+        "name": "eps_casting_guard_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "33538",
+        "name": "eps_casting_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "16707",
+        "name": "eps_draft_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "61202",
+        "name": "eps_guest_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "17686",
+        "name": "eps_jobs_dispatcher",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "19622",
+        "name": "eps_jobs_executor",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "17684",
+        "name": "eps_jobs_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "17291",
+        "name": "eps_logo_verify_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "136239",
+        "name": "eps_mcp_session_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "38694",
+        "name": "eps_review_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "38800",
+        "name": "eps_review_stage_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "136193",
+        "name": "eps_settings_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "19620",
+        "name": "eps_specs_apply_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "20623",
+        "name": "eps_specs_assets_executor",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "20621",
+        "name": "eps_specs_assets_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "18250",
+        "name": "eps_specs_initializer",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "18248",
+        "name": "eps_specs_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "19618",
+        "name": "eps_specs_stage_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "19616",
+        "name": "eps_specs_submit_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "20617",
+        "name": "eps_specs_upload_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "20619",
+        "name": "eps_specs_verify_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "30094",
+        "name": "eps_support_upload_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "30096",
+        "name": "eps_support_verify_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "6171",
+        "name": "pg_database_owner",
+        "login": false,
+        "inherit": true,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "16384",
+        "name": "postgres",
+        "login": true,
+        "inherit": true,
+        "bypassrls": true,
+        "create_db": true,
+        "superuser": false,
+        "create_role": true,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "16445",
+        "name": "service_role",
+        "login": false,
+        "inherit": true,
+        "bypassrls": true,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "10",
+        "name": "supabase_admin",
+        "login": true,
+        "inherit": true,
+        "bypassrls": true,
+        "create_db": true,
+        "superuser": true,
+        "create_role": true,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "16504",
+        "name": "supabase_auth_admin",
+        "login": true,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": true,
+        "valid_until": null,
+        "connection_limit": -1
+      }
+    ],
+    "memberships": [
+      {
+        "set": false,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "16444",
+        "member_oid": "16705",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "16444",
+        "member_oid": "17291",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "16444",
+        "member_oid": "17684",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "16444",
+        "member_oid": "18248",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "16444",
+        "member_oid": "19616",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "16444",
+        "member_oid": "20617",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "16444",
+        "member_oid": "20619",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "16444",
+        "member_oid": "22761",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "16444",
+        "member_oid": "28215",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "16444",
+        "member_oid": "30094",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "16444",
+        "member_oid": "30096",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "16444",
+        "member_oid": "33538",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "16444",
+        "member_oid": "38694",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "16444",
+        "member_oid": "136193",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "16444",
+        "member_oid": "136239",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "16705",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "16705",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "16707",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "16707",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "17291",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "17291",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "17684",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "17684",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "17686",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "17686",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "18248",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "18248",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "18250",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "18250",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "19616",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "19616",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "19618",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "19618",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "19620",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "19620",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "19622",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "19622",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "20617",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "20617",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "20619",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "20619",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "20621",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "20621",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "20623",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "20623",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "22761",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "22761",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "28211",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "28211",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "28213",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "28213",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "28215",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "28215",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "28423",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "28423",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "30094",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "30094",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "30096",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "30096",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "33538",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "33538",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "33540",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "33540",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "38694",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "38694",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "38800",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "38800",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "61202",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "61202",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "136193",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "136193",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "136239",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "136239",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      }
+    ]
+  },
+  "original_catalogue_fields": 16430,
+  "original_catalogue_sha256": "9aa2b0cb8229c093241f76af30729078b4392849410443a6f0249c7e3fd17221",
+  "source_seals": {
+    "development/m07/recovery29/run.mjs": "d5602e34077b8cce5ad5c100893b6d7b4be984305f9705ce75fed3e90c7fbffd",
+    "development/m07/recovery29/profile.mjs": "be0c7b30ca143e6dc054aa82f288d03fd01ed507a15fba1f45667ff412f25520",
+    "development/m07/recovery29/profile.test.mjs": "599b76d942b95b1fbd24ed59b4cf05ada09ad2eef49fc77edd34b51501737e02",
+    "development/m07/recovery29/profile8.mjs": "05f37168da8d7e1d58b17be30e0aecc0604657bdfd3cc7fb3162ca5f14378b31",
+    "development/m07/recovery29/profile8.test.mjs": "964ac2c8a014a7cfebd8fa5d730392d80a0140aef5923bfda1ef13025b218fd8",
+    "development/m07/recovery29/observed-pairs.mjs": "78450ba18f7d89ad56e17bfcf816f0f210a0e8b0b3c2441331a70f9dc83bc767",
+    "tracking/evidence/m07/recovery29/2026-10-30T12-19-02-143Z-0ec7ead2-diagnostic-differences.json": "ea581b2e795f6c06fe2b950b714957520529517f946bfcf9fb7f100005015d2a",
+    "development/m07/recovery29/identity.mjs": "c785bf1533031b560ad538fdcf5fbddb00eeb28d5f72e0d5d65524a933ad727d",
+    "development/m07/recovery29/ownership.mjs": "9118e7bd46dff15ccece950f88cd86ffc5b6c3fb86382d89792da5892a38de79",
+    "development/m07/recovery29/ownership.test.mjs": "b75ccd0d404a3c46f7f4f3549b8bf89a5067c854d12dda20f598d40e3e7b07ce",
+    "development/m07/recovery29/predicate.test.mjs": "2cbb7b5e9de6d613b9a494fc154716e77360f4ab0aa69b679611b0b10dee8845",
+    "development/local-db/reviewed.json": "9722f25317f783123ec462227e94aecf65ea1cb27a9b59cf0d6bc07420f5d671",
+    "tools/m07-original-profile29-comparison.mjs": "e5bf4b4c8a1e1a682e303615cb9989340f3d014988488f48d794da643b2cdc20",
+    "development/m07/db/catalog29.sql": "1af59495b01424e6ec2578f6ea1f8ac362829577612c32b2cd373545a58b9098",
+    "development/m07/db/release29-readback.sql": "e38028dbbe87d5c74bd626e9c0ac1297c861d571b4de35ba3d0c7d967694e9de",
+    "development/m07/db/release29-original-profile.json": "681fe120fea3ee70e35bd2c4ab4734e2b95e89e40ceef5a678f857adfa673cc2",
+    "tracking/evidence/m07/original-profile29/2026-10-30T11-35-45-537Z-e56dec11-report.json": "047a0580ed6fe656a5a45616425716c2dce271573adfac0401843b79c59adb1d",
+    "tracking/evidence/m07/original-profile29/2026-10-30T11-35-45-537Z-e56dec11-after-catalogue.json": "dcc5e065d77f504deaf1ebbb19a75eee4b940a32bf7dfbf1905e22b4e44f6c19",
+    "tools/test-m07-recovery-local.mjs": "f48fe7ee99edb69f7c7d571e2d5955192ed0cc8ac0cfc8f3bf0422748ce18842",
+    "tools/m07-recovery-bundle.mjs": "0938d274456d19130eaa95554ee5d7b90b364efafed13912fa5c62001193268c",
+    "tests/operations/m07-recovery-bundle.test.mjs": "9a40986c9d4c63e459015eb51eb493ccb9deb2c9aac97af488b848809daa395e",
+    "tools/local-postgres.mjs": "49929bce8eb51194d9299cfd9639e537eb237daaec76c15740cb88059604e2de",
+    "tests/db/m04-assignments-fixture.sql": "cb5f418fee0dc3a9b00a9ddeaa3971f5df1c3384c459905baa19b4e04f1d9cb4",
+    "tests/db/m05-versions-fixture.sql": "da13283bc15481fc1bb76b9d36a3360c3a30d7b6cc06b7c0a979e25e086c636d",
+    "apps/worker/src/presentation-stage-executor.ts": "97fc66ff385b0726dc16d6aceaa6d4a10e501a606b7de75cd6dc0a6056357d4d",
+    "apps/worker/src/presentation-export-executor.ts": "15e4b6f7123c4340f8f0dd6c4869b711c1a4bb3433ce66e14d9b9d6093091e06",
+    "apps/worker/src/presentation-pdf.ts": "c1360dbbaaaac8a05366313797b243cb352425d38437ab65bfd326e4b5afff6e",
+    "apps/worker/src/video-container.ts": "a21d044eeea3e1c6a4ef8f3107a71ac7cc868164ed1fbeca92829afccd08cfd4",
+    "packages/templates/versions/1.1.0/registry.json": "e830204db50a226ab8d10e0eef323eca4983f92de17db0647893a8ab355e57e3",
+    "packages/templates/versions/1.1.0/render.ts": "f58d10501fac36e1f2f5b80b2f3e814901972084acf94fe4047434e42db7225c",
+    "apps/web/public/brand/everyone-logotype-white.svg": "cb1f84c546247f81f7972ede5a374505c3de95d9fe9cee92ff60bda558166b98",
+    "apps/web/public/fonts/IBMPlexSans-Regular.woff2": "ba711a3085ff9f27440b6b9c4550cfc47c97bf36591d5da958b975bb3add8c1a",
+    "apps/web/public/fonts/IBMPlexSans-Medium.woff2": "5660f8a658f8bb50dbc005232f885eadffd2bc1c235c4f6fbb63469d1f9cde6d",
+    "apps/web/public/fonts/IBMPlexSans-SemiBold.woff2": "f78048030eab62e860efa39a0df79e2e5581bf122eb95b9bc42c0b8a4988d205",
+    "apps/web/public/fonts/IBMPlexSansArabic-Regular.woff2": "74112e1b7bf2e2c547989a4e947a60cba6cd1f9156e0065670134636e717199d",
+    "apps/web/public/fonts/IBMPlexSansArabic-Medium.woff2": "c72f6986f50ded745d06e71e508096209c52a55a6b3a81029954e33c52ba1dd2",
+    "apps/web/public/fonts/IBMPlexSansArabic-SemiBold.woff2": "869b2acd0a9660607a2025f0fe1c640110bf23d33417509328f07722922b8063",
+    "tools/build-candidate-wf02.mjs": "c64710c7cd3e98a2b71977761abf16ec4d8274b287da4b2b41550f8c3f8b64bd",
+    "tools/build-review-wf05.mjs": "6830d9db4c0e9588dca8590451f45ee6b7ba240a1519ce356874732038350ee1",
+    "tools/build-presentation-wf03.mjs": "9e160d960d5db98752d7617363693e035b509730541c7802375352f5f50f1337",
+    "development/m06/wf03-lexer-fixed-candidate.json": "e0cb7f88d11baae509981f2b4d0b3925ab5d038028373a03a5048e783ef21a4f",
+    "workflows/WF-04-RECOVERY-AND-MAINTENANCE.md": "e71b05afedbb20626a3fcc60246ef2a43335230f7084c29aa03cb07ec598ad77",
+    "supabase/migrations/20261028010943_m01_canonical_foundation.sql": "8a5f3ed7727a72051e630307d2daecab8c4a74054398a6425e73bd85e17568b9",
+    "supabase/migrations/20261028013324_m01_identity_role_inheritance.sql": "5382efe9fbdf9c194010257e0ac0024dcb447207522036560056d5d1a4e20e30",
+    "supabase/migrations/20261028013655_m01_workspace_scope_alias.sql": "67ddb2cff9fed9c42d34657e833c613aec4afd2769543a991bbac84da355db64",
+    "supabase/migrations/20261028024205_m01_private_logo_boundary.sql": "b04af5119b4e384bd96136573eec39e69f21a0ffb7d9f4aeb07bbf48f2976b9d",
+    "supabase/migrations/20261028072515_m01_logo_upload_capability.sql": "4dbd400092d7743b02dd0769ae511c208e6f4f349428fc0e7f0fb9c573ba4b24",
+    "supabase/migrations/20261028162702_m01_replay_scope_refresh.sql": "82a4f2ec03efc0787aa58e5f1e68ab626e5dddb5e4c645444103456757bf4251",
+    "supabase/migrations/20261028162800_m02_jobs_outbox.sql": "f619b3dfb9d964ab5902d04941b8cd59b44e9da36f1ab3f7b10bd45298ff4013",
+    "supabase/migrations/20261028172320_m02_manual_specs_draft.sql": "8ab866a49cb2e01eabf3b83076fe4519a60255263d0a1a170ef3ba9718a2349c",
+    "supabase/migrations/20261028184145_m02_role_order.sql": "14f96c7e635fe46cb11393a881bca26068d696c32f5e454df8655299702b1efa",
+    "supabase/migrations/20261028222030_m02_specs_pipeline.sql": "1e5319bb81be1f12896f7efb5a2cb7706653b79eb440a4dc1aaaca4ed9556895",
+    "supabase/migrations/20261029001520_m02_specs_assets.sql": "9b35e8efdfc5184252ab4ecfe1a50861c8991dadf2b20544d481b51b3b7fb288",
+    "supabase/migrations/20261029003941_m02_specs_mime_guard.sql": "5a4439e9dd5262cae7e6f813997c4c9506db3eb74fe4ea95d2a352726effb549",
+    "supabase/migrations/20261029070038_m02_specs_read_operation.sql": "040151ec89b461be2dc0c1d4ab8446652062488aac5f63822129d497ecf1702e",
+    "supabase/migrations/20261029090500_m02_service_claim_replay.sql": "705d7432ab8cbe04fa5a94e090e1ce55e36c622590c09e0ce922ac5a59c6baf2",
+    "supabase/migrations/20261029090724_m03_candidate_library.sql": "2a84e240fa1ed3a283a483775e797e7ef1bafeea36d2d11ace17e06b857d8b8d",
+    "supabase/migrations/20261029094600_m02_pdf_vision.sql": "5b7ad204f6dddde82ae829577ea1130fd426a3998797460871baad20d789cb50",
+    "supabase/migrations/20261029100500_m03_candidate_pipeline.sql": "4af04b4a3fb050e39aa23958c3f82e304cc7d7a1f450a5d93f7f50bc001bd836",
+    "supabase/migrations/20261029133455_m03_remaining_media_library.sql": "2e190e001b2bda044d9c90da4287f54e5839b0af7ffec84d4c93083909c944fb",
+    "supabase/migrations/20261029135318_m03_frame_request_resubmission.sql": "e816ad6b491626ace489efd256b56c322d25d9101de94e5fb8b24d2d4b745048",
+    "supabase/migrations/20261029174841_m04_casting_assignments_lifecycle.sql": "2825681bf529f1b32db2473749180901f0961b025e8da847b38ad49c06f4b900",
+    "supabase/migrations/20261029180953_m03_frame_vision_selection.sql": "bcd12794eccfa590e5d160f62dfd67838c8186376cddda1952f291c50d03bec8",
+    "supabase/migrations/20261029202629_m04_review_series_processing.sql": "3f1543b9d4b525d486287f2f00711270ed1fbdc30911dac3aea725aee50679e4",
+    "supabase/migrations/20261029203953_m04_ai_apply_source_guard.sql": "1bf897c3c6dcae03c96f0d434ba61edfc89b01d2c700dc4e8c11ce17e285832c",
+    "supabase/migrations/20261029215218_m05_immutable_presentation_versions.sql": "09d78c225ca02d436a8b1c2bcc6e55f273dfea116976807af4a8b228b99de5f4",
+    "supabase/migrations/20261030002634_m06_guest_review_feedback_exports.sql": "2c72507216efdcd3e9dcea3f9b94270b19e1275ebcd2fcf91dad9253ddde8d2a",
+    "supabase/migrations/20261030004643_m06_credential_admission_guest_retry.sql": "a0fb9dfec8cdae2718719d455ed11b4f25dd9b79e8fc9de19bd53c229b64089e",
+    "supabase/migrations/20261030013832_m06_guest_storage_policy_composition.sql": "9e3ab85655c2fa0490aba07118fe730dae2c6193f651c3ba086910d82b7eb171",
+    "supabase/migrations/20261030030717_m06_frozen_video_source_transcripts.sql": "6334ea62a49966963e675c61e6a73d2acb5981d35f261cf2dff519d097905178",
+    "supabase/migrations/20261030111549_m07_settings_delegated_session.sql": "6531e8decab5496e212eb01575aca666cd9e03b0575f92dd66bd380760f84af4"
+  },
+  "source_clone_profile": {
+    "corrected_known_fields": [
+      "schemas|public|acl",
+      "tables|eps.cast_operation_notes|acl",
+      "constraints|eps.specs_pipeline_config.specs_pipeline_config_model_version_check|definition",
+      "constraints|eps.specs_pipeline_config.specs_pipeline_config_prompt_version_check|definition",
+      "constraints|eps.specs_pipeline_config.specs_pipeline_config_result_schema_version_check|definition",
+      "constraints|eps.specs_pipeline_config.specs_pipeline_config_document_preparation_version_check|definition",
+      "tables|auth.sessions|acl",
+      "constraints|eps.mcp_oauth_resources.mcp_oauth_resources_resource_check|definition"
+    ],
+    "complete_catalogue_fields": 16430,
+    "exact_raw_catalogue": true
+  },
+  "native_media_image_id": "sha256:ea6e27d158a843fee524d7f43f2f88a4ede8bc58e8ac32578b7dec5c1594ba6b",
+  "native_domain_stages_committed": [
+    "prepare_presentation",
+    "render_presentation",
+    "validate_presentation",
+    "publish_presentation"
+  ],
+  "before_restore_permissions": {
+    "authorized_fixed_video": true,
+    "unauthorized_actor_denied": true,
+    "anonymous_direct_table_denied": true,
+    "authorized_export_hash": "dceddb66131da2df748565fb67a89c1bd3fe97ac6799cebeab89e8654cd1f84d"
+  },
+  "before_restore29_boundaries": {
+    "settings": {
+      "singleton": true,
+      "updated_at": "2026-10-30T11:43:24.765879+00:00",
+      "resource_id": "9519ad94-b45c-4496-8386-20ed80157b24",
+      "row_version": 1,
+      "template_key": "everyone-casting",
+      "default_timezone": "Africa/Cairo",
+      "template_version": "1.1.0",
+      "default_review_expiry_days": 30
+    },
+    "settings_authorized": true,
+    "settings_unauthorized_denied": true,
+    "mcp_empty_registry_preserved": true,
+    "auth_sessions_empty_preserved": true,
+    "mcp_direct_table_denied": true,
+    "unsigned_session_inactive": true
+  },
+  "restored_clone_profile": {
+    "corrected_known_fields": [
+      "schemas|public|acl",
+      "tables|eps.cast_operation_notes|acl",
+      "constraints|eps.specs_pipeline_config.specs_pipeline_config_model_version_check|definition",
+      "constraints|eps.specs_pipeline_config.specs_pipeline_config_prompt_version_check|definition",
+      "constraints|eps.specs_pipeline_config.specs_pipeline_config_result_schema_version_check|definition",
+      "constraints|eps.specs_pipeline_config.specs_pipeline_config_document_preparation_version_check|definition",
+      "tables|auth.sessions|acl",
+      "constraints|eps.mcp_oauth_resources.mcp_oauth_resources_resource_check|definition"
+    ],
+    "complete_catalogue_fields": 16430,
+    "exact_raw_catalogue": true
+  },
+  "full_raw_catalogue_exact_after_restore": true,
+  "metadata_exact_after_restore": true,
+  "metadata_backup_sha256": "ccd82d3350aaee5c9b1b4bee03620776b293d097fe5b8b68ee785407a97233a9",
+  "functions_grants_rls_constraints_exact_after_restore": true,
+  "restored_schema_sha256": "c55ff65383941503cf05a1ea6c0260ccad9d471ed946fa786900b6986ad02020",
+  "restored_object_count": 4,
+  "restored_source_count": 71,
+  "database_migration_count": 29,
+  "after_restore_permissions": {
+    "authorized_fixed_video": true,
+    "unauthorized_actor_denied": true,
+    "anonymous_direct_table_denied": true,
+    "authorized_export_hash": "dceddb66131da2df748565fb67a89c1bd3fe97ac6799cebeab89e8654cd1f84d"
+  },
+  "after_restore29_boundaries": {
+    "settings": {
+      "singleton": true,
+      "updated_at": "2026-10-30T11:43:24.765879+00:00",
+      "resource_id": "9519ad94-b45c-4496-8386-20ed80157b24",
+      "row_version": 1,
+      "template_key": "everyone-casting",
+      "default_timezone": "Africa/Cairo",
+      "template_version": "1.1.0",
+      "default_review_expiry_days": 30
+    },
+    "settings_authorized": true,
+    "settings_unauthorized_denied": true,
+    "mcp_empty_registry_preserved": true,
+    "auth_sessions_empty_preserved": true,
+    "mcp_direct_table_denied": true,
+    "unsigned_session_inactive": true
+  },
+  "settings_row1_empty_mcp_registry_auth_subset_restored_exactly": true,
+  "restored_pdf_validation": {
+    "pdf_sha256": "d7e0f1a713695ba092af80b688c756aea2dcf74f537fd25961e31081d5a6d793",
+    "page_count": 8,
+    "width_points": 1200,
+    "height_points": 675.12,
+    "text_regions_checked": 168,
+    "image_draws_checked": 0,
+    "video_links_checked": 2,
+    "embedded_font_count": 3,
+    "validated_at": "2026-10-30T12:27:11.494Z"
+  },
+  "restored_video_probe": {
+    "duration_ms": 2000,
+    "width": 160,
+    "height": 90,
+    "rotation_degrees": 0,
+    "frame_rate": 25,
+    "video_codec": "h264",
+    "audio_codec": null,
+    "has_audio": false,
+    "container": "mov,mp4,m4a,3gp,3g2,mj2",
+    "source_start_ms": 80
+  },
+  "lease_recovery": {
+    "committed_lease_restored": true,
+    "controlled_expiry": true,
+    "same_outbox_id": true,
+    "new_token_fence": true,
+    "stale_ack_denied": true,
+    "current_acknowledgement_applied": true,
+    "process_crash_simulated": false
+  },
+  "job_recovery": {
+    "running_job_and_attempt_restored": true,
+    "controlled_expiry": true,
+    "exactly_one_recovered": true,
+    "stale_callback_stale_true_applied_false": true,
+    "job_queued_for_bounded_retry": true,
+    "completed_version_and_pdf_preserved": true
+  },
+  "tampered_backup_refused": true,
+  "missing_backup_object_refused": true,
+  "sources_unchanged_during_rehearsal": true,
+  "limitations": [
+    "Synthetic generated media and owner-fixture layout preflight; no representative casting, semantic or provider quality result.",
+    "Native stage executors, validation and real database roles participate; local SQL ports and filesystem byte transport replace Supabase Storage HTTP.",
+    "Migration/schema and template/font/workflow source bytes are backed up/restored; no deployed workflow/configuration restoration or publication occurred.",
+    "Two disposable databases use the same pre-existing local roles and pinned cluster, not an independent disaster-recovery cluster or secret restoration.",
+    "Controlled database timestamp expiry tests outbox fencing; no physical crash/power-loss/endurance or deployed worker/API rollback.",
+    "Measured local elapsed time is rehearsal duration only, not a promised RTO/RPO, representative processing throughput or provider cost."
+  ],
+  "native_fixture_container_removed": true,
+  "actual_disposable_database_absence": {
+    "eps_m07_r29_source_bda68ef0324a4b49be031605d50def5e": false,
+    "eps_m07_r29_restore_bda68ef0324a4b49be031605d50def5e": false
+  },
+  "disposable_databases_removed": true,
+  "original_local_database_unchanged": true,
+  "original29_full_catalogue_unchanged": true,
+  "original29_exact_profile_and_settings_state_unchanged": true,
+  "existing_global_role_oids_attributes_memberships_unchanged": true,
+  "shared_test_lock_released": true,
+  "finished_at": "2026-10-30T12:27:29.845Z",
+  "elapsed_ms": 107525,
+  "private_artifact_directory": ".local/m07-recovery/bda68ef0-324a-4b49-be03-1605d50def5e"
+}

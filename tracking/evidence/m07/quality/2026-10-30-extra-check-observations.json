@@ -1,0 +1,31 @@
+{
+  "observed_at": "2026-10-30T11:54:30.716767+00:00",
+  "scope": "Earlier same-turn tool-observed offline checks, not a new rerun or live integration",
+  "skill_integrity": {
+    "result": "PASS",
+    "canonical_skills": 53,
+    "source_files": 550,
+    "installed_files": 550,
+    "local_links": 436,
+    "errors": 0,
+    "warnings": 0
+  },
+  "pure_recovery_workload_client": {
+    "command": "node --import tsx --test tests/operations/m07-recovery-bundle.test.mjs tools/m07-workload.test.mjs tools/m07-workload-acceptance.test.mjs tools/m07-client-smoke.test.mjs",
+    "passed": 21,
+    "failed": 0,
+    "initial_invocation_failure": "Without --import tsx, tools client TS import could not resolve installed AJV extension; original19pass/1launchfail not a product assertion failure."
+  },
+  "release_helper": {
+    "passed": 20,
+    "failed": 0,
+    "receipt": "tracking/evidence/m07/release29-offline/2026-10-30T11-49-21-633252Z-profile-linkage.json"
+  },
+  "original_profile_guard": {
+    "passed": 6,
+    "failed": 0,
+    "receipt": "tracking/evidence/m07/original-profile29/2026-10-30T11-41-58-167Z-comparison-checks.json"
+  },
+  "no_provider_or_cloud_called_by_these_offline_checks": true,
+  "aggregate_overlap_warning": "Focused counts overlap application/integration gates; do not sum."
+}

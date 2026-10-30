@@ -1,0 +1,460 @@
+{
+  "observed_at": "2026-10-30T12:08:58.869078+00:00",
+  "result": "passed",
+  "scope": "80 actual controlled desktop cases selected with embedded narrow-viewport cases excluded and EPS_SKIP_MOBILE_TESTS=true; no phone, screen-reader, real provider or cloud calls",
+  "stats": {
+    "startTime": "2026-10-30T12:05:29.658Z",
+    "duration": 116039.458,
+    "expected": 80,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "cases": [
+    {
+      "title": "actual HTTP envelopes enforce auth, idempotency, revision and strict input boundaries",
+      "file": "api-contracts.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "audience preset HTTP lifecycle is strict and settings authority is independent of project preparation",
+      "file": "api-contracts.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "desktop shared profile reads introductions and duplicate matches beyond the first page",
+      "file": "candidate-pagination-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "desktop project choices retain a pinned introduction from a later page when saving availability",
+      "file": "candidate-pagination-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "casting integration persists one output control and independent same-person assignments",
+      "file": "casting-board-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "casting unknown write locks changes and retries exactly without a second effect",
+      "file": "casting-board-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "casting retains an unknown write after a later denial until the same acknowledgement returns",
+      "file": "casting-board-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "casting pointer and keyboard ordering share the saved order across reload",
+      "file": "casting-board-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "project removal fails closed on an unavailable preview and retries actual choices before confirmation",
+      "file": "casting-retirement-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "interrupted retirement preserves one exact intent through a later denial and acknowledges one effect",
+      "file": "casting-retirement-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "role archive names current Main and Shortlist consequences before retiring the whole role scope",
+      "file": "casting-retirement-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "slot reduction previews only explicitly selected slots and retains other casting choices",
+      "file": "casting-retirement-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "controlled unknown immutable PUT checks completion before any retry and locks local mode changes",
+      "file": "file-source-intake-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "controlled stale submit reloads the Spec version while reusing the verified original",
+      "file": "file-source-intake-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "controlled unknown-complete retains confirmed checkpoints and retries exact intent",
+      "file": "file-source-intake-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "controlled unknown-submit retains confirmed checkpoints and retries exact intent",
+      "file": "file-source-intake-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "controlled refresh-failure retains confirmed checkpoints and retries exact intent",
+      "file": "file-source-intake-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "controlled unavailable submit preserves selected original and allows manual work; dirty mode switch requires consent",
+      "file": "file-source-intake-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "controlled no-capability cannot select or send original bytes",
+      "file": "file-source-intake-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "controlled no-origin cannot select or send original bytes",
+      "file": "file-source-intake-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "acting-user scope is enforced in UI and direct requests",
+      "file": "foundation.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "guest opens without internal sign-in and feedback stays on the viewed version",
+      "file": "guest-review-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "sharing keeps the same create request through lost acknowledgement and denial",
+      "file": "guest-sharing-recovery.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "inline rotate confirmation can cancel without mutation and confirms one frozen intent",
+      "file": "m06-link-confirmation.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "inline revoke confirmation can cancel without mutation and confirms one frozen intent",
+      "file": "m06-link-confirmation.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "confirmed inline rotation keeps its row version and idempotency key through lost ACK and denial",
+      "file": "m06-link-confirmation.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "unchanged expiry is omitted from download-only edits while an explicit expiry edit is included",
+      "file": "m06-link-confirmation.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "Cairo DST expiry shows the correct hour and download-only edits preserve exact seconds",
+      "file": "m06-link-expiry-dst.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "guest PDF error 503 saves no artifact and retries the same export safely",
+      "file": "m06-pdf-download-guard.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "guest PDF error 403 saves no artifact and retries the same export safely",
+      "file": "m06-pdf-download-guard.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "a delayed older update response cannot offer a downgrade after a newer check and version switch",
+      "file": "m06-review-findings.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "a lower latest version number is ignored rather than offered as a new version",
+      "file": "m06-review-findings.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "checking the same version identity never swaps already viewed frozen content",
+      "file": "m06-review-findings.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "a cancelled export is terminal and offers no failed-job retry action",
+      "file": "m06-review-findings.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "settings defaults save through the typed operation and reload as central state",
+      "file": "m07-settings.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "unknown settings writes keep the original body/key and block edits through later denial",
+      "file": "m07-settings.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "untrusted successful settings acknowledgements retain the same save intent",
+      "file": "m07-settings.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "read-only users do not request or edit privileged Studio defaults",
+      "file": "m07-settings.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "desktop consent shows verified client/permissions and keyboard approval returns through the provider-supplied URL",
+      "file": "oauth-consent.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "desktop uncertain consent checks provider state without sending another approval",
+      "file": "oauth-consent.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "desktop signed-out consent requests an existing-account link and preserves its authorization selector",
+      "file": "oauth-consent.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "caller-supplied client names and redirects cannot become consent metadata",
+      "file": "oauth-consent.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "a refused metadata-free reconnect offers no approval or automatic redirect",
+      "file": "oauth-consent.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "a retained image retries a temporary failure without reading the live library",
+      "file": "presentation-recovery.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "a repeated series cursor reports the problem and reload starts from the first page",
+      "file": "presentation-recovery.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "generation retains an unknown request and saved versions never follow later draft facts",
+      "file": "presentation-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "review and generation navigation keeps the chosen series instead of the workspace default",
+      "file": "presentation-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "controlled unknown retry keeps its frozen body/key and never creates another job",
+      "file": "processing-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "controlled cancellation conflict requires explicit reload and retains completed work",
+      "file": "processing-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "controlled active detail polls durable state and stops after a confirmed completion",
+      "file": "processing-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "controlled empty central state is quiet while fixture processing is explicitly unavailable",
+      "file": "processing-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "controlled project label timeout preserves the already verified workspace destination",
+      "file": "processing-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "controlled access error is distinct from an empty list and does not keep polling denied reads",
+      "file": "processing-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "controlled stale page response cannot replace a newer status filter after unmount",
+      "file": "processing-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "controlled unknown retry survives a later access denial with the original key and body",
+      "file": "processing-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "confirmed project removal exposes a revision-fenced Undo and restores the retained choices",
+      "file": "retirement-undo-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "unknown Undo retains its exact intent through a later403 until the cached acknowledgement returns",
+      "file": "retirement-undo-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "a changed restoration snapshot exposes its reason and performs no Undo",
+      "file": "retirement-undo-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "review uses an exact series, retains ten fields and applies only previewed assignment wording",
+      "file": "review-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "controlled unavailable backend keeps saved order and permits ordinary edits",
+      "file": "role-order-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "controlled lost response locks edits and retries identical key/body without a second effect",
+      "file": "role-order-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "controlled stale move retains visible order until explicit reload",
+      "file": "role-order-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "controlled lost acceptance response retries identical key/body and creates no second job",
+      "file": "source-intake-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "controlled processing readiness failure retains pasted text and allows manual editing",
+      "file": "source-intake-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "controlled stale source reload retains correction and submits with freshly read Spec version",
+      "file": "source-intake-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "controlled dirty manual saves block source replacement without discarding either text",
+      "file": "source-intake-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "controlled accepted request refresh failure retries only persisted reads",
+      "file": "source-intake-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "controlled read-only source has no submit action",
+      "file": "source-intake-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "controlled source status rejects a different Spec job and never displays provider diagnostics",
+      "file": "source-intake-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "controlled saved source navigates through actual Processing actions and returns to its cancelled job after reload",
+      "file": "source-intake-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "controlled unknown create outcome retries the same intent without a second role",
+      "file": "specs-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "controlled stale edit stays visible and guards navigation until explicit reload",
+      "file": "specs-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "Studio timestamps use session UTC/Cairo across midnight independently of the browser timezone",
+      "file": "studio-time-zone.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "guest source transcript is on demand, original text, and outside the ten-field slide",
+      "file": "version-transcript-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "grant fixed-version original video exposes the same captured companion",
+      "file": "version-transcript-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "internal fixed-version original video exposes the same captured companion",
+      "file": "version-transcript-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "old saved version states that its transcript was not captured without reading live sources",
+      "file": "version-transcript-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "refresh denial removes the previously delivered transcript from the guest player",
+      "file": "version-transcript-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "companion for another video is never rendered",
+      "file": "version-transcript-ui.spec.ts",
+      "status": "passed"
+    },
+    {
+      "title": "a provided source language name marks the transcript language without inferring mixed segments",
+      "file": "version-transcript-ui.spec.ts",
+      "status": "passed"
+    }
+  ],
+  "source_sha256": {
+    "tests/e2e/api-contracts.spec.ts": "a61ea19b67a2af836ecd4e5baa50d78a55610b1aa861c945178b246513c6cb71",
+    "tests/e2e/candidate-pagination-ui.spec.ts": "601f7e8412e7745ff134db8e3a141c48117851f2d5412e400b744c02db5303bf",
+    "tests/e2e/casting-board-ui.spec.ts": "d8b558ebeba517a8c78f61d940ca64d1767073f386ababe17cd476d1def46e14",
+    "tests/e2e/casting-retirement-ui.spec.ts": "042197ac360ccec3e41b97efef03e40a2ccf016941f95b85e73a13bf6e10be5e",
+    "tests/e2e/file-source-intake-ui.spec.ts": "22e91ff12d81692db16e5e47bd999990ae0bd3fd90865ac92f5bde36d7d9a800",
+    "tests/e2e/foundation.spec.ts": "c244cf587468d69126d6850e57b0611de6c0b5872bae48bfd653451d21781cbb",
+    "tests/e2e/guest-review-ui.spec.ts": "004c7587dfdc84fc76d781ad0f87e91cca95b879932fa42c3987fc6bea670ba7",
+    "tests/e2e/guest-sharing-recovery.spec.ts": "1f76b5e9cd634b9663ab57a9509b79c2264a92702262a1a122b684464bd9a221",
+    "tests/e2e/m06-guest-rate-limit.spec.ts": "25bafc49e7ca7af363bf6af420f857cf0141b5ca51508b552e9748ffdc6d1098",
+    "tests/e2e/m06-link-confirmation.spec.ts": "4c95a239e74f2ec4d186ac27eada542f761125dd66c795c4d55857fc21b02692",
+    "tests/e2e/m06-link-expiry-dst.spec.ts": "d2c29612aa1e280b38b8084ff14a69a1c93be95d303f033a2cd08ea18bcdc522",
+    "tests/e2e/m06-pdf-download-guard.spec.ts": "39e6a1bc3f075b1c37e83c1cf8ca0d39d2117a06747f130364f36ccbe5609a62",
+    "tests/e2e/m06-review-findings.spec.ts": "be585f7240aaf456218985b5df8642b0c8da7666aaba078c5ce2c2419b682a70",
+    "tests/e2e/m07-settings.spec.ts": "6939a093ebac4e123a64495020252033c9cd765daac12ee18b8eb12337ffffca",
+    "tests/e2e/oauth-consent.spec.ts": "00c136ef51eb69e73e5ea309236b94ef4df0893e610250b16e2124783b606c78",
+    "tests/e2e/presentation-recovery.spec.ts": "8b7cc90b98a448f2acf5ffb269bf2bc358ad4cfd6a1ebdc67ffcd09e15be549a",
+    "tests/e2e/presentation-ui.spec.ts": "0d608b705ccfbf2265d743f0c59923934db3b279ccb0b09d15674bdda88df947",
+    "tests/e2e/processing-ui.spec.ts": "4c8344a1f5ba8b9c55d37ac370c619219e97bab303962df2dad993620414d2e0",
+    "tests/e2e/retirement-undo-ui.spec.ts": "36683932824b603b1d09e48af8c99bd3d3b39144bfaa34dc73a72e113adbd0e1",
+    "tests/e2e/review-ui.spec.ts": "74711cc6767dba020ec9d63b74cd7b9b2bf226090f4a63db614063b7f2f9e4e8",
+    "tests/e2e/role-order-ui.spec.ts": "055fba662e4577f070fa075b0bd6b258ca28c49cb7a62845350e35a5a62fac5a",
+    "tests/e2e/source-intake-ui.spec.ts": "3f6a2abf97b854f231b52e6e2c66c5e453ccc1098d9be8f9ea7e9c199f8d0b2c",
+    "tests/e2e/specs-ui.spec.ts": "dd76806c07dcfa0ed90d69d1c507b085c7f1f57cb3ca5359eae638ce04d9028f",
+    "tests/e2e/studio-time-zone.spec.ts": "82e3b8ab26b68f57b7cfb0353addbb093e6fb25f8230193d8ccdbc358060da8b",
+    "tests/e2e/version-transcript-ui.spec.ts": "d479b40a718478a2a355161c81ff1f7aa4ff78239e5720199e8210bf7ffad10f"
+  },
+  "review_ui_existing_narrow_tail": "Explicitly omitted via existing EPS_SKIP_MOBILE_TESTS=true guard",
+  "mobile": "Owner acceptance gate skipped; no narrow assertions in this final80case run",
+  "historical_scope_correction": {
+    "earlier_receipt": "tracking/evidence/m07/quality/2026-10-30-desktop-composed-overlay.json",
+    "actual_earlier_scope": "87 mixed-viewport cases, including7older320pxcases inadvertently selected. Earlier no-mobile label is corrected here; original receipts preserved.",
+    "excluded_legacy_narrow_cases": [
+      "casting read-only and narrow-screen states retain keyboard access without writes",
+      "controlled file acceptance preserves original bytes, uses real returned asset and restores durable source/job after reload",
+      "controlled processing pages paginate/filter and show safe detail with an actual scoped workspace link",
+      "controlled role move persists exact identities/order across reload",
+      "controlled pasted intake preserves saved source until acceptance, then persists correction and job link",
+      "controlled completed source is loaded from persisted reads only after dirty local forms are resolved",
+      "controlled specs UI preserves supplied text, count clarifications and explicit slot retirement"
+    ]
+  },
+  "log": ".local/m07-quality/desktop80-final.txt",
+  "log_sha256": "af93d5d15402d4513386f9db73d311512547dec4330f1d437b224d9110c5dd1f",
+  "hosting_deferred": true
+}

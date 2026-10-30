@@ -1,0 +1,37 @@
+{
+  "observed_at": "2026-10-30T11:28:43.235Z",
+  "result": "captured",
+  "read_only": true,
+  "cloud_called": false,
+  "provider_called": false,
+  "query": "development/m07/db/reconcile29-semantics.sql",
+  "query_sha256": "b4b7d19d8ff69c9ad9c57afd8e4f0911db5c6a8581340b0a036f81b8fd5bbf68",
+  "state": {
+    "table_acl": {
+      "owner": "postgres",
+      "raw_acl": "{postgres=arwdDxtm/postgres}",
+      "default_acl": "{postgres=arwdDxtm/postgres}",
+      "explicit_equals_owner_default": true
+    },
+    "history_count": 28,
+    "candidate_absent": true,
+    "immutable_functions": {
+      "btrim(text)": true,
+      "length(text)": true
+    },
+    "boolean_associativity": {
+      "cases": 27,
+      "all_equal": true
+    },
+    "constraint_definitions": {
+      "specs_pipeline_config_model_version_check": "CHECK (((model_version IS NULL) OR (((length(model_version) >= 1) AND (length(model_version) <= 200)) AND (model_version = btrim(model_version)))))",
+      "specs_pipeline_config_prompt_version_check": "CHECK (((prompt_version IS NULL) OR (((length(prompt_version) >= 1) AND (length(prompt_version) <= 200)) AND (prompt_version = btrim(prompt_version)))))",
+      "specs_pipeline_config_result_schema_version_check": "CHECK (((result_schema_version IS NULL) OR (((length(result_schema_version) >= 1) AND (length(result_schema_version) <= 200)) AND (result_schema_version = btrim(result_schema_version)))))",
+      "specs_pipeline_config_document_preparation_version_check": "CHECK (((document_preparation_version IS NULL) OR (((length(document_preparation_version) >= 1) AND (length(document_preparation_version) <= 200)) AND (document_preparation_version = btrim(document_preparation_version)))))"
+    },
+    "constraint_boundary_values": {
+      "cases": 9,
+      "all_equal": true
+    }
+  }
+}

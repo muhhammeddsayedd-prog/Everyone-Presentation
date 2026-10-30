@@ -1,0 +1,829 @@
+{
+  "schema_version": "1.0",
+  "run_id": "d0198b9c-8837-4258-aa70-40e857fbaa40",
+  "started_at": "2026-10-30T11:43:05.072Z",
+  "action": "inspect",
+  "result": "passed",
+  "cloud_called": false,
+  "provider_called": false,
+  "credentials_loaded": false,
+  "automatic_retry": false,
+  "dispatch_attempted": false,
+  "comparison_profile": {
+    "path": "development/m07/db/release29-original-profile.json",
+    "sha256": "681fe120fea3ee70e35bd2c4ab4734e2b95e89e40ceef5a678f857adfa673cc2"
+  },
+  "scope": "Fixed owned local28->29 through exact original baseline-profile proof; no general ACL normalization or hash bypass.",
+  "source_seals": {
+    "tools/promote-m07-local29-current.mjs": "2e818f4de41f4918a914acb33238673888c3f95240703cdf5b93a74ef0f8d255",
+    "development/m07/db/release29-plan.json": "47fd50c326b512d1b0a8d73ed19188beeb0a33d96316eea1f368bfaa9b8324fc",
+    "development/local-db/reviewed.json": "9722f25317f783123ec462227e94aecf65ea1cb27a9b59cf0d6bc07420f5d671",
+    "development/m07/db/release29-original-profile.json": "681fe120fea3ee70e35bd2c4ab4734e2b95e89e40ceef5a678f857adfa673cc2",
+    "tools/m07-original-profile29-comparison.mjs": "e5bf4b4c8a1e1a682e303615cb9989340f3d014988488f48d794da643b2cdc20",
+    "tests/operations/m07-original-profile29.test.mjs": "61152e27d3e612a9719279f869acc5a67c4492332f06296a6a0c417c0ac40a07",
+    "development/m07/db/release29-original-profile-delta.json": "f87116625e61a66ab065f8d3f2163c8fd8cc91c3afddbd240c584eccf879f05f",
+    "development/m07/db/release29-readback.sql": "e38028dbbe87d5c74bd626e9c0ac1297c861d571b4de35ba3d0c7d967694e9de",
+    "tracking/evidence/m07/original-profile29/2026-10-30T11-35-45-537Z-e56dec11-report.json": "047a0580ed6fe656a5a45616425716c2dce271573adfac0401843b79c59adb1d"
+  },
+  "plan_sha256": "47fd50c326b512d1b0a8d73ed19188beeb0a33d96316eea1f368bfaa9b8324fc",
+  "system_identifier": "7701520506262638626",
+  "before": {
+    "database": "postgres",
+    "old_data": {
+      "counts": {
+        "eps.jobs": 0,
+        "eps.roles": 0,
+        "eps.slots": 0,
+        "eps.specs": 0,
+        "eps.candidates": 0,
+        "eps.job_events": 0,
+        "eps.workspaces": 0,
+        "public.clients": 0,
+        "eps.assignments": 0,
+        "public.projects": 0,
+        "storage.buckets": 7,
+        "storage.objects": 0,
+        "eps.audit_events": 0,
+        "eps.media_assets": 0,
+        "eps.review_links": 0,
+        "eps.outbox_events": 0,
+        "eps.ai_suggestions": 0,
+        "eps.guest_sessions": 0,
+        "eps.version_slides": 0,
+        "eps.candidate_media": 0,
+        "eps.support_uploads": 0,
+        "eps.upload_sessions": 0,
+        "eps.audience_presets": 3,
+        "eps.candidate_support": 0,
+        "eps.candidate_uploads": 0,
+        "eps.feedback_comments": 0,
+        "eps.guest_idempotency": 0,
+        "eps.guest_asset_grants": 0,
+        "eps.review_fit_results": 0,
+        "eps.specs_asset_config": 1,
+        "eps.specs_asset_grants": 0,
+        "eps.idempotency_records": 0,
+        "eps.presentation_series": 0,
+        "eps.review_link_replays": 0,
+        "eps.review_media_grants": 0,
+        "eps.specs_source_inputs": 0,
+        "eps.cast_operation_notes": 0,
+        "eps.feedback_preferences": 0,
+        "eps.presentation_exports": 0,
+        "eps.review_gateway_rates": 0,
+        "eps.specs_stage_payloads": 0,
+        "eps.workspace_candidates": 0,
+        "eps.presentation_versions": 0,
+        "eps.review_gateway_config": 1,
+        "eps.review_gateway_nonces": 0,
+        "eps.review_stage_payloads": 0,
+        "eps.specs_pipeline_config": 1,
+        "eps.specs_upload_sessions": 0,
+        "public.client_memberships": 0,
+        "eps.candidate_asset_config": 1,
+        "eps.candidate_asset_grants": 0,
+        "eps.candidate_media_frames": 0,
+        "eps.logo_verification_keys": 0,
+        "eps.presentation_templates": 2,
+        "public.project_memberships": 0,
+        "eps.frame_extraction_config": 1,
+        "eps.job_stage_claim_replays": 0,
+        "eps.specs_file_preparations": 0,
+        "eps.specs_verification_keys": 0,
+        "eps.assignment_change_events": 0,
+        "eps.candidate_stage_payloads": 0,
+        "eps.candidate_support_config": 1,
+        "eps.review_processing_config": 1,
+        "public.app_capability_grants": 0,
+        "eps.frame_extraction_requests": 0,
+        "eps.presentation_asset_grants": 0,
+        "eps.support_verification_keys": 0,
+        "eps.user_workspace_preferences": 0,
+        "eps.presentation_version_assets": 0,
+        "eps.assignment_change_consumptions": 0,
+        "eps.presentation_processing_config": 1,
+        "eps.presentation_video_transcripts": 0
+      },
+      "hashes": {
+        "eps.jobs": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.roles": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.slots": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.specs": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.candidates": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.job_events": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.workspaces": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "public.clients": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.assignments": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "public.projects": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "storage.buckets": "c533e834e9e0a1c4d612d52d8608cd3120a15ecf23ddbf6dfe0ae0711d36b0b5",
+        "storage.objects": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.audit_events": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.media_assets": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.review_links": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.outbox_events": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.ai_suggestions": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.guest_sessions": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.version_slides": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.candidate_media": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.support_uploads": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.upload_sessions": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.audience_presets": "d73dc2e2d7791de42c04f9650727e37cc50691ac2a9560ca81450c8a2061b92c",
+        "eps.candidate_support": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.candidate_uploads": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.feedback_comments": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.guest_idempotency": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.guest_asset_grants": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.review_fit_results": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.specs_asset_config": "3cb556d1977e8721ce85fb07939fb46b786eae605358a697eadc8ae267347293",
+        "eps.specs_asset_grants": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.idempotency_records": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.presentation_series": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.review_link_replays": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.review_media_grants": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.specs_source_inputs": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.cast_operation_notes": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.feedback_preferences": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.presentation_exports": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.review_gateway_rates": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.specs_stage_payloads": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.workspace_candidates": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.presentation_versions": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.review_gateway_config": "5a8057205bee405cb60230f3ca28c8fcfb86fcce13fe29e8d226389ee05459af",
+        "eps.review_gateway_nonces": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.review_stage_payloads": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.specs_pipeline_config": "1163f746e172e50e8c25fee0543aebc6bd0bf567f2cda7fb5251e69d58296fe8",
+        "eps.specs_upload_sessions": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "public.client_memberships": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.candidate_asset_config": "11bc0397332941e1dd6ca201679e8759e44956a7b118a960c692b4f6a337f9d4",
+        "eps.candidate_asset_grants": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.candidate_media_frames": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.logo_verification_keys": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.presentation_templates": "cb3e039f29230719e6093a7944dc8bad9f8e0c1867b1a9b0d809a0245f96ce68",
+        "public.project_memberships": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.frame_extraction_config": "3dc3af0522c509d0076b7de7afcc1bbbca554d93b0a1d132b56e457865b01a69",
+        "eps.job_stage_claim_replays": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.specs_file_preparations": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.specs_verification_keys": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.assignment_change_events": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.candidate_stage_payloads": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.candidate_support_config": "e4aea9c0c6982daac7c2e898268875c2a3e0d6135cba43f6b887a6e952f47545",
+        "eps.review_processing_config": "fb1ccb668d522d122137d94c4278b6197f87ab266a369fee2d23a2a98bc2adca",
+        "public.app_capability_grants": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.frame_extraction_requests": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.presentation_asset_grants": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.support_verification_keys": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.user_workspace_preferences": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.presentation_version_assets": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.assignment_change_consumptions": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.presentation_processing_config": "2d93d5f9f0e63434ed8afe12860a860d66bfa1774b1e2ab324445bc103b4cd22",
+        "eps.presentation_video_transcripts": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "versions": [
+        "20261028010943",
+        "20261028013324",
+        "20261028013655",
+        "20261028024205",
+        "20261028072515",
+        "20261028162702",
+        "20261028162800",
+        "20261028172320",
+        "20261028184145",
+        "20261028222030",
+        "20261029001520",
+        "20261029003941",
+        "20261029070038",
+        "20261029090500",
+        "20261029090724",
+        "20261029094600",
+        "20261029100500",
+        "20261029133455",
+        "20261029135318",
+        "20261029174841",
+        "20261029180953",
+        "20261029202629",
+        "20261029203953",
+        "20261029215218",
+        "20261030002634",
+        "20261030004643",
+        "20261030013832",
+        "20261030030717"
+      ],
+      "managed_auth": {
+        "user_count": 0,
+        "session_count": 0,
+        "users_metadata": {
+          "acl": "{supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin,postgres=arwdDxtm/supabase_auth_admin}",
+          "rls": false,
+          "owner": "supabase_auth_admin",
+          "force_rls": false
+        },
+        "sessions_metadata": {
+          "acl": "{postgres=ar*wdDxtm/supabase_auth_admin,supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}",
+          "rls": true,
+          "owner": "supabase_auth_admin",
+          "force_rls": false
+        }
+      }
+    },
+    "new_state": {
+      "prior": {
+        "config": {
+          "enabled": false,
+          "key_bytes": null,
+          "key_present": false,
+          "replay_ttl_seconds": 86400,
+          "session_ttl_seconds": 3600
+        },
+        "tables": {
+          "review_links": {
+            "count": 0
+          },
+          "guest_sessions": {
+            "count": 0
+          },
+          "feedback_comments": {
+            "count": 0
+          },
+          "guest_idempotency": {
+            "count": 0
+          },
+          "guest_asset_grants": {
+            "count": 0
+          },
+          "review_link_replays": {
+            "count": 0
+          },
+          "review_media_grants": {
+            "count": 0
+          },
+          "feedback_preferences": {
+            "count": 0
+          },
+          "presentation_exports": {
+            "count": 0
+          },
+          "review_gateway_rates": {
+            "count": 0
+          },
+          "review_gateway_config": {
+            "count": 1
+          },
+          "review_gateway_nonces": {
+            "count": 0
+          },
+          "presentation_video_transcripts": {
+            "count": 0
+          }
+        }
+      },
+      "app_settings": null,
+      "mcp_oauth_resources": null
+    },
+    "query_role": "postgres",
+    "catalog_count": 16103,
+    "catalog_delta_values": {
+      "schemas|eps|acl": "{postgres=UC/postgres,authenticated=U/postgres,eps_api_owner=U/postgres,eps_draft_owner=U/postgres,eps_logo_verify_owner=U/postgres,eps_jobs_owner=U/postgres,eps_jobs_dispatcher=U/postgres,eps_specs_owner=U/postgres,eps_specs_initializer=U/postgres,eps_specs_submit_owner=U/postgres,eps_specs_stage_owner=U/postgres,eps_specs_apply_owner=U/postgres,eps_jobs_executor=U/postgres,eps_specs_upload_owner=U/postgres,eps_specs_verify_owner=U/postgres,eps_specs_assets_owner=U/postgres,eps_specs_assets_executor=U/postgres,anon=U/postgres,eps_cast_owner=U/postgres,eps_candidate_stage_owner=U/postgres,eps_candidate_assets_owner=U/postgres,eps_candidate_upload_owner=U/postgres,eps_candidate_apply_owner=U/postgres,eps_support_upload_owner=U/postgres,eps_support_verify_owner=U/postgres,eps_casting_owner=U/postgres,eps_casting_guard_owner=U/postgres,eps_review_owner=U/postgres,eps_review_stage_owner=U/postgres,eps_guest_owner=U/postgres}",
+      "schemas|public|acl": "{pg_database_owner=UC/pg_database_owner,=U/pg_database_owner,postgres=U/pg_database_owner,anon=U/pg_database_owner,authenticated=U/pg_database_owner,service_role=U/pg_database_owner,eps_api_owner=U/pg_database_owner,eps_draft_owner=U/pg_database_owner,eps_logo_verify_owner=U/pg_database_owner,eps_jobs_owner=U/pg_database_owner,eps_specs_owner=U/pg_database_owner,eps_specs_submit_owner=U/pg_database_owner,eps_specs_stage_owner=U/pg_database_owner,eps_specs_apply_owner=U/pg_database_owner,eps_specs_upload_owner=U/pg_database_owner,eps_specs_verify_owner=U/pg_database_owner,eps_specs_assets_owner=U/pg_database_owner,eps_cast_owner=U/pg_database_owner,eps_candidate_stage_owner=U/pg_database_owner,eps_candidate_assets_owner=U/pg_database_owner,eps_candidate_upload_owner=U/pg_database_owner,eps_candidate_apply_owner=U/pg_database_owner,eps_support_upload_owner=U/pg_database_owner,eps_support_verify_owner=U/pg_database_owner,eps_casting_owner=U/pg_database_owner,eps_review_owner=U/pg_database_owner,eps_review_stage_owner=U/pg_database_owner,eps_guest_owner=U/pg_database_owner}",
+      "tables|eps.audit_events|acl": "{postgres=arwdDxtm/postgres,eps_api_owner=a/postgres,eps_logo_verify_owner=a/postgres,eps_jobs_owner=a/postgres,eps_specs_owner=a/postgres,eps_specs_submit_owner=a/postgres,eps_specs_upload_owner=a/postgres,eps_specs_verify_owner=a/postgres,eps_cast_owner=a/postgres,eps_candidate_upload_owner=a/postgres,eps_support_upload_owner=a/postgres,eps_support_verify_owner=a/postgres,eps_review_owner=a/postgres}",
+      "columns|auth.sessions.id|acl": null,
+      "columns|auth.sessions.scopes|acl": null,
+      "columns|auth.sessions.user_id|acl": null,
+      "tables|eps.idempotency_records|acl": "{postgres=arwdDxtm/postgres,eps_api_owner=ar/postgres,eps_logo_verify_owner=ar/postgres,eps_jobs_owner=ar/postgres,eps_specs_owner=ar/postgres,eps_specs_submit_owner=ar/postgres,eps_specs_upload_owner=ar/postgres,eps_specs_verify_owner=ar/postgres,eps_cast_owner=ar/postgres,eps_candidate_upload_owner=ar/postgres,eps_support_upload_owner=ar/postgres,eps_support_verify_owner=ar/postgres,eps_casting_owner=ar/postgres,eps_review_owner=ar/postgres}",
+      "columns|auth.sessions.not_after|acl": null,
+      "functions|eps.has_capability(text)|acl": "{eps_api_owner=X/eps_api_owner,authenticated=X/eps_api_owner,eps_jobs_owner=X/eps_api_owner,eps_specs_owner=X/eps_api_owner,eps_cast_owner=X/eps_api_owner,eps_candidate_upload_owner=X/eps_api_owner,eps_support_upload_owner=X/eps_api_owner,eps_support_verify_owner=X/eps_api_owner,eps_casting_owner=X/eps_api_owner,eps_review_owner=X/eps_api_owner}",
+      "columns|eps.specs_pipeline_config.id|acl": null,
+      "columns|auth.sessions.oauth_client_id|acl": null,
+      "columns|eps.candidate_asset_config.id|acl": null,
+      "columns|eps.presentation_templates.key|acl": "{eps_review_owner=w/postgres}",
+      "functions|eps.require_capability(text)|acl": "{eps_api_owner=X/eps_api_owner,eps_logo_verify_owner=X/eps_api_owner,eps_jobs_owner=X/eps_api_owner,eps_specs_owner=X/eps_api_owner,eps_specs_submit_owner=X/eps_api_owner,eps_specs_upload_owner=X/eps_api_owner,eps_specs_verify_owner=X/eps_api_owner,eps_cast_owner=X/eps_api_owner,eps_candidate_upload_owner=X/eps_api_owner,eps_support_upload_owner=X/eps_api_owner,eps_support_verify_owner=X/eps_api_owner,eps_casting_owner=X/eps_api_owner,eps_review_owner=X/eps_api_owner}",
+      "columns|eps.review_processing_config.id|acl": null,
+      "functions|eps.check_input(jsonb,text[])|acl": "{eps_api_owner=X/eps_api_owner,eps_logo_verify_owner=X/eps_api_owner,eps_jobs_owner=X/eps_api_owner,eps_specs_owner=X/eps_api_owner,eps_specs_submit_owner=X/eps_api_owner,eps_specs_upload_owner=X/eps_api_owner,eps_specs_verify_owner=X/eps_api_owner,eps_cast_owner=X/eps_api_owner,eps_candidate_upload_owner=X/eps_api_owner,eps_candidate_apply_owner=X/eps_api_owner,eps_candidate_stage_owner=X/eps_api_owner,eps_support_upload_owner=X/eps_api_owner,eps_support_verify_owner=X/eps_api_owner}",
+      "columns|eps.presentation_templates.version|acl": null,
+      "columns|eps.review_processing_config.model|acl": null,
+      "functions|eps.expected_version(jsonb,text)|acl": "{eps_api_owner=X/eps_api_owner,eps_jobs_owner=X/eps_api_owner,eps_specs_owner=X/eps_api_owner,eps_specs_submit_owner=X/eps_api_owner,eps_cast_owner=X/eps_api_owner}",
+      "functions|eps.fail(text,text,integer,bigint)|acl": "{eps_api_owner=X/eps_api_owner,eps_logo_verify_owner=X/eps_api_owner,eps_jobs_owner=X/eps_api_owner,eps_specs_owner=X/eps_api_owner,eps_specs_submit_owner=X/eps_api_owner,eps_specs_stage_owner=X/eps_api_owner,eps_specs_apply_owner=X/eps_api_owner,eps_specs_upload_owner=X/eps_api_owner,eps_specs_verify_owner=X/eps_api_owner,eps_specs_assets_owner=X/eps_api_owner,eps_cast_owner=X/eps_api_owner,eps_candidate_upload_owner=X/eps_api_owner,eps_candidate_stage_owner=X/eps_api_owner,eps_candidate_apply_owner=X/eps_api_owner,eps_candidate_assets_owner=X/eps_api_owner,eps_support_upload_owner=X/eps_api_owner,eps_support_verify_owner=X/eps_api_owner,eps_casting_owner=X/eps_api_owner,eps_review_owner=X/eps_api_owner,eps_review_stage_owner=X/eps_api_owner,eps_guest_owner=X/eps_api_owner}",
+      "functions|eps.has_capability(text)|source_sha256": "35af18435653ebb4249711e926d342e25adab1d9adb029079c38b27a0297bd7f",
+      "columns|eps.presentation_templates.registered|acl": null,
+      "columns|eps.specs_pipeline_config.model_version|acl": null,
+      "functions|eps.idempotency_begin(text,text,jsonb)|acl": "{eps_api_owner=X/eps_api_owner,eps_logo_verify_owner=X/eps_api_owner,eps_jobs_owner=X/eps_api_owner,eps_specs_owner=X/eps_api_owner,eps_specs_submit_owner=X/eps_api_owner,eps_specs_upload_owner=X/eps_api_owner,eps_specs_verify_owner=X/eps_api_owner,eps_cast_owner=X/eps_api_owner,eps_candidate_upload_owner=X/eps_api_owner,eps_support_upload_owner=X/eps_api_owner,eps_support_verify_owner=X/eps_api_owner,eps_casting_owner=X/eps_api_owner,eps_review_owner=X/eps_api_owner}",
+      "functions|public.eps_get_capabilities()|source_sha256": "e08212ed292c5893688bcdd9ef314a00d74b1d13974af2f7f273acb99ae10d3e",
+      "columns|eps.candidate_asset_config.extraction_model|acl": null,
+      "columns|eps.candidate_asset_config.transcription_model|acl": null,
+      "functions|eps.finish_mutation(text,text,jsonb,jsonb,uuid)|acl": "{eps_api_owner=X/eps_api_owner,eps_logo_verify_owner=X/eps_api_owner,eps_jobs_owner=X/eps_api_owner,eps_specs_owner=X/eps_api_owner,eps_specs_upload_owner=X/eps_api_owner,eps_specs_verify_owner=X/eps_api_owner,eps_cast_owner=X/eps_api_owner,eps_candidate_upload_owner=X/eps_api_owner,eps_support_upload_owner=X/eps_api_owner,eps_support_verify_owner=X/eps_api_owner}",
+      "functions|public.eps_create_presentation_series(jsonb,text)|source_sha256": "30fa983b81ad5ec624f55c3e46eae59f0157179290b91377d049644a1f685f37"
+    },
+    "unrestricted_visibility": true,
+    "catalog_protected_sha256": "5a48e35b64005943ca425860689f571a4dd4332bdc4681d4d858672cb4d250ca"
+  },
+  "existing_role_oids": [
+    {
+      "oid": "16444",
+      "name": "authenticated",
+      "login": false,
+      "bypass": false,
+      "superuser": false
+    },
+    {
+      "oid": "16705",
+      "name": "eps_api_owner",
+      "login": false,
+      "bypass": false,
+      "superuser": false
+    },
+    {
+      "oid": "28423",
+      "name": "eps_candidate_apply_owner",
+      "login": false,
+      "bypass": false,
+      "superuser": false
+    },
+    {
+      "oid": "28213",
+      "name": "eps_candidate_assets_owner",
+      "login": false,
+      "bypass": false,
+      "superuser": false
+    },
+    {
+      "oid": "28211",
+      "name": "eps_candidate_stage_owner",
+      "login": false,
+      "bypass": false,
+      "superuser": false
+    },
+    {
+      "oid": "28215",
+      "name": "eps_candidate_upload_owner",
+      "login": false,
+      "bypass": false,
+      "superuser": false
+    },
+    {
+      "oid": "22761",
+      "name": "eps_cast_owner",
+      "login": false,
+      "bypass": false,
+      "superuser": false
+    },
+    {
+      "oid": "33540",
+      "name": "eps_casting_guard_owner",
+      "login": false,
+      "bypass": false,
+      "superuser": false
+    },
+    {
+      "oid": "33538",
+      "name": "eps_casting_owner",
+      "login": false,
+      "bypass": false,
+      "superuser": false
+    },
+    {
+      "oid": "16707",
+      "name": "eps_draft_owner",
+      "login": false,
+      "bypass": false,
+      "superuser": false
+    },
+    {
+      "oid": "61202",
+      "name": "eps_guest_owner",
+      "login": false,
+      "bypass": false,
+      "superuser": false
+    },
+    {
+      "oid": "17686",
+      "name": "eps_jobs_dispatcher",
+      "login": false,
+      "bypass": false,
+      "superuser": false
+    },
+    {
+      "oid": "19622",
+      "name": "eps_jobs_executor",
+      "login": false,
+      "bypass": false,
+      "superuser": false
+    },
+    {
+      "oid": "17684",
+      "name": "eps_jobs_owner",
+      "login": false,
+      "bypass": false,
+      "superuser": false
+    },
+    {
+      "oid": "17291",
+      "name": "eps_logo_verify_owner",
+      "login": false,
+      "bypass": false,
+      "superuser": false
+    },
+    {
+      "oid": "38694",
+      "name": "eps_review_owner",
+      "login": false,
+      "bypass": false,
+      "superuser": false
+    },
+    {
+      "oid": "38800",
+      "name": "eps_review_stage_owner",
+      "login": false,
+      "bypass": false,
+      "superuser": false
+    },
+    {
+      "oid": "19620",
+      "name": "eps_specs_apply_owner",
+      "login": false,
+      "bypass": false,
+      "superuser": false
+    },
+    {
+      "oid": "20623",
+      "name": "eps_specs_assets_executor",
+      "login": false,
+      "bypass": false,
+      "superuser": false
+    },
+    {
+      "oid": "20621",
+      "name": "eps_specs_assets_owner",
+      "login": false,
+      "bypass": false,
+      "superuser": false
+    },
+    {
+      "oid": "18250",
+      "name": "eps_specs_initializer",
+      "login": false,
+      "bypass": false,
+      "superuser": false
+    },
+    {
+      "oid": "18248",
+      "name": "eps_specs_owner",
+      "login": false,
+      "bypass": false,
+      "superuser": false
+    },
+    {
+      "oid": "19618",
+      "name": "eps_specs_stage_owner",
+      "login": false,
+      "bypass": false,
+      "superuser": false
+    },
+    {
+      "oid": "19616",
+      "name": "eps_specs_submit_owner",
+      "login": false,
+      "bypass": false,
+      "superuser": false
+    },
+    {
+      "oid": "20617",
+      "name": "eps_specs_upload_owner",
+      "login": false,
+      "bypass": false,
+      "superuser": false
+    },
+    {
+      "oid": "20619",
+      "name": "eps_specs_verify_owner",
+      "login": false,
+      "bypass": false,
+      "superuser": false
+    },
+    {
+      "oid": "30094",
+      "name": "eps_support_upload_owner",
+      "login": false,
+      "bypass": false,
+      "superuser": false
+    },
+    {
+      "oid": "30096",
+      "name": "eps_support_verify_owner",
+      "login": false,
+      "bypass": false,
+      "superuser": false
+    },
+    {
+      "oid": "6171",
+      "name": "pg_database_owner",
+      "login": false,
+      "bypass": false,
+      "superuser": false
+    },
+    {
+      "oid": "16384",
+      "name": "postgres",
+      "login": true,
+      "bypass": true,
+      "superuser": false
+    },
+    {
+      "oid": "16504",
+      "name": "supabase_auth_admin",
+      "login": true,
+      "bypass": false,
+      "superuser": false
+    }
+  ],
+  "stage": "before29",
+  "readback": {
+    "database": "postgres",
+    "old_data": {
+      "counts": {
+        "eps.jobs": 0,
+        "eps.roles": 0,
+        "eps.slots": 0,
+        "eps.specs": 0,
+        "eps.candidates": 0,
+        "eps.job_events": 0,
+        "eps.workspaces": 0,
+        "public.clients": 0,
+        "eps.assignments": 0,
+        "public.projects": 0,
+        "storage.buckets": 7,
+        "storage.objects": 0,
+        "eps.audit_events": 0,
+        "eps.media_assets": 0,
+        "eps.review_links": 0,
+        "eps.outbox_events": 0,
+        "eps.ai_suggestions": 0,
+        "eps.guest_sessions": 0,
+        "eps.version_slides": 0,
+        "eps.candidate_media": 0,
+        "eps.support_uploads": 0,
+        "eps.upload_sessions": 0,
+        "eps.audience_presets": 3,
+        "eps.candidate_support": 0,
+        "eps.candidate_uploads": 0,
+        "eps.feedback_comments": 0,
+        "eps.guest_idempotency": 0,
+        "eps.guest_asset_grants": 0,
+        "eps.review_fit_results": 0,
+        "eps.specs_asset_config": 1,
+        "eps.specs_asset_grants": 0,
+        "eps.idempotency_records": 0,
+        "eps.presentation_series": 0,
+        "eps.review_link_replays": 0,
+        "eps.review_media_grants": 0,
+        "eps.specs_source_inputs": 0,
+        "eps.cast_operation_notes": 0,
+        "eps.feedback_preferences": 0,
+        "eps.presentation_exports": 0,
+        "eps.review_gateway_rates": 0,
+        "eps.specs_stage_payloads": 0,
+        "eps.workspace_candidates": 0,
+        "eps.presentation_versions": 0,
+        "eps.review_gateway_config": 1,
+        "eps.review_gateway_nonces": 0,
+        "eps.review_stage_payloads": 0,
+        "eps.specs_pipeline_config": 1,
+        "eps.specs_upload_sessions": 0,
+        "public.client_memberships": 0,
+        "eps.candidate_asset_config": 1,
+        "eps.candidate_asset_grants": 0,
+        "eps.candidate_media_frames": 0,
+        "eps.logo_verification_keys": 0,
+        "eps.presentation_templates": 2,
+        "public.project_memberships": 0,
+        "eps.frame_extraction_config": 1,
+        "eps.job_stage_claim_replays": 0,
+        "eps.specs_file_preparations": 0,
+        "eps.specs_verification_keys": 0,
+        "eps.assignment_change_events": 0,
+        "eps.candidate_stage_payloads": 0,
+        "eps.candidate_support_config": 1,
+        "eps.review_processing_config": 1,
+        "public.app_capability_grants": 0,
+        "eps.frame_extraction_requests": 0,
+        "eps.presentation_asset_grants": 0,
+        "eps.support_verification_keys": 0,
+        "eps.user_workspace_preferences": 0,
+        "eps.presentation_version_assets": 0,
+        "eps.assignment_change_consumptions": 0,
+        "eps.presentation_processing_config": 1,
+        "eps.presentation_video_transcripts": 0
+      },
+      "hashes": {
+        "eps.jobs": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.roles": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.slots": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.specs": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.candidates": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.job_events": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.workspaces": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "public.clients": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.assignments": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "public.projects": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "storage.buckets": "c533e834e9e0a1c4d612d52d8608cd3120a15ecf23ddbf6dfe0ae0711d36b0b5",
+        "storage.objects": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.audit_events": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.media_assets": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.review_links": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.outbox_events": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.ai_suggestions": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.guest_sessions": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.version_slides": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.candidate_media": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.support_uploads": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.upload_sessions": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.audience_presets": "d73dc2e2d7791de42c04f9650727e37cc50691ac2a9560ca81450c8a2061b92c",
+        "eps.candidate_support": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.candidate_uploads": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.feedback_comments": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.guest_idempotency": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.guest_asset_grants": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.review_fit_results": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.specs_asset_config": "3cb556d1977e8721ce85fb07939fb46b786eae605358a697eadc8ae267347293",
+        "eps.specs_asset_grants": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.idempotency_records": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.presentation_series": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.review_link_replays": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.review_media_grants": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.specs_source_inputs": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.cast_operation_notes": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.feedback_preferences": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.presentation_exports": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.review_gateway_rates": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.specs_stage_payloads": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.workspace_candidates": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.presentation_versions": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.review_gateway_config": "5a8057205bee405cb60230f3ca28c8fcfb86fcce13fe29e8d226389ee05459af",
+        "eps.review_gateway_nonces": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.review_stage_payloads": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.specs_pipeline_config": "1163f746e172e50e8c25fee0543aebc6bd0bf567f2cda7fb5251e69d58296fe8",
+        "eps.specs_upload_sessions": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "public.client_memberships": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.candidate_asset_config": "11bc0397332941e1dd6ca201679e8759e44956a7b118a960c692b4f6a337f9d4",
+        "eps.candidate_asset_grants": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.candidate_media_frames": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.logo_verification_keys": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.presentation_templates": "cb3e039f29230719e6093a7944dc8bad9f8e0c1867b1a9b0d809a0245f96ce68",
+        "public.project_memberships": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.frame_extraction_config": "3dc3af0522c509d0076b7de7afcc1bbbca554d93b0a1d132b56e457865b01a69",
+        "eps.job_stage_claim_replays": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.specs_file_preparations": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.specs_verification_keys": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.assignment_change_events": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.candidate_stage_payloads": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.candidate_support_config": "e4aea9c0c6982daac7c2e898268875c2a3e0d6135cba43f6b887a6e952f47545",
+        "eps.review_processing_config": "fb1ccb668d522d122137d94c4278b6197f87ab266a369fee2d23a2a98bc2adca",
+        "public.app_capability_grants": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.frame_extraction_requests": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.presentation_asset_grants": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.support_verification_keys": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.user_workspace_preferences": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.presentation_version_assets": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.assignment_change_consumptions": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "eps.presentation_processing_config": "2d93d5f9f0e63434ed8afe12860a860d66bfa1774b1e2ab324445bc103b4cd22",
+        "eps.presentation_video_transcripts": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "versions": [
+        "20261028010943",
+        "20261028013324",
+        "20261028013655",
+        "20261028024205",
+        "20261028072515",
+        "20261028162702",
+        "20261028162800",
+        "20261028172320",
+        "20261028184145",
+        "20261028222030",
+        "20261029001520",
+        "20261029003941",
+        "20261029070038",
+        "20261029090500",
+        "20261029090724",
+        "20261029094600",
+        "20261029100500",
+        "20261029133455",
+        "20261029135318",
+        "20261029174841",
+        "20261029180953",
+        "20261029202629",
+        "20261029203953",
+        "20261029215218",
+        "20261030002634",
+        "20261030004643",
+        "20261030013832",
+        "20261030030717"
+      ],
+      "managed_auth": {
+        "user_count": 0,
+        "session_count": 0,
+        "users_metadata": {
+          "acl": "{supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin,postgres=arwdDxtm/supabase_auth_admin}",
+          "rls": false,
+          "owner": "supabase_auth_admin",
+          "force_rls": false
+        },
+        "sessions_metadata": {
+          "acl": "{postgres=ar*wdDxtm/supabase_auth_admin,supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}",
+          "rls": true,
+          "owner": "supabase_auth_admin",
+          "force_rls": false
+        }
+      }
+    },
+    "new_state": {
+      "prior": {
+        "config": {
+          "enabled": false,
+          "key_bytes": null,
+          "key_present": false,
+          "replay_ttl_seconds": 86400,
+          "session_ttl_seconds": 3600
+        },
+        "tables": {
+          "review_links": {
+            "count": 0
+          },
+          "guest_sessions": {
+            "count": 0
+          },
+          "feedback_comments": {
+            "count": 0
+          },
+          "guest_idempotency": {
+            "count": 0
+          },
+          "guest_asset_grants": {
+            "count": 0
+          },
+          "review_link_replays": {
+            "count": 0
+          },
+          "review_media_grants": {
+            "count": 0
+          },
+          "feedback_preferences": {
+            "count": 0
+          },
+          "presentation_exports": {
+            "count": 0
+          },
+          "review_gateway_rates": {
+            "count": 0
+          },
+          "review_gateway_config": {
+            "count": 1
+          },
+          "review_gateway_nonces": {
+            "count": 0
+          },
+          "presentation_video_transcripts": {
+            "count": 0
+          }
+        }
+      },
+      "app_settings": null,
+      "mcp_oauth_resources": null
+    },
+    "query_role": "postgres",
+    "catalog_count": 16103,
+    "catalog_delta_values": {
+      "schemas|eps|acl": "{postgres=UC/postgres,authenticated=U/postgres,eps_api_owner=U/postgres,eps_draft_owner=U/postgres,eps_logo_verify_owner=U/postgres,eps_jobs_owner=U/postgres,eps_jobs_dispatcher=U/postgres,eps_specs_owner=U/postgres,eps_specs_initializer=U/postgres,eps_specs_submit_owner=U/postgres,eps_specs_stage_owner=U/postgres,eps_specs_apply_owner=U/postgres,eps_jobs_executor=U/postgres,eps_specs_upload_owner=U/postgres,eps_specs_verify_owner=U/postgres,eps_specs_assets_owner=U/postgres,eps_specs_assets_executor=U/postgres,anon=U/postgres,eps_cast_owner=U/postgres,eps_candidate_stage_owner=U/postgres,eps_candidate_assets_owner=U/postgres,eps_candidate_upload_owner=U/postgres,eps_candidate_apply_owner=U/postgres,eps_support_upload_owner=U/postgres,eps_support_verify_owner=U/postgres,eps_casting_owner=U/postgres,eps_casting_guard_owner=U/postgres,eps_review_owner=U/postgres,eps_review_stage_owner=U/postgres,eps_guest_owner=U/postgres}",
+      "schemas|public|acl": "{pg_database_owner=UC/pg_database_owner,=U/pg_database_owner,postgres=U/pg_database_owner,anon=U/pg_database_owner,authenticated=U/pg_database_owner,service_role=U/pg_database_owner,eps_api_owner=U/pg_database_owner,eps_draft_owner=U/pg_database_owner,eps_logo_verify_owner=U/pg_database_owner,eps_jobs_owner=U/pg_database_owner,eps_specs_owner=U/pg_database_owner,eps_specs_submit_owner=U/pg_database_owner,eps_specs_stage_owner=U/pg_database_owner,eps_specs_apply_owner=U/pg_database_owner,eps_specs_upload_owner=U/pg_database_owner,eps_specs_verify_owner=U/pg_database_owner,eps_specs_assets_owner=U/pg_database_owner,eps_cast_owner=U/pg_database_owner,eps_candidate_stage_owner=U/pg_database_owner,eps_candidate_assets_owner=U/pg_database_owner,eps_candidate_upload_owner=U/pg_database_owner,eps_candidate_apply_owner=U/pg_database_owner,eps_support_upload_owner=U/pg_database_owner,eps_support_verify_owner=U/pg_database_owner,eps_casting_owner=U/pg_database_owner,eps_review_owner=U/pg_database_owner,eps_review_stage_owner=U/pg_database_owner,eps_guest_owner=U/pg_database_owner}",
+      "tables|eps.audit_events|acl": "{postgres=arwdDxtm/postgres,eps_api_owner=a/postgres,eps_logo_verify_owner=a/postgres,eps_jobs_owner=a/postgres,eps_specs_owner=a/postgres,eps_specs_submit_owner=a/postgres,eps_specs_upload_owner=a/postgres,eps_specs_verify_owner=a/postgres,eps_cast_owner=a/postgres,eps_candidate_upload_owner=a/postgres,eps_support_upload_owner=a/postgres,eps_support_verify_owner=a/postgres,eps_review_owner=a/postgres}",
+      "columns|auth.sessions.id|acl": null,
+      "columns|auth.sessions.scopes|acl": null,
+      "columns|auth.sessions.user_id|acl": null,
+      "tables|eps.idempotency_records|acl": "{postgres=arwdDxtm/postgres,eps_api_owner=ar/postgres,eps_logo_verify_owner=ar/postgres,eps_jobs_owner=ar/postgres,eps_specs_owner=ar/postgres,eps_specs_submit_owner=ar/postgres,eps_specs_upload_owner=ar/postgres,eps_specs_verify_owner=ar/postgres,eps_cast_owner=ar/postgres,eps_candidate_upload_owner=ar/postgres,eps_support_upload_owner=ar/postgres,eps_support_verify_owner=ar/postgres,eps_casting_owner=ar/postgres,eps_review_owner=ar/postgres}",
+      "columns|auth.sessions.not_after|acl": null,
+      "functions|eps.has_capability(text)|acl": "{eps_api_owner=X/eps_api_owner,authenticated=X/eps_api_owner,eps_jobs_owner=X/eps_api_owner,eps_specs_owner=X/eps_api_owner,eps_cast_owner=X/eps_api_owner,eps_candidate_upload_owner=X/eps_api_owner,eps_support_upload_owner=X/eps_api_owner,eps_support_verify_owner=X/eps_api_owner,eps_casting_owner=X/eps_api_owner,eps_review_owner=X/eps_api_owner}",
+      "columns|eps.specs_pipeline_config.id|acl": null,
+      "columns|auth.sessions.oauth_client_id|acl": null,
+      "columns|eps.candidate_asset_config.id|acl": null,
+      "columns|eps.presentation_templates.key|acl": "{eps_review_owner=w/postgres}",
+      "functions|eps.require_capability(text)|acl": "{eps_api_owner=X/eps_api_owner,eps_logo_verify_owner=X/eps_api_owner,eps_jobs_owner=X/eps_api_owner,eps_specs_owner=X/eps_api_owner,eps_specs_submit_owner=X/eps_api_owner,eps_specs_upload_owner=X/eps_api_owner,eps_specs_verify_owner=X/eps_api_owner,eps_cast_owner=X/eps_api_owner,eps_candidate_upload_owner=X/eps_api_owner,eps_support_upload_owner=X/eps_api_owner,eps_support_verify_owner=X/eps_api_owner,eps_casting_owner=X/eps_api_owner,eps_review_owner=X/eps_api_owner}",
+      "columns|eps.review_processing_config.id|acl": null,
+      "functions|eps.check_input(jsonb,text[])|acl": "{eps_api_owner=X/eps_api_owner,eps_logo_verify_owner=X/eps_api_owner,eps_jobs_owner=X/eps_api_owner,eps_specs_owner=X/eps_api_owner,eps_specs_submit_owner=X/eps_api_owner,eps_specs_upload_owner=X/eps_api_owner,eps_specs_verify_owner=X/eps_api_owner,eps_cast_owner=X/eps_api_owner,eps_candidate_upload_owner=X/eps_api_owner,eps_candidate_apply_owner=X/eps_api_owner,eps_candidate_stage_owner=X/eps_api_owner,eps_support_upload_owner=X/eps_api_owner,eps_support_verify_owner=X/eps_api_owner}",
+      "columns|eps.presentation_templates.version|acl": null,
+      "columns|eps.review_processing_config.model|acl": null,
+      "functions|eps.expected_version(jsonb,text)|acl": "{eps_api_owner=X/eps_api_owner,eps_jobs_owner=X/eps_api_owner,eps_specs_owner=X/eps_api_owner,eps_specs_submit_owner=X/eps_api_owner,eps_cast_owner=X/eps_api_owner}",
+      "functions|eps.fail(text,text,integer,bigint)|acl": "{eps_api_owner=X/eps_api_owner,eps_logo_verify_owner=X/eps_api_owner,eps_jobs_owner=X/eps_api_owner,eps_specs_owner=X/eps_api_owner,eps_specs_submit_owner=X/eps_api_owner,eps_specs_stage_owner=X/eps_api_owner,eps_specs_apply_owner=X/eps_api_owner,eps_specs_upload_owner=X/eps_api_owner,eps_specs_verify_owner=X/eps_api_owner,eps_specs_assets_owner=X/eps_api_owner,eps_cast_owner=X/eps_api_owner,eps_candidate_upload_owner=X/eps_api_owner,eps_candidate_stage_owner=X/eps_api_owner,eps_candidate_apply_owner=X/eps_api_owner,eps_candidate_assets_owner=X/eps_api_owner,eps_support_upload_owner=X/eps_api_owner,eps_support_verify_owner=X/eps_api_owner,eps_casting_owner=X/eps_api_owner,eps_review_owner=X/eps_api_owner,eps_review_stage_owner=X/eps_api_owner,eps_guest_owner=X/eps_api_owner}",
+      "functions|eps.has_capability(text)|source_sha256": "35af18435653ebb4249711e926d342e25adab1d9adb029079c38b27a0297bd7f",
+      "columns|eps.presentation_templates.registered|acl": null,
+      "columns|eps.specs_pipeline_config.model_version|acl": null,
+      "functions|eps.idempotency_begin(text,text,jsonb)|acl": "{eps_api_owner=X/eps_api_owner,eps_logo_verify_owner=X/eps_api_owner,eps_jobs_owner=X/eps_api_owner,eps_specs_owner=X/eps_api_owner,eps_specs_submit_owner=X/eps_api_owner,eps_specs_upload_owner=X/eps_api_owner,eps_specs_verify_owner=X/eps_api_owner,eps_cast_owner=X/eps_api_owner,eps_candidate_upload_owner=X/eps_api_owner,eps_support_upload_owner=X/eps_api_owner,eps_support_verify_owner=X/eps_api_owner,eps_casting_owner=X/eps_api_owner,eps_review_owner=X/eps_api_owner}",
+      "functions|public.eps_get_capabilities()|source_sha256": "e08212ed292c5893688bcdd9ef314a00d74b1d13974af2f7f273acb99ae10d3e",
+      "columns|eps.candidate_asset_config.extraction_model|acl": null,
+      "columns|eps.candidate_asset_config.transcription_model|acl": null,
+      "functions|eps.finish_mutation(text,text,jsonb,jsonb,uuid)|acl": "{eps_api_owner=X/eps_api_owner,eps_logo_verify_owner=X/eps_api_owner,eps_jobs_owner=X/eps_api_owner,eps_specs_owner=X/eps_api_owner,eps_specs_upload_owner=X/eps_api_owner,eps_specs_verify_owner=X/eps_api_owner,eps_cast_owner=X/eps_api_owner,eps_candidate_upload_owner=X/eps_api_owner,eps_support_upload_owner=X/eps_api_owner,eps_support_verify_owner=X/eps_api_owner}",
+      "functions|public.eps_create_presentation_series(jsonb,text)|source_sha256": "30fa983b81ad5ec624f55c3e46eae59f0157179290b91377d049644a1f685f37"
+    },
+    "unrestricted_visibility": true,
+    "catalog_protected_sha256": "5a48e35b64005943ca425860689f571a4dd4332bdc4681d4d858672cb4d250ca"
+  },
+  "sources_stable": true,
+  "lock_retained": false,
+  "finished_at": "2026-10-30T11:43:10.939Z"
+}

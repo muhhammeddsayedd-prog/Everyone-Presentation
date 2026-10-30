@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "plan": {
+    "path": "development/m07/db/release29-plan.json",
+    "sha256": "47fd50c326b512d1b0a8d73ed19188beeb0a33d96316eea1f368bfaa9b8324fc"
+  },
+  "reviewed_manifest": {
+    "path": "development/local-db/reviewed.json",
+    "sha256": "9722f25317f783123ec462227e94aecf65ea1cb27a9b59cf0d6bc07420f5d671"
+  },
+  "promotion": {
+    "path": "tracking/evidence/m07/local29-promotion/2026-10-30T11-43-29-462Z-b17a0d67-current-promote.json",
+    "sha256": "c2bcce06ce8fef12a2c64875fe1fd6b154baff574f234b90cfc6ac281b586165"
+  },
+  "local_auth_prerequisite": {
+    "path": "tracking/evidence/m07/local29-promotion/2026-10-30T11-22-09-016Z-3de2c0a5-auth-prerequisite.json",
+    "sha256": "1cb8a2050fbaa66103fd2ca5aa22792635dba16544c3f174e0db67e3d6736e6e"
+  },
+  "original_profile_review": {
+    "path": "development/m07/db/release29-original-profile-review.json",
+    "sha256": "4486d6b5f5ca363511d68790e58f3fcdce9433e1a388b298810a2d3db0b66779"
+  },
+  "source_seals": {
+    "development/m07/db/release29-admission.sql": "54542996e39fb0eb6909eaaeed0d7ad2c24f02d24f98a0d37f876e07b762e8c1",
+    "tests/operations/test_m07_29_release.py": "4e884f73d9ba62212e9e72cd6a001b4a1c5c11ee0a5a9f2369b6f6a8a95c4d12",
+    "tools/freeze-m07-cloud29-review.py": "192ffcb973a2cc3343a905dc6546f0a61e06e5a0c6620c899bda416fcdf5bc1a",
+    "tools/promote-m07-local29.mjs": "aa2939a03c784e4e3fab26f426c4c8e79a6d744ef0cfb81e12271f4219162aea",
+    "tools/release_foundation.py": "02aac0cefc4b46419c7d5a086da672398716cf7ee73882602574cff99659d751",
+    "tools/provision_logo_verifier.py": "660f2eb0d15b1ed17801ecef22270dbb389fdf93181c340f16d715fc2b3a340c",
+    "development/local-db/receipts/2026-10-30T11-43-24-881Z-replay.json": "f5b2a7d51510286de0bf3870f10fa4bc4bf3725587f31a26ef1aa8af3630cf1d"
+  }
+}

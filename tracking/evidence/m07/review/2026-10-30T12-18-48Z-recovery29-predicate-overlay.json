@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-30T12:18:48Z",
+  "reviewer": "m07_security_review",
+  "result": "no_material_source_finding_in_diagnostics_retry_diff",
+  "scope": "Read-only exact diff review of frozen diagnostics-only29 clone observer and shared SQL ownership predicate. No catalogue pair, correction/native execution or media retry is covered.",
+  "previous_receipt": "tracking/evidence/m07/review/2026-10-30T12-13-32Z-recovery29-static.json",
+  "previous_receipt_limit": "Previous static review missed the oid=${oid}and SQL numeric-token serialization defect. The recovery agent reported the original diagnostics run failed closed and retained its receipt. Neither previous nor current source review is runtime proof.",
+  "comparison": [
+    "Compared current diagnose.mjs against preserved b8dbcd7e source. Only shared predicate import/use and an added predicate-test source seal changed.",
+    "Compared current ownership.mjs against preserved1371be68 source. Existing cleanup/actual-absence logic is unchanged; one shared ownedDatabasePredicate builder was added.",
+    "The builder accepts only source/restore/diag generated database names, derives and requires the exact matching run/kind marker, and requires a canonical integer uint32 OID before interpolating SQL. Its predicate retains current_database, database name, OID and comment checks, with explicit whitespace around AND.",
+    "The correction planner still separately restricts its database kinds to source/restore. No catalogue allowlist expansion was present.",
+    "Read the pglast test definition: it parses the actual shared predicate for three kinds and three OID values and requires the intentionally joined numeric token to fail. Reviewer did not execute this test; parser-only testing does not prove database execution."
+  ],
+  "unchanged_boundaries": [
+    "Creation attempt tracking, exact identity/actual-absence cleanup checks and lock-release prerequisites remain unchanged.",
+    "Original29 full profile/catalogue and application/selected managed-role OIDs, attributes and application-role memberships remain checked before/after.",
+    "Observer captures exact raw structural catalogue differences without correction, fixture, native media, provider or cloud flow. Private dump and error diagnostics remain separate from metadata evidence."
+  ],
+  "reviewer_execution": {
+    "filesystem_source_read_diff_hash_only": true,
+    "new_review_receipt_only": true,
+    "tests_or_predicate_parser_run": false,
+    "database_or_docker_commands": false,
+    "native_media_or_provider_calls": false,
+    "application_or_test_source_edits": false
+  },
+  "source_seals": {
+    "development/m07/recovery29/diagnose.mjs": "56f950f4d3aed66455f569c4975e364a7959819b989ad4f95e2ddafaf2fd01e6",
+    "development/m07/recovery29/ownership.mjs": "9118e7bd46dff15ccece950f88cd86ffc5b6c3fb86382d89792da5892a38de79",
+    "development/m07/recovery29/profile.mjs": "be0c7b30ca143e6dc054aa82f288d03fd01ed507a15fba1f45667ff412f25520",
+    "development/m07/recovery29/ownership.test.mjs": "b75ccd0d404a3c46f7f4f3549b8bf89a5067c854d12dda20f598d40e3e7b07ce",
+    "development/m07/recovery29/predicate.test.mjs": "2cbb7b5e9de6d613b9a494fc154716e77360f4ab0aa69b679611b0b10dee8845"
+  }
+}

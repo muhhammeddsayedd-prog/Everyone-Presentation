@@ -1,3 +1,4 @@
+# Historical foundation mapping retained; current M07 physical overlay is below.
 # Discovery mapping updated 2026-10-28. Unknown future identifiers remain null.
 # Verified scope is recorded cloud metadata; this is not executable schema or runtime acceptance.
 document_version: '1.0'
@@ -377,3 +378,46 @@ development_acceptance_probe:
   hosted_authenticated_execution: not_run
   actual_anonymous_bearer_origin_denials: passed
   boundary: tracking/discovery/M01_SIGNED_IN_CHECKPOINT.md
+
+
+m07_current_physical_overlay:
+  observed_at: '2026-10-30T11:52:36.310355+00:00'
+  history_count: 29
+  migration: supabase/migrations/20261030111549_m07_settings_delegated_session.sql
+  migration_sha256: 6531e8decab5496e212eb01575aca666cd9e03b0575f92dd66bd380760f84af4
+  apply: tracking/evidence/cloud-m07-29/2026-10-30T11-52-15-216806Z-3a0afd9f-apply.json
+  independent_readback: tracking/evidence/cloud-m07-29/2026-10-30T11-52-36-310355Z-f553771a-readback.json
+  scope: Additive app configuration and delegated-session constraints; earlier dated foundation fields remain historical observations.
+  settings:
+    owner: eps.app_settings
+    key: singleton
+    audit_resource_identity: resource_id
+    fields: [template_key, template_version, default_timezone, default_review_expiry_days, row_version, updated_at]
+    exposed_reads: public.eps_get_settings()
+    exposed_writes: public.eps_update_settings(jsonb,text)
+    permission: settings.manage plus current delegated authority
+    domain: packages/domain/src/settings.ts
+    adapter: packages/central/src/settings.ts
+    ready_content_mutation: false
+  delegated_resources:
+    owner: eps.mcp_oauth_resources
+    key: [resource, client_id]
+    fields: [enabled]
+    operator_owned: true
+    initial_rows: 0
+    retain_disabled_client_rows: true
+    exposed_session_projection: public.eps_validate_own_oauth_session(text)
+    auth_session_columns: [id, user_id, oauth_client_id, not_after, scopes]
+    managed_auth_policy: eps_mcp_own_session
+    managed_auth_policy_role: eps_mcp_session_owner
+    broader_auth_table_grants: false
+  current_capability_source: public.app_capability_grants
+  shared_permission_gate: eps.has_capability(text) with eps.mcp_token_permits_capability(text)
+  canonical_project_client_person_ownership_changed: false
+  existing_auth_data_and_configuration_preserved: true
+  existing_runtime_operations: 12
+  oauth_provider_enabled_by_migration: false
+  oauth_client_registered_by_migration: false
+  issuance_hook30: Local-only candidate; not installed or registered.
+  actual_delegated_client_journey: unverified
+  hosting: deferred

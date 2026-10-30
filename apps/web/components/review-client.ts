@@ -17,18 +17,19 @@ export function reviewError(reason: unknown) {
 export function useReviewMutation(context?: string) {
   const [busy, setBusy] = useState(false), [uncertain, setUncertain] = useState(false), [error, setError] = useState('');
   const alive = useRef(false), sending = useRef(false), sticky = useRef(false);
-  const intent = useRef<{ path: string; init: RequestInit } | null>(null);
+  const intent = useRef<{ path: string; init: RequestInit; validate?: (value: unknown) => unknown } | null>(null);
   useEffect(() => { alive.current = true; return () => { alive.current = false; }; }, []);
-  async function send<T>(path?: string, method?: string, body?: unknown): Promise<T | undefined> {
+  async function send<T>(path?: string, method?: string, body?: unknown, validate?: (value: unknown) => T): Promise<T | undefined> {
     if (sending.current || path && intent.current) return;
-    if (path && method) intent.current = { path, init: mutation(method, body) };
+    if (path && method) intent.current = { path, init: mutation(method, body), validate };
     const request = intent.current; if (!request) return;
     sending.current = true; setBusy(true); setError('');
     try {
       const result = await reviewRequest<T>(request.path, context, { ...request.init, signal: AbortSignal.timeout(30000) });
+      const accepted = request.validate ? request.validate(result.data) as T : result.data;
       intent.current = null; sticky.current = false;
       if (alive.current) setUncertain(false);
-      return result.data;
+      return accepted;
     } catch (reason) {
       const unknown = sticky.current || !(reason instanceof ApiError) || reason.status >= 500 || [408, 429].includes(reason.status);
       sticky.current = unknown;

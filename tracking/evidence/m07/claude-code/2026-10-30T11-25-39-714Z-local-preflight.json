@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-30T11:25:39.714Z",
+  "finished_at": "2026-10-30T11:26:06.826Z",
+  "result": "passed",
+  "scope": "Local deterministic harness/preflight only. No actual client model call in these checks.",
+  "actual_client_called": false,
+  "central_called": false,
+  "provider_called": false,
+  "checks": [
+    {
+      "name": "preflight",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        "--test",
+        "tools/m07-client-smoke.test.mjs"
+      ],
+      "exit_code": 0,
+      "output": "✔ owned synthetic HTTP bridge uses the actual Studio SDK transport and preserves acting-user write/read state (693.3246ms)\n✔ protocol capture records modern server/discover and the accepted protocol revision (68.9159ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 3192.4265"
+    },
+    {
+      "name": "lint",
+      "command": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "tools/m07-client-server.ts",
+        "--max-warnings",
+        "0"
+      ],
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "name": "typecheck",
+      "command": [
+        "node",
+        "node_modules/typescript/bin/tsc",
+        "--noEmit",
+        "--pretty",
+        "false"
+      ],
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "name": "runner-syntax",
+      "command": [
+        "node",
+        "--check",
+        "tools/m07-client-smoke.mjs"
+      ],
+      "exit_code": 0,
+      "output": ""
+    }
+  ],
+  "source_seals": {
+    "tools/m07-client-server.ts": "65b4aca55edd0d422aa4c080282be85ddc73385865f386b390cde8b04b351ba0",
+    "tools/m07-client-smoke.mjs": "aa8c132b5af7ce01fd97f984a8250a47bb06070f4b0824a6a529793358379abd",
+    "tools/m07-client-smoke.test.mjs": "bfb37d1a649ad2a403152b07627f2d6ed16ef318749009815cae3a7f66f82afa",
+    "tools/m07-client-assess.mjs": "ec45af7c1e059ba6c5ae3e9c3b5cf54b2f356fb1c723080a1ab51ba089f44fad",
+    "development/m07/CLAUDE_CODE.md": "327f8f0f47a0efb81747b6add06085b7a65ec9b06585b87eb7f239a93a8d16b9"
+  }
+}

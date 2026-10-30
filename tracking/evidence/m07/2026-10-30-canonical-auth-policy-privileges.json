@@ -1,0 +1,37 @@
+{
+  "observed_at": "2026-10-30T10:49:08.798716+00:00",
+  "result": "captured",
+  "target": "pyibofyctwnqpvktepse",
+  "read_only": true,
+  "query": "development/m07/db/discovery-privileges.sql",
+  "query_sha256": "c57e1a9d05b95401fac2a2353d38498e362f9add2a5804d3b6f5d290c14672ff",
+  "state": {
+    "m07_managed_auth_privileges": {
+      "auth_session_policies": [],
+      "managed_auth_other_read_grants": [
+        {
+          "select_grant_option": false,
+          "table": "oauth_clients"
+        },
+        {
+          "select_grant_option": false,
+          "table": "oauth_consents"
+        }
+      ],
+      "observed_at": "2026-10-30T10:49:09.020621+00:00",
+      "policy_grants": "{\"postgres\":[\"auth.audit_log_entries\",\"auth.flow_state\",\"auth.identities\",\"auth.instances\",\"auth.mfa_amr_claims\",\"auth.mfa_challenges\",\"auth.mfa_factors\",\"auth.oauth_clients\",\"auth.one_time_tokens\",\"auth.refresh_tokens\",\"auth.saml_providers\",\"auth.saml_relay_states\",\"auth.sessions\",\"auth.sso_domains\",\"auth.sso_providers\",\"auth.users\",\"realtime.messages\",\"realtime.subscription\",\"storage.buckets\",\"storage.buckets_analytics\",\"storage.objects\",\"storage.prefixes\",\"storage.s3_multipart_uploads\",\"storage.s3_multipart_uploads_parts\"]}",
+      "postgres_auth_admin_membership": false,
+      "postgres_auth_schema_usage": true,
+      "postgres_sessions_column_grant_options": {
+        "id": true,
+        "not_after": true,
+        "oauth_client_id": true,
+        "scopes": true,
+        "user_id": true
+      },
+      "postgres_sessions_select_grant_option": true,
+      "privileged_role": "supabase_privileged_role"
+    }
+  },
+  "auth_rows_or_credentials_read": false
+}

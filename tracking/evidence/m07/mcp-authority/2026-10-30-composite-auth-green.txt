@@ -1,0 +1,40 @@
+✔ M07 tools/list exposes only the current business capabilities (54.4446ms)
+✖ M07 discovery evaluates the published compound capabilities without replacing resource checks (7.7205ms)
+✔ M07 delegation intersects signed limits with business authority for discovery and calls (227.8467ms)
+✔ M07 capability revocation is re-read for every call and list, without session authority cache (188.9756ms)
+✔ M07 malformed successful service output fails closed without publishing its private fields (49.2732ms)
+✔ M07 correct published output remains available through the official SDK (4.1954ms)
+✔ MCP config keeps local mode explicit, rejects production local mode and pins issuer/resource without arbitrary URLs (3.13ms)
+✔ explicit OAuth mode permits only development/test HTTP loopback resources while issuer and JWKS stay HTTPS (1.1094ms)
+✔ OAuth metadata uses only pinned discovery, validates issuer/endpoints and serves path-aware public metadata (49.3381ms)
+✔ MCP authenticates signed resource-specific user delegation and intersects current capabilities (24.2843ms)
+✔ MCP rejects missing, browser-audience, expired, future, privileged, anonymous, bad-client and forged tokens (72.5461ms)
+✔ MCP rejects insufficient identity scope, invalid Origin/Host and query-string credentials (12.8719ms)
+✔ MCP session revocation is rechecked each request and unavailable/mismatched checks fail closed (16.0873ms)
+responseMode: 'json' drops mid-call notifications. subscriptions/listen streams are always served over SSE regardless; other notifications emitted before a result are dropped.
+✔ MCP metadata/key retrieval rejects oversized and redirected responses and never follows token-controlled key URLs (7.7016ms)
+✔ official SDK handles signed OAuth modern and legacy requests without sharing concurrent principals or sessions (137.797ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 14
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2844.8168
+
+✖ failing tests:
+
+test at tests\server\m07-mcp-authority.test.ts:2:3038
+✖ M07 discovery evaluates the published compound capabilities without replacing resource checks (7.7205ms)
+  AssertionError [ERR_ASSERTION]: create_upload_session
+      at TestContext.<anonymous> (D:\Everyone\Presentation\Everyone-Presentation-Studio\tests\server\m07-mcp-authority.test.ts:43:14)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

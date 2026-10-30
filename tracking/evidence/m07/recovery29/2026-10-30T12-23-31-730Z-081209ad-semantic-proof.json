@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "run_id": "081209ad-ab03-4763-a253-11d1f325b34d",
+  "started_at": "2026-10-30T12:23:31.730Z",
+  "result": "failed",
+  "scope": "Independent read-only original29 literal Boolean/URL and ACL/catalogue semantic proof; no business or Auth row reads",
+  "cloud_called": false,
+  "provider_called": false,
+  "native_called": false,
+  "clone_created": false,
+  "database_ddl_or_dml": false,
+  "source_seals": {
+    "development/m07/recovery29/semantic-proof.sql": "bb8abd5c9abec294c36808b4f9868ce3544c75574f87e7583b87af71942e17cf",
+    "development/m07/recovery29/semantic-proof.mjs": "7a315da9a092eb32dcbcd0c15cc0c3123e2cc5e423e4482f84d02e75ea59d8b6",
+    "tools/local-postgres.mjs": "49929bce8eb51194d9299cfd9639e537eb237daaec76c15740cb88059604e2de",
+    "development/m07/db/catalog29.sql": "1af59495b01424e6ec2578f6ea1f8ac362829577612c32b2cd373545a58b9098",
+    "tracking/evidence/m07/recovery29/2026-10-30T12-19-02-143Z-0ec7ead2-diagnostic-differences.json": "ea581b2e795f6c06fe2b950b714957520529517f946bfcf9fb7f100005015d2a",
+    "tracking/evidence/m07/recovery29/2026-10-30T12-19-02-143Z-0ec7ead2-diagnostic-original-catalogue.json": "dcc5e065d77f504deaf1ebbb19a75eee4b940a32bf7dfbf1905e22b4e44f6c19"
+  },
+  "target": {
+    "container": "eps-presentation-canonical-pg17-local",
+    "system_identifier": "7701520506262638626",
+    "database": "postgres",
+    "server_version": "17.6",
+    "connection": "container_unix_socket"
+  },
+  "metadata_before_sha256": "1f4cf5cd358bb724718120255bf503fb1ec3f5f8d8e4f0d8a87468c89ef3ce5c",
+  "catalogue_before_sha256": "9aa2b0cb8229c093241f76af30729078b4392849410443a6f0249c7e3fd17221",
+  "failure_code": "RECOVERY29_READONLY_SEMANTIC_PROOF_UNCONFIRMED",
+  "metadata_after_sha256": "1f4cf5cd358bb724718120255bf503fb1ec3f5f8d8e4f0d8a87468c89ef3ce5c",
+  "original29_migration_history_and_all_global_role_oids_attributes_memberships_unchanged": true,
+  "catalogue_after_sha256": "9aa2b0cb8229c093241f76af30729078b4392849410443a6f0249c7e3fd17221",
+  "original29_full_raw_catalogue_unchanged": true,
+  "sources_unchanged": true,
+  "shared_lock_released": true,
+  "finished_at": "2026-10-30T12:23:41.184Z",
+  "elapsed_ms": 9454
+}

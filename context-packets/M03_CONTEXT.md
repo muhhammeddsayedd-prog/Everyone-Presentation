@@ -432,9 +432,9 @@ Completion means a permitted human and Claude can independently carry out the re
 
 # Development progress — Everyone Presentation Studio
 
-**Last updated:** 2026-10-29 · **Pack:** 1.0 · **Current milestone:** M01 — in progress
+**Last updated:** 2026-10-30 - **Pack:** 1.0 - **Current work:** M07 in progress; AT-072/M03 remain pending; mobile skipped; hosting deferred
 
-**Current reality:** M00 is verified; M01/M02 remain in progress; M03-M07 have not started. Local migration10 now retains original inputs and proves prepare/extract/apply with the real native parser and database transactions. Pasted-source intake, safe retries and manual-edit protection are implemented. The native four-case proof includes duplicate callbacks, ordinary scoped SQL correction, cancellation, an actual database restart and reclaim; its provider responses are synthetic. All test fixtures/login/defaults/catalog/counts were restored. Local internal TRUST proves role authorization, not credential authentication. The last cloud readback remains9; no cloud call, hosting choice or real provider call occurred in this session. Full service/Storage/n8n/MCP/PDF/release acceptance remains unverified.
+**Current reality:** M00/M02/M04/M05 remain verified within their scoped matrices; M01 is in progress and M03 retains broader independently labelled semantic evaluation limits. Local/canonical history is28. M06 guest sharing, shared version-pinned feedback and link-scoped PDF/video delivery are implemented and live checked. Five guest PDF files are verified. The first three plus latest V5/all24pages have independent source/body/visual inspection; fourth V4 retains canonical byte identity. [The saved V5 file](../tracking/evidence/m06/live-artifacts/2026-10-30-v5-independent-visual-review.json) matches its generated export and passes all six pages. Real expiry/extension/rotation/revocation/download-toggle checks pass. V5's anonymous and internal video views expose the same frozen source transcript; post28 V4 remains playable with no backfill. [Current composed quality](../tracking/evidence/m06/quality/2026-10-30T03-57-34-127660Z-87226dbf-validator-operational-overlay.json) passes83 controlled browsers/693 modules, build/typecheck/lint/production guards and the scoped offline groups. M06 is **implemented_unverified** for manual AT-072. The owner waived further manual phone testing. M03's owner-grounded two-fact Reviewed state and protected M02 remain preserved. M07 is in progress under the explicit owner continuation; hosting is deferred.
 
 The machine-readable status mirror is [tracking/progress.json](../tracking/progress.json). Update this file and that file together whenever work status changes. Evidence fields must describe actual work only.
 
@@ -444,12 +444,12 @@ The machine-readable status mirror is [tracking/progress.json](../tracking/progr
 |---|---|---|---|---|
 | M00 Discovery and contracts | verified | tracking/discovery/; central-schema-map.yaml | Actual new canonical ownership/auth/history, guarded local replay and provider capability inventory | Continue M01; future provider/release gates remain explicit |
 | M01 Foundation, project and logo | in_progress | apps/web/; packages/domain/; packages/central/; 6 M01 migrations applied | Real cloud schema/readback and local role/race proof; synthetic full UI plus central anonymous UI | Finish scoped central uploads and actual Producer/project journey |
-| M02 Specs, roles and first durable pipeline | in_progress | 3 shared M02 migrations plus local-only pipeline10; source/manual/Processing UI | Local10 persisted SQL and native four-case/restart/cleanup proof;195 module/26 operational tests; controlled source7 and existing7 journeys | Authenticated gateway, document storage, concurrent publication/revocation, dispatcher/WF01 and real service acceptance |
-| M03 Media, library and video processing | not_started | None | Real uploads/transcripts/frames; reuse/duplicate handling; independent failures | Depends on M02 |
-| M04 Assignments and final review | not_started | None | Selection/Shortlist rules; one-Main concurrency; edits/confirmation | Depends on M03 |
-| M05 Template, versioning and PDF | not_started | None | Frozen manifests; real viewer/PDF; historical media; render recovery | Depends on M04 |
-| M06 External review and delivery | not_started | None | Latest-ready scoped links; guest feedback; link-scoped PDFs; expiry/revoke | Depends on M05 |
-| M07 API/MCP and production readiness | not_started | None | Real Claude parity; live integrations; restore/deploy evidence | Depends on M06 |
+| M02 Specs, roles and first durable pipeline | verified | Local/cloud14+16, live WF01 and private document worker | Acceptance matrix: real text/PDF/DOCX/scanned PDF, protected edits, HTTP replay/restart/recovery and local MCP | Continue M03; M07 external OAuth/restore/hosting/endurance remain separate |
+| M03 Media, library and video processing | implemented_unverified | Local/cloud15+17+18+19+21; scoped closeout | Three full-size actual picks;5 artifact byte matches; one Arabic profile corrected/Reviewed from2 independent facts; old9/108 preserved | Broader labelled English/mixed real semantic evaluation remains unverified |
+| M04 Assignments and final review | verified | Local/canonical20+22+23; actual review journey and acceptance matrix | Exact series/ten fields,2 real AI jobs,3 native fits/2 current zero-overflow, role Undo/reload,2-frame playback, stale-source two-user races; current preservation | Continue M05; retain immutable history and hosting deferral |
+| M05 Template, versioning and PDF | verified | `51aa4c5`; local/canonical24; template1.1.0 | Selection8/Shortlist6 SQL/native fixtures;3 actual Ready downloads/18 inspected pages; immutable V1 replay;11 anonymous401; local race/retry/retention/latest-ready proofs | Continue M06 scoped review/delivery; hosting deferred |
+| M06 External review and delivery | implemented_unverified | Canonical/local25-28; [acceptance matrix](../tracking/evidence/m06/ACCEPTANCE_MATRIX.md) | Actual guest feedback, PDF/video/lifecycle, V5 captured transcript and oldV4no-backfill;83browser/693module and current composed gates | AT-072 manual remains; latest PDF save verified; phone testing waived; hosting deferred |
+| M07 API/MCP and production readiness | in_progress | [Start evidence](../tracking/evidence/m07/2026-10-30-start.json) | Complete parity/auth, local recovery/workload and eventual external client/release proof | Owner authorized independent work while AT-072/M03 remain pending; mobile skipped; hosting deferred |
 
 ## Allowed status transitions
 
@@ -458,6 +458,144 @@ The machine-readable status mirror is [tracking/progress.json](../tracking/progr
 `in_progress` or `implemented_unverified → blocked` when a required dependency is unavailable; record the prior state and work still possible. `verified → in_progress` when a later change invalidates acceptance. A milestone with any unrun required integration check cannot be `verified`. Documentation corrections alone do not change implementation status.
 
 ## Session log (append newest first)
+
+### 2026-10-30 - M07 starts with explicit retained gates
+
+Owner authorized M07 from the handoff while keeping AT-072 and remaining M03 checks pending, mobile skipped and hosting deferred. [Start ledger](../tracking/evidence/m07/2026-10-30-start.json) records planned parity/auth/restore/workload acceptance. Initial read-only audit found concrete candidate pagination/idempotency contract gaps, local-only MCP without delegated OAuth resource validation, and no executable metadata-plus-media restore proof. Preserve all completed releases and unrelated160 files.
+
+### 2026-10-30 - Owner-saved V5 PDF verified
+
+- Owner confirmed the Downloads save. [Saved-file and independent visual receipt](../tracking/evidence/m06/live-artifacts/2026-10-30-v5-independent-visual-review.json) matches113628 bytes/SHA `f1b17a5decd2d3407b6242d7201154a156f30b1370d9e79d930519a587b5f2eb`; [offline inspector](../tracking/evidence/m06/live-artifacts/2026-10-30T10-05-40.085Z.json) validates6pages/126text regions/2actual source-image bodies/1fixed-version guest annotation/3fonts. Root independently viewed all six pages without observed clipping, overlap or missing glyphs.
+- Five guest files are byte-verified;24 pages across the first three and fifth exports are independently inspected. V4 remains byte-only. The previous pending-save/app receipts are retained as their actual earlier observations. No new grant URL navigation, video playback, factual confirmation, cloud/provider processing or app code change occurred.
+- M06 remains implemented_unverified solely for manual AT-072; mobile testing stays waived and hosting deferred. M03 broader labelled semantic evaluation remains unverified. The278985e source ZIP/checkpoint and its scan are preserved unchanged as the prior frozen package; this evidence/documentation follow-up is outside that archive. Final follow-up identity is recorded in ignored `dist/M06_PDF_SAVE_CHECKPOINT.json`.
+
+### 2026-10-30 - M06 frozen source companion and current quality closed
+
+- Additive28 applied once ([0794757f](../tracking/evidence/cloud-m06-transcript28/2026-10-30T03-13-38-702487Z-0794757f-apply.json)), then independent [f6675f04 readback](../tracking/evidence/cloud-m06-transcript28/2026-10-30T03-14-18-265089Z-f6675f04-readback.json). Exact new catalogue delta and three existing function ports preserve all old business/Auth/Storage/key metadata/defaults/runtime state. No old Ready backfill, new gateway operation, provider re-extraction or PDF/template change.
+- [Actual V5 journey](../tracking/evidence/m06/live-app/2026-10-30-v5-transcript-app.json): one Producer generation becomes Ready; anonymous and internal readers expose exactly159codepoints/271bytes from the frozen source; oldV4stillhasvideoandnot_captured. New C2 access preserves exact original expiry and produces a new Ready PDF. Its native save is pending; earlier four files and18 inspected pages retain their original acceptance.
+- [Composed current quality](../tracking/evidence/m06/quality/2026-10-30T03-57-34-127660Z-87226dbf-validator-operational-overlay.json) retains the83E2E/693module application gate plus four cumulative operational-file changes for Unicode whitespace and optional-BOM JSON validation and fresh146Node/538Python/12n8n/12supplement checks. Counts overlap across scopes. All1380 functional source hashes and34 release fences are verified. [53-skill static integrity](../tracking/evidence/m06/skills/2026-10-30T03-15-16-766806Z-static-integrity-receipt.json) has zero errors/warnings.
+- Hosting remains deferred. Further manual phone testing was waived; AT-072 manual assistive technology remains unverified. Existing M03 semantic limits, protected M02 and unrelated160 files are retained. Final Git/source ZIP/private-value identity is recorded separately after execution in ignored dist/SOURCE_CHECKPOINT.json.
+
+### 2026-10-30 - Independent final review found two concrete follow-ups
+
+- Expiry uses Date.setMinutes across Cairo DST and can display an hour incorrectly; unchanged download-only precision still passes. Meaningful timezone regression/fix follows the frozen805e pre-change gate.
+- Guest and saved-video players have no transcript companion, while source transcripts exist only in internal current-source views. Implement a separately frozen future-version source companion alongside playback, outside the ten candidate fields/PDF; preserve old Ready content and current guest access scopes. No separate curation/approval workflow is introduced. Manual phone-keyboard/screen-reader checks remain distinct and unverified.
+
+### 2026-10-30 - M06 guest delivery implemented and live lifecycle checked
+
+- Applied additive25/26/27 once with independent canonical readbacks.27 fixes the actually reproduced restrictive Storage-policy composition failure; earlier failures and exact seals remain. Existing business records, original M05 snapshots, old grants/capabilities, protected M02 and owner-grounded M03 Reviewed state are preserved.
+- Actual anonymous guest, same-name separate ownership, shared comments/replies/preferences and private internal note filtering are evidenced. Three real guest PDFs/all18 pages have independent source/body/visual checks. A fourth390px download matches canonical bytes/hash; no fourth visual inspection is claimed.
+- [Actual original PDF video](../tracking/evidence/m06/live-app/2026-10-30-original-pdf-video.json) played original V1 after newer media-less V3. [Final lifecycle/mobile](../tracking/evidence/m06/live-app/2026-10-30-final-lifecycle-mobile.json) records download-disable preserving old video, expiry denial, extension restoration, revocation denial, old URL/session denial after rotation, direct cached PDF DOWNLOAD_DISABLED and independent C access. Current [canonical observation](../tracking/evidence/m06/app-capture27/2026-10-30T02-37-42-009158Z-22d8c593.json) has4 external Ready versions and preserved old state.
+- Focused regressions cover inline confirmations, exact unchanged expiry precision, guarded PDF transfer and understandable429 retry. Final broad quality/source privacy/package checks are running. Manual AT-054 phone keyboard and AT-072 assistive-technology checks remain unverified; an owner question is pending. M06 is implemented_unverified, M03 broader semantic checks stay recorded, M07 is not started and hosting remains deferred.
+
+### 2026-10-30 - M05 verified through the app and actual PDFs
+
+- Implementation commit `51aa4c5c179cfe2d94a7ffac0270b17d2fe18815`. Additive24 captures immutable renderer snapshots/public manifests and retained inputs, using all three current review guards; four scoped worker stages publish manifest/PDF artifacts and monotonically advance latest Ready. Template1.1.0 adds the complete Pending category/eleven requirements and readable white brand; existing1.0 bytes remain immutable.
+- The canonical apply committed once. Its original comparison failures remain retained: five managed-only defaults on the new Storage bucket differed from local shape. A separate [read-only reconciliation](../tracking/evidence/cloud-m05-presentations/2026-10-29T22-18-18-933100Z-c8396a58-managed-bucket-reconciliation.json) verifies them explicitly and all other old state unchanged. The [single-flag enable](../tracking/evidence/m05/presentation-activation/2026-10-29T22-22-47-241238+00-00-4a529fc8-enable.json) followed actual WF03/startup/idle-worker proofs; no migration retry or new login occurred.
+- [Actual signed-in journey](../tracking/evidence/m05/live-app/2026-10-29T22-46-40-524986Z-5f2674be.json): SelectionV1/V2 and ShortlistV1 downloaded with canonical SHA matches; synthetic wording change invalidated the old fit; V1 still has original words and identical repeated PDF bytes after V2. Original version media played fully;11 real anonymous calls returned401. Two independent artifact batches verified exact saved text, images/geometry, fonts and links and visually inspected all18 pages.
+- [M05 matrix](../tracking/evidence/m05/ACCEPTANCE_MATRIX.md) separates actual SQL/races, native synthetic8/6 and0/1/2/3-frame variants, controlled UI, live app and independent artifact evidence. [Final quality](../tracking/evidence/m05/quality/2026-10-29-final.json):613 modules,57 browsers,143 Node/355 Python,7 supplementary; lint/typecheck/build and production fixture denial pass. Historical failures and the activation-test source-binding correction are retained.
+- Hosting is deferred. No guest token/export, external Claude OAuth, metadata-plus-media restore, clean production console or independent image-pixel/factual-accuracy claim is inferred. Unrelated Screenshots/ and redesign-output/ are retained outside this task's staging/package. Next is M06, without changing Ready snapshots or repeating setup.
+
+
+### 2026-10-29 - M04 verified and M05 started
+
+- Canonical/local22 adds exact series/review, optional wording jobs, native measured fit and typed retirement Undo; additive23 closes the proposal GET-to-save shared-source race. Both applied once with independent canonical preservation readback. Four worker lock races and two-principal AI-save races passed locally.
+- Signed-in app proof: two grounded OpenAI jobs (preview/discard; guarded Apply),3 native fit jobs including2 current zero-overflow outputs, role retirement/restoration/reload, and an existing two-frame Option with original transcript/video playback. Library facts, old choices/private notes, source frames and protected M02 remain intact. See [actual journey](../tracking/evidence/m04/review-live-app/2026-10-29-final-review-journey.json), [current observer](../tracking/evidence/m04/review-app-capture/2026-10-29T21-01-02-629938Z-1fea890a.json) and [quality](../tracking/evidence/m04/review-quality/2026-10-29-final.json).
+- Fixed independently reproduced late-proposal/manual-edit, stale clean inspector, Pending/null inspector and unsupported media pagination failures. Final responsive review check has a real390px controlled viewport and no document horizontal overflow; actual connected browser remained desktop.
+- M03's completed scoped checks and remaining semantic limit are in [SCOPED_CLOSEOUT](../tracking/evidence/m03/SCOPED_CLOSEOUT.md). No overall accuracy, English/mixed benchmark, PDF, external OAuth, guest or hosting acceptance is inferred.
+- M05 starts with three generation guards, separately typed immutable renderer snapshot/public manifest, four native render stages, retained version assets and authenticated fixed-version viewer/PDF/video routes. No M06 guest tokens/exports are invented. Unrelated Screenshots and redesign-output are preserved.
+
+
+### 2026-10-29 - M03 final checks and M04 review resumed
+
+- Owner requested remaining M03/M04 completion and next milestone, with hosting deferred. Basefe90400; unrelatedScreenshots catalogue preserved. Active work: full-size authenticated media review, registered template/fonts, series-bound review and real measured fit, contextual wording pipeline and revision-fenced retirement Undo. Ledger start recorded after initial inspection/isolated source work; no new acceptance credited at start.
+- Independent spoken-fact answer key requested asynchronously; app/provider output will not serve as its own factual verification. Continue unaffected implementation.
+
+### 2026-10-29 19:19Z - M04 Casting integrated; genuine M03 vision checked through app
+
+- Released exact additive20 once after rollback/promotion proof, then independent [canonical readback](../tracking/evidence/cloud-m04-casting/2026-10-29T18-06-32-278912Z-2e383297-readback.json). Shared domain/central/HTTP/MCP casting is mounted. Actual Producer assigned the same synthetic library profile to Father/Manager with independent Main/Shortlist/notes; replacement/Undo, keyboard order/reload, output counts and confirmed candidate removal all persisted. [Post-processing canonical observation](../tracking/evidence/m04/app-capture/2026-10-29T19-16-43-336622Z-5e14943e.json) confirms2active/1shortlisted/1Main/1archived,3SelectionPending/4ShortlistPending and all preservation/invariant flags true.
+- Found the old native frame chooser did not satisfy required AI visual review; one actual older selected frame had closed eyes. Added bounded, actual-byte/hash-verified OpenAI visual selection, explicit manual fallback warning and three-body/CHECK migration21. [Canonical21 readback](../tracking/evidence/cloud-m03-frame-vision/2026-10-29T18-59-19-587474Z-975447af-readback.json) preserves history, old rows/pins, Auth and runtime11. WF02 alone routes select_frames to openai.select_frames;7 authenticated routing/error probes pass separately.
+- [Fresh app upload](../tracking/evidence/m03/frame-vision-app/2026-10-29T19-12-45-337511Z-5acae3bc.json) completed all5delivered stages with12actual853x480JPEGs and3OpenAI selections; visual-stage usage8,638tokens. Nine original profiles/facts/all108frame records are unchanged. [Independent technical review](../tracking/evidence/m03/frame-vision-technical-review/2026-10-29T19-17-46-554410Z-fe4c5c01.json) confirms first actual selected JPEG eyes open/no obvious blur; grid shows closer frontal/wider/profile diversity. Remaining two originals failed browser download, so their clarity is thumbnail-only, not full-resolution accepted. No factual Reviewed or speech-quality pass is inferred.
+- Independent review found the board could lose an unknown write after a later403. Meaningful RED preceded the one-line sticky-uncertainty fix; [GREEN5controlled tests](../tracking/evidence/m04/controlled-browser/2026-10-29T19-13-26-035Z-five-sticky-uncertainty.json) prove503→403→same cached ACK,3identicalrequests/1effect, locked controls until confirmed, native drag plus keyboard order and narrow/read-only UI. Earlier selector/fixture/test failures remain retained. [Final505tests/lint/build](../tracking/evidence/m03/remaining-current-quality/2026-10-29T19-15-04-160Z-c9cb8866.json) and [120Node+232Python operations](../tracking/evidence/m03/final-offline-checks/2026-10-29T19-14-15-459555Z-07066d14.json) pass with sealed stable sources.53project-local skill integrity passes separately; final strict pack/source archive/private-value evidence belongs to dist/SOURCE_CHECKPOINT.json after packaging.
+- Worker first restart failed before processing because root omitted EPS_SPECS_FILES_ENABLED=true; failed record retained. Corrected launch4120/runtime33124 starts with narrow DB/n8n scope, unchanged native image and no listener. New hosting remains deferred. M04 review/series/fit/WF05/typedretirementUndo and M03 independent semantic/full-resolution quality gates are still explicit; no M05/release completion is claimed.
+
+### 2026-10-29 - M04 app integration resumed
+
+- Owner requested M04 app integration and remaining M03 checks, with hosting deferred. Starting from clean4083ebab97946a7149f08290ca86a61703785c89. Planned proof: exact additive20/local/canonical preservation, shared API/MCP, actual signed-in Casting actions and honest remaining media-quality checks.
+- Database, API/MCP and M03 evidence reviews run in parallel; root owns UI and release/browser acceptance. Prior successful mutations, historical failures, original media/pins and protected M02 remain retained. No milestone status is upgraded by this start entry.
+
+### 2026-10-29 17:31Z - Final source checks and support API parity
+
+- [Current app gate](../tracking/evidence/m03/remaining-current-quality/2026-10-29T17-30-44-566Z-2cf2934d.json): 478/478 tests, lint and isolated production build pass; all 434 source hashes stable. [Operational gate](../tracking/evidence/m03/final-offline-checks/2026-10-29T17-29-55-584851Z-2f213bbb.json): 104 Node and 192 Python tests pass, source stability verified and no live service/configuration call.
+- [Support archive contract](../tracking/evidence/m03/support-archive-contract/2026-10-29T17-30-21-297467Z-f92f7908.json): private RPC acknowledgement now maps to published Success; a dedicated version-only request rejects unsupported reason/deletion fields. Meaningful RED followed by GREEN24/24 and independent24/24, typecheck/lint and generator byte stability. No database migration or authorization change.
+- Implementation commit `68cc7958305cfa252f06311f9006934a231abe73` retains M03 technical app evidence and the M04 local slice. Scanner resource handling now reads staged Git blobs in bounded batches while retaining every historical receipt. Exact final source/index/archive scan and Git identity belong to the ignored `dist/SOURCE_CHECKPOINT.json`, written only after packaging; no pass is inferred from synthetic scanner tests.
+- M03 remains implemented_unverified for independent speech/fact/frame-quality and scanned factual Reviewed acceptance. M04 remains in_progress with no released migration or mounted board. Hosting stays deferred.
+
+### 2026-10-29 17:00Z - Current M03/M04 checkpoint gates passed
+
+- [Final application gate](../tracking/evidence/m03/remaining-current-quality/2026-10-29T16-59-51-257Z-900566f0.json):475/475 tests, lint and isolated production build,434 sealed app/package/contract/test/control sources stable. Fixed candidate Processing stage labels, terminal completion wording and Candidates result link; RED4/6 then GREEN6/6 plus actual app observation retained. Pure final EOF cleanup is included in this final gate.
+- [Final operations gate](../tracking/evidence/m03/final-offline-checks/2026-10-29T17-00-19-996537Z-c1b499b1.json):100 Node +192 Python checks passed, no skips/live service/configuration writes and source stability true. Earlier Python186/5 errors remain retained; historical fixed17 tests now use sealed portable temp roots and explicitly deny current19/drift. All production guards are unchanged. All53 local skills and strict331-check pack validation pass separately; final exact ZIP/privacy checkpoint follows packaging.
+- [M04 composed SQL](../tracking/evidence/m04/assignments-local/2026-10-29T16-25-14-012Z-b33636d0.json) and [actual two-actor race](../tracking/evidence/m04/main-race-local/2026-10-29T16-44-42-247Z-f410889c.json) pass with old local19/Auth preserved and the owned clone removed. One Main survives real lock contention; full same-key ACK replays; authority revoked during wait denies mutation. All Auth row data/large objects are excluded from the clone. This is SQL behavior under synthetic claims, not a hosted Auth/client or metadata-plus-media restore exercise.
+- [Post-app canonical state](../tracking/evidence/m03/final-canonical/2026-10-29T16-32-19-570378Z-7a1e0a1c.json) confirms19/catalog/runtime11/protected M02 unchanged, frame/support flags enabled and candidate configuration hash retained. No M04 migration/promotion/cloud write was performed. Source and exact next integration steps are in the current handoff; hosting stays deferred.
+
+### 2026-10-29 - M03 technical app path closed; M04 first slice local
+
+- [M03 acceptance matrix](../tracking/evidence/m03/ACCEPTANCE_MATRIX.md) marks implemented_unverified. All four feature gaps are implemented and live checked. Nine new real introductions completed after the upload tab closed and the idle worker restarted:108 Ready source frames/27 selected,18 OpenAI metadata records and14,124 extraction tokens. All nine IDs reappeared among11 project profiles; a new profile decodes12 images and its original853x480. Both old profiles retain per-project fact hashes and pins; protected M02 remains exact. [Actual batch evidence](../tracking/evidence/m03/remaining-app/real-batch-results.json).
+- Independent speech/fact correction rates, representative-frame judgment, confirmed English-only/mixed speech and scanned factual Reviewed remain unverified. Script presence, transcript evidence and private media integrity do not establish those outcomes. No fictitious factual confirmation was created.
+- [Current474/474 tests, lint and production build](../tracking/evidence/m03/remaining-current-quality/2026-10-29T15-58-27-702Z-bf56489a.json) pass with434 app/package/contract/test/control source hashes stable. Build uses EPS_TEST_SERVER=true/.next-e2e and is separate from the serving local development app. All53 project-local skills pass integrity with zero errors/warnings.
+- M04 new domain/SDK/HTTP and unwired Casting board are code/type/lint tested. [Composed local SQL](../tracking/evidence/m04/assignments-local/2026-10-29T15-54-46-456Z-f865ae6b.json) passes8 markers with exact rollback; includes strict Main/Undo/order/large boundaries, retirement/removal/duplicate/support and scoped specs baseline. [Source handoff](../tracking/evidence/m04/domain-central/2026-10-29T16-06-04-424681Z-4ddc2167.json) separates25 focused checks from earlier broad counts. Actual two-session race is being completed independently; no numbered M04 migration/promotion/cloud release or board browser acceptance yet.
+
+### 2026-10-29 - Remaining M03 app checks and M04 implementation started
+
+- Canonical/local history19 released with complete preservation and runtime11 unchanged; exact [readback](../tracking/evidence/cloud-m03-remaining/2026-10-29T14-27-32-733612Z-f4f2ecc5-readback.json). WF02 now handles both frame stages. New native image corrects future SAR16:15 frames to853x480 while preserving old media.
+- [Core app evidence](../tracking/evidence/m03/remaining-app/continuation-summary.json):37,253,969-byte synthetic upload paused at25,165,824 confirmed bytes, restored after reload/reselection and completed once. Manual facts and independent project pins retained. Four supporting types saved/hash-matched; text archived with original Ready; role requirement fills one editable filter without changing unknown handling; actual chosen timestamps and unavailable tail are explicit. Queued frame cancellation and fresh request use different job IDs.
+- Safe DB-generated verifier uses public-recipient encryption rather than literal secret SQL. Canonical bootstrap4b5ee8d6 and separate support/frame-preserving activation passed. New local web/worker use protected private files; no host/tunnel/provider credential exposure.
+- Prior443/443 application tests, lint and build passed on their sealed source. M04 new assignment/domain/central work has focused tests; root6 HTTP mapping tests pass in [the exact source receipt](../tracking/evidence/m04/http-local/first-slice-corrected-counts.json). Initial metric-capture failure retained. Composed lifecycle, isolated real Main race and wiring are ongoing; no M04 release/UI acceptance claim.
+- Nine additional owner-permitted videos uploaded through the actual app, one interrupted transfer retried independently, all nine queued before closing the tab and restarting the drained worker. Processing is ongoing. English-only coverage and independent semantic correction rates are not claimed from synthetic fixtures or provider self-consistency.
+
+### 2026-10-29 - Actual M03 video path and private frame display verified
+
+- Implementation commit `7f4533f400140c8c002fe6b2b51aae09400ab38f`; exact implementation source/index/archive private-value scan passed across9 secret families. Final documentation/archive identity is recorded separately in ignored `dist/SOURCE_CHECKPOINT.json`.
+
+- App job55415ff2 completed five stages with a Ready19.8-second original, private Arabic transcript,4 source-grounded populated/7unknown extraction fields, OpenAI1649 extraction tokens and separately read-back20 seconds of transcription usage. All12 registered JPEGs load through authenticated content;3 are selected. All11 fact properties (ten conceptual fields), unknown wording and transcript render. Actual profile remains Unreviewed with age-as-of unknown. See [canonical evidence](../tracking/evidence/m03/live-capture/README.md) and [browser metadata proof](../tracking/evidence/m03/app-media-read/browser-media-success.json).
+- Fixed actual generic-media routing that treated candidate frames as logos. Fresh principal-matched global cast.read selects the strict candidate reader before legacy project-scoped probes; only typed404 permits fallback. Readers recheck their own authorization/metadata. A frame preview failure now has explicit UI feedback. Original-video metadata loads; semantic/SAR quality remains separate.
+- Actual shared frame edit persisted while project pins stayed at3.12/12.48/14.04 seconds; the shared default order was restored. The synthetic profile also has independent availability in the two canonical projects. No casting approval or invented personal fact was created.
+- Three real failed video jobs remain. Third attempt recovered an expired prepare lease but later failed with PROCESSING_FAILED; its exact cause and any prior provider billing remain unconfirmed. A direct diagnostic service probe passed but receives no app-flow credit. Reviewed clean-pool reuse, finite-expiry checks and callback-only identical-event retry improve recovery without provider recomputation or wider TLS/ACL authority.
+- Current391 module tests and global lint pass; earlier operational88/Python132 checks have separate retained receipts. Initial evidence-count collection failure is preserved with read-only count reconciliation. Final build/source/archive/privacy verification is recorded separately. M03 stays in progress; see [remaining requirements](../tracking/evidence/m03/REMAINING_REQUIREMENTS_REVIEW.md).
+
+### 2026-10-29 - M02 acceptance closed; M03 canonical library and pipeline in development
+
+- M02 now verified against [the acceptance matrix](../tracking/evidence/m02/ACCEPTANCE_MATRIX.md). Actual scanned two-page English/Arabic PDF completed OCR6715 plus extraction2682 tokens, private original/derivative integrity, grounded references and saved editable requirements. Actual ServiceBearer same-event replay survives web restart and real n8n/OpenAI2233-token recovery. Original manual-protected job remains untouched.
+- Canonical migration15/library and17/pipeline were applied once. Their conservative comparison failures remain retained; bounded read-only reconciliation establishes only pre-existing managed Storage catalog differences, all at-apply business preservation and unchanged runtime11. Subsequent authorized app writes are recorded separately.
+- Created owner-authorized Dummy Reuse Test under the existing Dummy Client; reused the synthetic manual profile from both projects with different saved availability. Default Reviewed semantics, manual facts and strict private media operations are implemented. No placeholder Auth user was created.
+- Candidate processing enabled in the canonical singleton and protected local configuration after reviewed dry-runs/readback. Global Storage50MiB cap is explicitly advertised/enforced without changing the retained256MiB technical target or provider plan. Native work stays local, with no hosting selected.
+- Three real-video attempts retain observed failures. Exact-image native decoding succeeds; declared-vs-verified checksum and strict audio-reference handoffs were fixed with RED/GREEN regressions. Connection churn and callback acknowledgement resilience are being verified before the next app attempt. No video AI/factual accuracy acceptance is fabricated.
+- Remaining M03 requirements are explicit in [the review](../tracking/evidence/m03/REMAINING_REQUIREMENTS_REVIEW.md): true resumable progress/cancel, supporting attachments, role filter suggestions and chosen-timestamp frame extraction. M01/logo and M07/release proof remain separate.
+
+### 2026-10-29 - Uploaded specs verified through the real app
+
+- Implementation commit `4152aa766a3a6a0440e4dc4d5822556c908194c3`; exact implementation source/index/ZIP private-value scan passed with zero matches. The final tracking checkpoint has its own ignored archive/scan receipt.
+- Fixed the observed hosted Storage1.80.2 metadata-read operation mismatch with additive migration20261029070038. Exactly3 SELECT expressions changed; cloud readback preserved data and all unrelated authorities. Local RED/GREEN and persisted-role rollback proofs passed. The first pre-dispatch apply blocked on a tuple/list receipt comparison bug; old sources/receipts remain, and the corrected JSON round-trip regression passes.
+- Real PDF c50391c2 and Arabic DOCX ff514619 completed all3 n8n stages and OpenAI3384/3286tokens, each yielding3roles/5slots with grounded page/paragraph references. Original PDF reservation/bytes recovered without a new upload intent. See [file proof](../tracking/evidence/m02/live-specs-files/README.md).
+- [Four missing/invalid capability reads](../tracking/evidence/m02/specs-runtime/2026-10-29T07-29-20-473Z-storage-denials.json) were denied. [Corrupt-file verification](../tracking/evidence/m02/specs-protection/corrupt-file-verification.json) retained all facts and5jobs; the earlier diff-only AX comparison failure remains documented, with no fabricated HTTP-status claim.
+- [Manual protection](../tracking/evidence/m02/specs-protection/manual-edit-comparison.json) passed: real OpenAI3152tokens returned after a manual autosave; job b3f90268 waits INPUT_CHANGED and preserves all role/slot IDs, values and the prior extraction. Two earlier timing setup jobs completed before an edit, and receive no manual-protection credit. Dummy Test intentionally retains the synthetic note and Needs input state.
+- Fresh274 module tests and prior build/guard evidence have separate scopes. Added operational/SQL checks are recorded beside the sources. Full M01/M02 and production are not marked verified; hosting is deferred.
+
+### 2026-10-29 - Private document boundary released; live cancellation and queued recovery observed
+
+- Implementation committed as6a911d1. Current274 module tests, typecheck/lint, web build/production guard,53-skill integrity and325 pack checks pass with their stated scopes. The corrected implementation source/index/archive private-value scan passed; the initial scanner alias incident and failed receipt remain preserved. Real PDF/DOCX app acceptance is still blocked by browser file permission, and hosting remains deferred.
+- Applied additive11/12 once after source-hashed local assertions and exact cloud dry-run. Fresh [cloud12 readback](../tracking/evidence/cloud-specs-assets/2026-10-29T00-58-48-399742Z-cf9b507d-readback.json) preserved prior business/source/media/Storage records and catalog authorities. Original failed/unconfirmed10/11 validation receipts remain unchanged, with bounded read-only reconciliation beside them.
+- Provisioned one independent private document-verifier key and activated exactly three readiness flags plus the existing worker's one file-executor membership. Actual [file-mode credential/TLS/ACL proof](../tracking/evidence/m02/specs-runtime/2026-10-29T01-08-47-128Z-files-authenticated-gateway.json) verifies ten operations/three groups and denies table/Auth authority. No new Auth identity, service-role credential, public listener or hosted worker was introduced.
+- Actual [queued cancellation](../tracking/evidence/m02/live-specs-cancellation/2026-10-29T01-14-20-624210+00-00-111d53b2-metadata.json) retained all three roles/five slots and made zero stage/provider attempts. The first real Producer received only the previously absent operations.retry capability under existing project-write access; inactive/revoked grants were not reactivated.
+- Actual [queued-before-worker-relaunch processing](../tracking/evidence/m02/live-specs-restart/2026-10-29T01-20-45-384033+00-00-7529509b-metadata.json) completed three delivered n8n stages and real OpenAI2970tokens after browser reload. New three roles/five slots have current origin IDs; old three/five are archived with evidence retained. This is not a database-restart or in-flight expired-lease proof. Subsequent intermittent gateway failures are separate from the completed job and are being diagnosed.
+- [Current check scopes](../tracking/evidence/m02/specs-file-checks/README.md) retain the263 full-suite module check,19 controlled file/source UI journeys and root-observed build/production-denial/53-skill checks. Later worker observability/recovery changes have separate checks. Neither intercepted UI nor native parser fixtures prove actual uploaded-file Storage/OpenAI acceptance.
+- Browser advertises real file intake, but attachment failed because the ChatGPT extension lacks file URL permission; the Windows native control pipe is unavailable. The owner was asked to enable that setting or attach the prepared files manually. No file job or successful Storage gate is fabricated. Untouched generated facts remain preserved for those tests. Hosting remains deferred.
+
+### 2026-10-29 - Real specs workflow and app acceptance resumed
+
+- Owner explicitly requested finishing specs with real OpenAI and testing through the app, while hosting stays deferred. Resumed from clean792800f; prior local/synthetic proofs remain separate.
+- Planned path: real narrow credentialed canonical DB connection, outward n8n routing, local native/OpenAI daemon, persisted status/fact loading, real signed-in browser acceptance and document purpose/storage flow. No reset/seed, forged user or service-role fallback.
+- Ownership: domain PG adapter and forward schema; worker runtime/n8n router; UI status and browser fixtures; root cloud/provider orchestration, private provisioning and actual app acceptance.
 
 ### 2026-10-29 - Local source persistence and native pipeline proved
 
@@ -660,6 +798,10 @@ Copy and fill this template at the end of every implementation session:
 - Source correction retains old evidence/manual facts; automatic publication into a nonempty working draft waits. Concurrent source/publication/revocation barriers, file/vision paths and full real-provider processing still require acceptance.
 - Earlier provider access and one real synthetic OpenAI component evaluation are historical, not the native synthetic-provider run. M03-M07, representative media/fonts/template, Claude parity, PDF/guest, restore/sizing/deployment remain unfinished. Never reset/seed the linked cloud root.
 
+## 2026-10-30 - M06 started
+
+Owner authorized guest sharing and feedback from verified M05/fa7233e. Database, API/MCP and worker/native slices run in parallel; root owns UI/integration and release/browser proof. Planned acceptance is recorded in tracking/progress.json. M03 broader independently labelled English/mixed semantic evaluation remains unverified, and hosting remains deferred. No M06 acceptance is credited by this start record. Unrelated Screenshots/ and redesign-output/ remain untouched.
+
 
 ---
 
@@ -794,6 +936,107 @@ No questionnaire is needed to settle the product flow. Ask only if a discovered 
 | 2026-10-29 | Use the observed internal TRUST route solely for synthetic local DB authorization tests | Socket peer mapping rejects the new local login; original test failed and cleaned before any private bind. Fixed nobody/loopback/narrow LOGIN tests actual ACL/RLS/domain transactions and per-role logs, with credential authentication explicitly false. No HBA/password/Auth change or admin fallback. Production needs separately authenticated service transport. |
 | 2026-10-29 | Reject unrepresentable provider strings and catch private JSONB conversion before diagnostics escape | NUL/lone UTF16 yields terminal safe AI_RESULT_INVALID/RESULT_INVALID; valid pairs/Arabic/BOM/newlines remain. JSONB conversion is inside the private error handler; observed controls+synthetic NUL/surrogate log probes pass without raw/hex/base64 marker. No source/provider payload or credential is serialized to receipts. |
 
+| 2026-10-29 | Run the local specs worker outward to real n8n Cloud and the canonical narrow PostgreSQL port | Dedicated WF01 routes metadata-only work orders; PostgreSQL jobs/outbox/leases remain authoritative. Real SCRAM, official CA/hostname verification and private role logging are independently proved. No tunnel/listener/hosting selection, service-role credential, user impersonation or execution-payload retention. HTTP ServiceBearer/MCP acceptance remains separate. |
+| 2026-10-29 | Release private original documents and immutable prepared JSON using explicit purpose gates | Additive11/12 preserve earlier migrations/data, support bounded text-rich PDF/DOCX/UTF8 input, separate document verification from logo keys and use short lease-scoped opaque Storage proofs. The worker verifies actual original/derivative bytes. Flags and exact file-executor membership were activated for the authorized integration test; real uploaded-file acceptance remains pending browser access. Legacy DOC and scanned-PDF guidance stays truthful. |
+| 2026-10-29 | Replace only an untouched generated requirements draft and retain earlier origins | Source inputs, original extraction IDs and archived role/slot references survive ordinary new-source processing. Manual changes or unknown assignment storage block automatic replacement with INPUT_CHANGED; no revision/conflict product UI is introduced. Live pasted replacement archived three old roles/five slots and published three/five with new origin IDs. |
+| 2026-10-29 | Complete the real initial Producer's M02 retry/cancel capability | Read-only inspection established operations.retry was absent rather than inactive. The fixed transaction derived the account from its genuine successful job, required current active project/write access plus four existing M01 grants, and inserted only operations.retry. No Auth identity, membership or existing grant was altered; actual queued cancellation then passed through the app. |
+
+| 2026-10-29 | Admit exact private metadata GET beside body GET under unchanged specs scope | Hosted Storage1.80.2 logs showed object.get_authenticated_info while the old SELECT predicates admitted only body reads. Additive13 changes exactly3 read expressions; actual private file processing and4 ungranted reads now pass. No list/sign/HEAD/write authority added. |
+| 2026-10-29 | Retain manual edits when a real late specs result arrives | Actual pending autosave plus OpenAI3152tokens led to INPUT_CHANGED with all existing role/slot IDs and prior origin unchanged. Dummy Test intentionally retains this note and Needs input state; no automatic replacement or conflict/revision product was added. |
+
+
+| 2026-10-29 | Close M02 by its scoped acceptance matrix; keep external Claude OAuth, restore, endurance and deployment separate | Real scanned PDF OCR/extraction and HTTP claim replay/restart/recovery now supplement earlier text/PDF/DOCX, cancellation and protected-manual proofs. Local official MCP protocol tests do not claim an external Claude client or OAuth release. |
+| 2026-10-29 | Honor the explicit second canonical test-project instruction | Created Dummy Reuse Test under the existing Dummy Client, with the existing verified Producer's membership and absent-only cast grants. One synthetic shared candidate is reused in both projects; project availability remains independent. No Auth placeholder was created or revoked grant reactivated. |
+| 2026-10-29 | Preserve exact migration17 and reconcile managed Storage catalog differences read-only | Apply dispatched once and history17 exists. Three pre-existing PUBLIC predicates yield nine different effective booleans for new roles versus local rehearsal; explicit ACLs, predicate sources and old-role authority were unchanged. At-apply business preservation and later attested app writes are separate evidence. Never retry the migration to repair a comparison failure. |
+| 2026-10-29 | Bound video admission by the observed environment cap without lowering the product target | Global Storage is50MiB while native/DB target remains256MiB. Server options, session capabilities and UI explicitly use the verified current cap; per-purpose limits remain enforced. Existing Ready media reads remain available with uploads disabled and without an upload-limit config. No provider plan/configuration change was made. |
+| 2026-10-29 | Permit declared checksum only as an initial source-read expectation, then verify actual bytes | Initial video input may carry the browser declaration while the private capability correctly returns no verified checksum. Only prepare can consume that pair, and both streamed bytes and native result must match before Ready. Strict audio asset references project four identity fields; timing/index metadata stays separate. Original failed jobs remain retained. |
+| 2026-10-29 | Reuse only acknowledged clean database connections and preserve expiry checks on every transaction | Healthy COMMIT returns to max2 pool; abort, failure, invalid identity and unknown COMMIT destroy the connection. Finite future role expiry is checked per operation. Idle30s bridges heartbeat20s; connect3s, query/statement limits, TLS/SCRAM, rolelimit4 and300s lifetime remain. This repairs observed churn without claiming endurance or proving every historical timeout's cause. |
+| 2026-10-29 | Retry only an identical candidate callback envelope within a bounded acknowledgement budget | At most3 sends within15s, classified transient failures only, same event ID/sequence/payload, conservative lease and cancellation guards. Accept a non-stale duplicate receipt. Exhaustion remains unconfirmed; this helper never repeats native/provider computation. Fixed operation/error diagnostics exclude private values and do not turn missing provider receipts into a zero-billing claim. |
+
+| 2026-10-29 | Complete M03 with separate TUS, supporting-reference and chosen-frame concerns | Byte-offset uploads retain only actor/workspace/purpose-bound metadata; support images/docs have private Ready verification and associations, never AI factual input. Source-backed role chips fill editable search filters and never candidate facts. Local/cloud18 and additive19 preserve prior data and active runtime11. |
+| 2026-10-29 | Generate the support verifier inside the DB and encrypt its response to a retained public recipient | Managed SQL/error/explain logging cannot be disabled by the authorized role. Only public recipient/nonce/history enters query text; pgcrypto32-byte generation, encrypted private IPC/HMAC and one-shot checkpoint/recovery avoid literal key SQL or weaker logging/roles. Actual bootstrap4b5ee8d6 and separate support-only activation passed. |
+| 2026-10-29 | Correct future non-square-pixel video derivatives and retain immutable old media | Coded800x480/SAR16:15 footage displays16:9. Pinned native image ea6e27d1 yields853x480 future JPEGs with actual PTS. New frame jobs append source derivatives and never silently change project pins/facts/Reviewed; old frames remain retained. Fresh intent after failed/cancelled job creates a new job; same-key replay retains original receipt. |
+| 2026-10-29 | Continue independent M04 while leaving M03 semantic acceptance unverified | Nine additional authorized real scans completed after browser close/worker restart; technical grounding/bytes/geometry and app visibility pass. No English-only clip or independent spoken-fact correction key is confirmed. Script counts and provider self-consistency do not establish semantic accuracy or authorize factual Reviewed. |
+| 2026-10-29 | Use the dedicated Main operation for every Main transition in M04 | Published AssignmentPatch option/backup applies to non-Main positions; clearing/demoting Main uses set_slot_main with null and audited inverse. Notes/Shortlist/wording may still edit Main. MainUndo is revision-fenced position restoration only; private lifecycle effects do not imply a retirement-restoration API/UI. All current M04 changes are local drafts, no cloud migration. |
+
+## 2026-10-29 - Final support and source checkpoint boundaries
+
+Supporting-file archival uses its own version-only request and returns the published Success acknowledgement at HTTP/MCP boundaries. Internal RPC `{ok:true}` remains private; unsupported reason/deletion fields are rejected, and immutable migrations and permissions are unchanged. The common idempotency-key contract remains16..200 characters.
+
+Retained source evidence exceeds the former512MiB scanner aggregate limit. Keep it intact: source, unique staged blobs and expanded ZIP are each bounded at1GiB; compressed ZIP at128MiB, individual source/blob at64MiB, manifest16MiB and20,000 source files. Preflight Git metadata and sequential bounded payload batches require exact coverage, stable source/index/archive/private inputs and all existing fixed private-value checks. Actual scan result and final Git/archive identity are written under ignored dist only after packaging, avoiding a self-invalidating tracked receipt. Synthetic tests alone do not establish an actual private-value scan pass.
+
+
+## 2026-10-29 - Casting integration and real visual selection
+
+- Migration20 is the additive canonical assignment/lifecycle release; migration21 adds genuine OpenAI frame selection. Both were applied once and independently read back after local rollback/promotion proof. Keep all old migrations, data, Auth/catalog authority and runtime11 intact; do not rerun historical release helpers against later histories.
+- AI visual selection consumes only actual scoped source JPEGs whose bytes, hash, MIME, geometry and lease match canonical metadata. Strict selected-ID/technical-reason output never invents images or demographic/suitability facts. Existing OpenAI Responses SDK7.45.1 and configured gpt-6.1-sol are retained after current official capability review. Native preparation/sampling remains separate. An explicit FRAME_SELECTION_UNAVAILABLE issue means manual choice is needed after provider failure; legitimate fewer picks retain the ordinary INSUFFICIENT_FRAMES outcome. Old native picks remain immutable and receive no retroactive vision credit.
+- Retirement preview shows bounded current counts and explicitly warns that the confirmed operation retires all active choices in its role/slot/candidate scope, including choices added after preview. It is informative with sequential revision checks, not an atomic exact-assignment-list contract. Shared library records/media and historical choices remain.
+- Unknown browser write outcomes remain sticky through later denial/conflict responses until the same frozen idempotent request is acknowledged. Reload/other writes stay locked; cached ACK can recover the original Main Undo result without duplicating the effect. Retirement and Casting board use this same uncertainty rule.
+- A factual Reviewed transition remains separate from technical processing and casting choices. The new live vision profile stays Unreviewed; independent language/fact/full-resolution acceptance remains explicit. Hosting selection and deployment remain deferred.
+
+## 2026-10-29 - Verified review foundation and frozen version handoff
+
+- Exact series output/audience policy/registered template identity defines review and fit. Contextual AI proposes one supplied field; applying it uses the ordinary assignment operation with proposal ID, exact series and full review fingerprint atomically checked under source locks. Lock-only column privileges have restrictive no-write policies. Two-user races, lost response/replay and current authority are distinct proof cases; no frozen migration was edited.
+- Registered everyone-casting1.0.0 preserves all ten fixed readable fields and actual frame aspect. Official IBM Plex Sans/Sans Arabic1.1.0 fonts with SIL licenses are bundled; missing General Sans has an explicit development substitution. Renderer/registry/font/brand bytes are frozen for future saved versions.
+- Existing Producer's absent presentations.generate grant was completed once from the verified source-job identity, with active membership/Auth checks. Inactive/revoked rows are never reactivated; no Auth identity or worker login was created. WF05 uses a separate dispatch secret; management credentials are excluded from worker and Chromium environments.
+- Full-size frame checks, actual downloaded bytes and independently checked two-fact Arabic Reviewed evidence are now closed. Broader labelled real English/mixed semantic evaluation remains unverified. No overall accuracy rate is inferred from two populated facts or same-provider output.
+- M05 captures one private immutable renderer snapshot and derives the existing closed public manifest. It compares all three generation guards once at capture, then binds render work to the frozen version/asset inventory and current authority rather than live draft content. Internal canonical PDF/video routes are authenticated and fixed to that version. M06 supplies guest grants later; no fake link/export row is created for internal output.
+
+
+## 2026-10-30 - Immutable M05 delivery and managed Storage reconciliation
+
+- A generation captures all three current review guards, exact output/audience/template, ordered stable slide IDs, display fields and retained source identities atomically. Later processing binds only that frozen version/current authority, not the mutable draft fingerprint. Retry preserves the version; latest Ready is monotonic.
+- Template1.1.0 is separately retained because complete Pending role category/eleven requirements and readable white branding require new immutable bytes. Existing1.0 is not rewritten. General Sans parity remains unclaimed; six pinned licensed IBM assets are an explicit development substitution.
+- Trusted application origin is server-owned and frozen into the render configuration. Canonical PDF video URLs are authenticated fixed-version routes, never short-lived Storage URLs or future unknown guest tokens. M06 supplies real parent grants and access-only variants later.
+- Render and private manifest artifacts use per-attempt paths and scoped capabilities. Both are independently validated before Ready; committed outputs/originals are pinned through later-stage retry. Same11 narrow runtime operations and existing login remain; no service-role fallback or new worker identity.
+- Canonical24 committed once. The original exact readback failures are retained: five additional managed defaults on the NEW bucket required a separate read-only, exact-column reconciliation. Only a comparison copy is normalized; all other expected state remains exact. No migration retry or altered historical seal was used.
+- The completed activation's sealed original test is archived before a later fixture-only history isolation fix. Old helper/config/claim are not resealed; historical current_inputs denies changed test source. Current app observers establish later state. Keep this binding distinction visible in future handoffs.
+- Three actual Ready downloads and all18 PDF pages are checked, with V1 exact metadata/bytes preserved after V2. Native fidelity does not establish facts. Broader M03 semantic evaluation, independent source-image pixel comparisons, guest/OAuth/restore, clean production console, endurance and hosting remain explicitly separate.
+
+
+## 2026-10-30 - M06 guest delivery and composed private Storage
+
+- Guest access uses high-entropy bearer exchange, separate self-declared session identity, HttpOnly cookies and current parent checks. Permanent rows store digests. Backend HMAC binds creation/rotation credential admission; encrypted24-hour replay supports exact idempotency without permanent plaintext. No guest receives business credentials.
+- Guest exports bind `(version, review_link, template, export_revision)` to the existing frozen snapshot. The twelfth narrow worker operation mints a fixed-version media grant; raw grant stays in memory/the private PDF, not job/outbox/log fields. Failed export retry keeps the frozen version and replaces invalid attempt grants; cancellation remains terminal.
+- Additive27 preserves and composes existing restrictive Storage predicates with narrow guest GET/info scope, and adds an acyclic manager-export metadata policy. Actual pre27 NoSuchKey delivery failures are retained; no speculative transport/header fix was applied. Releases25/26/27 and independent preservation readbacks are separate evidence.
+- Download-disable stops new preparation/download, while valid previously saved PDF videos keep view access. Actual expiry/extension/revocation/rotation checks now demonstrate these distinctions. A download-only edit omits unchanged expiry to preserve seconds/microseconds. An explicit expiry edit uses the user's entered local time.
+- Lifecycle confirmation is in-page with explicit Cancel/Confirm and focus return, preserving rowversion/idempotency/unknown-write fences. Browser transfer checks status, PDF type/signature and size before saving, and shows safe retry errors instead of saving a JSON error body.
+- The n8n mapper auto-publication and lexer-boundary failure are retained; one narrow repair of the existing WF03 passed actual authenticated probes and real exports. No unrelated workflow, credential or hosting choice changed.
+- Browser file:// policy rejection was respected. Owner manually opened the actual downloaded PDF link; its resulting ordinary HTTP page and original video were then verified. No indirect file serving or extracted-grant navigation was used as a workaround.
+- Actual390px guest video/navigation/comment/download is scoped browser evidence. Physical phone-keyboard and manual assistive-technology acceptance remain explicit (AT-054/AT-072); broader M03 labelled semantic evaluation and M07 release/restore/external OAuth remain open. Hosting stays deferred.
+
+
+## 2026-10-30 - Source transcript accessibility follow-up (implementation in progress)
+
+- Source transcripts belong alongside original-video playback as an on-demand accessibility companion, outside the ten-field candidate slide and PDF composition. This reconciles template62 with110; it does not add a presentation module, factual review, caption claim, source editing or an extra approval workflow. Existing generation publishes its selected spoken introduction plus the companion.
+- Future versions must freeze exact original-language source text/known language for the selected original video under version+asset identity. Existing Ready snapshots/PDFs must not acquire current mutable library text through backfill. Guest and PDF-grant reads retain the same current parent/version/asset access checks; internal notes/diagnostics never enter the companion. Implementation/migration/readback and app proof are pending.
+
+
+## 2026-10-30 - Owner mobile-testing override
+
+The owner explicitly instructed: "We can skip the mobile testing." Further mobile/physical-phone keyboard testing is therefore skipped. Retain the actual390px browser layout, keyboard video playback, role navigation, synthetic comment and saved-byte PDF checks as their original scoped evidence; do not convert them into physical-device acceptance. This instruction does not waive AT-072 manual assistive-technology acceptance or change the hosting deferral.
+
+
+## 2026-10-30 - Frozen transcript companion implemented and verified in the app
+
+The design above is now implemented by additive28, one guarded apply0794757f and independent readbackf6675f04. Future generation freezes original text/known language under exact retained version/video identity after the existing transcript-hash guard and selected-source lock. The companion is outside renderer snapshots, ten-field candidate slides and PDFs. Source language arrays are captured atomically; no additional pre-review fingerprint claim is made for them. Old Ready versions are not backfilled.
+
+Existing internal/session/PDF-grant video operations return the optional closed companion after current authority checks; no new routes, MCP tools, runtime privileges, caption claim or Producer approval workflow. The text is escaped, original-language and keyboard-revealed. Actual V5 anonymous/internal identities match159codepoints/271UTF8bytes, and actual post28 V4 remains playable/not_captured. An operational private-export helper now uses the agreed ECMAScript whitespace set, preserving valid C1 instead of Python's broader strip; the original application gate and exact two-file correction remain separate evidence.
+
+C was rotated for a fresh QA browser session without changing recipients, permissions or the exact2026-11-29T01:29:33.666060Z expiry. Earlier C PDFs remain saved but their old-generation viewing grants are invalidated as designed. The new V5 export is Ready; native file save is pending owner response. Four earlier actual saved files and18 independent page inspections are unchanged evidence. No clean-production-console, manual screen-reader or new hosting acceptance is inferred.
+
+
+## 2026-10-30 - Owner-saved V5 PDF acceptance follow-up
+
+The owner confirmed "Saved to Downloads." The actual113628-byte file matches exportd683edb1 hash `f1b17a5decd2d3407b6242d7201154a156f30b1370d9e79d930519a587b5f2eb`. Existing offline tooling validates the frozen V5 content, two exact source-frame bodies and fixed-version annotation; root independently inspected all six pages. This closes the native-save gate, with five byte-verified downloads and24 independently reviewed pages across the first three and fifth exports. The earlier pending-save evidence and fourth byte-only scope remain intact. No new grant navigation/playback or factual confirmation is claimed.
+
+This follow-up changes evidence/documentation only. Preserve278985e source ZIP/checkpoint and its exact scan as the prior frozen package; do not imply these new records are in that archive. M06 remains implemented_unverified for AT-072, phone testing stays waived, M03 broader semantic evaluation stays unverified, and hosting remains deferred.
+
+
+## 2026-10-30 - M07 continuation with retained acceptance gates
+
+The owner explicitly authorized M07 from the handoff while keeping the manual screen-reader and remaining M03 checks pending, mobile skipped and hosting deferred. This permits independent M07 parity/auth/recovery work without falsely marking prerequisite acceptance verified. No hosting provider, public exposure or deployment is selected or started. Reuse the existing central business identity and coordinated history; local restore tests must use isolated owned databases and objects, never reset/seed canonical targets.
+
 
 ---
 
@@ -801,232 +1044,93 @@ No questionnaire is needed to settle the product flow. Ask only if a discovered 
 
 ## Source 7: tracking/HANDOFF.md
 
-# Current Codex handoff
+# Everyone Presentation Studio - M07 in progress
 
-Updated2026-10-29 after local native proof completed2026-10-28T23:00:53Z. Client date and actual UTC receipts are separate. M00 verified; M01/M02 in_progress; M03-M07 not_started. This section supersedes older current-state claims below.
+Updated 2026-10-30T10:30:27.646281+00:00. M07 starts from02f9287 with explicit authorization to proceed while AT-072 and M03 broader semantic checks remain pending. Mobile testing is skipped; hosting stays deferred. M06/PDF evidence below remains its historical scoped checkpoint.
 
-## Owner direction and current implementation
+Planned local slices: API/MCP parity and typed-contract fixes; official SDK/delegated resource-server auth; isolated metadata-plus-media restore and recovery; bounded workload/observability and actual operator/client documentation. External Claude client/deployed smoke cannot be inferred from local tests. [Start evidence](../tracking/evidence/m07/2026-10-30-start.json); [prior handoff](../tracking/handoffs/2026-10-30-before-m07-start.md.txt).
 
-Code commits: UI `6ac2ada`, scalar boundary `cac474f`, local retained pipeline/proof `2e38b6d`.
+## Prior M06 checkpoint - retained
 
-Continue local testing; choose hosting later. Keep visible review tabs closed and do not send sign-in emails. Existing real enrollment/keys/four M01 grants stay in place. The source form is implemented at UI commit6ac2ada: original text, same-key unknown retry, dirty-edit protection, stale reload/reapply and saved job links. Actual hosted source processing may still503 because cloud10/runtime have not been released. File upload is honestly unavailable with pasted/manual alternatives.
-
-Local migration `20261028222030_m02_specs_pipeline.sql`, SHA `1e5319bb81be1f12896f7efb5a2cb7706653b79eb440a4dc1aaaca4ed9556895`, is applied. Original9 migration bytes are unchanged. Per-job private source inputs retain exact UTF8/hash/scope; Spec/Role origin IDs retain old evidence separately from the current source/job. Current pointer/epoch/hash fences obsolete work, and private recovery changes obsolete queued/running work to waiting_for_input/INPUT_CHANGED. Exact cached authorized ACK replay works while processing is paused. Working facts/manual edits are preserved; initial apply waits on nonempty or changed facts rather than merging them away.
-
-The owner-confirmed cloud project remains linked. Its **last observed** checkpoint is9 at19:31:14Z, not refreshed this session: `tracking/evidence/cloud-role-order/2026-10-28T19-31-14-242836Z-dc97d5dc-readback.json`. No cloud write/call, new Auth identity, hosted worker or paid provider request occurred here. The old33 WARN/advisor and real-user Storage gates remain historical/unresolved.
-
-## Actual local proof and retained failures
-
-- Combined rollback: `tracking/evidence/m02/specs-pipeline-candidate/2026-10-28T22-23-06-800Z-0b783b98-rollback.json`. Exact candidatebf1fdb9e/assertions0a644995; immutable older submit/stage candidates stay separate.
-- Promotion committed10 but its strict equality check flagged the reviewed additive old-helper grants: `tracking/evidence/m02/specs-pipeline-local-promotion/2026-10-28T22-26-28-140Z-b32c1d2d.json` remains **failed**. `tracking/evidence/m02/specs-pipeline-local-reconciliation/2026-10-28T22-39-25-741Z-ff19e860.json` then read-only verifies13 old routines/17 exact EXEC additions, preserved old grants/bodies/config/owners/data, and releases only the dead2384/b32 lock. No reapply, reset or original receipt rewrite.
-- Persisted schema assertions: `tracking/evidence/m02/specs-pipeline-local/2026-10-28T22-41-11-276Z-491d3795-rollback.json`. Real10 history/hash ledger, Auth-RLS simulation, submission/correction/provenance/suppression/stage checks; complete catalog/all counts restored.
-- Logging: `tracking/evidence/m02/native-logging/2026-10-28T22-52-38-127Z-5128e4cc.json`. Real observable Docker stderr controls; synthetic bind marker absent raw/hex/base64. ASCII missing-job and actual NUL/surrogate casts return safe rejections. The earlier socket login failuree5a88 remains failed and cleaned; it occurred before any private bind.
-- Native: `tracking/evidence/m02/native-executor/2026-10-28T23-00-53-971Z-c26f43c2.json`. Four actual SQL/native-parser/strict-adapter cases: success, cancellation, actual scoped SQL correction preserving manual facts, and restart/reclaim. Callback replay, JS/SQL BOM/CRLF/UTF16 maps/projection hashes, real restart, stale attempt fencing, row/default/catalog/HBA restoration all pass. Provider Responses are synthetic; source correction is SQL RPC, not HTTP. Two concurrent client requests/separate sessions produce one winner; server lock overlap is not proved.
-
-The local image has socket peer mapping and internal127.0.0.1:5432 TRUST (HBA checksum05a300...). The fixed OS65534/direct narrow LOGIN route proves **database-role authorization only**. Credential authentication is explicitly false; TRUST allows another container process to request a LOGIN role. No HBA change, credentials/password workaround, admin runtime fallback or user JWT is used. Test login and synthetic Auth/business rows are removed; all baseline hashes/counts match. Production must not reuse the Docker/psql adapter as an authenticated gateway.
-
-Historical source snapshots32cc/a92/6db1 and9fd are under `development/m02/*.source.txt` with original paths/hashes, preserving what the retained failed/read-only proofs actually used. Current transport57f2b5dc/login c48e0e71/logger772de70e/native driverd2dda0b8 are sealed. Scalar validator389c36f8 rejects provider NUL/lone UTF16 before callback with one safe RESULT_INVALID; valid Unicode, schema/prompt/provider-schema fingerprints remain unchanged.
-
-## Validation and current runtime
-
-`tracking/evidence/m02/local-persistence-session/quality.json` records195 module tests (85 unit/server,5 contract,12 jobs,18 integration,34 worker,41 central),26 operational tests, full/scoped lint, typecheck, isolated `.next-e2e` build and production fixture denial. Static53-skill validation is clean. Source browser7 and existing specs/order7 are controlled/intercepted; final1440/320 screenshots were inspected. They do not prove hosted Auth/Storage or the SQL pipeline.
-
-One build initially omitted EPS_TEST_SERVER and wrote `.next`; the corrected isolated build passed, and owned3000 shell plus all17 scripts subsequently returned200 without framework error strings. This is a dated anonymous HTTP check, not fresh authenticated UI acceptance. Verify process ownership before claiming current serving. No visible tabs reopened.
-
-The private `.env.worker.local` exists and is ignored; keep actual keys out of source/logs/chat. Its requested model remains gpt-6.1-sol. Historical read-only API access19:08 and one real synthetic OpenAI component evaluation19:31 passed (3 roles/5 slots,2988 tokens); that call did not run the new SQL/native pipeline or n8n. Historical n8n management inventory19:32 found the personal project and unrelated inactive W05. Do not reuse W05/its Drive connector. MCP-32603 is historical; credentials do not need to be requested again for this local checkpoint.
-
-## Next exact action
-
-1. Build the authenticated service gateway with exact domain/RPC contracts, bounded payloads and real service idempotency, separate from acting-user APIs. Keep original requester current-scope checks and immutable source/job binding. Do not add a header-only idempotency facade or use service-role credentials for Claude.
-2. Add concurrent source/publication/revocation barriers and batched recovery tests; do not relabel sequenced injections/client concurrency as server lock overlap. Auth eligibility checks are fresh, not an atomic ban/session fence.
-3. Implement purpose-aware private document input/output reservation and exact format promises (PDF/Word/vision/legacy guidance), then real dispatcher/recovery scheduler and Studio WF01 using credential references. n8n Cloud cannot run shell/FFmpeg. Test actual provider through the persistent path separately from synthetic receipts.
-4. Freshly inspect/review cloud state before any additive10 release; keep default config disabled until the real runtime is ready. No linked root reset/seed/start. Hosting remains deferred; do not publish an endpoint or choose a provider now.
-5. M01 hosted human/Storage, source correction into existing working facts, fonts/template/representative media, M03-M07, Claude OAuth/MCP, PDF/guest, sizing, metadata-plus-media restore and deployment remain unfinished. M02 is not verified.
-
-Run new sealed10 tools for local regression. Old nine-version helpers retain their guards/history and should not be weakened or rerun blindly on10. Database suites own `.local/local-postgres/test-db.lock`; all actual runs in this checkpoint have settled and released it. Do not modify applied10 or its frozen proofs; any required schema fix is a forward coordinated migration.
-
-## Historical checkpoint after manual8 and code c2df325
-
-The following prior text is dated history; its8-only and blank-provider state
-has been superseded by the current evidence above.
-
-
-Updated after the 2026-10-28T18:21Z independent cloud readback. M00 is verified;
-M01/M02 remain in progress. The production app is incomplete. This section
-supersedes the historical checkpoint below; do not redo completed setup.
-
-Eight immutable migrations are now applied locally and in canonical cloud
-`pyibofyctwnqpvktepse`. Migration8 is
-`20261028172320_m02_manual_specs_draft.sql`, SHA256
-`8ab866a49cb2e01eabf3b83076fe4519a60255263d0a1a170ef3ba9718a2349c`.
-All earlier migration bytes remain unchanged. Latest receipt:
-`tracking/evidence/cloud-manual-specs/2026-10-28T18-21-07-451865Z-b7e8cd80-readback.json`.
-It verifies 31 public RPCs/58 distinct routine contracts/19 forced-RLS app tables,
-exact source/argument/result/ACL/column/policy/role/initializer boundaries, preserved
-business/Storage counts and unchanged workspace-version/branding digest. One
-pristine Spec was backfilled; roles/slots/queue remain empty. No source, identity,
-grant, service login or provider was fabricated. Fresh advisors report 32 WARN:
-31 curated definer RPCs plus unresolved Auth leaked-password configuration.
-
-Manual specs/role/slot SDK, HTTP and editor are connected. Original multilingual
-wording and unchanged arrays survive ordinary edits; unknown headcount remains
-null with one provisional slot; reductions require explicit retired slot IDs.
-Uncertain create retries retain the same key/body, stale edits require explicit
-reload, and archive-in-flight fields are protected. Assignment retirement/Undo
-still fails closed until its later adapter. No automatic extraction is faked.
-
-Latest manual editor checkpoint:139 module tests, lint/typecheck/build, seven
-controlled browser journeys,20 tool tests and18 offline release tests pass.
-Logs/screenshots: `tracking/evidence/m02/manual-validation/`. Controlled browser
-tests use synthetic API responses, no real Auth/Storage/provider, traces off and
-320/768/1024/1440 layouts. Existing Node color warnings remain recorded. Actual
-anonymous new-RPC request returns401/42501; schema lookup resolves without an
-explicit notification. This is not authenticated hosted editor acceptance.
-
-Fresh8 local proofs: M01
-`development/local-db/receipts/2026-10-28T18-07-49-870Z-test-db-summary-68140882.json`
-(24 stages/three backend pairs/both cleanups); queue
-`tracking/evidence/m02/local/2026-10-28T18-08-57-532Z-7930ab51.json`
-(28 stages/six pairs/graceful same-volume restart/fencing); manual
-`tracking/evidence/m02/specs-local/2026-10-28T18-07-04-016Z-0fdcf864.json`
-(23 stages/column denials/four sampled blockers); replay
-`tracking/evidence/m01/replay-scope/2026-10-28T18-10-19-748Z-fixed.json`
-(11 cases). Strict cleanup passed. The initial7-to8 application/backfill receipt
-`tracking/evidence/m02/specs-local/2026-10-28T18-02-35-594Z-b35f9f60.json` stays
-overall FAILED due to the later harness parser error. Only the driver changed;
-the successful rerun truthfully says already-applied8/backfill=false. Never reset
-history or relabel the failed suite. Guarded `test:db:specs` joins the existing
-three shared-lock local suites; historical7-only helpers now fail closed by design.
+# Everyone Presentation Studio - M06 delivery checkpoint
 
-Current implementation assignments: root commits the manual8/editor baseline;
-foundation_ui owns subsequent role-only reorder domain/SDK/HTTP/SpecsView;
-foundation_domain owns its SQL candidate outside root migrations/manifest;
-discovery_review owns ProcessingView/StudioApp/scoped CSS and controlled tests.
-Inspect their current files/status before editing or committing. Role ordering
-is already contracted by PUT workspace order; exact active-ID permutation and
-ordinary concurrency rules apply. No SQL9 application is implied here.
+Updated 2026-10-30T10:09:04.368918+00:00. M06 is **implemented_unverified** for manual assistive-technology acceptance (AT-072). The owner-saved V5 PDF now passes canonical byte/hash, offline content/source-image validation and independent six-page visual review. Further manual phone testing remains waived. M03 broader independently labelled English/mixed semantic evaluation remains unverified; its owner-grounded Reviewed result is preserved. M07 is not started. Hosting remains deferred.
 
-Next exact action: finish/review/rehearse role ordering and Processing UI, then
-implement scoped source/text submission, stage leases/events, typed atomic draft
-commit, output reservations, service identity and actual dispatcher/worker/WF-01.
-Keep job-to-outbox lock order and post-wait authorization. Do not represent a
-JobRepository transaction as separate RPCs. Late results must preserve edits.
-Fresh18:16Z n8n discovery still returned MCP-32603; recent bounded env checks found
-no OpenAI model/key or worker/service/n8n runtime configuration. Source processing,
-real provider/worker, representative media, missing fonts/template, hosting,
-intended Claude clients and restore remain gates. M03-M07 have not started.
+## Last recorded app and runtime
 
-The owner closed review tabs; none were reopened or sign-in emails sent. Full
-hosted UI/Storage probe remains unrun. Keep real enrollment and four grants as-is;
-do not recreate keys or restore removed grants. Process session30061 was the
-central dev server at3000; verify its current ownership before a serving claim.
-Private env/verifier/enrollment remain ignored. Preserve the bounded scanner's
-historical receipt and exact inherited-design-contact exception; no new identity
-copy/key is exempt. Preserve prior ZIPs before a new development source snapshot.
+The following browser/session/process details were observed during the278985e delivery. This offline PDF follow-up did not revalidate live sessions or process state; verify them freshly before a browser or runtime action.
 
-## Newer code checkpoint after manual8
+The actual central app is http://127.0.0.1:3000. Existing Producer sign-in is preserved; do not repeat enrollment or create another identity. The normal original Studio tab is1091386681; fresh sharing tab1091386714. The owner-established anonymous incognito review tab is1091386688. After a browser bridge reset, the available Chrome Person1 connection was renumbered from2 to1; current CUA handles are in the active session, not a permanent browser identity. The original business tab stayed signed in; a newly created anonymous tab did not prove logout. No cookies or hidden browser state were extracted.
 
-`c2df325` adds Processing list/detail, exact role-only order controls/SDK/HTTP and
-the separate document parser process. Actual checks pass 159 module tests,
-19 controlled browser cases,15 injected private-config/inspection tests,
-lint/typecheck/build and production fixture denial. Evidence is retained at
-`tracking/evidence/m02/extended-validation/`. Source/provider fixtures and actual
-SQL/local proof remain distinct from real hosted acceptance. Existing19 browser
-responses are intercepted; no real Auth/Storage/provider is exercised.
+| Owned process | PID | Parent |
+| --- | --- | --- |
+| Worker launcher | 52092 | Recorded in protected launch metadata |
+| Worker | 58540 | 52092 |
+| Web launcher | 28980 | Recorded in protected launch metadata |
+| Next CLI | 27208 | 28980 |
+| Web/listener | 52636 | 27208 |
 
-The owner requested a file for private keys. Root created ignored
-`.env.worker.local` with empty OPENAI_API_KEY/OPENAI_EXTRACTION_MODEL/N8N_API_KEY/
-N8N_BASE_URL fields and confirmed Git exclusion. No real value was printed.
-`tools/worker-private-env.mjs` reads only that fixed bounded file when invoked;
-the provider inspector only lists model/workflow metadata and does not configure
-or execute them. The latest actual presence check found all four fields blank.
-Do not overwrite the file if the owner fills it or infer that this repairs MCP.
+[Owned runtime proof](../tracking/evidence/m06/runtime28-transition/2026-10-30-owned-processes-ready.json) verifies exact known commands/creation/parents, all23 unchanged startup sources, authenticated12-operation gateway and the old5PIDs absent. Specs-file and guest-export flags were explicitly true at launch; current process environment was not directly read. Logs and launch metadata are protected under `.local/m06-runtime28/`. Do not start a duplicate worker or stop a PID without fresh ownership verification. An initial all-child count check refused because Windows also created conhost children; no mutation occurred before recognizing those separate console hosts.
 
-Role ordering already exists in OpenAPI. Candidate rollback passed at 18:38Z,
-but persistent migration9 `20261028184145_m02_role_order.sql` is NOT yet claimed
-applied. Domain agent owns current9 local race/regression/cleanup; discovery owns
-new sealed9 release helper/readback; root owns all cloud execution. Old8 helper/
-proof bytes remain immutable and should fail closed when history advances.
-Never run DB clients while domain owns the shared restart/test window. UI agent
-is inspecting the exact next source-submit/service-auth/stage contracts read-only.
+## Completed canonical changes - do not repeat
 
-The parser is bounded by two children,256MiB V8 old space,30s maximum deadline,
-pipe/paragraph limits and a scrubbed environment. Node permissions/native addons
-are not an OS sandbox or RSS/CPU/egress boundary. Actual cloud-backed worker,
-source submit, lease callbacks/atomic result apply and service identity are still
-pending. All current user grants remain the original four M01 capabilities.
+Target `pyibofyctwnqpvktepse`; local/canonical history **28**. All four M06 migrations applied once. Never reset/seed the cloud. Supabase CLI queries must be sequential; temporary-login resets previously collided during parallel calls.
 
-## Historical checkpoint before manual8 release
+| Migration | Actual apply | Independent successful readback |
+| --- | --- | --- |
+| 25 guest review/feedback/exports | a9218c10 | 48f6139e |
+| 26 credential admission/guest retry | 4586599d | 83c5768f |
+| 27 composed private Storage policy | b9d43e22 | 0347010f |
+| 28 frozen source transcript companion | [0794757f](../tracking/evidence/cloud-m06-transcript28/2026-10-30T03-13-38-702487Z-0794757f-apply.json) | [f6675f04](../tracking/evidence/cloud-m06-transcript28/2026-10-30T03-14-18-265089Z-f6675f04-readback.json) |
 
-The remainder records the earlier seven-version checkpoint and is historical.
+Migration28 `20261030030717_m06_frozen_video_source_transcripts.sql` has SHA `6334ea62a49966963e675c61e6a73d2acb5981d35f261cf2dff519d097905178`. Its helper is `tools/release_m06_transcript28.py`, SHA `d9c7c592b02fc7977a5879c024e0a5c4964939e0595eb5bc815556938f8abf6a`;34 inputs are sealed by `development/m06/transcript28-review-release.json`, SHA `3d42b3338ab5529e03dd1a9a01fcc7eee40efa1710dbe8daea4a362a754f937f`. Local real-role RED/GREEN, exact157 catalogue additions/three existing function ports, preservation and promotion passed. Old data/Auth/defaults/Storage/key metadata/config/runtime12 are preserved. The runtime was quiesced after real active-jobs0/leased-outbox0 proof before the one cloud push, then restarted.
 
-## Authority and canonical state
+Do not repeat completed guest key bootstrap, guest enable, Producer capability completion or WF03 repair. Private guest keys remain in protected `.env.guest-runtime.local`; no raw values/digests belong in tracking. Existing WF03 `kE4qSEcugaKhIoJU`, active version `eba0dccc-913b-4e26-a445-7b325fc886dd`, retains its credential. Actual auto-publication/lexer failures and one narrow repair are historical evidence. Old25/26/27 release/observer helpers intentionally reject later histories; do not reseal them.
 
-The owner chose the initially empty `Everyone-Presentation` Supabase project (`pyibofyctwnqpvktepse`, eu-west-1) as canonical and authorized the complete milestone build. Requirements are confirmed. No re-interview or routine permission question is needed. Never reset/seed the linked cloud root, invent Auth users or rerun completed enrollment to restore revoked grants.
+## Actual M06 evidence
 
-Seven immutable migrations are applied locally and in cloud. Preserve their bytes:
+[Acceptance matrix](../tracking/evidence/m06/ACCEPTANCE_MATRIX.md) and [narrative](../development/m06/ACCEPTANCE.md) distinguish local SQL, controlled transport/browser, native synthetic, canonical metadata and actual app/file scopes.
 
-1. `20261028010943_m01_canonical_foundation.sql`
-2. `20261028013324_m01_identity_role_inheritance.sql`
-3. `20261028013655_m01_workspace_scope_alias.sql`
-4. `20261028024205_m01_private_logo_boundary.sql`
-5. `20261028072515_m01_logo_upload_capability.sql`
-6. `20261028162702_m01_replay_scope_refresh.sql` ? SHA256 `82a4f2ec03efc0787aa58e5f1e68ab626e5dddb5e4c645444103456757bf4251`
-7. `20261028162800_m02_jobs_outbox.sql` ? SHA256 `f619b3dfb9d964ab5902d04941b8cd59b44e9da36f1ab3f7b10bd45298ff4013`
+- Real view-before-name, remembered labels, same-name separate ownership, shared comments/replies/preferences and private internal notes; repeated-candidate slot preferences stay separate from casting. V1 feedback/draft stays on V1 when V2 is offered. Actual keyboard navigation and390px browser checks are retained; no physical-phone pass is claimed.
+- A V1, B V2 and C V2 guest files were downloaded and all18pages independently inspected, including two actual source JPEG body identities. Fourth C V4 download matches canonical bytes/hash; no independent fourth visual inspection is claimed. [Combined18page proof](../tracking/evidence/m06/live-artifacts/2026-10-30T02-08-52.589Z.json), [fourth saved-byte proof](../tracking/evidence/m06/live-artifacts/2026-10-30-v4-mobile-download.json).
+- [Actual original PDF video](../tracking/evidence/m06/live-app/2026-10-30-original-pdf-video.json): owner manually opened the real downloaded V1 PDF link after browser file-protocol policy blocked the agent. The agent did not tunnel/serve/navigate an extracted raw grant. Resulting ordinary HTTP playback reached9.069s with no error while V3 had no selected media. Full-duration completion is not claimed. The same anonymous context had no business API access.
+- [Live lifecycle](../tracking/evidence/m06/live-app/2026-10-30-final-lifecycle-mobile.json): downloadsOff preserves the saved PDF video; expiry denies it; explicit extension restores its non-revoked grant; revocation denies it. B's active session and old raw URL fail after rotation; replacement works, then fails after revocation. Actual cached PDF GET returns DOWNLOAD_DISABLED while viewing continues. C initially remains unaffected.
+- Final C rotation to generation2 refreshes QA browser access without extending its exact `2026-11-29T01:29:33.666060Z` expiry. A/B remain revoked. C stays active/downloads enabled, same series/output/audience. Earlier C PDFs remain saved but old-generation video grants are now invalidated as designed.
+- [Actual V5 transcript journey](../tracking/evidence/m06/live-app/2026-10-30-v5-transcript-app.json): one Producer Generate produces Ready version `6e379406-6b87-4dbb-a6fb-8078eb1ce5ac`. Anonymous and signed-in video readers show the same159codepoints/271UTF8bytes, SHA `abd4f0589cc1434cbc23521c295b6d8413587b9d01f4cd13f0182bf8eabff5e8`, matching the independently exported frozen companion. The original source is escaped, keyboard-revealed and marked ar; no factual/caption review is inferred. Actual post28 V4 still plays and reports not_captured. No old-version backfill or live-library fallback.
+- V5 refreshed-link export `d683edb1-91fa-4a80-b022-8ce499506e78` is now an actual saved Downloads PDF. [Saved-file and independent visual proof](../tracking/evidence/m06/live-artifacts/2026-10-30-v5-independent-visual-review.json) matches113628bytes/SHA `f1b17a5decd2d3407b6242d7201154a156f30b1370d9e79d930519a587b5f2eb` to immutable e659 export metadata. [Offline inspector](../tracking/evidence/m06/live-artifacts/2026-10-30T10-05-40.085Z.json) validates6pages/126text regions/2actual image bodies/1fixed-version annotation/3fonts; root independently viewed every page. Five files are now byte-verified and24pages across four exports are visually reviewed; V4 remains byte-only. Protected copies/pages/prior-intent archive stay under `.local/m06-live/`. No new grant URL navigation or video playback is inferred.
 
-The coordinated sixth/seventh release passed exact dry-run, apply and fresh readback. Latest receipt: `tracking/evidence/cloud-processing-foundation/2026-10-28T16-56-29-737639Z-6e03dbf9-readback.json`. It binds32 routines including22 authenticated public RPCs,16 forced-RLS app relations, function signatures/named arguments/returns/source, owners/ACLs, policy hashes and narrow role inheritance. The shared idempotency helper remains SECURITY INVOKER/VOLATILE. No service login, credential, provider, workflow or identity was created by this release.
+Current canonical metadata: [e6594989](../tracking/evidence/m06/app-capture28/2026-10-30T03-41-59-550514Z-e6594989.json). Five external versions are Ready. V1/V4 retain original introduction plus only3.12s/12.48s project frames; V2/V3 intentionally omit media. Old M05 internal versions remain unchanged. Working project selection was reloaded and confirmed, including14.04s unchecked; library facts/defaults/availability/Main/Reviewed were not changed.
 
-Existing business/storage counts stayed unchanged: one Auth user, client, project, workspace, media/upload record and Storage object, four active capabilities and prior setup/runtime records. The three new queue tables are empty. These aggregate admin counts do not prove Ready state, exact image bytes, a full user-JWT journey or overwrite protection. An optional later scoped metadata CLI query timed out; no Ready result was recorded or invented.
+## Current code and quality
 
-Fresh security advisors report23 WARN findings:22 intentional authenticated-definer RPC findings and one unresolved `auth_leaked_password_protection` Auth configuration item. No Auth or billing setting changed. Supabase documents that feature as Pro-and-above; entitlement/password policy must be resolved before production. See `tracking/evidence/cloud-processing-foundation/RELEASE_REVIEW.md`. Earlier18-warning/zero-business observations remain historical.
+- `ReviewLinksPanel` uses accessible in-page lifecycle confirmation, keeps rowversion/idempotency/unknown-write fences and preserves exact unchanged expiry. Arithmetic local-time formatting fixes the independently reproduced Cairo DST error. [DST proof](../tracking/evidence/m06/controlled-browser/2026-10-30-expiry-dst-green.json).
+- `SourceTranscript` is outside candidate article/ten fields/PDF and appears beside an opened video. Existing internal/session/PDF-grant operations carry a closed optional companion only after exact current access checks. No new routes/tools/runtime privileges, source editing or approval workflow. Existing generation fingerprint already protects source text; known language arrays are captured atomically, without an added pre-review fingerprint claim.
+- Guarded PDF transfer checks status/type/length/signature before saving a Blob and shows safe retry errors. Actual429 controlled UI preserves drafts and retries the same intent; source/logger projections exclude private payloads/credentials.
+- [Current composed quality](../tracking/evidence/m06/quality/2026-10-30T03-57-34-127660Z-87226dbf-validator-operational-overlay.json):83E2E/693modules, normal build, typecheck/lint and production fixture denial pass. The base96ae and prior8e seals are retained. Four cumulative operational-file changes cover the private-export Unicode whitespace correction and optional-BOM JSON validation, each with meaningful RED/GREEN; fresh full146Node/538Python/12n8n/12TypeScript supplement checks pass. All1380 functional hashes and34 release seals are reconciled; app/runtime/schema/SQL bytes remain exact to the base gate. Counts overlap across receipts; do not sum them into a unique total. Sources are frozen.
+- Final strict pack validation passes357 checks/zero errors after current docs/context regeneration; it remains a static contract check. The final normal-viewport sharing screenshot is `.local/m06-live/screenshots/2026-10-30-sharing-v5-full.jpg`, SHA `77a61dd3a09f1c771c9d530532433d545d6dec165e8e8765a72ed963e55c70aa`; raw review URLs are hidden. A development hydration warning remains recorded; no clean production-console claim.
+- [Static skills integrity](../tracking/evidence/m06/skills/2026-10-30T03-15-16-766806Z-static-integrity-receipt.json):53 skills/550 source and installed files, zero errors/warnings; prior report preserved. This is not runtime or hosted acceptance.
+- Source-contract/runtime/browser failures, failed/rolled-back fixtures, original VM timeout, early NoSuchKey, staged exporter stale-seal refusal and the old tests remain preserved. Historical805e/f19 gates predate later changes. Existing19 historical27 boundary tests pass unchanged on current28; no artificial fixture adaptation or RED is claimed.
 
-## Account, workspace and runtime
+## Safe observer and private artifact commands
 
-Real Producer enrollment is completed. Four M01 capabilities (`projects.read/write`, `workspaces.read/write`) and write membership to owner-requested Dummy Test/Dummy Client were actually read back. The fixed test project is `4b70c8ce-18bd-4a8c-b5a9-bc1156c06463`; client is `f4a9937c-f575-4975-bdea-fb83b85e48c3`. Do not recreate them or automatically restore removed membership. Future feature capability rollout must respect current scope and the original Producer authorization; no settings/admin grant is implied by this checkpoint.
+Run only sequentially, with the project's isolated interpreter:
 
-The owner reports successful sign-in and seeing Dummy Test, then closed all review tabs. Connected Chrome Person1 was still signed out on the agent's last refresh. The agent opened no review tabs or requested another email after the closure. Do not repeatedly ask the owner to sign in while independent work can continue. A verified connected session is still needed for the full M01 browser/Storage acceptance journey.
+```
+.venv-skills/Scripts/python.exe -X utf8 tools/capture-m06-app28.py
+.venv-skills/Scripts/python.exe -X utf8 tools/export-m06-private-snapshot28.py <fresh28receipt> <readyVersionUUID>
+.venv-skills/Scripts/python.exe -X utf8 tools/export-m06-private-transcripts28.py <fresh28receipt> <readyVersionUUID>
+```
 
-The owned central development process was started in unified session30061 at `http://127.0.0.1:3000/projects` through `tools/dev-central.mjs`. It loads the existing protected verifier, with `CENTRAL_LOGO_UPLOADS_ENABLED=true` and `EPS_CENTRAL_LOGO_PROBE_ENABLED=true` in that child only. `.env.local` was unchanged. Standard launcher defaults uploads/probe off. The verifier's protected `.local` phase/key files must not be printed, recreated or deleted; the older provisioning helper seals a historical migration set and is not a reason to regenerate the key.
+A private exporter requires a current source-bound observer receipt. The older913c source export was correctly refused after the two-file helper change; fresh e659 succeeded. Protected snapshots, source text, PDFs/images, raw diagnostics and screenshots remain under `.local/m06-live/` or user Downloads, outside Git/ZIP. V5 private snapshot SHA `f5a8417530342f21c7fcf5eae82cc5f4a52f034316d324af5a38ef2b977429bb`; private companion file SHA `6a6e37c710baae80b2ae20e3ff0b535f3ed842bfa38ff77d23b72e739f08fe63`.
 
-The guarded `/dev/central-logo-probe` is implemented but NEVER executed against a signed-in hosted session. It accepts only the fixed project's authorized workspace UUID, uses normal cookie identity and scoped RPCs, and targets only newly reserved unselected probe assets. It reports sanitized IDs/status/hash/dimensions only. Unsafe token mint is tested before object existence; forbidden overwrite uses distinct bytes and before/after integrity reads. Do not export cookies/tokens/HAR/traces or substitute admin/GUC impersonation for real user HTTP acceptance.
+## Outstanding and delivery verification
 
-`npm.cmd run dev` is the separately labelled synthetic adapter. Fixture browser tests own3100 and separate `.next-e2e`; central serving uses `.next`. Build while central is running with `EPS_TEST_SERVER=true`. Known extension hydration warnings and Node NO_COLOR/FORCE_COLOR warnings remain distinct from app errors. Never claim zero runtime warnings.
+1. V5 native save is verified; no repeat download or generation is needed. Prior pending-save receipts remain historical. The prior handoff is preserved [byte-for-byte](../tracking/handoffs/2026-10-30-before-m06-v5-download-acceptance.md.txt).
+2. AT-072 manual assistive-technology acceptance remains unverified. Owner received Windows Narrator instructions; further manual phone testing was explicitly waived. Do not infer a screen-reader pass from DOM/keyboard/automated tests.
+3. The source ZIP and ignored `dist/SOURCE_CHECKPOINT.json` remain the frozen278985e package, SHA `a1f8db6eeff770600b2f5758426cb0585aa3745d82210be2b336a001d3e6b385`, with its actual zero-hit source/index/ZIP scan. This later PDF acceptance evidence/documentation is outside that archive. App/runtime/schema/SQL and the8722application quality sources are unchanged. Final follow-up commit/evidence identity belongs in ignored `dist/M06_PDF_SAVE_CHECKPOINT.json`; no regenerated ZIP or new full credential scan is claimed. Neither record is production acceptance.
+4. Preserve unrelated `Screenshots/`102 and `redesign-output/`58 files and processes. Temporarily exclude only those roots for owned packaging/staging, restore original `.git/info/exclude` bytes exactly afterwards. M05 ZIP/checkpoint were already preserved under `.local/source-checkpoints/fa7233e-before-M06/`. Base HEAD is `fa7233ee95dd03ed2c8221a1d04bc9b5bca822fe`.
 
-## Code and actual evidence
-
-Local code commits this session: `0ec0433` (post-lock M01 scope recheck), `0ef61f9` (neutral specs/slot planning), `269a35e` (jobs/outbox, scoped HTTP, release guard). There is no remote/push/deployment.
-
-- Root module suite:120 tests passed (50 unit/domain/server,3 contracts,12 jobs,14 integrations,10 actual synthetic document parsers,31 central SDK tests). Lint, typecheck and separate-output build passed. Four synthetic browser/HTTP journeys passed with traces off. Logs: `tracking/evidence/m02/validation/`.
-- Operational Python suites:20 existing tool tests plus6 new processing-release recovery tests passed. Tests block real subprocess execution and cover lost responses, partial application, failed readback, count drift and refusal to blindly retry applied/partial history.
-- Full local M01 regression:23 stages, three actual backend race pairs, both strict cleanups passed: `development/local-db/receipts/2026-10-28T16-44-39-449Z-test-db-summary-fcaee673.json`.
-- M01 scope regression: baseline reproduced10 cached-response disclosures and one already-protected reserve path. Fixed11 cases passed current-scope denial after exact sampled advisory waits/distinct backends, legitimate closed-state replay controls and cleanup: `tracking/evidence/m01/replay-scope/2026-10-28T16-38-40-784Z-fixed.json`. Initial two harness failures and earlier baseline proof are retained. The fixture directly seeds synthetic replay caches; no cloud Auth/Storage transfer is proved.
-- M02 durable foundation:27 stages, six backend pairs, both cancellation/dispatch orderings, graceful same-volume PostgreSQL restart, committed-lease persistence, controlled expiry/reclaim and old-token rejection, strict cleanup passed: `tracking/evidence/m02/local/2026-10-28T16-43-07-185Z-63e90f8d.json`.
-
-Use `npm.cmd run test:db`, `npm.cmd run test:db:m02`, and `npm.cmd run test:db:replay-scope` for their distinct guarded local suites. They share an exclusive test lock, reject unexpected state, preserve unrelated rows and cannot target cloud. Owned Docker PostgreSQL17.6 is fingerprinted at127.0.0.1:55433; cloud is17.11. Local Auth/Storage catalogs are explicitly simulated, not hosted HTTP services. Never use root Supabase reset/seed/start.
-
-## M02 implementation boundary and next action
-
-`packages/central/src/jobs.ts` is now exported and wired to `/api/v1/jobs`, job detail/retry/cancel. API origin/session/input/concurrency/idempotency rules are shared; fixtures return honest503 for unavailable durable processing. Actual anonymous401/foreign-origin403/no-store checks passed. Authenticated HTTP and Processing UI are not demonstrated by those negative checks.
-
-`packages/domain/src/specs.ts` and shared neutral types preserve original evidence and source language, unresolved markers, stable explicit slot IDs/order, provisional unknown counts and assignment before-images. Reductions require explicit affected slots. A configurable allocation budget fails before allocation without truncating facts. These are pure plans, not persistent transactions or provider results.
-
-A reviewed manual specs persistence candidate is being rehearsed OUTSIDE root migrations: `development/m02/specs-draft-candidate.sql` and `tests/db/m02-specs-draft-candidate.sql`. It provides manual specs/role/slot CRUD, stable empty specs backfill+initializer and coupled row versions/draft/audit effects. It has no source submit/setter or fake job. Suppressed child writes must fail atomically; ArchiveRequest nullable reason parity is covered. Assignment retirement/Undo remains an explicit later integration gate. Check the latest candidate receipt before claiming any execution; do not promote automatically from static review.
-
-Next: finish the guarded single-transaction candidate/fixture rollback with a predating workspace backfill case, verify exact catalog/row restoration, then connect real specs source submission, source/spec FKs, stage claim/heartbeat/event/fence validation, typed atomic result apply, output reservations and scoped service identity. A `JobRepository.transaction` must never be represented as separate RPC calls. Keep job?outbox lock ordering and fresh authorization after blocking waits.
-
-Actual n8n project discovery still returns MCP-32603. Fresh process/project-env presence checks found no OpenAI model/key, n8n webhook/secret or worker/service runtime configuration. Do not fabricate provider calls/workflow exports or select another orchestrator. Worker document parsing is a tested library, not an isolated HTTP service. Real OpenAI/n8n/worker processing, representative authorized specs/video, native FFmpeg/PDF, six missing fonts/approved template, hosting, intended Claude clients, restore and production release remain unverified. M03?M07 have not started.
-
-## Source hygiene
-
-Private verifier/enrollment files, `.env.local`, Supabase `.temp`, private traces and generated output remain ignored. Preserve original supplied manifests and prior source archives under `dist/checkpoints/`. `python tools/package_pack.py --check` inspects eligible source; generated source ZIP is a snapshot, never a production deployment.
-
-`tools/check_enrollment_source.py` scans known private key encodings and the setup identity without printing them. Preserve its historical fixed-path receipt when retaining a new checkpoint. One exact unchanged supplied `Design Elements/DESIGN.md` contains the original business contact and is narrowly exempt; no new identity copy or key is exempt. Do not claim that the contact is globally absent.
-
-## Direct pasted-text preparation follow-up
-
-The c2df325 worker checkpoint remains historical17/17. The follow-up adds `preparePastedText(text)` and explicit `{sourceKind: pasted_text, text, sourceAssetId: null}` input to the bounded process/storage port; direct text retains its original UTF8 hash and LF paragraph map. Real file calls still require a verified source asset ID. The document-preparation JSON schema permits a null original only for direct text; output reservation parent was already nullable. Five new synthetic/offline tests bring the worker suite to22/22, with no provider, service callback, actual document Storage or source-submit execution implied. Public submit remains503.
-
-Next source/lease slice: persist original text and source version plus an actual job/outbox atomically under the real acting user; freeze the post-submit source/workspace versions in unchanged jobs input v1. `SpecSubmit.row_version` is the current Spec version and may be omitted only for a locked pristine initial record. Add authenticated service claim/event/typed-result operations using an execute-only service DB bridge, never a fake Auth user/service-role fallback. Use workspace?spec?job?roles/slots?outbox locks for callbacks that touch drafts; existing job-only operations stay job?outbox. Preserve manual edits with source/workspace version checks and waiting_for_input; deny publication after requester write authority is revoked as the adopted conservative default. The final apply_specs result schema remains deferred to that actual stage implementation; no broad unused schema was added here.
+Protected M02 job `b3f90268-147d-41d4-8875-2a6435df1496` stays waiting_for_input/INPUT_CHANGED with its manual note. Do not clear or retry it. M03's broader labelled semantic evaluation, external Claude OAuth, metadata-plus-media restore, endurance, clean production console and production deployment remain unverified. Hosting stays deferred.
 
 
 ---
@@ -1647,6 +1751,12 @@ Exchange the URL token for a short-lived secure session where feasible. Redact p
 
 View works before identity entry. Before the first comment or preference, collect a display name and optional company. Remember the name for convenience. The session's opaque identity, not that name, determines whose feedback can be edited. All valid guest sessions for the same series see all external feedback. Internal comments/notes must be filtered at the query/projection level, not merely hidden in CSS.
 
+M06's canonical guest gateway accepts credential digests only together with an independent backend HMAC over the exact operation, canonical input, issued-at millisecond timestamp and single-use nonce. A database token digest by itself is therefore insufficient to authorize a request. The proof key is distinct from the AES-GCM creation-replay key; neither reaches browser, MCP, worker job payloads or public receipts. Proofs allow at most30 seconds of future skew and60 seconds of age; nonce replay is rejected. The narrow public wrapper grants no anonymous table access and delegates to private constrained functions.
+
+Browser exchange uses scoped HttpOnly SameSite=Strict cookies and returns no raw session value. A public guest-session context selects the matching cookie, preventing another link tab from silently changing the first tab's author. Browser writes validate the exact configured Host and Origin. Explicit API credential headers may omit Origin; supplied foreign Origin is denied. The app applies bounded global/credential request windows and returns Retry-After on429; database controls remain independent.
+
+Each guest byte request mints a transient60-second asset capability, retains only its digest, and sends the raw capability only to private Storage in a dedicated header. Storage policy repeats session/grant, parent link, generation, expiry, fixed-version and asset membership checks for every request. The application proxies a single validated byte range; it never exposes the Storage capability or signed URL. Previously delivered bytes remain outside revocation's reach.
+
 The viewer requests an exact version ID when sending feedback. The server verifies that the viewed version belongs to the link's series, is Ready, and contains the target slide. A newest-version change during an open review does not reattach the guest's comment to a different version. Show an update banner and let the reviewer open the new version.
 
 ## 5. Media and PDF access
@@ -1878,9 +1988,11 @@ Validate source snapshot hash, template version, expected page count, actual out
 
 ### `create_review_link`, `update_review_link`, `revoke_review_link`
 
-Requires `review_links.manage` for the project/series. Create only for a permitted external series with a Ready version. Generate the token server-side; default expiry is now plus 30 days; PDF downloads default enabled. Rotation increments link token generation, invalidates old-generation guest sessions, revokes old PDF grants and advances export revision; it does not change the presentation content. Updates may change expiry/download permission, but cannot silently repoint the link into another output/audience series. Expiry updates propagate to all non-revoked child media grants in the same transaction; do not revive revoked grants. Revocation records a timestamp and stops new scoped authorizations. Download-disable alone leaves valid viewing/media access intact.
+Requires `review_links.manage` for the project/series. Create only for a permitted external series. As required by M06, a valid link may precede its first Ready version; the guest then sees Preparing and current-version data is null. Generate the token server-side; default expiry is now plus 30 days; PDF downloads default enabled. Rotation increments link token generation, invalidates old-generation guest sessions, revokes old PDF grants and advances export revision; it does not change the presentation content. Updates may change expiry/download permission, but cannot silently repoint the link into another output/audience series. Expiry updates propagate to all non-revoked child media grants in the same transaction; do not revive revoked grants. Revocation records a timestamp and stops new scoped authorizations. Download-disable alone leaves valid viewing/media access intact.
 
 Idempotent token creation must survive a lost response. Default implementation: encrypt the one-time token-bearing idempotent response using a server-held key with a short configured replay TTL (24 hours initially); store ciphertext, never a plaintext token. The permanent link record stores only its token digest. After the replay window, an explicit authorized rotation/reissue produces a new token rather than pretending the original can be recovered from a hash.
+
+M06's optional Idempotency-Key on link/comment PATCH and guest identification preserves the same acknowledgement after an uncertain response. Current authorization is checked before cached replay; identical key with different semantic input is rejected. Without that optional header, ordinary row-version semantics remain. Replay encryption uses AES-256-GCM with a random96-bit nonce,128-bit tag and authenticated actor/operation/subject/idempotency context; gateway HMAC uses a distinct32-byte key. These APIs are supported by the pinned [Node24.18 crypto documentation](https://nodejs.org/download/release/v24.18.0/docs/api/crypto.html).
 
 ### `prepare_pdf_export`, guest export operations, and `mint_review_media_grant`
 
@@ -2043,6 +2155,17 @@ A completed new candidate scan creates an immediately visible Unreviewed record.
 
 Profile edits and `confirm_candidate_reviewed` check library editor capabilities. Reviewed is projected from the saved confirmed reusable-facts fingerprint and current canonical/extension facts; an outside app’s fact edit cannot leave a stale Reviewed badge. Project availability and template changes do not reset this fact-review status. Confirmation may include confirmed absence of values; Reviewed does not mean every field is populated and does not mean final booking approval.
 
+Supporting-file association archival is the additive M03 operation
+`archive_candidate_support`. HTTP and MCP accept only
+`CandidateSupportArchive: {row_version}` with an Idempotency-Key and current
+`cast.write` authority. `reason`, deletion flags and other fields are rejected;
+this operation does not use the generic `ArchiveRequest`. Its public response
+is `Success: {success:true, affected_ids:[candidate_support_id]}` inside the
+normal response envelope. The adapter validates the private SQL acknowledgement
+`{ok:true}` and maps it to that public shape. Archival retains the private asset
+and does not alter candidate facts. Other archive operations keep their own
+published request contracts.
+
 ### Project media and assignments
 
 `workspace_candidates` holds project availability, selected candidate media/frames and internal notes. The Library’s default frame selection can change without rewriting another workspace’s chosen material. `update_workspace_candidate` validates that every selected frame belongs to its selected source media; maximum three, fewer allowed. No automatically substituting the newest candidate video into an existing presentation.
@@ -2076,6 +2199,16 @@ The active export renderer obtains a one-time `review_media_grants` token throug
 Parent expiry, revocation or token rotation denies grant playback. Rotation revokes old grants and invalidates their export cache. Link expiry edits propagate to its non-revoked grants, including naturally expired grants; they never clear a revocation. Disabling PDF downloads blocks preparing and downloading a PDF, but does not revoke video playback in PDFs already downloaded while parent viewing access remains live. The download flag and the viewing grant are distinct permissions.
 
 Short-lived media URLs have a bounded lifetime; revoking the review link prevents new issuance but cannot retract already downloaded bytes. If immediate denial of every subsequent byte request is required, use an authenticated proxy/range endpoint that rechecks the live grant instead of issuing reusable direct URLs. Document the chosen bound in the deployment runbook.
+
+### M06 browser and media companions
+
+The standard guest API retains X-Review-Token for initial exchange and X-Review-Session thereafter. A same-origin browser opts into `X-EPS-Review-Browser: 1` at exchange: its response is closed `GuestBrowserAccess`, without a raw access token, and an HttpOnly SameSite=Strict cookie is stored under its public guest_session_id. `X-Review-Context` selects that cookie on later requests; different link tabs keep independent identities. After the initial URL is removed, `GET /review/session` restores only safe session metadata. Names/company may be remembered as labels; raw review/session/grant credentials must not enter localStorage or sessionStorage.
+
+The guest's fixed version includes its frozen cover and template identity, with no private render context or mutable library lookup. Current-version `data:null` means Preparing before the first Ready version; the link stays scoped to its original external series/output/audience. Optional Idempotency-Key on link/comment PATCH and guest identification supports exact acknowledgement recovery under current authority.
+
+Native image/video/download GET requests may select their cookie using the public `review_context` query value. This query is permitted only on binary companions and never contains a credential. Those routes proxy private bytes with single-range support and revalidate the current parent access for each request, including Storage capability checks. No signed Storage URL is issued externally. A full stream checks its saved checksum; a partial stream verifies the exact range, type and length against the immutable saved asset. Already delivered bytes cannot be recalled.
+
+PDF grant landing exchanges its initial X-Media-Grant under the browser adapter, stores an HttpOnly cookie restricted to the fixed version/asset route, and returns a local content URL containing no raw grant. The initial `/m/:grantToken/...` URL can then be replaced with a public version/asset resume URL. Cookie expiry follows the parent viewing expiry; a transient Storage capability lasts60 seconds and is never a replacement for parent authorization.
 
 ## 7. Async jobs and operations UI
 
@@ -2204,6 +2337,14 @@ API `Job.kind` maps to `jobs.job_type`. `attempt` is the displayed monotonic att
 
 Every stage result is checked against job kind, stage, current attempt, input hash and allowlisted result schema before application. Event replay does not duplicate output/business rows. Terminal cancellation invalidates application by any late callback. `row_version` and input fingerprint guards preserve manual corrections while worker assets remain inspectable for ordinary editing.
 
+## M06 implemented API boundaries
+
+Internal review-link and feedback operations reuse the verified acting-user client and private project/capability checks. `eps_list_review_links(p_options)` accepts the published workspace filter and cursor. Create/rotate accept only a digest and authenticated encrypted creation-response replay; return ciphertext to the server, which decrypts under an actor/operation/subject/idempotency-bound context. Mutable updates may carry the optional stable idempotency key for lost-acknowledgement recovery.
+
+Guest operations enter only `eps_guest_operation(p_operation,p_input,p_proof)`. The server hashes raw random credentials and signs the exact closed operation input using the independent backend HMAC key. The private gateway validates proof age/nonce and live parent scope before access; the anonymous role receives no business-table grants. `session` returns safe metadata for browser resume. External version projection adds frozen cover/template identity without internal render context or live facts. Comments/preferences retain the immutable version-slide and opaque author session; external feedback is shared by series across links, while internal visibility is denied by both query and DTO projection.
+
+Private `get_asset`, `get_export_asset` and `grant_asset` return only a server-consumed exact asset destination and transient Storage capability. The HTTP layer returns private local range-capable content routes, with no capability or Storage URL in public responses. `parent_expires_at` determines browser grant-cookie expiry; the separate capability expiry is at most60 seconds. Export PDF media always references the original immutable version.
+
 
 ---
 
@@ -2318,6 +2459,19 @@ Generated from the handoff contract. `openapi.yaml` owns schemas and paths; the 
 | `record_job_event` | `POST /internal/jobs/events` | service.job-scoped (service-only) | No |
 | `complete_job_stage` | `POST /internal/jobs/complete` | service.job-scoped (service-only) | No |
 | `fail_job_stage` | `POST /internal/jobs/fail` | service.job-scoped (service-only) | No |
+| `list_candidate_support` | `GET /candidates/{candidate_id}/supporting-files` | cast.read | Yes |
+| `archive_candidate_support` | `POST /candidate-support/{candidate_support_id}/archive` | cast.write | Yes |
+| `request_workspace_review_fit` | `POST /workspaces/{workspace_id}/review/fit` | workspaces.write | Yes |
+| `get_casting_retirement` | `GET /workspaces/{workspace_id}/retirements/{resource_id}` | workspaces.write | Yes |
+| `undo_casting_retirement` | `POST /workspaces/{workspace_id}/retirements/{event_id}/undo` | workspaces.write | Yes |
+| `play_version_media` | `POST /versions/{version_id}/media/{asset_id}/playback` | workspaces.read | Yes |
+| `get_version_media_content` | `GET /versions/{version_id}/media/{asset_id}/content` | workspaces.read | No; binary companion to playback/download |
+| `get_version_pdf_content` | `GET /versions/{version_id}/pdf/content` | workspaces.read | No; binary companion to playback/download |
+| `guest_get_session` | `GET /review/session` | guest | No; browser resume after initial token removal |
+| `get_pdf_export_content` | `GET /pdf-exports/{export_id}/content` | review_links.manage | No; binary companion to export download |
+| `guest_get_pdf_export_content` | `GET /review/pdf-exports/{export_id}/content` | guest | No; binary companion to guest export download |
+| `guest_get_media_content` | `GET /review/versions/{version_id}/media/{asset_id}/content` | guest | No; request-authorized frame/logo/original byte proxy |
+| `get_review_media_content` | `GET /review-media/versions/{version_id}/media/{asset_id}/content` | media-grant | No; fixed-version PDF original byte proxy |
 
 
 ---

@@ -5,6 +5,7 @@ import { AjvJsonSchemaValidator } from '@modelcontextprotocol/client/validators/
 import { createStudioMcpServer, implementedMcpTools, invokeMcpTool, type McpServices } from '../../apps/web/lib/mcp.ts';
 import type { ReviewLinkOperations } from '../../packages/domain/src/guest-types.ts';
 import { DomainError } from '../../packages/domain/src/types.ts';
+import { syntheticMcpStudio } from '../fixtures/mcp-capabilities.ts';
 
 const actor = { principal_id: 'producer' }; const key = 'synthetic-sharing-request-key'; const timestamp = '2026-10-30T00:00:00Z';
 const link = { id: 'link-1', series_id: 'series-1', label: 'Client', expires_at: '2026-11-29T00:00:00Z', download_enabled: true, revoked_at: null, latest_ready_version_id: 'version-1', row_version: 1, created_at: timestamp };
@@ -20,7 +21,7 @@ function fixture() {
     setPreference: { preference: null, cleared: true }, preparePdfExport: { export: exported, job_id: 'job-1', cached: false }, getPdfExport: exported,
     downloadPdfExport: { version_id: 'version-1', download_url: 'http://127.0.0.1:3000/api/v1/pdf-exports/export-1/content', expires_at: '2026-10-30T00:01:00Z', filename: 'review.pdf', size_bytes: 10 } };
   const sharing = new Proxy({}, { get(_target, method: string) { return async (...args: unknown[]) => { if (error) throw error; calls.push({ method, args }); assert.ok(Object.hasOwn(responses, method)); return responses[method]; }; } }) as ReviewLinkOperations;
-  return { services: { sharing } as McpServices, calls, deny() { error = new DomainError('ACCESS_DENIED', 'The represented user cannot access this series.', 403); } };
+  return { services: { sharing, studio: syntheticMcpStudio(actor.principal_id) } as McpServices, calls, deny() { error = new DomainError('ACCESS_DENIED', 'The represented user cannot access this series.', 403); } };
 }
 test('official MCP transport exposes twelve shared acting-user sharing/feedback/export operations', async () => {
   const h = fixture(); const server = createStudioMcpServer(actor, h.services); const client = new Client({ name: 'eps-guest-sharing-protocol', version: '1.0.0' });

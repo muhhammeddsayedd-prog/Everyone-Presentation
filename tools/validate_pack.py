@@ -2,6 +2,7 @@
 """Validate documentation/contract consistency. Does not test or deploy the app."""
 from __future__ import annotations
 import argparse
+import datetime
 from collections import Counter
 import importlib.util
 import json
@@ -224,7 +225,8 @@ def main():
                "sql_design_tables": len(tables), "json_schemas": len(list((ROOT / "contracts/json-schema").glob("*.json"))), "acceptance_cases": len(test_ids)}
     print(json.dumps(summary, indent=2))
     if args.report:
-        lines = ["# Development pack validation", "", "Date: 27 October 2026. These checks validate the specification, not the future app.", "", f"**Validation result: {summary['status']}.** {len(checks)} schema, syntax, structural, reference, parity and business-contract assertions passed.", "", "## Scope", "", f"- {len(api['paths'])} API paths, {len(operations)} unique operations and {len(tools)} intended internal MCP tools.", f"- {len(tables)} proposed design tables; foreign-key table references and execution guards checked.", f"- {summary['json_schemas']} standalone JSON schemas; source references and AI-object key contracts checked.", f"- {len(test_ids)} unique acceptance cases; all 36 business rules represented.", "- Fixture Selection = 8 pages and Shortlist = 6 pages, independently derived in correct order.", f"- {link_count} source-document local file links checked."]
+        observed_date = datetime.datetime.now(datetime.timezone.utc).date().isoformat()
+        lines = ["# Development pack validation", "", f"Date: {observed_date} (UTC). These checks validate the specification and contracts; application acceptance has separate gates.", "", f"**Validation result: {summary['status']}.** {len(checks)} schema, syntax, structural, reference, parity and business-contract assertions passed.", "", "## Scope", "", f"- {len(api['paths'])} API paths, {len(operations)} unique operations and {len(tools)} intended internal MCP tools.", f"- {len(tables)} proposed design tables; foreign-key table references and execution guards checked.", f"- {summary['json_schemas']} standalone JSON schemas; source references and AI-object key contracts checked.", f"- {len(test_ids)} unique acceptance cases; all 36 business rules represented.", "- Fixture Selection = 8 pages and Shortlist = 6 pages, independently derived in correct order.", f"- {link_count} source-document local file links checked."]
         lines.extend(f"- {x}" for x in checks if x.startswith("Full ") or x.startswith("PostgreSQL SQL syntax"))
         lines += ["", "## Limitations", ""]
         lines.extend(f"- {x}" for x in limitations)

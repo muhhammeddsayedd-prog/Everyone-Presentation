@@ -6,6 +6,7 @@ import type { PresentationOperations } from '../../packages/domain/src/presentat
 import { createStudioMcpServer, implementedMcpTools, invokeMcpTool, type McpServices } from '../../apps/web/lib/mcp.ts';
 import { DomainError } from '../../packages/domain/src/types.ts';
 import { presentationId, presentationVersionFixture } from '../fixtures/presentation.ts';
+import { syntheticMcpStudio } from '../fixtures/mcp-capabilities.ts';
 
 const actor = { principal_id: presentationId(51) }; const key = 'synthetic-version-mcp-stable-key';
 const names = ['list_versions', 'generate_version', 'get_version', 'download_version_pdf', 'play_version_media'];
@@ -20,7 +21,7 @@ function fixture() {
     playVersionMedia: async (...args) => record(args, { asset_id: presentationId(10), url: 'https://synthetic.invalid/original', expires_at: '2026-10-29T23:00:00Z', mime_type: 'video/mp4', source_version_id: version.id }) as Awaited<ReturnType<PresentationOperations['playVersionMedia']>>,
     getVersionMediaContent: async () => { throw new Error('Binary helpers are not MCP tools'); }, getVersionPdfContent: async () => { throw new Error('Binary helpers are not MCP tools'); },
   };
-  return { version, calls, services: { presentation: service } as unknown as McpServices, error: (value: DomainError) => { error = value; } };
+  return { version, calls, services: { presentation: service, studio: syntheticMcpStudio(actor.principal_id) } as unknown as McpServices, error: (value: DomainError) => { error = value; } };
 }
 test('official MCP protocol exposes five composed version operations with acting-user and three-guard parity', async () => {
   const h = fixture(); const server = createStudioMcpServer(actor, h.services); const client = new Client({ name: 'eps-presentation-protocol', version: '1.0.0' });

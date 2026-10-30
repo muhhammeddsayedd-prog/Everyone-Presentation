@@ -5,6 +5,7 @@ import { AjvJsonSchemaValidator } from '@modelcontextprotocol/client/validators/
 import { DomainError, type Workspace } from '@eps/domain';
 import type { Assignment, CastingOperations } from '../../packages/domain/src/casting-types';
 import { createStudioMcpServer, invokeMcpTool, type McpServices } from '../../apps/web/lib/mcp';
+import { syntheticMcpStudio } from '../fixtures/mcp-capabilities.ts';
 
 const actor = { principal_id: 'synthetic-casting-actor' };
 const castingNames = ['list_assignments', 'create_assignment', 'update_assignment', 'set_slot_main', 'undo_slot_main', 'remove_assignment'];
@@ -29,7 +30,7 @@ function fixture() {
     async removeAssignment(...args) { calls.push(['removeAssignment', ...args]); return { success: true, affected_ids: ['assignment'] }; },
     async reorderWorkspace(...args) { calls.push(['reorderWorkspace', ...args]); return workspace; },
   };
-  const services = { casting, specs: { async reorderWorkspace(...args: unknown[]) { calls.push(['legacyReorderWorkspace', ...args]); return workspace; } } } as unknown as McpServices;
+  const services = { studio: syntheticMcpStudio(actor.principal_id), casting, specs: { async reorderWorkspace(...args: unknown[]) { calls.push(['legacyReorderWorkspace', ...args]); return workspace; } } } as unknown as McpServices;
   return { calls, casting, services };
 }
 

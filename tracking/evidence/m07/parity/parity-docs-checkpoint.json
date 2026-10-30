@@ -1,0 +1,29 @@
+{
+  "observed_at": "2026-10-30T11:14:07.372562+00:00",
+  "scope": "Final maintained source operation matrix, existing binary companion contract and local client runbook. No application/provider/cloud/browser operation was changed or exercised.",
+  "files": {
+    "contracts/openapi.yaml": "c2dffc956538fab207796a8d969a9cb4e58bfd0c7e9e4c460a78475d3cb5ec4a",
+    "contracts/operation-parity.json": "e36164bc89e43618cfaf682cd6742274b58a91be75d09a292e41ad1e2c957bd9",
+    "apps/web/lib/generated-contracts.json": "31891260e4312081545189d0908862b5906940c5ecbce5bfddbd3aece48b2178",
+    "docs/integrations/API_CONTRACT.md": "17a42f150f4c10fb8c1229e8c79c5a7406acb6bdd05b1ae7ced0a565d77e67be",
+    "docs/integrations/MCP_INTEGRATION.md": "c81255178b105192b09564a08c09102dfb154b4ef20fb18aa76f1d488d60673d",
+    "docs/integrations/OPERATION_INDEX.md": "18197dab951b55c64ce1423117e94db3c4e7cac6fd87b36e1de37b5c5bd48d05",
+    "docs/integrations/API_DB_MAPPING.md": "d348a3870ea0cc7715abf7c0c59281c5fa290f21c3fa31b6f1771a0c6dc4462e",
+    "docs/integrations/IMPLEMENTATION_PARITY.md": "1b1c765a31418be9942031b4b250e6e861586681220c8c81de23cd27981702ae",
+    "development/m07/API_CLIENT_RUNBOOK.md": "3ba281b44202e96ee08b5d87b2076dbcbbe96d8d3783bcb93b8ec393aae3c0cd",
+    "tools/check_m07_parity.py": "548a714596b2faa1cceed1cc72071542a303f5552600dd5fcc25b2d5c1de7ca0",
+    "context-packets/M07_CONTEXT.md": "064436fc832993e25c3abdbe7b8ac02017073f8229bf95726db2f41e13d6778b",
+    "context-packets/M07_OPENAPI.yaml": "4800fee46ac0cb241b60625b809c41ecda54cb6eccfad5f353b7ecc4b8613b74"
+  },
+  "checker_receipt": "operation-inventory-final.json",
+  "result": {
+    "runtime_user_tools": 86,
+    "catalog_tools": 86,
+    "openapi_operations": 115,
+    "semantic_groups": 13,
+    "retained_exclusions": 28,
+    "new_binary_companion": 1,
+    "errors": 0
+  },
+  "remaining": "Root owns final composed global gates; no actual Claude/OAuth/human M07 journey claim. AT072/M03 semantic pending, mobile skipped, hosting deferred."
+}

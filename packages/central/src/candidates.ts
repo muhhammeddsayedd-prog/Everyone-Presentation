@@ -6,6 +6,7 @@ import { DomainError, parseCandidateConfirmation, parseCandidateCreate, parseCan
   type MutationContext, type Page, type WorkspaceCandidate, type WorkspaceCandidateCreate, type WorkspaceCandidatePatch } from '@eps/domain';
 import { verifyCentralUser } from './client.ts';
 import { centralRpcError } from './errors.ts';
+import { candidateListPage, parseCandidateListOptions, type CandidateListOptions } from './candidate-list.ts';
 
 export interface CandidateVersionInput { row_version: number; reason?: string | null }
 export interface CandidateSuccess { success: true; affected_ids: string[] }
@@ -139,22 +140,28 @@ export async function createCentralCandidates(client: SupabaseClient) {
     async archiveCandidate(actor: Actor, candidateId: string, input: CandidateVersionInput, context?: MutationContext) {
       return mutate(actor, 'archive_candidate', { p_candidate_id: identifier(candidateId) }, versionInput(input), successDto, context);
     },
-    async getCandidateMedia(actor: Actor, candidateId: string) {
+    async getCandidateMedia(actor: Actor, candidateId: string, options: CandidateListOptions = {}) {
+      actorRequired(actor); identifier(candidateId);
+      const position = parseCandidateListOptions(options, { operation: 'candidate_media', principalId: actor.principal_id, candidateId });
       return rpc(actor, 'eps_get_candidate_media', { p_candidate_id: identifier(candidateId) }, value => {
         if (!Array.isArray(value)) failed(); const result = (value as unknown[]).map(mediaDto);
-        if (result.some(row => row.candidate_id !== candidateId) || new Set(result.map(row => row.id)).size !== result.length) failed(); return result;
+        if (result.some(row => row.candidate_id !== candidateId)) failed();
+        return candidateListPage(result, position, row => row.id);
       });
     },
     async updateCandidateFrames(actor: Actor, mediaId: string, input: FrameSelection, context?: MutationContext) {
       return mutate(actor, 'update_candidate_frames', { p_candidate_media_id: identifier(mediaId) }, parseFrameSelection(input), mediaDto, context);
     },
-    async findCandidateDuplicates(actor: Actor, candidateId: string) {
+    async findCandidateDuplicates(actor: Actor, candidateId: string, options: CandidateListOptions = {}) {
+      actorRequired(actor); identifier(candidateId);
+      const position = parseCandidateListOptions(options, { operation: 'duplicate_matches', principalId: actor.principal_id, candidateId });
       return rpc(actor, 'eps_find_candidate_duplicates', { p_candidate_id: identifier(candidateId) }, value => {
-        if (!Array.isArray(value)) failed(); return (value as unknown[]).map(item => {
+        if (!Array.isArray(value)) failed(); const result = (value as unknown[]).map(item => {
           const row = exact(item, ['candidate_id', 'display_name', 'match_reasons']);
           if (!isId(row.candidate_id) || row.candidate_id === candidateId || !isNullableText(row.display_name) || !strings(row.match_reasons)) failed();
           return structuredClone(row) as unknown as DuplicateMatch;
         });
+        return candidateListPage(result, position, row => row.candidate_id);
       });
     },
     async resolveCandidateDuplicate(actor: Actor, candidateId: string, input: DuplicateResolution, context?: MutationContext) {

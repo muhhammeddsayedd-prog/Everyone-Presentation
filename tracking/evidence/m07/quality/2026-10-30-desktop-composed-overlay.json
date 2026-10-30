@@ -1,0 +1,45 @@
+{
+  "observed_at": "2026-10-30T11:54:30.713143+00:00",
+  "result": "passed_composed",
+  "scope": "87 selected controlled desktop cases: original86passes plus resolved refused-reconnect case; corrected5-case consent rerun overlaps4originalpasses and is not added as five new cases. No live cloud/OAuth/provider/phone/screenreader evidence.",
+  "unique_resolved_cases": 87,
+  "original": {
+    "receipt": "tracking/evidence/m07/quality/2026-10-30-desktop87-initial.json",
+    "stats": {
+      "startTime": "2026-10-30T11:49:13.910Z",
+      "duration": 135931.57400000002,
+      "expected": 86,
+      "skipped": 0,
+      "unexpected": 1,
+      "flaky": 0
+    },
+    "only_failure": "New test ambiguous role=alert also matched Next route announcer; no application source correction."
+  },
+  "correction": {
+    "only_changed_assertion": "Scope role=alert to existing Connect to Everyone region",
+    "stats": {
+      "startTime": "2026-10-30T11:52:57.071Z",
+      "duration": 11440.86,
+      "expected": 5,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "private_log": ".local/m07-quality/consent-final-desktop.txt",
+    "private_log_sha256": "595bc300c31f65f6d12bf86898e47ccfd0b8a242b72297704950c7fb650f6e93"
+  },
+  "source_sha256": {
+    "tests/e2e/oauth-consent.spec.ts": "00c136ef51eb69e73e5ea309236b94ef4df0893e610250b16e2124783b606c78",
+    "apps/web/lib/oauth-consent.ts": "af7482e584fc753b05c6d62b91195a9d674a3914ed7549bbb4091c63bed0b822",
+    "apps/web/components/OAuthConsent.tsx": "b29665db72f9a4860665d47b84ac0a155af2ddffe341a89bb3e5c258490a0e64",
+    "apps/web/lib/oauth-consent-http.ts": "f66764bb3454c3e3cb63442e2b04569cf387805b79506afe1dcd462ecf955e99",
+    "apps/web/components/StudioTimeZone.tsx": "f8e3f910452c075734c530c670730f7a686f79a38f0c6337fbd2c83d623fc891",
+    "apps/web/lib/studio-time-zone.ts": "558f23d7fb94bc8be9aeb1520a9149b9eaf47342bea4fe47280927b99d709baf",
+    "apps/web/lib/session-data.ts": "1597942020ec53bfe81ee157245a5cdb503a321e5b3a3f0dd99ef71a89008e31",
+    "apps/web/components/StudioApp.tsx": "5b23fdabdd5847f4703ac9abd62e366366f80b71ff765bb32926055139824dd6"
+  },
+  "mobile_testing": "skipped",
+  "manual_screenreader": "pending",
+  "M03_semantic_checks": "pending",
+  "hosting": "deferred"
+}

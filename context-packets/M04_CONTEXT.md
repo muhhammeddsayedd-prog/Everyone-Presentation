@@ -419,9 +419,9 @@ Completion means a permitted human and Claude can independently carry out the re
 
 # Development progress — Everyone Presentation Studio
 
-**Last updated:** 2026-10-29 - **Pack:** 1.0 - **Current work:** M04; M03 implemented_unverified
+**Last updated:** 2026-10-30 - **Pack:** 1.0 - **Current work:** M07 in progress; AT-072/M03 remain pending; mobile skipped; hosting deferred
 
-**Current reality:** M00 and M02 remain verified; M01 remains in progress. Twenty-one migrations are applied locally/cloud. M04 Casting is mounted with shared acting-user API/MCP and actual signed-in Main/Undo, independent roles/Shortlist/notes, order/reload and safe candidate removal proof. A real app upload now completes genuine OpenAI visual selection of12 actual frames into3 picks; original nine profiles/facts/frames and protected M02 remain unchanged. M03 stays implemented_unverified for independent speech/fact, remaining full-resolution frame and scanned Reviewed acceptance. M04 stays in_progress for series/template context, complete review/fit, wording and retirement Undo. Current505 app tests,120 Node operational and232 Python checks, lint and isolated production build pass; controlled board5 and retirement7 have separate scopes. Hosting stays deferred.
+**Current reality:** M00/M02/M04/M05 remain verified within their scoped matrices; M01 is in progress and M03 retains broader independently labelled semantic evaluation limits. Local/canonical history is28. M06 guest sharing, shared version-pinned feedback and link-scoped PDF/video delivery are implemented and live checked. Five guest PDF files are verified. The first three plus latest V5/all24pages have independent source/body/visual inspection; fourth V4 retains canonical byte identity. [The saved V5 file](../tracking/evidence/m06/live-artifacts/2026-10-30-v5-independent-visual-review.json) matches its generated export and passes all six pages. Real expiry/extension/rotation/revocation/download-toggle checks pass. V5's anonymous and internal video views expose the same frozen source transcript; post28 V4 remains playable with no backfill. [Current composed quality](../tracking/evidence/m06/quality/2026-10-30T03-57-34-127660Z-87226dbf-validator-operational-overlay.json) passes83 controlled browsers/693 modules, build/typecheck/lint/production guards and the scoped offline groups. M06 is **implemented_unverified** for manual AT-072. The owner waived further manual phone testing. M03's owner-grounded two-fact Reviewed state and protected M02 remain preserved. M07 is in progress under the explicit owner continuation; hosting is deferred.
 
 The machine-readable status mirror is [tracking/progress.json](../tracking/progress.json). Update this file and that file together whenever work status changes. Evidence fields must describe actual work only.
 
@@ -432,11 +432,11 @@ The machine-readable status mirror is [tracking/progress.json](../tracking/progr
 | M00 Discovery and contracts | verified | tracking/discovery/; central-schema-map.yaml | Actual new canonical ownership/auth/history, guarded local replay and provider capability inventory | Continue M01; future provider/release gates remain explicit |
 | M01 Foundation, project and logo | in_progress | apps/web/; packages/domain/; packages/central/; 6 M01 migrations applied | Real cloud schema/readback and local role/race proof; synthetic full UI plus central anonymous UI | Finish scoped central uploads and actual Producer/project journey |
 | M02 Specs, roles and first durable pipeline | verified | Local/cloud14+16, live WF01 and private document worker | Acceptance matrix: real text/PDF/DOCX/scanned PDF, protected edits, HTTP replay/restart/recovery and local MCP | Continue M03; M07 external OAuth/restore/hosting/endurance remain separate |
-| M03 Media, library and video processing | implemented_unverified | Local/cloud15+17+18+19+21; real OpenAI vision app job | Nine earlier scans retained; fresh5-stage/12-image/3-pick vision proof; independently inspected first actual JPEG and full grid | Independent language/factual accuracy, full-resolution remaining frames, scanned Reviewed and document byte-download checks remain unverified |
-| M04 Assignments and final review | in_progress | Migration20 local/canonical; mounted board and shared HTTP/MCP | Real Main replacement/Undo, same-person role choices/notes/Shortlist, keyboard order/reload/removal;5 controlled board tests; final canonical preservation | Continue series/template identity, complete ten-field review/fit, optional WF05 wording and typed retirement Undo |
-| M05 Template, versioning and PDF | not_started | None | Frozen manifests; real viewer/PDF; historical media; render recovery | Depends on M04 |
-| M06 External review and delivery | not_started | None | Latest-ready scoped links; guest feedback; link-scoped PDFs; expiry/revoke | Depends on M05 |
-| M07 API/MCP and production readiness | not_started | None | Real Claude parity; live integrations; restore/deploy evidence | Depends on M06 |
+| M03 Media, library and video processing | implemented_unverified | Local/cloud15+17+18+19+21; scoped closeout | Three full-size actual picks;5 artifact byte matches; one Arabic profile corrected/Reviewed from2 independent facts; old9/108 preserved | Broader labelled English/mixed real semantic evaluation remains unverified |
+| M04 Assignments and final review | verified | Local/canonical20+22+23; actual review journey and acceptance matrix | Exact series/ten fields,2 real AI jobs,3 native fits/2 current zero-overflow, role Undo/reload,2-frame playback, stale-source two-user races; current preservation | Continue M05; retain immutable history and hosting deferral |
+| M05 Template, versioning and PDF | verified | `51aa4c5`; local/canonical24; template1.1.0 | Selection8/Shortlist6 SQL/native fixtures;3 actual Ready downloads/18 inspected pages; immutable V1 replay;11 anonymous401; local race/retry/retention/latest-ready proofs | Continue M06 scoped review/delivery; hosting deferred |
+| M06 External review and delivery | implemented_unverified | Canonical/local25-28; [acceptance matrix](../tracking/evidence/m06/ACCEPTANCE_MATRIX.md) | Actual guest feedback, PDF/video/lifecycle, V5 captured transcript and oldV4no-backfill;83browser/693module and current composed gates | AT-072 manual remains; latest PDF save verified; phone testing waived; hosting deferred |
+| M07 API/MCP and production readiness | in_progress | [Start evidence](../tracking/evidence/m07/2026-10-30-start.json) | Complete parity/auth, local recovery/workload and eventual external client/release proof | Owner authorized independent work while AT-072/M03 remain pending; mobile skipped; hosting deferred |
 
 ## Allowed status transitions
 
@@ -445,6 +445,58 @@ The machine-readable status mirror is [tracking/progress.json](../tracking/progr
 `in_progress` or `implemented_unverified → blocked` when a required dependency is unavailable; record the prior state and work still possible. `verified → in_progress` when a later change invalidates acceptance. A milestone with any unrun required integration check cannot be `verified`. Documentation corrections alone do not change implementation status.
 
 ## Session log (append newest first)
+
+### 2026-10-30 - M07 starts with explicit retained gates
+
+Owner authorized M07 from the handoff while keeping AT-072 and remaining M03 checks pending, mobile skipped and hosting deferred. [Start ledger](../tracking/evidence/m07/2026-10-30-start.json) records planned parity/auth/restore/workload acceptance. Initial read-only audit found concrete candidate pagination/idempotency contract gaps, local-only MCP without delegated OAuth resource validation, and no executable metadata-plus-media restore proof. Preserve all completed releases and unrelated160 files.
+
+### 2026-10-30 - Owner-saved V5 PDF verified
+
+- Owner confirmed the Downloads save. [Saved-file and independent visual receipt](../tracking/evidence/m06/live-artifacts/2026-10-30-v5-independent-visual-review.json) matches113628 bytes/SHA `f1b17a5decd2d3407b6242d7201154a156f30b1370d9e79d930519a587b5f2eb`; [offline inspector](../tracking/evidence/m06/live-artifacts/2026-10-30T10-05-40.085Z.json) validates6pages/126text regions/2actual source-image bodies/1fixed-version guest annotation/3fonts. Root independently viewed all six pages without observed clipping, overlap or missing glyphs.
+- Five guest files are byte-verified;24 pages across the first three and fifth exports are independently inspected. V4 remains byte-only. The previous pending-save/app receipts are retained as their actual earlier observations. No new grant URL navigation, video playback, factual confirmation, cloud/provider processing or app code change occurred.
+- M06 remains implemented_unverified solely for manual AT-072; mobile testing stays waived and hosting deferred. M03 broader labelled semantic evaluation remains unverified. The278985e source ZIP/checkpoint and its scan are preserved unchanged as the prior frozen package; this evidence/documentation follow-up is outside that archive. Final follow-up identity is recorded in ignored `dist/M06_PDF_SAVE_CHECKPOINT.json`.
+
+### 2026-10-30 - M06 frozen source companion and current quality closed
+
+- Additive28 applied once ([0794757f](../tracking/evidence/cloud-m06-transcript28/2026-10-30T03-13-38-702487Z-0794757f-apply.json)), then independent [f6675f04 readback](../tracking/evidence/cloud-m06-transcript28/2026-10-30T03-14-18-265089Z-f6675f04-readback.json). Exact new catalogue delta and three existing function ports preserve all old business/Auth/Storage/key metadata/defaults/runtime state. No old Ready backfill, new gateway operation, provider re-extraction or PDF/template change.
+- [Actual V5 journey](../tracking/evidence/m06/live-app/2026-10-30-v5-transcript-app.json): one Producer generation becomes Ready; anonymous and internal readers expose exactly159codepoints/271bytes from the frozen source; oldV4stillhasvideoandnot_captured. New C2 access preserves exact original expiry and produces a new Ready PDF. Its native save is pending; earlier four files and18 inspected pages retain their original acceptance.
+- [Composed current quality](../tracking/evidence/m06/quality/2026-10-30T03-57-34-127660Z-87226dbf-validator-operational-overlay.json) retains the83E2E/693module application gate plus four cumulative operational-file changes for Unicode whitespace and optional-BOM JSON validation and fresh146Node/538Python/12n8n/12supplement checks. Counts overlap across scopes. All1380 functional source hashes and34 release fences are verified. [53-skill static integrity](../tracking/evidence/m06/skills/2026-10-30T03-15-16-766806Z-static-integrity-receipt.json) has zero errors/warnings.
+- Hosting remains deferred. Further manual phone testing was waived; AT-072 manual assistive technology remains unverified. Existing M03 semantic limits, protected M02 and unrelated160 files are retained. Final Git/source ZIP/private-value identity is recorded separately after execution in ignored dist/SOURCE_CHECKPOINT.json.
+
+### 2026-10-30 - Independent final review found two concrete follow-ups
+
+- Expiry uses Date.setMinutes across Cairo DST and can display an hour incorrectly; unchanged download-only precision still passes. Meaningful timezone regression/fix follows the frozen805e pre-change gate.
+- Guest and saved-video players have no transcript companion, while source transcripts exist only in internal current-source views. Implement a separately frozen future-version source companion alongside playback, outside the ten candidate fields/PDF; preserve old Ready content and current guest access scopes. No separate curation/approval workflow is introduced. Manual phone-keyboard/screen-reader checks remain distinct and unverified.
+
+### 2026-10-30 - M06 guest delivery implemented and live lifecycle checked
+
+- Applied additive25/26/27 once with independent canonical readbacks.27 fixes the actually reproduced restrictive Storage-policy composition failure; earlier failures and exact seals remain. Existing business records, original M05 snapshots, old grants/capabilities, protected M02 and owner-grounded M03 Reviewed state are preserved.
+- Actual anonymous guest, same-name separate ownership, shared comments/replies/preferences and private internal note filtering are evidenced. Three real guest PDFs/all18 pages have independent source/body/visual checks. A fourth390px download matches canonical bytes/hash; no fourth visual inspection is claimed.
+- [Actual original PDF video](../tracking/evidence/m06/live-app/2026-10-30-original-pdf-video.json) played original V1 after newer media-less V3. [Final lifecycle/mobile](../tracking/evidence/m06/live-app/2026-10-30-final-lifecycle-mobile.json) records download-disable preserving old video, expiry denial, extension restoration, revocation denial, old URL/session denial after rotation, direct cached PDF DOWNLOAD_DISABLED and independent C access. Current [canonical observation](../tracking/evidence/m06/app-capture27/2026-10-30T02-37-42-009158Z-22d8c593.json) has4 external Ready versions and preserved old state.
+- Focused regressions cover inline confirmations, exact unchanged expiry precision, guarded PDF transfer and understandable429 retry. Final broad quality/source privacy/package checks are running. Manual AT-054 phone keyboard and AT-072 assistive-technology checks remain unverified; an owner question is pending. M06 is implemented_unverified, M03 broader semantic checks stay recorded, M07 is not started and hosting remains deferred.
+
+### 2026-10-30 - M05 verified through the app and actual PDFs
+
+- Implementation commit `51aa4c5c179cfe2d94a7ffac0270b17d2fe18815`. Additive24 captures immutable renderer snapshots/public manifests and retained inputs, using all three current review guards; four scoped worker stages publish manifest/PDF artifacts and monotonically advance latest Ready. Template1.1.0 adds the complete Pending category/eleven requirements and readable white brand; existing1.0 bytes remain immutable.
+- The canonical apply committed once. Its original comparison failures remain retained: five managed-only defaults on the new Storage bucket differed from local shape. A separate [read-only reconciliation](../tracking/evidence/cloud-m05-presentations/2026-10-29T22-18-18-933100Z-c8396a58-managed-bucket-reconciliation.json) verifies them explicitly and all other old state unchanged. The [single-flag enable](../tracking/evidence/m05/presentation-activation/2026-10-29T22-22-47-241238+00-00-4a529fc8-enable.json) followed actual WF03/startup/idle-worker proofs; no migration retry or new login occurred.
+- [Actual signed-in journey](../tracking/evidence/m05/live-app/2026-10-29T22-46-40-524986Z-5f2674be.json): SelectionV1/V2 and ShortlistV1 downloaded with canonical SHA matches; synthetic wording change invalidated the old fit; V1 still has original words and identical repeated PDF bytes after V2. Original version media played fully;11 real anonymous calls returned401. Two independent artifact batches verified exact saved text, images/geometry, fonts and links and visually inspected all18 pages.
+- [M05 matrix](../tracking/evidence/m05/ACCEPTANCE_MATRIX.md) separates actual SQL/races, native synthetic8/6 and0/1/2/3-frame variants, controlled UI, live app and independent artifact evidence. [Final quality](../tracking/evidence/m05/quality/2026-10-29-final.json):613 modules,57 browsers,143 Node/355 Python,7 supplementary; lint/typecheck/build and production fixture denial pass. Historical failures and the activation-test source-binding correction are retained.
+- Hosting is deferred. No guest token/export, external Claude OAuth, metadata-plus-media restore, clean production console or independent image-pixel/factual-accuracy claim is inferred. Unrelated Screenshots/ and redesign-output/ are retained outside this task's staging/package. Next is M06, without changing Ready snapshots or repeating setup.
+
+
+### 2026-10-29 - M04 verified and M05 started
+
+- Canonical/local22 adds exact series/review, optional wording jobs, native measured fit and typed retirement Undo; additive23 closes the proposal GET-to-save shared-source race. Both applied once with independent canonical preservation readback. Four worker lock races and two-principal AI-save races passed locally.
+- Signed-in app proof: two grounded OpenAI jobs (preview/discard; guarded Apply),3 native fit jobs including2 current zero-overflow outputs, role retirement/restoration/reload, and an existing two-frame Option with original transcript/video playback. Library facts, old choices/private notes, source frames and protected M02 remain intact. See [actual journey](../tracking/evidence/m04/review-live-app/2026-10-29-final-review-journey.json), [current observer](../tracking/evidence/m04/review-app-capture/2026-10-29T21-01-02-629938Z-1fea890a.json) and [quality](../tracking/evidence/m04/review-quality/2026-10-29-final.json).
+- Fixed independently reproduced late-proposal/manual-edit, stale clean inspector, Pending/null inspector and unsupported media pagination failures. Final responsive review check has a real390px controlled viewport and no document horizontal overflow; actual connected browser remained desktop.
+- M03's completed scoped checks and remaining semantic limit are in [SCOPED_CLOSEOUT](../tracking/evidence/m03/SCOPED_CLOSEOUT.md). No overall accuracy, English/mixed benchmark, PDF, external OAuth, guest or hosting acceptance is inferred.
+- M05 starts with three generation guards, separately typed immutable renderer snapshot/public manifest, four native render stages, retained version assets and authenticated fixed-version viewer/PDF/video routes. No M06 guest tokens/exports are invented. Unrelated Screenshots and redesign-output are preserved.
+
+
+### 2026-10-29 - M03 final checks and M04 review resumed
+
+- Owner requested remaining M03/M04 completion and next milestone, with hosting deferred. Basefe90400; unrelatedScreenshots catalogue preserved. Active work: full-size authenticated media review, registered template/fonts, series-bound review and real measured fit, contextual wording pipeline and revision-fenced retirement Undo. Ledger start recorded after initial inspection/isolated source work; no new acceptance credited at start.
+- Independent spoken-fact answer key requested asynchronously; app/provider output will not serve as its own factual verification. Continue unaffected implementation.
 
 ### 2026-10-29 19:19Z - M04 Casting integrated; genuine M03 vision checked through app
 
@@ -733,6 +785,10 @@ Copy and fill this template at the end of every implementation session:
 - Source correction retains old evidence/manual facts; automatic publication into a nonempty working draft waits. Concurrent source/publication/revocation barriers, file/vision paths and full real-provider processing still require acceptance.
 - Earlier provider access and one real synthetic OpenAI component evaluation are historical, not the native synthetic-provider run. M03-M07, representative media/fonts/template, Claude parity, PDF/guest, restore/sizing/deployment remain unfinished. Never reset/seed the linked cloud root.
 
+## 2026-10-30 - M06 started
+
+Owner authorized guest sharing and feedback from verified M05/fa7233e. Database, API/MCP and worker/native slices run in parallel; root owns UI/integration and release/browser proof. Planned acceptance is recorded in tracking/progress.json. M03 broader independently labelled English/mixed semantic evaluation remains unverified, and hosting remains deferred. No M06 acceptance is credited by this start record. Unrelated Screenshots/ and redesign-output/ remain untouched.
+
 
 ---
 
@@ -905,6 +961,69 @@ Retained source evidence exceeds the former512MiB scanner aggregate limit. Keep 
 - Unknown browser write outcomes remain sticky through later denial/conflict responses until the same frozen idempotent request is acknowledged. Reload/other writes stay locked; cached ACK can recover the original Main Undo result without duplicating the effect. Retirement and Casting board use this same uncertainty rule.
 - A factual Reviewed transition remains separate from technical processing and casting choices. The new live vision profile stays Unreviewed; independent language/fact/full-resolution acceptance remains explicit. Hosting selection and deployment remain deferred.
 
+## 2026-10-29 - Verified review foundation and frozen version handoff
+
+- Exact series output/audience policy/registered template identity defines review and fit. Contextual AI proposes one supplied field; applying it uses the ordinary assignment operation with proposal ID, exact series and full review fingerprint atomically checked under source locks. Lock-only column privileges have restrictive no-write policies. Two-user races, lost response/replay and current authority are distinct proof cases; no frozen migration was edited.
+- Registered everyone-casting1.0.0 preserves all ten fixed readable fields and actual frame aspect. Official IBM Plex Sans/Sans Arabic1.1.0 fonts with SIL licenses are bundled; missing General Sans has an explicit development substitution. Renderer/registry/font/brand bytes are frozen for future saved versions.
+- Existing Producer's absent presentations.generate grant was completed once from the verified source-job identity, with active membership/Auth checks. Inactive/revoked rows are never reactivated; no Auth identity or worker login was created. WF05 uses a separate dispatch secret; management credentials are excluded from worker and Chromium environments.
+- Full-size frame checks, actual downloaded bytes and independently checked two-fact Arabic Reviewed evidence are now closed. Broader labelled real English/mixed semantic evaluation remains unverified. No overall accuracy rate is inferred from two populated facts or same-provider output.
+- M05 captures one private immutable renderer snapshot and derives the existing closed public manifest. It compares all three generation guards once at capture, then binds render work to the frozen version/asset inventory and current authority rather than live draft content. Internal canonical PDF/video routes are authenticated and fixed to that version. M06 supplies guest grants later; no fake link/export row is created for internal output.
+
+
+## 2026-10-30 - Immutable M05 delivery and managed Storage reconciliation
+
+- A generation captures all three current review guards, exact output/audience/template, ordered stable slide IDs, display fields and retained source identities atomically. Later processing binds only that frozen version/current authority, not the mutable draft fingerprint. Retry preserves the version; latest Ready is monotonic.
+- Template1.1.0 is separately retained because complete Pending role category/eleven requirements and readable white branding require new immutable bytes. Existing1.0 is not rewritten. General Sans parity remains unclaimed; six pinned licensed IBM assets are an explicit development substitution.
+- Trusted application origin is server-owned and frozen into the render configuration. Canonical PDF video URLs are authenticated fixed-version routes, never short-lived Storage URLs or future unknown guest tokens. M06 supplies real parent grants and access-only variants later.
+- Render and private manifest artifacts use per-attempt paths and scoped capabilities. Both are independently validated before Ready; committed outputs/originals are pinned through later-stage retry. Same11 narrow runtime operations and existing login remain; no service-role fallback or new worker identity.
+- Canonical24 committed once. The original exact readback failures are retained: five additional managed defaults on the NEW bucket required a separate read-only, exact-column reconciliation. Only a comparison copy is normalized; all other expected state remains exact. No migration retry or altered historical seal was used.
+- The completed activation's sealed original test is archived before a later fixture-only history isolation fix. Old helper/config/claim are not resealed; historical current_inputs denies changed test source. Current app observers establish later state. Keep this binding distinction visible in future handoffs.
+- Three actual Ready downloads and all18 PDF pages are checked, with V1 exact metadata/bytes preserved after V2. Native fidelity does not establish facts. Broader M03 semantic evaluation, independent source-image pixel comparisons, guest/OAuth/restore, clean production console, endurance and hosting remain explicitly separate.
+
+
+## 2026-10-30 - M06 guest delivery and composed private Storage
+
+- Guest access uses high-entropy bearer exchange, separate self-declared session identity, HttpOnly cookies and current parent checks. Permanent rows store digests. Backend HMAC binds creation/rotation credential admission; encrypted24-hour replay supports exact idempotency without permanent plaintext. No guest receives business credentials.
+- Guest exports bind `(version, review_link, template, export_revision)` to the existing frozen snapshot. The twelfth narrow worker operation mints a fixed-version media grant; raw grant stays in memory/the private PDF, not job/outbox/log fields. Failed export retry keeps the frozen version and replaces invalid attempt grants; cancellation remains terminal.
+- Additive27 preserves and composes existing restrictive Storage predicates with narrow guest GET/info scope, and adds an acyclic manager-export metadata policy. Actual pre27 NoSuchKey delivery failures are retained; no speculative transport/header fix was applied. Releases25/26/27 and independent preservation readbacks are separate evidence.
+- Download-disable stops new preparation/download, while valid previously saved PDF videos keep view access. Actual expiry/extension/revocation/rotation checks now demonstrate these distinctions. A download-only edit omits unchanged expiry to preserve seconds/microseconds. An explicit expiry edit uses the user's entered local time.
+- Lifecycle confirmation is in-page with explicit Cancel/Confirm and focus return, preserving rowversion/idempotency/unknown-write fences. Browser transfer checks status, PDF type/signature and size before saving, and shows safe retry errors instead of saving a JSON error body.
+- The n8n mapper auto-publication and lexer-boundary failure are retained; one narrow repair of the existing WF03 passed actual authenticated probes and real exports. No unrelated workflow, credential or hosting choice changed.
+- Browser file:// policy rejection was respected. Owner manually opened the actual downloaded PDF link; its resulting ordinary HTTP page and original video were then verified. No indirect file serving or extracted-grant navigation was used as a workaround.
+- Actual390px guest video/navigation/comment/download is scoped browser evidence. Physical phone-keyboard and manual assistive-technology acceptance remain explicit (AT-054/AT-072); broader M03 labelled semantic evaluation and M07 release/restore/external OAuth remain open. Hosting stays deferred.
+
+
+## 2026-10-30 - Source transcript accessibility follow-up (implementation in progress)
+
+- Source transcripts belong alongside original-video playback as an on-demand accessibility companion, outside the ten-field candidate slide and PDF composition. This reconciles template62 with110; it does not add a presentation module, factual review, caption claim, source editing or an extra approval workflow. Existing generation publishes its selected spoken introduction plus the companion.
+- Future versions must freeze exact original-language source text/known language for the selected original video under version+asset identity. Existing Ready snapshots/PDFs must not acquire current mutable library text through backfill. Guest and PDF-grant reads retain the same current parent/version/asset access checks; internal notes/diagnostics never enter the companion. Implementation/migration/readback and app proof are pending.
+
+
+## 2026-10-30 - Owner mobile-testing override
+
+The owner explicitly instructed: "We can skip the mobile testing." Further mobile/physical-phone keyboard testing is therefore skipped. Retain the actual390px browser layout, keyboard video playback, role navigation, synthetic comment and saved-byte PDF checks as their original scoped evidence; do not convert them into physical-device acceptance. This instruction does not waive AT-072 manual assistive-technology acceptance or change the hosting deferral.
+
+
+## 2026-10-30 - Frozen transcript companion implemented and verified in the app
+
+The design above is now implemented by additive28, one guarded apply0794757f and independent readbackf6675f04. Future generation freezes original text/known language under exact retained version/video identity after the existing transcript-hash guard and selected-source lock. The companion is outside renderer snapshots, ten-field candidate slides and PDFs. Source language arrays are captured atomically; no additional pre-review fingerprint claim is made for them. Old Ready versions are not backfilled.
+
+Existing internal/session/PDF-grant video operations return the optional closed companion after current authority checks; no new routes, MCP tools, runtime privileges, caption claim or Producer approval workflow. The text is escaped, original-language and keyboard-revealed. Actual V5 anonymous/internal identities match159codepoints/271UTF8bytes, and actual post28 V4 remains playable/not_captured. An operational private-export helper now uses the agreed ECMAScript whitespace set, preserving valid C1 instead of Python's broader strip; the original application gate and exact two-file correction remain separate evidence.
+
+C was rotated for a fresh QA browser session without changing recipients, permissions or the exact2026-11-29T01:29:33.666060Z expiry. Earlier C PDFs remain saved but their old-generation viewing grants are invalidated as designed. The new V5 export is Ready; native file save is pending owner response. Four earlier actual saved files and18 independent page inspections are unchanged evidence. No clean-production-console, manual screen-reader or new hosting acceptance is inferred.
+
+
+## 2026-10-30 - Owner-saved V5 PDF acceptance follow-up
+
+The owner confirmed "Saved to Downloads." The actual113628-byte file matches exportd683edb1 hash `f1b17a5decd2d3407b6242d7201154a156f30b1370d9e79d930519a587b5f2eb`. Existing offline tooling validates the frozen V5 content, two exact source-frame bodies and fixed-version annotation; root independently inspected all six pages. This closes the native-save gate, with five byte-verified downloads and24 independently reviewed pages across the first three and fifth exports. The earlier pending-save evidence and fourth byte-only scope remain intact. No new grant navigation/playback or factual confirmation is claimed.
+
+This follow-up changes evidence/documentation only. Preserve278985e source ZIP/checkpoint and its exact scan as the prior frozen package; do not imply these new records are in that archive. M06 remains implemented_unverified for AT-072, phone testing stays waived, M03 broader semantic evaluation stays unverified, and hosting remains deferred.
+
+
+## 2026-10-30 - M07 continuation with retained acceptance gates
+
+The owner explicitly authorized M07 from the handoff while keeping the manual screen-reader and remaining M03 checks pending, mobile skipped and hosting deferred. This permits independent M07 parity/auth/recovery work without falsely marking prerequisite acceptance verified. No hosting provider, public exposure or deployment is selected or started. Reuse the existing central business identity and coordinated history; local restore tests must use isolated owned databases and objects, never reset/seed canonical targets.
+
 
 ---
 
@@ -912,64 +1031,93 @@ Retained source evidence exceeds the former512MiB scanner aggregate limit. Keep 
 
 ## Source 7: tracking/HANDOFF.md
 
-# Everyone Presentation Studio - active handoff
+# Everyone Presentation Studio - M07 in progress
 
-Updated2026-10-29 after M04 app integration and the M03 real-vision app check. Hosting remains deferred. Earlier checkpoint retained at [prior handoff](../tracking/handoffs/2026-10-29-before-m04-app-integration.md.txt).
+Updated 2026-10-30T10:30:27.646281+00:00. M07 starts from02f9287 with explicit authorization to proceed while AT-072 and M03 broader semantic checks remain pending. Mobile testing is skipped; hosting stays deferred. M06/PDF evidence below remains its historical scoped checkpoint.
 
-## Current scope and state
+Planned local slices: API/MCP parity and typed-contract fixes; official SDK/delegated resource-server auth; isolated metadata-plus-media restore and recovery; bounded workload/observability and actual operator/client documentation. External Claude client/deployed smoke cannot be inferred from local tests. [Start evidence](../tracking/evidence/m07/2026-10-30-start.json); [prior handoff](../tracking/handoffs/2026-10-30-before-m07-start.md.txt).
 
-M00 and M02 verified within their scoped matrices; M01 in_progress; M03 implemented_unverified; M04 in_progress. M05-M07 not_started. Do not claim whole M04, production release, an external Claude OAuth client or deployment is complete. Owner authorized the new canonical Supabase system, verified Producer and the two real test projects; do not repeat enrollment, permissions, key provisioning or the requirements interview. Local testing is authorized; hosting choice is deferred.
+## Prior M06 checkpoint - retained
 
-The shared acting-user Casting service is wired through HTTP/MCP and the real Casting step. Selection derives all active assignments; Shortlist stays explicit and independent from Main. Main replacement/Undo, independent same-person roles/notes, full-order keyboard and native pointer paths, safe retirement preview and exact unknown-outcome retry are implemented. Review/series/fit/optional wording are still the next vertical slice.
+# Everyone Presentation Studio - M06 delivery checkpoint
 
-## Completed database and orchestration changes - do not repeat
+Updated 2026-10-30T10:09:04.368918+00:00. M06 is **implemented_unverified** for manual assistive-technology acceptance (AT-072). The owner-saved V5 PDF now passes canonical byte/hash, offline content/source-image validation and independent six-page visual review. Further manual phone testing remains waived. M03 broader independently labelled English/mixed semantic evaluation remains unverified; its owner-grounded Reviewed result is preserved. M07 is not started. Hosting remains deferred.
 
-- Canonical target pyibofyctwnqpvktepse and owned local history both21. Migration20 `20261029174841_m04_casting_assignments_lifecycle.sql`, SHA2825681bf529f1b32db2473749180901f0961b025e8da847b38ad49c06f4b900, was locally proved/promoted then applied once; [independent canonical readback](../tracking/evidence/cloud-m04-casting/2026-10-29T18-06-32-278912Z-2e383297-readback.json). New FORCE-RLS assignment/lifecycle tables were empty at release and intentionally populated later by app tests. Use app observations for later state, not the original release comparator.
-- Migration21 `20261029180953_m03_frame_vision_selection.sql`, SHAbcd12794eccfa590e5d160f62dfd67838c8186376cddda1952f291c50d03bec8, changes exactly three bodies plus the candidate-media issue CHECK. [Canonical readback](../tracking/evidence/cloud-m03-frame-vision/2026-10-29T18-59-19-587474Z-975447af-readback.json) verifies old rows/facts/media/pins, Auth/catalog, runtime11 and configuration preserved. Current reviewed manifest SHA1ecec87384926fea82b433d3ddfde386f64d09c17a946ac2aa6fd51b4831dedc. Frozen19/20 manifests, failed CRLF/comparator tests and one-shot claims remain retained. Local runtime field was null and preserved; only actual canonical readbacks prove hosted runtime11.
-- Existing WF02 gfhxzvSkprS2CI4o now activeVersionb65979f6-de1e-4d09-8b58-308784e5d9dc. Only select_frames changed native.select_frames→openai.select_frames. [Single update/readbacks](../tracking/evidence/m03/n8n-wf02/2026-10-29T19-02-34-090Z-a89638cf-update.json); [7authenticated routing/error probes](../tracking/evidence/m03/n8n-wf02/2026-10-29T19-03-00-056Z-7b250f70-probe.json). WF01/credentials/settings/other routes unchanged; no repeat update. Connector still returned-32603, so the already authorized fixed API helper was used. Routing probes alone are not provider/SQL credit.
-- Native image remains sha256:ea6e27d158a843fee524d7f43f2f88a4ede8bc58e8ac32578b7dec5c1594ba6b. No rebuild or key/ACL expansion.
+## Last recorded app and runtime
 
-## Actual signed-in M04 app evidence
+The following browser/session/process details were observed during the278985e delivery. This offline PDF follow-up did not revalidate live sessions or process state; verify them freshly before a browser or runtime action.
 
-[Journey](../tracking/evidence/m04/live-app/2026-10-29-casting-journey.json) and [final canonical observer](../tracking/evidence/m04/app-capture/2026-10-29T19-16-43-336622Z-5e14943e.json) prove the verified Producer used Dummy Test project4b70c8ce-18bd-4a8c-b5a9-bc1156c06463/workspace098d5b48-42a3-475b-b562-735c9eafce80:
+The actual central app is http://127.0.0.1:3000. Existing Producer sign-in is preserved; do not repeat enrollment or create another identity. The normal original Studio tab is1091386681; fresh sharing tab1091386714. The owner-established anonymous incognito review tab is1091386688. After a browser bridge reset, the available Chrome Person1 connection was renumbered from2 to1; current CUA handles are in the active session, not a permanent browser identity. The original business tab stayed signed in; a newly created anonymous tab did not prove logout. No cookies or hidden browser state were extracted.
 
-- Same existing synthetic manual profileb7341092 in Father Main/outsideShortlist and Manager Option/inShortlist, with independent synthetic presentation/internal notes. Main replacement with a second clearly synthetic manual profile and inverse Undo each persisted. Exactly one Main survived; position did not silently reorder.
-- Keyboard order persisted across reload; output toggle persisted. Final Selection2active entries/3Pending, Shortlist1entry/4Pending. Native drag/drop is covered by separate controlled browser fixtures, not a claimed real canonical pointer journey.
-- Second synthetic profile6a15cdc3 was removed from the project after affected-choice preview; its library record is retained. Final3assignment rows=2active+1archived,1Main,1Shortlist. Role-archive/slot-reduction previews have controlled evidence; no actual canonical role-retirement credit is inferred.
-- All invariant/preservation flags true after the later vision job: old two profiles' facts/project pins/availability and protectedM02 unchanged. Source hashes bind final UI; earlier Main/notes preceded final sequential-read and later sticky-retry edits. [Final5controlled cases](../tracking/evidence/m04/controlled-browser/2026-10-29T19-13-26-035Z-five-sticky-uncertainty.json) separately prove current corrected source and503→403→sameACK/oneeffect.
+| Owned process | PID | Parent |
+| --- | --- | --- |
+| Worker launcher | 52092 | Recorded in protected launch metadata |
+| Worker | 58540 | 52092 |
+| Web launcher | 28980 | Recorded in protected launch metadata |
+| Next CLI | 27208 | 28980 |
+| Web/listener | 52636 | 27208 |
 
-ProtectedM02 jobb3f90268-147d-41d4-8875-2a6435df1496 intentionally remains waiting_for_input/INPUT_CHANGED, specs73a1a500-acfe-48cc-91ba-53a83b895118 with original synthetic manual note. Never retry/clear it just for green acceptance.
+[Owned runtime proof](../tracking/evidence/m06/runtime28-transition/2026-10-30-owned-processes-ready.json) verifies exact known commands/creation/parents, all23 unchanged startup sources, authenticated12-operation gateway and the old5PIDs absent. Specs-file and guest-export flags were explicitly true at launch; current process environment was not directly read. Logs and launch metadata are protected under `.local/m06-runtime28/`. Do not start a duplicate worker or stop a PID without fresh ownership verification. An initial all-child count check refused because Windows also created conhost children; no mutation occurred before recognizing those separate console hosts.
 
-## Actual M03 vision proof and remaining limits
+## Completed canonical changes - do not repeat
 
-Old native selection used sharpness/exposure/dHash; an actual old3440ms pick had closed eyes. That gap is now fixed by real OpenAI review of up to12byte/hash/lease-verified source JPEGs, with fixed origin/storefalse/no tools, strict allowed asset IDs and technical reason enums. No demographic/suitability fact inference; transient retry then explicit manual warning/no automatic picks on failure. Existing historical cached exact payload replay remains supported; fresh legacy4-key downgrade rejected.
+Target `pyibofyctwnqpvktepse`; local/canonical history **28**. All four M06 migrations applied once. Never reset/seed the cloud. Supabase CLI queries must be sequential; temporary-login resets previously collided during parallel calls.
 
-[Fresh real app job](../tracking/evidence/m03/frame-vision-app/2026-10-29T19-12-45-337511Z-5acae3bc.json)9a5ddb61-6a9a-4157-b6be-8653cf2eadef in Dummy Reuse Test workspacee470aefd-e0f7-480c-bf0d-170cb2cb7069 completed all5stages with actual n8n/OpenAI and12JPEGs. Source is permitted IMG_2850.MP4,4,316,429bytes/SHAffe461d30d48b32d90f1165627e2d104b6817f61d96a5a4bd9dcd6ff1964fc0a. No target_candidate_id, newprofile25a3c924-7b6c-48e3-88ce-c72e72b99c6d; no automatic identity merge or old profile edit. Vision methodopenai_vision,853x480 picks1720/5160/18920ms,8,638visual-stage tokens, n8n finalexecution31423. All original9profiles/fact hashes/selectedIDs/108frame hashes unchanged. Observer validates canonical/persisted worker source hashes and Storage metadata, not an independent S3 download or full billing audit.
+| Migration | Actual apply | Independent successful readback |
+| --- | --- | --- |
+| 25 guest review/feedback/exports | a9218c10 | 48f6139e |
+| 26 credential admission/guest retry | 4586599d | 83c5768f |
+| 27 composed private Storage policy | b9d43e22 | 0347010f |
+| 28 frozen source transcript companion | [0794757f](../tracking/evidence/cloud-m06-transcript28/2026-10-30T03-13-38-702487Z-0794757f-apply.json) | [f6675f04](../tracking/evidence/cloud-m06-transcript28/2026-10-30T03-14-18-265089Z-f6675f04-readback.json) |
 
-[Independent technical review](../tracking/evidence/m03/frame-vision-technical-review/2026-10-29T19-17-46-554410Z-fe4c5c01.json) verifies first actual JPEG SHA6155a6f9…/19,863bytes/853x480: eyesopen, no obvious blur, head contained. Actual rendered grid shows closer frontal/wider frontal/profile diversity. Remaining two original downloads timed out; only thumbnail diversity was reviewed, so full-resolution eye/clarity acceptance stays unknown. pageAssets returned a stale inventory; it was not used to claim download success.
+Migration28 `20261030030717_m06_frozen_video_source_transcripts.sql` has SHA `6334ea62a49966963e675c61e6a73d2acb5981d35f261cf2dff519d097905178`. Its helper is `tools/release_m06_transcript28.py`, SHA `d9c7c592b02fc7977a5879c024e0a5c4964939e0595eb5bc815556938f8abf6a`;34 inputs are sealed by `development/m06/transcript28-review-release.json`, SHA `3d42b3338ab5529e03dd1a9a01fcc7eee40efa1710dbe8daea4a362a754f937f`. Local real-role RED/GREEN, exact157 catalogue additions/three existing function ports, preservation and promotion passed. Old data/Auth/defaults/Storage/key metadata/config/runtime12 are preserved. The runtime was quiesced after real active-jobs0/leased-outbox0 proof before the one cloud push, then restarted.
 
-Profile stays Unreviewed. Independent spoken-fact answer key, error/correction rates and confirmed English-only/mixed-speech quality are missing. Arabic/Latin transcript script is not evidence of mixed spoken language. Do not manufacture those passes or mark real facts Reviewed to close a milestone. Supporting PDF visibly renders, and explicit Download links exist, but PDF/DOCX byte-download roundtrip is still unverified. See [M03 matrix](../tracking/evidence/m03/ACCEPTANCE_MATRIX.md) and [M04 matrix](../tracking/evidence/m04/ACCEPTANCE_MATRIX.md).
+Do not repeat completed guest key bootstrap, guest enable, Producer capability completion or WF03 repair. Private guest keys remain in protected `.env.guest-runtime.local`; no raw values/digests belong in tracking. Existing WF03 `kE4qSEcugaKhIoJU`, active version `eba0dccc-913b-4e26-a445-7b325fc886dd`, retains its credential. Actual auto-publication/lexer failures and one narrow repair are historical evidence. Old25/26/27 release/observer helpers intentionally reject later histories; do not reseal them.
 
-## Current local runtime and checks
+## Actual M06 evidence
 
-- Web launcher12248→CLI47116→Next13952 was serving canonical development at127.0.0.1:3000; source is watched. Verify ownership/current UI again before any later serving claim. Connected signed-in Chrome Studio Casting tab is marked deliverable. Extension-injected development issue remains observed; no clean-console claim. Isolated build `.next-e2e` is not the served production build.
-- Old worker20016/50620 was verified idle and stopped. First new launcher600 failed before gateway work because root omitted the documented file-enable startup flag; [failure retained](../tracking/evidence/m03/frame-vision-runtime/first-start-failed.json). Corrected launcher4120/runtime33124 [started successfully](../tracking/evidence/m03/frame-vision-runtime/new-worker-owned.json), narrow database login/n8n required, no TCP listener, unchanged native image. Private owner/logs under `.local/specs-runtime/worker-frame-vision-v2.*`. Before any later restart verify exact ownership and idle leases. Launch with `$env:EPS_SPECS_FILES_ENABLED='true'` then `node tools/start-specs-worker.mjs`; the parent flag is required to load the fixed public Storage projection. Do not relaunch while existing owned worker is alive.
-- [Final current app gate](../tracking/evidence/m03/remaining-current-quality/2026-10-29T19-15-04-160Z-c9cb8866.json):505/505tests, lint and isolated production build,451source hashes stable,0skips/cancelled/todo. [Final operations](../tracking/evidence/m03/final-offline-checks/2026-10-29T19-14-15-459555Z-07066d14.json):120Node+232Python, stable source, no actual cloud/provider/native calls. Controlled board5, retirement/specs7, pure retirement8 and earlier SQL/Main races have distinct overlapping scopes; do not sum them into a unique test count.53local skills pass static integrity. Strict pack validation follows final docs.
-- Independent review found and resolved sticky-uncertaintyP2; meaningful RED and earlier selector failures remain private and safely hash-referenced. An unknown write is not cleared by later403/409. Retry preserves identical key/body and recovers cached ACK/Undo.
+[Acceptance matrix](../tracking/evidence/m06/ACCEPTANCE_MATRIX.md) and [narrative](../development/m06/ACCEPTANCE.md) distinguish local SQL, controlled transport/browser, native synthetic, canonical metadata and actual app/file scopes.
 
-## Next exact development action
+- Real view-before-name, remembered labels, same-name separate ownership, shared comments/replies/preferences and private internal notes; repeated-candidate slot preferences stay separate from casting. V1 feedback/draft stays on V1 when V2 is offered. Actual keyboard navigation and390px browser checks are retained; no physical-phone pass is claimed.
+- A V1, B V2 and C V2 guest files were downloaded and all18pages independently inspected, including two actual source JPEG body identities. Fourth C V4 download matches canonical bytes/hash; no independent fourth visual inspection is claimed. [Combined18page proof](../tracking/evidence/m06/live-artifacts/2026-10-30T02-08-52.589Z.json), [fourth saved-byte proof](../tracking/evidence/m06/live-artifacts/2026-10-30-v4-mobile-download.json).
+- [Actual original PDF video](../tracking/evidence/m06/live-app/2026-10-30-original-pdf-video.json): owner manually opened the real downloaded V1 PDF link after browser file-protocol policy blocked the agent. The agent did not tunnel/serve/navigate an extracted raw grant. Resulting ordinary HTTP playback reached9.069s with no error while V3 had no selected media. Full-duration completion is not claimed. The same anonymous context had no business API access.
+- [Live lifecycle](../tracking/evidence/m06/live-app/2026-10-30-final-lifecycle-mobile.json): downloadsOff preserves the saved PDF video; expiry denies it; explicit extension restores its non-revoked grant; revocation denies it. B's active session and old raw URL fail after rotation; replacement works, then fails after revocation. Actual cached PDF GET returns DOWNLOAD_DISABLED while viewing continues. C initially remains unaffected.
+- Final C rotation to generation2 refreshes QA browser access without extending its exact `2026-11-29T01:29:33.666060Z` expiry. A/B remain revoked. C stays active/downloads enabled, same series/output/audience. Earlier C PDFs remain saved but old-generation video grants are now invalidated as designed.
+- [Actual V5 transcript journey](../tracking/evidence/m06/live-app/2026-10-30-v5-transcript-app.json): one Producer Generate produces Ready version `6e379406-6b87-4dbb-a6fb-8078eb1ce5ac`. Anonymous and signed-in video readers show the same159codepoints/271UTF8bytes, SHA `abd4f0589cc1434cbc23521c295b6d8413587b9d01f4cd13f0182bf8eabff5e8`, matching the independently exported frozen companion. The original source is escaped, keyboard-revealed and marked ar; no factual/caption review is inferred. Actual post28 V4 still plays and reports not_captured. No old-version backfill or live-library fallback.
+- V5 refreshed-link export `d683edb1-91fa-4a80-b022-8ce499506e78` is now an actual saved Downloads PDF. [Saved-file and independent visual proof](../tracking/evidence/m06/live-artifacts/2026-10-30-v5-independent-visual-review.json) matches113628bytes/SHA `f1b17a5decd2d3407b6242d7201154a156f30b1370d9e79d930519a587b5f2eb` to immutable e659 export metadata. [Offline inspector](../tracking/evidence/m06/live-artifacts/2026-10-30T10-05-40.085Z.json) validates6pages/126text regions/2actual image bodies/1fixed-version annotation/3fonts; root independently viewed every page. Five files are now byte-verified and24pages across four exports are visually reviewed; V4 remains byte-only. Protected copies/pages/prior-intent archive stay under `.local/m06-live/`. No new grant URL navigation or video playback is inferred.
 
-1. Read M04 packet/companions and current code, then implement the minimal presentation-series create/reuse/read/list with audience/template identity. `get_workspace_review` must take that exact series_id so fingerprint matches future M05 generation. Do not route an unwired placeholder as complete review.
-2. Build deterministic ten-field assignment/Pending review projection/list/drawer with actual selected media, requirements, full reusable facts versus assignment wording, availability/notes, stale/review warnings and actionable overflow/fit. Missing content is allowed; never silently clip/fabricate. Keep current permissions, row versions, idempotency and API/MCP parity.
-3. Add grounded optional WF05 wording preview/apply and typed revision-fenced retirement Undo, preserving full library facts/history. Complete the M04 acceptance demonstration before M05 rendering/versioning. Continue attainable M03 independent quality/download checks without claiming unavailable ground truth.
+Current canonical metadata: [e6594989](../tracking/evidence/m06/app-capture28/2026-10-30T03-41-59-550514Z-e6594989.json). Five external versions are Ready. V1/V4 retain original introduction plus only3.12s/12.48s project frames; V2/V3 intentionally omit media. Old M05 internal versions remain unchanged. Working project selection was reloaded and confirmed, including14.04s unchecked; library facts/defaults/availability/Main/Reviewed were not changed.
 
-## Source/archive checkpoint
+## Current code and quality
 
-All real transcript/fact/image payloads, browser AX and runtime credentials remain ignored/private. Tracked receipts use IDs/hashes/technical counts only. Prior4083eba archive/checkpoint verified and copied to ignored `.local/source-checkpoints/4083eba-before-M04-integration/` before replacement. Historical source/evidence retained. Final exact source/index/ZIP private-value scan, commit/tree/archive identity and final status are recorded only after packaging in ignored [dist/SOURCE_CHECKPOINT.json](../dist/SOURCE_CHECKPOINT.json), avoiding circular tracked receipts. The fixed scan is not an identity, semantic-content or all-history audit. Source ZIP is a development snapshot, not a deployment.
+- `ReviewLinksPanel` uses accessible in-page lifecycle confirmation, keeps rowversion/idempotency/unknown-write fences and preserves exact unchanged expiry. Arithmetic local-time formatting fixes the independently reproduced Cairo DST error. [DST proof](../tracking/evidence/m06/controlled-browser/2026-10-30-expiry-dst-green.json).
+- `SourceTranscript` is outside candidate article/ten fields/PDF and appears beside an opened video. Existing internal/session/PDF-grant operations carry a closed optional companion only after exact current access checks. No new routes/tools/runtime privileges, source editing or approval workflow. Existing generation fingerprint already protects source text; known language arrays are captured atomically, without an added pre-review fingerprint claim.
+- Guarded PDF transfer checks status/type/length/signature before saving a Blob and shows safe retry errors. Actual429 controlled UI preserves drafts and retries the same intent; source/logger projections exclude private payloads/credentials.
+- [Current composed quality](../tracking/evidence/m06/quality/2026-10-30T03-57-34-127660Z-87226dbf-validator-operational-overlay.json):83E2E/693modules, normal build, typecheck/lint and production fixture denial pass. The base96ae and prior8e seals are retained. Four cumulative operational-file changes cover the private-export Unicode whitespace correction and optional-BOM JSON validation, each with meaningful RED/GREEN; fresh full146Node/538Python/12n8n/12TypeScript supplement checks pass. All1380 functional hashes and34 release seals are reconciled; app/runtime/schema/SQL bytes remain exact to the base gate. Counts overlap across receipts; do not sum them into a unique total. Sources are frozen.
+- Final strict pack validation passes357 checks/zero errors after current docs/context regeneration; it remains a static contract check. The final normal-viewport sharing screenshot is `.local/m06-live/screenshots/2026-10-30-sharing-v5-full.jpg`, SHA `77a61dd3a09f1c771c9d530532433d545d6dec165e8e8765a72ed963e55c70aa`; raw review URLs are hidden. A development hydration warning remains recorded; no clean production-console claim.
+- [Static skills integrity](../tracking/evidence/m06/skills/2026-10-30T03-15-16-766806Z-static-integrity-receipt.json):53 skills/550 source and installed files, zero errors/warnings; prior report preserved. This is not runtime or hosted acceptance.
+- Source-contract/runtime/browser failures, failed/rolled-back fixtures, original VM timeout, early NoSuchKey, staged exporter stale-seal refusal and the old tests remain preserved. Historical805e/f19 gates predate later changes. Existing19 historical27 boundary tests pass unchanged on current28; no artificial fixture adaptation or RED is claimed.
 
-Concurrent unrelated `Screenshots/` catalogue capture was discovered during packaging. Root reverted only its accidental staging; files/processes are untouched. [Boundary receipt](../tracking/evidence/m04/concurrent-screenshot-boundary.json) records the temporary local Git exclusion used for this task archive; restore the original `.git/info/exclude` after scan/commit, leaving unrelated files visible and untracked. The first mixed unscanned archive is retained privately and is not the final source artifact.
+## Safe observer and private artifact commands
 
-Final Git whitespace check reports only two extra-blank-at-EOF warnings in the already applied/sealed migration20 and sealed frame-vision dispatch regression file. Their exact tested/applied bytes are retained. All other staged paths pass `git diff --cached --check`; these warnings are not claimed as a clean global whitespace gate.
+Run only sequentially, with the project's isolated interpreter:
+
+```
+.venv-skills/Scripts/python.exe -X utf8 tools/capture-m06-app28.py
+.venv-skills/Scripts/python.exe -X utf8 tools/export-m06-private-snapshot28.py <fresh28receipt> <readyVersionUUID>
+.venv-skills/Scripts/python.exe -X utf8 tools/export-m06-private-transcripts28.py <fresh28receipt> <readyVersionUUID>
+```
+
+A private exporter requires a current source-bound observer receipt. The older913c source export was correctly refused after the two-file helper change; fresh e659 succeeded. Protected snapshots, source text, PDFs/images, raw diagnostics and screenshots remain under `.local/m06-live/` or user Downloads, outside Git/ZIP. V5 private snapshot SHA `f5a8417530342f21c7fcf5eae82cc5f4a52f034316d324af5a38ef2b977429bb`; private companion file SHA `6a6e37c710baae80b2ae20e3ff0b535f3ed842bfa38ff77d23b72e739f08fe63`.
+
+## Outstanding and delivery verification
+
+1. V5 native save is verified; no repeat download or generation is needed. Prior pending-save receipts remain historical. The prior handoff is preserved [byte-for-byte](../tracking/handoffs/2026-10-30-before-m06-v5-download-acceptance.md.txt).
+2. AT-072 manual assistive-technology acceptance remains unverified. Owner received Windows Narrator instructions; further manual phone testing was explicitly waived. Do not infer a screen-reader pass from DOM/keyboard/automated tests.
+3. The source ZIP and ignored `dist/SOURCE_CHECKPOINT.json` remain the frozen278985e package, SHA `a1f8db6eeff770600b2f5758426cb0585aa3745d82210be2b336a001d3e6b385`, with its actual zero-hit source/index/ZIP scan. This later PDF acceptance evidence/documentation is outside that archive. App/runtime/schema/SQL and the8722application quality sources are unchanged. Final follow-up commit/evidence identity belongs in ignored `dist/M06_PDF_SAVE_CHECKPOINT.json`; no regenerated ZIP or new full credential scan is claimed. Neither record is production acceptance.
+4. Preserve unrelated `Screenshots/`102 and `redesign-output/`58 files and processes. Temporarily exclude only those roots for owned packaging/staging, restore original `.git/info/exclude` bytes exactly afterwards. M05 ZIP/checkpoint were already preserved under `.local/source-checkpoints/fa7233e-before-M06/`. Base HEAD is `fa7233ee95dd03ed2c8221a1d04bc9b5bca822fe`.
+
+Protected M02 job `b3f90268-147d-41d4-8875-2a6435df1496` stays waiting_for_input/INPUT_CHANGED with its manual note. Do not clear or retry it. M03's broader labelled semantic evaluation, external Claude OAuth, metadata-plus-media restore, endurance, clean production console and production deployment remain unverified. Hosting stays deferred.
 
 
 ---
@@ -1408,6 +1556,12 @@ Exchange the URL token for a short-lived secure session where feasible. Redact p
 
 View works before identity entry. Before the first comment or preference, collect a display name and optional company. Remember the name for convenience. The session's opaque identity, not that name, determines whose feedback can be edited. All valid guest sessions for the same series see all external feedback. Internal comments/notes must be filtered at the query/projection level, not merely hidden in CSS.
 
+M06's canonical guest gateway accepts credential digests only together with an independent backend HMAC over the exact operation, canonical input, issued-at millisecond timestamp and single-use nonce. A database token digest by itself is therefore insufficient to authorize a request. The proof key is distinct from the AES-GCM creation-replay key; neither reaches browser, MCP, worker job payloads or public receipts. Proofs allow at most30 seconds of future skew and60 seconds of age; nonce replay is rejected. The narrow public wrapper grants no anonymous table access and delegates to private constrained functions.
+
+Browser exchange uses scoped HttpOnly SameSite=Strict cookies and returns no raw session value. A public guest-session context selects the matching cookie, preventing another link tab from silently changing the first tab's author. Browser writes validate the exact configured Host and Origin. Explicit API credential headers may omit Origin; supplied foreign Origin is denied. The app applies bounded global/credential request windows and returns Retry-After on429; database controls remain independent.
+
+Each guest byte request mints a transient60-second asset capability, retains only its digest, and sends the raw capability only to private Storage in a dedicated header. Storage policy repeats session/grant, parent link, generation, expiry, fixed-version and asset membership checks for every request. The application proxies a single validated byte range; it never exposes the Storage capability or signed URL. Previously delivered bytes remain outside revocation's reach.
+
 The viewer requests an exact version ID when sending feedback. The server verifies that the viewed version belongs to the link's series, is Ready, and contains the target slide. A newest-version change during an open review does not reattach the guest's comment to a different version. Show an update banner and let the reviewer open the new version.
 
 ## 5. Media and PDF access
@@ -1639,9 +1793,11 @@ Validate source snapshot hash, template version, expected page count, actual out
 
 ### `create_review_link`, `update_review_link`, `revoke_review_link`
 
-Requires `review_links.manage` for the project/series. Create only for a permitted external series with a Ready version. Generate the token server-side; default expiry is now plus 30 days; PDF downloads default enabled. Rotation increments link token generation, invalidates old-generation guest sessions, revokes old PDF grants and advances export revision; it does not change the presentation content. Updates may change expiry/download permission, but cannot silently repoint the link into another output/audience series. Expiry updates propagate to all non-revoked child media grants in the same transaction; do not revive revoked grants. Revocation records a timestamp and stops new scoped authorizations. Download-disable alone leaves valid viewing/media access intact.
+Requires `review_links.manage` for the project/series. Create only for a permitted external series. As required by M06, a valid link may precede its first Ready version; the guest then sees Preparing and current-version data is null. Generate the token server-side; default expiry is now plus 30 days; PDF downloads default enabled. Rotation increments link token generation, invalidates old-generation guest sessions, revokes old PDF grants and advances export revision; it does not change the presentation content. Updates may change expiry/download permission, but cannot silently repoint the link into another output/audience series. Expiry updates propagate to all non-revoked child media grants in the same transaction; do not revive revoked grants. Revocation records a timestamp and stops new scoped authorizations. Download-disable alone leaves valid viewing/media access intact.
 
 Idempotent token creation must survive a lost response. Default implementation: encrypt the one-time token-bearing idempotent response using a server-held key with a short configured replay TTL (24 hours initially); store ciphertext, never a plaintext token. The permanent link record stores only its token digest. After the replay window, an explicit authorized rotation/reissue produces a new token rather than pretending the original can be recovered from a hash.
+
+M06's optional Idempotency-Key on link/comment PATCH and guest identification preserves the same acknowledgement after an uncertain response. Current authorization is checked before cached replay; identical key with different semantic input is rejected. Without that optional header, ordinary row-version semantics remain. Replay encryption uses AES-256-GCM with a random96-bit nonce,128-bit tag and authenticated actor/operation/subject/idempotency context; gateway HMAC uses a distinct32-byte key. These APIs are supported by the pinned [Node24.18 crypto documentation](https://nodejs.org/download/release/v24.18.0/docs/api/crypto.html).
 
 ### `prepare_pdf_export`, guest export operations, and `mint_review_media_grant`
 
@@ -1849,6 +2005,16 @@ Parent expiry, revocation or token rotation denies grant playback. Rotation revo
 
 Short-lived media URLs have a bounded lifetime; revoking the review link prevents new issuance but cannot retract already downloaded bytes. If immediate denial of every subsequent byte request is required, use an authenticated proxy/range endpoint that rechecks the live grant instead of issuing reusable direct URLs. Document the chosen bound in the deployment runbook.
 
+### M06 browser and media companions
+
+The standard guest API retains X-Review-Token for initial exchange and X-Review-Session thereafter. A same-origin browser opts into `X-EPS-Review-Browser: 1` at exchange: its response is closed `GuestBrowserAccess`, without a raw access token, and an HttpOnly SameSite=Strict cookie is stored under its public guest_session_id. `X-Review-Context` selects that cookie on later requests; different link tabs keep independent identities. After the initial URL is removed, `GET /review/session` restores only safe session metadata. Names/company may be remembered as labels; raw review/session/grant credentials must not enter localStorage or sessionStorage.
+
+The guest's fixed version includes its frozen cover and template identity, with no private render context or mutable library lookup. Current-version `data:null` means Preparing before the first Ready version; the link stays scoped to its original external series/output/audience. Optional Idempotency-Key on link/comment PATCH and guest identification supports exact acknowledgement recovery under current authority.
+
+Native image/video/download GET requests may select their cookie using the public `review_context` query value. This query is permitted only on binary companions and never contains a credential. Those routes proxy private bytes with single-range support and revalidate the current parent access for each request, including Storage capability checks. No signed Storage URL is issued externally. A full stream checks its saved checksum; a partial stream verifies the exact range, type and length against the immutable saved asset. Already delivered bytes cannot be recalled.
+
+PDF grant landing exchanges its initial X-Media-Grant under the browser adapter, stores an HttpOnly cookie restricted to the fixed version/asset route, and returns a local content URL containing no raw grant. The initial `/m/:grantToken/...` URL can then be replaced with a public version/asset resume URL. Cookie expiry follows the parent viewing expiry; a transient Storage capability lasts60 seconds and is never a replacement for parent authorization.
+
 ## 7. Async jobs and operations UI
 
 Jobs are durable records in Supabase, not browser promises or n8n execution-screen state. `JobAccepted` returns a job ID, resource ID where available, and poll URL. Poll with backoff or subscribe to authorized status updates; reconnect after navigation. Batch grouping is metadata; every file has independent progress/failure. The planning target of 200 files does not mean 200 simultaneous provider requests.
@@ -1976,6 +2142,14 @@ API `Job.kind` maps to `jobs.job_type`. `attempt` is the displayed monotonic att
 
 Every stage result is checked against job kind, stage, current attempt, input hash and allowlisted result schema before application. Event replay does not duplicate output/business rows. Terminal cancellation invalidates application by any late callback. `row_version` and input fingerprint guards preserve manual corrections while worker assets remain inspectable for ordinary editing.
 
+## M06 implemented API boundaries
+
+Internal review-link and feedback operations reuse the verified acting-user client and private project/capability checks. `eps_list_review_links(p_options)` accepts the published workspace filter and cursor. Create/rotate accept only a digest and authenticated encrypted creation-response replay; return ciphertext to the server, which decrypts under an actor/operation/subject/idempotency-bound context. Mutable updates may carry the optional stable idempotency key for lost-acknowledgement recovery.
+
+Guest operations enter only `eps_guest_operation(p_operation,p_input,p_proof)`. The server hashes raw random credentials and signs the exact closed operation input using the independent backend HMAC key. The private gateway validates proof age/nonce and live parent scope before access; the anonymous role receives no business-table grants. `session` returns safe metadata for browser resume. External version projection adds frozen cover/template identity without internal render context or live facts. Comments/preferences retain the immutable version-slide and opaque author session; external feedback is shared by series across links, while internal visibility is denied by both query and DTO projection.
+
+Private `get_asset`, `get_export_asset` and `grant_asset` return only a server-consumed exact asset destination and transient Storage capability. The HTTP layer returns private local range-capable content routes, with no capability or Storage URL in public responses. `parent_expires_at` determines browser grant-cookie expiry; the separate capability expiry is at most60 seconds. Export PDF media always references the original immutable version.
+
 
 ---
 
@@ -2092,6 +2266,17 @@ Generated from the handoff contract. `openapi.yaml` owns schemas and paths; the 
 | `fail_job_stage` | `POST /internal/jobs/fail` | service.job-scoped (service-only) | No |
 | `list_candidate_support` | `GET /candidates/{candidate_id}/supporting-files` | cast.read | Yes |
 | `archive_candidate_support` | `POST /candidate-support/{candidate_support_id}/archive` | cast.write | Yes |
+| `request_workspace_review_fit` | `POST /workspaces/{workspace_id}/review/fit` | workspaces.write | Yes |
+| `get_casting_retirement` | `GET /workspaces/{workspace_id}/retirements/{resource_id}` | workspaces.write | Yes |
+| `undo_casting_retirement` | `POST /workspaces/{workspace_id}/retirements/{event_id}/undo` | workspaces.write | Yes |
+| `play_version_media` | `POST /versions/{version_id}/media/{asset_id}/playback` | workspaces.read | Yes |
+| `get_version_media_content` | `GET /versions/{version_id}/media/{asset_id}/content` | workspaces.read | No; binary companion to playback/download |
+| `get_version_pdf_content` | `GET /versions/{version_id}/pdf/content` | workspaces.read | No; binary companion to playback/download |
+| `guest_get_session` | `GET /review/session` | guest | No; browser resume after initial token removal |
+| `get_pdf_export_content` | `GET /pdf-exports/{export_id}/content` | review_links.manage | No; binary companion to export download |
+| `guest_get_pdf_export_content` | `GET /review/pdf-exports/{export_id}/content` | guest | No; binary companion to guest export download |
+| `guest_get_media_content` | `GET /review/versions/{version_id}/media/{asset_id}/content` | guest | No; request-authorized frame/logo/original byte proxy |
+| `get_review_media_content` | `GET /review-media/versions/{version_id}/media/{asset_id}/content` | media-grant | No; fixed-version PDF original byte proxy |
 
 
 ---

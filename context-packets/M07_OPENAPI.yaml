@@ -2144,6 +2144,7 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/IdempotencyKey'
       requestBody:
         required: true
         content:
@@ -2435,6 +2436,10 @@ paths:
           minimum: 1
           maximum: 100
           default: 25
+      description: Returns a stable ID-ordered cursor page. The cursor is bound to the acting user, candidate and
+        operation. Every page rechecks current access. This is a live keyset listing, not a frozen snapshot; refresh
+        from the first page to include later inserts before the cursor. The existing authorized database array RPC
+        is paged by the central adapter; database-side bounded reads are not claimed.
   /candidate-media/{candidate_media_id}/frames:
     put:
       operationId: update_candidate_frames
@@ -2520,6 +2525,7 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/IdempotencyKey'
       requestBody:
         required: true
         content:
@@ -2719,6 +2725,10 @@ paths:
           minimum: 1
           maximum: 100
           default: 25
+      description: Returns a stable ID-ordered cursor page. The cursor is bound to the acting user, candidate and
+        operation. Every page rechecks current access. This is a live keyset listing, not a frozen snapshot; refresh
+        from the first page to include later inserts before the cursor. The existing authorized database array RPC
+        is paged by the central adapter; database-side bounded reads are not claimed.
   /candidates/{candidate_id}/duplicates/resolve:
     post:
       operationId: resolve_duplicate
@@ -3610,6 +3620,7 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/IdempotencyKey'
       requestBody:
         required: true
         content:
@@ -5364,6 +5375,7 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/IdempotencyKey'
       requestBody:
         required: true
         content:
@@ -5918,6 +5930,9 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ReviewLinkCreate'
+      description: External-audience series only. A link may be created before Ready output; its guest viewer then
+        shows Preparing. Default expiry is exactly30 days and is not renewed by generation. Raw bearer returned
+        only on create/rotation; encrypted exact creation replay retained24h and cleaned on later token operations.
   /review-links/{review_link_id}:
     patch:
       operationId: update_review_link
@@ -6003,6 +6018,7 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/OptionalIdempotencyKey'
       requestBody:
         required: true
         content:
@@ -6466,6 +6482,7 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/OptionalIdempotencyKey'
       requestBody:
         required: true
         content:
@@ -7095,7 +7112,8 @@ paths:
       x-shared-service-operation: update_settings
       security:
       - InternalBearer: []
-      parameters: []
+      parameters:
+      - $ref: '#/components/parameters/IdempotencyKey'
       requestBody:
         required: true
         content:
@@ -7380,7 +7398,9 @@ paths:
                   request_id:
                     type: string
                   data:
-                    $ref: '#/components/schemas/GuestAccess'
+                    anyOf:
+                    - $ref: '#/components/schemas/GuestAccess'
+                    - $ref: '#/components/schemas/GuestBrowserAccess'
                   warnings:
                     type: array
                     items:
@@ -7441,7 +7461,19 @@ paths:
       x-shared-service-operation: guest_open_review
       security:
       - ReviewToken: []
-      parameters: []
+      parameters:
+      - name: X-EPS-Review-Browser
+        in: header
+        required: false
+        schema:
+          type: string
+          enum:
+          - '1'
+        description: Same-origin browser cookie adapter; response omits raw session secret.
+      x-browser-cookie-adapter: eps_review_<guest_session_id without dashes>; HttpOnly; SameSite=Strict; Path=/api/v1/review;
+        Secure on HTTPS; expires no later than session/link
+      x-browser-csrf: Exact trusted Host and Origin required for cookie/browser writes. Explicit header credentials
+        may omit Origin; a supplied foreign Origin is denied.
   /review/identity:
     put:
       operationId: guest_identify
@@ -7460,7 +7492,9 @@ paths:
                   request_id:
                     type: string
                   data:
-                    $ref: '#/components/schemas/GuestAccess'
+                    anyOf:
+                    - $ref: '#/components/schemas/GuestAccess'
+                    - $ref: '#/components/schemas/GuestBrowserAccess'
                   warnings:
                     type: array
                     items:
@@ -7521,13 +7555,34 @@ paths:
       x-shared-service-operation: guest_identify
       security:
       - ReviewSession: []
-      parameters: []
+      parameters:
+      - $ref: '#/components/parameters/OptionalIdempotencyKey'
+      - name: X-Review-Context
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id selects its own HttpOnly cookie. Different link tabs never overwrite
+          one another.
+      - name: X-EPS-Review-Browser
+        in: header
+        required: false
+        schema:
+          type: string
+          enum:
+          - '1'
+        description: Same-origin browser cookie adapter; response omits raw session secret.
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/GuestIdentity'
+      x-browser-cookie-adapter: eps_review_<guest_session_id without dashes>; HttpOnly; SameSite=Strict; Path=/api/v1/review;
+        Secure on HTTPS; expires no later than session/link
+      x-browser-csrf: Exact trusted Host and Origin required for cookie/browser writes. Explicit header credentials
+        may omit Origin; a supplied foreign Origin is denied.
   /review/presentation:
     get:
       operationId: guest_get_current_version
@@ -7536,7 +7591,8 @@ paths:
       - review
       responses:
         '200':
-          description: Successful operation
+          description: Latest Ready external version, or data:null while the valid series has no Ready version (Preparing).
+            Generation never renews link expiry.
           content:
             application/json:
               schema:
@@ -7546,7 +7602,9 @@ paths:
                   request_id:
                     type: string
                   data:
-                    $ref: '#/components/schemas/ExternalPresentationVersion'
+                    anyOf:
+                    - $ref: '#/components/schemas/ExternalPresentationVersion'
+                    - type: 'null'
                   warnings:
                     type: array
                     items:
@@ -7607,7 +7665,17 @@ paths:
       x-shared-service-operation: guest_get_current_version
       security:
       - ReviewSession: []
-      parameters: []
+      parameters:
+      - name: X-Review-Context
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id selects its own HttpOnly cookie. Different link tabs never overwrite
+          one another.
+      x-browser-cookie-adapter: eps_review_<guest_session_id without dashes>; HttpOnly; SameSite=Strict; Path=/api/v1/review;
+        Secure on HTTPS; expires no later than session/link
   /review/versions/{version_id}:
     get:
       operationId: guest_get_version
@@ -7693,6 +7761,16 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/Id'
+      - name: X-Review-Context
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id selects its own HttpOnly cookie. Different link tabs never overwrite
+          one another.
+      x-browser-cookie-adapter: eps_review_<guest_session_id without dashes>; HttpOnly; SameSite=Strict; Path=/api/v1/review;
+        Secure on HTTPS; expires no later than session/link
   /review/versions/{version_id}/feedback:
     get:
       operationId: guest_list_feedback
@@ -7789,6 +7867,16 @@ paths:
           minimum: 1
           maximum: 100
           default: 25
+      - name: X-Review-Context
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id selects its own HttpOnly cookie. Different link tabs never overwrite
+          one another.
+      x-browser-cookie-adapter: eps_review_<guest_session_id without dashes>; HttpOnly; SameSite=Strict; Path=/api/v1/review;
+        Secure on HTTPS; expires no later than session/link
   /review/versions/{version_id}/comments:
     post:
       operationId: guest_create_comment
@@ -7875,12 +7963,24 @@ paths:
         schema:
           $ref: '#/components/schemas/Id'
       - $ref: '#/components/parameters/IdempotencyKey'
+      - name: X-Review-Context
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id selects its own HttpOnly cookie. Different link tabs never overwrite
+          one another.
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/GuestCommentCreate'
+      x-browser-cookie-adapter: eps_review_<guest_session_id without dashes>; HttpOnly; SameSite=Strict; Path=/api/v1/review;
+        Secure on HTTPS; expires no later than session/link
+      x-browser-csrf: Exact trusted Host and Origin required for cookie/browser writes. Explicit header credentials
+        may omit Origin; a supplied foreign Origin is denied.
   /review/comments/{comment_id}:
     patch:
       operationId: guest_update_comment
@@ -7966,12 +8066,25 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/OptionalIdempotencyKey'
+      - name: X-Review-Context
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id selects its own HttpOnly cookie. Different link tabs never overwrite
+          one another.
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/GuestCommentPatch'
+      x-browser-cookie-adapter: eps_review_<guest_session_id without dashes>; HttpOnly; SameSite=Strict; Path=/api/v1/review;
+        Secure on HTTPS; expires no later than session/link
+      x-browser-csrf: Exact trusted Host and Origin required for cookie/browser writes. Explicit header credentials
+        may omit Origin; a supplied foreign Origin is denied.
   /review/versions/{version_id}/preferences:
     put:
       operationId: guest_set_preference
@@ -8058,12 +8171,24 @@ paths:
         schema:
           $ref: '#/components/schemas/Id'
       - $ref: '#/components/parameters/IdempotencyKey'
+      - name: X-Review-Context
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id selects its own HttpOnly cookie. Different link tabs never overwrite
+          one another.
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/PreferenceSet'
+      x-browser-cookie-adapter: eps_review_<guest_session_id without dashes>; HttpOnly; SameSite=Strict; Path=/api/v1/review;
+        Secure on HTTPS; expires no later than session/link
+      x-browser-csrf: Exact trusted Host and Origin required for cookie/browser writes. Explicit header credentials
+        may omit Origin; a supplied foreign Origin is denied.
   /review/versions/{version_id}/pdf-exports:
     post:
       operationId: guest_prepare_pdf_export
@@ -8153,6 +8278,18 @@ paths:
         schema:
           $ref: '#/components/schemas/Id'
       - $ref: '#/components/parameters/IdempotencyKey'
+      - name: X-Review-Context
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id selects its own HttpOnly cookie. Different link tabs never overwrite
+          one another.
+      x-browser-cookie-adapter: eps_review_<guest_session_id without dashes>; HttpOnly; SameSite=Strict; Path=/api/v1/review;
+        Secure on HTTPS; expires no later than session/link
+      x-browser-csrf: Exact trusted Host and Origin required for cookie/browser writes. Explicit header credentials
+        may omit Origin; a supplied foreign Origin is denied.
   /review/pdf-exports/{export_id}:
     get:
       operationId: guest_get_pdf_export
@@ -8238,6 +8375,16 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/Id'
+      - name: X-Review-Context
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id selects its own HttpOnly cookie. Different link tabs never overwrite
+          one another.
+      x-browser-cookie-adapter: eps_review_<guest_session_id without dashes>; HttpOnly; SameSite=Strict; Path=/api/v1/review;
+        Secure on HTTPS; expires no later than session/link
   /review/pdf-exports/{export_id}/download:
     post:
       operationId: guest_download_pdf_export
@@ -8323,6 +8470,18 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/Id'
+      - name: X-Review-Context
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id selects its own HttpOnly cookie. Different link tabs never overwrite
+          one another.
+      x-browser-cookie-adapter: eps_review_<guest_session_id without dashes>; HttpOnly; SameSite=Strict; Path=/api/v1/review;
+        Secure on HTTPS; expires no later than session/link
+      x-browser-csrf: Exact trusted Host and Origin required for cookie/browser writes. Explicit header credentials
+        may omit Origin; a supplied foreign Origin is denied.
   /review-media/versions/{version_id}/media/{asset_id}/playback:
     post:
       operationId: play_review_media
@@ -8341,7 +8500,7 @@ paths:
                   request_id:
                     type: string
                   data:
-                    $ref: '#/components/schemas/Playback'
+                    $ref: '#/components/schemas/VersionMediaPlayback'
                   warnings:
                     type: array
                     items:
@@ -8413,6 +8572,17 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/Id'
+      - name: X-EPS-Review-Browser
+        in: header
+        required: false
+        schema:
+          type: string
+          enum:
+          - '1'
+        description: Same-origin browser cookie adapter; response omits raw session secret.
+      description: Browser first exchange uses X-Media-Grant and exact same Origin; stores HttpOnly cookie bound
+        to the fixed version/asset, then returns local proxy URL without the secret. Reload may use that cookie
+        after initial /m/:grant URL is replaced. Parent link is checked on every request.
   /review/versions/{version_id}/media/{asset_id}:
     post:
       operationId: guest_play_media
@@ -8431,7 +8601,7 @@ paths:
                   request_id:
                     type: string
                   data:
-                    $ref: '#/components/schemas/Playback'
+                    $ref: '#/components/schemas/VersionMediaPlayback'
                   warnings:
                     type: array
                     items:
@@ -8503,6 +8673,18 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/Id'
+      - name: X-Review-Context
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id selects its own HttpOnly cookie. Different link tabs never overwrite
+          one another.
+      x-browser-cookie-adapter: eps_review_<guest_session_id without dashes>; HttpOnly; SameSite=Strict; Path=/api/v1/review;
+        Secure on HTTPS; expires no later than session/link
+      x-browser-csrf: Exact trusted Host and Origin required for cookie/browser writes. Explicit header credentials
+        may omit Origin; a supplied foreign Origin is denied.
   /internal/jobs/outputs:
     post:
       operationId: reserve_job_output
@@ -8521,7 +8703,7 @@ paths:
                   request_id:
                     type: string
                   data:
-                    $ref: '#/components/schemas/UploadSession'
+                    $ref: '#/components/schemas/JobOutputReservationResult'
                   warnings:
                     type: array
                     items:
@@ -8695,7 +8877,7 @@ paths:
                   request_id:
                     type: string
                   data:
-                    $ref: '#/components/schemas/Playback'
+                    $ref: '#/components/schemas/ServiceAssetAccess'
                   warnings:
                     type: array
                     items:
@@ -9197,6 +9379,1406 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/JobEvent'
+  /candidates/{candidate_id}/supporting-files:
+    get:
+      operationId: list_candidate_support
+      summary: List private supporting files attached to a candidate
+      tags:
+      - candidate-media
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CandidateSupport'
+                  page:
+                    $ref: '#/components/schemas/Page'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+                - page
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: cast.read
+      x-mcp-exposed: true
+      x-shared-service-operation: list_candidate_support
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: candidate_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      - name: cursor
+        in: query
+        schema:
+          type: string
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 25
+  /candidate-support/{candidate_support_id}/archive:
+    post:
+      operationId: archive_candidate_support
+      summary: Archive a supporting-file association without deleting retained bytes
+      tags:
+      - candidate-media
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/Success'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: cast.write
+      x-mcp-exposed: true
+      x-shared-service-operation: archive_candidate_support
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: candidate_support_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CandidateSupportArchive'
+  /workspaces/{workspace_id}/review/fit:
+    post:
+      operationId: request_workspace_review_fit
+      summary: Measure the exact selected template against a captured review fingerprint
+      tags:
+      - review
+      responses:
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '202':
+          description: Accepted; poll returned job
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/JobAccepted'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+      x-capability: workspaces.write
+      x-mcp-exposed: true
+      x-shared-service-operation: request_workspace_review_fit
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: workspace_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReviewFitRequest'
+  /workspaces/{workspace_id}/retirements/{resource_id}:
+    get:
+      operationId: get_casting_retirement
+      summary: Read the latest typed restoration choice for a retired resource
+      tags:
+      - review
+      responses:
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/CastingRetirement'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+      x-capability: workspaces.write
+      x-mcp-exposed: true
+      x-shared-service-operation: get_casting_retirement
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: workspace_id
+        in: path
+        required: true
+        schema: &id003
+          $ref: '#/components/schemas/Id'
+      - name: resource_id
+        in: path
+        required: true
+        schema: *id003
+  /workspaces/{workspace_id}/retirements/{event_id}/undo:
+    post:
+      operationId: undo_casting_retirement
+      summary: Restore a retirement with its current workspace revision and recorded inverse
+      tags:
+      - review
+      responses:
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: Accepted; poll returned job
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/CastingRetirementUndoResult'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+      x-capability: workspaces.write
+      x-mcp-exposed: true
+      x-shared-service-operation: undo_casting_retirement
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: workspace_id
+        in: path
+        required: true
+        schema: &id004
+          $ref: '#/components/schemas/Id'
+      - name: event_id
+        in: path
+        required: true
+        schema: *id004
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CastingRetirementUndo'
+  /versions/{version_id}/media/{asset_id}/playback:
+    post:
+      operationId: play_version_media
+      summary: Authorize the original video retained by an exact fixed version
+      tags:
+      - versions
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/VersionMediaPlayback'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: workspaces.read
+      x-mcp-exposed: true
+      x-shared-service-operation: play_version_media
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: version_id
+        in: path
+        required: true
+        schema: &id005
+          $ref: '#/components/schemas/Id'
+      - name: asset_id
+        in: path
+        required: true
+        schema: *id005
+  /versions/{version_id}/media/{asset_id}/content:
+    get:
+      operationId: get_version_media_content
+      summary: Read authenticated fixed-version bytes with bounded integrity verification
+      tags:
+      - versions
+      responses:
+        '200':
+          description: Private authenticated content; no-store and nosniff.
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+            image/png:
+              schema:
+                type: string
+                format: binary
+            image/webp:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: workspaces.read
+      x-mcp-exposed: false
+      x-shared-service-operation: get_version_media_content
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: version_id
+        in: path
+        required: true
+        schema: &id006
+          $ref: '#/components/schemas/Id'
+      - name: asset_id
+        in: path
+        required: true
+        schema: *id006
+  /versions/{version_id}/pdf/content:
+    get:
+      operationId: get_version_pdf_content
+      summary: Read authenticated fixed-version bytes with bounded integrity verification
+      tags:
+      - versions
+      responses:
+        '200':
+          description: Private authenticated content; no-store and nosniff.
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: workspaces.read
+      x-mcp-exposed: false
+      x-shared-service-operation: get_version_pdf_content
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: version_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+  /review/session:
+    get:
+      operationId: guest_get_session
+      summary: Resume the exact cookie-selected guest context after removing the initial URL bearer token
+      tags:
+      - review
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/GuestBrowserAccess'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: scoped-review
+      x-mcp-exposed: false
+      x-shared-service-operation: guest_identify
+      security:
+      - ReviewSession: []
+      parameters:
+      - name: X-Review-Context
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id selects its own HttpOnly cookie. Different link tabs never overwrite
+          one another.
+      x-browser-cookie-adapter: eps_review_<guest_session_id without dashes>; HttpOnly; SameSite=Strict; Path=/api/v1/review;
+        Secure on HTTPS; expires no later than session/link
+      x-browser-csrf: Exact trusted Host and Origin required for cookie/browser writes. Explicit header credentials
+        may omit Origin; a supplied foreign Origin is denied.
+  /pdf-exports/{export_id}/content:
+    get:
+      operationId: get_pdf_export_content
+      summary: Proxy private exact-version content with request-time parent authorization and bounded byte ranges
+      tags:
+      - pdf-exports
+      responses:
+        '200':
+          description: Private no-store content; no redirect or publicly issued signed Storage URL.
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '206':
+          description: Verified single partial range; exact Content-Range/Content-Length and Accept-Ranges:bytes.
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        '416':
+          description: Unsupported or unsatisfiable byte range.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: review_links.manage
+      x-mcp-exposed: false
+      x-shared-service-operation: get_pdf_export_content
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: export_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      - name: Range
+        in: header
+        required: false
+        schema:
+          type: string
+          maxLength: 50
+        description: One bytes=start-end, bytes=start- or bytes=-suffix range. Multiple or unsatisfiable ranges
+          return416.
+  /review/pdf-exports/{export_id}/content:
+    get:
+      operationId: guest_get_pdf_export_content
+      summary: Proxy private exact-version content with request-time parent authorization and bounded byte ranges
+      tags:
+      - review
+      responses:
+        '200':
+          description: Private no-store content; no redirect or publicly issued signed Storage URL.
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '206':
+          description: Verified single partial range; exact Content-Range/Content-Length and Accept-Ranges:bytes.
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        '416':
+          description: Unsupported or unsatisfiable byte range.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: scoped-review
+      x-mcp-exposed: false
+      x-shared-service-operation: guest_get_pdf_export_content
+      security:
+      - ReviewSession: []
+      parameters:
+      - name: export_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      - name: Range
+        in: header
+        required: false
+        schema:
+          type: string
+          maxLength: 50
+        description: One bytes=start-end, bytes=start- or bytes=-suffix range. Multiple or unsatisfiable ranges
+          return416.
+      - name: X-Review-Context
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id selects its own HttpOnly cookie. Different link tabs never overwrite
+          one another.
+      - name: review_context
+        in: query
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id for native img/video/download cookie selection; never a raw credential.
+          Allowed on binary GET only.
+      x-browser-cookie-adapter: eps_review_<guest_session_id without dashes>; HttpOnly; SameSite=Strict; Path=/api/v1/review;
+        Secure on HTTPS; expires no later than session/link
+  /review/versions/{version_id}/media/{asset_id}/content:
+    get:
+      operationId: guest_get_media_content
+      summary: Proxy private exact-version content with request-time parent authorization and bounded byte ranges
+      tags:
+      - review
+      responses:
+        '200':
+          description: Private no-store content; no redirect or publicly issued signed Storage URL.
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+            image/png:
+              schema:
+                type: string
+                format: binary
+            image/webp:
+              schema:
+                type: string
+                format: binary
+            video/mp4:
+              schema:
+                type: string
+                format: binary
+            video/quicktime:
+              schema:
+                type: string
+                format: binary
+            video/webm:
+              schema:
+                type: string
+                format: binary
+            video/x-matroska:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '206':
+          description: Verified single partial range; exact Content-Range/Content-Length and Accept-Ranges:bytes.
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+            image/png:
+              schema:
+                type: string
+                format: binary
+            image/webp:
+              schema:
+                type: string
+                format: binary
+            video/mp4:
+              schema:
+                type: string
+                format: binary
+            video/quicktime:
+              schema:
+                type: string
+                format: binary
+            video/webm:
+              schema:
+                type: string
+                format: binary
+            video/x-matroska:
+              schema:
+                type: string
+                format: binary
+        '416':
+          description: Unsupported or unsatisfiable byte range.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: scoped-review
+      x-mcp-exposed: false
+      x-shared-service-operation: guest_get_media_content
+      security:
+      - ReviewSession: []
+      parameters:
+      - name: version_id
+        in: path
+        required: true
+        schema: &id007
+          $ref: '#/components/schemas/Id'
+      - name: asset_id
+        in: path
+        required: true
+        schema: *id007
+      - name: Range
+        in: header
+        required: false
+        schema:
+          type: string
+          maxLength: 50
+        description: One bytes=start-end, bytes=start- or bytes=-suffix range. Multiple or unsatisfiable ranges
+          return416.
+      - name: X-Review-Context
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id selects its own HttpOnly cookie. Different link tabs never overwrite
+          one another.
+      - name: review_context
+        in: query
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Public guest_session_id for native img/video/download cookie selection; never a raw credential.
+          Allowed on binary GET only.
+      x-browser-cookie-adapter: eps_review_<guest_session_id without dashes>; HttpOnly; SameSite=Strict; Path=/api/v1/review;
+        Secure on HTTPS; expires no later than session/link
+  /review-media/versions/{version_id}/media/{asset_id}/content:
+    get:
+      operationId: get_review_media_content
+      summary: Proxy private exact-version content with request-time parent authorization and bounded byte ranges
+      tags:
+      - review
+      responses:
+        '200':
+          description: Private no-store content; no redirect or publicly issued signed Storage URL.
+          content:
+            video/mp4:
+              schema:
+                type: string
+                format: binary
+            video/quicktime:
+              schema:
+                type: string
+                format: binary
+            video/webm:
+              schema:
+                type: string
+                format: binary
+            video/x-matroska:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '206':
+          description: Verified single partial range; exact Content-Range/Content-Length and Accept-Ranges:bytes.
+          content:
+            video/mp4:
+              schema:
+                type: string
+                format: binary
+            video/quicktime:
+              schema:
+                type: string
+                format: binary
+            video/webm:
+              schema:
+                type: string
+                format: binary
+            video/x-matroska:
+              schema:
+                type: string
+                format: binary
+        '416':
+          description: Unsupported or unsatisfiable byte range.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: scoped-review
+      x-mcp-exposed: false
+      x-shared-service-operation: get_review_media_content
+      security:
+      - MediaGrant: []
+      parameters:
+      - name: version_id
+        in: path
+        required: true
+        schema: &id008
+          $ref: '#/components/schemas/Id'
+      - name: asset_id
+        in: path
+        required: true
+        schema: *id008
+      - name: Range
+        in: header
+        required: false
+        schema:
+          type: string
+          maxLength: 50
+        description: One bytes=start-end, bytes=start- or bytes=-suffix range. Multiple or unsatisfiable ranges
+          return416.
+      x-browser-cookie-adapter: Version/asset-scoped HttpOnly grant cookie, created by play_review_media browser
+        exchange; every request revalidates parent link.
+  /media/{asset_id}/content:
+    get:
+      operationId: get_media_content
+      summary: Read currently authorized shared media bytes
+      tags:
+      - media
+      responses:
+        '200':
+          description: Private authenticated exact bytes; no-store and nosniff.
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+            image/png:
+              schema:
+                type: string
+                format: binary
+            image/webp:
+              schema:
+                type: string
+                format: binary
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+            application/vnd.openxmlformats-officedocument.wordprocessingml.document:
+              schema:
+                type: string
+                format: binary
+            text/plain:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: workspaces.read OR cast.read
+      x-mcp-exposed: false
+      x-shared-service-operation: get_media_content
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: asset_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      description: Existing internal byte companion for verified logos, actual candidate frames and supported private
+        documents/attachments. Authorization and current parent scope are rechecked through getMediaContent. No
+        arbitrary storage destination or byte-range support is accepted by this route. For original video use play_media;
+        for immutable saved-version content use its fixed-version companion.
 components:
   securitySchemes:
     InternalBearer:
@@ -9214,64 +10796,36 @@ components:
       in: header
       name: X-Review-Session
       description: Short-lived session scoped to one link/series; server verifies link live for every request. Cookie
-        adapter may be used by browser.
+        adapter may be used by browser. Browser uses the documented scoped HttpOnly cookie adapter; raw credentials
+        are never stored in browser localStorage/sessionStorage.
     MediaGrant:
       type: apiKey
       in: header
       name: X-Media-Grant
       description: Secret embedded in private external PDF, bound to one export and fixed version; parent link live-view
-        grant required.
+        grant required. Browser uses the documented scoped HttpOnly cookie adapter; raw credentials are never stored
+        in browser localStorage/sessionStorage.
     ServiceBearer:
       type: http
       scheme: bearer
       description: Narrow service identity plus per-job lease token; not an internal user token.
   schemas:
-    JobEvent:
+    Id:
+      type: string
+      minLength: 1
+      maxLength: 200
+      description: Opaque resource identifier. Do not parse business meaning or assume source database PK type.
+    ErrorResponse:
       type: object
       additionalProperties: false
       properties:
-        event_id:
-          $ref: '#/components/schemas/Id'
-        job_id:
-          $ref: '#/components/schemas/Id'
-        attempt_id:
-          $ref: '#/components/schemas/Id'
-        lease_token:
+        request_id:
           type: string
-        stage:
-          type: string
-        sequence:
-          type: integer
-          minimum: 1
-        event_type:
-          type: string
-          enum:
-          - heartbeat
-          - progress
-          - succeeded
-          - failed
-        input_hash:
-          type: string
-        result_schema:
-          $ref: '#/components/schemas/NullableText'
-        result:
-          type: object
-          additionalProperties: true
-          description: Validated by the allowlisted job/stage result schema. prepare_document uses contracts/json-schema/document-preparation.schema.json;
-            source_asset_id is null only for direct pasted text, while real files require their verified asset ID.
         error:
-          anyOf:
-          - $ref: '#/components/schemas/Error'
-          - type: 'null'
+          $ref: '#/components/schemas/Error'
       required:
-      - event_id
-      - job_id
-      - attempt_id
-      - lease_token
-      - stage
-      - sequence
-      - event_type
-      - input_hash
+      - request_id
+      - error
     Error:
       type: object
       additionalProperties: false
@@ -9290,26 +10844,6 @@ components:
       - message
       - details
       - retryable
-    NullableText:
-      anyOf:
-      - type: string
-      - type: 'null'
-    Id:
-      type: string
-      minLength: 1
-      maxLength: 200
-      description: Opaque resource identifier. Do not parse business meaning or assume source database PK type.
-    ErrorResponse:
-      type: object
-      additionalProperties: false
-      properties:
-        request_id:
-          type: string
-        error:
-          $ref: '#/components/schemas/Error'
-      required:
-      - request_id
-      - error
     Warning:
       type: object
       additionalProperties: false
@@ -9326,132 +10860,41 @@ components:
       - code
       - message
       - entity_id
-    JobEventReceipt:
+    GuestBrowserAccess:
       type: object
       additionalProperties: false
       properties:
-        event_id:
-          $ref: '#/components/schemas/Id'
-        applied:
-          type: boolean
-        duplicate:
-          type: boolean
-        stale:
-          type: boolean
-        job_status:
-          type: string
-      required:
-      - event_id
-      - applied
-      - duplicate
-      - stale
-      - job_status
-    ServiceStageClaim:
-      type: object
-      additionalProperties: false
-      properties:
-        job_id:
-          $ref: '#/components/schemas/Id'
-        stage:
-          type: string
-        input_hash:
-          type: string
-        workflow_execution_id:
-          type: string
-      required:
-      - job_id
-      - stage
-      - input_hash
-    ServiceStageLease:
-      type: object
-      additionalProperties: false
-      properties:
-        job_id:
-          $ref: '#/components/schemas/Id'
-        stage:
-          type: string
-        attempt_id:
-          $ref: '#/components/schemas/Id'
-        lease_token:
-          type: string
-        lease_expires_at:
+        expires_at:
           $ref: '#/components/schemas/DateTime'
-        already_completed:
+        series_id:
+          $ref: '#/components/schemas/Id'
+        version_id:
+          anyOf:
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
+        download_enabled:
           type: boolean
-        input:
-          type: object
-          additionalProperties: true
+        display_name:
+          $ref: '#/components/schemas/NullableText'
+        guest_session_id:
+          $ref: '#/components/schemas/Id'
       required:
-      - job_id
-      - stage
-      - attempt_id
-      - lease_token
-      - lease_expires_at
-      - already_completed
-      - input
+      - expires_at
+      - series_id
+      - version_id
+      - download_enabled
+      - display_name
+      - guest_session_id
+      description: Cookie-based browser adapter. Raw session credential exists only in a scoped HttpOnly SameSite=Strict
+        cookie; guest_session_id is a public context selector, never a bearer.
+    NullableText:
+      anyOf:
+      - type: string
+      - type: 'null'
     DateTime:
       type: string
       format: date-time
-    MediaGrantRequest:
-      type: object
-      additionalProperties: false
-      properties:
-        export_id:
-          $ref: '#/components/schemas/Id'
-        job_id:
-          $ref: '#/components/schemas/Id'
-        attempt_id:
-          $ref: '#/components/schemas/Id'
-        lease_token:
-          type: string
-      required:
-      - export_id
-      - job_id
-      - attempt_id
-      - lease_token
-    MediaGrantIssue:
-      type: object
-      additionalProperties: false
-      properties:
-        grant_id:
-          $ref: '#/components/schemas/Id'
-        grant_token:
-          type: string
-          description: Secret issued to active renderer only; store only verifier server-side and embed in private
-            PDF. Never place raw token in jobs, outbox, manifest, logs or callback.
-        version_id:
-          $ref: '#/components/schemas/Id'
-        export_id:
-          $ref: '#/components/schemas/Id'
-        expires_at:
-          $ref: '#/components/schemas/DateTime'
-        playback_path_template:
-          type: string
-      required:
-      - grant_id
-      - grant_token
-      - version_id
-      - export_id
-      - expires_at
-      - playback_path_template
-    JobAssetAccess:
-      type: object
-      additionalProperties: false
-      properties:
-        job_id:
-          $ref: '#/components/schemas/Id'
-        attempt_id:
-          $ref: '#/components/schemas/Id'
-        lease_token:
-          type: string
-        asset_id:
-          $ref: '#/components/schemas/Id'
-      required:
-      - job_id
-      - attempt_id
-      - lease_token
-      - asset_id
-    Playback:
+    VersionMediaPlayback:
       type: object
       additionalProperties: false
       properties:
@@ -9465,57 +10908,259 @@ components:
         mime_type:
           type: string
         source_version_id:
-          anyOf:
-          - $ref: '#/components/schemas/Id'
-          - type: 'null'
+          $ref: '#/components/schemas/Id'
+        transcript:
+          $ref: '#/components/schemas/VersionTranscriptCompanion'
       required:
       - asset_id
       - url
       - expires_at
       - mime_type
       - source_version_id
-    JobOutputComplete:
+    VersionTranscriptCompanion:
+      type: object
+      additionalProperties: false
+      properties:
+        version_id:
+          $ref: '#/components/schemas/Id'
+        asset_id:
+          $ref: '#/components/schemas/Id'
+        status:
+          type: string
+          enum:
+          - available
+          - not_provided
+          - not_captured
+        original_text:
+          anyOf:
+          - &id009
+            type: string
+            minLength: 1
+            maxLength: 200000
+            pattern: ^[^\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]*\S[^\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]*$
+          - type: 'null'
+        languages:
+          type: array
+          maxItems: 100
+          items:
+            type: string
+            minLength: 1
+            maxLength: 1000
+            pattern: ^[^\u0000-\u001f\u007f]*\S[^\u0000-\u001f\u007f]*$
+        source_kind:
+          type: string
+          const: source_transcript
+        source_sha256:
+          anyOf:
+          - &id010
+            type: string
+            pattern: ^[a-f0-9]{64}$
+          - type: 'null'
+      required:
+      - version_id
+      - asset_id
+      - status
+      - original_text
+      - languages
+      - source_kind
+      - source_sha256
+      description: Plain original source text captured immutably with this version/video. Not slide wording, captions
+        or factual review. No live-library fallback; legacy versions explicitly report not_captured.
+      allOf:
+      - if:
+          properties:
+            status:
+              const: available
+          required:
+          - status
+        then:
+          properties:
+            original_text: *id009
+            source_sha256: *id010
+        else:
+          properties:
+            original_text:
+              type: 'null'
+            source_sha256:
+              type: 'null'
+            languages:
+              maxItems: 0
+    CastingRetirementUndo:
+      type: object
+      additionalProperties: false
+      properties:
+        expected_workspace_row_version:
+          $ref: '#/components/schemas/RowVersion'
+      required:
+      - expected_workspace_row_version
+    RowVersion:
+      type: integer
+      minimum: 1
+      description: Optimistic version from the last read of the mutated resource; stale write returns 409.
+    CastingRetirementUndoResult:
+      type: object
+      additionalProperties: false
+      properties:
+        success:
+          type: boolean
+          const: true
+        affected_ids:
+          type: array
+          uniqueItems: true
+          maxItems: 10000
+          items:
+            $ref: '#/components/schemas/Id'
+        workspace_row_version:
+          $ref: '#/components/schemas/RowVersion'
+      required:
+      - success
+      - affected_ids
+      - workspace_row_version
+    CastingRetirement:
+      type: object
+      additionalProperties: false
+      properties:
+        workspace_id: &id011
+          $ref: '#/components/schemas/Id'
+        resource_id: *id011
+        operation:
+          type: string
+          enum:
+          - retire_slots
+          - archive_role
+          - remove_workspace_candidate
+        undo_event_id: *id011
+        expected_workspace_row_version:
+          $ref: '#/components/schemas/RowVersion'
+        assignment_ids:
+          type: array
+          uniqueItems: true
+          maxItems: 1000
+          items: *id011
+        slot_ids:
+          type: array
+          uniqueItems: true
+          maxItems: 1000
+          items: *id011
+        main_count: &id012
+          type: integer
+          minimum: 0
+        shortlist_count: *id012
+        can_undo:
+          type: boolean
+        unavailable_reason:
+          anyOf:
+          - type: string
+          - type: 'null'
+      required:
+      - workspace_id
+      - resource_id
+      - operation
+      - undo_event_id
+      - expected_workspace_row_version
+      - assignment_ids
+      - slot_ids
+      - main_count
+      - shortlist_count
+      - can_undo
+      - unavailable_reason
+    ReviewFitRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        series_id:
+          $ref: '#/components/schemas/Id'
+        expected_input_fingerprint:
+          type: string
+          pattern: ^[a-f0-9]{64}$
+      required:
+      - series_id
+      - expected_input_fingerprint
+    JobAccepted:
       type: object
       additionalProperties: false
       properties:
         job_id:
           $ref: '#/components/schemas/Id'
-        attempt_id:
-          $ref: '#/components/schemas/Id'
-        lease_token:
+        resource_id:
+          anyOf:
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
+        poll_url:
           type: string
-        asset_id:
-          $ref: '#/components/schemas/Id'
-        sha256:
+        status:
           type: string
-        actual_size_bytes:
-          type: integer
-          minimum: 1
-        width:
-          anyOf:
-          - type: integer
-            minimum: 1
-          - type: 'null'
-        height:
-          anyOf:
-          - type: integer
-            minimum: 1
-          - type: 'null'
-        duration_ms:
-          anyOf:
-          - type: integer
-            minimum: 0
-          - type: 'null'
+          enum:
+          - queued
+          - running
+          - waiting_for_input
+          - succeeded
+          - failed
+          - cancelled
+          description: Recorded durable job status for this acknowledgement. Reusing an existing job reports its
+            current status; an idempotent replay may retain its original acknowledgement. Read poll_url for current
+            status.
       required:
       - job_id
-      - attempt_id
-      - lease_token
-      - asset_id
-      - sha256
-      - actual_size_bytes
-      - width
-      - height
-      - duration_ms
+      - resource_id
+      - poll_url
+      - status
+    CandidateSupportArchive:
+      type: object
+      additionalProperties: false
+      properties:
+        row_version:
+          $ref: '#/components/schemas/RowVersion'
+      required:
+      - row_version
+      description: Archive only the supporting-file association at its current version. No reason, asset deletion
+        or other fields are accepted.
+    Success:
+      type: object
+      additionalProperties: false
+      properties:
+        success:
+          type: boolean
+          const: true
+        affected_ids:
+          type: array
+          items:
+            $ref: '#/components/schemas/Id'
+      required:
+      - success
+      - affected_ids
+    Page:
+      type: object
+      additionalProperties: false
+      properties:
+        next_cursor:
+          anyOf:
+          - type: string
+          - type: 'null'
+      required:
+      - next_cursor
+    CandidateSupport:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        row_version:
+          type: integer
+          minimum: 1
+        candidate_id:
+          $ref: '#/components/schemas/Id'
+        asset:
+          $ref: '#/components/schemas/MediaAsset'
+        created_at:
+          $ref: '#/components/schemas/DateTime'
+      required:
+      - id
+      - row_version
+      - candidate_id
+      - asset
+      - created_at
+      description: Explicit supporting attachment, separate from extracted frames and reusable facts.
     MediaAsset:
       type: object
       additionalProperties: false
@@ -9597,6 +11242,265 @@ components:
       - source_asset_id
       - source_timestamp_ms
       - created_at
+    JobEvent:
+      type: object
+      additionalProperties: false
+      properties:
+        event_id:
+          $ref: '#/components/schemas/Id'
+        job_id:
+          $ref: '#/components/schemas/Id'
+        attempt_id:
+          $ref: '#/components/schemas/Id'
+        lease_token:
+          type: string
+        stage:
+          type: string
+        sequence:
+          type: integer
+          minimum: 1
+        event_type:
+          type: string
+          enum:
+          - heartbeat
+          - progress
+          - succeeded
+          - failed
+        input_hash:
+          type: string
+        result_schema:
+          $ref: '#/components/schemas/NullableText'
+        result:
+          type: object
+          additionalProperties: true
+          description: Validated by the allowlisted job/stage result schema. prepare_document uses contracts/json-schema/document-preparation.schema.json;
+            source_asset_id is null only for direct pasted text, while real files require their verified asset ID.
+        error:
+          anyOf:
+          - $ref: '#/components/schemas/Error'
+          - type: 'null'
+      required:
+      - event_id
+      - job_id
+      - attempt_id
+      - lease_token
+      - stage
+      - sequence
+      - event_type
+      - input_hash
+    JobEventReceipt:
+      type: object
+      additionalProperties: false
+      properties:
+        event_id:
+          $ref: '#/components/schemas/Id'
+        applied:
+          type: boolean
+        duplicate:
+          type: boolean
+        stale:
+          type: boolean
+        job_status:
+          type: string
+      required:
+      - event_id
+      - applied
+      - duplicate
+      - stale
+      - job_status
+    ServiceStageClaim:
+      type: object
+      additionalProperties: false
+      properties:
+        job_id:
+          $ref: '#/components/schemas/Id'
+        stage:
+          type: string
+        input_hash:
+          type: string
+        workflow_execution_id:
+          type: string
+      required:
+      - job_id
+      - stage
+      - input_hash
+    ServiceStageLease:
+      type: object
+      additionalProperties: false
+      properties:
+        job_id:
+          $ref: '#/components/schemas/Id'
+        stage:
+          type: string
+        attempt_id:
+          $ref: '#/components/schemas/Id'
+        lease_token:
+          type: string
+        lease_expires_at:
+          $ref: '#/components/schemas/DateTime'
+        already_completed:
+          type: boolean
+        input:
+          type: object
+          additionalProperties: true
+      required:
+      - job_id
+      - stage
+      - attempt_id
+      - lease_token
+      - lease_expires_at
+      - already_completed
+      - input
+    MediaGrantRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        export_id:
+          $ref: '#/components/schemas/Id'
+        job_id:
+          $ref: '#/components/schemas/Id'
+        attempt_id:
+          $ref: '#/components/schemas/Id'
+        lease_token:
+          type: string
+      required:
+      - export_id
+      - job_id
+      - attempt_id
+      - lease_token
+    MediaGrantIssue:
+      type: object
+      additionalProperties: false
+      properties:
+        grant_id:
+          $ref: '#/components/schemas/Id'
+        grant_token:
+          type: string
+          description: Secret issued to active renderer only; store only verifier server-side and embed in private
+            PDF. Never place raw token in jobs, outbox, manifest, logs or callback.
+        version_id:
+          $ref: '#/components/schemas/Id'
+        export_id:
+          $ref: '#/components/schemas/Id'
+        expires_at:
+          $ref: '#/components/schemas/DateTime'
+        playback_path_template:
+          type: string
+      required:
+      - grant_id
+      - grant_token
+      - version_id
+      - export_id
+      - expires_at
+      - playback_path_template
+    JobAssetAccess:
+      type: object
+      additionalProperties: false
+      properties:
+        job_id:
+          $ref: '#/components/schemas/Id'
+        attempt_id:
+          $ref: '#/components/schemas/Id'
+        lease_token:
+          type: string
+        asset_id:
+          $ref: '#/components/schemas/Id'
+        access:
+          type: string
+          enum:
+          - read
+          - write
+          default: read
+          description: Lease-scoped exact-object access. Write is only a newly reserved immutable output, never
+            an original.
+      required:
+      - job_id
+      - attempt_id
+      - lease_token
+      - asset_id
+    ServiceAssetAccess:
+      type: object
+      additionalProperties: false
+      description: Private service-only transfer capability. Headers are credentials and must not enter URLs, ordinary
+        job metadata, logs or n8n envelopes. Exact object, method and lifetime are lease-bound; no arbitrary destination/signing
+        interface exists.
+      properties:
+        asset_id:
+          $ref: '#/components/schemas/Id'
+        url:
+          type: string
+          format: uri
+        method:
+          type: string
+          enum:
+          - GET
+          - POST
+        headers:
+          type: object
+          additionalProperties:
+            type: string
+        expires_at:
+          $ref: '#/components/schemas/DateTime'
+        mime_type:
+          type: string
+        size_bytes:
+          type: integer
+          minimum: 1
+        sha256:
+          anyOf:
+          - type: string
+          - type: 'null'
+      required:
+      - asset_id
+      - url
+      - method
+      - headers
+      - expires_at
+      - mime_type
+      - size_bytes
+      - sha256
+    JobOutputComplete:
+      type: object
+      additionalProperties: false
+      properties:
+        job_id:
+          $ref: '#/components/schemas/Id'
+        attempt_id:
+          $ref: '#/components/schemas/Id'
+        lease_token:
+          type: string
+        asset_id:
+          $ref: '#/components/schemas/Id'
+        sha256:
+          type: string
+        actual_size_bytes:
+          type: integer
+          minimum: 1
+        width:
+          anyOf:
+          - type: integer
+            minimum: 1
+          - type: 'null'
+        height:
+          anyOf:
+          - type: integer
+            minimum: 1
+          - type: 'null'
+        duration_ms:
+          anyOf:
+          - type: integer
+            minimum: 0
+          - type: 'null'
+      required:
+      - job_id
+      - attempt_id
+      - lease_token
+      - asset_id
+      - sha256
+      - actual_size_bytes
+      - width
+      - height
+      - duration_ms
     JobOutputReservation:
       type: object
       additionalProperties: false
@@ -9607,6 +11511,13 @@ components:
           $ref: '#/components/schemas/Id'
         lease_token:
           type: string
+        output_key:
+          type: string
+          minLength: 1
+          maxLength: 100
+          pattern: ^[A-Za-z0-9][A-Za-z0-9._:-]*$
+          description: Stable logical output name within this job attempt. Retries with the same key and metadata
+            reuse the same immutable reservation; conflicting metadata is rejected.
         asset_kind:
           type: string
           enum:
@@ -9639,71 +11550,26 @@ components:
       - job_id
       - attempt_id
       - lease_token
+      - output_key
       - asset_kind
       - filename
       - mime_type
       - expected_size_bytes
       - parent_asset_id
       - time_offset_ms
-    UploadSession:
+    JobOutputReservationResult:
       type: object
       additionalProperties: false
+      description: Actual immutable derivative reservation plus a lease-bound transfer capability. This is a direct
+        new-object POST, not a signed-upload PUT or an upsert grant.
       properties:
-        id:
-          $ref: '#/components/schemas/Id'
-        asset_id:
-          $ref: '#/components/schemas/Id'
-        protocol:
-          type: string
-          enum:
-          - tus
-          - signed_put
-        upload_url:
-          description: A scoped transfer URL for an open session. Closed sessions return null and empty upload_headers.
-          anyOf:
-          - type: string
-            format: uri
-          - type: 'null'
-        upload_headers:
-          type: object
-          additionalProperties:
-            type: string
-        expires_at:
-          $ref: '#/components/schemas/DateTime'
-        status:
-          type: string
-          enum:
-          - open
-          - completed
-          - cancelled
-          - expired
-        maximum_bytes:
-          type: integer
-          minimum: 1
+        asset:
+          $ref: '#/components/schemas/MediaAsset'
+        access:
+          $ref: '#/components/schemas/ServiceAssetAccess'
       required:
-      - id
-      - asset_id
-      - protocol
-      - upload_url
-      - upload_headers
-      - expires_at
-      - status
-      - maximum_bytes
-      allOf:
-      - if:
-          properties:
-            status:
-              const: open
-        then:
-          properties:
-            upload_url:
-              type: string
-        else:
-          properties:
-            upload_url:
-              type: 'null'
-            upload_headers:
-              maxProperties: 0
+      - asset
+      - access
     PdfDownload:
       type: object
       additionalProperties: false
@@ -9811,10 +11677,6 @@ components:
       required:
       - version_slide_id
       - value
-    RowVersion:
-      type: integer
-      minimum: 1
-      description: Optimistic version from the last read of the mutated resource; stale write returns 409.
     PreferenceResult:
       type: object
       additionalProperties: false
@@ -9900,6 +11762,8 @@ components:
           - internal
         body:
           type: string
+          minLength: 1
+          maxLength: 10000
         parent_comment_id:
           anyOf:
           - $ref: '#/components/schemas/Id'
@@ -9963,16 +11827,6 @@ components:
       - preferences
       - version_id
       - page
-    Page:
-      type: object
-      additionalProperties: false
-      properties:
-        next_cursor:
-          anyOf:
-          - type: string
-          - type: 'null'
-      required:
-      - next_cursor
     ExternalPresentationVersion:
       type: object
       additionalProperties: false
@@ -10002,6 +11856,13 @@ components:
           $ref: '#/components/schemas/DateTime'
         download_enabled:
           type: boolean
+        cover:
+          $ref: '#/components/schemas/ReviewCover'
+        template_version:
+          type: string
+        template_content_hash:
+          type: string
+          pattern: ^[a-f0-9]{64}$
       required:
       - id
       - series_id
@@ -10012,6 +11873,43 @@ components:
       - slides
       - created_at
       - download_enabled
+      - cover
+      - template_version
+      - template_content_hash
+      description: Closed external projection from the exact immutable external-audience version. Frozen branding
+        is included; private render destinations, internal notes and review diagnostics are excluded.
+    ReviewCover:
+      type: object
+      additionalProperties: false
+      properties:
+        project_name: &id013
+          type: string
+        client_name:
+          anyOf:
+          - *id013
+          - type: 'null'
+        title: *id013
+        output_type:
+          type: string
+          enum:
+          - selection
+          - shortlist
+        logo_asset_id:
+          anyOf:
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
+        logo_placement:
+          type: string
+          enum:
+          - cover
+          - every_slide
+      required:
+      - project_name
+      - client_name
+      - title
+      - output_type
+      - logo_asset_id
+      - logo_placement
     VersionSlide:
       type: object
       additionalProperties: false
@@ -10066,6 +11964,10 @@ components:
           anyOf:
           - $ref: '#/components/schemas/Id'
           - type: 'null'
+        role_category:
+          anyOf:
+          - type: string
+          - type: 'null'
       required:
       - id
       - version_id
@@ -10081,6 +11983,7 @@ components:
       - frame_asset_ids
       - video_asset_id
       - logo_asset_id
+      - role_category
     RoleRequirements:
       type: object
       additionalProperties: false
@@ -10289,6 +12192,7 @@ components:
           - ai_suggestion
           - presentation_render
           - presentation_export
+          - review_fit
         status:
           type: string
           enum:
@@ -10333,6 +12237,15 @@ components:
           $ref: '#/components/schemas/DateTime'
         row_version:
           $ref: '#/components/schemas/RowVersion'
+        frame_extraction:
+          $ref: '#/components/schemas/FrameExtractionOutcome'
+        can_retry:
+          type: boolean
+          description: Current server-derived action for presentation_render, independent of the lifetime attempt
+            count.
+        can_cancel:
+          type: boolean
+          description: Current server-derived cancellation action for presentation_render.
       required:
       - id
       - workspace_id
@@ -10349,35 +12262,61 @@ components:
       - created_at
       - updated_at
       - row_version
-    JobAccepted:
+      allOf:
+      - if:
+          properties:
+            kind:
+              const: presentation_render
+          required:
+          - kind
+        then:
+          required:
+          - can_retry
+          - can_cancel
+      - if:
+          properties:
+            kind:
+              const: presentation_export
+          required:
+          - kind
+        then:
+          required:
+          - can_retry
+          - can_cancel
+    FrameExtractionOutcome:
       type: object
       additionalProperties: false
       properties:
-        job_id:
-          $ref: '#/components/schemas/Id'
-        resource_id:
-          anyOf:
-          - $ref: '#/components/schemas/Id'
-          - type: 'null'
-        poll_url:
-          type: string
-        status:
-          type: string
-          enum:
-          - queued
-          - running
-          - waiting_for_input
-          - succeeded
-          - failed
-          - cancelled
-          description: Recorded durable job status for this acknowledgement. Reusing an existing job reports its
-            current status; an idempotent replay may retain its original acknowledgement. Read poll_url for current
-            status.
+        requested_count:
+          type: integer
+          minimum: 1
+          maximum: 10
+        extracted_count:
+          type: integer
+          minimum: 0
+          maximum: 10
+        unavailable_timestamps_ms:
+          type: array
+          maxItems: 10
+          uniqueItems: true
+          items:
+            type: integer
+            minimum: 0
+            maximum: 1799999
+        warnings:
+          type: array
+          maxItems: 2
+          uniqueItems: true
+          items:
+            type: string
+            enum:
+            - FRAME_TIMESTAMP_SHARED
+            - FRAME_TIMESTAMP_UNAVAILABLE
       required:
-      - job_id
-      - resource_id
-      - poll_url
-      - status
+      - requested_count
+      - extracted_count
+      - unavailable_timestamps_ms
+      - warnings
     CommentPatch:
       type: object
       additionalProperties: false
@@ -10483,6 +12422,7 @@ components:
           $ref: '#/components/schemas/RowVersion'
         label:
           type: string
+          maxLength: 160
         expires_at:
           $ref: '#/components/schemas/DateTime'
         download_enabled:
@@ -10497,6 +12437,7 @@ components:
           $ref: '#/components/schemas/Id'
         label:
           type: string
+          maxLength: 160
         expires_at:
           $ref: '#/components/schemas/DateTime'
         download_enabled:
@@ -10532,10 +12473,13 @@ components:
           type: string
         manifest_hash:
           type: string
+          pattern: ^[a-f0-9]{64}$
         slides:
           type: array
           items:
             $ref: '#/components/schemas/VersionSlide'
+          minItems: 2
+          maxItems: 1000
         pdf_asset_id:
           anyOf:
           - $ref: '#/components/schemas/Id'
@@ -10548,6 +12492,19 @@ components:
           - type: 'null'
         generation_job_id:
           $ref: '#/components/schemas/Id'
+        manifest_asset_id:
+          anyOf:
+          - &id014
+            $ref: '#/components/schemas/Id'
+          - type: 'null'
+        generated_by: *id014
+        failure_code:
+          anyOf:
+          - type: string
+            pattern: ^[A-Z][A-Z0-9_]{0,99}$
+          - type: 'null'
+        render_context:
+          $ref: '#/components/schemas/PresentationRenderContext'
       required:
       - id
       - series_id
@@ -10562,6 +12519,108 @@ components:
       - created_at
       - ready_at
       - generation_job_id
+      - manifest_asset_id
+      - generated_by
+      - failure_code
+      - render_context
+      description: Internal fixed-version projection. All content and render_context derive from its immutable snapshot;
+        no private storage destinations or live library values are returned. Ready requires both manifest and PDF
+        assets.
+    PresentationRenderContext:
+      type: object
+      additionalProperties: false
+      properties:
+        cover:
+          $ref: '#/components/schemas/ReviewCover'
+        template:
+          $ref: '#/components/schemas/TemplateIdentity'
+        slide_contexts:
+          type: array
+          minItems: 2
+          maxItems: 1000
+          items:
+            $ref: '#/components/schemas/PresentationSlideContext'
+      required:
+      - cover
+      - template
+      - slide_contexts
+    PresentationSlideContext:
+      type: object
+      additionalProperties: false
+      properties:
+        slide_id: &id015
+          $ref: '#/components/schemas/Id'
+        role_id:
+          anyOf:
+          - *id015
+          - type: 'null'
+        slot_id:
+          anyOf:
+          - *id015
+          - type: 'null'
+        provisional:
+          type: boolean
+        review_status:
+          anyOf:
+          - type: string
+            enum:
+            - reviewed
+            - unreviewed
+          - type: 'null'
+        frames:
+          type: array
+          maxItems: 3
+          items:
+            $ref: '#/components/schemas/ReviewFrame'
+      required:
+      - slide_id
+      - role_id
+      - slot_id
+      - provisional
+      - review_status
+      - frames
+    ReviewFrame:
+      type: object
+      additionalProperties: false
+      properties:
+        asset_id: &id016
+          $ref: '#/components/schemas/Id'
+        source_asset_id: *id016
+        timestamp_ms:
+          type: integer
+          minimum: 0
+        width:
+          type: integer
+          minimum: 1
+        height:
+          type: integer
+          minimum: 1
+        sha256:
+          type: string
+          pattern: ^[a-f0-9]{64}$
+      required:
+      - asset_id
+      - source_asset_id
+      - timestamp_ms
+      - width
+      - height
+      - sha256
+    TemplateIdentity:
+      type: object
+      additionalProperties: false
+      properties:
+        key: &id017
+          $ref: '#/components/schemas/Id'
+        version: *id017
+        content_sha256:
+          type: string
+          pattern: ^[a-f0-9]{64}$
+        font_key: *id017
+      required:
+      - key
+      - version
+      - content_sha256
+      - font_key
     GenerateVersion:
       type: object
       additionalProperties: false
@@ -10575,7 +12634,10 @@ components:
           type: integer
           minimum: 0
         generation_note:
-          $ref: '#/components/schemas/NullableText'
+          anyOf:
+          - type: string
+            maxLength: 8000
+          - type: 'null'
       required:
       - expected_workspace_row_version
       - expected_draft_revision
@@ -10624,6 +12686,13 @@ components:
           $ref: '#/components/schemas/RowVersion'
         archived:
           type: boolean
+        template_key: &id018
+          $ref: '#/components/schemas/Id'
+        template_version: *id018
+        template_content_sha256:
+          type: string
+          pattern: ^[a-f0-9]{64}$
+        font_key: *id018
       required:
       - id
       - workspace_id
@@ -10635,6 +12704,10 @@ components:
       - latest_ready_version_no
       - row_version
       - archived
+      - template_key
+      - template_version
+      - template_content_sha256
+      - font_key
     AudiencePreset:
       type: object
       additionalProperties: false
@@ -10686,20 +12759,6 @@ components:
       - workspace_id
       - output_type
       - audience_preset_id
-    Success:
-      type: object
-      additionalProperties: false
-      properties:
-        success:
-          type: boolean
-          const: true
-        affected_ids:
-          type: array
-          items:
-            $ref: '#/components/schemas/Id'
-      required:
-      - success
-      - affected_ids
     AudiencePresetPatch:
       type: object
       additionalProperties: false
@@ -10752,6 +12811,7 @@ components:
           enum:
           - queued
           - running
+          - waiting_for_input
           - succeeded
           - failed
           - cancelled
@@ -10812,8 +12872,11 @@ components:
           type: string
         instruction:
           type: string
+          minLength: 1
+          maxLength: 8000
         source_text:
           type: string
+          maxLength: 65536
       required:
       - workspace_id
       - capability
@@ -10821,6 +12884,76 @@ components:
       - target_id
       - target_row_version
       - instruction
+      - field
+      allOf:
+      - if:
+          properties:
+            target_type:
+              const: assignment
+        then:
+          properties:
+            field:
+              type: string
+              enum:
+              - name_or_id
+              - age_or_range
+              - height_measurements
+              - languages_accents
+              - skills_experience
+              - city
+              - previous_projects_roles
+              - classification
+              - availability
+              - presentation_notes
+      - if:
+          properties:
+            target_type:
+              const: candidate
+        then:
+          properties:
+            field:
+              type: string
+              enum:
+              - name
+              - age_or_range
+              - height_measurements
+              - skills_experience
+              - city
+              - previous_projects_roles
+              - classification
+      - if:
+          properties:
+            target_type:
+              const: role
+        then:
+          properties:
+            field:
+              type: string
+              enum:
+              - name
+              - requirements.age_range
+              - requirements.appearance_performance
+              - requirements.location
+              - requirements.availability_requirements
+              - requirements.other_instructions
+      - if:
+          properties:
+            target_type:
+              const: workspace_candidate
+        then:
+          properties:
+            field:
+              type: string
+              enum:
+              - availability
+      - if:
+          properties:
+            capability:
+              const: slide_shorten
+        then:
+          properties:
+            target_type:
+              const: assignment
     WorkspaceReview:
       type: object
       additionalProperties: false
@@ -10851,6 +12984,19 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Id'
+        series_id:
+          $ref: '#/components/schemas/Id'
+        template:
+          $ref: '#/components/schemas/TemplateIdentity'
+        cover:
+          $ref: '#/components/schemas/ReviewCover'
+        slides:
+          type: array
+          maxItems: 10000
+          items:
+            $ref: '#/components/schemas/ReviewSlide'
+        fit:
+          $ref: '#/components/schemas/ReviewFit'
       required:
       - workspace_id
       - input_fingerprint
@@ -10861,6 +13007,208 @@ components:
       - issues
       - can_generate
       - unreviewed_candidate_ids
+      - series_id
+      - template
+      - cover
+      - slides
+      - fit
+    ReviewFit:
+      type: object
+      additionalProperties: false
+      properties:
+        status:
+          type: string
+          enum:
+          - unmeasured
+          - measured
+          - failed
+        input_fingerprint:
+          anyOf:
+          - type: string
+            pattern: ^[a-f0-9]{64}$
+          - type: 'null'
+        measured_at:
+          anyOf:
+          - $ref: '#/components/schemas/DateTime'
+          - type: 'null'
+        overflows:
+          type: array
+          maxItems: 10000
+          items:
+            $ref: '#/components/schemas/ReviewFitOverflow'
+        error_code:
+          anyOf:
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
+      required:
+      - status
+      - input_fingerprint
+      - measured_at
+      - overflows
+      - error_code
+    ReviewFitOverflow:
+      type: object
+      additionalProperties: false
+      properties:
+        slide_index:
+          type: integer
+          minimum: 0
+        field:
+          $ref: '#/components/schemas/Id'
+        axis:
+          type: string
+          enum:
+          - horizontal
+          - vertical
+        overflow_px:
+          type: number
+          exclusiveMinimum: 0
+      required:
+      - slide_index
+      - field
+      - axis
+      - overflow_px
+    ReviewSlide:
+      type: object
+      additionalProperties: false
+      properties:
+        kind:
+          type: string
+          enum:
+          - candidate
+          - pending
+        role_id:
+          anyOf:
+          - &id019
+            $ref: '#/components/schemas/Id'
+          - type: 'null'
+        role_name: &id020
+          type: string
+        slot_id:
+          anyOf:
+          - *id019
+          - type: 'null'
+        slot_label: *id020
+        assignment_id:
+          anyOf:
+          - *id019
+          - type: 'null'
+        workspace_candidate_id:
+          anyOf:
+          - *id019
+          - type: 'null'
+        candidate_id:
+          anyOf:
+          - *id019
+          - type: 'null'
+        candidate_media_id:
+          anyOf:
+          - *id019
+          - type: 'null'
+        position:
+          anyOf:
+          - type: string
+            enum:
+            - main
+            - option
+            - backup
+          - type: 'null'
+        review_status:
+          anyOf:
+          - type: string
+            enum:
+            - reviewed
+            - unreviewed
+          - type: 'null'
+        assignment_row_version:
+          anyOf:
+          - $ref: '#/components/schemas/RowVersion'
+          - type: 'null'
+        workspace_candidate_row_version:
+          anyOf:
+          - $ref: '#/components/schemas/RowVersion'
+          - type: 'null'
+        candidate_row_version:
+          anyOf:
+          - $ref: '#/components/schemas/RowVersion'
+          - type: 'null'
+        requirements:
+          $ref: '#/components/schemas/RoleRequirements'
+        provisional:
+          type: boolean
+        fields:
+          $ref: '#/components/schemas/ReviewFields'
+        source_fields:
+          $ref: '#/components/schemas/ReviewFields'
+        frames:
+          type: array
+          maxItems: 3
+          items:
+            $ref: '#/components/schemas/ReviewFrame'
+        video_asset_id:
+          anyOf:
+          - *id019
+          - type: 'null'
+        role_category:
+          anyOf:
+          - type: string
+          - type: 'null'
+      required:
+      - kind
+      - role_id
+      - role_name
+      - slot_id
+      - slot_label
+      - assignment_id
+      - workspace_candidate_id
+      - candidate_id
+      - candidate_media_id
+      - position
+      - review_status
+      - assignment_row_version
+      - workspace_candidate_row_version
+      - candidate_row_version
+      - requirements
+      - provisional
+      - fields
+      - source_fields
+      - frames
+      - video_asset_id
+    ReviewFields:
+      type: object
+      additionalProperties: false
+      properties:
+        name_or_id:
+          type: string
+        age_or_range:
+          type: string
+        height_measurements:
+          type: string
+        languages_accents:
+          type: string
+        skills_experience:
+          type: string
+        city:
+          type: string
+        previous_projects_roles:
+          type: string
+        classification:
+          type: string
+        availability:
+          type: string
+        presentation_notes:
+          type: string
+      required:
+      - name_or_id
+      - age_or_range
+      - height_measurements
+      - languages_accents
+      - skills_experience
+      - city
+      - previous_projects_roles
+      - classification
+      - availability
+      - presentation_notes
     ReviewIssue:
       type: object
       additionalProperties: false
@@ -11139,8 +13487,90 @@ components:
           $ref: '#/components/schemas/NullableText'
         slide_wording:
           $ref: '#/components/schemas/SlideWording'
+        ai_suggestion_id:
+          $ref: '#/components/schemas/Id'
+        expected_series_id:
+          $ref: '#/components/schemas/Id'
+        expected_input_fingerprint:
+          type: string
+          pattern: ^[a-f0-9]{64}$
       required:
       - row_version
+      description: Manual assignment edits remain independent. Explicit AI proposal apply supplies all three review
+        guards and exactly one nonempty slide-wording field; the canonical transaction verifies current proposal/source/series
+        context before writing.
+      allOf:
+      - if:
+          anyOf:
+          - required:
+            - ai_suggestion_id
+          - required:
+            - expected_series_id
+          - required:
+            - expected_input_fingerprint
+        then:
+          required:
+          - ai_suggestion_id
+          - expected_series_id
+          - expected_input_fingerprint
+          - slide_wording
+          not:
+            anyOf:
+            - required:
+              - position
+            - required:
+              - shortlist_included
+            - required:
+              - presentation_notes
+            - required:
+              - internal_notes
+          properties:
+            slide_wording:
+              type: object
+              additionalProperties: false
+              minProperties: 1
+              maxProperties: 1
+              properties:
+                name_or_id:
+                  type: string
+                  minLength: 1
+                  pattern: '[^ \t\r\n]'
+                age_or_range:
+                  type: string
+                  minLength: 1
+                  pattern: '[^ \t\r\n]'
+                height_measurements:
+                  type: string
+                  minLength: 1
+                  pattern: '[^ \t\r\n]'
+                languages_accents:
+                  type: string
+                  minLength: 1
+                  pattern: '[^ \t\r\n]'
+                skills_experience:
+                  type: string
+                  minLength: 1
+                  pattern: '[^ \t\r\n]'
+                city:
+                  type: string
+                  minLength: 1
+                  pattern: '[^ \t\r\n]'
+                previous_projects_roles:
+                  type: string
+                  minLength: 1
+                  pattern: '[^ \t\r\n]'
+                classification:
+                  type: string
+                  minLength: 1
+                  pattern: '[^ \t\r\n]'
+                availability:
+                  type: string
+                  minLength: 1
+                  pattern: '[^ \t\r\n]'
+                presentation_notes:
+                  type: string
+                  minLength: 1
+                  pattern: '[^ \t\r\n]'
     AssignmentCreate:
       type: object
       additionalProperties: false
@@ -11243,6 +13673,29 @@ components:
           type: boolean
       required:
       - candidate_id
+    Playback:
+      type: object
+      additionalProperties: false
+      properties:
+        asset_id:
+          $ref: '#/components/schemas/Id'
+        url:
+          type: string
+          format: uri
+        expires_at:
+          $ref: '#/components/schemas/DateTime'
+        mime_type:
+          type: string
+        source_version_id:
+          anyOf:
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
+      required:
+      - asset_id
+      - url
+      - expires_at
+      - mime_type
+      - source_version_id
     CompleteUpload:
       type: object
       additionalProperties: false
@@ -11277,6 +13730,102 @@ components:
       - asset
       - processing_job_id
       - status
+    UploadSession:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        asset_id:
+          $ref: '#/components/schemas/Id'
+        protocol:
+          type: string
+          enum:
+          - tus
+          - signed_put
+        upload_url:
+          description: A scoped transfer URL for an open session. Closed sessions return null and empty upload_headers.
+          anyOf:
+          - type: string
+            format: uri
+          - type: 'null'
+        upload_headers:
+          type: object
+          additionalProperties:
+            type: string
+        expires_at:
+          $ref: '#/components/schemas/DateTime'
+        status:
+          type: string
+          enum:
+          - open
+          - completed
+          - cancelled
+          - expired
+        maximum_bytes:
+          type: integer
+          minimum: 1
+        upload_metadata:
+          type: object
+          additionalProperties: false
+          properties:
+            bucketName:
+              type: string
+              minLength: 1
+              maxLength: 2000
+            objectName:
+              type: string
+              minLength: 1
+              maxLength: 2000
+            contentType:
+              type: string
+              minLength: 1
+              maxLength: 2000
+            cacheControl:
+              type: string
+              minLength: 1
+              maxLength: 2000
+          required:
+          - bucketName
+          - objectName
+          - contentType
+          - cacheControl
+          description: Exact server-reserved TUS metadata. Never accept a caller-selected destination.
+        chunk_size:
+          type: integer
+          const: 6291456
+      required:
+      - id
+      - asset_id
+      - protocol
+      - upload_url
+      - upload_headers
+      - expires_at
+      - status
+      - maximum_bytes
+      allOf:
+      - if:
+          properties:
+            status:
+              const: open
+        then:
+          properties:
+            upload_url:
+              type: string
+        else:
+          properties:
+            upload_url:
+              type: 'null'
+            upload_headers:
+              maxProperties: 0
+      - if:
+          properties:
+            protocol:
+              const: tus
+        then:
+          required:
+          - upload_metadata
+          - chunk_size
     UploadSessionCreate:
       type: object
       additionalProperties: false
@@ -11308,6 +13857,15 @@ components:
       - filename
       - mime_type
       - size_bytes
+      allOf:
+      - if:
+          properties:
+            purpose:
+              const: candidate_support
+        then:
+          required:
+          - workspace_id
+          - candidate_id
     DuplicateResolution:
       type: object
       additionalProperties: false
@@ -11471,6 +14029,7 @@ components:
           items:
             type: integer
             minimum: 0
+            maximum: 1799999
           minItems: 1
           maxItems: 10
           uniqueItems: true
@@ -11516,6 +14075,20 @@ components:
           type: array
           items:
             type: string
+        processing_issues:
+          type: array
+          uniqueItems: true
+          maxItems: 5
+          description: Safe persisted technical outcomes; originals and useful material remain available. Raw provider
+            errors stay private.
+          items:
+            type: string
+            enum:
+            - NO_AUDIO
+            - TRANSCRIPTION_FAILED
+            - EXTRACTION_FAILED
+            - INSUFFICIENT_FRAMES
+            - FRAME_SELECTION_UNAVAILABLE
         available_frames:
           type: array
           items:
@@ -11536,6 +14109,7 @@ components:
       - transcript_asset_id
       - original_transcript
       - languages
+      - processing_issues
       - available_frames
       - selected_frame_asset_ids
       - row_version
@@ -12042,3 +14616,13 @@ components:
         maxLength: 200
       description: Scoped to actor+operation; replay same body returns original response; different body returns
         409.
+    OptionalIdempotencyKey:
+      name: Idempotency-Key
+      in: header
+      required: false
+      schema:
+        type: string
+        minLength: 16
+        maxLength: 200
+      description: Optional exact-response replay for an uncertain mutation acknowledgement. A repeated key must
+        keep the identical semantic request; current authority is rechecked.

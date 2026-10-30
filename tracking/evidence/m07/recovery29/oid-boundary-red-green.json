@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-10-30T12:09:13.523Z",
+  "scope": "Local history29 harness OID-boundary compatibility correction; no actual restore repeated by this record",
+  "failed_rehearsal": "tracking/evidence/m07/recovery29/2026-10-30T12-06-25-823Z-89d6bd59.json",
+  "read_only_observation": {
+    "sql_type": "oid",
+    "json_type": "string",
+    "example_json_oid": "5"
+  },
+  "red": {
+    "command": "node --test development/m07/recovery29/profile.test.mjs",
+    "passed": 5,
+    "failed": 1,
+    "case": "PostgreSQL JSON OID decimal string rejected by integer-only ownership planner"
+  },
+  "green": {
+    "command": "node --test development/m07/recovery29/profile.test.mjs",
+    "passed": 6,
+    "failed": 0,
+    "skipped": 0
+  },
+  "correction": "Strict canonical positive uint32 decimal text normalized only at databaseIdentity boundary. Existing planner guard remains dd2b88 unchanged.",
+  "source_seals": {
+    "development/m07/recovery29/run.mjs": "aeb6d0656b51869c0abdc15a174fcd0aa4fbe9d82defecf571d20d126fd7b12e",
+    "development/m07/recovery29/profile.mjs": "dd2b88812e22e4e54c87d25e5b1eeb3423b9281a4b360837f8613e1555f90049",
+    "development/m07/recovery29/profile.test.mjs": "42322bdc469f48f39e15197e57af9f0885fbb1f2437e794c81c218d5b2bfc326",
+    "development/m07/recovery29/identity.mjs": "c785bf1533031b560ad538fdcf5fbddb00eeb28d5f72e0d5d65524a933ad727d"
+  },
+  "original_controller": "development/m07/recovery29/source-history/34ed142a53d5692a7cc1aff98ad19abb96ec6c9d6d14184f4f162a6753efb135-run.mjs.txt",
+  "no_product_or_gate_sources_changed": true,
+  "cloud_or_provider_called": false,
+  "actual_restore_repeated": false
+}

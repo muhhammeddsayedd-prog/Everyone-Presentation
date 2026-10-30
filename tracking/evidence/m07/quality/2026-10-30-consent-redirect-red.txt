@@ -1,0 +1,49 @@
+✔ consent displays only provider-verified client/account/scope and rejects mismatched or extra authority fields (6.4259ms)
+✖ approve/deny use the installed SDK methods once with automatic redirects suppressed (8.2212ms)
+✖ metadata-free initial redirects cannot bypass approved client, user, scope and callback validation (0.7046ms)
+✔ post-decision recovery rejects redirects outside the callback verified earlier in that request (0.6917ms)
+✔ an uncertain decision only re-queries provider state and never repeats approval or creates another grant (0.8672ms)
+✔ redirects are provider-returned HTTPS or HTTP loopback only and remain bound to verified callback path (0.6263ms)
+✔ browser-only consent rejects MCP bearers, CSRF, extra JSON fields and malformed request IDs before obtaining cookies/provider (48.1279ms)
+✔ consent sign-in sends one existing-account-only link with a closed local return path (1.4044ms)
+✔ consent callback exchanges code once and returns only to the validated authorization selector (1.2818ms)
+✔ provider failures and unknown decision outcomes never expose private messages or callback codes (1.8156ms)
+✔ installed Supabase SSR/OAuth SDK uses the verified HttpOnly browser session for details and consent (18.1509ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 9
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1227.8303
+
+✖ failing tests:
+
+test at tests\server\oauth-consent.test.ts:2:4519
+✖ approve/deny use the installed SDK methods once with automatic redirects suppressed (8.2212ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (D:\Everyone\Presentation\Everyone-Presentation-Studio\tests\server\oauth-consent.test.ts:51:3)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: undefined,
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at tests\server\oauth-consent.test.ts:2:5421
+✖ metadata-free initial redirects cannot bypass approved client, user, scope and callback validation (0.7046ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (D:\Everyone\Presentation\Everyone-Presentation-Studio\tests\server\oauth-consent.test.ts:58:3)
+      at async Test.run (node:internal/test_runner/test:1332:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:911:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: { code: 'OAUTH_PROVIDER_RESPONSE_INVALID' },
+    operator: 'rejects',
+    diff: 'simple'
+  }

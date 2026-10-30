@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-30T12:13:32Z",
+  "reviewer": "m07_security_review",
+  "result": "no_unresolved_material_source_finding_in_bounded_scope",
+  "scope": "Independent static review of post29 local restore ownership, cleanup accounting, source-proof and privacy boundaries, plus the new diagnostics-only dump-clone observer. Source clearance is not restore execution proof.",
+  "execution": {
+    "source_reads_and_hashes_only": true,
+    "new_review_receipt_only": true,
+    "tests_executed_by_reviewer": false,
+    "recovery_or_diagnostics_controller_executed_by_reviewer": false,
+    "database_commands_executed_by_reviewer": false,
+    "docker_or_native_commands_executed_by_reviewer": false,
+    "provider_or_cloud_calls_by_reviewer": false,
+    "private_runtime_files_read_by_reviewer": false,
+    "application_or_test_source_edits_by_reviewer": false
+  },
+  "resolved_findings": [
+    {
+      "id": "RECOVERY29_POST_CREATE_CLEANUP_ACCOUNTING",
+      "initial_source_sha256": "aeb6d0656b51869c0abdc15a174fcd0aa4fbe9d82defecf571d20d126fd7b12e",
+      "initial_location": "development/m07/recovery29/run.mjs:58-59,136-144",
+      "problem": "A successful CREATE followed by failed identity read or normalization could leave the clone outside ownedDbs, while cleanup iterated only the map and could incorrectly report disposable_databases_removed=true.",
+      "resolution": "Both controllers now record creation attempts before dispatch. Cleanup observes only exact generated names even if no OID was recorded, requires matching name/owner/marker and canonical uint32 OID with zero clients before any drop, rejects a changed known OID, and requires a fresh actual-absence query before cleanup success. An unresolved identity throws into cleanup_unconfirmed and prevents lock release.",
+      "resolved_source_locations": [
+        "development/m07/recovery29/run.mjs:51-62,139-147",
+        "development/m07/recovery29/diagnose.mjs:18,23,31,34",
+        "development/m07/recovery29/ownership.mjs:4-10"
+      ],
+      "verification": "Read current source and three pure ownership test definitions; did not execute them. Recovery agent separately reported nine combined pure tests passing."
+    }
+  ],
+  "reviewed_boundaries": [
+    "Original29 is queried read-only against the sealed profile and exact full raw catalogue before clone work, with original state/catalogue and existing application/managed-role OIDs, attributes and application-role memberships compared afterward.",
+    "Restore corrections accept only six exact historical source/dump representation pairs and require exact full raw catalogue equality afterward. A new29 CHECK representation remains refused until an actual diagnostic observation is reviewed.",
+    "Diagnostics observer imports neither the correction planner nor native media stages. It emits safe structural original/clone catalogues and exact raw differences without normalizing or applying corrections.",
+    "Database creation and cleanup are limited to generated run-specific names in the already fingerprinted local Docker/PostgreSQL target. No global role DDL, forced session termination, cloud target, provider operation or canonical business mutation is present in the reviewed observer.",
+    "Raw dump bytes and exception diagnostics remain private; the observer publishes metadata-only catalogue values, source hashes and bounded status. The recovery bundle validates owned filesystem roots, manifest paths and byte checksums.",
+    "Source hashes are checked again before successful observer cleanup/lock release. Existing historical failures and source-history files are preserved."
+  ],
+  "limits": [
+    "No current controller run, cleanup, database state, native stage outcome or provider state was verified by this reviewer.",
+    "This review clears only the root-authorized diagnostics-only observer source prerequisite. It does not authorize or attest a media retry, a new restore-correction pair, cloud migration, deployed restore, independent-cluster recovery, RTO/RPO or production acceptance.",
+    "Private local PostgreSQL identity helpers and recovery bundle source were read; ignored local credential/configuration contents were not opened by this reviewer."
+  ],
+  "source_seals": {
+    "development/m07/recovery29/run.mjs": "b09aa8677046f511397242e54443ea52b6b4b94f36efbee2a9b8acd3b0166e2c",
+    "development/m07/recovery29/profile.mjs": "dd2b88812e22e4e54c87d25e5b1eeb3423b9281a4b360837f8613e1555f90049",
+    "development/m07/recovery29/identity.mjs": "c785bf1533031b560ad538fdcf5fbddb00eeb28d5f72e0d5d65524a933ad727d",
+    "development/m07/recovery29/profile.test.mjs": "42322bdc469f48f39e15197e57af9f0885fbb1f2437e794c81c218d5b2bfc326",
+    "development/m07/recovery29/diagnose.mjs": "b8dbcd7e58771115eba3666f4447d6f8905bca1b1738552fe8fef578dc5a8b52",
+    "development/m07/recovery29/ownership.mjs": "1371be6851d5cfa1d2091e9a0479ecc004e8ddc0f73937eddd8c8afe7b723b27",
+    "development/m07/recovery29/ownership.test.mjs": "b75ccd0d404a3c46f7f4f3549b8bf89a5067c854d12dda20f598d40e3e7b07ce",
+    "tools/m07-original-profile29-comparison.mjs": "e5bf4b4c8a1e1a682e303615cb9989340f3d014988488f48d794da643b2cdc20",
+    "tools/m07-recovery-bundle.mjs": "0938d274456d19130eaa95554ee5d7b90b364efafed13912fa5c62001193268c",
+    "tools/local-postgres.mjs": "49929bce8eb51194d9299cfd9639e537eb237daaec76c15740cb88059604e2de",
+    "development/m07/db/catalog29.sql": "1af59495b01424e6ec2578f6ea1f8ac362829577612c32b2cd373545a58b9098",
+    "development/m07/db/release29-readback.sql": "e38028dbbe87d5c74bd626e9c0ac1297c861d571b4de35ba3d0c7d967694e9de"
+  }
+}

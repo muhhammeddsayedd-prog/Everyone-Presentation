@@ -1,0 +1,113 @@
+
+Running 4 tests using 1 worker
+
+  x  1 [chromium] › tests\e2e\m07-settings.spec.ts:27:5 › settings defaults save through the typed operation and reload as central state (6.2s)
+  x  2 [chromium] › tests\e2e\m07-settings.spec.ts:38:5 › unknown settings writes keep the original body/key and block edits through later denial (1.5m)
+  x  3 [chromium] › tests\e2e\m07-settings.spec.ts:48:5 › untrusted successful settings acknowledgements retain the same save intent (1.5m)
+  ok 4 [chromium] › tests\e2e\m07-settings.spec.ts:57:5 › read-only users do not request or edit privileged Studio defaults (924ms)
+
+
+  1) [chromium] › tests\e2e\m07-settings.spec.ts:27:5 › settings defaults save through the typed operation and reload as central state 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator: getByLabel('Default timezone')
+    Expected: "Africa/Cairo"
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toHaveValue" getByLabel('Default timezone') with timeout 5000ms
+      - waiting for getByLabel('Default timezone')
+
+
+      27 | test('settings defaults save through the typed operation and reload as central state', async ({ page }) => {
+      28 |   const h = await settingsPage(page);
+    > 29 |   await expect(page.getByLabel('Default timezone')).toHaveValue('Africa/Cairo');
+         |                                                     ^
+      30 |   await page.getByLabel('Default timezone').fill('UTC');
+      31 |   await page.getByRole('button', { name: 'Save defaults', exact: true }).click();
+      32 |   await expect(page.getByRole('status')).toContainText('Studio defaults saved.');
+        at D:\Everyone\Presentation\Everyone-Presentation-Studio\tests\e2e\m07-settings.spec.ts:29:53
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\m07-settings-settings-defa-850f9-and-reload-as-central-state-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\m07-settings-settings-defa-850f9-and-reload-as-central-state-chromium\error-context.md
+
+  2) [chromium] › tests\e2e\m07-settings.spec.ts:38:5 › unknown settings writes keep the original body/key and block edits through later denial 
+
+    Test timeout of 90000ms exceeded.
+
+    Error: locator.fill: Test timeout of 90000ms exceeded.
+    Call log:
+      - waiting for getByLabel('Default timezone')
+
+
+      38 | test('unknown settings writes keep the original body/key and block edits through later denial', async ({ page }) => {
+      39 |   const h = await settingsPage(page, 'unknown');
+    > 40 |   await page.getByLabel('Default timezone').fill('UTC'); await page.getByRole('button', { name: 'Save defaults', exact: true }).click();
+         |                                             ^
+      41 |   await expect(page.getByLabel('Default timezone')).toBeDisabled();
+      42 |   await page.getByRole('button', { name: 'Confirm same save', exact: true }).click();
+      43 |   await expect(page.getByLabel('Default timezone')).toBeDisabled();
+        at D:\Everyone\Presentation\Everyone-Presentation-Studio\tests\e2e\m07-settings.spec.ts:40:45
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\m07-settings-unknown-setti-0e3ce--edits-through-later-denial-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\m07-settings-unknown-setti-0e3ce--edits-through-later-denial-chromium\error-context.md
+
+  3) [chromium] › tests\e2e\m07-settings.spec.ts:48:5 › untrusted successful settings acknowledgements retain the same save intent 
+
+    Test timeout of 90000ms exceeded.
+
+    Error: locator.fill: Test timeout of 90000ms exceeded.
+    Call log:
+      - waiting for getByLabel('Default timezone')
+
+
+      48 | test('untrusted successful settings acknowledgements retain the same save intent', async ({ page }) => {
+      49 |   const h = await settingsPage(page, 'malformed');
+    > 50 |   await page.getByLabel('Default timezone').fill('UTC'); await page.getByRole('button', { name: 'Save defaults', exact: true }).click();
+         |                                             ^
+      51 |   await expect(page.getByLabel('Default timezone')).toBeDisabled();
+      52 |   await expect(page.getByText('synthetic-untrusted-marker')).toHaveCount(0);
+      53 |   await page.getByRole('button', { name: 'Confirm same save', exact: true }).click();
+        at D:\Everyone\Presentation\Everyone-Presentation-Studio\tests\e2e\m07-settings.spec.ts:50:45
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\m07-settings-untrusted-suc-42de7-retain-the-same-save-intent-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\m07-settings-untrusted-suc-42de7-retain-the-same-save-intent-chromium\error-context.md
+
+  3 failed
+    [chromium] › tests\e2e\m07-settings.spec.ts:27:5 › settings defaults save through the typed operation and reload as central state 
+    [chromium] › tests\e2e\m07-settings.spec.ts:38:5 › unknown settings writes keep the original body/key and block edits through later denial 
+    [chromium] › tests\e2e\m07-settings.spec.ts:48:5 › untrusted successful settings acknowledgements retain the same save intent 
+  1 passed (3.3m)
+[WebServer] (node:10344) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:53052) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:32388) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+(node:42688) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:36000) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+(node:40548) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:52036) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+(node:60212) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:52468) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+(node:19936) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:11216) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)

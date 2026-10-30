@@ -1,0 +1,45 @@
+{
+  "scope": "Synthetic JSON Schema only; no app/provider/cloud calls",
+  "source": "02f9287f8a5dc1b40d2364f904ac499f7c1a54a6",
+  "results": [
+    {
+      "name": "update_candidate",
+      "accepts_key": false,
+      "accepts_missing_key": true,
+      "key_errors": [
+        {
+          "path": "",
+          "rule": "additionalProperties",
+          "unexpected": "idempotency_key"
+        }
+      ],
+      "pass": false
+    },
+    {
+      "name": "update_candidate_frames",
+      "accepts_key": false,
+      "accepts_missing_key": true,
+      "key_errors": [
+        {
+          "path": "",
+          "rule": "additionalProperties",
+          "unexpected": "idempotency_key"
+        }
+      ],
+      "pass": false
+    },
+    {
+      "name": "update_workspace_candidate",
+      "accepts_key": false,
+      "accepts_missing_key": true,
+      "key_errors": [
+        {
+          "path": "",
+          "rule": "additionalProperties",
+          "unexpected": "idempotency_key"
+        }
+      ],
+      "pass": false
+    }
+  ]
+}

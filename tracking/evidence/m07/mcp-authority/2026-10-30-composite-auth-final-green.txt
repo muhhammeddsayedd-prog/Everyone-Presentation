@@ -1,0 +1,24 @@
+✔ M07 tools/list exposes only the current business capabilities (54.174ms)
+✔ M07 discovery evaluates the published compound capabilities without replacing resource checks (8.3429ms)
+✔ M07 delegation intersects signed limits with business authority for discovery and calls (233.8789ms)
+✔ M07 capability revocation is re-read for every call and list, without session authority cache (168.0542ms)
+✔ M07 malformed successful service output fails closed without publishing its private fields (55.4936ms)
+✔ M07 correct published output remains available through the official SDK (3.9993ms)
+✔ MCP config keeps local mode explicit, rejects production local mode and pins issuer/resource without arbitrary URLs (3.1529ms)
+✔ explicit OAuth mode permits only development/test HTTP loopback resources while issuer and JWKS stay HTTPS (1.0448ms)
+✔ OAuth metadata uses only pinned discovery, validates issuer/endpoints and serves path-aware public metadata (50.544ms)
+✔ MCP authenticates signed resource-specific user delegation and intersects current capabilities (30.6777ms)
+✔ MCP rejects missing, browser-audience, expired, future, privileged, anonymous, bad-client and forged tokens (40.16ms)
+✔ MCP rejects insufficient identity scope, invalid Origin/Host and query-string credentials (6.1506ms)
+✔ MCP session revocation is rechecked each request and unavailable/mismatched checks fail closed (10.1802ms)
+responseMode: 'json' drops mid-call notifications. subscriptions/listen streams are always served over SSE regardless; other notifications emitted before a result are dropped.
+✔ MCP metadata/key retrieval rejects oversized and redirected responses and never follows token-controlled key URLs (7.4049ms)
+✔ official SDK handles signed OAuth modern and legacy requests without sharing concurrent principals or sessions (127.5366ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2647.6668

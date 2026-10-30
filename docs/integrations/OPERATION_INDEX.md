@@ -1,6 +1,6 @@
 # API and MCP operation index
 
-Generated from the handoff contract. `openapi.yaml` owns schemas and paths; the application must add contract tests against its implemented routes. **This index does not claim routes have been built.** Internal capability requirements also require project/library scope.
+`openapi.yaml` owns schemas and paths. The [current implementation matrix](IMPLEMENTATION_PARITY.md) is generated from `contracts/operation-parity.json` and reconciled with the actual composed runtime/catalog by `tools/check_m07_parity.py`. This index is an operation reference, not live service or production acceptance. Internal capability requirements also require current project/library/purpose scope. The media-grant minting HTTP path remains a contract-only service path; actual minting uses the private leased gateway.
 
 | Operation ID | HTTP route (under `/api/v1`) | Capability / audience | MCP |
 | --- | --- | --- | --- |
@@ -39,6 +39,7 @@ Generated from the handoff contract. `openapi.yaml` owns schemas and paths; the 
 | `complete_upload` | `POST /uploads/{upload_id}/complete` | purpose-specific: cast.upload OR workspaces.write OR projects.write | Yes |
 | `cancel_upload` | `POST /uploads/{upload_id}/cancel` | purpose-specific: cast.upload OR workspaces.write OR projects.write | Yes |
 | `get_media` | `GET /media/{asset_id}` | workspaces.read OR cast.read | Yes |
+| `get_media_content` | `GET /media/{asset_id}/content` | workspaces.read OR cast.read; actual parent/purpose checked | No; existing authorized binary companion, documented in M07 |
 | `play_media` | `POST /media/{asset_id}/playback` | workspaces.read OR cast.read | Yes |
 | `list_workspace_candidates` | `GET /workspaces/{workspace_id}/candidates` | workspaces.read | Yes |
 | `add_workspace_candidate` | `POST /workspaces/{workspace_id}/candidates` | workspaces.write AND cast.read | Yes |

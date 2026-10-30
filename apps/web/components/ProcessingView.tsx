@@ -6,6 +6,7 @@ import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import { ApiError, api, type Actor, type Project, type Workspace } from './api';
 import { ErrorNotice, Loading } from './Feedback';
 import { useRuntimeMode } from './RuntimeMode';
+import { StudioDateTime } from './StudioTimeZone';
 import {frameOutcomeSummary} from '../lib/frame-outcome-summary';
 import { JOB_KINDS, JOB_STATUSES, STATUS_LABELS, jobFailureMessage, processingActions, jobStageLabel, processingDelay, processingHref,
   readJobPage, readProcessingJob, retainJobIntent, validProcessingId, workspaceResultHref,
@@ -19,7 +20,6 @@ function readError(reason: unknown): string {
   }
   return 'Processing could not be refreshed. Try again to read the saved state.';
 }
-function dateLabel(value: string): string { return new Intl.DateTimeFormat(undefined, { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(value)); }
 const listDelay = (page: JobPage | null, failures: number) => processingDelay(page?.jobs.some(job => ['queued', 'running'].includes(job.status)) ? 'running' : null, failures, true);
 const detailDelay = (job: ProcessingJob | null, failures: number) => processingDelay(job?.status ?? null, failures, false);
 const newestJob = (current: ProcessingJob | null, next: ProcessingJob) => current && current.row_version >= next.row_version ? current : next;
@@ -110,7 +110,7 @@ function JobGroup({ jobs, status, cursor }: { jobs: ProcessingJob[]; status: Pro
   return <section className="processing-group"><div className="section-heading"><h2>{jobs[0].batch_id ? 'Processing batch' : 'Individual jobs'}</h2><span className="small muted">{jobs.length} {jobs.length === 1 ? 'job' : 'jobs'}</span></div>
     <details className="processing-project" onToggle={event => { if (event.currentTarget.open) setShowWorkspace(true); }}><summary>Project and workspace</summary>{showWorkspace && <WorkspaceDestination job={jobs[0]} />}</details>
     <ul className="processing-jobs">{jobs.map(job => <li key={job.id}><div><Link className="processing-job-link" href={processingHref({ job: job.id, status, cursor })}>{JOB_KINDS[job.kind]}</Link><p className="small muted">{jobStageLabel(job.stage)}</p><JobProgress job={job} /></div>
-      <div className="processing-job-state"><span className="badge">{STATUS_LABELS[job.status]}</span><time className="small muted" dateTime={job.created_at}>Submitted {dateLabel(job.created_at)}</time>{job.status === 'failed' && <p className="small">{jobFailureMessage(job.error)}</p>}</div></li>)}</ul>
+      <div className="processing-job-state"><span className="badge">{STATUS_LABELS[job.status]}</span><StudioDateTime className="small muted" value={job.created_at} prefix="Submitted " />{job.status === 'failed' && <p className="small">{jobFailureMessage(job.error)}</p>}</div></li>)}</ul>
   </section>;
 }
 
@@ -126,7 +126,7 @@ function JobList({ status, cursor }: { status: ProcessingStatus | null; cursor: 
   return <>
     <header className="page-heading"><div><h1>Processing</h1><p>Saved processing state for the projects shared with your account.</p></div><button className="button button-small button-quiet" disabled={state.checking} onClick={state.reload}>Refresh jobs</button></header>
     <div className="processing-toolbar"><div className="field"><label htmlFor="processing-status">Status</label><select id="processing-status" value={status ?? ''} onChange={event => router.replace(processingHref({ status: event.target.value as ProcessingStatus || null }))}><option value="">All jobs</option>{JOB_STATUSES.map(value => <option key={value} value={value}>{STATUS_LABELS[value]}</option>)}</select></div>
-      <p className="small muted" role="status">{state.checking ? 'Checking saved jobs…' : state.checkedAt ? `Last checked ${dateLabel(state.checkedAt)}` : 'Reading saved jobs…'}</p></div>
+      <p className="small muted" role="status">{state.checking ? 'Checking saved jobs…' : state.checkedAt ? <StudioDateTime value={state.checkedAt} prefix="Last checked " /> : 'Reading saved jobs…'}</p></div>
     {state.error && <ErrorNotice message={state.error} retry={state.reload} />}
     {!state.data && state.loading ? <Loading label="Loading processing jobs…" /> : state.data?.jobs.length ? <div className="processing-groups">{[...groups].map(([key, jobs]) => <JobGroup key={key} jobs={jobs} status={status} cursor={cursor} />)}</div>
       : !state.error && <div className="processing-empty"><h2>{status ? 'No jobs with this status' : 'No processing jobs'}</h2><p className="muted">{status ? 'Choose another status to see your other accessible jobs.' : 'Jobs will appear here after processing is requested.'}</p></div>}
@@ -173,11 +173,11 @@ function JobDetail({ id, status, cursor, canOperate, onDirtyChange }: { id: stri
     {state.error && <ErrorNotice message={state.error} retry={state.reload} />}
     {!job && state.loading ? <Loading label="Loading processing job…" /> : job && <>
       <section className="editor-section processing-detail"><div className="section-heading"><h2>Processing status</h2><span className="badge">{STATUS_LABELS[job.status]}</span></div>
-        <dl className="processing-facts"><div><dt>Stage</dt><dd>{jobStageLabel(job.stage)}</dd></div><div><dt>Submitted</dt><dd><time dateTime={job.created_at}>{dateLabel(job.created_at)}</time></dd></div><div><dt>Last saved update</dt><dd><time dateTime={job.updated_at}>{dateLabel(job.updated_at)}</time></dd></div></dl>
+        <dl className="processing-facts"><div><dt>Stage</dt><dd>{jobStageLabel(job.stage)}</dd></div><div><dt>Submitted</dt><dd><StudioDateTime value={job.created_at} /></dd></div><div><dt>Last saved update</dt><dd><StudioDateTime value={job.updated_at} /></dd></div></dl>
         <JobProgress job={job} />{job.frame_extraction&&<p className="notice" role="status">{frameOutcomeSummary(job.frame_extraction)}</p>}{job.error && <div className="notice notice-error"><p>{jobFailureMessage(job.error)}</p></div>}
         {job.status === 'waiting_for_input' && <p className="small">This job needs input before it can continue. Open its workspace to review the available requirements.</p>}
         {job.status === 'cancelled' && <p className="small">Cancellation is recorded. Any work already completed is retained.</p>}
-        <p className="small muted" role="status">{state.checking && !busy && !intent ? 'Checking saved status…' : state.checkedAt ? `Last checked ${dateLabel(state.checkedAt)}` : 'Reading saved status…'}</p>
+        <p className="small muted" role="status">{state.checking && !busy && !intent ? 'Checking saved status…' : state.checkedAt ? <StudioDateTime value={state.checkedAt} prefix="Last checked " /> : 'Reading saved status…'}</p>
       </section>
       <section className="editor-section"><div className="section-heading"><h2>Project and result</h2></div><WorkspaceDestination key={`${job.id}/${job.workspace_id}`} job={job} />{job.kind === 'presentation_render' && job.resource_id && <><Link className="button" href={`/presentations/versions/${encodeURIComponent(job.resource_id)}`}>Open saved version</Link><p className="small muted">Retrying uses this captured version, including its original words and media.</p></>}</section>
       {canOperate && <section className="editor-section processing-actions"><div className="section-heading"><h2>Recovery</h2><span className="save-state" role="status" aria-live="polite">{busy ? 'Saving…' : operationError ? 'Could not confirm' : saved || 'Up to date'}</span></div>

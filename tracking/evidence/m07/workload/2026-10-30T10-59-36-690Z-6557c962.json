@@ -1,0 +1,195 @@
+{
+  "schema_version": "1.0",
+  "run_id": "6557c962-dbae-4a4b-b0bc-c80064e9fffc",
+  "started_at": "2026-10-30T10:59:36.690Z",
+  "result": "passed",
+  "scope": "200 clearly synthetic local files; actual isolated native probing/preparation and drained child-process restart",
+  "overall_budget_ms": 900000,
+  "admission_budget_ms": 840000,
+  "cleanup_reserve_ms": 60000,
+  "provider_called": false,
+  "n8n_called": false,
+  "database_called": false,
+  "production_worker_or_configuration_changed": false,
+  "real_personal_media_used": false,
+  "representative_video_capacity_tested": false,
+  "hosting_tested": false,
+  "checkpoint": "complete",
+  "private_acl_verified": true,
+  "no_existing_running_media_containers": true,
+  "native_image_id": "sha256:ea6e27d158a843fee524d7f43f2f88a4ede8bc58e8ac32578b7dec5c1594ba6b",
+  "source_seals": {
+    "tools/m07-workload.mjs": "8a0beaab8931f1b36163ab555ac6f693534a1b0fdd2fe918fab5c86f6f4bc34d",
+    "tools/m07-workload.test.mjs": "9d738e7531c38659fcfe2c575953d0214b5ffedf2febb32e7bd2a222776265b4",
+    "tools/m07-workload-local.mjs": "9619c0870253cdb93682972f1503ce93489cbf8297145bf841ff220d4fd1640d",
+    "tools/m07-workload-native-child.mjs": "586f1390c9c71589eebaefd790b66886ac6683a04ae805110bdbd0a2876ef9b0",
+    "apps/worker/src/video-container.ts": "a21d044eeea3e1c6a4ef8f3107a71ac7cc868164ed1fbeca92829afccd08cfd4",
+    "apps/worker/src/video-native.ts": "7d2e0434c5b2cabcb10f881993638374d7750b3f0860317e2881c6bcf29f421e",
+    "apps/worker/src/video-types.ts": "75a1fb21d91eb2a03d2b5f5e7ffcb85f0e7811009caa9108f9e74f0836d3de6a",
+    "apps/worker/src/runtime.ts": "1bffa78aeccc34162d50e740837a390ceb3114284c7df68f0dd184a7d9d5de54",
+    "apps/worker/src/runtime-types.ts": "88eebf66c0f7dd1add3a88758a5f25cd309caf82c9620a28ffa1753762b28124"
+  },
+  "local_byte_resume": {
+    "scope": "Local harness byte checkpoint only; not the app upload protocol or Storage HTTP",
+    "persisted_offset": 3570,
+    "verified_total_bytes": 7140,
+    "hash_verified": true
+  },
+  "distinct_input_sha256_count": 200,
+  "summary": {
+    "total_files": 200,
+    "total_input_bytes": 1420766,
+    "succeeded": 198,
+    "failed": 2,
+    "unconfirmed": 0,
+    "pending": 0,
+    "running": 0,
+    "total_attempts": 201,
+    "retries": 1,
+    "native_requests": 199,
+    "attempted_input_bytes": 1427906,
+    "peak_inflight": 2,
+    "restarts": 1,
+    "duration_ms": {
+      "p50": 2429,
+      "p95": 2835,
+      "maximum": 3079
+    },
+    "successful_duration_ms": {
+      "p50": 2430,
+      "p95": 2840,
+      "maximum": 3079
+    },
+    "queue_wait_ms": {
+      "p50": 123639,
+      "p95": 235457,
+      "maximum": 245906
+    },
+    "failure_codes": {
+      "VIDEO_DECODE_FAILED": 1,
+      "VIDEO_TYPE_UNSUPPORTED": 1,
+      "VIDEO_CONTAINER_UNAVAILABLE": 1
+    }
+  },
+  "fresh_process_restart": {
+    "first_pid": 52424,
+    "resumed_pid": 49284,
+    "first_completed": 40,
+    "first_completed_attempts_unchanged": true,
+    "drained_before_exit": true,
+    "crash_injection": false
+  },
+  "expected_failures": {
+    "corrupt_file_native_decode": true,
+    "unsupported_mime_before_native": true,
+    "injected_transient_retry_then_actual_native_success": true
+  },
+  "native_full_preparation_files": [
+    {
+      "id": "file-190",
+      "duration_ms": 320,
+      "width": 160,
+      "height": 90,
+      "frame_rate": 25,
+      "video_codec": "h264",
+      "has_audio": false,
+      "sampled_frames": 1,
+      "audio_chunks": 0,
+      "ffmpeg_version": "ffmpeg version 5.1.9-0+deb12u1 Copyright (c) 2000-2026 the FFmpeg developers"
+    },
+    {
+      "id": "file-191",
+      "duration_ms": 320,
+      "width": 160,
+      "height": 90,
+      "frame_rate": 25,
+      "video_codec": "h264",
+      "has_audio": false,
+      "sampled_frames": 1,
+      "audio_chunks": 0,
+      "ffmpeg_version": "ffmpeg version 5.1.9-0+deb12u1 Copyright (c) 2000-2026 the FFmpeg developers"
+    },
+    {
+      "id": "file-192",
+      "duration_ms": 320,
+      "width": 160,
+      "height": 90,
+      "frame_rate": 25,
+      "video_codec": "h264",
+      "has_audio": false,
+      "sampled_frames": 1,
+      "audio_chunks": 0,
+      "ffmpeg_version": "ffmpeg version 5.1.9-0+deb12u1 Copyright (c) 2000-2026 the FFmpeg developers"
+    },
+    {
+      "id": "file-193",
+      "duration_ms": 320,
+      "width": 160,
+      "height": 90,
+      "frame_rate": 25,
+      "video_codec": "h264",
+      "has_audio": false,
+      "sampled_frames": 1,
+      "audio_chunks": 0,
+      "ffmpeg_version": "ffmpeg version 5.1.9-0+deb12u1 Copyright (c) 2000-2026 the FFmpeg developers"
+    },
+    {
+      "id": "file-194",
+      "duration_ms": 320,
+      "width": 160,
+      "height": 90,
+      "frame_rate": 25,
+      "video_codec": "h264",
+      "has_audio": false,
+      "sampled_frames": 1,
+      "audio_chunks": 0,
+      "ffmpeg_version": "ffmpeg version 5.1.9-0+deb12u1 Copyright (c) 2000-2026 the FFmpeg developers"
+    },
+    {
+      "id": "file-195",
+      "duration_ms": 320,
+      "width": 160,
+      "height": 90,
+      "frame_rate": 25,
+      "video_codec": "h264",
+      "has_audio": false,
+      "sampled_frames": 1,
+      "audio_chunks": 0,
+      "ffmpeg_version": "ffmpeg version 5.1.9-0+deb12u1 Copyright (c) 2000-2026 the FFmpeg developers"
+    }
+  ],
+  "source_video": {
+    "duration_ms": 320,
+    "width": 160,
+    "height": 90,
+    "has_audio": false,
+    "video_codec": "h264",
+    "synthetic": "FFmpeg lavfi testsrc2; appended distinct MP4 free boxes; no human footage"
+  },
+  "unknown_ack_and_replay": {
+    "scope": "Existing real runtime dispatcher with injected closed SQL/router/executor ports only; no native throughput or real queue claim",
+    "unknown_ack_stops_before_execution": true,
+    "completed_replay_skips_execution": true,
+    "executor_calls": 0
+  },
+  "sources_unchanged": true,
+  "production_default_reconciliation": {
+    "actual_runtime": "one serial runSpecsWorker loop; claimOutbox(1), poll3000ms, recovery25 every30000ms",
+    "benchmark": "isolated diagnostic harness allows2native calls; this does not change the production worker or establish2active production scans",
+    "proposed_document_values": "Earlier2video/1PDF and4scan/2heavy/2PDF proposals are not measured deployed capacity"
+  },
+  "limitations": [
+    "Synthetic tiny silent test patterns are technical probe/preparation throughput only; no representative video, semantic/frame quality or real provider cost acceptance.",
+    "6 files request full native preparation; other eligible files use probeOnly; no full200-video scan/AI pipeline is claimed.",
+    "Drained child-process restart reuses metadata checkpoints; no worker crash, lost native outcome, production job lease or service replacement is simulated.",
+    "Queue wait is this local diagnostic admission delay; no Supabase/n8n queueHTTP or API/browser responsiveness measurement.",
+    "One retry is an explicit closed test injection before native work; native corrupt/unsupported inputs fail independently without retry.",
+    "Local byte resume is a harness file append/checksum boundary, not AT-055 Storage/TUS upload acceptance.",
+    "Provider usage/cost, independent endurance and production capacity remain unmeasured; no hosting/deployment performed."
+  ],
+  "seed_container_removed": true,
+  "workload_lock_released": true,
+  "finished_at": "2026-10-30T11:03:47.465Z",
+  "elapsed_ms": 250775,
+  "private_artifact_directory": ".local/m07-workload/6557c962-dbae-4a4b-b0bc-c80064e9fffc"
+}

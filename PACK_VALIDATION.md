@@ -1,17 +1,17 @@
 # Development pack validation
 
-Date: 27 October 2026. These checks validate the specification, not the future app.
+Date: 2026-10-30 (UTC). These checks validate the specification and contracts; application acceptance has separate gates.
 
-**Validation result: PASS.** 357 schema, syntax, structural, reference, parity and business-contract assertions passed.
+**Validation result: PASS.** 359 schema, syntax, structural, reference, parity and business-contract assertions passed.
 
 ## Scope
 
-- 98 API paths, 114 unique operations and 86 intended internal MCP tools.
+- 99 API paths, 115 unique operations and 86 intended internal MCP tools.
 - 25 proposed design tables; foreign-key table references and execution guards checked.
 - 12 standalone JSON schemas; source references and AI-object key contracts checked.
 - 76 unique acceptance cases; all 36 business rules represented.
 - Fixture Selection = 8 pages and Shortlist = 6 pages, independently derived in correct order.
-- 1179 source-document local file links checked.
+- 1360 source-document local file links checked.
 - Full JSON Schema meta-validation passed
 - Full OpenAPI meta-validation passed
 - PostgreSQL SQL syntax parsed: 63 statements; no SQL executed

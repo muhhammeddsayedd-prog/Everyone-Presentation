@@ -367,3 +367,5 @@ export function createStudio(options: StudioOptions) {
   return api;
 }
 export type Studio = ReturnType<typeof createStudio>;
+export type { Settings, SettingsPatch, SettingsOperations } from './settings-types.ts';
+export { parseSettingsPatch, settingsDto } from './settings.ts';

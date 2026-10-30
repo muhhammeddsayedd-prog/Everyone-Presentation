@@ -1,5 +1,10 @@
 # Domain transactions and database function contracts
 
+## M07 implemented Settings/session transactions
+
+Applied29 adds `public.eps_get_settings()`, `public.eps_update_settings(jsonb,text)` and `public.eps_validate_own_oauth_session(text)`. Settings writes require `settings.manage`, exact rowversion and stable actor-bound idempotency, with authority rechecked after advisory waits and before cached replay; audit/config writes share the constrained transaction. Template defaults affect future series only. Session projection checks the exact managed session/client/resource and intersects issuer-signed atomic grants with current business grants. The three existing shared functions are source-guarded ports, not a competing permission implementation. [Release/proofs](../../development/m07/db/RELEASE.md) and [API mapping](../integrations/API_DB_MAPPING.md) record the physical operation path. No provider hook was enabled by these transactions.
+
+
 **Purpose:** define the invariants Codex must implement once, then reuse from UI, HTTP API, MCP and authenticated processing callbacks. These are logical operation contracts. Their implementation may be SQL functions plus TypeScript orchestration or an equivalent transaction layer matching the discovered Supabase architecture. Do not create public RPC endpoints automatically from this document.
 
 Read [the baseline](../../CONTRACT_BASELINE.md), [schema](DATABASE_SCHEMA.md), [access controls](SECURITY_AND_ACCESS.md), and the API contracts together. API operation IDs below are the canonical names. An internal SQL helper may use a prefix such as `eps.set_slot_main_tx`, but it must not introduce different business behavior.

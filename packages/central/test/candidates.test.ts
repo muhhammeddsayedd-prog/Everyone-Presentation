@@ -46,7 +46,7 @@ test('search validates unknown controls and rejects malformed or hidden-field ce
 test('media exposes only fixed technical issue codes and rejects raw provider diagnostic strings', async () => {
   const item = { id: 'media', candidate_id: full.id, source_asset_id: 'source', preview_asset_id: null, transcript_asset_id: null, original_transcript: 'Preserved original transcript.', languages: [], available_frames: [], selected_frame_asset_ids: [], processing_issues: ['EXTRACTION_FAILED','INSUFFICIENT_FRAMES','FRAME_SELECTION_UNAVAILABLE'], row_version: 1 };
   const service = await createCentralCandidates(fixture([item]).client);
-  assert.deepEqual((await service.getCandidateMedia(actor, full.id))[0].processing_issues, item.processing_issues);
+  assert.deepEqual((await service.getCandidateMedia(actor, full.id)).data[0].processing_issues, item.processing_issues);
   const bad = await createCentralCandidates(fixture([{ ...item, processing_issues: ['raw-private-provider-error'] }]).client);
   await assert.rejects(bad.getCandidateMedia(actor, full.id), code('CENTRAL_RESPONSE_INVALID'));
 });

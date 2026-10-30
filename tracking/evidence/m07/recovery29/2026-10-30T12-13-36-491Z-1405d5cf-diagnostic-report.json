@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "run_id": "1405d5cf-af56-4359-9a6c-9dddc63e2969",
+  "started_at": "2026-10-30T12:13:36.491Z",
+  "result": "failed",
+  "scope": "One diagnostics-only owned29 dump clone; safe structural catalogue and exact differences before any correction",
+  "cloud_called": false,
+  "provider_called": false,
+  "native_called": false,
+  "original_database_writes": false,
+  "correction_applied": false,
+  "private_acl_verified": true,
+  "source_seals": {
+    "development/m07/recovery29/diagnose.mjs": "b8dbcd7e58771115eba3666f4447d6f8905bca1b1738552fe8fef578dc5a8b52",
+    "development/m07/recovery29/identity.mjs": "c785bf1533031b560ad538fdcf5fbddb00eeb28d5f72e0d5d65524a933ad727d",
+    "development/m07/recovery29/ownership.mjs": "1371be6851d5cfa1d2091e9a0479ecc004e8ddc0f73937eddd8c8afe7b723b27",
+    "development/m07/recovery29/ownership.test.mjs": "b75ccd0d404a3c46f7f4f3549b8bf89a5067c854d12dda20f598d40e3e7b07ce",
+    "tools/local-postgres.mjs": "49929bce8eb51194d9299cfd9639e537eb237daaec76c15740cb88059604e2de",
+    "tools/m07-original-profile29-comparison.mjs": "e5bf4b4c8a1e1a682e303615cb9989340f3d014988488f48d794da643b2cdc20",
+    "development/local-db/reviewed.json": "9722f25317f783123ec462227e94aecf65ea1cb27a9b59cf0d6bc07420f5d671",
+    "development/m07/db/catalog29.sql": "1af59495b01424e6ec2578f6ea1f8ac362829577612c32b2cd373545a58b9098",
+    "development/m07/db/release29-readback.sql": "e38028dbbe87d5c74bd626e9c0ac1297c861d571b4de35ba3d0c7d967694e9de"
+  },
+  "failure_code": "RECOVERY29_DIAGNOSTIC_UNCONFIRMED",
+  "actual_owned_clone_absence": {
+    "eps_m07_r29_diag_1405d5cfaf5643599a6c9dddc63e2969": false
+  },
+  "owned_clone_removed": true,
+  "original29_state_unchanged": true,
+  "existing_global_role_oids_attributes_memberships_unchanged": true,
+  "original29_full_catalogue_unchanged": true,
+  "shared_lock_released": true,
+  "finished_at": "2026-10-30T12:14:01.456Z",
+  "elapsed_ms": 24965
+}

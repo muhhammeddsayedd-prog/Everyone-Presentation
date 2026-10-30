@@ -22,6 +22,8 @@ import { getGuestReviewService, getReviewLinkService } from '../../../../lib/gue
 import { handleGuestReviewRequest, handleReviewLinkRequest, isGuestReviewRoute, isReviewLinkRoute } from '../../../../lib/guest-http';
 import { readRuntimeConfig } from '../../../../lib/config';
 import { guestOperationClass, logGuestRequestFailure, type GuestOperationClass } from '../../../../lib/guest-error-log';
+import { getSettingsService } from '../../../../lib/settings';
+import { handleSettingsRequest, isSettingsRoute } from '../../../../lib/settings-http';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -41,6 +43,7 @@ async function handle(request: Request, context: Context) {
     }
     if (method !== 'GET') requireSameOrigin(request, true);
     const actor = (await currentActor())!;
+    if (isSettingsRoute(s)) return handleSettingsRequest(request, s, actor, await getSettingsService(), mutation);
     if (isReviewLinkRoute(s)) return await handleReviewLinkRequest(request, s, actor, await getReviewLinkService(), mutation);
     if (s[0] === 'jobs') return await handleJobRequest(request, s, actor, await getJobs(), mutation);
     if (isPresentationRoute(s)) return await handlePresentationRequest(request, s, actor, await getPresentationService(), mutation);

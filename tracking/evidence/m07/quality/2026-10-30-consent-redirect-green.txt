@@ -1,0 +1,19 @@
+✔ consent displays only provider-verified client/account/scope and rejects mismatched or extra authority fields (6.3985ms)
+✔ approve/deny use the installed SDK methods once with automatic redirects suppressed (2.3515ms)
+✔ metadata-free initial redirects cannot bypass approved client, user, scope and callback validation (1.7804ms)
+✔ post-decision recovery rejects redirects outside the callback verified earlier in that request (1.238ms)
+✔ an uncertain decision only re-queries provider state and never repeats approval or creates another grant (1.72ms)
+✔ redirects are provider-returned HTTPS or HTTP loopback only and remain bound to verified callback path (0.794ms)
+✔ browser-only consent rejects MCP bearers, CSRF, extra JSON fields and malformed request IDs before obtaining cookies/provider (67.3391ms)
+✔ consent sign-in sends one existing-account-only link with a closed local return path (1.3608ms)
+✔ consent callback exchanges code once and returns only to the validated authorization selector (1.4577ms)
+✔ provider failures and unknown decision outcomes never expose private messages or callback codes (1.9381ms)
+✔ installed Supabase SSR/OAuth SDK uses the verified HttpOnly browser session for details and consent (17.6319ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1034.4919

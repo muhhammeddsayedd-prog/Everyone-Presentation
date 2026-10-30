@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-10-30T11:01:56.513Z",
+  "scope": "Pure bounded synthetic workload collector/scheduler tests; no native/provider/DB work in these unit cases",
+  "red": {
+    "command": "node --test tools/m07-workload.test.mjs",
+    "result": "failed",
+    "code": "ERR_MODULE_NOT_FOUND",
+    "reason": "tools/m07-workload.mjs absent before implementation",
+    "cases_executed": 0
+  },
+  "green": {
+    "command": "node --test tools/m07-workload.test.mjs",
+    "result": "passed",
+    "tests": 7,
+    "failed": 0,
+    "skipped": 0
+  },
+  "source_seals": {
+    "tools/m07-workload.mjs": "8a0beaab8931f1b36163ab555ac6f693534a1b0fdd2fe918fab5c86f6f4bc34d",
+    "tools/m07-workload.test.mjs": "9d738e7531c38659fcfe2c575953d0214b5ffedf2febb32e7bd2a222776265b4"
+  },
+  "separate_existing_upload_boundary_checks": {
+    "command": "node tools/run-tests.mjs tests/server/candidate-transfer-intent.test.ts tests/server/candidate-upload-recovery.test.ts",
+    "passed": 5,
+    "failed": 0,
+    "skipped": 0,
+    "scope": "Existing metadata/offset/identity and credential-exclusion boundaries only; no Storage/TUS byte transport"
+  },
+  "limits": [
+    "Actual native workload and restart have a separate receipt.",
+    "Recorded command observations from the active session; this is not an independent raw-output capture."
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "before": {
+    "prior_receipt": "tracking/evidence/m06/runtime28-transition/2026-10-30-owned-processes-ready.json",
+    "only_loopback_port3000_owner": 52636,
+    "unexpected_children": 0,
+    "observed_at": "2026-10-30T11:51:06.3969658+00:00",
+    "environment_read": false,
+    "processes": [
+      {
+        "created_at": "2026-10-30T03:15:21.6955300Z",
+        "parent": 52812,
+        "command": "\"C:\\Program Files\\nodejs\\node.exe\" tools/start-specs-worker.mjs",
+        "id": 52092,
+        "role": "worker_launcher"
+      },
+      {
+        "created_at": "2026-10-30T03:15:21.9310330Z",
+        "parent": 52092,
+        "command": "\"C:\\Program Files\\nodejs\\node.exe\" --import tsx apps/worker/src/runtime-main.ts",
+        "id": 58540,
+        "role": "worker"
+      },
+      {
+        "created_at": "2026-10-30T03:15:21.7511320Z",
+        "parent": 52812,
+        "command": "\"C:\\Program Files\\nodejs\\node.exe\" tools/dev-central.mjs",
+        "id": 28980,
+        "role": "web_launcher"
+      },
+      {
+        "created_at": "2026-10-30T03:15:21.9912220Z",
+        "parent": 28980,
+        "command": "\"C:\\Program Files\\nodejs\\node.exe\" D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\node_modules\\next\\dist\\bin\\next dev --hostname 127.0.0.1 --port 3000",
+        "id": 27208,
+        "role": "web_cli"
+      },
+      {
+        "created_at": "2026-10-30T03:15:22.4357080Z",
+        "parent": 27208,
+        "command": "\"C:\\Program Files\\nodejs\\node.exe\" D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\node_modules\\next\\dist\\server\\lib\\start-server.js",
+        "id": 52636,
+        "role": "web_server"
+      }
+    ],
+    "result": "verified_before_stop"
+  },
+  "after": {
+    "first_stop_attempt": "Worker child exited and parent automatically exited between lookup and explicit stop; command stopped before web stop. Remaining web ownership freshly reconciled.",
+    "hosting_deferred": true,
+    "only_owned_processes_stopped": true,
+    "web_stopped": true,
+    "worker_stopped": true,
+    "observed_at": "2026-10-30T11:51:29.1330840+00:00",
+    "owned_pids": [
+      52092,
+      58540,
+      28980,
+      27208,
+      52636
+    ],
+    "ownership_evidence": ".local/m07-runtime29/ownership-before-stop.json",
+    "result": "owned_runtime_stopped"
+  },
+  "quiescence_private": true,
+  "hosting_deferred": true
+}

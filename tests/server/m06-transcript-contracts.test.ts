@@ -10,6 +10,7 @@ import { validateContract } from '../../apps/web/lib/validation.ts';
 import type { GuestReviewOperations } from '../../packages/domain/src/guest-types.ts';
 import type { PresentationOperations, VersionMediaPlayback } from '../../packages/domain/src/presentation-types.ts';
 import { presentationId } from '../fixtures/presentation.ts';
+import { syntheticMcpStudio } from '../fixtures/mcp-capabilities.ts';
 
 const version = presentationId(1), asset = presentationId(10), actor = { principal_id: presentationId(51) };
 const origin = 'http://127.0.0.1:3000', context = { requestId: 'transcript-http' }, credential = Buffer.alloc(32, 8).toString('base64url');
@@ -37,7 +38,7 @@ test('existing internal, guest and PDF-grant HTTP playback preserve one closed c
 });
 
 test('official MCP playback output schema includes exactly the same optional source companion', async () => {
-  const server = createStudioMcpServer(actor, { presentation: internal } as unknown as McpServices);
+  const server = createStudioMcpServer(actor, { presentation: internal, studio: syntheticMcpStudio(actor.principal_id) } as unknown as McpServices);
   const client = new Client({ name: 'eps-transcript-contract', version: '1.0.0' });
   const [a, b] = InMemoryTransport.createLinkedPair(); await server.connect(a); await client.connect(b);
   try {

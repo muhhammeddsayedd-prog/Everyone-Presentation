@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "run_id": "9deb3ca8-953a-4c47-b677-84a10041007e",
+  "started_at": "2026-10-30T11:38:01.426Z",
+  "result": "passed",
+  "mode": "red-no-issuer",
+  "scope": "Owned disposable local28 clone plus frozen29 and synthetic native-Auth events; no real Auth hook/provider/client acceptance.",
+  "cloud_called": false,
+  "provider_called": false,
+  "provider_credentials_loaded": false,
+  "hook_registered": false,
+  "actual_migration_history_changed": false,
+  "source_seals": {
+    "development/m07/oauth-hook/run-local30.mjs": "b552a3b7691f5da906260acc91b6dbcd4c2604608b956f2f212aab78d40ce5c3",
+    "development/m07/oauth-hook/candidate30.sql": "665c571c8504bd852b185b9b32d18df54265d6e51d693228ffa59253929b2142",
+    "development/m07/oauth-hook/tests30.sql": "282f822e060e71112edbde2e56b06ba241166eb421ff3b85e642186364f1165c",
+    "development/m07/db/candidate29.sql": "6531e8decab5496e212eb01575aca666cd9e03b0575f92dd66bd380760f84af4",
+    "development/m07/db/catalog29.sql": "1af59495b01424e6ec2578f6ea1f8ac362829577612c32b2cd373545a58b9098",
+    "development/m07/db/baseline28-reviewed.json": "49f876ce118162e7ed5a96de9ce72b0f32503b19be61eb8795771397bd49649f",
+    "development/m07/db/local-auth-fixture.sql": "9014e4bef1add4be3b6b47f37a8cb9c6158312200632ba6bd43e2b1d1faa68be"
+  },
+  "preflight": {
+    "roles": 0,
+    "users": 0,
+    "migrations": 28,
+    "other_clients": 0,
+    "sessions_present": true
+  },
+  "original_baseline_sha256": "bf31e4fd2ac9e30fb8d55bbb07ba5722b64d81cc5e14225618aec6c9bc885187",
+  "meaningful_red": true,
+  "frozen29_and_sources_unchanged": true,
+  "disposable_database_removed": true,
+  "created_roles_removed": 2,
+  "original_local28_data_catalog_roles_and_oids_unchanged": true,
+  "shared_test_lock_released": true,
+  "finished_at": "2026-10-30T11:38:33.000Z",
+  "elapsed_ms": 31574
+}

@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "review_status": "prepared_for_root_review",
+  "migration_path": "supabase/migrations/20261030111549_m07_settings_delegated_session.sql",
+  "migration_sha256": "6531e8decab5496e212eb01575aca666cd9e03b0575f92dd66bd380760f84af4",
+  "original_plan": {
+    "path": "development/m07/db/release29-plan.json",
+    "sha256": "47fd50c326b512d1b0a8d73ed19188beeb0a33d96316eea1f368bfaa9b8324fc"
+  },
+  "original_profile": {
+    "path": "development/m07/db/release29-original-profile.json",
+    "sha256": "681fe120fea3ee70e35bd2c4ab4734e2b95e89e40ceef5a678f857adfa673cc2"
+  },
+  "checks": {
+    "path": "tracking/evidence/m07/original-profile29/2026-10-30T11-41-58-167Z-comparison-checks.json",
+    "sha256": "ae1ce311f0e83fc42e3b8eb32668114b1867a321cef3daa44d8943456339a07d"
+  },
+  "source_seals": {
+    "tools/promote-m07-local29-current.mjs": "2e818f4de41f4918a914acb33238673888c3f95240703cdf5b93a74ef0f8d255",
+    "tools/m07-original-profile29-comparison.mjs": "e5bf4b4c8a1e1a682e303615cb9989340f3d014988488f48d794da643b2cdc20",
+    "tests/operations/m07-original-profile29.test.mjs": "61152e27d3e612a9719279f869acc5a67c4492332f06296a6a0c417c0ac40a07",
+    "development/m07/db/release29-original-profile.json": "681fe120fea3ee70e35bd2c4ab4734e2b95e89e40ceef5a678f857adfa673cc2",
+    "development/m07/db/release29-original-profile-delta.json": "f87116625e61a66ab065f8d3f2163c8fd8cc91c3afddbd240c584eccf879f05f",
+    "development/m07/db/CURRENT_PROFILE_REVIEW.md": "3b5bc21e1759854da1d3e04a6a38a4aafed01284b52691ba0d7bc5d187cb7ed2"
+  },
+  "cloud_helper_integration": "Proposed only in CURRENT_PROFILE_REVIEW.md; not implemented.",
+  "original_database_mutation": false,
+  "current_helper_execution": false
+}

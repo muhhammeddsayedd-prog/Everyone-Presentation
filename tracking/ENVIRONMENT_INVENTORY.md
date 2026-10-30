@@ -1,6 +1,12 @@
 # Environment inventory and discovery record
 
-## 2026-10-30 M06 current environment checkpoint
+## 2026-10-30 M07 current environment checkpoint
+
+Local/canonical history29 is confirmed by [independent readback](../tracking/evidence/cloud-m07-29/2026-10-30T11-52-36-310355Z-f553771a-readback.json). Migration SHA6531 preserves old data/Auth/configuration and12 runtime operations; the OAuth resource/client registry starts empty. [Current owned runtime](../tracking/evidence/m07/runtime29-transition/2026-10-30-owned-processes-ready.json) uses worker launcher60408/worker8836 and web launcher33724/Next62080/server53776 on127.0.0.1:3000. Creation/commands/parents and explicit specs-file/guest-export launch flags are recorded; private environment values were not inspected. The authenticated startup probe independently verifies the narrow12-operation gateway. Recheck process ownership before reuse.
+
+Official MCP2.4.0 has controlled modern2026-07-28 and legacy2025-11-25 tests; actual Claude Code2.1.301 exercised synthetic ports only. Supabase Authv2.197.0 public health and OAuth discovery404 are observations, not proof of a provider flag. The current Supabase connector is unavailable and dashboard signed out; no OAuth provider/client/hook setting was changed. Hook30 is local-only. Actual Studio Settings awaits signed-in browser verification; no account is reenrolled. Local metadata/media restore and tiny200-file native diagnostic have their exact scoped receipts; no representative cost, endurance, public deployment or full delegated journey is established. Screen-reader/M03 checks pending, mobile skipped, hosting deferred.
+
+## Historical 2026-10-30 M06 environment checkpoint
 
 Canonical/local history is28 on owner-selected Everyone-Presentation (`pyibofyctwnqpvktepse`). Existing Producer and central project/client/library records are reused. Local web is127.0.0.1:3000 (owned server52636); native worker58540 has no new runtime privilege, and its23 startup sources remain exact with12 authenticated gateway operations. The guest verifier/replay keys stay in protected ignored `.env.guest-runtime.local`; raw values are not part of this inventory. The existing n8n WF03 repair and all28 additive migrations/readbacks are recorded in [HANDOFF.md](HANDOFF.md). No hosting provider/deployment was selected. Process/session state is checkpoint-specific; verify ownership and current evidence before reuse. Further manual phone testing was waived; manual AT-072 and the latest native PDF save remain pending.
 

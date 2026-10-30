@@ -1,5 +1,7 @@
 'use client';
 
+import { readCandidateMedia } from './candidate-pages';
+
 import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Candidate, CandidateMedia, WorkspaceCandidate } from '@eps/domain';
@@ -47,7 +49,7 @@ function ProjectCandidate({item,actor,storageOrigin,canWrite,onSaved,onRemoved,o
   const [supportBusy,setSupportBusy]=useState(false);const [sourceBusy,setSourceBusy]=useState(false);const [candidate,setCandidate]=useState<Candidate|null>(null);const [media,setMedia]=useState<CandidateMedia[]>([]);const [selected,setSelected]=useState(item.selected_candidate_media_id??'');const [frames,setFrames]=useState(item.selected_frame_asset_ids);
   const [availability,setAvailability]=useState(item.availability??'');const [notes,setNotes]=useState(item.internal_notes??'');const [fresh,setFresh]=useState(item.fresh_material_required);const [confirmed,setConfirmed]=useState(item.media_confirmed);const [busy,setBusy]=useState(false);const [error,setError]=useState('');const [removeReview,setRemoveReview]=useState(false);
   const intent=useRef<{body:string;init:RequestInit}|null>(null);const dirty=selected!==(item.selected_candidate_media_id??'')||JSON.stringify(frames)!==JSON.stringify(item.selected_frame_asset_ids)||availability!==(item.availability??'')||notes!==(item.internal_notes??'')||fresh!==item.fresh_material_required||confirmed!==item.media_confirmed;
-  useEffect(()=>{let current=true;Promise.all([api<Candidate>(`/api/v1/candidates/${item.candidate_id}`),api<CandidateMedia[]>(`/api/v1/candidates/${item.candidate_id}/media`)]).then(([profile,sources])=>{if(current){setCandidate(profile.data);setMedia(sources.data);}}).catch(reason=>{if(current)setError(errorMessage(reason));});return()=>{current=false;};},[item.candidate_id]);
+  useEffect(()=>{let current=true;Promise.all([api<Candidate>(`/api/v1/candidates/${item.candidate_id}`),readCandidateMedia(item.candidate_id)]).then(([profile,sources])=>{if(current){setCandidate(profile.data);setMedia(sources.data);}}).catch(reason=>{if(current)setError(errorMessage(reason));});return()=>{current=false;};},[item.candidate_id]);
   useEffect(()=>{onDirtyChange(item.id,dirty||busy||supportBusy||sourceBusy||removeReview);return()=>onDirtyChange(item.id,false);},[item.id,dirty,busy,supportBusy,sourceBusy,removeReview,onDirtyChange]);
   async function save(event:React.FormEvent){event.preventDefault();setBusy(true);setError('');const body={row_version:item.row_version,selected_candidate_media_id:selected||null,selected_frame_asset_ids:frames,availability:availability||null,internal_notes:notes||null,fresh_material_required:fresh,media_confirmed:confirmed};const serialized=JSON.stringify(body);if(intent.current?.body!==serialized)intent.current={body:serialized,init:mutation('PATCH',body)};
     try{const result=await api<WorkspaceCandidate>(`/api/v1/workspace-candidates/${item.id}`,intent.current.init);intent.current=null;onSaved(result.data);}catch(reason){setError(errorMessage(reason));}finally{setBusy(false);}}
