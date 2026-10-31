@@ -45,6 +45,7 @@ async function fixture(page: Page, lost = false, unavailable = false) {
 async function removePerson(page: Page) {
   await page.goto(`/projects/${project}/casting/${workspace}/cast`);
   const card = page.locator('.project-candidate-list > article').filter({ has: page.getByRole('heading', { name: 'Synthetic Undo Person', exact: true }) });
+  await card.getByRole('button', { name: /^Edit project material for / }).click();
   await card.getByRole('button', { name: 'Remove from project', exact: true }).click();
   await card.getByRole('button', { name: 'Confirm remove from project', exact: true }).click();
   await expect(card).toHaveCount(0);

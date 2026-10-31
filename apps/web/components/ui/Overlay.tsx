@@ -35,20 +35,22 @@ function usePortal() { return typeof document === 'undefined' ? null : document.
 
 interface OverlayProps { title: string; description?: ReactNode; onClose: () => void; children: ReactNode; footer?: ReactNode; closeLabel?: string; busy?: boolean; initialFocus?: RefObject<HTMLElement | null> }
 
-/** Side drawer for inspecting or editing one object without leaving the list or board. */
-export function Drawer({ title, description, onClose, children, footer, wide, closeLabel = 'Close', busy, initialFocus }: OverlayProps & { wide?: boolean }) {
+/** Side drawer for inspecting or editing one object without leaving the list or board.
+ * `inline` keeps it in its owner's DOM (still fixed to the viewport edge). */
+export function Drawer({ title, description, onClose, children, footer, wide, closeLabel = 'Close', busy, initialFocus, inline }: OverlayProps & { wide?: boolean; inline?: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
   const titleId = useId(); const descriptionId = useId();
   useFocusTrap(ref, busy ? undefined : onClose, initialFocus);
   const target = usePortal();
   if (!target) return null;
-  return createPortal(<><div className="scrim" onClick={busy ? undefined : onClose} aria-hidden="true" />
+  const layer = <><div className="scrim" onClick={busy ? undefined : onClose} aria-hidden="true" />
     <div ref={ref} className={`drawer${wide ? ' drawer-wide' : ''}`} role="dialog" aria-modal="true" aria-labelledby={titleId} aria-describedby={description ? descriptionId : undefined} tabIndex={-1} aria-busy={busy || undefined}>
       <header className="drawer-header"><div><h2 id={titleId}>{title}</h2>{description && <p id={descriptionId}>{description}</p>}</div>
         <button type="button" className="icon-button" onClick={onClose} disabled={busy} aria-label={closeLabel}><Icon name="close" /></button></header>
       <div className="drawer-body">{children}</div>
       {footer && <footer className="drawer-footer">{footer}</footer>}
-    </div></>, target);
+    </div></>;
+  return inline ? layer : createPortal(layer, target);
 }
 
 /** Centred modal, reserved for consequences or a decision between two things.

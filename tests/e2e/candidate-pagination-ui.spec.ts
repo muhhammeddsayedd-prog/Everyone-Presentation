@@ -59,6 +59,7 @@ test('desktop shared profile reads introductions and duplicate matches beyond th
 test('desktop project choices retain a pinned introduction from a later page when saving availability', async ({ page }) => {
   const state = await fixture(page);
   await page.goto(`/projects/${project}/casting/${workspace}/cast`);
+  await page.getByRole('button', { name: /^Edit project material for / }).click();
   const selected = page.getByRole('combobox', { name: 'Selected introduction', exact: true });
   await expect(selected).toHaveValue('second-source');
   await expect(selected.getByRole('option')).toHaveCount(3);

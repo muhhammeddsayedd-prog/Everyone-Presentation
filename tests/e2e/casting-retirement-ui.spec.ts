@@ -74,6 +74,7 @@ async function fixture(page: Page, options: { failPreview?: boolean; lostRemoval
 test('project removal fails closed on an unavailable preview and retries actual choices before confirmation', async ({ page }) => {
   const model = await fixture(page, { failPreview: true }); await page.goto(`/projects/${project}/casting/${workspace}/cast`);
   const person = page.locator('.project-candidate-list > article').filter({ has: page.getByRole('heading', { name: 'Synthetic A', exact: true }) });
+  await person.getByRole('button', { name: /^Edit project material for / }).click();
   await person.getByRole('button', { name: 'Remove from project', exact: true }).click();
   const review = person.getByRole('region', { name: 'Review casting removal' });
   await expect(review.getByRole('alert')).toContainText('Synthetic preview unavailable');
@@ -91,6 +92,7 @@ test('project removal fails closed on an unavailable preview and retries actual 
 test('interrupted retirement preserves one exact intent through a later denial and acknowledges one effect', async ({ page }) => {
   const model = await fixture(page, { lostRemoval: true }); await page.goto(`/projects/${project}/casting/${workspace}/cast`);
   const person = page.locator('.project-candidate-list > article').filter({ has: page.getByRole('heading', { name: 'Synthetic A', exact: true }) });
+  await person.getByRole('button', { name: /^Edit project material for / }).click();
   await person.getByRole('button', { name: 'Remove from project', exact: true }).click();
   const review = person.getByRole('region', { name: 'Review casting removal' });
   await review.getByRole('button', { name: 'Confirm remove from project', exact: true }).click();
