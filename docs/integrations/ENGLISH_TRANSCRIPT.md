@@ -83,20 +83,59 @@ corrected profile. The discarded historical English wording cannot be recovered,
 so its failed component receipt remains unaccepted. See
 `development/m03/english-name-review/README.md` for the bounded evidence.
 
-## Local verification checkpoint
+## Historical local verification checkpoint
 
-Owned SQL proof on2026-10-31 passed the actual additive34 validator, future capture, legacy replay and immutable read tests after real30-33 clone upgrades. The34 transaction fully rolled back; original29/global roles and cleanup were verified. Canonical remains33 and the English flag is off. Application881 gates pass. One real normalization request passed English/source/provider/age checks but not the full-name literal comparison, so its overall receipt remains unaccepted; no broad accuracy claim. Frontend and real app/guest rollout remain pending.
+Before hosted rollout, owned SQL proof on2026-10-31 passed the actual additive34 validator, future capture, legacy replay and immutable read tests after real30-33 clone upgrades. The34 transaction fully rolled back; original29/global roles and cleanup were verified. Canonical was33 and the English flag was off at that checkpoint. Application881 gates passed. One real normalization request passed English/source/provider/age checks but not the full-name literal comparison, so that historical component receipt remains unaccepted; no broad accuracy claim. The hosted work below is separate evidence.
+
+## Hosted pilot checkpoint — internal app and saved playback
+
+The compatible main UI/SDK is deployed as
+`dpl_5vEMBfsnD23cGL3ontWm8AUAErKr` on the existing pilot, with 280 sparse source
+files and source SHA
+`2d4894b8cde36757cf7ba8bb3518771b494ea189b528de37315613ce3e3e3501`.
+Its [Ready/alias readback](../../tracking/evidence/m03/english-web-release34/2026-10-31T16-55-43-885447Z-ready.json)
+preceded migration34. The compatible worker
+`dpl_2uASsbYobSDwWjMptPjGLcVEdCg3` was separately
+[Ready/alive with one 2GiB dub1 instance](../../tracking/evidence/m03/english-worker-release34/2026-10-31T17-49-47-805229Z-ready.json)
+while canonical remained 33 and English was disabled.
+
+The additive migration then passed
+[apply](../../tracking/evidence/m03/english-release34/2026-10-31T17-52-15-603960Z-apply.json)
+and [independent readback](../../tracking/evidence/m03/english-release34/2026-10-31T17-52-41-635035Z-readback.json).
+The separate [enable readback](../../tracking/evidence/m03/english-release34/2026-10-31T17-54-57-429822Z-enable-readback.json)
+observed canonical 34 with the English opt-in flag 1.0. These receipts preserve the
+distinction between deployment, additive migration and activation.
+
+The controlled flagged scan `3cf25d3b-c1ec-4347-af3b-fa48f3f0f5e7` succeeded.
+The internal candidate UI displayed 248 English UTF8 bytes. A newly generated
+Ready version `4f1b81a1-adb7-425b-8223-458d8bd82c28` in series
+`93fb7425-7311-4b69-94cb-61588724c153` captured its frozen English companion.
+The [24-check version observer](../../tracking/evidence/m03/english-version34/2026-10-31T18-17-52-411860Z-f022da9a-3e56-45a2-a734-387e7e110c50-capture.json)
+passed; its expected SHA is
+`0e81d416e19b6600930cd171083595f6a7604f1cc755654f75732c60f561cecd`.
+Root's actual internal saved-player DOM proof matched that SHA, byte length and
+`lang=en`; the original video played with no media error before being paused.
+[Live display notes](../../development/m03/english-version34/LIVE_DISPLAY_NOTES.md)
+record the exact successful invocation and retain the initial false capture as
+a verification-invocation error.
+
+This checkpoint demonstrates internal app and frozen saved-player English
+display. Guest playback/display is still a separate live check here. The version
+observer does not itself grant old-cohort preservation, PDF byte validity,
+semantic translation accuracy or full M07 acceptance. Those keep their separate
+receipts and acceptance boundaries. The pilot stays running; accepted Claude
+connection results carry forward, screen-reader acceptance stays pending and
+mobile testing stays skipped.
 
 ## Pilot release order
 
-The currently serving Ccw pilot uses the old strict media DTO. Deploy the compatible
-web/SDK before applying34: otherwise the new DB English keys are rejected by that
-old parser. Keep the English processing flag NULL throughout compatibility rollout.
-Deploy the new worker with the same five-stage n8n flow, apply34 only through the
-verified canonical release path with preservation/readback checks, and reconcile
-the frontend English fields before enabling the flag. Confirm one tagged real scan
-and one future frozen playback companion through the app/guest flow first. Do not
-credit the component call or local SQL rollback as that hosted journey.
+The recorded rollout followed the required compatibility order: replace the old
+Ccw strict DTO web/SDK before applying34, deploy the compatible worker while
+English is disabled, then apply/read back34 and enable the flag separately. The
+five-stage n8n flow and existing permissions stay. A tagged real scan and new
+frozen internal companion are now demonstrated; finish the separate guest flow
+before crediting the whole hosted journey. The historical component call and
+local SQL rollback are not substitutes for that live evidence.
 
 Disabling the flag stops new opt-ins; already frozen tagged jobs still need the
 compatible worker until drained. Keep the compatible SDK after34 is installed.

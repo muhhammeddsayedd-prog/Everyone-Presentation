@@ -1,6 +1,233 @@
+# Everyone Presentation Studio - current English-output handoff
+
+## Real English scan, saved version, playback/PDF and preservation passed; guest pending - 2026-10-31
+
+The current pilot remains web5vEM/source280-2d4894b8 and worker2uAS, one2GiB dub1
+instance, daemon430d/native795f/source160-b348/manifest0a24. Canonical34 and the
+English1.0 flag were independently read back; original local29 remains unchanged.
+The compatible web/worker were deployed while English was off before34, then the
+separate controlled enable was verified. Historical failures and pointer
+reconciliation receipts stay retained; no old claim is replayed.
+
+The single actual app upload completed and scan3cf25d3b SUCCEEDED. The controlled
+observer's SQL observation was17:58:48.925332 UTC (receipt written17:58:54): new
+media13614da0/source d9db9907 are bound to the permitted ffe461d3 sample, the same
+Reviewed person25a3, v2 extraction, actual provider metadata and persisted raw/
+English hashes. Old Reviewed fingerprint/row version/raw source/legacy media
+remained exact. Actual app English display and video playback were observed.
+The display preserves supplied-source uncertainty; it does not repair the ASR's
+missing name token or overwrite the separately owner-confirmed Reviewed facts.
+Existing Arabic name/age confirmation remains accepted. No more language labels
+or language selector are required; broader semantic accuracy is unclaimed.
+
+A newly saved Ready version now exists:4f1b81a1-adb7-425b-8223-458d8bd82c28,
+series93fb7425-7311-4b69-94cb-61588724c153, generationjob90e815ba, PDF97975b01.
+All24 frozen English/source/video/immutability checks passed at the actual SQL
+observation18:17:45.718243 UTC (capture receipt written18:17:52). The saved app's
+one visible English region was lang=en/248UTF8bytes and matched frozen SHA
+0e81d416e19b6600930cd171083595f6a7604f1cc755654f75732c60f561cecd.
+Original video played to18.580216s of21.856009s,853x480, no native error, then was
+paused. The actual internal PDF download was103,481bytes/3pages/tagged/noJS;
+Poppler rendered all3 pages and root visually inspected them without overflow.
+This is internal saved-player/PDF proof, not guest or PDF-link acceptance.
+
+The old-cohort subset comparison passed at actual SQL observation18:19:47.105814
+UTC (receipt written18:19:53):9old Ready versions/54slides/36pins/2raw companions/
+8Ready exports/43media metadata rows and the Reviewed candidate, old media and
+12frames are unchanged. No old companion/slide/pin backfill. New rows were allowed:
+1version/3slides/6pins/6media/1raw companion. This final comparison is completed;
+local history33 recovery remains its separately completed earlier proof.
+
+Guest English confirmation is still pending. Only the normal browser profile is
+connected; the owner was asked to confirm creation/testing/revocation of a new
+self-test bearer link under browser policy. No new link has been created. Keep
+this finite guest dependency separate from completed internal work; continue
+independent API/MCP/operator/backend work while waiting.
+
+AT-074 remains partial: the actual new job's durable observation at18:09:57.775113
+UTC confirms attempt5/latest n8n31686,6events and5delivered outbox rows, with none
+pending/leased/dead. The plugin returned isError/no structured response for31686;
+its precise observation timestamp is unavailable. The first local fallback
+bootstrap failed before claim/config/HTTP because the security imports lacked
+ROOT/tools; executed a300/709c bytes and the failure are preserved. After the
+pinned import/bootstrap correction and actual protected-input regression, root
+made exactly one normal GET31686 at18:27:47.200-18:27:47.685UTC. It returned404 /
+EXECUTION_NOT_FOUND with no metadata and no retry. Do not invoke that claim again.
+Earlier historical31515/31520 reads also returned404; no exact cause is inferred.
+A distinct one-GET current WF02 settings read actually returned200 at
+18:30:02.628-18:30:03.049UTC: same active versionb65979f6, success:none/error:none,
+manual:false/progress:false; configured origin hash matches the31686 read. This
+confirms current privacy settings without changing them. Configuration evidence
+and unavailable31686 metadata remain separate; the exact404 cause is NOT proved.
+No per-stage execution reconstruction or complete failure/operator proof is
+claimed. The safe remaining trace improvement is durable per-stage correlation
+metadata, coordinated in a future backend slice without enabling node payload
+retention or retrying historical jobs.
+
+Workspace-summary implementation is active only in the isolated Backend-Summary
+worktree, with focused synthetic tests; it is not merged or deployed. Claude's
+full frontend remains separate, reported113 fixture/mock passes. Preserve both
+worktrees and shared English contracts. Next: finish the owner-confirmed guest
+English self-test when available; continue eligible delegated/API checks and review the durable per-stage
+correlation gap without changing payload-retention settings and review/integrate
+the summary slice with its own database proof and release checkpoint.
+
+Owner initial OAuth/reconnect/authenticated Dummy Pilot Test acceptance remains
+passed. AT-072 manual screen reader is pending, mobile skipped, pilot runs until
+owner stop. Do not retry protected M02 jobb3f90268. Production/deployed recovery,
+full live delegated journeys/token lifecycle and representative cost/endurance
+remain open; successful English processing does not close them.
+
+Actual receipts:
+
+- `tracking/evidence/m03/english-name-review/2026-10-31T17-58-54-734417Z-c95c23b3-a8aa-4d11-9602-c9b4f9ef8dbb-controlled-job.json`
+- `tracking/evidence/m03/english-version34/2026-10-31T18-17-52-411860Z-f022da9a-3e56-45a2-a734-387e7e110c50-capture.json`
+- `tracking/evidence/m03/english-version34/2026-10-31-hosted-saved-player-and-pdf.json`
+- `tracking/evidence/m03/english-preservation34/2026-10-31T18-19-53-933196Z-feac4485-c968-4ba5-a92d-c65f909d4f87-compare.json`
+- `tracking/evidence/m07/operator-trace-live34/2026-10-31T18-09-56-990830Z-fresh-job-durable.json`
+- `tracking/evidence/m07/operator-trace-live34/2026-10-31T18-27-47.200Z-fresh-execution-metadata.json`
+- `tracking/evidence/m07/operator-trace-live34/2026-10-31T18-30-02.628Z-workflow-settings.json`
+- `tracking/evidence/m07/operator-trace-live34/2026-10-31-fresh-bootstrap-failure.json`
+
+Earlier dated sections below are history and do not override this current phase.
+
+## Historical deployed/enabled checkpoint through 17:56 UTC, 2026-10-31
+
+The compatible pilot worker is now actually Ready: `dpl_2uASsbYobSDwWjMptPjGLcVEdCg3`,
+verified17:49:47, one alive2GiB instance in dub1. Current daemon is430d0992,
+native795f, source160/b3489d64, context4186fd1e and baked manifest0a24eadb.
+CVDM/daemon971834/native77 are historical, not the current deployed worker.
+The pilot web remains `dpl_5vEMBfsnD23cGL3ontWm8AUAErKr`, source280/2d4894b8,
+with the agreed small English UI slice; the full frontend redesign is separate.
+
+After the worker was deployed with processing off, fresh canonical preflight
+passed17:51:24. Migration34 actually applied17:52:15 and was independently read
+back17:52:41. Existing data, port attributes, Auth/OAuth, Reviewed facts, old Ready
+versions and protected M02 integrity were preserved under the approved change.
+The separate flag-only NULL-to-1.0 enable passed17:54:30 and independent readback
+17:54:57. Canonical history is now34 and English processing is ENABLED. Original
+local history29 remains unchanged. These are actual release/configuration proofs,
+not yet a successful new English media job or end-to-end display acceptance.
+
+In the actual Dummy Pilot Test app, the permitted4,316,429-byte sample was verified
+against SHAffe461d30d48b32d90f1165627e2d104b6817f61d96a5a4bd9dcd6ff1964fc0a
+and submitted once as a new introduction for the existing Reviewed person25a3.
+The app confirmed4,316,429/4,316,429bytes and Processing requested. The new job is
+`3cf25d3b-c1ec-4347-af3b-fa48f3f0f5e7`; its UI was In progress / Supplied fact
+extraction around17:56 UTC. Processing success, a persisted English result and
+new media/source identity are NOT claimed yet. This appends material for the same
+person; it does not create a duplicate identity or edit confirmed facts.
+
+Next exact action: follow that existing job without resubmission, capture its
+exact completed media/source IDs and durable workflow-execution references,
+inspect real n8n/OpenAI stages and persisted source-faithful English privately,
+and demonstrate
+English in the app and guest playback. Save a new presentation version, verify
+its frozen English companion, then compare the old-cohort baseline to prove old
+Ready versions/assets/raw companions/PDF metadata and Reviewed facts remain intact.
+Guest/new-version demonstration and final subset comparison are still pending.
+After that rollout, finish eligible live M07 checks, correlate the actual new job
+for partial AT-074, and coordinate the workspace-summary domain/RPC/HTTP/MCP slice.
+
+The prior ASR/Reviewed-name mismatch remains diagnosed and its comparison gate
+corrected; no Reviewed fact or translator changed. Prior RAM-only English output
+is unavailable and its historical failed component stays unaccepted. Earlier403/
+TLS/transfer failures, original claims and passed native9-task/10-resource cleanup
+receipts remain preserved; the later pointer reconciliation did not recopy.
+Claude's latest frontend031c17b/reported113 fixture/mock passes and six backend
+requests are acknowledged separately from hosted acceptance. The source-only
+proposal is `development/m07/frontend-contracts/PROPOSAL.md`; no request is made
+implemented by acknowledgment.
+
+Owner initial OAuth/reconnect/authenticated Dummy Pilot Test acceptance and the
+local history33 recovery proof remain passed. AT-072 screen reader is pending;
+mobile is skipped; the pilot runs until owner stop. No more language labels or
+language selector. Full production/deployed-recovery acceptance remains open.
+Never retry protected M02 jobb3f90268.
+
+Actual evidence:
+
+- `tracking/evidence/m03/english-worker-release34/2026-10-31T17-49-47-805229Z-ready.json`
+- `tracking/evidence/m03/english-release34/2026-10-31T17-51-24-402776Z-preflight.json`
+- `tracking/evidence/m03/english-release34/2026-10-31T17-52-15-603960Z-apply.json`
+- `tracking/evidence/m03/english-release34/2026-10-31T17-52-41-635035Z-readback.json`
+- `tracking/evidence/m03/english-release34/2026-10-31T17-54-30-920757Z-enable.json`
+- `tracking/evidence/m03/english-release34/2026-10-31T17-54-57-429822Z-enable-readback.json`
+
+Earlier dated sections below are history and do not override this current phase.
+
+## Historical verified-image / predeployment checkpoint through 17:44 UTC, 2026-10-31
+
+The pilot web still serves `dpl_5vEMBfsnD23cGL3ontWm8AUAErKr`, source280
+`2d4894b8cde36757cf7ba8bb3518771b494ea189b528de37315613ce3e3e3501`.
+English UI checkpoints are `c6a3f15` / `28c3d3c`; the compatible legacy app display,
+final15 overlapping candidate/saved/guest/PDF tests, build and types passed.
+The full redesign is separate: Claude reports113 fixture/mock tests plus lint,
+types/build and its isolated axe audit; completion was b1d1ca4 and latest observed
+worktree HEAD031c17b. Those frontend results are reported, not root-rerun or hosted
+redesign acceptance. Requests1-6 are acknowledged, not implemented; the read-only
+proposal is `development/m07/frontend-contracts/PROPOSAL.md`.
+
+The distinct same-source OCI native transfer actually passed at17:29. The local
+post-success pointer publication had an identity-enrichment ordering bug; a
+read-only remote reconciliation at17:33 validated the original passed receipt and
+published its pointer, with no recopy. The new native795f image was Ready at17:30;
+all9 actual hosted native tasks passed at17:31, all10 resources were cleaned,
+initial/current/cleanup sessions matched, and the lock was released. This used
+synthetic media and no DB/provider jobs, so it is native-runtime acceptance only.
+Historical403 and TLS transfer failures remain preserved as dated evidence.
+
+Baked manifest is
+`0a24eadb8d256bcededdb4d46100b1557db1c6777eaaeed4bc67df431d40b000`.
+Matching daemon430d0992 image export/import/copy passed at17:39 and its Ready/
+production-import readback passed at17:41. Public manifest adoption/readback at
+17:42 retained all28 environment IDs; future-frame image-pin apply17:44:22 and
+independent readback17:44:42 preserved protected M02 and all scoped data.
+These are image/configuration proofs, not a deployed worker-v2 claim. Worker-v2
+preparation is in progress (root session69151). The last confirmed deployed
+worker remains CVDM/daemon971834/native77 until a new deployment is read back.
+Canonical history remains33, migration34 is unapplied, and English is disabled.
+
+The Reviewed existing person has been reused through the actual Dummy Pilot Test
+app/library flow; no new introduction or English job exists yet. The known cause
+of the earlier name gate is unchanged: original ASR omitted a middle Arabic token
+present in the separately corrected Reviewed name. The comparison gate was fixed;
+no Reviewed fact or translator was changed. Prior RAM-only English wording is
+unavailable, and its historical component remains unaccepted. The old-cohort
+baseline passed (9 Ready versions/54slides/36pins/2raw companions/8Ready exports/
+43assets/Reviewed person+old media+12frames); final subset preservation after a
+new English version is still pending.
+
+Next exact action: finish compatible worker-v2 preparation, deploy/read back the
+new daemon while English remains off/history33, then guarded34 apply/readback and
+preservation checks. Separately enable one controlled new introduction for that
+same Reviewed person, inspect persisted source-faithful English, demonstrate it
+in the app/guest playback/new saved version, and compare the old-cohort baseline.
+After this rollout, correlate the actual new job with n8n for partial AT-074 and
+coordinate/implement the proposed workspace-summary domain/RPC/HTTP/MCP slice.
+The two historical n8n metadata executions returned404; their cause is unknown,
+so operator acceptance remains partial. No further language labels or selector.
+
+Owner OAuth initial/reconnect/authenticated Dummy Pilot Test acceptance and the
+completed local history33 recovery proof remain passed. AT-072 screen reader is
+pending, mobile is skipped, production release remains unverified, and the pilot
+keeps running until the owner stops it. Never retry protected M02 jobb3f90268.
+
+Actual evidence:
+- `tracking/evidence/m03/english-oci34/2026-10-31T17-29-35-418951Z-native-transfer.json`
+- `tracking/evidence/m03/english-oci34/2026-10-31T17-33-40-893657Z-native-pointer-reconcile.json`
+- `tracking/evidence/m03/english-image34/2026-10-31T17-30-48.450Z-47d1fb71-native-ready.json`
+- `tracking/evidence/m03/native-probe34/2026-10-31T17-31-21.556Z-02afc4b2-hosted-probe.json`
+- `tracking/evidence/m03/english-oci34/2026-10-31T17-39-56-398547Z-daemon-transfer.json`
+- `tracking/evidence/m03/english-oci-adapter34/2026-10-31T17-41-25-360936Z-daemon-ready-import.json`
+- `tracking/evidence/m03/english-release34/2026-10-31T17-42-47-678456Z-native-manifest-readback.json`
+- `tracking/evidence/m03/english-release34/2026-10-31T17-44-42-721657Z-native-pin-readback.json`
+
+Earlier dated sections below are history and do not override this current phase.
+
 # Everyone Presentation Studio - English-output rollout preparation
 
-## Compatible web deployed; worker transfer continuation ? 2026-10-31
+## Historical compatible-web / transfer checkpoint through 17:04 UTC, 2026-10-31
 
 The stable pilot now serves `dpl_5vEMBfsnD23cGL3ontWm8AUAErKr`, source
 `2d4894b8cde36757cf7ba8bb3518771b494ea189b528de37315613ce3e3e3501`.

@@ -1,0 +1,180 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-31T17:45:37.393580Z",
+  "evidence_kind": "read_only_source_review",
+  "main_head": "28c3d3cc9127460c5b2f7b13015c840703f7f4fb",
+  "frontend_observed_head": "031c17bc5119f83a68e784eb66ca56ba05d5053f",
+  "frontend_reported_completion_head": "b1d1ca4",
+  "source_files": [
+    {
+      "path": "contracts/openapi.yaml",
+      "sha256": "fb2632c613e588ea9c8d54efaf2ccd926e6c5119986ff94270d8c5fd570cf174"
+    },
+    {
+      "path": "contracts/mcp-tool-catalog.json",
+      "sha256": "6d55d7118c7eae8f3d1c6fe1b49f5e5d82d13d6014ef91e5072491be9dc8324b"
+    },
+    {
+      "path": "packages/domain/src/types.ts",
+      "sha256": "4b4a388941c7f612a819ea33c0a9cc153a01bab37319921c83eeb98998fca87d"
+    },
+    {
+      "path": "packages/domain/src/specs-types.ts",
+      "sha256": "4a9fbccffea7bc777be30e0c0ee743e621a1154d64a6c5a61fa5d2f1225c285f"
+    },
+    {
+      "path": "packages/domain/src/candidate-types.ts",
+      "sha256": "a979786fa7d2e6fec07d079d67376a2e30ea2ecd4622283c44d7be2a9083fcc9"
+    },
+    {
+      "path": "packages/domain/src/casting-types.ts",
+      "sha256": "b9965e4f466499c658b3979c3be81267ae214195fda28c51601b7ba5ac304e21"
+    },
+    {
+      "path": "packages/domain/src/casting.ts",
+      "sha256": "81e07fe433ac50327e1886e796100eeffb1df0002061e765c9f9505c0bb6a0b9"
+    },
+    {
+      "path": "packages/domain/src/review-types.ts",
+      "sha256": "40b15afa40eb916b47fc60d217fe461340b438c36fd2eb24ca467e59ab1c5f6a"
+    },
+    {
+      "path": "packages/domain/src/guest-types.ts",
+      "sha256": "d335a831a7c82d6bd4761f20bae1174aca01073a836c80a8c3f19f6f8ad4b65b"
+    },
+    {
+      "path": "packages/central/src/studio.ts",
+      "sha256": "d613f2080c4648b7835d47cd644fa5095e58a481460fcbdc47bdb05d01c231da"
+    },
+    {
+      "path": "packages/central/src/dto.ts",
+      "sha256": "9874e3d44d1668c5a187cea70d9859c63e78b13812bb93801ba7ab12e1624ec1"
+    },
+    {
+      "path": "packages/central/src/candidates.ts",
+      "sha256": "5036ae4ee0e534b59b1f41805b53c9b128d5dc2dbe4bef5618318f9e82b9f26b"
+    },
+    {
+      "path": "packages/central/src/jobs.ts",
+      "sha256": "4447ea968f01dbe5179df79df7ffd8be981c57e811c413df16d67d0162c0f675"
+    },
+    {
+      "path": "packages/central/src/review.ts",
+      "sha256": "10392f8676c506213c69339248cac2f6a7dd3a88775ff2d0d439edca6e88c731"
+    },
+    {
+      "path": "apps/web/lib/job-http.ts",
+      "sha256": "d2a03687e62cdfcf7ea2be0b2505e2a45750324172fd9b25d06f97af2aa71b7a"
+    },
+    {
+      "path": "apps/web/lib/guest-http.ts",
+      "sha256": "ece831b02bd270d35c886cdb3ef0ba377aac6e99493b7868d5a546477079cc73"
+    },
+    {
+      "path": "apps/web/lib/review-http.ts",
+      "sha256": "6ee3f01eca5b8f5a06f3be0536e4c5d2645cecfdcaff4e2f63aa6911c9c3fe9c"
+    },
+    {
+      "path": "apps/web/lib/casting-http.ts",
+      "sha256": "cb1775ea8de19ad8cf94db8151d1e1d77974b913fa1d57ddabeafdb3ea0f0422"
+    },
+    {
+      "path": "apps/web/lib/mcp.ts",
+      "sha256": "f511da56f5736dad50bbd2cadf301e28f6521eb0ed40fe238859185ef70bcc3c"
+    },
+    {
+      "path": "apps/web/lib/mcp-capabilities.ts",
+      "sha256": "791fbb6a03c7ed4be9d39439715fbb5929c142e354e22aeb31e217cb40cb0f60"
+    },
+    {
+      "path": "apps/web/lib/mcp-output-validation.ts",
+      "sha256": "30026e1c38953c96cefbdd5c82cc9e3a567c4bf755d8bb7d748481d4be6cd583"
+    },
+    {
+      "path": "supabase/migrations/20261028010943_m01_canonical_foundation.sql",
+      "sha256": "8a5f3ed7727a72051e630307d2daecab8c4a74054398a6425e73bd85e17568b9"
+    },
+    {
+      "path": "supabase/migrations/20261028162800_m02_jobs_outbox.sql",
+      "sha256": "f619b3dfb9d964ab5902d04941b8cd59b44e9da36f1ab3f7b10bd45298ff4013"
+    },
+    {
+      "path": "supabase/migrations/20261028172320_m02_manual_specs_draft.sql",
+      "sha256": "8ab866a49cb2e01eabf3b83076fe4519a60255263d0a1a170ef3ba9718a2349c"
+    },
+    {
+      "path": "supabase/migrations/20261029090724_m03_candidate_library.sql",
+      "sha256": "2a84e240fa1ed3a283a483775e797e7ef1bafeea36d2d11ace17e06b857d8b8d"
+    },
+    {
+      "path": "supabase/migrations/20261029174841_m04_casting_assignments_lifecycle.sql",
+      "sha256": "2825681bf529f1b32db2473749180901f0961b025e8da847b38ad49c06f4b900"
+    },
+    {
+      "path": "supabase/migrations/20261029202629_m04_review_series_processing.sql",
+      "sha256": "3f1543b9d4b525d486287f2f00711270ed1fbdc30911dac3aea725aee50679e4"
+    },
+    {
+      "path": "supabase/migrations/20261029215218_m05_immutable_presentation_versions.sql",
+      "sha256": "09d78c225ca02d436a8b1c2bcc6e55f273dfea116976807af4a8b228b99de5f4"
+    },
+    {
+      "path": "supabase/migrations/20261030002634_m06_guest_review_feedback_exports.sql",
+      "sha256": "2c72507216efdcd3e9dcea3f9b94270b19e1275ebcd2fcf91dad9253ddde8d2a"
+    },
+    {
+      "path": "package.json",
+      "sha256": "8bd0c58852462ac211dc60844fe678658a1323cd6c021945c502d0207a916841"
+    },
+    {
+      "path": "docs/integrations/ENGLISH_TRANSCRIPT.md",
+      "sha256": "32f6d243a2b11f329a84dba13c0fc9ff300d8f710b05540116d68b019b54a44b"
+    },
+    {
+      "path": "development/m07/REMAINING_AFTER_ENGLISH34.md",
+      "sha256": "d900b7609f35b65c453841fa1dc9d42e0f80398f5ce7a08bb1ca4ca229053780"
+    },
+    {
+      "path": "supabase/migrations/20261031010000_m07_specs_submit_ack_projection.sql",
+      "sha256": "c1c4cb41460df067d726e4058cc24eacbcf55e5cc73e6a18365394e2c2fbc5e5"
+    },
+    {
+      "path": "supabase/migrations/20261031104603_m07_oauth_consent_binding_and_claims.sql",
+      "sha256": "0d7b7a7577ffe1ff4b24eba202ce6ac7e87c616ca8039397800e607c651908a5"
+    },
+    {
+      "path": "supabase/migrations/20261031130207_m07_oauth_consent_browser_context.sql",
+      "sha256": "9923e7a1cb52e160041aacea053a21cb9c25c1fc468db99eb7b7ea77e15dcb81"
+    }
+  ],
+  "frontend_source_files": [
+    {
+      "path": "tracking/CODEX_BACKEND_COORDINATION.md",
+      "sha256": "9e01e09fe98f80acabf8bea6a00b5af6209c8da79b8d51f1cadf1d47338cb8b8"
+    },
+    {
+      "path": "docs/frontend/IMPLEMENTATION_RECORD.md",
+      "sha256": "74a5e47f1cba0930e05a7494ac2b8355a55da5183ba54e7b01da41bcda866b2d"
+    }
+  ],
+  "catalog_new_operation_presence": {
+    "get_workspace_summary": false,
+    "get_feedback_summary": false,
+    "get_job_batch_summary": false,
+    "move_assignment": false
+  },
+  "first_proposed_slice": "workspace_summary",
+  "request_count": 6,
+  "product_implementation_claim": false,
+  "hosted_acceptance_claim": false,
+  "cloud_calls_performed": 0,
+  "dependency_installs_performed": 0,
+  "proposal_sha256": "1e46b96c004a8807679a6d65cb75c355be0f4fd22a5f45e1ed65229689ce632d",
+  "independent_review": {
+    "scope": "read_only_source_contract_and_permissions",
+    "result": "no_confirmed_source_issues",
+    "read_mode_version_metadata_bypass_required": false,
+    "live_library_review_status_requires_cast_read": true,
+    "product_or_cloud_execution": false
+  }
+}

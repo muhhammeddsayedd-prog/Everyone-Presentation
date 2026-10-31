@@ -1,0 +1,100 @@
+/** Root-reviewed fallback preparation. Import/tests are inert; main is one exact GET. */
+import { createHash } from 'node:crypto';
+import { execFile } from 'node:child_process';
+import { lstat, readFile, realpath, writeFile } from 'node:fs/promises';
+import path from 'node:path';
+import process from 'node:process';
+import { promisify } from 'node:util';
+import { pathToFileURL } from 'node:url';
+import { inspectExecution } from './execution-metadata.mjs';
+import { validateFreshInput, JOB_ID, WORKSPACE_ID, CANDIDATE_WORKFLOW_ID } from './fresh-input.mjs';
+import { loadWorkerPrivateEnvironment } from '../../../tools/worker-private-env.mjs';
+
+const ROOT=path.resolve(import.meta.dirname,'../../..');
+const PYTHON_RELATIVE='.venv-skills/Scripts/python.exe';
+const PYTHON=path.join(ROOT,PYTHON_RELATIVE);
+export const DURABLE_RECEIPT='tracking/evidence/m07/operator-trace-live34/2026-10-31T18-09-56-990830Z-fresh-job-durable.json';
+export const DURABLE_SHA='8bceec3fee0fc8e35f4c6c6b27534173d335ae6f7fa8ff207669eb496e887cc3';
+export const EXECUTION_ID='31686';
+const EXPECTED_OBSERVED_AT='2026-10-31T18:09:57.775113+00:00';
+export const PINS=Object.freeze({
+ [PYTHON_RELATIVE]:'9b7bffc26240463c965a2a2a5fada1d8e741c21c25cd2e977728c339b82d9977',
+ 'development/m07/operator-trace-live34/execution-metadata.mjs':'fcb77909e2c2d1ed7ece452f305b619f55ca4de9baea8be63bc9de30ccac656b',
+ 'development/m07/operator-trace-live34/fresh-input.mjs':'6a632fc681254003198d1fc91f0462afd634f3f84bb875c14af345f33e54217b',
+ 'development/m07/operator-trace-live34/read-protected-fresh-input.py':'936658c5897c1ab52aaeb2761841d4cee7b15cd0b45ac0a517b73f2d5ea3f894',
+ 'tools/worker-private-env.mjs':'ef935580876c9150b8150947c3796dd4760d1ad2910bc3bf322dd5015eea4d79',
+ 'tools/provision_logo_verifier.py':'660f2eb0d15b1ed17801ecef22270dbb389fdf93181c340f16d715fc2b3a340c',
+ 'tools/release_foundation.py':'02aac0cefc4b46419c7d5a086da672398716cf7ee73882602574cff99659d751',
+ 'tools/release_logo.py':'efd1de07b3304d8d5c89f29bbeaf77ff2ce1d8d42ffbf885f960c36f506b47f4',
+ 'tracking/evidence/m07/controlled-pilot/2026-10-31-hosted-video-n8n-workflow.json':'c42e5308f735dc42e72b2f138522221026b467fea9ca37e73176c917acacb96f',
+ [DURABLE_RECEIPT]:DURABLE_SHA,
+});
+const need=v=>{if(!v)throw Error('FRESH_EXECUTION_METADATA_UNCONFIRMED');};
+const sha=v=>createHash('sha256').update(v).digest('hex');
+
+export function expectedFreshPlan(bytes) {
+  need(sha(bytes)===DURABLE_SHA);
+  const receipt=JSON.parse(Buffer.from(bytes).toString('utf8')),value=receipt.job_observation,job=value?.job;
+  need(receipt.evidence_kind==='actual_new_english_job_bounded_durable_metadata_read'&&receipt.target==='pyibofyctwnqpvktepse'
+    &&receipt.read_only===true&&receipt.maximum_cli_queries===1&&receipt.raw_cli_or_payloads_persisted===false);
+  need(value.observed_at===EXPECTED_OBSERVED_AT&&value.exact_history34===true&&value.english_enabled===true
+    &&value.candidate_apply_source_attributes_preserved===true&&value.protected_m02_metadata_preserved===true&&value.match_count===1);
+  need(job.id===JOB_ID&&job.workspace_id===WORKSPACE_ID&&job.kind==='candidate_scan'&&job.status==='succeeded'
+    &&job.stage==='apply_candidate'&&job.attempt===5&&job.workflow_execution_id===EXECUTION_ID);
+  need(CANDIDATE_WORKFLOW_ID==='gfhxzvSkprS2CI4o');
+  return {schema_version:'1.0',purpose:'at074-controlled-english-job-metadata',job_id:JOB_ID,workspace_id:WORKSPACE_ID,
+    kind:'candidate_scan',job_status:'succeeded',durable_observation:{receipt:DURABLE_RECEIPT,sha256:DURABLE_SHA,observed_at:EXPECTED_OBSERVED_AT},
+    execution_refs:[{execution_id:EXECUTION_ID,workflow_id:CANDIDATE_WORKFLOW_ID,attempt:5}]};
+}
+export function proveFreshPlan(plan,bytes) {
+  const expected=expectedFreshPlan(bytes),validated=validateFreshInput(plan,bytes);
+  need(validated.declared_job_status==='succeeded'&&validated.cases.length===1);
+  need(plan.durable_observation.receipt===expected.durable_observation.receipt
+    &&plan.durable_observation.observed_at===EXPECTED_OBSERVED_AT);
+  const ref=validated.cases[0];need(ref.execution_id===EXECUTION_ID&&ref.workflow_id===CANDIDATE_WORKFLOW_ID&&ref.attempt===5);
+  return ref;
+}
+export async function observeFresh(plan,bytes,config,fetchImpl=globalThis.fetch) {
+  const ref=proveFreshPlan(plan,bytes);
+  return inspectExecution(config,ref,fetchImpl);
+}
+async function pinned(relative,digest,maximumBytes=131072) {
+  const file=path.join(ROOT,relative),info=await lstat(file);
+  need(info.isFile()&&!info.isSymbolicLink()&&info.nlink===1&&info.size<=maximumBytes
+    &&path.resolve(await realpath(file)).toLowerCase()===file.toLowerCase());
+  const bytes=await readFile(file);need(sha(bytes)===digest);return bytes;
+}
+async function main() {
+  need(process.argv.length===2&&!['NODE_OPTIONS','NODE_DEBUG','NODE_TLS_REJECT_UNAUTHORIZED','NODE_EXTRA_CA_CERTS'].some(k=>process.env[k]));
+  for(const [file,digest]of Object.entries(PINS))await pinned(file,digest,file===PYTHON_RELATIVE?1048576:131072);
+  const workflow=JSON.parse(await readFile(path.join(ROOT,'tracking/evidence/m07/controlled-pilot/2026-10-31-hosted-video-n8n-workflow.json'),'utf8'));
+  need(workflow.workflow.id===CANDIDATE_WORKFLOW_ID&&workflow.workflow.active===true);
+  const env={...process.env};for(const key of Object.keys(env))if(key.toUpperCase().includes('DEBUG'))delete env[key];
+  const result=await promisify(execFile)(PYTHON,['-X','utf8','-B',path.join(import.meta.dirname,'read-protected-fresh-input.py')],
+    {cwd:ROOT,env,windowsHide:true,timeout:10000,maxBuffer:16384});
+  const plan=JSON.parse(result.stdout),bytes=await pinned(DURABLE_RECEIPT,DURABLE_SHA);
+  proveFreshPlan(plan,bytes);
+  const privateDir=path.join(ROOT,'.local/m03-english-component');
+  need(path.resolve(await realpath(privateDir)).toLowerCase()===privateDir.toLowerCase());
+  const started=new Date().toISOString();
+  await writeFile(path.join(privateDir,'at074-execution-31686-metadata.claim.json'),JSON.stringify({observed_at:started,job_id:JOB_ID,
+    execution_id:EXECUTION_ID,durable_receipt_sha256:DURABLE_SHA,maximum_get_requests:1,automatic_retry:false,source_pins:PINS}),{flag:'wx',mode:0o600});
+  const loaded=await loadWorkerPrivateEnvironment({environment:{}});need(loaded.N8N_API_KEY&&loaded.N8N_BASE_URL);
+  const observation=await observeFresh(plan,bytes,{N8N_API_KEY:loaded.N8N_API_KEY,N8N_BASE_URL:loaded.N8N_BASE_URL});
+  const report={schema_version:'1.0',evidence_kind:'actual_fresh_n8n_metadata_only_exact_execution_read',started_at:started,finished_at:new Date().toISOString(),
+    job_id:JOB_ID,source_pins:PINS,private_plan_acl_verified:true,configured_origin_sha256:sha(loaded.N8N_BASE_URL),
+    maximum_get_requests:1,automatic_retry:false,ambient_overrides_used:false,durable_receipt_execution_ref_matched:true,
+    previous_connector_result:'root_reported_isError_no_structured_response',previous_connector_observed_at:null,
+    workflow_configuration_reference:{observed_at:workflow.observed_at,fresh_read:false,
+      save_success_data:workflow.workflow.save_success_data,save_error_data:workflow.workflow.save_error_data},
+    observation,node_payloads_requested:false,raw_provider_bodies_persisted:false,credentials_or_private_urls_recorded:false,
+    workflow_edits_or_execution_or_retry_performed:false,per_stage_execution_history_reconstructed:false,
+    AT074_status:'partial_remaining_failure_path_and_full_correlation_not_claimed'};
+  const file=path.join(ROOT,'tracking/evidence/m07/operator-trace-live34',started.replaceAll(':','-')+'-fresh-execution-metadata.json');
+  await writeFile(file,JSON.stringify(report,null,2)+'\n',{flag:'wx'});
+  process.stdout.write(JSON.stringify({receipt:path.relative(ROOT,file).replaceAll('\\','/'),execution_id:EXECUTION_ID,
+    metadata_returned:observation.metadata_returned,http_status:observation.http_status,AT074_status:report.AT074_status})+'\n');
+}
+if(process.argv[1]&&pathToFileURL(path.resolve(process.argv[1])).href===import.meta.url)main().catch(()=>{
+  process.stdout.write('FRESH_EXECUTION_METADATA_UNCONFIRMED\n');process.exitCode=1;
+});

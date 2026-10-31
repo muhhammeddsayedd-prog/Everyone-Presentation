@@ -1,0 +1,58 @@
+{
+  "app_guest_or_version_acceptance": false,
+  "automatic_retry": false,
+  "candidate_media_id": "13614da0-9c0e-40c4-afbf-2c739f463a74",
+  "checks": {
+    "actual_chunk_provider_metadata_present": true,
+    "english_available": true,
+    "english_has_latin_letters_only": true,
+    "english_input_hash_matches_job": true,
+    "english_source_sha_matches_exact_raw": true,
+    "exact_new_job_media_source_binding": true,
+    "extraction_schema_v2": true,
+    "job_frozen_english_version_enabled": true,
+    "job_result_candidate_bound": true,
+    "job_succeeded": true,
+    "persisted_english_equals_job_stage": true,
+    "persisted_raw_equals_job_stage": true,
+    "retained_legacy_cohort_preserved": true,
+    "retained_raw_preserved": true,
+    "reviewed_facts_preserved": true
+  },
+  "evidence_kind": "actual_controlled_english_job_read_only_observation",
+  "exit_code": 0,
+  "job_id": "3cf25d3b-c1ec-4347-af3b-fa48f3f0f5e7",
+  "metadata": [
+    {
+      "input_sha256": "415315083fc507dbff950fcaa75be01167c9324cc74ad532bb7bff50e654675f",
+      "prompt_sha256": "5acd4200c0210c372dd280702488f1fec9094b3c2e2793aa60a83112cb2aadef",
+      "prompt_version": "transcript-english.v1",
+      "provider": "openai",
+      "request_id": "req_7e5ff14f16c5433bbaf7b6e6e72a3020",
+      "requested_model": "gpt-6.1-sol",
+      "resolved_model": "gpt-6.1-sol",
+      "response_id": "resp_0b5e07284c565159016ae62be376d487d2a4243b24f41d999f",
+      "schema_sha256": "dbf6ded402301f4c93af1525a981a98eca025f1776f08978758088222823f04f",
+      "sdk_version": "7.45.1",
+      "task": "transcript_english",
+      "usage": {
+        "input_tokens": 317,
+        "output_tokens": 242,
+        "total_tokens": 559
+      }
+    }
+  ],
+  "observed_at": "2026-10-31T17:58:48.925332+00:00",
+  "output_limit_exceeded": false,
+  "persistence_checks_passed": true,
+  "provider_called_by_observer": false,
+  "raw_cli_persisted": false,
+  "read_only_rollback": true,
+  "run_id": "c95c23b3-a8aa-4d11-9602-c9b4f9ef8dbb",
+  "semantic_inspection": "Private raw/English pair requires source-faithfulness assessment; owner-name equality is not the gate.",
+  "semantic_source_faithfulness_accepted": false,
+  "source_asset_id": "d9db9907-5e60-4382-b61c-bb2b67709c09",
+  "target": "pyibofyctwnqpvktepse",
+  "timed_out": false,
+  "transcript_text_only_in_private_file": true
+}

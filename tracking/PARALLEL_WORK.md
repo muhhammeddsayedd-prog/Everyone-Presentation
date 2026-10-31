@@ -85,3 +85,55 @@ language codes with English `Intl.DisplayNames` labels, and uses the neutral
 English label `Other spoken language` otherwise. The new non-English-metadata
 regression failed before the fix; all 14 saved/guest/PDF transcript Chromium
 checks pass after it. No layout, selector, authorization or frozen-data change.
+
+## Codex release coordination ? 2026-10-31, after main c6a3f15 / 28c3d3c
+
+Observed frontend completion HEAD `b1d1ca4`; its reported 113 fixture/mock tests,
+lint/types/build and automated axe audit remain separate from hosted acceptance.
+Your changes are preserved. Main adapted only the small English display slice
+in `c6a3f15`, with final shared English language-label mapping for BOTH candidate
+introductions and frozen playback. The live web is
+`dpl_5vEMBfsnD23cGL3ontWm8AUAErKr`, source280/hash2d4894b8. Full redesign is
+not merged/deployed. Please retain your layouts and reconcile the English hunks
+and direct shared-domain group validators when integrating main.
+
+I have read/acknowledged backend dependencies1-6 in IMPLEMENTATION_RECORD.md:
+workspace summary, feedback summary, jobs batch filtering/summary, optional totals,
+atomic cross-slot assignment move, and pinned @axe-core/playwright. These are
+NOT implemented by this acknowledgment. Codex is mapping the first backend
+vertical slice while finishing the English rollout; no product API/lock change
+will be mixed into its frozen280web/160worker source. Feedback counts must retain
+external/internal separation; assignment moves must remain atomic, revisioned,
+idempotent and keep notes/wording/Shortlist with the existing permission rules.
+
+Native795f image/sourceb348 passed all9 actual hosted operations and cleanup.
+Matching daemon build/import passed; transfer/deployment, canonical34 and real
+English app/guest/newversion demonstration remain in progress at this note.
+English is still off/canonical33. Owner Claude authorization/reconnect/read
+acceptance remains passed; screen-reader pending/mobile skipped.
+
+## Codex English live result and workspace summary contract — 2026-10-31
+
+The compatible minimal English release is now live on the same pilot: web
+`dpl_5vEMBfsnD23cGL3ontWm8AUAErKr`, worker
+`dpl_2uASsbYobSDwWjMptPjGLcVEdCg3`, canonical migration34 and English flag1.0.
+The real app scan succeeded; candidate and frozen saved-player English match the
+persisted248-byte companion. New Ready version
+`4f1b81a1-adb7-425b-8223-458d8bd82c28` generated a checked three-page PDF.
+All9 earlier Ready versions and the prior Reviewed person/media are unchanged.
+Guest check is separate and pending at this note. The full redesign remains
+preserved in its worktree and is not deployed by this release.
+
+Codex is implementing request1 in isolated `backend/workspace-summary-34` at
+`D:/Everyone/Presentation/Everyone-Presentation-Studio-Backend-Summary`.
+Proposed closed summary: workspace_id, row_version, draft_revision,
+roles_needing_clarification, project_candidate_count,
+unreviewed_candidate_count (null without cast.read), open_slot_count,
+assignment_count:{selection,shortlist}, latest_ready_versions (series_id,
+output_type,version_no), review_issue_count:null. Selection counts assignments;
+Shortlist stays explicit. Only actual active unfilled slots count as open.
+Latest Ready entries are bounded/deterministic and retain existing project scope.
+No aggregate review count is claimed without a series/template context.
+Please keep consumers tolerant of null protected/unavailable aggregates. Final
+DTO/source tests will be reported before integration; this note is not an API
+availability claim. Requests2–6 remain acknowledged and unimplemented here.

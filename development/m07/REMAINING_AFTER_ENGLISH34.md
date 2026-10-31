@@ -3,12 +3,13 @@
 Reviewed against `milestones/M07_API_MCP_RELEASE.md`, the AT-063–075 definitions
 in `docs/quality/TEST_STRATEGY.md`, the release runbook and the current M07 matrix.
 This is an execution order for remaining evidence, not a new product scope or a
-claim that English34 is deployed.
+claim of full production readiness. Canonical34/English1.0 and the compatible
+web/worker are now actually deployed; the current evidence boundaries follow.
 
 | Order / case | Current evidence boundary | Concrete next action and dependency |
 | --- | --- | --- |
-| 1. English rollout / AT-068 | Backend, rollback-only34 SQL and focused English UI checks exist. Canonical33, flag off and the previous pilot are the last confirmed serving state. New native build completed27 steps but registry push returned403; no new digest or hosted English acceptance. | Finish compatible web/SDK and worker rollout with processing disabled, apply/read back34 with preservation, then one tagged real scan and new frozen app/guest version. Retain raw sources, Reviewed facts and old versions. |
-| 2. Operator correlation / AT-074 | Three durable real-job metadata projections passed. Independent retained n8n execution detail was missing, so end-to-end operator acceptance is partial. | **Recommended next independent backend slice:** read-only correlate the new successful English scan and one existing failed nonprotected real-service job across request/job/attempt/outbox/events, n8n execution, provider metadata and asset outcome. Retain only safe identifiers/status/error codes and actual diagnosis. Use existing read access; do not retry either job or infer failure from a synthetic counter. If n8n detail is unavailable, record the exact missing link and continue other work. |
+| 1. English rollout / AT-068 | Actual controlled scan3cf25d3b, persisted English/provider/source/Reviewed preservation, new Ready4f1b81a1 frozen24checks, internal248-byte English display/video/PDF and old-cohort subset compare passed. Guest English is not yet verified; no new self-test link exists. | Complete only the remaining owner-confirmed guest English self-test (create/test/revoke bearer link when confirmed). Keep completed scan/version/PDF/old-version proofs passed. Continue independent API/operator work while that finite browser-policy confirmation is pending; no new language labels or selector. |
+| 2. Operator correlation / AT-074 | Durable new-job binding confirms latest31686/attempt5/6events/5delivered. Corrected root one-GET31686 returned normal404/no metadata at18:27:47; no retry. Distinct currentWF02 GET200 at18:30:02 confirms activeb65979f6/success:none/error:none/manual:false/progress:false; same origin hash, no changes. Preclaim bootstrap failure and historical404s retained. | Full operator/failure correlation is still partial; current settings do not prove the exact31686 absence cause. Plan durable per-stage attempt/execution reference metadata as a future coordinated backend slice. Never enable node-payload retention just for tracing, reconstruct missing per-stage IDs, retry old jobs, or claim fullAT074 from settings access. Continue eligible API/delegated work. |
 | 3. Full delegated workflow / AT-064,066,068 | Owner initial authorization, duplicate details, redirect-only reconnect and authenticated Dummy Pilot Test reads passed. Controlled signed lifecycle/permission/idempotency tests remain separate from a complete real delegated journey. | Owner's already working Claude client performs the remaining ordinary operations against shared persisted pilot data: real byte transfer, processing/review, changes/Reviewed, assignment/Shortlist, generation/PDF and link lifecycle. Record real IDs plus app readback and typed stale/idempotent/retry behavior. Do not re-open connection acceptance or configure/sign in/consent for the owner. |
 | 4. Token and contributor boundaries / AT-065 | Current production code and controlled signed transport/SQL tests enforce scopes. Live refresh/rotation/revocation and a real contributor's denied operations remain unverified. | Use authorized test sessions/principals and a reviewed bounded lifecycle plan. Preserve the owner's accepted grant/session and current account permissions. Do not invent cloud identities, weaken checks or turn existing sign-in access into a new broad grant. Source-only test preparation can proceed while real session/identity access is unavailable. |
 | 5. Queued-job replacement / AT-069 | Local drained restart and fencing pass; English compatibility rollout alone does not prove replacement with queued/running work or rollback. | Prepare source-pinned before/after observations, one approved queued job, old/new consumer fencing, compatible application rollback and old Ready-version preservation. Perform only with actual deployment/resource ownership and a bounded recovery plan. Keep the compatible SDK after34. |
@@ -20,5 +21,13 @@ The source-name investigation does not need new labels: the captured original
 ASR lacks a token from the previously corrected Reviewed full name. Its faithful
 translation cannot use that corrected-name literal comparison as a semantic
 gate. The failed historical component receipt stays unaccepted because its
-English wording was discarded. Verify new source-faithful English and Reviewed
-fact preservation separately; do not inject a corrected fact into translation.
+English wording was discarded. The controlled scan and saved-version proofs now verify source-bound English
+and Reviewed-fact preservation separately; the display retains source uncertainty
+and does not inject the corrected Reviewed name into translation. Existing Arabic
+name/age acceptance remains passed. No further English/mixed language labels are
+a dependency, and broader semantic accuracy is not claimed.
+
+Workspace-summary implementation is proceeding in the isolated Backend-Summary
+worktree only, with focused synthetic tests. It is not merged or deployed and
+does not displace the live guest/operator/API acceptance work above. Its own
+transactional database proof and coherent release remain necessary.

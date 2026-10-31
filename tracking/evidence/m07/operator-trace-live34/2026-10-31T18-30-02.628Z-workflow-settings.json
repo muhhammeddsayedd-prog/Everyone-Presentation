@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0",
+  "evidence_kind": "actual_current_WF02_closed_settings_metadata_read",
+  "started_at": "2026-10-31T18:30:02.628Z",
+  "finished_at": "2026-10-31T18:30:03.049Z",
+  "source_pins": {
+    "tools/worker-private-env.mjs": "ef935580876c9150b8150947c3796dd4760d1ad2910bc3bf322dd5015eea4d79",
+    "tracking/evidence/m07/operator-trace-live34/2026-10-31T18-27-47.200Z-fresh-execution-metadata.json": "df0f05a8227102ce7583c6fe9f544fc1c6cb8ef07e4347839a4608284f289d62"
+  },
+  "maximum_get_requests": 1,
+  "automatic_retry": false,
+  "ambient_overrides_used": false,
+  "configured_origin_sha256": "c9a34f62c7647ee6631b3cfd6b7d1bbfaec6f3b412cdf94a629bda2917dc14ab",
+  "previous_connector_result": "root_reported_isError_no_structured_response",
+  "previous_connector_observed_at": null,
+  "observation": {
+    "workflow_id": "gfhxzvSkprS2CI4o",
+    "method": "GET",
+    "automatic_retry": false,
+    "http_status": 200,
+    "metadata_returned": true,
+    "metadata": {
+      "id": "gfhxzvSkprS2CI4o",
+      "active": true,
+      "version_id": "b65979f6-de1e-4d09-8b58-308784e5d9dc",
+      "active_version_id": "b65979f6-de1e-4d09-8b58-308784e5d9dc",
+      "settings": {
+        "saveDataSuccessExecution": "none",
+        "saveDataErrorExecution": "none",
+        "saveManualExecutions": false,
+        "saveExecutionProgress": false
+      }
+    }
+  },
+  "raw_graph_or_node_names_or_credentials_or_urls_persisted": false,
+  "workflow_edits_or_execution_or_retry_performed": false,
+  "execution_payload_retention_changed": false,
+  "execution_404_cause_proven": false,
+  "AT074_status": "partial_metadata_retention_configuration_separate_from_execution_availability"
+}
