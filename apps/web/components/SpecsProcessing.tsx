@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { ApiError, api } from './api';
 import { ErrorNotice } from './Feedback';
-import { STATUS_LABELS, jobStageLabel, processingDelay, processingHref, type ProcessingJob } from './processing-view';
+import { STATUS_LABELS, STATUS_TONES, jobStageLabel, processingDelay, processingHref, type ProcessingJob } from './processing-view';
 import { readSpecsProcessingJob, SpecsProcessingScopeError, specsProcessingMessage, type SpecsProcessingScope } from './specs-processing';
 
 /** Reads the current source job only. Results never replace a producer's form. */
@@ -38,7 +38,7 @@ export function SpecsProcessing({ workspaceId, specId, jobId, loadBlocked, onRel
     return () => { current = false; controller?.abort(); clearTimeout(timer); clearTimeout(deadline); };
   }, [workspaceId, specId, jobId, refresh]);
   return <section className="editor-section specs-processing" aria-labelledby="source-processing-heading">
-    <div className="section-heading"><h2 id="source-processing-heading">Source processing</h2>{job && <span className="badge">{STATUS_LABELS[job.status]}</span>}</div>
+    <div className="section-heading"><h2 id="source-processing-heading">Source processing</h2>{job && <span className={STATUS_TONES[job.status]}>{STATUS_LABELS[job.status]}</span>}</div>
     <p className="small" role="status" aria-live="polite">{job ? specsProcessingMessage(job) : checking ? 'Reading saved source processing…' : 'Source processing status is unavailable.'}</p>
     {job && <p className="small muted">{jobStageLabel(job.stage)}</p>}
     {error && <ErrorNotice message={error} retry={() => setRefresh(value => value + 1)} />}

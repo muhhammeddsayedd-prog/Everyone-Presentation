@@ -8,7 +8,7 @@ import { ErrorNotice, Loading } from './Feedback';
 import { useRuntimeMode } from './RuntimeMode';
 import { StudioDateTime } from './StudioTimeZone';
 import {frameOutcomeSummary} from '../lib/frame-outcome-summary';
-import { JOB_KINDS, JOB_STATUSES, STATUS_LABELS, jobFailureMessage, processingActions, jobStageLabel, processingDelay, processingHref,
+import { JOB_KINDS, JOB_STATUSES, STATUS_LABELS, STATUS_TONES, jobFailureMessage, processingActions, jobStageLabel, processingDelay, processingHref,
   readJobPage, readProcessingJob, readJobRetryAcknowledgement, retainJobIntent, validProcessingId, workspaceResultHref,
   type JobAction, type JobIntent, type JobPage, type ProcessingJob, type ProcessingStatus } from './processing-view';
 
@@ -110,7 +110,7 @@ function JobGroup({ jobs, status, cursor }: { jobs: ProcessingJob[]; status: Pro
   return <section className="processing-group"><div className="section-heading"><h2>{jobs[0].batch_id ? 'Processing batch' : 'Individual jobs'}</h2><span className="small muted">{jobs.length} {jobs.length === 1 ? 'job' : 'jobs'}</span></div>
     <details className="processing-project" onToggle={event => { if (event.currentTarget.open) setShowWorkspace(true); }}><summary>Project and workspace</summary>{showWorkspace && <WorkspaceDestination job={jobs[0]} />}</details>
     <ul className="processing-jobs">{jobs.map(job => <li key={job.id}><div><Link className="processing-job-link" href={processingHref({ job: job.id, status, cursor })}>{JOB_KINDS[job.kind]}</Link><p className="small muted">{jobStageLabel(job.stage)}</p><JobProgress job={job} /></div>
-      <div className="processing-job-state"><span className="badge">{STATUS_LABELS[job.status]}</span><StudioDateTime className="small muted" value={job.created_at} prefix="Submitted " />{job.status === 'failed' && <p className="small">{jobFailureMessage(job.error)}</p>}</div></li>)}</ul>
+      <div className="processing-job-state"><span className={STATUS_TONES[job.status]}>{STATUS_LABELS[job.status]}</span><StudioDateTime className="small muted" value={job.created_at} prefix="Submitted " />{job.status === 'failed' && <p className="small">{jobFailureMessage(job.error)}</p>}</div></li>)}</ul>
   </section>;
 }
 
@@ -178,7 +178,7 @@ function JobDetail({ id, status, cursor, canOperate, onDirtyChange }: { id: stri
     <header className="page-heading"><div><h1>{job ? JOB_KINDS[job.kind] : 'Processing job'}</h1><p>Saved state is retained when you refresh or leave this page.</p></div><button className="button button-small button-quiet" disabled={busy || Boolean(intent)} onClick={reload}>Reload job details</button></header>
     {state.error && <ErrorNotice message={state.error} retry={state.reload} />}
     {!job && state.loading ? <Loading label="Loading processing job…" /> : job && <>
-      <section className="editor-section processing-detail"><div className="section-heading"><h2>Processing status</h2><span className="badge">{STATUS_LABELS[job.status]}</span></div>
+      <section className="editor-section processing-detail"><div className="section-heading"><h2>Processing status</h2><span className={STATUS_TONES[job.status]}>{STATUS_LABELS[job.status]}</span></div>
         <dl className="processing-facts"><div><dt>Stage</dt><dd>{jobStageLabel(job.stage)}</dd></div><div><dt>Submitted</dt><dd><StudioDateTime value={job.created_at} /></dd></div><div><dt>Last saved update</dt><dd><StudioDateTime value={job.updated_at} /></dd></div></dl>
         <JobProgress job={job} />{job.frame_extraction&&<p className="notice" role="status">{frameOutcomeSummary(job.frame_extraction)}</p>}{job.error && <div className="notice notice-error"><p>{jobFailureMessage(job.error)}</p></div>}
         {job.status === 'waiting_for_input' && <p className="small">This job needs input before it can continue. Open its workspace to review the available requirements.</p>}

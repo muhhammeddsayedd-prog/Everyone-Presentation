@@ -304,4 +304,28 @@
   .profile-media .candidate-video { width: 100%; border-radius: var(--radius-sm); background: #000; }
   .profile-archive { padding-top: var(--space-2); }
   @media (max-width: 1023px) { .profile-layout { grid-template-columns: minmax(0, 1fr); } .profile-layout > *, .profile-layout > .profile-media { grid-column: 1; grid-row: auto; } }
+
+  /* Guest review: light canvas (brand light-theme tokens, scoped to the guest shell) */
+  body:has(.guest-shell) { background: #f6f4ef; }
+  .guest-shell {
+    color-scheme: light;
+    --color-bg: #f6f4ef; --color-surface-1: #ffffff; --color-surface-2: #efede7; --color-surface-3: #e5e2da;
+    --color-border: #dcd8ce; --color-border-strong: #b9b5aa; --color-overlay: rgba(0, 0, 0, 0.48);
+    --color-text-primary: #111111; --color-text-secondary: #3d3f42; --color-text-muted: #5d5f63; --color-text-label: #5d5f63; --color-text-on-accent: #000000;
+    --color-accent: #176e45; --color-accent-strong: #0f4a2f; --color-accent-deep: #00b460; --color-accent-soft: rgba(23, 110, 69, 0.10); --color-accent-ring: rgba(23, 110, 69, 0.5);
+    --color-success: #176e45; --color-warning: #8a5600; --color-danger: #b42318; --color-info: #1f66c9;
+    --color-success-soft: rgba(23, 110, 69, 0.10); --color-warning-soft: rgba(154, 97, 0, 0.10); --color-danger-soft: rgba(198, 40, 40, 0.08); --color-info-soft: rgba(31, 102, 201, 0.08);
+    --elevation-pop: 0 0 0 1px var(--color-border-strong), 0 16px 40px rgba(0, 0, 0, 0.16);
+    background: var(--color-bg); color: var(--color-text-primary);
+  }
+  .guest-shell .button-primary { background: var(--color-accent-deep); border-color: var(--color-accent-deep); color: #000; }
+  .guest-shell .button-primary:hover:not(:disabled) { background: #00a057; border-color: #00a057; color: #000; }
+  .guest-shell :focus-visible { outline-color: var(--color-accent); }
+  .guest-shell input, .guest-shell select, .guest-shell textarea { background: #fff; }
+  .guest-brand img { width: 128px; height: auto; filter: none; }
+  .guest-heading .eyebrow { color: var(--color-accent); }
+  .guest-shell .notice-error .button, .guest-shell .notice-warning .button, .guest-shell .notice-info .button { color: var(--color-text-primary); }
+  .guest-unavailable { max-width: 520px; margin: var(--space-12) auto; text-align: center; display: grid; gap: var(--space-3); justify-items: center; }
+  .review-preference-counts > * { border-radius: var(--radius-sm); background: var(--color-surface-1); border: 1px solid var(--color-border); padding: var(--space-3); }
+  @media (max-width: 767px) { .guest-shell { padding: 0 var(--gutter); } .guest-review-layout { grid-template-columns: minmax(0, 1fr); } }
 }

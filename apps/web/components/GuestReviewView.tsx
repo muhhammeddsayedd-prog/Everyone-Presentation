@@ -95,7 +95,7 @@ export function GuestReviewView({ entryToken }: { entryToken: string }) {
 }
 
 export function GuestShell({ children }: { children: React.ReactNode }) {
-  return <div className="guest-shell"><a className="skip-link" href="#guest-content">Skip to presentation</a><header className="guest-brand"><img src="/brand/everyone-logotype-white.svg" alt="everyone." /><span>Presentation review</span></header><main id="guest-content" tabIndex={-1}>{children}</main><footer className="guest-footer">everyone. · Presentation Studio</footer></div>;
+  return <div className="guest-shell"><a className="skip-link" href="#guest-content">Skip to presentation</a><header className="guest-brand"><img src="/brand/everyone-logotype.svg" alt="everyone." /><span>Presentation review</span></header><main id="guest-content" tabIndex={-1}>{children}</main><footer className="guest-footer">everyone. · Presentation Studio</footer></div>;
 }
 
 function GuestSlide({ slide, version, context }: { slide: VersionSlide; version: ExternalPresentationVersion; context: string }) {

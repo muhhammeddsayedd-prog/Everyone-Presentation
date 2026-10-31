@@ -10,6 +10,8 @@ export const JOB_STATUSES: ProcessingStatus[] = ['queued', 'running', 'waiting_f
 export const JOB_KINDS: Record<ProcessingJob['kind'], string> = { specs_extract: 'Specs extraction', candidate_scan: 'Candidate scan', frame_extract: 'Frame extraction',
   ai_suggestion: 'AI suggestion', review_fit: 'Layout fit check', presentation_render: 'Presentation generation', presentation_export: 'PDF export' };
 export const STATUS_LABELS: Record<ProcessingStatus, string> = { queued: 'Queued', running: 'In progress', waiting_for_input: 'Needs input', succeeded: 'Completed', failed: 'Failed', cancelled: 'Cancelled' };
+/** Status is always text plus tone; the tone never replaces the label. */
+export const STATUS_TONES: Record<ProcessingStatus, string> = { queued: 'badge badge-pending', running: 'badge badge-dot badge-info', waiting_for_input: 'badge badge-warn', succeeded: 'badge badge-ok', failed: 'badge badge-bad', cancelled: 'badge' };
 const STAGES: Record<string, string> = { prepare_document: 'Document preparation', extract_specs: 'Requirements extraction', apply_specs: 'Applying requirements',
   prepare_media: 'Media preparation', transcribe: 'Spoken information', extract_facts: 'Supplied facts', extract_frames: 'Frame extraction', select_frames: 'Source frame selection',
   prepare_candidate: 'Video preparation', transcribe_candidate: 'Original-language transcription', extract_candidate: 'Supplied fact extraction',
