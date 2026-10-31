@@ -136,3 +136,25 @@ test('a provided spoken language is listed while the displayed transcript stays 
   expect(app.liveReads()).toBe(0);
   app.releaseMedia();
 });
+
+test('partial or non-English English groups are rejected without any transcript fallback', async ({ page }) => {
+  for (const transcript of [
+    (() => { const partial: Record<string, unknown> = companion(); delete partial.english_sha256; return partial; })(),
+    { ...companion(), english_text: original },
+  ]) {
+    const app = await wire(page, 'grant', transcript);
+    await app.open();
+    await expect(page.getByText('The English transcript could not be confirmed for this video.', { exact: true })).toBeVisible();
+    await expect(page.getByText(original, { exact: true })).toHaveCount(0);
+    await expect(page.getByText(english, { exact: true })).toHaveCount(0);
+    app.releaseMedia(); await page.unrouteAll({ behavior: 'ignoreErrors' });
+  }
+});
+
+test('a complete unavailable English group states its reason and shows no text', async ({ page }) => {
+  const app = await wire(page, 'grant', { ...companion(), english_status: 'unavailable', english_text: null, english_sha256: null });
+  await app.open();
+  await expect(page.getByText(/^English transcript unavailable\./)).toBeVisible();
+  await expect(page.getByText(original, { exact: true })).toHaveCount(0);
+  app.releaseMedia();
+});
