@@ -1,3 +1,22 @@
+## OAuth coordinator correction deployed - 2026-10-31T13:19Z
+
+The owner's 12:45 attempt reached the previous corrected deployment and verified
+the browser session, then failed503 before native authorization details. Actual
+role-prefix execution reproduced42501, permission denied for schema auth: the
+NOLOGIN coordinator could not resolve auth.uid(). The native request used the
+registered direct Claude Code client and exact localhost3118 callback; no
+claude.ai callback mismatch was found.
+
+Canonical33 and Ready web dpl_DeCpJGbLLEHX3FFNBz5twLFuV8p7 now serve the stable
+pilot. A private context bridge retains the unchanged ordinary-session guard and
+every binding/permission/duplicate predicate without granting coordinator Auth
+schema access. Hosted rollback/apply plus two readbacks passed; original local29,
+protected M02 and worker remain unchanged. Current845 module tests, lint, types,
+production guard/build,47 SQL assertions,3 source checks and3 actual races passed.
+Deployed anonymous denials and new stage-log ingestion passed. Owner fresh retry
+is requested; authenticated Dummy Pilot Test read AND reconnect remain pending.
+AT-072/M03 pending, mobile skipped, pilot owner-stop-only, production unverified.
+
 ## OAuth consent correction deployed - 2026-10-31T11:29:46.965Z
 
 Canonical32 and web dpl_CpsHsrG38KcRt2qQzci6CMhD7VSu passed rollout checks. Eight
@@ -14,7 +33,7 @@ Owner reports initial connection failure. Exact screenshot text traces to the co
 
 **Last updated:** 2026-10-31 - **Pack:** 1.0 - **Current work:** M07 controlled Vercel pilot in progress; AT-072/M03 pending; mobile skipped
 
-**Current pilot checkpoint (03:34Z):** Core9 and app-side hosted OAuth/MCP setup passed. New web8Hk and workerCVDM are deployed; all eleven public OAuth checks and signed-in workspace checks passed. Actual PDFs/downloads, guest feedback/version isolation and original video passed. Owner configuration/login, refresh/reconnect and complete Claude acceptance remain pending; the connection guide pins Studio metadata and openid and records the redirect-only reconnect limitation. AT-072/M03 pending, mobile skipped, production release unverified. See [current handoff](tracking/HANDOFF.md).
+**Historical pilot checkpoint (03:34Z):** Core9 and app-side hosted OAuth/MCP setup passed. New web8Hk and workerCVDM are deployed; all eleven public OAuth checks and signed-in workspace checks passed. Actual PDFs/downloads, guest feedback/version isolation and original video passed. Owner configuration/login, refresh/reconnect and complete Claude acceptance remain pending; the connection guide pins Studio metadata and openid and records the redirect-only reconnect limitation. AT-072/M03 pending, mobile skipped, production release unverified. See [current handoff](tracking/HANDOFF.md).
 
 **Historical controlled pilot checkpoint (00:13:20Z):** Current7b/bc774 native7846 and code-only daemonf391 are Ready; baked manifestad51 and one-worker/dub1/2Gi/300s descriptor exist. Smoke7113 is unconfirmed at document processing with NATIVE_CLEANUP_UNCONFIRMED, retained lock and cleanup false despite stable sessions; the empty read-only list alone is not complete absence proof. Read-only reconciliation precedes any new probe. Full native pass remains mandatory before private-env/frame-pin apply/polling; no daemon deployment. [Offline checks](tracking/evidence/m07/controlled-pilot/2026-10-31T00-06-44.357Z-current-offline-checks.json) pass800 modules/lint/typecheck/prodguard exit0, with no source-stability claim;793/227 are historical and229 worker tests are included in800. Actual hosted3reads/new project+workspace passed, no jobs submitted; core6 and OAuth remain pending. Local worker remains stopped; frame inspecta0 passed read-only zero active/leased native work at00:11:21, no DML. Origin apply complete. AT-072/M03 pending, mobile skipped; see [next steps](development/m07/controlled-pilot/NEXT_STEPS.md).
 
@@ -33,7 +52,7 @@ The machine-readable status mirror is [tracking/progress.json](tracking/progress
 | M04 Assignments and final review | verified | Local/canonical20+22+23; actual review journey and acceptance matrix | Exact series/ten fields,2 real AI jobs,3 native fits/2 current zero-overflow, role Undo/reload,2-frame playback, stale-source two-user races; current preservation | Continue M05; retain immutable history; controlled pilot is separate from production acceptance |
 | M05 Template, versioning and PDF | verified | `51aa4c5`; local/canonical24; template1.1.0 | Selection8/Shortlist6 SQL/native fixtures;3 actual Ready downloads/18 inspected pages; immutable V1 replay;11 anonymous401; local race/retry/retention/latest-ready proofs | Continue M06 scoped review/delivery; controlled pilot is separate from production acceptance |
 | M06 External review and delivery | implemented_unverified | Canonical/local25-28; [acceptance matrix](tracking/evidence/m06/ACCEPTANCE_MATRIX.md) | Actual guest feedback, PDF/video/lifecycle, V5 captured transcript and oldV4no-backfill;83browser/693module and current composed gates | AT-072 manual remains; latest PDF save verified; phone testing waived; mobile skipped; controlled pilot in progress |
-| M07 API/MCP and production readiness | in_progress | Canonical30/original local29; web pilot/current7b images | Root800 modules/lint/typecheck/prodguard; hosted3reads/new project+workspace; Ready native/daemon code-only | Reconcile retained cleanup lock; full native smoke then frame/private-env/daemon/core6 before OAuth; AT-072/M03 pending, mobile skipped |
+| M07 API/MCP and production readiness | in_progress | Canonical33/original local29; Ready webDeCp/workerCVDM | Core9 historical; current845modules/lint/types/guard/build; SQL47/source3/races3; rollout and stage tracing verified | Owner fresh authorization, authenticated Dummy Pilot Test read AND reconnect pending; AT-072/M03 pending, mobile skipped |
 
 ## Allowed status transitions
 

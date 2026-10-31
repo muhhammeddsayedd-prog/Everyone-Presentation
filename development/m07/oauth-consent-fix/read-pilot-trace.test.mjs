@@ -63,3 +63,26 @@ test('oversized or malformed JSONL and invalid summaries fail with a generic mes
     assert.throws(() => projectPilotTrace(text, scope), error => error.message === 'PILOT_TRACE_RESPONSE_INVALID');
   }
 });
+
+test('coordination and MCP authorization stages retain only closed diagnostic metadata', () => {
+  const events = [row({ event: 'eps.oauth.coordination_response', trace_id: uuid, operation: 'claim', action: 'details', status: 403,
+    phase: 'provider_error', code: '42501' }), row({ event: 'eps.oauth.coordination_response', trace_id: uuid, operation: 'claim', action: 'details', status: 200,
+    phase: 'success', state: 'claimed', client_id: uuid, callback: 'localhost_3118' }),
+    row({ event: 'eps.mcp.authorization_stage', trace_id: uuid, stage: 'session', result: 'denied', status: 401, reason: 'session_inactive' }, 'EPS MCP auth trace ')];
+  const report = projectPilotTrace(lines([...events, summary(events.length)]), scope);
+  assert.equal(report.counts.complete_window, true); assert.equal(report.events.length, 3);
+  assert.equal(report.events[0].code, '42501'); assert.equal(report.events[2].stage, 'session');
+  assert.ok(!JSON.stringify(report).includes('private-'));
+});
+
+test('new stage metadata rejects arbitrary messages, raw callbacks, credentials and private identifiers', () => {
+  const coordination = { event: 'eps.oauth.coordination_response', trace_id: uuid, operation: 'claim', action: 'details', status: 403, phase: 'provider_error' };
+  const auth = { event: 'eps.mcp.authorization_stage', trace_id: uuid, stage: 'jwt', result: 'denied', status: 401 };
+  const values = [row({ ...coordination, message: 'private-error' }), row({ ...coordination, code: 'private-code' }),
+    row({ ...coordination, outcome: 'redirect' }), row({ ...coordination, callback: 'http://localhost:3118/callback?code=private-code' }),
+    row({ ...coordination, authorization_id: 'private-selector' }), row({ ...auth, reason: 'private-reason' }, 'EPS MCP auth trace '),
+    row({ ...auth, token: 'private-token' }, 'EPS MCP auth trace '), row({ ...auth, code: 'private-code' }, 'EPS MCP auth trace ')];
+  const report = projectPilotTrace(lines([...values, summary(values.length)]), scope);
+  assert.equal(report.events.length, 0); assert.equal(report.counts.complete_window, false);
+  assert.ok(!JSON.stringify(report).includes('private-'));
+});

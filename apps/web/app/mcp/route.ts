@@ -1,4 +1,6 @@
+import { randomUUID } from 'node:crypto';
 import { createMcpHttpHandler, mcpProjectReadReceipt } from '../../lib/mcp-http';
+import { observeMcpAuthorizationStage, mcpAuthorizationErrorCode, type McpAuthorizationTraceOptions } from '../../lib/mcp-auth';
 import { createMcpCentralSessionCheck, readMcpServerEnvironment } from '../../lib/mcp-central-session';
 import { currentActor } from '../../lib/session';
 import type { createCentralStudio } from '@eps/central';
@@ -17,6 +19,8 @@ import { getSettingsService } from '../../lib/settings';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 async function handle(request: Request) {
+  const traceId = randomUUID();
+  const authorizationTrace: McpAuthorizationTraceOptions = { traceId, log: value => console.info('EPS MCP auth trace', JSON.stringify(value)) };
   try {
     const { config, central, runtime: runtimeConfig } = readMcpServerEnvironment();
     async function services() {
@@ -27,7 +31,7 @@ async function handle(request: Request) {
         casting: await getCastingService(), review: await getReviewService(), presentation: await getPresentationService(),
         sharing: await optionalSharing(getReviewLinkService), settings: await getSettingsService() };
     }
-    return createMcpHttpHandler({ config, runtime: runtimeConfig,
+    return createMcpHttpHandler({ config, runtime: runtimeConfig, authorizationTrace,
       ...(config.mode === 'oauth' && central ? { checkSession: createMcpCentralSessionCheck(central, config.resourceUrl) } : {}),
       localContext: async () => ({ actor: (await currentActor())!, services: await services() }),
       // OAuth never invokes currentActor or obtains identity through a browser fallback.
@@ -37,6 +41,10 @@ async function handle(request: Request) {
         if (receipt) console.info('EPS MCP read receipt', JSON.stringify(receipt));
       },
     })(request);
-  } catch (error) { return failure(error); }
+  } catch (error) {
+    observeMcpAuthorizationStage(authorizationTrace, { stage: 'boundary', result: 'unavailable', status: 503,
+      reason: 'configuration_unavailable', code: mcpAuthorizationErrorCode(error) });
+    return failure(error);
+  }
 }
 export { handle as POST, handle as GET, handle as DELETE };

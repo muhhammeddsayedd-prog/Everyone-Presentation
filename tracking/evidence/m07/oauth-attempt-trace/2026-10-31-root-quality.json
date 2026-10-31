@@ -1,0 +1,30 @@
+{
+  "observed_at": "2026-10-31T13:20:44.392952Z",
+  "kind": "root_command_log_closeout",
+  "scope": "Commands completed before deployment; not owner OAuth or end-to-end browser acceptance",
+  "module_tests": 845,
+  "module_components": [
+    370,
+    9,
+    12,
+    45,
+    237,
+    172
+  ],
+  "lint": "passed",
+  "typecheck": "passed",
+  "production_guard": "passed",
+  "build": "passed",
+  "collector_tests": 6,
+  "source_closure_tests": 3,
+  "focused_oauth_mcp_tests": 62,
+  "controlled_desktop_run": false,
+  "sql_proof": "47 assertions,3 source checks,3 independent races,full native wire; separate hosted rollback/apply",
+  "log_sha256": {
+    "m07-oauth-attempt-tests.log": "6a40768cef1feca1f0f129538d8c202bc5b9799b3ba6734b7ec1ca890c810cbf",
+    "m07-oauth-attempt-lint.log": "dcf04cf56739f2f68b315b919013254295716cfac4a2b9aaca7e25ee40e8f2db",
+    "m07-oauth-attempt-types.log": "63dbaa165359a370f81fa6d619a1569ad84c24a4a726e0b4e03bb94528b8dd4f",
+    "m07-oauth-attempt-guard.log": "33086726b2a60861095709e2cb277f8ccf4d5d374ec1f3e13831bccd6f36f604",
+    "m07-oauth-attempt-build.log": "5437633700a6879947f1b308fe812ba2cd64044d8d18f2d0b41c19f6893b0116"
+  }
+}

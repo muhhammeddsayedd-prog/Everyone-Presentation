@@ -1,4 +1,59 @@
-# Everyone Presentation Studio - consent correction deployed; owner verification pending
+# Everyone Presentation Studio - coordinator Auth namespace correction deployed
+
+## Latest checkpoint - 2026-10-31T13:19Z
+
+Stable pilot https://everyone-presentation-pilot.vercel.app resolves to Ready
+dpl_DeCpJGbLLEHX3FFNBz5twLFuV8p7. Canonical history33 applied once; original
+local29, workerCVDM, existing client/config, protected M02 and permissions preserved.
+Pilot remains running until owner stop. Full M07/production acceptance pending.
+
+Actual failed owner trace e5ee9308 at12:45:40 proves verified browser then503,
+before native details. Native metadata confirms direct Claude Code client
+f2acafd5-d4b6-4176-b86c-067c57e45ecc, exact http://localhost:3118/callback,
+openid/pilot resource and registered callback match. It remained pending/unbound
+with no durable claim. No claude.ai hosted callback mismatch is evidenced.
+
+Root cause: coordinator NOLOGIN role lacks Auth schema USAGE; migration32's
+postgres operator lacks its grant option. The wrapper auth.uid() prefix fails.
+Historical logs did not retain the RPC error; actual identity-free read-only
+role-prefix execution reproduced42501, permission denied for schema auth.
+Migration33 adds a private existing-postgres-access context bridge, retaining the
+unchanged active ordinary-browser guard. Claim/finish identity prefix and own
+ledger context change only; all authority, permission and replay predicates stay.
+Coordinator Auth USAGE remains false. See development/m07/oauth-attempt-trace/README.md.
+
+Hosted full transaction ROLLBACK then once-only APPLY passed, with two independent
+readbacks, all16 old security checks and protected M02 exact. Current845 module
+tests/lint/types/prodguard/build,47 SQL assertions/3 source checks/3 actual races
+and complete emitted SQL passed. No desktop run this turn. Deployed anonymous
+401 checks passed;13:19:33 runtime collector confirmed five closed safe events,
+including new MCP-stage traces. No owner fresh successful OAuth/MCP operation yet.
+
+NEXT: one owner fresh connection was requested after trace ingestion verification.
+Owner leaves consent open or reports auto-return; do not start/configure/consent
+for them. Collect safe logs using:
+node development/m07/oauth-consent-fix/read-pilot-trace.mjs collect dpl_DeCpJGbLLEHX3FFNBz5twLFuV8p7 2026-10-31T13:19:00Z
+Inspect coordination code/status, provider variant, decisions and MCP stages.
+Owner must read Dummy Pilot Test6da14b82-8458-451f-aa21-28cb6c85bdc5 and report
+the actual result; pair it with authenticated server read receipt. Then owner
+reconnects without grant revocation and repeats read. Both must pass for acceptance.
+The localhost callback and Supabase token exchange are outside Vercel. Returned
+redirect200 alone cannot prove delivery/exchange. Use safe owner-visible client
+errors and bounded provider diagnostics if the failure is beyond the web route.
+
+DO NOT rerun33 apply, rollback helper or old release claims, or clear any claims.
+The controller activation changes only APPLY_ENABLED; completed draft is frozen
+in source-history. Claims_count0 was the release snapshot, not a future health
+invariant once the owner starts a flow. Protected M02 b3f stays untouched.
+AT-072 and remaining M03 semantics pending; mobile skipped. Preserve unrelated
+Screenshots/redesign-output and the user's unstaged guide-table formatting.
+Prior source ZIP is historical; no archive refresh or Git push this turn.
+Changed staged snapshot scan:47 paths/47 blobs/798377 bytes,14 fixed private-value
+families, zero hits. Final receipt and this closeout metadata are outside that
+snapshot. Latest complete owner-window collection13:19-13:21:20 saw zero events;
+the fresh retry remains requested, with no owner reply yet.
+
+# Historical checkpoint - consent correction deployed; owner verification pending
 
 ## Latest checkpoint - 2026-10-31T11:29:46.965Z
 

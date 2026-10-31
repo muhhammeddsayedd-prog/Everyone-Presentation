@@ -79,6 +79,16 @@ model.
 The command syntax, fixed callback and public-client setup follow the current
 [official Claude Code MCP documentation](https://code.claude.com/docs/en/mcp).
 
+The October31 failed attempt was verified against this registered client and
+exact loopback callback. It failed in the app's coordinator RPC before native
+authorization details: the coordinator role could not resolve the managed Auth
+schema. The deployed correction uses a private browser-context bridge and keeps
+the existing permission checks. No Claude configuration change is required for
+that defect. Fresh authorization, an authenticated Dummy Pilot Test read and a
+reconnect still need owner-client verification. The localhost callback and
+Supabase token exchange run outside Vercel; a returned redirect alone cannot
+prove those stages succeeded. See the [investigation evidence](../development/m07/oauth-attempt-trace/README.md).
+
 The pilot stays available until the owner stops it. Screen-reader AT-072, broader
 independent M03 semantic checks, the owner Claude acceptance journey and complete
 production release acceptance remain pending. Mobile testing is skipped.

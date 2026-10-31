@@ -1,0 +1,23 @@
+{
+  "observed_at": "2026-10-31T13:17:29.759Z",
+  "deployment_id": "dpl_DeCpJGbLLEHX3FFNBz5twLFuV8p7",
+  "result": "passed",
+  "scope": "Actual anonymous denial checks; no owner OAuth/MCP acceptance",
+  "checks": [
+    {
+      "name": "missing_bearer",
+      "status": 401,
+      "no_store": true
+    },
+    {
+      "name": "malformed_bearer",
+      "status": 401,
+      "no_store": true
+    },
+    {
+      "name": "signed_out_consent",
+      "status": 401,
+      "trace_header_present": true
+    }
+  ]
+}

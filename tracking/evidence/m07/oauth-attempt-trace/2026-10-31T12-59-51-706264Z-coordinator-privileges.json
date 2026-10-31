@@ -1,0 +1,134 @@
+{
+  "automatic_retry": false,
+  "evidence_kind": "actual_oauth_coordinator_effective_privilege_read",
+  "exit_code": 0,
+  "metadata": {
+    "auth_schema": {
+      "acl": "{supabase_admin=UC/supabase_admin,anon=U/supabase_admin,authenticated=U/supabase_admin,service_role=U/supabase_admin,supabase_auth_admin=UC/supabase_admin,dashboard_user=UC/supabase_admin,postgres=U/supabase_admin}",
+      "owner": "supabase_admin",
+      "postgres_usage": true,
+      "postgres_usage_grant_option": false
+    },
+    "database": "postgres",
+    "effective_role_users": [
+      "eps_oauth_consent_owner",
+      "postgres",
+      "supabase_admin"
+    ],
+    "function_execute": {
+      "anon_claim": false,
+      "anon_finish": false,
+      "auth_jwt": true,
+      "auth_uid": true,
+      "authenticated_claim": true,
+      "authenticated_finish": true,
+      "binding": true,
+      "binding_hash": true,
+      "browser_session": true
+    },
+    "history_count": 32,
+    "ledger": {
+      "insert": true,
+      "metadata": {
+        "force_rls": true,
+        "owner": "eps_oauth_consent_owner",
+        "rls": true
+      },
+      "select": true,
+      "update": true
+    },
+    "memberships": [
+      {
+        "admin": true,
+        "grantor": "supabase_admin",
+        "inherit": false,
+        "member": "postgres",
+        "role": "eps_oauth_consent_owner",
+        "set": false
+      },
+      {
+        "admin": false,
+        "grantor": "postgres",
+        "inherit": true,
+        "member": "postgres",
+        "role": "eps_oauth_consent_owner",
+        "set": true
+      }
+    ],
+    "observed_at": "2026-10-31T12:59:52.413221+00:00",
+    "operator": "postgres",
+    "policies": [
+      {
+        "check": null,
+        "command": "SELECT",
+        "name": "oauth_consent_ordinary_own_session",
+        "permissive": "PERMISSIVE",
+        "roles": [
+          "eps_oauth_consent_owner"
+        ],
+        "schema": "auth",
+        "table": "sessions",
+        "using": "((user_id = ( SELECT auth.uid() AS uid)) AND ((id)::text = ( SELECT (auth.jwt() ->> 'session_id'::text))) AND (oauth_client_id IS NULL))"
+      },
+      {
+        "check": null,
+        "command": "SELECT",
+        "name": "oauth_consent_enabled_registry",
+        "permissive": "PERMISSIVE",
+        "roles": [
+          "eps_oauth_consent_owner"
+        ],
+        "schema": "eps",
+        "table": "mcp_oauth_resources",
+        "using": "((auth.uid() IS NOT NULL) AND enabled)"
+      },
+      {
+        "check": "((principal_id = ( SELECT auth.uid() AS uid)) AND ((session_id)::text = ( SELECT (auth.jwt() ->> 'session_id'::text))))",
+        "command": "ALL",
+        "name": "oauth_consent_own_claim",
+        "permissive": "PERMISSIVE",
+        "roles": [
+          "eps_oauth_consent_owner"
+        ],
+        "schema": "eps",
+        "table": "oauth_consent_claims",
+        "using": "((principal_id = ( SELECT auth.uid() AS uid)) AND ((session_id)::text = ( SELECT (auth.jwt() ->> 'session_id'::text))))"
+      }
+    ],
+    "registry_select": {
+      "client_id": true,
+      "enabled": true,
+      "resource": true
+    },
+    "role": {
+      "bypass_rls": false,
+      "create_db": false,
+      "create_role": false,
+      "inherit": false,
+      "login": false,
+      "name": "eps_oauth_consent_owner",
+      "replication": false,
+      "superuser": false
+    },
+    "schema_usage": {
+      "auth": false,
+      "eps": true,
+      "public": true
+    },
+    "session_select": {
+      "id": true,
+      "not_after": true,
+      "oauth_client_id": true,
+      "user_id": true
+    }
+  },
+  "observed_at": "2026-10-31T12:59:51.705699+00:00",
+  "output_limit_exceeded": false,
+  "raw_cli_persisted": false,
+  "read_only_rollback": true,
+  "safe_error": null,
+  "schema_version": "1.0",
+  "sql_sha256": "8a7a6058fca37b4ff67f275e6b1ccc20d5b9d96c1adefb1bd68d704bdd183653",
+  "target": "pyibofyctwnqpvktepse",
+  "timed_out": false
+}

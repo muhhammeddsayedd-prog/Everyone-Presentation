@@ -1,0 +1,25 @@
+{
+  "actor_emulation": false,
+  "evidence_kind": "actual_identity_free_coordinator_prefix_read",
+  "exit_code": 1,
+  "jwt_supplied": false,
+  "missing_auth_usage_prefix_failure_confirmed": true,
+  "observed_at": "2026-10-31T13:01:34.737030+00:00",
+  "output_limit_exceeded": false,
+  "provider_request": false,
+  "raw_cli_persisted": false,
+  "read_only": true,
+  "safe_error": {
+    "http_status": 400,
+    "raw_cli_persisted": false,
+    "sanitized_native_error": "permission denied for schema auth",
+    "sqlstates": [
+      "42501"
+    ]
+  },
+  "schema_version": "1.0",
+  "selector_supplied": false,
+  "sql_sha256": "fc868703e09502bca86a87bb38db83957257d0f0c3be534a52bd5ac31c5730a8",
+  "target": "pyibofyctwnqpvktepse",
+  "timed_out": false
+}

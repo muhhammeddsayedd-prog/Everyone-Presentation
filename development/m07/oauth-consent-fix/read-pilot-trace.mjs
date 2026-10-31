@@ -55,8 +55,27 @@ function typeFields(value, allowed) {
   if (!object(value) || Object.keys(value).some(key => !allowed.includes(key) || !TYPES.has(value[key]))) return null;
   return Object.fromEntries(Object.keys(value).map(key => [key, value[key]]));
 }
+const COORDINATION_CODES = new Set(['22023', '23505', '28000', '42501', '42702', '42703', '42883', '42P01', '57014', 'P0001',
+  'PGRST000', 'PGRST001', 'PGRST002', 'PGRST202', 'PGRST204', 'PGRST205', 'PGRST301', 'PGRST302', 'PGRST303']);
+function coordination(value) {
+  const required = ['event', 'trace_id', 'operation', value.operation === 'claim' ? 'action' : 'outcome', 'status', 'phase'];
+  const optional = ['code', 'message', 'state', 'client_id', 'callback'];
+  if (!['claim', 'finish'].includes(value.operation) || required.some(key => !Object.hasOwn(value, key))
+    || Object.keys(value).some(key => ![...required, ...optional].includes(key))
+    || value.operation === 'claim' && !['details', 'approve', 'deny'].includes(value.action)
+    || value.operation === 'finish' && !['consent_ready', 'redirect', 'uncertain', 'rejected'].includes(value.outcome)
+    || !(value.status === null || Number.isInteger(value.status) && value.status >= 100 && value.status <= 599)
+    || !['success', 'provider_error', 'transport_error', 'response_unrecognized'].includes(value.phase)) return null;
+  if (Object.hasOwn(value, 'code') && !COORDINATION_CODES.has(value.code)
+    || Object.hasOwn(value, 'message') && !['BROWSER_SESSION_REQUIRED', 'AUTHORIZATION_UNAVAILABLE', 'INPUT_INVALID', 'OUTCOME_INVALID', 'NATIVE_OUTCOME_UNCONFIRMED'].includes(value.message)
+    || Object.hasOwn(value, 'state') && !['claimed', 'consent_ready', 'in_progress', 'already_processed'].includes(value.state)
+    || Object.hasOwn(value, 'client_id') && !uuid(value.client_id)
+    || Object.hasOwn(value, 'callback') && !['localhost_3118', 'claude_ai', 'other'].includes(value.callback)) return null;
+  return Object.fromEntries([...required, ...optional].filter(key => Object.hasOwn(value, key)).map(key => [key, value[key]]));
+}
 function oauth(value) {
   if (!object(value) || !uuid(value.trace_id)) return null;
+  if (value.event === 'eps.oauth.coordination_response') return coordination(value);
   if (value.event === 'eps.oauth.browser_session_verified') return exact(value, ['event', 'trace_id']) ? { event: value.event, trace_id: value.trace_id } : null;
   if (value.event === 'eps.oauth.consent_response') return exact(value, ['event', 'trace_id', 'status']) && Number.isInteger(value.status) && value.status >= 100 && value.status <= 599
     ? { event: value.event, trace_id: value.trace_id, status: value.status } : null;
@@ -73,6 +92,23 @@ function oauth(value) {
   }
   if (Object.hasOwn(value, 'error_code')) { if (!ERRORS.has(value.error_code)) return null; result.error_code = value.error_code; }
   return result;
+}
+const MCP_REASONS = new Set(['origin_mismatch', 'credentials_in_query', 'missing_bearer', 'malformed_bearer', 'jwt_expired', 'jwt_claim_invalid',
+  'jwt_invalid', 'signature_invalid', 'key_not_found', 'algorithm_unsupported', 'key_service_unavailable', 'delegation_invalid',
+  'session_validator_missing', 'session_check_unavailable', 'session_inactive', 'session_identity_mismatch', 'session_capabilities_invalid',
+  'required_scope_missing', 'sdk_rejected', 'business_context_unavailable', 'business_principal_mismatch', 'configuration_unavailable']);
+const MCP_CODES = new Set(['ERR_JWT_EXPIRED', 'ERR_JWT_CLAIM_VALIDATION_FAILED', 'ERR_JWT_INVALID', 'ERR_JWS_INVALID',
+  'ERR_JWS_SIGNATURE_VERIFICATION_FAILED', 'ERR_JWKS_NO_MATCHING_KEY', 'ERR_JOSE_NOT_SUPPORTED', 'MCP_SESSION_VALIDATION_UNAVAILABLE',
+  'ACCESS_DENIED', 'AUTH_REQUIRED', 'CAPABILITY_REQUIRED', 'MCP_AUTH_CONFIGURATION_REQUIRED']);
+function mcpAuthorization(value) {
+  const required = ['event', 'trace_id', 'stage', 'result', 'status'];
+  if (!object(value) || required.some(key => !Object.hasOwn(value, key)) || Object.keys(value).some(key => ![...required, 'reason', 'code'].includes(key))
+    || value.event !== 'eps.mcp.authorization_stage' || !uuid(value.trace_id)
+    || !['boundary', 'bearer', 'jwt', 'delegation', 'session', 'business_context', 'authorized'].includes(value.stage)
+    || !['accepted', 'denied', 'unavailable'].includes(value.result)
+    || !(value.status === null || Number.isInteger(value.status) && value.status >= 100 && value.status <= 599)
+    || Object.hasOwn(value, 'reason') && !MCP_REASONS.has(value.reason) || Object.hasOwn(value, 'code') && !MCP_CODES.has(value.code)) return null;
+  return Object.fromEntries([...required, 'reason', 'code'].filter(key => Object.hasOwn(value, key)).map(key => [key, value[key]]));
 }
 function mcp(value) {
   if (!exact(value, ['event', 'entry_point', 'operation', 'success', 'request_id', 'principal_id', 'client_id', 'project_ids'])
@@ -104,13 +140,14 @@ export function projectPilotTrace(text, scope) {
     need(row.type === 'log' && object(row.data) && ++counts.log_records <= 100);
     const data = row.data, message = data.message;
     const prefix = typeof message === 'string' && message.startsWith('EPS OAuth trace ') ? 'EPS OAuth trace '
-      : typeof message === 'string' && message.startsWith('EPS MCP read receipt ') ? 'EPS MCP read receipt ' : null;
+      : typeof message === 'string' && message.startsWith('EPS MCP read receipt ') ? 'EPS MCP read receipt '
+      : typeof message === 'string' && message.startsWith('EPS MCP auth trace ') ? 'EPS MCP auth trace ' : null;
     if (!prefix) { counts.unrecognized_records++; continue; }
     const loggedAt = eventTime(data.timestamp, Date.parse(since), Date.parse(observedAt));
     if (!loggedAt || data.truncated === true || data.deploymentId !== undefined && data.deploymentId !== scope.deployment
       || data.projectId !== undefined && data.projectId !== PROJECT || Buffer.byteLength(message) > 8192) { counts.rejected_events++; continue; }
     let value; try { value = JSON.parse(message.slice(prefix.length)); } catch { counts.rejected_events++; continue; }
-    const projected = prefix === 'EPS OAuth trace ' ? oauth(value) : mcp(value);
+    const projected = prefix === 'EPS OAuth trace ' ? oauth(value) : prefix === 'EPS MCP auth trace ' ? mcpAuthorization(value) : mcp(value);
     if (!projected) { counts.rejected_events++; continue; }
     events.push({ logged_at: loggedAt, ...projected }); counts.matched_events++;
   }

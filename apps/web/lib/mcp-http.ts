@@ -2,7 +2,7 @@ import { createMcpHandler, type AuthInfo } from '@modelcontextprotocol/server';
 import { DomainError, type Actor } from '@eps/domain';
 import { createStudioMcpServer, requireLocalMcpRequest, type McpServices, type McpToolCompleted } from './mcp.ts';
 import { createMcpResourceGate, loadMcpAuthorizationMetadata, mcpMetadataResponse, verifiedMcpIdentity,
-  type McpIdentity, type McpSessionCheck } from './mcp-auth.ts';
+  observeMcpAuthorizationStage, mcpAuthorizationErrorCode, type McpAuthorizationTraceOptions, type McpIdentity, type McpSessionCheck } from './mcp-auth.ts';
 import type { McpAuthConfig } from './mcp-auth-config.ts';
 import { failure, NO_STORE } from './http.ts';
 
@@ -12,6 +12,7 @@ export interface McpHttpDependencies {
   runtime: Runtime;
   fetch?: typeof fetch;
   checkSession?: McpSessionCheck;
+  authorizationTrace?: McpAuthorizationTraceOptions;
   localContext(request: Request): Promise<{ actor: Actor; services: McpServices }>;
   oauthContext(request: Request, identity: McpIdentity): Promise<McpServices>;
   onToolCompleted?(identity: McpIdentity, event: McpToolCompleted): void | Promise<void>;
@@ -63,6 +64,12 @@ async function closeWithBody(response: Response, close: () => Promise<void>): Pr
 export function createMcpHttpHandler(dependencies: McpHttpDependencies) {
   const gate = dependencies.config.mode === 'oauth' ? createMcpResourceGate(dependencies.config, dependencies) : undefined;
   return async (request: Request): Promise<Response> => {
+    const observeBusinessFailure = (error: unknown) => {
+      if (dependencies.config.mode !== 'oauth') return;
+      const status = error instanceof DomainError ? error.status : 503;
+      observeMcpAuthorizationStage(dependencies.authorizationTrace, { stage: 'business_context', result: status === 401 || status === 403 ? 'denied' : 'unavailable',
+        status, reason: 'business_context_unavailable', code: mcpAuthorizationErrorCode(error) });
+    };
     try {
       let actor: Actor;
       let services: McpServices;
@@ -80,12 +87,23 @@ export function createMcpHttpHandler(dependencies: McpHttpDependencies) {
         const identity = verifiedMcpIdentity(result);
         actor = { principal_id: identity.principalId };
         allowedCapabilities = identity.capabilities;
-        services = await dependencies.oauthContext(request, identity);
+        try { services = await dependencies.oauthContext(request, identity); }
+        catch (error) { observeBusinessFailure(error); throw error; }
         if (dependencies.onToolCompleted) onToolCompleted = event => dependencies.onToolCompleted!(identity, event);
       }
       // Every composition must be bound to this same central principal before even protocol discovery.
-      const current = await services.studio.getCapabilities(actor);
-      if (current.principal_id !== actor.principal_id) throw new DomainError('ACCESS_DENIED', 'The business session does not match this delegated identity.', 403);
+      let current;
+      try { current = await services.studio.getCapabilities(actor); }
+      catch (error) { observeBusinessFailure(error); throw error; }
+      if (current.principal_id !== actor.principal_id) {
+        if (dependencies.config.mode === 'oauth') observeMcpAuthorizationStage(dependencies.authorizationTrace, { stage: 'business_context', result: 'denied',
+          status: 403, reason: 'business_principal_mismatch', code: 'ACCESS_DENIED' });
+        throw new DomainError('ACCESS_DENIED', 'The business session does not match this delegated identity.', 403);
+      }
+      if (dependencies.config.mode === 'oauth') {
+        observeMcpAuthorizationStage(dependencies.authorizationTrace, { stage: 'business_context', result: 'accepted', status: null });
+        observeMcpAuthorizationStage(dependencies.authorizationTrace, { stage: 'authorized', result: 'accepted', status: null });
+      }
       const handler = createMcpHandler(context => {
         if (authInfo && context.authInfo !== authInfo) throw new DomainError('AUTH_REQUIRED', 'The request delegation was not preserved.', 401);
         return createStudioMcpServer(actor, services, { ...(allowedCapabilities ? { allowedCapabilities } : {}),

@@ -1,0 +1,3057 @@
+{
+  "action": "rollback",
+  "automatic_retry": false,
+  "before": {
+    "base": {
+      "catalogue": {
+        "database": "postgres",
+        "history": [
+          "20261028010943",
+          "20261028013324",
+          "20261028013655",
+          "20261028024205",
+          "20261028072515",
+          "20261028162702",
+          "20261028162800",
+          "20261028172320",
+          "20261028184145",
+          "20261028222030",
+          "20261029001520",
+          "20261029003941",
+          "20261029070038",
+          "20261029090500",
+          "20261029090724",
+          "20261029094600",
+          "20261029100500",
+          "20261029133455",
+          "20261029135318",
+          "20261029174841",
+          "20261029180953",
+          "20261029202629",
+          "20261029203953",
+          "20261029215218",
+          "20261030002634",
+          "20261030004643",
+          "20261030013832",
+          "20261030030717",
+          "20261030111549",
+          "20261030154824",
+          "20261031010000",
+          "20261031104603"
+        ],
+        "history_columns": [
+          {
+            "default": null,
+            "name": "version",
+            "nullable": "NO",
+            "type": "text"
+          },
+          {
+            "default": null,
+            "name": "statements",
+            "nullable": "YES",
+            "type": "ARRAY"
+          },
+          {
+            "default": null,
+            "name": "name",
+            "nullable": "YES",
+            "type": "text"
+          }
+        ],
+        "observed_at": "2026-10-31T13:11:46.464788+00:00",
+        "operator": "postgres",
+        "relations": [
+          {
+            "acl": "{postgres=arwdDxtm/supabase_auth_admin,supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}",
+            "columns": [
+              {
+                "acl": null,
+                "name": "id",
+                "not_null": true,
+                "type": "uuid"
+              },
+              {
+                "acl": null,
+                "name": "authorization_id",
+                "not_null": true,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "client_id",
+                "not_null": true,
+                "type": "uuid"
+              },
+              {
+                "acl": null,
+                "name": "user_id",
+                "not_null": false,
+                "type": "uuid"
+              },
+              {
+                "acl": null,
+                "name": "redirect_uri",
+                "not_null": true,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "scope",
+                "not_null": true,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "state",
+                "not_null": false,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "resource",
+                "not_null": false,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "code_challenge",
+                "not_null": false,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "code_challenge_method",
+                "not_null": false,
+                "type": "auth.code_challenge_method"
+              },
+              {
+                "acl": null,
+                "name": "response_type",
+                "not_null": true,
+                "type": "auth.oauth_response_type"
+              },
+              {
+                "acl": null,
+                "name": "status",
+                "not_null": true,
+                "type": "auth.oauth_authorization_status"
+              },
+              {
+                "acl": null,
+                "name": "authorization_code",
+                "not_null": false,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "created_at",
+                "not_null": true,
+                "type": "timestamp with time zone"
+              },
+              {
+                "acl": null,
+                "name": "expires_at",
+                "not_null": true,
+                "type": "timestamp with time zone"
+              },
+              {
+                "acl": null,
+                "name": "approved_at",
+                "not_null": false,
+                "type": "timestamp with time zone"
+              },
+              {
+                "acl": null,
+                "name": "nonce",
+                "not_null": false,
+                "type": "text"
+              }
+            ],
+            "constraints": [
+              "UNIQUE (authorization_code)",
+              "CHECK ((char_length(authorization_code) <= 255))",
+              "UNIQUE (authorization_id)",
+              "FOREIGN KEY (client_id) REFERENCES auth.oauth_clients(id) ON DELETE CASCADE",
+              "CHECK ((char_length(code_challenge) <= 128))",
+              "CHECK ((expires_at > created_at))",
+              "CHECK ((char_length(nonce) <= 255))",
+              "PRIMARY KEY (id)",
+              "CHECK ((char_length(redirect_uri) <= 2048))",
+              "CHECK ((char_length(resource) <= 2048))",
+              "CHECK ((char_length(scope) <= 4096))",
+              "CHECK ((char_length(state) <= 4096))",
+              "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+            ],
+            "force_rls": false,
+            "name": "oauth_authorizations",
+            "owner": "supabase_auth_admin",
+            "policies": [],
+            "rls": false,
+            "schema": "auth"
+          },
+          {
+            "acl": "{postgres=arwdDxtm/supabase_auth_admin,supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}",
+            "columns": [
+              {
+                "acl": null,
+                "name": "id",
+                "not_null": true,
+                "type": "uuid"
+              },
+              {
+                "acl": null,
+                "name": "client_secret_hash",
+                "not_null": false,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "registration_type",
+                "not_null": true,
+                "type": "auth.oauth_registration_type"
+              },
+              {
+                "acl": null,
+                "name": "redirect_uris",
+                "not_null": true,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "grant_types",
+                "not_null": true,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "client_name",
+                "not_null": false,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "client_uri",
+                "not_null": false,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "logo_uri",
+                "not_null": false,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "created_at",
+                "not_null": true,
+                "type": "timestamp with time zone"
+              },
+              {
+                "acl": null,
+                "name": "updated_at",
+                "not_null": true,
+                "type": "timestamp with time zone"
+              },
+              {
+                "acl": null,
+                "name": "deleted_at",
+                "not_null": false,
+                "type": "timestamp with time zone"
+              },
+              {
+                "acl": null,
+                "name": "client_type",
+                "not_null": true,
+                "type": "auth.oauth_client_type"
+              },
+              {
+                "acl": null,
+                "name": "token_endpoint_auth_method",
+                "not_null": true,
+                "type": "text"
+              }
+            ],
+            "constraints": [
+              "CHECK ((char_length(client_name) <= 1024))",
+              "CHECK ((char_length(client_uri) <= 2048))",
+              "CHECK ((char_length(logo_uri) <= 2048))",
+              "PRIMARY KEY (id)",
+              "CHECK ((token_endpoint_auth_method = ANY (ARRAY['client_secret_basic'::text, 'client_secret_post'::text, 'none'::text])))"
+            ],
+            "force_rls": false,
+            "name": "oauth_clients",
+            "owner": "supabase_auth_admin",
+            "policies": [],
+            "rls": false,
+            "schema": "auth"
+          },
+          {
+            "acl": "{postgres=ar*wdDxtm/supabase_auth_admin,supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}",
+            "columns": [
+              {
+                "acl": "{eps_mcp_session_owner=r/postgres,eps_oauth_consent_owner=r/postgres}",
+                "name": "id",
+                "not_null": true,
+                "type": "uuid"
+              },
+              {
+                "acl": "{eps_mcp_session_owner=r/postgres,eps_oauth_consent_owner=r/postgres}",
+                "name": "user_id",
+                "not_null": true,
+                "type": "uuid"
+              },
+              {
+                "acl": null,
+                "name": "created_at",
+                "not_null": false,
+                "type": "timestamp with time zone"
+              },
+              {
+                "acl": null,
+                "name": "updated_at",
+                "not_null": false,
+                "type": "timestamp with time zone"
+              },
+              {
+                "acl": null,
+                "name": "factor_id",
+                "not_null": false,
+                "type": "uuid"
+              },
+              {
+                "acl": null,
+                "name": "aal",
+                "not_null": false,
+                "type": "auth.aal_level"
+              },
+              {
+                "acl": "{eps_mcp_session_owner=r/postgres,eps_oauth_consent_owner=r/postgres}",
+                "name": "not_after",
+                "not_null": false,
+                "type": "timestamp with time zone"
+              },
+              {
+                "acl": null,
+                "name": "refreshed_at",
+                "not_null": false,
+                "type": "timestamp without time zone"
+              },
+              {
+                "acl": null,
+                "name": "user_agent",
+                "not_null": false,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "ip",
+                "not_null": false,
+                "type": "inet"
+              },
+              {
+                "acl": null,
+                "name": "tag",
+                "not_null": false,
+                "type": "text"
+              },
+              {
+                "acl": "{eps_mcp_session_owner=r/postgres,eps_oauth_consent_owner=r/postgres}",
+                "name": "oauth_client_id",
+                "not_null": false,
+                "type": "uuid"
+              },
+              {
+                "acl": null,
+                "name": "refresh_token_hmac_key",
+                "not_null": false,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "refresh_token_counter",
+                "not_null": false,
+                "type": "bigint"
+              },
+              {
+                "acl": "{eps_mcp_session_owner=r/postgres}",
+                "name": "scopes",
+                "not_null": false,
+                "type": "text"
+              }
+            ],
+            "constraints": [
+              "FOREIGN KEY (oauth_client_id) REFERENCES auth.oauth_clients(id) ON DELETE CASCADE",
+              "PRIMARY KEY (id)",
+              "CHECK ((char_length(scopes) <= 4096))",
+              "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+            ],
+            "force_rls": false,
+            "name": "sessions",
+            "owner": "supabase_auth_admin",
+            "policies": [
+              {
+                "check": null,
+                "command": "r",
+                "name": "eps_mcp_own_session",
+                "roles": [
+                  "eps_mcp_session_owner"
+                ],
+                "using": "((user_id = ( SELECT auth.uid() AS uid)) AND (id = ( SELECT eps.mcp_claim_uuid('session_id'::text) AS mcp_claim_uuid)) AND (oauth_client_id = ( SELECT eps.mcp_claim_uuid('client_id'::text) AS mcp_claim_uuid)))"
+              },
+              {
+                "check": null,
+                "command": "r",
+                "name": "oauth_consent_ordinary_own_session",
+                "roles": [
+                  "eps_oauth_consent_owner"
+                ],
+                "using": "((user_id = ( SELECT auth.uid() AS uid)) AND ((id)::text = ( SELECT (auth.jwt() ->> 'session_id'::text))) AND (oauth_client_id IS NULL))"
+              }
+            ],
+            "rls": true,
+            "schema": "auth"
+          },
+          {
+            "acl": "{postgres=arwdDxtm/postgres,eps_mcp_session_owner=r/postgres}",
+            "columns": [
+              {
+                "acl": "{eps_mcp_issuer_owner=r/postgres,eps_oauth_consent_owner=r/postgres}",
+                "name": "resource",
+                "not_null": true,
+                "type": "text"
+              },
+              {
+                "acl": "{eps_mcp_issuer_owner=r/postgres,eps_oauth_consent_owner=r/postgres}",
+                "name": "client_id",
+                "not_null": true,
+                "type": "uuid"
+              },
+              {
+                "acl": "{eps_mcp_issuer_owner=r/postgres,eps_oauth_consent_owner=r/postgres}",
+                "name": "enabled",
+                "not_null": true,
+                "type": "boolean"
+              }
+            ],
+            "constraints": [
+              "PRIMARY KEY (resource, client_id)",
+              "CHECK ((((length(resource) >= 1) AND (length(resource) <= 2048)) AND (resource !~ '[[:cntrl:][:space:]]'::text) AND ((resource ~ '^https://[^/@?#]+(/[^?#]*)?$'::text) OR (resource ~ '^http://(127\\.0\\.0\\.1|localhost|\\[::1\\])(:[0-9]{1,5})?/mcp$'::text))))"
+            ],
+            "force_rls": true,
+            "name": "mcp_oauth_resources",
+            "owner": "postgres",
+            "policies": [
+              {
+                "check": null,
+                "command": "r",
+                "name": "mcp_issuer_resource_lookup",
+                "roles": [
+                  "eps_mcp_issuer_owner"
+                ],
+                "using": "true"
+              },
+              {
+                "check": null,
+                "command": "r",
+                "name": "mcp_resources_for_own_session",
+                "roles": [
+                  "eps_mcp_session_owner"
+                ],
+                "using": "(auth.uid() IS NOT NULL)"
+              },
+              {
+                "check": null,
+                "command": "r",
+                "name": "oauth_consent_enabled_registry",
+                "roles": [
+                  "eps_oauth_consent_owner"
+                ],
+                "using": "((auth.uid() IS NOT NULL) AND enabled)"
+              }
+            ],
+            "rls": true,
+            "schema": "eps"
+          }
+        ],
+        "required_functions": [
+          {
+            "config": null,
+            "owner": "supabase_auth_admin",
+            "security_definer": false,
+            "signature": "auth.jwt()"
+          },
+          {
+            "config": null,
+            "owner": "supabase_auth_admin",
+            "security_definer": false,
+            "signature": "auth.uid()"
+          },
+          {
+            "config": [
+              "search_path=\"\""
+            ],
+            "owner": "eps_mcp_session_owner",
+            "security_definer": false,
+            "signature": "eps.mcp_claim_uuid(text)"
+          }
+        ],
+        "roles": [
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": true,
+            "login": false,
+            "name": "anon",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": true,
+            "login": false,
+            "name": "authenticated",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_api_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_candidate_apply_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_candidate_assets_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_candidate_stage_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_candidate_upload_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_cast_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_casting_guard_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_casting_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_draft_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_guest_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_jobs_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_logo_verify_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_mcp_issuer_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_mcp_session_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_oauth_consent_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_review_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_review_stage_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_settings_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_specs_apply_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_specs_assets_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_specs_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_specs_stage_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_specs_submit_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_specs_upload_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_specs_verify_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_support_upload_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_support_verify_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": true,
+            "create_db": true,
+            "create_role": true,
+            "inherit": true,
+            "login": true,
+            "name": "postgres",
+            "replication": true,
+            "superuser": false
+          },
+          {
+            "bypass_rls": true,
+            "create_db": false,
+            "create_role": false,
+            "inherit": true,
+            "login": false,
+            "name": "service_role",
+            "replication": false,
+            "superuser": false
+          }
+        ]
+      },
+      "new_objects": {
+        "claim": true,
+        "finish": true,
+        "role": true,
+        "table": true
+      },
+      "protected_m02": {
+        "attempt": 3,
+        "id": "b3f90268-147d-41d4-8875-2a6435df1496",
+        "row_version": 7,
+        "stage": "apply_specs",
+        "status": "waiting_for_input"
+      },
+      "security": {
+        "bridge_acl": true,
+        "bridge_definition": true,
+        "bridge_guard_executable": true,
+        "claims_forced_rls": true,
+        "claims_not_public": true,
+        "internal_acl": true,
+        "new_policies_permissive": true,
+        "no_auth_secrets": true,
+        "no_direct_managed_oauth_reads": true,
+        "no_managed_auth_writes": true,
+        "no_role_memberships": true,
+        "no_schema_create": true,
+        "no_unlisted_auth_columns": true,
+        "no_whole_auth_reads": true,
+        "wrapper_acl": true,
+        "wrapper_owners": true
+      }
+    },
+    "claims_count": 0,
+    "coordinator_auth_usage": false,
+    "functions": {
+      "binding": {
+        "acl": [
+          {
+            "grantable": false,
+            "grantee": "eps_oauth_consent_owner",
+            "grantor": "postgres",
+            "privilege": "EXECUTE"
+          },
+          {
+            "grantable": false,
+            "grantee": "postgres",
+            "grantor": "postgres",
+            "privilege": "EXECUTE"
+          }
+        ],
+        "body_sha256": "f5fab36c5e074252b257d5e3150c6f1c5d77168f5230684f105d477158a5445e",
+        "config": [
+          "search_path=\"\"",
+          "TimeZone=UTC"
+        ],
+        "definer": true,
+        "owner": "postgres",
+        "returns": "jsonb",
+        "volatility": "s"
+      },
+      "claim": {
+        "acl": [
+          {
+            "grantable": false,
+            "grantee": "authenticated",
+            "grantor": "eps_oauth_consent_owner",
+            "privilege": "EXECUTE"
+          },
+          {
+            "grantable": false,
+            "grantee": "eps_oauth_consent_owner",
+            "grantor": "eps_oauth_consent_owner",
+            "privilege": "EXECUTE"
+          }
+        ],
+        "body_sha256": "746f867006acc628512eab0d076e9795965d32335234d174afcf22a057023514",
+        "config": [
+          "search_path=\"\"",
+          "TimeZone=UTC"
+        ],
+        "definer": true,
+        "owner": "eps_oauth_consent_owner",
+        "returns": "jsonb",
+        "volatility": "v"
+      },
+      "context": null,
+      "finish": {
+        "acl": [
+          {
+            "grantable": false,
+            "grantee": "authenticated",
+            "grantor": "eps_oauth_consent_owner",
+            "privilege": "EXECUTE"
+          },
+          {
+            "grantable": false,
+            "grantee": "eps_oauth_consent_owner",
+            "grantor": "eps_oauth_consent_owner",
+            "privilege": "EXECUTE"
+          }
+        ],
+        "body_sha256": "fa01f2d9ec103a086df400ba2fcfb648c09178f644a0394d70a1e4b1810d2244",
+        "config": [
+          "search_path=\"\"",
+          "TimeZone=UTC"
+        ],
+        "definer": true,
+        "owner": "eps_oauth_consent_owner",
+        "returns": "jsonb",
+        "volatility": "v"
+      },
+      "guard": {
+        "acl": [
+          {
+            "grantable": false,
+            "grantee": "eps_oauth_consent_owner",
+            "grantor": "eps_oauth_consent_owner",
+            "privilege": "EXECUTE"
+          }
+        ],
+        "body_sha256": "1e5a748d68bac3b052c0dcef10a1afb6d5867a0c7f50fa222971ce32b434e77a",
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": false,
+        "owner": "eps_oauth_consent_owner",
+        "returns": "uuid",
+        "volatility": "s"
+      },
+      "hash": {
+        "acl": [
+          {
+            "grantable": false,
+            "grantee": "eps_oauth_consent_owner",
+            "grantor": "eps_oauth_consent_owner",
+            "privilege": "EXECUTE"
+          }
+        ],
+        "body_sha256": "58d7695ac005e501accf6e81fe548a05650ca91325d43d1b7a619fe2f39bfa97",
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": false,
+        "owner": "eps_oauth_consent_owner",
+        "returns": "text",
+        "volatility": "i"
+      }
+    },
+    "ledger": {
+      "acl": "{eps_oauth_consent_owner=arwdDxtm/eps_oauth_consent_owner}",
+      "force_rls": true,
+      "owner": "eps_oauth_consent_owner",
+      "rls": true
+    },
+    "ledger_policy": {
+      "check": "((principal_id = ( SELECT auth.uid() AS uid)) AND ((session_id)::text = ( SELECT (auth.jwt() ->> 'session_id'::text))))",
+      "command": "*",
+      "name": "oauth_consent_own_claim",
+      "permissive": true,
+      "roles": [
+        "eps_oauth_consent_owner"
+      ],
+      "using": "((principal_id = ( SELECT auth.uid() AS uid)) AND ((session_id)::text = ( SELECT (auth.jwt() ->> 'session_id'::text))))"
+    },
+    "memberships": [
+      {
+        "admin": true,
+        "grantor": "supabase_admin",
+        "inherit": false,
+        "member": "postgres",
+        "role": "eps_oauth_consent_owner",
+        "set": false
+      },
+      {
+        "admin": false,
+        "grantor": "postgres",
+        "inherit": true,
+        "member": "postgres",
+        "role": "eps_oauth_consent_owner",
+        "set": true
+      }
+    ],
+    "namespace": [
+      {
+        "acl": "{supabase_admin=UC/supabase_admin,anon=U/supabase_admin,authenticated=U/supabase_admin,service_role=U/supabase_admin,supabase_auth_admin=UC/supabase_admin,dashboard_user=UC/supabase_admin,postgres=U/supabase_admin}",
+        "name": "auth",
+        "owner": "supabase_admin"
+      },
+      {
+        "acl": "{postgres=UC/postgres,authenticated=U/postgres,eps_api_owner=U/postgres,eps_draft_owner=U/postgres,eps_logo_verify_owner=U/postgres,eps_jobs_owner=U/postgres,eps_jobs_dispatcher=U/postgres,eps_specs_owner=U/postgres,eps_specs_initializer=U/postgres,eps_specs_submit_owner=U/postgres,eps_specs_stage_owner=U/postgres,eps_specs_apply_owner=U/postgres,eps_jobs_executor=U/postgres,eps_specs_upload_owner=U/postgres,eps_specs_verify_owner=U/postgres,eps_specs_assets_owner=U/postgres,eps_specs_assets_executor=U/postgres,anon=U/postgres,eps_cast_owner=U/postgres,eps_candidate_stage_owner=U/postgres,eps_candidate_assets_owner=U/postgres,eps_candidate_upload_owner=U/postgres,eps_candidate_apply_owner=U/postgres,eps_support_upload_owner=U/postgres,eps_support_verify_owner=U/postgres,eps_casting_owner=U/postgres,eps_casting_guard_owner=U/postgres,eps_review_owner=U/postgres,eps_review_stage_owner=U/postgres,eps_guest_owner=U/postgres,eps_settings_owner=U/postgres,eps_mcp_session_owner=U/postgres,eps_mcp_issuer_owner=U/postgres,supabase_auth_admin=U/postgres,eps_oauth_consent_owner=U/postgres}",
+        "name": "eps",
+        "owner": "postgres"
+      },
+      {
+        "acl": "{pg_database_owner=UC/pg_database_owner,=U/pg_database_owner,postgres=U/pg_database_owner,anon=U/pg_database_owner,authenticated=U/pg_database_owner,service_role=U/pg_database_owner,eps_api_owner=U/pg_database_owner,eps_draft_owner=U/pg_database_owner,eps_logo_verify_owner=U/pg_database_owner,eps_jobs_owner=U/pg_database_owner,eps_specs_owner=U/pg_database_owner,eps_specs_submit_owner=U/pg_database_owner,eps_specs_stage_owner=U/pg_database_owner,eps_specs_apply_owner=U/pg_database_owner,eps_specs_upload_owner=U/pg_database_owner,eps_specs_verify_owner=U/pg_database_owner,eps_specs_assets_owner=U/pg_database_owner,eps_cast_owner=U/pg_database_owner,eps_candidate_stage_owner=U/pg_database_owner,eps_candidate_assets_owner=U/pg_database_owner,eps_candidate_upload_owner=U/pg_database_owner,eps_candidate_apply_owner=U/pg_database_owner,eps_support_upload_owner=U/pg_database_owner,eps_support_verify_owner=U/pg_database_owner,eps_casting_owner=U/pg_database_owner,eps_review_owner=U/pg_database_owner,eps_review_stage_owner=U/pg_database_owner,eps_guest_owner=U/pg_database_owner,eps_settings_owner=U/pg_database_owner,eps_mcp_session_owner=U/pg_database_owner,eps_mcp_issuer_owner=U/pg_database_owner,eps_oauth_consent_owner=U/pg_database_owner}",
+        "name": "public",
+        "owner": "pg_database_owner"
+      }
+    ],
+    "postgres_auth_grant_option": false,
+    "postgres_auth_usage": true
+  },
+  "claim_retained": true,
+  "evidence_kind": "canonical_context33_release_observation",
+  "first": {
+    "base": {
+      "catalogue": {
+        "database": "postgres",
+        "history": [
+          "20261028010943",
+          "20261028013324",
+          "20261028013655",
+          "20261028024205",
+          "20261028072515",
+          "20261028162702",
+          "20261028162800",
+          "20261028172320",
+          "20261028184145",
+          "20261028222030",
+          "20261029001520",
+          "20261029003941",
+          "20261029070038",
+          "20261029090500",
+          "20261029090724",
+          "20261029094600",
+          "20261029100500",
+          "20261029133455",
+          "20261029135318",
+          "20261029174841",
+          "20261029180953",
+          "20261029202629",
+          "20261029203953",
+          "20261029215218",
+          "20261030002634",
+          "20261030004643",
+          "20261030013832",
+          "20261030030717",
+          "20261030111549",
+          "20261030154824",
+          "20261031010000",
+          "20261031104603"
+        ],
+        "history_columns": [
+          {
+            "default": null,
+            "name": "version",
+            "nullable": "NO",
+            "type": "text"
+          },
+          {
+            "default": null,
+            "name": "statements",
+            "nullable": "YES",
+            "type": "ARRAY"
+          },
+          {
+            "default": null,
+            "name": "name",
+            "nullable": "YES",
+            "type": "text"
+          }
+        ],
+        "observed_at": "2026-10-31T13:12:13.09421+00:00",
+        "operator": "postgres",
+        "relations": [
+          {
+            "acl": "{postgres=arwdDxtm/supabase_auth_admin,supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}",
+            "columns": [
+              {
+                "acl": null,
+                "name": "id",
+                "not_null": true,
+                "type": "uuid"
+              },
+              {
+                "acl": null,
+                "name": "authorization_id",
+                "not_null": true,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "client_id",
+                "not_null": true,
+                "type": "uuid"
+              },
+              {
+                "acl": null,
+                "name": "user_id",
+                "not_null": false,
+                "type": "uuid"
+              },
+              {
+                "acl": null,
+                "name": "redirect_uri",
+                "not_null": true,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "scope",
+                "not_null": true,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "state",
+                "not_null": false,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "resource",
+                "not_null": false,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "code_challenge",
+                "not_null": false,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "code_challenge_method",
+                "not_null": false,
+                "type": "auth.code_challenge_method"
+              },
+              {
+                "acl": null,
+                "name": "response_type",
+                "not_null": true,
+                "type": "auth.oauth_response_type"
+              },
+              {
+                "acl": null,
+                "name": "status",
+                "not_null": true,
+                "type": "auth.oauth_authorization_status"
+              },
+              {
+                "acl": null,
+                "name": "authorization_code",
+                "not_null": false,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "created_at",
+                "not_null": true,
+                "type": "timestamp with time zone"
+              },
+              {
+                "acl": null,
+                "name": "expires_at",
+                "not_null": true,
+                "type": "timestamp with time zone"
+              },
+              {
+                "acl": null,
+                "name": "approved_at",
+                "not_null": false,
+                "type": "timestamp with time zone"
+              },
+              {
+                "acl": null,
+                "name": "nonce",
+                "not_null": false,
+                "type": "text"
+              }
+            ],
+            "constraints": [
+              "UNIQUE (authorization_code)",
+              "CHECK ((char_length(authorization_code) <= 255))",
+              "UNIQUE (authorization_id)",
+              "FOREIGN KEY (client_id) REFERENCES auth.oauth_clients(id) ON DELETE CASCADE",
+              "CHECK ((char_length(code_challenge) <= 128))",
+              "CHECK ((expires_at > created_at))",
+              "CHECK ((char_length(nonce) <= 255))",
+              "PRIMARY KEY (id)",
+              "CHECK ((char_length(redirect_uri) <= 2048))",
+              "CHECK ((char_length(resource) <= 2048))",
+              "CHECK ((char_length(scope) <= 4096))",
+              "CHECK ((char_length(state) <= 4096))",
+              "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+            ],
+            "force_rls": false,
+            "name": "oauth_authorizations",
+            "owner": "supabase_auth_admin",
+            "policies": [],
+            "rls": false,
+            "schema": "auth"
+          },
+          {
+            "acl": "{postgres=arwdDxtm/supabase_auth_admin,supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}",
+            "columns": [
+              {
+                "acl": null,
+                "name": "id",
+                "not_null": true,
+                "type": "uuid"
+              },
+              {
+                "acl": null,
+                "name": "client_secret_hash",
+                "not_null": false,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "registration_type",
+                "not_null": true,
+                "type": "auth.oauth_registration_type"
+              },
+              {
+                "acl": null,
+                "name": "redirect_uris",
+                "not_null": true,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "grant_types",
+                "not_null": true,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "client_name",
+                "not_null": false,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "client_uri",
+                "not_null": false,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "logo_uri",
+                "not_null": false,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "created_at",
+                "not_null": true,
+                "type": "timestamp with time zone"
+              },
+              {
+                "acl": null,
+                "name": "updated_at",
+                "not_null": true,
+                "type": "timestamp with time zone"
+              },
+              {
+                "acl": null,
+                "name": "deleted_at",
+                "not_null": false,
+                "type": "timestamp with time zone"
+              },
+              {
+                "acl": null,
+                "name": "client_type",
+                "not_null": true,
+                "type": "auth.oauth_client_type"
+              },
+              {
+                "acl": null,
+                "name": "token_endpoint_auth_method",
+                "not_null": true,
+                "type": "text"
+              }
+            ],
+            "constraints": [
+              "CHECK ((char_length(client_name) <= 1024))",
+              "CHECK ((char_length(client_uri) <= 2048))",
+              "CHECK ((char_length(logo_uri) <= 2048))",
+              "PRIMARY KEY (id)",
+              "CHECK ((token_endpoint_auth_method = ANY (ARRAY['client_secret_basic'::text, 'client_secret_post'::text, 'none'::text])))"
+            ],
+            "force_rls": false,
+            "name": "oauth_clients",
+            "owner": "supabase_auth_admin",
+            "policies": [],
+            "rls": false,
+            "schema": "auth"
+          },
+          {
+            "acl": "{postgres=ar*wdDxtm/supabase_auth_admin,supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}",
+            "columns": [
+              {
+                "acl": "{eps_mcp_session_owner=r/postgres,eps_oauth_consent_owner=r/postgres}",
+                "name": "id",
+                "not_null": true,
+                "type": "uuid"
+              },
+              {
+                "acl": "{eps_mcp_session_owner=r/postgres,eps_oauth_consent_owner=r/postgres}",
+                "name": "user_id",
+                "not_null": true,
+                "type": "uuid"
+              },
+              {
+                "acl": null,
+                "name": "created_at",
+                "not_null": false,
+                "type": "timestamp with time zone"
+              },
+              {
+                "acl": null,
+                "name": "updated_at",
+                "not_null": false,
+                "type": "timestamp with time zone"
+              },
+              {
+                "acl": null,
+                "name": "factor_id",
+                "not_null": false,
+                "type": "uuid"
+              },
+              {
+                "acl": null,
+                "name": "aal",
+                "not_null": false,
+                "type": "auth.aal_level"
+              },
+              {
+                "acl": "{eps_mcp_session_owner=r/postgres,eps_oauth_consent_owner=r/postgres}",
+                "name": "not_after",
+                "not_null": false,
+                "type": "timestamp with time zone"
+              },
+              {
+                "acl": null,
+                "name": "refreshed_at",
+                "not_null": false,
+                "type": "timestamp without time zone"
+              },
+              {
+                "acl": null,
+                "name": "user_agent",
+                "not_null": false,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "ip",
+                "not_null": false,
+                "type": "inet"
+              },
+              {
+                "acl": null,
+                "name": "tag",
+                "not_null": false,
+                "type": "text"
+              },
+              {
+                "acl": "{eps_mcp_session_owner=r/postgres,eps_oauth_consent_owner=r/postgres}",
+                "name": "oauth_client_id",
+                "not_null": false,
+                "type": "uuid"
+              },
+              {
+                "acl": null,
+                "name": "refresh_token_hmac_key",
+                "not_null": false,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "refresh_token_counter",
+                "not_null": false,
+                "type": "bigint"
+              },
+              {
+                "acl": "{eps_mcp_session_owner=r/postgres}",
+                "name": "scopes",
+                "not_null": false,
+                "type": "text"
+              }
+            ],
+            "constraints": [
+              "FOREIGN KEY (oauth_client_id) REFERENCES auth.oauth_clients(id) ON DELETE CASCADE",
+              "PRIMARY KEY (id)",
+              "CHECK ((char_length(scopes) <= 4096))",
+              "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+            ],
+            "force_rls": false,
+            "name": "sessions",
+            "owner": "supabase_auth_admin",
+            "policies": [
+              {
+                "check": null,
+                "command": "r",
+                "name": "eps_mcp_own_session",
+                "roles": [
+                  "eps_mcp_session_owner"
+                ],
+                "using": "((user_id = ( SELECT auth.uid() AS uid)) AND (id = ( SELECT eps.mcp_claim_uuid('session_id'::text) AS mcp_claim_uuid)) AND (oauth_client_id = ( SELECT eps.mcp_claim_uuid('client_id'::text) AS mcp_claim_uuid)))"
+              },
+              {
+                "check": null,
+                "command": "r",
+                "name": "oauth_consent_ordinary_own_session",
+                "roles": [
+                  "eps_oauth_consent_owner"
+                ],
+                "using": "((user_id = ( SELECT auth.uid() AS uid)) AND ((id)::text = ( SELECT (auth.jwt() ->> 'session_id'::text))) AND (oauth_client_id IS NULL))"
+              }
+            ],
+            "rls": true,
+            "schema": "auth"
+          },
+          {
+            "acl": "{postgres=arwdDxtm/postgres,eps_mcp_session_owner=r/postgres}",
+            "columns": [
+              {
+                "acl": "{eps_mcp_issuer_owner=r/postgres,eps_oauth_consent_owner=r/postgres}",
+                "name": "resource",
+                "not_null": true,
+                "type": "text"
+              },
+              {
+                "acl": "{eps_mcp_issuer_owner=r/postgres,eps_oauth_consent_owner=r/postgres}",
+                "name": "client_id",
+                "not_null": true,
+                "type": "uuid"
+              },
+              {
+                "acl": "{eps_mcp_issuer_owner=r/postgres,eps_oauth_consent_owner=r/postgres}",
+                "name": "enabled",
+                "not_null": true,
+                "type": "boolean"
+              }
+            ],
+            "constraints": [
+              "PRIMARY KEY (resource, client_id)",
+              "CHECK ((((length(resource) >= 1) AND (length(resource) <= 2048)) AND (resource !~ '[[:cntrl:][:space:]]'::text) AND ((resource ~ '^https://[^/@?#]+(/[^?#]*)?$'::text) OR (resource ~ '^http://(127\\.0\\.0\\.1|localhost|\\[::1\\])(:[0-9]{1,5})?/mcp$'::text))))"
+            ],
+            "force_rls": true,
+            "name": "mcp_oauth_resources",
+            "owner": "postgres",
+            "policies": [
+              {
+                "check": null,
+                "command": "r",
+                "name": "mcp_issuer_resource_lookup",
+                "roles": [
+                  "eps_mcp_issuer_owner"
+                ],
+                "using": "true"
+              },
+              {
+                "check": null,
+                "command": "r",
+                "name": "mcp_resources_for_own_session",
+                "roles": [
+                  "eps_mcp_session_owner"
+                ],
+                "using": "(auth.uid() IS NOT NULL)"
+              },
+              {
+                "check": null,
+                "command": "r",
+                "name": "oauth_consent_enabled_registry",
+                "roles": [
+                  "eps_oauth_consent_owner"
+                ],
+                "using": "((auth.uid() IS NOT NULL) AND enabled)"
+              }
+            ],
+            "rls": true,
+            "schema": "eps"
+          }
+        ],
+        "required_functions": [
+          {
+            "config": null,
+            "owner": "supabase_auth_admin",
+            "security_definer": false,
+            "signature": "auth.jwt()"
+          },
+          {
+            "config": null,
+            "owner": "supabase_auth_admin",
+            "security_definer": false,
+            "signature": "auth.uid()"
+          },
+          {
+            "config": [
+              "search_path=\"\""
+            ],
+            "owner": "eps_mcp_session_owner",
+            "security_definer": false,
+            "signature": "eps.mcp_claim_uuid(text)"
+          }
+        ],
+        "roles": [
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": true,
+            "login": false,
+            "name": "anon",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": true,
+            "login": false,
+            "name": "authenticated",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_api_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_candidate_apply_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_candidate_assets_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_candidate_stage_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_candidate_upload_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_cast_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_casting_guard_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_casting_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_draft_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_guest_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_jobs_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_logo_verify_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_mcp_issuer_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_mcp_session_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_oauth_consent_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_review_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_review_stage_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_settings_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_specs_apply_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_specs_assets_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_specs_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_specs_stage_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_specs_submit_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_specs_upload_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_specs_verify_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_support_upload_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_support_verify_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": true,
+            "create_db": true,
+            "create_role": true,
+            "inherit": true,
+            "login": true,
+            "name": "postgres",
+            "replication": true,
+            "superuser": false
+          },
+          {
+            "bypass_rls": true,
+            "create_db": false,
+            "create_role": false,
+            "inherit": true,
+            "login": false,
+            "name": "service_role",
+            "replication": false,
+            "superuser": false
+          }
+        ]
+      },
+      "new_objects": {
+        "claim": true,
+        "finish": true,
+        "role": true,
+        "table": true
+      },
+      "protected_m02": {
+        "attempt": 3,
+        "id": "b3f90268-147d-41d4-8875-2a6435df1496",
+        "row_version": 7,
+        "stage": "apply_specs",
+        "status": "waiting_for_input"
+      },
+      "security": {
+        "bridge_acl": true,
+        "bridge_definition": true,
+        "bridge_guard_executable": true,
+        "claims_forced_rls": true,
+        "claims_not_public": true,
+        "internal_acl": true,
+        "new_policies_permissive": true,
+        "no_auth_secrets": true,
+        "no_direct_managed_oauth_reads": true,
+        "no_managed_auth_writes": true,
+        "no_role_memberships": true,
+        "no_schema_create": true,
+        "no_unlisted_auth_columns": true,
+        "no_whole_auth_reads": true,
+        "wrapper_acl": true,
+        "wrapper_owners": true
+      }
+    },
+    "claims_count": 0,
+    "coordinator_auth_usage": false,
+    "functions": {
+      "binding": {
+        "acl": [
+          {
+            "grantable": false,
+            "grantee": "eps_oauth_consent_owner",
+            "grantor": "postgres",
+            "privilege": "EXECUTE"
+          },
+          {
+            "grantable": false,
+            "grantee": "postgres",
+            "grantor": "postgres",
+            "privilege": "EXECUTE"
+          }
+        ],
+        "body_sha256": "f5fab36c5e074252b257d5e3150c6f1c5d77168f5230684f105d477158a5445e",
+        "config": [
+          "search_path=\"\"",
+          "TimeZone=UTC"
+        ],
+        "definer": true,
+        "owner": "postgres",
+        "returns": "jsonb",
+        "volatility": "s"
+      },
+      "claim": {
+        "acl": [
+          {
+            "grantable": false,
+            "grantee": "authenticated",
+            "grantor": "eps_oauth_consent_owner",
+            "privilege": "EXECUTE"
+          },
+          {
+            "grantable": false,
+            "grantee": "eps_oauth_consent_owner",
+            "grantor": "eps_oauth_consent_owner",
+            "privilege": "EXECUTE"
+          }
+        ],
+        "body_sha256": "746f867006acc628512eab0d076e9795965d32335234d174afcf22a057023514",
+        "config": [
+          "search_path=\"\"",
+          "TimeZone=UTC"
+        ],
+        "definer": true,
+        "owner": "eps_oauth_consent_owner",
+        "returns": "jsonb",
+        "volatility": "v"
+      },
+      "context": null,
+      "finish": {
+        "acl": [
+          {
+            "grantable": false,
+            "grantee": "authenticated",
+            "grantor": "eps_oauth_consent_owner",
+            "privilege": "EXECUTE"
+          },
+          {
+            "grantable": false,
+            "grantee": "eps_oauth_consent_owner",
+            "grantor": "eps_oauth_consent_owner",
+            "privilege": "EXECUTE"
+          }
+        ],
+        "body_sha256": "fa01f2d9ec103a086df400ba2fcfb648c09178f644a0394d70a1e4b1810d2244",
+        "config": [
+          "search_path=\"\"",
+          "TimeZone=UTC"
+        ],
+        "definer": true,
+        "owner": "eps_oauth_consent_owner",
+        "returns": "jsonb",
+        "volatility": "v"
+      },
+      "guard": {
+        "acl": [
+          {
+            "grantable": false,
+            "grantee": "eps_oauth_consent_owner",
+            "grantor": "eps_oauth_consent_owner",
+            "privilege": "EXECUTE"
+          }
+        ],
+        "body_sha256": "1e5a748d68bac3b052c0dcef10a1afb6d5867a0c7f50fa222971ce32b434e77a",
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": false,
+        "owner": "eps_oauth_consent_owner",
+        "returns": "uuid",
+        "volatility": "s"
+      },
+      "hash": {
+        "acl": [
+          {
+            "grantable": false,
+            "grantee": "eps_oauth_consent_owner",
+            "grantor": "eps_oauth_consent_owner",
+            "privilege": "EXECUTE"
+          }
+        ],
+        "body_sha256": "58d7695ac005e501accf6e81fe548a05650ca91325d43d1b7a619fe2f39bfa97",
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": false,
+        "owner": "eps_oauth_consent_owner",
+        "returns": "text",
+        "volatility": "i"
+      }
+    },
+    "ledger": {
+      "acl": "{eps_oauth_consent_owner=arwdDxtm/eps_oauth_consent_owner}",
+      "force_rls": true,
+      "owner": "eps_oauth_consent_owner",
+      "rls": true
+    },
+    "ledger_policy": {
+      "check": "((principal_id = ( SELECT auth.uid() AS uid)) AND ((session_id)::text = ( SELECT (auth.jwt() ->> 'session_id'::text))))",
+      "command": "*",
+      "name": "oauth_consent_own_claim",
+      "permissive": true,
+      "roles": [
+        "eps_oauth_consent_owner"
+      ],
+      "using": "((principal_id = ( SELECT auth.uid() AS uid)) AND ((session_id)::text = ( SELECT (auth.jwt() ->> 'session_id'::text))))"
+    },
+    "memberships": [
+      {
+        "admin": true,
+        "grantor": "supabase_admin",
+        "inherit": false,
+        "member": "postgres",
+        "role": "eps_oauth_consent_owner",
+        "set": false
+      },
+      {
+        "admin": false,
+        "grantor": "postgres",
+        "inherit": true,
+        "member": "postgres",
+        "role": "eps_oauth_consent_owner",
+        "set": true
+      }
+    ],
+    "namespace": [
+      {
+        "acl": "{supabase_admin=UC/supabase_admin,anon=U/supabase_admin,authenticated=U/supabase_admin,service_role=U/supabase_admin,supabase_auth_admin=UC/supabase_admin,dashboard_user=UC/supabase_admin,postgres=U/supabase_admin}",
+        "name": "auth",
+        "owner": "supabase_admin"
+      },
+      {
+        "acl": "{postgres=UC/postgres,authenticated=U/postgres,eps_api_owner=U/postgres,eps_draft_owner=U/postgres,eps_logo_verify_owner=U/postgres,eps_jobs_owner=U/postgres,eps_jobs_dispatcher=U/postgres,eps_specs_owner=U/postgres,eps_specs_initializer=U/postgres,eps_specs_submit_owner=U/postgres,eps_specs_stage_owner=U/postgres,eps_specs_apply_owner=U/postgres,eps_jobs_executor=U/postgres,eps_specs_upload_owner=U/postgres,eps_specs_verify_owner=U/postgres,eps_specs_assets_owner=U/postgres,eps_specs_assets_executor=U/postgres,anon=U/postgres,eps_cast_owner=U/postgres,eps_candidate_stage_owner=U/postgres,eps_candidate_assets_owner=U/postgres,eps_candidate_upload_owner=U/postgres,eps_candidate_apply_owner=U/postgres,eps_support_upload_owner=U/postgres,eps_support_verify_owner=U/postgres,eps_casting_owner=U/postgres,eps_casting_guard_owner=U/postgres,eps_review_owner=U/postgres,eps_review_stage_owner=U/postgres,eps_guest_owner=U/postgres,eps_settings_owner=U/postgres,eps_mcp_session_owner=U/postgres,eps_mcp_issuer_owner=U/postgres,supabase_auth_admin=U/postgres,eps_oauth_consent_owner=U/postgres}",
+        "name": "eps",
+        "owner": "postgres"
+      },
+      {
+        "acl": "{pg_database_owner=UC/pg_database_owner,=U/pg_database_owner,postgres=U/pg_database_owner,anon=U/pg_database_owner,authenticated=U/pg_database_owner,service_role=U/pg_database_owner,eps_api_owner=U/pg_database_owner,eps_draft_owner=U/pg_database_owner,eps_logo_verify_owner=U/pg_database_owner,eps_jobs_owner=U/pg_database_owner,eps_specs_owner=U/pg_database_owner,eps_specs_submit_owner=U/pg_database_owner,eps_specs_stage_owner=U/pg_database_owner,eps_specs_apply_owner=U/pg_database_owner,eps_specs_upload_owner=U/pg_database_owner,eps_specs_verify_owner=U/pg_database_owner,eps_specs_assets_owner=U/pg_database_owner,eps_cast_owner=U/pg_database_owner,eps_candidate_stage_owner=U/pg_database_owner,eps_candidate_assets_owner=U/pg_database_owner,eps_candidate_upload_owner=U/pg_database_owner,eps_candidate_apply_owner=U/pg_database_owner,eps_support_upload_owner=U/pg_database_owner,eps_support_verify_owner=U/pg_database_owner,eps_casting_owner=U/pg_database_owner,eps_review_owner=U/pg_database_owner,eps_review_stage_owner=U/pg_database_owner,eps_guest_owner=U/pg_database_owner,eps_settings_owner=U/pg_database_owner,eps_mcp_session_owner=U/pg_database_owner,eps_mcp_issuer_owner=U/pg_database_owner,eps_oauth_consent_owner=U/pg_database_owner}",
+        "name": "public",
+        "owner": "pg_database_owner"
+      }
+    ],
+    "postgres_auth_grant_option": false,
+    "postgres_auth_usage": true
+  },
+  "no_acting_identity_supplied": true,
+  "observed_at": "2026-10-31T13:12:18.136181+00:00",
+  "raw_cli_persisted": false,
+  "result": "passed",
+  "rollback_marker_observed": true,
+  "rollback_wire_sha256": "05b48edeac8e8f3123f37d7b6dd72d52b30fbfd074be67bf022377c86be159aa",
+  "safe_dispatch_error": null,
+  "schema_version": "1.0",
+  "second": {
+    "base": {
+      "catalogue": {
+        "database": "postgres",
+        "history": [
+          "20261028010943",
+          "20261028013324",
+          "20261028013655",
+          "20261028024205",
+          "20261028072515",
+          "20261028162702",
+          "20261028162800",
+          "20261028172320",
+          "20261028184145",
+          "20261028222030",
+          "20261029001520",
+          "20261029003941",
+          "20261029070038",
+          "20261029090500",
+          "20261029090724",
+          "20261029094600",
+          "20261029100500",
+          "20261029133455",
+          "20261029135318",
+          "20261029174841",
+          "20261029180953",
+          "20261029202629",
+          "20261029203953",
+          "20261029215218",
+          "20261030002634",
+          "20261030004643",
+          "20261030013832",
+          "20261030030717",
+          "20261030111549",
+          "20261030154824",
+          "20261031010000",
+          "20261031104603"
+        ],
+        "history_columns": [
+          {
+            "default": null,
+            "name": "version",
+            "nullable": "NO",
+            "type": "text"
+          },
+          {
+            "default": null,
+            "name": "statements",
+            "nullable": "YES",
+            "type": "ARRAY"
+          },
+          {
+            "default": null,
+            "name": "name",
+            "nullable": "YES",
+            "type": "text"
+          }
+        ],
+        "observed_at": "2026-10-31T13:12:18.836405+00:00",
+        "operator": "postgres",
+        "relations": [
+          {
+            "acl": "{postgres=arwdDxtm/supabase_auth_admin,supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}",
+            "columns": [
+              {
+                "acl": null,
+                "name": "id",
+                "not_null": true,
+                "type": "uuid"
+              },
+              {
+                "acl": null,
+                "name": "authorization_id",
+                "not_null": true,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "client_id",
+                "not_null": true,
+                "type": "uuid"
+              },
+              {
+                "acl": null,
+                "name": "user_id",
+                "not_null": false,
+                "type": "uuid"
+              },
+              {
+                "acl": null,
+                "name": "redirect_uri",
+                "not_null": true,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "scope",
+                "not_null": true,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "state",
+                "not_null": false,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "resource",
+                "not_null": false,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "code_challenge",
+                "not_null": false,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "code_challenge_method",
+                "not_null": false,
+                "type": "auth.code_challenge_method"
+              },
+              {
+                "acl": null,
+                "name": "response_type",
+                "not_null": true,
+                "type": "auth.oauth_response_type"
+              },
+              {
+                "acl": null,
+                "name": "status",
+                "not_null": true,
+                "type": "auth.oauth_authorization_status"
+              },
+              {
+                "acl": null,
+                "name": "authorization_code",
+                "not_null": false,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "created_at",
+                "not_null": true,
+                "type": "timestamp with time zone"
+              },
+              {
+                "acl": null,
+                "name": "expires_at",
+                "not_null": true,
+                "type": "timestamp with time zone"
+              },
+              {
+                "acl": null,
+                "name": "approved_at",
+                "not_null": false,
+                "type": "timestamp with time zone"
+              },
+              {
+                "acl": null,
+                "name": "nonce",
+                "not_null": false,
+                "type": "text"
+              }
+            ],
+            "constraints": [
+              "UNIQUE (authorization_code)",
+              "CHECK ((char_length(authorization_code) <= 255))",
+              "UNIQUE (authorization_id)",
+              "FOREIGN KEY (client_id) REFERENCES auth.oauth_clients(id) ON DELETE CASCADE",
+              "CHECK ((char_length(code_challenge) <= 128))",
+              "CHECK ((expires_at > created_at))",
+              "CHECK ((char_length(nonce) <= 255))",
+              "PRIMARY KEY (id)",
+              "CHECK ((char_length(redirect_uri) <= 2048))",
+              "CHECK ((char_length(resource) <= 2048))",
+              "CHECK ((char_length(scope) <= 4096))",
+              "CHECK ((char_length(state) <= 4096))",
+              "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+            ],
+            "force_rls": false,
+            "name": "oauth_authorizations",
+            "owner": "supabase_auth_admin",
+            "policies": [],
+            "rls": false,
+            "schema": "auth"
+          },
+          {
+            "acl": "{postgres=arwdDxtm/supabase_auth_admin,supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}",
+            "columns": [
+              {
+                "acl": null,
+                "name": "id",
+                "not_null": true,
+                "type": "uuid"
+              },
+              {
+                "acl": null,
+                "name": "client_secret_hash",
+                "not_null": false,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "registration_type",
+                "not_null": true,
+                "type": "auth.oauth_registration_type"
+              },
+              {
+                "acl": null,
+                "name": "redirect_uris",
+                "not_null": true,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "grant_types",
+                "not_null": true,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "client_name",
+                "not_null": false,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "client_uri",
+                "not_null": false,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "logo_uri",
+                "not_null": false,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "created_at",
+                "not_null": true,
+                "type": "timestamp with time zone"
+              },
+              {
+                "acl": null,
+                "name": "updated_at",
+                "not_null": true,
+                "type": "timestamp with time zone"
+              },
+              {
+                "acl": null,
+                "name": "deleted_at",
+                "not_null": false,
+                "type": "timestamp with time zone"
+              },
+              {
+                "acl": null,
+                "name": "client_type",
+                "not_null": true,
+                "type": "auth.oauth_client_type"
+              },
+              {
+                "acl": null,
+                "name": "token_endpoint_auth_method",
+                "not_null": true,
+                "type": "text"
+              }
+            ],
+            "constraints": [
+              "CHECK ((char_length(client_name) <= 1024))",
+              "CHECK ((char_length(client_uri) <= 2048))",
+              "CHECK ((char_length(logo_uri) <= 2048))",
+              "PRIMARY KEY (id)",
+              "CHECK ((token_endpoint_auth_method = ANY (ARRAY['client_secret_basic'::text, 'client_secret_post'::text, 'none'::text])))"
+            ],
+            "force_rls": false,
+            "name": "oauth_clients",
+            "owner": "supabase_auth_admin",
+            "policies": [],
+            "rls": false,
+            "schema": "auth"
+          },
+          {
+            "acl": "{postgres=ar*wdDxtm/supabase_auth_admin,supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}",
+            "columns": [
+              {
+                "acl": "{eps_mcp_session_owner=r/postgres,eps_oauth_consent_owner=r/postgres}",
+                "name": "id",
+                "not_null": true,
+                "type": "uuid"
+              },
+              {
+                "acl": "{eps_mcp_session_owner=r/postgres,eps_oauth_consent_owner=r/postgres}",
+                "name": "user_id",
+                "not_null": true,
+                "type": "uuid"
+              },
+              {
+                "acl": null,
+                "name": "created_at",
+                "not_null": false,
+                "type": "timestamp with time zone"
+              },
+              {
+                "acl": null,
+                "name": "updated_at",
+                "not_null": false,
+                "type": "timestamp with time zone"
+              },
+              {
+                "acl": null,
+                "name": "factor_id",
+                "not_null": false,
+                "type": "uuid"
+              },
+              {
+                "acl": null,
+                "name": "aal",
+                "not_null": false,
+                "type": "auth.aal_level"
+              },
+              {
+                "acl": "{eps_mcp_session_owner=r/postgres,eps_oauth_consent_owner=r/postgres}",
+                "name": "not_after",
+                "not_null": false,
+                "type": "timestamp with time zone"
+              },
+              {
+                "acl": null,
+                "name": "refreshed_at",
+                "not_null": false,
+                "type": "timestamp without time zone"
+              },
+              {
+                "acl": null,
+                "name": "user_agent",
+                "not_null": false,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "ip",
+                "not_null": false,
+                "type": "inet"
+              },
+              {
+                "acl": null,
+                "name": "tag",
+                "not_null": false,
+                "type": "text"
+              },
+              {
+                "acl": "{eps_mcp_session_owner=r/postgres,eps_oauth_consent_owner=r/postgres}",
+                "name": "oauth_client_id",
+                "not_null": false,
+                "type": "uuid"
+              },
+              {
+                "acl": null,
+                "name": "refresh_token_hmac_key",
+                "not_null": false,
+                "type": "text"
+              },
+              {
+                "acl": null,
+                "name": "refresh_token_counter",
+                "not_null": false,
+                "type": "bigint"
+              },
+              {
+                "acl": "{eps_mcp_session_owner=r/postgres}",
+                "name": "scopes",
+                "not_null": false,
+                "type": "text"
+              }
+            ],
+            "constraints": [
+              "FOREIGN KEY (oauth_client_id) REFERENCES auth.oauth_clients(id) ON DELETE CASCADE",
+              "PRIMARY KEY (id)",
+              "CHECK ((char_length(scopes) <= 4096))",
+              "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+            ],
+            "force_rls": false,
+            "name": "sessions",
+            "owner": "supabase_auth_admin",
+            "policies": [
+              {
+                "check": null,
+                "command": "r",
+                "name": "eps_mcp_own_session",
+                "roles": [
+                  "eps_mcp_session_owner"
+                ],
+                "using": "((user_id = ( SELECT auth.uid() AS uid)) AND (id = ( SELECT eps.mcp_claim_uuid('session_id'::text) AS mcp_claim_uuid)) AND (oauth_client_id = ( SELECT eps.mcp_claim_uuid('client_id'::text) AS mcp_claim_uuid)))"
+              },
+              {
+                "check": null,
+                "command": "r",
+                "name": "oauth_consent_ordinary_own_session",
+                "roles": [
+                  "eps_oauth_consent_owner"
+                ],
+                "using": "((user_id = ( SELECT auth.uid() AS uid)) AND ((id)::text = ( SELECT (auth.jwt() ->> 'session_id'::text))) AND (oauth_client_id IS NULL))"
+              }
+            ],
+            "rls": true,
+            "schema": "auth"
+          },
+          {
+            "acl": "{postgres=arwdDxtm/postgres,eps_mcp_session_owner=r/postgres}",
+            "columns": [
+              {
+                "acl": "{eps_mcp_issuer_owner=r/postgres,eps_oauth_consent_owner=r/postgres}",
+                "name": "resource",
+                "not_null": true,
+                "type": "text"
+              },
+              {
+                "acl": "{eps_mcp_issuer_owner=r/postgres,eps_oauth_consent_owner=r/postgres}",
+                "name": "client_id",
+                "not_null": true,
+                "type": "uuid"
+              },
+              {
+                "acl": "{eps_mcp_issuer_owner=r/postgres,eps_oauth_consent_owner=r/postgres}",
+                "name": "enabled",
+                "not_null": true,
+                "type": "boolean"
+              }
+            ],
+            "constraints": [
+              "PRIMARY KEY (resource, client_id)",
+              "CHECK ((((length(resource) >= 1) AND (length(resource) <= 2048)) AND (resource !~ '[[:cntrl:][:space:]]'::text) AND ((resource ~ '^https://[^/@?#]+(/[^?#]*)?$'::text) OR (resource ~ '^http://(127\\.0\\.0\\.1|localhost|\\[::1\\])(:[0-9]{1,5})?/mcp$'::text))))"
+            ],
+            "force_rls": true,
+            "name": "mcp_oauth_resources",
+            "owner": "postgres",
+            "policies": [
+              {
+                "check": null,
+                "command": "r",
+                "name": "mcp_issuer_resource_lookup",
+                "roles": [
+                  "eps_mcp_issuer_owner"
+                ],
+                "using": "true"
+              },
+              {
+                "check": null,
+                "command": "r",
+                "name": "mcp_resources_for_own_session",
+                "roles": [
+                  "eps_mcp_session_owner"
+                ],
+                "using": "(auth.uid() IS NOT NULL)"
+              },
+              {
+                "check": null,
+                "command": "r",
+                "name": "oauth_consent_enabled_registry",
+                "roles": [
+                  "eps_oauth_consent_owner"
+                ],
+                "using": "((auth.uid() IS NOT NULL) AND enabled)"
+              }
+            ],
+            "rls": true,
+            "schema": "eps"
+          }
+        ],
+        "required_functions": [
+          {
+            "config": null,
+            "owner": "supabase_auth_admin",
+            "security_definer": false,
+            "signature": "auth.jwt()"
+          },
+          {
+            "config": null,
+            "owner": "supabase_auth_admin",
+            "security_definer": false,
+            "signature": "auth.uid()"
+          },
+          {
+            "config": [
+              "search_path=\"\""
+            ],
+            "owner": "eps_mcp_session_owner",
+            "security_definer": false,
+            "signature": "eps.mcp_claim_uuid(text)"
+          }
+        ],
+        "roles": [
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": true,
+            "login": false,
+            "name": "anon",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": true,
+            "login": false,
+            "name": "authenticated",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_api_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_candidate_apply_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_candidate_assets_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_candidate_stage_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_candidate_upload_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_cast_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_casting_guard_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_casting_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_draft_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_guest_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_jobs_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_logo_verify_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_mcp_issuer_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_mcp_session_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_oauth_consent_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_review_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_review_stage_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_settings_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_specs_apply_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_specs_assets_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_specs_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_specs_stage_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_specs_submit_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_specs_upload_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_specs_verify_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_support_upload_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": false,
+            "create_db": false,
+            "create_role": false,
+            "inherit": false,
+            "login": false,
+            "name": "eps_support_verify_owner",
+            "replication": false,
+            "superuser": false
+          },
+          {
+            "bypass_rls": true,
+            "create_db": true,
+            "create_role": true,
+            "inherit": true,
+            "login": true,
+            "name": "postgres",
+            "replication": true,
+            "superuser": false
+          },
+          {
+            "bypass_rls": true,
+            "create_db": false,
+            "create_role": false,
+            "inherit": true,
+            "login": false,
+            "name": "service_role",
+            "replication": false,
+            "superuser": false
+          }
+        ]
+      },
+      "new_objects": {
+        "claim": true,
+        "finish": true,
+        "role": true,
+        "table": true
+      },
+      "protected_m02": {
+        "attempt": 3,
+        "id": "b3f90268-147d-41d4-8875-2a6435df1496",
+        "row_version": 7,
+        "stage": "apply_specs",
+        "status": "waiting_for_input"
+      },
+      "security": {
+        "bridge_acl": true,
+        "bridge_definition": true,
+        "bridge_guard_executable": true,
+        "claims_forced_rls": true,
+        "claims_not_public": true,
+        "internal_acl": true,
+        "new_policies_permissive": true,
+        "no_auth_secrets": true,
+        "no_direct_managed_oauth_reads": true,
+        "no_managed_auth_writes": true,
+        "no_role_memberships": true,
+        "no_schema_create": true,
+        "no_unlisted_auth_columns": true,
+        "no_whole_auth_reads": true,
+        "wrapper_acl": true,
+        "wrapper_owners": true
+      }
+    },
+    "claims_count": 0,
+    "coordinator_auth_usage": false,
+    "functions": {
+      "binding": {
+        "acl": [
+          {
+            "grantable": false,
+            "grantee": "eps_oauth_consent_owner",
+            "grantor": "postgres",
+            "privilege": "EXECUTE"
+          },
+          {
+            "grantable": false,
+            "grantee": "postgres",
+            "grantor": "postgres",
+            "privilege": "EXECUTE"
+          }
+        ],
+        "body_sha256": "f5fab36c5e074252b257d5e3150c6f1c5d77168f5230684f105d477158a5445e",
+        "config": [
+          "search_path=\"\"",
+          "TimeZone=UTC"
+        ],
+        "definer": true,
+        "owner": "postgres",
+        "returns": "jsonb",
+        "volatility": "s"
+      },
+      "claim": {
+        "acl": [
+          {
+            "grantable": false,
+            "grantee": "authenticated",
+            "grantor": "eps_oauth_consent_owner",
+            "privilege": "EXECUTE"
+          },
+          {
+            "grantable": false,
+            "grantee": "eps_oauth_consent_owner",
+            "grantor": "eps_oauth_consent_owner",
+            "privilege": "EXECUTE"
+          }
+        ],
+        "body_sha256": "746f867006acc628512eab0d076e9795965d32335234d174afcf22a057023514",
+        "config": [
+          "search_path=\"\"",
+          "TimeZone=UTC"
+        ],
+        "definer": true,
+        "owner": "eps_oauth_consent_owner",
+        "returns": "jsonb",
+        "volatility": "v"
+      },
+      "context": null,
+      "finish": {
+        "acl": [
+          {
+            "grantable": false,
+            "grantee": "authenticated",
+            "grantor": "eps_oauth_consent_owner",
+            "privilege": "EXECUTE"
+          },
+          {
+            "grantable": false,
+            "grantee": "eps_oauth_consent_owner",
+            "grantor": "eps_oauth_consent_owner",
+            "privilege": "EXECUTE"
+          }
+        ],
+        "body_sha256": "fa01f2d9ec103a086df400ba2fcfb648c09178f644a0394d70a1e4b1810d2244",
+        "config": [
+          "search_path=\"\"",
+          "TimeZone=UTC"
+        ],
+        "definer": true,
+        "owner": "eps_oauth_consent_owner",
+        "returns": "jsonb",
+        "volatility": "v"
+      },
+      "guard": {
+        "acl": [
+          {
+            "grantable": false,
+            "grantee": "eps_oauth_consent_owner",
+            "grantor": "eps_oauth_consent_owner",
+            "privilege": "EXECUTE"
+          }
+        ],
+        "body_sha256": "1e5a748d68bac3b052c0dcef10a1afb6d5867a0c7f50fa222971ce32b434e77a",
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": false,
+        "owner": "eps_oauth_consent_owner",
+        "returns": "uuid",
+        "volatility": "s"
+      },
+      "hash": {
+        "acl": [
+          {
+            "grantable": false,
+            "grantee": "eps_oauth_consent_owner",
+            "grantor": "eps_oauth_consent_owner",
+            "privilege": "EXECUTE"
+          }
+        ],
+        "body_sha256": "58d7695ac005e501accf6e81fe548a05650ca91325d43d1b7a619fe2f39bfa97",
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": false,
+        "owner": "eps_oauth_consent_owner",
+        "returns": "text",
+        "volatility": "i"
+      }
+    },
+    "ledger": {
+      "acl": "{eps_oauth_consent_owner=arwdDxtm/eps_oauth_consent_owner}",
+      "force_rls": true,
+      "owner": "eps_oauth_consent_owner",
+      "rls": true
+    },
+    "ledger_policy": {
+      "check": "((principal_id = ( SELECT auth.uid() AS uid)) AND ((session_id)::text = ( SELECT (auth.jwt() ->> 'session_id'::text))))",
+      "command": "*",
+      "name": "oauth_consent_own_claim",
+      "permissive": true,
+      "roles": [
+        "eps_oauth_consent_owner"
+      ],
+      "using": "((principal_id = ( SELECT auth.uid() AS uid)) AND ((session_id)::text = ( SELECT (auth.jwt() ->> 'session_id'::text))))"
+    },
+    "memberships": [
+      {
+        "admin": true,
+        "grantor": "supabase_admin",
+        "inherit": false,
+        "member": "postgres",
+        "role": "eps_oauth_consent_owner",
+        "set": false
+      },
+      {
+        "admin": false,
+        "grantor": "postgres",
+        "inherit": true,
+        "member": "postgres",
+        "role": "eps_oauth_consent_owner",
+        "set": true
+      }
+    ],
+    "namespace": [
+      {
+        "acl": "{supabase_admin=UC/supabase_admin,anon=U/supabase_admin,authenticated=U/supabase_admin,service_role=U/supabase_admin,supabase_auth_admin=UC/supabase_admin,dashboard_user=UC/supabase_admin,postgres=U/supabase_admin}",
+        "name": "auth",
+        "owner": "supabase_admin"
+      },
+      {
+        "acl": "{postgres=UC/postgres,authenticated=U/postgres,eps_api_owner=U/postgres,eps_draft_owner=U/postgres,eps_logo_verify_owner=U/postgres,eps_jobs_owner=U/postgres,eps_jobs_dispatcher=U/postgres,eps_specs_owner=U/postgres,eps_specs_initializer=U/postgres,eps_specs_submit_owner=U/postgres,eps_specs_stage_owner=U/postgres,eps_specs_apply_owner=U/postgres,eps_jobs_executor=U/postgres,eps_specs_upload_owner=U/postgres,eps_specs_verify_owner=U/postgres,eps_specs_assets_owner=U/postgres,eps_specs_assets_executor=U/postgres,anon=U/postgres,eps_cast_owner=U/postgres,eps_candidate_stage_owner=U/postgres,eps_candidate_assets_owner=U/postgres,eps_candidate_upload_owner=U/postgres,eps_candidate_apply_owner=U/postgres,eps_support_upload_owner=U/postgres,eps_support_verify_owner=U/postgres,eps_casting_owner=U/postgres,eps_casting_guard_owner=U/postgres,eps_review_owner=U/postgres,eps_review_stage_owner=U/postgres,eps_guest_owner=U/postgres,eps_settings_owner=U/postgres,eps_mcp_session_owner=U/postgres,eps_mcp_issuer_owner=U/postgres,supabase_auth_admin=U/postgres,eps_oauth_consent_owner=U/postgres}",
+        "name": "eps",
+        "owner": "postgres"
+      },
+      {
+        "acl": "{pg_database_owner=UC/pg_database_owner,=U/pg_database_owner,postgres=U/pg_database_owner,anon=U/pg_database_owner,authenticated=U/pg_database_owner,service_role=U/pg_database_owner,eps_api_owner=U/pg_database_owner,eps_draft_owner=U/pg_database_owner,eps_logo_verify_owner=U/pg_database_owner,eps_jobs_owner=U/pg_database_owner,eps_specs_owner=U/pg_database_owner,eps_specs_submit_owner=U/pg_database_owner,eps_specs_stage_owner=U/pg_database_owner,eps_specs_apply_owner=U/pg_database_owner,eps_specs_upload_owner=U/pg_database_owner,eps_specs_verify_owner=U/pg_database_owner,eps_specs_assets_owner=U/pg_database_owner,eps_cast_owner=U/pg_database_owner,eps_candidate_stage_owner=U/pg_database_owner,eps_candidate_assets_owner=U/pg_database_owner,eps_candidate_upload_owner=U/pg_database_owner,eps_candidate_apply_owner=U/pg_database_owner,eps_support_upload_owner=U/pg_database_owner,eps_support_verify_owner=U/pg_database_owner,eps_casting_owner=U/pg_database_owner,eps_review_owner=U/pg_database_owner,eps_review_stage_owner=U/pg_database_owner,eps_guest_owner=U/pg_database_owner,eps_settings_owner=U/pg_database_owner,eps_mcp_session_owner=U/pg_database_owner,eps_mcp_issuer_owner=U/pg_database_owner,eps_oauth_consent_owner=U/pg_database_owner}",
+        "name": "public",
+        "owner": "pg_database_owner"
+      }
+    ],
+    "postgres_auth_grant_option": false,
+    "postgres_auth_usage": true
+  },
+  "source_pins": {
+    "development/m07/oauth-attempt-trace/inspect-attempt.py": "1359373d078ee67d5dd644d1717a048f274c98f3617bb57c3668a45866c4c03c",
+    "development/m07/oauth-attempt-trace/release-context33.py": "b285eb25a716c1c04ff8212c55b1807a9a2adbac8acc8a41fadd521d41487ca9",
+    "development/m07/oauth-attempt-trace/test_context_source.py": "92eb3507137edf28841cab3f5ec277a882438daa0ac0a6e812fd16d8657bb4fd",
+    "development/m07/oauth-consent-fix/discover.py": "6ce739dc9394d67ba98a851651455dfb2ffaf553602f8312b1626130f2a125e9",
+    "development/m07/oauth-consent-fix/discovery.sql": "0d19f8e10a12a4cd71c10cc476fea4654ce7d7591ee73b40ff02903bfb63809c",
+    "development/m07/oauth-consent-fix/release_v3.py": "bec36223e8b22217ab5c9e1a2c557ff9aa0bd4dabbeae1361469fdc9079a1c77",
+    "supabase/migrations/20261031104603_m07_oauth_consent_binding_and_claims.sql": "0d7b7a7577ffe1ff4b24eba202ce6ac7e87c616ca8039397800e607c651908a5",
+    "supabase/migrations/20261031130207_m07_oauth_consent_browser_context.sql": "9923e7a1cb52e160041aacea053a21cb9c25c1fc468db99eb7b7ea77e15dcb81",
+    "tracking/evidence/m07/oauth-consent-fix/2026-10-31T10-55-03-058615Z-catalogue.json": "cea1b708a9c43f5c1436797651094b3041f3ce3365cf44690782f027c709ea80"
+  },
+  "target": "pyibofyctwnqpvktepse",
+  "unchanged32_twice": true
+}

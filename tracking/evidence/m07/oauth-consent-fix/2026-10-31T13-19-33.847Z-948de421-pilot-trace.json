@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0",
+  "read_only": true,
+  "observed_at": "2026-10-31T13:19:33.847Z",
+  "since": "2026-10-31T13:17:00.000Z",
+  "deployment_id": "dpl_DeCpJGbLLEHX3FFNBz5twLFuV8p7",
+  "project_id": "prj_7xOsfRtvJ9voYi7rTEfra5ncOoA0",
+  "public_origin": "https://everyone-presentation-pilot.vercel.app",
+  "counts": {
+    "log_records": 5,
+    "matched_events": 5,
+    "rejected_events": 0,
+    "unrecognized_records": 0,
+    "warning_records": 0,
+    "has_more": false,
+    "excluded_intervals": 0,
+    "complete_window": true
+  },
+  "events": [
+    {
+      "logged_at": "2026-10-31T13:17:30.834Z",
+      "event": "eps.oauth.consent_response",
+      "trace_id": "e51384ce-3994-4e44-b314-c572d125b2ba",
+      "status": 401
+    },
+    {
+      "logged_at": "2026-10-31T13:17:30.656Z",
+      "event": "eps.mcp.authorization_stage",
+      "trace_id": "8af003c8-63fe-4f91-8521-e26d00297b64",
+      "stage": "bearer",
+      "result": "denied",
+      "status": 401,
+      "reason": "malformed_bearer"
+    },
+    {
+      "logged_at": "2026-10-31T13:17:30.655Z",
+      "event": "eps.mcp.authorization_stage",
+      "trace_id": "8af003c8-63fe-4f91-8521-e26d00297b64",
+      "stage": "boundary",
+      "result": "accepted",
+      "status": null
+    },
+    {
+      "logged_at": "2026-10-31T13:17:30.262Z",
+      "event": "eps.mcp.authorization_stage",
+      "trace_id": "a8d46b3b-5773-4dc7-a297-20bdb1e90633",
+      "stage": "bearer",
+      "result": "denied",
+      "status": 401,
+      "reason": "missing_bearer"
+    },
+    {
+      "logged_at": "2026-10-31T13:17:30.259Z",
+      "event": "eps.mcp.authorization_stage",
+      "trace_id": "a8d46b3b-5773-4dc7-a297-20bdb1e90633",
+      "stage": "boundary",
+      "result": "accepted",
+      "status": null
+    }
+  ]
+}

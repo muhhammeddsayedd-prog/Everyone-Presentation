@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0",
+  "evidence_kind": "synthetic_context_disposable_local_database",
+  "run_id": "d8b75cf09fb74da292f57cdf34b9d439",
+  "started_at": "2026-10-31T13:08:22.153Z",
+  "result": "passed",
+  "cloud_called": false,
+  "provider_called": false,
+  "existing_app_database_writes": false,
+  "checkpoint": "complete",
+  "global_roles_before_sha256": "b38e227657cd3fa85c95846319f9bcd759cb3f458d941f5f83ece2b1c4693d8c",
+  "source_sha256": {
+    "supabase/migrations/20261031104603_m07_oauth_consent_binding_and_claims.sql": "0d7b7a7577ffe1ff4b24eba202ce6ac7e87c616ca8039397800e607c651908a5",
+    "supabase/migrations/20261031130207_m07_oauth_consent_browser_context.sql": "9923e7a1cb52e160041aacea053a21cb9c25c1fc468db99eb7b7ea77e15dcb81",
+    "development/m07/oauth-consent-fix/fixture.sql": "ec17aa0f9e78df785ff9bb9c1bb1d8e608e845401a0ed8e1ecaf55a06e193904",
+    "development/m07/oauth-consent-fix/tests.sql": "f974d157133f473d4219aef35b343b6158542a1a077ce3c9f4712fc668bd5fe8",
+    "development/m07/oauth-attempt-trace/fixture-auth-schema.sql": "ea0a53b98703b131e33c4716a646ca1e63769c056d0e02e805d195420625fbc9",
+    "development/m07/oauth-attempt-trace/tests-context.sql": "8b4b8876438dbf4ba3632590a36a969631a103c5847814f813092c7ba931d0df",
+    "development/m07/oauth-attempt-trace/release-context33.py": "b285eb25a716c1c04ff8212c55b1807a9a2adbac8acc8a41fadd521d41487ca9",
+    "development/m07/oauth-attempt-trace/run-local-context.mjs": "8886ae89a3a0905eebce4e3a4279020f7acfc743ad4e6e235dad6bdd73ba0590",
+    "development/m07/oauth-attempt-trace/test_context_source.py": "92eb3507137edf28841cab3f5ec277a882438daa0ac0a6e812fd16d8657bb4fd",
+    "development/m07/oauth-attempt-trace/inspect-attempt.py": "1359373d078ee67d5dd644d1717a048f274c98f3617bb57c3668a45866c4c03c"
+  },
+  "managed_namespace_faithful": {
+    "auth_owner": "supabase_admin",
+    "owner_usage": false,
+    "postgres_usage": true,
+    "postgres_grant_option": false
+  },
+  "original_failure_reproduced": {
+    "sqlstate": "42501",
+    "reason": "permission_denied_auth_schema"
+  },
+  "stored_sql_helper_policy_failure_reproduced": {
+    "sqlstate": "42501",
+    "existing_synthetic_uid_calls_auth_jwt": true,
+    "own_ledger_policy_bridge_required": true
+  },
+  "assertion_count": 47,
+  "synthetic_tests": {
+    "scope": "synthetic-context-with-auth-usage-false",
+    "result": "passed",
+    "cloud_called": false,
+    "provider_called": false
+  },
+  "green_transaction_rollback_verified": true,
+  "full_emitted_wire": {
+    "sql_sha256": "8657e4edec457f611672cb66c27bf7062019e8f7e1d935f8bc9c5f86bdb75d30",
+    "real_before_and_after_guards_executed": true,
+    "coordinated_history33_before_commit": true,
+    "no_jwt_functional_guard_executed": true,
+    "managed_metadata_exactly_preserved": true,
+    "previous_sixteen_checks_still_true": true,
+    "committed_only_owned_disposable_database": true
+  },
+  "new_policy": {
+    "check": "((principal_id = ( SELECT ((eps.oauth_consent_browser_context() ->> 'principal_id'::text))::uuid AS uuid)) AND (session_id = ( SELECT ((eps.oauth_consent_browser_context() ->> 'session_id'::text))::uuid AS uuid)))",
+    "using": "((principal_id = ( SELECT ((eps.oauth_consent_browser_context() ->> 'principal_id'::text))::uuid AS uuid)) AND (session_id = ( SELECT ((eps.oauth_consent_browser_context() ->> 'session_id'::text))::uuid AS uuid)))"
+  },
+  "concurrent_checks": {
+    "details_one_winner": true,
+    "approve_deny_one_winner": true,
+    "different_browser_one_winner": true,
+    "independent_connections": true,
+    "coordinator_auth_usage": false
+  },
+  "owned_disposable_database_removed": true,
+  "owned_test_role_removed": true,
+  "global_roles_unchanged": true,
+  "shared_lock_released": true,
+  "finished_at": "2026-10-31T13:08:33.330Z"
+}

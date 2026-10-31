@@ -329,3 +329,34 @@ OAuth acceptance from the anonymous checks or signed-in workspace screenshot.
 AT-072 and remaining independent M03 semantics stay pending; mobile is skipped.
 The controlled pilot remains available until owner stop. Full M07/production
 release acceptance remains unverified.
+
+## 2026-10-31 - Coordinator managed-schema namespace correction
+
+The owner's fresh12:45 request used the actual registered direct Code client
+f2acafd5-d4b6-4176-b86c-067c57e45ecc and exact localhost3118 callback, openid and
+pilot resource. It failed after verified browser session and before native
+details, leaving no claim. The old trace retains503, not the underlying RPC text.
+Read-only privilege inspection and actual identity-free role-prefix execution
+establish42501, permission denied for schema auth. The coordinator lacks schema
+USAGE; postgres cannot grant it because it lacks the managed owner's grant option.
+This is the confirmed second defect after the earlier opaque-selector correction.
+
+Additive33 uses a private postgres-owned context bridge with unchanged strict
+ordinary active-browser/session guard; only the coordinator and postgres can
+execute it. Wrappers retain their complete authority/expiry/status/replay checks,
+and the own-ledger RLS uses equivalent principal AND session predicates. No
+managed Auth grants, role memberships, keys, clients, callback or capabilities
+change. Coordinator Auth USAGE remains false. The policy dependency cleanup is
+supported by source/synthetic proof, not a separately observed second live error.
+
+Complete local SQL/native-wire proof, hosted rollback and once-only apply with
+two independent readbacks passed. History33 and Ready deploymentDeCp now serve
+the stable pilot; original local29 and protected M02 remain exact. Expanded
+fixed-enum coordinator RPC and MCP-stage traces were verified in real runtime
+logs using anonymous negative probes. Tokens, selectors, codes, cookies, private
+provider text and client arguments are excluded. Localhost callback/token
+exchange are outside Vercel, so final redirect alone never closes those stages.
+
+Owner keeps control of config/sign-in/consent. Fresh owner connection is requested;
+authenticated Dummy Pilot Test read AND reconnect remain pending. Existing
+AT-072/M03 pending, mobile skip and owner-stop duration remain unchanged.

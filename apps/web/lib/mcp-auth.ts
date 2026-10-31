@@ -30,7 +30,37 @@ export interface McpSessionState {
 }
 /** Must check the actual session/client, not merely JWT/getUser validity. */
 export type McpSessionCheck = (input: McpSessionCheckInput) => Promise<McpSessionState>;
-interface ResourceDependencies { fetch?: typeof fetch; checkSession?: McpSessionCheck }
+export interface McpAuthorizationStageTrace {
+  event: 'eps.mcp.authorization_stage'; trace_id: string;
+  stage: 'boundary' | 'bearer' | 'jwt' | 'delegation' | 'session' | 'business_context' | 'authorized';
+  result: 'accepted' | 'denied' | 'unavailable'; status: number | null;
+  reason?: 'origin_mismatch' | 'credentials_in_query' | 'missing_bearer' | 'malformed_bearer' | 'jwt_expired' | 'jwt_claim_invalid'
+    | 'jwt_invalid' | 'signature_invalid' | 'key_not_found' | 'algorithm_unsupported' | 'key_service_unavailable' | 'delegation_invalid'
+    | 'session_validator_missing' | 'session_check_unavailable' | 'session_inactive' | 'session_identity_mismatch' | 'session_capabilities_invalid'
+    | 'required_scope_missing' | 'sdk_rejected' | 'business_context_unavailable' | 'business_principal_mismatch' | 'configuration_unavailable';
+  code?: 'ERR_JWT_EXPIRED' | 'ERR_JWT_CLAIM_VALIDATION_FAILED' | 'ERR_JWT_INVALID' | 'ERR_JWS_INVALID'
+    | 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED' | 'ERR_JWKS_NO_MATCHING_KEY' | 'ERR_JOSE_NOT_SUPPORTED'
+    | 'MCP_SESSION_VALIDATION_UNAVAILABLE' | 'ACCESS_DENIED' | 'AUTH_REQUIRED' | 'CAPABILITY_REQUIRED' | 'MCP_AUTH_CONFIGURATION_REQUIRED';
+}
+export interface McpAuthorizationTraceOptions { traceId: string; log(value: McpAuthorizationStageTrace): void }
+type StageObservation = Omit<McpAuthorizationStageTrace, 'event' | 'trace_id'>;
+/** The caller supplies fixed enums only; no request, identity or provider payload enters this projection. */
+export function observeMcpAuthorizationStage(options: McpAuthorizationTraceOptions | undefined, value: StageObservation): void {
+  if (!options || !UUID.test(options.traceId)) return;
+  try {
+    options.log({ event: 'eps.mcp.authorization_stage', trace_id: options.traceId, stage: value.stage, result: value.result,
+      status: typeof value.status === 'number' && Number.isInteger(value.status) && value.status >= 100 && value.status <= 599 ? value.status : null,
+      ...(value.reason ? { reason: value.reason } : {}), ...(value.code ? { code: value.code } : {}) });
+  } catch { /* Observation cannot change authorization or expose the thrown error. */ }
+}
+export function mcpAuthorizationErrorCode(error: unknown): McpAuthorizationStageTrace['code'] {
+  if (error instanceof DomainError) {
+    switch (error.code) {
+      case 'MCP_SESSION_VALIDATION_UNAVAILABLE': case 'ACCESS_DENIED': case 'AUTH_REQUIRED': case 'CAPABILITY_REQUIRED': case 'MCP_AUTH_CONFIGURATION_REQUIRED': return error.code;
+    }
+  }
+}
+interface ResourceDependencies { fetch?: typeof fetch; checkSession?: McpSessionCheck; authorizationTrace?: McpAuthorizationTraceOptions }
 const identities = new WeakMap<AuthInfo, McpIdentity>();
 const validatedMetadata = new WeakSet<OAuthMetadata>();
 function invalidToken(): never { throw new OAuthError(OAuthErrorCode.InvalidToken, 'The access token is not valid for this Studio resource.'); }
@@ -133,7 +163,24 @@ export function createMcpResourceGate(config: McpOAuthConfig, dependencies: Reso
       if (url !== config.jwksUrl) throw new Error('Unapproved key destination.');
       return publicJson(config.jwksUrl, dependencies.fetch ?? fetch, options.signal);
     } });
-  const gate = requireBearerAuth({ expectedResource: new URL(config.resourceUrl), requiredScopes: [...config.scopesSupported],
+  return async (request: Request): Promise<AuthInfo | Response> => {
+    const observe = (value: StageObservation) => observeMcpAuthorizationStage(dependencies.authorizationTrace, value);
+    const denied = boundary(request, config);
+    if (denied) { observe({ stage: 'boundary', result: 'denied', status: denied.status,
+      reason: denied.status === 403 ? 'origin_mismatch' : 'credentials_in_query' }); return denied; }
+    observe({ stage: 'boundary', result: 'accepted', status: null });
+    const authorization = request.headers.get('authorization');
+    // SDK parsing is intentionally general. This app rejects duplicate/combined/header-smuggling forms first.
+    if (authorization && (!/^Bearer [A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$/iu.test(authorization) || authorization.length > 16_384)) {
+      const response = privateResponse(bearerAuthChallengeResponse(new OAuthError(OAuthErrorCode.InvalidToken, 'Use one resource-specific bearer credential.'), {
+        requiredScopes: [...config.scopesSupported], resourceMetadataUrl: getOAuthProtectedResourceMetadataUrl(new URL(config.resourceUrl)) }));
+      observe({ stage: 'bearer', result: 'denied', status: response.status, reason: 'malformed_bearer' }); return response;
+    }
+    if (authorization) observe({ stage: 'bearer', result: 'accepted', status: null });
+    // This closure is request-local even when callers reuse the gate and its cached JWKS concurrently.
+    let verifierSucceeded = false;
+    let requiredScopesPresent = false;
+    const gate = requireBearerAuth({ expectedResource: new URL(config.resourceUrl), requiredScopes: [...config.scopesSupported],
     resourceMetadataUrl: getOAuthProtectedResourceMetadataUrl(new URL(config.resourceUrl)), verifier: {
       async verifyAccessToken(token): Promise<AuthInfo> {
         let payload: JWTPayload;
@@ -141,35 +188,49 @@ export function createMcpResourceGate(config: McpOAuthConfig, dependencies: Reso
           ({ payload } = await jwtVerify(token, jwks, { algorithms: ['ES256', 'RS256'], issuer: config.issuer,
             audience: config.resourceUrl, requiredClaims: ['iss', 'sub', 'aud', 'exp', 'iat', 'client_id', 'session_id'] }));
         } catch (error) {
-          if (error instanceof errors.JWTExpired || error instanceof errors.JWTClaimValidationFailed || error instanceof errors.JWTInvalid
-            || error instanceof errors.JWSInvalid || error instanceof errors.JWSSignatureVerificationFailed || error instanceof errors.JWKSNoMatchingKey
-            || error instanceof errors.JOSENotSupported) return invalidToken();
+          const rejectedJwt = (reason: McpAuthorizationStageTrace['reason'], code: McpAuthorizationStageTrace['code']) => {
+            observe({ stage: 'jwt', result: 'denied', status: 401, reason, code }); return invalidToken();
+          };
+          if (error instanceof errors.JWTExpired) return rejectedJwt('jwt_expired', 'ERR_JWT_EXPIRED');
+          if (error instanceof errors.JWTClaimValidationFailed) return rejectedJwt('jwt_claim_invalid', 'ERR_JWT_CLAIM_VALIDATION_FAILED');
+          if (error instanceof errors.JWTInvalid) return rejectedJwt('jwt_invalid', 'ERR_JWT_INVALID');
+          if (error instanceof errors.JWSInvalid) return rejectedJwt('jwt_invalid', 'ERR_JWS_INVALID');
+          if (error instanceof errors.JWSSignatureVerificationFailed) return rejectedJwt('signature_invalid', 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED');
+          if (error instanceof errors.JWKSNoMatchingKey) return rejectedJwt('key_not_found', 'ERR_JWKS_NO_MATCHING_KEY');
+          if (error instanceof errors.JOSENotSupported) return rejectedJwt('algorithm_unsupported', 'ERR_JOSE_NOT_SUPPORTED');
+          observe({ stage: 'jwt', result: 'unavailable', status: 503, reason: 'key_service_unavailable' });
           return unavailable();
         }
-        const identity = delegation(payload, config);
-        if (!dependencies.checkSession) return unavailable();
+        observe({ stage: 'jwt', result: 'accepted', status: null });
+        let identity: ReturnType<typeof delegation>;
+        try { identity = delegation(payload, config); }
+        catch (error) { observe({ stage: 'delegation', result: 'denied', status: 401, reason: 'delegation_invalid' }); throw error; }
+        observe({ stage: 'delegation', result: 'accepted', status: null });
+        if (!dependencies.checkSession) { observe({ stage: 'session', result: 'unavailable', status: 503, reason: 'session_validator_missing' }); return unavailable(); }
         let state: McpSessionState;
         try { state = await dependencies.checkSession({ accessToken: token, principalId: identity.principalId,
           sessionId: identity.sessionId, clientId: identity.clientId, resourceUrl: config.resourceUrl }); }
-        catch { return unavailable(); }
+        catch (error) { observe({ stage: 'session', result: 'unavailable', status: 503, reason: 'session_check_unavailable', code: mcpAuthorizationErrorCode(error) }); return unavailable(); }
         if (!state || state.active !== true || state.principalId !== identity.principalId || state.sessionId !== identity.sessionId
-          || state.clientId !== identity.clientId) return invalidToken();
-        if (!capabilities(state.capabilities)) return unavailable();
+          || state.clientId !== identity.clientId) {
+          observe({ stage: 'session', result: 'denied', status: 401, reason: !state || state.active !== true ? 'session_inactive' : 'session_identity_mismatch' }); return invalidToken();
+        }
+        if (!capabilities(state.capabilities)) { observe({ stage: 'session', result: 'unavailable', status: 503, reason: 'session_capabilities_invalid' }); return unavailable(); }
+        observe({ stage: 'session', result: 'accepted', status: null });
         const effective = identity.delegatedCapabilities.filter(capability => state.capabilities.includes(capability));
+        verifierSucceeded = true;
+        requiredScopesPresent = config.scopesSupported.every(scope => identity.scopes.includes(scope));
         return { token, clientId: identity.clientId, scopes: identity.scopes, expiresAt: payload.exp, resource: new URL(config.resourceUrl),
           extra: { principalId: identity.principalId, sessionId: identity.sessionId, clientId: identity.clientId, capabilities: Object.freeze(effective) } };
       }
     } });
-  return async (request: Request): Promise<AuthInfo | Response> => {
-    const denied = boundary(request, config); if (denied) return denied;
-    const authorization = request.headers.get('authorization');
-    // SDK parsing is intentionally general. This app rejects duplicate/combined/header-smuggling forms first.
-    if (authorization && (!/^Bearer [A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$/iu.test(authorization) || authorization.length > 16_384)) {
-      return privateResponse(bearerAuthChallengeResponse(new OAuthError(OAuthErrorCode.InvalidToken, 'Use one resource-specific bearer credential.'), {
-        requiredScopes: [...config.scopesSupported], resourceMetadataUrl: getOAuthProtectedResourceMetadataUrl(new URL(config.resourceUrl)) }));
-    }
     const result = await gate(request);
-    if (result instanceof Response) return privateResponse(result);
+    if (result instanceof Response) {
+      const response = privateResponse(result);
+      if (!authorization || verifierSucceeded) observe({ stage: 'bearer', result: response.status === 503 ? 'unavailable' : 'denied', status: response.status,
+        reason: !authorization ? 'missing_bearer' : !requiredScopesPresent ? 'required_scope_missing' : 'sdk_rejected' });
+      return response;
+    }
     const extra = result.extra!;
     identities.set(result, Object.freeze({ principalId: extra.principalId as string, sessionId: extra.sessionId as string,
       clientId: result.clientId, capabilities: extra.capabilities as readonly string[] }));

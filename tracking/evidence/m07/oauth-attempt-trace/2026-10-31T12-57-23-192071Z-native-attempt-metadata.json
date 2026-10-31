@@ -1,0 +1,59 @@
+{
+  "automatic_retry": false,
+  "evidence_kind": "actual_native_oauth_attempt_safe_metadata_read",
+  "exit_code": 0,
+  "metadata": {
+    "attempts": [
+      {
+        "callback": "http://localhost:3118/callback",
+        "callback_class": "http_loopback_callback",
+        "callback_matches_expected": true,
+        "callback_matches_registered": true,
+        "claim_exists": false,
+        "claim_outcome": null,
+        "client_id": "f2acafd5-d4b6-4176-b86c-067c57e45ecc",
+        "client_is_expected": true,
+        "created_at": "2026-10-31T12:45:37.494007+00:00",
+        "enabled_client_registry_count": 1,
+        "enabled_registry_matches": 1,
+        "expires_at": "2026-10-31T12:55:37.494007+00:00",
+        "resource_is_null": false,
+        "resource_matches_expected": true,
+        "scope": "openid",
+        "status": "pending",
+        "user_is_null": true,
+        "user_is_owner": false
+      }
+    ],
+    "database": "postgres",
+    "expected_clients": [
+      {
+        "client_id": "f2acafd5-d4b6-4176-b86c-067c57e45ecc",
+        "client_type": "public",
+        "grant_types": "authorization_code,refresh_token",
+        "not_deleted": true,
+        "registered_callbacks": [
+          "http://localhost:3118/callback"
+        ],
+        "registered_expected_callback": true,
+        "registration_type": "manual",
+        "token_endpoint_auth_method": "none"
+      }
+    ],
+    "history_count": 32,
+    "limit": 50,
+    "observed_at": "2026-10-31T12:57:23.613021+00:00",
+    "operator": "postgres",
+    "window_end": "2026-10-31T12:46:00Z",
+    "window_start": "2026-10-31T12:30:00Z"
+  },
+  "observed_at": "2026-10-31T12:57:23.182364+00:00",
+  "output_limit_exceeded": false,
+  "raw_cli_persisted": false,
+  "read_only_rollback": true,
+  "safe_error": null,
+  "schema_version": "1.0",
+  "sql_sha256": "e14094d01e38f249ac62582ff897a868f687b4feeca1a2f60fd8176af960a4e5",
+  "target": "pyibofyctwnqpvktepse",
+  "timed_out": false
+}
