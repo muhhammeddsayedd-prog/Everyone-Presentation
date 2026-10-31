@@ -18,6 +18,7 @@ export * from './review.ts';
 export * from './presentation-types.ts';
 export * from './presentation.ts';
 export * from './presentation-transcript.ts';
+export * from './english-transcript.ts';
 export * from './guest-types.ts';
 export * from './guest.ts';
 

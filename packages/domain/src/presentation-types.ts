@@ -57,6 +57,8 @@ export interface PdfDownload { version_id: string; download_url: string; expires
 export interface VersionTranscriptCompanion {
   version_id: string; asset_id: string; status: 'available' | 'not_provided' | 'not_captured';
   original_text: string | null; languages: string[]; source_kind: 'source_transcript'; source_sha256: string | null;
+  /** Separate immutable English capture; absent on legacy versions. */
+  english_text?: string | null; english_status?: import('./english-transcript.ts').EnglishTranscriptStatus; english_sha256?: string | null;
 }
 export interface VersionMediaPlayback { asset_id: string; url: string; expires_at: string; mime_type: string; source_version_id: string; transcript?: VersionTranscriptCompanion }
 export interface PresentationContent { bytes: Uint8Array; mimeType: string; filename?: string }

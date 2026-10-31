@@ -50,6 +50,28 @@ test('media exposes only fixed technical issue codes and rejects raw provider di
   const bad = await createCentralCandidates(fixture([{ ...item, processing_issues: ['raw-private-provider-error'] }]).client);
   await assert.rejects(bad.getCandidateMedia(actor, full.id), code('CENTRAL_RESPONSE_INVALID'));
 });
+
+test('English media projection is optional for legacy responses and complete or absent for new responses', async () => {
+  const legacy = { id: 'media', candidate_id: full.id, source_asset_id: 'source', preview_asset_id: null,
+    transcript_asset_id: null, original_transcript: 'Original source retained privately.', languages: ['Arabic'],
+    available_frames: [], selected_frame_asset_ids: [], processing_issues: [], row_version: 1 };
+  for (const projection of [undefined, { english_transcript: 'My name is a synthetic actor.', english_transcript_status: 'available' },
+    { english_transcript: null, english_transcript_status: 'unavailable' }, { english_transcript: null, english_transcript_status: 'not_captured' }]) {
+    const item = { ...legacy, ...projection };
+    const service = await createCentralCandidates(fixture([item]).client);
+    assert.deepEqual((await service.getCandidateMedia(actor, full.id)).data[0], item);
+  }
+  for (const projection of [{ english_transcript_status: 'available' }, { english_transcript: 'Incomplete' },
+    { english_transcript: null, english_transcript_status: 'available' },
+    { english_transcript: 'Must not be a fallback', english_transcript_status: 'not_captured' },
+    { english_transcript: '\u0639\u0631\u0628\u064a', english_transcript_status: 'available' }]) {
+    const service = await createCentralCandidates(fixture([{ ...legacy, ...projection }]).client);
+    await assert.rejects(service.getCandidateMedia(actor, full.id), code('CENTRAL_RESPONSE_INVALID'));
+  }
+  const service = await createCentralCandidates(fixture([{ ...legacy, english_transcript: null,
+    english_transcript_status: 'unavailable', processing_issues: ['ENGLISH_TRANSCRIPT_UNAVAILABLE'] }]).client);
+  assert.deepEqual((await service.getCandidateMedia(actor, full.id)).data[0].processing_issues, ['ENGLISH_TRANSCRIPT_UNAVAILABLE']);
+});
 test('pool and duplicate operations preserve resource scope and require explicit merge version', async () => {
   const pool = { id: 'pool', workspace_id: 'workspace', candidate_id: full.id, selected_candidate_media_id: null, selected_frame_asset_ids: [], availability: 'Friday', fresh_material_required: false, media_confirmed: false, internal_notes: null, row_version: 1 };
   const value = fixture(pool); const service = await createCentralCandidates(value.client);

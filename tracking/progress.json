@@ -1,14 +1,14 @@
 {
   "pack_version": "1.0",
-  "updated_at": "2026-10-31T14:15:03.079210Z",
+  "updated_at": "2026-10-31T15:03:03.716143+00:00",
   "implementation_started": true,
   "current_milestone": "M07",
   "current_pilot": {
-    "observed_at": "2026-10-31T13:20:44.392952Z",
+    "observed_at": "2026-10-31T14:20:21.838Z",
     "status": "in_progress",
     "origin": "https://everyone-presentation-pilot.vercel.app",
     "owner_stop_only": true,
-    "web_deployment_id": "dpl_DeCpJGbLLEHX3FFNBz5twLFuV8p7",
+    "web_deployment_id": "dpl_CcwVabZ5PkadAPaeANRLJD4GqVg3",
     "worker_deployment_id": "dpl_CVDMpdETNwZYxdEyJ8XM66kSppdQ",
     "worker_state": "one ready/alive dub1/2Gi instance of matching971834; actual saved v6 validation/publish retry and guest PDF succeeded; per-record startup instance binding remains unverified",
     "worker_context_run": "b488b456-d84e-4515-99f9-476b3196cd64",
@@ -56,24 +56,24 @@
     "canonical_history_count": 33,
     "original_local_history_count": 29,
     "specs_fix": "Confirmed canonical31: compact apply a992 and standalone222 complete/PASS. Original884 unknownclaim retained/no replay. OriginalLocal29 unchanged.",
-    "latest_root_module_tests": 845,
+    "latest_root_module_tests": 853,
     "latest_root_module_test_components": [
       370,
       9,
       12,
       45,
       237,
-      172
+      180
     ],
-    "application_test_evidence": "tracking/evidence/m07/oauth-attempt-trace/2026-10-31-root-quality.json",
-    "application_test_scope": "Full845 modules/lint/types/production guard/build; no desktop suite or owner OAuth acceptance this turn",
+    "application_test_evidence": "tracking/evidence/m07/backend-continuation/2026-10-31-response-scope-quality.json",
+    "application_test_scope": "Full853 modules/lint/types/production guard/build on response-scope source before new English draft; live signed-in workspace passed after Ccw deployment. New English changes require fresh full gates.",
     "oauth_state": "Verified scoped owner connection: full-details initial authorization and read, cached duplicate details, already-consented redirect-only reconnect and authenticated post-reconnect get_project; exact owner/server request ID matches. FullM07/refresh/revocation/write journey remain separate.",
     "AT_072": "pending",
-    "M03_broader_semantics": "pending",
+    "M03_broader_semantics": "Additional independent English/mixed labelling declined by owner; no broad accuracy claim. English display implementation and real-service validation in progress.",
     "mobile_testing": "skipped by owner",
     "production_deployment_verified": false,
     "prior_snapshot": "tracking/evidence/m07/controlled-pilot/2026-10-31T01-24Z-prior-progress-snapshot.json",
-    "next_action": "OAuth connection fix is complete. Review remaining M07 acceptance matrix before further work: full delegated journey, live refresh/revocation/contributor denials, deployed restore/replacement and representative cost/endurance; retain AT-072/M03 pending, mobile skipped, owner-stop pilot.",
+    "next_action": "Execute reviewed additive34 tests in one owned disposable33 clone; preserve original29/canonical33 and passed owner connection. Coordinate English frontend contract before activation/deployment.",
     "specs_local_proof": "tracking/evidence/m07/specs-ack31/2026-10-31T01-22-16-662Z-dc886d4e-local-proof.json",
     "specs_canonical_apply": "tracking/evidence/m07/specs-ack31/2026-10-31T01-57-10-621248Z-a99247a4-canonical31-continuation-apply.json",
     "specs_canonical_apply_confirmed": true,
@@ -339,7 +339,7 @@
       "post_reconnect_request_id": "23c439a1-4869-4228-a3f1-d4a6004ef4f0"
     },
     "backend_continuation": {
-      "recorded_at": "2026-10-31T14:07:54.961677Z",
+      "recorded_at": "2026-10-31T15:03:03.716143+00:00",
       "status": "in_progress",
       "scope": "Backend/database/API/MCP/worker/integration/release; frontend redesign isolated in separate worktree",
       "frontend_worktree": "D:/Everyone/Presentation/Everyone-Presentation-Studio-Frontend",
@@ -356,30 +356,59 @@
       "mobile": "skipped",
       "pilot": "keep running until owner stop",
       "protected_M02": "No retry or mutation of b3f90268-147d-41d4-8875-2a6435df1496",
-      "shared_contract_changes": "none planned; coordinate before any change",
+      "shared_contract_changes": "Additive English transcript read groups documented in docs/integrations/ENGLISH_TRANSCRIPT.md; frontend coordination note delivered, acknowledgment not observed.",
       "response_scope_fix": {
-        "status": "implemented_local_verified",
+        "status": "deployed_and_signed_in_workspace_verified",
         "source": [
           "packages/central/src/studio.ts",
           "packages/central/test/studio-response-scope.test.ts"
         ],
         "quality": "tracking/evidence/m07/backend-continuation/2026-10-31-response-scope-quality.json",
         "application_tests": 853,
-        "hosted_deployment": "pending"
+        "hosted_deployment": "dpl_CcwVabZ5PkadAPaeANRLJD4GqVg3",
+        "deployment_evidence": "tracking/evidence/m07/backend-continuation/2026-10-31-response-scope-web-deployment.json",
+        "browser_screenshot": "tracking/evidence/m07/backend-continuation/2026-10-31-hosted-scope-workspace.png"
       },
       "M03_evaluator": {
         "status": "implemented_19_synthetic_tests_passed_no_real_dataset_scored",
         "path": "development/m03/semantic-validation/",
-        "owner_labels": "requested in private worksheet; pending"
+        "owner_labels": "Owner declined further English/mixed labelling; optional evaluator retained without real accuracy credit."
       },
       "recovery33": {
-        "status": "source_compiler_and_guards_under_independent_review",
+        "status": "restore_metadata_failed_cleanup_verified_complete",
         "original29_preflight": "tracking/evidence/m07/backend-continuation/2026-10-31-local-restore-preflight.json",
-        "actual_restore": "not yet run"
+        "actual_restore": "Run533 actual30-33 functional DDL passed; full33 metadata restore failed exact unknown ACL pairs. Guarded directDROP cleanup and separate read-only postcheck passed; no restore pass claimed.",
+        "receipt": "tracking/evidence/m07/recovery33/2026-10-31T14-39-48-217Z-5332c86b.json",
+        "cleanup": "tracking/evidence/m07/recovery33/2026-10-31T15-01-22.518Z-533-guarded-cleanup.json",
+        "original29_exact_preservation": true,
+        "owned_roles_absent": true,
+        "shared_lock_released": true
       },
       "operator_trace": {
-        "status": "read_only_projection_under_independent_review",
-        "actual_query": "not yet run"
+        "status": "actual_metadata_only_three_job_projection_passed",
+        "actual_query": "tracking/evidence/m07/operator-trace/2026-10-31T14-25-58-545789Z-f91a4e59-job-trace.json",
+        "AT074": "partial; retained n8n execution details unavailable, no inferred failure cause"
+      },
+      "english_transcript": {
+        "status": "implemented_draft_not_deployed_not_activated",
+        "owner_decision": "Scan any spoken language, English display only; no app language selector; no further manual answer-key collection.",
+        "contract": "docs/integrations/ENGLISH_TRANSCRIPT.md",
+        "migration": "20261031143711_m03_english_transcript_projection.sql",
+        "migration_applied": false,
+        "config_enabled": false,
+        "preservation": "Original source, existing facts/Reviewed and old Ready versions/PDFs remain unchanged.",
+        "local_evidence": "881 composed application tests/lint/types/production guard/build PASS with771 application files stable during gates; English SQL/runtime remains separate.",
+        "quality": "tracking/evidence/m03/english-transcript34/2026-10-31-application-quality.json",
+        "real_component": {
+          "receipt": "tracking/evidence/m03/english-component/2026-10-31T14-59-40.243Z-a08988ca-d714-483c-9ab0-741508c7d749.json",
+          "overall_accepted": false,
+          "english_availability_source_hash_metadata_age_checks": true,
+          "full_name_literal_match": false,
+          "cause_of_name_mismatch": "unknown; output remained RAM only",
+          "paid_requests": 1,
+          "automatic_retry": false,
+          "app_or_database_acceptance": false
+        }
       }
     }
   },
@@ -790,9 +819,9 @@
         "tracking/evidence/m03/frame-vision-technical-review/2026-10-29T20-03-18-653Z-9673fc14-full-resolution-addendum.json"
       ],
       "blockers": [
-        "English-only/mixed speech and the broader independently labelled real semantic evaluation set remain unverified. One Arabic clip has two independently checked populated facts; no overall accuracy or correction-rate claim."
+        "English-only output for any source speech is being implemented; migration34, coherent worker/frontend integration and real-service app verification remain unperformed. Additional English/mixed manual answer-key collection is declined, not a continuing owner dependency. Broad semantic accuracy remains unclaimed."
       ],
-      "next_action": "Broader independently labelled English/mixed semantic evaluation remains unverified. Preserve owner-confirmed two-fact Reviewed and old9/108 evidence; continue independently authorized M06 while labels/materials remain unavailable. Hosting deferred."
+      "next_action": "Complete additive English transcript processing/read contract and real authorized Arabic-media verification; preserve accepted Arabic name/age Reviewed, original sources and old versions. No further language labels requested."
     },
     {
       "id": "M04",
@@ -1052,9 +1081,9 @@
       "blockers": [
         "Scoped owner OAuth/MCP initial+reconnect read acceptance passed; full delegated write/generation/sharing journey and live refresh/revocation/contributor restrictions remain unverified.",
         "Representative provider cost/endurance, deployed metadata/media/config restore and compatible replacement/rollback remain unverified; controlled pilot runs until owner stop.",
-        "AT-072 and broader independently labelled M03 semantics remain pending; mobile skipped by owner."
+        "AT-072 remains pending; mobile skipped by owner. M03 English-output integration/verification in progress; additional manual multilingual labels declined."
       ],
-      "next_action": "OAuth connection fix is complete. Review remaining M07 acceptance matrix before further work: full delegated journey, live refresh/revocation/contributor denials, deployed restore/replacement and representative cost/endurance; retain AT-072/M03 pending, mobile skipped, owner-stop pilot.",
+      "next_action": "Resolve retained local533 recovery cleanup, then finish English transcript backend/local SQL proof and coordinate frontend contract integration. Preserve passed owner connection; keep pilot running.",
       "scope_constraints": {
         "AT_072": "pending",
         "M03_broader_semantic_checks": "pending",
@@ -1336,7 +1365,7 @@
     "constraints": {
       "hosting": "authorized bounded Vercel pilot; broader production acceptance remains unverified",
       "AT072": "pending",
-      "M03_independent_semantics": "pending",
+      "M03_independent_semantics": "Further manual multilingual labels declined; English display implementation/validation remains.",
       "mobile": "skipped",
       "Claude_configuration_and_login": "owner only",
       "cloud_reset_or_seed": "forbidden",
@@ -2320,5 +2349,19 @@
       "source_archive": "Prior exact e4ffcca ZIP/scan in ignored dist/SOURCE_CHECKPOINT.json unchanged; followup not in that archive",
       "implementation_commit": "bace13b55daa77cb0edd947f1f96440b98ebdd3b"
     }
-  ]
+  ],
+  "latest_backend_checkpoint": {
+    "recorded_at": "2026-10-31T15:03:03.716143+00:00",
+    "base_commit": "44196f3",
+    "web_deployment_id": "dpl_CcwVabZ5PkadAPaeANRLJD4GqVg3",
+    "canonical_history_count": 33,
+    "original_local_history_count": 29,
+    "english34_applied": false,
+    "owner_connection_acceptance": "passed preserved",
+    "manual_AT072": "pending",
+    "mobile": "skipped",
+    "recovery_lock": "released after exact guarded cleanup and independent postcheck",
+    "application_tests": 881,
+    "application_quality": "tracking/evidence/m03/english-transcript34/2026-10-31-application-quality.json"
+  }
 }

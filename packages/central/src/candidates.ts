@@ -1,5 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { DomainError, parseCandidateConfirmation, parseCandidateCreate, parseCandidateFacts, parseCandidatePatch,
+import { DomainError, candidateEnglishFields, parseCandidateConfirmation, parseCandidateCreate, parseCandidateFacts, parseCandidatePatch,
   parseCandidateSearch, parseDuplicateResolution, parseFrameSelection, parseWorkspaceCandidateCreate, parseWorkspaceCandidatePatch,
   type Actor, type Candidate, type CandidateConfirmation, type CandidateCreate, type CandidateFrame, type CandidateMedia,
   type CandidatePatch, type CandidateSearch, type DuplicateMatch, type DuplicateResolution, type FrameSelection,
@@ -17,8 +17,8 @@ const isVersion = (value: unknown): value is number => typeof value === 'number'
 const isDate = (value: unknown): value is string => typeof value === 'string' && !Number.isNaN(Date.parse(value));
 const isNullableText = (value: unknown) => value === null || typeof value === 'string';
 function strings(value: unknown): value is string[] { return Array.isArray(value) && value.every(item => typeof item === 'string'); }
-function exact(value: unknown, fields: string[]) {
-  if (!value || typeof value !== 'object' || Array.isArray(value) || Object.keys(value).length !== fields.length || fields.some(key => !Object.hasOwn(value, key))) failed();
+function exact(value: unknown, fields: string[], optional: string[] = []) {
+  if (!value || typeof value !== 'object' || Array.isArray(value) || Object.keys(value).some(key => !fields.includes(key) && !optional.includes(key)) || fields.some(key => !Object.hasOwn(value, key))) failed();
   return value as Record<string, unknown>;
 }
 function response<T>(parser: () => T): T { try { return parser(); } catch { return failed(); } }
@@ -43,13 +43,14 @@ function frameDto(value: unknown, source: string): CandidateFrame {
   return structuredClone(row) as unknown as CandidateFrame;
 }
 function mediaDto(value: unknown): CandidateMedia {
-  const row = exact(value, ['id', 'candidate_id', 'source_asset_id', 'preview_asset_id', 'transcript_asset_id', 'original_transcript', 'languages', 'available_frames', 'selected_frame_asset_ids', 'processing_issues', 'row_version']);
+  const row = exact(value, ['id', 'candidate_id', 'source_asset_id', 'preview_asset_id', 'transcript_asset_id', 'original_transcript', 'languages', 'available_frames', 'selected_frame_asset_ids', 'processing_issues', 'row_version'], ['english_transcript', 'english_transcript_status']);
+  response(() => candidateEnglishFields(row));
   if (!isId(row.id) || !isId(row.candidate_id) || !isId(row.source_asset_id) || !isVersion(row.row_version)
     || !(row.preview_asset_id === null || isId(row.preview_asset_id)) || !(row.transcript_asset_id === null || isId(row.transcript_asset_id))
     || !isNullableText(row.original_transcript) || !strings(row.languages) || !Array.isArray(row.available_frames)
     || row.available_frames.length > 100 || !strings(row.selected_frame_asset_ids) || row.selected_frame_asset_ids.length > 3
-    || !strings(row.processing_issues) || row.processing_issues.length > 5 || new Set(row.processing_issues).size !== row.processing_issues.length
-    || row.processing_issues.some(code => !['NO_AUDIO','TRANSCRIPTION_FAILED','EXTRACTION_FAILED','INSUFFICIENT_FRAMES','FRAME_SELECTION_UNAVAILABLE'].includes(code))) failed();
+    || !strings(row.processing_issues) || row.processing_issues.length > 6 || new Set(row.processing_issues).size !== row.processing_issues.length
+    || row.processing_issues.some(code => !['NO_AUDIO','TRANSCRIPTION_FAILED','EXTRACTION_FAILED','INSUFFICIENT_FRAMES','FRAME_SELECTION_UNAVAILABLE','ENGLISH_TRANSCRIPT_UNAVAILABLE'].includes(code))) failed();
   const frames = (row.available_frames as unknown[]).map(frame => frameDto(frame, row.source_asset_id as string));
   const selected = row.selected_frame_asset_ids as string[];
   if (new Set(frames.map(frame => frame.asset_id)).size !== frames.length || new Set(selected).size !== selected.length || selected.some(id => !frames.some(frame => frame.asset_id === id))) failed();

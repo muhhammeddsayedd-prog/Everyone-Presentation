@@ -1,0 +1,37 @@
+{
+  "observed_at": "2026-10-31T15:02:42.085456+00:00",
+  "kind": "english_transcript_application_source_quality",
+  "application_tests": 881,
+  "components": [
+    376,
+    11,
+    12,
+    54,
+    246,
+    182
+  ],
+  "fail": 0,
+  "commands": {
+    "npm.cmd test": 0,
+    "npm.cmd run lint": 0,
+    "npm.cmd run typecheck": 0,
+    "npm.cmd run check:production-guard": 0,
+    "npm.cmd run build": 0
+  },
+  "source_files": 771,
+  "source_inventory_sha256": "bc2652354fbc60007e13eece10285171e9393be15119600156926680a4050a8c",
+  "application_source_stable_during_final_gates": true,
+  "log_sha256": {
+    "tests-final": "d55c8bcc97e6a10c27cea9afb2cb3ac7cc82a49906544d577a94bc1d408d2c72",
+    "lint-final": "dcf04cf56739f2f68b315b919013254295716cfac4a2b9aaca7e25ee40e8f2db",
+    "types-sealed": "63dbaa165359a370f81fa6d619a1569ad84c24a4a726e0b4e03bb94528b8dd4f",
+    "guard-sealed": "33086726b2a60861095709e2cb277f8ccf4d5d374ec1f3e13831bccd6f36f604",
+    "build-final": "9a900f095d55119eb1833ef12b94ca539d6957161569545fbff4d34627a5f338"
+  },
+  "red": "New English contract case failed before schema update; full legacy regression remains green.",
+  "scope": "Application domain/SDK/provider/worker/contracts only; SQL, real-service full job, browser English display and deployment require their own proof.",
+  "cloud_migration_applied": false,
+  "english_config_activated": false,
+  "frontend_redesign_integrated": false,
+  "owner_oauth_acceptance": "passed preserved; no changes to auth/client/configuration"
+}

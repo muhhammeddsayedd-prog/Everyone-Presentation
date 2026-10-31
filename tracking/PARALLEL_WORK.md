@@ -21,3 +21,13 @@ impact; it does not claim the other agent has acknowledged it.
 
 Completed owner Claude connection acceptance stays passed. Mobile remains skipped,
 manual screen-reader/remaining M03 checks stay pending, and pilot remains running.
+
+## English transcript requirement coordination
+
+Owner clarified English-only display for all source speech; no language selector
+and no further per-language answer-key collection required. Additive backend
+contract is docs/integrations/ENGLISH_TRANSCRIPT.md. A new coordination note was
+placed in the frontend worktree at tracking/CODEX_BACKEND_COORDINATION.md; no
+frontend code changed, and acknowledgment is not yet observed.
+
+Backend compatibility seam: root adds the fixed ENGLISH_TRANSCRIPT_UNAVAILABLE message in apps/web/components/CandidateProcessingIssues.tsx so the closed technical-issue union typechecks. No layout/style changes. Preserve this new enum label when reconciling the redesign; frontend branch file was clean at inspection.

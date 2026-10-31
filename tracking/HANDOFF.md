@@ -1,5 +1,55 @@
 # Everyone Presentation Studio - owner OAuth/MCP connection accepted
 
+Application checkpoint now passes881 tests plus lint/types/production guard/build
+with771 application inputs unchanged during the final gates. English source
+quality is2026-10-31-application-quality.json. One actual normalization call has
+English availability/source-hash/metadata/age checks true but full-name literal
+match false; overall component accepted:false, unknown mismatch cause, no retry.
+No SQL/fulljob/app English or semantic accuracy credit is inferred.
+
+Local533 cleanup is now verified complete at15:01:22 UTC: exact original29 native
+baseline/fullcatalogue/preexisting global roles preserved; owned role OIDs185012/
+185052 removed; both task DBs absent; separate read-only postcheck passed; shared
+lock released. Earlier failed restore and false normalized-context comparison
+remain retained. Forward runtime removes only the problematic explicit REVOKE
+before guarded directDROP. Full33 metadata restore still fails exact unknown ACL
+pairs and receives no pass. Next: actual owned34 SQL proof, then coherent frontend/
+worker integration and real app verification. Canonical remains33, migration34
+unapplied, English flag disabled, pilot unchanged and running.
+
+
+## Backend and English-output continuation - 2026-10-31T14:49:32.511920Z
+
+The response-scope SDK correction is deployed as CcwVabZ5PkadAPaeANRLJD4GqVg3
+at the existing stable pilot URL. Live signed-in Dummy Pilot Test workspace
+passed; screenshot backend-continuation/2026-10-31-hosted-scope-workspace.png.
+The853 application tests/lint/types/production guard/build precede the new
+English draft below. Completed owner OAuth/reconnect/MCP read remains accepted.
+
+Owner now declines deeper English/mixed answer-key collection: process any
+speech language and display English only, with no v1 language selector. Stop
+requesting labels. Optional19-test evaluator is retained without real accuracy
+credit; prior Arabic name/age Reviewed evidence stays. English provider/worker,
+domain/SDK/contract and additive34 SQL are in progress, NOT deployed/activated.
+Original source/facts/Reviewed and old Ready versions/PDFs stay unchanged. New
+read groups and no-raw-fallback rule are in docs/integrations/ENGLISH_TRANSCRIPT.md.
+Frontend branch owns UI; coordination note delivered, acknowledgment not observed.
+29 focused domain/Central/HTTP-MCP contracts pass; full fresh gates are still due.
+
+Read-only operator projection passed for3 actual succeeded jobs with event/outbox
+counts; AT-074 remains partial because independent n8n execution detail is not
+retained. Recovery33 run533 actually executed functional30-33 in an owned clone
+but stopped at new exact ACL representations. Both task DBs were removed; role
+cleanup hit dependent privileges on explicit REVOKE and left the shared lock.
+Do not run further local SQL or clear that lock until reviewed reconciliation
+and guarded owned-role cleanup prove the original baseline unchanged. Preserve
+all failed receipts, claims and frozen controllers; no CASCADE or blind replay.
+
+NEXT: reconcile/clean local533, then finish English SQL/runtime verification and
+coordinate frontend integration. Keep pilot running. AT-072 pending, mobile
+skipped, protected M02 b3f90268 never retried. Full M07/production unverified.
+
+
 ## Backend continuation checkpoint - 2026-10-31T14:15:03.079210Z
 
 Current work remains M07 backend/release plus eligible M03 validation. Frontend

@@ -10,6 +10,8 @@ import { prepareVideoIsolated } from './video-container.ts';
 import { VIDEO_LIMITS, VideoPreparationError, type RealFrame, type VideoInput, type VideoProbe } from './video-types.ts';
 import { CandidateCallbackError, deliverCandidateCallback } from './candidate-callback.ts';
 import { SpecsRuntimeGatewayError, specsRuntimeFailureDiagnostics } from '@eps/central/specs-runtime';
+import { normalizeTranscriptEnglish } from '../../../packages/integrations/src/openai-transcript-english.ts';
+import { candidateEnglishTranscript, candidateEnglishVersion } from './candidate-english.ts';
 
 export interface CandidateStageScope { job_id: string; attempt_id: string; lease_token: string }
 export interface CandidateStageAsset { asset_id: string; sha256: string; size_bytes: number; mime_type: string }
@@ -34,7 +36,7 @@ export interface CandidateStageGateway {
   getInput(scope: CandidateStageScope, signal: AbortSignal): Promise<unknown>;
   recordEvent(event: JobEvent, signal: AbortSignal): Promise<JobEventReceipt>;
 }
-type CandidateStageOperation = 'validate_stage_input' | 'read_source' | 'prepare_media' | 'write_audio' | 'write_frame' | 'read_audio' | 'transcribe_audio' | 'write_transcript' | 'read_transcript' | 'extract_facts' | 'extract_frames' | 'read_frames' | 'select_frames' | 'prepare_application';
+type CandidateStageOperation = 'validate_stage_input' | 'read_source' | 'prepare_media' | 'write_audio' | 'write_frame' | 'read_audio' | 'transcribe_audio' | 'write_transcript' | 'read_transcript' | 'extract_facts' | 'normalize_transcript' | 'extract_frames' | 'read_frames' | 'select_frames' | 'prepare_application';
 export interface CandidateStageDiagnostic {
   job_id: string; attempt_id: string; stage: string; input_hash: string; operation: CandidateStageOperation;
   error_kind: 'native' | 'integration' | 'gateway' | 'javascript' | 'unknown'; code: string;
@@ -43,7 +45,7 @@ export interface CandidateStageDiagnostic {
 export interface CandidateStageOptions { assets: CandidateStageAssets; imageId: string; transcription: OpenAIMediaConfig; extraction: OpenAIMediaConfig;
   signal?: AbortSignal; heartbeatMs?: number; gatewayTimeoutMs?: number;
   onDiagnostic?: (value: CandidateStageDiagnostic) => void;
-  prepare?: typeof prepareVideoIsolated; transcribe?: typeof transcribeAudio; extract?: typeof extractCandidate; selectFrames?: typeof selectVisionFrames }
+  prepare?: typeof prepareVideoIsolated; transcribe?: typeof transcribeAudio; extract?: typeof extractCandidate; selectFrames?: typeof selectVisionFrames; normalizeEnglish?: typeof normalizeTranscriptEnglish }
 export class CandidateExecutionError extends Error {
   constructor(readonly code: 'INVALID_STAGE_SCOPE' | 'STAGE_INPUT_INVALID' | 'CALLBACK_UNCONFIRMED' | 'LEASE_STALE' | 'PROCESSING_CANCELLED') { super('The candidate attempt could not be confirmed. Durable state determines recovery.'); this.name = 'CandidateExecutionError'; }
 }
@@ -60,7 +62,7 @@ const videoDiagnosticCodes = new Set(['VIDEO_ASSET_CAPABILITY_INVALID', 'VIDEO_A
   'VIDEO_FRAME_INVALID', 'VIDEO_SOURCE_INVALID', 'VIDEO_TEMP_OWNERSHIP_INVALID', 'VIDEO_TOOL_UNAVAILABLE', 'VIDEO_TYPE_UNSUPPORTED', 'VIDEO_UNREADABLE']);
 const videoSourceCodes = new Set(['VIDEO_TYPE_UNSUPPORTED', 'VIDEO_UNREADABLE', 'VIDEO_DECODE_FAILED', 'VIDEO_LIMIT_EXCEEDED', 'VIDEO_TIMESTAMP_INVALID']);
 const integrationDiagnosticCodes = new Set(['MEDIA_ASSET_INVALID', 'OPENAI_CONFIGURATION_INVALID', 'TRANSCRIPTION_SOURCE_INVALID', 'TRANSCRIPTION_RESULT_INVALID', 'TRANSCRIPTION_EMPTY',
-  'CANDIDATE_SOURCE_INVALID', 'FRAME_SELECTION_INPUT_INVALID', 'AI_REFUSAL', 'AI_RESULT_INVALID', 'AI_EVIDENCE_INVALID', 'AI_EVIDENCE_MISSING', 'AI_SOURCE_MISMATCH', 'AI_RESPONSE_INVALID', 'AI_RESPONSE_INCOMPLETE', 'AI_RESPONSE_NOT_COMPLETE', 'AI_OUTPUT_UNEXPECTED', 'AI_FRAME_RESULT_INVALID', 'AI_FRAME_REFERENCE_INVALID',
+  'CANDIDATE_SOURCE_INVALID', 'ENGLISH_TRANSCRIPT_INPUT_INVALID', 'ENGLISH_TRANSCRIPT_RESULT_INVALID', 'FRAME_SELECTION_INPUT_INVALID', 'AI_REFUSAL', 'AI_RESULT_INVALID', 'AI_EVIDENCE_INVALID', 'AI_EVIDENCE_MISSING', 'AI_SOURCE_MISMATCH', 'AI_RESPONSE_INVALID', 'AI_RESPONSE_INCOMPLETE', 'AI_RESPONSE_NOT_COMPLETE', 'AI_OUTPUT_UNEXPECTED', 'AI_FRAME_RESULT_INVALID', 'AI_FRAME_REFERENCE_INVALID',
   'PROCESSING_CANCELLED', 'OPENAI_TIMEOUT', 'OPENAI_ACCESS_DENIED', 'OPENAI_QUOTA_EXCEEDED', 'OPENAI_RATE_LIMITED', 'OPENAI_REQUEST_REJECTED', 'OPENAI_UNAVAILABLE']);
 const gatewayDiagnosticCodes = new Set(['INVALID_REQUEST', 'RESOURCE_NOT_FOUND', 'CAPABILITY_REQUIRED', 'LEASE_INVALID', 'INPUT_CHANGED', 'INPUT_HASH_MISMATCH', 'JOB_CANCELLED',
   'JOB_ALREADY_RUNNING', 'JOB_NOT_AVAILABLE', 'RETRY_EXHAUSTED', 'STAGE_OUT_OF_ORDER', 'STAGE_STATE_INVALID', 'STALE_STAGE_LEASE', 'EVENT_ID_CONFLICT', 'EVENT_SEQUENCE_CONFLICT', 'RESULT_INVALID', 'INVALID_TRANSITION',
@@ -107,11 +109,12 @@ async function checkedRead(port: CandidateStageAssets, scope: CandidateStageScop
   const bytes = await port.read(scope, readReference, signal, options);
   if (!(bytes instanceof Uint8Array) || bytes.length !== reference.size_bytes || reference.sha256 !== null && sha(bytes) !== reference.sha256) throw new IntegrationError('MEDIA_ASSET_INVALID', 'The private media asset failed checksum verification.'); return bytes;
 }
-function transcript(bytes: Uint8Array, sourceAssetId: string): TranscriptSource {
+function transcript(bytes: Uint8Array, sourceAssetId: string, requireOriginal = false): TranscriptSource & { original_text?: string } {
   if (bytes.length > 2_000_000) fail('STAGE_INPUT_INVALID'); let value: unknown; try { value = JSON.parse(Buffer.from(bytes).toString('utf8')); } catch { fail('STAGE_INPUT_INVALID'); }
   if (!object(value) || value.source_asset_id !== sourceAssetId || !Array.isArray(value.segments) || value.segments.length > 1000 || !value.segments.length
     || value.segments.some((segment, index) => !object(segment) || segment.index !== index || typeof segment.text !== 'string' || segment.text.length > 200_000 || typeof segment.start_ms !== 'number' || !Number.isSafeInteger(segment.start_ms) || segment.start_ms < 0 || typeof segment.end_ms !== 'number' || !Number.isSafeInteger(segment.end_ms) || segment.end_ms <= segment.start_ms)) fail('STAGE_INPUT_INVALID');
-  return value as unknown as TranscriptSource;
+  if (requireOriginal && (typeof value.original_text !== 'string' || !value.original_text.trim() || value.original_text.length > 400000)) fail('STAGE_INPUT_INVALID');
+  return value as unknown as TranscriptSource & { original_text?: string };
 }
 /** Execute one authenticated, already-claimed stage. No queue, SQL connection,
  * permission fallback, provider retry or cloud workflow mutation lives here. */
@@ -138,6 +141,9 @@ export async function executeCandidateStage(lease: StageLease, gateway: Candidat
   if (!object(lease.input.configuration)) fail('STAGE_INPUT_INVALID');
   const frozen = lease.input.configuration;
   if ((frozen.transcription_model_version ?? frozen.transcription_model) !== options.transcription.model || (frozen.extraction_model_version ?? frozen.extraction_model) !== options.extraction.model) fail('STAGE_INPUT_INVALID');
+  let englishVersion: '1.0' | null;
+  try { englishVersion = candidateEnglishVersion(frozen.english_transcript_version); if (englishVersion !== candidateEnglishVersion(input.configuration.english_transcript_version)) fail('STAGE_INPUT_INVALID'); }
+  catch { fail('STAGE_INPUT_INVALID'); }
   let source: CandidateSourceAsset;
   if (lease.stage === 'prepare_candidate' && object(input.source) && input.source.sha256 === null) { const checked = asset({ ...input.source, sha256: '0'.repeat(64) }); source = { ...checked, sha256: null }; }
   else source = asset(input.source);
@@ -194,8 +200,11 @@ export async function executeCandidateStage(lease: StageLease, gateway: Candidat
       }
       schema = 'candidate-transcript-stage.v1';
     } else if (lease.stage === 'extract_candidate') {
-      if (input.transcript_asset === null) result = { source_asset_id: source.asset_id, result: null, manual_profile_required: true, provider_metadata: null };
-      else { const reference = asset(input.transcript_asset); if (reference.mime_type !== 'application/json') fail('STAGE_INPUT_INVALID'); operation = 'read_transcript'; const original = transcript(await checkedRead(options.assets, scope, reference, signal), source.asset_id);
+      if (input.transcript_asset === null) {
+        result = { source_asset_id: source.asset_id, result: null, manual_profile_required: true, provider_metadata: null };
+        if (englishVersion) result.english_transcript = await candidateEnglishTranscript(null, { configuration: options.extraction, allowPartial: input.allow_partial_extraction === true, signal }) as unknown as JsonObject;
+      }
+      else { const reference = asset(input.transcript_asset); if (reference.mime_type !== 'application/json') fail('STAGE_INPUT_INVALID'); operation = 'read_transcript'; const original = transcript(await checkedRead(options.assets, scope, reference, signal), source.asset_id, englishVersion !== null);
         try { operation = 'extract_facts'; const output = await (options.extract ?? extractCandidate)({ ...original, input_hash: lease.input.input_hash as string }, options.extraction, undefined, signal); result = { source_asset_id: source.asset_id, ...output } as unknown as JsonObject; }
         catch (error) {
           const providerCodes = ['AI_REFUSAL', 'AI_RESULT_INVALID', 'AI_EVIDENCE_INVALID', 'AI_EVIDENCE_MISSING', 'AI_SOURCE_MISMATCH', 'AI_RESPONSE_INVALID', 'AI_RESPONSE_NOT_COMPLETE', 'AI_OUTPUT_UNEXPECTED', 'OPENAI_ACCESS_DENIED', 'OPENAI_QUOTA_EXCEEDED', 'OPENAI_RATE_LIMITED', 'OPENAI_TIMEOUT', 'OPENAI_UNAVAILABLE', 'OPENAI_REQUEST_REJECTED'];
@@ -203,8 +212,10 @@ export async function executeCandidateStage(lease: StageLease, gateway: Candidat
             result = { source_asset_id: source.asset_id, result: null, manual_profile_required: true, missing_extraction_reason: 'CANDIDATE_EXTRACTION_FAILED', provider_error_code: error.code, metadata: null };
           else throw error;
         }
+        if (englishVersion) { operation = 'normalize_transcript'; result.english_transcript = await candidateEnglishTranscript({ source_asset_id: source.asset_id, original_text: original.original_text! },
+          { configuration: options.extraction, allowPartial: input.allow_partial_extraction === true, signal, normalize: options.normalizeEnglish }) as unknown as JsonObject; }
       }
-      schema = 'candidate-extraction-stage.v1';
+      schema = englishVersion ? 'candidate-extraction-stage.v2' : 'candidate-extraction-stage.v1';
     } else if (lease.stage === 'select_frames') {
       const prepared = preparedReferences(input.prepared, source);
       if (!prepared.sampled_frames.length) result = { schema_version: '1.0', source_asset_id: source.asset_id, selected_frames: [], insufficient_frames_reason: 'No real source frames were prepared; manual material selection remains available.', selection_method: 'no_frames', metadata: null };

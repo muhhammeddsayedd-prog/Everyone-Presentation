@@ -1,5 +1,25 @@
 # M07 acceptance matrix
 
+## Backend continuation - 2026-10-31
+
+Current web deployment is CcwVabZ5PkadAPaeANRLJD4GqVg3 on the unchanged pilot URL;
+canonical33/workerCVDM remain intact. The response-scope SDK correction passed853
+application tests/lint/types/production guard/build before deployment, then the
+signed-in Dummy Pilot Test workspace passed. Completed owner initial/reconnect/MCP
+read acceptance below stays passed; no new owner connection request is needed.
+
+Read-only metadata triage of3 actual jobs passed; AT-074 remains partial without
+independent retained n8n execution detail. Owned recovery33 actually migrated30-33
+but stopped at unknown exact dump ACL pairs; cleanup reconciliation is in progress,
+with no restore acceptance credited. Original29 exact native-context baseline and
+full catalogue/global role preimage are preserved; shared lock remains until
+reviewed cleanup. English-output integration is underway, with no new operation
+names:86 user tools/115 HTTP operations/13 semantic groups reconcile. Additional
+M03 manual multilingual labels are declined; broad accuracy remains unclaimed.
+English migration34/activation/real app verification remain pending. AT-072 stays
+pending, mobile skipped, full M07/production release unverified; pilot stays running.
+
+
 ## Current controlled pilot connection acceptance - 2026-10-31
 
 M07 remains **in progress; full production release unverified**. Canonical33 and

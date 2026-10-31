@@ -10,7 +10,8 @@ export function versionTranscript(value: unknown, versionId: string, assetId: st
     const result = value === undefined ? { version_id: versionId, asset_id: assetId, status: 'not_captured' as const,
       original_text: null, languages: [], source_kind: 'source_transcript' as const, source_sha256: null } : parseVersionTranscript(value);
     if (result.version_id !== versionId || result.asset_id !== assetId
-      || result.status === 'available' && createHash('sha256').update(result.original_text!, 'utf8').digest('hex') !== result.source_sha256) presentationResponseInvalid();
+      || result.status === 'available' && createHash('sha256').update(result.original_text!, 'utf8').digest('hex') !== result.source_sha256
+      || result.english_status === 'available' && createHash('sha256').update(result.english_text!, 'utf8').digest('hex') !== result.english_sha256) presentationResponseInvalid();
     return result;
   } catch { return presentationResponseInvalid(); }
 }
