@@ -31,6 +31,9 @@ test('review uses an exact series, retains ten fields and applies only previewed
  await expect(page.getByRole('heading',{name:'Final review',exact:true})).toBeVisible();
  await expect(page.getByText('1 candidate slide · 1 Pending slot',{exact:true})).toBeVisible();
  await expect(page.getByRole('heading',{name:'Assignment review',exact:true})).toHaveCount(0);
+ await page.getByRole('listitem').filter({hasText:'Some supplied facts are missing.'}).getByRole('button',{name:'Open Father 1 to fix',exact:true}).click();
+ await expect(page.getByRole('heading',{name:'Assignment review',exact:true})).toBeFocused();
+ await page.getByRole('button',{name:'Close assignment',exact:true}).click();
  await page.getByRole('button',{name:'Review Father 1',exact:true}).click();
  await expect(page.getByRole('heading',{name:'Assignment review',exact:true})).toBeVisible();
  await expect(page.getByText('Image not provided',{exact:true}).first()).toBeVisible();

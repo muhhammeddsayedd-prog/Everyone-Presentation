@@ -355,4 +355,10 @@
   .headcount-stepper button svg { width: 16px; height: 16px; }
   .headcount-stepper input { width: 64px; font-variant-numeric: tabular-nums; }
   .headcount-stepper:focus-within { border-color: var(--color-accent); box-shadow: 0 0 0 3px var(--color-accent-soft); }
+
+  /* Review repair actions */
+  .review-group li { grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: var(--space-3); }
+  .review-group li > div:first-child { display: grid; gap: 2px; min-width: 0; }
+  .review-repair:empty { display: none; }
+  @media (max-width: 767px) { .review-group li { grid-template-columns: minmax(0, 1fr); } }
 }
