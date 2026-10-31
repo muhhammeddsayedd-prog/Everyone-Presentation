@@ -288,3 +288,44 @@ boundaries. The owner alone configures and signs in to Claude. Public readiness
 and signed-in core checks do not close live issuance/refresh/reconnect, broader
 M03, AT-072 or production acceptance. Keep the known redirect-only reconnect
 limitation; mobile remains skipped and pilot duration remains owner-controlled.
+
+## 2026-10-31 - Consent correction deployed; owner connection verification pending
+
+The exact reported notice came from the consent page rejecting the opaque
+Supabase authorization selector as a UUID, before session/provider access. A
+dedicated 32-character base32 selector validator now covers page/input/envelope
+and sign-in callback; account/client/request UUID checks remain. The same verified
+HttpOnly browser client supplies identity, coordinator RPC and provider calls.
+Both full-details and redirect-only responses are checked against authoritative
+client/resource/openid/callback/user bindings. Hash-keyed durable claims prevent
+competing consuming GETs/decisions; approval and unknown-outcome recovery do not
+issue a second consuming GET. Codes/state/tokens are never persisted by this path.
+
+Canonical migration 20261031104603 (SHA0d7b7a75) applied through reviewed V3
+controller bec36223: 11-24-21-659878Z apply receipt and two independent readbacks
+confirm history32 and all16 security checks; protected M02 status unchanged.
+Original local29 is untouched. Private metadata bridge uses existing postgres
+SELECT; coordinator has only seven session/registry column grants. No existing
+capability, client, hook, signing-key or worker configuration changed.
+
+Earlier release attempts did not apply. Actual HTTP400/42601 proved missing
+whitespace produced ::jsonbthen in generated guards before candidate execution.
+Full native wire tests reproduced the failure and passed with two spaces added.
+The complete corrected transaction then passed an actual hosted rollback check
+before the successful apply. Earlier assertions attributing dispatch failure to
+grant permissions were too strong: absent grant option is a confirmed source
+hazard addressed by the bridge, not the observed dispatch branch. Old claims,
+controllers, SQL and receipts stay frozen. Do not replay them.
+
+Current web dpl_CpsHsrG38KcRt2qQzci6CMhD7VSu is Ready and owns the stable pilot
+alias. Eight deployed anonymous checks and refreshed signed-in Projects passed.
+Provider tracing logs fixed shapes/types/status only; successful authenticated
+MCP project reads produce bounded UUID receipts. These receipts prove server
+completion, and require the owner-reported client result for client acceptance.
+A fresh owner attempt is now requested; initial/full and reconnect/redirect-only
+live results and actual Dummy Pilot Test MCP read remain pending. Do not infer
+OAuth acceptance from the anonymous checks or signed-in workspace screenshot.
+
+AT-072 and remaining independent M03 semantics stay pending; mobile is skipped.
+The controlled pilot remains available until owner stop. Full M07/production
+release acceptance remains unverified.

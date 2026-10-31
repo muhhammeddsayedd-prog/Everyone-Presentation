@@ -1,3 +1,53 @@
+# Everyone Presentation Studio - consent correction deployed; owner verification pending
+
+## Latest checkpoint - 2026-10-31T11:29:46.965Z
+
+Current stable pilot: https://everyone-presentation-pilot.vercel.app
+Web: dpl_CpsHsrG38KcRt2qQzci6CMhD7VSu (Ready, stable alias verified).
+Canonical history32 applied once via release_v3.py; protected M02 b3f unchanged.
+Worker CVDM and original local29 remain unchanged. Pilot stays running until owner stop.
+
+Reported OAuth error traced to UUID-only selector rejection before any session or
+provider call. App correction, both response variants, authoritative binding and
+durable duplicate coordination are implemented/deployed. See the appended
+2026-10-31 consent decision and development/m07/oauth-consent-fix/README.md.
+Eight deployed anonymous checks and signed-in Projects3 passed; screenshot is
+tracking/evidence/m07/oauth-consent-fix/2026-10-31-corrected-hosted-projects.png.
+Current app validation: baseline830 module tests plus final358-unit run after
+MCP observer changes, focused15 MCP checks,35 OAuth checks; lint/types/production
+guard/build passed. Eight desktop fixture cases were updated, not run this session.
+SQL proof:35 assertions,16 security checks,3 actual local connection races and
+full emitted-SQL RED/GREEN; actual whole-wire hosted rollback then apply passed.
+
+NEXT: owner starts a fresh connection in their own Claude setup and leaves the
+consent page open (or reports automatic return). Inspect actual provider response
+using read-pilot-trace.mjs collect dpl_CpsHsrG38KcRt2qQzci6CMhD7VSu with a fresh
+UTC window. No selectors, codes, tokens or cookies belong in evidence. If full
+consent appears, verify safe duplicate details before the owner approves. Then
+owner asks Claude to read Dummy Pilot Test (6da14b82-8458-451f-aa21-28cb6c85bdc5),
+confirm returned project UUID in the authenticated MCP receipt plus owner client
+result, and repeat a fresh reconnect to observe redirect-only behavior. Keep
+connection acceptance pending until the real operation succeeds. Do not configure
+Claude or approve/sign in for the owner. No owner live OAuth/MCP success yet. The fresh-window trace through11:31
+contained zero matching events. Full-index snapshot scan passed5333 paths/4679
+blobs/916686866 bytes against14 fixed private-value families with zero hits;
+this is not an identity/media scan or a new archive claim.
+
+DO NOT replay old release.py/V2/diagnostics or clear claims. Actual prior errors
+were HTTP400/42601 from ::jsonbthen before candidate execution; V3 fixes two spaces.
+Old failed artifacts stay frozen; the actual V3 apply receipt is
+tracking/evidence/m07/oauth-consent-fix/2026-10-31T11-24-21-659878Z-apply.json.
+Default-ACL query timeout is historical/unverified; actual exact bridge ACL passed.
+
+AT-072 and broader independent M03 checks remain pending. Mobile skipped; full
+production/M07 acceptance unverified. Old source ZIP stays historical. Preserve
+unrelated Screenshots/ and redesign-output/. Existing guide table formatting was
+already modified and must remain unstaged separately from owned content changes.
+
+## OAuth consent correction started - 2026-10-31T10:45:26.396Z
+
+Owner reports initial connection failure. Exact screenshot text traces to the consent page UUID-only selector rejection before session or provider access. Work in progress: separate opaque Auth selectors from UUID identifiers, inspect actual provider response during owner-controlled fresh attempt, handle both details union members with authoritative client/user/scope/callback binding, coordinate duplicate consuming requests, test and deploy web correction. Initial/reconnect and owner authenticated Dummy Pilot Test MCP read remain pending. Existing M03/AT-072 checks stay pending, mobile skipped, pilot owner-stop-only. No Claude config/sign-in/consent performed by agent.
+
 # Everyone Presentation Studio - hosted core and app-side OAuth configured; owner client pending
 
 ## Latest checkpoint - 2026-10-31T03:34:09.035Z

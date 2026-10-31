@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "evidence_kind": "synthetic_disposable_local_database",
+  "run_id": "c25e23149c5747f987a93db14a46b873",
+  "started_at": "2026-10-31T10:49:11.845Z",
+  "result": "passed",
+  "cloud_called": false,
+  "provider_called": false,
+  "existing_app_database_writes": false,
+  "checkpoint": "complete",
+  "global_roles_before_sha256": "b38e227657cd3fa85c95846319f9bcd759cb3f458d941f5f83ece2b1c4693d8c",
+  "source_sha256": {
+    "supabase/migrations/20261031104603_m07_oauth_consent_binding_and_claims.sql": "6861eaa03cd5ee47fd1ae3860a5b9e83b6506db2d0a77bde2b561a1ae9511f8d",
+    "development/m07/oauth-consent-fix/fixture.sql": "fdea7b5b0619d2cf29a96c79ceda796b03d0b5ece52e3200f81b5fa877929bd9",
+    "development/m07/oauth-consent-fix/tests.sql": "d27c781d48a9da34ed4e30df07c94ba1eb6010548541dbfaf01a42392598c2b5"
+  },
+  "assertion_count": 32,
+  "proof": {
+    "scope": "synthetic-disposable-local",
+    "result": "passed",
+    "cloud_called": false,
+    "provider_called": false
+  },
+  "transaction_rollback_verified": true,
+  "owned_disposable_database_removed": true,
+  "global_roles_unchanged": true,
+  "shared_lock_released": true,
+  "finished_at": "2026-10-31T10:49:16.356Z"
+}

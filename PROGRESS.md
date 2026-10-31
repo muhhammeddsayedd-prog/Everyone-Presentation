@@ -1,3 +1,15 @@
+## OAuth consent correction deployed - 2026-10-31T11:29:46.965Z
+
+Canonical32 and web dpl_CpsHsrG38KcRt2qQzci6CMhD7VSu passed rollout checks. Eight
+anonymous checks and signed-in Projects passed. Fresh owner authorization,
+reconnect and actual Dummy Pilot Test MCP read remain pending. Existing M03 and
+AT-072 pending checks, mobile skip, and owner-stop pilot duration are unchanged.
+See the latest handoff for exact evidence and next action.
+
+## OAuth consent correction started - 2026-10-31T10:45:26.396Z
+
+Owner reports initial connection failure. Exact screenshot text traces to the consent page UUID-only selector rejection before session or provider access. Work in progress: separate opaque Auth selectors from UUID identifiers, inspect actual provider response during owner-controlled fresh attempt, handle both details union members with authoritative client/user/scope/callback binding, coordinate duplicate consuming requests, test and deploy web correction. Initial/reconnect and owner authenticated Dummy Pilot Test MCP read remain pending. Existing M03/AT-072 checks stay pending, mobile skipped, pilot owner-stop-only. No Claude config/sign-in/consent performed by agent.
+
 # Development progress — Everyone Presentation Studio
 
 **Last updated:** 2026-10-31 - **Pack:** 1.0 - **Current work:** M07 controlled Vercel pilot in progress; AT-072/M03 pending; mobile skipped

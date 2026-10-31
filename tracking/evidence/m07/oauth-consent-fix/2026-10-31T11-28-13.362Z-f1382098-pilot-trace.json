@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0",
+  "read_only": true,
+  "observed_at": "2026-10-31T11:28:13.362Z",
+  "since": "2026-10-31T11:26:30.000Z",
+  "deployment_id": "dpl_CpsHsrG38KcRt2qQzci6CMhD7VSu",
+  "project_id": "prj_7xOsfRtvJ9voYi7rTEfra5ncOoA0",
+  "public_origin": "https://everyone-presentation-pilot.vercel.app",
+  "counts": {
+    "log_records": 4,
+    "matched_events": 4,
+    "rejected_events": 0,
+    "unrecognized_records": 0,
+    "warning_records": 0,
+    "has_more": false,
+    "excluded_intervals": 0,
+    "complete_window": true
+  },
+  "events": [
+    {
+      "logged_at": "2026-10-31T11:27:08.435Z",
+      "event": "eps.oauth.consent_response",
+      "trace_id": "308ba2e6-02d6-4b03-9c00-e572cc770166",
+      "status": 400
+    },
+    {
+      "logged_at": "2026-10-31T11:27:08.310Z",
+      "event": "eps.oauth.consent_response",
+      "trace_id": "69493176-01b2-4338-a82d-2f0e6be40e19",
+      "status": 403
+    },
+    {
+      "logged_at": "2026-10-31T11:27:08.018Z",
+      "event": "eps.oauth.consent_response",
+      "trace_id": "56766296-c4c1-48e3-b586-3fc9b05f847a",
+      "status": 403
+    },
+    {
+      "logged_at": "2026-10-31T11:27:07.639Z",
+      "event": "eps.oauth.consent_response",
+      "trace_id": "f0ba39be-ba7f-4d95-88e6-6be2d8ac0b3e",
+      "status": 401
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "pack_version": "1.0",
-  "updated_at": "2026-10-31T03:36:56.603Z",
+  "updated_at": "2026-10-31T11:34:42.708Z",
   "implementation_started": true,
   "current_milestone": "M07",
   "current_pilot": {
@@ -8,7 +8,7 @@
     "status": "in_progress",
     "origin": "https://everyone-presentation-pilot.vercel.app",
     "owner_stop_only": true,
-    "web_deployment_id": "dpl_8HkE7S1VYvSkfff6nWW2sPBdnjvy",
+    "web_deployment_id": "dpl_CpsHsrG38KcRt2qQzci6CMhD7VSu",
     "worker_deployment_id": "dpl_CVDMpdETNwZYxdEyJ8XM66kSppdQ",
     "worker_state": "one ready/alive dub1/2Gi instance of matching971834; actual saved v6 validation/publish retry and guest PDF succeeded; per-record startup instance binding remains unverified",
     "worker_context_run": "b488b456-d84e-4515-99f9-476b3196cd64",
@@ -53,7 +53,7 @@
       "tracking/evidence/m07/controlled-pilot/2026-10-31-hosted-video-provider-metadata.json",
       "tracking/evidence/m07/controlled-pilot/2026-10-31-hosted-video-app.json"
     ],
-    "canonical_history_count": 31,
+    "canonical_history_count": 32,
     "original_local_history_count": 29,
     "specs_fix": "Confirmed canonical31: compact apply a992 and standalone222 complete/PASS. Original884 unknownclaim retained/no replay. OriginalLocal29 unchanged.",
     "latest_root_module_tests": 808,
@@ -67,7 +67,7 @@
     ],
     "application_test_evidence": "tracking/evidence/m07/controlled-pilot/2026-10-31-file-limits-offline-checks.json",
     "application_test_scope": "Actual root modules/lint/types/production guard; source stability during commands not claimed. Separate from later operator-only source changes and hosted acceptance.",
-    "oauth_state": "Configured: provider, public client, resource binding and web OAuth mode; all 11 public readiness checks and signed-in workspace checks passed. Owner Claude login/refresh/reconnect acceptance remains pending.",
+    "oauth_state": "Consent correction deployed with canonical32; opaque selector, trusted both-variant handling and durable duplicate claims implemented. Eight deployed anonymous checks and signed-in Projects passed. Fresh owner authorization, reconnect and actual MCP read pending.",
     "AT_072": "pending",
     "M03_broader_semantics": "pending",
     "mobile_testing": "skipped by owner",
@@ -150,7 +150,125 @@
     "controlled_pilot_setup": "app_side_verified_owner_client_pending",
     "vercel_technical_target": "production target, Studio APP_ENV staging, owner-controlled pilot",
     "closeout_checks": "tracking/evidence/m07/controlled-pilot/2026-10-31-app-oauth-closeout-checks.json",
-    "private_index_scan": "tracking/evidence/m07/controlled-pilot/2026-10-31-final-changed-index-private-scan.json"
+    "private_index_scan": "tracking/evidence/m07/controlled-pilot/2026-10-31-final-changed-index-private-scan.json",
+    "oauth_consent_correction": {
+      "started_at": "2026-10-31T10:45:26.396Z",
+      "status": "deployed_waiting_for_owner_attempt",
+      "planned_evidence": [
+        "Opaque selector regressions",
+        "Cookie-backed session and both provider details variants",
+        "Durable duplicate guard and authority rejection tests",
+        "Current pilot deployment",
+        "Fresh initial and reconnect provider response metadata",
+        "Owner authenticated MCP read of Dummy Pilot Test"
+      ],
+      "owner_connection_acceptance": "pending_real_mcp_read",
+      "retained_pending": [
+        "M03 independent semantics",
+        "AT-072"
+      ],
+      "mobile": "skipped",
+      "confirmed_application_cause": "Consent page rejects Supabase opaque selector using a UUID check before browser session/provider access; redirect-only provider response separately rejected by old domain.",
+      "validation": {
+        "root_module_baseline": {
+          "tests": 830,
+          "passed": 830,
+          "components": [
+            355,
+            9,
+            12,
+            45,
+            237,
+            172
+          ]
+        },
+        "final_unit": {
+          "tests": 358,
+          "passed": 358
+        },
+        "mcp_focused": 15,
+        "oauth_focused": 35,
+        "trace_collector": 4,
+        "release_v2_controlled": 12,
+        "lint": "passed",
+        "types": "passed",
+        "production_guard": "passed",
+        "production_build": "passed",
+        "browser_fixtures": "eight desktop cases updated; not executed this session",
+        "live_initial": "pending",
+        "live_reconnect": "pending",
+        "owner_mcp_read": "pending"
+      },
+      "release_attempts": [
+        {
+          "receipt": "tracking/evidence/m07/oauth-consent-fix/2026-10-31T10-57-28-169263Z-apply.json",
+          "normal_return": false,
+          "history_after": 31,
+          "new_objects_after": false,
+          "protected_job_unchanged": true
+        },
+        {
+          "receipt": "tracking/evidence/m07/oauth-consent-fix/2026-10-31T11-07-38-350496Z-apply.json",
+          "normal_return": false,
+          "history_after": 31,
+          "new_objects_after": false,
+          "protected_job_unchanged": true
+        }
+      ],
+      "release_runtime_cause": "Actual HTTP400/SQLSTATE42601: generated guard joined ::jsonb and then without whitespace, before the candidate executed. Corrected full wire reproduced RED/GREEN locally and passed the actual hosted rollback diagnostic.",
+      "cli_write_probe": "Actual isolated TEMP-table create/insert/select/rollback returned write_executed=true as postgres, transaction_read_only=off. No permanent object.",
+      "source_snapshot": "tracking/evidence/m07/controlled-pilot/2026-10-31T10-57-20-454Z-d7bc261a-web-source.json",
+      "deployed_correction": true,
+      "corrected_migration": {
+        "version": "20261031104603",
+        "sha256": "0d7b7a7577ffe1ff4b24eba202ce6ac7e87c616ca8039397800e607c651908a5",
+        "controller": "development/m07/oauth-consent-fix/release_v3.py",
+        "controller_sha256": "bec36223e8b22217ab5c9e1a2c557ff9aa0bd4dabbeae1361469fdc9079a1c77",
+        "rollback_receipt": "tracking/evidence/m07/oauth-consent-fix/2026-10-31T11-23-07-040476Z-corrected-wire-v4-rollback-diagnostic.json",
+        "apply_receipt": "tracking/evidence/m07/oauth-consent-fix/2026-10-31T11-24-21-659878Z-apply.json",
+        "status": "passed",
+        "history": 32,
+        "security_checks": 16,
+        "independent_readbacks": 2,
+        "protected_m02_unchanged": true
+      },
+      "web_deployment": {
+        "id": "dpl_CpsHsrG38KcRt2qQzci6CMhD7VSu",
+        "url": "https://everyone-presentation-pilot-9m09zcadq-muhammed-abdelrahman.vercel.app",
+        "state": "READY",
+        "stable_alias_verified": true,
+        "receipt": "tracking/evidence/m07/oauth-consent-fix/2026-10-31-corrected-web-deployment.json"
+      },
+      "deployed_anonymous_checks": {
+        "passed": 8,
+        "receipt": "tracking/evidence/m07/oauth-consent-fix/2026-10-31-corrected-web-anonymous-checks.json"
+      },
+      "signed_in_projects": {
+        "observed_at": "2026-10-31T11:29:46.965Z",
+        "projects": [
+          "Dummy Test",
+          "Dummy Pilot Test",
+          "Dummy Reuse Test"
+        ],
+        "screenshot": "tracking/evidence/m07/oauth-consent-fix/2026-10-31-corrected-hosted-projects.png"
+      },
+      "owner_action_pending": "Start a fresh connection in owner-managed Claude, leave consent open before approval or report automatic return. Capture actual provider variant, verify duplicate-safe read, then owner approves/reads Dummy Pilot Test and reconnects.",
+      "index_private_scan": {
+        "receipt": "tracking/evidence/m07/oauth-consent-fix/2026-10-31-corrected-index-private-scan.json",
+        "staged_entries": 5333,
+        "blobs": 4679,
+        "bytes": 916686866,
+        "fixed_private_value_families": 14,
+        "hits": 0,
+        "scope": "Full index at recorded snapshot; no identity/media or source archive claim"
+      },
+      "fresh_owner_trace": {
+        "last_observed_at": "2026-10-31T11:31:35.289Z",
+        "since": "2026-10-31T11:27:30Z",
+        "matched_events": 0,
+        "owner_attempt_not_yet_observed": true
+      }
+    }
   },
   "milestones": [
     {

@@ -1,6 +1,6 @@
 import { DomainError } from '@eps/domain';
 import { mapSignInError } from './auth-sign-in.ts';
-import { closed, object, OAUTH_UUID, safeOAuthRedirect, type OAuthConsentView } from './oauth-consent-contract.ts';
+import { closed, object, OAUTH_UUID, OAUTH_AUTHORIZATION_ID, safeOAuthRedirect, type OAuthConsentView } from './oauth-consent-contract.ts';
 export { safeOAuthRedirect } from './oauth-consent-contract.ts';
 
 export interface OAuthConsentConfig { baseUrl: string; approvedClientIds: readonly string[] }
@@ -10,6 +10,10 @@ export interface OAuthConsentProvider {
   getAuthorizationDetails(id: string): Promise<ProviderResult>;
   approveAuthorization(id: string, options: { skipBrowserRedirect: true }): Promise<ProviderResult>;
   denyAuthorization(id: string, options: { skipBrowserRedirect: true }): Promise<ProviderResult>;
+}
+export interface OAuthConsentCoordinator {
+  claim(input: { authorizationId: string; action: 'details' | 'approve' | 'deny'; requestId: string }): Promise<unknown>;
+  finish(input: { authorizationId: string; claimId: string; outcome: 'consent_ready' | 'redirect' | 'uncertain' | 'rejected' }): Promise<unknown>;
 }
 export interface OAuthConsentInput { authorization_id: string; request_id: string; action: 'details' | 'approve' | 'deny' }
 export interface OAuthSignInInput { authorization_id: string; request_id: string; email: string }
@@ -25,38 +29,61 @@ function clientDetails(value: unknown): value is Record<string, unknown> {
     && Object.keys(value).every(key => ['id', 'name', 'uri', 'logo_uri'].includes(key));
 }
 export function parseOAuthConsentInput(value: unknown): OAuthConsentInput {
-  if (!object(value) || !closed(value, ['authorization_id', 'request_id', 'action']) || typeof value.authorization_id !== 'string' || !OAUTH_UUID.test(value.authorization_id)
+  if (!object(value) || !closed(value, ['authorization_id', 'request_id', 'action']) || typeof value.authorization_id !== 'string' || !OAUTH_AUTHORIZATION_ID.test(value.authorization_id)
     || typeof value.request_id !== 'string' || !OAUTH_UUID.test(value.request_id) || typeof value.action !== 'string' || !['details', 'approve', 'deny'].includes(value.action)) return invalidInput();
   return value as unknown as OAuthConsentInput;
 }
 function signInInput(value: unknown): OAuthSignInInput {
-  if (!object(value) || !closed(value, ['authorization_id', 'request_id', 'email']) || typeof value.authorization_id !== 'string' || !OAUTH_UUID.test(value.authorization_id)
+  if (!object(value) || !closed(value, ['authorization_id', 'request_id', 'email']) || typeof value.authorization_id !== 'string' || !OAUTH_AUTHORIZATION_ID.test(value.authorization_id)
     || typeof value.request_id !== 'string' || !OAUTH_UUID.test(value.request_id) || typeof value.email !== 'string') return invalidInput();
   const email = value.email.trim();
   if (!email || email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/u.test(email)) return invalidInput();
   return { authorization_id: value.authorization_id, request_id: value.request_id, email };
 }
-function redirect(value: unknown, authorizationId: string, expectedBase?: string): OAuthConsentView {
+function redirect(value: unknown, authorizationId: string, expectedBase: string, action: 'approve' | 'deny' = 'approve'): OAuthConsentView {
   if (!object(value) || !closed(value, ['redirect_url'])) return providerInvalid();
-  try { return { state: 'redirect', authorization_id: authorizationId, redirect_url: safeOAuthRedirect(value.redirect_url, expectedBase) }; }
+  try {
+    const url = new URL(safeOAuthRedirect(value.redirect_url, expectedBase));
+    if (action === 'approve' ? !url.searchParams.has('code') : url.searchParams.get('error') !== 'access_denied') return providerInvalid();
+    return { state: 'redirect', authorization_id: authorizationId, redirect_url: url.href };
+  }
   catch { return providerInvalid(); }
 }
-async function details(provider: OAuthConsentProvider, authorizationId: string, identity: OAuthBrowserIdentity, config: OAuthConsentConfig, verifiedCallback?: string) {
-  if (!OAUTH_UUID.test(authorizationId) || !OAUTH_UUID.test(identity.principalId)) return invalidInput();
-  let result: ProviderResult;
-  try { result = await provider.getAuthorizationDetails(authorizationId); } catch { return unavailable(); }
-  if (!result || result.error || !object(result.data)) return unavailable();
-  const value = result.data;
-  // Existing-consent responses omit the client/user/scope. They cannot establish
-  // Studio authority on an initial read. Recovery is bound to details verified
-  // earlier within this same decision request, never caller-supplied metadata.
-  if (closed(value, ['redirect_url'])) {
-    if (!verifiedCallback) return providerInvalid();
-    return { view: redirect(value, authorizationId, verifiedCallback), callback: verifiedCallback };
-  }
+interface Binding {
+  authorization_id: string; client: Record<string, unknown>; redirect_uri: string; scope: 'openid';
+  user_id: string | null; status: string; expires_at: string;
+}
+function binding(value: unknown, authorizationId: string, identity: OAuthBrowserIdentity, config: OAuthConsentConfig): Binding {
+  if (!object(value) || !closed(value, ['authorization_id', 'client', 'redirect_uri', 'scope', 'user_id', 'status', 'expires_at'])
+    || value.authorization_id !== authorizationId || !clientDetails(value.client) || typeof value.client.id !== 'string'
+    || !OAUTH_UUID.test(value.client.id) || !config.approvedClientIds.includes(value.client.id)
+    || !text(value.client.name, 200) || !value.client.name.trim() || value.scope !== 'openid'
+    || !(value.user_id === null || value.user_id === identity.principalId) || typeof value.status !== 'string'
+    || typeof value.expires_at !== 'string' || !Number.isFinite(Date.parse(value.expires_at)) || Date.parse(value.expires_at) <= Date.now()) return providerInvalid();
+  try { safeOAuthRedirect(value.redirect_uri); } catch { return providerInvalid(); }
+  return value as unknown as Binding;
+}
+function envelope(value: unknown) {
+  if (!object(value) || !closed(value, ['claim_id', 'state', 'binding'])
+    || !(value.claim_id === null || typeof value.claim_id === 'string' && OAUTH_UUID.test(value.claim_id))
+    || !['claimed', 'consent_ready', 'in_progress', 'already_processed'].includes(value.state as string)) return providerInvalid();
+  return value;
+}
+async function claim(coordinator: OAuthConsentCoordinator, authorizationId: string, action: 'details' | 'approve' | 'deny',
+  requestId: string, identity: OAuthBrowserIdentity, config: OAuthConsentConfig) {
+  if (!OAUTH_AUTHORIZATION_ID.test(authorizationId) || !OAUTH_UUID.test(identity.principalId) || !OAUTH_UUID.test(requestId)) return invalidInput();
+  const value = envelope(await coordinator.claim({ authorizationId, action, requestId }));
+  if (value.state === 'in_progress') throw new DomainError('OAUTH_AUTHORIZATION_IN_PROGRESS', 'This request is already being checked. Wait briefly, then check its status.', 409);
+  if (value.state === 'already_processed') throw new DomainError('OAUTH_AUTHORIZATION_PROCESSED', 'This authorization request has already been processed. Restart the connection from your client.', 409);
+  if (!(value.state === 'claimed' && value.claim_id || action === 'details' && value.state === 'consent_ready' && value.claim_id === null)) return providerInvalid();
+  const context = binding(value.binding, authorizationId, identity, config);
+  if (context.status !== 'pending' || (value.state === 'consent_ready' || action !== 'details') && context.user_id !== identity.principalId) return providerInvalid();
+  return { claimId: value.claim_id as string | null, context };
+}
+function consent(value: Record<string, unknown>, authorizationId: string, identity: OAuthBrowserIdentity, context: Binding): OAuthConsentView {
   if (!closed(value, ['authorization_id', 'redirect_uri', 'client', 'user', 'scope']) || value.authorization_id !== authorizationId
     || !clientDetails(value.client) || typeof value.client.id !== 'string'
-    || !config.approvedClientIds.includes(value.client.id) || !text(value.client.name, 200) || !value.client.name.trim()
+    || value.client.id !== context.client.id || value.client.name !== context.client.name || !text(value.client.name, 200) || !value.client.name.trim()
     || !object(value.user) || !closed(value.user, ['id', 'email']) || value.user.id !== identity.principalId
     || typeof value.user.email !== 'string' || value.user.email.length > 254 || /\p{Cc}/u.test(value.user.email)
     || value.scope !== 'openid') return providerInvalid();
@@ -65,31 +92,60 @@ async function details(provider: OAuthConsentProvider, authorizationId: string, 
   const logoUri = Object.hasOwn(value.client, 'logo_uri') ? value.client.logo_uri : null;
   try {
     callback = safeOAuthRedirect(value.redirect_uri);
+    if (callback !== context.redirect_uri) return providerInvalid();
     if (typeof uri === 'string' && uri) website = new URL(safeOAuthRedirect(uri)).origin;
     else if (uri !== '' && uri !== null) return providerInvalid();
     if (!(typeof logoUri === 'string' || logoUri === null) || typeof logoUri === 'string' && logoUri.length > 2048) return providerInvalid();
   } catch { return providerInvalid(); }
   const view: OAuthConsentView = { state: 'consent', authorization_id: authorizationId,
     client: { id: value.client.id, name: value.client.name, website }, account_email: identity.email, scopes: ['openid'] };
-  return { view, callback };
+  return view;
 }
-export async function inspectOAuthAuthorization(provider: OAuthConsentProvider, authorizationId: string, identity: OAuthBrowserIdentity, config: OAuthConsentConfig): Promise<OAuthConsentView> {
-  return (await details(provider, authorizationId, identity, config)).view;
+async function finish(coordinator: OAuthConsentCoordinator, authorizationId: string, claimId: string, outcome: 'consent_ready' | 'redirect',
+  identity: OAuthBrowserIdentity, config: OAuthConsentConfig, before: Binding, expectedStatus: string) {
+  const value = envelope(await coordinator.finish({ authorizationId, claimId, outcome }));
+  if (value.state !== (outcome === 'consent_ready' ? 'consent_ready' : 'already_processed') || value.claim_id !== null) return providerInvalid();
+  const after = binding(value.binding, authorizationId, identity, config);
+  if (after.user_id !== identity.principalId || after.status !== expectedStatus || after.client.id !== before.client.id
+    || after.redirect_uri !== before.redirect_uri || after.scope !== before.scope || after.expires_at !== before.expires_at) return providerInvalid();
 }
-export async function decideOAuthAuthorization(provider: OAuthConsentProvider, authorizationId: string, action: 'approve' | 'deny', identity: OAuthBrowserIdentity, config: OAuthConsentConfig): Promise<OAuthConsentView> {
-  const before = await details(provider, authorizationId, identity, config);
-  if (before.view.state !== 'consent' || !before.callback) return providerInvalid();
+async function abandon(coordinator: OAuthConsentCoordinator, authorizationId: string, claimId: string, outcome: 'uncertain' | 'rejected') {
+  // No lease takeover or second consuming GET. An unknown upstream result needs a fresh client authorization.
+  try { await coordinator.finish({ authorizationId, claimId, outcome }); } catch { /* A durable outstanding claim also prevents replay. */ }
+}
+export async function inspectOAuthAuthorization(provider: OAuthConsentProvider, authorizationId: string, identity: OAuthBrowserIdentity,
+  config: OAuthConsentConfig, coordinator: OAuthConsentCoordinator, requestId: string): Promise<OAuthConsentView> {
+  const { claimId, context } = await claim(coordinator, authorizationId, 'details', requestId, identity, config);
+  if (!claimId) return consent({ authorization_id: authorizationId, redirect_uri: context.redirect_uri, client: context.client,
+    scope: context.scope, user: { id: identity.principalId, email: identity.email ?? '' } }, authorizationId, identity, context);
+  let result: ProviderResult;
+  try { result = await provider.getAuthorizationDetails(authorizationId); }
+  catch { await abandon(coordinator, authorizationId, claimId, 'uncertain'); return unavailable(); }
+  if (!result || result.error || !object(result.data)) { await abandon(coordinator, authorizationId, claimId, 'uncertain'); return unavailable(); }
+  try {
+    if (closed(result.data, ['redirect_url'])) {
+      const view = redirect(result.data, authorizationId, context.redirect_uri);
+      await finish(coordinator, authorizationId, claimId, 'redirect', identity, config, context, 'approved');
+      return view;
+    }
+    const view = consent(result.data, authorizationId, identity, context);
+    await finish(coordinator, authorizationId, claimId, 'consent_ready', identity, config, context, 'pending');
+    return view;
+  } catch (error) { await abandon(coordinator, authorizationId, claimId, 'rejected'); throw error; }
+}
+export async function decideOAuthAuthorization(provider: OAuthConsentProvider, authorizationId: string, action: 'approve' | 'deny', identity: OAuthBrowserIdentity,
+  config: OAuthConsentConfig, coordinator: OAuthConsentCoordinator, requestId: string): Promise<OAuthConsentView> {
+  const { claimId, context } = await claim(coordinator, authorizationId, action, requestId, identity, config);
+  if (!claimId) return providerInvalid();
   try {
     const result = action === 'approve' ? await provider.approveAuthorization(authorizationId, { skipBrowserRedirect: true })
       : await provider.denyAuthorization(authorizationId, { skipBrowserRedirect: true });
     if (!result || result.error) throw new Error('Decision result is uncertain.');
-    return redirect(result.data, authorizationId, before.callback);
+    const view = redirect(result.data, authorizationId, context.redirect_uri, action);
+    await finish(coordinator, authorizationId, claimId, 'redirect', identity, config, context, action === 'approve' ? 'approved' : 'denied');
+    return view;
   } catch {
-    // A transport failure does not mean consent failed. Re-read this same authorization once; never repeat its decision.
-    try {
-      const after = await details(provider, authorizationId, identity, config, before.callback);
-      if (after.view.state === 'redirect') return redirect({ redirect_url: after.view.redirect_url }, authorizationId, before.callback);
-    } catch { /* Preserve the unknown outcome without serializing provider errors. */ }
+    await abandon(coordinator, authorizationId, claimId, 'uncertain');
     return { state: 'uncertain', authorization_id: authorizationId };
   }
 }

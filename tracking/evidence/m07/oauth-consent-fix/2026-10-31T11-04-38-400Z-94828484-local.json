@@ -1,0 +1,1282 @@
+{
+  "schema_version": "1.0",
+  "evidence_kind": "synthetic_disposable_local_database",
+  "run_id": "948284849af443078b31b478a86b38aa",
+  "started_at": "2026-10-31T11:04:38.400Z",
+  "result": "passed",
+  "cloud_called": false,
+  "provider_called": false,
+  "existing_app_database_writes": false,
+  "checkpoint": "complete",
+  "global_roles_before_sha256": "b38e227657cd3fa85c95846319f9bcd759cb3f458d941f5f83ece2b1c4693d8c",
+  "source_sha256": {
+    "supabase/migrations/20261031104603_m07_oauth_consent_binding_and_claims.sql": "0d7b7a7577ffe1ff4b24eba202ce6ac7e87c616ca8039397800e607c651908a5",
+    "development/m07/oauth-consent-fix/fixture.sql": "8c08c87f1f4c3c8a1f6f4efeca61db016afa1795b9b3cbf226315eaba04dd95e",
+    "development/m07/oauth-consent-fix/tests.sql": "f974d157133f473d4219aef35b343b6158542a1a077ce3c9f4712fc668bd5fe8"
+  },
+  "assertion_count": 35,
+  "proof": {
+    "scope": "synthetic-disposable-local",
+    "result": "passed",
+    "cloud_called": false,
+    "provider_called": false
+  },
+  "v2_controller_metadata": {
+    "v2_after": {
+      "security": {
+        "bridge_acl": true,
+        "wrapper_acl": true,
+        "internal_acl": true,
+        "wrapper_owners": true,
+        "no_auth_secrets": true,
+        "no_schema_create": true,
+        "bridge_definition": true,
+        "claims_forced_rls": true,
+        "claims_not_public": true,
+        "no_role_memberships": true,
+        "no_whole_auth_reads": true,
+        "no_managed_auth_writes": true,
+        "bridge_guard_executable": true,
+        "new_policies_permissive": true,
+        "no_unlisted_auth_columns": true,
+        "no_direct_managed_oauth_reads": true
+      },
+      "catalogue": {
+        "roles": [
+          {
+            "name": "anon",
+            "login": false,
+            "inherit": true,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "authenticated",
+            "login": false,
+            "inherit": true,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_api_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_candidate_apply_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_candidate_assets_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_candidate_stage_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_candidate_upload_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_cast_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_casting_guard_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_casting_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_draft_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_guest_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_jobs_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_logo_verify_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_mcp_session_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_oauth_consent_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_review_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_review_stage_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_settings_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_specs_apply_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_specs_assets_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_specs_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_specs_stage_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_specs_submit_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_specs_upload_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_specs_verify_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_support_upload_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_support_verify_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "postgres",
+            "login": true,
+            "inherit": true,
+            "create_db": true,
+            "superuser": false,
+            "bypass_rls": true,
+            "create_role": true,
+            "replication": true
+          },
+          {
+            "name": "service_role",
+            "login": false,
+            "inherit": true,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": true,
+            "create_role": false,
+            "replication": false
+          }
+        ],
+        "history": [
+          "20261028010943",
+          "20261028013324",
+          "20261028013655",
+          "20261028024205",
+          "20261028072515",
+          "20261028162702",
+          "20261028162800",
+          "20261028172320",
+          "20261028184145",
+          "20261028222030",
+          "20261029001520",
+          "20261029003941",
+          "20261029070038",
+          "20261029090500",
+          "20261029090724",
+          "20261029094600",
+          "20261029100500",
+          "20261029133455",
+          "20261029135318",
+          "20261029174841",
+          "20261029180953",
+          "20261029202629",
+          "20261029203953",
+          "20261029215218",
+          "20261030002634",
+          "20261030004643",
+          "20261030013832",
+          "20261030030717",
+          "20261030111549",
+          "20261030154824",
+          "20261031010000",
+          "20261031104603"
+        ],
+        "database": "eps_oauth_consent_948284849af443078b31b478a86b38aa",
+        "operator": "postgres",
+        "relations": [
+          {
+            "acl": "{supabase_auth_admin=arwdDxtm/supabase_auth_admin,postgres=arwdDxtm/supabase_auth_admin}",
+            "rls": false,
+            "name": "oauth_authorizations",
+            "owner": "supabase_auth_admin",
+            "schema": "auth",
+            "columns": [
+              {
+                "acl": null,
+                "name": "authorization_id",
+                "type": "text",
+                "not_null": true
+              },
+              {
+                "acl": null,
+                "name": "client_id",
+                "type": "uuid",
+                "not_null": true
+              },
+              {
+                "acl": null,
+                "name": "user_id",
+                "type": "uuid",
+                "not_null": false
+              },
+              {
+                "acl": null,
+                "name": "redirect_uri",
+                "type": "text",
+                "not_null": true
+              },
+              {
+                "acl": null,
+                "name": "scope",
+                "type": "text",
+                "not_null": true
+              },
+              {
+                "acl": null,
+                "name": "resource",
+                "type": "text",
+                "not_null": false
+              },
+              {
+                "acl": null,
+                "name": "status",
+                "type": "auth.oauth_authorization_status",
+                "not_null": true
+              },
+              {
+                "acl": null,
+                "name": "expires_at",
+                "type": "timestamp with time zone",
+                "not_null": true
+              },
+              {
+                "acl": null,
+                "name": "authorization_code",
+                "type": "text",
+                "not_null": false
+              },
+              {
+                "acl": null,
+                "name": "state",
+                "type": "text",
+                "not_null": false
+              },
+              {
+                "acl": null,
+                "name": "code_challenge",
+                "type": "text",
+                "not_null": false
+              }
+            ],
+            "policies": [],
+            "force_rls": false,
+            "constraints": [
+              "PRIMARY KEY (authorization_id)"
+            ]
+          },
+          {
+            "acl": "{supabase_auth_admin=arwdDxtm/supabase_auth_admin,postgres=arwdDxtm/supabase_auth_admin}",
+            "rls": false,
+            "name": "oauth_clients",
+            "owner": "supabase_auth_admin",
+            "schema": "auth",
+            "columns": [
+              {
+                "acl": null,
+                "name": "id",
+                "type": "uuid",
+                "not_null": true
+              },
+              {
+                "acl": null,
+                "name": "redirect_uris",
+                "type": "text",
+                "not_null": true
+              },
+              {
+                "acl": null,
+                "name": "client_name",
+                "type": "text",
+                "not_null": false
+              },
+              {
+                "acl": null,
+                "name": "client_uri",
+                "type": "text",
+                "not_null": false
+              },
+              {
+                "acl": null,
+                "name": "logo_uri",
+                "type": "text",
+                "not_null": false
+              },
+              {
+                "acl": null,
+                "name": "deleted_at",
+                "type": "timestamp with time zone",
+                "not_null": false
+              },
+              {
+                "acl": null,
+                "name": "client_secret_hash",
+                "type": "text",
+                "not_null": false
+              }
+            ],
+            "policies": [],
+            "force_rls": false,
+            "constraints": [
+              "PRIMARY KEY (id)"
+            ]
+          },
+          {
+            "acl": "{supabase_auth_admin=arwdDxtm/supabase_auth_admin,postgres=ar*wdDxtm/supabase_auth_admin}",
+            "rls": true,
+            "name": "sessions",
+            "owner": "supabase_auth_admin",
+            "schema": "auth",
+            "columns": [
+              {
+                "acl": "{eps_oauth_consent_owner=r/postgres}",
+                "name": "id",
+                "type": "uuid",
+                "not_null": true
+              },
+              {
+                "acl": "{eps_oauth_consent_owner=r/postgres}",
+                "name": "user_id",
+                "type": "uuid",
+                "not_null": true
+              },
+              {
+                "acl": "{eps_oauth_consent_owner=r/postgres}",
+                "name": "oauth_client_id",
+                "type": "uuid",
+                "not_null": false
+              },
+              {
+                "acl": "{eps_oauth_consent_owner=r/postgres}",
+                "name": "not_after",
+                "type": "timestamp with time zone",
+                "not_null": false
+              }
+            ],
+            "policies": [
+              {
+                "name": "oauth_consent_ordinary_own_session",
+                "check": null,
+                "roles": [
+                  "eps_oauth_consent_owner"
+                ],
+                "using": "((user_id = ( SELECT auth.uid() AS uid)) AND ((id)::text = ( SELECT (auth.jwt() ->> 'session_id'::text))) AND (oauth_client_id IS NULL))",
+                "command": "r"
+              },
+              {
+                "name": "preserved_auth_session_policy",
+                "check": null,
+                "roles": [
+                  "authenticated"
+                ],
+                "using": "false",
+                "command": "r"
+              }
+            ],
+            "force_rls": false,
+            "constraints": [
+              "PRIMARY KEY (id)"
+            ]
+          },
+          {
+            "acl": "{postgres=arwdDxtm/postgres}",
+            "rls": true,
+            "name": "mcp_oauth_resources",
+            "owner": "postgres",
+            "schema": "eps",
+            "columns": [
+              {
+                "acl": "{eps_oauth_consent_owner=r/postgres}",
+                "name": "resource",
+                "type": "text",
+                "not_null": true
+              },
+              {
+                "acl": "{eps_oauth_consent_owner=r/postgres}",
+                "name": "client_id",
+                "type": "uuid",
+                "not_null": true
+              },
+              {
+                "acl": "{eps_oauth_consent_owner=r/postgres}",
+                "name": "enabled",
+                "type": "boolean",
+                "not_null": true
+              }
+            ],
+            "policies": [
+              {
+                "name": "oauth_consent_enabled_registry",
+                "check": null,
+                "roles": [
+                  "eps_oauth_consent_owner"
+                ],
+                "using": "((auth.uid() IS NOT NULL) AND enabled)",
+                "command": "r"
+              }
+            ],
+            "force_rls": true,
+            "constraints": [
+              "PRIMARY KEY (resource, client_id)"
+            ]
+          }
+        ],
+        "observed_at": "2026-10-31T11:04:41.346082+00:00",
+        "history_columns": [
+          {
+            "name": "version",
+            "type": "text",
+            "default": null,
+            "nullable": "NO"
+          }
+        ],
+        "required_functions": [
+          {
+            "owner": "postgres",
+            "config": null,
+            "signature": "auth.jwt()",
+            "security_definer": false
+          },
+          {
+            "owner": "postgres",
+            "config": null,
+            "signature": "auth.uid()",
+            "security_definer": false
+          }
+        ]
+      },
+      "new_objects": {
+        "role": true,
+        "claim": true,
+        "table": true,
+        "finish": true
+      },
+      "protected_m02": {
+        "id": "b3f90268-147d-41d4-8875-2a6435df1496",
+        "stage": "apply_specs",
+        "status": "waiting_for_input",
+        "attempt": 3,
+        "row_version": 7
+      }
+    },
+    "v2_before": {
+      "security": null,
+      "catalogue": {
+        "roles": [
+          {
+            "name": "anon",
+            "login": false,
+            "inherit": true,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "authenticated",
+            "login": false,
+            "inherit": true,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_api_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_candidate_apply_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_candidate_assets_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_candidate_stage_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_candidate_upload_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_cast_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_casting_guard_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_casting_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_draft_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_guest_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_jobs_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_logo_verify_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_mcp_session_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_review_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_review_stage_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_settings_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_specs_apply_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_specs_assets_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_specs_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_specs_stage_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_specs_submit_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_specs_upload_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_specs_verify_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_support_upload_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "eps_support_verify_owner",
+            "login": false,
+            "inherit": false,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": false,
+            "create_role": false,
+            "replication": false
+          },
+          {
+            "name": "postgres",
+            "login": true,
+            "inherit": true,
+            "create_db": true,
+            "superuser": false,
+            "bypass_rls": true,
+            "create_role": true,
+            "replication": true
+          },
+          {
+            "name": "service_role",
+            "login": false,
+            "inherit": true,
+            "create_db": false,
+            "superuser": false,
+            "bypass_rls": true,
+            "create_role": false,
+            "replication": false
+          }
+        ],
+        "history": [
+          "20261028010943",
+          "20261028013324",
+          "20261028013655",
+          "20261028024205",
+          "20261028072515",
+          "20261028162702",
+          "20261028162800",
+          "20261028172320",
+          "20261028184145",
+          "20261028222030",
+          "20261029001520",
+          "20261029003941",
+          "20261029070038",
+          "20261029090500",
+          "20261029090724",
+          "20261029094600",
+          "20261029100500",
+          "20261029133455",
+          "20261029135318",
+          "20261029174841",
+          "20261029180953",
+          "20261029202629",
+          "20261029203953",
+          "20261029215218",
+          "20261030002634",
+          "20261030004643",
+          "20261030013832",
+          "20261030030717",
+          "20261030111549",
+          "20261030154824",
+          "20261031010000"
+        ],
+        "database": "eps_oauth_consent_948284849af443078b31b478a86b38aa",
+        "operator": "postgres",
+        "relations": [
+          {
+            "acl": "{supabase_auth_admin=arwdDxtm/supabase_auth_admin,postgres=arwdDxtm/supabase_auth_admin}",
+            "rls": false,
+            "name": "oauth_authorizations",
+            "owner": "supabase_auth_admin",
+            "schema": "auth",
+            "columns": [
+              {
+                "acl": null,
+                "name": "authorization_id",
+                "type": "text",
+                "not_null": true
+              },
+              {
+                "acl": null,
+                "name": "client_id",
+                "type": "uuid",
+                "not_null": true
+              },
+              {
+                "acl": null,
+                "name": "user_id",
+                "type": "uuid",
+                "not_null": false
+              },
+              {
+                "acl": null,
+                "name": "redirect_uri",
+                "type": "text",
+                "not_null": true
+              },
+              {
+                "acl": null,
+                "name": "scope",
+                "type": "text",
+                "not_null": true
+              },
+              {
+                "acl": null,
+                "name": "resource",
+                "type": "text",
+                "not_null": false
+              },
+              {
+                "acl": null,
+                "name": "status",
+                "type": "auth.oauth_authorization_status",
+                "not_null": true
+              },
+              {
+                "acl": null,
+                "name": "expires_at",
+                "type": "timestamp with time zone",
+                "not_null": true
+              },
+              {
+                "acl": null,
+                "name": "authorization_code",
+                "type": "text",
+                "not_null": false
+              },
+              {
+                "acl": null,
+                "name": "state",
+                "type": "text",
+                "not_null": false
+              },
+              {
+                "acl": null,
+                "name": "code_challenge",
+                "type": "text",
+                "not_null": false
+              }
+            ],
+            "policies": [],
+            "force_rls": false,
+            "constraints": [
+              "PRIMARY KEY (authorization_id)"
+            ]
+          },
+          {
+            "acl": "{supabase_auth_admin=arwdDxtm/supabase_auth_admin,postgres=arwdDxtm/supabase_auth_admin}",
+            "rls": false,
+            "name": "oauth_clients",
+            "owner": "supabase_auth_admin",
+            "schema": "auth",
+            "columns": [
+              {
+                "acl": null,
+                "name": "id",
+                "type": "uuid",
+                "not_null": true
+              },
+              {
+                "acl": null,
+                "name": "redirect_uris",
+                "type": "text",
+                "not_null": true
+              },
+              {
+                "acl": null,
+                "name": "client_name",
+                "type": "text",
+                "not_null": false
+              },
+              {
+                "acl": null,
+                "name": "client_uri",
+                "type": "text",
+                "not_null": false
+              },
+              {
+                "acl": null,
+                "name": "logo_uri",
+                "type": "text",
+                "not_null": false
+              },
+              {
+                "acl": null,
+                "name": "deleted_at",
+                "type": "timestamp with time zone",
+                "not_null": false
+              },
+              {
+                "acl": null,
+                "name": "client_secret_hash",
+                "type": "text",
+                "not_null": false
+              }
+            ],
+            "policies": [],
+            "force_rls": false,
+            "constraints": [
+              "PRIMARY KEY (id)"
+            ]
+          },
+          {
+            "acl": "{supabase_auth_admin=arwdDxtm/supabase_auth_admin,postgres=ar*wdDxtm/supabase_auth_admin}",
+            "rls": true,
+            "name": "sessions",
+            "owner": "supabase_auth_admin",
+            "schema": "auth",
+            "columns": [
+              {
+                "acl": null,
+                "name": "id",
+                "type": "uuid",
+                "not_null": true
+              },
+              {
+                "acl": null,
+                "name": "user_id",
+                "type": "uuid",
+                "not_null": true
+              },
+              {
+                "acl": null,
+                "name": "oauth_client_id",
+                "type": "uuid",
+                "not_null": false
+              },
+              {
+                "acl": null,
+                "name": "not_after",
+                "type": "timestamp with time zone",
+                "not_null": false
+              }
+            ],
+            "policies": [
+              {
+                "name": "preserved_auth_session_policy",
+                "check": null,
+                "roles": [
+                  "authenticated"
+                ],
+                "using": "false",
+                "command": "r"
+              }
+            ],
+            "force_rls": false,
+            "constraints": [
+              "PRIMARY KEY (id)"
+            ]
+          },
+          {
+            "acl": "{postgres=arwdDxtm/postgres}",
+            "rls": true,
+            "name": "mcp_oauth_resources",
+            "owner": "postgres",
+            "schema": "eps",
+            "columns": [
+              {
+                "acl": null,
+                "name": "resource",
+                "type": "text",
+                "not_null": true
+              },
+              {
+                "acl": null,
+                "name": "client_id",
+                "type": "uuid",
+                "not_null": true
+              },
+              {
+                "acl": null,
+                "name": "enabled",
+                "type": "boolean",
+                "not_null": true
+              }
+            ],
+            "policies": [],
+            "force_rls": true,
+            "constraints": [
+              "PRIMARY KEY (resource, client_id)"
+            ]
+          }
+        ],
+        "observed_at": "2026-10-31T11:04:41.230928+00:00",
+        "history_columns": [
+          {
+            "name": "version",
+            "type": "text",
+            "default": null,
+            "nullable": "NO"
+          }
+        ],
+        "required_functions": [
+          {
+            "owner": "postgres",
+            "config": null,
+            "signature": "auth.jwt()",
+            "security_definer": false
+          },
+          {
+            "owner": "postgres",
+            "config": null,
+            "signature": "auth.uid()",
+            "security_definer": false
+          }
+        ]
+      },
+      "new_objects": {
+        "role": false,
+        "claim": false,
+        "table": false,
+        "finish": false
+      },
+      "protected_m02": {
+        "id": "b3f90268-147d-41d4-8875-2a6435df1496",
+        "stage": "apply_specs",
+        "status": "waiting_for_input",
+        "attempt": 3,
+        "row_version": 7
+      }
+    }
+  },
+  "v2_exact_postconditions_verified": true,
+  "transaction_rollback_verified": true,
+  "new_policy_metadata": [
+    {
+      "name": "oauth_consent_enabled_registry",
+      "check": null,
+      "roles": [
+        "eps_oauth_consent_owner"
+      ],
+      "using": "((auth.uid() IS NOT NULL) AND enabled)",
+      "command": "r",
+      "relation": "eps.mcp_oauth_resources"
+    },
+    {
+      "name": "oauth_consent_ordinary_own_session",
+      "check": null,
+      "roles": [
+        "eps_oauth_consent_owner"
+      ],
+      "using": "((user_id = ( SELECT auth.uid() AS uid)) AND ((id)::text = ( SELECT (auth.jwt() ->> 'session_id'::text))) AND (oauth_client_id IS NULL))",
+      "command": "r",
+      "relation": "auth.sessions"
+    }
+  ],
+  "concurrent_checks": {
+    "same_browser_details_single_winner": true,
+    "approve_deny_single_winner": true,
+    "different_browser_single_winner": true,
+    "claims_rows": 2,
+    "decision_rows": 1,
+    "connections_independent": true
+  },
+  "owned_disposable_database_removed": true,
+  "owned_test_role_removed": true,
+  "global_roles_unchanged": true,
+  "shared_lock_released": true,
+  "finished_at": "2026-10-31T11:04:47.501Z"
+}

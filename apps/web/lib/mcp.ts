@@ -42,7 +42,9 @@ const entries = catalog.tools.filter(tool => IMPLEMENTED.has(tool.name) || CASTI
 const ajv = new Ajv2020({ allErrors: true, strict: false }); addFormats(ajv);
 const checks = new Map(entries.map(tool => [tool.name, ajv.compile(tool.inputSchema)]));
 export interface McpServices { studio: Awaited<ReturnType<typeof createCentralStudio>>; specs: SpecsOperations; jobs: JobOperations; candidates: CandidatesOperations; casting?: CastingOperations; review?: ReviewOperations; presentation?: PresentationOperations; sharing?: ReviewLinkOperations; settings?: SettingsOperations }
-export interface McpAuthority { allowedCapabilities?: readonly string[] }
+export interface McpToolCompleted { operation: string; result: Record<string, unknown> }
+export interface McpAuthority { allowedCapabilities?: readonly string[];
+  onToolCompleted?(event: McpToolCompleted): void | Promise<void> }
 export function implementedMcpTools(castingEnabled = false, reviewEnabled = false, presentationEnabled = false, sharingEnabled = false, settingsEnabled = false): Tool[] {
   return entries.filter(tool => (castingEnabled || !CASTING_TOOLS.has(tool.name)) && (reviewEnabled || !REVIEW_TOOLS.has(tool.name)) && (presentationEnabled || !PRESENTATION_TOOLS.has(tool.name)) && (sharingEnabled || !SHARING_TOOLS.has(tool.name)) && (settingsEnabled || !SETTINGS_TOOLS.has(tool.name))).map(({ name, description, inputSchema, outputSchema, annotations }) =>
     // JSON-import inference widens literal schema values. The checked-in catalog
@@ -173,7 +175,12 @@ export function createStudioMcpServer(actor: Actor, services: McpServices, autho
       return { content: [{ type: 'text', text: 'This operation could not be authorized. Read the structured error.' }],
         structuredContent: await response.json() as Record<string, unknown>, isError: true };
     }
-    return invokeMcpTool(request.params.name, request.params.arguments ?? {}, actor, services);
+    const result = await invokeMcpTool(request.params.name, request.params.arguments ?? {}, actor, services);
+    if (!result.isError && result.structuredContent && typeof result.structuredContent === 'object' && !Array.isArray(result.structuredContent) && authority.onToolCompleted) {
+      try { await authority.onToolCompleted({ operation: request.params.name, result: result.structuredContent as Record<string, unknown> }); }
+      catch { /* Observability must not change a validated operation result. */ }
+    }
+    return result;
   });
   return server;
 }

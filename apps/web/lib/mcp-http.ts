@@ -1,6 +1,6 @@
 import { createMcpHandler, type AuthInfo } from '@modelcontextprotocol/server';
 import { DomainError, type Actor } from '@eps/domain';
-import { createStudioMcpServer, requireLocalMcpRequest, type McpServices } from './mcp.ts';
+import { createStudioMcpServer, requireLocalMcpRequest, type McpServices, type McpToolCompleted } from './mcp.ts';
 import { createMcpResourceGate, loadMcpAuthorizationMetadata, mcpMetadataResponse, verifiedMcpIdentity,
   type McpIdentity, type McpSessionCheck } from './mcp-auth.ts';
 import type { McpAuthConfig } from './mcp-auth-config.ts';
@@ -14,6 +14,25 @@ export interface McpHttpDependencies {
   checkSession?: McpSessionCheck;
   localContext(request: Request): Promise<{ actor: Actor; services: McpServices }>;
   oauthContext(request: Request, identity: McpIdentity): Promise<McpServices>;
+  onToolCompleted?(identity: McpIdentity, event: McpToolCompleted): void | Promise<void>;
+}
+const UUID = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/u;
+export interface McpProjectReadReceipt { event: 'eps.mcp.project_read_succeeded'; entry_point: 'mcp_http';
+  operation: 'get_project' | 'list_projects'; success: true; request_id: string; principal_id: string; client_id: string; project_ids: string[] }
+/** Project only bounded UUIDs from a completed, contract-validated project read. */
+export function mcpProjectReadReceipt(identity: Pick<McpIdentity, 'principalId' | 'clientId'>, event: McpToolCompleted): McpProjectReadReceipt | null {
+  if (!['get_project', 'list_projects'].includes(event.operation) || typeof identity.principalId !== 'string' || !UUID.test(identity.principalId)
+    || typeof identity.clientId !== 'string' || !UUID.test(identity.clientId)
+    || typeof event.result.request_id !== 'string' || !UUID.test(event.result.request_id)) return null;
+  const rows = event.operation === 'list_projects' ? event.result.data : [event.result.data];
+  if (!Array.isArray(rows)) return null;
+  const ids: string[] = [];
+  for (const row of rows.slice(0, 100)) {
+    if (!row || typeof row !== 'object' || !('id' in row) || typeof row.id !== 'string' || !UUID.test(row.id)) return null;
+    ids.push(row.id);
+  }
+  return { event: 'eps.mcp.project_read_succeeded', entry_point: 'mcp_http', operation: event.operation as 'get_project' | 'list_projects',
+    success: true, request_id: event.result.request_id, principal_id: identity.principalId, client_id: identity.clientId, project_ids: [...new Set(ids)] };
 }
 function privateResponse(response: Response) {
   const headers = new Headers(response.headers);
@@ -49,6 +68,7 @@ export function createMcpHttpHandler(dependencies: McpHttpDependencies) {
       let services: McpServices;
       let authInfo: AuthInfo | undefined;
       let allowedCapabilities: readonly string[] | undefined;
+      let onToolCompleted: ((event: McpToolCompleted) => void | Promise<void>) | undefined;
       if (dependencies.config.mode === 'disabled') throw new DomainError('MCP_AUTH_CONFIGURATION_REQUIRED', 'Studio MCP access is not configured in this environment.', 503);
       if (dependencies.config.mode === 'local') {
         requireLocalMcpRequest(request, dependencies.runtime);
@@ -61,13 +81,15 @@ export function createMcpHttpHandler(dependencies: McpHttpDependencies) {
         actor = { principal_id: identity.principalId };
         allowedCapabilities = identity.capabilities;
         services = await dependencies.oauthContext(request, identity);
+        if (dependencies.onToolCompleted) onToolCompleted = event => dependencies.onToolCompleted!(identity, event);
       }
       // Every composition must be bound to this same central principal before even protocol discovery.
       const current = await services.studio.getCapabilities(actor);
       if (current.principal_id !== actor.principal_id) throw new DomainError('ACCESS_DENIED', 'The business session does not match this delegated identity.', 403);
       const handler = createMcpHandler(context => {
         if (authInfo && context.authInfo !== authInfo) throw new DomainError('AUTH_REQUIRED', 'The request delegation was not preserved.', 401);
-        return createStudioMcpServer(actor, services, { ...(allowedCapabilities ? { allowedCapabilities } : {}) });
+        return createStudioMcpServer(actor, services, { ...(allowedCapabilities ? { allowedCapabilities } : {}),
+          ...(onToolCompleted ? { onToolCompleted } : {}) });
       }, { legacy: 'stateless', responseMode: 'auto', maxRequestBodySize: 96 * 1024,
         onerror: () => { /* Generic transport logs must not serialize private errors or credentials. */ } });
       try { return privateResponse(await closeWithBody(await handler.fetch(request, authInfo ? { authInfo } : undefined), () => handler.close())); }

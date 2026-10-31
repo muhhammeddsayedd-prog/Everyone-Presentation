@@ -1,0 +1,57 @@
+{
+  "observed_at": "2026-10-31T11:27:09.179Z",
+  "evidence_kind": "actual_deployed_anonymous_checks",
+  "origin": "https://everyone-presentation-pilot.vercel.app",
+  "deployment_id": "dpl_CpsHsrG38KcRt2qQzci6CMhD7VSu",
+  "result": "passed",
+  "checks": [
+    {
+      "name": "signed_out",
+      "status": 401,
+      "code": "AUTH_REQUIRED",
+      "private_no_store": true,
+      "trace_header_is_uuid": true
+    },
+    {
+      "name": "foreign_origin",
+      "status": 403,
+      "code": "ACCESS_DENIED",
+      "private_no_store": true,
+      "trace_header_is_uuid": true
+    },
+    {
+      "name": "bearer_forbidden",
+      "status": 403,
+      "code": "ACCESS_DENIED",
+      "private_no_store": true,
+      "trace_header_is_uuid": true
+    },
+    {
+      "name": "invalid_correlation",
+      "status": 400,
+      "code": "VALIDATION_FAILED",
+      "private_no_store": true,
+      "trace_header_is_uuid": true
+    },
+    {
+      "name": "opaque_selector_ssr",
+      "status": 200,
+      "accepted": true
+    },
+    {
+      "name": "/.well-known/oauth-authorization-server",
+      "status": 200,
+      "scope_openid_only": true
+    },
+    {
+      "name": "/.well-known/oauth-protected-resource/mcp",
+      "status": 200,
+      "scope_openid_only": true
+    },
+    {
+      "name": "mcp_anonymous",
+      "status": 401
+    }
+  ],
+  "owner_oauth_or_mcp_acceptance": false
+}

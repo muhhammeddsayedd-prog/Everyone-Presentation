@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "evidence_kind": "synthetic_disposable_local_database",
+  "run_id": "21a20a71c38b48409112ebc4785dc8e0",
+  "started_at": "2026-10-31T10:56:03.262Z",
+  "result": "passed",
+  "cloud_called": false,
+  "provider_called": false,
+  "existing_app_database_writes": false,
+  "checkpoint": "complete",
+  "global_roles_before_sha256": "b38e227657cd3fa85c95846319f9bcd759cb3f458d941f5f83ece2b1c4693d8c",
+  "source_sha256": {
+    "supabase/migrations/20261031104603_m07_oauth_consent_binding_and_claims.sql": "c308fce98dbe536ab5d2eb78fdb9d8d737ba66999727e31d9bb8e1910441a07d",
+    "development/m07/oauth-consent-fix/fixture.sql": "a5263615fe151b04266a736eb7b375c4ea31c00ff7513c21c0d91baeb980a323",
+    "development/m07/oauth-consent-fix/tests.sql": "d27c781d48a9da34ed4e30df07c94ba1eb6010548541dbfaf01a42392598c2b5"
+  },
+  "assertion_count": 32,
+  "proof": {
+    "scope": "synthetic-disposable-local",
+    "result": "passed",
+    "cloud_called": false,
+    "provider_called": false
+  },
+  "transaction_rollback_verified": true,
+  "new_policy_metadata": [
+    {
+      "name": "oauth_consent_enabled_registry",
+      "check": null,
+      "roles": [
+        "eps_oauth_consent_owner"
+      ],
+      "using": "((auth.uid() IS NOT NULL) AND enabled)",
+      "command": "r",
+      "relation": "eps.mcp_oauth_resources"
+    },
+    {
+      "name": "oauth_consent_ordinary_own_session",
+      "check": null,
+      "roles": [
+        "eps_oauth_consent_owner"
+      ],
+      "using": "((user_id = ( SELECT auth.uid() AS uid)) AND ((id)::text = ( SELECT (auth.jwt() ->> 'session_id'::text))) AND (oauth_client_id IS NULL))",
+      "command": "r",
+      "relation": "auth.sessions"
+    }
+  ],
+  "concurrent_checks": {
+    "same_browser_details_single_winner": true,
+    "approve_deny_single_winner": true,
+    "different_browser_single_winner": true,
+    "claims_rows": 2,
+    "decision_rows": 1,
+    "connections_independent": true
+  },
+  "owned_disposable_database_removed": true,
+  "owned_test_role_removed": true,
+  "global_roles_unchanged": true,
+  "shared_lock_released": true,
+  "finished_at": "2026-10-31T10:56:12.831Z"
+}

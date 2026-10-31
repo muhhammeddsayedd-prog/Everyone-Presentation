@@ -1,4 +1,4 @@
-import { createMcpHttpHandler } from '../../lib/mcp-http';
+import { createMcpHttpHandler, mcpProjectReadReceipt } from '../../lib/mcp-http';
 import { createMcpCentralSessionCheck, readMcpServerEnvironment } from '../../lib/mcp-central-session';
 import { currentActor } from '../../lib/session';
 import type { createCentralStudio } from '@eps/central';
@@ -32,6 +32,10 @@ async function handle(request: Request) {
       localContext: async () => ({ actor: (await currentActor())!, services: await services() }),
       // OAuth never invokes currentActor or obtains identity through a browser fallback.
       oauthContext: async () => services(),
+      onToolCompleted: (identity, event) => {
+        const receipt = mcpProjectReadReceipt(identity, event);
+        if (receipt) console.info('EPS MCP read receipt', JSON.stringify(receipt));
+      },
     })(request);
   } catch (error) { return failure(error); }
 }

@@ -1,17 +1,28 @@
-import { verifyCentralUser } from '@eps/central';
+import { randomUUID } from 'node:crypto';
+import { readCentralConfig, verifyCentralUser } from '@eps/central';
 import { getCentralClient } from '../../../../lib/central-client';
 import { failure } from '../../../../lib/http';
 import { readOAuthConsentConfig } from '../../../../lib/oauth-consent-config';
 import { handleOAuthConsentRequest } from '../../../../lib/oauth-consent-http';
+import { createOAuthConsentCoordinator } from '../../../../lib/oauth-consent-coordinator';
+import { observeOAuthConsentFetch } from '../../../../lib/oauth-consent-observability';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export async function POST(request: Request) {
+  const traceId = randomUUID();
+  let response: Response;
   try {
-    return await handleOAuthConsentRequest(request, { config: readOAuthConsentConfig(), getBrowserContext: async () => {
-      const client = await getCentralClient(false);
+    const config = readOAuthConsentConfig();
+    response = await handleOAuthConsentRequest(request, { config, getBrowserContext: async () => {
+      const client = await getCentralClient(false, { fetch: observeOAuthConsentFetch({ centralOrigin: readCentralConfig(process.env).url, traceId }) });
       const identity = await verifyCentralUser(client);
-      return { principalId: identity.principal_id, email: identity.email, provider: client.auth.oauth };
+      console.info('EPS OAuth trace', JSON.stringify({ event: 'eps.oauth.browser_session_verified', trace_id: traceId }));
+      return { principalId: identity.principal_id, email: identity.email, provider: client.auth.oauth,
+        coordinator: createOAuthConsentCoordinator(client, `${config.baseUrl}/mcp`) };
     } });
-  } catch (error) { return failure(error); }
+  } catch (error) { response = failure(error); }
+  response.headers.set('X-EPS-OAuth-Trace-ID', traceId);
+  console.info('EPS OAuth trace', JSON.stringify({ event: 'eps.oauth.consent_response', trace_id: traceId, status: response.status }));
+  return response;
 }

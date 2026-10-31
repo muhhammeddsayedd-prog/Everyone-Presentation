@@ -1,8 +1,8 @@
 import { DomainError } from '@eps/domain';
 import { NO_STORE, failure, json, readBoundedBody } from './http.ts';
-import { OAUTH_UUID, object, closed } from './oauth-consent-contract.ts';
+import { OAUTH_AUTHORIZATION_ID, OAUTH_UUID, object, closed } from './oauth-consent-contract.ts';
 import { decideOAuthAuthorization, inspectOAuthAuthorization, parseOAuthConsentInput, requestOAuthBusinessSignIn,
-  type OAuthBrowserIdentity, type OAuthConsentConfig, type OAuthConsentProvider, type OAuthSignInLink } from './oauth-consent.ts';
+  type OAuthBrowserIdentity, type OAuthConsentConfig, type OAuthConsentProvider, type OAuthConsentCoordinator, type OAuthSignInLink } from './oauth-consent.ts';
 
 function browserOnly(request: Request, config: OAuthConsentConfig) {
   if (request.method !== 'POST' || request.headers.has('authorization') || request.headers.get('host') !== new URL(config.baseUrl).host
@@ -14,13 +14,13 @@ async function readInput(request: Request) {
   catch { throw new DomainError('VALIDATION_FAILED', 'Use a bounded JSON authorization request.', 400); }
 }
 export async function handleOAuthConsentRequest(request: Request, dependencies: { config: OAuthConsentConfig;
-  getBrowserContext(request: Request): Promise<OAuthBrowserIdentity & { provider: OAuthConsentProvider }> }): Promise<Response> {
+  getBrowserContext(request: Request): Promise<OAuthBrowserIdentity & { provider: OAuthConsentProvider; coordinator: OAuthConsentCoordinator }> }): Promise<Response> {
   try {
     browserOnly(request, dependencies.config);
     const input = parseOAuthConsentInput(await readInput(request));
     const identity = await dependencies.getBrowserContext(request);
-    const value = input.action === 'details' ? await inspectOAuthAuthorization(identity.provider, input.authorization_id, identity, dependencies.config)
-      : await decideOAuthAuthorization(identity.provider, input.authorization_id, input.action, identity, dependencies.config);
+    const value = input.action === 'details' ? await inspectOAuthAuthorization(identity.provider, input.authorization_id, identity, dependencies.config, identity.coordinator, input.request_id)
+      : await decideOAuthAuthorization(identity.provider, input.authorization_id, input.action, identity, dependencies.config, identity.coordinator, input.request_id);
     return json(value, input.request_id, value.state === 'uncertain' ? 202 : 200);
   } catch (error) { return failure(error); }
 }
@@ -36,7 +36,7 @@ export async function handleOAuthConsentSignIn(request: Request, dependencies: {
 export async function handleOAuthConsentCallback(request: Request, dependencies: { baseUrl: string; exchangeCode(code: string): Promise<{ error: unknown }> }): Promise<Response> {
   const query = new URL(request.url).searchParams;
   const authorizationId = query.get('authorization_id');
-  const validId = authorizationId !== null && OAUTH_UUID.test(authorizationId) && query.getAll('authorization_id').length === 1;
+  const validId = authorizationId !== null && OAUTH_AUTHORIZATION_ID.test(authorizationId) && query.getAll('authorization_id').length === 1;
   const destination = validId ? `/oauth/consent?authorization_id=${authorizationId}` : '/oauth/consent';
   let succeeded = false;
   const code = query.get('code');

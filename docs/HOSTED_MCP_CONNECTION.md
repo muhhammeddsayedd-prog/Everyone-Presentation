@@ -54,12 +54,15 @@ Claude Code, complete the emailed sign-in link if prompted, and review the Studi
 consent page. Approve access to finish the callback. The delegated client uses
 your existing Studio permissions.
 
-Automatic resumption of an already-consented request is currently unsupported
-when the provider returns only a redirect URL. Studio deliberately rejects that
-response without verified client, account and scope details. If reauthentication
-shows `OAUTH_PROVIDER_RESPONSE_INVALID` (503), report that error name; keep this
-reconnect case pending rather than bypassing the check. See the existing
-[consent setup record](../development/m07/OAUTH_CONSENT_SETUP.md).
+The consent correction accepts Supabase's opaque authorization selector and both
+valid details responses. A redirect-only reconnect is checked against the native
+authorization, approved client/resource, exact scope, registered callback and
+current browser session before it is forwarded. Durable claims prevent duplicate
+consuming reads and decisions. This replaces the earlier refusal documented in
+the historical [consent setup record](../development/m07/OAUTH_CONSENT_SETUP.md).
+Live initial authorization, reconnect and your authenticated MCP operation remain
+pending until their actual receipts are recorded. Start a fresh connection from
+Claude rather than reloading an expired or already processed consent URL.
 
 Then check the connection:
 

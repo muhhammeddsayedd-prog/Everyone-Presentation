@@ -26,6 +26,8 @@ async function send(path: string, value: Record<string, unknown>, signal?: Abort
 function message(error: unknown) {
   if (error instanceof ConsentRequestError && error.status === 429) return 'Sign-in requests are temporarily limited. Check your inbox for a recent link, then try again later.';
   if (error instanceof ConsentRequestError && error.code === 'OAUTH_PROVIDER_RESPONSE_INVALID') return 'This connection request could not be verified. Return to your client and start the connection again.';
+  if (error instanceof ConsentRequestError && error.code === 'OAUTH_AUTHORIZATION_IN_PROGRESS') return 'This connection request is already being checked. Wait briefly, then check its status.';
+  if (error instanceof ConsentRequestError && error.code === 'OAUTH_AUTHORIZATION_PROCESSED') return 'This connection request has already been processed. Return to your client and start a fresh connection.';
   return 'The authorization service could not be reached. Check the request status or restart the connection from your client.';
 }
 

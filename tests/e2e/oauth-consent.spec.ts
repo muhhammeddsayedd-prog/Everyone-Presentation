@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
 
-const authorizationId = '10000000-0000-4000-8000-000000000001';
+// Deterministic UI fixtures, distinct from real-provider/owner acceptance.
+const authorizationId = 'abcdefghijklmnopqrstuvwxyz234567';
 const clientId = '30000000-0000-4000-8000-000000000001';
 const consent = { state: 'consent', authorization_id: authorizationId, client: { id: clientId, name: 'Synthetic Claude Code', website: 'https://client.example.invalid' },
   account_email: 'synthetic-owner@example.invalid', scopes: ['openid'] };
@@ -29,7 +30,7 @@ test('desktop consent shows verified client/permissions and keyboard approval re
   expect(calls).toEqual(['details', 'approve']); expect(errors).toEqual([]);
 });
 
-test('desktop uncertain consent checks provider state without sending another approval', async ({ page }) => {
+test('desktop uncertain consent checks status without sending another approval', async ({ page }) => {
   const actions: string[] = [];
   await page.route('**/api/oauth/authorization', route => {
     const body = route.request().postDataJSON(); actions.push(body.action);
@@ -65,11 +66,45 @@ test('caller-supplied client names and redirects cannot become consent metadata'
   await expect(page.getByText('Forged client')).toHaveCount(0); expect(calls).toBe(0);
 });
 
-test('a refused metadata-free reconnect offers no approval or automatic redirect', async ({ page }) => {
+test('a reconnect refused by server authority checks offers no approval or automatic redirect', async ({ page }) => {
   await page.route('**/api/oauth/authorization', route => route.fulfill({ status: 503,
     json: { error: { code: 'OAUTH_PROVIDER_RESPONSE_INVALID' } } }));
   await page.goto(`/oauth/consent?authorization_id=${authorizationId}`);
   await expect(page.getByRole('region', { name: 'Connect to Everyone' }).getByRole('alert')).toContainText('This connection request could not be verified.');
   await expect(page.getByRole('button', { name: 'Approve connection', exact: true })).toHaveCount(0);
   await expect(page).toHaveURL(new RegExp(`/oauth/consent\\?authorization_id=${authorizationId}$`));
+});
+
+test('a server-verified redirect-only reconnect returns automatically without another approval', async ({ page }) => {
+  const actions: string[] = [];
+  await page.route('**/api/oauth/authorization', route => {
+    const body = route.request().postDataJSON(); actions.push(body.action);
+    return route.fulfill({ json: { request_id: body.request_id, data: { state: 'redirect', authorization_id: authorizationId,
+      redirect_url: 'http://127.0.0.1:3100/oauth-client-callback?code=synthetic-only-reconnect-code&state=synthetic-only-state' } } });
+  });
+  await page.route('**/oauth-client-callback?*', route => route.fulfill({ contentType: 'text/html', body: '<h1>Synthetic reconnect received</h1>' }));
+  await page.goto(`/oauth/consent?authorization_id=${authorizationId}`);
+  await expect(page.getByRole('heading', { name: 'Synthetic reconnect received' })).toBeVisible();
+  expect(actions).toEqual(['details']);
+});
+
+test('an overlapping details check can recover a ready consent without being treated as an uncertain decision', async ({ page }) => {
+  const actions: string[] = [];
+  await page.route('**/api/oauth/authorization', route => {
+    const body = route.request().postDataJSON(); actions.push(body.action);
+    return actions.length === 1 ? route.fulfill({ status: 409, json: { error: { code: 'OAUTH_AUTHORIZATION_IN_PROGRESS' } } })
+      : route.fulfill({ json: { request_id: body.request_id, data: consent } });
+  });
+  await page.goto(`/oauth/consent?authorization_id=${authorizationId}`);
+  await page.getByRole('button', { name: 'Check authorization status', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Approve connection', exact: true })).toBeVisible();
+  expect(actions).toEqual(['details', 'details']);
+});
+
+test('duplicate authorization query selectors are rejected before a provider request', async ({ page }) => {
+  let calls = 0;
+  await page.route('**/api/oauth/**', route => { calls++; return route.fulfill({ status: 500, body: '' }); });
+  await page.goto(`/oauth/consent?authorization_id=${authorizationId}&authorization_id=${authorizationId}`);
+  await expect(page.getByRole('alert')).toContainText('This authorization request is unavailable.');
+  expect(calls).toEqual(0);
 });
