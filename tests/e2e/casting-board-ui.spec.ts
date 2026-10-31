@@ -116,7 +116,7 @@ test('casting unknown write locks changes and retries exactly without a second e
   await expect(page.getByRole('checkbox', { name: 'Include in Shortlist', exact: true })).toBeVisible();
   await page.getByRole('checkbox', { name: 'Include in Shortlist', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Retry same change', exact: true })).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Set as Main', exact: true })).toBeDisabled();
+  await expect(page.getByRole('button', { name: /^Assignment actions for / }).first()).toBeDisabled();
   await page.getByRole('button', { name: 'Retry same change', exact: true }).click();
   await expect(page.getByRole('checkbox', { name: 'Include in Shortlist', exact: true })).toBeChecked();
   await expect(page.getByRole('button', { name: 'Retry same change', exact: true })).toHaveCount(0);
@@ -137,7 +137,7 @@ test('casting retains an unknown write after a later denial until the same ackno
   await expect(page.getByRole('alert').filter({ hasText: 'The synthetic response was interrupted.' })).toBeVisible();
   await expect(retry).toBeVisible();
   await expect(page.getByRole('button', { name: 'Reload saved board', exact: true })).toBeDisabled();
-  await expect(page.getByRole('button', { name: 'Set as Main', exact: true })).toBeDisabled();
+  await expect(page.getByRole('button', { name: /^Assignment actions for / }).first()).toBeDisabled();
   await retry.click();
   await expect(page.getByRole('checkbox', { name: 'Include in Shortlist', exact: true })).toBeChecked();
   await expect(retry).toHaveCount(0);
