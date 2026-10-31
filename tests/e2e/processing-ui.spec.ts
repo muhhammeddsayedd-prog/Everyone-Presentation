@@ -69,7 +69,7 @@ test('controlled processing pages paginate/filter and show safe detail with an a
   await expect(page).toHaveURL(/status=failed$/u);
   await page.getByRole('link', { name: 'Specs extraction', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Processing status', exact: true })).toBeVisible();
-  await expect(page.getByText('A processing dependency is temporarily unavailable.', { exact: true })).toBeVisible();
+  await expect(page.getByRole('dialog', { name: 'Processing details' }).getByText('A processing dependency is temporarily unavailable.', { exact: true })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Open requirements' })).toHaveAttribute('href', `/projects/${projectId}/casting/${workspaceId}/specs`);
   await expect(page.getByRole('button', { name: 'Retry failed processing' })).toHaveCount(0);
   await expect(page.getByRole('button', { name: 'Cancel processing' })).toHaveCount(0);

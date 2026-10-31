@@ -36,7 +36,8 @@ async function fileWorkspace(page: Page, mode: Mode = 'normal') {
   const accepted = { job_id: jobId, resource_id: specId, poll_url: `/api/v1/jobs/${jobId}`, status: 'queued' };
   await page.route(`${storage}/**`, async route => {
     const request = route.request();
-    const headers = { 'Access-Control-Allow-Origin': 'http://127.0.0.1:3100', 'Access-Control-Allow-Methods': 'PUT, OPTIONS', 'Access-Control-Allow-Headers': 'content-type,x-upsert' };
+    // Answer the app's own origin so the suite runs on any configured test port.
+    const headers = { 'Access-Control-Allow-Origin': new URL(page.url()).origin, 'Access-Control-Allow-Methods': 'PUT, OPTIONS', 'Access-Control-Allow-Headers': 'content-type,x-upsert' };
     if (request.method() === 'OPTIONS') return route.fulfill({ status: 204, headers });
     expect(request.method()).toBe('PUT');
     expect(new URL(request.url()).pathname).toBe(new URL(session().upload_url).pathname);

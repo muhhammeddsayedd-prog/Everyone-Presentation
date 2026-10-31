@@ -3,8 +3,10 @@
 import { useState } from 'react';
 import { api, errorMessage, mutation, type AudiencePreset } from './api';
 import { ErrorNotice } from './Feedback';
+import { useConfirm } from './ui/Confirm';
 
 export function AudiencePresetRow({ preset, canManage, onChanged }: { preset: AudiencePreset; canManage: boolean; onChanged: () => void }) {
+  const confirm = useConfirm();
   const [editing, setEditing] = useState(false);
   const [label, setLabel] = useState(preset.label);
   const [busy, setBusy] = useState(false);
@@ -17,5 +19,5 @@ export function AudiencePresetRow({ preset, canManage, onChanged }: { preset: Au
     } catch (reason) { setError(errorMessage(reason)); }
     finally { setBusy(false); }
   }
-  return <div className="preset-entry"><div className="preset-row"><div>{editing ? <label className="field">Audience label<input value={label} maxLength={100} onChange={event => setLabel(event.target.value)} /></label> : <h3>{preset.label}</h3>}<span className="small muted">{['internal_production', 'agency', 'client'].includes(preset.key) ? 'Default preset' : 'Custom preset'}</span></div><div className="preset-actions"><span className="badge">{preset.scope === 'internal' ? 'Internal' : 'External'}</span>{canManage && (editing ? <><button className="button button-small" disabled={busy || !label.trim()} onClick={() => save()}>{busy ? 'Saving…' : 'Save label'}</button><button className="button button-small button-quiet" disabled={busy} onClick={() => { setEditing(false); setLabel(preset.label); }}>Cancel</button></> : <><button className="button button-small button-quiet" onClick={() => setEditing(true)} aria-label={`Edit ${preset.label}`}>Edit</button><button className="button button-small button-quiet" disabled={busy} onClick={() => save(true)} aria-label={`Archive ${preset.label}`}>Archive</button></>)}</div></div>{error && <ErrorNotice message={error} retry={onChanged} />}</div>;
+  return <div className="preset-entry"><div className="preset-row"><div>{editing ? <label className="field">Audience label<input value={label} maxLength={100} onChange={event => setLabel(event.target.value)} /></label> : <h3>{preset.label}</h3>}<span className="small muted">{['internal_production', 'agency', 'client'].includes(preset.key) ? 'Default preset' : 'Custom preset'}</span></div><div className="preset-actions"><span className="badge">{preset.scope === 'internal' ? 'Internal' : 'External'}</span>{canManage && (editing ? <><button className="button button-small" disabled={busy || !label.trim()} onClick={() => save()}>{busy ? 'Saving…' : 'Save label'}</button><button className="button button-small button-quiet" disabled={busy} onClick={() => { setEditing(false); setLabel(preset.label); }}>Cancel</button></> : <><button className="button button-small button-quiet" onClick={() => setEditing(true)} aria-label={`Edit ${preset.label}`}>Edit</button><button className="button button-small button-quiet" disabled={busy} onClick={async () => { if (await confirm({ title: `Archive the ${preset.label} preset?`, description: 'It will no longer be offered for new series. Series already created with it keep their captured audience.', confirmLabel: 'Archive preset', danger: true })) void save(true); }} aria-label={`Archive ${preset.label}`}>Archive</button></>)}</div></div>{error && <ErrorNotice message={error} retry={onChanged} />}</div>;
 }
