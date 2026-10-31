@@ -29,6 +29,10 @@ This record covers the frontend redesign (presentation and interactions) only. C
    - guest feedback summary
    - per-file batch marks
 5. **Browser dialogs.** `window.confirm` is being replaced by an accessible `alertdialog` (`useConfirm`). The button names state the consequence, and Cancel takes initial focus. Remaining call sites are converted as each screen is rebuilt.
+7. **Role ordering form.** The approved "Order dialog" is a non-modal "Change role order" panel inside the Specs Roles section. It is a keyboard list with Move up / Move down for each role. It is non-modal so that "Reload saved requirements" and order retry stay reachable while ordering; a modal would trap focus away from that recovery path. Casting keeps compact earlier/later buttons and a drag handle on each role chip.
+8. **Casting layout.** The board focuses one role at a time through a role strip, and that role's slots render as lanes. The mockup shows every role's lanes at once, but each slot's assign control (the "Project candidate" list) would then repeat across all roles under one name. Narrow screens use the same strip, as the mobile concept does.
+9. **Inline overlays.** The candidate inspector, assignment notes and casting-removal review render their drawer or modal inside the owning row (fixed to the viewport; no portal). Focus trap, Escape and focus return are unchanged, and the owner's DOM scope still contains its controls.
+10. **English transcripts (Codex contract, 2026-10-31).** Display uses only `english_transcript` / `english_text` when the status is available. Every other status shows an English absence message. There is no language selector and no fallback to the original-language transcript. This is applied in the transcript batches (6–8).
 6. **Output control.** The working-output control is a segmented "Cast Selection / Cast Shortlist" toggle in the workspace header. It was previously a select labelled "Working output". On Casting, Review and Presentation in central mode, the casting board's existing Selection / Shortlist control stays the only one, so no two controls share a name.
 
 ## Design system (batch 1)
@@ -55,7 +59,10 @@ This record covers the frontend redesign (presentation and interactions) only. C
 | Projects list and project panel | done | Table, filter, panel (workspace status, last updated, logo placement, ready series in central mode, planned modules) |
 | Workspace header and steps | done | Breadcrumb, unpublished-changes badge, output toggle, Review & generate |
 | Project step | done | Details panel with autosave and technical details, Next up links, client branding with a live cover preview and segmented placement |
-| Specs, Candidates, Casting, Review, Presentation, Library, Profile, Guest, Processing, Settings | restyled | Rebuilt in batches 3–9. They already use the new controls, panels and notices. |
+| Specs | done | Source/editor split; role summary rows with a three-column grid; "Change role order" panel; removal-consequence dialog; confirm dialogs |
+| Candidates | done | Tabs; summary rows (portrait, three frame slots, availability, attention badges); inspector drawer (material, frames up to 3, notes, files, new introduction) |
+| Casting | done | Role strip; slot lanes; compact cards with position chip, Shortlist star and actions menu; Main Undo toast; notes drawer; candidate tray |
+| Review, Presentation, Library, Profile, Guest, Processing, Settings | restyled | Rebuilt in batches 6–9 |
 
 ## Checks
 
@@ -67,7 +74,17 @@ This record covers the frontend redesign (presentation and interactions) only. C
 | 2026-10-31 | Batch 1–2: full `npx playwright test` (99 tests) | `local_fixture` test server | 98 passed. The only failure is the same pre-existing `source-intake-ui.spec.ts:196`. An earlier run caught two regressions, both fixed before commit: the toast region's `role="status"` collided with bare `getByRole('status')`, and a hidden file input overflowed horizontally. |
 | 2026-10-31 | Browser screenshots at 1440 × 900 and 390 × 844: sign-in, Projects, Project step, navigation sheet | `next dev`, `local_fixture`, data directory outside the repo | No console errors. The 390 px shots are layout evidence only, not mobile acceptance. |
 
-**Test updates.** `source-intake-ui.spec.ts` and `specs-ui.spec.ts` now answer the in-app "Leave this page?" alert dialog instead of a native browser dialog.
+| 2026-10-31 | Batches 3, 4 and 5: lint, typecheck, full e2e after each | `local_fixture` test server | 98 passed each time; only the pre-existing `source-intake-ui.spec.ts:196` failed. Fixed before commit: a legacy list gap, grid `min-width` overflow at 320 px, and the drawer reopening after Undo. |
+
+**Test updates.** Native `dialog` handlers became in-app alert-dialog clicks in these specs:
+- `source-intake-ui`
+- `specs-ui`
+- `file-source-intake-ui`
+
+UI moves needed one extra click in these specs; no assertion was weakened:
+- `role-order-ui`: open "Change role order" first.
+- `candidate-pagination-ui`, `casting-retirement-ui`, `retirement-undo-ui`: open the candidate inspector first.
+- `casting-board-ui`: the locked-state check targets the card actions menu, which is where Set as Main moved.
 
 **Environment note.** `tools/dev-test-server.mjs` puts `EPS_DATA_DIR` inside the repository (`.local/e2e-studio`). Turbopack watches that directory, so `next dev` recompiles after every fixture write and the browser keeps reloading. Playwright still passes, but interactive browsing needs a data directory outside the repository. This is reported, not changed, because the server script is shared.
 
@@ -98,4 +115,7 @@ This record covers the frontend redesign (presentation and interactions) only. C
 
 | Commit | Batch | Summary |
 |---|---|---|
-| (this commit) | 1–2 | Design system layers, UI primitives, shell, Projects, workspace header, Project step, frontend records |
+| 2e102c8 | 1–2 | Design system layers, UI primitives, shell, Projects, workspace header, Project step, frontend records |
+| 1fbd5f6 | 3 | Specs split view, role rows, ordering panel, retirement dialog |
+| 166485c | 4 | Candidates tabs, summary rows, inspector drawer |
+| 6bb7d6d | 5 | Casting lanes, card menu, Main Undo toast, notes drawer, tray |
