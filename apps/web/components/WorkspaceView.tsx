@@ -14,6 +14,7 @@ import { WorkspaceCandidatesView } from './WorkspaceCandidatesView';
 import { CastingBoard } from './CastingBoard';
 import { WorkspaceReviewView } from './WorkspaceReviewView';
 import { WorkspacePresentationView } from './WorkspacePresentationView';
+import { rememberWorkspace } from './recent-workspaces';
 
 const steps = [{ path: 'project', label: 'Project' }, { path: 'specs', label: 'Specs' }, { path: 'cast', label: 'Candidates' }, { path: 'organize', label: 'Casting' }, { path: 'review', label: 'Review' }, { path: 'presentations', label: 'Presentation' }];
 const pending: Record<string, { title: string; body: string }> = {
@@ -73,6 +74,7 @@ function WorkspaceScope({ projectId, workspaceId, step, actor, storageOrigin, on
     }).catch(reason => { if (current) setError(errorMessage(reason)); }).finally(() => { if (current) setLoading(false); });
     return () => { current = false; };
   }, [projectId, workspaceId, refresh]);
+  useEffect(() => { if (project && workspace) rememberWorkspace({ href: `/projects/${projectId}/casting/${workspaceId}/project`, projectId, workspaceId, name: project.name }); }, [project, workspace, projectId, workspaceId]);
   async function changeOutput(output: 'selection' | 'shortlist') {
     if (!workspace) return; workspaceRefresh.current++; setOutputSaving(true);
     try { setWorkspace((await api<Workspace>(`/api/v1/workspaces/${workspace.id}`, mutation('PATCH', { row_version: workspace.row_version, active_output: output }))).data); }
@@ -89,5 +91,37 @@ function WorkspaceScope({ projectId, workspaceId, step, actor, storageOrigin, on
   const canWrite = actor.capabilities?.includes('workspaces.write') ?? project.can_edit;
   const canUpload = canWrite && (actor.upload_purposes?.includes('client_logo') ?? false);
   const selectedStep = steps.find(item => item.path === step);
-  return <><div className="workspace-breadcrumb"><Link href="/projects">Projects</Link><span>/</span><span>{project.name}</span><span>/</span><span>Casting</span></div><header className="page-heading workspace-heading"><div><h1>{project.name}</h1><p>{project.client_name ?? 'Client not provided'}<span className="inline-divider">·</span>Casting workspace</p></div>{!(['organize', 'review', 'presentations'].includes(step) && central) && <div className="output-control"><label htmlFor="active-output">Working output</label><select id="active-output" value={workspace.active_output} disabled={outputSaving || !actor.capabilities?.includes('workspaces.write')} onChange={event => changeOutput(event.target.value as 'selection' | 'shortlist')}><option value="selection">Cast Selection</option><option value="shortlist">Cast Shortlist</option></select></div>}</header><nav className="workspace-steps" aria-label="Casting workspace steps">{steps.map((item, index) => <Link href={`${base}/${item.path}${contextSeries && ['review', 'presentations'].includes(item.path) ? `?series_id=${contextSeries}` : ''}`} key={item.path} aria-current={step === item.path ? 'step' : undefined}><span className="step-number">{index + 1}</span>{item.label}</Link>)}</nav>{error && <ErrorNotice message={error} retry={reloadData} />}{step === 'project' ? <><ProjectDetails key={project.id} project={project} onSaved={projectSaved} onDirtyChange={detailsChanged} /><LogoPanel key={workspace.id} workspace={workspace} clientLogoAssetId={project.client_logo_asset_id} canWrite={canWrite} canUpload={canUpload} onSaved={setWorkspace} onDirtyChange={logoChanged} /><footer className="workspace-footer"><p className="small muted">Your workspace is saved.</p><Link className="button button-primary" href={`${base}/specs`}>Continue to Specs<Icon name="arrow" /></Link></footer></> : step === 'specs' && central ? <SpecsView workspaceId={workspaceId} projectId={projectId} canWrite={canWrite} uploadPurposes={actor.upload_purposes ?? []} storageOrigin={storageOrigin} onDirtyChange={specsChanged} onWorkspaceChanged={specsWorkspaceChanged} /> : step === 'cast' && central ? <WorkspaceCandidatesView workspaceId={workspaceId} projectId={projectId} actor={actor} storageOrigin={storageOrigin} onDirtyChange={castChanged} onWorkspaceChanged={specsWorkspaceChanged} /> : step === 'organize' && central ? <CastingBoard workspaceId={workspaceId} projectId={projectId} actor={actor} initialOutput={workspace.active_output} onDirtyChange={castingChanged} onWorkspaceChanged={specsWorkspaceChanged} /> : step === 'review' && central ? <WorkspaceReviewView requestedSeriesId={requestedSeriesId} onSeriesChanged={setContextSeries} workspaceId={workspaceId} projectId={projectId} actor={actor} initialOutput={workspace.active_output} onDirtyChange={reviewChanged} onWorkspaceChanged={specsWorkspaceChanged} /> : step === 'presentations' && central ? <WorkspacePresentationView requestedSeriesId={requestedSeriesId} onSeriesChanged={setContextSeries} workspaceId={workspaceId} projectId={projectId} actor={actor} initialOutput={workspace.active_output} onDirtyChange={presentationChanged} /> : selectedStep && pending[step] ? <div className="empty-state step-empty"><Icon name={step === 'cast' ? 'people' : step === 'presentations' ? 'slides' : 'projects'} /><h2>{pending[step].title}</h2><p>{pending[step].body}</p><span className="badge">Implementation pending</span><Link className="button" href={`${base}/project`}>Return to Project</Link></div> : <ErrorNotice message="This workspace step does not exist. Use the navigation above." />}</>;
+  const ownsOutput = ['organize', 'review', 'presentations'].includes(step) && central;
+  const canChangeOutput = !outputSaving && Boolean(actor.capabilities?.includes('workspaces.write'));
+  const seriesQuery = (path: string) => contextSeries && ['review', 'presentations'].includes(path) ? `?series_id=${contextSeries}` : '';
+  const stepBody = step === 'project' ? <div className="project-step">
+      <div className="stack-lg"><ProjectDetails key={project.id} project={project} onSaved={projectSaved} onDirtyChange={detailsChanged} /><NextSteps base={base} /></div>
+      <LogoPanel key={workspace.id} workspace={workspace} clientLogoAssetId={project.client_logo_asset_id} canWrite={canWrite} canUpload={canUpload} onSaved={setWorkspace} onDirtyChange={logoChanged} projectName={project.name} clientName={project.client_name} />
+    </div>
+    : step === 'specs' && central ? <SpecsView workspaceId={workspaceId} projectId={projectId} canWrite={canWrite} uploadPurposes={actor.upload_purposes ?? []} storageOrigin={storageOrigin} onDirtyChange={specsChanged} onWorkspaceChanged={specsWorkspaceChanged} />
+    : step === 'cast' && central ? <WorkspaceCandidatesView workspaceId={workspaceId} projectId={projectId} actor={actor} storageOrigin={storageOrigin} onDirtyChange={castChanged} onWorkspaceChanged={specsWorkspaceChanged} />
+    : step === 'organize' && central ? <CastingBoard workspaceId={workspaceId} projectId={projectId} actor={actor} initialOutput={workspace.active_output} onDirtyChange={castingChanged} onWorkspaceChanged={specsWorkspaceChanged} />
+    : step === 'review' && central ? <WorkspaceReviewView requestedSeriesId={requestedSeriesId} onSeriesChanged={setContextSeries} workspaceId={workspaceId} projectId={projectId} actor={actor} initialOutput={workspace.active_output} onDirtyChange={reviewChanged} onWorkspaceChanged={specsWorkspaceChanged} />
+    : step === 'presentations' && central ? <WorkspacePresentationView requestedSeriesId={requestedSeriesId} onSeriesChanged={setContextSeries} workspaceId={workspaceId} projectId={projectId} actor={actor} initialOutput={workspace.active_output} onDirtyChange={presentationChanged} />
+    : selectedStep && pending[step] ? <div className="empty-state step-empty"><Icon name={step === 'cast' ? 'people' : step === 'presentations' ? 'slides' : 'projects'} /><h2>{pending[step].title}</h2><p>{pending[step].body}</p><span className="badge badge-pending">Implementation pending</span><Link className="button" href={`${base}/project`}>Return to Project</Link></div>
+    : <ErrorNotice message="This workspace step does not exist. Use the navigation above." />;
+  return <>
+    <nav className="workspace-breadcrumb" aria-label="Breadcrumb"><Link href="/projects">Projects</Link><Icon name="chevron-right" /><span>{project.client_name ?? project.name}</span><Icon name="chevron-right" /><span aria-current="page">Casting</span></nav>
+    <header className="workspace-heading">
+      <div><h1>{project.name}</h1><p><span>{project.client_name ?? 'Client not provided'}</span><span aria-hidden="true">·</span><span>Casting workspace</span>{workspace.has_unpublished_changes && <><span aria-hidden="true">·</span><span className="badge badge-dot badge-warn">Unpublished changes</span></>}</p></div>
+      <div className="workspace-actions">
+        {!ownsOutput && <div className="segmented" role="group" aria-label="Working output">{(['selection', 'shortlist'] as const).map(value => <button key={value} type="button" aria-pressed={workspace.active_output === value} disabled={!canChangeOutput} onClick={() => { if (workspace.active_output !== value) void changeOutput(value); }}>{value === 'selection' ? 'Cast Selection' : 'Cast Shortlist'}</button>)}</div>}
+        {step !== 'review' && <Link className="button button-primary" href={`${base}/review${seriesQuery('review')}`}>Review &amp; generate<Icon name="arrow" /></Link>}
+      </div>
+    </header>
+    <nav className="workspace-steps" aria-label="Casting workspace steps">{steps.map((item, index) => <Link href={`${base}/${item.path}${seriesQuery(item.path)}`} key={item.path} aria-current={step === item.path ? 'step' : undefined}><span className="step-number">{index + 1}</span>{item.label}</Link>)}</nav>
+    {error && <ErrorNotice message={error} retry={reloadData} />}
+    {stepBody}
+  </>;
+}
+
+const nextSteps = [{ path: 'specs', tag: 'Specs', body: 'Add or correct roles, requirements and slots from the brief.', action: 'Review specs' }, { path: 'cast', tag: 'Candidates', body: 'Add people from the Cast Library or upload new material.', action: 'Open candidates' }, { path: 'organize', tag: 'Casting', body: 'Assign candidates to slots and choose Main, Option or Backup.', action: 'Open casting' }, { path: 'review', tag: 'Review', body: 'Check facts and slide fit, then generate a saved version.', action: 'Open review' }];
+function NextSteps({ base }: { base: string }) {
+  return <section className="panel" aria-labelledby="next-steps-heading"><header className="panel-header"><h2 id="next-steps-heading">Next up</h2><span className="small muted">Nothing here blocks you — missing information stays visible as “Not provided”.</span></header>
+    <ul className="next-steps">{nextSteps.map(item => <li key={item.path}><span className="badge badge-outline">{item.tag}</span><span>{item.body}</span><Link className="button button-quiet button-small" href={`${base}/${item.path}`}>{item.action}<Icon name="arrow" /></Link></li>)}</ul></section>;
 }

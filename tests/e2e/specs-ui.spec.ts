@@ -149,8 +149,8 @@ test('controlled stale edit stays visible and guards navigation until explicit r
   await article.getByLabel('Role name', { exact: true }).fill('My correction');
   await expect(article.getByRole('alert')).toContainText('Reload the saved details');
   await expect(article.getByLabel('Role name', { exact: true })).toHaveValue('My correction');
-  page.once('dialog', dialog => dialog.dismiss());
   await page.getByRole('link', { name: 'Continue to Candidates' }).click();
+  await page.getByRole('alertdialog', { name: 'Leave this page?' }).getByRole('button', { name: 'Stay on this page', exact: true }).click();
   await expect(page).toHaveURL(new RegExp('/specs$'));
   page.once('dialog', dialog => dialog.accept());
   await article.getByRole('button', { name: 'Reload saved requirements', exact: true }).click();

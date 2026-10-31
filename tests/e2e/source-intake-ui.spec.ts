@@ -111,7 +111,8 @@ test('controlled lost acceptance response retries identical key/body and creates
   await expect(page.getByRole('button', { name: 'Retry this source request' })).toBeVisible();
   expect(model.posts[0].body.source_text).toBe('\ufeffOriginal brief\r\n\r\nثلاثة أشخاص');
   await expect(page.getByLabel('Pasted source text')).toHaveAttribute('readonly', '');
-  page.once('dialog', dialog => dialog.dismiss()); await page.getByRole('link', { name: 'Projects', exact: true }).first().click();
+  await page.getByRole('link', { name: 'Projects', exact: true }).first().click();
+  await page.getByRole('alertdialog', { name: 'Leave this page?' }).getByRole('button', { name: 'Stay on this page', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Retry this source request' })).toBeVisible();
   await page.getByRole('button', { name: 'Retry this source request' }).click();
   await expect(page.getByRole('link', { name: 'View accepted processing' })).toBeVisible();
