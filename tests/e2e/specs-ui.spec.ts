@@ -152,8 +152,8 @@ test('controlled stale edit stays visible and guards navigation until explicit r
   await page.getByRole('link', { name: 'Continue to Candidates' }).click();
   await page.getByRole('alertdialog', { name: 'Leave this page?' }).getByRole('button', { name: 'Stay on this page', exact: true }).click();
   await expect(page).toHaveURL(new RegExp('/specs$'));
-  page.once('dialog', dialog => dialog.accept());
   await article.getByRole('button', { name: 'Reload saved requirements', exact: true }).click();
+  await page.getByRole('alertdialog', { name: 'Reload saved requirements?' }).getByRole('button', { name: 'Discard edits and reload', exact: true }).click();
   await article.locator('summary').filter({ hasText: 'Edit requirements' }).click();
   await expect(article.getByLabel('Role name', { exact: true })).toHaveValue('External correction');
   expect(model.rolePatches).toHaveLength(1); expect(model.errors).toEqual([]);

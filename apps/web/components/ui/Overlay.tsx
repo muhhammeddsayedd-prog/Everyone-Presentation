@@ -51,19 +51,21 @@ export function Drawer({ title, description, onClose, children, footer, wide, cl
     </div></>, target);
 }
 
-/** Centred modal, reserved for consequences or a decision between two things. */
-export function Modal({ title, description, onClose, children, footer, wide, busy, initialFocus, role = 'dialog' }: OverlayProps & { wide?: boolean; role?: 'dialog' | 'alertdialog' }) {
+/** Centred modal, reserved for consequences or a decision between two things.
+ * `inline` keeps the dialog in place in the DOM (still fixed and centred) so it stays scoped to its owner. */
+export function Modal({ title, description, onClose, children, footer, wide, busy, initialFocus, role = 'dialog', inline }: OverlayProps & { wide?: boolean; role?: 'dialog' | 'alertdialog'; inline?: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
   const titleId = useId(); const descriptionId = useId();
   useFocusTrap(ref, busy ? undefined : onClose, initialFocus);
   const target = usePortal();
   if (!target) return null;
-  return createPortal(<div className="modal-layer" onMouseDown={event => { if (!busy && event.target === event.currentTarget) onClose(); }}>
+  const layer = <div className="modal-layer" onMouseDown={event => { if (!busy && event.target === event.currentTarget) onClose(); }}>
     <div ref={ref} className={`modal${wide ? ' modal-wide' : ''}`} role={role} aria-modal="true" aria-labelledby={titleId} aria-describedby={description ? descriptionId : undefined} tabIndex={-1} aria-busy={busy || undefined}>
       <header className="modal-header"><h2 id={titleId}>{title}</h2>{description && <p id={descriptionId}>{description}</p>}</header>
       <div className="modal-body">{children}</div>
       {footer && <footer className="modal-footer">{footer}</footer>}
-    </div></div>, target);
+    </div></div>;
+  return inline ? layer : createPortal(layer, target);
 }
 
 /** Consequence confirmation replacing window.confirm. The confirm label names the exact action. */

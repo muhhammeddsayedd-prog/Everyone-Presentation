@@ -7,6 +7,7 @@ import { api } from './api';
 import { ErrorNotice } from './Feedback';
 import { processingHref } from './processing-view';
 import { readSourceAccepted, retainSourceIntent, sourceFailure, type SourceAccepted, type SourceIntent } from './source-intake';
+import { useConfirm } from './ui/Confirm';
 import { FileSourceIntake } from './FileSourceIntake';
 
 export function SourceIntake({ spec, canWrite, uploadPurposes = [], storageOrigin, manualEditsPending, onPersisted, onDirtyChange, onLockChange }: {
@@ -14,6 +15,7 @@ export function SourceIntake({ spec, canWrite, uploadPurposes = [], storageOrigi
   onPersisted: (spec: Spec, roles: Role[], cursor: string | null) => void;
   onDirtyChange: (id: string, dirty: boolean) => void; onLockChange: (locked: boolean) => void;
 }) {
+  const confirm = useConfirm();
   const [text, setText] = useState(spec.source_text ?? ''); const [busy, setBusy] = useState(false);
   const [pending, setPending] = useState(false); const [needsReload, setNeedsReload] = useState(false);
   const [error, setError] = useState(''); const [note, setNote] = useState('');
@@ -29,10 +31,10 @@ export function SourceIntake({ spec, canWrite, uploadPurposes = [], storageOrigi
   useEffect(() => { mounted.current = true; return () => { mounted.current = false; controller.current?.abort(); }; }, []);
   useEffect(() => { onDirtyChange('spec-source', dirty); return () => onDirtyChange('spec-source', false); }, [dirty, onDirtyChange]);
   useEffect(() => { onLockChange(busy || pending || fileLocked); return () => onLockChange(false); }, [busy, pending, fileLocked, onLockChange]);
-  function chooseMode(next: 'text' | 'file') {
+  async function chooseMode(next: 'text' | 'file') {
     if (next === mode || busy || pending || fileLocked || next === 'file' && !fileAllowed) return;
     if ((fileDirty || text !== (spec.source_text ?? '') || needsReload)
-      && !window.confirm('Switch source input and discard the local selection or pasted edits? Any saved source and processing remain in the workspace.')) return;
+      && !await confirm({ title: 'Switch source input?', description: 'Your local file selection or pasted edits are discarded. Any saved source and processing remain in the workspace.', confirmLabel: 'Discard and switch', danger: true })) return;
     setText(spec.source_text ?? ''); setNeedsReload(false); intent.current = null; confirmed.current = null;
     setAccepted(null); setError(''); setNote(''); setMode(next);
   }
@@ -97,7 +99,7 @@ export function SourceIntake({ spec, canWrite, uploadPurposes = [], storageOrigi
     {spec.source_text !== null ? <details className="source-brief"><summary>Read the saved source</summary><pre dir="auto">{spec.source_text}</pre></details>
       : <p className="small muted">{spec.source_asset_id ? 'A source document is recorded.' : 'No source brief supplied.'}</p>}
     {spec.processing_job_id && <Link className="small" href={processingHref({ job: spec.processing_job_id })}>View source processing</Link>}
-    {fileAllowed ? <div className="button-row" role="group" aria-label="Source input"><button className="button button-small button-quiet" type="button" aria-pressed={mode === 'text'} disabled={busy || pending || fileLocked} onClick={() => chooseMode('text')}>Paste text</button><button className="button button-small button-quiet" type="button" aria-pressed={mode === 'file'} disabled={busy || pending || fileLocked} onClick={() => chooseMode('file')}>Upload PDF, DOCX or text</button></div>
+    {fileAllowed ? <div className="button-row" role="group" aria-label="Source input"><button className="button button-small button-quiet" type="button" aria-pressed={mode === 'text'} disabled={busy || pending || fileLocked} onClick={() => void chooseMode('text')}>Paste text</button><button className="button button-small button-quiet" type="button" aria-pressed={mode === 'file'} disabled={busy || pending || fileLocked} onClick={() => void chooseMode('file')}>Upload PDF, DOCX or text</button></div>
       : <div className="button-row"><button className="button button-small button-quiet" disabled>Upload PDF or Word</button><p className="small muted">File uploads are not available yet.{canWrite ? ' Paste the brief or edit requirements manually.' : ''}</p></div>}
     {mode === 'file' ? <FileSourceIntake spec={spec} canWrite={canWrite} uploadPurposes={uploadPurposes} storageOrigin={storageOrigin} manualEditsPending={manualEditsPending}
       onDirtyChange={fileDirtyChanged} onLockChange={fileLockChanged} onPersisted={(saved, roles, cursor) => { setText(saved.source_text ?? ''); onPersisted(saved, roles, cursor); }} /> : canWrite ? <form className="source-intake-form" onSubmit={event => { event.preventDefault(); void submit(); }}>

@@ -146,9 +146,10 @@ for (const mode of ['unknown-complete', 'unknown-submit', 'refresh-failure'] as 
 
 test('controlled unavailable submit preserves selected original and allows manual work; dirty mode switch requires consent', async ({ page }) => {
   const model = await fileWorkspace(page, 'unavailable'); await page.goto(view);
-  await page.getByLabel('Pasted source text').fill('Unsubmitted local correction'); page.once('dialog', dialog => dialog.dismiss());
-  await page.getByRole('button', { name: 'Upload PDF, DOCX or text' }).click(); await expect(page.getByLabel('Pasted source text')).toHaveValue('Unsubmitted local correction');
-  page.once('dialog', dialog => dialog.accept()); await selectFile(page); await page.getByRole('button', { name: 'Process document', exact: true }).click();
+  await page.getByLabel('Pasted source text').fill('Unsubmitted local correction');
+  await page.getByRole('button', { name: 'Upload PDF, DOCX or text' }).click(); await page.getByRole('alertdialog', { name: 'Switch source input?' }).getByRole('button', { name: 'Cancel', exact: true }).click(); await expect(page.getByLabel('Pasted source text')).toHaveValue('Unsubmitted local correction');
+  await page.getByRole('button', { name: 'Upload PDF, DOCX or text' }).click(); await page.getByRole('alertdialog', { name: 'Switch source input?' }).getByRole('button', { name: 'Discard and switch', exact: true }).click();
+  await page.getByLabel('Document source', { exact: true }).setInputFiles(plainFile); await page.getByRole('button', { name: 'Process document', exact: true }).click();
   await expect(page.getByRole('alert').filter({ hasText: 'Document processing is not available yet' })).toBeVisible();
   await expect(page.getByLabel('General instructions', { exact: true })).toBeEditable();
   await page.getByLabel('General instructions', { exact: true }).fill('Manual work continues'); await expect.poll(() => model.spec().normalized_instructions).toBe('Manual work continues');
