@@ -8,3 +8,5 @@ export * from './job-errors.ts';
 export { transcribeAudio, extractCandidate, joinTranscriptChunks, openAIMediaConfigFromEnv } from './openai-media.ts';
 export type { OpenAIMediaConfig, TranscriptionTransport, CandidateTransport } from './openai-media.ts';
 export type * from './media-types.ts';
+export { normalizeTranscriptEnglish, splitEnglishTranscriptSource, EnglishTranscriptNormalizationError, ENGLISH_TRANSCRIPT_LIMITS } from './openai-transcript-english.ts';
+export type { EnglishTranscriptInput, EnglishTranscriptTransport } from './openai-transcript-english.ts';

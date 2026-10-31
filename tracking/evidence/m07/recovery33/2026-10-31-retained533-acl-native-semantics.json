@@ -1,0 +1,410 @@
+{
+  "observed_at": "2026-10-31T15:08:13.239Z",
+  "scope": "Retained533 exact3 ACL literal semantics only; no table restore or role adoption",
+  "query_sha256": "86b46544bb451cf483dd0ef21b00826cf61a75bd91a8990e3add685d0cb3d4f6",
+  "read_only": true,
+  "native_literal_semantics_equal": true,
+  "auth_expanded_entries": 24,
+  "claim_expanded_entries": 8,
+  "symmetric_differences": 0,
+  "actual_table_restore_proved": false,
+  "actual_native_expansions": {
+    "scope": "retained533_native_literal_acl_semantics_only",
+    "auth_source_entries": [
+      {
+        "grantable": false,
+        "privilege": "DELETE",
+        "grantee_oid": "16384",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "DELETE",
+        "grantee_oid": "16504",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "DELETE",
+        "grantee_oid": "16514",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "INSERT",
+        "grantee_oid": "16384",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "INSERT",
+        "grantee_oid": "16504",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "INSERT",
+        "grantee_oid": "16514",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "MAINTAIN",
+        "grantee_oid": "16384",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "MAINTAIN",
+        "grantee_oid": "16504",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "MAINTAIN",
+        "grantee_oid": "16514",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "REFERENCES",
+        "grantee_oid": "16384",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "REFERENCES",
+        "grantee_oid": "16504",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "REFERENCES",
+        "grantee_oid": "16514",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "SELECT",
+        "grantee_oid": "16384",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "SELECT",
+        "grantee_oid": "16504",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "SELECT",
+        "grantee_oid": "16514",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "TRIGGER",
+        "grantee_oid": "16384",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "TRIGGER",
+        "grantee_oid": "16504",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "TRIGGER",
+        "grantee_oid": "16514",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "TRUNCATE",
+        "grantee_oid": "16384",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "TRUNCATE",
+        "grantee_oid": "16504",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "TRUNCATE",
+        "grantee_oid": "16514",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "UPDATE",
+        "grantee_oid": "16384",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "UPDATE",
+        "grantee_oid": "16504",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "UPDATE",
+        "grantee_oid": "16514",
+        "grantor_oid": "16504"
+      }
+    ],
+    "claim_source_entries": [
+      {
+        "grantable": false,
+        "privilege": "DELETE",
+        "grantee_oid": "185052",
+        "grantor_oid": "185052"
+      },
+      {
+        "grantable": false,
+        "privilege": "INSERT",
+        "grantee_oid": "185052",
+        "grantor_oid": "185052"
+      },
+      {
+        "grantable": false,
+        "privilege": "MAINTAIN",
+        "grantee_oid": "185052",
+        "grantor_oid": "185052"
+      },
+      {
+        "grantable": false,
+        "privilege": "REFERENCES",
+        "grantee_oid": "185052",
+        "grantor_oid": "185052"
+      },
+      {
+        "grantable": false,
+        "privilege": "SELECT",
+        "grantee_oid": "185052",
+        "grantor_oid": "185052"
+      },
+      {
+        "grantable": false,
+        "privilege": "TRIGGER",
+        "grantee_oid": "185052",
+        "grantor_oid": "185052"
+      },
+      {
+        "grantable": false,
+        "privilege": "TRUNCATE",
+        "grantee_oid": "185052",
+        "grantor_oid": "185052"
+      },
+      {
+        "grantable": false,
+        "privilege": "UPDATE",
+        "grantee_oid": "185052",
+        "grantor_oid": "185052"
+      }
+    ],
+    "auth_restored_entries": [
+      {
+        "grantable": false,
+        "privilege": "DELETE",
+        "grantee_oid": "16384",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "DELETE",
+        "grantee_oid": "16504",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "DELETE",
+        "grantee_oid": "16514",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "INSERT",
+        "grantee_oid": "16384",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "INSERT",
+        "grantee_oid": "16504",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "INSERT",
+        "grantee_oid": "16514",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "MAINTAIN",
+        "grantee_oid": "16384",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "MAINTAIN",
+        "grantee_oid": "16504",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "MAINTAIN",
+        "grantee_oid": "16514",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "REFERENCES",
+        "grantee_oid": "16384",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "REFERENCES",
+        "grantee_oid": "16504",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "REFERENCES",
+        "grantee_oid": "16514",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "SELECT",
+        "grantee_oid": "16384",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "SELECT",
+        "grantee_oid": "16504",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "SELECT",
+        "grantee_oid": "16514",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "TRIGGER",
+        "grantee_oid": "16384",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "TRIGGER",
+        "grantee_oid": "16504",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "TRIGGER",
+        "grantee_oid": "16514",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "TRUNCATE",
+        "grantee_oid": "16384",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "TRUNCATE",
+        "grantee_oid": "16504",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "TRUNCATE",
+        "grantee_oid": "16514",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "UPDATE",
+        "grantee_oid": "16384",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "UPDATE",
+        "grantee_oid": "16504",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "UPDATE",
+        "grantee_oid": "16514",
+        "grantor_oid": "16504"
+      }
+    ],
+    "claim_default_entries": [
+      {
+        "grantable": false,
+        "privilege": "DELETE",
+        "grantee_oid": "185052",
+        "grantor_oid": "185052"
+      },
+      {
+        "grantable": false,
+        "privilege": "INSERT",
+        "grantee_oid": "185052",
+        "grantor_oid": "185052"
+      },
+      {
+        "grantable": false,
+        "privilege": "MAINTAIN",
+        "grantee_oid": "185052",
+        "grantor_oid": "185052"
+      },
+      {
+        "grantable": false,
+        "privilege": "REFERENCES",
+        "grantee_oid": "185052",
+        "grantor_oid": "185052"
+      },
+      {
+        "grantable": false,
+        "privilege": "SELECT",
+        "grantee_oid": "185052",
+        "grantor_oid": "185052"
+      },
+      {
+        "grantable": false,
+        "privilege": "TRIGGER",
+        "grantee_oid": "185052",
+        "grantor_oid": "185052"
+      },
+      {
+        "grantable": false,
+        "privilege": "TRUNCATE",
+        "grantee_oid": "185052",
+        "grantor_oid": "185052"
+      },
+      {
+        "grantable": false,
+        "privilege": "UPDATE",
+        "grantee_oid": "185052",
+        "grantor_oid": "185052"
+      }
+    ],
+    "auth_symmetric_difference": 0,
+    "claim_symmetric_difference": 0,
+    "historical_claim_owner_oid": 185052,
+    "actual_table_restore_proved": false
+  }
+}

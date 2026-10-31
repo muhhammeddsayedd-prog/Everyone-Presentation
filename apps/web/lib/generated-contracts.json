@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "x-source-sha256": "c2dffc956538fab207796a8d969a9cb4e58bfd0c7e9e4c460a78475d3cb5ec4a",
+  "x-source-sha256": "fb2632c613e588ea9c8d54efaf2ccd926e6c5119986ff94270d8c5fd570cf174",
   "$defs": {
     "Id": {
       "type": "string",
@@ -1678,7 +1678,8 @@
           ]
         },
         "original_transcript": {
-          "$ref": "#/$defs/NullableText"
+          "$ref": "#/$defs/NullableText",
+          "description": "Retained original-language provenance; use english_transcript for English display."
         },
         "languages": {
           "type": "array",
@@ -1689,7 +1690,7 @@
         "processing_issues": {
           "type": "array",
           "uniqueItems": true,
-          "maxItems": 5,
+          "maxItems": 6,
           "description": "Safe persisted technical outcomes; originals and useful material remain available. Raw provider errors stay private.",
           "items": {
             "type": "string",
@@ -1698,7 +1699,8 @@
               "TRANSCRIPTION_FAILED",
               "EXTRACTION_FAILED",
               "INSUFFICIENT_FRAMES",
-              "FRAME_SELECTION_UNAVAILABLE"
+              "FRAME_SELECTION_UNAVAILABLE",
+              "ENGLISH_TRANSCRIPT_UNAVAILABLE"
             ]
           }
         },
@@ -1718,6 +1720,29 @@
         },
         "row_version": {
           "$ref": "#/$defs/RowVersion"
+        },
+        "english_transcript": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200000,
+              "pattern": "^[^\\u0000-\\u0008\\u000b\\u000c\\u000e-\\u001f\\u007f]*\\S[^\\u0000-\\u0008\\u000b\\u000c\\u000e-\\u001f\\u007f]*$"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "English display transcript. Absence is explicit; never substitute original-language text."
+        },
+        "english_transcript_status": {
+          "type": "string",
+          "enum": [
+            "available",
+            "not_provided",
+            "unavailable",
+            "not_captured"
+          ]
         }
       },
       "required": [
@@ -1732,6 +1757,45 @@
         "available_frames",
         "selected_frame_asset_ids",
         "row_version"
+      ],
+      "dependentRequired": {
+        "english_transcript": [
+          "english_transcript_status"
+        ],
+        "english_transcript_status": [
+          "english_transcript"
+        ]
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "english_transcript_status": {
+                "const": "available"
+              }
+            },
+            "required": [
+              "english_transcript_status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "english_transcript": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200000,
+                "pattern": "^[^\\u0000-\\u0008\\u000b\\u000c\\u000e-\\u001f\\u007f]*\\S[^\\u0000-\\u0008\\u000b\\u000c\\u000e-\\u001f\\u007f]*$"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "english_transcript": {
+                "type": "null"
+              }
+            }
+          }
+        }
       ]
     },
     "FrameSelection": {
@@ -5665,7 +5729,8 @@
             {
               "type": "null"
             }
-          ]
+          ],
+          "description": "Frozen original-language provenance; use the captured english_text for English display. Never read current library text for an old version."
         },
         "languages": {
           "type": "array",
@@ -5682,6 +5747,40 @@
           "const": "source_transcript"
         },
         "source_sha256": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "english_text": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200000,
+              "pattern": "^[^\\u0000-\\u0008\\u000b\\u000c\\u000e-\\u001f\\u007f]*\\S[^\\u0000-\\u0008\\u000b\\u000c\\u000e-\\u001f\\u007f]*$"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "English display transcript. Absence is explicit; never substitute original-language text."
+        },
+        "english_status": {
+          "type": "string",
+          "enum": [
+            "available",
+            "not_provided",
+            "unavailable",
+            "not_captured"
+          ]
+        },
+        "english_sha256": {
           "anyOf": [
             {
               "type": "string",
@@ -5742,8 +5841,58 @@
               }
             }
           }
+        },
+        {
+          "if": {
+            "properties": {
+              "english_status": {
+                "const": "available"
+              }
+            },
+            "required": [
+              "english_status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "english_text": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200000,
+                "pattern": "^[^\\u0000-\\u0008\\u000b\\u000c\\u000e-\\u001f\\u007f]*\\S[^\\u0000-\\u0008\\u000b\\u000c\\u000e-\\u001f\\u007f]*$"
+              },
+              "english_sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "english_text": {
+                "type": "null"
+              },
+              "english_sha256": {
+                "type": "null"
+              }
+            }
+          }
         }
-      ]
+      ],
+      "dependentRequired": {
+        "english_text": [
+          "english_status",
+          "english_sha256"
+        ],
+        "english_status": [
+          "english_text",
+          "english_sha256"
+        ],
+        "english_sha256": [
+          "english_text",
+          "english_status"
+        ]
+      }
     }
   }
 }

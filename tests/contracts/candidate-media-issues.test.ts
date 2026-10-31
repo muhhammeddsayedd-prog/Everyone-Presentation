@@ -17,6 +17,6 @@ test('CandidateMedia technical outcomes are required fixed codes across HTTP and
   for (const tool of definitions) {
     const schema = tool.outputSchema.$defs!.CandidateMedia;
     assert(schema.required.includes('processing_issues'));
-    assert.deepEqual(schema.properties.processing_issues.items?.enum, ['NO_AUDIO','TRANSCRIPTION_FAILED','EXTRACTION_FAILED','INSUFFICIENT_FRAMES','FRAME_SELECTION_UNAVAILABLE']);
+    assert.deepEqual(schema.properties.processing_issues.items?.enum, ['NO_AUDIO','TRANSCRIPTION_FAILED','EXTRACTION_FAILED','INSUFFICIENT_FRAMES','FRAME_SELECTION_UNAVAILABLE','ENGLISH_TRANSCRIPT_UNAVAILABLE']);
   }
 });

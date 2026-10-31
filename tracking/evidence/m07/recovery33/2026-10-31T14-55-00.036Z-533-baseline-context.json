@@ -1,0 +1,48 @@
+{
+  "observed_at": "2026-10-31T14:55:00.036Z",
+  "query_sha256": "5e94d3b54e2e2dde995f460058540bd57320704a600042511a020b41c4669ae4",
+  "retained_lock_sha256": "466b9b9d98e340bee6df49f794a4862c7efd738758a73da35183940ec9ae2dc9",
+  "schema_version": "1.0",
+  "run_id": "5332c86b-b1f9-410e-8702-647031182b17",
+  "read_only": true,
+  "expected_original_baseline_sha256": "89ce5bb54fa39dcb557ce0bf8cf10f98399ea82380357c867581dade24b1b8ee",
+  "native_current_baseline_sha256": "89ce5bb54fa39dcb557ce0bf8cf10f98399ea82380357c867581dade24b1b8ee",
+  "native_exact_original_baseline_match": true,
+  "normalized_current_baseline_sha256": "cbea8cefa224be6d510b0129bd8a1f66c6d95091a77af7927196920771f130f9",
+  "native_context": {
+    "kind": "baseline533_session",
+    "phase": "native",
+    "timezone": "UTC",
+    "date_style": "ISO, MDY",
+    "search_path": "\"\\$user\", public, extensions",
+    "bytea_output": "hex",
+    "current_user": "postgres",
+    "session_user": "postgres",
+    "interval_style": "postgres",
+    "extra_float_digits": "0"
+  },
+  "normalized_context": {
+    "kind": "baseline533_session",
+    "phase": "normalized",
+    "timezone": "UTC",
+    "date_style": "ISO, MDY",
+    "search_path": "\"\"",
+    "bytea_output": "hex",
+    "current_user": "postgres",
+    "session_user": "postgres",
+    "interval_style": "postgres",
+    "extra_float_digits": "0"
+  },
+  "parts": {
+    "native_functions_hash": "633317ce999ac4e10ca3489794d1affd",
+    "normalized_functions_hash": "b17075aa18e13eb6496c14164cf7c552",
+    "native_grants_hash": "14a5cdeef4e546842c0e425b4ddc0218",
+    "normalized_grants_hash": "14a5cdeef4e546842c0e425b4ddc0218",
+    "functions_same": false,
+    "grants_same": true,
+    "table_hash_keys_same": true,
+    "changed_table_count": 0,
+    "changed_tables": []
+  },
+  "private_baseline_artifact": ".local/m07-recovery/5332c86b-b1f9-410e-8702-647031182b17/native-baseline-diagnostic-2026-10-31T14-55-00.036Z.json"
+}

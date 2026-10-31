@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0",
+  "scope": "retained533_exact_acl_pairs_not_yet_admitted",
+  "run_id": "5332c86b-b1f9-410e-8702-647031182b17",
+  "source_sha256": "04ff9e09b9c9265f91eb5a07a699eeaa310d7add809788a56b4ab9cfede8b7b3",
+  "restored_sha256": "9257eaa1cb1deca857055cc440fe9de1fdc8319ae426ce769150bc5e34402035",
+  "failed_receipt": "tracking/evidence/m07/recovery33/2026-10-31T14-39-48-217Z-5332c86b.json",
+  "failed_receipt_sha256": "a7db032931cd9ded5a40ab02a6bbd07967c47f00cc7c5a99075b55094b0d0b47",
+  "role_oids": {
+    "postgres": 16384,
+    "supabase_auth_admin": 16504,
+    "dashboard_user": 16514,
+    "eps_oauth_consent_owner_historical": 185052
+  },
+  "observations": [
+    {
+      "table": "auth.oauth_clients",
+      "acl": {
+        "source": "{postgres=arwdDxtm/supabase_auth_admin,supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}",
+        "restored": "{supabase_auth_admin=arwdDxtm/supabase_auth_admin,postgres=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}"
+      },
+      "owner": {
+        "source": "supabase_auth_admin",
+        "restored": "supabase_auth_admin"
+      },
+      "rls": {
+        "source": false,
+        "restored": false
+      },
+      "force_rls": {
+        "source": false,
+        "restored": false
+      }
+    },
+    {
+      "table": "auth.oauth_authorizations",
+      "acl": {
+        "source": "{postgres=arwdDxtm/supabase_auth_admin,supabase_auth_admin=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}",
+        "restored": "{supabase_auth_admin=arwdDxtm/supabase_auth_admin,postgres=arwdDxtm/supabase_auth_admin,dashboard_user=arwdDxtm/supabase_auth_admin}"
+      },
+      "owner": {
+        "source": "supabase_auth_admin",
+        "restored": "supabase_auth_admin"
+      },
+      "rls": {
+        "source": false,
+        "restored": false
+      },
+      "force_rls": {
+        "source": false,
+        "restored": false
+      }
+    },
+    {
+      "table": "eps.oauth_consent_claims",
+      "acl": {
+        "source": "{eps_oauth_consent_owner=arwdDxtm/eps_oauth_consent_owner}",
+        "restored": null
+      },
+      "owner": {
+        "source": "eps_oauth_consent_owner",
+        "restored": "eps_oauth_consent_owner"
+      },
+      "rls": {
+        "source": true,
+        "restored": true
+      },
+      "force_rls": {
+        "source": true,
+        "restored": true
+      }
+    }
+  ]
+}

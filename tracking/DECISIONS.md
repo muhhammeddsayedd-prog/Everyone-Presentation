@@ -388,3 +388,7 @@ reconnect, this closes the requested connection check. FullM07, refresh-token
 lifecycle, delegated writes, restore/endurance and AT-072/M03 retain their own
 pending scopes. Mobile remains skipped; pilot stays running until owner stop.
 No new deployment/config/client/permission change or agent consent was needed.
+
+## 2026-10-31 - English display for every speech language
+
+Owner declined further independent English/mixed label collection. Scan and transcribe permitted videos regardless of source language; show English facts and transcripts only. No full app language selector in v1. Preserve original sources, accepted Arabic name/age review and immutable saved versions. New English projection is additive, initially disabled, and failure/legacy absence is explicit without raw-language fallback. This is a product scope clarification, not evidence of multilingual semantic accuracy. Frontend contract coordination is recorded separately.

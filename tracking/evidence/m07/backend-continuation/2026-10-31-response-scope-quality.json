@@ -1,0 +1,47 @@
+{
+  "observed_at": "2026-10-31T14:15:03.079210Z",
+  "kind": "root_backend_response_scope_quality",
+  "change": "Reject structurally valid RPC responses for another requested project/workspace/preset; preserve valid and replayed results",
+  "red": {
+    "wrong_scope_tests_failed": 7,
+    "valid_replay_test_passed": 1,
+    "source": "Agent observed RED before fix; root reviewed patch and tests"
+  },
+  "root_tests": {
+    "command": "npm.cmd test",
+    "exit_code": 0,
+    "components": [
+      370,
+      9,
+      12,
+      45,
+      237,
+      180
+    ],
+    "tests": 853,
+    "fail": 0,
+    "scope": "Composed application tests, including unchanged OAuth/MCP boundary tests and eight new SDK response regressions"
+  },
+  "commands": {
+    "npm.cmd run lint": 0,
+    "npm.cmd run typecheck": 0,
+    "npm.cmd run check:production-guard": 0,
+    "npm.cmd run build": 0
+  },
+  "logs": {
+    "m07-backend-lint.log": "dcf04cf56739f2f68b315b919013254295716cfac4a2b9aaca7e25ee40e8f2db",
+    "m07-backend-types.log": "63dbaa165359a370f81fa6d619a1569ad84c24a4a726e0b4e03bb94528b8dd4f",
+    "m07-backend-guard.log": "33086726b2a60861095709e2cb277f8ccf4d5d374ec1f3e13831bccd6f36f604",
+    "m07-backend-build.log": "9ea6792fa0e1d18e62e3832aad608334b232245ec23615cdc8ffc9b50bca1f85"
+  },
+  "source_sha256": {
+    "packages/central/src/studio.ts": "d613f2080c4648b7835d47cd644fa5095e58a481460fcbdc47bdb05d01c231da",
+    "packages/central/test/studio-response-scope.test.ts": "7716fcb81e19ff92bd722c8e0fd0ec89f5246b2dd0945049dc19034f8980801a"
+  },
+  "app_source_stability_during_commands": "Not separately asserted; unrelated helpers/docs were developed concurrently",
+  "api_contract_changed": false,
+  "frontend_files_changed": false,
+  "oauth_configuration_changed": false,
+  "cloud_migration_applied": false,
+  "owner_connection_acceptance": "passed and preserved; hosted new-deployment regression separate"
+}

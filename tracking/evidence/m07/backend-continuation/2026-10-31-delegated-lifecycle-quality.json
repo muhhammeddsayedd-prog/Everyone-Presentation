@@ -1,0 +1,24 @@
+{
+  "observed_at": "2026-10-31T15:10:10.091106+00:00",
+  "scope": "Composed deterministic signed MCP lifecycle; synthetic remote RPC ledger",
+  "source": "tests/server/m07-delegated-lifecycle.test.ts",
+  "source_sha256": "6873733c55df13d617e4da7868b0dd5adbdeb6f2b3f0b798bb2c2cb15cc3439f",
+  "tests": 5,
+  "fail": 0,
+  "targeted_eslint": "passed",
+  "full_typecheck": "passed",
+  "independent_security_review": "passed",
+  "checks": [
+    "lost-response replay/current scope",
+    "fresh capability denial before mutation RPC",
+    "session revocation401 before OAuth context",
+    "narrower delegation vs current full grants",
+    "retry HTTP202 acknowledgement/no second state transition",
+    "concurrent modern/legacy principal isolation"
+  ],
+  "application_code_changed": false,
+  "cloud_called": false,
+  "provider_called": false,
+  "sql_idempotency_or_live_refresh_proved": false,
+  "owner_connection_acceptance": "passed preserved"
+}

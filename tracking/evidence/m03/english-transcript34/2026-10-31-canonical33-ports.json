@@ -1,0 +1,113 @@
+{
+  "observed_at": "2026-10-31T14:39:06.562959Z",
+  "kind": "read_only_canonical33_english_transcript_function_discovery",
+  "target": "pyibofyctwnqpvktepse",
+  "history_count": 33,
+  "private_source_archive": ".local/m03-english34-discovery/182e0341-65b9-4bf6-9eee-2f94d1f0b553/ports.json",
+  "source_archive_sha256": "530383505920427743f61798b2260bb71d6f070e2e15afe386a3c83f0cef8384",
+  "query_sha256": "30f96fe9f98427e104878a519409e39951b144f5fccb1adab611ba2b1a45e6ab",
+  "ports": [
+    {
+      "acl": "{eps_candidate_apply_owner=X/eps_candidate_apply_owner,eps_candidate_stage_owner=X/eps_candidate_apply_owner}",
+      "config": [
+        "search_path=\"\""
+      ],
+      "definer": true,
+      "name": "apply_candidate_scan",
+      "owner": "eps_candidate_apply_owner",
+      "schema": "eps",
+      "signature": "eps.apply_candidate_scan(uuid,uuid,text,text,jsonb)",
+      "source_sha256": "4dcd22600e0024f57e3f1520e6976beb043fc201ca4f7c2043a954fd155f4874"
+    },
+    {
+      "acl": "{eps_candidate_stage_owner=X/eps_candidate_stage_owner}",
+      "config": [
+        "search_path=\"\""
+      ],
+      "definer": true,
+      "name": "candidate_validate_stage",
+      "owner": "eps_candidate_stage_owner",
+      "schema": "eps",
+      "signature": "eps.candidate_validate_stage(eps.jobs,text,jsonb)",
+      "source_sha256": "0a219c30d21030638fdf0a2647b73bf98e9850b4c4c860568f5fdf1826a9820a"
+    },
+    {
+      "acl": "{eps_review_owner=X/eps_review_owner}",
+      "config": [
+        "search_path=\"\""
+      ],
+      "definer": false,
+      "name": "capture_presentation_video_transcripts",
+      "owner": "eps_review_owner",
+      "schema": "eps",
+      "signature": "eps.capture_presentation_video_transcripts(uuid)",
+      "source_sha256": "c6bb3252211990359ef879356fc81fdaa9ba49bf5fbcb8bdc8483091a67538d3"
+    },
+    {
+      "acl": "{eps_cast_owner=X/eps_cast_owner}",
+      "config": [
+        "search_path=\"\""
+      ],
+      "definer": false,
+      "name": "cast_media_dto",
+      "owner": "eps_cast_owner",
+      "schema": "eps",
+      "signature": "eps.cast_media_dto(uuid)",
+      "source_sha256": "f6399ea4ba49e23ec33182a7cb6d11f2549c670f1ad8dd5d3000fb93a46c228b"
+    },
+    {
+      "acl": "{eps_candidate_upload_owner=X/eps_candidate_upload_owner}",
+      "config": [
+        "search_path=\"\""
+      ],
+      "definer": true,
+      "name": "enqueue_candidate_scan",
+      "owner": "eps_candidate_upload_owner",
+      "schema": "eps",
+      "signature": "eps.enqueue_candidate_scan(uuid)",
+      "source_sha256": "0a9de1f27007935f44caf862832464bfbaa1ab88e06e4864fa8b06126cb4fc7e"
+    },
+    {
+      "acl": "{eps_candidate_stage_owner=X/eps_candidate_stage_owner,eps_specs_stage_owner=X/eps_candidate_stage_owner}",
+      "config": [
+        "search_path=\"\""
+      ],
+      "definer": true,
+      "name": "get_candidate_stage_input",
+      "owner": "eps_candidate_stage_owner",
+      "schema": "eps",
+      "signature": "eps.get_candidate_stage_input(uuid,uuid,text)",
+      "source_sha256": "242f9e3d9f7ecd79300a3e844ffec8e2e836000558811714f506051629f2d983"
+    },
+    {
+      "acl": "{eps_review_owner=X/eps_review_owner,eps_guest_owner=X/eps_review_owner}",
+      "config": [
+        "search_path=\"\""
+      ],
+      "definer": false,
+      "name": "presentation_video_transcript",
+      "owner": "eps_review_owner",
+      "schema": "eps",
+      "signature": "eps.presentation_video_transcript(uuid,uuid)",
+      "source_sha256": "325cbcb4ee88da51a6402294a4a9dc21440243302e91a9e516e334c2b7b93df3"
+    },
+    {
+      "acl": "{eps_review_owner=X/eps_review_owner,authenticated=X/eps_review_owner}",
+      "config": [
+        "search_path=\"\""
+      ],
+      "definer": true,
+      "name": "eps_generate_version",
+      "owner": "eps_review_owner",
+      "schema": "public",
+      "signature": "public.eps_generate_version(uuid,jsonb,text)",
+      "source_sha256": "24ca35b55309fb8522b0ee04b65e7eee231204a2cf9d334a3cf2318703d8c68d"
+    }
+  ],
+  "requested_names_without_definition": [
+    "complete_candidate_upload"
+  ],
+  "prior_guard_refusal": "First read expected9 definitions; actual fixed-name query returned8. No SQL error or mutation. Missing name is reported instead of invented.",
+  "raw_function_definitions_in_public_receipt": false,
+  "cloud_mutated": false
+}

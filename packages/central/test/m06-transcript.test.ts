@@ -85,6 +85,24 @@ test('a valid retained transcript never bypasses current video authorization', a
   assert.equal(h.calls.some(path => path.includes('/storage/')), false);
 });
 
+test('frozen English companions preserve source scope and reject altered translation digests in every playback path', async () => {
+  const english = { english_text: 'A synthetic introduction in English.', english_status: 'available',
+    english_sha256: digest('A synthetic introduction in English.') };
+  const h = await fixture({ ...companion(), ...english });
+  const readAll = () => [() => h.internal.playVersionMedia(actor, versionId, assetId),
+    () => h.guest.playMedia(credential, versionId, assetId), () => h.guest.playGrantMedia(credential, versionId, assetId)];
+  for (const read of readAll()) assert.deepEqual((await read()).transcript, { ...companion(), ...english });
+  for (const change of [{ english_sha256: '0'.repeat(64) }, { english_text: 'Altered English text.' },
+    { english_status: 'not_captured' }, { version_id: presentationId(900) }, { asset_id: presentationId(901) }]) {
+    h.set({ ...companion(), ...english, ...change });
+    for (const read of readAll()) await assert.rejects(read());
+  }
+  h.set({ ...companion(), english_text: null, english_status: 'not_captured', english_sha256: null });
+  for (const read of readAll()) assert.equal((await read()).transcript?.english_text, null);
+  h.deny();
+  for (const read of readAll()) await assert.rejects(read());
+});
+
 test('frame and PDF metadata cannot smuggle a transcript outside video playback', () => {
   for (const [purpose, mime_type, filename] of [['candidate_frame', 'image/jpeg', 'synthetic-frame.jpg'], ['presentation_pdf', 'application/pdf', 'synthetic.pdf']]) {
     const item = { ...base, asset: { ...asset, purpose, mime_type, filename, duration_ms: null } };

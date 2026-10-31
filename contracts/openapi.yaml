@@ -11732,6 +11732,7 @@ components:
           - type: 'null'
         original_transcript:
           $ref: '#/components/schemas/NullableText'
+          description: Retained original-language provenance; use english_transcript for English display.
         languages:
           type: array
           items:
@@ -11739,7 +11740,7 @@ components:
         processing_issues:
           type: array
           uniqueItems: true
-          maxItems: 5
+          maxItems: 6
           description: Safe persisted technical outcomes; originals and useful material remain available. Raw provider errors stay private.
           items:
             type: string
@@ -11749,6 +11750,7 @@ components:
             - EXTRACTION_FAILED
             - INSUFFICIENT_FRAMES
             - FRAME_SELECTION_UNAVAILABLE
+            - ENGLISH_TRANSCRIPT_UNAVAILABLE
         available_frames:
           type: array
           items:
@@ -11761,6 +11763,21 @@ components:
           uniqueItems: true
         row_version:
           $ref: '#/components/schemas/RowVersion'
+        english_transcript:
+          anyOf:
+          - type: string
+            minLength: 1
+            maxLength: 200000
+            pattern: ^[^\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]*\S[^\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]*$
+          - type: 'null'
+          description: English display transcript. Absence is explicit; never substitute original-language text.
+        english_transcript_status:
+          type: string
+          enum:
+          - available
+          - not_provided
+          - unavailable
+          - not_captured
       required:
       - id
       - candidate_id
@@ -11773,6 +11790,29 @@ components:
       - available_frames
       - selected_frame_asset_ids
       - row_version
+      dependentRequired:
+        english_transcript:
+        - english_transcript_status
+        english_transcript_status:
+        - english_transcript
+      allOf:
+      - if:
+          properties:
+            english_transcript_status:
+              const: available
+          required:
+          - english_transcript_status
+        then:
+          properties:
+            english_transcript:
+              type: string
+              minLength: 1
+              maxLength: 200000
+              pattern: ^[^\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]*\S[^\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]*$
+        else:
+          properties:
+            english_transcript:
+              type: 'null'
     FrameSelection:
       type: object
       additionalProperties: false
@@ -14358,6 +14398,8 @@ components:
             maxLength: 200000
             pattern: ^[^\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]*\S[^\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]*$
           - type: 'null'
+          description: Frozen original-language provenance; use the captured english_text for English display. Never read current library text
+            for an old version.
         languages:
           type: array
           maxItems: 100
@@ -14373,6 +14415,26 @@ components:
           anyOf:
           - &id017
             type: string
+            pattern: ^[a-f0-9]{64}$
+          - type: 'null'
+        english_text:
+          anyOf:
+          - type: string
+            minLength: 1
+            maxLength: 200000
+            pattern: ^[^\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]*\S[^\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]*$
+          - type: 'null'
+          description: English display transcript. Absence is explicit; never substitute original-language text.
+        english_status:
+          type: string
+          enum:
+          - available
+          - not_provided
+          - unavailable
+          - not_captured
+        english_sha256:
+          anyOf:
+          - type: string
             pattern: ^[a-f0-9]{64}$
           - type: 'null'
       required:
@@ -14404,4 +14466,36 @@ components:
               type: 'null'
             languages:
               maxItems: 0
+      - if:
+          properties:
+            english_status:
+              const: available
+          required:
+          - english_status
+        then:
+          properties:
+            english_text:
+              type: string
+              minLength: 1
+              maxLength: 200000
+              pattern: ^[^\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]*\S[^\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]*$
+            english_sha256:
+              type: string
+              pattern: ^[a-f0-9]{64}$
+        else:
+          properties:
+            english_text:
+              type: 'null'
+            english_sha256:
+              type: 'null'
+      dependentRequired:
+        english_text:
+        - english_status
+        - english_sha256
+        english_status:
+        - english_text
+        - english_sha256
+        english_sha256:
+        - english_text
+        - english_status
 x-contract-status: implementation specification; verify with generated routes and contract tests

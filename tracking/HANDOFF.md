@@ -1,6 +1,134 @@
 # Everyone Presentation Studio - owner OAuth/MCP connection accepted
 
-## Latest checkpoint - 2026-10-31T13:41Z
+## Latest backend checkpoint - 2026-10-31
+
+The pilot still serves the deployed SDK resource-scope correction (Ccw). Fresh
+provider reads at 15:38-15:39 confirm the stable web alias is Ready and the same
+single 2 GiB worker is Ready/alive. Owner OAuth, reconnect and authenticated
+Dummy Pilot Test acceptance remain passed. No client, permission or signing-key
+configuration changed.
+
+English processing and compatible domain/SDK/HTTP/MCP fields are implemented.
+Owned migration 34 validation, future immutable capture and legacy replay tests
+passed with complete rollback. The composed application suite passes 886 tests;
+source-specific lint, typecheck, production guard and build gates are recorded.
+One real normalization request passed English availability, source integrity,
+provider metadata and age checks, but failed the full-name literal comparison.
+Its overall receipt stays unaccepted; no retry or broad accuracy claim. The
+owner declined further multilingual labels. No v1 language selector was added.
+
+The history 33 synthetic local restore passed: 17,311 catalogue fields, four
+filesystem objects and 119 source files; native PDF/video validation; source and
+restored cached consent/privacy/permissions; lease/job fences; old Ready-version
+preservation; tampered and missing backup rejection. Original 29/global roles
+remain exact, temporary databases/roles/container are gone, and the lock is
+released. This does not prove Storage HTTP, actual Auth/configuration/secrets,
+independent/deployed recovery, physical crashes, RTO/RPO or representative cost.
+Earlier failures and immutable source/claims remain. Never replay their claims
+or retry protected M02 job b3f90268.
+
+Next: reconcile Claude's frontend with the English contract, then deploy the
+compatible web/SDK and worker before canonical 34. Apply/read back the guarded
+migration, enable the frozen opt-in, and verify a real app/n8n/OpenAI scan plus
+future and legacy guest companions. Canonical remains 33, original local 29;
+English is disabled and not deployed. The frontend worktree remains separate;
+coordination notes reference 35cd663/3cc50d4 without claiming acknowledgment.
+
+Full live delegated journeys, token lifecycle/contributor checks, deployed
+recovery and representative endurance remain open. AT-072 stays pending; mobile
+is skipped. Keep the pilot running until the owner stops it.
+
+## Owned English SQL and MCP lifecycle checkpoint - 2026-10-31T15:10:10.091106+00:00
+
+Actual owned English34 proof2982 passed: functional30-33 first executed in a
+new disposable clone, then34 validator/future capture/legacy replay/immutability
+assertions passed and the entire34 DDL/data/catalogue/history rolled back.
+Original29 and existing global roles stayed exact; both test databases/new roles
+are gone; lock released. Prior ae5b failed only an untyped adversarial fixture
+literal, now one explicit text cast; preserve its failed receipt/claim/bytes.
+Canonical remains33; no English activation or new deployment is claimed.
+
+The application slice is saved in35cd663:881 composed tests/lint/types/guard/build
+and current API/MCP parity passed; fixed-private-value scan covered49 staged
+files with0hits. Additional5 composed signed MCP lifecycle tests independently
+pass current permission/session/delegation denials, replay/retry acknowledgments
+and concurrent principal isolation through real transport/Central adapters. Their
+RPC ledger is synthetic, so no SQL or provider lifecycle acceptance is inferred.
+
+Next: finite exact33 metadata/media restore continuation, frontend English field
+integration, coherent pilot rollout and actual English app/guest verification.
+Frontend redesign stays separate. Owner Claude initial/reconnect/read acceptance
+stays passed; AT-072 pending; mobile skipped; pilot running until owner stop.
+
+
+Application checkpoint now passes881 tests plus lint/types/production guard/build
+with771 application inputs unchanged during the final gates. English source
+quality is2026-10-31-application-quality.json. One actual normalization call has
+English availability/source-hash/metadata/age checks true but full-name literal
+match false; overall component accepted:false, unknown mismatch cause, no retry.
+No SQL/fulljob/app English or semantic accuracy credit is inferred.
+
+Local533 cleanup is now verified complete at15:01:22 UTC: exact original29 native
+baseline/fullcatalogue/preexisting global roles preserved; owned role OIDs185012/
+185052 removed; both task DBs absent; separate read-only postcheck passed; shared
+lock released. Earlier failed restore and false normalized-context comparison
+remain retained. Forward runtime removes only the problematic explicit REVOKE
+before guarded directDROP. Full33 metadata restore still fails exact unknown ACL
+pairs and receives no pass. Next: actual owned34 SQL proof, then coherent frontend/
+worker integration and real app verification. Canonical remains33, migration34
+unapplied, English flag disabled, pilot unchanged and running.
+
+
+## Backend and English-output continuation - 2026-10-31T14:49:32.511920Z
+
+The response-scope SDK correction is deployed as CcwVabZ5PkadAPaeANRLJD4GqVg3
+at the existing stable pilot URL. Live signed-in Dummy Pilot Test workspace
+passed; screenshot backend-continuation/2026-10-31-hosted-scope-workspace.png.
+The853 application tests/lint/types/production guard/build precede the new
+English draft below. Completed owner OAuth/reconnect/MCP read remains accepted.
+
+Owner now declines deeper English/mixed answer-key collection: process any
+speech language and display English only, with no v1 language selector. Stop
+requesting labels. Optional19-test evaluator is retained without real accuracy
+credit; prior Arabic name/age Reviewed evidence stays. English provider/worker,
+domain/SDK/contract and additive34 SQL are in progress, NOT deployed/activated.
+Original source/facts/Reviewed and old Ready versions/PDFs stay unchanged. New
+read groups and no-raw-fallback rule are in docs/integrations/ENGLISH_TRANSCRIPT.md.
+Frontend branch owns UI; coordination note delivered, acknowledgment not observed.
+29 focused domain/Central/HTTP-MCP contracts pass; full fresh gates are still due.
+
+Read-only operator projection passed for3 actual succeeded jobs with event/outbox
+counts; AT-074 remains partial because independent n8n execution detail is not
+retained. Recovery33 run533 actually executed functional30-33 in an owned clone
+but stopped at new exact ACL representations. Both task DBs were removed; role
+cleanup hit dependent privileges on explicit REVOKE and left the shared lock.
+Do not run further local SQL or clear that lock until reviewed reconciliation
+and guarded owned-role cleanup prove the original baseline unchanged. Preserve
+all failed receipts, claims and frozen controllers; no CASCADE or blind replay.
+
+NEXT: reconcile/clean local533, then finish English SQL/runtime verification and
+coordinate frontend integration. Keep pilot running. AT-072 pending, mobile
+skipped, protected M02 b3f90268 never retried. Full M07/production unverified.
+
+
+## Backend continuation checkpoint - 2026-10-31T14:15:03.079210Z
+
+Current work remains M07 backend/release plus eligible M03 validation. Frontend
+redesign is isolated in frontend/redesign worktree based93981ca; preserve its files.
+tracking/PARALLEL_WORK.md records ownership; no API schema or UI change is planned.
+CentralStudio wrong-resource response bug fixed in SDK only:853 root application
+tests, lint/types/production guard/build passed. Quality receipt is in
+backend-continuation/2026-10-31-response-scope-quality.json. Deployment pending.
+M03 evaluator19 synthetic tests passed; no real corpus scored. Private worksheet
+.local/m03-semantic-validation/OWNER_LABELS.md is created; independent English/mixed
+labels requested, do not fabricate them. Recovery33 compiler/full functional DDL
+and cleanup guards are under independent review; no SQL/native restore run yet.
+Actual local preflight verifies owned original29, no shared SQL lock/clones/new
+issuer/coordinator roles. Operator metadata-only query is under review, unrun.
+Preserve passed owner connection acceptance below and all once-only claims; do not
+retry protected M02. Pilot stays running; mobile skipped; AT-072 pending.
+
+## Accepted owner connection checkpoint - 2026-10-31T13:41Z
 
 SCOPED OWNER CONNECTION ACCEPTANCE PASSED. Owner confirmed the initial project
 read, then re-authenticated under the unchanged client/grant. Native13:36:07

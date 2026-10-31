@@ -1,5 +1,24 @@
 # M07 acceptance matrix
 
+## Current backend continuation - 2026-10-31
+
+- Stable pilot Ccw is freshly confirmedREADY at15:39; workerCVDM remains oneReady/
+  alive2GiB instance at15:38. No config/worker mutations; ownerconnectionPASS stays.
+- Current local composed886 tests pass; runtime source retains881 lint/types/guard/
+  build plus new5-test lint/typecheck/security review. See backend-continuation.
+- English backend and owned34 validator/future capture/legacy replay/immutability
+  SQL pass locally. Canonical33/Englishflagoff; frontend/app/hosted rollout pending.
+- Current33 synthetic metadata+media restore9af PASSED:17311 catalogue fields,
+  4filesystemobjects/119sources, nativePDF/video, cachedconsent/privacy/permissions,
+  lease/job recovery, oldReady preservation and2corruption refusals. Complete
+  original29/globalrole preservation and cleanup. No StorageHTTP/actualAuthconfig/
+  deployed/independentcluster/RTO/RPO/representative performance claim.
+- Operator3-job durable metadata projection passed; independent retained n8n
+  execution details unavailable, so AT-074 remains partial.
+- Full live delegated journey/token lifecycle/contributor checks and hosted recovery/
+  endurance remain open. AT-072 pending; mobile skipped. Extra multilingual labels
+  declined; no broad semantic-accuracy claim. Pilot runs until owner stop.
+
 ## Current controlled pilot connection acceptance - 2026-10-31
 
 M07 remains **in progress; full production release unverified**. Canonical33 and

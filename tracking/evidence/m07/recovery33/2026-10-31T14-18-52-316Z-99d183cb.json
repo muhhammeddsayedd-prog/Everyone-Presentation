@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "run_id": "99d183cb-7646-42eb-a4b9-2033feb540b6",
+  "started_at": "2026-10-31T14:18:52.316Z",
+  "result": "failed",
+  "scope": "AT-070 full owned29->33 metadata synthetic local restore; original29 and existing global roles preserved",
+  "cloud_called": false,
+  "provider_called": false,
+  "runtime_configuration_loaded": false,
+  "canonical_business_writes": false,
+  "storage_http_tested": false,
+  "deployed_restore_tested": false,
+  "checkpoint": "fresh-preflight",
+  "private_artifact_acl": "current-user-and-SYSTEM-only-verified",
+  "preflight": {
+    "jobs": 0,
+    "users": 0,
+    "assets": 0,
+    "versions": 0,
+    "guest_key": false,
+    "verifiers": 0,
+    "migrations": 29,
+    "other_clients": 0
+  },
+  "original_baseline_sha256": "89ce5bb54fa39dcb557ce0bf8cf10f98399ea82380357c867581dade24b1b8ee",
+  "failure_code": "M07_LOCAL_RECOVERY_UNCONFIRMED",
+  "actual_disposable_database_absence": {
+    "eps_m07_r33_source_99d183cb764642eba4b92033feb540b6": false,
+    "eps_m07_r33_restore_99d183cb764642eba4b92033feb540b6": false
+  },
+  "disposable_databases_removed": true,
+  "original_local_database_unchanged": true,
+  "original29_exact_profile_and_settings_state_unchanged": true,
+  "shared_test_lock_released": true,
+  "finished_at": "2026-10-31T14:19:05.559Z",
+  "elapsed_ms": 13243,
+  "private_artifact_directory": ".local/m07-recovery/99d183cb-7646-42eb-a4b9-2033feb540b6"
+}

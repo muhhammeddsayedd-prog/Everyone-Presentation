@@ -1,5 +1,6 @@
 import type { ListOptions } from './types.ts';
 import type { SourceReference } from './specs-types.ts';
+import type { EnglishTranscriptStatus } from './english-transcript.ts';
 
 /** Reusable supplied facts. Role requirements and project availability never belong here. */
 export interface CandidateFacts {
@@ -31,10 +32,12 @@ export interface CandidateExtraction {
   evidence: { field_path: string; source: SourceReference }[]; uncertainties: { field_path: string; reason: string }[];
 }
 export interface CandidateFrame { asset_id: string; source_asset_id: string; timestamp_ms: number; width: number; height: number; quality_flags: string[] }
-export type CandidateProcessingIssue = 'NO_AUDIO' | 'TRANSCRIPTION_FAILED' | 'EXTRACTION_FAILED' | 'INSUFFICIENT_FRAMES' | 'FRAME_SELECTION_UNAVAILABLE';
+export type CandidateProcessingIssue = 'NO_AUDIO' | 'TRANSCRIPTION_FAILED' | 'EXTRACTION_FAILED' | 'INSUFFICIENT_FRAMES' | 'FRAME_SELECTION_UNAVAILABLE' | 'ENGLISH_TRANSCRIPT_UNAVAILABLE';
 export interface CandidateMedia {
   id: string; candidate_id: string; source_asset_id: string; preview_asset_id: string | null;
   transcript_asset_id: string | null; original_transcript: string | null; languages: string[];
+  /** English display only. Missing legacy fields mean not_captured, never raw fallback. */
+  english_transcript?: string | null; english_transcript_status?: EnglishTranscriptStatus;
   available_frames: CandidateFrame[]; selected_frame_asset_ids: string[]; processing_issues: CandidateProcessingIssue[]; row_version: number;
 }
 export interface FrameSelection { row_version: number; selected_frame_asset_ids: string[] }

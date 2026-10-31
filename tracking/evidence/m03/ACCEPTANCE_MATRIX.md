@@ -1,5 +1,18 @@
 # M03 acceptance checkpoint
 
+## Current owner clarification - 2026-10-31
+
+Owner declines deeper independent English/mixed sample labelling. That collection
+is no longer an owner dependency; broad multilingual error/correction rates remain
+unclaimed. The implementation must process permitted speech in any language and
+show English facts/transcripts, with no v1 app language selector. Accepted Arabic
+name/age Reviewed proof and all original sources/old saved versions remain intact.
+
+English provider/worker/domain/SDK and HTTP/MCP read groups pass881 application tests. Owned additive34 validator, future immutable capture and legacy replay SQL proof passed with complete rollback/cleanup; canonical34 is still unapplied and disabled. One real normalization request passed English/source/provider/age checks but not the full-name literal comparison, so overall acceptance is false and broader accuracy unclaimed. Coherent hosted worker/web/DB/frontend rollout and actual English app/guest verification remain pending. See [shared frontend contract](../../../docs/integrations/ENGLISH_TRANSCRIPT.md).
+The controlled hosted pilot runs until owner stop; the older hosting-deferred
+statements below are dated history. Manual AT-072 remains pending, mobile skipped.
+
+
 2026-10-29. **Implemented, with required quality acceptance still unverified.**
 Hosting stays deferred. The [20:54 UTC canonical preservation readback](../m04/review-app-capture/2026-10-29T20-54-42-425586Z-072e5028.json) records history23; migration21 remains the M03 genuine OpenAI frame-selection change, followed by M04 migrations22/23. The [scoped closeout](SCOPED_CLOSEOUT.md) completes the three full-resolution frame checks, five artifact byte roundtrips and one scanned factual confirmation. Earlier dated receipts retain their original boundaries.
 

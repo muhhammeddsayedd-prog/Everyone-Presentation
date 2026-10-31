@@ -1,0 +1,40 @@
+{
+  "evidence_kind": "actual_openai_english_normalization_component",
+  "observed_at": "2026-10-31T14:59:40.243Z",
+  "run_id": "a08988ca-d714-483c-9ab0-741508c7d749",
+  "case_alias": "permitted-arabic-introduction-01",
+  "provider_request_limit": 1,
+  "automatic_retry": false,
+  "component_only": true,
+  "app_or_database_acceptance": false,
+  "new_transcription": false,
+  "raw_or_english_personal_text_persisted_in_receipt": false,
+  "accepted": false,
+  "english_available_script_and_bounds": true,
+  "source_binding_file_unchanged": true,
+  "original_sha256_unchanged": true,
+  "actual_ids_and_usage_present": true,
+  "narrow_owner_confirmed_name_literal_match": false,
+  "narrow_owner_confirmed_age_match": true,
+  "metadata": [
+    {
+      "provider": "openai",
+      "task": "transcript_english",
+      "sdk_version": "7.45.1",
+      "requested_model": "gpt-6.1-sol",
+      "resolved_model": "gpt-6.1-sol",
+      "request_id": "req_940943927c614e948593d8112edd1e6d",
+      "response_id": "resp_01c66713025d2d6d016ae6025e932c87d2917cbdb678fdc820",
+      "prompt_version": "transcript-english.v1",
+      "prompt_sha256": "5acd4200c0210c372dd280702488f1fec9094b3c2e2793aa60a83112cb2aadef",
+      "schema_sha256": "dbf6ded402301f4c93af1525a981a98eca025f1776f08978758088222823f04f",
+      "input_sha256": "a15f0f209fb917dd0f7e04b60774dc2ffadb01259991e5114365eada3ccf9c0b",
+      "usage": {
+        "input_tokens": 319,
+        "output_tokens": 238,
+        "total_tokens": 557
+      }
+    }
+  ],
+  "independent_broad_semantic_accuracy_claim": false
+}
