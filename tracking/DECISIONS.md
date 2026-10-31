@@ -360,3 +360,8 @@ exchange are outside Vercel, so final redirect alone never closes those stages.
 Owner keeps control of config/sign-in/consent. Fresh owner connection is requested;
 authenticated Dummy Pilot Test read AND reconnect remain pending. Existing
 AT-072/M03 pending, mobile skip and owner-stop duration remain unchanged.
+
+At13:22:13 the fresh owner request now passed provider full-details200 and both
+coordinator calls. An ordinary pending consent-page reload13:23:14 returned the
+durable cached response; complete8-event trace has exactly one upstream GET.
+Owner approval/read and reconnect remain pending. No agent consent/token call.

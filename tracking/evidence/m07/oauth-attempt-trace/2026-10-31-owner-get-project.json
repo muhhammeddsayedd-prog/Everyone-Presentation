@@ -1,0 +1,24 @@
+{
+  "observed_at": "2026-10-31T13:30:08.368592Z",
+  "kind": "authenticated_owner_direct_get_project_server_receipt",
+  "source": "tracking/evidence/m07/oauth-attempt-trace/2026-10-31T13-29-10.965Z-95f5971b-reads-focused-trace.json",
+  "project_name": "Dummy Pilot Test",
+  "receipt": {
+    "logged_at": "2026-10-31T13:26:22.080Z",
+    "event": "eps.mcp.project_read_succeeded",
+    "entry_point": "mcp_http",
+    "operation": "get_project",
+    "success": true,
+    "request_id": "08e93319-c808-4107-9e81-dbc64533d1f8",
+    "principal_id": "0a79a703-caba-47e5-93d4-42e32197037a",
+    "client_id": "f2acafd5-d4b6-4176-b86c-067c57e45ecc",
+    "project_ids": [
+      "6da14b82-8458-451f-aa21-28cb6c85bdc5"
+    ]
+  },
+  "client_result": "pending owner reply",
+  "reconnect": "pending",
+  "acceptance": "pending client result and reconnect",
+  "source_window_complete": true,
+  "broader_trace_saturation": "The13:28:34 broad query returned100/hasMore:true and cannot prove absence. Focused OAuth/read queries recovered complete relevant windows."
+}

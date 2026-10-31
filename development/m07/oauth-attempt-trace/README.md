@@ -105,8 +105,45 @@ ingestion, not an owner attempt. The earlier historical trace remains
 The owner has been asked for one fresh connection attempt against the deployed
 correction. The owner handles configuration, sign-in and consent. Initial
 authorization, an authenticated MCP read of **Dummy Pilot Test**, and reconnect
-must succeed before connection acceptance is complete. Never reload or directly
-probe a valid authorization selector: native details GET can consume or approve
-it. Do not revoke an existing grant merely to manufacture initial-consent proof.
+must succeed before connection acceptance is complete. Do not directly probe a
+valid native authorization-details URL: its GET can consume or approve it. The
+ordinary pending Studio page reload is coordinated; the actual owner attempt
+below verified that it used cached consent_ready without a second provider GET.
+Do not revoke an existing grant to manufacture initial-consent proof.
 
 Existing M03 and screen-reader checks remain pending; mobile testing is skipped.
+
+## Fresh owner attempt after correction
+
+At13:22:13 UTC the registered owner request reached provider GET200 with the full
+authorization_details union. Claim and finish both returned200. At13:23:14 an
+ordinary Studio consent-page reload returned cached consent_ready200. The
+complete eight-event window contains exactly one upstream details GET. Ready
+consent form is captured in2026-10-31-fresh-consent-ready.png; the earlier loading
+screenshot captures only its intermediate state. Approval was requested from the
+owner; no agent approval or credential operation occurred. Read and reconnect
+remain pending. See2026-10-31-fresh-details-and-reload.json for trace IDs/receipt.
+
+At13:23:49 the owner approval passed provider POST200 redirect and finish200. A
+second approval request13:23:52 was denied at binding/claim400/22023 with final
+503 and no second provider decision. It did not undo the successful first flow.
+Actual delegated list_projects13:25:02 and direct get_project13:26:22 succeeded
+for Dummy Pilot Test. Owner client-result confirmation and reconnect are pending.
+The13:28 broad trace saturated100events; complete focused OAuth/read queries
+recovered the relevant windows. Do not treat that incomplete broad query as an
+absence proof. See owner-approval-server-read.json and owner-get-project.json.
+
+The focused operator is now ready with10 passing tests (four focused and six
+existing collector checks):
+
+```powershell
+node development/m07/oauth-attempt-trace/read-focused-trace.mjs oauth dpl_DeCpJGbLLEHX3FFNBz5twLFuV8p7 2026-10-31T13:29:00Z
+node development/m07/oauth-attempt-trace/read-focused-trace.mjs reads dpl_DeCpJGbLLEHX3FFNBz5twLFuV8p7 2026-10-31T13:29:00Z
+```
+
+Queries are closed EPS AND OAuth / EPS AND MCP AND read. It retains the existing
+CLI65.8.0/SHA, private child environment and closed projector, limits combined
+output to2MiB/30s and writes exclusive sanitized receipts. Both actual modes
+passed; complete empty windows through13:30:32/33 show no newer attempt yet.
+Owner read-result confirmation and reconnect remain pending. No additional app
+deployment is needed for this read-only operator helper.

@@ -1,0 +1,42 @@
+{
+  "observed_at": "2026-10-31T13:26:54.319097Z",
+  "kind": "actual_owner_approval_and_authenticated_server_project_read",
+  "trace_evidence": "tracking/evidence/m07/oauth-consent-fix/2026-10-31T13-25-12.880Z-4b393bcb-pilot-trace.json",
+  "deployment_id": "dpl_DeCpJGbLLEHX3FFNBz5twLFuV8p7",
+  "approval": {
+    "trace_id": "b3634697-4471-4d47-9f10-b8655973566a",
+    "provider_status": 200,
+    "provider_variant": "redirect",
+    "finish_status": 200,
+    "final_consent_status": 200
+  },
+  "duplicate_approval": {
+    "trace_id": "97ce3ea7-e1a8-4cae-9a63-c18e6ea20312",
+    "claim_status": 400,
+    "sqlstate": "22023",
+    "safe_error": "AUTHORIZATION_UNAVAILABLE",
+    "final_status": 503,
+    "provider_decision_repeated": false,
+    "scope": "Subsequent request after completed initial approval; no second provider operation. Not the original failed connection."
+  },
+  "project_read": {
+    "logged_at": "2026-10-31T13:25:02.051Z",
+    "event": "eps.mcp.project_read_succeeded",
+    "entry_point": "mcp_http",
+    "operation": "list_projects",
+    "success": true,
+    "request_id": "44a58741-ace2-40e9-8087-0dc7795d5e8d",
+    "principal_id": "0a79a703-caba-47e5-93d4-42e32197037a",
+    "client_id": "f2acafd5-d4b6-4176-b86c-067c57e45ecc",
+    "project_ids": [
+      "4b70c8ce-18bd-4a8c-b5a9-bc1156c06463",
+      "6da14b82-8458-451f-aa21-28cb6c85bdc5",
+      "bd14d10f-b1c5-4d6a-8b4d-e5c48208433c"
+    ]
+  },
+  "all_auth_stages": "boundary,bearer,jwt,delegation,session,business_context,authorized accepted",
+  "callback_token_boundary": "No callback or token body inspected. Subsequent accepted signed delegated MCP read proves usable issuance reached the server.",
+  "owner_client_result": "pending owner reply",
+  "reconnect": "pending",
+  "connection_acceptance": "pending owner read result and reconnect"
+}

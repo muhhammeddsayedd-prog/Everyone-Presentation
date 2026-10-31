@@ -1,6 +1,39 @@
 # Everyone Presentation Studio - coordinator Auth namespace correction deployed
 
-## Latest checkpoint - 2026-10-31T13:19Z
+## Latest checkpoint - 2026-10-31T13:30Z
+
+Owner approval13:23:49 passed native decision POST200 redirect, finish200 and
+consent200. Subsequent duplicate approval13:23:52 failed claim400/22023
+AUTHORIZATION_UNAVAILABLE, final503, without repeating native decision. The
+initial flow succeeded: delegated MCP all7stages accepted; list_projects13:25:02
+and direct get_project13:26:22 succeeded for Dummy Pilot Test6da14b82 under real
+principal0a79/clientf2ac. See owner-approval-server-read.json and owner-get-project.json.
+Client callback/token bodies were never inspected; usable signed delegated
+MCP access proves issuance reached the server. Owner client-result reply and
+reconnect remain pending. Re-authenticate was requested through owner /mcp,
+without deleting config or revoking grant. Do not mark connection accepted yet.
+
+Broad13:28 trace saturated100/hasMore:true: never infer absent events from it.
+Focused13:29 OAuth16/read2 windows are complete and retained. Focused operator
+is ready with10 tests and both actual modes passed. For the pending owner reconnect:
+node development/m07/oauth-attempt-trace/read-focused-trace.mjs oauth dpl_DeCpJGbLLEHX3FFNBz5twLFuV8p7 2026-10-31T13:29:00Z
+node development/m07/oauth-attempt-trace/read-focused-trace.mjs reads dpl_DeCpJGbLLEHX3FFNBz5twLFuV8p7 2026-10-31T13:29:00Z
+Actual complete windows through13:30:32/33 contain no newer events. Owner
+project-result reply and reconnect are still pending. No automatic retry initiated.
+Source1fbae00 is committed; later live receipts/doc changes need closeout.
+
+## Earlier fresh details checkpoint - 2026-10-31T13:24Z
+
+Owner fresh attempt now passed full authorization_details GET200 at13:22:13.
+Claim/finish200 with expected f2ac client/localhost3118. Ordinary pending page
+reload13:23:14 returned cached consent_ready200; complete8-event window has one
+upstream GET. Screenshot fresh-consent-ready.png and fresh-details-and-reload.json
+are in oauth-attempt-trace evidence. Owner was asked to approve and have Claude
+read Dummy Pilot Test; that reply, actual read and reconnect are still pending.
+No agent sign-in, approval or token operation. Source correction checkpoint1fbae00
+is committed; live follow-up evidence since then remains separate.
+
+## Correction deployment - 2026-10-31T13:19Z
 
 Stable pilot https://everyone-presentation-pilot.vercel.app resolves to Ready
 dpl_DeCpJGbLLEHX3FFNBz5twLFuV8p7. Canonical history33 applied once; original

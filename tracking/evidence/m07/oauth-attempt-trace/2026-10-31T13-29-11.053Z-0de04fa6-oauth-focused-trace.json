@@ -1,0 +1,175 @@
+{
+  "focused_scope": "oauth",
+  "report": {
+    "schema_version": "1.0",
+    "read_only": true,
+    "observed_at": "2026-10-31T13:29:11.053Z",
+    "since": "2026-10-31T13:22:00.000Z",
+    "deployment_id": "dpl_DeCpJGbLLEHX3FFNBz5twLFuV8p7",
+    "project_id": "prj_7xOsfRtvJ9voYi7rTEfra5ncOoA0",
+    "public_origin": "https://everyone-presentation-pilot.vercel.app",
+    "counts": {
+      "log_records": 16,
+      "matched_events": 16,
+      "rejected_events": 0,
+      "unrecognized_records": 0,
+      "warning_records": 0,
+      "has_more": false,
+      "excluded_intervals": 0,
+      "complete_window": true
+    },
+    "events": [
+      {
+        "logged_at": "2026-10-31T13:23:52.317Z",
+        "event": "eps.oauth.consent_response",
+        "trace_id": "97ce3ea7-e1a8-4cae-9a63-c18e6ea20312",
+        "status": 503
+      },
+      {
+        "logged_at": "2026-10-31T13:23:52.317Z",
+        "event": "eps.oauth.coordination_response",
+        "trace_id": "97ce3ea7-e1a8-4cae-9a63-c18e6ea20312",
+        "operation": "claim",
+        "action": "approve",
+        "status": 400,
+        "phase": "provider_error",
+        "code": "22023",
+        "message": "AUTHORIZATION_UNAVAILABLE"
+      },
+      {
+        "logged_at": "2026-10-31T13:23:52.285Z",
+        "event": "eps.oauth.browser_session_verified",
+        "trace_id": "97ce3ea7-e1a8-4cae-9a63-c18e6ea20312"
+      },
+      {
+        "logged_at": "2026-10-31T13:23:49.404Z",
+        "event": "eps.oauth.consent_response",
+        "trace_id": "b3634697-4471-4d47-9f10-b8655973566a",
+        "status": 200
+      },
+      {
+        "logged_at": "2026-10-31T13:23:49.403Z",
+        "event": "eps.oauth.coordination_response",
+        "trace_id": "b3634697-4471-4d47-9f10-b8655973566a",
+        "operation": "finish",
+        "outcome": "redirect",
+        "status": 200,
+        "phase": "success",
+        "state": "already_processed",
+        "client_id": "f2acafd5-d4b6-4176-b86c-067c57e45ecc",
+        "callback": "localhost_3118"
+      },
+      {
+        "logged_at": "2026-10-31T13:23:49.372Z",
+        "event": "eps.oauth.provider_response",
+        "trace_id": "b3634697-4471-4d47-9f10-b8655973566a",
+        "operation": "decision",
+        "method": "POST",
+        "status": 200,
+        "variant": "redirect",
+        "fields": {
+          "redirect_url": "string"
+        }
+      },
+      {
+        "logged_at": "2026-10-31T13:23:49.331Z",
+        "event": "eps.oauth.coordination_response",
+        "trace_id": "b3634697-4471-4d47-9f10-b8655973566a",
+        "operation": "claim",
+        "action": "approve",
+        "status": 200,
+        "phase": "success",
+        "state": "claimed",
+        "client_id": "f2acafd5-d4b6-4176-b86c-067c57e45ecc",
+        "callback": "localhost_3118"
+      },
+      {
+        "logged_at": "2026-10-31T13:23:49.284Z",
+        "event": "eps.oauth.browser_session_verified",
+        "trace_id": "b3634697-4471-4d47-9f10-b8655973566a"
+      },
+      {
+        "logged_at": "2026-10-31T13:23:14.502Z",
+        "event": "eps.oauth.consent_response",
+        "trace_id": "a4f9f6f9-14a2-4aa7-a913-8a72e076ead5",
+        "status": 200
+      },
+      {
+        "logged_at": "2026-10-31T13:23:14.502Z",
+        "event": "eps.oauth.coordination_response",
+        "trace_id": "a4f9f6f9-14a2-4aa7-a913-8a72e076ead5",
+        "operation": "claim",
+        "action": "details",
+        "status": 200,
+        "phase": "success",
+        "state": "consent_ready",
+        "client_id": "f2acafd5-d4b6-4176-b86c-067c57e45ecc",
+        "callback": "localhost_3118"
+      },
+      {
+        "logged_at": "2026-10-31T13:23:14.448Z",
+        "event": "eps.oauth.browser_session_verified",
+        "trace_id": "a4f9f6f9-14a2-4aa7-a913-8a72e076ead5"
+      },
+      {
+        "logged_at": "2026-10-31T13:22:13.161Z",
+        "event": "eps.oauth.consent_response",
+        "trace_id": "0a9037ce-5bb0-4aab-a1df-ee17b6326273",
+        "status": 200
+      },
+      {
+        "logged_at": "2026-10-31T13:22:13.160Z",
+        "event": "eps.oauth.coordination_response",
+        "trace_id": "0a9037ce-5bb0-4aab-a1df-ee17b6326273",
+        "operation": "finish",
+        "outcome": "consent_ready",
+        "status": 200,
+        "phase": "success",
+        "state": "consent_ready",
+        "client_id": "f2acafd5-d4b6-4176-b86c-067c57e45ecc",
+        "callback": "localhost_3118"
+      },
+      {
+        "logged_at": "2026-10-31T13:22:13.113Z",
+        "event": "eps.oauth.provider_response",
+        "trace_id": "0a9037ce-5bb0-4aab-a1df-ee17b6326273",
+        "operation": "details",
+        "method": "GET",
+        "status": 200,
+        "variant": "authorization_details",
+        "fields": {
+          "authorization_id": "string",
+          "redirect_uri": "string",
+          "client": "object",
+          "user": "object",
+          "scope": "string"
+        },
+        "client_fields": {
+          "id": "string",
+          "name": "string"
+        },
+        "user_fields": {
+          "id": "string",
+          "email": "string"
+        }
+      },
+      {
+        "logged_at": "2026-10-31T13:22:13.062Z",
+        "event": "eps.oauth.coordination_response",
+        "trace_id": "0a9037ce-5bb0-4aab-a1df-ee17b6326273",
+        "operation": "claim",
+        "action": "details",
+        "status": 200,
+        "phase": "success",
+        "state": "claimed",
+        "client_id": "f2acafd5-d4b6-4176-b86c-067c57e45ecc",
+        "callback": "localhost_3118"
+      },
+      {
+        "logged_at": "2026-10-31T13:22:12.999Z",
+        "event": "eps.oauth.browser_session_verified",
+        "trace_id": "0a9037ce-5bb0-4aab-a1df-ee17b6326273"
+      }
+    ]
+  }
+}

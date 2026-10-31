@@ -1,0 +1,52 @@
+{
+  "focused_scope": "reads",
+  "report": {
+    "schema_version": "1.0",
+    "read_only": true,
+    "observed_at": "2026-10-31T13:29:10.965Z",
+    "since": "2026-10-31T13:22:00.000Z",
+    "deployment_id": "dpl_DeCpJGbLLEHX3FFNBz5twLFuV8p7",
+    "project_id": "prj_7xOsfRtvJ9voYi7rTEfra5ncOoA0",
+    "public_origin": "https://everyone-presentation-pilot.vercel.app",
+    "counts": {
+      "log_records": 2,
+      "matched_events": 2,
+      "rejected_events": 0,
+      "unrecognized_records": 0,
+      "warning_records": 0,
+      "has_more": false,
+      "excluded_intervals": 0,
+      "complete_window": true
+    },
+    "events": [
+      {
+        "logged_at": "2026-10-31T13:26:22.080Z",
+        "event": "eps.mcp.project_read_succeeded",
+        "entry_point": "mcp_http",
+        "operation": "get_project",
+        "success": true,
+        "request_id": "08e93319-c808-4107-9e81-dbc64533d1f8",
+        "principal_id": "0a79a703-caba-47e5-93d4-42e32197037a",
+        "client_id": "f2acafd5-d4b6-4176-b86c-067c57e45ecc",
+        "project_ids": [
+          "6da14b82-8458-451f-aa21-28cb6c85bdc5"
+        ]
+      },
+      {
+        "logged_at": "2026-10-31T13:25:02.051Z",
+        "event": "eps.mcp.project_read_succeeded",
+        "entry_point": "mcp_http",
+        "operation": "list_projects",
+        "success": true,
+        "request_id": "44a58741-ace2-40e9-8087-0dc7795d5e8d",
+        "principal_id": "0a79a703-caba-47e5-93d4-42e32197037a",
+        "client_id": "f2acafd5-d4b6-4176-b86c-067c57e45ecc",
+        "project_ids": [
+          "4b70c8ce-18bd-4a8c-b5a9-bc1156c06463",
+          "6da14b82-8458-451f-aa21-28cb6c85bdc5",
+          "bd14d10f-b1c5-4d6a-8b4d-e5c48208433c"
+        ]
+      }
+    ]
+  }
+}

@@ -1,3 +1,18 @@
+## Initial owner OAuth and MCP server read passed - 2026-10-31T13:30Z
+
+Actual native approval200, delegated MCP authorization and direct get_project
+for Dummy Pilot Test passed. The owner retains sign-in/consent control. Client
+result confirmation and reconnect remain pending; connection acceptance stays
+pending. Complete focused logs recover relevant events after the broad trace
+reached its100-event cap. See latest handoff and owner-get-project evidence.
+
+## Fresh owner consent details verified - 2026-10-31T13:24Z
+
+Actual registered-client authorization details200 and durable cached page-reload
+200 passed on the corrected pilot, with one upstream GET in the complete trace
+window. Owner approval, authenticated Dummy Pilot Test read and reconnect remain
+pending; see current handoff and fresh-details-and-reload evidence.
+
 ## OAuth coordinator correction deployed - 2026-10-31T13:19Z
 
 The owner's 12:45 attempt reached the previous corrected deployment and verified
