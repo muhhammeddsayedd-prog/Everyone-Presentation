@@ -22270,6 +22270,218 @@
         "idempotentHint": false,
         "openWorldHint": false
       }
+    },
+    {
+      "name": "get_workspace_summary",
+      "description": "Read one consistent current workspace snapshot. Requires workspaces.read and current canonical project access. Counts all active roles, participation and assignments without cursor truncation. Unknown headcount or unresolved role markers count once per role. Selection includes every active Option/Main/Backup assignment; Shortlist is explicit. Open slots have no Selection assignment, including provisional slots. Global library archival retains project participation. Unreviewed uses the Reviewed facts/source fingerprint and is null without cast.read. Ready entries retain every audience series, sorted by series_id; invalid pointers or more than 1000 Ready series fail explicitly. review_issue_count is always null. No mutation or provider call.",
+      "operationId": "get_workspace_summary",
+      "http": {
+        "method": "GET",
+        "path": "/workspaces/{workspace_id}/summary"
+      },
+      "capability": "workspaces.read",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "workspace_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          }
+        },
+        "required": [
+          "workspace_id"
+        ],
+        "$defs": {}
+      },
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "request_id": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/$defs/WorkspaceSummary"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/Warning"
+            }
+          }
+        },
+        "required": [
+          "request_id",
+          "data"
+        ],
+        "$defs": {
+          "WorkspaceSummary": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "workspace_id": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+              },
+              "row_version": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 9007199254740991
+              },
+              "draft_revision": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "roles_needing_clarification": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "project_candidate_count": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "unreviewed_candidate_count": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "open_slot_count": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "assignment_count": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "selection": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "shortlist": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "selection",
+                  "shortlist"
+                ]
+              },
+              "latest_ready_versions": {
+                "type": "array",
+                "maxItems": 1000,
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "series_id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                    },
+                    "output_type": {
+                      "enum": [
+                        "selection",
+                        "shortlist"
+                      ],
+                      "type": "string"
+                    },
+                    "version_no": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": [
+                    "series_id",
+                    "output_type",
+                    "version_no"
+                  ]
+                }
+              },
+              "review_issue_count": {
+                "type": "null"
+              }
+            },
+            "required": [
+              "workspace_id",
+              "row_version",
+              "draft_revision",
+              "roles_needing_clarification",
+              "project_candidate_count",
+              "unreviewed_candidate_count",
+              "open_slot_count",
+              "assignment_count",
+              "latest_ready_versions",
+              "review_issue_count"
+            ]
+          },
+          "DateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          },
+          "RowVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Optimistic version from the last read of the mutated resource; stale write returns 409."
+          },
+          "Warning": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "entity_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "code",
+              "message",
+              "entity_id"
+            ]
+          }
+        }
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
     }
   ],
   "excluded_operations": [

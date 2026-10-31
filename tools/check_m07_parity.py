@@ -48,10 +48,10 @@ const rows=implementedMcpTools(true,true,true,true,true).map(t=>{
     def check(condition, message):
         if not condition:
             errors.append(message)
-    check(len(runtime) == len(tools) == 86, 'Runtime/catalog must contain86 implemented user tools.')
+    check(len(runtime) == len(tools) == 87, 'Runtime/catalog must contain87 implemented user tools.')
     check({row['name'] for row in runtime} == set(tools), 'Runtime and catalog tool names differ.')
     rows = [row for group in inventory['groups'] for row in group['operations']]
-    check(len(rows) == len({row['operation'] for row in rows}) == 86, 'Meaningful-action inventory must cover each user operation once.')
+    check(len(rows) == len({row['operation'] for row in rows}) == 87, 'Meaningful-action inventory must cover each user operation once.')
     check({row['operation'] for row in rows} == set(tools), 'UI semantic groups and MCP catalog differ.')
     sources = {'contracts/openapi.yaml', 'contracts/mcp-tool-catalog.json', 'contracts/operation-parity.json', 'apps/web/lib/mcp.ts', 'apps/web/lib/mcp-output-validation.ts', 'tools/check_m07_parity.py'}
     def digest(value):
@@ -89,7 +89,7 @@ const rows=implementedMcpTools(true,true,true,true,true).map(t=>{
     check(set(operations) == set(tools) | set(excluded), 'OpenAPI operation inventory differs.')
     if args.write_doc:
         lines = ['# Implemented operation delivery', '', 'Generated from `contracts/operation-parity.json` by `tools/check_m07_parity.py --write-doc`.', '',
-            '**Local source inventory:**86 user operations,86 composed MCP tools and115 OpenAPI operations. Twenty-eight prior non-tool operations remain excluded; the existing shared-media binary companion is the29th. This is source/contract reconciliation, not a real Claude OAuth connection, canonical settings installation, a human M07 journey or production acceptance.', '',
+            '**Local source inventory:** 87 user operations, 87 composed MCP tools and 116 OpenAPI operations. The additive workspace-summary operation requires migration35 and compatible deployment before live use. Twenty-eight prior non-tool operations remain excluded; the existing shared-media binary companion is the29th. This is source/contract reconciliation; it does not establish hosted availability or production acceptance.', '',
             'UI groups include writes and the reads/discovery needed to perform them. An operation need not have a separate button. Navigation, local drafts and viewer controls are listed explicitly below.', '',
             '| Meaningful UI group | Current UI sources |', '| --- | --- |']
         for group in inventory['groups']:
@@ -107,7 +107,7 @@ const rows=implementedMcpTools(true,true,true,true,true).map(t=>{
         lines += ['', '## Evidence and remaining acceptance', '',
             'Candidate cursor/envelope/key reconciliation and24 controlled module cases are recorded in [candidate parity](../../development/m07/CANDIDATE_PARITY.md). Ten controlled desktop cases, later root-owned Settings/auth desktop cases and older MCP fixtures have separate scopes; their counts overlap other gates and must not be summed.', '',
             'Fresh capability/delegation checks and strict success validation are implemented. Full real-service delegated client journeys, OAuth issuer configuration, live token revocation and end-to-end byte transfer remain unverified. Synthetic installed-client compatibility and actual canonical Settings/session RPC installation have separate dated evidence in the M07 acceptance matrix; this source checker does not prove them. Job-service HTTP remains loopback development/test only. Media-grant minting uses the leased private gateway; its documented HTTP path has no Next handler.', '',
-            'AT-072 manual screen-reader acceptance and broader M03 labelled English/mixed semantic evaluation remain pending. Mobile is skipped by owner instruction. Hosting is deferred. Use the [client runbook](../../development/m07/API_CLIENT_RUNBOOK.md) for current development origins and transfer protocols; no token values appear in it.', '']
+            'AT-072 manual screen-reader acceptance remains pending. Mobile is skipped by owner instruction. The hosted pilot remains running; accepted Claude initial authorization, reconnect and project-read evidence remains completed. See the [current handoff](../../tracking/HANDOFF.md) for English rollout and remaining release evidence. No additional language labels or selector are required.', '']
         (ROOT / 'docs/integrations/IMPLEMENTATION_PARITY.md').write_text('\n'.join(lines), encoding='utf-8', newline='\n')
     report = {'observed_at': datetime.datetime.now(datetime.timezone.utc).isoformat(), 'status': 'PASS' if not errors else 'FAIL', 'errors': errors,
         'runtime_user_tools': len(runtime), 'catalog_tools': len(tools), 'openapi_operations': len(operations), 'semantic_ui_groups': len(inventory['groups']),

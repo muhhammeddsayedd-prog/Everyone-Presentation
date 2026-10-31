@@ -16,6 +16,8 @@ const KNOWN: Record<string, { status: number; message: string }> = {
   FEATURE_NOT_IMPLEMENTED: { status: 503, message: 'This operation is not available yet. Your saved data remains available.' },
   UPLOAD_EXPIRED: { status: 409, message: 'This upload is closed or expired. Start another upload.' },
   SPECS_STATE_INVALID: { status: 409, message: 'The requirements changed unexpectedly. Reload before trying again.' },
+  WORKSPACE_SUMMARY_INVALID: { status: 503, message: 'Workspace summary data is inconsistent. Reload or contact your workspace administrator.' },
+  WORKSPACE_SUMMARY_LIMIT_EXCEEDED: { status: 503, message: 'Workspace summary exceeds its supported response budget.' },
   IDEMPOTENCY_WINDOW_EXPIRED: { status: 409, message: 'This idempotency replay window expired. Refresh the saved state before creating another request.' },
 };
 function record(value: unknown): Record<string, unknown> | null { return value && typeof value === 'object' && !Array.isArray(value) ? value as Record<string, unknown> : null; }

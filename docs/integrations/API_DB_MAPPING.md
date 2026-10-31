@@ -20,6 +20,28 @@
 
 New source rows do not establish permission by themselves. Validate canonical existence, entity kind and the actor’s central access when creating bindings. Existing central candidate/person fields remain canonical if suitable; an `eps.candidates` extension must not become a competing owner.
 
+## Workspace summary (additive source, migration35 not yet executed)
+
+`get_workspace_summary` / `GET /workspaces/{workspace_id}/summary` shares
+`CentralStudio.getWorkspaceSummary` and the single stable
+`eps_get_workspace_summary(uuid)` RPC. Existing `eps_review_owner` RLS plus
+`workspaces.read` and current canonical project scope gate the read. It adds only
+an explicit `cast_is_reviewed(eps.candidates)` execution grant for that existing
+owner; it changes no role attributes, policies, auth hooks or saved rows.
+
+The response binds workspace row/draft revisions to counts from the same caller
+statement snapshot. Unknown headcount or unresolved role clarifications count a
+role once; active project participation includes globally archived library
+people. Unreviewed uses the supplied-facts/source fingerprint and is null without
+`cast.read`, with no library query in that branch. Selection counts every active
+assignment; Shortlist counts explicit inclusion independently. Open slots are
+actual active slots without any Selection assignment, including provisional
+slots. The Ready array retains separate audience series in `series_id` order,
+validates each pointer against Ready version/workspace/series metadata and fails
+above 1000 entries. `review_issue_count` is always null because issues require a
+particular series, output, audience and draft. No facts, names or media URLs are
+included, and no data, processing configuration or versions are rewritten.
+
 ## Facts and requirements: retain supplied wording
 
 | API field | Logical storage / projection |

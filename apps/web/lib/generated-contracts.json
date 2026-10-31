@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "x-source-sha256": "fb2632c613e588ea9c8d54efaf2ccd926e6c5119986ff94270d8c5fd570cf174",
+  "x-source-sha256": "9e2e5e1c4f9df3ef7891c1c485e287c783f44762ccc0050a8bda4ceb71475ac8",
   "$defs": {
     "Id": {
       "type": "string",
@@ -5893,6 +5893,121 @@
           "english_status"
         ]
       }
+    },
+    "WorkspaceSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "workspace_id": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        },
+        "row_version": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "draft_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "roles_needing_clarification": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "project_candidate_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "unreviewed_candidate_count": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "open_slot_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "assignment_count": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "selection": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "shortlist": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            }
+          },
+          "required": [
+            "selection",
+            "shortlist"
+          ]
+        },
+        "latest_ready_versions": {
+          "type": "array",
+          "maxItems": 1000,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "series_id": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+              },
+              "output_type": {
+                "enum": [
+                  "selection",
+                  "shortlist"
+                ],
+                "type": "string"
+              },
+              "version_no": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "series_id",
+              "output_type",
+              "version_no"
+            ]
+          }
+        },
+        "review_issue_count": {
+          "type": "null"
+        }
+      },
+      "required": [
+        "workspace_id",
+        "row_version",
+        "draft_revision",
+        "roles_needing_clarification",
+        "project_candidate_count",
+        "unreviewed_candidate_count",
+        "open_slot_count",
+        "assignment_count",
+        "latest_ready_versions",
+        "review_issue_count"
+      ]
     }
   }
 }

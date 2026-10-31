@@ -2,7 +2,7 @@
 
 Generated from `contracts/operation-parity.json` by `tools/check_m07_parity.py --write-doc`.
 
-**Local source inventory:**86 user operations,86 composed MCP tools and115 OpenAPI operations. Twenty-eight prior non-tool operations remain excluded; the existing shared-media binary companion is the29th. This is source/contract reconciliation, not a real Claude OAuth connection, canonical settings installation, a human M07 journey or production acceptance.
+**Local source inventory:** 87 user operations, 87 composed MCP tools and 116 OpenAPI operations. The additive workspace-summary operation requires migration35 and compatible deployment before live use. Twenty-eight prior non-tool operations remain excluded; the existing shared-media binary companion is the29th. This is source/contract reconciliation; it does not establish hosted availability or production acceptance.
 
 UI groups include writes and the reads/discovery needed to perform them. An operation need not have a separate button. Navigation, local drafts and viewer controls are listed explicitly below.
 
@@ -32,6 +32,7 @@ UI groups include writes and the reads/discovery needed to perform them. An oper
 | Select existing project; canonical details; workspace; logo placement/output preference | `create_workspace` → `createWorkspace` in `packages/central/src/studio.ts` | `POST /workspaces` | `create_workspace` |
 | Select existing project; canonical details; workspace; logo placement/output preference | `get_workspace` → `getWorkspace` in `packages/central/src/studio.ts` | `GET /workspaces/{workspace_id}` | `get_workspace` |
 | Select existing project; canonical details; workspace; logo placement/output preference | `update_workspace` → `updateWorkspace` in `packages/central/src/studio.ts` | `PATCH /workspaces/{workspace_id}` | `update_workspace` |
+| Select existing project; canonical details; workspace; logo placement/output preference | `get_workspace_summary` → `getWorkspaceSummary` in `packages/central/src/studio.ts` | `GET /workspaces/{workspace_id}/summary` | `get_workspace_summary` |
 | Import/correct specs; create/edit/retire roles and slots | `get_specs` → `getSpecs` in `packages/central/src/specs.ts` | `GET /workspaces/{workspace_id}/specs` | `get_specs` |
 | Import/correct specs; create/edit/retire roles and slots | `submit_specs` → `submitSpecs` in `packages/central/src/specs.ts` | `POST /workspaces/{workspace_id}/specs` | `submit_specs` |
 | Import/correct specs; create/edit/retire roles and slots | `update_specs` → `updateSpecs` in `packages/central/src/specs.ts` | `PATCH /workspaces/{workspace_id}/specs` | `update_specs` |
@@ -158,4 +159,4 @@ Candidate cursor/envelope/key reconciliation and24 controlled module cases are r
 
 Fresh capability/delegation checks and strict success validation are implemented. Full real-service delegated client journeys, OAuth issuer configuration, live token revocation and end-to-end byte transfer remain unverified. Synthetic installed-client compatibility and actual canonical Settings/session RPC installation have separate dated evidence in the M07 acceptance matrix; this source checker does not prove them. Job-service HTTP remains loopback development/test only. Media-grant minting uses the leased private gateway; its documented HTTP path has no Next handler.
 
-AT-072 manual screen-reader acceptance and broader M03 labelled English/mixed semantic evaluation remain pending. Mobile is skipped by owner instruction. Hosting is deferred. Use the [client runbook](../../development/m07/API_CLIENT_RUNBOOK.md) for current development origins and transfer protocols; no token values appear in it.
+AT-072 manual screen-reader acceptance remains pending. Mobile is skipped by owner instruction. The hosted pilot remains running; accepted Claude initial authorization, reconnect and project-read evidence remains completed. See the [current handoff](../../tracking/HANDOFF.md) for English rollout and remaining release evidence. No additional language labels or selector are required.

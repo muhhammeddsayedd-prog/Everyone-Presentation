@@ -11,6 +11,7 @@
 | `list_workspaces` | `GET /workspaces` | workspaces.read | Yes |
 | `create_workspace` | `POST /workspaces` | workspaces.write | Yes |
 | `get_workspace` | `GET /workspaces/{workspace_id}` | workspaces.read | Yes |
+| `get_workspace_summary` | `GET /workspaces/{workspace_id}/summary` | workspaces.read; library review count null without cast.read | Yes |
 | `update_workspace` | `PATCH /workspaces/{workspace_id}` | workspaces.write | Yes |
 | `get_specs` | `GET /workspaces/{workspace_id}/specs` | workspaces.read | Yes |
 | `submit_specs` | `POST /workspaces/{workspace_id}/specs` | workspaces.write | Yes |

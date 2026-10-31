@@ -19,6 +19,7 @@ export * from './presentation-types.ts';
 export * from './presentation.ts';
 export * from './presentation-transcript.ts';
 export * from './english-transcript.ts';
+export * from './workspace-summary.ts';
 export * from './guest-types.ts';
 export * from './guest.ts';
 
@@ -245,6 +246,10 @@ export function createStudio(options: StudioOptions) {
       });
     },
     async getWorkspace(actor: Actor, id: string) { requireCapability(actor, 'workspaces.read'); return store.transaction(false, state => workspaceDto(state, actor, workspace(state, actor, id))); },
+    async getWorkspaceSummary(_actor: Actor, _id: string): Promise<import('./workspace-summary.ts').WorkspaceSummary> {
+      void _actor; void _id;
+      throw new DomainError('FEATURE_NOT_IMPLEMENTED', 'Workspace summaries require the central business connection.', 503);
+    },
     async updateWorkspace(actor: Actor, id: string, input: WorkspacePatch, context?: MutationContext) {
       requireCapability(actor, 'workspaces.write'); checkObject(input, ['row_version', 'logo_asset_id', 'logo_placement', 'active_output']); version(input.row_version);
       if (input.logo_placement !== undefined && !['cover', 'every_slide'].includes(input.logo_placement)) invalid('Unsupported logo placement.');

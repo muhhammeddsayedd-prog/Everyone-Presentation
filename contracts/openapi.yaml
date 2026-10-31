@@ -10593,6 +10593,99 @@ paths:
       description: Existing internal byte companion for verified logos, actual candidate frames and supported private documents/attachments. Authorization
         and current parent scope are rechecked through getMediaContent. No arbitrary storage destination or byte-range support is accepted by
         this route. For original video use play_media; for immutable saved-version content use its fixed-version companion.
+  /workspaces/{workspace_id}/summary:
+    get:
+      operationId: get_workspace_summary
+      summary: Read scoped workspace counts and latest Ready series
+      tags:
+      - workspaces
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/WorkspaceSummary'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: workspaces.read
+      x-mcp-exposed: true
+      x-shared-service-operation: get_workspace_summary
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: workspace_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+      description: Read one consistent current workspace snapshot. Requires workspaces.read and current canonical project access. Counts all active
+        roles, participation and assignments without cursor truncation. Unknown headcount or unresolved role markers count once per role. Selection
+        includes every active Option/Main/Backup assignment; Shortlist is explicit. Open slots have no Selection assignment, including provisional
+        slots. Global library archival retains project participation. Unreviewed uses the Reviewed facts/source fingerprint and is null without
+        cast.read. Ready entries retain every audience series, sorted by series_id; invalid pointers or more than 1000 Ready series fail explicitly.
+        review_issue_count is always null. No mutation or provider call.
 components:
   securitySchemes:
     InternalBearer:
@@ -14498,4 +14591,67 @@ components:
         english_sha256:
         - english_text
         - english_status
+    WorkspaceSummary:
+      type: object
+      additionalProperties: false
+      properties:
+        workspace_id: &id019
+          type: string
+          format: uuid
+          pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+        row_version: &id020
+          type: integer
+          minimum: 1
+          maximum: 9007199254740991
+        draft_revision: &id018
+          type: integer
+          minimum: 0
+          maximum: 9007199254740991
+        roles_needing_clarification: *id018
+        project_candidate_count: *id018
+        unreviewed_candidate_count:
+          anyOf:
+          - *id018
+          - type: 'null'
+        open_slot_count: *id018
+        assignment_count:
+          type: object
+          additionalProperties: false
+          properties:
+            selection: *id018
+            shortlist: *id018
+          required:
+          - selection
+          - shortlist
+        latest_ready_versions:
+          type: array
+          maxItems: 1000
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              series_id: *id019
+              output_type:
+                enum:
+                - selection
+                - shortlist
+                type: string
+              version_no: *id020
+            required:
+            - series_id
+            - output_type
+            - version_no
+        review_issue_count:
+          type: 'null'
+      required:
+      - workspace_id
+      - row_version
+      - draft_revision
+      - roles_needing_clarification
+      - project_candidate_count
+      - unreviewed_candidate_count
+      - open_slot_count
+      - assignment_count
+      - latest_ready_versions
+      - review_issue_count
 x-contract-status: implementation specification; verify with generated routes and contract tests
