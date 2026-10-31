@@ -338,4 +338,15 @@
   .preference-options > label.preference-not_preferred:has(input:checked) { background: var(--color-surface-3); color: var(--color-text-primary); box-shadow: 0 0 0 1px var(--color-border-strong); }
   .preference-group:disabled .preference-options { opacity: .6; }
   .preference-meta { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); flex-wrap: wrap; }
+
+  /* Casting overview */
+  .role-groups { display: grid; gap: var(--space-6); }
+  .role-group { scroll-margin-top: calc(var(--topbar-height) + var(--space-4)); }
+  .role-panel-title { display: flex; align-items: baseline; gap: var(--space-4); flex-wrap: wrap; }
+  .role-panel-title h3:focus-visible { outline-offset: 4px; }
+  .role-coverage { display: flex; gap: var(--space-3); flex-wrap: wrap; font-size: var(--text-small); color: var(--color-text-muted); }
+  .role-coverage span + span::before { content: "·"; margin-right: var(--space-3); color: var(--color-text-muted); }
+  .tray-person { flex: 1; min-width: 0; }
+  .tray-list .menu-anchor .button { min-height: 28px; padding: 0 8px; }
+  .tray-list .menu { right: 0; min-width: 240px; max-height: 60vh; overflow-y: auto; }
 }

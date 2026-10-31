@@ -90,13 +90,13 @@ test('casting integration persists one output control and independent same-perso
   await expect(page.getByRole('button', { name: 'Shortlist', exact: true })).toHaveAttribute('aria-pressed', 'true');
   await page.reload();
   await expect(page.getByRole('button', { name: 'Shortlist', exact: true })).toHaveAttribute('aria-pressed', 'true');
-  await page.getByRole('combobox', { name: 'Project candidate', exact: true }).selectOption('pool-1');
-  await page.getByRole('button', { name: 'Add to Shortlist', exact: true }).click();
+  await page.getByRole('combobox', { name: 'Project candidate for Father 1', exact: true }).selectOption('pool-1');
+  await page.getByRole('button', { name: 'Add to Shortlist in Father 1', exact: true }).click();
   await expect.poll(() => model.assignments.length).toBe(1);
-  await expect(page.getByRole('button', { name: 'Assign as Option', exact: true })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: /^Assign as Option to / })).toHaveCount(0);
   await page.getByRole('button', { name: 'Manager', exact: true }).click();
-  await page.getByRole('combobox', { name: 'Project candidate', exact: true }).selectOption('pool-1');
-  await page.getByRole('button', { name: 'Add to Shortlist', exact: true }).click();
+  await page.getByRole('combobox', { name: 'Project candidate for Manager 1', exact: true }).selectOption('pool-1');
+  await page.getByRole('button', { name: 'Add to Shortlist in Manager 1', exact: true }).click();
   await expect.poll(() => model.assignments.length).toBe(2);
   expect(model.assignments.map(a => a.workspace_candidate_id)).toEqual(['pool-1', 'pool-1']);
   expect(model.assignments.map(a => a.slot_id)).toEqual([slotA, slotB]);
@@ -111,14 +111,14 @@ test('casting integration persists one output control and independent same-perso
 test('casting unknown write locks changes and retries exactly without a second effect', async ({ page }) => {
   const model = await board(page, { lost: true }); await page.goto(path);
   await expect(page.getByRole('heading', { name: 'Casting choices', exact: true })).toBeVisible();
-  await page.getByRole('combobox', { name: 'Project candidate', exact: true }).selectOption('pool-1');
-  await page.getByRole('button', { name: 'Assign as Option', exact: true }).click();
-  await expect(page.getByRole('checkbox', { name: 'Include in Shortlist', exact: true })).toBeVisible();
-  await page.getByRole('checkbox', { name: 'Include in Shortlist', exact: true }).click();
+  await page.getByRole('combobox', { name: 'Project candidate for Father 1', exact: true }).selectOption('pool-1');
+  await page.getByRole('button', { name: 'Assign as Option to Father 1', exact: true }).click();
+  await expect(page.getByRole('checkbox', { name: /^Include .+ in Shortlist for Father 1$/ })).toBeVisible();
+  await page.getByRole('checkbox', { name: /^Include .+ in Shortlist for Father 1$/ }).click();
   await expect(page.getByRole('button', { name: 'Retry same change', exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: /^Assignment actions for / }).first()).toBeDisabled();
   await page.getByRole('button', { name: 'Retry same change', exact: true }).click();
-  await expect(page.getByRole('checkbox', { name: 'Include in Shortlist', exact: true })).toBeChecked();
+  await expect(page.getByRole('checkbox', { name: /^Include .+ in Shortlist for Father 1$/ })).toBeChecked();
   await expect(page.getByRole('button', { name: 'Retry same change', exact: true })).toHaveCount(0);
   const changes = model.calls.filter(c => c.path.includes('/assignments/') && c.method === 'PATCH');
   expect(changes).toHaveLength(2); expect(changes[1]).toEqual(changes[0]);
@@ -128,10 +128,10 @@ test('casting unknown write locks changes and retries exactly without a second e
 test('casting retains an unknown write after a later denial until the same acknowledgement returns', async ({ page }) => {
   const model = await board(page, { lost: true, deniedRetry: true }); await page.goto(path);
   await expect(page.getByRole('heading', { name: 'Casting choices', exact: true })).toBeVisible();
-  await page.getByRole('combobox', { name: 'Project candidate', exact: true }).selectOption('pool-1');
-  await page.getByRole('button', { name: 'Assign as Option', exact: true }).click();
-  await expect(page.getByRole('checkbox', { name: 'Include in Shortlist', exact: true })).toBeVisible();
-  await page.getByRole('checkbox', { name: 'Include in Shortlist', exact: true }).click();
+  await page.getByRole('combobox', { name: 'Project candidate for Father 1', exact: true }).selectOption('pool-1');
+  await page.getByRole('button', { name: 'Assign as Option to Father 1', exact: true }).click();
+  await expect(page.getByRole('checkbox', { name: /^Include .+ in Shortlist for Father 1$/ })).toBeVisible();
+  await page.getByRole('checkbox', { name: /^Include .+ in Shortlist for Father 1$/ }).click();
   const retry = page.getByRole('button', { name: 'Retry same change', exact: true });
   await expect(retry).toBeVisible(); await retry.click();
   await expect(page.getByRole('alert').filter({ hasText: 'The synthetic response was interrupted.' })).toBeVisible();
@@ -139,7 +139,7 @@ test('casting retains an unknown write after a later denial until the same ackno
   await expect(page.getByRole('button', { name: 'Reload saved board', exact: true })).toBeDisabled();
   await expect(page.getByRole('button', { name: /^Assignment actions for / }).first()).toBeDisabled();
   await retry.click();
-  await expect(page.getByRole('checkbox', { name: 'Include in Shortlist', exact: true })).toBeChecked();
+  await expect(page.getByRole('checkbox', { name: /^Include .+ in Shortlist for Father 1$/ })).toBeChecked();
   await expect(retry).toHaveCount(0);
   const changes = model.calls.filter(c => c.path.includes('/assignments/') && c.method === 'PATCH');
   expect(changes).toHaveLength(3); expect(changes[1]).toEqual(changes[0]); expect(changes[2]).toEqual(changes[0]);
@@ -149,7 +149,7 @@ test('casting retains an unknown write after a later denial until the same ackno
 test('casting read-only and narrow-screen states retain keyboard access without writes', async ({ page }, testInfo) => {
   const model = await board(page, { readOnly: true }); await page.setViewportSize({ width: 320, height: 900 }); await page.goto(path);
   await expect(page.getByRole('heading', { name: 'Casting choices', exact: true })).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Assign as Option', exact: true })).toBeDisabled();
+  await expect(page.getByRole('button', { name: /^Assign as Option to / }).first()).toBeDisabled();
   await page.getByRole('button', { name: 'Manager', exact: true }).focus();
   await page.keyboard.press('Enter');
   await expect(page.getByRole('heading', { name: 'Manager', exact: true })).toBeVisible();
@@ -174,5 +174,27 @@ test('casting pointer and keyboard ordering share the saved order across reload'
   await page.keyboard.press('Enter');
   await expect(page.getByRole('status').filter({ hasText: /^Casting order saved\.$/ })).toBeVisible();
   expect(model.calls.at(-1)?.body.role_ids).toEqual([roleA, roleB]);
+  expect(model.errors).toEqual([]);
+});
+
+test('casting overview shows every role and assigns from the tray by keyboard into the chosen slot', async ({ page }) => {
+  const model = await board(page); await page.goto(path);
+  await expect(page.getByRole('heading', { name: 'Father', exact: true })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Manager', exact: true })).toBeVisible();
+  await expect(page.getByRole('region', { name: 'Father', exact: true }).getByText('0 of 1 slot filled', { exact: true })).toBeVisible();
+  const tray = page.getByRole('complementary', { name: 'Project candidates' });
+  await tray.getByRole('button', { name: /^Assign Synthetic person-2$/ }).focus();
+  await page.keyboard.press('ArrowDown');
+  const menu = page.getByRole('menu', { name: /^Assign Synthetic person-2 to a slot/ });
+  await expect(menu).toBeVisible();
+  await expect(menu.getByRole('menuitem', { name: 'Father 1', exact: true })).toBeFocused();
+  await page.keyboard.press('ArrowDown'); await page.keyboard.press('Enter');
+  await expect.poll(() => model.assignments.length).toBe(1);
+  expect(model.assignments[0]).toMatchObject({ slot_id: slotB, workspace_candidate_id: 'pool-2', position: 'option' });
+  await expect(page.getByRole('region', { name: 'Manager 1', exact: true }).getByRole('article', { name: /^Synthetic person-2, Option$/ })).toBeVisible();
+  await expect(page.getByRole('region', { name: 'Manager', exact: true }).getByText('1 of 1 slot filled', { exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'One role', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Manager', exact: true })).toHaveCount(0);
+  await expect(page.getByRole('heading', { name: 'Father', exact: true })).toBeVisible();
   expect(model.errors).toEqual([]);
 });
