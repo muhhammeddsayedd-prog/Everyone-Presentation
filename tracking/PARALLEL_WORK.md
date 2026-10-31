@@ -31,3 +31,5 @@ placed in the frontend worktree at tracking/CODEX_BACKEND_COORDINATION.md; no
 frontend code changed, and acknowledgment is not yet observed.
 
 Backend compatibility seam: root adds the fixed ENGLISH_TRANSCRIPT_UNAVAILABLE message in apps/web/components/CandidateProcessingIssues.tsx so the closed technical-issue union typechecks. No layout/style changes. Preserve this new enum label when reconciling the redesign; frontend branch file was clean at inspection.
+
+Backend checkpoints available for frontend reconciliation:35cd663 (English processing/domain/SDK/HTTP-MCP read groups and fixed failure label),3cc50d4 (owned SQL proof and release safeguards). Current pilot is still Ccw/canonical33; English flag off. Please use english_transcript/status in candidate views and frozen english_text/status/hash in version/guest playback; absent legacy groups mean not_captured, never fall back to original-language text. No v1 language selector. Root has not merged or edited frontend code; this note does not assert acknowledgment.

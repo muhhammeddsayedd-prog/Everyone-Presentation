@@ -1,0 +1,117 @@
+/** New preparation/execution entrypoint. Prepare does not inspect or contact DB,
+ * Docker, native workers or providers. Execute runs only its exact new controller. */
+import assert from 'node:assert/strict';
+import process from 'node:process';
+import { clearTimeout, setTimeout } from 'node:timers';
+import { spawn } from 'node:child_process';
+import { randomUUID } from 'node:crypto';
+import { lstat, mkdir, readFile, realpath, writeFile } from 'node:fs/promises';
+import path from 'node:path';
+import { pathToFileURL } from 'node:url';
+import { compileController33, staticControllerSql33, migration33Adapters, fullCatalogue33Sql, SOURCE_PINS, sha } from './compiler.mjs';
+
+const ROOT = path.resolve(import.meta.dirname, '../../..');
+const UUID = /^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/u;
+export const FILES33 = ['README.md', 'run.mjs', 'compiler.mjs', 'compiler.test.mjs', 'ownership.mjs', 'runtime.mjs', 'runtime.test.mjs',
+  'native-auth-prerequisite.sql', 'seed-auth.sql', 'provider-config.synthetic.json',
+  'acl-semantics-proof.mjs', 'schema-migrations-acl.test.mjs', 'schema-migrations-acl-observation.json', 'schema-migrations-acl-semantics.sql',
+  'retained533-profile.mjs', 'retained533-profile.test.mjs', 'retained533-acl-proof.mjs', 'retained533-acl-proof.test.mjs',
+  'retained533-acl-observation.json', 'retained533-acl-semantics.sql',
+  'source-history/798cb54efb220f75997aa185e9384cc74b141423b66c602b37d70934abd6daf8-compiler.mjs.txt',
+  'source-history/e8381580fe8384cfefdba3039bb6b1a9ce88b614655c534fd8f4adc20108fba2-compiler.mjs.txt',
+  'source-history/0a5f4c7ed2f8845d1adc78ffcd4feee74208e72a9f7fad407487030e5504cb81-runtime.mjs.txt',
+  'source-history/f02fd44e2a256879abb12eaac19ad399065ef06c5fc951f318d371a3de0a2eb8-ownership.mjs.txt',
+  'source-history/6a40faad398373a9e26061b27e04e00eab30d3c8819599ef1a8efdcfecf6efd4-compiler.mjs.txt',
+  'source-history/2e174d8122a4579b4a016a00df83c09336e2278b192087d2b8807b94e32f3e36-runtime.mjs.txt',
+  'source-history/d76c16cce602e2a6b0628a325729b2109ff768beedfed8338f03fa2ab01098f4-run.mjs.txt',
+  'source-history/b05dbd5b31527ed5de7639421eec5410faef2225c4e757a83a800df7e21c3e89-runtime.mjs.txt',
+  'source-history/99a1cd3ed3623f67e082f79f798e20c296e520ccb186b6541d5cb72e5938d5d3-run.mjs.txt',
+  'source-history/080ca9a50455a03acf2555fe3426cee595471a6182b7bf1c8022523d0a836d00-ownership.mjs.txt',
+  'source-history/b9fad923c71264f5b1968ceb3dce1f33251bd95abf9756fa4ea8026e277df91d-compiler.mjs.txt',
+  'source-history/b8d44a90288689668fd71c31cfa11976691dcb12590aa02179a9440b515405e4-runtime.mjs.txt',
+  'source-history/0eaa93fd239657101d58fabcfaa1b5218a2949788cbe8f547ea2019ac4776f11-run.mjs.txt',
+  'source-history/d4ac87d82994b01e83aedaedfa6be3bf6a47c590e44232263f63aa4f5558d7b2-retained533-profile.mjs.txt',
+  'source-history/bb3fc8bf9a3857bd5ea5230f27b074341495f8fa3fab3b84002ab30432111cb8-run.mjs.txt'].map(file => `development/m07/recovery33/${file}`);
+async function inputs() {
+  return new Map(await Promise.all([...Object.keys(SOURCE_PINS), ...FILES33].map(async file => {
+    const target = path.join(ROOT, file), info = await lstat(target);
+    assert(info.isFile() && !info.isSymbolicLink() && info.size < 8 * 1024 * 1024 && path.resolve(await realpath(target)) === target);
+    const bytes = await readFile(target), historical = /\/source-history\/([a-f0-9]{64})-/u.exec(file);
+    if (historical) assert.equal(sha(bytes), historical[1], 'RECOVERY33_HISTORICAL_SOURCE_CHANGED');
+    return [file, bytes];
+  })));
+}
+function environment() {
+  const value = { NODE_ENV: 'test' };
+  for (const key of ['PATH', 'SystemRoot', 'WINDIR', 'USERPROFILE', 'APPDATA', 'LOCALAPPDATA', 'HOMEDRIVE', 'HOMEPATH', 'TEMP', 'TMP', 'LANG']) {
+    if (typeof process.env[key] === 'string') value[key] = process.env[key];
+  }
+  return value;
+}
+async function protect(directory) {
+  await mkdir(directory, { mode: 0o700 }); assert.equal(await realpath(directory), directory);
+  if (process.platform !== 'win32') { assert.equal((await lstat(directory)).mode & 0o777, 0o700); return; }
+  const script = "$ErrorActionPreference='Stop';$p=$env:EPS_RECOVERY33_PREPARED;$sid=[System.Security.Principal.WindowsIdentity]::GetCurrent().User;$acl=New-Object System.Security.AccessControl.DirectorySecurity;$acl.SetAccessRuleProtection($true,$false);foreach($s in @($sid,[System.Security.Principal.SecurityIdentifier]'S-1-5-18')){$r=New-Object System.Security.AccessControl.FileSystemAccessRule($s,'FullControl','ContainerInherit,ObjectInherit','None','Allow');$acl.AddAccessRule($r)};Set-Acl -LiteralPath $p -AclObject $acl;$a=Get-Acl -LiteralPath $p;if(-not $a.AreAccessRulesProtected){throw 'ACL_INVALID'};foreach($r in $a.Access){if($r.IdentityReference.Translate([System.Security.Principal.SecurityIdentifier]).Value -notin @($sid.Value,'S-1-5-18')){throw 'ACL_INVALID'}};Write-Output 'VERIFIED'";
+  const output = await new Promise((resolve, reject) => {
+    const child = spawn('powershell.exe', ['-NoProfile', '-NonInteractive', '-Command', script], { cwd: ROOT, shell: false, windowsHide: true,
+      env: { ...environment(), EPS_RECOVERY33_PREPARED: directory }, stdio: ['ignore', 'pipe', 'pipe'] });
+    let text = '', size = 0; const timer = setTimeout(() => { child.kill(); reject(Error('RECOVERY33_ACL_UNCONFIRMED')); }, 15_000);
+    child.on('error', () => { clearTimeout(timer); reject(Error('RECOVERY33_ACL_UNCONFIRMED')); });
+    child.stdout.on('data', chunk => { size += chunk.length; if (size > 65536) child.kill(); else text += chunk; });
+    child.stderr.on('data', chunk => { size += chunk.length; if (size > 65536) child.kill(); });
+    child.on('close', code => { clearTimeout(timer); if (code !== 0 || size > 65536) reject(Error('RECOVERY33_ACL_UNCONFIRMED')); else resolve(text.trim()); });
+  });
+  assert.equal(output, 'VERIFIED');
+}
+async function prepare(mode) {
+  assert(['metadata', 'full'].includes(mode));
+  const runId = randomUUID(), sources = await inputs(), compiled = compileController33(sources, { root: ROOT, runId, mode });
+  const parent = path.join(ROOT, '.local/m07-recovery33-prepared'); await mkdir(parent, { recursive: true });
+  assert.equal(await realpath(parent), parent);
+  const directory = path.join(parent, runId); await protect(directory);
+  const identity = { database: 'eps_m07_r33_source_' + runId.replaceAll('-', ''), marker: `eps-m07-recovery33:${runId}:source`, oid: 1 };
+  const adapted = migration33Adapters(sources, identity), catalogue = fullCatalogue33Sql(sources);
+  const manifest = { ...compiled.manifest, prepared_at: new Date().toISOString(),
+    source_hashes: Object.fromEntries([...sources].map(([file, bytes]) => [file, sha(bytes)])),
+    migration_adapters: adapted.migrations.map(value => { const metadata = { ...value }; delete metadata.sql; return metadata; }), migration_substitutions: adapted.substitutions,
+    catalogue_substitutions: catalogue.substitutions, generated_static_sql_inventory: Object.fromEntries(Object.entries(staticControllerSql33(compiled.source)).map(([name, sql]) => [name, sha(sql)])),
+    review_sql_oid_is_placeholder: true, private_prepared_directory: path.relative(ROOT, directory).replaceAll('\\', '/') };
+  await writeFile(path.join(directory, 'controller.mjs'), compiled.source, { flag: 'wx', mode: 0o600 });
+  await writeFile(path.join(directory, 'review-migrations-NOT-EXECUTABLE-OID1.sql'), adapted.migrations.map(value => value.sql).join('\n'), { flag: 'wx', mode: 0o600 });
+  await writeFile(path.join(directory, 'manifest.json'), JSON.stringify(manifest, null, 2) + '\n', { flag: 'wx', mode: 0o600 });
+  const area = path.join(ROOT, 'tracking/evidence/m07/recovery33'); await mkdir(area, { recursive: true });
+  await writeFile(path.join(area, `${manifest.prepared_at.replaceAll(':', '-')}-${runId.slice(0, 8)}-prepared.json`), JSON.stringify(manifest, null, 2) + '\n', { flag: 'wx' });
+  process.stdout.write(JSON.stringify({ prepared: true, database_executed: false, mode, run_id: runId, controller_sha256: compiled.manifest.generated_source_sha256,
+    prepared_directory: manifest.private_prepared_directory }) + '\n');
+}
+async function execute(runId) {
+  assert(typeof runId === 'string' && UUID.test(runId));
+  const directory = path.join(ROOT, '.local/m07-recovery33-prepared', runId);
+  assert.equal(await realpath(directory), directory);
+  const marker = path.join(directory, 'manifest.json'); assert(!(await lstat(marker)).isSymbolicLink());
+  const manifest = JSON.parse(await readFile(marker, 'utf8'));
+  assert.equal(manifest.run_id, runId); assert(['metadata', 'full'].includes(manifest.mode));
+  const sources = await inputs(), compiled = compileController33(sources, { root: ROOT, runId, mode: manifest.mode });
+  const controller = path.join(directory, 'controller.mjs'); assert(!(await lstat(controller)).isSymbolicLink()); assert.equal(await realpath(controller), controller);
+  assert.equal(sha(await readFile(controller)), compiled.manifest.generated_source_sha256);
+  assert.equal(manifest.generated_source_sha256, compiled.manifest.generated_source_sha256);
+  assert.deepEqual(manifest.source_hashes, Object.fromEntries([...sources].map(([file, bytes]) => [file, sha(bytes)])));
+  await writeFile(path.join(directory, 'execution-claim.json'), JSON.stringify({ run_id: runId, mode: manifest.mode,
+    controller_sha256: compiled.manifest.generated_source_sha256, dispatch_may_have_occurred: true, claimed_at: new Date().toISOString() }) + '\n', { flag: 'wx', mode: 0o600 });
+  const code = await new Promise((resolve, reject) => {
+    const child = spawn(process.execPath, ['--import', 'tsx', path.join(directory, 'controller.mjs')], { cwd: ROOT, shell: false, windowsHide: true,
+      env: environment(), stdio: 'inherit' });
+    child.on('error', () => reject(Error('RECOVERY33_EXECUTION_UNCONFIRMED'))); child.on('close', resolve);
+  });
+  process.exitCode = typeof code === 'number' ? code : 1;
+}
+async function main() {
+  assert(!process.env.NODE_OPTIONS && /^v24\./u.test(process.version));
+  const [action, value, ...extra] = process.argv.slice(2); assert.equal(extra.length, 0);
+  if (action === 'prepare') await prepare(value);
+  else if (action === 'execute') await execute(value);
+  else throw Error('RECOVERY33_ARGUMENTS_INVALID');
+}
+if (process.argv[1] && pathToFileURL(path.resolve(process.argv[1])).href === import.meta.url) {
+  main().catch(() => { process.stderr.write('RECOVERY33_RUN_UNCONFIRMED\n'); process.exitCode = 1; });
+}

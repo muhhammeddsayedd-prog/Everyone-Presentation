@@ -1,5 +1,6 @@
 /** Source-pinned compiler only. No process, database, provider or filesystem IO. */
 import assert from 'node:assert/strict';
+import { Buffer } from 'node:buffer';
 import { createHash } from 'node:crypto';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -17,6 +18,9 @@ export const SOURCE_PINS = Object.freeze({
   'development/m07/recovery33/schema-migrations-acl-observation.json': 'ae00c7258469b913bc82be4f06a4aebb6c0467f26841423a97ee28b9512adf4a',
   'development/m07/recovery33/schema-migrations-acl-semantics.sql': 'bc0d070580205a2cb2992836808880822a01d6f8397413c09a79ee8f34e22901',
   'tracking/evidence/m07/recovery33/2026-10-31-auth-schema-migrations-acl-semantic-proof.json': 'aeaff1879563b96acadf05ef8f885b8602bf5d225209e95c0721506bcca8a813',
+  'development/m07/recovery33/retained533-acl-observation.json': '6d5a0284b0c956b6dbae80906a6b4b7ea3482733fa135fd16b1eb5fe4b3b1654',
+  'development/m07/recovery33/retained533-acl-semantics.sql': '86b46544bb451cf483dd0ef21b00826cf61a75bd91a8990e3add685d0cb3d4f6',
+  'tracking/evidence/m07/recovery33/2026-10-31-retained533-acl-native-semantics.json': '4e672a10f28d4c653a9714745f75c16e8b5aba1edcddf9fbe480d7e0170dffe5',
 });
 export const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 export function checkedSource(sources, file) {
@@ -32,7 +36,7 @@ function substitute(source, old, replacement, label, changes, count = 1) {
 export function migration33Adapters(sources, identity) {
   const changes = [], result = [], target = ownedPredicate33(identity);
   for (const [index, file] of Object.keys(SOURCE_PINS).filter(file => file.startsWith('supabase/')).entries()) {
-    const original = checkedSource(sources, file); let sql = original;
+    const original = checkedSource(sources, file); let sql;
     const anchor = index === 0 ? '\ncreate role eps_mcp_issuer_owner' : index === 1 ? '\ncreate or replace function eps.specs_submit_ack('
       : index === 2 ? '\ncreate role eps_oauth_consent_owner' : '\ncreate function eps.oauth_consent_browser_context()';
     assert.equal(original.split(anchor).length, 2);
@@ -82,7 +86,7 @@ export function compileController33(sources, { root, runId, mode = 'metadata' })
   for (const line of source.split('\n').filter(line => /^import .*from '\.\.?\//u.test(line))) {
     const relative = /from '([^']+)'/u.exec(line)[1];
     const file = path.resolve(root, 'development/m07/recovery29', relative);
-    const replacementFile = relative === './profile8.mjs' ? path.join(root, 'development/m07/recovery33/ownership.mjs')
+    const replacementFile = relative === './profile8.mjs' ? path.join(root, 'development/m07/recovery33/retained533-profile.mjs')
       : relative === './ownership.mjs' ? path.join(root, 'development/m07/recovery33/ownership.mjs') : file;
     const replacement = line.replace(relative, pathToFileURL(replacementFile).href)
       .replace('exactRestoreProfile8Sql as exactRestoreProfileSql', 'exactRestoreProfile33Sql as exactRestoreProfileSql');
@@ -99,6 +103,8 @@ export function compileController33(sources, { root, runId, mode = 'metadata' })
   change(guardLine, "  const guard = `do $guard$begin if ${ownedPredicate33({database,marker:marker(database),oid:identity.oid})} then raise exception'OWNED_M07_DATABASE_REQUIRED';end if;end$guard$;`;", 'transaction-name-marker-oid-guard');
   change("import { createRecovery33Context } from", "import { ownedPredicate33, ownedRestoreSql33 } from '" + url('development/m07/recovery33/ownership.mjs') + "';\nimport { createRecovery33Context } from", 'ownership-predicate-import');
   change("async function catalogue(database) { return value(database, await readFile('development/m07/db/catalog29.sql','utf8')); }", "async function catalogue(database) { return value(database, recovery33?.active ? recovery33.catalogueSql : await readFile('development/m07/db/catalog29.sql','utf8')); }", 'catalogue33-after-upgrade');
+  change('const planned=exactRestoreProfileSql(expected,before,{database,marker:marker(database),oid:identity.oid});',
+    'const planned=exactRestoreProfileSql(expected,before,{database,marker:marker(database),oid:identity.oid},recovery33?.profileEvidence());', 'captured-owned-role-and-native-acl-profile-evidence');
   change('report.disposable_databases_removed=true;', 'report.disposable_databases_removed=true; if(recovery33) await recovery33.cleanupRoles();', 'new-role-cleanup-after-databases');
   change("scope: 'AT-070 history29 synthetic isolated local PostgreSQL + local filesystem object restore; exact known baseline profile preserved'", `scope: 'AT-070 full owned29->33 ${mode} synthetic local restore; original29 and existing global roles preserved'`, 'truthful-new-scope');
   const roleLine = source.split('\n').find(line => line.startsWith('const rolesSql = ')); assert(roleLine);
@@ -113,11 +119,11 @@ export function compileController33(sources, { root, runId, mode = 'metadata' })
   change('await docker(psqlArgs(sourceDb), { input: initialDump });', 'await restoreOwnedDump(sourceDb,initialDump);', 'same-connection-source-restore-guard');
   change("await docker(psqlArgs(restoreDb), { input: await readFile(path.join(privateRoot, 'restored/metadata.sql')) });", "await restoreOwnedDump(restoreDb,await readFile(path.join(privateRoot, 'restored/metadata.sql')));", 'same-connection-full-restore-guard');
   change("report.result = 'passed'; report.checkpoint = 'complete';", "}\n  report.result = 'passed'; report.checkpoint = 'complete';", 'close-native-mode-block');
-  change('assert.deepEqual(sourceCatalogue,originalCatalogue); const objectInventory', 'assert.deepEqual(sourceCatalogue,expectedSourceCatalogue); const objectInventory', 'compare-source33-catalogue');
+  change('assert.deepEqual(sourceCatalogue,originalCatalogue); const objectInventory', 'await recovery33.admitSourceFixtureCatalogue(expectedSourceCatalogue,sourceCatalogue); const objectInventory', 'admit-only-authored-fixture-catalogue-transition');
   change("assert.equal(rows.mcp_registry_count,0);assert.equal(rows.auth_session_count,0);", "assert.equal(rows.mcp_registry_count,1);assert.equal(rows.auth_session_count,1);", 'synthetic-auth-resource-state-counts');
   change('mcp_empty_registry_preserved:true,auth_sessions_empty_preserved:true', 'synthetic_mcp_registry_preserved:true,synthetic_auth_session_preserved:true', 'truthful-auth-boundary-flags');
   change('report.settings_row1_empty_mcp_registry_auth_subset_restored_exactly=true;', 'report.settings_row1_synthetic_mcp_registry_auth_subset_restored_exactly=true; await recovery33.authBoundary(restoreDb);', 'restored33-auth-functional-boundary');
-  change('${baseFixture}\\n${versionFixture}', '${baseFixture}\\n${recovery33.seedSql()}\\n${versionFixture}', 'synthetic-native-auth-data-provenance');
+  change('${baseFixture}\\n${versionFixture}', '${baseFixture}\\nset local role postgres;\\n${recovery33.seedSql()}\\n${versionFixture}', 'synthetic-native-auth-data-provenance');
   change('report.before_restore29_boundaries=await settingsBoundary(sourceDb);', 'await recovery33.authBoundary(sourceDb);report.before_restore29_boundaries=await settingsBoundary(sourceDb);', 'source33-auth-functional-boundary');
   change("'auth_sessions',(select jsonb_agg(to_jsonb(t)order by id)from auth.sessions t)", "'auth_sessions',(select jsonb_agg(to_jsonb(t)order by id)from auth.sessions t),'auth_oauth_clients',(select jsonb_agg(to_jsonb(t)order by id)from auth.oauth_clients t),'auth_oauth_authorizations',(select jsonb_agg(to_jsonb(t)order by authorization_id)from auth.oauth_authorizations t),'oauth_consent_claims',(select jsonb_agg(to_jsonb(t)order by authorization_hash)from eps.oauth_consent_claims t)", 'all-synthetic-auth-state-in-snapshot');
   const schemaLine = source.split('\n').find(line => line.startsWith('async function schema(database)'));

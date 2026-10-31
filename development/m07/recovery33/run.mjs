@@ -1,6 +1,8 @@
 /** New preparation/execution entrypoint. Prepare does not inspect or contact DB,
  * Docker, native workers or providers. Execute runs only its exact new controller. */
 import assert from 'node:assert/strict';
+import process from 'node:process';
+import { clearTimeout, setTimeout } from 'node:timers';
 import { spawn } from 'node:child_process';
 import { randomUUID } from 'node:crypto';
 import { lstat, mkdir, readFile, realpath, writeFile } from 'node:fs/promises';
@@ -13,6 +15,8 @@ const UUID = /^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/u;
 export const FILES33 = ['README.md', 'run.mjs', 'compiler.mjs', 'compiler.test.mjs', 'ownership.mjs', 'runtime.mjs', 'runtime.test.mjs',
   'native-auth-prerequisite.sql', 'seed-auth.sql', 'provider-config.synthetic.json',
   'acl-semantics-proof.mjs', 'schema-migrations-acl.test.mjs', 'schema-migrations-acl-observation.json', 'schema-migrations-acl-semantics.sql',
+  'retained533-profile.mjs', 'retained533-profile.test.mjs', 'retained533-acl-proof.mjs', 'retained533-acl-proof.test.mjs',
+  'retained533-acl-observation.json', 'retained533-acl-semantics.sql',
   'source-history/798cb54efb220f75997aa185e9384cc74b141423b66c602b37d70934abd6daf8-compiler.mjs.txt',
   'source-history/e8381580fe8384cfefdba3039bb6b1a9ce88b614655c534fd8f4adc20108fba2-compiler.mjs.txt',
   'source-history/0a5f4c7ed2f8845d1adc78ffcd4feee74208e72a9f7fad407487030e5504cb81-runtime.mjs.txt',
@@ -20,6 +24,18 @@ export const FILES33 = ['README.md', 'run.mjs', 'compiler.mjs', 'compiler.test.m
   'source-history/6a40faad398373a9e26061b27e04e00eab30d3c8819599ef1a8efdcfecf6efd4-compiler.mjs.txt',
   'source-history/2e174d8122a4579b4a016a00df83c09336e2278b192087d2b8807b94e32f3e36-runtime.mjs.txt',
   'source-history/d76c16cce602e2a6b0628a325729b2109ff768beedfed8338f03fa2ab01098f4-run.mjs.txt',
+  'source-history/b05dbd5b31527ed5de7639421eec5410faef2225c4e757a83a800df7e21c3e89-runtime.mjs.txt',
+  'source-history/99a1cd3ed3623f67e082f79f798e20c296e520ccb186b6541d5cb72e5938d5d3-run.mjs.txt',
+  'source-history/080ca9a50455a03acf2555fe3426cee595471a6182b7bf1c8022523d0a836d00-ownership.mjs.txt',
+  'source-history/b9fad923c71264f5b1968ceb3dce1f33251bd95abf9756fa4ea8026e277df91d-compiler.mjs.txt',
+  'source-history/b8d44a90288689668fd71c31cfa11976691dcb12590aa02179a9440b515405e4-runtime.mjs.txt',
+  'source-history/0eaa93fd239657101d58fabcfaa1b5218a2949788cbe8f547ea2019ac4776f11-run.mjs.txt',
+  'source-history/d4ac87d82994b01e83aedaedfa6be3bf6a47c590e44232263f63aa4f5558d7b2-retained533-profile.mjs.txt',
+  'source-history/807065bd22949b9aa5805d60a15c3be0e6b882021ed17a0d38e82389f32bc50e-compiler.mjs.txt',
+  'source-history/26e9697a71eb6fed612155851194a8e9218a1a76b293d9924ab3d9931c0a5871-run.mjs.txt',
+  'source-history/91b15c72d7d268ef97f398c4bfd148e6da4565e579227e738633a85fa23c833f-runtime.mjs.txt',
+  'source-history/9e0faa63ca063d5f59dca00ae0ee11632994d63a596bc6b1f01e00ec6d75adef-run.mjs.txt',
+  'source-history/a3e01618c07aeef1464d8f0279e5809dd2059bb447960174d99cb77020743b1a-runtime.test.mjs.txt',
   'source-history/bb3fc8bf9a3857bd5ea5230f27b074341495f8fa3fab3b84002ab30432111cb8-run.mjs.txt'].map(file => `development/m07/recovery33/${file}`);
 async function inputs() {
   return new Map(await Promise.all([...Object.keys(SOURCE_PINS), ...FILES33].map(async file => {
@@ -62,7 +78,7 @@ async function prepare(mode) {
   const adapted = migration33Adapters(sources, identity), catalogue = fullCatalogue33Sql(sources);
   const manifest = { ...compiled.manifest, prepared_at: new Date().toISOString(),
     source_hashes: Object.fromEntries([...sources].map(([file, bytes]) => [file, sha(bytes)])),
-    migration_adapters: adapted.migrations.map(({ sql: _sql, ...entry }) => entry), migration_substitutions: adapted.substitutions,
+    migration_adapters: adapted.migrations.map(value => { const metadata = { ...value }; delete metadata.sql; return metadata; }), migration_substitutions: adapted.substitutions,
     catalogue_substitutions: catalogue.substitutions, generated_static_sql_inventory: Object.fromEntries(Object.entries(staticControllerSql33(compiled.source)).map(([name, sql]) => [name, sha(sql)])),
     review_sql_oid_is_placeholder: true, private_prepared_directory: path.relative(ROOT, directory).replaceAll('\\', '/') };
   await writeFile(path.join(directory, 'controller.mjs'), compiled.source, { flag: 'wx', mode: 0o600 });

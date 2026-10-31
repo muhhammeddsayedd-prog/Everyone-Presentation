@@ -1,24 +1,23 @@
 # M07 acceptance matrix
 
-## Backend continuation - 2026-10-31
+## Current backend continuation - 2026-10-31
 
-Current web deployment is CcwVabZ5PkadAPaeANRLJD4GqVg3 on the unchanged pilot URL;
-canonical33/workerCVDM remain intact. The response-scope SDK correction passed853
-application tests/lint/types/production guard/build before deployment, then the
-signed-in Dummy Pilot Test workspace passed. Completed owner initial/reconnect/MCP
-read acceptance below stays passed; no new owner connection request is needed.
-
-Read-only metadata triage of3 actual jobs passed; AT-074 remains partial without
-independent retained n8n execution detail. Owned recovery33 actually migrated30-33
-but stopped at unknown exact dump ACL pairs; cleanup reconciliation is in progress,
-with no restore acceptance credited. Original29 exact native-context baseline and
-full catalogue/global role preimage are preserved; shared lock remains until
-reviewed cleanup. English-output integration is underway, with no new operation
-names:86 user tools/115 HTTP operations/13 semantic groups reconcile. Additional
-M03 manual multilingual labels are declined; broad accuracy remains unclaimed.
-English migration34/activation/real app verification remain pending. AT-072 stays
-pending, mobile skipped, full M07/production release unverified; pilot stays running.
-
+- Stable pilot Ccw is freshly confirmedREADY at15:39; workerCVDM remains oneReady/
+  alive2GiB instance at15:38. No config/worker mutations; ownerconnectionPASS stays.
+- Current local composed886 tests pass; runtime source retains881 lint/types/guard/
+  build plus new5-test lint/typecheck/security review. See backend-continuation.
+- English backend and owned34 validator/future capture/legacy replay/immutability
+  SQL pass locally. Canonical33/Englishflagoff; frontend/app/hosted rollout pending.
+- Current33 synthetic metadata+media restore9af PASSED:17311 catalogue fields,
+  4filesystemobjects/119sources, nativePDF/video, cachedconsent/privacy/permissions,
+  lease/job recovery, oldReady preservation and2corruption refusals. Complete
+  original29/globalrole preservation and cleanup. No StorageHTTP/actualAuthconfig/
+  deployed/independentcluster/RTO/RPO/representative performance claim.
+- Operator3-job durable metadata projection passed; independent retained n8n
+  execution details unavailable, so AT-074 remains partial.
+- Full live delegated journey/token lifecycle/contributor checks and hosted recovery/
+  endurance remain open. AT-072 pending; mobile skipped. Extra multilingual labels
+  declined; no broad semantic-accuracy claim. Pilot runs until owner stop.
 
 ## Current controlled pilot connection acceptance - 2026-10-31
 

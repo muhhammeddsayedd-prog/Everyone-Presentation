@@ -1,5 +1,43 @@
 ## Backend continuation alongside frontend redesign - 2026-10-31T14:07:54.961677Z
 
+## Latest backend checkpoint - 2026-10-31
+
+The pilot still serves the deployed SDK resource-scope correction (Ccw). Fresh
+provider reads at 15:38-15:39 confirm the stable web alias is Ready and the same
+single 2 GiB worker is Ready/alive. Owner OAuth, reconnect and authenticated
+Dummy Pilot Test acceptance remain passed. No client, permission or signing-key
+configuration changed.
+
+English processing and compatible domain/SDK/HTTP/MCP fields are implemented.
+Owned migration 34 validation, future immutable capture and legacy replay tests
+passed with complete rollback. The composed application suite passes 886 tests;
+source-specific lint, typecheck, production guard and build gates are recorded.
+One real normalization request passed English availability, source integrity,
+provider metadata and age checks, but failed the full-name literal comparison.
+Its overall receipt stays unaccepted; no retry or broad accuracy claim. The
+owner declined further multilingual labels. No v1 language selector was added.
+
+The history 33 synthetic local restore passed: 17,311 catalogue fields, four
+filesystem objects and 119 source files; native PDF/video validation; source and
+restored cached consent/privacy/permissions; lease/job fences; old Ready-version
+preservation; tampered and missing backup rejection. Original 29/global roles
+remain exact, temporary databases/roles/container are gone, and the lock is
+released. This does not prove Storage HTTP, actual Auth/configuration/secrets,
+independent/deployed recovery, physical crashes, RTO/RPO or representative cost.
+Earlier failures and immutable source/claims remain. Never replay their claims
+or retry protected M02 job b3f90268.
+
+Next: reconcile Claude's frontend with the English contract, then deploy the
+compatible web/SDK and worker before canonical 34. Apply/read back the guarded
+migration, enable the frozen opt-in, and verify a real app/n8n/OpenAI scan plus
+future and legacy guest companions. Canonical remains 33, original local 29;
+English is disabled and not deployed. The frontend worktree remains separate;
+coordination notes reference 35cd663/3cc50d4 without claiming acknowledgment.
+
+Full live delegated journeys, token lifecycle/contributor checks, deployed
+recovery and representative endurance remain open. AT-072 stays pending; mobile
+is skipped. Keep the pilot running until the owner stops it.
+
 ## Owned English SQL and MCP lifecycle checkpoint - 2026-10-31T15:10:10.091106+00:00
 
 Actual owned English34 proof2982 passed: functional30-33 first executed in a

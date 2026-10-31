@@ -4,8 +4,9 @@ import { writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { isDeepStrictEqual } from 'node:util';
 import { checkedSource, fullCatalogue33Sql, migration33Adapters, sha } from './compiler.mjs';
-import { ownedPredicate33, roleCleanup33 } from './ownership.mjs';
+import { ownedIdentity33, ownedPredicate33, roleCleanup33 } from './ownership.mjs';
 import { assertAclSemanticProof33 } from './acl-semantics-proof.mjs';
+import { RETAINED533_NATIVE_RECEIPT, assertRetained533NativeReceipt } from './retained533-profile.mjs';
 const q = value => "'" + String(value).replaceAll("'", "''") + "'";
 const ROLES = ['eps_mcp_issuer_owner', 'eps_oauth_consent_owner'];
 const JSON_TAIL = "select coalesce(jsonb_object_agg(key,value),'{}')catalog from flat;";
@@ -58,6 +59,8 @@ export function createRecovery33Context(ctx) {
     assert.equal(semantic.sql_sha256, sha(source('development/m07/recovery33/schema-migrations-acl-semantics.sql')));
     report.native_owner_acl_equivalence = { source_receipt_sha256: sha(source('tracking/evidence/m07/recovery33/2026-10-31-auth-schema-migrations-acl-semantic-proof.json')),
       ...assertAclSemanticProof33(semantic.metadata) };
+    report.native_retained533_acl_equivalence = { source_receipt_sha256: sha(source(RETAINED533_NATIVE_RECEIPT)),
+      ...assertRetained533NativeReceipt(source(RETAINED533_NATIVE_RECEIPT)) };
     const full = fullCatalogue33Sql(sources); catalogueSql = full.sql; active = true;
     originalFullCatalogue = await ctx.readOriginalCatalogue(catalogueSql);
     const cloneFull = await ctx.value(sourceDb, catalogueSql);
@@ -69,7 +72,7 @@ export function createRecovery33Context(ctx) {
     assert.deepEqual(await ctx.catalogue(sourceDb), originalFullCatalogue, 'RECOVERY33_EXACT_FULL29_CLONE_REQUIRED');
     for (const name of ROLES) assert.equal(await observeRole(name), null, 'RECOVERY33_EXISTING_ROLE_MUST_NOT_BE_ADOPTED');
     const initialIdentity = await identity(sourceDb), adapted = migration33Adapters(sources, initialIdentity);
-    report.migration33_adapters = { migrations: adapted.migrations.map(({ sql: _sql, ...metadata }) => metadata), substitutions: adapted.substitutions };
+    report.migration33_adapters = { migrations: adapted.migrations.map(value => { const metadata = { ...value }; delete metadata.sql; return metadata; }), substitutions: adapted.substitutions };
     report.actual_local_migrations_executed = [];
     for (const [index, migration] of adapted.migrations.entries()) {
       report.checkpoint = `execute-owned-migration-${migration.version}`;
@@ -127,13 +130,27 @@ export function createRecovery33Context(ctx) {
   function seedSql() { return source('development/m07/recovery33/seed-auth.sql'); }
   async function authBoundary(database) {
     const claims = '{"sub":"8a1a0000-0000-4000-8000-000000000001","role":"authenticated","aud":"authenticated","is_anonymous":false,"session_id":"33000000-0000-4000-8000-000000000002"}';
-    const value = await ctx.value(database, `select set_config('request.jwt.claims',${q(claims)},true);set local role authenticated;
+    report.checkpoint = 'synthetic-native-auth-boundary';
+    const value = await ctx.value(database, `select set_config('request.jwt.claim.sub','8a1a0000-0000-4000-8000-000000000001',true),set_config('request.jwt.claims',${q(claims)},true);set local role authenticated;
  select jsonb_build_object('cached_state',public.eps_oauth_consent_claim(repeat('a',32),'https://studio.example.invalid/mcp','details','33000000-0000-4000-8000-000000000004')->>'state',
  'private_context_denied',not has_function_privilege('authenticated','eps.oauth_consent_browser_context()','EXECUTE'),
  'service_context_denied',not has_function_privilege('service_role','eps.oauth_consent_browser_context()','EXECUTE'),
  'coordinator_auth_usage',has_schema_privilege('eps_oauth_consent_owner','auth','USAGE'));`);
     assert.deepEqual(value, { cached_state: 'consent_ready', private_context_denied: true, service_context_denied: true, coordinator_auth_usage: false });
     report[database === sourceDb ? 'source33_auth_boundary' : 'restored33_auth_boundary'] = value;
+  }
+  async function admitSourceFixtureCatalogue(expected, observed) {
+    const owned = ownedIdentity33(await identity(sourceDb)); assert.equal(owned.kind, 'source');
+    const key = 'tables|auth.users|rls';
+    assert.equal(expected[key], false); assert.equal(observed[key], true);
+    for (const catalogue of [expected, observed]) {
+      assert.equal(catalogue['tables|auth.users|owner'], 'supabase_auth_admin');
+      assert.equal(catalogue['tables|auth.users|force_rls'], false);
+    }
+    assert.deepEqual({ ...observed, [key]: false }, expected, 'RECOVERY33_UNKNOWN_SYNTHETIC_FIXTURE_CATALOGUE_CHANGE');
+    report.synthetic_fixture_catalogue_transition = { database: owned.database, oid: owned.oid, marker: owned.marker,
+      key, before: false, after: true, owner: 'supabase_auth_admin', force_rls: false, otherwise_exact: true,
+      expected_before_sha256: sha(JSON.stringify(expected)), actual_source_sha256: sha(JSON.stringify(observed)) };
   }
   async function cleanupRoles() {
     for (const name of [...ROLES].reverse()) {
@@ -153,5 +170,6 @@ export function createRecovery33Context(ctx) {
     }
     report.new33_roles_removed = true;
   }
-  return { get active() { return active; }, get catalogueSql() { assert(active); return catalogueSql; }, upgrade, metadataRestore, seedSql, authBoundary, cleanupRoles };
+  function profileEvidence() { return { nativeReceipt: source(RETAINED533_NATIVE_RECEIPT), consentOwner: roles.get('eps_oauth_consent_owner') }; }
+  return { get active() { return active; }, get catalogueSql() { assert(active); return catalogueSql; }, upgrade, metadataRestore, seedSql, authBoundary, admitSourceFixtureCatalogue, cleanupRoles, profileEvidence };
 }

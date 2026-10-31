@@ -58,3 +58,20 @@ testing the redesigned transcript views. Current pilot remains running.
 ## Local verification checkpoint
 
 Owned SQL proof on2026-10-31 passed the actual additive34 validator, future capture, legacy replay and immutable read tests after real30-33 clone upgrades. The34 transaction fully rolled back; original29/global roles and cleanup were verified. Canonical remains33 and the English flag is off. Application881 gates pass. One real normalization request passed English/source/provider/age checks but not the full-name literal comparison, so its overall receipt remains unaccepted; no broad accuracy claim. Frontend and real app/guest rollout remain pending.
+
+## Pilot release order
+
+The currently serving Ccw pilot uses the old strict media DTO. Deploy the compatible
+web/SDK before applying34: otherwise the new DB English keys are rejected by that
+old parser. Keep the English processing flag NULL throughout compatibility rollout.
+Deploy the new worker with the same five-stage n8n flow, apply34 only through the
+verified canonical release path with preservation/readback checks, and reconcile
+the frontend English fields before enabling the flag. Confirm one tagged real scan
+and one future frozen playback companion through the app/guest flow first. Do not
+credit the component call or local SQL rollback as that hosted journey.
+
+Disabling the flag stops new opt-ins; already frozen tagged jobs still need the
+compatible worker until drained. Keep the compatible SDK after34 is installed.
+Use forward fixes for additive schema issues; never drop the English columns or
+rewrite/backfill old Ready content as a rollback. Original source and prior facts/
+Reviewed state remain independent of the English display projection.

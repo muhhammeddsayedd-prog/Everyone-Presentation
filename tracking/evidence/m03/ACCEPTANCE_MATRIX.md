@@ -8,10 +8,7 @@ unclaimed. The implementation must process permitted speech in any language and
 show English facts/transcripts, with no v1 app language selector. Accepted Arabic
 name/age Reviewed proof and all original sources/old saved versions remain intact.
 
-Additive English projection34 is prepared but not applied/activated. Domain/SDK,
-HTTP/MCP read groups and provider/worker handling are in development. Real English
-normalization, persistence, app/guest display and future immutable capture need
-actual proof. See [shared frontend contract](../../../docs/integrations/ENGLISH_TRANSCRIPT.md).
+English provider/worker/domain/SDK and HTTP/MCP read groups pass881 application tests. Owned additive34 validator, future immutable capture and legacy replay SQL proof passed with complete rollback/cleanup; canonical34 is still unapplied and disabled. One real normalization request passed English/source/provider/age checks but not the full-name literal comparison, so overall acceptance is false and broader accuracy unclaimed. Coherent hosted worker/web/DB/frontend rollout and actual English app/guest verification remain pending. See [shared frontend contract](../../../docs/integrations/ENGLISH_TRANSCRIPT.md).
 The controlled hosted pilot runs until owner stop; the older hosting-deferred
 statements below are dated history. Manual AT-072 remains pending, mobile skipped.
 

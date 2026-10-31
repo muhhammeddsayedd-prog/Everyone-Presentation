@@ -12,6 +12,12 @@ export const EXECUTION_ENABLED = true;
 export const FILES34 = ['controller.mjs','runtime.mjs','run.mjs','controller.test.mjs','build_ports.py','test_source.py',
  'test-target.sql','before34.sql','validation-tests.sql','capture-tests.sql','port-patches.json','README.md','recovery-source-pins.json',
  'source-history/4597951eb5d26ff449abbbe0f6575ddb5ebfbf9d83fc8f58e22c21fd610a26bc-recovery-source-pins.json',
+ 'source-history/21c6c69dd8ea6c952f4299ef5404fef95024d5b5e62beb5ad1000c9da0864a55-recovery-source-pins.json',
+ 'source-history/3da2b33dcb7ffefcc1b7ed83ec1a0d38b7df324517f64a569559289e8c87bb91-recovery-source-pins.json',
+ 'source-history/e63186b05e195223c6b409c07baf0e60f0270cbafae03ed1791abd152b7f28a0-recovery-source-pins.json',
+ 'source-history/6cbc9034e9950da3a142dfa8892af576e125e26e895a225942087afd8f4ad528-recovery-source-pins.json',
+ 'source-history/e22525ab46f375fe64effc9a3118ccc46d3a9ffb033c27fd256a2c89909514cc-recovery-source-pins.json',
+ 'source-history/1a6c26e2294ac185b687bc5efd17d13a425a3bcbd4cf2a7694b53531430d711e-recovery-source-pins.json',
  'source-history/92ba4e1ebcca3a120cab03960e1c357897eda5f95cac4825163247751b0d3484-validation-tests.sql',
  'source-history/bb5232d6d56536c98203d633b40bcd3f6100f6923210041c57535579e0b36a4f-test_source.py']
  .map(file => 'development/m03/english-transcript34/' + file);

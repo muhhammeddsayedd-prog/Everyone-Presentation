@@ -93,7 +93,7 @@ synthetic transaction above, adapting only its admission to the already owned
 `eps_m07_r33_source_<run>` clone. It asserts the full source33 catalogue, data and
 history are identical after rollback. It does not insert a34 history label.
 
-Six pure Node tests cover source closure, migration suffix parity, actual rendered
+Seven pure Node tests cover source closure, migration suffix parity, actual rendered
 wire, ordinary-session-before-Generate ordering, rollback and execution prerequisites.
 The Python parser suite also checks the actual rendered owned wire. Commands:
 
@@ -104,7 +104,7 @@ node development/m03/english-transcript34/run.mjs prepare
 
 Preparation contacts no database. Root verified actual533 cleanup at15:01:22 UTC
 and authorized this new runner after independent review of the direct-DROP
-forward fix. `EXECUTION_ENABLED` is now true. The29 dependency pins include the
+forward fix. `EXECUTION_ENABLED` is now true. The current dependency pins include the
 immutable successful cleanup receipt; execution also requires its exact
 baseline/catalogue/global-role/DB-absence/postcheck/unlock assertions. Previous
 closed preparations37c86f65 and9741f5e8 are historical and must never be replayed.
@@ -114,7 +114,9 @@ Root alone dispatches a new prepared run exactly once after checking fresh targe
 admission and source closure. The parent still verifies original29, exact owned
 clone OID/marker, role identities, no unexpected clients, all catalogue preimages,
 rollback, cleanup and the shared lock. This runner inserts no34 history label.
-The current corrected source still requires its own actual SQL proof.
+Root's corrected run `2982d338` passed actual owned29–33 migration plus34
+validator/capture/immutability SQL tests, rollback, exact original29 preservation,
+role cleanup and lock release at15:06:09 UTC. Its receipt remains immutable.
 
 Root's first owned run `ae5b4f86` actually migrated30–33 and reached the34
 validator fixture, then refused an untyped `to_jsonb(anyelement)` literal in its
@@ -124,6 +126,26 @@ was released. That failed run remains failed and cannot be replayed. The forward
 fixture adds `::text` to that one literal. A new offline regression failed on the
 retained old bytes and passes on the corrected fixture; it checks every active
 owned SQL fixture for direct untyped JSON polymorphic literal arguments.
+
+After checkpoint `3cc50d4`, dependency pins were forward-sealed for the separately
+reviewed finite three-pair recovery ACL adapter. The committed earlier pin file
+is retained by SHA in source history. A pure regression pins the successful2982
+receipt and verifies the migration, fixture SQL and English runtime remain byte
+exact. No successful34 SQL test was repeated for this dependency-only reseal.
+The later full-recovery fixture role correction is also pinned: it restores
+`SET LOCAL ROLE postgres` before the privileged synthetic seed. It changes no
+application grants or policies and does not require repeating successful34 SQL.
+The synthetic full-recovery Auth-boundary helper also pins the same actor in
+legacy and JSON session fields, matching the retained native `auth.uid` helper.
+Its source-bound regression changes no Auth function, grant or strict guard.
+The full-recovery source catalogue admission records only the frozen fixture's
+intentional `auth.users` RLS enablement on its owned source clone, requiring every
+other catalogue field to remain exact. Restore still compares the actual RLS-on
+source catalogue. This is separate from both finite ACL repair and English SQL.
+After root's successful full local recovery run `9af6774f`, the final dependency
+seal also pins its README-only result update (`14c38dc2...`). All previously
+pinned recovery code hashes and the accepted2982 English SQL remain unchanged.
+No SQL or native-media proof was repeated for that documentation seal.
 
 Actual SQL execution, initial activation, hosted source/worker coherence, real
 English processing and app/guest checks remain pending. Existing M03 accuracy,
