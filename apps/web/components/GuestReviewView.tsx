@@ -1,4 +1,5 @@
 'use client';
+import { ConfirmProvider, useConfirm } from './ui/Confirm';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { ExternalPresentationVersion, GuestBrowserAccess } from '../../../packages/domain/src/guest-types';
@@ -15,7 +16,11 @@ import { reviewError, reviewRequest, sameOriginReviewUrl } from './review-client
 
 const identifier = /^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/u;
 const browserHeaders = { 'X-EPS-Review-Browser': '1' };
-export function GuestReviewView({ entryToken }: { entryToken: string }) {
+export function GuestReviewView(props: { entryToken: string }) {
+  return <ConfirmProvider><GuestReview {...props} /></ConfirmProvider>;
+}
+function GuestReview({ entryToken }: { entryToken: string }) {
+  const confirm = useConfirm();
   const [access, setAccess] = useState<GuestBrowserAccess | null>(null), [version, setVersion] = useState<ExternalPresentationVersion | null>(null);
   const [loading, setLoading] = useState(true), [unavailable, setUnavailable] = useState(false), [error, setError] = useState('');
   const [refresh, setRefresh] = useState(0), [nextVersion, setNextVersion] = useState<ExternalPresentationVersion | null>(null);
@@ -77,8 +82,8 @@ export function GuestReviewView({ entryToken }: { entryToken: string }) {
     function beforeUnload(event: BeforeUnloadEvent) { if (feedbackState.dirty || navigationLocked) { event.preventDefault(); event.returnValue = ''; } }
     window.addEventListener('beforeunload', beforeUnload); return () => window.removeEventListener('beforeunload', beforeUnload);
   }, [feedbackState.dirty, navigationLocked]);
-  function canNavigate() { return !navigationLocked && (!feedbackState.dirty || window.confirm('Discard your unsent comment and change the viewed slide or version?')); }
-  function go(index: number) { if (version && index >= 0 && index < version.slides.length && canNavigate()) setSlideIndex(index); }
+  async function canNavigate() { return !navigationLocked && (!feedbackState.dirty || await confirm({ title: 'Discard your unsent comment?', description: 'Changing the viewed slide or version discards the comment you have not posted. Posted feedback stays on its version.', confirmLabel: 'Discard comment', cancelLabel: 'Keep writing', danger: true })); }
+  async function go(index: number) { if (version && index >= 0 && index < version.slides.length && await canNavigate()) setSlideIndex(index); }
   if (unavailable) return <GuestShell><section className="guest-unavailable"><h1>This review link is no longer available.</h1><p>Please ask the producer for a new review link.</p></section></GuestShell>;
   if (loading) return <GuestShell><Loading label="Opening shared presentation…" /></GuestShell>;
   if (!access) return <GuestShell><h1>Review presentation</h1><ErrorNotice message={error || 'The presentation could not be opened.'} retry={() => { opening.current = null; setLoading(true); setRefresh(value => value + 1); }} /></GuestShell>;
@@ -86,7 +91,7 @@ export function GuestReviewView({ entryToken }: { entryToken: string }) {
   const slide = version.slides[slideIndex];
   return <GuestShell><header className="guest-heading"><div><p className="eyebrow">Cast {version.output_type === 'selection' ? 'Selection' : 'Shortlist'}</p><h1>Review presentation</h1><p dir="auto">{version.cover.project_name}{version.cover.client_name ? ` · ${version.cover.client_name}` : ''}</p><p className="small">Viewing version {version.version_no}</p></div><div className="button-row"><button className="button" onClick={() => void checkUpdates()}>Check for updates</button><GuestPdfDownload key={`${version.id}:${access.guest_session_id}`} version={version} access={access} onStateChange={onPdfState} /></div></header>
     {error && <ErrorNotice message={error} />}
-    {nextVersion && <div className="notice" role="status"><p>A new version is available.</p><button className="button button-primary" disabled={navigationLocked} onClick={() => { if (canNavigate()) { updateSequence.current++; currentVersion.current = nextVersion; setVersion(nextVersion); setSlideIndex(0); setNextVersion(null); setFeedbackState({ locked: false, dirty: false }); } }}>Open version {nextVersion.version_no}</button><p className="small">Your feedback stays on the version you viewed.</p></div>}
+    {nextVersion && <div className="notice" role="status"><p>A new version is available.</p><button className="button button-primary" disabled={navigationLocked} onClick={async () => { if (await canNavigate()) { updateSequence.current++; currentVersion.current = nextVersion; setVersion(nextVersion); setSlideIndex(0); setNextVersion(null); setFeedbackState({ locked: false, dirty: false }); } }}>Open version {nextVersion.version_no}</button><p className="small">Your feedback stays on the version you viewed.</p></div>}
     <nav className="saved-slide-navigation" aria-label="Shared presentation slides"><ol>{version.slides.map((item, index) => <li key={item.id}><button className="button" aria-current={index === slideIndex ? 'step' : undefined} disabled={navigationLocked} aria-label={`Slide ${index + 1}: ${item.kind === 'cover' ? 'Cover' : `${item.role_label ?? 'Pending'} / ${item.slot_label ?? 'Pending'}`}`} onClick={() => go(index)}>{index + 1}<span>{item.kind === 'cover' ? 'Cover' : `${item.role_label ?? 'Pending'} / ${item.slot_label ?? 'Pending'}`}</span>{item.kind === 'pending' && <span className="badge">Pending</span>}</button></li>)}</ol></nav>
     <div className="saved-slide-controls"><button className="button" disabled={slideIndex === 0 || navigationLocked} onClick={() => go(slideIndex - 1)}>Previous slide</button><p role="status">Slide {slideIndex + 1} of {version.slides.length}</p><button className="button" disabled={slideIndex === version.slides.length - 1 || navigationLocked} onClick={() => go(slideIndex + 1)}>Next slide</button></div>
     <div className="guest-review-layout"><section aria-label="Shared slide" tabIndex={0} onKeyDown={event => { if (event.target !== event.currentTarget) return; if (event.key === 'ArrowLeft') { event.preventDefault(); go(slideIndex - 1); } if (event.key === 'ArrowRight') { event.preventDefault(); go(slideIndex + 1); } }}><GuestSlide key={`${version.id}:${slide.id}`} slide={slide} version={version} context={access.guest_session_id} /></section>

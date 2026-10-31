@@ -1,4 +1,5 @@
 'use client';
+import { useConfirm } from './ui/Confirm';
 
 import { useEffect, useRef, useState } from 'react';
 import type { Feedback, FeedbackComment, GuestBrowserAccess, PreferenceValue } from '../../../packages/domain/src/guest-types';
@@ -25,6 +26,7 @@ function FeedbackScope({ versionId, versionNo, slides, slideId, access, canWrite
   const [visibility, setVisibility] = useState<'internal' | 'external'>('internal');
   const [editing, setEditing] = useState<FeedbackComment | null>(null), [reply, setReply] = useState<FeedbackComment | null>(null);
   const history = useRef(new Set<string>()), pendingKind = useRef('');
+  const confirm = useConfirm(); const [preferenceNote, setPreferenceNote] = useState(''); const [preferencePending, setPreferencePending] = useState(false);
   const write = useReviewMutation(context);
   useEffect(() => { onStateChange?.({ locked: write.locked, dirty: !!body.trim() }); }, [write.locked, body, onStateChange]);
   function openComposer() {
@@ -87,9 +89,13 @@ function FeedbackScope({ versionId, versionNo, slides, slideId, access, canWrite
   }
   async function prefer(value: PreferenceValue | null) {
     if (!slide || !access?.display_name) { openComposer(); return; }
+    // Keep focus in the group while a save runs; a change made meanwhile is ignored, not queued.
+    if (write.busy) return;
     const own = feedback?.preferences.find(item => item.version_slide_id === slide.id && item.guest_session_id === context);
-    pendingKind.current = 'preference';
-    acknowledge(await write.send(`${prefix}/versions/${versionId}/preferences`, 'PUT', { version_slide_id: slide.id, value, ...(own ? { row_version: own.row_version } : {}) }));
+    pendingKind.current = 'preference'; setPreferenceNote(''); setPreferencePending(true);
+    const saved = await write.send(`${prefix}/versions/${versionId}/preferences`, 'PUT', { version_slide_id: slide.id, value, ...(own ? { row_version: own.row_version } : {}) });
+    setPreferencePending(false); acknowledge(saved);
+    if (saved) setPreferenceNote(value ? `Preference saved: ${preferenceLabels[value]}.` : 'Preference cleared.');
   }
   const comments = feedback?.comments.filter(item => item.version_slide_id === active) ?? [];
   const preferences = feedback?.preferences.filter(item => item.version_slide_id === active) ?? [];
@@ -97,7 +103,7 @@ function FeedbackScope({ versionId, versionNo, slides, slideId, access, canWrite
   const canCompose = canWrite && (!guest || access.display_name);
   return <section className="review-feedback" aria-label={`Feedback on version ${versionNo}`}>
     <header className="section-heading"><div><h2>Feedback</h2><p>Version {versionNo} · {slide?.role_label ?? 'Choose a candidate'}{slide?.slot_label ? ` / ${slide.slot_label}` : ''}</p></div><button className="button" disabled={write.locked || loading} onClick={reload}>Refresh feedback</button></header>
-    {!slideId && <label className="field">Role / slot<select value={selected} disabled={write.locked} onChange={event => { if (body.trim() && !window.confirm('Discard your unsent comment and open feedback for another role or slot?')) return; setSelected(event.target.value); setBody(''); setEditing(null); setReply(null); }}>{candidates.map(item => <option key={item.id} value={item.id}>{item.role_label} / {item.slot_label}</option>)}</select></label>}
+    {!slideId && <label className="field">Role / slot<select value={selected} disabled={write.locked} onChange={async event => { const next = event.target.value; if (body.trim() && !await confirm({ title: 'Discard your unsent comment?', description: 'Opening feedback for another role or slot discards the comment you have not posted.', confirmLabel: 'Discard comment', cancelLabel: 'Keep writing', danger: true })) return; setSelected(next); setBody(''); setEditing(null); setReply(null); }}>{candidates.map(item => <option key={item.id} value={item.id}>{item.role_label} / {item.slot_label}</option>)}</select></label>}
     <p className="small muted">External feedback is shared with reviewers of this presentation. Preferences do not change casting positions.</p>
     {error && <ErrorNotice message={error} retry={!write.locked ? reload : undefined} />}
     {write.error && <ErrorNotice message={write.error} />}
@@ -105,7 +111,10 @@ function FeedbackScope({ versionId, versionNo, slides, slideId, access, canWrite
     {loading && !feedback ? <Loading label="Opening feedback…" /> : slide?.kind !== 'candidate' ? <p>Select a candidate slide to review its role and slot.</p> : <>
       <dl className="review-preference-counts">{Object.entries(preferenceLabels).map(([value, label]) => <div key={value}><dt>{label}</dt><dd>{preferences.filter(item => item.value === value).length}</dd></div>)}</dl>
       {feedback?.page.next_cursor && <p className="small muted">Counts include loaded responses. Load more feedback to include the remaining responses.</p>}
-      {guest && <div className="button-row" aria-label="Your preference">{Object.entries(preferenceLabels).map(([value, label]) => <button className="button" key={value} aria-pressed={ownPreference?.value === value} disabled={write.locked} onClick={() => void prefer(value as PreferenceValue)}>{label}</button>)}{ownPreference && <button className="button" disabled={write.locked} onClick={() => void prefer(null)}>Clear preference</button>}</div>}
+      {guest && <fieldset className="preference-group" disabled={write.uncertain} aria-busy={preferencePending} aria-describedby="preference-note"><legend>Your preference for this candidate</legend>
+        <div className="segmented preference-options">{Object.entries(preferenceLabels).map(([value, label]) => <label key={value} className={`preference-${value}`}><input type="radio" name={`preference-${active}`} value={value} checked={ownPreference?.value === value} onChange={() => void prefer(value as PreferenceValue)} />{label}</label>)}</div>
+        <div className="preference-meta"><p id="preference-note" className="small muted" role="status" aria-live="polite">{preferencePending ? 'Saving preference…' : preferenceNote || (ownPreference ? `Your saved preference: ${preferenceLabels[ownPreference.value]}.` : access?.display_name ? 'No preference saved for this candidate.' : 'Choose a preference to introduce yourself first.')}</p>{ownPreference && <button type="button" className="text-button small" onClick={() => void prefer(null)}>Clear preference</button>}</div>
+      </fieldset>}
       {canWrite && !opened && <button className="button button-primary" disabled={write.locked} onClick={openComposer}>Add feedback</button>}
       {opened && guest && !access.display_name ? <form className="review-feedback-form" onSubmit={event => { event.preventDefault(); void identify(); }}><h3>Introduce yourself</h3><p className="small">Your name is self-declared and appears with your feedback.</p><label>Your name<input autoComplete="name" maxLength={120} required value={name} disabled={write.locked} onChange={event => setName(event.target.value)} /></label><label>Company / agency (optional)<input autoComplete="organization" maxLength={160} value={company} disabled={write.locked} onChange={event => setCompany(event.target.value)} /></label><div className="button-row"><button className="button button-primary" disabled={write.locked || !name.trim()}>Continue to feedback</button><button type="button" className="button" disabled={write.locked} onClick={() => setOpened(false)}>Continue viewing</button></div></form> : opened && canCompose && <form className="review-feedback-form" onSubmit={event => { event.preventDefault(); void comment(); }}>
         {guest && <p className="small">Posting as {access.display_name} · self-declared</p>}
