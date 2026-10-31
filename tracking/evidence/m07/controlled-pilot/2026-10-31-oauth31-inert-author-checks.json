@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "evidence_kind": "controlled_source_checks",
+  "observed_at": "2026-10-31T01:55:55.356043+00:00",
+  "scope": "INERT OAuth31 guard source and controlled tests only",
+  "result": "passed_scope_limited",
+  "source_pins": {
+    "development/m07/controlled-pilot/oauth31-guard.py": "2bb655b62dedd61aff1e60f07722473dcbe92e53149b57340c4fcf6d1f2532d1",
+    "development/m07/controlled-pilot/test_oauth31_guard.py": "b4b3a3594a8f29e3ebd4a6b59f4a617531ad705ed71880ea1a73f74bd7561648",
+    "development/m07/controlled-pilot/OAUTH31_GUARD.sql": "43f0daedb3c341ebde0b254c24fa4505301570d21ca7a11fad7ebfd548ecdeca",
+    "development/m07/controlled-pilot/OAUTH31_PLAN.json": "1e88a9efe44155916ab3be3370d77186a4abd0004c282d6c3b4016d7261ac8d9",
+    "development/m07/controlled-pilot/OAUTH31_DRAFT.md": "3e7ffbe0cbd480509a9304b6053b2d37dc10009faf242f3d28b08cc8ee6584a1"
+  },
+  "tests": {
+    "command": "python -m unittest discover -s development/m07/controlled-pilot -p test_oauth31_guard.py",
+    "passed": 12,
+    "failed": 0,
+    "red_cases": [
+      "missing static composer: 8 passed, 2 errors",
+      "actual frozen30 inventory replay: 1 error at future-origin.py line205",
+      "compact34-field receipt before schema update: 1 error",
+      "incomplete final phase incorrectly accepted: 1 assertion failure"
+    ]
+  },
+  "python_ast_parse": "passed",
+  "independent_source_review": {
+    "reviewer": "m07_recovery",
+    "guard_sha256": "2bb655b62dedd61aff1e60f07722473dcbe92e53149b57340c4fcf6d1f2532d1",
+    "result": "no material finding within inert source scope"
+  },
+  "actual_cli_queries": 0,
+  "database_or_provider_actions": 0,
+  "private_inputs_read": false,
+  "oauth_activation_or_client_login_proved": false,
+  "admission_seal": "blank",
+  "actual_release_and_core_plan_fields": "null"
+}

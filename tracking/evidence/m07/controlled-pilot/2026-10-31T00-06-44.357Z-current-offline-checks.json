@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-31T00:06:44.357Z",
+  "base_commit": "8846f53",
+  "scope": "Root-executed current application module suite, lint, typecheck and production fixture denial. Separate from cloud/native/provider/hosted acceptance.",
+  "modules": {
+    "tests": 800,
+    "pass": 800,
+    "fail": 0,
+    "skipped": 0,
+    "suites": 6,
+    "suite_counts": [
+      333,
+      9,
+      12,
+      45,
+      229,
+      172
+    ]
+  },
+  "commands": [
+    {
+      "command": "npm.cmd test",
+      "exit_code": 0
+    },
+    {
+      "command": "npm.cmd run lint",
+      "exit_code": 0
+    },
+    {
+      "command": "npm.cmd run typecheck",
+      "exit_code": 0
+    },
+    {
+      "command": "npm.cmd run check:production-guard",
+      "exit_code": 0
+    }
+  ],
+  "logs": {
+    "modules": {
+      "sha256": "061db3db3eab5d9d096d2e50f991ed4a6d119700b4f7f825846d52342b08c8ee",
+      "bytes": 175272
+    },
+    "lint": {
+      "sha256": "dcf04cf56739f2f68b315b919013254295716cfac4a2b9aaca7e25ee40e8f2db",
+      "bytes": 212
+    },
+    "types": {
+      "sha256": "63dbaa165359a370f81fa6d619a1569ad84c24a4a726e0b4e03bb94528b8dd4f",
+      "bytes": 138
+    },
+    "guard": {
+      "sha256": "33086726b2a60861095709e2cb277f8ccf4d5d374ec1f3e13831bccd6f36f604",
+      "bytes": 318
+    }
+  },
+  "worker_source_sha256": "bc774c88083d106fd522ee6277fc8a81033a6b94ff05e9debdfe1d6ee661a735",
+  "source_stability_during_commands_claimed": false,
+  "credentials_in_report": false
+}

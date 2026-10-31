@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-31T02:18:39.361Z",
+  "environment": "local Windows root checkout",
+  "result": "passed",
+  "worker_context_source_sha256": "09b6d4b881594dc7664953409f6e0bdeb925c19bf19fb3a4331787abf09c921f",
+  "module_suite_counts": [
+    333,
+    9,
+    12,
+    45,
+    237,
+    172
+  ],
+  "module_tests": 808,
+  "failed": 0,
+  "commands": {
+    "npm.cmd test": 0,
+    "npm.cmd run lint": 0,
+    "npm.cmd run typecheck": 0,
+    "npm.cmd run check:production-guard": 0
+  },
+  "private_log_directory": ".local/m07-quality/",
+  "source_stability_during_commands_claimed": false,
+  "scope": "Application/root checks only; separate from native image proof, live providers, hosted acceptance and operator-only test suites."
+}

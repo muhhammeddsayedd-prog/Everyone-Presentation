@@ -260,3 +260,31 @@ Actual coordinated30 is now applied once canonically and independently verified.
 Provider activation is prepared but unsaved pending required browser action-time confirmation for delegated security-sensitive access: enable OAuth at/oauth/consent with DCR off, create one public EveryoneStudioLocalM07 client using http://localhost:3118/callback and select pg-functions://postgres/eps/mcp_custom_access_token_hook. No actual UUID is invented; after approval it must be independently bound once to http://127.0.0.1:3000/mcp and read back before local OAuth config. Ordinary SiteURL/browser redirect/signing keys stay intact. Generic hook delete/replace can broaden EXECUTE in current upstream Studio and is not an automatic rollback.
 
 The contracted retry acknowledgement now returns202 JobAccepted consistently through HTTP/MCP; unknown or malformed writes retain one original intent. Current755 module tests and focused desktop1 pass, separate from historical80desktop and provider/owner acceptance. Initial no-test selection is not RED evidence. No real job retry/cancel, including protected M02, was performed.
+
+
+## 2026-10-30 - Controlled Vercel pilot authorized
+
+The owner instructed: "Deploy a controlled Vercel pilot with a working cloud worker. Verify the core app, then finish hosted OAuth/MCP. I will connect Claude myself. Keep existing acceptance checks recorded." This replaces the deferred-hosting/local-only setup objective for a bounded pilot; it does not waive AT-072 or broader M03 semantic checks, reverse the mobile skip, or establish full production acceptance. Local OAuth draft remains unsaved; no invented client ID or local binding is needed before the hosted core proof. Use separate web/worker credentials and a stable exact HTTPS origin. Preserve canonical30/original local29, existing records and protected M02.
+
+## 2026-10-30 - Controlled pilot stays available until stopped
+
+The owner explicitly chose "Keep running until I stop it." The isolated web and
+worker pilot therefore use explicit owner-controlled mode without an automatic
+deadline. Reserved daemon memory remains billable on the existing Pro account
+while running. This changes the pilot duration; it leaves the pending AT-072/M03,
+mobile skip, owner Claude setup/login and final production acceptance unchanged.
+
+## 2026-10-31 - Controlled hosted OAuth setup after core proof
+
+Implemented under the owner's existing pilot/OAuth instruction. Actual core9
+preceded the six-field Auth update, one manual public client, one resource binding
+and the public web OAuth settings. The stable resource is
+https://everyone-presentation-pilot.vercel.app/mcp; callback remains
+http://localhost:3118/callback and dynamic registration is disabled. Current
+owner instructions pin the Studio metadata mirror and openid to avoid the
+central issuer's broader scope advertisement. Existing capability grants, signing
+keys and ordinary callback list remain preserved within the recorded evidence
+boundaries. The owner alone configures and signs in to Claude. Public readiness
+and signed-in core checks do not close live issuance/refresh/reconnect, broader
+M03, AT-072 or production acceptance. Keep the known redirect-only reconnect
+limitation; mobile remains skipped and pilot duration remains owner-controlled.

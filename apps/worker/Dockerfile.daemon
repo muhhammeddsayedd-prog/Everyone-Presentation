@@ -1,0 +1,33 @@
+# Code-only image. Build solely with tools/stage-worker-hosting.mjs's sparse
+# context; never pass deployment secrets as Docker build args or COPY context.
+FROM node@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d AS dependencies
+WORKDIR /opt/eps
+COPY package.json package-lock.json ./
+COPY apps/web/package.json ./apps/web/package.json
+COPY apps/worker/package.json ./apps/worker/package.json
+COPY packages/domain/package.json ./packages/domain/package.json
+COPY packages/jobs/package.json ./packages/jobs/package.json
+COPY packages/integrations/package.json ./packages/integrations/package.json
+COPY packages/central/package.json ./packages/central/package.json
+RUN npm ci --omit=dev --ignore-scripts --workspace @eps/worker --include-workspace-root=false
+
+FROM node@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+WORKDIR /opt/eps
+ENV NODE_ENV=production
+COPY package.json package-lock.json ./
+COPY apps/web/package.json ./apps/web/package.json
+COPY --from=dependencies /opt/eps/node_modules ./node_modules
+COPY apps/worker ./apps/worker
+COPY packages ./packages
+COPY --from=dependencies /opt/eps/apps ./apps
+COPY --from=dependencies /opt/eps/packages ./packages
+COPY contracts/json-schema/specs-extraction.schema.json \
+     contracts/json-schema/candidate-extraction.schema.json \
+     contracts/json-schema/frame-selection.schema.json \
+     contracts/json-schema/slide-wording.schema.json ./contracts/json-schema/
+COPY apps/web/public ./apps/web/public
+USER 1000:1000
+# Import the complete production graph as the final UID with no network. The
+# runtime-main module guard does not start the poller when imported by -e.
+RUN --network=none /usr/local/bin/node --import tsx --input-type=module -e "await import('./apps/worker/src/runtime-main.ts')"
+ENTRYPOINT ["/usr/local/bin/node","--import","tsx","/opt/eps/apps/worker/src/runtime-hosted.ts"]

@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "scope": "Root-executed probe source revision only; no provider execution by author",
+  "result": "implemented_unverified",
+  "supersedes_source_candidate": "78526fe81441a800c6ac2c84be4197ffd6902c2c3b7f2ff35aff0c874a555c5c",
+  "sources": [
+    {
+      "path": "tools/probe-hosted-native.mjs",
+      "sha256": "66ac53d7d5b318e456f14d04f8e792f213d3ebf5ad51b26877bc0adaf16e70b7"
+    },
+    {
+      "path": "development/m07/worker-hosting/probe-hosted-native.test.mjs",
+      "sha256": "0f4705460243f56da6494b62775c10c89faf4317fb959d162b6de0cf7768c5f7"
+    },
+    {
+      "path": "development/m07/worker-hosting/PROBE.md",
+      "sha256": "eef4e4ac64d1dc9be5ab3200028087bc0cdbdfba37e568740ad183efe15e33c2"
+    }
+  ],
+  "validation": {
+    "pure_tests_passed": 6,
+    "pure_tests_failed": 0,
+    "syntax_exit": 0,
+    "new_red_green": "explicit command-output helper missing export ->6GREEN"
+  },
+  "review_fixes": [
+    "Per-invocation VERCEL_CLI_USE_NATIVE_BINARY=0 keeps mint in owned Node process; installed65.8.0 source confirms supported opt-out; no global preference mutation",
+    "Boundary cleanup rejects snapshotting/unknown status before stop",
+    "Explicit overall signal and byte limits on UID/network command output; reviewer corrected original concern because current non-detached SDK path already caches output after signal-bound wait",
+    "Receipt separates SDK HTTP counts from one CLI token-mint command"
+  ],
+  "frozen_worker_source_sha256": "0ddf519a91a23a11904dbd9880f48d24a2d543a8249f9ab267dbab323d6fb297",
+  "frozen_worker_context_changed": false,
+  "current_workspace_lock_distinction": "Web-only manifest metadata changed separately after0dd; this helper verifies/imports the frozen0dd image context and never reseals it.",
+  "author_cli_auth_provider_db_sandbox_actions": false,
+  "remaining": "Independent final source clearance, then root-run boundary and optional synthetic native smoke; actual Vercel/native behavior unverified."
+}

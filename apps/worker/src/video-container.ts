@@ -3,6 +3,7 @@ import { createHash, randomUUID } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { parseVideoProbe, validateVideoInput } from './video-native.ts';
 import { VIDEO_LIMITS, VideoPreparationError, type PreparedVideo, type VideoInput } from './video-types.ts';
+import { nativeImageIdentity, nativeSandboxConfiguration, runConfiguredNative } from './native-sandbox.ts';
 const host = process.platform === 'win32' ? 'npipe:////./pipe/dockerDesktopLinuxEngine' : 'unix:///var/run/docker.sock';
 // Observed signed Docker Inc CLI on this Windows workstation. Do not inherit
 // broad PATH, user Docker contexts/configuration or provider credentials.
@@ -91,8 +92,13 @@ export async function prepareVideoIsolated(input: VideoInput, options: { imageId
 }
 /** Internal fixed-protocol seam shared by native video and PDF raster images.
  * Only locally built, immutable EPS-owned image IDs are accepted. */
-export async function runOwnedNativeMedia(payload: string, options: { imageId: string; signal?: AbortSignal }): Promise<string> {
+export async function runOwnedNativeMedia(payload: string, options: { imageId: string; signal?: AbortSignal; operation?: 'video' | 'pdf_raster' }): Promise<string> {
   if (typeof payload !== 'string' || Buffer.byteLength(payload) > Math.ceil(VIDEO_LIMITS.maximumBytes * 4 / 3) + 4096) fail('VIDEO_LIMIT_EXCEEDED');
+  const sandbox = nativeSandboxConfiguration();
+  if (sandbox) {
+    if (options.imageId !== nativeImageIdentity(sandbox)) fail('VIDEO_CONTAINER_CONFIGURATION_INVALID');
+    return runConfiguredNative(options.operation ?? 'video', payload, { signal: options.signal });
+  }
   if (!options || !/^sha256:[a-f0-9]{64}$/u.test(options.imageId) || !['linux', 'win32'].includes(process.platform)
     || process.env.DOCKER_HOST && process.env.DOCKER_HOST !== host || process.env.DOCKER_CONTEXT && process.env.DOCKER_CONTEXT !== (process.platform === 'win32' ? 'desktop-linux' : 'default')
     || ['DOCKER_TLS', 'DOCKER_TLS_VERIFY', 'DOCKER_CERT_PATH'].some(name => process.env[name])) fail('VIDEO_CONTAINER_CONFIGURATION_INVALID');

@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "evidence_kind": "source_adapter_and_controlled_tests_only",
+  "observed_at": "2026-10-31T03:18:19.381492+00:00",
+  "parent_sources_unchanged": {
+    "hosted-oauth-final31-guard.py": "703be7164725929d8473af5145a1e3640cdfe1eac244f706f3e66b5e2f57514d",
+    "hosted-provider-final31.py": "c239a6dca4b682a69838e78a989241c9cee31c61fc437a8aa2ee391d1a15e875",
+    "hosted-oauth-client-final31.py": "31d831d4668b56e226b242037794ccac272e24fe01aeec8f5d1e7023ef6f6c32",
+    "hosted-binding-final31.py": "fe5339a17bdb106584a1490e0f21b76415df1098246419a3b6ccf81ff04c3a85",
+    "HOSTED_OAUTH_FINAL31_PLAN.json": "dea972d170e862c168689b7efde9b3790e70e0b769c4c25214250f046ae60687"
+  },
+  "core_sha256": "4591f101d6632783b7c011e0cfc120b949363988b206de2b5a61b181664557e6",
+  "sources": {
+    "hosted-oauth-web-final31-guard.py": "140c3b045d15ca77fd34e29ba9f12f18c8198e9f04298102ceab192e56f36506",
+    "test_hosted_oauth_web_final31_guard.py": "4b9be5d2b714aae8c5668e0fd53a2b84baaa325fbfcae9288bb23c966604a981",
+    "hosted-web-oauth-env-final31.mjs": "ab63cdd08c6b5b8ba12caa8f4d26d53aa53ab0ef8ff7c716924fa381938ff2fb",
+    "HOSTED_OAUTH_WEB_FINAL31_GUARD.md": "30b427cde6e6657015b6c52837873274bfbbb95f64abf0491cc4b6d8edf00bc5"
+  },
+  "web_delta_exactly_two_literals_verified": true,
+  "completed_binding_source_does_not_pin_web": true,
+  "root_raw_array_proof": "tracking/evidence/m07/controlled-pilot/2026-10-31-web-guard-raw-array-proof.json",
+  "transport_difference_reason": "unconfirmed",
+  "red": {
+    "passed": 13,
+    "failed": 1,
+    "boundary": "mocked LiveIO actual raw-array JSON envelope"
+  },
+  "green": {
+    "new_guard_tests": 17,
+    "node_tests": 14,
+    "syntax_ast_scoped_lint": true
+  },
+  "actual_guard_cli_provider_database_or_private_action_by_author": false,
+  "web_claim_or_environment_write_by_author": false
+}

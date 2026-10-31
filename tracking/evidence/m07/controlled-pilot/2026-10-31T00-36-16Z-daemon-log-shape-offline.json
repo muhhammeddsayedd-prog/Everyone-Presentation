@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-31T00:36:16Z",
+  "scope": "offline synthetic tests and source checks only",
+  "author": "m07_security_review",
+  "sources": {
+    "development/m07/controlled-pilot/daemon-log-shape.mjs": "f0c94d5951d92af87045fe49516c68543df014ac163a9df4a338efdbdd7b9ea0",
+    "development/m07/controlled-pilot/daemon-log-shape.test.mjs": "27f0c35c4ef5ad9217d5a10f217981e84164657c3b0a2e4bbb92613ad15f8502",
+    "development/m07/controlled-pilot/DAEMON_LOG_SHAPE.md": "c43f10fd1daf9911c4d928b84e8386e95946d8c87e0d85b45905a2a2d25df412"
+  },
+  "red": {
+    "command": "node --test development/m07/controlled-pilot/daemon-log-shape.test.mjs",
+    "result": "ERR_MODULE_NOT_FOUND before helper implementation"
+  },
+  "green": {
+    "command": "node --test development/m07/controlled-pilot/daemon-log-shape.test.mjs",
+    "passed": 4,
+    "failed": 0,
+    "scoped_eslint_exit_code": 0,
+    "node_check_exit_code": 0,
+    "git_diff_check_exit_code": 0
+  },
+  "boundaries": {
+    "provider_calls_performed": 0,
+    "credential_reads_performed": 0,
+    "real_logs_read": false,
+    "image_or_runtime_source_changed": false,
+    "startup_verified": false
+  },
+  "notes": [
+    "The root-executed helper is limited to one fixed existing deployment/instance/window log query.",
+    "Returned diagnostics contain only closed shape/type/match/code/event counts and always withhold startup acceptance.",
+    "Independent source review and actual operator execution are separate evidence."
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-31T01:44:45.658Z",
+  "qualified_receipt": "tracking/evidence/m07/specs-ack31/2026-10-31T01-39-59-770242Z-canonical31-predecessor-reconciliation.json",
+  "retained_valid_observations": [
+    "Two full selected predecessor states matched the claimed before state apart from qualified CLI expiry.",
+    "Both observed history30 and old acknowledgement body.",
+    "No dispatch, claim deletion or database mutation by the reconciliation wrapper."
+  ],
+  "withdrawn_inference": "The tail-marker active-backend count cannot establish original dispatch absence; query text may be truncated and idle transactions were excluded.",
+  "migration_applied_false_scope": "Only the two observed database snapshots; no claim of transport outcome or future transaction absence.",
+  "original_apply_remains_unconfirmed": true,
+  "replay_admitted": false
+}

@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "evidence_kind": "actual_provider_observation",
+  "target": "pyibofyctwnqpvktepse",
+  "origin": "https://everyone-presentation-pilot.vercel.app",
+  "resource": "https://everyone-presentation-pilot.vercel.app/mcp",
+  "issuer": "https://pyibofyctwnqpvktepse.supabase.co/auth/v1",
+  "action": "create",
+  "observed_at": "2026-10-31T03:03:32.522652+00:00",
+  "finished_at": "2026-10-31T03:03:47.051939+00:00",
+  "result": "passed",
+  "client": {
+    "client_id": "f2acafd5-d4b6-4176-b86c-067c57e45ecc",
+    "client_name": "Everyone Presentation Studio Hosted Pilot \u2014 Claude Code",
+    "client_type": "public",
+    "token_endpoint_auth_method": "none",
+    "redirect_uris": [
+      "http://localhost:3118/callback"
+    ],
+    "grant_types": [
+      "authorization_code",
+      "refresh_token"
+    ],
+    "response_types": [
+      "code"
+    ],
+    "registration_type": "manual"
+  },
+  "matching_client_count": 1,
+  "provider_client_observed": true,
+  "independent_readback_equal": true,
+  "client_secret_observed": false,
+  "original_client_baseline_available": true,
+  "other_existing_clients_equal": true,
+  "creation_dispatched": true,
+  "post_outcome": "response_validated",
+  "repeat_create_prevented": false,
+  "automatic_post_retry": false,
+  "application_resource_binding_observed": false,
+  "provider_configuration_observed": false,
+  "credentials_logged_or_persisted": false,
+  "service_role_sent_outside_fixed_auth_admin": false,
+  "claude_configuration_login_or_model_call": false,
+  "configuration_or_database_mutations": false,
+  "source_pins": {
+    "helper_sha256": "31d831d4668b56e226b242037794ccac272e24fe01aeec8f5d1e7023ef6f6c32",
+    "plan_sha256": "f8c8b4cbf63b5a114f5f25810965c42d4c03d958b109ea490ba86ee8d22d27c8"
+  }
+}

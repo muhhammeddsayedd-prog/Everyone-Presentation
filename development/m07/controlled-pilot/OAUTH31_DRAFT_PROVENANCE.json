@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-31T01:50:33.441011+00:00",
+  "status": "inert_source_draft",
+  "original_parent_sha256": {
+    "hosted-provider.py": "be12528355d2ade7b82e0f1231632d9dea752b54be258c7342530974380b7d73",
+    "hosted-oauth-client.py": "c3be05e05d9bf9c80bad906903007ee9fbcc663c0c0eeb79efc0d877c17d22e2",
+    "hosted-binding.py": "6876e4eceea337d2a127c7023eeeadda2b7b85693d2c339061d60b55dc3d4cc3",
+    "hosted-web-oauth-env.mjs": "c9f9a9d6b42f3de120df656aa61b31acdee5170a4061b4d7a900daaf727120de",
+    "HOSTED_BINDING.sql": "fa526a53715e058a9770ecd7b0f4bdb52cfda2bbf83538c5cd418b0e6fc59ce4",
+    "HOSTED_BINDING_READBACK.sql": "0f5bfc2a4fe68c3993824d0cd760316be154a654a3b74d169269c4b7b0d95af7"
+  },
+  "original_parent_bytes_unchanged": true,
+  "draft_sources": {
+    "hosted-provider31.py": "5785fbbdef5a2aaa2b537b6c288ff6ce5c2542214799d32df62375a3a996d890",
+    "test_hosted_provider31.py": "66c4edb3b9ac7804d36d4a121ba1d184c9fe077a6d42cee6ee95365011e37ca9",
+    "HOSTED_PROVIDER31.md": "508444a82dd74293ff911d8481c9274a9c654b15b188dfe99612bb600e601c96",
+    "hosted-oauth-client31.py": "78912392d3b2f6e8fbece3055779ab60d9969821987cbde317bd3b69fb537b9d",
+    "test_hosted_oauth_client31.py": "306d155496456880cb0c1b767102b5290218c1a05205ca6d0940ff5a6fe7f4dd",
+    "hosted-binding31.py": "28893e26b6f486bdf9b26d32257fb0db819a696a9b3c2ce80d32ac9300b886c1",
+    "test_hosted_binding31.py": "5b2a2188451173f023810cff42a0485db7eea34434b9ebc35c6739a0af83841c",
+    "HOSTED_BINDING31.sql": "919867c3cfb9bd28ad41a063bbea9d127aacd34f21290caf55afa92336657877",
+    "HOSTED_BINDING31_READBACK.sql": "0f5bfc2a4fe68c3993824d0cd760316be154a654a3b74d169269c4b7b0d95af7",
+    "hosted-web-oauth-env31.mjs": "d6d84086a13dda9b2c0e8219fdfd8e7e9b4aae3b33bcee26280eb26a354ce3cf",
+    "hosted-web-oauth-env31.test.mjs": "e867a047d8fc12e0c50b6dd337b4b62762200ae364d8fbb6fa64a33b601f9d5a",
+    "OAUTH31_DRAFT_HELPERS.md": "aa092a29b65b7724e4f490a2241054be2775e99516bcf59dffd615819dbdc401"
+  },
+  "guard_sha_literals_empty": true,
+  "canonical31_release_and_hosted_core_not_admitted": true,
+  "supabase_or_vercel_cli_executed": false,
+  "database_or_provider_called": false,
+  "private_configuration_read": false,
+  "activation_or_claude_setup_performed": false,
+  "pure_test_counts": {
+    "provider": 19,
+    "public_client": 15,
+    "binding": 14,
+    "web": 14
+  },
+  "scope": "Public source provenance and injected synthetic tests only; no actual guard/operator acceptance",
+  "python_bridge_arguments": [
+    "-I",
+    "-B",
+    "-X",
+    "utf8",
+    "fixed_guard_path",
+    "admit"
+  ],
+  "interop_regression": "actual public tools/ pin accepted; .local/ and absolute paths denied; RED13/1 then GREEN14",
+  "static31_binding_regression": "frozen30 inventory never called; exact static31 parent map and preflight digest retained; original map unchanged; old history/private extra/changed identity denied; RED13pass1error then GREEN14"
+}

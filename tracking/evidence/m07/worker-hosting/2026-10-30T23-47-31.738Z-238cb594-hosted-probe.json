@@ -1,0 +1,201 @@
+{
+  "schema_version": "1.0",
+  "run_id": "238cb594-fb73-4b76-b5f4-8496e06858ab",
+  "started_at": "2026-10-30T23:47:31.737Z",
+  "result": "unconfirmed",
+  "project_id": "prj_I4SMkDzaDy0KHNgiF00v4Da5aLb6",
+  "team_id": "team_gboXPxTevpCOZuaA8eY9PmR1",
+  "source_sha256": "5f9114a20cfa195282b53a89b3e3614e706f16fb1e4ed986d477e451086c5558",
+  "private_media_used": false,
+  "worker_polling": false,
+  "db_jobs_or_openai_n8n_calls": false,
+  "provider_control_plane_called": true,
+  "token_persisted": false,
+  "local_signature_verification": false,
+  "sdk_transport_policy": {
+    "sdk_default_retries_maximum": 2,
+    "sdk_default_retry_loop_attempts_maximum": 3,
+    "non_detached_command_http_retries": 0,
+    "repeated_create_uses_same_project_name": true,
+    "sandbox_auto_resume_possible": true,
+    "exact_wire_or_vm_count_proven": false,
+    "scope": "Bounds count distinct named resources. SDK creation/read/write/stop/delete may retry; non-detached command POST uses retry zero. Sandbox methods may auto-resume a session. Passing proof requires initial/current/cleanup session equality; no exact wire or VM-session count claim."
+  },
+  "probe_release": {
+    "source_sha256": "5f9114a20cfa195282b53a89b3e3614e706f16fb1e4ed986d477e451086c5558",
+    "context_relative": ".local/worker-hosting/49a1a0f8-c1b6-4704-8c27-fb84adad4cab/context",
+    "file_count": 151,
+    "native_uid": 65432,
+    "native_gid": 65432,
+    "native_identity_sha256": "f3b55692bdc48ab05b108915692509d124f50ea4d32153ebf39d87f0ff5d3aa0"
+  },
+  "phases": [
+    {
+      "phase": "image_source_seal",
+      "result": "passed",
+      "source_sha256": "5f9114a20cfa195282b53a89b3e3614e706f16fb1e4ed986d477e451086c5558"
+    },
+    {
+      "phase": "boundary",
+      "result": "passed",
+      "proof": {
+        "protocol": "eps-native-boundary-v1",
+        "uid": 65432,
+        "gid": 65432,
+        "capabilities_empty": true,
+        "no_new_privileges": true,
+        "known_write_denials": 10,
+        "checked_paths": 22041,
+        "writable_outside_tmp": 0
+      }
+    },
+    {
+      "phase": "image_control_user",
+      "result": "passed",
+      "uid": 0
+    },
+    {
+      "phase": "network_denial",
+      "result": "passed",
+      "proof": {
+        "protocol": "eps-native-network-v1",
+        "dns_denied": true,
+        "ip_denied": true
+      }
+    },
+    {
+      "phase": "smoke_document",
+      "result": "passed",
+      "elapsed_ms": 8241
+    },
+    {
+      "phase": "smoke_document",
+      "result": "passed",
+      "elapsed_ms": 13848
+    },
+    {
+      "phase": "smoke_pdf_raster",
+      "result": "passed",
+      "elapsed_ms": 8181
+    },
+    {
+      "phase": "smoke_video",
+      "result": "passed",
+      "elapsed_ms": 8809
+    }
+  ],
+  "cleanup_confirmed": true,
+  "image": "muhammed-abdelrahman/everyone-presentation-worker-pilot/native@sha256:2d058ead52b152ceb881ce93d9253100a2aca8947368b6e9664a207e7f78a73f",
+  "plan": {
+    "mode": "smoke",
+    "maximum_named_resources": 10,
+    "overall_timeout_ms": 600000,
+    "cleanup_timeout_ms": 30000,
+    "maximum_http_calls": 240
+  },
+  "sdk_transport_source_sha256": {
+    "api-client/base-client.js": "ce90630c640f0edbb52b1504c2c4c9c5868850106bee05ec53d7cb8d529fdf63",
+    "api-client/with-retry.js": "4fd9fd7acfb64eed38b65ef92326bc6710767a097cb253e4f44bd68ab089866d",
+    "api-client/api-client.js": "b1de5c164fe5360a34bfd51c653df63abd37c9cb4d53280d072c751d3cfd5da1",
+    "session.js": "bf6aee3451ab7622076ec18351462ea71d2db968d4f9e61fd49508e8c468a20c",
+    "sandbox.js": "314e2889e186c979ce32f381b1a77a8caea32fa246424baddd1c929f7d88b866"
+  },
+  "probe_release_source_sha256": "16511f881b91ca3a5ff7bac7a65933922f82c7133fdebfd2d0ff0858b9bd01fa",
+  "authentication": {
+    "owner_id": "team_gboXPxTevpCOZuaA8eY9PmR1",
+    "project_id": "prj_I4SMkDzaDy0KHNgiF00v4Da5aLb6",
+    "environment": "development",
+    "token_ttl_seconds": 43200,
+    "token_remaining_seconds": 43201,
+    "local_signature_verification": false,
+    "provenance": "authenticated fixed-project CLI mint; SDK service acceptance checked separately"
+  },
+  "failed_phase": "smoke_review_fit",
+  "code": "PROBE_SMOKE_UNCONFIRMED",
+  "initial_current_cleanup_sessions_equal": true,
+  "resources": [
+    {
+      "name": "eps-native-probe-238cb594-fb73-4b76-b5f4-8496e06858ab",
+      "attempted": true,
+      "identity_observed": true,
+      "session_id": "sbx_y67iGU0rIeb4zu6EFeiOIMLp92eI",
+      "initial_session_id": "sbx_y67iGU0rIeb4zu6EFeiOIMLp92eI",
+      "current_session_id": "sbx_y67iGU0rIeb4zu6EFeiOIMLp92eI",
+      "cleanup_session_id": "sbx_y67iGU0rIeb4zu6EFeiOIMLp92eI",
+      "initial_current_cleanup_session_equal": true,
+      "session_consistency_failed": false,
+      "absence_verified": true,
+      "snapshot_absence_verified": true
+    },
+    {
+      "name": "eps-native-31cd1ad8-74ba-465c-b0f1-8570cf61f299",
+      "attempted": true,
+      "identity_observed": true,
+      "session_id": "sbx_ULgV2j3kNeBNag4My4DtHMCYKlyM",
+      "initial_session_id": "sbx_ULgV2j3kNeBNag4My4DtHMCYKlyM",
+      "current_session_id": "sbx_ULgV2j3kNeBNag4My4DtHMCYKlyM",
+      "cleanup_session_id": "sbx_ULgV2j3kNeBNag4My4DtHMCYKlyM",
+      "initial_current_cleanup_session_equal": true,
+      "session_consistency_failed": false,
+      "absence_verified": true,
+      "snapshot_absence_verified": true
+    },
+    {
+      "name": "eps-native-8df652e1-fe88-4784-80aa-16707dae721f",
+      "attempted": true,
+      "identity_observed": true,
+      "session_id": "sbx_seDxFFhksMzEnFzVpLCJAvMAlHHa",
+      "initial_session_id": "sbx_seDxFFhksMzEnFzVpLCJAvMAlHHa",
+      "current_session_id": "sbx_seDxFFhksMzEnFzVpLCJAvMAlHHa",
+      "cleanup_session_id": "sbx_seDxFFhksMzEnFzVpLCJAvMAlHHa",
+      "initial_current_cleanup_session_equal": true,
+      "session_consistency_failed": false,
+      "absence_verified": true,
+      "snapshot_absence_verified": true
+    },
+    {
+      "name": "eps-native-643b79ce-fb24-4adb-bfaf-f905d960ccf6",
+      "attempted": true,
+      "identity_observed": true,
+      "session_id": "sbx_i6DbwjYDz969DZ3M69Svqu1xTEVV",
+      "initial_session_id": "sbx_i6DbwjYDz969DZ3M69Svqu1xTEVV",
+      "current_session_id": "sbx_i6DbwjYDz969DZ3M69Svqu1xTEVV",
+      "cleanup_session_id": "sbx_i6DbwjYDz969DZ3M69Svqu1xTEVV",
+      "initial_current_cleanup_session_equal": true,
+      "session_consistency_failed": false,
+      "absence_verified": true,
+      "snapshot_absence_verified": true
+    },
+    {
+      "name": "eps-native-c3a3c364-e461-41e0-b2a5-b925c4fd4331",
+      "attempted": true,
+      "identity_observed": true,
+      "session_id": "sbx_BArfRqqP2xhd4PmUtKT5QgrOCl3j",
+      "initial_session_id": "sbx_BArfRqqP2xhd4PmUtKT5QgrOCl3j",
+      "current_session_id": "sbx_BArfRqqP2xhd4PmUtKT5QgrOCl3j",
+      "cleanup_session_id": "sbx_BArfRqqP2xhd4PmUtKT5QgrOCl3j",
+      "initial_current_cleanup_session_equal": true,
+      "session_consistency_failed": false,
+      "absence_verified": true,
+      "snapshot_absence_verified": true
+    },
+    {
+      "name": "eps-native-cd75b135-daa1-4cf1-8e1f-0422d430ea37",
+      "attempted": true,
+      "identity_observed": true,
+      "session_id": "sbx_TwI6VJjNoJuL6ubl0h5ClgfMWrO2",
+      "initial_session_id": "sbx_TwI6VJjNoJuL6ubl0h5ClgfMWrO2",
+      "current_session_id": "sbx_TwI6VJjNoJuL6ubl0h5ClgfMWrO2",
+      "cleanup_session_id": "sbx_TwI6VJjNoJuL6ubl0h5ClgfMWrO2",
+      "initial_current_cleanup_session_equal": true,
+      "session_consistency_failed": false,
+      "absence_verified": true,
+      "snapshot_absence_verified": true
+    }
+  ],
+  "sdk_http_calls": 94,
+  "cli_mint_commands": 1,
+  "elapsed_ms": 69199,
+  "finished_at": "2026-10-30T23:48:40.936Z",
+  "lock_released": true
+}

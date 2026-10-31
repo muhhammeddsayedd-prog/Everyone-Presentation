@@ -1,0 +1,162 @@
+{
+  "schema_version": "1.0",
+  "run_id": "7e02ff9b-655e-4e99-a527-fde12b0b3bfe",
+  "observed_at": "2026-10-31T00:44:08.947Z",
+  "result": "observed",
+  "read_only": true,
+  "scope": "fixed pilot deployment and private native VCR metadata only; not application/worker/native acceptance",
+  "team_id": "team_gboXPxTevpCOZuaA8eY9PmR1",
+  "provider_reads_attempted": 4,
+  "provider_mutations": false,
+  "private_configuration_requested": false,
+  "raw_payload_persisted": false,
+  "credentials_in_report": false,
+  "helper_sha256": "396f8a3bf46bb77b1c3547cc63e454f6a567a81641c311008c8f53dbef444f6e",
+  "cli_version": "65.8.0",
+  "deployment": {
+    "id": "dpl_GPRog6HbnXNGpciqRi7TdypUCKM7",
+    "project_id": "prj_7xOsfRtvJ9voYi7rTEfra5ncOoA0",
+    "project_name": "everyone-presentation-pilot",
+    "team_id": "team_gboXPxTevpCOZuaA8eY9PmR1",
+    "ready_state": "READY",
+    "target": "production",
+    "url": "https://everyone-presentation-pilot-1g8c23o4r-muhammed-abdelrahman.vercel.app",
+    "aliases_assigned": true,
+    "created_at_ms": 1793394333428,
+    "ready_at_ms": 1793394369775
+  },
+  "aliases": [
+    {
+      "id": "d29393cfb72afe20b1057f684ad1cbbd7c6f252035b35e35aa39c81a53037a06426c3c4aeb417cc99d1e94906b011635e91d3637b13f788e2d47ccc82676c71c",
+      "alias": "everyone-presentation-pilot.vercel.app",
+      "url": "https://everyone-presentation-pilot.vercel.app"
+    },
+    {
+      "id": "8046979e4270978d590b0068d86838b5ee39d18e69a6adadc016c232a83c29dbf0b4d9b09d8b91bece9067c71e98ee28bc989c9a78b1f1f94e8c15236ad6b944",
+      "alias": "everyone-presentation-pilot-muhammed-abdelrahman.vercel.app",
+      "url": "https://everyone-presentation-pilot-muhammed-abdelrahman.vercel.app"
+    }
+  ],
+  "repository": {
+    "id": "repo_OpIvBNiZ8vPVROs68HxcMb39W6yz",
+    "project_id": "prj_I4SMkDzaDy0KHNgiF00v4Da5aLb6",
+    "name": "native",
+    "public": false,
+    "expected_private": true,
+    "privacy_matches_expected": true,
+    "created_at": "2026-10-30T20:57:48.870Z",
+    "updated_at": "2026-10-30T20:57:48.870Z"
+  },
+  "images": {
+    "images": [
+      {
+        "id": "image_HMWsupH2XJFQE2norEYUqjAnZxxr",
+        "repository_id": "repo_OpIvBNiZ8vPVROs68HxcMb39W6yz",
+        "manifest_digest": "sha256:13cb1bd24185aae8b9d3f0bbf91dd3214c517163e2eb10e9e3e3cb2f3cbfd2c0",
+        "kind": "index",
+        "status": null,
+        "architecture": null,
+        "platform": null,
+        "size_bytes": 856,
+        "tags": [
+          "pilot-77e14c2e"
+        ],
+        "created_at": "2026-10-31T00:43:04.533Z"
+      },
+      {
+        "id": "image_kHNegGhoOJw8IrxZiA8hyQrQ6PWA",
+        "repository_id": "repo_OpIvBNiZ8vPVROs68HxcMb39W6yz",
+        "manifest_digest": "sha256:5e2500470a76caff11fa4b82a0d328dec423090ce8ba2d6417663283bacfff06",
+        "kind": "manifest",
+        "status": "ready",
+        "architecture": "amd64",
+        "platform": "linux",
+        "size_bytes": 642386202,
+        "tags": [],
+        "created_at": "2026-10-31T00:43:02.402Z"
+      },
+      {
+        "id": "image_gzeH0U5qs0euW2S8p4Zs0L8tzVYA",
+        "repository_id": "repo_OpIvBNiZ8vPVROs68HxcMb39W6yz",
+        "manifest_digest": "sha256:0ee70ab08b5ba8af48366f86d2f84b4582f2b5d2a83f6152e760fa3b2901a837",
+        "kind": "index",
+        "status": null,
+        "architecture": null,
+        "platform": null,
+        "size_bytes": 856,
+        "tags": [
+          "pilot-7b5324c8"
+        ],
+        "created_at": "2026-10-31T00:06:36.010Z"
+      },
+      {
+        "id": "image_LmF3hU3Mx5yt0SXeBp6MW4FJruLP",
+        "repository_id": "repo_OpIvBNiZ8vPVROs68HxcMb39W6yz",
+        "manifest_digest": "sha256:7846b45931a0394eafafdca0d0ae2791b8de74ee9a736fd39534e34134d0d16c",
+        "kind": "manifest",
+        "status": "ready",
+        "architecture": "amd64",
+        "platform": "linux",
+        "size_bytes": 642152482,
+        "tags": [],
+        "created_at": "2026-10-31T00:06:34.618Z"
+      },
+      {
+        "id": "image_PThGZ0gF2d2OIBlzNGOvT09jB75C",
+        "repository_id": "repo_OpIvBNiZ8vPVROs68HxcMb39W6yz",
+        "manifest_digest": "sha256:4818686288ba75c952820604f6f0407225dcdc81088cd3598d830b5048a6f3f9",
+        "kind": "index",
+        "status": null,
+        "architecture": null,
+        "platform": null,
+        "size_bytes": 856,
+        "tags": [
+          "pilot-49a1a0f8"
+        ],
+        "created_at": "2026-10-30T23:39:56.694Z"
+      },
+      {
+        "id": "image_EyGLEKQh2yrZmZ5HWTlm1ehXEGai",
+        "repository_id": "repo_OpIvBNiZ8vPVROs68HxcMb39W6yz",
+        "manifest_digest": "sha256:2d058ead52b152ceb881ce93d9253100a2aca8947368b6e9664a207e7f78a73f",
+        "kind": "manifest",
+        "status": "ready",
+        "architecture": "amd64",
+        "platform": "linux",
+        "size_bytes": 633560341,
+        "tags": [],
+        "created_at": "2026-10-30T23:39:55.758Z"
+      },
+      {
+        "id": "image_WzsnqsMpAMsUxVpOMG0TeM1O1LBD",
+        "repository_id": "repo_OpIvBNiZ8vPVROs68HxcMb39W6yz",
+        "manifest_digest": "sha256:5a41cf3c8801b2891d378b3f7caef44c3fb7af184ceb89e7f4e44c3d865ac697",
+        "kind": "index",
+        "status": null,
+        "architecture": null,
+        "platform": null,
+        "size_bytes": 856,
+        "tags": [
+          "pilot-2e551bb2"
+        ],
+        "created_at": "2026-10-30T23:15:26.798Z"
+      },
+      {
+        "id": "image_Rvd5s1d8Bv1ZnVjgrHFfVoIf6bZ2",
+        "repository_id": "repo_OpIvBNiZ8vPVROs68HxcMb39W6yz",
+        "manifest_digest": "sha256:70cf59a0862c939392049977cf1ac2bcc513ad3de4ebdaf7dfce289463278148",
+        "kind": "manifest",
+        "status": "ready",
+        "architecture": "amd64",
+        "platform": "linux",
+        "size_bytes": 633557064,
+        "tags": [],
+        "created_at": "2026-10-30T23:15:26.487Z"
+      }
+    ],
+    "has_more": false,
+    "limit": 50,
+    "pagination_followed": false
+  },
+  "finished_at": "2026-10-31T00:44:15.463Z"
+}

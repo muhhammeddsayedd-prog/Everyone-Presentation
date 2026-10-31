@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "scope": "Authoring/source/pure guards only; root must execute provider probe separately",
+  "result": "implemented_unverified",
+  "sources": [
+    {
+      "path": "tools/probe-hosted-native.mjs",
+      "sha256": "78526fe81441a800c6ac2c84be4197ffd6902c2c3b7f2ff35aff0c874a555c5c"
+    },
+    {
+      "path": "development/m07/worker-hosting/probe-hosted-native.test.mjs",
+      "sha256": "6d90400889af5c6baf4e82aed030c76fe8c627068c738728ae2bcc95344b4cc9"
+    },
+    {
+      "path": "development/m07/worker-hosting/PROBE.md",
+      "sha256": "d73b113a50450b98d0b69cf8c1f596a5f9bd07d5a58e65be7fa3493e72569f1d"
+    }
+  ],
+  "validation": {
+    "pure_command": "node --test development/m07/worker-hosting/probe-hosted-native.test.mjs",
+    "passed": 5,
+    "failed": 0,
+    "syntax_command": "node --check tools/probe-hosted-native.mjs",
+    "syntax_exit": 0,
+    "genuine_red_green": [
+      "missing helper module ->4green",
+      "unobserved identity or snapshot cannot release lock regression ->green",
+      "historical same-repository image source seal regression ->5green"
+    ]
+  },
+  "fixed_project": "prj_I4SMkDzaDy0KHNgiF00v4Da5aLb6",
+  "fixed_team": "team_gboXPxTevpCOZuaA8eY9PmR1",
+  "frozen_worker_source_sha256": "0ddf519a91a23a11904dbd9880f48d24a2d543a8249f9ab267dbab323d6fb297",
+  "worker_context_changed": false,
+  "author_actions": {
+    "cli_auth_or_private_configuration_read": false,
+    "token_mint": false,
+    "provider_calls": false,
+    "sandbox_create": false,
+    "db_jobs_or_openai_n8n": false
+  },
+  "caps": {
+    "boundary_vms": 1,
+    "smoke_vms": 10,
+    "serial": true,
+    "operation_ms": 600000,
+    "final_observation_ms": 30000,
+    "http_calls": 240
+  },
+  "token": "Fixed authenticated CLI project OIDC response in memory only; expected development claims, fresh issuance and maximum12h provider TTL checked. Helper usage budget10min; no local signature verification or short custom token lifetime claim.",
+  "remaining": "Independent source review, then root-operated patched-image boundary/native proof. No hosting/core/OAuth/MCP acceptance inferred."
+}

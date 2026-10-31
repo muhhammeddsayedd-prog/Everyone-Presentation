@@ -1,0 +1,755 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-31T00:57:16.834569+00:00",
+  "action": "apply",
+  "project_id": "prj_I4SMkDzaDy0KHNgiF00v4Da5aLb6",
+  "team_id": "team_gboXPxTevpCOZuaA8eY9PmR1",
+  "sources": {
+    "development/m07/controlled-pilot/WORKER_FORWARD_PLAN.json": "16da3903ecdf174a4a8664a7600deb5c8a502badd88417c8e62288aab7cc1cc7",
+    "tracking/evidence/m07/controlled-pilot/2026-10-31T00-28-12.936Z-158e4d1e-worker-env-apply.json": "5ada4d257f09da8ca059f886a5d012cabf65545fb73b6cc179d0543b9e37e07c",
+    "tracking/evidence/m07/controlled-pilot/2026-10-31T00-24-38-413488Z-b4a9ccd1-future-frame-pin-apply.json": "593ec635e934f7136ad19877aa2e0199ac3682c496e984a93cd9effb6a230b83",
+    "tracking/evidence/m07/controlled-pilot/2026-10-31T00-27-11-940564Z-cb967b64-future-frame-pin-readback.json": "dcf254cece53f56e42f3626aaa5f474601246a89575998aea9201916e5fee25d",
+    "development/m07/controlled-pilot/worker-environment.mjs": "a4657473226b20c3ca690bbe65005a6f907d8f16c98e62ff171ea8904a30532a",
+    "development/m07/controlled-pilot/future-frame-pin.py": "4cac4ab9d8390a8066d36d2b0fab5429909419c19aad93ad2cd0f5b84a4067e6",
+    "development/m07/controlled-pilot/future-origin.py": "7d15c917bd781fd89a75e3efe36c561d9933ba64e3309b583c04b7ba5accee44",
+    "tracking/evidence/m07/worker-hosting/2026-10-31T00-44-48.391Z-7e99318e-hosted-probe.json": "61086250e7a4c0127a09280b48a45b6079ec83270b325757a73d58930533ff3a",
+    "tracking/evidence/m07/controlled-pilot/2026-10-31T00-48-27.722Z-packaged-daemon-image.json": "6f64c341410a8d3c271bb5bb4eeea5c1b374f17e03a9cd0585ebd03bf4a3d2a1",
+    "development/m07/controlled-pilot/worker-forward.py": "10509e01c9711280b668838851243297097c818aace58ab34e43d1fb0f47e4fb"
+  },
+  "plan": {
+    "schema_version": "1.0",
+    "status": "actual_staged_and_baked",
+    "admission": {
+      "native_smoke": {
+        "receipt": "tracking/evidence/m07/worker-hosting/2026-10-31T00-44-48.391Z-7e99318e-hosted-probe.json",
+        "sha256": "61086250e7a4c0127a09280b48a45b6079ec83270b325757a73d58930533ff3a"
+      },
+      "daemon_import": {
+        "receipt": "tracking/evidence/m07/controlled-pilot/2026-10-31T00-48-27.722Z-packaged-daemon-image.json",
+        "sha256": "6f64c341410a8d3c271bb5bb4eeea5c1b374f17e03a9cd0585ebd03bf4a3d2a1"
+      }
+    },
+    "current": {
+      "source_sha256": "bc774c88083d106fd522ee6277fc8a81033a6b94ff05e9debdfe1d6ee661a735",
+      "native_image_id": "sha256:7846b45931a0394eafafdca0d0ae2791b8de74ee9a736fd39534e34134d0d16c",
+      "manifest_sha256": "ad51dc82c85fb7276b0514623560c5a303985746e52e4a5ad0eb572f16843abb"
+    },
+    "next": {
+      "context": ".local/worker-hosting/77e14c2e-5ae9-4aa6-aec0-636f789c4625/context",
+      "source_sha256": "3790b2b327da7eca18b1aad3a0dfaae02892b0130647e4527a25dd24aa3d54a3",
+      "manifest_sha256": "ea963472650fa839076ab0c68c951f839f4820e4e04f55ae5c9c476e3c457ac0",
+      "native_image_id": "sha256:5e2500470a76caff11fa4b82a0d328dec423090ce8ba2d6417663283bacfff06",
+      "owner_sha256": "0d2794d1dabfac28037a4d665864028ab13547fb5be7125e4d274f247e57d014",
+      "source_seal_sha256": "043974f382e60f21596adc34d607dd9ad5703f77de84225aead9b68913040466",
+      "file_count": 156
+    }
+  },
+  "result": "passed",
+  "application_verified_by_readback": true,
+  "original_baseline_available": true,
+  "metadata_and_all_28_ids_preserved": true,
+  "independent_readback_equal": true,
+  "new_public_manifest_hash_observed": true,
+  "write_process_returned": true,
+  "after": {
+    "metadata": [
+      {
+        "id": "VNimGXvyh6eXZmAI",
+        "key": "EPS_CANDIDATE_MEDIA_ENABLED",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "AijF3kkxAyaRVdJo",
+        "key": "EPS_FRAME_EXTRACTION_ENABLED",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "1tYvE8RjYZgb3ijl",
+        "key": "EPS_GUEST_EXPORTS_ENABLED",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "O1l5qVwaJ6VYRhm9",
+        "key": "EPS_NATIVE_MANIFEST_SHA256",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "dfLE8c6AVmGq3Kpe",
+        "key": "EPS_NATIVE_TRANSPORT",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "01dpD4yoDf4mcVz7",
+        "key": "EPS_PDF_VISION_ENABLED",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "YfnqrFlC80dBrwPQ",
+        "key": "EPS_PILOT_OWNER_CONTROLLED",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "KPicbcdk9FzOntQI",
+        "key": "EPS_PRESENTATION_ENABLED",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "cFM9eWUSjXeuIPvF",
+        "key": "EPS_RELEASE_MODE",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "loMl0nic8EbTDGBs",
+        "key": "EPS_REVIEW_ENABLED",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "mJ8AQydfgQBaA2G9",
+        "key": "EPS_SPECS_FILES_ENABLED",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "pEQMQAKZlrXVeaup",
+        "key": "EPS_SPECS_PG_CA_BASE64",
+        "type": "sensitive",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "FJ728ok6QgZvRakU",
+        "key": "EPS_SPECS_PG_HOST",
+        "type": "sensitive",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "wVIzmtSJzB1vFiL9",
+        "key": "EPS_SPECS_PG_PASSWORD",
+        "type": "sensitive",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "yrKuykunY9AbNHlN",
+        "key": "N8N_CANDIDATE_DISPATCH_SECRET",
+        "type": "sensitive",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "WnRtKtxB76UrkKFq",
+        "key": "N8N_CANDIDATE_DISPATCH_URL",
+        "type": "sensitive",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "sCSicpSwsyjEXprX",
+        "key": "N8N_DISPATCH_SECRET",
+        "type": "sensitive",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "JQvjEbPRvUKXZAzo",
+        "key": "N8N_DISPATCH_URL",
+        "type": "sensitive",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "pacm1AGMQoYzZKJ2",
+        "key": "N8N_PRESENTATION_DISPATCH_SECRET",
+        "type": "sensitive",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "iIjEKXbwW3rgfVoF",
+        "key": "N8N_PRESENTATION_DISPATCH_URL",
+        "type": "sensitive",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "baV4N04CijH01tEO",
+        "key": "N8N_REVIEW_DISPATCH_SECRET",
+        "type": "sensitive",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "ShlBSX1zsPrIuWgD",
+        "key": "N8N_REVIEW_DISPATCH_URL",
+        "type": "sensitive",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "LGkI4eDrYF5k8gVp",
+        "key": "NODE_ENV",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "WbC61EKPDgRfcLvi",
+        "key": "OPENAI_API_KEY",
+        "type": "sensitive",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "dvZAGr8y1sm65Jre",
+        "key": "OPENAI_EXTRACTION_MODEL",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "0ZJeMwf5ti02b3Hn",
+        "key": "OPENAI_TRANSCRIPTION_MODEL",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "mInKhNuChX6rNr4l",
+        "key": "SUPABASE_PUBLISHABLE_KEY",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "LCM9DOxtb0lHFBtl",
+        "key": "SUPABASE_URL",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      }
+    ],
+    "manifest_sha256": "ea963472650fa839076ab0c68c951f839f4820e4e04f55ae5c9c476e3c457ac0"
+  },
+  "independent_readback": {
+    "metadata": [
+      {
+        "id": "VNimGXvyh6eXZmAI",
+        "key": "EPS_CANDIDATE_MEDIA_ENABLED",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "AijF3kkxAyaRVdJo",
+        "key": "EPS_FRAME_EXTRACTION_ENABLED",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "1tYvE8RjYZgb3ijl",
+        "key": "EPS_GUEST_EXPORTS_ENABLED",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "O1l5qVwaJ6VYRhm9",
+        "key": "EPS_NATIVE_MANIFEST_SHA256",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "dfLE8c6AVmGq3Kpe",
+        "key": "EPS_NATIVE_TRANSPORT",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "01dpD4yoDf4mcVz7",
+        "key": "EPS_PDF_VISION_ENABLED",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "YfnqrFlC80dBrwPQ",
+        "key": "EPS_PILOT_OWNER_CONTROLLED",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "KPicbcdk9FzOntQI",
+        "key": "EPS_PRESENTATION_ENABLED",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "cFM9eWUSjXeuIPvF",
+        "key": "EPS_RELEASE_MODE",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "loMl0nic8EbTDGBs",
+        "key": "EPS_REVIEW_ENABLED",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "mJ8AQydfgQBaA2G9",
+        "key": "EPS_SPECS_FILES_ENABLED",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "pEQMQAKZlrXVeaup",
+        "key": "EPS_SPECS_PG_CA_BASE64",
+        "type": "sensitive",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "FJ728ok6QgZvRakU",
+        "key": "EPS_SPECS_PG_HOST",
+        "type": "sensitive",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "wVIzmtSJzB1vFiL9",
+        "key": "EPS_SPECS_PG_PASSWORD",
+        "type": "sensitive",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "yrKuykunY9AbNHlN",
+        "key": "N8N_CANDIDATE_DISPATCH_SECRET",
+        "type": "sensitive",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "WnRtKtxB76UrkKFq",
+        "key": "N8N_CANDIDATE_DISPATCH_URL",
+        "type": "sensitive",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "sCSicpSwsyjEXprX",
+        "key": "N8N_DISPATCH_SECRET",
+        "type": "sensitive",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "JQvjEbPRvUKXZAzo",
+        "key": "N8N_DISPATCH_URL",
+        "type": "sensitive",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "pacm1AGMQoYzZKJ2",
+        "key": "N8N_PRESENTATION_DISPATCH_SECRET",
+        "type": "sensitive",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "iIjEKXbwW3rgfVoF",
+        "key": "N8N_PRESENTATION_DISPATCH_URL",
+        "type": "sensitive",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "baV4N04CijH01tEO",
+        "key": "N8N_REVIEW_DISPATCH_SECRET",
+        "type": "sensitive",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "ShlBSX1zsPrIuWgD",
+        "key": "N8N_REVIEW_DISPATCH_URL",
+        "type": "sensitive",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "LGkI4eDrYF5k8gVp",
+        "key": "NODE_ENV",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "WbC61EKPDgRfcLvi",
+        "key": "OPENAI_API_KEY",
+        "type": "sensitive",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "dvZAGr8y1sm65Jre",
+        "key": "OPENAI_EXTRACTION_MODEL",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "0ZJeMwf5ti02b3Hn",
+        "key": "OPENAI_TRANSCRIPTION_MODEL",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "mInKhNuChX6rNr4l",
+        "key": "SUPABASE_PUBLISHABLE_KEY",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "LCM9DOxtb0lHFBtl",
+        "key": "SUPABASE_URL",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      }
+    ],
+    "manifest_sha256": "ea963472650fa839076ab0c68c951f839f4820e4e04f55ae5c9c476e3c457ac0"
+  },
+  "private_values_or_digests_recorded": false,
+  "helper_write_retry": false,
+  "cli_network_5xx_retries_maximum": 3,
+  "cli_retry_scope": "Same-ID same-value PATCH; CLI may retry, including DPoP/authentication maintenance. No exact wire-count claim.",
+  "before": {
+    "metadata": [
+      {
+        "id": "VNimGXvyh6eXZmAI",
+        "key": "EPS_CANDIDATE_MEDIA_ENABLED",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "AijF3kkxAyaRVdJo",
+        "key": "EPS_FRAME_EXTRACTION_ENABLED",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "1tYvE8RjYZgb3ijl",
+        "key": "EPS_GUEST_EXPORTS_ENABLED",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "O1l5qVwaJ6VYRhm9",
+        "key": "EPS_NATIVE_MANIFEST_SHA256",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "dfLE8c6AVmGq3Kpe",
+        "key": "EPS_NATIVE_TRANSPORT",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "01dpD4yoDf4mcVz7",
+        "key": "EPS_PDF_VISION_ENABLED",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "YfnqrFlC80dBrwPQ",
+        "key": "EPS_PILOT_OWNER_CONTROLLED",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "KPicbcdk9FzOntQI",
+        "key": "EPS_PRESENTATION_ENABLED",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "cFM9eWUSjXeuIPvF",
+        "key": "EPS_RELEASE_MODE",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "loMl0nic8EbTDGBs",
+        "key": "EPS_REVIEW_ENABLED",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "mJ8AQydfgQBaA2G9",
+        "key": "EPS_SPECS_FILES_ENABLED",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "pEQMQAKZlrXVeaup",
+        "key": "EPS_SPECS_PG_CA_BASE64",
+        "type": "sensitive",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "FJ728ok6QgZvRakU",
+        "key": "EPS_SPECS_PG_HOST",
+        "type": "sensitive",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "wVIzmtSJzB1vFiL9",
+        "key": "EPS_SPECS_PG_PASSWORD",
+        "type": "sensitive",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "yrKuykunY9AbNHlN",
+        "key": "N8N_CANDIDATE_DISPATCH_SECRET",
+        "type": "sensitive",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "WnRtKtxB76UrkKFq",
+        "key": "N8N_CANDIDATE_DISPATCH_URL",
+        "type": "sensitive",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "sCSicpSwsyjEXprX",
+        "key": "N8N_DISPATCH_SECRET",
+        "type": "sensitive",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "JQvjEbPRvUKXZAzo",
+        "key": "N8N_DISPATCH_URL",
+        "type": "sensitive",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "pacm1AGMQoYzZKJ2",
+        "key": "N8N_PRESENTATION_DISPATCH_SECRET",
+        "type": "sensitive",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "iIjEKXbwW3rgfVoF",
+        "key": "N8N_PRESENTATION_DISPATCH_URL",
+        "type": "sensitive",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "baV4N04CijH01tEO",
+        "key": "N8N_REVIEW_DISPATCH_SECRET",
+        "type": "sensitive",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "ShlBSX1zsPrIuWgD",
+        "key": "N8N_REVIEW_DISPATCH_URL",
+        "type": "sensitive",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "LGkI4eDrYF5k8gVp",
+        "key": "NODE_ENV",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "WbC61EKPDgRfcLvi",
+        "key": "OPENAI_API_KEY",
+        "type": "sensitive",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "dvZAGr8y1sm65Jre",
+        "key": "OPENAI_EXTRACTION_MODEL",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "0ZJeMwf5ti02b3Hn",
+        "key": "OPENAI_TRANSCRIPTION_MODEL",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "mInKhNuChX6rNr4l",
+        "key": "SUPABASE_PUBLISHABLE_KEY",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      },
+      {
+        "id": "LCM9DOxtb0lHFBtl",
+        "key": "SUPABASE_URL",
+        "type": "plain",
+        "target": [
+          "production"
+        ]
+      }
+    ],
+    "manifest_sha256": "ad51dc82c85fb7276b0514623560c5a303985746e52e4a5ad0eb572f16843abb"
+  },
+  "dispatch_attempted": true,
+  "dispatch_outcome": "command_succeeded",
+  "claim_retained": true,
+  "command_process_unconfirmed": false,
+  "cli_commands_attempted": 10,
+  "maximum_cli_commands": 12,
+  "maximum_seconds": 180,
+  "secrets_transferred": false,
+  "deployment_performed": false,
+  "runtime_acceptance": false
+}

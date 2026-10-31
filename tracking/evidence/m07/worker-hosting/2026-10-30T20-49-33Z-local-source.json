@@ -1,0 +1,176 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-30T20:49:33Z",
+  "status": "implemented_unverified",
+  "scope": "local source, pure injected transport and existing worker regression only; no provider or kernel VM proof",
+  "sources": [
+    {
+      "path": "apps/worker/package.json",
+      "sha256": "3800282dab78bf3c767a54b8bb27efc6aa0ec6565a8b1ee791a08dcc93d5ba20"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "1e12bed4e43c2fc520dccbbd73459ce641e6116ee2c6f18f6480b8f0a3598115"
+    },
+    {
+      "path": "apps/worker/Dockerfile.daemon",
+      "sha256": "c01831541b49e5cbd4e04b7870040c006970a653b2d718ab257e428dc3c82f97"
+    },
+    {
+      "path": "apps/worker/Dockerfile.native-sandbox",
+      "sha256": "b09892818ef4c754bf370b02870cb85b753f21be1b6653805d5a67fe0c4d941e"
+    },
+    {
+      "path": "tools/worker-hosting-build.mjs",
+      "sha256": "f8deef6be5ec7d4e6ecc36185ec6346918e9f58abf25e437748b5810a7583d79"
+    },
+    {
+      "path": "development/m07/worker-hosting/README.md",
+      "sha256": "850b1b1a361cb096a16dfe056e2e12f6154d446918fb2c97ef2da0ff5304e42a"
+    },
+    {
+      "path": "apps/worker/src/native-sandbox.ts",
+      "sha256": "3f9e969d190e8f0d013c8b85fca941b95f50c96f81336ae16f8c65fad609a3ee"
+    },
+    {
+      "path": "apps/worker/src/native-source-seal.ts",
+      "sha256": "5cb407627b2664b1217a4d238df8891b0258e3bcc8486861168a9260f0cd854a"
+    },
+    {
+      "path": "apps/worker/src/native-sandbox-result.ts",
+      "sha256": "1f12a008e09f12d40f2abcf1781197f12f35982dd008f3de2728b7187ae1f18c"
+    },
+    {
+      "path": "apps/worker/src/native-sandbox-launch.mjs",
+      "sha256": "9e669cadb49021ee193e6954e2c6704b561afeaf89059cee957f5f812123a9fa"
+    },
+    {
+      "path": "apps/worker/src/native-sandbox-task.mjs",
+      "sha256": "d4daa98aafdf0e900dd3e999c6217f6d2cde20570aff63db4f1b7c1de550bc64"
+    },
+    {
+      "path": "apps/worker/src/native-sandbox-boundary.mjs",
+      "sha256": "040e513eaae963d58a532e41e8859683e33622a82a58d5dff664693b71dcff72"
+    },
+    {
+      "path": "apps/worker/src/runtime-hosted.ts",
+      "sha256": "9bc9bf365f729a1d86c97397009678819e473351f26ba4d34d93bbac25967b8c"
+    },
+    {
+      "path": "apps/worker/src/runtime-hosted-config.ts",
+      "sha256": "7817b606cc84a366dde72bed03b9a8f584da77f3c65169419bf8f5a6208dc5e9"
+    },
+    {
+      "path": "apps/worker/src/runtime-main.ts",
+      "sha256": "a60438be7bf6b87950c807647a6370952d9cda74b53bfccfb273f9b89849babe"
+    },
+    {
+      "path": "apps/worker/src/process.ts",
+      "sha256": "d8f3afeaeb0e650cbc16685891cdc66e35579caa53c01c117a961348b1b93d9c"
+    },
+    {
+      "path": "apps/worker/src/video-container.ts",
+      "sha256": "b61b93b1f537efb10b8be228c53fd12fb990d70c72498699f35e2d9f97f5f92f"
+    },
+    {
+      "path": "apps/worker/src/pdf-raster.ts",
+      "sha256": "0f35d2fdd4780638b608ea217a4e68cc108817c805a1eed2a1aaac6e6b7768ce"
+    },
+    {
+      "path": "apps/worker/src/review-fit.ts",
+      "sha256": "013b78bc6aa8d1119473249c3341f0174480fa53f2a365472655a86a3107a4bd"
+    },
+    {
+      "path": "apps/worker/src/presentation-pdf.ts",
+      "sha256": "9ecaa02838192d6589cd0150679923648dc558b1409bdd5db69c5ac76f35d5db"
+    },
+    {
+      "path": "tests/worker/native-sandbox.test.ts",
+      "sha256": "a0322ff962149bbf394e21251441d899214e4805784b4cac68aaba38f3d989ab"
+    },
+    {
+      "path": "tests/worker/native-source-seal.test.ts",
+      "sha256": "264051bf359100f1944a7a31ed0bcec4ea8ce1defd29f55ea1bb591726ab7e74"
+    },
+    {
+      "path": "tests/worker/native-boundary.test.ts",
+      "sha256": "faa35371c25548c6be8036724ad17c531e62fe2039e523851a33b93ed4e85522"
+    },
+    {
+      "path": "tests/worker/hosted-runtime.test.ts",
+      "sha256": "4e63562eaf88d78073607d138d3ea5c41d785f0030853b9c8458809c8455ca42"
+    },
+    {
+      "path": "tests/worker/worker-hosting-build.test.ts",
+      "sha256": "0195c6a884b10a00634da9b045756a79083295b3fd3a2eb00a129d17168badc5"
+    }
+  ],
+  "build_context": {
+    "path": ".local/worker-hosting/015e1f02-7f7a-4b33-ba08-c8a7899ef939/context",
+    "source_sha256": "973030386fc0fe2d591bb727a9b77d43a6ee474f5a7eac8ce45918c588ba2516",
+    "file_count": 150
+  },
+  "validation": {
+    "worker_tests": {
+      "command": "node tools/run-tests.mjs tests/worker/*.test.ts",
+      "exit_code": 0,
+      "passed": 219,
+      "failed": 0,
+      "skipped": 0,
+      "duration_ms": 28174.2919
+    },
+    "typecheck": {
+      "command": "npx.cmd tsc --noEmit",
+      "exit_code": 0
+    },
+    "lint": {
+      "scope": "changed TypeScript worker sources and five new test files",
+      "exit_code": 0
+    },
+    "syntax": {
+      "files": [
+        "native-sandbox-launch.mjs",
+        "native-sandbox-task.mjs",
+        "native-sandbox-boundary.mjs",
+        "worker-hosting-build.mjs"
+      ],
+      "exit_code": 0
+    },
+    "genuine_red_green_observations": [
+      "initial transport missing module ->7green",
+      "hosted startup missing module ->green",
+      "stopped SDK getters regression ->green",
+      "pilot deadline retention regression ->green",
+      "owner-controlled duration mode regression ->green",
+      "lost stop ACK regression ->green",
+      "private source seal missing module ->green",
+      "build owner missing validator ->green",
+      "unbounded filesystem inventory missing module ->green"
+    ]
+  },
+  "owner_duration": {
+    "mode": "owner_controlled",
+    "required_flag": "EPS_PILOT_OWNER_CONTROLLED=true",
+    "expiry": "absent or empty; mixed mode denied",
+    "stop": "owner stops dedicated worker deployment/replica; unconfirmed cleanup remains paused"
+  },
+  "author_actions": {
+    "cloud_provider_mutations": 0,
+    "db_mutations": 0,
+    "native_sandbox_or_container_execution": 0,
+    "secret_or_private_payload_reads": 0,
+    "claude_config_login_calls": 0
+  },
+  "unverified": [
+    "actual VCR image build/readiness",
+    "Daemon OIDC refresh and scoped Sandbox auth",
+    "actual image USER/root SDK file IO",
+    "VM deny-all network",
+    "actual tmpfs/write-denial/inventory and limits",
+    "provider log/private-file behavior",
+    "actual cancel/timeout/delete and VM/session/snapshot absence",
+    "working hosted worker/n8n/OpenAI/Storage core path",
+    "representative video/performance/endurance/cost",
+    "production release acceptance"
+  ]
+}

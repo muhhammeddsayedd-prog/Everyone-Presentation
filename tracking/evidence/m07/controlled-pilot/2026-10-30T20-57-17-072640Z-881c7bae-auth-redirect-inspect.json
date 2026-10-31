@@ -1,0 +1,142 @@
+{
+  "observed_at": "2026-10-30T20:57:26.620803+00:00",
+  "action": "inspect",
+  "target": "pyibofyctwnqpvktepse",
+  "result": "passed",
+  "current_redirects": [
+    "http://127.0.0.1:3000/api/auth/callback"
+  ],
+  "desired_redirects": [
+    "http://127.0.0.1:3000/api/auth/callback",
+    "https://everyone-presentation-pilot.vercel.app/api/auth/callback"
+  ],
+  "prepared_directory": ".local/m07-pilot/auth-redirects/2026-10-30T20-57-17-072640Z-881c7bae",
+  "diff_response_keys": [
+    "schema_version",
+    "config_schema",
+    "target",
+    "scope",
+    "changes",
+    "masked",
+    "unmanaged",
+    "counts",
+    "message"
+  ],
+  "diff_metadata": [
+    {
+      "path": [
+        "auth",
+        "additional_redirect_urls"
+      ],
+      "written": null,
+      "local_type": "list",
+      "remote_type": "list"
+    },
+    {
+      "path": [
+        "auth",
+        "email",
+        "enable_confirmations"
+      ],
+      "written": null,
+      "local_type": "bool",
+      "remote_type": "bool"
+    },
+    {
+      "path": [
+        "auth",
+        "email",
+        "max_frequency"
+      ],
+      "written": null,
+      "local_type": "str",
+      "remote_type": "str"
+    },
+    {
+      "path": [
+        "auth",
+        "email",
+        "otp_length"
+      ],
+      "written": null,
+      "local_type": "int",
+      "remote_type": "int"
+    },
+    {
+      "path": [
+        "auth",
+        "mfa",
+        "totp",
+        "enroll_enabled"
+      ],
+      "written": null,
+      "local_type": "bool",
+      "remote_type": "bool"
+    },
+    {
+      "path": [
+        "auth",
+        "mfa",
+        "totp",
+        "verify_enabled"
+      ],
+      "written": null,
+      "local_type": "bool",
+      "remote_type": "bool"
+    },
+    {
+      "path": [
+        "db",
+        "pooler",
+        "default_pool_size"
+      ],
+      "written": null,
+      "local_type": "int",
+      "remote_type": "int"
+    },
+    {
+      "path": [
+        "db",
+        "pooler",
+        "max_client_conn"
+      ],
+      "written": null,
+      "local_type": "int",
+      "remote_type": "int"
+    },
+    {
+      "path": [
+        "storage",
+        "analytics",
+        "enabled"
+      ],
+      "written": null,
+      "local_type": "bool",
+      "remote_type": "bool"
+    },
+    {
+      "path": [
+        "storage",
+        "analytics",
+        "max_namespaces"
+      ],
+      "written": null,
+      "local_type": "NoneType",
+      "remote_type": "int"
+    },
+    {
+      "path": [
+        "storage",
+        "image_transformation",
+        "enabled"
+      ],
+      "written": null,
+      "local_type": "NoneType",
+      "remote_type": "bool"
+    }
+  ],
+  "configuration_changed": false,
+  "repository_link_and_config_preserved": true,
+  "raw_config_and_diagnostics_retained": false,
+  "harness_sha256": "27b94af023a18aba3d7901c096335bfcb842d1e539cd0d89aba302e6526c1135"
+}

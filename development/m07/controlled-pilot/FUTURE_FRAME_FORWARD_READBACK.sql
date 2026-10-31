@@ -1,0 +1,25 @@
+-- Fixed read-only metadata only; no raw media, facts, input JSON or credentials.
+begin isolation level repeatable read read only;set local search_path='';set local timezone='UTC';set local statement_timeout='30s';
+select jsonb_build_object('context',jsonb_build_object('database',current_database(),'operator',current_user,
+ 'history',(select array_agg(version order by version)from supabase_migrations.schema_migrations),
+ 'configuration_count',(select count(*)from eps.frame_extraction_config),
+ 'unexpected_config_triggers',(select count(*)from pg_trigger where tgrelid='eps.frame_extraction_config'::regclass and not tgisinternal),
+ 'active_native_jobs',(select count(*)from eps.jobs where kind in('candidate_scan','frame_extract')and status in('queued','running','waiting_for_input')),
+ 'leased_native_dispatches',(select count(*)from eps.outbox_events o join eps.jobs j on j.id=o.job_id where j.kind in('candidate_scan','frame_extract')and o.status='leased')),'frame_config',(select to_jsonb(c)from eps.frame_extraction_config c where id),
+ 'protected_metadata',jsonb_build_object(
+ 'versions',(select jsonb_build_object('count',count(*),'sha256',encode(sha256(convert_to(coalesce(string_agg(to_jsonb(v)::text,E'\n'order by v.id),''),'UTF8')),'hex'))from eps.presentation_versions v),
+ 'slides',(select jsonb_build_object('count',count(*),'sha256',encode(sha256(convert_to(coalesce(string_agg(to_jsonb(s)::text,E'\n'order by s.id),''),'UTF8')),'hex'))from eps.version_slides s),
+ 'pins',(select jsonb_build_object('count',count(*),'sha256',encode(sha256(convert_to(coalesce(string_agg(to_jsonb(p)::text,E'\n'order by p.version_id,p.asset_id),''),'UTF8')),'hex'))from eps.presentation_version_assets p),
+ 'ready_asset_metadata',(select jsonb_build_object('count',count(*),'sha256',encode(sha256(convert_to(coalesce(string_agg(jsonb_build_object('version_id',v.id,'asset_id',a.id,'sha256',a.sha256,'size_bytes',a.size_bytes,'status',a.status)::text,E'\n'order by v.id,a.id),''),'UTF8')),'hex'))from eps.presentation_versions v join eps.presentation_version_assets p on p.version_id=v.id join eps.media_assets a on a.id=p.asset_id where v.status='ready'),
+ 'native_jobs',(select jsonb_build_object('count',count(*),'sha256',encode(sha256(convert_to(coalesce(string_agg(jsonb_build_object('id',j.id,'kind',j.kind,'resource_id',j.resource_id,'input_asset_id',j.input_asset_id,'input',j.input,'input_hash',j.input_hash,'input_hash_version',j.input_hash_version,'status',j.status,'stage',j.stage,'attempt',j.attempt,'row_version',j.row_version,'completed_stages',j.completed_stages,'result',j.result,'error',j.error)::text,E'\n'order by j.id),''),'UTF8')),'hex'))from eps.jobs j where j.kind in('candidate_scan','frame_extract')),
+ 'native_outbox',(select jsonb_build_object('count',count(*),'sha256',encode(sha256(convert_to(coalesce(string_agg(jsonb_build_object('id',o.id,'job_id',o.job_id,'topic',o.topic,'stage',o.stage,'input_hash',o.input_hash,'dispatch_generation',o.dispatch_generation,'dedupe_key',o.dedupe_key,'status',o.status,'attempt_count',o.attempt_count,'available_at',o.available_at,'lease_expires_at',o.lease_expires_at,'delivered_at',o.delivered_at,'created_at',o.created_at)::text,E'\n'order by o.id),''),'UTF8')),'hex'))from eps.outbox_events o where exists(select 1 from eps.jobs j where j.id=o.job_id and j.kind in('candidate_scan','frame_extract'))),
+ 'requests',(select jsonb_build_object('count',count(*),'sha256',encode(sha256(convert_to(coalesce(string_agg(to_jsonb(r)::text,E'\n'order by r.job_id),''),'UTF8')),'hex'))from eps.frame_extraction_requests r),
+ 'payloads',(select jsonb_build_object('count',count(*),'sha256',encode(sha256(convert_to(coalesce(string_agg(to_jsonb(p)::text,E'\n'order by p.id),''),'UTF8')),'hex'))from eps.candidate_stage_payloads p),
+ 'candidates',(select jsonb_build_object('count',count(*),'sha256',encode(sha256(convert_to(coalesce(string_agg(to_jsonb(c)::text,E'\n'order by c.id),''),'UTF8')),'hex'))from eps.candidates c),
+ 'candidate_media',(select jsonb_build_object('count',count(*),'sha256',encode(sha256(convert_to(coalesce(string_agg(to_jsonb(m)::text,E'\n'order by m.id),''),'UTF8')),'hex'))from eps.candidate_media m),
+ 'frames',(select jsonb_build_object('count',count(*),'sha256',encode(sha256(convert_to(coalesce(string_agg(to_jsonb(f)::text,E'\n'order by f.candidate_media_id,f.asset_id),''),'UTF8')),'hex'))from eps.candidate_media_frames f),
+ 'protected_m02',(select jsonb_build_object('id',j.id,'status',j.status,'stage',j.stage,'attempt',j.attempt,'row_version',j.row_version,'resource_id',j.resource_id,
+  'manual_note_retained',position('Manual verification: preserve this instruction while extraction is pending.'in coalesce(s.normalized_instructions,''))>0,
+  'spec_sha256',encode(sha256(convert_to(jsonb_build_object('id',s.id,'row_version',s.row_version,'normalized_instructions',s.normalized_instructions)::text,'UTF8')),'hex'))from eps.jobs j join eps.specs s on s.id=j.resource_id where j.id='b3f90268-147d-41d4-8875-2a6435df1496')
+))as pilot_frame_forward_readback;
+rollback;

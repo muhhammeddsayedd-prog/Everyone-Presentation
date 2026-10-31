@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-30T23:49:50Z",
+  "result": "offline_passed_delta_review_pending",
+  "scope": "Minimal SQL CLI transport-envelope correction only; no operator mode execution by author",
+  "observed_trigger": {
+    "source": "Root-reported actual read-only inspect and closed diagnostic",
+    "cli_version": "2.122.0",
+    "exit_code": 0,
+    "top_level_keys": ["boundary", "rows", "warning"],
+    "rows": 1,
+    "row_key": "dummy_project_readback",
+    "before_dml_or_claim": true,
+    "raw_transport_values_retained_in_this_receipt": false
+  },
+  "previous_source_preserved": {
+    "path": "tracking/evidence/m07/controlled-pilot/source-history/dummy-pilot-project-f595962d.py",
+    "sha256": "f595962d3a54e6cc281ba7e66d25390c286a8cad5413056fc6e166a215ce40ef"
+  },
+  "current_sources": {
+    "development/m07/controlled-pilot/dummy-pilot-project.py": "27295f4491c3a8bb52bb3ceb768733b8ac12254bdc9d103a0310aaf4ce0cb443",
+    "development/m07/controlled-pilot/test_dummy_pilot_project.py": "9825d1a6b4586433edd366fe61272052313471b78b913eab85feda11867bcd11"
+  },
+  "change": "Parse dict with one rows item and exact SQL row key; discard transport metadata before domain validation without using or publishing its values",
+  "unchanged": ["all three SQL sources", "fixed project/client/source names", "actor and canonical30 admission", "domain metadata validation", "one-dispatch claim", "timeout and preservation gates", "Auth client parsing"],
+  "regression": {
+    "red": "13 passed and 1 error: actual-shape synthetic regression before parse_query_result existed",
+    "green": "14 of14 passed",
+    "private_sentinels_in_transport_metadata_discarded": true,
+    "invalid_row_count_key_extra_fields_and_domain_boolean_rejected": true,
+    "syntax_and_diff_check": "passed"
+  },
+  "related_source_search": {
+    "scope": "new Python SQL helpers under development/m07",
+    "additional_concrete_outer_rows_only_bug_found": false,
+    "existing_future_origin_frame_and_hosted_binding_row_parsers_unchanged": true
+  },
+  "independent_delta_review": "Requested from recovery against current exact hashes; pending at receipt time",
+  "author_cli_private_provider_database_actions": false,
+  "project_created_by_author": false
+}

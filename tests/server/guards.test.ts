@@ -15,9 +15,12 @@ test('fixture runtime denies production, staging, non-loopback and unmapped cent
     assert.throws(() => readRuntimeConfig(env));
   }
   assert.equal(readRuntimeConfig({ APP_ENV: 'test' }).environment, 'test');
-  assert.equal(readRuntimeConfig({ NODE_ENV: 'production', APP_ENV: 'staging', CENTRAL_ADAPTER_MODE: 'supabase',
-    APP_BASE_URL: 'https://studio.example', SUPABASE_URL: 'https://synthetic.supabase.co',
-    SUPABASE_PUBLISHABLE_KEY: 'sb_publishable_synthetic_test_only' }).adapterMode, 'supabase');
+  const hosted = { NODE_ENV: 'production', APP_ENV: 'staging', CENTRAL_ADAPTER_MODE: 'supabase',
+    APP_BASE_URL: 'https://studio.example', SUPABASE_URL: 'https://pyibofyctwnqpvktepse.supabase.co',
+    SUPABASE_PUBLISHABLE_KEY: 'sb_publishable_synthetic_test_only' };
+  assert.throws(() => readRuntimeConfig(hosted));
+  assert.equal(readRuntimeConfig({ ...hosted, EPS_RELEASE_MODE: 'controlled_pilot',
+    EPS_PILOT_EXPIRES_AT: new Date(Date.now() + 3_600_000).toISOString() }).adapterMode, 'supabase');
 });
 test('signed development sessions reject tampering, wrong signing key, and expiry', () => {
   const key = Buffer.alloc(32, 7); const token = signSession('synthetic-user', key, 1000);

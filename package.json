@@ -10,6 +10,14 @@
     "node": ">=24 <25"
   },
   "packageManager": "npm@11.16.0",
+  "overrides": {
+    "@vercel/cli-config": {
+      "zod": "4.6.7"
+    },
+    "@vercel/sandbox": {
+      "zod": "4.6.7"
+    }
+  },
   "scripts": {
     "dev": "npm run dev --workspace @eps/web",
     "dev:web": "npm run dev --workspace @eps/web",

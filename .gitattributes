@@ -3,6 +3,9 @@
 * -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 # Preserve exact raw acceptance records, including their original whitespace.
 tracking/evidence/** -whitespace
+# This query's exact bytes are pinned by completed canonical31 release receipts.
+# Retain its recorded trailing spaces instead of rewriting that provenance.
+development/m07/specs-ack31/canonical-query.sql -whitespace
 # PDF xref rows contain significant trailing spaces; inspect the original bytes
 # with the document tools rather than applying text whitespace fixes.
 fixtures/live-specs-files/*.pdf binary

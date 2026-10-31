@@ -1,0 +1,43 @@
+# Trusted native tool rootfs for a NEW credential-free Sandbox per operation.
+# ENTRYPOINT/CMD are ignored by Sandbox. The daemon invokes only the fixed
+# native-sandbox-launch.mjs supervisor. Image never contains user material.
+FROM node@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d AS dependencies
+WORKDIR /opt/eps
+COPY package.json package-lock.json ./
+COPY apps/web/package.json ./apps/web/package.json
+COPY apps/worker/package.json ./apps/worker/package.json
+COPY packages/domain/package.json ./packages/domain/package.json
+COPY packages/jobs/package.json ./packages/jobs/package.json
+COPY packages/integrations/package.json ./packages/integrations/package.json
+COPY packages/central/package.json ./packages/central/package.json
+RUN npm ci --omit=dev --ignore-scripts --workspace @eps/worker --include-workspace-root=false
+
+FROM node@sha256:6f7b03f7c2c8e2e784dcf9295400527b9b1270fd37b7e9a7285cf83b6951452d
+WORKDIR /opt/eps
+ENV NODE_ENV=production PLAYWRIGHT_BROWSERS_PATH=/opt/ms-playwright
+COPY package.json package-lock.json ./
+COPY apps/web/package.json ./apps/web/package.json
+COPY --from=dependencies /opt/eps/node_modules ./node_modules
+RUN apt-get update -qq && apt-get install --no-install-recommends -y ffmpeg=7:5.1.9-0+deb12u1 poppler-utils=22.12.0-2+deb12u3 util-linux mount sudo && rm -rf /var/lib/apt/lists/*
+RUN /opt/eps/node_modules/.bin/playwright install --with-deps chromium && chmod -R a+rX /opt/ms-playwright
+RUN chown -R 0:0 /home/node && chmod 0555 /home/node /var/tmp /run/lock
+COPY apps/worker ./apps/worker
+COPY packages ./packages
+COPY --from=dependencies /opt/eps/apps ./apps
+COPY --from=dependencies /opt/eps/packages ./packages
+COPY contracts/json-schema/specs-extraction.schema.json \
+     contracts/json-schema/candidate-extraction.schema.json \
+     contracts/json-schema/frame-selection.schema.json \
+     contracts/json-schema/slide-wording.schema.json ./contracts/json-schema/
+COPY apps/web/public ./apps/web/public
+# Reserve a parser-only identity after expensive layers. Never adopt a base-image
+# account/path collision or change the provider's UID1000 bridge permissions.
+RUN /usr/local/bin/node apps/worker/src/native-identity.mjs verify-image \
+ && groupadd --system --gid 65432 eps-native \
+ && useradd --system --uid 65432 --gid 65432 --no-create-home --no-log-init --home-dir /tmp --shell /usr/sbin/nologin --password '!' eps-native \
+ && /usr/local/bin/node apps/worker/src/native-identity.mjs verify-owned-paths
+RUN test -x /usr/bin/prlimit && test -x /usr/bin/setpriv && test -x /usr/bin/mount && test -x /usr/sbin/nologin
+# Only fixed supervisor/SDK file IO use root, inside this credential-free VM.
+# Native parsing/rendering always drops to dedicated65432 with caps cleared and NNP.
+USER 0:0
+CMD ["/usr/local/bin/node","--version"]

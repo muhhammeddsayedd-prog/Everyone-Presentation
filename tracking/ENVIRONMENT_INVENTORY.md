@@ -1,6 +1,81 @@
 # Environment inventory and discovery record
 
-## 2026-10-30 canonical30 / original local29 environment checkpoint
+## Current hosted pilot - 2026-10-31T03:34:09.035Z
+
+Canonical Supabase pyibofyctwnqpvktepse has31 confirmed migrations; local29 is
+unchanged. Projects and clients remain canonical. Hosted web8Hk is Ready on the
+stable pilot alias, with28 web variables after the four public MCP operations;
+worker CVDM/source09/native77eee/daemon971834 is separate and runs until owner stop.
+[Core9](evidence/m07/controlled-pilot/HOSTED_CORE.json),
+[OAuth readiness11](evidence/m07/controlled-pilot/2026-10-31T03-32-00-553Z-47cb2edb-hosted-oauth-ready.json)
+and [post-deploy workspace](evidence/m07/controlled-pilot/2026-10-31-hosted-oauth-signed-workspace.json)
+are separate actual evidence. Provider Auth configuration, client registration,
+resource binding and web OAuth mode are applied. The public client ID and exact
+owner connection JSON are in [the guide](../docs/HOSTED_MCP_CONNECTION.md).
+No service-role or worker credentials belong in that client.
+
+The previous core proof used webGPR and video/specs ran on workerHn4/source379;
+new PDF recovery/export and new deployment proofs have their own receipts.
+Historical failures, old environments and immutable snapshots below remain
+qualified by their actual observation time. Owner OAuth issuance/refresh/client
+journey, initial redirect-only reconnect limitation, AT-072, broader M03 and
+complete production release remain pending; mobile testing is skipped.
+
+
+## Historical 2026-10-31T00:13:20Z controlled hosted pilot checkpoint
+
+Owner duration remains **keep running until stopped**. Production acceptance is
+unverified; AT-072/M03 pending, mobile skipped, owner controls Claude login/config.
+See [current operations](../development/m07/controlled-pilot/OPERATIONS.md) and
+[next steps](../development/m07/controlled-pilot/NEXT_STEPS.md).
+
+Web `dpl_GPRog6HbnXNGpciqRi7TdypUCKM7` serves the fixed
+`https://everyone-presentation-pilot.vercel.app`, web project
+`prj_7xOsfRtvJ9voYi7rTEfra5ncOoA0`. Worker project
+`prj_I4SMkDzaDy0KHNgiF00v4Da5aLb6` shares team `team_gboXPxTevpCOZuaA8eY9PmR1`
+but receives separate credentials. [Hosted3reads](evidence/m07/controlled-pilot/2026-10-30-hosted-core-reads.json)
+pass Projects/Settings/Processing for the real principal, no fixtures; core6
+remains pending. [Actual project/workspace UI receipt](evidence/m07/controlled-pilot/2026-10-30-hosted-dummy-pilot-ui.json)
+records Dummy Pilot Test project6da14b82/workspace86936940 and no processing job
+submitted. Reuse both. Ordinary callback/origin applies are complete; neither
+hosted OAuth nor any old snapshot rewrite is implied.
+
+Current source `bc774c88083d106fd522ee6277fc8a81033a6b94ff05e9debdfe1d6ee661a735`,
+context7b5324c8 has152 sealed records/156 prepared files. [Scoped scan](evidence/m07/worker-hosting/2026-10-31T00-03-40.120Z-browser-context-private-check.json)
+passed before adding the public native manifest. Browser task capacity256,
+other/boundary64 and parent Docker/dependency bytes are preserved.
+[Native Ready observation](evidence/m07/controlled-pilot/2026-10-31T00-06-50.212Z-0c045445-runtime-state.json)
+records digest7846b45931a0394eafafdca0d0ae2791b8de74ee9a736fd39534e34134d0d16c.
+Baked manifest SHAad51dc82c85fb7276b0514623560c5a303985746e52e4a5ad0eb572f16843abb.
+[Code-only daemon image](evidence/m07/controlled-pilot/2026-10-31T00-13-20.469Z-daemon-image.json) runtimef3914fbdaa44fcb361fa2690f9b1cf2a08363652d1b4483a31aeca6ba85d79a3 is Ready
+(index5de7afde2daec604a1827e8c54da0c14d692de7b23e0ffb6fa02e9349c3310b3).
+Same7b descriptor is emitted: one worker/dub1/2Gi/300s. No private runtime-env
+transfer, deployment, polling or hosted jobs is established.
+
+[Smoke7113](evidence/m07/worker-hosting/2026-10-31T00-07-06.951Z-7113cb6d-hosted-probe.json) is unconfirmed at `smoke_document`
+with `NATIVE_CLEANUP_UNCONFIRMED`: source/boundary/network and plain document
+passed; cleanup false, lock retained, three sessions stable. Absence remains
+unknown; false flags do not prove resources remain. Root's SDK-path read-only
+list returned no rows, not complete exact absence proof. Bounded read-only
+reconciliation is being prepared before any new probe. Full native pass is
+mandatory before private-env transfer, frame-pin apply or polling.
+
+Root reports local launcher44164/child17764 remain stopped; [actual stop receipt](evidence/m07/controlled-pilot/2026-10-30-local-worker-stop.json)
+left web running. [Read-only frame inspecta0](evidence/m07/controlled-pilot/2026-10-31T00-11-21-060658Z-a0aef882-future-frame-pin-inspect.json)
+at00:11:21 passed canonical30/old pin/zero active and leased native work, no DML;
+this dated inspection must be refreshed before a later apply. [Origin apply](evidence/m07/controlled-pilot/2026-10-30T21-41-02-972243Z-bd7213ed-future-origin-apply.json)
+is complete; retain old Ready/M02. Preserve original local29, old0dd/49 contexts,
+claims and all historical failures; no lease/queue forcing or protected M02 retry.
+
+[Current root offline receipt](evidence/m07/controlled-pilot/2026-10-31T00-06-44.357Z-current-offline-checks.json) passes800
+modules (333/9/12/45/229/172), lint/typecheck/prodguard exit0. Source stability
+during commands is explicitly not claimed. Earlier793/agent UID227 are dated;
+229 worker tests are included in800. No new full-desktop/build/hosted acceptance.
+MCP stays disabled pending complete core/provider/client/binding/token proof.
+CLI65.8 uses the existing protected global-config directory. This documentation
+update performed no provider/private/process/database action.
+
+## Earlier 2026-10-30 canonical30 / original local29 environment checkpoint
 
 [Root canonical30 summary](evidence/m07/issuer-release30-executable/2026-10-30-current-release-summary.json) records the once-only 20261030154824 native issuer migration / SHA e5fd2121 and independent 12920568 readback. Canonical history is 30 with exactly 42 created / 8 changed catalogue fields and preserved current business/Settings/registry/runtime12/protected M02/old role identities. Only the explicitly bounded CLI short-login expiry change is qualified; raw metadata is retained. The private issuer is owned by a new NOLOGIN/NOINHERIT/NOBYPASSRLS role and executable only by native Auth. No Auth table/column grants or public-client execution were added. Original owned local history remains 29, issuer role/function absent there; only disposable clones committed30 for rollback/forward-fix proof and were removed. No original-local30 promotion is claimed.
 

@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-31T00:04:57Z",
+  "result": "source_ready_not_executed",
+  "previous_author_receipt": "tracking/evidence/m07/controlled-pilot/2026-10-31T00-02-47Z-daemon-runtime-offline.json",
+  "sources": {
+    "development/m07/controlled-pilot/daemon-runtime.mjs": "528072b8e21ee0dfe79911a42ceeffeaf43b631688f16c0c6ddf5ce025b86263",
+    "development/m07/controlled-pilot/daemon-runtime.test.mjs": "d7ff23809b07d57414050a977ec881bbaf1a512e33b3e2ce0734769cdfb1f2a7",
+    "development/m07/controlled-pilot/DAEMON_RUNTIME.md": "4c94a2b44a9c7da5a15620645c75790bd8736bd3eb2c6c8788ea3f9f093da0e0"
+  },
+  "historical_source": {
+    "path": "tracking/evidence/m07/controlled-pilot/source-history/daemon-runtime-314408e4.mjs",
+    "sha256": "314408e4cd5143895864a2d4cf771f1d2c276d3765ca566df0ee3cf939d4c30d"
+  },
+  "review_correction": {
+    "finding": "Present malformed truncated values could be treated as untruncated, falsely permitting startup evidence",
+    "additional_consistency": "Reject present conflicting production/preview attributes rather than accepting one production field",
+    "genuine_red": "7 passed / 1 failed with actual true versus expected false",
+    "green": "8 of8 passed; malformed string/number/null truncation and conflicting scopes all withhold evidence",
+    "command_target_projection_or_runtime_mutations": false
+  },
+  "final_author_checks": {
+    "synthetic_tests": 8,
+    "passed": 8,
+    "exit_code": 0,
+    "scoped_eslint": "passed",
+    "node_syntax": "passed",
+    "owned_diff_check": "passed"
+  },
+  "independent_review": {
+    "reviewer": "/root/m07_parity",
+    "result": "No remaining material finding under documented observation-only scope",
+    "full_body_public_cli_sources_and_final_delta_read": true,
+    "current_and_historical_source_hashes_verified": true,
+    "reviewer_tests_provider_cli_or_private_actions": false
+  },
+  "operator_mode_executed_by_author_or_reviewer": false,
+  "actual_private_logs_credentials_or_media_read": false,
+  "deployment_id_invented": false,
+  "daemon_started_or_configured": false,
+  "readiness_polling_oidc_refresh_recovery_jobs_or_core_acceptance_claimed": false,
+  "root_next_action": "After an actual reviewed worker deployment exists, supply that actual deployment ID to the read-only observer; retain actual runtime evidence separately"
+}

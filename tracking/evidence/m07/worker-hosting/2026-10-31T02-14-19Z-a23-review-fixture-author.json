@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "evidence_kind": "author_offline_public_fixture_checks",
+  "observed_at": "2026-10-31T02:14:19Z",
+  "failed_actual_probe": "tracking/evidence/m07/worker-hosting/2026-10-31T02-09-51.249Z-a23da169-hosted-probe.json",
+  "failed_actual_source_preserved": "tracking/evidence/m07/worker-hosting/source-history/probe-hosted-native-18e26572.mjs",
+  "source_pins": {
+    "tools/probe-hosted-native.mjs": "84630e42f2e5277fe8865721d00779939802cc73d059bf795cffb9915e5cb3ab",
+    "development/m07/worker-hosting/probe-hosted-native.test.mjs": "632563d603bb90b8e7cf2f8b0da0ff8dd5159f7091d564ec0ada3e2e28fdac91",
+    "development/m07/worker-hosting/native-probe-release.mjs": "b8eec2107417f4f4641c9dd7810ce056e5af937d2cada3236f05c454eb9cff26"
+  },
+  "behavioral_red": {
+    "passed": 15,
+    "failed": 1,
+    "actual_public_composition": "workspaceReviewDto(reviewFromRenderSnapshot(nativePresentation().snapshot))",
+    "code": "CENTRAL_RESPONSE_INVALID",
+    "source_gate": "packages/central/src/review-dto.ts:45",
+    "reason": "Immutable renderer projection intentionally has null workspace_candidate_id and null assignment/workspace-candidate/candidate revisions; live-review DTO requires ID and revisions >=1."
+  },
+  "green": {
+    "command": "node --import tsx --test development/m07/worker-hosting/probe-hosted-native.test.mjs",
+    "exit_code": 0,
+    "passed": 17,
+    "original_projection_not_mutated": true,
+    "fixed_synthetic_pool_ids_and_revisions_only": true,
+    "actual_dto_validated_before_token_mint_or_vm": true,
+    "five_pages_six_frames_five_logos_eleven_draw_checks_retained": true,
+    "closed_known_native_error_code_projection": true,
+    "scoped_lint_syntax_and_diff_checks_passed": true
+  },
+  "worker_source_context_image_or_release_changed": false,
+  "provider_auth_or_vm_called_by_author": false,
+  "browser_native_docker_or_database_called_by_author": false,
+  "private_data_read_by_author": false,
+  "actual_new_smoke_or_core_credit": false
+}

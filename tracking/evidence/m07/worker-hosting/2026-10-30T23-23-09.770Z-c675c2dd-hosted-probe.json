@@ -1,0 +1,723 @@
+{
+  "schema_version": "1.0",
+  "run_id": "c675c2dd-d535-4157-9e0f-4c836f341401",
+  "started_at": "2026-10-30T23:23:09.770Z",
+  "result": "diagnosed",
+  "project_id": "prj_I4SMkDzaDy0KHNgiF00v4Da5aLb6",
+  "team_id": "team_gboXPxTevpCOZuaA8eY9PmR1",
+  "source_sha256": "0ddf519a91a23a11904dbd9880f48d24a2d543a8249f9ab267dbab323d6fb297",
+  "private_media_used": false,
+  "worker_polling": false,
+  "db_jobs_or_openai_n8n_calls": false,
+  "provider_control_plane_called": true,
+  "token_persisted": false,
+  "local_signature_verification": false,
+  "sdk_transport_policy": {
+    "sdk_default_retries_maximum": 2,
+    "sdk_default_retry_loop_attempts_maximum": 3,
+    "non_detached_command_http_retries": 0,
+    "repeated_create_uses_same_project_name": true,
+    "sandbox_auto_resume_possible": true,
+    "exact_wire_or_vm_count_proven": false,
+    "scope": "Bounds count distinct named resources. SDK creation/read/write/stop/delete may retry; non-detached command POST uses retry zero. Sandbox methods may auto-resume a session. Passing proof requires initial/current/cleanup session equality; no exact wire or VM-session count claim."
+  },
+  "phases": [
+    {
+      "phase": "image_source_seal",
+      "result": "passed",
+      "source_sha256": "0ddf519a91a23a11904dbd9880f48d24a2d543a8249f9ab267dbab323d6fb297"
+    },
+    {
+      "phase": "init_diagnosis",
+      "result": "diagnosed",
+      "first_failed_step": "native_boundary",
+      "exact_sequence_completed": false,
+      "native_boundary_acceptance": false
+    }
+  ],
+  "cleanup_confirmed": true,
+  "image": "muhammed-abdelrahman/everyone-presentation-worker-pilot/native@sha256:70cf59a0862c939392049977cf1ac2bcc513ad3de4ebdaf7dfce289463278148",
+  "plan": {
+    "mode": "diagnose",
+    "maximum_named_resources": 1,
+    "overall_timeout_ms": 180000,
+    "cleanup_timeout_ms": 30000,
+    "maximum_http_calls": 80
+  },
+  "sdk_transport_source_sha256": {
+    "api-client/base-client.js": "ce90630c640f0edbb52b1504c2c4c9c5868850106bee05ec53d7cb8d529fdf63",
+    "api-client/with-retry.js": "4fd9fd7acfb64eed38b65ef92326bc6710767a097cb253e4f44bd68ab089866d",
+    "api-client/api-client.js": "b1de5c164fe5360a34bfd51c653df63abd37c9cb4d53280d072c751d3cfd5da1",
+    "session.js": "bf6aee3451ab7622076ec18351462ea71d2db968d4f9e61fd49508e8c468a20c",
+    "sandbox.js": "314e2889e186c979ce32f381b1a77a8caea32fa246424baddd1c929f7d88b866"
+  },
+  "diagnostic_source_sha256": "4c2aa73354edd929f48d634e9f4a60a2b955e1d68343068e2c3e4babaaf3e6f8",
+  "diagnostic_only": true,
+  "private_input_uploaded": false,
+  "authentication": {
+    "owner_id": "team_gboXPxTevpCOZuaA8eY9PmR1",
+    "project_id": "prj_I4SMkDzaDy0KHNgiF00v4Da5aLb6",
+    "environment": "development",
+    "token_ttl_seconds": 43200,
+    "token_remaining_seconds": 43201,
+    "local_signature_verification": false,
+    "provenance": "authenticated fixed-project CLI mint; SDK service acceptance checked separately"
+  },
+  "diagnostic": {
+    "protocol": "eps-native-init-diagnostic-v1",
+    "root": {
+      "uid": 0,
+      "gid": 0,
+      "cap_effective": "000001ffffffffff",
+      "cap_bounding": "000001ffffffffff",
+      "no_new_privileges": false,
+      "status_error_code": null
+    },
+    "paths_before": [
+      {
+        "path": "/",
+        "exists": true,
+        "error_code": null,
+        "is_directory": true,
+        "is_symlink": false,
+        "uid": 0,
+        "gid": 0,
+        "mode": 493,
+        "size_bytes": 224,
+        "fs_type": 1481003842,
+        "fs_bytes": 68652367872,
+        "fs_error_code": null
+      },
+      {
+        "path": "/eps-work",
+        "exists": false,
+        "error_code": "ENOENT",
+        "is_directory": null,
+        "is_symlink": null,
+        "uid": null,
+        "gid": null,
+        "mode": null,
+        "size_bytes": null,
+        "fs_type": null,
+        "fs_bytes": null,
+        "fs_error_code": null
+      },
+      {
+        "path": "/tmp",
+        "exists": true,
+        "error_code": null,
+        "is_directory": true,
+        "is_symlink": false,
+        "uid": 0,
+        "gid": 0,
+        "mode": 1023,
+        "size_bytes": 6,
+        "fs_type": 1481003842,
+        "fs_bytes": 68652367872,
+        "fs_error_code": null
+      },
+      {
+        "path": "/home/node",
+        "exists": true,
+        "error_code": null,
+        "is_directory": true,
+        "is_symlink": false,
+        "uid": 0,
+        "gid": 0,
+        "mode": 365,
+        "size_bytes": 57,
+        "fs_type": 1481003842,
+        "fs_bytes": 68652367872,
+        "fs_error_code": null
+      },
+      {
+        "path": "/var/tmp",
+        "exists": true,
+        "error_code": null,
+        "is_directory": true,
+        "is_symlink": false,
+        "uid": 0,
+        "gid": 0,
+        "mode": 365,
+        "size_bytes": 6,
+        "fs_type": 1481003842,
+        "fs_bytes": 68652367872,
+        "fs_error_code": null
+      },
+      {
+        "path": "/run/lock",
+        "exists": true,
+        "error_code": null,
+        "is_directory": true,
+        "is_symlink": false,
+        "uid": 0,
+        "gid": 0,
+        "mode": 365,
+        "size_bytes": 6,
+        "fs_type": 1481003842,
+        "fs_bytes": 68652367872,
+        "fs_error_code": null
+      },
+      {
+        "path": "/dev/shm",
+        "exists": true,
+        "error_code": null,
+        "is_directory": true,
+        "is_symlink": false,
+        "uid": 0,
+        "gid": 0,
+        "mode": 1023,
+        "size_bytes": 40,
+        "fs_type": 16914836,
+        "fs_bytes": 67108864,
+        "fs_error_code": null
+      },
+      {
+        "path": "/dev/mqueue",
+        "exists": true,
+        "error_code": null,
+        "is_directory": true,
+        "is_symlink": false,
+        "uid": 0,
+        "gid": 0,
+        "mode": 1023,
+        "size_bytes": 40,
+        "fs_type": 427819522,
+        "fs_bytes": 0,
+        "fs_error_code": null
+      },
+      {
+        "path": "/vercel/sandbox",
+        "exists": false,
+        "error_code": "ENOENT",
+        "is_directory": null,
+        "is_symlink": null,
+        "uid": null,
+        "gid": null,
+        "mode": null,
+        "size_bytes": null,
+        "fs_type": null,
+        "fs_bytes": null,
+        "fs_error_code": null
+      },
+      {
+        "path": "/opt/eps",
+        "exists": true,
+        "error_code": null,
+        "is_directory": true,
+        "is_symlink": false,
+        "uid": 0,
+        "gid": 0,
+        "mode": 493,
+        "size_bytes": 99,
+        "fs_type": 1481003842,
+        "fs_bytes": 68652367872,
+        "fs_error_code": null
+      },
+      {
+        "path": "/opt/ms-playwright",
+        "exists": true,
+        "error_code": null,
+        "is_directory": true,
+        "is_symlink": false,
+        "uid": 0,
+        "gid": 0,
+        "mode": 493,
+        "size_bytes": 96,
+        "fs_type": 1481003842,
+        "fs_bytes": 68652367872,
+        "fs_error_code": null
+      },
+      {
+        "path": "/usr/bin/mount",
+        "exists": true,
+        "error_code": null,
+        "is_directory": false,
+        "is_symlink": false,
+        "uid": 0,
+        "gid": 0,
+        "mode": 2541,
+        "size_bytes": 59704,
+        "fs_type": 1481003842,
+        "fs_bytes": 68652367872,
+        "fs_error_code": null
+      },
+      {
+        "path": "/usr/bin/prlimit",
+        "exists": true,
+        "error_code": null,
+        "is_directory": false,
+        "is_symlink": false,
+        "uid": 0,
+        "gid": 0,
+        "mode": 493,
+        "size_bytes": 39760,
+        "fs_type": 1481003842,
+        "fs_bytes": 68652367872,
+        "fs_error_code": null
+      },
+      {
+        "path": "/usr/bin/setpriv",
+        "exists": true,
+        "error_code": null,
+        "is_directory": false,
+        "is_symlink": false,
+        "uid": 0,
+        "gid": 0,
+        "mode": 493,
+        "size_bytes": 80192,
+        "fs_type": 1481003842,
+        "fs_bytes": 68652367872,
+        "fs_error_code": null
+      },
+      {
+        "path": "/usr/local/bin/node",
+        "exists": true,
+        "error_code": null,
+        "is_directory": false,
+        "is_symlink": false,
+        "uid": 0,
+        "gid": 0,
+        "mode": 493,
+        "size_bytes": 123655872,
+        "fs_type": 1481003842,
+        "fs_bytes": 68652367872,
+        "fs_error_code": null
+      }
+    ],
+    "paths_after": [
+      {
+        "path": "/",
+        "exists": true,
+        "error_code": null,
+        "is_directory": true,
+        "is_symlink": false,
+        "uid": 0,
+        "gid": 0,
+        "mode": 493,
+        "size_bytes": 240,
+        "fs_type": 1481003842,
+        "fs_bytes": 68652367872,
+        "fs_error_code": null
+      },
+      {
+        "path": "/eps-work",
+        "exists": true,
+        "error_code": null,
+        "is_directory": true,
+        "is_symlink": false,
+        "uid": 0,
+        "gid": 0,
+        "mode": 448,
+        "size_bytes": 40,
+        "fs_type": 16914836,
+        "fs_bytes": 536870912,
+        "fs_error_code": null
+      },
+      {
+        "path": "/tmp",
+        "exists": true,
+        "error_code": null,
+        "is_directory": true,
+        "is_symlink": false,
+        "uid": 0,
+        "gid": 0,
+        "mode": 1023,
+        "size_bytes": 40,
+        "fs_type": 16914836,
+        "fs_bytes": 402653184,
+        "fs_error_code": null
+      },
+      {
+        "path": "/home/node",
+        "exists": true,
+        "error_code": null,
+        "is_directory": true,
+        "is_symlink": false,
+        "uid": 0,
+        "gid": 0,
+        "mode": 365,
+        "size_bytes": 57,
+        "fs_type": 1481003842,
+        "fs_bytes": 68652367872,
+        "fs_error_code": null
+      },
+      {
+        "path": "/var/tmp",
+        "exists": true,
+        "error_code": null,
+        "is_directory": true,
+        "is_symlink": false,
+        "uid": 0,
+        "gid": 0,
+        "mode": 365,
+        "size_bytes": 6,
+        "fs_type": 1481003842,
+        "fs_bytes": 68652367872,
+        "fs_error_code": null
+      },
+      {
+        "path": "/run/lock",
+        "exists": true,
+        "error_code": null,
+        "is_directory": true,
+        "is_symlink": false,
+        "uid": 0,
+        "gid": 0,
+        "mode": 365,
+        "size_bytes": 6,
+        "fs_type": 1481003842,
+        "fs_bytes": 68652367872,
+        "fs_error_code": null
+      },
+      {
+        "path": "/dev/shm",
+        "exists": true,
+        "error_code": null,
+        "is_directory": true,
+        "is_symlink": false,
+        "uid": 0,
+        "gid": 0,
+        "mode": 365,
+        "size_bytes": 40,
+        "fs_type": 16914836,
+        "fs_bytes": 67108864,
+        "fs_error_code": null
+      },
+      {
+        "path": "/dev/mqueue",
+        "exists": true,
+        "error_code": null,
+        "is_directory": true,
+        "is_symlink": false,
+        "uid": 0,
+        "gid": 0,
+        "mode": 365,
+        "size_bytes": 40,
+        "fs_type": 427819522,
+        "fs_bytes": 0,
+        "fs_error_code": null
+      },
+      {
+        "path": "/vercel/sandbox",
+        "exists": false,
+        "error_code": "ENOENT",
+        "is_directory": null,
+        "is_symlink": null,
+        "uid": null,
+        "gid": null,
+        "mode": null,
+        "size_bytes": null,
+        "fs_type": null,
+        "fs_bytes": null,
+        "fs_error_code": null
+      },
+      {
+        "path": "/opt/eps",
+        "exists": true,
+        "error_code": null,
+        "is_directory": true,
+        "is_symlink": false,
+        "uid": 0,
+        "gid": 0,
+        "mode": 493,
+        "size_bytes": 99,
+        "fs_type": 1481003842,
+        "fs_bytes": 68652367872,
+        "fs_error_code": null
+      },
+      {
+        "path": "/opt/ms-playwright",
+        "exists": true,
+        "error_code": null,
+        "is_directory": true,
+        "is_symlink": false,
+        "uid": 0,
+        "gid": 0,
+        "mode": 493,
+        "size_bytes": 96,
+        "fs_type": 1481003842,
+        "fs_bytes": 68652367872,
+        "fs_error_code": null
+      },
+      {
+        "path": "/usr/bin/mount",
+        "exists": true,
+        "error_code": null,
+        "is_directory": false,
+        "is_symlink": false,
+        "uid": 0,
+        "gid": 0,
+        "mode": 2541,
+        "size_bytes": 59704,
+        "fs_type": 1481003842,
+        "fs_bytes": 68652367872,
+        "fs_error_code": null
+      },
+      {
+        "path": "/usr/bin/prlimit",
+        "exists": true,
+        "error_code": null,
+        "is_directory": false,
+        "is_symlink": false,
+        "uid": 0,
+        "gid": 0,
+        "mode": 493,
+        "size_bytes": 39760,
+        "fs_type": 1481003842,
+        "fs_bytes": 68652367872,
+        "fs_error_code": null
+      },
+      {
+        "path": "/usr/bin/setpriv",
+        "exists": true,
+        "error_code": null,
+        "is_directory": false,
+        "is_symlink": false,
+        "uid": 0,
+        "gid": 0,
+        "mode": 493,
+        "size_bytes": 80192,
+        "fs_type": 1481003842,
+        "fs_bytes": 68652367872,
+        "fs_error_code": null
+      },
+      {
+        "path": "/usr/local/bin/node",
+        "exists": true,
+        "error_code": null,
+        "is_directory": false,
+        "is_symlink": false,
+        "uid": 0,
+        "gid": 0,
+        "mode": 493,
+        "size_bytes": 123655872,
+        "fs_type": 1481003842,
+        "fs_bytes": 68652367872,
+        "fs_error_code": null
+      }
+    ],
+    "steps": [
+      {
+        "step": "root_guard",
+        "result": "passed",
+        "error_code": null,
+        "exit_code": null,
+        "signal": null
+      },
+      {
+        "step": "source_verify",
+        "result": "passed",
+        "error_code": null,
+        "exit_code": null,
+        "signal": null
+      },
+      {
+        "step": "mkdir_work",
+        "result": "passed",
+        "error_code": null,
+        "exit_code": null,
+        "signal": null
+      },
+      {
+        "step": "mount_work",
+        "result": "passed",
+        "error_code": null,
+        "exit_code": 0,
+        "signal": null
+      },
+      {
+        "step": "mount_tmp",
+        "result": "passed",
+        "error_code": null,
+        "exit_code": 0,
+        "signal": null
+      },
+      {
+        "step": "harden_0_lstat",
+        "result": "passed",
+        "error_code": null,
+        "exit_code": null,
+        "signal": null
+      },
+      {
+        "step": "harden_0_chown",
+        "result": "passed",
+        "error_code": null,
+        "exit_code": null,
+        "signal": null
+      },
+      {
+        "step": "harden_0_chmod",
+        "result": "passed",
+        "error_code": null,
+        "exit_code": null,
+        "signal": null
+      },
+      {
+        "step": "harden_1_lstat",
+        "result": "passed",
+        "error_code": null,
+        "exit_code": null,
+        "signal": null
+      },
+      {
+        "step": "harden_1_chown",
+        "result": "passed",
+        "error_code": null,
+        "exit_code": null,
+        "signal": null
+      },
+      {
+        "step": "harden_1_chmod",
+        "result": "passed",
+        "error_code": null,
+        "exit_code": null,
+        "signal": null
+      },
+      {
+        "step": "harden_2_lstat",
+        "result": "passed",
+        "error_code": null,
+        "exit_code": null,
+        "signal": null
+      },
+      {
+        "step": "harden_2_chown",
+        "result": "passed",
+        "error_code": null,
+        "exit_code": null,
+        "signal": null
+      },
+      {
+        "step": "harden_2_chmod",
+        "result": "passed",
+        "error_code": null,
+        "exit_code": null,
+        "signal": null
+      },
+      {
+        "step": "harden_3_lstat",
+        "result": "passed",
+        "error_code": null,
+        "exit_code": null,
+        "signal": null
+      },
+      {
+        "step": "harden_3_chown",
+        "result": "passed",
+        "error_code": null,
+        "exit_code": null,
+        "signal": null
+      },
+      {
+        "step": "harden_3_chmod",
+        "result": "passed",
+        "error_code": null,
+        "exit_code": null,
+        "signal": null
+      },
+      {
+        "step": "harden_4_lstat",
+        "result": "passed",
+        "error_code": null,
+        "exit_code": null,
+        "signal": null
+      },
+      {
+        "step": "harden_4_chown",
+        "result": "passed",
+        "error_code": null,
+        "exit_code": null,
+        "signal": null
+      },
+      {
+        "step": "harden_4_chmod",
+        "result": "passed",
+        "error_code": null,
+        "exit_code": null,
+        "signal": null
+      },
+      {
+        "step": "harden_5_lstat",
+        "result": "skipped",
+        "error_code": "ENOENT",
+        "exit_code": null,
+        "signal": null
+      },
+      {
+        "step": "harden_5_chown",
+        "result": "skipped",
+        "error_code": "MISSING_PATH",
+        "exit_code": null,
+        "signal": null
+      },
+      {
+        "step": "harden_5_chmod",
+        "result": "skipped",
+        "error_code": "MISSING_PATH",
+        "exit_code": null,
+        "signal": null
+      },
+      {
+        "step": "scratch_work",
+        "result": "passed",
+        "error_code": null,
+        "exit_code": null,
+        "signal": null
+      },
+      {
+        "step": "scratch_tmp",
+        "result": "passed",
+        "error_code": null,
+        "exit_code": null,
+        "signal": null
+      },
+      {
+        "step": "scratch_work_owner",
+        "result": "passed",
+        "error_code": null,
+        "exit_code": null,
+        "signal": null
+      },
+      {
+        "step": "native_boundary",
+        "result": "failed",
+        "error_code": "COMMAND_FAILED",
+        "exit_code": 1,
+        "signal": null
+      },
+      {
+        "step": "write_boundary",
+        "result": "skipped",
+        "error_code": "PREVIOUS_FAILURE",
+        "exit_code": null,
+        "signal": null
+      }
+    ],
+    "first_failed_step": "native_boundary",
+    "exact_sequence_completed": false,
+    "boundary_proof": null
+  },
+  "initial_current_cleanup_sessions_equal": true,
+  "resources": [
+    {
+      "name": "eps-native-probe-c675c2dd-d535-4157-9e0f-4c836f341401",
+      "attempted": true,
+      "identity_observed": true,
+      "session_id": "sbx_TVpUK0rmPXfon0arYjrs0PAA2U51",
+      "initial_session_id": "sbx_TVpUK0rmPXfon0arYjrs0PAA2U51",
+      "current_session_id": "sbx_TVpUK0rmPXfon0arYjrs0PAA2U51",
+      "cleanup_session_id": "sbx_TVpUK0rmPXfon0arYjrs0PAA2U51",
+      "initial_current_cleanup_session_equal": true,
+      "session_consistency_failed": false,
+      "absence_verified": true,
+      "snapshot_absence_verified": true
+    }
+  ],
+  "sdk_http_calls": 14,
+  "cli_mint_commands": 1,
+  "elapsed_ms": 11857,
+  "finished_at": "2026-10-30T23:23:21.627Z",
+  "lock_released": true
+}

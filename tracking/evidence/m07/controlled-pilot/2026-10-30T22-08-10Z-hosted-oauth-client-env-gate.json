@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-10-30T22:08:10Z",
+  "kind": "source_and_offline_regression_only",
+  "scope": "Root-authorized narrow client CLI environment gate; no CLI, credential loader, private configuration, provider, HTTP, database or client operation executed.",
+  "sources": {
+    "development/m07/controlled-pilot/hosted-oauth-client.py": "c3be05e05d9bf9c80bad906903007ee9fbcc663c0c0eeb79efc0d877c17d22e2",
+    "development/m07/controlled-pilot/test_hosted_oauth_client.py": "83236f2332753068ff3a7eb1cda6d5bae66eeb0628b53df4ecc7e01a109f0e64"
+  },
+  "prior_source_preserved": {
+    "path": "tracking/evidence/m07/controlled-pilot/source-history/hosted-oauth-client-e225f46d.py",
+    "sha256": "e225f46d9136320e1bd233cd36fc07f3714d9ce5eb5c2794519f915ed186df2b",
+    "byte_exact": true
+  },
+  "behavior_delta": [
+    "Add only NPM_CONFIG_NODE_OPTIONS, NODE_DEBUG, NODE_DEBUG_NATIVE and SUPABASE_DEBUG to existing known blockers.",
+    "Match forbidden environment names case-insensitively.",
+    "Validate at main entry and before load_key invokes any subprocess.",
+    "Keep empty flags, unrelated variables and existing protected CLI login inputs permitted."
+  ],
+  "actual_offline_checks": {
+    "command": "python -X utf8 development/m07/controlled-pilot/test_hosted_oauth_client.py",
+    "red": {
+      "passed": 12,
+      "failed": 1,
+      "errors": 1,
+      "reasons": [
+        "Missing pure validate_environment helper.",
+        "Mocked subprocess was called under lowercase npm_config_node_options before implementation."
+      ]
+    },
+    "green": { "passed": 14, "failed": 0, "errors": 0, "exit_code": 0 },
+    "syntax": { "command": "python -m py_compile on the helper and test", "exit_code": 0 },
+    "no_actual_subprocess_in_new_regression": true
+  },
+  "receipt_schema_or_public_plan_changed": false,
+  "binding_pin_update_and_independent_delta_review": "Requested from m07_parity; no reviewer result invented in this artifact.",
+  "actual_provider_or_credential_execution": false
+}

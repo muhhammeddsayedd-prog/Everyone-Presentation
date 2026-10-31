@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-31T00:57:42.167Z",
+  "result": "passed",
+  "scope": "Root executed full application module groups and lint/typecheck/production fixture denial after runtime packaging/source-seal fixes. Separate from provider and app acceptance.",
+  "modules": {
+    "tests": 804,
+    "pass": 804,
+    "fail": 0,
+    "skipped": 0,
+    "module_command_groups": 6,
+    "group_counts": [
+      333,
+      9,
+      12,
+      45,
+      233,
+      172
+    ]
+  },
+  "commands": [
+    {
+      "command": "npm.cmd test",
+      "exit_code": 0
+    },
+    {
+      "command": "npm.cmd run lint",
+      "exit_code": 0
+    },
+    {
+      "command": "npm.cmd run typecheck",
+      "exit_code": 0
+    },
+    {
+      "command": "npm.cmd run check:production-guard",
+      "exit_code": 0
+    }
+  ],
+  "logs": {
+    "modules": {
+      "sha256": "085688c5165462eb3f673205fa7dd6adffbfe6eb819a6881601b49b9659c0f7e",
+      "bytes": 176138
+    },
+    "lint": {
+      "sha256": "dcf04cf56739f2f68b315b919013254295716cfac4a2b9aaca7e25ee40e8f2db",
+      "bytes": 212
+    },
+    "types": {
+      "sha256": "63dbaa165359a370f81fa6d619a1569ad84c24a4a726e0b4e03bb94528b8dd4f",
+      "bytes": 138
+    },
+    "guard": {
+      "sha256": "33086726b2a60861095709e2cb277f8ccf4d5d374ec1f3e13831bccd6f36f604",
+      "bytes": 318
+    }
+  },
+  "worker_source_sha256": "3790b2b327da7eca18b1aad3a0dfaae02892b0130647e4527a25dd24aa3d54a3",
+  "source_stability_during_commands_claimed": false,
+  "credentials_in_report": false
+}

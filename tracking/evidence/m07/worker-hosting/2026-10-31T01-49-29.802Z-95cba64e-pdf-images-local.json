@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-31T01:49:29.802Z",
+  "run_id": "95cba64e-a4bc-4bf4-9c0c-451e83f9b849",
+  "container_name": "eps-pdf-images-95cba64e-a4bc-4bf4-9c0c-451e83f9b849",
+  "mode": "two-frames",
+  "result": "diagnosed",
+  "environment": "isolated-local-docker",
+  "source_sha256": "3790b2b327da7eca18b1aad3a0dfaae02892b0130647e4527a25dd24aa3d54a3",
+  "native_manifest_digest": "sha256:5e2500470a76caff11fa4b82a0d328dec423090ce8ba2d6417663283bacfff06",
+  "native_program_sha256": "518848a98d17446608a472e9e45304408ad056946635257a6e17111dd6f4c456",
+  "cloud_called": false,
+  "database_called": false,
+  "private_inputs_used": false,
+  "worker_or_proof_source_changed": false,
+  "command_processes_unconfirmed": [],
+  "image": {
+    "image_id": "sha256:13cb1bd24185aae8b9d3f0bbf91dd3214c517163e2eb10e9e3e3cb2f3cbfd2c0",
+    "index_digest": "sha256:13cb1bd24185aae8b9d3f0bbf91dd3214c517163e2eb10e9e3e3cb2f3cbfd2c0",
+    "native_manifest_digest": "sha256:5e2500470a76caff11fa4b82a0d328dec423090ce8ba2d6417663283bacfff06",
+    "architecture": "amd64",
+    "os": "linux"
+  },
+  "fixture": {
+    "synthetic": true,
+    "pages": 2,
+    "frames": 2,
+    "logo": false
+  },
+  "container_id": "a4eeb615a6ca746974407077d7b93c9c7175dd90c6e1a685e2a1f72c3eb609ea",
+  "native": {
+    "schema_version": "1.0",
+    "stage": "render",
+    "result": "failed",
+    "code": "PDF_RENDER_FAILED",
+    "checkpoint": null,
+    "uid": 65432,
+    "gid": 65432,
+    "caps_cleared": true,
+    "no_new_privileges": true,
+    "pages": 2,
+    "frames": 2,
+    "rendered_bytes": 0,
+    "rendered_fields": 0,
+    "rendered_frame_draws": 0,
+    "validated_image_draws": null,
+    "inspector_child_seen": false,
+    "inspector_exit_code": null,
+    "inspector_error_flags": {
+      "access_denied": false,
+      "module_missing": false,
+      "addon_load": false
+    },
+    "browser_error_flags": {
+      "access_denied": false,
+      "missing_executable": true,
+      "pthread": false,
+      "threads": true,
+      "resource_exhausted": false,
+      "zygote": false,
+      "target_closed": false,
+      "oom": false,
+      "crashpad": false,
+      "sandbox": false
+    },
+    "browser_stderr_observed": true,
+    "browser_stderr_truncated": false,
+    "browser_js": {
+      "last_method": "page_set_content",
+      "last_method_succeeded": false,
+      "failed_method": "page_set_content",
+      "error_class": "Error",
+      "flags": {
+        "reference_error": false,
+        "name_helper_undefined": false,
+        "encoding_or_decode": false,
+        "timeout": false,
+        "target_closed": true,
+        "permission": false,
+        "font_resource": false,
+        "image_resource": false,
+        "thread_resource": false
+      },
+      "page_error_count": 0,
+      "page_error_class": null,
+      "page_error_flags": {
+        "reference_error": false,
+        "name_helper_undefined": false,
+        "encoding_or_decode": false,
+        "timeout": false,
+        "target_closed": false,
+        "permission": false,
+        "font_resource": false,
+        "image_resource": false,
+        "thread_resource": false
+      }
+    }
+  },
+  "stderr_bytes": 0,
+  "owned_container_absent": true,
+  "lock_released": true,
+  "finished_at": "2026-10-31T01:49:37.428Z"
+}

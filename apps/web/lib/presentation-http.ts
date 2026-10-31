@@ -11,6 +11,26 @@ export function isPresentationRoute(s: string[]): boolean {
       || s.length === 5 && s[2] === 'media' && ['playback', 'content'].includes(s[4]));
 }
 function invalid(): never { throw new DomainError('INVALID_REQUEST', 'Use a supported presentation route with bounded parameters.', 400); }
+/** Storage finishes authorization and full integrity verification before this
+ * downstream stream exists. Keep bounded delivery/backpressure without changing
+ * the byte contract or exposing an unverified prefix or Storage capability. */
+function verifiedPdfBody(bytes: Uint8Array, signal: AbortSignal): ReadableStream<Uint8Array> {
+  signal.throwIfAborted();
+  let offset = 0; let onAbort: () => void;
+  const release = () => { bytes = new Uint8Array(); signal.removeEventListener('abort', onAbort); };
+  return new ReadableStream<Uint8Array>({
+    start(controller) {
+      onAbort = () => { release(); controller.error(new DOMException('The PDF request was aborted.', 'AbortError')); };
+      signal.addEventListener('abort', onAbort, { once: true });
+    },
+    pull(controller) {
+      const end = Math.min(offset + 64 * 1024, bytes.byteLength);
+      controller.enqueue(bytes.subarray(offset, end)); offset = end;
+      if (offset === bytes.byteLength) { release(); controller.close(); }
+    },
+    cancel() { release(); },
+  }, { highWaterMark: 0 });
+}
 export async function handlePresentationRequest(request: Request, s: string[], actor: Actor, service: PresentationOperations,
   metadata: MutationContext & { requestId: string }): Promise<Response> {
   if (!isPresentationRoute(s) || s.some(part => !part || part.length > 200 || /[\\/\p{C}?#%]/u.test(part))) invalid();
@@ -28,7 +48,7 @@ export async function handlePresentationRequest(request: Request, s: string[], a
     if (s.length === 2) return json(await service.getVersion(actor, s[1]), metadata.requestId);
     if (!(s.length === 4 && s[2] === 'pdf' && s[3] === 'content' || s.length === 5 && s[2] === 'media' && s[4] === 'content')) throw new DomainError('RESOURCE_NOT_FOUND', 'This presentation operation is unavailable.', 404);
     const content = s[2] === 'pdf' ? await service.getVersionPdfContent(actor, s[1]) : await service.getVersionMediaContent(actor, s[1], s[3]);
-    return new Response(new Uint8Array(content.bytes), { headers: { ...NO_STORE, 'Content-Type': content.mimeType, 'Content-Length': String(content.bytes.byteLength),
+    return new Response(s[2] === 'pdf' ? verifiedPdfBody(content.bytes, request.signal) : new Uint8Array(content.bytes), { headers: { ...NO_STORE, 'Content-Type': content.mimeType, 'Content-Length': String(content.bytes.byteLength),
       ...(content.filename ? { 'Content-Disposition': `inline; filename="${content.filename.replace(/[^A-Za-z0-9._-]/gu, '_')}"` } : {}) } });
   }
   if (request.method === 'POST' && list) {

@@ -1,0 +1,215 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-31T00:52:17.614489+00:00",
+  "target": "pyibofyctwnqpvktepse",
+  "action": "repro",
+  "source_pins": {
+    "supabase/.temp/project-ref": "f706303084a6135ca452a75e7c40e4746086e8cadc156c66e4e42af80b4c0ee5",
+    "supabase/config.toml": "0a50cd9902ed3a31b57cde31171f725310ed8d0d3efbd7226f894d48272dfbb2",
+    "development/m07/controlled-pilot/FUTURE_VERSION_ORIGIN.sql": "4dbea9c15d467feb8b969f7a13ccf5bfd5ae16c4859d727022b40447712fec15",
+    "development/m07/controlled-pilot/FUTURE_VERSION_ORIGIN_READBACK.sql": "956698a0b9a671aed02f3a68ef6a5c47a4d261026c16a15e6a06e14cc3a752d7",
+    "development/m07/controlled-pilot/future-origin.py": "7d15c917bd781fd89a75e3efe36c561d9933ba64e3309b583c04b7ba5accee44",
+    "preflight_sql_sha256": "b66939e0feed102ad0b99157d726904f4c3a84fd6dfc2341ed749951badc6219",
+    "development/m07/controlled-pilot/SPECS_SUBMIT_SNAPSHOT.sql": "ef4fdbbdcfcd3c36ed7873c4c2618de6e1ca6dcd4de5118cc5463a018d9a6d9c",
+    "development/m07/controlled-pilot/SPECS_SUBMIT_ROLLBACK.sql": "3c99c8345ad9f7f52ec49a05534655669b0135b97cea0c46347da2ec4e728e22",
+    "development/m07/controlled-pilot/SPECS_SUBMIT_TRUST.json": "a12a8649fd5ce571eec4562c9455de1360e193ac8b886c4d878a8249bd82b434",
+    "development/m07/controlled-pilot/build_specs_submit_trust.py": "008c29fef79bc70902294ff854b5e5324d4efa01a4dd2ac3ea89d9e873468118",
+    "development/m07/controlled-pilot/fixtures/hosted-core-brief.txt": "2c8ca73ed55801dab5236b01c84ad1ec566e7eb66767e9f333d9a4b2beff3876",
+    "public_fixture_sha256": "2c8ca73ed55801dab5236b01c84ad1ec566e7eb66767e9f333d9a4b2beff3876"
+  },
+  "helper_sha256": "b495a875f3e5fd2584564ab911e004dd29511116bd362a57c8502a0860720f10",
+  "result": "observed",
+  "before": {
+    "actor_id": "0a79a703-caba-47e5-93d4-42e32197037a",
+    "database": "postgres",
+    "fingerprints": {
+      "idempotency": {
+        "count": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "jobs": {
+        "count": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "pins": {
+        "count": 31,
+        "sha256": "6c42dc9ca3d98ba2d20c5f1457937beedd7baeb92686dcc1e35fc217334b6117"
+      },
+      "protected_m02": {
+        "count": 1,
+        "sha256": "a33d542576c4f4e51ccf6f3581d641d810c06dcfd7e4ad2037af7af18d15d3b3"
+      },
+      "ready_asset_metadata": {
+        "count": 31,
+        "sha256": "d06c862a87afb798c9453523e3ebf16c5d683dd9fec9084e55f1971307f4adfe"
+      },
+      "slides": {
+        "count": 48,
+        "sha256": "7e623a9553b8010341d692dd3f2579d24eeba0acea30de388135fdc2f7e1e712"
+      },
+      "spec": {
+        "count": 1,
+        "sha256": "9f3e53a8a0b8b7927ac06dea3d0c53a4098cdcab119bb1fae007072bd87fb499"
+      },
+      "versions": {
+        "count": 8,
+        "sha256": "cdee3bdf6822c60ab675df203fe51bd32835efa6af1cf9519ca71b9c30b0f322"
+      }
+    },
+    "history": [
+      "20261028010943",
+      "20261028013324",
+      "20261028013655",
+      "20261028024205",
+      "20261028072515",
+      "20261028162702",
+      "20261028162800",
+      "20261028172320",
+      "20261028184145",
+      "20261028222030",
+      "20261029001520",
+      "20261029003941",
+      "20261029070038",
+      "20261029090500",
+      "20261029090724",
+      "20261029094600",
+      "20261029100500",
+      "20261029133455",
+      "20261029135318",
+      "20261029174841",
+      "20261029180953",
+      "20261029202629",
+      "20261029203953",
+      "20261029215218",
+      "20261030002634",
+      "20261030004643",
+      "20261030013832",
+      "20261030030717",
+      "20261030111549",
+      "20261030154824"
+    ],
+    "operator": "postgres",
+    "project_id": "6da14b82-8458-451f-aa21-28cb6c85bdc5",
+    "state": {
+      "diagnostic_idempotency": 0,
+      "source_present": false,
+      "spec_count": 1,
+      "spec_id": "3fc9b7a0-1d5d-41c3-8868-dff995ee861c",
+      "spec_row_version": 1,
+      "workspace_jobs": 0
+    },
+    "trust": {
+      "functions_count": 49,
+      "functions_match": true,
+      "triggers_count": 4,
+      "triggers_match": true
+    },
+    "workspace_id": "86936940-b48d-497d-b1ff-8e0da0913afa"
+  },
+  "after": {
+    "actor_id": "0a79a703-caba-47e5-93d4-42e32197037a",
+    "database": "postgres",
+    "fingerprints": {
+      "idempotency": {
+        "count": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "jobs": {
+        "count": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "pins": {
+        "count": 31,
+        "sha256": "6c42dc9ca3d98ba2d20c5f1457937beedd7baeb92686dcc1e35fc217334b6117"
+      },
+      "protected_m02": {
+        "count": 1,
+        "sha256": "a33d542576c4f4e51ccf6f3581d641d810c06dcfd7e4ad2037af7af18d15d3b3"
+      },
+      "ready_asset_metadata": {
+        "count": 31,
+        "sha256": "d06c862a87afb798c9453523e3ebf16c5d683dd9fec9084e55f1971307f4adfe"
+      },
+      "slides": {
+        "count": 48,
+        "sha256": "7e623a9553b8010341d692dd3f2579d24eeba0acea30de388135fdc2f7e1e712"
+      },
+      "spec": {
+        "count": 1,
+        "sha256": "9f3e53a8a0b8b7927ac06dea3d0c53a4098cdcab119bb1fae007072bd87fb499"
+      },
+      "versions": {
+        "count": 8,
+        "sha256": "cdee3bdf6822c60ab675df203fe51bd32835efa6af1cf9519ca71b9c30b0f322"
+      }
+    },
+    "history": [
+      "20261028010943",
+      "20261028013324",
+      "20261028013655",
+      "20261028024205",
+      "20261028072515",
+      "20261028162702",
+      "20261028162800",
+      "20261028172320",
+      "20261028184145",
+      "20261028222030",
+      "20261029001520",
+      "20261029003941",
+      "20261029070038",
+      "20261029090500",
+      "20261029090724",
+      "20261029094600",
+      "20261029100500",
+      "20261029133455",
+      "20261029135318",
+      "20261029174841",
+      "20261029180953",
+      "20261029202629",
+      "20261029203953",
+      "20261029215218",
+      "20261030002634",
+      "20261030004643",
+      "20261030013832",
+      "20261030030717",
+      "20261030111549",
+      "20261030154824"
+    ],
+    "operator": "postgres",
+    "project_id": "6da14b82-8458-451f-aa21-28cb6c85bdc5",
+    "state": {
+      "diagnostic_idempotency": 0,
+      "source_present": false,
+      "spec_count": 1,
+      "spec_id": "3fc9b7a0-1d5d-41c3-8868-dff995ee861c",
+      "spec_row_version": 1,
+      "workspace_jobs": 0
+    },
+    "trust": {
+      "functions_count": 49,
+      "functions_match": true,
+      "triggers_count": 4,
+      "triggers_match": true
+    },
+    "workspace_id": "86936940-b48d-497d-b1ff-8e0da0913afa"
+  },
+  "outcome": {
+    "kind": "sql_error",
+    "permission_denied": true,
+    "permission_object": "jobs",
+    "sqlstate": "42501",
+    "subtransaction_rolled_back": true
+  },
+  "selected_state_equal": true,
+  "rollback_verified": true,
+  "rpc_dispatch_commands": 1,
+  "automatic_rpc_retry": false,
+  "claim_retained": true,
+  "cli_return_and_closed_outcome_observed": true,
+  "maximum_cli_commands": 3,
+  "temporary_invoker_function_only": true,
+  "commit_supported": false,
+  "issued_token_auth_grant_or_migration_mutation": false,
+  "raw_source_tokens_or_cli_diagnostics_persisted": false,
+  "scope": "Actual fixed public RPC under modeled existing actor; forced subtransaction and outer rollback; selected preservation only, no hosted HTTP/provider acceptance"
+}

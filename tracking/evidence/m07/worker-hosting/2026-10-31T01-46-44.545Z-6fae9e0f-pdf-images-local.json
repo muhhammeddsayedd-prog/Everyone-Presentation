@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-31T01:46:44.545Z",
+  "run_id": "6fae9e0f-0671-4a86-b933-8e9368157c16",
+  "container_name": "eps-pdf-images-6fae9e0f-0671-4a86-b933-8e9368157c16",
+  "mode": "two-frames",
+  "result": "diagnosed",
+  "environment": "isolated-local-docker",
+  "source_sha256": "3790b2b327da7eca18b1aad3a0dfaae02892b0130647e4527a25dd24aa3d54a3",
+  "native_manifest_digest": "sha256:5e2500470a76caff11fa4b82a0d328dec423090ce8ba2d6417663283bacfff06",
+  "native_program_sha256": "5cf58832ec5ef7cf1021286e7f79a421f3194edd300cc1ba172a6f890c2febaa",
+  "cloud_called": false,
+  "database_called": false,
+  "private_inputs_used": false,
+  "worker_or_proof_source_changed": false,
+  "command_processes_unconfirmed": [],
+  "image": {
+    "image_id": "sha256:13cb1bd24185aae8b9d3f0bbf91dd3214c517163e2eb10e9e3e3cb2f3cbfd2c0",
+    "index_digest": "sha256:13cb1bd24185aae8b9d3f0bbf91dd3214c517163e2eb10e9e3e3cb2f3cbfd2c0",
+    "native_manifest_digest": "sha256:5e2500470a76caff11fa4b82a0d328dec423090ce8ba2d6417663283bacfff06",
+    "architecture": "amd64",
+    "os": "linux"
+  },
+  "fixture": {
+    "synthetic": true,
+    "pages": 2,
+    "frames": 2,
+    "logo": false
+  },
+  "container_id": "bff158f26b822f5f2652c764472eb3aa1e70dcab0781c716b825b6adac2da64e",
+  "native": {
+    "schema_version": "1.0",
+    "stage": "render",
+    "result": "failed",
+    "code": "PDF_RENDER_FAILED",
+    "checkpoint": null,
+    "uid": 65432,
+    "gid": 65432,
+    "caps_cleared": true,
+    "no_new_privileges": true,
+    "pages": 2,
+    "frames": 2,
+    "rendered_bytes": 0,
+    "rendered_fields": 0,
+    "rendered_frame_draws": 0,
+    "validated_image_draws": null,
+    "inspector_child_seen": false,
+    "inspector_exit_code": null,
+    "inspector_error_flags": {
+      "access_denied": false,
+      "module_missing": false,
+      "addon_load": false
+    },
+    "browser_error_flags": {
+      "access_denied": false,
+      "missing_executable": true,
+      "pthread": false,
+      "threads": true,
+      "resource_exhausted": false,
+      "zygote": false,
+      "target_closed": false,
+      "oom": false,
+      "crashpad": false,
+      "sandbox": false
+    },
+    "browser_stderr_observed": true,
+    "browser_stderr_truncated": false
+  },
+  "stderr_bytes": 0,
+  "owned_container_absent": true,
+  "lock_released": true,
+  "finished_at": "2026-10-31T01:46:51.737Z"
+}

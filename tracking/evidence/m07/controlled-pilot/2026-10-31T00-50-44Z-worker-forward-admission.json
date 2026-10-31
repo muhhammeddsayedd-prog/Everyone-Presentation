@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-31T00:50:44Z",
+  "author": "m07_security_review",
+  "scope": "final operator source, offline tests and public-file admission only",
+  "sources": {
+    "development/m07/controlled-pilot/worker-forward.py": "10509e01c9711280b668838851243297097c818aace58ab34e43d1fb0f47e4fb",
+    "development/m07/controlled-pilot/test_worker_forward.py": "829fe5ffb20ff852ae12706d21ec5c13fa05c48edf5af1e3d6f6b460f6ab44f1",
+    "development/m07/controlled-pilot/future-frame-forward.py": "f7d56aac1baaf2958472a3e4715fa34857bb7b9ad3f3b951eb98fe573abe8a11",
+    "development/m07/controlled-pilot/test_future_frame_forward.py": "f50aeb1f55144fba55f3cd58b7f40990326510a242e45ec6b1142e34514d5394",
+    "development/m07/controlled-pilot/FUTURE_FRAME_FORWARD.sql": "0c7f6f4abc30fade72460e5b7981a484297cc42eb4fe094dcb2ab9f07ba3e03b",
+    "development/m07/controlled-pilot/FUTURE_FRAME_FORWARD_READBACK.sql": "e57112e7c123a1805e3646be1abc827b1a49c1421e970dfd549c83f39b2f24a9",
+    "development/m07/controlled-pilot/WORKER_FORWARD_PLAN.json": "16da3903ecdf174a4a8664a7600deb5c8a502badd88417c8e62288aab7cc1cc7",
+    "development/m07/controlled-pilot/WORKER_FORWARD.md": "da118a7b6c225da75f71e659a0e5ad57c9da6db778fc606aa6f15ac2dc1f0ac7"
+  },
+  "checks": {
+    "worker_tests": {"synthetic_passed": 16, "pinned_public_receipt_admission_passed": 1, "failed": 0},
+    "frame_tests": {"synthetic_passed": 11, "failed": 0},
+    "python_ast": "four files passed",
+    "sql_parser": "installed pglast, parse only: 10 update and 6 readback statements",
+    "git_diff_check": "passed",
+    "public_source_files_hashed": 156,
+    "actual_owned_context_metadata_verified": true,
+    "actual_baked_manifest_verified": true,
+    "original_initial_sources_and_success_receipts_sha_verified": true,
+    "worker_public_admission_function": "passed",
+    "frame_public_source_admission_function": "passed"
+  },
+  "actual_root_proofs_reused_by_sha": {
+    "tracking/evidence/m07/worker-hosting/2026-10-31T00-44-48.391Z-7e99318e-hosted-probe.json": "61086250e7a4c0127a09280b48a45b6079ec83270b325757a73d58930533ff3a",
+    "tracking/evidence/m07/controlled-pilot/2026-10-31T00-48-27.722Z-packaged-daemon-image.json": "6f64c341410a8d3c271bb5bb4eeea5c1b374f17e03a9cd0585ebd03bf4a3d2a1"
+  },
+  "review": {
+    "independent_body_reviewer": "m07_recovery",
+    "process_uncertainty_finding": "Resolved with actual-return callback plus exclusive fsynced claim-bound marker; standalone matching readbacks cannot pass without that marker.",
+    "final_actual_proof_and_pin_delta_review": "requested separately; not credited by this author receipt"
+  },
+  "boundaries": {
+    "operator_main_invoked": false,
+    "cli_or_provider_calls": 0,
+    "private_file_or_credential_reads": 0,
+    "sql_executed": false,
+    "environment_or_configuration_written": false,
+    "historical_initial_sources_claims_receipts_modified": false,
+    "runtime_or_business_service_acceptance": false
+  },
+  "preserved_drafts": [
+    "tracking/evidence/m07/controlled-pilot/source-history/worker-forward-draft-0f514271.py",
+    "tracking/evidence/m07/controlled-pilot/source-history/future-frame-forward-draft-cf100973.py",
+    "tracking/evidence/m07/controlled-pilot/source-history/test_worker_forward-draft-2b226a69.py",
+    "tracking/evidence/m07/controlled-pilot/source-history/test_future_frame_forward-draft-f50aeb1f.py",
+    "tracking/evidence/m07/controlled-pilot/source-history/WORKER_FORWARD_PLAN-draft-0e5a63c4.json"
+  ]
+}

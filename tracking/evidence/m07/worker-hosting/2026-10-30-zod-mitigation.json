@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.0",
+  "scope": "Scoped dependency mitigation and local/injected compatibility proof; no hosted worker or VM acceptance",
+  "status": "implemented_unverified",
+  "advisory": {
+    "url": "https://github.com/advisories/GHSA-mrhx-c7xc-m3w5",
+    "cve": "CVE-2023-54404",
+    "affected": "zod<4.6.6",
+    "patched_resolution": "4.6.7"
+  },
+  "overrides": {
+    "@vercel/cli-config": {
+      "zod": "4.6.7"
+    },
+    "@vercel/sandbox": {
+      "zod": "4.6.7"
+    }
+  },
+  "reconciliation": {
+    "ordinary_install": "reported up-to-date but retained two invalid nested4.1.11 copies; npm ls and audit revealed failure",
+    "correction": "npm update zod --ignore-scripts --no-audit --no-fund",
+    "version_resolution_delta": [
+      "removed node_modules/@vercel/cli-config/node_modules/zod4.1.11",
+      "removed node_modules/@vercel/sandbox/node_modules/zod4.1.11"
+    ],
+    "all_remaining_zod": "4.6.7",
+    "all_other_package_versions_resolutions_and_worker_pins": "preserved",
+    "web_node_engine": ">=24 <25",
+    "audit_fix_force_or_sdk_downgrade": false
+  },
+  "source_context": {
+    "path": ".local/worker-hosting/2e551bb2-4ee8-45a2-8b39-eea59c9644d5/context",
+    "source_sha256": "0ddf519a91a23a11904dbd9880f48d24a2d543a8249f9ab267dbab323d6fb297",
+    "files": 150,
+    "delta_from_973_context": [
+      "package-lock.json",
+      "package.json"
+    ],
+    "native_runtime_source_changes": false
+  },
+  "validation": {
+    "worker_tests": {
+      "passed": 222,
+      "failed": 0,
+      "skipped": 0,
+      "duration_ms": 32314.68
+    },
+    "typecheck_exit": 0,
+    "scoped_lint_exit": 0,
+    "production_worker_audit_exit": 0,
+    "full_audit_exit": 0,
+    "audit_vulnerabilities": 0,
+    "actual_sdk_compatibility_tests": 3,
+    "compatibility_test_boundaries": "Actual SDK3.9.1 with injected fetch and synthetic local credentials only; no provider/auth/network",
+    "compatibility_harness_initial_failures": [
+      "TSX CJS shim has no import.meta.resolve; replaced with workspace createRequire",
+      "SDK fs/read uses POST; fake fetch now branches on exact operation path"
+    ]
+  },
+  "trace": {
+    "observed_source_facts": [
+      "SDK writeFiles transfers tar bytes then validates EmptyResponse only",
+      "SDK readFile returns application/octet-stream as raw stream",
+      "Our private result JSON uses bounded parent JSON/result validators",
+      "SDK Zod validates provider control-plane session/routes/network policy/commands/list metadata and command log envelopes",
+      "Our fixed native launcher stdout/stderr emits metadata only; native private stdout is a root-only file"
+    ],
+    "inference": "The observed advisory path here is daemon availability through control-plane parsing. This does not establish credential disclosure or code execution, and is not a waiver: the credentialed daemon graph is patched before private media or cloud polling."
+  },
+  "old_context": "973030/015e remains historical, no private media or credentialed worker polling",
+  "sources": [
+    {
+      "path": "package.json",
+      "sha256": "8bd0c58852462ac211dc60844fe678658a1323cd6c021945c502d0207a916841"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "85188e5e30430cfc50a94606e1ae5b9f09bb4357f9b679ca223fde7c9d881fe5"
+    },
+    {
+      "path": "tests/worker/native-sdk-schema.test.ts",
+      "sha256": "6bbb7419d93d6e5509e5bafba267f315f84b439d6cf5ccf8e1bfdbdc44f1d2a6"
+    },
+    {
+      "path": "development/m07/worker-hosting/README.md",
+      "sha256": "ba19bb9c42fa91694a4b974de61152db4dcf1a99e9bb27f0aaf1fe9b2e64ced6"
+    },
+    {
+      "path": "tracking/evidence/m07/worker-hosting/2026-10-30-zod-production-worker-audit.json",
+      "sha256": "759765d2212bbcbf55d0461234460debed24d3512c15ccb824337af83f51bbe1"
+    },
+    {
+      "path": "tracking/evidence/m07/worker-hosting/2026-10-30-zod-full-audit.json",
+      "sha256": "759765d2212bbcbf55d0461234460debed24d3512c15ccb824337af83f51bbe1"
+    }
+  ],
+  "remaining": "Actual patched-image build/readiness, VM isolation/cleanup and hosted worker/core/provider proof remain owner-coordinated and unverified.",
+  "author_provider_db_or_sandbox_container_actions": 0
+}

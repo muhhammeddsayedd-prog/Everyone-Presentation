@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.0",
+  "host": "https://everyone-presentation-pilot.vercel.app",
+  "result": "passed",
+  "checks": [
+    {
+      "path": "/",
+      "expected_status": 307,
+      "status": 307,
+      "redirect_blocked": true,
+      "nosniff": true,
+      "no_set_cookie": true,
+      "private_no_store": false,
+      "expected_public_shape": true,
+      "request_id": null,
+      "passed": true
+    },
+    {
+      "path": "/projects",
+      "expected_status": 200,
+      "status": 200,
+      "redirect_blocked": false,
+      "nosniff": true,
+      "no_set_cookie": true,
+      "private_no_store": true,
+      "expected_public_shape": true,
+      "request_id": null,
+      "passed": true
+    },
+    {
+      "path": "/api/session",
+      "expected_status": 200,
+      "status": 200,
+      "redirect_blocked": false,
+      "nosniff": true,
+      "no_set_cookie": true,
+      "private_no_store": true,
+      "expected_public_shape": true,
+      "request_id": "f98c2282-60af-4c59-88df-8453d986b42a",
+      "passed": true
+    },
+    {
+      "path": "/api/v1/projects",
+      "expected_status": 401,
+      "status": 401,
+      "redirect_blocked": false,
+      "nosniff": true,
+      "no_set_cookie": true,
+      "private_no_store": true,
+      "expected_public_shape": true,
+      "request_id": "6105e061-89d0-4c86-8264-9a3092e5db9d",
+      "passed": true
+    },
+    {
+      "path": "/api/v1/settings",
+      "expected_status": 401,
+      "status": 401,
+      "redirect_blocked": false,
+      "nosniff": true,
+      "no_set_cookie": true,
+      "private_no_store": true,
+      "expected_public_shape": true,
+      "request_id": "6e95adb3-5949-4583-8422-5bbf7e9fb684",
+      "passed": true
+    },
+    {
+      "path": "/api/dev/session",
+      "expected_status": 403,
+      "status": 403,
+      "redirect_blocked": false,
+      "nosniff": true,
+      "no_set_cookie": true,
+      "private_no_store": true,
+      "expected_public_shape": true,
+      "request_id": "353dffc8-c5a4-485e-9191-50f7ad38cd85",
+      "passed": true
+    }
+  ],
+  "scope": "Public no-credential admission preflight only; not signed-in app, worker, OAuth or delegated-client acceptance.",
+  "full_core_or_oauth_acceptance": false,
+  "requests": 6,
+  "methods": [
+    "GET"
+  ],
+  "redirects_followed": false,
+  "cookies_or_authorization_sent": false,
+  "valid_guest_or_authorization_selectors_used": false,
+  "consent_login_or_model_call": false,
+  "raw_body_headers_or_diagnostics_recorded": false,
+  "started_at": "2026-10-30T21:11:56.083Z",
+  "finished_at": "2026-10-30T21:11:57.744Z",
+  "configure_receipt": {
+    "path": "tracking/evidence/m07/controlled-pilot/2026-10-30T20-31-58-027Z-15649709-web-configure.json",
+    "sha256": "6ee2607d401f5ec1b6397a205bfe36d2ec34598e9d3fd15cc8c2f2c162d299d5"
+  },
+  "probe_source_sha256": "1c0d449b56de6d3efa1e0ce74b11d156e9661c15647720ec7be3f64fbf3311f0"
+}

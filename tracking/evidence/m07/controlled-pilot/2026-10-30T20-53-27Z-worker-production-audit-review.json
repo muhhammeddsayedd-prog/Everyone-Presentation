@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-30T20:53:27Z",
+  "scope": "Current local worker production dependency audit and source-only reachability review; no cloud, database, private configuration, native execution or dependency mutation.",
+  "command": "npm.cmd audit --omit=dev --workspace @eps/worker --json",
+  "exit_code": 1,
+  "audit_report_version": 2,
+  "vulnerability_counts": { "critical": 0, "high": 4, "moderate": 0, "low": 0, "info": 0, "total": 4 },
+  "distinct_advisories": 1,
+  "advisory": {
+    "id": "GHSA-mrhx-c7xc-m3w5",
+    "cve": "CVE-2023-54404",
+    "package": "zod",
+    "title": "Zod can exhaust memory while validating oversized constrained collections",
+    "affected": "<4.6.6",
+    "patched": "4.6.6",
+    "selected_recommendation": "4.6.7",
+    "primary_advisory": "https://github.com/advisories/GHSA-mrhx-c7xc-m3w5",
+    "maintainer_fix": "https://github.com/colinhacks/zod/commit/a0ebf97",
+    "reported_impact": "Availability through memory exhaustion; advisory reports no confidentiality or integrity impact.",
+    "patch_boundary": "Maintainer patch performs leading upper collection-size checks before walking elements. It does not make intentionally unbounded collections or unbounded JSON response bodies safe."
+  },
+  "installed_affected_graph": [
+    { "parent": "@vercel/oidc@4.0.5", "via": "@vercel/cli-config@0.3.5", "zod": "4.1.11", "node": "node_modules/@vercel/cli-config/node_modules/zod" },
+    { "parent": "@vercel/sandbox@3.9.1", "via": "direct dependency ^4.1.1", "zod": "4.1.11", "node": "node_modules/@vercel/sandbox/node_modules/zod" },
+    { "parent": "@vercel/sandbox@3.9.1", "via": "@vercel/oidc@4.0.0 -> @vercel/cli-config@0.3.1", "zod": "4.1.11", "node": "node_modules/@vercel/sandbox/node_modules/zod" }
+  ],
+  "unaffected_existing_branch": "@eps/integrations -> openai@7.45.1 -> zod@4.6.7",
+  "source_pins": {
+    "package.json": "ded0a0347e3182816065829981661e127b89cf904305583ee8cbd4d9ac3d3d62",
+    "package-lock.json": "1e12bed4e43c2fc520dccbbd73459ce641e6116ee2c6f18f6480b8f0a3598115",
+    "apps/worker/package.json": "3800282dab78bf3c767a54b8bb27efc6aa0ec6565a8b1ee791a08dcc93d5ba20",
+    "installed_sandbox_package_json": "28579b97a203b033f2e7730dcaef9bcb8dea5db365d72438d46f5664f0e120e5",
+    "installed_cli_config_package_json": "06e8b526688c850c63fbd959340505f87d265974fa13aa0b89aed96e4e344a4f"
+  },
+  "reachability": {
+    "credentialed_daemon": {
+      "status": "Vulnerable library is loaded and used by Sandbox SDK control-plane response validators.",
+      "evidence": [
+        "apps/worker/src/native-sandbox.ts: sdkClient dynamically imports @vercel/sandbox for create/list/get/commands/files/stop/delete.",
+        "node_modules/@vercel/sandbox/dist/api-client/base-client.js: parse reads full response text, parses JSON, then calls validator.safeParse.",
+        "node_modules/@vercel/sandbox/dist/api-client/validators.js: response schemas include array-valued routes, sessions, sandboxes, command args and network policies without caller-side size prechecks.",
+        "Hosted configuration fixes deny-all policy, generated sandbox name, metadata tags and fixed command arguments. Uploaded media goes through private file transport; it does not supply SDK schema definitions, URLs or command arguments.",
+        "cli-config schemas contain scalar/object configuration fields; hosted OIDC uses the fixed provider token file and production mode disallows interactive auth fallback."
+      ],
+      "assessment": "No direct unauthenticated uploaded-media path to the affected array validator was found. A malformed or excessively large control-plane response can still affect the credentialed daemon's availability. This is reduced reachability, not a blanket waiver or proof of zero exploitability."
+    },
+    "credential_free_native_vm": {
+      "status": "Affected packages are present in the sparse dependency image, but no direct media-parser validation use was found.",
+      "evidence": [
+        "Fixed native task receives a closed environment without VERCEL or EPS_NATIVE_TRANSPORT; nativeSandboxConfiguration returns the local native path instead of importing the Sandbox SDK.",
+        "Native media/parser output is bounded private-file JSON with existing handwritten/domain validation; native tasks do not receive daemon/provider/OIDC credentials.",
+        "Native child process and VM have independent resource, filesystem, network and cleanup boundaries; actual hosted boundary proof remains separate."
+      ],
+      "assessment": "The advisory is not a reported native decoder RCE or credential-exfiltration issue. A native VM failure remains isolated from parent credentials by the reviewed design; actual hosted isolation is still unverified."
+    }
+  },
+  "required_before_real_media": [
+    "Pin patched Zod 4.6.7 through root overrides scoped to @vercel/cli-config and @vercel/sandbox; retain current Sandbox/OIDC versions and avoid forcing Zod v4 onto unrelated v3 consumers.",
+    "Review the lockfile delta, perform the repository's frozen install, rerun the scoped production audit and focused worker/SDK compatibility tests.",
+    "Reseal the sparse source manifest and rebuild both daemon and native images. Preserve the pre-fix source graph and audit evidence; never relabel an old image as patched.",
+    "Require actual hosted credential-free boundary/cleanup proof before private media processing. The known advisory alone does not prohibit a bounded no-PII build/boundary probe."
+  ],
+  "automatic_fix_rejected_as_strategy": "npm audit proposes @vercel/oidc 3.5.0 and @vercel/sandbox 3.6.1. Those downgrades would abandon required current SDK behavior; no audit fix or dependency change was executed.",
+  "raw_secrets_private_payloads_or_auth_files_read": false,
+  "dependencies_or_lockfile_modified_by_reviewer": false,
+  "runtime_or_cloud_acceptance_claimed": false
+}

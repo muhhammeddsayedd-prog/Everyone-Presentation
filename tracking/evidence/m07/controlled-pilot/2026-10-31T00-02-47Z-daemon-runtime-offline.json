@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-31T00:02:47Z",
+  "result": "offline_passed_independent_review_pending",
+  "scope": "Author-run synthetic parsers/evidence guards and public source checks only",
+  "sources": {
+    "development/m07/controlled-pilot/daemon-runtime.mjs": "314408e4cd5143895864a2d4cf771f1d2c276d3765ca566df0ee3cf939d4c30d",
+    "development/m07/controlled-pilot/daemon-runtime.test.mjs": "cf8ad6aeebb65f73b6d339229bc4575a6a489ce60e2ea3d9d5f69d5867708900",
+    "development/m07/controlled-pilot/DAEMON_RUNTIME.md": "4c94a2b44a9c7da5a15620645c75790bd8736bd3eb2c6c8788ea3f9f093da0e0"
+  },
+  "initial_red": "The actual new test failed ERR_MODULE_NOT_FOUND before daemon-runtime.mjs was authored",
+  "additional_regression": {
+    "problem": "One valid startup record plus a truncated record could still grant startup evidence",
+    "red": "6 passed / 1 failed with actual true versus expected false",
+    "green": "7 of7 passed after withholding evidence for unbound or truncated records"
+  },
+  "final_checks": {
+    "command": "node --test development/m07/controlled-pilot/daemon-runtime.test.mjs",
+    "tests": 7,
+    "passed": 7,
+    "exit_code": 0,
+    "scoped_eslint": "passed",
+    "node_syntax": "passed",
+    "owned_diff_check": "passed"
+  },
+  "source_grounding": {
+    "installed_official_cli": "65.8.0; public vc.js/daemon/log/query/JSONL modules hash-pinned in operator",
+    "official_docs": ["https://vercel.com/docs/daemons/managing-daemons", "https://vercel.com/docs/cli/logs"],
+    "worker_startup_event": "Read exact runtime-main.ts event emitted after verifyStartup",
+    "worker_failure_events": "Read runtime-hosted.ts fixed event JSON"
+  },
+  "bounded_future_operator": {
+    "required_actual_deployment_argument": true,
+    "fixed_project": "prj_I4SMkDzaDy0KHNgiF00v4Da5aLb6",
+    "fixed_team": "team_gboXPxTevpCOZuaA8eY9PmR1",
+    "maximum_cli_commands": 4,
+    "command_parent_timeout_ms": 30000,
+    "overall_ms": 120000,
+    "maximum_instances": 2,
+    "log_limit_per_instance": 100,
+    "fixed_log_window_ms": 600000,
+    "raw_stdout_limit_bytes": 1048576,
+    "raw_stderr_limit_bytes": 32768,
+    "raw_logs_config_headers_attributes_cursors_or_hashes_persisted": false,
+    "provider_mutations": false,
+    "cli_internal_read_retries_qualified": true
+  },
+  "independent_review": "Requested from parity after current NPROC stage work; pending at this timestamp",
+  "actual_operator_cli_auth_provider_or_database_calls": false,
+  "actual_private_inputs_or_logs_read": false,
+  "daemon_runtime_readiness_or_business_acceptance_claimed": false
+}

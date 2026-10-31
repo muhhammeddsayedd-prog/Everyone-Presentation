@@ -1,0 +1,235 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-31T01:28:31.724227+00:00",
+  "environment": "canonical-hosted-controlled-pilot",
+  "target_project_ref": "pyibofyctwnqpvktepse",
+  "query_sha256": "2d1094715cc2add5c0e96232783fa356c77243cff1c99d96fd8db0855bc5410c",
+  "result": "failed_render_observed",
+  "metadata": {
+    "events": [
+      {
+        "attempt_id": "6514fe14-a1cd-441c-b204-06f7818770ad",
+        "created_at": "2026-10-31T01:25:29.009203+00:00",
+        "event_type": "succeeded",
+        "stage": "prepare_presentation"
+      },
+      {
+        "attempt_id": "a5aa8d36-c326-4c83-9c5d-8550c2c1e534",
+        "created_at": "2026-10-31T01:25:40.079054+00:00",
+        "event_type": "succeeded",
+        "stage": "render_presentation"
+      },
+      {
+        "attempt_id": "5a261878-d31e-40b1-98c5-046ea25fe1dd",
+        "created_at": "2026-10-31T01:25:49.341804+00:00",
+        "event_type": "failed",
+        "stage": "validate_presentation"
+      },
+      {
+        "attempt_id": "28bf291a-6a58-4e6b-b25d-9f0c1814c129",
+        "created_at": "2026-10-31T01:26:01.403001+00:00",
+        "event_type": "failed",
+        "stage": "validate_presentation"
+      },
+      {
+        "attempt_id": "a8da65f6-9aef-4d04-8093-3cd2913322ba",
+        "created_at": "2026-10-31T01:26:13.847186+00:00",
+        "event_type": "failed",
+        "stage": "validate_presentation"
+      }
+    ],
+    "grant_counts": [
+      {
+        "attempt_id": "6514fe14-a1cd-441c-b204-06f7818770ad",
+        "first_grant": "2026-10-31T01:25:28.064324+00:00",
+        "grants": 2,
+        "last_grant": "2026-10-31T01:25:28.457209+00:00",
+        "permission": "read",
+        "purpose": "candidate_frame"
+      },
+      {
+        "attempt_id": "a5aa8d36-c326-4c83-9c5d-8550c2c1e534",
+        "first_grant": "2026-10-31T01:25:29.371267+00:00",
+        "grants": 2,
+        "last_grant": "2026-10-31T01:25:29.689603+00:00",
+        "permission": "read",
+        "purpose": "candidate_frame"
+      },
+      {
+        "attempt_id": "a5aa8d36-c326-4c83-9c5d-8550c2c1e534",
+        "first_grant": "2026-10-31T01:25:38.394707+00:00",
+        "grants": 1,
+        "last_grant": "2026-10-31T01:25:38.394707+00:00",
+        "permission": "write",
+        "purpose": "presentation_manifest"
+      },
+      {
+        "attempt_id": "a5aa8d36-c326-4c83-9c5d-8550c2c1e534",
+        "first_grant": "2026-10-31T01:25:38.636025+00:00",
+        "grants": 1,
+        "last_grant": "2026-10-31T01:25:38.636025+00:00",
+        "permission": "read",
+        "purpose": "presentation_manifest"
+      },
+      {
+        "attempt_id": "a5aa8d36-c326-4c83-9c5d-8550c2c1e534",
+        "first_grant": "2026-10-31T01:25:39.364763+00:00",
+        "grants": 1,
+        "last_grant": "2026-10-31T01:25:39.364763+00:00",
+        "permission": "write",
+        "purpose": "presentation_pdf"
+      },
+      {
+        "attempt_id": "a5aa8d36-c326-4c83-9c5d-8550c2c1e534",
+        "first_grant": "2026-10-31T01:25:39.594721+00:00",
+        "grants": 1,
+        "last_grant": "2026-10-31T01:25:39.594721+00:00",
+        "permission": "read",
+        "purpose": "presentation_pdf"
+      },
+      {
+        "attempt_id": "5a261878-d31e-40b1-98c5-046ea25fe1dd",
+        "first_grant": "2026-10-31T01:25:40.768937+00:00",
+        "grants": 1,
+        "last_grant": "2026-10-31T01:25:40.768937+00:00",
+        "permission": "read",
+        "purpose": "presentation_manifest"
+      },
+      {
+        "attempt_id": "5a261878-d31e-40b1-98c5-046ea25fe1dd",
+        "first_grant": "2026-10-31T01:25:40.919685+00:00",
+        "grants": 1,
+        "last_grant": "2026-10-31T01:25:40.919685+00:00",
+        "permission": "read",
+        "purpose": "presentation_pdf"
+      },
+      {
+        "attempt_id": "5a261878-d31e-40b1-98c5-046ea25fe1dd",
+        "first_grant": "2026-10-31T01:25:41.138771+00:00",
+        "grants": 2,
+        "last_grant": "2026-10-31T01:25:41.452414+00:00",
+        "permission": "read",
+        "purpose": "candidate_frame"
+      },
+      {
+        "attempt_id": "28bf291a-6a58-4e6b-b25d-9f0c1814c129",
+        "first_grant": "2026-10-31T01:25:52.769078+00:00",
+        "grants": 1,
+        "last_grant": "2026-10-31T01:25:52.769078+00:00",
+        "permission": "read",
+        "purpose": "presentation_manifest"
+      },
+      {
+        "attempt_id": "28bf291a-6a58-4e6b-b25d-9f0c1814c129",
+        "first_grant": "2026-10-31T01:25:52.928146+00:00",
+        "grants": 1,
+        "last_grant": "2026-10-31T01:25:52.928146+00:00",
+        "permission": "read",
+        "purpose": "presentation_pdf"
+      },
+      {
+        "attempt_id": "28bf291a-6a58-4e6b-b25d-9f0c1814c129",
+        "first_grant": "2026-10-31T01:25:53.162658+00:00",
+        "grants": 2,
+        "last_grant": "2026-10-31T01:25:53.376955+00:00",
+        "permission": "read",
+        "purpose": "candidate_frame"
+      },
+      {
+        "attempt_id": "a8da65f6-9aef-4d04-8093-3cd2913322ba",
+        "first_grant": "2026-10-31T01:26:04.893282+00:00",
+        "grants": 1,
+        "last_grant": "2026-10-31T01:26:04.893282+00:00",
+        "permission": "read",
+        "purpose": "presentation_manifest"
+      },
+      {
+        "attempt_id": "a8da65f6-9aef-4d04-8093-3cd2913322ba",
+        "first_grant": "2026-10-31T01:26:05.036363+00:00",
+        "grants": 1,
+        "last_grant": "2026-10-31T01:26:05.036363+00:00",
+        "permission": "read",
+        "purpose": "presentation_pdf"
+      },
+      {
+        "attempt_id": "a8da65f6-9aef-4d04-8093-3cd2913322ba",
+        "first_grant": "2026-10-31T01:26:05.44738+00:00",
+        "grants": 2,
+        "last_grant": "2026-10-31T01:26:05.648289+00:00",
+        "permission": "read",
+        "purpose": "candidate_frame"
+      }
+    ],
+    "job": {
+      "attempt": 5,
+      "created_at": "2026-10-31T01:25:26.640784+00:00",
+      "error_code": "DEPENDENCY_UNAVAILABLE",
+      "id": "7ca22801-2040-40df-87fc-84a82fffb6c7",
+      "n8n_execution_id": "31520",
+      "stage": "validate_presentation",
+      "stage_attempts": {
+        "prepare_presentation": 1,
+        "render_presentation": 1,
+        "validate_presentation": 3
+      },
+      "status": "failed",
+      "updated_at": "2026-10-31T01:26:13.820613+00:00"
+    },
+    "payloads": [
+      {
+        "attempt_id": "6514fe14-a1cd-441c-b204-06f7818770ad",
+        "created_at": "2026-10-31T01:25:29.005825+00:00",
+        "manifest_asset": null,
+        "pdf_asset": null,
+        "proof": null,
+        "result_schema": "presentation-preparation.v1",
+        "stage": "prepare_presentation"
+      },
+      {
+        "attempt_id": "a5aa8d36-c326-4c83-9c5d-8550c2c1e534",
+        "created_at": "2026-10-31T01:25:40.075532+00:00",
+        "manifest_asset": {
+          "asset_id": "5a850ca1-dcc3-4e3f-a902-7b85bc20120d",
+          "mime_type": "application/json",
+          "sha256": "d786a0ca527770162526f5f081fb95d5748da713b98fc4b9e5b71ea6d35456b3",
+          "size_bytes": 7093
+        },
+        "pdf_asset": {
+          "asset_id": "636939d4-2130-4e1e-94d5-d39c6a89aa0c",
+          "mime_type": "application/pdf",
+          "sha256": "21f5a35251c43f8d9f830bf8644a19f3b72e30ff867f0703a7333b4f2851fa66",
+          "size_bytes": 109883
+        },
+        "proof": {
+          "candidate_field_count": 30,
+          "chromium_version": "156.0.8078.4",
+          "font_hashes": {
+            "apps/web/public/fonts/IBMPlexSans-Medium.woff2": "5660f8a658f8bb50dbc005232f885eadffd2bc1c235c4f6fbb63469d1f9cde6d",
+            "apps/web/public/fonts/IBMPlexSans-Regular.woff2": "ba711a3085ff9f27440b6b9c4550cfc47c97bf36591d5da958b975bb3add8c1a",
+            "apps/web/public/fonts/IBMPlexSans-SemiBold.woff2": "f78048030eab62e860efa39a0df79e2e5581bf122eb95b9bc42c0b8a4988d205",
+            "apps/web/public/fonts/IBMPlexSansArabic-Medium.woff2": "c72f6986f50ded745d06e71e508096209c52a55a6b3a81029954e33c52ba1dd2",
+            "apps/web/public/fonts/IBMPlexSansArabic-Regular.woff2": "74112e1b7bf2e2c547989a4e947a60cba6cd1f9156e0065670134636e717199d",
+            "apps/web/public/fonts/IBMPlexSansArabic-SemiBold.woff2": "869b2acd0a9660607a2025f0fe1c640110bf23d33417509328f07722922b8063"
+          },
+          "fonts_ready": true,
+          "frame_draw_count": 2,
+          "height_css_px": 900,
+          "images_ready": true,
+          "link_targets_sha256": "fde6e915b81e1c02bb21bf8828c28fcf20b4f71aaabe0a9641c1566338140ee9",
+          "logo_draw_count": 0,
+          "overflow_count": 0,
+          "page_count": 6,
+          "rendered_at": "2026-10-31T01:25:34.615Z",
+          "renderer_version": "everyone-casting-pdf-v1",
+          "template_content_sha256": "bbe72bf2bb08f37fe394c75563e2eca3ab8da72b1775db75704d47ae54f4f638",
+          "video_link_count": 1,
+          "width_css_px": 1600
+        },
+        "result_schema": "presentation-rendering.v1",
+        "stage": "render_presentation"
+      }
+    ],
+    "read_only": true
+  },
+  "raw_sources_media_paths_credentials_persisted": false
+}

@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "host": "https://everyone-presentation-pilot.vercel.app",
+  "resource": "https://everyone-presentation-pilot.vercel.app/mcp",
+  "mode": "disabled",
+  "result": "passed",
+  "checks": [
+    {
+      "label": "protected-resource-disabled",
+      "status": 404,
+      "expected_status": 404,
+      "passed": true
+    },
+    {
+      "label": "mirror-disabled",
+      "status": 404,
+      "expected_status": 404,
+      "passed": true
+    },
+    {
+      "label": "mcp-disabled",
+      "status": 503,
+      "expected_status": 503,
+      "passed": true
+    }
+  ],
+  "provider_configuration_observed": false,
+  "provider_or_configuration_mutations": false,
+  "full_oauth_acceptance": false,
+  "scope": "Public fixed-origin discovery, denied MCP requests and malformed consent input only. No signed-in core, client registration/binding, login, refresh or revocation proof.",
+  "redirects_followed": false,
+  "cookies_or_valid_credentials_sent": false,
+  "valid_authorization_selector_sent": false,
+  "claude_configuration_login_or_model_call": false,
+  "raw_payload_headers_or_diagnostics_recorded": false,
+  "started_at": "2026-10-30T22:07:23.261Z",
+  "finished_at": "2026-10-30T22:07:25.316Z",
+  "sources": {
+    "hosted-oauth-plan.mjs": "f8c8b4cbf63b5a114f5f25810965c42d4c03d958b109ea490ba86ee8d22d27c8",
+    "hosted-oauth-readiness.mjs": "75e65daeefe415b1e7db8d357ebd3c5c7e31cf066aec971a11a4026e14aa0d43"
+  }
+}

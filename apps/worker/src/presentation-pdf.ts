@@ -7,6 +7,8 @@ import { parseRenderSnapshot, reviewFromRenderSnapshot, presentationCanonicalHas
 import { renderRegisteredReviewDocument } from '../../../packages/templates/src/registered.ts';
 import { loadReviewTemplateAssets } from './review-fit.ts';
 import { nativeBrowserEnvironment } from './native-browser.ts';
+import { nativeSandboxConfiguration } from './native-sandbox.ts';
+import { sandboxPresentation } from './native-sandbox-result.ts';
 
 export const PRESENTATION_RENDERER = 'everyone-casting-pdf-v1';
 export const PRESENTATION_PDF_LIMITS = Object.freeze({ pdfBytes: 64 * 1024 * 1024, imageBytes: 128 * 1024 * 1024 });
@@ -156,6 +158,10 @@ export async function renderPresentationPdf(supplied: RenderSnapshot, images: Re
   return renderDocumentPdf(snapshot, images, options);
 }
 async function renderDocumentPdf(snapshot: RenderSnapshot, images: ReadonlyMap<string, Uint8Array>, options: PresentationPdfOptions, exportAccess?: PresentationExportMediaAccess) {
+  if (nativeSandboxConfiguration()) {
+    await preparePresentationAssets(snapshot, images, options);
+    return await sandboxPresentation(exportAccess ? 'presentation_export_render' : 'presentation_render', snapshot, images, options, undefined, exportAccess) as unknown as { bytes: Uint8Array; proof: PresentationRenderProof };
+  }
   return documentOperation(snapshot, images, options, async (page, _expected, proof) => {
     const bytes = await page.pdf({ preferCSSPageSize: true, printBackground: true, tagged: true, scale: 1, displayHeaderFooter: false, margin: { top: 0, right: 0, bottom: 0, left: 0 } });
     if (options.signal?.aborted) fail('PDF_ABORTED'); if (!bytes.length || bytes.length > PRESENTATION_PDF_LIMITS.pdfBytes || bytes.subarray(0, 5).toString() !== '%PDF-') fail('PDF_BUDGET_EXCEEDED');
@@ -185,6 +191,7 @@ async function inspect(bytes: Uint8Array, expected: ExpectedPage[], signal?: Abo
 export async function validatePresentationPdf(supplied: RenderSnapshot, images: ReadonlyMap<string, Uint8Array>, bytes: Uint8Array, options: PresentationPdfOptions = {}): Promise<PresentationValidationProof> {
   const snapshot = checkedSnapshot(supplied, options.signal);
   if (!(bytes instanceof Uint8Array) || bytes.length < 100 || bytes.length > PRESENTATION_PDF_LIMITS.pdfBytes || Buffer.from(bytes.subarray(0, 5)).toString() !== '%PDF-') fail('PDF_VALIDATION_FAILED');
+  if (nativeSandboxConfiguration()) { await preparePresentationAssets(snapshot, images, options); return await sandboxPresentation('presentation_validate', snapshot, images, options, bytes) as unknown as PresentationValidationProof; }
   const expected = await documentOperation(snapshot, images, options, async (_page, pages) => pages);
   return inspect(bytes, expected, options.signal);
 }
@@ -192,6 +199,7 @@ export async function validatePresentationExportPdf(supplied: RenderSnapshot, im
   const snapshot = checkedSnapshot(supplied, options.signal);
   checkedExportAccess(snapshot, access);
   if (!(bytes instanceof Uint8Array) || bytes.length < 100 || bytes.length > PRESENTATION_PDF_LIMITS.pdfBytes || Buffer.from(bytes.subarray(0, 5)).toString() !== '%PDF-') fail('PDF_VALIDATION_FAILED');
+  if (nativeSandboxConfiguration()) { await preparePresentationAssets(snapshot, images, options); return await sandboxPresentation('presentation_export_validate', snapshot, images, options, bytes, access) as unknown as PresentationValidationProof; }
   const expected = await documentOperation(snapshot, images, options, async (_page, pages) => pages, access);
   return inspect(bytes, expected, options.signal);
 }

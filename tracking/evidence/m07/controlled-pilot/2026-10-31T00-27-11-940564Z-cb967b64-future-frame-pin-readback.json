@@ -1,0 +1,245 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-31T00:27:11.940391+00:00",
+  "target": "pyibofyctwnqpvktepse",
+  "action": "readback",
+  "sources": {
+    "supabase/.temp/project-ref": "f706303084a6135ca452a75e7c40e4746086e8cadc156c66e4e42af80b4c0ee5",
+    "supabase/config.toml": "0a50cd9902ed3a31b57cde31171f725310ed8d0d3efbd7226f894d48272dfbb2",
+    "development/m07/controlled-pilot/FUTURE_VERSION_ORIGIN.sql": "4dbea9c15d467feb8b969f7a13ccf5bfd5ae16c4859d727022b40447712fec15",
+    "development/m07/controlled-pilot/FUTURE_VERSION_ORIGIN_READBACK.sql": "956698a0b9a671aed02f3a68ef6a5c47a4d261026c16a15e6a06e14cc3a752d7",
+    "development/m07/controlled-pilot/future-origin.py": "7d15c917bd781fd89a75e3efe36c561d9933ba64e3309b583c04b7ba5accee44",
+    "preflight_sql_sha256": "b66939e0feed102ad0b99157d726904f4c3a84fd6dfc2341ed749951badc6219",
+    "development/m07/controlled-pilot/FUTURE_FRAME_PIN.sql": "45d3f3d0dd66389badbc41f8e95f68accf88e1c5b857d003075630cd0c20e2a0",
+    "development/m07/controlled-pilot/FUTURE_FRAME_PIN_READBACK.sql": "d20499beb160ba6bda2f0cc5ec10047b0f7e93d249195f6e9da0278eb703c377",
+    "development/m07/controlled-pilot/future-frame-pin.py": "4cac4ab9d8390a8066d36d2b0fab5429909419c19aad93ad2cd0f5b84a4067e6",
+    "frozen_manifest_sha256": "ad51dc82c85fb7276b0514623560c5a303985746e52e4a5ad0eb572f16843abb"
+  },
+  "manifest": {
+    "native_image_id": "sha256:7846b45931a0394eafafdca0d0ae2791b8de74ee9a736fd39534e34134d0d16c",
+    "image": "muhammed-abdelrahman/everyone-presentation-worker-pilot/native@sha256:7846b45931a0394eafafdca0d0ae2791b8de74ee9a736fd39534e34134d0d16c",
+    "manifest_sha256": "ad51dc82c85fb7276b0514623560c5a303985746e52e4a5ad0eb572f16843abb",
+    "source_sha256": "bc774c88083d106fd522ee6277fc8a81033a6b94ff05e9debdfe1d6ee661a735"
+  },
+  "rendered_update_sha256": "79842abc41e8ca84b70f77e3b6dc6bc4d219044ad8086344f5bf55f01ae8c831",
+  "result": "passed",
+  "application_verified_by_readback": true,
+  "new_pin_observed": true,
+  "original_baseline_available": true,
+  "independent_readback_equal": true,
+  "protected_before_after_equal": true,
+  "after": {
+    "context": {
+      "active_native_jobs": 0,
+      "configuration_count": 1,
+      "database": "postgres",
+      "history": [
+        "20261028010943",
+        "20261028013324",
+        "20261028013655",
+        "20261028024205",
+        "20261028072515",
+        "20261028162702",
+        "20261028162800",
+        "20261028172320",
+        "20261028184145",
+        "20261028222030",
+        "20261029001520",
+        "20261029003941",
+        "20261029070038",
+        "20261029090500",
+        "20261029090724",
+        "20261029094600",
+        "20261029100500",
+        "20261029133455",
+        "20261029135318",
+        "20261029174841",
+        "20261029180953",
+        "20261029202629",
+        "20261029203953",
+        "20261029215218",
+        "20261030002634",
+        "20261030004643",
+        "20261030013832",
+        "20261030030717",
+        "20261030111549",
+        "20261030154824"
+      ],
+      "leased_native_dispatches": 0,
+      "operator": "postgres",
+      "unexpected_config_triggers": 0
+    },
+    "frame_config": {
+      "enabled": true,
+      "id": true,
+      "implementation_version": "frame-extraction.v1",
+      "native_image_id": "sha256:7846b45931a0394eafafdca0d0ae2791b8de74ee9a736fd39534e34134d0d16c"
+    },
+    "protected_metadata": {
+      "candidate_media": {
+        "count": 12,
+        "sha256": "dbea853e24c8fc59f0c43f95b5312f4e59d60ccb4e57ed510c423bcdee62d3bf"
+      },
+      "candidates": {
+        "count": 15,
+        "sha256": "4b6d62f7da407265eb661309a106b3cb8c4fbc0a7b89cdad3be9d3c5b256d918"
+      },
+      "frames": {
+        "count": 148,
+        "sha256": "7331fd4a53dc258aa643890c4963bccf1d4f528c0bef9f3422ffcac09961d5e0"
+      },
+      "native_jobs": {
+        "count": 19,
+        "sha256": "1459e1823a3c870ca78441985dcd980110a0694db6e2ac5a0424e05d6710b93d"
+      },
+      "native_outbox": {
+        "count": 73,
+        "sha256": "58f5523cf186b4cea9b024edf8cfeabf074ac92b431ae28868fa263bb94aa75d"
+      },
+      "payloads": {
+        "count": 68,
+        "sha256": "e86e4983b983ad45a4e151867dc8a3dd3cb7af942590b24875c73e7fdf6d14c9"
+      },
+      "pins": {
+        "count": 31,
+        "sha256": "6c42dc9ca3d98ba2d20c5f1457937beedd7baeb92686dcc1e35fc217334b6117"
+      },
+      "protected_m02": {
+        "attempt": 3,
+        "id": "b3f90268-147d-41d4-8875-2a6435df1496",
+        "manual_note_retained": true,
+        "resource_id": "73a1a500-acfe-48cc-91ba-53a83b895118",
+        "row_version": 7,
+        "spec_sha256": "2344eaa9fecced1eff04259500481c47b65bb2bb0a55c448770a23b303b56a86",
+        "stage": "apply_specs",
+        "status": "waiting_for_input"
+      },
+      "ready_asset_metadata": {
+        "count": 31,
+        "sha256": "d06c862a87afb798c9453523e3ebf16c5d683dd9fec9084e55f1971307f4adfe"
+      },
+      "requests": {
+        "count": 4,
+        "sha256": "9ea79bf0c06758153aa17ce54a5716d4154268862de990b13af816f556d6858b"
+      },
+      "slides": {
+        "count": 48,
+        "sha256": "7e623a9553b8010341d692dd3f2579d24eeba0acea30de388135fdc2f7e1e712"
+      },
+      "versions": {
+        "count": 8,
+        "sha256": "cdee3bdf6822c60ab675df203fe51bd32835efa6af1cf9519ca71b9c30b0f322"
+      }
+    }
+  },
+  "independent_readback": {
+    "context": {
+      "active_native_jobs": 0,
+      "configuration_count": 1,
+      "database": "postgres",
+      "history": [
+        "20261028010943",
+        "20261028013324",
+        "20261028013655",
+        "20261028024205",
+        "20261028072515",
+        "20261028162702",
+        "20261028162800",
+        "20261028172320",
+        "20261028184145",
+        "20261028222030",
+        "20261029001520",
+        "20261029003941",
+        "20261029070038",
+        "20261029090500",
+        "20261029090724",
+        "20261029094600",
+        "20261029100500",
+        "20261029133455",
+        "20261029135318",
+        "20261029174841",
+        "20261029180953",
+        "20261029202629",
+        "20261029203953",
+        "20261029215218",
+        "20261030002634",
+        "20261030004643",
+        "20261030013832",
+        "20261030030717",
+        "20261030111549",
+        "20261030154824"
+      ],
+      "leased_native_dispatches": 0,
+      "operator": "postgres",
+      "unexpected_config_triggers": 0
+    },
+    "frame_config": {
+      "enabled": true,
+      "id": true,
+      "implementation_version": "frame-extraction.v1",
+      "native_image_id": "sha256:7846b45931a0394eafafdca0d0ae2791b8de74ee9a736fd39534e34134d0d16c"
+    },
+    "protected_metadata": {
+      "candidate_media": {
+        "count": 12,
+        "sha256": "dbea853e24c8fc59f0c43f95b5312f4e59d60ccb4e57ed510c423bcdee62d3bf"
+      },
+      "candidates": {
+        "count": 15,
+        "sha256": "4b6d62f7da407265eb661309a106b3cb8c4fbc0a7b89cdad3be9d3c5b256d918"
+      },
+      "frames": {
+        "count": 148,
+        "sha256": "7331fd4a53dc258aa643890c4963bccf1d4f528c0bef9f3422ffcac09961d5e0"
+      },
+      "native_jobs": {
+        "count": 19,
+        "sha256": "1459e1823a3c870ca78441985dcd980110a0694db6e2ac5a0424e05d6710b93d"
+      },
+      "native_outbox": {
+        "count": 73,
+        "sha256": "58f5523cf186b4cea9b024edf8cfeabf074ac92b431ae28868fa263bb94aa75d"
+      },
+      "payloads": {
+        "count": 68,
+        "sha256": "e86e4983b983ad45a4e151867dc8a3dd3cb7af942590b24875c73e7fdf6d14c9"
+      },
+      "pins": {
+        "count": 31,
+        "sha256": "6c42dc9ca3d98ba2d20c5f1457937beedd7baeb92686dcc1e35fc217334b6117"
+      },
+      "protected_m02": {
+        "attempt": 3,
+        "id": "b3f90268-147d-41d4-8875-2a6435df1496",
+        "manual_note_retained": true,
+        "resource_id": "73a1a500-acfe-48cc-91ba-53a83b895118",
+        "row_version": 7,
+        "spec_sha256": "2344eaa9fecced1eff04259500481c47b65bb2bb0a55c448770a23b303b56a86",
+        "stage": "apply_specs",
+        "status": "waiting_for_input"
+      },
+      "ready_asset_metadata": {
+        "count": 31,
+        "sha256": "d06c862a87afb798c9453523e3ebf16c5d683dd9fec9084e55f1971307f4adfe"
+      },
+      "requests": {
+        "count": 4,
+        "sha256": "9ea79bf0c06758153aa17ce54a5716d4154268862de990b13af816f556d6858b"
+      },
+      "slides": {
+        "count": 48,
+        "sha256": "7e623a9553b8010341d692dd3f2579d24eeba0acea30de388135fdc2f7e1e712"
+      },
+      "versions": {
+        "count": 8,
+        "sha256": "cdee3bdf6822c60ab675df203fe51bd32835efa6af1cf9519ca71b9c30b0f322"
+      }
+    }
+  },
+  "automatic_dispatch_retry": false,
+  "old_job_inputs_rewritten": false,
+  "dispatch_attempted": false,
+  "credentials_or_raw_cli_diagnostics_persisted": false,
+  "old_jobs_retried_or_rewritten": false,
+  "lease_or_queue_state_forced": false
+}

@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-31T00:45:29.203493+00:00",
+  "target": "pyibofyctwnqpvktepse",
+  "result": "diagnostic_observed",
+  "phase": "admission",
+  "maximum_cli_commands": 1,
+  "cli_commands_attempted": 1,
+  "submission_rpc_executed": false,
+  "dispatch_claim_created": false,
+  "sql_transactions_read_only": true,
+  "automatic_retry": false,
+  "raw_source_hashes_values_or_cli_errors_persisted": false,
+  "expected_source_requirements_changed": false,
+  "source_pins": {
+    "supabase/.temp/project-ref": "f706303084a6135ca452a75e7c40e4746086e8cadc156c66e4e42af80b4c0ee5",
+    "supabase/config.toml": "0a50cd9902ed3a31b57cde31171f725310ed8d0d3efbd7226f894d48272dfbb2",
+    "development/m07/controlled-pilot/FUTURE_VERSION_ORIGIN.sql": "4dbea9c15d467feb8b969f7a13ccf5bfd5ae16c4859d727022b40447712fec15",
+    "development/m07/controlled-pilot/FUTURE_VERSION_ORIGIN_READBACK.sql": "956698a0b9a671aed02f3a68ef6a5c47a4d261026c16a15e6a06e14cc3a752d7",
+    "development/m07/controlled-pilot/future-origin.py": "7d15c917bd781fd89a75e3efe36c561d9933ba64e3309b583c04b7ba5accee44",
+    "preflight_sql_sha256": "b66939e0feed102ad0b99157d726904f4c3a84fd6dfc2341ed749951badc6219",
+    "development/m07/controlled-pilot/SPECS_SUBMIT_SNAPSHOT.sql": "ef4fdbbdcfcd3c36ed7873c4c2618de6e1ca6dcd4de5118cc5463a018d9a6d9c",
+    "development/m07/controlled-pilot/SPECS_SUBMIT_ROLLBACK.sql": "3c99c8345ad9f7f52ec49a05534655669b0135b97cea0c46347da2ec4e728e22",
+    "development/m07/controlled-pilot/SPECS_SUBMIT_TRUST.json": "80bb12b8a6ab20774708fd97b0c66f104191c6179534dbfe155ad29b816561ba",
+    "development/m07/controlled-pilot/fixtures/hosted-core-brief.txt": "2c8ca73ed55801dab5236b01c84ad1ec566e7eb66767e9f333d9a4b2beff3876",
+    "public_fixture_sha256": "2c8ca73ed55801dab5236b01c84ad1ec566e7eb66767e9f333d9a4b2beff3876"
+  },
+  "diagnostic": {
+    "mismatch_functions": [
+      {
+        "name": "eps.has_capability",
+        "nargs": 1,
+        "reasons": [
+          "body_match"
+        ]
+      },
+      {
+        "name": "eps.jobs_dto",
+        "nargs": 1,
+        "reasons": [
+          "body_match"
+        ]
+      }
+    ],
+    "mismatch_triggers": [],
+    "unexpected_functions": 0,
+    "unexpected_triggers": 0,
+    "context_matches": true,
+    "history_matches": true,
+    "pristine_state_matches": true,
+    "preflight_admissible": false
+  },
+  "finished_at": "2026-10-31T00:45:36.288558+00:00",
+  "helper_sha256": "c171f030138e2c2d693a5a1f9fe55709d71a4df569a78110feb861a68c7f1229"
+}

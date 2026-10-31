@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-30T23:51:14Z",
+  "result": "source_ready_not_executed_by_author_or_reviewer",
+  "previous_receipt": "tracking/evidence/m07/controlled-pilot/2026-10-30T23-49-50Z-dummy-project-envelope.json",
+  "sources": {
+    "development/m07/controlled-pilot/dummy-pilot-project.py": "27295f4491c3a8bb52bb3ceb768733b8ac12254bdc9d103a0310aaf4ce0cb443",
+    "development/m07/controlled-pilot/test_dummy_pilot_project.py": "9825d1a6b4586433edd366fe61272052313471b78b913eab85feda11867bcd11"
+  },
+  "independent_review": {
+    "reviewer": "/root/m07_recovery",
+    "result": "No material finding",
+    "current_and_archived_sources_rehashed": true,
+    "exact_delta": "Extract transport parser; discard outer metadata while retaining dict/list/single-row/exact-rowkey validation and unchanged domain validation",
+    "regression_sources_read": true,
+    "reviewer_test_cli_private_provider_or_database_execution": false
+  },
+  "author_validation": "14 pure synthetic tests passed; Python compile and owned diff checks passed",
+  "sql_domain_actor_claim_and_process_gates_changed": false,
+  "root_notified_ready_for_readonly_inspect": true,
+  "project_created_by_author_or_reviewer": false,
+  "author_or_reviewer_operator_modes_executed": false
+}

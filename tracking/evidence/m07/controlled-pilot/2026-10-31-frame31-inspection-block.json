@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-31T02:36:36.637535+00:00",
+  "result": "inspection_blocked_no_dispatch",
+  "worker_manifest_readback": "tracking/evidence/m07/controlled-pilot/2026-10-31T02-31-30-519507Z-f05de2c3-worker-forward31-readback.json",
+  "frame_inspection_attempts": 2,
+  "frame_apply_claim_exists": false,
+  "frame_pin_unchanged": true,
+  "current_frame_native_image_id": "sha256:5e2500470a76caff11fa4b82a0d328dec423090ce8ba2d6417663283bacfff06",
+  "cause": "Frame inspection counts the protected historical waiting_for_input M02 job as active. No other active job was returned by a separate read-only metadata query.",
+  "protected_job_id": "b3f90268-147d-41d4-8875-2a6435df1496",
+  "protected_status": "waiting_for_input",
+  "protected_stage": "apply_specs",
+  "protected_attempt": 3,
+  "protected_created_at": "2026-10-29T07:39:53.588996+00:00",
+  "protected_updated_at": "2026-10-29T07:40:35.240369+00:00",
+  "leased_outbox": 0,
+  "unexpected_configuration_triggers": 0,
+  "business_job_retried_or_mutated": false,
+  "credentials_or_raw_diagnostics_persisted": false,
+  "diagnostic_source": "development/m07/controlled-pilot/HOSTED_ACTIVE_JOBS_METADATA.sql",
+  "next_action": "Source-reviewed distinct frame continuation recognizing only the exact protected baseline; preserve old source and claims."
+}

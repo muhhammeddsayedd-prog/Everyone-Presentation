@@ -14,6 +14,7 @@ import type { SpecsStageRouter } from './runtime-types.ts';
 import { createPresentationStageAssets } from './presentation-assets.ts';
 import type { PresentationStageOptions } from './presentation-stage-executor.ts';
 import type { PresentationExportOptions } from './presentation-export-executor.ts';
+import { nativeImageConfigured, nativeSandboxConfiguration, onNativeSandboxUnconfirmed } from './native-sandbox.ts';
 
 const startupCodes = new Set(['WORKER_RUNTIME_SCOPE_INVALID','OPENAI_KEY_REQUIRED','OPENAI_EXTRACTION_MODEL_REQUIRED','OPENAI_CONFIGURATION_INVALID',
   'N8N_RUNTIME_CONFIGURATION_REQUIRED','RUNTIME_CONFIG_INVALID','RUNTIME_AUTH_UNVERIFIED','RUNTIME_ROLE_UNVERIFIED','RUNTIME_UNAVAILABLE','DEPENDENCY_UNAVAILABLE', 'CANDIDATE_RUNTIME_CONFIGURATION_INVALID', 'FRAME_RUNTIME_CONFIGURATION_INVALID', 'PDF_VISION_CONFIGURATION_INVALID', 'REVIEW_RUNTIME_CONFIGURATION_INVALID', 'PRESENTATION_RUNTIME_CONFIGURATION_INVALID']);
@@ -42,21 +43,22 @@ export async function verifySpecsWorkerStartup(environment: Readonly<Record<stri
   const filesRequested = environment.EPS_SPECS_FILES_ENABLED === 'true';
   try {
     if (environment.N8N_API_KEY || !/^v24\./u.test(process.version)) throw Object.assign(new Error('Worker scope invalid.'), { code: 'WORKER_RUNTIME_SCOPE_INVALID' });
+    nativeSandboxConfiguration(environment);
     checkpoint = 'provider_configuration'; const openAI = openAISpecsConfigFromEnv(environment);
     checkpoint = 'orchestration_configuration';
     const specsRouter = new N8nSpecsOrchestrator({ url: environment.N8N_DISPATCH_URL ?? '', secret: environment.N8N_DISPATCH_SECRET ?? '' });
     let router: SpecsStageRouter = specsRouter;
     checkpoint = 'file_configuration'; const fileConfiguration = specsWorkerFilesConfiguration(environment);
     const visionEnabled = environment.EPS_PDF_VISION_ENABLED;
-    if (visionEnabled !== undefined && visionEnabled !== 'true' && visionEnabled !== 'false' || visionEnabled === 'true' && (!fileConfiguration || !/^sha256:[a-f0-9]{64}$/u.test(environment.EPS_PDF_RASTER_IMAGE_ID ?? ''))) throw { code: 'PDF_VISION_CONFIGURATION_INVALID' };
+    if (visionEnabled !== undefined && visionEnabled !== 'true' && visionEnabled !== 'false' || visionEnabled === 'true' && (!fileConfiguration || !nativeImageConfigured(environment.EPS_PDF_RASTER_IMAGE_ID, environment))) throw { code: 'PDF_VISION_CONFIGURATION_INVALID' };
     const vision = visionEnabled === 'true' ? { imageId: environment.EPS_PDF_RASTER_IMAGE_ID! } : undefined;
     const enabled = environment.EPS_CANDIDATE_MEDIA_ENABLED;
     if (enabled !== undefined && enabled !== 'false' && enabled !== 'true') throw { code: 'CANDIDATE_RUNTIME_CONFIGURATION_INVALID' };
     const framesEnabled = environment.EPS_FRAME_EXTRACTION_ENABLED;
-    if (framesEnabled !== undefined && framesEnabled !== 'false' && framesEnabled !== 'true' || framesEnabled === 'true' && (!fileConfiguration || !/^sha256:[a-f0-9]{64}$/u.test(environment.EPS_FRAME_IMAGE_ID ?? ''))) throw { code: 'FRAME_RUNTIME_CONFIGURATION_INVALID' };
+    if (framesEnabled !== undefined && framesEnabled !== 'false' && framesEnabled !== 'true' || framesEnabled === 'true' && (!fileConfiguration || !nativeImageConfigured(environment.EPS_FRAME_IMAGE_ID, environment))) throw { code: 'FRAME_RUNTIME_CONFIGURATION_INVALID' };
     let candidateConfiguration: Omit<CandidateStageOptions, 'assets'> | undefined;
     if (enabled === 'true') {
-      if (!fileConfiguration || !/^sha256:[a-f0-9]{64}$/u.test(environment.EPS_MEDIA_IMAGE_ID ?? '')) throw { code: 'CANDIDATE_RUNTIME_CONFIGURATION_INVALID' };
+      if (!fileConfiguration || !nativeImageConfigured(environment.EPS_MEDIA_IMAGE_ID, environment)) throw { code: 'CANDIDATE_RUNTIME_CONFIGURATION_INVALID' };
       const transcription = openAIMediaConfigFromEnv('transcription', environment); const extraction = openAIMediaConfigFromEnv('extraction', environment);
       candidateConfiguration = { imageId: environment.EPS_MEDIA_IMAGE_ID!, transcription, extraction };
     }
@@ -134,10 +136,12 @@ export async function verifySpecsWorkerStartup(environment: Readonly<Record<stri
 
 /** Server-only entry. Provider/DB/webhook credentials arrive by a scrubbed child
  * environment; the n8n management key is never an acceptable runtime input. */
-async function main(): Promise<void> {
+export async function startSpecsWorker(options: { signal?: AbortSignal } = {}): Promise<void> {
   const { openAI, router, fileConfiguration, gateway, candidate, frames, vision, review, fit, presentation, presentationExport } = await verifySpecsWorkerStartup();
   const controller = new AbortController();
   const stop = () => controller.abort();
+  options.signal?.addEventListener('abort', stop, { once: true }); if (options.signal?.aborted) stop();
+  const removeNativeListener = onNativeSandboxUnconfirmed(identity => { process.exitCode = 1; process.stderr.write(JSON.stringify({ event: 'native_sandbox_cleanup_unconfirmed', ...identity }) + '\n'); stop(); });
   const message = (value: unknown) => { if (value && typeof value === 'object' && Object.keys(value).length === 1
     && 'type' in value && value.type === 'shutdown') stop(); };
   process.once('SIGINT', stop); process.once('SIGTERM', stop); process.once('disconnect', stop); process.on('message', message);
@@ -149,9 +153,9 @@ async function main(): Promise<void> {
     files: fileConfiguration && gateway.files ? { port: gateway.files, publishableKey: fileConfiguration.publishableKey } : undefined,
     notice: event => process.stdout.write(JSON.stringify(event) + '\n') }); }
   finally { process.removeListener('SIGINT', stop); process.removeListener('SIGTERM', stop); process.removeListener('disconnect', stop); process.removeListener('message', message);
-    if (process.connected) process.disconnect(); }
+    removeNativeListener(); options.signal?.removeEventListener('abort', stop); if (process.connected) process.disconnect(); }
 }
-if (process.argv[1] && pathToFileURL(path.resolve(process.argv[1])).href === import.meta.url) main().catch(error => {
+if (process.argv[1] && pathToFileURL(path.resolve(process.argv[1])).href === import.meta.url) startSpecsWorker().catch(error => {
   const diagnostic = error instanceof SpecsWorkerStartupError
     ? { checkpoint: error.checkpoint, code: error.code, files_requested: error.files_requested, attempts: error.attempts, ...specsRuntimeFailureDiagnostics(error) }
     : { checkpoint: 'processing_loop', code: 'WORKER_STARTUP_UNCONFIRMED', files_requested: process.env.EPS_SPECS_FILES_ENABLED === 'true' };

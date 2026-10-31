@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-10-30T21:46:27Z",
+  "kind": "source_and_synthetic_tests_only",
+  "scope": "New public hosted OAuth preparation/readiness and root-executed public-client operator; no provider, CLI credential loader, private config, actual HTTP, DB, Vercel environment, Claude configuration/login or model call executed by author.",
+  "host": "https://everyone-presentation-pilot.vercel.app",
+  "resource": "https://everyone-presentation-pilot.vercel.app/mcp",
+  "issuer": "https://pyibofyctwnqpvktepse.supabase.co/auth/v1",
+  "sources": {
+    "development/m07/controlled-pilot/hosted-oauth-plan.mjs": "645d3daed9b3638097d519aef31a637d12a7476c7965adf2f6c9c3ec429c65b0",
+    "development/m07/controlled-pilot/hosted-oauth-readiness.mjs": "104c0ace94db4b0b3d02c913c6c009628fb64de1ce3bf4c15a3055927b7cec76",
+    "development/m07/controlled-pilot/hosted-oauth.test.mjs": "3dc2e4ed1d46a621a9747d1d42d2a7e7656963286a3b97ee49c1491d1b6461a9",
+    "development/m07/controlled-pilot/hosted-oauth-client.py": "e225f46d9136320e1bd233cd36fc07f3714d9ce5eb5c2794519f915ed186df2b",
+    "development/m07/controlled-pilot/test_hosted_oauth_client.py": "cb4f6cd50761252fd270ec8433d60f54134da65cf22b034e69e480595862025a",
+    "development/m07/controlled-pilot/HOSTED_OAUTH.md": "dfe2a04036898a76be6c34232dfcf1e9f23925b18d02a791a6e1b5de8a1e3dff"
+  },
+  "actual_local_checks": [
+    {
+      "command": "node --test development/m07/controlled-pilot/hosted-oauth.test.mjs",
+      "initial_red": { "exit_code": 1, "reason": "ERR_MODULE_NOT_FOUND hosted-oauth-plan.mjs before implementation" },
+      "green": { "exit_code": 0, "passed": 8, "failed": 0, "environment": "Node.js 24.18.0 on Windows, synthetic injected fetch only" }
+    },
+    {
+      "command": "python -X utf8 development/m07/controlled-pilot/test_hosted_oauth_client.py",
+      "initial_red": { "exit_code": 1, "reason": "FileNotFoundError hosted-oauth-client.py before implementation" },
+      "additional_red_regressions": [
+        { "passed": 9, "failed": 2, "reasons": ["known POST client UUID differed from readback but passed", "unknown create stopped after first failed readback instead of attempting both"] },
+        { "passed": 11, "failed": 1, "reason": "rejected secret-bearing response incorrectly left client_secret_observed false" }
+      ],
+      "green": { "exit_code": 0, "passed": 12, "failed": 0, "environment": "Local Python unittest with injected callbacks/synthetic JWTs and clients only" }
+    },
+    { "command": "npx.cmd eslint development/m07/controlled-pilot/hosted-oauth-plan.mjs development/m07/controlled-pilot/hosted-oauth-readiness.mjs development/m07/controlled-pilot/hosted-oauth.test.mjs", "exit_code": 0, "scope": "Three new JS sources only; initial no-undef globals corrected" },
+    { "command": "node --check on new hosted-oauth-plan.mjs and hosted-oauth-readiness.mjs; python -m py_compile on new helper/test", "exit_code": 0 },
+    { "command": "git diff --check on six new files", "exit_code": 0, "scope": "Whitespace only; untracked source was read separately" }
+  ],
+  "primary_source_research": [
+    "https://supabase.com/docs/guides/auth/oauth-server/getting-started",
+    "https://github.com/supabase/supabase/blob/master/apps/docs/spec/api_v1_openapi.json",
+    "https://github.com/supabase/cli/blob/v2.122.0/apps/cli/src/commands/config/push/push.encoders.ts",
+    "https://github.com/supabase/cli/blob/v2.122.0/apps/cli/src/commands/projects/api-keys/api-keys.handler.ts",
+    "https://github.com/supabase/cli/blob/v2.122.0/apps/cli/src/command-internal/get-api-keys.ts",
+    "https://github.com/supabase/auth/blob/v2.197.0/internal/api/oauthserver/service.go",
+    "https://github.com/supabase/auth/blob/v2.197.0/internal/api/oauthserver/handlers.go",
+    "https://github.com/supabase/auth/blob/v2.197.0/internal/utilities/request.go",
+    "https://code.claude.com/docs/en/mcp"
+  ],
+  "actual_provider_client_observation": false,
+  "provider_configuration_changed_or_verified": false,
+  "hosted_oauth_runtime_acceptance": false,
+  "independent_review_status": "Requested from parent and parity; this artifact does not invent reviewer clearance.",
+  "remaining": [
+    "Independent exact-source review before actual operator dispatch",
+    "Root hosted signed-in core prerequisite and real provider configuration/readback",
+    "Actual provider-issued public client observation and separate guarded hosted resource binding",
+    "Root public MCP environment writer bound to actual core/client/binding evidence",
+    "Actual public readiness and owner-managed delegated-client login/refresh/revocation acceptance"
+  ]
+}

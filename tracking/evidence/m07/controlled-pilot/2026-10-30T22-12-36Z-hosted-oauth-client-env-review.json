@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-10-30T22:12:36Z",
+  "kind": "independent_source_review_only",
+  "implementation_and_red_green_receipt": "tracking/evidence/m07/controlled-pilot/2026-10-30T22-08-10Z-hosted-oauth-client-env-gate.json",
+  "implementation_receipt_sha256": "b7eae9712043d8e32efbfde9597ca279815b402961a6e46d05e2c444ad2da580",
+  "client_helper_sha256": "c3be05e05d9bf9c80bad906903007ee9fbcc663c0c0eeb79efc0d877c17d22e2",
+  "client_test_sha256": "83236f2332753068ff3a7eb1cda6d5bae66eeb0628b53df4ecc7e01a109f0e64",
+  "client_delta_review": {
+    "reviewer": "m07_parity",
+    "result": "no_material_finding",
+    "scope": "Exactly four requested known flags, case-insensitive pure gate at main/load_key before subprocess; empty, unrelated and existing protected login inputs remain permitted.",
+    "reviewer_executed_private_cli_provider_or_client_tests": false
+  },
+  "binding_dependency_update": {
+    "helper_sha256": "56a9eed83f6e4003a15d12b23f896e716690d968389a12d7af7c96abcc6ba742",
+    "test_sha256_unchanged": "2415fb5dbbbceb1ccadc3473af6de932e681309c5a02d3f09b74cb4b010aa66d",
+    "sql_sha256_unchanged": "1c7e06784a72c53f141c3ef9b45cb4012f48c45ff5c3cfb5d14565d15109669a",
+    "readback_sha256_unchanged": "40244a1056488d51c39cfdcd23773a54761f89187750e75cda732df29351031b",
+    "author_reported_pure_tests": { "passed": 9, "failed": 0, "compile_and_diff": "passed" },
+    "independent_delta_reviewer": "m07_security_review",
+    "pin_only_delta_verified": true,
+    "proof": "Read actual updated binding bytes; replace the single c3be client hash with prior e225 hash in memory. Reconstructed SHA256 exactly equals previously reviewed binding 4e7fe8e5cae0007dca427c09a43cd9a670de4469093aaf6e06245752c554da18.",
+    "reviewer_executed_binding_or_database_commands": false
+  },
+  "actual_provider_or_credential_execution": false,
+  "actual_hosted_oauth_acceptance": false
+}

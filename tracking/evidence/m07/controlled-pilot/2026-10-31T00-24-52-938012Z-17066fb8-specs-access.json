@@ -1,0 +1,121 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-31T00:24:52.937205+00:00",
+  "result": "observed",
+  "target": "pyibofyctwnqpvktepse",
+  "actor_id": "0a79a703-caba-47e5-93d4-42e32197037a",
+  "project_id": "6da14b82-8458-451f-aa21-28cb6c85bdc5",
+  "workspace_id": "86936940-b48d-497d-b1ff-8e0da0913afa",
+  "metadata": {
+    "accepted_specs_idempotency_count": 0,
+    "active_write_membership_count": 1,
+    "actor_exists": true,
+    "actor_id": "0a79a703-caba-47e5-93d4-42e32197037a",
+    "authenticated_eps_usage": true,
+    "authenticated_scope_execute": false,
+    "database": "postgres",
+    "history": [
+      "20261028010943",
+      "20261028013324",
+      "20261028013655",
+      "20261028024205",
+      "20261028072515",
+      "20261028162702",
+      "20261028162800",
+      "20261028172320",
+      "20261028184145",
+      "20261028222030",
+      "20261029001520",
+      "20261029003941",
+      "20261029070038",
+      "20261029090500",
+      "20261029090724",
+      "20261029094600",
+      "20261029100500",
+      "20261029133455",
+      "20261029135318",
+      "20261029174841",
+      "20261029180953",
+      "20261029202629",
+      "20261029203953",
+      "20261029215218",
+      "20261030002634",
+      "20261030004643",
+      "20261030013832",
+      "20261030030717",
+      "20261030111549",
+      "20261030154824"
+    ],
+    "membership_count": 1,
+    "operator": "postgres",
+    "project_archived": false,
+    "project_exists": true,
+    "project_id": "6da14b82-8458-451f-aa21-28cb6c85bdc5",
+    "projects_read": true,
+    "read_only": true,
+    "scope_security_definer": false,
+    "scope_submit_owner_execute": true,
+    "specs_count": 1,
+    "specs_have_source": [
+      false
+    ],
+    "specs_ids": [
+      "3fc9b7a0-1d5d-41c3-8868-dff995ee861c"
+    ],
+    "specs_row_versions": [
+      1
+    ],
+    "submit_authenticated_execute": true,
+    "submit_eps_usage": true,
+    "submit_inherits_authenticated": true,
+    "submit_owner": "eps_specs_submit_owner",
+    "submit_scope_select_privileges": true,
+    "submit_security_definer": true,
+    "submit_workspace_lock_privilege": true,
+    "workspace_archived": false,
+    "workspace_id": "86936940-b48d-497d-b1ff-8e0da0913afa",
+    "workspace_initializer_enabled": true,
+    "workspace_jobs_count": 0,
+    "workspace_project_id": "6da14b82-8458-451f-aa21-28cb6c85bdc5",
+    "workspaces_read": true,
+    "workspaces_write": true
+  },
+  "role_scopes": {
+    "authenticated": {
+      "result": "sql_error_observed",
+      "exit_code": 1,
+      "sqlstate": "42501",
+      "permission_denied": true,
+      "permission_object": "function:specs_scope"
+    },
+    "eps_specs_submit_owner": {
+      "result": "observed",
+      "data": {
+        "actor_id": "0a79a703-caba-47e5-93d4-42e32197037a",
+        "project_write": true,
+        "projects_read": true,
+        "role": "eps_specs_submit_owner",
+        "workspace_read": true,
+        "workspace_write": true,
+        "workspaces_write": true
+      }
+    }
+  },
+  "source_pins": {
+    "supabase/.temp/project-ref": "f706303084a6135ca452a75e7c40e4746086e8cadc156c66e4e42af80b4c0ee5",
+    "supabase/config.toml": "0a50cd9902ed3a31b57cde31171f725310ed8d0d3efbd7226f894d48272dfbb2",
+    "development/m07/controlled-pilot/FUTURE_VERSION_ORIGIN.sql": "4dbea9c15d467feb8b969f7a13ccf5bfd5ae16c4859d727022b40447712fec15",
+    "development/m07/controlled-pilot/FUTURE_VERSION_ORIGIN_READBACK.sql": "956698a0b9a671aed02f3a68ef6a5c47a4d261026c16a15e6a06e14cc3a752d7",
+    "development/m07/controlled-pilot/future-origin.py": "7d15c917bd781fd89a75e3efe36c561d9933ba64e3309b583c04b7ba5accee44",
+    "preflight_sql_sha256": "b66939e0feed102ad0b99157d726904f4c3a84fd6dfc2341ed749951badc6219",
+    "development/m07/controlled-pilot/SPECS_ACCESS_DIAGNOSTIC.sql": "42743983a08b562b2c99f58fc760842fd092635c72dca28a148c5b1eff43ad38",
+    "development/m07/controlled-pilot/SPECS_ACCESS_SCOPE.sql": "1676b4742e10a77bf860c4e1911f435de0f1026d5f23b201f917a2daf5a181c8"
+  },
+  "helper_sha256": "02063a819bdf060d4c97126781bfd04b54bcdef999e1061f0ed2ce201e23d66d",
+  "maximum_cli_commands": 3,
+  "all_sql_transactions_read_only": true,
+  "submission_rpc_executed": false,
+  "business_auth_grant_or_job_mutation": false,
+  "actual_tokens_or_source_or_raw_diagnostics_persisted": false,
+  "scope": "Read-only local actual-actor claims and private-owner scope; not token issuance or an actual submission proof"
+}

@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-31T02:48:35.651Z",
+  "result": "passed",
+  "origin": "https://everyone-presentation-pilot.vercel.app",
+  "checks": {
+    "latest_follows_ready_v6": true,
+    "same_series": true,
+    "old_v5_still_readable": true,
+    "qa_comment_remains_on_v5": true,
+    "qa_comment_not_copied_to_v6": true,
+    "v5_preference_retained": true,
+    "v6_preference_not_copied": true,
+    "internal_comments_excluded": true
+  },
+  "http_statuses": [
+    200,
+    200,
+    200,
+    200
+  ],
+  "supabase_auth_or_cookies_sent": false,
+  "credentials_private_content_or_urls_persisted": false
+}

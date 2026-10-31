@@ -7,7 +7,7 @@ function fail(code = 'DOCUMENT_RASTER_FAILED'): never { throw new DocumentPrepar
 export async function rasterPdfPages(bytes: Uint8Array, sourceAssetId: string, pages: number[], options: { imageId: string; signal?: AbortSignal; inspectOnly?: boolean }): Promise<RasterPdfResult> {
   if (!(bytes instanceof Uint8Array) || !bytes.length || bytes.length > DOCUMENT_LIMITS.maximumBytes || !/^[A-Za-z0-9._:-]{1,200}$/u.test(sourceAssetId) || !Array.isArray(pages) || !pages.length && !options.inspectOnly || pages.length > 20 || new Set(pages).size !== pages.length || pages.some(page => !Number.isSafeInteger(page) || page < 1 || page > 200)) fail('DOCUMENT_LIMIT_EXCEEDED');
   const snapshot = Buffer.from(bytes); const hash = createHash('sha256').update(snapshot).digest('hex'); let envelope;
-  try { envelope = JSON.parse(await runOwnedNativeMedia(JSON.stringify({ source_asset_id: sourceAssetId, bytes: snapshot.toString('base64'), pages, inspect_only: options.inspectOnly ?? false }), options)); }
+  try { envelope = JSON.parse(await runOwnedNativeMedia(JSON.stringify({ source_asset_id: sourceAssetId, bytes: snapshot.toString('base64'), pages, inspect_only: options.inspectOnly ?? false }), { ...options, operation: 'pdf_raster' })); }
   catch (error) {
     if (error && typeof error === 'object' && 'code' in error) {
       if (error.code === 'VIDEO_PREPARATION_CANCELLED') throw new DocumentPreparationError('DOCUMENT_PREPARATION_CANCELLED', 'Scanned PDF preparation was cancelled.');

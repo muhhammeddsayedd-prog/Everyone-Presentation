@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-31T00:47:58Z",
+  "scope": "pre-admission forward-operator source and synthetic tests only",
+  "author": "m07_security_review",
+  "sources": {
+    "development/m07/controlled-pilot/worker-forward.py": "0f514271f6b16cc3a3704eb79091c5d24b5e49846748bf06073c0a16ec852828",
+    "development/m07/controlled-pilot/test_worker_forward.py": "2b226a69fbc05ee3f4269bdf96f2dbcf5f9df80b147b753f9710f0514f08495f",
+    "development/m07/controlled-pilot/future-frame-forward.py": "cf100973abc795f4cec0b51007e303a0e48c9a6c4fb00d40cc2422b2472bec36",
+    "development/m07/controlled-pilot/test_future_frame_forward.py": "f50aeb1f55144fba55f3cd58b7f40990326510a242e45ec6b1142e34514d5394",
+    "development/m07/controlled-pilot/FUTURE_FRAME_FORWARD.sql": "0c7f6f4abc30fade72460e5b7981a484297cc42eb4fe094dcb2ab9f07ba3e03b",
+    "development/m07/controlled-pilot/FUTURE_FRAME_FORWARD_READBACK.sql": "e57112e7c123a1805e3646be1abc827b1a49c1421e970dfd549c83f39b2f24a9"
+  },
+  "red_green": {
+    "initial_env_and_frame_tests": "Both failed with actual missing-module errors before implementation, then passed.",
+    "classification_regression": "Secret visibility on the public hash was initially accepted; actual assertion failed before the guard fix.",
+    "process_proof_regressions": "Both suites reproduced matching-readback PASS without normal-return evidence before correction; actual injected subprocess.TimeoutExpired cannot invoke the proof callback after correction.",
+    "worker_forward_tests_passed": 16,
+    "frame_forward_tests_passed": 11,
+    "failed_final": 0,
+    "python_ast_checks": "passed",
+    "sql_parser": "installed pglast, parse only; 10 update and 6 readback outer statements",
+    "git_diff_check": "passed"
+  },
+  "public_metadata_check": {
+    "actual_context": ".local/worker-hosting/77e14c2e-5ae9-4aa6-aec0-636f789c4625/context",
+    "actual_source_sha256": "3790b2b327da7eca18b1aad3a0dfaae02892b0130647e4527a25dd24aa3d54a3",
+    "complete_source_list_metadata_validated": true,
+    "listed_files": 156,
+    "listed_source_file_contents_opened_for_this_check": 0,
+    "actual_owner_metadata_matches": true,
+    "historical_28_environment_metadata_matches": true,
+    "actual_baked_public_manifest_sha256_rehashed": "ea963472650fa839076ab0c68c951f839f4820e4e04f55ae5c9c476e3c457ac0"
+  },
+  "boundaries": {
+    "admission_hash_constants_still_empty": true,
+    "actual_smoke_and_daemon_import_proof_pending_at_author_check": true,
+    "operator_invoked": false,
+    "provider_calls": 0,
+    "private_reads": 0,
+    "sql_executed": false,
+    "image_or_runtime_source_modified": false,
+    "historical_sources_claims_and_receipts_modified": false,
+    "configuration_application_verified": false,
+    "runtime_acceptance": false
+  }
+}

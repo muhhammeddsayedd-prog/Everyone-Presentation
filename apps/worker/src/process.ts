@@ -3,6 +3,7 @@ import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { DOCUMENT_LIMITS, DocumentPreparationError, type DocumentPreparationInput, type PreparedDocument } from './types.ts';
 import { pastedTextBytes } from './pasted-text.ts';
+import { nativeSandboxConfiguration, runConfiguredNative } from './native-sandbox.ts';
 
 const sourceDirectory = fileURLToPath(new URL('./', import.meta.url));
 const dependencies = fileURLToPath(new URL('../../../node_modules/', import.meta.url));
@@ -78,6 +79,7 @@ export async function prepareDocumentIsolated(input: DocumentPreparationInput, o
   if (active >= maximumConcurrent) throw failure('DOCUMENT_PREPARATION_BUSY', 'Both document parser slots are busy. Retry when one is available.', true);
   // Snapshot caller-owned data before asynchronous work; no URL/path is accepted.
   const payload = JSON.stringify({ sourceKind: source.sourceKind, sourceAssetId: source.sourceAssetId, mimeType: source.mimeType, bytes: source.bytes.toString('base64') });
+  if (nativeSandboxConfiguration()) return resultFromBytes(Buffer.from(await runConfiguredNative('document', payload, { signal: options.signal, timeoutMs: timeout })), source);
   const environment: NodeJS.ProcessEnv = { NODE_ENV: 'production' };
   for (const name of ['SystemRoot', 'WINDIR', 'TEMP', 'TMP', 'LANG']) if (process.env[name]) environment[name] = process.env[name];
   active++;

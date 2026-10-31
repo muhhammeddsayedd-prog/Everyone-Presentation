@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-31T03:36:56.603Z",
+  "result": "passed",
+  "actual_root_modules": 808,
+  "root_module_evidence": "tracking/evidence/m07/controlled-pilot/2026-10-31-file-limits-offline-checks.json",
+  "root_module_scope": "Historical same-worker-source root checks; not a rerun at closeout.",
+  "later_operator_checks": {
+    "oauth_final31_controlled": 78,
+    "web_guard_controlled": 17,
+    "web_helper_controlled": 14,
+    "public_readiness_controlled": 17,
+    "protected_frame_controlled": 7
+  },
+  "operator_counts_not_summed_due_overlapping_suites": true,
+  "actual_hosted_core_checks": 9,
+  "actual_public_oauth_checks": 11,
+  "actual_signed_workspace_passed": true,
+  "skills_static_validation": "53 skills / 550 source and installed files; 0 errors and warnings",
+  "changed_staged_private_scan": "595 paths / 581 unique blobs / 25,586,720 bytes / 17 credential families / 0 hits at recorded index snapshot",
+  "private_scan_evidence": "tracking/evidence/m07/controlled-pilot/2026-10-31-final-changed-index-private-scan.json",
+  "staged_whitespace_check_exit_code": 0,
+  "initial_staged_whitespace_failures": 17,
+  "whitespace_resolution": "Only exact frozen canonical-query.sql is exempted in .gitattributes; its recorded trailing spaces and SHA remain unchanged. All other current source whitespace rules remain.",
+  "frozen_query_sha256": "ae21e130635ef5b5b7a8b19914d774eac5c24667ab29924b651b127d240ef9e5",
+  "source_archive_updated": false,
+  "unrelated_screenshot_redesign_paths_retained": 160,
+  "claude_configuration_login_or_model_call": false,
+  "production_acceptance": false
+}

@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-31T03:31:05.160Z",
+  "observations": [
+    {
+      "name": "discovery",
+      "status": 200,
+      "final_url_matches": true,
+      "redirected": false,
+      "content_type": "application/json",
+      "set_cookie_names": [
+        "__cf_bm"
+      ],
+      "request_credentials": "omit",
+      "request_cookie_or_authorization_sent": false,
+      "issuer": "https://pyibofyctwnqpvktepse.supabase.co/auth/v1",
+      "scopes_supported": [
+        "openid",
+        "profile",
+        "email",
+        "phone",
+        "offline_access"
+      ],
+      "code_challenge_methods_supported": [
+        "S256",
+        "plain"
+      ],
+      "grant_types_supported": [
+        "authorization_code",
+        "refresh_token"
+      ],
+      "token_endpoint_auth_methods_supported": [
+        "client_secret_basic",
+        "client_secret_post",
+        "none"
+      ]
+    },
+    {
+      "name": "jwks",
+      "status": 200,
+      "final_url_matches": true,
+      "redirected": false,
+      "content_type": "application/json",
+      "set_cookie_names": [
+        "__cf_bm"
+      ],
+      "request_credentials": "omit",
+      "request_cookie_or_authorization_sent": false,
+      "keys": [
+        {
+          "fields": [
+            "alg",
+            "crv",
+            "ext",
+            "key_ops",
+            "kid",
+            "kty",
+            "use",
+            "x",
+            "y"
+          ],
+          "kty": "EC",
+          "alg": "ES256",
+          "crv": "P-256",
+          "key_ops": [
+            "verify"
+          ],
+          "use": "sig",
+          "ext": true,
+          "private_component_present": false
+        }
+      ]
+    }
+  ],
+  "raw_cookie_values_key_coordinates_or_credentials_persisted": false,
+  "provider_settings_changed": false,
+  "scope": "Actual public metadata compatibility observations, not owner login or refresh acceptance.",
+  "cloudflare_reference": "https://developers.cloudflare.com/fundamentals/reference/policies-compliances/cloudflare-cookies/"
+}

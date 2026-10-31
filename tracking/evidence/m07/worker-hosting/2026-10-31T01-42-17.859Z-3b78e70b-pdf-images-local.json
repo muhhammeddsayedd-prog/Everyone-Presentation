@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-31T01:42:17.859Z",
+  "run_id": "3b78e70b-25a3-44a6-84d2-6e113641affb",
+  "container_name": "eps-pdf-images-3b78e70b-25a3-44a6-84d2-6e113641affb",
+  "mode": "two-frames",
+  "result": "diagnosed",
+  "environment": "isolated-local-docker",
+  "source_sha256": "3790b2b327da7eca18b1aad3a0dfaae02892b0130647e4527a25dd24aa3d54a3",
+  "native_manifest_digest": "sha256:5e2500470a76caff11fa4b82a0d328dec423090ce8ba2d6417663283bacfff06",
+  "native_program_sha256": "43c65883056f69344ba8c875cae25ef55bca2598b63b597536c351d5494aaf57",
+  "cloud_called": false,
+  "database_called": false,
+  "private_inputs_used": false,
+  "worker_or_proof_source_changed": false,
+  "command_processes_unconfirmed": [],
+  "image": {
+    "image_id": "sha256:13cb1bd24185aae8b9d3f0bbf91dd3214c517163e2eb10e9e3e3cb2f3cbfd2c0",
+    "index_digest": "sha256:13cb1bd24185aae8b9d3f0bbf91dd3214c517163e2eb10e9e3e3cb2f3cbfd2c0",
+    "native_manifest_digest": "sha256:5e2500470a76caff11fa4b82a0d328dec423090ce8ba2d6417663283bacfff06",
+    "architecture": "amd64",
+    "os": "linux"
+  },
+  "fixture": {
+    "synthetic": true,
+    "pages": 2,
+    "frames": 2,
+    "logo": false
+  },
+  "container_id": "72a746e4077929a0540759fe2d8f3be75211060b5e209fb5332f1c2f787f125a",
+  "native": {
+    "schema_version": "1.0",
+    "stage": "render",
+    "result": "failed",
+    "code": "PDF_RENDER_FAILED",
+    "checkpoint": null,
+    "uid": 65432,
+    "gid": 65432,
+    "caps_cleared": true,
+    "no_new_privileges": true,
+    "pages": 2,
+    "frames": 2,
+    "rendered_bytes": 0,
+    "rendered_fields": 0,
+    "rendered_frame_draws": 0,
+    "validated_image_draws": null,
+    "inspector_child_seen": false,
+    "inspector_exit_code": null,
+    "inspector_error_flags": {
+      "access_denied": false,
+      "module_missing": false,
+      "addon_load": false
+    }
+  },
+  "stderr_bytes": 0,
+  "owned_container_absent": true,
+  "lock_released": true,
+  "finished_at": "2026-10-31T01:42:34.414Z"
+}

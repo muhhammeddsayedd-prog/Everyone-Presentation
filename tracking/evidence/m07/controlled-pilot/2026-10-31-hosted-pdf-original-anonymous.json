@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-31T02:50:15.593Z",
+  "result": "passed",
+  "origin": "https://everyone-presentation-pilot.vercel.app",
+  "version_id": "0175b902-b26b-4fd3-ae90-0f8281f071df",
+  "asset_id": "20c0ed17-5705-4056-a53d-9898384d4187",
+  "annotation_page": 4,
+  "checks": {
+    "grant_playback_accepted": true,
+    "fixed_version_and_asset_match": true,
+    "video_range_accepted": true,
+    "video_mime": true,
+    "range_1024_bytes": true,
+    "mp4_ftyp_header": true,
+    "without_credential_denied": true
+  },
+  "http_statuses": [
+    200,
+    206,
+    401
+  ],
+  "received_range_bytes": 1024,
+  "supabase_auth_or_cookie_sent": false,
+  "private_video_transcript_uri_or_credential_persisted": false,
+  "browser_playback_check": "separate"
+}

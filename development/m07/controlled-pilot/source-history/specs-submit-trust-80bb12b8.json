@@ -1,0 +1,380 @@
+{
+  "schema_version": "1.0",
+  "scope": "Source-derived normalized prosrc and trigger closure; no actual DB observation",
+  "functions": [
+    {
+      "name": "eps.check_input",
+      "nargs": 2,
+      "language": "plpgsql",
+      "security_definer": false,
+      "volatility": "i",
+      "sha256": "ced738ecff67d3a2ea546c7b7eed5ba73461b7ba4d701788e2ceab82f93e08b6",
+      "search_path_empty": true
+    },
+    {
+      "name": "eps.client_access",
+      "nargs": 2,
+      "language": "sql",
+      "security_definer": false,
+      "volatility": "s",
+      "sha256": "90ab94fef551ca4a2ceace08195a8dd55e5ceede6ab380027edd0f6cb0286366",
+      "search_path_empty": true
+    },
+    {
+      "name": "eps.expected_version",
+      "nargs": 2,
+      "language": "plpgsql",
+      "security_definer": false,
+      "volatility": "i",
+      "sha256": "3a9e88572ded0cda717ecbf91b982391e5e130e90769534806c4fd556c0d91dc",
+      "search_path_empty": true
+    },
+    {
+      "name": "eps.export_job_lifecycle",
+      "nargs": 0,
+      "language": "plpgsql",
+      "security_definer": true,
+      "volatility": "v",
+      "sha256": "19c362e6424484fafc9d749b1c1d4b40c008105fad6e304c22fcdec8c505655c",
+      "search_path_empty": true
+    },
+    {
+      "name": "eps.fail",
+      "nargs": 4,
+      "language": "plpgsql",
+      "security_definer": false,
+      "volatility": "v",
+      "sha256": "4f92e5fb3eacfab34f952cc303bccfa235f39b177f565c8a260b16be7fc89a46",
+      "search_path_empty": true
+    },
+    {
+      "name": "eps.finish_mutation",
+      "nargs": 5,
+      "language": "plpgsql",
+      "security_definer": false,
+      "volatility": "v",
+      "sha256": "fe9f83a2f4bae72d18631519d6328b867352c0372ba78baf6d78218a2b4e94e5",
+      "search_path_empty": true
+    },
+    {
+      "name": "eps.frame_user_outcome",
+      "nargs": 1,
+      "language": "plpgsql",
+      "security_definer": false,
+      "volatility": "i",
+      "sha256": "c09183551a5db084fe6ca1a9294708cbb47905846f9b86a855dc314466028958",
+      "search_path_empty": true
+    },
+    {
+      "name": "eps.has_capability",
+      "nargs": 1,
+      "language": "sql",
+      "security_definer": false,
+      "volatility": "s",
+      "sha256": "35af18435653ebb4249711e926d342e25adab1d9adb029079c38b27a0297bd7f",
+      "search_path_empty": true
+    },
+    {
+      "name": "eps.idempotency_begin",
+      "nargs": 3,
+      "language": "plpgsql",
+      "security_definer": false,
+      "volatility": "v",
+      "sha256": "1293ecb22392a1c84a1cd7ed925daf2e77ddb20fdb4b09401b235ee72f53af71",
+      "search_path_empty": true
+    },
+    {
+      "name": "eps.input_uuid",
+      "nargs": 1,
+      "language": "plpgsql",
+      "security_definer": false,
+      "volatility": "i",
+      "sha256": "5c3949c55087a52c6c761dd4cac0ec9b283471a1734d5a05d7278a15d3de8b60",
+      "search_path_empty": true
+    },
+    {
+      "name": "eps.jobs_add_dispatch",
+      "nargs": 1,
+      "language": "sql",
+      "security_definer": false,
+      "volatility": "v",
+      "sha256": "492f6eebb5c3e09905d2ed1271799c11db7a851698298a83295bd167986bb60b",
+      "search_path_empty": true
+    },
+    {
+      "name": "eps.jobs_can_access",
+      "nargs": 2,
+      "language": "sql",
+      "security_definer": true,
+      "volatility": "s",
+      "sha256": "5171db1971598aac78cfb3c0e4d8a65b3cb41da185a2b31b17a42d4b20c751cb",
+      "search_path_empty": true
+    },
+    {
+      "name": "eps.jobs_dto",
+      "nargs": 1,
+      "language": "sql",
+      "security_definer": false,
+      "volatility": "s",
+      "sha256": "17158fb3e7895e526718a620a1d9c2cbab373062a25c347ea066d6bd27438431",
+      "search_path_empty": true
+    },
+    {
+      "name": "eps.jobs_hash_v1",
+      "nargs": 1,
+      "language": "sql",
+      "security_definer": false,
+      "volatility": "i",
+      "sha256": "8fec3e35ed8e6cd6cf8cfd1c926c1d8429c9e1beb8f894652b3eeec4e0ff0974",
+      "search_path_empty": true
+    },
+    {
+      "name": "eps.jobs_remember",
+      "nargs": 4,
+      "language": "plpgsql",
+      "security_definer": false,
+      "volatility": "v",
+      "sha256": "5967dc00a965c105fd9a10018b6c6edde7dc811db1694a10ece49e921ee13048",
+      "search_path_empty": true
+    },
+    {
+      "name": "eps.logo_require_upload",
+      "nargs": 1,
+      "language": "plpgsql",
+      "security_definer": false,
+      "volatility": "s",
+      "sha256": "3407af444b98de44dcc690603af7b8ede81d42f93a01d929dab4918178d88d5a",
+      "search_path_empty": true
+    },
+    {
+      "name": "eps.logo_scope",
+      "nargs": 2,
+      "language": "sql",
+      "security_definer": true,
+      "volatility": "s",
+      "sha256": "d6abc5eda84295c4a7f563ef2d14373b799965176fc0998a2f437aa3ef99bba8",
+      "search_path_empty": true
+    },
+    {
+      "name": "eps.m02_enqueue_specs_job",
+      "nargs": 3,
+      "language": "plpgsql",
+      "security_definer": true,
+      "volatility": "v",
+      "sha256": "b6747a1157dd086546331e771b1135161f3d908d595cc6b569f3520995216bec",
+      "search_path_empty": true
+    },
+    {
+      "name": "eps.presentation_immutable_version",
+      "nargs": 0,
+      "language": "plpgsql",
+      "security_definer": false,
+      "volatility": "v",
+      "sha256": "fd86af0702bcf997076f1ae3a127ae2948b3adfe95c0a18af15cdf5a6430876a",
+      "search_path_empty": true
+    },
+    {
+      "name": "eps.presentation_job_lifecycle",
+      "nargs": 0,
+      "language": "plpgsql",
+      "security_definer": true,
+      "volatility": "v",
+      "sha256": "6e242ce7a59c9105217e8bf6e6e4e162f3322cab806781e20e02f7c888af9a44",
+      "search_path_empty": true
+    },
+    {
+      "name": "eps.project_access",
+      "nargs": 2,
+      "language": "sql",
+      "security_definer": false,
+      "volatility": "s",
+      "sha256": "aac8df67de8a6ea613f2c1801e29759fc4cb49e2a13cb588b5a6277735038370",
+      "search_path_empty": true
+    },
+    {
+      "name": "eps.project_scope",
+      "nargs": 2,
+      "language": "sql",
+      "security_definer": false,
+      "volatility": "s",
+      "sha256": "bc580d5b5557f5158394c540f778078a7dee2e061b0cc0bcdb5c1fd466b2c3d7",
+      "search_path_empty": true
+    },
+    {
+      "name": "eps.require_capability",
+      "nargs": 1,
+      "language": "plpgsql",
+      "security_definer": false,
+      "volatility": "s",
+      "sha256": "a4f288a48ded6a62c9b2c502447cd7b71ec7cfb5307c46b94b6c3de9f020ce73",
+      "search_path_empty": true
+    },
+    {
+      "name": "eps.specs_assert_rows",
+      "nargs": 2,
+      "language": "plpgsql",
+      "security_definer": false,
+      "volatility": "i",
+      "sha256": "114efe060211a2f565b16593990cdcc1690e0f77973b9519888800e0002d94d9",
+      "search_path_empty": true
+    },
+    {
+      "name": "eps.specs_changed",
+      "nargs": 1,
+      "language": "plpgsql",
+      "security_definer": false,
+      "volatility": "v",
+      "sha256": "899b2cdd2521908692e0613e3973dabd9c3d0d7139480d56287ec80399f0ba1b",
+      "search_path_empty": true
+    },
+    {
+      "name": "eps.specs_initialize_workspace",
+      "nargs": 0,
+      "language": "plpgsql",
+      "security_definer": true,
+      "volatility": "v",
+      "sha256": "d86ea6ba6579e1545b8e6ca31eed9fdd3a6b3f933308bca3929d234ab4a0790e",
+      "search_path_empty": true
+    },
+    {
+      "name": "eps.specs_lock_workspace",
+      "nargs": 1,
+      "language": "plpgsql",
+      "security_definer": false,
+      "volatility": "v",
+      "sha256": "f840b454a97b077195a362f25ae17c495da207fb9dac2802c953576d583d80f1",
+      "search_path_empty": true
+    },
+    {
+      "name": "eps.specs_scope",
+      "nargs": 2,
+      "language": "sql",
+      "security_definer": false,
+      "volatility": "s",
+      "sha256": "6be4b799e9c0699eadf252f4cdb56a5ba655e72ff2163d5cd9ff02717b47433a",
+      "search_path_empty": true
+    },
+    {
+      "name": "eps.specs_submit_ack",
+      "nargs": 3,
+      "language": "plpgsql",
+      "security_definer": false,
+      "volatility": "v",
+      "sha256": "3a164335af33462b20dff3e1dffdcd26bec1c57d39e9028ef999adbf29eb89a4",
+      "search_path_empty": true
+    },
+    {
+      "name": "eps.specs_submit_audit",
+      "nargs": 1,
+      "language": "plpgsql",
+      "security_definer": false,
+      "volatility": "v",
+      "sha256": "d026b7dc0a001a39c3a91b141e2a0ac7413781f42d0e54a514837179520bf94f",
+      "search_path_empty": true
+    },
+    {
+      "name": "eps.specs_submit_remember",
+      "nargs": 3,
+      "language": "plpgsql",
+      "security_definer": false,
+      "volatility": "v",
+      "sha256": "06f4a6742eed3c202a3942bbb69b26a0afcb87dcc79eba6c84482d78115ce01c",
+      "search_path_empty": true
+    },
+    {
+      "name": "eps.specs_submit_retain_asset",
+      "nargs": 2,
+      "language": "plpgsql",
+      "security_definer": false,
+      "volatility": "v",
+      "sha256": "cbeb84d21df0173882c1fad80f9d8bb87018d45533ad21b40e600d8537df5bc3",
+      "search_path_empty": true
+    },
+    {
+      "name": "eps.specs_submit_retain_source",
+      "nargs": 2,
+      "language": "plpgsql",
+      "security_definer": false,
+      "volatility": "v",
+      "sha256": "fcbf1dcc7d9f1f844ef7a50487f5f806ebeff2c615a8bb9071297b0e09f7129e",
+      "search_path_empty": true
+    },
+    {
+      "name": "eps.specs_submit_text",
+      "nargs": 1,
+      "language": "plpgsql",
+      "security_definer": false,
+      "volatility": "i",
+      "sha256": "811e66f3bdd24eb462d13e925548a3ae0f1b08f4561b4b64cd5a853b6fdf26dc",
+      "search_path_empty": true
+    },
+    {
+      "name": "public.eps_submit_specs",
+      "nargs": 3,
+      "language": "plpgsql",
+      "security_definer": true,
+      "volatility": "v",
+      "sha256": "f6a60366162484784d98f1b59bca1e84d26dc560b46c71521844bc3441aaa6e5",
+      "search_path_empty": true
+    }
+  ],
+  "triggers": [
+    {
+      "table": "eps.jobs",
+      "name": "export_job_lifecycle",
+      "function": "eps.export_job_lifecycle",
+      "type": 17,
+      "enabled": "O",
+      "nargs": 0
+    },
+    {
+      "table": "eps.jobs",
+      "name": "presentation_job_lifecycle",
+      "function": "eps.presentation_job_lifecycle",
+      "type": 17,
+      "enabled": "O",
+      "nargs": 0
+    },
+    {
+      "table": "eps.presentation_versions",
+      "name": "presentation_version_immutable",
+      "function": "eps.presentation_immutable_version",
+      "type": 27,
+      "enabled": "O",
+      "nargs": 0
+    },
+    {
+      "table": "eps.workspaces",
+      "name": "specs_initialize_workspace",
+      "function": "eps.specs_initialize_workspace",
+      "type": 5,
+      "enabled": "O",
+      "nargs": 0
+    }
+  ],
+  "tables": [
+    "eps.audit_events",
+    "eps.idempotency_records",
+    "eps.jobs",
+    "eps.outbox_events",
+    "eps.presentation_exports",
+    "eps.presentation_versions",
+    "eps.review_media_grants",
+    "eps.specs",
+    "eps.specs_source_inputs",
+    "eps.workspaces"
+  ],
+  "source_migrations": {
+    "20261028010943_m01_canonical_foundation.sql": "8a5f3ed7727a72051e630307d2daecab8c4a74054398a6425e73bd85e17568b9",
+    "20261028024205_m01_private_logo_boundary.sql": "b04af5119b4e384bd96136573eec39e69f21a0ffb7d9f4aeb07bbf48f2976b9d",
+    "20261028162702_m01_replay_scope_refresh.sql": "82a4f2ec03efc0787aa58e5f1e68ab626e5dddb5e4c645444103456757bf4251",
+    "20261028162800_m02_jobs_outbox.sql": "f619b3dfb9d964ab5902d04941b8cd59b44e9da36f1ab3f7b10bd45298ff4013",
+    "20261028172320_m02_manual_specs_draft.sql": "8ab866a49cb2e01eabf3b83076fe4519a60255263d0a1a170ef3ba9718a2349c",
+    "20261028222030_m02_specs_pipeline.sql": "1e5319bb81be1f12896f7efb5a2cb7706653b79eb440a4dc1aaaca4ed9556895",
+    "20261029001520_m02_specs_assets.sql": "9b35e8efdfc5184252ab4ecfe1a50861c8991dadf2b20544d481b51b3b7fb288",
+    "20261029133455_m03_remaining_media_library.sql": "2e190e001b2bda044d9c90da4287f54e5839b0af7ffec84d4c93083909c944fb",
+    "20261029215218_m05_immutable_presentation_versions.sql": "09d78c225ca02d436a8b1c2bcc6e55f273dfea116976807af4a8b228b99de5f4",
+    "20261030002634_m06_guest_review_feedback_exports.sql": "2c72507216efdcd3e9dcea3f9b94270b19e1275ebcd2fcf91dad9253ddde8d2a"
+  },
+  "external_call_tokens_found": false
+}

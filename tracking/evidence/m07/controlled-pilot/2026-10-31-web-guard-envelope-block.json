@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-31T03:13:58.283Z",
+  "result": "web_preflight_blocked_no_write",
+  "helper": "development/m07/controlled-pilot/hosted-web-oauth-env-final31.mjs",
+  "helper_sha256": "7f4a04087c5353cd685696eb02c0f3ca490b41ed784c75b0de6217bebd57539b",
+  "completed_provider": "3911c44e",
+  "completed_client": "55c4f57e",
+  "completed_binding_apply": "f0a3c83c",
+  "completed_binding_readback": "2fe661cc",
+  "actual_isolated_read_process": {
+    "exit_code": 0,
+    "stdout_bytes": 1667,
+    "stderr_bytes": 27,
+    "parsed_json_top_type": "list"
+  },
+  "failure_location": "Frozen guard703 LiveIO.read_database expects a dictionary containing rows; shape check failed at line222.",
+  "output_mode_cause": "not established; do not infer CI or missing Windows executables",
+  "web_environment_write_attempted": false,
+  "web_apply_claim_exists": false,
+  "raw_diagnostics_or_private_values_persisted": false,
+  "next_action": "Reviewed web-only read-only guard copy accepting strict equivalent one-row envelopes; preserve completed sources."
+}

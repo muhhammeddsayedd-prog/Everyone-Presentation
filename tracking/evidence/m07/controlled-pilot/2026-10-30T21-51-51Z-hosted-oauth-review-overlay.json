@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-10-30T21:51:51Z",
+  "kind": "source_review_and_synthetic_regression_overlay",
+  "historical_receipt_retained": "tracking/evidence/m07/controlled-pilot/2026-10-30T21-46-27Z-hosted-oauth-source-tests.json",
+  "historical_receipt_sha256": "f79cba5908b8560d157ad82ed84e5711ede11f2f926e92ba22056686e129f37a",
+  "current_sources": {
+    "hosted-oauth-plan.mjs": "f8c8b4cbf63b5a114f5f25810965c42d4c03d958b109ea490ba86ee8d22d27c8",
+    "hosted-oauth-readiness.mjs": "75e65daeefe415b1e7db8d357ebd3c5c7e31cf066aec971a11a4026e14aa0d43",
+    "hosted-oauth.test.mjs": "3d7d713fb507e7b15e4615cce77ba240949a35035c4d1d72e3937fc6b2290675",
+    "hosted-oauth-client.py": "e225f46d9136320e1bd233cd36fc07f3714d9ce5eb5c2794519f915ed186df2b",
+    "test_hosted_oauth_client.py": "cb4f6cd50761252fd270ec8433d60f54134da65cf22b034e69e480595862025a",
+    "HOSTED_OAUTH.md": "dc8c0cddac23491181d34dc84caa4148af99d75a6ac1e58cb61b6ba0a04cb273"
+  },
+  "independent_parity_findings_fixed": [
+    {
+      "finding": "Public plan environment aliases were not consumed by the app.",
+      "actual_red": { "passed": 8, "failed": 1, "failure": "Actual readMcpAuthConfig(publicMcpEnvironment(...)) raised MCP_AUTH_CONFIGURATION_REQUIRED 503." },
+      "remedy": "Emit MCP_AUTH_ISSUER and MCP_AUTH_CLIENT_IDS; actual app-parser interoperability regression."
+    },
+    {
+      "finding": "Readiness accepted malformed public EC coordinates or undersized RSA signing keys.",
+      "actual_red": { "passed": 9, "failed": 1, "failure": "Malformed signing material produced passed instead of failed." },
+      "remedy": "Node createPublicKey import, P-256 EC or RSA >=2048, public use/key_ops, private-field rejection. This was a probe false-positive, not an app JWT bypass."
+    }
+  ],
+  "actual_local_green": {
+    "command": "node tools/run-tests.mjs development/m07/controlled-pilot/hosted-oauth.test.mjs",
+    "passed": 10,
+    "failed": 0,
+    "exit_code": 0,
+    "scope": "Injected synthetic HTTP, actual app config parser and generated synthetic public keys; no provider/credentials.",
+    "scoped_eslint_exit_code": 0,
+    "client_python_tests_unchanged": { "passed": 12, "failed": 0 }
+  },
+  "independent_binding_source_review": {
+    "reviewer": "m07_security_review",
+    "authorship": "m07_parity",
+    "sources": {
+      "hosted-binding.py": "4e7fe8e5cae0007dca427c09a43cd9a670de4469093aaf6e06245752c554da18",
+      "test_hosted_binding.py": "2415fb5dbbbceb1ccadc3473af6de932e681309c5a02d3f09b74cb4b010aa66d",
+      "HOSTED_BINDING.sql": "1c7e06784a72c53f141c3ef9b45cb4012f48c45ff5c3cfb5d14565d15109669a",
+      "HOSTED_BINDING_READBACK.sql": "40244a1056488d51c39cfdcd23773a54761f89187750e75cda732df29351031b"
+    },
+    "result": "no_material_source_finding",
+    "boundaries_reviewed": [
+      "Actual client receipt discriminator/callback/UUID/freshness/source pins and core9 admission",
+      "Nested receipt paths and resolved workspace/reparse/stat checks; closed published metadata",
+      "Typed SQL UUID substitution, exact history30, one registry insert under locks",
+      "No Auth, enrollment, capability or provider-config write",
+      "Current hook8; ordered grants/Settings/Ready fingerprints and protected M02 locks",
+      "Fsynced permanent claim, rendered/source rechecks, two readbacks and no retry",
+      "Existing row or missing baseline cannot earn application/preservation credit"
+    ],
+    "reviewer_executed_cli_db_provider_or_tests": false,
+    "runtime_or_provider_clearance": false
+  },
+  "provider_or_configuration_actions_executed_by_author": false,
+  "actual_hosted_oauth_or_delegated_client_acceptance": false
+}

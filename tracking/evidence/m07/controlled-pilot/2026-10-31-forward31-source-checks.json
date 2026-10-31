@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-31T02:26:29.410689+00:00",
+  "evidence_kind": "source_only_forward31_checks",
+  "result": "passed",
+  "test_scope": "pure synthetic guards and tracked public metadata; no operator entrypoint",
+  "pure_tests_passed": 16,
+  "failures": 0,
+  "errors": 0,
+  "acl_and_ready_regression_red": {
+    "passed": 14,
+    "errors": 2
+  },
+  "sealed_public_source_admission": {
+    "approved_context_records_verified": 156,
+    "worker_source_pins": 93,
+    "frame_source_pins": 96,
+    "all_subprocesses_mocked_to_refuse": true
+  },
+  "sql_parser_checks": {
+    "update_statements": 10,
+    "update_plpgsql_blocks": 1,
+    "readback_statements": 6
+  },
+  "existing_directory_acl_check_only": true,
+  "private_directory_or_acl_mutations_performed": false,
+  "database_provider_or_adoption_actions_performed": false,
+  "source_pins": {
+    "development/m07/controlled-pilot/worker-forward31.py": "39741d783962e4a9fde38915578ba4cc84432a7dacb84ec6c8b78f1468541e18",
+    "development/m07/controlled-pilot/future-frame-forward31.py": "79a619517786c8f2b12e694555c989f19aba003f38efb4fb62d8cb0d30256631",
+    "development/m07/controlled-pilot/native-forward31-common.py": "ab91ce097d2fffd93a310307d31de8f5598a17f9483a63c7e83817fc6bec1283",
+    "development/m07/controlled-pilot/WORKER_FORWARD31_PLAN.json": "a793e61b98d9a211de51f2bad708ccc4fe9578514876ebc6a88b08e8043fccc7",
+    "development/m07/controlled-pilot/FUTURE_FRAME_FORWARD31.sql": "d8be0557b042daf6602974c539290481da4606e6fdf7cecf52630ebee6ba8897",
+    "development/m07/controlled-pilot/FUTURE_FRAME_FORWARD31_READBACK.sql": "6af4f43f6ab1789deed481ccd04d350cc6854a31f862e8de020a62a01239aeac",
+    "development/m07/controlled-pilot/test_native_forward31.py": "031c5a3004fb86b0effadd020877f00ef2bcd255c3b5ca42c6f9962854086cad",
+    "development/m07/controlled-pilot/NATIVE_FORWARD31.md": "5d77d592cbef8a72c891d1a52072def6bf10969ee10828f8c921aeecf96416a3"
+  },
+  "scope": "This source-only receipt does not prove live folder ACLs, fresh database quiescence, environment adoption, frame pin mutation, deployment or hosted core acceptance."
+}

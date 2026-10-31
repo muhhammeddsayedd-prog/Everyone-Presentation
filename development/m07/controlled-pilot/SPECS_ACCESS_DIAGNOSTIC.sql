@@ -1,0 +1,41 @@
+-- SELECT-only business/catalogue observation. No source text, keys or JWTs returned.
+begin read only;
+select jsonb_build_object(
+ 'database',current_database(),'operator',current_user,'read_only',current_setting('transaction_read_only')='on',
+ 'history',(select jsonb_agg(version order by version)from supabase_migrations.schema_migrations),
+ 'actor_id','0a79a703-caba-47e5-93d4-42e32197037a',
+ 'actor_exists',exists(select 1 from auth.users where id='0a79a703-caba-47e5-93d4-42e32197037a'),
+ 'project_id','6da14b82-8458-451f-aa21-28cb6c85bdc5','workspace_id','86936940-b48d-497d-b1ff-8e0da0913afa',
+ 'project_exists',exists(select 1 from public.projects where id='6da14b82-8458-451f-aa21-28cb6c85bdc5'),
+ 'project_archived',(select archived_at is not null from public.projects where id='6da14b82-8458-451f-aa21-28cb6c85bdc5'),
+ 'workspace_project_id',(select project_id from eps.workspaces where id='86936940-b48d-497d-b1ff-8e0da0913afa'),
+ 'workspace_archived',(select archived_at is not null from eps.workspaces where id='86936940-b48d-497d-b1ff-8e0da0913afa'),
+ 'membership_count',(select count(*)from public.project_memberships where project_id='6da14b82-8458-451f-aa21-28cb6c85bdc5'and principal_id='0a79a703-caba-47e5-93d4-42e32197037a'),
+ 'active_write_membership_count',(select count(*)from public.project_memberships where project_id='6da14b82-8458-451f-aa21-28cb6c85bdc5'and principal_id='0a79a703-caba-47e5-93d4-42e32197037a'and active and can_write),
+ 'projects_read',exists(select 1 from public.app_capability_grants where principal_id='0a79a703-caba-47e5-93d4-42e32197037a'and capability='projects.read'and active),
+ 'workspaces_read',exists(select 1 from public.app_capability_grants where principal_id='0a79a703-caba-47e5-93d4-42e32197037a'and capability='workspaces.read'and active),
+ 'workspaces_write',exists(select 1 from public.app_capability_grants where principal_id='0a79a703-caba-47e5-93d4-42e32197037a'and capability='workspaces.write'and active),
+ 'specs_count',(select count(*)from eps.specs where workspace_id='86936940-b48d-497d-b1ff-8e0da0913afa'),
+ 'specs_ids',coalesce((select jsonb_agg(id order by id)from eps.specs where workspace_id='86936940-b48d-497d-b1ff-8e0da0913afa'),'[]'::jsonb),
+ 'specs_row_versions',coalesce((select jsonb_agg(row_version order by id)from eps.specs where workspace_id='86936940-b48d-497d-b1ff-8e0da0913afa'),'[]'::jsonb),
+ 'specs_have_source',coalesce((select jsonb_agg(source_text is not null or source_asset_id is not null order by id)from eps.specs where workspace_id='86936940-b48d-497d-b1ff-8e0da0913afa'),'[]'::jsonb),
+ 'workspace_jobs_count',(select count(*)from eps.jobs where workspace_id='86936940-b48d-497d-b1ff-8e0da0913afa'),
+ 'accepted_specs_idempotency_count',(select count(*)from eps.idempotency_records i where i.principal_id='0a79a703-caba-47e5-93d4-42e32197037a'and i.operation='specs.submit_specs'and exists(select 1 from eps.specs s where s.workspace_id='86936940-b48d-497d-b1ff-8e0da0913afa'and i.response->>'resource_id'=s.id::text)),
+ 'workspace_initializer_enabled',exists(select 1 from pg_trigger where tgrelid='eps.workspaces'::regclass and tgname='specs_initialize_workspace'and not tgisinternal and tgenabled<>'D'and tgfoid=to_regprocedure('eps.specs_initialize_workspace()')),
+ 'submit_owner',(select pg_get_userbyid(proowner)from pg_proc where oid=to_regprocedure('public.eps_submit_specs(uuid,jsonb,text)')),
+ 'submit_security_definer',(select prosecdef from pg_proc where oid=to_regprocedure('public.eps_submit_specs(uuid,jsonb,text)')),
+ 'submit_authenticated_execute',has_function_privilege('authenticated','public.eps_submit_specs(uuid,jsonb,text)','EXECUTE'),
+ 'scope_security_definer',(select prosecdef from pg_proc where oid=to_regprocedure('eps.specs_scope(uuid,boolean)')),
+ 'scope_submit_owner_execute',has_function_privilege('eps_specs_submit_owner','eps.specs_scope(uuid,boolean)','EXECUTE'),
+ 'submit_inherits_authenticated',pg_has_role('eps_specs_submit_owner','authenticated','USAGE'),
+ 'submit_eps_usage',has_schema_privilege('eps_specs_submit_owner','eps','USAGE'),
+ 'authenticated_eps_usage',has_schema_privilege('authenticated','eps','USAGE'),
+ 'authenticated_scope_execute',has_function_privilege('authenticated','eps.specs_scope(uuid,boolean)','EXECUTE'),
+ 'submit_scope_select_privileges',(select bool_and(has_column_privilege('eps_specs_submit_owner',rel,col,'SELECT'))from(values
+  ('eps.workspaces','id'),('eps.workspaces','project_id'),('eps.workspaces','archived_at'),
+  ('public.projects','id'),('public.projects','archived_at'),
+  ('public.project_memberships','project_id'),('public.project_memberships','principal_id'),('public.project_memberships','active'),('public.project_memberships','can_write'),
+  ('public.app_capability_grants','principal_id'),('public.app_capability_grants','capability'),('public.app_capability_grants','active'))v(rel,col)),
+ 'submit_workspace_lock_privilege',has_column_privilege('eps_specs_submit_owner','eps.workspaces','row_version','UPDATE')
+)as specs_access_metadata;
+rollback;

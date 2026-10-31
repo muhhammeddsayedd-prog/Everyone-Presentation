@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-31T03:21:20.436Z",
+  "action": "apply",
+  "project_id": "prj_7xOsfRtvJ9voYi7rTEfra5ncOoA0",
+  "team_id": "team_gboXPxTevpCOZuaA8eY9PmR1",
+  "origin": "https://everyone-presentation-pilot.vercel.app",
+  "result": "passed",
+  "failed_or_last_phase": "final_readback",
+  "helper_write_operations_attempted": 4,
+  "helper_write_retry": false,
+  "cli_network_5xx_retries_maximum": 3,
+  "cli_request_attempts_maximum_per_operation": 4,
+  "cli_dpop_nonce_resends_maximum_per_request_attempt": 1,
+  "cli_request_attempt_scope": "Retry-loop attempts (initial plus three retries); DPoP nonce correction and authentication maintenance can add wire requests. No exact wire-count claim.",
+  "claim_retained": true,
+  "mode_oauth_observed": true,
+  "independent_metadata_equal": true,
+  "other_variable_metadata_preserved": true,
+  "public_values": {
+    "MCP_AUTH_MODE": "oauth",
+    "MCP_RESOURCE_URL": "https://everyone-presentation-pilot.vercel.app/mcp",
+    "MCP_AUTH_ISSUER": "https://pyibofyctwnqpvktepse.supabase.co/auth/v1",
+    "MCP_AUTH_CLIENT_IDS": "f2acafd5-d4b6-4176-b86c-067c57e45ecc"
+  },
+  "touched_metadata": [
+    {
+      "key": "MCP_AUTH_CLIENT_IDS",
+      "id": "g2ttUS3SSNJ4n52U",
+      "type": "plain",
+      "target": [
+        "preview",
+        "production"
+      ],
+      "createdAt": 1793416765422,
+      "updatedAt": 1793416765422
+    },
+    {
+      "key": "MCP_AUTH_ISSUER",
+      "id": "XTEcrg1F6oTXicCn",
+      "type": "plain",
+      "target": [
+        "preview",
+        "production"
+      ],
+      "createdAt": 1793416789767,
+      "updatedAt": 1793416789767
+    },
+    {
+      "key": "MCP_AUTH_MODE",
+      "id": "DQ8wtPM6UuLb8CEa",
+      "type": "plain",
+      "target": [
+        "preview",
+        "production"
+      ],
+      "createdAt": 1793393124334,
+      "updatedAt": 1793416855770
+    },
+    {
+      "key": "MCP_RESOURCE_URL",
+      "id": "pk8WWI3cSCOVnocW",
+      "type": "plain",
+      "target": [
+        "preview",
+        "production"
+      ],
+      "createdAt": 1793416813978,
+      "updatedAt": 1793416813978
+    }
+  ],
+  "source_and_gate_verified": true,
+  "runtime_verified": false,
+  "redeploy_performed": false,
+  "private_values_or_digests_recorded": false,
+  "scope": "Public Vercel environment configuration only; current deployment/OAuth issuance/Claude login not verified. CLI transport may retry the same unique-key create or same-ID/value PATCH. Unknown outer outcomes stop later writes; inspect only."
+}

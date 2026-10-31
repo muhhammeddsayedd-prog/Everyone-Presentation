@@ -1,0 +1,157 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-31T00:19:24.031Z",
+  "result": "absence_verified",
+  "mode": "unlock",
+  "retained_run_id": "7113cb6d-b93e-4fab-9fc2-329f164717c3",
+  "team_id": "team_gboXPxTevpCOZuaA8eY9PmR1",
+  "project_id": "prj_I4SMkDzaDy0KHNgiF00v4Da5aLb6",
+  "source_sha256": "bc774c88083d106fd522ee6277fc8a81033a6b94ff05e9debdfe1d6ee661a735",
+  "image": "muhammed-abdelrahman/everyone-presentation-worker-pilot/native@sha256:7846b45931a0394eafafdca0d0ae2791b8de74ee9a736fd39534e34134d0d16c",
+  "helper_sha256": "5f46e396918531d718710db4be589f7860857515eab2d2430b512a7f605d61a4",
+  "input_sha256": {
+    "tracking/evidence/m07/worker-hosting/2026-10-31T00-07-06.951Z-7113cb6d-hosted-probe.json": "8d7f3a4c149d5c07fcc98f40a1543889fca47db244e83adc0ac55ae2151827fe",
+    ".local/m07-pilot/native-probe.lock.json": "f39954b44b7d0fdcdbb5d6022f9d07650ae39bd0355a8ef246857311c9552081",
+    "tools/probe-hosted-native.mjs": "47b81799fb278e23c8c96791f9482d393fd31e41a40f3be51b3c60495af542da",
+    ".local/m07-pilot/tooling/node_modules/vercel/dist/chunks/chunk-YIOT5B5Z.js": "36a7d817e495b18babf431a5380e530f3f6ceb262120bafc56b3d9163aaae661",
+    ".local/m07-pilot/tooling/node_modules/vercel/dist/chunks/chunk-QZEZCUUZ.js": "d81dab4301ba45c2d3c786bbca5c29a5027e98976118102de7aa8e99b607d23a"
+  },
+  "provider_vm_mutations": false,
+  "provider_get_retry": false,
+  "token_persisted": false,
+  "raw_payload_persisted": false,
+  "lock_released": true,
+  "http_observations": [
+    {
+      "operation": "exact_get",
+      "status": 404,
+      "body_bytes_observed_capped": 0,
+      "error_code": null
+    },
+    {
+      "operation": "exact_get",
+      "status": 404,
+      "body_bytes_observed_capped": 0,
+      "error_code": null
+    },
+    {
+      "operation": "exact_get",
+      "status": 404,
+      "body_bytes_observed_capped": 0,
+      "error_code": null
+    },
+    {
+      "operation": "sandbox_list",
+      "status": 200,
+      "body_bytes_observed_capped": 53,
+      "error_code": null
+    },
+    {
+      "operation": "snapshot_list",
+      "status": 200,
+      "body_bytes_observed_capped": 53,
+      "error_code": null
+    },
+    {
+      "operation": "exact_get",
+      "status": 404,
+      "body_bytes_observed_capped": 0,
+      "error_code": null
+    },
+    {
+      "operation": "exact_get",
+      "status": 404,
+      "body_bytes_observed_capped": 0,
+      "error_code": null
+    },
+    {
+      "operation": "exact_get",
+      "status": 404,
+      "body_bytes_observed_capped": 0,
+      "error_code": null
+    },
+    {
+      "operation": "sandbox_list",
+      "status": 200,
+      "body_bytes_observed_capped": 53,
+      "error_code": null
+    },
+    {
+      "operation": "snapshot_list",
+      "status": 200,
+      "body_bytes_observed_capped": 53,
+      "error_code": null
+    }
+  ],
+  "original_failed_probe_reclassified": false,
+  "authentication": {
+    "owner_id": "team_gboXPxTevpCOZuaA8eY9PmR1",
+    "project_id": "prj_I4SMkDzaDy0KHNgiF00v4Da5aLb6",
+    "environment": "development",
+    "token_ttl_seconds": 43200,
+    "token_remaining_seconds": 43201,
+    "local_signature_verification": false,
+    "provenance": "authenticated fixed-project CLI mint; SDK service acceptance checked separately"
+  },
+  "absence_confirmed": true,
+  "observations": [
+    {
+      "gets": [
+        {
+          "name": "eps-native-probe-7113cb6d-b93e-4fab-9fc2-329f164717c3",
+          "http_status": 404
+        },
+        {
+          "name": "eps-native-42d71299-ca8e-4f33-b93a-1b13003acb5f",
+          "http_status": 404
+        },
+        {
+          "name": "eps-native-b95d6bb6-8745-4922-b36b-9554546fdd86",
+          "http_status": 404
+        }
+      ],
+      "sandboxes": {
+        "http_status": 200,
+        "count": 0,
+        "row_count": 0,
+        "has_more": false
+      },
+      "snapshots": {
+        "http_status": 200,
+        "count": 0,
+        "row_count": 0,
+        "has_more": false
+      }
+    },
+    {
+      "gets": [
+        {
+          "name": "eps-native-probe-7113cb6d-b93e-4fab-9fc2-329f164717c3",
+          "http_status": 404
+        },
+        {
+          "name": "eps-native-42d71299-ca8e-4f33-b93a-1b13003acb5f",
+          "http_status": 404
+        },
+        {
+          "name": "eps-native-b95d6bb6-8745-4922-b36b-9554546fdd86",
+          "http_status": 404
+        }
+      ],
+      "sandboxes": {
+        "http_status": 200,
+        "count": 0,
+        "row_count": 0,
+        "has_more": false
+      },
+      "snapshots": {
+        "http_status": 200,
+        "count": 0,
+        "row_count": 0,
+        "has_more": false
+      }
+    }
+  ],
+  "http_requests": 10,
+  "finished_at": "2026-10-31T00:19:29.128Z"
+}

@@ -1,0 +1,136 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-31T02:46:20.056Z",
+  "result": "observed",
+  "read_only": true,
+  "project_id": "prj_I4SMkDzaDy0KHNgiF00v4Da5aLb6",
+  "team_id": "team_gboXPxTevpCOZuaA8eY9PmR1",
+  "deployment_id": "dpl_CVDMpdETNwZYxdEyJ8XM66kSppdQ",
+  "window_start": "2026-10-31T02:36:20.056Z",
+  "window_end": "2026-10-31T02:46:20.056Z",
+  "raw_logs_configuration_cursors_or_diagnostics_persisted": false,
+  "provider_mutations": false,
+  "maximum_cli_commands": 4,
+  "cli_internal_http_retries_possible": true,
+  "exact_http_attempt_count_claimed": false,
+  "cli_version": "65.8.0",
+  "cli_source_pins": {
+    "vc.js": "5724f20cc65bb0e13c7a0668af107770ddb101bb72dd3fd6160aca672ea2a493",
+    "commands-routing.js": "1314ff6bb482b556ac540e12bf87d899b15e2e30ed1c907e54d5b664dea5ba90",
+    "commands-deployments.js": "5309d52278f46cf3cd7764690873038b4054c0b702ff885b9878a67ee6ff218a",
+    "chunks/chunk-CJHVHB2F.js": "c9301bc282bed45b0d8b127bf70cbc951c9d2ccf00be71289b331560445d03a0",
+    "chunks/chunk-OLAG7Y3P.js": "96356f41ba1d0a364761c04470e831dea6365ca51744f19d4dc710c728927b52",
+    "chunks/chunk-2PYFJXKS.js": "f19e025f07602444e832f4096c829928959f5a315ab09048c66f8505277d189b"
+  },
+  "helper_sha256": "528072b8e21ee0dfe79911a42ceeffeaf43b631688f16c0c6ddf5ce025b86263",
+  "before": {
+    "project_id": "prj_I4SMkDzaDy0KHNgiF00v4Da5aLb6",
+    "team_id": "team_gboXPxTevpCOZuaA8eY9PmR1",
+    "daemon": "worker",
+    "environment": "production",
+    "deployment_id": "dpl_CVDMpdETNwZYxdEyJ8XM66kSppdQ",
+    "status": "ready",
+    "updated_at_ms": 1793414766793,
+    "requested_image": {
+      "reference": "vcr.vercel.com/muhammed-abdelrahman/everyone-presentation-worker-pilot/daemon@sha256:971834e0d3f5c2035550a4c0c964c39af8ce6bf243db404c4baf9fb19f529137",
+      "digest": "sha256:971834e0d3f5c2035550a4c0c964c39af8ce6bf243db404c4baf9fb19f529137"
+    },
+    "resolved_image": {
+      "reference": "vcr.vercel.com/muhammed-abdelrahman/everyone-presentation-worker-pilot/daemon@sha256:971834e0d3f5c2035550a4c0c964c39af8ce6bf243db404c4baf9fb19f529137",
+      "digest": "sha256:971834e0d3f5c2035550a4c0c964c39af8ce6bf243db404c4baf9fb19f529137"
+    },
+    "configured_instances": {
+      "dub1": 1
+    },
+    "configured_override": null,
+    "memory_mib": 2048,
+    "termination_grace_seconds": 300,
+    "desired": 1,
+    "ready": 1,
+    "total": 1,
+    "instances": [
+      {
+        "id": "dmni_01m67xk8kwac728fjs9fbn0z6w",
+        "alive": true,
+        "image": {
+          "reference": "vcr.vercel.com/muhammed-abdelrahman/everyone-presentation-worker-pilot/daemon@sha256:971834e0d3f5c2035550a4c0c964c39af8ce6bf243db404c4baf9fb19f529137",
+          "digest": "sha256:971834e0d3f5c2035550a4c0c964c39af8ce6bf243db404c4baf9fb19f529137"
+        },
+        "region": "dub1",
+        "memory_mib": 2048,
+        "started_at_ms": 1793414766811,
+        "stopped_at_ms": null,
+        "last_checked_at_ms": 1793414772908
+      }
+    ]
+  },
+  "logs": [
+    {
+      "instance_id": "dmni_01m67xk8kwac728fjs9fbn0z6w",
+      "log_records": 4,
+      "unbound_records": 4,
+      "unrecognized_message_records": 0,
+      "truncated_records": 0,
+      "warning_records": 0,
+      "excluded_interval_count": 0,
+      "has_more": false,
+      "complete_window": true,
+      "last_startup_at_ms": null,
+      "events": {
+        "worker_started": 0,
+        "worker_unconfirmed": 0,
+        "pilot_expired": 0,
+        "worker_paused": 0
+      }
+    }
+  ],
+  "after": {
+    "project_id": "prj_I4SMkDzaDy0KHNgiF00v4Da5aLb6",
+    "team_id": "team_gboXPxTevpCOZuaA8eY9PmR1",
+    "daemon": "worker",
+    "environment": "production",
+    "deployment_id": "dpl_CVDMpdETNwZYxdEyJ8XM66kSppdQ",
+    "status": "ready",
+    "updated_at_ms": 1793414766793,
+    "requested_image": {
+      "reference": "vcr.vercel.com/muhammed-abdelrahman/everyone-presentation-worker-pilot/daemon@sha256:971834e0d3f5c2035550a4c0c964c39af8ce6bf243db404c4baf9fb19f529137",
+      "digest": "sha256:971834e0d3f5c2035550a4c0c964c39af8ce6bf243db404c4baf9fb19f529137"
+    },
+    "resolved_image": {
+      "reference": "vcr.vercel.com/muhammed-abdelrahman/everyone-presentation-worker-pilot/daemon@sha256:971834e0d3f5c2035550a4c0c964c39af8ce6bf243db404c4baf9fb19f529137",
+      "digest": "sha256:971834e0d3f5c2035550a4c0c964c39af8ce6bf243db404c4baf9fb19f529137"
+    },
+    "configured_instances": {
+      "dub1": 1
+    },
+    "configured_override": null,
+    "memory_mib": 2048,
+    "termination_grace_seconds": 300,
+    "desired": 1,
+    "ready": 1,
+    "total": 1,
+    "instances": [
+      {
+        "id": "dmni_01m67xk8kwac728fjs9fbn0z6w",
+        "alive": true,
+        "image": {
+          "reference": "vcr.vercel.com/muhammed-abdelrahman/everyone-presentation-worker-pilot/daemon@sha256:971834e0d3f5c2035550a4c0c964c39af8ce6bf243db404c4baf9fb19f529137",
+          "digest": "sha256:971834e0d3f5c2035550a4c0c964c39af8ce6bf243db404c4baf9fb19f529137"
+        },
+        "region": "dub1",
+        "memory_mib": 2048,
+        "started_at_ms": 1793414766811,
+        "stopped_at_ms": null,
+        "last_checked_at_ms": 1793414772908
+      }
+    ]
+  },
+  "observation": {
+    "metadata_identity_stable": true,
+    "current_instance_ready": true,
+    "startup_observed": false,
+    "polling_oidc_refresh_recovery_and_business_jobs_proven": false
+  },
+  "cli_commands_attempted": 3,
+  "finished_at": "2026-10-31T02:46:27.047Z"
+}

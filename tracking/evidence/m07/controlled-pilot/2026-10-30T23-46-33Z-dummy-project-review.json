@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-30T23:46:33Z",
+  "result": "source_ready_not_executed",
+  "previous_offline_receipt": "tracking/evidence/m07/controlled-pilot/2026-10-30T23-44-03Z-dummy-project-offline.json",
+  "scope": "Additive final source/review overlay; previous author receipt remains historical",
+  "sources": {
+    "development/m07/controlled-pilot/dummy-pilot-project.py": "f595962d3a54e6cc281ba7e66d25390c286a8cad5413056fc6e166a215ce40ef",
+    "development/m07/controlled-pilot/test_dummy_pilot_project.py": "3e6363e54bf0956b211ad61f02a60291c8b7e08506c410c0286b57fe7705916f",
+    "development/m07/controlled-pilot/DUMMY_PILOT_PROJECT_CREATE.sql": "e5e82c198802d19d891762ddeb4b7cfb457340e6549553eeff9b726c62e2d416",
+    "development/m07/controlled-pilot/DUMMY_PILOT_PROJECT_READBACK.sql": "e310bcdc0015a9c9e3a474f7e255e846bf504106fc58a49107c0d2344223f23c",
+    "development/m07/controlled-pilot/DUMMY_PILOT_PROJECT_OBSERVE.sql": "02c8f7bf7cb2b0de3f9b6cf516aae5288ca7e501976727807f61c0d662863faa",
+    "development/m07/controlled-pilot/DUMMY_PILOT_PROJECT.md": "9bde07f4e26312a59e0e49850938486d0b0d2917fb288c7d0c1fe7298d0ba533"
+  },
+  "self_review_correction": {
+    "problem": "A dispatch finally block could record parent termination after a pre-CLI refusal",
+    "change": "Record termination only in a callback immediately after subprocess.run actually returns, before exit/output parsing",
+    "red": "13 tests: 12 passed and 1 error because on_returned callback did not yet exist",
+    "green": "13 of 13 passed, including actual injected malformed-output return and timeout callback distinction",
+    "sql_or_target_changes": false
+  },
+  "final_author_checks": {
+    "pure_synthetic_tests": {"tests": 13, "passed": 13, "exit_code": 0},
+    "python_compile": "passed",
+    "git_diff_check_owned_files": "passed",
+    "sql_parser": "Previously passed: unchanged SQL, pglast7.21, 11/7 outer statements and one DO block each"
+  },
+  "independent_review": {
+    "reviewer": "/root/m07_recovery",
+    "result": "No material source finding",
+    "exact_sources_rehashed": true,
+    "reviewed_boundaries": ["fixed names/actor/canonical30", "absent casefolded target and locks", "two exact INSERT counts", "old casting/media/Settings/Ready/M02 fingerprints", "only new target and actor edge excluded", "post-return-only process proof", "permanent claim and two independent reads", "closed public receipt projection"],
+    "reviewer_executed_tests_parser_cli_or_database": false
+  },
+  "operator_modes_executed_by_author_or_reviewer": false,
+  "private_credential_or_media_file_reads": false,
+  "provider_database_or_browser_actions": false,
+  "project_created": false,
+  "root_next_action": "Run the reviewed inspect mode; perform the already authorized one-time apply only against the exact admissible observed baseline; retain actual receipts and browser proof separately"
+}

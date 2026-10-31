@@ -1,0 +1,196 @@
+{
+  "schema_version": "1.0",
+  "target": "pyibofyctwnqpvktepse",
+  "desired_auth_fields": {
+    "site_url": "https://everyone-presentation-pilot.vercel.app",
+    "oauth_server_enabled": true,
+    "oauth_server_authorization_path": "/oauth/consent",
+    "oauth_server_allow_dynamic_registration": false,
+    "hook_custom_access_token_enabled": true,
+    "hook_custom_access_token_uri": "pg-functions://postgres/eps/mcp_custom_access_token_hook"
+  },
+  "preserved_exact_redirects": [
+    "http://127.0.0.1:3000/api/auth/callback",
+    "https://everyone-presentation-pilot.vercel.app/api/auth/callback"
+  ],
+  "result": "passed",
+  "dispatch_attempted": true,
+  "push_outcome": "command_succeeded",
+  "automatic_push_retry": false,
+  "provider_configuration_observed": true,
+  "application_verified_by_readback": true,
+  "original_baseline_available": true,
+  "nonselected_returned_comparator_preserved": true,
+  "independent_readback_equal": true,
+  "database_hook_acl_verified_by_this_operator": false,
+  "unreturned_or_secret_plaintext_preservation_proven": false,
+  "raw_provider_values_or_hashes_persisted": false,
+  "claim_retained": true,
+  "cli_patch_unknown_transport_or_5xx_retry": false,
+  "cli_patch_429_retries_maximum": 5,
+  "process_cleanup_unconfirmed": false,
+  "planned_single_auth_patch": {
+    "hook_custom_access_token_enabled": true,
+    "hook_custom_access_token_uri": "pg-functions://postgres/eps/mcp_custom_access_token_hook",
+    "oauth_server_allow_dynamic_registration": false,
+    "oauth_server_authorization_path": "/oauth/consent",
+    "oauth_server_enabled": true,
+    "site_url": "https://everyone-presentation-pilot.vercel.app"
+  },
+  "repository_link_and_config_preserved": true,
+  "action": "apply",
+  "evidence_kind": "actual_provider_observation",
+  "source_and_core_pins": {
+    "supabase/.temp/project-ref": {
+      "sha256": "f706303084a6135ca452a75e7c40e4746086e8cadc156c66e4e42af80b4c0ee5",
+      "size": 20,
+      "mtime_ns": 1793370120070897400,
+      "device": 16882977500771278071,
+      "inode": 281474978496731
+    },
+    "supabase/config.toml": {
+      "sha256": "0a50cd9902ed3a31b57cde31171f725310ed8d0d3efbd7226f894d48272dfbb2",
+      "size": 411,
+      "mtime_ns": 1793152047520391400,
+      "device": 16882977500771278071,
+      "inode": 562949955202458
+    },
+    "development/m07/controlled-pilot/hosted-provider-final31.py": {
+      "sha256": "c239a6dca4b682a69838e78a989241c9cee31c61fc437a8aa2ee391d1a15e875",
+      "size": 23885,
+      "mtime_ns": 1793415191373010400,
+      "device": 16882977500771278071,
+      "inode": 281474978570849
+    },
+    "development/m07/controlled-pilot/test_hosted_provider_final31.py": {
+      "sha256": "c0f7915b22bb99323813485465be1287d63a862b060ec808659b37d61a006689",
+      "size": 11768,
+      "mtime_ns": 1793414478022293200,
+      "device": 16882977500771278071,
+      "inode": 281474978570843
+    },
+    "development/m07/controlled-pilot/HOSTED_PROVIDER_FINAL31.md": {
+      "sha256": "e23ddede3321eae2573fedca38c333df7f631df23a812d55b20741cf9d2c0bce",
+      "size": 8174,
+      "mtime_ns": 1793415288833517000,
+      "device": 16882977500771278071,
+      "inode": 281474978570853
+    },
+    "tracking/evidence/m07/controlled-pilot/HOSTED_CORE.json": {
+      "sha256": "4591f101d6632783b7c011e0cfc120b949363988b206de2b5a61b181664557e6",
+      "size": 2018,
+      "mtime_ns": 1793415094572813000,
+      "device": 16882977500771278071,
+      "inode": 281474978570894
+    },
+    "tracking/evidence/m07/controlled-pilot/2026-10-30-hosted-core-reads.json": {
+      "sha256": "9e1d1ed9b8ce5eee09eb6c9b99311adbd99caad68ef47a06436cf10919b76ac1",
+      "size": 1285,
+      "mtime_ns": 1793402252189479900,
+      "device": 16882977500771278071,
+      "inode": 562949955269409
+    },
+    "tracking/evidence/m07/controlled-pilot/2026-10-31-hosted-specs-provider-metadata.json": {
+      "sha256": "5f731e32b49e7fe483b9e275748804126b6ebf66c14adc44510015619d7a21fa",
+      "size": 3838,
+      "mtime_ns": 1793412111009159700,
+      "device": 16882977500771278071,
+      "inode": 281474978570763
+    },
+    "tracking/evidence/m07/controlled-pilot/2026-10-31-hosted-specs-app.json": {
+      "sha256": "382d05361166af40be09adcca25a1dc6065384e1e1cf44fd2b834520d084d822",
+      "size": 994,
+      "mtime_ns": 1793412370915082100,
+      "device": 16882977500771278071,
+      "inode": 281474978570781
+    },
+    "tracking/evidence/m07/controlled-pilot/2026-10-31-hosted-video-provider-metadata.json": {
+      "sha256": "f9cefc013fc7cf8e3d100d58e9822aafc21860015a45a53da827bcc3835b1f53",
+      "size": 7957,
+      "mtime_ns": 1793409662807368100,
+      "device": 16882977500771278071,
+      "inode": 281474978570447
+    },
+    "tracking/evidence/m07/controlled-pilot/2026-10-31-hosted-video-app.json": {
+      "sha256": "416a78a83e3c8d6d97686eefd8d4b658584e655190d8cb69416988ffc2aadcd5",
+      "size": 2977,
+      "mtime_ns": 1793409682361629300,
+      "device": 16882977500771278071,
+      "inode": 281474978570451
+    },
+    "tracking/evidence/m07/controlled-pilot/2026-10-31-hosted-selection-ready.json": {
+      "sha256": "ad2de9ca3ff1675a2b5c85a1135415c255bd9f5681eb9569058a94c404204ba5",
+      "size": 12570,
+      "mtime_ns": 1793414847416020300,
+      "device": 16882977500771278071,
+      "inode": 281474978570883
+    },
+    "tracking/evidence/m07/controlled-pilot/2026-10-31-hosted-pdf-downloads.json": {
+      "sha256": "a4f6001819b7f247555f32b8a12095e0de37d6dcf4ed7cf443d7ae1ea15f4d85",
+      "size": 998,
+      "mtime_ns": 1793414958772100900,
+      "device": 16882977500771278071,
+      "inode": 281474978570889
+    },
+    "tracking/evidence/m07/controlled-pilot/2026-10-31-hosted-pdf-inspection-qualification.json": {
+      "sha256": "2f7dcc6929811a6b66688bb66342d37b4a9f3177456bbd50cef26741a75e8c6d",
+      "size": 652,
+      "mtime_ns": 1793414981979694900,
+      "device": 16882977500771278071,
+      "inode": 281474978570890
+    },
+    "tracking/evidence/m07/controlled-pilot/2026-10-31-hosted-guest-feedback-v5.json": {
+      "sha256": "bc8fb6ccaa7d3a8995c274a21b9a7a7c0d025ecb7adfdc37ab5a408ed35926be",
+      "size": 986,
+      "mtime_ns": 1793414589661810600,
+      "device": 16882977500771278071,
+      "inode": 281474978570831
+    },
+    "tracking/evidence/m07/controlled-pilot/2026-10-31-hosted-guest-anonymous-v5.json": {
+      "sha256": "71f9c76bb6d0887920bd389640c1a627443f5317a5ba7c4a7dcba718032142a4",
+      "size": 726,
+      "mtime_ns": 1793414387739638600,
+      "device": 16882977500771278071,
+      "inode": 281474978570848
+    },
+    "tracking/evidence/m07/controlled-pilot/2026-10-31-hosted-guest-latest-feedback.json": {
+      "sha256": "2eafb07a0b54f3858dc0314d9681039def32955039ac704ee2019bfe7d1f9124",
+      "size": 628,
+      "mtime_ns": 1793414915654869100,
+      "device": 16882977500771278071,
+      "inode": 281474978570885
+    },
+    "tracking/evidence/m07/controlled-pilot/2026-10-31-hosted-pdf-original-anonymous.json": {
+      "sha256": "64355656fff3d03c491a8896de19cfaa84a9e886ec75184b94e6067440684b14",
+      "size": 777,
+      "mtime_ns": 1793415015600269600,
+      "device": 16882977500771278071,
+      "inode": 281474978570891
+    },
+    "tracking/evidence/m07/controlled-pilot/2026-10-31-hosted-core-final-app.json": {
+      "sha256": "e991075eabcc58b28edaac2b140b8efc5900bc2f924dc3575b386615d2104084",
+      "size": 1190,
+      "mtime_ns": 1793415068758729700,
+      "device": 16882977500771278071,
+      "inode": 281474978570893
+    },
+    "tracking/evidence/m07/controlled-pilot/2026-10-31-file-limits-worker-deployment.json": {
+      "sha256": "32448bc0fc56077101167194842de51df74955d7e3a93454de3d3abc8c67734f",
+      "size": 692,
+      "mtime_ns": 1793414776011489700,
+      "device": 16882977500771278071,
+      "inode": 281474978570881
+    },
+    "tracking/evidence/m07/controlled-pilot/2026-10-31T02-46-27.047Z-6f235e72-daemon-runtime.json": {
+      "sha256": "e7f8ec486253369fe19d956443df9f610b149789f88957eff2e97ea6e14973c5",
+      "size": 5397,
+      "mtime_ns": 1793414787051369400,
+      "device": 16882977500771278071,
+      "inode": 281474978570882
+    }
+  },
+  "observed_at": "2026-10-31T03:01:03.284841+00:00",
+  "logical_reads": 4,
+  "config_pull_requests": 12,
+  "prepared_directory": ".local/m07-pilot/hosted-provider-final31/2026-10-31T02-57-16-939852Z-3911c44e"
+}

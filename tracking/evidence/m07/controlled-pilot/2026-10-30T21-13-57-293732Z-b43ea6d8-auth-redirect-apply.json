@@ -1,0 +1,157 @@
+{
+  "target": "pyibofyctwnqpvktepse",
+  "current_redirects": [
+    "http://127.0.0.1:3000/api/auth/callback",
+    "https://everyone-presentation-pilot.vercel.app/api/auth/callback"
+  ],
+  "desired_redirects": [
+    "http://127.0.0.1:3000/api/auth/callback",
+    "https://everyone-presentation-pilot.vercel.app/api/auth/callback"
+  ],
+  "result": "passed",
+  "dispatch_attempted": true,
+  "automatic_push_retry": false,
+  "application_verified_by_readback": true,
+  "nonredirect_before_after_equal": true,
+  "independent_readback_equal": true,
+  "original_nonredirect_baseline_available": true,
+  "repeat_apply_prevented": false,
+  "push_outcome": "command_succeeded",
+  "raw_config_diagnostics_or_secret_digests_persisted": false,
+  "site_url_declared_or_modified": false,
+  "scope": "One callback update only. Other returned comparator values stay in memory; missing SiteURL is not an explicit read. Masked values are not plaintext-secret proof.",
+  "source_pins": {
+    "project_ref_sha256": "f706303084a6135ca452a75e7c40e4746086e8cadc156c66e4e42af80b4c0ee5",
+    "repository_config_sha256": "0a50cd9902ed3a31b57cde31171f725310ed8d0d3efbd7226f894d48272dfbb2",
+    "harness_sha256": "b38a3ffc14a6b6090c6bf7f620de34d06de761ba039179bb87931112bbb0231b"
+  },
+  "diff_metadata": [
+    {
+      "path": [
+        "auth",
+        "additional_redirect_urls"
+      ],
+      "class": "update",
+      "declared": true,
+      "local_type": "list",
+      "remote_type": "list"
+    },
+    {
+      "path": [
+        "auth",
+        "email",
+        "enable_confirmations"
+      ],
+      "class": "remote_only",
+      "declared": false,
+      "local_type": "bool",
+      "remote_type": "bool"
+    },
+    {
+      "path": [
+        "auth",
+        "email",
+        "max_frequency"
+      ],
+      "class": "remote_only",
+      "declared": false,
+      "local_type": "str",
+      "remote_type": "str"
+    },
+    {
+      "path": [
+        "auth",
+        "email",
+        "otp_length"
+      ],
+      "class": "remote_only",
+      "declared": false,
+      "local_type": "int",
+      "remote_type": "int"
+    },
+    {
+      "path": [
+        "auth",
+        "mfa",
+        "totp",
+        "enroll_enabled"
+      ],
+      "class": "remote_only",
+      "declared": false,
+      "local_type": "bool",
+      "remote_type": "bool"
+    },
+    {
+      "path": [
+        "auth",
+        "mfa",
+        "totp",
+        "verify_enabled"
+      ],
+      "class": "remote_only",
+      "declared": false,
+      "local_type": "bool",
+      "remote_type": "bool"
+    },
+    {
+      "path": [
+        "db",
+        "pooler",
+        "default_pool_size"
+      ],
+      "class": "remote_only",
+      "declared": false,
+      "local_type": "int",
+      "remote_type": "int"
+    },
+    {
+      "path": [
+        "db",
+        "pooler",
+        "max_client_conn"
+      ],
+      "class": "remote_only",
+      "declared": false,
+      "local_type": "int",
+      "remote_type": "int"
+    },
+    {
+      "path": [
+        "storage",
+        "analytics",
+        "enabled"
+      ],
+      "class": "remote_only",
+      "declared": false,
+      "local_type": "bool",
+      "remote_type": "bool"
+    },
+    {
+      "path": [
+        "storage",
+        "analytics",
+        "max_namespaces"
+      ],
+      "class": "remote_only",
+      "declared": false,
+      "local_type": "NoneType",
+      "remote_type": "int"
+    },
+    {
+      "path": [
+        "storage",
+        "image_transformation",
+        "enabled"
+      ],
+      "class": "remote_only",
+      "declared": false,
+      "local_type": "NoneType",
+      "remote_type": "bool"
+    }
+  ],
+  "action": "apply",
+  "observed_at": "2026-10-30T21:14:28.141891+00:00",
+  "repository_link_and_config_preserved": true,
+  "prepared_directory": ".local/m07-pilot/auth-redirects/2026-10-30T21-13-57-293732Z-b43ea6d8",
+  "fresh_readbacks": 3
+}

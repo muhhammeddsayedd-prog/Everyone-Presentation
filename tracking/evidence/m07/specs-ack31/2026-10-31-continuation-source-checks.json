@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "evidence_kind": "synthetic_source_only_checks",
+  "target": "pyibofyctwnqpvktepse",
+  "actual_cli_database_provider_or_private_claim_called": false,
+  "original_claim_or_admitted_sources_changed": false,
+  "initial_red": {
+    "kind": "missing_new_module",
+    "tests_selected": 1,
+    "errors": 1
+  },
+  "behavioral_red": {
+    "kind": "preserved_old_renderer_large_synthetic_baseline",
+    "tests_selected": 1,
+    "failures": 1,
+    "rendered_bytes": 7243664,
+    "required_upper_bound_bytes": 64000,
+    "old_source_changed": false
+  },
+  "green": {
+    "command": ".\\.venv-skills\\Scripts\\python.exe -X utf8 -B -m unittest discover -s development/m07/specs-ack31 -p test_continuation*.py",
+    "tests_passed": 13,
+    "failures": 0,
+    "errors": 0
+  },
+  "public_source_admission": {
+    "source_pins_matched": 81,
+    "private_and_cli_seams_mocked_to_refuse": true,
+    "passed": true
+  },
+  "parser_checks_exact_public_source_bytes_with_synthetic_baseline": {
+    "readonly_query_bytes": 15873,
+    "apply_bytes": 40600,
+    "readonly_statements": 7,
+    "apply_statements": 25,
+    "plpgsql_blocks": 11,
+    "python_ast_files": 5,
+    "passed": true,
+    "database_semantics_proven": false
+  },
+  "source_pins": {
+    "development/m07/specs-ack31/canonical-continuation.py": "86513dd493f592dd32ea0a66c6eec1bc614d3b7de17fd26af75e98c2cdddd3d5",
+    "development/m07/specs-ack31/continuation_sql.py": "6dd53354d78b91ed9680d4c7bd8f34aea7c1ab507b9a4e5d160a0b62607bede3",
+    "development/m07/specs-ack31/continuation_guards.py": "422ca39e46affde781faee940d8156b62a4800daf2e09e3c51ab0b83fa285556",
+    "development/m07/specs-ack31/canonical-continuation-plan.json": "f29ba5dd1512cf8d51c117ac17b56089e74f50e7cf373916b973a3f69f30d211",
+    "development/m07/specs-ack31/test_continuation.py": "a25c04a28ce18effb6db7513bc08edc60e08f0e89bad474b0aaf0961299c1215",
+    "development/m07/specs-ack31/test_continuation_controller.py": "93b72ad144c730e9c2ccf3047a8a632f9fb3365adef41bbda197a11305eb5afb",
+    "development/m07/specs-ack31/CANONICAL_CONTINUATION.md": "3391c8db2596f3ee12a5c19dbcc9c6fa615b9e81014a61f63286709f29653241"
+  },
+  "scope": "No actual continuation admission, commit, preservation, runtime or OAuth acceptance is claimed. The original apply wire outcome remains unknown."
+}

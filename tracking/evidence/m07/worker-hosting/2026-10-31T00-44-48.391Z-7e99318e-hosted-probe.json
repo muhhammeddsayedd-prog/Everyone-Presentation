@@ -1,0 +1,1673 @@
+{
+  "schema_version": "1.0",
+  "run_id": "7e99318e-7558-44a7-9eca-fefa4358c0e6",
+  "started_at": "2026-10-31T00:44:48.390Z",
+  "result": "passed",
+  "project_id": "prj_I4SMkDzaDy0KHNgiF00v4Da5aLb6",
+  "team_id": "team_gboXPxTevpCOZuaA8eY9PmR1",
+  "source_sha256": "3790b2b327da7eca18b1aad3a0dfaae02892b0130647e4527a25dd24aa3d54a3",
+  "private_media_used": false,
+  "worker_polling": false,
+  "db_jobs_or_openai_n8n_calls": false,
+  "provider_control_plane_called": true,
+  "token_persisted": false,
+  "local_signature_verification": false,
+  "sdk_transport_policy": {
+    "sdk_default_retries_maximum": 2,
+    "sdk_default_retry_loop_attempts_maximum": 3,
+    "non_detached_command_http_retries": 0,
+    "repeated_create_uses_same_project_name": true,
+    "sandbox_auto_resume_possible": true,
+    "exact_wire_or_vm_count_proven": false,
+    "scope": "Bounds count distinct named resources. SDK creation/read/write/stop/delete may retry; non-detached command POST uses retry zero. Sandbox methods may auto-resume a session. Passing proof requires initial/current/cleanup session equality; no exact wire or VM-session count claim."
+  },
+  "probe_release": {
+    "source_sha256": "3790b2b327da7eca18b1aad3a0dfaae02892b0130647e4527a25dd24aa3d54a3",
+    "context_relative": ".local/worker-hosting/77e14c2e-5ae9-4aa6-aec0-636f789c4625/context",
+    "file_count": 156,
+    "native_uid": 65432,
+    "native_gid": 65432,
+    "native_identity_sha256": "f3b55692bdc48ab05b108915692509d124f50ea4d32153ebf39d87f0ff5d3aa0",
+    "native_task_limits_sha256": "6e68287b3005059d9a0ce860dc90f46342bb24819cd8e7bf6bff7cbecf7215e4",
+    "seal_validator_sha256": "ce7b9c4fa9c0d557d0d28784f6caca7b6752379dcfd218e4d9d526cf4ee94cc6",
+    "runtime_contract_sha256": {
+      "contracts/json-schema/candidate-extraction.schema.json": "693f12f8d6a7c19627a453a142a9f4a77847c494b428c33b3888d4305046af64",
+      "contracts/json-schema/frame-selection.schema.json": "200555c60381f36a37b9628046f0059d004adc0b2fe020e167dfbda165af1b8c",
+      "contracts/json-schema/slide-wording.schema.json": "c7a6681aa341d9ac217c12888486b422010bbf1893ad4790de7a24b74408bf56",
+      "contracts/json-schema/specs-extraction.schema.json": "c55e758da1b71119a3a8d7cc408340e502088c8ab88a89c81da7effb85a8809d"
+    },
+    "diagnostic_modes_enabled": false
+  },
+  "phases": [
+    {
+      "phase": "image_source_seal",
+      "result": "passed",
+      "source_sha256": "3790b2b327da7eca18b1aad3a0dfaae02892b0130647e4527a25dd24aa3d54a3"
+    },
+    {
+      "phase": "boundary",
+      "result": "passed",
+      "proof": {
+        "protocol": "eps-native-boundary-v1",
+        "uid": 65432,
+        "gid": 65432,
+        "capabilities_empty": true,
+        "no_new_privileges": true,
+        "known_write_denials": 10,
+        "checked_paths": 22560,
+        "writable_outside_tmp": 0
+      }
+    },
+    {
+      "phase": "image_control_user",
+      "result": "passed",
+      "uid": 0
+    },
+    {
+      "phase": "network_denial",
+      "result": "passed",
+      "proof": {
+        "protocol": "eps-native-network-v1",
+        "dns_denied": true,
+        "ip_denied": true
+      }
+    },
+    {
+      "phase": "smoke_document",
+      "result": "passed",
+      "elapsed_ms": 10619
+    },
+    {
+      "phase": "smoke_document",
+      "result": "passed",
+      "elapsed_ms": 9870
+    },
+    {
+      "phase": "smoke_pdf_raster",
+      "result": "passed",
+      "elapsed_ms": 9093
+    },
+    {
+      "phase": "smoke_video",
+      "result": "passed",
+      "elapsed_ms": 8108
+    },
+    {
+      "phase": "smoke_review_fit",
+      "result": "passed",
+      "elapsed_ms": 9545
+    },
+    {
+      "phase": "smoke_presentation_render",
+      "result": "passed",
+      "elapsed_ms": 10597
+    },
+    {
+      "phase": "smoke_presentation_validate",
+      "result": "passed",
+      "elapsed_ms": 8959
+    },
+    {
+      "phase": "smoke_presentation_export_render",
+      "result": "passed",
+      "elapsed_ms": 9550
+    },
+    {
+      "phase": "smoke_presentation_export_validate",
+      "result": "passed",
+      "elapsed_ms": 9534
+    }
+  ],
+  "cleanup_confirmed": true,
+  "transport_observations": [
+    {
+      "endpoint_class": "sandbox_collection",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 379,
+      "phase": "other_phase",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "sandbox_collection",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 355,
+      "phase": "other_phase",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "sandbox_collection",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 2332,
+      "phase": "boundary_create",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_files",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 505,
+      "phase": "image_source_seal",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_command",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 426,
+      "phase": "boundary_init",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_files",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 445,
+      "phase": "boundary_file",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_command",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 427,
+      "phase": "image_control_user",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_command",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 425,
+      "phase": "network_denial",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_command",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 615,
+      "phase": "synthetic_fixture",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_files",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 494,
+      "phase": "synthetic_fixture",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "sandbox_collection",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 224,
+      "phase": "boundary_cleanup",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "named_sandbox",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 369,
+      "phase": "boundary_cleanup",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_stop",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 1763,
+      "phase": "boundary_cleanup",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "named_sandbox",
+      "method": "DELETE",
+      "http_status": 200,
+      "elapsed_ms": 272,
+      "phase": "boundary_cleanup",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "sandbox_collection",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 202,
+      "phase": "boundary_cleanup",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "named_sandbox",
+      "method": "GET",
+      "http_status": 404,
+      "elapsed_ms": 198,
+      "phase": "boundary_cleanup",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "sandbox_collection",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 2220,
+      "phase": "smoke_document",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_command",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 414,
+      "phase": "smoke_document",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_files",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 582,
+      "phase": "smoke_document",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_command",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 714,
+      "phase": "smoke_document",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_files",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 996,
+      "phase": "smoke_document",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_files",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 943,
+      "phase": "smoke_document",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "sandbox_collection",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 480,
+      "phase": "smoke_document",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "named_sandbox",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 288,
+      "phase": "smoke_document",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_stop",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 1422,
+      "phase": "smoke_document",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "named_sandbox",
+      "method": "DELETE",
+      "http_status": 200,
+      "elapsed_ms": 254,
+      "phase": "smoke_document",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "sandbox_collection",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 205,
+      "phase": "smoke_document",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "named_sandbox",
+      "method": "GET",
+      "http_status": 404,
+      "elapsed_ms": 196,
+      "phase": "smoke_document",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "sandbox_collection",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 564,
+      "phase": "smoke_document",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_command",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 435,
+      "phase": "smoke_document",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_files",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 494,
+      "phase": "smoke_document",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_command",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 417,
+      "phase": "smoke_document",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_files",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 440,
+      "phase": "smoke_document",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_files",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 409,
+      "phase": "smoke_document",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "sandbox_collection",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 322,
+      "phase": "smoke_document",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "named_sandbox",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 229,
+      "phase": "smoke_document",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_stop",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 1343,
+      "phase": "smoke_document",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "named_sandbox",
+      "method": "DELETE",
+      "http_status": 200,
+      "elapsed_ms": 510,
+      "phase": "smoke_document",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "sandbox_collection",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 558,
+      "phase": "smoke_document",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "named_sandbox",
+      "method": "GET",
+      "http_status": 404,
+      "elapsed_ms": 1010,
+      "phase": "smoke_document",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "sandbox_collection",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 2325,
+      "phase": "smoke_pdf_raster",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_command",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 422,
+      "phase": "smoke_pdf_raster",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_files",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 515,
+      "phase": "smoke_pdf_raster",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_command",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 421,
+      "phase": "smoke_pdf_raster",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_files",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 420,
+      "phase": "smoke_pdf_raster",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_files",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 578,
+      "phase": "smoke_pdf_raster",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "sandbox_collection",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 375,
+      "phase": "smoke_pdf_raster",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "named_sandbox",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 230,
+      "phase": "smoke_pdf_raster",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_stop",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 1387,
+      "phase": "smoke_pdf_raster",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "named_sandbox",
+      "method": "DELETE",
+      "http_status": 200,
+      "elapsed_ms": 284,
+      "phase": "smoke_pdf_raster",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "sandbox_collection",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 237,
+      "phase": "smoke_pdf_raster",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "named_sandbox",
+      "method": "GET",
+      "http_status": 404,
+      "elapsed_ms": 194,
+      "phase": "smoke_pdf_raster",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "sandbox_collection",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 513,
+      "phase": "smoke_video",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_command",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 398,
+      "phase": "smoke_video",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_files",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 686,
+      "phase": "smoke_video",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_command",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 676,
+      "phase": "smoke_video",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_files",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 646,
+      "phase": "smoke_video",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_files",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 417,
+      "phase": "smoke_video",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "sandbox_collection",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 201,
+      "phase": "smoke_video",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "named_sandbox",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 275,
+      "phase": "smoke_video",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_stop",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 1486,
+      "phase": "smoke_video",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "named_sandbox",
+      "method": "DELETE",
+      "http_status": 200,
+      "elapsed_ms": 316,
+      "phase": "smoke_video",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "sandbox_collection",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 207,
+      "phase": "smoke_video",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "named_sandbox",
+      "method": "GET",
+      "http_status": 404,
+      "elapsed_ms": 210,
+      "phase": "smoke_video",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "sandbox_collection",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 558,
+      "phase": "smoke_review_fit",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_command",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 419,
+      "phase": "smoke_review_fit",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_files",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 887,
+      "phase": "smoke_review_fit",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_command",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 735,
+      "phase": "smoke_review_fit",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_files",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 501,
+      "phase": "smoke_review_fit",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_files",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 537,
+      "phase": "smoke_review_fit",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "sandbox_collection",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 204,
+      "phase": "smoke_review_fit",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "named_sandbox",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 418,
+      "phase": "smoke_review_fit",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_stop",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 1335,
+      "phase": "smoke_review_fit",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "named_sandbox",
+      "method": "DELETE",
+      "http_status": 200,
+      "elapsed_ms": 279,
+      "phase": "smoke_review_fit",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "sandbox_collection",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 211,
+      "phase": "smoke_review_fit",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "named_sandbox",
+      "method": "GET",
+      "http_status": 404,
+      "elapsed_ms": 184,
+      "phase": "smoke_review_fit",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "sandbox_collection",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 1003,
+      "phase": "smoke_presentation_render",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_command",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 410,
+      "phase": "smoke_presentation_render",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_files",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 500,
+      "phase": "smoke_presentation_render",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_command",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 418,
+      "phase": "smoke_presentation_render",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_files",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 434,
+      "phase": "smoke_presentation_render",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_files",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 545,
+      "phase": "smoke_presentation_render",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "sandbox_collection",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 217,
+      "phase": "smoke_presentation_render",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "named_sandbox",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 208,
+      "phase": "smoke_presentation_render",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_stop",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 2479,
+      "phase": "smoke_presentation_render",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "named_sandbox",
+      "method": "DELETE",
+      "http_status": 200,
+      "elapsed_ms": 430,
+      "phase": "smoke_presentation_render",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "sandbox_collection",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 438,
+      "phase": "smoke_presentation_render",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "named_sandbox",
+      "method": "GET",
+      "http_status": 404,
+      "elapsed_ms": 513,
+      "phase": "smoke_presentation_render",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "sandbox_collection",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 911,
+      "phase": "smoke_presentation_validate",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_command",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 518,
+      "phase": "smoke_presentation_validate",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_files",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 698,
+      "phase": "smoke_presentation_validate",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_command",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 412,
+      "phase": "smoke_presentation_validate",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_files",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 404,
+      "phase": "smoke_presentation_validate",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_files",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 415,
+      "phase": "smoke_presentation_validate",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "sandbox_collection",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 206,
+      "phase": "smoke_presentation_validate",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "named_sandbox",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 217,
+      "phase": "smoke_presentation_validate",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_stop",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 1324,
+      "phase": "smoke_presentation_validate",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "named_sandbox",
+      "method": "DELETE",
+      "http_status": 200,
+      "elapsed_ms": 275,
+      "phase": "smoke_presentation_validate",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "sandbox_collection",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 195,
+      "phase": "smoke_presentation_validate",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "named_sandbox",
+      "method": "GET",
+      "http_status": 404,
+      "elapsed_ms": 192,
+      "phase": "smoke_presentation_validate",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "sandbox_collection",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 545,
+      "phase": "smoke_presentation_export_render",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_command",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 412,
+      "phase": "smoke_presentation_export_render",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_files",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 490,
+      "phase": "smoke_presentation_export_render",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_command",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 415,
+      "phase": "smoke_presentation_export_render",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_files",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 597,
+      "phase": "smoke_presentation_export_render",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_files",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 798,
+      "phase": "smoke_presentation_export_render",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "sandbox_collection",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 561,
+      "phase": "smoke_presentation_export_render",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "named_sandbox",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 541,
+      "phase": "smoke_presentation_export_render",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_stop",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 1543,
+      "phase": "smoke_presentation_export_render",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "named_sandbox",
+      "method": "DELETE",
+      "http_status": 200,
+      "elapsed_ms": 242,
+      "phase": "smoke_presentation_export_render",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "sandbox_collection",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 201,
+      "phase": "smoke_presentation_export_render",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "named_sandbox",
+      "method": "GET",
+      "http_status": 404,
+      "elapsed_ms": 194,
+      "phase": "smoke_presentation_export_render",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "sandbox_collection",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 719,
+      "phase": "smoke_presentation_export_validate",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_command",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 416,
+      "phase": "smoke_presentation_export_validate",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_files",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 795,
+      "phase": "smoke_presentation_export_validate",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_command",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 426,
+      "phase": "smoke_presentation_export_validate",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_files",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 427,
+      "phase": "smoke_presentation_export_validate",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_files",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 479,
+      "phase": "smoke_presentation_export_validate",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "sandbox_collection",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 216,
+      "phase": "smoke_presentation_export_validate",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "named_sandbox",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 221,
+      "phase": "smoke_presentation_export_validate",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "session_stop",
+      "method": "POST",
+      "http_status": 200,
+      "elapsed_ms": 1350,
+      "phase": "smoke_presentation_export_validate",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "named_sandbox",
+      "method": "DELETE",
+      "http_status": 200,
+      "elapsed_ms": 252,
+      "phase": "smoke_presentation_export_validate",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "sandbox_collection",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 187,
+      "phase": "smoke_presentation_export_validate",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "named_sandbox",
+      "method": "GET",
+      "http_status": 404,
+      "elapsed_ms": 379,
+      "phase": "smoke_presentation_export_validate",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "sandbox_collection",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 204,
+      "phase": "final_observation",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "named_sandbox",
+      "method": "GET",
+      "http_status": 404,
+      "elapsed_ms": 194,
+      "phase": "final_observation",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "snapshot_collection",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 194,
+      "phase": "final_observation",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "sandbox_collection",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 173,
+      "phase": "final_observation",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "named_sandbox",
+      "method": "GET",
+      "http_status": 404,
+      "elapsed_ms": 188,
+      "phase": "final_observation",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "snapshot_collection",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 200,
+      "phase": "final_observation",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "sandbox_collection",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 208,
+      "phase": "final_observation",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "named_sandbox",
+      "method": "GET",
+      "http_status": 404,
+      "elapsed_ms": 392,
+      "phase": "final_observation",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "snapshot_collection",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 204,
+      "phase": "final_observation",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "sandbox_collection",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 212,
+      "phase": "final_observation",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "named_sandbox",
+      "method": "GET",
+      "http_status": 404,
+      "elapsed_ms": 187,
+      "phase": "final_observation",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "snapshot_collection",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 188,
+      "phase": "final_observation",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "sandbox_collection",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 191,
+      "phase": "final_observation",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "named_sandbox",
+      "method": "GET",
+      "http_status": 404,
+      "elapsed_ms": 183,
+      "phase": "final_observation",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "snapshot_collection",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 213,
+      "phase": "final_observation",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "sandbox_collection",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 184,
+      "phase": "final_observation",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "named_sandbox",
+      "method": "GET",
+      "http_status": 404,
+      "elapsed_ms": 193,
+      "phase": "final_observation",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "snapshot_collection",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 188,
+      "phase": "final_observation",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "sandbox_collection",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 190,
+      "phase": "final_observation",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "named_sandbox",
+      "method": "GET",
+      "http_status": 404,
+      "elapsed_ms": 202,
+      "phase": "final_observation",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "snapshot_collection",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 197,
+      "phase": "final_observation",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "sandbox_collection",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 198,
+      "phase": "final_observation",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "named_sandbox",
+      "method": "GET",
+      "http_status": 404,
+      "elapsed_ms": 208,
+      "phase": "final_observation",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "snapshot_collection",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 207,
+      "phase": "final_observation",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "sandbox_collection",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 185,
+      "phase": "final_observation",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "named_sandbox",
+      "method": "GET",
+      "http_status": 404,
+      "elapsed_ms": 198,
+      "phase": "final_observation",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "snapshot_collection",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 459,
+      "phase": "final_observation",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "sandbox_collection",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 285,
+      "phase": "final_observation",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "named_sandbox",
+      "method": "GET",
+      "http_status": 404,
+      "elapsed_ms": 228,
+      "phase": "final_observation",
+      "network_error_name": null,
+      "network_error_code": null
+    },
+    {
+      "endpoint_class": "snapshot_collection",
+      "method": "GET",
+      "http_status": 200,
+      "elapsed_ms": 188,
+      "phase": "final_observation",
+      "network_error_name": null,
+      "network_error_code": null
+    }
+  ],
+  "image": "muhammed-abdelrahman/everyone-presentation-worker-pilot/native@sha256:5e2500470a76caff11fa4b82a0d328dec423090ce8ba2d6417663283bacfff06",
+  "plan": {
+    "mode": "smoke",
+    "maximum_named_resources": 10,
+    "overall_timeout_ms": 600000,
+    "cleanup_timeout_ms": 30000,
+    "maximum_http_calls": 240
+  },
+  "sdk_transport_source_sha256": {
+    "api-client/base-client.js": "ce90630c640f0edbb52b1504c2c4c9c5868850106bee05ec53d7cb8d529fdf63",
+    "api-client/with-retry.js": "4fd9fd7acfb64eed38b65ef92326bc6710767a097cb253e4f44bd68ab089866d",
+    "api-client/api-client.js": "b1de5c164fe5360a34bfd51c653df63abd37c9cb4d53280d072c751d3cfd5da1",
+    "session.js": "bf6aee3451ab7622076ec18351462ea71d2db968d4f9e61fd49508e8c468a20c",
+    "sandbox.js": "314e2889e186c979ce32f381b1a77a8caea32fa246424baddd1c929f7d88b866"
+  },
+  "probe_release_source_sha256": "e4607c3ef8eea47ea1ee092e4a89fd7901c75af7cf2cc338d99cb196275b3884",
+  "authentication": {
+    "owner_id": "team_gboXPxTevpCOZuaA8eY9PmR1",
+    "project_id": "prj_I4SMkDzaDy0KHNgiF00v4Da5aLb6",
+    "environment": "development",
+    "token_ttl_seconds": 43200,
+    "token_remaining_seconds": 43201,
+    "local_signature_verification": false,
+    "provenance": "authenticated fixed-project CLI mint; SDK service acceptance checked separately"
+  },
+  "initial_current_cleanup_sessions_equal": true,
+  "resources": [
+    {
+      "name": "eps-native-probe-7e99318e-7558-44a7-9eca-fefa4358c0e6",
+      "attempted": true,
+      "identity_observed": true,
+      "session_id": "sbx_KICrfw6hMcbs2BqieA4hUPV7AxME",
+      "initial_session_id": "sbx_KICrfw6hMcbs2BqieA4hUPV7AxME",
+      "current_session_id": "sbx_KICrfw6hMcbs2BqieA4hUPV7AxME",
+      "cleanup_session_id": "sbx_KICrfw6hMcbs2BqieA4hUPV7AxME",
+      "initial_current_cleanup_session_equal": true,
+      "session_consistency_failed": false,
+      "absence_verified": true,
+      "snapshot_absence_verified": true
+    },
+    {
+      "name": "eps-native-c9f8a636-09ed-45af-aa21-5ba26021ef11",
+      "attempted": true,
+      "identity_observed": true,
+      "session_id": "sbx_YvtNkpuNK5v8gt8kp9tonTnCmWmf",
+      "initial_session_id": "sbx_YvtNkpuNK5v8gt8kp9tonTnCmWmf",
+      "current_session_id": "sbx_YvtNkpuNK5v8gt8kp9tonTnCmWmf",
+      "cleanup_session_id": "sbx_YvtNkpuNK5v8gt8kp9tonTnCmWmf",
+      "initial_current_cleanup_session_equal": true,
+      "session_consistency_failed": false,
+      "absence_verified": true,
+      "snapshot_absence_verified": true
+    },
+    {
+      "name": "eps-native-a7a194a6-082c-4ad4-b97c-3629251c4338",
+      "attempted": true,
+      "identity_observed": true,
+      "session_id": "sbx_nSWR2gsC8knaBWXeWgSnXVADZ3nW",
+      "initial_session_id": "sbx_nSWR2gsC8knaBWXeWgSnXVADZ3nW",
+      "current_session_id": "sbx_nSWR2gsC8knaBWXeWgSnXVADZ3nW",
+      "cleanup_session_id": "sbx_nSWR2gsC8knaBWXeWgSnXVADZ3nW",
+      "initial_current_cleanup_session_equal": true,
+      "session_consistency_failed": false,
+      "absence_verified": true,
+      "snapshot_absence_verified": true
+    },
+    {
+      "name": "eps-native-2fffb081-07b7-4249-92e6-e85225a50e3e",
+      "attempted": true,
+      "identity_observed": true,
+      "session_id": "sbx_baeodb1YmdglvwWma41H0KQG3ayp",
+      "initial_session_id": "sbx_baeodb1YmdglvwWma41H0KQG3ayp",
+      "current_session_id": "sbx_baeodb1YmdglvwWma41H0KQG3ayp",
+      "cleanup_session_id": "sbx_baeodb1YmdglvwWma41H0KQG3ayp",
+      "initial_current_cleanup_session_equal": true,
+      "session_consistency_failed": false,
+      "absence_verified": true,
+      "snapshot_absence_verified": true
+    },
+    {
+      "name": "eps-native-d614ad89-ed4c-457d-94df-5045a8a65577",
+      "attempted": true,
+      "identity_observed": true,
+      "session_id": "sbx_Vh0Psa15MZ0wjlIfByorwEjOujAs",
+      "initial_session_id": "sbx_Vh0Psa15MZ0wjlIfByorwEjOujAs",
+      "current_session_id": "sbx_Vh0Psa15MZ0wjlIfByorwEjOujAs",
+      "cleanup_session_id": "sbx_Vh0Psa15MZ0wjlIfByorwEjOujAs",
+      "initial_current_cleanup_session_equal": true,
+      "session_consistency_failed": false,
+      "absence_verified": true,
+      "snapshot_absence_verified": true
+    },
+    {
+      "name": "eps-native-6befb7a1-4def-4584-90b8-158c0234173d",
+      "attempted": true,
+      "identity_observed": true,
+      "session_id": "sbx_ofcGfct6NLCiz0TpohyyWitePaDj",
+      "initial_session_id": "sbx_ofcGfct6NLCiz0TpohyyWitePaDj",
+      "current_session_id": "sbx_ofcGfct6NLCiz0TpohyyWitePaDj",
+      "cleanup_session_id": "sbx_ofcGfct6NLCiz0TpohyyWitePaDj",
+      "initial_current_cleanup_session_equal": true,
+      "session_consistency_failed": false,
+      "absence_verified": true,
+      "snapshot_absence_verified": true
+    },
+    {
+      "name": "eps-native-68306d8b-167c-4685-b202-655a4b2d3fd5",
+      "attempted": true,
+      "identity_observed": true,
+      "session_id": "sbx_kpiUychTGAFD242khlD70hvdgGAu",
+      "initial_session_id": "sbx_kpiUychTGAFD242khlD70hvdgGAu",
+      "current_session_id": "sbx_kpiUychTGAFD242khlD70hvdgGAu",
+      "cleanup_session_id": "sbx_kpiUychTGAFD242khlD70hvdgGAu",
+      "initial_current_cleanup_session_equal": true,
+      "session_consistency_failed": false,
+      "absence_verified": true,
+      "snapshot_absence_verified": true
+    },
+    {
+      "name": "eps-native-c3619ae2-2d60-45cb-b4aa-357142b698fb",
+      "attempted": true,
+      "identity_observed": true,
+      "session_id": "sbx_B0jExS5AFGVfYVSAoJSGFfQrnbrS",
+      "initial_session_id": "sbx_B0jExS5AFGVfYVSAoJSGFfQrnbrS",
+      "current_session_id": "sbx_B0jExS5AFGVfYVSAoJSGFfQrnbrS",
+      "cleanup_session_id": "sbx_B0jExS5AFGVfYVSAoJSGFfQrnbrS",
+      "initial_current_cleanup_session_equal": true,
+      "session_consistency_failed": false,
+      "absence_verified": true,
+      "snapshot_absence_verified": true
+    },
+    {
+      "name": "eps-native-2b5b1224-eb80-48aa-83b2-61138d2ceeb5",
+      "attempted": true,
+      "identity_observed": true,
+      "session_id": "sbx_HrpGHHfTFe2e22h6RpCgWYRFxfac",
+      "initial_session_id": "sbx_HrpGHHfTFe2e22h6RpCgWYRFxfac",
+      "current_session_id": "sbx_HrpGHHfTFe2e22h6RpCgWYRFxfac",
+      "cleanup_session_id": "sbx_HrpGHHfTFe2e22h6RpCgWYRFxfac",
+      "initial_current_cleanup_session_equal": true,
+      "session_consistency_failed": false,
+      "absence_verified": true,
+      "snapshot_absence_verified": true
+    },
+    {
+      "name": "eps-native-eb762cb8-7e1e-4f31-abd7-ecbc178fd92a",
+      "attempted": true,
+      "identity_observed": true,
+      "session_id": "sbx_ZrymbTacu9YB7QilSXyTeG2mg6Kj",
+      "initial_session_id": "sbx_ZrymbTacu9YB7QilSXyTeG2mg6Kj",
+      "current_session_id": "sbx_ZrymbTacu9YB7QilSXyTeG2mg6Kj",
+      "cleanup_session_id": "sbx_ZrymbTacu9YB7QilSXyTeG2mg6Kj",
+      "initial_current_cleanup_session_equal": true,
+      "session_consistency_failed": false,
+      "absence_verified": true,
+      "snapshot_absence_verified": true
+    }
+  ],
+  "sdk_http_calls": 154,
+  "cli_mint_commands": 1,
+  "elapsed_ms": 109147,
+  "finished_at": "2026-10-31T00:46:37.537Z",
+  "lock_released": true
+}

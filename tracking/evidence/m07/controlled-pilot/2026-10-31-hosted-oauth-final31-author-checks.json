@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "evidence_kind": "controlled_source_preparation",
+  "observed_at": "2026-10-31T02:44:56.961443+00:00",
+  "result": "passed_inert_scope_only",
+  "source_pins": {
+    "development/m07/controlled-pilot/hosted-oauth-final31-guard.py": "5382d385f73dcc28932fad9e8ecaf0675b6a5838b3e4ae02bd3a2baa04f591a8",
+    "development/m07/controlled-pilot/test_hosted_oauth_final31_guard.py": "0a287c6a5d1399c377005735fcb4ebed6e9141f5d90e53d1e30e46ac5eb3e470",
+    "development/m07/controlled-pilot/HOSTED_OAUTH_FINAL31_PLAN.json": "32520a46146ed76da8feba032a6a0b599a5c4f6021f399c2b508970edc2bdc7c",
+    "development/m07/controlled-pilot/HOSTED_OAUTH_FINAL31.md": "e1588c3b4bbac83950b8e4f33d2853cb607b94ca8d27278a21095e5e6011c0ed",
+    "development/m07/controlled-pilot/hosted-provider-final31.py": "1327650e4872fc1ebea6b9de6d5fc530d066939e442590a2142abbf45bb7b5fc",
+    "development/m07/controlled-pilot/hosted-oauth-client-final31.py": "d26badeda7ce44a9fc96636d47ada6a6de729b60ba83b5634abe9a525dfef3ed",
+    "development/m07/controlled-pilot/hosted-binding-final31.py": "56651a07a12951175ab7b1a5c6546f51bd90ea8cc407408870f05b7670acb6b7",
+    "development/m07/controlled-pilot/hosted-web-oauth-env-final31.mjs": "acab6492e98fefe8fe25e661e1286f75765e8ae0e739d33a9dcc01d42771c9f3",
+    "development/m07/controlled-pilot/test_hosted_provider_final31.py": "c0f7915b22bb99323813485465be1287d63a862b060ec808659b37d61a006689",
+    "development/m07/controlled-pilot/test_hosted_oauth_client_final31.py": "c67752562817ca4b7bbbe33722737d72089d46b12234da6f4a1578ee2dbe38ea",
+    "development/m07/controlled-pilot/test_hosted_binding_final31.py": "d063f052df816824c316d9b312bba10820268e4a05582a8f4eeefa1efce864b9",
+    "development/m07/controlled-pilot/hosted-web-oauth-env-final31.test.mjs": "7ee3ae32cfd4d747f0b91b7c978284dadd181c848a79194b88e8c0dfd4117ea6",
+    "development/m07/controlled-pilot/HOSTED_OAUTH_FINAL31_OPERATOR_PROVENANCE.json": "73bc6d334fe1b28078488b315be66261b251de825e5e71c309543177db8d94e6"
+  },
+  "old_completed_guard_and_plan_unchanged": {
+    "oauth31-guard.py": "2bb655b62dedd61aff1e60f07722473dcbe92e53149b57340c4fcf6d1f2532d1",
+    "OAUTH31_PLAN.json": "32520a46146ed76da8feba032a6a0b599a5c4f6021f399c2b508970edc2bdc7c"
+  },
+  "tests": [
+    {
+      "command": "python -m unittest discover -s development/m07/controlled-pilot -p 'test_*final31*.py'",
+      "passed": 64,
+      "failed": 0
+    },
+    {
+      "command": "node --test development/m07/controlled-pilot/hosted-web-oauth-env-final31.test.mjs",
+      "passed": 14,
+      "failed": 0
+    }
+  ],
+  "independent_source_reviews": {
+    "guard": "m07_recovery source-clear5382d385",
+    "operator_copies": "m07_security_review parent-delta source-clear"
+  },
+  "core_sha256": null,
+  "all_admission_seals_blank": true,
+  "actual_guard_or_cli_provider_database_credentials_or_claude_calls": false,
+  "private_inputs_read": false,
+  "activation_or_runtime_acceptance_proved": false
+}

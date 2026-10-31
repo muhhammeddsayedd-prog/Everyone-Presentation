@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "evidence_kind": "author_local_public_synthetic_checks",
+  "observed_at": "2026-10-31T02:06:50Z",
+  "scope": "Worker file-size/output separation and external image-bearing probe source checks; no actual new-image or hosted acceptance",
+  "source_sha256": "09b6d4b881594dc7664953409f6e0bdeb925c19bf19fb3a4331787abf09c921f",
+  "root_reported_staged_run": "b488b456-d84e-4515-99f9-476b3196cd64",
+  "source_pins": {
+    "apps/worker/src/native-task-limits.mjs": "f648ae3a0c82c7d8cdc5d8c553d34014f8b20319ce7ff569eea8ae04185a9df0",
+    "apps/worker/src/native-sandbox-launch.mjs": "3efb0a965fb23dc5d8a07dae7b8a590238a7172ca7606aadf3b8c40f2baaac23",
+    "tests/worker/native-task-limits.test.ts": "4fb45bfa0dd5c2e1a3a2287af346a2aa889c40a7d48a8e9b571cc999ca71cfd8",
+    "tools/probe-hosted-native.mjs": "18e265720c92cbf85e777775eab1a346cd7287d602b4a9314058550dbf08819d",
+    "development/m07/worker-hosting/native-probe-release.mjs": "b8eec2107417f4f4641c9dd7810ce056e5af937d2cada3236f05c454eb9cff26",
+    "development/m07/worker-hosting/probe-hosted-native.test.mjs": "72402dd6b8d8b4b998a26a8748556bddcb289d2be6c7608eb28c2b7b786deb7f"
+  },
+  "red_green": [
+    {"slice": "independent_internal_file_limit", "red_passed": 1, "red_failed": 3, "green_passed": 4},
+    {"slice": "bounded_inherited_output_descriptor", "red_passed": 2, "red_failed": 4, "green_passed": 6},
+    {"slice": "image_bearing_smoke_proof", "red": "missing exported fixture/proof validators", "green_passed": 15},
+    {"slice": "actual_new_release_test_pin_consistency", "red_passed": 12, "red_failed": 3, "green_passed": 15}
+  ],
+  "checks": [
+    {"command": "node --import tsx --test tests/worker/native-task-limits.test.ts", "exit_code": 0, "passed": 6},
+    {"command": "npm.cmd run test:worker", "exit_code": 0, "passed": 237, "environment": "local public synthetic tests including native parser/Chromium fixture tests"},
+    {"command": "npm.cmd run typecheck", "exit_code": 0},
+    {"command": "scoped ESLint and node --check on the two worker overlays and their test", "exit_code": 0},
+    {"command": "node --test development/m07/worker-hosting/probe-hosted-native.test.mjs", "exit_code": 0, "passed": 15},
+    {"command": "scoped ESLint on tools/probe-hosted-native.mjs and probe-hosted-native.test.mjs", "exit_code": 0},
+    {"command": "node --check tools/probe-hosted-native.mjs", "exit_code": 0},
+    {"command": "actual pinned public fixture generation and closed count projection", "exit_code": 0, "page_count": 5, "candidate_field_count": 40, "frame_draw_count": 6, "logo_draw_count": 5, "expected_image_draws": 11, "unique_image_count": 7},
+    {"command": "git diff --check on touched worker/probe source and docs", "exit_code": 0}
+  ],
+  "historical_failed_lint_check": {
+    "result": "failed_preserved",
+    "exit_code": 1,
+    "errors": 62,
+    "warnings": 0,
+    "intermediate_probe_sha256": "ccd58d0326dddc488e551a8cc471d015cdc872c63d17b3a8d2c8c60e8df91274",
+    "intermediate_test_sha256": "fb347986e6c90b67458de4bff243fa4e4ba2ac81f7fcaa8e4f4012d16fefc0f8",
+    "scope": "Explicit scoped lint before Node-global/unused-binding cleanup; not a repository-wide quality result",
+    "entire_error_set_proven_preexisting": false,
+    "rewritten_as_pass": false
+  },
+  "author_provider_or_cli_auth_calls": false,
+  "author_docker_operator_calls": false,
+  "author_database_calls": false,
+  "author_private_configuration_reads": false,
+  "frozen_parent_context_mutated": false,
+  "new_image_actual_smoke_proven_by_this_receipt": false,
+  "hosted_selection_core_or_oauth_credit": false
+}

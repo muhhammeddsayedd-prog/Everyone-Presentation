@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "status": "actual_staged_and_baked_canonical31",
+  "canonical_release": {
+    "apply": {
+      "receipt": "tracking/evidence/m07/specs-ack31/2026-10-31T01-57-10-621248Z-a99247a4-canonical31-continuation-apply.json",
+      "sha256": "c457af902ff1f79567ae2f4839da669be11cfbcbf0695442d26bab66f9faf285"
+    },
+    "readback": {
+      "receipt": "tracking/evidence/m07/specs-ack31/2026-10-31T01-58-36-630017Z-222f51dc-canonical31-continuation-readback.json",
+      "sha256": "d3416c80ea7ec6f991b1698347e90792c5e46be40adcc50c52075885ab66d7be"
+    }
+  },
+  "current": {
+    "source_sha256": "3790b2b327da7eca18b1aad3a0dfaae02892b0130647e4527a25dd24aa3d54a3",
+    "native_image_id": "sha256:5e2500470a76caff11fa4b82a0d328dec423090ce8ba2d6417663283bacfff06",
+    "manifest_sha256": "ea963472650fa839076ab0c68c951f839f4820e4e04f55ae5c9c476e3c457ac0"
+  },
+  "next": {
+    "context": ".local/worker-hosting/b488b456-d84e-4515-99f9-476b3196cd64/context",
+    "source_sha256": "09b6d4b881594dc7664953409f6e0bdeb925c19bf19fb3a4331787abf09c921f",
+    "manifest_sha256": "083f81c7320c0c509d5d7775e9f810e29ef0bdbde9f731c281328c5c34c07173",
+    "native_image_id": "sha256:77eee0ee51159c6420fffefcdce39406a47350ddae682f4ec86891fe7ec08ed8",
+    "owner_sha256": "2d8f1b52ce8c6612e9f989199188dc69f40927ab95c165737b9a8d8f31fc1f3e",
+    "source_seal_sha256": "d9cc5c952a902b8974520a775fad4009d2aa066291b0257f139ad98eed85bd99",
+    "overlay_sha256": "22fbee2f0fa8038bac456bafbb5d4790b4ebb96b0701d97d734c8e438a1cbca4",
+    "file_count": 156
+  },
+  "admission": {
+    "native_ready": {
+      "receipt": "tracking/evidence/m07/controlled-pilot/2026-10-31T02-07-50.664Z-03b11db9-runtime-state.json",
+      "sha256": "739c9903d0f25de2a10cbf141591afadf2fbd7ab85b4d838933667082cb32368"
+    },
+    "native_smoke": {
+      "receipt": "tracking/evidence/m07/worker-hosting/2026-10-31T02-16-03.712Z-8f08a192-hosted-probe.json",
+      "sha256": "05521b2723ea24826ae4ca4c42ce9dd769e275c908b2aff783e0fef85deefb98"
+    },
+    "daemon_import": {
+      "receipt": "tracking/evidence/m07/controlled-pilot/2026-10-31-file-limits-daemon-image.json",
+      "sha256": "5932eabafad806b3d98adac08fa2c23a3113317f8c0dbe81158a3a3352de4603"
+    }
+  }
+}

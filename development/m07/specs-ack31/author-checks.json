@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-31T01:05:35.271832+00:00",
+  "result": "passed",
+  "scope": "Author source QA and injected synthetic process/metadata tests only; no actual SQL proof",
+  "checks": {
+    "pure_tests": {
+      "command": "node --test development/m07/specs-ack31/local-proof.test.mjs development/m07/specs-ack31/local-command.test.mjs",
+      "passed": 9,
+      "failed": 0
+    },
+    "syntax": {
+      "command": "node --check development/m07/specs-ack31/run-local.mjs",
+      "result": "passed"
+    },
+    "scoped_eslint": {
+      "result": "passed",
+      "warnings": 0
+    }
+  },
+  "genuine_reds": [
+    "local-proof.mjs absent: ERR_MODULE_NOT_FOUND",
+    "assertCleanupComplete absent export: SyntaxError",
+    "local-command.mjs absent: ERR_MODULE_NOT_FOUND"
+  ],
+  "sources": {
+    "run-local.mjs": "a1057eddeca5e501ccf743d3f1f03e4948eca8c418ee709408041768ed5a6b71",
+    "local-proof.mjs": "e9e731dc764d6b493ad478cf2f95de5a087d721f13ccb515e597b1ba5f33a34f",
+    "local-proof.test.mjs": "73c74cf9e68c7a0b9273a9df4d5b9e8074b4979b1c6c247a42b69efc5a36c530",
+    "local-command.mjs": "72ce47d9595d7aafc3e530938cbdd8c20a8d3e1aea3d4308a0baaece151de969",
+    "local-command.test.mjs": "e53e9e6f933f3ac048b45925564f0156874c8e42f3188524870ed323e33ef18b",
+    "reuse-source-seals.json": "48db25b3c2164eb12fa673765eb8f40df49353d622fb8078abac201212b31217",
+    "LOCAL_PROOF.md": "5ebc2974ecb5c5fa4b2373d31c222e847f67d6b0711bd082cbd554ecc88611a0"
+  },
+  "database_executed": false,
+  "docker_executed": false,
+  "cli_or_provider_executed": false,
+  "private_configuration_read": false,
+  "sql_red_green_proven": false,
+  "cleanup_proven": false
+}

@@ -1,6 +1,7 @@
 import path from 'node:path';
 import { existsSync } from 'node:fs';
 import { readCentralConfig } from '@eps/central';
+import { assertHostedPilotConfig } from './hosting-pilot.ts';
 
 function workspaceRoot() {
   let current = process.cwd();
@@ -18,6 +19,8 @@ export function readRuntimeConfig(env: Record<string, string | undefined> = proc
   const baseUrl = env.APP_BASE_URL ?? 'http://127.0.0.1:3000';
   const fixtureAllowed = ['development', 'test'].includes(environment) && env.NODE_ENV !== 'production';
   if (!['development', 'test', 'staging', 'production'].includes(environment)) throw new Error('Unsupported APP_ENV.');
+  if (env.VERCEL === '1' || env.EPS_RELEASE_MODE !== undefined || env.NODE_ENV === 'production'
+    || ['staging', 'production'].includes(environment)) assertHostedPilotConfig(env);
   const url = new URL(baseUrl);
   if (!['http:', 'https:'].includes(url.protocol) || url.username || url.password) throw new Error('Use an HTTP loopback URL without credentials.');
   if (adapterMode === 'supabase') {

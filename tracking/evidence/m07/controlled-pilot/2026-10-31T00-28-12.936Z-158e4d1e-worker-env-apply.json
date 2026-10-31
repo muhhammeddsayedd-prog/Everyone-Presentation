@@ -1,0 +1,626 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-31T00:28:12.935Z",
+  "action": "apply",
+  "project": {
+    "id": "prj_I4SMkDzaDy0KHNgiF00v4Da5aLb6",
+    "account_id": "team_gboXPxTevpCOZuaA8eY9PmR1",
+    "name": "everyone-presentation-worker-pilot",
+    "node_version": "24.x",
+    "root_directory": null,
+    "oidc_enabled": true
+  },
+  "result": "passed",
+  "observed_metadata": [
+    {
+      "key": "EPS_CANDIDATE_MEDIA_ENABLED",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "EPS_FRAME_EXTRACTION_ENABLED",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "EPS_GUEST_EXPORTS_ENABLED",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "EPS_NATIVE_MANIFEST_SHA256",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "EPS_NATIVE_TRANSPORT",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "EPS_PDF_VISION_ENABLED",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "EPS_PILOT_OWNER_CONTROLLED",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "EPS_PRESENTATION_ENABLED",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "EPS_RELEASE_MODE",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "EPS_REVIEW_ENABLED",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "EPS_SPECS_FILES_ENABLED",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "EPS_SPECS_PG_CA_BASE64",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "EPS_SPECS_PG_HOST",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "EPS_SPECS_PG_PASSWORD",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "N8N_CANDIDATE_DISPATCH_SECRET",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "N8N_CANDIDATE_DISPATCH_URL",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "N8N_DISPATCH_SECRET",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "N8N_DISPATCH_URL",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "N8N_PRESENTATION_DISPATCH_SECRET",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "N8N_PRESENTATION_DISPATCH_URL",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "N8N_REVIEW_DISPATCH_SECRET",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "N8N_REVIEW_DISPATCH_URL",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "NODE_ENV",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "OPENAI_API_KEY",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "OPENAI_EXTRACTION_MODEL",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "OPENAI_TRANSCRIPTION_MODEL",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "SUPABASE_PUBLISHABLE_KEY",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "SUPABASE_URL",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    }
+  ],
+  "expected_metadata_complete": true,
+  "variables_written": true,
+  "expected_metadata": [
+    {
+      "key": "EPS_CANDIDATE_MEDIA_ENABLED",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "EPS_FRAME_EXTRACTION_ENABLED",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "EPS_GUEST_EXPORTS_ENABLED",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "EPS_NATIVE_MANIFEST_SHA256",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "EPS_NATIVE_TRANSPORT",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "EPS_PDF_VISION_ENABLED",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "EPS_PILOT_OWNER_CONTROLLED",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "EPS_PRESENTATION_ENABLED",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "EPS_RELEASE_MODE",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "EPS_REVIEW_ENABLED",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "EPS_SPECS_FILES_ENABLED",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "EPS_SPECS_PG_CA_BASE64",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "EPS_SPECS_PG_HOST",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "EPS_SPECS_PG_PASSWORD",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "N8N_CANDIDATE_DISPATCH_SECRET",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "N8N_CANDIDATE_DISPATCH_URL",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "N8N_DISPATCH_SECRET",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "N8N_DISPATCH_URL",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "N8N_PRESENTATION_DISPATCH_SECRET",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "N8N_PRESENTATION_DISPATCH_URL",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "N8N_REVIEW_DISPATCH_SECRET",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "N8N_REVIEW_DISPATCH_URL",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "NODE_ENV",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "OPENAI_API_KEY",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "OPENAI_EXTRACTION_MODEL",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "OPENAI_TRANSCRIPTION_MODEL",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "SUPABASE_PUBLISHABLE_KEY",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "SUPABASE_URL",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    }
+  ],
+  "manifest_sha256": "ad51dc82c85fb7276b0514623560c5a303985746e52e4a5ad0eb572f16843abb",
+  "frozen_source_sha256": "bc774c88083d106fd522ee6277fc8a81033a6b94ff05e9debdfe1d6ee661a735",
+  "attempted_variables": 28,
+  "confirmed_create_responses": 28,
+  "independent_metadata": [
+    {
+      "key": "EPS_CANDIDATE_MEDIA_ENABLED",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "EPS_FRAME_EXTRACTION_ENABLED",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "EPS_GUEST_EXPORTS_ENABLED",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "EPS_NATIVE_MANIFEST_SHA256",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "EPS_NATIVE_TRANSPORT",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "EPS_PDF_VISION_ENABLED",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "EPS_PILOT_OWNER_CONTROLLED",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "EPS_PRESENTATION_ENABLED",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "EPS_RELEASE_MODE",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "EPS_REVIEW_ENABLED",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "EPS_SPECS_FILES_ENABLED",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "EPS_SPECS_PG_CA_BASE64",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "EPS_SPECS_PG_HOST",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "EPS_SPECS_PG_PASSWORD",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "N8N_CANDIDATE_DISPATCH_SECRET",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "N8N_CANDIDATE_DISPATCH_URL",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "N8N_DISPATCH_SECRET",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "N8N_DISPATCH_URL",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "N8N_PRESENTATION_DISPATCH_SECRET",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "N8N_PRESENTATION_DISPATCH_URL",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "N8N_REVIEW_DISPATCH_SECRET",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "N8N_REVIEW_DISPATCH_URL",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "NODE_ENV",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "OPENAI_API_KEY",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "OPENAI_EXTRACTION_MODEL",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "OPENAI_TRANSCRIPTION_MODEL",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "SUPABASE_PUBLISHABLE_KEY",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "SUPABASE_URL",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    }
+  ],
+  "independent_metadata_equal": true,
+  "helper_write_retry": false,
+  "cli_network_5xx_retries_maximum": 3,
+  "cli_request_attempts_maximum_per_operation": 4,
+  "cli_dpop_nonce_resends_maximum_per_request_attempt": 1,
+  "cli_request_attempt_scope": "Retry-loop attempts (initial plus three retries); DPoP nonce correction and authentication maintenance can add wire requests. No exact wire-count claim.",
+  "claim_retained": true,
+  "private_values_or_digests_recorded": false,
+  "runtime_or_worker_acceptance": false,
+  "write_dispatch_attempted": true,
+  "platform_oidc_fields_uploaded": false,
+  "management_or_personal_credentials_uploaded": false
+}

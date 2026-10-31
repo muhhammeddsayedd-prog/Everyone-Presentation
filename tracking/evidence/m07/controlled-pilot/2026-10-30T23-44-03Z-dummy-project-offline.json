@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-30T23:44:03Z",
+  "scope": "Author-run offline source/metadata validation only; no operator mode executed",
+  "result": "offline_passed_independent_review_pending",
+  "target": "pyibofyctwnqpvktepse",
+  "project_name": "Dummy Pilot Test",
+  "client_name": "Dummy Client",
+  "source_project_name": "Dummy Reuse Test",
+  "acting_user_id": "0a79a703-caba-47e5-93d4-42e32197037a",
+  "sources": {
+    "development/m07/controlled-pilot/dummy-pilot-project.py": "ae32775c5d1074089face68839829edf9419397e4f92d1b4179f3f1401c751ae",
+    "development/m07/controlled-pilot/test_dummy_pilot_project.py": "cafa8c6d198dbee25533b7fe030ebddbc7acb3ab9ec1ee1d2039c5cb45e8d381",
+    "development/m07/controlled-pilot/DUMMY_PILOT_PROJECT_CREATE.sql": "e5e82c198802d19d891762ddeb4b7cfb457340e6549553eeff9b726c62e2d416",
+    "development/m07/controlled-pilot/DUMMY_PILOT_PROJECT_READBACK.sql": "e310bcdc0015a9c9e3a474f7e255e846bf504106fc58a49107c0d2344223f23c",
+    "development/m07/controlled-pilot/DUMMY_PILOT_PROJECT_OBSERVE.sql": "02c8f7bf7cb2b0de3f9b6cf516aae5288ca7e501976727807f61c0d662863faa",
+    "development/m07/controlled-pilot/DUMMY_PILOT_PROJECT.md": "9bde07f4e26312a59e0e49850938486d0b0d2917fb288c7d0c1fe7298d0ba533"
+  },
+  "red": {
+    "command": "python -X utf8 development/m07/controlled-pilot/test_dummy_pilot_project.py",
+    "exit_code": 1,
+    "failure": "The actual newly written test imports the not-yet-authored dummy-pilot-project.py and fails FileNotFoundError"
+  },
+  "green": {
+    "command": "python -X utf8 development/m07/controlled-pilot/test_dummy_pilot_project.py",
+    "exit_code": 0,
+    "tests": 12,
+    "passed": 12,
+    "fixtures": "Pure synthetic state machine, strict metadata, no real records",
+    "boundaries": ["closed types/history/names/actor", "one claim and dispatch", "unknown reply no redispatch", "parent timeout never credited", "old casting fingerprints preserved", "claim collision and post-claim drift", "wrong owner/workspace/target rejection", "missing baseline observation only", "known environment overrides", "fixed command target", "closed SQL rendering"]
+  },
+  "parser": {
+    "interpreter": ".venv-skills/Scripts/python.exe",
+    "version": "pglast 7.21",
+    "create_outer_statements": 11,
+    "readback_outer_statements": 7,
+    "create_plpgsql_blocks": 1,
+    "readback_plpgsql_blocks": 1,
+    "sql_executed": false,
+    "author_tool_corrections": ["Default Python lacks pglast; reused already installed isolated interpreter", "parse_plpgsql_json is not an installed API; actual parse_plpgsql succeeded"]
+  },
+  "other_checks": {
+    "python_compile": "passed",
+    "git_diff_check_owned_files": "passed",
+    "fixed_public_source_pins": "passed: 7 entries including self",
+    "current_config_and_link_changed": false
+  },
+  "independent_review": "Sent exact stable candidate source set to recovery; result pending at this receipt time",
+  "cli_auth_or_database_calls": false,
+  "provider_or_browser_actions": false,
+  "private_credential_or_media_reads": false,
+  "project_created": false,
+  "hosted_core_or_production_acceptance_claimed": false
+}

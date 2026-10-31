@@ -8,6 +8,8 @@ import { workspaceReviewDto } from '../../../packages/central/src/review-dto.ts'
 import type { TemplateAssets } from '../../../packages/templates/src/render.ts';
 import { renderRegisteredReviewDocument } from '../../../packages/templates/src/registered.ts';
 import { nativeBrowserEnvironment } from './native-browser.ts';
+import { nativeSandboxConfiguration, runConfiguredNative } from './native-sandbox.ts';
+import { decodeNativeResult } from './native-sandbox-result.ts';
 
 const ROOT = path.resolve(import.meta.dirname, '../../..');
 const RENDERER = 'packages/templates/src/render.ts';
@@ -81,6 +83,7 @@ export async function measureReviewFit(supplied: WorkspaceReview, options: Revie
   let review: WorkspaceReview; try { review = workspaceReviewDto(supplied); } catch { return fail('FIT_TEMPLATE_MISMATCH'); }
   if (review.slides.length > 1000 || Buffer.byteLength(JSON.stringify(review), 'utf8') > 8 * 1024 * 1024) fail('FIT_BUDGET_EXCEEDED');
   const timeout = options.timeoutMs ?? 60000; if (!Number.isSafeInteger(timeout) || timeout < 100 || timeout > 90000) fail('FIT_BUDGET_EXCEEDED');
+  if (nativeSandboxConfiguration()) return decodeNativeResult(await runConfiguredNative('review_fit', JSON.stringify({ review, timeout_ms: timeout }), { signal: options.signal, timeoutMs: timeout })) as ReviewFitMeasurement;
   const pinned = await loadReviewTemplateAssets(review.template);
   if (options.signal?.aborted) fail('FIT_ABORTED');
   const controller = new AbortController(); const signal = options.signal ? AbortSignal.any([options.signal, controller.signal]) : controller.signal;
