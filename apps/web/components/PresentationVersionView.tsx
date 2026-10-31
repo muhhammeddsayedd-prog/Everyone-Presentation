@@ -1,4 +1,5 @@
 'use client';
+import { ShareDrawer } from './ShareDrawer';
 
 import Link from 'next/link';
 import { Icon } from './Icon';
@@ -18,9 +19,9 @@ import { StudioDateTime } from './StudioTimeZone';
 interface Props { versionId: string; actor: Actor; embedded?: boolean; expectedSeriesId?: string; onSettled?: () => void }
 export function PresentationVersionView(props: Props) { return <VersionScope key={`${props.actor.id}:${props.versionId}`} {...props} />; }
 
-function VersionScope({ versionId, embedded = false, expectedSeriesId, onSettled }: Props) {
+function VersionScope({ versionId, embedded = false, expectedSeriesId, onSettled, actor }: Props) {
   const [version, setVersion] = useState<PresentationVersion | null>(null); const [error, setError] = useState('');
-  const [loading, setLoading] = useState(true); const [refresh, setRefresh] = useState(0); const [slideIndex, setSlideIndex] = useState(0); const [layout, setLayout] = useState<'app' | 'pdf'>('app');
+  const [loading, setLoading] = useState(true); const [refresh, setRefresh] = useState(0); const [slideIndex, setSlideIndex] = useState(0); const [layout, setLayout] = useState<'app' | 'pdf'>('app'); const [sharing, setSharing] = useState(false);
   const frozen = useRef<string | null>(null); const settled = useRef(false);
   useEffect(() => {
     let current = true; let timer: ReturnType<typeof setTimeout> | undefined; const controller = new AbortController();
@@ -52,12 +53,13 @@ function VersionScope({ versionId, embedded = false, expectedSeriesId, onSettled
     {error && <ErrorNotice message={error} retry={reload} />}
     {version.status !== 'ready' && <div className={`notice${version.status === 'failed' ? ' notice-error' : ''}`}><p>{version.status === 'failed' ? 'The PDF did not finish. Existing ready versions remain available.' : 'The captured content is saved. Its PDF is still processing.'}</p><Link className="button" href={`/processing?job=${version.generation_job_id}`}>Open generation processing</Link></div>}
     {version.status === 'failed' && <p className="small">An authorized retry uses this same captured version.</p>}
-    <div className="button-row saved-version-actions">{version.status === 'ready' && <><a className="button button-primary" href={`/api/v1/versions/${version.id}/pdf/content`} download>Download PDF</a><a className="button" href={`/api/v1/versions/${version.id}/pdf/content`} target="_blank" rel="noreferrer">Open saved PDF</a></>}<Link className="button" href={`/presentations/versions/${version.id}`}>Open version page</Link><Link className="button" href={`/presentations/series/${version.series_id}/sharing`}>Share and review</Link></div>
+    <div className="button-row saved-version-actions">{version.status === 'ready' && <><a className="button button-primary" href={`/api/v1/versions/${version.id}/pdf/content`} download>Download PDF</a><a className="button" href={`/api/v1/versions/${version.id}/pdf/content`} target="_blank" rel="noreferrer">Open saved PDF</a></>}<Link className="button" href={`/presentations/versions/${version.id}`}>Open version page</Link><button type="button" className="button" aria-haspopup="dialog" onClick={() => setSharing(true)}><Icon name="link" />Share for review</button></div>
     {!supported ? <ErrorNotice message="This saved template is unavailable in this viewer. Open the original PDF or restore its registered template." /> : <>
       <div className="version-viewer"><nav className="saved-slide-navigation" aria-label="Slides in saved version"><ol>{version.slides.map((item, index) => <li key={item.id}><button className="button" aria-current={index === slideIndex ? 'step' : undefined} aria-label={slideLabel(item, index)} onClick={() => setSlideIndex(index)}>{index + 1}<span>{item.kind === 'cover' ? 'Cover' : `${item.role_label ?? 'Requirements pending'} / ${item.slot_label ?? 'Pending'}`}</span>{item.kind === 'pending' && <span className="badge">Pending</span>}</button></li>)}</ol></nav>
       <div className="version-stage" onKeyDown={event => { const target = event.target as HTMLElement; if (target.closest('.saved-frame-carousel, input, textarea, select')) return; if (event.key === 'ArrowLeft' && slideIndex > 0) { event.preventDefault(); setSlideIndex(slideIndex - 1); } if (event.key === 'ArrowRight' && slideIndex < version.slides.length - 1) { event.preventDefault(); setSlideIndex(slideIndex + 1); } }}>
         <div className="saved-slide-controls"><div className="segmented" role="group" aria-label="Preview layout"><button type="button" aria-pressed={layout === 'app'} onClick={() => setLayout('app')}>App view</button><button type="button" aria-pressed={layout === 'pdf'} onClick={() => setLayout('pdf')}>PDF preview</button></div><p role="status">Slide {slideIndex + 1} of {version.slides.length}</p><span className="button-row"><button className="button" disabled={slideIndex === 0} onClick={() => setSlideIndex(value => value - 1)}><Icon name="chevron-left" />Previous slide</button><button className="button" disabled={slideIndex >= version.slides.length - 1} onClick={() => setSlideIndex(value => value + 1)}>Next slide<Icon name="chevron-right" /></button></span></div>
-        <SavedSlide key={`${slide.id}:${layout}`} version={version} slide={slide} layout={layout} />
+        {sharing && <ShareDrawer seriesId={version.series_id} actor={actor} onClose={() => setSharing(false)} />}
+      <SavedSlide key={`${slide.id}:${layout}`} version={version} slide={slide} layout={layout} />
         <p className="small muted">{layout === 'pdf' ? 'PDF layout: every saved frame is shown together, as in the downloaded PDF.' : 'App view: frames appear one at a time. Use the arrow keys on the slide or the frame buttons.'}</p>
       </div></div>
     </>}

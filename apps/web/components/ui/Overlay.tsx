@@ -6,7 +6,12 @@ import { Icon } from '../Icon';
 
 const focusable = 'a[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
-/** Keeps Tab inside the container, closes on Escape and returns focus to the opener on unmount. */
+// Open overlays, innermost last. Only the top one answers Escape and Tab, so a confirm dialog
+// over a drawer closes alone.
+const trapStack: HTMLElement[] = [];
+
+/** Keeps Tab inside the container, closes on Escape and returns focus to the opener on unmount.
+ * Keys are handled at document level so a control disabled mid-write (focus falls to body) cannot strand the user. */
 export function useFocusTrap(ref: RefObject<HTMLElement | null>, onEscape?: () => void, initialFocus?: RefObject<HTMLElement | null>) {
   const escape = useRef(onEscape);
   useEffect(() => { escape.current = onEscape; });
@@ -14,20 +19,28 @@ export function useFocusTrap(ref: RefObject<HTMLElement | null>, onEscape?: () =
     const opener = document.activeElement as HTMLElement | null;
     const container = ref.current;
     if (!container) return;
+    trapStack.push(container);
     const first = initialFocus?.current ?? container.querySelector<HTMLElement>('[data-autofocus]') ?? container;
     first.focus();
     function keydown(event: KeyboardEvent) {
-      if (!container) return;
-      if (event.key === 'Escape' && escape.current) { event.stopPropagation(); escape.current(); return; }
+      if (!container || trapStack[trapStack.length - 1] !== container || event.defaultPrevented) return;
+      const inside = container.contains(document.activeElement);
+      if (!inside && document.activeElement !== document.body) return;
+      if (event.key === 'Escape' && escape.current) { event.preventDefault(); escape.current(); return; }
       if (event.key !== 'Tab') return;
       const items = [...container.querySelectorAll<HTMLElement>(focusable)].filter(item => item.offsetParent !== null || item === document.activeElement);
-      if (!items.length) { event.preventDefault(); return; }
+      if (!items.length) { event.preventDefault(); container.focus(); return; }
       const start = items[0]; const end = items[items.length - 1];
-      if (event.shiftKey && (document.activeElement === start || document.activeElement === container)) { event.preventDefault(); end.focus(); }
+      if (!inside) { event.preventDefault(); (event.shiftKey ? end : start).focus(); }
+      else if (event.shiftKey && (document.activeElement === start || document.activeElement === container)) { event.preventDefault(); end.focus(); }
       else if (!event.shiftKey && document.activeElement === end) { event.preventDefault(); start.focus(); }
     }
-    container.addEventListener('keydown', keydown);
-    return () => { container.removeEventListener('keydown', keydown); if (opener && document.contains(opener)) opener.focus(); };
+    document.addEventListener('keydown', keydown);
+    return () => {
+      document.removeEventListener('keydown', keydown);
+      const index = trapStack.lastIndexOf(container); if (index >= 0) trapStack.splice(index, 1);
+      if (opener && document.contains(opener)) opener.focus();
+    };
   }, [ref, initialFocus]);
 }
 
