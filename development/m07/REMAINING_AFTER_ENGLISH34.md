@@ -27,7 +27,24 @@ and does not inject the corrected Reviewed name into translation. Existing Arabi
 name/age acceptance remains passed. No further English/mixed language labels are
 a dependency, and broader semantic accuracy is not claimed.
 
-Workspace-summary implementation is proceeding in the isolated Backend-Summary
-worktree only, with focused synthetic tests. It is not merged or deployed and
-does not displace the live guest/operator/API acceptance work above. Its own
-transactional database proof and coherent release remain necessary.
+Workspace-summary source is merged asab1c3d5, guarded by66956b7, with corrected
+fixturec8e4fae. The fresh ef4cb6c2 owned local SQL proof actually passed at
+18:48:18.228UTC: actual30-33 then34/35/fixtures, complete rollback to owned33,
+both databases/new roles removed, original29/Auth-Storage catalogue/data/global
+roles exact and shared lock released. Earlier3304 failed only the synthetic
+asset-provenance fixture and remains preserved with verified cleanup; no replay.
+The successful107-input harness/source/fixture/history bytes are frozen. See
+`development/m07/workspace-summary35-proof/LIVE_SQL_RESULT.md` and actual receipt
+`tracking/evidence/m07/workspace-summary35-proof/2026-10-31T18-47-07-800Z-ef4cb6c2.json`.
+
+Canonical35 is unapplied and hosted Summary undeployed; actual pilot remains
+web5vEM/worker2uAS/canonical34/English1.0. Next: complete the guest self-test when
+its pending browser-required create/test/revoke confirmation arrives (no link),
+then guarded canonical35 preflight/release/readback and current authenticated
+API/MCP summary reads with separate live evidence. Continue eligible safe
+observability/full-journey checks without enabling node payload retention or
+inventing per-stage history. Claude frontend, owner connection and local33
+recovery passes stay preserved; screen reader pending/mobile skipped/no labels.
+Settings de276c7 is regression-only: the existing helper already catches errors;
+no product fix is claimed. LocalSQL35 success does not close full production or
+deployed/independent restore acceptance.

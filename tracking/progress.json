@@ -1,6 +1,6 @@
 {
   "pack_version": "1.0",
-  "updated_at": "2026-10-31T18:30:47.556975Z",
+  "updated_at": "2026-10-31T18:53:03.326977+00:00",
   "implementation_started": true,
   "current_milestone": "M07",
   "current_pilot": {
@@ -73,7 +73,7 @@
     "mobile_testing": "skipped by owner",
     "production_deployment_verified": false,
     "prior_snapshot": "tracking/evidence/m07/controlled-pilot/2026-10-31T01-24Z-prior-progress-snapshot.json",
-    "next_action": "Guest English self-test awaits confirmed new link; none created. Continue eligible delegated/API checks, independently review/integrate isolated Summary with local DB proof/release, and plan safe durable per-stage correlation metadata without payload-retention changes. Actual currentWF02 save:none settings confirmed;31686 metadata unavailable404, exact cause unproven. Preserve completed scan/saved/PDF/old-cohort and owner acceptance; no labels required.",
+    "next_action": "Guest English self-test awaits browser-required approval to create/test/revoke a new bearer link; none created. Local SQL35 gate is passed. Proceed with guarded canonical35 release/readback and current authenticated API/MCP summary reads under separate release evidence, then eligible safe-observability/full-delegated-journey checks. Canonical34/web5vEM/English1.0 remain current until release; preserve frontend, owner/recovery passes, pending screen reader/skipped mobile and no-label scope.",
     "specs_local_proof": "tracking/evidence/m07/specs-ack31/2026-10-31T01-22-16-662Z-dc886d4e-local-proof.json",
     "specs_canonical_apply": "tracking/evidence/m07/specs-ack31/2026-10-31T01-57-10-621248Z-a99247a4-canonical31-continuation-apply.json",
     "specs_canonical_apply_confirmed": true,
@@ -458,7 +458,9 @@
         ],
         "evidence": "tracking/evidence/m07/backend-continuation/2026-10-31-886-application-tests.json"
       },
-      "next_independent_m07": "Read-only AT-074 actual succeeded/failed nonprotected job+n8n correlation after controlled English scan; no retries/new paid work."
+      "next_independent_m07": "Read-only AT-074 actual succeeded/failed nonprotected job+n8n correlation after controlled English scan; no retries/new paid work.",
+      "historical_snapshot_only": true,
+      "superseded_by": "english_output_rollout and workspace_summary_backend for current release status"
     },
     "serving_source_quality": {
       "tests": 853,
@@ -488,6 +490,16 @@
       "native_runtime": "sha256:77eee0ee51159c6420fffefcdce39406a47350ddae682f4ec86891fe7ec08ed8",
       "daemon_runtime": "sha256:971834e0d3f5c2035550a4c0c964c39af8ce6bf243db404c4baf9fb19f529137",
       "superseded_by_ready_readback": "tracking/evidence/m03/english-worker-release34/2026-10-31T17-49-47-805229Z-ready.json"
+    },
+    "last_health_read": {
+      "receipt": "tracking/evidence/m07/workspace-summary35/2026-10-31-current-pilot-health.json",
+      "observed_at": "2026-10-31T18:52:00.214345+00:00",
+      "read_only": true,
+      "web_deployment_id": "dpl_5vEMBfsnD23cGL3ontWm8AUAErKr",
+      "worker_deployment_id": "dpl_2uASsbYobSDwWjMptPjGLcVEdCg3",
+      "worker_ready": 1,
+      "worker_instance_alive": true,
+      "database_requeried": false
     }
   },
   "milestones": [
@@ -815,7 +827,8 @@
       ],
       "commits": [
         "7f4533f400140c8c002fe6b2b51aae09400ab38f",
-        "68cc7958305cfa252f06311f9006934a231abe73"
+        "68cc7958305cfa252f06311f9006934a231abe73",
+        "2acc6abcfe8cf32ee2b2d20d3efcbdf5bfa60cd5"
       ],
       "migrations": [
         {
@@ -1129,7 +1142,12 @@
       ],
       "commits": [
         "e4ffccaaf9aed8cd78207d6ae2d09850a0b0225a",
-        "bace13b55daa77cb0edd947f1f96440b98ebdd3b"
+        "bace13b55daa77cb0edd947f1f96440b98ebdd3b",
+        "2acc6abcfe8cf32ee2b2d20d3efcbdf5bfa60cd5",
+        "ab1c3d5b34d8541347484e91b3f60759472b6f80",
+        "de276c704a8984733fddb206be77e350fe6c2fb1",
+        "66956b71cfd53c472a6ad409a66b075c737bed36",
+        "c8e4faee2b8ddf35fd69323a5fbf8050ffb8a9de"
       ],
       "migrations": [
         {
@@ -1147,6 +1165,19 @@
           "cloud": "applied_and_independently_read_back",
           "target": "pyibofyctwnqpvktepse",
           "evidence": "tracking/evidence/m07/issuer-release30-executable/2026-10-30T16-13-26-090472Z-12920568-canonical-readback.json"
+        },
+        {
+          "file": "supabase/migrations/20261031182038_m07_workspace_summary.sql",
+          "sha256": "cbb12610603318bce68ced4a58d0a9a01ee07737838c99a2ea0e6214e5e933e0",
+          "local": "passed_owned_disposable_transaction_rolled_back_original29_unchanged",
+          "cloud": "not_applied",
+          "source_commit": "ab1c3d5b34d8541347484e91b3f60759472b6f80",
+          "evidence": "tracking/evidence/m07/workspace-summary35/2026-10-31-root-merged-regression.json",
+          "initial_merged_sha256": "220a528e03b9899416fba52598f56ef8861516f0a9ff54484ba48da339f283e6",
+          "privilege_guard_commit": "66956b71cfd53c472a6ad409a66b075c737bed36",
+          "fixture_correction_commit": "c8e4faee2b8ddf35fd69323a5fbf8050ffb8a9de",
+          "local_proof_evidence": "tracking/evidence/m07/workspace-summary35-proof/2026-10-31T18-47-07-800Z-ef4cb6c2.json",
+          "canonical35_applied": false
         }
       ],
       "evidence": [
@@ -1192,14 +1223,16 @@
         "tracking/evidence/m07/operator-trace-live34/2026-10-31T18-09-56-990830Z-fresh-job-durable.json",
         "tracking/evidence/m07/operator-trace-live34/2026-10-31T18-27-47.200Z-fresh-execution-metadata.json",
         "tracking/evidence/m07/operator-trace-live34/2026-10-31-fresh-bootstrap-failure.json",
-        "tracking/evidence/m07/operator-trace-live34/2026-10-31T18-30-02.628Z-workflow-settings.json"
+        "tracking/evidence/m07/operator-trace-live34/2026-10-31T18-30-02.628Z-workflow-settings.json",
+        "tracking/evidence/m07/workspace-summary35/2026-10-31-root-merged-regression.json",
+        "tracking/evidence/m07/workspace-summary35-proof/2026-10-31T18-47-07-800Z-ef4cb6c2.json"
       ],
       "blockers": [
         "Owner initial authorization/reconnect/authenticated Dummy Pilot Test read stays passed. Full real delegated write/processing/generation/sharing, live refresh/rotation/revocation and actual contributor denial remain unverified.",
         "History33 synthetic local metadata/media recovery stays passed; deployed/independentcluster and actual provider/config/secret restore plus representative provider cost/endurance remain unverified.",
-        "English scan/internal saved/PDF/old-cohort passed; guest awaits confirmed self-test link (not created). AT074 actual31686 metadata404 and currentWF02 settings200 save:none unchanged are recorded separately; full failure/per-stage correlation remains partial. Summary isolated/unmerged; AT072 pending/mobile skipped; no labels required."
+        "English scan/internal saved/PDF/old-cohort and owned local SQL35 fixtures/rollback/cleanup passed. Guest English awaits confirmed self-test link (none created); canonical35 Summary release and hosted API/MCP reads remain pending. FullAT074/delegated lifecycle/recovery evidence incomplete. Screen reader pending/mobile skipped; no labels required."
       ],
-      "next_action": "Guest English self-test awaits confirmed new link; none created. Continue eligible delegated/API checks, independently review/integrate isolated Summary with local DB proof/release, and plan safe durable per-stage correlation metadata without payload-retention changes. Actual currentWF02 save:none settings confirmed;31686 metadata unavailable404, exact cause unproven. Preserve completed scan/saved/PDF/old-cohort and owner acceptance; no labels required.",
+      "next_action": "Guest English self-test awaits browser-required approval to create/test/revoke a new bearer link; none created. Local SQL35 gate is passed. Proceed with guarded canonical35 release/readback and current authenticated API/MCP summary reads under separate release evidence, then eligible safe-observability/full-delegated-journey checks. Canonical34/web5vEM/English1.0 remain current until release; preserve frontend, owner/recovery passes, pending screen reader/skipped mobile and no-label scope.",
       "scope_constraints": {
         "AT_072": "pending",
         "M03_broader_semantic_checks": "pending",
@@ -1212,7 +1245,7 @@
       "current_checkpoint": {
         "milestone": "M07",
         "status": "in_progress",
-        "observed_at": "2026-10-31T18:30:47.556975Z",
+        "observed_at": "2026-10-31T18:50:35.608200Z",
         "base_commit": "009536e",
         "canonical_migration_count": 34,
         "local_migration_count": 29,
@@ -1239,10 +1272,15 @@
         "local_restore_evidence": "tracking/evidence/m07/recovery33/2026-10-31T15-34-37-577Z-9af6774f.json",
         "name_diagnosis": "tracking/evidence/m03/english-name-review/2026-10-31T16-31-07-348316Z-5ed61ea9-8c38-4c1a-a3a2-958d6ccd5d72.json",
         "native_build_failure": "tracking/evidence/m03/english-image34/2026-10-31T17-03-17-960492Z-v2-registry-tls-diagnosis.json",
-        "next_action": "Guest English self-test awaits confirmed new link; none created. Continue eligible delegated/API checks, independently review/integrate isolated Summary with local DB proof/release, and plan safe durable per-stage correlation metadata without payload-retention changes. Actual currentWF02 save:none settings confirmed;31686 metadata unavailable404, exact cause unproven. Preserve completed scan/saved/PDF/old-cohort and owner acceptance; no labels required.",
+        "next_action": "Guest English self-test awaits browser-required approval to create/test/revoke a new bearer link; none created. Local SQL35 gate is passed. Proceed with guarded canonical35 release/readback and current authenticated API/MCP summary reads under separate release evidence, then eligible safe-observability/full-delegated-journey checks. Canonical34/web5vEM/English1.0 remain current until release; preserve frontend, owner/recovery passes, pending screen reader/skipped mobile and no-label scope.",
         "source_checkpoints": [
           "c6a3f15",
-          "28c3d3c"
+          "28c3d3c",
+          "2acc6ab",
+          "ab1c3d5",
+          "de276c7",
+          "66956b7",
+          "c8e4fae"
         ],
         "english_rollout": {
           "reference": "english_output_rollout",
@@ -1262,7 +1300,95 @@
         "old_cohort_preservation_passed": true,
         "guest_english_passed": false,
         "saved_english_version_id": "4f1b81a1-adb7-425b-8223-458d8bd82c28",
-        "AT074_latest_execution_result": "actual31686GET404/no metadata; actualcurrentWF02GET200 save:none/manualfalse/progressfalse unchanged; fullAT074partial/no exact404cause"
+        "AT074_latest_execution_result": "actual31686GET404/no metadata; actualcurrentWF02GET200 save:none/manualfalse/progressfalse unchanged; fullAT074partial/no exact404cause",
+        "workspace_summary_backend": {
+          "recorded_at": "2026-10-31T18:50:35.608200Z",
+          "source_commit": "ab1c3d5b34d8541347484e91b3f60759472b6f80",
+          "original_source_commit": "1db430df005cdfb05da8b2c9b7e3194652a0f8a2",
+          "main_merged": true,
+          "root_merged_regression_evidence": "tracking/evidence/m07/workspace-summary35/2026-10-31-root-merged-regression.json",
+          "root_merged_synthetic_tests_passed": 31,
+          "root_merged_synthetic_tests_skipped": 0,
+          "regression_recorded_at": "2026-10-31T18:33:32.149253+00:00",
+          "sql35_executed": true,
+          "sql35_cloud_applied": false,
+          "summary_web_deployed": false,
+          "canonical_history_still": 34,
+          "owned_local_proof": "passed_actual_SQL_fixtures_full_rollback_and_cleanup",
+          "owned_local_proof_path": "development/m07/workspace-summary35-proof",
+          "frontend_worktree_preserved": true,
+          "privilege_guard_commit": "66956b71cfd53c472a6ad409a66b075c737bed36",
+          "local_sql": {
+            "status": "passed_owned_local_actual_fixtures_rollback_and_cleanup",
+            "run_id": "ef4cb6c2-3f4a-4869-a71a-d747f1db99ca",
+            "receipt": "tracking/evidence/m07/workspace-summary35-proof/2026-10-31T18-47-07-800Z-ef4cb6c2.json",
+            "started_at": "2026-10-31T18:47:07.800Z",
+            "finished_at": "2026-10-31T18:48:18.228Z",
+            "elapsed_ms": 70428,
+            "actual_prior_migrations": [
+              "20261030154824",
+              "20261031010000",
+              "20261031104603",
+              "20261031130207"
+            ],
+            "actual34_sha256": "0705f1940abbc5c4afc65a49e85d9ef2ce6a6489178b6dd82c3acb33cf976472",
+            "actual35_sha256": "cbb12610603318bce68ced4a58d0a9a01ee07737838c99a2ea0e6214e5e933e0",
+            "fixture_sha256": "275b430fc401ea84a66e432c908cc9bdde77d17e362801ea39d15ed9209e7efe",
+            "wire_sha256": "8f89d7961c032e7d1b612b11113298b67b60dd3baa25d1b43eb1da465842a3ce",
+            "source_manifest_sha256": "0f4282d921c5ae790a7c3b833a9bb25cd4c02e65bc274464bc8d8c29326c5df9",
+            "source_manifest_input_count": 107,
+            "admission_only_adapter": true,
+            "fixture_outer_fence_only": true,
+            "ddl_data_catalogue_rolled_back": true,
+            "persistent_owned_history_count": 33,
+            "history34_row_ephemeral": true,
+            "history35_inserted": false,
+            "cleanup_verified": true,
+            "both_disposable_databases_removed": true,
+            "new_roles_removed": true,
+            "original29_data_and_full_Auth_Storage_catalogue_exact": true,
+            "preexisting_global_role_oids_attributes_memberships_exact": true,
+            "shared_lock_released": true,
+            "prior_3304_replayed": false,
+            "prior_failed_run_preserved": "tracking/evidence/m07/workspace-summary35-proof/2026-10-31T18-39-41-150Z-3304bf06.json",
+            "runtime_configuration_loaded": false,
+            "cloud_called": false,
+            "provider_called": false,
+            "hosted_acceptance": false,
+            "result_notes": "development/m07/workspace-summary35-proof/LIVE_SQL_RESULT.md"
+          },
+          "canonical35_applied": false,
+          "hosted_summary_deployed": false,
+          "local_sql_history": [
+            {
+              "status": "failed_synthetic_fixture_before_runtime_acceptance",
+              "run_id": "3304bf06-3195-4782-944b-8b2efc2cc480",
+              "receipt": "tracking/evidence/m07/workspace-summary35-proof/2026-10-31T18-39-41-150Z-3304bf06.json",
+              "confirmed_cause": "Four synthetic presentation assets omitted required producing job/attempt/output provenance.",
+              "actual_prior_migrations": [
+                "20261030154824",
+                "20261031010000",
+                "20261031104603",
+                "20261031130207"
+              ],
+              "cleanup_verified": true,
+              "original29_catalogue_data_auth_storage_and_global_roles_preserved": true,
+              "new_roles_and_both_disposable_databases_removed": true,
+              "shared_lock_released": true,
+              "automatic_retry": false,
+              "old_claim_and_sources_preserved": true,
+              "next_action": "Narrow fixture fix, new source pins plus exact cleanup admission, then a fresh once-only owned local run.",
+              "started_at": "2026-10-31T18:39:41.150Z",
+              "finished_at": "2026-10-31T18:40:43.148Z"
+            }
+          ],
+          "fixture_correction_commit": "c8e4faee2b8ddf35fd69323a5fbf8050ffb8a9de",
+          "sql35_execution_environment": "owned_disposable_local_transaction_rolled_back",
+          "next_action": "Guest English self-test awaits browser-required approval to create/test/revoke a new bearer link; none created. Local SQL35 gate is passed. Proceed with guarded canonical35 release/readback and current authenticated API/MCP summary reads under separate release evidence, then eligible safe-observability/full-delegated-journey checks. Canonical34/web5vEM/English1.0 remain current until release; preserve frontend, owner/recovery passes, pending screen reader/skipped mobile and no-label scope."
+        },
+        "local_SQL35_proof": "passed_actual_fixtures_rollback_cleanup_ef4cb6c2",
+        "canonical35_applied": false,
+        "hosted_summary_deployed": false
       },
       "historical_checkpoint_before_english34": {
         "milestone": "M07",
@@ -1481,7 +1607,7 @@
   "latest_checkpoint": {
     "milestone": "M07",
     "status": "in_progress",
-    "observed_at": "2026-10-31T18:30:47.556975Z",
+    "observed_at": "2026-10-31T18:50:35.608200Z",
     "base_commit": "009536e",
     "canonical_migration_count": 34,
     "local_migration_count": 29,
@@ -1508,10 +1634,15 @@
     "local_restore_evidence": "tracking/evidence/m07/recovery33/2026-10-31T15-34-37-577Z-9af6774f.json",
     "name_diagnosis": "tracking/evidence/m03/english-name-review/2026-10-31T16-31-07-348316Z-5ed61ea9-8c38-4c1a-a3a2-958d6ccd5d72.json",
     "native_build_failure": "tracking/evidence/m03/english-image34/2026-10-31T17-03-17-960492Z-v2-registry-tls-diagnosis.json",
-    "next_action": "Guest English self-test awaits confirmed new link; none created. Continue eligible delegated/API checks, independently review/integrate isolated Summary with local DB proof/release, and plan safe durable per-stage correlation metadata without payload-retention changes. Actual currentWF02 save:none settings confirmed;31686 metadata unavailable404, exact cause unproven. Preserve completed scan/saved/PDF/old-cohort and owner acceptance; no labels required.",
+    "next_action": "Guest English self-test awaits browser-required approval to create/test/revoke a new bearer link; none created. Local SQL35 gate is passed. Proceed with guarded canonical35 release/readback and current authenticated API/MCP summary reads under separate release evidence, then eligible safe-observability/full-delegated-journey checks. Canonical34/web5vEM/English1.0 remain current until release; preserve frontend, owner/recovery passes, pending screen reader/skipped mobile and no-label scope.",
     "source_checkpoints": [
       "c6a3f15",
-      "28c3d3c"
+      "28c3d3c",
+      "2acc6ab",
+      "ab1c3d5",
+      "de276c7",
+      "66956b7",
+      "c8e4fae"
     ],
     "english_rollout": {
       "reference": "english_output_rollout",
@@ -1531,7 +1662,95 @@
     "old_cohort_preservation_passed": true,
     "guest_english_passed": false,
     "saved_english_version_id": "4f1b81a1-adb7-425b-8223-458d8bd82c28",
-    "AT074_latest_execution_result": "actual31686GET404/no metadata; actualcurrentWF02GET200 save:none/manualfalse/progressfalse unchanged; fullAT074partial/no exact404cause"
+    "AT074_latest_execution_result": "actual31686GET404/no metadata; actualcurrentWF02GET200 save:none/manualfalse/progressfalse unchanged; fullAT074partial/no exact404cause",
+    "workspace_summary_backend": {
+      "recorded_at": "2026-10-31T18:50:35.608200Z",
+      "source_commit": "ab1c3d5b34d8541347484e91b3f60759472b6f80",
+      "original_source_commit": "1db430df005cdfb05da8b2c9b7e3194652a0f8a2",
+      "main_merged": true,
+      "root_merged_regression_evidence": "tracking/evidence/m07/workspace-summary35/2026-10-31-root-merged-regression.json",
+      "root_merged_synthetic_tests_passed": 31,
+      "root_merged_synthetic_tests_skipped": 0,
+      "regression_recorded_at": "2026-10-31T18:33:32.149253+00:00",
+      "sql35_executed": true,
+      "sql35_cloud_applied": false,
+      "summary_web_deployed": false,
+      "canonical_history_still": 34,
+      "owned_local_proof": "passed_actual_SQL_fixtures_full_rollback_and_cleanup",
+      "owned_local_proof_path": "development/m07/workspace-summary35-proof",
+      "frontend_worktree_preserved": true,
+      "privilege_guard_commit": "66956b71cfd53c472a6ad409a66b075c737bed36",
+      "local_sql": {
+        "status": "passed_owned_local_actual_fixtures_rollback_and_cleanup",
+        "run_id": "ef4cb6c2-3f4a-4869-a71a-d747f1db99ca",
+        "receipt": "tracking/evidence/m07/workspace-summary35-proof/2026-10-31T18-47-07-800Z-ef4cb6c2.json",
+        "started_at": "2026-10-31T18:47:07.800Z",
+        "finished_at": "2026-10-31T18:48:18.228Z",
+        "elapsed_ms": 70428,
+        "actual_prior_migrations": [
+          "20261030154824",
+          "20261031010000",
+          "20261031104603",
+          "20261031130207"
+        ],
+        "actual34_sha256": "0705f1940abbc5c4afc65a49e85d9ef2ce6a6489178b6dd82c3acb33cf976472",
+        "actual35_sha256": "cbb12610603318bce68ced4a58d0a9a01ee07737838c99a2ea0e6214e5e933e0",
+        "fixture_sha256": "275b430fc401ea84a66e432c908cc9bdde77d17e362801ea39d15ed9209e7efe",
+        "wire_sha256": "8f89d7961c032e7d1b612b11113298b67b60dd3baa25d1b43eb1da465842a3ce",
+        "source_manifest_sha256": "0f4282d921c5ae790a7c3b833a9bb25cd4c02e65bc274464bc8d8c29326c5df9",
+        "source_manifest_input_count": 107,
+        "admission_only_adapter": true,
+        "fixture_outer_fence_only": true,
+        "ddl_data_catalogue_rolled_back": true,
+        "persistent_owned_history_count": 33,
+        "history34_row_ephemeral": true,
+        "history35_inserted": false,
+        "cleanup_verified": true,
+        "both_disposable_databases_removed": true,
+        "new_roles_removed": true,
+        "original29_data_and_full_Auth_Storage_catalogue_exact": true,
+        "preexisting_global_role_oids_attributes_memberships_exact": true,
+        "shared_lock_released": true,
+        "prior_3304_replayed": false,
+        "prior_failed_run_preserved": "tracking/evidence/m07/workspace-summary35-proof/2026-10-31T18-39-41-150Z-3304bf06.json",
+        "runtime_configuration_loaded": false,
+        "cloud_called": false,
+        "provider_called": false,
+        "hosted_acceptance": false,
+        "result_notes": "development/m07/workspace-summary35-proof/LIVE_SQL_RESULT.md"
+      },
+      "canonical35_applied": false,
+      "hosted_summary_deployed": false,
+      "local_sql_history": [
+        {
+          "status": "failed_synthetic_fixture_before_runtime_acceptance",
+          "run_id": "3304bf06-3195-4782-944b-8b2efc2cc480",
+          "receipt": "tracking/evidence/m07/workspace-summary35-proof/2026-10-31T18-39-41-150Z-3304bf06.json",
+          "confirmed_cause": "Four synthetic presentation assets omitted required producing job/attempt/output provenance.",
+          "actual_prior_migrations": [
+            "20261030154824",
+            "20261031010000",
+            "20261031104603",
+            "20261031130207"
+          ],
+          "cleanup_verified": true,
+          "original29_catalogue_data_auth_storage_and_global_roles_preserved": true,
+          "new_roles_and_both_disposable_databases_removed": true,
+          "shared_lock_released": true,
+          "automatic_retry": false,
+          "old_claim_and_sources_preserved": true,
+          "next_action": "Narrow fixture fix, new source pins plus exact cleanup admission, then a fresh once-only owned local run.",
+          "started_at": "2026-10-31T18:39:41.150Z",
+          "finished_at": "2026-10-31T18:40:43.148Z"
+        }
+      ],
+      "fixture_correction_commit": "c8e4faee2b8ddf35fd69323a5fbf8050ffb8a9de",
+      "sql35_execution_environment": "owned_disposable_local_transaction_rolled_back",
+      "next_action": "Guest English self-test awaits browser-required approval to create/test/revoke a new bearer link; none created. Local SQL35 gate is passed. Proceed with guarded canonical35 release/readback and current authenticated API/MCP summary reads under separate release evidence, then eligible safe-observability/full-delegated-journey checks. Canonical34/web5vEM/English1.0 remain current until release; preserve frontend, owner/recovery passes, pending screen reader/skipped mobile and no-label scope."
+    },
+    "local_SQL35_proof": "passed_actual_fixtures_rollback_cleanup_ef4cb6c2",
+    "canonical35_applied": false,
+    "hosted_summary_deployed": false
   },
   "historical_notes": [
     {
@@ -1566,7 +1785,8 @@
       "One controlled real OpenAI+n8n scan, English app/guest display and new frozen presentation version; old versions intact.",
       "Remaining live M07 operator/token/delegated/recovery/workload evidence in eligible order without reopening passed owner connection."
     ],
-    "current_phase": "real_scan_saved_version_internal_display_pdf_and_old_cohort_verified_guest_pending"
+    "current_phase": "real_scan_saved_version_internal_display_pdf_and_old_cohort_verified_guest_pending",
+    "next_independent_backend_slice": "guarded_canonical35_release_and_authenticated_API_MCP_reads_after_passed_owned_local_gate"
   },
   "historical_sessions": [
     {
@@ -2584,7 +2804,7 @@
     }
   ],
   "latest_backend_checkpoint": {
-    "recorded_at": "2026-10-31T18:30:47.556975Z",
+    "recorded_at": "2026-10-31T18:50:35.608200Z",
     "base_commit": "009536e",
     "web_deployment_id": "dpl_5vEMBfsnD23cGL3ontWm8AUAErKr",
     "canonical_history_count": 34,
@@ -2608,10 +2828,15 @@
       "reference": "english_output_rollout",
       "status": "real_scan_saved_version_internal_display_pdf_and_old_cohort_verified_guest_pending"
     },
-    "next_action": "Guest English self-test awaits confirmed new link; none created. Continue eligible delegated/API checks, independently review/integrate isolated Summary with local DB proof/release, and plan safe durable per-stage correlation metadata without payload-retention changes. Actual currentWF02 save:none settings confirmed;31686 metadata unavailable404, exact cause unproven. Preserve completed scan/saved/PDF/old-cohort and owner acceptance; no labels required.",
+    "next_action": "Guest English self-test awaits browser-required approval to create/test/revoke a new bearer link; none created. Local SQL35 gate is passed. Proceed with guarded canonical35 release/readback and current authenticated API/MCP summary reads under separate release evidence, then eligible safe-observability/full-delegated-journey checks. Canonical34/web5vEM/English1.0 remain current until release; preserve frontend, owner/recovery passes, pending screen reader/skipped mobile and no-label scope.",
     "source_checkpoints": [
       "c6a3f15",
-      "28c3d3c"
+      "28c3d3c",
+      "2acc6ab",
+      "ab1c3d5",
+      "de276c7",
+      "66956b7",
+      "c8e4fae"
     ],
     "worker_v2_deployed": true,
     "last_confirmed_deployed_worker": "dpl_2uASsbYobSDwWjMptPjGLcVEdCg3",
@@ -2619,10 +2844,98 @@
     "new_saved_english_version_passed": true,
     "old_cohort_preservation_passed": true,
     "guest_english_passed": false,
-    "AT074_latest_execution_result": "actual31686GET404/no metadata; actualcurrentWF02GET200 save:none/manualfalse/progressfalse unchanged; fullAT074partial/no exact404cause"
+    "AT074_latest_execution_result": "actual31686GET404/no metadata; actualcurrentWF02GET200 save:none/manualfalse/progressfalse unchanged; fullAT074partial/no exact404cause",
+    "workspace_summary_backend": {
+      "recorded_at": "2026-10-31T18:50:35.608200Z",
+      "source_commit": "ab1c3d5b34d8541347484e91b3f60759472b6f80",
+      "original_source_commit": "1db430df005cdfb05da8b2c9b7e3194652a0f8a2",
+      "main_merged": true,
+      "root_merged_regression_evidence": "tracking/evidence/m07/workspace-summary35/2026-10-31-root-merged-regression.json",
+      "root_merged_synthetic_tests_passed": 31,
+      "root_merged_synthetic_tests_skipped": 0,
+      "regression_recorded_at": "2026-10-31T18:33:32.149253+00:00",
+      "sql35_executed": true,
+      "sql35_cloud_applied": false,
+      "summary_web_deployed": false,
+      "canonical_history_still": 34,
+      "owned_local_proof": "passed_actual_SQL_fixtures_full_rollback_and_cleanup",
+      "owned_local_proof_path": "development/m07/workspace-summary35-proof",
+      "frontend_worktree_preserved": true,
+      "privilege_guard_commit": "66956b71cfd53c472a6ad409a66b075c737bed36",
+      "local_sql": {
+        "status": "passed_owned_local_actual_fixtures_rollback_and_cleanup",
+        "run_id": "ef4cb6c2-3f4a-4869-a71a-d747f1db99ca",
+        "receipt": "tracking/evidence/m07/workspace-summary35-proof/2026-10-31T18-47-07-800Z-ef4cb6c2.json",
+        "started_at": "2026-10-31T18:47:07.800Z",
+        "finished_at": "2026-10-31T18:48:18.228Z",
+        "elapsed_ms": 70428,
+        "actual_prior_migrations": [
+          "20261030154824",
+          "20261031010000",
+          "20261031104603",
+          "20261031130207"
+        ],
+        "actual34_sha256": "0705f1940abbc5c4afc65a49e85d9ef2ce6a6489178b6dd82c3acb33cf976472",
+        "actual35_sha256": "cbb12610603318bce68ced4a58d0a9a01ee07737838c99a2ea0e6214e5e933e0",
+        "fixture_sha256": "275b430fc401ea84a66e432c908cc9bdde77d17e362801ea39d15ed9209e7efe",
+        "wire_sha256": "8f89d7961c032e7d1b612b11113298b67b60dd3baa25d1b43eb1da465842a3ce",
+        "source_manifest_sha256": "0f4282d921c5ae790a7c3b833a9bb25cd4c02e65bc274464bc8d8c29326c5df9",
+        "source_manifest_input_count": 107,
+        "admission_only_adapter": true,
+        "fixture_outer_fence_only": true,
+        "ddl_data_catalogue_rolled_back": true,
+        "persistent_owned_history_count": 33,
+        "history34_row_ephemeral": true,
+        "history35_inserted": false,
+        "cleanup_verified": true,
+        "both_disposable_databases_removed": true,
+        "new_roles_removed": true,
+        "original29_data_and_full_Auth_Storage_catalogue_exact": true,
+        "preexisting_global_role_oids_attributes_memberships_exact": true,
+        "shared_lock_released": true,
+        "prior_3304_replayed": false,
+        "prior_failed_run_preserved": "tracking/evidence/m07/workspace-summary35-proof/2026-10-31T18-39-41-150Z-3304bf06.json",
+        "runtime_configuration_loaded": false,
+        "cloud_called": false,
+        "provider_called": false,
+        "hosted_acceptance": false,
+        "result_notes": "development/m07/workspace-summary35-proof/LIVE_SQL_RESULT.md"
+      },
+      "canonical35_applied": false,
+      "hosted_summary_deployed": false,
+      "local_sql_history": [
+        {
+          "status": "failed_synthetic_fixture_before_runtime_acceptance",
+          "run_id": "3304bf06-3195-4782-944b-8b2efc2cc480",
+          "receipt": "tracking/evidence/m07/workspace-summary35-proof/2026-10-31T18-39-41-150Z-3304bf06.json",
+          "confirmed_cause": "Four synthetic presentation assets omitted required producing job/attempt/output provenance.",
+          "actual_prior_migrations": [
+            "20261030154824",
+            "20261031010000",
+            "20261031104603",
+            "20261031130207"
+          ],
+          "cleanup_verified": true,
+          "original29_catalogue_data_auth_storage_and_global_roles_preserved": true,
+          "new_roles_and_both_disposable_databases_removed": true,
+          "shared_lock_released": true,
+          "automatic_retry": false,
+          "old_claim_and_sources_preserved": true,
+          "next_action": "Narrow fixture fix, new source pins plus exact cleanup admission, then a fresh once-only owned local run.",
+          "started_at": "2026-10-31T18:39:41.150Z",
+          "finished_at": "2026-10-31T18:40:43.148Z"
+        }
+      ],
+      "fixture_correction_commit": "c8e4faee2b8ddf35fd69323a5fbf8050ffb8a9de",
+      "sql35_execution_environment": "owned_disposable_local_transaction_rolled_back",
+      "next_action": "Guest English self-test awaits browser-required approval to create/test/revoke a new bearer link; none created. Local SQL35 gate is passed. Proceed with guarded canonical35 release/readback and current authenticated API/MCP summary reads under separate release evidence, then eligible safe-observability/full-delegated-journey checks. Canonical34/web5vEM/English1.0 remain current until release; preserve frontend, owner/recovery passes, pending screen reader/skipped mobile and no-label scope."
+    },
+    "local_SQL35_proof": "passed_actual_fixtures_rollback_cleanup_ef4cb6c2",
+    "canonical35_applied": false,
+    "hosted_summary_deployed": false
   },
   "english_output_rollout": {
-    "recorded_at": "2026-10-31T18:30:47.556975Z",
+    "recorded_at": "2026-10-31T18:50:35.608200Z",
     "resume_base_commit": "009536e",
     "status": "real_scan_saved_version_internal_display_pdf_and_old_cohort_verified_guest_pending",
     "frontend": {
@@ -2660,10 +2973,15 @@
       "redesign_latest_observed_head": "031c17bc5119f83a68e784eb66ca56ba05d5053f",
       "redesign_reported_fixture_tests_passed": 113,
       "redesign_quality_scope": "Reported frontend fixture/mock e2e plus lint/types/build and isolated axe; not root-rerun or hosted redesign acceptance.",
-      "backend_requests_1_through_6": "workspace_summary_source_in_isolated_worktree_unmerged_others_acknowledged_unimplemented",
+      "backend_requests_1_through_6": "workspace_summary_source_merged_local_SQL_proof_passed_canonical35_unapplied_undeployed_others_pending",
       "backend_contract_proposal": "development/m07/frontend-contracts/PROPOSAL.md",
       "workspace_summary_worktree": "D:/Everyone/Presentation/Everyone-Presentation-Studio-Backend-Summary",
-      "workspace_summary_main_merged_or_deployed": false
+      "workspace_summary_main_merged": true,
+      "workspace_summary_deployed": false,
+      "workspace_summary_source_commit": "ab1c3d5b34d8541347484e91b3f60759472b6f80",
+      "workspace_summary_sql35_executed": true,
+      "workspace_summary_sql35_execution_scope": "passed_owned_local_full_rollback_only_canonical35_unapplied",
+      "workspace_summary_fixture_commit": "c8e4faee2b8ddf35fd69323a5fbf8050ffb8a9de"
     },
     "quality": {
       "last_composed_module_tests": 886,
@@ -2755,7 +3073,7 @@
     "manual_AT072": "pending",
     "mobile_testing": "skipped",
     "pilot_duration": "until_owner_stops",
-    "next_action": "Guest English self-test awaits confirmed new link; none created. Continue eligible delegated/API checks, independently review/integrate isolated Summary with local DB proof/release, and plan safe durable per-stage correlation metadata without payload-retention changes. Actual currentWF02 save:none settings confirmed;31686 metadata unavailable404, exact cause unproven. Preserve completed scan/saved/PDF/old-cohort and owner acceptance; no labels required.",
+    "next_action": "Guest English self-test awaits browser-required approval to create/test/revoke a new bearer link; none created. Local SQL35 gate is passed. Proceed with guarded canonical35 release/readback and current authenticated API/MCP summary reads under separate release evidence, then eligible safe-observability/full-delegated-journey checks. Canonical34/web5vEM/English1.0 remain current until release; preserve frontend, owner/recovery passes, pending screen reader/skipped mobile and no-label scope.",
     "remaining_m07_review": "development/m07/REMAINING_AFTER_ENGLISH34.md",
     "web_ready": "tracking/evidence/m03/english-web-release34/2026-10-31T16-55-43-885447Z-ready.json",
     "web_legacy_app": "tracking/evidence/m03/english-web-release34/2026-10-31-hosted-compatibility-app.json",
@@ -2909,5 +3227,97 @@
       "connected_browser_scope": "normal_profile_only",
       "internal_saved_proof_is_guest_acceptance": false
     }
+  },
+  "workspace_summary_backend": {
+    "recorded_at": "2026-10-31T18:50:35.608200Z",
+    "source_commit": "ab1c3d5b34d8541347484e91b3f60759472b6f80",
+    "original_source_commit": "1db430df005cdfb05da8b2c9b7e3194652a0f8a2",
+    "main_merged": true,
+    "root_merged_regression_evidence": "tracking/evidence/m07/workspace-summary35/2026-10-31-root-merged-regression.json",
+    "root_merged_synthetic_tests_passed": 31,
+    "root_merged_synthetic_tests_skipped": 0,
+    "regression_recorded_at": "2026-10-31T18:33:32.149253+00:00",
+    "sql35_executed": true,
+    "sql35_cloud_applied": false,
+    "summary_web_deployed": false,
+    "canonical_history_still": 34,
+    "owned_local_proof": "passed_actual_SQL_fixtures_full_rollback_and_cleanup",
+    "owned_local_proof_path": "development/m07/workspace-summary35-proof",
+    "frontend_worktree_preserved": true,
+    "privilege_guard_commit": "66956b71cfd53c472a6ad409a66b075c737bed36",
+    "local_sql": {
+      "status": "passed_owned_local_actual_fixtures_rollback_and_cleanup",
+      "run_id": "ef4cb6c2-3f4a-4869-a71a-d747f1db99ca",
+      "receipt": "tracking/evidence/m07/workspace-summary35-proof/2026-10-31T18-47-07-800Z-ef4cb6c2.json",
+      "started_at": "2026-10-31T18:47:07.800Z",
+      "finished_at": "2026-10-31T18:48:18.228Z",
+      "elapsed_ms": 70428,
+      "actual_prior_migrations": [
+        "20261030154824",
+        "20261031010000",
+        "20261031104603",
+        "20261031130207"
+      ],
+      "actual34_sha256": "0705f1940abbc5c4afc65a49e85d9ef2ce6a6489178b6dd82c3acb33cf976472",
+      "actual35_sha256": "cbb12610603318bce68ced4a58d0a9a01ee07737838c99a2ea0e6214e5e933e0",
+      "fixture_sha256": "275b430fc401ea84a66e432c908cc9bdde77d17e362801ea39d15ed9209e7efe",
+      "wire_sha256": "8f89d7961c032e7d1b612b11113298b67b60dd3baa25d1b43eb1da465842a3ce",
+      "source_manifest_sha256": "0f4282d921c5ae790a7c3b833a9bb25cd4c02e65bc274464bc8d8c29326c5df9",
+      "source_manifest_input_count": 107,
+      "admission_only_adapter": true,
+      "fixture_outer_fence_only": true,
+      "ddl_data_catalogue_rolled_back": true,
+      "persistent_owned_history_count": 33,
+      "history34_row_ephemeral": true,
+      "history35_inserted": false,
+      "cleanup_verified": true,
+      "both_disposable_databases_removed": true,
+      "new_roles_removed": true,
+      "original29_data_and_full_Auth_Storage_catalogue_exact": true,
+      "preexisting_global_role_oids_attributes_memberships_exact": true,
+      "shared_lock_released": true,
+      "prior_3304_replayed": false,
+      "prior_failed_run_preserved": "tracking/evidence/m07/workspace-summary35-proof/2026-10-31T18-39-41-150Z-3304bf06.json",
+      "runtime_configuration_loaded": false,
+      "cloud_called": false,
+      "provider_called": false,
+      "hosted_acceptance": false,
+      "result_notes": "development/m07/workspace-summary35-proof/LIVE_SQL_RESULT.md"
+    },
+    "canonical35_applied": false,
+    "hosted_summary_deployed": false,
+    "local_sql_history": [
+      {
+        "status": "failed_synthetic_fixture_before_runtime_acceptance",
+        "run_id": "3304bf06-3195-4782-944b-8b2efc2cc480",
+        "receipt": "tracking/evidence/m07/workspace-summary35-proof/2026-10-31T18-39-41-150Z-3304bf06.json",
+        "confirmed_cause": "Four synthetic presentation assets omitted required producing job/attempt/output provenance.",
+        "actual_prior_migrations": [
+          "20261030154824",
+          "20261031010000",
+          "20261031104603",
+          "20261031130207"
+        ],
+        "cleanup_verified": true,
+        "original29_catalogue_data_auth_storage_and_global_roles_preserved": true,
+        "new_roles_and_both_disposable_databases_removed": true,
+        "shared_lock_released": true,
+        "automatic_retry": false,
+        "old_claim_and_sources_preserved": true,
+        "next_action": "Narrow fixture fix, new source pins plus exact cleanup admission, then a fresh once-only owned local run.",
+        "started_at": "2026-10-31T18:39:41.150Z",
+        "finished_at": "2026-10-31T18:40:43.148Z"
+      }
+    ],
+    "fixture_correction_commit": "c8e4faee2b8ddf35fd69323a5fbf8050ffb8a9de",
+    "sql35_execution_environment": "owned_disposable_local_transaction_rolled_back",
+    "next_action": "Guest English self-test awaits browser-required approval to create/test/revoke a new bearer link; none created. Local SQL35 gate is passed. Proceed with guarded canonical35 release/readback and current authenticated API/MCP summary reads under separate release evidence, then eligible safe-observability/full-delegated-journey checks. Canonical34/web5vEM/English1.0 remain current until release; preserve frontend, owner/recovery passes, pending screen reader/skipped mobile and no-label scope."
+  },
+  "settings_error_boundary_regression": {
+    "commit": "de276c704a8984733fddb206be77e350fe6c2fb1",
+    "scope": "regression_only_existing_behavior_no_product_fix",
+    "exported_route_tests_passed_before_production_change": 7,
+    "bug_claim_retracted": true,
+    "production_change_made": false
   }
 }

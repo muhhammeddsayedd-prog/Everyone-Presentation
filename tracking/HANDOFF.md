@@ -1,5 +1,96 @@
 # Everyone Presentation Studio - current English-output handoff
 
+## Current continuation: local SQL35 proof passed; canonical release pending - 2026-10-31
+
+The fresh owned local runef4cb6c2 PASSED, started18:47:07.800UTC and finished
+18:48:18.228UTC (70.428seconds). It actually upgraded30-33, executed actual34,
+then35 and every corrected synthetic fixture assertion. The whole34/35 DDL,
+data and catalogue changes rolled back to the owned history33 baseline; the
+history34 row was ephemeral and no history35 row was inserted. Both disposable
+databases and new roles were removed, original29 baseline/data/full Auth/Storage
+catalogue and preexisting global roles stayed exact, and the shared lock released.
+
+Summary source is merged asab1c3d5, with privilege guard66956b7 and corrected
+fixturec8e4fae. SQL35's local runtime/preservation gate is now passed. Canonical35
+is STILL UNAPPLIED and hosted Summary is NOT DEPLOYED: actual pilot remains
+web5vEM/worker2uAS/canonical34 with English1.0 enabled. This local proof is separate
+from the completed local33 recovery and does not establish hosted API/MCP,
+provider, Storage HTTP or deployed-restore acceptance.
+
+The earlier3304 fixture failure remains retained as dated history with its exact
+cleanup/source/claim receipts; it was never replayed. The new107-input harness,
+canonical/fixture bytes, source history and successful-run inputs are frozen.
+Details: `development/m07/workspace-summary35-proof/LIVE_SQL_RESULT.md`.
+
+English scan/internal saved-version English/video/PDF and old-version preservation
+remain passed. Guest English awaits the existing browser-required confirmation
+to create, test and revoke a new self-test bearer link; no link has been created.
+Next: complete that guest check when confirmed, then guarded canonical35 release/
+readback and current authenticated API/MCP summary reads with their own evidence;
+continue eligible M07 safe-observability/full-journey checks. Do not enable node
+payload retention or infer the exact31686 absence cause from404/settings alone.
+Owner Claude acceptance/local33 recovery stay passed, screen reader pending,
+mobile skipped, no more labels/selector, frontend preserved and pilot running.
+
+Actual local pass/cleanup receipt:
+`tracking/evidence/m07/workspace-summary35-proof/2026-10-31T18-47-07-800Z-ef4cb6c2.json`
+
+
+Fresh read-only pilot health at 2026-10-31T18:52:00.214345+00:00: the stable alias still serves
+web5vEM and the expected worker2uAS has one Ready/alive2GiB dub1 instance.
+Receipt: `tracking/evidence/m07/workspace-summary35/2026-10-31-current-pilot-health.json`. No deployment/configuration/job change or DB requery.
+
+## Historical3304 fixture failure and cleanup checkpoint - 2026-10-31,18:39 UTC
+
+English remains enabled on hosted web5vEM/worker2uAS/canonical34. The real scan,
+internal saved-version English/video/PDF and nine-old-version preservation checks
+remain passed. Guest English awaits the pending self-test bearer-link approval;
+no link has been created. Claude connection acceptance/local33 recovery remain
+passed, screen reader pending and mobile skipped; the pilot remains running.
+
+M07 Summary source is merged asab1c3d5 with privilege guard66956b7. Root's31
+merged HTTP/MCP regressions and two guard/Settings-route checks passed. Settings
+checkpointde276c7 is regression-only: its existing handler already catches errors.
+SQL35 is not applied and the Summary endpoint/tool is not deployed.
+
+Root's fresh owned local run3304bf06 actually upgraded30-33 and reached the
+34/35 Summary wire, then failed on a synthetic media_assets typed-purpose check.
+The fixture omitted required producing job/attempt/output provenance on four
+presentation assets. This is a fixture bug; no production-function failure is
+established. The actual receipt below confirms both disposable databases removed,
+new roles removed, exact original29/auth/storage/catalogue/data/global-role
+preservation and shared lock release. The failed claim/artifacts stay retained;
+do not replay3304. All executed source bytes were preserved before correction.
+
+Next exact independent action: integrate the narrow synthetic fixture correction,
+repin the proof to its new bytes and verified3304 cleanup, review/prepare a fresh
+run, then execute the local transaction once. Require actual SQL/rollback/cleanup
+proof before canonical35 installation or a new pilot deployment. Complete the
+guest English check when its separate approval arrives; do not request labels.
+
+Actual failed-run/cleanup receipt:
+`tracking/evidence/m07/workspace-summary35-proof/2026-10-31T18-39-41-150Z-3304bf06.json`
+
+## Source checkpoint after English rollout — Summary merged, SQL35 not yet executed
+
+The hosted English checkpoint is committed as `2acc6ab`. Workspace-summary source
+was cherry-picked to main as `ab1c3d5` (original `1db430d`). Root's actual merged
+summary/MCP/signed-delegation regression passed31 tests,0skips at the recorded
+18:33:32 UTC checkpoint; this is deterministic local proof, not a new live Claude
+acceptance. SQL35 is still unexecuted/unapplied, and no Summary web release has
+occurred: the actual pilot remains web5vEM/worker2uAS/canonical34. The minimal
+owned local SQL35 proof is source preparation in progress only. Claude's frontend
+worktree/layouts and the shared English contract are preserved.
+
+The Settings error-boundary bug claim was retracted: the existing helper catches
+the operation failure. Seven actual exported-Settings tests were green before any
+production change. `de276c7` is a regression-only commit; no Settings fix is claimed.
+Guest English still awaits the confirmed self-test link; screen reader pending,
+mobile skipped, owner Claude/recovery proofs retained and the pilot keeps running.
+Next independent action: review the owned SQL35 proof source, then its finite local
+execution/rollback/preservation gate when admitted; no provider operation is needed.
+Evidence: `tracking/evidence/m07/workspace-summary35/2026-10-31-root-merged-regression.json`.
+
 ## Real English scan, saved version, playback/PDF and preservation passed; guest pending - 2026-10-31
 
 The current pilot remains web5vEM/source280-2d4894b8 and worker2uAS, one2GiB dub1

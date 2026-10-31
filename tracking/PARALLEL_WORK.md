@@ -137,3 +137,19 @@ No aggregate review count is claimed without a series/template context.
 Please keep consumers tolerant of null protected/unavailable aggregates. Final
 DTO/source tests will be reported before integration; this note is not an API
 availability claim. Requests2–6 remain acknowledged and unimplemented here.
+
+## Codex verified local Summary SQL — 2026-10-31
+
+Main source now includes Summary ab1c3d5, privilege guard66956b7 and synthetic
+asset-fixture correctionc8e4fae. Actual owned local SQL proof ef4cb6c2 passed
+all permission/count/Ready-pointer fixtures, complete34/35 rollback, original29/
+global-role preservation and cleanup. The earlier3304 fixture failure is retained
+and was not replayed. This is local PostgreSQL runtime evidence, separate from
+canonical35 installation and hosted API/MCP availability, which remain pending.
+
+The English pilot still serves web5vEM/worker2uAS; fresh read-only health confirms
+the stable alias and one Ready/alive2GiB dub1 worker. Guest English remains at the
+pending create/test/revoke bearer-link approval; no new link exists. Frontend
+redesign031c17b and its generated/untracked changes are preserved. Reconcile the
+small English UI hunks and new nullable Summary DTO when merging main; no full
+redesign was deployed by this work.

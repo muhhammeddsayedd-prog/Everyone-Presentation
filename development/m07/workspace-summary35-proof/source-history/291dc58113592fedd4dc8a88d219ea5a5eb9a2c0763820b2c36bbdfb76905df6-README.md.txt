@@ -1,0 +1,27 @@
+# Workspace Summary35 local SQL proof preparation
+
+The harness author performed source preparation only. Root and both independent reviewers accepted the final source and eight inert tests on2026-10-31; root enabled the once-only local operator afterward. Actual database execution and cleanup still require their own receipt. This enables no canonical migration or hosted operation.
+
+The compiler reuses the frozen owned recovery33/English34 controller. It retains its local target admission, actual30–33 upgrade, exact original29 and global-role preservation, guarded disposable-database cleanup and lock release. A small runtime hook runs actual34, a transaction-only history34 label required by35, actual35 and the canonical synthetic fixture inside one savepoint, then rolls back the entire hook and compares history33, catalogue and data.
+
+Canonical35 and its fixture are pinned from Summary commit `af57ef9b9aac19bc27f54d09e710e1f5ade42968` (base feature `1db430d` plus the guard fix), integrated on main as `66956b7`. No duplicate migration file is created. The adapter replaces only the canonical database-name condition with the existing exact owned name/OID/owner/marker predicate. It preserves the history, actor, capability, RLS, object and ACL checks, including refusal when the reused owner already has CREATE on public. The fixture adapter changes only its outer BEGIN/ROLLBACK into a nested savepoint; all assertions and inner savepoints remain unchanged.
+
+Run the inert tests:
+
+```powershell
+node --test development/m07/workspace-summary35-proof/proof.test.mjs
+```
+
+The full hook test substitutes in-memory filesystem/SQL responses. It first reproduced the inherited ACL string versus boolean mismatch, then passed after matching the controller's exact verified platform string. It performs no actual artifact, lock, role, process or database operation. The other tests verify source drift denial, exact admission and transaction adaptations, guarded compilation and observation refusal on any missing completion or preservation check.
+
+Preparation emits a source-sealed controller and manifest into an ignored private directory. It does not execute that controller. The execute entrypoint and generated controller both require `EXECUTION_ENABLED`; it is currently false. Root owns review and any later one-line enablement. An old disabled preparation cannot be executed after enablement: fresh source equality requires preparing again.
+
+```powershell
+node development/m07/workspace-summary35-proof/run.mjs prepare
+# Only after root review and enablement; never run by this harness author:
+node development/m07/workspace-summary35-proof/run.mjs execute <fresh-prepared-run-uuid>
+```
+
+The operator verifies all97 frozen inputs and complete generated source/manifest before permanently creating an exclusive execution claim, then starts the exact Node24 controller with a clean allowlisted environment. No private application configuration, tokens or provider keys are copied. A returned-process record preserves the actual exit outcome; it grants no SQL or cleanup acceptance by itself. Claims are never removed and automatic retry is absent. Any uncertain dispatch requires inspecting the existing claim/controller receipt and owned resources before a separately reviewed continuation.
+
+Successful pure tests do not establish SQL semantics, migration installation, hosted availability, PostgreSQL permission behavior or release acceptance. Actual execution must separately prove all fixture assertions, rollback and the inherited cleanup/preservation checks. Prior recovery and Claude connection acceptance remain separate completed evidence; screen-reader acceptance stays pending and mobile stays skipped.
