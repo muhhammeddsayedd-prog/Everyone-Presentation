@@ -1,6 +1,61 @@
-# Everyone Presentation Studio - coordinator Auth namespace correction deployed
+# Everyone Presentation Studio - owner OAuth/MCP connection accepted
 
-## Latest checkpoint - 2026-10-31T13:30Z
+## Latest checkpoint - 2026-10-31T13:41Z
+
+SCOPED OWNER CONNECTION ACCEPTANCE PASSED. Owner confirmed the initial project
+read, then re-authenticated under the unchanged client/grant. Native13:36:07
+detailsGET returned redirect-only200, claim/finish/final200 with expected f2ac
+client and localhost3118, without approvalPOST. The post-reconnect get_project
+13:40:13.706 receipt matches owner-visible request23c439a1-4869-4228-a3f1-d4a6004ef4f0,
+principal0a79a703-caba-47e5-93d4-42e32197037a, clientf2acafd5-d4b6-4176-b86c-067c57e45ecc
+and exact project6da14b82-8458-451f-aa21-28cb6c85bdc5. Owner reports Dummy Pilot Test /
+Dummy Client from a single read-only get_project. Complete focused read window
+has exactly1receipt with no rejected/warning/excluded events. Independent review
+confirms scoped acceptance; final receipt is oauth-attempt-trace/2026-10-31-owner-connection-acceptance.json.
+
+No further connection retry, sign-in, consent, client reconfiguration or deployment
+is needed for this defect. Stable pilot remains DeCp/canonical33/workerCVDM;
+original local29, protected M02 and credentials/permissions unchanged. Agent
+never configured Claude or performed owner sign-in/consent/token exchange.
+The earlier503/error and all interim pending receipts remain dated history.
+
+NEXT: this requested OAuth fix is complete. For subsequent authorized development,
+review remaining M07 matrix: full delegated write/processing/Reviewed/generation/
+sharing/version-preservation journey, live refresh/revocation/contributor limits,
+deployed restore/replacement and representative cost/endurance remain unverified.
+AT-072/M03 remain pending; mobile skipped; fullM07/production release unverified.
+Pilot continues until owner stop. Preserve all once-only claims and frozen
+controllers; do not retry protected M02. User guide-table formatting and unrelated
+Screenshots/redesign-output remain unstaged. Current turn is evidence/docs only;
+no new application tests or production deployment is claimed. Previous845 app
+tests/10 collector tests and SQL47/source3/races3 retain their recorded scopes.
+
+## Historical reconnect checkpoint - 2026-10-31T13:37Z
+
+Owner confirmed the initial client-visible Dummy Pilot Test name and exact6da14b82
+project ID, closing initial authorization/read proof. Fresh reconnect13:36:07
+trace836dc103 has verified browser, claim200, detailsGET200 redirect-only,
+finish200/native confirmed redirect and final200, expected f2ac/localhost3118,
+with no approvalPOST in complete5-event OAuth window. Owner reports successful
+Claude connection. See2026-10-31-reconnect-redirect-only.json. The previous
+redirect-only limitation is now verified corrected with an actual native response.
+
+Post-reconnect MCP authentication also passed: two actual requests after the
+redirect each have all7stages accepted, no denials. Complete19-event broad
+window through13:39:59 supports this; reconnect-mcp-auth-stages.json retains
+source/timestamps and explicitly does not claim a project read.
+
+Final authenticated post-reconnect project read remains pending: complete
+read window through13:37:10 has0receipts. Owner was asked to read Dummy Pilot Test
+again and report returned name/ID. Do not mark connection accepted from a success
+page alone. Inspect focused reads since13:36:00Z, pair a later expected client/owner
+get_project receipt with owner reply, then close only scoped connection acceptance.
+Refresh/revocation/full delegated journey, AT-072/M03 and production remain
+unverified; mobile skipped, pilot running until owner stop. No new deployment or
+cloud mutation is needed for this evidence-only follow-up. Source checkpoint
+90c56ca includes the prior proof/helper; current new evidence/docs need closeout.
+
+## Historical initial server read checkpoint - 2026-10-31T13:30Z
 
 Owner approval13:23:49 passed native decision POST200 redirect, finish200 and
 consent200. Subsequent duplicate approval13:23:52 failed claim400/22023

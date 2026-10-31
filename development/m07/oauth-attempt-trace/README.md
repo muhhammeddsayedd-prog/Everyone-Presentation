@@ -147,3 +147,24 @@ output to2MiB/30s and writes exclusive sanitized receipts. Both actual modes
 passed; complete empty windows through13:30:32/33 show no newer attempt yet.
 Owner read-result confirmation and reconnect remain pending. No additional app
 deployment is needed for this read-only operator helper.
+
+## Owner-confirmed first read and fresh reconnect
+
+The owner confirmed the exact Dummy Pilot Test name/ID. Fresh13:36:07 trace
+836dc103 passed the actual native redirect-only detailsGET200, coordinator
+claim/finish200 and final200 with expected client/callback. Complete5-event
+window has no decisionPOST. Owner reports a successful Claude connection;
+2026-10-31-reconnect-redirect-only.json records the separate attestation and
+provider evidence. A post-reconnect read remains pending through13:37:10 and
+was requested. No refresh-token lifecycle or full delegated journey is claimed.
+
+## Final scoped connection acceptance: passed
+
+Post-reconnect actual get_project13:40:13.706 matches the owner's returned request
+23c439a1-4869-4228-a3f1-d4a6004ef4f0, expected owner/client and exact Dummy Pilot
+Test UUID. The final2026-10-31-owner-connection-acceptance.json joins initial
+authorization/read, cached pending-page reload, native redirect-only reconnect
+and this final operation. Independent review confirms the scoped pass. Earlier
+pending receipts remain historical observations. No token/callback body was
+inspected and no agent configured or consented for the owner. FullM07, refresh/
+revocation, writes, deployed restore/endurance and retained checks remain open.

@@ -1,3 +1,21 @@
+## Scoped owner OAuth/MCP connection accepted - 2026-10-31T13:41Z
+
+Initial authorization/read and already-consented redirect-only reconnect passed.
+The owner's post-reconnect read matches actual get_project receipt23c439a1 for
+Dummy Pilot Test6da14b82 under expected owner/client. Scoped connection acceptance
+is PASSED. Current pilot/deployment33 remain unchanged. FullM07, refresh/revocation,
+write journey, deployed restore/endurance and retained AT-072/M03 checks remain
+unverified; mobile skipped and pilot runs until owner stop. See final connection
+acceptance receipt and latest handoff. No app code/deployment changed this turn.
+
+## Owner-confirmed initial read and redirect-only reconnect - 2026-10-31T13:37Z
+
+Owner confirmed Dummy Pilot Test6da14b82. Actual fresh reconnect detailsGET200
+returned redirect-only; claim, finish and final response200 preserved the expected
+client/callback and needed no approvalPOST. Owner reports successful Claude
+connection. Final authenticated read after reconnect is requested and pending.
+Connection acceptance and broader M07 remain pending until their own checks pass.
+
 ## Initial owner OAuth and MCP server read passed - 2026-10-31T13:30Z
 
 Actual native approval200, delegated MCP authorization and direct get_project
@@ -67,7 +85,7 @@ The machine-readable status mirror is [tracking/progress.json](tracking/progress
 | M04 Assignments and final review | verified | Local/canonical20+22+23; actual review journey and acceptance matrix | Exact series/ten fields,2 real AI jobs,3 native fits/2 current zero-overflow, role Undo/reload,2-frame playback, stale-source two-user races; current preservation | Continue M05; retain immutable history; controlled pilot is separate from production acceptance |
 | M05 Template, versioning and PDF | verified | `51aa4c5`; local/canonical24; template1.1.0 | Selection8/Shortlist6 SQL/native fixtures;3 actual Ready downloads/18 inspected pages; immutable V1 replay;11 anonymous401; local race/retry/retention/latest-ready proofs | Continue M06 scoped review/delivery; controlled pilot is separate from production acceptance |
 | M06 External review and delivery | implemented_unverified | Canonical/local25-28; [acceptance matrix](tracking/evidence/m06/ACCEPTANCE_MATRIX.md) | Actual guest feedback, PDF/video/lifecycle, V5 captured transcript and oldV4no-backfill;83browser/693module and current composed gates | AT-072 manual remains; latest PDF save verified; phone testing waived; mobile skipped; controlled pilot in progress |
-| M07 API/MCP and production readiness | in_progress | Canonical33/original local29; Ready webDeCp/workerCVDM | Core9 historical; current845modules/lint/types/guard/build; SQL47/source3/races3; rollout and stage tracing verified | Owner fresh authorization, authenticated Dummy Pilot Test read AND reconnect pending; AT-072/M03 pending, mobile skipped |
+| M07 API/MCP and production readiness | in_progress | Canonical33/original local29; Ready webDeCp/workerCVDM | Core9 historical; current845modules/lint/types/guard/build; SQL47/source3/races3; rollout and stage tracing verified | Scoped owner initial/reconnect/read PASSED; full delegated/lifecycle/restore/endurance and AT-072/M03 pending, mobile skipped |
 
 ## Allowed status transitions
 

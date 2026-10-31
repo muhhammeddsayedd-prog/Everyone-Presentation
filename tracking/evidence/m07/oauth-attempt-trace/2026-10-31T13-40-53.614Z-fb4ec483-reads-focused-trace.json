@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "read_only": true,
+  "focused_scope": "reads",
+  "trace": {
+    "schema_version": "1.0",
+    "read_only": true,
+    "observed_at": "2026-10-31T13:40:53.614Z",
+    "since": "2026-10-31T13:36:00.000Z",
+    "deployment_id": "dpl_DeCpJGbLLEHX3FFNBz5twLFuV8p7",
+    "project_id": "prj_7xOsfRtvJ9voYi7rTEfra5ncOoA0",
+    "public_origin": "https://everyone-presentation-pilot.vercel.app",
+    "counts": {
+      "log_records": 1,
+      "matched_events": 1,
+      "rejected_events": 0,
+      "unrecognized_records": 0,
+      "warning_records": 0,
+      "has_more": false,
+      "excluded_intervals": 0,
+      "complete_window": true
+    },
+    "events": [
+      {
+        "logged_at": "2026-10-31T13:40:13.706Z",
+        "event": "eps.mcp.project_read_succeeded",
+        "entry_point": "mcp_http",
+        "operation": "get_project",
+        "success": true,
+        "request_id": "23c439a1-4869-4228-a3f1-d4a6004ef4f0",
+        "principal_id": "0a79a703-caba-47e5-93d4-42e32197037a",
+        "client_id": "f2acafd5-d4b6-4176-b86c-067c57e45ecc",
+        "project_ids": [
+          "6da14b82-8458-451f-aa21-28cb6c85bdc5"
+        ]
+      }
+    ]
+  }
+}

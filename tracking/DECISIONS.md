@@ -365,3 +365,26 @@ At13:22:13 the fresh owner request now passed provider full-details200 and both
 coordinator calls. An ordinary pending consent-page reload13:23:14 returned the
 durable cached response; complete8-event trace has exactly one upstream GET.
 Owner approval/read and reconnect remain pending. No agent consent/token call.
+
+## 2026-10-31 - Actual redirect-only reconnect verified
+
+Owner confirmed the first actual client-visible Dummy Pilot Test name/ID, matching
+the authenticated get_project receipt. The fresh13:36:07 reconnect returned the
+redirect-only native details union with200; coordinator claim/finish/final200
+validated the same registered client/callback and native approved outcome. No
+approvalPOST was needed. This supersedes the former unsupported-reconnect
+limitation with actual provider evidence. Owner reports successful Claude
+connection, but no post-reconnect read was present through13:37:10. Final read
+requested; keep connection acceptance pending until that actual MCP operation
+and owner result agree. Refresh lifecycle/full M07 and retained checks are separate.
+
+## 2026-10-31 - Scoped owner connection accepted
+
+The owner's authenticated post-reconnect get_project response carries request
+23c439a1-4869-4228-a3f1-d4a6004ef4f0. Actual server receipt13:40:13.706 matches
+that request, expected principal/client and Dummy Pilot Test project UUID. Together
+with initial read+owner confirmation and the actual native redirect-only
+reconnect, this closes the requested connection check. FullM07, refresh-token
+lifecycle, delegated writes, restore/endurance and AT-072/M03 retain their own
+pending scopes. Mobile remains skipped; pilot stays running until owner stop.
+No new deployment/config/client/permission change or agent consent was needed.

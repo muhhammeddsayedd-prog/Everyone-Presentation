@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0",
+  "read_only": true,
+  "focused_scope": "oauth",
+  "trace": {
+    "schema_version": "1.0",
+    "read_only": true,
+    "observed_at": "2026-10-31T13:37:09.674Z",
+    "since": "2026-10-31T13:29:00.000Z",
+    "deployment_id": "dpl_DeCpJGbLLEHX3FFNBz5twLFuV8p7",
+    "project_id": "prj_7xOsfRtvJ9voYi7rTEfra5ncOoA0",
+    "public_origin": "https://everyone-presentation-pilot.vercel.app",
+    "counts": {
+      "log_records": 5,
+      "matched_events": 5,
+      "rejected_events": 0,
+      "unrecognized_records": 0,
+      "warning_records": 0,
+      "has_more": false,
+      "excluded_intervals": 0,
+      "complete_window": true
+    },
+    "events": [
+      {
+        "logged_at": "2026-10-31T13:36:07.476Z",
+        "event": "eps.oauth.consent_response",
+        "trace_id": "836dc103-c1e3-4a82-970b-8f276759403c",
+        "status": 200
+      },
+      {
+        "logged_at": "2026-10-31T13:36:07.476Z",
+        "event": "eps.oauth.coordination_response",
+        "trace_id": "836dc103-c1e3-4a82-970b-8f276759403c",
+        "operation": "finish",
+        "outcome": "redirect",
+        "status": 200,
+        "phase": "success",
+        "state": "already_processed",
+        "client_id": "f2acafd5-d4b6-4176-b86c-067c57e45ecc",
+        "callback": "localhost_3118"
+      },
+      {
+        "logged_at": "2026-10-31T13:36:07.417Z",
+        "event": "eps.oauth.provider_response",
+        "trace_id": "836dc103-c1e3-4a82-970b-8f276759403c",
+        "operation": "details",
+        "method": "GET",
+        "status": 200,
+        "variant": "redirect",
+        "fields": {
+          "redirect_url": "string"
+        }
+      },
+      {
+        "logged_at": "2026-10-31T13:36:07.384Z",
+        "event": "eps.oauth.coordination_response",
+        "trace_id": "836dc103-c1e3-4a82-970b-8f276759403c",
+        "operation": "claim",
+        "action": "details",
+        "status": 200,
+        "phase": "success",
+        "state": "claimed",
+        "client_id": "f2acafd5-d4b6-4176-b86c-067c57e45ecc",
+        "callback": "localhost_3118"
+      },
+      {
+        "logged_at": "2026-10-31T13:36:07.338Z",
+        "event": "eps.oauth.browser_session_verified",
+        "trace_id": "836dc103-c1e3-4a82-970b-8f276759403c"
+      }
+    ]
+  }
+}

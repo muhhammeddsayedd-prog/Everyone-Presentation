@@ -1,9 +1,11 @@
 # Hosted Studio connection for Claude Code
 
-App-side setup is configured on the hosted pilot. Client registration, resource
-binding and web activation passed their checks; all eleven public OAuth/MCP
-checks and the signed-in workspace checks passed on the new deployment. Your
-Claude login, consent, refresh and complete agent journey remain unverified.
+App-side setup, initial owner authorization and an authenticated Dummy Pilot Test
+read are verified on the hosted pilot. The owner confirmed the exact project
+name/ID. Fresh redirect-only reconnect and subsequent MCP authentication also
+passed, including the final project read after reconnect with matching owner/server
+request ID23c439a1. Scoped connection acceptance is passed. Refresh-token
+lifecycle and the complete delegated journey retain separate acceptance checks.
 
 | Setting | Value |
 | --- | --- |
@@ -60,8 +62,10 @@ authorization, approved client/resource, exact scope, registered callback and
 current browser session before it is forwarded. Durable claims prevent duplicate
 consuming reads and decisions. This replaces the earlier refusal documented in
 the historical [consent setup record](../development/m07/OAUTH_CONSENT_SETUP.md).
-Live initial authorization, reconnect and your authenticated MCP operation remain
-pending until their actual receipts are recorded. Start a fresh connection from
+Initial authorization and the first authenticated MCP read have actual receipts
+and owner confirmation. Redirect-only reconnect has actual provider and MCP
+authentication proof; the final post-reconnect project read also passed with
+matching request ID23c439a1. Start a fresh connection from
 Claude rather than reloading an expired or already processed consent URL.
 
 Then check the connection:
@@ -84,11 +88,13 @@ exact loopback callback. It failed in the app's coordinator RPC before native
 authorization details: the coordinator role could not resolve the managed Auth
 schema. The deployed correction uses a private browser-context bridge and keeps
 the existing permission checks. No Claude configuration change is required for
-that defect. Fresh authorization, an authenticated Dummy Pilot Test read and a
-reconnect still need owner-client verification. The localhost callback and
+that defect. Initial authorization and the authenticated Dummy Pilot Test read passed with
+owner confirmation. Actual redirect-only reconnect and the final authenticated
+project read passed with the exact owner/server request ID. Scoped connection
+acceptance is recorded in the final investigation receipt. The localhost callback and
 Supabase token exchange run outside Vercel; a returned redirect alone cannot
 prove those stages succeeded. See the [investigation evidence](../development/m07/oauth-attempt-trace/README.md).
 
 The pilot stays available until the owner stops it. Screen-reader AT-072, broader
-independent M03 semantic checks, the owner Claude acceptance journey and complete
+independent M03 semantic checks, the complete delegated business journey and
 production release acceptance remain pending. Mobile testing is skipped.

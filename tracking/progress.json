@@ -1,6 +1,6 @@
 {
   "pack_version": "1.0",
-  "updated_at": "2026-10-31T13:31:01.180112Z",
+  "updated_at": "2026-10-31T13:42:16.355243Z",
   "implementation_started": true,
   "current_milestone": "M07",
   "current_pilot": {
@@ -67,13 +67,13 @@
     ],
     "application_test_evidence": "tracking/evidence/m07/oauth-attempt-trace/2026-10-31-root-quality.json",
     "application_test_scope": "Full845 modules/lint/types/production guard/build; no desktop suite or owner OAuth acceptance this turn",
-    "oauth_state": "Actual owner full-details and cached reload passed, approval returned200, all delegated MCP stages accepted and list_projects included Dummy Pilot Test. Owner client-result confirmation and reconnect remain pending.",
+    "oauth_state": "Verified scoped owner connection: full-details initial authorization and read, cached duplicate details, already-consented redirect-only reconnect and authenticated post-reconnect get_project; exact owner/server request ID matches. FullM07/refresh/revocation/write journey remain separate.",
     "AT_072": "pending",
     "M03_broader_semantics": "pending",
     "mobile_testing": "skipped by owner",
     "production_deployment_verified": false,
     "prior_snapshot": "tracking/evidence/m07/controlled-pilot/2026-10-31T01-24Z-prior-progress-snapshot.json",
-    "next_action": "Owner confirms first project read result and uses /mcp Re-authenticate for existing everyone-studio without grant revocation; inspect fresh redirect-only/full response and repeat authenticated Dummy Pilot Test read. Keep acceptance pending.",
+    "next_action": "OAuth connection fix is complete. Review remaining M07 acceptance matrix before further work: full delegated journey, live refresh/revocation/contributor denials, deployed restore/replacement and representative cost/endurance; retain AT-072/M03 pending, mobile skipped, owner-stop pilot.",
     "specs_local_proof": "tracking/evidence/m07/specs-ack31/2026-10-31T01-22-16-662Z-dc886d4e-local-proof.json",
     "specs_canonical_apply": "tracking/evidence/m07/specs-ack31/2026-10-31T01-57-10-621248Z-a99247a4-canonical31-continuation-apply.json",
     "specs_canonical_apply_confirmed": true,
@@ -124,14 +124,14 @@
       "production_release_or_Claude_connection_claim": false
     },
     "hosted_oauth": {
-      "status": "configured_public_and_workspace_checks_passed_owner_client_pending",
+      "status": "configured_owner_initial_reconnect_and_read_connection_verified",
       "guard_plan": "dea972d170e862c168689b7efde9b3790e70e0b769c4c25214250f046ae60687",
       "provider_apply": "tracking/evidence/m07/controlled-pilot/2026-10-31T02-57-16-939852Z-3911c44e-hosted-provider-final31-apply.json",
       "provider_result": "passed; command succeeded and two independent selected/comparator-preserving reads",
       "client_registered": true,
       "binding_applied": true,
       "web_oauth_mode": "oauth",
-      "owner_claude_connection": "Not configured, logged in or called by agent; owner acceptance pending",
+      "owner_claude_connection": "Verified owner-controlled configuration/sign-in/consent and initial+reconnect project reads; exact23c439a1 request match. Agent never configured/approved/exchanged token.",
       "client_id": "f2acafd5-d4b6-4176-b86c-067c57e45ecc",
       "client_receipt": "tracking/evidence/m07/controlled-pilot/2026-10-31T03-03-47-052497+00-00-55c4f57e-hosted-oauth-client-final31-create.json",
       "binding_readback": "tracking/evidence/m07/controlled-pilot/2026-10-31T03-08-07-223046Z-2fe661cc-hosted-binding-final31-readback.json",
@@ -144,16 +144,16 @@
       "connection_guide": "docs/HOSTED_MCP_CONNECTION.md",
       "metadata_override": "https://everyone-presentation-pilot.vercel.app/.well-known/oauth-authorization-server",
       "scopes": "openid",
-      "known_limit": "Both provider details variants and redirect-only reconnect are implemented with authoritative checks; live owner reconnect remains unverified.",
+      "known_limit": "Former redirect-only reconnect refusal is corrected and verified against actual Supabase response and matching authenticated post-reconnect project read. Refresh/revocation lifecycle and full delegated journey remain unverified.",
       "web_preflight_resolution": "Read-only guard140 accepts strict equivalent one-row CLI envelopes; completed703 and claims preserved."
     },
-    "controlled_pilot_setup": "app_side_verified_owner_client_pending",
+    "controlled_pilot_setup": "app_side_core_and_scoped_owner_connection_verified_full_release_pending",
     "vercel_technical_target": "production target, Studio APP_ENV staging, owner-controlled pilot",
     "closeout_checks": "tracking/evidence/m07/controlled-pilot/2026-10-31-app-oauth-closeout-checks.json",
     "private_index_scan": "tracking/evidence/m07/controlled-pilot/2026-10-31-final-changed-index-private-scan.json",
     "oauth_consent_correction": {
       "started_at": "2026-10-31T10:45:26.396Z",
-      "status": "deployed_waiting_for_owner_attempt",
+      "status": "deployed_and_scoped_owner_connection_verified",
       "planned_evidence": [
         "Opaque selector regressions",
         "Cookie-backed session and both provider details variants",
@@ -162,7 +162,7 @@
         "Fresh initial and reconnect provider response metadata",
         "Owner authenticated MCP read of Dummy Pilot Test"
       ],
-      "owner_connection_acceptance": "pending_real_mcp_read",
+      "owner_connection_acceptance": "passed_initial_reconnect_and_authenticated_reads",
       "retained_pending": [
         "M03 independent semantics",
         "AT-072"
@@ -271,7 +271,7 @@
     },
     "oauth_failure_followup": {
       "started_at": "2026-10-31T12:57:10.484Z",
-      "status": "initial_authorization_and_authenticated_server_project_read_passed_owner_result_and_reconnect_pending",
+      "status": "verified_scoped_owner_connection",
       "corrected_deployment_live": true,
       "deployment_id": "dpl_DeCpJGbLLEHX3FFNBz5twLFuV8p7",
       "failed_trace": {
@@ -290,7 +290,7 @@
         "scope": "openid",
         "resource_matches": true
       },
-      "connection_acceptance": "pending_authenticated_dummy_pilot_read_and_reconnect",
+      "connection_acceptance": "passed_initial_and_reconnect_with_authenticated_project_reads_and_owner_results",
       "prior_corrected_deployment_id": "dpl_CpsHsrG38KcRt2qQzci6CMhD7VSu",
       "underlying_error": "42501 permission denied for schema auth: NOLOGIN coordinator role cannot resolve auth.uid()",
       "error_evidence_boundary": "Historical trace proves session_verified then503 with no provider call. SQLSTATE42501 comes from actual identity-free execution of the exact role/prefix, not the historical RPC log.",
@@ -324,7 +324,19 @@
         "live_queries": "Both modes passed; complete empty windows since13:29 observed13:30:32/33",
         "latest_oauth_evidence": "tracking/evidence/m07/oauth-attempt-trace/2026-10-31T13-30-33.137Z-6cc75c53-oauth-focused-trace.json",
         "latest_read_evidence": "tracking/evidence/m07/oauth-attempt-trace/2026-10-31T13-30-32.686Z-a0e29216-reads-focused-trace.json"
-      }
+      },
+      "owner_first_read_confirmed": true,
+      "redirect_only_reconnect": "tracking/evidence/m07/oauth-attempt-trace/2026-10-31-reconnect-redirect-only.json",
+      "post_reconnect_mcp_authentication": "tracking/evidence/m07/oauth-attempt-trace/2026-10-31-reconnect-mcp-auth-stages.json",
+      "last_post_reconnect_read_window": {
+        "observed_at": "2026-10-31T13:40:53.614Z",
+        "complete_window": true,
+        "project_reads": 1,
+        "request_id": "23c439a1-4869-4228-a3f1-d4a6004ef4f0",
+        "evidence": "tracking/evidence/m07/oauth-attempt-trace/2026-10-31T13-40-53.614Z-fb4ec483-reads-focused-trace.json"
+      },
+      "owner_connection_acceptance_evidence": "tracking/evidence/m07/oauth-attempt-trace/2026-10-31-owner-connection-acceptance.json",
+      "post_reconnect_request_id": "23c439a1-4869-4228-a3f1-d4a6004ef4f0"
     }
   },
   "milestones": [
@@ -990,14 +1002,15 @@
         "tracking/evidence/m07/app-oauth/2026-10-30T16-14-01-872234Z-inspect-binding.json",
         "tracking/evidence/m07/app-oauth/2026-10-30-pre-activation-summary.json",
         "tracking/evidence/m07/issuer-release30-executable/2026-10-30-current-release-summary.json",
-        "development/m07/APP_OAUTH_CONNECTION.md"
+        "development/m07/APP_OAUTH_CONNECTION.md",
+        "tracking/evidence/m07/oauth-attempt-trace/2026-10-31-owner-connection-acceptance.json"
       ],
       "blockers": [
-        "Canonical issuer30 is applied and independently verified. Provider OAuth/client/hook activation awaits required browser action-time confirmation; real signed-token/client journey remains unverified and owner handles Claude Code setup/login.",
-        "Representative provider cost/endurance and deployed restore/smoke remain unverified; hosting deferred.",
+        "Scoped owner OAuth/MCP initial+reconnect read acceptance passed; full delegated write/generation/sharing journey and live refresh/revocation/contributor restrictions remain unverified.",
+        "Representative provider cost/endurance, deployed metadata/media/config restore and compatible replacement/rollback remain unverified; controlled pilot runs until owner stop.",
         "AT-072 and broader independently labelled M03 semantics remain pending; mobile skipped by owner."
       ],
-      "next_action": "Implement controlled hosted pilot guard and Docker-independent native cloud worker, deploy isolated Vercel pilot units, verify core app then hosted OAuth/MCP. Owner connects Claude.",
+      "next_action": "OAuth connection fix is complete. Review remaining M07 acceptance matrix before further work: full delegated journey, live refresh/revocation/contributor denials, deployed restore/replacement and representative cost/endurance; retain AT-072/M03 pending, mobile skipped, owner-stop pilot.",
       "scope_constraints": {
         "AT_072": "pending",
         "M03_broader_semantic_checks": "pending",
@@ -1049,7 +1062,16 @@
         "current30_local_issuer": "Disposable clone committed30, two injected failure rollbacks,9 precommit+9 postcommit real-role stages and forward-fix/owned DB+new role removal passed; original local29 and prior global role identities exact.",
         "app_oauth": "tracking/evidence/m07/app-oauth/2026-10-30-pre-activation-summary.json",
         "owner_client_configuration_and_login": "Not performed; owner explicitly retained this work",
-        "metadata_scope": "Later checkpoint metadata only; app/SQL/helper tested source is frozen at implementation_commit"
+        "metadata_scope": "Later checkpoint metadata only; app/SQL/helper tested source is frozen at implementation_commit",
+        "owner_connection_followup": {
+          "observed_at": "2026-10-31T13:42:16.355243Z",
+          "status": "passed_scoped_initial_reconnect_read",
+          "evidence": "tracking/evidence/m07/oauth-attempt-trace/2026-10-31-owner-connection-acceptance.json",
+          "canonical_history_count": 33,
+          "original_local_history_count": 29,
+          "web_deployment_id": "dpl_DeCpJGbLLEHX3FFNBz5twLFuV8p7",
+          "production_deployment_verified": false
+        }
       }
     }
   ],

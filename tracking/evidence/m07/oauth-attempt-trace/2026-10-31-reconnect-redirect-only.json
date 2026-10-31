@@ -1,0 +1,30 @@
+{
+  "observed_at": "2026-10-31T13:37:50.052235Z",
+  "kind": "owner_reported_reconnect_and_actual_redirect_only_provider_trace",
+  "source_oauth": "tracking/evidence/m07/oauth-attempt-trace/2026-10-31T13-37-09.674Z-109020f8-oauth-focused-trace.json",
+  "source_read_window": "tracking/evidence/m07/oauth-attempt-trace/2026-10-31T13-37-10.676Z-ef341509-reads-focused-trace.json",
+  "deployment_id": "dpl_DeCpJGbLLEHX3FFNBz5twLFuV8p7",
+  "trace_id": "836dc103-c1e3-4a82-970b-8f276759403c",
+  "provider_details_status": 200,
+  "provider_details_variant": "redirect",
+  "claim_finish_final_statuses": [
+    200,
+    200,
+    200
+  ],
+  "client_id": "f2acafd5-d4b6-4176-b86c-067c57e45ecc",
+  "callback_class": "localhost_3118",
+  "approval_post_in_complete_oauth_window": false,
+  "owner_attestations": {
+    "first_read": {
+      "name": "Dummy Pilot Test",
+      "project_id": "6da14b82-8458-451f-aa21-28cb6c85bdc5"
+    },
+    "reconnect": "Consent page open and shows successful Claude connection"
+  },
+  "post_reconnect_project_read": "pending; complete window through13:37:10 has zero receipts",
+  "final_read_requested_from_owner": true,
+  "connection_acceptance": "pending_post_reconnect_authenticated_read",
+  "no_agent_consent_or_token_exchange": true,
+  "broader_M07_production_acceptance": "unverified; retained pending checks unchanged"
+}

@@ -1,0 +1,180 @@
+{
+  "schema_version": "1.0",
+  "read_only": true,
+  "observed_at": "2026-10-31T13:39:59.780Z",
+  "since": "2026-10-31T13:36:00.000Z",
+  "deployment_id": "dpl_DeCpJGbLLEHX3FFNBz5twLFuV8p7",
+  "project_id": "prj_7xOsfRtvJ9voYi7rTEfra5ncOoA0",
+  "public_origin": "https://everyone-presentation-pilot.vercel.app",
+  "counts": {
+    "log_records": 19,
+    "matched_events": 19,
+    "rejected_events": 0,
+    "unrecognized_records": 0,
+    "warning_records": 0,
+    "has_more": false,
+    "excluded_intervals": 0,
+    "complete_window": true
+  },
+  "events": [
+    {
+      "logged_at": "2026-10-31T13:36:09.472Z",
+      "event": "eps.mcp.authorization_stage",
+      "trace_id": "64f8f9e2-1413-4931-9f58-d0333766303b",
+      "stage": "authorized",
+      "result": "accepted",
+      "status": null
+    },
+    {
+      "logged_at": "2026-10-31T13:36:09.472Z",
+      "event": "eps.mcp.authorization_stage",
+      "trace_id": "64f8f9e2-1413-4931-9f58-d0333766303b",
+      "stage": "business_context",
+      "result": "accepted",
+      "status": null
+    },
+    {
+      "logged_at": "2026-10-31T13:36:09.151Z",
+      "event": "eps.mcp.authorization_stage",
+      "trace_id": "64f8f9e2-1413-4931-9f58-d0333766303b",
+      "stage": "session",
+      "result": "accepted",
+      "status": null
+    },
+    {
+      "logged_at": "2026-10-31T13:36:09.118Z",
+      "event": "eps.mcp.authorization_stage",
+      "trace_id": "64f8f9e2-1413-4931-9f58-d0333766303b",
+      "stage": "delegation",
+      "result": "accepted",
+      "status": null
+    },
+    {
+      "logged_at": "2026-10-31T13:36:09.118Z",
+      "event": "eps.mcp.authorization_stage",
+      "trace_id": "64f8f9e2-1413-4931-9f58-d0333766303b",
+      "stage": "jwt",
+      "result": "accepted",
+      "status": null
+    },
+    {
+      "logged_at": "2026-10-31T13:36:09.099Z",
+      "event": "eps.mcp.authorization_stage",
+      "trace_id": "64f8f9e2-1413-4931-9f58-d0333766303b",
+      "stage": "bearer",
+      "result": "accepted",
+      "status": null
+    },
+    {
+      "logged_at": "2026-10-31T13:36:09.099Z",
+      "event": "eps.mcp.authorization_stage",
+      "trace_id": "64f8f9e2-1413-4931-9f58-d0333766303b",
+      "stage": "boundary",
+      "result": "accepted",
+      "status": null
+    },
+    {
+      "logged_at": "2026-10-31T13:36:08.948Z",
+      "event": "eps.mcp.authorization_stage",
+      "trace_id": "7a51ab51-da1f-4ad9-a04a-5a24c85eeb05",
+      "stage": "authorized",
+      "result": "accepted",
+      "status": null
+    },
+    {
+      "logged_at": "2026-10-31T13:36:08.948Z",
+      "event": "eps.mcp.authorization_stage",
+      "trace_id": "7a51ab51-da1f-4ad9-a04a-5a24c85eeb05",
+      "stage": "business_context",
+      "result": "accepted",
+      "status": null
+    },
+    {
+      "logged_at": "2026-10-31T13:36:08.513Z",
+      "event": "eps.mcp.authorization_stage",
+      "trace_id": "7a51ab51-da1f-4ad9-a04a-5a24c85eeb05",
+      "stage": "session",
+      "result": "accepted",
+      "status": null
+    },
+    {
+      "logged_at": "2026-10-31T13:36:08.447Z",
+      "event": "eps.mcp.authorization_stage",
+      "trace_id": "7a51ab51-da1f-4ad9-a04a-5a24c85eeb05",
+      "stage": "delegation",
+      "result": "accepted",
+      "status": null
+    },
+    {
+      "logged_at": "2026-10-31T13:36:08.447Z",
+      "event": "eps.mcp.authorization_stage",
+      "trace_id": "7a51ab51-da1f-4ad9-a04a-5a24c85eeb05",
+      "stage": "jwt",
+      "result": "accepted",
+      "status": null
+    },
+    {
+      "logged_at": "2026-10-31T13:36:08.417Z",
+      "event": "eps.mcp.authorization_stage",
+      "trace_id": "7a51ab51-da1f-4ad9-a04a-5a24c85eeb05",
+      "stage": "bearer",
+      "result": "accepted",
+      "status": null
+    },
+    {
+      "logged_at": "2026-10-31T13:36:08.417Z",
+      "event": "eps.mcp.authorization_stage",
+      "trace_id": "7a51ab51-da1f-4ad9-a04a-5a24c85eeb05",
+      "stage": "boundary",
+      "result": "accepted",
+      "status": null
+    },
+    {
+      "logged_at": "2026-10-31T13:36:07.476Z",
+      "event": "eps.oauth.consent_response",
+      "trace_id": "836dc103-c1e3-4a82-970b-8f276759403c",
+      "status": 200
+    },
+    {
+      "logged_at": "2026-10-31T13:36:07.476Z",
+      "event": "eps.oauth.coordination_response",
+      "trace_id": "836dc103-c1e3-4a82-970b-8f276759403c",
+      "operation": "finish",
+      "outcome": "redirect",
+      "status": 200,
+      "phase": "success",
+      "state": "already_processed",
+      "client_id": "f2acafd5-d4b6-4176-b86c-067c57e45ecc",
+      "callback": "localhost_3118"
+    },
+    {
+      "logged_at": "2026-10-31T13:36:07.417Z",
+      "event": "eps.oauth.provider_response",
+      "trace_id": "836dc103-c1e3-4a82-970b-8f276759403c",
+      "operation": "details",
+      "method": "GET",
+      "status": 200,
+      "variant": "redirect",
+      "fields": {
+        "redirect_url": "string"
+      }
+    },
+    {
+      "logged_at": "2026-10-31T13:36:07.384Z",
+      "event": "eps.oauth.coordination_response",
+      "trace_id": "836dc103-c1e3-4a82-970b-8f276759403c",
+      "operation": "claim",
+      "action": "details",
+      "status": 200,
+      "phase": "success",
+      "state": "claimed",
+      "client_id": "f2acafd5-d4b6-4176-b86c-067c57e45ecc",
+      "callback": "localhost_3118"
+    },
+    {
+      "logged_at": "2026-10-31T13:36:07.338Z",
+      "event": "eps.oauth.browser_session_verified",
+      "trace_id": "836dc103-c1e3-4a82-970b-8f276759403c"
+    }
+  ]
+}

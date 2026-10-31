@@ -1,6 +1,26 @@
 # M07 acceptance matrix
 
-## Current canonical30 and app-side readiness - 2026-10-30
+## Current controlled pilot connection acceptance - 2026-10-31
+
+M07 remains **in progress; full production release unverified**. Canonical33 and
+webDeCp serve the owner-controlled pilot. These current receipts supersede the
+historical provider/hosting/redirect-only pending labels below within this scope.
+
+| Check | Result and evidence boundary |
+| --- | --- |
+| Initial owner authorization + read | **PASS actual provider/server + owner:** full-detailsGET200, owner approvalPOST200, expected client/callback, authenticated get_project for Dummy Pilot Test and owner-confirmed name/ID. [Initial proof](oauth-attempt-trace/2026-10-31-owner-get-project.json). |
+| Duplicate details | **PASS actual pending-page reload:** cached consent_ready200; complete window contains one native detailsGET. No agent consent. [Proof](oauth-attempt-trace/2026-10-31-fresh-details-and-reload.json). |
+| Already-consented redirect-only reconnect | **PASS actual provider:** fresh13:36:07 detailsGET200 redirect-only, authoritative claim/finish/final200, expected client/localhost3118, no approvalPOST. [Proof](oauth-attempt-trace/2026-10-31-reconnect-redirect-only.json). |
+| Post-reconnect MCP read / scoped owner connection | **PASS actual server + owner exact request match:** get_project13:40:13.706, request23c439a1-4869-4228-a3f1-d4a6004ef4f0, expected owner/client and exact Dummy Pilot Test UUID. [Final acceptance](oauth-attempt-trace/2026-10-31-owner-connection-acceptance.json). |
+| AT-064/065/068 broader journey | **Still partial:** this read-only connection proves usable delegated authorization; refresh/rotation/revocation, contributor denial, and the complete processing/write/generation/sharing journey require their remaining checks. |
+| Retained release gates | AT-072 and broader independent M03 semantics pending; mobile skipped. Deployed metadata/media/config restore/replacement and representative provider endurance/cost remain unverified. Pilot runs until owner stop; no fullM07/production pass. |
+
+The correction's845 application tests,10 collector checks,47 SQL assertions,
+3 source checks/3 actual races and deployed negative probes retain their earlier
+recorded scopes. This follow-up changes evidence/docs only; no new app test run,
+cloud migration, client/config change or deployment occurred.
+
+## Historical canonical30 and app-side readiness - 2026-10-30
 
 M07 remains **in progress; production release unverified**. [Root release summary](issuer-release30-executable/2026-10-30-current-release-summary.json) supersedes the historical migration30-pending labels below. Canonical history is 30; original owned local history remains 29. Provider activation is a separate action awaiting the user's action-time confirmation.
 

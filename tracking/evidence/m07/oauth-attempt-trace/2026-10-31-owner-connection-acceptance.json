@@ -1,0 +1,50 @@
+{
+  "observed_at": "2026-10-31T13:42:16.355243Z",
+  "kind": "actual_owner_connection_acceptance_initial_reconnect_and_authenticated_project_read",
+  "status": "passed",
+  "scope": "Existing direct Claude Code public-client initial authorization and read; already-consented redirect-only reconnect; authenticated read after reconnect with matching owner-visible request ID. Read-only connection acceptance, not fullM07.",
+  "pilot_origin": "https://everyone-presentation-pilot.vercel.app",
+  "deployment_id": "dpl_DeCpJGbLLEHX3FFNBz5twLFuV8p7",
+  "canonical_history_count": 33,
+  "initial_details_reload_source": "tracking/evidence/m07/oauth-attempt-trace/2026-10-31-fresh-details-and-reload.json",
+  "initial_approval_source": "tracking/evidence/m07/oauth-attempt-trace/2026-10-31-owner-approval-server-read.json",
+  "initial_read_source": "tracking/evidence/m07/oauth-attempt-trace/2026-10-31-owner-get-project.json",
+  "reconnect_source": "tracking/evidence/m07/oauth-attempt-trace/2026-10-31-reconnect-redirect-only.json",
+  "post_reconnect_read_source": "tracking/evidence/m07/oauth-attempt-trace/2026-10-31T13-40-53.614Z-fb4ec483-reads-focused-trace.json",
+  "server_receipt": {
+    "logged_at": "2026-10-31T13:40:13.706Z",
+    "event": "eps.mcp.project_read_succeeded",
+    "entry_point": "mcp_http",
+    "operation": "get_project",
+    "success": true,
+    "request_id": "23c439a1-4869-4228-a3f1-d4a6004ef4f0",
+    "principal_id": "0a79a703-caba-47e5-93d4-42e32197037a",
+    "client_id": "f2acafd5-d4b6-4176-b86c-067c57e45ecc",
+    "project_ids": [
+      "6da14b82-8458-451f-aa21-28cb6c85bdc5"
+    ]
+  },
+  "owner_result": {
+    "source": "Explicit user reply to final connection check",
+    "name": "Dummy Pilot Test",
+    "project_id": "6da14b82-8458-451f-aa21-28cb6c85bdc5",
+    "client_name": "Dummy Client",
+    "request_id": "23c439a1-4869-4228-a3f1-d4a6004ef4f0",
+    "reported_operation": "single read-only get_project through reconnected everyone-studio"
+  },
+  "request_principal_client_project_match": true,
+  "independent_review": "Confirmed exact receipt/owner result and scoped acceptance; no broader gate closed",
+  "underlying_fixed_cause": "NOLOGIN coordinator auth.uid() prefix failed42501 because managed Auth schema USAGE was absent. Historical503 localized pre-provider; exact42501 came from actual identity-free role-prefix probe.",
+  "correction": "Private context bridge with unchanged active-browser guard and existing permissions; no managed Auth schema grant or client/callback change",
+  "not_claimed": [
+    "Refresh-token lifetime/rotation/revocation",
+    "Full delegated write/generation/sharing journey",
+    "FullM07 or production release",
+    "AT-072 screen-reader",
+    "Remaining independent M03 semantics"
+  ],
+  "mobile_testing": "skipped by owner",
+  "pilot_duration": "running until owner stop",
+  "agent_configured_or_signed_in_or_consented": false,
+  "callback_codes_tokens_or_credentials_inspected_or_persisted": false
+}
