@@ -91,6 +91,10 @@ test('controlled specs UI preserves supplied text, count clarifications and expl
   expect(model.rolePatches[0].input.requirements?.skills).toEqual(['Tray carrying\nand balancing', '  Supplied wording  ']);
   await article.locator('.role-slots-disclosure > summary').click();
   await article.getByLabel('Required people', { exact: true }).fill('3');
+  const count = article.getByLabel('Required people', { exact: true });
+  await article.getByRole('button', { name: 'Increase required people', exact: true }).click(); await expect(count).toHaveValue('4');
+  await article.getByRole('button', { name: 'Decrease required people', exact: true }).click(); await expect(count).toHaveValue('3');
+  await count.press('ArrowUp'); await expect(count).toHaveValue('4'); await count.press('ArrowDown'); await expect(count).toHaveValue('3');
   await article.getByRole('button', { name: 'Confirm required count', exact: true }).click();
   await expect.poll(() => model.roles()[0].headcount).toBe(3);
   await expect(article.getByRole('checkbox', { name: 'Clarified: Headcount is not known. The single slot is provisional.' })).toBeChecked();

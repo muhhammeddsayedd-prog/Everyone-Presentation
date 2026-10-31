@@ -349,4 +349,10 @@
   .tray-person { flex: 1; min-width: 0; }
   .tray-list .menu-anchor .button { min-height: 28px; padding: 0 8px; }
   .tray-list .menu { right: 0; min-width: 240px; max-height: 60vh; overflow-y: auto; }
+
+  /* Specs headcount stepper */
+  .headcount-stepper { width: fit-content; }
+  .headcount-stepper button svg { width: 16px; height: 16px; }
+  .headcount-stepper input { width: 64px; font-variant-numeric: tabular-nums; }
+  .headcount-stepper:focus-within { border-color: var(--color-accent); box-shadow: 0 0 0 3px var(--color-accent-soft); }
 }
