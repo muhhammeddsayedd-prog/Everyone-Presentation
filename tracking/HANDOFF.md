@@ -1,6 +1,23 @@
 # Everyone Presentation Studio - owner OAuth/MCP connection accepted
 
-## Latest checkpoint - 2026-10-31T13:41Z
+## Backend continuation checkpoint - 2026-10-31T14:15:03.079210Z
+
+Current work remains M07 backend/release plus eligible M03 validation. Frontend
+redesign is isolated in frontend/redesign worktree based93981ca; preserve its files.
+tracking/PARALLEL_WORK.md records ownership; no API schema or UI change is planned.
+CentralStudio wrong-resource response bug fixed in SDK only:853 root application
+tests, lint/types/production guard/build passed. Quality receipt is in
+backend-continuation/2026-10-31-response-scope-quality.json. Deployment pending.
+M03 evaluator19 synthetic tests passed; no real corpus scored. Private worksheet
+.local/m03-semantic-validation/OWNER_LABELS.md is created; independent English/mixed
+labels requested, do not fabricate them. Recovery33 compiler/full functional DDL
+and cleanup guards are under independent review; no SQL/native restore run yet.
+Actual local preflight verifies owned original29, no shared SQL lock/clones/new
+issuer/coordinator roles. Operator metadata-only query is under review, unrun.
+Preserve passed owner connection acceptance below and all once-only claims; do not
+retry protected M02. Pilot stays running; mobile skipped; AT-072 pending.
+
+## Accepted owner connection checkpoint - 2026-10-31T13:41Z
 
 SCOPED OWNER CONNECTION ACCEPTANCE PASSED. Owner confirmed the initial project
 read, then re-authenticated under the unchanged client/grant. Native13:36:07

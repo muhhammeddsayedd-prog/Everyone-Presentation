@@ -48,6 +48,11 @@ function listArguments(options: ListOptions & { project_id?: string }, projectFi
 function centralStoragePending(): never {
   throw new DomainError('FEATURE_NOT_IMPLEMENTED', 'This private upload or media operation is not available yet. Existing project data remains available.', 503);
 }
+function scopedDto<T>(value: unknown, parse: (value: unknown) => T, inScope: (result: T) => boolean): T {
+  const result = parse(value);
+  if (!inScope(result)) throw new DomainError('CENTRAL_RESPONSE_INVALID', 'The central response did not match the requested resource scope.', 503);
+  return result;
+}
 
 /** Legacy media scope RPCs can project another purpose's asset. This validates
  * only a bounded routing hint; the chosen adapter must fetch/validate its own
@@ -203,20 +208,20 @@ export async function createCentralStudio(client: SupabaseClient, options: Centr
       return result;
     },
     async listProjects(actor: Actor, options: ListOptions = {}) { return rpc(actor, 'eps_list_projects', listArguments(options), value => listDto(value, projectDto)); },
-    async getProject(actor: Actor, id: string) { return rpc(actor, 'eps_get_project', { p_project_id: identifier(id) }, projectDto); },
+    async getProject(actor: Actor, id: string) { return rpc(actor, 'eps_get_project', { p_project_id: identifier(id) }, value => scopedDto(value, projectDto, row => row.id === id)); },
     async updateProject(actor: Actor, id: string, input: ProjectPatch, context?: MutationContext) {
       strictInput(input, ['row_version', 'name', 'client_name', 'client_logo_asset_id', 'expected_client_row_version'], ['row_version']);
-      return rpc(actor, 'eps_update_project', { p_project_id: identifier(id), p_input: input, p_idempotency_key: key(context) }, projectDto, context);
+      return rpc(actor, 'eps_update_project', { p_project_id: identifier(id), p_input: input, p_idempotency_key: key(context) }, value => scopedDto(value, projectDto, row => row.id === id), context);
     },
     async listWorkspaces(actor: Actor, options: ListOptions & { project_id?: string } = {}) { return rpc(actor, 'eps_list_workspaces', listArguments(options, true), value => listDto(value, workspaceDto)); },
     async createWorkspace(actor: Actor, input: WorkspaceCreate, context?: MutationContext) {
       strictInput(input, ['project_id', 'initial_output'], ['project_id', 'initial_output']);
-      return rpc(actor, 'eps_create_workspace', { p_input: input, p_idempotency_key: key(context, true) }, workspaceDto, context);
+      return rpc(actor, 'eps_create_workspace', { p_input: input, p_idempotency_key: key(context, true) }, value => scopedDto(value, workspaceDto, row => row.project_id === input.project_id), context);
     },
-    async getWorkspace(actor: Actor, id: string) { return rpc(actor, 'eps_get_workspace', { p_workspace_id: identifier(id) }, workspaceDto); },
+    async getWorkspace(actor: Actor, id: string) { return rpc(actor, 'eps_get_workspace', { p_workspace_id: identifier(id) }, value => scopedDto(value, workspaceDto, row => row.id === id)); },
     async updateWorkspace(actor: Actor, id: string, input: WorkspacePatch, context?: MutationContext) {
       strictInput(input, ['row_version', 'logo_asset_id', 'logo_placement', 'active_output'], ['row_version']);
-      return rpc(actor, 'eps_update_workspace', { p_workspace_id: identifier(id), p_input: input, p_idempotency_key: key(context) }, workspaceDto, context);
+      return rpc(actor, 'eps_update_workspace', { p_workspace_id: identifier(id), p_input: input, p_idempotency_key: key(context) }, value => scopedDto(value, workspaceDto, row => row.id === id), context);
     },
     async listAudiencePresets(actor: Actor, options: ListOptions = {}) { return rpc(actor, 'eps_list_audience_presets', listArguments(options), value => listDto(value, audienceDto)); },
     async createAudiencePreset(actor: Actor, input: AudiencePresetCreate, context?: MutationContext) {
@@ -225,11 +230,11 @@ export async function createCentralStudio(client: SupabaseClient, options: Centr
     },
     async updateAudiencePreset(actor: Actor, id: string, input: AudiencePresetPatch, context?: MutationContext) {
       strictInput(input, ['row_version', 'label', 'settings'], ['row_version']);
-      return rpc(actor, 'eps_update_audience_preset', { p_preset_id: identifier(id), p_input: input, p_idempotency_key: key(context) }, audienceDto, context);
+      return rpc(actor, 'eps_update_audience_preset', { p_preset_id: identifier(id), p_input: input, p_idempotency_key: key(context) }, value => scopedDto(value, audienceDto, row => row.id === id), context);
     },
     async archiveAudiencePreset(actor: Actor, id: string, input: { row_version: number; reason?: string | null }, context?: MutationContext) {
       strictInput(input, ['row_version', 'reason'], ['row_version']);
-      return rpc(actor, 'eps_archive_audience_preset', { p_preset_id: identifier(id), p_input: input, p_idempotency_key: key(context, true) }, successDto, context);
+      return rpc(actor, 'eps_archive_audience_preset', { p_preset_id: identifier(id), p_input: input, p_idempotency_key: key(context, true) }, value => scopedDto(value, successDto, row => row.affected_ids.length === 1 && row.affected_ids[0] === id), context);
     },
     async createUploadSession(actor: Actor, input: UploadSessionCreate, context?: MutationContext): Promise<UploadSession> {
       checkActor(actor);
