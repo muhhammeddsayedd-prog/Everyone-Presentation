@@ -95,15 +95,20 @@ insert into eps.presentation_series(id,workspace_id,output_type,audience_preset_
  select pg_temp.summary_id('66900000',n),'66000000-0000-4000-8000-000000000001','selection',pg_temp.summary_id('66800000',n),
  '{}',lpad(n::text,64,'0'),'Synthetic summary series '||n,t.key,t.version,t.content_sha256,t.font_key
  from generate_series(1,3)n cross join lateral(select * from eps.presentation_templates where registered order by version desc limit 1)t;
-insert into eps.media_assets(id,origin_workspace_id,purpose,filename,mime_type,bucket,object_key,size_bytes,sha256,status)
- select pg_temp.summary_id('66a00000',n),'66000000-0000-4000-8000-000000000001',
- case when n%2=1 then 'presentation_manifest' else 'presentation_pdf' end,'synthetic-summary-'||n,
- case when n%2=1 then 'application/json' else 'application/pdf' end,'eps-presentation-outputs','synthetic-summary35/'||n,1,repeat('0',64),'ready'
- from generate_series(1,4)n;
 insert into eps.jobs(id,workspace_id,requested_by,kind,resource_id,input,input_hash,input_hash_version,dedupe_key,stage,correlation_id,status)
  select pg_temp.summary_id('66b00000',n),'66000000-0000-4000-8000-000000000001','66100000-0000-4000-8000-000000000001',
  'presentation_render',pg_temp.summary_id('66c00000',n),'{}',repeat('0',64),'eps.presentation-job-input.cast-canonical.v1',
  lpad(n::text,64,'0'),'prepare_presentation','synthetic-summary35-'||n,'succeeded' from generate_series(1,2)n;
+-- Synthetic output identities satisfy the existing typed-purpose constraint.
+-- Job rows precede their asset FK; each manifest/PDF pair shares one attempt.
+insert into eps.media_assets(id,origin_workspace_id,purpose,filename,mime_type,bucket,object_key,size_bytes,sha256,status,
+ producing_job_id,producing_attempt_id,output_stage,output_key)
+ select pg_temp.summary_id('66a00000',n),'66000000-0000-4000-8000-000000000001',
+ case when n%2=1 then 'presentation_manifest' else 'presentation_pdf' end,'synthetic-summary-'||n,
+ case when n%2=1 then 'application/json' else 'application/pdf' end,'eps-presentation-outputs','synthetic-summary35/'||n,1,repeat('0',64),'ready',
+ pg_temp.summary_id('66b00000',(n+1)/2),pg_temp.summary_id('66b10000',(n+1)/2),'render_presentation',
+ case when n%2=1 then 'presentation_manifest' else 'presentation_pdf' end
+ from generate_series(1,4)n;
 insert into eps.presentation_versions(id,series_id,workspace_id,project_id,version_number,status,input_workspace_row_version,
  source_draft_revision,input_fingerprint,snapshot,snapshot_sha256,manifest,manifest_sha256,inventory_sha256,page_count,
  generation_job_id,generated_by,manifest_asset_id,pdf_asset_id,ready_at,created_at)
