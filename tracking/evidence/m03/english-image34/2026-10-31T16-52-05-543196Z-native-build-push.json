@@ -1,0 +1,53 @@
+{
+  "automatic_build_or_push_retry": false,
+  "claim_retained": true,
+  "db_jobs_or_openai_n8n_calls": false,
+  "elapsed_seconds": 0.201,
+  "exit_code": 125,
+  "failure_code": "ENGLISH34_IMAGE_BUILD_OR_REMOTE_DIGEST_UNCONFIRMED",
+  "index_digest": null,
+  "kind": "native",
+  "native_boundary_or_job_acceptance": false,
+  "observed_at": "2026-10-31T16:52:05.542220+00:00",
+  "output_limit_exceeded": false,
+  "private_media_used": false,
+  "process_id": 32516,
+  "process_returned": true,
+  "production_import_gate": null,
+  "progress": {
+    "cached_steps": 0,
+    "completed_steps": 0,
+    "errored_steps": 0,
+    "http_403_observed": false,
+    "http_502_observed": false
+  },
+  "raw_logs_or_credentials_persisted": false,
+  "remote_digest_independent_readback_equal": false,
+  "result": "unconfirmed",
+  "run": "4186fd1e-55c7-4ea5-956e-ad9ad92f64b1",
+  "runtime_digest": null,
+  "schema_version": "1.0",
+  "source": {
+    "context_files": 164,
+    "file_count": 160,
+    "manifest_sha256": null,
+    "source_seal_sha256": "2ff9d3ca4cdaf9937be534fe9f25cd82f2f0d53814099aff33c272cbd0d52b0f",
+    "source_sha256": "b3489d64fb1bb207e0a1020fadac3db14490c94ba6d2aedf9c6a358ebb36f181"
+  },
+  "source_pins": {
+    "build_operator_sha256": "f1ced25d33bf039909289bc1be17ab42bbdf5d662e15c22c6460693a16045cd4",
+    "chunks/chunk-3AXMZRAB.js": "e43d8d2565d33655855c44a145778dd9070488df18701673018807cf62c48298",
+    "chunks/chunk-KDRCBWRY.js": "79d75b4c54d42c0779cee699f2e37ed84dcadb6c6e178315d740a5d264952807",
+    "chunks/login-EPBJQDEK.js": "36608450dc87f554a3b0570a0f6deab24b82581c3178731e20130e4b311f26fb",
+    "failure_receipt_sha256": "b2d3cb1874c5f61610b9e9dda27ddc5814e7872706ad0ff665981ef20355024c",
+    "operator_sha256": "3104f3405c2fdd0ffd2e402098522ba2ba7d6720aaed13aedfb2923c33c73224",
+    "refresh_receipt_sha256": "c3ceb996843c7608877ed8c09c0356b0c6b94e58c1f56684ce4a54a1652cfbc5",
+    "vc.js": "5724f20cc65bb0e13c7a0668af107770ddb101bb72dd3fd6160aca672ea2a493"
+  },
+  "source_sha256": "b3489d64fb1bb207e0a1020fadac3db14490c94ba6d2aedf9c6a358ebb36f181",
+  "stderr_bytes": 109,
+  "stdout_bytes": 0,
+  "target": "vcr.vercel.com/muhammed-abdelrahman/everyone-presentation-worker-pilot/native:english34-auth-4186fd1e",
+  "timed_out": false,
+  "worker_polling": false
+}

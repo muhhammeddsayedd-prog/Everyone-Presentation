@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "evidence_kind": "actual_direct_n8n_metadata_only_retained_execution_read",
+  "observed_at": "2026-10-31T17:04:52.565Z",
+  "source_pins": {
+    "tools/worker-private-env.mjs": "ef935580876c9150b8150947c3796dd4760d1ad2910bc3bf322dd5015eea4d79",
+    "tracking/evidence/m07/controlled-pilot/2026-10-31-hosted-selection-failure.json": "3954163631c679339bc0c8debc3baa41867eef63660a9e677ae342eb0c98ef24",
+    "tracking/evidence/m07/operator-trace/2026-10-31T14-25-58-545789Z-f91a4e59-job-trace.json": "1ce8b161d3edea78e8c3eed1df8ddbc0f646cd858921d381303678ce6f50e8c6"
+  },
+  "configured_origin_sha256": "c9a34f62c7647ee6631b3cfd6b7d1bbfaec6f3b412cdf94a629bda2917dc14ab",
+  "ambient_overrides_used": false,
+  "maximum_get_requests": 2,
+  "automatic_retry": false,
+  "observations": [
+    {
+      "case_alias": "prior_failed_nonprotected_render",
+      "job_id": "7ca22801-2040-40df-87fc-84a82fffb6c7",
+      "execution_id": "31520",
+      "workflow_id": "kE4qSEcugaKhIoJU",
+      "method": "GET",
+      "includeData": false,
+      "automatic_retry": false,
+      "metadata_returned": false,
+      "http_status": 404,
+      "safe_error_class": "EXECUTION_NOT_FOUND"
+    },
+    {
+      "case_alias": "prior_successful_candidate_scan",
+      "job_id": "fa8593ca-80c2-4cb3-8bcc-0e357ffbf7f2",
+      "execution_id": "31515",
+      "workflow_id": "gfhxzvSkprS2CI4o",
+      "method": "GET",
+      "includeData": false,
+      "automatic_retry": false,
+      "metadata_returned": false,
+      "http_status": 404,
+      "safe_error_class": "EXECUTION_NOT_FOUND"
+    }
+  ],
+  "node_payloads_requested": false,
+  "raw_provider_bodies_persisted": false,
+  "credentials_or_private_urls_recorded": false,
+  "workflow_edits_or_execution_or_retry_performed": false,
+  "AT074_status": "partial_no_complete_end_to_end_acceptance",
+  "note": "Historical failed render was later recovered; no current failed state or detailed cause is inferred from execution metadata. New English job correlation is separate."
+}

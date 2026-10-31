@@ -1,3 +1,87 @@
+## Hosted English-output preparation - 2026-10-31, after 16:47 UTC
+
+## Compatible web deployed; worker transfer continuation ? 2026-10-31
+
+The stable pilot now serves `dpl_5vEMBfsnD23cGL3ontWm8AUAErKr`, source
+`2d4894b8cde36757cf7ba8bb3518771b494ea189b528de37315613ce3e3e3501`.
+Main UI checkpoint is `c6a3f15`; final production build/typecheck and the final
+15 overlapping candidate/saved/guest/PDF metadata regressions passed. Actual
+Ready alias/source/canonical33 preservation readback passed at16:55, then the
+signed-in app loaded existing projects/profile and displayed English not-captured
+without original-language fallback. This is compatible legacy display proof;
+no actual English job or new saved-version acceptance yet.
+
+The27-step native compilation is valid, but uploads are not complete. Standard
+scoped VCR login refresh/read succeeded. A separate local invocation failed
+before BuildKit because minimal Windows env omitted ProgramFiles; a read-only
+A/B confirmed the installed Buildx discovery cause. The corrected cached build
+completed27/27steps (21cached), then registry blob HEAD failed with a TLS handshake
+timeout. This is transport failure, with no HTTP403/502 or body-size cause on
+that attempt. All old claims/receipts remain. Prepare a distinct same-source OCI
+export and checksum-pinned host-regctl transfer using the existing working
+transport settings; do not replay failed claims or infer chunk-size causality.
+
+Read-only old-cohort baseline passed:9 Ready versions,54slides,36asset pins,
+2raw companions,8Ready exports,43referenced media metadata rows and the exact
+Reviewed candidate/media/12frames. Final subset preservation still needs the
+new real job/version. Canonical remains33, migration34 unapplied, English off;
+the previous worker CVDM remains deployed. No new daemon/native-smoke pass.
+
+Next: obtain verified native/daemon OCI registry digests and native smoke, adopt
+only the public manifest/future image pin, deploy compatible worker while off,
+then guarded34 apply/readback and separate enable. Demonstrate one real app scan,
+English source-faithful display, guest playback and new version; compare old
+cohort. Preserve owner Claude initial/reconnect/read acceptance and local33
+recovery PASS. AT-072 pending, mobile skipped; pilot runs until owner stop.
+
+Evidence: `tracking/evidence/m03/english-web-release34/2026-10-31T16-55-43-885447Z-ready.json`,
+`tracking/evidence/m03/english-web-release34/2026-10-31-hosted-compatibility-app.json`,
+`tracking/evidence/m03/english-preservation34/2026-10-31T16-55-59-693221Z-3f3adfca-4aff-4dcc-8f51-541317433407-baseline.json`,
+`tracking/evidence/m03/english-image34/2026-10-31T17-03-17-960492Z-v2-registry-tls-diagnosis.json`.
+Earlier entries below are dated history, not current deployment claims.
+
+The small English display patch is integrated locally from Claude's committed
+`8aed642` implementation with an explicit coordination acknowledgment. Exact
+fields and overlapping files are in `docs/integrations/ENGLISH_TRANSCRIPT.md`
+and `tracking/PARALLEL_WORK.md`; the full redesign remains in its worktree.
+Candidate/draft views consume the candidate English pair; saved internal, guest
+and PDF-video playback consume only their frozen version English companion.
+No original-language fallback or language selector was added. Initial17 focused
+Chromium checks passed. After the spoken-language metadata label correction,
+all14 saved/guest/PDF playback checks passed; these overlap the initial tests.
+The full886/lint/types/guard/build gates passed before that final metadata fix;
+the final production build is still pending at this checkpoint.
+
+The captured ASR source is hash-bound to the accepted Reviewed record and lacks
+one token of the corrected owner-confirmed name even after Arabic canonicalization.
+The confirmed defect was comparing that source's faithful translation with the
+separately corrected full Reviewed name. The verification gate is corrected;
+facts, Reviewed state, original transcript and translator behavior were not
+changed. The earlier RAM-only English wording is unavailable and its failed
+component receipt stays unaccepted. Eleven investigation/helper tests pass.
+
+The new160-file native image completed27/27 build steps, but registry blob HEAD
+returned403 during push. No new ready digest or hosted native smoke exists.
+The failed build and prepared fresh smoke operator are retained under
+`tracking/evidence/m03/native-probe34/` and `development/m03/native-probe34/`.
+The16:47 canonical preflight passed: history33, English columns absent/processing
+off, no leased outbox or other active jobs, protected M02 integrity preserved.
+Compatible web/worker rollout, migration34, activation and the actual English
+app/guest/new-version demonstration remain **not performed**. Last confirmed
+pilot deployments remain Ccw/CVDM; the pilot stays running.
+
+Owner initial/reconnect/authenticated Dummy Pilot Test acceptance and the completed
+history33 local recovery proof stay passed. AT-072 is pending; mobile is skipped;
+no new language labels are requested. Next: resolve the evidenced registry push
+denial, obtain/verify the new image and native smoke, then deploy compatible
+web/SDK+worker with processing off before applying34. After preservation readback,
+enable one controlled job and verify app/guest/future-version English with old
+versions intact. Then close real-job/n8n operator correlation as the next bounded
+M07 slice. See `development/m07/REMAINING_AFTER_ENGLISH34.md`.
+
+The dated checkpoint below retains its earlier scope; this section supersedes
+its frontend coordination, name-cause and next-action statements.
+
 ## Backend continuation alongside frontend redesign - 2026-10-31T14:07:54.961677Z
 
 ## Latest backend checkpoint - 2026-10-31
@@ -201,11 +285,11 @@ The machine-readable status mirror is [tracking/progress.json](tracking/progress
 | M00 Discovery and contracts | verified | tracking/discovery/; central-schema-map.yaml | Actual new canonical ownership/auth/history, guarded local replay and provider capability inventory | Continue M01; future provider/release gates remain explicit |
 | M01 Foundation, project and logo | in_progress | apps/web/; packages/domain/; packages/central/; 6 M01 migrations applied | Real cloud schema/readback and local role/race proof; synthetic full UI plus central anonymous UI | Finish scoped central uploads and actual Producer/project journey |
 | M02 Specs, roles and first durable pipeline | verified | Local/cloud14+16, live WF01 and private document worker | Acceptance matrix: real text/PDF/DOCX/scanned PDF, protected edits, HTTP replay/restart/recovery and local MCP | Continue M03; M07 external OAuth/restore/hosting/endurance remain separate |
-| M03 Media, library and video processing | implemented_unverified | Local/cloud15+17+18+19+21; scoped closeout | Three full-size actual picks;5 artifact byte matches; one Arabic profile corrected/Reviewed from2 independent facts; old9/108 preserved | Broader labelled English/mixed real semantic evaluation remains unverified |
+| M03 Media, library and video processing | implemented_unverified | Local/cloud15+17+18+19+21; local English34/UI preparation | Owner-confirmed Arabic profile remains Reviewed; English display17initial/14final playback tests and source-name diagnosis are local; canonical33/processing off | Finish compatible hosted English rollout/real job/app/guest/future version; broader semantic accuracy unclaimed, no further labels |
 | M04 Assignments and final review | verified | Local/canonical20+22+23; actual review journey and acceptance matrix | Exact series/ten fields,2 real AI jobs,3 native fits/2 current zero-overflow, role Undo/reload,2-frame playback, stale-source two-user races; current preservation | Continue M05; retain immutable history; controlled pilot is separate from production acceptance |
 | M05 Template, versioning and PDF | verified | `51aa4c5`; local/canonical24; template1.1.0 | Selection8/Shortlist6 SQL/native fixtures;3 actual Ready downloads/18 inspected pages; immutable V1 replay;11 anonymous401; local race/retry/retention/latest-ready proofs | Continue M06 scoped review/delivery; controlled pilot is separate from production acceptance |
 | M06 External review and delivery | implemented_unverified | Canonical/local25-28; [acceptance matrix](tracking/evidence/m06/ACCEPTANCE_MATRIX.md) | Actual guest feedback, PDF/video/lifecycle, V5 captured transcript and oldV4no-backfill;83browser/693module and current composed gates | AT-072 manual remains; latest PDF save verified; phone testing waived; mobile skipped; controlled pilot in progress |
-| M07 API/MCP and production readiness | in_progress | Canonical33/original local29; Ready webDeCp/workerCVDM | Core9 historical; current845modules/lint/types/guard/build; SQL47/source3/races3; rollout and stage tracing verified | Scoped owner initial/reconnect/read PASSED; full delegated/lifecycle/restore/endurance and AT-072/M03 pending, mobile skipped |
+| M07 API/MCP and production readiness | in_progress | Canonical33/original local29; last confirmed webCcw/workerCVDM | Owner connection PASS; local33 metadata/media recovery PASS;886gates before final English metadata fix; final build pending; native build push403 | Complete hosted English rollout then real operator/n8n correlation and remaining delegated/lifecycle/recovery/endurance; AT-072 pending, mobile skipped |
 
 ## Allowed status transitions
 

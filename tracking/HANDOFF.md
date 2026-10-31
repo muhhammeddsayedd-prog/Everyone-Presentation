@@ -1,6 +1,118 @@
-# Everyone Presentation Studio - owner OAuth/MCP connection accepted
+# Everyone Presentation Studio - English-output rollout preparation
 
-## Latest backend checkpoint - 2026-10-31
+## Compatible web deployed; worker transfer continuation ? 2026-10-31
+
+The stable pilot now serves `dpl_5vEMBfsnD23cGL3ontWm8AUAErKr`, source
+`2d4894b8cde36757cf7ba8bb3518771b494ea189b528de37315613ce3e3e3501`.
+Main UI checkpoint is `c6a3f15`; final production build/typecheck and the final
+15 overlapping candidate/saved/guest/PDF metadata regressions passed. Actual
+Ready alias/source/canonical33 preservation readback passed at16:55, then the
+signed-in app loaded existing projects/profile and displayed English not-captured
+without original-language fallback. This is compatible legacy display proof;
+no actual English job or new saved-version acceptance yet.
+
+The27-step native compilation is valid, but uploads are not complete. Standard
+scoped VCR login refresh/read succeeded. A separate local invocation failed
+before BuildKit because minimal Windows env omitted ProgramFiles; a read-only
+A/B confirmed the installed Buildx discovery cause. The corrected cached build
+completed27/27steps (21cached), then registry blob HEAD failed with a TLS handshake
+timeout. This is transport failure, with no HTTP403/502 or body-size cause on
+that attempt. All old claims/receipts remain. Prepare a distinct same-source OCI
+export and checksum-pinned host-regctl transfer using the existing working
+transport settings; do not replay failed claims or infer chunk-size causality.
+
+Read-only old-cohort baseline passed:9 Ready versions,54slides,36asset pins,
+2raw companions,8Ready exports,43referenced media metadata rows and the exact
+Reviewed candidate/media/12frames. Final subset preservation still needs the
+new real job/version. Canonical remains33, migration34 unapplied, English off;
+the previous worker CVDM remains deployed. No new daemon/native-smoke pass.
+
+Next: obtain verified native/daemon OCI registry digests and native smoke, adopt
+only the public manifest/future image pin, deploy compatible worker while off,
+then guarded34 apply/readback and separate enable. Demonstrate one real app scan,
+English source-faithful display, guest playback and new version; compare old
+cohort. Preserve owner Claude initial/reconnect/read acceptance and local33
+recovery PASS. AT-072 pending, mobile skipped; pilot runs until owner stop.
+
+Evidence: `tracking/evidence/m03/english-web-release34/2026-10-31T16-55-43-885447Z-ready.json`,
+`tracking/evidence/m03/english-web-release34/2026-10-31-hosted-compatibility-app.json`,
+`tracking/evidence/m03/english-preservation34/2026-10-31T16-55-59-693221Z-3f3adfca-4aff-4dcc-8f51-541317433407-baseline.json`,
+`tracking/evidence/m03/english-image34/2026-10-31T17-03-17-960492Z-v2-registry-tls-diagnosis.json`.
+Earlier entries below are dated history, not current deployment claims.
+
+## Current checkpoint after 16:47 UTC, 2026-10-31
+
+Resume base is `009536e`. The hosted English workflow is the active priority.
+This checkpoint is local implementation/preflight evidence, **not a hosted
+English rollout**. The previous pilot remains running: last confirmed web
+`dpl_CcwVabZ5PkadAPaeANRLJD4GqVg3`, worker
+`dpl_CVDMpdETNwZYxdEyJ8XM66kSppdQ`. The canonical16:47 preflight passed at
+history33 with no English columns/activation, no leased outbox or other active
+jobs, and protected M02 integrity preserved. Original local history remains29.
+
+- The small English UI patch adapts Claude's committed `8aed642` work with an
+  explicit coordination acknowledgment. Full redesign is not merged. Shared
+  dependencies and exact CandidateMedia pair/frozen companion fields are in
+  `docs/integrations/ENGLISH_TRANSCRIPT.md` and `tracking/PARALLEL_WORK.md`.
+  `SourceTranscript` serves saved internal, guest and PDF-video destinations;
+  no live-library/raw fallback or language selector was introduced. Preserve
+  Claude's layout changes when reconciling the overlapping components.
+- Initial17 Chromium tests passed. The final spoken-language metadata rendering
+  fix prevents unknown provider language values rendering verbatim;14 saved/
+  guest/PDF playback tests passed afterward. These sets overlap. Full886 module
+  tests plus lint/types/guard/build passed before that last fix; final production
+  build remains pending here. Synthetic HTTP/DOM proof is not real AI or hosted
+  acceptance.
+- Existing captured ASR source/proof binding is valid, but one Arabic token of
+  the previously corrected Reviewed full name is absent even after canonical
+  normalization. The old comparison incorrectly required a source-faithful
+  English translation to contain that corrected full name. The gate is fixed
+  by separating source fidelity from Reviewed-fact preservation. No fact,
+  Reviewed fingerprint, original text or production translator was changed.
+  Previous English wording was RAM-only and cannot be recovered; the historical
+  component receipt remains unaccepted. Eleven helper regressions pass. Exact
+  metadata-only diagnosis is
+  `evidence/m03/english-name-review/2026-10-31T16-31-07-348316Z-5ed61ea9-8c38-4c1a-a3a2-958d6ccd5d72.json`.
+- New worker context is `.local/worker-hosting/4186fd1e-55c7-4ea5-956e-ad9ad92f64b1`;
+  source `b3489d64fb1bb207e0a1020fadac3db14490c94ba6d2aedf9c6a358ebb36f181`,160 files.
+  All27 native build steps completed, then registry push blob HEAD returned403.
+  No new ready digest/upload/native smoke or daemon deployment is claimed.
+  Buildx progress/errors were on stderr, explaining the empty stdout log; this
+  was not a confirmed compilation hang or proven credential-expiry diagnosis.
+  Failure receipt:
+  `evidence/m03/native-probe34/2026-10-31T16-45-38-995626Z-native-build-push-failure.json`.
+  The fresh source-pinned smoke compiler/plan is prepared under
+  `development/m03/native-probe34/`; five source-only tests pass, no cloud run.
+
+Root owns the actual rollout. Next exact action: resolve the evidenced registry
+push denial without inferring its credential cause, obtain/verify the new native
+digest and run the fresh exact-image smoke; then deploy compatible web/SDK and
+worker with English processing disabled **before** canonical34. Use the guarded
+release helpers in `development/m03/english-release34/`; preserve the actual
+16:47 preflight receipt. After apply/independent readback and preservation,
+enable a controlled new job, inspect real persisted source/English privately,
+and demonstrate English through app, guest playback and a newly saved version.
+Verify old Ready snapshots/PDFs/companions and Reviewed facts remain intact.
+The prepared `english-name-review/inspect-controlled-job.py` needs exact new
+job/media/source IDs after app success; do not replay prior claims.
+
+Carry forward owner OAuth initial/reconnect/authenticated Dummy Pilot Test read
+acceptance as **passed**, including request23c439a1. Carry forward the completed
+history33 local recovery proof9af without claiming deployed/StorageHTTP/Authconfig/
+secret/independent-cluster recovery. Keep AT-072 pending, mobile skipped, pilot
+running until owner stop, no further language labels, no selector and protected
+M02 jobb3f90268 unmodified/unretried.
+
+After English rollout, the next bounded independent M07 slice is read-only
+AT-074 correlation of the new successful scan and one existing failed
+nonprotected real-service job through actual n8n execution metadata, events,
+provider outcome and assets. The remaining order/dependencies are recorded in
+`development/m07/REMAINING_AFTER_ENGLISH34.md`; full delegated journey, live
+token/contributor boundaries, queued-job replacement, deployed recovery and
+representative provider sizing/cost remain unverified.
+
+## Historical backend checkpoint at 15:40 UTC
+
 
 The pilot still serves the deployed SDK resource-scope correction (Ccw). Fresh
 provider reads at 15:38-15:39 confirm the stable web alias is Ready and the same

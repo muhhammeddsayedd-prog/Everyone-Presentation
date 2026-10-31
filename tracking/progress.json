@@ -1,16 +1,16 @@
 {
   "pack_version": "1.0",
-  "updated_at": "2026-10-31T15:40:47.182749+00:00",
+  "updated_at": "2026-10-31T17:07:16.824242+00:00",
   "implementation_started": true,
   "current_milestone": "M07",
   "current_pilot": {
-    "observed_at": "2026-10-31T15:39:02.800Z",
+    "observed_at": "2026-10-31T17:04:19.148926+00:00",
     "status": "in_progress",
     "origin": "https://everyone-presentation-pilot.vercel.app",
     "owner_stop_only": true,
-    "web_deployment_id": "dpl_CcwVabZ5PkadAPaeANRLJD4GqVg3",
+    "web_deployment_id": "dpl_5vEMBfsnD23cGL3ontWm8AUAErKr",
     "worker_deployment_id": "dpl_CVDMpdETNwZYxdEyJ8XM66kSppdQ",
-    "worker_state": "Read-only15:38 provider observation: same oneReady/alive dub1/2048MiB instance, exact971834 image. Startup record binding remains unverified; no provider mutations.",
+    "worker_state": "Actual17:04 provider observation: same oneReady/alive dub1/2048MiB instance, exact971834 image; strict startup-record binding remains unverified.",
     "worker_context_run": "b488b456-d84e-4515-99f9-476b3196cd64",
     "worker_source_hash": "09b6d4b881594dc7664953409f6e0bdeb925c19bf19fb3a4331787abf09c921f",
     "native_runtime": "sha256:77eee0ee51159c6420fffefcdce39406a47350ddae682f4ec86891fe7ec08ed8",
@@ -66,14 +66,14 @@
       182
     ],
     "application_test_evidence": "tracking/evidence/m07/backend-continuation/2026-10-31-886-application-tests.json",
-    "application_test_scope": "Current LOCAL886 composed tests. Ccw pilot contains SDK response-scope fix only; English processing/SQL/frontend changes are not deployed or activated.",
+    "application_test_scope": "LOCAL886 composed module tests; final15 overlapping English UI regressions and final build/types pass. Compatible English web deployed; worker/schema/flag/new real English journey pending.",
     "oauth_state": "Verified scoped owner connection: full-details initial authorization and read, cached duplicate details, already-consented redirect-only reconnect and authenticated post-reconnect get_project; exact owner/server request ID matches. FullM07/refresh/revocation/write journey remain separate.",
     "AT_072": "pending",
     "M03_broader_semantics": "Additional independent English/mixed labelling declined by owner; no broad accuracy claim. English display implementation and real-service validation in progress.",
     "mobile_testing": "skipped by owner",
     "production_deployment_verified": false,
     "prior_snapshot": "tracking/evidence/m07/controlled-pilot/2026-10-31T01-24Z-prior-progress-snapshot.json",
-    "next_action": "Reconcile Claude frontend with English contract/checkpoints; deploy compatible web+worker BEFORE canonical34, verify targeted additive migration/preservation, enable frozen English opt-in, then real app/n8n/OpenAI and future/legacy guest companion checks. Preserve existing owner connection acceptance.",
+    "next_action": "Distinct same-source OCI export and pinned host-regctl transfer; verified native+daemon Ready/import+native smoke; public manifest/future image adoption and matching worker while33/off; guarded34/readback, enable controlled real scan, app/guest/new version plus old-cohort preservation.",
     "specs_local_proof": "tracking/evidence/m07/specs-ack31/2026-10-31T01-22-16-662Z-dc886d4e-local-proof.json",
     "specs_canonical_apply": "tracking/evidence/m07/specs-ack31/2026-10-31T01-57-10-621248Z-a99247a4-canonical31-continuation-apply.json",
     "specs_canonical_apply_confirmed": true,
@@ -356,7 +356,7 @@
       "mobile": "skipped",
       "pilot": "keep running until owner stop",
       "protected_M02": "No retry or mutation of b3f90268-147d-41d4-8875-2a6435df1496",
-      "shared_contract_changes": "Additive English transcript read groups documented in docs/integrations/ENGLISH_TRANSCRIPT.md; frontend coordination note delivered, acknowledgment not observed.",
+      "shared_contract_changes": "Small English display patch adapts Claude8aed642 with explicit acknowledgment; exact fields/dependencies in docs/integrations/ENGLISH_TRANSCRIPT.md and tracking/PARALLEL_WORK.md. Full redesign remains separate.",
       "response_scope_fix": {
         "status": "deployed_and_signed_in_workspace_verified",
         "source": [
@@ -404,7 +404,7 @@
         "AT074": "partial; retained n8n execution details unavailable, no inferred failure cause"
       },
       "english_transcript": {
-        "status": "application_and_owned_local_sql_verified_not_deployed_or_activated",
+        "status": "backend_owned_sql_and_small_ui_verified_locally_rollout_not_performed",
         "owner_decision": "Scan any spoken language, English display only; no app language selector; no further manual answer-key collection.",
         "contract": "docs/integrations/ENGLISH_TRANSCRIPT.md",
         "migration": "20261031143711_m03_english_transcript_projection.sql",
@@ -418,13 +418,26 @@
           "overall_accepted": false,
           "english_availability_source_hash_metadata_age_checks": true,
           "full_name_literal_match": false,
-          "cause_of_name_mismatch": "unknown; output remained RAM only",
+          "cause_of_name_mismatch": "Captured original ASR lacks expected middle Arabic token of separately corrected Reviewed name. That owner-name equality gate was invalid for source-faithful translation; prior discarded English wording itself is unavailable.",
           "paid_requests": 1,
           "automatic_retry": false,
-          "app_or_database_acceptance": false
+          "app_or_database_acceptance": false,
+          "diagnosis_evidence": "tracking/evidence/m03/english-name-review/2026-10-31T16-31-07-348316Z-5ed61ea9-8c38-4c1a-a3a2-958d6ccd5d72.json"
         },
         "owned_sql_evidence": "tracking/evidence/m03/english-transcript34/2026-10-31T15-06-09-151Z-2982d338.json",
-        "owned_sql_scope": "Actual30-33 DDL in disposable clone then34 validation/capture/legacy replay/immutability tests and complete rollback; original29/globalroles unchanged, DBs/roles removed and lock released. Canonical33 unchanged."
+        "owned_sql_scope": "Actual30-33 DDL in disposable clone then34 validation/capture/legacy replay/immutability tests and complete rollback; original29/globalroles unchanged, DBs/roles removed and lock released. Canonical33 unchanged.",
+        "frontend": {
+          "source_commit": "8aed642",
+          "coordination_acknowledged": true,
+          "details_reference": "english_output_rollout.frontend",
+          "initial_chromium_tests_passed": 17,
+          "final_playback_chromium_tests_passed": 14,
+          "test_sets_overlap": true
+        },
+        "rollout": {
+          "reference": "english_output_rollout",
+          "status": "local_ui_and_release_preparation_not_hosted"
+        }
       },
       "delegated_lifecycle": {
         "status": "5_composed_synthetic_tests_passed",
@@ -444,7 +457,8 @@
           182
         ],
         "evidence": "tracking/evidence/m07/backend-continuation/2026-10-31-886-application-tests.json"
-      }
+      },
+      "next_independent_m07": "Read-only AT-074 actual succeeded/failed nonprotected job+n8n correlation after controlled English scan; no retries/new paid work."
     },
     "serving_source_quality": {
       "tests": 853,
@@ -452,7 +466,8 @@
       "deployment": "dpl_CcwVabZ5PkadAPaeANRLJD4GqVg3"
     },
     "latest_alias_evidence": "tracking/evidence/m07/backend-continuation/2026-10-31-final-pilot-alias.json",
-    "latest_daemon_evidence": "tracking/evidence/m07/controlled-pilot/2026-10-31T15-38-08.452Z-a3d0dac5-daemon-runtime.json"
+    "latest_daemon_evidence": "tracking/evidence/m07/controlled-pilot/2026-10-31T15-38-08.452Z-a3d0dac5-daemon-runtime.json",
+    "worker_observation": "tracking/evidence/m07/controlled-pilot/2026-10-31T17-04-34.108Z-fb08504f-daemon-runtime.json"
   },
   "milestones": [
     {
@@ -858,12 +873,15 @@
         "tracking/evidence/m03/SCOPED_CLOSEOUT.md",
         "tracking/evidence/m03/reviewed-source-readback/2026-10-29T20-17-30-125263Z-6afa02e0.json",
         "tracking/evidence/m03/browser-artifact-bytes/2026-10-29T20-00-21-884419Z-47eb8b6e.json",
-        "tracking/evidence/m03/frame-vision-technical-review/2026-10-29T20-03-18-653Z-9673fc14-full-resolution-addendum.json"
+        "tracking/evidence/m03/frame-vision-technical-review/2026-10-29T20-03-18-653Z-9673fc14-full-resolution-addendum.json",
+        "tracking/evidence/m03/english-name-review/2026-10-31T16-31-07-348316Z-5ed61ea9-8c38-4c1a-a3a2-958d6ccd5d72.json",
+        "tracking/evidence/m03/native-probe34/2026-10-31T16-45-38-995626Z-native-build-push-failure.json",
+        "tracking/evidence/m03/english-release34/2026-10-31T16-47-24-856753Z-preflight.json"
       ],
       "blockers": [
-        "English application/backend and owned SQL proof pass locally, but coherent pilot worker/web/DB activation and frontend English-only app/guest verification remain unperformed. Additional manual multilingual labels are declined; broad semantic accuracy unclaimed."
+        "Local English backend/owned SQL/small UI checks pass, but native push403 blocks new image and compatible hosted web/worker/schema rollout. No controlled new English job/app/guest/frozen-version preservation acceptance yet. Extra manual language labels declined; broader semantic accuracy unclaimed."
       ],
-      "next_action": "Coordinate frontend English field consumption, deploy backward-compatible SDK/worker before canonical34 and opt-in activation, then verify one real scan and future frozen companion through app. Preserve old sources/Reviewed/Ready versions; no extra language labels."
+      "next_action": "Resolve evidenced native registry push403; obtain/verify new digest and fresh smoke. Deploy compatible web/SDK and worker with English processing off BEFORE canonical34, then guarded apply/readback/preservation, controlled real scan, English app/guest/new frozen version and old-version preservation. Next independent M07 slice: actual successful/failed job+n8n operator correlation."
     },
     {
       "id": "M04",
@@ -1119,14 +1137,18 @@
         "tracking/evidence/m07/issuer-release30-executable/2026-10-30-current-release-summary.json",
         "development/m07/APP_OAUTH_CONNECTION.md",
         "tracking/evidence/m07/oauth-attempt-trace/2026-10-31-owner-connection-acceptance.json",
-        "tracking/evidence/m07/recovery33/2026-10-31T15-34-37-577Z-9af6774f.json"
+        "tracking/evidence/m07/recovery33/2026-10-31T15-34-37-577Z-9af6774f.json",
+        "tracking/evidence/m03/english-name-review/2026-10-31T16-31-07-348316Z-5ed61ea9-8c38-4c1a-a3a2-958d6ccd5d72.json",
+        "tracking/evidence/m03/native-probe34/2026-10-31T16-45-38-995626Z-native-build-push-failure.json",
+        "tracking/evidence/m03/english-release34/2026-10-31T16-47-24-856753Z-preflight.json",
+        "development/m07/REMAINING_AFTER_ENGLISH34.md"
       ],
       "blockers": [
-        "Scoped owner initial/reconnect/authenticated MCP read remains passed. Full real delegated write/processing/generation/sharing, live refresh/rotation/revocation and real contributor limits remain unverified.",
-        "Current33 synthetic local metadata/media recovery passed; deployed/independentcluster and actual provider/config/secret restore plus representative provider cost/endurance remain unverified.",
-        "English34 rollout requires compatible web/worker and frontend integration plus actual app verification. AT-072 pending; mobile skipped; extra multilingual manual labels declined."
+        "Owner initial authorization/reconnect/authenticated Dummy Pilot Test read stays passed. Full real delegated write/processing/generation/sharing, live refresh/rotation/revocation and actual contributor denial remain unverified.",
+        "History33 synthetic local metadata/media recovery stays passed; deployed/independentcluster and actual provider/config/secret restore plus representative provider cost/endurance remain unverified.",
+        "English small UI patch is locally verified and acknowledged; native27-step build push403 blocks ready digest. Compatible web/worker before34, apply/preservation/enable and real app/guest/new frozen version remain unperformed. AT-072 pending; mobile skipped; no further language labels."
       ],
-      "next_action": "Reconcile Claude frontend with English contract/checkpoints; deploy compatible web+worker BEFORE canonical34, verify targeted additive migration/preservation, enable frozen English opt-in, then real app/n8n/OpenAI and future/legacy guest companion checks. Preserve existing owner connection acceptance.",
+      "next_action": "Resolve evidenced native registry push403; obtain/verify new digest and fresh smoke. Deploy compatible web/SDK and worker with English processing off BEFORE canonical34, then guarded apply/readback/preservation, controlled real scan, English app/guest/new frozen version and old-version preservation. Next independent M07 slice: actual successful/failed job+n8n operator correlation.",
       "scope_constraints": {
         "AT_072": "pending",
         "M03_broader_semantic_checks": "pending",
@@ -1137,6 +1159,37 @@
       },
       "dependency_override": "Proceed with independent M07 implementation; do not upgrade M06/M03 acceptance.",
       "current_checkpoint": {
+        "milestone": "M07",
+        "status": "in_progress",
+        "observed_at": "2026-10-31T16:50:08.653126+00:00",
+        "base_commit": "009536e",
+        "canonical_migration_count": 33,
+        "local_migration_count": 29,
+        "canonical_apply": "English34 not applied;16:47 preflight only",
+        "canonical_readback": "tracking/evidence/m03/english-release34/2026-10-31T16-47-24-856753Z-preflight.json",
+        "application_tests": 886,
+        "application_tests_scope": "Full gates precede final spoken-language metadata display fix; final production build pending.",
+        "controlled_english_ui": {
+          "initial": 17,
+          "final_playback": 14,
+          "overlap": true,
+          "hosted_or_real_AI_acceptance": false
+        },
+        "owner_connection_acceptance": "passed_preserved",
+        "owner_connection_evidence": "tracking/evidence/m07/oauth-attempt-trace/2026-10-31-owner-connection-acceptance.json",
+        "manual_screenreader": "AT-072 pending",
+        "mobile_testing": "skipped by owner",
+        "hosting_deferred": false,
+        "pilot_running": "last confirmed webCcw/workerCVDM, retained until owner stops",
+        "english_processing_enabled": false,
+        "production_deployment_verified": false,
+        "local_restore": "passed local synthetic same-cluster history33 metadata/media proof; no deployed/StorageHTTP/Authconfig/secret/RTO/RPO claim",
+        "local_restore_evidence": "tracking/evidence/m07/recovery33/2026-10-31T15-34-37-577Z-9af6774f.json",
+        "name_diagnosis": "tracking/evidence/m03/english-name-review/2026-10-31T16-31-07-348316Z-5ed61ea9-8c38-4c1a-a3a2-958d6ccd5d72.json",
+        "native_build_failure": "tracking/evidence/m03/native-probe34/2026-10-31T16-45-38-995626Z-native-build-push-failure.json",
+        "next_action": "Resolve evidenced native registry push403; obtain/verify new digest and fresh smoke. Deploy compatible web/SDK and worker with English processing off BEFORE canonical34, then guarded apply/readback/preservation, controlled real scan, English app/guest/new frozen version and old-version preservation. Next independent M07 slice: actual successful/failed job+n8n operator correlation."
+      },
+      "historical_checkpoint_before_english34": {
         "milestone": "M07",
         "status": "in_progress",
         "observed_at": "2026-10-30T16:23:00.762531+00:00",
@@ -1300,17 +1353,19 @@
         "tracking/evidence/m07/oauth-hook29/2026-10-30T14-37-15-683Z-01f780ed.json",
         "tracking/evidence/m07/live-settings-oauth/2026-10-30-owned-runtime-fresh.json"
       ],
-      "scope": "Source/controlled parity, local/canonical29 and scoped native/client/recovery evidence. No full live delegated or production acceptance.",
+      "scope": "Scoped owner connection passed; local/control parity and actual history33 synthetic local metadata/media recovery passed. Full live delegated/token/contributor/replacement/recovery/endurance remains unverified.",
       "remaining": [
-        "Actual Supabase OAuth settings/hook/client inspection unavailable: connector missing and dashboard signed out.",
-        "Actual signed-in Settings check requires connected Studio session; no browser credentials extracted.",
-        "Full real-service delegated Claude journey, representative processing cost/endurance and deployed restore/smoke remain unverified; hosting deferred."
+        "Complete coherent hosted English web/worker/schema rollout and actual app/guest/new-version preservation proof.",
+        "Finish bounded real succeeded+failed job correlation including actual n8n execution detail.",
+        "Complete full delegated producer/shared-data journey, live refresh/rotation/revocation and actual contributor limits.",
+        "Deployed replacement/rollback, StorageHTTP/provider/config recovery and representative provider cost/endurance remain unverified.",
+        "Manual AT-072 pending; mobile skipped. Further language labels declined; no language selector."
       ],
       "manual_screenreader": "pending",
       "M03_semantic_checks": "pending",
       "mobile": "skipped",
-      "hosting": "deferred",
-      "notes": "Current751 offline module checks plus actual signed-in Settings/Processing and current29 local issuer proof. Full provider delegation/release remains unverified; hosting deferred."
+      "hosting": "controlled Vercel pilot running until owner stop; broad production acceptance unverified",
+      "notes": "Owner initial/reconnect/authenticated MCP read preserved passed. Latest English rollout snapshot is english_output_rollout; no hosted English acceptance credited."
     },
     "current33_local_metadata_media_restore": {
       "status": "verified",
@@ -1351,46 +1406,34 @@
   "latest_checkpoint": {
     "milestone": "M07",
     "status": "in_progress",
-    "observed_at": "2026-10-30T16:23:00.762531+00:00",
-    "base_commit": "407dce2158727d5442f7f88af43a3d79fb989159",
-    "canonical_migration_count": 30,
+    "observed_at": "2026-10-31T17:07:16.824242+00:00",
+    "base_commit": "009536e",
+    "canonical_migration_count": 33,
     "local_migration_count": 29,
-    "canonical_apply": "tracking/evidence/m07/issuer-release30-executable/2026-10-30T16-12-49-727075Z-34f06b25-canonical-apply.json",
-    "canonical_readback": "tracking/evidence/m07/issuer-release30-executable/2026-10-30T16-13-26-090472Z-12920568-canonical-readback.json",
-    "quality": "tracking/evidence/m07/quality/2026-10-30T15-37-43-310Z-f3157ddc.json",
-    "application_tests": 755,
-    "controlled_desktop_unique_cases": 80,
-    "runtime": "tracking/evidence/m07/app-oauth/2026-10-30-runtime-after30.json",
-    "mcp_tools": 86,
-    "openapi_operations": 115,
-    "semantic_ui_groups": 13,
-    "hook30": "Actual additive30 canonical apply plus independent full raw catalogue readback passed; private native Auth-only function installed. Provider selection/real issuance remains pending.",
-    "local_restore": "History29 actual metadata/native4objects/71criticalsources restore, full16430catalogue/Settings/MCP/permissions/lease fences and originalroleOIDpreservation; no StorageHTTP/deployed/RTO claim",
-    "native_workload": "200 tiny synthetic files, bounded2,198success/2expectedfail; representative provider capacity/cost unverified",
-    "actual_claude_code": "2.1.301 synthetic business5calls only; exact original protocol revision uncaptured",
+    "canonical_apply": "English34 not applied;16:47 preflight only",
+    "canonical_readback": "tracking/evidence/m03/english-release34/2026-10-31T16-47-24-856753Z-preflight.json",
+    "application_tests": 886,
+    "application_tests_scope": "886 composed module tests before final UI metadata fix; final15 overlapping candidate/playback UI tests and final build/typecheck passed.",
+    "controlled_english_ui": {
+      "initial": 17,
+      "final_candidate_and_playback": 15,
+      "overlap": true,
+      "compatible_hosted_legacy_display": "passed",
+      "real_AI_guest_new_version_acceptance": false
+    },
+    "owner_connection_acceptance": "passed_preserved",
+    "owner_connection_evidence": "tracking/evidence/m07/oauth-attempt-trace/2026-10-31-owner-connection-acceptance.json",
     "manual_screenreader": "AT-072 pending",
-    "M03_broader_semantic_evaluation": "pending",
     "mobile_testing": "skipped by owner",
-    "hosting_deferred": true,
+    "hosting_deferred": false,
+    "pilot_running": "web5vEM verified Ready/stable alias; oldworkerCVDM Ready/alive one2GiBdub1 verified17:04",
+    "english_processing_enabled": false,
     "production_deployment_verified": false,
-    "live_settings_browser": "Passed actual existing Producer UTC save/reload, Cairo restore/reload, revisions1->2->3, browser audit/intents and immutable Ready state readback; one absent-only settings.manage completion, no enrollment/revocation reversal",
-    "provider_access": "Required browser action-time confirmation is pending for OAuth Server activation, one public client and native token-hook selection. No provider save/client/hook selection, client binding, OAuth env change or client login has occurred.",
-    "next_action": "After explicit browser action-time confirmation, activate prepared provider config, create actual public client, bind its real UUID once, select private native hook, independently inspect ACL/binding, configure and restart owned web, run public ready probes, then deliver exact owner connection/login details.",
-    "desktop_quality": "tracking/evidence/m07/quality/2026-10-30-desktop80-final.json",
-    "historical_scope_correction": "Seven older mixed-width cases inadvertently ran; excluded from final desktop80 and not credited to skipped mobile acceptance.",
-    "local_restore_evidence": "tracking/evidence/m07/recovery29/2026-10-30T12-25-42-320Z-bda68ef0.json",
-    "live_followup": "tracking/evidence/m07/live-settings-oauth/2026-10-30-followup-summary.json",
-    "hook29": "tracking/evidence/m07/oauth-hook29/2026-10-30T14-37-15-683Z-01f780ed.json",
-    "controlled_desktop_scope": "Prior frozen80 remain historical; current exact focused retry acknowledgment desktop1 passed. Initial zero-selection attempt is not RED credit; mobile was not selected.",
-    "current29_local_issuer": "Five pure tests/nine real-role SQL stages passed in rollback-only current29 clone; source/global roles/original exact, clone absent/lock released. No actual issuance or migration30.",
-    "live_processing": "Fixed legitimate presentation_export action flags; valid live25-job response/four exports and rendered Processing/Cairo times; protected job not retried",
-    "source_archive": "Prior exact e4ffcca ZIP/scan unchanged; this follow-up is unarchived",
-    "implementation_commit": "ff6851185102f576c0b8c0b9780e07fca8ad87f7",
-    "source_inputs": 657,
-    "current30_local_issuer": "Disposable clone committed30, two injected failure rollbacks,9 precommit+9 postcommit real-role stages and forward-fix/owned DB+new role removal passed; original local29 and prior global role identities exact.",
-    "app_oauth": "tracking/evidence/m07/app-oauth/2026-10-30-pre-activation-summary.json",
-    "owner_client_configuration_and_login": "Not performed; owner explicitly retained this work",
-    "metadata_scope": "Later checkpoint metadata only; app/SQL/helper tested source is frozen at implementation_commit"
+    "local_restore": "passed local synthetic same-cluster history33 metadata/media proof; no deployed/StorageHTTP/Authconfig/secret/RTO/RPO claim",
+    "local_restore_evidence": "tracking/evidence/m07/recovery33/2026-10-31T15-34-37-577Z-9af6774f.json",
+    "name_diagnosis": "tracking/evidence/m03/english-name-review/2026-10-31T16-31-07-348316Z-5ed61ea9-8c38-4c1a-a3a2-958d6ccd5d72.json",
+    "native_build_failure": "tracking/evidence/m03/english-image34/2026-10-31T17-03-17-960492Z-v2-registry-tls-diagnosis.json",
+    "next_action": "Distinct same-source OCI export and pinned host-regctl transfer; verified native+daemon Ready/import+native smoke; public manifest/future image adoption and matching worker while33/off; guarded34/readback, enable controlled real scan, app/guest/new version plus old-cohort preservation."
   },
   "historical_notes": [
     {
@@ -1408,8 +1451,8 @@
     "milestone": "M07",
     "status": "in_progress",
     "started_at": "2026-10-30T20:26:56.424735+00:00",
-    "base_commit": "8846f53",
-    "authorization": "Deploy a controlled Vercel pilot with a working cloud worker; verify core app, then finish hosted OAuth/MCP; owner connects Claude.",
+    "base_commit": "009536e",
+    "authorization": "Continue hosted English-output rollout from009536e; preserve Claude frontend redesign, completed owner connection and local recovery; keep pilot running.",
     "constraints": {
       "hosting": "authorized bounded Vercel pilot; broader production acceptance remains unverified",
       "AT072": "pending",
@@ -1420,11 +1463,10 @@
       "protected_M02_retry": "forbidden"
     },
     "planned_acceptance": [
-      "Verified Vercel target/source manifest and isolated web/worker credentials",
-      "Real cloud native worker startup, processing and durable job readback with local worker stopped",
-      "Hosted business login/projects/upload/specs/media/presentation/PDF core proof",
-      "Stable HTTPS hosted OAuth resource/client/hook with independent binding/ACL metadata verification",
-      "Owner connection details; no Claude login/configuration by agent"
+      "Compatible web/SDK and worker deployed while English processing remains off, before canonical34.",
+      "Canonical34 guarded apply/readback with existing source/facts/Reviewed/old-version preservation.",
+      "One controlled real OpenAI+n8n scan, English app/guest display and new frozen presentation version; old versions intact.",
+      "Remaining live M07 operator/token/delegated/recovery/workload evidence in eligible order without reopening passed owner connection."
     ]
   },
   "historical_sessions": [
@@ -2235,6 +2277,50 @@
       "desktop_quality": "tracking/evidence/m07/quality/2026-10-30-desktop80-final.json",
       "historical_scope_correction": "Seven older mixed-width cases inadvertently ran; excluded from final desktop80 and not credited to skipped mobile acceptance.",
       "local_restore_evidence": "tracking/evidence/m07/recovery29/2026-10-30T12-25-42-320Z-bda68ef0.json"
+    },
+    {
+      "milestone": "M07",
+      "status": "in_progress",
+      "observed_at": "2026-10-30T16:23:00.762531+00:00",
+      "base_commit": "407dce2158727d5442f7f88af43a3d79fb989159",
+      "canonical_migration_count": 30,
+      "local_migration_count": 29,
+      "canonical_apply": "tracking/evidence/m07/issuer-release30-executable/2026-10-30T16-12-49-727075Z-34f06b25-canonical-apply.json",
+      "canonical_readback": "tracking/evidence/m07/issuer-release30-executable/2026-10-30T16-13-26-090472Z-12920568-canonical-readback.json",
+      "quality": "tracking/evidence/m07/quality/2026-10-30T15-37-43-310Z-f3157ddc.json",
+      "application_tests": 755,
+      "controlled_desktop_unique_cases": 80,
+      "runtime": "tracking/evidence/m07/app-oauth/2026-10-30-runtime-after30.json",
+      "mcp_tools": 86,
+      "openapi_operations": 115,
+      "semantic_ui_groups": 13,
+      "hook30": "Actual additive30 canonical apply plus independent full raw catalogue readback passed; private native Auth-only function installed. Provider selection/real issuance remains pending.",
+      "local_restore": "History29 actual metadata/native4objects/71criticalsources restore, full16430catalogue/Settings/MCP/permissions/lease fences and originalroleOIDpreservation; no StorageHTTP/deployed/RTO claim",
+      "native_workload": "200 tiny synthetic files, bounded2,198success/2expectedfail; representative provider capacity/cost unverified",
+      "actual_claude_code": "2.1.301 synthetic business5calls only; exact original protocol revision uncaptured",
+      "manual_screenreader": "AT-072 pending",
+      "M03_broader_semantic_evaluation": "pending",
+      "mobile_testing": "skipped by owner",
+      "hosting_deferred": true,
+      "production_deployment_verified": false,
+      "live_settings_browser": "Passed actual existing Producer UTC save/reload, Cairo restore/reload, revisions1->2->3, browser audit/intents and immutable Ready state readback; one absent-only settings.manage completion, no enrollment/revocation reversal",
+      "provider_access": "Required browser action-time confirmation is pending for OAuth Server activation, one public client and native token-hook selection. No provider save/client/hook selection, client binding, OAuth env change or client login has occurred.",
+      "next_action": "After explicit browser action-time confirmation, activate prepared provider config, create actual public client, bind its real UUID once, select private native hook, independently inspect ACL/binding, configure and restart owned web, run public ready probes, then deliver exact owner connection/login details.",
+      "desktop_quality": "tracking/evidence/m07/quality/2026-10-30-desktop80-final.json",
+      "historical_scope_correction": "Seven older mixed-width cases inadvertently ran; excluded from final desktop80 and not credited to skipped mobile acceptance.",
+      "local_restore_evidence": "tracking/evidence/m07/recovery29/2026-10-30T12-25-42-320Z-bda68ef0.json",
+      "live_followup": "tracking/evidence/m07/live-settings-oauth/2026-10-30-followup-summary.json",
+      "hook29": "tracking/evidence/m07/oauth-hook29/2026-10-30T14-37-15-683Z-01f780ed.json",
+      "controlled_desktop_scope": "Prior frozen80 remain historical; current exact focused retry acknowledgment desktop1 passed. Initial zero-selection attempt is not RED credit; mobile was not selected.",
+      "current29_local_issuer": "Five pure tests/nine real-role SQL stages passed in rollback-only current29 clone; source/global roles/original exact, clone absent/lock released. No actual issuance or migration30.",
+      "live_processing": "Fixed legitimate presentation_export action flags; valid live25-job response/four exports and rendered Processing/Cairo times; protected job not retried",
+      "source_archive": "Prior exact e4ffcca ZIP/scan unchanged; this follow-up is unarchived",
+      "implementation_commit": "ff6851185102f576c0b8c0b9780e07fca8ad87f7",
+      "source_inputs": 657,
+      "current30_local_issuer": "Disposable clone committed30, two injected failure rollbacks,9 precommit+9 postcommit real-role stages and forward-fix/owned DB+new role removal passed; original local29 and prior global role identities exact.",
+      "app_oauth": "tracking/evidence/m07/app-oauth/2026-10-30-pre-activation-summary.json",
+      "owner_client_configuration_and_login": "Not performed; owner explicitly retained this work",
+      "metadata_scope": "Later checkpoint metadata only; app/SQL/helper tested source is frozen at implementation_commit"
     }
   ],
   "session_checkpoints": [
@@ -2399,9 +2485,9 @@
     }
   ],
   "latest_backend_checkpoint": {
-    "recorded_at": "2026-10-31T15:40:47.182749+00:00",
-    "base_commit": "3cc50d4",
-    "web_deployment_id": "dpl_CcwVabZ5PkadAPaeANRLJD4GqVg3",
+    "recorded_at": "2026-10-31T17:07:16.824242+00:00",
+    "base_commit": "009536e",
+    "web_deployment_id": "dpl_5vEMBfsnD23cGL3ontWm8AUAErKr",
     "canonical_history_count": 33,
     "original_local_history_count": 29,
     "english34_applied": false,
@@ -2415,6 +2501,121 @@
     "composed_mcp_tests": 5,
     "current33_metadata_restore": "passed",
     "full_media_restore": "verified_local_synthetic_same_cluster",
-    "full_restore_evidence": "tracking/evidence/m07/recovery33/2026-10-31T15-34-37-577Z-9af6774f.json"
+    "full_restore_evidence": "tracking/evidence/m07/recovery33/2026-10-31T15-34-37-577Z-9af6774f.json",
+    "english_processing_enabled": false,
+    "application_quality_scope": "886 composed module tests before final UI metadata fix; final15 overlapping candidate/playback UI tests and final build/typecheck passed.",
+    "frontend_english_acknowledged": true,
+    "english_rollout": {
+      "reference": "english_output_rollout",
+      "status": "compatible_web_deployed_worker_registry_transport_pending"
+    },
+    "next_action": "Distinct same-source OCI export and pinned host-regctl transfer; verified native+daemon Ready/import+native smoke; public manifest/future image adoption and matching worker while33/off; guarded34/readback, enable controlled real scan, app/guest/new version plus old-cohort preservation."
+  },
+  "english_output_rollout": {
+    "recorded_at": "2026-10-31T17:04:19.148926+00:00",
+    "resume_base_commit": "009536e",
+    "status": "compatible_web_deployed_worker_registry_transport_pending",
+    "frontend": {
+      "source_commit": "8aed642",
+      "coordination_acknowledged": true,
+      "full_redesign_merged": false,
+      "contract": "docs/integrations/ENGLISH_TRANSCRIPT.md",
+      "coordination": "tracking/PARALLEL_WORK.md",
+      "display_fields": {
+        "candidate": [
+          "english_transcript",
+          "english_transcript_status"
+        ],
+        "frozen_version": [
+          "english_text",
+          "english_status",
+          "english_sha256"
+        ]
+      },
+      "shared_playback_component": "apps/web/components/SourceTranscript.tsx",
+      "shared_destinations": [
+        "PresentationVersionView",
+        "GuestReviewView",
+        "GrantMediaView"
+      ],
+      "raw_display_fallback": false,
+      "language_selector_added": false,
+      "initial_chromium_tests_passed": 17,
+      "final_saved_guest_pdf_chromium_tests_passed": 14,
+      "test_overlap": "Initial17, saved-only14 and final15 overlap; no summed total.",
+      "final_metadata_fix": "Unknown spoken-language metadata cannot render verbatim; English labels/neutral Other spoken language used.",
+      "main_commit": "c6a3f15",
+      "final_candidate_and_playback_tests_passed": 15
+    },
+    "quality": {
+      "last_composed_module_tests": 886,
+      "module_lint_types_guard_build": "passed before final spoken-language metadata display fix",
+      "final_production_build": "passed",
+      "english_name_helper_tests": 11,
+      "native_probe_compiler_tests": 5,
+      "final_build_evidence": "tracking/evidence/m03/english-web-release34/2026-10-31T16-51-47-207652Z-build.json",
+      "final_typecheck": "passed"
+    },
+    "name_diagnosis": {
+      "evidence": "tracking/evidence/m03/english-name-review/2026-10-31T16-31-07-348316Z-5ed61ea9-8c38-4c1a-a3a2-958d6ccd5d72.json",
+      "status": "confirmed_original_asr_vs_corrected_reviewed_full_name_mismatch",
+      "original_asr_expected_middle_arabic_token_present": false,
+      "arabic_canonicalization_and_compaction_applied": true,
+      "corrected_gate": "Assess original-source-faithful English separately from preservation of already corrected Reviewed facts.",
+      "reviewed_facts_or_original_transcript_changed": false,
+      "production_translator_changed": false,
+      "previous_english_wording_recoverable": false,
+      "historical_component_accepted": false,
+      "new_language_labels_requested": false
+    },
+    "native": {
+      "context_run": "4186fd1e-55c7-4ea5-956e-ad9ad92f64b1",
+      "source_sha256": "b3489d64fb1bb207e0a1020fadac3db14490c94ba6d2aedf9c6a358ebb36f181",
+      "file_count": 160,
+      "build_steps_completed": 27,
+      "build_steps_total": 27,
+      "push_result": "corrected_cached_build_completed_then_registry_HEAD_TLS_handshake_timeout",
+      "failure_evidence": "tracking/evidence/m03/native-probe34/2026-10-31T16-45-38-995626Z-native-build-push-failure.json",
+      "credential_expiry_determined": false,
+      "new_ready_digest": null,
+      "new_hosted_smoke": "not_run",
+      "new_daemon_deployment": "not_performed",
+      "prepared_operator": "development/m03/native-probe34/",
+      "latest_failure_evidence": "tracking/evidence/m03/english-image34/2026-10-31T17-03-17-960492Z-v2-registry-tls-diagnosis.json",
+      "scoped_registry_refresh": "passed_login_and_known_manifest_read_push_not_proven",
+      "local_buildx_discovery_fix": "ProgramFiles restored installed checksum-pinned plugin discovery; failed claims retained"
+    },
+    "canonical": {
+      "history_count": 33,
+      "english34_applied": false,
+      "english_processing_enabled": false,
+      "preflight_evidence": "tracking/evidence/m03/english-release34/2026-10-31T16-47-24-856753Z-preflight.json",
+      "preflight_observed_at": "2026-10-31T16:47:24.857102+00:00",
+      "english_schema_absent": true,
+      "leased_outbox": 0,
+      "other_active_jobs": 0,
+      "protected_M02_integrity_preserved": true
+    },
+    "hosted_english_job": "not_run",
+    "hosted_english_app_guest_new_version_demonstration": "not_run",
+    "new_version_old_version_preservation_check": "not_run",
+    "last_confirmed_serving_web": "dpl_5vEMBfsnD23cGL3ontWm8AUAErKr",
+    "last_confirmed_serving_worker": "dpl_CVDMpdETNwZYxdEyJ8XM66kSppdQ",
+    "owner_connection_acceptance": "passed_preserved",
+    "current33_local_recovery": "passed_preserved",
+    "manual_AT072": "pending",
+    "mobile_testing": "skipped",
+    "pilot_duration": "until_owner_stops",
+    "next_action": "Distinct same-source OCI export and pinned host-regctl transfer; verified native+daemon Ready/import+native smoke; public manifest/future image adoption and matching worker while33/off; guarded34/readback, enable controlled real scan, app/guest/new version plus old-cohort preservation.",
+    "remaining_m07_review": "development/m07/REMAINING_AFTER_ENGLISH34.md",
+    "web_ready": "tracking/evidence/m03/english-web-release34/2026-10-31T16-55-43-885447Z-ready.json",
+    "web_legacy_app": "tracking/evidence/m03/english-web-release34/2026-10-31-hosted-compatibility-app.json",
+    "preservation_baseline": "tracking/evidence/m03/english-preservation34/2026-10-31T16-55-59-693221Z-3f3adfca-4aff-4dcc-8f51-541317433407-baseline.json",
+    "operator_trace_followup": {
+      "status": "partial",
+      "actual_result": "Plugin metadata reads internalerrors; direct metadata-onlyGETs for31520+31515 returned404/no metadata. Causeunknown; no deletion/retention inference.",
+      "evidence": "tracking/evidence/m07/operator-trace-live34/2026-10-31-execution-access-summary.json",
+      "new_english_job_correlation": "pending"
+    }
   }
 }

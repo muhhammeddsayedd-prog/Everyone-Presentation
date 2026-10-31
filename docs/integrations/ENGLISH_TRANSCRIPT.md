@@ -55,6 +55,34 @@ This contract note is coordination data, not proof of frontend acknowledgment,
 implementation or deployment. Merge/reconcile the backend contract changes before
 testing the redesigned transcript views. Current pilot remains running.
 
+### Compatible main patch (2026-10-31)
+
+Claude acknowledged this contract and committed the frontend projection in
+`frontend/redesign@8aed642`. Main checkpoint `c6a3f15` adapts only that display
+slice; the full redesign remains in its separate worktree. Reconcile component
+hunks when merging rather than replacing either complete file.
+
+| Display | Shared fields | Main shared files |
+| --- | --- | --- |
+| Library introduction | `english_transcript`, `english_transcript_status` | `CandidateDetailView.tsx`, `english-transcript.tsx` |
+| Draft review source | Same CandidateMedia pair | `WorkspaceReviewView.tsx`, `english-transcript.tsx` |
+| Saved internal, guest and PDF-video playback | Frozen `english_text`, `english_status`, `english_sha256` | `SourceTranscript.tsx`, called by `PresentationVersionView.tsx`, `GuestReviewView.tsx`, `GrantMediaView.tsx` |
+| Processing failure | `ENGLISH_TRANSCRIPT_UNAVAILABLE` | `CandidateProcessingIssues.tsx` |
+
+The helper uses the shared domain validators. The Central adapter verifies the
+captured English hash on all three saved playback paths; existing version,
+video, access and refresh-denial checks stay in place. Candidate and saved
+playback language metadata is labelled in English; unknown values use
+`Other spoken language`. No transcript, fact or snapshot is rewritten by display.
+
+The retained source-name investigation found that original ASR already omitted
+a token from the corrected Reviewed name. Verify source-faithful translation
+separately from Reviewed-fact preservation. Do not inject corrected profile facts
+into translation or require a faithful translation of erroneous ASR to equal the
+corrected profile. The discarded historical English wording cannot be recovered,
+so its failed component receipt remains unaccepted. See
+`development/m03/english-name-review/README.md` for the bounded evidence.
+
 ## Local verification checkpoint
 
 Owned SQL proof on2026-10-31 passed the actual additive34 validator, future capture, legacy replay and immutable read tests after real30-33 clone upgrades. The34 transaction fully rolled back; original29/global roles and cleanup were verified. Canonical remains33 and the English flag is off. Application881 gates pass. One real normalization request passed English/source/provider/age checks but not the full-name literal comparison, so its overall receipt remains unaccepted; no broad accuracy claim. Frontend and real app/guest rollout remain pending.
