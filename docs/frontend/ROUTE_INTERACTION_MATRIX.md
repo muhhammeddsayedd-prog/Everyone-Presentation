@@ -46,55 +46,55 @@ The overlays (drawers, modals, menus and toasts) follow `redesign-output/README.
 
 | Route / surface | Interaction | Operation | Capability | Status |
 |---|---|---|---|---|
-| `…/specs` | Paste or upload a brief; extract; retry | `POST /workspaces/{id}/specs` (202), `POST /uploads…`, `GET /jobs/{id}` | workspaces.write | restyled → planned (batch 3) |
-| | Edit normalized instructions and clarifications | `PATCH /workspaces/{id}/specs` | workspaces.write | restyled → planned |
-| | Add, edit or archive a role (remove-role consequence modal) | `POST /workspaces/{id}/roles`, `PATCH /roles/{id}`, `POST /roles/{id}/archive` | workspaces.write | restyled → planned |
-| | Headcount stepper; reduce-slots retire modal; slot labels | `POST /roles/{id}/slots/resize`, `PATCH /slots/{id}`, `GET /workspaces/{id}/retirements/{id}` plus undo | workspaces.write | restyled → planned |
-| | Order dialog (keyboard reorder of roles) | `PUT /workspaces/{id}/order` | workspaces.write | planned |
+| `…/specs` | Paste or upload a brief; extract; retry | `POST /workspaces/{id}/specs` (202), `POST /uploads…`, `GET /jobs/{id}` | workspaces.write | done |
+| | Edit normalized instructions and clarifications | `PATCH /workspaces/{id}/specs` | workspaces.write | done |
+| | Add, edit or archive a role (remove-role consequence modal) | `POST /workspaces/{id}/roles`, `PATCH /roles/{id}`, `POST /roles/{id}/archive` | workspaces.write | done |
+| | Headcount stepper; reduce-slots retire modal; slot labels | `POST /roles/{id}/slots/resize`, `PATCH /slots/{id}`, `GET /workspaces/{id}/retirements/{id}` plus undo | workspaces.write | restyled; retire consequence dialog done, stepper not built |
+| | Order dialog (keyboard reorder of roles) | `PUT /workspaces/{id}/order` | workspaces.write | done (non-modal "Change role order" keyboard panel; see decision 7) |
 
 ## Candidates, Cast Library and profile
 
 | Route / surface | Interaction | Operation | Capability | Status |
 |---|---|---|---|---|
-| `…/cast`, "In this project" tab | Table of project candidates; inspector drawer (media, frames, availability, fresh material, internal notes, files) | `GET/POST /workspaces/{id}/candidates`, `PATCH /workspace-candidates/{id}`, `POST …/remove`, `GET /candidates/{id}/media` | workspaces.write | planned (batch 4) |
-| `…/cast`, "Cast Library" tab | Role filter suggestions; add to project | `GET /roles/{id}/candidate-filters`, `GET /candidates?…` | cast.read | planned |
-| `…/cast`, "Uploads" tab | Resumable per-file uploads; processing feedback; duplicate choice | `POST /uploads`, tus/PUT, `POST /uploads/{id}/complete`, `GET /jobs`, `GET /candidates/{id}/duplicates`, `POST …/duplicates/resolve` | cast.upload | planned |
-| `/library/cast` | Facets (supported search params), applied chips, include-unknown toggle, portrait grid | `GET /candidates?q,age_or_range,stated_gender,height_measurements,language,accent,skill,city,previous_project_role,classification,review_status,include_unknown` | cast.read | planned (batch 7) |
-| `/library/cast/{id}` | Edit facts; "Confirm profile information"; archive | `PATCH /candidates/{id}`, `POST …/reviewed`, `POST …/archive` | cast.write / cast.review | planned |
-| | Play video; transcript; frame picker (≤ 3, reorder, replace, extract at timestamps) | `POST /media/{id}/playback`, `PUT /candidate-media/{id}/frames`, `POST …/frames/extract` | cast.write | planned |
-| | Supporting files | `GET /candidates/{id}/supporting-files`, `POST /candidate-support/{id}/archive` | cast.write | planned |
+| `…/cast`, "In this project" tab | Table of project candidates; inspector drawer (media, frames, availability, fresh material, internal notes, files) | `GET/POST /workspaces/{id}/candidates`, `PATCH /workspace-candidates/{id}`, `POST …/remove`, `GET /candidates/{id}/media` | workspaces.write | done |
+| `…/cast`, "Cast Library" tab | Role filter suggestions; add to project | `GET /roles/{id}/candidate-filters`, `GET /candidates?…` | cast.read | done |
+| `…/cast`, "Uploads" tab | Resumable per-file uploads; processing feedback; duplicate choice | `POST /uploads`, tus/PUT, `POST /uploads/{id}/complete`, `GET /jobs`, `GET /candidates/{id}/duplicates`, `POST …/duplicates/resolve` | cast.upload | restyled (existing upload queue in its tab) |
+| `/library/cast` | Facets (supported search params), applied chips, include-unknown toggle, portrait grid | `GET /candidates?q,age_or_range,stated_gender,height_measurements,language,accent,skill,city,previous_project_role,classification,review_status,include_unknown` | cast.read | done |
+| `/library/cast/{id}` | Edit facts; "Confirm profile information"; archive | `PATCH /candidates/{id}`, `POST …/reviewed`, `POST …/archive` | cast.write / cast.review | done |
+| | Play video; transcript; frame picker (≤ 3, reorder, replace, extract at timestamps) | `POST /media/{id}/playback`, `PUT /candidate-media/{id}/frames`, `POST …/frames/extract` | cast.write | restyled; English-only transcript done |
+| | Supporting files | `GET /candidates/{id}/supporting-files`, `POST /candidate-support/{id}/archive` | cast.write | done |
 
 ## Casting
 
 | Route / surface | Interaction | Operation | Capability | Status |
 |---|---|---|---|---|
-| `…/organize` | Role swimlanes; candidate tray; assign (button or keyboard alternative to drag) | `GET /workspaces/{id}/assignments`, `POST /workspaces/{id}/assignments` | workspaces.write | restyled → planned (batch 5) |
-| | Card menu: Option / Backup | `PATCH /assignments/{id}` (`position`) | workspaces.write | planned |
-| | Set as Main, then the Undo toast | `PUT /slots/{id}/main`, `POST /slots/{id}/main/undo` | workspaces.write | planned |
-| | Shortlist star; notes and slide-wording drawer | `PATCH /assignments/{id}` | workspaces.write | planned |
-| | Move to slot or order; remove (confirm dialog) | `PUT /workspaces/{id}/order`, `POST /assignments/{id}/remove` | workspaces.write | planned |
+| `…/organize` | Role swimlanes; candidate tray; assign (button or keyboard alternative to drag) | `GET /workspaces/{id}/assignments`, `POST /workspaces/{id}/assignments` | workspaces.write | done |
+| | Card menu: Option / Backup | `PATCH /assignments/{id}` (`position`) | workspaces.write | done |
+| | Set as Main, then the Undo toast | `PUT /slots/{id}/main`, `POST /slots/{id}/main/undo` | workspaces.write | done |
+| | Shortlist star; notes and slide-wording drawer | `PATCH /assignments/{id}` | workspaces.write | done (Shortlist star, notes drawer; slide wording is edited in Review) |
+| | Move to slot or order; remove (confirm dialog) | `PUT /workspaces/{id}/order`, `POST /assignments/{id}/remove` | workspaces.write | partly: order within a slot and remove done; moving to another slot not built |
 
 ## Review, presentations and sharing
 
 | Route / surface | Interaction | Operation | Capability | Status |
 |---|---|---|---|---|
-| `…/review` | Choose the audience, then create the series explicitly | `GET /audience-presets`, `POST /presentation-series` | presentations.generate | restyled → planned (batch 6) |
-| | Grouped preflight with inline repairs; slide fit | `GET /workspaces/{id}/review?series_id`, `POST …/review/fit` | workspaces.read | planned |
-| | AI wording proposal (marked as a proposal) | `POST /ai-suggestions`, `GET /ai-suggestions/{id}` | workspaces.write | planned |
-| | Generate a version (shows a stale-fingerprint banner) | `POST /presentation-series/{id}/versions` | presentations.generate | planned |
-| `…/presentations`, `/presentations/versions/{id}` | Slide rail, carousel, app/PDF preview, versions | `GET /versions/{id}`, `GET /presentation-series/{id}/versions` | workspaces.read | planned |
-| | PDF download; play original media | `GET /versions/{id}/pdf/content`, `POST /versions/{id}/media/{a}/playback` | workspaces.read | planned |
-| | Share-link drawer: create (copy once), expiry, PDF toggle, extend, revoke, rotate | `POST/PATCH /review-links…`, `POST …/revoke`, `POST …/rotate` | review_links.manage | planned |
-| | Internal and external feedback per version | `GET /versions/{id}/feedback`, `POST /versions/{id}/comments`, `PATCH /comments/{id}` | workspaces.write | planned |
+| `…/review` | Choose the audience, then create the series explicitly | `GET /audience-presets`, `POST /presentation-series` | presentations.generate | done |
+| | Grouped preflight with inline repairs; slide fit | `GET /workspaces/{id}/review?series_id`, `POST …/review/fit` | workspaces.read | done (grouped by severity with repair text; no inline repair buttons) |
+| | AI wording proposal (marked as a proposal) | `POST /ai-suggestions`, `GET /ai-suggestions/{id}` | workspaces.write | done |
+| | Generate a version (shows a stale-fingerprint banner) | `POST /presentation-series/{id}/versions` | presentations.generate | restyled (Presentation step) |
+| `…/presentations`, `/presentations/versions/{id}` | Slide rail, carousel, app/PDF preview, versions | `GET /versions/{id}`, `GET /presentation-series/{id}/versions` | workspaces.read | done |
+| | PDF download; play original media | `GET /versions/{id}/pdf/content`, `POST /versions/{id}/media/{a}/playback` | workspaces.read | done |
+| | Share links: create (copy once), expiry, PDF toggle, extend, revoke, rotate | `POST/PATCH /review-links…`, `POST …/revoke`, `POST …/rotate` | review_links.manage | restyled (sharing page; drawer not built) |
+| | Internal and external feedback per version | `GET /versions/{id}/feedback`, `POST /versions/{id}/comments`, `PATCH /comments/{id}` | workspaces.write | restyled |
 | | Feedback summary | Needs `GET /versions/{id}/feedback/summary` | — | backend |
-| `/presentations` | Series index; rename or archive a series | `GET /presentation-series`, `PATCH /presentation-series/{id}` | presentations.generate | planned |
-| `/r/{token}` (guest) | Open the link; identity before the first write; Preferred / Maybe / Not preferred; comments; PDF; video | `/review/open`, `/review/session`, `/review/identity`, `/review/presentation`, `/review/versions/{id}/…` | Link token | planned (batch 8; token and session flow untouched) |
+| `/presentations` | Series index; rename or archive a series | `GET /presentation-series`, `PATCH /presentation-series/{id}` | presentations.generate | index restyled; rename/archive not built |
+| `/r/{token}` (guest) | Open the link; identity before the first write; Preferred / Maybe / Not preferred; comments; PDF; video | `/review/open`, `/review/session`, `/review/identity`, `/review/presentation`, `/review/versions/{id}/…` | Link token | done (visual; token and session flow untouched) |
 
 ## Operations and settings
 
 | Route / surface | Interaction | Operation | Capability | Status |
 |---|---|---|---|---|
-| `/processing` | Jobs grouped by project and batch; per-file strip; detail drawer | `GET /jobs?workspace_id,status`, `GET /jobs/{id}` | operations.read | restyled → planned (batch 9) |
-| | Retry or cancel | `POST /jobs/{id}/retry`, `POST /jobs/{id}/cancel` | operations.retry | planned |
+| `/processing` | Jobs grouped by project and batch; per-file strip; detail drawer | `GET /jobs?workspace_id,status`, `GET /jobs/{id}` | operations.read | restyled (status tones) |
+| | Retry or cancel | `POST /jobs/{id}/retry`, `POST /jobs/{id}/cancel` | operations.retry | restyled |
 | | Batch filter or summary | Needs `GET /jobs?batch_id=` | — | backend |
-| `/settings` | Defaults (timezone, template); audience presets (create, edit, archive) | `GET/PATCH /settings`, `GET/POST/PATCH /audience-presets`, `POST …/archive` | settings.manage | restyled → planned |
+| `/settings` | Defaults (timezone, template); audience presets (create, edit, archive) | `GET/PATCH /settings`, `GET/POST/PATCH /audience-presets`, `POST …/archive` | settings.manage | restyled |
