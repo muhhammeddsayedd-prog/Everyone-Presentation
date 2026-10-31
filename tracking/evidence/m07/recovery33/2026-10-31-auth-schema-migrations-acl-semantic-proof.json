@@ -1,0 +1,126 @@
+{
+  "observed_at": "2026-10-31T14:30:41.002Z",
+  "kind": "actual_owned_local29_explicit_owner_default_acl_equivalence",
+  "sql_source": "development/m07/recovery33/schema-migrations-acl-semantics.sql",
+  "sql_sha256": "bc0d070580205a2cb2992836808880822a01d6f8397413c09a79ee8f34e22901",
+  "read_only": true,
+  "cloud_called": false,
+  "checked": {
+    "owner_oid": 16504,
+    "explicit_entries": 8,
+    "default_entries": 8,
+    "symmetric_difference": 0,
+    "owner_only": true,
+    "grantor_and_grant_options_exact": true
+  },
+  "metadata": {
+    "scope": "exact_local29_read_only_acl_semantics",
+    "owner_role_oid": 16504,
+    "owner_role_name": "supabase_auth_admin",
+    "expanded_default": [
+      {
+        "grantable": false,
+        "privilege": "DELETE",
+        "grantee_oid": "16504",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "INSERT",
+        "grantee_oid": "16504",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "MAINTAIN",
+        "grantee_oid": "16504",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "REFERENCES",
+        "grantee_oid": "16504",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "SELECT",
+        "grantee_oid": "16504",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "TRIGGER",
+        "grantee_oid": "16504",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "TRUNCATE",
+        "grantee_oid": "16504",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "UPDATE",
+        "grantee_oid": "16504",
+        "grantor_oid": "16504"
+      }
+    ],
+    "expanded_explicit": [
+      {
+        "grantable": false,
+        "privilege": "DELETE",
+        "grantee_oid": "16504",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "INSERT",
+        "grantee_oid": "16504",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "MAINTAIN",
+        "grantee_oid": "16504",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "REFERENCES",
+        "grantee_oid": "16504",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "SELECT",
+        "grantee_oid": "16504",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "TRIGGER",
+        "grantee_oid": "16504",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "TRUNCATE",
+        "grantee_oid": "16504",
+        "grantor_oid": "16504"
+      },
+      {
+        "grantable": false,
+        "privilege": "UPDATE",
+        "grantee_oid": "16504",
+        "grantor_oid": "16504"
+      }
+    ],
+    "source_owner_only": true,
+    "default_owner_only": true,
+    "default_entry_count": 8,
+    "explicit_entry_count": 8,
+    "symmetric_difference_count": 0
+  }
+}

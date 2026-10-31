@@ -1,0 +1,95 @@
+{
+  "observed_at": "2026-10-31T14:49:51.508Z",
+  "query_sha256": "3501601e24924702951c629869f14b6aafb419314f51aa274141b04166c2dba4",
+  "failed_receipt_sha256": "a7db032931cd9ded5a40ab02a6bbd07967c47f00cc7c5a99075b55094b0d0b47",
+  "retained_lock_sha256": "466b9b9d98e340bee6df49f794a4862c7efd738758a73da35183940ec9ae2dc9",
+  "retained_lock_pid": 48928,
+  "schema_version": "1.0",
+  "read_only": true,
+  "scope": "fixed533_read_only_reconciliation",
+  "run_id": "5332c86b-b1f9-410e-8702-647031182b17",
+  "original_baseline_matches_before": false,
+  "original_full_catalogue_except_owned_roles_matches_before": true,
+  "original_roles_oids_attributes_memberships_except_owned_match_before": true,
+  "both_task_databases_absent": true,
+  "database_exists": {
+    "eps_m07_r33_source_5332c86bb1f9410e8702647031182b17": false,
+    "eps_m07_r33_restore_5332c86bb1f9410e8702647031182b17": false
+  },
+  "other_clients": 0,
+  "client_pids": [],
+  "owner_process_absent": true,
+  "target_roles_owned_and_dependency_free": true,
+  "target_role_memberships_match_expected_graph": true,
+  "target_roles": [
+    {
+      "oid": "185012",
+      "name": "eps_mcp_issuer_owner",
+      "login": false,
+      "super": false,
+      "marker": "eps-m07-recovery33:5332c86b-b1f9-410e-8702-647031182b17:issuer",
+      "inherit": false,
+      "bypassrls": false,
+      "create_db": false,
+      "create_role": false,
+      "memberships": [
+        {
+          "set": false,
+          "admin": true,
+          "inherit": false,
+          "role_oid": "185012",
+          "member_oid": "16384",
+          "grantor_oid": "10"
+        },
+        {
+          "set": true,
+          "admin": false,
+          "inherit": false,
+          "role_oid": "185012",
+          "member_oid": "16384",
+          "grantor_oid": "16384"
+        }
+      ],
+      "replication": false,
+      "valid_until": null,
+      "dependencies": [],
+      "marker_matches": true,
+      "connection_limit": -1
+    },
+    {
+      "oid": "185052",
+      "name": "eps_oauth_consent_owner",
+      "login": false,
+      "super": false,
+      "marker": "eps-m07-recovery33:5332c86b-b1f9-410e-8702-647031182b17:consent",
+      "inherit": false,
+      "bypassrls": false,
+      "create_db": false,
+      "create_role": false,
+      "memberships": [
+        {
+          "set": false,
+          "admin": true,
+          "inherit": false,
+          "role_oid": "185052",
+          "member_oid": "16384",
+          "grantor_oid": "10"
+        },
+        {
+          "set": true,
+          "admin": false,
+          "inherit": true,
+          "role_oid": "185052",
+          "member_oid": "16384",
+          "grantor_oid": "16384"
+        }
+      ],
+      "replication": false,
+      "valid_until": null,
+      "dependencies": [],
+      "marker_matches": true,
+      "connection_limit": -1
+    }
+  ],
+  "eligible_for_reviewed_cleanup": false
+}

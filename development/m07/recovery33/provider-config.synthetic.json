@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0",
+  "provenance": "synthetic_inventory_only",
+  "site_url": "https://studio.example.invalid",
+  "oauth_server_enabled": true,
+  "authorization_path": "/oauth/consent",
+  "dynamic_registration": false,
+  "public_client_id": "33000000-0000-4000-8000-000000000001",
+  "callback": "http://localhost:3118/callback",
+  "resource": "https://studio.example.invalid/mcp",
+  "scope": "openid",
+  "access_token_hook": "pg-functions://postgres/eps/mcp_custom_access_token_hook",
+  "signing_keys_included": false,
+  "secrets_included": false,
+  "provider_configuration_applied": false
+}

@@ -1,0 +1,157 @@
+/** Full owned29->33 continuation hooks. No IO or SQL happens at import. */
+import assert from 'node:assert/strict';
+import { writeFile } from 'node:fs/promises';
+import path from 'node:path';
+import { isDeepStrictEqual } from 'node:util';
+import { checkedSource, fullCatalogue33Sql, migration33Adapters, sha } from './compiler.mjs';
+import { ownedPredicate33, roleCleanup33 } from './ownership.mjs';
+import { assertAclSemanticProof33 } from './acl-semantics-proof.mjs';
+const q = value => "'" + String(value).replaceAll("'", "''") + "'";
+const ROLES = ['eps_mcp_issuer_owner', 'eps_oauth_consent_owner'];
+const JSON_TAIL = "select coalesce(jsonb_object_agg(key,value),'{}')catalog from flat;";
+export function exactPreimageAdmission({ catalogueSql, catalogue, dataSql, data, identity }) {
+  assert.equal(catalogueSql.split(JSON_TAIL).length, 2);
+  const into = catalogueSql.replace(JSON_TAIL, "select coalesce(jsonb_object_agg(key,value),'{}')into actual_catalogue from flat;");
+  return `${dataSql}\ndo $recovery33_preimage$declare actual_catalogue jsonb;begin
+ if current_user<>'postgres'or ${ownedPredicate33(identity)} then raise exception'RECOVERY33_OWNED_TARGET_REQUIRED';end if;
+ ${into}
+ if actual_catalogue is distinct from ${q(JSON.stringify(catalogue))}::jsonb
+ or current_setting('eps.m07_readback.old_data')::jsonb is distinct from ${q(JSON.stringify(data))}::jsonb
+ then raise exception'RECOVERY33_EXACT_PREIMAGE_REQUIRED';end if;end$recovery33_preimage$;\n`;
+}
+function roleQuery(name) {
+  assert(ROLES.includes(name));
+  return `select jsonb_build_object('role',(select jsonb_build_object('name',r.rolname,'oid',r.oid,'marker',shobj_description(r.oid,'pg_authid'),
+ 'login',r.rolcanlogin,'super',r.rolsuper,'inherit',r.rolinherit,'bypassrls',r.rolbypassrls,'create_role',r.rolcreaterole,'create_db',r.rolcreatedb,'replication',r.rolreplication,'connection_limit',r.rolconnlimit,'valid_until',r.rolvaliduntil,
+ 'memberships',(select coalesce(jsonb_agg(jsonb_build_object('role',roleid::regrole::text,'member',member::regrole::text,'grantor',grantor::regrole::text,'admin',admin_option,'inherit',inherit_option,'set',set_option)order by roleid,member,grantor),'[]')from pg_auth_members where roleid=r.oid or member=r.oid or grantor=r.oid),
+ 'dependencies',(select coalesce(jsonb_agg(jsonb_build_object('dbid',dbid,'classid',classid::regclass::text,'objid',objid,'objsubid',objsubid,'deptype',deptype)order by dbid,classid,objid,objsubid),'[]')from pg_shdepend where refclassid='pg_authid'::regclass and refobjid=r.oid),
+ 'clients',(select count(*)from pg_stat_activity where backend_type='client backend'and pid<>pg_backend_pid()))from pg_roles r where r.rolname=${q(name)}));`;
+}
+export function roleCleanupSql33(expected, observed) {
+  assert.equal(roleCleanup33(expected, observed).can_drop, true);
+  const name = expected.name, query = roleQuery(name).trim().replace(/;$/u, ' into observed_role;');
+  return `begin;set local lock_timeout='5s';set local statement_timeout='30s';lock table pg_authid,pg_auth_members,pg_shdepend in share row exclusive mode;
+ do $$declare observed_role jsonb;begin ${query}
+ if observed_role is distinct from ${q(JSON.stringify({ role: observed }))}::jsonb
+ then raise exception'RECOVERY33_OWNED_ROLE_CLEANUP_REQUIRED';end if;end$$;drop role ${name};commit;`;
+}
+export function createRecovery33Context(ctx) {
+  const { report, sourceDb, restoreDb, runId } = ctx;
+  let active = false, catalogueSql, originalFullCatalogue;
+  const roles = new Map();
+  const sources = ctx.sourceFiles;
+  const source = file => checkedSource(sources, file);
+  const rawFile = async (name, value) => {
+    assert(report.private_artifact_acl);
+    const bytes = typeof value === 'string' || value instanceof Uint8Array ? value : JSON.stringify(value, null, 2) + '\n';
+    await writeFile(path.join(ctx.privateRoot, name), bytes, { flag: 'wx', mode: 0o600 }); return sha(bytes);
+  };
+  const identity = async database => ({ database, marker: ctx.marker(database), oid: (await ctx.databaseIdentity(database)).oid });
+  const observeRole = async name => {
+    const result = await ctx.docker(ctx.psqlArgs('template1'), { input: 'begin read only;' + roleQuery(name) + 'rollback;' });
+    const rows = ctx.rows(result.stdout); assert.equal(rows.length, 1); assert(Object.hasOwn(rows[0], 'role')); return rows[0].role;
+  };
+  async function upgrade() {
+    report.checkpoint = 'admit-full-original29-catalogue';
+    const semantic = JSON.parse(source('tracking/evidence/m07/recovery33/2026-10-31-auth-schema-migrations-acl-semantic-proof.json'));
+    assert.equal(semantic.read_only, true); assert.equal(semantic.cloud_called, false);
+    assert.equal(semantic.sql_sha256, sha(source('development/m07/recovery33/schema-migrations-acl-semantics.sql')));
+    report.native_owner_acl_equivalence = { source_receipt_sha256: sha(source('tracking/evidence/m07/recovery33/2026-10-31-auth-schema-migrations-acl-semantic-proof.json')),
+      ...assertAclSemanticProof33(semantic.metadata) };
+    const full = fullCatalogue33Sql(sources); catalogueSql = full.sql; active = true;
+    originalFullCatalogue = await ctx.readOriginalCatalogue(catalogueSql);
+    const cloneFull = await ctx.value(sourceDb, catalogueSql);
+    report.original29_full_auth_storage_catalogue_sha256 = await rawFile('original29-full-auth-storage-catalogue.json', originalFullCatalogue);
+    report.clone29_full_auth_storage_catalogue_sha256 = await rawFile('clone29-full-auth-storage-catalogue.json', cloneFull);
+    report.initial29_full_catalogue_difference_keys = [...new Set([...Object.keys(originalFullCatalogue), ...Object.keys(cloneFull)])]
+      .filter(key => !isDeepStrictEqual(originalFullCatalogue[key], cloneFull[key]));
+    report.initial29_full_catalogue_profile = await ctx.preserveOriginalDumpProfile(sourceDb, originalFullCatalogue);
+    assert.deepEqual(await ctx.catalogue(sourceDb), originalFullCatalogue, 'RECOVERY33_EXACT_FULL29_CLONE_REQUIRED');
+    for (const name of ROLES) assert.equal(await observeRole(name), null, 'RECOVERY33_EXISTING_ROLE_MUST_NOT_BE_ADOPTED');
+    const initialIdentity = await identity(sourceDb), adapted = migration33Adapters(sources, initialIdentity);
+    report.migration33_adapters = { migrations: adapted.migrations.map(({ sql: _sql, ...metadata }) => metadata), substitutions: adapted.substitutions };
+    report.actual_local_migrations_executed = [];
+    for (const [index, migration] of adapted.migrations.entries()) {
+      report.checkpoint = `execute-owned-migration-${migration.version}`;
+      const beforeHistory = await ctx.value(sourceDb, "select jsonb_build_object('versions',(select jsonb_agg(version order by version)from supabase_migrations.schema_migrations));");
+      assert.equal(beforeHistory.versions.length, 29 + index);
+      const beforeCatalogue = await ctx.value(sourceDb, catalogueSql);
+      const dataSql = source('development/m07/db/data29.sql');
+      const beforeData = await ctx.value(sourceDb, dataSql + "select current_setting('eps.m07_readback.old_data')::jsonb;");
+      let admission = exactPreimageAdmission({ catalogueSql, catalogue: beforeCatalogue,
+        dataSql, data: beforeData, identity: initialIdentity });
+      if (index === 2) admission += source('development/m07/recovery33/native-auth-prerequisite.sql') + '\n';
+      const name = index === 0 ? ROLES[0] : index === 2 ? ROLES[1] : null;
+      let roleSql = '';
+      if (name) {
+        const marker = `eps-m07-recovery33:${runId}:${index === 0 ? 'issuer' : 'consent'}`;
+        roles.set(name, { name, attempted: true, marker });
+        roleSql = `comment on role ${name} is ${q(marker)};` + roleQuery(name);
+      }
+      const history = `insert into supabase_migrations.schema_migrations(version,statements,name)values(${q(migration.version)},array[]::text[],${q(path.basename(migration.file, '.sql').slice(15))});`;
+      await rawFile(`migration-${migration.version}-owned.sql`, admission + migration.sql + '\n' + history + roleSql);
+      const execution = await ctx.sql(sourceDb, admission + migration.sql + '\n' + history + roleSql);
+      if (name) {
+        const value = ctx.rows(execution.stdout).find(value => Object.hasOwn(value, 'role'))?.role;
+        assert(value && value.name === name && value.marker === roles.get(name).marker);
+        roles.set(name, { ...roles.get(name), oid: value.oid, memberships: value.memberships });
+      }
+      const after = await ctx.value(sourceDb, "select jsonb_build_object('versions',(select jsonb_agg(version order by version)from supabase_migrations.schema_migrations));");
+      assert.deepEqual(after.versions, [...beforeHistory.versions, migration.version]);
+      report.actual_local_migrations_executed.push(migration.version);
+    }
+    active = true;
+    report.full_catalogue33_adapter = full.substitutions;
+    const catalogue = await ctx.catalogue(sourceDb);
+    report.source33_full_catalogue_sha256 = await rawFile('source33-before-fixture-catalogue.json', catalogue);
+    report.source33_catalogue_fields = Object.keys(catalogue).length;
+    report.synthetic_native_auth_prerequisite = { original29_full_schema_retained: true, missing_native_relations_modelled: true,
+      prerequisite_history_labels_inserted: false, native_auth_program_restored: false, provider_configuration_restored: false };
+  }
+  async function metadataRestore() {
+    report.checkpoint = 'metadata-only-full33-restore';
+    const expected = await ctx.catalogue(sourceDb);
+    const dump = await ctx.dump(sourceDb); report.metadata_only_dump_sha256 = await rawFile('metadata33-preflight.sql', dump);
+    await ctx.createDatabase(restoreDb); await ctx.restoreOwnedDump(restoreDb, dump);
+    const observed = await ctx.catalogue(restoreDb);
+    report.metadata_only_source_catalogue_sha256 = await rawFile('metadata33-source-catalogue.json', expected);
+    report.metadata_only_observed_catalogue_sha256 = await rawFile('metadata33-restored-before-profile.json', observed);
+    report.metadata_only_catalogue_differences = [...new Set([...Object.keys(expected), ...Object.keys(observed)])]
+      .filter(key => !isDeepStrictEqual(expected[key], observed[key])).map(key => ({ key, source: expected[key], restored: observed[key] }));
+    report.metadata_only_restore_profile = await ctx.preserveOriginalDumpProfile(restoreDb, expected);
+    assert.deepEqual(await ctx.catalogue(restoreDb), expected);
+    const history = await ctx.value(restoreDb, "select jsonb_build_object('count',(select count(*)from supabase_migrations.schema_migrations));");
+    assert.equal(history.count, 33); report.metadata_only_full33_restore_passed = true;
+    report.native_media_executed = false; report.storage_http_tested = false; report.deployed_restore_tested = false;
+  }
+  function seedSql() { return source('development/m07/recovery33/seed-auth.sql'); }
+  async function authBoundary(database) {
+    const claims = '{"sub":"8a1a0000-0000-4000-8000-000000000001","role":"authenticated","aud":"authenticated","is_anonymous":false,"session_id":"33000000-0000-4000-8000-000000000002"}';
+    const value = await ctx.value(database, `select set_config('request.jwt.claims',${q(claims)},true);set local role authenticated;
+ select jsonb_build_object('cached_state',public.eps_oauth_consent_claim(repeat('a',32),'https://studio.example.invalid/mcp','details','33000000-0000-4000-8000-000000000004')->>'state',
+ 'private_context_denied',not has_function_privilege('authenticated','eps.oauth_consent_browser_context()','EXECUTE'),
+ 'service_context_denied',not has_function_privilege('service_role','eps.oauth_consent_browser_context()','EXECUTE'),
+ 'coordinator_auth_usage',has_schema_privilege('eps_oauth_consent_owner','auth','USAGE'));`);
+    assert.deepEqual(value, { cached_state: 'consent_ready', private_context_denied: true, service_context_denied: true, coordinator_auth_usage: false });
+    report[database === sourceDb ? 'source33_auth_boundary' : 'restored33_auth_boundary'] = value;
+  }
+  async function cleanupRoles() {
+    for (const name of [...ROLES].reverse()) {
+      const observed = await observeRole(name), expected = roles.get(name);
+      if (!expected) { assert.equal(observed, null, 'RECOVERY33_UNOWNED_ROLE_MUST_NOT_BE_TOUCHED'); continue; }
+      const decision = roleCleanup33(expected, observed);
+      if (decision.can_drop) {
+        roleCleanup33(expected, await observeRole(name));
+        const guard = roleCleanupSql33(expected, observed);
+        await ctx.docker(ctx.psqlArgs('template1'), { input: guard });
+      }
+      assert.equal(await observeRole(name), null);
+    }
+    if (originalFullCatalogue) {
+      assert.deepEqual(await ctx.readOriginalCatalogue(catalogueSql), originalFullCatalogue, 'RECOVERY33_ORIGINAL_FULL_AUTH_STORAGE_CHANGED');
+      report.original29_full_auth_storage_catalogue_unchanged = true;
+    }
+    report.new33_roles_removed = true;
+  }
+  return { get active() { return active; }, get catalogueSql() { assert(active); return catalogueSql; }, upgrade, metadataRestore, seedSql, authBoundary, cleanupRoles };
+}

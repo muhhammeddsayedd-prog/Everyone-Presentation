@@ -1,0 +1,50 @@
+/** Pure identity/profile adapters. Frozen29 planners are never broadened. */
+import assert from 'node:assert/strict';
+import { isDeepStrictEqual } from 'node:util';
+import { normalizeDatabaseOid } from '../recovery29/identity.mjs';
+import { ownedDatabasePredicate as predicate29, cleanupObservation, assertActualAbsence } from '../recovery29/ownership.mjs';
+import { exactRestoreProfile8Sql } from '../recovery29/profile8.mjs';
+export { cleanupObservation, assertActualAbsence };
+
+export function ownedIdentity33(value) {
+  const match = /^eps_m07_r33_(source|restore)_([a-f0-9]{32})$/u.exec(value?.database ?? '');
+  assert(match && normalizeDatabaseOid(value.oid) === value.oid, 'RECOVERY33_OWNED_DATABASE_REQUIRED');
+  const h = match[2], run = `${h.slice(0, 8)}-${h.slice(8, 12)}-${h.slice(12, 16)}-${h.slice(16, 20)}-${h.slice(20)}`;
+  assert.equal(value.marker, `eps-m07-recovery33:${run}:${match[1]}`);
+  return { ...value, kind: match[1], run, hex: h };
+}
+export function ownedPredicate33(value) {
+  const owned = ownedIdentity33(value);
+  return `current_database() <> '${owned.database}' or not exists (select 1 from pg_database where datname = current_database() and oid = ${owned.oid} and datdba::regrole::text='postgres' and shobj_description(oid, 'pg_database') = '${owned.marker}')`;
+}
+/** Prefixes the same connection's identity check before any clean dump DDL.
+ * A dump cannot select another database. Its bytes remain unchanged in between. */
+export function ownedRestoreSql33(dump, identity) {
+  assert(dump instanceof Uint8Array && dump.length > 0 && dump.length <= 96 * 1024 * 1024, 'RECOVERY33_DUMP_REQUIRED');
+  const text = Buffer.from(dump).toString('utf8');
+  assert(!/^[ \t]*\\(?:c(?:onnect)?|i(?:r|nclude)?)\b/imu.test(text), 'RECOVERY33_DUMP_TARGET_CHANGE_FORBIDDEN');
+  assert(!/^[ \t]*(?:create|drop|alter)\s+database\b/imu.test(text), 'RECOVERY33_DUMP_TARGET_CHANGE_FORBIDDEN');
+  const prefix = `set log_statement='none';set log_min_duration_statement=-1;begin;set local lock_timeout='5s';set local statement_timeout='45s';
+ do $restore33$begin if ${ownedPredicate33(identity)} then raise exception'RECOVERY33_OWNED_RESTORE_REQUIRED';end if;end$restore33$;\n`;
+  return Buffer.concat([Buffer.from(prefix), Buffer.from(dump), Buffer.from('\ncommit;\n')]);
+}
+export function exactRestoreProfile33Sql(expected, observed, identity) {
+  const owned = ownedIdentity33(identity);
+  const virtual = { database: `eps_m07_r29_${owned.kind}_${owned.hex}`, marker: `eps-m07-recovery29:${owned.run}:${owned.kind}`, oid: owned.oid };
+  const oldPredicate = predicate29({ name: virtual.database, marker: virtual.marker, oid: virtual.oid });
+  const result = exactRestoreProfile8Sql(expected, observed, virtual);
+  assert.equal(result.sql.split(oldPredicate).length, 2);
+  return { sql: result.sql.replace(oldPredicate, ownedPredicate33(identity)), differences: result.differences };
+}
+export function roleCleanup33(expected, observed) {
+  if (observed === null) return { absent: true, can_drop: false };
+  assert(expected.attempted === true && ['eps_mcp_issuer_owner', 'eps_oauth_consent_owner'].includes(expected.name));
+  assert.equal(observed.name, expected.name); assert.equal(observed.marker, expected.marker);
+  assert.equal(normalizeDatabaseOid(observed.oid), normalizeDatabaseOid(expected.oid));
+  assert(/^eps-m07-recovery33:[a-f0-9-]{36}:(issuer|consent)$/u.test(expected.marker));
+  for (const key of ['login', 'super', 'inherit', 'bypassrls', 'create_role', 'create_db', 'replication']) assert.equal(observed[key], false);
+  assert.equal(observed.connection_limit, -1); assert.equal(observed.valid_until, null); assert.equal(observed.clients, 0);
+  assert.deepEqual(observed.dependencies, []); assert(isDeepStrictEqual(observed.memberships, expected.memberships));
+  assert(observed.memberships.every(row => row.role === expected.name && row.member === 'postgres' && ['postgres', 'supabase_admin'].includes(row.grantor)));
+  return { absent: false, can_drop: true, oid: normalizeDatabaseOid(observed.oid) };
+}

@@ -1,5 +1,28 @@
 ## Backend continuation alongside frontend redesign - 2026-10-31T14:07:54.961677Z
 
+## Owned English SQL and MCP lifecycle checkpoint - 2026-10-31T15:10:10.091106+00:00
+
+Actual owned English34 proof2982 passed: functional30-33 first executed in a
+new disposable clone, then34 validator/future capture/legacy replay/immutability
+assertions passed and the entire34 DDL/data/catalogue/history rolled back.
+Original29 and existing global roles stayed exact; both test databases/new roles
+are gone; lock released. Prior ae5b failed only an untyped adversarial fixture
+literal, now one explicit text cast; preserve its failed receipt/claim/bytes.
+Canonical remains33; no English activation or new deployment is claimed.
+
+The application slice is saved in35cd663:881 composed tests/lint/types/guard/build
+and current API/MCP parity passed; fixed-private-value scan covered49 staged
+files with0hits. Additional5 composed signed MCP lifecycle tests independently
+pass current permission/session/delegation denials, replay/retry acknowledgments
+and concurrent principal isolation through real transport/Central adapters. Their
+RPC ledger is synthetic, so no SQL or provider lifecycle acceptance is inferred.
+
+Next: finite exact33 metadata/media restore continuation, frontend English field
+integration, coherent pilot rollout and actual English app/guest verification.
+Frontend redesign stays separate. Owner Claude initial/reconnect/read acceptance
+stays passed; AT-072 pending; mobile skipped; pilot running until owner stop.
+
+
 Application checkpoint now passes881 tests plus lint/types/production guard/build
 with771 application inputs unchanged during the final gates. English source
 quality is2026-10-31-application-quality.json. One actual normalization call has

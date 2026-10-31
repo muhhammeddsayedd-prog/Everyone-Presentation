@@ -1,0 +1,26 @@
+{
+  "cloud_called": false,
+  "command": "python -X utf8 -B development/m03/semantic-validation/test_evaluate.py",
+  "evidence_kind": "offline_synthetic_semantic_evaluator_verification",
+  "exit_code": 0,
+  "limitations": [
+    "Synthetic deterministic comparison/privacy tests only.",
+    "No real semantic accuracy, representative language coverage or M03 acceptance is claimed."
+  ],
+  "observed_at": "2026-10-31T14:11:47.234901+00:00",
+  "provider_called": false,
+  "python_version": "3.14.7",
+  "real_ground_truth_loaded": false,
+  "real_media_decoded": false,
+  "result": "passed",
+  "schema_version": "1.0",
+  "source_sha256": {
+    "development/m03/semantic-validation/README.md": "26bcb467de05d2769399ee46594aeaedeef58a9b95793321d6d61581ef2a2901",
+    "development/m03/semantic-validation/evaluate.py": "6e82f01502e9102b06654092c2f8f59552faca8d19aa687eb2e5aa51f6f85229",
+    "development/m03/semantic-validation/labels.template.json": "44660496eebcbc93778669952d399da73df8a70b6a2644afb66facc7dfaf6b73",
+    "development/m03/semantic-validation/observations.template.json": "2e42111b805e80a534ae3a8ec2d58de1bc92d71833a90e42d7e2b38462457a0a",
+    "development/m03/semantic-validation/test_evaluate.py": "33eb0ca52215214ad25d76d0f58ee0ef82f7a6de647d47258d443f8c65dd3dab"
+  },
+  "sql_executed": false,
+  "tests_run": 19
+}

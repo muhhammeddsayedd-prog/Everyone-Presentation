@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-31T14:49:41.352657+00:00",
+  "scope": "offline_source_compiler_and_parser_only",
+  "result": "passed",
+  "tests": 9,
+  "compiled_ports": 8,
+  "once_only_patches": 15,
+  "sql_executed": false,
+  "cloud_called": false,
+  "provider_called": false,
+  "feature_activated": false,
+  "catalogue_dependent_plpgsql_declarations": "record_stand_ins_grammar_only",
+  "source_sha256": {
+    "development/m03/english-transcript34/build_ports.py": "7355e582049c417ef287754d9748bb4b11028df5f6d1688e3e87edcda2539e87",
+    "development/m03/english-transcript34/test_source.py": "b4a87a3431090dfac244fdb687cb2064431faa1fad2322592074aeb0116fd2cd",
+    "development/m03/english-transcript34/test-target.sql": "05f6e0fa37d74e4b3f45231811821e8af573713f04ffabe66600f478182b6ea8",
+    "development/m03/english-transcript34/before34.sql": "2bb2969542f1d7aa83e17370685810787558745b7d340002aa16283ab94b09da",
+    "development/m03/english-transcript34/validation-tests.sql": "c2fe1722f05fbb86f400b360516615cafea417abc7db68eb924cf5e0ed78c0fd",
+    "development/m03/english-transcript34/capture-tests.sql": "7483592dd589f35ea111352a935a951ae369e6eeabdb4a2920be679fafd6fbba",
+    "development/m03/english-transcript34/README.md": "11d0b552df383a28406794b74c7ee0990a6bec8e79c4da043eca5d9bf3e16b86",
+    "development/m03/english-transcript34/port-patches.json": "48bd6a63f4a7fe6e7576e5406827fc952327d2b3e24ba34a9e58790f3ac81641",
+    "supabase/migrations/20261031143711_m03_english_transcript_projection.sql": "148122703ad2f9d2ffd95e7e77c2cb5e0a461c18c3ec77602fa76b88bd89b562"
+  },
+  "pending": [
+    "isolated_canonical33_database_behavior_and_permissions",
+    "coherent_hosted_release",
+    "feature_activation",
+    "real_provider_and_app_guest_verification"
+  ]
+}

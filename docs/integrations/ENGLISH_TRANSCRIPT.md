@@ -54,3 +54,7 @@ Claude Code owns frontend/UI/UX in the separate frontend/redesign worktree.
 This contract note is coordination data, not proof of frontend acknowledgment,
 implementation or deployment. Merge/reconcile the backend contract changes before
 testing the redesigned transcript views. Current pilot remains running.
+
+## Local verification checkpoint
+
+Owned SQL proof on2026-10-31 passed the actual additive34 validator, future capture, legacy replay and immutable read tests after real30-33 clone upgrades. The34 transaction fully rolled back; original29/global roles and cleanup were verified. Canonical remains33 and the English flag is off. Application881 gates pass. One real normalization request passed English/source/provider/age checks but not the full-name literal comparison, so its overall receipt remains unaccepted; no broad accuracy claim. Frontend and real app/guest rollout remain pending.

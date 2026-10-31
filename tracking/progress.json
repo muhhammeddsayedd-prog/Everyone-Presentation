@@ -1,6 +1,6 @@
 {
   "pack_version": "1.0",
-  "updated_at": "2026-10-31T15:03:03.716143+00:00",
+  "updated_at": "2026-10-31T15:10:10.091106+00:00",
   "implementation_started": true,
   "current_milestone": "M07",
   "current_pilot": {
@@ -73,7 +73,7 @@
     "mobile_testing": "skipped by owner",
     "production_deployment_verified": false,
     "prior_snapshot": "tracking/evidence/m07/controlled-pilot/2026-10-31T01-24Z-prior-progress-snapshot.json",
-    "next_action": "Execute reviewed additive34 tests in one owned disposable33 clone; preserve original29/canonical33 and passed owner connection. Coordinate English frontend contract before activation/deployment.",
+    "next_action": "Finish finite current33 recovery proof, coordinate frontend consumption of English fields, then release coherent worker/web/DB English rollout and real app checks. Preserve owner connection; pilot stays running.",
     "specs_local_proof": "tracking/evidence/m07/specs-ack31/2026-10-31T01-22-16-662Z-dc886d4e-local-proof.json",
     "specs_canonical_apply": "tracking/evidence/m07/specs-ack31/2026-10-31T01-57-10-621248Z-a99247a4-canonical31-continuation-apply.json",
     "specs_canonical_apply_confirmed": true,
@@ -390,7 +390,7 @@
         "AT074": "partial; retained n8n execution details unavailable, no inferred failure cause"
       },
       "english_transcript": {
-        "status": "implemented_draft_not_deployed_not_activated",
+        "status": "application_and_owned_local_sql_verified_not_deployed_or_activated",
         "owner_decision": "Scan any spoken language, English display only; no app language selector; no further manual answer-key collection.",
         "contract": "docs/integrations/ENGLISH_TRANSCRIPT.md",
         "migration": "20261031143711_m03_english_transcript_projection.sql",
@@ -408,7 +408,16 @@
           "paid_requests": 1,
           "automatic_retry": false,
           "app_or_database_acceptance": false
-        }
+        },
+        "owned_sql_evidence": "tracking/evidence/m03/english-transcript34/2026-10-31T15-06-09-151Z-2982d338.json",
+        "owned_sql_scope": "Actual30-33 DDL in disposable clone then34 validation/capture/legacy replay/immutability tests and complete rollback; original29/globalroles unchanged, DBs/roles removed and lock released. Canonical33 unchanged."
+      },
+      "delegated_lifecycle": {
+        "status": "5_composed_synthetic_tests_passed",
+        "source": "tests/server/m07-delegated-lifecycle.test.ts",
+        "source_sha256": "6873733c55df13d617e4da7868b0dd5adbdeb6f2b3f0b798bb2c2cb15cc3439f",
+        "scope": "Real signed HTTP/session/SDK/Central adapters with synthetic RPC ledger; not SQL idempotency, provider refresh or live workflow.",
+        "quality": "Targeted lint/full typecheck passed; independent security review passed."
       }
     }
   },
@@ -819,9 +828,9 @@
         "tracking/evidence/m03/frame-vision-technical-review/2026-10-29T20-03-18-653Z-9673fc14-full-resolution-addendum.json"
       ],
       "blockers": [
-        "English-only output for any source speech is being implemented; migration34, coherent worker/frontend integration and real-service app verification remain unperformed. Additional English/mixed manual answer-key collection is declined, not a continuing owner dependency. Broad semantic accuracy remains unclaimed."
+        "English application/backend and owned SQL proof pass locally, but coherent pilot worker/web/DB activation and frontend English-only app/guest verification remain unperformed. Additional manual multilingual labels are declined; broad semantic accuracy unclaimed."
       ],
-      "next_action": "Complete additive English transcript processing/read contract and real authorized Arabic-media verification; preserve accepted Arabic name/age Reviewed, original sources and old versions. No further language labels requested."
+      "next_action": "Coordinate frontend English field consumption, deploy backward-compatible SDK/worker before canonical34 and opt-in activation, then verify one real scan and future frozen companion through app. Preserve old sources/Reviewed/Ready versions; no extra language labels."
     },
     {
       "id": "M04",
@@ -1083,7 +1092,7 @@
         "Representative provider cost/endurance, deployed metadata/media/config restore and compatible replacement/rollback remain unverified; controlled pilot runs until owner stop.",
         "AT-072 remains pending; mobile skipped by owner. M03 English-output integration/verification in progress; additional manual multilingual labels declined."
       ],
-      "next_action": "Resolve retained local533 recovery cleanup, then finish English transcript backend/local SQL proof and coordinate frontend contract integration. Preserve passed owner connection; keep pilot running.",
+      "next_action": "Finish finite current33 recovery proof, coordinate frontend consumption of English fields, then release coherent worker/web/DB English rollout and real app checks. Preserve owner connection; pilot stays running.",
       "scope_constraints": {
         "AT_072": "pending",
         "M03_broader_semantic_checks": "pending",
@@ -2351,8 +2360,8 @@
     }
   ],
   "latest_backend_checkpoint": {
-    "recorded_at": "2026-10-31T15:03:03.716143+00:00",
-    "base_commit": "44196f3",
+    "recorded_at": "2026-10-31T15:10:10.091106+00:00",
+    "base_commit": "35cd663",
     "web_deployment_id": "dpl_CcwVabZ5PkadAPaeANRLJD4GqVg3",
     "canonical_history_count": 33,
     "original_local_history_count": 29,
@@ -2362,6 +2371,8 @@
     "mobile": "skipped",
     "recovery_lock": "released after exact guarded cleanup and independent postcheck",
     "application_tests": 881,
-    "application_quality": "tracking/evidence/m03/english-transcript34/2026-10-31-application-quality.json"
+    "application_quality": "tracking/evidence/m03/english-transcript34/2026-10-31-application-quality.json",
+    "english34_owned_sql": "passed_rolled_back_no_canonical_apply",
+    "composed_mcp_tests": 5
   }
 }

@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "samples": [
+    {
+      "case_alias": "case_1",
+      "source_sha256": "REPLACE_WITH_FULL_ACTUAL_SOURCE_SHA256",
+      "source_asset_id": "REPLACE_WITH_ACTUAL_SOURCE_ASSET_UUID",
+      "job_id": "REPLACE_WITH_ACTUAL_COMPLETED_JOB_UUID",
+      "snapshot_kind": "original_completed_extraction",
+      "values": {
+        "facts.name": null,
+        "facts.casting_id": null,
+        "facts.age_or_range": null,
+        "facts.stated_gender": null,
+        "facts.height_measurements": null,
+        "facts.languages": [],
+        "facts.accents": [],
+        "facts.skills_experience": null,
+        "facts.city": null,
+        "facts.previous_projects_roles": null,
+        "facts.classification": null,
+        "project_availability_statement": null
+      },
+      "reviewed_values": null,
+      "configuration": {
+        "provider": "openai",
+        "transcription": {
+          "requested_model": "REPLACE_WITH_ACTUAL_CAPTURED_MODEL",
+          "resolved_model": null,
+          "sdk_version": "REPLACE_WITH_CAPTURED_SDK_VERSION",
+          "prompt_version": "transcription-original-language.v1"
+        },
+        "extraction": {
+          "requested_model": "REPLACE_WITH_ACTUAL_CAPTURED_MODEL",
+          "resolved_model": null,
+          "sdk_version": "REPLACE_WITH_CAPTURED_SDK_VERSION",
+          "prompt_version": "candidate_extract_v1"
+        }
+      }
+    }
+  ]
+}
