@@ -10,6 +10,7 @@ import { api, ApiError, errorMessage, mutation, type Actor, type Envelope } from
 import { ErrorNotice, Loading } from './Feedback';
 import { CandidateFrameImage } from './CandidateFrameImage';
 import { readCandidateMedia } from './candidate-pages';
+import { CandidateEnglishTranscript } from './english-transcript';
 
 interface Props { workspaceId: string; projectId: string; actor: Actor; initialOutput: 'selection' | 'shortlist'; requestedSeriesId?: string | null; onSeriesChanged?: (value: string) => void; onDirtyChange: (value: boolean) => void; onWorkspaceChanged: () => void }
 interface Intent { path: string; init: RequestInit; label: string; refresh?: boolean; accepted?: (data: unknown) => void }
@@ -171,5 +172,5 @@ function ReviewSource({ slide }: { slide: ReviewSlide }) {
     return () => { current = false; controller.abort(); };
   }, [open, slide.candidate_id, slide.candidate_media_id, slide.video_asset_id]);
   async function play() { try { if (media) setVideo((await api<{ url: string }>(`/api/v1/media/${media.preview_asset_id ?? media.source_asset_id}/playback`, mutation('POST'))).data.url); } catch (reason) { setError(errorMessage(reason)); } }
-  return <details className="review-source" onToggle={event => setOpen(event.currentTarget.open)}><summary>Original transcript and video</summary>{error && <ErrorNotice message={error} />}{!slide.candidate_media_id ? <p>Source introduction not provided.</p> : !media ? !error && <p>Loading source material…</p> : <><p className="small">Source material is shown separately from the frozen review projection. Refresh review after making source changes.</p><pre dir="auto" className="source-transcript">{media.original_transcript ?? 'Transcript not provided'}</pre><button className="button" onClick={() => void play()}>Play source video</button>{video && <video controls preload="metadata" className="candidate-video" src={video} />}</>}</details>;
+  return <details className="review-source" onToggle={event => setOpen(event.currentTarget.open)}><summary>English transcript and original video</summary>{error && <ErrorNotice message={error} />}{!slide.candidate_media_id ? <p>Source introduction not provided.</p> : !media ? !error && <p>Loading source material…</p> : <><p className="small">Source material is shown separately from the frozen review projection. Refresh review after making source changes.</p><CandidateEnglishTranscript media={media} className="source-transcript"/><button className="button" onClick={() => void play()}>Play source video</button>{video && <video controls preload="metadata" className="candidate-video" src={video} />}</>}</details>;
 }
