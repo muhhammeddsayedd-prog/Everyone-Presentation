@@ -14,6 +14,7 @@ do $$begin
   '20261031104603','20261031130207','20261031143711']::text[]
  or to_regprocedure('public.eps_get_workspace_summary(uuid)') is not null
  or not exists(select 1 from pg_roles where rolname='eps_review_owner' and not rolcanlogin and not rolsuper and not rolbypassrls)
+ or has_schema_privilege('eps_review_owner', 'public', 'CREATE')
  then raise exception 'M07_SUMMARY_EXACT_REVIEWED34_REQUIRED'; end if;
 end$$;
 
@@ -92,6 +93,7 @@ begin
 end$$;
 
 -- Reuse the existing narrow, non-bypass owner and its read RLS. No new policy.
+-- Admission rejects preexisting CREATE so this temporary grant cannot remove it.
 grant execute on function eps.cast_is_reviewed(eps.candidates) to eps_review_owner;
 grant create on schema public to eps_review_owner;
 alter function public.eps_get_workspace_summary(uuid) owner to eps_review_owner;
