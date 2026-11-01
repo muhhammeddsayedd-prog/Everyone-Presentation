@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-11-01T03:50:07.142726+00:00",
+  "evidence_kind": "deterministic_private_client_handoff_source_verification",
+  "source_pins": {
+    "tools/client-upload-inbox.mts": "58e62329e5ed196c8284da1760aa050b5d36c505eec26b80442e49a1c19151e3",
+    "tests/operations/client-upload-inbox.test.ts": "e0322951f55f794634a56bfc2bf82504121892bb975523f7e8d1f19c5b2b260d",
+    "development/m07/PRIVATE_UPLOAD_HANDOFF.md": "7c8cfbe1ff2be5c88bdc023a26bb9bc94482ee201aa6e8c1e392232f0eabbd50"
+  },
+  "test_result": "passed",
+  "tests_passed": 29,
+  "tests_failed": 0,
+  "tests_skipped": 0,
+  "components": {
+    "private_inbox": 13,
+    "unchanged_transfer_helper": 11,
+    "unchanged_TUS": 5
+  },
+  "root_command": "node tools/run-tests.mjs tests/operations/client-upload-inbox.test.ts tests/operations/client-upload-transfer.test.ts tests/server/resumable-transfer.test.ts",
+  "full_typecheck_and_targeted_lint": "passed_by_implementation_agent",
+  "independent_reviews": [
+    "contract_resume accepted",
+    "security_privacy accepted"
+  ],
+  "Windows_DACL_test_scope": "synthetic temporary directory and file only",
+  "real_user_source_files_read_by_tests": false,
+  "real_capabilities_MCP_or_Storage_calls_by_tests": false,
+  "actual_Main_inbox_created_by_tests": false,
+  "actual_owner_Write_and_transfer_acceptance": false,
+  "owner_configuration_changed": false,
+  "client_transcript_secrecy_claimed": false,
+  "existing_helper_and_TUS_unchanged": true
+}
