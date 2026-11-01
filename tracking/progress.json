@@ -1,14 +1,14 @@
 {
   "pack_version": "1.0",
-  "updated_at": "2026-11-01T09:50:54Z",
+  "updated_at": "2026-11-01T10:15:35Z",
   "implementation_started": true,
   "current_milestone": "M07",
   "current_pilot": {
-    "observed_at": "2026-11-01T09:47:59.895351+00:00",
+    "observed_at": "2026-11-01T10:15:35Z",
     "status": "in_progress",
     "origin": "https://everyone-presentation-pilot.vercel.app",
     "owner_stop_only": true,
-    "web_deployment_id": "dpl_6pcN8Qb1XDkBTsiwKVmexKfWUvf7",
+    "web_deployment_id": "dpl_EUK29uLiGvrPguUv3T7d5KR19RwC",
     "worker_deployment_id": "dpl_2uASsbYobSDwWjMptPjGLcVEdCg3",
     "worker_state": "Actual04:17:19.997448UTC unchanged2uAS Ready, one alive2048MiB dub1; web6pcN stable alias. No redeployment/restart/environment transfer or queued replacement/startup-log acceptance.",
     "worker_context_run": "4186fd1e-55c7-4ea5-956e-ad9ad92f64b1",
@@ -60,7 +60,7 @@
       "tracking/evidence/m07/controlled-pilot/2026-10-31-hosted-video-provider-metadata.json",
       "tracking/evidence/m07/controlled-pilot/2026-10-31-hosted-video-app.json"
     ],
-    "canonical_history_count": 36,
+    "canonical_history_count": 37,
     "original_local_history_count": 29,
     "specs_fix": "Confirmed canonical31: compact apply a992 and standalone222 complete/PASS. Original884 unknownclaim retained/no replay. OriginalLocal29 unchanged.",
     "latest_root_module_tests": 886,
@@ -80,7 +80,7 @@
     "mobile_testing": "skipped by owner",
     "production_deployment_verified": false,
     "prior_snapshot": "tracking/evidence/m07/controlled-pilot/2026-10-31T01-24Z-prior-progress-snapshot.json",
-    "next_action": "Finish the disabled guarded canonical37 release proposal, then inspect/apply/read back migration20261101042702 and deploy the compatible web only after its gates pass; live internal/guest API and MCP feedback-summary acceptance remains pending. Canonical36/web6pcN/worker2uAS and English1.0 remain current. Preserve the passed owned217-source SQL37 proof and bounded client refresh-timestamp observation without claiming exact current Claude-process refresh, rotation/revocation or MCP use. Continue the owner-controlled private upload journey with a fresh inbox if needed, never replay the expired04:06 inbox or inspect its capability. Future-current37 native/filesystem extension remains separate; AT069 partial source is policy-blocked/no retry, contributor denial/representative workload remain open. Preserve English/guest/Reviewed/oldversions/local33 and completed owner connection acceptance; AT072 pending/mobile skipped, frontend preserved, no labels/selector, pilot until owner stop.",
+    "next_action": "Complete new owner MCP/guest read checks as replies arrive; prepare recovery37 native/filesystem proof and isolated batch_id list_jobs filter; preserve prior acceptance and pending manual checks.",
     "specs_local_proof": "tracking/evidence/m07/specs-ack31/2026-10-31T01-22-16-662Z-dc886d4e-local-proof.json",
     "specs_canonical_apply": "tracking/evidence/m07/specs-ack31/2026-10-31T01-57-10-621248Z-a99247a4-canonical31-continuation-apply.json",
     "specs_canonical_apply_confirmed": true,
@@ -479,8 +479,8 @@
       "affected_guidance_app_capture_passed": true,
       "full_app_recapture_claimed": false
     },
-    "latest_alias_evidence": "tracking/evidence/m07/source-unreadable36-web/2026-11-01T03-10-26-362504Z-ready.json",
-    "latest_daemon_evidence": "tracking/evidence/m07/controlled-pilot/2026-11-01T04-17-19-997448Z-worker-web-health.json",
+    "latest_alias_evidence": "tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-14-01-892380Z-ready.json",
+    "latest_daemon_evidence": "tracking/evidence/m07/controlled-pilot/2026-11-01T10-10-36-471547Z-worker-health37.json",
     "worker_observation": {
       "observed_at": "2026-11-01T04:17:19.997448+00:00",
       "evidence": "tracking/evidence/m07/controlled-pilot/2026-11-01T04-17-19-997448Z-worker-web-health.json",
@@ -520,27 +520,10 @@
       "daemon_runtime": "sha256:971834e0d3f5c2035550a4c0c964c39af8ce6bf243db404c4baf9fb19f529137",
       "superseded_by_ready_readback": "tracking/evidence/m03/english-worker-release34/2026-10-31T17-49-47-805229Z-ready.json"
     },
-    "last_health_read": {
-      "observed_at": "2026-11-01T04:17:19.997448+00:00",
-      "evidence": "tracking/evidence/m07/controlled-pilot/2026-11-01T04-17-19-997448Z-worker-web-health.json",
-      "web_deployment_id": "dpl_6pcN8Qb1XDkBTsiwKVmexKfWUvf7",
-      "deployment_id": "dpl_2uASsbYobSDwWjMptPjGLcVEdCg3",
-      "status": "ready",
-      "ready": 1,
-      "desired": 1,
-      "total": 1,
-      "memory_mib": 2048,
-      "region": "dub1",
-      "instance_alive": true,
-      "daemon_digest": "sha256:430d0992ef3280f13fb52ff206d0ae09eedb2fee0831583f868db77d4012f12f",
-      "worker_redeployed": false,
-      "deployment_or_restart_performed": false,
-      "environment_transferred": false,
-      "startup_logs_or_replacement_acceptance": false
-    },
+    "last_health_read": "tracking/evidence/m07/controlled-pilot/2026-11-01T10-10-36-471547Z-worker-health37.json",
     "guest_english_workflow_evidence": "tracking/evidence/m03/english-guest34/2026-11-01-guest-english-workflow.json",
     "guest_english_selftest_link_state": "approved_created_tested_then_revoked_no_active_selftest_link",
-    "canonical_database_observed_at": "2026-11-01T00:57:45.216887+00:00",
+    "canonical_database_observed_at": "2026-11-01T10:02:27.793801Z",
     "canonical35_apply_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-22-943495Z-apply.json",
     "canonical35_readback_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-45-216113Z-readback.json",
     "summary_web_deployed": true,
@@ -1157,7 +1140,7 @@
     },
     "README_current_header_reconciled": true,
     "feedback_summary37": {
-      "status": "owned_local_SQL37_proof_passed_canonical_and_hosted_pending",
+      "status": "canonical37_and_web_deployed_authenticated_HTTP_passed_new_MCP_guest_pending",
       "contract": "docs/integrations/FEEDBACK_SUMMARY.md",
       "source_folder": "development/m07/feedback-summary37",
       "migration": "supabase/migrations/20261101042702_m07_feedback_summary.sql",
@@ -1170,8 +1153,8 @@
       "counts_overlap_not_additive": true,
       "typecheck": "passed",
       "native_SQL_executed": true,
-      "canonical37_applied": false,
-      "hosted_deployed": false,
+      "canonical37_applied": true,
+      "hosted_deployed": true,
       "source_inventory": {
         "user_operations": 88,
         "MCP_tools": 88,
@@ -1182,7 +1165,7 @@
         "MCP_tools": 87,
         "OpenAPI_operations": 116
       },
-      "next_action": "Finish the disabled guarded canonical37 release proposal, then inspect/apply/read back migration20261101042702 and deploy the compatible web only after its gates pass; live internal/guest API and MCP feedback-summary acceptance remains pending. Canonical36/web6pcN/worker2uAS and English1.0 remain current. Preserve the passed owned217-source SQL37 proof and bounded client refresh-timestamp observation without claiming exact current Claude-process refresh, rotation/revocation or MCP use. Continue the owner-controlled private upload journey with a fresh inbox if needed, never replay the expired04:06 inbox or inspect its capability. Future-current37 native/filesystem extension remains separate; AT069 partial source is policy-blocked/no retry, contributor denial/representative workload remain open. Preserve English/guest/Reviewed/oldversions/local33 and completed owner connection acceptance; AT072 pending/mobile skipped, frontend preserved, no labels/selector, pilot until owner stop.",
+      "next_action": "Complete new owner MCP/guest read checks as replies arrive; prepare recovery37 native/filesystem proof and isolated batch_id list_jobs filter; preserve prior acceptance and pending manual checks.",
       "prior_source_checkpoint_before_e109": {
         "status": "source_implemented_local_tests_passed_native_SQL_and_cloud_pending",
         "contract": "docs/integrations/FEEDBACK_SUMMARY.md",
@@ -1256,6 +1239,54 @@
         "unit_RED_before_fix": 2,
         "unit_GREEN_after_fix": 7,
         "prior_structure_only_acceptance_retracted": true
+      },
+      "canonical_release": {
+        "apply_evidence": "tracking/evidence/m07/feedback-summary37-release/2026-11-01T10-02-00-079274Z-apply.json",
+        "independent_readback": "tracking/evidence/m07/feedback-summary37-release/2026-11-01T10-02-27-793801Z-readback.json",
+        "normal_return_and_two_equal_full_reads": true,
+        "all74_business_hashes_and_old_OAuth_permissions_versions_facts_media_preserved": true,
+        "executed_source_pins": 251
+      },
+      "web_release": {
+        "ready_evidence": "tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-14-01-892380Z-ready.json",
+        "deployment_id": "dpl_EUK29uLiGvrPguUv3T7d5KR19RwC",
+        "source_files": 284,
+        "source_sha256": "1af3032799946cedb4b86b061c32d8def260bd1aa09ae1c7625cac9ea1af34dd",
+        "isolated_build_passed": true,
+        "framework_source_deltas": 0,
+        "provider_source_build": true,
+        "stable_alias_matches": true,
+        "settings_envIDs_and_canonical37_static_preserved": true,
+        "worker_changed": false,
+        "redesign_merged": false,
+        "earlier_BUILDING_readback_unconfirmed": true,
+        "deployment_replayed": false
+      },
+      "authenticated_HTTP": {
+        "evidence": "tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-14-22-596098Z-authenticated-summary.json",
+        "request_id": "3d65df33-2eea-48e4-a6f7-f0f7bfdbd5f5",
+        "exact_version_id": "4f1b81a1-adb7-425b-8223-458d8bd82c28",
+        "slides": 3,
+        "zero_totals": true,
+        "query_denial_evidence": "tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-14-50-245943Z-authenticated-input-denial.json"
+      },
+      "public_regression": {
+        "evidence": "tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-14-33-792Z-public-regression.json",
+        "passed": 6,
+        "total": 6,
+        "version_absence_proved": false
+      },
+      "new_MCP_read": "pending_owner_reply",
+      "live_guest_summary": "pending_new_link_action_time_confirmation",
+      "nonzero_hosted_counts_proved": false,
+      "hosted88_tool_catalog_verified": false,
+      "recorded_at": "2026-11-01T10:15:35Z",
+      "production_dependency_audit": {
+        "evidence": "tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-15-53-031507Z-production-dependency-audit.json",
+        "exit_code": 0,
+        "reported_vulnerabilities": 0,
+        "scope": "locked_production_dependencies_only",
+        "dependency_or_lock_change": false
       }
     },
     "worker_replacement69": {
@@ -1278,7 +1309,7 @@
       "ROLLBACK_TRANSPORT_md_exists": false,
       "actual_replacement_or_rollback_acceptance": false
     },
-    "recorded_at": "2026-11-01T04:29:26Z",
+    "recorded_at": "2026-11-01T10:15:35Z",
     "oauth_refresh_metadata36": {
       "status": "observed_limited_metadata",
       "evidence": "tracking/evidence/m07/oauth-refresh-metadata36/2026-11-01T09-47-58-887145Z-9042fd51-4d70-42d6-9b51-86cd72cfd147.json",
@@ -2008,6 +2039,17 @@
           "canonical36_applied": true,
           "existing_claim_bodies_unchanged": true,
           "old_data_and_permissions_preserved": true
+        },
+        {
+          "file": "supabase/migrations/20261101042702_m07_feedback_summary.sql",
+          "sha256": "14bb7f74e597b9a1a9b49df6fe047b16a788efa703e5d7a849ed254c3cbe98b3",
+          "target": "pyibofyctwnqpvktepse",
+          "local": "actual_owned_SQL37_full_rollback_and_cleanup_passed",
+          "cloud": "applied_normal_return_and_independently_read_back",
+          "apply_evidence": "tracking/evidence/m07/feedback-summary37-release/2026-11-01T10-02-00-079274Z-apply.json",
+          "evidence": "tracking/evidence/m07/feedback-summary37-release/2026-11-01T10-02-27-793801Z-readback.json",
+          "canonical37_applied": true,
+          "old_data_permissions_OAuth_and_versions_preserved": true
         }
       ],
       "evidence": [
@@ -2099,7 +2141,15 @@
         "tracking/evidence/m07/recovery36-trace-profile/2026-11-01T04-04-49-683Z-e3af2cb6.json",
         "tracking/evidence/m07/recovery36-trace-profile/2026-11-01T04-10-16-185Z-d5634756.json",
         "tracking/evidence/m07/feedback-summary37-proof/2026-11-01T09-45-45-482Z-e109a4d1.json",
-        "tracking/evidence/m07/oauth-refresh-metadata36/2026-11-01T09-47-58-887145Z-9042fd51-4d70-42d6-9b51-86cd72cfd147.json"
+        "tracking/evidence/m07/oauth-refresh-metadata36/2026-11-01T09-47-58-887145Z-9042fd51-4d70-42d6-9b51-86cd72cfd147.json",
+        "tracking/evidence/m07/feedback-summary37-release/2026-11-01T10-02-00-079274Z-apply.json",
+        "tracking/evidence/m07/feedback-summary37-release/2026-11-01T10-02-27-793801Z-readback.json",
+        "tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-14-01-892380Z-ready.json",
+        "tracking/evidence/m07/controlled-pilot/2026-11-01T10-10-36-471547Z-worker-health37.json",
+        "tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-14-33-792Z-public-regression.json",
+        "tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-14-22-596098Z-authenticated-summary.json",
+        "tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-14-50-245943Z-authenticated-input-denial.json",
+        "tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-15-53-031507Z-production-dependency-audit.json"
       ],
       "blockers": [
         "Owner initial authorization/reconnect/authenticated Dummy Pilot Test read stays passed. Actual bounded Auth metadata observed2 retained matching sessions/1 later refresh timestamp; exact current-process refresh, token receipt/rotation/revocation/MCP use and deployed-provider-version remain unproved. Full delegated write/processing/generation/sharing and actual contributor denial remain unverified.",
@@ -3188,6 +3238,156 @@
           "web_deployment_id": "dpl_DeCpJGbLLEHX3FFNBz5twLFuV8p7",
           "production_deployment_verified": false
         }
+      },
+      "feedback_summary37": {
+        "status": "canonical37_and_web_deployed_authenticated_HTTP_passed_new_MCP_guest_pending",
+        "contract": "docs/integrations/FEEDBACK_SUMMARY.md",
+        "source_folder": "development/m07/feedback-summary37",
+        "migration": "supabase/migrations/20261101042702_m07_feedback_summary.sql",
+        "migration_filename_created_by_CLI": "2.122.0",
+        "filename_creation_is_not_SQL_apply": true,
+        "focused_new_tests_passed": 12,
+        "guest_existing_and_new_tests_passed": 31,
+        "contract_tests_passed": 13,
+        "inert_SQL_source_checks_passed": 7,
+        "counts_overlap_not_additive": true,
+        "typecheck": "passed",
+        "native_SQL_executed": true,
+        "canonical37_applied": true,
+        "hosted_deployed": true,
+        "source_inventory": {
+          "user_operations": 88,
+          "MCP_tools": 88,
+          "OpenAPI_operations": 118
+        },
+        "serving_last_accepted_inventory": {
+          "user_operations": 87,
+          "MCP_tools": 87,
+          "OpenAPI_operations": 116
+        },
+        "next_action": "Complete new owner MCP/guest read checks as replies arrive; prepare recovery37 native/filesystem proof and isolated batch_id list_jobs filter; preserve prior acceptance and pending manual checks.",
+        "prior_source_checkpoint_before_e109": {
+          "status": "source_implemented_local_tests_passed_native_SQL_and_cloud_pending",
+          "contract": "docs/integrations/FEEDBACK_SUMMARY.md",
+          "source_folder": "development/m07/feedback-summary37",
+          "migration": "supabase/migrations/20261101042702_m07_feedback_summary.sql",
+          "migration_filename_created_by_CLI": "2.122.0",
+          "filename_creation_is_not_SQL_apply": true,
+          "focused_new_tests_passed": 11,
+          "guest_existing_and_new_tests_passed": 31,
+          "contract_tests_passed": 13,
+          "inert_SQL_source_checks_passed": 5,
+          "counts_overlap_not_additive": true,
+          "typecheck": "passed",
+          "native_SQL_executed": false,
+          "canonical37_applied": false,
+          "hosted_deployed": false,
+          "source_inventory": {
+            "user_operations": 88,
+            "MCP_tools": 88,
+            "OpenAPI_operations": 118
+          },
+          "serving_last_accepted_inventory": {
+            "user_operations": 87,
+            "MCP_tools": 87,
+            "OpenAPI_operations": 116
+          },
+          "next_action": "Finish source filling/review and owned SQL37 full rollback/cleanup proof before guarded cloud/web rollout."
+        },
+        "actual_Postgres_SQL_executed": true,
+        "native_media_executed": false,
+        "owned_local_proof": {
+          "status": "passed_owned_local_SQL_full_rollback_cleanup",
+          "evidence": "tracking/evidence/m07/feedback-summary37-proof/2026-11-01T09-45-45-482Z-e109a4d1.json",
+          "sha256": "3a98d0dabac723e8c599f200a30e6849596b41281c0828868a64a313d008b1b9",
+          "run_id": "e109a4d1-b3e8-4caf-98d8-773251359e91",
+          "started_at": "2026-11-01T09:45:45.482Z",
+          "finished_at": "2026-11-01T09:46:54.994Z",
+          "elapsed_ms": 69512,
+          "source_seals": 217,
+          "all217_current_sources_match": true,
+          "executed_sources_frozen": true,
+          "actual_Postgres_SQL_executed": true,
+          "fixture_SQL_statements": 72,
+          "functional_DDL34_to37": true,
+          "ephemeral_history_rolled_back_to": 33,
+          "all_original29_AuthStorage_profile_global_roles_databases_lock_cleanup_passed": true,
+          "native_media_executed": false,
+          "cloud37_applied": false,
+          "hosted_acceptance": false,
+          "restore_acceptance": false
+        },
+        "latest_quality": {
+          "recorded_at": "2026-11-01T09:50:54Z",
+          "source": "Root actual command completion; output truncated, no aggregate count inferred",
+          "npm_test_exit_code": 0,
+          "npm_lint_exit_code": 0,
+          "npm_typecheck_exit_code": 0,
+          "aggregate_test_count": null,
+          "scoped_SQL_source_checks_passed": 7,
+          "scoped_proof_tests_passed": 7,
+          "scoped_API_SDK_MCP_tests_passed": 12,
+          "counts_overlap_not_additive": true,
+          "AT069_targeted_errors_not_resolved": true
+        },
+        "preexecution_corrections": {
+          "fixture_missing_required_idempotency_key_fixed": true,
+          "stable_synthetic_keys": true,
+          "canonical_signature_regression": true,
+          "internal_and_guest_nonReady_assertions": true,
+          "actual_compiled_sql_port_VM_parse": true,
+          "unit_RED_before_fix": 2,
+          "unit_GREEN_after_fix": 7,
+          "prior_structure_only_acceptance_retracted": true
+        },
+        "canonical_release": {
+          "apply_evidence": "tracking/evidence/m07/feedback-summary37-release/2026-11-01T10-02-00-079274Z-apply.json",
+          "independent_readback": "tracking/evidence/m07/feedback-summary37-release/2026-11-01T10-02-27-793801Z-readback.json",
+          "normal_return_and_two_equal_full_reads": true,
+          "all74_business_hashes_and_old_OAuth_permissions_versions_facts_media_preserved": true,
+          "executed_source_pins": 251
+        },
+        "web_release": {
+          "ready_evidence": "tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-14-01-892380Z-ready.json",
+          "deployment_id": "dpl_EUK29uLiGvrPguUv3T7d5KR19RwC",
+          "source_files": 284,
+          "source_sha256": "1af3032799946cedb4b86b061c32d8def260bd1aa09ae1c7625cac9ea1af34dd",
+          "isolated_build_passed": true,
+          "framework_source_deltas": 0,
+          "provider_source_build": true,
+          "stable_alias_matches": true,
+          "settings_envIDs_and_canonical37_static_preserved": true,
+          "worker_changed": false,
+          "redesign_merged": false,
+          "earlier_BUILDING_readback_unconfirmed": true,
+          "deployment_replayed": false
+        },
+        "authenticated_HTTP": {
+          "evidence": "tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-14-22-596098Z-authenticated-summary.json",
+          "request_id": "3d65df33-2eea-48e4-a6f7-f0f7bfdbd5f5",
+          "exact_version_id": "4f1b81a1-adb7-425b-8223-458d8bd82c28",
+          "slides": 3,
+          "zero_totals": true,
+          "query_denial_evidence": "tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-14-50-245943Z-authenticated-input-denial.json"
+        },
+        "public_regression": {
+          "evidence": "tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-14-33-792Z-public-regression.json",
+          "passed": 6,
+          "total": 6,
+          "version_absence_proved": false
+        },
+        "new_MCP_read": "pending_owner_reply",
+        "live_guest_summary": "pending_new_link_action_time_confirmation",
+        "nonzero_hosted_counts_proved": false,
+        "hosted88_tool_catalog_verified": false,
+        "recorded_at": "2026-11-01T10:15:35Z",
+        "production_dependency_audit": {
+          "evidence": "tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-15-53-031507Z-production-dependency-audit.json",
+          "exit_code": 0,
+          "reported_vulnerabilities": 0,
+          "scope": "locked_production_dependencies_only",
+          "dependency_or_lock_change": false
+        }
       }
     }
   ],
@@ -3661,7 +3861,7 @@
     "status": "M07_in_progress_owned_SQL37_passed_bounded_Auth_observed_cloud37_pending",
     "observed_at": "2026-11-01T09:47:59.895351+00:00",
     "base_commit": "009536e",
-    "canonical_migration_count": 36,
+    "canonical_migration_count": 37,
     "local_migration_count": 29,
     "canonical_apply": "Canonical36 actual02:19 normal return +two immediate matching readbacks; separate02:20 readback. All74 existing data/normalized catalogue/Auth/OAuth/nine ports/English/M02 preserved, empty new trace installed, capture enabled.",
     "canonical_readback": "tracking/evidence/m07/job-attempt-observability36-release/2026-11-01T02-20-17-194633Z-readback.json",
@@ -3686,7 +3886,7 @@
     "local_restore_evidence": "tracking/evidence/m07/recovery36-trace-profile/2026-11-01T04-23-15-971Z-b7b41927.json",
     "name_diagnosis": "tracking/evidence/m03/english-name-review/2026-10-31T16-31-07-348316Z-5ed61ea9-8c38-4c1a-a3a2-958d6ccd5d72.json",
     "native_build_failure": "tracking/evidence/m03/english-image34/2026-10-31T17-03-17-960492Z-v2-registry-tls-diagnosis.json",
-    "next_action": "Finish the disabled guarded canonical37 release proposal, then inspect/apply/read back migration20261101042702 and deploy the compatible web only after its gates pass; live internal/guest API and MCP feedback-summary acceptance remains pending. Canonical36/web6pcN/worker2uAS and English1.0 remain current. Preserve the passed owned217-source SQL37 proof and bounded client refresh-timestamp observation without claiming exact current Claude-process refresh, rotation/revocation or MCP use. Continue the owner-controlled private upload journey with a fresh inbox if needed, never replay the expired04:06 inbox or inspect its capability. Future-current37 native/filesystem extension remains separate; AT069 partial source is policy-blocked/no retry, contributor denial/representative workload remain open. Preserve English/guest/Reviewed/oldversions/local33 and completed owner connection acceptance; AT072 pending/mobile skipped, frontend preserved, no labels/selector, pilot until owner stop.",
+    "next_action": "Complete new owner MCP/guest read checks as replies arrive; prepare recovery37 native/filesystem proof and isolated batch_id list_jobs filter; preserve prior acceptance and pending manual checks.",
     "source_checkpoints": [
       "c6a3f15",
       "28c3d3c",
@@ -4053,7 +4253,7 @@
       "authenticated_HTTP_summary_read_verified": true,
       "MCP_verification_scope": "owner_reported_result_matches_actual_HTTP_no_server_request_correlation"
     },
-    "web_deployment_id": "dpl_6pcN8Qb1XDkBTsiwKVmexKfWUvf7",
+    "web_deployment_id": "dpl_EUK29uLiGvrPguUv3T7d5KR19RwC",
     "workspace_summary_web_release": {
       "status": "deployed_ready_HTTP_summary_passed_new_MCP_and_app_capture_pending",
       "deployment_id": "dpl_6L6vS8FnaGDckcYq8Xm4QxHGc74b",
@@ -4370,7 +4570,7 @@
         "diagnostic": "tracking/evidence/m07/job-attempt-observability36-gate-proof/2026-11-01-failed281-diagnostic.json"
       }
     ],
-    "canonical_history_count": 36,
+    "canonical_history_count": 37,
     "canonical36_release": {
       "status": "canonical36_applied_normal_return_and_independent_readback",
       "target": "pyibofyctwnqpvktepse",
@@ -4510,7 +4710,7 @@
       "details_reference": "client_upload_inbox"
     },
     "feedback_summary37": {
-      "status": "owned_local_SQL37_proof_passed_canonical_and_hosted_pending",
+      "status": "canonical37_and_web_deployed_authenticated_HTTP_passed_new_MCP_guest_pending",
       "contract": "docs/integrations/FEEDBACK_SUMMARY.md",
       "source_folder": "development/m07/feedback-summary37",
       "migration": "supabase/migrations/20261101042702_m07_feedback_summary.sql",
@@ -4523,8 +4723,8 @@
       "counts_overlap_not_additive": true,
       "typecheck": "passed",
       "native_SQL_executed": true,
-      "canonical37_applied": false,
-      "hosted_deployed": false,
+      "canonical37_applied": true,
+      "hosted_deployed": true,
       "source_inventory": {
         "user_operations": 88,
         "MCP_tools": 88,
@@ -4535,7 +4735,7 @@
         "MCP_tools": 87,
         "OpenAPI_operations": 116
       },
-      "next_action": "Finish the disabled guarded canonical37 release proposal, then inspect/apply/read back migration20261101042702 and deploy the compatible web only after its gates pass; live internal/guest API and MCP feedback-summary acceptance remains pending. Canonical36/web6pcN/worker2uAS and English1.0 remain current. Preserve the passed owned217-source SQL37 proof and bounded client refresh-timestamp observation without claiming exact current Claude-process refresh, rotation/revocation or MCP use. Continue the owner-controlled private upload journey with a fresh inbox if needed, never replay the expired04:06 inbox or inspect its capability. Future-current37 native/filesystem extension remains separate; AT069 partial source is policy-blocked/no retry, contributor denial/representative workload remain open. Preserve English/guest/Reviewed/oldversions/local33 and completed owner connection acceptance; AT072 pending/mobile skipped, frontend preserved, no labels/selector, pilot until owner stop.",
+      "next_action": "Complete new owner MCP/guest read checks as replies arrive; prepare recovery37 native/filesystem proof and isolated batch_id list_jobs filter; preserve prior acceptance and pending manual checks.",
       "prior_source_checkpoint_before_e109": {
         "status": "source_implemented_local_tests_passed_native_SQL_and_cloud_pending",
         "contract": "docs/integrations/FEEDBACK_SUMMARY.md",
@@ -4609,6 +4809,54 @@
         "unit_RED_before_fix": 2,
         "unit_GREEN_after_fix": 7,
         "prior_structure_only_acceptance_retracted": true
+      },
+      "canonical_release": {
+        "apply_evidence": "tracking/evidence/m07/feedback-summary37-release/2026-11-01T10-02-00-079274Z-apply.json",
+        "independent_readback": "tracking/evidence/m07/feedback-summary37-release/2026-11-01T10-02-27-793801Z-readback.json",
+        "normal_return_and_two_equal_full_reads": true,
+        "all74_business_hashes_and_old_OAuth_permissions_versions_facts_media_preserved": true,
+        "executed_source_pins": 251
+      },
+      "web_release": {
+        "ready_evidence": "tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-14-01-892380Z-ready.json",
+        "deployment_id": "dpl_EUK29uLiGvrPguUv3T7d5KR19RwC",
+        "source_files": 284,
+        "source_sha256": "1af3032799946cedb4b86b061c32d8def260bd1aa09ae1c7625cac9ea1af34dd",
+        "isolated_build_passed": true,
+        "framework_source_deltas": 0,
+        "provider_source_build": true,
+        "stable_alias_matches": true,
+        "settings_envIDs_and_canonical37_static_preserved": true,
+        "worker_changed": false,
+        "redesign_merged": false,
+        "earlier_BUILDING_readback_unconfirmed": true,
+        "deployment_replayed": false
+      },
+      "authenticated_HTTP": {
+        "evidence": "tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-14-22-596098Z-authenticated-summary.json",
+        "request_id": "3d65df33-2eea-48e4-a6f7-f0f7bfdbd5f5",
+        "exact_version_id": "4f1b81a1-adb7-425b-8223-458d8bd82c28",
+        "slides": 3,
+        "zero_totals": true,
+        "query_denial_evidence": "tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-14-50-245943Z-authenticated-input-denial.json"
+      },
+      "public_regression": {
+        "evidence": "tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-14-33-792Z-public-regression.json",
+        "passed": 6,
+        "total": 6,
+        "version_absence_proved": false
+      },
+      "new_MCP_read": "pending_owner_reply",
+      "live_guest_summary": "pending_new_link_action_time_confirmation",
+      "nonzero_hosted_counts_proved": false,
+      "hosted88_tool_catalog_verified": false,
+      "recorded_at": "2026-11-01T10:15:35Z",
+      "production_dependency_audit": {
+        "evidence": "tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-15-53-031507Z-production-dependency-audit.json",
+        "exit_code": 0,
+        "reported_vulnerabilities": 0,
+        "scope": "locked_production_dependencies_only",
+        "dependency_or_lock_change": false
       }
     },
     "worker_replacement69": {
@@ -4632,7 +4880,7 @@
       "actual_replacement_or_rollback_acceptance": false
     },
     "prior_local33_restore_evidence": "tracking/evidence/m07/recovery33/2026-10-31T15-34-37-577Z-9af6774f.json",
-    "recorded_at": "2026-11-01T09:50:54Z",
+    "recorded_at": "2026-11-01T10:15:35Z",
     "oauth_refresh_metadata36": {
       "status": "observed_limited_metadata",
       "evidence": "tracking/evidence/m07/oauth-refresh-metadata36/2026-11-01T09-47-58-887145Z-9042fd51-4d70-42d6-9b51-86cd72cfd147.json",
@@ -4709,7 +4957,161 @@
       "Remaining live M07 operator/token/delegated/recovery/workload evidence in eligible order without reopening passed owner connection."
     ],
     "current_phase": "owned_SQL37_e109_passed_bounded_Auth_observed_guarded_canonical37_release_preparation",
-    "next_independent_backend_slice": "Finish disabled guarded canonical37/web release proposal and live summary gates; owner journey/contributor/workload and separate native extension remain open."
+    "next_independent_backend_slice": "Finish disabled guarded canonical37/web release proposal and live summary gates; owner journey/contributor/workload and separate native extension remain open.",
+    "feedback_summary37": {
+      "status": "canonical37_and_web_deployed_authenticated_HTTP_passed_new_MCP_guest_pending",
+      "contract": "docs/integrations/FEEDBACK_SUMMARY.md",
+      "source_folder": "development/m07/feedback-summary37",
+      "migration": "supabase/migrations/20261101042702_m07_feedback_summary.sql",
+      "migration_filename_created_by_CLI": "2.122.0",
+      "filename_creation_is_not_SQL_apply": true,
+      "focused_new_tests_passed": 12,
+      "guest_existing_and_new_tests_passed": 31,
+      "contract_tests_passed": 13,
+      "inert_SQL_source_checks_passed": 7,
+      "counts_overlap_not_additive": true,
+      "typecheck": "passed",
+      "native_SQL_executed": true,
+      "canonical37_applied": true,
+      "hosted_deployed": true,
+      "source_inventory": {
+        "user_operations": 88,
+        "MCP_tools": 88,
+        "OpenAPI_operations": 118
+      },
+      "serving_last_accepted_inventory": {
+        "user_operations": 87,
+        "MCP_tools": 87,
+        "OpenAPI_operations": 116
+      },
+      "next_action": "Complete new owner MCP/guest read checks as replies arrive; prepare recovery37 native/filesystem proof and isolated batch_id list_jobs filter; preserve prior acceptance and pending manual checks.",
+      "prior_source_checkpoint_before_e109": {
+        "status": "source_implemented_local_tests_passed_native_SQL_and_cloud_pending",
+        "contract": "docs/integrations/FEEDBACK_SUMMARY.md",
+        "source_folder": "development/m07/feedback-summary37",
+        "migration": "supabase/migrations/20261101042702_m07_feedback_summary.sql",
+        "migration_filename_created_by_CLI": "2.122.0",
+        "filename_creation_is_not_SQL_apply": true,
+        "focused_new_tests_passed": 11,
+        "guest_existing_and_new_tests_passed": 31,
+        "contract_tests_passed": 13,
+        "inert_SQL_source_checks_passed": 5,
+        "counts_overlap_not_additive": true,
+        "typecheck": "passed",
+        "native_SQL_executed": false,
+        "canonical37_applied": false,
+        "hosted_deployed": false,
+        "source_inventory": {
+          "user_operations": 88,
+          "MCP_tools": 88,
+          "OpenAPI_operations": 118
+        },
+        "serving_last_accepted_inventory": {
+          "user_operations": 87,
+          "MCP_tools": 87,
+          "OpenAPI_operations": 116
+        },
+        "next_action": "Finish source filling/review and owned SQL37 full rollback/cleanup proof before guarded cloud/web rollout."
+      },
+      "actual_Postgres_SQL_executed": true,
+      "native_media_executed": false,
+      "owned_local_proof": {
+        "status": "passed_owned_local_SQL_full_rollback_cleanup",
+        "evidence": "tracking/evidence/m07/feedback-summary37-proof/2026-11-01T09-45-45-482Z-e109a4d1.json",
+        "sha256": "3a98d0dabac723e8c599f200a30e6849596b41281c0828868a64a313d008b1b9",
+        "run_id": "e109a4d1-b3e8-4caf-98d8-773251359e91",
+        "started_at": "2026-11-01T09:45:45.482Z",
+        "finished_at": "2026-11-01T09:46:54.994Z",
+        "elapsed_ms": 69512,
+        "source_seals": 217,
+        "all217_current_sources_match": true,
+        "executed_sources_frozen": true,
+        "actual_Postgres_SQL_executed": true,
+        "fixture_SQL_statements": 72,
+        "functional_DDL34_to37": true,
+        "ephemeral_history_rolled_back_to": 33,
+        "all_original29_AuthStorage_profile_global_roles_databases_lock_cleanup_passed": true,
+        "native_media_executed": false,
+        "cloud37_applied": false,
+        "hosted_acceptance": false,
+        "restore_acceptance": false
+      },
+      "latest_quality": {
+        "recorded_at": "2026-11-01T09:50:54Z",
+        "source": "Root actual command completion; output truncated, no aggregate count inferred",
+        "npm_test_exit_code": 0,
+        "npm_lint_exit_code": 0,
+        "npm_typecheck_exit_code": 0,
+        "aggregate_test_count": null,
+        "scoped_SQL_source_checks_passed": 7,
+        "scoped_proof_tests_passed": 7,
+        "scoped_API_SDK_MCP_tests_passed": 12,
+        "counts_overlap_not_additive": true,
+        "AT069_targeted_errors_not_resolved": true
+      },
+      "preexecution_corrections": {
+        "fixture_missing_required_idempotency_key_fixed": true,
+        "stable_synthetic_keys": true,
+        "canonical_signature_regression": true,
+        "internal_and_guest_nonReady_assertions": true,
+        "actual_compiled_sql_port_VM_parse": true,
+        "unit_RED_before_fix": 2,
+        "unit_GREEN_after_fix": 7,
+        "prior_structure_only_acceptance_retracted": true
+      },
+      "canonical_release": {
+        "apply_evidence": "tracking/evidence/m07/feedback-summary37-release/2026-11-01T10-02-00-079274Z-apply.json",
+        "independent_readback": "tracking/evidence/m07/feedback-summary37-release/2026-11-01T10-02-27-793801Z-readback.json",
+        "normal_return_and_two_equal_full_reads": true,
+        "all74_business_hashes_and_old_OAuth_permissions_versions_facts_media_preserved": true,
+        "executed_source_pins": 251
+      },
+      "web_release": {
+        "ready_evidence": "tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-14-01-892380Z-ready.json",
+        "deployment_id": "dpl_EUK29uLiGvrPguUv3T7d5KR19RwC",
+        "source_files": 284,
+        "source_sha256": "1af3032799946cedb4b86b061c32d8def260bd1aa09ae1c7625cac9ea1af34dd",
+        "isolated_build_passed": true,
+        "framework_source_deltas": 0,
+        "provider_source_build": true,
+        "stable_alias_matches": true,
+        "settings_envIDs_and_canonical37_static_preserved": true,
+        "worker_changed": false,
+        "redesign_merged": false,
+        "earlier_BUILDING_readback_unconfirmed": true,
+        "deployment_replayed": false
+      },
+      "authenticated_HTTP": {
+        "evidence": "tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-14-22-596098Z-authenticated-summary.json",
+        "request_id": "3d65df33-2eea-48e4-a6f7-f0f7bfdbd5f5",
+        "exact_version_id": "4f1b81a1-adb7-425b-8223-458d8bd82c28",
+        "slides": 3,
+        "zero_totals": true,
+        "query_denial_evidence": "tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-14-50-245943Z-authenticated-input-denial.json"
+      },
+      "public_regression": {
+        "evidence": "tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-14-33-792Z-public-regression.json",
+        "passed": 6,
+        "total": 6,
+        "version_absence_proved": false
+      },
+      "new_MCP_read": "pending_owner_reply",
+      "live_guest_summary": "pending_new_link_action_time_confirmation",
+      "nonzero_hosted_counts_proved": false,
+      "hosted88_tool_catalog_verified": false,
+      "recorded_at": "2026-11-01T10:15:35Z",
+      "production_dependency_audit": {
+        "evidence": "tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-15-53-031507Z-production-dependency-audit.json",
+        "exit_code": 0,
+        "reported_vulnerabilities": 0,
+        "scope": "locked_production_dependencies_only",
+        "dependency_or_lock_change": false
+      }
+    },
+    "recorded_at": "2026-11-01T10:15:35Z",
+    "canonical_history_count": 37,
+    "web_deployment_id": "dpl_EUK29uLiGvrPguUv3T7d5KR19RwC",
+    "next_action": "Complete new owner MCP/guest read checks as replies arrive; prepare recovery37 native/filesystem proof and isolated batch_id list_jobs filter; preserve prior acceptance and pending manual checks."
   },
   "historical_sessions": [
     {
@@ -5727,10 +6129,10 @@
     }
   ],
   "latest_backend_checkpoint": {
-    "recorded_at": "2026-11-01T09:50:54Z",
+    "recorded_at": "2026-11-01T10:15:35Z",
     "base_commit": "009536e",
-    "web_deployment_id": "dpl_6pcN8Qb1XDkBTsiwKVmexKfWUvf7",
-    "canonical_history_count": 36,
+    "web_deployment_id": "dpl_EUK29uLiGvrPguUv3T7d5KR19RwC",
+    "canonical_history_count": 37,
     "original_local_history_count": 29,
     "english34_applied": true,
     "owner_connection_acceptance": "passed_preserved",
@@ -5751,7 +6153,7 @@
       "reference": "english_output_rollout",
       "status": "real_scan_saved_internal_and_guest_english_pdf_revocation_verified_browser_boundary"
     },
-    "next_action": "Finish the disabled guarded canonical37 release proposal, then inspect/apply/read back migration20261101042702 and deploy the compatible web only after its gates pass; live internal/guest API and MCP feedback-summary acceptance remains pending. Canonical36/web6pcN/worker2uAS and English1.0 remain current. Preserve the passed owned217-source SQL37 proof and bounded client refresh-timestamp observation without claiming exact current Claude-process refresh, rotation/revocation or MCP use. Continue the owner-controlled private upload journey with a fresh inbox if needed, never replay the expired04:06 inbox or inspect its capability. Future-current37 native/filesystem extension remains separate; AT069 partial source is policy-blocked/no retry, contributor denial/representative workload remain open. Preserve English/guest/Reviewed/oldversions/local33 and completed owner connection acceptance; AT072 pending/mobile skipped, frontend preserved, no labels/selector, pilot until owner stop.",
+    "next_action": "Complete new owner MCP/guest read checks as replies arrive; prepare recovery37 native/filesystem proof and isolated batch_id list_jobs filter; preserve prior acceptance and pending manual checks.",
     "source_checkpoints": [
       "c6a3f15",
       "28c3d3c",
@@ -6563,7 +6965,7 @@
       "details_reference": "client_upload_inbox"
     },
     "feedback_summary37": {
-      "status": "owned_local_SQL37_proof_passed_canonical_and_hosted_pending",
+      "status": "canonical37_and_web_deployed_authenticated_HTTP_passed_new_MCP_guest_pending",
       "contract": "docs/integrations/FEEDBACK_SUMMARY.md",
       "source_folder": "development/m07/feedback-summary37",
       "migration": "supabase/migrations/20261101042702_m07_feedback_summary.sql",
@@ -6576,8 +6978,8 @@
       "counts_overlap_not_additive": true,
       "typecheck": "passed",
       "native_SQL_executed": true,
-      "canonical37_applied": false,
-      "hosted_deployed": false,
+      "canonical37_applied": true,
+      "hosted_deployed": true,
       "source_inventory": {
         "user_operations": 88,
         "MCP_tools": 88,
@@ -6588,7 +6990,7 @@
         "MCP_tools": 87,
         "OpenAPI_operations": 116
       },
-      "next_action": "Finish the disabled guarded canonical37 release proposal, then inspect/apply/read back migration20261101042702 and deploy the compatible web only after its gates pass; live internal/guest API and MCP feedback-summary acceptance remains pending. Canonical36/web6pcN/worker2uAS and English1.0 remain current. Preserve the passed owned217-source SQL37 proof and bounded client refresh-timestamp observation without claiming exact current Claude-process refresh, rotation/revocation or MCP use. Continue the owner-controlled private upload journey with a fresh inbox if needed, never replay the expired04:06 inbox or inspect its capability. Future-current37 native/filesystem extension remains separate; AT069 partial source is policy-blocked/no retry, contributor denial/representative workload remain open. Preserve English/guest/Reviewed/oldversions/local33 and completed owner connection acceptance; AT072 pending/mobile skipped, frontend preserved, no labels/selector, pilot until owner stop.",
+      "next_action": "Complete new owner MCP/guest read checks as replies arrive; prepare recovery37 native/filesystem proof and isolated batch_id list_jobs filter; preserve prior acceptance and pending manual checks.",
       "prior_source_checkpoint_before_e109": {
         "status": "source_implemented_local_tests_passed_native_SQL_and_cloud_pending",
         "contract": "docs/integrations/FEEDBACK_SUMMARY.md",
@@ -6662,6 +7064,54 @@
         "unit_RED_before_fix": 2,
         "unit_GREEN_after_fix": 7,
         "prior_structure_only_acceptance_retracted": true
+      },
+      "canonical_release": {
+        "apply_evidence": "tracking/evidence/m07/feedback-summary37-release/2026-11-01T10-02-00-079274Z-apply.json",
+        "independent_readback": "tracking/evidence/m07/feedback-summary37-release/2026-11-01T10-02-27-793801Z-readback.json",
+        "normal_return_and_two_equal_full_reads": true,
+        "all74_business_hashes_and_old_OAuth_permissions_versions_facts_media_preserved": true,
+        "executed_source_pins": 251
+      },
+      "web_release": {
+        "ready_evidence": "tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-14-01-892380Z-ready.json",
+        "deployment_id": "dpl_EUK29uLiGvrPguUv3T7d5KR19RwC",
+        "source_files": 284,
+        "source_sha256": "1af3032799946cedb4b86b061c32d8def260bd1aa09ae1c7625cac9ea1af34dd",
+        "isolated_build_passed": true,
+        "framework_source_deltas": 0,
+        "provider_source_build": true,
+        "stable_alias_matches": true,
+        "settings_envIDs_and_canonical37_static_preserved": true,
+        "worker_changed": false,
+        "redesign_merged": false,
+        "earlier_BUILDING_readback_unconfirmed": true,
+        "deployment_replayed": false
+      },
+      "authenticated_HTTP": {
+        "evidence": "tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-14-22-596098Z-authenticated-summary.json",
+        "request_id": "3d65df33-2eea-48e4-a6f7-f0f7bfdbd5f5",
+        "exact_version_id": "4f1b81a1-adb7-425b-8223-458d8bd82c28",
+        "slides": 3,
+        "zero_totals": true,
+        "query_denial_evidence": "tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-14-50-245943Z-authenticated-input-denial.json"
+      },
+      "public_regression": {
+        "evidence": "tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-14-33-792Z-public-regression.json",
+        "passed": 6,
+        "total": 6,
+        "version_absence_proved": false
+      },
+      "new_MCP_read": "pending_owner_reply",
+      "live_guest_summary": "pending_new_link_action_time_confirmation",
+      "nonzero_hosted_counts_proved": false,
+      "hosted88_tool_catalog_verified": false,
+      "recorded_at": "2026-11-01T10:15:35Z",
+      "production_dependency_audit": {
+        "evidence": "tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-15-53-031507Z-production-dependency-audit.json",
+        "exit_code": 0,
+        "reported_vulnerabilities": 0,
+        "scope": "locked_production_dependencies_only",
+        "dependency_or_lock_change": false
       }
     },
     "worker_replacement69": {
@@ -8198,7 +8648,7 @@
     "next_action": "Use fresh owner-controlled preparation if continuing; never replay expired/consumed inbox or read capabilities into agent output."
   },
   "feedback_summary37": {
-    "status": "owned_local_SQL37_proof_passed_canonical_and_hosted_pending",
+    "status": "canonical37_and_web_deployed_authenticated_HTTP_passed_new_MCP_guest_pending",
     "contract": "docs/integrations/FEEDBACK_SUMMARY.md",
     "source_folder": "development/m07/feedback-summary37",
     "migration": "supabase/migrations/20261101042702_m07_feedback_summary.sql",
@@ -8211,8 +8661,8 @@
     "counts_overlap_not_additive": true,
     "typecheck": "passed",
     "native_SQL_executed": true,
-    "canonical37_applied": false,
-    "hosted_deployed": false,
+    "canonical37_applied": true,
+    "hosted_deployed": true,
     "source_inventory": {
       "user_operations": 88,
       "MCP_tools": 88,
@@ -8223,7 +8673,7 @@
       "MCP_tools": 87,
       "OpenAPI_operations": 116
     },
-    "next_action": "Finish the disabled guarded canonical37 release proposal, then inspect/apply/read back migration20261101042702 and deploy the compatible web only after its gates pass; live internal/guest API and MCP feedback-summary acceptance remains pending. Canonical36/web6pcN/worker2uAS and English1.0 remain current. Preserve the passed owned217-source SQL37 proof and bounded client refresh-timestamp observation without claiming exact current Claude-process refresh, rotation/revocation or MCP use. Continue the owner-controlled private upload journey with a fresh inbox if needed, never replay the expired04:06 inbox or inspect its capability. Future-current37 native/filesystem extension remains separate; AT069 partial source is policy-blocked/no retry, contributor denial/representative workload remain open. Preserve English/guest/Reviewed/oldversions/local33 and completed owner connection acceptance; AT072 pending/mobile skipped, frontend preserved, no labels/selector, pilot until owner stop.",
+    "next_action": "Complete new owner MCP/guest read checks as replies arrive; prepare recovery37 native/filesystem proof and isolated batch_id list_jobs filter; preserve prior acceptance and pending manual checks.",
     "prior_source_checkpoint_before_e109": {
       "status": "source_implemented_local_tests_passed_native_SQL_and_cloud_pending",
       "contract": "docs/integrations/FEEDBACK_SUMMARY.md",
@@ -8297,6 +8747,54 @@
       "unit_RED_before_fix": 2,
       "unit_GREEN_after_fix": 7,
       "prior_structure_only_acceptance_retracted": true
+    },
+    "canonical_release": {
+      "apply_evidence": "tracking/evidence/m07/feedback-summary37-release/2026-11-01T10-02-00-079274Z-apply.json",
+      "independent_readback": "tracking/evidence/m07/feedback-summary37-release/2026-11-01T10-02-27-793801Z-readback.json",
+      "normal_return_and_two_equal_full_reads": true,
+      "all74_business_hashes_and_old_OAuth_permissions_versions_facts_media_preserved": true,
+      "executed_source_pins": 251
+    },
+    "web_release": {
+      "ready_evidence": "tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-14-01-892380Z-ready.json",
+      "deployment_id": "dpl_EUK29uLiGvrPguUv3T7d5KR19RwC",
+      "source_files": 284,
+      "source_sha256": "1af3032799946cedb4b86b061c32d8def260bd1aa09ae1c7625cac9ea1af34dd",
+      "isolated_build_passed": true,
+      "framework_source_deltas": 0,
+      "provider_source_build": true,
+      "stable_alias_matches": true,
+      "settings_envIDs_and_canonical37_static_preserved": true,
+      "worker_changed": false,
+      "redesign_merged": false,
+      "earlier_BUILDING_readback_unconfirmed": true,
+      "deployment_replayed": false
+    },
+    "authenticated_HTTP": {
+      "evidence": "tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-14-22-596098Z-authenticated-summary.json",
+      "request_id": "3d65df33-2eea-48e4-a6f7-f0f7bfdbd5f5",
+      "exact_version_id": "4f1b81a1-adb7-425b-8223-458d8bd82c28",
+      "slides": 3,
+      "zero_totals": true,
+      "query_denial_evidence": "tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-14-50-245943Z-authenticated-input-denial.json"
+    },
+    "public_regression": {
+      "evidence": "tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-14-33-792Z-public-regression.json",
+      "passed": 6,
+      "total": 6,
+      "version_absence_proved": false
+    },
+    "new_MCP_read": "pending_owner_reply",
+    "live_guest_summary": "pending_new_link_action_time_confirmation",
+    "nonzero_hosted_counts_proved": false,
+    "hosted88_tool_catalog_verified": false,
+    "recorded_at": "2026-11-01T10:15:35Z",
+    "production_dependency_audit": {
+      "evidence": "tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-15-53-031507Z-production-dependency-audit.json",
+      "exit_code": 0,
+      "reported_vulnerabilities": 0,
+      "scope": "locked_production_dependencies_only",
+      "dependency_or_lock_change": false
     }
   },
   "worker_replacement69": {

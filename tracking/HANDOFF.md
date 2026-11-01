@@ -1,6 +1,52 @@
 # Everyone Presentation Studio - current English-output handoff
 
-## Current checkpoint - 2026-11-01, 09:50 UTC: SQL37 owned proof passed; bounded Auth metadata observed; cloud37 pending
+## Current checkpoint - 2026-11-01T10:15:35Z: canonical37 and web feedback summary deployed
+
+Canonical migration37 applied to `pyibofyctwnqpvktepse` with its normal-return
+marker and two equal full readbacks; separate independent readback also passed.
+Evidence: `tracking/evidence/m07/feedback-summary37-release/2026-11-01T10-02-00-079274Z-apply.json` and `tracking/evidence/m07/feedback-summary37-release/2026-11-01T10-02-27-793801Z-readback.json`. All74 business-table hashes, trace rows,
+English/Ready/Reviewed/media/protectedM02 state, old catalogue, OAuth, permissions
+and guest metadata were preserved. The only changes are history37, two exact
+functions and the checksum-bound guest operation body. The251 executed release
+inputs are held exact; never replay its permanent apply claim.
+
+The stable pilot now serves `dpl_EUK29uLiGvrPguUv3T7d5KR19RwC` from284 exact
+source files, SHA256 `1af3032799946cedb4b86b061c32d8def260bd1aa09ae1c7625cac9ea1af34dd`.
+Isolated npm/Next build passed with zero generated source deltas, then ordinary
+Vercel CLI source deployment and Ready/direct/stable-alias checks passed. Project
+settings, environment IDs/targets and canonical37 static contract stayed exact:
+`tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-14-01-892380Z-ready.json`. An earlier readback while BUILDING was unconfirmed; it did not trigger
+a second deployment. Web6pcN remains the rollback anchor; no rollback was run.
+Worker2uAS remains unchanged; `tracking/evidence/m07/controlled-pilot/2026-11-01T10-10-36-471547Z-worker-health37.json` observed one healthy2GiB dub1 instance.
+No worker restart/replacement, secret transfer, OAuth configuration or frontend
+redesign merge occurred. English1.0 stays enabled and pilot runs until owner stop.
+
+Actual signed-in browser GET returned saved English version4f1b81a1, all3 slides
+and zero totals; request `3d65df33-2eea-48e4-a6f7-f0f7bfdbd5f5`:
+`tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-14-22-596098Z-authenticated-summary.json`. A limit query was refused as INVALID_REQUEST, request0b6c2756,
+with no partial counts: `tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-14-50-245943Z-authenticated-input-denial.json`. Six fixed-origin public denial/discovery
+checks passed: `tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-14-33-792Z-public-regression.json`. Its synthetic version UUID was not looked up; its
+wording does not prove database absence. These reads do not prove hosted nonzero
+counts, live guest success, hosted88-tool discovery or the new owner MCP call.
+The source inventory is88 operations/88 tools/118 OpenAPI routes; actual new MCP
+read and temporary guest-link creation/test/revocation are pending owner replies.
+Existing initial/reconnect/project/job/summary acceptance remains PASSED.
+
+Production-only locked dependency audit also passed with zero reported vulnerabilities: `tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-15-53-031507Z-production-dependency-audit.json`; no automatic fixes or dependency changes.
+
+Next: complete those new feedback reads as replies arrive; independently prepare
+the disabled full local recovery37 native/filesystem proof, and implement the
+requested list_jobs batch_id filter in isolated backend worktree (no cloud38 yet).
+The expired04:06 upload inbox remains unreplayed and its capability file unread;
+owner journey evidence is pending, not proof that no reservation was made. Keep
+full36 metadata recovery and historical local33 native recovery passed separately.
+AT069 source-edit automatic approval remains rejected (blocked by policy), with
+no retry/manual equivalent/provider action;17 targeted lint errors remain.
+AT072 screen reader pending, mobile skipped; no language labels or selector.
+Full delegated/contributor/token lifecycle/representative workload/independent
+restore and final production acceptance remain open; M07 stays in progress.
+
+## Historical checkpoint - 2026-11-01, 09:50 UTC: SQL37 owned proof passed; bounded Auth metadata observed; cloud37 pending
 
 Actual owned SQL37 run `e109a4d1-b3e8-4caf-98d8-773251359e91` PASSED from
 09:45:45.482UTC to 09:46:54.994UTC (69,512ms). Receipt:

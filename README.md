@@ -7,13 +7,15 @@ A complete initial specification for developing the presentation app end to end.
 **Resume from [tracking/HANDOFF.md](tracking/HANDOFF.md) and [PROGRESS.md](PROGRESS.md).** The original pack started without app code. Current implementation and actual service evidence are recorded there; no milestone or production acceptance is implied by this specification.
 
 **Current backend checkpoint (2026-11-01):** the stable pilot serves web
-`dpl_6pcN8Qb1XDkBTsiwKVmexKfWUvf7`, canonical history 36 and English 1.0, with
-worker `dpl_2uASsbYobSDwWjMptPjGLcVEdCg3`. The [04:17 provider read](tracking/evidence/m07/controlled-pilot/2026-11-01T04-17-19-997448Z-worker-web-health.json)
-confirmed the same alias and one healthy 2 GiB worker in dub1. English display,
-initial Claude authorization, reconnect and authenticated project/job reads
-retain their recorded acceptance. Full M07 release/recovery and the delegated
-upload journey remain in progress; manual screen-reader acceptance is pending,
-mobile testing is skipped, and the pilot runs until its owner stops it.
+`dpl_EUK29uLiGvrPguUv3T7d5KR19RwC`, canonical history37 and English1.0, with
+unchanged worker `dpl_2uASsbYobSDwWjMptPjGLcVEdCg3`. The [web Ready check](tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-14-01-892380Z-ready.json)
+confirmed the stable alias and preserved configuration; the [worker read](tracking/evidence/m07/controlled-pilot/2026-11-01T10-10-36-471547Z-worker-health37.json)
+confirmed one healthy2GiB instance in dub1. The new feedback summary passed signed-in
+HTTP and public denial checks; its owner MCP and live guest reads are pending.
+Initial Claude authorization/reconnect/project/job reads and English workflow
+acceptance stay passed. Full M07/recovery and delegated journey remain in progress;
+manual screen-reader acceptance is pending, mobile testing skipped, and the pilot
+runs until its owner stops it.
 The handoff governs current state; the following dated evidence is retained.
 
 
