@@ -41,8 +41,8 @@ test('workspace summary drives step statuses, output counts and Next up wording'
   // review_issue_count is null in this contract: the Review step shows no number at all.
   await expect(steps.getByRole('link', { name: '5 Review', exact: true })).toBeVisible();
   const outputs = page.getByRole('group', { name: 'Working output' });
-  await expect(outputs.getByRole('button', { name: 'Cast Selection, 5 assignments', exact: true })).toHaveAttribute('aria-pressed', 'true');
-  await expect(outputs.getByRole('button', { name: 'Cast Shortlist, 2 assignments', exact: true })).toBeVisible();
+  await expect(outputs.getByRole('button', { name: /^Cast Selection\s*,\s*5 assignments$/ })).toHaveAttribute('aria-pressed', 'true');
+  await expect(outputs.getByRole('button', { name: /^Cast Shortlist\s*,\s*2 assignments$/ })).toBeVisible();
   const next = page.getByRole('region', { name: 'Next up' });
   await expect(next.getByText('2 roles need clarification or a confirmed headcount.', { exact: true })).toBeVisible();
   await expect(next.getByText('3 profiles are not yet Reviewed.', { exact: true })).toBeVisible();
@@ -67,6 +67,17 @@ test('an unavailable workspace summary leaves counts out instead of showing zero
   await expect(page.getByRole('group', { name: 'Working output' }).getByRole('button', { name: 'Cast Selection', exact: true })).toBeVisible();
   await expect(page.getByRole('region', { name: 'Next up' }).getByText('Add or correct roles, requirements and slots from the brief.', { exact: true })).toBeVisible();
   await expect(page.locator('.step-status, .segment-count')).toHaveCount(0);
+  expect(errors).toEqual([]);
+});
+
+test('a failed summary refresh drops counts from an older workspace revision', async ({ page }) => {
+  const errors = await workspace(page, summary());
+  await expect(page.locator('.segment-count')).toHaveCount(2);
+  await page.route(`**/api/v1/workspaces/${workspaceId}/summary`, route => route.fulfill({ status: 503, json: { error: { code: 'DEPENDENCY_UNAVAILABLE', message: 'Synthetic summary unavailable.' } } }));
+  await page.route(`**/api/v1/workspaces/${workspaceId}`, route => route.fulfill({ json: { request_id: 'synthetic-summary-revision', data: { id: workspaceId, project_id: projectId, module: 'casting', title: 'Synthetic summary project', logo_asset_id: null, logo_placement: 'cover', active_output: 'shortlist', row_version: 5, draft_revision: 8, has_unpublished_changes: true, created_at: stamp, updated_at: stamp } } }));
+  await page.getByRole('group', { name: 'Working output' }).getByRole('button', { name: /^Cast Shortlist/ }).click();
+  await expect(page.locator('.step-status, .segment-count')).toHaveCount(0);
+  await expect(page.getByRole('group', { name: 'Working output' }).getByRole('button', { name: 'Cast Shortlist', exact: true })).toHaveAttribute('aria-pressed', 'true');
   expect(errors).toEqual([]);
 });
 
