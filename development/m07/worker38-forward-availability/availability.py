@@ -17,7 +17,7 @@ if hashlib.sha256(STATE.read_bytes()).hexdigest() != STATE_SHA:
 spec = importlib.util.spec_from_file_location('worker38_frozen_availability_state', STATE)
 s = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(s)
-RENDER_ENABLED = False
+RENDER_ENABLED = True
 OLD_DEPLOYMENT = 'dpl_2uASsbYobSDwWjMptPjGLcVEdCg3'
 OLD_DAEMON = 'sha256:430d0992ef3280f13fb52ff206d0ae09eedb2fee0831583f868db77d4012f12f'
 MAX_AGE = datetime.timedelta(seconds=30)

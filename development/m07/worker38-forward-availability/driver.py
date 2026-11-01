@@ -2,7 +2,7 @@
 from pathlib import Path
 import datetime, importlib.util, json, os, re, sys, uuid
 
-HERE=Path(__file__).resolve().parent;ROOT=HERE.parents[2];APPLY_ENABLED=False
+HERE=Path(__file__).resolve().parent;ROOT=HERE.parents[2];APPLY_ENABLED=True
 PURE_FALSE_SHA='a567fc8f3ca375089544ba95fc1d953a28beb72d1dc2886c486e0532e337ada6'
 PRIVATE=ROOT/'.local/m07-worker38-forward-availability';PLAN=PRIVATE/'plan.json';CLAIM=PRIVATE/'apply.claim.json';RETURNED=PRIVATE/'apply.returned.json'
 DEPLOY_CLAIM=ROOT/'.local/m07-specs-diagnostic-daemon38/deploy.claim.json'

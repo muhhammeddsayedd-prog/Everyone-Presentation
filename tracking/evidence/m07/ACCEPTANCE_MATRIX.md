@@ -1,6 +1,28 @@
 # M07 acceptance matrix
 
-## Current backend continuation - 2026-10-31
+## Current backend continuation - 2026-11-01
+
+Current controlled pilot is web4Gm85 / workerG6CV / canonical38 / native50082,
+English1.0 and all five processing flags enabled. New exact23-record bound startup,
+normal create return, two current production inventories and preserving pin/resume
+are passed. This is a drained forward cutover, not the blocked AT069 rollback case.
+Fresh real specs job42bd909b passed3stages,n8n31910-31912 and OpenAIgpt6.1-sol,
+1626tokens. App saved/reloaded Studio Guide with one slot and actual stated fields;
+unspecified dates/location remain empty with clarifications. Two safe DB audits
+preserve protectedM02,historical136,Reviewed facts/media and existing Ready versions.
+See [app evidence](specs-worker38-audit/2026-11-01-hosted-specs-app.json) and
+[provider/preservation audit](specs-worker38-audit/2026-11-01T20-04-15-421504Z-after.json).
+
+Initial/reconnect/read and owner batch MCP acceptance remain passed;939 full product
+tests/lint/types/build plus scoped operator tests remain distinct. Runtime failure
+emission is unit-only; historical136's provider cause is unknown. Full delegated/
+contributor/token lifecycle, summary/guest delta, representative workload, Storage
+HTTP/independent restore and full release remain open. Current38 recovery extension
+is being prepared; passed local37 recovery remains historical scope. Screen-reader
+pending, mobile skipped; no new language labels or language selector.
+
+
+## Historical backend continuation - 2026-10-31
 
 - Stable pilot Ccw is freshly confirmedREADY at15:39; workerCVDM remains oneReady/
   alive2GiB instance at15:38. No config/worker mutations; ownerconnectionPASS stays.

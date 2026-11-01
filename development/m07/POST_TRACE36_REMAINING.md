@@ -1,6 +1,151 @@
 # M07 remaining acceptance after trace36 installation
 
-## Current checkpoint - 2026-11-01T19:13:38Z: compatible web deployed and live API checks passed; worker cutover awaits fresh provider health
+## Current checkpoint - 2026-11-01T20:05:46Z: hosted diagnostic worker and real specs app workflow verified
+
+Pilot https://everyone-presentation-pilot.vercel.app keeps running: web4Gm85/c69,
+workerG6CV/daemonce23/native50082, canonical38, English1.0 and ALL FIVE processing
+flags enabled. The normal future-only pin/resume and independent readbacks passed;
+full paused-window preservation passed. New daemon Ready/startup proof19:58:49
+has23 bound records/one startup/zero adverse events and two old-free current
+production inventories. It does not prove physical instance deletion or rollback.
+
+Confirmed startup-verifier cause: Vercel65.8 normal runtime-log select omits the
+daemon/instance IDs and reports empty environment. A separate9-test peer-reviewed
+read-only explicit-select observer retains actual IDs, production attributes and
+the frozen parser/full normal-return/source/health/inventory gates. No identity,
+health timestamp, executed original source or old claim was rewritten.
+
+Fresh central Dummy Specs Worker Test (0a112a90-4742-40a5-a3d5-b7995df0c570)
+and only its existing Producer membership were added with normal SQL return and
+two full preserving reads; separate readback passed BEFORE normal app Open casting.
+The app created workspacecf80efd6-882f-4df1-9556-d1baaffd8053 with no roles.
+One synthetic pasted brief then created job42bd909b-d8af-4215-9c38-137e3a345925.
+Actual job succeeded20:03:09 atapply_specs: one attempt for each of3 stages,
+n8n31910/31911/31912 and real OpenAIgpt-6.1-sol,1153input+473output=1626tokens.
+Stored provider metadata is source-bound; no model cost is inferred.
+The n8n IDs are durable stage callback references; independent retained execution
+details were not inspected.
+
+Actual app Load saved requirements and page reload both show Studio Guide,one
+slot,age25to35,Any gender,English,plain dark shirt. Dates/location stay Not provided
+with two explicit unspecified clarifications. No manual role edit occurred.
+Signed-in GET job returns succeeded,requestb99f265e-d77f-4b5a-b753-48ea7d743d4d;
+its actual HTTP status was not observable. Browser+screenshots: `tracking/evidence/m07/specs-worker38-audit/2026-11-01-hosted-specs-app.json`.
+Two post-job safe audits (20:03:19/20:04:15) passed exact protectedM02,historical136,
+Reviewed25a3/media/frames,and all existing Ready versions/slides/raw+English/PDF/
+asset preservation. Audit: `tracking/evidence/m07/specs-worker38-audit/2026-11-01T20-04-15-421504Z-after.json`.
+
+The safe provider failure diagnostics are deployed/unit-tested; this successful
+job did not emit a failure, so live failure emission is unverified. Historical136
+exhausted DEPENDENCY_UNAVAILABLE and its specific provider cause remains unknown.
+Neither it nor protectedM02 was retried/mutated. Initial/reconnect/authenticated
+Claude acceptance and owner filtered-batch MCP read stay PASSED.939 full product
+tests/lint/types/build and live list/auth regressions remain scoped current proof;
+9 observer,15 test-project and8 audit inert tests also passed, separate from939.
+
+Next eligible work: separately prepare/review the current38 owned local metadata+
+synthetic-media recovery extension, preserving executed37 proof and original29;
+then run only after source/prerequisites/cleanup review. Full delegated/contributor
+journey, token lifecycle, feedback/guest delta, representative workload and Storage
+HTTP/independent restore remain open. FullM07 stays in progress. Screen-reader
+pending,mobile skipped; no language labels/selector. No Claude frontend source was
+overwritten; the English contract/API route coordination note is append-only.
+AT069 rollback-transport preparation was automatically rejected with reason only
+'blocked by policy'; no retry/manual equivalent/provider action for that blocked
+action occurred. The pilot remains enabled until owner stop.
+
+
+## Historical checkpoint - 2026-11-01T20:01:07Z: diagnostic worker deployed, future native pin adopted and all processing enabled
+
+The hosted pilot stays running. Stable web dpl_4Gm85atSx5XG8kd8w3tfXCTDjNro
+(285files/sourcec69b59c8) serves the strict foundation-list query fix and safe
+specs diagnostics. Full939 tests, lint/types/isolatedbuild, five signed-in JSON
+cases and seven public auth/discovery checks passed. No redesign was merged.
+
+New daemon dpl_G6CVBYjPxYwh8zNaAYLu4pURoVG4/ce23 was normally submitted at19:42.
+Actual full Ready proof passed at19:58:49: one alive2GiB dub1 instance,23 exact
+bound records,one expected startup,zero unbound/truncated/adverse events,and two
+complete current production inventories containing only the new instance. Old
+instance absence is scoped to those inventories; no physical deletion is claimed.
+Receipt: `tracking/evidence/m07/specs-diagnostic-daemon38/2026-11-01T19-58-49-648210Z-ready.json`.
+
+Confirmed verifier cause: pinned Vercel65.8 normal runtime-log select omits daemon
+identities and returns empty top environment. The separately peer-reviewed9-test
+explicit-select observer requests real returned IDs, permits empty environment
+only with exact production attributes, and reuses the frozen projector and held
+normal-return/full-paused-state/health/inventory checks. No IDs were synthesized;
+executed daemon/adoption source and claims were preserved. No health bound changed.
+
+Future-only native pin50082 and all FIVE enabled flags now passed normal markers
+and two preserving reads; independent pin/resume readbacks also passed. Canonical
+history38/English1.0, protectedM02,historical136,Reviewed/Ready/old versions,all other
+business/trace/catalogue/Auth/config state stayed exact across cutover. Public
+manifest3e20f7b1 stays on the same env ID. Processing is RESUMED.
+Pin: `tracking/evidence/m07/specs-diagnostic-worker38-adoption/2026-11-01T19-59-44-358850Z-pin.json`.
+Resume: `tracking/evidence/m07/specs-diagnostic-worker38-adoption/2026-11-01T20-00-42-889737Z-resume.json`.
+Independent resume: `tracking/evidence/m07/specs-diagnostic-worker38-adoption/2026-11-01T20-00-58-621223Z-resume.json`.
+
+Next concrete action: create the separately reviewed empty central Dummy Specs
+Worker Test project with only its existing Producer membership, complete all
+creation preservation reads BEFORE Open casting, then use normal app workspace
+creation and one fresh synthetic specs submission through real OpenAI/n8n. Capture
+before/after protected/Reviewed/Ready hashes and safe job/provider correlation.
+No new real specs outcome is credited yet. Never retry protectedM02/historical136.
+
+Owner Claude initial authorization/reconnect/read and filtered batch MCP acceptance
+stay PASSED; full M07 remains in progress. Full delegated journey, full token
+lifecycle, feedback-summary/guest delta, representative workload and Storage HTTP/
+independent restore remain scoped dependencies. Manual screen-reader pending,
+mobile skipped. No language selector or additional language labels. AT069 rollback-
+transport preparation was automatically rejected with reason only 'blocked by
+policy'; no retry/manual equivalent/provider action for that blocked action occurred.
+
+
+## Historical checkpoint - 2026-11-01T19:41:18Z: worker processing is PAUSED; manifest adopted; daemon prepared, dispatch pending
+
+IMPORTANT resume state: ALL FIVE processing booleans are FALSE in canonical38.
+Pause committed normally with two full preserving readbacks at19:30:33; separate
+readback19:32:22 also passed. Seven lifecycle counters are zero, protected M02 and
+all other business/trace/catalogue/Auth/English/Reviewed/Ready state remain exact.
+Public EPS_NATIVE_MANIFEST_SHA256 was PATCHed to3e20f7b1 on the SAME env ID, with
+original normal return and two matching preserving reads at19:32:25; independent
+manifest readback19:33:19 passed. No future DB native pin change yet: it is795.
+
+Stable web remains verified4Gm85/c69/285files with939 fulltests, lint/types/build,
+five signed-in API JSON cases and seven public auth/discovery checks passed.
+Owner initial/reconnect and batch MCP acceptance stay passed. Original worker
+2uAS/430d0992 was last verified active; no replacement has been submitted yet.
+
+The pre-dispatch availability baseline was prepared normally at19:26:31 with
+fresh2worker/2env observations and two equal DB snapshots. Raw Root timings are
+in worker38-forward-availability/19-26-32Z-Root-prepare-observation.json. Its two
+gates are armed; source5 files held. Its correction has NOT been executed/claimed.
+Earlier readiness failures created no plan/claim or cloud mutation; lastCheckedAt
+is cached with observed roughly5-minute natural updates and no provider SLA.
+No freshness limit was weakened or old worker restarted.
+
+New daemon source/image/input/output prerequisites and paused state passed actual
+preparation at19:37:11. Private prepare claim/plan and exact3 emitted files exist.
+The following deploy preflight refused stale health BEFORE its deployment claim.
+Root forward observation19:37:35 records no deploy claim or normal-create return.
+Do NOT replay prepare. A separate GET-only fresh-health watcher is waiting, then
+will call only existing dispatch once; exec session90934 (Root helper
+.local/m07-daemon38-dispatch-fresh.py). Respect normal/unknown submission and
+claims; never submit again if the deployment claim appears.
+
+Next: confirm actual new daemon submission/Ready+startup and old IDs absent from
+two current production inventories, then fill original admission's late refs
+(held NULL through newReady), inspect/apply future-only pin and resume. Preserve
+source/paused-window baseline and require normal markers+two readbacks. Restore
+processing before ending work. Do not retry protectedM02/historical specs136.
+Actual new Specs test project source is disabled/unexecuted, intended only AFTER
+resume, then normal signed-in workspace creation and real OpenAI/n8n processing.
+Manual screen-reader pending, mobile skipped; no new language labels/selector.
+AT069 rollback-transport preparation was automatically rejected ('blocked by
+policy'); no retry/manual equivalent/provider action for that blocked action.
+
+
+## Historical checkpoint - 2026-11-01T19:13:38Z: compatible web deployed and live API checks passed; worker cutover awaits fresh provider health
 
 Stable https://everyone-presentation-pilot.vercel.app serves
 dpl_4Gm85atSx5XG8kd8w3tfXCTDjNro, sourcec69b59c8 (285files,3,068,962bytes).
@@ -52,7 +197,7 @@ by automatic approval ('blocked by policy'); no retry/manual equivalent/provider
 action for that blocked action occurred.
 
 
-## Current checkpoint - 2026-11-01T18:57:12Z: actual concurrency and cleanup passed; diagnostic images Ready; API fix locally verified
+## Historical checkpoint - 2026-11-01T18:57:12Z: actual concurrency and cleanup passed; diagnostic images Ready; API fix locally verified
 
 The new actual owned current38 SQL concurrency proof1b8e passed in64,136ms:
 cached intake held the config lock and pause waited before its first snapshot;
@@ -103,7 +248,7 @@ by automatic approval ('blocked by policy'); no retry/manual equivalent/provider
 action for that blocked action occurred.
 
 
-## Current checkpoint - 2026-11-01T18:42:05Z: diagnostic daemon published; batch MCP delta passed; local cleanup pending
+## Historical checkpoint - 2026-11-01T18:42:05Z: diagnostic daemon published; batch MCP delta passed; local cleanup pending
 
 Native50082 Ready and its actual hosted nine-task164-source/PDF/boundary proof
 with complete ten-resource cleanup remain passed. Daemonce23 is now published:
@@ -149,7 +294,7 @@ rejected rollback-transport preparation as 'blocked by policy'; no retry/manual
 equivalent/provider action for that blocked action occurred.
 
 
-## Current checkpoint - 2026-11-01T18:33:53Z: native hosted proof passed; local concurrency setup failure preserved
+## Historical checkpoint - 2026-11-01T18:33:53Z: native hosted proof passed; local concurrency setup failure preserved
 
 Native50082's actual hosted nine-task/164-source/boundary/PDF proof and complete
 ten-resource cleanup remain passed (Root admission18:31). Both matching local
@@ -187,7 +332,7 @@ and protected M02 remain untouched. AT069's automatic approval rejection
 ('blocked by policy') remains untouched, with no retry/manual equivalent/provider action.
 
 
-## Current checkpoint - 2026-11-01T18:31:04Z: native diagnostic image published and hosted proof passed; daemon preparation unresolved
+## Historical checkpoint - 2026-11-01T18:31:04Z: native diagnostic image published and hosted proof passed; daemon preparation unresolved
 
 The matching native50082f72 image is Ready in the existing private native
 repository. Actual registry prepare, refresh, copy and Ready receipts are in
@@ -231,7 +376,7 @@ acceptance reconciliation, not a new feature decision or a production pass.
 No operational command, provider request, upload or database change was made
 for this document. The root agent owns the main progress/handoff updates.
 
-## Current checkpoint - 2026-11-01T18:05:26Z: matching diagnostic images exported locally; hosted pilot unchanged
+## Historical checkpoint - 2026-11-01T18:05:26Z: matching diagnostic images exported locally; hosted pilot unchanged
 
 Source checkpoint b0d6018 contains the reviewed specs diagnostic fix. Its 11
 focused cases, targeted lint and full isolated type check passed. The deployed

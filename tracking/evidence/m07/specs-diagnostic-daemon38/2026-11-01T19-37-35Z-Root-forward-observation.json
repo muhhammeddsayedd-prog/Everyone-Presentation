@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-11-01T19:37:35.195380+00:00",
+  "results": [
+    {
+      "result": "prepared",
+      "receipt": "tracking/evidence/m07/specs-diagnostic-daemon38/2026-11-01T19-37-11-369329Z-prepare.json"
+    }
+  ],
+  "failure": {
+    "phase": "deploy",
+    "type": "ValueError",
+    "functions": [
+      "<module>",
+      "dispatch",
+      "healthy",
+      "need"
+    ]
+  },
+  "prepare_claim_exists": true,
+  "deployment_claim_exists": false,
+  "normal_return_file_exists": false,
+  "automatic_retry": false,
+  "no_DB_pin_or_resume": true
+}
