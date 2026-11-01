@@ -1,9 +1,21 @@
 # Attempt36 release-query owned proof
 
-This is a new source-only purpose with execution disabled. No author has
-prepared or run it, created a database, acquired a lock or called a provider.
-The actual passed7cff proof, its185 executed source bytes, claims, artifacts and
+This purpose was authored without database or provider execution. Root's first
+local run207 failed before gate acceptance; its exact sources and complete
+cleanup receipt are retained. The current controller preserves root's enabled
+flag. A new run needs final reviewed source bytes, a fresh UUID and a fresh
+claim. The passed7cff proof, its185 executed source bytes, claims, artifacts and
 receipts remain frozen. This folder contains no production migration dispatch.
+
+The207 failure joined SQL type casts to following keywords (`jsonbas` and
+`jsonband`). Parsing alone accepted these as unknown type names. The narrow
+forward fix separates those tokens and tests actual AST type identities/aliases.
+The new222-input manifest changes only the state/test-state pins and adds four
+hash-bound historical artifacts. Admission requires the failed207 receipt's
+eight cleanup/preservation flags, both owned databases absent, no pass claim,
+all229 original seals and decoded exact bytes of all44 non185 source files.
+The archived controller is root's actual enabled source. No207 claim or private
+run artifact is changed or replayed; all185 historical source bytes stay exact.
 
 The compiler and runtime wrap that frozen proof at exact, fail-closed seams.
 Actual34/35 and their ephemeral history labels run on the newly owned clone.

@@ -1,7 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import path from 'node:path';
-import { loadSources,ROOT,PURPOSE,PRIOR_RECEIPT,PRIOR_RECEIPT_SHA,assertPriorProof } from './sources.mjs';
+import { loadSources,ROOT,PURPOSE,PRIOR_RECEIPT,PRIOR_RECEIPT_SHA,assertPriorProof,
+ FAILED_RECEIPT,FAILED_RECEIPT_SHA,FAILED_ARCHIVE,FAILED_ARCHIVE_SHA,assertFailedCleanup,assertFailedArchive } from './sources.mjs';
 import { compileGate36,EXECUTION_ENABLED } from './controller.mjs';
 import { assertPins,injectQueries,stripCapture,createGate36Runtime,TAG,PHASES } from './runtime.mjs';
 import { renderAttempt36Wire,MARKERS,ROLLED_BACK } from '../job-attempt-observability36-proof/runtime.mjs';
@@ -26,6 +27,23 @@ test('actual7cff185-source proof and every original cleanup boundary are mandato
  const frozen=JSON.parse(text(PURPOSE+'frozen-inputs.json'));
  for(const[file,digest]of Object.entries(previous.source_seals))assert.equal(frozen[file],digest);
  assert.equal(Object.keys(previous.source_seals).length,185);
+});
+
+test('failed207 cleanup and exact229/44-byte archive are mandatory before a fresh purpose',()=>{
+ const failed=JSON.parse(text(FAILED_RECEIPT)),archive=JSON.parse(text(FAILED_ARCHIVE)),prior=JSON.parse(text(PRIOR_RECEIPT));
+ assert.equal(sha(sources.get(FAILED_RECEIPT)),FAILED_RECEIPT_SHA);assert.equal(sha(sources.get(FAILED_ARCHIVE)),FAILED_ARCHIVE_SHA);
+ assertFailedCleanup(failed);assertFailedArchive(archive,failed,prior);
+ for(const key of ['disposable_databases_removed','new33_roles_removed','original_local_database_unchanged','original29_full_catalogue_unchanged',
+  'original29_full_auth_storage_catalogue_unchanged','original29_exact_profile_and_settings_state_unchanged',
+  'existing_global_role_oids_attributes_memberships_unchanged','shared_test_lock_released'])assert.throws(()=>assertFailedCleanup({...failed,[key]:false}));
+ for(const patch of [{result:'passed'},{cleanup_unconfirmed:true},{provider_called:true},{source_seals:{}},
+  {attempt36_gate_sql:{result:'passed'}},{actual_disposable_database_absence:{...failed.actual_disposable_database_absence,eps_m07_r33_source_207731a684624eec8d27f2fc8f34f2fd:true}}])assert.throws(()=>assertFailedCleanup({...failed,...patch}));
+ const missing=structuredClone(archive);missing.new44_exact_byte_sources.pop();assert.throws(()=>assertFailedArchive(missing,failed,prior));
+ const altered=structuredClone(archive);altered.new44_exact_byte_sources[0].base64='dGFtcGVyZWQ=';assert.throws(()=>assertFailedArchive(altered,failed,prior));
+ const falseFlag=structuredClone(archive),controller=falseFlag.new44_exact_byte_sources.find(v=>v.path===PURPOSE+'controller.mjs');
+ assert(Buffer.from(controller.base64,'base64').toString('utf8').includes('export const EXECUTION_ENABLED=true;'));
+ controller.base64=Buffer.from('export const EXECUTION_ENABLED=false;').toString('base64');assert.throws(()=>assertFailedArchive(falseFlag,failed,prior));
+ for(const runId of [failed.run_id,prior.run_id])assert.throws(()=>compileGate36(sources,{root:ROOT,runId}));
 });
 
 test('compiler changes only new runtime/purpose/gate and retains original29/global roles/cleanup lock',()=>{
