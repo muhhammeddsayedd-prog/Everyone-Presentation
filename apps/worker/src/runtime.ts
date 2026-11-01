@@ -24,7 +24,7 @@ function safeCode(error: unknown): string {
 }
 const unknown = (error: unknown) => !object(error) || error.outcome !== 'known';
 function invalid(): never { throw new Error('WORKER_CONTRACT_INVALID'); }
-interface RuntimeOptions { openAI: OpenAISpecsConfig; signal?: AbortSignal; execute?: typeof executeSpecsStage; gatewayTimeoutMs?: number; files?: SpecsExecutionOptions['files']; vision?: SpecsExecutionOptions['vision']; candidate?: Omit<CandidateStageOptions, 'signal'>; executeCandidate?: typeof executeCandidateStage; frames?: Omit<FrameStageOptions, 'signal'>; executeFrames?: typeof executeFrameStage; review?: Omit<ReviewStageOptions, 'signal'>; executeReview?: typeof executeReviewStage; fit?: Omit<ReviewFitStageOptions, 'signal'>; executeFit?: typeof executeReviewFitStage; presentation?: Omit<PresentationStageOptions, 'signal'>; executePresentation?: typeof executePresentationStage; presentationExport?: Omit<PresentationExportOptions,'signal'>; executePresentationExport?: typeof executePresentationExportStage }
+interface RuntimeOptions { openAI: OpenAISpecsConfig; signal?: AbortSignal; execute?: typeof executeSpecsStage; gatewayTimeoutMs?: number; files?: SpecsExecutionOptions['files']; vision?: SpecsExecutionOptions['vision']; onSpecsDiagnostic?: SpecsExecutionOptions['onDiagnostic']; candidate?: Omit<CandidateStageOptions, 'signal'>; executeCandidate?: typeof executeCandidateStage; frames?: Omit<FrameStageOptions, 'signal'>; executeFrames?: typeof executeFrameStage; review?: Omit<ReviewStageOptions, 'signal'>; executeReview?: typeof executeReviewStage; fit?: Omit<ReviewFitStageOptions, 'signal'>; executeFit?: typeof executeReviewFitStage; presentation?: Omit<PresentationStageOptions, 'signal'>; executePresentation?: typeof executePresentationStage; presentationExport?: Omit<PresentationExportOptions,'signal'>; executePresentationExport?: typeof executePresentationExportStage }
 /** Public storage configuration is opt-in, fixed-target and separate from the
  * protected five-field database/webhook configuration. No ambient JWT fallback. */
 export function specsWorkerFilesConfiguration(environment: Record<string, string | undefined>): { storageOrigin: string; publishableKey: string } | undefined {
@@ -95,7 +95,7 @@ export async function processNextSpecsStage(gateway: StageRuntimeGateway, router
         ? await (options.executeFrames ?? executeFrameStage)(lease, gateway, { ...options.frames!, signal: options.signal })
         : order.kind === 'candidate_scan'
         ? await (options.executeCandidate ?? executeCandidateStage)(lease, gateway, { ...options.candidate!, signal: options.signal })
-        : await (options.execute ?? executeSpecsStage)(lease, gateway, { openAI: options.openAI, signal: options.signal, files, vision: options.vision });
+        : await (options.execute ?? executeSpecsStage)(lease, gateway, { openAI: options.openAI, signal: options.signal, files, vision: options.vision, onDiagnostic: options.onSpecsDiagnostic });
       if (!execution.already_completed && (!execution.receipt || !execution.receipt.applied && !execution.receipt.duplicate || execution.receipt.stale)) invalid();
     }
     return { event: 'stage_callback_committed', job_id: order.job_id, stage: order.stage };

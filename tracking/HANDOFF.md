@@ -1,6 +1,41 @@
 # Everyone Presentation Studio - current English-output handoff
 
-## Current checkpoint - 2026-11-01T17:40:08Z: batch filter38 is deployed; live HTTP/auth checks passed
+## Current checkpoint - 2026-11-01T17:45:34Z: batch filter hosted; specs diagnostic fix verified locally
+
+The stable pilot serves web `dpl_CUXVUZkWjkrQPBTv7XqmA9tF3y4o` with database
+history 38. Its Ready proof, authenticated HTTP reads, six public auth/discovery
+checks and unchanged healthy worker are recorded in the preceding checkpoint.
+The 205-job local SQL case and 928-test batch rollout remain passed. New filtered
+MCP and feedback/guest checks await owner replies; initial Claude authorization,
+reconnect and prior authenticated reads remain completed. The current canonical
+project name is Live Testing Project; no owner changes were overwritten.
+
+The confirmed specs observability gap is now fixed in source. Four worker/
+integration files add bounded, allowlisted failure metadata and runtime log wiring;
+timeout failures retain valid HTTP status/request ID. Generic job errors, retry
+rules, permission checks and callback behaviour remain unchanged. Raw exceptions,
+source text, prompts, headers and tokens are omitted. A diagnostic describes the
+processing failure before callback confirmation; it does not prove durable save.
+
+Exact isolated checkpoint b6893ab was integrated after independent review. The
+same 11 focused cases passed in author, peer and Root runs (11 unique cases),
+with targeted lint and isolated full type checking passed. Root source hashes
+match all eight implementation/test/doc paths. Evidence:
+`tracking/evidence/m07/specs-diagnostics38/2026-11-01T17-45-34Z-root-integration.json`.
+This patch is not in the hosted worker. Worker 2uAS/daemon 430d0992/native 795f8f77
+still runs unchanged. Historical specs job 13699983 was not retried or changed;
+its exact OpenAI timeout/network/HTTP cause cannot be reconstructed from retained
+metadata. Current Main includes this newer patch; the deployed web's exact old
+285-file payload remains preserved in its stage and Git checkpoint 3d45c04.
+
+Next: assess and prepare the smallest compatible worker rollout, including the
+native source-provenance constraint, then demonstrate safe diagnostic emission
+through a controlled new job. Existing AT069 automatic approval rejection stays
+recorded ('blocked by policy'); no retry/manual equivalent/provider action.
+Keep full local 37 recovery, English output, reviewed facts and saved versions
+accepted. Screen-reader acceptance pending; mobile skipped; pilot stays running.
+
+## Historical checkpoint - 2026-11-01T17:40:08Z: batch filter38 is deployed; live HTTP/auth checks passed
 
 Stable pilot now serves `dpl_CUXVUZkWjkrQPBTv7XqmA9tF3y4o`,285 source files,
 SHA4edc5f1a, with actual canonical38 and unchanged worker2uAS. Ready proof:

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import test from 'node:test';
-import { executeSpecsStage, DOCUMENT_PREPARATION_VERSION, SpecsExecutionError, type SpecsStageGateway } from '../../apps/worker/src/specs-executor.ts';
+import { executeSpecsStage, DOCUMENT_PREPARATION_VERSION, projectSpecsStageFailure, SpecsExecutionError, type SpecsStageGateway } from '../../apps/worker/src/specs-executor.ts';
 import { preparePastedText } from '../../apps/worker/src/pasted-text.ts';
 import { extractSpecs, IntegrationError } from '@eps/integrations';
 import type { JobEvent, JobEventReceipt, StageLease } from '@eps/jobs';
@@ -174,6 +174,49 @@ test('known provider failure emits one safe classified failure, never a second m
   assert.deepEqual(events[0].error?.details, { retry_after_seconds: 2 });
   assert.equal(events[0].error?.code, 'PROVIDER_RATE_LIMITED');
   assert.ok(!JSON.stringify(events).includes('private raw'));
+});
+
+test('specs failures retain only bounded operator correlation while the public job failure stays generic', async () => {
+  const f = fixture('extract_specs'); const diagnostics: unknown[] = []; let calls = 0;
+  await executeSpecsStage(f.lease, f.gateway, { openAI, onDiagnostic: value => diagnostics.push(value), extract: async () => {
+    calls++; throw new IntegrationError('OPENAI_UNAVAILABLE', 'PRIVATE source, key and provider body', true,
+      { http_status: 503, request_id: 'req_specs_synthetic_503', token: 'PRIVATE_TOKEN', source: 'PRIVATE_SOURCE' });
+  } });
+  assert.equal(calls, 1); assert.equal(f.events.length, 1); assert.equal(f.events[0].event_type, 'failed');
+  assert.deepEqual(diagnostics, [{ job_id: f.lease.job_id, attempt_id: f.lease.attempt_id, stage: 'extract_specs',
+    correlation_id: 'synthetic-correlation', error_kind: 'integration', code: 'OPENAI_UNAVAILABLE', http_status: 503, request_id: 'req_specs_synthetic_503' }]);
+  assert.deepEqual(f.events[0].error, { code: 'DEPENDENCY_UNAVAILABLE', message: 'A required processing service is temporarily unavailable.', details: {}, retryable: true });
+  assert.doesNotMatch(JSON.stringify([diagnostics, f.events]), /PRIVATE/u);
+  assert.equal(JSON.stringify(f.events).includes('req_specs_synthetic_503'), false);
+});
+
+test('specs diagnostic sink failure cannot replace a classified failure or repeat its callback', async () => {
+  const f = fixture('extract_specs'); let calls = 0; let observed = 0;
+  await executeSpecsStage(f.lease, f.gateway, { openAI, onDiagnostic: () => { observed++; throw new Error('PRIVATE_SINK'); }, extract: async () => {
+    calls++; throw new IntegrationError('OPENAI_TIMEOUT', 'PRIVATE_PROVIDER', true);
+  } });
+  assert.equal(observed, 1); assert.equal(calls, 1); assert.equal(f.events.length, 1);
+  assert.equal(f.events[0].event_type, 'failed'); assert.equal(f.events[0].error?.code, 'DEPENDENCY_UNAVAILABLE');
+  assert.equal(f.events[0].error?.retryable, true); assert.doesNotMatch(JSON.stringify(f.events), /PRIVATE/u);
+});
+
+test('specs diagnostic projection omits unknown codes, invalid status and token-shaped request IDs', async () => {
+  for (const error of [new IntegrationError('OPENAI_UNAVAILABLE', 'PRIVATE', true, { http_status: 503.5, request_id: 'sk-PRIVATE_TOKEN' }),
+    new IntegrationError('PRIVATE_UNKNOWN_CODE', 'PRIVATE', false, { http_status: 500, request_id: 'req_private_untrusted_code' }),
+    { code: 'OPENAI_UNAVAILABLE', message: 'PRIVATE', details: { http_status: 500, request_id: 'req_not_an_integration_error' } }]) {
+    const f = fixture('extract_specs'); const diagnostics: unknown[] = [];
+    await executeSpecsStage(f.lease, f.gateway, { openAI, onDiagnostic: value => diagnostics.push(value), extract: async () => { throw error; } });
+    assert.equal(diagnostics.length, 1); assert.equal(f.events.length, 1); assert.equal(f.events[0].event_type, 'failed');
+    assert.doesNotMatch(JSON.stringify(diagnostics), /PRIVATE|sk-|req_private|req_not_an/u);
+    assert.equal((diagnostics[0] as { http_status: unknown }).http_status, null);
+    assert.equal((diagnostics[0] as { request_id: unknown }).request_id, null);
+  }
+});
+
+test('hostile diagnostic metadata cannot expose private exception properties or throw', () => {
+  const error = new IntegrationError('OPENAI_UNAVAILABLE', 'PRIVATE_PROVIDER', true);
+  Object.defineProperty(error, 'details', { get() { throw new Error('PRIVATE_GETTER'); } });
+  assert.deepEqual(projectSpecsStageFailure(error), { error_kind: 'unknown', code: 'SPECS_FAILURE_UNCONFIRMED', http_status: null, request_id: null });
 });
 
 test('tampered input scope, source, configuration and paragraph evidence are denied before provider or callback', async () => {

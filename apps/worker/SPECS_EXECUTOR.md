@@ -74,6 +74,20 @@ helper never repeats a model request, retries unknown completion or claims that
 lost callbacks were delivered. Expired leases require the persistent recovery
 operation and the persistent dispatcher/runtime integration.
 
+Failures also publish an optional, best-effort operator diagnostic. The hosted
+runtime writes `specs_stage_processing_failed` with job, attempt, stage and
+correlation IDs, a closed error kind/code, HTTP status (integer100–599 or null)
+and an OpenAI `req_` request identifier (at most128 identifier characters after
+the prefix, or null). Unknown errors/codes and unsafe metadata use fixed omission
+values. The sink receives no exception, prompt, source text, body, headers or
+credentials. A sink failure cannot change the durable callback or retry policy.
+Public job errors keep their existing generic codes and details.
+
+These diagnostics apply to future worker execution after deployment. They do
+not reconstruct the provider reason for an older `DEPENDENCY_UNAVAILABLE` error.
+`stage_callback_committed` confirms callback delivery and can describe either a
+successful or a failed stage; inspect the job and its correlated diagnostic.
+
 The initial twelve tests covered actual isolated text preparation, actual adapter/schema logic
 with synthetic provider output, SQL-shaped response/token compatibility,
 heartbeats, late/unknown/unresolved callbacks, transport deadlines, expiry during

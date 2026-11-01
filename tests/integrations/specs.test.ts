@@ -275,3 +275,28 @@ test('provider errors are redacted and classify retry without hidden adapter ret
   const controller = new AbortController(); controller.abort();
   await assert.rejects(extractSpecs(input, config, async () => response(), controller.signal), errorCode('PROCESSING_CANCELLED'));
 });
+
+test('timeout retains valid safe provider metadata without provider text or credentials', async () => {
+  let calls = 0;
+  await assert.rejects(extractSpecs(input, config, async () => {
+    calls++; throw { name: 'APIConnectionTimeoutError', status: 408, request_id: 'req_specs_timeout_synthetic',
+      headers: new Headers({ authorization: 'PRIVATE_TOKEN' }), message: 'PRIVATE_PROVIDER_BODY' };
+  }), (error: unknown) => {
+    assert.ok(error instanceof IntegrationError); assert.equal(error.code, 'OPENAI_TIMEOUT'); assert.equal(error.retryable, true);
+    assert.deepEqual(error.details, { http_status: 408, request_id: 'req_specs_timeout_synthetic', retry_after_ms: null });
+    assert.doesNotMatch(JSON.stringify(error), /PRIVATE/u); return true;
+  });
+  assert.equal(calls, 1);
+});
+
+test('timeout diagnostic metadata rejects invalid HTTP status and unsafe or oversized request IDs', async () => {
+  for (const request of ['sk-PRIVATE_TOKEN', 'req_synthetic?token=PRIVATE', 'req_' + 'a'.repeat(129)]) {
+    await assert.rejects(extractSpecs(input, config, async () => {
+      throw { name: 'APIConnectionTimeoutError', status: 503.5, request_id: request, message: 'PRIVATE_PROVIDER' };
+    }), (error: unknown) => {
+      assert.ok(error instanceof IntegrationError); assert.equal(error.code, 'OPENAI_TIMEOUT');
+      assert.deepEqual(error.details, { http_status: null, request_id: null, retry_after_ms: null });
+      assert.doesNotMatch(JSON.stringify(error), /PRIVATE/u); return true;
+    });
+  }
+});

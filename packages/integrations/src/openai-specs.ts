@@ -84,10 +84,12 @@ function providerError(error: unknown, signal?: AbortSignal): IntegrationError {
   const name = typeof details?.name === 'string' ? details.name : '';
   const headers = details?.headers;
   const retryHeader = headers instanceof Headers ? headers.get('retry-after') : record(headers)?.['retry-after'];
-  const diagnostic = { http_status: status, request_id: safeIdentifier(details?.request_id),
+  const requestId = safeIdentifier(details?.request_id);
+  const diagnostic = { http_status: status !== null && Number.isInteger(status) && status >= 100 && status <= 599 ? status : null,
+    request_id: requestId && /^req_[A-Za-z0-9_-]{1,128}$/u.test(requestId) ? requestId : null,
     retry_after_ms: retryAfterMs(typeof retryHeader === 'string' ? retryHeader : null) };
   if (name.includes('Timeout') || name === 'AbortError') {
-    return new IntegrationError('OPENAI_TIMEOUT', 'OpenAI extraction timed out; the job can retry.', true);
+    return new IntegrationError('OPENAI_TIMEOUT', 'OpenAI extraction timed out; the job can retry.', true, diagnostic);
   }
   if (status === 401 || status === 403) {
     return new IntegrationError('OPENAI_ACCESS_DENIED', 'OpenAI credentials or model access need attention.', false, diagnostic);
