@@ -1,0 +1,78 @@
+{
+  "carried_forward_verification": {
+    "carried_forward": true,
+    "every_selected_blob_matches_archive": true,
+    "new_test_or_lint_or_typecheck_run": false,
+    "original_command_exit_codes": {
+      "lint": 0,
+      "test": 0,
+      "typecheck": 0
+    },
+    "original_failed": 0,
+    "original_finished_at": "2026-11-01T23:35:58.511Z",
+    "original_quality": {
+      "path": "tracking/evidence/m07/completion-release/2026-11-01T23-35-58.511Z-41676ea4-root-quality.json",
+      "sha256": "5504f2e9056095be29f789c15b8736de94eafde9eef0c88b50b684c938f672af"
+    },
+    "original_skipped": 0,
+    "original_started_at": "2026-11-01T23:34:47.057Z",
+    "original_tests": 949,
+    "reviewed_seals_match_committed_bytes": true,
+    "reviewed_source_seals": [
+      {
+        "bytes": 662812,
+        "path": "contracts/mcp-tool-catalog.json",
+        "sha256": "72baf8a09decb87460ad41f93b2bc50487debcb1c70c731f3dea98fd17e73545"
+      },
+      {
+        "bytes": 4137,
+        "path": "tests/server/project-creation-mcp.test.ts",
+        "sha256": "b6e55c8498ad1c0632d73f19d4d402a1ffd70bae0bcc750d2d76d8502a027388"
+      },
+      {
+        "bytes": 7246,
+        "path": "tools/update_project_creation_contracts.py",
+        "sha256": "18914030b71c5a80870c62249c3d2f78086a976f5b13f2085ccebf9a82c693a7"
+      }
+    ],
+    "selected_product_changes_since_tested_head": [
+      "contracts/mcp-tool-catalog.json"
+    ],
+    "tested_head": "e649b26e9d57292657f31c11a89585a54be2926f"
+  },
+  "commands": {
+    "lint": 0,
+    "production_guard": 0,
+    "test": 0,
+    "typecheck": 0
+  },
+  "failed": 0,
+  "fresh_production_guard": {
+    "command": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js",
+      "run",
+      "check:production-guard"
+    ],
+    "exit_code": 0,
+    "finished_at": "2026-11-01T23:56:22.843683+00:00",
+    "source_pins": {
+      "apps/web/lib/config.ts": "4d72a73234a8e21c78368f29e7c12c9c3f60dd2e0a17101323e78d5778e96658",
+      "apps/web/lib/hosting-pilot.ts": "ad938d5cae3a9d5e801aba20a2c69f8979909881d2a160e3970be3dea49cbb04",
+      "tools/check-production-guard.ts": "df67e750ecb5e390978f4ab72f9d333bbfb96b03e10e187c24436b0e43da0846"
+    },
+    "started_at": "2026-11-01T23:56:20.598653+00:00"
+  },
+  "full_tests_rerun": false,
+  "provider_or_deployment_called": false,
+  "quality_kind": "carried_forward_reviewed_product_bytes",
+  "raw_logs_or_private_values_persisted": false,
+  "result": "passed",
+  "skipped": 0,
+  "source_commit": "c8d0ff3b7800072655ac1abae2f44c9aa5a3f8c0",
+  "source_receipt": {
+    "path": "tracking/evidence/m07/production-web-release/source-2eb1ed24-33c2-4bd3-bdfb-d765d70d51a7.json",
+    "sha256": "8cb5d7eef4c730ff793b647cfdbbf7909f4cf9f8f25747b196e6993b227821fe"
+  },
+  "source_sha256": "1043d03f7da32f5a0636d38126ca0bf38d97febfb886a78d974a4cd648e3f33e"
+}
