@@ -30,5 +30,16 @@ Deploy compatible readers before activating creation. Existing projects retain
 their old response shape; new projects include the persisted intent. Browser,
 HTTP and MCP use the same operation and existing structured errors/envelopes.
 
+The additive migration follows the current Supabase function-security guidance:
+the read helper uses the existing constrained API owner; creation uses a dedicated
+NOLOGIN/NOBYPASSRLS owner with only required inserts and helper execution. Both
+functions pin an empty search path, check acting-user capabilities and row access,
+and revoke default PUBLIC/anon execution before granting authenticated execution.
+FORCE RLS and the transaction-local generated project ID constrain inserts; direct
+authenticated project/membership/intent inserts remain denied. Creator identity
+comes from verified auth.uid(), never request input. See the
+[official function-security guidance](https://supabase.com/docs/guides/database/functions#secure-a-database-function)
+(checked1 November2026) and the retained SQL/race proofs.
+
 Implementation and deterministic tests do not establish cloud migration or hosted
 acceptance. Current release evidence remains in the M07 matrix and handoff.

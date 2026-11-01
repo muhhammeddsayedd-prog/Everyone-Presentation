@@ -1,6 +1,6 @@
 {
   "pack_version": "1.0",
-  "updated_at": "2026-11-01T22:31:23.612022+00:00",
+  "updated_at": "2026-11-01T23:10:19.208095+00:00",
   "implementation_started": true,
   "current_milestone": "M07",
   "current_pilot": {
@@ -10980,9 +10980,9 @@
     "isolated_production_build_passed": true
   },
   "current_hosted_release": {
-    "observed_at": "2026-11-01T20:26:38.229857+00:00",
-    "web_deployment_id": "dpl_4Gm85atSx5XG8kd8w3tfXCTDjNro",
-    "web_source_sha256": "c69b59c8d2ecff87e951340e3306c0bebd89dce98b8cf7dedce88d931693248f",
+    "observed_at": "2026-11-01T22:56:58.142023+00:00",
+    "web_deployment_id": "dpl_8mFQY4SkHiHmSVo6hR8QPLSdgwaS",
+    "web_source_sha256": "2cef9eff53b2f9c8722370ccc29092cb7799a75ff89102cb2e6c3fc50ee3238b",
     "canonical_history": 38,
     "worker_deployment_id": "dpl_G6CVBYjPxYwh8zNaAYLu4pURoVG4",
     "daemon_image_id": "sha256:ce23af3ba163199c1e35f224f71a281ab450d7acfc0f4ab85b6044df5246431c",
@@ -10990,12 +10990,16 @@
     "English_version": "1.0",
     "processing_paused": false,
     "worker_replaced": true,
-    "redesign_merged": false,
+    "redesign_merged": true,
     "replacement_status": "deployed_enabled_real_specs_verified",
     "public_worker_manifest_sha256": "3e20f7b1c795ab2e825a02327c4a4a241b97a57a8bf3d28e2a265f7eba8630f9",
     "native_DB_pin": "sha256:50082f72d4438653d4c831a1f9a360d61e64d19b3568ed1c2a2456d486f0d77c",
     "last_real_specs_job_id": "42bd909b-d8af-4215-9c38-137e3a345925",
-    "post_job_identity_receipt": "tracking/evidence/m07/specs-worker38-audit/2026-11-01T20-26-38-229857Z-pilot-post-job-identity.json"
+    "post_job_identity_receipt": "tracking/evidence/m07/specs-worker38-audit/2026-11-01T20-26-38-229857Z-pilot-post-job-identity.json",
+    "web_source_commit": "e494371894d148e335fa5a8bc50b601ac80bd555",
+    "web_source_manifest_sha256": "2cef9eff53b2f9c8722370ccc29092cb7799a75ff89102cb2e6c3fc50ee3238b",
+    "release_mode": "controlled_pilot",
+    "redesign_deployed": false
   },
   "recovery38": {
     "status": "passed_owned_local38",
@@ -11058,10 +11062,18 @@
     "remote": "https://github.com/muhhammeddsayedd-prog/Everyone-Presentation.git",
     "production_url": "https://everyone-presentation-pilot.vercel.app",
     "frontend_integrated": true,
-    "project_creation": "in_progress",
-    "production_admission": "in_progress",
-    "independent_recovery": "in_progress",
+    "project_creation": "implemented_local_SQL_and_race_verified_cloud_pending",
+    "production_admission": "implemented_local_start_and_build_verified",
+    "independent_recovery": "schema38_independent_Storage_and_API_passed",
     "production_verified": false,
-    "next_action": "Implement central project creation/API/MCP and UI, production runtime admission, finish independent recovery and required release acceptance."
+    "next_action": "Apply reviewed additive39 after compatible-reader/backup admission; upload and verify newly built native46de/daemon2d66; release integrated main and complete live acceptance.",
+    "repository_visibility": "private",
+    "repository_pushed": false,
+    "reader_rollback_deployment": "dpl_8mFQY4SkHiHmSVo6hR8QPLSdgwaS",
+    "pending_owner_actions": [
+      "Owner running fresh delegated journey; safe results and app readbacks pending",
+      "Existing contributor account designated; safe identity/grant inspection and restricted acceptance pending",
+      "Integrated manual screen-reader acceptance"
+    ]
   }
 }

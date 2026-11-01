@@ -1,5 +1,9 @@
 # Everyone Presentation Studio - current English-output handoff
 
+## Completion release checkpoint - 2026-11-01T23:10:19.208095+00:00
+
+Redesigned frontend, real-project UI/API/MCP/domain contracts, folder intake, explicit production startup and reload-safe project-creation intent are integrated locally. SQL39 passed constrained roles and independent-session idempotency races. Fresh native46de/daemon2d66 local OCI builds and matching source seal passed; registry/runtime release remains pending. Independent synthetic schema38 Storage/API recovery passed with cleanup. Stable alias now serves compatible reader baseline e494371 / web8mFQ, retaining the old interface until schema39 and final release. Protected canonical snapshot509f contains75application tables/4941rows/452routine definitions/history38; excludes managed Auth and Storage bytes. Original pg_dump attempt remains unconfirmed and preserved. No full production or delegated/contributor/screen-reader acceptance is claimed.
+
 ## Completion and production release started - 2026-11-01T22:31:23.612022+00:00
 
 Authorized implementation has started. Intended root changes were checkpointed in 1a8a411; frontend/redesign including unfinished summary/feedback/batch/transcript source is merged into main. Source worktrees and untracked design captures remain preserved. New canonical project creation, API/MCP parity, folder intake, explicit production admission and independent recovery are being implemented. No new cloud mutation or production acceptance is claimed. Root coordinates migrations/deployments; existing AT069 policy rejection and all pending acceptance remain explicit.

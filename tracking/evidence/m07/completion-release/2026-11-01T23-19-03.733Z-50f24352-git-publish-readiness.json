@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-11-01T23:19:03.733Z",
+  "scope": "Current-turn read-only normal GitHub CLI repository/branch/access observations, Vercel project metadata and pinned CLI65.8 git-connect help; no connection or auth mutation.",
+  "repository": {
+    "full_name": "muhhammeddsayedd-prog/Everyone-Presentation",
+    "id": 1436439962,
+    "private": true,
+    "visibility": "private",
+    "default_branch": "main",
+    "archived": false,
+    "disabled": false,
+    "viewer": "muhhammeddsayedd-prog",
+    "viewer_id": 240116735,
+    "permissions": {
+      "admin": true,
+      "maintain": true,
+      "pull": true,
+      "push": true,
+      "triage": true
+    },
+    "remote_url": "https://github.com/muhhammeddsayedd-prog/Everyone-Presentation.git"
+  },
+  "github_api": {
+    "repository_status": 200,
+    "current_user_status": 200,
+    "branches_status": 200,
+    "branch_count": 0,
+    "main_lookup_status": 404,
+    "main_lookup_message": "Branch not found",
+    "rulesets_status": 403,
+    "branch_rules_status": 403,
+    "branch_protection_status": 403,
+    "rules_limitation": "GitHub returned: Upgrade to GitHub Pro or make this repository public to enable this feature. Privacy was preserved; unavailable rule data is not claimed as an empty rule set."
+  },
+  "connector": {
+    "github_repo_read_status": 404,
+    "vercel_project_read": "team access unavailable to this connection; existing explicitly scoped normal CLI read succeeded"
+  },
+  "git_transport": {
+    "ls_remote_result": "unconfirmed; produced no output and the owned read was cancelled",
+    "cause": "unknown: no specific authentication/network cause was established",
+    "auth_configuration_changed": false
+  },
+  "vercel_project": {
+    "observed_at": "2026-11-01T23:17:28.508Z",
+    "id": "prj_7xOsfRtvJ9voYi7rTEfra5ncOoA0",
+    "name": "everyone-presentation-pilot",
+    "account_id": "team_gboXPxTevpCOZuaA8eY9PmR1",
+    "root_directory": "apps/web",
+    "framework": "nextjs",
+    "node_version": "24.x",
+    "git_link": null,
+    "production_branch": null,
+    "raw_response_recorded": false
+  },
+  "cli": {
+    "version": "65.8.0",
+    "git_connect_help_verified": true,
+    "normal_auth_global_config": "C:/Users/iway/AppData/Roaming/xdg.data/com.vercel.cli",
+    "command_not_executed": [
+      "C:/Program Files/nodejs/node.exe",
+      "D:/Everyone/Presentation/Everyone-Presentation-Studio/.local/m07-pilot/tooling/node_modules/vercel/dist/vc.js",
+      "git",
+      "connect",
+      "https://github.com/muhhammeddsayedd-prog/Everyone-Presentation.git",
+      "--project",
+      "prj_7xOsfRtvJ9voYi7rTEfra5ncOoA0",
+      "--scope",
+      "muhammed-abdelrahman",
+      "--global-config",
+      "C:/Users/iway/AppData/Roaming/xdg.data/com.vercel.cli",
+      "--yes"
+    ]
+  },
+  "follow_up": "After authorized push creates main and compatible schema/source rollout ordering is satisfied, root may connect and independently read back exact repo id1436439962, owner/name and production branch main. Vercel GitHub App access to the private repository remains unverified until normal connection succeeds.",
+  "private_values_recorded": false,
+  "cloud_connection_mutation": false,
+  "source_or_ref_mutation": false
+}

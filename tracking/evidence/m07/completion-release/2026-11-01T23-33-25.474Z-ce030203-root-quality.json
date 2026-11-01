@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0",
+  "run_id": "ce030203-749c-431a-9235-4256d804077d",
+  "started_at": "2026-11-01T23:32:15.900Z",
+  "finished_at": "2026-11-01T23:33:25.474Z",
+  "result": "failed",
+  "scope": "Final local deterministic root typecheck/lint/module tests for the reviewed three-file MCP pagination/SDK discovery change; no E2E/build/live-service/deployment acceptance.",
+  "source_head_before": "4871d8ea4688afb6e04c3d4e8c265a4ea726eee7",
+  "source_head_after": "e649b26e9d57292657f31c11a89585a54be2926f",
+  "reviewed_source_seals": [
+    {
+      "path": "contracts/mcp-tool-catalog.json",
+      "bytes": 662812,
+      "sha256": "72baf8a09decb87460ad41f93b2bc50487debcb1c70c731f3dea98fd17e73545"
+    },
+    {
+      "path": "tests/server/project-creation-mcp.test.ts",
+      "bytes": 4112,
+      "sha256": "201d278f600c331c89ed3e00aca852d3590e54a516d25001c1c6ad6e32379a8a"
+    },
+    {
+      "path": "tools/update_project_creation_contracts.py",
+      "bytes": 7246,
+      "sha256": "18914030b71c5a80870c62249c3d2f78086a976f5b13f2085ccebf9a82c693a7"
+    }
+  ],
+  "reviewed_source_stable": false,
+  "changed_source_paths": [
+    "contracts/mcp-tool-catalog.json",
+    "tests/server/project-creation-mcp.test.ts",
+    "tools/update_project_creation_contracts.py"
+  ],
+  "private_logs_current_user_and_system_only": true,
+  "review": {
+    "finding": "Missing Page definition correctly repaired. Discovery regression now checks actual SDK Ajv validators in addition to the shared MCP handler.",
+    "unresolved_findings": 0
+  },
+  "checks": [
+    {
+      "name": "typecheck",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js",
+        "run",
+        "typecheck"
+      ],
+      "started_at": "2026-11-01T23:32:16.691Z",
+      "finished_at": "2026-11-01T23:33:14.532Z",
+      "exit_code": 2,
+      "signal": null,
+      "timed_out": false,
+      "output_limit_exceeded": false,
+      "spawn_failed": false,
+      "result": "failed",
+      "stdout_log": ".local/completion-release/root-quality-ce030203-749c-431a-9235-4256d804077d/typecheck.stdout.log",
+      "stderr_log": ".local/completion-release/root-quality-ce030203-749c-431a-9235-4256d804077d/typecheck.stderr.log"
+    },
+    {
+      "name": "lint",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js",
+        "run",
+        "lint"
+      ],
+      "started_at": "2026-11-01T23:32:16.704Z",
+      "finished_at": "2026-11-01T23:33:19.025Z",
+      "exit_code": 0,
+      "signal": null,
+      "timed_out": false,
+      "output_limit_exceeded": false,
+      "spawn_failed": false,
+      "result": "passed",
+      "stdout_log": ".local/completion-release/root-quality-ce030203-749c-431a-9235-4256d804077d/lint.stdout.log",
+      "stderr_log": ".local/completion-release/root-quality-ce030203-749c-431a-9235-4256d804077d/lint.stderr.log"
+    },
+    {
+      "name": "test",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js",
+        "test"
+      ],
+      "started_at": "2026-11-01T23:32:16.712Z",
+      "finished_at": "2026-11-01T23:33:25.284Z",
+      "exit_code": 0,
+      "signal": null,
+      "timed_out": false,
+      "output_limit_exceeded": false,
+      "spawn_failed": false,
+      "result": "passed",
+      "stdout_log": ".local/completion-release/root-quality-ce030203-749c-431a-9235-4256d804077d/test.stdout.log",
+      "stderr_log": ".local/completion-release/root-quality-ce030203-749c-431a-9235-4256d804077d/test.stderr.log",
+      "suite_summaries": 6,
+      "tests": 949,
+      "pass": 949,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    }
+  ],
+  "raw_logs_or_private_values_in_report": false,
+  "node_version": "v24.18.0"
+}

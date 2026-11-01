@@ -1,18 +1,33 @@
 # M07 acceptance matrix
 
-## Current completion release matrix
+## Current completion release matrix - 2026-11-01 23:33 UTC
 
-| Workflow | Implementation | Real services | Verified | Deployed | Remaining |
+| Workflow | Implementation | Real services | Verification | Deployed | Remaining |
 |---|---|---|---|---|---|
-| Redesigned frontend | Integrated main | Pending integrated run | Historical fixture only | No | Integrated connected acceptance |
-| Project creation/types/UI/API/MCP | In progress | Pending migration | Pending | No | New authorized vertical slice |
-| Existing Casting journeys | Existing implementation | Scoped passed | Fresh coherent human/delegated pending | Existing pilot | Release journey |
-| Guest summaries/permissions/tokens | Existing implementation | Partial | Pending deltas | Existing pilot | Anonymous nonzero/contributor/refresh lifecycle |
-| Recovery | Local38 passed; independent in progress | Independent Storage pending | Pending | Existing pilot preserved | Independent runtime/API repair |
-| Production admission/release | In progress | Pending | Pending | Controlled pilot only | Production start, compatible rollout and source identity |
-| Accessibility | Existing keyboard/automation | Pending integrated run | Screen reader pending; mobile skipped | Existing pilot | Manual AT072 |
+| Redesigned frontend and direct file/folder intake | Integrated main, including reload-safe project intents | Integrated connected run pending | 138 browser tests passed; zero skipped/flaky/unexpected, synthetic services | Compatible reader only; redesigned UI pending | Final source deployment and connected human journey |
+| Project creation/types/UI/API/MCP | Complete local vertical slice and SDK discovery correction | Canonical39 admission inspection in progress; migration not yet applied | 32 real local SQL assertions, independent-session same/different-key races, actual guard query/rollback passed | No creation routes/tools yet | Additive39, production API/MCP/UI and real readbacks |
+| Existing Casting journeys | Implemented | Prior scoped Storage/OpenAI/n8n/native evidence retained | Fresh owner Claude upload handoff issued after readiness; complete delegated journey pending | Existing controlled pilot | Fresh coherent human/delegated outputs, PDFs/media and reciprocal readbacks |
+| Guest summaries, permissions and token lifecycle | Implemented; bounded anonymous helper ready | Partial historical evidence | Nonzero anonymous/exact-version/internal exclusion, token lifecycle and genuine contributor restrictions pending | Existing controlled pilot | Supplied account is producer; preserve grants and identify intended contributor |
+| Recovery | Independent synthetic38 Storage/API recovery passed | Four actual HTTP byte/hash roundtrips against isolated synthetic stack | Separate PG17 restore, permission denials and exact cleanup/preservation passed; five original failures retained | Existing pilot preserved | Production configuration/media restore scope and queued replacement/compatible rollback; AT069 policy block retained |
+| Production admission and rollout | Explicit web/build/start/runtime and daemon/native admission implemented | New native/daemon OCI pair built; native registry copy active | Local production build/start/negative guards passed; hosted startup pending | Compatible reader8m / canonical38 / old workerG6 | Registry readbacks, native empirical checks, coordinated production rollout and exact-main identity |
+| Accessibility | Integrated keyboard/axe checks passed | Real manual screen-reader acceptance pending | Automated browser checks passed; manual AT072 pending; mobile explicitly skipped | Final frontend pending | Actual screen-reader acceptance |
 
-## Current scoped release evidence - 2026-11-01, 20:26 UTC
+Current stable alias is compatible reader e494371 / deployment8mFQY, independently
+rechecked at23:32UTC. It is a controlled pilot and intentionally retains the prior
+interface until the expanded database contract and final source are admitted.
+Existing workerG6/daemonce23/native50082 remains the live processing path.
+
+The protected canonical38 snapshot509f contains75 application tables/4941 rows/
+452 routine definitions. It is a backup artifact, excludes managed Auth and Storage
+bytes, and has no restore-verified claim. Original pg_dump outcome is unconfirmed
+and retained separately. Independent synthetic recovery is a different proof.
+
+Historical205-job pagination at100/100/5, scoped operational tracing and immutable
+version evidence remain valid within their recorded scope. Synthetic capacity and
+fixture browser results do not establish representative real-provider performance.
+No full production, delegated, contributor or manual screen-reader pass is claimed.
+
+## Historical scoped release evidence - 2026-11-01, 20:26 UTC
 
 - Controlled pilot web4Gm85/workerG6CV/canonical38/native50082 remains enabled;
   latest direct alias/worker/control read passed20:26:38.
@@ -74,7 +89,7 @@ pending, mobile skipped; no new language labels or language selector.
   endurance remain open. AT-072 pending; mobile skipped. Extra multilingual labels
   declined; no broad semantic-accuracy claim. Pilot runs until owner stop.
 
-## Current controlled pilot connection acceptance - 2026-10-31
+## Historical controlled pilot connection acceptance - 2026-10-31
 
 M07 remains **in progress; full production release unverified**. Canonical33 and
 webDeCp serve the owner-controlled pilot. These current receipts supersede the
