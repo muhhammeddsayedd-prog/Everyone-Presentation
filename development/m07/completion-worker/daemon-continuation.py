@@ -9,7 +9,7 @@ REGISTRY_SHA='809561e1585f164bba92363a9fb854fc55d1efc4f1d6343acc461c3ae3fbd50c'
 file=HERE/'registry.py'
 assert file.is_file()and not file.is_symlink()and file.stat().st_nlink==1 and hashlib.sha256(file.read_bytes()).hexdigest()==REGISTRY_SHA
 spec=importlib.util.spec_from_file_location('completion_daemon_continuation_registry',file);r=importlib.util.module_from_spec(spec);spec.loader.exec_module(r)
-CONTINUATION_ENABLED=False
+CONTINUATION_ENABLED=True
 need=r.need;sha=r.sha;load=r.load
 OLD_DAEMON='sha256:ce23af3ba163199c1e35f224f71a281ab450d7acfc0f4ab85b6044df5246431c'
 REFERENCES={
