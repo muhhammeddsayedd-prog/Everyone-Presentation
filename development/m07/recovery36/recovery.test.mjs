@@ -120,6 +120,34 @@ test('actual new runtime migration and cleanup SQL are captured by fake ports wi
  assert.equal(runtime.active,false);await runtime.upgrade();assert.deepEqual(ctx.report.actual_local_migrations_executed,['20261031143711','20261031182038','20261101012057']);
  assert(calls.some(sql=>sql.includes('comment on role eps_job_trace_owner is ')));await runtime.cleanupRoles();assert(inheritedCleaned);assert.equal(ctx.report.new36_trace_role_removed,true);actualSql.push(...calls);
 });
+test('an unknown restore profile retains private source/restored pairs before refusal without PASS credit',async()=>{
+ const tables=['eps.candidate_media','eps.presentation_video_transcripts','eps.presentation_video_english_transcripts','eps.presentation_versions','eps.job_stage_attempts','eps.job_events','eps.media_assets',...Array.from({length:68},(_,i)=>`eps.synthetic_${i}`)];
+ const expected=Object.fromEntries(tables.map(name=>[`tables|${name}|owner`,'postgres']));
+ const key='functions|eps.synthetic_fixture()|definition';expected[key]='SYNTHETIC_PRIVATE_SOURCE_DEFINITION';
+ const observed={...expected,[key]:'SYNTHETIC_PRIVATE_RESTORED_DEFINITION'};
+ const data=Object.fromEntries([...tables,'supabase_migrations.schema_migrations'].map(name=>[name,{count:name==='supabase_migrations.schema_migrations'?36:1,sha256:'a'.repeat(64)}]));
+ const writes=new Map(),events=[],dump=Buffer.from('synthetic dump bytes');let atProfile;
+ const file=name=>path.join('unused-private-root',name);
+ const ctx={root:ROOT,runId,sourceDb:identity.database,restoreDb:identity.database.replace('_source_','_restore_'),privateRoot:'unused-private-root',sourceFiles:sources,report:{private_artifact_acl:true},
+  async databaseIdentity(){return{oid:identity.oid};},marker:()=>identity.marker,
+  rows:raw=>[JSON.parse(raw)],async sql(){events.push('fixture');return{stdout:JSON.stringify({fixture:{ack:{resource_id:'synthetic-version'},lease:{attempt_id:'synthetic-attempt'}}})};},
+  async value(){return data;},async catalogue(database){events.push(database===identity.database?'source-catalogue':'restored-catalogue');return database===identity.database?expected:observed;},
+  async dump(){events.push('dump');return dump;},async createDatabase(){events.push('create-restore');},async restoreOwnedDump(){events.push('restore');},
+  async preserveOriginalDumpProfile(database,catalogue){assert.equal(database,this.restoreDb);assert.equal(catalogue,expected);events.push('profile');atProfile=new Map(writes);throw Error('RECOVERY29_UNKNOWN_CATALOGUE_PAIR');}};
+ const runtime=createRecovery36Context(ctx,{contextFactory:()=>({seedSql:()=>'',async authBoundary(){assert.fail('No acceptance boundary after profile refusal');}}),
+  io:{async readFile(full){return writes.get(full)??sources.get(path.relative(ROOT,full).split(path.sep).join('/'));},async writeFile(full,raw,options){assert.equal(options.flag,'wx');assert.equal(options.mode,0o600);assert(!writes.has(full));events.push(path.basename(full));writes.set(full,Buffer.from(raw));}}});
+ await assert.rejects(runtime.metadataRestore(),/RECOVERY29_UNKNOWN_CATALOGUE_PAIR/u);
+ for(const name of ['metadata36-source-catalogue.json','metadata36-source-row-hashes.json'])assert(events.indexOf(name)<events.indexOf('dump')&&events.indexOf(name)>=0,'Source evidence must precede dump');
+ assert.deepEqual(JSON.parse(atProfile.get(file('metadata36-source-catalogue.json'))),expected);
+ assert.deepEqual(JSON.parse(atProfile.get(file('metadata36-source-row-hashes.json'))),data);
+ assert.deepEqual(JSON.parse(atProfile.get(file('metadata36-restored-before-profile.json'))),observed);
+ assert.deepEqual(JSON.parse(atProfile.get(file('metadata36-catalogue-differences-private.json'))),[{key,source:expected[key],restored:observed[key]}]);
+ assert.equal(writes.size,atProfile.size);assert(events.indexOf('metadata36-catalogue-differences-private.json')<events.indexOf('profile'));
+ assert.equal(ctx.report.metadata36_catalogue_difference_count,1);assert.deepEqual(ctx.report.metadata36_catalogue_difference_keys,[key]);
+ for(const field of ['metadata36_catalogue_sha256','metadata36_data_sha256','metadata36_restored_before_profile_sha256','metadata36_catalogue_differences_sha256'])assert.match(ctx.report[field],/^[a-f0-9]{64}$/u);
+ const publicReport=JSON.stringify(ctx.report);assert(!publicReport.includes('SYNTHETIC_PRIVATE'));assert(!publicReport.includes('synthetic dump bytes'));
+ assert.equal(ctx.report.recovery36_metadata,undefined);assert.equal(ctx.report.metadata36_restore_profile,undefined);assert.equal(ctx.report.result,undefined);
+});
 test('actual adapters, data, role cleanup and fixture SQL parse without unknown fused JSON types',()=>{
  const python=[path.join(ROOT,'.venv-skills/Scripts/python.exe'),path.join(ROOT,'../Everyone-Presentation-Studio/.venv-skills/Scripts/python.exe')].find(existsSync);assert(python);
  const sql=[...adapters36(sources,identity).map(v=>v.sql),dataSql36(),traceRoleQuery36(),traceCleanupSql36(role(),role()),sources.get('development/m07/recovery36/fixture.sql').toString('utf8'),...actualSql];

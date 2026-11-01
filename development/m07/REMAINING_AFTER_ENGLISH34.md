@@ -1,6 +1,65 @@
 # Remaining M07 work after the English-output rollout
 
-## Current checkpoint - 2026-11-01, 03:19 UTC: scoped AT074 and failed084 cleanup passed; fresh recovery pending
+## Current checkpoint - 2026-11-01, 03:59 UTC: native ACL proof passed; full36 restore and owner upload pending
+
+Committed transfer helper3b4b5c8 and private-inbox f3ed127 provide client-local
+signed PUT/TUS and protected nonce/manifest/source-ID handoff. The combined29
+focused tests passed (13 inbox,11 unchanged transfer,5 TUS), with targeted
+lint/typecheck and independent contract/security reviews; Windows DACL tests
+used only synthetic temporary directories/files. The staged-index scan found
+zero hits for its fixed14 private-value families, not a full-repository/PII
+assurance. Evidence: `tracking/evidence/m07/client-upload-inbox/2026-11-01-local-verification.json` and `tracking/evidence/m07/client-upload-inbox/2026-11-01-staged-private-scan.json`.
+Claude's local plaintext tool/session history remains outside inbox DACL control;
+no end-to-end secret channel, owner-setting change or transcript cleanup is claimed.
+
+Root prepared a permitted IMG_2850 source inbox at03:51 with expiry
+04:06:12.601UTC. The public receipt `tracking/evidence/m07/client-upload-inbox/2026-11-01-owner-inbox-prepare.json`
+confirms private-directory verification and source binding only: no handoff
+session file, MCP reservation/Storage transfer/completion, candidate or job was
+created by preparation. Actual owner Write and full delegated processing remain
+pending. Do not read the private capability file or replay an expired/consumed
+inbox; use a fresh reviewed preparation if required. No current-validity claim
+is made from this dated preparation receipt.
+
+Two fresh current36 metadata rehearsals FAILED at the exact restore-profile
+comparison, while automatic cleanup/preservation passed in both:
+`tracking/evidence/m07/recovery36/2026-11-01T03-24-57-565Z-c0aa3c0e.json` (86,793ms) and `tracking/evidence/m07/recovery36/2026-11-01T03-34-12-941Z-5d8d863a.json` (109,775ms).
+Both owned databases and all three owned roles were removed; original29 data,
+full Auth/Storage catalogue/profile/settings and existing global-role identities,
+attributes/memberships stayed exact, and the shared lock was released. Exact129
+source seals and seven new executed files are archived for each failure; old
+claims/controllers/dumps remain and are never replayed. c0 did not capture the
+unknown pair. The fresh5d capture recorded13 catalogue differences; its new
+trace-table pair is explicit owner-only ACL versus NULL (`tracking/evidence/m07/recovery36/2026-11-01-trace-table-acl-pair.json`).
+Original084 remains failed with its separate03:19 cleanup pass; prior local33
+recovery stays passed. The5d owner-only table ACL versus NULL native privilege
+pair is now proved narrowly, while no restore-profile exception is yet admitted.
+
+Actual native-only run `508198d5-0460-4057-bda3-8aeb1fc8cd66` PASSED with138
+source seals (prior129 unchanged plus9 new/public inputs). It started
+03:57:54.599UTC and finished03:59:40.821UTC (106,222ms); the filename timestamp
+is its start, not its finish. Receipt: `tracking/evidence/m07/recovery36-trace-acl-native/2026-11-01T03-57-54-599Z-508198d5.json`.
+Across61 actual roles plus PUBLIC,496 table/3472 column/124 schema matrix rows,
+including grant options, had zero symmetric differences. The temporary owner
+GRANT rolled back to raw NULL and the full catalogue stayed exact. Both owned
+databases/all3 owned roles were removed, original29 rows/full Auth-Storage
+catalogue/profile/settings and preexisting global-role identities/attributes/
+memberships stayed exact, and the shared lock was released.
+
+This is native privilege proof ONLY, not restore36/StorageHTTP/deployed/Auth-
+configuration or RTO/RPO acceptance. A separate exact one-table adapter is being
+prepared source-only with its own gate disabled; no functional database change
+or restore pass follows from preparation. Next: review that bounded adapter and
+perform a fresh full metadata rehearsal under a new claim. Continue the owner
+private handoff independently; tests/preparation are not a delegated upload pass.
+
+Web6pcN/source283/canonical36/English1.0 and worker2uAS remain the recorded pilot.
+Scoped AT074 success/failure audit plus actionable app/API and owner get_job
+acceptance (b3fcdeb) remain passed with no invented server-log correlation;
+terminal n8n404 cause stays unproved. M07 stays in progress; screen reader pending,
+mobile skipped, Claude frontend preserved, no labels/selector, pilot until owner stop.
+
+## Historical checkpoint - 2026-11-01, 03:19 UTC: scoped AT074 and failed084 cleanup passed; fresh recovery pending
 
 The stable pilot now serves web `dpl_6pcN8Qb1XDkBTsiwKVmexKfWUvf7`, source283/SHA
 `d17a3f4eba0f0dc5a19ed02bc0c717c8b1472ce692fe910118ace3238fbc79ee`. The03:10:26 provider source-build Ready/readback

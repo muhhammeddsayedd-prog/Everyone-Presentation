@@ -6,66 +6,64 @@ acceptance reconciliation, not a new feature decision or a production pass.
 No operational command, provider request, upload or database change was made
 for this document. The root agent owns the main progress/handoff updates.
 
-## Current release boundary - 2026-11-01, 03:19 UTC
+## Current release boundary - 2026-11-01, 03:59 UTC
 
-The stable pilot now serves web `dpl_6pcN8Qb1XDkBTsiwKVmexKfWUvf7`, source283/SHA
-`d17a3f4eba0f0dc5a19ed02bc0c717c8b1472ce692fe910118ace3238fbc79ee`. The03:10:26 provider source-build Ready/readback
-matched the stable alias and preserved canonical36/static contract, existing
-project/environment IDs and targets. No worker, environment or OAuth change
-accompanied this release. Source283 includes two safe error-copy changes plus
-the already merged attempt-trace parser; the exact282-to283 delta is recorded,
-not a claim that only two files were deployed. Ready: `tracking/evidence/m07/source-unreadable36-web/2026-11-01T03-10-26-362504Z-ready.json`;
-source delta: `tracking/evidence/m07/source-unreadable36-web/2026-11-01T03-01-14-354524Z-source-delta.json`. Local Windows build was quality proof only;
-Vercel built the original sealed source on Linux, with no prebuilt acceptance.
+Committed transfer helper3b4b5c8 and private-inbox f3ed127 provide client-local
+signed PUT/TUS and protected nonce/manifest/source-ID handoff. The combined29
+focused tests passed (13 inbox,11 unchanged transfer,5 TUS), with targeted
+lint/typecheck and independent contract/security reviews; Windows DACL tests
+used only synthetic temporary directories/files. The staged-index scan found
+zero hits for its fixed14 private-value families, not a full-repository/PII
+assurance. Evidence: `tracking/evidence/m07/client-upload-inbox/2026-11-01-local-verification.json` and `tracking/evidence/m07/client-upload-inbox/2026-11-01-staged-private-scan.json`.
+Claude's local plaintext tool/session history remains outside inbox DACL control;
+no end-to-end secret channel, owner-setting change or transcript cleanup is claimed.
 
-The03:11 signed-in API and actual failed-job page show replacement/manual-entry
-guidance for SOURCE_UNREADABLE, retry=false, one Cancel and no Retry button.
-API request `19c428d3-2b60-4039-8615-a9f397d2b074` is recorded in `tracking/evidence/m07/source-unreadable36-web/2026-11-01-authenticated-api-app-guidance.json`.
-The owner then reported the same existing MCP get_job result, request
-`dbe872d6-856a-4d4b-bd0d-b8daf9dc586b`, matching that API/app; server-log
-correlation was not verified. Evidence: `tracking/evidence/m07/source-unreadable36-web/2026-11-01-owner-mcp-job-guidance.json`.
-Six no-credential host probes and four job/MCP denial/metadata checks passed:
-`tracking/evidence/m07/controlled-pilot/2026-11-01T03-12-32-119Z-c3c453d1-public-host.json` and `tracking/evidence/m07/source-unreadable36-web/2026-11-01-public-job-mcp-regression.json`. These public checks are not a new OAuth lifecycle
-or full delegated-journey acceptance.
+Root prepared a permitted IMG_2850 source inbox at03:51 with expiry
+04:06:12.601UTC. The public receipt `tracking/evidence/m07/client-upload-inbox/2026-11-01-owner-inbox-prepare.json`
+confirms private-directory verification and source binding only: no handoff
+session file, MCP reservation/Storage transfer/completion, candidate or job was
+created by preparation. Actual owner Write and full delegated processing remain
+pending. Do not read the private capability file or replay an expired/consumed
+inbox; use a fresh reviewed preparation if required. No current-validity claim
+is made from this dated preparation receipt.
 
-The actual02:50 paired audit plus deployed actionable app/API/owner-MCP guidance
-now pass the scoped AT074 success/failure check: successful untargeted IMG2852
-job6763 has five accepted stages/refs31693-31697 and source-bound OpenAI/English
-records; unreadable67-byte job3fde failed preparation with SOURCE_UNREADABLE,
-ref31703 and no OpenAI records. Old10 Ready versions/57slides/42pins/raw-English,
-9PDF metadata, Reviewed row/2old media/24frames and protected M02/static state
-were preserved in the bounded audit (`tracking/evidence/m07/job-attempt-observability36-live-sidecar/2026-11-01T02-50-02-687228Z-8829fa59-3c1c-46dc-b20b-32649645c275.json`). No semantic-accuracy,
-Reviewed-target append, all-jobs absence or re-fetch of every old object byte is
-claimed. Fresh terminal n8n metadata404 absence cause remains unproved; durable
-stage diagnosis stands and no payload-retention configuration was changed.
+Two fresh current36 metadata rehearsals FAILED at the exact restore-profile
+comparison, while automatic cleanup/preservation passed in both:
+`tracking/evidence/m07/recovery36/2026-11-01T03-24-57-565Z-c0aa3c0e.json` (86,793ms) and `tracking/evidence/m07/recovery36/2026-11-01T03-34-12-941Z-5d8d863a.json` (109,775ms).
+Both owned databases and all three owned roles were removed; original29 data,
+full Auth/Storage catalogue/profile/settings and existing global-role identities,
+attributes/memberships stayed exact, and the shared lock was released. Exact129
+source seals and seven new executed files are archived for each failure; old
+claims/controllers/dumps remain and are never replayed. c0 did not capture the
+unknown pair. The fresh5d capture recorded13 catalogue differences; its new
+trace-table pair is explicit owner-only ACL versus NULL (`tracking/evidence/m07/recovery36/2026-11-01-trace-table-acl-pair.json`).
+Original084 remains failed with its separate03:19 cleanup pass; prior local33
+recovery stays passed. The5d owner-only table ACL versus NULL native privilege
+pair is now proved narrowly, while no restore-profile exception is yet admitted.
 
-Current36 owned recovery attempt084 remains FAILED after78,438ms: safeRole
-expected a numeric OID but PostgreSQL returned decimal text; the same legal
-membership tuples arrived in the opposite order. Its original failure receipt,
-cleanup-unconfirmed state at failure, claim/artifacts and129-source/seven-new-file
-archive remain historical and were not replayed or rewritten. Receipt:
-`tracking/evidence/m07/recovery36/2026-11-01T03-01-28-673Z-0843096a.json`;
-cause: `development/m07/recovery36/FAILED_084_SQL_RESULT.md`;
-archive: `development/m07/recovery36/source-history/0843096a/source-archive.json`.
+Actual native-only run `508198d5-0460-4057-bda3-8aeb1fc8cd66` PASSED with138
+source seals (prior129 unchanged plus9 new/public inputs). It started
+03:57:54.599UTC and finished03:59:40.821UTC (106,222ms); the filename timestamp
+is its start, not its finish. Receipt: `tracking/evidence/m07/recovery36-trace-acl-native/2026-11-01T03-57-54-599Z-508198d5.json`.
+Across61 actual roles plus PUBLIC,496 table/3472 column/124 schema matrix rows,
+including grant options, had zero symmetric differences. The temporary owner
+GRANT rolled back to raw NULL and the full catalogue stayed exact. Both owned
+databases/all3 owned roles were removed, original29 rows/full Auth-Storage
+catalogue/profile/settings and preexisting global-role identities/attributes/
+memberships stayed exact, and the shared lock was released.
 
-The separate guarded cleanup now PASSED at03:19:20.008UTC after its03:17:58
-before observation. All three exact owned roles were removed; original29 rows,
-functions/profile/full Auth-Storage/catalogue and58 existing roles/94 memberships
-were preserved, both temporary databases are absent, and only the exact failed084
-lock was released. Root independently checked the lock absent. Before/after:
-`tracking/evidence/m07/recovery36-cleanup084/2026-11-01-before.json` and `tracking/evidence/m07/recovery36-cleanup084/2026-11-01-after.json`.
-This cleanup provides no current36 restore credit, cloud restore acceptance or
-RTO/RPO result. Next: the narrow OID/closed-membership comparison fix with native
-JSON regression, then a fresh source freeze/claim and owned metadata rehearsal.
+This is native privilege proof ONLY, not restore36/StorageHTTP/deployed/Auth-
+configuration or RTO/RPO acceptance. A separate exact one-table adapter is being
+prepared source-only with its own gate disabled; no functional database change
+or restore pass follows from preparation. Next: review that bounded adapter and
+perform a fresh full metadata rehearsal under a new claim. Continue the owner
+private handoff independently; tests/preparation are not a delegated upload pass.
 
-The client-local transfer helper source3b4b5c8 passed16 focused inert tests,
-lint/typecheck and review; actual private Claude handoff/reserve-transfer-complete
-remains unverified. Prior local33 recovery and completed English/guest/PDF,
-Summary and owner initial/reconnect/project reads remain passed in their scopes.
-M07 stays in progress; manual AT072 stays pending, mobile skipped, Claude's
-frontend preserved, no labels/selector and pilot/worker2uAS running until owner stop.
-Next: narrow native-JSON OID/membership comparison fix and fresh recovery freeze/claim;
-remaining delegated/token/replacement/representative-workload checks stay open.
+Web6pcN/source283/canonical36/English1.0 and worker2uAS remain the recorded pilot.
+Scoped AT074 success/failure audit plus actionable app/API and owner get_job
+acceptance (b3fcdeb) remain passed with no invented server-log correlation;
+terminal n8n404 cause stays unproved. M07 stays in progress; screen reader pending,
+mobile skipped, Claude frontend preserved, no labels/selector, pilot until owner stop.
 
 ## Completed results to carry forward
 
@@ -97,25 +95,22 @@ not authority to reset the database or change another agent's frontend files.
 | Case | Current boundary | Next finite action / dependency |
 | --- | --- | --- |
 | AT-063 parity | Source contract now reconciles **87 user operations / 87 MCP tools / 116 OpenAPI operations**, including Summary. This is not all live behavior. | Reconcile the final serving UI/domain/HTTP/MCP mapping and private service exclusions after any coordinated source change. Operator-only trace capture is not an ordinary user tool. Preserve shared-file/API coordination with Claude's redesign. |
-| AT-064, AT-066, AT-068 full delegated/shared-data journey | Owner connection, hosted core and scoped English/Summary reads pass. A complete real producer Claude file/write/Reviewed/assignment/generation/sharing journey is still unverified. | Use the owner's already working client for documented upload-session/real-byte transfer, async processing, permitted corrections/Reviewed, assignment/Shortlist, saved outputs and review-link lifecycle. Record actual IDs and matching app readbacks. Exercise typed stale/idempotent conflicts and an appropriate retryable nonprotected job; retain existing local replay/retry proofs. Owner retains client configuration/sign-in/consent. The client-local bridge is implemented/source-tested (16 focused tests,3b4b5c8); actual private handoff and reserve-transfer-complete remain unverified. Never give Claude worker/service credentials. |
+| AT-064, AT-066, AT-068 full delegated/shared-data journey | Owner connection, hosted core and scoped English/Summary reads pass. A complete real producer Claude file/write/Reviewed/assignment/generation/sharing journey is still unverified. | Use the owner's already working client for documented upload-session/real-byte transfer, async processing, permitted corrections/Reviewed, assignment/Shortlist, saved outputs and review-link lifecycle. Record actual IDs and matching app readbacks. Exercise typed stale/idempotent conflicts and an appropriate retryable nonprotected job; retain existing local replay/retry proofs. Owner retains client configuration/sign-in/consent. Transfer3b4b5c8 plus inbox f3ed127 are committed;29 combined focused tests passed. Owner inbox prepared03:51/expires04:06 proves source/private-directory preparation only; actual Write/private handoff/reserve-transfer-complete remains unverified. Never give Claude worker/service credentials. |
 | AT-065 token/contributor limits | Controlled signed transport, fresh-capability and real-role local tests pass; live refresh/rotation/revocation and an actual contributor denial remain unverified. | Prepare a bounded plan using genuinely authorized test sessions/principals. Preserve the accepted owner grant and existing account permissions; no invented identities, broader grants or account reenrollment. Continue source-only regression preparation if test-session access is unavailable. |
 | AT-067 shared compatibility | Guarded canonical35/36 apply/readbacks and local role/RLS/lifecycle proofs passed in their scopes. | Carry exact migration/source/preservation evidence into the complete shared-record app/MCP journey. Do not replay completed apply controllers, reset central records, or mistake query parsing for runtime SQL proof. |
 | AT-069 queued replacement / rollback | Compatibility rollout and healthy daemon observation pass; no replacement during queued/running work or compatible deployed rollback is proved. | Prepare one bounded owned job, before/after consumer/lease fencing and graceful drain observations, compatible old/new application source and recovery path. Execute only with current deployment ownership and preserve completed jobs, data and Ready versions. |
-| AT-070 current recovery | Local33 rehearsal remains passed. Current36 attempt084 remains failed on native OID type/closed-membership order; its separate03:19 cleanup passed with3 owned roles removed, original29/58 roles94 memberships preserved, both DBs absent and exact lock released. Exact129-source archive retained. | Forward-fix only OID/order handling with native JSON regressions and use a fresh frozen recovery claim; cleanup is not restore acceptance. Storage HTTP, real configuration/Auth/secret and deployed/independent recovery remain separate; no RTO/RPO inference. |
+| AT-070 current recovery | Local33 remains passed. Original084 failed/separate cleanup passed; fresh c0 and5d failed at restore profile, with full automatic database/3-role/original29/Auth-Storage/global-role preservation and lock cleanup passed. Fresh5d captured13 differences and the new trace owner-ACL/NULL pair. | Native508 proof/cleanup passed03:59 for the exact owner-ACL/NULL pair; no profile exception or restore36 pass is admitted. Review the separate source-only exact adapter, then use a fresh full36 recovery claim. StorageHTTP/deployed/Authconfig/secret/RTO/RPO remain unverified. |
 | M07 step7 / AT-060 representative workload | The200-file run used tiny synthetic no-audio media; current production worker is serial. | Measure already permitted representative input with bounded admission, real Storage/n8n/OpenAI/native durations/usage, partial failures, backpressure/restart/resume and resource limits. A small audit pair is not a200-file/endurance or provider-cost result. Start with a bounded measured sample; further scale depends on observed quotas/cost/resources. |
 | AT-071–073 accessibility / final UI | Historical keyboard/desktop automation and Claude's reported isolated redesign audit retain their scopes. **AT-072 manual screen reader remains pending; mobile is skipped by the owner.** | Run affected desktop keyboard/contrast/zoom/reduced-motion checks on the final integrated UI. Coordinate any already proposed pinned accessibility tooling with frontend/lock-file ownership. Automated axe or fixture results cannot close the manual screen-reader case. Do not restart waived mobile testing. |
 | AT-075, security and final handover | Scope decisions and permission checks stand; no new language option or ingestion connector is required. Full production release remains unverified. | Run applicable final dependency/security/production-fixture-denial and source/schema/workflow compatibility checks, record actual versions/limits/locations and finish the coherent human journey. Retain all failed runs and distinguish current results from historical test counts. |
 
-The bounded AT064 client-local adapter is implemented in
-`tools/client-upload-transfer.mts`, documented in `DELEGATED_UPLOAD.md`, and
-committed as3b4b5c8 with16 focused inert tests/lint/typecheck passed. It supplies
-signed PUT/shared TUS, file/hash identity and safe private checkpoint handling.
-The remaining client dependency is its actual private capability handoff and
-reserve/real-byte-transfer/complete use through the owner's permitted client,
-followed by matching app readback; source tests cannot substitute. No credential
-store reads, signed shell arguments or owner configuration changes are authorized
-by this documentation. Continue that finite handoff while preserving the accepted
-connection; guarded084 cleanup has passed and a fresh metadata rehearsal remains.
+The bounded AT064 transfer and private-inbox adapters are committed as3b4b5c8
+and f3ed127. `PRIVATE_UPLOAD_HANDOFF.md` documents the owner-controlled Write
+handoff, consume-once claim, fresh TUS resume and client plaintext-history limit.
+The29 combined synthetic tests do not demonstrate live Claude tool availability,
+Write, private capability transport, real Storage bytes or MCP completion. The
+dated owner inbox preparation remains separate; root and the owner perform the
+real journey without reading capabilities into agent output or changing settings.
 
 The frontend's already recorded dependencies2–6 remain separate, finite source
 slices in [the contract proposal](frontend-contracts/PROPOSAL.md): feedback

@@ -2,6 +2,7 @@
 import assert from 'node:assert/strict';
 import {readFile,writeFile} from 'node:fs/promises';
 import path from 'node:path';
+import {isDeepStrictEqual} from 'node:util';
 import {createRecovery33Context,exactPreimageAdmission} from '../recovery33/runtime.mjs';
 import {ownedPredicate33,ownedIdentity33} from '../recovery33/ownership.mjs';
 import {normalizeDatabaseOid} from '../recovery29/identity.mjs';
@@ -91,15 +92,22 @@ export function createRecovery36Context(ctx,{contextFactory=createRecovery33Cont
   const executed=await ctx.sql(ctx.sourceDb,fixture),scope=ctx.rows(executed.stdout).find(v=>Object.hasOwn(v,'fixture'))?.fixture;assert(scope?.ack?.resource_id&&scope?.lease?.attempt_id);await save('metadata36-fixture-private.json',scope);
   ctx.report.checkpoint='populated36-metadata-dump-restore';
   const expected=await ctx.catalogue(ctx.sourceDb),data=validateData36(await ctx.value(ctx.sourceDb,dataSql36()),expected);
+  ctx.report.metadata36_data_sha256=await save('metadata36-source-row-hashes.json',data);
+  ctx.report.metadata36_catalogue_sha256=await save('metadata36-source-catalogue.json',expected);
   const dump=await ctx.dump(ctx.sourceDb);ctx.report.metadata36_dump_sha256=await save('metadata36.sql',dump);
   const restoredBytes=checkedDump36(await io.readFile(path.join(ctx.privateRoot,'metadata36.sql')),ctx.report.metadata36_dump_sha256);
   assert.throws(()=>checkedDump36(Buffer.concat([restoredBytes,Buffer.from('corrupt')]),ctx.report.metadata36_dump_sha256));
   await ctx.createDatabase(ctx.restoreDb);await ctx.restoreOwnedDump(ctx.restoreDb,restoredBytes);
+  const observed=await ctx.catalogue(ctx.restoreDb);
+  const differences=[...new Set([...Object.keys(expected),...Object.keys(observed)])].sort()
+   .filter(key=>!isDeepStrictEqual(expected[key],observed[key])).map(key=>({key,source:expected[key],restored:observed[key]}));
+  ctx.report.metadata36_restored_before_profile_sha256=await save('metadata36-restored-before-profile.json',observed);
+  ctx.report.metadata36_catalogue_differences_sha256=await save('metadata36-catalogue-differences-private.json',differences);
+  ctx.report.metadata36_catalogue_difference_count=differences.length;
+  ctx.report.metadata36_catalogue_difference_keys=differences.map(({key})=>key);
   ctx.report.metadata36_restore_profile=await ctx.preserveOriginalDumpProfile(ctx.restoreDb,expected);
   assert.deepEqual(await ctx.catalogue(ctx.restoreDb),expected,'RECOVERY36_PORTABLE_CATALOGUE_CHANGED');
   assert.deepEqual(validateData36(await ctx.value(ctx.restoreDb,dataSql36()),expected),data,'RECOVERY36_ALL_POPULATED_TABLE_ROWS_CHANGED');
-  ctx.report.metadata36_data_sha256=await save('metadata36-source-row-hashes.json',data);
-  ctx.report.metadata36_catalogue_sha256=await save('metadata36-source-catalogue.json',expected);
   await inherited.authBoundary(ctx.sourceDb);await inherited.authBoundary(ctx.restoreDb);
   const summarySql="select set_config('request.jwt.claim.sub','8a1a0000-0000-4000-8000-000000000001',true),set_config('request.jwt.claims','{\"sub\":\"8a1a0000-0000-4000-8000-000000000001\",\"role\":\"authenticated\",\"aud\":\"authenticated\",\"is_anonymous\":false,\"session_id\":\"33000000-0000-4000-8000-000000000002\"}',true);set local role authenticated;select public.eps_get_workspace_summary('8a2a0000-0000-4000-8000-000000000001');";
   assert.deepEqual(await ctx.value(ctx.sourceDb,summarySql),await ctx.value(ctx.restoreDb,summarySql));
