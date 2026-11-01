@@ -1,6 +1,62 @@
 # Everyone Presentation Studio - current English-output handoff
 
-## Current checkpoint - 2026-11-01T11:11:45Z: batch SQL forward proof passed; cloud38 next
+## Current checkpoint - 2026-11-01T17:25:53Z: 205-job SQL pagination and preservation passed
+
+Fresh bb9cf2bf-f3b9-4d7a-beff-47df65dfe76b PASSED in68,362ms:
+`tracking/evidence/m07/job-batch-filter-proof/2026-11-01T17-23-47-142Z-bb9cf2bf.json`
+(SHA256 c2020d123b7d54c27a6440b4bf6ede7c9dd1c751ec13b1613f7ad2c1bf62b2c4).
+All376 source hashes match. Actual PostgreSQL returned100/100/5 accessible jobs,
+exactly205 ordered IDs without omission/duplication/foreign workspace/other-batch
+rows. Existing frame/project/capability and synthetic delegated/expired-session
+SQL checks passed. Nested37/outer33 rollback, original29 full Auth/Storage/data/
+catalogue/profile/global-role preservation, both disposable DB absences and lock
+cleanup passed. This is local SQL evidence, not media/provider/HTTP/MCP acceptance.
+The earlier197c three-row PASS remains archived/exact; no old claim was replayed.
+
+Two new attempts failed before database creation:787da730 found the owned local
+container stopped;625d7c32 found the preceding preflight's unreleased lock. Their
+failed receipts stay unchanged. The ordinary owned start preserved the pinned
+container/volume/system ID. Root independently confirmed both pairs of test DBs
+absent, original29 baseline/catalogue/global roles exact versus prior197c, no
+other client and owner PID absent, then preserved/released only that stale lock.
+Reconciliation: `2026-11-01T17-23-28-903Z-preflight-lock-reconciliation.json` in
+the same evidence folder. The inherited preflight cleanup limitation is recorded;
+successful-run cleanup passed separately. No cloud/provider mutation occurred.
+The empty official38 authoring file was held outside migrations for ephemeral37
+replay and restored0B afterward. It is not applied. Disabled38 release/web source
+has passed14/13 overlapping inert checks and independent review; final evidence
+binding/review/Root arming remains. Product branch758affc is still unmerged.
+
+Next: fill/review additive production38 from the exact proved function suffix,
+apply once with full preservation and independent readback before core merge,
+then run postmerge quality, deploy compatible web/SDK and test signed-in filtering.
+English/Reviewed/Ready facts and completed local37 native recovery/Claude
+connection/reconnect/project/job/workspace-summary acceptance stay passed.
+Feedback MCP/temporary guest check awaits replies; no new link created. Preserve
+frontend/user files. Pilot stays running; screen reader pending, mobile skipped.
+AT069 remains blocked by automatic approval review ('blocked by policy'); no
+retry/manual equivalent/provider action. No language labels/selector requested.
+
+## Historical checkpoint - 2026-11-01T17:20:41Z: closing the greater-than-100 batch pagination check
+
+The197c SQL proof remains passed and archived with all376 executed inputs
+recoverable (archive894e5dd8). It tested three page rows, not the required
+more-than100-job case. A new isolated205-job fixture is being prepared with
+interleaved other-batch and inaccessible-workspace rows; no old claim is replayed.
+Production38 and compatible web operators are disabled source preparation.
+The official38 file is still empty/unapplied. Pilot remains canonical37/webEUK29/
+worker2uAS. Existing English, native37 recovery and owner Claude connection/
+reconnect/project/get_job/workspace-summary acceptance remain passed. Feedback
+MCP and temporary guest-summary checks await owner replies; no link was created.
+
+Next: execute one fresh owned local SQL proof with205 jobs, then review and apply
+additive38 before integrating/deploying the isolated API/SDK batch filter. Preserve
+Claude frontend changes, Reviewed facts, Ready versions and protectedM02. Manual
+screen reader remains pending; mobile skipped; pilot owner-stop-only. AT069 source
+preparation remains blocked by automatic approval review with only 'blocked by
+policy' given; no retry/manual equivalent/provider action.
+
+## Historical checkpoint - 2026-11-01T11:11:45Z: batch SQL forward proof passed; cloud38 next
 
 Fresh run `197c2009-15e7-49de-8945-f0dfb6f10551` PASSED from11:07:36.550UTC
 to11:08:43.310UTC (66,760ms): `tracking/evidence/m07/job-batch-filter-proof/2026-11-01T11-07-36-550Z-197c2009.json`

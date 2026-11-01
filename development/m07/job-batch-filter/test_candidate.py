@@ -129,6 +129,26 @@ class CandidateTests(unittest.TestCase):
             self.assertIn(label,fixture)
         self.assertIn('if value is distinct from true',fixture)
         self.assertNotIn('commit;',fixture.lower());self.assertNotIn('claim_job_stage',fixture)
-        self.assertFalse(list((b.ROOT/'supabase/migrations').glob('*job_batch_filter*')))
+
+    def test_fixture_requires_more_than_one_maximum_page_with_interleaved_exclusions(self):
+        fixture=(HERE/'fixture.sql').read_text()
+        block=re.search(r'do \$jbf_large_pages\$(.*?)end\$jbf_large_pages\$;',fixture,re.S)
+        self.assertIsNotNone(block,'the original three-row case does not prove >100-row pagination')
+        source=block.group(1)
+        for assertion in ['100 + 100 + 5 accessible rows across maximum pages',
+            'all 205 expected IDs exactly once in ascending order; foreign workspace and other batch excluded',
+            'maximum-page cursors advance and the third page is terminal']:
+            self.assertIn(assertion,source)
+        self.assertIn("pg_temp.jbf_actor(pg_temp.jbf_id('b8380001',7))",fixture[:block.start()].split('set local role authenticated;')[-1])
+        for series in ['generate_series(1,205)','generate_series(1,7)','generate_series(1,8)']:
+            self.assertIn(series,fixture)
+        calls=Calls()
+        statement=parse_sql('do $jbf_large_pages$'+source+'end$jbf_large_pages$;')[0].stmt
+        for query in plpgsql_queries(parse_plpgsql(RawStream()(statement))):calls(parse_sql(query))
+        self.assertEqual([arity for name,arity in calls.calls if name=='public.eps_list_jobs_by_batch'],[5,5,5])
+        self.assertEqual(source.count('null,100,pg_temp.jbf_id(\'b8380005\',3)'),1)
+        self.assertEqual(source.count("::uuid,100,pg_temp.jbf_id('b8380005',3)"),2)
+        self.assertIn('actual_ids=expected_ids',source)
+        self.assertIn("third#>'{page,next_cursor}'='null'::jsonb",source)
 
 if __name__=='__main__':unittest.main()

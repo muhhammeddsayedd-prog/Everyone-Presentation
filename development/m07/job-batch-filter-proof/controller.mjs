@@ -12,7 +12,7 @@ export const DRAFT='development/m07/job-batch-filter/';
 export const DRAFT_FILES=['build_candidate.py','candidate.sql.txt','fixture.sql','test_candidate.py','README.md'].map(f=>DRAFT+f);
 export const PRIOR='tracking/evidence/m07/feedback-summary37-proof/2026-11-01T09-45-45-482Z-e109a4d1.json';
 export const PRIOR_SHA='3a98d0dabac723e8c599f200a30e6849596b41281c0828868a64a313d008b1b9';
-export const MANIFEST_SHA='c27ec9a049df1561a6972b279defbfb25d9ad977f975292cebe9ca5d4df7429a';
+export const MANIFEST_SHA='76bcb84fc6421967bb10e0df2a16ea11946906728cdb4caca68e3933ea2041c1';
 export async function checked(file){
  assert(typeof file==='string'&&!path.isAbsolute(file)&&!file.includes('\\')&&!file.startsWith('.local/')&&!file.split('/').some(v=>!v||v==='.'||v==='..'));
  const target=path.join(ROOT,file),s=await lstat(target);assert(s.isFile()&&!s.isSymbolicLink()&&s.nlink===1&&s.size<8*1024*1024&&await realpath(target)===target);return readFile(target);

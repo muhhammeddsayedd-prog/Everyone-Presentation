@@ -1,6 +1,6 @@
 {
   "pack_version": "1.0",
-  "updated_at": "2026-11-01T11:11:45Z",
+  "updated_at": "2026-11-01T17:25:53Z",
   "implementation_started": true,
   "current_milestone": "M07",
   "current_pilot": {
@@ -10738,5 +10738,26 @@
       "SQL_filled": false,
       "cloud_applied": false
     }
+  },
+  "batch_filter38_current": {
+    "status": "implemented_unverified",
+    "source_isolated": true,
+    "canonical_history": 37,
+    "local_sql197c_passed": true,
+    "local_sql197c_scope": "three accessible rows across three pages; not >100 jobs",
+    "next": "guarded canonical38 fill/review/apply/readback before compatible core/web integration",
+    "owner_feedback_mcp_pending": true,
+    "owner_guest_link_permission_pending": true,
+    "official38_empty_unapplied": true,
+    "local_sql205_passed": true,
+    "local_sql205_receipt": "tracking/evidence/m07/job-batch-filter-proof/2026-11-01T17-23-47-142Z-bb9cf2bf.json",
+    "local_sql205_elapsed_ms": 68362,
+    "local_sql205_exact_source_count": 376,
+    "local_sql205_scope": "205 accessible rows across100/100/5; interleaved foreign workspace/otherbatch excluded; full local permission/rollback cleanup passed",
+    "failed_preflight_runs": [
+      "787da730-4f7c-4c52-ba8e-a3a6946e9fdd",
+      "625d7c32-0fcb-447b-9276-c679d3552767"
+    ],
+    "failed_preflight_lock_reconciled": true
   }
 }

@@ -117,6 +117,36 @@ select pg_temp.jbf_actor(pg_temp.jbf_id('b8380001',1));
 select pg_temp.jbf_assert(public.eps_list_jobs_by_batch(null,null,null,25,pg_temp.jbf_id('b8380005',1))->'data'='[]'::jsonb,'revoked current membership immediately filters batch rows');
 rollback to savepoint jbf_membership;
 release savepoint jbf_membership;
+
+-- Metadata pagination only: no stages are claimed or dispatched. Accessible
+-- even UUIDs interleave both inaccessible same-batch and accessible other-batch
+-- odd UUIDs, so filtering after the page boundary cannot satisfy these checks.
+set local role postgres;
+insert into eps.jobs(id,workspace_id,requested_by,kind,resource_id,batch_id,input,input_hash,input_hash_version,dedupe_key,status,stage,correlation_id)
+ select pg_temp.jbf_id('b8380006',1000+2*n),pg_temp.jbf_id('b8380003',1),pg_temp.jbf_id('b8380001',7),
+ 'specs_extract',pg_temp.jbf_id('b8380008',1000+2*n),pg_temp.jbf_id('b8380005',3),'{}',repeat('0',64),'eps.specs-input.pg-jsonb.v1',
+ encode(sha256(convert_to('job-batch-filter-large-accessible-'||n,'UTF8')),'hex'),'queued','prepare_document','synthetic-large-accessible-'||n from generate_series(1,205)n;
+insert into eps.jobs(id,workspace_id,requested_by,kind,resource_id,batch_id,input,input_hash,input_hash_version,dedupe_key,status,stage,correlation_id)
+ select pg_temp.jbf_id('b8380006',1000+2*n-1),pg_temp.jbf_id('b8380003',2),pg_temp.jbf_id('b8380001',2),
+ 'specs_extract',pg_temp.jbf_id('b8380008',1000+2*n-1),pg_temp.jbf_id('b8380005',3),'{}',repeat('0',64),'eps.specs-input.pg-jsonb.v1',
+ encode(sha256(convert_to('job-batch-filter-large-foreign-'||n,'UTF8')),'hex'),'queued','prepare_document','synthetic-large-foreign-'||n from generate_series(1,7)n;
+insert into eps.jobs(id,workspace_id,requested_by,kind,resource_id,batch_id,input,input_hash,input_hash_version,dedupe_key,status,stage,correlation_id)
+ select pg_temp.jbf_id('b8380006',1300+2*n-1),pg_temp.jbf_id('b8380003',1),pg_temp.jbf_id('b8380001',7),
+ 'specs_extract',pg_temp.jbf_id('b8380008',1300+2*n-1),pg_temp.jbf_id('b8380005',4),'{}',repeat('0',64),'eps.specs-input.pg-jsonb.v1',
+ encode(sha256(convert_to('job-batch-filter-large-other-'||n,'UTF8')),'hex'),'queued','prepare_document','synthetic-large-other-'||n from generate_series(1,8)n;
+set local role authenticated;
+select pg_temp.jbf_actor(pg_temp.jbf_id('b8380001',7));
+do $jbf_large_pages$declare first jsonb;second jsonb;third jsonb;expected_ids jsonb;actual_ids jsonb;begin
+ first:=public.eps_list_jobs_by_batch(pg_temp.jbf_id('b8380003',1),null,null,100,pg_temp.jbf_id('b8380005',3));
+ second:=public.eps_list_jobs_by_batch(pg_temp.jbf_id('b8380003',1),null,(first#>>'{page,next_cursor}')::uuid,100,pg_temp.jbf_id('b8380005',3));
+ third:=public.eps_list_jobs_by_batch(pg_temp.jbf_id('b8380003',1),null,(second#>>'{page,next_cursor}')::uuid,100,pg_temp.jbf_id('b8380005',3));
+ select jsonb_agg(pg_temp.jbf_id('b8380006',1000+2*n)::text order by n)into expected_ids from generate_series(1,205)n;
+ actual_ids:=pg_temp.jbf_ids(first)||pg_temp.jbf_ids(second)||pg_temp.jbf_ids(third);
+ perform pg_temp.jbf_assert(jsonb_array_length(first->'data')=100 and jsonb_array_length(second->'data')=100 and jsonb_array_length(third->'data')=5,'100 + 100 + 5 accessible rows across maximum pages');
+ perform pg_temp.jbf_assert(actual_ids=expected_ids,'all 205 expected IDs exactly once in ascending order; foreign workspace and other batch excluded');
+ perform pg_temp.jbf_assert(first#>>'{page,next_cursor}'=pg_temp.jbf_id('b8380006',1200)::text and second#>>'{page,next_cursor}'=pg_temp.jbf_id('b8380006',1400)::text and third#>'{page,next_cursor}'='null'::jsonb,'maximum-page cursors advance and the third page is terminal');
+end$jbf_large_pages$;
+
 set local role anon;
 select pg_temp.jbf_error('select public.eps_list_jobs_by_batch(null,null,null,25,pg_temp.jbf_id(''b8380005'',1))','42501');
 set local role postgres;
