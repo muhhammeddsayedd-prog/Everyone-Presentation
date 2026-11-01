@@ -119,7 +119,7 @@ function initials(name: string) { return name.split(/\s+/u).filter(Boolean).slic
 function Navigation({ pathname, actor, central, fixture }: { pathname: string; actor: Actor | null; central: boolean; fixture: boolean }) {
   const recent = useRecentWorkspaces();
   return <>
-    <Link className="brand" href="/projects" aria-label="Everyone Presentation Studio home"><img src="/brand/everyone-logotype.svg" alt="everyone." /><span>Presentation Studio · Casting</span></Link>
+    <Link className="brand" href="/projects" aria-label="everyone. Presentation Studio · Casting home"><img src="/brand/everyone-logotype.svg" alt="everyone." /><span>Presentation Studio · Casting</span></Link>
     <nav className="global-nav" aria-label="Main navigation">{destinations.map(item => <Link href={item.path} key={item.path} aria-current={pathname.startsWith(item.path) ? 'page' : undefined}><Icon name={item.icon} /><span>{item.label}</span></Link>)}</nav>
     {actor && recent.length > 0 && <nav className="recent-nav" aria-label="Recent workspaces"><div className="nav-caption">Recent workspaces</div>{recent.map(item => <Link key={item.workspaceId} href={item.href} aria-current={pathname.startsWith(`/projects/${item.projectId}/casting/${item.workspaceId}`) ? 'page' : undefined}><span>{item.name}</span></Link>)}</nav>}
     <div className="sidebar-foot">

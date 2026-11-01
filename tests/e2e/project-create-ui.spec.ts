@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
 import { mkdir, utimes, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
@@ -42,6 +43,8 @@ test('create a shared Casting project before starting any workspace', async ({ p
   const dialog = page.getByRole('dialog', { name: 'New project', exact: true });
   await expect(dialog.getByRole('button', { name: 'Create project', exact: true })).toBeDisabled();
   await dialog.getByLabel('Project name', { exact: true }).fill('Synthetic new campaign');
+  const formAccessibility = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze();
+  expect(formAccessibility.violations).toEqual([]);
   await dialog.getByRole('button', { name: 'Create project', exact: true }).click();
   await expect(page).toHaveURL(new RegExp(`/projects/${projectId}$`));
   await expect(page.getByRole('heading', { name: 'Synthetic new campaign', exact: true })).toBeVisible();
@@ -63,6 +66,8 @@ test('planned project with permitted client saves an overview without a workspac
   await dialog.getByRole('button', { name: 'Create project', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Synthetic wardrobe campaign', exact: true })).toBeVisible();
   await expect(page.getByText('Wardrobe · Planned', { exact: true })).toBeVisible();
+  const overviewAccessibility = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze();
+  expect(overviewAccessibility.violations).toEqual([]);
   await expect(page.getByRole('button', { name: /Start casting|Generate/ })).toHaveCount(0);
   expect(state.writes).toHaveLength(1); expect(state.writes[0].body).toEqual({ name: 'Synthetic wardrobe campaign', presentation_type: 'wardrobe', client_id: clientId });
   expect(state.mutations).toEqual(['/api/v1/projects']); expect(state.errors).toEqual([]);
