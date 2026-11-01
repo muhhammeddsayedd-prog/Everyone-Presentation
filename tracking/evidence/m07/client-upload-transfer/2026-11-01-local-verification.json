@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-11-01T02:55:11.343339+00:00",
+  "evidence_kind": "deterministic_client_local_transfer_tests",
+  "source_pins": {
+    "tools/client-upload-transfer.mts": "4ed5efd3cdf4f00393e2833a3b90bb481ba84edeaff8c1ce36949e876d6ef4ba",
+    "tests/operations/client-upload-transfer.test.ts": "7582765ffb67b95580e074a9fbf062dc29b26cb0b6d4a5505a619d67388357e1",
+    "development/m07/DELEGATED_UPLOAD.md": "fd3d671ac66a46a54c6825d16da379d9d7d25e529393e26eaa1d270c0525d006"
+  },
+  "focused_tests": {
+    "passed": 16,
+    "failed": 0,
+    "skipped": 0,
+    "new_helper_tests": 11,
+    "unchanged_shared_TUS_tests": 5,
+    "root_command": "node tools/run-tests.mjs tests/operations/client-upload-transfer.test.ts tests/server/resumable-transfer.test.ts"
+  },
+  "targeted_eslint": {
+    "result": "passed",
+    "verified_by": "root"
+  },
+  "full_typescript_check": {
+    "result": "passed",
+    "verified_by": "implementation_agent_on_final16_test_source"
+  },
+  "independent_reviews": [
+    "security accepted",
+    "API and checkpoint compatibility accepted"
+  ],
+  "test_material": "synthetic temporary files and fake fetch only; no-argument CLI refusal",
+  "real_user_source_files_or_credentials_read": false,
+  "real_upload_or_provider_call_performed": false,
+  "actual_Claude_private_handoff_demonstrated": false,
+  "reserve_transfer_complete_job_acceptance": false,
+  "confirmed_pre_release_policy_fix": "Candidate-support images cap at5MiB; documents20MiB. RED then GREEN regression.",
+  "permissions_auth_configuration_or_server_contract_changed": false
+}

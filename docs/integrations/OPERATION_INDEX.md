@@ -11,6 +11,7 @@
 | `list_workspaces` | `GET /workspaces` | workspaces.read | Yes |
 | `create_workspace` | `POST /workspaces` | workspaces.write | Yes |
 | `get_workspace` | `GET /workspaces/{workspace_id}` | workspaces.read | Yes |
+| `get_workspace_summary` | `GET /workspaces/{workspace_id}/summary` | workspaces.read; library review count null without cast.read | Yes |
 | `update_workspace` | `PATCH /workspaces/{workspace_id}` | workspaces.write | Yes |
 | `get_specs` | `GET /workspaces/{workspace_id}/specs` | workspaces.read | Yes |
 | `submit_specs` | `POST /workspaces/{workspace_id}/specs` | workspaces.write | Yes |
@@ -73,11 +74,12 @@
 | `revoke_review_link` | `POST /review-links/{review_link_id}/revoke` | review_links.manage | Yes |
 | `rotate_review_link` | `POST /review-links/{review_link_id}/rotate` | review_links.manage | Yes |
 | `list_feedback` | `GET /versions/{version_id}/feedback` | workspaces.read | Yes |
+| `get_feedback_summary` | `GET /versions/{version_id}/feedback/summary` | workspaces.read; same version/project scope | Yes |
 | `create_comment` | `POST /versions/{version_id}/comments` | workspaces.write | Yes |
 | `update_comment` | `PATCH /comments/{comment_id}` | workspaces.write | Yes |
 | `set_preference` | `PUT /versions/{version_id}/preferences` | workspaces.write | Yes |
-| `list_jobs` | `GET /jobs` | operations.read OR owning workspace read | Yes |
-| `get_job` | `GET /jobs/{job_id}` | operations.read OR owning workspace read | Yes |
+| `list_jobs` | `GET /jobs` | operations.read OR owning workspace read OR own frame read | Yes |
+| `get_job` | `GET /jobs/{job_id}` | operations.read OR owning workspace read OR own frame read | Yes |
 | `retry_job` | `POST /jobs/{job_id}/retry` | operations.retry | Yes |
 | `cancel_job` | `POST /jobs/{job_id}/cancel` | operations.retry | Yes |
 | `get_settings` | `GET /settings` | settings.manage | Yes |
@@ -90,6 +92,7 @@
 | `guest_get_current_version` | `GET /review/presentation` | guest | No |
 | `guest_get_version` | `GET /review/versions/{version_id}` | guest | No |
 | `guest_list_feedback` | `GET /review/versions/{version_id}/feedback` | guest | No |
+| `guest_get_feedback_summary` | `GET /review/versions/{version_id}/feedback/summary` | same live guest session/link/version | No |
 | `guest_create_comment` | `POST /review/versions/{version_id}/comments` | guest | No |
 | `guest_update_comment` | `PATCH /review/comments/{comment_id}` | guest | No |
 | `guest_set_preference` | `PUT /review/versions/{version_id}/preferences` | guest | No |

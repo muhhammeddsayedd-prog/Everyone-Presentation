@@ -147,6 +147,7 @@ export async function startSpecsWorker(options: { signal?: AbortSignal } = {}): 
   process.once('SIGINT', stop); process.once('SIGTERM', stop); process.once('disconnect', stop); process.on('message', message);
   process.stdout.write(JSON.stringify({ event: 'specs_worker_started', authentication: 'narrow_database_login', orchestration: 'n8n_required' }) + '\n');
   try { await runSpecsWorker(gateway, router, { openAI, signal: controller.signal, review, fit, presentation, presentationExport,
+    onSpecsDiagnostic: value => process.stdout.write(JSON.stringify({ event: 'specs_stage_processing_failed', ...value }) + '\n'),
     candidate: candidate ? { ...candidate, onDiagnostic: value => process.stdout.write(JSON.stringify({ event: value.error_kind === 'native' ? 'candidate_video_processing_failed' : 'candidate_stage_processing_failed', ...value }) + '\n') } : undefined,
     frames: frames ? { ...frames, onDiagnostic: value => process.stdout.write(JSON.stringify({ event: 'frame_processing_failed', ...value }) + '\n') } : undefined,
     vision: vision ? { ...vision, onMetadata: metadata => process.stdout.write(JSON.stringify({ event: 'document_vision_page_processed', ...metadata }) + '\n') } : undefined,

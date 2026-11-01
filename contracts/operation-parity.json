@@ -69,6 +69,12 @@
           "domain_symbol": "updateWorkspace",
           "domain_source": "packages/central/src/studio.ts",
           "http_source": "apps/web/app/api/v1/[...segments]/route.ts"
+        },
+        {
+          "operation": "get_workspace_summary",
+          "domain_symbol": "getWorkspaceSummary",
+          "domain_source": "packages/central/src/studio.ts",
+          "http_source": "apps/web/lib/workspace-summary-http.ts"
         }
       ]
     },
@@ -599,6 +605,12 @@
         {
           "operation": "download_pdf_export",
           "domain_symbol": "downloadPdfExport",
+          "domain_source": "packages/central/src/guest-reviews.ts",
+          "http_source": "apps/web/lib/guest-http.ts"
+        },
+        {
+          "operation": "get_feedback_summary",
+          "domain_symbol": "getFeedbackSummary",
           "domain_source": "packages/central/src/guest-reviews.ts",
           "http_source": "apps/web/lib/guest-http.ts"
         }

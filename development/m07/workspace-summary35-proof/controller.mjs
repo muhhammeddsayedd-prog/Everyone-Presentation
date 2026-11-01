@@ -1,0 +1,68 @@
+/** Pure bounded hook compiler; frozen recovery/English sources remain unchanged. */
+import assert from 'node:assert/strict';
+import path from 'node:path';
+import { pathToFileURL } from 'node:url';
+import { compileEnglish34, ownedSql34, MIGRATION34 } from '../../m03/english-transcript34/controller.mjs';
+import { ownedPredicate33 } from '../recovery33/ownership.mjs';
+import { sha } from '../recovery33/compiler.mjs';
+import { FROZEN_MANIFEST_SHA, PURPOSE, PURPOSE_FILES, PRIOR_RECEIPT, PRIOR_RECEIPT_SHA, assertPriorCleanupState } from './sources.mjs';
+
+export const EXECUTION_ENABLED=true;
+export const MIGRATION35='supabase/migrations/20261031182038_m07_workspace_summary.sql';
+export const FIXTURE35='tests/db/m07-workspace-summary.sql';
+export const SUMMARY_COMMIT='13f7946c78650880176802505936ea8d74c5e2b4';
+const canonicalPins={
+ [MIGRATION35]:'cbb12610603318bce68ced4a58d0a9a01ee07737838c99a2ea0e6214e5e933e0',
+ [FIXTURE35]:'275b430fc401ea84a66e432c908cc9bdde77d17e362801ea39d15ed9209e7efe',
+};
+const text=(sources,file)=>{const value=sources.get(file);assert(value instanceof Uint8Array,'SUMMARY35_SOURCE_REQUIRED');return Buffer.from(value).toString('utf8');};
+export function validateSources(sources){
+ assert.equal(sha(sources.get(PURPOSE+'frozen-inputs.json')),FROZEN_MANIFEST_SHA,'SUMMARY35_FROZEN_MANIFEST_CHANGED');
+ const pins=JSON.parse(text(sources,PURPOSE+'frozen-inputs.json'));
+ for(const[file,digest]of Object.entries({...pins,...canonicalPins}))assert.equal(sha(sources.get(file)),digest,'SUMMARY35_FROZEN_INPUT_CHANGED');
+ assert.equal(sha(sources.get(PRIOR_RECEIPT)),PRIOR_RECEIPT_SHA,'SUMMARY35_PRIOR_RECEIPT_REQUIRED');
+ assertPriorCleanupState(JSON.parse(text(sources,PRIOR_RECEIPT)));
+ for(const file of PURPOSE_FILES)text(sources,PURPOSE+file);
+}
+export function ownedSummary35(sources,identity){
+ validateSources(sources);
+ const original=text(sources,MIGRATION35),guard="current_database() <> 'postgres'";
+ assert.equal(original.split(guard).length,2,'SUMMARY35_FIXED_ADMISSION_REQUIRED');
+ const sql=original.replace(guard,'('+ownedPredicate33(identity)+')');
+ assert.equal(sql.slice(sql.indexOf('\ncreate function public.eps_get_workspace_summary')),
+  original.slice(original.indexOf('\ncreate function public.eps_get_workspace_summary')),'SUMMARY35_FUNCTIONAL_DDL_CHANGED');
+ return {sql,canonical_sha256:sha(original),adapted_sha256:sha(sql),admission_only:true};
+}
+export function fixtureSavepoint35(sources){
+ validateSources(sources);const original=text(sources,FIXTURE35);
+ assert.equal(original.split('\nbegin;\n').length,2,'SUMMARY35_FIXED_FIXTURE_BEGIN_REQUIRED');
+ assert.equal(original.split('\nrollback;\n').length,2,'SUMMARY35_FIXED_FIXTURE_ROLLBACK_REQUIRED');
+ assert.equal(original.slice(original.lastIndexOf('\nrollback;\n')+'\nrollback;\n'.length).trim(),'');
+ return original.replace('\nbegin;\n','\nsavepoint summary35_fixture;\n')
+  .replace('\nrollback;\n','\nrollback to savepoint summary35_fixture;release savepoint summary35_fixture;\n');
+}
+export function compileSummary35(sources,{root,runId}){
+ validateSources(sources);const base=compileEnglish34(sources,{root,runId});let source=base.source;const substitutions=[];
+ function change(old,value,label){assert.equal(source.split(old).length,2,'SUMMARY35_FIXED_CONTROLLER_SEAM_REQUIRED');
+  source=source.replace(old,value);substitutions.push({label,removed_sha256:sha(old),inserted_sha256:sha(value)});}
+ const url=file=>pathToFileURL(path.join(root,file)).href;
+ change(`import { runEnglish34 } from '${url('development/m03/english-transcript34/runtime.mjs')}';`,
+  `import { runSummary35 } from '${url(PURPOSE+'runtime.mjs')}';`,'dedicated-runtime-hook');
+ change('await runEnglish34({','await runSummary35({','dedicated-runtime-invocation');
+ change(`const ROOT = ${JSON.stringify(root)};`,`const ROOT = ${JSON.stringify(root)};\nif(!${EXECUTION_ENABLED})throw Error('SUMMARY35_ROOT_REVIEW_REQUIRED');`,'execution-closed-before-target-or-lock');
+ change("scope: 'Owned local29->33 plus additive34 synthetic SQL rollback proof; no restore/native/provider acceptance'",
+  "scope: 'Owned local29->33 plus actual34/35 Summary synthetic SQL rollback proof; no restore/native/provider/hosted acceptance'",'truthful-summary-scope');
+ change("'tracking/evidence/m03/english-transcript34'","'tracking/evidence/m07/workspace-summary35-proof'",'dedicated-receipt');
+ change("'.local/m03-english34-tests'","'.local/m07-workspace-summary35-tests'",'dedicated-private-artifacts');
+ change("'ENGLISH34_PREPARED_SOURCE_CHANGED'","'SUMMARY35_PREPARED_SOURCE_CHANGED'",'same-full-source-closure-guard');
+ return {source,manifest:{schema_version:'1.0',run_id:runId,execution_enabled:EXECUTION_ENABLED,database_executed:false,
+  source_sha256:Object.fromEntries([...sources].map(([file,bytes])=>[file,sha(bytes)])),generated_source_sha256:sha(source),
+  summary_source_commit:SUMMARY_COMMIT,canonical_summary_sources:canonicalPins,english34_base_sha256:base.manifest.generated_source_sha256,
+  required_prior_cleanup:{receipt:PRIOR_RECEIPT,sha256:PRIOR_RECEIPT_SHA,run_id:'3304bf06-3195-4782-944b-8b2efc2cc480',attempt_result:'failed',cleanup_verified:true},
+  inherited_english34_manifest:base.manifest,substitutions,actual30_to33_required:true,actual34_required:true,
+  history34_row_ephemeral:true,history35_inserted:false,all34_and35_sql_rollback_required:true,source_only:true}};
+}
+export function summaryWireParts(sources,identity){
+ validateSources(sources);return {english:ownedSql34(sources,identity),summary:ownedSummary35(sources,identity),
+  fixture:fixtureSavepoint35(sources),actual34_sha256:sha(sources.get(MIGRATION34))};
+}

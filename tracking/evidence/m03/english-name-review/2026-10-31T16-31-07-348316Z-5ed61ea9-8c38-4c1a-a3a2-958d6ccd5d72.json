@@ -1,0 +1,32 @@
+{
+  "business_or_reviewed_facts_mutated": false,
+  "case_alias": "permitted-arabic-introduction-01",
+  "checks": {
+    "comparison_kind": "canonical_arabic_characters_not_phonetic_matching",
+    "existing_owner_name_token_count": 3,
+    "expected_complete_name_present_after_compaction": false,
+    "expected_tokens_absent_after_compaction": 1,
+    "expected_tokens_present_after_compaction": 2,
+    "new_translation_error_determined": false,
+    "source_already_differs_from_existing_owner_full_name": true,
+    "unmatched_token_is_not_an_english_transliteration_artifact": true
+  },
+  "cloud_called": false,
+  "conclusion": "original_asr_source_name_differs_from_the_corrected_reviewed_name",
+  "evidence_kind": "retained_asr_source_vs_existing_owner_name_comparison",
+  "limitations": "Cannot recover previous discarded English wording, measure ASR accuracy, or infer a new translation error.",
+  "mapping_basis": "investigator_spelling_mapping_of_existing_owner_key",
+  "new_owner_labels_requested": false,
+  "observed_at": "2026-10-31T16:31:07.347971+00:00",
+  "original_source_and_owner_key_unchanged": true,
+  "previous_english_output_available": false,
+  "previous_english_output_wording_determined": false,
+  "previous_failed_component_receipt_preserved": true,
+  "prior_reviewed_name_correction_independently_recorded": true,
+  "provider_called": false,
+  "raw_transcript_name_values_or_scalar_name_hashes_emitted": false,
+  "remedy": "verify_source_faithful_english_separately_from_preservation_of_reviewed_facts",
+  "retained_original_sha256_verified": true,
+  "reviewed_proof_sha256": "51b39670ff6493aa1e6efb1f357484e1083681d38a41e421b3f79e19d7b39a76",
+  "source_bound_to_existing_reviewed_proof": true
+}

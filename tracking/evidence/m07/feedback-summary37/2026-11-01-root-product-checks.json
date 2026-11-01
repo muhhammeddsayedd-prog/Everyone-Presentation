@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-11-01 09:51:28 UTC",
+  "result": "passed",
+  "scope": "Root deterministic package commands; no hosted/native-media/provider acceptance",
+  "commands": [
+    {
+      "command": "npm.cmd test",
+      "exit_code": 0,
+      "output_truncated": true,
+      "final_chunk_id": "b51a58"
+    },
+    {
+      "command": "npm.cmd run lint",
+      "exit_code": 0,
+      "output_truncated": false,
+      "final_chunk_id": "b81962"
+    },
+    {
+      "command": "npm.cmd run typecheck",
+      "exit_code": 0,
+      "output_truncated": false,
+      "final_chunk_id": "1b0136"
+    }
+  ],
+  "aggregate_test_count_claimed": null,
+  "aggregate_skip_count_claimed": null,
+  "reason_no_aggregate_count": "Tool output was truncated; no total was reconstructed.",
+  "product_typescript_contracts_unchanged_after_commands": true,
+  "later_changes": "Only local SQL fixture, its source regression, proof transport tests and pre-execution flags changed; actual owned PostgreSQL evidence is separate.",
+  "owned_sql_receipt": "tracking/evidence/m07/feedback-summary37-proof/2026-11-01T09-45-45-482Z-e109a4d1.json",
+  "owned_sql_receipt_sha256": "3a98d0dabac723e8c599f200a30e6849596b41281c0828868a64a313d008b1b9",
+  "new_focused_typescript_cases": 12,
+  "source_python_cases": 7,
+  "inert_proof_cases": 7,
+  "provider_called": false,
+  "raw_output_persisted": false
+}

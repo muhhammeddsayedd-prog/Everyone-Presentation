@@ -1,0 +1,52 @@
+-- Additive M07 batch filter38. Functional suffix is byte-identical to the
+-- actual ownedbb9cf2bf 205-job SQL proof. No existing business function is replaced.
+begin;
+set local search_path='';set local lock_timeout='5s';set local statement_timeout='45s';
+do $batch38_target$declare retained_port pg_proc;begin
+ if current_database()<>'postgres'or current_user<>'postgres'or session_user<>'postgres'
+ or(select array_agg(version order by version)from supabase_migrations.schema_migrations)is distinct from array['20261028010943','20261028013324','20261028013655','20261028024205','20261028072515','20261028162702','20261028162800','20261028172320','20261028184145','20261028222030','20261029001520','20261029003941','20261029070038','20261029090500','20261029090724','20261029094600','20261029100500','20261029133455','20261029135318','20261029174841','20261029180953','20261029202629','20261029203953','20261029215218','20261030002634','20261030004643','20261030013832','20261030030717','20261030111549','20261030154824','20261031010000','20261031104603','20261031130207','20261031143711','20261031182038','20261101012057','20261101042702']::text[]
+ or exists(select 1 from pg_proc prospective_proc join pg_namespace prospective_namespace on prospective_namespace.oid=prospective_proc.pronamespace where prospective_namespace.nspname='public'and prospective_proc.proname='eps_list_jobs_by_batch')
+ or has_schema_privilege('eps_jobs_owner','public','CREATE')
+ or not exists(select 1 from pg_roles where rolname='eps_jobs_owner'and not rolcanlogin and not rolsuper and not rolinherit and not rolbypassrls and not rolcreaterole and not rolcreatedb and not rolreplication)
+ then raise exception'BATCH38_EXACT_CANONICAL37_REQUIRED';end if;
+ select*into retained_port from pg_proc where oid=to_regprocedure('public.eps_list_jobs(uuid,text,uuid,integer)');
+ if retained_port.oid is null or pg_get_userbyid(retained_port.proowner)<>'eps_jobs_owner'or not retained_port.prosecdef
+ or retained_port.proconfig is distinct from array['search_path=""']::text[]or retained_port.provolatile<>'v'
+ or retained_port.prokind<>'f'or retained_port.prorettype<>'jsonb'::regtype or retained_port.proretset or retained_port.proisstrict or retained_port.proleakproof
+ or retained_port.pronargs<>4 or retained_port.pronargdefaults<>4
+ or encode(sha256(convert_to(replace(retained_port.prosrc,E'\r\n',E'\n'),'UTF8')),'hex')<>'a2239225b995673e9ab432ac63014f742b25032cc586c790535db260c551d241'
+ then raise exception'BATCH38_CURRENT_OLD_PORT_REQUIRED';end if;
+ perform set_config('eps.job_batch_filter.old_port',to_jsonb(retained_port)::text,true);
+end$batch38_target$;
+
+create function public.eps_list_jobs_by_batch(p_workspace_id uuid,p_status text,p_cursor uuid,p_limit integer,p_batch_id uuid)returns jsonb
+language plpgsql security definer set search_path=''as $job_batch_filter$ declare items jsonb[]; begin
+  perform set_config('eps.jobs.mode','user',true);
+  if auth.uid() is null then perform eps.fail('AUTH_REQUIRED','Sign in.',401); end if;
+  if not(eps.has_capability('workspaces.read') or eps.has_capability('operations.read') or eps.has_capability('cast.read')) then perform eps.fail('CAPABILITY_REQUIRED','Job read capability required.',403); end if;
+  if p_batch_id is null or p_limit is null or p_limit not between 1 and 100 or p_status is not null and p_status not in('queued','running','waiting_for_input','succeeded','failed','cancelled')
+  then perform eps.fail('INVALID_REQUEST','Invalid jobs filter.',400); end if;
+  select coalesce(array_agg(dto order by id),array[]::jsonb[]) into items from
+    (select id,eps.jobs_dto(id) dto from eps.jobs where batch_id=p_batch_id and (p_workspace_id is null or workspace_id=p_workspace_id) and (p_status is null or status=p_status)
+      and (p_cursor is null or id>p_cursor) and (kind='frame_extract' and eps.frame_user_can_read(jobs) or kind<>'frame_extract' and eps.jobs_can_access(workspace_id,'read')) order by id limit p_limit+1) page;
+  return jsonb_build_object('data',to_jsonb(items[1:p_limit]),'page',jsonb_build_object('next_cursor',case when cardinality(items)>p_limit then items[p_limit]->>'id' else null end));
+end $job_batch_filter$;
+revoke all on function public.eps_list_jobs_by_batch(uuid,text,uuid,integer,uuid)from public,anon,authenticated,service_role,eps_api_owner,eps_jobs_dispatcher;
+grant create on schema public to eps_jobs_owner;
+alter function public.eps_list_jobs_by_batch(uuid,text,uuid,integer,uuid)owner to eps_jobs_owner;
+revoke create on schema public from eps_jobs_owner;
+grant execute on function public.eps_list_jobs_by_batch(uuid,text,uuid,integer,uuid)to authenticated;
+do $batch_filter_after$declare p pg_proc;q pg_proc;begin
+ select*into p from pg_proc where oid=to_regprocedure('public.eps_list_jobs(uuid,text,uuid,integer)');
+ select*into q from pg_proc where oid=to_regprocedure('public.eps_list_jobs_by_batch(uuid,text,uuid,integer,uuid)');
+ if to_jsonb(p)is distinct from current_setting('eps.job_batch_filter.old_port')::jsonb
+ or has_schema_privilege('eps_jobs_owner','public','CREATE')
+ or q.oid is null or pg_get_userbyid(q.proowner)<>'eps_jobs_owner'or not q.prosecdef or q.pronargdefaults<>0
+ or q.proconfig is distinct from array['search_path=""']::text[]
+ or encode(sha256(convert_to(replace(q.prosrc,E'\r\n',E'\n'),'UTF8')),'hex')<>'323d6c19b056cd722cb915717d88616eaf28ed52c82c2743327f84690287d3f9'
+ or exists(select 1 from aclexplode(coalesce(q.proacl,acldefault('f',q.proowner)))a where a.grantor<>q.proowner or a.grantee not in('eps_jobs_owner'::regrole,'authenticated'::regrole)or a.privilege_type<>'EXECUTE'or a.is_grantable)
+ or not has_function_privilege('authenticated','public.eps_list_jobs_by_batch(uuid,text,uuid,integer,uuid)','EXECUTE')
+ then raise exception'JOB_BATCH_FILTER_BOUNDARY_CHANGED';end if;
+end$batch_filter_after$;
+notify pgrst,'reload schema';
+commit;

@@ -1,0 +1,1923 @@
+{
+  "schema_version": "1.0",
+  "run_id": "ef4cb6c2-3f4a-4869-a71a-d747f1db99ca",
+  "started_at": "2026-10-31T18:47:07.800Z",
+  "result": "passed",
+  "scope": "Owned local29->33 plus actual34/35 Summary synthetic SQL rollback proof; no restore/native/provider/hosted acceptance",
+  "cloud_called": false,
+  "provider_called": false,
+  "runtime_configuration_loaded": false,
+  "canonical_business_writes": false,
+  "storage_http_tested": false,
+  "deployed_restore_tested": false,
+  "checkpoint": "complete",
+  "private_artifact_acl": "current-user-and-SYSTEM-only-verified",
+  "preflight": {
+    "jobs": 0,
+    "users": 0,
+    "assets": 0,
+    "versions": 0,
+    "guest_key": false,
+    "verifiers": 0,
+    "migrations": 29,
+    "other_clients": 0
+  },
+  "original_baseline_sha256": "89ce5bb54fa39dcb557ce0bf8cf10f98399ea82380357c867581dade24b1b8ee",
+  "existing_global_roles_before": {
+    "roles": [
+      {
+        "oid": "16443",
+        "name": "anon",
+        "login": false,
+        "inherit": true,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "16444",
+        "name": "authenticated",
+        "login": false,
+        "inherit": true,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "16446",
+        "name": "authenticator",
+        "login": true,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "16514",
+        "name": "dashboard_user",
+        "login": false,
+        "inherit": true,
+        "bypassrls": false,
+        "create_db": true,
+        "superuser": false,
+        "create_role": true,
+        "replication": true,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "16705",
+        "name": "eps_api_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "28423",
+        "name": "eps_candidate_apply_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "28213",
+        "name": "eps_candidate_assets_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "28211",
+        "name": "eps_candidate_stage_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "28215",
+        "name": "eps_candidate_upload_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "22761",
+        "name": "eps_cast_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "33540",
+        "name": "eps_casting_guard_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "33538",
+        "name": "eps_casting_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "16707",
+        "name": "eps_draft_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "61202",
+        "name": "eps_guest_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "17686",
+        "name": "eps_jobs_dispatcher",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "19622",
+        "name": "eps_jobs_executor",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "17684",
+        "name": "eps_jobs_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "17291",
+        "name": "eps_logo_verify_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "136239",
+        "name": "eps_mcp_session_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "38694",
+        "name": "eps_review_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "38800",
+        "name": "eps_review_stage_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "136193",
+        "name": "eps_settings_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "19620",
+        "name": "eps_specs_apply_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "20623",
+        "name": "eps_specs_assets_executor",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "20621",
+        "name": "eps_specs_assets_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "18250",
+        "name": "eps_specs_initializer",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "18248",
+        "name": "eps_specs_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "19618",
+        "name": "eps_specs_stage_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "19616",
+        "name": "eps_specs_submit_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "20617",
+        "name": "eps_specs_upload_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "20619",
+        "name": "eps_specs_verify_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "30094",
+        "name": "eps_support_upload_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "30096",
+        "name": "eps_support_verify_owner",
+        "login": false,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "4544",
+        "name": "pg_checkpoint",
+        "login": false,
+        "inherit": true,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "6304",
+        "name": "pg_create_subscription",
+        "login": false,
+        "inherit": true,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "6171",
+        "name": "pg_database_owner",
+        "login": false,
+        "inherit": true,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "4571",
+        "name": "pg_execute_server_program",
+        "login": false,
+        "inherit": true,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "6337",
+        "name": "pg_maintain",
+        "login": false,
+        "inherit": true,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "3373",
+        "name": "pg_monitor",
+        "login": false,
+        "inherit": true,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "6181",
+        "name": "pg_read_all_data",
+        "login": false,
+        "inherit": true,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "3374",
+        "name": "pg_read_all_settings",
+        "login": false,
+        "inherit": true,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "3375",
+        "name": "pg_read_all_stats",
+        "login": false,
+        "inherit": true,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "4569",
+        "name": "pg_read_server_files",
+        "login": false,
+        "inherit": true,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "4200",
+        "name": "pg_signal_backend",
+        "login": false,
+        "inherit": true,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "3377",
+        "name": "pg_stat_scan_tables",
+        "login": false,
+        "inherit": true,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "4550",
+        "name": "pg_use_reserved_connections",
+        "login": false,
+        "inherit": true,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "6182",
+        "name": "pg_write_all_data",
+        "login": false,
+        "inherit": true,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "4570",
+        "name": "pg_write_server_files",
+        "login": false,
+        "inherit": true,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "16385",
+        "name": "pgbouncer",
+        "login": true,
+        "inherit": true,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "16384",
+        "name": "postgres",
+        "login": true,
+        "inherit": true,
+        "bypassrls": true,
+        "create_db": true,
+        "superuser": false,
+        "create_role": true,
+        "replication": true,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "16445",
+        "name": "service_role",
+        "login": false,
+        "inherit": true,
+        "bypassrls": true,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "10",
+        "name": "supabase_admin",
+        "login": true,
+        "inherit": true,
+        "bypassrls": true,
+        "create_db": true,
+        "superuser": true,
+        "create_role": true,
+        "replication": true,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "16504",
+        "name": "supabase_auth_admin",
+        "login": true,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": true,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "16390",
+        "name": "supabase_etl_admin",
+        "login": true,
+        "inherit": true,
+        "bypassrls": true,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": true,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "16658",
+        "name": "supabase_privileged_role",
+        "login": false,
+        "inherit": true,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "16392",
+        "name": "supabase_read_only_user",
+        "login": true,
+        "inherit": true,
+        "bypassrls": true,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "16389",
+        "name": "supabase_replication_admin",
+        "login": true,
+        "inherit": true,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": false,
+        "replication": true,
+        "valid_until": null,
+        "connection_limit": -1
+      },
+      {
+        "oid": "16506",
+        "name": "supabase_storage_admin",
+        "login": true,
+        "inherit": false,
+        "bypassrls": false,
+        "create_db": false,
+        "superuser": false,
+        "create_role": true,
+        "replication": false,
+        "valid_until": null,
+        "connection_limit": -1
+      }
+    ],
+    "memberships": [
+      {
+        "set": true,
+        "admin": true,
+        "inherit": true,
+        "role_oid": "3373",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "3373",
+        "member_oid": "16390",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "3373",
+        "member_oid": "16392",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "3374",
+        "member_oid": "3373",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "3375",
+        "member_oid": "3373",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "3377",
+        "member_oid": "3373",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": true,
+        "inherit": true,
+        "role_oid": "4200",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": true,
+        "inherit": true,
+        "role_oid": "6181",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "6181",
+        "member_oid": "16390",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "6181",
+        "member_oid": "16392",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": true,
+        "inherit": true,
+        "role_oid": "6304",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": true,
+        "inherit": true,
+        "role_oid": "16443",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": false,
+        "role_oid": "16443",
+        "member_oid": "16446",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": true,
+        "inherit": true,
+        "role_oid": "16444",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": false,
+        "role_oid": "16444",
+        "member_oid": "16446",
+        "grantor_oid": "10"
+      },
+      {
+        "set": false,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "16444",
+        "member_oid": "16705",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "16444",
+        "member_oid": "17291",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "16444",
+        "member_oid": "17684",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "16444",
+        "member_oid": "18248",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "16444",
+        "member_oid": "19616",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "16444",
+        "member_oid": "20617",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "16444",
+        "member_oid": "20619",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "16444",
+        "member_oid": "22761",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "16444",
+        "member_oid": "28215",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "16444",
+        "member_oid": "30094",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "16444",
+        "member_oid": "30096",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "16444",
+        "member_oid": "33538",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "16444",
+        "member_oid": "38694",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "16444",
+        "member_oid": "136193",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "16444",
+        "member_oid": "136239",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": true,
+        "admin": true,
+        "inherit": true,
+        "role_oid": "16445",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": false,
+        "role_oid": "16445",
+        "member_oid": "16446",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": true,
+        "inherit": true,
+        "role_oid": "16446",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": false,
+        "role_oid": "16446",
+        "member_oid": "16506",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "16658",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "16658",
+        "member_oid": "16390",
+        "grantor_oid": "10"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "16705",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "16705",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "16707",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "16707",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "17291",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "17291",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "17684",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "17684",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "17686",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "17686",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "18248",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "18248",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "18250",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "18250",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "19616",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "19616",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "19618",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "19618",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "19620",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "19620",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "19622",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "19622",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "20617",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "20617",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "20619",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "20619",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "20621",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "20621",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "20623",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "20623",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "22761",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "22761",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "28211",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "28211",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "28213",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "28213",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "28215",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "28215",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "28423",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "28423",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "30094",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "30094",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "30096",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "30096",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "33538",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "33538",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "33540",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "33540",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "38694",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "38694",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "38800",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "38800",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "61202",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "61202",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "136193",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "136193",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      },
+      {
+        "set": false,
+        "admin": true,
+        "inherit": false,
+        "role_oid": "136239",
+        "member_oid": "16384",
+        "grantor_oid": "10"
+      },
+      {
+        "set": true,
+        "admin": false,
+        "inherit": true,
+        "role_oid": "136239",
+        "member_oid": "16384",
+        "grantor_oid": "16384"
+      }
+    ]
+  },
+  "original_catalogue_fields": 16430,
+  "original_catalogue_sha256": "9aa2b0cb8229c093241f76af30729078b4392849410443a6f0249c7e3fd17221",
+  "source_seals": {
+    "development/m07/recovery29/run.mjs": "d5602e34077b8cce5ad5c100893b6d7b4be984305f9705ce75fed3e90c7fbffd",
+    "development/m07/recovery29/profile.mjs": "be0c7b30ca143e6dc054aa82f288d03fd01ed507a15fba1f45667ff412f25520",
+    "development/m07/recovery29/profile.test.mjs": "599b76d942b95b1fbd24ed59b4cf05ada09ad2eef49fc77edd34b51501737e02",
+    "development/m07/recovery29/profile8.mjs": "05f37168da8d7e1d58b17be30e0aecc0604657bdfd3cc7fb3162ca5f14378b31",
+    "development/m07/recovery29/profile8.test.mjs": "964ac2c8a014a7cfebd8fa5d730392d80a0140aef5923bfda1ef13025b218fd8",
+    "development/m07/recovery29/observed-pairs.mjs": "78450ba18f7d89ad56e17bfcf816f0f210a0e8b0b3c2441331a70f9dc83bc767",
+    "tracking/evidence/m07/recovery29/2026-10-30T12-19-02-143Z-0ec7ead2-diagnostic-differences.json": "ea581b2e795f6c06fe2b950b714957520529517f946bfcf9fb7f100005015d2a",
+    "development/m07/recovery29/identity.mjs": "c785bf1533031b560ad538fdcf5fbddb00eeb28d5f72e0d5d65524a933ad727d",
+    "development/m07/recovery29/ownership.mjs": "9118e7bd46dff15ccece950f88cd86ffc5b6c3fb86382d89792da5892a38de79",
+    "development/m07/recovery29/ownership.test.mjs": "b75ccd0d404a3c46f7f4f3549b8bf89a5067c854d12dda20f598d40e3e7b07ce",
+    "development/m07/recovery29/predicate.test.mjs": "2cbb7b5e9de6d613b9a494fc154716e77360f4ab0aa69b679611b0b10dee8845",
+    "development/local-db/reviewed.json": "9722f25317f783123ec462227e94aecf65ea1cb27a9b59cf0d6bc07420f5d671",
+    "tools/m07-original-profile29-comparison.mjs": "e5bf4b4c8a1e1a682e303615cb9989340f3d014988488f48d794da643b2cdc20",
+    "development/m07/db/catalog29.sql": "1af59495b01424e6ec2578f6ea1f8ac362829577612c32b2cd373545a58b9098",
+    "development/m07/db/release29-readback.sql": "e38028dbbe87d5c74bd626e9c0ac1297c861d571b4de35ba3d0c7d967694e9de",
+    "development/m07/db/release29-original-profile.json": "681fe120fea3ee70e35bd2c4ab4734e2b95e89e40ceef5a678f857adfa673cc2",
+    "tracking/evidence/m07/original-profile29/2026-10-30T11-35-45-537Z-e56dec11-report.json": "047a0580ed6fe656a5a45616425716c2dce271573adfac0401843b79c59adb1d",
+    "tracking/evidence/m07/original-profile29/2026-10-30T11-35-45-537Z-e56dec11-after-catalogue.json": "dcc5e065d77f504deaf1ebbb19a75eee4b940a32bf7dfbf1905e22b4e44f6c19",
+    "tools/test-m07-recovery-local.mjs": "f48fe7ee99edb69f7c7d571e2d5955192ed0cc8ac0cfc8f3bf0422748ce18842",
+    "tools/m07-recovery-bundle.mjs": "0938d274456d19130eaa95554ee5d7b90b364efafed13912fa5c62001193268c",
+    "tests/operations/m07-recovery-bundle.test.mjs": "9a40986c9d4c63e459015eb51eb493ccb9deb2c9aac97af488b848809daa395e",
+    "tools/local-postgres.mjs": "49929bce8eb51194d9299cfd9639e537eb237daaec76c15740cb88059604e2de",
+    "tests/db/m04-assignments-fixture.sql": "cb5f418fee0dc3a9b00a9ddeaa3971f5df1c3384c459905baa19b4e04f1d9cb4",
+    "tests/db/m05-versions-fixture.sql": "da13283bc15481fc1bb76b9d36a3360c3a30d7b6cc06b7c0a979e25e086c636d",
+    "apps/worker/src/presentation-stage-executor.ts": "97fc66ff385b0726dc16d6aceaa6d4a10e501a606b7de75cd6dc0a6056357d4d",
+    "apps/worker/src/presentation-export-executor.ts": "15e4b6f7123c4340f8f0dd6c4869b711c1a4bb3433ce66e14d9b9d6093091e06",
+    "apps/worker/src/presentation-pdf.ts": "9ecaa02838192d6589cd0150679923648dc558b1409bdd5db69c5ac76f35d5db",
+    "apps/worker/src/video-container.ts": "b61b93b1f537efb10b8be228c53fd12fb990d70c72498699f35e2d9f97f5f92f",
+    "packages/templates/versions/1.1.0/registry.json": "e830204db50a226ab8d10e0eef323eca4983f92de17db0647893a8ab355e57e3",
+    "packages/templates/versions/1.1.0/render.ts": "f58d10501fac36e1f2f5b80b2f3e814901972084acf94fe4047434e42db7225c",
+    "apps/web/public/brand/everyone-logotype-white.svg": "cb1f84c546247f81f7972ede5a374505c3de95d9fe9cee92ff60bda558166b98",
+    "apps/web/public/fonts/IBMPlexSans-Regular.woff2": "ba711a3085ff9f27440b6b9c4550cfc47c97bf36591d5da958b975bb3add8c1a",
+    "apps/web/public/fonts/IBMPlexSans-Medium.woff2": "5660f8a658f8bb50dbc005232f885eadffd2bc1c235c4f6fbb63469d1f9cde6d",
+    "apps/web/public/fonts/IBMPlexSans-SemiBold.woff2": "f78048030eab62e860efa39a0df79e2e5581bf122eb95b9bc42c0b8a4988d205",
+    "apps/web/public/fonts/IBMPlexSansArabic-Regular.woff2": "74112e1b7bf2e2c547989a4e947a60cba6cd1f9156e0065670134636e717199d",
+    "apps/web/public/fonts/IBMPlexSansArabic-Medium.woff2": "c72f6986f50ded745d06e71e508096209c52a55a6b3a81029954e33c52ba1dd2",
+    "apps/web/public/fonts/IBMPlexSansArabic-SemiBold.woff2": "869b2acd0a9660607a2025f0fe1c640110bf23d33417509328f07722922b8063",
+    "tools/build-candidate-wf02.mjs": "c64710c7cd3e98a2b71977761abf16ec4d8274b287da4b2b41550f8c3f8b64bd",
+    "tools/build-review-wf05.mjs": "6830d9db4c0e9588dca8590451f45ee6b7ba240a1519ce356874732038350ee1",
+    "tools/build-presentation-wf03.mjs": "9e160d960d5db98752d7617363693e035b509730541c7802375352f5f50f1337",
+    "development/m06/wf03-lexer-fixed-candidate.json": "e0cb7f88d11baae509981f2b4d0b3925ab5d038028373a03a5048e783ef21a4f",
+    "workflows/WF-04-RECOVERY-AND-MAINTENANCE.md": "e71b05afedbb20626a3fcc60246ef2a43335230f7084c29aa03cb07ec598ad77",
+    "supabase/migrations/20261028010943_m01_canonical_foundation.sql": "8a5f3ed7727a72051e630307d2daecab8c4a74054398a6425e73bd85e17568b9",
+    "supabase/migrations/20261028013324_m01_identity_role_inheritance.sql": "5382efe9fbdf9c194010257e0ac0024dcb447207522036560056d5d1a4e20e30",
+    "supabase/migrations/20261028013655_m01_workspace_scope_alias.sql": "67ddb2cff9fed9c42d34657e833c613aec4afd2769543a991bbac84da355db64",
+    "supabase/migrations/20261028024205_m01_private_logo_boundary.sql": "b04af5119b4e384bd96136573eec39e69f21a0ffb7d9f4aeb07bbf48f2976b9d",
+    "supabase/migrations/20261028072515_m01_logo_upload_capability.sql": "4dbd400092d7743b02dd0769ae511c208e6f4f349428fc0e7f0fb9c573ba4b24",
+    "supabase/migrations/20261028162702_m01_replay_scope_refresh.sql": "82a4f2ec03efc0787aa58e5f1e68ab626e5dddb5e4c645444103456757bf4251",
+    "supabase/migrations/20261028162800_m02_jobs_outbox.sql": "f619b3dfb9d964ab5902d04941b8cd59b44e9da36f1ab3f7b10bd45298ff4013",
+    "supabase/migrations/20261028172320_m02_manual_specs_draft.sql": "8ab866a49cb2e01eabf3b83076fe4519a60255263d0a1a170ef3ba9718a2349c",
+    "supabase/migrations/20261028184145_m02_role_order.sql": "14f96c7e635fe46cb11393a881bca26068d696c32f5e454df8655299702b1efa",
+    "supabase/migrations/20261028222030_m02_specs_pipeline.sql": "1e5319bb81be1f12896f7efb5a2cb7706653b79eb440a4dc1aaaca4ed9556895",
+    "supabase/migrations/20261029001520_m02_specs_assets.sql": "9b35e8efdfc5184252ab4ecfe1a50861c8991dadf2b20544d481b51b3b7fb288",
+    "supabase/migrations/20261029003941_m02_specs_mime_guard.sql": "5a4439e9dd5262cae7e6f813997c4c9506db3eb74fe4ea95d2a352726effb549",
+    "supabase/migrations/20261029070038_m02_specs_read_operation.sql": "040151ec89b461be2dc0c1d4ab8446652062488aac5f63822129d497ecf1702e",
+    "supabase/migrations/20261029090500_m02_service_claim_replay.sql": "705d7432ab8cbe04fa5a94e090e1ce55e36c622590c09e0ce922ac5a59c6baf2",
+    "supabase/migrations/20261029090724_m03_candidate_library.sql": "2a84e240fa1ed3a283a483775e797e7ef1bafeea36d2d11ace17e06b857d8b8d",
+    "supabase/migrations/20261029094600_m02_pdf_vision.sql": "5b7ad204f6dddde82ae829577ea1130fd426a3998797460871baad20d789cb50",
+    "supabase/migrations/20261029100500_m03_candidate_pipeline.sql": "4af04b4a3fb050e39aa23958c3f82e304cc7d7a1f450a5d93f7f50bc001bd836",
+    "supabase/migrations/20261029133455_m03_remaining_media_library.sql": "2e190e001b2bda044d9c90da4287f54e5839b0af7ffec84d4c93083909c944fb",
+    "supabase/migrations/20261029135318_m03_frame_request_resubmission.sql": "e816ad6b491626ace489efd256b56c322d25d9101de94e5fb8b24d2d4b745048",
+    "supabase/migrations/20261029174841_m04_casting_assignments_lifecycle.sql": "2825681bf529f1b32db2473749180901f0961b025e8da847b38ad49c06f4b900",
+    "supabase/migrations/20261029180953_m03_frame_vision_selection.sql": "bcd12794eccfa590e5d160f62dfd67838c8186376cddda1952f291c50d03bec8",
+    "supabase/migrations/20261029202629_m04_review_series_processing.sql": "3f1543b9d4b525d486287f2f00711270ed1fbdc30911dac3aea725aee50679e4",
+    "supabase/migrations/20261029203953_m04_ai_apply_source_guard.sql": "1bf897c3c6dcae03c96f0d434ba61edfc89b01d2c700dc4e8c11ce17e285832c",
+    "supabase/migrations/20261029215218_m05_immutable_presentation_versions.sql": "09d78c225ca02d436a8b1c2bcc6e55f273dfea116976807af4a8b228b99de5f4",
+    "supabase/migrations/20261030002634_m06_guest_review_feedback_exports.sql": "2c72507216efdcd3e9dcea3f9b94270b19e1275ebcd2fcf91dad9253ddde8d2a",
+    "supabase/migrations/20261030004643_m06_credential_admission_guest_retry.sql": "a0fb9dfec8cdae2718719d455ed11b4f25dd9b79e8fc9de19bd53c229b64089e",
+    "supabase/migrations/20261030013832_m06_guest_storage_policy_composition.sql": "9e3ab85655c2fa0490aba07118fe730dae2c6193f651c3ba086910d82b7eb171",
+    "supabase/migrations/20261030030717_m06_frozen_video_source_transcripts.sql": "6334ea62a49966963e675c61e6a73d2acb5981d35f261cf2dff519d097905178",
+    "supabase/migrations/20261030111549_m07_settings_delegated_session.sql": "6531e8decab5496e212eb01575aca666cd9e03b0575f92dd66bd380760f84af4",
+    "supabase/migrations/20261030154824_m07_native_oauth_issuer.sql": "e5fd2121784c8372743f330664508b2a38a25cd622b24cf6765c570ae6f2a785",
+    "supabase/migrations/20261031010000_m07_specs_submit_ack_projection.sql": "c1c4cb41460df067d726e4058cc24eacbcf55e5cc73e6a18365394e2c2fbc5e5",
+    "supabase/migrations/20261031104603_m07_oauth_consent_binding_and_claims.sql": "0d7b7a7577ffe1ff4b24eba202ce6ac7e87c616ca8039397800e607c651908a5",
+    "supabase/migrations/20261031130207_m07_oauth_consent_browser_context.sql": "9923e7a1cb52e160041aacea053a21cb9c25c1fc468db99eb7b7ea77e15dcb81",
+    "supabase/migrations/20261031143711_m03_english_transcript_projection.sql": "0705f1940abbc5c4afc65a49e85d9ef2ce6a6489178b6dd82c3acb33cf976472",
+    "supabase/migrations/20261031182038_m07_workspace_summary.sql": "cbb12610603318bce68ced4a58d0a9a01ee07737838c99a2ea0e6214e5e933e0",
+    "development/m03/english-transcript34/before34.sql": "2bb2969542f1d7aa83e17370685810787558745b7d340002aa16283ab94b09da",
+    "development/m03/english-transcript34/build_ports.py": "fb61ebb6730cd6123ee83a31d3f24edffd4b4d4b1ddf1bdc6a33ced4b8f7e12f",
+    "development/m03/english-transcript34/capture-tests.sql": "7483592dd589f35ea111352a935a951ae369e6eeabdb4a2920be679fafd6fbba",
+    "development/m03/english-transcript34/controller.mjs": "1577d42e07f4e6b437c32576f167664d4431d4d70a039e16b08f7426453d6808",
+    "development/m03/english-transcript34/controller.test.mjs": "272add90d8bf6ace2e59475da9e10339701c487ed237260f8ffffc4f835439c1",
+    "development/m03/english-transcript34/port-patches.json": "12a675415e0970825903de616dae271911da6f01edd13d9dee62e0befecf813e",
+    "development/m03/english-transcript34/README.md": "2beee213900beda07c4d70b5756212b0c00973923dd0c91df135f2d5586f39f6",
+    "development/m03/english-transcript34/recovery-source-pins.json": "8eea74ee5bf1f6c5b90e3562398e307c873fbbd0296844d405960e15870f9996",
+    "development/m03/english-transcript34/run.mjs": "0a6e8bf9e4d8239b2e2ba5d43f300f149a04bcddb6bf26450852d90c5d04ba83",
+    "development/m03/english-transcript34/runtime.mjs": "41393c0e9077bccfc5fe7b957acd1d0becf5ac67056160cbeca4019f9cf6fda5",
+    "development/m03/english-transcript34/source-history/1a6c26e2294ac185b687bc5efd17d13a425a3bcbd4cf2a7694b53531430d711e-recovery-source-pins.json": "1a6c26e2294ac185b687bc5efd17d13a425a3bcbd4cf2a7694b53531430d711e",
+    "development/m03/english-transcript34/source-history/21c6c69dd8ea6c952f4299ef5404fef95024d5b5e62beb5ad1000c9da0864a55-recovery-source-pins.json": "21c6c69dd8ea6c952f4299ef5404fef95024d5b5e62beb5ad1000c9da0864a55",
+    "development/m03/english-transcript34/source-history/3da2b33dcb7ffefcc1b7ed83ec1a0d38b7df324517f64a569559289e8c87bb91-recovery-source-pins.json": "3da2b33dcb7ffefcc1b7ed83ec1a0d38b7df324517f64a569559289e8c87bb91",
+    "development/m03/english-transcript34/source-history/4597951eb5d26ff449abbbe0f6575ddb5ebfbf9d83fc8f58e22c21fd610a26bc-recovery-source-pins.json": "4597951eb5d26ff449abbbe0f6575ddb5ebfbf9d83fc8f58e22c21fd610a26bc",
+    "development/m03/english-transcript34/source-history/6cbc9034e9950da3a142dfa8892af576e125e26e895a225942087afd8f4ad528-recovery-source-pins.json": "6cbc9034e9950da3a142dfa8892af576e125e26e895a225942087afd8f4ad528",
+    "development/m03/english-transcript34/source-history/92ba4e1ebcca3a120cab03960e1c357897eda5f95cac4825163247751b0d3484-validation-tests.sql": "92ba4e1ebcca3a120cab03960e1c357897eda5f95cac4825163247751b0d3484",
+    "development/m03/english-transcript34/source-history/bb5232d6d56536c98203d633b40bcd3f6100f6923210041c57535579e0b36a4f-test_source.py": "bb5232d6d56536c98203d633b40bcd3f6100f6923210041c57535579e0b36a4f",
+    "development/m03/english-transcript34/source-history/e22525ab46f375fe64effc9a3118ccc46d3a9ffb033c27fd256a2c89909514cc-recovery-source-pins.json": "e22525ab46f375fe64effc9a3118ccc46d3a9ffb033c27fd256a2c89909514cc",
+    "development/m03/english-transcript34/source-history/e63186b05e195223c6b409c07baf0e60f0270cbafae03ed1791abd152b7f28a0-recovery-source-pins.json": "e63186b05e195223c6b409c07baf0e60f0270cbafae03ed1791abd152b7f28a0",
+    "development/m03/english-transcript34/test_source.py": "1edb93fdba9656127c9c5317cf06a5df35ad25b13c01e773f81618bfc6f32876",
+    "development/m03/english-transcript34/test-target.sql": "05f6e0fa37d74e4b3f45231811821e8af573713f04ffabe66600f478182b6ea8",
+    "development/m03/english-transcript34/validation-tests.sql": "67255f125b43aa316637aba7b2733f3c06dc73b86937ad00cfc1ab5d27e630d3",
+    "development/m07/db/data29.sql": "931581121cf2548af7b244b5638d243176bed9a4a83241bd4f72998ddec90a81",
+    "development/m07/recovery29/diagnose.mjs": "56f950f4d3aed66455f569c4975e364a7959819b989ad4f95e2ddafaf2fd01e6",
+    "development/m07/recovery29/semantic-proof.mjs": "c3731bb04acdfe30cf90b4288583f625fd8989055a11280f448b0435e78b3f1e",
+    "development/m07/recovery33/acl-semantics-proof.mjs": "adc775d78072ce8154b580fb9cfd563f2638a596f0c8ad9c9d3943c5723ae34b",
+    "development/m07/recovery33/baseline533.mjs": "03992a080a3809def01ada3de1e08ece10c2cdc7cf9a57b71f415e1247048560",
+    "development/m07/recovery33/baseline533.test.mjs": "9e7b5e8cf75ae5c719e572cb54c7c681197b818980328b9957a4e5c2e335abd3",
+    "development/m07/recovery33/cleanup533.mjs": "bbc82677bf717208bf144e4b0d1c9d509606ee3890778ef8820eb94b1fa3c105",
+    "development/m07/recovery33/cleanup533.test.mjs": "871f2c187cd3a3c45817e20005775f2e64b35ae8f621ba8aa1a4744c8ed5c23f",
+    "development/m07/recovery33/compiler.mjs": "e53ba5ab07b3724f0b2c4da59d46090ddb351342be205f74325e46192c4cf0a6",
+    "development/m07/recovery33/compiler.test.mjs": "8cd116b679a75df8b5e0e4955ac44a9b222a191e8c51df71529520869ad1341c",
+    "development/m07/recovery33/native-auth-prerequisite.sql": "1a497bc23a18beb7d7b4082034c2eae37a1a0a07b25ed5f70b5b9962ac3d34bf",
+    "development/m07/recovery33/ownership.mjs": "080ca9a50455a03acf2555fe3426cee595471a6182b7bf1c8022523d0a836d00",
+    "development/m07/recovery33/provider-config.synthetic.json": "03af1bb0c269a4bcbf02e35f2b1273a7c1811537ebd2fcdde6b9d5c092bfd8c9",
+    "development/m07/recovery33/README.md": "14c38dc2ba13acb7dc25170d5a8d08c8552d286243ebed1404b8f137c0bfa0f6",
+    "development/m07/recovery33/reconcile533.mjs": "08484c81da3e4cf36eb78dc60c91b2dfdff06ba7a8fe5c2cf71355958873ce1d",
+    "development/m07/recovery33/retained533-acl-observation.json": "6d5a0284b0c956b6dbae80906a6b4b7ea3482733fa135fd16b1eb5fe4b3b1654",
+    "development/m07/recovery33/retained533-acl-proof.mjs": "9f440592e6f3a053e206d545082bf3c325ab10c81589d44bba4c225120863f33",
+    "development/m07/recovery33/retained533-acl-proof.test.mjs": "ab6076ba79bd9b8042ea32f24b1c3588fdb2a5af6390a2c8c8f2083f64d6ad15",
+    "development/m07/recovery33/retained533-acl-semantics.sql": "86b46544bb451cf483dd0ef21b00826cf61a75bd91a8990e3add685d0cb3d4f6",
+    "development/m07/recovery33/retained533-profile.mjs": "d4ac87d82994b01e83aedaedfa6be3bf6a47c590e44232263f63aa4f5558d7b2",
+    "development/m07/recovery33/retained533-profile.test.mjs": "67a19559feb096bf27849fdfec2150c9279074f9054628b0f67e4df0d284283f",
+    "development/m07/recovery33/run.mjs": "9d04f616b043c60a3077ab5f3a7f79c9bf0b2a03cef8285582f08d3e050e3bfe",
+    "development/m07/recovery33/runtime.mjs": "9a5c6377937e27a4097f188488795f93840470b20dba4214e812e1fe209cd0ed",
+    "development/m07/recovery33/runtime.test.mjs": "55586ebde77c29461b79a5a30646abba7c4a3b3d97c2d3522b76e9f9bd7faa7a",
+    "development/m07/recovery33/schema-migrations-acl-observation.json": "ae00c7258469b913bc82be4f06a4aebb6c0467f26841423a97ee28b9512adf4a",
+    "development/m07/recovery33/schema-migrations-acl-semantics.sql": "bc0d070580205a2cb2992836808880822a01d6f8397413c09a79ee8f34e22901",
+    "development/m07/recovery33/schema-migrations-acl.test.mjs": "9cc5c1a443d20d63ddca78e410d3b2be67fae5f52a549cee6bafc2c97c90c59a",
+    "development/m07/recovery33/seed-auth.sql": "a2c0b137fac64257342df9f904fc12d24eff23e72188591ccb19bc134f853980",
+    "development/m07/recovery33/source-history/080ca9a50455a03acf2555fe3426cee595471a6182b7bf1c8022523d0a836d00-ownership.mjs.txt": "080ca9a50455a03acf2555fe3426cee595471a6182b7bf1c8022523d0a836d00",
+    "development/m07/recovery33/source-history/0a5f4c7ed2f8845d1adc78ffcd4feee74208e72a9f7fad407487030e5504cb81-runtime.mjs.txt": "0a5f4c7ed2f8845d1adc78ffcd4feee74208e72a9f7fad407487030e5504cb81",
+    "development/m07/recovery33/source-history/0eaa93fd239657101d58fabcfaa1b5218a2949788cbe8f547ea2019ac4776f11-run.mjs.txt": "0eaa93fd239657101d58fabcfaa1b5218a2949788cbe8f547ea2019ac4776f11",
+    "development/m07/recovery33/source-history/26e9697a71eb6fed612155851194a8e9218a1a76b293d9924ab3d9931c0a5871-run.mjs.txt": "26e9697a71eb6fed612155851194a8e9218a1a76b293d9924ab3d9931c0a5871",
+    "development/m07/recovery33/source-history/2e174d8122a4579b4a016a00df83c09336e2278b192087d2b8807b94e32f3e36-runtime.mjs.txt": "2e174d8122a4579b4a016a00df83c09336e2278b192087d2b8807b94e32f3e36",
+    "development/m07/recovery33/source-history/6a40faad398373a9e26061b27e04e00eab30d3c8819599ef1a8efdcfecf6efd4-compiler.mjs.txt": "6a40faad398373a9e26061b27e04e00eab30d3c8819599ef1a8efdcfecf6efd4",
+    "development/m07/recovery33/source-history/798cb54efb220f75997aa185e9384cc74b141423b66c602b37d70934abd6daf8-compiler.mjs.txt": "798cb54efb220f75997aa185e9384cc74b141423b66c602b37d70934abd6daf8",
+    "development/m07/recovery33/source-history/807065bd22949b9aa5805d60a15c3be0e6b882021ed17a0d38e82389f32bc50e-compiler.mjs.txt": "807065bd22949b9aa5805d60a15c3be0e6b882021ed17a0d38e82389f32bc50e",
+    "development/m07/recovery33/source-history/91b15c72d7d268ef97f398c4bfd148e6da4565e579227e738633a85fa23c833f-runtime.mjs.txt": "91b15c72d7d268ef97f398c4bfd148e6da4565e579227e738633a85fa23c833f",
+    "development/m07/recovery33/source-history/99a1cd3ed3623f67e082f79f798e20c296e520ccb186b6541d5cb72e5938d5d3-run.mjs.txt": "99a1cd3ed3623f67e082f79f798e20c296e520ccb186b6541d5cb72e5938d5d3",
+    "development/m07/recovery33/source-history/9e0faa63ca063d5f59dca00ae0ee11632994d63a596bc6b1f01e00ec6d75adef-run.mjs.txt": "9e0faa63ca063d5f59dca00ae0ee11632994d63a596bc6b1f01e00ec6d75adef",
+    "development/m07/recovery33/source-history/a3e01618c07aeef1464d8f0279e5809dd2059bb447960174d99cb77020743b1a-runtime.test.mjs.txt": "a3e01618c07aeef1464d8f0279e5809dd2059bb447960174d99cb77020743b1a",
+    "development/m07/recovery33/source-history/b05dbd5b31527ed5de7639421eec5410faef2225c4e757a83a800df7e21c3e89-runtime.mjs.txt": "b05dbd5b31527ed5de7639421eec5410faef2225c4e757a83a800df7e21c3e89",
+    "development/m07/recovery33/source-history/b8d44a90288689668fd71c31cfa11976691dcb12590aa02179a9440b515405e4-runtime.mjs.txt": "b8d44a90288689668fd71c31cfa11976691dcb12590aa02179a9440b515405e4",
+    "development/m07/recovery33/source-history/b9fad923c71264f5b1968ceb3dce1f33251bd95abf9756fa4ea8026e277df91d-compiler.mjs.txt": "b9fad923c71264f5b1968ceb3dce1f33251bd95abf9756fa4ea8026e277df91d",
+    "development/m07/recovery33/source-history/bb3fc8bf9a3857bd5ea5230f27b074341495f8fa3fab3b84002ab30432111cb8-run.mjs.txt": "bb3fc8bf9a3857bd5ea5230f27b074341495f8fa3fab3b84002ab30432111cb8",
+    "development/m07/recovery33/source-history/d4ac87d82994b01e83aedaedfa6be3bf6a47c590e44232263f63aa4f5558d7b2-retained533-profile.mjs.txt": "d4ac87d82994b01e83aedaedfa6be3bf6a47c590e44232263f63aa4f5558d7b2",
+    "development/m07/recovery33/source-history/d76c16cce602e2a6b0628a325729b2109ff768beedfed8338f03fa2ab01098f4-run.mjs.txt": "d76c16cce602e2a6b0628a325729b2109ff768beedfed8338f03fa2ab01098f4",
+    "development/m07/recovery33/source-history/e8381580fe8384cfefdba3039bb6b1a9ce88b614655c534fd8f4adc20108fba2-compiler.mjs.txt": "e8381580fe8384cfefdba3039bb6b1a9ce88b614655c534fd8f4adc20108fba2",
+    "development/m07/recovery33/source-history/f02fd44e2a256879abb12eaac19ad399065ef06c5fc951f318d371a3de0a2eb8-ownership.mjs.txt": "f02fd44e2a256879abb12eaac19ad399065ef06c5fc951f318d371a3de0a2eb8",
+    "development/m07/workspace-summary35-proof/source-history/09c15ddd851947fbe7facecc78a0f08942c801dd7c03d59e7f6316ba0c20109b-sources.mjs.txt": "09c15ddd851947fbe7facecc78a0f08942c801dd7c03d59e7f6316ba0c20109b",
+    "development/m07/workspace-summary35-proof/source-history/1adefb46c3258b5b0a7b4ba6d1ea1ffd05daba5ffbd4db0c1084d70b842cfdc4-m07-workspace-summary.sql.txt": "1adefb46c3258b5b0a7b4ba6d1ea1ffd05daba5ffbd4db0c1084d70b842cfdc4",
+    "development/m07/workspace-summary35-proof/source-history/291dc58113592fedd4dc8a88d219ea5a5eb9a2c0763820b2c36bbdfb76905df6-README.md.txt": "291dc58113592fedd4dc8a88d219ea5a5eb9a2c0763820b2c36bbdfb76905df6",
+    "development/m07/workspace-summary35-proof/source-history/6e930e717389269f45bfd7ea6312bc21d285ec2fcb005aaa6e4e6b9569f980c3-controller.mjs.txt": "6e930e717389269f45bfd7ea6312bc21d285ec2fcb005aaa6e4e6b9569f980c3",
+    "development/m07/workspace-summary35-proof/source-history/7a690f6a1d60372478221254840aa5d7ee87bfc8c1bb62c60be32d612957c4ae-proof.test.mjs.txt": "7a690f6a1d60372478221254840aa5d7ee87bfc8c1bb62c60be32d612957c4ae",
+    "development/m07/workspace-summary35-proof/source-history/9015088ab112655e6614a7338bcbbb7daae727d9355c62c3c8a8e1975e532260-run.mjs.txt": "9015088ab112655e6614a7338bcbbb7daae727d9355c62c3c8a8e1975e532260",
+    "development/m07/workspace-summary35-proof/source-history/ab55b4ca1373e70ad1d02fe2f8496df849013f797b9f338c2135d8394b826f65-frozen-inputs.json.txt": "ab55b4ca1373e70ad1d02fe2f8496df849013f797b9f338c2135d8394b826f65",
+    "development/m07/workspace-summary35-proof/source-history/cbb12610603318bce68ced4a58d0a9a01ee07737838c99a2ea0e6214e5e933e0-20261031182038_m07_workspace_summary.sql.txt": "cbb12610603318bce68ced4a58d0a9a01ee07737838c99a2ea0e6214e5e933e0",
+    "development/m07/workspace-summary35-proof/source-history/d889fb753e9364d8ed9cd4721dda7234df57da56c98881967b55270635401891-runtime.mjs.txt": "d889fb753e9364d8ed9cd4721dda7234df57da56c98881967b55270635401891",
+    "tests/db/m06-transcript28-legacy.sql": "f2d9f4528a29724ff0e589b95318b4422cfba3a53c0b9db9a4ab0d25f79c34df",
+    "tests/db/m07-workspace-summary.sql": "275b430fc401ea84a66e432c908cc9bdde77d17e362801ea39d15ed9209e7efe",
+    "tracking/evidence/m07/recovery33/2026-10-31-auth-schema-migrations-acl-semantic-proof.json": "aeaff1879563b96acadf05ef8f885b8602bf5d225209e95c0721506bcca8a813",
+    "tracking/evidence/m07/recovery33/2026-10-31-retained533-acl-native-semantics.json": "4e672a10f28d4c653a9714745f75c16e8b5aba1edcddf9fbe480d7e0170dffe5",
+    "tracking/evidence/m07/recovery33/2026-10-31T15-01-22.518Z-533-guarded-cleanup.json": "51bba9d05f89afc7f6caae9ed55274d1622a1a32710880e188b6c73024711c32",
+    "tracking/evidence/m07/workspace-summary35-proof/2026-10-31T18-39-41-150Z-3304bf06.json": "72022c9e2a430c6e2739a14029d7d928f5c949e5a9e919c7d3296ab3349d0a4f",
+    "development/m07/workspace-summary35-proof/controller.mjs": "c02bc0d555209417dd5b8ee273e76b76f409c9f7e9f7d384584e7a0cc7af889e",
+    "development/m07/workspace-summary35-proof/runtime.mjs": "d889fb753e9364d8ed9cd4721dda7234df57da56c98881967b55270635401891",
+    "development/m07/workspace-summary35-proof/sources.mjs": "cd9de29fbf7dbae6c347f078dd96284909be9a6f5eebb37c0de36fa0b3a67f4e",
+    "development/m07/workspace-summary35-proof/run.mjs": "9015088ab112655e6614a7338bcbbb7daae727d9355c62c3c8a8e1975e532260",
+    "development/m07/workspace-summary35-proof/proof.test.mjs": "06530630866d3695909730ecf96c85993de3b3afc131695cab7a5f47dce02d6f",
+    "development/m07/workspace-summary35-proof/README.md": "3e240e5d6ce91c42f178a0dbca7e30e1790f30187abf870dec5dfbbf6cfcb8f4",
+    "development/m07/workspace-summary35-proof/frozen-inputs.json": "0f4282d921c5ae790a7c3b833a9bb25cd4c02e65bc274464bc8d8c29326c5df9"
+  },
+  "source_clone_profile": {
+    "corrected_known_fields": [
+      "schemas|public|acl",
+      "tables|eps.cast_operation_notes|acl",
+      "constraints|eps.specs_pipeline_config.specs_pipeline_config_model_version_check|definition",
+      "constraints|eps.specs_pipeline_config.specs_pipeline_config_prompt_version_check|definition",
+      "constraints|eps.specs_pipeline_config.specs_pipeline_config_result_schema_version_check|definition",
+      "constraints|eps.specs_pipeline_config.specs_pipeline_config_document_preparation_version_check|definition",
+      "tables|auth.sessions|acl",
+      "constraints|eps.mcp_oauth_resources.mcp_oauth_resources_resource_check|definition"
+    ],
+    "complete_catalogue_fields": 16430,
+    "exact_raw_catalogue": true
+  },
+  "native_owner_acl_equivalence": {
+    "source_receipt_sha256": "aeaff1879563b96acadf05ef8f885b8602bf5d225209e95c0721506bcca8a813",
+    "owner_oid": 16504,
+    "explicit_entries": 8,
+    "default_entries": 8,
+    "symmetric_difference": 0,
+    "owner_only": true,
+    "grantor_and_grant_options_exact": true
+  },
+  "native_retained533_acl_equivalence": {
+    "source_receipt_sha256": "4e672a10f28d4c653a9714745f75c16e8b5aba1edcddf9fbe480d7e0170dffe5",
+    "native_literal_semantics_equal": true,
+    "auth_expanded_entries": 24,
+    "claim_expanded_entries": 8,
+    "symmetric_differences": 0,
+    "actual_table_restore_proved": false
+  },
+  "original29_full_auth_storage_catalogue_sha256": "7bfeb27ac544ee245e487ce646fac7db6d2826372f179480145f81fcdc738dc4",
+  "clone29_full_auth_storage_catalogue_sha256": "853fe3ce552336f11aeb62e5193048f5e75e3d7b9d2565b3a836fe8482016d7f",
+  "initial29_full_catalogue_difference_keys": [
+    "tables|auth.schema_migrations|acl"
+  ],
+  "initial29_full_catalogue_profile": {
+    "corrected_known_fields": [
+      "tables|auth.schema_migrations|acl"
+    ],
+    "complete_catalogue_fields": 16876,
+    "exact_raw_catalogue": true
+  },
+  "migration33_adapters": {
+    "migrations": [
+      {
+        "file": "supabase/migrations/20261030154824_m07_native_oauth_issuer.sql",
+        "version": "20261030154824",
+        "source_sha256": "e5fd2121784c8372743f330664508b2a38a25cd622b24cf6765c570ae6f2a785",
+        "functional_sha256": "6fdab1bd84db93d427780f86ff5d8797a4fc67580796f379df4876f7bb269018",
+        "adapted_sha256": "6ac519f518ae42c248020bd57adc886653ac402d171a4152da2e9b834326beea",
+        "only_local_admission_changed": true
+      },
+      {
+        "file": "supabase/migrations/20261031010000_m07_specs_submit_ack_projection.sql",
+        "version": "20261031010000",
+        "source_sha256": "c1c4cb41460df067d726e4058cc24eacbcf55e5cc73e6a18365394e2c2fbc5e5",
+        "functional_sha256": "d18e74dd384faf1edf8ec533170ac76e7c368f2c341956efab8407db31f3808d",
+        "adapted_sha256": "132be6e0e009256693da98b920ce21ea80152cfb1fd31ecfb0c6d17861214b39",
+        "only_local_admission_changed": true
+      },
+      {
+        "file": "supabase/migrations/20261031104603_m07_oauth_consent_binding_and_claims.sql",
+        "version": "20261031104603",
+        "source_sha256": "0d7b7a7577ffe1ff4b24eba202ce6ac7e87c616ca8039397800e607c651908a5",
+        "functional_sha256": "efa0e82d40deac8e6ac10c626229c27dfcb9bc30957585e7a3f110f5baf676db",
+        "adapted_sha256": "45e4a13598418ceb17005975149031ef654374dab8ca860f6bcc7590141c475d",
+        "only_local_admission_changed": true
+      },
+      {
+        "file": "supabase/migrations/20261031130207_m07_oauth_consent_browser_context.sql",
+        "version": "20261031130207",
+        "source_sha256": "9923e7a1cb52e160041aacea053a21cb9c25c1fc468db99eb7b7ea77e15dcb81",
+        "functional_sha256": "74333aa7c9ddb7097d628ce30931ddcbe8826fcece59ce66d4d5d966f052f696",
+        "adapted_sha256": "4c1f61c334c3e53fa8f825ec9da9a2dbe10b944a14efef5ca1c9e4ebca92eb79",
+        "only_local_admission_changed": true
+      }
+    ],
+    "substitutions": [
+      {
+        "label": "supabase/migrations/20261030154824_m07_native_oauth_issuer.sql",
+        "expected_count": 1,
+        "removed_sha256": "b2ccb774c1893b5740117c682cd932fdbe5002ec2c8c526578a615367af8d5c5",
+        "inserted_sha256": "ba80ae5435f2667c414fa5653c38ea93e7bf069f6aa2b18ad5be1cc5b9fd424b"
+      },
+      {
+        "label": "supabase/migrations/20261031010000_m07_specs_submit_ack_projection.sql",
+        "expected_count": 1,
+        "removed_sha256": "bce0c631a23232086de0de62caa7576be2b87061cc28c6b5ce2f220e6dea59f0",
+        "inserted_sha256": "97be2b9dbe1350b5c699a6f862ee741f99d9936f2ab9f1efabccd2d6cb6a7983"
+      },
+      {
+        "label": "supabase/migrations/20261031104603_m07_oauth_consent_binding_and_claims.sql",
+        "expected_count": 1,
+        "removed_sha256": "7e72a2cc7e8c5f3f8c54c75c9aa1ec557f677ca7e9b846f5f2b010a99a16f531",
+        "inserted_sha256": "97be2b9dbe1350b5c699a6f862ee741f99d9936f2ab9f1efabccd2d6cb6a7983"
+      },
+      {
+        "label": "supabase/migrations/20261031130207_m07_oauth_consent_browser_context.sql",
+        "expected_count": 1,
+        "removed_sha256": "7e72a2cc7e8c5f3f8c54c75c9aa1ec557f677ca7e9b846f5f2b010a99a16f531",
+        "inserted_sha256": "97be2b9dbe1350b5c699a6f862ee741f99d9936f2ab9f1efabccd2d6cb6a7983"
+      }
+    ]
+  },
+  "actual_local_migrations_executed": [
+    "20261030154824",
+    "20261031010000",
+    "20261031104603",
+    "20261031130207"
+  ],
+  "full_catalogue33_adapter": [
+    {
+      "label": "all-restored-functions",
+      "expected_count": 1,
+      "removed_sha256": "2959e10ad90d4c27c40657ab28eaa5cd762c3c77fa75afc29f54ec0c640f8792",
+      "inserted_sha256": "efec450cc0b8499160958b6498c19cc06f2afc4ca335f9588bfc475ac3d7e768"
+    },
+    {
+      "label": "all-restored-tables",
+      "expected_count": 1,
+      "removed_sha256": "a7b9bcbe616152121470faf24f545db903f241801f8c0e43b25b0228ac9b5cda",
+      "inserted_sha256": "bb5d369a2e0fdfef6e2c67110a996c870607ad1333156fdb797e035607958e51"
+    },
+    {
+      "label": "all-restored-columns",
+      "expected_count": 1,
+      "removed_sha256": "4f8aef4e0cd13ad0483b30017197bf870cd5dbb14fc929529b87094e72e6252b",
+      "inserted_sha256": "2c2434dc87e8fb162a509cb14fb70aa1b5aa4f2638f8b369611c59104ea9ec61"
+    },
+    {
+      "label": "all-restored-constraints",
+      "expected_count": 1,
+      "removed_sha256": "c1ad60d81b79a2e38f332db1fe010d5ccbb84016474c1b9f0c7dd23aad4e46c0",
+      "inserted_sha256": "dc271fef3af4ac4df63751113c4faddf40a8ae5c8ab681f381c074027f10aac3"
+    },
+    {
+      "label": "all-restored-triggers",
+      "expected_count": 1,
+      "removed_sha256": "bcb98fc4b9529227717112a159dd3d3bdf0219143bbccd44f7d0fd8cbe9236f6",
+      "inserted_sha256": "ca082804333db03cfda60919297642a8524e1dad798c90c429210a08aef02596"
+    },
+    {
+      "label": "all-restored-policies",
+      "expected_count": 1,
+      "removed_sha256": "d6bdfb515d19f6775843652c108d4bcec85e34d62718401dab03fe8bbe865ae6",
+      "inserted_sha256": "d5d169f09254520935b4fdec498fae7ac2d43cf327d7dc12d5def42a5b3c3cb7"
+    },
+    {
+      "label": "all-restored-indexes",
+      "expected_count": 1,
+      "removed_sha256": "41262d994f457ddf66e52667461e682ab3aa16f7b9ebc6a8878fff129f324edd",
+      "inserted_sha256": "efec450cc0b8499160958b6498c19cc06f2afc4ca335f9588bfc475ac3d7e768"
+    },
+    {
+      "label": "all-restored-types",
+      "expected_count": 1,
+      "removed_sha256": "2e1ad4b7014da58d391d531c6c4593027b7b139a83907b87ac109c9f41581a83",
+      "inserted_sha256": "f1cb2f781b1b28d5d8f8a098605ae272acc7095bc1ef118ee459f1ed1b626eef"
+    }
+  ],
+  "source33_full_catalogue_sha256": "04ff9e09b9c9265f91eb5a07a699eeaa310d7add809788a56b4ab9cfede8b7b3",
+  "source33_catalogue_fields": 17311,
+  "synthetic_native_auth_prerequisite": {
+    "original29_full_schema_retained": true,
+    "missing_native_relations_modelled": true,
+    "prerequisite_history_labels_inserted": false,
+    "native_auth_program_restored": false,
+    "provider_configuration_restored": false
+  },
+  "summary35_sql": {
+    "result": "passed",
+    "wire_sha256": "8f89d7961c032e7d1b612b11113298b67b60dd3baa25d1b43eb1da465842a3ce",
+    "actual34_sha256": "0705f1940abbc5c4afc65a49e85d9ef2ce6a6489178b6dd82c3acb33cf976472",
+    "actual35_sha256": "cbb12610603318bce68ced4a58d0a9a01ee07737838c99a2ea0e6214e5e933e0",
+    "adapted35_sha256": "0aeb77fd6126d1771f66be33b04df1c21b1bbbc049ac7c4d6805f550fbea9379",
+    "admission_only_adapter": true,
+    "fixture_outer_fence_only": true,
+    "actual_prior_migrations": [
+      "20261030154824",
+      "20261031010000",
+      "20261031104603",
+      "20261031130207"
+    ],
+    "fixture_markers": [
+      "SUMMARY35_FIXTURE_ASSERTIONS_PASSED_SYNTHETIC_ONLY"
+    ],
+    "ddl_data_catalogue_rolled_back": true,
+    "persistent_history_count": 33,
+    "history34_row_ephemeral": true,
+    "history35_inserted": false,
+    "managed_auth_policy_changed": false,
+    "native_pdf_executed": false,
+    "cloud_called": false,
+    "provider_called": false,
+    "hosted_acceptance": false
+  },
+  "actual_disposable_database_absence": {
+    "eps_m07_r33_source_ef4cb6c23f4a4869a71ad747f1db99ca": false,
+    "eps_m07_r33_restore_ef4cb6c23f4a4869a71ad747f1db99ca": false
+  },
+  "disposable_databases_removed": true,
+  "original29_full_auth_storage_catalogue_unchanged": true,
+  "new33_roles_removed": true,
+  "original_local_database_unchanged": true,
+  "original29_full_catalogue_unchanged": true,
+  "original29_exact_profile_and_settings_state_unchanged": true,
+  "existing_global_role_oids_attributes_memberships_unchanged": true,
+  "shared_test_lock_released": true,
+  "finished_at": "2026-10-31T18:48:18.228Z",
+  "elapsed_ms": 70428,
+  "private_artifact_directory": ".local/m07-workspace-summary35-tests/ef4cb6c2-3f4a-4869-a71a-d747f1db99ca"
+}

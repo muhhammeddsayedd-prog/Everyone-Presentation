@@ -9,6 +9,7 @@ import { createLogoStorageAdapter, type LogoStorageOptions } from './logo-storag
 import { createSpecsStorageAdapter, type SpecsStorageOptions } from './specs-storage.ts';
 import { createCandidateStorageAdapter } from './candidate-storage.ts';
 import {createCandidateSupportStorageAdapter,type SupportStorageOptions} from './candidate-support-storage.ts';
+import { parseWorkspaceSummary, workspaceSummaryId } from '@eps/domain';
 
 export interface CentralStudioOptions {
   logo?: Omit<LogoStorageOptions, 'client' | 'rpc' | 'now' | 'downloadTimeoutMs'>;
@@ -219,6 +220,10 @@ export async function createCentralStudio(client: SupabaseClient, options: Centr
       return rpc(actor, 'eps_create_workspace', { p_input: input, p_idempotency_key: key(context, true) }, value => scopedDto(value, workspaceDto, row => row.project_id === input.project_id), context);
     },
     async getWorkspace(actor: Actor, id: string) { return rpc(actor, 'eps_get_workspace', { p_workspace_id: identifier(id) }, value => scopedDto(value, workspaceDto, row => row.id === id)); },
+    async getWorkspaceSummary(actor: Actor, id: string) {
+      const workspaceId = workspaceSummaryId(id);
+      return rpc(actor, 'eps_get_workspace_summary', { p_workspace_id: workspaceId }, value => parseWorkspaceSummary(value, workspaceId));
+    },
     async updateWorkspace(actor: Actor, id: string, input: WorkspacePatch, context?: MutationContext) {
       strictInput(input, ['row_version', 'logo_asset_id', 'logo_placement', 'active_output'], ['row_version']);
       return rpc(actor, 'eps_update_workspace', { p_workspace_id: identifier(id), p_input: input, p_idempotency_key: key(context) }, value => scopedDto(value, workspaceDto, row => row.id === id), context);

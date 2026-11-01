@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-11-01T18:49:44.675735+00:00",
+  "run_id": "93bb8f21-2f2e-4305-948e-f78897c497d1",
+  "result": "failed_read_only_preflight",
+  "source_pins": {
+    "development/m07/worker38-concurrency-cleanup93bb/cleanup.mjs": "26f26264cbbd78892de158bafbf8a6716c20d0f1a94d1f47eaf17aa8e8f79986",
+    "development/m07/worker38-concurrency-cleanup93bb/cleanup.test.mjs": "256a0df8abd4d070280d9e724a894ab8802989b19f36b417b5f054c3ad19aba0",
+    "development/m07/worker38-concurrency-cleanup93bb/README.md": "a98527bcc32e1c133408d6f29542a0fbb673534ce4b05ac29c5f2db802565de8"
+  },
+  "stage": "read_only_snapshot_native_catalogue_projection",
+  "cause": "Full catalogue SELECT returns a flat JSON object; the caller incorrectly read an absent catalog wrapper.",
+  "source_fix_required": true,
+  "retained_inputs_and_archived312_sources_valid": true,
+  "retained_run_lock_valid": true,
+  "owned_target_verified": true,
+  "cleanup_claim_created": false,
+  "role_drop_dispatched": false,
+  "provider_called": false,
+  "cloud_called": false,
+  "automatic_cleanup_retry": false,
+  "original_failed_run_acceptance_unchanged": true,
+  "roles_and_local_lock_retained": true
+}

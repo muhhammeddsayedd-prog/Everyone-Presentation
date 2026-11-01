@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "evidence_kind": "actual_new_english_job_bounded_durable_metadata_read",
+  "target": "pyibofyctwnqpvktepse",
+  "read_only": true,
+  "automatic_retry": false,
+  "maximum_cli_queries": 1,
+  "job_observation": {
+    "candidate_apply_source_attributes_preserved": true,
+    "database": "postgres",
+    "english_enabled": true,
+    "events": [
+      {
+        "attempt_id": "0cdebb53-9649-45dd-80b8-c06dc56eead1",
+        "created_at": "2026-10-31T17:56:35.520313+00:00",
+        "event_type": "heartbeat",
+        "sequence": 1,
+        "stage": "prepare_candidate"
+      },
+      {
+        "attempt_id": "0cdebb53-9649-45dd-80b8-c06dc56eead1",
+        "created_at": "2026-10-31T17:56:37.479507+00:00",
+        "event_type": "succeeded",
+        "sequence": 2,
+        "stage": "prepare_candidate"
+      },
+      {
+        "attempt_id": "0d7550ad-a9d7-4231-acaf-49f7fa21972d",
+        "created_at": "2026-10-31T17:56:40.341311+00:00",
+        "event_type": "succeeded",
+        "sequence": 1,
+        "stage": "transcribe_candidate"
+      },
+      {
+        "attempt_id": "37d6c1bf-4ab5-495f-94cc-9e192491993f",
+        "created_at": "2026-10-31T17:56:55.58542+00:00",
+        "event_type": "succeeded",
+        "sequence": 1,
+        "stage": "extract_candidate"
+      },
+      {
+        "attempt_id": "3bbcb08a-ecf2-49a1-8b8f-a7b262c03507",
+        "created_at": "2026-10-31T17:57:03.194738+00:00",
+        "event_type": "succeeded",
+        "sequence": 1,
+        "stage": "select_frames"
+      },
+      {
+        "attempt_id": "9bbe8b9e-9b25-43da-8453-66b6ad395e69",
+        "created_at": "2026-10-31T17:57:03.504282+00:00",
+        "event_type": "succeeded",
+        "sequence": 1,
+        "stage": "apply_candidate"
+      }
+    ],
+    "events_total": 6,
+    "events_truncated": false,
+    "exact_history34": true,
+    "job": {
+      "attempt": 5,
+      "created_at": "2026-10-31T17:56:14.514184+00:00",
+      "id": "3cf25d3b-c1ec-4347-af3b-fa48f3f0f5e7",
+      "kind": "candidate_scan",
+      "request_id": null,
+      "stage": "apply_candidate",
+      "status": "succeeded",
+      "updated_at": "2026-10-31T17:57:03.482168+00:00",
+      "workflow_execution_id": "31686",
+      "workspace_id": "86936940-b48d-497d-b1ff-8e0da0913afa"
+    },
+    "match_count": 1,
+    "observed_at": "2026-10-31T18:09:57.775113+00:00",
+    "operator": "postgres",
+    "outbox": {
+      "dead": 0,
+      "delivered": 5,
+      "leased": 0,
+      "pending": 0,
+      "total": 5
+    },
+    "protected_m02_metadata_preserved": true,
+    "read_only": true
+  },
+  "source_pins": {
+    "tracking/evidence/m03/english-release34/2026-10-31T17-54-57-429822Z-enable-readback.json": "86144aa1ba2e6896e170ea7b0f74c7313cd46f21f9359480c24ae7c86ac14fec",
+    "tracking/evidence/m03/english-name-review/2026-10-31-controlled-job-binding.json": "7e294cf3fb2a68f91401d2ecc4258645d4ea694143f6695aaa74de0c3a1ba88a",
+    "tracking/evidence/m03/english-name-review/2026-10-31T17-58-54-734417Z-c95c23b3-a8aa-4d11-9602-c9b4f9ef8dbb-controlled-job.json": "53a5bd3791f64ea586f56b02f4c37bfd2f9c57cbd093ed570eba426deb3101f8",
+    "query_sha256": "8e3c75356e624b500cc60b93392393691f5e6ed23cbeca0ae0dcd56a03ddae23",
+    "reader_sha256": "1359373d078ee67d5dd644d1717a048f274c98f3617bb57c3668a45866c4c03c",
+    "operator_sha256": "5d163fbf7accc1b223a930f49e3503ffa3e2432d0af0e64c23cc4560e2bdb7c9"
+  },
+  "raw_cli_or_payloads_persisted": false,
+  "n8n_metadata_requested": false,
+  "per_stage_workflow_execution_history_reconstructed": false,
+  "AT074_status": "partial_pending_exact_latest_execution_metadata_and_remaining_failure_path"
+}

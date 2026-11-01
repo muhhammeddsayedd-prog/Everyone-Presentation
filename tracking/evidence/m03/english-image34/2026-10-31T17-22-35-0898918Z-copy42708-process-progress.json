@@ -1,0 +1,43 @@
+{
+    "schema_version":  "1.0",
+    "evidence_kind":  "bounded_read_only_owned_regctl_process_progress",
+    "observed_at":  "2026-10-31T17:22:35.0878909Z",
+    "process_id":  42708,
+    "before":  {
+                   "observed_at":  "2026-10-31T17:21:45.0995951Z",
+                   "started_at_utc":  "2026-10-31T17:12:24.7115797Z",
+                   "cpu_seconds":  16.28125,
+                   "socket_state_counts":  [
+                                               {
+                                                   "state":  "Bound",
+                                                   "count":  1
+                                               },
+                                               {
+                                                   "state":  "Established",
+                                                   "count":  1
+                                               }
+                                           ]
+               },
+    "after":  {
+                  "observed_at":  "2026-10-31T17:22:33.8428219Z",
+                  "process_id":  42708,
+                  "process_alive":  true,
+                  "executable_matches_owned_tool":  true,
+                  "started_at_utc":  "2026-10-31T17:12:24.7115797Z",
+                  "cpu_seconds":  18.546875,
+                  "socket_state_counts":  [
+                                              {
+                                                  "state":  "Bound",
+                                                  "count":  1
+                                              },
+                                              {
+                                                  "state":  "Established",
+                                                  "count":  1
+                                              }
+                                          ]
+              },
+    "blob_head_receipt":  "tracking/evidence/m03/english-image34/2026-10-31T17-22-05-301539Z-copy42708-largest-blob-heads.json",
+    "command_lines_addresses_headers_or_credentials_recorded":  false,
+    "build_copy_retry_auth_refresh_or_process_control_performed":  false,
+    "evidence_limits":  "Process CPU/connection activity does not measure uploaded bytes. HEAD404 means neither large blob was committed at the observation; partial upload progress or a stalled transfer cannot be determined."
+}

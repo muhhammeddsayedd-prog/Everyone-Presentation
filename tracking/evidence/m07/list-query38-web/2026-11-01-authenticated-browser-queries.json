@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "date_observed": "2026-11-01",
+  "evidence_kind": "Root_actual_signed_in_Chrome_DOM_JSON_reads",
+  "origin": "https://everyone-presentation-pilot.vercel.app",
+  "deployment_id": "dpl_4Gm85atSx5XG8kd8w3tfXCTDjNro",
+  "deployment_identity_source": "Separate direct deployment and two stable alias CLI observations",
+  "result": "passed",
+  "checks": [
+    {"path": "/api/v1/projects?principal_id=forged", "code": "INVALID_REQUEST", "details": {}, "retryable": false, "request_id": "b2bede06-f87b-45c8-bca3-f0eb83c5e273"},
+    {"path": "/api/v1/workspaces?q=first&q=second", "code": "INVALID_REQUEST", "details": {}, "retryable": false, "request_id": "e604f14c-9057-43a2-abcb-544dde27a9a8"},
+    {"path": "/api/v1/projects?limit=1e1", "code": "INVALID_REQUEST", "details": {}, "retryable": false, "request_id": "a89bf1ca-2ec5-4afc-b14c-cd5683eb2e5c"},
+    {"path": "/api/v1/projects?limit=1", "result_count": 1, "has_next_cursor": true, "error_code": null, "request_id": "cb13566e-fde1-465f-9fee-903f37d34215"},
+    {"path": "/api/v1/workspaces?limit=1", "result_count": 1, "has_next_cursor": true, "error_code": null, "request_id": "3e3c63bf-9325-4afa-945d-2dc42b5dded4"}
+  ],
+  "browser_HTTP_status_observable": false,
+  "tokens_cookies_headers_or_cursor_values_extracted": false,
+  "business_or_permission_writes": false,
+  "full_frontend_redesign_merged": false,
+  "prior_owner_Claude_initial_reconnect_acceptance": "preserved_passed"
+}

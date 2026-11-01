@@ -1,0 +1,49 @@
+{
+  "ambient_DEBUG_and_SSL_overrides_excluded": true,
+  "build_copy_retry_refresh_or_process_control_performed": false,
+  "copy_process_id": 42708,
+  "evidence_kind": "bounded_read_only_exact_two_largest_native_blob_heads",
+  "evidence_limits": "A HEAD shows committed blob availability, not partial upload bytes. Missing blobs and low CPU do not prove a stalled transfer.",
+  "exact_wire_attempt_count_claimed": false,
+  "export_receipt": {
+    "receipt": "tracking/evidence/m03/english-oci34/2026-10-31T17-09-36-755612Z-native-export.json",
+    "sha256": "f53cf06034f30445fe6f842254ceb69993beb99de73b312d6645602234fc1333"
+  },
+  "head_invocations": 2,
+  "heads": [
+    {
+      "blob_bytes": 353070189,
+      "blob_digest": "sha256:09cc2235c6189806152f8649642b56a53ec20f6d4bc6c6e47c62891d2c02edac",
+      "elapsed_seconds": 10.675,
+      "exit_code": 1,
+      "explicit_http_error_status": 404,
+      "raw_headers_or_diagnostics_persisted": false,
+      "result": "head_unconfirmed",
+      "safe_failure_code": "HTTP_404",
+      "timed_out": false
+    },
+    {
+      "blob_bytes": 169873987,
+      "blob_digest": "sha256:5e505b6dae5029eda69b007d309e9088486f095e8a15599d0b4ea46cb07a8ab7",
+      "elapsed_seconds": 8.492,
+      "exit_code": 1,
+      "explicit_http_error_status": 404,
+      "raw_headers_or_diagnostics_persisted": false,
+      "result": "head_unconfirmed",
+      "safe_failure_code": "HTTP_404",
+      "timed_out": false
+    }
+  ],
+  "helper_secrets_extracted_by_operator": false,
+  "maximum_head_invocations": 2,
+  "method": "HEAD",
+  "observed_at": "2026-10-31T17:22:05.301495+00:00",
+  "per_command_deadline_seconds": 20,
+  "raw_headers_logs_or_credentials_persisted": false,
+  "regctl_internal_read_retries_possible": true,
+  "repository": "vcr.vercel.com/muhammed-abdelrahman/everyone-presentation-worker-pilot/native",
+  "same_copy_config_used_unchanged": true,
+  "schema_version": "1.0",
+  "target_host": "vcr.vercel.com",
+  "target_project_id": "prj_I4SMkDzaDy0KHNgiF00v4Da5aLb6"
+}

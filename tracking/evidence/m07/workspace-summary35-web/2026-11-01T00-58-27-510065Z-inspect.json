@@ -1,0 +1,348 @@
+{
+  "action": "inspect",
+  "before": {
+    "deployment": {
+      "canonical_sha256": null,
+      "id": "dpl_5vEMBfsnD23cGL3ontWm8AUAErKr",
+      "project_id": "prj_7xOsfRtvJ9voYi7rTEfra5ncOoA0",
+      "quality_sha256": null,
+      "source_sha256": null,
+      "state": "READY",
+      "team_id": "team_gboXPxTevpCOZuaA8eY9PmR1",
+      "url": "everyone-presentation-pilot-5we6xsfpe-muhammed-abdelrahman.vercel.app"
+    },
+    "environment": [
+      {
+        "createdAt": 1793392965768,
+        "id": "QAWFOFuCu3Wtdkhk",
+        "key": "APP_BASE_URL",
+        "target": [
+          "preview",
+          "production"
+        ],
+        "type": "plain",
+        "updatedAt": 1793392965768
+      },
+      {
+        "createdAt": 1793393027332,
+        "id": "rBmr8lo01xRyCSvB",
+        "key": "APP_ENV",
+        "target": [
+          "preview",
+          "production"
+        ],
+        "type": "plain",
+        "updatedAt": 1793393027332
+      },
+      {
+        "createdAt": 1793393070326,
+        "id": "kVsoWWWkKWNe4a0V",
+        "key": "CENTRAL_ADAPTER_MODE",
+        "target": [
+          "preview",
+          "production"
+        ],
+        "type": "plain",
+        "updatedAt": 1793393070326
+      },
+      {
+        "createdAt": 1793393073838,
+        "id": "28mbAs22x7DtL2mf",
+        "key": "CENTRAL_CANDIDATE_MAXIMUM_UPLOAD_BYTES",
+        "target": [
+          "preview",
+          "production"
+        ],
+        "type": "plain",
+        "updatedAt": 1793393073838
+      },
+      {
+        "createdAt": 1793393077352,
+        "id": "5a46ufBAE4c06E7x",
+        "key": "CENTRAL_CANDIDATE_SUPPORT_UPLOADS_ENABLED",
+        "target": [
+          "preview",
+          "production"
+        ],
+        "type": "plain",
+        "updatedAt": 1793393077352
+      },
+      {
+        "createdAt": 1793393080530,
+        "id": "cAvxPYhr3lOPKqbe",
+        "key": "CENTRAL_CANDIDATE_UPLOADS_ENABLED",
+        "target": [
+          "preview",
+          "production"
+        ],
+        "type": "plain",
+        "updatedAt": 1793393080530
+      },
+      {
+        "createdAt": 1793393084638,
+        "id": "zLErLu0oXEfWMxS0",
+        "key": "CENTRAL_LOGO_UPLOADS_ENABLED",
+        "target": [
+          "preview",
+          "production"
+        ],
+        "type": "plain",
+        "updatedAt": 1793393084638
+      },
+      {
+        "createdAt": 1793393088938,
+        "id": "amBcUsmPXV93BsQz",
+        "key": "CENTRAL_SPECS_UPLOADS_ENABLED",
+        "target": [
+          "preview",
+          "production"
+        ],
+        "type": "plain",
+        "updatedAt": 1793393088938
+      },
+      {
+        "createdAt": 1793393092572,
+        "id": "vjkkWdDgEkIREpjm",
+        "key": "DEFAULT_TIMEZONE",
+        "target": [
+          "preview",
+          "production"
+        ],
+        "type": "plain",
+        "updatedAt": 1793393092572
+      },
+      {
+        "createdAt": 1793393096768,
+        "id": "11Ax4RysXMbxpIwD",
+        "key": "EPS_PILOT_EXPIRES_AT",
+        "target": [
+          "preview",
+          "production"
+        ],
+        "type": "plain",
+        "updatedAt": 1793393486621
+      },
+      {
+        "createdAt": 1793393490017,
+        "id": "ioZUKOYTvycIJmle",
+        "key": "EPS_PILOT_OWNER_CONTROLLED",
+        "target": [
+          "preview",
+          "production"
+        ],
+        "type": "plain",
+        "updatedAt": 1793393490017
+      },
+      {
+        "createdAt": 1793393099846,
+        "id": "5ceU8Bc0fDHq80z4",
+        "key": "EPS_RELEASE_MODE",
+        "target": [
+          "preview",
+          "production"
+        ],
+        "type": "plain",
+        "updatedAt": 1793393099846
+      },
+      {
+        "createdAt": 1793393103207,
+        "id": "1YK4pDlnxdYNzGZq",
+        "key": "EPS_REVIEW_GATEWAY_KEY",
+        "target": [
+          "preview",
+          "production"
+        ],
+        "type": "sensitive",
+        "updatedAt": 1793393103207
+      },
+      {
+        "createdAt": 1793393106487,
+        "id": "3fJdBo0rLQ5PQUIo",
+        "key": "EPS_REVIEW_REPLAY_KEY",
+        "target": [
+          "preview",
+          "production"
+        ],
+        "type": "sensitive",
+        "updatedAt": 1793393106487
+      },
+      {
+        "createdAt": 1793393109612,
+        "id": "LXzd6lPxBSCCEiAJ",
+        "key": "EPS_SUPPORT_VERIFIER_KEY_HEX",
+        "target": [
+          "preview",
+          "production"
+        ],
+        "type": "sensitive",
+        "updatedAt": 1793393109612
+      },
+      {
+        "createdAt": 1793393112963,
+        "id": "lGiyJLSX7i35lqsI",
+        "key": "EPS_SUPPORT_VERIFIER_KEY_ID",
+        "target": [
+          "preview",
+          "production"
+        ],
+        "type": "plain",
+        "updatedAt": 1793393112963
+      },
+      {
+        "createdAt": 1793393116350,
+        "id": "At9x7XhDUGHCT3VL",
+        "key": "LOGO_VERIFICATION_KEY_BASE64URL",
+        "target": [
+          "preview",
+          "production"
+        ],
+        "type": "sensitive",
+        "updatedAt": 1793393116350
+      },
+      {
+        "createdAt": 1793393120224,
+        "id": "EDBJy4BZt2kf0qmD",
+        "key": "LOGO_VERIFICATION_KEY_ID",
+        "target": [
+          "preview",
+          "production"
+        ],
+        "type": "plain",
+        "updatedAt": 1793393120224
+      },
+      {
+        "createdAt": 1793416765422,
+        "id": "g2ttUS3SSNJ4n52U",
+        "key": "MCP_AUTH_CLIENT_IDS",
+        "target": [
+          "preview",
+          "production"
+        ],
+        "type": "plain",
+        "updatedAt": 1793416765422
+      },
+      {
+        "createdAt": 1793416789767,
+        "id": "XTEcrg1F6oTXicCn",
+        "key": "MCP_AUTH_ISSUER",
+        "target": [
+          "preview",
+          "production"
+        ],
+        "type": "plain",
+        "updatedAt": 1793416789767
+      },
+      {
+        "createdAt": 1793393124334,
+        "id": "DQ8wtPM6UuLb8CEa",
+        "key": "MCP_AUTH_MODE",
+        "target": [
+          "preview",
+          "production"
+        ],
+        "type": "plain",
+        "updatedAt": 1793416855770
+      },
+      {
+        "createdAt": 1793416813978,
+        "id": "pk8WWI3cSCOVnocW",
+        "key": "MCP_RESOURCE_URL",
+        "target": [
+          "preview",
+          "production"
+        ],
+        "type": "plain",
+        "updatedAt": 1793416813978
+      },
+      {
+        "createdAt": 1793393127940,
+        "id": "1hfteAG1R5vf98py",
+        "key": "NEXT_PUBLIC_APP_NAME",
+        "target": [
+          "preview",
+          "production"
+        ],
+        "type": "plain",
+        "updatedAt": 1793393127940
+      },
+      {
+        "createdAt": 1793393131198,
+        "id": "j91vmIc4PYmMsPmH",
+        "key": "NODE_ENV",
+        "target": [
+          "preview",
+          "production"
+        ],
+        "type": "plain",
+        "updatedAt": 1793393131198
+      },
+      {
+        "createdAt": 1793393134637,
+        "id": "pvfsMVpP0mse00Cs",
+        "key": "SPECS_VERIFICATION_KEY_BASE64URL",
+        "target": [
+          "preview",
+          "production"
+        ],
+        "type": "sensitive",
+        "updatedAt": 1793393134637
+      },
+      {
+        "createdAt": 1793393138040,
+        "id": "YfIPAe1R1c7u56Vg",
+        "key": "SPECS_VERIFICATION_KEY_ID",
+        "target": [
+          "preview",
+          "production"
+        ],
+        "type": "plain",
+        "updatedAt": 1793393138040
+      },
+      {
+        "createdAt": 1793393141336,
+        "id": "LXDFzOv8R3IY78ZP",
+        "key": "SUPABASE_PUBLISHABLE_KEY",
+        "target": [
+          "preview",
+          "production"
+        ],
+        "type": "plain",
+        "updatedAt": 1793393141336
+      },
+      {
+        "createdAt": 1793393144777,
+        "id": "Q6914IAI9IEz8ot7",
+        "key": "SUPABASE_URL",
+        "target": [
+          "preview",
+          "production"
+        ],
+        "type": "plain",
+        "updatedAt": 1793393144777
+      }
+    ],
+    "project": {
+      "project_link_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "settings": {
+        "buildCommand": null,
+        "createdAt": 1793392180967,
+        "devCommand": null,
+        "framework": "nextjs",
+        "installCommand": "npm ci --include=dev --workspace @eps/web --include-workspace-root",
+        "nodeVersion": "24.x",
+        "outputDirectory": null,
+        "rootDirectory": "apps/web",
+        "sourceFilesOutsideRootDirectory": true
+      }
+    }
+  },
+  "deployed": false,
+  "deployment_method": "provider_source_build",
+  "no_prebuilt_acceptance": true,
+  "project_id": "prj_7xOsfRtvJ9voYi7rTEfra5ncOoA0",
+  "raw_cli_or_credentials_persisted": false,
+  "schema_version": "1.0",
+  "source_only_author": true,
+  "team_id": "team_gboXPxTevpCOZuaA8eY9PmR1",
+  "worker_or_oauth_or_environment_mutations": false
+}

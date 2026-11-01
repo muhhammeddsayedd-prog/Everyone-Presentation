@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-11-01T19:10:39.331Z",
+  "result": "passed",
+  "origin": "https://everyone-presentation-pilot.vercel.app",
+  "deployment_id": "dpl_4Gm85atSx5XG8kd8w3tfXCTDjNro",
+  "ready_reference": {
+    "path": "tracking/evidence/m07/list-query38-web/2026-11-01T19-08-32-109040Z-ready.json",
+    "sha256": "5f445957b78ce792faa3594c0c964753fbb84e803c2b748e83692637e5442227"
+  },
+  "deployment_identity_independently_derived_from_HTTP": false,
+  "scope": "Seven no-credential public denial/discovery GETs; no authenticated MCP/guest or provider execution acceptance",
+  "checks": [
+    {
+      "case": "anonymous_valid_project_list",
+      "status": 401,
+      "public_code": "AUTH_REQUIRED",
+      "request_id": "41fcc9fd-0ee3-4e9d-8074-785e84a20f8b",
+      "no_redirect": true,
+      "private_no_store": true,
+      "no_set_cookie": true,
+      "metadata_valid": true,
+      "passed": true
+    },
+    {
+      "case": "anonymous_mcp",
+      "status": 401,
+      "public_code": "invalid_token",
+      "request_id": null,
+      "no_redirect": true,
+      "private_no_store": true,
+      "no_set_cookie": true,
+      "metadata_valid": true,
+      "passed": true
+    },
+    {
+      "case": "invalid_synthetic_bearer_mcp",
+      "status": 401,
+      "public_code": "invalid_token",
+      "request_id": null,
+      "no_redirect": true,
+      "private_no_store": true,
+      "no_set_cookie": true,
+      "metadata_valid": true,
+      "passed": true
+    },
+    {
+      "case": "anonymous_filtered_jobs",
+      "status": 401,
+      "public_code": "AUTH_REQUIRED",
+      "request_id": "f9a88cbf-cb40-4a40-bbe3-1d3244ab34b2",
+      "no_redirect": true,
+      "private_no_store": true,
+      "no_set_cookie": true,
+      "metadata_valid": true,
+      "passed": true
+    },
+    {
+      "case": "missing_guest_summary",
+      "status": 401,
+      "public_code": "REVIEW_ACCESS_DENIED",
+      "request_id": "3b3a7bbd-b66f-43eb-8f26-af209a6fe9fe",
+      "no_redirect": true,
+      "private_no_store": true,
+      "no_set_cookie": true,
+      "metadata_valid": true,
+      "passed": true
+    },
+    {
+      "case": "protected_resource_metadata",
+      "status": 200,
+      "public_code": null,
+      "request_id": null,
+      "no_redirect": true,
+      "private_no_store": true,
+      "no_set_cookie": true,
+      "metadata_valid": true,
+      "passed": true
+    },
+    {
+      "case": "authorization_server_metadata",
+      "status": 200,
+      "public_code": null,
+      "request_id": null,
+      "no_redirect": true,
+      "private_no_store": true,
+      "no_set_cookie": true,
+      "metadata_valid": true,
+      "passed": true
+    }
+  ],
+  "requests": 7,
+  "automatic_retries": false,
+  "valid_credentials_sent": false
+}

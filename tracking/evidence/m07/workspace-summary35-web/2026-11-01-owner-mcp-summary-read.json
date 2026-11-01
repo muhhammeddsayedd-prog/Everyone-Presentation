@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-11-01T01:19:14.755694+00:00",
+  "environment": "hosted_pilot_web_6L6v",
+  "evidence_kind": "owner_reported_actual_Claude_MCP_tool_result",
+  "operation": "get_workspace_summary",
+  "result": "passed_owner_report_matches_actual_authenticated_HTTP",
+  "reported_data": {
+    "workspace_id": "86936940-b48d-497d-b1ff-8e0da0913afa",
+    "row_version": 9,
+    "draft_revision": 8,
+    "roles_needing_clarification": 1,
+    "project_candidate_count": 2,
+    "unreviewed_candidate_count": 1,
+    "open_slot_count": 1,
+    "assignment_count": {
+      "selection": 1,
+      "shortlist": 1
+    },
+    "latest_ready_versions": [
+      {
+        "series_id": "93fb7425-7311-4b69-94cb-61588724c153",
+        "output_type": "selection",
+        "version_no": 1
+      }
+    ],
+    "review_issue_count": null
+  },
+  "matches_authenticated_HTTP_snapshot": true,
+  "HTTP_evidence": {
+    "path": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-authenticated-summary-read.json",
+    "sha256": "34216bc27fb7ac865b4b02aa3cea7df168bfe1a9ca78c4b30067f0d09862a550"
+  },
+  "MCP_request_id": null,
+  "MCP_request_id_provided": false,
+  "server_request_correlation_verified": false,
+  "existing_initial_reconnect_project_read_acceptance": "passed_carried_forward",
+  "new_configuration_signin_or_consent_performed_by_agent": false,
+  "credentials_or_raw_callback_queries_recorded": false,
+  "full_delegated_workflow_acceptance": false
+}

@@ -1,4 +1,4 @@
-import { DomainError, type Actor, type MutationContext } from '@eps/domain';
+import { DomainError, parseJobListOptions, type Actor, type MutationContext } from '@eps/domain';
 import type { createCentralJobs, JobListOptions, JobMutationInput } from '@eps/central';
 import { json, NO_STORE, readJson } from './http';
 import { validateContract } from './validation';
@@ -9,7 +9,7 @@ function invalid(): never { throw new DomainError('INVALID_REQUEST', 'Provide su
 function listOptions(url: URL): JobListOptions {
   const options: JobListOptions = {};
   for (const key of url.searchParams.keys()) {
-    if (!['workspace_id', 'status', 'cursor', 'limit'].includes(key) || url.searchParams.getAll(key).length !== 1) invalid();
+    if (!['workspace_id', 'status', 'cursor', 'limit', 'batch_id'].includes(key) || url.searchParams.getAll(key).length !== 1) invalid();
     const value = url.searchParams.get(key)!;
     if (!value || value.length > 200) invalid();
     if (key === 'limit') {
@@ -19,9 +19,10 @@ function listOptions(url: URL): JobListOptions {
       if (!statuses.has(value)) invalid();
       options.status = value as JobListOptions['status'];
     } else if (key === 'workspace_id') options.workspace_id = value;
+    else if (key === 'batch_id') options.batch_id = value;
     else if (key === 'cursor') options.cursor = value;
   }
-  return options;
+  return parseJobListOptions(options);
 }
 
 /** Thin HTTP mapping. The caller verifies session/origin; operations enforce current actor scope. */

@@ -1,6 +1,49 @@
 # M07 acceptance matrix
 
-## Current backend continuation - 2026-10-31
+## Current scoped release evidence - 2026-11-01, 20:26 UTC
+
+- Controlled pilot web4Gm85/workerG6CV/canonical38/native50082 remains enabled;
+  latest direct alias/worker/control read passed20:26:38.
+- New real app specs job42bd909b passed OpenAI/n8n and English saved/reload display;
+  old Reviewed/Ready/media/protected-job preservation passed.
+- Actual local38 recovery639da33a PASSED149474ms: metadata/four objects/373source
+  entries/native8-page PDF+2sH264,English/fences/null+emptybatch checks,and all
+  original29/globalrole/session/cleanup/lock flags. [Receipt](recovery38/2026-11-01T20-19-31-495Z-639da33a.json),
+  [Root admission](recovery38/2026-11-01T20-24-11-582932Z-Root-admission.json).
+- Root19 operator tests and fresh production dependency audit0vulnerabilities/
+  local production-fixture denial passed. Prior939 product gates retain scope.
+- Scoped AT074 paired real success/failure + actionable app/API/ownerMCP guidance
+  stays PASSED ([paired audit](job-attempt-observability36-live-sidecar/2026-11-01T02-50-02-687228Z-8829fa59-3c1c-46dc-b20b-32649645c275.json),
+  [owner guidance](source-unreadable36-web/2026-11-01-owner-mcp-job-guidance.json)).
+  Additional n8n -32603/404 metadata failures do not reopen this scoped acceptance.
+- Full delegated/token/contributor/guest delta/representative/StorageHTTP/independent
+  restore and production release remain open; AT069 policy block retained.
+  Screen-reader pending,mobile skipped; no language labels/selector.
+
+
+## Historical backend continuation - 2026-11-01
+
+Current controlled pilot is web4Gm85 / workerG6CV / canonical38 / native50082,
+English1.0 and all five processing flags enabled. New exact23-record bound startup,
+normal create return, two current production inventories and preserving pin/resume
+are passed. This is a drained forward cutover, not the blocked AT069 rollback case.
+Fresh real specs job42bd909b passed3stages,n8n31910-31912 and OpenAIgpt6.1-sol,
+1626tokens. App saved/reloaded Studio Guide with one slot and actual stated fields;
+unspecified dates/location remain empty with clarifications. Two safe DB audits
+preserve protectedM02,historical136,Reviewed facts/media and existing Ready versions.
+See [app evidence](specs-worker38-audit/2026-11-01-hosted-specs-app.json) and
+[provider/preservation audit](specs-worker38-audit/2026-11-01T20-04-15-421504Z-after.json).
+
+Initial/reconnect/read and owner batch MCP acceptance remain passed;939 full product
+tests/lint/types/build plus scoped operator tests remain distinct. Runtime failure
+emission is unit-only; historical136's provider cause is unknown. Full delegated/
+contributor/token lifecycle, summary/guest delta, representative workload, Storage
+HTTP/independent restore and full release remain open. Current38 recovery extension
+is being prepared; passed local37 recovery remains historical scope. Screen-reader
+pending, mobile skipped; no new language labels or language selector.
+
+
+## Historical backend continuation - 2026-10-31
 
 - Stable pilot Ccw is freshly confirmedREADY at15:39; workerCVDM remains oneReady/
   alive2GiB instance at15:38. No config/worker mutations; ownerconnectionPASS stays.

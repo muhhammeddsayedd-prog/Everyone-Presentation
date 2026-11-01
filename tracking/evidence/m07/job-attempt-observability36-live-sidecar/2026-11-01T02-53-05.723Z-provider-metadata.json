@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "evidence_kind": "actual_trace36_terminal_execution_metadata_fallback",
+  "started_at": "2026-11-01T02:53:05.723Z",
+  "finished_at": "2026-11-01T02:53:06.652Z",
+  "source_pins": {
+    "tracking/evidence/m07/job-attempt-observability36-live-sidecar/2026-11-01T02-50-02-687228Z-8829fa59-3c1c-46dc-b20b-32649645c275.json": "0997addf653c8ccd754221c42f1c35096bf596a20a0be8b697f43c765eaf1a15",
+    "development/m07/operator-trace-live34/execution-metadata.mjs": "fcb77909e2c2d1ed7ece452f305b619f55ca4de9baea8be63bc9de30ccac656b",
+    "tools/worker-private-env.mjs": "ef935580876c9150b8150947c3796dd4760d1ad2910bc3bf322dd5015eea4d79",
+    "development/m07/trace36-provider-metadata.mjs": "e0e52262182aeb1edeb3f00ac5531a4b8344e86a8641e1e6eda15d0f91b4514b"
+  },
+  "prior_connector_attempts": 2,
+  "prior_connector_result": "isError_without_structured_metadata",
+  "maximum_direct_get_requests": 2,
+  "automatic_retry": false,
+  "configured_origin_sha256": "c9a34f62c7647ee6631b3cfd6b7d1bbfaec6f3b412cdf94a629bda2917dc14ab",
+  "ambient_overrides_used": false,
+  "observations": [
+    {
+      "case_alias": "success",
+      "job_id": "6763e5fa-dc53-4956-8d9b-17bbc437609e",
+      "execution_id": "31697",
+      "workflow_id": "gfhxzvSkprS2CI4o",
+      "method": "GET",
+      "includeData": false,
+      "automatic_retry": false,
+      "metadata_returned": false,
+      "http_status": 404,
+      "safe_error_class": "EXECUTION_NOT_FOUND"
+    },
+    {
+      "case_alias": "failure",
+      "job_id": "3fde2ab3-d18e-4087-93c2-0ad2585cf66c",
+      "execution_id": "31703",
+      "workflow_id": "gfhxzvSkprS2CI4o",
+      "method": "GET",
+      "includeData": false,
+      "automatic_retry": false,
+      "metadata_returned": false,
+      "http_status": 404,
+      "safe_error_class": "EXECUTION_NOT_FOUND"
+    }
+  ],
+  "node_payloads_requested": false,
+  "raw_provider_bodies_or_credentials_or_private_urls_persisted": false,
+  "workflow_edits_or_execution_or_retry_performed": false,
+  "historical_execution_31686_queried": false,
+  "execution_absence_cause_proven": false
+}

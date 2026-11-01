@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-11-01T03:24:08.786585+00:00",
+  "evidence_kind": "source_only_recovery_validator_forward_fix",
+  "source_pins": {
+    "development/m07/recovery36/runtime.mjs": "2cbf3ca61d6b9ef6b74cd8322397a05f45a979c97f868d66f3b99df1f6df8f6a",
+    "development/m07/recovery36/recovery.test.mjs": "92faa8c037a99719f3c46ac0dfdd50d88e7756bb0d38253153a3ab62e7559034"
+  },
+  "focused_tests_passed": 14,
+  "failed": 0,
+  "skipped": 0,
+  "root_and_independent_review_passed": true,
+  "confirmed_fixes": [
+    "Strict canonical uint32 OID validation accepts observed PostgreSQL decimal text without altering raw metadata.",
+    "The same closed unique explicit/bootstrap grant tuples compare independently of row order; raw preimages remain unchanged."
+  ],
+  "actual_fresh_rehearsal_performed": false,
+  "old084_claim_replayed": false,
+  "old129_archive_changed": false,
+  "permissions_or_migration_functional_DDL_changed": false
+}

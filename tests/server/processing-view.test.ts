@@ -15,6 +15,16 @@ test('ordinary processing labels never echo untrusted stages or provider message
   assert.equal(jobFailureMessage({ ...job.error!, code: 'SECRET_CODE', message: 'secret' }), 'Processing could not complete. Existing work has been retained.');
 });
 
+test('unreadable-source guidance explains recovery without changing nonretryable actions or echoing payloads', () => {
+  const failed: CentralJob = { ...job, kind: 'candidate_scan', stage: 'prepare_candidate',
+    error: { code: 'SOURCE_UNREADABLE', message: '<script>private-provider-token</script>', details: { source_url: 'https://private.invalid?token=secret' }, retryable: false } };
+  const message = jobFailureMessage(readProcessingJob(failed).error);
+  assert.equal(message, 'The supplied source could not be read. Replace it with a valid supported file, or enter the available information manually.');
+  assert.doesNotMatch(message, /private|token|https:|<script>/u);
+  assert.deepEqual(processingActions(failed), { retry: false, cancel: true });
+  assert.equal(jobFailureMessage({ ...failed.error!, code: 'UNKNOWN_PRIVATE_CODE' }), 'Processing could not complete. Existing work has been retained.');
+});
+
 test('actual candidate and frame stages have understandable public labels', () => {
   assert.equal(jobStageLabel('prepare_candidate'), 'Video preparation');
   assert.equal(jobStageLabel('transcribe_candidate'), 'Original-language transcription');

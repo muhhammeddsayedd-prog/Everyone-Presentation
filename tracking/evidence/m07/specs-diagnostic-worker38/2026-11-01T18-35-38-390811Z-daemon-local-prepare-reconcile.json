@@ -1,0 +1,104 @@
+{
+  "Set_Acl_invoked": false,
+  "action": "local_daemon_prepare_reconcile",
+  "after": {
+    "configs": {
+      "docker_helper_routing_sha256": "af1163e6ae391adb9f7b54d7a1115e1d6d445a791a92e87adfa0e996fcdd3c28",
+      "existing_directory_and_file_ACLs_valid": true,
+      "regctl_routing_sha256": "58f676660fcc32a003c5af9a2f64ce957096511e19e1cdcd2410904f32552d49"
+    },
+    "export": {
+      "receipt": "tracking/evidence/m07/specs-diagnostic-worker38/2026-11-01T18-03-17-571823Z-daemon-export.json",
+      "sha256": "b0ba5c5920f65e325ab9fde6cc795331782f0c9a504aa1ee6a2f232c7ed8b106"
+    },
+    "export_archive_sha256": "6a3a80716b4b0b68dc594b06ece7aacbfb17c1bce22bb7149d0cd56a94487c63",
+    "file_count": 164,
+    "original_claim_sha256": "093887a6718b278179512b9359ae542d7bd27af73d0ffdfe185a955d26414aeb",
+    "original_receipt_sha256": "38f36ca2d06894a27747d011b6b81a7725b6a01e76543d77f185cadf081b8f85",
+    "runtime_digest": "sha256:ce23af3ba163199c1e35f224f71a281ab450d7acfc0f4ab85b6044df5246431c",
+    "source_sha256": "037dc5d9b41605808d8f35907a71be4aba6fc6666a824ad7316d823334f35c38",
+    "target_absent": false
+  },
+  "before": {
+    "configs": {
+      "docker_helper_routing_sha256": "af1163e6ae391adb9f7b54d7a1115e1d6d445a791a92e87adfa0e996fcdd3c28",
+      "existing_directory_and_file_ACLs_valid": true,
+      "regctl_routing_sha256": "58f676660fcc32a003c5af9a2f64ce957096511e19e1cdcd2410904f32552d49"
+    },
+    "export": {
+      "receipt": "tracking/evidence/m07/specs-diagnostic-worker38/2026-11-01T18-03-17-571823Z-daemon-export.json",
+      "sha256": "b0ba5c5920f65e325ab9fde6cc795331782f0c9a504aa1ee6a2f232c7ed8b106"
+    },
+    "export_archive_sha256": "6a3a80716b4b0b68dc594b06ece7aacbfb17c1bce22bb7149d0cd56a94487c63",
+    "file_count": 164,
+    "original_claim_sha256": "093887a6718b278179512b9359ae542d7bd27af73d0ffdfe185a955d26414aeb",
+    "original_receipt_sha256": "38f36ca2d06894a27747d011b6b81a7725b6a01e76543d77f185cadf081b8f85",
+    "runtime_digest": "sha256:ce23af3ba163199c1e35f224f71a281ab450d7acfc0f4ab85b6044df5246431c",
+    "source_sha256": "037dc5d9b41605808d8f35907a71be4aba6fc6666a824ad7316d823334f35c38",
+    "target_absent": true
+  },
+  "db_jobs_or_openai_n8n_calls": false,
+  "existing_directory_acl_writes": false,
+  "kind": "daemon",
+  "local_extraction": {
+    "archive_sha256": "6a3a80716b4b0b68dc594b06ece7aacbfb17c1bce22bb7149d0cd56a94487c63",
+    "blobs_verified": 18,
+    "runtime_digest": "sha256:ce23af3ba163199c1e35f224f71a281ab450d7acfc0f4ab85b6044df5246431c"
+  },
+  "login_or_registry_copy_called": false,
+  "new_claim_retained": true,
+  "normal_extraction_return_observed": true,
+  "observed_at": "2026-11-01T18:35:38.390870+00:00",
+  "old_registry_prepared_admitted": true,
+  "original_claim_replayed": false,
+  "original_receipt": {
+    "path": "tracking/evidence/m07/specs-diagnostic-worker38/2026-11-01T18-26-26-263725Z-daemon-registry-prepare.json",
+    "result": "unconfirmed",
+    "sha256": "38f36ca2d06894a27747d011b6b81a7725b6a01e76543d77f185cadf081b8f85"
+  },
+  "original_receipt_or_claim_overwritten": false,
+  "original_unconfirmed_outcome_preserved": true,
+  "provider_called": false,
+  "raw_logs_or_credentials_persisted": false,
+  "result": "passed",
+  "run": "6503a124-b514-4dcd-91ae-08a868d69a17",
+  "schema_version": "1.0",
+  "source_pins": {
+    "buildx_plugin_sha256": "f2512b849418b860d1e497708ccdd4864e2377a97fe15d500af83381cf5f967e",
+    "cli/chunks/chunk-3AXMZRAB.js": "e43d8d2565d33655855c44a145778dd9070488df18701673018807cf62c48298",
+    "cli/chunks/chunk-KDRCBWRY.js": "79d75b4c54d42c0779cee699f2e37ed84dcadb6c6e178315d740a5d264952807",
+    "cli/chunks/login-EPBJQDEK.js": "36608450dc87f554a3b0570a0f6deab24b82581c3178731e20130e4b311f26fb",
+    "cli/vc.js": "5724f20cc65bb0e13c7a0668af107770ddb101bb72dd3fd6160aca672ea2a493",
+    "development/m03/english-image34/build-image-v2.py": "5562cf2d1e7d4b23f2b86e45ef75bc2f02a1744b80a5ba580814c751b53948a2",
+    "development/m03/english-image34/build-image.py": "f1ced25d33bf039909289bc1be17ab42bbdf5d662e15c22c6460693a16045cd4",
+    "development/m03/english-image34/refresh-vcr.py": "3104f3405c2fdd0ffd2e402098522ba2ba7d6720aaed13aedfb2923c33c73224",
+    "development/m03/english-oci34/oci.py": "48fa22d83cb6f8643696a84358b5ba831852f93e6b920f7ef7f7a6808ae60758",
+    "development/m03/english-oci34/transfer.py": "f9694ac52fec08b24ab81c8a25ad4aa4c6ac0986fbfcdfc06d70ab724d23a5e3",
+    "development/m03/english-release34/native_admission.py": "cfaf0eafb51ee99961a7f3552c34090f377475be4a7a1d23d9c5582e050cb9cf",
+    "development/m07/specs-ack31/canonical_acl.py": "6f711e8f3940120158982dd338f838a424c2b5b620a721136f06d4587a2682fc",
+    "development/m07/specs-diagnostic-worker38/DAEMON_PREPARE_RECONCILE.md": "3399e1c82740c2fe76c5bb166197859306fa08a036527cd6d11f3cfea96a2976",
+    "development/m07/specs-diagnostic-worker38/README.md": "6a8bc79ceb9d58ec96a21b8daadf6040fdd979b094a8e3ca81fa8e189a94a544",
+    "development/m07/specs-diagnostic-worker38/REGISTRY.md": "64b01892fe309a617865331a0a958e78f39eabcadc6afaeff7b79f264fc292a0",
+    "development/m07/specs-diagnostic-worker38/build.py": "2548608d9bf12bea7b48b2535e208fc2e9d7452a6113531eaf64b685565834fc",
+    "development/m07/specs-diagnostic-worker38/daemon_prepare_reconcile.py": "2a7dc2b5998d600bdbe546b4fd1d51a196a46d1e6bacce86f301eaa107a18e02",
+    "development/m07/specs-diagnostic-worker38/registry.py": "5d7a4090e307d7c4eafa45e4effac090b9c516f824a93da6cc5d8d1d6c467b11",
+    "development/m07/specs-diagnostic-worker38/test_build.py": "456f905d32876f4a5c512b75015fef3e2cb9a4d371b70f9c5754e3360b1ed732",
+    "development/m07/specs-diagnostic-worker38/test_daemon_prepare_reconcile.py": "24487682aa6d591e66ff35b8aab3ef22883f5a561322d8b8f3082602e5bce61d",
+    "development/m07/specs-diagnostic-worker38/test_registry.py": "da3bad2c5786265eeced81f3b6efe72d3e3374fbbc051a875686370b8f16d687",
+    "docker-credential-desktop.exe": "2856e226b29ae2a9c67dd2419adbd527c03c34a84fc82454856b61f555c2b3b5",
+    "docker_sha256": "e768033e4b3f0dc760162f417a80360094644d16cd9fb12ad65c9d97508c076f",
+    "node.exe": "9a4eb5f1c29c6a2e93852ead46b999e284a6a5ca8bab4d4e241d587d025a52de",
+    "powershell_sha256": "9785001b0dcf755eddb8af294a373c0b87b2498660f724e76c4d53f9c217c7a3",
+    "regctl-v0.11.7.exe": "70f195ff4923082340738c796880864f66a296e6c5d3296bf743310653ad761f",
+    "tools/provision_logo_verifier.py": "660f2eb0d15b1ed17801ecef22270dbb389fdf93181c340f16d715fc2b3a340c",
+    "tools/release_foundation.py": "02aac0cefc4b46419c7d5a086da672398716cf7ee73882602574cff99659d751",
+    "tools/release_logo.py": "efd1de07b3304d8d5c89f29bbeaf77ff2ce1d8d42ffbf885f960c36f506b47f4",
+    "tools/worker-hosting-build.mjs": "3f27ca1bf039579905763365c592b4d6e94754437753a3f645c4bad85e7bcb69",
+    "tracking/evidence/m07/controlled-pilot/2026-10-30T21-48-14.726Z-daemon-repository.json": "4e9e5d2f9e24b703444025149f88f3fe03927988f768ad27671cc40ef5c25aad",
+    "tracking/evidence/m07/specs-diagnostic-worker38/2026-11-01T17-48-54-413Z-context.json": "841e119f8f7c455bd129f3479a8fbcceb346444534b055acf53d8bab1712ab06",
+    "tracking/evidence/m07/specs-diagnostic-worker38/2026-11-01T17-58-00-384612Z-native-export.json": "daa27319405e2734ddf23574ab44b03c45b989c87733f87dc7d3bde2b91215ee",
+    "tracking/evidence/m07/specs-diagnostic-worker38/2026-11-01T18-26-26-263725Z-daemon-registry-prepare.json": "38f36ca2d06894a27747d011b6b81a7725b6a01e76543d77f185cadf081b8f85"
+  },
+  "source_sha256": "037dc5d9b41605808d8f35907a71be4aba6fc6666a824ad7316d823334f35c38",
+  "worker_deployed": false
+}

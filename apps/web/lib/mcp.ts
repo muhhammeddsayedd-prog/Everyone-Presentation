@@ -23,9 +23,10 @@ import { validateMcpSuccess } from './mcp-output-validation';
 import { mcpCapabilityAllowed } from './mcp-capabilities';
 import { handleSettingsRequest, isSettingsRoute } from './settings-http';
 import type { SettingsOperations } from '@eps/domain';
+import { handleWorkspaceSummaryRequest, isWorkspaceSummaryRoute } from './workspace-summary-http';
 
 const IMPLEMENTED = new Set(['get_capabilities','list_projects','get_project','update_project','list_workspaces','create_workspace',
-  'get_workspace','update_workspace','get_specs','submit_specs','update_specs','list_roles','create_role','update_role',
+  'get_workspace','get_workspace_summary','update_workspace','get_specs','submit_specs','update_specs','list_roles','create_role','update_role',
   'archive_role','list_slots','resize_role_slots','update_slot','reorder_workspace','create_upload_session','get_upload_session',
   'complete_upload','cancel_upload','get_media','play_media','list_audience_presets','create_audience_preset','update_audience_preset',
   'archive_audience_preset','list_jobs','get_job','retry_job','cancel_job',
@@ -36,7 +37,7 @@ const IMPLEMENTED = new Set(['get_capabilities','list_projects','get_project','u
 const CASTING_TOOLS = new Set(['list_assignments','create_assignment','update_assignment','set_slot_main','undo_slot_main','remove_assignment']);
 const REVIEW_TOOLS = new Set(['list_presentation_series','create_presentation_series','get_presentation_series','update_presentation_series','get_workspace_review','create_ai_suggestion','get_ai_suggestion','request_workspace_review_fit','get_casting_retirement','undo_casting_retirement']);
 const PRESENTATION_TOOLS = new Set(['list_versions', 'generate_version', 'get_version', 'download_version_pdf', 'play_version_media']);
-const SHARING_TOOLS = new Set(['list_review_links', 'create_review_link', 'update_review_link', 'revoke_review_link', 'rotate_review_link', 'list_feedback', 'create_comment', 'update_comment', 'set_preference', 'prepare_pdf_export', 'get_pdf_export', 'download_pdf_export']);
+const SHARING_TOOLS = new Set(['list_review_links', 'create_review_link', 'update_review_link', 'revoke_review_link', 'rotate_review_link', 'list_feedback', 'get_feedback_summary', 'create_comment', 'update_comment', 'set_preference', 'prepare_pdf_export', 'get_pdf_export', 'download_pdf_export']);
 const SETTINGS_TOOLS = new Set(['get_settings', 'update_settings']);
 const entries = catalog.tools.filter(tool => IMPLEMENTED.has(tool.name) || CASTING_TOOLS.has(tool.name) || REVIEW_TOOLS.has(tool.name) || PRESENTATION_TOOLS.has(tool.name) || SHARING_TOOLS.has(tool.name) || SETTINGS_TOOLS.has(tool.name));
 const ajv = new Ajv2020({ allErrors: true, strict: false }); addFormats(ajv);
@@ -97,7 +98,8 @@ export async function invokeMcpTool(name: string, supplied: unknown, actor: Acto
   try {
     const { request, segments: s, input } = operationRequest(name, supplied);
     const context = { requestId, clientType: 'mcp' as const, idempotencyKey: input.idempotency_key as string | undefined };
-    if (isSettingsRoute(s) && services.settings) response = await handleSettingsRequest(request, s, actor, services.settings, context);
+    if (isWorkspaceSummaryRoute(s)) response = await handleWorkspaceSummaryRequest(request, s, actor, services.studio, requestId);
+    else if (isSettingsRoute(s) && services.settings) response = await handleSettingsRequest(request, s, actor, services.settings, context);
     else if (SETTINGS_TOOLS.has(name)) throw new DomainError('FEATURE_NOT_IMPLEMENTED', 'Central settings are not available in this server composition.', 503);
     else if (isReviewLinkRoute(s) && services.sharing) response = await handleReviewLinkRequest(request, s, actor, services.sharing, context);
     else if (SHARING_TOOLS.has(name)) throw new DomainError('FEATURE_NOT_IMPLEMENTED', 'Guest sharing is not available in this server composition.', 503);

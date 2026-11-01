@@ -1,0 +1,153 @@
+{
+  "action": "local_oci_export",
+  "all_blob_sha256_and_descriptor_sizes_verified": true,
+  "all_blobs_reachable": true,
+  "archive_bytes": 111121408,
+  "archive_sha256": "dbc36eb0f6e80765677d0aee2f4037ddea03f86adc806fbe3c9caa9c773cf1c3",
+  "automatic_retry": false,
+  "blobs": [
+    {
+      "bytes": 24020859,
+      "digest": "sha256:09faa9842c0c8c3f5dd7e113958d961b02f94340f5d814448e2fea5536d01345"
+    },
+    {
+      "bytes": 106279,
+      "digest": "sha256:1c37ed3f58a5e003204d99f93fc352b2390d6fb2ac185bc6eb3ec4f9047d6fce"
+    },
+    {
+      "bytes": 2380,
+      "digest": "sha256:22d5f5c40333ebd5fae22918c740186d356593d546fef9f7516454d706213289"
+    },
+    {
+      "bytes": 3385,
+      "digest": "sha256:28fe0626b69463609400820a97ca150366fdd1ad92b75ab850072a2cca168bb0"
+    },
+    {
+      "bytes": 16,
+      "digest": "sha256:2c1ce468d9f3d941396801f6e3afc8921466650dd05430fe644cd3537713d27f"
+    },
+    {
+      "bytes": 10056,
+      "digest": "sha256:2c6cf98d7e13fdefae53a7991b9d1b168411aaae44fca1d215c3807c8605c3fd"
+    },
+    {
+      "bytes": 426,
+      "digest": "sha256:3a21fa3a6b779e5d2dd5f9e093ce8503d9f5ade66e3693d8b4fdbffa2a30a786"
+    },
+    {
+      "bytes": 249944,
+      "digest": "sha256:3a968bf4600fbdfb569c5f6b65639d0d3a166a4deb422403c81f1afe1295c1cd"
+    },
+    {
+      "bytes": 3335,
+      "digest": "sha256:430d0992ef3280f13fb52ff206d0ae09eedb2fee0831583f868db77d4012f12f"
+    },
+    {
+      "bytes": 428293,
+      "digest": "sha256:506c65d223d1627b45f7da138ffe8ab940f39e7f03a2008bd639a1084745fe07"
+    },
+    {
+      "bytes": 1533915,
+      "digest": "sha256:54833aef324f76daf7ab0a1284a1020bcc5c9e239bd94febe18ca5cbd70ee6ba"
+    },
+    {
+      "bytes": 225784,
+      "digest": "sha256:6cf5a763d426a3384c7b8c3e9a841b42cc52957f05000459cac6e4e517f6a4ee"
+    },
+    {
+      "bytes": 38164130,
+      "digest": "sha256:848ed9fbb361d0f94757ab2b4c83b8a717c7d1aae3fef44d593494f432828010"
+    },
+    {
+      "bytes": 46142210,
+      "digest": "sha256:942096b8f0c1542bc01b3cdec11876d6e9c7a6b0e7e5f07a9b4426e231901177"
+    },
+    {
+      "bytes": 509,
+      "digest": "sha256:997ffd3a6a4f3aad236508e7827780107409fcaa554d9a323799e4396a311bda"
+    },
+    {
+      "bytes": 111,
+      "digest": "sha256:dcb759ebfa4513426b23265acb2569d80637a8dcd498fcde96082895f16271d1"
+    },
+    {
+      "bytes": 42646,
+      "digest": "sha256:ddb585a3aa0e141a54be9d00a1474d93104ce05417506d463d4b838e3f765a3a"
+    },
+    {
+      "bytes": 169455,
+      "digest": "sha256:fc3b186e89343c06f498d25e5b0ec004fd13ca5e70227a86067a44c04a1db3cf"
+    }
+  ],
+  "blobs_verified": 18,
+  "claim_retained": true,
+  "compressed_blob_bytes": 111103733,
+  "db_jobs_or_openai_n8n_calls": false,
+  "elapsed_seconds": 55.565,
+  "exit_code": 0,
+  "exporter_force_zstd_compression": true,
+  "external_descriptor_urls": false,
+  "index_digest": "sha256:430d0992ef3280f13fb52ff206d0ae09eedb2fee0831583f868db77d4012f12f",
+  "kind": "daemon",
+  "layers_recompressed": false,
+  "layers_recompressed_scope": "No transformation after the actual OCI export; Docker exporter itself uses force-compression zstd.",
+  "legacy_manifest_used": false,
+  "local_export_completed": true,
+  "observed_at": "2026-10-31T17:35:24.402900+00:00",
+  "output_limit_exceeded": false,
+  "private_media_used": false,
+  "process_id": 5452,
+  "production_import_gate": {
+    "build_exit_code": 0,
+    "cached": false,
+    "completed": true,
+    "network": "none",
+    "step": "#22",
+    "user": "1000:1000"
+  },
+  "progress": {
+    "cached_steps": 1,
+    "completed_steps": 23,
+    "errored_steps": 0,
+    "http_403_observed": false,
+    "http_502_observed": false
+  },
+  "raw_logs_or_credentials_persisted": false,
+  "registry_push_requested": false,
+  "result": "passed",
+  "run": "4186fd1e-55c7-4ea5-956e-ad9ad92f64b1",
+  "runtime_digest": "sha256:430d0992ef3280f13fb52ff206d0ae09eedb2fee0831583f868db77d4012f12f",
+  "schema_version": "1.0",
+  "source": {
+    "context_files": 165,
+    "file_count": 160,
+    "manifest_sha256": "0a24eadb8d256bcededdb4d46100b1557db1c6777eaaeed4bc67df431d40b000",
+    "source_seal_sha256": "2ff9d3ca4cdaf9937be534fe9f25cd82f2f0d53814099aff33c272cbd0d52b0f",
+    "source_sha256": "b3489d64fb1bb207e0a1020fadac3db14490c94ba6d2aedf9c6a358ebb36f181"
+  },
+  "source_pins": {
+    "build_operator_sha256": "f1ced25d33bf039909289bc1be17ab42bbdf5d662e15c22c6460693a16045cd4",
+    "buildx_plugin_sha256": "f2512b849418b860d1e497708ccdd4864e2377a97fe15d500af83381cf5f967e",
+    "chunks/chunk-3AXMZRAB.js": "e43d8d2565d33655855c44a145778dd9070488df18701673018807cf62c48298",
+    "chunks/chunk-KDRCBWRY.js": "79d75b4c54d42c0779cee699f2e37ed84dcadb6c6e178315d740a5d264952807",
+    "chunks/login-EPBJQDEK.js": "36608450dc87f554a3b0570a0f6deab24b82581c3178731e20130e4b311f26fb",
+    "continuation_operator_sha256": "5562cf2d1e7d4b23f2b86e45ef75bc2f02a1744b80a5ba580814c751b53948a2",
+    "development/m03/english-oci34/oci.py": "48fa22d83cb6f8643696a84358b5ba831852f93e6b920f7ef7f7a6808ae60758",
+    "development/m03/english-release34/native_admission.py": "cfaf0eafb51ee99961a7f3552c34090f377475be4a7a1d23d9c5582e050cb9cf",
+    "export_operator_sha256": "ed386e1e0fa8fa5f31b1af089e36f43b4cd1f9d95fb65b3a739e60335b763f53",
+    "failure_receipt_sha256": "b2d3cb1874c5f61610b9e9dda27ddc5814e7872706ad0ff665981ef20355024c",
+    "frozen_failed_build_receipt_sha256": "216f19304ba6edf19b78ef22585ebb3dde7378969fba6ee8113db0245802d3a0",
+    "operator_sha256": "3104f3405c2fdd0ffd2e402098522ba2ba7d6720aaed13aedfb2923c33c73224",
+    "program_files_explicitly_forwarded": true,
+    "refresh_receipt_sha256": "c3ceb996843c7608877ed8c09c0356b0c6b94e58c1f56684ce4a54a1652cfbc5",
+    "regctl_sha256": "70f195ff4923082340738c796880864f66a296e6c5d3296bf743310653ad761f",
+    "tls_diagnosis_sha256": "9ca6d6885affb207a9956bac00ca711236d06466a4bce4b8c0250cae413ae58a",
+    "vc.js": "5724f20cc65bb0e13c7a0668af107770ddb101bb72dd3fd6160aca672ea2a493"
+  },
+  "source_sha256": "b3489d64fb1bb207e0a1020fadac3db14490c94ba6d2aedf9c6a358ebb36f181",
+  "stderr_bytes": 3657,
+  "stdout_bytes": 0,
+  "target": "vcr.vercel.com/muhammed-abdelrahman/everyone-presentation-worker-pilot/daemon:english34-oci-4186fd1e",
+  "timed_out": false,
+  "worker_polling": false
+}

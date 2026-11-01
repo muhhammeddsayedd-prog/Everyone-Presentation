@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0",
+  "evidence_kind": "actual_read_only_current_pilot_web_and_daemon_health",
+  "observed_at": "2026-10-31T18:52:00.214345+00:00",
+  "web": {
+    "deployment_id": "dpl_5vEMBfsnD23cGL3ontWm8AUAErKr",
+    "state": "READY",
+    "stable_alias_matches_expected": true
+  },
+  "worker": {
+    "deployment_id": "dpl_2uASsbYobSDwWjMptPjGLcVEdCg3",
+    "state": "ready",
+    "desired": 1,
+    "ready": 1,
+    "total": 1,
+    "memory_mib": 2048,
+    "region": "dub1",
+    "instance_alive": true,
+    "daemon_digest": "sha256:430d0992ef3280f13fb52ff206d0ae09eedb2fee0831583f868db77d4012f12f"
+  },
+  "mutations_or_redeployment_or_job_execution": false,
+  "runtime_private_configuration_loaded": false,
+  "raw_cli_logs_or_credentials_or_private_urls_persisted": false,
+  "startup_logs_verified": false,
+  "database_state_requeried": false
+}

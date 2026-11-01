@@ -19,8 +19,11 @@ export * from './presentation-types.ts';
 export * from './presentation.ts';
 export * from './presentation-transcript.ts';
 export * from './english-transcript.ts';
+export * from './workspace-summary.ts';
 export * from './guest-types.ts';
 export * from './guest.ts';
+export * from './feedback-summary.ts';
+export * from './job-filters.ts';
 
 export const FIXTURE_ACTORS = Object.freeze({ producer: '10000000-0000-4000-8000-000000000001', contributor: '10000000-0000-4000-8000-000000000002', library_viewer: '10000000-0000-4000-8000-000000000003', outsider: '10000000-0000-4000-8000-000000000004' });
 export const FIXTURE_PROJECTS = Object.freeze({ first: '20000000-0000-4000-8000-000000000001', second: '20000000-0000-4000-8000-000000000002', other: '20000000-0000-4000-8000-000000000003', archived: '20000000-0000-4000-8000-000000000004' });
@@ -245,6 +248,10 @@ export function createStudio(options: StudioOptions) {
       });
     },
     async getWorkspace(actor: Actor, id: string) { requireCapability(actor, 'workspaces.read'); return store.transaction(false, state => workspaceDto(state, actor, workspace(state, actor, id))); },
+    async getWorkspaceSummary(_actor: Actor, _id: string): Promise<import('./workspace-summary.ts').WorkspaceSummary> {
+      void _actor; void _id;
+      throw new DomainError('FEATURE_NOT_IMPLEMENTED', 'Workspace summaries require the central business connection.', 503);
+    },
     async updateWorkspace(actor: Actor, id: string, input: WorkspacePatch, context?: MutationContext) {
       requireCapability(actor, 'workspaces.write'); checkObject(input, ['row_version', 'logo_asset_id', 'logo_placement', 'active_output']); version(input.row_version);
       if (input.logo_placement !== undefined && !['cover', 'every_slide'].includes(input.logo_placement)) invalid('Unsupported logo placement.');

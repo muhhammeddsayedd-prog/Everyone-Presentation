@@ -1,0 +1,44 @@
+{
+  "observed_at": "2026-11-01T18:38:37.532Z",
+  "run_id": "93bb8f21-2f2e-4305-948e-f78897c497d1",
+  "scope": "Read-only exact new local trace role and owned database absence; no cleanup performed",
+  "system_identifier": "7701520506262638626",
+  "role": {
+    "oid": "316935",
+    "name": "eps_job_trace_owner",
+    "limit": -1,
+    "login": false,
+    "super": false,
+    "marker": "eps-worker38-concurrency:93bb8f21-2f2e-4305-948e-f78897c497d1:trace:316935",
+    "inherit": false,
+    "bypassrls": false,
+    "create_db": false,
+    "create_role": false,
+    "memberships": [
+      {
+        "set": false,
+        "role": "eps_job_trace_owner",
+        "admin": true,
+        "member": "postgres",
+        "grantor": "supabase_admin",
+        "inherit": false
+      },
+      {
+        "set": true,
+        "role": "eps_job_trace_owner",
+        "admin": false,
+        "member": "postgres",
+        "grantor": "postgres",
+        "inherit": true
+      }
+    ],
+    "replication": false,
+    "valid_until": null,
+    "dependencies": []
+  },
+  "observation": {
+    "databases": [],
+    "other_clients": 0,
+    "role_oid_type": "oid"
+  }
+}

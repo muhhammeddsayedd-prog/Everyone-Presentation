@@ -19,7 +19,7 @@ const STAGES: Record<string, string> = { prepare_document: 'Document preparation
   prepare_suggestion: 'Preparing supplied text', generate_suggestion: 'Drafting wording suggestion', validate_suggestion: 'Validating wording proposal', measure_review_fit: 'Measuring template layout',
   prepare_presentation: 'Preparing captured version', render_presentation: 'Rendering PDF', validate_presentation: 'Checking PDF and media', publish_presentation: 'Saving ready version',
   render: 'Presentation layout', export_pdf: 'PDF preparation' };
-const FAILURES: Record<string, string> = { SOURCE_UNREADABLE: 'The supplied source could not be read.', UNSUPPORTED_FORMAT: 'The supplied source format is unsupported.',
+const FAILURES: Record<string, string> = { SOURCE_UNREADABLE: 'The supplied source could not be read. Replace it with a valid supported file, or enter the available information manually.', UNSUPPORTED_FORMAT: 'The supplied source format is unsupported.',
   RESULT_INVALID: 'The result could not be validated. Existing work has been retained.', EXTRACTION_REFUSED: 'Extraction could not complete for this input.',
   PROVIDER_RATE_LIMITED: 'Processing is temporarily rate limited.', DEPENDENCY_UNAVAILABLE: 'A processing dependency is temporarily unavailable.',
   LEASE_EXPIRED: 'Processing was interrupted before it could finish.', DISPATCH_UNAVAILABLE: 'The processing request could not be dispatched.',

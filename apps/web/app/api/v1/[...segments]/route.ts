@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import { DomainError, type ProjectPatch, type WorkspaceCreate, type WorkspacePatch,
+import { DomainError, type ListOptions, type ProjectPatch, type WorkspaceCreate, type WorkspacePatch,
   type UploadSessionCreate, type CompleteUpload, type AudiencePresetCreate, type AudiencePresetPatch } from '@eps/domain';
 import { currentActor } from '../../../../lib/session';
 import { getStudio } from '../../../../lib/studio';
@@ -24,10 +24,25 @@ import { readRuntimeConfig } from '../../../../lib/config';
 import { guestOperationClass, logGuestRequestFailure, type GuestOperationClass } from '../../../../lib/guest-error-log';
 import { getSettingsService } from '../../../../lib/settings';
 import { handleSettingsRequest, isSettingsRoute } from '../../../../lib/settings-http';
+import { handleWorkspaceSummaryRequest, isWorkspaceSummaryRoute } from '../../../../lib/workspace-summary-http';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 type Context = { params: Promise<{ segments: string[] }> };
+
+function foundationListQuery(url: URL): ListOptions {
+  const result: ListOptions = {};
+  const invalid = (): never => { throw new DomainError('INVALID_REQUEST', 'Provide supported list filters and a bounded decimal page size.', 400); };
+  for (const [key, value] of url.searchParams) {
+    if (!['q', 'cursor', 'limit'].includes(key) || url.searchParams.getAll(key).length !== 1) invalid();
+    if (key === 'limit') {
+      if (!/^[1-9][0-9]*$/u.test(value) || Number(value) > 100) invalid();
+      result.limit = Number(value);
+    } else if (key === 'q') result.q = value;
+    else result.cursor = value;
+  }
+  return result;
+}
 
 async function handle(request: Request, context: Context) {
   const requestId = randomUUID();
@@ -54,20 +69,19 @@ async function handle(request: Request, context: Context) {
     if (isManualSpecsRoute(s)) return await handleSpecsRequest(request, s, actor, await getSpecsService(), mutation);
     if (isCandidatesRoute(s)) return await handleCandidatesRequest(request, s, actor, await getCandidatesService(), mutation);
     const studio = await getStudio();
+    if (isWorkspaceSummaryRoute(s)) return await handleWorkspaceSummaryRequest(request, s, actor, studio, requestId);
     const url = new URL(request.url);
-    const list = { q: url.searchParams.get('q') ?? undefined, cursor: url.searchParams.get('cursor') ?? undefined,
-      limit: url.searchParams.has('limit') ? Number(url.searchParams.get('limit')) : undefined };
     const body = async <T,>(schema: string) => validateContract<T>(schema, await readJson(request));
     const paged = (result: { data: unknown; page: { next_cursor: string | null } }) =>
       Response.json({ request_id: requestId, ...result }, { headers: NO_STORE });
     if (s.length === 1 && s[0] === 'capabilities' && method === 'GET') return json(await studio.getCapabilities(actor), requestId);
     if (s[0] === 'projects') {
-      if (s.length === 1 && method === 'GET') return paged(await studio.listProjects(actor, list));
+      if (s.length === 1 && method === 'GET') return paged(await studio.listProjects(actor, foundationListQuery(url)));
       if (s.length === 2 && method === 'GET') return json(await studio.getProject(actor, s[1]), requestId);
       if (s.length === 2 && method === 'PATCH') return json(await studio.updateProject(actor, s[1], await body<ProjectPatch>('ProjectPatch'), mutation), requestId);
     }
     if (s[0] === 'workspaces') {
-      if (s.length === 1 && method === 'GET') return paged(await studio.listWorkspaces(actor, list));
+      if (s.length === 1 && method === 'GET') return paged(await studio.listWorkspaces(actor, foundationListQuery(url)));
       if (s.length === 1 && method === 'POST') return json(await studio.createWorkspace(actor, await body<WorkspaceCreate>('WorkspaceCreate'), mutation), requestId, 201);
       if (s.length === 2 && method === 'GET') return json(await studio.getWorkspace(actor, s[1]), requestId);
       if (s.length === 2 && method === 'PATCH') return json(await studio.updateWorkspace(actor, s[1], await body<WorkspacePatch>('WorkspacePatch'), mutation), requestId);
@@ -89,7 +103,10 @@ async function handle(request: Request, context: Context) {
       }
     }
     if (s[0] === 'audience-presets') {
-      if (s.length === 1 && method === 'GET') return paged(await studio.listAudiencePresets(actor, list));
+      if (s.length === 1 && method === 'GET') return paged(await studio.listAudiencePresets(actor, {
+        q: url.searchParams.get('q') ?? undefined, cursor: url.searchParams.get('cursor') ?? undefined,
+        limit: url.searchParams.has('limit') ? Number(url.searchParams.get('limit')) : undefined,
+      }));
       if (s.length === 1 && method === 'POST') return json(await studio.createAudiencePreset(actor, await body<AudiencePresetCreate>('AudiencePresetCreate'), mutation), requestId, 201);
       if (s.length === 2 && method === 'PATCH') return json(await studio.updateAudiencePreset(actor, s[1], await body<AudiencePresetPatch>('AudiencePresetPatch'), mutation), requestId);
       if (s.length === 3 && s[2] === 'archive' && method === 'POST') return json(await studio.archiveAudiencePreset(actor, s[1], await body<{ row_version: number }>('ArchiveRequest'), mutation), requestId);

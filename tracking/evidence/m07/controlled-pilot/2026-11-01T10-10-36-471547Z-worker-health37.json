@@ -1,0 +1,61 @@
+{
+  "cli_pins": {
+    "chunks/chunk-QZEZCUUZ.js": "d81dab4301ba45c2d3c786bbca5c29a5027e98976118102de7aa8e99b607d23a",
+    "chunks/chunk-YIOT5B5Z.js": "36a7d817e495b18babf431a5380e530f3f6ceb262120bafc56b3d9163aaae661",
+    "commands/deploy/index.js": "87147e9eda4f3f43f156a93b54b157ac356f7108a196027692120efb71c40ee2",
+    "vc.js": "5724f20cc65bb0e13c7a0668af107770ddb101bb72dd3fd6160aca672ea2a493"
+  },
+  "deployment_or_restart_performed": false,
+  "environment_transferred": false,
+  "not_a_replacement_or_startup_log_acceptance": true,
+  "observed_at": "2026-11-01T10:10:36.471547+00:00",
+  "raw_cli_or_credentials_recorded": false,
+  "read_only": true,
+  "result": "passed",
+  "schema_version": "1.0",
+  "source_pins": {
+    "development/m03/english-worker-release34/worker.py": "af9740293f37d1884fa25f741c8a517851ea66737abb31a741b9b5dd10aa186c",
+    "development/m07/controlled-pilot/daemon-runtime.mjs": "528072b8e21ee0dfe79911a42ceeffeaf43b631688f16c0c6ddf5ce025b86263"
+  },
+  "worker": {
+    "configured_instances": {
+      "dub1": 1
+    },
+    "configured_override": null,
+    "daemon": "worker",
+    "deployment_id": "dpl_2uASsbYobSDwWjMptPjGLcVEdCg3",
+    "desired": 1,
+    "environment": "production",
+    "instances": [
+      {
+        "alive": true,
+        "id": "dmni_01m69h6w8tag9hgha4t2w1zzqm",
+        "image": {
+          "digest": "sha256:430d0992ef3280f13fb52ff206d0ae09eedb2fee0831583f868db77d4012f12f",
+          "reference": "vcr.vercel.com/muhammed-abdelrahman/everyone-presentation-worker-pilot/daemon@sha256:430d0992ef3280f13fb52ff206d0ae09eedb2fee0831583f868db77d4012f12f"
+        },
+        "last_checked_at_ms": 1793527693243,
+        "memory_mib": 2048,
+        "region": "dub1",
+        "started_at_ms": 1793468886893,
+        "stopped_at_ms": null
+      }
+    ],
+    "memory_mib": 2048,
+    "project_id": "prj_I4SMkDzaDy0KHNgiF00v4Da5aLb6",
+    "ready": 1,
+    "requested_image": {
+      "digest": "sha256:430d0992ef3280f13fb52ff206d0ae09eedb2fee0831583f868db77d4012f12f",
+      "reference": "vcr.vercel.com/muhammed-abdelrahman/everyone-presentation-worker-pilot/daemon@sha256:430d0992ef3280f13fb52ff206d0ae09eedb2fee0831583f868db77d4012f12f"
+    },
+    "resolved_image": {
+      "digest": "sha256:430d0992ef3280f13fb52ff206d0ae09eedb2fee0831583f868db77d4012f12f",
+      "reference": "vcr.vercel.com/muhammed-abdelrahman/everyone-presentation-worker-pilot/daemon@sha256:430d0992ef3280f13fb52ff206d0ae09eedb2fee0831583f868db77d4012f12f"
+    },
+    "status": "ready",
+    "team_id": "team_gboXPxTevpCOZuaA8eY9PmR1",
+    "termination_grace_seconds": 300,
+    "total": 1,
+    "updated_at_ms": 1793468886871
+  }
+}

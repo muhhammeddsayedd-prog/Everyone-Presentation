@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-11-01T17:42:27Z",
+  "result": "passed_focused_deterministic_checks",
+  "scope": "Isolated worker/provider-adapter diagnostics only; no hosted or real-provider acceptance",
+  "base_commit": "e9ab8e36f26487d0cc48bd1e689161443688c528",
+  "branch": "codex/m07-specs-diagnostics",
+  "source_pins": {
+    "apps/worker/SPECS_EXECUTOR.md": "e3e9af6c7d72a34adbe5060fe0c92dbaed7c75c603349d4dc34ac4dc9b6043a2",
+    "apps/worker/src/runtime-main.ts": "5fa566ae69cbc199e123ce3967063c5863f22acf16ca6b8239b2cc181f36d93e",
+    "apps/worker/src/runtime.ts": "7c4f2ef4495e5f1634a9fb22a084a26912100c51b10adb030347593b1e83a8a9",
+    "apps/worker/src/specs-executor.ts": "7ae93cc2a4c24d02674fc090a844dc4437f9dbd177d0f25de6b60bb02c72841c",
+    "packages/integrations/src/openai-specs.ts": "cd80d8a09ea8f5df20f2ed2fe72dc2777849dd5efd1e2f54b9b9f79a1b5ed95a",
+    "tests/integrations/specs.test.ts": "faa559cb4424c75ee6e5562c6df7e670568ecb343ec8ce234a81abc8dec937e3",
+    "tests/worker/runtime.test.ts": "12ddba95212163fdde547a65026aad6359961e0130d0743b00f5eb969bef18aa",
+    "tests/worker/specs-executor.test.ts": "5f58d1f9a12025d1aea93baf69722b5dc27c294406835d2e211b8a059c76c019"
+  },
+  "tests_first": {
+    "harness_failure_before_red": "Initial task checkout hit the Windows long-path limit and was automatically removed by Git. A command-scoped core.longpaths=true checkout then completed cleanly. First test import lacked workspace-local AJV; task-owned node_modules directories and isolated @eps links plus existing installed dependency links corrected resolution. Neither failure was claimed as a behavioral RED.",
+    "red": {
+      "name_pattern": "specs failures retain|specs diagnostic sink|specs diagnostic projection|timeout retains valid|operator specs diagnostic sink",
+      "files": ["tests/worker/specs-executor.test.ts", "tests/integrations/specs.test.ts", "tests/worker/runtime.test.ts"],
+      "exit_code": 1,
+      "tests": 5,
+      "passed": 0,
+      "failed": 5,
+      "skipped": 0,
+      "duration_ms": 3568.1363,
+      "confirmed_failures": ["Missing specs diagnostic sink", "Missing runtime sink propagation", "Timeout discarded safe provider metadata"]
+    },
+    "final_green": {
+      "command": "node --import tsx --test --test-name-pattern=\"specs failures retain|specs diagnostic sink|specs diagnostic projection|hostile diagnostic metadata|timeout retains valid|timeout diagnostic metadata|operator specs diagnostic sink|provider errors are redacted|known provider failure|heartbeats serialize|unknown or stale heartbeat\" tests/worker/specs-executor.test.ts tests/integrations/specs.test.ts tests/worker/runtime.test.ts",
+      "exit_code": 0,
+      "tests": 11,
+      "passed": 11,
+      "failed": 0,
+      "skipped": 0,
+      "duration_ms": 2695.9348,
+      "new_cases": 7,
+      "existing_regressions": 4,
+      "entire_files_or_full_suite_executed": false
+    }
+  },
+  "targeted_eslint": {"ts_files": 7, "max_warnings": 0, "exit_code": 0},
+  "git_diff_check_exit_code": 0,
+  "full_suite": "not_run_in_this_slice",
+  "full_typecheck": "not_run_in_this_slice",
+  "private_value_scan": "not_run; delegated task forbids credential/private-environment reads",
+  "dependency_resolution": "Task node_modules and @eps are real directories, not a whole-main-node_modules junction. The four @eps links target this isolated checkout. Package-local dependency links reuse existing installed external dependencies without installation or writes.",
+  "invariants": {
+    "generic_public_job_error_unchanged": true,
+    "retry_policy_unchanged": true,
+    "one_provider_attempt_and_one_terminal_callback_checked": true,
+    "throwing_sink_cannot_change_durable_failure_checked": true,
+    "unsafe_or_hostile_metadata_omitted_checked": true,
+    "source_text_and_exception_headers_bodies_tokens_not_logged": true
+  },
+  "main_product_files_changed": false,
+  "sql_called": false,
+  "native_processing_called": false,
+  "provider_called": false,
+  "private_configuration_loaded": false,
+  "canonical_business_writes": false,
+  "dependency_or_lock_changed": false,
+  "worker_image_built": false,
+  "deployment_performed": false,
+  "historical_job_provider_cause_reconstructed": false
+}

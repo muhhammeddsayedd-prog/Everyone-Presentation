@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-11-01T17:30:53.272067+00:00",
+  "result": "passed",
+  "commands": [
+    {
+      "command": "npm.cmd test",
+      "exit_code": 0,
+      "started_at": "2026-11-01T17:29:25.421741+00:00",
+      "finished_at": "2026-11-01T17:30:25.541914+00:00",
+      "product_source_pins": {
+        "apps/web/lib/generated-contracts.json": "ad8333b036e1df0c36ee84915713273f4d84615df92a8744eb5b77e3a35cc2f2",
+        "apps/web/lib/job-http.ts": "b702118210a96032ef5553580cacea4210c6927cbce603bf16a4a081613fde46",
+        "apps/web/lib/mcp-capabilities.ts": "ef60eb112571b011c90dc2d50d58d14c04ca036e2146bcd118a97793615f7a4d",
+        "contracts/mcp-tool-catalog.json": "d9511710406bba82c427bedad17ec2d37aaf4086c1ff28e71fafb579030fb65f",
+        "packages/central/src/jobs.ts": "74edc9bc4758b6fdc1ecec3115b4293af9f9205f96cc3a8eb72ca5ca632e96b4",
+        "packages/domain/src/index.ts": "40b9416726ff05376c05731edcc85aad4da9b36bfa07134d8b718bcca6435b35",
+        "packages/domain/src/job-filters.ts": "6e7163df85d11ed157e04f3db9886931baea1d6ca95deaa98d260a2c2f4ebd0b"
+      },
+      "product_source_unchanged_after_commands": true,
+      "provider_called": false,
+      "output_truncated": false,
+      "stdout_bytes": 102124,
+      "stderr_bytes": 0
+    },
+    {
+      "command": "npm.cmd run lint",
+      "exit_code": 0,
+      "started_at": "2026-11-01T17:29:25.425635+00:00",
+      "finished_at": "2026-11-01T17:30:18.080709+00:00",
+      "product_source_pins": {
+        "apps/web/lib/generated-contracts.json": "ad8333b036e1df0c36ee84915713273f4d84615df92a8744eb5b77e3a35cc2f2",
+        "apps/web/lib/job-http.ts": "b702118210a96032ef5553580cacea4210c6927cbce603bf16a4a081613fde46",
+        "apps/web/lib/mcp-capabilities.ts": "ef60eb112571b011c90dc2d50d58d14c04ca036e2146bcd118a97793615f7a4d",
+        "contracts/mcp-tool-catalog.json": "d9511710406bba82c427bedad17ec2d37aaf4086c1ff28e71fafb579030fb65f",
+        "packages/central/src/jobs.ts": "74edc9bc4758b6fdc1ecec3115b4293af9f9205f96cc3a8eb72ca5ca632e96b4",
+        "packages/domain/src/index.ts": "40b9416726ff05376c05731edcc85aad4da9b36bfa07134d8b718bcca6435b35",
+        "packages/domain/src/job-filters.ts": "6e7163df85d11ed157e04f3db9886931baea1d6ca95deaa98d260a2c2f4ebd0b"
+      },
+      "product_source_unchanged_after_commands": true,
+      "provider_called": false,
+      "output_truncated": false,
+      "stdout_bytes": 101,
+      "stderr_bytes": 0
+    },
+    {
+      "command": "npm.cmd run typecheck",
+      "exit_code": 0,
+      "started_at": "2026-11-01T17:29:25.460366+00:00",
+      "finished_at": "2026-11-01T17:30:09.295847+00:00",
+      "product_source_pins": {
+        "apps/web/lib/generated-contracts.json": "ad8333b036e1df0c36ee84915713273f4d84615df92a8744eb5b77e3a35cc2f2",
+        "apps/web/lib/job-http.ts": "b702118210a96032ef5553580cacea4210c6927cbce603bf16a4a081613fde46",
+        "apps/web/lib/mcp-capabilities.ts": "ef60eb112571b011c90dc2d50d58d14c04ca036e2146bcd118a97793615f7a4d",
+        "contracts/mcp-tool-catalog.json": "d9511710406bba82c427bedad17ec2d37aaf4086c1ff28e71fafb579030fb65f",
+        "packages/central/src/jobs.ts": "74edc9bc4758b6fdc1ecec3115b4293af9f9205f96cc3a8eb72ca5ca632e96b4",
+        "packages/domain/src/index.ts": "40b9416726ff05376c05731edcc85aad4da9b36bfa07134d8b718bcca6435b35",
+        "packages/domain/src/job-filters.ts": "6e7163df85d11ed157e04f3db9886931baea1d6ca95deaa98d260a2c2f4ebd0b"
+      },
+      "product_source_unchanged_after_commands": true,
+      "provider_called": false,
+      "output_truncated": false,
+      "stdout_bytes": 64,
+      "stderr_bytes": 0
+    }
+  ],
+  "product_source_pins": {
+    "apps/web/lib/generated-contracts.json": "ad8333b036e1df0c36ee84915713273f4d84615df92a8744eb5b77e3a35cc2f2",
+    "apps/web/lib/job-http.ts": "b702118210a96032ef5553580cacea4210c6927cbce603bf16a4a081613fde46",
+    "apps/web/lib/mcp-capabilities.ts": "ef60eb112571b011c90dc2d50d58d14c04ca036e2146bcd118a97793615f7a4d",
+    "contracts/mcp-tool-catalog.json": "d9511710406bba82c427bedad17ec2d37aaf4086c1ff28e71fafb579030fb65f",
+    "packages/central/src/jobs.ts": "74edc9bc4758b6fdc1ecec3115b4293af9f9205f96cc3a8eb72ca5ca632e96b4",
+    "packages/domain/src/index.ts": "40b9416726ff05376c05731edcc85aad4da9b36bfa07134d8b718bcca6435b35",
+    "packages/domain/src/job-filters.ts": "6e7163df85d11ed157e04f3db9886931baea1d6ca95deaa98d260a2c2f4ebd0b"
+  },
+  "product_source_unchanged_after_commands": true,
+  "owned_sql_receipt": {
+    "path": "tracking/evidence/m07/job-batch-filter-proof/2026-11-01T17-23-47-142Z-bb9cf2bf.json",
+    "sha256": "c2020d123b7d54c27a6440b4bf6ede7c9dd1c751ec13b1613f7ad2c1bf62b2c4"
+  },
+  "provider_called": false,
+  "full_test_count": 928,
+  "test_group_counts": [
+    405,
+    13,
+    19,
+    54,
+    246,
+    191
+  ],
+  "test_output_complete": true,
+  "skipped_tests": 0,
+  "lint_exit": 0,
+  "typecheck_exit": 0,
+  "build_pending": true,
+  "hosted_HTTP_or_MCP_acceptance": false
+}

@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "evidence_kind": "actual_read_only_catalogue_drift_diagnosis",
+  "client_date": "2026-11-01",
+  "changed_group": "role",
+  "changed_key": "role:17603",
+  "changed_field": "rolvaliduntil",
+  "first": {
+    "bypassrls": false,
+    "can_login": true,
+    "create_db": false,
+    "create_role": false,
+    "current_user": "postgres",
+    "name": "cli_login_postgres",
+    "observed_at": "2026-11-01T00:40:58.849387+00:00",
+    "oid": "17603",
+    "session_user": "postgres",
+    "superuser": false,
+    "valid_until": "2026-11-01T00:45:57.875199+00:00"
+  },
+  "second": {
+    "bypassrls": false,
+    "can_login": true,
+    "create_db": false,
+    "create_role": false,
+    "current_user": "postgres",
+    "name": "cli_login_postgres",
+    "observed_at": "2026-11-01T00:41:07.481716+00:00",
+    "oid": "17603",
+    "session_user": "postgres",
+    "superuser": false,
+    "valid_until": "2026-11-01T00:46:04.444609+00:00"
+  },
+  "other_business_and_permission_admission_checks_passed": true,
+  "plan_created": false,
+  "apply_claim_created": false,
+  "migration_dispatched": false,
+  "private_password_config_payloads_exposed": false
+}

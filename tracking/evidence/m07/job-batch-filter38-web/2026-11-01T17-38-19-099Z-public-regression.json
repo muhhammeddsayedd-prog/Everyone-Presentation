@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-11-01T17:38:19.099Z",
+  "result": "passed",
+  "origin": "https://everyone-presentation-pilot.vercel.app",
+  "deployment_id": "dpl_CUXVUZkWjkrQPBTv7XqmA9tF3y4o",
+  "ready_reference": {
+    "path": "tracking/evidence/m07/job-batch-filter38-web/2026-11-01T17-37-06-827794Z-ready.json",
+    "sha256": "0d0ac9aa261b6f4b041fbdf1a9d4a2abf20d5e96c6406b9b5f32caf516808fb8"
+  },
+  "deployment_identity_independently_derived_from_HTTP": false,
+  "scope": "Six no-credential public denial/discovery GETs; no authenticated MCP/guest or provider execution acceptance",
+  "checks": [
+    {
+      "case": "anonymous_mcp",
+      "status": 401,
+      "public_code": "invalid_token",
+      "request_id": null,
+      "no_redirect": true,
+      "private_no_store": true,
+      "no_set_cookie": true,
+      "metadata_valid": true,
+      "passed": true
+    },
+    {
+      "case": "invalid_synthetic_bearer_mcp",
+      "status": 401,
+      "public_code": "invalid_token",
+      "request_id": null,
+      "no_redirect": true,
+      "private_no_store": true,
+      "no_set_cookie": true,
+      "metadata_valid": true,
+      "passed": true
+    },
+    {
+      "case": "anonymous_filtered_jobs",
+      "status": 401,
+      "public_code": "AUTH_REQUIRED",
+      "request_id": "d4eb859b-d86c-4cd1-a1f5-c2eb22ab8096",
+      "no_redirect": true,
+      "private_no_store": true,
+      "no_set_cookie": true,
+      "metadata_valid": true,
+      "passed": true
+    },
+    {
+      "case": "missing_guest_summary",
+      "status": 401,
+      "public_code": "REVIEW_ACCESS_DENIED",
+      "request_id": "75bb0f22-4a43-4eaa-b311-dba16e9a53ca",
+      "no_redirect": true,
+      "private_no_store": true,
+      "no_set_cookie": true,
+      "metadata_valid": true,
+      "passed": true
+    },
+    {
+      "case": "protected_resource_metadata",
+      "status": 200,
+      "public_code": null,
+      "request_id": null,
+      "no_redirect": true,
+      "private_no_store": true,
+      "no_set_cookie": true,
+      "metadata_valid": true,
+      "passed": true
+    },
+    {
+      "case": "authorization_server_metadata",
+      "status": 200,
+      "public_code": null,
+      "request_id": null,
+      "no_redirect": true,
+      "private_no_store": true,
+      "no_set_cookie": true,
+      "metadata_valid": true,
+      "passed": true
+    }
+  ],
+  "requests": 6,
+  "automatic_retries": false,
+  "valid_credentials_sent": false
+}

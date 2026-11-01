@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-11-01T17:45:34Z",
+  "result": "passed_after_exact_Main_integration",
+  "isolated_source_checkpoint": "b6893ab",
+  "source_pins": {
+    "apps/worker/SPECS_EXECUTOR.md": "e3e9af6c7d72a34adbe5060fe0c92dbaed7c75c603349d4dc34ac4dc9b6043a2",
+    "apps/worker/src/runtime-main.ts": "5fa566ae69cbc199e123ce3967063c5863f22acf16ca6b8239b2cc181f36d93e",
+    "apps/worker/src/runtime.ts": "7c4f2ef4495e5f1634a9fb22a084a26912100c51b10adb030347593b1e83a8a9",
+    "apps/worker/src/specs-executor.ts": "7ae93cc2a4c24d02674fc090a844dc4437f9dbd177d0f25de6b60bb02c72841c",
+    "packages/integrations/src/openai-specs.ts": "cd80d8a09ea8f5df20f2ed2fe72dc2777849dd5efd1e2f54b9b9f79a1b5ed95a",
+    "tests/integrations/specs.test.ts": "faa559cb4424c75ee6e5562c6df7e670568ecb343ec8ce234a81abc8dec937e3",
+    "tests/worker/runtime.test.ts": "12ddba95212163fdde547a65026aad6359961e0130d0743b00f5eb969bef18aa",
+    "tests/worker/specs-executor.test.ts": "5f58d1f9a12025d1aea93baf69722b5dc27c294406835d2e211b8a059c76c019"
+  },
+  "Root_focused_tests": {
+    "passed": 11,
+    "failed": 0,
+    "skipped": 0,
+    "duration_ms": 2795.4064,
+    "provider_called": false
+  },
+  "unique_focused_cases_not_sum_of_repeated_runs": 11,
+  "independent_source_review": "clear; same11 cases rerun, no extra acceptance count",
+  "isolated_targeted_lint_exit": 0,
+  "isolated_full_typecheck_exit": 0,
+  "isolated_typecheck_receipt": "tracking/evidence/m07/specs-diagnostics38/2026-11-01T17-43-24Z-typecheck.json",
+  "full_928_test_suite_repeated": false,
+  "generic_job_error_and_retry_policy_unchanged": true,
+  "diagnostic_event_is_processing_failure_before_callback_not_proof_of_durable_callback": true,
+  "historical_provider_cause_reconstructed": false,
+  "hosted_worker_has_diagnostics_patch": false,
+  "provider_or_native_processing_called": false,
+  "worker_deployment_or_restart": false
+}

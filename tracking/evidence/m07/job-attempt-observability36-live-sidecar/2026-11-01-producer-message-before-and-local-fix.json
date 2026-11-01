@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-11-01T02:56:15.195245+00:00",
+  "evidence_kind": "actual_failed_job_browser_and_local_safe_message_fix",
+  "job_id": "3fde2ab3-d18e-4087-93c2-0ad2585cf66c",
+  "submitted_by": "owner",
+  "agent_resubmitted": false,
+  "browser_observation": {
+    "status": "Failed",
+    "stage": "Video preparation",
+    "message": "The supplied source could not be read.",
+    "retry_button_present": false,
+    "cancel_button_present": true,
+    "actionable_replacement_guidance_present": false
+  },
+  "durable_pair_audit": "tracking/evidence/m07/job-attempt-observability36-live-sidecar/2026-11-01T02-50-02-687228Z-8829fa59-3c1c-46dc-b20b-32649645c275.json",
+  "confirmed_source_cause": "UI and central safe-message allowlists shortened the existing domain recovery guidance.",
+  "source_pins": {
+    "apps/web/components/processing-view.ts": "f3c82c6ebf3222d94df4c4ab9b0542bef46b824b4ffa2cf5446b89a6973e2aaf",
+    "packages/central/src/jobs.ts": "429c540f80897f5441660ec94f9be4415127d428ac763adef0895b3a34484acb",
+    "tests/server/processing-view.test.ts": "5e0e06376c03b6b29fa3a0e7e6c53cf84f45646e127b75743364aeb484f875c1",
+    "packages/central/test/jobs.test.ts": "72bbdac267b56430f62ddf6148880a50b0ca4871a12ebb926202c5845652b1bd",
+    "tests/server/job-http.test.ts": "12d812963afea470797d34b6d10f3539e03c0ca9674e3572d594a8bec91e19d6"
+  },
+  "local_focused_tests": {
+    "passed": 28,
+    "failed": 0,
+    "skipped": 0,
+    "verified_by": "root and independent reviewer",
+    "command": "node tools/run-tests.mjs tests/server/processing-view.test.ts packages/central/test/jobs.test.ts tests/server/job-http.test.ts"
+  },
+  "target_lint": "passed_by_implementation_agent",
+  "full_typecheck": "passed_by_implementation_agent",
+  "permissions_actions_or_error_redaction_changed": false,
+  "deployed_fix_verified": false,
+  "producer_actionable_message_acceptance": "pending_new_web_deployment_and_browser_readback",
+  "exact_native_decoder_operation_or_exit_code_claimed": false
+}

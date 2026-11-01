@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "evidence_kind": "actual_fresh_metadata_bootstrap_failure_before_network_claim",
+  "recorded_at": "2026-10-31T18:26:26.678600+00:00",
+  "command_returned_static_error": "FRESH_EXECUTION_METADATA_UNCONFIRMED",
+  "runner_sha256": "a300d672c7e6f041a0cdae9e7bdefc77ac29deec2c767f1912734d1c720ff4ad",
+  "reader_sha256": "709c8732cd1df36903d663a86a24b5f79905198db62893e1c72e04791ed5c76d",
+  "all_eight_source_pins_passed": true,
+  "permanent_network_claim_absent": true,
+  "source_order_before_network_claim": true,
+  "underlying_bootstrap_reproduction": "ModuleNotFoundError_release_foundation",
+  "confirmed_source_cause": "Protected reader imported the existing security helper without its required tools module search path.",
+  "private_configuration_loaded": false,
+  "provider_get_dispatched": false,
+  "raw_error_text_or_private_plan_persisted": false,
+  "automatic_network_retry": false,
+  "result": "failed_before_provider_access",
+  "prior_owner_claude_acceptance_affected": false
+}

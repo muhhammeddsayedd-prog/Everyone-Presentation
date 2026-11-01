@@ -1,0 +1,287 @@
+{
+  "build_export_upload_recompress_retry_refresh_or_process_control_performed": false,
+  "common_compressed_layer_bytes": 2341,
+  "common_compressed_layer_count": 1,
+  "evidence_kind": "read_only_old_native_manifest_new_oci_layer_descriptor_comparison",
+  "evidence_limits": "Compressed descriptors establish byte reuse, not equality of uncompressed filesystems. Upload necessity depends on registry blob availability and upload progress; this comparison does not change the running copy.",
+  "layer_or_config_blob_downloaded": false,
+  "new_compression_totals": {
+    "zstd": {
+      "compressed_bytes": 633811773,
+      "layer_count": 20
+    }
+  },
+  "new_export_receipt": {
+    "receipt": "tracking/evidence/m03/english-oci34/2026-10-31T17-09-36-755612Z-native-export.json",
+    "sha256": "f53cf06034f30445fe6f842254ceb69993beb99de73b312d6645602234fc1333"
+  },
+  "new_index_digest": "sha256:795f8f7736594fb51cc0c304d85bae9d29f31861e606eec0c2a83806fff5d3b9",
+  "new_layers": [
+    {
+      "bytes": 24020859,
+      "compression": "zstd",
+      "digest": "sha256:09faa9842c0c8c3f5dd7e113958d961b02f94340f5d814448e2fea5536d01345",
+      "media_type": "application/vnd.oci.image.layer.v1.tar+zstd"
+    },
+    {
+      "bytes": 3385,
+      "compression": "zstd",
+      "digest": "sha256:28fe0626b69463609400820a97ca150366fdd1ad92b75ab850072a2cca168bb0",
+      "media_type": "application/vnd.oci.image.layer.v1.tar+zstd"
+    },
+    {
+      "bytes": 46142210,
+      "compression": "zstd",
+      "digest": "sha256:942096b8f0c1542bc01b3cdec11876d6e9c7a6b0e7e5f07a9b4426e231901177",
+      "media_type": "application/vnd.oci.image.layer.v1.tar+zstd"
+    },
+    {
+      "bytes": 1533915,
+      "compression": "zstd",
+      "digest": "sha256:54833aef324f76daf7ab0a1284a1020bcc5c9e239bd94febe18ca5cbd70ee6ba",
+      "media_type": "application/vnd.oci.image.layer.v1.tar+zstd"
+    },
+    {
+      "bytes": 426,
+      "compression": "zstd",
+      "digest": "sha256:3a21fa3a6b779e5d2dd5f9e093ce8503d9f5ade66e3693d8b4fdbffa2a30a786",
+      "media_type": "application/vnd.oci.image.layer.v1.tar+zstd"
+    },
+    {
+      "bytes": 111,
+      "compression": "zstd",
+      "digest": "sha256:dcb759ebfa4513426b23265acb2569d80637a8dcd498fcde96082895f16271d1",
+      "media_type": "application/vnd.oci.image.layer.v1.tar+zstd"
+    },
+    {
+      "bytes": 42642,
+      "compression": "zstd",
+      "digest": "sha256:b9bbde4dcb1ad4df86b0505161bca493fbc6bebe936ebc09200fb0d2dc53df55",
+      "media_type": "application/vnd.oci.image.layer.v1.tar+zstd"
+    },
+    {
+      "bytes": 507,
+      "compression": "zstd",
+      "digest": "sha256:adaf52b3ebc0168341d78fd506c8a0ecf60b84551a3e59859bdb5a3b8d7988d9",
+      "media_type": "application/vnd.oci.image.layer.v1.tar+zstd"
+    },
+    {
+      "bytes": 38188216,
+      "compression": "zstd",
+      "digest": "sha256:6aa17d122b9c7663b07a89ed5b6ac636c7b74621fc6e65beedee0a5c31e1b6a7",
+      "media_type": "application/vnd.oci.image.layer.v1.tar+zstd"
+    },
+    {
+      "bytes": 169873987,
+      "compression": "zstd",
+      "digest": "sha256:5e505b6dae5029eda69b007d309e9088486f095e8a15599d0b4ea46cb07a8ab7",
+      "media_type": "application/vnd.oci.image.layer.v1.tar+zstd"
+    },
+    {
+      "bytes": 353070189,
+      "compression": "zstd",
+      "digest": "sha256:09cc2235c6189806152f8649642b56a53ec20f6d4bc6c6e47c62891d2c02edac",
+      "media_type": "application/vnd.oci.image.layer.v1.tar+zstd"
+    },
+    {
+      "bytes": 2341,
+      "compression": "zstd",
+      "digest": "sha256:b7253b134162dbdc60beb7d5cba96fa99cf4a68303231504594193d94f8cfb6b",
+      "media_type": "application/vnd.oci.image.layer.v1.tar+zstd"
+    },
+    {
+      "bytes": 106071,
+      "compression": "zstd",
+      "digest": "sha256:6da622e2ce97d23f26edbd1b47414550e0b12d3dc1a64dd0785ef68222ea5e22",
+      "media_type": "application/vnd.oci.image.layer.v1.tar+zstd"
+    },
+    {
+      "bytes": 169452,
+      "compression": "zstd",
+      "digest": "sha256:501ce82d9734d22b47fc7e9838f77a7e4e223a3136a5e9dbef2005eccbf98aa7",
+      "media_type": "application/vnd.oci.image.layer.v1.tar+zstd"
+    },
+    {
+      "bytes": 16,
+      "compression": "zstd",
+      "digest": "sha256:2c1ce468d9f3d941396801f6e3afc8921466650dd05430fe644cd3537713d27f",
+      "media_type": "application/vnd.oci.image.layer.v1.tar+zstd"
+    },
+    {
+      "bytes": 225599,
+      "compression": "zstd",
+      "digest": "sha256:2dbb291af919252974d10737fdab94bbabd08727322edb9c33822fd58f021de4",
+      "media_type": "application/vnd.oci.image.layer.v1.tar+zstd"
+    },
+    {
+      "bytes": 2376,
+      "compression": "zstd",
+      "digest": "sha256:c4302675a11a7526d37905966a0a3ddf59bbe5f10fec63222c58719ee6ac056f",
+      "media_type": "application/vnd.oci.image.layer.v1.tar+zstd"
+    },
+    {
+      "bytes": 428291,
+      "compression": "zstd",
+      "digest": "sha256:4b2ac02b49c50311173524797945ff58e3be9fe400c90bc4e4ee652928fbcdf9",
+      "media_type": "application/vnd.oci.image.layer.v1.tar+zstd"
+    },
+    {
+      "bytes": 1164,
+      "compression": "zstd",
+      "digest": "sha256:748db6f577df274a4453a97250b17c4622722f73bc791d59d42f2ee6cf98d0f6",
+      "media_type": "application/vnd.oci.image.layer.v1.tar+zstd"
+    },
+    {
+      "bytes": 16,
+      "compression": "zstd",
+      "digest": "sha256:2c1ce468d9f3d941396801f6e3afc8921466650dd05430fe644cd3537713d27f",
+      "media_type": "application/vnd.oci.image.layer.v1.tar+zstd"
+    }
+  ],
+  "new_manifest_hash_verified": true,
+  "new_manifest_media_type": "application/vnd.oci.image.manifest.v1+json",
+  "new_only_compressed_layer_bytes": 633809416,
+  "new_only_compressed_layer_count": 18,
+  "new_runtime_digest": "sha256:795f8f7736594fb51cc0c304d85bae9d29f31861e606eec0c2a83806fff5d3b9",
+  "observed_at": "2026-10-31T17:27:08.596637+00:00",
+  "old_compression_totals": {
+    "gzip": {
+      "compressed_bytes": 81223819,
+      "layer_count": 14
+    },
+    "zstd": {
+      "compressed_bytes": 561147132,
+      "layer_count": 6
+    }
+  },
+  "old_layers": [
+    {
+      "bytes": 28232643,
+      "compression": "gzip",
+      "digest": "sha256:597c6c618d36213af657a6a8444a5d87801f9a219682b206ad21ccb8f3e57bbd",
+      "media_type": "application/vnd.oci.image.layer.v1.tar+gzip"
+    },
+    {
+      "bytes": 3311,
+      "compression": "gzip",
+      "digest": "sha256:af54a8f1f08bff19af42c05615745e74742a74437bb1c5e1e99bf0dcb8048257",
+      "media_type": "application/vnd.oci.image.layer.v1.tar+gzip"
+    },
+    {
+      "bytes": 50334796,
+      "compression": "gzip",
+      "digest": "sha256:35e38e1826d7cdf22ea45a4223741e4cc126db5a2a07cf2072b229270180f920",
+      "media_type": "application/vnd.oci.image.layer.v1.tar+gzip"
+    },
+    {
+      "bytes": 1712639,
+      "compression": "gzip",
+      "digest": "sha256:15f27b93c93d3aaa4df09438a96bad3709b6cbbc38659014d17cc61d8d4fabb9",
+      "media_type": "application/vnd.oci.image.layer.v1.tar+gzip"
+    },
+    {
+      "bytes": 448,
+      "compression": "gzip",
+      "digest": "sha256:3f4664f9b20d6f144b2674c2c40de02509aabd87eae0a2d31a62de37444d13e8",
+      "media_type": "application/vnd.oci.image.layer.v1.tar+gzip"
+    },
+    {
+      "bytes": 111,
+      "compression": "gzip",
+      "digest": "sha256:53e2c3d1f9719422e688ab4e1d88b4930c306ca2526319552cf6cf12fcc77147",
+      "media_type": "application/vnd.oci.image.layer.v1.tar+gzip"
+    },
+    {
+      "bytes": 42633,
+      "compression": "zstd",
+      "digest": "sha256:877fe4545441a998558a858b4d810606a06818afe553cd337ae3b9b3ee13fa9a",
+      "media_type": "application/vnd.oci.image.layer.v1.tar+zstd"
+    },
+    {
+      "bytes": 491,
+      "compression": "zstd",
+      "digest": "sha256:6cb42de9def53cceea7b9b37e3afb2fbbe742458229d14dcda9aa9b2e173ec39",
+      "media_type": "application/vnd.oci.image.layer.v1.tar+zstd"
+    },
+    {
+      "bytes": 38159778,
+      "compression": "zstd",
+      "digest": "sha256:4e7129f8bfdb5c172b781d97f22d7e9ba11b7604b36348c29da1c894b85734f2",
+      "media_type": "application/vnd.oci.image.layer.v1.tar+zstd"
+    },
+    {
+      "bytes": 169873266,
+      "compression": "zstd",
+      "digest": "sha256:e73dd048e2cce3d1224af45da2424b88acfd2210ba24cec52dd0c7027e9dfdbc",
+      "media_type": "application/vnd.oci.image.layer.v1.tar+zstd"
+    },
+    {
+      "bytes": 353068623,
+      "compression": "zstd",
+      "digest": "sha256:f8b1755943df7ddf3de5a07e140636340843c6d1627822fb91e2fa141608b6f8",
+      "media_type": "application/vnd.oci.image.layer.v1.tar+zstd"
+    },
+    {
+      "bytes": 2341,
+      "compression": "zstd",
+      "digest": "sha256:b7253b134162dbdc60beb7d5cba96fa99cf4a68303231504594193d94f8cfb6b",
+      "media_type": "application/vnd.oci.image.layer.v1.tar+zstd"
+    },
+    {
+      "bytes": 105630,
+      "compression": "gzip",
+      "digest": "sha256:4f7f5e50903b9e245ae16026b0a55f0d7c2211a4d5457b0b07fe96cfad9eddca",
+      "media_type": "application/vnd.oci.image.layer.v1.tar+gzip"
+    },
+    {
+      "bytes": 171475,
+      "compression": "gzip",
+      "digest": "sha256:c8f358a54363f22ace979a31a3d9891db49c11026c6161a22df2306069d1979e",
+      "media_type": "application/vnd.oci.image.layer.v1.tar+gzip"
+    },
+    {
+      "bytes": 478,
+      "compression": "gzip",
+      "digest": "sha256:1575170c697a5b4abb54c43f37f93404fc2fdb31bfbfc22506ebe6a93f351776",
+      "media_type": "application/vnd.oci.image.layer.v1.tar+gzip"
+    },
+    {
+      "bytes": 229436,
+      "compression": "gzip",
+      "digest": "sha256:c589af80b229c8a58fd077d54fad7aa47e7706911c345a5607c905205a77192e",
+      "media_type": "application/vnd.oci.image.layer.v1.tar+gzip"
+    },
+    {
+      "bytes": 2015,
+      "compression": "gzip",
+      "digest": "sha256:9f3d5e00396716177d74ad2445fd9be45b168dbca10e55013eea2f72b0317d58",
+      "media_type": "application/vnd.oci.image.layer.v1.tar+gzip"
+    },
+    {
+      "bytes": 429667,
+      "compression": "gzip",
+      "digest": "sha256:87243305c7fcc85a570f39b6cafe7df65a200e04f160762de922b0b6b4d7602c",
+      "media_type": "application/vnd.oci.image.layer.v1.tar+gzip"
+    },
+    {
+      "bytes": 1138,
+      "compression": "gzip",
+      "digest": "sha256:905b6b289a0b75fcaffeb541d796468b2db8b55b2d84cfc56302dcedfbed2f43",
+      "media_type": "application/vnd.oci.image.layer.v1.tar+gzip"
+    },
+    {
+      "bytes": 32,
+      "compression": "gzip",
+      "digest": "sha256:4f4fb700ef54461cfa02571ae0db9a0dc1e0cdb5577484a6d75e68dc38e8acc1",
+      "media_type": "application/vnd.oci.image.layer.v1.tar+gzip"
+    }
+  ],
+  "old_manifest_get_invocations": 1,
+  "old_manifest_hash_verified": true,
+  "old_manifest_media_type": "application/vnd.oci.image.manifest.v1+json",
+  "old_only_compressed_layer_bytes": 642368610,
+  "old_only_compressed_layer_count": 19,
+  "old_runtime_digest": "sha256:77eee0ee51159c6420fffefcdce39406a47350ddae682f4ec86891fe7ec08ed8",
+  "raw_manifest_headers_credentials_or_layer_payloads_persisted": false,
+  "schema_version": "1.0"
+}

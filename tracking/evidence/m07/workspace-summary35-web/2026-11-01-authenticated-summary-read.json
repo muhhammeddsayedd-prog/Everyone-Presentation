@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-11-01T01:04:40.600Z",
+  "environment": "hosted_pilot",
+  "evidence_kind": "actual_signed_in_browser_HTTP_data_envelope",
+  "path": "/api/v1/workspaces/86936940-b48d-497d-b1ff-8e0da0913afa/summary",
+  "result": "passed",
+  "envelope": {
+    "request_id": "d28d95bc-24ed-4e52-88be-0bf65a74bcb3",
+    "data": {
+      "workspace_id": "86936940-b48d-497d-b1ff-8e0da0913afa",
+      "row_version": 9,
+      "draft_revision": 8,
+      "roles_needing_clarification": 1,
+      "project_candidate_count": 2,
+      "unreviewed_candidate_count": 1,
+      "open_slot_count": 1,
+      "assignment_count": {
+        "selection": 1,
+        "shortlist": 1
+      },
+      "latest_ready_versions": [
+        {
+          "series_id": "93fb7425-7311-4b69-94cb-61588724c153",
+          "output_type": "selection",
+          "version_no": 1
+        }
+      ],
+      "review_issue_count": null
+    }
+  },
+  "credentials_cookies_or_headers_captured": false,
+  "owner_mcp_acceptance": "passed_carried_forward",
+  "new_summary_mcp_read": "pending"
+}

@@ -1,0 +1,72 @@
+{
+  "observed_at": "2026-10-31T17:58:29.924236+00:00",
+  "evidence_kind": "actual_app_created_controlled_job_binding",
+  "read_only": true,
+  "raw_cli_or_transcript_persisted": false,
+  "candidate_id": "25a3c924-7b6c-48e3-88ce-c72e72b99c6d",
+  "candidate_media_id": "13614da0-9c0e-40c4-afbf-2c739f463a74",
+  "completed_stages": [
+    {
+      "attempt_id": "0cdebb53-9649-45dd-80b8-c06dc56eead1",
+      "completed_at": "2026-10-31T17:56:37.470599+00:00",
+      "input_hash": "fdd510665d31230c9ab66f81b121e1a1fca1b53f99baf9379c265d5481b2908c",
+      "result": {
+        "stage_output_id": "77df4f93-2901-4008-9ea4-abf2ac5e7bab"
+      },
+      "result_schema": "media-preparation.v1",
+      "stage": "prepare_candidate"
+    },
+    {
+      "attempt_id": "0d7550ad-a9d7-4231-acaf-49f7fa21972d",
+      "completed_at": "2026-10-31T17:56:40.336178+00:00",
+      "input_hash": "fdd510665d31230c9ab66f81b121e1a1fca1b53f99baf9379c265d5481b2908c",
+      "result": {
+        "stage_output_id": "dde2ec6d-e835-4338-8abb-14c0c2e863b6"
+      },
+      "result_schema": "candidate-transcript-stage.v1",
+      "stage": "transcribe_candidate"
+    },
+    {
+      "attempt_id": "37d6c1bf-4ab5-495f-94cc-9e192491993f",
+      "completed_at": "2026-10-31T17:56:55.576822+00:00",
+      "input_hash": "fdd510665d31230c9ab66f81b121e1a1fca1b53f99baf9379c265d5481b2908c",
+      "result": {
+        "stage_output_id": "cf4defdf-3123-49d0-b334-8b2fc22c274f"
+      },
+      "result_schema": "candidate-extraction-stage.v2",
+      "stage": "extract_candidate"
+    },
+    {
+      "attempt_id": "3bbcb08a-ecf2-49a1-8b8f-a7b262c03507",
+      "completed_at": "2026-10-31T17:57:03.189113+00:00",
+      "input_hash": "fdd510665d31230c9ab66f81b121e1a1fca1b53f99baf9379c265d5481b2908c",
+      "result": {
+        "stage_output_id": "e560b508-ce2f-4e99-9431-4287356fb6b6"
+      },
+      "result_schema": "frame-selection-stage.v1",
+      "stage": "select_frames"
+    },
+    {
+      "attempt_id": "9bbe8b9e-9b25-43da-8453-66b6ad395e69",
+      "completed_at": "2026-10-31T17:57:03.482168+00:00",
+      "input_hash": "fdd510665d31230c9ab66f81b121e1a1fca1b53f99baf9379c265d5481b2908c",
+      "result": {
+        "stage_output_id": "176e49a9-c9f9-4f6c-beb3-3007e5288511"
+      },
+      "result_schema": "candidate-application.v1",
+      "stage": "apply_candidate"
+    }
+  ],
+  "created_at": "2026-10-31T17:56:14.514184+00:00",
+  "database": "postgres",
+  "frozen_english_version": "1.0",
+  "history_count": 34,
+  "job_id": "3cf25d3b-c1ec-4347-af3b-fa48f3f0f5e7",
+  "kind": "candidate_scan",
+  "operator": "postgres",
+  "source_asset_id": "d9db9907-5e60-4382-b61c-bb2b67709c09",
+  "source_sha256": "ffe461d30d48b32d90f1165627e2d104b6817f61d96a5a4bd9dcd6ff1964fc0a",
+  "status": "succeeded",
+  "updated_at": "2026-10-31T17:57:03.482168+00:00",
+  "workspace_id": "86936940-b48d-497d-b1ff-8e0da0913afa"
+}

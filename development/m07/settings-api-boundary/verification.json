@@ -1,0 +1,22 @@
+{
+  "observed_at": "2026-10-31T18:33:45.608189+00:00",
+  "scope": "regression-only existing exported Settings API route; wholly synthetic HTTP boundary",
+  "finding": "No escaping Settings error reproduced; existing handler inner catch awaits read/update and serializes failure. No production change.",
+  "tests": {
+    "command": "node tools/run-tests.mjs tests/server/settings-api-route.test.ts tests/server/m07-settings-contracts.test.ts packages/central/test/settings.test.ts",
+    "result": "pass",
+    "tests": 7
+  },
+  "cases": [
+    "denied RPC403",
+    "async transport rejection503",
+    "invalid verified auth401",
+    "invalid query400 before RPC",
+    "request ID/no-store/diagnostic redaction"
+  ],
+  "typecheck": "pass",
+  "lint": "pass",
+  "git_diff_check": "pass",
+  "no_cloud_or_database_operations": true,
+  "no_production_source_changes": true
+}

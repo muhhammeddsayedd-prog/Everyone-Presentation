@@ -1,0 +1,66 @@
+{
+  "action": "source-delta",
+  "added": [
+    {
+      "after": {
+        "bytes": 3873,
+        "path": "packages/jobs/src/attempt-trace.ts",
+        "sha256": "f92f5a6f484cbfb17a69283b4bc7cd734f42326fe1a91429c36d3aa91787694a"
+      },
+      "before": null,
+      "path": "packages/jobs/src/attempt-trace.ts"
+    }
+  ],
+  "baseline_entries": 282,
+  "baseline_ready": {
+    "path": "tracking/evidence/m07/workspace-summary35-web/2026-11-01T01-03-59-685059Z-ready.json",
+    "sha256": "5bd09c44433e8e5860c763d462f50a2d2e7d591ebfa77a8842cbe6a9c6f0d238"
+  },
+  "baseline_source": {
+    "path": "tracking/evidence/m07/controlled-pilot/2026-11-01T00-40-04-581Z-c49c2253-web-source.json",
+    "sha256": "aa05a833158a3f76b377e15d5cc7c427587902b27dda9f865a4f9ea34a20c107"
+  },
+  "baseline_source_sha256": "13209ba54d3e47a5f794ee6a4956fef8096c421e4691bd979b177e545afb831c",
+  "changed": [
+    {
+      "after": {
+        "bytes": 8924,
+        "path": "apps/web/components/processing-view.ts",
+        "sha256": "f3c82c6ebf3222d94df4c4ab9b0542bef46b824b4ffa2cf5446b89a6973e2aaf"
+      },
+      "before": {
+        "bytes": 8839,
+        "path": "apps/web/components/processing-view.ts",
+        "sha256": "8f308deb9a0584ab5e149626ffee0583273eaf826b1ff6498922c6a1c098afd2"
+      },
+      "path": "apps/web/components/processing-view.ts"
+    },
+    {
+      "after": {
+        "bytes": 12178,
+        "path": "packages/central/src/jobs.ts",
+        "sha256": "429c540f80897f5441660ec94f9be4415127d428ac763adef0895b3a34484acb"
+      },
+      "before": {
+        "bytes": 12090,
+        "path": "packages/central/src/jobs.ts",
+        "sha256": "4447ea968f01dbe5179df79df7ffd8be981c57e811c413df16d67d0162c0f675"
+      },
+      "path": "packages/central/src/jobs.ts"
+    }
+  ],
+  "current_entries": 283,
+  "current_source_sha256": "d17a3f4eba0f0dc5a19ed02bc0c717c8b1472ce692fe910118ace3238fbc79ee",
+  "deployment_method": "provider_source_build",
+  "deployment_performed": false,
+  "environment_values_included": false,
+  "no_prebuilt_acceptance": true,
+  "project_id": "prj_7xOsfRtvJ9voYi7rTEfra5ncOoA0",
+  "raw_cli_or_credentials_persisted": false,
+  "removed": [],
+  "schema_version": "1.0",
+  "scope": "Two safe error-copy files plus the already merged, separately tested attempt-trace parser; no test/client-tool/development runtime payload.",
+  "source_only_author": true,
+  "team_id": "team_gboXPxTevpCOZuaA8eY9PmR1",
+  "worker_or_oauth_or_environment_mutations": false
+}

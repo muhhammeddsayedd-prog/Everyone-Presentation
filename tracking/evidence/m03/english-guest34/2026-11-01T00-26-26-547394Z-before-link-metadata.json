@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "evidence_kind": "actual_fixed_selftest_review_link_read_only_metadata",
+  "target": "pyibofyctwnqpvktepse",
+  "phase": "before",
+  "maximum_cli_queries": 1,
+  "automatic_retry": false,
+  "observation": {
+    "database": "postgres",
+    "english_enabled": true,
+    "exact_history34": true,
+    "guest_session_rows": {
+      "count": 1,
+      "limit": 100,
+      "truncated": false,
+      "unexpired_row_count": 1
+    },
+    "link": {
+      "created_at": "2026-11-01T00:21:09.330763+00:00",
+      "current_ready_version_id": "4f1b81a1-adb7-425b-8223-458d8bd82c28",
+      "current_ready_version_no": 1,
+      "download_enabled": true,
+      "expires_at": "2026-12-01T00:21:09.330472+00:00",
+      "review_link_id": "cd4eae15-d516-40c0-8166-28492ba82ab9",
+      "revoked_at": null,
+      "row_version": 1,
+      "series_id": "93fb7425-7311-4b69-94cb-61588724c153",
+      "workspace_id": "86936940-b48d-497d-b1ff-8e0da0913afa"
+    },
+    "link_match_count": 1,
+    "observed_at": "2026-11-01T00:26:27.083124+00:00",
+    "operator": "postgres",
+    "read_only": true,
+    "scope_match_count": 1
+  },
+  "desired_lifecycle_state_observed": true,
+  "source_pins": {
+    "development/m07/oauth-attempt-trace/inspect-attempt.py": "1359373d078ee67d5dd644d1717a048f274c98f3617bb57c3668a45866c4c03c",
+    "tools/provision_logo_verifier.py": "660f2eb0d15b1ed17801ecef22270dbb389fdf93181c340f16d715fc2b3a340c",
+    "tools/release_foundation.py": "02aac0cefc4b46419c7d5a086da672398716cf7ee73882602574cff99659d751",
+    "tools/release_logo.py": "efd1de07b3304d8d5c89f29bbeaf77ff2ce1d8d42ffbf885f960c36f506b47f4",
+    "tracking/evidence/m03/english-preservation34/2026-10-31T18-19-53-933196Z-feac4485-c968-4ba5-a92d-c65f909d4f87-compare.json": "9f53182d9d8ffe51ebd2c5018de23b70c1874ab823769953ddcfe9ea5c37c9c1",
+    "query_sha256": "befd6726339076a3a81b501cda2c9744a0598fdd3041934295118dc3b49d5bf9",
+    "operator_sha256": "9fcf82d4c9c601521fb06abf3a9ceb057c5c843c012c5212191d130099d76003"
+  },
+  "bearer_or_cookie_or_digest_or_private_text_persisted": false,
+  "business_mutations": false,
+  "guest_session_rows_are_authorized_sessions_claim": false,
+  "prior_preservation_reference": "tracking/evidence/m03/english-preservation34/2026-10-31T18-19-53-933196Z-feac4485-c968-4ba5-a92d-c65f909d4f87-compare.json",
+  "prior_preservation_reexecuted": false,
+  "guest_browser_playback_or_revocation_denial_acceptance": false
+}

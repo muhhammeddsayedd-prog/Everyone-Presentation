@@ -1,0 +1,27 @@
+{
+  "observed_at": "2026-10-31T17:05:20.337Z",
+  "deployment_id": "dpl_5vEMBfsnD23cGL3ontWm8AUAErKr",
+  "origin": "https://everyone-presentation-pilot.vercel.app",
+  "result": "passed",
+  "observations": [
+    {
+      "name": "mcp_unauthenticated",
+      "status": 401,
+      "resource_metadata_challenge": true
+    },
+    {
+      "name": "projects_unauthenticated",
+      "status": 401
+    },
+    {
+      "name": "resource_metadata",
+      "status": 200,
+      "resource_matches": true,
+      "authorization_server_count": 1
+    }
+  ],
+  "authenticated_mcp_acceptance_retested": false,
+  "prior_owner_acceptance": "passed_preserved",
+  "credentials_used": false,
+  "raw_response_bodies_persisted": false
+}

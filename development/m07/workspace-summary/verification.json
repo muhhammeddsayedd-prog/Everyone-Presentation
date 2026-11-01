@@ -1,0 +1,77 @@
+{
+  "observed_at": "2026-10-31T18:31:54.450074+00:00",
+  "status": "implemented_unverified",
+  "scope": "isolated backend source and wholly synthetic HTTP/MCP boundaries; no database or cloud execution",
+  "base_commit": "28c3d3cc9127460c5b2f7b13015c840703f7f4fb",
+  "branch": "backend/workspace-summary-34",
+  "checks": [
+    {
+      "command": "npm ci --ignore-scripts --no-audit --no-fund",
+      "result": "pass",
+      "packages_added": 301,
+      "lock_changed": false
+    },
+    {
+      "command": "npm test",
+      "result": "pass",
+      "scope": "all six module suites after first summary implementation; central suite186 tests; before final exported-route regression"
+    },
+    {
+      "command": "node tools/run-tests.mjs tests/domain/workspace-summary.test.ts packages/central/test/workspace-summary.test.ts tests/server/workspace-summary.test.ts tests/server/mcp.test.ts tests/server/mcp-http.test.ts tests/server/m07-delegated-lifecycle.test.ts",
+      "result": "pass",
+      "tests": 31,
+      "scope": "final Summary plus signed-delegation/MCP regression, fully synthetic remote boundaries"
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "pass"
+    },
+    {
+      "command": "npm run lint",
+      "result": "pass"
+    },
+    {
+      "command": "npm run build",
+      "result": "pass",
+      "scope": "final source production build, no server start or deployment"
+    },
+    {
+      "command": "pglast parse_sql and parse_plpgsql on migration35 and SQL fixture",
+      "result": "pass",
+      "migration_sql_statements": 12,
+      "migration_plpgsql_bodies": 2,
+      "fixture_sql_statements": 81,
+      "fixture_plpgsql_bodies": 7,
+      "sql_executed": false
+    },
+    {
+      "command": "tools/check_m07_parity.py --write-doc",
+      "result": "pass",
+      "tools": 87,
+      "openapi_operations": 116
+    },
+    {
+      "command": "git diff --check",
+      "result": "pass"
+    }
+  ],
+  "independent_reviews": [
+    "english_display_patch: code/API contract and actual exported-route regression10 tests",
+    "english_name_investigation: SQL/permissions/definitions/DTO and10focused tests plus actual SQL parsing"
+  ],
+  "regression_proof": "Temporarily removing the Summary route await causes the actual exported GET test to reject DomainError past catch; restored await passes400/403/404/503 envelope checks.",
+  "remaining": [
+    "SQL35 owned local execution and preservation/permission proof",
+    "coordinated merge preserving frontend changes",
+    "authorized migration/deployment and actual signed-in count display",
+    "actual authorized MCP workspace-summary read"
+  ],
+  "preserved": [
+    "owner Claude initial authorization/reconnect/Dummy Pilot Test read accepted",
+    "hosted pilot remains running",
+    "English/recovery evidence remains separate",
+    "AT-072 manual screen reader pending",
+    "mobile skipped"
+  ],
+  "no_cloud_or_database_operations": true
+}

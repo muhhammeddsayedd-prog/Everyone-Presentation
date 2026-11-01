@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "evidence_kind": "source_only_new_english_job_operator_trace_preparation",
+  "observed_at": "2026-10-31T18:03:42.521840Z",
+  "job_id": "3cf25d3b-c1ec-4347-af3b-fa48f3f0f5e7",
+  "private_input_path": ".local/m03-english-component/at074-new-english-job-input.json",
+  "private_input_created": false,
+  "actual_workflow_execution_id_known": false,
+  "query_source_sha256": "8e3c75356e624b500cc60b93392393691f5e6ed23cbeca0ae0dcd56a03ddae23",
+  "source_pins": {
+    "fresh-job-query.sql": "8e3c75356e624b500cc60b93392393691f5e6ed23cbeca0ae0dcd56a03ddae23",
+    "observe-fresh-job.py": "5d163fbf7accc1b223a930f49e3503ffa3e2432d0af0e64c23cc4560e2bdb7c9",
+    "test_fresh_job.py": "fb16f94ec177fdb25bb5b043612d5fbb210bdae255be0635ed70f15f3a28f35e",
+    "fresh-input.mjs": "6a632fc681254003198d1fc91f0462afd634f3f84bb875c14af345f33e54217b",
+    "fresh-input.test.mjs": "44516fb6fb7d09e03f26de369336487968a26d2640cf2d9fd7aa174fe5545330",
+    "NEW_ENGLISH_JOB.md": "916e2d13cf9025e0cf40d97d086e30c4e6506c4af5be812e4145304812189642"
+  },
+  "frozen_historical_operator_unchanged": true,
+  "frozen_historical_operator_sha256": "fcb77909e2c2d1ed7ece452f305b619f55ca4de9baea8be63bc9de30ccac656b",
+  "pure_query_parser_tests_passed": 5,
+  "pure_input_tests_passed": 4,
+  "actual_query_pglast_parse": "passed",
+  "independent_read_only_review": "no_confirmed_source_blocker_5_tests_and_pglast_rechecked",
+  "child_sql_or_cloud_calls": 0,
+  "provider_jobs_or_workflow_edits_or_retries": false,
+  "latest_execution_only": true,
+  "per_stage_n8n_history_reconstruction_claim": false,
+  "AT074_status": "partial_pending_actual_durable_query_and_exact_execution_metadata_plus_failure_path"
+}

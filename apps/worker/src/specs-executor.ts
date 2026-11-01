@@ -1,5 +1,5 @@
 import { createHash, randomUUID } from 'node:crypto';
-import { extractSpecs, integrationErrorToJobFailure, type OpenAISpecsConfig } from '@eps/integrations';
+import { extractSpecs, IntegrationError, integrationErrorToJobFailure, type OpenAISpecsConfig } from '@eps/integrations';
 import { SPECS_PROMPT_VERSION } from '../../../packages/integrations/src/prompts/specs-v1.ts';
 import type { JobEvent, JobEventReceipt, JsonObject, StageLease } from '@eps/jobs';
 import { prepareDocumentIsolated } from './process.ts';
@@ -14,11 +14,17 @@ export interface SpecsStageGateway {
   getInput(scope: { job_id: string; attempt_id: string; lease_token: string }, signal: AbortSignal): Promise<unknown>;
   recordEvent(event: JobEvent, signal: AbortSignal): Promise<JobEventReceipt>;
 }
+/** Operator metadata only. Never pass the exception, provider body or source. */
+export interface SpecsStageDiagnostic {
+  job_id: string; attempt_id: string; stage: string; correlation_id: string;
+  error_kind: 'integration' | 'unknown'; code: string; http_status: number | null; request_id: string | null;
+}
 export interface SpecsExecutionOptions {
   openAI?: OpenAISpecsConfig;
   signal?: AbortSignal;
   heartbeatMs?: number;
   gatewayTimeoutMs?: number;
+  onDiagnostic?: (value: SpecsStageDiagnostic) => void;
   /** Deterministic adapter injection only; normal runtime uses the real SDK. */
   extract?: typeof extractSpecs;
   /** Optional real file capability port. Absence cannot fall back to pasted text. */
@@ -39,6 +45,24 @@ const hash = (value: string) => createHash('sha256').update(value, 'utf8').diges
 const digest = (value: unknown): value is string => typeof value === 'string' && /^[a-f0-9]{64}$/u.test(value);
 const statuses = ['queued', 'running', 'waiting_for_input', 'succeeded', 'failed', 'cancelled'];
 const common = ['job_id', 'attempt_id', 'stage', 'input_hash', 'correlation_id', 'configuration'];
+const diagnosticCodes = new Set(['SPECS_SOURCE_INVALID', 'SPECS_SOURCE_UNREADABLE', 'AI_REFUSAL', 'AI_RESULT_INVALID',
+  'AI_EVIDENCE_INVALID', 'AI_EVIDENCE_MISSING', 'AI_SOURCE_MISMATCH', 'AI_ROLE_KEYS_INVALID', 'AI_RESPONSE_INVALID',
+  'AI_RESPONSE_INCOMPLETE', 'AI_RESPONSE_NOT_COMPLETE', 'AI_OUTPUT_UNEXPECTED', 'OPENAI_KEY_REQUIRED',
+  'OPENAI_EXTRACTION_MODEL_REQUIRED', 'OPENAI_CONFIGURATION_INVALID', 'OPENAI_TIMEOUT', 'OPENAI_ACCESS_DENIED',
+  'OPENAI_QUOTA_EXCEEDED', 'OPENAI_RATE_LIMITED', 'OPENAI_REQUEST_REJECTED', 'OPENAI_UNAVAILABLE']);
+export function projectSpecsStageFailure(error: unknown): Pick<SpecsStageDiagnostic, 'error_kind' | 'code' | 'http_status' | 'request_id'> {
+  try {
+    if (error instanceof IntegrationError) {
+      const code = error.code;
+      if (!diagnosticCodes.has(code)) return { error_kind: 'integration', code: 'INTEGRATION_FAILURE_UNCONFIRMED', http_status: null, request_id: null };
+      const status = error.details.http_status; const request = error.details.request_id;
+      return { error_kind: 'integration', code,
+        http_status: typeof status === 'number' && Number.isInteger(status) && status >= 100 && status <= 599 ? status : null,
+        request_id: typeof request === 'string' && /^req_[A-Za-z0-9_-]{1,128}$/u.test(request) ? request : null };
+    }
+  } catch { /* Hostile getters cannot defeat redaction or change durable work. */ }
+  return { error_kind: 'unknown', code: 'SPECS_FAILURE_UNCONFIRMED', http_status: null, request_id: null };
+}
 type Configuration = { document_preparation_version: string; model_version: string; prompt_version: string; result_schema_version: string };
 interface InputBase { correlation_id: string; configuration: Configuration }
 type StageInput = InputBase & ({ stage: 'prepare_document'; source_kind: 'pasted_text'; source_text: string; source_sha256: string }
@@ -204,6 +228,9 @@ export async function executeSpecsStage(lease: StageLease, gateway: SpecsStageGa
     await stopHeartbeats();
     if (signal.aborted) fail('PROCESSING_CANCELLED');
     if (error instanceof SpecsExecutionError) throw error;
+    try { options.onDiagnostic?.({ job_id: lease.job_id, attempt_id: lease.attempt_id, stage: lease.stage,
+      correlation_id: input.correlation_id, ...projectSpecsStageFailure(error) }); }
+    catch { /* An operator sink cannot change the durable outcome or repeat work. */ }
     const failure = error instanceof DocumentPreparationError
       ? { code: error.retryable ? 'DEPENDENCY_UNAVAILABLE' : 'SOURCE_UNREADABLE', message: 'Document preparation could not complete. The source was retained.', details: {}, retryable: error.retryable }
       : integrationErrorToJobFailure(error);

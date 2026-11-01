@@ -73,6 +73,7 @@ test('guest source transcript is on demand, English only, and outside the ten-fi
   expect(await page.locator('img[src="x"]').count()).toBe(0);
   expect(app.requests).toEqual([`/api/v1/review/versions/${snapshot.version_id}/media/${asset}`]);
   expect(app.liveReads()).toBe(0);
+  await page.screenshot({ path: '.local/m03-english-ui/guest.png', fullPage: true });
   app.releaseMedia();
 });
 
@@ -137,24 +138,60 @@ test('a provided spoken language is listed while the displayed transcript stays 
   app.releaseMedia();
 });
 
-test('partial or non-English English groups are rejected without any transcript fallback', async ({ page }) => {
-  for (const transcript of [
-    (() => { const partial: Record<string, unknown> = companion(); delete partial.english_sha256; return partial; })(),
-    { ...companion(), english_text: original },
-  ]) {
-    const app = await wire(page, 'grant', transcript);
-    await app.open();
-    await expect(page.getByText('The English transcript could not be confirmed for this video.', { exact: true })).toBeVisible();
-    await expect(page.getByText(original, { exact: true })).toHaveCount(0);
-    await expect(page.getByText(english, { exact: true })).toHaveCount(0);
-    app.releaseMedia(); await page.unrouteAll({ behavior: 'ignoreErrors' });
-  }
+test('spoken-language metadata is displayed as English labels without a raw fallback', async ({ page }) => {
+  const app = await wire(page, 'grant', { ...companion(), languages: ['العربية', 'fr', 'English', 'unrecognized language'] });
+  await app.open();
+  await page.getByText('Read English transcript', { exact: true }).press('Enter');
+  await expect(page.getByText('Other spoken language · French · English · Other spoken language', { exact: true })).toBeVisible();
+  await expect(page.getByText('العربية', { exact: true })).toHaveCount(0);
+  await expect(page.getByText(original, { exact: true })).toHaveCount(0);
+  await expect(page.getByText(english, { exact: true })).toBeVisible();
+  expect(app.liveReads()).toBe(0);
+  app.releaseMedia();
 });
 
-test('a complete unavailable English group states its reason and shows no text', async ({ page }) => {
-  const app = await wire(page, 'grant', { ...companion(), english_status: 'unavailable', english_text: null, english_sha256: null });
+for (const [status, message] of [
+  ['not_provided', 'English transcript not provided.'],
+  ['unavailable', 'English transcript unavailable. The source speech could not be converted to English.'],
+  ['not_captured', 'English transcript was not captured for this saved version.'],
+] as const) {
+  test(`saved playback reports English ${status} without falling back to raw source`, async ({ page }) => {
+    const app = await wire(page, 'grant', { ...companion(), english_status: status, english_text: null, english_sha256: null });
+    await app.open();
+    await expect(page.getByText(message, { exact: true })).toBeVisible();
+    await expect(page.getByText(original, { exact: true })).toHaveCount(0);
+    await expect(page.getByText(english, { exact: true })).toHaveCount(0);
+    expect(app.liveReads()).toBe(0);
+    app.releaseMedia();
+  });
+}
+
+test('a same-video companion from another version is never rendered', async ({ page }) => {
+  const app = await wire(page, 'grant', { ...companion(), version_id: presentationId(998) });
   await app.open();
-  await expect(page.getByText(/^English transcript unavailable\./)).toBeVisible();
+  await expect(page.getByText('The source transcript could not be confirmed for this video.', { exact: true })).toBeVisible();
+  await expect(page.getByText(english, { exact: true })).toHaveCount(0);
   await expect(page.getByText(original, { exact: true })).toHaveCount(0);
+  expect(app.liveReads()).toBe(0);
+  app.releaseMedia();
+});
+
+test('a partial English group is rejected without displaying either text', async ({ page }) => {
+  const partial: Record<string, unknown> = companion(); delete partial.english_sha256;
+  const app = await wire(page, 'grant', partial);
+  await app.open();
+  await expect(page.getByText('The English transcript could not be confirmed for this video.', { exact: true })).toBeVisible();
+  await expect(page.getByText(english, { exact: true })).toHaveCount(0);
+  await expect(page.getByText(original, { exact: true })).toHaveCount(0);
+  expect(app.liveReads()).toBe(0);
+  app.releaseMedia();
+});
+
+test('the existing original-companion shape guard remains in force with English available', async ({ page }) => {
+  const app = await wire(page, 'grant', { ...companion(), original_text: null });
+  await app.open();
+  await expect(page.getByText('The source transcript could not be confirmed for this video.', { exact: true })).toBeVisible();
+  await expect(page.getByText(english, { exact: true })).toHaveCount(0);
+  expect(app.liveReads()).toBe(0);
   app.releaseMedia();
 });

@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-11-01T20:12:21.499789+00:00",
+  "result": "passed",
+  "new_checks_separate_from_939_product_tests": true,
+  "checks": [
+    {
+      "command": ".venv-skills/Scripts/python.exe -X utf8 -B development/m07/daemon38-startup-observer/test_observe.py",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "exit_code": 0,
+      "reported_elapsed_seconds": 0.499,
+      "observed_by": "Root tool completion within this session; exact test start time not retained",
+      "tested_default_disabled_source_sha256": "e6359451cef80b2fb41e2d4ec70bfbbf3bfa1b1842d50073e1ef268a7fe6b46e",
+      "current_armed_source_sha256": "8a27dc4e3984a1122be9c85c3905947644a420e38e9b6aa5740677c6bb995b66",
+      "only_enable_boolean_changed_after_test": true,
+      "test_sha256": "b7baa4918ec4f28a6cee7a6c92398eec72f54e2ed6bdc38b89fb40f5bdca2196",
+      "scope": "Inert unit/adversarial checks, no provider or database calls"
+    },
+    {
+      "command": ".venv-skills/Scripts/python.exe -X utf8 -B development/m07/specs-worker38-test-project/test_project.py",
+      "tests": 15,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "exit_code": 0,
+      "reported_elapsed_seconds": 9.111,
+      "observed_by": "Root tool completion within this session; exact test start time not retained",
+      "tested_default_disabled_source_sha256": "094fc2e948fbd3c14ba86d026340e24d00b8220b94e730964f49d7a5877ad4f5",
+      "current_armed_source_sha256": "7592369d9ebff827db0858b867498704717d02ab677e47bcc1bb5eeabe32b9d6",
+      "only_enable_boolean_changed_after_test": true,
+      "test_sha256": "58596f7f5f5477092686af35255c087c4d17bea5eaa474b6eff6a67e5c0762d7",
+      "scope": "Inert unit/adversarial checks, no provider or database calls"
+    },
+    {
+      "command": ".venv-skills/Scripts/python.exe -X utf8 -B development/m07/specs-worker38-audit/test_audit.py",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "exit_code": 0,
+      "reported_elapsed_seconds": 1.208,
+      "observed_by": "Root tool completion within this session; exact test start time not retained",
+      "tested_default_disabled_source_sha256": "0c2a1144b991835bfb9b95e04858853c8b0f82a620cba48bca31c4363d388b99",
+      "current_armed_source_sha256": "f49668d9b71e86de143165e852a3d8406f2538f15330547ac5157b2b52d6565e",
+      "only_enable_boolean_changed_after_test": true,
+      "test_sha256": "3e0774cc6ed0d088245c46cb6fafad58a4cea5e7aa9e524b32901437452da1b0",
+      "scope": "Inert unit/adversarial checks, no provider or database calls"
+    }
+  ]
+}

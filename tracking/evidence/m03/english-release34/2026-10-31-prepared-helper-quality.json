@@ -1,0 +1,48 @@
+{
+  "observed_at": "2026-10-31T17:09:38.230115+00:00",
+  "result": "passed",
+  "scope": "Root-executed deterministic helper guards and local read-only sources; no real processing/deployment acceptance",
+  "groups": [
+    {
+      "name": "English34 release guards",
+      "passed": 14
+    },
+    {
+      "name": "old cohort preservation guards",
+      "passed": 9
+    },
+    {
+      "name": "retained-name and controlled-job observer guards",
+      "passed": 11
+    },
+    {
+      "name": "web release guards",
+      "passed": 7
+    },
+    {
+      "name": "worker release guards",
+      "passed": 6
+    },
+    {
+      "name": "native probe and native repository projection guards",
+      "passed": 8
+    },
+    {
+      "name": "n8n execution privacy/metadata guards",
+      "passed": 4
+    }
+  ],
+  "total": 59,
+  "new_openai_or_n8n_jobs_created_by_tests": false,
+  "cloud_mutations_by_tests": false,
+  "application_module_suite": {
+    "passed": 886,
+    "scope": "Earlier current-turn run before final UI metadata seam; backend source unchanged."
+  },
+  "final_ui": {
+    "passed": 15,
+    "overlaps_prior_17_and_14": true,
+    "scope": "Synthetic HTTP/DOM candidate and saved/guest/PDF English display"
+  },
+  "final_web_build_receipt": "tracking/evidence/m03/english-web-release34/2026-10-31T16-51-47-207652Z-build.json"
+}

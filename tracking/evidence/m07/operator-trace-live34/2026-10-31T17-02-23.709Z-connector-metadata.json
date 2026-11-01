@@ -1,0 +1,51 @@
+{
+  "observed_at": "2026-10-31T17:02:23.709Z",
+  "observations": [
+    {
+      "case_alias": "prior_failed_nonprotected_render",
+      "executionId": "31520",
+      "workflowId": "kE4qSEcugaKhIoJU",
+      "includeData": false,
+      "tool": "get_execution",
+      "result": "unavailable",
+      "tool_is_error": true,
+      "raw_tool_result_persisted": false,
+      "safe_error_class": "N8N_CONNECTOR_INTERNAL_ERROR"
+    },
+    {
+      "case_alias": "prior_successful_candidate_scan",
+      "executionId": "31515",
+      "workflowId": "gfhxzvSkprS2CI4o",
+      "includeData": false,
+      "tool": "get_execution",
+      "result": "unavailable",
+      "tool_is_error": true,
+      "raw_tool_result_persisted": false,
+      "safe_error_class": "N8N_CONNECTOR_INTERNAL_ERROR"
+    }
+  ],
+  "evidence_kind": "actual_n8n_connector_metadata_only_access_observation",
+  "AT074_status": "partial_external_execution_metadata_unavailable",
+  "initial_connection_acceptance": "passed_preserved",
+  "new_execution_or_retry_performed": false,
+  "node_payloads_requested": false,
+  "workflow_edits_performed": false,
+  "direct_api_or_private_credential_access_performed": false,
+  "safe_bindings": [
+    {
+      "case_alias": "prior_failed_nonprotected_render",
+      "job_id": "7ca22801-2040-40df-87fc-84a82fffb6c7",
+      "execution_id": "31520",
+      "workflow_id": "kE4qSEcugaKhIoJU",
+      "prior_failure_evidence": "tracking/evidence/m07/controlled-pilot/2026-10-31-hosted-selection-failure.json",
+      "later_recovered_job": true
+    },
+    {
+      "case_alias": "prior_successful_candidate_scan",
+      "job_id": "fa8593ca-80c2-4cb3-8bcc-0e357ffbf7f2",
+      "execution_id": "31515",
+      "workflow_id": "gfhxzvSkprS2CI4o",
+      "prior_projection": "tracking/evidence/m07/operator-trace/2026-10-31T14-25-58-545789Z-f91a4e59-job-trace.json"
+    }
+  ]
+}

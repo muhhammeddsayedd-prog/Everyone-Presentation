@@ -53,6 +53,18 @@ test('actual n8n work order and durable dispatch acknowledgement precede costly 
   assert.deepEqual(f.calls, ['outbox', 'n8n', 'claim', 'ack', 'provider']); assert.equal(result.event, 'stage_callback_committed');
   assert.ok(!JSON.stringify(result).includes('synthetic-private-dispatch-token'));
 });
+
+test('the runtime passes the operator specs diagnostic sink only to its scoped executor', async () => {
+  const f = fixture(); const observed: unknown[] = [];
+  const diagnostic = { job_id: job, attempt_id: 'synthetic-attempt', stage: 'extract_specs', correlation_id: 'test-runtime',
+    error_kind: 'integration' as const, code: 'OPENAI_UNAVAILABLE', http_status: 503, request_id: 'req_runtime_synthetic' };
+  const result = await processNextSpecsStage(f.gateway, f.router, { openAI: options, onSpecsDiagnostic: value => observed.push(value),
+    execute: async (_lease, _gateway, supplied) => {
+      assert.equal(typeof supplied?.onDiagnostic, 'function'); supplied!.onDiagnostic!(diagnostic); return f.execution();
+    } });
+  assert.deepEqual(observed, [diagnostic]); assert.equal(result.event, 'stage_callback_committed');
+  assert.deepEqual(f.calls, ['outbox', 'n8n', 'claim', 'ack', 'provider']);
+});
 test('router failure has no stage/provider bypass and records failed delivery only', async () => {
   const f = fixture(); f.router.route = async () => { throw new Error('private provider or webhook diagnostic'); };
   const result = await processNextSpecsStage(f.gateway, f.router, { openAI: options, execute: f.execution });

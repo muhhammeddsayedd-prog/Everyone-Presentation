@@ -1,0 +1,157 @@
+{
+  "base_commit": "8be5ce4e64bdceaa46be6ba26da9bc4227e13e97",
+  "branch": "codex/m07-batch-filter",
+  "command_timestamps_not_recorded": true,
+  "commands": [
+    {
+      "command": "node tools/run-tests.mjs tests/domain/job-filters.test.ts packages/central/test/jobs.test.ts tests/server/job-batch-filter.test.ts tests/server/job-http.test.ts",
+      "exit_code": 0,
+      "reported_tests": 25,
+      "scope": "domain_sdk_http_official_mcp_focused"
+    },
+    {
+      "authority_subset_tests": 6,
+      "command": "node tools/run-tests.mjs tests/server/m07-mcp-authority.test.ts tests/server/job-batch-filter.test.ts",
+      "exit_code": 0,
+      "focused_overlap_tests": 4,
+      "reported_tests": 10,
+      "scope": "synthetic_mcp_capability_delegation_revocation_and_boundary"
+    },
+    {
+      "command": "D:/Everyone/Presentation/Everyone-Presentation-Studio/.venv-skills/Scripts/python.exe -X utf8 -B development/m07/job-batch-filter/test_candidate.py",
+      "exit_code": 0,
+      "reported_tests": 7,
+      "scope": "inert_sql_and_plpgsql_parse_source_arity_and_permission_guards"
+    },
+    {
+      "command": "npm.cmd test",
+      "exit_code": 0,
+      "output_truncated": true,
+      "reported_tests": null,
+      "scope": "all_six_package_json_test_groups; contains_focused_and_authority_cases"
+    },
+    {
+      "command": "npm.cmd run typecheck",
+      "exit_code": 0,
+      "reported_tests": null,
+      "scope": "full_typescript"
+    },
+    {
+      "command": "npx.cmd --no-install eslint packages/domain/src/job-filters.ts packages/domain/src/index.ts packages/central/src/jobs.ts apps/web/lib/job-http.ts apps/web/lib/mcp-capabilities.ts packages/central/test/jobs.test.ts tests/domain/job-filters.test.ts tests/server/job-batch-filter.test.ts tests/server/m07-mcp-authority.test.ts --max-warnings 0",
+      "exit_code": 0,
+      "reported_tests": null,
+      "scope": "all_changed_typescript"
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0,
+      "reported_tests": null,
+      "scope": "whitespace"
+    }
+  ],
+  "confirmed_corrections": [
+    {
+      "cause": "initial draft omitted two dynamic canonical M03 frame/cast authorization patches",
+      "code": "STALE_HISTORICAL_M02_BODY",
+      "corrected_before_sql_execution": true,
+      "current_body_sha256": "a2239225b995673e9ab432ac63014f742b25032cc586c790535db260c551d241",
+      "initial_24_13_6_checks_not_sufficient_for_native_permission_acceptance": true,
+      "initial_body_sha256": "582adfd0958de33dc0d1eac0ffb55feb7be303bf7fd7f3a46d5850cfe530352d"
+    },
+    {
+      "code": "MCP_READ_GATE_OMITTED_CAST",
+      "confirmed_existing_parity_bug": true,
+      "corrected_read_tools": [
+        "list_jobs",
+        "get_job"
+      ],
+      "new_capability_grant": false,
+      "oauth_scope_change": false,
+      "obsolete_discovery_expectation_replaced_with_cast_positive_and_no_read_capability_negative": true,
+      "retry_cancel_changed": false
+    }
+  ],
+  "evidence_boundaries": {
+    "changed_slice_checks_are_mock_or_inert_only": true,
+    "cloud_called": false,
+    "executed_proofs_or_receipts_modified": false,
+    "frontend_sources_changed_by_author": false,
+    "full_suite_is_deterministic_local_fixture_quality_not_release_service_acceptance": true,
+    "hosted_acceptance": false,
+    "main_sources_changed_by_author": false,
+    "native_sql_executed": false,
+    "official_migration_created": false,
+    "private_credentials_or_capabilities_read": false,
+    "provider_called": false,
+    "source_commit_created": false
+  },
+  "functional_source_unchanged_after_full_test": true,
+  "held_draft_sha256": {
+    "README.md": "9c7a1f5ff9fe7145dc86942042707d2d8147714af684279c064b0052a7533644",
+    "build_candidate.py": "f8e9ddcf23a2a269eee9edc61cfdbd21bf9d78b990d8a844f30376f866f4f9ed",
+    "candidate.sql.txt": "0f1abdf84c48225d186e93ba433514d67bb1c8bca7c6786de04e653d2ba17873",
+    "fixture.sql": "7c099e930c39f75b0ba60c137a5081ad3ca5711bf09c52b87be9df685ac483c4",
+    "test_candidate.py": "1ea1b528414feea921c099e7397bf6f68c515291ff9a71bd034365d867eaa0ab"
+  },
+  "non_additive_counts": {
+    "authority_command_overlap_with_focused": 4,
+    "authority_command_total": 10,
+    "authority_subset": 6,
+    "counts_must_not_be_summed_into_runtime_acceptance": true,
+    "focused": 25,
+    "full_suite_contains_focused_and_authority": true,
+    "inert_sql_source": 7
+  },
+  "post_full_test_nonfunctional_updates": [
+    "held draft README verification note",
+    "contract generator module docstring only"
+  ],
+  "recorded_at": "2026-11-01T10:44:05.461953+00:00",
+  "remaining": [
+    "root_owned_native_sql_proof",
+    "official_migration_history_coordination",
+    "future_hosted_filter_acceptance",
+    "root_privacy_scan_before_source_commit"
+  ],
+  "result": "passed_source_qa_only",
+  "schema_version": "1.0",
+  "source_file_count": 20,
+  "source_hashes_captured_after_commands": true,
+  "source_sha256": {
+    "apps/web/lib/generated-contracts.json": "ad8333b036e1df0c36ee84915713273f4d84615df92a8744eb5b77e3a35cc2f2",
+    "apps/web/lib/job-http.ts": "b702118210a96032ef5553580cacea4210c6927cbce603bf16a4a081613fde46",
+    "apps/web/lib/mcp-capabilities.ts": "ef60eb112571b011c90dc2d50d58d14c04ca036e2146bcd118a97793615f7a4d",
+    "contracts/mcp-tool-catalog.json": "d9511710406bba82c427bedad17ec2d37aaf4086c1ff28e71fafb579030fb65f",
+    "contracts/openapi.yaml": "adaf7d9761437500df3360b6cd2c84628c8d4db9a7c92d485cb468e7bfa920d6",
+    "development/m07/job-batch-filter/README.md": "9c7a1f5ff9fe7145dc86942042707d2d8147714af684279c064b0052a7533644",
+    "development/m07/job-batch-filter/build_candidate.py": "f8e9ddcf23a2a269eee9edc61cfdbd21bf9d78b990d8a844f30376f866f4f9ed",
+    "development/m07/job-batch-filter/candidate.sql.txt": "0f1abdf84c48225d186e93ba433514d67bb1c8bca7c6786de04e653d2ba17873",
+    "development/m07/job-batch-filter/fixture.sql": "7c099e930c39f75b0ba60c137a5081ad3ca5711bf09c52b87be9df685ac483c4",
+    "development/m07/job-batch-filter/test_candidate.py": "1ea1b528414feea921c099e7397bf6f68c515291ff9a71bd034365d867eaa0ab",
+    "docs/integrations/JOB_BATCH_FILTER.md": "0d2f697efcb0c222c0d6ba41e3642bc923e696d61fe2843ed256ee779f7e7a90",
+    "docs/integrations/OPERATION_INDEX.md": "0997170aec9a734f75a48b980d42de85bec1f5da0e3697be2ac4dd3fd8560e4d",
+    "packages/central/src/jobs.ts": "74edc9bc4758b6fdc1ecec3115b4293af9f9205f96cc3a8eb72ca5ca632e96b4",
+    "packages/central/test/jobs.test.ts": "6f35db441d7fad719ca5a068d12f95b52691ba8f92fcb1f1adc4da4114d1f86c",
+    "packages/domain/src/index.ts": "40b9416726ff05376c05731edcc85aad4da9b36bfa07134d8b718bcca6435b35",
+    "packages/domain/src/job-filters.ts": "6e7163df85d11ed157e04f3db9886931baea1d6ca95deaa98d260a2c2f4ebd0b",
+    "tests/domain/job-filters.test.ts": "4e3065dc629e1e7f922975842bd4303fcd3b1e526cb367d39ea5688ac28fc40a",
+    "tests/server/job-batch-filter.test.ts": "323427071556bb07806f73709ed297da56e82a85cafef83abe573023fbfb93c6",
+    "tests/server/m07-mcp-authority.test.ts": "a8d680bce7e0ef8fe300c0512175776c4bbd392a9660cc7a401f21028abb3454",
+    "tools/update_m07_job_batch_filter_contracts.py": "4aceeaa222d608b77dc7331f8074ced32c6675a5f551f4b14cf71d56c6d67be7"
+  },
+  "sql_parse_only": {
+    "draft_sql_or_plpgsql_blocks": 3,
+    "draft_statements": 14,
+    "fixture_sql_or_plpgsql_blocks": 7,
+    "fixture_statements": 58
+  },
+  "withdrawn_review_concerns": [
+    {
+      "code": "DELEGATED_CAST_ONLY_BYPASS",
+      "reason": "mock RPC probe bypassed existing canonical M29 shared delegated-capability enforcement; no contradictory native SQL result",
+      "redundant_purpose_rpc_added": false,
+      "status": "withdrawn",
+      "supplemental_native_session_claim_case_owned_by_root_separate_proof": true
+    }
+  ]
+}

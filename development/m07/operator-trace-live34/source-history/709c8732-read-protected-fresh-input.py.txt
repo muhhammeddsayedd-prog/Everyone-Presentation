@@ -1,0 +1,17 @@
+"""Fixed protected-input read for the one fresh metadata observer; no network/config IO."""
+from pathlib import Path
+import hashlib,importlib.util,json,sys
+ROOT=Path(__file__).resolve().parents[3]
+HELPER=ROOT/'tools/provision_logo_verifier.py'
+try:
+ if len(sys.argv)!=1 or hashlib.sha256(HELPER.read_bytes()).hexdigest()!='660f2eb0d15b1ed17801ecef22270dbb389fdf93181c340f16d715fc2b3a340c':raise ValueError()
+ spec=importlib.util.spec_from_file_location('fresh_plan_acl',HELPER);m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
+ security=m.WindowsPrivateFiles();file=ROOT/'.local/m03-english-component/at074-new-english-job-input.json'
+ security.verify(file)
+ with file.open('rb')as stream:
+  security.verify_open(stream);raw=stream.read(8193);security.verify_open(stream)
+ value=m.strict_json(raw,8192)
+ # The parent consumes this bounded metadata-only value in RAM; never tool-log it.
+ print(json.dumps(value,separators=(',',':')))
+except Exception:
+ print('FRESH_PRIVATE_INPUT_UNCONFIRMED');sys.exit(1)
