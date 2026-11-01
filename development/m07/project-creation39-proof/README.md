@@ -46,3 +46,28 @@ The two guard tests and focused ESLint passed. The accepted sequential SQL proof
 does not establish concurrent-session creation races, the canonical prefix guard,
 hosted migration application, real contributor/OAuth/MCP use, UI or production
 acceptance. Reuse it while the exact migration bytes remain unchanged.
+
+## Independent-session concurrency
+
+Separate run `9e589ba0` passed in 49,900ms. It restored synthetic38 and the exact
+39 functional block into a new PG17 system `7703341586643128360`, using one
+labelled volume/container with network `none` and no published port.
+The [race receipt](../../../tracking/evidence/m07/project-creation39-race/2026-11-01T22-59-30.771Z-9e589ba0.json)
+records backend431 actually waiting on backend417's advisory lock for the same
+key. Both returned the identical saved receipt/project after the first commit.
+Different-key backends447/454 both returned before either committed, holding two
+advisory locks and creating distinct projects. Changed input/same key was denied.
+Exactly three new projects, memberships, intents, creation audits and receipts
+remained, with every preexisting row preserved. All owned resources were removed;
+original data/catalogue/global roles and shared-lock release were verified.
+
+The first independent run `5123e85c` failed only because its catalogue observer
+did not fix search_path, producing unqualified deparser representations. Its
+receipt and private source snapshot remain; cleanup/preservation passed. The
+passing run fixes the observer and retains a143-field source-bound catalogue39
+delta for separate release preparation. No canonical application is implied.
+
+```powershell
+node --test development/m07/project-creation39-proof/concurrency.test.mjs
+node development/m07/project-creation39-proof/concurrency.mjs 'D:/Everyone/Presentation/Everyone-Presentation-Studio'
+```
