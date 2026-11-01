@@ -1,6 +1,77 @@
 # Everyone Presentation Studio - current English-output handoff
 
-## Current checkpoint - 2026-11-01, 03:59 UTC: native ACL proof passed; full36 restore and owner upload pending
+## Current checkpoint - 2026-11-01, 04:29 UTC: owned metadata36 passed; SQL37 and owner journey pending
+
+Owned full metadata36 recovery now PASSED. Fresh run
+`b7b41927-ff04-4b9d-8d27-f90dff822453` started 04:23:15.971UTC and ended
+04:25:02.093UTC (106,122ms):
+`tracking/evidence/m07/recovery36-trace-profile/2026-11-01T04-23-15-971Z-b7b41927.json`
+(SHA256 `9a1a12fbf1989e278aa05d6656a42d83f024e5620f9322152661f581dc58a5c8`).
+All 145 executed source seals matched and are permanently frozen. The exact
+native508-proved owner-ACL profile plus unchanged old 12 corrections restored
+17,684 portable catalogue fields and all populated table hashes. English
+companions/frozen-English equality, trace rows/events, Summary and synthetic Auth,
+controlled expiry/new trace, stale callback denial, outbox lease fencing and the
+checksum negative passed. Both owned databases and all three owned roles were removed;
+all nine cleanup/original29/full Auth-Storage/profile/global-role/lock checks passed.
+
+Two intervening failures remain failed, archived and unreplayed. e3af (101,044ms)
+failed before correction because the snapshot caller omitted its semicolon
+before the frozen transport's COMMIT. d563 (138,073ms) passed catalogue/data,
+Auth and Summary, then its English assertion failed because the frozen parser
+accepts object lines and discarded a top-level array. Each 145-source/six-file
+archive and full automatic cleanup pass is retained in
+`development/m07/recovery36-trace-profile/source-history/e3af2cb6/source-archive.json`
+and `source-history/d5634756/source-archive.json`; see `FAILED_E3AF_STATEMENT.md`
+and `FAILED_D563_ARRAY.md` in that purpose. The forward fixes changed only the
+new caller boundary and exact restore-English query envelope; all old 138 bytes,
+permission checks, generic parser and original content/immutability assertions
+remain unchanged. Author, root and independent peer each passed the overlapping
+10 inert tests; these are not 30 distinct tests or the native recovery result.
+
+This is synthetic, same-cluster LOCAL METADATA recovery, not object-byte/native
+media, Storage HTTP, provider Auth/settings/secrets, deployed/independent restore,
+physical-crash or RTO/RPO acceptance. Native508 privilege proof and prior33's
+native PDF/video plus four filesystem-object recovery stay passed in their scopes.
+The next native/filesystem extension is source-proposed only and should target
+future current37 after its local functional proof; no such purpose is implemented.
+
+Fresh 04:17:19.997448UTC read-only provider evidence confirms web6pcN/source283 at
+the stable alias and unchanged worker2uAS, one alive 2048 MiB instance in dub1:
+`tracking/evidence/m07/controlled-pilot/2026-11-01T04-17-19-997448Z-worker-web-health.json`.
+No deployment, restart or environment transfer accompanied it. Root corrected
+README's current header to this pilot/accepted-connection boundary while retaining
+dated history; that header is not broad production acceptance.
+
+The 03:51 owner inbox expired at 04:06:12.601UTC and no owner result was received.
+Actual private Write, reservation/byte transfer/completion/processing remain
+unverified; do not infer that no MCP operation occurred or inspect capabilities.
+Never replay that expired/consumed inbox. The owner retains configuration,
+sign-in/consent and the already accepted initial/reconnect/project/get_job results.
+
+Feedback summary37 is implemented SOURCE/LOCAL ONLY, with 11 focused new tests,
+31 existing-plus-new guest regressions,13 contract tests, full typecheck and 5 inert
+SQL/source checks passed (overlapping scopes, not an additive live count). Its
+official CLI2.122.0-created path is
+`supabase/migrations/20261101042702_m07_feedback_summary.sql`; source filling and
+owned SQL proof are next, with no native SQL/cloud/deployment acceptance yet.
+See `docs/integrations/FEEDBACK_SUMMARY.md` and `development/m07/feedback-summary37/README.md`.
+Current source inventory is 88 user operations/88 tools/118 OpenAPI operations;
+the serving pilot's last accepted inventory remains87/87/116.
+
+AT069 remains blocked SOURCE preparation: two partial rollback-transport files
+have 9 inert passes and 17 unresolved ESLint no-undef errors. Automatic approval
+review rejected the final import/test/third-document edit before execution with
+`blocked by policy` and no further reason. No retry/manual equivalent or provider
+operation followed; `ROLLBACK_TRANSPORT.md` is absent. The accepted source-only
+plan is `development/m07/WORKER_REPLACEMENT69.md`; no replacement/rollback pass.
+
+Next: finish reviewed owned SQL37 proof before a guarded canonical37/web rollout,
+continue independent owner handoff evidence, and retain the native-media extension
+as a separate pending proof. M07 stays in progress; manual screen reader pending,
+mobile skipped, frontend changes preserved, no labels/selector, pilot until owner stop.
+
+## Historical checkpoint - 2026-11-01, 03:59 UTC: native ACL proof passed; full36 restore and owner upload pending
 
 Committed transfer helper3b4b5c8 and private-inbox f3ed127 provide client-local
 signed PUT/TUS and protected nonce/manifest/source-ID handoff. The combined29
