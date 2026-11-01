@@ -76,6 +76,7 @@ test('explicit disabled entry refuses before any source/git/process preparation'
   replace(`export const EXECUTION_ENABLED = ${EXECUTION_ENABLED};`, 'export const EXECUTION_ENABLED = false;');
   replace("'../recovery33/compiler.mjs'", JSON.stringify(new URL('../recovery33/compiler.mjs', import.meta.url).href));
   replace("'../recovery33/ownership.mjs'", JSON.stringify(new URL('../recovery33/ownership.mjs', import.meta.url).href));
+  replace("'../recovery29/identity.mjs'", JSON.stringify(new URL('../recovery29/identity.mjs', import.meta.url).href));
   replace("export const ROOT = path.resolve(import.meta.dirname, '../../..');", `export const ROOT = ${JSON.stringify(ROOT)};`);
   const disabled = await import('data:text/javascript;base64,' + Buffer.from(source).toString('base64'));
   await assert.rejects(disabled.main(['prepare', run]), /WORKER38_CONCURRENCY_EXECUTION_DISABLED/u);
@@ -123,6 +124,9 @@ test('each upgraded migration records its actual checkpoint and wire before SQL 
   const dispatch = loop.indexOf('await ctx.sql(ctx.sourceDb, adapted.body)');
   const committed = loop.indexOf("record.status = 'committed'");
   assert(checkpoint >= 0 && checkpoint < prepared && prepared < wire && wire < dispatch && dispatch < committed);
+  const rawRole = loop.indexOf('ctx.report.worker38_trace_role = row');
+  const validatedRole = loop.indexOf('admitTraceRole(row, ctx.runId)');
+  assert(committed < rawRole && rawRole < validatedRole);
 });
 test('PostgreSQL parser rejects snapshot-before-config-lock ordering and accepts actual raw wire', () => {
   const prefix = rawPrelude(identity, 'eps38_parser'); const good = prefix + pausePhase(sql, before);
@@ -181,6 +185,28 @@ test('trace cleanup binds exact marked OID and database absence, no preexisting 
   }
   assert.throws(() => cleanupRoleSql({ ...current, dependencies: [{ dbid: 1 }] }, run, [identity.database, 'eps_m07_r33_restore_' + hex]));
   assert.throws(() => cleanupRoleSql(current, run, [identity.database, 'postgres']));
+});
+test('the actual native text OID validates without changing its JSON type or cleanup projection', async () => {
+  const bytes = await readFile(path.join(ROOT, 'tracking/evidence/m07/worker38-concurrency/2026-11-01T18-38-37.532Z-93bb-role-observation.json'));
+  assert.equal(sha(bytes), '1f6d4bc4baed2dc9a13e8965c4587b8092aa92e9af9301556a103a59dde6f312');
+  const observation = JSON.parse(bytes); const row = observation.role; const beforeJSON = JSON.stringify(row);
+  assert.equal(row.oid, '316935'); assert.equal(typeof row.oid, 'string');
+  assert.equal(admitTraceRole(row, observation.run_id, row.oid), row);
+  assert.equal(JSON.stringify(row), beforeJSON); assert.equal(typeof row.oid, 'string');
+  assert.throws(() => admitTraceRole(row, observation.run_id, Number(row.oid)));
+  const owned = observation.run_id.replaceAll('-', '');
+  const wire = cleanupRoleSql(row, observation.run_id, ['eps_m07_r33_source_' + owned, 'eps_m07_r33_restore_' + owned]);
+  assert(wire.includes('"oid":"316935"')); assert.equal(wire.includes('"oid":316935'), false);
+});
+test('only canonical positive uint32 OID representations are admitted', () => {
+  for (const value of [1, 4294967295, '1', '4294967295']) {
+    const row = role(); row.oid = value; row.marker = 'eps-worker38-concurrency:' + run + ':trace:' + value;
+    assert.equal(admitTraceRole(row, run, value), row); assert.equal(row.oid, value);
+  }
+  for (const value of ['0', '01', ' 1', '1 ', '+1', '-1', '1.0', '1e3', '4294967296', '', 0, -1, 1.5, 4294967296, NaN, Infinity, true, null, undefined]) {
+    const row = role(); row.oid = value; row.marker = 'eps-worker38-concurrency:' + run + ':trace:' + String(value);
+    assert.throws(() => admitTraceRole(row, run, value), String(value));
+  }
 });
 test('completed flags require actual observed cases and original-preservation cleanup', () => {
   const flags = ['disposable_databases_removed', 'worker38_trace_role_removed', 'new33_roles_removed', 'worker38_owned_backends_closed', 'shared_test_lock_released',

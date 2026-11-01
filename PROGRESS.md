@@ -1,6 +1,51 @@
 # Everyone Presentation Studio - current English-output rollout
 
-## Current checkpoint - 2026-11-01T18:33:53Z: native hosted proof passed; local concurrency setup failure preserved
+## Current checkpoint - 2026-11-01T18:42:05Z: diagnostic daemon published; batch MCP delta passed; local cleanup pending
+
+Native50082 Ready and its actual hosted nine-task164-source/PDF/boundary proof
+with complete ten-resource cleanup remain passed. Daemonce23 is now published:
+normal copy return and two matching index/runtime readback pairs passed, with
+both existing repositories private and metadata unchanged. Receipt `tracking/evidence/m07/specs-diagnostic-worker38/2026-11-01T18-39-10-151779Z-daemon-registry-copy.json`.
+The separate local preparation reconciliation also passed (`tracking/evidence/m07/specs-diagnostic-worker38/2026-11-01T18-35-38-390811Z-daemon-local-prepare-reconcile.json`),
+verified all18 blobs and the unchanged registry admission. It never reran Set-Acl
+or the old preparation claim. That original18:26 outcome remains unconfirmed;
+its exact historical Windows error is not recoverable from retained output.
+
+Owner verified the new filtered list_jobs MCP operation:0 results,next_cursor
+null, requestdec726b0-c6e9-4b7f-a592-34903c6a77c7. This matches the signed-in HTTP
+empty page. It is owner-attested, without new server-log correlation, and does
+not prove nonempty hosted pagination or existence/absence of inaccessible jobs.
+Prior authorization/reconnect acceptance remains passed; feedback/guest deltas pending.
+
+Local concurrency run0e9's cloud-only M02 prerequisite mismatch was fixed only
+in the owned-local admission shim. Fresh run93bb committed actual34,35,36, then
+its verifier rejected PostgreSQL's canonical JSON string OID316935. The role is
+owned by its exact run+OID marker, with expected two memberships and no remaining
+dependencies. Both disposable DBs are absent. Cleanup stopped at that same type
+check, leaving the three owned test roles and its exact local test lock retained.
+Receipt18:36:34 and independent read-only role observation18:38:37 are preserved
+atfc4ad6d. No concurrency acceptance or full cleanup is credited for93bb.
+The strict OID validator fix preserves raw JSON value/type;13 focused inert
+checks passed in author and Root runs. A new bounded exact-role cleanup sidecar
+is being prepared before any fresh run; no claim is replayed.
+
+Current actual webCUXV/DB38/worker2uAS/430d0992/native795 remains healthy (fresh
+18:34:54 serving/one-alive-instance receipt). No processing pause, public-manifest
+env change, future-native DB pin or worker replacement occurred. All164 product
+source bytes are held exact. Separate defaultFalse availability/deployment source
+is being prepared; the proposed order verifies the new daemon and old inventory
+absence before future DB pin/resume. Native image proof does not establish new
+daemon startup, real specs/OpenAI processing or full M07 release acceptance.
+
+Next: bounded93bb cleanup with complete original29/role/profile preservation,
+fresh owned concurrency proof, then finish reviewed current38 adoption gates and
+new-daemon Ready observation. Keep protected M02/historical specs untouched,
+Reviewed/Ready/English/old versions/local37 recovery and frontend work preserved.
+Screen-reader pending, mobile skipped, pilot running. AT069 automatic approval
+rejected rollback-transport preparation as 'blocked by policy'; no retry/manual
+equivalent/provider action for that blocked action occurred.
+
+## Historical checkpoint - 2026-11-01T18:33:53Z: native hosted proof passed; local concurrency setup failure preserved
 
 Native50082's actual hosted nine-task/164-source/boundary/PDF proof and complete
 ten-resource cleanup remain passed (Root admission18:31). Both matching local

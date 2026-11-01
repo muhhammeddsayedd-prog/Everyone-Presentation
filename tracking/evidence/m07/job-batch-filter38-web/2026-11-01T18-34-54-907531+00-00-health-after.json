@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-11-01T18:34:54.907531+00:00",
+  "result": "passed_read_only_health",
+  "phase": "after",
+  "web": {
+    "id": "dpl_CUXVUZkWjkrQPBTv7XqmA9tF3y4o",
+    "ready_state": "READY",
+    "project_id": "prj_7xOsfRtvJ9voYi7rTEfra5ncOoA0",
+    "team_id": "team_gboXPxTevpCOZuaA8eY9PmR1",
+    "stable_alias_resolves": true
+  },
+  "worker": {
+    "project_id": "prj_I4SMkDzaDy0KHNgiF00v4Da5aLb6",
+    "team_id": "team_gboXPxTevpCOZuaA8eY9PmR1",
+    "daemon": "worker",
+    "environment": "production",
+    "deployment_id": "dpl_2uASsbYobSDwWjMptPjGLcVEdCg3",
+    "status": "ready",
+    "updated_at_ms": 1793468886871,
+    "requested_image": {
+      "reference": "vcr.vercel.com/muhammed-abdelrahman/everyone-presentation-worker-pilot/daemon@sha256:430d0992ef3280f13fb52ff206d0ae09eedb2fee0831583f868db77d4012f12f",
+      "digest": "sha256:430d0992ef3280f13fb52ff206d0ae09eedb2fee0831583f868db77d4012f12f"
+    },
+    "resolved_image": {
+      "reference": "vcr.vercel.com/muhammed-abdelrahman/everyone-presentation-worker-pilot/daemon@sha256:430d0992ef3280f13fb52ff206d0ae09eedb2fee0831583f868db77d4012f12f",
+      "digest": "sha256:430d0992ef3280f13fb52ff206d0ae09eedb2fee0831583f868db77d4012f12f"
+    },
+    "configured_instances": {
+      "dub1": 1
+    },
+    "configured_override": null,
+    "memory_mib": 2048,
+    "termination_grace_seconds": 300,
+    "desired": 1,
+    "ready": 1,
+    "total": 1,
+    "instances": [
+      {
+        "id": "dmni_01m6c3bfpqdd02y8s5ynnehynm",
+        "alive": true,
+        "image": {
+          "reference": "vcr.vercel.com/muhammed-abdelrahman/everyone-presentation-worker-pilot/daemon@sha256:430d0992ef3280f13fb52ff206d0ae09eedb2fee0831583f868db77d4012f12f",
+          "digest": "sha256:430d0992ef3280f13fb52ff206d0ae09eedb2fee0831583f868db77d4012f12f"
+        },
+        "region": "dub1",
+        "memory_mib": 2048,
+        "started_at_ms": 1793555021358,
+        "stopped_at_ms": null,
+        "last_checked_at_ms": 1793558091521
+      }
+    ]
+  },
+  "worker_deploy_restart_env_or_OAuth_mutation": false,
+  "raw_cli_or_credentials_saved": false
+}

@@ -63,6 +63,27 @@ GREEN. All eleven inert checks pass, including twenty PostgreSQL wire/parser
 documents. This remains parser/source evidence; the forward native run is still
 pending. Execution is disabled again until Root reviews and uses a fresh UUID.
 
+The next Root run93bb8f21-2f2e-4305-948e-f78897c497d1 passed that admission
+and committed36, then stopped in the new trace-role identity validator. Native
+PostgreSQL JSON represents the role OID as canonical decimal text (`"316935"`);
+the new validator had incorrectly required a JavaScript number. The read-only
+observation confirms its exact run/OID marker, expected attributes and two
+memberships, no dependencies, no owned databases and zero other clients. The
+same type check also stopped role cleanup. Trace/new33-role cleanup and shared
+lock release remain Root's separate pending recovery; original-state preservation
+is not inferred from the absence of the databases. Executed sources, failure and
+that observation remain archived atfc4ad6d; the failed claim stays permanent.
+
+The forward correction reuses the already sealed `normalizeDatabaseOid` solely
+to validate this one field as canonical positive uint32 text or an integer. Its
+numeric return is deliberately discarded. The original row value/type, strict
+expected-OID comparison, marker and complete native JSON cleanup comparison are
+preserved. No other numeric validation is changed. Future runs retain the closed
+raw role projection before validating it. The actual observed row and malformed
+OID variants were RED against the old gate; thirteen inert checks now pass,
+including unchanged-type cleanup SQL. No cleanup or new native run is performed
+by this source change; execution is disabled again.
+
 ## Planned concurrency cases; not yet executed
 
 1. A normal authenticated caller executes the real specs submit RPC and holds

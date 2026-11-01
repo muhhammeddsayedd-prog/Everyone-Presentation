@@ -10,8 +10,9 @@ import { setTimeout as delay } from 'node:timers/promises';
 import { pathToFileURL } from 'node:url';
 import { compileController33, SOURCE_PINS } from '../recovery33/compiler.mjs';
 import { ownedPredicate33, ownedIdentity33 } from '../recovery33/ownership.mjs';
+import { normalizeDatabaseOid } from '../recovery29/identity.mjs';
 
-export const EXECUTION_ENABLED = true;
+export const EXECUTION_ENABLED = false;
 export const ROOT = path.resolve(import.meta.dirname, '../../..');
 export const PURPOSE = 'development/m07/worker38-concurrency/';
 export const OWN = ['proof.mjs', 'fixture.sql', 'proof.test.mjs', 'frozen-inputs.json', 'README.md'].map(v => PURPOSE + v);
@@ -189,7 +190,10 @@ export function roleQuery() {
 'dependencies',(select coalesce(jsonb_agg(jsonb_build_object('dbid',dbid,'classid',classid::regclass::text,'objid',objid,'objsubid',objsubid,'deptype',deptype)order by dbid,classid,objid,objsubid),'[]')from pg_shdepend where refclassid='pg_authid'::regclass and refobjid=r.oid))from pg_roles r where r.rolname='${TRACE_ROLE}'));`;
 }
 export function admitTraceRole(row, runId, expectedOid) {
-  assert(row && row.name === TRACE_ROLE && Number.isSafeInteger(row.oid) && row.oid > 0 && UUID.test(runId));
+  assert(row && row.name === TRACE_ROLE && UUID.test(runId));
+  // Validate only this native oid field through the existing canonical uint32
+  // codec. Do not assign its numeric return: raw JSON identity/type is evidence.
+  normalizeDatabaseOid(row.oid);
   assert.equal(row.marker, 'eps-worker38-concurrency:' + runId + ':trace:' + row.oid);
   if (expectedOid !== undefined) assert.equal(row.oid, expectedOid);
   for (const field of ['login', 'super', 'inherit', 'bypassrls', 'create_db', 'create_role', 'replication']) assert.equal(row[field], false);
@@ -352,7 +356,8 @@ export async function runConcurrency38(ctx) {
     record.status = 'committed';
     if (adapted.version === '20261101012057') {
       const row = only(ctx.rows((await ctx.docker(ctx.psqlArgs('template1'), { input: 'begin read only;' + roleQuery() + 'rollback;' })).stdout)).role;
-      admitTraceRole(row, ctx.runId); ctx.report.worker38_trace_role = row;
+      ctx.report.worker38_trace_role = row;
+      admitTraceRole(row, ctx.runId); ctx.report.worker38_trace_role_validated = true;
     }
   }
   ctx.report.checkpoint = 'worker38-owned-current38-fixture';
