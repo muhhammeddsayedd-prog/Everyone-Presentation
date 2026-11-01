@@ -17,6 +17,9 @@ test('project creation persists canonical identity and type with replay and sepa
     assert.equal(first.presentation_type, 'wardrobe'); assert.equal(first.casting_workspace_id, null);
     assert.equal((await studio.listWorkspaces(actor, { project_id: first.id })).data.length, 0);
     assert.equal((await createStudio(options).getProject(actor, first.id)).presentation_type, 'wardrobe');
+    await studio.updateProject(actor, first.id, { name: 'Renamed after creation', row_version: first.row_version });
+    assert.deepEqual(await studio.createProject(actor, input, context), first);
+    assert.equal((await studio.getProject(actor, first.id)).name, 'Renamed after creation');
     await assert.rejects(studio.createProject(actor, { ...input, name: 'Another' }, context), { code: 'IDEMPOTENCY_KEY_REUSED' });
     await assert.rejects(studio.getProject({ principal_id: FIXTURE_ACTORS.outsider }, first.id), { code: 'RESOURCE_NOT_FOUND' });
     const casting = await studio.createProject(actor, { name: 'Casting project', presentation_type: 'casting' }, { idempotencyKey: 'casting-project-intent' });

@@ -102,7 +102,7 @@ declare project_name text; type_key text; client_id uuid; new_id uuid; result js
     if not eps.project_access(eps.input_uuid(result->>'id'),true)
       or not exists(select 1 from public.projects p where p.id=eps.input_uuid(result->>'id') and p.archived_at is null)
     then perform eps.fail('RESOURCE_NOT_FOUND','The created project is no longer accessible.',404); end if;
-    return public.eps_get_project(eps.input_uuid(result->>'id'));
+    return result;
   end if;
   new_id:=gen_random_uuid(); perform set_config('eps.project_create.new_id',new_id::text,true);
   insert into public.projects(id,name,client_id) values(new_id,project_name,client_id);
