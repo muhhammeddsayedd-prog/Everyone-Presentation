@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-11-01T03:14:34.931Z",
+  "result": "passed",
+  "deployment_id": "dpl_6pcN8Qb1XDkBTsiwKVmexKfWUvf7",
+  "checks": [
+    {
+      "case": "anonymous_job",
+      "status": 401,
+      "expected_status": 401,
+      "expected_public_shape": true,
+      "passed": true
+    },
+    {
+      "case": "anonymous_mcp",
+      "status": 401,
+      "expected_status": 401,
+      "expected_public_shape": true,
+      "passed": true
+    },
+    {
+      "case": "invalid_bearer_mcp",
+      "status": 401,
+      "expected_status": 401,
+      "expected_public_shape": true,
+      "passed": true
+    },
+    {
+      "case": "protected_resource_metadata",
+      "status": 200,
+      "expected_status": 200,
+      "expected_public_shape": true,
+      "passed": true
+    }
+  ],
+  "requests": 4,
+  "methods": [
+    "GET"
+  ],
+  "browser_cookies_or_valid_credentials_sent": false,
+  "invalid_synthetic_bearer_used_once": true,
+  "raw_bodies_headers_or_private_payloads_recorded": false,
+  "owner_connection_acceptance_changed": false
+}

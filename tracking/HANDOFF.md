@@ -1,6 +1,69 @@
 # Everyone Presentation Studio - current English-output handoff
 
-## Current checkpoint - 2026-11-01, 02:55 UTC: durable paired audit passed; guidance release next
+## Current checkpoint - 2026-11-01, 03:19 UTC: scoped AT074 and failed084 cleanup passed; fresh recovery pending
+
+The stable pilot now serves web `dpl_6pcN8Qb1XDkBTsiwKVmexKfWUvf7`, source283/SHA
+`d17a3f4eba0f0dc5a19ed02bc0c717c8b1472ce692fe910118ace3238fbc79ee`. The03:10:26 provider source-build Ready/readback
+matched the stable alias and preserved canonical36/static contract, existing
+project/environment IDs and targets. No worker, environment or OAuth change
+accompanied this release. Source283 includes two safe error-copy changes plus
+the already merged attempt-trace parser; the exact282-to283 delta is recorded,
+not a claim that only two files were deployed. Ready: `tracking/evidence/m07/source-unreadable36-web/2026-11-01T03-10-26-362504Z-ready.json`;
+source delta: `tracking/evidence/m07/source-unreadable36-web/2026-11-01T03-01-14-354524Z-source-delta.json`. Local Windows build was quality proof only;
+Vercel built the original sealed source on Linux, with no prebuilt acceptance.
+
+The03:11 signed-in API and actual failed-job page show replacement/manual-entry
+guidance for SOURCE_UNREADABLE, retry=false, one Cancel and no Retry button.
+API request `19c428d3-2b60-4039-8615-a9f397d2b074` is recorded in `tracking/evidence/m07/source-unreadable36-web/2026-11-01-authenticated-api-app-guidance.json`.
+The owner then reported the same existing MCP get_job result, request
+`dbe872d6-856a-4d4b-bd0d-b8daf9dc586b`, matching that API/app; server-log
+correlation was not verified. Evidence: `tracking/evidence/m07/source-unreadable36-web/2026-11-01-owner-mcp-job-guidance.json`.
+Six no-credential host probes and four job/MCP denial/metadata checks passed:
+`tracking/evidence/m07/controlled-pilot/2026-11-01T03-12-32-119Z-c3c453d1-public-host.json` and `tracking/evidence/m07/source-unreadable36-web/2026-11-01-public-job-mcp-regression.json`. These public checks are not a new OAuth lifecycle
+or full delegated-journey acceptance.
+
+The actual02:50 paired audit plus deployed actionable app/API/owner-MCP guidance
+now pass the scoped AT074 success/failure check: successful untargeted IMG2852
+job6763 has five accepted stages/refs31693-31697 and source-bound OpenAI/English
+records; unreadable67-byte job3fde failed preparation with SOURCE_UNREADABLE,
+ref31703 and no OpenAI records. Old10 Ready versions/57slides/42pins/raw-English,
+9PDF metadata, Reviewed row/2old media/24frames and protected M02/static state
+were preserved in the bounded audit (`tracking/evidence/m07/job-attempt-observability36-live-sidecar/2026-11-01T02-50-02-687228Z-8829fa59-3c1c-46dc-b20b-32649645c275.json`). No semantic-accuracy,
+Reviewed-target append, all-jobs absence or re-fetch of every old object byte is
+claimed. Fresh terminal n8n metadata404 absence cause remains unproved; durable
+stage diagnosis stands and no payload-retention configuration was changed.
+
+Current36 owned recovery attempt084 remains FAILED after78,438ms: safeRole
+expected a numeric OID but PostgreSQL returned decimal text; the same legal
+membership tuples arrived in the opposite order. Its original failure receipt,
+cleanup-unconfirmed state at failure, claim/artifacts and129-source/seven-new-file
+archive remain historical and were not replayed or rewritten. Receipt:
+`tracking/evidence/m07/recovery36/2026-11-01T03-01-28-673Z-0843096a.json`;
+cause: `development/m07/recovery36/FAILED_084_SQL_RESULT.md`;
+archive: `development/m07/recovery36/source-history/0843096a/source-archive.json`.
+
+The separate guarded cleanup now PASSED at03:19:20.008UTC after its03:17:58
+before observation. All three exact owned roles were removed; original29 rows,
+functions/profile/full Auth-Storage/catalogue and58 existing roles/94 memberships
+were preserved, both temporary databases are absent, and only the exact failed084
+lock was released. Root independently checked the lock absent. Before/after:
+`tracking/evidence/m07/recovery36-cleanup084/2026-11-01-before.json` and `tracking/evidence/m07/recovery36-cleanup084/2026-11-01-after.json`.
+This cleanup provides no current36 restore credit, cloud restore acceptance or
+RTO/RPO result. The narrow OID/closed-membership fix now passes14 inert tests
+and independent review, including native JSON shapes; raw preimages and all
+permission guards remain intact. Evidence: `tracking/evidence/m07/recovery36/2026-11-01-validator-forward-fix14.json`.
+Next: a fresh source freeze/claim and owned metadata rehearsal.
+
+The client-local transfer helper source3b4b5c8 passed16 focused inert tests,
+lint/typecheck and review; actual private Claude handoff/reserve-transfer-complete
+remains unverified. Prior local33 recovery and completed English/guest/PDF,
+Summary and owner initial/reconnect/project reads remain passed in their scopes.
+M07 stays in progress; manual AT072 stays pending, mobile skipped, Claude's
+frontend preserved, no labels/selector and pilot/worker2uAS running until owner stop.
+Next: fresh recovery freeze/claim from the reviewed14-test validator fix;
+remaining delegated/token/replacement/representative-workload checks stay open.
+
+## Historical checkpoint - 2026-11-01, 02:55 UTC: durable paired audit passed; guidance release next
 
 The actual post36 read-only paired audit passed at02:50:02.98928UTC. The owner's
 untargeted IMG2852 job6763 succeeded with five immutable attempts/execution refs

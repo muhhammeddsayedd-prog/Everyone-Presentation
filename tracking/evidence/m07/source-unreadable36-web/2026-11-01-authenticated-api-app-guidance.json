@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "evidence_kind": "actual_signed_in_deployed_safe_job_guidance",
+  "recorded_at": "2026-11-01T03:12:06.954Z",
+  "deployment_id": "dpl_6pcN8Qb1XDkBTsiwKVmexKfWUvf7",
+  "source_sha256": "d17a3f4eba0f0dc5a19ed02bc0c717c8b1472ce692fe910118ace3238fbc79ee",
+  "result": "passed",
+  "api": {
+    "recorded_at": "2026-11-01T03:11:48.644Z",
+    "request_id": "19c428d3-2b60-4039-8615-a9f397d2b074",
+    "id": "3fde2ab3-d18e-4087-93c2-0ad2585cf66c",
+    "status": "failed",
+    "stage": "prepare_candidate",
+    "error_code": "SOURCE_UNREADABLE",
+    "message": "The supplied source could not be read. Replace it with a valid supported file, or enter the available information manually.",
+    "retryable": false
+  },
+  "app": {
+    "message_count": 1,
+    "retry_button_count": 0,
+    "cancel_button_count": 1
+  },
+  "operations_performed": [
+    "read_job_API",
+    "read_job_app"
+  ],
+  "retry_or_cancel_or_new_upload_performed": false,
+  "credentials_or_raw_payloads_read_or_recorded": false,
+  "manual_screenreader_acceptance": false,
+  "mobile_tested": false
+}

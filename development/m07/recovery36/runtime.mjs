@@ -2,9 +2,9 @@
 import assert from 'node:assert/strict';
 import {readFile,writeFile} from 'node:fs/promises';
 import path from 'node:path';
-import {isDeepStrictEqual} from 'node:util';
 import {createRecovery33Context,exactPreimageAdmission} from '../recovery33/runtime.mjs';
 import {ownedPredicate33,ownedIdentity33} from '../recovery33/ownership.mjs';
+import {normalizeDatabaseOid} from '../recovery29/identity.mjs';
 import {sha} from '../recovery33/compiler.mjs';
 import {adapters36,PURPOSE} from './compiler.mjs';
 const ROLE='eps_job_trace_owner';
@@ -34,17 +34,27 @@ export function traceRoleQuery36(){return `select jsonb_build_object('role',(sel
  'dependencies',(select coalesce(jsonb_agg(jsonb_build_object('dbid',dbid,'classid',classid::regclass::text,'objid',objid,'objsubid',objsubid,'deptype',deptype)order by dbid,classid,objid,objsubid),'[]')from pg_shdepend where refclassid='pg_authid'::regclass and refobjid=r.oid),
  'clients',(select count(*)from pg_stat_activity where backend_type='client backend'and pid<>pg_backend_pid()))from pg_roles r where r.rolname='${ROLE}'));`;}
 function safeRole(row){
- assert(row&&row.name===ROLE&&Number.isSafeInteger(row.oid)&&row.oid>0&&row.oid<2**32);
+ assert(row&&row.name===ROLE);const oid=normalizeDatabaseOid(row.oid);
  assert(/^eps-m07-recovery36:[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}:trace$/u.test(row.marker));
  for(const key of ['login','super','inherit','bypassrls','create_role','create_db','replication'])assert.equal(row[key],false);
  assert.equal(row.connection_limit,-1);assert.equal(row.valid_until,null);
  const explicit={role:ROLE,member:'postgres',grantor:'postgres',admin:false,inherit:true,set:true};
  const bootstrap={role:ROLE,member:'postgres',grantor:'supabase_admin',admin:true,inherit:false,set:false};
- assert(isDeepStrictEqual(row.memberships,[explicit])||isDeepStrictEqual(row.memberships,[explicit,bootstrap]));
+ assert(Array.isArray(row.memberships)&&row.memberships.length>=1&&row.memberships.length<=2);
+ const memberships=row.memberships.map(member=>{
+  assert(member&&typeof member==='object'&&!Array.isArray(member));
+  assert.deepEqual(Object.keys(member).sort(),['admin','grantor','inherit','member','role','set']);
+  const allowed=member.grantor==='postgres'?explicit:bootstrap;assert.deepEqual(member,allowed);
+  return JSON.stringify(allowed);
+ });
+ assert.equal(new Set(memberships).size,memberships.length);assert(memberships.includes(JSON.stringify(explicit)));
+ // Compare identities and the exact grant set without changing the native
+ // OID representation or membership order used by the SQL preimage guard.
+ return{oid,memberships:memberships.sort()};
 }
 export function assertTraceRole36(expected,observed,{databasesAbsent}){
- assert.equal(databasesAbsent,true);safeRole(expected);safeRole(observed);assert.equal(observed.oid,expected.oid);assert.equal(observed.marker,expected.marker);
- assert.deepEqual(observed.memberships,expected.memberships);assert.equal(observed.clients,0);assert.deepEqual(observed.dependencies,[]);return true;
+ assert.equal(databasesAbsent,true);assert.deepEqual(safeRole(observed),safeRole(expected));assert.equal(observed.marker,expected.marker);
+ assert.equal(observed.clients,0);assert.deepEqual(observed.dependencies,[]);return true;
 }
 export function traceCleanupSql36(expected,observed){
  assertTraceRole36(expected,observed,{databasesAbsent:true});

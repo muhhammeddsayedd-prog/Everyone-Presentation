@@ -14,6 +14,12 @@ const identity={database:'eps_m07_r33_source_'+runId.replaceAll('-',''),marker:`
 const sources=await loadSources();
 const actualSql=[];
 const role=()=>({name:'eps_job_trace_owner',oid:45678,marker:`eps-m07-recovery36:${runId}:trace`,login:false,super:false,inherit:false,bypassrls:false,create_role:false,create_db:false,replication:false,connection_limit:-1,valid_until:null,clients:0,dependencies:[],memberships:[{role:'eps_job_trace_owner',member:'postgres',grantor:'postgres',admin:false,inherit:true,set:true}]});
+// Native PostgreSQL JSON preserves OIDs as text and sorts membership rows by
+// grantor OID. The bootstrap superuser precedes the ordinary postgres creator.
+const nativeRole=()=>({...role(),oid:'243387',memberships:[
+ {set:false,role:'eps_job_trace_owner',admin:true,member:'postgres',grantor:'supabase_admin',inherit:false},
+ {set:true,role:'eps_job_trace_owner',admin:false,member:'postgres',grantor:'postgres',inherit:true},
+]});
 
 test('all prior executable/support sources remain exact with one explicit README qualification',()=>{
  assert(sources.size>119);assert.equal(typeof EXECUTION_ENABLED,'boolean');
@@ -58,6 +64,41 @@ test('new trace cleanup never adopts an existing/ambiguous role or broadens old 
  assert(sql.includes('drop role eps_job_trace_owner'));assert(!sql.includes('revoke '));assert(!sql.includes('drop owned'));
  assert(traceRoleQuery36().includes("rolname='eps_job_trace_owner'"));
 });
+test('native OID strings and either exact grant order preserve raw cleanup preimages',()=>{
+ for(const oid of [1,'1',243387,'243387',4294967295,'4294967295']){
+  const expected={...nativeRole(),oid},observed={...nativeRole(),oid:typeof oid==='number'?String(oid):Number(oid)};
+  const before=structuredClone({expected,observed});
+  assertTraceRole36(expected,observed,{databasesAbsent:true});
+  observed.memberships.reverse();assertTraceRole36(expected,observed,{databasesAbsent:true});
+  const raw=JSON.stringify({role:observed});const sql=traceCleanupSql36(expected,observed);
+  assert(sql.includes(raw));assert.equal(observed.oid,before.observed.oid);
+  assert.deepEqual(expected,before.expected);assert.deepEqual(observed.memberships,[...before.observed.memberships].reverse());
+ }
+ const explicitOnly=nativeRole();explicitOnly.memberships=explicitOnly.memberships.filter(v=>v.grantor==='postgres');
+ assertTraceRole36(explicitOnly,structuredClone(explicitOnly),{databasesAbsent:true});
+});
+test('trace identity rejects noncanonical OIDs without invoking coercion hooks',()=>{
+ let coerced=false;const coercible={toString(){coerced=true;return'243387';},valueOf(){coerced=true;return243387;}};
+ for(const oid of [undefined,null,0,-1,4294967296,1.5,NaN,Infinity,'0','01','+1','-1','1.0','1e3',' 1','1 ','4294967296','',{},[],coercible]){
+  assert.throws(()=>assertTraceRole36({...nativeRole(),oid},nativeRole(),{databasesAbsent:true}));
+  assert.throws(()=>assertTraceRole36(nativeRole(),{...nativeRole(),oid},{databasesAbsent:true}));
+ }
+ assert.equal(coerced,false);
+ assert.throws(()=>assertTraceRole36(nativeRole(),{...nativeRole(),oid:'243388'},{databasesAbsent:true}));
+});
+test('trace grant sets deny duplicates, unknown tuples and every privilege-option drift',()=>{
+ const expected=nativeRole();
+ const badSets=[[],[expected.memberships[0]],Array(2).fill(expected.memberships[1]),[...expected.memberships,expected.memberships[1]],null,{}];
+ for(const index of [0,1])for(const change of [{role:'foreign'},{member:'authenticated'},{grantor:'foreign'},{admin:!expected.memberships[index].admin},{inherit:!expected.memberships[index].inherit},{set:!expected.memberships[index].set},{set:'true'},{extra:false}]){
+  const rows=structuredClone(expected.memberships);Object.assign(rows[index],change);badSets.push(rows);
+ }
+ const missing=structuredClone(expected.memberships);delete missing[1].set;badSets.push(missing);
+ for(const memberships of badSets){
+  assert.throws(()=>assertTraceRole36(expected,{...nativeRole(),memberships},{databasesAbsent:true}));
+  assert.throws(()=>assertTraceRole36({...nativeRole(),memberships},expected,{databasesAbsent:true}));
+ }
+ assert.throws(()=>assertTraceRole36(expected,{...nativeRole(),memberships:[expected.memberships[1]]},{databasesAbsent:true}));
+});
 test('fixture and new SQL have no cloud calls, fake Ready publication or outer transaction escape',async()=>{
  const fixture=sources.get('development/m07/recovery36/fixture.sql').toString('utf8');
  assert(fixture.includes('eps.claim_job_stage_replay'));assert(fixture.includes('eps.record_job_event'));
@@ -73,7 +114,7 @@ test('actual new runtime migration and cleanup SQL are captured by fake ports wi
  const ctx={root:ROOT,runId,sourceDb:identity.database,restoreDb:identity.database.replace('_source_','_restore_'),privateRoot:'unused-private-root',sourceFiles:sources,report:{private_artifact_acl:true,actual_local_migrations_executed:[]},
   async databaseIdentity(database,absent){return absent?null:{oid:identity.oid};},marker(database){return database===identity.database?identity.marker:identity.marker.replace(':source',':restore');},
   async catalogue(){return{synthetic:'metadata'};},async value(){return{};},rows(raw){return raw.split('\n').filter(Boolean).map(JSON.parse);},psqlArgs(){return['FAKE'];},
-  async sql(_db,body){calls.push(body);if(body.includes('create role eps_job_trace_owner'))observed=role();return{stdout:observed?JSON.stringify({role:observed}):''};},
+  async sql(_db,body){calls.push(body);if(body.includes('create role eps_job_trace_owner'))observed=nativeRole();return{stdout:observed?JSON.stringify({role:observed}):''};},
   async docker(_args,{input}){calls.push(input);if(input.includes('drop role eps_job_trace_owner'))observed=null;return{stdout:JSON.stringify({role:observed})};}};
  const runtime=createRecovery36Context(ctx,{contextFactory:()=>inherited,io:{async readFile(file){return sources.get(path.relative(ROOT,file).split(path.sep).join('/'));},async writeFile(file,raw,options){assert.equal(options.flag,'wx');assert(!writes.has(file));writes.set(file,raw);}}});
  assert.equal(runtime.active,false);await runtime.upgrade();assert.deepEqual(ctx.report.actual_local_migrations_executed,['20261031143711','20261031182038','20261101012057']);

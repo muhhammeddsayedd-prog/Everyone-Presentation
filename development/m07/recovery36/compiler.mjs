@@ -8,7 +8,7 @@ import {ownedPredicate33} from '../recovery33/ownership.mjs';
 export {sha};
 export const ROOT=path.resolve(import.meta.dirname,'../../..');
 export const PURPOSE='development/m07/recovery36/';
-export const EXECUTION_ENABLED=false;
+export const EXECUTION_ENABLED=true;
 export const MANIFEST_SHA='3a85938c9c6c1126e63db4b39dd31dab9c3d99585148670adec0b0550cf60117';
 export const PURPOSE_FILES=['compiler.mjs','runtime.mjs','fixture.sql','run.mjs','recovery.test.mjs','README.md','frozen-inputs.json'];
 export const PRIOR='tracking/evidence/m07/recovery33/2026-10-31T15-34-37-577Z-9af6774f.json';
