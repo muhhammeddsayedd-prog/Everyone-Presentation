@@ -1,6 +1,6 @@
 {
   "pack_version": "1.0",
-  "updated_at": "2026-11-01T00:32:41.403446Z",
+  "updated_at": "2026-11-01T00:57:45.216887+00:00",
   "implementation_started": true,
   "current_milestone": "M07",
   "current_pilot": {
@@ -10,7 +10,7 @@
     "owner_stop_only": true,
     "web_deployment_id": "dpl_5vEMBfsnD23cGL3ontWm8AUAErKr",
     "worker_deployment_id": "dpl_2uASsbYobSDwWjMptPjGLcVEdCg3",
-    "worker_state": "Actual17:49:47 Ready readback: one alive dub1/2048MiB daemon430d instance; compatible source160/b348 native795f and baked manifest0a24. English separately enabled at canonical34 readback17:54:57; app upload completed and job3cf25d3b accepted; UI fact extraction in progress, no success claim.",
+    "worker_state": "Actual17:49:47 Ready readback: one alive dub1/2048MiB daemon430d instance; compatible source160/b348 native795f/manifest0a24. Controlled English job3cf25d3b completed with persisted English and Reviewed preservation; internal/saved/guest playback and guest revocation passed. Worker not redeployed by canonical35 release.",
     "worker_context_run": "4186fd1e-55c7-4ea5-956e-ad9ad92f64b1",
     "worker_source_hash": "b3489d64fb1bb207e0a1020fadac3db14490c94ba6d2aedf9c6a358ebb36f181",
     "native_runtime": "sha256:795f8f7736594fb51cc0c304d85bae9d29f31861e606eec0c2a83806fff5d3b9",
@@ -54,7 +54,7 @@
       "tracking/evidence/m07/controlled-pilot/2026-10-31-hosted-video-provider-metadata.json",
       "tracking/evidence/m07/controlled-pilot/2026-10-31-hosted-video-app.json"
     ],
-    "canonical_history_count": 34,
+    "canonical_history_count": 35,
     "original_local_history_count": 29,
     "specs_fix": "Confirmed canonical31: compact apply a992 and standalone222 complete/PASS. Original884 unknownclaim retained/no replay. OriginalLocal29 unchanged.",
     "latest_root_module_tests": 886,
@@ -67,14 +67,14 @@
       182
     ],
     "application_test_evidence": "tracking/evidence/m07/backend-continuation/2026-10-31-886-application-tests.json",
-    "application_test_scope": "LOCAL886 plus final15 overlapping UI regressions/build/types; actual controlled v2 English scan, saved24checks, internal English playback/PDF and old-cohort compare PASS. Guest English pending; full redesign remains separate.",
+    "application_test_scope": "LOCAL886 plus final15 overlapping UI regressions/build/types; controlled v2 English scan, saved24checks, internal and guest English/video/PDF/revocation and old-cohort compare PASS with recorded browser boundaries. Summary31 synthetic regressions/localSQL35/guarded canonical35 passed; current Summary web/app/HTTP/MCP acceptance pending. Full redesign separate.",
     "oauth_state": "Verified scoped owner connection: full-details initial authorization and read, cached duplicate details, already-consented redirect-only reconnect and authenticated post-reconnect get_project; exact owner/server request ID matches. FullM07/refresh/revocation/write journey remain separate.",
     "AT_072": "pending",
     "M03_broader_semantics": "Owner clarified English-only output for all scanned introductions; more English/mixed labels are not required. Existing Arabic name/age acceptance preserved; broader semantic accuracy unclaimed.",
     "mobile_testing": "skipped by owner",
     "production_deployment_verified": false,
     "prior_snapshot": "tracking/evidence/m07/controlled-pilot/2026-10-31T01-24Z-prior-progress-snapshot.json",
-    "next_action": "Guarded canonical35 release source65bc518 is prepared/disabled pending root review: perform target preflight/apply/independent readback, then current authenticated API/MCP Summary read and compatible hosted web release. Guest English create/test/revoke is completed with normal-profile/actual-annotation-destination boundaries. Continue separate live M07 observability/full journey/token/recovery checks; canonical34/English1.0 remain current until actual release, no labels/selector, owner/recovery passes retained.",
+    "next_action": "Canonical35 apply/readback passed with normal return, two matching independent readbacks and all74 table/full OAuth preservation. Complete the compatible Summary provider source-build quality/deployment/readback, then actual signed-in app and authenticated HTTP/MCP Summary reads. Web5vEM/worker2uAS/English1.0 remain serving until actual web replacement. Carry forward completed guest create/test/revoke, owner Claude acceptance and local33 recovery; continue separate live AT074/delegated/token/recovery checks. No labels/selector; screen reader pending, mobile skipped, pilot until owner stop.",
     "specs_local_proof": "tracking/evidence/m07/specs-ack31/2026-10-31T01-22-16-662Z-dc886d4e-local-proof.json",
     "specs_canonical_apply": "tracking/evidence/m07/specs-ack31/2026-10-31T01-57-10-621248Z-a99247a4-canonical31-continuation-apply.json",
     "specs_canonical_apply_confirmed": true,
@@ -503,7 +503,11 @@
       "database_requeried": false
     },
     "guest_english_workflow_evidence": "tracking/evidence/m03/english-guest34/2026-11-01-guest-english-workflow.json",
-    "guest_english_selftest_link_state": "approved_created_tested_then_revoked_no_active_selftest_link"
+    "guest_english_selftest_link_state": "approved_created_tested_then_revoked_no_active_selftest_link",
+    "canonical_database_observed_at": "2026-11-01T00:57:45.216887+00:00",
+    "canonical35_apply_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-22-943495Z-apply.json",
+    "canonical35_readback_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-45-216113Z-readback.json",
+    "summary_web_deployed": false
   },
   "milestones": [
     {
@@ -1153,7 +1157,8 @@
         "ab1c3d5b34d8541347484e91b3f60759472b6f80",
         "de276c704a8984733fddb206be77e350fe6c2fb1",
         "66956b71cfd53c472a6ad409a66b075c737bed36",
-        "c8e4faee2b8ddf35fd69323a5fbf8050ffb8a9de"
+        "c8e4faee2b8ddf35fd69323a5fbf8050ffb8a9de",
+        "29079b2"
       ],
       "migrations": [
         {
@@ -1176,14 +1181,17 @@
           "file": "supabase/migrations/20261031182038_m07_workspace_summary.sql",
           "sha256": "cbb12610603318bce68ced4a58d0a9a01ee07737838c99a2ea0e6214e5e933e0",
           "local": "passed_owned_disposable_transaction_rolled_back_original29_unchanged",
-          "cloud": "not_applied",
+          "cloud": "applied_and_independently_read_back",
           "source_commit": "ab1c3d5b34d8541347484e91b3f60759472b6f80",
-          "evidence": "tracking/evidence/m07/workspace-summary35/2026-10-31-root-merged-regression.json",
+          "evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-45-216113Z-readback.json",
           "initial_merged_sha256": "220a528e03b9899416fba52598f56ef8861516f0a9ff54484ba48da339f283e6",
           "privilege_guard_commit": "66956b71cfd53c472a6ad409a66b075c737bed36",
           "fixture_correction_commit": "c8e4faee2b8ddf35fd69323a5fbf8050ffb8a9de",
           "local_proof_evidence": "tracking/evidence/m07/workspace-summary35-proof/2026-10-31T18-47-07-800Z-ef4cb6c2.json",
-          "canonical35_applied": false
+          "canonical35_applied": true,
+          "target": "pyibofyctwnqpvktepse",
+          "apply_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-22-943495Z-apply.json",
+          "release_commit": "29079b2"
         }
       ],
       "evidence": [
@@ -1234,14 +1242,18 @@
         "tracking/evidence/m07/workspace-summary35-proof/2026-10-31T18-47-07-800Z-ef4cb6c2.json",
         "tracking/evidence/m03/english-guest34/2026-11-01-guest-english-workflow.json",
         "tracking/evidence/m03/english-guest34/2026-11-01T00-26-26-547394Z-before-link-metadata.json",
-        "tracking/evidence/m03/english-guest34/2026-11-01T00-29-32-767029Z-after-link-metadata.json"
+        "tracking/evidence/m03/english-guest34/2026-11-01T00-29-32-767029Z-after-link-metadata.json",
+        "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-56-24-483044Z-inspect.json",
+        "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-22-943495Z-apply.json",
+        "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-45-216113Z-readback.json",
+        "tracking/evidence/m07/workspace-summary35-release/2026-11-01-cli-role-validity-drift.json"
       ],
       "blockers": [
         "Owner initial authorization/reconnect/authenticated Dummy Pilot Test read stays passed. Full real delegated write/processing/generation/sharing, live refresh/rotation/revocation and actual contributor denial remain unverified.",
         "History33 synthetic local metadata/media recovery stays passed; deployed/independentcluster and actual provider/config/secret restore plus representative provider cost/endurance remain unverified.",
-        "English guest workflow now completed/approved link revoked with explicit normal-profile/annotation-destination boundary. Local SQL35 gate passed; canonical35 and hosted Summary/current API+MCP read remain pending. FullAT074/delegated lifecycle/recovery evidence incomplete. Screen reader pending/mobile skipped; no labels/selector required."
+        "English guest workflow now completed/approved link revoked with explicit normal-profile/annotation-destination boundary. Local SQL35 and canonical35 apply/readback passed; hosted Summary/current app/API+MCP read remain pending. FullAT074/delegated lifecycle/recovery evidence incomplete. Screen reader pending/mobile skipped; no labels/selector required."
       ],
-      "next_action": "Guarded canonical35 release source65bc518 is prepared/disabled pending root review: perform target preflight/apply/independent readback, then current authenticated API/MCP Summary read and compatible hosted web release. Guest English create/test/revoke is completed with normal-profile/actual-annotation-destination boundaries. Continue separate live M07 observability/full journey/token/recovery checks; canonical34/English1.0 remain current until actual release, no labels/selector, owner/recovery passes retained.",
+      "next_action": "Canonical35 apply/readback passed with normal return, two matching independent readbacks and all74 table/full OAuth preservation. Complete the compatible Summary provider source-build quality/deployment/readback, then actual signed-in app and authenticated HTTP/MCP Summary reads. Web5vEM/worker2uAS/English1.0 remain serving until actual web replacement. Carry forward completed guest create/test/revoke, owner Claude acceptance and local33 recovery; continue separate live AT074/delegated/token/recovery checks. No labels/selector; screen reader pending, mobile skipped, pilot until owner stop.",
       "scope_constraints": {
         "AT_072": "pending",
         "M03_broader_semantic_checks": "pending",
@@ -1254,12 +1266,12 @@
       "current_checkpoint": {
         "milestone": "M07",
         "status": "in_progress",
-        "observed_at": "2026-11-01T00:32:41.403446Z",
+        "observed_at": "2026-11-01T00:57:45.216887+00:00",
         "base_commit": "009536e",
-        "canonical_migration_count": 34,
+        "canonical_migration_count": 35,
         "local_migration_count": 29,
-        "canonical_apply": "English34 actual apply17:52:15 and independent readback17:52:41; separate flag-only NULL-to-1.0 enabled17:54:30/readback17:54:57; old data/Reviewed/Ready/Auth/protected M02 preserved",
-        "canonical_readback": "tracking/evidence/m03/english-release34/2026-10-31T17-52-41-635035Z-readback.json",
+        "canonical_apply": "Summary35 actual one apply00:57:22UTC: normal return, two matching independent readbacks, all74 table/full OAuth/English/Reviewed/old Ready/protected M02 preserved. English34/flag proof carried forward.",
+        "canonical_readback": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-45-216113Z-readback.json",
         "application_tests": 886,
         "application_tests_scope": "886 composed module tests before final UI metadata fix; final15 overlapping candidate/playback UI tests and final build/typecheck passed.",
         "controlled_english_ui": {
@@ -1281,7 +1293,7 @@
         "local_restore_evidence": "tracking/evidence/m07/recovery33/2026-10-31T15-34-37-577Z-9af6774f.json",
         "name_diagnosis": "tracking/evidence/m03/english-name-review/2026-10-31T16-31-07-348316Z-5ed61ea9-8c38-4c1a-a3a2-958d6ccd5d72.json",
         "native_build_failure": "tracking/evidence/m03/english-image34/2026-10-31T17-03-17-960492Z-v2-registry-tls-diagnosis.json",
-        "next_action": "Guarded canonical35 release source65bc518 is prepared/disabled pending root review: perform target preflight/apply/independent readback, then current authenticated API/MCP Summary read and compatible hosted web release. Guest English create/test/revoke is completed with normal-profile/actual-annotation-destination boundaries. Continue separate live M07 observability/full journey/token/recovery checks; canonical34/English1.0 remain current until actual release, no labels/selector, owner/recovery passes retained.",
+        "next_action": "Canonical35 apply/readback passed with normal return, two matching independent readbacks and all74 table/full OAuth preservation. Complete the compatible Summary provider source-build quality/deployment/readback, then actual signed-in app and authenticated HTTP/MCP Summary reads. Web5vEM/worker2uAS/English1.0 remain serving until actual web replacement. Carry forward completed guest create/test/revoke, owner Claude acceptance and local33 recovery; continue separate live AT074/delegated/token/recovery checks. No labels/selector; screen reader pending, mobile skipped, pilot until owner stop.",
         "source_checkpoints": [
           "c6a3f15",
           "28c3d3c",
@@ -1289,7 +1301,8 @@
           "ab1c3d5",
           "de276c7",
           "66956b7",
-          "c8e4fae"
+          "c8e4fae",
+          "29079b2"
         ],
         "english_rollout": {
           "reference": "english_output_rollout",
@@ -1311,7 +1324,7 @@
         "saved_english_version_id": "4f1b81a1-adb7-425b-8223-458d8bd82c28",
         "AT074_latest_execution_result": "actual31686GET404/no metadata; actualcurrentWF02GET200 save:none/manualfalse/progressfalse unchanged; fullAT074partial/no exact404cause",
         "workspace_summary_backend": {
-          "recorded_at": "2026-11-01T00:32:41.403446Z",
+          "recorded_at": "2026-11-01T00:57:45.216887+00:00",
           "source_commit": "ab1c3d5b34d8541347484e91b3f60759472b6f80",
           "original_source_commit": "1db430df005cdfb05da8b2c9b7e3194652a0f8a2",
           "main_merged": true,
@@ -1320,9 +1333,9 @@
           "root_merged_synthetic_tests_skipped": 0,
           "regression_recorded_at": "2026-10-31T18:33:32.149253+00:00",
           "sql35_executed": true,
-          "sql35_cloud_applied": false,
+          "sql35_cloud_applied": true,
           "summary_web_deployed": false,
-          "canonical_history_still": 34,
+          "canonical_history_still": 35,
           "owned_local_proof": "passed_actual_SQL_fixtures_full_rollback_and_cleanup",
           "owned_local_proof_path": "development/m07/workspace-summary35-proof",
           "frontend_worktree_preserved": true,
@@ -1366,7 +1379,7 @@
             "hosted_acceptance": false,
             "result_notes": "development/m07/workspace-summary35-proof/LIVE_SQL_RESULT.md"
           },
-          "canonical35_applied": false,
+          "canonical35_applied": true,
           "hosted_summary_deployed": false,
           "local_sql_history": [
             {
@@ -1392,22 +1405,108 @@
             }
           ],
           "fixture_correction_commit": "c8e4faee2b8ddf35fd69323a5fbf8050ffb8a9de",
-          "sql35_execution_environment": "owned_disposable_local_transaction_rolled_back",
-          "next_action": "Guarded canonical35 release source65bc518 is prepared/disabled pending root review: perform target preflight/apply/independent readback, then current authenticated API/MCP Summary read and compatible hosted web release. Guest English create/test/revoke is completed with normal-profile/actual-annotation-destination boundaries. Continue separate live M07 observability/full journey/token/recovery checks; canonical34/English1.0 remain current until actual release, no labels/selector, owner/recovery passes retained.",
+          "sql35_execution_environment": "passed_owned_disposable_rollback_then_guarded_canonical_apply_and_readback",
+          "next_action": "Canonical35 apply/readback passed with normal return, two matching independent readbacks and all74 table/full OAuth preservation. Complete the compatible Summary provider source-build quality/deployment/readback, then actual signed-in app and authenticated HTTP/MCP Summary reads. Web5vEM/worker2uAS/English1.0 remain serving until actual web replacement. Carry forward completed guest create/test/revoke, owner Claude acceptance and local33 recovery; continue separate live AT074/delegated/token/recovery checks. No labels/selector; screen reader pending, mobile skipped, pilot until owner stop.",
           "release_preparation": {
-            "source_commit": "65bc518",
-            "worktree": "Everyone-Presentation-Studio-Backend-Summary",
-            "status": "inspect_apply_readback_prepared_execution_disabled_pending_root_review",
-            "canonical35_applied": false,
-            "hosted_summary_deployed": false
+            "source_commit": "29079b2",
+            "status": "canonical_inspect_one_apply_and_separate_readback_passed_web_pending",
+            "canonical35_applied": true,
+            "hosted_summary_deployed": false,
+            "apply_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-22-943495Z-apply.json",
+            "readback_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-45-216113Z-readback.json"
+          },
+          "canonical_history_count": 35,
+          "canonical_release": {
+            "status": "canonical35_applied_and_independently_read_back_summary_web_pending",
+            "source_commit": "29079b2",
+            "inspect_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-56-24-483044Z-inspect.json",
+            "inspect_observed_at": "2026-11-01T00:56:24.483835+00:00",
+            "apply_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-22-943495Z-apply.json",
+            "apply_observed_at": "2026-11-01T00:57:22.944741+00:00",
+            "readback_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-45-216113Z-readback.json",
+            "readback_observed_at": "2026-11-01T00:57:45.216887+00:00",
+            "target": "pyibofyctwnqpvktepse",
+            "migration_version": "20261031182038",
+            "migration_sha256": "cbb12610603318bce68ced4a58d0a9a01ee07737838c99a2ea0e6214e5e933e0",
+            "normal_return_marker_observed": true,
+            "independent_readback_verified": true,
+            "separate_readback_first_equals_second": true,
+            "claim_retained": true,
+            "automatic_dispatch_retry": false,
+            "canonical_history_count": 35,
+            "all74_existing_table_count_and_hash_projections_preserved": true,
+            "full_oauth_preserved_during_apply": true,
+            "english_flag_1_0_preserved": true,
+            "old_reviewed_ready_content_and_protected_M02_preserved": true,
+            "preflight_false_positive": {
+              "evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01-cli-role-validity-drift.json",
+              "cause": "Managed temporary CLI login expiry rotates between CLI calls; exact rolvaliduntil comparison was the sole diagnosed catalogue difference.",
+              "exact_role_oid": 17603,
+              "exact_role_name": "cli_login_postgres",
+              "normalized_comparison_field": "rolvaliduntil",
+              "independent_safety_gate": "LOGIN true; SUPERUSER/CREATEROLE/CREATEDB/BYPASSRLS false; finite 0<TTL<=600 seconds.",
+              "role_or_application_permission_mutation": false,
+              "other_role_attributes_catalogued": true
+            },
+            "late_web_static_gate": {
+              "static_schema_fields": 14,
+              "control_plane_tables": 10,
+              "binds": "schema/functions/owners/RLS/grants/static OAuth/English/protected M02/ten control-plane configuration hashes",
+              "permits_live_changes": "ordinary business/jobs/feedback, per-user capability/membership rows and dynamic OAuth claims_count; current permissions must take effect",
+              "full_atomic_table_and_oauth_preservation_retained": true
+            },
+            "hosted_summary_deployed": false,
+            "authenticated_HTTP_MCP_summary_read_verified": false
           }
         },
         "local_SQL35_proof": "passed_actual_fixtures_rollback_cleanup_ef4cb6c2",
-        "canonical35_applied": false,
+        "canonical35_applied": true,
         "hosted_summary_deployed": false,
         "guest_english_acceptance_scope": "normal_signed_in_Chrome_profile_guest_route_and_grant_identity; actual_PDF_annotation_destination_opened; no fresh_anonymous_or_native_PDF_click_claim",
         "guest_selftest_link_revoked": true,
-        "guest_evidence": "tracking/evidence/m03/english-guest34/2026-11-01-guest-english-workflow.json"
+        "guest_evidence": "tracking/evidence/m03/english-guest34/2026-11-01-guest-english-workflow.json",
+        "canonical35_release": {
+          "status": "canonical35_applied_and_independently_read_back_summary_web_pending",
+          "source_commit": "29079b2",
+          "inspect_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-56-24-483044Z-inspect.json",
+          "inspect_observed_at": "2026-11-01T00:56:24.483835+00:00",
+          "apply_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-22-943495Z-apply.json",
+          "apply_observed_at": "2026-11-01T00:57:22.944741+00:00",
+          "readback_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-45-216113Z-readback.json",
+          "readback_observed_at": "2026-11-01T00:57:45.216887+00:00",
+          "target": "pyibofyctwnqpvktepse",
+          "migration_version": "20261031182038",
+          "migration_sha256": "cbb12610603318bce68ced4a58d0a9a01ee07737838c99a2ea0e6214e5e933e0",
+          "normal_return_marker_observed": true,
+          "independent_readback_verified": true,
+          "separate_readback_first_equals_second": true,
+          "claim_retained": true,
+          "automatic_dispatch_retry": false,
+          "canonical_history_count": 35,
+          "all74_existing_table_count_and_hash_projections_preserved": true,
+          "full_oauth_preserved_during_apply": true,
+          "english_flag_1_0_preserved": true,
+          "old_reviewed_ready_content_and_protected_M02_preserved": true,
+          "preflight_false_positive": {
+            "evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01-cli-role-validity-drift.json",
+            "cause": "Managed temporary CLI login expiry rotates between CLI calls; exact rolvaliduntil comparison was the sole diagnosed catalogue difference.",
+            "exact_role_oid": 17603,
+            "exact_role_name": "cli_login_postgres",
+            "normalized_comparison_field": "rolvaliduntil",
+            "independent_safety_gate": "LOGIN true; SUPERUSER/CREATEROLE/CREATEDB/BYPASSRLS false; finite 0<TTL<=600 seconds.",
+            "role_or_application_permission_mutation": false,
+            "other_role_attributes_catalogued": true
+          },
+          "late_web_static_gate": {
+            "static_schema_fields": 14,
+            "control_plane_tables": 10,
+            "binds": "schema/functions/owners/RLS/grants/static OAuth/English/protected M02/ten control-plane configuration hashes",
+            "permits_live_changes": "ordinary business/jobs/feedback, per-user capability/membership rows and dynamic OAuth claims_count; current permissions must take effect",
+            "full_atomic_table_and_oauth_preservation_retained": true
+          },
+          "hosted_summary_deployed": false,
+          "authenticated_HTTP_MCP_summary_read_verified": false
+        }
       },
       "historical_checkpoint_before_english34": {
         "milestone": "M07",
@@ -1626,12 +1725,12 @@
   "latest_checkpoint": {
     "milestone": "M07",
     "status": "in_progress",
-    "observed_at": "2026-11-01T00:32:41.403446Z",
+    "observed_at": "2026-11-01T00:57:45.216887+00:00",
     "base_commit": "009536e",
-    "canonical_migration_count": 34,
+    "canonical_migration_count": 35,
     "local_migration_count": 29,
-    "canonical_apply": "English34 actual apply17:52:15 and independent readback17:52:41; separate flag-only NULL-to-1.0 enabled17:54:30/readback17:54:57; old data/Reviewed/Ready/Auth/protected M02 preserved",
-    "canonical_readback": "tracking/evidence/m03/english-release34/2026-10-31T17-52-41-635035Z-readback.json",
+    "canonical_apply": "Summary35 actual one apply00:57:22UTC: normal return, two matching independent readbacks, all74 table/full OAuth/English/Reviewed/old Ready/protected M02 preserved. English34/flag proof carried forward.",
+    "canonical_readback": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-45-216113Z-readback.json",
     "application_tests": 886,
     "application_tests_scope": "886 composed module tests before final UI metadata fix; final15 overlapping candidate/playback UI tests and final build/typecheck passed.",
     "controlled_english_ui": {
@@ -1653,7 +1752,7 @@
     "local_restore_evidence": "tracking/evidence/m07/recovery33/2026-10-31T15-34-37-577Z-9af6774f.json",
     "name_diagnosis": "tracking/evidence/m03/english-name-review/2026-10-31T16-31-07-348316Z-5ed61ea9-8c38-4c1a-a3a2-958d6ccd5d72.json",
     "native_build_failure": "tracking/evidence/m03/english-image34/2026-10-31T17-03-17-960492Z-v2-registry-tls-diagnosis.json",
-    "next_action": "Guarded canonical35 release source65bc518 is prepared/disabled pending root review: perform target preflight/apply/independent readback, then current authenticated API/MCP Summary read and compatible hosted web release. Guest English create/test/revoke is completed with normal-profile/actual-annotation-destination boundaries. Continue separate live M07 observability/full journey/token/recovery checks; canonical34/English1.0 remain current until actual release, no labels/selector, owner/recovery passes retained.",
+    "next_action": "Canonical35 apply/readback passed with normal return, two matching independent readbacks and all74 table/full OAuth preservation. Complete the compatible Summary provider source-build quality/deployment/readback, then actual signed-in app and authenticated HTTP/MCP Summary reads. Web5vEM/worker2uAS/English1.0 remain serving until actual web replacement. Carry forward completed guest create/test/revoke, owner Claude acceptance and local33 recovery; continue separate live AT074/delegated/token/recovery checks. No labels/selector; screen reader pending, mobile skipped, pilot until owner stop.",
     "source_checkpoints": [
       "c6a3f15",
       "28c3d3c",
@@ -1661,7 +1760,8 @@
       "ab1c3d5",
       "de276c7",
       "66956b7",
-      "c8e4fae"
+      "c8e4fae",
+      "29079b2"
     ],
     "english_rollout": {
       "reference": "english_output_rollout",
@@ -1683,7 +1783,7 @@
     "saved_english_version_id": "4f1b81a1-adb7-425b-8223-458d8bd82c28",
     "AT074_latest_execution_result": "actual31686GET404/no metadata; actualcurrentWF02GET200 save:none/manualfalse/progressfalse unchanged; fullAT074partial/no exact404cause",
     "workspace_summary_backend": {
-      "recorded_at": "2026-11-01T00:32:41.403446Z",
+      "recorded_at": "2026-11-01T00:57:45.216887+00:00",
       "source_commit": "ab1c3d5b34d8541347484e91b3f60759472b6f80",
       "original_source_commit": "1db430df005cdfb05da8b2c9b7e3194652a0f8a2",
       "main_merged": true,
@@ -1692,9 +1792,9 @@
       "root_merged_synthetic_tests_skipped": 0,
       "regression_recorded_at": "2026-10-31T18:33:32.149253+00:00",
       "sql35_executed": true,
-      "sql35_cloud_applied": false,
+      "sql35_cloud_applied": true,
       "summary_web_deployed": false,
-      "canonical_history_still": 34,
+      "canonical_history_still": 35,
       "owned_local_proof": "passed_actual_SQL_fixtures_full_rollback_and_cleanup",
       "owned_local_proof_path": "development/m07/workspace-summary35-proof",
       "frontend_worktree_preserved": true,
@@ -1738,7 +1838,7 @@
         "hosted_acceptance": false,
         "result_notes": "development/m07/workspace-summary35-proof/LIVE_SQL_RESULT.md"
       },
-      "canonical35_applied": false,
+      "canonical35_applied": true,
       "hosted_summary_deployed": false,
       "local_sql_history": [
         {
@@ -1764,22 +1864,108 @@
         }
       ],
       "fixture_correction_commit": "c8e4faee2b8ddf35fd69323a5fbf8050ffb8a9de",
-      "sql35_execution_environment": "owned_disposable_local_transaction_rolled_back",
-      "next_action": "Guarded canonical35 release source65bc518 is prepared/disabled pending root review: perform target preflight/apply/independent readback, then current authenticated API/MCP Summary read and compatible hosted web release. Guest English create/test/revoke is completed with normal-profile/actual-annotation-destination boundaries. Continue separate live M07 observability/full journey/token/recovery checks; canonical34/English1.0 remain current until actual release, no labels/selector, owner/recovery passes retained.",
+      "sql35_execution_environment": "passed_owned_disposable_rollback_then_guarded_canonical_apply_and_readback",
+      "next_action": "Canonical35 apply/readback passed with normal return, two matching independent readbacks and all74 table/full OAuth preservation. Complete the compatible Summary provider source-build quality/deployment/readback, then actual signed-in app and authenticated HTTP/MCP Summary reads. Web5vEM/worker2uAS/English1.0 remain serving until actual web replacement. Carry forward completed guest create/test/revoke, owner Claude acceptance and local33 recovery; continue separate live AT074/delegated/token/recovery checks. No labels/selector; screen reader pending, mobile skipped, pilot until owner stop.",
       "release_preparation": {
-        "source_commit": "65bc518",
-        "worktree": "Everyone-Presentation-Studio-Backend-Summary",
-        "status": "inspect_apply_readback_prepared_execution_disabled_pending_root_review",
-        "canonical35_applied": false,
-        "hosted_summary_deployed": false
+        "source_commit": "29079b2",
+        "status": "canonical_inspect_one_apply_and_separate_readback_passed_web_pending",
+        "canonical35_applied": true,
+        "hosted_summary_deployed": false,
+        "apply_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-22-943495Z-apply.json",
+        "readback_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-45-216113Z-readback.json"
+      },
+      "canonical_history_count": 35,
+      "canonical_release": {
+        "status": "canonical35_applied_and_independently_read_back_summary_web_pending",
+        "source_commit": "29079b2",
+        "inspect_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-56-24-483044Z-inspect.json",
+        "inspect_observed_at": "2026-11-01T00:56:24.483835+00:00",
+        "apply_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-22-943495Z-apply.json",
+        "apply_observed_at": "2026-11-01T00:57:22.944741+00:00",
+        "readback_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-45-216113Z-readback.json",
+        "readback_observed_at": "2026-11-01T00:57:45.216887+00:00",
+        "target": "pyibofyctwnqpvktepse",
+        "migration_version": "20261031182038",
+        "migration_sha256": "cbb12610603318bce68ced4a58d0a9a01ee07737838c99a2ea0e6214e5e933e0",
+        "normal_return_marker_observed": true,
+        "independent_readback_verified": true,
+        "separate_readback_first_equals_second": true,
+        "claim_retained": true,
+        "automatic_dispatch_retry": false,
+        "canonical_history_count": 35,
+        "all74_existing_table_count_and_hash_projections_preserved": true,
+        "full_oauth_preserved_during_apply": true,
+        "english_flag_1_0_preserved": true,
+        "old_reviewed_ready_content_and_protected_M02_preserved": true,
+        "preflight_false_positive": {
+          "evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01-cli-role-validity-drift.json",
+          "cause": "Managed temporary CLI login expiry rotates between CLI calls; exact rolvaliduntil comparison was the sole diagnosed catalogue difference.",
+          "exact_role_oid": 17603,
+          "exact_role_name": "cli_login_postgres",
+          "normalized_comparison_field": "rolvaliduntil",
+          "independent_safety_gate": "LOGIN true; SUPERUSER/CREATEROLE/CREATEDB/BYPASSRLS false; finite 0<TTL<=600 seconds.",
+          "role_or_application_permission_mutation": false,
+          "other_role_attributes_catalogued": true
+        },
+        "late_web_static_gate": {
+          "static_schema_fields": 14,
+          "control_plane_tables": 10,
+          "binds": "schema/functions/owners/RLS/grants/static OAuth/English/protected M02/ten control-plane configuration hashes",
+          "permits_live_changes": "ordinary business/jobs/feedback, per-user capability/membership rows and dynamic OAuth claims_count; current permissions must take effect",
+          "full_atomic_table_and_oauth_preservation_retained": true
+        },
+        "hosted_summary_deployed": false,
+        "authenticated_HTTP_MCP_summary_read_verified": false
       }
     },
     "local_SQL35_proof": "passed_actual_fixtures_rollback_cleanup_ef4cb6c2",
-    "canonical35_applied": false,
+    "canonical35_applied": true,
     "hosted_summary_deployed": false,
     "guest_english_acceptance_scope": "normal_signed_in_Chrome_profile_guest_route_and_grant_identity; actual_PDF_annotation_destination_opened; no fresh_anonymous_or_native_PDF_click_claim",
     "guest_selftest_link_revoked": true,
-    "guest_evidence": "tracking/evidence/m03/english-guest34/2026-11-01-guest-english-workflow.json"
+    "guest_evidence": "tracking/evidence/m03/english-guest34/2026-11-01-guest-english-workflow.json",
+    "canonical35_release": {
+      "status": "canonical35_applied_and_independently_read_back_summary_web_pending",
+      "source_commit": "29079b2",
+      "inspect_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-56-24-483044Z-inspect.json",
+      "inspect_observed_at": "2026-11-01T00:56:24.483835+00:00",
+      "apply_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-22-943495Z-apply.json",
+      "apply_observed_at": "2026-11-01T00:57:22.944741+00:00",
+      "readback_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-45-216113Z-readback.json",
+      "readback_observed_at": "2026-11-01T00:57:45.216887+00:00",
+      "target": "pyibofyctwnqpvktepse",
+      "migration_version": "20261031182038",
+      "migration_sha256": "cbb12610603318bce68ced4a58d0a9a01ee07737838c99a2ea0e6214e5e933e0",
+      "normal_return_marker_observed": true,
+      "independent_readback_verified": true,
+      "separate_readback_first_equals_second": true,
+      "claim_retained": true,
+      "automatic_dispatch_retry": false,
+      "canonical_history_count": 35,
+      "all74_existing_table_count_and_hash_projections_preserved": true,
+      "full_oauth_preserved_during_apply": true,
+      "english_flag_1_0_preserved": true,
+      "old_reviewed_ready_content_and_protected_M02_preserved": true,
+      "preflight_false_positive": {
+        "evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01-cli-role-validity-drift.json",
+        "cause": "Managed temporary CLI login expiry rotates between CLI calls; exact rolvaliduntil comparison was the sole diagnosed catalogue difference.",
+        "exact_role_oid": 17603,
+        "exact_role_name": "cli_login_postgres",
+        "normalized_comparison_field": "rolvaliduntil",
+        "independent_safety_gate": "LOGIN true; SUPERUSER/CREATEROLE/CREATEDB/BYPASSRLS false; finite 0<TTL<=600 seconds.",
+        "role_or_application_permission_mutation": false,
+        "other_role_attributes_catalogued": true
+      },
+      "late_web_static_gate": {
+        "static_schema_fields": 14,
+        "control_plane_tables": 10,
+        "binds": "schema/functions/owners/RLS/grants/static OAuth/English/protected M02/ten control-plane configuration hashes",
+        "permits_live_changes": "ordinary business/jobs/feedback, per-user capability/membership rows and dynamic OAuth claims_count; current permissions must take effect",
+        "full_atomic_table_and_oauth_preservation_retained": true
+      },
+      "hosted_summary_deployed": false,
+      "authenticated_HTTP_MCP_summary_read_verified": false
+    }
   },
   "historical_notes": [
     {
@@ -1814,8 +2000,8 @@
       "One controlled real OpenAI+n8n scan, English app/guest display and new frozen presentation version; old versions intact.",
       "Remaining live M07 operator/token/delegated/recovery/workload evidence in eligible order without reopening passed owner connection."
     ],
-    "current_phase": "real_scan_saved_internal_and_guest_english_pdf_revocation_verified_browser_boundary",
-    "next_independent_backend_slice": "guarded_canonical35_release_and_current_authenticated_API_MCP_summary_verification"
+    "current_phase": "canonical35_applied_read_back_summary_web_quality_and_deployment_pending",
+    "next_independent_backend_slice": "compatible_summary_web_deployment_then_current_authenticated_HTTP_MCP_app_reads"
   },
   "historical_sessions": [
     {
@@ -2833,10 +3019,10 @@
     }
   ],
   "latest_backend_checkpoint": {
-    "recorded_at": "2026-11-01T00:32:41.403446Z",
+    "recorded_at": "2026-11-01T00:57:45.216887+00:00",
     "base_commit": "009536e",
     "web_deployment_id": "dpl_5vEMBfsnD23cGL3ontWm8AUAErKr",
-    "canonical_history_count": 34,
+    "canonical_history_count": 35,
     "original_local_history_count": 29,
     "english34_applied": true,
     "owner_connection_acceptance": "passed_preserved",
@@ -2857,7 +3043,7 @@
       "reference": "english_output_rollout",
       "status": "real_scan_saved_internal_and_guest_english_pdf_revocation_verified_browser_boundary"
     },
-    "next_action": "Guarded canonical35 release source65bc518 is prepared/disabled pending root review: perform target preflight/apply/independent readback, then current authenticated API/MCP Summary read and compatible hosted web release. Guest English create/test/revoke is completed with normal-profile/actual-annotation-destination boundaries. Continue separate live M07 observability/full journey/token/recovery checks; canonical34/English1.0 remain current until actual release, no labels/selector, owner/recovery passes retained.",
+    "next_action": "Canonical35 apply/readback passed with normal return, two matching independent readbacks and all74 table/full OAuth preservation. Complete the compatible Summary provider source-build quality/deployment/readback, then actual signed-in app and authenticated HTTP/MCP Summary reads. Web5vEM/worker2uAS/English1.0 remain serving until actual web replacement. Carry forward completed guest create/test/revoke, owner Claude acceptance and local33 recovery; continue separate live AT074/delegated/token/recovery checks. No labels/selector; screen reader pending, mobile skipped, pilot until owner stop.",
     "source_checkpoints": [
       "c6a3f15",
       "28c3d3c",
@@ -2865,7 +3051,8 @@
       "ab1c3d5",
       "de276c7",
       "66956b7",
-      "c8e4fae"
+      "c8e4fae",
+      "29079b2"
     ],
     "worker_v2_deployed": true,
     "last_confirmed_deployed_worker": "dpl_2uASsbYobSDwWjMptPjGLcVEdCg3",
@@ -2875,7 +3062,7 @@
     "guest_english_passed": true,
     "AT074_latest_execution_result": "actual31686GET404/no metadata; actualcurrentWF02GET200 save:none/manualfalse/progressfalse unchanged; fullAT074partial/no exact404cause",
     "workspace_summary_backend": {
-      "recorded_at": "2026-11-01T00:32:41.403446Z",
+      "recorded_at": "2026-11-01T00:57:45.216887+00:00",
       "source_commit": "ab1c3d5b34d8541347484e91b3f60759472b6f80",
       "original_source_commit": "1db430df005cdfb05da8b2c9b7e3194652a0f8a2",
       "main_merged": true,
@@ -2884,9 +3071,9 @@
       "root_merged_synthetic_tests_skipped": 0,
       "regression_recorded_at": "2026-10-31T18:33:32.149253+00:00",
       "sql35_executed": true,
-      "sql35_cloud_applied": false,
+      "sql35_cloud_applied": true,
       "summary_web_deployed": false,
-      "canonical_history_still": 34,
+      "canonical_history_still": 35,
       "owned_local_proof": "passed_actual_SQL_fixtures_full_rollback_and_cleanup",
       "owned_local_proof_path": "development/m07/workspace-summary35-proof",
       "frontend_worktree_preserved": true,
@@ -2930,7 +3117,7 @@
         "hosted_acceptance": false,
         "result_notes": "development/m07/workspace-summary35-proof/LIVE_SQL_RESULT.md"
       },
-      "canonical35_applied": false,
+      "canonical35_applied": true,
       "hosted_summary_deployed": false,
       "local_sql_history": [
         {
@@ -2956,25 +3143,111 @@
         }
       ],
       "fixture_correction_commit": "c8e4faee2b8ddf35fd69323a5fbf8050ffb8a9de",
-      "sql35_execution_environment": "owned_disposable_local_transaction_rolled_back",
-      "next_action": "Guarded canonical35 release source65bc518 is prepared/disabled pending root review: perform target preflight/apply/independent readback, then current authenticated API/MCP Summary read and compatible hosted web release. Guest English create/test/revoke is completed with normal-profile/actual-annotation-destination boundaries. Continue separate live M07 observability/full journey/token/recovery checks; canonical34/English1.0 remain current until actual release, no labels/selector, owner/recovery passes retained.",
+      "sql35_execution_environment": "passed_owned_disposable_rollback_then_guarded_canonical_apply_and_readback",
+      "next_action": "Canonical35 apply/readback passed with normal return, two matching independent readbacks and all74 table/full OAuth preservation. Complete the compatible Summary provider source-build quality/deployment/readback, then actual signed-in app and authenticated HTTP/MCP Summary reads. Web5vEM/worker2uAS/English1.0 remain serving until actual web replacement. Carry forward completed guest create/test/revoke, owner Claude acceptance and local33 recovery; continue separate live AT074/delegated/token/recovery checks. No labels/selector; screen reader pending, mobile skipped, pilot until owner stop.",
       "release_preparation": {
-        "source_commit": "65bc518",
-        "worktree": "Everyone-Presentation-Studio-Backend-Summary",
-        "status": "inspect_apply_readback_prepared_execution_disabled_pending_root_review",
-        "canonical35_applied": false,
-        "hosted_summary_deployed": false
+        "source_commit": "29079b2",
+        "status": "canonical_inspect_one_apply_and_separate_readback_passed_web_pending",
+        "canonical35_applied": true,
+        "hosted_summary_deployed": false,
+        "apply_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-22-943495Z-apply.json",
+        "readback_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-45-216113Z-readback.json"
+      },
+      "canonical_history_count": 35,
+      "canonical_release": {
+        "status": "canonical35_applied_and_independently_read_back_summary_web_pending",
+        "source_commit": "29079b2",
+        "inspect_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-56-24-483044Z-inspect.json",
+        "inspect_observed_at": "2026-11-01T00:56:24.483835+00:00",
+        "apply_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-22-943495Z-apply.json",
+        "apply_observed_at": "2026-11-01T00:57:22.944741+00:00",
+        "readback_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-45-216113Z-readback.json",
+        "readback_observed_at": "2026-11-01T00:57:45.216887+00:00",
+        "target": "pyibofyctwnqpvktepse",
+        "migration_version": "20261031182038",
+        "migration_sha256": "cbb12610603318bce68ced4a58d0a9a01ee07737838c99a2ea0e6214e5e933e0",
+        "normal_return_marker_observed": true,
+        "independent_readback_verified": true,
+        "separate_readback_first_equals_second": true,
+        "claim_retained": true,
+        "automatic_dispatch_retry": false,
+        "canonical_history_count": 35,
+        "all74_existing_table_count_and_hash_projections_preserved": true,
+        "full_oauth_preserved_during_apply": true,
+        "english_flag_1_0_preserved": true,
+        "old_reviewed_ready_content_and_protected_M02_preserved": true,
+        "preflight_false_positive": {
+          "evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01-cli-role-validity-drift.json",
+          "cause": "Managed temporary CLI login expiry rotates between CLI calls; exact rolvaliduntil comparison was the sole diagnosed catalogue difference.",
+          "exact_role_oid": 17603,
+          "exact_role_name": "cli_login_postgres",
+          "normalized_comparison_field": "rolvaliduntil",
+          "independent_safety_gate": "LOGIN true; SUPERUSER/CREATEROLE/CREATEDB/BYPASSRLS false; finite 0<TTL<=600 seconds.",
+          "role_or_application_permission_mutation": false,
+          "other_role_attributes_catalogued": true
+        },
+        "late_web_static_gate": {
+          "static_schema_fields": 14,
+          "control_plane_tables": 10,
+          "binds": "schema/functions/owners/RLS/grants/static OAuth/English/protected M02/ten control-plane configuration hashes",
+          "permits_live_changes": "ordinary business/jobs/feedback, per-user capability/membership rows and dynamic OAuth claims_count; current permissions must take effect",
+          "full_atomic_table_and_oauth_preservation_retained": true
+        },
+        "hosted_summary_deployed": false,
+        "authenticated_HTTP_MCP_summary_read_verified": false
       }
     },
     "local_SQL35_proof": "passed_actual_fixtures_rollback_cleanup_ef4cb6c2",
-    "canonical35_applied": false,
+    "canonical35_applied": true,
     "hosted_summary_deployed": false,
     "guest_english_acceptance_scope": "normal_signed_in_Chrome_profile_guest_route_and_grant_identity; actual_PDF_annotation_destination_opened; no fresh_anonymous_or_native_PDF_click_claim",
     "guest_selftest_link_revoked": true,
-    "guest_evidence": "tracking/evidence/m03/english-guest34/2026-11-01-guest-english-workflow.json"
+    "guest_evidence": "tracking/evidence/m03/english-guest34/2026-11-01-guest-english-workflow.json",
+    "canonical35_release": {
+      "status": "canonical35_applied_and_independently_read_back_summary_web_pending",
+      "source_commit": "29079b2",
+      "inspect_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-56-24-483044Z-inspect.json",
+      "inspect_observed_at": "2026-11-01T00:56:24.483835+00:00",
+      "apply_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-22-943495Z-apply.json",
+      "apply_observed_at": "2026-11-01T00:57:22.944741+00:00",
+      "readback_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-45-216113Z-readback.json",
+      "readback_observed_at": "2026-11-01T00:57:45.216887+00:00",
+      "target": "pyibofyctwnqpvktepse",
+      "migration_version": "20261031182038",
+      "migration_sha256": "cbb12610603318bce68ced4a58d0a9a01ee07737838c99a2ea0e6214e5e933e0",
+      "normal_return_marker_observed": true,
+      "independent_readback_verified": true,
+      "separate_readback_first_equals_second": true,
+      "claim_retained": true,
+      "automatic_dispatch_retry": false,
+      "canonical_history_count": 35,
+      "all74_existing_table_count_and_hash_projections_preserved": true,
+      "full_oauth_preserved_during_apply": true,
+      "english_flag_1_0_preserved": true,
+      "old_reviewed_ready_content_and_protected_M02_preserved": true,
+      "preflight_false_positive": {
+        "evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01-cli-role-validity-drift.json",
+        "cause": "Managed temporary CLI login expiry rotates between CLI calls; exact rolvaliduntil comparison was the sole diagnosed catalogue difference.",
+        "exact_role_oid": 17603,
+        "exact_role_name": "cli_login_postgres",
+        "normalized_comparison_field": "rolvaliduntil",
+        "independent_safety_gate": "LOGIN true; SUPERUSER/CREATEROLE/CREATEDB/BYPASSRLS false; finite 0<TTL<=600 seconds.",
+        "role_or_application_permission_mutation": false,
+        "other_role_attributes_catalogued": true
+      },
+      "late_web_static_gate": {
+        "static_schema_fields": 14,
+        "control_plane_tables": 10,
+        "binds": "schema/functions/owners/RLS/grants/static OAuth/English/protected M02/ten control-plane configuration hashes",
+        "permits_live_changes": "ordinary business/jobs/feedback, per-user capability/membership rows and dynamic OAuth claims_count; current permissions must take effect",
+        "full_atomic_table_and_oauth_preservation_retained": true
+      },
+      "hosted_summary_deployed": false,
+      "authenticated_HTTP_MCP_summary_read_verified": false
+    }
   },
   "english_output_rollout": {
-    "recorded_at": "2026-11-01T00:32:41.403446Z",
+    "recorded_at": "2026-11-01T00:57:45.216887+00:00",
     "resume_base_commit": "009536e",
     "status": "real_scan_saved_internal_and_guest_english_pdf_revocation_verified_browser_boundary",
     "frontend": {
@@ -3012,15 +3285,16 @@
       "redesign_latest_observed_head": "031c17bc5119f83a68e784eb66ca56ba05d5053f",
       "redesign_reported_fixture_tests_passed": 113,
       "redesign_quality_scope": "Reported frontend fixture/mock e2e plus lint/types/build and isolated axe; not root-rerun or hosted redesign acceptance.",
-      "backend_requests_1_through_6": "workspace_summary_source_merged_local_SQL_proof_passed_canonical35_unapplied_undeployed_others_pending",
+      "backend_requests_1_through_6": "workspace_summary_source_merged_local_SQL_and_canonical35_applied_hosted_web_and_live_reads_pending_others_pending",
       "backend_contract_proposal": "development/m07/frontend-contracts/PROPOSAL.md",
       "workspace_summary_worktree": "D:/Everyone/Presentation/Everyone-Presentation-Studio-Backend-Summary",
       "workspace_summary_main_merged": true,
       "workspace_summary_deployed": false,
       "workspace_summary_source_commit": "ab1c3d5b34d8541347484e91b3f60759472b6f80",
       "workspace_summary_sql35_executed": true,
-      "workspace_summary_sql35_execution_scope": "passed_owned_local_full_rollback_only_canonical35_unapplied",
-      "workspace_summary_fixture_commit": "c8e4faee2b8ddf35fd69323a5fbf8050ffb8a9de"
+      "workspace_summary_sql35_execution_scope": "owned_local_rollback_passed_then_guarded_canonical35_applied_read_back",
+      "workspace_summary_fixture_commit": "c8e4faee2b8ddf35fd69323a5fbf8050ffb8a9de",
+      "workspace_summary_cloud_applied": true
     },
     "quality": {
       "last_composed_module_tests": 886,
@@ -3078,7 +3352,7 @@
       "new_daemon_ready_evidence": "tracking/evidence/m03/english-worker-release34/2026-10-31T17-49-47-805229Z-ready.json"
     },
     "canonical": {
-      "history_count": 34,
+      "history_count": 35,
       "english34_applied": true,
       "english_processing_enabled": true,
       "preflight_evidence": "tracking/evidence/m03/english-release34/2026-10-31T17-51-24-402776Z-preflight.json",
@@ -3100,7 +3374,12 @@
       "migration_existing_data_port_attributes_Auth_Reviewed_old_Ready_protected_M02_preserved": true,
       "enable_only_NULL_to_1_0": true,
       "legacy_projection_valid": true,
-      "english_companion_rows_at_enable": 0
+      "english_companion_rows_at_enable": 0,
+      "canonical35_applied": true,
+      "canonical35_apply_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-22-943495Z-apply.json",
+      "canonical35_readback_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-45-216113Z-readback.json",
+      "canonical35_observed_at": "2026-11-01T00:57:45.216887+00:00",
+      "english1_0_preserved_across35": true
     },
     "hosted_english_job": "succeeded_actual_v2_provider_source_and_Reviewed_preservation_verified",
     "hosted_english_app_guest_new_version_demonstration": "passed_with_normal_browser_context_and_annotation_destination_boundary",
@@ -3112,7 +3391,7 @@
     "manual_AT072": "pending",
     "mobile_testing": "skipped",
     "pilot_duration": "until_owner_stops",
-    "next_action": "Guarded canonical35 release source65bc518 is prepared/disabled pending root review: perform target preflight/apply/independent readback, then current authenticated API/MCP Summary read and compatible hosted web release. Guest English create/test/revoke is completed with normal-profile/actual-annotation-destination boundaries. Continue separate live M07 observability/full journey/token/recovery checks; canonical34/English1.0 remain current until actual release, no labels/selector, owner/recovery passes retained.",
+    "next_action": "Canonical35 apply/readback passed with normal return, two matching independent readbacks and all74 table/full OAuth preservation. Complete the compatible Summary provider source-build quality/deployment/readback, then actual signed-in app and authenticated HTTP/MCP Summary reads. Web5vEM/worker2uAS/English1.0 remain serving until actual web replacement. Carry forward completed guest create/test/revoke, owner Claude acceptance and local33 recovery; continue separate live AT074/delegated/token/recovery checks. No labels/selector; screen reader pending, mobile skipped, pilot until owner stop.",
     "remaining_m07_review": "development/m07/REMAINING_AFTER_ENGLISH34.md",
     "web_ready": "tracking/evidence/m03/english-web-release34/2026-10-31T16-55-43-885447Z-ready.json",
     "web_legacy_app": "tracking/evidence/m03/english-web-release34/2026-10-31-hosted-compatibility-app.json",
@@ -3332,10 +3611,52 @@
       "prior_preservation": "carried_forward_not_reexecuted",
       "native_PDF_viewer_click_claimed": false,
       "fresh_anonymous_acceptance_claimed": false
+    },
+    "canonical35_release": {
+      "status": "canonical35_applied_and_independently_read_back_summary_web_pending",
+      "source_commit": "29079b2",
+      "inspect_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-56-24-483044Z-inspect.json",
+      "inspect_observed_at": "2026-11-01T00:56:24.483835+00:00",
+      "apply_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-22-943495Z-apply.json",
+      "apply_observed_at": "2026-11-01T00:57:22.944741+00:00",
+      "readback_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-45-216113Z-readback.json",
+      "readback_observed_at": "2026-11-01T00:57:45.216887+00:00",
+      "target": "pyibofyctwnqpvktepse",
+      "migration_version": "20261031182038",
+      "migration_sha256": "cbb12610603318bce68ced4a58d0a9a01ee07737838c99a2ea0e6214e5e933e0",
+      "normal_return_marker_observed": true,
+      "independent_readback_verified": true,
+      "separate_readback_first_equals_second": true,
+      "claim_retained": true,
+      "automatic_dispatch_retry": false,
+      "canonical_history_count": 35,
+      "all74_existing_table_count_and_hash_projections_preserved": true,
+      "full_oauth_preserved_during_apply": true,
+      "english_flag_1_0_preserved": true,
+      "old_reviewed_ready_content_and_protected_M02_preserved": true,
+      "preflight_false_positive": {
+        "evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01-cli-role-validity-drift.json",
+        "cause": "Managed temporary CLI login expiry rotates between CLI calls; exact rolvaliduntil comparison was the sole diagnosed catalogue difference.",
+        "exact_role_oid": 17603,
+        "exact_role_name": "cli_login_postgres",
+        "normalized_comparison_field": "rolvaliduntil",
+        "independent_safety_gate": "LOGIN true; SUPERUSER/CREATEROLE/CREATEDB/BYPASSRLS false; finite 0<TTL<=600 seconds.",
+        "role_or_application_permission_mutation": false,
+        "other_role_attributes_catalogued": true
+      },
+      "late_web_static_gate": {
+        "static_schema_fields": 14,
+        "control_plane_tables": 10,
+        "binds": "schema/functions/owners/RLS/grants/static OAuth/English/protected M02/ten control-plane configuration hashes",
+        "permits_live_changes": "ordinary business/jobs/feedback, per-user capability/membership rows and dynamic OAuth claims_count; current permissions must take effect",
+        "full_atomic_table_and_oauth_preservation_retained": true
+      },
+      "hosted_summary_deployed": false,
+      "authenticated_HTTP_MCP_summary_read_verified": false
     }
   },
   "workspace_summary_backend": {
-    "recorded_at": "2026-11-01T00:32:41.403446Z",
+    "recorded_at": "2026-11-01T00:57:45.216887+00:00",
     "source_commit": "ab1c3d5b34d8541347484e91b3f60759472b6f80",
     "original_source_commit": "1db430df005cdfb05da8b2c9b7e3194652a0f8a2",
     "main_merged": true,
@@ -3344,9 +3665,9 @@
     "root_merged_synthetic_tests_skipped": 0,
     "regression_recorded_at": "2026-10-31T18:33:32.149253+00:00",
     "sql35_executed": true,
-    "sql35_cloud_applied": false,
+    "sql35_cloud_applied": true,
     "summary_web_deployed": false,
-    "canonical_history_still": 34,
+    "canonical_history_still": 35,
     "owned_local_proof": "passed_actual_SQL_fixtures_full_rollback_and_cleanup",
     "owned_local_proof_path": "development/m07/workspace-summary35-proof",
     "frontend_worktree_preserved": true,
@@ -3390,7 +3711,7 @@
       "hosted_acceptance": false,
       "result_notes": "development/m07/workspace-summary35-proof/LIVE_SQL_RESULT.md"
     },
-    "canonical35_applied": false,
+    "canonical35_applied": true,
     "hosted_summary_deployed": false,
     "local_sql_history": [
       {
@@ -3416,14 +3737,58 @@
       }
     ],
     "fixture_correction_commit": "c8e4faee2b8ddf35fd69323a5fbf8050ffb8a9de",
-    "sql35_execution_environment": "owned_disposable_local_transaction_rolled_back",
-    "next_action": "Guarded canonical35 release source65bc518 is prepared/disabled pending root review: perform target preflight/apply/independent readback, then current authenticated API/MCP Summary read and compatible hosted web release. Guest English create/test/revoke is completed with normal-profile/actual-annotation-destination boundaries. Continue separate live M07 observability/full journey/token/recovery checks; canonical34/English1.0 remain current until actual release, no labels/selector, owner/recovery passes retained.",
+    "sql35_execution_environment": "passed_owned_disposable_rollback_then_guarded_canonical_apply_and_readback",
+    "next_action": "Canonical35 apply/readback passed with normal return, two matching independent readbacks and all74 table/full OAuth preservation. Complete the compatible Summary provider source-build quality/deployment/readback, then actual signed-in app and authenticated HTTP/MCP Summary reads. Web5vEM/worker2uAS/English1.0 remain serving until actual web replacement. Carry forward completed guest create/test/revoke, owner Claude acceptance and local33 recovery; continue separate live AT074/delegated/token/recovery checks. No labels/selector; screen reader pending, mobile skipped, pilot until owner stop.",
     "release_preparation": {
-      "source_commit": "65bc518",
-      "worktree": "Everyone-Presentation-Studio-Backend-Summary",
-      "status": "inspect_apply_readback_prepared_execution_disabled_pending_root_review",
-      "canonical35_applied": false,
-      "hosted_summary_deployed": false
+      "source_commit": "29079b2",
+      "status": "canonical_inspect_one_apply_and_separate_readback_passed_web_pending",
+      "canonical35_applied": true,
+      "hosted_summary_deployed": false,
+      "apply_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-22-943495Z-apply.json",
+      "readback_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-45-216113Z-readback.json"
+    },
+    "canonical_history_count": 35,
+    "canonical_release": {
+      "status": "canonical35_applied_and_independently_read_back_summary_web_pending",
+      "source_commit": "29079b2",
+      "inspect_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-56-24-483044Z-inspect.json",
+      "inspect_observed_at": "2026-11-01T00:56:24.483835+00:00",
+      "apply_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-22-943495Z-apply.json",
+      "apply_observed_at": "2026-11-01T00:57:22.944741+00:00",
+      "readback_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-45-216113Z-readback.json",
+      "readback_observed_at": "2026-11-01T00:57:45.216887+00:00",
+      "target": "pyibofyctwnqpvktepse",
+      "migration_version": "20261031182038",
+      "migration_sha256": "cbb12610603318bce68ced4a58d0a9a01ee07737838c99a2ea0e6214e5e933e0",
+      "normal_return_marker_observed": true,
+      "independent_readback_verified": true,
+      "separate_readback_first_equals_second": true,
+      "claim_retained": true,
+      "automatic_dispatch_retry": false,
+      "canonical_history_count": 35,
+      "all74_existing_table_count_and_hash_projections_preserved": true,
+      "full_oauth_preserved_during_apply": true,
+      "english_flag_1_0_preserved": true,
+      "old_reviewed_ready_content_and_protected_M02_preserved": true,
+      "preflight_false_positive": {
+        "evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01-cli-role-validity-drift.json",
+        "cause": "Managed temporary CLI login expiry rotates between CLI calls; exact rolvaliduntil comparison was the sole diagnosed catalogue difference.",
+        "exact_role_oid": 17603,
+        "exact_role_name": "cli_login_postgres",
+        "normalized_comparison_field": "rolvaliduntil",
+        "independent_safety_gate": "LOGIN true; SUPERUSER/CREATEROLE/CREATEDB/BYPASSRLS false; finite 0<TTL<=600 seconds.",
+        "role_or_application_permission_mutation": false,
+        "other_role_attributes_catalogued": true
+      },
+      "late_web_static_gate": {
+        "static_schema_fields": 14,
+        "control_plane_tables": 10,
+        "binds": "schema/functions/owners/RLS/grants/static OAuth/English/protected M02/ten control-plane configuration hashes",
+        "permits_live_changes": "ordinary business/jobs/feedback, per-user capability/membership rows and dynamic OAuth claims_count; current permissions must take effect",
+        "full_atomic_table_and_oauth_preservation_retained": true
+      },
+      "hosted_summary_deployed": false,
+      "authenticated_HTTP_MCP_summary_read_verified": false
     }
   },
   "settings_error_boundary_regression": {

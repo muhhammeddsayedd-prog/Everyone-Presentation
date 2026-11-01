@@ -1,6 +1,44 @@
 # Everyone Presentation Studio - current English-output handoff
 
-## 2026-11-01: guest English create/test/revoke completed; guarded M07 release next
+## 2026-11-01, 00:57 UTC: canonical35 applied; Summary web release pending
+
+Canonical migration35 is now applied to the existing Everyone-Presentation
+project. Root's target inspect passed at00:56:24.483835UTC. The single guarded
+apply passed at00:57:22.944741UTC with its normal-return marker, two matching
+independent readbacks and the permanent claim retained. The separate readback
+at00:57:45.216887UTC again observed history35 and the expected function/grants.
+All74 existing table count/hash projections, full OAuth state, Reviewed facts,
+old Ready content, English1.0 and protected M02 state were preserved across apply.
+Original local29 is unchanged. Actual receipts:
+
+- `tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-56-24-483044Z-inspect.json`
+- `tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-22-943495Z-apply.json`
+- `tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-45-216113Z-readback.json`
+
+The earlier preflight blocker was a comparison false positive: Supabase refreshes
+the temporary `cli_login_postgres` role expiry between CLI calls. Diagnosis
+isolated role OID17603/name `cli_login_postgres`/`rolvaliduntil`; no other
+catalogue change was evidenced. Release commit29079b2 normalizes only that field
+in catalogue comparison and independently requires safe role attributes and a
+finite remaining lifetime greater than0 and at most600seconds. It does not alter
+the role or weaken application permissions. The atomic apply still freezes all74
+table projections/full OAuth. The later web gate binds schema/owners/RLS/grants,
+static OAuth and ten control-plane configs while allowing ordinary business,
+per-user authority and dynamic OAuth-claim changes to take effect.
+
+Hosted Summary is NOT deployed or live-read-verified yet. The pilot still serves
+web5vEM/worker2uAS with English1.0; the compatible Summary web source is prepared
+for a provider source build, with the isolated local build granting quality proof
+only. Next: complete that build/deployment/readback, then verify current
+authenticated HTTP/MCP Summary reads and the actual signed-in app. Keep the
+accepted Claude initial/reconnect/Dummy Pilot Test read result intact.
+
+English scan/saved version/guest create-test-revoke and old-cohort preservation
+remain passed with their recorded browser boundaries. AT-074 remains partial,
+screen-reader acceptance pending, mobile skipped, no language labels/selector,
+Claude's frontend preserved and pilot running until owner stop.
+
+## Historical guest English checkpoint - 2026-11-01, 00:32 UTC
 
 The approved guest workflow is now completed. Root created exactly one self-test
 link for series93fb7425/Ready4f1b81a1, verified the guest route and PDF destination,

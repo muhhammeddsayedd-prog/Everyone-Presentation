@@ -3,12 +3,13 @@
 Reviewed against `milestones/M07_API_MCP_RELEASE.md`, the AT-063–075 definitions
 in `docs/quality/TEST_STRATEGY.md`, the release runbook and the current M07 matrix.
 This is an execution order for remaining evidence, not a new product scope or a
-claim of full production readiness. Canonical34/English1.0 and the compatible
-web/worker are now actually deployed; the current evidence boundaries follow.
+claim of full production readiness. Canonical35 is applied/read back as of
+2026-11-01T00:57:45.216887UTC. English1.0 and the compatible web5vEM/worker2uAS
+remain running; the Summary web release/current authenticated reads are pending.
 
 | Order / case | Current evidence boundary | Concrete next action and dependency |
 | --- | --- | --- |
-| 1. English rollout / AT-068 | Controlled scan/internal/frozen version24checks/PDF/old-cohort proof passed. Approved guest create/test/revoke completed2026-11-01: frozen248-byte English/video, guest PDF visual equality and actual annotation destination playback, then UI/reload denial after revoke. Normal owner Chrome profile only; no fresh-anonymous/native-PDF-viewer-click claim. | Carry forward completed English proof with its exact browser boundary; no pending guest approval or active self-test link remains. Proceed guarded canonical35 release/current authenticated API+MCP Summary reads and remaining live M07 work. No extra language labels/selector. |
+| 1. English rollout / AT-068 | Controlled scan/internal/frozen version24checks/PDF/old-cohort proof passed. Approved guest create/test/revoke completed2026-11-01: frozen248-byte English/video, guest PDF visual equality and actual annotation destination playback, then UI/reload denial after revoke. Normal owner Chrome profile only; no fresh-anonymous/native-PDF-viewer-click claim. Canonical35 is now applied with all74 table projections/full OAuth preserved. | Carry forward completed English proof with its exact browser boundary; no pending guest approval or active self-test link remains. Complete compatible Summary provider source-build deployment/readback, then current signed-in app/authenticated API+MCP Summary reads and remaining live M07 work. No extra language labels/selector. |
 | 2. Operator correlation / AT-074 | Durable new-job binding confirms latest31686/attempt5/6events/5delivered. Corrected root one-GET31686 returned normal404/no metadata at18:27:47; no retry. Distinct currentWF02 GET200 at18:30:02 confirms activeb65979f6/success:none/error:none/manual:false/progress:false; same origin hash, no changes. Preclaim bootstrap failure and historical404s retained. | Full operator/failure correlation is still partial; current settings do not prove the exact31686 absence cause. Plan durable per-stage attempt/execution reference metadata as a future coordinated backend slice. Never enable node-payload retention just for tracing, reconstruct missing per-stage IDs, retry old jobs, or claim fullAT074 from settings access. Continue eligible API/delegated work. |
 | 3. Full delegated workflow / AT-064,066,068 | Owner initial authorization, duplicate details, redirect-only reconnect and authenticated Dummy Pilot Test reads passed. Controlled signed lifecycle/permission/idempotency tests remain separate from a complete real delegated journey. | Owner's already working Claude client performs the remaining ordinary operations against shared persisted pilot data: real byte transfer, processing/review, changes/Reviewed, assignment/Shortlist, generation/PDF and link lifecycle. Record real IDs plus app readback and typed stale/idempotent/retry behavior. Do not re-open connection acceptance or configure/sign in/consent for the owner. |
 | 4. Token and contributor boundaries / AT-065 | Current production code and controlled signed transport/SQL tests enforce scopes. Live refresh/rotation/revocation and a real contributor's denied operations remain unverified. | Use authorized test sessions/principals and a reviewed bounded lifecycle plan. Preserve the owner's accepted grant/session and current account permissions. Do not invent cloud identities, weaken checks or turn existing sign-in access into a new broad grant. Source-only test preparation can proceed while real session/identity access is unavailable. |
@@ -37,14 +38,27 @@ The successful107-input harness/source/fixture/history bytes are frozen. See
 `development/m07/workspace-summary35-proof/LIVE_SQL_RESULT.md` and actual receipt
 `tracking/evidence/m07/workspace-summary35-proof/2026-10-31T18-47-07-800Z-ef4cb6c2.json`.
 
-Canonical35 is unapplied and hosted Summary undeployed; actual pilot remains
-web5vEM/worker2uAS/canonical34/English1.0. The approved guest create/test/revoke is
+Canonical35 is applied; hosted Summary remains undeployed/unverified. Actual pilot
+is web5vEM/worker2uAS/canonical35/English1.0. Root inspect passed00:56:24UTC;
+the one apply passed00:57:22UTC with normal return and two matching independent
+readbacks, followed by the separate00:57:45UTC readback. All74 existing table
+projections/full OAuth/Reviewed/old Ready/English/protected M02 stayed exact.
+The approved guest create/test/revoke is
 completed and the self-test link is revoked; no pending approval remains. Its
 actual normal-profile and privately extracted annotation-destination boundaries
 are in `tracking/evidence/m03/english-guest34/2026-11-01-guest-english-workflow.json`.
-Next: review guarded release source65bc518 (prepared/disabled), then canonical35
-preflight/apply/readback and current authenticated API/MCP Summary reads with
-separate live evidence. Continue eligible safe
+The initial preflight false positive was only the rotating temporary expiry of
+managed CLI role OID17603/name `cli_login_postgres`. Commit29079b2 omits exactly
+that `rolvaliduntil` comparison field while independently enforcing finite
+0<TTL<=600seconds and safe role attributes; no role or permission mutation.
+Full atomic preservation remains74 tables/full OAuth; later live static gates
+freeze schema/owners/RLS/grants/static OAuth/ten configs, allowing legitimate
+business and per-user authority changes. Actual release evidence is in
+`tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-22-943495Z-apply.json`
+and `2026-11-01T00-57-45-216113Z-readback.json` in that same directory.
+Next: compatible provider source-build web deployment/readback, then actual
+signed-in app and authenticated API/MCP Summary reads with separate live evidence.
+Continue eligible safe
 observability/full-journey checks without enabling node payload retention or
 inventing per-stage history. Claude frontend, owner connection and local33
 recovery passes stay preserved; screen reader pending/mobile skipped/no labels.

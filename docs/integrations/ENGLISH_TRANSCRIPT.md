@@ -175,6 +175,32 @@ accuracy expansion, screen-reader completion or mobile acceptance is inferred.
 The owner Claude/recovery passes remain preserved; screen reader pending, mobile
 skipped and pilot running.
 
-Canonical remains34/English1.0 at this checkpoint. Guarded M07 canonical35 release
-and current authenticated API/MCP Summary verification are the next separate
-release proof; guest completion does not claim that migration is already applied.
+At that guest checkpoint canonical remained34/English1.0. The subsequent M07
+release is recorded below; guest completion alone did not establish it.
+
+## 2026-11-01 canonical35 preservation checkpoint
+
+The guarded M07 Summary migration35 is now applied. Root's one
+[apply](../../tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-22-943495Z-apply.json)
+observed normal return plus two matching independent readbacks at00:57:22.944741UTC;
+the separate [readback](../../tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-45-216113Z-readback.json)
+observed canonical35 at00:57:45.216887UTC. All74 existing table count/hash
+projections and full OAuth state stayed exact, including English1.0, old frozen
+companions/versions, Reviewed facts and protected M02 state. Original local29 and
+the completed local33 recovery proof are unchanged.
+
+The preceding preflight comparison falsely treated Supabase's rotating temporary
+CLI role expiry as catalogue drift. Commit29079b2 normalizes only
+`rolvaliduntil` for exact role OID17603/name `cli_login_postgres` and independently
+requires safe attributes plus finite0<TTL<=600seconds. It changes no role or
+product permission. Atomic apply still preserves all74 tables/full OAuth; the
+later web gate binds schema/RLS/grants/owners/static OAuth/ten control-plane
+configs while permitting ordinary business, per-user authority and claim-count
+changes to take effect.
+
+The serving web remains5vEM and worker2uAS with English1.0. Summary's compatible
+web source is not deployed/live-read-verified yet. Next is its provider source
+build/deployment/readback and actual signed-in app/authenticated API+MCP Summary
+reads. Existing English guest/link revocation, owner Claude connection and
+old-cohort preservation passes retain their exact evidence boundaries. No labels
+or language selector; screen reader pending, mobile skipped, pilot running.
