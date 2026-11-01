@@ -5,7 +5,7 @@ import { pathToFileURL } from 'node:url';
 import { compileAttempt36 } from '../job-attempt-observability36-proof/controller.mjs';
 import { sha } from '../recovery33/compiler.mjs';
 import { validateSources,PURPOSE,PRIOR_RECEIPT,PRIOR_RECEIPT_SHA } from './sources.mjs';
-export const EXECUTION_ENABLED=false;
+export const EXECUTION_ENABLED=true;
 export function compileGate36(sources,{root,runId}){
  validateSources(sources);const base=compileAttempt36(sources,{root,runId});let source=base.source;const substitutions=[];
  const url=file=>pathToFileURL(path.join(root,file)).href;

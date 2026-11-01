@@ -87,3 +87,27 @@ recovery passes stay preserved; screen reader pending/mobile skipped/no labels.
 Settings de276c7 is regression-only: the existing helper already catches errors;
 no product fix is claimed. LocalSQL35 success does not close full production or
 deployed/independent restore acceptance.
+
+## 2026-11-01, 01:44 UTC: new local gate proof failed safely; pilot unchanged
+
+Fresh release-gate run207731a6 failed with PostgreSQL `type "jsonbas" does not
+exist`: a missing space fused a JSONB cast and SELECT alias. Independent AST
+inspection also found the sibling `jsonband` cast/AND boundary in that same new
+builder. Parse-only tests accepted these unknown type names. No gate/fixture PASS
+is credited. Failed receipt:
+`tracking/evidence/m07/job-attempt-observability36-gate-proof/2026-11-01T01-42-48-715Z-207731a6.json`.
+
+Full rollback/cleanup passed: both owned databases/new33 roles removed, original29
+full data/catalogue/Auth-Storage/profile/global roles unchanged, shared lock
+released. All229 executed source seals matched when archived;44 new sources are
+saved byte-exact as base64 under the proof's source-history/207731a6, and prior185
+remain unchanged. The permanent claim/private diagnostic/wire stay retained;
+this run will not be replayed. See FAILED_207_SQL_RESULT.md in that proof folder.
+
+The earlier7cff real claim/callback/retry SQL proof and owner-reported Summary MCP
+read stay passed. Canonical is STILL35; trace36 is NOT installed. Web6L6v,
+worker2uAS and English1.0/Reviewed/old-version/guest-revocation proofs stand.
+Next: narrow JSONB/alias/keyword fix plus semantic AST regression, a fresh owned
+gate proof with normal/negative/recovery/cleanup acceptance, then separately
+guarded36 release and new live job audits. Screen reader pending, mobile skipped,
+frontend preserved, no language labels/selector, pilot until owner stop.

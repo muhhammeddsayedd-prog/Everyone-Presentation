@@ -1,6 +1,6 @@
 {
   "pack_version": "1.0",
-  "updated_at": "2026-11-01T01:19:14.755694+00:00",
+  "updated_at": "2026-11-01T01:44:10.369Z",
   "implementation_started": true,
   "current_milestone": "M07",
   "current_pilot": {
@@ -76,7 +76,7 @@
     "mobile_testing": "skipped by owner",
     "production_deployment_verified": false,
     "prior_snapshot": "tracking/evidence/m07/controlled-pilot/2026-10-31T01-24Z-prior-progress-snapshot.json",
-    "next_action": "Current canonical35/web6L6v Summary HTTP and actual01:10 app English regression passed. Owner-attested new get_workspace_summary result matches the full HTTP d28 snapshot; MCP request ID absent/no server correlation, earlier initial/reconnect/project-read acceptance remains passed. Owned-local attempt36 proof7cff passed actual direct/real-routine SQL,185 source seals, rollback to33 and complete original29/Auth-Storage/global-role preservation/cleanup. Review the separate guarded additive attempt-trace release proposal before canonical preflight/apply/readback, then real successful/failed nonprotected job/operator audit; AT074 remains partial. Preserve English/guest/revocation/old-cohort/local33 proofs, unchanged worker2uAS/English1.0, screen reader pending/mobile skipped/no labels/selector/pilot until owner stop.",
+    "next_action": "Forward-fix the confirmed new release-gate JSONB cast/alias keyword concatenation, preserve failed207 source/claim/cleanup, then prepare a fresh owned gate proof and require normal, negative, recovery and full-cleanup PASS before any canonical36 release. Prior7cff candidate SQL and owner Summary MCP read remain passed; canonical35/web6L6v/worker2uAS/English1.0 remain current. Then guarded36 apply/readback and actual success+failure jobs/operator audit. Preserve all existing acceptance/deferrals.",
     "specs_local_proof": "tracking/evidence/m07/specs-ack31/2026-10-31T01-22-16-662Z-dc886d4e-local-proof.json",
     "specs_canonical_apply": "tracking/evidence/m07/specs-ack31/2026-10-31T01-57-10-621248Z-a99247a4-canonical31-continuation-apply.json",
     "specs_canonical_apply_confirmed": true,
@@ -700,6 +700,17 @@
       "storage_HTTP_tested": false,
       "deployed_restore_tested": false,
       "hosted_AT074_acceptance": false
+    },
+    "attempt36_release_gate_proof": {
+      "status": "failed_safely_cleanup_passed",
+      "evidence": "tracking/evidence/m07/job-attempt-observability36-gate-proof/2026-11-01T01-42-48-715Z-207731a6.json",
+      "run_id": "207731a6-8462-4eec-8d27-f2fc8f34f2fd",
+      "all229_seals_archived": true,
+      "prior185_unchanged": true,
+      "cause": "JSONB type cast fused to alias AS; sibling AND keyword fusion confirmed by AST audit",
+      "automatic_replay": false,
+      "canonical36_applied": false,
+      "next_action": "Forward-fix the confirmed new release-gate JSONB cast/alias keyword concatenation, preserve failed207 source/claim/cleanup, then prepare a fresh owned gate proof and require normal, negative, recovery and full-cleanup PASS before any canonical36 release. Prior7cff candidate SQL and owner Summary MCP read remain passed; canonical35/web6L6v/worker2uAS/English1.0 remain current. Then guarded36 apply/readback and actual success+failure jobs/operator audit. Preserve all existing acceptance/deferrals."
     }
   },
   "milestones": [
@@ -1451,14 +1462,15 @@
         "tracking/evidence/m07/workspace-summary35-web/2026-11-01-worker-health-verifier-correction.json",
         "tracking/evidence/m07/workspace-summary35-web/2026-11-01-authenticated-app-english-regression.json",
         "tracking/evidence/m07/job-attempt-observability36-proof/2026-11-01T01-16-10-092Z-7cff5c7d.json",
-        "tracking/evidence/m07/workspace-summary35-web/2026-11-01-owner-mcp-summary-read.json"
+        "tracking/evidence/m07/workspace-summary35-web/2026-11-01-owner-mcp-summary-read.json",
+        "tracking/evidence/m07/job-attempt-observability36-gate-proof/2026-11-01T01-42-48-715Z-207731a6.json"
       ],
       "blockers": [
         "Owner initial authorization/reconnect/authenticated Dummy Pilot Test read stays passed. Full real delegated write/processing/generation/sharing, live refresh/rotation/revocation and actual contributor denial remain unverified.",
         "History33 synthetic local metadata/media recovery stays passed; deployed/independentcluster and actual provider/config/secret restore plus representative provider cost/endurance remain unverified.",
         "English guest workflow now completed/approved link revoked with explicit normal-profile/annotation-destination boundary. Local SQL35 and canonical35 apply/readback passed; Summary web and authenticated HTTP read passed; current app English regression passed; new authenticated Summary MCP read remains pending. FullAT074/delegated lifecycle/recovery evidence incomplete. Screen reader pending/mobile skipped; no labels/selector required."
       ],
-      "next_action": "Current canonical35/web6L6v Summary HTTP and actual01:10 app English regression passed. Owner-attested new get_workspace_summary result matches the full HTTP d28 snapshot; MCP request ID absent/no server correlation, earlier initial/reconnect/project-read acceptance remains passed. Owned-local attempt36 proof7cff passed actual direct/real-routine SQL,185 source seals, rollback to33 and complete original29/Auth-Storage/global-role preservation/cleanup. Review the separate guarded additive attempt-trace release proposal before canonical preflight/apply/readback, then real successful/failed nonprotected job/operator audit; AT074 remains partial. Preserve English/guest/revocation/old-cohort/local33 proofs, unchanged worker2uAS/English1.0, screen reader pending/mobile skipped/no labels/selector/pilot until owner stop.",
+      "next_action": "Forward-fix the confirmed new release-gate JSONB cast/alias keyword concatenation, preserve failed207 source/claim/cleanup, then prepare a fresh owned gate proof and require normal, negative, recovery and full-cleanup PASS before any canonical36 release. Prior7cff candidate SQL and owner Summary MCP read remain passed; canonical35/web6L6v/worker2uAS/English1.0 remain current. Then guarded36 apply/readback and actual success+failure jobs/operator audit. Preserve all existing acceptance/deferrals.",
       "scope_constraints": {
         "AT_072": "pending",
         "M03_broader_semantic_checks": "pending",
@@ -2338,7 +2350,7 @@
     "local_restore_evidence": "tracking/evidence/m07/recovery33/2026-10-31T15-34-37-577Z-9af6774f.json",
     "name_diagnosis": "tracking/evidence/m03/english-name-review/2026-10-31T16-31-07-348316Z-5ed61ea9-8c38-4c1a-a3a2-958d6ccd5d72.json",
     "native_build_failure": "tracking/evidence/m03/english-image34/2026-10-31T17-03-17-960492Z-v2-registry-tls-diagnosis.json",
-    "next_action": "Current canonical35/web6L6v Summary HTTP and actual01:10 app English regression passed. Owner-attested new get_workspace_summary result matches the full HTTP d28 snapshot; MCP request ID absent/no server correlation, earlier initial/reconnect/project-read acceptance remains passed. Owned-local attempt36 proof7cff passed actual direct/real-routine SQL,185 source seals, rollback to33 and complete original29/Auth-Storage/global-role preservation/cleanup. Review the separate guarded additive attempt-trace release proposal before canonical preflight/apply/readback, then real successful/failed nonprotected job/operator audit; AT074 remains partial. Preserve English/guest/revocation/old-cohort/local33 proofs, unchanged worker2uAS/English1.0, screen reader pending/mobile skipped/no labels/selector/pilot until owner stop.",
+    "next_action": "Forward-fix the confirmed new release-gate JSONB cast/alias keyword concatenation, preserve failed207 source/claim/cleanup, then prepare a fresh owned gate proof and require normal, negative, recovery and full-cleanup PASS before any canonical36 release. Prior7cff candidate SQL and owner Summary MCP read remain passed; canonical35/web6L6v/worker2uAS/English1.0 remain current. Then guarded36 apply/readback and actual success+failure jobs/operator audit. Preserve all existing acceptance/deferrals.",
     "source_checkpoints": [
       "c6a3f15",
       "28c3d3c",
@@ -2932,6 +2944,17 @@
       "result": "passed",
       "evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-authenticated-app-english-regression.json",
       "observed_at": "2026-11-01T01:10:51.642Z"
+    },
+    "attempt36_release_gate_proof": {
+      "status": "failed_safely_cleanup_passed",
+      "evidence": "tracking/evidence/m07/job-attempt-observability36-gate-proof/2026-11-01T01-42-48-715Z-207731a6.json",
+      "run_id": "207731a6-8462-4eec-8d27-f2fc8f34f2fd",
+      "all229_seals_archived": true,
+      "prior185_unchanged": true,
+      "cause": "JSONB type cast fused to alias AS; sibling AND keyword fusion confirmed by AST audit",
+      "automatic_replay": false,
+      "canonical36_applied": false,
+      "next_action": "Forward-fix the confirmed new release-gate JSONB cast/alias keyword concatenation, preserve failed207 source/claim/cleanup, then prepare a fresh owned gate proof and require normal, negative, recovery and full-cleanup PASS before any canonical36 release. Prior7cff candidate SQL and owner Summary MCP read remain passed; canonical35/web6L6v/worker2uAS/English1.0 remain current. Then guarded36 apply/readback and actual success+failure jobs/operator audit. Preserve all existing acceptance/deferrals."
     }
   },
   "historical_notes": [
@@ -4010,7 +4033,7 @@
       "reference": "english_output_rollout",
       "status": "real_scan_saved_internal_and_guest_english_pdf_revocation_verified_browser_boundary"
     },
-    "next_action": "Current canonical35/web6L6v Summary HTTP and actual01:10 app English regression passed. Owner-attested new get_workspace_summary result matches the full HTTP d28 snapshot; MCP request ID absent/no server correlation, earlier initial/reconnect/project-read acceptance remains passed. Owned-local attempt36 proof7cff passed actual direct/real-routine SQL,185 source seals, rollback to33 and complete original29/Auth-Storage/global-role preservation/cleanup. Review the separate guarded additive attempt-trace release proposal before canonical preflight/apply/readback, then real successful/failed nonprotected job/operator audit; AT074 remains partial. Preserve English/guest/revocation/old-cohort/local33 proofs, unchanged worker2uAS/English1.0, screen reader pending/mobile skipped/no labels/selector/pilot until owner stop.",
+    "next_action": "Forward-fix the confirmed new release-gate JSONB cast/alias keyword concatenation, preserve failed207 source/claim/cleanup, then prepare a fresh owned gate proof and require normal, negative, recovery and full-cleanup PASS before any canonical36 release. Prior7cff candidate SQL and owner Summary MCP read remain passed; canonical35/web6L6v/worker2uAS/English1.0 remain current. Then guarded36 apply/readback and actual success+failure jobs/operator audit. Preserve all existing acceptance/deferrals.",
     "source_checkpoints": [
       "c6a3f15",
       "28c3d3c",
@@ -4591,6 +4614,17 @@
       "result": "passed",
       "evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-authenticated-app-english-regression.json",
       "observed_at": "2026-11-01T01:10:51.642Z"
+    },
+    "attempt36_release_gate_proof": {
+      "status": "failed_safely_cleanup_passed",
+      "evidence": "tracking/evidence/m07/job-attempt-observability36-gate-proof/2026-11-01T01-42-48-715Z-207731a6.json",
+      "run_id": "207731a6-8462-4eec-8d27-f2fc8f34f2fd",
+      "all229_seals_archived": true,
+      "prior185_unchanged": true,
+      "cause": "JSONB type cast fused to alias AS; sibling AND keyword fusion confirmed by AST audit",
+      "automatic_replay": false,
+      "canonical36_applied": false,
+      "next_action": "Forward-fix the confirmed new release-gate JSONB cast/alias keyword concatenation, preserve failed207 source/claim/cleanup, then prepare a fresh owned gate proof and require normal, negative, recovery and full-cleanup PASS before any canonical36 release. Prior7cff candidate SQL and owner Summary MCP read remain passed; canonical35/web6L6v/worker2uAS/English1.0 remain current. Then guarded36 apply/readback and actual success+failure jobs/operator audit. Preserve all existing acceptance/deferrals."
     }
   },
   "english_output_rollout": {
