@@ -6,7 +6,7 @@ import process from 'node:process';
 import { pathToFileURL } from 'node:url';
 import { NATIVE_PROBE_RELEASE } from './native-probe38-release.mjs';
 
-export const PREPARATION_ENABLED = false;
+export const PREPARATION_ENABLED = true;
 export const BASE_OPERATOR_SHA256 = '84630e42f2e5277fe8865721d00779939802cc73d059bf795cffb9915e5cb3ab';
 export const RELEASE_DATA_SHA256 = 'e0b3e3fb0845b73dd6488f324bbe9bf755dc578f1a0a3e513ca2c8bd2ea47b4c';
 const BASE_RELEASE_SHA256 = 'b8eec2107417f4f4641c9dd7810ce056e5af937d2cada3236f05c454eb9cff26';

@@ -1,6 +1,6 @@
 {
   "pack_version": "1.0",
-  "updated_at": "2026-11-01T18:05:26Z",
+  "updated_at": "2026-11-01T18:31:04Z",
   "implementation_started": true,
   "current_milestone": "M07",
   "current_pilot": {
@@ -10808,8 +10808,8 @@
     "manifest_sha256": "3e20f7b1c795ab2e825a02327c4a4a241b97a57a8bf3d28e2a265f7eba8630f9",
     "daemon_uncached_production_import_passed": true,
     "local_export_claims_retained": true,
-    "registry_pushed": false,
-    "new_native_hosted_probe_performed": false,
+    "registry_pushed": true,
+    "new_native_hosted_probe_performed": true,
     "processing_paused": false,
     "environment_or_DB_adoption_performed": false,
     "worker_replaced": false,
@@ -10817,6 +10817,18 @@
     "drain_snapshot_receipt": "tracking/evidence/m07/specs-diagnostic-worker38/2026-11-01T17-55-03-096505Z-drain-inventory.json",
     "future_quiescence_not_inferred": true,
     "native_concurrency_proof": "not_run",
-    "next": "registry transfer/Ready, native probe, local concurrency proof and exact guarded current38 adoption"
+    "next": "Read-only diagnose daemon preparation; exact forward reconciliation only after confirmed cause. Execute owned current38 config/intake concurrency proof, then daemon publication and guarded adoption; no current pilot interruption.",
+    "native_registry_pushed": true,
+    "native_registry_ready": "tracking/evidence/m07/specs-diagnostic-worker38/2026-11-01T18-23-21-396167Z-native-registry-ready.json",
+    "daemon_registry_pushed": false,
+    "native_hosted_probe": "tracking/evidence/m07/specs-diagnostics38-native/2026-11-01T18-25-34.222Z-69770afe-hosted-probe.json",
+    "native_hosted_probe_root_admission": "tracking/evidence/m07/specs-diagnostics38-native/2026-11-01T18-31-04Z-Root-admission.json",
+    "native_tasks_passed": 9,
+    "native_named_resources_absent": 10,
+    "daemon_prepare_status": "unconfirmed_before_extraction",
+    "daemon_prepare_failure_code": "TRANSPORT_UNCONFIRMED",
+    "daemon_prepare_claim_retained": true,
+    "daemon_prepare_retry_performed": false,
+    "daemon_prepare_failure_receipt": "tracking/evidence/m07/specs-diagnostic-worker38/2026-11-01T18-26-26-263725Z-daemon-registry-prepare.json"
   }
 }

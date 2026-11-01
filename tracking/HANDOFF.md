@@ -1,6 +1,43 @@
 # Everyone Presentation Studio - current English-output handoff
 
-## Current checkpoint - 2026-11-01T18:05:26Z: matching diagnostic images exported locally; hosted pilot unchanged
+## Current checkpoint - 2026-11-01T18:31:04Z: native diagnostic image published and hosted proof passed; daemon preparation unresolved
+
+The matching native50082f72 image is Ready in the existing private native
+repository. Actual registry prepare, refresh, copy and Ready receipts are in
+tracking/evidence/m07/specs-diagnostic-worker38/ (18:16 through18:23 UTC).
+The actual hosted probe69770afe passed all nine tasks, the164-file source seal,
+UID/network boundaries and four substantive PDF checks. All ten named resources
+and snapshots are absent, session sets match, and cleanup/lock release passed.
+Root independently admitted the receipt and exact generated operator hash:
+`tracking/evidence/m07/specs-diagnostics38-native/2026-11-01T18-31-04Z-Root-admission.json`. This is native processing proof, not new daemon startup or real
+OpenAI specs acceptance. The consumed probe claim and executed source remain exact.
+
+Both matching local OCI exports and the daemon's uncached production import
+remain passed. Daemon registry preparation at18:26 returned TRANSPORT_UNCONFIRMED
+before any daemon OCI extraction. Its once claim is retained; no automatic retry
+or daemon publication occurred. Read-only checks validate its export,164-source
+context and existing private configs. The exact failed call is not established
+by retained output; the shared-directory ACL setup precedes extraction and is
+under investigation. Native publication and the failed daemon preparation are
+preserved separately. No processing pause, manifest environment change, DB
+native-pin change or replacement worker deployment occurred.
+
+WebCUXV/database38 still serve the pilot with worker2uAS/daemon430d0992/native795f8f77.
+Batch HTTP/auth and928-test checks, completed Claude initial/reconnect acceptance,
+English/Reviewed/Ready preservation and local37 recovery remain passed. Owner
+batch/feedback MCP and guest delta checks remain pending; current canonical
+project is Live Testing Project. Screen-reader pending; mobile skipped.
+
+Next: resolve only the evidenced local daemon preparation failure without replay,
+run the new owned current38 config-lock/intake/retry concurrency proof, then
+publish the exact daemon and perform guarded fresh-zero pause/manifest/pin/worker
+adoption. Only afterward run a controlled new real specs job and inspect safe
+provider diagnostics. Historical failed specs13699983 and protected M02 remain
+untouched. All164 worker source bytes stay held through rollout.
+AT069's automatic approval rejection ('blocked by policy') remains untouched;
+no retry, manual equivalent or provider action for that blocked action occurred.
+
+## Historical checkpoint - 2026-11-01T18:05:26Z: matching diagnostic images exported locally; hosted pilot unchanged
 
 Source checkpoint b0d6018 contains the reviewed specs diagnostic fix. Its 11
 focused cases, targeted lint and full isolated type check passed. The deployed
