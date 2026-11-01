@@ -2,11 +2,12 @@ import type { VersionTranscriptCompanion } from '@eps/domain';
 import { versionEnglishFields } from '../../../packages/domain/src/english-transcript.ts';
 import { englishTranscript, spokenLanguageLabel } from './english-transcript';
 
-/** Playback companion only; never part of a candidate slide or PDF. Shows the frozen English capture only. */
+/** Playback companion only; never part of a candidate slide or PDF. */
 export function SourceTranscript({ versionId, assetId, transcript }: {
   versionId: string; assetId: string; transcript?: VersionTranscriptCompanion;
 }) {
-  if (transcript && (transcript.version_id !== versionId || transcript.asset_id !== assetId || transcript.source_kind !== 'source_transcript')) {
+  if (transcript && (transcript.version_id !== versionId || transcript.asset_id !== assetId
+    || transcript.source_kind !== 'source_transcript' || transcript.status === 'available' && !transcript.original_text?.trim())) {
     return <p role="alert">The source transcript could not be confirmed for this video.</p>;
   }
   let fields;

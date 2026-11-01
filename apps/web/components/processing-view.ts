@@ -57,11 +57,11 @@ export function readJobRetryAcknowledgement(value: unknown, expectedId: string):
     || value.poll_url !== `/api/v1/jobs/${encodeURIComponent(expectedId)}` || !JOB_STATUSES.includes(value.status as ProcessingStatus)) invalid();
   return structuredClone(value) as unknown as JobRetryAcknowledgement;
 }
-export function readJobPage(value: unknown, status: ProcessingStatus | null, requestedCursor: string | null): JobPage {
+export function readJobPage(value: unknown, status: ProcessingStatus | null, requestedCursor: string | null, batch: string | null = null): JobPage {
   if (!record(value) || !Array.isArray(value.data) || value.data.length > 25 || !record(value.page)
     || !(value.page.next_cursor === null || validProcessingId(value.page.next_cursor))) invalid();
   const jobs = value.data.map(item => readProcessingJob(item)); const cursor = value.page.next_cursor;
-  if (new Set(jobs.map(job => job.id)).size !== jobs.length || status && jobs.some(job => job.status !== status)
+  if (new Set(jobs.map(job => job.id)).size !== jobs.length || status && jobs.some(job => job.status !== status) || batch && jobs.some(job => job.batch_id !== batch)
     || cursor !== null && (!jobs.length || cursor === requestedCursor)) invalid();
   return { jobs, cursor };
 }
@@ -82,8 +82,8 @@ export function workspaceResultHref(job: Pick<ProcessingJob, 'workspace_id' | 'k
   const step = job.kind === 'specs_extract' ? 'specs' : ['candidate_scan', 'frame_extract'].includes(job.kind) ? 'cast' : ['ai_suggestion', 'review_fit'].includes(job.kind) ? 'review' : job.kind === 'presentation_render' ? 'presentations' : 'project';
   return `/projects/${encodeURIComponent(workspace.project_id)}/casting/${encodeURIComponent(workspace.id)}/${step}`;
 }
-export function processingHref({ job, status, cursor }: { job?: string | null; status?: ProcessingStatus | null; cursor?: string | null } = {}): string {
+export function processingHref({ job, status, cursor, batch }: { job?: string | null; status?: ProcessingStatus | null; cursor?: string | null; batch?: string | null } = {}): string {
   const query = new URLSearchParams();
-  if (job) query.set('job', job); if (status) query.set('status', status); if (cursor) query.set('cursor', cursor);
+  if (batch) query.set('batch', batch); if (job) query.set('job', job); if (status) query.set('status', status); if (cursor) query.set('cursor', cursor);
   return `/processing${query.size ? `?${query}` : ''}`;
 }

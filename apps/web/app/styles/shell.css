@@ -68,6 +68,8 @@
   .step-status { font-size: var(--text-micro); color: var(--color-text-muted); }
   .step-status-warn { color: var(--color-warning); }
   .step-status-ok { color: var(--color-accent); }
+  .segment-count { color: var(--color-text-muted); font-variant-numeric: tabular-nums; }
+  [aria-pressed="true"] > .segment-count { color: var(--color-text-secondary); }
   .workspace-footer { display: flex; align-items: center; justify-content: space-between; gap: var(--space-5); max-width: var(--editor-width); margin-top: var(--space-6); }
 
   /* Sign-in */
