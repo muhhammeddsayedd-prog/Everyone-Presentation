@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-11-01T17:36:23.625138+00:00",
+  "result": "read_only_failure_correlation_observed",
+  "target": "pyibofyctwnqpvktepse",
+  "trace": {
+    "claims": [
+      {
+        "attempt": 1,
+        "attempt_id": "f1cb3988-a5c8-4077-8516-cd892805b6b2",
+        "claimed_at": "2026-11-01T13:03:37.45427+00:00",
+        "correlation_id": "1adfb8f1-9424-4900-903c-35113c354bac",
+        "dispatch_generation": 1,
+        "stage": "prepare_document",
+        "stage_attempt": 1,
+        "workflow_execution_id": "31868",
+        "workflow_execution_ref_state": "recorded"
+      },
+      {
+        "attempt": 2,
+        "attempt_id": "abd7d9da-198c-4b3a-b2cb-18a27b39099e",
+        "claimed_at": "2026-11-01T13:03:45.490454+00:00",
+        "correlation_id": "1adfb8f1-9424-4900-903c-35113c354bac",
+        "dispatch_generation": 2,
+        "stage": "extract_specs",
+        "stage_attempt": 1,
+        "workflow_execution_id": "31869",
+        "workflow_execution_ref_state": "recorded"
+      },
+      {
+        "attempt": 3,
+        "attempt_id": "4467a568-06f2-464a-b3d5-dbd041fee1cf",
+        "claimed_at": "2026-11-01T13:04:48.972893+00:00",
+        "correlation_id": "1adfb8f1-9424-4900-903c-35113c354bac",
+        "dispatch_generation": 3,
+        "stage": "extract_specs",
+        "stage_attempt": 2,
+        "workflow_execution_id": "31870",
+        "workflow_execution_ref_state": "recorded"
+      },
+      {
+        "attempt": 4,
+        "attempt_id": "3262574b-a8bc-408d-a30c-baac2b6bcd6b",
+        "claimed_at": "2026-11-01T13:05:55.39927+00:00",
+        "correlation_id": "1adfb8f1-9424-4900-903c-35113c354bac",
+        "dispatch_generation": 4,
+        "stage": "extract_specs",
+        "stage_attempt": 3,
+        "workflow_execution_id": "31872",
+        "workflow_execution_ref_state": "recorded"
+      }
+    ],
+    "job": {
+      "attempt": 4,
+      "cause_code": "DEPENDENCY_UNAVAILABLE",
+      "error_code": "RETRY_EXHAUSTED",
+      "id": "13699983-f4bb-4923-8ea4-f524a224e335",
+      "kind": "specs_extract",
+      "row_version": 15,
+      "stage": "extract_specs",
+      "stage_attempts": {
+        "extract_specs": 3,
+        "prepare_document": 1
+      },
+      "status": "failed",
+      "updated_at": "2026-11-01T13:06:55.482024+00:00",
+      "workspace_id": "86936940-b48d-497d-b1ff-8e0da0913afa"
+    }
+  },
+  "underlying_provider_status_or_request_id": "not retained by current specs failure path",
+  "specific_timeout_network_or_HTTP_cause_confirmed": false,
+  "job_retried_or_mutated": false,
+  "protectedM02_job_read_or_mutated": false,
+  "cloud_called": true,
+  "provider_processing_called": false,
+  "SQL_writes": false
+}

@@ -1,6 +1,41 @@
 # Everyone Presentation Studio - current English-output rollout
 
-## Current checkpoint - 2026-11-01T17:31:59Z: canonical38 applied; compatible web build next
+## Current checkpoint - 2026-11-01T17:40:08Z: batch filter38 is deployed; live HTTP/auth checks passed
+
+Stable pilot now serves `dpl_CUXVUZkWjkrQPBTv7XqmA9tF3y4o`,285 source files,
+SHA4edc5f1a, with actual canonical38 and unchanged worker2uAS. Ready proof:
+`tracking/evidence/m07/job-batch-filter38-web/2026-11-01T17-37-06-827794Z-ready.json`.
+Direct/stable identity, source/quality/canonical markers, unchanged project/env
+metadata and repeat static database checks passed. Isolated build passed; all
+928 postmerge tests/0skips plus lint/types passed. Fresh17:36:50 health confirmed
+one alive2GiB dub1 worker on the existing digest; no worker/env/OAuth mutation.
+
+Signed-in HTTP passed empty batch filtering, invalid/duplicate query denials,
+unchanged24-job unfiltered IDs, project read and safe SOURCE_UNREADABLE read.
+Evidence: `tracking/evidence/m07/job-batch-filter38-web/2026-11-01T17-40-08Z-authenticated-HTTP.json`.
+All24 saved jobs have null batch IDs; hosted nonzero filtering is not claimed.
+The205-job nonzero100/100/5 case passed locally, with authority/rollback/cleanup.
+Six public auth/discovery checks passed at17:38:19. Initial Claude authorization,
+reconnect and prior authenticated reads remain PASSED. New filtered MCP read is
+pending owner response, separately from completed connection acceptance.
+
+Canonical project6da14b82 now reports Live Testing Project; its old Dummy Pilot
+Test name remains historical evidence. No rename/owner changes were overwritten.
+New succeeded candidate job1f18c48a targets8d1254e8 (not Reviewed25a3c924), so it
+does not close the pending owner-upload append check. Read-only specs failure
+audit13699983 confirms prepare1/extract3, n8n31868/31869/31870/31872 and exhausted
+DEPENDENCY_UNAVAILABLE. Specific OpenAI timeout/network/HTTP cause was not retained;
+do not invent it. No retry/mutation occurred. A safe specs diagnostic patch is
+being developed in a new isolated worktree, not merged/deployed to the worker.
+
+Next: finish that diagnostic source/test slice, then review its compatible worker
+rollout separately. Reconcile new batch/feedback MCP responses and temporary
+guest test only as owner replies arrive. Existing full local37 native recovery,
+English/Reviewed/Ready versions and original acceptance remain passed. Manual
+screen reader pending, mobile skipped, pilot stays running. AT069 policy block
+remains ('blocked by policy'), with no retry/manual equivalent/provider action.
+
+## Historical checkpoint - 2026-11-01T17:31:59Z: canonical38 applied; compatible web build next
 
 Official `20261101110939_m07_job_batch_filter.sql` is5869B SHA256
 47af16421613320b76abc6e7119da92912859f0334b03b047a98492f75f6ea2d.

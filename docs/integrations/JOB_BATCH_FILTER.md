@@ -58,9 +58,13 @@ and `2026-11-01T17-28-42-546410Z-readback.json` in that folder. The actual owned
 local proof also passed205 accessible jobs over100/100/5 pages, foreign/batch
 exclusion, scoped authority and exact rollback/cleanup. Backend core, tests and
 contracts from branch checkpoint758affc are integrated into Main; the stable
-pilot still serves web `dpl_EUK29uLiGvrPguUv3T7d5KR19RwC` pending the compatible
-web/SDK deployment. Hosted batch HTTP/MCP checks remain pending. SQL acceptance
-and deterministic transport checks do not establish those hosted results.
+pilot serves compatible web/SDK `dpl_CUXVUZkWjkrQPBTv7XqmA9tF3y4o` with285 sealed
+source files. Signed-in HTTP passed the empty batch filter, malformed/duplicate
+parameter denials and the unchanged24-job unfiltered page. All those saved jobs
+have null batch IDs: this is not a hosted nonzero batch demonstration. The205-row
+nonzero case is local SQL evidence. The new owner MCP filtered read is pending;
+completed connection/reconnect acceptance remains passed. Six public auth/
+discovery checks passed, and the worker remains unchanged/healthy.
 Frontend coordination is recorded separately; no redesign was merged here.
 
 This implements the bounded AT-063 parity dependency, with deterministic AT-065
