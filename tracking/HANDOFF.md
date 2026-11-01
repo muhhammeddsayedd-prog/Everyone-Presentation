@@ -1,5 +1,28 @@
 # Everyone Presentation Studio - current English-output handoff
 
+## Current completion checkpoint - 2026-11-01T23:47:59.224671+00:00
+
+Canonical migration39 (`20261101223342`, SHA c17af770) applied successfully with
+its normal post-COMMIT marker and two equal independent readbacks. All74 existing
+business-table hashes, trace rows, old metadata/OIDs and exact existing grants
+were preserved. The first guard/diagnostic refusal and canonical-ACL rehearsal
+failures remain recorded. Stable alias remains compatible reader8m/e494 in
+controlled-pilot mode; redesigned main is not yet serving.
+
+Main715d485 was pushed normally to the supplied private GitHub repository;
+independent GitHub ref read matched. Privacy remains private because retained
+history includes live acceptance material; fixed-value scans are not a PII audit.
+949 deterministic tests, lint and typecheck passed;138 browser tests passed with
+zero skips/flakes and synthetic service scope. Native46de is registry Ready;
+daemon login's unknown return is retained without repeating that login. New native
+runtime/production rollout and final source identity remain pending.
+
+Owner is running the fresh existing-Claude upload task. The supplied contributor
+address was absent in canonical Auth; no identity or grants were created and
+producer access remains intact. Contributor and actual screen-reader acceptance,
+guest/token deltas and AT069 remain open. Authoritative current workflow/evidence:
+[completion matrix](../tracking/evidence/m07/ACCEPTANCE_MATRIX.md).
+
 ## Completion release checkpoint - 2026-11-01T23:10:19.208095+00:00
 
 Redesigned frontend, real-project UI/API/MCP/domain contracts, folder intake, explicit production startup and reload-safe project-creation intent are integrated locally. SQL39 passed constrained roles and independent-session idempotency races. Fresh native46de/daemon2d66 local OCI builds and matching source seal passed; registry/runtime release remains pending. Independent synthetic schema38 Storage/API recovery passed with cleanup. Stable alias now serves compatible reader baseline e494371 / web8mFQ, retaining the old interface until schema39 and final release. Protected canonical snapshot509f contains75application tables/4941rows/452routine definitions/history38; excludes managed Auth and Storage bytes. Original pg_dump attempt remains unconfirmed and preserved. No full production or delegated/contributor/screen-reader acceptance is claimed.

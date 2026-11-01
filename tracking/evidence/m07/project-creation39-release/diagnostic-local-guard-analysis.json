@@ -1,0 +1,24 @@
+{
+  "all_other_delta_fields_equal": true,
+  "all_seven_lifecycle_counts_zero": true,
+  "cli_role_safe": true,
+  "cloud_mutations": false,
+  "controller_or_original_receipts_modified": false,
+  "exact_additional_cloud_entry": "=U/pg_database_owner",
+  "first_diagnostic_launcher_failure": {
+    "cloud_queries": 0,
+    "error": "ModuleNotFoundError:pglast",
+    "interpreter": "system python",
+    "stage": "local_import_before_query_claim"
+  },
+  "history_count": 38,
+  "normal_cli_queries": 1,
+  "observed_at": "2026-11-01T23:38:52.976997+00:00",
+  "original_inspect_had_no_plan_or_apply_claim": true,
+  "original_inspect_unconfirmed": true,
+  "processing_config_shape_and_enabled_valid": true,
+  "remaining_guard_failure": "schemas|public|acl",
+  "scope": "safe analysis of protected projection only; does not admit a changed schema or infer original timeout cause",
+  "source_diagnostic": "tracking/evidence/m07/project-creation39-release/diagnostic-9be2ab0a-7528-43d6-bcf6-68e98feda29a.json",
+  "successful_transport_interpreter": ".venv-skills/Scripts/python.exe"
+}

@@ -1,0 +1,1885 @@
+{
+  "action": "inspect",
+  "admission": {
+    "canonical_acl": {
+      "diagnostic": {
+        "path": "tracking/evidence/m07/project-creation39-release/diagnostic-9be2ab0a-7528-43d6-bcf6-68e98feda29a.json",
+        "sha256": "2089d760677c9466ccc6cc04871f593ff9ae29373ed02332b53d87fdcd96c0d9"
+      },
+      "existing_public_usage_preserved": true,
+      "protected_projection_sha256": "1e3a7011bdb3aa9b54e0f5443cc19dbb82e0d5e7c356d3384273145c402a0184"
+    },
+    "compatible_web": {
+      "path": "tracking/evidence/m07/completion-release/reader-baseline-ready.json",
+      "sha256": "b44b296216268f165d09cdf2163f6358c84b1e58f311a65d61db7e4ff5374ccc"
+    },
+    "local_query_validation": {
+      "path": "tracking/evidence/m07/project39-canonical-guard-validation/2026-11-01T23-42-04.415Z-cf89da06.json",
+      "sha256": "6551d7b997c35dbbd4ef8bfd465d570e4ccbd68196a8defb38cf182e67a40aeb"
+    },
+    "migration_sha256": "c17af7708a1886d2129df2dc9e4eb196e6b760862939bd2f5fd3c7c1c687e242",
+    "private_backup": {
+      "artifact_sha256": "491823b0a6e69f152df8e5310c841965dfc26ef115b6fab10c7e7b3fb3aca0a4",
+      "path": "tracking/evidence/m07/completion-release/canonical38-private-snapshot.json",
+      "restore_verified": false,
+      "sha256": "1972d54e921d1d439314b5a2f8470be5dd766d1bbc6327b0eee1d238098e7579"
+    },
+    "race": {
+      "path": "tracking/evidence/m07/project-creation39-race/2026-11-01T22-59-30.771Z-9e589ba0.json",
+      "sha256": "c8e08bf76b191e3456b5c5f820e3ddf96443695c616887b61d596e8b7ca6ecfb"
+    },
+    "sequential": {
+      "path": "tracking/evidence/m07/project-creation39-proof/2026-11-01T22-51-16.947Z-70b3b36e.json",
+      "sha256": "b33fc470e49ad0d09618c7d3298562c30fb1703eec696743bdf75e4ff5b98686"
+    },
+    "target": "pyibofyctwnqpvktepse",
+    "version": "20261101223342"
+  },
+  "before": {
+    "base": {
+      "batch38": {
+        "function": {
+          "acl": [
+            {
+              "grantable": false,
+              "grantee": "authenticated",
+              "grantor": "eps_jobs_owner",
+              "privilege": "EXECUTE"
+            },
+            {
+              "grantable": false,
+              "grantee": "eps_jobs_owner",
+              "grantor": "eps_jobs_owner",
+              "privilege": "EXECUTE"
+            }
+          ],
+          "arguments": "p_workspace_id uuid, p_status text, p_cursor uuid, p_limit integer, p_batch_id uuid",
+          "binary": null,
+          "body_sha256": "323d6c19b056cd722cb915717d88616eaf28ed52c82c2743327f84690287d3f9",
+          "config": [
+            "search_path=\"\""
+          ],
+          "cost": 100,
+          "defaults": 0,
+          "definer": true,
+          "kind": "f",
+          "language": "plpgsql",
+          "leakproof": false,
+          "owner": "eps_jobs_owner",
+          "parallel": "u",
+          "retset": false,
+          "returns": "jsonb",
+          "rows": 0,
+          "sql_body_absent": true,
+          "strict": false,
+          "support": 0,
+          "transforms": null,
+          "variadic": 0,
+          "volatility": "v"
+        },
+        "name_count": 1,
+        "old_port": {
+          "body_sha256": "a2239225b995673e9ab432ac63014f742b25032cc586c790535db260c551d241",
+          "config": [
+            "search_path=\"\""
+          ],
+          "defaults": 4,
+          "definer": true,
+          "metadata_sha256": "d593b73cf04c2e179d3612a3777d51cff4e1c979777aecee529d7e0f1ffc5f55",
+          "owner": "eps_jobs_owner"
+        },
+        "owner_no_public_create": true,
+        "owner_safe": true
+      },
+      "cast": {
+        "acl": [
+          {
+            "grantable": false,
+            "grantee": "eps_cast_owner",
+            "grantor": "eps_cast_owner",
+            "privilege": "EXECUTE"
+          },
+          {
+            "grantable": false,
+            "grantee": "eps_review_owner",
+            "grantor": "eps_cast_owner",
+            "privilege": "EXECUTE"
+          }
+        ],
+        "owner": "eps_cast_owner",
+        "source_sha256": "f04020403acc4990228d61fd3cbca2cd960f517ae924446593b7f262a75e3d66"
+      },
+      "claim_ports": {
+        "eps.claim_candidate_job_stage(jsonb)": {
+          "acl": [
+            {
+              "grantable": false,
+              "grantee": "eps_candidate_stage_owner",
+              "grantor": "eps_candidate_stage_owner",
+              "privilege": "EXECUTE"
+            },
+            {
+              "grantable": false,
+              "grantee": "eps_specs_stage_owner",
+              "grantor": "eps_candidate_stage_owner",
+              "privilege": "EXECUTE"
+            }
+          ],
+          "body_sha256": "e5ac1c5fe0a22f45163f61c9cb51cf90ccf8d351bb38005070d27bcf643140f4",
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "exists": true,
+          "owner": "eps_candidate_stage_owner"
+        },
+        "eps.claim_export_job_stage(jsonb)": {
+          "acl": [
+            {
+              "grantable": false,
+              "grantee": "eps_review_stage_owner",
+              "grantor": "eps_review_stage_owner",
+              "privilege": "EXECUTE"
+            },
+            {
+              "grantable": false,
+              "grantee": "eps_specs_stage_owner",
+              "grantor": "eps_review_stage_owner",
+              "privilege": "EXECUTE"
+            }
+          ],
+          "body_sha256": "8ca47ea14a61aaaf2dccf848beeac0263b171eff4220ff9b06720d4db4ec76b9",
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "exists": true,
+          "owner": "eps_review_stage_owner"
+        },
+        "eps.claim_job_stage(jsonb)": {
+          "acl": [
+            {
+              "grantable": false,
+              "grantee": "eps_jobs_executor",
+              "grantor": "eps_specs_stage_owner",
+              "privilege": "EXECUTE"
+            },
+            {
+              "grantable": false,
+              "grantee": "eps_specs_stage_owner",
+              "grantor": "eps_specs_stage_owner",
+              "privilege": "EXECUTE"
+            }
+          ],
+          "body_sha256": "9ea28ccdd0b670b022c2ac6e31e5f86b27a8ef39541a11c2d3a6a382eccf3e2d",
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "exists": true,
+          "owner": "eps_specs_stage_owner"
+        },
+        "eps.claim_job_stage_replay(jsonb,text,text,text)": {
+          "acl": [
+            {
+              "grantable": false,
+              "grantee": "eps_jobs_executor",
+              "grantor": "eps_specs_stage_owner",
+              "privilege": "EXECUTE"
+            },
+            {
+              "grantable": false,
+              "grantee": "eps_specs_stage_owner",
+              "grantor": "eps_specs_stage_owner",
+              "privilege": "EXECUTE"
+            }
+          ],
+          "body_sha256": "894b07983d85978a0ffc099ff0b1df5b517979f9ab6f5f706c9133adcf0c36fc",
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "exists": true,
+          "owner": "eps_specs_stage_owner"
+        },
+        "eps.claim_presentation_job_stage(jsonb)": {
+          "acl": [
+            {
+              "grantable": false,
+              "grantee": "eps_review_stage_owner",
+              "grantor": "eps_review_stage_owner",
+              "privilege": "EXECUTE"
+            },
+            {
+              "grantable": false,
+              "grantee": "eps_specs_stage_owner",
+              "grantor": "eps_review_stage_owner",
+              "privilege": "EXECUTE"
+            }
+          ],
+          "body_sha256": "f79dba86aeedc4447147b92b58ba54919e71d9fea3ae05440b361fae0244135f",
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "exists": true,
+          "owner": "eps_review_stage_owner"
+        },
+        "eps.claim_review_job_stage(jsonb)": {
+          "acl": [
+            {
+              "grantable": false,
+              "grantee": "eps_review_stage_owner",
+              "grantor": "eps_review_stage_owner",
+              "privilege": "EXECUTE"
+            },
+            {
+              "grantable": false,
+              "grantee": "eps_specs_stage_owner",
+              "grantor": "eps_review_stage_owner",
+              "privilege": "EXECUTE"
+            }
+          ],
+          "body_sha256": "eb9ca868b4525c6a088317c1a6d2a7f94c2bcf504466d501c22bbdf479ba35e4",
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "exists": true,
+          "owner": "eps_review_stage_owner"
+        },
+        "eps.record_job_event(jsonb)": {
+          "acl": [
+            {
+              "grantable": false,
+              "grantee": "eps_jobs_executor",
+              "grantor": "eps_specs_stage_owner",
+              "privilege": "EXECUTE"
+            },
+            {
+              "grantable": false,
+              "grantee": "eps_specs_stage_owner",
+              "grantor": "eps_specs_stage_owner",
+              "privilege": "EXECUTE"
+            }
+          ],
+          "body_sha256": "96d70c9e16e3361789f2082fb605941fc08e654a96d6b13a6abbfe6bd730d4e8",
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "exists": true,
+          "owner": "eps_specs_stage_owner"
+        },
+        "eps.retry_guest_pdf_export(uuid,uuid,uuid,uuid)": {
+          "acl": [
+            {
+              "grantable": false,
+              "grantee": "eps_guest_owner",
+              "grantor": "eps_review_stage_owner",
+              "privilege": "EXECUTE"
+            },
+            {
+              "grantable": false,
+              "grantee": "eps_review_stage_owner",
+              "grantor": "eps_review_stage_owner",
+              "privilege": "EXECUTE"
+            }
+          ],
+          "body_sha256": "075e50772f63d445517bb27e789b55e2b9bec5a1e13228492dd1d7ddba7ba4f8",
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "exists": true,
+          "owner": "eps_review_stage_owner"
+        },
+        "public.eps_retry_job(uuid,jsonb,text)": {
+          "acl": [
+            {
+              "grantable": false,
+              "grantee": "authenticated",
+              "grantor": "eps_jobs_owner",
+              "privilege": "EXECUTE"
+            },
+            {
+              "grantable": false,
+              "grantee": "eps_jobs_owner",
+              "grantor": "eps_jobs_owner",
+              "privilege": "EXECUTE"
+            }
+          ],
+          "body_sha256": "a4023b9627e1150e878974cfed3dad9f489802639edecf6bc8ea228caf94a953",
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true,
+          "exists": true,
+          "owner": "eps_jobs_owner"
+        }
+      },
+      "cli_role_safe": true,
+      "data": {
+        "ai_suggestions": {
+          "count": 2,
+          "sha256": "ceac070729a818541129d204df05b8f0b3ef702faf9bc5c9598b5ca881243269"
+        },
+        "app_settings": {
+          "count": 1,
+          "sha256": "2b4f2a551e2fc57f0889a326344fec414f028ae46a23559bc30430da904497b3"
+        },
+        "assignment_change_consumptions": {
+          "count": 3,
+          "sha256": "d6b3f7dfad64a28c77affb20c378477b2dd6fe9d201f529f3d2b3b5238fc6b7e"
+        },
+        "assignment_change_events": {
+          "count": 77,
+          "sha256": "09d8dc1e7cadb23cda3ec5e6ae5b70027ec86476da7922ceaa7c9fe981c032f2"
+        },
+        "assignments": {
+          "count": 23,
+          "sha256": "c0a6ba3d5a391a8153c8a83475c39791de7fbc4547937b8dba83399ed8fe7353"
+        },
+        "audience_presets": {
+          "count": 3,
+          "sha256": "034b559a7d8faf30e2675ff4335b2b08b1e07ea8430c952a27314f815a575461"
+        },
+        "audit_events": {
+          "count": 427,
+          "sha256": "eb39a59c0965910a0c3885cf540b50e9fbf27a23408f1cee8dce87f825a2c9f8"
+        },
+        "candidate_asset_config": {
+          "count": 1,
+          "sha256": "243efb252c2469630aed142617bbf1144a801b6d092eeea941817a030ce34f4f"
+        },
+        "candidate_asset_grants": {
+          "count": 1108,
+          "sha256": "807adcf64dd968bfa22dc2e464de16968da9dcef2b18f3b5d3be7f8dc7877a3f"
+        },
+        "candidate_media": {
+          "count": 27,
+          "sha256": "6a238280c3145b65d98798f1239b48f15625a732712e78687c041e343b2b1611"
+        },
+        "candidate_media_frames": {
+          "count": 328,
+          "sha256": "311b273564e848acced62bfbdfa959228f3c97fec5dbc69fdfd902d8f8e5c1eb"
+        },
+        "candidate_stage_payloads": {
+          "count": 143,
+          "sha256": "3705a32657628f90269b207a61ed26daddda5d20c6a843bb886d301c4dc05b92"
+        },
+        "candidate_support": {
+          "count": 4,
+          "sha256": "8e0f8763dbdcc16e97d70474c73d49526b43193d72ea0b94b85f7715d23c9bd0"
+        },
+        "candidate_support_config": {
+          "count": 1,
+          "sha256": "7c45953c7576b74f63d915ac46e4f23df5fe3b80ba8ced1623ab333b171322da"
+        },
+        "candidate_uploads": {
+          "count": 32,
+          "sha256": "63c8f925d2f289d0bab18bf861aa44c4ce86b6df0ac41265254d70362cf8fad8"
+        },
+        "candidates": {
+          "count": 28,
+          "sha256": "97338280e5dd42c24cb37e3fbc45ee0bd70fb6263e7a91d4580c9a56c8bcb6ca"
+        },
+        "cast_operation_notes": {
+          "count": 4,
+          "sha256": "a9c4e35fbd67c8750409ba990b2bcdc21a3fa61ec8589027267f9f9c4eab767d"
+        },
+        "feedback_comments": {
+          "count": 8,
+          "sha256": "3602b91bedf77777e6c549eeec610332e91d51c8f2026685bf6729422dee3759"
+        },
+        "feedback_preferences": {
+          "count": 4,
+          "sha256": "d9c6cd1b5fdd83ef568f561b16999d95a32a866ded03d1067189f5e551228183"
+        },
+        "frame_extraction_config": {
+          "count": 1,
+          "sha256": "1245e3a78e66ae9065d8c45b20bb512e98c1a9d36f0bbc50f6be7cdf1c166fd0"
+        },
+        "frame_extraction_requests": {
+          "count": 4,
+          "sha256": "c4851f683abb23ce201c3b55e8f7ff14618d68e8c1714d08cd134f481c612e18"
+        },
+        "guest_asset_grants": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "guest_idempotency": {
+          "count": 27,
+          "sha256": "5cf74ac3f59d1d85bafc45dd19f1fb2653748653487f883c57536b62b034a56e"
+        },
+        "guest_sessions": {
+          "count": 10,
+          "sha256": "ce324f2af2eb9bfe1985684332f6dadc703a55119bbe89023c4cb0c3e1be74c7"
+        },
+        "idempotency_records": {
+          "count": 337,
+          "sha256": "f4d6485ee803d8324b9b29880c70739d0ea1884de9c887c28e82ca9455f63025"
+        },
+        "job_events": {
+          "count": 329,
+          "sha256": "9bd41f1ba4fb6bdacd8e1a0096822ad234c195a09bfe1365e675ef3b4a0d3b2b"
+        },
+        "job_stage_claim_replays": {
+          "count": 2,
+          "sha256": "e628088b08a82aab2e2b56c953414a4c59c5fe5ac355ee3bcba5aa3c88ba9c5f"
+        },
+        "jobs": {
+          "count": 83,
+          "sha256": "1e754cfc02368b9dbd8a6182b8799a43c423663e97dd6a4372fd28b162b372b9"
+        },
+        "logo_verification_keys": {
+          "count": 1,
+          "sha256": "4e0965bf6fbc384f0923f8897691bc2340a127d5a214c99b6a4d9b0e87a4ca5f"
+        },
+        "mcp_oauth_resources": {
+          "count": 1,
+          "sha256": "8dba55b4e00416b89301526928d4df9b5cb31b699889f15433dad1bfb953d01f"
+        },
+        "media_assets": {
+          "count": 495,
+          "sha256": "02f4ad3915727b29bc4f2f5e0df8c5202e164d6426637047e5af1f560d8af332"
+        },
+        "oauth_consent_claims": {
+          "count": 2,
+          "sha256": "86b0951c936778202a77c0b8643fae2cf82da6d8fc774957355cb28df3d3fb38"
+        },
+        "outbox_events": {
+          "count": 263,
+          "sha256": "200ae0a288e97828b2f9b9dce36c3e17dad8aace63d471ac687c8892135eda0b"
+        },
+        "presentation_asset_grants": {
+          "count": 148,
+          "sha256": "ae27bb34351630b0237d67188b9d54e126e1866f97010c35303020ba4e4f5968"
+        },
+        "presentation_exports": {
+          "count": 9,
+          "sha256": "f83139771dbde2327333b8eb16188a77d501421b8841a6f50e17249788088a39"
+        },
+        "presentation_processing_config": {
+          "count": 1,
+          "sha256": "37d5c010b80dfd9dfbe2795ec0a2f56ec505894003401c7732b6fba627e67639"
+        },
+        "presentation_series": {
+          "count": 7,
+          "sha256": "243935bd06305f59e14bc1560ebe40240751318a2672a737cbefec81ee53896d"
+        },
+        "presentation_templates": {
+          "count": 2,
+          "sha256": "36cb87869143010d3ac884a50e6f614b087a81324e293b135b26432fa5a0a529"
+        },
+        "presentation_version_assets": {
+          "count": 42,
+          "sha256": "4147a4f0cceda8927d0e6fb76b94db5f66be718010b07e4edb03ab2e5be96021"
+        },
+        "presentation_versions": {
+          "count": 10,
+          "sha256": "89dfc58901d9e307ce21e1b764d3e3c0192a06433fb4f11b79107b50a61c29b2"
+        },
+        "presentation_video_english_transcripts": {
+          "count": 1,
+          "sha256": "90ecfb2ad2280e2d4ba79e9d6a0991b42ea21bf9a09dc86ea5ca5f1657466368"
+        },
+        "presentation_video_transcripts": {
+          "count": 3,
+          "sha256": "1e42ccdb0870168ad9771259705e309c2cd79b6eee6f7db758899bfb29be2d58"
+        },
+        "public.app_capability_grants": {
+          "count": 12,
+          "sha256": "f389c9d0cba320c8339a973a94e0234312845eaae9d615235997eccb6292d77f"
+        },
+        "public.client_memberships": {
+          "count": 1,
+          "sha256": "c216c0c79a926cd02fa9c582bc88610cab05bbcd1d11540197ae430842d08a01"
+        },
+        "public.clients": {
+          "count": 1,
+          "sha256": "5b84ac7ce2f91d8c132a185e6237d358f63dd5b6d453ff9d1d61583cc8ae10fc"
+        },
+        "public.project_memberships": {
+          "count": 4,
+          "sha256": "555c70fadd244d52d8012ac28bec49cc7ba7f80f876cc22836b0955db520f08b"
+        },
+        "public.projects": {
+          "count": 4,
+          "sha256": "f52d1bed32f7577fc863795a6cca41fb0a7672751a32332cf551adccbbb030a5"
+        },
+        "review_fit_results": {
+          "count": 13,
+          "sha256": "facf6a04a8f23f9d732a350ea35857a762789cc9ee8601c3da86affb3788f19d"
+        },
+        "review_gateway_config": {
+          "count": 1,
+          "sha256": "423a24b3912dedb6beacad7dc43657fd9de97a7dcf540f0d57fe6a0a5d8ea081"
+        },
+        "review_gateway_nonces": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "review_gateway_rates": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "review_link_replays": {
+          "count": 10,
+          "sha256": "c08d6cf07e08c749d94a073dde9fc470687d7b74327c3a099a48716f9f7f2c8d"
+        },
+        "review_links": {
+          "count": 5,
+          "sha256": "6bc68e8d1952b6f4bb6a080dcd79e225dc1d837bc14a18ca42520a12818098e6"
+        },
+        "review_media_grants": {
+          "count": 9,
+          "sha256": "e6e97e5c7b30c7efb773c99d9a9d965eca3803d20721710b4a36d735e060a8d5"
+        },
+        "review_processing_config": {
+          "count": 1,
+          "sha256": "fa38eb698184f985cc7306bdfac13f6993c0682f047891150ba6bb009b0678c8"
+        },
+        "review_stage_payloads": {
+          "count": 68,
+          "sha256": "041b3d02d8baf0e13d7c3d504e7051434ea5fc5c48177fd62e9c7b29c474ef93"
+        },
+        "roles": {
+          "count": 57,
+          "sha256": "1f260ff92a00dd9b86220163350ad504b1dc6a96d1183779fd4fb7b9a42e19d7"
+        },
+        "slots": {
+          "count": 596,
+          "sha256": "5d71b32ab8d79516657f27d35326c22a7f1a99dca3e162c72110150f407f457c"
+        },
+        "specs": {
+          "count": 4,
+          "sha256": "55a282cc02bf0150616519e09dc3c214ccedd5723a996d0107b08db9b2f88bb9"
+        },
+        "specs_asset_config": {
+          "count": 1,
+          "sha256": "3f4ebba07db28990e139170b432526fe62bf03d8e110d8ede4aff7a84a58c8c1"
+        },
+        "specs_asset_grants": {
+          "count": 21,
+          "sha256": "86983a1d2fee5003d41dde55c7140d1bbb11f0571bffbf2b1f3a4414e6965a7e"
+        },
+        "specs_file_preparations": {
+          "count": 7,
+          "sha256": "4633daa09b5f32c8c148208f5ea76034e73ab963597f53c2195b8786cd1ae81f"
+        },
+        "specs_pipeline_config": {
+          "count": 1,
+          "sha256": "fd9b3628ca0b5d531220c56fa7f6372093ffecfb91fbcd1c8c4f3f8842f9f489"
+        },
+        "specs_source_inputs": {
+          "count": 14,
+          "sha256": "80e349aa82e315ab4b711fe27241f336395642ee39e140a296d5255d5c72de9c"
+        },
+        "specs_stage_payloads": {
+          "count": 24,
+          "sha256": "20580b61d3c40a9924c9dc13fcc437e2a03b709994f41c917c7a84105cf61ff0"
+        },
+        "specs_upload_sessions": {
+          "count": 8,
+          "sha256": "304a2e83ee2203028e3f8653049c494c5623650d5dfba17fef7bf019bb233ba9"
+        },
+        "specs_verification_keys": {
+          "count": 1,
+          "sha256": "7d607601c753b7565f123631d95e855cea442744997690ddeeefc4af811e47a0"
+        },
+        "support_uploads": {
+          "count": 4,
+          "sha256": "938fb796ce1260102ff49fbab93fdbdc5aa859c33513589e27440b8a1b92769a"
+        },
+        "support_verification_keys": {
+          "count": 1,
+          "sha256": "2a557989f350bf8f958f394d7e3b8266a5b7d6fcc2157b38dcb8c5eeb322fe5b"
+        },
+        "upload_sessions": {
+          "count": 1,
+          "sha256": "256509853b6cce0846a6757900a85c0aecca8457acc77cc3709af857b238eb17"
+        },
+        "user_workspace_preferences": {
+          "count": 4,
+          "sha256": "32fbd4b76bbf3ae69db59e9ceb0b4c3ff3f1b2c22c9645b23b74bde11ec7dfba"
+        },
+        "version_slides": {
+          "count": 57,
+          "sha256": "34da4a97917a99b8a2caf12508afe7387b904e9813287bd13786202bf6db1272"
+        },
+        "workspace_candidates": {
+          "count": 30,
+          "sha256": "e4212c665e4ad2cfb43c081aace174a29ec3e523f8e4f35682e540b58fb18b2b"
+        },
+        "workspaces": {
+          "count": 4,
+          "sha256": "89e46a2b1128697bb32e11ded4d0d9582958cc46bae03c92f1a54197a218a6a4"
+        }
+      },
+      "database": "postgres",
+      "delta_metadata": {
+        "eps_oid": 17619,
+        "eps_owner_oid": 16384,
+        "jobs_has_triggers": true,
+        "jobs_oid": 18017,
+        "retained_jobs_triggers": {
+          "count": 48,
+          "sha256": "6e679b68eba58b44552b537f680b1912400acbfb8da538f0ca51182ea0749199"
+        },
+        "trace_schema_acl": {
+          "count": 1,
+          "rows": [
+            {
+              "grantable": false,
+              "grantor": "postgres",
+              "privilege": "USAGE",
+              "schema": "eps"
+            }
+          ]
+        }
+      },
+      "drain": {
+        "leased_outbox": 0,
+        "other_active_jobs": 0
+      },
+      "english": {
+        "flags": [
+          "1.0"
+        ],
+        "security": true
+      },
+      "eps_tables": [
+        "ai_suggestions",
+        "app_settings",
+        "assignment_change_consumptions",
+        "assignment_change_events",
+        "assignments",
+        "audience_presets",
+        "audit_events",
+        "candidate_asset_config",
+        "candidate_asset_grants",
+        "candidate_media",
+        "candidate_media_frames",
+        "candidate_stage_payloads",
+        "candidate_support",
+        "candidate_support_config",
+        "candidate_uploads",
+        "candidates",
+        "cast_operation_notes",
+        "feedback_comments",
+        "feedback_preferences",
+        "frame_extraction_config",
+        "frame_extraction_requests",
+        "guest_asset_grants",
+        "guest_idempotency",
+        "guest_sessions",
+        "idempotency_records",
+        "job_events",
+        "job_stage_attempts",
+        "job_stage_claim_replays",
+        "jobs",
+        "logo_verification_keys",
+        "mcp_oauth_resources",
+        "media_assets",
+        "oauth_consent_claims",
+        "outbox_events",
+        "presentation_asset_grants",
+        "presentation_exports",
+        "presentation_processing_config",
+        "presentation_series",
+        "presentation_templates",
+        "presentation_version_assets",
+        "presentation_versions",
+        "presentation_video_english_transcripts",
+        "presentation_video_transcripts",
+        "review_fit_results",
+        "review_gateway_config",
+        "review_gateway_nonces",
+        "review_gateway_rates",
+        "review_link_replays",
+        "review_links",
+        "review_media_grants",
+        "review_processing_config",
+        "review_stage_payloads",
+        "roles",
+        "slots",
+        "specs",
+        "specs_asset_config",
+        "specs_asset_grants",
+        "specs_file_preparations",
+        "specs_pipeline_config",
+        "specs_source_inputs",
+        "specs_stage_payloads",
+        "specs_upload_sessions",
+        "specs_verification_keys",
+        "support_uploads",
+        "support_verification_keys",
+        "upload_sessions",
+        "user_workspace_preferences",
+        "version_slides",
+        "workspace_candidates",
+        "workspaces"
+      ],
+      "feedback37": {
+        "functions": {
+          "eps.feedback_summary(uuid,boolean)": {
+            "acl": [
+              {
+                "grantable": false,
+                "grantee": "eps_guest_owner",
+                "grantor": "eps_review_owner",
+                "privilege": "EXECUTE"
+              },
+              {
+                "grantable": false,
+                "grantee": "eps_review_owner",
+                "grantor": "eps_review_owner",
+                "privilege": "EXECUTE"
+              }
+            ],
+            "arguments": "p_version uuid, p_external boolean",
+            "binary": null,
+            "body_sha256": "07910e40857eac6a821acafafaff5d623c1fbb76a1ccc6dc4a13841790d119a2",
+            "config": [
+              "search_path=\"\""
+            ],
+            "cost": 100,
+            "defaults": 0,
+            "definer": false,
+            "kind": "f",
+            "language": "plpgsql",
+            "leakproof": false,
+            "owner": "eps_review_owner",
+            "parallel": "u",
+            "retset": false,
+            "returns": "jsonb",
+            "rows": 0,
+            "sql_body_absent": true,
+            "strict": false,
+            "support": 0,
+            "transforms": null,
+            "variadic": 0,
+            "volatility": "s"
+          },
+          "public.eps_get_feedback_summary(uuid)": {
+            "acl": [
+              {
+                "grantable": false,
+                "grantee": "authenticated",
+                "grantor": "eps_review_owner",
+                "privilege": "EXECUTE"
+              },
+              {
+                "grantable": false,
+                "grantee": "eps_review_owner",
+                "grantor": "eps_review_owner",
+                "privilege": "EXECUTE"
+              }
+            ],
+            "arguments": "p_version_id uuid",
+            "binary": null,
+            "body_sha256": "55969d9ef27ff9fa6a236394c162ae6c6f35ed40b97be4b0224e3155f92e0c59",
+            "config": [
+              "search_path=\"\""
+            ],
+            "cost": 100,
+            "defaults": 0,
+            "definer": true,
+            "kind": "f",
+            "language": "plpgsql",
+            "leakproof": false,
+            "owner": "eps_review_owner",
+            "parallel": "u",
+            "retset": false,
+            "returns": "jsonb",
+            "rows": 0,
+            "sql_body_absent": true,
+            "strict": false,
+            "support": 0,
+            "transforms": null,
+            "variadic": 0,
+            "volatility": "s"
+          }
+        },
+        "guest": {
+          "body_sha256": "1a4f925db46f580d2d8c6baa682948f28955a41fb26ba86fb563b7189248229b",
+          "metadata_sha256": "dc3ca46d36f91ab11caebe354678f4dd28dfc8e9b839ace152f0dae4d9b3dc2e"
+        },
+        "name_counts": {
+          "eps_get_feedback_summary": 1,
+          "feedback_summary": 1
+        },
+        "review_no_eps_create": true
+      },
+      "history": [
+        "20261028010943",
+        "20261028013324",
+        "20261028013655",
+        "20261028024205",
+        "20261028072515",
+        "20261028162702",
+        "20261028162800",
+        "20261028172320",
+        "20261028184145",
+        "20261028222030",
+        "20261029001520",
+        "20261029003941",
+        "20261029070038",
+        "20261029090500",
+        "20261029090724",
+        "20261029094600",
+        "20261029100500",
+        "20261029133455",
+        "20261029135318",
+        "20261029174841",
+        "20261029180953",
+        "20261029202629",
+        "20261029203953",
+        "20261029215218",
+        "20261030002634",
+        "20261030004643",
+        "20261030013832",
+        "20261030030717",
+        "20261030111549",
+        "20261030154824",
+        "20261031010000",
+        "20261031104603",
+        "20261031130207",
+        "20261031143711",
+        "20261031182038",
+        "20261101012057",
+        "20261101042702",
+        "20261101110939"
+      ],
+      "legacy": {
+        "job_count": 83,
+        "kinds": {
+          "ai_suggestion": 2,
+          "candidate_scan": 31,
+          "frame_extract": 4,
+          "presentation_export": 9,
+          "presentation_render": 10,
+          "review_fit": 13,
+          "specs_extract": 14
+        },
+        "unsupported_metadata_count": 0
+      },
+      "oauth": {
+        "coordinator_auth_usage": false,
+        "sha256": "b222bec0934eddf375b33b6c474ac027882e807cc4657f021f28ea011c3b8a07"
+      },
+      "oauth_static_sha256": "16d94f4dfc6ea7e09e438e4e81018b6698b863d53c3380a8836bec448fabb09b",
+      "operator": "postgres",
+      "owner_no_public_create": true,
+      "protected_m02": {
+        "attempt": 3,
+        "id": "b3f90268-147d-41d4-8875-2a6435df1496",
+        "row_version": 7,
+        "stage": "apply_specs",
+        "status": "waiting_for_input"
+      },
+      "protected_m02_integrity": true,
+      "review_owner_safe": true,
+      "session_user": "postgres",
+      "summary": {
+        "acl": [
+          {
+            "grantable": false,
+            "grantee": "authenticated",
+            "grantor": "eps_review_owner",
+            "privilege": "EXECUTE"
+          },
+          {
+            "grantable": false,
+            "grantee": "eps_review_owner",
+            "grantor": "eps_review_owner",
+            "privilege": "EXECUTE"
+          }
+        ],
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "language": "plpgsql",
+        "leakproof": false,
+        "owner": "eps_review_owner",
+        "parallel": "u",
+        "returns": "jsonb",
+        "source_sha256": "6912140e41804faf2c2fd257a9b1ecac9eba8c3ccee5cbd7ff75fbff4d9be953",
+        "strict": false,
+        "volatility": "s"
+      },
+      "trace_rows": {
+        "count": 80,
+        "sha256": "e802bccd146eb76527a462dae8d204c37926cf8aac6a73b2fc3d56ba0cb93180"
+      }
+    },
+    "lifecycle": {
+      "generic_retry_lifecycle": 0,
+      "leased_outbox": 0,
+      "pending_outbox": 0,
+      "presentation_retry_lifecycle": 0,
+      "queued": 0,
+      "running": 0,
+      "waiting_for_input": 0
+    },
+    "processing_config": {
+      "candidate_asset_config": {
+        "fixed_sha256": "dcea15a8dfcd8143abe5d3cc98df220657dab96a21ebfafe0177dd6cc41149a9",
+        "public": {
+          "enabled": true,
+          "english_transcript_version": "1.0",
+          "id": true
+        },
+        "shape_valid": true,
+        "table_hash": "243efb252c2469630aed142617bbf1144a801b6d092eeea941817a030ce34f4f"
+      },
+      "frame_extraction_config": {
+        "fixed_sha256": "22c740c52a823ceb3c9086f7e16e7122e644b65e23823664059354e9b21eb1a7",
+        "public": {
+          "enabled": true,
+          "id": true,
+          "implementation_version": "frame-extraction.v1",
+          "native_image_id": "sha256:50082f72d4438653d4c831a1f9a360d61e64d19b3568ed1c2a2456d486f0d77c"
+        },
+        "shape_valid": true,
+        "table_hash": "1245e3a78e66ae9065d8c45b20bb512e98c1a9d36f0bbc50f6be7cdf1c166fd0"
+      },
+      "presentation_processing_config": {
+        "fixed_sha256": "bb1295952e4c1e3bdbd7124b606b407f6cb60aa599ecc1a8b24bc8f546635bf9",
+        "public": {
+          "enabled": true,
+          "id": true
+        },
+        "shape_valid": true,
+        "table_hash": "37d5c010b80dfd9dfbe2795ec0a2f56ec505894003401c7732b6fba627e67639"
+      },
+      "review_processing_config": {
+        "fixed_sha256": "cab55d48b69743eb673061f2a9050bca5ce1395ece482990a8f78af948e223ff",
+        "public": {
+          "enabled": true,
+          "id": true
+        },
+        "shape_valid": true,
+        "table_hash": "fa38eb698184f985cc7306bdfac13f6993c0682f047891150ba6bb009b0678c8"
+      },
+      "specs_pipeline_config": {
+        "fixed_sha256": "1122e4ef5682dc8d5e69db93d31e537b4140d4629009b6d1c7b4f82eaee6e1ee",
+        "public": {
+          "enabled": true,
+          "id": 1
+        },
+        "shape_valid": true,
+        "table_hash": "fd9b3628ca0b5d531220c56fa7f6372093ffecfb91fbcd1c8c4f3f8842f9f489"
+      }
+    },
+    "project39": {
+      "creator_direct_grants": [],
+      "creator_no_create": true,
+      "creator_owners": [],
+      "delta": {
+        "columns|eps.project_creation_intents.created_at|acl": {
+          "present": false,
+          "value": null
+        },
+        "columns|eps.project_creation_intents.created_at|default": {
+          "present": false,
+          "value": null
+        },
+        "columns|eps.project_creation_intents.created_at|generated": {
+          "present": false,
+          "value": null
+        },
+        "columns|eps.project_creation_intents.created_at|identity": {
+          "present": false,
+          "value": null
+        },
+        "columns|eps.project_creation_intents.created_at|not_null": {
+          "present": false,
+          "value": null
+        },
+        "columns|eps.project_creation_intents.created_at|type": {
+          "present": false,
+          "value": null
+        },
+        "columns|eps.project_creation_intents.created_by|acl": {
+          "present": false,
+          "value": null
+        },
+        "columns|eps.project_creation_intents.created_by|default": {
+          "present": false,
+          "value": null
+        },
+        "columns|eps.project_creation_intents.created_by|generated": {
+          "present": false,
+          "value": null
+        },
+        "columns|eps.project_creation_intents.created_by|identity": {
+          "present": false,
+          "value": null
+        },
+        "columns|eps.project_creation_intents.created_by|not_null": {
+          "present": false,
+          "value": null
+        },
+        "columns|eps.project_creation_intents.created_by|type": {
+          "present": false,
+          "value": null
+        },
+        "columns|eps.project_creation_intents.presentation_type|acl": {
+          "present": false,
+          "value": null
+        },
+        "columns|eps.project_creation_intents.presentation_type|default": {
+          "present": false,
+          "value": null
+        },
+        "columns|eps.project_creation_intents.presentation_type|generated": {
+          "present": false,
+          "value": null
+        },
+        "columns|eps.project_creation_intents.presentation_type|identity": {
+          "present": false,
+          "value": null
+        },
+        "columns|eps.project_creation_intents.presentation_type|not_null": {
+          "present": false,
+          "value": null
+        },
+        "columns|eps.project_creation_intents.presentation_type|type": {
+          "present": false,
+          "value": null
+        },
+        "columns|eps.project_creation_intents.project_id|acl": {
+          "present": false,
+          "value": null
+        },
+        "columns|eps.project_creation_intents.project_id|default": {
+          "present": false,
+          "value": null
+        },
+        "columns|eps.project_creation_intents.project_id|generated": {
+          "present": false,
+          "value": null
+        },
+        "columns|eps.project_creation_intents.project_id|identity": {
+          "present": false,
+          "value": null
+        },
+        "columns|eps.project_creation_intents.project_id|not_null": {
+          "present": false,
+          "value": null
+        },
+        "columns|eps.project_creation_intents.project_id|type": {
+          "present": false,
+          "value": null
+        },
+        "columns|public.project_memberships.active|acl": {
+          "present": true,
+          "value": [
+            "eps_candidate_apply_owner=r/postgres",
+            "eps_candidate_stage_owner=r/postgres",
+            "eps_specs_apply_owner=r/postgres",
+            "eps_specs_stage_owner=r/postgres"
+          ]
+        },
+        "columns|public.project_memberships.can_write|acl": {
+          "present": true,
+          "value": [
+            "eps_candidate_apply_owner=r/postgres",
+            "eps_candidate_stage_owner=r/postgres",
+            "eps_specs_apply_owner=r/postgres",
+            "eps_specs_stage_owner=r/postgres"
+          ]
+        },
+        "columns|public.project_memberships.principal_id|acl": {
+          "present": true,
+          "value": [
+            "eps_candidate_apply_owner=r/postgres",
+            "eps_candidate_stage_owner=r/postgres",
+            "eps_specs_apply_owner=r/postgres",
+            "eps_specs_stage_owner=r/postgres"
+          ]
+        },
+        "columns|public.project_memberships.project_id|acl": {
+          "present": true,
+          "value": [
+            "eps_candidate_apply_owner=r/postgres",
+            "eps_candidate_stage_owner=r/postgres",
+            "eps_specs_apply_owner=r/postgres",
+            "eps_specs_stage_owner=r/postgres"
+          ]
+        },
+        "columns|public.projects.client_id|acl": {
+          "present": true,
+          "value": [
+            "eps_draft_owner=r/postgres"
+          ]
+        },
+        "columns|public.projects.id|acl": {
+          "present": true,
+          "value": [
+            "eps_candidate_apply_owner=r/postgres",
+            "eps_candidate_stage_owner=r/postgres",
+            "eps_draft_owner=r/postgres",
+            "eps_review_owner=w/postgres",
+            "eps_specs_apply_owner=r/postgres",
+            "eps_specs_stage_owner=r/postgres"
+          ]
+        },
+        "columns|public.projects.name|acl": {
+          "present": true,
+          "value": [
+            "eps_api_owner=w/postgres"
+          ]
+        },
+        "constraints|eps.project_creation_intents.project_creation_intents_created_by_fkey|definition": {
+          "present": false,
+          "value": null
+        },
+        "constraints|eps.project_creation_intents.project_creation_intents_pkey|definition": {
+          "present": false,
+          "value": null
+        },
+        "constraints|eps.project_creation_intents.project_creation_intents_presentation_type_check|definition": {
+          "present": false,
+          "value": null
+        },
+        "constraints|eps.project_creation_intents.project_creation_intents_project_id_fkey|definition": {
+          "present": false,
+          "value": null
+        },
+        "functions|eps.check_input(jsonb,text[])|acl": {
+          "present": true,
+          "value": [
+            "eps_api_owner=X/eps_api_owner",
+            "eps_candidate_apply_owner=X/eps_api_owner",
+            "eps_candidate_stage_owner=X/eps_api_owner",
+            "eps_candidate_upload_owner=X/eps_api_owner",
+            "eps_cast_owner=X/eps_api_owner",
+            "eps_jobs_owner=X/eps_api_owner",
+            "eps_logo_verify_owner=X/eps_api_owner",
+            "eps_settings_owner=X/eps_api_owner",
+            "eps_specs_owner=X/eps_api_owner",
+            "eps_specs_submit_owner=X/eps_api_owner",
+            "eps_specs_upload_owner=X/eps_api_owner",
+            "eps_specs_verify_owner=X/eps_api_owner",
+            "eps_support_upload_owner=X/eps_api_owner",
+            "eps_support_verify_owner=X/eps_api_owner"
+          ]
+        },
+        "functions|eps.fail(text,text,integer,bigint)|acl": {
+          "present": true,
+          "value": [
+            "eps_api_owner=X/eps_api_owner",
+            "eps_candidate_apply_owner=X/eps_api_owner",
+            "eps_candidate_assets_owner=X/eps_api_owner",
+            "eps_candidate_stage_owner=X/eps_api_owner",
+            "eps_candidate_upload_owner=X/eps_api_owner",
+            "eps_cast_owner=X/eps_api_owner",
+            "eps_casting_owner=X/eps_api_owner",
+            "eps_guest_owner=X/eps_api_owner",
+            "eps_jobs_owner=X/eps_api_owner",
+            "eps_logo_verify_owner=X/eps_api_owner",
+            "eps_review_owner=X/eps_api_owner",
+            "eps_review_stage_owner=X/eps_api_owner",
+            "eps_settings_owner=X/eps_api_owner",
+            "eps_specs_apply_owner=X/eps_api_owner",
+            "eps_specs_assets_owner=X/eps_api_owner",
+            "eps_specs_owner=X/eps_api_owner",
+            "eps_specs_stage_owner=X/eps_api_owner",
+            "eps_specs_submit_owner=X/eps_api_owner",
+            "eps_specs_upload_owner=X/eps_api_owner",
+            "eps_specs_verify_owner=X/eps_api_owner",
+            "eps_support_upload_owner=X/eps_api_owner",
+            "eps_support_verify_owner=X/eps_api_owner"
+          ]
+        },
+        "functions|eps.finish_mutation(text,text,jsonb,jsonb,uuid)|acl": {
+          "present": true,
+          "value": [
+            "eps_api_owner=X/eps_api_owner",
+            "eps_candidate_upload_owner=X/eps_api_owner",
+            "eps_cast_owner=X/eps_api_owner",
+            "eps_jobs_owner=X/eps_api_owner",
+            "eps_logo_verify_owner=X/eps_api_owner",
+            "eps_settings_owner=X/eps_api_owner",
+            "eps_specs_owner=X/eps_api_owner",
+            "eps_specs_upload_owner=X/eps_api_owner",
+            "eps_specs_verify_owner=X/eps_api_owner",
+            "eps_support_upload_owner=X/eps_api_owner",
+            "eps_support_verify_owner=X/eps_api_owner"
+          ]
+        },
+        "functions|eps.idempotency_begin(text,text,jsonb)|acl": {
+          "present": true,
+          "value": [
+            "eps_api_owner=X/eps_api_owner",
+            "eps_candidate_upload_owner=X/eps_api_owner",
+            "eps_cast_owner=X/eps_api_owner",
+            "eps_casting_owner=X/eps_api_owner",
+            "eps_jobs_owner=X/eps_api_owner",
+            "eps_logo_verify_owner=X/eps_api_owner",
+            "eps_review_owner=X/eps_api_owner",
+            "eps_settings_owner=X/eps_api_owner",
+            "eps_specs_owner=X/eps_api_owner",
+            "eps_specs_submit_owner=X/eps_api_owner",
+            "eps_specs_upload_owner=X/eps_api_owner",
+            "eps_specs_verify_owner=X/eps_api_owner",
+            "eps_support_upload_owner=X/eps_api_owner",
+            "eps_support_verify_owner=X/eps_api_owner"
+          ]
+        },
+        "functions|eps.input_text(jsonb,text,integer,boolean)|acl": {
+          "present": true,
+          "value": [
+            "eps_api_owner=X/eps_api_owner"
+          ]
+        },
+        "functions|eps.input_uuid(text)|acl": {
+          "present": true,
+          "value": [
+            "eps_api_owner=X/eps_api_owner",
+            "eps_candidate_apply_owner=X/eps_api_owner",
+            "eps_candidate_assets_owner=X/eps_api_owner",
+            "eps_candidate_upload_owner=X/eps_api_owner",
+            "eps_cast_owner=X/eps_api_owner",
+            "eps_jobs_owner=X/eps_api_owner",
+            "eps_review_stage_owner=X/eps_api_owner",
+            "eps_specs_assets_owner=X/eps_api_owner",
+            "eps_specs_owner=X/eps_api_owner",
+            "eps_specs_submit_owner=X/eps_api_owner",
+            "eps_specs_upload_owner=X/eps_api_owner",
+            "eps_specs_verify_owner=X/eps_api_owner",
+            "eps_support_upload_owner=X/eps_api_owner",
+            "eps_support_verify_owner=X/eps_api_owner"
+          ]
+        },
+        "functions|eps.project_dto(uuid)|source_sha256": {
+          "present": true,
+          "value": "80a4d36bc55ee7445ce633d825e3a429d8a4261b865bbe56f11016be1e695c8c"
+        },
+        "functions|eps.require_capability(text)|acl": {
+          "present": true,
+          "value": [
+            "eps_api_owner=X/eps_api_owner",
+            "eps_candidate_upload_owner=X/eps_api_owner",
+            "eps_cast_owner=X/eps_api_owner",
+            "eps_casting_owner=X/eps_api_owner",
+            "eps_jobs_owner=X/eps_api_owner",
+            "eps_logo_verify_owner=X/eps_api_owner",
+            "eps_review_owner=X/eps_api_owner",
+            "eps_settings_owner=X/eps_api_owner",
+            "eps_specs_owner=X/eps_api_owner",
+            "eps_specs_submit_owner=X/eps_api_owner",
+            "eps_specs_upload_owner=X/eps_api_owner",
+            "eps_specs_verify_owner=X/eps_api_owner",
+            "eps_support_upload_owner=X/eps_api_owner",
+            "eps_support_verify_owner=X/eps_api_owner"
+          ]
+        },
+        "functions|public.eps_create_project(jsonb,text)|acl": {
+          "present": false,
+          "value": null
+        },
+        "functions|public.eps_create_project(jsonb,text)|argument_defaults": {
+          "present": false,
+          "value": null
+        },
+        "functions|public.eps_create_project(jsonb,text)|config": {
+          "present": false,
+          "value": null
+        },
+        "functions|public.eps_create_project(jsonb,text)|definer": {
+          "present": false,
+          "value": null
+        },
+        "functions|public.eps_create_project(jsonb,text)|identity_arguments": {
+          "present": false,
+          "value": null
+        },
+        "functions|public.eps_create_project(jsonb,text)|kind": {
+          "present": false,
+          "value": null
+        },
+        "functions|public.eps_create_project(jsonb,text)|language": {
+          "present": false,
+          "value": null
+        },
+        "functions|public.eps_create_project(jsonb,text)|leakproof": {
+          "present": false,
+          "value": null
+        },
+        "functions|public.eps_create_project(jsonb,text)|owner": {
+          "present": false,
+          "value": null
+        },
+        "functions|public.eps_create_project(jsonb,text)|parallel": {
+          "present": false,
+          "value": null
+        },
+        "functions|public.eps_create_project(jsonb,text)|returns": {
+          "present": false,
+          "value": null
+        },
+        "functions|public.eps_create_project(jsonb,text)|source_sha256": {
+          "present": false,
+          "value": null
+        },
+        "functions|public.eps_create_project(jsonb,text)|strict": {
+          "present": false,
+          "value": null
+        },
+        "functions|public.eps_create_project(jsonb,text)|support": {
+          "present": false,
+          "value": null
+        },
+        "functions|public.eps_create_project(jsonb,text)|volatility": {
+          "present": false,
+          "value": null
+        },
+        "functions|public.eps_list_project_clients(text,text,integer)|acl": {
+          "present": false,
+          "value": null
+        },
+        "functions|public.eps_list_project_clients(text,text,integer)|argument_defaults": {
+          "present": false,
+          "value": null
+        },
+        "functions|public.eps_list_project_clients(text,text,integer)|config": {
+          "present": false,
+          "value": null
+        },
+        "functions|public.eps_list_project_clients(text,text,integer)|definer": {
+          "present": false,
+          "value": null
+        },
+        "functions|public.eps_list_project_clients(text,text,integer)|identity_arguments": {
+          "present": false,
+          "value": null
+        },
+        "functions|public.eps_list_project_clients(text,text,integer)|kind": {
+          "present": false,
+          "value": null
+        },
+        "functions|public.eps_list_project_clients(text,text,integer)|language": {
+          "present": false,
+          "value": null
+        },
+        "functions|public.eps_list_project_clients(text,text,integer)|leakproof": {
+          "present": false,
+          "value": null
+        },
+        "functions|public.eps_list_project_clients(text,text,integer)|owner": {
+          "present": false,
+          "value": null
+        },
+        "functions|public.eps_list_project_clients(text,text,integer)|parallel": {
+          "present": false,
+          "value": null
+        },
+        "functions|public.eps_list_project_clients(text,text,integer)|returns": {
+          "present": false,
+          "value": null
+        },
+        "functions|public.eps_list_project_clients(text,text,integer)|source_sha256": {
+          "present": false,
+          "value": null
+        },
+        "functions|public.eps_list_project_clients(text,text,integer)|strict": {
+          "present": false,
+          "value": null
+        },
+        "functions|public.eps_list_project_clients(text,text,integer)|support": {
+          "present": false,
+          "value": null
+        },
+        "functions|public.eps_list_project_clients(text,text,integer)|volatility": {
+          "present": false,
+          "value": null
+        },
+        "indexes|eps.project_creation_intents_pkey|definition": {
+          "present": false,
+          "value": null
+        },
+        "indexes|eps.project_creation_intents_pkey|live": {
+          "present": false,
+          "value": null
+        },
+        "indexes|eps.project_creation_intents_pkey|ready": {
+          "present": false,
+          "value": null
+        },
+        "indexes|eps.project_creation_intents_pkey|valid": {
+          "present": false,
+          "value": null
+        },
+        "memberships|authenticated>eps_project_creator/postgres|admin": {
+          "present": false,
+          "value": null
+        },
+        "memberships|authenticated>eps_project_creator/postgres|grantor": {
+          "present": false,
+          "value": null
+        },
+        "memberships|authenticated>eps_project_creator/postgres|inherit": {
+          "present": false,
+          "value": null
+        },
+        "memberships|authenticated>eps_project_creator/postgres|set": {
+          "present": false,
+          "value": null
+        },
+        "memberships|eps_project_creator>postgres/postgres|admin": {
+          "present": false,
+          "value": null
+        },
+        "memberships|eps_project_creator>postgres/postgres|grantor": {
+          "present": false,
+          "value": null
+        },
+        "memberships|eps_project_creator>postgres/postgres|inherit": {
+          "present": false,
+          "value": null
+        },
+        "memberships|eps_project_creator>postgres/postgres|set": {
+          "present": false,
+          "value": null
+        },
+        "memberships|eps_project_creator>postgres/supabase_admin|admin": {
+          "present": false,
+          "value": null
+        },
+        "memberships|eps_project_creator>postgres/supabase_admin|grantor": {
+          "present": false,
+          "value": null
+        },
+        "memberships|eps_project_creator>postgres/supabase_admin|inherit": {
+          "present": false,
+          "value": null
+        },
+        "memberships|eps_project_creator>postgres/supabase_admin|set": {
+          "present": false,
+          "value": null
+        },
+        "policies|eps.audit_events.project_creator_audit|cmd": {
+          "present": false,
+          "value": null
+        },
+        "policies|eps.audit_events.project_creator_audit|permissive": {
+          "present": false,
+          "value": null
+        },
+        "policies|eps.audit_events.project_creator_audit|qual": {
+          "present": false,
+          "value": null
+        },
+        "policies|eps.audit_events.project_creator_audit|roles": {
+          "present": false,
+          "value": null
+        },
+        "policies|eps.audit_events.project_creator_audit|with_check": {
+          "present": false,
+          "value": null
+        },
+        "policies|eps.idempotency_records.project_creator_idempotency|cmd": {
+          "present": false,
+          "value": null
+        },
+        "policies|eps.idempotency_records.project_creator_idempotency|permissive": {
+          "present": false,
+          "value": null
+        },
+        "policies|eps.idempotency_records.project_creator_idempotency|qual": {
+          "present": false,
+          "value": null
+        },
+        "policies|eps.idempotency_records.project_creator_idempotency|roles": {
+          "present": false,
+          "value": null
+        },
+        "policies|eps.idempotency_records.project_creator_idempotency|with_check": {
+          "present": false,
+          "value": null
+        },
+        "policies|eps.project_creation_intents.project_intent_insert|cmd": {
+          "present": false,
+          "value": null
+        },
+        "policies|eps.project_creation_intents.project_intent_insert|permissive": {
+          "present": false,
+          "value": null
+        },
+        "policies|eps.project_creation_intents.project_intent_insert|qual": {
+          "present": false,
+          "value": null
+        },
+        "policies|eps.project_creation_intents.project_intent_insert|roles": {
+          "present": false,
+          "value": null
+        },
+        "policies|eps.project_creation_intents.project_intent_insert|with_check": {
+          "present": false,
+          "value": null
+        },
+        "policies|eps.project_creation_intents.project_intent_read|cmd": {
+          "present": false,
+          "value": null
+        },
+        "policies|eps.project_creation_intents.project_intent_read|permissive": {
+          "present": false,
+          "value": null
+        },
+        "policies|eps.project_creation_intents.project_intent_read|qual": {
+          "present": false,
+          "value": null
+        },
+        "policies|eps.project_creation_intents.project_intent_read|roles": {
+          "present": false,
+          "value": null
+        },
+        "policies|eps.project_creation_intents.project_intent_read|with_check": {
+          "present": false,
+          "value": null
+        },
+        "policies|public.project_memberships.creator_membership_insert|cmd": {
+          "present": false,
+          "value": null
+        },
+        "policies|public.project_memberships.creator_membership_insert|permissive": {
+          "present": false,
+          "value": null
+        },
+        "policies|public.project_memberships.creator_membership_insert|qual": {
+          "present": false,
+          "value": null
+        },
+        "policies|public.project_memberships.creator_membership_insert|roles": {
+          "present": false,
+          "value": null
+        },
+        "policies|public.project_memberships.creator_membership_insert|with_check": {
+          "present": false,
+          "value": null
+        },
+        "policies|public.projects.new_project_insert|cmd": {
+          "present": false,
+          "value": null
+        },
+        "policies|public.projects.new_project_insert|permissive": {
+          "present": false,
+          "value": null
+        },
+        "policies|public.projects.new_project_insert|qual": {
+          "present": false,
+          "value": null
+        },
+        "policies|public.projects.new_project_insert|roles": {
+          "present": false,
+          "value": null
+        },
+        "policies|public.projects.new_project_insert|with_check": {
+          "present": false,
+          "value": null
+        },
+        "roles|eps_project_creator|bypassrls": {
+          "present": false,
+          "value": null
+        },
+        "roles|eps_project_creator|connection_limit": {
+          "present": false,
+          "value": null
+        },
+        "roles|eps_project_creator|create_db": {
+          "present": false,
+          "value": null
+        },
+        "roles|eps_project_creator|create_role": {
+          "present": false,
+          "value": null
+        },
+        "roles|eps_project_creator|inherit": {
+          "present": false,
+          "value": null
+        },
+        "roles|eps_project_creator|login": {
+          "present": false,
+          "value": null
+        },
+        "roles|eps_project_creator|replication": {
+          "present": false,
+          "value": null
+        },
+        "roles|eps_project_creator|super": {
+          "present": false,
+          "value": null
+        },
+        "roles|eps_project_creator|valid_until": {
+          "present": false,
+          "value": null
+        },
+        "schemas|eps|acl": {
+          "present": true,
+          "value": [
+            "anon=U/postgres",
+            "authenticated=U/postgres",
+            "eps_api_owner=U/postgres",
+            "eps_candidate_apply_owner=U/postgres",
+            "eps_candidate_assets_owner=U/postgres",
+            "eps_candidate_stage_owner=U/postgres",
+            "eps_candidate_upload_owner=U/postgres",
+            "eps_cast_owner=U/postgres",
+            "eps_casting_guard_owner=U/postgres",
+            "eps_casting_owner=U/postgres",
+            "eps_draft_owner=U/postgres",
+            "eps_guest_owner=U/postgres",
+            "eps_job_trace_owner=U/postgres",
+            "eps_jobs_dispatcher=U/postgres",
+            "eps_jobs_executor=U/postgres",
+            "eps_jobs_owner=U/postgres",
+            "eps_logo_verify_owner=U/postgres",
+            "eps_mcp_issuer_owner=U/postgres",
+            "eps_mcp_session_owner=U/postgres",
+            "eps_oauth_consent_owner=U/postgres",
+            "eps_review_owner=U/postgres",
+            "eps_review_stage_owner=U/postgres",
+            "eps_settings_owner=U/postgres",
+            "eps_specs_apply_owner=U/postgres",
+            "eps_specs_assets_executor=U/postgres",
+            "eps_specs_assets_owner=U/postgres",
+            "eps_specs_initializer=U/postgres",
+            "eps_specs_owner=U/postgres",
+            "eps_specs_stage_owner=U/postgres",
+            "eps_specs_submit_owner=U/postgres",
+            "eps_specs_upload_owner=U/postgres",
+            "eps_specs_verify_owner=U/postgres",
+            "eps_support_upload_owner=U/postgres",
+            "eps_support_verify_owner=U/postgres",
+            "postgres=UC/postgres",
+            "supabase_auth_admin=U/postgres"
+          ]
+        },
+        "schemas|public|acl": {
+          "present": true,
+          "value": [
+            "=U/pg_database_owner",
+            "anon=U/pg_database_owner",
+            "authenticated=U/pg_database_owner",
+            "eps_api_owner=U/pg_database_owner",
+            "eps_candidate_apply_owner=U/pg_database_owner",
+            "eps_candidate_assets_owner=U/pg_database_owner",
+            "eps_candidate_stage_owner=U/pg_database_owner",
+            "eps_candidate_upload_owner=U/pg_database_owner",
+            "eps_cast_owner=U/pg_database_owner",
+            "eps_casting_owner=U/pg_database_owner",
+            "eps_draft_owner=U/pg_database_owner",
+            "eps_guest_owner=U/pg_database_owner",
+            "eps_jobs_owner=U/pg_database_owner",
+            "eps_logo_verify_owner=U/pg_database_owner",
+            "eps_mcp_issuer_owner=U/pg_database_owner",
+            "eps_mcp_session_owner=U/pg_database_owner",
+            "eps_oauth_consent_owner=U/pg_database_owner",
+            "eps_review_owner=U/pg_database_owner",
+            "eps_review_stage_owner=U/pg_database_owner",
+            "eps_settings_owner=U/pg_database_owner",
+            "eps_specs_apply_owner=U/pg_database_owner",
+            "eps_specs_assets_owner=U/pg_database_owner",
+            "eps_specs_owner=U/pg_database_owner",
+            "eps_specs_stage_owner=U/pg_database_owner",
+            "eps_specs_submit_owner=U/pg_database_owner",
+            "eps_specs_upload_owner=U/pg_database_owner",
+            "eps_specs_verify_owner=U/pg_database_owner",
+            "eps_support_upload_owner=U/pg_database_owner",
+            "eps_support_verify_owner=U/pg_database_owner",
+            "pg_database_owner=UC/pg_database_owner",
+            "postgres=U/pg_database_owner",
+            "service_role=U/pg_database_owner"
+          ]
+        },
+        "tables|eps.audit_events|acl": {
+          "present": true,
+          "value": [
+            "eps_api_owner=a/postgres",
+            "eps_candidate_upload_owner=a/postgres",
+            "eps_cast_owner=a/postgres",
+            "eps_jobs_owner=a/postgres",
+            "eps_logo_verify_owner=a/postgres",
+            "eps_review_owner=a/postgres",
+            "eps_settings_owner=a/postgres",
+            "eps_specs_owner=a/postgres",
+            "eps_specs_submit_owner=a/postgres",
+            "eps_specs_upload_owner=a/postgres",
+            "eps_specs_verify_owner=a/postgres",
+            "eps_support_upload_owner=a/postgres",
+            "eps_support_verify_owner=a/postgres",
+            "postgres=arwdDxtm/postgres"
+          ]
+        },
+        "tables|eps.idempotency_records|acl": {
+          "present": true,
+          "value": [
+            "eps_api_owner=ar/postgres",
+            "eps_candidate_upload_owner=ar/postgres",
+            "eps_cast_owner=ar/postgres",
+            "eps_casting_owner=ar/postgres",
+            "eps_jobs_owner=ar/postgres",
+            "eps_logo_verify_owner=ar/postgres",
+            "eps_review_owner=ar/postgres",
+            "eps_settings_owner=ar/postgres",
+            "eps_specs_owner=ar/postgres",
+            "eps_specs_submit_owner=ar/postgres",
+            "eps_specs_upload_owner=ar/postgres",
+            "eps_specs_verify_owner=ar/postgres",
+            "eps_support_upload_owner=ar/postgres",
+            "eps_support_verify_owner=ar/postgres",
+            "postgres=arwdDxtm/postgres"
+          ]
+        },
+        "tables|eps.project_creation_intents|acl": {
+          "present": false,
+          "value": null
+        },
+        "tables|eps.project_creation_intents|force_rls": {
+          "present": false,
+          "value": null
+        },
+        "tables|eps.project_creation_intents|owner": {
+          "present": false,
+          "value": null
+        },
+        "tables|eps.project_creation_intents|rls": {
+          "present": false,
+          "value": null
+        },
+        "types|eps.project_creation_intents|acl": {
+          "present": false,
+          "value": null
+        },
+        "types|eps.project_creation_intents|base": {
+          "present": false,
+          "value": null
+        },
+        "types|eps.project_creation_intents|default": {
+          "present": false,
+          "value": null
+        },
+        "types|eps.project_creation_intents|enum_labels": {
+          "present": false,
+          "value": null
+        },
+        "types|eps.project_creation_intents|kind": {
+          "present": false,
+          "value": null
+        },
+        "types|eps.project_creation_intents|not_null": {
+          "present": false,
+          "value": null
+        },
+        "types|eps.project_creation_intents|owner": {
+          "present": false,
+          "value": null
+        }
+      },
+      "intent_rows": null,
+      "new_function_metadata": {
+        "public.eps_create_project(jsonb,text)": null,
+        "public.eps_list_project_clients(text,text,integer)": null
+      },
+      "old_identities": {
+        "count": 6442,
+        "sha256": "4c2f95e5b47e3567448f8bee52c0b656278e3ebfd8ce55f5656ed22aa0be7724"
+      },
+      "remaining_catalogue": {
+        "count": 20412,
+        "sha256": "5465dd6b02b8496b41991360da18f86b9022f383d9d0e9ec2827cdc9404fafd8"
+      }
+    }
+  },
+  "cloud_business_writes": false,
+  "migration_dispatched": false,
+  "observed_at": "2026-11-01T23:44:36.379553+00:00",
+  "plan_id": "0a3a7393-6e3e-43a1-956a-12954dec2deb",
+  "provider_called": false,
+  "raw_cli_or_private_payloads_persisted": false,
+  "result": "prepared",
+  "schema_version": "1.0",
+  "source_pins": {
+    "development/m03/english-release34/release.py": "cfb1de71b308d6bfe7b9115980a67d84341b014f06babf1fac84aa3c9806364a",
+    "development/m03/english-transcript34/port-patches.json": "12a675415e0970825903de616dae271911da6f01edd13d9dee62e0befecf813e",
+    "development/m07/feedback-summary37-release/state.py": "a2b59a9f09a4d82897370dd3d187af04d6268210eed16d585e530ae5f1081abc",
+    "development/m07/feedback-summary37/build_migration.py": "c63159bca248b397d3cc3ceb820424555aecbfb788820eb637c0ff7276aaf880",
+    "development/m07/job-attempt-observability36-release/catalogue_delta.py": "bad16efbc12f045ea57bb03eedf5d44b05d8779a041d14fdbf3cbb0b069dd65c",
+    "development/m07/job-attempt-observability36-release/proposal.py": "26eec43740e63fee5c803f0baa8c9fa3ed5a11ca5e4ea48e16ff82c4e68f1003",
+    "development/m07/job-attempt-observability36-release/schema_gate.py": "4ac028d48e773f881cda74f4cd7a201b86cd7c6d0a5a275d09eae5fbd855ac13",
+    "development/m07/job-attempt-observability36-release/state.py": "2240ad7b9ae85ebc7d1ab94857e9ed5a5c572f51b6ef7fb18c1fd72b9a0b13f9",
+    "development/m07/job-attempt-observability36/candidate.sql": "dc4eec586a3ae0fc9722a70ca6229742971eb21279916c32ab47cea4a802ed3b",
+    "development/m07/job-batch-filter/candidate.sql.txt": "331e6d9a83220d9baed3fed58810cd2bea70ea7acf05642c1d93885640fddb30",
+    "development/m07/job-batch-filter38-release/build_migration.py": "5b5be0a71a41b49fb6890442e30da8c1804997d8da5f18d487e2f66c025066b6",
+    "development/m07/job-batch-filter38-release/state.py": "7bc47bf8589a6a211497073d25d7621688c0126f195fd40e382324e72ce5d06f",
+    "development/m07/oauth-attempt-trace/inspect-attempt.py": "1359373d078ee67d5dd644d1717a048f274c98f3617bb57c3668a45866c4c03c",
+    "development/m07/oauth-consent-fix/discover.py": "6ce739dc9394d67ba98a851651455dfb2ffaf553602f8312b1626130f2a125e9",
+    "development/m07/oauth-consent-fix/discovery.sql": "0d19f8e10a12a4cd71c10cc476fea4654ce7d7591ee73b40ff02903bfb63809c",
+    "development/m07/oauth-consent-fix/release_v3.py": "bec36223e8b22217ab5c9e1a2c557ff9aa0bd4dabbeae1361469fdc9079a1c77",
+    "development/m07/project-creation39-canonical-release/README.md": "adb348ca9154dbe0e0e99ba9bcc4199bbe6ffdc1f4343e9b56cf42e44d59a033",
+    "development/m07/project-creation39-canonical-release/catalogue.sql": "896e1ae0c17798470233ea4d4947b1b20070927cc4a5075d98a0a41a3d39cc26",
+    "development/m07/project-creation39-canonical-release/release.py": "d91d329192c85e385e9dcbedd5a966e9acf7409bcc34630ea768f5eae1beaefe",
+    "development/m07/project-creation39-canonical-release/state.py": "52beee5cb7d6143af858db5d8f5d2fc62f00708f2703f29f44f1e2c9b8ffd082",
+    "development/m07/project-creation39-canonical-release/test_release.py": "eac8ca3d4e7cd14e3e6f6c0038492625309146bc07a820e72217d195215dc1ae",
+    "development/m07/project-creation39-canonical-release/validate_local.py": "cf47cdbb02bd44f4cde20e53e9a8fec202a6c1f1e7cbac752c99077029a03f74",
+    "development/m07/specs-diagnostic-worker38-adoption/state.py": "690ae972ab0481026c139af5bcbf42017aa2fe63144f2981bd035dd139bbe8ff",
+    "development/m07/workspace-summary35-release/release.py": "33e64f3c9a3d2b5d394a6a7a1468968974ef05765802c03748db70ef3890510f",
+    "supabase/migrations/20261028010943_m01_canonical_foundation.sql": "8a5f3ed7727a72051e630307d2daecab8c4a74054398a6425e73bd85e17568b9",
+    "supabase/migrations/20261028013324_m01_identity_role_inheritance.sql": "5382efe9fbdf9c194010257e0ac0024dcb447207522036560056d5d1a4e20e30",
+    "supabase/migrations/20261028013655_m01_workspace_scope_alias.sql": "67ddb2cff9fed9c42d34657e833c613aec4afd2769543a991bbac84da355db64",
+    "supabase/migrations/20261028024205_m01_private_logo_boundary.sql": "b04af5119b4e384bd96136573eec39e69f21a0ffb7d9f4aeb07bbf48f2976b9d",
+    "supabase/migrations/20261028072515_m01_logo_upload_capability.sql": "4dbd400092d7743b02dd0769ae511c208e6f4f349428fc0e7f0fb9c573ba4b24",
+    "supabase/migrations/20261028162702_m01_replay_scope_refresh.sql": "82a4f2ec03efc0787aa58e5f1e68ab626e5dddb5e4c645444103456757bf4251",
+    "supabase/migrations/20261028162800_m02_jobs_outbox.sql": "f619b3dfb9d964ab5902d04941b8cd59b44e9da36f1ab3f7b10bd45298ff4013",
+    "supabase/migrations/20261028172320_m02_manual_specs_draft.sql": "8ab866a49cb2e01eabf3b83076fe4519a60255263d0a1a170ef3ba9718a2349c",
+    "supabase/migrations/20261028184145_m02_role_order.sql": "14f96c7e635fe46cb11393a881bca26068d696c32f5e454df8655299702b1efa",
+    "supabase/migrations/20261028222030_m02_specs_pipeline.sql": "1e5319bb81be1f12896f7efb5a2cb7706653b79eb440a4dc1aaaca4ed9556895",
+    "supabase/migrations/20261029001520_m02_specs_assets.sql": "9b35e8efdfc5184252ab4ecfe1a50861c8991dadf2b20544d481b51b3b7fb288",
+    "supabase/migrations/20261029003941_m02_specs_mime_guard.sql": "5a4439e9dd5262cae7e6f813997c4c9506db3eb74fe4ea95d2a352726effb549",
+    "supabase/migrations/20261029070038_m02_specs_read_operation.sql": "040151ec89b461be2dc0c1d4ab8446652062488aac5f63822129d497ecf1702e",
+    "supabase/migrations/20261029090500_m02_service_claim_replay.sql": "705d7432ab8cbe04fa5a94e090e1ce55e36c622590c09e0ce922ac5a59c6baf2",
+    "supabase/migrations/20261029090724_m03_candidate_library.sql": "2a84e240fa1ed3a283a483775e797e7ef1bafeea36d2d11ace17e06b857d8b8d",
+    "supabase/migrations/20261029094600_m02_pdf_vision.sql": "5b7ad204f6dddde82ae829577ea1130fd426a3998797460871baad20d789cb50",
+    "supabase/migrations/20261029100500_m03_candidate_pipeline.sql": "4af04b4a3fb050e39aa23958c3f82e304cc7d7a1f450a5d93f7f50bc001bd836",
+    "supabase/migrations/20261029133455_m03_remaining_media_library.sql": "2e190e001b2bda044d9c90da4287f54e5839b0af7ffec84d4c93083909c944fb",
+    "supabase/migrations/20261029135318_m03_frame_request_resubmission.sql": "e816ad6b491626ace489efd256b56c322d25d9101de94e5fb8b24d2d4b745048",
+    "supabase/migrations/20261029174841_m04_casting_assignments_lifecycle.sql": "2825681bf529f1b32db2473749180901f0961b025e8da847b38ad49c06f4b900",
+    "supabase/migrations/20261029180953_m03_frame_vision_selection.sql": "bcd12794eccfa590e5d160f62dfd67838c8186376cddda1952f291c50d03bec8",
+    "supabase/migrations/20261029202629_m04_review_series_processing.sql": "3f1543b9d4b525d486287f2f00711270ed1fbdc30911dac3aea725aee50679e4",
+    "supabase/migrations/20261029203953_m04_ai_apply_source_guard.sql": "1bf897c3c6dcae03c96f0d434ba61edfc89b01d2c700dc4e8c11ce17e285832c",
+    "supabase/migrations/20261029215218_m05_immutable_presentation_versions.sql": "09d78c225ca02d436a8b1c2bcc6e55f273dfea116976807af4a8b228b99de5f4",
+    "supabase/migrations/20261030002634_m06_guest_review_feedback_exports.sql": "2c72507216efdcd3e9dcea3f9b94270b19e1275ebcd2fcf91dad9253ddde8d2a",
+    "supabase/migrations/20261030004643_m06_credential_admission_guest_retry.sql": "a0fb9dfec8cdae2718719d455ed11b4f25dd9b79e8fc9de19bd53c229b64089e",
+    "supabase/migrations/20261030013832_m06_guest_storage_policy_composition.sql": "9e3ab85655c2fa0490aba07118fe730dae2c6193f651c3ba086910d82b7eb171",
+    "supabase/migrations/20261030030717_m06_frozen_video_source_transcripts.sql": "6334ea62a49966963e675c61e6a73d2acb5981d35f261cf2dff519d097905178",
+    "supabase/migrations/20261030111549_m07_settings_delegated_session.sql": "6531e8decab5496e212eb01575aca666cd9e03b0575f92dd66bd380760f84af4",
+    "supabase/migrations/20261030154824_m07_native_oauth_issuer.sql": "e5fd2121784c8372743f330664508b2a38a25cd622b24cf6765c570ae6f2a785",
+    "supabase/migrations/20261031010000_m07_specs_submit_ack_projection.sql": "c1c4cb41460df067d726e4058cc24eacbcf55e5cc73e6a18365394e2c2fbc5e5",
+    "supabase/migrations/20261031104603_m07_oauth_consent_binding_and_claims.sql": "0d7b7a7577ffe1ff4b24eba202ce6ac7e87c616ca8039397800e607c651908a5",
+    "supabase/migrations/20261031130207_m07_oauth_consent_browser_context.sql": "9923e7a1cb52e160041aacea053a21cb9c25c1fc468db99eb7b7ea77e15dcb81",
+    "supabase/migrations/20261031143711_m03_english_transcript_projection.sql": "0705f1940abbc5c4afc65a49e85d9ef2ce6a6489178b6dd82c3acb33cf976472",
+    "supabase/migrations/20261031182038_m07_workspace_summary.sql": "cbb12610603318bce68ced4a58d0a9a01ee07737838c99a2ea0e6214e5e933e0",
+    "supabase/migrations/20261101012057_m07_job_attempt_observability.sql": "4209e16b7d67cfb793375d24dfd22f9fee72f3516e3dde16be1d2b0d633b7267",
+    "supabase/migrations/20261101042702_m07_feedback_summary.sql": "14bb7f74e597b9a1a9b49df6fe047b16a788efa703e5d7a849ed254c3cbe98b3",
+    "supabase/migrations/20261101110939_m07_job_batch_filter.sql": "47af16421613320b76abc6e7119da92912859f0334b03b047a98492f75f6ea2d",
+    "supabase/migrations/20261101223342_m07_project_creation.sql": "c17af7708a1886d2129df2dc9e4eb196e6b760862939bd2f5fd3c7c1c687e242",
+    "tools/provision_logo_verifier.py": "660f2eb0d15b1ed17801ecef22270dbb389fdf93181c340f16d715fc2b3a340c",
+    "tools/release_foundation.py": "02aac0cefc4b46419c7d5a086da672398716cf7ee73882602574cff99659d751",
+    "tools/release_logo.py": "efd1de07b3304d8d5c89f29bbeaf77ff2ce1d8d42ffbf885f960c36f506b47f4",
+    "tracking/evidence/m07/completion-release/canonical38-private-snapshot.json": "1972d54e921d1d439314b5a2f8470be5dd766d1bbc6327b0eee1d238098e7579",
+    "tracking/evidence/m07/completion-release/reader-baseline-ready.json": "b44b296216268f165d09cdf2163f6358c84b1e58f311a65d61db7e4ff5374ccc",
+    "tracking/evidence/m07/feedback-summary37-release/2026-11-01T10-02-00-079274Z-apply.json": "776ddc9e16af407c613d9203b6c07918826160ae0b3f48af7437b88409bed4f6",
+    "tracking/evidence/m07/feedback-summary37-release/2026-11-01T10-02-27-793801Z-readback.json": "cc0936d60ab10c9f2bdabcd6c7b26dc07655abc9126de692cfe519a589e2c8c2",
+    "tracking/evidence/m07/oauth-consent-fix/2026-10-31T10-55-03-058615Z-catalogue.json": "cea1b708a9c43f5c1436797651094b3041f3ce3365cf44690782f027c709ea80",
+    "tracking/evidence/m07/project-creation39-proof/2026-11-01T22-51-16.947Z-70b3b36e.json": "b33fc470e49ad0d09618c7d3298562c30fb1703eec696743bdf75e4ff5b98686",
+    "tracking/evidence/m07/project-creation39-race/2026-11-01T22-59-30.771Z-9e589ba0.json": "c8e08bf76b191e3456b5c5f820e3ddf96443695c616887b61d596e8b7ca6ecfb",
+    "tracking/evidence/m07/project-creation39-release/diagnostic-9be2ab0a-7528-43d6-bcf6-68e98feda29a.json": "2089d760677c9466ccc6cc04871f593ff9ae29373ed02332b53d87fdcd96c0d9"
+  },
+  "target": "pyibofyctwnqpvktepse",
+  "version": "20261101223342"
+}
