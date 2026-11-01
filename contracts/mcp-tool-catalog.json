@@ -23062,6 +23062,25 @@
               "message",
               "entity_id"
             ]
+          },
+          "Page": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "next_cursor": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "next_cursor"
+            ]
           }
         }
       },

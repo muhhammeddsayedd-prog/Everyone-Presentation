@@ -27,3 +27,27 @@ test('create_project MCP forwards acting identity, intent, key and context to th
   assert.equal(mcpCapabilityAllowed('projects.read AND projects.write', new Set(['projects.write'])), false);
   assert.equal(mcpCapabilityAllowed('projects.read AND projects.write', new Set(['projects.read', 'projects.write'])), true);
 });
+
+test('project discovery MCP operations return SDK-valid catalogue and paginated clients', async () => {
+  const actor = { principal_id: '10000000-0000-4000-8000-000000000001' };
+  const clients = { data: [{ id: '30000000-0000-4000-8000-000000000001', name: 'Permitted client', row_version: 1 }], page: { next_cursor: null } };
+  const types = [{ key: 'casting', label: 'Casting', status: 'available' }, { key: 'wardrobe', label: 'Wardrobe', status: 'planned' }];
+  const calls: unknown[][] = [];
+  const services = { studio: {
+    listClients: async (...args: unknown[]) => { calls.push(args); return clients; },
+    listPresentationTypes: async (...args: unknown[]) => { calls.push(args); return types; },
+  } } as unknown as McpServices;
+  type Schema = Parameters<AjvJsonSchemaValidator['getValidator']>[0];
+  const validator = new AjvJsonSchemaValidator();
+  for (const [name, args, data] of [['list_clients', { limit: 25 }, clients.data], ['list_presentation_types', {}, types]] as const) {
+    const result = await invokeMcpTool(name, args, actor, services, 'discovery-request');
+    assert.equal(result.isError, undefined, JSON.stringify(result));
+    const check = validator.getValidator(catalog.tools.find(tool => tool.name === name)!.outputSchema as unknown as Schema);
+    const checked = check(result.structuredContent);
+    assert.equal(checked.valid, true, JSON.stringify(checked));
+    const content = result.structuredContent as { data: unknown; page?: unknown };
+    assert.deepEqual(content.data, data);
+    if (name === 'list_clients') assert.deepEqual(content.page, clients.page);
+  }
+  assert.deepEqual(calls, [[actor, { limit: 25 }], [actor]]);
+});

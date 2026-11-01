@@ -92,7 +92,7 @@ for name, template_name, endpoint, schema, capability in [
         tool['outputSchema']['properties']['data']['items'] = {'$ref': '#/$defs/ClientSummary'}
     else:
         tool['outputSchema']['properties']['data'] = {'type': 'array', 'items': {'$ref': '#/$defs/PresentationType'}}
-    tool['outputSchema']['$defs'] = definitions([schema, 'Id', 'Warning'])
+    tool['outputSchema']['$defs'] = definitions([schema, 'Id', 'Warning', *(['Page'] if name == 'list_clients' else [])])
     catalog['tools'] = [row for row in catalog['tools'] if row['name'] != name] + [tool]
 write_source(path, json.dumps(catalog, indent=2) + '\n')
 path = ROOT / 'contracts/operation-parity.json'
