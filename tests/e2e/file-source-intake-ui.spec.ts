@@ -36,7 +36,8 @@ async function fileWorkspace(page: Page, mode: Mode = 'normal') {
   const accepted = { job_id: jobId, resource_id: specId, poll_url: `/api/v1/jobs/${jobId}`, status: 'queued' };
   await page.route(`${storage}/**`, async route => {
     const request = route.request();
-    const headers = { 'Access-Control-Allow-Origin': 'http://127.0.0.1:3100', 'Access-Control-Allow-Methods': 'PUT, OPTIONS', 'Access-Control-Allow-Headers': 'content-type,x-upsert' };
+    // Answer the app's own origin so the suite runs on any configured test port.
+    const headers = { 'Access-Control-Allow-Origin': new URL(page.url()).origin, 'Access-Control-Allow-Methods': 'PUT, OPTIONS', 'Access-Control-Allow-Headers': 'content-type,x-upsert' };
     if (request.method() === 'OPTIONS') return route.fulfill({ status: 204, headers });
     expect(request.method()).toBe('PUT');
     expect(new URL(request.url()).pathname).toBe(new URL(session().upload_url).pathname);
@@ -146,9 +147,10 @@ for (const mode of ['unknown-complete', 'unknown-submit', 'refresh-failure'] as 
 
 test('controlled unavailable submit preserves selected original and allows manual work; dirty mode switch requires consent', async ({ page }) => {
   const model = await fileWorkspace(page, 'unavailable'); await page.goto(view);
-  await page.getByLabel('Pasted source text').fill('Unsubmitted local correction'); page.once('dialog', dialog => dialog.dismiss());
-  await page.getByRole('button', { name: 'Upload PDF, DOCX or text' }).click(); await expect(page.getByLabel('Pasted source text')).toHaveValue('Unsubmitted local correction');
-  page.once('dialog', dialog => dialog.accept()); await selectFile(page); await page.getByRole('button', { name: 'Process document', exact: true }).click();
+  await page.getByLabel('Pasted source text').fill('Unsubmitted local correction');
+  await page.getByRole('button', { name: 'Upload PDF, DOCX or text' }).click(); await page.getByRole('alertdialog', { name: 'Switch source input?' }).getByRole('button', { name: 'Cancel', exact: true }).click(); await expect(page.getByLabel('Pasted source text')).toHaveValue('Unsubmitted local correction');
+  await page.getByRole('button', { name: 'Upload PDF, DOCX or text' }).click(); await page.getByRole('alertdialog', { name: 'Switch source input?' }).getByRole('button', { name: 'Discard and switch', exact: true }).click();
+  await page.getByLabel('Document source', { exact: true }).setInputFiles(plainFile); await page.getByRole('button', { name: 'Process document', exact: true }).click();
   await expect(page.getByRole('alert').filter({ hasText: 'Document processing is not available yet' })).toBeVisible();
   await expect(page.getByLabel('General instructions', { exact: true })).toBeEditable();
   await page.getByLabel('General instructions', { exact: true }).fill('Manual work continues'); await expect.poll(() => model.spec().normalized_instructions).toBe('Manual work continues');

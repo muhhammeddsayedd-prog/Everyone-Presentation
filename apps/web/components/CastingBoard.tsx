@@ -8,6 +8,14 @@ import type { Assignment, CastingOutput, MainUndo, SetSlotMainResult } from '../
 import { api, ApiError, errorMessage, mutation, type Actor, type Envelope, type Workspace } from './api';
 import { ErrorNotice, Loading } from './Feedback';
 import { CandidateFrameImage } from './CandidateFrameImage';
+import { useRouter } from 'next/navigation';
+import { Icon } from './Icon';
+import { ActionMenu, type MenuItem } from './ui/Menu';
+import { Drawer } from './ui/Overlay';
+import { useConfirm } from './ui/Confirm';
+import { useToast } from './ui/Toast';
+import { SegmentIndicator } from './motion/SegmentIndicator';
+import { AnimatedNumber } from './motion/AnimatedNumber';
 
 interface Props {
   workspaceId: string; projectId: string; actor: Actor; initialOutput?: CastingOutput;
@@ -43,12 +51,13 @@ async function pages<T extends { id: string }>(path: string, signal: AbortSignal
 export function CastingBoard(props: Props) { return <CastingBoardScope key={`${props.actor.id}:${props.workspaceId}`} {...props} />; }
 function CastingBoardScope({ workspaceId, projectId, actor, initialOutput = 'selection', onDirtyChange, onWorkspaceChanged }: Props) {
   const [data, setData] = useState<BoardData | null>(null); const [profiles, setProfiles] = useState<Record<string, Candidate>>({});
-  const [previewOutput, setPreviewOutput] = useState<CastingOutput | null>(null); const [selectedRole, setSelectedRole] = useState('');
+  const [previewOutput, setPreviewOutput] = useState<CastingOutput | null>(null); const [selectedRole, setSelectedRole] = useState(''); const [view, setView] = useState<'all' | 'one'>('all');
   const output = previewOutput ?? data?.workspace.active_output ?? initialOutput;
   const [loading, setLoading] = useState(true); const [fresh, setFresh] = useState(false); const [busy, setBusy] = useState(false);
   const [error, setError] = useState(''); const [status, setStatus] = useState(''); const [profileWarning, setProfileWarning] = useState(false);
   const [uncertain, setUncertain] = useState(false); const [editing, setEditing] = useState<string | null>(null); const [notesDirty, setNotesDirty] = useState(false);
   const [picks, setPicks] = useState<Record<string, string>>({}); const [undos, setUndos] = useState<Record<string, UndoChoice>>({});
+  const confirm = useConfirm(); const toast = useToast(); const router = useRouter(); const undoRef = useRef<((slotId: string) => void) | null>(null);
   const mounted = useRef(false); const read = useRef<{ controller: AbortController; sequence: number } | null>(null);
   const dragging = useRef<DragChoice | null>(null);
   const write = useRef<Write | null>(null); const writeBusy = useRef(false); const intents = useRef(new Map<string, { signature: string; init: RequestInit }>());
@@ -123,11 +132,21 @@ function CastingBoardScope({ workspaceId, projectId, actor, initialOutput = 'sel
     write.current = null; intents.current.clear(); setUncertain(false); setEditing(null); setNotesDirty(false);
     setStatus(`${change.label} saved.`); focusAfter.current = change.focus ?? null; onWorkspaceChanged(); await load();
   }
-  function reload() {
+  async function reload() {
     if (busy || uncertain) return;
-    if (notesDirty && !window.confirm('Discard unfinished assignment notes and reload the saved board?')) return;
+    if (notesDirty && !await confirm({ title: 'Reload the saved board?', description: 'Your unfinished assignment notes are discarded.', confirmLabel: 'Discard notes and reload', danger: true })) return;
     setEditing(null); setNotesDirty(false); void load();
   }
+  async function closeNotes() {
+    if (busy) return;
+    if (notesDirty && !await confirm({ title: 'Discard note edits?', description: 'Your unsaved assignment notes are discarded.', confirmLabel: 'Discard note edits', danger: true })) return;
+    setEditing(null); setNotesDirty(false);
+  }
+  function undoMain(slotId: string) {
+    const choice = undos[slotId]; if (!choice || editing !== null) return;
+    void run({ label: 'Main undo', focus: slotId, run: async () => { await send(`undo:${slotId}`, `/api/v1/slots/${encode(slotId)}/main/undo`, 'POST', choice.payload); if (mounted.current) setUndos(values => { const next = { ...values }; delete next[slotId]; return next; }); } });
+  }
+  useEffect(() => { undoRef.current = undoMain; });
   function changeOutput(next: CastingOutput) {
     if (loading || busy || uncertain || !fresh || editing !== null || !data) return;
     if (!canWrite) { setPreviewOutput(next); return; }
@@ -135,14 +154,15 @@ function CastingBoardScope({ workspaceId, projectId, actor, initialOutput = 'sel
       await send<Workspace>('output', '/api/v1/workspaces/' + encode(workspaceId), 'PATCH', { row_version: data.workspace.row_version, active_output: next });
     } });
   }
-  function main(slot: Slot, assignment: Assignment | null) {
+  function main(slot: Slot, assignment: Assignment | null, label?: string) {
     void run({ label: assignment ? 'Main choice' : 'Cleared Main', focus: slot.id, run: async () => {
       const result = await send<SetSlotMainResult>(`main:${slot.id}`, `/api/v1/slots/${encode(slot.id)}/main`, 'PUT', { assignment_id: assignment?.id ?? null, expected_slot_row_version: slot.row_version, replacement_behavior: 'move_previous_to_backup' });
       if (mounted.current) setUndos(values => { const next = { ...values }; if (result.undo) next[slot.id] = { payload: result.undo, revisions: Object.fromEntries(result.affected_assignments.map(item => [item.id, item.row_version])) }; else delete next[slot.id]; return next; });
+      if (mounted.current && assignment) toast({ message: `${label ?? 'This candidate'} is now Main in ${slot.label}. Any previous Main moved to Backup.`, action: result.undo ? { label: 'Undo', onSelect: () => undoRef.current?.(slot.id) } : undefined });
     } });
   }
-  function add(slot: Slot) {
-    const poolId = picks[slot.id]; if (!data || !poolId) return;
+  function add(slot: Slot, chosen?: string) {
+    const poolId = chosen ?? picks[slot.id]; if (!data || !poolId) return;
     const previous = data.assignments.find(row => row.slot_id === slot.id && row.workspace_candidate_id === poolId);
     const shortlist = output === 'shortlist'; if (previous && (!shortlist || previous.shortlist_included)) return;
     void run({ label: shortlist ? 'Shortlist assignment' : 'Assignment', focus: slot.id, run: async () => {
@@ -155,8 +175,8 @@ function CastingBoardScope({ workspaceId, projectId, actor, initialOutput = 'sel
   function patch(item: Assignment, body: Record<string, unknown>, label: string) {
     void run({ label, focus: item.slot_id, run: async () => { await send(`patch:${item.id}`, `/api/v1/assignments/${encode(item.id)}`, 'PATCH', { row_version: item.row_version, ...body }); } });
   }
-  function remove(item: Assignment) {
-    if (!window.confirm('Remove this assignment from this slot? Other assignments, the project candidate and their shared profile remain.')) return;
+  async function remove(item: Assignment) {
+    if (!await confirm({ title: 'Remove this assignment?', description: 'It is removed from this slot only. Other assignments, the project candidate and their shared profile remain.', confirmLabel: 'Remove assignment', danger: true })) return;
     void run({ label: 'Assignment removal', focus: item.slot_id, run: async () => { await send(`remove:${item.id}`, `/api/v1/assignments/${encode(item.id)}/remove`, 'POST', { row_version: item.row_version }); } });
   }
   function reorder(kind: OrderKind, id: string, direction: -1 | 1, scope?: string, targetId?: string) {
@@ -184,55 +204,95 @@ function CastingBoardScope({ workspaceId, projectId, actor, initialOutput = 'sel
   }
   function dragHandle(kind: OrderKind, id: string, label: string, scope?: string) {
     const disabled = !data || !canWrite || !fresh || loading || busy || uncertain || editing !== null || kind === 'assignment' && output !== 'selection';
-    return <button type="button" className="button button-small" disabled={disabled} draggable={!disabled}
+    return <button type="button" className="icon-button icon-button-small drag-handle" disabled={disabled} draggable={!disabled} title="Drag to reorder"
       aria-label={'Drag ' + kind + ' ' + label + ' to reorder'} onDragEnd={() => { dragging.current = null; }}
       onDragStart={event => {
         if (disabled || !data) { event.preventDefault(); return; }
         event.stopPropagation(); event.dataTransfer.effectAllowed = 'move';
         event.dataTransfer.setData('application/x-eps-casting-order', '1');
         dragging.current = { kind, id, scope, rowVersion: data.workspace.row_version, draftRevision: data.workspace.draft_revision };
-      }}>Drag to reorder</button>;
+      }}><Icon name="drag" /></button>;
   }
 
-  if (!data) return <section aria-busy={loading}>{error && <ErrorNotice message={error} retry={reload} />}{loading ? <Loading label="Opening saved casting choices…" /> : <p className="muted">The casting board could not be loaded.</p>}</section>;
+  if (!data) return <section aria-busy={loading}>{error && <ErrorNotice message={error} retry={() => void reload()} />}{loading ? <Loading label="Opening saved casting choices…" /> : <p className="muted">The casting board could not be loaded.</p>}</section>;
   const locked = loading || busy || uncertain || !fresh; const actionsLocked = locked || !canWrite || editing !== null;
   const roles = ordered(data.roles); const role = roles.find(item => item.id === selectedRole) ?? roles[0];
   const visible = data.assignments.filter(row => output === 'selection' || row.shortlist_included);
   const pending = data.slots.filter(slot => !visible.some(row => row.slot_id === slot.id)).length;
+  const base = `/projects/${encode(projectId)}/casting/${encode(workspaceId)}`;
+  const editingItem = editing ? data.assignments.find(row => row.id === editing) ?? null : null;
   return <section className="casting-board" aria-busy={loading || busy}>
-    <header className="section-heading"><div><h2>Casting choices</h2><p>Selection includes every active assignment. Shortlist is your explicit choice; positions stay independent.</p></div><button type="button" className="button" disabled={busy || uncertain} onClick={reload}>Reload saved board</button></header>
-    {error && <ErrorNotice message={error} />}{uncertain && <div className="notice" role="status"><p>The outcome is unconfirmed. Other changes are locked until this request is resolved.</p><button className="button" disabled={busy} onClick={() => { if (write.current) void run(write.current, true); }}>Retry same change</button></div>}
-    <p role="status" aria-live="polite">{busy ? 'Saving casting choices…' : status}</p>
-    <div className="section-heading"><div className="button-row" role="group" aria-label="Casting output view"><button className="button" aria-pressed={output === 'selection'} disabled={locked || editing !== null} onClick={() => changeOutput('selection')}>Selection</button><button className="button" aria-pressed={output === 'shortlist'} disabled={locked || editing !== null} onClick={() => changeOutput('shortlist')}>Shortlist</button></div><p aria-live="polite">{visible.length} assigned {visible.length === 1 ? 'entry' : 'entries'} · {pending} Pending {pending === 1 ? 'slot' : 'slots'}</p></div>
+    <header className="section-heading casting-heading"><div><h2>Casting choices</h2><p>Selection includes every active assignment. Shortlist is your explicit choice; positions stay independent.</p></div>
+      <div className="button-row"><div className="segmented" role="group" aria-label="Casting output view"><SegmentIndicator /><button type="button" aria-pressed={output === 'selection'} disabled={locked || editing !== null} onClick={() => changeOutput('selection')}>Selection</button><button type="button" aria-pressed={output === 'shortlist'} disabled={locked || editing !== null} onClick={() => changeOutput('shortlist')}>Shortlist</button></div>
+        <div className="segmented" role="group" aria-label="Casting layout"><SegmentIndicator /><button type="button" aria-pressed={view === 'all'} onClick={() => setView('all')}>All roles</button><button type="button" aria-pressed={view === 'one'} onClick={() => setView('one')}>One role</button></div>
+        <button type="button" className="button button-small button-quiet" disabled={busy || uncertain} onClick={() => void reload()}><Icon name="refresh" />Reload saved board</button></div></header>
+    {error && <ErrorNotice message={error} />}{uncertain && <div className="notice notice-warning" role="status"><p>The outcome is unconfirmed. Other changes are locked until this request is resolved.</p><button className="button" disabled={busy} onClick={() => { if (write.current) void run(write.current, true); }}>Retry same change</button></div>}
+    <div className="casting-summary"><p aria-live="polite">{visible.length} assigned {visible.length === 1 ? 'entry' : 'entries'} · {pending} Pending {pending === 1 ? 'slot' : 'slots'}</p><p className="save-state" role="status" aria-live="polite">{busy ? 'Saving casting choices…' : status}</p></div>
     {profileWarning && <p className="small muted">Some profile labels could not be refreshed. Candidate record IDs remain visible; reusable facts have not been changed.</p>}
-    {!roles.length ? <div className="empty-state"><h3>No roles or slots yet</h3><p>Add or correct your requirements in Specs. Unassigned project candidates do not create casting pages.</p><Link className="button" href={`/projects/${encode(projectId)}/casting/${encode(workspaceId)}/specs`}>Open Specs</Link></div> : <div className="casting-board-layout">
-      <aside className="role-editor"><h3>Roles</h3><nav aria-label="Casting role"><div className="role-list">{roles.map((item, index) => <div key={item.id} onDragOver={event => allowDrop(event, 'role')} onDrop={event => drop(event, 'role', item.id)}><button className="button" ref={node => register(`role-tab:${item.id}`, node)} aria-controls="casting-role-panel" aria-current={role?.id === item.id ? 'true' : undefined} disabled={locked || editing !== null} onClick={() => setSelectedRole(item.id)}>{item.name}</button><p className="small muted">{visible.filter(row => data.slots.some(slot => slot.role_id === item.id && slot.id === row.slot_id)).length} assigned entries</p>{dragHandle('role', item.id, item.name)}<MoveButtons label={`role ${item.name}`} disabled={actionsLocked} first={index === 0} last={index === roles.length - 1} move={direction => reorder('role', item.id, direction)} /></div>)}</div></nav></aside>
-      {role && <div className="role-list" id="casting-role-panel" aria-labelledby={`role-heading-${role.id}`}><header className="section-heading"><div><h3 id={`role-heading-${role.id}`}>{role.name}</h3><p>{role.headcount === null ? 'Headcount needs clarification. Current slots are a working allocation.' : `${data.slots.filter(slot => slot.role_id === role.id).length} individual slots`}</p><p className="small muted">{[role.requirements.age_range, role.requirements.gender_requirement, ...role.requirements.languages, ...role.requirements.skills].filter(Boolean).join(' · ') || 'Role requirements not provided.'}</p></div></header>
-        {ordered(data.slots.filter(slot => slot.role_id === role.id)).map((slot, slotIndex, slots) => {
-          const all = ordered(data.assignments.filter(row => row.slot_id === slot.id)); const shown = all.filter(row => output === 'selection' || row.shortlist_included);
-          return <section className="role-editor" key={slot.id} onDragOver={event => allowDrop(event, 'slot', role.id)} onDrop={event => drop(event, 'slot', slot.id, role.id)} aria-labelledby={`slot-${slot.id}`}><header className="section-heading"><div><h4 id={`slot-${slot.id}`} tabIndex={-1} ref={node => register(slot.id, node)}>{slot.label}</h4><p>{shown.length ? `${shown.length} assigned ${shown.length === 1 ? 'entry' : 'entries'}` : `Pending in ${output === 'selection' ? 'Selection' : 'Shortlist'}`}{!all.some(row => row.position === 'main') ? ' · No Main selected' : ''}</p></div>{dragHandle('slot', slot.id, slot.label, role.id)}<MoveButtons label={`slot ${slot.label}`} disabled={actionsLocked} first={slotIndex === 0} last={slotIndex === slots.length - 1} move={direction => reorder('slot', slot.id, direction, role.id)} /></header>
-            {undos[slot.id] && <button className="button button-small" disabled={actionsLocked} onClick={() => void run({ label: 'Main undo', focus: slot.id, run: async () => { await send(`undo:${slot.id}`, `/api/v1/slots/${encode(slot.id)}/main/undo`, 'POST', undos[slot.id].payload); if (mounted.current) setUndos(values => { const next = { ...values }; delete next[slot.id]; return next; }); } })}>Undo Main change</button>}
-            <div className="role-list">{shown.map(item => { const pool = data.pool.find(row => row.id === item.workspace_candidate_id)!; const profile = profiles[pool.candidate_id]; const index = all.findIndex(row => row.id === item.id);
-              return <article className="role-editor" key={item.id} onDragOver={event => allowDrop(event, 'assignment', slot.id)} onDrop={event => drop(event, 'assignment', item.id, slot.id)}><header className="section-heading"><div><h5 dir="auto">{name(profile, pool.candidate_id)}</h5><p>{profile ? `${profile.review_status === 'reviewed' ? 'Reviewed facts' : 'Unreviewed facts'}${profile.archived ? ' · Archived library profile retained for this project' : ''}` : 'Profile status not loaded'}</p><span className="badge">{item.position === 'main' ? 'Main' : item.position === 'backup' ? 'Backup' : 'Option'}</span></div>{canReadLibrary && <Link className="button button-small" href={`/library/cast/${encode(pool.candidate_id)}`}>Inspect profile</Link>}</header>
-                <p className="small">Project availability: <span dir="auto">{pool.availability || 'Pending'}</span>{pool.fresh_material_required ? ' · Fresh material required' : ''}</p>
-                {pool.selected_frame_asset_ids.length ? <div className="candidate-frames">{pool.selected_frame_asset_ids.map((asset, index) => <div className="candidate-frame" key={asset}><CandidateFrameImage assetId={asset} alt={`Selected project frame ${index + 1} for ${name(profile, pool.candidate_id)}`} /></div>)}</div> : <p className="small muted">No project frames selected.</p>}
-                <fieldset disabled={actionsLocked} aria-label={`Casting choices for ${name(profile, pool.candidate_id)}`}><div className="button-row">{item.position === 'main' ? <button className="button button-small" onClick={() => main(slot, null)}>Clear Main to Backup</button> : <><label className="field">Position<select value={item.position} onChange={event => patch(item, { position: event.target.value }, 'Assignment position')}><option value="option">Option</option><option value="backup">Backup</option></select></label><button className="button button-small" onClick={() => main(slot, item)}>Set as Main</button></>}</div><label className="radio-line"><input type="checkbox" checked={item.shortlist_included} onChange={event => patch(item, { shortlist_included: event.target.checked }, 'Shortlist choice')} />Include in Shortlist</label>
-                  {dragHandle('assignment', item.id, name(profile, pool.candidate_id), slot.id)}<MoveButtons label={`assignment ${name(profile, pool.candidate_id)}`} disabled={output !== 'selection'} first={index === 0} last={index === all.length - 1} move={direction => reorder('assignment', item.id, direction, slot.id)} />
-                  <div className="button-row"><button className="button button-small" onClick={() => setEditing(item.id)}>Edit assignment notes</button><button className="button button-quiet button-small" onClick={() => remove(item)}>Remove assignment</button></div></fieldset>
-                {editing === item.id ? <AssignmentNotes key={`${item.id}:${item.row_version}`} item={item} disabled={loading || busy || uncertain} canSave={fresh} onDirty={setNotesDirty} onDiscard={() => { setEditing(null); setNotesDirty(false); }} onSave={(presentation_notes, internal_notes) => patch(item, { presentation_notes, internal_notes }, 'Assignment notes')} /> : <><p className="small" dir="auto">Presentation notes: {item.presentation_notes || 'Not provided'}</p>{item.internal_notes && <details><summary>Internal assignment notes</summary><p dir="auto">{item.internal_notes}</p></details>}</>}
-              </article>;
-            })}</div>
-            {output === 'shortlist' && <p className="small muted">Shortlist follows the assignment order in Selection.</p>}
-            <fieldset disabled={actionsLocked} aria-label={`Add candidate to ${slot.label}`}><label className="field" htmlFor={`add-${slot.id}`}>Project candidate<select id={`add-${slot.id}`} value={picks[slot.id] ?? ''} onChange={event => setPicks(values => ({ ...values, [slot.id]: event.target.value }))}><option value="">Choose an existing project candidate</option>{data.pool.map(item => { const existing = all.find(row => row.workspace_candidate_id === item.id); const present = !!existing && (output === 'selection' || existing.shortlist_included); return <option key={item.id} value={item.id} disabled={present}>{name(profiles[item.candidate_id], item.candidate_id)}{present ? ' · already included' : existing ? ' · add existing assignment to Shortlist' : ''}</option>; })}</select></label><button className="button button-small" disabled={!picks[slot.id] || all.some(row => row.workspace_candidate_id === picks[slot.id] && (output === 'selection' || row.shortlist_included))} onClick={() => add(slot)}>{output === 'shortlist' ? 'Add to Shortlist' : 'Assign as Option'}</button></fieldset>
-          </section>;
-        })}
-      </div>}
+    {!roles.length ? <div className="empty-state"><Icon name="people" /><h3>No roles or slots yet</h3><p>Add or correct your requirements in Specs. Unassigned project candidates do not create casting pages.</p><Link className="button" href={`${base}/specs`}>Open Specs</Link></div> : <div className="board-tray">
+      <div className="stack-lg">
+        <nav className="role-strip" aria-label="Casting role"><ul>{roles.map((item, index) => { const count = visible.filter(row => data.slots.some(slot => slot.role_id === item.id && slot.id === row.slot_id)).length; const slotCount = data.slots.filter(slot => slot.role_id === item.id).length;
+          return <li key={item.id} className={role?.id === item.id ? 'is-current' : undefined} onDragOver={event => allowDrop(event, 'role')} onDrop={event => drop(event, 'role', item.id)}>
+            <button type="button" className="role-chip" ref={node => register(`role-tab:${item.id}`, node)} aria-controls="casting-role-panel" aria-current={role?.id === item.id ? 'true' : undefined} disabled={locked || editing !== null} onClick={() => { setSelectedRole(item.id); if (view === 'all') requestAnimationFrame(() => { const heading = document.getElementById(`role-heading-${item.id}`); heading?.scrollIntoView({ block: 'start', behavior: 'smooth' }); heading?.focus({ preventScroll: true }); }); }}>{item.name}</button>
+            <span className="role-chip-meta">{count} assigned entries · {slotCount} {slotCount === 1 ? 'slot' : 'slots'}</span>
+            <span className="role-chip-order">{dragHandle('role', item.id, item.name)}<MoveButtons label={`role ${item.name}`} disabled={actionsLocked} first={index === 0} last={index === roles.length - 1} move={direction => reorder('role', item.id, direction)} /></span>
+          </li>; })}</ul></nav>
+        {role && <div className="role-groups" id="casting-role-panel">{(view === 'all' ? roles : [role]).map(group => { const groupSlots = ordered(data.slots.filter(slot => slot.role_id === group.id)); const filled = groupSlots.filter(slot => visible.some(row => row.slot_id === slot.id)).length; const mains = groupSlots.filter(slot => data.assignments.some(row => row.slot_id === slot.id && row.position === 'main')).length;
+          return <section className="slot-lanes role-group" key={group.id} aria-labelledby={`role-heading-${group.id}`}><header className="role-panel-head"><div className="role-panel-title"><h3 id={`role-heading-${group.id}`} tabIndex={-1}>{group.name}</h3><p className="role-coverage"><span className={filled === groupSlots.length ? 'text-ok' : 'text-warn'}><AnimatedNumber value={filled} /> of {groupSlots.length} {groupSlots.length === 1 ? 'slot' : 'slots'} filled</span><span><AnimatedNumber value={mains} /> Main chosen</span>{groupSlots.length - filled > 0 && <span>{groupSlots.length - filled} Pending</span>}</p></div><p className="small muted">{group.headcount === null ? 'Headcount needs clarification. Current slots are a working allocation.' : `${groupSlots.length} individual slots`} · {[group.requirements.age_range, group.requirements.gender_requirement, ...group.requirements.languages, ...group.requirements.skills].filter(Boolean).join(' · ') || 'Role requirements not provided.'}</p></header>
+          {groupSlots.map((slot, slotIndex, slots) => { const role = group;
+            const all = ordered(data.assignments.filter(row => row.slot_id === slot.id)); const shown = all.filter(row => output === 'selection' || row.shortlist_included);
+            const hasMain = all.some(row => row.position === 'main');
+            return <section className="slot-lane" key={slot.id} onDragOver={event => allowDrop(event, 'slot', role.id)} onDrop={event => drop(event, 'slot', slot.id, role.id)} aria-labelledby={`slot-${slot.id}`}>
+              <header className="slot-lane-head"><div><h4 id={`slot-${slot.id}`} tabIndex={-1} ref={node => register(slot.id, node)}>{slot.label}</h4><p className={shown.length ? 'small muted' : 'small text-warn'}>{shown.length ? `${shown.length} assigned ${shown.length === 1 ? 'entry' : 'entries'}` : `Pending in ${output === 'selection' ? 'Selection' : 'Shortlist'}`}{!hasMain ? ' · No Main selected' : ''}</p></div>
+                <div className="button-row">{undos[slot.id] && <button className="button button-small" disabled={actionsLocked} onClick={() => undoMain(slot.id)}>Undo Main change</button>}{dragHandle('slot', slot.id, slot.label, role.id)}<MoveButtons label={`slot ${slot.label}`} disabled={actionsLocked} first={slotIndex === 0} last={slotIndex === slots.length - 1} move={direction => reorder('slot', slot.id, direction, role.id)} /></div></header>
+              <div className="slot-cards">{shown.map(item => { const pool = data.pool.find(row => row.id === item.workspace_candidate_id)!; const profile = profiles[pool.candidate_id]; const index = all.findIndex(row => row.id === item.id); const label = name(profile, pool.candidate_id);
+                const positionLabel = item.position === 'main' ? 'Main' : item.position === 'backup' ? 'Backup' : 'Option';
+                const menu: MenuItem[] = [
+                  ...(item.position === 'main' ? [{ label: 'Clear Main to Backup', onSelect: () => main(slot, null) }] : [{ label: 'Set as Main', onSelect: () => main(slot, item, label) }, { label: 'Option', checked: item.position === 'option', onSelect: () => { if (item.position !== 'option') patch(item, { position: 'option' }, 'Assignment position'); } }, { label: 'Backup', checked: item.position === 'backup', onSelect: () => { if (item.position !== 'backup') patch(item, { position: 'backup' }, 'Assignment position'); } }]),
+                  { kind: 'separator' },
+                  { label: 'Edit assignment notes', onSelect: () => setEditing(item.id) },
+                  { label: 'Move earlier', disabled: output !== 'selection' || index === 0, onSelect: () => reorder('assignment', item.id, -1, slot.id) },
+                  { label: 'Move later', disabled: output !== 'selection' || index === all.length - 1, onSelect: () => reorder('assignment', item.id, 1, slot.id) },
+                  ...(canReadLibrary ? [{ label: 'Inspect profile', onSelect: () => router.push(`/library/cast/${encode(pool.candidate_id)}`) }] : []),
+                  { kind: 'separator' },
+                  { label: 'Remove assignment', danger: true, onSelect: () => void remove(item) },
+                ];
+                return <article className={`assignment-card${item.position === 'main' ? ' is-main' : ''}`} key={item.id} onDragOver={event => allowDrop(event, 'assignment', slot.id)} onDrop={event => drop(event, 'assignment', item.id, slot.id)} aria-label={`${label}, ${positionLabel}`}>
+                  <div className="assignment-frame">{pool.selected_frame_asset_ids[0] ? <CandidateFrameImage assetId={pool.selected_frame_asset_ids[0]} alt={`Selected project frame 1 for ${label}`} /> : <span className="assignment-frame-empty"><Icon name="image" /><span className="sr-only">No project frames selected.</span></span>}</div>
+                  <div className="assignment-body">
+                    <h5 dir="auto">{label}{profile?.review_status === 'reviewed' && <span className="reviewed-mark" title="Reviewed facts"><Icon name="check" /><span className="sr-only"> · Reviewed facts</span></span>}</h5>
+                    <p className="small muted" dir="auto">{pool.availability || 'Availability pending'}{pool.fresh_material_required ? ' · Fresh material required' : ''}</p>
+                    {!profile && <p className="small muted">Profile status not loaded</p>}{profile?.archived && <p className="small muted">Archived library profile retained for this project</p>}
+                    <div className="assignment-controls"><span className={`position-chip position-${item.position}`}>{positionLabel}</span>{(item.presentation_notes || item.internal_notes) && <span className="assignment-note-mark" title="Has assignment notes"><Icon name="comment" /><span className="sr-only">Has assignment notes</span></span>}
+                      <label className="shortlist-toggle" title="Include in Shortlist"><input type="checkbox" checked={item.shortlist_included} disabled={actionsLocked} onChange={event => patch(item, { shortlist_included: event.target.checked }, 'Shortlist choice')} /><Icon name={item.shortlist_included ? 'star-filled' : 'star'} /><span className="sr-only">Include {label} in Shortlist for {slot.label}</span></label>
+                      <ActionMenu label={`Assignment actions for ${label} in ${slot.label}`} disabled={actionsLocked} items={menu} /></div>
+                    <span className="drag-assignment">{dragHandle('assignment', item.id, label, slot.id)}</span>
+                  </div>
+                </article>;
+              })}
+                <fieldset className="assignment-add" disabled={actionsLocked} aria-label={`Add candidate to ${slot.label}`}><label className="field" htmlFor={`add-${slot.id}`}><span>Project candidate<span className="sr-only"> for {slot.label}</span></span><select id={`add-${slot.id}`} value={picks[slot.id] ?? ''} onChange={event => setPicks(values => ({ ...values, [slot.id]: event.target.value }))}><option value="">Choose an existing project candidate</option>{data.pool.map(item => { const existing = all.find(row => row.workspace_candidate_id === item.id); const present = !!existing && (output === 'selection' || existing.shortlist_included); return <option key={item.id} value={item.id} disabled={present}>{name(profiles[item.candidate_id], item.candidate_id)}{present ? ' · already included' : existing ? ' · add existing assignment to Shortlist' : ''}</option>; })}</select></label><button className="button button-small" disabled={!picks[slot.id] || all.some(row => row.workspace_candidate_id === picks[slot.id] && (output === 'selection' || row.shortlist_included))} onClick={() => add(slot)} aria-label={`${output === 'shortlist' ? 'Add to Shortlist in' : 'Assign as Option to'} ${slot.label}`}><Icon name="plus" />{output === 'shortlist' ? 'Add to Shortlist' : 'Assign as Option'}</button></fieldset>
+              </div>
+              {output === 'shortlist' && <p className="small muted">Shortlist follows the assignment order in Selection.</p>}
+            </section>;
+          })}
+        </section>; })}</div>}
+      </div>
+      <aside className="panel candidate-tray" aria-labelledby="candidate-tray-heading"><header className="panel-header"><h3 id="candidate-tray-heading">Project candidates</h3><span className="small muted">{data.pool.length}</span></header>
+        <ul className="tray-list">{data.pool.map(item => { const count = data.assignments.filter(row => row.workspace_candidate_id === item.id).length; const person = name(profiles[item.candidate_id], item.candidate_id);
+          const items: MenuItem[] = roles.flatMap(group => [{ kind: 'label' as const, label: group.name }, ...ordered(data.slots.filter(slot => slot.role_id === group.id)).map(slot => { const existing = data.assignments.find(row => row.slot_id === slot.id && row.workspace_candidate_id === item.id); const present = !!existing && (output === 'selection' || existing.shortlist_included);
+            return { label: present ? `${slot.label} · already included` : `${slot.label}${existing ? ' · add to Shortlist' : ''}`, disabled: present, onSelect: () => add(slot, item.id) }; })]);
+          return <li key={item.id}>{item.selected_frame_asset_ids[0] ? <span className="tray-thumb"><CandidateFrameImage assetId={item.selected_frame_asset_ids[0]} alt="" /></span> : <span className="tray-thumb" aria-hidden="true" />}<span className="tray-person"><strong dir="auto">{person}</strong><span className="small muted">{count ? `${count} ${count === 1 ? 'assignment' : 'assignments'}` : 'Not assigned'}</span></span>
+            {canWrite && <ActionMenu label={`Assign ${person} to a slot ${output === 'shortlist' ? 'in Shortlist' : 'as Option'}`} disabled={actionsLocked || !data.slots.length} items={items} trigger={<><Icon name="plus" /><span className="sr-only">Assign {person}</span></>} />}</li>; })}</ul>
+        <div className="panel-footer stack"><p className="small muted">Use + beside a person, or a slot’s Project candidate list, to assign. Each slot keeps its own Option, Main and Backup choices.</p><Link className="button button-small button-quiet" href={`${base}/cast`}><Icon name="plus" />Add from Cast Library</Link></div></aside>
     </div>}
-    <footer className="workspace-footer"><Link className="button" href={`/projects/${encode(projectId)}/casting/${encode(workspaceId)}/cast`}>Back to Candidates</Link><Link className="button button-primary" href={`/projects/${encode(projectId)}/casting/${encode(workspaceId)}/review`}>Continue to Review</Link></footer>
+    {editingItem && <Drawer inline title="Assignment notes" description={`${name(profiles[data.pool.find(row => row.id === editingItem.workspace_candidate_id)?.candidate_id ?? ''], data.pool.find(row => row.id === editingItem.workspace_candidate_id)?.candidate_id ?? editingItem.workspace_candidate_id)} · ${data.slots.find(slot => slot.id === editingItem.slot_id)?.label ?? 'Slot'}`} onClose={() => void closeNotes()} busy={busy}>
+      <AssignmentNotes key={`${editingItem.id}:${editingItem.row_version}`} item={editingItem} disabled={loading || busy || uncertain} canSave={fresh} onDirty={setNotesDirty} onDiscard={() => { setEditing(null); setNotesDirty(false); }} onSave={(presentation_notes, internal_notes) => patch(editingItem, { presentation_notes, internal_notes }, 'Assignment notes')} />
+    </Drawer>}
+    <footer className="sticky-bar workspace-continue"><Link className="button" href={`${base}/cast`}>Back to Candidates</Link><Link className="button button-primary" href={`${base}/review`}>Continue to Review<Icon name="arrow" /></Link></footer>
   </section>;
 }
 function MoveButtons({ label, disabled, first, last, move }: { label: string; disabled: boolean; first: boolean; last: boolean; move: (direction: -1 | 1) => void }) {
-  return <div className="button-row"><button type="button" className="button button-small" disabled={disabled || first} aria-label={`Move ${label} earlier`} onClick={() => move(-1)}>Move earlier</button><button type="button" className="button button-small" disabled={disabled || last} aria-label={`Move ${label} later`} onClick={() => move(1)}>Move later</button></div>;
+  return <span className="move-buttons"><button type="button" className="icon-button icon-button-small" disabled={disabled || first} aria-label={`Move ${label} earlier`} title="Move earlier" onClick={() => move(-1)}><Icon name="chevron-left" /></button><button type="button" className="icon-button icon-button-small" disabled={disabled || last} aria-label={`Move ${label} later`} title="Move later" onClick={() => move(1)}><Icon name="chevron-right" /></button></span>;
 }
 function AssignmentNotes({ item, disabled, canSave, onDirty, onDiscard, onSave }: { item: Assignment; disabled: boolean; canSave: boolean; onDirty: (value: boolean) => void; onDiscard: () => void; onSave: (presentation: string | null, internal: string | null) => void }) {
   const [presentation, setPresentation] = useState(item.presentation_notes ?? ''); const [internal, setInternal] = useState(item.internal_notes ?? '');

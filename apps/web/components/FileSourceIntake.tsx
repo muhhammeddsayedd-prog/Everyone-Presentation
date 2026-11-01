@@ -1,4 +1,5 @@
 'use client';
+import { useConfirm } from './ui/Confirm';
 
 import Link from 'next/link';
 import { useEffect, useId, useRef, useState } from 'react';
@@ -16,6 +17,7 @@ export function FileSourceIntake({ spec, canWrite, uploadPurposes, storageOrigin
   onPersisted: (spec: Spec, roles: Role[], cursor: string | null) => void;
   onDirtyChange: (dirty: boolean) => void; onLockChange: (locked: boolean) => void;
 }) {
+  const confirm = useConfirm();
   const inputId = useId(); const helpId = useId(); const input = useRef<HTMLInputElement>(null);
   const [selected, setSelected] = useState<File | null>(null); const [busy, setBusy] = useState(false); const [pending, setPending] = useState(false);
   const [needsReload, setNeedsReload] = useState(false); const [error, setError] = useState(''); const [status, setStatus] = useState('');
@@ -92,9 +94,9 @@ export function FileSourceIntake({ spec, canWrite, uploadPurposes, storageOrigin
     } catch { if (mounted.current) setError('Saved requirements could not be refreshed. The selected file and previous request are retained.'); }
     finally { active.current = false; if (mounted.current) setBusy(false); }
   }
-  function discard() {
+  async function discard() {
     if (active.current) return;
-    if (pending && !window.confirm('This request may already be saved. Discard this local request? Any saved original and processing remain in the workspace.')) return;
+    if (pending && !await confirm({ title: 'Discard this local request?', description: 'This request may already be saved. Any saved original and processing remain in the workspace.', confirmLabel: 'Discard local request', danger: true })) return;
     clearLocal(); setAccepted(null); setError(''); setStatus('Local file selection discarded. Any saved original remains private.');
   }
   return <div className="source-intake-form source-file-intake">
@@ -110,7 +112,7 @@ export function FileSourceIntake({ spec, canWrite, uploadPurposes, storageOrigin
     {error && <ErrorNotice message={error} />}
     <div className="button-row"><button className="button button-primary" type="button" disabled={!allowed || !selected || busy || manualEditsPending || needsReload} onClick={() => { void process(); }}>{busy ? 'Saving document…' : accepted && pending ? 'Reload accepted document' : pending ? 'Retry this file request' : 'Process document'}</button>
       {(needsReload || pending) && <button className="button button-quiet" type="button" disabled={busy || manualEditsPending} onClick={() => { void reload(); }}>Reload saved requirements</button>}
-      {selected && <button className="button button-quiet" type="button" disabled={busy} onClick={discard}>Discard local file selection</button>}</div>
+      {selected && <button className="button button-quiet" type="button" disabled={busy} onClick={() => void discard()}>Discard local file selection</button>}</div>
     {selected && <p className="small muted">Discarding the selection does not delete an uploaded original or cancel saved processing.</p>}
     {accepted && <div className="notice" role="status"><p>Source request recorded.</p><Link className="button button-small" href={processingHref({ job: accepted.job_id })}>View accepted processing</Link></div>}
   </div>;

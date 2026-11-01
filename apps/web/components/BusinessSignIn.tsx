@@ -2,6 +2,7 @@
 import { useState, useSyncExternalStore } from 'react';
 import { api, errorMessage, mutation } from './api';
 import { ErrorNotice } from './Feedback';
+import { TextReveal } from './motion/TextReveal';
 
 function subscribeToLocationChange(onChange: () => void) {
   window.addEventListener('popstate', onChange);
@@ -26,7 +27,7 @@ export function BusinessSignIn() {
   }
   return <div className="session-page">
     <div className="session-intro">
-      <h1>Your casting workspace.</h1>
+      <h1><TextReveal text="Your casting workspace." /></h1>
       <p>Sign in to Everyone to access the projects and library your account is authorized to use.</p>
     </div>
     <section className="session-form">

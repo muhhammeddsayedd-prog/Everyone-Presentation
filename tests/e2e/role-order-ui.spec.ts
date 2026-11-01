@@ -50,7 +50,7 @@ async function controlledOrder(page: Page, mode: 'normal' | 'unavailable' | 'los
 }
 
 test('controlled role move persists exact identities/order across reload', async ({ page }, testInfo) => {
-  const model = await controlledOrder(page); const slots = model.slots(); await page.goto(path);
+  const model = await controlledOrder(page); const slots = model.slots(); await page.goto(path); await page.getByRole('button', { name: 'Change role order', exact: true }).click();
   await page.getByLabel('New role name', { exact: true }).fill('Unsaved role');
   await expect(page.getByRole('button', { name: 'Move Second up', exact: true })).toBeDisabled();
   await page.getByLabel('New role name', { exact: true }).fill('');
@@ -58,7 +58,7 @@ test('controlled role move persists exact identities/order across reload', async
   await expect(page.getByRole('status').filter({ hasText: /^Role order saved\.$/ })).toBeVisible();
   expect(model.names()).toEqual(['Second', 'First', 'Third']); expect(model.slots()).toEqual(slots);
   expect(await page.locator('.role-editor h3').allTextContents()).toEqual(['Second', 'First', 'Third']);
-  await page.reload(); await expect(page.getByRole('button', { name: 'Move Second up', exact: true })).toBeDisabled();
+  await page.reload(); await page.getByRole('button', { name: 'Change role order', exact: true }).click(); await expect(page.getByRole('button', { name: 'Move Second up', exact: true })).toBeDisabled();
   expect(await page.locator('.role-editor h3').allTextContents()).toEqual(['Second', 'First', 'Third']);
   await page.setViewportSize({ width: 320, height: 900 });
   await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
@@ -67,7 +67,7 @@ test('controlled role move persists exact identities/order across reload', async
 });
 
 test('controlled unavailable backend keeps saved order and permits ordinary edits', async ({ page }) => {
-  const model = await controlledOrder(page, 'unavailable'); await page.goto(path);
+  const model = await controlledOrder(page, 'unavailable'); await page.goto(path); await page.getByRole('button', { name: 'Change role order', exact: true }).click();
   await page.getByRole('button', { name: 'Move Second up', exact: true }).click();
   await expect(page.getByRole('alert').filter({ hasText: 'Role ordering is not available yet' })).toBeVisible();
   expect(model.names()).toEqual(['First', 'Second', 'Third']);
@@ -77,7 +77,7 @@ test('controlled unavailable backend keeps saved order and permits ordinary edit
 });
 
 test('controlled lost response locks edits and retries identical key/body without a second effect', async ({ page }) => {
-  const model = await controlledOrder(page, 'lost'); await page.goto(path);
+  const model = await controlledOrder(page, 'lost'); await page.goto(path); await page.getByRole('button', { name: 'Change role order', exact: true }).click();
   await page.getByRole('button', { name: 'Move Second up', exact: true }).click();
   const alert = page.getByRole('alert').filter({ hasText: 'The order response was interrupted.' });
   await expect(alert).toBeVisible();
@@ -91,7 +91,7 @@ test('controlled lost response locks edits and retries identical key/body withou
 });
 
 test('controlled stale move retains visible order until explicit reload', async ({ page }) => {
-  const model = await controlledOrder(page, 'stale'); await page.goto(path);
+  const model = await controlledOrder(page, 'stale'); await page.goto(path); await page.getByRole('button', { name: 'Change role order', exact: true }).click();
   await page.getByRole('button', { name: 'Move Second up', exact: true }).click();
   await expect(page.getByRole('alert').filter({ hasText: 'Reload the saved details' })).toBeVisible();
   expect(model.names()).toEqual(['First', 'Second', 'Third']);

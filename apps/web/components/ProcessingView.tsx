@@ -1,4 +1,6 @@
 'use client';
+import { Drawer } from './ui/Overlay';
+import { Icon } from './Icon';
 
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -8,9 +10,10 @@ import { ErrorNotice, Loading } from './Feedback';
 import { useRuntimeMode } from './RuntimeMode';
 import { StudioDateTime } from './StudioTimeZone';
 import {frameOutcomeSummary} from '../lib/frame-outcome-summary';
-import { JOB_KINDS, JOB_STATUSES, STATUS_LABELS, jobFailureMessage, processingActions, jobStageLabel, processingDelay, processingHref,
+import { JOB_KINDS, JOB_STATUSES, STATUS_LABELS, STATUS_TONES, jobFailureMessage, processingActions, jobStageLabel, processingDelay, processingHref,
   readJobPage, readProcessingJob, readJobRetryAcknowledgement, retainJobIntent, validProcessingId, workspaceResultHref,
   type JobAction, type JobIntent, type JobPage, type ProcessingJob, type ProcessingStatus } from './processing-view';
+import { stagger } from './motion/motion';
 
 function readError(reason: unknown): string {
   if (reason instanceof ApiError) {
@@ -105,36 +108,41 @@ function WorkspaceDestination({ job }: { job: ProcessingJob }) {
   return <div className="processing-destination"><span className="small muted">{resolved.title}</span><Link className="button button-small button-quiet" href={resolved.href}>{job.kind === 'specs_extract' ? 'Open requirements' : 'Open casting workspace'}</Link></div>;
 }
 
-function JobGroup({ jobs, status, cursor }: { jobs: ProcessingJob[]; status: ProcessingStatus | null; cursor: string | null }) {
+function JobGroup({ jobs, status, cursor, partial, batch }: { jobs: ProcessingJob[]; status: ProcessingStatus | null; cursor: string | null; partial: boolean; batch: string | null }) {
   const [showWorkspace, setShowWorkspace] = useState(false);
-  return <section className="processing-group"><div className="section-heading"><h2>{jobs[0].batch_id ? 'Processing batch' : 'Individual jobs'}</h2><span className="small muted">{jobs.length} {jobs.length === 1 ? 'job' : 'jobs'}</span></div>
+  const batchId = jobs[0].batch_id;
+  return <section className="processing-group"><div className="section-heading"><h2>{batchId ? 'Processing batch' : 'Individual jobs'}</h2><span className="small muted">{jobs.length} {partial ? 'loaded ' : ''}{jobs.length === 1 ? 'job' : 'jobs'}</span>{batchId && !batch && <Link className="button button-small button-quiet" href={processingHref({ batch: batchId, status })}>Open batch<Icon name="arrow" /></Link>}</div>
+    {jobs[0].batch_id && <div className="batch-strip-wrap"><ol ref={stagger} className="batch-strip" aria-label={`${jobs.length} loaded ${jobs.length === 1 ? 'file' : 'files'} in this batch`}>{jobs.map((job, index) => <li key={job.id} className={`batch-cell batch-${job.status}`} title={`${JOB_KINDS[job.kind]} · ${STATUS_LABELS[job.status]}`}><span className="sr-only">File {index + 1}: {STATUS_LABELS[job.status]}</span></li>)}</ol>
+      <p className="small muted">{JOB_STATUSES.filter(value => jobs.some(job => job.status === value)).map(value => `${jobs.filter(job => job.status === value).length} ${STATUS_LABELS[value].toLowerCase()}`).join(' · ')}{partial ? ' · counts include this page only' : ''}</p></div>}
     <details className="processing-project" onToggle={event => { if (event.currentTarget.open) setShowWorkspace(true); }}><summary>Project and workspace</summary>{showWorkspace && <WorkspaceDestination job={jobs[0]} />}</details>
-    <ul className="processing-jobs">{jobs.map(job => <li key={job.id}><div><Link className="processing-job-link" href={processingHref({ job: job.id, status, cursor })}>{JOB_KINDS[job.kind]}</Link><p className="small muted">{jobStageLabel(job.stage)}</p><JobProgress job={job} /></div>
-      <div className="processing-job-state"><span className="badge">{STATUS_LABELS[job.status]}</span><StudioDateTime className="small muted" value={job.created_at} prefix="Submitted " />{job.status === 'failed' && <p className="small">{jobFailureMessage(job.error)}</p>}</div></li>)}</ul>
+    <ul ref={stagger} className="processing-jobs">{jobs.map(job => <li key={job.id}><div><Link className="processing-job-link" href={processingHref({ job: job.id, status, cursor, batch })}>{JOB_KINDS[job.kind]}</Link><p className="small muted">{jobStageLabel(job.stage)}</p><JobProgress job={job} /></div>
+      <div className="processing-job-state"><span className={STATUS_TONES[job.status]}>{STATUS_LABELS[job.status]}</span><StudioDateTime className="small muted" value={job.created_at} prefix="Submitted " />{job.status === 'failed' && <p className="small">{jobFailureMessage(job.error)}</p>}</div></li>)}</ul>
   </section>;
 }
 
-function JobList({ status, cursor }: { status: ProcessingStatus | null; cursor: string | null }) {
+function JobList({ status, cursor, batch }: { status: ProcessingStatus | null; cursor: string | null; batch: string | null }) {
   const router = useRouter();
+  // batch_id narrows the same scoped list (docs/integrations/JOB_BATCH_FILTER.md); filters stay fixed across pages.
   const read = useCallback(async (signal: AbortSignal) => {
-    const params = new URLSearchParams({ limit: '25' }); if (status) params.set('status', status); if (cursor) params.set('cursor', cursor);
-    return readJobPage(await api<unknown>(`/api/v1/jobs?${params}`, { signal }), status, cursor);
-  }, [status, cursor]);
+    const params = new URLSearchParams({ limit: '25' }); if (batch) params.set('batch_id', batch); if (status) params.set('status', status); if (cursor) params.set('cursor', cursor);
+    return readJobPage(await api<unknown>(`/api/v1/jobs?${params}`, { signal }), status, cursor, batch);
+  }, [status, cursor, batch]);
   const state = usePolling(read, listDelay);
   const groups = new Map<string, ProcessingJob[]>();
   for (const job of state.data?.jobs ?? []) { const key = JSON.stringify([job.workspace_id, job.batch_id]); groups.set(key, [...groups.get(key) ?? [], job]); }
   return <>
-    <header className="page-heading"><div><h1>Processing</h1><p>Saved processing state for the projects shared with your account.</p></div><button className="button button-small button-quiet" disabled={state.checking} onClick={state.reload}>Refresh jobs</button></header>
-    <div className="processing-toolbar"><div className="field"><label htmlFor="processing-status">Status</label><select id="processing-status" value={status ?? ''} onChange={event => router.replace(processingHref({ status: event.target.value as ProcessingStatus || null }))}><option value="">All jobs</option>{JOB_STATUSES.map(value => <option key={value} value={value}>{STATUS_LABELS[value]}</option>)}</select></div>
+    {batch && <Link className="back-link" href={processingHref({ status })}>← All processing jobs</Link>}
+    <header className="page-heading"><div><h1>{batch ? 'Processing batch' : 'Processing'}</h1><p>{batch ? 'Every job in this batch that your account can access. Use Next jobs to read further pages.' : 'Saved processing state for the projects shared with your account.'}</p></div><button className="button button-small button-quiet" disabled={state.checking} onClick={state.reload}>Refresh jobs</button></header>
+    <div className="processing-toolbar"><div className="field"><label htmlFor="processing-status">Status</label><select id="processing-status" value={status ?? ''} onChange={event => router.replace(processingHref({ status: event.target.value as ProcessingStatus || null, batch }))}><option value="">All jobs</option>{JOB_STATUSES.map(value => <option key={value} value={value}>{STATUS_LABELS[value]}</option>)}</select></div>
       <p className="small muted" role="status">{state.checking ? 'Checking saved jobs…' : state.checkedAt ? <StudioDateTime value={state.checkedAt} prefix="Last checked " /> : 'Reading saved jobs…'}</p></div>
     {state.error && <ErrorNotice message={state.error} retry={state.reload} />}
-    {!state.data && state.loading ? <Loading label="Loading processing jobs…" /> : state.data?.jobs.length ? <div className="processing-groups">{[...groups].map(([key, jobs]) => <JobGroup key={key} jobs={jobs} status={status} cursor={cursor} />)}</div>
-      : !state.error && <div className="processing-empty"><h2>{status ? 'No jobs with this status' : 'No processing jobs'}</h2><p className="muted">{status ? 'Choose another status to see your other accessible jobs.' : 'Jobs will appear here after processing is requested.'}</p></div>}
-    <nav className="button-row processing-pagination" aria-label="Processing pages">{cursor && <Link className="button button-small button-quiet" href={processingHref({ status })}>First jobs</Link>}{state.data?.cursor && <Link className="button button-small" href={processingHref({ status, cursor: state.data.cursor })}>Next jobs</Link>}</nav>
+    {!state.data && state.loading ? <Loading label="Loading processing jobs…" /> : state.data?.jobs.length ? <div className="processing-groups">{[...groups].map(([key, jobs]) => <JobGroup key={key} jobs={jobs} status={status} cursor={cursor} batch={batch} partial={Boolean(cursor || state.data?.cursor)} />)}</div>
+      : !state.error && <div className="processing-empty"><h2>{status ? 'No jobs with this status' : batch ? 'No accessible jobs in this batch' : 'No processing jobs'}</h2><p className="muted">{status ? 'Choose another status to see your other accessible jobs.' : batch ? 'This batch has no jobs that your account can read.' : 'Jobs will appear here after processing is requested.'}</p></div>}
+    <nav className="button-row processing-pagination" aria-label="Processing pages">{cursor && <Link className="button button-small button-quiet" href={processingHref({ status, batch })}>First jobs</Link>}{state.data?.cursor && <Link className="button button-small" href={processingHref({ status, cursor: state.data.cursor, batch })}>Next jobs</Link>}</nav>
   </>;
 }
 
-function JobDetail({ id, status, cursor, canOperate, onDirtyChange }: { id: string; status: ProcessingStatus | null; cursor: string | null; canOperate: boolean; onDirtyChange: (dirty: boolean) => void }) {
+function JobDetail({ id, status, cursor, batch = null, canOperate, onDirtyChange, inDrawer = false }: { id: string; status: ProcessingStatus | null; cursor: string | null; batch?: string | null; canOperate: boolean; onDirtyChange: (dirty: boolean) => void ; inDrawer?: boolean }) {
   const [intent, setIntent] = useState<JobIntent | null>(null); const [busy, setBusy] = useState(false); const [stale, setStale] = useState(false);
   const [operationError, setOperationError] = useState(''); const [saved, setSaved] = useState(''); const [confirmCancel, setConfirmCancel] = useState(false);
   const mounted = useRef(true); const controller = useRef<AbortController | null>(null);
@@ -174,11 +182,12 @@ function JobDetail({ id, status, cursor, canOperate, onDirtyChange }: { id: stri
   const retryable = job ? processingActions(job).retry : false;
   const cancellable = job ? processingActions(job).cancel : false;
   return <>
-    <Link className="back-link" href={processingHref({ status, cursor })}>← All processing jobs</Link>
-    <header className="page-heading"><div><h1>{job ? JOB_KINDS[job.kind] : 'Processing job'}</h1><p>Saved state is retained when you refresh or leave this page.</p></div><button className="button button-small button-quiet" disabled={busy || Boolean(intent)} onClick={reload}>Reload job details</button></header>
+    {!inDrawer && <Link className="back-link" href={processingHref({ status, cursor, batch })}>← All processing jobs</Link>}
+    {inDrawer ? <div className="job-drawer-head"><h3>{job ? JOB_KINDS[job.kind] : 'Processing job'}</h3><button className="button button-small button-quiet" disabled={busy || Boolean(intent)} onClick={reload}><Icon name="refresh" />Reload job details</button></div>
+      : <header className="page-heading"><div><h1>{job ? JOB_KINDS[job.kind] : 'Processing job'}</h1><p>Saved state is retained when you refresh or leave this page.</p></div><button className="button button-small button-quiet" disabled={busy || Boolean(intent)} onClick={reload}>Reload job details</button></header>}
     {state.error && <ErrorNotice message={state.error} retry={state.reload} />}
     {!job && state.loading ? <Loading label="Loading processing job…" /> : job && <>
-      <section className="editor-section processing-detail"><div className="section-heading"><h2>Processing status</h2><span className="badge">{STATUS_LABELS[job.status]}</span></div>
+      <section className="editor-section processing-detail"><div className="section-heading"><h2>Processing status</h2><span className={STATUS_TONES[job.status]}>{STATUS_LABELS[job.status]}</span></div>
         <dl className="processing-facts"><div><dt>Stage</dt><dd>{jobStageLabel(job.stage)}</dd></div><div><dt>Submitted</dt><dd><StudioDateTime value={job.created_at} /></dd></div><div><dt>Last saved update</dt><dd><StudioDateTime value={job.updated_at} /></dd></div></dl>
         <JobProgress job={job} />{job.frame_extraction&&<p className="notice" role="status">{frameOutcomeSummary(job.frame_extraction)}</p>}{job.error && <div className="notice notice-error"><p>{jobFailureMessage(job.error)}</p></div>}
         {job.status === 'waiting_for_input' && <p className="small">This job needs input before it can continue. Open its workspace to review the available requirements.</p>}
@@ -199,13 +208,21 @@ function JobDetail({ id, status, cursor, canOperate, onDirtyChange }: { id: stri
   </>;
 }
 
+function JobDrawer({ job, status, cursor, batch, canOperate, onDirtyChange }: { job: string; status: ProcessingStatus | null; cursor: string | null; batch: string | null; canOperate: boolean; onDirtyChange: (dirty: boolean) => void }) {
+  const router = useRouter(); const [locked, setLocked] = useState(false);
+  const changed = useCallback((value: boolean) => { setLocked(value); onDirtyChange(value); }, [onDirtyChange]);
+  return <Drawer wide title="Processing details" description="Saved job state. It is retained when you refresh or leave this page." busy={locked} closeLabel="Close processing details" onClose={() => router.push(processingHref({ status, cursor, batch }))}>
+    <JobDetail id={job} status={status} cursor={cursor} batch={batch} canOperate={canOperate} onDirtyChange={changed} inDrawer />
+  </Drawer>;
+}
+
 function ProcessingRoute({ actor, onDirtyChange }: { actor: Actor; onDirtyChange: (dirty: boolean) => void }) {
-  const params = useSearchParams(); const job = params.get('job'); const rawStatus = params.get('status'); const cursor = params.get('cursor');
+  const params = useSearchParams(); const job = params.get('job'); const rawStatus = params.get('status'); const cursor = params.get('cursor'); const batch = params.get('batch');
   const status = rawStatus as ProcessingStatus | null;
-  if (['job', 'status', 'cursor'].some(key => params.getAll(key).length > 1) || job !== null && !validProcessingId(job) || cursor !== null && !validProcessingId(cursor)
+  if (['job', 'status', 'cursor', 'batch'].some(key => params.getAll(key).length > 1) || job !== null && !validProcessingId(job) || cursor !== null && !validProcessingId(cursor) || batch !== null && !validProcessingId(batch)
     || status !== null && !JOB_STATUSES.includes(status)) return <><header className="page-heading"><h1>Processing</h1></header><ErrorNotice message="This processing link contains an unsupported job or filter." /><Link className="button" href="/processing">Show processing jobs</Link></>;
-  return job ? <JobDetail key={`${actor.id}/${job}`} id={job} status={status} cursor={cursor} canOperate={actor.capabilities?.includes('operations.retry') === true} onDirtyChange={onDirtyChange} />
-    : <JobList key={`${actor.id}/${status}/${cursor}`} status={status} cursor={cursor} />;
+  return <><JobList key={`${actor.id}/${batch}/${status}/${cursor}`} status={status} cursor={cursor} batch={batch} />
+    {job && <JobDrawer key={`${actor.id}/${job}`} job={job} status={status} cursor={cursor} batch={batch} canOperate={actor.capabilities?.includes('operations.retry') === true} onDirtyChange={onDirtyChange} />}</>;
 }
 
 export function ProcessingView({ actor, onDirtyChange }: { actor: Actor; onDirtyChange: (dirty: boolean) => void }) {

@@ -7,6 +7,7 @@ import { ErrorNotice } from './Feedback';
 import { rebaseRoleForm, requirementFields, roleForm, rolePatch, type RoleForm } from './specs-form';
 import { RoleSlots } from './RoleSlots';
 import { CastingRetirementReview } from './CastingRetirementReview';
+import { Icon } from './Icon';
 
 export function Clarifications({ entries, disabled, onChange, level = 4 }: { entries: SpecsClarification[]; disabled: boolean; onChange: (entries: SpecsClarification[]) => void; level?: 3 | 4 }) {
   if (!entries.length) return null;
@@ -65,10 +66,13 @@ export function RoleEditor({ role, canWrite, onSaved, onArchived, onWorkspaceCha
     onRetired?.(role.id, 'role removal'); onArchived(role.id); onWorkspaceChanged();
   }
   const label = role.name || 'Unnamed role';
+  const summary = [role.category, role.requirements.age_range, role.requirements.gender_requirement, ...role.requirements.languages].filter(value => typeof value === 'string' && value.trim()).join(' · ');
+  const openMarkers = form.clarifications.filter(marker => !marker.resolved).length;
   return <article className="role-editor" aria-label={`${label} requirements`}>
-    <div className="role-heading"><div><h3>{label}</h3><p className="small muted">{role.headcount === null ? 'Count needs clarification · one provisional slot' : `${role.headcount} ${role.headcount === 1 ? 'slot' : 'slots'}`}</p></div>
-      <span className="save-state" role="status" aria-live="polite">{saving ? 'Saving…' : error ? 'Could not save' : dirty ? 'Unsaved changes' : saved ? 'Saved' : 'Up to date'}</span></div>
-    <details className="requirements-details"><summary>Edit requirements</summary><div className="form-grid">
+    <div className="role-heading"><div className="role-title"><h3 dir="auto">{label}</h3><span className="role-count">{role.headcount === null ? 'Count needs clarification · one provisional slot' : `${role.headcount} ${role.headcount === 1 ? 'slot' : 'slots'}`}</span>
+        <p className="small muted role-summary" dir="auto">{summary || 'Requirements not provided'}</p></div>
+      <div className="role-flags">{openMarkers > 0 && <span className="badge badge-warn">{openMarkers} to clarify</span>}<span className="save-state" data-state={error ? 'error' : saved && !dirty ? 'saved' : undefined} role="status" aria-live="polite">{saving ? 'Saving…' : error ? 'Could not save' : dirty ? 'Unsaved changes' : saved ? 'Saved' : 'Up to date'}</span></div></div>
+    <details className="requirements-details"><summary>Edit requirements</summary><div className="form-grid-3">
       <div className="field"><label htmlFor={`role-${role.id}-name`}>Role name</label><input id={`role-${role.id}-name`} value={form.name} readOnly={!canWrite || archiving} placeholder="Not provided" onChange={event => change({ name: event.target.value })} /></div>
       <div className="field"><label htmlFor={`role-${role.id}-category`}>Classification</label><input id={`role-${role.id}-category`} value={form.category} readOnly={!canWrite || archiving} placeholder="Not provided" onChange={event => change({ category: event.target.value })} /></div>
       {requirementFields.map(([field, fieldLabel, multiple]) => <div className="field" key={field}><label htmlFor={`role-${role.id}-${field}`}>{fieldLabel}</label>
@@ -76,8 +80,8 @@ export function RoleEditor({ role, canWrite, onSaved, onArchived, onWorkspaceCha
           const value = event.target.value; setForm(current => ({ ...current, requirements: { ...current.requirements, [field]: value } })); setSaved(false);
         }} />{multiple && <span className="small muted">One entry per line.</span>}</div>)}
     </div><Clarifications entries={form.clarifications} disabled={!canWrite || archiving} onChange={clarifications => change({ clarifications })} />
-      {canWrite && <div className="button-row"><button className="button button-small" disabled={!dirty || saving || archiving} onClick={save}>{saving ? 'Saving…' : 'Save requirements'}</button>
-        <button className="button button-small button-quiet" disabled={saving || dirty || archiveReview} onClick={() => setArchiveReview(true)}>Remove role</button></div>}
+      {canWrite && <div className="button-row role-actions"><button className="button button-small" disabled={!dirty || saving || archiving} onClick={save}>{saving ? 'Saving…' : 'Save requirements'}</button>
+        <button className="button button-small button-danger-quiet" disabled={saving || dirty || archiveReview} onClick={() => setArchiveReview(true)}><Icon name="trash" />Remove role</button></div>}
     </details>
     {error && <><ErrorNotice message={error} /><div className="button-row"><button className="button button-small" disabled={saving || archiving || !dirty} onClick={save}>Retry saving</button><button className="button button-small button-quiet" onClick={onReload}>Reload saved requirements</button></div></>}
     {archiveReview && <CastingRetirementReview key={`${role.id}:${role.row_version}`} workspaceId={role.workspace_id} scope={{ kind: 'role', id: role.id, row_version: role.row_version }}

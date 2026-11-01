@@ -1,4 +1,5 @@
 'use client';
+import { Icon } from './Icon';
 
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import type { ResizeSlots, Role, Slot } from '@eps/domain';
@@ -145,9 +146,12 @@ function RoleSlotsEditor({ role, canWrite, onRoleSaved, onWorkspaceChanged, onDi
     <div className="section-heading"><div><h4>Individual slots</h4><p className="small muted">{role.headcount === null ? 'Count not provided. One provisional slot keeps this role open.' : `${role.headcount} required ${role.headcount === 1 ? 'person' : 'people'}.`}</p></div>
       <span className="save-state" role="status" aria-live="polite">{countState === 'saving' ? 'Saving count…' : countState === 'failed' ? 'Count save failed' : review ? 'Unsaved count review' : countState === 'saved' ? 'Count saved' : role.headcount === null ? 'Count not provided' : 'Count up to date'}</span></div>
     {role.headcount === null && <span className="badge">Needs clarification · provisional slot</span>}
-    <div className="form-grid"><div className="field"><label htmlFor={countId}>Required people</label><input id={countId} inputMode="numeric" pattern="[0-9]*" value={text}
+    <div className="form-grid"><div className="field"><label htmlFor={countId}>Required people</label><div className="stepper headcount-stepper">
+      <button type="button" aria-label="Decrease required people" disabled={!canWrite || countState === 'saving' || !page.loaded || page.stale || (Number.parseInt(text, 10) || 0) <= 1} onClick={() => editCount(String(Math.max(1, (Number.parseInt(text, 10) || 1) - 1)))}><Icon name="minus" /></button>
+      <input id={countId} inputMode="numeric" pattern="[0-9]*" value={text}
       disabled={!canWrite || countState === 'saving' || !page.loaded || page.stale} aria-describedby={helpId} aria-invalid={Boolean(review && reviewMessage && excess === 0)}
-      onChange={event => editCount(event.target.value)} onKeyDown={event => { if (event.key === 'Enter') { event.preventDefault(); void saveCount(); } }} />
+      onChange={event => editCount(event.target.value)} onKeyDown={event => { if (event.key === 'Enter') { event.preventDefault(); void saveCount(); } if (event.key === 'ArrowUp' || event.key === 'ArrowDown') { event.preventDefault(); editCount(String(Math.max(1, (Number.parseInt(text, 10) || 0) + (event.key === 'ArrowUp' ? 1 : -1)))); } }} />
+      <button type="button" aria-label="Increase required people" disabled={!canWrite || countState === 'saving' || !page.loaded || page.stale} onClick={() => editCount(String((Number.parseInt(text, 10) || 0) + 1))}><Icon name="plus" /></button></div>
       <p id={helpId} className="small muted">Enter a whole number above zero. Confirming a count keeps existing slot identities and labels.</p></div></div>
     {excess > 0 && <fieldset className="notice" disabled={!canWrite || countState === 'saving' || !complete || page.loading}>
       <legend>Choose slots to archive</legend><p>Choose exactly {excess} {excess === 1 ? 'slot' : 'slots'} for this reduction. Remaining slots keep their labels and order.</p>

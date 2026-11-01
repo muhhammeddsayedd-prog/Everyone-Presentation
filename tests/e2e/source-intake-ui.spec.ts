@@ -37,7 +37,9 @@ async function sourceWorkspace(page: Page, mode: 'normal' | 'unknown' | 'unavail
         if (keys.has(key)) return ok(keys.get(key));
         if (body.row_version !== job.row_version) return failure('STALE_RESOURCE_VERSION', 409);
         const next = { ...job, status: jobRoute[2] === 'retry' ? 'queued' as const : 'cancelled' as const, error: null, row_version: job.row_version + 1 };
-        jobs.set(job.id, next); keys.set(key, next); return ok(next);
+        // retry_job answers 202 JobAccepted (contracts/openapi.yaml); cancel_job answers the Job.
+        const answer = jobRoute[2] === 'retry' ? { job_id: job.id, resource_id: job.resource_id, poll_url: `/api/v1/jobs/${encodeURIComponent(job.id)}`, status: 'queued' } : next;
+        jobs.set(job.id, next); keys.set(key, answer); return route.fulfill({ status: jobRoute[2] === 'retry' ? 202 : 200, json: { request_id: 'controlled-source-request', data: answer } });
       }
     }
     if (path === endpoint && method === 'GET') {
@@ -111,7 +113,8 @@ test('controlled lost acceptance response retries identical key/body and creates
   await expect(page.getByRole('button', { name: 'Retry this source request' })).toBeVisible();
   expect(model.posts[0].body.source_text).toBe('\ufeffOriginal brief\r\n\r\nثلاثة أشخاص');
   await expect(page.getByLabel('Pasted source text')).toHaveAttribute('readonly', '');
-  page.once('dialog', dialog => dialog.dismiss()); await page.getByRole('link', { name: 'Projects', exact: true }).first().click();
+  await page.getByRole('link', { name: 'Projects', exact: true }).first().click();
+  await page.getByRole('alertdialog', { name: 'Leave this page?' }).getByRole('button', { name: 'Stay on this page', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Retry this source request' })).toBeVisible();
   await page.getByRole('button', { name: 'Retry this source request' }).click();
   await expect(page.getByRole('link', { name: 'View accepted processing' })).toBeVisible();

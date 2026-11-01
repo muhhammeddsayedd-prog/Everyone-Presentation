@@ -46,8 +46,10 @@ test('guest opens without internal sign-in and feedback stays on the viewed vers
   await page.getByLabel('Your name', { exact: true }).fill('Synthetic Reviewer');
   await page.getByRole('button', { name: 'Continue to feedback', exact: true }).click();
   await page.getByRole('textbox', { name: 'Comment', exact: true }).fill('Synthetic version-one feedback.');
-  await page.getByRole('button', { name: 'Preferred', exact: true }).click();
-  await expect(page.getByRole('button', { name: 'Preferred', exact: true })).toHaveAttribute('aria-pressed', 'true');
+  const preference = page.getByRole('group', { name: 'Your preference for this candidate' });
+  await preference.getByRole('radio', { name: 'Preferred', exact: true }).click();
+  await expect(preference.getByRole('radio', { name: 'Preferred', exact: true })).toBeChecked();
+  await expect(preference.getByRole('status')).toHaveText('Preference saved: Preferred.');
   await expect(page.getByRole('textbox', { name: 'Comment', exact: true })).toHaveValue('Synthetic version-one feedback.');
   newer = true;
   await page.getByRole('button', { name: 'Check for updates', exact: true }).click();

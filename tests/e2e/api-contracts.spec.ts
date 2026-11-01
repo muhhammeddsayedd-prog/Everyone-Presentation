@@ -5,7 +5,8 @@ import type { AudiencePreset, Project, UploadSession, Workspace } from '@eps/dom
 
 // API contexts are ephemeral. Do not capture auth cookies in network traces.
 test.use({ trace: 'off', screenshot: 'off' });
-const origin = 'http://127.0.0.1:3100';
+// Override only when the test server runs on another port (for example a second worktree).
+const origin = process.env.EPS_E2E_ORIGIN ?? 'http://127.0.0.1:3100';
 const producer = '10000000-0000-4000-8000-000000000001';
 const contributor = '10000000-0000-4000-8000-000000000002';
 const projectId = '20000000-0000-4000-8000-000000000001';

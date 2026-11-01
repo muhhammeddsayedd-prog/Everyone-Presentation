@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { api, ApiError, errorMessage, mutation } from './api';
 import { ErrorNotice } from './Feedback';
+import { Modal } from './ui/Overlay';
 import { readCastingRetirementPreview, type CastingRetirementPreview, type RetirementScope } from './casting-retirement';
 
 interface Props<T> {
@@ -44,17 +45,17 @@ export function CastingRetirementReview<T>({ workspaceId, scope, scopeLabel, con
       }
     } finally { pending.current = false; if (alive.current) setSaving(false); }
   }
-  return <section className="notice" aria-label="Review casting removal" aria-busy={loading || saving}>
-    <h4>Review affected casting choices</h4>
-    <p>Confirmation archives {scopeLabel} from Selection and Shortlist, including their Main, Backup or Option choices and assignment notes.</p>
-    <p className="small">The list below shows current choices. Confirmation applies to all active choices in this scope, including choices added after this preview.</p>
-    <p className="small">Shared profiles, introductions and saved presentation versions remain. Archived assignment notes and history are retained.</p>
-    {loading && <p role="status">Loading current casting choices…</p>}
-    {error && <ErrorNotice message={error} retry={!preview && !loading ? () => void load() : undefined} />}
-    {preview && <><p role="status">Currently shown: {preview.choices.length} casting {preview.choices.length === 1 ? 'assignment' : 'assignments'}, {preview.choices.filter(row => row.position === 'main').length} Main, {preview.choices.filter(row => row.shortlisted).length} shortlisted.</p>
-      {preview.choices.length > 0 ? <ul>{preview.choices.map(row => <li key={row.assignment_id}>Candidate record <span dir="auto">{row.candidate_id}</span> · <span dir="auto">{row.role} / {row.slot}</span> · {row.position === 'main' ? 'Main' : row.position === 'backup' ? 'Backup' : 'Option'}{row.shortlisted ? ' · in Shortlist' : ''}{row.has_presentation_notes || row.has_internal_notes ? ' · assignment notes retained in history' : ''}</li>)}</ul> : <p>No active casting assignments were returned for this scope.</p>}</>}
-    {uncertain && <p role="status">The result is unconfirmed. Keep this request open and retry it before making another removal.</p>}
-    <div className="button-row"><button type="button" className="button button-small" disabled={!preview || loading || saving} onClick={() => void confirm()}>{saving ? 'Saving removal…' : uncertain ? 'Retry same removal' : confirmLabel}</button>
-      <button type="button" className="button button-small button-quiet" disabled={saving || uncertain} onClick={onCancel}>{cancelLabel}</button></div>
-  </section>;
+  const busy = saving || uncertain;
+  return <Modal inline wide title="Review affected casting choices" description={`Confirmation archives ${scopeLabel} from Selection and Shortlist, including their Main, Backup or Option choices and assignment notes.`} onClose={onCancel} busy={busy}>
+    <section className="retirement-review" aria-label="Review casting removal" aria-busy={loading || saving}>
+      <p className="small soft">The list below shows current choices. Confirmation applies to all active choices in this scope, including choices added after this preview.</p>
+      <p className="small soft">Shared profiles, introductions and saved presentation versions remain. Archived assignment notes and history are retained.</p>
+      {loading && <p role="status">Loading current casting choices…</p>}
+      {error && <ErrorNotice message={error} retry={!preview && !loading ? () => void load() : undefined} />}
+      {preview && <><p role="status" className="retirement-summary">Currently shown: {preview.choices.length} casting {preview.choices.length === 1 ? 'assignment' : 'assignments'}, {preview.choices.filter(row => row.position === 'main').length} Main, {preview.choices.filter(row => row.shortlisted).length} shortlisted.</p>
+        {preview.choices.length > 0 ? <ul className="retirement-list">{preview.choices.map(row => <li key={row.assignment_id}><span className={`position-chip position-${row.position}`}>{row.position === 'main' ? 'Main' : row.position === 'backup' ? 'Backup' : 'Option'}</span><span><span dir="auto">{row.role} / {row.slot}</span><span className="small muted"> · Candidate record <span dir="auto">{row.candidate_id}</span>{row.shortlisted ? ' · in Shortlist' : ''}{row.has_presentation_notes || row.has_internal_notes ? ' · assignment notes retained in history' : ''}</span></span></li>)}</ul> : <p>No active casting assignments were returned for this scope.</p>}</>}
+      {uncertain && <p role="status">The result is unconfirmed. Keep this request open and retry it before making another removal.</p>}
+      <div className="button-row button-row-end modal-actions"><button type="button" className="button" disabled={saving || uncertain} onClick={onCancel}>{cancelLabel}</button><button type="button" className="button button-danger" disabled={!preview || loading || saving} onClick={() => void confirm()}>{saving ? 'Saving removal…' : uncertain ? 'Retry same removal' : confirmLabel}</button></div>
+    </section>
+  </Modal>;
 }

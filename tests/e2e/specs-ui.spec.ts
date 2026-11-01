@@ -91,6 +91,10 @@ test('controlled specs UI preserves supplied text, count clarifications and expl
   expect(model.rolePatches[0].input.requirements?.skills).toEqual(['Tray carrying\nand balancing', '  Supplied wording  ']);
   await article.locator('.role-slots-disclosure > summary').click();
   await article.getByLabel('Required people', { exact: true }).fill('3');
+  const count = article.getByLabel('Required people', { exact: true });
+  await article.getByRole('button', { name: 'Increase required people', exact: true }).click(); await expect(count).toHaveValue('4');
+  await article.getByRole('button', { name: 'Decrease required people', exact: true }).click(); await expect(count).toHaveValue('3');
+  await count.press('ArrowUp'); await expect(count).toHaveValue('4'); await count.press('ArrowDown'); await expect(count).toHaveValue('3');
   await article.getByRole('button', { name: 'Confirm required count', exact: true }).click();
   await expect.poll(() => model.roles()[0].headcount).toBe(3);
   await expect(article.getByRole('checkbox', { name: 'Clarified: Headcount is not known. The single slot is provisional.' })).toBeChecked();
@@ -149,11 +153,11 @@ test('controlled stale edit stays visible and guards navigation until explicit r
   await article.getByLabel('Role name', { exact: true }).fill('My correction');
   await expect(article.getByRole('alert')).toContainText('Reload the saved details');
   await expect(article.getByLabel('Role name', { exact: true })).toHaveValue('My correction');
-  page.once('dialog', dialog => dialog.dismiss());
   await page.getByRole('link', { name: 'Continue to Candidates' }).click();
+  await page.getByRole('alertdialog', { name: 'Leave this page?' }).getByRole('button', { name: 'Stay on this page', exact: true }).click();
   await expect(page).toHaveURL(new RegExp('/specs$'));
-  page.once('dialog', dialog => dialog.accept());
   await article.getByRole('button', { name: 'Reload saved requirements', exact: true }).click();
+  await page.getByRole('alertdialog', { name: 'Reload saved requirements?' }).getByRole('button', { name: 'Discard edits and reload', exact: true }).click();
   await article.locator('summary').filter({ hasText: 'Edit requirements' }).click();
   await expect(article.getByLabel('Role name', { exact: true })).toHaveValue('External correction');
   expect(model.rolePatches).toHaveLength(1); expect(model.errors).toEqual([]);
