@@ -4,6 +4,18 @@ import json
 from pathlib import Path
 import yaml
 
+def write_source(path, text):
+    import difflib
+    encoded = text.encode('utf-8')
+    if path.exists():
+        old = path.read_bytes().splitlines(keepends=True)
+        new = encoded.splitlines(keepends=True)
+        body = lambda line: line.rstrip(b'\r\n')
+        for block in reversed(difflib.SequenceMatcher(a=[body(v) for v in old], b=[body(v) for v in new], autojunk=False).get_matching_blocks()):
+            if block.size: new[block.b:block.b + block.size] = old[block.a:block.a + block.size]
+        encoded = b''.join(new)
+    path.write_bytes(encoded)
+
 ROOT = Path(__file__).resolve().parents[1]
 path = ROOT / 'contracts/openapi.yaml'
 api = yaml.safe_load(path.read_text(encoding='utf-8'))
@@ -35,7 +47,7 @@ types.update(operationId='list_presentation_types', summary='List available and 
 types['parameters'] = []
 types['responses']['200']['content']['application/json']['schema'] = response_schema({'type': 'array', 'items': {'$ref': '#/components/schemas/PresentationType'}})
 api['paths']['/presentation-types'] = {'get': types}
-path.write_text(yaml.safe_dump(api, sort_keys=False, allow_unicode=True, width=140), encoding='utf-8', newline='\n')
+write_source(path, yaml.safe_dump(api, sort_keys=False, allow_unicode=True, width=140))
 
 def convert(value):
     if isinstance(value, dict): return {k: v.replace('#/components/schemas/', '#/$defs/') if k == '$ref' else convert(v) for k, v in value.items()}
@@ -82,11 +94,11 @@ for name, template_name, endpoint, schema, capability in [
         tool['outputSchema']['properties']['data'] = {'type': 'array', 'items': {'$ref': '#/$defs/PresentationType'}}
     tool['outputSchema']['$defs'] = definitions([schema, 'Id', 'Warning'])
     catalog['tools'] = [row for row in catalog['tools'] if row['name'] != name] + [tool]
-path.write_text(json.dumps(catalog, indent=2) + '\n', encoding='utf-8', newline='\n')
+write_source(path, json.dumps(catalog, indent=2) + '\n')
 path = ROOT / 'contracts/operation-parity.json'
 parity = json.loads(path.read_text(encoding='utf-8'))
 group = next(group for group in parity['groups'] if group['id'] == 'projects')
 group['label'] = 'Create/select canonical projects; type intent; authorized clients; workspace and branding'
 for name, symbol in [('create_project', 'createProject'), ('list_clients', 'listClients'), ('list_presentation_types', 'listPresentationTypes')]:
     group['operations'] = [row for row in group['operations'] if row['operation'] != name] + [{'operation': name, 'domain_symbol': symbol, 'domain_source': 'packages/central/src/studio.ts', 'http_source': 'apps/web/app/api/v1/[...segments]/route.ts'}]
-path.write_text(json.dumps(parity, indent=2) + '\n', encoding='utf-8', newline='\n')
+write_source(path, json.dumps(parity, indent=2) + '\n')
