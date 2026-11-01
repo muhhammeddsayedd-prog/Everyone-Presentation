@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-11-01T23:55:28.042Z",
+  "result": "passed_native_smoke_admission_and_archive",
+  "admitted": {
+    "result": "passed",
+    "source_sha256": "0566342ec367efef328885aac513adeb5a942048ba01c88e1af63e4d636b6730",
+    "image": "muhammed-abdelrahman/everyone-presentation-worker-pilot/native@sha256:46de2f0c0772e10d712fba514788d24041d6741faa8966b6fe9c554fe47e4af4",
+    "native_tasks_passed": 9,
+    "named_resources_observed_and_absent": 10,
+    "source_seal_uid_network_verified": true,
+    "session_equality_and_no_snapshots_verified": true,
+    "cleanup_confirmed": true,
+    "lock_released": true,
+    "actual_worker_ready_or_specs_AI_app_acceptance": false
+  },
+  "actual_receipt": {
+    "path": "tracking/evidence/m07/completion-native/2026-11-01T23-51-16.545Z-a5d45e58-hosted-probe.json",
+    "sha256": "fe8b3008f1a8cae9a54c9ceac3d14cd31519f1679861c80df95869a8c8fe9c33"
+  },
+  "execution_plan": {
+    "path": "tracking/evidence/m07/completion-native/2026-11-01T23-47-26-875Z-execution-plan.json",
+    "sha256": "f33334aceafe359f29e02eddb4c256649ca17187e03cffcf78cd7887621b420d"
+  },
+  "operator": {
+    "path": "tracking/evidence/m07/completion-native/2026-11-01T23-47-26-875Z-operator.mjs.txt",
+    "sha256": "cc6ac2c7a8b9161458cbb824df375e97fbfc84bc734609b97ffe8c0847c94ce3"
+  },
+  "first_local_failure_preserved": true,
+  "corrected_launch_used_existing_tsx": true,
+  "archive_operation_provider_called": false
+}
