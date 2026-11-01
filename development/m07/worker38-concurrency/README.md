@@ -35,7 +35,35 @@ OID in the same transaction. Its exact metadata is recorded. After both owned
 databases are absent, only that new marked/OID-bound dependency-free role can
 be dropped, before the unchanged old global-role comparison.
 
-## Planned actual cases; not yet executed
+## Retained failed preparation and forward admission fix
+
+Root's run0e9fd373-2444-49ca-9cf3-80b9b7fab7df failed at actual migration36
+admission before any concurrency sessions. Its inherited checkpoint still named
+migration33, but all four30–33 migrations had committed and the new hook had
+reached36. The official36 guard demands the real canonical protected M02 job
+and its specific facts/hashes. The owned29 bootstrap correctly starts with zero
+jobs; that cloud-data prerequisite necessarily failed in the disposable target.
+The migration transaction rolled back before trace-role creation. Actual cleanup and original-state
+preservation passed. Exact executed five-file bytes and the failed receipt are
+retained at checkpoint542eb1c; its permanent claim must never replay.
+
+The new owned-only36 shim substitutes just that canonical protected-data clause
+with an explicit owned fixture marker, empty jobs/specs/media/version tables,
+absence of the canonical protected IDs, and known current specs RPC/ack-schema
+prerequisites. Original history, reviewed35 body hash and trace role/table/
+function/trigger absence checks stay exact. Every functional DDL byte and the
+official migration/source pins remain unchanged. No protected cloud identity or
+placeholder row is created. The established recovery36 adapter uses the same
+separation of owned admission from canonical data preservation.
+
+The forward source also records each34–38 checkpoint, exact adapted wire and
+prepared/committed status before dispatch, so a later failure names its actual
+migration. Two new regressions were RED against the failed adapter and are now
+GREEN. All eleven inert checks pass, including twenty PostgreSQL wire/parser
+documents. This remains parser/source evidence; the forward native run is still
+pending. Execution is disabled again until Root reviews and uses a fresh UUID.
+
+## Planned concurrency cases; not yet executed
 
 1. A normal authenticated caller executes the real specs submit RPC and holds
    its successful transaction open. The pause backend executes the exact

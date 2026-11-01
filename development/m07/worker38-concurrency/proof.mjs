@@ -128,6 +128,36 @@ export function ownedMigration(file, raw, identity, runId) {
     const match = /current_database\(\)\s*<>\s*'postgres'/gu; assert.equal([...source.matchAll(match)].length, 1);
     source = source.replace(match, () => '(' + ownedPredicate33(identity) + ')');
   }
+  let protectedAdmission;
+  if (version === '20261101012057') {
+    assert.equal(sha(raw), '4209e16b7d67cfb793375d24dfd22f9fee72f3516e3dde16be1d2b0d633b7267');
+    const start = source.indexOf('\n or not(exists(select 1 from eps.jobs j join eps.specs s');
+    const stop = source.indexOf("\n then raise exception 'M07_ATTEMPT36_EXACT_REVIEWED35_REQUIRED'", start);
+    assert(start > 0 && stop > start);
+    const canonical = source.slice(start, stop);
+    assert.equal(source.split(canonical).length, 2);
+    assert(canonical.includes("j.id='b3f90268-147d-41d4-8875-2a6435df1496'"));
+    assert(canonical.includes("j.resource_id='73a1a500-acfe-48cc-91ba-53a83b895118'"));
+    // The real canonical protected cohort deliberately does not exist in the
+    // inherited empty local29 setup. Never create it or waive cloud protection.
+    // This is an owned-only admission substitution; history, reviewed35 hash,
+    // role/table/function/trigger absence and every functional byte stay exact.
+    const owned = `
+ or current_setting('eps.worker38.concurrency',true)is distinct from'owned-local-v1'
+ or exists(select 1 from eps.jobs)
+ or exists(select 1 from eps.specs)
+ or exists(select 1 from eps.media_assets)
+ or exists(select 1 from eps.presentation_versions)
+ or exists(select 1 from eps.jobs where id='b3f90268-147d-41d4-8875-2a6435df1496')
+ or exists(select 1 from eps.specs where id='73a1a500-acfe-48cc-91ba-53a83b895118')
+ or to_regprocedure('public.eps_submit_specs(uuid,jsonb,text)')is null
+ or to_regprocedure('public.eps_retry_job(uuid,jsonb,text)')is null
+ or(select encode(sha256(convert_to(replace(prosrc,E'\\r\\n',E'\\n'),'UTF8')),'hex')from pg_proc where oid=to_regprocedure('eps.specs_submit_ack(uuid,uuid,uuid)'))is distinct from'e0a7c7be311e6b2139faf08238121f4687d379844a26dd602ff8331b54231481'`;
+    source = source.slice(0, start) + owned + source.slice(stop);
+    protectedAdmission = { canonical_clause_sha256: sha(canonical), owned_clause_sha256: sha(owned),
+      canonical_job_and_spec_absence_required: true, owned_empty_jobs_specs_media_versions_required: true,
+      reviewed35_history_hash_and_schema_guards_retained: true };
+  }
   const anchor = {
     '20261031143711': '\ncreate function eps.english_transcript_text_valid(',
     '20261031182038': '\ncreate function public.eps_get_workspace_summary(',
@@ -141,7 +171,7 @@ export function ownedMigration(file, raw, identity, runId) {
   const begins = [...source.matchAll(/^begin;\s*$/gmu)], commits = [...source.matchAll(/^commit;\s*$/gmu)];
   assert(begins.length <= 1 && commits.length <= 1);
   source = source.replace(/^begin;\s*$/mu, '').replace(/^commit;\s*$/mu, '');
-  let body = "set local session authorization postgres;\n" + source + '\n';
+  let body = "set local session authorization postgres;set local eps.worker38.concurrency='owned-local-v1';\n" + source + '\n';
   if (version === '20261101012057') {
     const prefix = 'eps-worker38-concurrency:' + runId + ':trace:';
     // Role creation and its marker containing its exact OID commit atomically.
@@ -149,7 +179,8 @@ export function ownedMigration(file, raw, identity, runId) {
   }
   body += `insert into supabase_migrations.schema_migrations(version,statements,name)values('${version}',array[]::text[],'worker38_owned_concurrency');\n`;
   return { body, source_sha256: sha(raw), adapted_sha256: sha(body), functional_sha256: functionalSha,
-    owned_target_and_outer_transaction_adapter: true, outer_begin_removed: begins.length, outer_commit_removed: commits.length, version };
+    owned_target_and_outer_transaction_adapter: true, ...(protectedAdmission ? { protected_data_admission: protectedAdmission } : {}),
+    outer_begin_removed: begins.length, outer_commit_removed: commits.length, version };
 }
 export function roleQuery() {
   return `select jsonb_build_object('role',(select jsonb_build_object('oid',r.oid,'name',r.rolname,'marker',shobj_description(r.oid,'pg_authid'),
@@ -307,21 +338,24 @@ export async function runConcurrency38(ctx) {
   const identity = { database: ctx.sourceDb, marker: ctx.marker(ctx.sourceDb), oid: (await ctx.databaseIdentity(ctx.sourceDb)).oid };
   const migrations = [...sources.keys()].filter(v => /^supabase\/migrations\/(?:20261031143711|20261031182038|20261101012057|20261101042702|20261101110939)_/u.test(v)).sort();
   assert.equal(migrations.length, 5);
-  const applied = [];
+  const applied = []; ctx.report.worker38_actual34_to38 = applied;
   for (const file of migrations) {
     const adapted = ownedMigration(file, sources.get(file), identity, ctx.runId);
+    ctx.report.checkpoint = 'worker38-owned-migration-' + adapted.version;
+    const record = { file, ...adapted, status: 'prepared' }; delete record.body; applied.push(record);
+    await writeFile(path.join(ctx.privateRoot, 'worker38-migration-' + adapted.version + '-owned.sql'), adapted.body, { flag: 'wx', mode: 0o600 });
     if (adapted.version === '20261101012057') {
       const before = only(ctx.rows((await ctx.docker(ctx.psqlArgs('template1'), { input: 'begin read only;' + roleQuery() + 'rollback;' })).stdout)).role;
       same(before, null); ctx.report.worker38_trace_creation_attempted = true;
     }
     await ctx.sql(ctx.sourceDb, adapted.body);
+    record.status = 'committed';
     if (adapted.version === '20261101012057') {
       const row = only(ctx.rows((await ctx.docker(ctx.psqlArgs('template1'), { input: 'begin read only;' + roleQuery() + 'rollback;' })).stdout)).role;
       admitTraceRole(row, ctx.runId); ctx.report.worker38_trace_role = row;
     }
-    const record = { ...adapted }; delete record.body; applied.push({ file, ...record });
   }
-  ctx.report.worker38_actual34_to38 = applied;
+  ctx.report.checkpoint = 'worker38-owned-current38-fixture';
   await ctx.sql(ctx.sourceDb, "set local eps.worker38.concurrency='owned-local-v1';\n" + sources.get(PURPOSE + 'fixture.sql').toString('utf8'));
   const sessions = []; let observer; ctx.report.worker38_sessions_attempted = true;
   const start = async (label, options) => { const session = rawSession(ctx, identity, label, options); sessions.push(session); return session.start(); };

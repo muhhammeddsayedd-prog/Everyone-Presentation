@@ -97,6 +97,33 @@ test('actual34..38 adaptation preserves complete functional DDL and marks trace 
   }
   assert.throws(() => ownedMigration(files[0], bundle.sources.get(files[0]), { ...identity, oid: 0 }, run));
 });
+test('owned36 admission replaces only the impossible cloud protected-row prerequisite', () => {
+  const file = 'supabase/migrations/20261101012057_m07_job_attempt_observability.sql';
+  const original = bundle.sources.get(file).toString();
+  const originalClause = original.slice(original.indexOf('\n or not(exists(select 1 from eps.jobs j join eps.specs s'), original.indexOf("\n then raise exception 'M07_ATTEMPT36_EXACT_REVIEWED35_REQUIRED'"));
+  assert(originalClause.includes("j.id='b3f90268-147d-41d4-8875-2a6435df1496'"));
+  const adapted = ownedMigration(file, bundle.sources.get(file), identity, run).body;
+  assert.equal(adapted.includes(originalClause), false);
+  for (const prerequisite of ["current_setting('eps.worker38.concurrency',true)is distinct from'owned-local-v1'",
+    'exists(select 1 from eps.jobs)', 'exists(select 1 from eps.specs)', 'exists(select 1 from eps.media_assets)', 'exists(select 1 from eps.presentation_versions)']) assert(adapted.includes(prerequisite), prerequisite);
+  for (const preserved of ["to_regclass('eps.job_stage_attempts') is not null", "to_regprocedure('eps.capture_job_stage_attempt()') is not null",
+    "exists(select 1 from pg_roles where rolname='eps_job_trace_owner')", "'6912140e41804faf2c2fd257a9b1ecac9eba8c3ccee5cbd7ff75fbff4d9be953'"]) assert(adapted.includes(preserved), preserved);
+  const anchor = '\ncreate role eps_job_trace_owner';
+  const expected = original.slice(original.indexOf(anchor));
+  assert(adapted.includes(expected));
+});
+test('each upgraded migration records its actual checkpoint and wire before SQL dispatch', () => {
+  const source = bundle.sources.get(PURPOSE + 'proof.mjs').toString();
+  const start = source.indexOf('for (const file of migrations) {');
+  const end = source.indexOf("await ctx.sql(ctx.sourceDb, \"set local eps.worker38.concurrency", start);
+  const loop = source.slice(start, end);
+  const checkpoint = loop.indexOf("ctx.report.checkpoint = 'worker38-owned-migration-' + adapted.version");
+  const prepared = loop.indexOf("status: 'prepared'");
+  const wire = loop.indexOf('await writeFile(');
+  const dispatch = loop.indexOf('await ctx.sql(ctx.sourceDb, adapted.body)');
+  const committed = loop.indexOf("record.status = 'committed'");
+  assert(checkpoint >= 0 && checkpoint < prepared && prepared < wire && wire < dispatch && dispatch < committed);
+});
 test('PostgreSQL parser rejects snapshot-before-config-lock ordering and accepts actual raw wire', () => {
   const prefix = rawPrelude(identity, 'eps38_parser'); const good = prefix + pausePhase(sql, before);
   const bad = good.replace('begin isolation level repeatable read;', "begin isolation level repeatable read;select count(*)from eps.jobs;");
