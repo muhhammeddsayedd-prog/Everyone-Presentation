@@ -11,6 +11,7 @@ const stamp = '2026-11-02T00:00:00Z';
 type Created = { name: string; presentation_type: string; client_id?: string };
 async function fixture(page: Page, options: { capabilities?: string[]; uncertain?: boolean; catalogFails?: boolean } = {}) {
   const writes: { path: string; key: string; body: Created }[] = [], errors: string[] = [], mutations: string[] = [];
+  let actorId = 'synthetic-project-creator'; const created = new Map<string, Created>();
   let saved: Created = { name: 'Synthetic folder project', presentation_type: 'casting' };
   const project = () => ({ id: projectId, name: saved.name, presentation_type: saved.presentation_type, client_id: saved.client_id ?? null, client_name: saved.client_id ? 'Synthetic permitted client' : null,
     client_logo_asset_id: null, row_version: 1, client_row_version: saved.client_id ? 1 : null, casting_workspace_id: null, can_edit: true });
@@ -20,11 +21,13 @@ async function fixture(page: Page, options: { capabilities?: string[]; uncertain
     if (request.method() !== 'GET') mutations.push(routePath);
     const ok = (data: unknown, status = 200) => route.fulfill({ status, json: { request_id: 'synthetic-project-create', data } });
     const list = (data: unknown[]) => route.fulfill({ json: { request_id: 'synthetic-project-create', data, page: { next_cursor: null } } });
-    if (routePath === '/api/session') return ok({ mode: 'supabase', actor: { id: 'synthetic-project-creator', name: 'Synthetic Producer', capabilities: options.capabilities ?? ['projects.read', 'projects.write', 'workspaces.read', 'workspaces.write', 'cast.read', 'cast.upload'], upload_purposes: ['candidate_video'], upload_maximum_bytes: 268435456 }, storage_origin: 'https://synthetic.example.invalid', actors: [] });
+    if (routePath === '/api/session') return ok({ mode: 'supabase', actor: { id: actorId, name: 'Synthetic Producer', capabilities: options.capabilities ?? ['projects.read', 'projects.write', 'workspaces.read', 'workspaces.write', 'cast.read', 'cast.upload'], upload_purposes: ['candidate_video'], upload_maximum_bytes: 268435456 }, storage_origin: 'https://synthetic.example.invalid', actors: [] });
     if (routePath === '/api/v1/presentation-types') return options.catalogFails ? route.fulfill({ status: 503, json: { error: { code: 'DEPENDENCY_UNAVAILABLE', message: 'Presentation catalogue unavailable.' } } }) : ok([{ key: 'casting', label: 'Casting', status: 'available' }, { key: 'wardrobe', label: 'Wardrobe', status: 'planned' }]);
     if (routePath === '/api/v1/clients') return list([{ id: clientId, name: 'Synthetic permitted client', row_version: 1 }]);
     if (routePath === '/api/v1/projects' && request.method() === 'POST') {
       saved = request.postDataJSON(); writes.push({ path: routePath, key: request.headers()['idempotency-key'], body: saved });
+      const identity = `${actorId}:${request.headers()['idempotency-key']}`;
+      if (created.has(identity)) expect(saved).toEqual(created.get(identity)); else created.set(identity, saved);
       if (options.uncertain && writes.length === 1) return route.abort('failed');
       return ok(project(), 201);
     }
@@ -34,7 +37,7 @@ async function fixture(page: Page, options: { capabilities?: string[]; uncertain
     if (routePath === `/api/v1/workspaces/${workspaceId}/candidates`) return list([]);
     return route.fulfill({ status: 404, json: { error: { code: 'NOT_FOUND', message: 'Synthetic route unavailable.' } } });
   });
-  return { writes, errors, mutations };
+  return { writes, errors, mutations, createdCount: () => created.size, setActor: (value: string) => { actorId = value; } };
 }
 
 test('create a shared Casting project before starting any workspace', async ({ page }) => {
@@ -85,6 +88,91 @@ test('uncertain creation keeps the exact input and idempotency key until confirm
   await dialog.getByRole('button', { name: 'Confirm create request', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Synthetic recoverable project', exact: true })).toBeVisible();
   expect(state.writes).toHaveLength(2); expect(state.writes[0]).toEqual(state.writes[1]); expect(state.errors).toEqual([]);
+});
+
+test('accepted creation with a lost response survives reload and confirms one project with the same key', async ({ page }) => {
+  const state = await fixture(page, { uncertain: true });
+  await page.goto('/projects'); await page.getByRole('button', { name: 'New project', exact: true }).click();
+  let dialog = page.getByRole('dialog', { name: 'New project', exact: true });
+  await dialog.getByLabel('Project name', { exact: true }).fill('Synthetic reload recovery');
+  await dialog.getByLabel('Presentation type', { exact: true }).selectOption('wardrobe');
+  await dialog.getByLabel('Shared client', { exact: true }).selectOption(clientId);
+  await dialog.getByRole('button', { name: 'Create project', exact: true }).click();
+  await expect(dialog.getByRole('button', { name: 'Confirm create request', exact: true })).toBeVisible();
+  expect(state.createdCount()).toBe(1);
+  const stored = await page.evaluate(() => {
+    const entries = Object.entries(sessionStorage).filter(([key]) => key.startsWith('eps-project-create-v1:'));
+    return { entries: entries.length, length: entries[0][1].length, value: JSON.parse(entries[0][1]) };
+  });
+  expect(stored.entries).toBe(1); expect(stored.length).toBeLessThanOrEqual(4096);
+  expect(stored.value).toEqual({ key: state.writes[0].key, body: state.writes[0].body });
+  page.once('dialog', prompt => prompt.accept()); await page.reload();
+  await expect(page.getByRole('button', { name: 'Resume project creation', exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Resume project creation', exact: true }).click();
+  dialog = page.getByRole('dialog', { name: 'New project', exact: true });
+  await expect(dialog.getByLabel('Project name', { exact: true })).toHaveValue('Synthetic reload recovery');
+  await expect(dialog.getByLabel('Project name', { exact: true })).toBeDisabled();
+  await expect(dialog.getByLabel('Presentation type', { exact: true })).toHaveValue('wardrobe');
+  await expect(dialog.getByLabel('Shared client', { exact: true })).toHaveValue(clientId);
+  expect(state.writes).toHaveLength(1); // Restoration never submits automatically.
+  await dialog.getByRole('button', { name: 'Confirm create request', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Synthetic reload recovery', exact: true })).toBeVisible();
+  expect(state.writes).toHaveLength(2); expect(state.writes[0]).toEqual(state.writes[1]); expect(state.createdCount()).toBe(1);
+  await page.goto('/projects'); await expect(page.getByRole('button', { name: 'New project', exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Resume project creation', exact: true })).toHaveCount(0);
+  expect(state.errors).toEqual([]);
+});
+
+test('pending project creation is isolated to its acting user across account changes', async ({ page }) => {
+  const state = await fixture(page, { uncertain: true });
+  await page.goto('/projects'); await page.getByRole('button', { name: 'New project', exact: true }).click();
+  const dialog = page.getByRole('dialog', { name: 'New project', exact: true });
+  await dialog.getByLabel('Project name', { exact: true }).fill('Synthetic first actor request');
+  await dialog.getByRole('button', { name: 'Create project', exact: true }).click();
+  await expect(dialog.getByRole('button', { name: 'Confirm create request', exact: true })).toBeVisible();
+  state.setActor('synthetic-second-creator'); page.once('dialog', prompt => prompt.accept()); await page.reload();
+  await expect(page.getByRole('button', { name: 'Resume project creation', exact: true })).toHaveCount(0);
+  await page.getByRole('button', { name: 'New project', exact: true }).click();
+  await expect(dialog.getByLabel('Project name', { exact: true })).toHaveValue('');
+  await dialog.getByLabel('Project name', { exact: true }).fill('Synthetic second actor request');
+  await dialog.getByRole('button', { name: 'Create project', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Synthetic second actor request', exact: true })).toBeVisible();
+  expect(state.writes).toHaveLength(2); expect(state.writes[0].key).not.toBe(state.writes[1].key);
+  state.setActor('synthetic-project-creator'); await page.goto('/projects');
+  await expect(page.getByRole('button', { name: 'Resume project creation', exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Resume project creation', exact: true }).click();
+  await expect(dialog.getByLabel('Project name', { exact: true })).toHaveValue('Synthetic first actor request');
+  expect(state.writes).toHaveLength(2);
+  await dialog.getByRole('button', { name: 'Confirm create request', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Synthetic first actor request', exact: true })).toBeVisible();
+  expect(state.writes).toHaveLength(3); expect(state.writes[0]).toEqual(state.writes[2]); expect(state.createdCount()).toBe(2); expect(state.errors).toEqual([]);
+});
+
+test('known permission rejection clears the pending request without creating a project', async ({ page }) => {
+  const state = await fixture(page);
+  await page.route('**/api/v1/projects', route => route.request().method() === 'POST'
+    ? route.fulfill({ status: 403, json: { error: { code: 'CAPABILITY_REQUIRED', message: 'Synthetic project creation denied.' } } }) : route.fallback());
+  await page.goto('/projects'); await page.getByRole('button', { name: 'New project', exact: true }).click();
+  const dialog = page.getByRole('dialog', { name: 'New project', exact: true });
+  await dialog.getByLabel('Project name', { exact: true }).fill('Synthetic rejected request');
+  await dialog.getByRole('button', { name: 'Create project', exact: true }).click();
+  await expect(dialog.getByText('Synthetic project creation denied.', { exact: true })).toBeVisible();
+  await expect(dialog.getByLabel('Project name', { exact: true })).toBeEnabled();
+  page.once('dialog', prompt => prompt.accept()); await page.reload();
+  await expect(page.getByRole('button', { name: 'New project', exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Resume project creation', exact: true })).toHaveCount(0);
+  expect(state.createdCount()).toBe(0); expect(state.errors).toEqual([]);
+});
+
+test('unavailable tab persistence prevents an unrecoverable HTTP create attempt', async ({ page }) => {
+  const state = await fixture(page);
+  await page.addInitScript(() => { Storage.prototype.setItem = () => { throw new DOMException('Synthetic tab storage unavailable.', 'QuotaExceededError'); }; });
+  await page.goto('/projects'); await page.getByRole('button', { name: 'New project', exact: true }).click();
+  const dialog = page.getByRole('dialog', { name: 'New project', exact: true });
+  await dialog.getByLabel('Project name', { exact: true }).fill('Synthetic blocked persistence');
+  await dialog.getByRole('button', { name: 'Create project', exact: true }).click();
+  await expect(dialog.getByText('The request was not sent. Synthetic tab storage unavailable.', { exact: true })).toBeVisible();
+  expect(state.writes).toEqual([]); expect(state.createdCount()).toBe(0); expect(state.errors).toEqual([]);
 });
 
 test('project creation requires current project capabilities and a loaded catalogue', async ({ page }) => {

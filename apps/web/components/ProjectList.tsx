@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useSyncExternalStore } from 'react';
 import { useRouter } from 'next/navigation';
 import type { PresentationSeries } from '@eps/domain';
 import { api, errorMessage, mutation, type Actor, type Project, type Workspace } from './api';
@@ -13,6 +13,7 @@ import { SegmentIndicator } from './motion/SegmentIndicator';
 import { stagger } from './motion/motion';
 import { NewProject } from './NewProject';
 import { plannedPresentation, presentationTypeLabel } from './project-presentation';
+import { parseProjectCreateIntent, projectCreateIntentSnapshot, subscribeProjectCreateIntent } from '../lib/project-create-intent';
 
 type Filter = 'all' | 'started' | 'not_started';
 const filters: { value: Filter; label: string }[] = [{ value: 'all', label: 'All' }, { value: 'started', label: 'Casting in progress' }, { value: 'not_started', label: 'Not started' }];
@@ -31,6 +32,8 @@ export function ProjectList({ actor, onDirtyChange }: { actor: Actor; onDirtyCha
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [refresh, setRefresh] = useState(0);
   const [creating, setCreating] = useState(false);
+  const pending = useSyncExternalStore(subscribeProjectCreateIntent, () => projectCreateIntentSnapshot(actor.id), () => null);
+  const pendingIntent = parseProjectCreateIntent(pending);
   useEffect(() => {
     let current = true;
     const timer = setTimeout(() => {
@@ -66,7 +69,7 @@ export function ProjectList({ actor, onDirtyChange }: { actor: Actor; onDirtyCha
   const canCreate = actor.capabilities?.includes('workspaces.write') ?? true;
   const canCreateProject = actor.capabilities?.includes('projects.read') === true && actor.capabilities.includes('projects.write');
   return <div className="projects-page">
-    <header className="page-heading"><div><h1>Projects</h1><p>{central ? 'Shared Everyone projects and their presentations.' : 'Prepare presentations from your development projects.'}</p></div>{canCreateProject && <button type="button" className="button button-primary" onClick={() => setCreating(true)}>New project<Icon name="plus" /></button>}</header>
+    <header className="page-heading"><div><h1>Projects</h1><p>{central ? 'Shared Everyone projects and their presentations.' : 'Prepare presentations from your development projects.'}</p></div>{canCreateProject && <button type="button" className="button button-primary" onClick={() => setCreating(true)}>{pendingIntent ? 'Resume project creation' : 'New project'}<Icon name="plus" /></button>}</header>
     <div className="split-rail">
       <section aria-label="Project list" className="stack">
         <div className="projects-toolbar">
@@ -88,7 +91,7 @@ export function ProjectList({ actor, onDirtyChange }: { actor: Actor; onDirtyCha
       </section>
       <aside aria-label="Project overview">{selected && !loading ? <ProjectPanel key={selected.id} project={selected} central={central} opening={opening === selected.id} disabled={opening !== null || (!plannedPresentation(selected.presentation_type) && !selected.casting_workspace_id && !canCreate)} onOpen={() => open(selected)} /> : null}</aside>
     </div>
-    {creating && <NewProject onClose={() => setCreating(false)} onCreated={project => { setCreating(false); router.push(`/projects/${encodeURIComponent(project.id)}`); }} onDirtyChange={onDirtyChange} />}
+    {creating && <NewProject key={actor.id} actorId={actor.id} pendingIntent={pendingIntent} onClose={() => setCreating(false)} onCreated={project => { setCreating(false); router.push(`/projects/${encodeURIComponent(project.id)}`); }} onDirtyChange={onDirtyChange} />}
   </div>;
 }
 
