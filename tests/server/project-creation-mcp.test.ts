@@ -13,7 +13,7 @@ test('create_project MCP forwards acting identity, intent, key and context to th
   const calls: unknown[][] = [];
   const services = { studio: { createProject: async (...args: unknown[]) => { calls.push(args); return project; } } } as unknown as McpServices;
   type Schema = Parameters<AjvJsonSchemaValidator['getValidator']>[0];
-  const check = new AjvJsonSchemaValidator().getValidator(catalog.tools.find(tool => tool.name === 'create_project')!.outputSchema as Schema);
+  const check = new AjvJsonSchemaValidator().getValidator(catalog.tools.find(tool => tool.name === 'create_project')!.outputSchema as unknown as Schema);
   const checked = check({ request_id: 'project-request', data: project });
   assert.equal(checked.valid, true, JSON.stringify(checked));
   const result = await invokeMcpTool('create_project', { body, idempotency_key: 'mcp-project-create-intent' }, actor, services, 'project-request');
