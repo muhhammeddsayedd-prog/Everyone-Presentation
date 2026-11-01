@@ -2,10 +2,13 @@
 import assert from 'node:assert/strict';
 import {spawn} from 'node:child_process';
 import {createHmac,randomUUID,randomBytes} from 'node:crypto';
+import process from 'node:process';
+import {Buffer} from 'node:buffer';
+import {setTimeout,clearTimeout} from 'node:timers';
 import {mkdir,readFile,writeFile,lstat,realpath,unlink} from 'node:fs/promises';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
-import {sha,quote,resourceName,assertOwnedResource,checkedObjectPath,normalizeCatalogue,roleBootstrapSql} from './guards.mjs';
+import {sha,quote,resourceName,assertOwnedResource,checkedObjectPath,normalizeCatalogue,roleBootstrapSql,checkedHttpTarget,verifyObjectReference,LEGACY_CLAIM_BRIDGE_SQL} from './guards.mjs';
 import {fullCatalogue33Sql} from '../recovery33/compiler.mjs';
 import {dataSql36} from '../recovery36/runtime.mjs';
 const ROOT=path.resolve(import.meta.dirname,'../../..');
@@ -13,8 +16,13 @@ const BACKUP_RUN='639da33a-7e90-4471-b0ec-c7a8ff6097ef';
 const METADATA_HASH='12df4e565d466c008095498903237ae24f304403887db396b8bc46b5cf93346c';
 const IMAGES={db:'public.ecr.aws/supabase/postgres@sha256:6942962433a569e87f228b4d4ab7e11db5deca64e43babb3a038443ad6c4f1bb',storage:'public.ecr.aws/supabase/storage-api@sha256:a0420573837ee08c0afdc9cd01f90b4b8027579da99e0b9a159fe912ef756c99',rest:'public.ecr.aws/supabase/postgrest@sha256:1347d7552b88f17832912c06afbf7c43209af6eeeb60834b04aae12c9bd9d5cc'};
 const ACTOR='8a1a0000-0000-4000-8000-000000000001';
+const {structuredClone}=globalThis;
 const jsonRows=s=>s.split(/\r?\n/u).filter(x=>x.startsWith('{')).map(x=>JSON.parse(x));
 const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+// A Docker internal-only bridge has no published host port. Run the HTTP client
+// inside this run's Storage container; URLs and capabilities travel over stdin,
+// never command arguments. Both server origins remain on the owned network.
+const OWNED_HTTP=String.raw`let input='';process.stdin.setEncoding('utf8');process.stdin.on('data',chunk=>{input+=chunk;if(input.length>8*1024*1024)process.exit(2);});process.stdin.on('end',async()=>{try{const request=JSON.parse(input),response=await fetch(request.url,{method:request.method,headers:request.headers,body:request.body===null?undefined:Buffer.from(request.body,'base64'),redirect:'error',signal:AbortSignal.timeout(10000)});const chunks=[];let size=0;if(response.body){const reader=response.body.getReader();try{while(true){const result=await reader.read();if(result.done)break;size+=result.value.length;if(size>8*1024*1024){await reader.cancel();throw Error('limit');}chunks.push(result.value);}}finally{reader.releaseLock();}}process.stdout.write(JSON.stringify({status:response.status,bytes:Buffer.concat(chunks).toString('base64')}));}catch{process.stderr.write('RECOVERY_HTTP_UNCONFIRMED');process.exitCode=1;}});`;
 async function protect(dir){
  await mkdir(dir,{mode:0o700});assert.equal(await realpath(dir),dir);
  if(process.platform!=='win32'){assert.equal((await lstat(dir)).mode&0o777,0o700);return;}
@@ -29,7 +37,7 @@ export async function run(sourceRoot){
  sourceRoot=await realpath(path.resolve(sourceRoot));assert.notEqual(sourceRoot,ROOT);
  const runId=randomUUID(),started=Date.now(),privateRoot=path.join(ROOT,'.local/m07-independent-recovery',runId),resources=[];
  const report={schema_version:'1.0',run_id:runId,started_at:new Date(started).toISOString(),result:'failed',checkpoint:'initialization',scope:'AT-070 synthetic independent Docker PG17 cluster plus real local Storage and PostgREST HTTP; no deployed/provider/real-user authentication/AT069/RTO/RPO claim',cloud_called:false,provider_called:false,pilot_called:false,at069_performed:false,source_backup_run:BACKUP_RUN};
- let lock,originalBefore,originalPort,lockPath,privateReady=false,db,network,catalogueSqlReady,controllerSeals,database='postgres';
+ let lock,originalBefore,originalPort,lockPath,privateReady=false,db,network,catalogueSqlReady,controllerSeals,httpContainer,httpOrigins=[],database='postgres';
  const host=process.platform==='win32'?'npipe:////./pipe/dockerDesktopLinuxEngine':'unix:///var/run/docker.sock';
  const docker=(args,options)=>command('docker',['--host',host,...args],options);
  const labels={'eps.recovery.run':runId,'eps.recovery.workspace':ROOT,'eps.recovery.purpose':'independent38'};
@@ -41,9 +49,8 @@ export async function run(sourceRoot){
  async function sql(body,{allowFailure=false}={}){const c=await inspect(db);assert.equal(c.State.Running,true);return docker(['exec','-i','--user','postgres',db.id,'psql','-h','/var/run/postgresql','-U','supabase_admin','-d',database,'-X','-v','ON_ERROR_STOP=1','-A','-t','-q'],{input:body,allowFailure});}
  async function value(body){const r=await sql('BEGIN;SET LOCAL search_path=pg_catalog;'+body+'\nCOMMIT;');const rows=jsonRows(r.stdout);assert.equal(rows.length,1,'RECOVERY_SQL_ENVELOPE');return rows[0];}
  function jwt(role,sub){const enc=x=>Buffer.from(JSON.stringify(x)).toString('base64url'),now=Math.floor(Date.now()/1000),s=enc({alg:'HS256',typ:'JWT'})+'.'+enc({role,...(sub?{sub,aud:'authenticated'}:{}),iat:now,exp:now+1800});return s+'.'+createHmac('sha256',jwtSecret).update(s).digest('base64url');}
- async function http(base,pathname,{method='GET',token,body,headers={}}={}){const u=new URL(pathname,base);assert.equal(u.hostname,'127.0.0.1');const response=await fetch(u,{method,headers:{...(token?{authorization:'Bearer '+token}:{}),...headers},body,redirect:'error',signal:AbortSignal.timeout(10000)});const chunks=[];let size=0;if(response.body){const reader=response.body.getReader();try{while(true){const {done,value}=await reader.read();if(done)break;size+=value.length;if(size>8*1024*1024){await reader.cancel();throw Error('RECOVERY_HTTP_BODY_LIMIT');}chunks.push(value);}}finally{reader.releaseLock();}}return {status:response.status,bytes:Buffer.concat(chunks),headers:response.headers};}
- async function endpoint(r,port){const c=await inspect(r),p=c.NetworkSettings.Ports[port+'/tcp'];assert.equal(p.length,1);assert.equal(p[0].HostIp,'127.0.0.1');assert(/^\d+$/u.test(p[0].HostPort));return 'http://127.0.0.1:'+p[0].HostPort;}
- async function awaitHttp(base,pathname){for(let i=0;i<45;i++){try{const r=await http(base,pathname);if(r.status<500)return;}catch{}await delay(500);}throw Error('RECOVERY_HTTP_STARTUP_UNCONFIRMED');}
+ async function http(base,pathname,{method='GET',token,body,headers={}}={}){assert(httpContainer);await inspect(httpContainer);const url=checkedHttpTarget(base,pathname,httpOrigins);const request={url,method,headers:{...(token?{authorization:'Bearer '+token}:{}),...headers},body:body===undefined?null:Buffer.from(body).toString('base64')};const output=await docker(['exec','-i',httpContainer.id,'node','-e',OWNED_HTTP],{input:JSON.stringify(request),timeout:15000});const response=JSON.parse(output.stdout);assert(Number.isInteger(response.status)&&response.status>=100&&response.status<=599&&typeof response.bytes==='string','RECOVERY_HTTP_RESPONSE_INVALID');return {status:response.status,bytes:Buffer.from(response.bytes,'base64')};}
+ async function awaitHttp(base,pathname){for(let i=0;i<45;i++){try{const r=await http(base,pathname);if(r.status<500)return;}catch{/* The fixed startup window permits temporary connection refusal. */}await delay(500);}throw Error('RECOVERY_HTTP_STARTUP_UNCONFIRMED');}
  async function baseline(){assert(catalogueSqlReady);const roleSql="select jsonb_build_object('roles',(select jsonb_agg(jsonb_build_object('oid',oid,'name',rolname,'super',rolsuper,'inherit',rolinherit,'create_role',rolcreaterole,'create_db',rolcreatedb,'login',rolcanlogin,'replication',rolreplication,'bypassrls',rolbypassrls,'connlimit',rolconnlimit,'validuntil',rolvaliduntil)order by oid)from pg_roles),'memberships',(select jsonb_agg(to_jsonb(m)order by roleid,member,grantor)from pg_auth_members m),'system_identifier',(pg_control_system()).system_identifier::text);";const r=await originalPort.runOwnedLocalSql('BEGIN READ ONLY;SET LOCAL search_path=pg_catalog;'+dataSql36()+catalogueSqlReady+roleSql+'ROLLBACK;');const rows=jsonRows(r.stdout);assert.equal(rows.length,3);return{data:rows[0],catalogue:rows[1],global_roles:rows[2]};}
  try{
   await mkdir(path.dirname(privateRoot),{recursive:true});await protect(privateRoot);privateReady=true;report.private_acl_verified=true;
@@ -68,7 +75,7 @@ export async function run(sourceRoot){
   lockPath=path.join(sourceRoot,'.local/local-postgres/test-db.lock');lock={run_id:runId,purpose:'independent-recovery38-read-only-preservation',workspace:ROOT};await writeFile(lockPath,JSON.stringify(lock),{flag:'wx'});originalBefore=await baseline();report.original_baseline_sha256=sha(JSON.stringify(originalBefore));
   report.images={};for(const[k,image]of Object.entries(IMAGES)){const v=JSON.parse((await docker(['image','inspect',image])).stdout)[0];assert(/^sha256:[a-f0-9]{64}$/u.test(v.Id));report.images[k]=v.Id;}
   report.checkpoint='new-owned-independent-cluster';
-  network=await create('network','network',['--internal']);const dbVolume=await create('volume','dbdata',[]),objectVolume=await create('volume','objects',[]);
+  network=await create('network','network',['--internal']);assert.equal((await inspect(network)).Internal,true);const dbVolume=await create('volume','dbdata',[]),objectVolume=await create('volume','objects',[]);
   const dbEnv=path.join(privateRoot,'db.env');await writeFile(dbEnv,`POSTGRES_PASSWORD=${password}\nPGPASSWORD=${password}\nPOSTGRES_DB=postgres\nPGDATA=/var/lib/postgresql/data\n`,{flag:'wx'});
   db=await container('db',['--env-file',dbEnv,'--mount',`type=volume,source=${dbVolume.name},target=/var/lib/postgresql/data`,IMAGES.db]);
   // The entrypoint's temporary initialization server accepts Unix sockets but
@@ -97,12 +104,22 @@ export async function run(sourceRoot){
   await writeFile(path.join(privateRoot,'catalogue-differences.json'),JSON.stringify(diffs.map(key=>({key,expected:expectedNorm[key],actual:actualNorm[key]}))));
   assert.equal(diffs.length,0,'RECOVERY_CATALOGUE_MISMATCH');report.restored_catalogue_fields=keys.length;report.before_api_functions_owners_grants_rls_constraints_exact=true;
   report.checkpoint='restore-private-runtime-api-configuration';
+  const authPrerequisite=await value("select jsonb_build_object('legacy_subject',position('request.jwt.claim.sub'in pg_get_functiondef('auth.uid()'::regprocedure))>0,'json_subject',position('request.jwt.claims'in pg_get_functiondef('auth.uid()'::regprocedure))>0,'runtime_schema_absent',not exists(select 1 from pg_namespace where nspname='recovery_http'));");assert.deepEqual(authPrerequisite,{legacy_subject:true,json_subject:false,runtime_schema_absent:true});
+  await sql(LEGACY_CLAIM_BRIDGE_SQL);
+  await sql(`BEGIN;SET LOCAL ROLE authenticated;DO $verify$ BEGIN
+   PERFORM set_config('request.jwt.claims','{"role":"authenticated","sub":"${ACTOR}"}',true);PERFORM recovery_http.restore_claims();
+   IF auth.uid() IS DISTINCT FROM '${ACTOR}'::uuid THEN RAISE EXCEPTION 'RECOVERY_SUBJECT_BRIDGE_FAILED';END IF;
+   BEGIN PERFORM set_config('request.jwt.claims','{"role":"service_role","sub":"${ACTOR}"}',true);PERFORM recovery_http.restore_claims();RAISE EXCEPTION 'RECOVERY_ROLE_DRIFT_ACCEPTED';EXCEPTION WHEN SQLSTATE '28000' THEN NULL;END;
+   BEGIN PERFORM set_config('request.jwt.claims','{"role":"authenticated"}',true);PERFORM recovery_http.restore_claims();RAISE EXCEPTION 'RECOVERY_MISSING_SUBJECT_ACCEPTED';EXCEPTION WHEN SQLSTATE '28000' THEN NULL;END;
+   END $verify$;ROLLBACK;
+   BEGIN;SET LOCAL ROLE anon;DO $verify$ BEGIN PERFORM set_config('request.jwt.claim.sub','${ACTOR}',true);PERFORM set_config('request.jwt.claims','{"role":"anon"}',true);PERFORM recovery_http.restore_claims();IF auth.uid() IS NOT NULL THEN RAISE EXCEPTION 'RECOVERY_ANON_SUBJECT_RETAINED';END IF;END $verify$;ROLLBACK;`);
+  report.synthetic_auth_runtime_adapter={source_auth_function_unchanged:true,security_definer:false,verified_claims_only:true,role_drift_and_missing_subject_denied:true,anonymous_subject_cleared:true,sql_sha256:sha(LEGACY_CLAIM_BRIDGE_SQL),restored_real_auth_configuration:false};
   await sql(`ALTER ROLE authenticator PASSWORD ${quote(password)};ALTER ROLE supabase_storage_admin PASSWORD ${quote(password)};`);
   const restEnv=path.join(privateRoot,'rest.env'),storageEnv=path.join(privateRoot,'storage.env');
-  await writeFile(restEnv,`PGRST_DB_URI=postgresql://authenticator:${password}@${db.name}:5432/${database}\nPGRST_DB_SCHEMAS=public\nPGRST_DB_ANON_ROLE=anon\nPGRST_JWT_SECRET=${jwtSecret}\nPGRST_JWT_AUD=authenticated\nPGRST_DB_EXTRA_SEARCH_PATH=public,extensions\nPGRST_DB_CONFIG=false\n`,{flag:'wx'});
-  const rest=await container('rest',['--publish','127.0.0.1::3000','--env-file',restEnv,IMAGES.rest]);const restBase=await endpoint(rest,3000);await awaitHttp(restBase,'/');
+  await writeFile(restEnv,`PGRST_DB_URI=postgresql://authenticator:${password}@${db.name}:5432/${database}\nPGRST_DB_SCHEMAS=public\nPGRST_DB_ANON_ROLE=anon\nPGRST_JWT_SECRET=${jwtSecret}\nPGRST_JWT_AUD=authenticated\nPGRST_DB_EXTRA_SEARCH_PATH=public,extensions\nPGRST_DB_CONFIG=false\nPGRST_DB_PRE_REQUEST=recovery_http.restore_claims\n`,{flag:'wx'});
+  const rest=await container('rest',['--env-file',restEnv,IMAGES.rest]);const restBase='http://'+rest.name+':3000';
   await writeFile(storageEnv,`AUTH_JWT_SECRET=${jwtSecret}\nDATABASE_URL=postgresql://supabase_storage_admin:${password}@${db.name}:5432/${database}\nDATABASE_POOL_URL=postgresql://supabase_storage_admin:${password}@${db.name}:5432/${database}\nSTORAGE_BACKEND=file\nSTORAGE_FILE_BACKEND_PATH=/var/lib/storage\nTENANT_ID=${runId}\nREGION=local\nGLOBAL_S3_BUCKET=${runId}\nUPLOAD_FILE_SIZE_LIMIT=10485760\nUPLOAD_FILE_SIZE_LIMIT_STANDARD=10485760\nLOG_LEVEL=error\nDB_INSTALL_ROLES=false\nDB_ALLOW_MIGRATION_REFRESH=false\nDB_MIGRATIONS_STRATEGY=on_request\nIMAGE_TRANSFORMATION_ENABLED=false\n`,{flag:'wx'});
-  const storage=await container('storage',['--publish','127.0.0.1::5000','--env-file',storageEnv,'--mount',`type=volume,source=${objectVolume.name},target=/var/lib/storage`,IMAGES.storage]);const storageBase=await endpoint(storage,5000);await awaitHttp(storageBase,'/status');
+  const storage=await container('storage',['--env-file',storageEnv,'--mount',`type=volume,source=${objectVolume.name},target=/var/lib/storage`,IMAGES.storage]);const storageBase='http://'+storage.name+':5000';httpContainer=storage;httpOrigins=[storageBase,restBase];await awaitHttp(restBase,'/');await awaitHttp(storageBase,'/status');report.http_transport={owned_internal_network:true,published_host_ports:false,credentials_in_command_arguments:false};
   report.checkpoint='restore-four-object-bytes-over-storage-http';
   const service=jwt('service_role'),auth=jwt('authenticated',ACTOR),other=jwt('authenticated','8a1a0000-0000-4000-8000-000000000099'),anonymous=jwt('anon');
   report.storage_http=[];
@@ -114,12 +131,14 @@ export async function run(sourceRoot){
   }
   report.checkpoint='restored-api-fixed-version-and-authority';
   const scope=await value("select jsonb_build_object('version_id',(select id from eps.presentation_versions where status='ready'order by created_at limit 1),'export_id',(select id from eps.presentation_exports where status='ready'order by created_at limit 1),'video_id','8a9f0000-0000-4000-8000-000000000001');");
-  const rpc=async(name,body,token)=>http(restBase,'/rpc/'+name,{method:'POST',token,body:JSON.stringify(body),headers:{'content-type':'application/json'}});
-  const video=await rpc('eps_get_version_asset',{p_version_id:scope.version_id,p_asset_id:scope.video_id,p_purpose:'video'},auth);assert.equal(video.status,200,'RECOVERY_API_VIDEO_READ_FAILED');const videoData=JSON.parse(video.bytes);assert.equal(videoData.asset.id,scope.video_id);
+  const rpc=async(name,body,token)=>{const response=await http(restBase,'/rpc/'+name,{method:'POST',token,body:JSON.stringify(body),headers:{'content-type':'application/json'}});if(response.status>=400){await writeFile(path.join(privateRoot,name+'-response-private.json'),response.bytes);let code;try{const value=JSON.parse(response.bytes);if(typeof value.code==='string'&&/^[A-Z0-9_]{2,100}$/u.test(value.code))code=value.code;}catch{/* Non-JSON failures remain private. */}(report.api_denial_observations??=[]).push({operation:name,status:response.status,...(code?{code}:{})});}return response;};
+  const video=await rpc('eps_get_version_asset',{p_version_id:scope.version_id,p_asset_id:scope.video_id,p_purpose:'video'},auth);assert.equal(video.status,200,'RECOVERY_API_VIDEO_READ_FAILED');const videoData=JSON.parse(video.bytes);assert.equal(videoData.asset.id,scope.video_id);verifyObjectReference(videoData,manifest.objects);
   const unauthorized=await rpc('eps_get_version_asset',{p_version_id:scope.version_id,p_asset_id:scope.video_id,p_purpose:'video'},other);assert(unauthorized.status>=400);
-  const exported=await rpc('eps_get_pdf_export_asset',{p_export_id:scope.export_id},auth);assert.equal(exported.status,200);const exportData=JSON.parse(exported.bytes);assert(manifest.objects.some(x=>x.asset_id===exportData.asset.id&&x.sha256===exportData.asset.sha256));
-  const deniedDirect=await http(restBase,'/media_assets?select=id',{token:anonymous});assert(deniedDirect.status>=400);
-  report.api={fixed_version_id:scope.version_id,video_asset_id:scope.video_id,fixed_video_status:video.status,pdf_export_status:exported.status,unauthorized_status:unauthorized.status,anonymous_private_table_status:deniedDirect.status};
+  const saved=await rpc('eps_get_version',{p_version_id:scope.version_id},auth);assert.equal(saved.status,200);const savedData=JSON.parse(saved.bytes);assert.equal(savedData.id,scope.version_id);assert.equal(savedData.status,'ready');
+  const pdf=await rpc('eps_get_version_asset',{p_version_id:scope.version_id,p_asset_id:savedData.pdf_asset_id,p_purpose:'pdf'},auth);assert.equal(pdf.status,200);const pdfData=JSON.parse(pdf.bytes);verifyObjectReference(pdfData,manifest.objects);
+  const exported=await rpc('eps_get_pdf_export_asset',{p_export_id:scope.export_id},auth);assert.equal(exported.status,200);const exportData=JSON.parse(exported.bytes);verifyObjectReference(exportData,manifest.objects);
+  const deniedDirect=await http(restBase,'/media_assets?select=id&limit=1',{token:anonymous});assert(deniedDirect.status>=400);
+  report.api={fixed_version_id:scope.version_id,video_asset_id:scope.video_id,pdf_asset_id:pdfData.asset.id,export_pdf_asset_id:exportData.asset.id,fixed_video_status:video.status,version_status:saved.status,fixed_pdf_status:pdf.status,pdf_export_status:exported.status,asset_references_match_restored_bytes:true,unauthorized_status:unauthorized.status,anonymous_private_table_status:deniedDirect.status};
   const after=await value(dataSql36());for(const[k,v]of Object.entries(expectedRows))if(!k.startsWith('storage.'))assert.deepEqual(after[k],v,'RECOVERY_NONSTORAGE_DATA_CHANGED');report.saved_versions_and_all_nonstorage_data_unchanged=true;
   const finalNorm=normalizeCatalogue(await value(catalogueSql)),finalKeys=[...new Set([...Object.keys(actualNorm),...Object.keys(finalNorm)])],schemaDelta=finalKeys.filter(k=>JSON.stringify(actualNorm[k])!==JSON.stringify(finalNorm[k]));
   await writeFile(path.join(privateRoot,'post-api-catalogue-differences.json'),JSON.stringify(schemaDelta.map(key=>({key,before:actualNorm[key],after:finalNorm[key]}))));

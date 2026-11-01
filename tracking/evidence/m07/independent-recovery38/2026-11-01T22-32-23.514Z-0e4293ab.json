@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0",
+  "run_id": "0e4293ab-95a7-46a6-b2b2-2c33979a4506",
+  "started_at": "2026-11-01T22:32:23.514Z",
+  "result": "failed",
+  "checkpoint": "restored-api-fixed-version-and-authority",
+  "scope": "AT-070 synthetic independent Docker PG17 cluster plus real local Storage and PostgREST HTTP; no deployed/provider/real-user authentication/AT069/RTO/RPO claim",
+  "cloud_called": false,
+  "provider_called": false,
+  "pilot_called": false,
+  "at069_performed": false,
+  "source_backup_run": "639da33a-7e90-4471-b0ec-c7a8ff6097ef",
+  "private_acl_verified": true,
+  "executed_source_seals": {
+    "development/m07/independent-recovery38/run.mjs": "eb046663da3d5b8b50dc3496df7dfcdc3cfb9f73504bf1992a6b919c69cb5841",
+    "development/m07/independent-recovery38/guards.mjs": "62a0a009162d134607a2c2ff2693252108d17d5b536ec9ce8fe9f8f28b59d6a8",
+    "development/m07/recovery33/compiler.mjs": "e53ba5ab07b3724f0b2c4da59d46090ddb351342be205f74325e46192c4cf0a6",
+    "development/m07/recovery36/runtime.mjs": "46759a3a6a4d8e0c5caf5e60ebc264cd351230cfa778cd72c7af1db629e1c506"
+  },
+  "executed_source_snapshots_retained_privately": true,
+  "source_receipt_sha256": "c5c0ebf08bab9d4152c6e1e9caf3bceae08f971024977daea25da95d2febce52",
+  "metadata_sha256": "12df4e565d466c008095498903237ae24f304403887db396b8bc46b5cf93346c",
+  "verified_source_count": 373,
+  "verified_object_count": 4,
+  "source_bytes_restored": 373,
+  "original_baseline_sha256": "83c7f2cc92c1e8147e6a44d336ed0d310232a6f8aac0a367ca9383648b1b85f2",
+  "images": {
+    "db": "sha256:6942962433a569e87f228b4d4ab7e11db5deca64e43babb3a038443ad6c4f1bb",
+    "storage": "sha256:a0420573837ee08c0afdc9cd01f90b4b8027579da99e0b9a159fe912ef756c99",
+    "rest": "sha256:1347d7552b88f17832912c06afbf7c43209af6eeeb60834b04aae12c9bd9d5cc"
+  },
+  "independent_cluster": {
+    "user": "supabase_admin",
+    "version": "17.6",
+    "system_identifier": "7703334602484682792",
+    "restore_database": {
+      "owner": "postgres",
+      "database": "eps_r38_0e4293ab95a746a6b2b22c33979a4506",
+      "system_identifier": "7703334602484682792"
+    }
+  },
+  "all_restored_table_data_exact": true,
+  "restored_catalogue_fields": 17729,
+  "before_api_functions_owners_grants_rls_constraints_exact": true,
+  "http_transport": {
+    "owned_internal_network": true,
+    "published_host_ports": false,
+    "credentials_in_command_arguments": false
+  },
+  "storage_http": [
+    {
+      "asset_id": "0e70c188-b007-4d16-9169-026ac5506799",
+      "upload_status": 200,
+      "read_status": 200,
+      "bytes": 94766,
+      "sha256": "559eafe2d5aaebfc4a979295a3a6b9c17dea82c7b5378a5862379391e9f99dd2",
+      "anonymous_status": 400,
+      "public_status": 400
+    },
+    {
+      "asset_id": "1a430f10-422b-4e54-adbd-fa81fb1ce01c",
+      "upload_status": 200,
+      "read_status": 200,
+      "bytes": 7812,
+      "sha256": "3a146e8309249916c7e31a40ddc17dba7b1210e1ad3febd837ce4f02f815f0e5",
+      "anonymous_status": 400,
+      "public_status": 400
+    },
+    {
+      "asset_id": "40303803-ffcd-44b3-af0e-d5678be8dd81",
+      "upload_status": 200,
+      "read_status": 200,
+      "bytes": 94702,
+      "sha256": "bb24f7701aaa1c63207b79f9dabdc125c514e56754ab63ee8f51492670f85254",
+      "anonymous_status": 400,
+      "public_status": 400
+    },
+    {
+      "asset_id": "8a9f0000-0000-4000-8000-000000000001",
+      "upload_status": 200,
+      "read_status": 200,
+      "bytes": 30014,
+      "sha256": "7efbfd56570b85fb98060550e819849f3f044d25c22bac43af7c08ee2942b845",
+      "anonymous_status": 400,
+      "public_status": 400
+    }
+  ],
+  "failure_code": "RECOVERY_ASSERTION_FAILED",
+  "all_owned_resources_absent": true,
+  "original_database_unchanged": true,
+  "original_catalogue_and_role_oids_attributes_memberships_unchanged": true,
+  "original_shared_lock_released": true,
+  "finished_at": "2026-11-01T22:33:22.893Z",
+  "elapsed_ms": 59379
+}

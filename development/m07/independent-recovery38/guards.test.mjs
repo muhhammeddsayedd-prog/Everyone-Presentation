@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {resourceName,assertOwnedResource,checkedObjectPath,normalizeCatalogue,roleBootstrapSql} from './guards.mjs';
+import {resourceName,assertOwnedResource,checkedObjectPath,normalizeCatalogue,roleBootstrapSql,checkedHttpTarget,verifyObjectReference} from './guards.mjs';
 const run='12345678-1234-4234-8234-123456789abc';
 test('resource identity requires exact run, purpose, workspace and immutable ID',()=>{
  const resource={Id:'abc',Name:resourceName(run,'db'),Labels:{'eps.recovery.run':run,'eps.recovery.workspace':'D:/project','eps.recovery.purpose':'independent38'}};
@@ -28,4 +28,19 @@ test('role bootstrap grants grantor administration before dependent delegated gr
  const attrs={login:false,superuser:false,inherit:false,bypassrls:false,create_db:false,create_role:false,replication:false,connection_limit:-1,valid_until:null};
  const s={roles:[{...attrs,name:'supabase_admin',oid:'1'},{...attrs,name:'postgres',oid:'2'},{...attrs,name:'eps_owner',oid:'3'}],memberships:[{role_oid:'3',member_oid:'2',grantor_oid:'2',admin:false,inherit:true,set:true},{role_oid:'3',member_oid:'2',grantor_oid:'1',admin:true,inherit:false,set:false}]};
  const sql=roleBootstrapSql(s);assert(sql.indexOf('ADMIN TRUE')<sql.indexOf('ADMIN FALSE'));
+});
+test('recovery HTTP admits only exact owned internal service origins',()=>{
+ const storage='http://'+resourceName(run,'storage')+':5000',rest='http://'+resourceName(run,'rest')+':3000',allowed=[storage,rest];
+ assert.equal(checkedHttpTarget(storage,'/object/authenticated/private/test.mp4',allowed),storage+'/object/authenticated/private/test.mp4');
+ assert.equal(checkedHttpTarget(rest,'/rpc/eps_get_version_asset',allowed),rest+'/rpc/eps_get_version_asset');
+ assert.equal(checkedHttpTarget(rest,'/media_assets?select=id&limit=1',allowed),rest+'/media_assets?select=id&limit=1');
+ for(const target of ['https://example.com','http://127.0.0.1:5000',storage.replace(':5000',':5001'),'http://user:secret@'+resourceName(run,'storage')+':5000'])assert.throws(()=>checkedHttpTarget(target,'/status',allowed));
+ for(const route of ['//example.com/x','http://example.com/x','/status?token=private','/status#private','/media_assets?select=*','/media_assets?select=id&limit=100'])assert.throws(()=>checkedHttpTarget(storage,route,allowed));
+});
+test('API media references must match the exact restored object identity and bytes',()=>{
+ const object={asset_id:'synthetic-asset',bucket:'private',object_key:'version/original.mp4',size_bytes:30,sha256:'a'.repeat(64)};
+ const read={asset:{id:object.asset_id,size_bytes:object.size_bytes,sha256:object.sha256},bucket:object.bucket,object_key:object.object_key};
+ assert.equal(verifyObjectReference(read,[object]),object);
+ for(const mutation of [{bucket:'other'},{object_key:'another.mp4'},{asset:{...read.asset,size_bytes:31}},{asset:{...read.asset,sha256:'b'.repeat(64)}}])assert.throws(()=>verifyObjectReference({...read,...mutation},[object]));
+ assert.throws(()=>verifyObjectReference(read,[]));assert.throws(()=>verifyObjectReference(read,[object,object]));
 });

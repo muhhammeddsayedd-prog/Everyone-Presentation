@@ -1,6 +1,7 @@
 /** Inert guards for a new synthetic recovery target. No cloud configuration. */
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
+import {URL} from 'node:url';
 export const sha=x=>createHash('sha256').update(x).digest('hex');
 export const quote=x=>"'"+String(x).replaceAll("'","''")+"'";
 const UUID=/^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/u;
@@ -14,6 +15,40 @@ export function assertOwnedResource(value,{id,name,run,workspace}){
  return value;
 }
 export function checkedObjectPath(bucket,key){assert(/^[a-z0-9][a-z0-9-]{0,99}$/u.test(bucket));assert(typeof key==='string'&&key.length<=512&&key.split('/').every(x=>/^[A-Za-z0-9][A-Za-z0-9._-]*$/u.test(x)&&!['.','..'].includes(x)),'RECOVERY_OBJECT_PATH_INVALID');return bucket+'/'+key;}
+export function checkedHttpTarget(base,pathname,allowedOrigins){
+ assert(Array.isArray(allowedOrigins)&&allowedOrigins.includes(base),'RECOVERY_HTTP_TARGET_INVALID');
+ assert(typeof pathname==='string'&&pathname.startsWith('/')&&!pathname.startsWith('//'),'RECOVERY_HTTP_TARGET_INVALID');
+ const target=new URL(pathname,base);
+ const boundedPrivateProbe=target.pathname==='/media_assets'&&target.search==='?select=id&limit=1';
+ assert(target.protocol==='http:'&&target.origin===base&&!target.username&&!target.password&&(!target.search||boundedPrivateProbe)&&!target.hash,'RECOVERY_HTTP_TARGET_INVALID');
+ return target.href;
+}
+export function verifyObjectReference(read,objects){
+ assert(read?.asset&&Array.isArray(objects),'RECOVERY_OBJECT_REFERENCE_INVALID');
+ const matches=objects.filter(object=>object.asset_id===read.asset.id);assert.equal(matches.length,1,'RECOVERY_OBJECT_REFERENCE_INVALID');
+ const object=matches[0];checkedObjectPath(read.bucket,read.object_key);
+ assert.deepEqual({bucket:read.bucket,object_key:read.object_key,size_bytes:read.asset.size_bytes,sha256:read.asset.sha256},
+  {bucket:object.bucket,object_key:object.object_key,size_bytes:object.size_bytes,sha256:object.sha256},'RECOVERY_OBJECT_REFERENCE_INVALID');
+ return object;
+}
+// The saved synthetic local Auth prerequisite reads the legacy subject GUC.
+// PostgREST16 supplies verified claims as JSON. This separate invoker-only
+// runtime adapter retains every restored Auth/application function unchanged.
+export const LEGACY_CLAIM_BRIDGE_SQL=`CREATE SCHEMA recovery_http AUTHORIZATION postgres;
+REVOKE ALL ON SCHEMA recovery_http FROM PUBLIC;
+GRANT USAGE ON SCHEMA recovery_http TO anon,authenticated,service_role;
+CREATE FUNCTION recovery_http.restore_claims() RETURNS void LANGUAGE plpgsql VOLATILE SECURITY INVOKER SET search_path='' AS $bridge$
+DECLARE claims jsonb:=coalesce(nullif(current_setting('request.jwt.claims',true),''),'{}')::jsonb;subject text;
+BEGIN
+ IF claims->>'role' IS DISTINCT FROM current_user THEN RAISE EXCEPTION USING ERRCODE='28000',MESSAGE='RECOVERY_VERIFIED_ROLE_REQUIRED'; END IF;
+ IF current_user='authenticated' THEN
+  subject:=claims->>'sub';
+  IF subject IS NULL OR subject!~'^[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}$' THEN RAISE EXCEPTION USING ERRCODE='28000',MESSAGE='RECOVERY_VERIFIED_SUBJECT_REQUIRED'; END IF;
+ END IF;
+ PERFORM set_config('request.jwt.claim.sub',coalesce(subject,''),true);
+END $bridge$;
+REVOKE ALL ON FUNCTION recovery_http.restore_claims() FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION recovery_http.restore_claims() TO anon,authenticated,service_role;`;
 export function normalizeCatalogue(value){return Object.fromEntries(Object.entries(value).sort(([a],[b])=>a.localeCompare(b)).map(([key,v])=>[key,key.endsWith('|acl')&&typeof v==='string'?v.slice(1,-1).split(',').sort():v]));}
 export function roleBootstrapSql(snapshot){
  assert(Array.isArray(snapshot.roles)&&Array.isArray(snapshot.memberships));const names=new Map(),stmts=[];
