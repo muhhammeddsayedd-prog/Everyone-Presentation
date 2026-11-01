@@ -2,9 +2,10 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {mkdtemp,writeFile,readFile,readdir,rm,symlink,link,realpath,rename} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
+import {spawn} from 'node:child_process';
 import path from 'node:path';
 import {tmpdir} from 'node:os';
-import {makeUploadInbox,ClientInboxError,windowsInboxSecurity,type Preparation,type InboxSecurity} from '../../tools/client-upload-inbox.mts';
+import {makeUploadInbox,ClientInboxError,safeInboxError,windowsInboxSecurity,type Preparation,type InboxSecurity} from '../../tools/client-upload-inbox.mts';
 const upload='10000000-0000-4000-8000-000000000001',asset='20000000-0000-4000-8000-000000000001';
 const version='30000000-0000-4000-8000-000000000001';
 const sha=(v:Uint8Array|string)=>createHash('sha256').update(v).digest('hex');
@@ -28,6 +29,40 @@ async function handoff(f:Awaited<ReturnType<typeof fixture>>,prepared:Awaited<Re
 const request=(p:{handoff_id:string;manifest_sha256:string})=>({handoff_id:p.handoff_id,manifest_sha256:p.manifest_sha256,expected_upload_id:upload,expected_asset_id:asset});
 test('prepare protects fresh inbox before metadata and binds explicit source; session file stays absent',async()=>{
  const f=await fixture();try{const p=await f.tool.prepare(f.input);assert.equal(f.events[0],'protect');assert.equal(p.result,'prepared');assert.match(p.nonce,/^[A-Za-z0-9_-]{43}$/u);assert.match(p.manifest_sha256,/^[a-f0-9]{64}$/u);assert(!(await readdir(path.dirname(p.handoff_file))).includes('handoff.json'));const m=JSON.parse(await readFile(p.manifest_file,'utf8'));assert.equal(m.preparation.expected_sha256,f.input.expected_sha256);assert.equal(m.preparation.local_file_path,f.file);assert(!JSON.stringify(p).includes('synthetic-signature'));}finally{await f.close();}
+});
+test('missing source or source root reports file unavailable without path disclosure or inbox creation',async()=>{
+ for(const missing of ['file','root']){let calls=0;const f=await fixture('specs',async()=>{calls++;return new Response();});try{
+  const file=path.join(f.source,'private-missing.pdf'),input={...f.input,local_file_path:file,...(missing==='root'?{allowed_root:path.join(f.root,'private-missing-source')}: {})};
+  await assert.rejects(f.tool.prepare(input),(error:unknown)=>{assert.deepEqual(safeInboxError(error),{schema_version:'1.0',result:'failed',code:'CLIENT_INBOX_FILE_UNAVAILABLE'});return typed('CLIENT_INBOX_FILE_UNAVAILABLE')(error);});
+  assert.equal(calls,0);assert.deepEqual(await readdir(f.workspace),[]);assert.deepEqual(f.events,[]);
+ }finally{await f.close();}}
+});
+test('source removed after preparation reports file unavailable before transfer claim or network',async()=>{
+ let calls=0;const f=await fixture('specs',async()=>{calls++;return new Response();});try{const p=await f.tool.prepare(f.input);await handoff(f,p);await rm(f.file);
+  await assert.rejects(f.tool.transfer(request(p)),typed('CLIENT_INBOX_FILE_UNAVAILABLE'));assert.equal(calls,0);const names=await readdir(path.dirname(p.handoff_file));assert(names.includes('handoff.json'));assert(!names.includes('transfer-claim.json'));
+ }finally{await f.close();}
+});
+test('unreadable Windows source reports file unavailable before inbox creation',async()=>{
+ if(process.platform!=='win32')return;const f=await fixture('specs');
+ const script="$f=[System.IO.File]::Open($env:EPS_INBOX_TEST_SOURCE,[System.IO.FileMode]::Open,[System.IO.FileAccess]::ReadWrite,[System.IO.FileShare]::None);try{[Console]::WriteLine('LOCKED');[Console]::Out.Flush();[Console]::ReadLine()|Out-Null}finally{$f.Dispose()}";
+ const child=spawn(path.join(process.env.SystemRoot??'C:\\Windows','System32/WindowsPowerShell/v1.0/powershell.exe'),['-NoProfile','-NonInteractive','-Command',script],{shell:false,windowsHide:true,env:{NODE_ENV:'test',SystemRoot:process.env.SystemRoot,EPS_INBOX_TEST_SOURCE:f.file},stdio:['pipe','pipe','ignore']});
+ const closed=new Promise<void>(resolve=>child.once('close',()=>resolve()));
+ try{await new Promise<void>((resolve,reject)=>{const timer=setTimeout(()=>reject(Error('Synthetic file lock unavailable.')),15000);let output='';child.once('error',()=>{clearTimeout(timer);reject(Error('Synthetic file lock unavailable.'));});child.once('close',()=>{clearTimeout(timer);reject(Error('Synthetic file lock unavailable.'));});child.stdout.on('data',(part:Buffer)=>{output+=part.toString('utf8');if(output.trim()==='LOCKED'){clearTimeout(timer);resolve();}});});
+  await assert.rejects(f.tool.prepare(f.input),typed('CLIENT_INBOX_FILE_UNAVAILABLE'));assert.deepEqual(await readdir(f.workspace),[]);assert.deepEqual(f.events,[]);
+ }finally{child.stdin.end();await closed;await f.close();}
+});
+test('preparation accessors stay rejected without invocation or filesystem allocation',async()=>{
+ const f=await fixture('specs');try{let invoked=0;const input={...f.input};Object.defineProperty(input,'local_file_path',{enumerable:true,get(){invoked++;throw Error('private-source-path');}});
+  await assert.rejects(f.tool.prepare(input),typed('CLIENT_INBOX_INPUT_INVALID'));assert.equal(invoked,0);assert.deepEqual(await readdir(f.workspace),[]);
+ }finally{await f.close();}
+});
+test('source scope/content failures and unrelated adapter failures keep their existing codes',async()=>{
+ const f=await fixture('specs');try{
+  await assert.rejects(f.tool.prepare({...f.input,expected_sha256:'0'.repeat(64)}),typed('CLIENT_INBOX_SOURCE_CHANGED'));
+  await assert.rejects(f.tool.prepare({...f.input,allowed_root:f.workspace}),typed('CLIENT_INBOX_SOURCE_CHANGED'));
+  const tool=makeUploadInbox({workspaceRoot:f.workspace,security:{async protect(){throw Error('private-adapter-error');},async verify(){}}});
+  await assert.rejects(tool.prepare(f.input),typed('CLIENT_INBOX_UNCONFIRMED'));
+ }finally{await f.close();}
 });
 test('signed PUT private file consumed once; safe output and durable claim contain no capabilities',async()=>{
  let calls=0;const f=await fixture('specs',async(_url,init)=>{calls++;assert.equal(init?.redirect,'error');return new Response(null,{status:200});});try{const p=await f.tool.prepare(f.input);await handoff(f,p);const result=await f.tool.transfer(request(p));assert.equal(result.result,'transferred');assert.equal(calls,1);const files=await readdir(path.dirname(p.handoff_file));assert(!files.includes('handoff.json'));const claim=await readFile(path.join(path.dirname(p.handoff_file),'transfer-claim.json'),'utf8');assert(!/synthetic-token|upload_url|upload_headers/u.test(claim+JSON.stringify(result)));await assert.rejects(f.tool.transfer(request(p)));assert.equal(calls,1);}finally{await f.close();}

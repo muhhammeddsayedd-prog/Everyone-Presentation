@@ -47,9 +47,12 @@ async function noLinks(target:string,kind:'file'|'directory'){
  const s=await lstat(resolved,{bigint:true});need(kind==='directory'?s.isDirectory():s.isFile()&&s.nlink===1n,'CLIENT_INBOX_FILE_UNAVAILABLE');return s;
 }
 async function sourceIdentity(p:Preparation){
+ // Source filesystem failures must not expose private paths or hide the next action.
+ try{
  await noLinks(p.allowed_root,'directory');const relative=path.relative(p.allowed_root,p.local_file_path);need(relative!==''&&relative!=='..'&&!relative.startsWith('..'+path.sep)&&!path.isAbsolute(relative),'CLIENT_INBOX_SOURCE_CHANGED');
  const before=await noLinks(p.local_file_path,'file');need(before.size===BigInt(p.expected_size_bytes),'CLIENT_INBOX_SOURCE_CHANGED');let handle:FileHandle|undefined;
  try{handle=await open(p.local_file_path,'r');need(same(fingerprints(await handle.stat({bigint:true})),fingerprints(before)),'CLIENT_INBOX_SOURCE_CHANGED');const digest=createHash('sha256');let count=0;for await(const bytes of handle.createReadStream({start:0,end:p.expected_size_bytes-1,autoClose:false,highWaterMark:1024*1024})){count+=bytes.length;need(count<=p.expected_size_bytes,'CLIENT_INBOX_SOURCE_CHANGED');digest.update(bytes);}need(count===p.expected_size_bytes&&digest.digest('hex')===p.expected_sha256,'CLIENT_INBOX_SOURCE_CHANGED');const after=await noLinks(p.local_file_path,'file');need(same(fingerprints(after),fingerprints(before))&&same(fingerprints(await handle.stat({bigint:true})),fingerprints(before)),'CLIENT_INBOX_SOURCE_CHANGED');return fingerprints(before);}finally{await handle?.close();}
+ }catch(error){if(error instanceof ClientInboxError)throw error;return fail('CLIENT_INBOX_FILE_UNAVAILABLE');}
 }
 /** Trusted ACL adapter; the CLI always uses this reviewed Windows implementation. */
 export function windowsInboxSecurity():InboxSecurity{
