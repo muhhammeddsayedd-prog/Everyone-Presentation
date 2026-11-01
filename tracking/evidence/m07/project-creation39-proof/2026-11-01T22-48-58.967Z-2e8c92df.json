@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "run_id": "2e8c92df-5ef7-441a-81a4-e76dbaec188a",
+  "observed_at": "2026-11-01T22:48:58.967Z",
+  "result": "failed",
+  "checkpoint": "restore38-apply39-test-and-rollback",
+  "scope": "synthetic current38 metadata restored into owned disposable local database; byte-exact39 functional DDL and sequential permissions/replay tests in one ROLLBACK; no cloud, concurrent-session race, provider or hosted acceptance",
+  "cloud_called": false,
+  "provider_called": false,
+  "private_acl_verified": true,
+  "source_seals": {
+    "supabase/migrations/20261101223342_m07_project_creation.sql": "c17af7708a1886d2129df2dc9e4eb196e6b760862939bd2f5fd3c7c1c687e242",
+    "development/m07/project-creation39-proof/run.mjs": "b409979b665dd2f7a938d87ebff802ac820e37ff4a1a755d60576119a533c3d7",
+    "development/m07/project-creation39-proof/fixture.sql": "6329f927a426b2cf252f67e8e1dfe9fa7c459dfec701d6aa5786dc36f81f8457"
+  },
+  "metadata_sha256": "12df4e565d466c008095498903237ae24f304403887db396b8bc46b5cf93346c",
+  "original_baseline_sha256": "fdf817fdebf54466f0f2d7167ea0f418dba2666bdba4f8aa1ca469b9e31d9fac",
+  "functional_sha256": "0664f439f310c9e7cf1be8513f7d6b6ad608918132f133f66cd8b744297698df",
+  "failure_code": "PROJECT39_COMMAND_FAILED",
+  "owned_database_absent": true,
+  "original_data_catalogue_and_global_roles_unchanged": true,
+  "shared_lock_released": true,
+  "finished_at": "2026-11-01T22:49:20.777Z",
+  "elapsed_ms": 21810
+}

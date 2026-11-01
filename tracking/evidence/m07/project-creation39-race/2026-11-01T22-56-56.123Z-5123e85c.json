@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "run_id": "5123e85c-07f0-41d2-8431-1cce99aca5ac",
+  "observed_at": "2026-11-01T22:56:56.123Z",
+  "result": "failed",
+  "checkpoint": "restore38-and-apply39",
+  "scope": "independent owned local PG17 cluster, restored synthetic38 plus exact39 functional DDL; independent-session advisory-lock/idempotency race; no cloud/provider/hosted acceptance",
+  "cloud_called": false,
+  "provider_called": false,
+  "private_acl_verified": true,
+  "metadata_sha256": "12df4e565d466c008095498903237ae24f304403887db396b8bc46b5cf93346c",
+  "migration_sha256": "c17af7708a1886d2129df2dc9e4eb196e6b760862939bd2f5fd3c7c1c687e242",
+  "functional_sha256": "0664f439f310c9e7cf1be8513f7d6b6ad608918132f133f66cd8b744297698df",
+  "original_baseline_sha256": "fdf817fdebf54466f0f2d7167ea0f418dba2666bdba4f8aa1ca469b9e31d9fac",
+  "source_seals": {
+    "development/m07/project-creation39-proof/concurrency.mjs": "cbcfe9d5667aa430f70fabe56ff79beeb5add25bfc2a95ba667511a77dab8f31",
+    "development/m07/project-creation39-proof/run.mjs": "be0987779cac7758419cd73122a61a32824f53515bcf3d93afdaa3e8c024afcf",
+    "development/m07/independent-recovery38/guards.mjs": "d8eebcb91902d840b211827a7e4891938cc52f1573f4456ae9d3ab87c6c3195a"
+  },
+  "image_id": "sha256:6942962433a569e87f228b4d4ab7e11db5deca64e43babb3a038443ad6c4f1bb",
+  "independent_cluster": {
+    "database": "project39",
+    "system_identifier": "7703340949519245352"
+  },
+  "restored38_all_table_hashes_exact": true,
+  "failure_code": "PROJECT39_RACE_ASSERTION_FAILED",
+  "all_owned_resources_absent": true,
+  "original_data_catalogue_and_global_roles_unchanged": true,
+  "shared_lock_released": true,
+  "finished_at": "2026-11-01T22:58:05.338Z",
+  "elapsed_ms": 69216
+}
