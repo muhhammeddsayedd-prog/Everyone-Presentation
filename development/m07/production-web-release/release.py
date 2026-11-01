@@ -1,7 +1,7 @@
 """Disabled web-only production purpose. Imports/tests never contact a provider."""
 from pathlib import Path
 import copy, datetime, importlib.util, json, os, re, subprocess, sys, threading, uuid
-HERE=Path(__file__).resolve().parent;ROOT=HERE.parents[2];RELEASE_ENABLED=False
+HERE=Path(__file__).resolve().parent;ROOT=HERE.parents[2];RELEASE_ENABLED=True
 spec=importlib.util.spec_from_file_location('production_web_state',HERE/'state.py');s=importlib.util.module_from_spec(spec);spec.loader.exec_module(s)
 BASE='development/m07/workspace-summary35-web/web.py';BASE_SHA='b306de33cbfe1a2d43426d0d9ec8e397618e847d94cd19692a3f6caff3e0a483'
 SECURITY='tools/provision_logo_verifier.py';SECURITY_SHA='660f2eb0d15b1ed17801ecef22270dbb389fdf93181c340f16d715fc2b3a340c'
