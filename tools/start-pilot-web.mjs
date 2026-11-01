@@ -6,8 +6,7 @@ import { assertHostedPilotConfig } from '../apps/web/lib/hosting-pilot.ts';
 
 const root = path.resolve(import.meta.dirname, '..');
 
-/** Separate controlled-pilot entrypoint. tools/start-web.mjs continues to refuse
- * ordinary production release while its acceptance evidence is incomplete. */
+/** Separate controlled-pilot entrypoint; ordinary start requires production mode. */
 export function pilotWebStartPlan(env, now = Date.now()) {
   assertHostedPilotConfig(env, now);
   const port = env.PORT ?? '3000';

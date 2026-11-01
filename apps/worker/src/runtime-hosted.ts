@@ -15,7 +15,7 @@ async function main() {
   for (const key of ['EPS_MEDIA_IMAGE_ID', 'EPS_FRAME_IMAGE_ID', 'EPS_PDF_RASTER_IMAGE_ID']) process.env[key] = nativeImageIdentity(native);
   const controller = new AbortController(); let timer: ReturnType<typeof setTimeout> | undefined;
   const checkExpiry = () => { const remaining = Date.parse(environment.EPS_PILOT_EXPIRES_AT) - Date.now(); if (remaining <= 0) { process.stdout.write('{"event":"hosted_worker_pilot_expired"}\n'); controller.abort(); } else timer = setTimeout(checkExpiry, Math.min(remaining, 2_147_483_647)); };
-  if (environment.EPS_PILOT_OWNER_CONTROLLED !== 'true') checkExpiry();
+  if (environment.EPS_RELEASE_MODE === 'controlled_pilot' && environment.EPS_PILOT_OWNER_CONTROLLED !== 'true') checkExpiry();
   try {
     await startSpecsWorker({ signal: controller.signal });
     if (nativeSandboxCleanupUnconfirmed()) {

@@ -35,7 +35,7 @@ export function nativeSandboxConfiguration(environment: Readonly<Record<string, 
   const mode = environment.EPS_NATIVE_TRANSPORT;
   if (mode === undefined || mode === 'local_docker') { if (environment.VERCEL === '1') fail('NATIVE_CONFIGURATION_INVALID'); return undefined; }
   if (mode !== 'vercel_sandbox' || environment.VERCEL !== '1' || environment.VERCEL_ENV !== 'production'
-    || environment.EPS_RELEASE_MODE !== 'controlled_pilot' || environment.NODE_ENV !== 'production'
+    || (environment.EPS_RELEASE_MODE === 'production' ? environment.APP_ENV !== 'production' : environment.EPS_RELEASE_MODE !== 'controlled_pilot') || environment.NODE_ENV !== 'production'
     || environment.VERCEL_OIDC_TOKEN_FILE !== '/var/run/secrets/vercel.com/token'
     || ['VERCEL_TOKEN', 'VERCEL_ACCESS_TOKEN', 'N8N_API_KEY', 'SUPABASE_SERVICE_ROLE_KEY'].some(key => environment[key])) fail('NATIVE_CONFIGURATION_INVALID');
   if (configured) return configured;
