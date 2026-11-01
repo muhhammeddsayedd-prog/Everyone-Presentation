@@ -19,11 +19,14 @@ empty at installation, with no historical backfill. The capture trigger is
 enabled; the narrowly guarded disable-only recovery entry remains unactivated.
 
 The [02:21:35 preservation baseline](../../tracking/evidence/m07/job-attempt-observability36-live-audit/2026-11-01T02-21-35-394018Z-before.json)
-passed. **AT-074 is still partial:** no after-audit receipt or pair of new live
-job results is credited here. Root was waiting for the owner to select the real
-permitted introduction in the open file picker after automation timed out.
-That is a file-selection dependency, not an authentication failure or a reason
-to manufacture an upload result.
+passed. **AT-074 is still partial:** owner selected IMG_2852.MP4 (5,294,727
+bytes) and submitted untargeted job `6763e5fa-dc53-4956-8d9b-17bbc437609e`;
+root observed UI Completed. The [post-upload source verification](../../tracking/evidence/m07/job-attempt-observability36-proof/2026-11-01-owner-selected2852-source-verification.json)
+does not claim a read-only job/provider audit, pre-upload verification or semantic
+accuracy. The planned IMG_2850 append to the Reviewed candidate was not performed.
+The app file picker now awaits owner selection of the prepared67-byte unreadable
+synthetic MP4; its failure job ID/result and the pair's after audit remain unknown.
+Do not resubmit the already uploaded real clip or credit the UI badge as a trace.
 
 The stable pilot continues at <https://everyone-presentation-pilot.vercel.app>.
 Web6L6v and worker2uAS remain the serving release; trace36 required no web/worker
@@ -48,20 +51,26 @@ the owner stops it.
 
 ## Finish the two live audits first
 
-Follow the source-pinned [live audit plan](job-attempt-observability36-release/LIVE_AUDIT_PLAN.md)
-and already captured baseline, using ordinary signed-in app upload operations:
+The frozen [original live audit plan](job-attempt-observability36-release/LIVE_AUDIT_PLAN.md)
+still describes IMG_2850/Reviewed and is historical for this selection. The
+three-file [explicit actual2852 sidecar plan](job-attempt-observability36-live-sidecar/PLAN_CHANGE.md)
+preserves the original baseline and binds the actual untargeted IMG_2852 source/job.
+Root armed the sidecar after review/eight inert tests; it has not executed and no
+input was created. Its source tests do not provide live after-audit acceptance.
+Continue with ordinary signed-in app operations and the actual substituted pair:
 
-1. Append the permitted real introduction to the existing Reviewed candidate.
-   Verify fresh post36 upload/asset/job/attempt IDs, actual native/OpenAI/n8n
-   processing, English display and preserved reviewed facts/current project
-   media choices. A replay of an old upload intent or Succeeded badge alone is
-   insufficient. Actual retries, if any, determine the attempt count.
+1. Carry the owner's completed IMG_2852 upload forward without resubmission.
+   Bind its actual asset/job/attempt IDs and post-upload verified bytes through
+   the sidecar read-only audit. Verify actual native/OpenAI/n8n processing and
+   English display; no new semantic/Reviewed-target acceptance follows from UI
+   Completed. Preserve existing Reviewed facts/current project media choices.
+   Actual retries, if any, determine the attempt count.
 2. Upload the prepared unreadable synthetic MP4 without a candidate target.
    Verify an actual failed preparation job, safe typed error and actionable
    producer message. An ingress rejection before a job exists does not provide
    the required failed-job trace. Do not retry the protected M02 job, alter
    workflow retention, fake callbacks or change global configuration.
-3. Feed only the two actual new job IDs into the bounded after observer. Verify
+3. Feed only the two actual new job IDs into the bounded actual2852 sidecar. Verify
    append-only attempt IDs, stage/total counters, exact workflow execution
    references, accepted event sequence/timestamps and terminal outcome; use
    available safe n8n metadata without retaining node payloads. Diagnose the

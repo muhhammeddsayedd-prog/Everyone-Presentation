@@ -1,5 +1,89 @@
 # Everyone Presentation Studio - current English-output rollout
 
+## Current checkpoint ? 2026-11-01, 02:41 UTC: canonical36 installed; live audit pending
+
+Canonical36 was applied once at02:19 with a normal return marker and two
+matching immediate readbacks, followed by the separate02:20 readback. All74
+existing table hashes, normalized old catalogue/Auth/OAuth, nine claim ports,
+English1.0 and protected M02 stayed exact. The new operator-only trace table was
+empty at installation; capture is enabled, no backfill occurred, and the guarded
+disable-only recovery was not activated. Existing account/business permissions
+were preserved; scoped new trace-owner permissions were added. No web/worker,
+environment or OAuth-client change accompanied this database release.
+
+Evidence: `tracking/evidence/m07/job-attempt-observability36-release/2026-11-01T02-19-19-577795Z-apply.json` and
+`tracking/evidence/m07/job-attempt-observability36-release/2026-11-01T02-20-17-194633Z-readback.json`.
+The02:21 before-audit baseline passed (`tracking/evidence/m07/job-attempt-observability36-live-audit/2026-11-01T02-21-35-394018Z-before.json`), recording10 Ready
+versions/57 slides/42 pins/3 raw and1 English companions,9 ready exports,
+62 referenced assets and2 Reviewed-media/24-frame rows. This is a baseline,
+not after-preservation or completed AT074 acceptance.
+
+Owner selected and uploaded IMG_2852.MP4 (5,294,727 bytes) as an untargeted scan,
+job `6763e5fa-dc53-4956-8d9b-17bbc437609e`. Root observed UI Completed; the actual file was
+verified after upload in `tracking/evidence/m07/job-attempt-observability36-proof/2026-11-01-owner-selected2852-source-verification.json`. No read-only after audit,
+provider/attempt trace or new semantic-accuracy acceptance is credited. The
+original IMG_2850/Reviewed append was not performed. The app file picker now
+awaits owner selection of the prepared67-byte unreadable synthetic MP4; no
+failure job ID or failed-job result is known yet. Do not resubmit the real clip.
+
+The three-file actual2852 sidecar explicitly preserves that substitution and
+the original baseline. Root armed it after review/eight inert tests; it has not
+executed and no input was created. It remains separate from frozen original
+observer/apply and238-source proof bytes. Next: obtain the actual failure job
+ID and actionable app error, then perform the bounded sidecar after audit of
+both actual jobs and old Ready/Reviewed/M02 state. AT074 and M07 remain partial.
+
+Web6L6v and worker2uAS continue on the stable pilot. The02:25 worker observation
+(`tracking/evidence/m07/job-attempt-observability36-release/2026-11-01-worker-health-after36.json`) reports Ready, one alive2048MiB dub1 instance and
+no redeployment; startup logs/queued replacement are not thereby accepted.
+The no-credential public-host checks passed (`tracking/evidence/m07/controlled-pilot/2026-11-01T02-25-29-965Z-08711e9f-public-host.json`), not new
+signed-in/OAuth/processing acceptance. Hosted specs ACK/extraction core already
+passed; the former ACK block is historical, with its unknown original claim retained.
+
+Completed controlled English/guest/PDF/revocation/Reviewed/old-version proofs,
+Summary HTTP and owner-attested MCP read, initial/reconnect/project-read owner
+acceptance and local33 recovery stay passed in their recorded scopes. No more
+language labels or selector are required; broader semantic accuracy is unclaimed.
+Manual screen reader remains pending, mobile stays skipped, Claude frontend is
+preserved and the pilot stays running until the owner stops it. While file
+selection waits, the next independent backend source task is the AT064 client
+streaming-transfer/private capability handoff, with no Claude credential-store
+reads or owner configuration/sign-in/consent changes.
+
+Earlier dated snapshots below retain their then-current results and next actions;
+they do not override this checkpoint. See `development/m07/POST_TRACE36_REMAINING.md`.
+
+## Historical checkpoint ? 2026-11-01, 02:15 UTC: owned gate passed; cloud36 then pending
+
+Fresh run `bc54b423-9b7a-480f-981f-207373885349` completed normally at
+02:15:05.601UTC (103,233ms). All 238 executed source seals match current files;
+the captured seven-phase validator result, actual schema template and nine claim
+ports were independently revalidated. Normal/restored gates passed, PUBLIC
+EXECUTE/wrong function body/unrelated old-jobs metadata were refused, and the
+bounded disabled-trigger gate accepted only that intended mode. The direct and
+real claim/callback/manual-retry fixtures passed again. All 74 existing table
+hashes and normalized Auth/OAuth/English/protected-M02 state stayed exact.
+
+History36 existed only inside the owned rollback transaction. All new DDL/data/
+catalogue changes and the trace role rolled back to33; both temporary databases
+and new33 roles were removed. Original29 data/full Auth-Storage catalogue/profile
+and existing global role identities/attributes/memberships stayed exact; the
+shared test lock released. Failed207 and failed281 receipts/claims/source archives
+remain retained and reconstruct exactly; the original185 sources remain intact.
+The OAuth forward fix normalizes only the expected new trace role and EPS grant;
+all other Auth/OAuth fields and full atomic claim counts remain checked.
+
+Actual receipt:
+`tracking/evidence/m07/job-attempt-observability36-gate-proof/2026-11-01T02-13-22-368Z-bc54b423.json`.
+Details: `development/m07/job-attempt-observability36-gate-proof/LIVE_SQL_RESULT.md`.
+This is owned local proof, not hosted AT074 acceptance. Canonical remains35;
+tracing is not yet installed. Web6L6v, worker2uAS and English1.0 stay current.
+Next: guarded canonical36 inspect/apply/readback, then a before-baseline and two
+actual ordinary-app success/failure jobs with durable attempt/event readback.
+English/guest/Reviewed/old-version proofs, accepted owner connection/reconnect and
+owner-attested Summary MCP result stand. Screen reader pending; mobile skipped;
+no labels/selector; frontend preserved; pilot running until the owner stops it.
+
 ## 2026-11-01, 01:59 UTC: fresh gate SQL completed; OAuth projection needs narrow delta
 
 Fresh run28122d90 completed the SQL wire and captured all seven gate phases, but

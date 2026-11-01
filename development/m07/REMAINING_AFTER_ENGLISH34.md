@@ -1,5 +1,60 @@
 # Remaining M07 work after the English-output rollout
 
+## Current checkpoint ? 2026-11-01, 02:41 UTC: canonical36 installed; live audit pending
+
+Canonical36 was applied once at02:19 with a normal return marker and two
+matching immediate readbacks, followed by the separate02:20 readback. All74
+existing table hashes, normalized old catalogue/Auth/OAuth, nine claim ports,
+English1.0 and protected M02 stayed exact. The new operator-only trace table was
+empty at installation; capture is enabled, no backfill occurred, and the guarded
+disable-only recovery was not activated. Existing account/business permissions
+were preserved; scoped new trace-owner permissions were added. No web/worker,
+environment or OAuth-client change accompanied this database release.
+
+Evidence: `tracking/evidence/m07/job-attempt-observability36-release/2026-11-01T02-19-19-577795Z-apply.json` and
+`tracking/evidence/m07/job-attempt-observability36-release/2026-11-01T02-20-17-194633Z-readback.json`.
+The02:21 before-audit baseline passed (`tracking/evidence/m07/job-attempt-observability36-live-audit/2026-11-01T02-21-35-394018Z-before.json`), recording10 Ready
+versions/57 slides/42 pins/3 raw and1 English companions,9 ready exports,
+62 referenced assets and2 Reviewed-media/24-frame rows. This is a baseline,
+not after-preservation or completed AT074 acceptance.
+
+Owner selected and uploaded IMG_2852.MP4 (5,294,727 bytes) as an untargeted scan,
+job `6763e5fa-dc53-4956-8d9b-17bbc437609e`. Root observed UI Completed; the actual file was
+verified after upload in `tracking/evidence/m07/job-attempt-observability36-proof/2026-11-01-owner-selected2852-source-verification.json`. No read-only after audit,
+provider/attempt trace or new semantic-accuracy acceptance is credited. The
+original IMG_2850/Reviewed append was not performed. The app file picker now
+awaits owner selection of the prepared67-byte unreadable synthetic MP4; no
+failure job ID or failed-job result is known yet. Do not resubmit the real clip.
+
+The three-file actual2852 sidecar explicitly preserves that substitution and
+the original baseline. Root armed it after review/eight inert tests; it has not
+executed and no input was created. It remains separate from frozen original
+observer/apply and238-source proof bytes. Next: obtain the actual failure job
+ID and actionable app error, then perform the bounded sidecar after audit of
+both actual jobs and old Ready/Reviewed/M02 state. AT074 and M07 remain partial.
+
+Web6L6v and worker2uAS continue on the stable pilot. The02:25 worker observation
+(`tracking/evidence/m07/job-attempt-observability36-release/2026-11-01-worker-health-after36.json`) reports Ready, one alive2048MiB dub1 instance and
+no redeployment; startup logs/queued replacement are not thereby accepted.
+The no-credential public-host checks passed (`tracking/evidence/m07/controlled-pilot/2026-11-01T02-25-29-965Z-08711e9f-public-host.json`), not new
+signed-in/OAuth/processing acceptance. Hosted specs ACK/extraction core already
+passed; the former ACK block is historical, with its unknown original claim retained.
+
+Completed controlled English/guest/PDF/revocation/Reviewed/old-version proofs,
+Summary HTTP and owner-attested MCP read, initial/reconnect/project-read owner
+acceptance and local33 recovery stay passed in their recorded scopes. No more
+language labels or selector are required; broader semantic accuracy is unclaimed.
+Manual screen reader remains pending, mobile stays skipped, Claude frontend is
+preserved and the pilot stays running until the owner stops it. While file
+selection waits, the next independent backend source task is the AT064 client
+streaming-transfer/private capability handoff, with no Claude credential-store
+reads or owner configuration/sign-in/consent changes.
+
+Earlier dated snapshots below retain their then-current results and next actions;
+they do not override this checkpoint. See `development/m07/POST_TRACE36_REMAINING.md`.
+
+## Historical pre-release snapshots (02:15 UTC and earlier)
+
 Reviewed against `milestones/M07_API_MCP_RELEASE.md`, the AT-063–075 definitions
 in `docs/quality/TEST_STRATEGY.md`, the release runbook and the current M07 matrix.
 This is an execution order for remaining evidence, not a new product scope or a
@@ -11,10 +66,21 @@ reports the new Summary MCP read matches HTTP, without MCP request ID/server
 correlation. Actual local attempt36 proof7cff passed with all185 source seals and
 rollback/preservation/cleanup independently checked; no cloud36 release yet.
 
+Current gate checkpoint (2026-11-01T02:15:05.601UTC): fresh owned release-gate
+proofbc54 passed, all238 current seals and seven captured phases/schema/nine
+claim ports independently validated. All74 preservation, transaction-only36,
+rollback to33, both-database/new-role cleanup and original29/Auth-Storage/global
+role/shared-lock preservation passed. Failed207/281 archives and original185
+sources remain intact. See
+`development/m07/job-attempt-observability36-gate-proof/LIVE_SQL_RESULT.md`.
+Canonical36 is still unapplied; the next operation is guarded inspect/apply/
+readback, followed by the before-baseline and two actual scoped upload jobs.
+This local gate pass does not close hosted AT074.
+
 | Order / case | Current evidence boundary | Concrete next action and dependency |
 | --- | --- | --- |
 | 1. English rollout / AT-068 | Controlled scan/internal/frozen version/PDF/old-cohort proof and approved guest create/test/revoke passed with normal-owner-profile/actual-annotation-destination boundaries. Canonical35/all74 preservation, web6L6v Ready, signed-in HTTP and01:10 app English regression passed. Owner Summary MCP result matches HTTP without server request correlation. | Carry completed English and owner connection evidence forward; continue remaining live M07 work. No pending guest approval/active self-test link, labels or selector. |
-| 2. Operator correlation / AT-074 | Historical31686 GET404/currentWF02 save:none remain recorded without proved absence cause. Source5b2d2a0/c3cb76d passed19+8 tests. Actual owned-local7cff passed direct-trigger and real claim/callback/manual-reset/replay/fencing routines;185 seals, rollback to33 and cleanup/original29/Auth-Storage/global-role preservation independently checked. Candidate36 remains outside canonical history/undeployed. | Review the separately prepared guarded additive release proposal, then actual preflight/apply/readback and real successful/failed nonprotected operator audit. Local synthetic SQL does not close AT-074. Never enable payload retention, reconstruct old stage IDs or retry old jobs for tracing. |
+| 2. Operator correlation / AT-074 | Historical31686 GET404/currentWF02 save:none remain recorded without proved absence cause. Actual7cff direct/real-routine proof and freshbc54 release-gate proof passed:238 exact current seals, seven phase gates, schema/nine ports, all74 preservation, rollback and full cleanup independently validated. Failed207/281 archives and original185 sources are intact. Canonical is still35; no hosted36 acceptance. | Admit actualbc54 proof and perform separately guarded canonical36 inspect/apply/readback once. After Ready36, capture the old Ready/Reviewed/M02 baseline, then create/audit the two ordinary-app real-success and prepared unreadable-failure jobs with actual IDs. Never enable payload retention, reconstruct old stage IDs or retry old jobs for tracing. |
 | 3. Full delegated workflow / AT-064,066,068 | Owner initial authorization, duplicate details, redirect-only reconnect and authenticated Dummy Pilot Test reads passed. Controlled signed lifecycle/permission/idempotency tests remain separate from a complete real delegated journey. | Owner's already working Claude client performs the remaining ordinary operations against shared persisted pilot data: real byte transfer, processing/review, changes/Reviewed, assignment/Shortlist, generation/PDF and link lifecycle. Record real IDs plus app readback and typed stale/idempotent/retry behavior. Do not re-open connection acceptance or configure/sign in/consent for the owner. |
 | 4. Token and contributor boundaries / AT-065 | Current production code and controlled signed transport/SQL tests enforce scopes. Live refresh/rotation/revocation and a real contributor's denied operations remain unverified. | Use authorized test sessions/principals and a reviewed bounded lifecycle plan. Preserve the owner's accepted grant/session and current account permissions. Do not invent cloud identities, weaken checks or turn existing sign-in access into a new broad grant. Source-only test preparation can proceed while real session/identity access is unavailable. |
 | 5. Queued-job replacement / AT-069 | Local drained restart and fencing pass; English compatibility rollout alone does not prove replacement with queued/running work or rollback. | Prepare source-pinned before/after observations, one approved queued job, old/new consumer fencing, compatible application rollback and old Ready-version preservation. Perform only with actual deployment/resource ownership and a bounded recovery plan. Keep the compatible SDK after34. |

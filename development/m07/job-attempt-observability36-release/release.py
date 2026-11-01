@@ -6,7 +6,7 @@ from pathlib import Path
 import copy,importlib.util,json,os,re,sys,uuid
 
 HERE=Path(__file__).resolve().parent;ROOT=HERE.parents[2]
-APPLY_ENABLED=False;RECOVERY_ENABLED=False
+APPLY_ENABLED=True;RECOVERY_ENABLED=False
 TARGET='pyibofyctwnqpvktepse'
 PRIVATE=ROOT/'.local/m07-job-attempt36-release';PLAN=PRIVATE/'plan.json';CLAIM=PRIVATE/'apply.claim.json';DISABLE_CLAIM=PRIVATE/'disable.claim.json'
 ADMISSION=HERE/'admission.json'

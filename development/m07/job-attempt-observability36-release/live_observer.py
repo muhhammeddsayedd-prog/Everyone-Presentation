@@ -8,7 +8,7 @@ import copy, datetime, hashlib, importlib.util, json, os, re, sys, uuid
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
-ENTRY_ENABLED = False
+ENTRY_ENABLED = True
 TARGET = 'pyibofyctwnqpvktepse'
 PROJECT = '6da14b82-8458-451f-aa21-28cb6c85bdc5'
 WORKSPACE = '86936940-b48d-497d-b1ff-8e0da0913afa'

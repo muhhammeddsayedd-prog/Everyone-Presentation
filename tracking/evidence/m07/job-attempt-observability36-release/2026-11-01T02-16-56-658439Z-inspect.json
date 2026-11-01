@@ -1,0 +1,2197 @@
+{
+  "action": "inspect",
+  "admission": {
+    "actual_gate_sql_and_cleanup_passed": true,
+    "admission_sha256": "b6cf83c8fb8838585088879070974517416fb94eed7245ea8f429ad95c757e88",
+    "claim_ports": {
+      "eps.claim_candidate_job_stage(jsonb)": {
+        "acl": [
+          {
+            "grantable": false,
+            "grantee": "eps_candidate_stage_owner",
+            "grantor": "eps_candidate_stage_owner",
+            "privilege": "EXECUTE"
+          },
+          {
+            "grantable": false,
+            "grantee": "eps_specs_stage_owner",
+            "grantor": "eps_candidate_stage_owner",
+            "privilege": "EXECUTE"
+          }
+        ],
+        "body_sha256": "e5ac1c5fe0a22f45163f61c9cb51cf90ccf8d351bb38005070d27bcf643140f4",
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "exists": true,
+        "owner": "eps_candidate_stage_owner"
+      },
+      "eps.claim_export_job_stage(jsonb)": {
+        "acl": [
+          {
+            "grantable": false,
+            "grantee": "eps_review_stage_owner",
+            "grantor": "eps_review_stage_owner",
+            "privilege": "EXECUTE"
+          },
+          {
+            "grantable": false,
+            "grantee": "eps_specs_stage_owner",
+            "grantor": "eps_review_stage_owner",
+            "privilege": "EXECUTE"
+          }
+        ],
+        "body_sha256": "8ca47ea14a61aaaf2dccf848beeac0263b171eff4220ff9b06720d4db4ec76b9",
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "exists": true,
+        "owner": "eps_review_stage_owner"
+      },
+      "eps.claim_job_stage(jsonb)": {
+        "acl": [
+          {
+            "grantable": false,
+            "grantee": "eps_jobs_executor",
+            "grantor": "eps_specs_stage_owner",
+            "privilege": "EXECUTE"
+          },
+          {
+            "grantable": false,
+            "grantee": "eps_specs_stage_owner",
+            "grantor": "eps_specs_stage_owner",
+            "privilege": "EXECUTE"
+          }
+        ],
+        "body_sha256": "9ea28ccdd0b670b022c2ac6e31e5f86b27a8ef39541a11c2d3a6a382eccf3e2d",
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "exists": true,
+        "owner": "eps_specs_stage_owner"
+      },
+      "eps.claim_job_stage_replay(jsonb,text,text,text)": {
+        "acl": [
+          {
+            "grantable": false,
+            "grantee": "eps_jobs_executor",
+            "grantor": "eps_specs_stage_owner",
+            "privilege": "EXECUTE"
+          },
+          {
+            "grantable": false,
+            "grantee": "eps_specs_stage_owner",
+            "grantor": "eps_specs_stage_owner",
+            "privilege": "EXECUTE"
+          }
+        ],
+        "body_sha256": "894b07983d85978a0ffc099ff0b1df5b517979f9ab6f5f706c9133adcf0c36fc",
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "exists": true,
+        "owner": "eps_specs_stage_owner"
+      },
+      "eps.claim_presentation_job_stage(jsonb)": {
+        "acl": [
+          {
+            "grantable": false,
+            "grantee": "eps_review_stage_owner",
+            "grantor": "eps_review_stage_owner",
+            "privilege": "EXECUTE"
+          },
+          {
+            "grantable": false,
+            "grantee": "eps_specs_stage_owner",
+            "grantor": "eps_review_stage_owner",
+            "privilege": "EXECUTE"
+          }
+        ],
+        "body_sha256": "f79dba86aeedc4447147b92b58ba54919e71d9fea3ae05440b361fae0244135f",
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "exists": true,
+        "owner": "eps_review_stage_owner"
+      },
+      "eps.claim_review_job_stage(jsonb)": {
+        "acl": [
+          {
+            "grantable": false,
+            "grantee": "eps_review_stage_owner",
+            "grantor": "eps_review_stage_owner",
+            "privilege": "EXECUTE"
+          },
+          {
+            "grantable": false,
+            "grantee": "eps_specs_stage_owner",
+            "grantor": "eps_review_stage_owner",
+            "privilege": "EXECUTE"
+          }
+        ],
+        "body_sha256": "eb9ca868b4525c6a088317c1a6d2a7f94c2bcf504466d501c22bbdf479ba35e4",
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "exists": true,
+        "owner": "eps_review_stage_owner"
+      },
+      "eps.record_job_event(jsonb)": {
+        "acl": [
+          {
+            "grantable": false,
+            "grantee": "eps_jobs_executor",
+            "grantor": "eps_specs_stage_owner",
+            "privilege": "EXECUTE"
+          },
+          {
+            "grantable": false,
+            "grantee": "eps_specs_stage_owner",
+            "grantor": "eps_specs_stage_owner",
+            "privilege": "EXECUTE"
+          }
+        ],
+        "body_sha256": "96d70c9e16e3361789f2082fb605941fc08e654a96d6b13a6abbfe6bd730d4e8",
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "exists": true,
+        "owner": "eps_specs_stage_owner"
+      },
+      "eps.retry_guest_pdf_export(uuid,uuid,uuid,uuid)": {
+        "acl": [
+          {
+            "grantable": false,
+            "grantee": "eps_guest_owner",
+            "grantor": "eps_review_stage_owner",
+            "privilege": "EXECUTE"
+          },
+          {
+            "grantable": false,
+            "grantee": "eps_review_stage_owner",
+            "grantor": "eps_review_stage_owner",
+            "privilege": "EXECUTE"
+          }
+        ],
+        "body_sha256": "075e50772f63d445517bb27e789b55e2b9bec5a1e13228492dd1d7ddba7ba4f8",
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "exists": true,
+        "owner": "eps_review_stage_owner"
+      },
+      "public.eps_retry_job(uuid,jsonb,text)": {
+        "acl": [
+          {
+            "grantable": false,
+            "grantee": "authenticated",
+            "grantor": "eps_jobs_owner",
+            "privilege": "EXECUTE"
+          },
+          {
+            "grantable": false,
+            "grantee": "eps_jobs_owner",
+            "grantor": "eps_jobs_owner",
+            "privilege": "EXECUTE"
+          }
+        ],
+        "body_sha256": "a4023b9627e1150e878974cfed3dad9f489802639edecf6bc8ea228caf94a953",
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "exists": true,
+        "owner": "eps_jobs_owner"
+      }
+    },
+    "gate_proof": {
+      "path": "tracking/evidence/m07/job-attempt-observability36-gate-proof/2026-11-01T02-13-22-368Z-bc54b423.json",
+      "run_id": "bc54b423-9b7a-480f-981f-207373885349",
+      "sha256": "b486bc1363c900fff60171bc903b04277d5fd06e7ca441f1996f0528d90390dd"
+    },
+    "query_source_pins": {
+      "apps/web/public/brand/everyone-logotype-white.svg": "cb1f84c546247f81f7972ede5a374505c3de95d9fe9cee92ff60bda558166b98",
+      "apps/web/public/fonts/IBMPlexSans-Medium.woff2": "5660f8a658f8bb50dbc005232f885eadffd2bc1c235c4f6fbb63469d1f9cde6d",
+      "apps/web/public/fonts/IBMPlexSans-Regular.woff2": "ba711a3085ff9f27440b6b9c4550cfc47c97bf36591d5da958b975bb3add8c1a",
+      "apps/web/public/fonts/IBMPlexSans-SemiBold.woff2": "f78048030eab62e860efa39a0df79e2e5581bf122eb95b9bc42c0b8a4988d205",
+      "apps/web/public/fonts/IBMPlexSansArabic-Medium.woff2": "c72f6986f50ded745d06e71e508096209c52a55a6b3a81029954e33c52ba1dd2",
+      "apps/web/public/fonts/IBMPlexSansArabic-Regular.woff2": "74112e1b7bf2e2c547989a4e947a60cba6cd1f9156e0065670134636e717199d",
+      "apps/web/public/fonts/IBMPlexSansArabic-SemiBold.woff2": "869b2acd0a9660607a2025f0fe1c640110bf23d33417509328f07722922b8063",
+      "apps/worker/src/presentation-export-executor.ts": "15e4b6f7123c4340f8f0dd6c4869b711c1a4bb3433ce66e14d9b9d6093091e06",
+      "apps/worker/src/presentation-pdf.ts": "9ecaa02838192d6589cd0150679923648dc558b1409bdd5db69c5ac76f35d5db",
+      "apps/worker/src/presentation-stage-executor.ts": "97fc66ff385b0726dc16d6aceaa6d4a10e501a606b7de75cd6dc0a6056357d4d",
+      "apps/worker/src/video-container.ts": "b61b93b1f537efb10b8be228c53fd12fb990d70c72498699f35e2d9f97f5f92f",
+      "development/local-db/reviewed.json": "9722f25317f783123ec462227e94aecf65ea1cb27a9b59cf0d6bc07420f5d671",
+      "development/m03/english-release34/README.md": "c5d493ad9ee7ff1fd2813aba77702f1ee3458d9b41f048cd95cd3cecea7fb2ca",
+      "development/m03/english-release34/native_admission.py": "cfaf0eafb51ee99961a7f3552c34090f377475be4a7a1d23d9c5582e050cb9cf",
+      "development/m03/english-release34/native_manifest.py": "5c66aafbba16289e8dcbebfd65f6c3f59564b0debea33d01d50fbecb78227724",
+      "development/m03/english-release34/native_pin.py": "749e15efa777e1af6a5836050f86c3e0ce8c491cce6bcd793db7e1331a602b33",
+      "development/m03/english-release34/release.py": "cfb1de71b308d6bfe7b9115980a67d84341b014f06babf1fac84aa3c9806364a",
+      "development/m03/english-release34/test_release.py": "2ed681d58651727cfef415499d8980e7181c77deeaed428cf8edc1a359f3d432",
+      "development/m03/english-transcript34/README.md": "2beee213900beda07c4d70b5756212b0c00973923dd0c91df135f2d5586f39f6",
+      "development/m03/english-transcript34/before34.sql": "2bb2969542f1d7aa83e17370685810787558745b7d340002aa16283ab94b09da",
+      "development/m03/english-transcript34/build_ports.py": "fb61ebb6730cd6123ee83a31d3f24edffd4b4d4b1ddf1bdc6a33ced4b8f7e12f",
+      "development/m03/english-transcript34/capture-tests.sql": "7483592dd589f35ea111352a935a951ae369e6eeabdb4a2920be679fafd6fbba",
+      "development/m03/english-transcript34/controller.mjs": "1577d42e07f4e6b437c32576f167664d4431d4d70a039e16b08f7426453d6808",
+      "development/m03/english-transcript34/controller.test.mjs": "272add90d8bf6ace2e59475da9e10339701c487ed237260f8ffffc4f835439c1",
+      "development/m03/english-transcript34/port-patches.json": "12a675415e0970825903de616dae271911da6f01edd13d9dee62e0befecf813e",
+      "development/m03/english-transcript34/recovery-source-pins.json": "8eea74ee5bf1f6c5b90e3562398e307c873fbbd0296844d405960e15870f9996",
+      "development/m03/english-transcript34/run.mjs": "0a6e8bf9e4d8239b2e2ba5d43f300f149a04bcddb6bf26450852d90c5d04ba83",
+      "development/m03/english-transcript34/runtime.mjs": "41393c0e9077bccfc5fe7b957acd1d0becf5ac67056160cbeca4019f9cf6fda5",
+      "development/m03/english-transcript34/source-history/1a6c26e2294ac185b687bc5efd17d13a425a3bcbd4cf2a7694b53531430d711e-recovery-source-pins.json": "1a6c26e2294ac185b687bc5efd17d13a425a3bcbd4cf2a7694b53531430d711e",
+      "development/m03/english-transcript34/source-history/21c6c69dd8ea6c952f4299ef5404fef95024d5b5e62beb5ad1000c9da0864a55-recovery-source-pins.json": "21c6c69dd8ea6c952f4299ef5404fef95024d5b5e62beb5ad1000c9da0864a55",
+      "development/m03/english-transcript34/source-history/3da2b33dcb7ffefcc1b7ed83ec1a0d38b7df324517f64a569559289e8c87bb91-recovery-source-pins.json": "3da2b33dcb7ffefcc1b7ed83ec1a0d38b7df324517f64a569559289e8c87bb91",
+      "development/m03/english-transcript34/source-history/4597951eb5d26ff449abbbe0f6575ddb5ebfbf9d83fc8f58e22c21fd610a26bc-recovery-source-pins.json": "4597951eb5d26ff449abbbe0f6575ddb5ebfbf9d83fc8f58e22c21fd610a26bc",
+      "development/m03/english-transcript34/source-history/6cbc9034e9950da3a142dfa8892af576e125e26e895a225942087afd8f4ad528-recovery-source-pins.json": "6cbc9034e9950da3a142dfa8892af576e125e26e895a225942087afd8f4ad528",
+      "development/m03/english-transcript34/source-history/92ba4e1ebcca3a120cab03960e1c357897eda5f95cac4825163247751b0d3484-validation-tests.sql": "92ba4e1ebcca3a120cab03960e1c357897eda5f95cac4825163247751b0d3484",
+      "development/m03/english-transcript34/source-history/bb5232d6d56536c98203d633b40bcd3f6100f6923210041c57535579e0b36a4f-test_source.py": "bb5232d6d56536c98203d633b40bcd3f6100f6923210041c57535579e0b36a4f",
+      "development/m03/english-transcript34/source-history/e22525ab46f375fe64effc9a3118ccc46d3a9ffb033c27fd256a2c89909514cc-recovery-source-pins.json": "e22525ab46f375fe64effc9a3118ccc46d3a9ffb033c27fd256a2c89909514cc",
+      "development/m03/english-transcript34/source-history/e63186b05e195223c6b409c07baf0e60f0270cbafae03ed1791abd152b7f28a0-recovery-source-pins.json": "e63186b05e195223c6b409c07baf0e60f0270cbafae03ed1791abd152b7f28a0",
+      "development/m03/english-transcript34/test-target.sql": "05f6e0fa37d74e4b3f45231811821e8af573713f04ffabe66600f478182b6ea8",
+      "development/m03/english-transcript34/test_source.py": "1edb93fdba9656127c9c5317cf06a5df35ad25b13c01e773f81618bfc6f32876",
+      "development/m03/english-transcript34/validation-tests.sql": "67255f125b43aa316637aba7b2733f3c06dc73b86937ad00cfc1ab5d27e630d3",
+      "development/m03/native-probe34/admit-native-probe34.mjs": "cf2e9b9cc481a09a0364865993f8f0c6662be418b428991ca75e7c67375f84d5",
+      "development/m03/native-probe34/native-probe34-release.mjs": "9930e6d34ea9f8ff82ae5d2f992cda4dc63787406c180d7ae98e8a4b35ac65f8",
+      "development/m06/wf03-lexer-fixed-candidate.json": "e0cb7f88d11baae509981f2b4d0b3925ab5d038028373a03a5048e783ef21a4f",
+      "development/m07/db/catalog29.sql": "1af59495b01424e6ec2578f6ea1f8ac362829577612c32b2cd373545a58b9098",
+      "development/m07/db/data29.sql": "931581121cf2548af7b244b5638d243176bed9a4a83241bd4f72998ddec90a81",
+      "development/m07/db/release29-original-profile.json": "681fe120fea3ee70e35bd2c4ab4734e2b95e89e40ceef5a678f857adfa673cc2",
+      "development/m07/db/release29-readback.sql": "e38028dbbe87d5c74bd626e9c0ac1297c861d571b4de35ba3d0c7d967694e9de",
+      "development/m07/job-attempt-observability36-proof/README.md": "5fe468c8c76521853065c5b5b10fe0d407091d42b17c67cf4eee18e5059b6ce9",
+      "development/m07/job-attempt-observability36-proof/controller.mjs": "b1e2cd33546df561fbcaffda7efcf78ab6817a2907076e57b8c078553b310fe0",
+      "development/m07/job-attempt-observability36-proof/frozen-inputs.json": "69700aaa71d3a37f73d2f43cfc49f02f3e8c25d9619c2932a174823180951383",
+      "development/m07/job-attempt-observability36-proof/proof.test.mjs": "a79533fd4a908f1ad0a1f0644438d2650b7ecfd7fc4ad357c02cad969ddde64b",
+      "development/m07/job-attempt-observability36-proof/run.mjs": "3620680da6c3becf1ce4723d8523e8589d9dcb2847291d26f62a9f1e9f7e812e",
+      "development/m07/job-attempt-observability36-proof/runtime.mjs": "dff41726ef060f7c0832b3ffe83eeb437d7f20101788994bacb7cc2b4bc0958f",
+      "development/m07/job-attempt-observability36-proof/service-fixture.sql": "71968c5492b4ea63b9956b390b10252c05bd106cc0ba5bb35721a21218a39536",
+      "development/m07/job-attempt-observability36-proof/sources.mjs": "c87c95596a54e45aa83fc818e6829944aa24cab0ebfe9cd7a835f34716d70393",
+      "development/m07/job-attempt-observability36-release/catalogue_delta.py": "bad16efbc12f045ea57bb03eedf5d44b05d8779a041d14fdbf3cbb0b069dd65c",
+      "development/m07/job-attempt-observability36-release/proposal.py": "26eec43740e63fee5c803f0baa8c9fa3ed5a11ca5e4ea48e16ff82c4e68f1003",
+      "development/m07/job-attempt-observability36-release/schema_gate.py": "4ac028d48e773f881cda74f4cd7a201b86cd7c6d0a5a275d09eae5fbd855ac13",
+      "development/m07/job-attempt-observability36-release/state.py": "2240ad7b9ae85ebc7d1ab94857e9ed5a5c572f51b6ef7fb18c1fd72b9a0b13f9",
+      "development/m07/job-attempt-observability36/DESIGN.md": "d720e95db145e35d0b2cd1874882e82ce59a35f86f29628a88842df9d50a59f0",
+      "development/m07/job-attempt-observability36/candidate.sql": "dc4eec586a3ae0fc9722a70ca6229742971eb21279916c32ab47cea4a802ed3b",
+      "development/m07/job-attempt-observability36/fixture.sql": "175c31e4dd501dc5c79aa162e5020b714673c42bc3d18ebeec9aadd4fa069e61",
+      "development/m07/job-attempt-observability36/operator-query.sql": "d4248a1fd71556c3837ba2c0c6a398f3328d4f09a704f3d261412392304f553c",
+      "development/m07/job-attempt-observability36/test_source.py": "4411ea72d95a7d8896586e6a458076d4e946062194cc71d98706f795130ec749",
+      "development/m07/oauth-attempt-trace/inspect-attempt.py": "1359373d078ee67d5dd644d1717a048f274c98f3617bb57c3668a45866c4c03c",
+      "development/m07/oauth-attempt-trace/release-context33.py": "89ded31f17961784e6611c3c12a4213fb24d155fdd0e69fa9570cabcfd740039",
+      "development/m07/recovery29/diagnose.mjs": "56f950f4d3aed66455f569c4975e364a7959819b989ad4f95e2ddafaf2fd01e6",
+      "development/m07/recovery29/identity.mjs": "c785bf1533031b560ad538fdcf5fbddb00eeb28d5f72e0d5d65524a933ad727d",
+      "development/m07/recovery29/observed-pairs.mjs": "78450ba18f7d89ad56e17bfcf816f0f210a0e8b0b3c2441331a70f9dc83bc767",
+      "development/m07/recovery29/ownership.mjs": "9118e7bd46dff15ccece950f88cd86ffc5b6c3fb86382d89792da5892a38de79",
+      "development/m07/recovery29/ownership.test.mjs": "b75ccd0d404a3c46f7f4f3549b8bf89a5067c854d12dda20f598d40e3e7b07ce",
+      "development/m07/recovery29/predicate.test.mjs": "2cbb7b5e9de6d613b9a494fc154716e77360f4ab0aa69b679611b0b10dee8845",
+      "development/m07/recovery29/profile.mjs": "be0c7b30ca143e6dc054aa82f288d03fd01ed507a15fba1f45667ff412f25520",
+      "development/m07/recovery29/profile.test.mjs": "599b76d942b95b1fbd24ed59b4cf05ada09ad2eef49fc77edd34b51501737e02",
+      "development/m07/recovery29/profile8.mjs": "05f37168da8d7e1d58b17be30e0aecc0604657bdfd3cc7fb3162ca5f14378b31",
+      "development/m07/recovery29/profile8.test.mjs": "964ac2c8a014a7cfebd8fa5d730392d80a0140aef5923bfda1ef13025b218fd8",
+      "development/m07/recovery29/run.mjs": "d5602e34077b8cce5ad5c100893b6d7b4be984305f9705ce75fed3e90c7fbffd",
+      "development/m07/recovery29/semantic-proof.mjs": "c3731bb04acdfe30cf90b4288583f625fd8989055a11280f448b0435e78b3f1e",
+      "development/m07/recovery33/README.md": "14c38dc2ba13acb7dc25170d5a8d08c8552d286243ebed1404b8f137c0bfa0f6",
+      "development/m07/recovery33/acl-semantics-proof.mjs": "adc775d78072ce8154b580fb9cfd563f2638a596f0c8ad9c9d3943c5723ae34b",
+      "development/m07/recovery33/baseline533.mjs": "03992a080a3809def01ada3de1e08ece10c2cdc7cf9a57b71f415e1247048560",
+      "development/m07/recovery33/baseline533.test.mjs": "9e7b5e8cf75ae5c719e572cb54c7c681197b818980328b9957a4e5c2e335abd3",
+      "development/m07/recovery33/cleanup533.mjs": "bbc82677bf717208bf144e4b0d1c9d509606ee3890778ef8820eb94b1fa3c105",
+      "development/m07/recovery33/cleanup533.test.mjs": "871f2c187cd3a3c45817e20005775f2e64b35ae8f621ba8aa1a4744c8ed5c23f",
+      "development/m07/recovery33/compiler.mjs": "e53ba5ab07b3724f0b2c4da59d46090ddb351342be205f74325e46192c4cf0a6",
+      "development/m07/recovery33/compiler.test.mjs": "8cd116b679a75df8b5e0e4955ac44a9b222a191e8c51df71529520869ad1341c",
+      "development/m07/recovery33/native-auth-prerequisite.sql": "1a497bc23a18beb7d7b4082034c2eae37a1a0a07b25ed5f70b5b9962ac3d34bf",
+      "development/m07/recovery33/ownership.mjs": "080ca9a50455a03acf2555fe3426cee595471a6182b7bf1c8022523d0a836d00",
+      "development/m07/recovery33/provider-config.synthetic.json": "03af1bb0c269a4bcbf02e35f2b1273a7c1811537ebd2fcdde6b9d5c092bfd8c9",
+      "development/m07/recovery33/reconcile533.mjs": "08484c81da3e4cf36eb78dc60c91b2dfdff06ba7a8fe5c2cf71355958873ce1d",
+      "development/m07/recovery33/retained533-acl-observation.json": "6d5a0284b0c956b6dbae80906a6b4b7ea3482733fa135fd16b1eb5fe4b3b1654",
+      "development/m07/recovery33/retained533-acl-proof.mjs": "9f440592e6f3a053e206d545082bf3c325ab10c81589d44bba4c225120863f33",
+      "development/m07/recovery33/retained533-acl-proof.test.mjs": "ab6076ba79bd9b8042ea32f24b1c3588fdb2a5af6390a2c8c8f2083f64d6ad15",
+      "development/m07/recovery33/retained533-acl-semantics.sql": "86b46544bb451cf483dd0ef21b00826cf61a75bd91a8990e3add685d0cb3d4f6",
+      "development/m07/recovery33/retained533-profile.mjs": "d4ac87d82994b01e83aedaedfa6be3bf6a47c590e44232263f63aa4f5558d7b2",
+      "development/m07/recovery33/retained533-profile.test.mjs": "67a19559feb096bf27849fdfec2150c9279074f9054628b0f67e4df0d284283f",
+      "development/m07/recovery33/run.mjs": "9d04f616b043c60a3077ab5f3a7f79c9bf0b2a03cef8285582f08d3e050e3bfe",
+      "development/m07/recovery33/runtime.mjs": "9a5c6377937e27a4097f188488795f93840470b20dba4214e812e1fe209cd0ed",
+      "development/m07/recovery33/runtime.test.mjs": "55586ebde77c29461b79a5a30646abba7c4a3b3d97c2d3522b76e9f9bd7faa7a",
+      "development/m07/recovery33/schema-migrations-acl-observation.json": "ae00c7258469b913bc82be4f06a4aebb6c0467f26841423a97ee28b9512adf4a",
+      "development/m07/recovery33/schema-migrations-acl-semantics.sql": "bc0d070580205a2cb2992836808880822a01d6f8397413c09a79ee8f34e22901",
+      "development/m07/recovery33/schema-migrations-acl.test.mjs": "9cc5c1a443d20d63ddca78e410d3b2be67fae5f52a549cee6bafc2c97c90c59a",
+      "development/m07/recovery33/seed-auth.sql": "a2c0b137fac64257342df9f904fc12d24eff23e72188591ccb19bc134f853980",
+      "development/m07/recovery33/source-history/080ca9a50455a03acf2555fe3426cee595471a6182b7bf1c8022523d0a836d00-ownership.mjs.txt": "080ca9a50455a03acf2555fe3426cee595471a6182b7bf1c8022523d0a836d00",
+      "development/m07/recovery33/source-history/0a5f4c7ed2f8845d1adc78ffcd4feee74208e72a9f7fad407487030e5504cb81-runtime.mjs.txt": "0a5f4c7ed2f8845d1adc78ffcd4feee74208e72a9f7fad407487030e5504cb81",
+      "development/m07/recovery33/source-history/0eaa93fd239657101d58fabcfaa1b5218a2949788cbe8f547ea2019ac4776f11-run.mjs.txt": "0eaa93fd239657101d58fabcfaa1b5218a2949788cbe8f547ea2019ac4776f11",
+      "development/m07/recovery33/source-history/26e9697a71eb6fed612155851194a8e9218a1a76b293d9924ab3d9931c0a5871-run.mjs.txt": "26e9697a71eb6fed612155851194a8e9218a1a76b293d9924ab3d9931c0a5871",
+      "development/m07/recovery33/source-history/2e174d8122a4579b4a016a00df83c09336e2278b192087d2b8807b94e32f3e36-runtime.mjs.txt": "2e174d8122a4579b4a016a00df83c09336e2278b192087d2b8807b94e32f3e36",
+      "development/m07/recovery33/source-history/6a40faad398373a9e26061b27e04e00eab30d3c8819599ef1a8efdcfecf6efd4-compiler.mjs.txt": "6a40faad398373a9e26061b27e04e00eab30d3c8819599ef1a8efdcfecf6efd4",
+      "development/m07/recovery33/source-history/798cb54efb220f75997aa185e9384cc74b141423b66c602b37d70934abd6daf8-compiler.mjs.txt": "798cb54efb220f75997aa185e9384cc74b141423b66c602b37d70934abd6daf8",
+      "development/m07/recovery33/source-history/807065bd22949b9aa5805d60a15c3be0e6b882021ed17a0d38e82389f32bc50e-compiler.mjs.txt": "807065bd22949b9aa5805d60a15c3be0e6b882021ed17a0d38e82389f32bc50e",
+      "development/m07/recovery33/source-history/91b15c72d7d268ef97f398c4bfd148e6da4565e579227e738633a85fa23c833f-runtime.mjs.txt": "91b15c72d7d268ef97f398c4bfd148e6da4565e579227e738633a85fa23c833f",
+      "development/m07/recovery33/source-history/99a1cd3ed3623f67e082f79f798e20c296e520ccb186b6541d5cb72e5938d5d3-run.mjs.txt": "99a1cd3ed3623f67e082f79f798e20c296e520ccb186b6541d5cb72e5938d5d3",
+      "development/m07/recovery33/source-history/9e0faa63ca063d5f59dca00ae0ee11632994d63a596bc6b1f01e00ec6d75adef-run.mjs.txt": "9e0faa63ca063d5f59dca00ae0ee11632994d63a596bc6b1f01e00ec6d75adef",
+      "development/m07/recovery33/source-history/a3e01618c07aeef1464d8f0279e5809dd2059bb447960174d99cb77020743b1a-runtime.test.mjs.txt": "a3e01618c07aeef1464d8f0279e5809dd2059bb447960174d99cb77020743b1a",
+      "development/m07/recovery33/source-history/b05dbd5b31527ed5de7639421eec5410faef2225c4e757a83a800df7e21c3e89-runtime.mjs.txt": "b05dbd5b31527ed5de7639421eec5410faef2225c4e757a83a800df7e21c3e89",
+      "development/m07/recovery33/source-history/b8d44a90288689668fd71c31cfa11976691dcb12590aa02179a9440b515405e4-runtime.mjs.txt": "b8d44a90288689668fd71c31cfa11976691dcb12590aa02179a9440b515405e4",
+      "development/m07/recovery33/source-history/b9fad923c71264f5b1968ceb3dce1f33251bd95abf9756fa4ea8026e277df91d-compiler.mjs.txt": "b9fad923c71264f5b1968ceb3dce1f33251bd95abf9756fa4ea8026e277df91d",
+      "development/m07/recovery33/source-history/bb3fc8bf9a3857bd5ea5230f27b074341495f8fa3fab3b84002ab30432111cb8-run.mjs.txt": "bb3fc8bf9a3857bd5ea5230f27b074341495f8fa3fab3b84002ab30432111cb8",
+      "development/m07/recovery33/source-history/d4ac87d82994b01e83aedaedfa6be3bf6a47c590e44232263f63aa4f5558d7b2-retained533-profile.mjs.txt": "d4ac87d82994b01e83aedaedfa6be3bf6a47c590e44232263f63aa4f5558d7b2",
+      "development/m07/recovery33/source-history/d76c16cce602e2a6b0628a325729b2109ff768beedfed8338f03fa2ab01098f4-run.mjs.txt": "d76c16cce602e2a6b0628a325729b2109ff768beedfed8338f03fa2ab01098f4",
+      "development/m07/recovery33/source-history/e8381580fe8384cfefdba3039bb6b1a9ce88b614655c534fd8f4adc20108fba2-compiler.mjs.txt": "e8381580fe8384cfefdba3039bb6b1a9ce88b614655c534fd8f4adc20108fba2",
+      "development/m07/recovery33/source-history/f02fd44e2a256879abb12eaac19ad399065ef06c5fc951f318d371a3de0a2eb8-ownership.mjs.txt": "f02fd44e2a256879abb12eaac19ad399065ef06c5fc951f318d371a3de0a2eb8",
+      "development/m07/workspace-summary35-proof/README.md": "3e240e5d6ce91c42f178a0dbca7e30e1790f30187abf870dec5dfbbf6cfcb8f4",
+      "development/m07/workspace-summary35-proof/controller.mjs": "c02bc0d555209417dd5b8ee273e76b76f409c9f7e9f7d384584e7a0cc7af889e",
+      "development/m07/workspace-summary35-proof/frozen-inputs.json": "0f4282d921c5ae790a7c3b833a9bb25cd4c02e65bc274464bc8d8c29326c5df9",
+      "development/m07/workspace-summary35-proof/proof.test.mjs": "06530630866d3695909730ecf96c85993de3b3afc131695cab7a5f47dce02d6f",
+      "development/m07/workspace-summary35-proof/run.mjs": "9015088ab112655e6614a7338bcbbb7daae727d9355c62c3c8a8e1975e532260",
+      "development/m07/workspace-summary35-proof/runtime.mjs": "d889fb753e9364d8ed9cd4721dda7234df57da56c98881967b55270635401891",
+      "development/m07/workspace-summary35-proof/source-history/09c15ddd851947fbe7facecc78a0f08942c801dd7c03d59e7f6316ba0c20109b-sources.mjs.txt": "09c15ddd851947fbe7facecc78a0f08942c801dd7c03d59e7f6316ba0c20109b",
+      "development/m07/workspace-summary35-proof/source-history/1adefb46c3258b5b0a7b4ba6d1ea1ffd05daba5ffbd4db0c1084d70b842cfdc4-m07-workspace-summary.sql.txt": "1adefb46c3258b5b0a7b4ba6d1ea1ffd05daba5ffbd4db0c1084d70b842cfdc4",
+      "development/m07/workspace-summary35-proof/source-history/291dc58113592fedd4dc8a88d219ea5a5eb9a2c0763820b2c36bbdfb76905df6-README.md.txt": "291dc58113592fedd4dc8a88d219ea5a5eb9a2c0763820b2c36bbdfb76905df6",
+      "development/m07/workspace-summary35-proof/source-history/6e930e717389269f45bfd7ea6312bc21d285ec2fcb005aaa6e4e6b9569f980c3-controller.mjs.txt": "6e930e717389269f45bfd7ea6312bc21d285ec2fcb005aaa6e4e6b9569f980c3",
+      "development/m07/workspace-summary35-proof/source-history/7a690f6a1d60372478221254840aa5d7ee87bfc8c1bb62c60be32d612957c4ae-proof.test.mjs.txt": "7a690f6a1d60372478221254840aa5d7ee87bfc8c1bb62c60be32d612957c4ae",
+      "development/m07/workspace-summary35-proof/source-history/9015088ab112655e6614a7338bcbbb7daae727d9355c62c3c8a8e1975e532260-run.mjs.txt": "9015088ab112655e6614a7338bcbbb7daae727d9355c62c3c8a8e1975e532260",
+      "development/m07/workspace-summary35-proof/source-history/ab55b4ca1373e70ad1d02fe2f8496df849013f797b9f338c2135d8394b826f65-frozen-inputs.json.txt": "ab55b4ca1373e70ad1d02fe2f8496df849013f797b9f338c2135d8394b826f65",
+      "development/m07/workspace-summary35-proof/source-history/cbb12610603318bce68ced4a58d0a9a01ee07737838c99a2ea0e6214e5e933e0-20261031182038_m07_workspace_summary.sql.txt": "cbb12610603318bce68ced4a58d0a9a01ee07737838c99a2ea0e6214e5e933e0",
+      "development/m07/workspace-summary35-proof/source-history/d889fb753e9364d8ed9cd4721dda7234df57da56c98881967b55270635401891-runtime.mjs.txt": "d889fb753e9364d8ed9cd4721dda7234df57da56c98881967b55270635401891",
+      "development/m07/workspace-summary35-proof/sources.mjs": "cd9de29fbf7dbae6c347f078dd96284909be9a6f5eebb37c0de36fa0b3a67f4e",
+      "development/m07/workspace-summary35-release/README.md": "1ea4b6b018aaa9a4ccbc2c5592839f66db0a81b6e374eef69b610dd755784856",
+      "development/m07/workspace-summary35-release/admission.template.json": "95d4ea739a28eb40552db08d7168a40a136c658d85f71793db87ab4355055b73",
+      "development/m07/workspace-summary35-release/catalogue_diagnostic.py": "215cec599180df3c12d699b157243d5162245a6e411d7c9e7b70e436cefd3087",
+      "development/m07/workspace-summary35-release/release.py": "33e64f3c9a3d2b5d394a6a7a1468968974ef05765802c03748db70ef3890510f",
+      "development/m07/workspace-summary35-release/source-history/1861074e18eef8a915f6c1320ef21f3950e897cad4b6ac2a0e52ae1df33923d6-catalogue-union.sql.txt": "1861074e18eef8a915f6c1320ef21f3950e897cad4b6ac2a0e52ae1df33923d6",
+      "development/m07/workspace-summary35-release/source-history/3a3c9e26c73556fffb9de79f985226c74143e7dd171c8095e896a59fc48b4670-release-enabled.py.txt": "3a3c9e26c73556fffb9de79f985226c74143e7dd171c8095e896a59fc48b4670",
+      "development/m07/workspace-summary35-release/source-history/8d8da522e6f9ba84437dda9b886e9e33c321663d5f225703457d0dbffa103edc-release-disabled.py.txt": "8d8da522e6f9ba84437dda9b886e9e33c321663d5f225703457d0dbffa103edc",
+      "development/m07/workspace-summary35-release/test_catalogue_diagnostic.py": "c19ae9092be770fbaedf02d20b3c17e7b30125eaf8235f8f781df7ae05af31f0",
+      "development/m07/workspace-summary35-release/test_release.py": "27a02891cc84a2b7e79d2cc63bb705c3be8d80626e3b0375347a476d586a03f2",
+      "packages/jobs/src/attempt-trace.ts": "f92f5a6f484cbfb17a69283b4bc7cd734f42326fe1a91429c36d3aa91787694a",
+      "packages/templates/versions/1.1.0/registry.json": "e830204db50a226ab8d10e0eef323eca4983f92de17db0647893a8ab355e57e3",
+      "packages/templates/versions/1.1.0/render.ts": "f58d10501fac36e1f2f5b80b2f3e814901972084acf94fe4047434e42db7225c",
+      "supabase/migrations/20261028010943_m01_canonical_foundation.sql": "8a5f3ed7727a72051e630307d2daecab8c4a74054398a6425e73bd85e17568b9",
+      "supabase/migrations/20261028013324_m01_identity_role_inheritance.sql": "5382efe9fbdf9c194010257e0ac0024dcb447207522036560056d5d1a4e20e30",
+      "supabase/migrations/20261028013655_m01_workspace_scope_alias.sql": "67ddb2cff9fed9c42d34657e833c613aec4afd2769543a991bbac84da355db64",
+      "supabase/migrations/20261028024205_m01_private_logo_boundary.sql": "b04af5119b4e384bd96136573eec39e69f21a0ffb7d9f4aeb07bbf48f2976b9d",
+      "supabase/migrations/20261028072515_m01_logo_upload_capability.sql": "4dbd400092d7743b02dd0769ae511c208e6f4f349428fc0e7f0fb9c573ba4b24",
+      "supabase/migrations/20261028162702_m01_replay_scope_refresh.sql": "82a4f2ec03efc0787aa58e5f1e68ab626e5dddb5e4c645444103456757bf4251",
+      "supabase/migrations/20261028162800_m02_jobs_outbox.sql": "f619b3dfb9d964ab5902d04941b8cd59b44e9da36f1ab3f7b10bd45298ff4013",
+      "supabase/migrations/20261028172320_m02_manual_specs_draft.sql": "8ab866a49cb2e01eabf3b83076fe4519a60255263d0a1a170ef3ba9718a2349c",
+      "supabase/migrations/20261028184145_m02_role_order.sql": "14f96c7e635fe46cb11393a881bca26068d696c32f5e454df8655299702b1efa",
+      "supabase/migrations/20261028222030_m02_specs_pipeline.sql": "1e5319bb81be1f12896f7efb5a2cb7706653b79eb440a4dc1aaaca4ed9556895",
+      "supabase/migrations/20261029001520_m02_specs_assets.sql": "9b35e8efdfc5184252ab4ecfe1a50861c8991dadf2b20544d481b51b3b7fb288",
+      "supabase/migrations/20261029003941_m02_specs_mime_guard.sql": "5a4439e9dd5262cae7e6f813997c4c9506db3eb74fe4ea95d2a352726effb549",
+      "supabase/migrations/20261029070038_m02_specs_read_operation.sql": "040151ec89b461be2dc0c1d4ab8446652062488aac5f63822129d497ecf1702e",
+      "supabase/migrations/20261029090500_m02_service_claim_replay.sql": "705d7432ab8cbe04fa5a94e090e1ce55e36c622590c09e0ce922ac5a59c6baf2",
+      "supabase/migrations/20261029090724_m03_candidate_library.sql": "2a84e240fa1ed3a283a483775e797e7ef1bafeea36d2d11ace17e06b857d8b8d",
+      "supabase/migrations/20261029094600_m02_pdf_vision.sql": "5b7ad204f6dddde82ae829577ea1130fd426a3998797460871baad20d789cb50",
+      "supabase/migrations/20261029100500_m03_candidate_pipeline.sql": "4af04b4a3fb050e39aa23958c3f82e304cc7d7a1f450a5d93f7f50bc001bd836",
+      "supabase/migrations/20261029133455_m03_remaining_media_library.sql": "2e190e001b2bda044d9c90da4287f54e5839b0af7ffec84d4c93083909c944fb",
+      "supabase/migrations/20261029135318_m03_frame_request_resubmission.sql": "e816ad6b491626ace489efd256b56c322d25d9101de94e5fb8b24d2d4b745048",
+      "supabase/migrations/20261029174841_m04_casting_assignments_lifecycle.sql": "2825681bf529f1b32db2473749180901f0961b025e8da847b38ad49c06f4b900",
+      "supabase/migrations/20261029180953_m03_frame_vision_selection.sql": "bcd12794eccfa590e5d160f62dfd67838c8186376cddda1952f291c50d03bec8",
+      "supabase/migrations/20261029202629_m04_review_series_processing.sql": "3f1543b9d4b525d486287f2f00711270ed1fbdc30911dac3aea725aee50679e4",
+      "supabase/migrations/20261029203953_m04_ai_apply_source_guard.sql": "1bf897c3c6dcae03c96f0d434ba61edfc89b01d2c700dc4e8c11ce17e285832c",
+      "supabase/migrations/20261029215218_m05_immutable_presentation_versions.sql": "09d78c225ca02d436a8b1c2bcc6e55f273dfea116976807af4a8b228b99de5f4",
+      "supabase/migrations/20261030002634_m06_guest_review_feedback_exports.sql": "2c72507216efdcd3e9dcea3f9b94270b19e1275ebcd2fcf91dad9253ddde8d2a",
+      "supabase/migrations/20261030004643_m06_credential_admission_guest_retry.sql": "a0fb9dfec8cdae2718719d455ed11b4f25dd9b79e8fc9de19bd53c229b64089e",
+      "supabase/migrations/20261030013832_m06_guest_storage_policy_composition.sql": "9e3ab85655c2fa0490aba07118fe730dae2c6193f651c3ba086910d82b7eb171",
+      "supabase/migrations/20261030030717_m06_frozen_video_source_transcripts.sql": "6334ea62a49966963e675c61e6a73d2acb5981d35f261cf2dff519d097905178",
+      "supabase/migrations/20261030111549_m07_settings_delegated_session.sql": "6531e8decab5496e212eb01575aca666cd9e03b0575f92dd66bd380760f84af4",
+      "supabase/migrations/20261030154824_m07_native_oauth_issuer.sql": "e5fd2121784c8372743f330664508b2a38a25cd622b24cf6765c570ae6f2a785",
+      "supabase/migrations/20261031010000_m07_specs_submit_ack_projection.sql": "c1c4cb41460df067d726e4058cc24eacbcf55e5cc73e6a18365394e2c2fbc5e5",
+      "supabase/migrations/20261031104603_m07_oauth_consent_binding_and_claims.sql": "0d7b7a7577ffe1ff4b24eba202ce6ac7e87c616ca8039397800e607c651908a5",
+      "supabase/migrations/20261031130207_m07_oauth_consent_browser_context.sql": "9923e7a1cb52e160041aacea053a21cb9c25c1fc468db99eb7b7ea77e15dcb81",
+      "supabase/migrations/20261031143711_m03_english_transcript_projection.sql": "0705f1940abbc5c4afc65a49e85d9ef2ce6a6489178b6dd82c3acb33cf976472",
+      "supabase/migrations/20261031182038_m07_workspace_summary.sql": "cbb12610603318bce68ced4a58d0a9a01ee07737838c99a2ea0e6214e5e933e0",
+      "supabase/migrations/20261101012057_m07_job_attempt_observability.sql": "4209e16b7d67cfb793375d24dfd22f9fee72f3516e3dde16be1d2b0d633b7267",
+      "tests/db/m04-assignments-fixture.sql": "cb5f418fee0dc3a9b00a9ddeaa3971f5df1c3384c459905baa19b4e04f1d9cb4",
+      "tests/db/m05-versions-fixture.sql": "da13283bc15481fc1bb76b9d36a3360c3a30d7b6cc06b7c0a979e25e086c636d",
+      "tests/db/m06-transcript28-legacy.sql": "f2d9f4528a29724ff0e589b95318b4422cfba3a53c0b9db9a4ab0d25f79c34df",
+      "tests/db/m07-workspace-summary.sql": "275b430fc401ea84a66e432c908cc9bdde77d17e362801ea39d15ed9209e7efe",
+      "tests/jobs/attempt-trace.test.ts": "ce7d5dde3d33afb7852f4d106c36a14d430d3a126f6f32a5373e75e3b412edd6",
+      "tests/operations/m07-recovery-bundle.test.mjs": "9a40986c9d4c63e459015eb51eb493ccb9deb2c9aac97af488b848809daa395e",
+      "tools/build-candidate-wf02.mjs": "c64710c7cd3e98a2b71977761abf16ec4d8274b287da4b2b41550f8c3f8b64bd",
+      "tools/build-presentation-wf03.mjs": "9e160d960d5db98752d7617363693e035b509730541c7802375352f5f50f1337",
+      "tools/build-review-wf05.mjs": "6830d9db4c0e9588dca8590451f45ee6b7ba240a1519ce356874732038350ee1",
+      "tools/local-postgres.mjs": "49929bce8eb51194d9299cfd9639e537eb237daaec76c15740cb88059604e2de",
+      "tools/m07-original-profile29-comparison.mjs": "e5bf4b4c8a1e1a682e303615cb9989340f3d014988488f48d794da643b2cdc20",
+      "tools/m07-recovery-bundle.mjs": "0938d274456d19130eaa95554ee5d7b90b364efafed13912fa5c62001193268c",
+      "tools/provision_logo_verifier.py": "660f2eb0d15b1ed17801ecef22270dbb389fdf93181c340f16d715fc2b3a340c",
+      "tools/release_foundation.py": "02aac0cefc4b46419c7d5a086da672398716cf7ee73882602574cff99659d751",
+      "tools/release_logo.py": "efd1de07b3304d8d5c89f29bbeaf77ff2ce1d8d42ffbf885f960c36f506b47f4",
+      "tools/test-m07-recovery-local.mjs": "f48fe7ee99edb69f7c7d571e2d5955192ed0cc8ac0cfc8f3bf0422748ce18842",
+      "tracking/evidence/m07/job-attempt-observability36-proof/2026-11-01T01-16-10-092Z-7cff5c7d.json": "fc7742e874e0c10f11312f798a991c884515db507377a571a831f8f6586c0b51",
+      "tracking/evidence/m07/original-profile29/2026-10-30T11-35-45-537Z-e56dec11-after-catalogue.json": "dcc5e065d77f504deaf1ebbb19a75eee4b940a32bf7dfbf1905e22b4e44f6c19",
+      "tracking/evidence/m07/original-profile29/2026-10-30T11-35-45-537Z-e56dec11-report.json": "047a0580ed6fe656a5a45616425716c2dce271573adfac0401843b79c59adb1d",
+      "tracking/evidence/m07/recovery29/2026-10-30T12-19-02-143Z-0ec7ead2-diagnostic-differences.json": "ea581b2e795f6c06fe2b950b714957520529517f946bfcf9fb7f100005015d2a",
+      "tracking/evidence/m07/recovery33/2026-10-31-auth-schema-migrations-acl-semantic-proof.json": "aeaff1879563b96acadf05ef8f885b8602bf5d225209e95c0721506bcca8a813",
+      "tracking/evidence/m07/recovery33/2026-10-31-retained533-acl-native-semantics.json": "4e672a10f28d4c653a9714745f75c16e8b5aba1edcddf9fbe480d7e0170dffe5",
+      "tracking/evidence/m07/recovery33/2026-10-31T15-01-22.518Z-533-guarded-cleanup.json": "51bba9d05f89afc7f6caae9ed55274d1622a1a32710880e188b6c73024711c32",
+      "tracking/evidence/m07/workspace-summary35-proof/2026-10-31T18-39-41-150Z-3304bf06.json": "72022c9e2a430c6e2739a14029d7d928f5c949e5a9e919c7d3296ab3349d0a4f",
+      "tracking/evidence/m07/workspace-summary35-proof/2026-10-31T18-47-07-800Z-ef4cb6c2.json": "417d1f32cc1b417c51107899e7b6e529e22ffa7b5be7e713b50f58901dac67a9",
+      "workflows/WF-04-RECOVERY-AND-MAINTENANCE.md": "e71b05afedbb20626a3fcc60246ef2a43335230f7084c29aa03cb07ec598ad77"
+    },
+    "schema_template": {
+      "column_acl": [
+        {
+          "column": "attempt",
+          "grantable": false,
+          "grantor": "postgres",
+          "object": "eps.job_stage_attempts",
+          "privilege": "INSERT"
+        },
+        {
+          "column": "attempt_id",
+          "grantable": false,
+          "grantor": "postgres",
+          "object": "eps.job_stage_attempts",
+          "privilege": "INSERT"
+        },
+        {
+          "column": "claimed_at",
+          "grantable": false,
+          "grantor": "postgres",
+          "object": "eps.job_stage_attempts",
+          "privilege": "INSERT"
+        },
+        {
+          "column": "correlation_id",
+          "grantable": false,
+          "grantor": "postgres",
+          "object": "eps.job_stage_attempts",
+          "privilege": "INSERT"
+        },
+        {
+          "column": "dispatch_generation",
+          "grantable": false,
+          "grantor": "postgres",
+          "object": "eps.job_stage_attempts",
+          "privilege": "INSERT"
+        },
+        {
+          "column": "input_hash",
+          "grantable": false,
+          "grantor": "postgres",
+          "object": "eps.job_stage_attempts",
+          "privilege": "INSERT"
+        },
+        {
+          "column": "job_id",
+          "grantable": false,
+          "grantor": "postgres",
+          "object": "eps.job_stage_attempts",
+          "privilege": "INSERT"
+        },
+        {
+          "column": "job_row_version",
+          "grantable": false,
+          "grantor": "postgres",
+          "object": "eps.job_stage_attempts",
+          "privilege": "INSERT"
+        },
+        {
+          "column": "kind",
+          "grantable": false,
+          "grantor": "postgres",
+          "object": "eps.job_stage_attempts",
+          "privilege": "INSERT"
+        },
+        {
+          "column": "schema_version",
+          "grantable": false,
+          "grantor": "postgres",
+          "object": "eps.job_stage_attempts",
+          "privilege": "INSERT"
+        },
+        {
+          "column": "stage",
+          "grantable": false,
+          "grantor": "postgres",
+          "object": "eps.job_stage_attempts",
+          "privilege": "INSERT"
+        },
+        {
+          "column": "stage_attempt",
+          "grantable": false,
+          "grantor": "postgres",
+          "object": "eps.job_stage_attempts",
+          "privilege": "INSERT"
+        },
+        {
+          "column": "workflow_execution_id",
+          "grantable": false,
+          "grantor": "postgres",
+          "object": "eps.job_stage_attempts",
+          "privilege": "INSERT"
+        },
+        {
+          "column": "workflow_execution_ref_state",
+          "grantable": false,
+          "grantor": "postgres",
+          "object": "eps.job_stage_attempts",
+          "privilege": "INSERT"
+        }
+      ],
+      "columns": [
+        {
+          "collation": "pg_catalog.default",
+          "default": "'1.0'::text",
+          "generated": "",
+          "identity": "",
+          "name": "schema_version",
+          "not_null": true,
+          "number": 1,
+          "type": "text",
+          "type_schema": "pg_catalog"
+        },
+        {
+          "collation": null,
+          "default": null,
+          "generated": "",
+          "identity": "",
+          "name": "job_id",
+          "not_null": true,
+          "number": 2,
+          "type": "uuid",
+          "type_schema": "pg_catalog"
+        },
+        {
+          "collation": null,
+          "default": null,
+          "generated": "",
+          "identity": "",
+          "name": "attempt_id",
+          "not_null": true,
+          "number": 3,
+          "type": "uuid",
+          "type_schema": "pg_catalog"
+        },
+        {
+          "collation": "pg_catalog.default",
+          "default": null,
+          "generated": "",
+          "identity": "",
+          "name": "kind",
+          "not_null": true,
+          "number": 4,
+          "type": "text",
+          "type_schema": "pg_catalog"
+        },
+        {
+          "collation": "pg_catalog.default",
+          "default": null,
+          "generated": "",
+          "identity": "",
+          "name": "stage",
+          "not_null": true,
+          "number": 5,
+          "type": "text",
+          "type_schema": "pg_catalog"
+        },
+        {
+          "collation": null,
+          "default": null,
+          "generated": "",
+          "identity": "",
+          "name": "attempt",
+          "not_null": true,
+          "number": 6,
+          "type": "int4",
+          "type_schema": "pg_catalog"
+        },
+        {
+          "collation": null,
+          "default": null,
+          "generated": "",
+          "identity": "",
+          "name": "stage_attempt",
+          "not_null": true,
+          "number": 7,
+          "type": "int4",
+          "type_schema": "pg_catalog"
+        },
+        {
+          "collation": null,
+          "default": null,
+          "generated": "",
+          "identity": "",
+          "name": "dispatch_generation",
+          "not_null": true,
+          "number": 8,
+          "type": "int8",
+          "type_schema": "pg_catalog"
+        },
+        {
+          "collation": "pg_catalog.default",
+          "default": null,
+          "generated": "",
+          "identity": "",
+          "name": "correlation_id",
+          "not_null": true,
+          "number": 9,
+          "type": "text",
+          "type_schema": "pg_catalog"
+        },
+        {
+          "collation": "pg_catalog.default",
+          "default": null,
+          "generated": "",
+          "identity": "",
+          "name": "input_hash",
+          "not_null": true,
+          "number": 10,
+          "type": "text",
+          "type_schema": "pg_catalog"
+        },
+        {
+          "collation": "pg_catalog.default",
+          "default": null,
+          "generated": "",
+          "identity": "",
+          "name": "workflow_execution_id",
+          "not_null": false,
+          "number": 11,
+          "type": "text",
+          "type_schema": "pg_catalog"
+        },
+        {
+          "collation": "pg_catalog.default",
+          "default": null,
+          "generated": "",
+          "identity": "",
+          "name": "workflow_execution_ref_state",
+          "not_null": true,
+          "number": 12,
+          "type": "text",
+          "type_schema": "pg_catalog"
+        },
+        {
+          "collation": null,
+          "default": null,
+          "generated": "",
+          "identity": "",
+          "name": "claimed_at",
+          "not_null": true,
+          "number": 13,
+          "type": "timestamptz",
+          "type_schema": "pg_catalog"
+        },
+        {
+          "collation": null,
+          "default": null,
+          "generated": "",
+          "identity": "",
+          "name": "job_row_version",
+          "not_null": true,
+          "number": 14,
+          "type": "int8",
+          "type_schema": "pg_catalog"
+        }
+      ],
+      "constraints": [
+        {
+          "columns": [
+            "attempt"
+          ],
+          "deferrable": false,
+          "deferred": false,
+          "delete": null,
+          "expr": "(attempt >= 1)",
+          "kind": "c",
+          "match": null,
+          "name": "job_stage_attempts_attempt_check",
+          "no_inherit": false,
+          "reference": null,
+          "reference_columns": [],
+          "update": null,
+          "validated": true
+        },
+        {
+          "columns": [
+            "stage_attempt",
+            "attempt"
+          ],
+          "deferrable": false,
+          "deferred": false,
+          "delete": null,
+          "expr": "((stage_attempt >= 1) AND (stage_attempt <= attempt))",
+          "kind": "c",
+          "match": null,
+          "name": "job_stage_attempts_check",
+          "no_inherit": false,
+          "reference": null,
+          "reference_columns": [],
+          "update": null,
+          "validated": true
+        },
+        {
+          "columns": [
+            "workflow_execution_ref_state",
+            "workflow_execution_id"
+          ],
+          "deferrable": false,
+          "deferred": false,
+          "delete": null,
+          "expr": "((workflow_execution_ref_state = 'recorded'::text) = (workflow_execution_id IS NOT NULL))",
+          "kind": "c",
+          "match": null,
+          "name": "job_stage_attempts_check1",
+          "no_inherit": false,
+          "reference": null,
+          "reference_columns": [],
+          "update": null,
+          "validated": true
+        },
+        {
+          "columns": [
+            "kind",
+            "stage"
+          ],
+          "deferrable": false,
+          "deferred": false,
+          "delete": null,
+          "expr": "(((kind = 'specs_extract'::text) AND (stage = ANY (ARRAY['prepare_document'::text, 'extract_specs'::text, 'apply_specs'::text]))) OR ((kind = 'candidate_scan'::text) AND (stage = ANY (ARRAY['prepare_candidate'::text, 'transcribe_candidate'::text, 'extract_candidate'::text, 'select_frames'::text, 'apply_candidate'::text]))) OR ((kind = 'frame_extract'::text) AND (stage = ANY (ARRAY['extract_frames'::text, 'apply_frames'::text]))) OR ((kind = 'ai_suggestion'::text) AND (stage = ANY (ARRAY['prepare_suggestion'::text, 'generate_suggestion'::text, 'validate_suggestion'::text]))) OR ((kind = 'review_fit'::text) AND (stage = 'measure_review_fit'::text)) OR ((kind = 'presentation_render'::text) AND (stage = ANY (ARRAY['prepare_presentation'::text, 'render_presentation'::text, 'validate_presentation'::text, 'publish_presentation'::text]))) OR ((kind = 'presentation_export'::text) AND (stage = 'render_export'::text)))",
+          "kind": "c",
+          "match": null,
+          "name": "job_stage_attempts_check2",
+          "no_inherit": false,
+          "reference": null,
+          "reference_columns": [],
+          "update": null,
+          "validated": true
+        },
+        {
+          "columns": [
+            "claimed_at"
+          ],
+          "deferrable": false,
+          "deferred": false,
+          "delete": null,
+          "expr": "isfinite(claimed_at)",
+          "kind": "c",
+          "match": null,
+          "name": "job_stage_attempts_claimed_at_check",
+          "no_inherit": false,
+          "reference": null,
+          "reference_columns": [],
+          "update": null,
+          "validated": true
+        },
+        {
+          "columns": [
+            "correlation_id"
+          ],
+          "deferrable": false,
+          "deferred": false,
+          "delete": null,
+          "expr": "(correlation_id ~ '^[A-Za-z0-9._:-]{1,128}$'::text)",
+          "kind": "c",
+          "match": null,
+          "name": "job_stage_attempts_correlation_id_check",
+          "no_inherit": false,
+          "reference": null,
+          "reference_columns": [],
+          "update": null,
+          "validated": true
+        },
+        {
+          "columns": [
+            "dispatch_generation"
+          ],
+          "deferrable": false,
+          "deferred": false,
+          "delete": null,
+          "expr": "((dispatch_generation >= 1) AND (dispatch_generation <= '9007199254740991'::bigint))",
+          "kind": "c",
+          "match": null,
+          "name": "job_stage_attempts_dispatch_generation_check",
+          "no_inherit": false,
+          "reference": null,
+          "reference_columns": [],
+          "update": null,
+          "validated": true
+        },
+        {
+          "columns": [
+            "input_hash"
+          ],
+          "deferrable": false,
+          "deferred": false,
+          "delete": null,
+          "expr": "(input_hash ~ '^[a-f0-9]{64}$'::text)",
+          "kind": "c",
+          "match": null,
+          "name": "job_stage_attempts_input_hash_check",
+          "no_inherit": false,
+          "reference": null,
+          "reference_columns": [],
+          "update": null,
+          "validated": true
+        },
+        {
+          "columns": [
+            "job_id",
+            "attempt"
+          ],
+          "deferrable": false,
+          "deferred": false,
+          "delete": null,
+          "expr": null,
+          "kind": "u",
+          "match": null,
+          "name": "job_stage_attempts_job_id_attempt_key",
+          "no_inherit": null,
+          "reference": null,
+          "reference_columns": [],
+          "update": null,
+          "validated": true
+        },
+        {
+          "columns": [
+            "job_id"
+          ],
+          "deferrable": false,
+          "deferred": false,
+          "delete": "r",
+          "expr": null,
+          "kind": "f",
+          "match": "s",
+          "name": "job_stage_attempts_job_id_fkey",
+          "no_inherit": null,
+          "reference": "eps.jobs",
+          "reference_columns": [
+            "id"
+          ],
+          "update": "a",
+          "validated": true
+        },
+        {
+          "columns": [
+            "job_row_version"
+          ],
+          "deferrable": false,
+          "deferred": false,
+          "delete": null,
+          "expr": "((job_row_version >= 1) AND (job_row_version <= '9007199254740991'::bigint))",
+          "kind": "c",
+          "match": null,
+          "name": "job_stage_attempts_job_row_version_check",
+          "no_inherit": false,
+          "reference": null,
+          "reference_columns": [],
+          "update": null,
+          "validated": true
+        },
+        {
+          "columns": [
+            "job_id",
+            "attempt_id"
+          ],
+          "deferrable": false,
+          "deferred": false,
+          "delete": null,
+          "expr": null,
+          "kind": "p",
+          "match": null,
+          "name": "job_stage_attempts_pkey",
+          "no_inherit": null,
+          "reference": null,
+          "reference_columns": [],
+          "update": null,
+          "validated": true
+        },
+        {
+          "columns": [
+            "schema_version"
+          ],
+          "deferrable": false,
+          "deferred": false,
+          "delete": null,
+          "expr": "(schema_version = '1.0'::text)",
+          "kind": "c",
+          "match": null,
+          "name": "job_stage_attempts_schema_version_check",
+          "no_inherit": false,
+          "reference": null,
+          "reference_columns": [],
+          "update": null,
+          "validated": true
+        },
+        {
+          "columns": [
+            "workflow_execution_id"
+          ],
+          "deferrable": false,
+          "deferred": false,
+          "delete": null,
+          "expr": "(workflow_execution_id ~ '^[A-Za-z0-9._:-]{1,200}$'::text)",
+          "kind": "c",
+          "match": null,
+          "name": "job_stage_attempts_workflow_execution_id_check",
+          "no_inherit": false,
+          "reference": null,
+          "reference_columns": [],
+          "update": null,
+          "validated": true
+        },
+        {
+          "columns": [
+            "workflow_execution_ref_state"
+          ],
+          "deferrable": false,
+          "deferred": false,
+          "delete": null,
+          "expr": "(workflow_execution_ref_state = ANY (ARRAY['recorded'::text, 'not_provided'::text, 'invalid_omitted'::text]))",
+          "kind": "c",
+          "match": null,
+          "name": "job_stage_attempts_workflow_execution_ref_state_check",
+          "no_inherit": false,
+          "reference": null,
+          "reference_columns": [],
+          "update": null,
+          "validated": true
+        }
+      ],
+      "database_acl": [],
+      "function": {
+        "argument_defaults": 0,
+        "arguments": 0,
+        "config": [
+          "search_path=\"\""
+        ],
+        "kind": "f",
+        "language": "plpgsql",
+        "leakproof": false,
+        "name": "capture_job_stage_attempt",
+        "nonowner_acl": [],
+        "owner": "eps_job_trace_owner",
+        "parallel": "u",
+        "result": "pg_catalog.trigger",
+        "returns_set": false,
+        "schema": "eps",
+        "security_definer": true,
+        "source_sha256": "a1de1739a8c0005e5b8a09e2e87bfb1094c38839631a813f06635e339afb9228",
+        "strict": false,
+        "volatility": "v"
+      },
+      "function_acl": [],
+      "function_name_count": 1,
+      "inbound_foreign_keys": [],
+      "indexes": [
+        {
+          "attributes": 2,
+          "columns": [
+            "job_id",
+            "attempt"
+          ],
+          "exclusion": false,
+          "expressions": null,
+          "keys": 2,
+          "method": "btree",
+          "name": "job_stage_attempts_job_id_attempt_key",
+          "nulls_not_distinct": false,
+          "opclasses": [
+            "pg_catalog.uuid_ops",
+            "pg_catalog.int4_ops"
+          ],
+          "options": [
+            0,
+            0
+          ],
+          "owner": "postgres",
+          "predicate": null,
+          "primary": false,
+          "ready": true,
+          "unique": true,
+          "valid": true
+        },
+        {
+          "attributes": 2,
+          "columns": [
+            "job_id",
+            "attempt_id"
+          ],
+          "exclusion": false,
+          "expressions": null,
+          "keys": 2,
+          "method": "btree",
+          "name": "job_stage_attempts_pkey",
+          "nulls_not_distinct": false,
+          "opclasses": [
+            "pg_catalog.uuid_ops",
+            "pg_catalog.uuid_ops"
+          ],
+          "options": [
+            0,
+            0
+          ],
+          "owner": "postgres",
+          "predicate": null,
+          "primary": true,
+          "ready": true,
+          "unique": true,
+          "valid": true
+        }
+      ],
+      "memberships": [
+        {
+          "admin": false,
+          "grantor": "postgres",
+          "inherit": true,
+          "member": "postgres",
+          "role": "eps_job_trace_owner",
+          "set": true
+        },
+        {
+          "admin": true,
+          "grantor": "supabase_admin",
+          "inherit": false,
+          "member": "postgres",
+          "role": "eps_job_trace_owner",
+          "set": false
+        }
+      ],
+      "owned_objects": [
+        {
+          "kind": "function",
+          "object": "eps.capture_job_stage_attempt()"
+        }
+      ],
+      "policies": [
+        {
+          "check": "(pg_trigger_depth() > 0)",
+          "command": "a",
+          "name": "job_stage_attempts_capture",
+          "permissive": true,
+          "roles": [
+            "eps_job_trace_owner"
+          ],
+          "using": null
+        }
+      ],
+      "role": {
+        "bypass_rls": false,
+        "config": null,
+        "connection_limit": -1,
+        "create_db": false,
+        "create_role": false,
+        "inherit": false,
+        "login": false,
+        "name": "eps_job_trace_owner",
+        "replication": false,
+        "superuser": false,
+        "valid_until": null
+      },
+      "role_settings": [],
+      "schema_acl": [
+        {
+          "grantable": false,
+          "grantor": "postgres",
+          "object": "eps",
+          "privilege": "USAGE"
+        }
+      ],
+      "table": {
+        "force_rls": true,
+        "kind": "r",
+        "name": "job_stage_attempts",
+        "nonowner_acl": [],
+        "options": null,
+        "owner": "postgres",
+        "partition": false,
+        "persistence": "p",
+        "rls": true,
+        "schema": "eps"
+      },
+      "table_acl": [],
+      "triggers": [
+        {
+          "args_bytes": 0,
+          "columns": [],
+          "constraint": "job_stage_attempts_job_id_fkey",
+          "constraint_index_columns": [
+            "id"
+          ],
+          "constraint_index_table": "eps.jobs",
+          "deferrable": false,
+          "deferred": false,
+          "definition": null,
+          "enabled": "O",
+          "function": "pg_catalog.RI_FKey_check_ins",
+          "internal": true,
+          "name": "RI_ConstraintTrigger_c_<oid>",
+          "name_matches_oid": true,
+          "new_table": null,
+          "old_table": null,
+          "reference": "eps.jobs",
+          "table": "eps.job_stage_attempts",
+          "type": 5
+        },
+        {
+          "args_bytes": 0,
+          "columns": [],
+          "constraint": "job_stage_attempts_job_id_fkey",
+          "constraint_index_columns": [
+            "id"
+          ],
+          "constraint_index_table": "eps.jobs",
+          "deferrable": false,
+          "deferred": false,
+          "definition": null,
+          "enabled": "O",
+          "function": "pg_catalog.RI_FKey_check_upd",
+          "internal": true,
+          "name": "RI_ConstraintTrigger_c_<oid>",
+          "name_matches_oid": true,
+          "new_table": null,
+          "old_table": null,
+          "reference": "eps.jobs",
+          "table": "eps.job_stage_attempts",
+          "type": 17
+        },
+        {
+          "args_bytes": 0,
+          "columns": [
+            "current_attempt_id"
+          ],
+          "constraint": null,
+          "constraint_index_columns": [],
+          "constraint_index_table": null,
+          "deferrable": false,
+          "deferred": false,
+          "definition": "CREATE TRIGGER capture_job_stage_attempt AFTER UPDATE OF current_attempt_id ON eps.jobs FOR EACH ROW WHEN (new.current_attempt_id IS NOT NULL AND new.current_attempt_id IS DISTINCT FROM old.current_attempt_id) EXECUTE FUNCTION eps.capture_job_stage_attempt()",
+          "enabled": "O",
+          "function": "eps.capture_job_stage_attempt",
+          "internal": false,
+          "name": "capture_job_stage_attempt",
+          "name_matches_oid": true,
+          "new_table": null,
+          "old_table": null,
+          "reference": null,
+          "table": "eps.jobs",
+          "type": 17
+        },
+        {
+          "args_bytes": 0,
+          "columns": [],
+          "constraint": "job_stage_attempts_job_id_fkey",
+          "constraint_index_columns": [
+            "id"
+          ],
+          "constraint_index_table": "eps.jobs",
+          "deferrable": false,
+          "deferred": false,
+          "definition": null,
+          "enabled": "O",
+          "function": "pg_catalog.RI_FKey_noaction_upd",
+          "internal": true,
+          "name": "RI_ConstraintTrigger_a_<oid>",
+          "name_matches_oid": true,
+          "new_table": null,
+          "old_table": null,
+          "reference": "eps.job_stage_attempts",
+          "table": "eps.jobs",
+          "type": 17
+        },
+        {
+          "args_bytes": 0,
+          "columns": [],
+          "constraint": "job_stage_attempts_job_id_fkey",
+          "constraint_index_columns": [
+            "id"
+          ],
+          "constraint_index_table": "eps.jobs",
+          "deferrable": false,
+          "deferred": false,
+          "definition": null,
+          "enabled": "O",
+          "function": "pg_catalog.RI_FKey_restrict_del",
+          "internal": true,
+          "name": "RI_ConstraintTrigger_a_<oid>",
+          "name_matches_oid": true,
+          "new_table": null,
+          "old_table": null,
+          "reference": "eps.job_stage_attempts",
+          "table": "eps.jobs",
+          "type": 9
+        }
+      ]
+    }
+  },
+  "before": {
+    "cast": {
+      "acl": [
+        {
+          "grantable": false,
+          "grantee": "eps_cast_owner",
+          "grantor": "eps_cast_owner",
+          "privilege": "EXECUTE"
+        },
+        {
+          "grantable": false,
+          "grantee": "eps_review_owner",
+          "grantor": "eps_cast_owner",
+          "privilege": "EXECUTE"
+        }
+      ],
+      "owner": "eps_cast_owner",
+      "source_sha256": "f04020403acc4990228d61fd3cbca2cd960f517ae924446593b7f262a75e3d66"
+    },
+    "catalogue": {
+      "count": 6381,
+      "sha256": "1610a824431a2bf553eea8caccd92527af5da21322a63083b3d9b7cd27eb0fc2"
+    },
+    "claim_ports": {
+      "eps.claim_candidate_job_stage(jsonb)": {
+        "acl": [
+          {
+            "grantable": false,
+            "grantee": "eps_candidate_stage_owner",
+            "grantor": "eps_candidate_stage_owner",
+            "privilege": "EXECUTE"
+          },
+          {
+            "grantable": false,
+            "grantee": "eps_specs_stage_owner",
+            "grantor": "eps_candidate_stage_owner",
+            "privilege": "EXECUTE"
+          }
+        ],
+        "body_sha256": "e5ac1c5fe0a22f45163f61c9cb51cf90ccf8d351bb38005070d27bcf643140f4",
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "exists": true,
+        "owner": "eps_candidate_stage_owner"
+      },
+      "eps.claim_export_job_stage(jsonb)": {
+        "acl": [
+          {
+            "grantable": false,
+            "grantee": "eps_review_stage_owner",
+            "grantor": "eps_review_stage_owner",
+            "privilege": "EXECUTE"
+          },
+          {
+            "grantable": false,
+            "grantee": "eps_specs_stage_owner",
+            "grantor": "eps_review_stage_owner",
+            "privilege": "EXECUTE"
+          }
+        ],
+        "body_sha256": "8ca47ea14a61aaaf2dccf848beeac0263b171eff4220ff9b06720d4db4ec76b9",
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "exists": true,
+        "owner": "eps_review_stage_owner"
+      },
+      "eps.claim_job_stage(jsonb)": {
+        "acl": [
+          {
+            "grantable": false,
+            "grantee": "eps_jobs_executor",
+            "grantor": "eps_specs_stage_owner",
+            "privilege": "EXECUTE"
+          },
+          {
+            "grantable": false,
+            "grantee": "eps_specs_stage_owner",
+            "grantor": "eps_specs_stage_owner",
+            "privilege": "EXECUTE"
+          }
+        ],
+        "body_sha256": "9ea28ccdd0b670b022c2ac6e31e5f86b27a8ef39541a11c2d3a6a382eccf3e2d",
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "exists": true,
+        "owner": "eps_specs_stage_owner"
+      },
+      "eps.claim_job_stage_replay(jsonb,text,text,text)": {
+        "acl": [
+          {
+            "grantable": false,
+            "grantee": "eps_jobs_executor",
+            "grantor": "eps_specs_stage_owner",
+            "privilege": "EXECUTE"
+          },
+          {
+            "grantable": false,
+            "grantee": "eps_specs_stage_owner",
+            "grantor": "eps_specs_stage_owner",
+            "privilege": "EXECUTE"
+          }
+        ],
+        "body_sha256": "894b07983d85978a0ffc099ff0b1df5b517979f9ab6f5f706c9133adcf0c36fc",
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "exists": true,
+        "owner": "eps_specs_stage_owner"
+      },
+      "eps.claim_presentation_job_stage(jsonb)": {
+        "acl": [
+          {
+            "grantable": false,
+            "grantee": "eps_review_stage_owner",
+            "grantor": "eps_review_stage_owner",
+            "privilege": "EXECUTE"
+          },
+          {
+            "grantable": false,
+            "grantee": "eps_specs_stage_owner",
+            "grantor": "eps_review_stage_owner",
+            "privilege": "EXECUTE"
+          }
+        ],
+        "body_sha256": "f79dba86aeedc4447147b92b58ba54919e71d9fea3ae05440b361fae0244135f",
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "exists": true,
+        "owner": "eps_review_stage_owner"
+      },
+      "eps.claim_review_job_stage(jsonb)": {
+        "acl": [
+          {
+            "grantable": false,
+            "grantee": "eps_review_stage_owner",
+            "grantor": "eps_review_stage_owner",
+            "privilege": "EXECUTE"
+          },
+          {
+            "grantable": false,
+            "grantee": "eps_specs_stage_owner",
+            "grantor": "eps_review_stage_owner",
+            "privilege": "EXECUTE"
+          }
+        ],
+        "body_sha256": "eb9ca868b4525c6a088317c1a6d2a7f94c2bcf504466d501c22bbdf479ba35e4",
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "exists": true,
+        "owner": "eps_review_stage_owner"
+      },
+      "eps.record_job_event(jsonb)": {
+        "acl": [
+          {
+            "grantable": false,
+            "grantee": "eps_jobs_executor",
+            "grantor": "eps_specs_stage_owner",
+            "privilege": "EXECUTE"
+          },
+          {
+            "grantable": false,
+            "grantee": "eps_specs_stage_owner",
+            "grantor": "eps_specs_stage_owner",
+            "privilege": "EXECUTE"
+          }
+        ],
+        "body_sha256": "96d70c9e16e3361789f2082fb605941fc08e654a96d6b13a6abbfe6bd730d4e8",
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "exists": true,
+        "owner": "eps_specs_stage_owner"
+      },
+      "eps.retry_guest_pdf_export(uuid,uuid,uuid,uuid)": {
+        "acl": [
+          {
+            "grantable": false,
+            "grantee": "eps_guest_owner",
+            "grantor": "eps_review_stage_owner",
+            "privilege": "EXECUTE"
+          },
+          {
+            "grantable": false,
+            "grantee": "eps_review_stage_owner",
+            "grantor": "eps_review_stage_owner",
+            "privilege": "EXECUTE"
+          }
+        ],
+        "body_sha256": "075e50772f63d445517bb27e789b55e2b9bec5a1e13228492dd1d7ddba7ba4f8",
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "exists": true,
+        "owner": "eps_review_stage_owner"
+      },
+      "public.eps_retry_job(uuid,jsonb,text)": {
+        "acl": [
+          {
+            "grantable": false,
+            "grantee": "authenticated",
+            "grantor": "eps_jobs_owner",
+            "privilege": "EXECUTE"
+          },
+          {
+            "grantable": false,
+            "grantee": "eps_jobs_owner",
+            "grantor": "eps_jobs_owner",
+            "privilege": "EXECUTE"
+          }
+        ],
+        "body_sha256": "a4023b9627e1150e878974cfed3dad9f489802639edecf6bc8ea228caf94a953",
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "exists": true,
+        "owner": "eps_jobs_owner"
+      }
+    },
+    "cli_role_safe": true,
+    "data": {
+      "ai_suggestions": {
+        "count": 2,
+        "sha256": "ceac070729a818541129d204df05b8f0b3ef702faf9bc5c9598b5ca881243269"
+      },
+      "app_settings": {
+        "count": 1,
+        "sha256": "2b4f2a551e2fc57f0889a326344fec414f028ae46a23559bc30430da904497b3"
+      },
+      "assignment_change_consumptions": {
+        "count": 3,
+        "sha256": "d6b3f7dfad64a28c77affb20c378477b2dd6fe9d201f529f3d2b3b5238fc6b7e"
+      },
+      "assignment_change_events": {
+        "count": 20,
+        "sha256": "6c4a996e0360e1512a8869d99f1494fb3174c8ef5b26a33561ff6061dcab9d00"
+      },
+      "assignments": {
+        "count": 5,
+        "sha256": "9b43a5ef31aacd163617b1d9182079f2fc45e80c2572d9228057a0fd287ac85c"
+      },
+      "audience_presets": {
+        "count": 3,
+        "sha256": "034b559a7d8faf30e2675ff4335b2b08b1e07ea8430c952a27314f815a575461"
+      },
+      "audit_events": {
+        "count": 219,
+        "sha256": "9b2ef16868589888ab6875291c6a1e1ddbf08cb50782379acf12b8d6049a0de9"
+      },
+      "candidate_asset_config": {
+        "count": 1,
+        "sha256": "243efb252c2469630aed142617bbf1144a801b6d092eeea941817a030ce34f4f"
+      },
+      "candidate_asset_grants": {
+        "count": 548,
+        "sha256": "8624937fc47cedecb81dbd457581f8983d84d43c8ff3b095e0ea5ba578e73931"
+      },
+      "candidate_media": {
+        "count": 14,
+        "sha256": "409758a266966ca944607d621704899b67bdcc714e1391d26239342144ce399b"
+      },
+      "candidate_media_frames": {
+        "count": 172,
+        "sha256": "b4f51d6ec037f23f0bf4d1c06074d5eea238829812d65b515e229160fb1e1c93"
+      },
+      "candidate_stage_payloads": {
+        "count": 78,
+        "sha256": "3cf24902ef81c09c2b71d23c7b90d0f60879807e30de93c0e25307edceac539d"
+      },
+      "candidate_support": {
+        "count": 4,
+        "sha256": "8e0f8763dbdcc16e97d70474c73d49526b43193d72ea0b94b85f7715d23c9bd0"
+      },
+      "candidate_support_config": {
+        "count": 1,
+        "sha256": "7c45953c7576b74f63d915ac46e4f23df5fe3b80ba8ced1623ab333b171322da"
+      },
+      "candidate_uploads": {
+        "count": 18,
+        "sha256": "6db149015b4ec8752b4ba047f6e15e497b54db7fa2a9abe9837a00bfdaa147b6"
+      },
+      "candidates": {
+        "count": 16,
+        "sha256": "e673a0bddd107a0c78547b33a8944359f25fe5976796695d0d062132297b4fb5"
+      },
+      "cast_operation_notes": {
+        "count": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "feedback_comments": {
+        "count": 8,
+        "sha256": "3602b91bedf77777e6c549eeec610332e91d51c8f2026685bf6729422dee3759"
+      },
+      "feedback_preferences": {
+        "count": 4,
+        "sha256": "d9c6cd1b5fdd83ef568f561b16999d95a32a866ded03d1067189f5e551228183"
+      },
+      "frame_extraction_config": {
+        "count": 1,
+        "sha256": "b6f04ca860c94c631800beb72afb0bb4dbb6d5ef39f9a5f9e1a46ab06a8a63e3"
+      },
+      "frame_extraction_requests": {
+        "count": 4,
+        "sha256": "c4851f683abb23ce201c3b55e8f7ff14618d68e8c1714d08cd134f481c612e18"
+      },
+      "guest_asset_grants": {
+        "count": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "guest_idempotency": {
+        "count": 27,
+        "sha256": "5cf74ac3f59d1d85bafc45dd19f1fb2653748653487f883c57536b62b034a56e"
+      },
+      "guest_sessions": {
+        "count": 10,
+        "sha256": "ce324f2af2eb9bfe1985684332f6dadc703a55119bbe89023c4cb0c3e1be74c7"
+      },
+      "idempotency_records": {
+        "count": 182,
+        "sha256": "9d59a4f2a4ba6984b38b47ff50f2b1cd6911f52b5db19591018986b67d5d9b02"
+      },
+      "job_events": {
+        "count": 218,
+        "sha256": "85a4d8223bafa09920f342fe05b90f5e4935677c478802dc9769d1d7937188a5"
+      },
+      "job_stage_claim_replays": {
+        "count": 2,
+        "sha256": "e628088b08a82aab2e2b56c953414a4c59c5fe5ac355ee3bcba5aa3c88ba9c5f"
+      },
+      "jobs": {
+        "count": 63,
+        "sha256": "654746199e8dbd08959ac095bee3351f7aed82495b1dc9ac3677f366a234b71e"
+      },
+      "logo_verification_keys": {
+        "count": 1,
+        "sha256": "4e0965bf6fbc384f0923f8897691bc2340a127d5a214c99b6a4d9b0e87a4ca5f"
+      },
+      "mcp_oauth_resources": {
+        "count": 1,
+        "sha256": "8dba55b4e00416b89301526928d4df9b5cb31b699889f15433dad1bfb953d01f"
+      },
+      "media_assets": {
+        "count": 297,
+        "sha256": "fbc485c1c417234639f3ad59b2cf35769a70eec2f5fc30dc702963e18249b31a"
+      },
+      "oauth_consent_claims": {
+        "count": 2,
+        "sha256": "86b0951c936778202a77c0b8643fae2cf82da6d8fc774957355cb28df3d3fb38"
+      },
+      "outbox_events": {
+        "count": 183,
+        "sha256": "38909e386a872814fbef99af218641a6b44db51af7ae43425333b863a91ba239"
+      },
+      "presentation_asset_grants": {
+        "count": 148,
+        "sha256": "ae27bb34351630b0237d67188b9d54e126e1866f97010c35303020ba4e4f5968"
+      },
+      "presentation_exports": {
+        "count": 9,
+        "sha256": "f83139771dbde2327333b8eb16188a77d501421b8841a6f50e17249788088a39"
+      },
+      "presentation_processing_config": {
+        "count": 1,
+        "sha256": "37d5c010b80dfd9dfbe2795ec0a2f56ec505894003401c7732b6fba627e67639"
+      },
+      "presentation_series": {
+        "count": 6,
+        "sha256": "3f469acb154b9787567dd9b7357bbcb06ab4efdb50b852a737a839344ee2e2ad"
+      },
+      "presentation_templates": {
+        "count": 2,
+        "sha256": "36cb87869143010d3ac884a50e6f614b087a81324e293b135b26432fa5a0a529"
+      },
+      "presentation_version_assets": {
+        "count": 42,
+        "sha256": "4147a4f0cceda8927d0e6fb76b94db5f66be718010b07e4edb03ab2e5be96021"
+      },
+      "presentation_versions": {
+        "count": 10,
+        "sha256": "89dfc58901d9e307ce21e1b764d3e3c0192a06433fb4f11b79107b50a61c29b2"
+      },
+      "presentation_video_english_transcripts": {
+        "count": 1,
+        "sha256": "90ecfb2ad2280e2d4ba79e9d6a0991b42ea21bf9a09dc86ea5ca5f1657466368"
+      },
+      "presentation_video_transcripts": {
+        "count": 3,
+        "sha256": "1e42ccdb0870168ad9771259705e309c2cd79b6eee6f7db758899bfb29be2d58"
+      },
+      "public.app_capability_grants": {
+        "count": 12,
+        "sha256": "f389c9d0cba320c8339a973a94e0234312845eaae9d615235997eccb6292d77f"
+      },
+      "public.client_memberships": {
+        "count": 1,
+        "sha256": "c216c0c79a926cd02fa9c582bc88610cab05bbcd1d11540197ae430842d08a01"
+      },
+      "public.clients": {
+        "count": 1,
+        "sha256": "5b84ac7ce2f91d8c132a185e6237d358f63dd5b6d453ff9d1d61583cc8ae10fc"
+      },
+      "public.project_memberships": {
+        "count": 3,
+        "sha256": "e7a02b8a16e054d3156b6a9af39a98cee7c9317c870e25661750562fe22a1d3e"
+      },
+      "public.projects": {
+        "count": 3,
+        "sha256": "dfb1cacf24c2368128a09519f1cde63fce94609c07039118e69f7bc690687826"
+      },
+      "review_fit_results": {
+        "count": 10,
+        "sha256": "7efe78627a33460433766c32135c79d0174485ecb8bbc861e36bc6dd61f710bd"
+      },
+      "review_gateway_config": {
+        "count": 1,
+        "sha256": "423a24b3912dedb6beacad7dc43657fd9de97a7dcf540f0d57fe6a0a5d8ea081"
+      },
+      "review_gateway_nonces": {
+        "count": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "review_gateway_rates": {
+        "count": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "review_link_replays": {
+        "count": 9,
+        "sha256": "916e6b996d84ebe25e1b8ade5888f937b5d09a873a01903185c2412fa61c710b"
+      },
+      "review_links": {
+        "count": 4,
+        "sha256": "7b4c1811e9bfc1f0b6cb42f885b7e1d2a09c812eed1664158ee0b37398982edd"
+      },
+      "review_media_grants": {
+        "count": 9,
+        "sha256": "e6e97e5c7b30c7efb773c99d9a9d965eca3803d20721710b4a36d735e060a8d5"
+      },
+      "review_processing_config": {
+        "count": 1,
+        "sha256": "fa38eb698184f985cc7306bdfac13f6993c0682f047891150ba6bb009b0678c8"
+      },
+      "review_stage_payloads": {
+        "count": 65,
+        "sha256": "23ef1ff1bc80b7f224823f302f48559116176805ec61731abc9970ce9652f22c"
+      },
+      "roles": {
+        "count": 21,
+        "sha256": "a79607f0d56fa2c1cc858d280706a853f0a0c9d22ec3cb5f04e8ae1b1d4ecf9f"
+      },
+      "slots": {
+        "count": 34,
+        "sha256": "206184ebad29439eea1cfd9c3d0bb22bc28a7d93159a2487110168ca886e22b1"
+      },
+      "specs": {
+        "count": 3,
+        "sha256": "d3091ce0c257a0122403c678177704fc03666dc568cda4cd68b9dc17aa2d4992"
+      },
+      "specs_asset_config": {
+        "count": 1,
+        "sha256": "3f4ebba07db28990e139170b432526fe62bf03d8e110d8ede4aff7a84a58c8c1"
+      },
+      "specs_asset_grants": {
+        "count": 18,
+        "sha256": "deb7951d3c4aaa4eb04e573624834063371cfd71dbd8bac1641a098187888f2e"
+      },
+      "specs_file_preparations": {
+        "count": 6,
+        "sha256": "ebbb18109b1fabde26784c95d8d1509c330f5f966b6c90744ac74ae5c1998afd"
+      },
+      "specs_pipeline_config": {
+        "count": 1,
+        "sha256": "fd9b3628ca0b5d531220c56fa7f6372093ffecfb91fbcd1c8c4f3f8842f9f489"
+      },
+      "specs_source_inputs": {
+        "count": 11,
+        "sha256": "5b84504a01081adf4770393f5b8b8e48b03ba6d6d1f9650b063d946a13ad6ccb"
+      },
+      "specs_stage_payloads": {
+        "count": 20,
+        "sha256": "09c0e5decf90cd039e508fff0c181746cc52befd6b54c7382d57ab8de719f882"
+      },
+      "specs_upload_sessions": {
+        "count": 7,
+        "sha256": "8422b2e4cd676ec861225092208765b43d585b21dc2d349c5e1f007b8c85172d"
+      },
+      "specs_verification_keys": {
+        "count": 1,
+        "sha256": "7d607601c753b7565f123631d95e855cea442744997690ddeeefc4af811e47a0"
+      },
+      "support_uploads": {
+        "count": 4,
+        "sha256": "938fb796ce1260102ff49fbab93fdbdc5aa859c33513589e27440b8a1b92769a"
+      },
+      "support_verification_keys": {
+        "count": 1,
+        "sha256": "2a557989f350bf8f958f394d7e3b8266a5b7d6fcc2157b38dcb8c5eeb322fe5b"
+      },
+      "upload_sessions": {
+        "count": 1,
+        "sha256": "256509853b6cce0846a6757900a85c0aecca8457acc77cc3709af857b238eb17"
+      },
+      "user_workspace_preferences": {
+        "count": 3,
+        "sha256": "8664bb18719674a8b3fb7ac63a93b0215d473306da3539e5dea88e840796640a"
+      },
+      "version_slides": {
+        "count": 57,
+        "sha256": "34da4a97917a99b8a2caf12508afe7387b904e9813287bd13786202bf6db1272"
+      },
+      "workspace_candidates": {
+        "count": 17,
+        "sha256": "0c25090e86640d0ecc80ab5c08cf0c81db7ecb7345d82167cdd36794607a9519"
+      },
+      "workspaces": {
+        "count": 3,
+        "sha256": "2d7172038690ec67dd33a6c782bb7a851c45a9223eaadca50cc2918cd25fa5a9"
+      }
+    },
+    "database": "postgres",
+    "delta_metadata": {
+      "eps_oid": 17619,
+      "eps_owner_oid": 16384,
+      "jobs_has_triggers": true,
+      "jobs_oid": 18017,
+      "retained_jobs_triggers": {
+        "count": 48,
+        "sha256": "6e679b68eba58b44552b537f680b1912400acbfb8da538f0ca51182ea0749199"
+      },
+      "trace_schema_acl": {
+        "count": 0,
+        "rows": []
+      }
+    },
+    "drain": {
+      "leased_outbox": 0,
+      "other_active_jobs": 0
+    },
+    "english": {
+      "flags": [
+        "1.0"
+      ],
+      "security": true
+    },
+    "eps_tables": [
+      "ai_suggestions",
+      "app_settings",
+      "assignment_change_consumptions",
+      "assignment_change_events",
+      "assignments",
+      "audience_presets",
+      "audit_events",
+      "candidate_asset_config",
+      "candidate_asset_grants",
+      "candidate_media",
+      "candidate_media_frames",
+      "candidate_stage_payloads",
+      "candidate_support",
+      "candidate_support_config",
+      "candidate_uploads",
+      "candidates",
+      "cast_operation_notes",
+      "feedback_comments",
+      "feedback_preferences",
+      "frame_extraction_config",
+      "frame_extraction_requests",
+      "guest_asset_grants",
+      "guest_idempotency",
+      "guest_sessions",
+      "idempotency_records",
+      "job_events",
+      "job_stage_claim_replays",
+      "jobs",
+      "logo_verification_keys",
+      "mcp_oauth_resources",
+      "media_assets",
+      "oauth_consent_claims",
+      "outbox_events",
+      "presentation_asset_grants",
+      "presentation_exports",
+      "presentation_processing_config",
+      "presentation_series",
+      "presentation_templates",
+      "presentation_version_assets",
+      "presentation_versions",
+      "presentation_video_english_transcripts",
+      "presentation_video_transcripts",
+      "review_fit_results",
+      "review_gateway_config",
+      "review_gateway_nonces",
+      "review_gateway_rates",
+      "review_link_replays",
+      "review_links",
+      "review_media_grants",
+      "review_processing_config",
+      "review_stage_payloads",
+      "roles",
+      "slots",
+      "specs",
+      "specs_asset_config",
+      "specs_asset_grants",
+      "specs_file_preparations",
+      "specs_pipeline_config",
+      "specs_source_inputs",
+      "specs_stage_payloads",
+      "specs_upload_sessions",
+      "specs_verification_keys",
+      "support_uploads",
+      "support_verification_keys",
+      "upload_sessions",
+      "user_workspace_preferences",
+      "version_slides",
+      "workspace_candidates",
+      "workspaces"
+    ],
+    "history": [
+      "20261028010943",
+      "20261028013324",
+      "20261028013655",
+      "20261028024205",
+      "20261028072515",
+      "20261028162702",
+      "20261028162800",
+      "20261028172320",
+      "20261028184145",
+      "20261028222030",
+      "20261029001520",
+      "20261029003941",
+      "20261029070038",
+      "20261029090500",
+      "20261029090724",
+      "20261029094600",
+      "20261029100500",
+      "20261029133455",
+      "20261029135318",
+      "20261029174841",
+      "20261029180953",
+      "20261029202629",
+      "20261029203953",
+      "20261029215218",
+      "20261030002634",
+      "20261030004643",
+      "20261030013832",
+      "20261030030717",
+      "20261030111549",
+      "20261030154824",
+      "20261031010000",
+      "20261031104603",
+      "20261031130207",
+      "20261031143711",
+      "20261031182038"
+    ],
+    "legacy": {
+      "job_count": 63,
+      "kinds": {
+        "ai_suggestion": 2,
+        "candidate_scan": 17,
+        "frame_extract": 4,
+        "presentation_export": 9,
+        "presentation_render": 10,
+        "review_fit": 10,
+        "specs_extract": 11
+      },
+      "unsupported_metadata_count": 0
+    },
+    "oauth": {
+      "coordinator_auth_usage": false,
+      "sha256": "18685e077e50068ade06e8684a9ba470bffcc60ef4735d215d3ee88cee8b29b9"
+    },
+    "oauth_static_sha256": "bf7d418695f1709339dbfb3df7db60c637382ec353a375a455dfdc6aebdb0591",
+    "operator": "postgres",
+    "owner_no_public_create": true,
+    "protected_m02": {
+      "attempt": 3,
+      "id": "b3f90268-147d-41d4-8875-2a6435df1496",
+      "row_version": 7,
+      "stage": "apply_specs",
+      "status": "waiting_for_input"
+    },
+    "protected_m02_integrity": true,
+    "review_owner_safe": true,
+    "schema": {
+      "column_acl": [],
+      "columns": [],
+      "constraints": [],
+      "database_acl": [],
+      "function": null,
+      "function_acl": [],
+      "function_name_count": 0,
+      "inbound_foreign_keys": [],
+      "indexes": [],
+      "memberships": [],
+      "owned_objects": [],
+      "policies": [],
+      "role": null,
+      "role_settings": [],
+      "schema_acl": [],
+      "table": null,
+      "table_acl": [],
+      "triggers": []
+    },
+    "session_user": "postgres",
+    "summary": {
+      "acl": [
+        {
+          "grantable": false,
+          "grantee": "authenticated",
+          "grantor": "eps_review_owner",
+          "privilege": "EXECUTE"
+        },
+        {
+          "grantable": false,
+          "grantee": "eps_review_owner",
+          "grantor": "eps_review_owner",
+          "privilege": "EXECUTE"
+        }
+      ],
+      "config": [
+        "search_path=\"\""
+      ],
+      "definer": true,
+      "language": "plpgsql",
+      "leakproof": false,
+      "owner": "eps_review_owner",
+      "parallel": "u",
+      "returns": "jsonb",
+      "source_sha256": "6912140e41804faf2c2fd257a9b1ecac9eba8c3ccee5cbd7ff75fbff4d9be953",
+      "strict": false,
+      "volatility": "s"
+    },
+    "trace_rows": null
+  },
+  "cloud_business_writes": false,
+  "cloud_called": true,
+  "plan_created": true,
+  "provider_called": false,
+  "result": "prepared",
+  "schema_version": "1.0",
+  "source_pins": {
+    "apps/web/public/brand/everyone-logotype-white.svg": "cb1f84c546247f81f7972ede5a374505c3de95d9fe9cee92ff60bda558166b98",
+    "apps/web/public/fonts/IBMPlexSans-Medium.woff2": "5660f8a658f8bb50dbc005232f885eadffd2bc1c235c4f6fbb63469d1f9cde6d",
+    "apps/web/public/fonts/IBMPlexSans-Regular.woff2": "ba711a3085ff9f27440b6b9c4550cfc47c97bf36591d5da958b975bb3add8c1a",
+    "apps/web/public/fonts/IBMPlexSans-SemiBold.woff2": "f78048030eab62e860efa39a0df79e2e5581bf122eb95b9bc42c0b8a4988d205",
+    "apps/web/public/fonts/IBMPlexSansArabic-Medium.woff2": "c72f6986f50ded745d06e71e508096209c52a55a6b3a81029954e33c52ba1dd2",
+    "apps/web/public/fonts/IBMPlexSansArabic-Regular.woff2": "74112e1b7bf2e2c547989a4e947a60cba6cd1f9156e0065670134636e717199d",
+    "apps/web/public/fonts/IBMPlexSansArabic-SemiBold.woff2": "869b2acd0a9660607a2025f0fe1c640110bf23d33417509328f07722922b8063",
+    "apps/worker/src/presentation-export-executor.ts": "15e4b6f7123c4340f8f0dd6c4869b711c1a4bb3433ce66e14d9b9d6093091e06",
+    "apps/worker/src/presentation-pdf.ts": "9ecaa02838192d6589cd0150679923648dc558b1409bdd5db69c5ac76f35d5db",
+    "apps/worker/src/presentation-stage-executor.ts": "97fc66ff385b0726dc16d6aceaa6d4a10e501a606b7de75cd6dc0a6056357d4d",
+    "apps/worker/src/video-container.ts": "b61b93b1f537efb10b8be228c53fd12fb990d70c72498699f35e2d9f97f5f92f",
+    "development/local-db/reviewed.json": "9722f25317f783123ec462227e94aecf65ea1cb27a9b59cf0d6bc07420f5d671",
+    "development/m03/english-release34/README.md": "c5d493ad9ee7ff1fd2813aba77702f1ee3458d9b41f048cd95cd3cecea7fb2ca",
+    "development/m03/english-release34/native_admission.py": "cfaf0eafb51ee99961a7f3552c34090f377475be4a7a1d23d9c5582e050cb9cf",
+    "development/m03/english-release34/native_manifest.py": "5c66aafbba16289e8dcbebfd65f6c3f59564b0debea33d01d50fbecb78227724",
+    "development/m03/english-release34/native_pin.py": "749e15efa777e1af6a5836050f86c3e0ce8c491cce6bcd793db7e1331a602b33",
+    "development/m03/english-release34/release.py": "cfb1de71b308d6bfe7b9115980a67d84341b014f06babf1fac84aa3c9806364a",
+    "development/m03/english-release34/test_release.py": "2ed681d58651727cfef415499d8980e7181c77deeaed428cf8edc1a359f3d432",
+    "development/m03/english-transcript34/README.md": "2beee213900beda07c4d70b5756212b0c00973923dd0c91df135f2d5586f39f6",
+    "development/m03/english-transcript34/before34.sql": "2bb2969542f1d7aa83e17370685810787558745b7d340002aa16283ab94b09da",
+    "development/m03/english-transcript34/build_ports.py": "fb61ebb6730cd6123ee83a31d3f24edffd4b4d4b1ddf1bdc6a33ced4b8f7e12f",
+    "development/m03/english-transcript34/capture-tests.sql": "7483592dd589f35ea111352a935a951ae369e6eeabdb4a2920be679fafd6fbba",
+    "development/m03/english-transcript34/controller.mjs": "1577d42e07f4e6b437c32576f167664d4431d4d70a039e16b08f7426453d6808",
+    "development/m03/english-transcript34/controller.test.mjs": "272add90d8bf6ace2e59475da9e10339701c487ed237260f8ffffc4f835439c1",
+    "development/m03/english-transcript34/port-patches.json": "12a675415e0970825903de616dae271911da6f01edd13d9dee62e0befecf813e",
+    "development/m03/english-transcript34/recovery-source-pins.json": "8eea74ee5bf1f6c5b90e3562398e307c873fbbd0296844d405960e15870f9996",
+    "development/m03/english-transcript34/run.mjs": "0a6e8bf9e4d8239b2e2ba5d43f300f149a04bcddb6bf26450852d90c5d04ba83",
+    "development/m03/english-transcript34/runtime.mjs": "41393c0e9077bccfc5fe7b957acd1d0becf5ac67056160cbeca4019f9cf6fda5",
+    "development/m03/english-transcript34/source-history/1a6c26e2294ac185b687bc5efd17d13a425a3bcbd4cf2a7694b53531430d711e-recovery-source-pins.json": "1a6c26e2294ac185b687bc5efd17d13a425a3bcbd4cf2a7694b53531430d711e",
+    "development/m03/english-transcript34/source-history/21c6c69dd8ea6c952f4299ef5404fef95024d5b5e62beb5ad1000c9da0864a55-recovery-source-pins.json": "21c6c69dd8ea6c952f4299ef5404fef95024d5b5e62beb5ad1000c9da0864a55",
+    "development/m03/english-transcript34/source-history/3da2b33dcb7ffefcc1b7ed83ec1a0d38b7df324517f64a569559289e8c87bb91-recovery-source-pins.json": "3da2b33dcb7ffefcc1b7ed83ec1a0d38b7df324517f64a569559289e8c87bb91",
+    "development/m03/english-transcript34/source-history/4597951eb5d26ff449abbbe0f6575ddb5ebfbf9d83fc8f58e22c21fd610a26bc-recovery-source-pins.json": "4597951eb5d26ff449abbbe0f6575ddb5ebfbf9d83fc8f58e22c21fd610a26bc",
+    "development/m03/english-transcript34/source-history/6cbc9034e9950da3a142dfa8892af576e125e26e895a225942087afd8f4ad528-recovery-source-pins.json": "6cbc9034e9950da3a142dfa8892af576e125e26e895a225942087afd8f4ad528",
+    "development/m03/english-transcript34/source-history/92ba4e1ebcca3a120cab03960e1c357897eda5f95cac4825163247751b0d3484-validation-tests.sql": "92ba4e1ebcca3a120cab03960e1c357897eda5f95cac4825163247751b0d3484",
+    "development/m03/english-transcript34/source-history/bb5232d6d56536c98203d633b40bcd3f6100f6923210041c57535579e0b36a4f-test_source.py": "bb5232d6d56536c98203d633b40bcd3f6100f6923210041c57535579e0b36a4f",
+    "development/m03/english-transcript34/source-history/e22525ab46f375fe64effc9a3118ccc46d3a9ffb033c27fd256a2c89909514cc-recovery-source-pins.json": "e22525ab46f375fe64effc9a3118ccc46d3a9ffb033c27fd256a2c89909514cc",
+    "development/m03/english-transcript34/source-history/e63186b05e195223c6b409c07baf0e60f0270cbafae03ed1791abd152b7f28a0-recovery-source-pins.json": "e63186b05e195223c6b409c07baf0e60f0270cbafae03ed1791abd152b7f28a0",
+    "development/m03/english-transcript34/test-target.sql": "05f6e0fa37d74e4b3f45231811821e8af573713f04ffabe66600f478182b6ea8",
+    "development/m03/english-transcript34/test_source.py": "1edb93fdba9656127c9c5317cf06a5df35ad25b13c01e773f81618bfc6f32876",
+    "development/m03/english-transcript34/validation-tests.sql": "67255f125b43aa316637aba7b2733f3c06dc73b86937ad00cfc1ab5d27e630d3",
+    "development/m03/native-probe34/admit-native-probe34.mjs": "cf2e9b9cc481a09a0364865993f8f0c6662be418b428991ca75e7c67375f84d5",
+    "development/m03/native-probe34/native-probe34-release.mjs": "9930e6d34ea9f8ff82ae5d2f992cda4dc63787406c180d7ae98e8a4b35ac65f8",
+    "development/m06/wf03-lexer-fixed-candidate.json": "e0cb7f88d11baae509981f2b4d0b3925ab5d038028373a03a5048e783ef21a4f",
+    "development/m07/db/catalog29.sql": "1af59495b01424e6ec2578f6ea1f8ac362829577612c32b2cd373545a58b9098",
+    "development/m07/db/data29.sql": "931581121cf2548af7b244b5638d243176bed9a4a83241bd4f72998ddec90a81",
+    "development/m07/db/release29-original-profile.json": "681fe120fea3ee70e35bd2c4ab4734e2b95e89e40ceef5a678f857adfa673cc2",
+    "development/m07/db/release29-readback.sql": "e38028dbbe87d5c74bd626e9c0ac1297c861d571b4de35ba3d0c7d967694e9de",
+    "development/m07/job-attempt-observability36-proof/README.md": "5fe468c8c76521853065c5b5b10fe0d407091d42b17c67cf4eee18e5059b6ce9",
+    "development/m07/job-attempt-observability36-proof/controller.mjs": "b1e2cd33546df561fbcaffda7efcf78ab6817a2907076e57b8c078553b310fe0",
+    "development/m07/job-attempt-observability36-proof/frozen-inputs.json": "69700aaa71d3a37f73d2f43cfc49f02f3e8c25d9619c2932a174823180951383",
+    "development/m07/job-attempt-observability36-proof/proof.test.mjs": "a79533fd4a908f1ad0a1f0644438d2650b7ecfd7fc4ad357c02cad969ddde64b",
+    "development/m07/job-attempt-observability36-proof/run.mjs": "3620680da6c3becf1ce4723d8523e8589d9dcb2847291d26f62a9f1e9f7e812e",
+    "development/m07/job-attempt-observability36-proof/runtime.mjs": "dff41726ef060f7c0832b3ffe83eeb437d7f20101788994bacb7cc2b4bc0958f",
+    "development/m07/job-attempt-observability36-proof/service-fixture.sql": "71968c5492b4ea63b9956b390b10252c05bd106cc0ba5bb35721a21218a39536",
+    "development/m07/job-attempt-observability36-proof/sources.mjs": "c87c95596a54e45aa83fc818e6829944aa24cab0ebfe9cd7a835f34716d70393",
+    "development/m07/job-attempt-observability36-release/LIVE_AUDIT_PLAN.md": "ddd3497e2fe6ff08ee18dfafb6ab5807602e4d31703aa7f22e1aa6612042249c",
+    "development/m07/job-attempt-observability36-release/README.md": "0047a3e8bda2b97fd12d9cc414c2f0a3f5cfc965e1bd0b1f4d2ab84738655368",
+    "development/m07/job-attempt-observability36-release/admission.json": "b6cf83c8fb8838585088879070974517416fb94eed7245ea8f429ad95c757e88",
+    "development/m07/job-attempt-observability36-release/admission.template.json": "a5615077566a8cfddb6bf7498377315607294b34c3386234407a7e92eb15d2aa",
+    "development/m07/job-attempt-observability36-release/catalogue_delta.py": "bad16efbc12f045ea57bb03eedf5d44b05d8779a041d14fdbf3cbb0b069dd65c",
+    "development/m07/job-attempt-observability36-release/live_observer.py": "6bac5273945f5ab9768ab51bfe0db0915224007feaeec581998010a42732ec84",
+    "development/m07/job-attempt-observability36-release/proposal.py": "26eec43740e63fee5c803f0baa8c9fa3ed5a11ca5e4ea48e16ff82c4e68f1003",
+    "development/m07/job-attempt-observability36-release/release.py": "9a0c6c1711c0e5f33b1102a878568e46879ed6b835094eded92872856734258c",
+    "development/m07/job-attempt-observability36-release/schema_gate.py": "4ac028d48e773f881cda74f4cd7a201b86cd7c6d0a5a275d09eae5fbd855ac13",
+    "development/m07/job-attempt-observability36-release/state.py": "2240ad7b9ae85ebc7d1ab94857e9ed5a5c572f51b6ef7fb18c1fd72b9a0b13f9",
+    "development/m07/job-attempt-observability36-release/test_live_observer.py": "a928e0fbfbdc3c12825031dcd57a4f1492914ad2b09758e03c1e865700073deb",
+    "development/m07/job-attempt-observability36-release/test_release.py": "50d094dc3c9d79b6383ede03d219e8cd149c17b5887ca8fc44903749219d6091",
+    "development/m07/job-attempt-observability36/DESIGN.md": "d720e95db145e35d0b2cd1874882e82ce59a35f86f29628a88842df9d50a59f0",
+    "development/m07/job-attempt-observability36/candidate.sql": "dc4eec586a3ae0fc9722a70ca6229742971eb21279916c32ab47cea4a802ed3b",
+    "development/m07/job-attempt-observability36/fixture.sql": "175c31e4dd501dc5c79aa162e5020b714673c42bc3d18ebeec9aadd4fa069e61",
+    "development/m07/job-attempt-observability36/operator-query.sql": "d4248a1fd71556c3837ba2c0c6a398f3328d4f09a704f3d261412392304f553c",
+    "development/m07/job-attempt-observability36/test_source.py": "4411ea72d95a7d8896586e6a458076d4e946062194cc71d98706f795130ec749",
+    "development/m07/oauth-attempt-trace/inspect-attempt.py": "1359373d078ee67d5dd644d1717a048f274c98f3617bb57c3668a45866c4c03c",
+    "development/m07/oauth-attempt-trace/release-context33.py": "89ded31f17961784e6611c3c12a4213fb24d155fdd0e69fa9570cabcfd740039",
+    "development/m07/recovery29/diagnose.mjs": "56f950f4d3aed66455f569c4975e364a7959819b989ad4f95e2ddafaf2fd01e6",
+    "development/m07/recovery29/identity.mjs": "c785bf1533031b560ad538fdcf5fbddb00eeb28d5f72e0d5d65524a933ad727d",
+    "development/m07/recovery29/observed-pairs.mjs": "78450ba18f7d89ad56e17bfcf816f0f210a0e8b0b3c2441331a70f9dc83bc767",
+    "development/m07/recovery29/ownership.mjs": "9118e7bd46dff15ccece950f88cd86ffc5b6c3fb86382d89792da5892a38de79",
+    "development/m07/recovery29/ownership.test.mjs": "b75ccd0d404a3c46f7f4f3549b8bf89a5067c854d12dda20f598d40e3e7b07ce",
+    "development/m07/recovery29/predicate.test.mjs": "2cbb7b5e9de6d613b9a494fc154716e77360f4ab0aa69b679611b0b10dee8845",
+    "development/m07/recovery29/profile.mjs": "be0c7b30ca143e6dc054aa82f288d03fd01ed507a15fba1f45667ff412f25520",
+    "development/m07/recovery29/profile.test.mjs": "599b76d942b95b1fbd24ed59b4cf05ada09ad2eef49fc77edd34b51501737e02",
+    "development/m07/recovery29/profile8.mjs": "05f37168da8d7e1d58b17be30e0aecc0604657bdfd3cc7fb3162ca5f14378b31",
+    "development/m07/recovery29/profile8.test.mjs": "964ac2c8a014a7cfebd8fa5d730392d80a0140aef5923bfda1ef13025b218fd8",
+    "development/m07/recovery29/run.mjs": "d5602e34077b8cce5ad5c100893b6d7b4be984305f9705ce75fed3e90c7fbffd",
+    "development/m07/recovery29/semantic-proof.mjs": "c3731bb04acdfe30cf90b4288583f625fd8989055a11280f448b0435e78b3f1e",
+    "development/m07/recovery33/README.md": "14c38dc2ba13acb7dc25170d5a8d08c8552d286243ebed1404b8f137c0bfa0f6",
+    "development/m07/recovery33/acl-semantics-proof.mjs": "adc775d78072ce8154b580fb9cfd563f2638a596f0c8ad9c9d3943c5723ae34b",
+    "development/m07/recovery33/baseline533.mjs": "03992a080a3809def01ada3de1e08ece10c2cdc7cf9a57b71f415e1247048560",
+    "development/m07/recovery33/baseline533.test.mjs": "9e7b5e8cf75ae5c719e572cb54c7c681197b818980328b9957a4e5c2e335abd3",
+    "development/m07/recovery33/cleanup533.mjs": "bbc82677bf717208bf144e4b0d1c9d509606ee3890778ef8820eb94b1fa3c105",
+    "development/m07/recovery33/cleanup533.test.mjs": "871f2c187cd3a3c45817e20005775f2e64b35ae8f621ba8aa1a4744c8ed5c23f",
+    "development/m07/recovery33/compiler.mjs": "e53ba5ab07b3724f0b2c4da59d46090ddb351342be205f74325e46192c4cf0a6",
+    "development/m07/recovery33/compiler.test.mjs": "8cd116b679a75df8b5e0e4955ac44a9b222a191e8c51df71529520869ad1341c",
+    "development/m07/recovery33/native-auth-prerequisite.sql": "1a497bc23a18beb7d7b4082034c2eae37a1a0a07b25ed5f70b5b9962ac3d34bf",
+    "development/m07/recovery33/ownership.mjs": "080ca9a50455a03acf2555fe3426cee595471a6182b7bf1c8022523d0a836d00",
+    "development/m07/recovery33/provider-config.synthetic.json": "03af1bb0c269a4bcbf02e35f2b1273a7c1811537ebd2fcdde6b9d5c092bfd8c9",
+    "development/m07/recovery33/reconcile533.mjs": "08484c81da3e4cf36eb78dc60c91b2dfdff06ba7a8fe5c2cf71355958873ce1d",
+    "development/m07/recovery33/retained533-acl-observation.json": "6d5a0284b0c956b6dbae80906a6b4b7ea3482733fa135fd16b1eb5fe4b3b1654",
+    "development/m07/recovery33/retained533-acl-proof.mjs": "9f440592e6f3a053e206d545082bf3c325ab10c81589d44bba4c225120863f33",
+    "development/m07/recovery33/retained533-acl-proof.test.mjs": "ab6076ba79bd9b8042ea32f24b1c3588fdb2a5af6390a2c8c8f2083f64d6ad15",
+    "development/m07/recovery33/retained533-acl-semantics.sql": "86b46544bb451cf483dd0ef21b00826cf61a75bd91a8990e3add685d0cb3d4f6",
+    "development/m07/recovery33/retained533-profile.mjs": "d4ac87d82994b01e83aedaedfa6be3bf6a47c590e44232263f63aa4f5558d7b2",
+    "development/m07/recovery33/retained533-profile.test.mjs": "67a19559feb096bf27849fdfec2150c9279074f9054628b0f67e4df0d284283f",
+    "development/m07/recovery33/run.mjs": "9d04f616b043c60a3077ab5f3a7f79c9bf0b2a03cef8285582f08d3e050e3bfe",
+    "development/m07/recovery33/runtime.mjs": "9a5c6377937e27a4097f188488795f93840470b20dba4214e812e1fe209cd0ed",
+    "development/m07/recovery33/runtime.test.mjs": "55586ebde77c29461b79a5a30646abba7c4a3b3d97c2d3522b76e9f9bd7faa7a",
+    "development/m07/recovery33/schema-migrations-acl-observation.json": "ae00c7258469b913bc82be4f06a4aebb6c0467f26841423a97ee28b9512adf4a",
+    "development/m07/recovery33/schema-migrations-acl-semantics.sql": "bc0d070580205a2cb2992836808880822a01d6f8397413c09a79ee8f34e22901",
+    "development/m07/recovery33/schema-migrations-acl.test.mjs": "9cc5c1a443d20d63ddca78e410d3b2be67fae5f52a549cee6bafc2c97c90c59a",
+    "development/m07/recovery33/seed-auth.sql": "a2c0b137fac64257342df9f904fc12d24eff23e72188591ccb19bc134f853980",
+    "development/m07/recovery33/source-history/080ca9a50455a03acf2555fe3426cee595471a6182b7bf1c8022523d0a836d00-ownership.mjs.txt": "080ca9a50455a03acf2555fe3426cee595471a6182b7bf1c8022523d0a836d00",
+    "development/m07/recovery33/source-history/0a5f4c7ed2f8845d1adc78ffcd4feee74208e72a9f7fad407487030e5504cb81-runtime.mjs.txt": "0a5f4c7ed2f8845d1adc78ffcd4feee74208e72a9f7fad407487030e5504cb81",
+    "development/m07/recovery33/source-history/0eaa93fd239657101d58fabcfaa1b5218a2949788cbe8f547ea2019ac4776f11-run.mjs.txt": "0eaa93fd239657101d58fabcfaa1b5218a2949788cbe8f547ea2019ac4776f11",
+    "development/m07/recovery33/source-history/26e9697a71eb6fed612155851194a8e9218a1a76b293d9924ab3d9931c0a5871-run.mjs.txt": "26e9697a71eb6fed612155851194a8e9218a1a76b293d9924ab3d9931c0a5871",
+    "development/m07/recovery33/source-history/2e174d8122a4579b4a016a00df83c09336e2278b192087d2b8807b94e32f3e36-runtime.mjs.txt": "2e174d8122a4579b4a016a00df83c09336e2278b192087d2b8807b94e32f3e36",
+    "development/m07/recovery33/source-history/6a40faad398373a9e26061b27e04e00eab30d3c8819599ef1a8efdcfecf6efd4-compiler.mjs.txt": "6a40faad398373a9e26061b27e04e00eab30d3c8819599ef1a8efdcfecf6efd4",
+    "development/m07/recovery33/source-history/798cb54efb220f75997aa185e9384cc74b141423b66c602b37d70934abd6daf8-compiler.mjs.txt": "798cb54efb220f75997aa185e9384cc74b141423b66c602b37d70934abd6daf8",
+    "development/m07/recovery33/source-history/807065bd22949b9aa5805d60a15c3be0e6b882021ed17a0d38e82389f32bc50e-compiler.mjs.txt": "807065bd22949b9aa5805d60a15c3be0e6b882021ed17a0d38e82389f32bc50e",
+    "development/m07/recovery33/source-history/91b15c72d7d268ef97f398c4bfd148e6da4565e579227e738633a85fa23c833f-runtime.mjs.txt": "91b15c72d7d268ef97f398c4bfd148e6da4565e579227e738633a85fa23c833f",
+    "development/m07/recovery33/source-history/99a1cd3ed3623f67e082f79f798e20c296e520ccb186b6541d5cb72e5938d5d3-run.mjs.txt": "99a1cd3ed3623f67e082f79f798e20c296e520ccb186b6541d5cb72e5938d5d3",
+    "development/m07/recovery33/source-history/9e0faa63ca063d5f59dca00ae0ee11632994d63a596bc6b1f01e00ec6d75adef-run.mjs.txt": "9e0faa63ca063d5f59dca00ae0ee11632994d63a596bc6b1f01e00ec6d75adef",
+    "development/m07/recovery33/source-history/a3e01618c07aeef1464d8f0279e5809dd2059bb447960174d99cb77020743b1a-runtime.test.mjs.txt": "a3e01618c07aeef1464d8f0279e5809dd2059bb447960174d99cb77020743b1a",
+    "development/m07/recovery33/source-history/b05dbd5b31527ed5de7639421eec5410faef2225c4e757a83a800df7e21c3e89-runtime.mjs.txt": "b05dbd5b31527ed5de7639421eec5410faef2225c4e757a83a800df7e21c3e89",
+    "development/m07/recovery33/source-history/b8d44a90288689668fd71c31cfa11976691dcb12590aa02179a9440b515405e4-runtime.mjs.txt": "b8d44a90288689668fd71c31cfa11976691dcb12590aa02179a9440b515405e4",
+    "development/m07/recovery33/source-history/b9fad923c71264f5b1968ceb3dce1f33251bd95abf9756fa4ea8026e277df91d-compiler.mjs.txt": "b9fad923c71264f5b1968ceb3dce1f33251bd95abf9756fa4ea8026e277df91d",
+    "development/m07/recovery33/source-history/bb3fc8bf9a3857bd5ea5230f27b074341495f8fa3fab3b84002ab30432111cb8-run.mjs.txt": "bb3fc8bf9a3857bd5ea5230f27b074341495f8fa3fab3b84002ab30432111cb8",
+    "development/m07/recovery33/source-history/d4ac87d82994b01e83aedaedfa6be3bf6a47c590e44232263f63aa4f5558d7b2-retained533-profile.mjs.txt": "d4ac87d82994b01e83aedaedfa6be3bf6a47c590e44232263f63aa4f5558d7b2",
+    "development/m07/recovery33/source-history/d76c16cce602e2a6b0628a325729b2109ff768beedfed8338f03fa2ab01098f4-run.mjs.txt": "d76c16cce602e2a6b0628a325729b2109ff768beedfed8338f03fa2ab01098f4",
+    "development/m07/recovery33/source-history/e8381580fe8384cfefdba3039bb6b1a9ce88b614655c534fd8f4adc20108fba2-compiler.mjs.txt": "e8381580fe8384cfefdba3039bb6b1a9ce88b614655c534fd8f4adc20108fba2",
+    "development/m07/recovery33/source-history/f02fd44e2a256879abb12eaac19ad399065ef06c5fc951f318d371a3de0a2eb8-ownership.mjs.txt": "f02fd44e2a256879abb12eaac19ad399065ef06c5fc951f318d371a3de0a2eb8",
+    "development/m07/workspace-summary35-proof/README.md": "3e240e5d6ce91c42f178a0dbca7e30e1790f30187abf870dec5dfbbf6cfcb8f4",
+    "development/m07/workspace-summary35-proof/controller.mjs": "c02bc0d555209417dd5b8ee273e76b76f409c9f7e9f7d384584e7a0cc7af889e",
+    "development/m07/workspace-summary35-proof/frozen-inputs.json": "0f4282d921c5ae790a7c3b833a9bb25cd4c02e65bc274464bc8d8c29326c5df9",
+    "development/m07/workspace-summary35-proof/proof.test.mjs": "06530630866d3695909730ecf96c85993de3b3afc131695cab7a5f47dce02d6f",
+    "development/m07/workspace-summary35-proof/run.mjs": "9015088ab112655e6614a7338bcbbb7daae727d9355c62c3c8a8e1975e532260",
+    "development/m07/workspace-summary35-proof/runtime.mjs": "d889fb753e9364d8ed9cd4721dda7234df57da56c98881967b55270635401891",
+    "development/m07/workspace-summary35-proof/source-history/09c15ddd851947fbe7facecc78a0f08942c801dd7c03d59e7f6316ba0c20109b-sources.mjs.txt": "09c15ddd851947fbe7facecc78a0f08942c801dd7c03d59e7f6316ba0c20109b",
+    "development/m07/workspace-summary35-proof/source-history/1adefb46c3258b5b0a7b4ba6d1ea1ffd05daba5ffbd4db0c1084d70b842cfdc4-m07-workspace-summary.sql.txt": "1adefb46c3258b5b0a7b4ba6d1ea1ffd05daba5ffbd4db0c1084d70b842cfdc4",
+    "development/m07/workspace-summary35-proof/source-history/291dc58113592fedd4dc8a88d219ea5a5eb9a2c0763820b2c36bbdfb76905df6-README.md.txt": "291dc58113592fedd4dc8a88d219ea5a5eb9a2c0763820b2c36bbdfb76905df6",
+    "development/m07/workspace-summary35-proof/source-history/6e930e717389269f45bfd7ea6312bc21d285ec2fcb005aaa6e4e6b9569f980c3-controller.mjs.txt": "6e930e717389269f45bfd7ea6312bc21d285ec2fcb005aaa6e4e6b9569f980c3",
+    "development/m07/workspace-summary35-proof/source-history/7a690f6a1d60372478221254840aa5d7ee87bfc8c1bb62c60be32d612957c4ae-proof.test.mjs.txt": "7a690f6a1d60372478221254840aa5d7ee87bfc8c1bb62c60be32d612957c4ae",
+    "development/m07/workspace-summary35-proof/source-history/9015088ab112655e6614a7338bcbbb7daae727d9355c62c3c8a8e1975e532260-run.mjs.txt": "9015088ab112655e6614a7338bcbbb7daae727d9355c62c3c8a8e1975e532260",
+    "development/m07/workspace-summary35-proof/source-history/ab55b4ca1373e70ad1d02fe2f8496df849013f797b9f338c2135d8394b826f65-frozen-inputs.json.txt": "ab55b4ca1373e70ad1d02fe2f8496df849013f797b9f338c2135d8394b826f65",
+    "development/m07/workspace-summary35-proof/source-history/cbb12610603318bce68ced4a58d0a9a01ee07737838c99a2ea0e6214e5e933e0-20261031182038_m07_workspace_summary.sql.txt": "cbb12610603318bce68ced4a58d0a9a01ee07737838c99a2ea0e6214e5e933e0",
+    "development/m07/workspace-summary35-proof/source-history/d889fb753e9364d8ed9cd4721dda7234df57da56c98881967b55270635401891-runtime.mjs.txt": "d889fb753e9364d8ed9cd4721dda7234df57da56c98881967b55270635401891",
+    "development/m07/workspace-summary35-proof/sources.mjs": "cd9de29fbf7dbae6c347f078dd96284909be9a6f5eebb37c0de36fa0b3a67f4e",
+    "development/m07/workspace-summary35-release/README.md": "1ea4b6b018aaa9a4ccbc2c5592839f66db0a81b6e374eef69b610dd755784856",
+    "development/m07/workspace-summary35-release/admission.template.json": "95d4ea739a28eb40552db08d7168a40a136c658d85f71793db87ab4355055b73",
+    "development/m07/workspace-summary35-release/catalogue_diagnostic.py": "215cec599180df3c12d699b157243d5162245a6e411d7c9e7b70e436cefd3087",
+    "development/m07/workspace-summary35-release/release.py": "33e64f3c9a3d2b5d394a6a7a1468968974ef05765802c03748db70ef3890510f",
+    "development/m07/workspace-summary35-release/source-history/1861074e18eef8a915f6c1320ef21f3950e897cad4b6ac2a0e52ae1df33923d6-catalogue-union.sql.txt": "1861074e18eef8a915f6c1320ef21f3950e897cad4b6ac2a0e52ae1df33923d6",
+    "development/m07/workspace-summary35-release/source-history/3a3c9e26c73556fffb9de79f985226c74143e7dd171c8095e896a59fc48b4670-release-enabled.py.txt": "3a3c9e26c73556fffb9de79f985226c74143e7dd171c8095e896a59fc48b4670",
+    "development/m07/workspace-summary35-release/source-history/8d8da522e6f9ba84437dda9b886e9e33c321663d5f225703457d0dbffa103edc-release-disabled.py.txt": "8d8da522e6f9ba84437dda9b886e9e33c321663d5f225703457d0dbffa103edc",
+    "development/m07/workspace-summary35-release/test_catalogue_diagnostic.py": "c19ae9092be770fbaedf02d20b3c17e7b30125eaf8235f8f781df7ae05af31f0",
+    "development/m07/workspace-summary35-release/test_release.py": "27a02891cc84a2b7e79d2cc63bb705c3be8d80626e3b0375347a476d586a03f2",
+    "packages/jobs/src/attempt-trace.ts": "f92f5a6f484cbfb17a69283b4bc7cd734f42326fe1a91429c36d3aa91787694a",
+    "packages/templates/versions/1.1.0/registry.json": "e830204db50a226ab8d10e0eef323eca4983f92de17db0647893a8ab355e57e3",
+    "packages/templates/versions/1.1.0/render.ts": "f58d10501fac36e1f2f5b80b2f3e814901972084acf94fe4047434e42db7225c",
+    "supabase/migrations/20261028010943_m01_canonical_foundation.sql": "8a5f3ed7727a72051e630307d2daecab8c4a74054398a6425e73bd85e17568b9",
+    "supabase/migrations/20261028013324_m01_identity_role_inheritance.sql": "5382efe9fbdf9c194010257e0ac0024dcb447207522036560056d5d1a4e20e30",
+    "supabase/migrations/20261028013655_m01_workspace_scope_alias.sql": "67ddb2cff9fed9c42d34657e833c613aec4afd2769543a991bbac84da355db64",
+    "supabase/migrations/20261028024205_m01_private_logo_boundary.sql": "b04af5119b4e384bd96136573eec39e69f21a0ffb7d9f4aeb07bbf48f2976b9d",
+    "supabase/migrations/20261028072515_m01_logo_upload_capability.sql": "4dbd400092d7743b02dd0769ae511c208e6f4f349428fc0e7f0fb9c573ba4b24",
+    "supabase/migrations/20261028162702_m01_replay_scope_refresh.sql": "82a4f2ec03efc0787aa58e5f1e68ab626e5dddb5e4c645444103456757bf4251",
+    "supabase/migrations/20261028162800_m02_jobs_outbox.sql": "f619b3dfb9d964ab5902d04941b8cd59b44e9da36f1ab3f7b10bd45298ff4013",
+    "supabase/migrations/20261028172320_m02_manual_specs_draft.sql": "8ab866a49cb2e01eabf3b83076fe4519a60255263d0a1a170ef3ba9718a2349c",
+    "supabase/migrations/20261028184145_m02_role_order.sql": "14f96c7e635fe46cb11393a881bca26068d696c32f5e454df8655299702b1efa",
+    "supabase/migrations/20261028222030_m02_specs_pipeline.sql": "1e5319bb81be1f12896f7efb5a2cb7706653b79eb440a4dc1aaaca4ed9556895",
+    "supabase/migrations/20261029001520_m02_specs_assets.sql": "9b35e8efdfc5184252ab4ecfe1a50861c8991dadf2b20544d481b51b3b7fb288",
+    "supabase/migrations/20261029003941_m02_specs_mime_guard.sql": "5a4439e9dd5262cae7e6f813997c4c9506db3eb74fe4ea95d2a352726effb549",
+    "supabase/migrations/20261029070038_m02_specs_read_operation.sql": "040151ec89b461be2dc0c1d4ab8446652062488aac5f63822129d497ecf1702e",
+    "supabase/migrations/20261029090500_m02_service_claim_replay.sql": "705d7432ab8cbe04fa5a94e090e1ce55e36c622590c09e0ce922ac5a59c6baf2",
+    "supabase/migrations/20261029090724_m03_candidate_library.sql": "2a84e240fa1ed3a283a483775e797e7ef1bafeea36d2d11ace17e06b857d8b8d",
+    "supabase/migrations/20261029094600_m02_pdf_vision.sql": "5b7ad204f6dddde82ae829577ea1130fd426a3998797460871baad20d789cb50",
+    "supabase/migrations/20261029100500_m03_candidate_pipeline.sql": "4af04b4a3fb050e39aa23958c3f82e304cc7d7a1f450a5d93f7f50bc001bd836",
+    "supabase/migrations/20261029133455_m03_remaining_media_library.sql": "2e190e001b2bda044d9c90da4287f54e5839b0af7ffec84d4c93083909c944fb",
+    "supabase/migrations/20261029135318_m03_frame_request_resubmission.sql": "e816ad6b491626ace489efd256b56c322d25d9101de94e5fb8b24d2d4b745048",
+    "supabase/migrations/20261029174841_m04_casting_assignments_lifecycle.sql": "2825681bf529f1b32db2473749180901f0961b025e8da847b38ad49c06f4b900",
+    "supabase/migrations/20261029180953_m03_frame_vision_selection.sql": "bcd12794eccfa590e5d160f62dfd67838c8186376cddda1952f291c50d03bec8",
+    "supabase/migrations/20261029202629_m04_review_series_processing.sql": "3f1543b9d4b525d486287f2f00711270ed1fbdc30911dac3aea725aee50679e4",
+    "supabase/migrations/20261029203953_m04_ai_apply_source_guard.sql": "1bf897c3c6dcae03c96f0d434ba61edfc89b01d2c700dc4e8c11ce17e285832c",
+    "supabase/migrations/20261029215218_m05_immutable_presentation_versions.sql": "09d78c225ca02d436a8b1c2bcc6e55f273dfea116976807af4a8b228b99de5f4",
+    "supabase/migrations/20261030002634_m06_guest_review_feedback_exports.sql": "2c72507216efdcd3e9dcea3f9b94270b19e1275ebcd2fcf91dad9253ddde8d2a",
+    "supabase/migrations/20261030004643_m06_credential_admission_guest_retry.sql": "a0fb9dfec8cdae2718719d455ed11b4f25dd9b79e8fc9de19bd53c229b64089e",
+    "supabase/migrations/20261030013832_m06_guest_storage_policy_composition.sql": "9e3ab85655c2fa0490aba07118fe730dae2c6193f651c3ba086910d82b7eb171",
+    "supabase/migrations/20261030030717_m06_frozen_video_source_transcripts.sql": "6334ea62a49966963e675c61e6a73d2acb5981d35f261cf2dff519d097905178",
+    "supabase/migrations/20261030111549_m07_settings_delegated_session.sql": "6531e8decab5496e212eb01575aca666cd9e03b0575f92dd66bd380760f84af4",
+    "supabase/migrations/20261030154824_m07_native_oauth_issuer.sql": "e5fd2121784c8372743f330664508b2a38a25cd622b24cf6765c570ae6f2a785",
+    "supabase/migrations/20261031010000_m07_specs_submit_ack_projection.sql": "c1c4cb41460df067d726e4058cc24eacbcf55e5cc73e6a18365394e2c2fbc5e5",
+    "supabase/migrations/20261031104603_m07_oauth_consent_binding_and_claims.sql": "0d7b7a7577ffe1ff4b24eba202ce6ac7e87c616ca8039397800e607c651908a5",
+    "supabase/migrations/20261031130207_m07_oauth_consent_browser_context.sql": "9923e7a1cb52e160041aacea053a21cb9c25c1fc468db99eb7b7ea77e15dcb81",
+    "supabase/migrations/20261031143711_m03_english_transcript_projection.sql": "0705f1940abbc5c4afc65a49e85d9ef2ce6a6489178b6dd82c3acb33cf976472",
+    "supabase/migrations/20261031182038_m07_workspace_summary.sql": "cbb12610603318bce68ced4a58d0a9a01ee07737838c99a2ea0e6214e5e933e0",
+    "supabase/migrations/20261101012057_m07_job_attempt_observability.sql": "4209e16b7d67cfb793375d24dfd22f9fee72f3516e3dde16be1d2b0d633b7267",
+    "tests/db/m04-assignments-fixture.sql": "cb5f418fee0dc3a9b00a9ddeaa3971f5df1c3384c459905baa19b4e04f1d9cb4",
+    "tests/db/m05-versions-fixture.sql": "da13283bc15481fc1bb76b9d36a3360c3a30d7b6cc06b7c0a979e25e086c636d",
+    "tests/db/m06-transcript28-legacy.sql": "f2d9f4528a29724ff0e589b95318b4422cfba3a53c0b9db9a4ab0d25f79c34df",
+    "tests/db/m07-workspace-summary.sql": "275b430fc401ea84a66e432c908cc9bdde77d17e362801ea39d15ed9209e7efe",
+    "tests/jobs/attempt-trace.test.ts": "ce7d5dde3d33afb7852f4d106c36a14d430d3a126f6f32a5373e75e3b412edd6",
+    "tests/operations/m07-recovery-bundle.test.mjs": "9a40986c9d4c63e459015eb51eb493ccb9deb2c9aac97af488b848809daa395e",
+    "tools/build-candidate-wf02.mjs": "c64710c7cd3e98a2b71977761abf16ec4d8274b287da4b2b41550f8c3f8b64bd",
+    "tools/build-presentation-wf03.mjs": "9e160d960d5db98752d7617363693e035b509730541c7802375352f5f50f1337",
+    "tools/build-review-wf05.mjs": "6830d9db4c0e9588dca8590451f45ee6b7ba240a1519ce356874732038350ee1",
+    "tools/local-postgres.mjs": "49929bce8eb51194d9299cfd9639e537eb237daaec76c15740cb88059604e2de",
+    "tools/m07-original-profile29-comparison.mjs": "e5bf4b4c8a1e1a682e303615cb9989340f3d014988488f48d794da643b2cdc20",
+    "tools/m07-recovery-bundle.mjs": "0938d274456d19130eaa95554ee5d7b90b364efafed13912fa5c62001193268c",
+    "tools/provision_logo_verifier.py": "660f2eb0d15b1ed17801ecef22270dbb389fdf93181c340f16d715fc2b3a340c",
+    "tools/release_foundation.py": "02aac0cefc4b46419c7d5a086da672398716cf7ee73882602574cff99659d751",
+    "tools/release_logo.py": "efd1de07b3304d8d5c89f29bbeaf77ff2ce1d8d42ffbf885f960c36f506b47f4",
+    "tools/test-m07-recovery-local.mjs": "f48fe7ee99edb69f7c7d571e2d5955192ed0cc8ac0cfc8f3bf0422748ce18842",
+    "tracking/evidence/m07/job-attempt-observability36-proof/2026-11-01T01-16-10-092Z-7cff5c7d.json": "fc7742e874e0c10f11312f798a991c884515db507377a571a831f8f6586c0b51",
+    "tracking/evidence/m07/original-profile29/2026-10-30T11-35-45-537Z-e56dec11-after-catalogue.json": "dcc5e065d77f504deaf1ebbb19a75eee4b940a32bf7dfbf1905e22b4e44f6c19",
+    "tracking/evidence/m07/original-profile29/2026-10-30T11-35-45-537Z-e56dec11-report.json": "047a0580ed6fe656a5a45616425716c2dce271573adfac0401843b79c59adb1d",
+    "tracking/evidence/m07/recovery29/2026-10-30T12-19-02-143Z-0ec7ead2-diagnostic-differences.json": "ea581b2e795f6c06fe2b950b714957520529517f946bfcf9fb7f100005015d2a",
+    "tracking/evidence/m07/recovery33/2026-10-31-auth-schema-migrations-acl-semantic-proof.json": "aeaff1879563b96acadf05ef8f885b8602bf5d225209e95c0721506bcca8a813",
+    "tracking/evidence/m07/recovery33/2026-10-31-retained533-acl-native-semantics.json": "4e672a10f28d4c653a9714745f75c16e8b5aba1edcddf9fbe480d7e0170dffe5",
+    "tracking/evidence/m07/recovery33/2026-10-31T15-01-22.518Z-533-guarded-cleanup.json": "51bba9d05f89afc7f6caae9ed55274d1622a1a32710880e188b6c73024711c32",
+    "tracking/evidence/m07/workspace-summary35-proof/2026-10-31T18-39-41-150Z-3304bf06.json": "72022c9e2a430c6e2739a14029d7d928f5c949e5a9e919c7d3296ab3349d0a4f",
+    "tracking/evidence/m07/workspace-summary35-proof/2026-10-31T18-47-07-800Z-ef4cb6c2.json": "417d1f32cc1b417c51107899e7b6e529e22ffa7b5be7e713b50f58901dac67a9",
+    "workflows/WF-04-RECOVERY-AND-MAINTENANCE.md": "e71b05afedbb20626a3fcc60246ef2a43335230f7084c29aa03cb07ec598ad77"
+  },
+  "target": "pyibofyctwnqpvktepse",
+  "version": "20261101012057"
+}
