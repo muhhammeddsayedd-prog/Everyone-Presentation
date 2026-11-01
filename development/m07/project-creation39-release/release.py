@@ -3,7 +3,7 @@ from pathlib import Path
 import datetime, importlib.util, json, os, sys, uuid
 
 HERE=Path(__file__).resolve().parent;ROOT=HERE.parents[2]
-APPLY_ENABLED=False
+APPLY_ENABLED=True
 GUARD='tracking/evidence/m07/project39-guard-validation/2026-11-01T23-27-07.054Z-17552f6b.json'
 spec=importlib.util.spec_from_file_location('project39_release_state',HERE/'state.py');s=importlib.util.module_from_spec(spec);spec.loader.exec_module(s)
 
