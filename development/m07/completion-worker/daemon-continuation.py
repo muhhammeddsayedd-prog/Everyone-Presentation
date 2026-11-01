@@ -24,6 +24,7 @@ $login=0
 $copy=0
 foreach($item in $rows){
  $text=[string]$item.CommandLine
+ if(($item.Name -in @('node.exe','vercel.exe') -or $item.Name -like 'regctl*') -and [string]::IsNullOrWhiteSpace($text)){throw 'PROCESS_OBSERVATION_UNCONFIRMED'}
  if($item.Name -in @('node.exe','vercel.exe')){
   if($text.Replace([char]92,[char]47).Contains('/m07-pilot/tooling/node_modules/vercel/dist/vc.js') -and $text -match '\bvcr\s+login\s+docker\b' -and $text.Contains('prj_I4SMkDzaDy0KHNgiF00v4Da5aLb6')){$login++}
  }

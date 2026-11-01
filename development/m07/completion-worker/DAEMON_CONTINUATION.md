@@ -21,8 +21,11 @@ Two fresh rounds require exact project/private native and daemon repository
 metadata; helper-backed immutable raw-manifest reads of previous native50082,
 new native46de and previous daemonce23; and successful local CIM process queries
 proving zero matching fixed-project CLI login and new-tag daemon-copy processes.
-The process script reports only success/counts, never command lines. Another
-process query immediately precedes a copy claim and follows acceptance.
+The process script reports only success/counts, never command lines. A null or
+empty command line for any node/vercel/regctl candidate fails closed, instead of
+being counted as absent. A synthetic PowerShell test shadows CIM and proves all
+three candidate classes deny unreadable rows while unrelated rows remain safe.
+Another process query immediately precedes a copy claim and follows acceptance.
 
 Only then may a NEW protected `daemon-continuation-copy.claim.json` be written,
 binding this controller/tests/docs, unchanged registry/binary/helpers/source,

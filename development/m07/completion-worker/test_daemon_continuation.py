@@ -1,6 +1,6 @@
 """Pure/fake ports only; no local credentials/CLI/process inventory/cloud."""
 from pathlib import Path
-import copy,importlib.util,json,sys,unittest
+import base64,copy,importlib.util,json,subprocess,sys,unittest
 from unittest.mock import Mock,patch
 HERE=Path(__file__).resolve().parent
 def module(name,file):
@@ -39,6 +39,14 @@ class Tests(unittest.TestCase):
   for change in [{'query_succeeded':False},{'scanned_processes':0},{'owned_login_processes':1},{'owned_daemon_copy_processes':1},{'owned_login_processes':False}]:
    with self.assertRaises(ValueError):d.process_projection({**value,**change})
   self.assertIn(r'\bvcr\s+login\s+docker\b',d.PROCESS_SCRIPT);self.assertNotIn('\x08',d.PROCESS_SCRIPT)
+ def test_actual_powershell_guard_rejects_unreadable_candidates_without_real_inventory(self):
+  for name in ['node.exe','vercel.exe','regctl-v0.11.7.exe','unrelated.exe']:
+   # This synthetic function shadows CIM. No actual process inventory is read.
+   prefix="function Get-CimInstance { [pscustomobject]@{Name='"+name+"';CommandLine=$null} }\n"
+   encoded=base64.b64encode((prefix+d.PROCESS_SCRIPT).encode('utf-16le')).decode()
+   result=subprocess.run([str(d.r.helpers().POWERSHELL),'-NoProfile','-NonInteractive','-EncodedCommand',encoded],env=d.r.environment(),capture_output=True,timeout=15,creationflags=subprocess.CREATE_NO_WINDOW)
+   if name=='unrelated.exe':self.assertEqual(result.returncode,0);self.assertEqual(d.process_projection(json.loads(result.stdout))['owned_login_processes'],0)
+   else:self.assertNotEqual(result.returncode,0);self.assertEqual(result.stdout,b'')
  def test_observe_is_only_gets_and_never_admits_daemon_refresh(self):
   p=FakePorts();self.assertEqual(d.operate('observe',p)['result'],'passed')
   self.assertTrue(all(row[0]=='GET'for row in p.calls));self.assertNotIn('daemon',p.admitted);self.assertIsNone(p.current_claim)
