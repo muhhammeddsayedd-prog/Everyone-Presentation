@@ -1,0 +1,146 @@
+{
+  "action": "local_oci_export",
+  "archive": {
+    "all_blob_sha256_and_descriptor_sizes_verified": true,
+    "all_blobs_reachable": true,
+    "archive_bytes": 111158784,
+    "archive_sha256": "ed9ee78745cdcc1d932bfe03e1989d770b8a6aeba76d3ee6678a1a8ba97026b0",
+    "blobs": [
+      {
+        "bytes": 24020859,
+        "digest": "sha256:09faa9842c0c8c3f5dd7e113958d961b02f94340f5d814448e2fea5536d01345"
+      },
+      {
+        "bytes": 428283,
+        "digest": "sha256:0e562ccab94e4ac46ff7a8aaffa11f0302fee27f9bbd159cbca70795d546c4e5"
+      },
+      {
+        "bytes": 508,
+        "digest": "sha256:2355b1f10c5de387e8cd34d80d3ffe4d858c6f31c589c0a1c39d2a825123aa8c"
+      },
+      {
+        "bytes": 3385,
+        "digest": "sha256:28fe0626b69463609400820a97ca150366fdd1ad92b75ab850072a2cca168bb0"
+      },
+      {
+        "bytes": 16,
+        "digest": "sha256:2c1ce468d9f3d941396801f6e3afc8921466650dd05430fe644cd3537713d27f"
+      },
+      {
+        "bytes": 3335,
+        "digest": "sha256:2d66eed2c5f584f3f261d2f241062cbb9fa088bbbc32437aed1ce0b6adf2c594"
+      },
+      {
+        "bytes": 42909,
+        "digest": "sha256:2d94f9d974ad61746a740fe9c7446b19ef342db736b791102009daa74b7f2a27"
+      },
+      {
+        "bytes": 426,
+        "digest": "sha256:3a21fa3a6b779e5d2dd5f9e093ce8503d9f5ade66e3693d8b4fdbffa2a30a786"
+      },
+      {
+        "bytes": 2382,
+        "digest": "sha256:441bf6d444dd7b1498900f0620aab611d87f9b26aa77dda700f0f0e636827cf4"
+      },
+      {
+        "bytes": 38189195,
+        "digest": "sha256:4f146a220a2962ea88ba4133c27e322465964e8bbc28cf252d3b822360765f75"
+      },
+      {
+        "bytes": 174617,
+        "digest": "sha256:52d91f37b8041bbe2ed475eb60d1028ab0f4a2b94bdc8e11ddc44902158045e4"
+      },
+      {
+        "bytes": 1533915,
+        "digest": "sha256:54833aef324f76daf7ab0a1284a1020bcc5c9e239bd94febe18ca5cbd70ee6ba"
+      },
+      {
+        "bytes": 225592,
+        "digest": "sha256:799e5468f94ce39995e733edcb8acd513210473c2783d0e8d5375dbe4963de85"
+      },
+      {
+        "bytes": 255844,
+        "digest": "sha256:8bf09b5d8f5b248945faeb4966632d3174b2bbb57bc6e166581515171a799ad7"
+      },
+      {
+        "bytes": 46142210,
+        "digest": "sha256:942096b8f0c1542bc01b3cdec11876d6e9c7a6b0e7e5f07a9b4426e231901177"
+      },
+      {
+        "bytes": 10054,
+        "digest": "sha256:c3ed28523896224d87b3c01971b74c036c0b0a515b5e509727cd55819c958a7f"
+      },
+      {
+        "bytes": 111,
+        "digest": "sha256:dcb759ebfa4513426b23265acb2569d80637a8dcd498fcde96082895f16271d1"
+      },
+      {
+        "bytes": 107071,
+        "digest": "sha256:e04bf5fc0c072ae573d77937c9dfa03d24980437337dcd58e940e4f88b2c113e"
+      }
+    ],
+    "blobs_verified": 18,
+    "compressed_blob_bytes": 111140712,
+    "external_descriptor_urls": false,
+    "index_digest": "sha256:2d66eed2c5f584f3f261d2f241062cbb9fa088bbbc32437aed1ce0b6adf2c594",
+    "layers_recompressed": false,
+    "legacy_manifest_used": false,
+    "runtime_digest": "sha256:2d66eed2c5f584f3f261d2f241062cbb9fa088bbbc32437aed1ce0b6adf2c594"
+  },
+  "build_dependency_network_may_be_used": true,
+  "claim_retained": true,
+  "cloud_or_provider_called": false,
+  "db_jobs_or_openai_n8n_calls": false,
+  "elapsed_seconds": 61.759,
+  "exit_code": 0,
+  "kind": "daemon",
+  "normal_build_process_return_observed": true,
+  "observed_at": "2026-11-01T22:58:48.349959+00:00",
+  "output_limit_exceeded": false,
+  "production_import_gate": {
+    "build_exit_code": 0,
+    "cached": false,
+    "completed": true,
+    "network": "none",
+    "step": "#22",
+    "user": "1000:1000"
+  },
+  "raw_logs_or_credentials_persisted": false,
+  "registry_credentials_refreshed": false,
+  "registry_push_requested": false,
+  "result": "passed",
+  "run": "8b559ebe-1b6c-4741-b371-9498c5855976",
+  "runtime_digest": "sha256:2d66eed2c5f584f3f261d2f241062cbb9fa088bbbc32437aed1ce0b6adf2c594",
+  "schema_version": "1.0",
+  "source": {
+    "context_files": 170,
+    "file_count": 165,
+    "manifest_sha256": "a317b0c7398ab12d960271f9d9d8ce98d846ed390a77fc0bb02c50b9b6df9943",
+    "private_credentials_opened": false,
+    "private_pattern_families": 6,
+    "private_pattern_hits": 0,
+    "source_bytes": 1816882,
+    "source_seal_sha256": "5339296da8242e003c8ce6252af00333d77e91fb72f43acf362c4ef4b2ae5a0c",
+    "source_sha256": "0566342ec367efef328885aac513adeb5a942048ba01c88e1af63e4d636b6730"
+  },
+  "source_pins": {
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Recovery\\development\\m07\\completion-worker\\build.py": "0ccf0dd20672c59f9b61a41e92ec4bb6c4025b2c6717c0935d8d6a68d3bf78e0",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Recovery\\development\\m07\\completion-worker\\test_build.py": "18283edc04f3a02fc9865e607f8bc6035a37390a4e080e7e8a0d3ed0cf9dddae",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\development\\m03\\english-image34\\build-image-v2.py": "5562cf2d1e7d4b23f2b86e45ef75bc2f02a1744b80a5ba580814c751b53948a2",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\development\\m03\\english-image34\\build-image.py": "f1ced25d33bf039909289bc1be17ab42bbdf5d662e15c22c6460693a16045cd4",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\development\\m03\\english-image34\\refresh-vcr.py": "3104f3405c2fdd0ffd2e402098522ba2ba7d6720aaed13aedfb2923c33c73224",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\development\\m03\\english-oci34\\oci.py": "48fa22d83cb6f8643696a84358b5ba831852f93e6b920f7ef7f7a6808ae60758",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\development\\m03\\english-release34\\native_admission.py": "cfaf0eafb51ee99961a7f3552c34090f377475be4a7a1d23d9c5582e050cb9cf",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\development\\m07\\specs-diagnostic-worker38\\build.py": "2548608d9bf12bea7b48b2535e208fc2e9d7452a6113531eaf64b685565834fc",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tools\\worker-hosting-build.mjs": "3f27ca1bf039579905763365c592b4d6e94754437753a3f645c4bad85e7bcb69",
+    "buildx_plugin_sha256": "f2512b849418b860d1e497708ccdd4864e2377a97fe15d500af83381cf5f967e",
+    "docker_sha256": "e768033e4b3f0dc760162f417a80360094644d16cd9fb12ad65c9d97508c076f"
+  },
+  "source_revalidated_after_export": true,
+  "source_sha256": "0566342ec367efef328885aac513adeb5a942048ba01c88e1af63e4d636b6730",
+  "stderr_bytes": 3469,
+  "stdout_bytes": 0,
+  "target": "vcr.vercel.com/muhammed-abdelrahman/everyone-presentation-worker-pilot/daemon:completion-8b559ebe",
+  "timed_out": false,
+  "worker_polling": false
+}
