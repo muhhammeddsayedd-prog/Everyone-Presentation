@@ -130,6 +130,18 @@ class LiveObserverTests(unittest.TestCase):
             changed = copy.deepcopy(before);modify(changed)
             with self.assertRaises(ValueError):observer.preserve(before, changed)
 
+    def test_report_scope_is_ready_cohort_and_two_audited_jobs_only(self):
+        preserved = observer.preserve(baseline(), copy.deepcopy(baseline()))
+        self.assertIs(preserved['new_ready_versions_observed'], False)
+        self.assertNotIn('new_versions_created', preserved)
+        value, inputs = jobs()
+        self.assertEqual(len(observer.audit_jobs(value, baseline(), inputs, observer.parse_trace)), 2)
+        # Only the two supplied job IDs are queried; the receipt must not infer
+        # absence of other new workspace jobs from this finite audit.
+        code = inspect.getsource(observer.main)
+        self.assertIn("receipt['audited_job_count'] = len(receipt['jobs'])", code)
+        self.assertIn("receipt['other_new_job_absence_checked'] = False", code)
+
     def test_readiness_metadata_checks_actual36_English_Reviewed_and_unknown_fields(self):
         value = baseline();expected = {**value['static'], 'schema': value['schema'], 'claim_ports': {}}
         parsed = observer.parse_observation([{'live_observation': value}], Core(), expected)

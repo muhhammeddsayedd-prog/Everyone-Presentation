@@ -23,6 +23,13 @@ an unrelated or unidentified unreviewed profile is the same person. For the
 intentional unreadable synthetic source, use the top-level untargeted uploader;
 it depicts no person, and candidate creation happens only at final apply.
 
+The preservation observer covers the existing Ready-version cohort and reports
+`new_ready_versions_observed=false` only when that Ready cohort stays exact. It
+does not check the creation of queued or failed presentation versions. The live
+job audit queries only the two supplied, scoped new job IDs: its
+`audited_job_count=2` and `other_new_job_absence_checked=false` do not claim that
+no other workspace jobs were created concurrently.
+
 ## Ensure these are new jobs after36
 
 Use a fresh ordinary tab/upload queue, or confirm all old queue intents are

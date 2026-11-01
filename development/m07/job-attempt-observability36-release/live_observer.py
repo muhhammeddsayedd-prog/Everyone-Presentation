@@ -186,7 +186,7 @@ def preserve(before, after):
         need(all(new.get(k) == v for k, v in old.items()))
         if key in EXACT_GROUPS:need(new == old)
         counts[key] = len(old);added[key] = len(new) - len(old)
-    return {'old_ready_reviewed_and_source_metadata_preserved': True, 'new_versions_created': False, 'old_counts': counts, 'new_rows_permitted': added}
+    return {'old_ready_reviewed_and_source_metadata_preserved': True, 'new_ready_versions_observed': False, 'old_counts': counts, 'new_rows_permitted': added}
 
 
 def audit_jobs(value, baseline, inputs, trace_parser):
@@ -292,6 +292,8 @@ def main():
             # Typed trace parsing uses the same closed14-field contract without
             # importing a Node/provider process. The Python gate below is finite.
             receipt['jobs'] = audit_jobs(value, before['observation'], inputs, parse_trace)
+            receipt['audited_job_count'] = len(receipt['jobs'])
+            receipt['other_new_job_absence_checked'] = False
             receipt['producer_browser_message_verified'] = False
         receipt['observed_at'] = value['observed_at'];receipt['result'] = 'passed'
     except Exception:
