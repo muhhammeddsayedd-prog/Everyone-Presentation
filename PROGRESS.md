@@ -1,6 +1,48 @@
 # Everyone Presentation Studio - current English-output rollout
 
-## Current checkpoint - 2026-11-01T17:45:34Z: batch filter hosted; specs diagnostic fix verified locally
+## Current checkpoint - 2026-11-01T18:05:26Z: matching diagnostic images exported locally; hosted pilot unchanged
+
+Source checkpoint b0d6018 contains the reviewed specs diagnostic fix. Its 11
+focused cases, targeted lint and full isolated type check passed. The deployed
+web remains CUXVUZkW (database 38), with the batch-filter HTTP/auth evidence and
+928-test rollout passed; completed Claude connection/reconnect acceptance holds.
+
+The fresh 164-file context 6503a124 is sealed as037dc5d9. Both actual LOCAL OCI
+exports passed and were independently rehashed against every reachable blob:
+native50082f72 (633,853,952 bytes,22 blobs, archive88ea6411) and daemonce23af3b
+(111,132,672 bytes,18 blobs, archive6a3a8071). Exact receipts:
+`tracking/evidence/m07/specs-diagnostic-worker38/2026-11-01T17-58-00-384612Z-native-export.json` and
+`tracking/evidence/m07/specs-diagnostic-worker38/2026-11-01T18-03-17-571823Z-daemon-export.json`.
+The matching native manifest hash is3e20f7b1. Daemon's production import actually
+ran uncached as UID1000 with network none. Local exports are not registry Ready,
+native Sandbox/task, deployed daemon/startup or real specs diagnostic evidence.
+Both build claims are retained and must never be replayed. All164 source bytes
+and the three executed build files are held exact through the image rollout.
+
+The first build preflight stopped before any claim/Docker call because the
+installed Buildx has two legitimate vendor hard links. A separate exact-path,
+hash/link-count binary validator fixed that check; source/context single-link
+validation remains strict. Fourteen inert build checks passed before actual
+exports. The five new native-probe files are still disabled; ten inert checks
+and independent review passed, with no actual probe or Ready image invented.
+
+Read-only17:55 inventory found zero queued/running/waiting/retry-lifecycle jobs
+outside protectedM02, and no pending/leased outbox work. English1.0 and existing
+processing flags remain enabled. This is a dated snapshot, not a future pause
+or concurrency proof. Current worker2uAS/daemon430d0992/native795f8f77 is unchanged.
+Registry transport and exact current38 pause/pin/resume operators are being
+prepared separately; no configuration pause, registry push or adoption occurred.
+
+Next: publish/observe both exact digests, execute new native boundary/task/cleanup
+proof, prove the config-lock/quiescence fence locally, then perform the guarded
+manifest/pin/daemon adoption and a controlled real specs check. Do not replay old
+33/off/160-file operators or relabel old native795. Keep owner batch/feedback MCP
+and guest checks pending, reviewed facts/Ready versions/local37 recovery intact,
+screen-reader acceptance pending, mobile skipped, and the hosted pilot running.
+AT069's automatic approval rejection ('blocked by policy') remains untouched;
+no retry, manual equivalent or provider action for that blocked action occurred.
+
+## Historical checkpoint - 2026-11-01T17:45:34Z: batch filter hosted; specs diagnostic fix verified locally
 
 The stable pilot serves web `dpl_CUXVUZkWjkrQPBTv7XqmA9tF3y4o` with database
 history 38. Its Ready proof, authenticated HTTP reads, six public auth/discovery

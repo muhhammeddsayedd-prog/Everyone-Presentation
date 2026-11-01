@@ -1,6 +1,6 @@
 {
   "pack_version": "1.0",
-  "updated_at": "2026-11-01T17:45:34Z",
+  "updated_at": "2026-11-01T18:05:26Z",
   "implementation_started": true,
   "current_milestone": "M07",
   "current_pilot": {
@@ -10794,5 +10794,29 @@
     "historical_provider_cause_reconstructed": false,
     "failed_job_retried": false,
     "next": "source-provenance assessment and compatible guarded worker rollout; controlled new failure diagnostic proof"
+  },
+  "worker_diagnostic_rollout38": {
+    "status": "implemented_unverified",
+    "source_checkpoint": "b0d6018",
+    "run_id": "6503a124-b514-4dcd-91ae-08a868d69a17",
+    "source_sha256": "037dc5d9b41605808d8f35907a71be4aba6fc6666a824ad7316d823334f35c38",
+    "source_file_count": 164,
+    "native_local_export": "tracking/evidence/m07/specs-diagnostic-worker38/2026-11-01T17-58-00-384612Z-native-export.json",
+    "native_digest": "sha256:50082f72d4438653d4c831a1f9a360d61e64d19b3568ed1c2a2456d486f0d77c",
+    "daemon_local_export": "tracking/evidence/m07/specs-diagnostic-worker38/2026-11-01T18-03-17-571823Z-daemon-export.json",
+    "daemon_digest": "sha256:ce23af3ba163199c1e35f224f71a281ab450d7acfc0f4ab85b6044df5246431c",
+    "manifest_sha256": "3e20f7b1c795ab2e825a02327c4a4a241b97a57a8bf3d28e2a265f7eba8630f9",
+    "daemon_uncached_production_import_passed": true,
+    "local_export_claims_retained": true,
+    "registry_pushed": false,
+    "new_native_hosted_probe_performed": false,
+    "processing_paused": false,
+    "environment_or_DB_adoption_performed": false,
+    "worker_replaced": false,
+    "current_worker_deployment": "dpl_2uASsbYobSDwWjMptPjGLcVEdCg3",
+    "drain_snapshot_receipt": "tracking/evidence/m07/specs-diagnostic-worker38/2026-11-01T17-55-03-096505Z-drain-inventory.json",
+    "future_quiescence_not_inferred": true,
+    "native_concurrency_proof": "not_run",
+    "next": "registry transfer/Ready, native probe, local concurrency proof and exact guarded current38 adoption"
   }
 }
