@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-11-01T20:17:21.453953+00:00",
+  "result": "pre_execution_review_finding",
+  "code": "LOCAL_SESSION_ADMISSION_MISMATCH",
+  "initial_compiler_sha256": "9e79e74963dfedeb7a382d6943fdeed59cd2d9ef24da4991fa893b567b399808",
+  "initial_inert_tests": {
+    "passed": 18,
+    "scope": "parser/source/VM checks; insufficient to prove actual session identity"
+  },
+  "connection_login": "supabase_admin",
+  "set_local_role": "postgres",
+  "unadapted38_session_guard_expected": "postgres",
+  "consequence": "Would refuse the actual38 local admission after owned34-37 commits",
+  "found_before_owned_database_or_native_execution": true,
+  "owned_database_or_native_execution_started": false,
+  "fix_scope": "Only the new owned38 admission adapter; exact session login supabase_admin, current_user postgres and owned OID/name/run marker remain required; original migration and functional suffix unchanged",
+  "new_compiled_port_regression": "RED reproduced mismatch; narrow correction GREEN1of1; final19 and independent review pending",
+  "hosted_pilot_affected": false
+}

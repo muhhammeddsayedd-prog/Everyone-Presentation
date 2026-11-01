@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-11-01T20:24:56.711Z",
+  "finished_at": "2026-11-01T20:24:57.740Z",
+  "source_pins": {
+    "development/m07/operator-trace-live34/execution-metadata.mjs": "fcb77909e2c2d1ed7ece452f305b619f55ca4de9baea8be63bc9de30ccac656b",
+    "tools/worker-private-env.mjs": "ef935580876c9150b8150947c3796dd4760d1ad2910bc3bf322dd5015eea4d79"
+  },
+  "evidence_kind": "additional_metadata_only_n8n_observation",
+  "connector_metadata_only_requests": [
+    {
+      "execution_id": "31910",
+      "error_code": -32603,
+      "internal_error": true
+    },
+    {
+      "execution_id": "31911",
+      "error_code": -32603,
+      "internal_error": true
+    },
+    {
+      "execution_id": "31912",
+      "error_code": -32603,
+      "internal_error": true
+    }
+  ],
+  "direct_metadata_GETs": [
+    {
+      "case_alias": "fresh_specs_stage",
+      "job_id": "42bd909b-d8af-4215-9c38-137e3a345925",
+      "execution_id": "31910",
+      "workflow_id": "Nu4bvU634yTLnRy1",
+      "method": "GET",
+      "includeData": false,
+      "automatic_retry": false,
+      "metadata_returned": false,
+      "http_status": 404,
+      "safe_error_class": "EXECUTION_NOT_FOUND"
+    },
+    {
+      "case_alias": "fresh_specs_stage",
+      "job_id": "42bd909b-d8af-4215-9c38-137e3a345925",
+      "execution_id": "31911",
+      "workflow_id": "Nu4bvU634yTLnRy1",
+      "method": "GET",
+      "includeData": false,
+      "automatic_retry": false,
+      "metadata_returned": false,
+      "http_status": 404,
+      "safe_error_class": "EXECUTION_NOT_FOUND"
+    },
+    {
+      "case_alias": "fresh_specs_stage",
+      "job_id": "42bd909b-d8af-4215-9c38-137e3a345925",
+      "execution_id": "31912",
+      "workflow_id": "Nu4bvU634yTLnRy1",
+      "method": "GET",
+      "includeData": false,
+      "automatic_retry": false,
+      "metadata_returned": false,
+      "http_status": 404,
+      "safe_error_class": "EXECUTION_NOT_FOUND"
+    }
+  ],
+  "maximum_GETs": 3,
+  "automatic_retry": false,
+  "node_data_or_raw_bodies_or_credentials_recorded": false,
+  "workflow_execution_retry_or_edit_performed": false,
+  "independent_retained_metadata_available": false,
+  "scoped_AT074_existing_pass_preserved": true,
+  "HTTP404_cause_not_inferred": true
+}

@@ -1,6 +1,6 @@
 {
   "pack_version": "1.0",
-  "updated_at": "2026-11-01T20:05:46Z",
+  "updated_at": "2026-11-01T20:29:11Z",
   "implementation_started": true,
   "current_milestone": "M07",
   "current_pilot": {
@@ -10960,7 +10960,7 @@
     "isolated_production_build_passed": true
   },
   "current_hosted_release": {
-    "observed_at": "2026-11-01T20:05:46Z",
+    "observed_at": "2026-11-01T20:26:38.229857+00:00",
     "web_deployment_id": "dpl_4Gm85atSx5XG8kd8w3tfXCTDjNro",
     "web_source_sha256": "c69b59c8d2ecff87e951340e3306c0bebd89dce98b8cf7dedce88d931693248f",
     "canonical_history": 38,
@@ -10974,6 +10974,62 @@
     "replacement_status": "deployed_enabled_real_specs_verified",
     "public_worker_manifest_sha256": "3e20f7b1c795ab2e825a02327c4a4a241b97a57a8bf3d28e2a265f7eba8630f9",
     "native_DB_pin": "sha256:50082f72d4438653d4c831a1f9a360d61e64d19b3568ed1c2a2456d486f0d77c",
-    "last_real_specs_job_id": "42bd909b-d8af-4215-9c38-137e3a345925"
+    "last_real_specs_job_id": "42bd909b-d8af-4215-9c38-137e3a345925",
+    "post_job_identity_receipt": "tracking/evidence/m07/specs-worker38-audit/2026-11-01T20-26-38-229857Z-pilot-post-job-identity.json"
+  },
+  "recovery38": {
+    "status": "passed_owned_local38",
+    "source_directory": "development/m07/recovery38",
+    "execution_enabled": true,
+    "actual_recovery_executed": true,
+    "historical37_pass_preserved": true,
+    "preflight_finding_receipt": "tracking/evidence/m07/recovery38/2026-11-01-pre-execution-session-finding.json",
+    "inert_checks": "author19/19, independent19/19 and Root armed19/19 passed; source/schema/session review clear",
+    "planned_acceptance": "actual owned local38 SQL plus4synthetic filesystem objects/native PDF-video, exact metadata/English/trace/batch parity and all original29/global role/session/lock cleanup; no cloud/provider/Storage HTTP/deployed/independent/RTO proof",
+    "source_hashes": {
+      "compiler.mjs": "14a589aec94d78449faebab82964b3270fe0fcf7c43937a631f59e32dfe53fba",
+      "frozen-inputs.json": "d9850feedaf734f15b9054cb476a566567280a086b768e58e71eccc8a4611af5",
+      "README.md": "a7911312c89fcbc462f91fc78ddd9ecf6064ab8f885e3ee39f7356c05477c344",
+      "recovery.test.mjs": "23af42cc7ecd1287af09f4876d875ba380defeae28dae27bc9e7fb6853f3252e",
+      "run.mjs": "c0d2bb13fc5ea7571c6535e8ecf121b867b1f77726291ebe95b8cc2b07bb3812",
+      "runtime.mjs": "b416fb495233ed7bb44192ec2771554970be73d973123d1438bb71245a58ab82"
+    },
+    "next": "Owner-led full delegated journey with fresh upload session and matching app readbacks; current38 local recovery is passed, do not replay claimed controller.",
+    "execution_dispatched": true,
+    "run_id": "639da33a-7e90-4471-b0ec-c7a8ff6097ef",
+    "dispatch_receipt": "tracking/evidence/m07/recovery38/2026-11-01-Root-dispatch.json",
+    "actual_run_result": "passed",
+    "receipt": "tracking/evidence/m07/recovery38/2026-11-01T20-19-31-495Z-639da33a.json",
+    "Root_admission": "tracking/evidence/m07/recovery38/2026-11-01T20-24-11-582932Z-Root-admission.json",
+    "started_at": "2026-11-01T20:19:31.495Z",
+    "finished_at": "2026-11-01T20:22:00.969Z",
+    "elapsed_ms": 149474,
+    "source_seals_verified": 385,
+    "separate_API_provenance_verified": 2,
+    "restored_source_entries": 373,
+    "restored_objects": 4,
+    "all_cleanup_passed": true,
+    "original29_and_global_roles_sessions_lock_preserved": true,
+    "normal_process_return_observed": true,
+    "StorageHTTP_or_hosted_or_independent_or_RTO_RPO_accepted": false
+  },
+  "release_security38": {
+    "observed_at": "2026-11-01T20:25:49.540Z",
+    "receipt": "tracking/evidence/m07/recovery38/2026-11-01T20-25-49.541Z-production-security-checks.json",
+    "production_dependency_vulnerabilities": 0,
+    "local_production_fixture_denial_passed": true,
+    "lock_unchanged": true
+  },
+  "scoped_AT074_acceptance_preserved": true,
+  "additional_n8n_metadata38": {
+    "receipt": "tracking/evidence/m07/specs-worker38-audit/2026-11-01T20-24-57.740Z-n8n-additional-metadata.json",
+    "connector_error_code": -32603,
+    "direct_HTTP_statuses": [
+      404,
+      404,
+      404
+    ],
+    "cause": "unknown",
+    "prior_scoped_AT074_pass_reopened": false
   }
 }

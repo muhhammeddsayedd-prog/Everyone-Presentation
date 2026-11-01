@@ -1,6 +1,74 @@
 # M07 remaining acceptance after trace36 installation
 
-## Current checkpoint - 2026-11-01T20:05:46Z: hosted diagnostic worker and real specs app workflow verified
+## Current checkpoint - 2026-11-01T20:29:11Z: hosted specs workflow and actual local38 recovery passed
+
+The hosted pilot is running with ALL FIVE processing flags enabled,canonical38,
+English1.0,web4Gm85/sourcec69b59c8 and workerG6CV/daemonce23/native50082. Fresh
+20:26:38 direct reads confirm the stable alias,one Ready/alive2GiB dub1 worker,
+new instance only,current controls,zero conservative work counters and protected
+M02 integrity: `tracking/evidence/m07/specs-worker38-audit/2026-11-01T20-26-38-229857Z-pilot-post-job-identity.json`. Cached health age is reported; this is not a new strict
+startup gate. Prior19:58 exact23-record startup and full pin/resume remain passed.
+
+Main checkpointfe077d8 saved the guarded worker rollout and fresh actual app job
+42bd909b-d8af-4215-9c38-137e3a345925. Real OpenAIgpt-6.1-sol used1626tokens; durable
+n8n stage refs31910/31911/31912. Normal app saved/reloaded English Studio Guide,
+one slot,stated age/gender/language/wardrobe; dates/location remain unspecified.
+ProtectedM02,historical136,Reviewed25a3/media/frames and all existing Ready versions
+passed both post-job preservation audits. Existing Claude initial/reconnect/read,
+owner batch MCP and scoped AT074 paired success/failure/actionable app/API/MCP
+acceptance remain PASSED; no reenrollment or source/job replay is needed.
+
+NEW actual owned-local recovery38 run639da33a passed from20:19:31.495Z to
+20:22:00.969Z (149474ms). Receipt: `tracking/evidence/m07/recovery38/2026-11-01T20-19-31-495Z-639da33a.json`.
+Actual30-38 DDL,full metadata/permissions/Auth/feedback/trace/English restoration,
+immutable companions,authenticated NULL-batch denial and proven empty-batch parity
+passed. Four referenced filesystem objects and373 source entries were restored;
+native PDF8pages/168text regions/2video links/3fonts and2s160x90H264 video validated.
+Controlled lease/retry/stale-callback fences,two corrupt/missing-backup refusals
+and unchanged old Ready/PDF/English snapshots passed. Root verified all385 current
+source seals plus2 separate API provenance hashes,normal process return,and every
+cleanup/preservation flag: `tracking/evidence/m07/recovery38/2026-11-01T20-24-11-582932Z-Root-admission.json`.
+
+Both disposable databases,new trace/new33 roles and test container are absent;
+original29 full catalogue/Auth-Storage/profile/settings,globalrole OIDs/attributes/
+memberships,sessions and shared-lock release passed. The historical37 proof/365
+blueprint bytes stay separate and unchanged. The current72 native graph is bundled;
+12 installed inputs and2 API provenance files are not restored. Fixed ea6e media
+engine is used; this is not hosted50082/fullweb/StorageHTTP/independent/secrets/
+provider configuration restoration or RTO/RPO acceptance.149474ms is rehearsal time.
+
+Pre-execution review caught the inheritedsupabase_admin session versus production
+postgres guard mismatch despite18 parser/source passes. New owned-only adapter
+requires that exact session plus effectivepostgres and full ownership/history;
+functional/canonical SQL stays byte-exact. The added native-port regression went
+RED/GREEN; author,peer and Root each passed19 focused checks. No failed SQL run
+occurred. The actual six-file package is armed and frozen; its claim is consumed.
+Never rerun its prepare/execute or edit executed sources/receipts to waive pins.
+
+Fresh production-only locked dependency audit reports zero vulnerabilities and
+the local NODE_ENV/APP_ENV production-fixture denial passes;lock unchanged:
+`tracking/evidence/m07/recovery38/2026-11-01T20-25-49.541Z-production-security-checks.json`.939 product tests/lint/types/build remain scoped current evidence;
+operator19 checks are separate. Additional n8n connector metadata reads returned
+-32603 and three direct includeData=false GETs returned404. Cause remains unknown;
+no raw bodies,credentials,node data,retry,workflow edit or new acceptance barrier.
+Scoped AT074 stays passed; deployed failure emission remains unit-only and the
+specific historical136 OpenAI cause remains unknown.
+
+Remaining/next concrete action: resume the owner-led full MCP upload/write/
+processing/Reviewed/assignment/generation/sharing journey with a FRESH transfer
+session (never the expired04:06 inbox),then matching app readbacks and relevant
+idempotency/stale/retry checks. Feedback-summary/guest delta,full token lifecycle/
+actual contributor,representative workload,StorageHTTP/independent restore and final
+integrated frontend release evidence remain open. Existing pending owner requests
+remain pending. FullM07 stays in progress; broad M03 semantics are unclaimed,with no
+additional label requests or language selector. Screen-reader pending,mobile skipped.
+Claude frontend changes remain preserved; coordination notes are append-only.
+AT069 rollback-transport preparation was automatically rejected with reason only
+'blocked by policy'; no retry/manual equivalent/provider action for that blocked
+action occurred. Pilot remains enabled until its owner stops it.
+
+
+## Historical checkpoint - 2026-11-01T20:05:46Z: hosted diagnostic worker and real specs app workflow verified
 
 Pilot https://everyone-presentation-pilot.vercel.app keeps running: web4Gm85/c69,
 workerG6CV/daemonce23/native50082, canonical38, English1.0 and ALL FIVE processing

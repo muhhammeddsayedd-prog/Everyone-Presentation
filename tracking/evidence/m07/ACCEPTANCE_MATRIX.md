@@ -1,6 +1,27 @@
 # M07 acceptance matrix
 
-## Current backend continuation - 2026-11-01
+## Current scoped release evidence - 2026-11-01, 20:26 UTC
+
+- Controlled pilot web4Gm85/workerG6CV/canonical38/native50082 remains enabled;
+  latest direct alias/worker/control read passed20:26:38.
+- New real app specs job42bd909b passed OpenAI/n8n and English saved/reload display;
+  old Reviewed/Ready/media/protected-job preservation passed.
+- Actual local38 recovery639da33a PASSED149474ms: metadata/four objects/373source
+  entries/native8-page PDF+2sH264,English/fences/null+emptybatch checks,and all
+  original29/globalrole/session/cleanup/lock flags. [Receipt](recovery38/2026-11-01T20-19-31-495Z-639da33a.json),
+  [Root admission](recovery38/2026-11-01T20-24-11-582932Z-Root-admission.json).
+- Root19 operator tests and fresh production dependency audit0vulnerabilities/
+  local production-fixture denial passed. Prior939 product gates retain scope.
+- Scoped AT074 paired real success/failure + actionable app/API/ownerMCP guidance
+  stays PASSED ([paired audit](job-attempt-observability36-live-sidecar/2026-11-01T02-50-02-687228Z-8829fa59-3c1c-46dc-b20b-32649645c275.json),
+  [owner guidance](source-unreadable36-web/2026-11-01-owner-mcp-job-guidance.json)).
+  Additional n8n -32603/404 metadata failures do not reopen this scoped acceptance.
+- Full delegated/token/contributor/guest delta/representative/StorageHTTP/independent
+  restore and production release remain open; AT069 policy block retained.
+  Screen-reader pending,mobile skipped; no language labels/selector.
+
+
+## Historical backend continuation - 2026-11-01
 
 Current controlled pilot is web4Gm85 / workerG6CV / canonical38 / native50082,
 English1.0 and all five processing flags enabled. New exact23-record bound startup,

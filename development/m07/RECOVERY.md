@@ -1,5 +1,24 @@
 # M07 isolated recovery rehearsal
 
+## Current local38 proof - 2026-11-01
+
+Run639da33a passed actual owned local38 metadata/four-object/native PDF-video
+restore and full cleanup in149474ms (20:19:31.495Z-20:22:00.969Z).
+[Actual receipt](../../tracking/evidence/m07/recovery38/2026-11-01T20-19-31-495Z-639da33a.json), [Root source/cleanup admission](../../tracking/evidence/m07/recovery38/2026-11-01T20-24-11-582932Z-Root-admission.json).
+All385 current source hashes plus2 API provenance hashes match.373 source entries
+restore;12 installed descriptors and2 API provenance entries are excluded. The
+72-file native graph includes job-filters. Historical37/365 inputs remain separate.
+Both temporary databases,trace/new33 roles and test container were removed; full
+original29/Auth-Storage/profile/settings/globalroles/sessions/lock preservation
+passed. English immutability, authenticated null/empty batch parity, backup
+corruption refusals, real native PDF/video and controlled recovery fences passed.
+The media engine remains pinned ea6e; no hosted50082/full web/dependency install/
+StorageHTTP/independent/secrets/configuration/RTO/RPO restoration is claimed.
+The six new recovery38 sources are now armed/executed and held exact. Run claim
+639da33a is consumed; never replay its prepare/execute. Prior disabled instructions
+describe source preparation. Current handoff governs actual execution status.
+
+
 ## Current history29 proof
 
 [The current bda68ef0 rehearsal](../../tracking/evidence/m07/recovery29/2026-10-30T12-25-42-320Z-bda68ef0.json) restores29migrations,4exact synthetic objects and71critical sources, with all16430raw catalogue fields, Settings/MCP/permissions and stale lease/callback fences. Both owned DBs are actually absent; original29and all existing global role OIDs/attributes/memberships remain unchanged. Elapsed107525ms is not RTO/RPO. [The new guarded controller](recovery29/run.mjs) is separate from the frozen28runner; do not run the historical command below against29. Exact8observed dump-profile corrections apply only inside marked/OID-owned clones; raw observations, semantic/parser proofs, guard fixes and earlier refusals remain under `tracking/evidence/m07/recovery29/`. No StorageHTTP/deployed/secret/independent-cluster restore is established.

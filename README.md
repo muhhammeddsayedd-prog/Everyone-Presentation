@@ -14,6 +14,8 @@ Guide role and survived reload; protected jobs, Reviewed facts and old Ready
 versions stayed intact. [App proof](tracking/evidence/m07/specs-worker38-audit/2026-11-01-hosted-specs-app.json) and the [current handoff](tracking/HANDOFF.md) define exact evidence and remaining work.
 Claude connection/reconnect and filtered MCP acceptance stay passed. M07 remains
 in progress; screen-reader acceptance pending, mobile skipped, pilot until owner stop.
+Current38 local metadata/four-object/native PDF-video recovery also passed with
+full cleanup and original-database preservation; [recovery proof](development/m07/RECOVERY.md) records its strict local scope.
 The following dated evidence is retained.
 
 The controlled Vercel pilot is active at **https://everyone-presentation-pilot.vercel.app**, authorized until the owner stops it. The [hosted core gate](tracking/evidence/m07/controlled-pilot/HOSTED_CORE.json) now passes all nine checks, backed by fifteen public receipts: Projects, Settings, Processing, specs and video through actual OpenAI/n8n, native frames, Selection PDF, guest feedback and linked original video. This bounded pilot proof does not complete M03 semantic acceptance, AT-072, or the full human/delegated production journey. Mobile testing remains skipped under the owner's waiver.
