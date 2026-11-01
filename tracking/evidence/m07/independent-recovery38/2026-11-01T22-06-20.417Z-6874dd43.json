@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "run_id": "6874dd43-1369-418e-b491-0254d27bf58f",
+  "started_at": "2026-11-01T22:06:20.417Z",
+  "result": "failed",
+  "checkpoint": "restore-roles-and-metadata",
+  "scope": "AT-070 synthetic independent Docker PG17 cluster plus real local Storage and PostgREST HTTP; no deployed/provider/real-user authentication/AT069/RTO/RPO claim",
+  "cloud_called": false,
+  "provider_called": false,
+  "pilot_called": false,
+  "at069_performed": false,
+  "source_backup_run": "639da33a-7e90-4471-b0ec-c7a8ff6097ef",
+  "private_acl_verified": true,
+  "executed_source_seals": {
+    "development/m07/independent-recovery38/run.mjs": "5d3ac6aec17384115e5129b1b883c5199adf95136e06ba84bb1a74770bfaee13",
+    "development/m07/independent-recovery38/guards.mjs": "d464dc1bdbe08c6297231b9d3f3471e8248879fc495e422abcf20a06fb2f7845",
+    "development/m07/recovery33/compiler.mjs": "e53ba5ab07b3724f0b2c4da59d46090ddb351342be205f74325e46192c4cf0a6",
+    "development/m07/recovery36/runtime.mjs": "46759a3a6a4d8e0c5caf5e60ebc264cd351230cfa778cd72c7af1db629e1c506"
+  },
+  "executed_source_snapshots_retained_privately": true,
+  "source_receipt_sha256": "c5c0ebf08bab9d4152c6e1e9caf3bceae08f971024977daea25da95d2febce52",
+  "metadata_sha256": "12df4e565d466c008095498903237ae24f304403887db396b8bc46b5cf93346c",
+  "verified_source_count": 373,
+  "verified_object_count": 4,
+  "source_bytes_restored": 373,
+  "original_baseline_sha256": "83c7f2cc92c1e8147e6a44d336ed0d310232a6f8aac0a367ca9383648b1b85f2",
+  "images": {
+    "db": "sha256:6942962433a569e87f228b4d4ab7e11db5deca64e43babb3a038443ad6c4f1bb",
+    "storage": "sha256:a0420573837ee08c0afdc9cd01f90b4b8027579da99e0b9a159fe912ef756c99",
+    "rest": "sha256:1347d7552b88f17832912c06afbf7c43209af6eeeb60834b04aae12c9bd9d5cc"
+  },
+  "independent_cluster": {
+    "user": "supabase_admin",
+    "version": "17.6",
+    "system_identifier": "7703327888963514408"
+  },
+  "failure_code": "RECOVERY_COMMAND_FAILED",
+  "all_owned_resources_absent": true,
+  "original_database_unchanged": true,
+  "original_catalogue_and_role_oids_attributes_memberships_unchanged": true,
+  "original_shared_lock_released": true,
+  "finished_at": "2026-11-01T22:06:48.182Z",
+  "elapsed_ms": 27765
+}
