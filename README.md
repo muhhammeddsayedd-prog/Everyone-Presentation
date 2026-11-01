@@ -13,7 +13,9 @@ confirmed the stable alias and preserved configuration; the [worker read](tracki
 confirmed one healthy2GiB instance in dub1. The new feedback summary passed signed-in
 HTTP and public denial checks; its owner MCP and live guest reads are pending.
 Initial Claude authorization/reconnect/project/job reads and English workflow
-acceptance stay passed. Full M07/recovery and delegated journey remain in progress;
+acceptance stay passed. [Full current37 local video/PDF recovery](tracking/evidence/m07/recovery37/2026-11-01T10-25-49-755Z-7c2a8d9a.json)
+passed; independent/Storage HTTP restore and the full delegated journey remain open.
+M07 remains in progress;
 manual screen-reader acceptance is pending, mobile testing skipped, and the pilot
 runs until its owner stops it.
 The handoff governs current state; the following dated evidence is retained.

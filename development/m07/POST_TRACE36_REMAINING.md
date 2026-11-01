@@ -6,7 +6,65 @@ acceptance reconciliation, not a new feature decision or a production pass.
 No operational command, provider request, upload or database change was made
 for this document. The root agent owns the main progress/handoff updates.
 
-## Current checkpoint - 2026-11-01T10:15:35Z: canonical37 and web feedback summary deployed
+## Current checkpoint - 2026-11-01T10:30:02Z: full local history37 native recovery passed
+
+Actual new run `7c2a8d9a-10ef-4a26-9c0b-31b8256bff71` PASSED from
+10:25:49.755UTC to10:28:23.418UTC (153,663ms): `tracking/evidence/m07/recovery37/2026-11-01T10-25-49-755Z-7c2a8d9a.json`
+(SHA256 `32a45739f183308d6d98d6a28fec9e65ba47679c15d4413737d70e75f85f3824`). All365 executed source seals still match. Actual30-37
+DDL, real local FFmpeg/native prepare-render-validate-publish and guest-PDF
+executors ran. Four referenced filesystem objects (video/manifest/canonicalPDF/
+guestPDF),353 internal/lock/template/font source files and the full17,714-field
+portable catalogue were restored exactly. Twelve named third-party installation
+inputs remain sealed/rechecked but are explicitly excluded from restored sources;
+installed dependencies/browser are prerequisites, not restored acceptance.
+
+All populated table hashes, both Ready/interrupted-version English companions
+and six pre-backup trace rows/events matched before recovery. English companion
+mutation/deletion was refused; a later synthetic library edit preserved frozen
+English. Restored Summary/feedback/Auth boundaries, controlled job expiry,
+stale-callback denial, outbox fencing and one fresh restored attempt/trace passed.
+The actual current native privilege hashes matched508; only the exact owned
+trace-table NULL/owner ACL profile was corrected before the unchanged old profile
+helper. Restored8-page PDF validated168 text regions,2 video links and3 fonts
+(with0 image draws); restored H264 video re-probed at2s/160x90/noaudio.
+Tampered and missing-object negatives passed. Both owned DBs and all four
+run-owned roles were removed; original29 data/full Auth-Storage/profile/settings,
+preexisting global-role OIDs/attributes/memberships and native fixture container
+cleanup were exact, and the shared lock was released. Normal child return alone
+was not used as acceptance; Root inspected the actual complete receipt and flags.
+
+Before execution, source review caught and fixed a missing SQL keyword separator,
+the frozen bundle helper's allowed-root mismatch, scoped vendor source paths,
+and the full-mode two-English-row expectation. Actual frozen ownership/path
+validators and emitted transaction/PLpgSQL parsing were added. Author, peer and
+Root-after-arming each passed13 overlapping inert tests (not39 distinct tests).
+The seven new executed files are held exact; old119/145/217/251 sources and
+failed histories were preserved. Never replay this permanent execution claim.
+
+Scope is synthetic same-cluster LOCAL metadata plus referenced filesystem/native
+PDF/video recovery. Storage HTTP, real Auth/settings/secrets, installed vendor/
+browser recovery, deployed/independent-host restore, physical crash, RTO/RPO and
+representative media/cost are unverified. Earlier full36 metadata/local33 and
+English/Reviewed/old-version/Claude connection acceptance remain passed.
+
+Hosted state is unchanged from release checkpoint `cfd084e`: canonical37, web
+`dpl_EUK29uLiGvrPguUv3T7d5KR19RwC`, worker2uAS/English1.0, pilot until owner
+stop. Signed-in feedback summary and6 public checks passed; new owner MCP and
+temporary guest link/read/revoke are pending owner replies. No link was created by Codex.
+
+Next independent slice is Request3 batch_id job filtering in the isolated
+`Everyone-Presentation-Studio-Batch-Filter` worktree. Review rejected its initial
+historical M02-body draft: M03 patches current list/get jobs for cast.read and
+requester-owned frame visibility (current list prosrc SHAa2239225). The corrected
+composed SQL plus narrow MCP preliminary-gate parity and frame negatives are in
+review; no official38, native SQL, main integration or deployment is claimed.
+Existing RLS independently protects frame rows; no cross-user exploit was proved.
+One broad draft clearance was retracted. The owner upload journey remains pending
+with the expired inbox unreplayed/unread. AT069 automatic approval source-edit
+block remains (blocked by policy; no retry/provider action), screen reader pending,
+mobile skipped. M07/production release remain in progress.
+
+## Historical checkpoint - 2026-11-01T10:15:35Z: canonical37 and web feedback summary deployed
 
 Canonical migration37 applied to `pyibofyctwnqpvktepse` with its normal-return
 marker and two equal full readbacks; separate independent readback also passed.
@@ -39,6 +97,11 @@ read and temporary guest-link creation/test/revocation are pending owner replies
 Existing initial/reconnect/project/job/summary acceptance remains PASSED.
 
 Production-only locked dependency audit also passed with zero reported vulnerabilities: `tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-15-53-031507Z-production-dependency-audit.json`; no automatic fixes or dependency changes.
+
+Recovery37 source review is clear (13 independent inert passes); Root armed the
+new entry flag and is rerunning inert checks before one fresh owned full native
+proof. Planned evidence includes four referenced filesystem objects, native
+PDF/video, exact English/trace rows and full cleanup; no native37 pass yet.
 
 Next: complete those new feedback reads as replies arrive; independently prepare
 the disabled full local recovery37 native/filesystem proof, and implement the
