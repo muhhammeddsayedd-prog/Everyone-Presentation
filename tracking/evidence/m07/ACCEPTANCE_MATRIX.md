@@ -1,5 +1,17 @@
 # M07 acceptance matrix
 
+## Current completion release matrix
+
+| Workflow | Implementation | Real services | Verified | Deployed | Remaining |
+|---|---|---|---|---|---|
+| Redesigned frontend | Integrated main | Pending integrated run | Historical fixture only | No | Integrated connected acceptance |
+| Project creation/types/UI/API/MCP | In progress | Pending migration | Pending | No | New authorized vertical slice |
+| Existing Casting journeys | Existing implementation | Scoped passed | Fresh coherent human/delegated pending | Existing pilot | Release journey |
+| Guest summaries/permissions/tokens | Existing implementation | Partial | Pending deltas | Existing pilot | Anonymous nonzero/contributor/refresh lifecycle |
+| Recovery | Local38 passed; independent in progress | Independent Storage pending | Pending | Existing pilot preserved | Independent runtime/API repair |
+| Production admission/release | In progress | Pending | Pending | Controlled pilot only | Production start, compatible rollout and source identity |
+| Accessibility | Existing keyboard/automation | Pending integrated run | Screen reader pending; mobile skipped | Existing pilot | Manual AT072 |
+
 ## Current scoped release evidence - 2026-11-01, 20:26 UTC
 
 - Controlled pilot web4Gm85/workerG6CV/canonical38/native50082 remains enabled;

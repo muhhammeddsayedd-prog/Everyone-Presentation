@@ -6,6 +6,9 @@
 | --- | --- | --- | --- |
 | `get_capabilities` | `GET /capabilities` | workspaces.read | Yes |
 | `list_projects` | `GET /projects` | projects.read | Yes |
+| `create_project` | `POST /projects` | projects.read AND projects.write; optional client write authority | Yes |
+| `list_clients` | `GET /clients` | projects.read AND projects.write; authorized active clients only | Yes |
+| `list_presentation_types` | `GET /presentation-types` | projects.read | Yes |
 | `get_project` | `GET /projects/{project_id}` | projects.read | Yes |
 | `update_project` | `PATCH /projects/{project_id}` | projects.write | Yes |
 | `list_workspaces` | `GET /workspaces` | workspaces.read | Yes |

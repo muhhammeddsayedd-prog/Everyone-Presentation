@@ -1,5 +1,9 @@
 # Everyone Presentation Studio - current English-output rollout
 
+## Completion and production release started - 2026-11-01T22:31:23.612022+00:00
+
+Authorized implementation has started. Intended root changes were checkpointed in 1a8a411; frontend/redesign including unfinished summary/feedback/batch/transcript source is merged into main. Source worktrees and untracked design captures remain preserved. New canonical project creation, API/MCP parity, folder intake, explicit production admission and independent recovery are being implemented. No new cloud mutation or production acceptance is claimed. Root coordinates migrations/deployments; existing AT069 policy rejection and all pending acceptance remain explicit.
+
 ## Current checkpoint - 2026-11-01T20:29:11Z: hosted specs workflow and actual local38 recovery passed
 
 The hosted pilot is running with ALL FIVE processing flags enabled,canonical38,

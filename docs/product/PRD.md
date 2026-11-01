@@ -14,7 +14,7 @@ This document specifies intended behavior. The delivered HTML prototype demonstr
 
 ### Included in the first production release
 
-- Existing central project selection, permission-aware project/client editing, and client logo upload/reuse.
+- Central project creation and selection, permission-aware project/client editing, and client logo upload/reuse.
 - Specs upload as PDF/Word or pasted text; extraction into editable role requirements and individual slots.
 - Shared internal Cast Library with search/filter, media reuse, Unreviewed/Reviewed states, and possible-duplicate resolution.
 - Multiple direct file uploads, persistent per-file progress, real video/audio preparation, OpenAI transcription and structured extraction, up to three selected actual frames per candidate, and retryable partial failure.
@@ -26,7 +26,7 @@ This document specifies intended behavior. The delivered HTML prototype demonstr
 
 ### Later modules and excluded work
 
-The app shell should accommodate Wardrobe, Art Direction, Storyboard, vehicle/animal/options, fitting, and pre-PPM/PPM packages. Each will eventually have its own inputs and processing rules. A registry entry or planned card is sufficient in v1; do not build empty workflows that suggest those modules work.
+The app shell accommodates Wardrobe, Art Direction, Storyboard, vehicle/animal/options, fitting, pre-PPM/PPM and production documents. Users can select these types when creating a real central project; the saved project opens a Planned overview. Only Casting has a presentation workflow in this release.
 
 V1 excludes Google Drive or other external ingestion connectors, billing, bookings/payments, an independent project-management product, a freeform slide editor, a specs revision/diff feature, and a dedicated candidate fact-conflict interface. Historical cast imports use normal upload/reuse paths; a separate migration product is not required. A revised specs manager and fact-conflict manager were explicitly declined.
 
@@ -48,7 +48,7 @@ Concrete role names and membership tables are discovered in M00. Capabilities in
 
 ### Project
 
-The user opens Projects and selects an existing authorized central project. If no matching project exists, the app explains that a project must first exist in the connected business system; it does not fabricate a local project. The workspace displays central project/client details. Authorized corrections update those shared records. The Project tab supports uploading a client logo, replacing/removing the workspace selection, and choosing cover-only or every-slide placement. New generated versions capture branding, so later logo changes do not rewrite history.
+The user opens Projects and selects an authorized central project or creates one with a name, presentation type and optional authorized existing client. Creation requires projects.read and projects.write and writes the canonical business records, including the creator's project membership. The saved overview starts/resumes Casting through the existing workspace operation, or clearly labels a future type Planned. The workspace displays central project/client details. Authorized corrections update those shared records. The Project tab supports uploading a client logo, replacing/removing the workspace selection, and choosing cover-only or every-slide placement. New generated versions capture branding, so later logo changes do not rewrite history.
 
 Project connection is required in production. Other missing presentation content remains allowed. The earlier prototype's ability to skip every step is a testing convenience, not a bypass of production permissions or referential integrity.
 

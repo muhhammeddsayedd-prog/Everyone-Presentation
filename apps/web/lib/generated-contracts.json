@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "x-source-sha256": "adaf7d9761437500df3360b6cd2c84628c8d4db9a7c92d485cb468e7bfa920d6",
+  "x-source-sha256": "f16ea337d44a914f6d013df9682572b0804c83e1da3fde7606e4c6c4cc183524",
   "$defs": {
     "Id": {
       "type": "string",
@@ -244,6 +244,20 @@
         },
         "can_edit": {
           "type": "boolean"
+        },
+        "presentation_type": {
+          "type": "string",
+          "enum": [
+            "casting",
+            "wardrobe",
+            "art_direction",
+            "storyboard",
+            "vehicles_animals",
+            "fitting",
+            "pre_ppm",
+            "ppm",
+            "production_documents"
+          ]
         }
       },
       "required": [
@@ -6112,6 +6126,95 @@
         "version_id",
         "per_slide",
         "totals"
+      ]
+    },
+    "ProjectCreate": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "presentation_type": {
+          "type": "string",
+          "enum": [
+            "casting",
+            "wardrobe",
+            "art_direction",
+            "storyboard",
+            "vehicles_animals",
+            "fitting",
+            "pre_ppm",
+            "ppm",
+            "production_documents"
+          ]
+        },
+        "client_id": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "name",
+        "presentation_type"
+      ]
+    },
+    "ClientSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "name": {
+          "type": "string"
+        },
+        "row_version": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "row_version"
+      ]
+    },
+    "PresentationType": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "key": {
+          "type": "string",
+          "enum": [
+            "casting",
+            "wardrobe",
+            "art_direction",
+            "storyboard",
+            "vehicles_animals",
+            "fitting",
+            "pre_ppm",
+            "ppm",
+            "production_documents"
+          ]
+        },
+        "label": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "available",
+            "planned"
+          ]
+        }
+      },
+      "required": [
+        "key",
+        "label",
+        "status"
       ]
     }
   }

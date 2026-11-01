@@ -20,7 +20,7 @@
     },
     {
       "id": "projects",
-      "label": "Select existing project; canonical details; workspace; logo placement/output preference",
+      "label": "Create/select canonical projects; type intent; authorized clients; workspace and branding",
       "ui_sources": [
         "apps/web/components/ProjectList.tsx",
         "apps/web/components/ProjectDetails.tsx",
@@ -75,6 +75,24 @@
           "domain_symbol": "getWorkspaceSummary",
           "domain_source": "packages/central/src/studio.ts",
           "http_source": "apps/web/lib/workspace-summary-http.ts"
+        },
+        {
+          "operation": "create_project",
+          "domain_symbol": "createProject",
+          "domain_source": "packages/central/src/studio.ts",
+          "http_source": "apps/web/app/api/v1/[...segments]/route.ts"
+        },
+        {
+          "operation": "list_clients",
+          "domain_symbol": "listClients",
+          "domain_source": "packages/central/src/studio.ts",
+          "http_source": "apps/web/app/api/v1/[...segments]/route.ts"
+        },
+        {
+          "operation": "list_presentation_types",
+          "domain_symbol": "listPresentationTypes",
+          "domain_source": "packages/central/src/studio.ts",
+          "http_source": "apps/web/app/api/v1/[...segments]/route.ts"
         }
       ]
     },

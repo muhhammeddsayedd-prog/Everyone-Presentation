@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto';
 import Ajv2020 from 'ajv/dist/2020';
 import addFormats from 'ajv-formats';
 import { Server, type CallToolResult, type Tool } from '@modelcontextprotocol/server';
-import { DomainError, type Actor, type WorkspaceCreate, type WorkspacePatch, type ProjectPatch,
+import { DomainError, type Actor, type ProjectCreate, type WorkspaceCreate, type WorkspacePatch, type ProjectPatch,
   type UploadSessionCreate, type CompleteUpload, type AudiencePresetCreate, type AudiencePresetPatch } from '@eps/domain';
 import type { createCentralStudio } from '@eps/central';
 import catalog from '../../../contracts/mcp-tool-catalog.json';
@@ -25,7 +25,7 @@ import { handleSettingsRequest, isSettingsRoute } from './settings-http';
 import type { SettingsOperations } from '@eps/domain';
 import { handleWorkspaceSummaryRequest, isWorkspaceSummaryRoute } from './workspace-summary-http';
 
-const IMPLEMENTED = new Set(['get_capabilities','list_projects','get_project','update_project','list_workspaces','create_workspace',
+const IMPLEMENTED = new Set(['get_capabilities','list_projects','list_clients','list_presentation_types','create_project','get_project','update_project','list_workspaces','create_workspace',
   'get_workspace','get_workspace_summary','update_workspace','get_specs','submit_specs','update_specs','list_roles','create_role','update_role',
   'archive_role','list_slots','resize_role_slots','update_slot','reorder_workspace','create_upload_session','get_upload_session',
   'complete_upload','cancel_upload','get_media','play_media','list_audience_presets','create_audience_preset','update_audience_preset',
@@ -121,6 +121,9 @@ export async function invokeMcpTool(name: string, supplied: unknown, actor: Acto
       switch (name) {
         case 'get_capabilities': response = json(await studio.getCapabilities(actor), requestId); break;
         case 'list_projects': response = paged(await studio.listProjects(actor, options)); break;
+        case 'list_clients': response = paged(await studio.listClients(actor, options)); break;
+        case 'list_presentation_types': response = json(await studio.listPresentationTypes(actor), requestId); break;
+        case 'create_project': response = json(await studio.createProject(actor, input.body as ProjectCreate, context), requestId, 201); break;
         case 'get_project': response = json(await studio.getProject(actor, s[1]), requestId); break;
         case 'update_project': response = json(await studio.updateProject(actor, s[1], input.body as ProjectPatch, context), requestId); break;
         case 'list_workspaces': response = paged(await studio.listWorkspaces(actor, options)); break;

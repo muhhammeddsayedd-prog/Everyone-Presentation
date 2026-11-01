@@ -392,3 +392,7 @@ No new deployment/config/client/permission change or agent consent was needed.
 ## 2026-10-31 - English display for every speech language
 
 Owner declined further independent English/mixed label collection. Scan and transcribe permitted videos regardless of source language; show English facts and transcripts only. No full app language selector in v1. Preserve original sources, accepted Arabic name/age review and immutable saved versions. New English projection is additive, initially disabled, and failure/legacy absence is explicit without raw-language fallback. This is a product scope clarification, not evidence of multilingual semantic accuracy. Frontend contract coordination is recorded separately.
+
+## 2026-11-02 - Completion release scope confirmed
+
+Users with projects.read and projects.write may create real canonical projects through simple Studio UI, API and MCP. Name and presentation type are required; an authorized existing client is optional. Creator receives only project writer membership. Future types can be selected and saved with a Planned overview; only Casting workflows ship. Workspace creation retains existing permissions. Google Drive and client creation stay deferred. User confirmed Everyone-Presentation GitHub remote and retained stable pilot URL for final production.

@@ -309,6 +309,20 @@
               },
               "can_edit": {
                 "type": "boolean"
+              },
+              "presentation_type": {
+                "type": "string",
+                "enum": [
+                  "casting",
+                  "wardrobe",
+                  "art_direction",
+                  "storyboard",
+                  "vehicles_animals",
+                  "fitting",
+                  "pre_ppm",
+                  "ppm",
+                  "production_documents"
+                ]
               }
             },
             "required": [
@@ -489,6 +503,20 @@
               },
               "can_edit": {
                 "type": "boolean"
+              },
+              "presentation_type": {
+                "type": "string",
+                "enum": [
+                  "casting",
+                  "wardrobe",
+                  "art_direction",
+                  "storyboard",
+                  "vehicles_animals",
+                  "fitting",
+                  "pre_ppm",
+                  "ppm",
+                  "production_documents"
+                ]
               }
             },
             "required": [
@@ -722,6 +750,20 @@
               },
               "can_edit": {
                 "type": "boolean"
+              },
+              "presentation_type": {
+                "type": "string",
+                "enum": [
+                  "casting",
+                  "wardrobe",
+                  "art_direction",
+                  "storyboard",
+                  "vehicles_animals",
+                  "fitting",
+                  "pre_ppm",
+                  "ppm",
+                  "production_documents"
+                ]
               }
             },
             "required": [
@@ -22672,6 +22714,472 @@
             "minLength": 1,
             "maxLength": 200,
             "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          }
+        }
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "create_project",
+      "description": "Create a real central project and initial presentation intent",
+      "operationId": "create_project",
+      "http": {
+        "method": "POST",
+        "path": "/projects"
+      },
+      "capability": "projects.read AND projects.write",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "idempotency_key": {
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 200
+          },
+          "body": {
+            "$ref": "#/$defs/ProjectCreate"
+          }
+        },
+        "required": [
+          "idempotency_key",
+          "body"
+        ],
+        "$defs": {
+          "ProjectCreate": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "presentation_type": {
+                "type": "string",
+                "enum": [
+                  "casting",
+                  "wardrobe",
+                  "art_direction",
+                  "storyboard",
+                  "vehicles_animals",
+                  "fitting",
+                  "pre_ppm",
+                  "ppm",
+                  "production_documents"
+                ]
+              },
+              "client_id": {
+                "type": "string",
+                "format": "uuid"
+              }
+            },
+            "required": [
+              "name",
+              "presentation_type"
+            ]
+          }
+        }
+      },
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "request_id": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/$defs/Project"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/Warning"
+            }
+          }
+        },
+        "required": [
+          "request_id",
+          "data"
+        ],
+        "$defs": {
+          "Project": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "$ref": "#/$defs/Id"
+              },
+              "name": {
+                "type": "string"
+              },
+              "client_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "client_name": {
+                "$ref": "#/$defs/NullableText"
+              },
+              "client_logo_asset_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "row_version": {
+                "$ref": "#/$defs/RowVersion"
+              },
+              "client_row_version": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/RowVersion"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "casting_workspace_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "can_edit": {
+                "type": "boolean"
+              },
+              "presentation_type": {
+                "type": "string",
+                "enum": [
+                  "casting",
+                  "wardrobe",
+                  "art_direction",
+                  "storyboard",
+                  "vehicles_animals",
+                  "fitting",
+                  "pre_ppm",
+                  "ppm",
+                  "production_documents"
+                ]
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "client_id",
+              "client_name",
+              "client_logo_asset_id",
+              "row_version",
+              "client_row_version",
+              "casting_workspace_id",
+              "can_edit"
+            ]
+          },
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          },
+          "NullableText": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "RowVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Optimistic version from the last read of the mutated resource; stale write returns 409."
+          },
+          "Warning": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "entity_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "code",
+              "message",
+              "entity_id"
+            ]
+          }
+        }
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "list_clients",
+      "description": "List active clients authorized for project association",
+      "operationId": "list_clients",
+      "http": {
+        "method": "GET",
+        "path": "/clients"
+      },
+      "capability": "projects.read AND projects.write",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "q": {
+            "type": "string"
+          },
+          "cursor": {
+            "type": "string"
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 25
+          }
+        },
+        "required": [],
+        "$defs": {}
+      },
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "request_id": {
+            "type": "string"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/ClientSummary"
+            }
+          },
+          "page": {
+            "$ref": "#/$defs/Page"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/Warning"
+            }
+          }
+        },
+        "required": [
+          "request_id",
+          "data",
+          "page"
+        ],
+        "$defs": {
+          "ClientSummary": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "$ref": "#/$defs/Id"
+              },
+              "name": {
+                "type": "string"
+              },
+              "row_version": {
+                "type": "integer",
+                "minimum": 1
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "row_version"
+            ]
+          },
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          },
+          "Warning": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "entity_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "code",
+              "message",
+              "entity_id"
+            ]
+          }
+        }
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "list_presentation_types",
+      "description": "List available and planned presentation types",
+      "operationId": "list_presentation_types",
+      "http": {
+        "method": "GET",
+        "path": "/presentation-types"
+      },
+      "capability": "projects.read",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {},
+        "required": [],
+        "$defs": {}
+      },
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "request_id": {
+            "type": "string"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/PresentationType"
+            }
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/Warning"
+            }
+          }
+        },
+        "required": [
+          "request_id",
+          "data"
+        ],
+        "$defs": {
+          "PresentationType": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "key": {
+                "type": "string",
+                "enum": [
+                  "casting",
+                  "wardrobe",
+                  "art_direction",
+                  "storyboard",
+                  "vehicles_animals",
+                  "fitting",
+                  "pre_ppm",
+                  "ppm",
+                  "production_documents"
+                ]
+              },
+              "label": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "available",
+                  "planned"
+                ]
+              }
+            },
+            "required": [
+              "key",
+              "label",
+              "status"
+            ]
+          },
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          },
+          "Warning": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "entity_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "code",
+              "message",
+              "entity_id"
+            ]
           }
         }
       },

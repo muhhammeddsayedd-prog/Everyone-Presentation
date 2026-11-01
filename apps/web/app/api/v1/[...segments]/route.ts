@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import { DomainError, type ListOptions, type ProjectPatch, type WorkspaceCreate, type WorkspacePatch,
+import { DomainError, type ProjectCreate, type ListOptions, type ProjectPatch, type WorkspaceCreate, type WorkspacePatch,
   type UploadSessionCreate, type CompleteUpload, type AudiencePresetCreate, type AudiencePresetPatch } from '@eps/domain';
 import { currentActor } from '../../../../lib/session';
 import { getStudio } from '../../../../lib/studio';
@@ -75,8 +75,14 @@ async function handle(request: Request, context: Context) {
     const paged = (result: { data: unknown; page: { next_cursor: string | null } }) =>
       Response.json({ request_id: requestId, ...result }, { headers: NO_STORE });
     if (s.length === 1 && s[0] === 'capabilities' && method === 'GET') return json(await studio.getCapabilities(actor), requestId);
+    if (s.length === 1 && s[0] === 'presentation-types' && method === 'GET') {
+      if (url.search) throw new DomainError('INVALID_REQUEST', 'This catalogue does not accept query parameters.', 400);
+      return json(await studio.listPresentationTypes(actor), requestId);
+    }
+    if (s.length === 1 && s[0] === 'clients' && method === 'GET') return paged(await studio.listClients(actor, foundationListQuery(url)));
     if (s[0] === 'projects') {
       if (s.length === 1 && method === 'GET') return paged(await studio.listProjects(actor, foundationListQuery(url)));
+      if (s.length === 1 && method === 'POST') return json(await studio.createProject(actor, await body<ProjectCreate>('ProjectCreate'), mutation), requestId, 201);
       if (s.length === 2 && method === 'GET') return json(await studio.getProject(actor, s[1]), requestId);
       if (s.length === 2 && method === 'PATCH') return json(await studio.updateProject(actor, s[1], await body<ProjectPatch>('ProjectPatch'), mutation), requestId);
     }

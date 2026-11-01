@@ -1,4 +1,4 @@
-import { DomainError, type AudiencePreset, type Page, type Project, type Workspace } from '@eps/domain';
+import { DomainError, isPresentationType, type ClientSummary, type AudiencePreset, type Page, type Project, type Workspace } from '@eps/domain';
 
 type Check = (value: unknown) => boolean;
 const text: Check = value => typeof value === 'string';
@@ -18,7 +18,14 @@ function shape(value: unknown, fields: Record<string, Check>): Record<string, un
   return object;
 }
 export function projectDto(value: unknown): Project {
-  return structuredClone(shape(value, { id, name: text, client_id: nullable(id), client_name: nullable(text), client_logo_asset_id: nullable(id), row_version: version, client_row_version: nullable(version), casting_workspace_id: nullable(id), can_edit: boolean })) as unknown as Project;
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return invalid();
+  const { presentation_type, ...legacy } = value as Record<string, unknown>;
+  if (Object.hasOwn(value, 'presentation_type') && !isPresentationType(presentation_type)) return invalid();
+  const result = structuredClone(shape(legacy, { id, name: text, client_id: nullable(id), client_name: nullable(text), client_logo_asset_id: nullable(id), row_version: version, client_row_version: nullable(version), casting_workspace_id: nullable(id), can_edit: boolean })) as unknown as Project;
+  return { ...result, ...(isPresentationType(presentation_type) ? { presentation_type } : {}) };
+}
+export function clientSummaryDto(value: unknown): ClientSummary {
+  return structuredClone(shape(value, { id, name: text, row_version: version })) as unknown as ClientSummary;
 }
 export function workspaceDto(value: unknown): Workspace {
   return structuredClone(shape(value, { id, project_id: id, module: choice('casting'), title: text, logo_asset_id: nullable(id), logo_placement: choice('cover', 'every_slide'), active_output: choice('selection', 'shortlist'), row_version: version, draft_revision: count, has_unpublished_changes: boolean, created_at: date, updated_at: date })) as unknown as Workspace;

@@ -9,6 +9,7 @@ export const MCP_ATOMIC_CAPABILITIES = new Set([
 export function mcpCapabilityAllowed(expression: string, granted: ReadonlySet<string>): boolean {
   if (MCP_ATOMIC_CAPABILITIES.has(expression)) return granted.has(expression);
   switch (expression) {
+    case 'projects.read AND projects.write': return granted.has('projects.read') && granted.has('projects.write');
     case 'workspaces.read AND cast.read': return granted.has('workspaces.read') && granted.has('cast.read');
     case 'workspaces.write AND cast.read': return granted.has('workspaces.write') && granted.has('cast.read');
     case 'workspaces.read OR cast.read': return granted.has('workspaces.read') || granted.has('cast.read');

@@ -9,7 +9,8 @@ import { createLogoStorageAdapter, type LogoStorageOptions } from './logo-storag
 import { createSpecsStorageAdapter, type SpecsStorageOptions } from './specs-storage.ts';
 import { createCandidateStorageAdapter } from './candidate-storage.ts';
 import {createCandidateSupportStorageAdapter,type SupportStorageOptions} from './candidate-support-storage.ts';
-import { parseWorkspaceSummary, workspaceSummaryId } from '@eps/domain';
+import { parseWorkspaceSummary, workspaceSummaryId, PRESENTATION_TYPES, parseProjectCreate, type ProjectCreate } from '@eps/domain';
+import { clientSummaryDto } from './dto.ts';
 
 export interface CentralStudioOptions {
   logo?: Omit<LogoStorageOptions, 'client' | 'rpc' | 'now' | 'downloadTimeoutMs'>;
@@ -209,6 +210,17 @@ export async function createCentralStudio(client: SupabaseClient, options: Centr
       return result;
     },
     async listProjects(actor: Actor, options: ListOptions = {}) { return rpc(actor, 'eps_list_projects', listArguments(options), value => listDto(value, projectDto)); },
+    async listPresentationTypes(actor: Actor) {
+      const grants = await rpc(actor, 'eps_get_capabilities', {}, capabilitiesDto);
+      if (!grants.capabilities.includes('projects.read')) throw new DomainError('CAPABILITY_REQUIRED', 'Project read permission is required.', 403);
+      return structuredClone(PRESENTATION_TYPES);
+    },
+    async listClients(actor: Actor, options: ListOptions = {}) { return rpc(actor, 'eps_list_project_clients', listArguments(options), value => listDto(value, clientSummaryDto)); },
+    async createProject(actor: Actor, input: ProjectCreate, context?: MutationContext) {
+      const parsed = parseProjectCreate(input);
+      return rpc(actor, 'eps_create_project', { p_input: parsed, p_idempotency_key: key(context, true) }, value => scopedDto(value, projectDto,
+        row => row.name === parsed.name && row.presentation_type === parsed.presentation_type && row.client_id === (parsed.client_id ?? null)), context);
+    },
     async getProject(actor: Actor, id: string) { return rpc(actor, 'eps_get_project', { p_project_id: identifier(id) }, value => scopedDto(value, projectDto, row => row.id === id)); },
     async updateProject(actor: Actor, id: string, input: ProjectPatch, context?: MutationContext) {
       strictInput(input, ['row_version', 'name', 'client_name', 'client_logo_asset_id', 'expected_client_row_version'], ['row_version']);

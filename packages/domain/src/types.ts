@@ -7,6 +7,7 @@ export interface Project {
   id: string; name: string; client_id: string | null; client_name: string | null;
   client_logo_asset_id: string | null; row_version: number; client_row_version: number | null;
   casting_workspace_id: string | null; can_edit: boolean;
+  presentation_type?: import('./projects.ts').PresentationTypeKey;
 }
 export interface ProjectPatch {
   row_version: number; name?: string; client_name?: string; client_logo_asset_id?: string | null;

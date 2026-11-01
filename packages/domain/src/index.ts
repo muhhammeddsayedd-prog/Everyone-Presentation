@@ -3,6 +3,8 @@ import { mkdir, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { FixtureStore } from './store.ts';
 import { DomainError } from './types.ts';
+import { PRESENTATION_TYPES, parseProjectCreate, type ProjectCreate } from './projects.ts';
+export * from './projects.ts';
 import type { Actor, AudiencePreset, AudiencePresetCreate, AudiencePresetPatch, CompleteUpload, ListOptions, MediaAsset, MutationContext, Project, ProjectPatch, StudioOptions, UploadCompletion, UploadSession, UploadSessionCreate, Workspace, WorkspaceCreate, WorkspacePatch } from './types.ts';
 export * from './types.ts';
 export * from './specs.ts';
@@ -39,7 +41,7 @@ const ACTORS: { id: string; display_name: string; role: string; capabilities: st
   { id: FIXTURE_ACTORS.outsider, display_name: 'Synthetic Other Project User', role: 'outsider', capabilities: [...READ_CAPS, ...WRITE_CAPS], projects: [FIXTURE_PROJECTS.other] },
 ];
 
-interface CentralProject { id: string; name: string; client_id: string | null; row_version: number; archived: boolean }
+interface CentralProject { id: string; name: string; client_id: string | null; row_version: number; archived: boolean; presentation_type?: ProjectCreate['presentation_type'] }
 interface CentralClient { id: string; name: string; logo_asset_id: string | null; row_version: number }
 interface StoredWorkspace extends Omit<Workspace, 'title' | 'active_output'> { outputs: Record<string, 'selection' | 'shortlist'> }
 interface StoredUpload { session: UploadSession; workspace_id: string; principal_id: string; expected_bytes: number; expected_sha256?: string; received: boolean }
@@ -49,6 +51,7 @@ interface State {
   workspaces: StoredWorkspace[]; presets: AudiencePreset[]; uploads: StoredUpload[]; media: StoredMedia[];
   idempotency: Record<string, { digest: string; result: unknown }>;
   audit: { operation: string; principal_id: string; request_id: string | null; client_type: string; at: string }[];
+  project_creators?: Record<string, string>;
 }
 function initialState(): State {
   return {
@@ -128,7 +131,7 @@ export function createStudio(options: StudioOptions) {
   }
   function project(state: State, actor: Actor, id: string) {
     const found = state.central.projects.find(item => item.id === id && !item.archived);
-    if (!found || !principal(actor).projects.includes(id)) throw new DomainError('RESOURCE_NOT_FOUND', 'Project not found in your accessible projects.', 404);
+    if (!found || !principal(actor).projects.includes(id) && state.project_creators?.[id] !== actor.principal_id) throw new DomainError('RESOURCE_NOT_FOUND', 'Project not found in your accessible projects.', 404);
     return found;
   }
   function workspace(state: State, actor: Actor, id: string) {
@@ -139,7 +142,7 @@ export function createStudio(options: StudioOptions) {
   }
   function projectDto(state: State, actor: Actor, item: CentralProject): Project {
     const client = state.central.clients.find(row => row.id === item.client_id);
-    return { id: item.id, name: item.name, client_id: item.client_id, client_name: client?.name ?? null, client_logo_asset_id: client?.logo_asset_id ?? null, row_version: item.row_version, client_row_version: client?.row_version ?? null, casting_workspace_id: state.workspaces.find(row => row.project_id === item.id)?.id ?? null, can_edit: principal(actor).capabilities.includes('projects.write') };
+    return { id: item.id, name: item.name, client_id: item.client_id, client_name: client?.name ?? null, client_logo_asset_id: client?.logo_asset_id ?? null, row_version: item.row_version, client_row_version: client?.row_version ?? null, casting_workspace_id: state.workspaces.find(row => row.project_id === item.id)?.id ?? null, can_edit: principal(actor).capabilities.includes('projects.write'), ...(item.presentation_type ? { presentation_type: item.presentation_type } : {}) };
   }
   function workspaceDto(state: State, actor: Actor, item: StoredWorkspace): Workspace {
     const { outputs, ...rest } = item;
@@ -198,11 +201,30 @@ export function createStudio(options: StudioOptions) {
       const user = requireCapability(actor, 'projects.read');
       return store.transaction(false, state => {
         const q = searchQuery(args);
-        const records = state.central.projects.filter(item => !item.archived && user.projects.includes(item.id)).map(item => projectDto(state, actor, item)).filter(item => `${item.name} ${item.client_name ?? ''}`.toLocaleLowerCase('en').includes(q));
+        const records = state.central.projects.filter(item => !item.archived && (user.projects.includes(item.id) || state.project_creators?.[item.id] === actor.principal_id)).map(item => projectDto(state, actor, item)).filter(item => `${item.name} ${item.client_name ?? ''}`.toLocaleLowerCase('en').includes(q));
         return paginate(records, args);
       });
     },
     async getProject(actor: Actor, id: string) { requireCapability(actor, 'projects.read'); return store.transaction(false, state => projectDto(state, actor, project(state, actor, id))); },
+    async listPresentationTypes(actor: Actor) { requireCapability(actor, 'projects.read'); return structuredClone(PRESENTATION_TYPES); },
+    async listClients(actor: Actor, args: ListOptions = {}) {
+      requireCapability(actor, 'projects.read'); requireCapability(actor, 'projects.write');
+      return store.transaction(false, state => paginate(state.central.clients.filter(client => principal(actor).projects.some(id => state.central.projects.some(project => project.id === id && project.client_id === client.id && !project.archived)))
+        .filter(client => client.name.toLocaleLowerCase('en').includes(searchQuery(args))).map(({ id, name, row_version }) => ({ id, name, row_version })), args));
+    },
+    async createProject(actor: Actor, input: ProjectCreate, context?: MutationContext) {
+      requireCapability(actor, 'projects.read'); requireCapability(actor, 'projects.write');
+      const parsed = parseProjectCreate(input);
+      return mutate(actor, 'create_project', parsed, context, true, state => {
+        const item: CentralProject = { id: randomUUID(), name: parsed.name, client_id: parsed.client_id ?? null, row_version: 1, archived: false, presentation_type: parsed.presentation_type };
+        state.central.projects.push(item); (state.project_creators ??= {})[item.id] = actor.principal_id;
+        return projectDto(state, actor, item);
+      }, state => {
+        if (parsed.client_id && !state.central.projects.some(item => item.client_id === parsed.client_id && !item.archived && principal(actor).projects.includes(item.id))) throw new DomainError('RESOURCE_NOT_FOUND', 'An authorized client was not found.', 404);
+        const previous = context?.idempotencyKey && state.idempotency[`${actor.principal_id}:create_project:${context.idempotencyKey}`];
+        if (previous) project(state, actor, (previous.result as Project).id);
+      });
+    },
     async updateProject(actor: Actor, id: string, input: ProjectPatch, context?: MutationContext) {
       requireCapability(actor, 'projects.write'); checkObject(input, ['row_version', 'name', 'client_name', 'client_logo_asset_id', 'expected_client_row_version']); version(input.row_version);
       if (input.name !== undefined) text(input.name, 'name');
@@ -230,7 +252,7 @@ export function createStudio(options: StudioOptions) {
     async listWorkspaces(actor: Actor, args: ListOptions & { project_id?: string } = {}) {
       const user = requireCapability(actor, 'workspaces.read');
       const q = searchQuery(args);
-      return store.transaction(false, state => paginate(state.workspaces.filter(item => user.projects.includes(item.project_id) && state.central.projects.some(row => row.id === item.project_id && !row.archived) && (!args.project_id || item.project_id === args.project_id)).map(item => workspaceDto(state, actor, item)).filter(item => item.title.toLocaleLowerCase('en').includes(q)), args));
+      return store.transaction(false, state => paginate(state.workspaces.filter(item => (user.projects.includes(item.project_id) || state.project_creators?.[item.project_id] === actor.principal_id) && state.central.projects.some(row => row.id === item.project_id && !row.archived) && (!args.project_id || item.project_id === args.project_id)).map(item => workspaceDto(state, actor, item)).filter(item => item.title.toLocaleLowerCase('en').includes(q)), args));
     },
     async createWorkspace(actor: Actor, input: WorkspaceCreate, context?: MutationContext) {
       requireCapability(actor, 'projects.read'); requireCapability(actor, 'workspaces.write'); checkObject(input, ['project_id', 'initial_output']); text(input.project_id, 'project_id');
