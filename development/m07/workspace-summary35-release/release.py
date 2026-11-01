@@ -7,7 +7,7 @@ from pathlib import Path
 import copy, datetime, hashlib, importlib.util, json, os, re, sys, uuid
 
 HERE=Path(__file__).resolve().parent;ROOT=HERE.parents[2]
-TARGET='pyibofyctwnqpvktepse';VERSION='20261031182038';APPLY_ENABLED=False
+TARGET='pyibofyctwnqpvktepse';VERSION='20261031182038';APPLY_ENABLED=True
 MIGRATION=ROOT/'supabase/migrations/20261031182038_m07_workspace_summary.sql'
 MIGRATION_SHA='cbb12610603318bce68ced4a58d0a9a01ee07737838c99a2ea0e6214e5e933e0'
 FIXTURE_SHA='275b430fc401ea84a66e432c908cc9bdde77d17e362801ea39d15ed9209e7efe'
