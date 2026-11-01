@@ -1,6 +1,43 @@
 # Remaining M07 work after the English-output rollout
 
-## Current checkpoint - 2026-11-01T10:30:02Z: full local history37 native recovery passed
+## Current checkpoint - 2026-11-01T10:54:38Z: batch SQL admission failed; cleanup/archive passed
+
+Actual run `cb11a73c-505b-47bb-ae97-ab32a9c1c771` FAILED after54,930ms at
+`batch-filter-owned-nested-SQL-proof`: `tracking/evidence/m07/job-batch-filter-proof/2026-11-01T10-48-59-914Z-cb11a73c.json`
+(SHA256 `2655108e1626f5a44c4f40c3b4bab2d2b532de12c6ad1cd07d8080c77e996c25`). PostgreSQL reported
+`column reference "p.pronamespace" is ambiguous`: the new admission DO declares
+a PLpgSQL record p and reuses p as a pg_proc SQL alias. Syntax parsing had not
+resolved that ambiguity. No batch fixture/authority/delegation assertion acceptance
+was established. Closed diagnostic: `tracking/evidence/m07/job-batch-filter-proof/2026-11-01-cb11-native-diagnostic.json`.
+
+Cleanup PASSED: both disposable DB names absent (unused restore may never have
+been created), new33 roles removed, original29 data/full Auth-Storage/catalogue/
+profile/settings and preexisting global-role OIDs/attributes/memberships exact,
+shared lock released; cloud/provider false. The permanent claim must not replay.
+All376 exact failed inputs are recoverable from353 checked raw Git blobs at
+5b6f66b plus23 ZIP entries (eleven new proof/draft files and twelve installed
+public inputs). Archive: `development/m07/job-batch-filter-proof/source-history/cb11a73c/source-archive.json`
+(SHA256 `a1990a7fd82bc144f4df399f20baec4c049ea9e676401e9813e5b13a23636f74`); ZIP SHA256
+`c14f2c981344a03f72908c057536d81d2fba2c06aa15d80aea4cc2123e8f28aa`.
+No private runtime payloads were copied. Receipt/source/claim remain failed/exact.
+
+Next: forward-fix only the admission record/alias collision in builder/candidate
+and add a RED/GREEN collision regression. Preserve currenta223 legacy port and
+functional new RPC bytes, independently review, then use a fresh UUID/claim.
+Source branch4b1c94d remains isolated;25+6 overlapping focused,7 inert and full
+tests/types/affected lint passes do not establish native PostgreSQL acceptance.
+No official38, main product merge or hosted filter deployment occurred.
+
+Current37 full native recovery remains PASSED at5b6f66b (7c2a8d9a), with English/
+Reviewed/old versions and completed Claude connection/reconnect/reads retained.
+Pilot stays canonical37/webEUK29/worker2uAS, English1.0 until owner stop. Feedback
+signed-in HTTP/public checks passed; new owner MCP and temporary guest read/revoke
+await replies. Codex created no new link. Owner upload inbox remains expired/
+unreplayed/unread. AT069 automatic approval source-edit block remains (blocked by
+policy; no retry/provider action), screen reader pending, mobile skipped; no
+labels/selector. M07/production acceptance is open.
+
+## Historical checkpoint - 2026-11-01T10:30:02Z: full local history37 native recovery passed
 
 Actual new run `7c2a8d9a-10ef-4a26-9c0b-31b8256bff71` PASSED from
 10:25:49.755UTC to10:28:23.418UTC (153,663ms): `tracking/evidence/m07/recovery37/2026-11-01T10-25-49-755Z-7c2a8d9a.json`
@@ -45,6 +82,14 @@ Hosted state is unchanged from release checkpoint `cfd084e`: canonical37, web
 `dpl_EUK29uLiGvrPguUv3T7d5KR19RwC`, worker2uAS/English1.0, pilot until owner
 stop. Signed-in feedback summary and6 public checks passed; new owner MCP and
 temporary guest link/read/revoke are pending owner replies. No link was created by Codex.
+
+Batch-filter source checkpoint4b1c94d is now saved separately (20 product files
+plus source-QA/private-scan receipts), with25+6 overlapping focused and7 inert
+checks and full tests/types/affected lint passed. Its corrected current M03/M29
+permissions cleared independent review. Root armed the NEW6-file SQL proof and
+passed10 final inert checks; one fresh owned SQL run is next. Main product merge,
+official38 and hosted filtering remain pending. The proof will check synthetic
+delegated claims in SQL, with no JWT signature/provider acceptance.
 
 Next independent slice is Request3 batch_id job filtering in the isolated
 `Everyone-Presentation-Studio-Batch-Filter` worktree. Review rejected its initial

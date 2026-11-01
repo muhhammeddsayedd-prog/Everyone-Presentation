@@ -1,0 +1,28 @@
+{
+  "actual_receipt": "tracking/evidence/m07/job-batch-filter-proof/2026-11-01T10-48-59-914Z-cb11a73c.json",
+  "actual_receipt_sha256": "2655108e1626f5a44c4f40c3b4bab2d2b532de12c6ad1cd07d8080c77e996c25",
+  "actual_result": "failed",
+  "all376_executed_bytes_archived": "development/m07/job-batch-filter-proof/source-history/cb11a73c/source-archive.json",
+  "archive_sha256": "a1990a7fd82bc144f4df399f20baec4c049ea9e676401e9813e5b13a23636f74",
+  "batch_fixture_or_authority_passed": false,
+  "cleanup_and_preservation": {
+    "disposable_databases_removed": true,
+    "existing_global_role_oids_attributes_memberships_unchanged": true,
+    "new33_roles_removed": true,
+    "original29_exact_profile_and_settings_state_unchanged": true,
+    "original29_full_auth_storage_catalogue_unchanged": true,
+    "original29_full_catalogue_unchanged": true,
+    "original_local_database_unchanged": true,
+    "shared_test_lock_released": true
+  },
+  "cloud_or_provider_called": false,
+  "confirmed_cause": "Candidate admission DO record variable p collides with SQL table alias p",
+  "database_context": "PLpgSQL inline_code_block line2 IF",
+  "database_error": "column reference p.pronamespace is ambiguous",
+  "evidence_source": "Root inspected the controlled run private diagnostic; closed safe projection only",
+  "original_claim_replayed": false,
+  "raw_private_stderr_or_runtime_payloads_recorded": false,
+  "recorded_at": "2026-11-01T10:54:38Z",
+  "run_id": "cb11a73c-505b-47bb-ae97-ab32a9c1c771",
+  "schema_version": "1.0"
+}

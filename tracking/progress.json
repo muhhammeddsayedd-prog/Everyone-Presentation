@@ -1,6 +1,6 @@
 {
   "pack_version": "1.0",
-  "updated_at": "2026-11-01T10:30:02Z",
+  "updated_at": "2026-11-01T10:54:38Z",
   "implementation_started": true,
   "current_milestone": "M07",
   "current_pilot": {
@@ -80,7 +80,7 @@
     "mobile_testing": "skipped by owner",
     "production_deployment_verified": false,
     "prior_snapshot": "tracking/evidence/m07/controlled-pilot/2026-10-31T01-24Z-prior-progress-snapshot.json",
-    "next_action": "Finish new feedback MCP/guest reads when owner replies; correct and verify composed current job batch filter + MCP frame-read parity in isolated worktree, then owned SQL proof; retain deferrals.",
+    "next_action": "Forward-fix batch admission alias collision after exact archive; independent regression review and fresh owned SQL proof before merge/release; continue owner feedback reads as replies arrive.",
     "specs_local_proof": "tracking/evidence/m07/specs-ack31/2026-10-31T01-22-16-662Z-dc886d4e-local-proof.json",
     "specs_canonical_apply": "tracking/evidence/m07/specs-ack31/2026-10-31T01-57-10-621248Z-a99247a4-canonical31-continuation-apply.json",
     "specs_canonical_apply_confirmed": true,
@@ -1448,6 +1448,75 @@
           "overlap_not_additive": true
         }
       }
+    },
+    "job_batch_filter": {
+      "status": "native_admission_failed_cleanup_passed_cohort_archived_forward_fix_pending",
+      "worktree": "D:/Everyone/Presentation/Everyone-Presentation-Studio-Batch-Filter",
+      "branch": "codex/m07-batch-filter",
+      "base_commit": "8be5ce4",
+      "initial_historical_M02_SQL_draft_rejected": true,
+      "current_list_jobs_body_sha256": "a2239225b995673e9ab432ac63014f742b25032cc586c790535db260c551d241",
+      "cast_and_requester_frame_rules_must_be_preserved": true,
+      "narrow_list_get_MCP_preliminary_gate_parity_fix_authorized": true,
+      "capability_grant_or_OAuth_scope_change": false,
+      "cross_user_exploit_proved": false,
+      "native_SQL_executed": false,
+      "official38_created": false,
+      "main_integrated": false,
+      "hosted_deployed": false,
+      "source_commit": "4b1c94d",
+      "source_product_files": 20,
+      "source_QA_reported": {
+        "full_npm_test_exit": 0,
+        "types_exit": 0,
+        "affected_lint_exit": 0,
+        "focused_product_tests": 25,
+        "authority_tests": 6,
+        "inert_SQL_source_tests": 7,
+        "counts_overlap": true,
+        "aggregate_fullsuite_count": null
+      },
+      "independent_source_review": "clear_current_M03_and_M29_semantics_preserved",
+      "initial_M01_only_delegation_concern": "withdrawn_existing_M29_SQL_fence_confirmed",
+      "new_SQL_proof": {
+        "folder": "development/m07/job-batch-filter-proof",
+        "status": "failed_not_replayable",
+        "root_final_inert": {
+          "passed": 10,
+          "skipped": 0,
+          "duration_ms": 3681.8931
+        },
+        "source_inputs": 376,
+        "prior_sources_preserved": 365,
+        "scope": "owned local PostgreSQL batch pagination/frame/project and synthetic delegated claims enforcement, exact nested37 and outer33 rollback with original29/AuthStorage/globalroles/DB/lock cleanup",
+        "JWT_signature_or_provider_acceptance": false,
+        "actual_SQL_result": "failed",
+        "run_id": "cb11a73c-505b-47bb-ae97-ab32a9c1c771",
+        "controller_sha256": "a238895c1f9985c6a71f38f4fe8d0898c021c3c08c8355f255a23a6c0d5348cc",
+        "prepared_start_evidence": "tracking/evidence/m07/job-batch-filter-proof/2026-11-01T10-49-20-900129Z-prepared-start.json",
+        "permanent_claim_created": true,
+        "actual_evidence": "tracking/evidence/m07/job-batch-filter-proof/2026-11-01T10-48-59-914Z-cb11a73c.json",
+        "actual_sha256": "2655108e1626f5a44c4f40c3b4bab2d2b532de12c6ad1cd07d8080c77e996c25",
+        "elapsed_ms": 54930,
+        "database_error": "column reference p.pronamespace is ambiguous",
+        "batch_authority_assertions_passed": false,
+        "synthetic_delegation_SQL_test_passed": false,
+        "cleanup_and_preservation": {
+          "disposable_databases_removed": true,
+          "new33_roles_removed": true,
+          "original_local_database_unchanged": true,
+          "original29_full_catalogue_unchanged": true,
+          "original29_full_auth_storage_catalogue_unchanged": true,
+          "original29_exact_profile_and_settings_state_unchanged": true,
+          "existing_global_role_oids_attributes_memberships_unchanged": true,
+          "shared_test_lock_released": true
+        },
+        "failed_source_archive": "development/m07/job-batch-filter-proof/source-history/cb11a73c/source-archive.json",
+        "failed_archive_sha256": "a1990a7fd82bc144f4df399f20baec4c049ea9e676401e9813e5b13a23636f74",
+        "original_claim_replayed": false,
+        "safe_diagnostic": "tracking/evidence/m07/job-batch-filter-proof/2026-11-01-cb11-native-diagnostic.json"
+      },
+      "recorded_at": "2026-11-01T10:54:38Z"
     }
   },
   "milestones": [
@@ -2262,7 +2331,10 @@
         "tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-14-50-245943Z-authenticated-input-denial.json",
         "tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-15-53-031507Z-production-dependency-audit.json",
         "tracking/evidence/m07/recovery37/2026-11-01T10-25-49-755Z-7c2a8d9a.json",
-        "tracking/evidence/m07/recovery37/2026-11-01T10-26-10-601543Z-prepared-start.json"
+        "tracking/evidence/m07/recovery37/2026-11-01T10-26-10-601543Z-prepared-start.json",
+        "tracking/evidence/m07/job-batch-filter-proof/2026-11-01T10-48-59-914Z-cb11a73c.json",
+        "tracking/evidence/m07/job-batch-filter-proof/2026-11-01-cb11-native-diagnostic.json",
+        "development/m07/job-batch-filter-proof/source-history/cb11a73c/source-archive.json"
       ],
       "blockers": [
         "Owner initial authorization/reconnect/authenticated Dummy Pilot Test read stays passed. Actual bounded Auth metadata observed2 retained matching sessions/1 later refresh timestamp; exact current-process refresh, token receipt/rotation/revocation/MCP use and deployed-provider-version remain unproved. Full delegated write/processing/generation/sharing and actual contributor denial remain unverified.",
@@ -3612,6 +3684,75 @@
             "overlap_not_additive": true
           }
         }
+      },
+      "job_batch_filter": {
+        "status": "native_admission_failed_cleanup_passed_cohort_archived_forward_fix_pending",
+        "worktree": "D:/Everyone/Presentation/Everyone-Presentation-Studio-Batch-Filter",
+        "branch": "codex/m07-batch-filter",
+        "base_commit": "8be5ce4",
+        "initial_historical_M02_SQL_draft_rejected": true,
+        "current_list_jobs_body_sha256": "a2239225b995673e9ab432ac63014f742b25032cc586c790535db260c551d241",
+        "cast_and_requester_frame_rules_must_be_preserved": true,
+        "narrow_list_get_MCP_preliminary_gate_parity_fix_authorized": true,
+        "capability_grant_or_OAuth_scope_change": false,
+        "cross_user_exploit_proved": false,
+        "native_SQL_executed": false,
+        "official38_created": false,
+        "main_integrated": false,
+        "hosted_deployed": false,
+        "source_commit": "4b1c94d",
+        "source_product_files": 20,
+        "source_QA_reported": {
+          "full_npm_test_exit": 0,
+          "types_exit": 0,
+          "affected_lint_exit": 0,
+          "focused_product_tests": 25,
+          "authority_tests": 6,
+          "inert_SQL_source_tests": 7,
+          "counts_overlap": true,
+          "aggregate_fullsuite_count": null
+        },
+        "independent_source_review": "clear_current_M03_and_M29_semantics_preserved",
+        "initial_M01_only_delegation_concern": "withdrawn_existing_M29_SQL_fence_confirmed",
+        "new_SQL_proof": {
+          "folder": "development/m07/job-batch-filter-proof",
+          "status": "failed_not_replayable",
+          "root_final_inert": {
+            "passed": 10,
+            "skipped": 0,
+            "duration_ms": 3681.8931
+          },
+          "source_inputs": 376,
+          "prior_sources_preserved": 365,
+          "scope": "owned local PostgreSQL batch pagination/frame/project and synthetic delegated claims enforcement, exact nested37 and outer33 rollback with original29/AuthStorage/globalroles/DB/lock cleanup",
+          "JWT_signature_or_provider_acceptance": false,
+          "actual_SQL_result": "failed",
+          "run_id": "cb11a73c-505b-47bb-ae97-ab32a9c1c771",
+          "controller_sha256": "a238895c1f9985c6a71f38f4fe8d0898c021c3c08c8355f255a23a6c0d5348cc",
+          "prepared_start_evidence": "tracking/evidence/m07/job-batch-filter-proof/2026-11-01T10-49-20-900129Z-prepared-start.json",
+          "permanent_claim_created": true,
+          "actual_evidence": "tracking/evidence/m07/job-batch-filter-proof/2026-11-01T10-48-59-914Z-cb11a73c.json",
+          "actual_sha256": "2655108e1626f5a44c4f40c3b4bab2d2b532de12c6ad1cd07d8080c77e996c25",
+          "elapsed_ms": 54930,
+          "database_error": "column reference p.pronamespace is ambiguous",
+          "batch_authority_assertions_passed": false,
+          "synthetic_delegation_SQL_test_passed": false,
+          "cleanup_and_preservation": {
+            "disposable_databases_removed": true,
+            "new33_roles_removed": true,
+            "original_local_database_unchanged": true,
+            "original29_full_catalogue_unchanged": true,
+            "original29_full_auth_storage_catalogue_unchanged": true,
+            "original29_exact_profile_and_settings_state_unchanged": true,
+            "existing_global_role_oids_attributes_memberships_unchanged": true,
+            "shared_test_lock_released": true
+          },
+          "failed_source_archive": "development/m07/job-batch-filter-proof/source-history/cb11a73c/source-archive.json",
+          "failed_archive_sha256": "a1990a7fd82bc144f4df399f20baec4c049ea9e676401e9813e5b13a23636f74",
+          "original_claim_replayed": false,
+          "safe_diagnostic": "tracking/evidence/m07/job-batch-filter-proof/2026-11-01-cb11-native-diagnostic.json"
+        },
+        "recorded_at": "2026-11-01T10:54:38Z"
       }
     }
   ],
@@ -4110,7 +4251,7 @@
     "local_restore_evidence": "tracking/evidence/m07/recovery36-trace-profile/2026-11-01T04-23-15-971Z-b7b41927.json",
     "name_diagnosis": "tracking/evidence/m03/english-name-review/2026-10-31T16-31-07-348316Z-5ed61ea9-8c38-4c1a-a3a2-958d6ccd5d72.json",
     "native_build_failure": "tracking/evidence/m03/english-image34/2026-10-31T17-03-17-960492Z-v2-registry-tls-diagnosis.json",
-    "next_action": "Finish new feedback MCP/guest reads when owner replies; correct and verify composed current job batch filter + MCP frame-read parity in isolated worktree, then owned SQL proof; retain deferrals.",
+    "next_action": "Forward-fix batch admission alias collision after exact archive; independent regression review and fresh owned SQL proof before merge/release; continue owner feedback reads as replies arrive.",
     "source_checkpoints": [
       "c6a3f15",
       "28c3d3c",
@@ -5256,6 +5397,75 @@
           "overlap_not_additive": true
         }
       }
+    },
+    "job_batch_filter": {
+      "status": "native_admission_failed_cleanup_passed_cohort_archived_forward_fix_pending",
+      "worktree": "D:/Everyone/Presentation/Everyone-Presentation-Studio-Batch-Filter",
+      "branch": "codex/m07-batch-filter",
+      "base_commit": "8be5ce4",
+      "initial_historical_M02_SQL_draft_rejected": true,
+      "current_list_jobs_body_sha256": "a2239225b995673e9ab432ac63014f742b25032cc586c790535db260c551d241",
+      "cast_and_requester_frame_rules_must_be_preserved": true,
+      "narrow_list_get_MCP_preliminary_gate_parity_fix_authorized": true,
+      "capability_grant_or_OAuth_scope_change": false,
+      "cross_user_exploit_proved": false,
+      "native_SQL_executed": false,
+      "official38_created": false,
+      "main_integrated": false,
+      "hosted_deployed": false,
+      "source_commit": "4b1c94d",
+      "source_product_files": 20,
+      "source_QA_reported": {
+        "full_npm_test_exit": 0,
+        "types_exit": 0,
+        "affected_lint_exit": 0,
+        "focused_product_tests": 25,
+        "authority_tests": 6,
+        "inert_SQL_source_tests": 7,
+        "counts_overlap": true,
+        "aggregate_fullsuite_count": null
+      },
+      "independent_source_review": "clear_current_M03_and_M29_semantics_preserved",
+      "initial_M01_only_delegation_concern": "withdrawn_existing_M29_SQL_fence_confirmed",
+      "new_SQL_proof": {
+        "folder": "development/m07/job-batch-filter-proof",
+        "status": "failed_not_replayable",
+        "root_final_inert": {
+          "passed": 10,
+          "skipped": 0,
+          "duration_ms": 3681.8931
+        },
+        "source_inputs": 376,
+        "prior_sources_preserved": 365,
+        "scope": "owned local PostgreSQL batch pagination/frame/project and synthetic delegated claims enforcement, exact nested37 and outer33 rollback with original29/AuthStorage/globalroles/DB/lock cleanup",
+        "JWT_signature_or_provider_acceptance": false,
+        "actual_SQL_result": "failed",
+        "run_id": "cb11a73c-505b-47bb-ae97-ab32a9c1c771",
+        "controller_sha256": "a238895c1f9985c6a71f38f4fe8d0898c021c3c08c8355f255a23a6c0d5348cc",
+        "prepared_start_evidence": "tracking/evidence/m07/job-batch-filter-proof/2026-11-01T10-49-20-900129Z-prepared-start.json",
+        "permanent_claim_created": true,
+        "actual_evidence": "tracking/evidence/m07/job-batch-filter-proof/2026-11-01T10-48-59-914Z-cb11a73c.json",
+        "actual_sha256": "2655108e1626f5a44c4f40c3b4bab2d2b532de12c6ad1cd07d8080c77e996c25",
+        "elapsed_ms": 54930,
+        "database_error": "column reference p.pronamespace is ambiguous",
+        "batch_authority_assertions_passed": false,
+        "synthetic_delegation_SQL_test_passed": false,
+        "cleanup_and_preservation": {
+          "disposable_databases_removed": true,
+          "new33_roles_removed": true,
+          "original_local_database_unchanged": true,
+          "original29_full_catalogue_unchanged": true,
+          "original29_full_auth_storage_catalogue_unchanged": true,
+          "original29_exact_profile_and_settings_state_unchanged": true,
+          "existing_global_role_oids_attributes_memberships_unchanged": true,
+          "shared_test_lock_released": true
+        },
+        "failed_source_archive": "development/m07/job-batch-filter-proof/source-history/cb11a73c/source-archive.json",
+        "failed_archive_sha256": "a1990a7fd82bc144f4df399f20baec4c049ea9e676401e9813e5b13a23636f74",
+        "original_claim_replayed": false,
+        "safe_diagnostic": "tracking/evidence/m07/job-batch-filter-proof/2026-11-01-cb11-native-diagnostic.json"
+      },
+      "recorded_at": "2026-11-01T10:54:38Z"
     }
   },
   "historical_notes": [
@@ -5446,7 +5656,7 @@
     "recorded_at": "2026-11-01T10:30:02Z",
     "canonical_history_count": 37,
     "web_deployment_id": "dpl_EUK29uLiGvrPguUv3T7d5KR19RwC",
-    "next_action": "Finish new feedback MCP/guest reads when owner replies; correct and verify composed current job batch filter + MCP frame-read parity in isolated worktree, then owned SQL proof; retain deferrals.",
+    "next_action": "Forward-fix batch admission alias collision after exact archive; independent regression review and fresh owned SQL proof before merge/release; continue owner feedback reads as replies arrive.",
     "recovery37": {
       "status": "passed_actual_owned_full_history37_local_native_filesystem_restore",
       "recorded_at": "2026-11-01T10:30:02Z",
@@ -5557,6 +5767,75 @@
           "overlap_not_additive": true
         }
       }
+    },
+    "job_batch_filter": {
+      "status": "native_admission_failed_cleanup_passed_cohort_archived_forward_fix_pending",
+      "worktree": "D:/Everyone/Presentation/Everyone-Presentation-Studio-Batch-Filter",
+      "branch": "codex/m07-batch-filter",
+      "base_commit": "8be5ce4",
+      "initial_historical_M02_SQL_draft_rejected": true,
+      "current_list_jobs_body_sha256": "a2239225b995673e9ab432ac63014f742b25032cc586c790535db260c551d241",
+      "cast_and_requester_frame_rules_must_be_preserved": true,
+      "narrow_list_get_MCP_preliminary_gate_parity_fix_authorized": true,
+      "capability_grant_or_OAuth_scope_change": false,
+      "cross_user_exploit_proved": false,
+      "native_SQL_executed": false,
+      "official38_created": false,
+      "main_integrated": false,
+      "hosted_deployed": false,
+      "source_commit": "4b1c94d",
+      "source_product_files": 20,
+      "source_QA_reported": {
+        "full_npm_test_exit": 0,
+        "types_exit": 0,
+        "affected_lint_exit": 0,
+        "focused_product_tests": 25,
+        "authority_tests": 6,
+        "inert_SQL_source_tests": 7,
+        "counts_overlap": true,
+        "aggregate_fullsuite_count": null
+      },
+      "independent_source_review": "clear_current_M03_and_M29_semantics_preserved",
+      "initial_M01_only_delegation_concern": "withdrawn_existing_M29_SQL_fence_confirmed",
+      "new_SQL_proof": {
+        "folder": "development/m07/job-batch-filter-proof",
+        "status": "failed_not_replayable",
+        "root_final_inert": {
+          "passed": 10,
+          "skipped": 0,
+          "duration_ms": 3681.8931
+        },
+        "source_inputs": 376,
+        "prior_sources_preserved": 365,
+        "scope": "owned local PostgreSQL batch pagination/frame/project and synthetic delegated claims enforcement, exact nested37 and outer33 rollback with original29/AuthStorage/globalroles/DB/lock cleanup",
+        "JWT_signature_or_provider_acceptance": false,
+        "actual_SQL_result": "failed",
+        "run_id": "cb11a73c-505b-47bb-ae97-ab32a9c1c771",
+        "controller_sha256": "a238895c1f9985c6a71f38f4fe8d0898c021c3c08c8355f255a23a6c0d5348cc",
+        "prepared_start_evidence": "tracking/evidence/m07/job-batch-filter-proof/2026-11-01T10-49-20-900129Z-prepared-start.json",
+        "permanent_claim_created": true,
+        "actual_evidence": "tracking/evidence/m07/job-batch-filter-proof/2026-11-01T10-48-59-914Z-cb11a73c.json",
+        "actual_sha256": "2655108e1626f5a44c4f40c3b4bab2d2b532de12c6ad1cd07d8080c77e996c25",
+        "elapsed_ms": 54930,
+        "database_error": "column reference p.pronamespace is ambiguous",
+        "batch_authority_assertions_passed": false,
+        "synthetic_delegation_SQL_test_passed": false,
+        "cleanup_and_preservation": {
+          "disposable_databases_removed": true,
+          "new33_roles_removed": true,
+          "original_local_database_unchanged": true,
+          "original29_full_catalogue_unchanged": true,
+          "original29_full_auth_storage_catalogue_unchanged": true,
+          "original29_exact_profile_and_settings_state_unchanged": true,
+          "existing_global_role_oids_attributes_memberships_unchanged": true,
+          "shared_test_lock_released": true
+        },
+        "failed_source_archive": "development/m07/job-batch-filter-proof/source-history/cb11a73c/source-archive.json",
+        "failed_archive_sha256": "a1990a7fd82bc144f4df399f20baec4c049ea9e676401e9813e5b13a23636f74",
+        "original_claim_replayed": false,
+        "safe_diagnostic": "tracking/evidence/m07/job-batch-filter-proof/2026-11-01-cb11-native-diagnostic.json"
+      },
+      "recorded_at": "2026-11-01T10:54:38Z"
     }
   },
   "historical_sessions": [
@@ -6599,7 +6878,7 @@
       "reference": "english_output_rollout",
       "status": "real_scan_saved_internal_and_guest_english_pdf_revocation_verified_browser_boundary"
     },
-    "next_action": "Finish new feedback MCP/guest reads when owner replies; correct and verify composed current job batch filter + MCP frame-read parity in isolated worktree, then owned SQL proof; retain deferrals.",
+    "next_action": "Forward-fix batch admission alias collision after exact archive; independent regression review and fresh owned SQL proof before merge/release; continue owner feedback reads as replies arrive.",
     "source_checkpoints": [
       "c6a3f15",
       "28c3d3c",
@@ -7749,6 +8028,75 @@
           "overlap_not_additive": true
         }
       }
+    },
+    "job_batch_filter": {
+      "status": "native_admission_failed_cleanup_passed_cohort_archived_forward_fix_pending",
+      "worktree": "D:/Everyone/Presentation/Everyone-Presentation-Studio-Batch-Filter",
+      "branch": "codex/m07-batch-filter",
+      "base_commit": "8be5ce4",
+      "initial_historical_M02_SQL_draft_rejected": true,
+      "current_list_jobs_body_sha256": "a2239225b995673e9ab432ac63014f742b25032cc586c790535db260c551d241",
+      "cast_and_requester_frame_rules_must_be_preserved": true,
+      "narrow_list_get_MCP_preliminary_gate_parity_fix_authorized": true,
+      "capability_grant_or_OAuth_scope_change": false,
+      "cross_user_exploit_proved": false,
+      "native_SQL_executed": false,
+      "official38_created": false,
+      "main_integrated": false,
+      "hosted_deployed": false,
+      "source_commit": "4b1c94d",
+      "source_product_files": 20,
+      "source_QA_reported": {
+        "full_npm_test_exit": 0,
+        "types_exit": 0,
+        "affected_lint_exit": 0,
+        "focused_product_tests": 25,
+        "authority_tests": 6,
+        "inert_SQL_source_tests": 7,
+        "counts_overlap": true,
+        "aggregate_fullsuite_count": null
+      },
+      "independent_source_review": "clear_current_M03_and_M29_semantics_preserved",
+      "initial_M01_only_delegation_concern": "withdrawn_existing_M29_SQL_fence_confirmed",
+      "new_SQL_proof": {
+        "folder": "development/m07/job-batch-filter-proof",
+        "status": "failed_not_replayable",
+        "root_final_inert": {
+          "passed": 10,
+          "skipped": 0,
+          "duration_ms": 3681.8931
+        },
+        "source_inputs": 376,
+        "prior_sources_preserved": 365,
+        "scope": "owned local PostgreSQL batch pagination/frame/project and synthetic delegated claims enforcement, exact nested37 and outer33 rollback with original29/AuthStorage/globalroles/DB/lock cleanup",
+        "JWT_signature_or_provider_acceptance": false,
+        "actual_SQL_result": "failed",
+        "run_id": "cb11a73c-505b-47bb-ae97-ab32a9c1c771",
+        "controller_sha256": "a238895c1f9985c6a71f38f4fe8d0898c021c3c08c8355f255a23a6c0d5348cc",
+        "prepared_start_evidence": "tracking/evidence/m07/job-batch-filter-proof/2026-11-01T10-49-20-900129Z-prepared-start.json",
+        "permanent_claim_created": true,
+        "actual_evidence": "tracking/evidence/m07/job-batch-filter-proof/2026-11-01T10-48-59-914Z-cb11a73c.json",
+        "actual_sha256": "2655108e1626f5a44c4f40c3b4bab2d2b532de12c6ad1cd07d8080c77e996c25",
+        "elapsed_ms": 54930,
+        "database_error": "column reference p.pronamespace is ambiguous",
+        "batch_authority_assertions_passed": false,
+        "synthetic_delegation_SQL_test_passed": false,
+        "cleanup_and_preservation": {
+          "disposable_databases_removed": true,
+          "new33_roles_removed": true,
+          "original_local_database_unchanged": true,
+          "original29_full_catalogue_unchanged": true,
+          "original29_full_auth_storage_catalogue_unchanged": true,
+          "original29_exact_profile_and_settings_state_unchanged": true,
+          "existing_global_role_oids_attributes_memberships_unchanged": true,
+          "shared_test_lock_released": true
+        },
+        "failed_source_archive": "development/m07/job-batch-filter-proof/source-history/cb11a73c/source-archive.json",
+        "failed_archive_sha256": "a1990a7fd82bc144f4df399f20baec4c049ea9e676401e9813e5b13a23636f74",
+        "original_claim_replayed": false,
+        "safe_diagnostic": "tracking/evidence/m07/job-batch-filter-proof/2026-11-01-cb11-native-diagnostic.json"
+      },
+      "recorded_at": "2026-11-01T10:54:38Z"
     }
   },
   "english_output_rollout": {
@@ -9514,7 +9862,7 @@
     }
   },
   "job_batch_filter": {
-    "status": "isolated_source_correction_in_review_native_SQL_main_merge_hosted_pending",
+    "status": "native_admission_failed_cleanup_passed_cohort_archived_forward_fix_pending",
     "worktree": "D:/Everyone/Presentation/Everyone-Presentation-Studio-Batch-Filter",
     "branch": "codex/m07-batch-filter",
     "base_commit": "8be5ce4",
@@ -9527,6 +9875,59 @@
     "native_SQL_executed": false,
     "official38_created": false,
     "main_integrated": false,
-    "hosted_deployed": false
+    "hosted_deployed": false,
+    "source_commit": "4b1c94d",
+    "source_product_files": 20,
+    "source_QA_reported": {
+      "full_npm_test_exit": 0,
+      "types_exit": 0,
+      "affected_lint_exit": 0,
+      "focused_product_tests": 25,
+      "authority_tests": 6,
+      "inert_SQL_source_tests": 7,
+      "counts_overlap": true,
+      "aggregate_fullsuite_count": null
+    },
+    "independent_source_review": "clear_current_M03_and_M29_semantics_preserved",
+    "initial_M01_only_delegation_concern": "withdrawn_existing_M29_SQL_fence_confirmed",
+    "new_SQL_proof": {
+      "folder": "development/m07/job-batch-filter-proof",
+      "status": "failed_not_replayable",
+      "root_final_inert": {
+        "passed": 10,
+        "skipped": 0,
+        "duration_ms": 3681.8931
+      },
+      "source_inputs": 376,
+      "prior_sources_preserved": 365,
+      "scope": "owned local PostgreSQL batch pagination/frame/project and synthetic delegated claims enforcement, exact nested37 and outer33 rollback with original29/AuthStorage/globalroles/DB/lock cleanup",
+      "JWT_signature_or_provider_acceptance": false,
+      "actual_SQL_result": "failed",
+      "run_id": "cb11a73c-505b-47bb-ae97-ab32a9c1c771",
+      "controller_sha256": "a238895c1f9985c6a71f38f4fe8d0898c021c3c08c8355f255a23a6c0d5348cc",
+      "prepared_start_evidence": "tracking/evidence/m07/job-batch-filter-proof/2026-11-01T10-49-20-900129Z-prepared-start.json",
+      "permanent_claim_created": true,
+      "actual_evidence": "tracking/evidence/m07/job-batch-filter-proof/2026-11-01T10-48-59-914Z-cb11a73c.json",
+      "actual_sha256": "2655108e1626f5a44c4f40c3b4bab2d2b532de12c6ad1cd07d8080c77e996c25",
+      "elapsed_ms": 54930,
+      "database_error": "column reference p.pronamespace is ambiguous",
+      "batch_authority_assertions_passed": false,
+      "synthetic_delegation_SQL_test_passed": false,
+      "cleanup_and_preservation": {
+        "disposable_databases_removed": true,
+        "new33_roles_removed": true,
+        "original_local_database_unchanged": true,
+        "original29_full_catalogue_unchanged": true,
+        "original29_full_auth_storage_catalogue_unchanged": true,
+        "original29_exact_profile_and_settings_state_unchanged": true,
+        "existing_global_role_oids_attributes_memberships_unchanged": true,
+        "shared_test_lock_released": true
+      },
+      "failed_source_archive": "development/m07/job-batch-filter-proof/source-history/cb11a73c/source-archive.json",
+      "failed_archive_sha256": "a1990a7fd82bc144f4df399f20baec4c049ea9e676401e9813e5b13a23636f74",
+      "original_claim_replayed": false,
+      "safe_diagnostic": "tracking/evidence/m07/job-batch-filter-proof/2026-11-01-cb11-native-diagnostic.json"
+    },
+    "recorded_at": "2026-11-01T10:54:38Z"
   }
 }
