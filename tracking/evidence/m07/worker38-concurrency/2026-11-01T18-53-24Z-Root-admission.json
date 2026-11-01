@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-11-01T18:53:24Z",
+  "result": "passed_read_only_admission",
+  "actual_receipt": "tracking/evidence/m07/worker38-concurrency/2026-11-01T18-51-35-264Z-1b8e1713.json",
+  "actual_receipt_sha256": "319b4e466b102a057bf3ee850aae1610824179c1536eaada7c7b481c8b6c9a27",
+  "all312_current_source_hashes_exact": true,
+  "actual_checks": {
+    "actual_native_sql_concurrency": true,
+    "cached_intake_waited_before_snapshot": true,
+    "fresh_intake_denied_after_pause": true,
+    "retry_lifecycle_not_hidden_by_pause": true,
+    "worker38_committed_intake_seen_in_first_snapshot": true,
+    "worker38_stale_preflight_refused_before_update": true,
+    "worker38_owned_backends_closed": true,
+    "disposable_databases_removed": true,
+    "worker38_trace_role_removed": true,
+    "new33_roles_removed": true,
+    "original_local_database_unchanged": true,
+    "original29_full_catalogue_unchanged": true,
+    "original29_full_auth_storage_catalogue_unchanged": true,
+    "original29_exact_profile_and_settings_state_unchanged": true,
+    "existing_global_role_oids_attributes_memberships_unchanged": true,
+    "shared_test_lock_released": true,
+    "all_resources_cleaned": true,
+    "original_state_preserved": true
+  },
+  "elapsed_ms": 64136,
+  "cloud_phase_operator_or_media_restore_acceptance": false,
+  "failed_prior_runs_reclassified": false
+}

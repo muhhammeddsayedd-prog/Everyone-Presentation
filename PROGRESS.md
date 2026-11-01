@@ -1,6 +1,56 @@
 # Everyone Presentation Studio - current English-output rollout
 
-## Current checkpoint - 2026-11-01T18:42:05Z: diagnostic daemon published; batch MCP delta passed; local cleanup pending
+## Current checkpoint - 2026-11-01T18:57:12Z: actual concurrency and cleanup passed; diagnostic images Ready; API fix locally verified
+
+The new actual owned current38 SQL concurrency proof1b8e passed in64,136ms:
+cached intake held the config lock and pause waited before its first snapshot;
+fresh intake was denied after pause; retry lifecycle remained counted despite
+disabled flags; a committed racing intake was seen by the first snapshot and
+stale preflight was refused before updating flags. All five actual34..38 migrations
+ran in the disposable DB. Every owned backend/database/newrole was removed;
+original29/Auth/Storage/catalogue/profile/global roles and lock release passed.
+Root independently verified all312 source seals and actual result flags.
+Receipt `tracking/evidence/m07/worker38-concurrency/2026-11-01T18-51-35-264Z-1b8e1713.json`; admission18:53:24. This is actual local SQL, not cloud-phase,
+media/restore or hosted processing acceptance. Both earlier failed claims remain failed.
+
+The separately bounded93bb cleanup passed normal return and two independent full
+preservation/absence checks (`tracking/evidence/m07/worker38-concurrency-cleanup93bb/2026-11-01T18-51-13.635Z-cleanup.json`). All three marked roles and the exact
+run-owned lock are gone. Its original failed concurrency receipt is unchanged.
+The cleanup preflight's native flat-row bug was preserved at3ce1211, then fixed
+with a captured16,876-field regression; no claim/drop occurred in that preflight.
+The strict trace OID fix validates canonical uint32 text without changing raw JSON.
+
+Both diagnostic images are published and observed Ready: native50082's hosted
+nine-task164-source/boundary/PDF proof and ten-resource cleanup passed; daemonce23
+has normal-copy/two-digest readback/private-repository and actual Ready/Linuxamd64
+proof. New Ready/import receipt `tracking/evidence/m07/specs-diagnostic-daemon38/2026-11-01T18-55-40-267254Z-image-ready.json`. The daemon release operator has16 inert
+tests and independent review passed; Root's actual image-only GET ran, without
+starting a worker or changing config. Executed source/claims remain held exact.
+
+HTTP project/workspace list validation is integrated at0f9ecc0 (isolated5854194).
+Unknown/repeated filters and nondecimal/out-of-range limits now fail explicitly;
+valid search/cursor/limits, permissions and audience-preset behaviour are preserved.
+All939 full tests, full lint and nonincremental types passed on Main. The12 focused
+route/auth/batch/MCP cases are a subset, not added to939. Quality `tracking/evidence/m07/list-query38-web/2026-11-01T18-57-12Z-quality.json`.
+Claude's frontend coordination note was appended with all prior bytes preserved.
+This API patch is not yet deployed. Held164 worker files remain unchanged.
+
+The owner-attested new batch MCP read passed0/null (requestdec726b0), matching HTTP.
+Original authorization/reconnect, English/Reviewed/Ready/old versions/local37
+recovery stay passed. Feedback/guest deltas remain pending. Current pilot still
+serves webCUXV/DB38 and unchanged healthy worker2uAS/430d0992/native795. No cloud
+processing pause, public manifest PATCH, future DB pin or worker replacement yet.
+
+Next: fill actual guarded current38 admission and inspect fresh full state/zero
+lifecycle, then controlled pause->manifest->newdaemonReady/oldinventoryabsence->
+future-nativepin->resume. Deploy the compatible API web and run scoped HTTP/MCP
+regressions. Real new specs processing/diagnostic evidence follows actual worker
+adoption; historical specs136/protectedM02 remain untouched. Screen-reader pending,
+mobile skipped, pilot running. AT069 rollback-transport preparation was rejected
+by automatic approval ('blocked by policy'); no retry/manual equivalent/provider
+action for that blocked action occurred.
+
+## Historical checkpoint - 2026-11-01T18:42:05Z: diagnostic daemon published; batch MCP delta passed; local cleanup pending
 
 Native50082 Ready and its actual hosted nine-task164-source/PDF/boundary proof
 with complete ten-resource cleanup remain passed. Daemonce23 is now published:

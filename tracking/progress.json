@@ -1,6 +1,6 @@
 {
   "pack_version": "1.0",
-  "updated_at": "2026-11-01T18:42:05Z",
+  "updated_at": "2026-11-01T18:57:12Z",
   "implementation_started": true,
   "current_milestone": "M07",
   "current_pilot": {
@@ -10821,8 +10821,8 @@
     "current_worker_deployment": "dpl_2uASsbYobSDwWjMptPjGLcVEdCg3",
     "drain_snapshot_receipt": "tracking/evidence/m07/specs-diagnostic-worker38/2026-11-01T17-55-03-096505Z-drain-inventory.json",
     "future_quiescence_not_inferred": true,
-    "native_concurrency_proof": "failed93bb_trace_role_OID_JSON_type_after36",
-    "next": "Bounded93bb role cleanup/full original29 preservation; fresh concurrency proof; daemonReady and guarded current38 adoption. No cloud pause/adoption yet.",
+    "native_concurrency_proof": "passed_scoped_actual_owned_current38_SQL",
+    "next": "Actual current38 admission/freshzero state; guarded pause/manifest/newdaemonReady+oldinventoryabsence/pin/resume; compatible webforward and controlled real specs job.",
     "native_registry_pushed": true,
     "native_registry_ready": "tracking/evidence/m07/specs-diagnostic-worker38/2026-11-01T18-23-21-396167Z-native-registry-ready.json",
     "daemon_registry_pushed": true,
@@ -10843,11 +10843,78 @@
     "daemon_prepare_local_reconciliation_passed": true,
     "daemon_prepare_local_reconciliation": "tracking/evidence/m07/specs-diagnostic-worker38/2026-11-01T18-35-38-390811Z-daemon-local-prepare-reconcile.json",
     "daemon_registry_copy": "tracking/evidence/m07/specs-diagnostic-worker38/2026-11-01T18-39-10-151779Z-daemon-registry-copy.json",
-    "daemon_registry_ready": "not_yet_observed",
+    "daemon_registry_ready": "tracking/evidence/m07/specs-diagnostic-daemon38/2026-11-01T18-55-40-267254Z-image-ready.json",
     "native_concurrency_latest_failed_receipt": "tracking/evidence/m07/worker38-concurrency/2026-11-01T18-36-34-245Z-93bb8f21.json",
-    "native_concurrency_latest_cleanup": "owned_databases_absent_three_owned_roles_and_exact_lock_pending_bounded_cleanup",
-    "native_concurrency_latest_full_cleanup_passed": false,
+    "native_concurrency_latest_cleanup": "93bb_separately_reconciled_full_preservation_roles_absent_lock_released",
+    "native_concurrency_latest_full_cleanup_passed": true,
     "native_concurrency_OID_fix_focused_tests": 13,
-    "pilot_latest_read_only_health": "tracking/evidence/m07/job-batch-filter38-web/2026-11-01T18-34-54-907531+00-00-health-after.json"
+    "pilot_latest_read_only_health": "tracking/evidence/m07/job-batch-filter38-web/2026-11-01T18-34-54-907531+00-00-health-after.json",
+    "native_concurrency_receipt": "tracking/evidence/m07/worker38-concurrency/2026-11-01T18-51-35-264Z-1b8e1713.json",
+    "native_concurrency_actual_source_seals": 312,
+    "native_concurrency_elapsed_ms": 64136,
+    "native_concurrency_Root_admission": "tracking/evidence/m07/worker38-concurrency/2026-11-01T18-53-24Z-Root-admission.json",
+    "native_concurrency_failed_run_acceptance_unchanged": true,
+    "native_concurrency_cleanup_reconciliation": "tracking/evidence/m07/worker38-concurrency-cleanup93bb/2026-11-01T18-51-13.635Z-cleanup.json",
+    "daemon_image_ready_get_only": true,
+    "daemon_operator_inert_tests": 16
+  },
+  "foundation_list_query38": {
+    "schema_version": "1.0",
+    "observed_at": "2026-11-01T18:57:12Z",
+    "result": "passed",
+    "Main_API_commit": "0f9ecc0",
+    "isolated_API_commit": "5854194baa8f73e306eac428138e4ea249aefdfc",
+    "full_tests": 939,
+    "full_skipped": 0,
+    "full_failed": 0,
+    "suite_counts": {
+      "tests": [
+        409,
+        13,
+        19,
+        56,
+        251,
+        191
+      ],
+      "pass": [
+        409,
+        13,
+        19,
+        56,
+        251,
+        191
+      ],
+      "fail": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "skipped": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "full_test_log_sha256": "84a19ee3d00dacecf8fa0ada8227df5300133b8760392c24aa09d81a81d58714",
+    "full_test_log_bytes": 204596,
+    "full_lint_exit": 0,
+    "typecheck_exit": 0,
+    "focused_tests": 12,
+    "focused_tests_subset_of_full": true,
+    "source_pins": {
+      "apps/web/app/api/v1/[...segments]/route.ts": "b50d3be58dcb8ac3ad12dacd99939e274ff5f4cd5481e19c26802e93c34cd07e",
+      "tests/server/foundation-list-query.test.ts": "90d68b83e52cf86ec6daeee14858bf6add580de820d655384e15263c6164a95e"
+    },
+    "hosting_or_real_provider_acceptance": false,
+    "quality_receipt": "tracking/evidence/m07/list-query38-web/2026-11-01T18-57-12Z-quality.json",
+    "hosted_deployed": false,
+    "frontend_coordination_appended": true,
+    "held164_product_sources_preserved": true
   }
 }

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { spawnSync } from 'node:child_process';
 import path from 'node:path';
-import { APPLY_ENABLED, RUN, ROOT, ROLES, sha, pureHelpers, processAbsent, run, buildSql, validateRoles, withoutOwned, withoutCatalogue, validateSnapshot, verifyArchivedSources, executeWithPorts } from './cleanup.mjs';
+import { APPLY_ENABLED, RUN, ROOT, ROLES, sha, pureHelpers, processAbsent, run, buildSql, validateRoles, withoutOwned, withoutCatalogue, validateSnapshot, verifyArchivedSources, executeWithPorts, projectNativeSnapshot } from './cleanup.mjs';
 
 const read = async file => readFile(path.join(ROOT,file));
 const json = async file => JSON.parse(await read(file));
@@ -67,6 +67,18 @@ test('projection excludes only exact three owned role/member deltas',async()=>{
  const changed={...current,'functions|public.unrelated()|source_sha256':'changed'};
  assert.notDeepEqual(withoutCatalogue(changed),data.original);
  const invalid={...snapshot,global,catalogue:current};assert.throws(()=>validateSnapshot(data,invalid)); // synthetic baseline never receives real-state credit
+});
+test('native psql flat JSON catalogue cell remains complete through snapshot projection',async()=>{
+ const {data,snapshot}=await fixture();
+ const global=structuredClone(data.before.existing_global_roles_before);
+ const observed=[snapshot.baseline,snapshot.context,global,data.original,snapshot.roles];
+ const projected=projectNativeSnapshot(observed);
+ assert(projected.catalogue===data.original,'CATALOGUE_NATIVE_CELL_PRESERVED');
+ assert.equal(sha(JSON.stringify(projected.catalogue)),sha(JSON.stringify(data.original)));
+ assert.equal(Object.keys(projected.catalogue).length,16876);
+ const changed=structuredClone(projected.catalogue);changed['tables|auth.schema_migrations|rls']=!changed['tables|auth.schema_migrations|rls'];
+ assert.notEqual(sha(JSON.stringify(withoutCatalogue(changed))),sha(JSON.stringify(data.original)));
+ assert.throws(()=>projectNativeSnapshot(observed.slice(0,4)));
 });
 function fakePorts(mode='normal'){
  const stored=new Map(),events=[],lock=Buffer.from('synthetic-retained-lock');

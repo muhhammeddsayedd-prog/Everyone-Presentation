@@ -61,10 +61,19 @@ booleans. No user transcript, media, provider key or auth token is read.
 Inert checks: `node --test development/m07/worker38-concurrency-cleanup93bb/cleanup.test.mjs`.
 They parse emitted SQL/PLpgSQL and test guards against captured metadata and
 synthetic baseline/old-role OIDs. They perform no SQL or provider operation and do
-not claim actual cleanup. The nine cases include read-only recovery of all 312
+not claim actual cleanup. The ten cases include read-only recovery of all 312
 Git source seals and a port-only protocol simulation: permanent claim before
 mutation, normal return plus two postchecks before lock release, refusal to replay,
 and retention after unknown mutation or failed readback. The fixed CLI still
 refuses before IO; simulated ports have no executable transport fallback.
 Root must review/arm a coherent checkpoint before a
 single `apply`; this authoring task did not arm or execute it.
+
+Root's first armed preflight stopped before the cleanup claim or any drop because
+the psql JSON-cell parser already returns the flat catalogue object; the initial
+sidecar incorrectly looked for a nested `catalog` field. The exact armed source
+and failure are archived separately. The narrow forward fix preserves the raw
+catalogue query result and full 16,876-field comparison. A captured
+flat-cell regression failed before that fix and passed after it. The gate is
+reset false; no failed cleanup claim is replayed, and original roles/lock remain
+until Root separately verifies and performs cleanup.

@@ -198,12 +198,16 @@ async function database(sql, target) {
  const docker = 'C:/Program Files/Docker/Docker/resources/bin/docker.exe'; assert.equal(sha(await readFile(docker)), 'e768033e4b3f0dc760162f417a80360094644d16cd9fb12ad65c9d97508c076f');
  return rows(await bounded(docker, ['--host','npipe:////./pipe/dockerDesktopLinuxEngine','exec','--user','postgres','-i',target.container.Id,'psql','-X','-q','-A','-t','-v','ON_ERROR_STOP=1','-h','/var/run/postgresql','-U','supabase_admin','-d','postgres'], sql));
 }
+export function projectNativeSnapshot(observed) {
+ assert.equal(observed.length,5);
+ return {baseline:observed[0],context:observed[1],global:observed[2],catalogue:observed[3],roles:observed[4]};
+}
 async function snapshot(data, target) {
  const c = data.helpers.compiler.staticControllerSql33(data.controller.toString());
  const base = c.baselineSql.replace('begin read only;','begin read only;set local role postgres;').replace(/rollback;\s*$/u, CONTEXT+';rollback;');
  const sql = base+c.rolesSql+`begin read only;${NORMALIZED}${identitySql(target.owned.instance_id)}${data.catalogue}${targetRolesSql(data.helpers)};rollback;`;
- const observed = await database(sql, target); assert.equal(observed.length, 5);
- return validateSnapshot(data, { baseline:observed[0],context:observed[1],global:observed[2],catalogue:observed[3].catalog,roles:observed[4] });
+ const observed = await database(sql, target);
+ return validateSnapshot(data,projectNativeSnapshot(observed));
 }
 export async function run(ports) {
  assert(APPLY_ENABLED, 'CLEANUP93BB_DISABLED');

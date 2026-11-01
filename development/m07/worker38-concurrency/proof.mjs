@@ -12,7 +12,7 @@ import { compileController33, SOURCE_PINS } from '../recovery33/compiler.mjs';
 import { ownedPredicate33, ownedIdentity33 } from '../recovery33/ownership.mjs';
 import { normalizeDatabaseOid } from '../recovery29/identity.mjs';
 
-export const EXECUTION_ENABLED = false;
+export const EXECUTION_ENABLED = true;
 export const ROOT = path.resolve(import.meta.dirname, '../../..');
 export const PURPOSE = 'development/m07/worker38-concurrency/';
 export const OWN = ['proof.mjs', 'fixture.sql', 'proof.test.mjs', 'frozen-inputs.json', 'README.md'].map(v => PURPOSE + v);
