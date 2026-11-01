@@ -7,6 +7,7 @@ import { api, errorMessage, mutation, type Actor, type Session } from './api';
 import { ErrorNotice, Loading } from './Feedback';
 import { Icon, type IconName } from './Icon';
 import { ProjectList } from './ProjectList';
+import { ProjectOverview } from './ProjectOverview';
 import { SessionGate } from './SessionGate';
 import { SettingsView } from './SettingsView';
 import { WorkspaceView } from './WorkspaceView';
@@ -89,6 +90,7 @@ function StudioShell() {
   const mainRef = useRef<HTMLElement>(null);
   useRouteFade(mainRef, pathname);
   const isWorkspace = segments[0] === 'projects' && segments[2] === 'casting' && segments.length === 5;
+  const scopeLabel = isWorkspace ? 'Casting' : destinations.find(item => pathname.startsWith(item.path))?.label ?? 'Studio';
   const environment = central ? 'Central Everyone workspace. Development and release verification are in progress.' : confirmedFixture ? 'Development workspace — synthetic records. Central business integration is unverified.' : 'Opening your workspace…';
   const navigation = <Navigation pathname={pathname} actor={actor ?? null} central={central} fixture={confirmedFixture} />;
   return <StudioTimeZoneProvider timeZone={session?.timezone}><RuntimeMode.Provider value={central ? 'supabase' : 'local_fixture'}>
@@ -99,13 +101,13 @@ function StudioShell() {
         <header className="topbar">
           <button type="button" className="icon-button menu-toggle" aria-label="Open navigation" aria-expanded={navOpen} onClick={() => setNavOpenAt(pathname)}><Icon name="menu" /></button>
           <Link className="topbar-brand" href="/projects" aria-label="Everyone Presentation Studio home"><img src="/brand/everyone-logotype.svg" alt="" /></Link>
-          <div className="topbar-product"><span>Presentation Studio</span><span className="topbar-divider" /><span className="topbar-module">Casting</span></div>
+          <div className="topbar-product"><span>Presentation Studio</span><span className="topbar-divider" /><span className="topbar-module">{scopeLabel}</span></div>
           <div className="topbar-env" title={environment}><span className="status-dot" /><span>{central ? 'Release verification in progress' : confirmedFixture ? 'Development · synthetic records' : 'Opening workspace'}</span></div>
           {actor && <div className="session-control"><span className="user-initial" aria-hidden="true">{initials(actor.name)}</span><span className="user-name">{actor.name}</span><button className="icon-button" aria-label={central ? 'Sign out' : 'Sign out of development session'} onClick={signOut}><Icon name="logout" /></button></div>}
         </header>
         <div className="development-banner"><span className="status-dot" /><span>{environment}</span></div>
         <main ref={mainRef} id="main-content" className="main-content" tabIndex={-1}>{loading || signingOut ? <Loading label="Opening Presentation Studio…" /> : error ? <ErrorNotice message={error} retry={() => setRefresh(value => value + 1)} /> : !actor ? (central ? <BusinessSignIn /> : <SessionGate actors={session?.actors ?? []} onSignedIn={setSession} />) : <Route pathname={pathname} segments={segments} isWorkspace={isWorkspace} central={central} actor={actor} storageOrigin={session?.storage_origin} onDirtyChange={dirtyChanged} />}</main>
-        <footer className="app-footer"><span>everyone. Presentation Studio</span><span>{confirmedFixture ? 'Synthetic workspace' : 'Casting workspace'}</span></footer>
+        <footer className="app-footer"><span>everyone. Presentation Studio</span><span>{confirmedFixture ? 'Synthetic workspace' : isWorkspace ? 'Casting workspace' : scopeLabel}</span></footer>
       </div>
     </div>
     {navOpen && <NavigationSheet onClose={() => setNavOpenAt(null)}>{navigation}</NavigationSheet>}
@@ -139,7 +141,8 @@ function NavigationSheet({ onClose, children }: { onClose: () => void; children:
 
 function Route({ pathname, segments, isWorkspace, central, actor, storageOrigin, onDirtyChange }: { pathname: string; segments: string[]; isWorkspace: boolean; central: boolean; actor: Actor; storageOrigin?: string; onDirtyChange: (dirty: boolean) => void }) {
   if (isWorkspace) return <WorkspaceView key={`${segments[1]}/${segments[3]}/${segments[4]}`} projectId={segments[1]} workspaceId={segments[3]} step={segments[4]} actor={actor} storageOrigin={storageOrigin} onDirtyChange={onDirtyChange} />;
-  if (pathname === '/projects') return <ProjectList actor={actor} />;
+  if (pathname === '/projects') return <ProjectList actor={actor} onDirtyChange={onDirtyChange} />;
+  if (segments[0] === 'projects' && segments.length === 2) return <ProjectOverview key={segments[1]} projectId={segments[1]} actor={actor} onDirtyChange={onDirtyChange} />;
   if (pathname === '/library/cast') return <CastLibraryView actor={actor} onDirtyChange={onDirtyChange} />;
   if (segments[0] === 'library' && segments[1] === 'cast' && segments.length === 3) return <CandidateDetailView key={segments[2]} candidateId={segments[2]} actor={actor} onDirtyChange={onDirtyChange} />;
   if (central && segments[0] === 'presentations' && segments[1] === 'series' && segments[3] === 'sharing' && segments.length === 4) return <ReviewSharingView seriesId={segments[2]} actor={actor} onDirtyChange={onDirtyChange} />;

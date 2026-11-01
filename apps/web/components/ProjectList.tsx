@@ -11,11 +11,13 @@ import { useRuntimeMode } from './RuntimeMode';
 import { StudioDateTime } from './StudioTimeZone';
 import { SegmentIndicator } from './motion/SegmentIndicator';
 import { stagger } from './motion/motion';
+import { NewProject } from './NewProject';
+import { plannedPresentation, presentationTypeLabel } from './project-presentation';
 
 type Filter = 'all' | 'started' | 'not_started';
 const filters: { value: Filter; label: string }[] = [{ value: 'all', label: 'All' }, { value: 'started', label: 'Casting in progress' }, { value: 'not_started', label: 'Not started' }];
 
-export function ProjectList({ actor }: { actor: Actor }) {
+export function ProjectList({ actor, onDirtyChange }: { actor: Actor; onDirtyChange: (dirty: boolean) => void }) {
   const central = useRuntimeMode() === 'supabase';
   const router = useRouter();
   const [query, setQuery] = useState('');
@@ -28,6 +30,7 @@ export function ProjectList({ actor }: { actor: Actor }) {
   const [opening, setOpening] = useState<string | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [refresh, setRefresh] = useState(0);
+  const [creating, setCreating] = useState(false);
   useEffect(() => {
     let current = true;
     const timer = setTimeout(() => {
@@ -40,6 +43,7 @@ export function ProjectList({ actor }: { actor: Actor }) {
   }, [query, refresh]);
 
   async function open(project: Project) {
+    if (plannedPresentation(project.presentation_type)) { router.push(`/projects/${project.id}`); return; }
     setOpening(project.id); setError('');
     try {
       const workspace = project.casting_workspace_id ? (await api<Workspace>(`/api/v1/workspaces/${project.casting_workspace_id}`)).data : (await api<Workspace>('/api/v1/workspaces', mutation('POST', { project_id: project.id, initial_output: 'selection' }))).data;
@@ -60,8 +64,9 @@ export function ProjectList({ actor }: { actor: Actor }) {
   const visible = projects.filter(project => filter === 'all' || (filter === 'started') === Boolean(project.casting_workspace_id));
   const selected = visible.find(project => project.id === selectedId) ?? visible[0] ?? null;
   const canCreate = actor.capabilities?.includes('workspaces.write') ?? true;
+  const canCreateProject = actor.capabilities?.includes('projects.read') === true && actor.capabilities.includes('projects.write');
   return <div className="projects-page">
-    <header className="page-heading"><div><h1>Projects</h1><p>{central ? 'Central projects shared with your account. Open one to prepare its casting presentation.' : 'Prepare casting presentations from your existing projects.'}</p></div></header>
+    <header className="page-heading"><div><h1>Projects</h1><p>{central ? 'Shared Everyone projects and their presentations.' : 'Prepare presentations from your development projects.'}</p></div>{canCreateProject && <button type="button" className="button button-primary" onClick={() => setCreating(true)}>New project<Icon name="plus" /></button>}</header>
     <div className="split-rail">
       <section aria-label="Project list" className="stack">
         <div className="projects-toolbar">
@@ -74,15 +79,16 @@ export function ProjectList({ actor }: { actor: Actor }) {
           <tbody ref={stagger}>{visible.map(project => <tr key={project.id} aria-selected={selected?.id === project.id} className={selected?.id === project.id ? 'is-selected' : undefined}>
             <td><button type="button" className="row-select identity" aria-pressed={selected?.id === project.id} aria-label={`Show details for ${project.name}`} onClick={() => setSelectedId(project.id)}>
               <span className="monogram" aria-hidden="true">{project.name.slice(0, 1)}</span><span><strong>{project.name}</strong><span>{project.client_name ?? 'Client not provided'}</span></span></button></td>
-            <td>{project.casting_workspace_id ? <span className="badge badge-dot badge-ok">Workspace started</span> : <span className="badge badge-pending">Not started</span>}</td>
-            <td className="num"><button className={`button button-small${selected?.id === project.id ? ' button-primary' : ''}`} onClick={() => open(project)} disabled={opening !== null || (!project.casting_workspace_id && !canCreate)}>{opening === project.id ? 'Opening…' : project.casting_workspace_id ? 'Resume casting' : 'Open casting'}<Icon name="arrow" /></button></td>
+            <td>{plannedPresentation(project.presentation_type) ? <span className="badge badge-pending">{presentationTypeLabel(project.presentation_type)} · Planned</span> : project.casting_workspace_id ? <span className="badge badge-dot badge-ok">Workspace started</span> : <span className="badge badge-pending">Not started</span>}</td>
+            <td className="num"><button className={`button button-small${selected?.id === project.id ? ' button-primary' : ''}`} onClick={() => open(project)} disabled={opening !== null || (!plannedPresentation(project.presentation_type) && !project.casting_workspace_id && !canCreate)}>{opening === project.id ? 'Opening…' : plannedPresentation(project.presentation_type) ? 'Open project' : project.casting_workspace_id ? 'Resume casting' : 'Open casting'}<Icon name="arrow" /></button></td>
           </tr>)}</tbody></table></div>
-          : <div className="empty-state"><Icon name="projects" /><h2>{query ? 'No projects match your search.' : projects.length ? 'No projects in this view.' : 'No accessible projects.'}</h2><p>{query ? 'Try another project or client name.' : projects.length ? 'Choose All to show every loaded project.' : 'A project must exist in the central business system and be shared with your acting user.'}</p></div>}
+          : <div className="empty-state"><Icon name="projects" /><h2>{query ? 'No projects match your search.' : projects.length ? 'No projects in this view.' : 'No accessible projects.'}</h2><p>{query ? 'Try another project or client name.' : projects.length ? 'Choose All to show every loaded project.' : canCreateProject ? 'Create a shared project to start preparing a presentation.' : 'Projects appear here when they are shared with your acting user.'}</p></div>}
         {cursor && <div className="load-more"><button className="button" onClick={loadMore} disabled={loadingMore}>{loadingMore ? 'Loading…' : 'Load more projects'}</button></div>}
-        <div className="section-note"><Icon name="lock" /><p>{central ? 'Access follows your Everyone account permissions. Projects are created in the central business system.' : 'Project access follows your acting user. This development environment contains synthetic projects only.'}</p></div>
+        <div className="section-note"><Icon name="lock" /><p>{central ? 'Access follows your Everyone account permissions. New projects save to the shared central records.' : 'Project access follows your acting user. This development environment contains synthetic projects only.'}</p></div>
       </section>
-      <aside aria-label="Project overview">{selected && !loading ? <ProjectPanel key={selected.id} project={selected} central={central} opening={opening === selected.id} disabled={opening !== null || (!selected.casting_workspace_id && !canCreate)} onOpen={() => open(selected)} /> : null}</aside>
+      <aside aria-label="Project overview">{selected && !loading ? <ProjectPanel key={selected.id} project={selected} central={central} opening={opening === selected.id} disabled={opening !== null || (!plannedPresentation(selected.presentation_type) && !selected.casting_workspace_id && !canCreate)} onOpen={() => open(selected)} /> : null}</aside>
     </div>
+    {creating && <NewProject onClose={() => setCreating(false)} onCreated={project => { setCreating(false); router.push(`/projects/${encodeURIComponent(project.id)}`); }} onDirtyChange={onDirtyChange} />}
   </div>;
 }
 
@@ -105,13 +111,14 @@ function ProjectPanel({ project, central, opening, disabled, onOpen }: { project
   return <div className="panel project-panel">
     <div className="panel-body stack-lg">
       <div className="identity project-panel-identity"><span className="monogram monogram-lg" aria-hidden="true">{project.name.slice(0, 1)}</span><div><h2>{project.name}</h2><span>{project.client_name ?? 'Client not provided'}</span></div></div>
-      {!project.casting_workspace_id ? <p className="muted small">No casting workspace yet. Opening casting creates one for this central project; project and client details stay in the central record.</p>
+      {plannedPresentation(project.presentation_type) ? <p className="muted small">{presentationTypeLabel(project.presentation_type)} preparation and generation are Planned. Open this saved project to manage its shared details.</p> : !project.casting_workspace_id ? <p className="muted small">No casting workspace yet. Opening casting creates one for this central project; project and client details stay in the central record.</p>
         : loading ? <Loading label="Loading workspace status…" /> : error ? <ErrorNotice message={error} /> : workspace && <>
           <div className="cluster"><span className="badge badge-outline">Casting</span>{workspace.has_unpublished_changes ? <span className="badge badge-dot badge-warn">Unpublished changes</span> : <span className="badge">No unpublished changes</span>}</div>
           <dl className="kv"><dt>Working output</dt><dd>{workspace.active_output === 'shortlist' ? 'Cast Shortlist' : 'Cast Selection'}</dd><dt>Last updated</dt><dd><StudioDateTime value={workspace.updated_at} /></dd><dt>Logo on slides</dt><dd>{workspace.logo_asset_id ? (workspace.logo_placement === 'every_slide' ? 'Every slide' : 'Cover only') : 'No logo selected'}</dd></dl>
           {central && <div className="stack"><h3 className="eyebrow">Presentations</h3>{series === null ? <p className="small muted">Presentation status is unavailable right now.</p> : ready.length ? <ul className="project-panel-series">{ready.map(item => <li key={item.id}><span className="badge badge-dot badge-ok">Ready</span><span>{item.title} v{item.latest_ready_version_no}</span>{item.latest_ready_version_id && <Link className="text-button small" href={`/presentations/versions/${item.latest_ready_version_id}`}>Open</Link>}</li>)}</ul> : <p className="small muted">No ready presentation versions yet.</p>}</div>}
         </>}
-      <button type="button" className="button button-primary button-block" onClick={onOpen} disabled={disabled} aria-label={`${project.casting_workspace_id ? 'Resume casting' : 'Open casting'} for ${project.name}`}>{opening ? 'Opening…' : project.casting_workspace_id ? 'Resume casting' : 'Start casting'}<Icon name="arrow" /></button>
+      <button type="button" className="button button-primary button-block" onClick={onOpen} disabled={disabled} aria-label={`${plannedPresentation(project.presentation_type) ? 'Open project' : project.casting_workspace_id ? 'Resume casting' : 'Open casting'} for ${project.name}`}>{opening ? 'Opening…' : plannedPresentation(project.presentation_type) ? 'Open project' : project.casting_workspace_id ? 'Resume casting' : 'Start casting'}<Icon name="arrow" /></button>
+      {!plannedPresentation(project.presentation_type) && <Link className="text-button small" href={`/projects/${project.id}`}>Shared project overview</Link>}
       <div className="stack"><h3 className="eyebrow">Other presentation modules</h3><div className="cluster"><span className="badge badge-pending">Wardrobe · Planned</span><span className="badge badge-pending">Art direction · Planned</span><span className="badge badge-pending">Storyboard · Planned</span></div></div>
     </div>
   </div>;

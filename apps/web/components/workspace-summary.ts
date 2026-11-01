@@ -21,7 +21,7 @@ export function useWorkspaceSummary(workspaceId: string, enabled: boolean, revis
     api<unknown>(`/api/v1/workspaces/${workspaceId}/summary`)
       .then(result => { if (current) setState({ key, summary: parseWorkspaceSummary(result.data, workspaceId) }); })
       // A missing summary leaves counts unknown; the workspace itself still works.
-      .catch(() => { if (current) setState(previous => previous.key.startsWith(`${workspaceId}:`) ? { key, summary: previous.summary } : { key, summary: null }); });
+      .catch(() => { if (current) setState({ key, summary: null }); });
     return () => { current = false; };
   }, [workspaceId, enabled, key]);
   // Keep the previous counts visible while a newer revision is loading, but only for this workspace.
