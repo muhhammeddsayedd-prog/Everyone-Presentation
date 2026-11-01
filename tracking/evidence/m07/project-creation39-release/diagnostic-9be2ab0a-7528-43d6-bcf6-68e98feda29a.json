@@ -1,0 +1,29 @@
+{
+  "automatic_retry": false,
+  "claim_retained": true,
+  "cloud_mutation": false,
+  "exit_code": 0,
+  "last_stage": "projection_check",
+  "local_admission_passed": true,
+  "observed_at": "2026-11-01T23:37:58.196930+00:00",
+  "output_limit_exceeded": false,
+  "owned_immediate_processes": [
+    {
+      "exited": true,
+      "pid": 47644,
+      "return_code": 0
+    }
+  ],
+  "projection_schema_guard_passed": false,
+  "protected_projection": ".local/m07-project39-diagnostic/projection-eb55a906-5285-474d-b788-4707f9191d9d.json",
+  "purpose": "one exact existing read-only inspect query diagnostic",
+  "raw_cli_or_credentials_persisted": false,
+  "result": "unconfirmed",
+  "safe_error": null,
+  "safe_exception_code": "PROJECT39_DIAGNOSTIC_UNCONFIRMED",
+  "sql_sha256": "90c9479610fc9dbb0c986226983e58357723b62c010c44f456a0f163f8c2ef19",
+  "stderr_bytes": 27,
+  "stdout_bytes": 69082,
+  "timed_out": false,
+  "valid_projection": true
+}
