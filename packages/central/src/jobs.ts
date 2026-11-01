@@ -6,7 +6,7 @@ import { centralRpcError } from './errors.ts';
 const STATUSES = ['queued', 'running', 'waiting_for_input', 'succeeded', 'failed', 'cancelled'] as const;
 const KINDS = ['specs_extract', 'candidate_scan', 'frame_extract', 'ai_suggestion', 'review_fit', 'presentation_render', 'presentation_export'] as const;
 const SAFE_ERRORS: Record<string, string> = {
-  SOURCE_UNREADABLE: 'The supplied source cannot be read.', UNSUPPORTED_FORMAT: 'The source format is unsupported.',
+  SOURCE_UNREADABLE: 'The supplied source could not be read. Replace it with a valid supported file, or enter the available information manually.', UNSUPPORTED_FORMAT: 'The source format is unsupported.',
   RESULT_INVALID: 'The processing result failed validation.', EXTRACTION_REFUSED: 'Extraction could not complete for this input.',
   PROVIDER_RATE_LIMITED: 'The processing provider is temporarily rate limited.', DEPENDENCY_UNAVAILABLE: 'A processing dependency is unavailable.',
   LEASE_EXPIRED: 'The processing lease expired.', DISPATCH_UNAVAILABLE: 'The processing request could not be dispatched.',

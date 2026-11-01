@@ -1,6 +1,55 @@
 # Everyone Presentation Studio - current English-output rollout
 
-## Current checkpoint ? 2026-11-01, 02:41 UTC: canonical36 installed; live audit pending
+## Current checkpoint - 2026-11-01, 02:55 UTC: durable paired audit passed; guidance release next
+
+The actual post36 read-only paired audit passed at02:50:02.98928UTC. The owner's
+untargeted IMG2852 job6763 succeeded with five immutable attempts/execution refs
+31693 through31697 and accepted stage events. Source-bound OpenAI transcription,
+extraction, frame selection and English-translation records are present. The
+owner-uploaded67-byte fixture job3fde failed in prepare_candidate with
+SOURCE_UNREADABLE/nonretryable, ref31703, no later stage or OpenAI records.
+Neither upload was resubmitted by the agent. Planned2850/Reviewed append was not
+performed; another owner-submitted clip is outside this two-job audit.
+
+All10 old Ready versions/57 slides/42 pins/raw and English companions,9 export
+rows/referenced asset metadata, Reviewed25 full row/old2 media/24 frames,
+English1.0/static schema/claim ports and protected M02 were preserved. This is
+cohort metadata/hash preservation, not a new fetch of every PDF/object byte,
+absence of all other jobs, semantic accuracy, or a newly generated version.
+Actual receipt: `tracking/evidence/m07/job-attempt-observability36-live-sidecar/2026-11-01T02-50-02-687228Z-8829fa59-3c1c-46dc-b20b-32649645c275.json`.
+
+Fresh terminal n8n metadata connector lookups returned errors; the reviewed
+fixed2GET fallback returned404 for31697/31703. Their absence cause is not proved;
+no payload retention/workflow configuration changed and old31686 was not queried.
+Durable stage IDs/events and typed failure are retained independently. Receipt:
+`tracking/evidence/m07/job-attempt-observability36-live-sidecar/2026-11-01T02-53-05.723Z-provider-metadata.json`.
+
+The failed-job page exposed a concrete copy bug: both safe UI/API allowlists
+shortened existing domain recovery guidance. The two-line correction supplies
+replacement/manual-information guidance while preserving fixed redaction,
+permissions, retry=false and cancel=true. Root28 focused tests and independent
+review passed; lint/full typecheck passed. It is NOT yet deployed. Next: fresh
+canonical36-compatible web source build, alias/Ready readback and this same job's
+app message check. AT074 remains partial until that actionable browser check.
+See `tracking/evidence/m07/job-attempt-observability36-live-sidecar/2026-11-01-producer-message-before-and-local-fix.json`.
+
+The client-local transfer helper is implemented: bounded private stdin, scoped
+signed PUT/shared TUS, file identity/hash checks, confirmed HEAD resume and safe
+output. All16 focused tests/lint/typecheck and both peer reviews passed; the
+support-image5MiB/document20MiB policy mismatch was fixed before release.
+`development/m07/DELEGATED_UPLOAD.md` and
+`tracking/evidence/m07/client-upload-transfer/2026-11-01-local-verification.json`
+record the boundary. Actual Claude private handoff/reserve-transfer-complete and
+full delegated journey remain unverified; no credentials/configuration were read
+or changed by the helper work. A new owned-local recovery36 metadata-only slice
+is being prepared separately; no recovery36 SQL/result is credited yet.
+
+Canonical36/web6L6v/worker2uAS/English1.0 remain serving. Completed hosted English,
+guest/PDF/revocation, owner Claude initial/reconnect/project+Summary reads and
+local33 recovery stay passed in their recorded scope. Screen reader pending,
+mobile skipped, frontend redesign preserved, no labels/selector and pilot running.
+
+## Historical checkpoint ? 2026-11-01, 02:41 UTC: canonical36 installed; live audit pending
 
 Canonical36 was applied once at02:19 with a normal return marker and two
 matching immediate readbacks, followed by the separate02:20 readback. All74

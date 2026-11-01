@@ -3,6 +3,7 @@ import test from 'node:test';
 import { DomainError } from '@eps/domain';
 import { handleJobRequest, type JobOperations } from '../../apps/web/lib/job-http.ts';
 import { failure } from '../../apps/web/lib/http.ts';
+import { createBearerUserClient, createCentralJobs } from '@eps/central';
 
 const actor = { principal_id: 'synthetic-principal' };
 function service() {
@@ -67,5 +68,27 @@ test('service denial remains scoped and dependency exceptions never expose secre
     const response = await handleJobRequest(request(), ['jobs', 'job-1'], actor, jobs, context).catch(reason => failure(reason, context.requestId));
     assert.equal(response.status, error instanceof DomainError ? 404 : 503);
     assert.doesNotMatch(await response.text(), /private-source-text|synthetic-user-token/);
+  }
+});
+
+test('actual job facade through HTTP exposes fixed actionable unreadable copy and rejects unknown private errors', async () => {
+  const principal = 'a1111111-1111-4111-8111-111111111111'; const jobId = 'a2222222-2222-4222-8222-222222222222';
+  const token = `${Buffer.from('{}').toString('base64url')}.${Buffer.from(JSON.stringify({ sub: principal, role: 'authenticated' })).toString('base64url')}.synthetic`;
+  for (const errorCode of ['SOURCE_UNREADABLE', 'UNKNOWN_PRIVATE_CODE']) {
+    const fetcher: typeof fetch = async input => new URL(String(input)).pathname === '/auth/v1/user'
+      ? Response.json({ id: principal, role: 'authenticated', is_anonymous: false })
+      : Response.json({ id: jobId, workspace_id: 'synthetic-workspace', kind: 'candidate_scan', status: 'failed', stage: 'prepare_candidate', attempt: 1,
+        progress_completed: 0, progress_total: null, batch_id: null, input_asset_id: null, resource_id: null,
+        error: { code: errorCode, message: '<script>private-provider-token</script>', details: {}, retryable: false },
+        created_at: '2026-11-01T00:00:00Z', updated_at: '2026-11-01T00:00:00Z', row_version: 1 });
+    const client = createBearerUserClient({ url: 'https://synthetic-jobs.example.invalid', publishableKey: 'sb_publishable_synthetic-test-key', accessToken: token }, { fetch: fetcher });
+    const jobs = await createCentralJobs(client);
+    const response = await handleJobRequest(request(), ['jobs', jobId], { principal_id: principal }, jobs, context).catch(error => failure(error, context.requestId));
+    const body = await response.json(); assert.doesNotMatch(JSON.stringify(body), /private-provider|token|<script>|UNKNOWN_PRIVATE_CODE/u);
+    if (errorCode === 'SOURCE_UNREADABLE') {
+      assert.equal(response.status, 200);
+      assert.equal(body.data.error.message, 'The supplied source could not be read. Replace it with a valid supported file, or enter the available information manually.');
+      assert.equal(body.data.error.retryable, false); assert.equal(body.data.status, 'failed');
+    } else assert.equal(response.status, 503);
   }
 });

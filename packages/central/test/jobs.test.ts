@@ -25,6 +25,18 @@ function service(response: unknown = job, status = 200) {
   return { calls, client: createBearerUserClient({ ...config, accessToken: token }, { fetch: fetcher }) };
 }
 const code = (expected: string) => (value: unknown) => value instanceof DomainError && value.code === expected;
+
+test('unreadable source DTO gives safe replacement or manual-information guidance with retry policy intact', async () => {
+  const row = { ...job, kind: 'candidate_scan', status: 'failed', stage: 'prepare_candidate',
+    error: { code: 'SOURCE_UNREADABLE', message: 'private-provider-diagnostic https://private.invalid?token=secret', details: { cause_code: 'SOURCE_UNREADABLE' }, retryable: false } };
+  const fixture = service(row); const result = await (await createCentralJobs(fixture.client)).getJob(actor, jobId);
+  assert.equal(result.error!.message, 'The supplied source could not be read. Replace it with a valid supported file, or enter the available information manually.');
+  assert.equal(result.error!.retryable, false); assert.equal(result.status, 'failed');
+  assert.deepEqual(result.error!.details, { cause_code: 'SOURCE_UNREADABLE' });
+  assert.doesNotMatch(JSON.stringify(result), /private-provider|private\.invalid|token=secret/u);
+  const bad = service({ ...row, error: { ...row.error, details: { source_url: 'https://private.invalid?token=secret' } } });
+  await assert.rejects((await createCentralJobs(bad.client)).getJob(actor, jobId), code('CENTRAL_RESPONSE_INVALID'));
+});
 test('review-fit and suggestion jobs retain the same bounded public polling contract', async () => {
   for (const kind of ['review_fit', 'ai_suggestion']) {
     const row = { ...job, kind, stage: kind === 'review_fit' ? 'measure_review_fit' : 'prepare_suggestion', resource_id: 'synthetic-resource' };

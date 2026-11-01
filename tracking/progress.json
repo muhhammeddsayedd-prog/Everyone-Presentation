@@ -1,6 +1,6 @@
 {
   "pack_version": "1.0",
-  "updated_at": "2026-11-01T02:41:25Z",
+  "updated_at": "2026-11-01T02:56:15.195245+00:00",
   "implementation_started": true,
   "current_milestone": "M07",
   "current_pilot": {
@@ -35,7 +35,7 @@
       "creation_receipt": "tracking/evidence/m07/controlled-pilot/2026-10-30T23-53-44-160454Z-6b2ce6c6-dummy-project-apply.json",
       "workspace_screenshot": "tracking/evidence/m07/controlled-pilot/2026-10-30-hosted-dummy-pilot-workspace.png",
       "jobs_created": true,
-      "jobs_created_scope": "Hosted specs ACK/extraction core passed under the canonical31 fix; original unknown884 claim retained/no replay. Prior candidate scans passed. Fresh post36 untargeted IMG2852 job6763e5fa-dc53-4956-8d9b-17bbc437609e is UI Completed only; after audit and synthetic failure job remain pending.",
+      "jobs_created_scope": "Hosted specs ACK/extraction and earlier English scans passed. Actual post36 paired auditpassed: untargeted2852/6763 succeeded through5 stages; owner-uploaded67B/3fde failed atprepare SOURCE_UNREADABLE/noAI. Another owner-submitted clip is outside this paired audit; other new-job absence is not claimed.",
       "workspace_receipt": "tracking/evidence/m07/controlled-pilot/2026-10-30-hosted-dummy-pilot-ui.json"
     },
     "core_checks": {
@@ -76,7 +76,7 @@
     "mobile_testing": "skipped by owner",
     "production_deployment_verified": false,
     "prior_snapshot": "tracking/evidence/m07/controlled-pilot/2026-10-31T01-24Z-prior-progress-snapshot.json",
-    "next_action": "Await owner selection of the prepared unreadable67-byte MP4 in the open app file picker, then record its actual new failure job ID and actionable producer error. Use the armed actual-IMG2852 sidecar with the original02:21 baseline to audit job6763e5fa-dc53-4956-8d9b-17bbc437609e and that failure job, with durable attempts/events/provider-record counts and old Ready/Reviewed/M02 preservation. IMG2852 is untargeted/UI Completed only; no read-only after audit or paired AT074 acceptance yet. Planned IMG2850/Reviewed append was not performed. Continue the bounded AT064 client-local transfer/private-capability handoff source slice while owner input is pending. Preserve completed English/guest/version/Summary/owner-connection/local33 results; manual AT072 pending, mobile skipped, frontend separate, pilot until owner stop; no new labels/selector.",
+    "next_action": "Deploy the reviewed SOURCE_UNREADABLE safe UI/API guidance through the fresh canonical36-compatible web purpose, verify the stable alias and actual failed-job page, then close the scoped AT074 producer-message check. Paired durable audit already passed at02:50 for successful6763 and failed3fde; never resubmit either. Continue the current36 owned-local metadata restore extension and the actual private Claude reserve/transfer/complete handoff; source-tested transfer helper is ready, live journey unverified. Keep owner connection passed, Reviewed/Ready data preserved, screen reader pending, mobile skipped and pilot running; no labels or selector.",
     "specs_local_proof": "tracking/evidence/m07/specs-ack31/2026-10-31T01-22-16-662Z-dc886d4e-local-proof.json",
     "specs_canonical_apply": "tracking/evidence/m07/specs-ack31/2026-10-31T01-57-10-621248Z-a99247a4-canonical31-continuation-apply.json",
     "specs_canonical_apply_confirmed": true,
@@ -791,7 +791,7 @@
       "live_AT074_acceptance": false
     },
     "AT074_current": {
-      "status": "pending_actual_after_audit_and_failed_job",
+      "status": "paired_durable_audit_passed_actionable_browser_guidance_pending_deployment",
       "before_evidence": "tracking/evidence/m07/job-attempt-observability36-live-audit/2026-11-01T02-21-35-394018Z-before.json",
       "before_observed_at": "2026-11-01T02:21:35.931551+00:00",
       "before_counts": {
@@ -816,15 +816,31 @@
         "agent_resubmitted": false,
         "UI_status": "Completed",
         "UI_status_basis": "root-observed signed-in app; not a read-only job/attempt/provider audit",
-        "read_only_after_audit_performed": false,
-        "semantic_accuracy_claimed": false
+        "read_only_after_audit_performed": true,
+        "semantic_accuracy_claimed": false,
+        "durable_status": "succeeded",
+        "stages": 5,
+        "workflow_execution_ids": [
+          "31693",
+          "31694",
+          "31695",
+          "31696",
+          "31697"
+        ],
+        "source_bound_OpenAI_and_English_metadata": true
       },
       "original_planned_IMG2850_Reviewed_append_performed": false,
       "synthetic_failure": {
         "source_bytes": 67,
-        "file_picker": "open awaiting owner selection",
-        "job_id": null,
-        "job_created_or_failed_claimed": false
+        "file_picker": "owner_uploaded",
+        "job_id": "3fde2ab3-d18e-4087-93c2-0ad2585cf66c",
+        "job_created_or_failed_claimed": true,
+        "status": "failed",
+        "stage": "prepare_candidate",
+        "code": "SOURCE_UNREADABLE",
+        "retryable": false,
+        "workflow_execution_id": "31703",
+        "OpenAI_records": 0
       },
       "sidecar": {
         "folder": "development/m07/job-attempt-observability36-live-sidecar",
@@ -833,15 +849,28 @@
         "inert_tests_passed": 8,
         "ENTRY_ENABLED": true,
         "arming_basis": "root armed after review and eight inert tests",
-        "executed": false,
-        "input_created": false,
+        "executed": true,
+        "input_created": true,
         "baseline_reused": "tracking/evidence/m07/job-attempt-observability36-live-audit/2026-11-01T02-21-35-394018Z-before.json",
-        "actual2852_substitution_explicit": true
+        "actual2852_substitution_explicit": true,
+        "result": "passed"
       },
-      "after_evidence": null,
+      "after_evidence": "tracking/evidence/m07/job-attempt-observability36-live-sidecar/2026-11-01T02-50-02-687228Z-8829fa59-3c1c-46dc-b20b-32649645c275.json",
       "paired_live_acceptance": false,
       "producer_error_verified": false,
-      "scope": "Ready-version cohort and two supplied jobs only; no absence-of-all-other-jobs/queued-or-failed-versions claim"
+      "scope": "Ready-version cohort and two supplied jobs only; no absence-of-all-other-jobs/queued-or-failed-versions claim",
+      "after_observed_at": "2026-11-01T02:50:02.98928+00:00",
+      "old_ready_reviewed_source_metadata_preserved": true,
+      "old_ready_count": 10,
+      "other_new_job_absence_checked": false,
+      "provider_terminal_metadata_evidence": "tracking/evidence/m07/job-attempt-observability36-live-sidecar/2026-11-01T02-53-05.723Z-provider-metadata.json",
+      "provider_terminal_http_statuses": [
+        404,
+        404
+      ],
+      "provider_execution_absence_cause_proven": false,
+      "producer_message_fix_evidence": "tracking/evidence/m07/job-attempt-observability36-live-sidecar/2026-11-01-producer-message-before-and-local-fix.json",
+      "actionable_browser_guidance_verified": false
     },
     "worker_health_after36_evidence": "tracking/evidence/m07/job-attempt-observability36-release/2026-11-01-worker-health-after36.json",
     "public_host_after36_evidence": "tracking/evidence/m07/controlled-pilot/2026-11-01T02-25-29-965Z-08711e9f-public-host.json"
@@ -2590,11 +2619,14 @@
         "tracking/evidence/m07/job-attempt-observability36-live-audit/2026-11-01T02-21-35-394018Z-before.json",
         "tracking/evidence/m07/job-attempt-observability36-release/2026-11-01-worker-health-after36.json",
         "tracking/evidence/m07/controlled-pilot/2026-11-01T02-25-29-965Z-08711e9f-public-host.json",
-        "tracking/evidence/m07/job-attempt-observability36-proof/2026-11-01-owner-selected2852-source-verification.json"
+        "tracking/evidence/m07/job-attempt-observability36-proof/2026-11-01-owner-selected2852-source-verification.json",
+        "tracking/evidence/m07/job-attempt-observability36-live-sidecar/2026-11-01T02-50-02-687228Z-8829fa59-3c1c-46dc-b20b-32649645c275.json",
+        "tracking/evidence/m07/job-attempt-observability36-live-sidecar/2026-11-01T02-53-05.723Z-provider-metadata.json",
+        "tracking/evidence/m07/job-attempt-observability36-live-sidecar/2026-11-01-producer-message-before-and-local-fix.json"
       ],
       "scope": "Owner initial/reconnect/read, controlled English/guest/version/Reviewed, Summary HTTP/owner-attested MCP and local33 recovery passed in recorded scopes. Canonical36 normal apply/readbacks and before baseline passed; actual2852 UICompleted is not paired AT074 acceptance. Full delegated/token/contributor/replacement/current recovery/endurance remains unverified.",
       "remaining": [
-        "Await owner selection of the prepared unreadable67-byte MP4 in the open app file picker, then record its actual new failure job ID and actionable producer error. Use the armed actual-IMG2852 sidecar with the original02:21 baseline to audit job6763e5fa-dc53-4956-8d9b-17bbc437609e and that failure job, with durable attempts/events/provider-record counts and old Ready/Reviewed/M02 preservation. IMG2852 is untargeted/UI Completed only; no read-only after audit or paired AT074 acceptance yet. Planned IMG2850/Reviewed append was not performed. Continue the bounded AT064 client-local transfer/private-capability handoff source slice while owner input is pending. Preserve completed English/guest/version/Summary/owner-connection/local33 results; manual AT072 pending, mobile skipped, frontend separate, pilot until owner stop; no new labels/selector.",
+        "Deploy the reviewed SOURCE_UNREADABLE safe UI/API guidance through the fresh canonical36-compatible web purpose, verify the stable alias and actual failed-job page, then close the scoped AT074 producer-message check. Paired durable audit already passed at02:50 for successful6763 and failed3fde; never resubmit either. Continue the current36 owned-local metadata restore extension and the actual private Claude reserve/transfer/complete handoff; source-tested transfer helper is ready, live journey unverified. Keep owner connection passed, Reviewed/Ready data preserved, screen reader pending, mobile skipped and pilot running; no labels or selector.",
         "Complete full delegated producer/shared-data journey, live refresh/rotation/revocation and actual contributor limits.",
         "Deployed replacement/rollback, current36/StorageHTTP/provider/config recovery and representative cost/endurance remain unverified.",
         "Manual AT072 pending; mobile skipped. No additional language labels or language selector required."
@@ -2629,7 +2661,7 @@
         "live_AT074_acceptance": false
       },
       "AT074_current": {
-        "status": "pending_actual_after_audit_and_failed_job",
+        "status": "paired_durable_audit_passed_actionable_browser_guidance_pending_deployment",
         "before_evidence": "tracking/evidence/m07/job-attempt-observability36-live-audit/2026-11-01T02-21-35-394018Z-before.json",
         "before_observed_at": "2026-11-01T02:21:35.931551+00:00",
         "before_counts": {
@@ -2654,15 +2686,31 @@
           "agent_resubmitted": false,
           "UI_status": "Completed",
           "UI_status_basis": "root-observed signed-in app; not a read-only job/attempt/provider audit",
-          "read_only_after_audit_performed": false,
-          "semantic_accuracy_claimed": false
+          "read_only_after_audit_performed": true,
+          "semantic_accuracy_claimed": false,
+          "durable_status": "succeeded",
+          "stages": 5,
+          "workflow_execution_ids": [
+            "31693",
+            "31694",
+            "31695",
+            "31696",
+            "31697"
+          ],
+          "source_bound_OpenAI_and_English_metadata": true
         },
         "original_planned_IMG2850_Reviewed_append_performed": false,
         "synthetic_failure": {
           "source_bytes": 67,
-          "file_picker": "open awaiting owner selection",
-          "job_id": null,
-          "job_created_or_failed_claimed": false
+          "file_picker": "owner_uploaded",
+          "job_id": "3fde2ab3-d18e-4087-93c2-0ad2585cf66c",
+          "job_created_or_failed_claimed": true,
+          "status": "failed",
+          "stage": "prepare_candidate",
+          "code": "SOURCE_UNREADABLE",
+          "retryable": false,
+          "workflow_execution_id": "31703",
+          "OpenAI_records": 0
         },
         "sidecar": {
           "folder": "development/m07/job-attempt-observability36-live-sidecar",
@@ -2671,15 +2719,28 @@
           "inert_tests_passed": 8,
           "ENTRY_ENABLED": true,
           "arming_basis": "root armed after review and eight inert tests",
-          "executed": false,
-          "input_created": false,
+          "executed": true,
+          "input_created": true,
           "baseline_reused": "tracking/evidence/m07/job-attempt-observability36-live-audit/2026-11-01T02-21-35-394018Z-before.json",
-          "actual2852_substitution_explicit": true
+          "actual2852_substitution_explicit": true,
+          "result": "passed"
         },
-        "after_evidence": null,
+        "after_evidence": "tracking/evidence/m07/job-attempt-observability36-live-sidecar/2026-11-01T02-50-02-687228Z-8829fa59-3c1c-46dc-b20b-32649645c275.json",
         "paired_live_acceptance": false,
         "producer_error_verified": false,
-        "scope": "Ready-version cohort and two supplied jobs only; no absence-of-all-other-jobs/queued-or-failed-versions claim"
+        "scope": "Ready-version cohort and two supplied jobs only; no absence-of-all-other-jobs/queued-or-failed-versions claim",
+        "after_observed_at": "2026-11-01T02:50:02.98928+00:00",
+        "old_ready_reviewed_source_metadata_preserved": true,
+        "old_ready_count": 10,
+        "other_new_job_absence_checked": false,
+        "provider_terminal_metadata_evidence": "tracking/evidence/m07/job-attempt-observability36-live-sidecar/2026-11-01T02-53-05.723Z-provider-metadata.json",
+        "provider_terminal_http_statuses": [
+          404,
+          404
+        ],
+        "provider_execution_absence_cause_proven": false,
+        "producer_message_fix_evidence": "tracking/evidence/m07/job-attempt-observability36-live-sidecar/2026-11-01-producer-message-before-and-local-fix.json",
+        "actionable_browser_guidance_verified": false
       }
     },
     "current33_local_metadata_media_restore": {
@@ -2721,7 +2782,7 @@
   "latest_checkpoint": {
     "milestone": "M07",
     "status": "canonical36_installed_live_AT074_pair_and_after_audit_pending",
-    "observed_at": "2026-11-01T02:41:25Z",
+    "observed_at": "2026-11-01T02:50:02.98928+00:00",
     "base_commit": "009536e",
     "canonical_migration_count": 36,
     "local_migration_count": 29,
@@ -2748,7 +2809,7 @@
     "local_restore_evidence": "tracking/evidence/m07/recovery33/2026-10-31T15-34-37-577Z-9af6774f.json",
     "name_diagnosis": "tracking/evidence/m03/english-name-review/2026-10-31T16-31-07-348316Z-5ed61ea9-8c38-4c1a-a3a2-958d6ccd5d72.json",
     "native_build_failure": "tracking/evidence/m03/english-image34/2026-10-31T17-03-17-960492Z-v2-registry-tls-diagnosis.json",
-    "next_action": "Await owner selection of the prepared unreadable67-byte MP4 in the open app file picker, then record its actual new failure job ID and actionable producer error. Use the armed actual-IMG2852 sidecar with the original02:21 baseline to audit job6763e5fa-dc53-4956-8d9b-17bbc437609e and that failure job, with durable attempts/events/provider-record counts and old Ready/Reviewed/M02 preservation. IMG2852 is untargeted/UI Completed only; no read-only after audit or paired AT074 acceptance yet. Planned IMG2850/Reviewed append was not performed. Continue the bounded AT064 client-local transfer/private-capability handoff source slice while owner input is pending. Preserve completed English/guest/version/Summary/owner-connection/local33 results; manual AT072 pending, mobile skipped, frontend separate, pilot until owner stop; no new labels/selector.",
+    "next_action": "Deploy the reviewed SOURCE_UNREADABLE safe UI/API guidance through the fresh canonical36-compatible web purpose, verify the stable alias and actual failed-job page, then close the scoped AT074 producer-message check. Paired durable audit already passed at02:50 for successful6763 and failed3fde; never resubmit either. Continue the current36 owned-local metadata restore extension and the actual private Claude reserve/transfer/complete handoff; source-tested transfer helper is ready, live journey unverified. Keep owner connection passed, Reviewed/Ready data preserved, screen reader pending, mobile skipped and pilot running; no labels or selector.",
     "source_checkpoints": [
       "c6a3f15",
       "28c3d3c",
@@ -3459,7 +3520,7 @@
       "live_AT074_acceptance": false
     },
     "AT074_current": {
-      "status": "pending_actual_after_audit_and_failed_job",
+      "status": "paired_durable_audit_passed_actionable_browser_guidance_pending_deployment",
       "before_evidence": "tracking/evidence/m07/job-attempt-observability36-live-audit/2026-11-01T02-21-35-394018Z-before.json",
       "before_observed_at": "2026-11-01T02:21:35.931551+00:00",
       "before_counts": {
@@ -3484,15 +3545,31 @@
         "agent_resubmitted": false,
         "UI_status": "Completed",
         "UI_status_basis": "root-observed signed-in app; not a read-only job/attempt/provider audit",
-        "read_only_after_audit_performed": false,
-        "semantic_accuracy_claimed": false
+        "read_only_after_audit_performed": true,
+        "semantic_accuracy_claimed": false,
+        "durable_status": "succeeded",
+        "stages": 5,
+        "workflow_execution_ids": [
+          "31693",
+          "31694",
+          "31695",
+          "31696",
+          "31697"
+        ],
+        "source_bound_OpenAI_and_English_metadata": true
       },
       "original_planned_IMG2850_Reviewed_append_performed": false,
       "synthetic_failure": {
         "source_bytes": 67,
-        "file_picker": "open awaiting owner selection",
-        "job_id": null,
-        "job_created_or_failed_claimed": false
+        "file_picker": "owner_uploaded",
+        "job_id": "3fde2ab3-d18e-4087-93c2-0ad2585cf66c",
+        "job_created_or_failed_claimed": true,
+        "status": "failed",
+        "stage": "prepare_candidate",
+        "code": "SOURCE_UNREADABLE",
+        "retryable": false,
+        "workflow_execution_id": "31703",
+        "OpenAI_records": 0
       },
       "sidecar": {
         "folder": "development/m07/job-attempt-observability36-live-sidecar",
@@ -3501,15 +3578,28 @@
         "inert_tests_passed": 8,
         "ENTRY_ENABLED": true,
         "arming_basis": "root armed after review and eight inert tests",
-        "executed": false,
-        "input_created": false,
+        "executed": true,
+        "input_created": true,
         "baseline_reused": "tracking/evidence/m07/job-attempt-observability36-live-audit/2026-11-01T02-21-35-394018Z-before.json",
-        "actual2852_substitution_explicit": true
+        "actual2852_substitution_explicit": true,
+        "result": "passed"
       },
-      "after_evidence": null,
+      "after_evidence": "tracking/evidence/m07/job-attempt-observability36-live-sidecar/2026-11-01T02-50-02-687228Z-8829fa59-3c1c-46dc-b20b-32649645c275.json",
       "paired_live_acceptance": false,
       "producer_error_verified": false,
-      "scope": "Ready-version cohort and two supplied jobs only; no absence-of-all-other-jobs/queued-or-failed-versions claim"
+      "scope": "Ready-version cohort and two supplied jobs only; no absence-of-all-other-jobs/queued-or-failed-versions claim",
+      "after_observed_at": "2026-11-01T02:50:02.98928+00:00",
+      "old_ready_reviewed_source_metadata_preserved": true,
+      "old_ready_count": 10,
+      "other_new_job_absence_checked": false,
+      "provider_terminal_metadata_evidence": "tracking/evidence/m07/job-attempt-observability36-live-sidecar/2026-11-01T02-53-05.723Z-provider-metadata.json",
+      "provider_terminal_http_statuses": [
+        404,
+        404
+      ],
+      "provider_execution_absence_cause_proven": false,
+      "producer_message_fix_evidence": "tracking/evidence/m07/job-attempt-observability36-live-sidecar/2026-11-01-producer-message-before-and-local-fix.json",
+      "actionable_browser_guidance_verified": false
     }
   },
   "historical_notes": [
@@ -4588,7 +4678,7 @@
       "reference": "english_output_rollout",
       "status": "real_scan_saved_internal_and_guest_english_pdf_revocation_verified_browser_boundary"
     },
-    "next_action": "Await owner selection of the prepared unreadable67-byte MP4 in the open app file picker, then record its actual new failure job ID and actionable producer error. Use the armed actual-IMG2852 sidecar with the original02:21 baseline to audit job6763e5fa-dc53-4956-8d9b-17bbc437609e and that failure job, with durable attempts/events/provider-record counts and old Ready/Reviewed/M02 preservation. IMG2852 is untargeted/UI Completed only; no read-only after audit or paired AT074 acceptance yet. Planned IMG2850/Reviewed append was not performed. Continue the bounded AT064 client-local transfer/private-capability handoff source slice while owner input is pending. Preserve completed English/guest/version/Summary/owner-connection/local33 results; manual AT072 pending, mobile skipped, frontend separate, pilot until owner stop; no new labels/selector.",
+    "next_action": "Deploy the reviewed SOURCE_UNREADABLE safe UI/API guidance through the fresh canonical36-compatible web purpose, verify the stable alias and actual failed-job page, then close the scoped AT074 producer-message check. Paired durable audit already passed at02:50 for successful6763 and failed3fde; never resubmit either. Continue the current36 owned-local metadata restore extension and the actual private Claude reserve/transfer/complete handoff; source-tested transfer helper is ready, live journey unverified. Keep owner connection passed, Reviewed/Ready data preserved, screen reader pending, mobile skipped and pilot running; no labels or selector.",
     "source_checkpoints": [
       "c6a3f15",
       "28c3d3c",
@@ -5260,7 +5350,7 @@
         "diagnostic": "tracking/evidence/m07/job-attempt-observability36-gate-proof/2026-11-01-failed281-diagnostic.json"
       }
     ],
-    "observed_at": "2026-11-01T02:41:25Z",
+    "observed_at": "2026-11-01T02:50:02.98928+00:00",
     "canonical36_release": {
       "status": "canonical36_applied_normal_return_and_independent_readback",
       "target": "pyibofyctwnqpvktepse",
@@ -5286,7 +5376,7 @@
       "live_AT074_acceptance": false
     },
     "AT074_current": {
-      "status": "pending_actual_after_audit_and_failed_job",
+      "status": "paired_durable_audit_passed_actionable_browser_guidance_pending_deployment",
       "before_evidence": "tracking/evidence/m07/job-attempt-observability36-live-audit/2026-11-01T02-21-35-394018Z-before.json",
       "before_observed_at": "2026-11-01T02:21:35.931551+00:00",
       "before_counts": {
@@ -5311,15 +5401,31 @@
         "agent_resubmitted": false,
         "UI_status": "Completed",
         "UI_status_basis": "root-observed signed-in app; not a read-only job/attempt/provider audit",
-        "read_only_after_audit_performed": false,
-        "semantic_accuracy_claimed": false
+        "read_only_after_audit_performed": true,
+        "semantic_accuracy_claimed": false,
+        "durable_status": "succeeded",
+        "stages": 5,
+        "workflow_execution_ids": [
+          "31693",
+          "31694",
+          "31695",
+          "31696",
+          "31697"
+        ],
+        "source_bound_OpenAI_and_English_metadata": true
       },
       "original_planned_IMG2850_Reviewed_append_performed": false,
       "synthetic_failure": {
         "source_bytes": 67,
-        "file_picker": "open awaiting owner selection",
-        "job_id": null,
-        "job_created_or_failed_claimed": false
+        "file_picker": "owner_uploaded",
+        "job_id": "3fde2ab3-d18e-4087-93c2-0ad2585cf66c",
+        "job_created_or_failed_claimed": true,
+        "status": "failed",
+        "stage": "prepare_candidate",
+        "code": "SOURCE_UNREADABLE",
+        "retryable": false,
+        "workflow_execution_id": "31703",
+        "OpenAI_records": 0
       },
       "sidecar": {
         "folder": "development/m07/job-attempt-observability36-live-sidecar",
@@ -5328,15 +5434,28 @@
         "inert_tests_passed": 8,
         "ENTRY_ENABLED": true,
         "arming_basis": "root armed after review and eight inert tests",
-        "executed": false,
-        "input_created": false,
+        "executed": true,
+        "input_created": true,
         "baseline_reused": "tracking/evidence/m07/job-attempt-observability36-live-audit/2026-11-01T02-21-35-394018Z-before.json",
-        "actual2852_substitution_explicit": true
+        "actual2852_substitution_explicit": true,
+        "result": "passed"
       },
-      "after_evidence": null,
+      "after_evidence": "tracking/evidence/m07/job-attempt-observability36-live-sidecar/2026-11-01T02-50-02-687228Z-8829fa59-3c1c-46dc-b20b-32649645c275.json",
       "paired_live_acceptance": false,
       "producer_error_verified": false,
-      "scope": "Ready-version cohort and two supplied jobs only; no absence-of-all-other-jobs/queued-or-failed-versions claim"
+      "scope": "Ready-version cohort and two supplied jobs only; no absence-of-all-other-jobs/queued-or-failed-versions claim",
+      "after_observed_at": "2026-11-01T02:50:02.98928+00:00",
+      "old_ready_reviewed_source_metadata_preserved": true,
+      "old_ready_count": 10,
+      "other_new_job_absence_checked": false,
+      "provider_terminal_metadata_evidence": "tracking/evidence/m07/job-attempt-observability36-live-sidecar/2026-11-01T02-53-05.723Z-provider-metadata.json",
+      "provider_terminal_http_statuses": [
+        404,
+        404
+      ],
+      "provider_execution_absence_cause_proven": false,
+      "producer_message_fix_evidence": "tracking/evidence/m07/job-attempt-observability36-live-sidecar/2026-11-01-producer-message-before-and-local-fix.json",
+      "actionable_browser_guidance_verified": false
     }
   },
   "english_output_rollout": {
@@ -6470,7 +6589,7 @@
       "hosted_AT074_acceptance": false
     },
     "live_AT074_acceptance": false,
-    "next_action": "Await owner selection of the prepared unreadable67-byte MP4 in the open app file picker, then record its actual new failure job ID and actionable producer error. Use the armed actual-IMG2852 sidecar with the original02:21 baseline to audit job6763e5fa-dc53-4956-8d9b-17bbc437609e and that failure job, with durable attempts/events/provider-record counts and old Ready/Reviewed/M02 preservation. IMG2852 is untargeted/UI Completed only; no read-only after audit or paired AT074 acceptance yet. Planned IMG2850/Reviewed append was not performed. Continue the bounded AT064 client-local transfer/private-capability handoff source slice while owner input is pending. Preserve completed English/guest/version/Summary/owner-connection/local33 results; manual AT072 pending, mobile skipped, frontend separate, pilot until owner stop; no new labels/selector.",
+    "next_action": "Deploy the reviewed SOURCE_UNREADABLE safe UI/API guidance through the fresh canonical36-compatible web purpose, verify the stable alias and actual failed-job page, then close the scoped AT074 producer-message check. Paired durable audit already passed at02:50 for successful6763 and failed3fde; never resubmit either. Continue the current36 owned-local metadata restore extension and the actual private Claude reserve/transfer/complete handoff; source-tested transfer helper is ready, live journey unverified. Keep owner connection passed, Reviewed/Ready data preserved, screen reader pending, mobile skipped and pilot running; no labels or selector.",
     "actual_SQL_environment": "owned_local_proofs_and_guarded_canonical_apply_readback",
     "canonical36_applied": true,
     "release_gate_proof": {
@@ -6538,7 +6657,7 @@
       "live_AT074_acceptance": false
     },
     "current_live_audit": {
-      "status": "pending_actual_after_audit_and_failed_job",
+      "status": "paired_durable_audit_passed_actionable_browser_guidance_pending_deployment",
       "before_evidence": "tracking/evidence/m07/job-attempt-observability36-live-audit/2026-11-01T02-21-35-394018Z-before.json",
       "before_observed_at": "2026-11-01T02:21:35.931551+00:00",
       "before_counts": {
@@ -6563,15 +6682,31 @@
         "agent_resubmitted": false,
         "UI_status": "Completed",
         "UI_status_basis": "root-observed signed-in app; not a read-only job/attempt/provider audit",
-        "read_only_after_audit_performed": false,
-        "semantic_accuracy_claimed": false
+        "read_only_after_audit_performed": true,
+        "semantic_accuracy_claimed": false,
+        "durable_status": "succeeded",
+        "stages": 5,
+        "workflow_execution_ids": [
+          "31693",
+          "31694",
+          "31695",
+          "31696",
+          "31697"
+        ],
+        "source_bound_OpenAI_and_English_metadata": true
       },
       "original_planned_IMG2850_Reviewed_append_performed": false,
       "synthetic_failure": {
         "source_bytes": 67,
-        "file_picker": "open awaiting owner selection",
-        "job_id": null,
-        "job_created_or_failed_claimed": false
+        "file_picker": "owner_uploaded",
+        "job_id": "3fde2ab3-d18e-4087-93c2-0ad2585cf66c",
+        "job_created_or_failed_claimed": true,
+        "status": "failed",
+        "stage": "prepare_candidate",
+        "code": "SOURCE_UNREADABLE",
+        "retryable": false,
+        "workflow_execution_id": "31703",
+        "OpenAI_records": 0
       },
       "sidecar": {
         "folder": "development/m07/job-attempt-observability36-live-sidecar",
@@ -6580,15 +6715,40 @@
         "inert_tests_passed": 8,
         "ENTRY_ENABLED": true,
         "arming_basis": "root armed after review and eight inert tests",
-        "executed": false,
-        "input_created": false,
+        "executed": true,
+        "input_created": true,
         "baseline_reused": "tracking/evidence/m07/job-attempt-observability36-live-audit/2026-11-01T02-21-35-394018Z-before.json",
-        "actual2852_substitution_explicit": true
+        "actual2852_substitution_explicit": true,
+        "result": "passed"
       },
-      "after_evidence": null,
+      "after_evidence": "tracking/evidence/m07/job-attempt-observability36-live-sidecar/2026-11-01T02-50-02-687228Z-8829fa59-3c1c-46dc-b20b-32649645c275.json",
       "paired_live_acceptance": false,
       "producer_error_verified": false,
-      "scope": "Ready-version cohort and two supplied jobs only; no absence-of-all-other-jobs/queued-or-failed-versions claim"
+      "scope": "Ready-version cohort and two supplied jobs only; no absence-of-all-other-jobs/queued-or-failed-versions claim",
+      "after_observed_at": "2026-11-01T02:50:02.98928+00:00",
+      "old_ready_reviewed_source_metadata_preserved": true,
+      "old_ready_count": 10,
+      "other_new_job_absence_checked": false,
+      "provider_terminal_metadata_evidence": "tracking/evidence/m07/job-attempt-observability36-live-sidecar/2026-11-01T02-53-05.723Z-provider-metadata.json",
+      "provider_terminal_http_statuses": [
+        404,
+        404
+      ],
+      "provider_execution_absence_cause_proven": false,
+      "producer_message_fix_evidence": "tracking/evidence/m07/job-attempt-observability36-live-sidecar/2026-11-01-producer-message-before-and-local-fix.json",
+      "actionable_browser_guidance_verified": false
     }
+  },
+  "client_upload_transfer": {
+    "status": "implemented_source_tested_live_handoff_unverified",
+    "helper": "tools/client-upload-transfer.mts",
+    "documentation": "development/m07/DELEGATED_UPLOAD.md",
+    "evidence": "tracking/evidence/m07/client-upload-transfer/2026-11-01-local-verification.json",
+    "focused_tests_passed": 16,
+    "skipped": 0,
+    "lint_and_typecheck": "passed",
+    "actual_private_Claude_handoff": false,
+    "live_reserve_transfer_complete_job": false,
+    "owner_configuration_changed": false
   }
 }
