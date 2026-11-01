@@ -1,0 +1,49 @@
+{
+    "schema_version":  "1.0",
+    "recorded_at":  "2026-11-01T22:45:42.7046888Z",
+    "scope":  "Source guards and local rehearsal only; not whole-app or provider/live-user acceptance",
+    "red_observations":  [
+                             {
+                                 "passed":  0,
+                                 "failed":  1,
+                                 "command":  "node --test development/m07/independent-recovery38/guards.test.mjs",
+                                 "scenario":  "owned HTTP target scope",
+                                 "cause":  "missing checkedHttpTarget named export",
+                                 "tests":  1,
+                                 "result":  "failed"
+                             },
+                             {
+                                 "passed":  0,
+                                 "failed":  1,
+                                 "command":  "node --test development/m07/independent-recovery38/guards.test.mjs",
+                                 "scenario":  "exact restored object reference",
+                                 "cause":  "missing verifyObjectReference named export",
+                                 "tests":  1,
+                                 "result":  "failed"
+                             }
+                         ],
+    "green_observation":  {
+                              "prior_five_overlap":  true,
+                              "command":  "node --test development/m07/independent-recovery38/guards.test.mjs",
+                              "skipped":  0,
+                              "failed":  0,
+                              "passed":  7
+                          },
+    "lint":  {
+                 "subsequent_result":  "passed",
+                 "initial_result":  "failed",
+                 "command":  "node D:/Everyone/Presentation/Everyone-Presentation-Studio/node_modules/eslint/bin/eslint.js --config D:/Everyone/Presentation/Everyone-Presentation-Studio/eslint.config.mjs development/m07/independent-recovery38/guards.mjs development/m07/independent-recovery38/guards.test.mjs development/m07/independent-recovery38/run.mjs",
+                 "dependency_or_lockfile_changes":  false,
+                 "version":  "10.13.0",
+                 "initial_cause":  "Recovery worktree has no installed eslint dependencies; npm cache CLI could not load local config"
+             },
+    "syntax":  {
+                   "command":  "node --check development/m07/independent-recovery38/run.mjs",
+                   "result":  "passed",
+                   "actual_node_execution_also_passed":  true
+               },
+    "native_current_run":  "9d5de638-7907-49cd-83d3-cd154b4ea0b3",
+    "cloud_calls":  0,
+    "provider_calls":  0,
+    "root_ledger_updated":  false
+}

@@ -1,0 +1,40 @@
+{
+    "schema_version":  "1.0",
+    "observed_at":  "2026-11-01T22:44:14.6059528Z",
+    "kind":  "independent-read-only-source-and-resource-admission",
+    "receipt":  "tracking/evidence/m07/independent-recovery38/2026-11-01T22-41-37.200Z-9d5de638.json",
+    "receipt_sha256":  "e4a0e5a8686186e65a4e5948a5e80fd009f8877e5bd6b9616c32e991f2ab606d",
+    "run_id":  "9d5de638-7907-49cd-83d3-cd154b4ea0b3",
+    "actual_rehearsal_passed":  true,
+    "controller_seals":  [
+                             {
+                                 "path":  "development/m07/independent-recovery38/run.mjs",
+                                 "sha256":  "05399be5bd0d3ab89e63944459f3eafb3c50b5d334e404fbc2c2d64317c4195c",
+                                 "matches":  true
+                             },
+                             {
+                                 "path":  "development/m07/independent-recovery38/guards.mjs",
+                                 "sha256":  "d8eebcb91902d840b211827a7e4891938cc52f1573f4456ae9d3ab87c6c3195a",
+                                 "matches":  true
+                             },
+                             {
+                                 "path":  "development/m07/recovery33/compiler.mjs",
+                                 "sha256":  "e53ba5ab07b3724f0b2c4da59d46090ddb351342be205f74325e46192c4cf0a6",
+                                 "matches":  true
+                             },
+                             {
+                                 "path":  "development/m07/recovery36/runtime.mjs",
+                                 "sha256":  "46759a3a6a4d8e0c5caf5e60ebc264cd351230cfa778cd72c7af1db629e1c506",
+                                 "matches":  true
+                             }
+                         ],
+    "owned_container_count":  0,
+    "owned_volume_count":  0,
+    "owned_network_count":  0,
+    "source_guard_tests":  7,
+    "source_guard_skipped":  0,
+    "focused_eslint":  "10.13.0 passed using existing Main installation/config",
+    "node_syntax_check":  "passed",
+    "real_oauth_provider_and_deployed_restore_claimed":  false,
+    "root_ledger_updated":  false
+}
