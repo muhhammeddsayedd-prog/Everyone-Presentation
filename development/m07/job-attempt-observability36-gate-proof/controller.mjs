@@ -4,10 +4,11 @@ import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { compileAttempt36 } from '../job-attempt-observability36-proof/controller.mjs';
 import { sha } from '../recovery33/compiler.mjs';
-import { validateSources,PURPOSE,PRIOR_RECEIPT,PRIOR_RECEIPT_SHA,FAILED_RECEIPT,FAILED_RECEIPT_SHA,FAILED_ARCHIVE,FAILED_ARCHIVE_SHA } from './sources.mjs';
+import { validateSources,PURPOSE,PRIOR_RECEIPT,PRIOR_RECEIPT_SHA,FAILED_RECEIPT,FAILED_RECEIPT_SHA,FAILED_ARCHIVE,FAILED_ARCHIVE_SHA,
+ FAILED281_RECEIPT,FAILED281_RECEIPT_SHA,FAILED281_ARCHIVE,FAILED281_ARCHIVE_SHA } from './sources.mjs';
 export const EXECUTION_ENABLED=true;
 export function compileGate36(sources,{root,runId}){
- assert(!['207731a6-8462-4eec-8d27-f2fc8f34f2fd','7cff5c7d-8329-4abd-ba27-a6e390a7208d'].includes(runId),'ATTEMPT36_GATE_FRESH_RUN_ID_REQUIRED');
+ assert(!['28122d90-4018-446c-a83f-1f8a38d92c3f','207731a6-8462-4eec-8d27-f2fc8f34f2fd','7cff5c7d-8329-4abd-ba27-a6e390a7208d'].includes(runId),'ATTEMPT36_GATE_FRESH_RUN_ID_REQUIRED');
  validateSources(sources);const base=compileAttempt36(sources,{root,runId});let source=base.source;const substitutions=[];
  const url=file=>pathToFileURL(path.join(root,file)).href;
  function change(old,replacement,label){assert.equal(source.split(old).length,2,'ATTEMPT36_GATE_FIXED_SEAM_REQUIRED');
@@ -27,6 +28,8 @@ export function compileGate36(sources,{root,runId}){
    run_id:'7cff5c7d-8329-4abd-ba27-a6e390a7208d',result:'passed',cleanup_required:true},
   required_failed207_cleanup:{receipt:FAILED_RECEIPT,sha256:FAILED_RECEIPT_SHA,run_id:'207731a6-8462-4eec-8d27-f2fc8f34f2fd',
    result:'failed',cleanup_verified:true,archive:FAILED_ARCHIVE,archive_sha256:FAILED_ARCHIVE_SHA,all229_executed_sources_preserved:true},
+  required_failed281_cleanup:{receipt:FAILED281_RECEIPT,sha256:FAILED281_RECEIPT_SHA,run_id:'28122d90-4018-446c-a83f-1f8a38d92c3f',
+   result:'failed',cleanup_verified:true,archive:FAILED281_ARCHIVE,archive_sha256:FAILED281_ARCHIVE_SHA,all233_executed_sources_preserved:true,archive_is_delta:true},
   unchanged_candidate_and_real_fixtures_required:true,actual_release_queries_before_after_empty_trace_required:true,
   python_delta_and_schema_gates_required:true,history36_ephemeral:true,history36_persisted:false,
   actual_history_insert_then_postcondition_order_required:true,all_hook_sql_rollback_required:true,source_only:true}};

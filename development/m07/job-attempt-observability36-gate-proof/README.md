@@ -1,8 +1,8 @@
 # Attempt36 release-query owned proof
 
 This purpose was authored without database or provider execution. Root's first
-local run207 failed before gate acceptance; its exact sources and complete
-cleanup receipt are retained. The current controller preserves root's enabled
+local runs207 and281 failed before gate acceptance; their exact sources and
+complete cleanup receipts are retained. The current controller preserves root's enabled
 flag. A new run needs final reviewed source bytes, a fresh UUID and a fresh
 claim. The passed7cff proof, its185 executed source bytes, claims, artifacts and
 receipts remain frozen. This folder contains no production migration dispatch.
@@ -16,6 +16,17 @@ eight cleanup/preservation flags, both owned databases absent, no pass claim,
 all229 original seals and decoded exact bytes of all44 non185 source files.
 The archived controller is root's actual enabled source. No207 claim or private
 run artifact is changed or replayed; all185 historical source bytes stay exact.
+
+Run281 reached the actual metadata comparison and isolated two legacy OAuth
+envelope hashes: the newly created trace role and its eps USAGE ACL were still
+included there. Every old table hash and the normalized catalogue matched.
+The next query-core correction normalizes only those separately validated new
+trace fields. Fresh-run admission requires281's exact cleanup receipt and its
+nonrecursive delta archive:185 unchanged prior sources,37 reused207 source
+entries,7 exact new byte entries and4 immutable historical references reconstruct
+all233 executed seals. The227-input forward manifest adds five281 artifacts and
+changes only the two state/test pins. Both failed run UUIDs and7cff are refused;
+their claims and private captures are retained for evidence.
 
 The compiler and runtime wrap that frozen proof at exact, fail-closed seams.
 Actual34/35 and their ephemeral history labels run on the newly owned clone.
