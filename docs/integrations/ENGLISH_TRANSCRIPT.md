@@ -119,8 +119,8 @@ Root's actual internal saved-player DOM proof matched that SHA, byte length and
 record the exact successful invocation and retain the initial false capture as
 a verification-invocation error.
 
-This checkpoint demonstrates internal app and frozen saved-player English
-display. Guest playback/display is still a separate live check here. The version
+This dated internal checkpoint demonstrates app and frozen saved-player English
+display. The completed guest workflow is recorded separately below. The version
 observer does not itself grant old-cohort preservation, PDF byte validity,
 semantic translation accuracy or full M07 acceptance. Those keep their separate
 receipts and acceptance boundaries. The pilot stays running; accepted Claude
@@ -133,8 +133,8 @@ The recorded rollout followed the required compatibility order: replace the old
 Ccw strict DTO web/SDK before applying34, deploy the compatible worker while
 English is disabled, then apply/read back34 and enable the flag separately. The
 five-stage n8n flow and existing permissions stay. A tagged real scan and new
-frozen internal companion are now demonstrated; finish the separate guest flow
-before crediting the whole hosted journey. The historical component call and
+frozen internal companion are demonstrated; the guest flow below is also complete
+with its explicit normal-browser and annotation-destination boundary. The historical component call and
 local SQL rollback are not substitutes for that live evidence.
 
 Disabling the flag stops new opt-ins; already frozen tagged jobs still need the
@@ -142,3 +142,39 @@ compatible worker until drained. Keep the compatible SDK after34 is installed.
 Use forward fixes for additive schema issues; never drop the English columns or
 rewrite/backfill old Ready content as a rollback. Original source and prior facts/
 Reviewed state remain independent of the English display projection.
+
+## 2026-11-01 hosted guest English and link lifecycle
+
+The owner-approved create/test/revoke self-test is completed. The [actual guest
+workflow receipt](../../tracking/evidence/m03/english-guest34/2026-11-01-guest-english-workflow.json)
+binds series93fb7425-7311-4b69-94cb-61588724c153, Ready version
+4f1b81a1-adb7-425b-8223-458d8bd82c28 and the same original video asset. Guest
+display matched the frozen248-byte SHA0e81d416e19b6600930cd171083595f6a7604f1cc755654f75732c60f561cecd
+with one visible `lang=en` region. Video played to14.730222s of21.856009s without
+error. The actual guest PDF export was103,513bytes/SHAa766d65c945c493038994b52d910d8baf6500151a541a9d5856c7a5262969546;
+all3 rendered pages matched the canonical PDF's rendered images byte-for-byte.
+Its actual annotation destination was extracted privately and opened, serving
+the same frozen English; that video reached its21.856009s end without error.
+
+Linkcd4eae15-d516-40c0-8166-28492ba82ab9 was created at00:21:09.330763UTC and
+revoked through the Producer UI at00:28:40.704357UTC. The exact
+[before](../../tracking/evidence/m03/english-guest34/2026-11-01T00-26-26-547394Z-before-link-metadata.json)
+and [after](../../tracking/evidence/m03/english-guest34/2026-11-01T00-29-32-767029Z-after-link-metadata.json)
+reads matched that link/series/workspace/Ready pointer; the after read observed
+revoked rowversion2. Existing guest view and fresh guest/PDF-destination reloads
+were denied afterward, with video and English absent. No bearer URL was shared
+to others or persisted. The session-row expiry counts are not authorization
+counts; revoked-link access was checked in the actual UI.
+
+Browser scope is the connected normal Chrome Person1 signed-in owner profile,
+exercising the guest route/grant identity. No fresh-anonymous-browser acceptance
+or native PDF-viewer click is claimed; the actual annotation destination was
+loaded privately. Prior old-version/Reviewed preservation was carried forward
+without a new heavy comparison. No new language labels or selector, semantic
+accuracy expansion, screen-reader completion or mobile acceptance is inferred.
+The owner Claude/recovery passes remain preserved; screen reader pending, mobile
+skipped and pilot running.
+
+Canonical remains34/English1.0 at this checkpoint. Guarded M07 canonical35 release
+and current authenticated API/MCP Summary verification are the next separate
+release proof; guest completion does not claim that migration is already applied.

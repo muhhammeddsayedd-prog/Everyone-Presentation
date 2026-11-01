@@ -1,6 +1,44 @@
 # Everyone Presentation Studio - current English-output handoff
 
-## Current continuation: local SQL35 proof passed; canonical release pending - 2026-10-31
+## 2026-11-01: guest English create/test/revoke completed; guarded M07 release next
+
+The approved guest workflow is now completed. Root created exactly one self-test
+link for series93fb7425/Ready4f1b81a1, verified the guest route and PDF destination,
+then revoked linkcd4eae15-d516-40c0-8166-28492ba82ab9 through the Producer UI at
+00:28:40.704357UTC. Before/after metadata independently bound that same link,
+series/workspace/current Ready pointer and final revoked rowversion2. No URL was
+shared to others, and no bearer token, cookie or private destination was logged.
+
+Guest English matched the frozen248-byte SHA0e81d416...f561cecd withlang=en.
+Guest video played to14.730222s of21.856009s without error. Guest PDF export316b1760
+was103,513bytes/SHAa766d65c...62969546; all3 Poppler-rendered pages were byte-identical
+to the canonical PDF's rendered images. The actual annotation destination was
+extracted privately and opened: it served that same frozen English, and video
+reached21.856009s/end without error. Existing guest view, fresh guest reload and
+PDF-destination reload became unavailable after revoke; video/English disappeared.
+
+Browser boundary: connected normal Chrome Person1 signed-in owner profile only.
+The actual guest route/grant identity was exercised. No fresh-anonymous-browser
+acceptance or native PDF-viewer click is claimed; the PDF destination was loaded
+from its actual privately extracted annotation. These boundaries do not leave the
+approved create/test/revoke action pending. Actual guest result:
+`tracking/evidence/m03/english-guest34/2026-11-01-guest-english-workflow.json`.
+
+The real scan, internal saved-version English/video/PDF, old-cohort/Reviewed proof,
+owner Claude initial/reconnect/read acceptance and local33 recovery stay passed.
+The earlier preservation comparison is carried forward, not reexecuted here.
+No more language labels/selector; manual screen reader remains pending, mobile
+skipped, frontend preserved and pilot running until owner stop.
+
+Next: review and execute the guarded canonical35 release/preflight/apply/readback,
+then verify the current authenticated API/MCP Summary read and hosted compatible
+web release. Source65bc518 is prepared in BackendSummary with execution disabled
+pending root review. At this checkpoint canonical35 is STILL UNAPPLIED and hosted
+Summary NOT DEPLOYED: current pilot remains web5vEM/worker2uAS/canonical34/English1.0.
+Continue remaining live M07 safe-observability/full-journey/token/recovery evidence;
+guest success does not close those separate acceptance requirements.
+
+## Historical local SQL35 pass / guest-pending checkpoint - 2026-10-31
 
 The fresh owned local runef4cb6c2 PASSED, started18:47:07.800UTC and finished
 18:48:18.228UTC (70.428seconds). It actually upgraded30-33, executed actual34,

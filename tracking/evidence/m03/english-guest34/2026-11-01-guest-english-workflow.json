@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0",
+  "evidence_kind": "actual_cua_guest_english_pdf_playback_and_revoke",
+  "recorded_at": "2026-11-01T00:31:00.755304+00:00",
+  "client_date": "2026-11-01",
+  "owner_approval": "Create, test, then revoke",
+  "series_id": "93fb7425-7311-4b69-94cb-61588724c153",
+  "version_id": "4f1b81a1-adb7-425b-8223-458d8bd82c28",
+  "video_asset_id": "d9db9907-5e60-4382-b61c-bb2b67709c09",
+  "review_link_id": "cd4eae15-d516-40c0-8166-28492ba82ab9",
+  "created_at": "2026-11-01T00:21:09.330763+00:00",
+  "revoked_at": "2026-11-01T00:28:40.704357+00:00",
+  "metadata_before": "tracking/evidence/m03/english-guest34/2026-11-01T00-26-26-547394Z-before-link-metadata.json",
+  "metadata_after": "tracking/evidence/m03/english-guest34/2026-11-01T00-29-32-767029Z-after-link-metadata.json",
+  "browser_scope": {
+    "connected_browser": "Chrome Person 1",
+    "signed_in_owner_profile": true,
+    "guest_route_and_grant_identity_exercised": true,
+    "fresh_anonymous_context": false,
+    "fresh_anonymous_acceptance_claimed": false
+  },
+  "guest_english": {
+    "lang": "en",
+    "visible_regions": 1,
+    "utf8_bytes": 248,
+    "sha256": "0e81d416e19b6600930cd171083595f6a7604f1cc755654f75732c60f561cecd",
+    "matches_frozen_companion": true,
+    "capture_text_cleared": true
+  },
+  "guest_video": {
+    "readyState": 4,
+    "playing_time_seconds": 14.730222,
+    "duration_seconds": 21.856009,
+    "width": 853,
+    "height": 480,
+    "error": null,
+    "paused_after_check": true
+  },
+  "guest_pdf": {
+    "export_id": "316b1760-fb0f-4415-90fb-35b47f42bf4e",
+    "download_completed": true,
+    "bytes": 103513,
+    "sha256": "a766d65c945c493038994b52d910d8baf6500151a541a9d5856c7a5262969546",
+    "rendered_pages": 3,
+    "all_three_rendered_pngs_byte_identical_to_canonical_pdf": true,
+    "one_actual_annotation_bound_to_version_and_asset": true,
+    "destination_opened_from_privately_extracted_annotation_url": true,
+    "native_pdf_viewer_click_claimed": false,
+    "destination_english_sha256": "0e81d416e19b6600930cd171083595f6a7604f1cc755654f75732c60f561cecd",
+    "destination_english_lang": "en",
+    "video_readyState": 4,
+    "video_reached_end_seconds": 21.856009,
+    "video_error": null
+  },
+  "revocation": {
+    "producer_ui_revoked": true,
+    "normal_revocation_rpc_used": true,
+    "guest_existing_view_denied": true,
+    "guest_reload_denied": true,
+    "guest_video_and_english_removed": true,
+    "pdf_destination_reload_denied": true,
+    "pdf_video_absent_after_revoke": true,
+    "no_url_shared_to_others": true
+  },
+  "technical_observations": {
+    "exact_sharing_page_reopened_signed_in": true,
+    "revoke_trigger_succeeded_but_dialog_lookup_failed_because_confirmation_role_is_group": true,
+    "no_duplicate_create_or_revoke_submission": true,
+    "producer_tab_handle_unavailable": true
+  },
+  "private_images": [
+    ".local/m03-english-ui/guest-english-active.jpg",
+    ".local/m03-english-ui/guest-pdf-english-active.jpg",
+    ".local/m03-english-ui/guest-link-revoked.jpg",
+    ".local/m03-english-ui/guest-review-revoked.jpg",
+    ".local/m03-english-ui/guest-pdf-revoked.jpg"
+  ],
+  "private_payload_url_token_cookie_or_grant_recorded": false,
+  "semantic_accuracy_claimed": false,
+  "prior_old_version_reviewed_preservation_pass": "carried_forward_not_reexecuted",
+  "AT072": "pending",
+  "mobile": "skipped",
+  "result": "passed_with_browser_context_boundary"
+}

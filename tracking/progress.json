@@ -1,6 +1,6 @@
 {
   "pack_version": "1.0",
-  "updated_at": "2026-10-31T18:53:03.326977+00:00",
+  "updated_at": "2026-11-01T00:32:41.403446Z",
   "implementation_started": true,
   "current_milestone": "M07",
   "current_pilot": {
@@ -47,7 +47,8 @@
       "native_frames": "passed",
       "selection_pdf": "passed",
       "guest_feedback": "passed",
-      "guest_original_video": "passed"
+      "guest_original_video": "passed",
+      "guest_english": "passed_with_normal_profile_and_annotation_destination_boundary"
     },
     "video_receipts": [
       "tracking/evidence/m07/controlled-pilot/2026-10-31-hosted-video-provider-metadata.json",
@@ -73,7 +74,7 @@
     "mobile_testing": "skipped by owner",
     "production_deployment_verified": false,
     "prior_snapshot": "tracking/evidence/m07/controlled-pilot/2026-10-31T01-24Z-prior-progress-snapshot.json",
-    "next_action": "Guest English self-test awaits browser-required approval to create/test/revoke a new bearer link; none created. Local SQL35 gate is passed. Proceed with guarded canonical35 release/readback and current authenticated API/MCP summary reads under separate release evidence, then eligible safe-observability/full-delegated-journey checks. Canonical34/web5vEM/English1.0 remain current until release; preserve frontend, owner/recovery passes, pending screen reader/skipped mobile and no-label scope.",
+    "next_action": "Guarded canonical35 release source65bc518 is prepared/disabled pending root review: perform target preflight/apply/independent readback, then current authenticated API/MCP Summary read and compatible hosted web release. Guest English create/test/revoke is completed with normal-profile/actual-annotation-destination boundaries. Continue separate live M07 observability/full journey/token/recovery checks; canonical34/English1.0 remain current until actual release, no labels/selector, owner/recovery passes retained.",
     "specs_local_proof": "tracking/evidence/m07/specs-ack31/2026-10-31T01-22-16-662Z-dc886d4e-local-proof.json",
     "specs_canonical_apply": "tracking/evidence/m07/specs-ack31/2026-10-31T01-57-10-621248Z-a99247a4-canonical31-continuation-apply.json",
     "specs_canonical_apply_confirmed": true,
@@ -500,7 +501,9 @@
       "worker_ready": 1,
       "worker_instance_alive": true,
       "database_requeried": false
-    }
+    },
+    "guest_english_workflow_evidence": "tracking/evidence/m03/english-guest34/2026-11-01-guest-english-workflow.json",
+    "guest_english_selftest_link_state": "approved_created_tested_then_revoked_no_active_selftest_link"
   },
   "milestones": [
     {
@@ -930,12 +933,15 @@
         "tracking/evidence/m03/english-name-review/2026-10-31T17-58-54-734417Z-c95c23b3-a8aa-4d11-9602-c9b4f9ef8dbb-controlled-job.json",
         "tracking/evidence/m03/english-version34/2026-10-31T18-17-52-411860Z-f022da9a-3e56-45a2-a734-387e7e110c50-capture.json",
         "tracking/evidence/m03/english-version34/2026-10-31-hosted-saved-player-and-pdf.json",
-        "tracking/evidence/m03/english-preservation34/2026-10-31T18-19-53-933196Z-feac4485-c968-4ba5-a92d-c65f909d4f87-compare.json"
+        "tracking/evidence/m03/english-preservation34/2026-10-31T18-19-53-933196Z-feac4485-c968-4ba5-a92d-c65f909d4f87-compare.json",
+        "tracking/evidence/m03/english-guest34/2026-11-01-guest-english-workflow.json",
+        "tracking/evidence/m03/english-guest34/2026-11-01T00-26-26-547394Z-before-link-metadata.json",
+        "tracking/evidence/m03/english-guest34/2026-11-01T00-29-32-767029Z-after-link-metadata.json"
       ],
       "blockers": [
-        "Actual controlled English scan/provider-source/Reviewed preservation, internal saved version24checks, playback/PDF and final old-cohort preservation are passed. Guest English self-test is pending owner confirmation to create/test/revoke a new bearer link; none created. More language labels are not required; broader semantic accuracy remains unclaimed."
+        "English real scan/internal saved/PDF and guest create/test/revoke passed, with normal owner Chrome profile and privately extracted actual PDF annotation destination; no fresh-anonymous/native-PDF-click/broad-semantic-accuracy claim. Existing old-version/Reviewed preservation carried forward. No additional language labels/selector required. Remaining milestone/release acceptance stays separately tracked."
       ],
-      "next_action": "Guest English self-test awaits confirmed new link; none created. Continue eligible delegated/API checks, independently review/integrate isolated Summary with local DB proof/release, and plan safe durable per-stage correlation metadata without payload-retention changes. Actual currentWF02 save:none settings confirmed;31686 metadata unavailable404, exact cause unproven. Preserve completed scan/saved/PDF/old-cohort and owner acceptance; no labels required."
+      "next_action": "Guarded canonical35 release source65bc518 is prepared/disabled pending root review: perform target preflight/apply/independent readback, then current authenticated API/MCP Summary read and compatible hosted web release. Guest English create/test/revoke is completed with normal-profile/actual-annotation-destination boundaries. Continue separate live M07 observability/full journey/token/recovery checks; canonical34/English1.0 remain current until actual release, no labels/selector, owner/recovery passes retained."
     },
     {
       "id": "M04",
@@ -1225,14 +1231,17 @@
         "tracking/evidence/m07/operator-trace-live34/2026-10-31-fresh-bootstrap-failure.json",
         "tracking/evidence/m07/operator-trace-live34/2026-10-31T18-30-02.628Z-workflow-settings.json",
         "tracking/evidence/m07/workspace-summary35/2026-10-31-root-merged-regression.json",
-        "tracking/evidence/m07/workspace-summary35-proof/2026-10-31T18-47-07-800Z-ef4cb6c2.json"
+        "tracking/evidence/m07/workspace-summary35-proof/2026-10-31T18-47-07-800Z-ef4cb6c2.json",
+        "tracking/evidence/m03/english-guest34/2026-11-01-guest-english-workflow.json",
+        "tracking/evidence/m03/english-guest34/2026-11-01T00-26-26-547394Z-before-link-metadata.json",
+        "tracking/evidence/m03/english-guest34/2026-11-01T00-29-32-767029Z-after-link-metadata.json"
       ],
       "blockers": [
         "Owner initial authorization/reconnect/authenticated Dummy Pilot Test read stays passed. Full real delegated write/processing/generation/sharing, live refresh/rotation/revocation and actual contributor denial remain unverified.",
         "History33 synthetic local metadata/media recovery stays passed; deployed/independentcluster and actual provider/config/secret restore plus representative provider cost/endurance remain unverified.",
-        "English scan/internal saved/PDF/old-cohort and owned local SQL35 fixtures/rollback/cleanup passed. Guest English awaits confirmed self-test link (none created); canonical35 Summary release and hosted API/MCP reads remain pending. FullAT074/delegated lifecycle/recovery evidence incomplete. Screen reader pending/mobile skipped; no labels required."
+        "English guest workflow now completed/approved link revoked with explicit normal-profile/annotation-destination boundary. Local SQL35 gate passed; canonical35 and hosted Summary/current API+MCP read remain pending. FullAT074/delegated lifecycle/recovery evidence incomplete. Screen reader pending/mobile skipped; no labels/selector required."
       ],
-      "next_action": "Guest English self-test awaits browser-required approval to create/test/revoke a new bearer link; none created. Local SQL35 gate is passed. Proceed with guarded canonical35 release/readback and current authenticated API/MCP summary reads under separate release evidence, then eligible safe-observability/full-delegated-journey checks. Canonical34/web5vEM/English1.0 remain current until release; preserve frontend, owner/recovery passes, pending screen reader/skipped mobile and no-label scope.",
+      "next_action": "Guarded canonical35 release source65bc518 is prepared/disabled pending root review: perform target preflight/apply/independent readback, then current authenticated API/MCP Summary read and compatible hosted web release. Guest English create/test/revoke is completed with normal-profile/actual-annotation-destination boundaries. Continue separate live M07 observability/full journey/token/recovery checks; canonical34/English1.0 remain current until actual release, no labels/selector, owner/recovery passes retained.",
       "scope_constraints": {
         "AT_072": "pending",
         "M03_broader_semantic_checks": "pending",
@@ -1245,7 +1254,7 @@
       "current_checkpoint": {
         "milestone": "M07",
         "status": "in_progress",
-        "observed_at": "2026-10-31T18:50:35.608200Z",
+        "observed_at": "2026-11-01T00:32:41.403446Z",
         "base_commit": "009536e",
         "canonical_migration_count": 34,
         "local_migration_count": 29,
@@ -1258,7 +1267,7 @@
           "final_candidate_and_playback": 15,
           "overlap": true,
           "compatible_hosted_legacy_display": "passed",
-          "real_AI_guest_new_version_acceptance": "real_AI_and_internal_saved_verified_guest_pending"
+          "real_AI_guest_new_version_acceptance": "passed_with_normal_browser_context_and_actual_annotation_destination_boundary"
         },
         "owner_connection_acceptance": "passed_preserved",
         "owner_connection_evidence": "tracking/evidence/m07/oauth-attempt-trace/2026-10-31-owner-connection-acceptance.json",
@@ -1272,7 +1281,7 @@
         "local_restore_evidence": "tracking/evidence/m07/recovery33/2026-10-31T15-34-37-577Z-9af6774f.json",
         "name_diagnosis": "tracking/evidence/m03/english-name-review/2026-10-31T16-31-07-348316Z-5ed61ea9-8c38-4c1a-a3a2-958d6ccd5d72.json",
         "native_build_failure": "tracking/evidence/m03/english-image34/2026-10-31T17-03-17-960492Z-v2-registry-tls-diagnosis.json",
-        "next_action": "Guest English self-test awaits browser-required approval to create/test/revoke a new bearer link; none created. Local SQL35 gate is passed. Proceed with guarded canonical35 release/readback and current authenticated API/MCP summary reads under separate release evidence, then eligible safe-observability/full-delegated-journey checks. Canonical34/web5vEM/English1.0 remain current until release; preserve frontend, owner/recovery passes, pending screen reader/skipped mobile and no-label scope.",
+        "next_action": "Guarded canonical35 release source65bc518 is prepared/disabled pending root review: perform target preflight/apply/independent readback, then current authenticated API/MCP Summary read and compatible hosted web release. Guest English create/test/revoke is completed with normal-profile/actual-annotation-destination boundaries. Continue separate live M07 observability/full journey/token/recovery checks; canonical34/English1.0 remain current until actual release, no labels/selector, owner/recovery passes retained.",
         "source_checkpoints": [
           "c6a3f15",
           "28c3d3c",
@@ -1284,7 +1293,7 @@
         ],
         "english_rollout": {
           "reference": "english_output_rollout",
-          "status": "real_scan_saved_version_internal_display_pdf_and_old_cohort_verified_guest_pending"
+          "status": "real_scan_saved_internal_and_guest_english_pdf_revocation_verified_browser_boundary"
         },
         "worker_v2_deployed": true,
         "last_confirmed_deployed_worker": "dpl_2uASsbYobSDwWjMptPjGLcVEdCg3",
@@ -1298,11 +1307,11 @@
         "real_english_scan_passed": true,
         "new_saved_english_version_passed": true,
         "old_cohort_preservation_passed": true,
-        "guest_english_passed": false,
+        "guest_english_passed": true,
         "saved_english_version_id": "4f1b81a1-adb7-425b-8223-458d8bd82c28",
         "AT074_latest_execution_result": "actual31686GET404/no metadata; actualcurrentWF02GET200 save:none/manualfalse/progressfalse unchanged; fullAT074partial/no exact404cause",
         "workspace_summary_backend": {
-          "recorded_at": "2026-10-31T18:50:35.608200Z",
+          "recorded_at": "2026-11-01T00:32:41.403446Z",
           "source_commit": "ab1c3d5b34d8541347484e91b3f60759472b6f80",
           "original_source_commit": "1db430df005cdfb05da8b2c9b7e3194652a0f8a2",
           "main_merged": true,
@@ -1384,11 +1393,21 @@
           ],
           "fixture_correction_commit": "c8e4faee2b8ddf35fd69323a5fbf8050ffb8a9de",
           "sql35_execution_environment": "owned_disposable_local_transaction_rolled_back",
-          "next_action": "Guest English self-test awaits browser-required approval to create/test/revoke a new bearer link; none created. Local SQL35 gate is passed. Proceed with guarded canonical35 release/readback and current authenticated API/MCP summary reads under separate release evidence, then eligible safe-observability/full-delegated-journey checks. Canonical34/web5vEM/English1.0 remain current until release; preserve frontend, owner/recovery passes, pending screen reader/skipped mobile and no-label scope."
+          "next_action": "Guarded canonical35 release source65bc518 is prepared/disabled pending root review: perform target preflight/apply/independent readback, then current authenticated API/MCP Summary read and compatible hosted web release. Guest English create/test/revoke is completed with normal-profile/actual-annotation-destination boundaries. Continue separate live M07 observability/full journey/token/recovery checks; canonical34/English1.0 remain current until actual release, no labels/selector, owner/recovery passes retained.",
+          "release_preparation": {
+            "source_commit": "65bc518",
+            "worktree": "Everyone-Presentation-Studio-Backend-Summary",
+            "status": "inspect_apply_readback_prepared_execution_disabled_pending_root_review",
+            "canonical35_applied": false,
+            "hosted_summary_deployed": false
+          }
         },
         "local_SQL35_proof": "passed_actual_fixtures_rollback_cleanup_ef4cb6c2",
         "canonical35_applied": false,
-        "hosted_summary_deployed": false
+        "hosted_summary_deployed": false,
+        "guest_english_acceptance_scope": "normal_signed_in_Chrome_profile_guest_route_and_grant_identity; actual_PDF_annotation_destination_opened; no fresh_anonymous_or_native_PDF_click_claim",
+        "guest_selftest_link_revoked": true,
+        "guest_evidence": "tracking/evidence/m03/english-guest34/2026-11-01-guest-english-workflow.json"
       },
       "historical_checkpoint_before_english34": {
         "milestone": "M07",
@@ -1607,7 +1626,7 @@
   "latest_checkpoint": {
     "milestone": "M07",
     "status": "in_progress",
-    "observed_at": "2026-10-31T18:50:35.608200Z",
+    "observed_at": "2026-11-01T00:32:41.403446Z",
     "base_commit": "009536e",
     "canonical_migration_count": 34,
     "local_migration_count": 29,
@@ -1620,7 +1639,7 @@
       "final_candidate_and_playback": 15,
       "overlap": true,
       "compatible_hosted_legacy_display": "passed",
-      "real_AI_guest_new_version_acceptance": "real_AI_and_internal_saved_verified_guest_pending"
+      "real_AI_guest_new_version_acceptance": "passed_with_normal_browser_context_and_actual_annotation_destination_boundary"
     },
     "owner_connection_acceptance": "passed_preserved",
     "owner_connection_evidence": "tracking/evidence/m07/oauth-attempt-trace/2026-10-31-owner-connection-acceptance.json",
@@ -1634,7 +1653,7 @@
     "local_restore_evidence": "tracking/evidence/m07/recovery33/2026-10-31T15-34-37-577Z-9af6774f.json",
     "name_diagnosis": "tracking/evidence/m03/english-name-review/2026-10-31T16-31-07-348316Z-5ed61ea9-8c38-4c1a-a3a2-958d6ccd5d72.json",
     "native_build_failure": "tracking/evidence/m03/english-image34/2026-10-31T17-03-17-960492Z-v2-registry-tls-diagnosis.json",
-    "next_action": "Guest English self-test awaits browser-required approval to create/test/revoke a new bearer link; none created. Local SQL35 gate is passed. Proceed with guarded canonical35 release/readback and current authenticated API/MCP summary reads under separate release evidence, then eligible safe-observability/full-delegated-journey checks. Canonical34/web5vEM/English1.0 remain current until release; preserve frontend, owner/recovery passes, pending screen reader/skipped mobile and no-label scope.",
+    "next_action": "Guarded canonical35 release source65bc518 is prepared/disabled pending root review: perform target preflight/apply/independent readback, then current authenticated API/MCP Summary read and compatible hosted web release. Guest English create/test/revoke is completed with normal-profile/actual-annotation-destination boundaries. Continue separate live M07 observability/full journey/token/recovery checks; canonical34/English1.0 remain current until actual release, no labels/selector, owner/recovery passes retained.",
     "source_checkpoints": [
       "c6a3f15",
       "28c3d3c",
@@ -1646,7 +1665,7 @@
     ],
     "english_rollout": {
       "reference": "english_output_rollout",
-      "status": "real_scan_saved_version_internal_display_pdf_and_old_cohort_verified_guest_pending"
+      "status": "real_scan_saved_internal_and_guest_english_pdf_revocation_verified_browser_boundary"
     },
     "worker_v2_deployed": true,
     "last_confirmed_deployed_worker": "dpl_2uASsbYobSDwWjMptPjGLcVEdCg3",
@@ -1660,11 +1679,11 @@
     "real_english_scan_passed": true,
     "new_saved_english_version_passed": true,
     "old_cohort_preservation_passed": true,
-    "guest_english_passed": false,
+    "guest_english_passed": true,
     "saved_english_version_id": "4f1b81a1-adb7-425b-8223-458d8bd82c28",
     "AT074_latest_execution_result": "actual31686GET404/no metadata; actualcurrentWF02GET200 save:none/manualfalse/progressfalse unchanged; fullAT074partial/no exact404cause",
     "workspace_summary_backend": {
-      "recorded_at": "2026-10-31T18:50:35.608200Z",
+      "recorded_at": "2026-11-01T00:32:41.403446Z",
       "source_commit": "ab1c3d5b34d8541347484e91b3f60759472b6f80",
       "original_source_commit": "1db430df005cdfb05da8b2c9b7e3194652a0f8a2",
       "main_merged": true,
@@ -1746,11 +1765,21 @@
       ],
       "fixture_correction_commit": "c8e4faee2b8ddf35fd69323a5fbf8050ffb8a9de",
       "sql35_execution_environment": "owned_disposable_local_transaction_rolled_back",
-      "next_action": "Guest English self-test awaits browser-required approval to create/test/revoke a new bearer link; none created. Local SQL35 gate is passed. Proceed with guarded canonical35 release/readback and current authenticated API/MCP summary reads under separate release evidence, then eligible safe-observability/full-delegated-journey checks. Canonical34/web5vEM/English1.0 remain current until release; preserve frontend, owner/recovery passes, pending screen reader/skipped mobile and no-label scope."
+      "next_action": "Guarded canonical35 release source65bc518 is prepared/disabled pending root review: perform target preflight/apply/independent readback, then current authenticated API/MCP Summary read and compatible hosted web release. Guest English create/test/revoke is completed with normal-profile/actual-annotation-destination boundaries. Continue separate live M07 observability/full journey/token/recovery checks; canonical34/English1.0 remain current until actual release, no labels/selector, owner/recovery passes retained.",
+      "release_preparation": {
+        "source_commit": "65bc518",
+        "worktree": "Everyone-Presentation-Studio-Backend-Summary",
+        "status": "inspect_apply_readback_prepared_execution_disabled_pending_root_review",
+        "canonical35_applied": false,
+        "hosted_summary_deployed": false
+      }
     },
     "local_SQL35_proof": "passed_actual_fixtures_rollback_cleanup_ef4cb6c2",
     "canonical35_applied": false,
-    "hosted_summary_deployed": false
+    "hosted_summary_deployed": false,
+    "guest_english_acceptance_scope": "normal_signed_in_Chrome_profile_guest_route_and_grant_identity; actual_PDF_annotation_destination_opened; no fresh_anonymous_or_native_PDF_click_claim",
+    "guest_selftest_link_revoked": true,
+    "guest_evidence": "tracking/evidence/m03/english-guest34/2026-11-01-guest-english-workflow.json"
   },
   "historical_notes": [
     {
@@ -1785,8 +1814,8 @@
       "One controlled real OpenAI+n8n scan, English app/guest display and new frozen presentation version; old versions intact.",
       "Remaining live M07 operator/token/delegated/recovery/workload evidence in eligible order without reopening passed owner connection."
     ],
-    "current_phase": "real_scan_saved_version_internal_display_pdf_and_old_cohort_verified_guest_pending",
-    "next_independent_backend_slice": "guarded_canonical35_release_and_authenticated_API_MCP_reads_after_passed_owned_local_gate"
+    "current_phase": "real_scan_saved_internal_and_guest_english_pdf_revocation_verified_browser_boundary",
+    "next_independent_backend_slice": "guarded_canonical35_release_and_current_authenticated_API_MCP_summary_verification"
   },
   "historical_sessions": [
     {
@@ -2804,7 +2833,7 @@
     }
   ],
   "latest_backend_checkpoint": {
-    "recorded_at": "2026-10-31T18:50:35.608200Z",
+    "recorded_at": "2026-11-01T00:32:41.403446Z",
     "base_commit": "009536e",
     "web_deployment_id": "dpl_5vEMBfsnD23cGL3ontWm8AUAErKr",
     "canonical_history_count": 34,
@@ -2826,9 +2855,9 @@
     "frontend_english_acknowledged": true,
     "english_rollout": {
       "reference": "english_output_rollout",
-      "status": "real_scan_saved_version_internal_display_pdf_and_old_cohort_verified_guest_pending"
+      "status": "real_scan_saved_internal_and_guest_english_pdf_revocation_verified_browser_boundary"
     },
-    "next_action": "Guest English self-test awaits browser-required approval to create/test/revoke a new bearer link; none created. Local SQL35 gate is passed. Proceed with guarded canonical35 release/readback and current authenticated API/MCP summary reads under separate release evidence, then eligible safe-observability/full-delegated-journey checks. Canonical34/web5vEM/English1.0 remain current until release; preserve frontend, owner/recovery passes, pending screen reader/skipped mobile and no-label scope.",
+    "next_action": "Guarded canonical35 release source65bc518 is prepared/disabled pending root review: perform target preflight/apply/independent readback, then current authenticated API/MCP Summary read and compatible hosted web release. Guest English create/test/revoke is completed with normal-profile/actual-annotation-destination boundaries. Continue separate live M07 observability/full journey/token/recovery checks; canonical34/English1.0 remain current until actual release, no labels/selector, owner/recovery passes retained.",
     "source_checkpoints": [
       "c6a3f15",
       "28c3d3c",
@@ -2843,10 +2872,10 @@
     "real_english_scan_passed": true,
     "new_saved_english_version_passed": true,
     "old_cohort_preservation_passed": true,
-    "guest_english_passed": false,
+    "guest_english_passed": true,
     "AT074_latest_execution_result": "actual31686GET404/no metadata; actualcurrentWF02GET200 save:none/manualfalse/progressfalse unchanged; fullAT074partial/no exact404cause",
     "workspace_summary_backend": {
-      "recorded_at": "2026-10-31T18:50:35.608200Z",
+      "recorded_at": "2026-11-01T00:32:41.403446Z",
       "source_commit": "ab1c3d5b34d8541347484e91b3f60759472b6f80",
       "original_source_commit": "1db430df005cdfb05da8b2c9b7e3194652a0f8a2",
       "main_merged": true,
@@ -2928,16 +2957,26 @@
       ],
       "fixture_correction_commit": "c8e4faee2b8ddf35fd69323a5fbf8050ffb8a9de",
       "sql35_execution_environment": "owned_disposable_local_transaction_rolled_back",
-      "next_action": "Guest English self-test awaits browser-required approval to create/test/revoke a new bearer link; none created. Local SQL35 gate is passed. Proceed with guarded canonical35 release/readback and current authenticated API/MCP summary reads under separate release evidence, then eligible safe-observability/full-delegated-journey checks. Canonical34/web5vEM/English1.0 remain current until release; preserve frontend, owner/recovery passes, pending screen reader/skipped mobile and no-label scope."
+      "next_action": "Guarded canonical35 release source65bc518 is prepared/disabled pending root review: perform target preflight/apply/independent readback, then current authenticated API/MCP Summary read and compatible hosted web release. Guest English create/test/revoke is completed with normal-profile/actual-annotation-destination boundaries. Continue separate live M07 observability/full journey/token/recovery checks; canonical34/English1.0 remain current until actual release, no labels/selector, owner/recovery passes retained.",
+      "release_preparation": {
+        "source_commit": "65bc518",
+        "worktree": "Everyone-Presentation-Studio-Backend-Summary",
+        "status": "inspect_apply_readback_prepared_execution_disabled_pending_root_review",
+        "canonical35_applied": false,
+        "hosted_summary_deployed": false
+      }
     },
     "local_SQL35_proof": "passed_actual_fixtures_rollback_cleanup_ef4cb6c2",
     "canonical35_applied": false,
-    "hosted_summary_deployed": false
+    "hosted_summary_deployed": false,
+    "guest_english_acceptance_scope": "normal_signed_in_Chrome_profile_guest_route_and_grant_identity; actual_PDF_annotation_destination_opened; no fresh_anonymous_or_native_PDF_click_claim",
+    "guest_selftest_link_revoked": true,
+    "guest_evidence": "tracking/evidence/m03/english-guest34/2026-11-01-guest-english-workflow.json"
   },
   "english_output_rollout": {
-    "recorded_at": "2026-10-31T18:50:35.608200Z",
+    "recorded_at": "2026-11-01T00:32:41.403446Z",
     "resume_base_commit": "009536e",
-    "status": "real_scan_saved_version_internal_display_pdf_and_old_cohort_verified_guest_pending",
+    "status": "real_scan_saved_internal_and_guest_english_pdf_revocation_verified_browser_boundary",
     "frontend": {
       "source_commit": "8aed642",
       "coordination_acknowledged": true,
@@ -3064,7 +3103,7 @@
       "english_companion_rows_at_enable": 0
     },
     "hosted_english_job": "succeeded_actual_v2_provider_source_and_Reviewed_preservation_verified",
-    "hosted_english_app_guest_new_version_demonstration": "internal_app_and_saved_version_verified_guest_pending",
+    "hosted_english_app_guest_new_version_demonstration": "passed_with_normal_browser_context_and_annotation_destination_boundary",
     "new_version_old_version_preservation_check": "passed_actual_old_cohort_subset_compare",
     "last_confirmed_serving_web": "dpl_5vEMBfsnD23cGL3ontWm8AUAErKr",
     "last_confirmed_serving_worker": "dpl_2uASsbYobSDwWjMptPjGLcVEdCg3",
@@ -3073,7 +3112,7 @@
     "manual_AT072": "pending",
     "mobile_testing": "skipped",
     "pilot_duration": "until_owner_stops",
-    "next_action": "Guest English self-test awaits browser-required approval to create/test/revoke a new bearer link; none created. Local SQL35 gate is passed. Proceed with guarded canonical35 release/readback and current authenticated API/MCP summary reads under separate release evidence, then eligible safe-observability/full-delegated-journey checks. Canonical34/web5vEM/English1.0 remain current until release; preserve frontend, owner/recovery passes, pending screen reader/skipped mobile and no-label scope.",
+    "next_action": "Guarded canonical35 release source65bc518 is prepared/disabled pending root review: perform target preflight/apply/independent readback, then current authenticated API/MCP Summary read and compatible hosted web release. Guest English create/test/revoke is completed with normal-profile/actual-annotation-destination boundaries. Continue separate live M07 observability/full journey/token/recovery checks; canonical34/English1.0 remain current until actual release, no labels/selector, owner/recovery passes retained.",
     "remaining_m07_review": "development/m07/REMAINING_AFTER_ENGLISH34.md",
     "web_ready": "tracking/evidence/m03/english-web-release34/2026-10-31T16-55-43-885447Z-ready.json",
     "web_legacy_app": "tracking/evidence/m03/english-web-release34/2026-10-31-hosted-compatibility-app.json",
@@ -3222,14 +3261,81 @@
       "reviewed_state_preserved": true
     },
     "guest_english_verification": {
-      "status": "pending_owner_confirmation_for_new_selftest_bearer_link",
-      "new_link_created": false,
-      "connected_browser_scope": "normal_profile_only",
-      "internal_saved_proof_is_guest_acceptance": false
+      "status": "passed_with_browser_context_boundary",
+      "recorded_at": "2026-11-01T00:31:00.755304+00:00",
+      "evidence": "tracking/evidence/m03/english-guest34/2026-11-01-guest-english-workflow.json",
+      "owner_approval_completed": true,
+      "new_link_created": true,
+      "active_selftest_link": false,
+      "review_link_id": "cd4eae15-d516-40c0-8166-28492ba82ab9",
+      "series_id": "93fb7425-7311-4b69-94cb-61588724c153",
+      "version_id": "4f1b81a1-adb7-425b-8223-458d8bd82c28",
+      "created_at": "2026-11-01T00:21:09.330763+00:00",
+      "revoked_at": "2026-11-01T00:28:40.704357+00:00",
+      "metadata_before": "tracking/evidence/m03/english-guest34/2026-11-01T00-26-26-547394Z-before-link-metadata.json",
+      "metadata_after": "tracking/evidence/m03/english-guest34/2026-11-01T00-29-32-767029Z-after-link-metadata.json",
+      "metadata_before_sql_observed_at": "2026-11-01T00:26:27.083124+00:00",
+      "metadata_after_sql_observed_at": "2026-11-01T00:29:33.613754+00:00",
+      "revoked_row_version": 2,
+      "browser_scope": {
+        "connected_browser": "Chrome Person 1",
+        "signed_in_owner_profile": true,
+        "guest_route_and_grant_identity_exercised": true,
+        "fresh_anonymous_context": false,
+        "fresh_anonymous_acceptance_claimed": false
+      },
+      "english": {
+        "lang": "en",
+        "visible_regions": 1,
+        "utf8_bytes": 248,
+        "sha256": "0e81d416e19b6600930cd171083595f6a7604f1cc755654f75732c60f561cecd",
+        "matches_frozen_companion": true,
+        "capture_text_cleared": true
+      },
+      "video": {
+        "readyState": 4,
+        "playing_time_seconds": 14.730222,
+        "duration_seconds": 21.856009,
+        "width": 853,
+        "height": 480,
+        "error": null,
+        "paused_after_check": true
+      },
+      "pdf": {
+        "export_id": "316b1760-fb0f-4415-90fb-35b47f42bf4e",
+        "download_completed": true,
+        "bytes": 103513,
+        "sha256": "a766d65c945c493038994b52d910d8baf6500151a541a9d5856c7a5262969546",
+        "rendered_pages": 3,
+        "all_three_rendered_pngs_byte_identical_to_canonical_pdf": true,
+        "one_actual_annotation_bound_to_version_and_asset": true,
+        "destination_opened_from_privately_extracted_annotation_url": true,
+        "native_pdf_viewer_click_claimed": false,
+        "destination_english_sha256": "0e81d416e19b6600930cd171083595f6a7604f1cc755654f75732c60f561cecd",
+        "destination_english_lang": "en",
+        "video_readyState": 4,
+        "video_reached_end_seconds": 21.856009,
+        "video_error": null
+      },
+      "revocation": {
+        "producer_ui_revoked": true,
+        "normal_revocation_rpc_used": true,
+        "guest_existing_view_denied": true,
+        "guest_reload_denied": true,
+        "guest_video_and_english_removed": true,
+        "pdf_destination_reload_denied": true,
+        "pdf_video_absent_after_revoke": true,
+        "no_url_shared_to_others": true
+      },
+      "private_payload_url_token_cookie_or_grant_recorded": false,
+      "semantic_accuracy_claimed": false,
+      "prior_preservation": "carried_forward_not_reexecuted",
+      "native_PDF_viewer_click_claimed": false,
+      "fresh_anonymous_acceptance_claimed": false
     }
   },
   "workspace_summary_backend": {
-    "recorded_at": "2026-10-31T18:50:35.608200Z",
+    "recorded_at": "2026-11-01T00:32:41.403446Z",
     "source_commit": "ab1c3d5b34d8541347484e91b3f60759472b6f80",
     "original_source_commit": "1db430df005cdfb05da8b2c9b7e3194652a0f8a2",
     "main_merged": true,
@@ -3311,7 +3417,14 @@
     ],
     "fixture_correction_commit": "c8e4faee2b8ddf35fd69323a5fbf8050ffb8a9de",
     "sql35_execution_environment": "owned_disposable_local_transaction_rolled_back",
-    "next_action": "Guest English self-test awaits browser-required approval to create/test/revoke a new bearer link; none created. Local SQL35 gate is passed. Proceed with guarded canonical35 release/readback and current authenticated API/MCP summary reads under separate release evidence, then eligible safe-observability/full-delegated-journey checks. Canonical34/web5vEM/English1.0 remain current until release; preserve frontend, owner/recovery passes, pending screen reader/skipped mobile and no-label scope."
+    "next_action": "Guarded canonical35 release source65bc518 is prepared/disabled pending root review: perform target preflight/apply/independent readback, then current authenticated API/MCP Summary read and compatible hosted web release. Guest English create/test/revoke is completed with normal-profile/actual-annotation-destination boundaries. Continue separate live M07 observability/full journey/token/recovery checks; canonical34/English1.0 remain current until actual release, no labels/selector, owner/recovery passes retained.",
+    "release_preparation": {
+      "source_commit": "65bc518",
+      "worktree": "Everyone-Presentation-Studio-Backend-Summary",
+      "status": "inspect_apply_readback_prepared_execution_disabled_pending_root_review",
+      "canonical35_applied": false,
+      "hosted_summary_deployed": false
+    }
   },
   "settings_error_boundary_regression": {
     "commit": "de276c704a8984733fddb206be77e350fe6c2fb1",
