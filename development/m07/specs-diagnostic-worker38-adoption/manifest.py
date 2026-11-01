@@ -12,7 +12,7 @@ spec = importlib.util.spec_from_file_location('worker38_manifest_adoption', HERE
 a = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(a)
 s = a.s
-PATCH_ENABLED = False
+PATCH_ENABLED = True
 KEY = 'EPS_NATIVE_MANIFEST_SHA256'
 CLI = s.ROOT/'.local/m07-pilot/tooling/node_modules/vercel/dist/vc.js'
 NODE = Path('C:/Program Files/nodejs/node.exe')

@@ -13,7 +13,7 @@ spec = importlib.util.spec_from_file_location('worker38_adoption_state', HERE/'s
 s = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(s)
 ROOT = s.ROOT
-APPLY_ENABLED = False
+APPLY_ENABLED = True
 PRIVATE = ROOT/'.local/m07-specs-diagnostic-worker38-adoption'
 ADMISSION = HERE/'admission.json'
 

@@ -1,5 +1,57 @@
 # M07 remaining acceptance after trace36 installation
 
+## Current checkpoint - 2026-11-01T19:13:38Z: compatible web deployed and live API checks passed; worker cutover awaits fresh provider health
+
+Stable https://everyone-presentation-pilot.vercel.app serves
+dpl_4Gm85atSx5XG8kd8w3tfXCTDjNro, sourcec69b59c8 (285files,3,068,962bytes).
+Ready proof `tracking/evidence/m07/list-query38-web/2026-11-01T19-08-32-109040Z-ready.json` verifies the direct deployment and two equal stable-alias
+reads, actual source/quality/build/canonical markers and unchanged project/env
+metadata. Exactly two shipped rows changed fromCUXV: the API list route and the
+already-reviewed safe specs diagnostic integration module. No redesign was merged.
+
+All939 full tests, full lint and types passed;12 focused cases are a subset.
+Actual isolated production build passed at19:05. Actual signed-in browser reads
+rejected unknown project filter, duplicate workspace filter and limit1e1 with safe
+INVALID_REQUEST bodies, while both validlimit1 lists returned one row and next
+page present. `tracking/evidence/m07/list-query38-web/2026-11-01-authenticated-browser-queries.json` records five request IDs and makes no unobserved HTTP
+status claim. Seven direct anonymous/auth/discovery checks passed, including
+valid-project-list401, MCP401, guest401 and unchanged OAuth metadata (`tracking/evidence/m07/list-query38-web/2026-11-01T19-10-39-331Z-public-regression.json`).
+Owner initial/reconnect and filtered batch MCP acceptance stay passed.
+
+Actual worker prerequisites remain passed: native50082 Ready + hosted nine-task/
+164-source/PDF/boundary/ten-resource cleanup; daemonce23 published/Ready/import;
+local current38 concurrency1b8 with all312 source seals, actual wait/denial/retry/
+commit-race refusal and full original29/backend/database/role/lock preservation.
+Separate93bb cleanup passed; its original failed result remains failed. Historical
+local37 recovery, English/Reviewed/Ready/old versions and protected M02 stay intact.
+
+Canonical history38 and ALL FIVE processing configs remain ENABLED, native pin795.
+The original worker2uAS/daemon430d0992 is still running; fresh19:12:48 provider
+inspection reports Ready with one alive2GiB dub1 instance. No pause/PATCH/pin/new
+worker deployment occurred. Adoption/manifest controls are armed and a read-only
+pause plan exists, but its mutation claim does not. Web was intentionally shipped
+first because its finite static38 gate requires enabled/old795 config.
+
+The separate pre-deployment five-flag availability driver is disabled and under
+final review. Its read-only actual projection caught missing stoppedAt; the narrow
+optional-field regression is fixed without weakening live/dead/identity checks.
+The provider's lastCheckedAt is observed to advance naturally about every300s;
+its returned Ready/alive status is distinct from that cached check timestamp.
+The strict30s fallback and60s deployment health gates remain intact. Wait for
+fresh natural observations; do not restart the old worker or falsify timestamps.
+
+Next: prepare the bounded pre-dispatch availability baseline in a fresh health
+window, then normal confirmed pause->same-ID public manifest PATCH->new daemon
+Ready + old IDs absent from two production inventories->future-only DBnativepin->
+resume, with full zero-work/preservation checks at every phase. After adoption,
+perform a controlled real specs job and inspect safe provider diagnostics. Old
+specs136/protectedM02 are untouched. Feedback/guest/new-material/token/load/Storage
+HTTP delta evidence remains scoped/pending where recorded; screen-reader pending,
+mobile skipped and pilot running. AT069 rollback-transport preparation was rejected
+by automatic approval ('blocked by policy'); no retry/manual equivalent/provider
+action for that blocked action occurred.
+
+
 ## Current checkpoint - 2026-11-01T18:57:12Z: actual concurrency and cleanup passed; diagnostic images Ready; API fix locally verified
 
 The new actual owned current38 SQL concurrency proof1b8e passed in64,136ms:
