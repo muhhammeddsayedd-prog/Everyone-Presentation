@@ -13,6 +13,7 @@ import {frameOutcomeSummary} from '../lib/frame-outcome-summary';
 import { JOB_KINDS, JOB_STATUSES, STATUS_LABELS, STATUS_TONES, jobFailureMessage, processingActions, jobStageLabel, processingDelay, processingHref,
   readJobPage, readProcessingJob, readJobRetryAcknowledgement, retainJobIntent, validProcessingId, workspaceResultHref,
   type JobAction, type JobIntent, type JobPage, type ProcessingJob, type ProcessingStatus } from './processing-view';
+import { stagger } from './motion/motion';
 
 function readError(reason: unknown): string {
   if (reason instanceof ApiError) {
@@ -110,10 +111,10 @@ function WorkspaceDestination({ job }: { job: ProcessingJob }) {
 function JobGroup({ jobs, status, cursor, partial }: { jobs: ProcessingJob[]; status: ProcessingStatus | null; cursor: string | null; partial: boolean }) {
   const [showWorkspace, setShowWorkspace] = useState(false);
   return <section className="processing-group"><div className="section-heading"><h2>{jobs[0].batch_id ? 'Processing batch' : 'Individual jobs'}</h2><span className="small muted">{jobs.length} {jobs.length === 1 ? 'job' : 'jobs'}</span></div>
-    {jobs[0].batch_id && <div className="batch-strip-wrap"><ol className="batch-strip" aria-label={`${jobs.length} loaded ${jobs.length === 1 ? 'file' : 'files'} in this batch`}>{jobs.map((job, index) => <li key={job.id} className={`batch-cell batch-${job.status}`} title={`${JOB_KINDS[job.kind]} · ${STATUS_LABELS[job.status]}`}><span className="sr-only">File {index + 1}: {STATUS_LABELS[job.status]}</span></li>)}</ol>
+    {jobs[0].batch_id && <div className="batch-strip-wrap"><ol ref={stagger} className="batch-strip" aria-label={`${jobs.length} loaded ${jobs.length === 1 ? 'file' : 'files'} in this batch`}>{jobs.map((job, index) => <li key={job.id} className={`batch-cell batch-${job.status}`} title={`${JOB_KINDS[job.kind]} · ${STATUS_LABELS[job.status]}`}><span className="sr-only">File {index + 1}: {STATUS_LABELS[job.status]}</span></li>)}</ol>
       <p className="small muted">{JOB_STATUSES.filter(value => jobs.some(job => job.status === value)).map(value => `${jobs.filter(job => job.status === value).length} ${STATUS_LABELS[value].toLowerCase()}`).join(' · ')}{partial ? ' · counts include this page only' : ''}</p></div>}
     <details className="processing-project" onToggle={event => { if (event.currentTarget.open) setShowWorkspace(true); }}><summary>Project and workspace</summary>{showWorkspace && <WorkspaceDestination job={jobs[0]} />}</details>
-    <ul className="processing-jobs">{jobs.map(job => <li key={job.id}><div><Link className="processing-job-link" href={processingHref({ job: job.id, status, cursor })}>{JOB_KINDS[job.kind]}</Link><p className="small muted">{jobStageLabel(job.stage)}</p><JobProgress job={job} /></div>
+    <ul ref={stagger} className="processing-jobs">{jobs.map(job => <li key={job.id}><div><Link className="processing-job-link" href={processingHref({ job: job.id, status, cursor })}>{JOB_KINDS[job.kind]}</Link><p className="small muted">{jobStageLabel(job.stage)}</p><JobProgress job={job} /></div>
       <div className="processing-job-state"><span className={STATUS_TONES[job.status]}>{STATUS_LABELS[job.status]}</span><StudioDateTime className="small muted" value={job.created_at} prefix="Submitted " />{job.status === 'failed' && <p className="small">{jobFailureMessage(job.error)}</p>}</div></li>)}</ul>
   </section>;
 }

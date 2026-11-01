@@ -2,6 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { Icon } from '../Icon';
+import { useExitMotion } from '../motion/motion';
 
 export type ToastInput = { message: string; tone?: 'neutral' | 'error'; action?: { label: string; onSelect: () => void | Promise<void> }; timeout?: number };
 type ToastEntry = ToastInput & { id: number };
@@ -22,12 +23,14 @@ export function ToastProvider({ children }: { children: ReactNode }) {
 function Toast({ toast, onDismiss }: { toast: ToastEntry; onDismiss: () => void }) {
   const [busy, setBusy] = useState(false);
   const [hovered, setHovered] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  useExitMotion([[ref, 'toast']]);
   useEffect(() => {
     if (hovered || busy) return;
     const timer = setTimeout(onDismiss, toast.timeout ?? (toast.action ? 10000 : 5000));
     return () => clearTimeout(timer);
   }, [hovered, busy, onDismiss, toast.timeout, toast.action]);
-  return <div className={`toast${toast.tone === 'error' ? ' toast-error' : ''}`} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} onFocus={() => setHovered(true)} onBlur={() => setHovered(false)}>
+  return <div ref={ref} className={`toast${toast.tone === 'error' ? ' toast-error' : ''}`} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} onFocus={() => setHovered(true)} onBlur={() => setHovered(false)}>
     <p>{toast.message}</p>
     {toast.action && <button type="button" className="button button-small" disabled={busy} onClick={async () => { setBusy(true); try { await toast.action!.onSelect(); } finally { onDismiss(); } }}>{busy ? 'Working…' : toast.action.label}</button>}
     <button type="button" className="icon-button icon-button-small" aria-label="Dismiss notification" onClick={onDismiss}><Icon name="close" /></button>

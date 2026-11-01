@@ -133,6 +133,44 @@ Intent and assertions are unchanged.
 | `version-transcript-ui` | Partial, non-English and unavailable groups |
 | New specs | `guest-preference-ui`, `presentations-index-ui`, `share-drawer-ui`, `processing-batch-ui` |
 
+## Motion
+
+Motion follows `Design Elements/DESIGN.md` §7 and `docs/DESIGN_STYLE.md` §8:
+- durations of 120, 200 and 320 ms with the standard, enter and exit easings;
+- only transform, opacity and colour change;
+- no parallax, bounce, confetti, autoplay, WebGL or cursor effects.
+
+Under `prefers-reduced-motion` nothing moves. The CSS kill switch in `base.css` covers CSS, and every scripted animation checks `motionAllowed()` first.
+
+**Source.** [React Bits](https://reactbits.dev) is used as a source catalogue through the shadcn registry. The licence is MIT + Commons Clause, and each ported file names its source component.
+- `components.json` at the repository root registers `@react-bits`.
+- `.mcp.json` starts the shadcn MCP server (`shadcn@4.22.1`, pinned to a release at least two weeks old) when Claude Code is opened in this checkout.
+- Components are only *viewed* and ported by hand to CSS and the Web Animations API. Never run `shadcn add` or the MCP install action: they install `gsap`/`motion` and change `package.json` and the lockfile, which Codex owns.
+- No runtime dependency was added.
+
+| Primitive (`components/motion/`) | Ported from | Used in | Accessibility |
+|---|---|---|---|
+| `useExitMotion` (overlay exits) | — | Drawer, Modal, ConfirmModal, toasts, mobile navigation sheet | The real dialog unmounts at once. An inert, `aria-hidden` copy without role or ids plays the exit for 160–200 ms and removes itself, so focus return and role queries are unchanged. |
+| `stagger` (callback ref) | AnimatedList | Projects table, Cast Library results, presentation series, processing jobs and batch strip, Review issues | Rows rise in once with a 30 ms step (capped at 12). Batches over 50 appear at once. |
+| `SegmentIndicator` | Glide Select / Segment Pulse (idea only) | Every `.segmented` group, the workspace step underline, the guest preference radio group | Reads `aria-pressed`, `aria-current` or the checked radio. The controls are unchanged. |
+| `AnimatedNumber` | Counter | Casting coverage (filled, Main chosen), Review group counts | The DOM text is always the real value. The outgoing value is a pseudo-element. Nothing moves on first render. |
+| `TextReveal` | BlurText / SplitText | Sign-in heroes (central and development), guest review title | The words stay plain text with their spaces, so the heading name is unchanged. |
+| `useRouteFade` | AnimatedContent / FadeContent | `<main>` on a pathname change | Opacity only, so fixed inline drawers keep viewport positioning. |
+| CSS (`styles/motion.css`) | — | Slide cross-fade, badge and save-status colour transitions, Shortlist star press, Cast Library portrait hover (1.02) | — |
+
+**Not adopted.**
+- **Breaks the design rules:** backgrounds (WebGL or canvas), cursor effects, Ballpit, Magnet, Tilted, Holo and Glare cards, Glitch, Decrypted and Scrambled text, Electric and Star borders, and anything that loops or autoplays.
+- **Deferred:**
+  - **CountUp from zero.** It would put intermediate values into the DOM text; numbers roll on change instead.
+  - **Rolling digits on the headcount stepper.** The value is an `<input>`.
+  - **Exit motion on removed casting cards.** In-flow copies would overlap the reflowing list.
+
+**Checks.** `tests/e2e/motion-ui.spec.ts` covers:
+- the exit copy is inert and hidden, leaves no dialog behind, and focus returns;
+- under reduced motion there are no exit copies and no script animations;
+- the segmented fill follows the pressed option;
+- the revealed sign-in heading keeps its exact accessible name.
+
 ## Backend dependencies for Codex
 
 1. **`GET /workspaces/{id}/summary`** (requires `workspaces.read`).

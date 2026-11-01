@@ -23,6 +23,7 @@ import { ConfirmProvider, useConfirm } from './ui/Confirm';
 import { ToastProvider } from './ui/Toast';
 import { useFocusTrap } from './ui/Overlay';
 import { useRecentWorkspaces } from './recent-workspaces';
+import { useExitMotion, useRouteFade } from './motion/motion';
 
 const destinations: { path: string; label: string; icon: IconName }[] = [{ path: '/projects', label: 'Projects', icon: 'projects' }, { path: '/library/cast', label: 'Cast Library', icon: 'people' }, { path: '/presentations', label: 'Presentations', icon: 'slides' }, { path: '/processing', label: 'Processing', icon: 'processing' }, { path: '/settings', label: 'Settings', icon: 'settings' }];
 const globalEmpty: Record<string, { title: string; body: string; icon: IconName }> = {
@@ -85,6 +86,8 @@ function StudioShell() {
   const central = session?.mode === 'supabase';
   const confirmedFixture = session?.mode === 'local_fixture';
   const segments = pathname.split('/').filter(Boolean);
+  const mainRef = useRef<HTMLElement>(null);
+  useRouteFade(mainRef, pathname);
   const isWorkspace = segments[0] === 'projects' && segments[2] === 'casting' && segments.length === 5;
   const environment = central ? 'Central Everyone workspace. Development and release verification are in progress.' : confirmedFixture ? 'Development workspace — synthetic records. Central business integration is unverified.' : 'Opening your workspace…';
   const navigation = <Navigation pathname={pathname} actor={actor ?? null} central={central} fixture={confirmedFixture} />;
@@ -101,7 +104,7 @@ function StudioShell() {
           {actor && <div className="session-control"><span className="user-initial" aria-hidden="true">{initials(actor.name)}</span><span className="user-name">{actor.name}</span><button className="icon-button" aria-label={central ? 'Sign out' : 'Sign out of development session'} onClick={signOut}><Icon name="logout" /></button></div>}
         </header>
         <div className="development-banner"><span className="status-dot" /><span>{environment}</span></div>
-        <main id="main-content" className="main-content" tabIndex={-1}>{loading || signingOut ? <Loading label="Opening Presentation Studio…" /> : error ? <ErrorNotice message={error} retry={() => setRefresh(value => value + 1)} /> : !actor ? (central ? <BusinessSignIn /> : <SessionGate actors={session?.actors ?? []} onSignedIn={setSession} />) : <Route pathname={pathname} segments={segments} isWorkspace={isWorkspace} central={central} actor={actor} storageOrigin={session?.storage_origin} onDirtyChange={dirtyChanged} />}</main>
+        <main ref={mainRef} id="main-content" className="main-content" tabIndex={-1}>{loading || signingOut ? <Loading label="Opening Presentation Studio…" /> : error ? <ErrorNotice message={error} retry={() => setRefresh(value => value + 1)} /> : !actor ? (central ? <BusinessSignIn /> : <SessionGate actors={session?.actors ?? []} onSignedIn={setSession} />) : <Route pathname={pathname} segments={segments} isWorkspace={isWorkspace} central={central} actor={actor} storageOrigin={session?.storage_origin} onDirtyChange={dirtyChanged} />}</main>
         <footer className="app-footer"><span>everyone. Presentation Studio</span><span>{confirmedFixture ? 'Synthetic workspace' : 'Casting workspace'}</span></footer>
       </div>
     </div>
@@ -125,9 +128,10 @@ function Navigation({ pathname, actor, central, fixture }: { pathname: string; a
 }
 
 function NavigationSheet({ onClose, children }: { onClose: () => void; children: React.ReactNode }) {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(null); const scrim = useRef<HTMLDivElement>(null);
   useFocusTrap(ref, onClose);
-  return <><div className="scrim" onClick={onClose} aria-hidden="true" /><div ref={ref} className="nav-sheet" role="dialog" aria-modal="true" aria-label="Navigation" tabIndex={-1}>
+  useExitMotion([[scrim, 'fade'], [ref, 'sheet']]);
+  return <><div ref={scrim} className="scrim" onClick={onClose} aria-hidden="true" /><div ref={ref} className="nav-sheet" role="dialog" aria-modal="true" aria-label="Navigation" tabIndex={-1}>
     <div className="nav-sheet-head"><span className="small muted">Menu</span><button type="button" className="icon-button" aria-label="Close navigation" onClick={onClose}><Icon name="close" /></button></div>
     {children}
   </div></>;

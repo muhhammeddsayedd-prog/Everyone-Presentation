@@ -11,6 +11,7 @@ import { ActionMenu } from './ui/Menu';
 import { Modal } from './ui/Overlay';
 import { useConfirm } from './ui/Confirm';
 import { useToast } from './ui/Toast';
+import { stagger } from './motion/motion';
 
 export function PresentationIndex({ actor }: { actor: Actor }) { return <IndexScope key={actor.id} canManage={actor.capabilities?.includes('presentations.generate') === true} />; }
 function IndexScope({ canManage }: { canManage: boolean }) {
@@ -56,7 +57,7 @@ function IndexScope({ canManage }: { canManage: boolean }) {
     {error && <ErrorNotice message={error} retry={reloadAll} />}
     {items.length > 0 && <div className="index-toolbar"><p className="small muted" role="status">{visible.length} series shown{next ? ' · more available' : ''}</p>{archivedCount > 0 && <label className="toggle small"><input type="checkbox" checked={showArchived} onChange={event => setShowArchived(event.target.checked)} />Show archived ({archivedCount} loaded)</label>}</div>}
     {loading && !items.length ? <Loading label="Opening presentation series…" /> : !items.length && !error ? <div className="empty-state"><Icon name="slides" /><h2>No presentation series yet</h2><p>Open a project, choose a review context and generate its first saved version.</p><Link className="button button-primary" href="/projects">Open Projects</Link></div>
-      : <ul className="series-list" aria-label="Presentation series">{visible.map(series => { const workspace = workspaces[series.workspace_id]; const history = workspace ? `/projects/${workspace.project_id}/casting/${series.workspace_id}/presentations?series_id=${series.id}` : null;
+      : <ul ref={stagger} className="series-list" aria-label="Presentation series">{visible.map(series => { const workspace = workspaces[series.workspace_id]; const history = workspace ? `/projects/${workspace.project_id}/casting/${series.workspace_id}/presentations?series_id=${series.id}` : null;
         return <li key={series.id} className={`series-row${series.archived ? ' is-archived' : ''}`} aria-busy={busyId === series.id || undefined}>
           <div className="series-identity"><h2 dir="auto">{series.title}</h2><p className="small muted">{series.output_type === 'selection' ? 'Cast Selection' : 'Cast Shortlist'} · {series.audience_snapshot.label} ({series.audience_snapshot.scope}) · template {series.template_version}</p></div>
           <div className="series-state">{series.archived ? <span className="badge">Archived</span> : series.latest_ready_version_no ? <span className="badge badge-dot badge-ok">Version {series.latest_ready_version_no} ready</span> : <span className="badge badge-pending">No ready version yet</span>}</div>

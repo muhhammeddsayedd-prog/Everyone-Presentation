@@ -1,0 +1,53 @@
+/* Motion layer. Primitives live in components/motion; sources and rules are in docs/frontend/IMPLEMENTATION_RECORD.md (Motion).
+   Everything here is transform, opacity or colour, and base.css zeroes it under prefers-reduced-motion. */
+@layer components {
+  .motion-ghost, .motion-ghost * { pointer-events: none !important; animation: none !important; }
+
+  /* Sliding selection fill for .segmented groups */
+  .segmented:has(> .segment-indicator) { position: relative; isolation: isolate; }
+  .segment-indicator { position: absolute; top: 0; left: 0; z-index: -1; width: var(--segment-w, 0); height: var(--segment-h, 0); transform: translate(var(--segment-x, 0), var(--segment-y, 0)); border-radius: 6px; background: var(--color-surface-3); box-shadow: 0 0 0 1px var(--color-border-strong); opacity: 0; pointer-events: none; }
+  .segment-indicator[data-active] { opacity: 1; }
+  .segment-indicator[data-ready] { transition: transform var(--duration-base) var(--ease-standard), width var(--duration-base) var(--ease-standard), height var(--duration-base) var(--ease-standard), opacity var(--duration-fast) var(--ease-standard); }
+  .segmented:has(> .segment-indicator[data-active]) > :is([aria-pressed="true"], [aria-selected="true"], [aria-current], label:has(input:checked)) { background: transparent; box-shadow: none; }
+  .segmented > .segment-indicator ~ * { transition: color var(--duration-base) var(--ease-standard); }
+
+  /* Rolling numbers: the outgoing value is a pseudo-element, so the DOM text is always the real value */
+  .rolling-number { position: relative; display: inline-block; font-variant-numeric: tabular-nums; }
+  .rolling-number > span { display: inline-block; }
+  .rolling-number[data-prev]::before { content: attr(data-prev); position: absolute; inset: 0; animation: roll-out-up var(--duration-base) var(--ease-exit) forwards; }
+  .rolling-number[data-prev][data-direction="down"]::before { animation-name: roll-out-down; }
+  @keyframes roll-out-up { to { opacity: 0; transform: translateY(-0.5em); } }
+  @keyframes roll-out-down { to { opacity: 0; transform: translateY(0.5em); } }
+
+  /* Word reveal (sign-in hero and guest title only) */
+  .reveal-word { display: inline-block; }
+
+  /* Status and save feedback cross-fade instead of snapping */
+  .badge, .save-status { transition: background-color var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard), box-shadow var(--duration-fast) var(--ease-standard); }
+
+  /* Shortlist star: one short press, no spring and no loop */
+  .shortlist-toggle:has(input:checked) svg, .shortlist-star[aria-pressed="true"] svg { animation: star-press var(--duration-base) var(--ease-standard); }
+  @keyframes star-press { 50% { transform: scale(1.12); } }
+
+  /* Card hover per DESIGN.md §7: media scale 1.02 over 320 ms, border to border-strong, no lift */
+  .cast-card-portrait { overflow: hidden; transition: border-color var(--duration-slow) var(--ease-standard); }
+  .cast-card-portrait > img { transition: transform var(--duration-slow) var(--ease-standard); }
+  .cast-card-portrait:hover > img { transform: scale(1.02); }
+}
+
+@layer screens {
+  /* Workspace steps: the accent underline slides between steps */
+  .workspace-steps:has(> .segment-indicator) { position: relative; }
+  .workspace-steps > .segment-indicator { top: auto; bottom: 0; z-index: 0; height: 2px; transform: translateX(var(--segment-x, 0)); border-radius: 0; background: var(--color-accent); box-shadow: none; }
+  .workspace-steps:has(> .segment-indicator[data-active]) a[aria-current] { border-color: transparent; }
+
+  /* Guest preference: the sliding fill takes the tone of the chosen answer */
+  .preference-options > label:has(input:checked) { background: transparent !important; box-shadow: none !important; }
+  .preference-options:has(.preference-preferred input:checked) > .segment-indicator { background: var(--color-accent-soft); box-shadow: 0 0 0 1px var(--color-accent); }
+}
+
+@layer components {
+  /* Changing slide cross-fades (slides are keyed, so this runs per slide). Opacity only. */
+  .version-stage .saved-casting-slide, .guest-review-layout .saved-casting-slide { animation: fade-in var(--duration-base) var(--ease-enter); }
+  @media print { .saved-casting-slide { animation: none !important; } }
+}

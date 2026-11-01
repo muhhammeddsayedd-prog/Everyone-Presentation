@@ -3,6 +3,7 @@
 import { useEffect, useId, useRef, type ReactNode, type RefObject } from 'react';
 import { createPortal } from 'react-dom';
 import { Icon } from '../Icon';
+import { useExitMotion } from '../motion/motion';
 
 const focusable = 'a[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
@@ -51,12 +52,13 @@ interface OverlayProps { title: string; description?: ReactNode; onClose: () => 
 /** Side drawer for inspecting or editing one object without leaving the list or board.
  * `inline` keeps it in its owner's DOM (still fixed to the viewport edge). */
 export function Drawer({ title, description, onClose, children, footer, wide, closeLabel = 'Close', busy, initialFocus, inline }: OverlayProps & { wide?: boolean; inline?: boolean }) {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(null); const scrim = useRef<HTMLDivElement>(null);
   const titleId = useId(); const descriptionId = useId();
   useFocusTrap(ref, busy ? undefined : onClose, initialFocus);
+  useExitMotion([[scrim, 'fade'], [ref, 'drawer']]);
   const target = usePortal();
   if (!target) return null;
-  const layer = <><div className="scrim" onClick={busy ? undefined : onClose} aria-hidden="true" />
+  const layer = <><div ref={scrim} className="scrim" onClick={busy ? undefined : onClose} aria-hidden="true" />
     <div ref={ref} className={`drawer${wide ? ' drawer-wide' : ''}`} role="dialog" aria-modal="true" aria-labelledby={titleId} aria-describedby={description ? descriptionId : undefined} tabIndex={-1} aria-busy={busy || undefined}>
       <header className="drawer-header"><div><h2 id={titleId}>{title}</h2>{description && <p id={descriptionId}>{description}</p>}</div>
         <button type="button" className="icon-button" onClick={onClose} disabled={busy} aria-label={closeLabel}><Icon name="close" /></button></header>
@@ -69,12 +71,13 @@ export function Drawer({ title, description, onClose, children, footer, wide, cl
 /** Centred modal, reserved for consequences or a decision between two things.
  * `inline` keeps the dialog in place in the DOM (still fixed and centred) so it stays scoped to its owner. */
 export function Modal({ title, description, onClose, children, footer, wide, busy, initialFocus, role = 'dialog', inline }: OverlayProps & { wide?: boolean; role?: 'dialog' | 'alertdialog'; inline?: boolean }) {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(null); const layerRef = useRef<HTMLDivElement>(null);
   const titleId = useId(); const descriptionId = useId();
   useFocusTrap(ref, busy ? undefined : onClose, initialFocus);
+  useExitMotion([[layerRef, 'modal']]);
   const target = usePortal();
   if (!target) return null;
-  const layer = <div className="modal-layer" onMouseDown={event => { if (!busy && event.target === event.currentTarget) onClose(); }}>
+  const layer = <div ref={layerRef} className="modal-layer" onMouseDown={event => { if (!busy && event.target === event.currentTarget) onClose(); }}>
     <div ref={ref} className={`modal${wide ? ' modal-wide' : ''}`} role={role} aria-modal="true" aria-labelledby={titleId} aria-describedby={description ? descriptionId : undefined} tabIndex={-1} aria-busy={busy || undefined}>
       <header className="modal-header"><h2 id={titleId}>{title}</h2>{description && <p id={descriptionId}>{description}</p>}</header>
       <div className="modal-body">{children}</div>

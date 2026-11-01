@@ -9,6 +9,8 @@ import { CandidateFactsEditor, emptyCandidateFacts } from './CandidateFactsEdito
 import { createCastLibraryRequests } from '../lib/cast-library-requests';
 import { RoleFilterSuggestions } from './RoleFilterSuggestions';
 import { Icon } from './Icon';
+import { SegmentIndicator } from './motion/SegmentIndicator';
+import { stagger } from './motion/motion';
 
 type Props = { actor: Actor; onDirtyChange: (dirty: boolean) => void; workspaceId?: string; onAdded?: (candidate: WorkspaceCandidate) => void };
 const filterFields = [{key:'age_or_range',label:'Age / range'},{key:'stated_gender',label:'Stated gender'}, {key:'height_measurements',label:'Height / measurements'},
@@ -61,10 +63,10 @@ export function CastLibraryView({ actor, onDirtyChange, workspaceId, onAdded }: 
       <div className="stack-lg facet-results">
         <div className="cast-toolbar"><label className="search-field"><Icon name="search" /><span className="sr-only">Search cast</span><input id="cast-search" type="search" value={query} maxLength={500} onChange={event => setQuery(event.target.value)} placeholder="Name, casting ID or supplied facts" /></label>
           <div className="cluster applied-filters" role="group" aria-label="Applied filters">{filters.review_status && <span className="chip on">{filters.review_status === 'reviewed' ? 'Reviewed' : 'Unreviewed'}<button type="button" aria-label="Remove Fact review filter" onClick={() => setFilter('review_status', '')}><Icon name="close" /></button></span>}{applied.map(field => <span key={field.key} className="chip on" dir="auto">{field.label}: {filters[field.key]}<button type="button" aria-label={`Remove ${field.label} filter`} onClick={() => setFilter(field.key, '')}><Icon name="close" /></button></span>)}</div>
-          <div className="segmented" role="group" aria-label="Cast layout"><button type="button" aria-pressed={layout === 'grid'} onClick={() => setLayout('grid')}>Grid</button><button type="button" aria-pressed={layout === 'list'} onClick={() => setLayout('list')}>List</button></div></div>
+          <div className="segmented" role="group" aria-label="Cast layout"><SegmentIndicator /><button type="button" aria-pressed={layout === 'grid'} onClick={() => setLayout('grid')}>Grid</button><button type="button" aria-pressed={layout === 'list'} onClick={() => setLayout('list')}>List</button></div></div>
         <p className="small muted" role="status" aria-live="polite">{loading ? 'Searching…' : `${items.length}${next ? '+' : ''} ${items.length === 1 ? 'profile' : 'profiles'} shown`}</p>
         {loading && items.length === 0 ? <Loading label="Opening Cast Library…" /> : !items.length && !error ? <div className="empty-state"><Icon name="people" /><h2>No matching candidates</h2><p>Upload an introduction in a project, add a manual candidate, or adjust the filters.</p></div>
-          : <ul className={`cast-results cast-results-${layout}`} aria-label="Cast Library results">{items.map(candidate => <li key={candidate.id} className="cast-card">
+          : <ul ref={stagger} className={`cast-results cast-results-${layout}`} aria-label="Cast Library results">{items.map(candidate => <li key={candidate.id} className="cast-card">
             <Link className="cast-card-portrait" href={`/library/cast/${candidate.id}`} tabIndex={-1} aria-hidden="true"><span>{candidate.facts.name?.slice(0, 1) ?? '?'}</span>{candidate.possible_duplicate && <span className="badge badge-warn cast-card-flag">Possible duplicate</span>}</Link>
             <div className="cast-result-details"><h3 dir="auto"><Link href={`/library/cast/${candidate.id}`}>{candidate.facts.name ?? 'Name not provided'}</Link>{candidate.review_status === 'reviewed' && <span className="reviewed-mark" title="Reviewed facts"><Icon name="check" /></span>}</h3>
               <p className="small muted" dir="auto">{[candidate.facts.casting_id ?? 'Casting ID not provided', candidate.facts.age_or_range, candidate.facts.city].filter(Boolean).join(' · ')}</p>

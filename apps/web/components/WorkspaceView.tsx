@@ -15,6 +15,7 @@ import { CastingBoard } from './CastingBoard';
 import { WorkspaceReviewView } from './WorkspaceReviewView';
 import { WorkspacePresentationView } from './WorkspacePresentationView';
 import { rememberWorkspace } from './recent-workspaces';
+import { SegmentIndicator } from './motion/SegmentIndicator';
 
 const steps = [{ path: 'project', label: 'Project' }, { path: 'specs', label: 'Specs' }, { path: 'cast', label: 'Candidates' }, { path: 'organize', label: 'Casting' }, { path: 'review', label: 'Review' }, { path: 'presentations', label: 'Presentation' }];
 const pending: Record<string, { title: string; body: string }> = {
@@ -110,11 +111,11 @@ function WorkspaceScope({ projectId, workspaceId, step, actor, storageOrigin, on
     <header className="workspace-heading">
       <div><h1>{project.name}</h1><p><span>{project.client_name ?? 'Client not provided'}</span><span aria-hidden="true">·</span><span>Casting workspace</span>{workspace.has_unpublished_changes && <><span aria-hidden="true">·</span><span className="badge badge-dot badge-warn">Unpublished changes</span></>}</p></div>
       <div className="workspace-actions">
-        {!ownsOutput && <div className="segmented" role="group" aria-label="Working output">{(['selection', 'shortlist'] as const).map(value => <button key={value} type="button" aria-pressed={workspace.active_output === value} disabled={!canChangeOutput} onClick={() => { if (workspace.active_output !== value) void changeOutput(value); }}>{value === 'selection' ? 'Cast Selection' : 'Cast Shortlist'}</button>)}</div>}
+        {!ownsOutput && <div className="segmented" role="group" aria-label="Working output"><SegmentIndicator />{(['selection', 'shortlist'] as const).map(value => <button key={value} type="button" aria-pressed={workspace.active_output === value} disabled={!canChangeOutput} onClick={() => { if (workspace.active_output !== value) void changeOutput(value); }}>{value === 'selection' ? 'Cast Selection' : 'Cast Shortlist'}</button>)}</div>}
         {step !== 'review' && <Link className="button button-primary" href={`${base}/review${seriesQuery('review')}`}>Review &amp; generate<Icon name="arrow" /></Link>}
       </div>
     </header>
-    <nav className="workspace-steps" aria-label="Casting workspace steps">{steps.map((item, index) => <Link href={`${base}/${item.path}${seriesQuery(item.path)}`} key={item.path} aria-current={step === item.path ? 'step' : undefined}><span className="step-number">{index + 1}</span>{item.label}</Link>)}</nav>
+    <nav className="workspace-steps" aria-label="Casting workspace steps"><SegmentIndicator />{steps.map((item, index) => <Link href={`${base}/${item.path}${seriesQuery(item.path)}`} key={item.path} aria-current={step === item.path ? 'step' : undefined}><span className="step-number">{index + 1}</span>{item.label}</Link>)}</nav>
     {error && <ErrorNotice message={error} retry={reloadData} />}
     {stepBody}
   </>;

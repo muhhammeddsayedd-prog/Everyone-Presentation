@@ -7,6 +7,7 @@ import type { VersionSlide } from '@eps/domain';
 import { ErrorNotice, Loading } from './Feedback';
 import { StudioDateTime } from './StudioTimeZone';
 import { reviewError, reviewRequest, useReviewMutation } from './review-client';
+import { SegmentIndicator } from './motion/SegmentIndicator';
 
 const preferenceLabels: Record<PreferenceValue, string> = { preferred: 'Preferred', maybe: 'Maybe', not_preferred: 'Not preferred' };
 interface Props {
@@ -112,7 +113,7 @@ function FeedbackScope({ versionId, versionNo, slides, slideId, access, canWrite
       <dl className="review-preference-counts">{Object.entries(preferenceLabels).map(([value, label]) => <div key={value}><dt>{label}</dt><dd>{preferences.filter(item => item.value === value).length}</dd></div>)}</dl>
       {feedback?.page.next_cursor && <p className="small muted">Counts include loaded responses. Load more feedback to include the remaining responses.</p>}
       {guest && <fieldset className="preference-group" disabled={write.uncertain} aria-busy={preferencePending} aria-describedby="preference-note"><legend>Your preference for this candidate</legend>
-        <div className="segmented preference-options">{Object.entries(preferenceLabels).map(([value, label]) => <label key={value} className={`preference-${value}`}><input type="radio" name={`preference-${active}`} value={value} checked={ownPreference?.value === value} onChange={() => void prefer(value as PreferenceValue)} />{label}</label>)}</div>
+        <div className="segmented preference-options"><SegmentIndicator />{Object.entries(preferenceLabels).map(([value, label]) => <label key={value} className={`preference-${value}`}><input type="radio" name={`preference-${active}`} value={value} checked={ownPreference?.value === value} onChange={() => void prefer(value as PreferenceValue)} />{label}</label>)}</div>
         <div className="preference-meta"><p id="preference-note" className="small muted" role="status" aria-live="polite">{preferencePending ? 'Saving preference…' : preferenceNote || (ownPreference ? `Your saved preference: ${preferenceLabels[ownPreference.value]}.` : access?.display_name ? 'No preference saved for this candidate.' : 'Choose a preference to introduce yourself first.')}</p>{ownPreference && <button type="button" className="text-button small" onClick={() => void prefer(null)}>Clear preference</button>}</div>
       </fieldset>}
       {canWrite && !opened && <button className="button button-primary" disabled={write.locked} onClick={openComposer}>Add feedback</button>}

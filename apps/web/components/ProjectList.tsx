@@ -9,6 +9,8 @@ import { ErrorNotice, Loading } from './Feedback';
 import { Icon } from './Icon';
 import { useRuntimeMode } from './RuntimeMode';
 import { StudioDateTime } from './StudioTimeZone';
+import { SegmentIndicator } from './motion/SegmentIndicator';
+import { stagger } from './motion/motion';
 
 type Filter = 'all' | 'started' | 'not_started';
 const filters: { value: Filter; label: string }[] = [{ value: 'all', label: 'All' }, { value: 'started', label: 'Casting in progress' }, { value: 'not_started', label: 'Not started' }];
@@ -64,12 +66,12 @@ export function ProjectList({ actor }: { actor: Actor }) {
       <section aria-label="Project list" className="stack">
         <div className="projects-toolbar">
           <label className="search-field"><Icon name="search" /><span className="sr-only">Search projects or clients</span><input type="search" placeholder="Search projects or clients" value={query} onChange={event => setQuery(event.target.value)} /></label>
-          <div className="segmented" role="group" aria-label="Filter loaded projects">{filters.map(item => <button key={item.value} type="button" aria-pressed={filter === item.value} onClick={() => setFilter(item.value)}>{item.label}</button>)}</div>
+          <div className="segmented" role="group" aria-label="Filter loaded projects"><SegmentIndicator />{filters.map(item => <button key={item.value} type="button" aria-pressed={filter === item.value} onClick={() => setFilter(item.value)}>{item.label}</button>)}</div>
         </div>
         {error && <ErrorNotice message={error} retry={() => setRefresh(value => value + 1)} />}
         {loading ? <Loading label="Finding your projects…" /> : visible.length ? <div className="table-scroll"><table className="data-table project-table-redesign">
           <thead><tr><th scope="col">Project</th><th scope="col">Casting</th><th scope="col"><span className="sr-only">Action</span></th></tr></thead>
-          <tbody>{visible.map(project => <tr key={project.id} aria-selected={selected?.id === project.id} className={selected?.id === project.id ? 'is-selected' : undefined}>
+          <tbody ref={stagger}>{visible.map(project => <tr key={project.id} aria-selected={selected?.id === project.id} className={selected?.id === project.id ? 'is-selected' : undefined}>
             <td><button type="button" className="row-select identity" aria-pressed={selected?.id === project.id} aria-label={`Show details for ${project.name}`} onClick={() => setSelectedId(project.id)}>
               <span className="monogram" aria-hidden="true">{project.name.slice(0, 1)}</span><span><strong>{project.name}</strong><span>{project.client_name ?? 'Client not provided'}</span></span></button></td>
             <td>{project.casting_workspace_id ? <span className="badge badge-dot badge-ok">Workspace started</span> : <span className="badge badge-pending">Not started</span>}</td>
