@@ -15,6 +15,8 @@ export function mcpCapabilityAllowed(expression: string, granted: ReadonlySet<st
     case 'purpose-specific: cast.upload OR workspaces.write OR projects.write':
       return ['cast.upload', 'workspaces.write', 'projects.write'].some(capability => granted.has(capability));
     case 'operations.read OR owning workspace read': return granted.has('operations.read') || granted.has('workspaces.read');
+    case 'operations.read OR owning workspace read OR own frame read':
+      return granted.has('operations.read') || granted.has('workspaces.read') || granted.has('cast.read');
     default: return false;
   }
 }

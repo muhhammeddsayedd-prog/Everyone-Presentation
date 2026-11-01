@@ -26,6 +26,25 @@ function service(response: unknown = job, status = 200) {
 }
 const code = (expected: string) => (value: unknown) => value instanceof DomainError && value.code === expected;
 
+test('batch job listing uses one distinct RPC and preserves legacy unfiltered RPC and page shape', async () => {
+  const batch = 'b8380001-0000-4000-8000-000000000001';
+  const fixture = service({ data: [{ ...job, batch_id: batch }], page: { next_cursor: jobId } });
+  const jobs = await createCentralJobs(fixture.client);
+  const result = await jobs.listJobs(actor, { workspace_id: workspace, status: 'queued', cursor: jobId, limit: 1, batch_id: batch });
+  assert.deepEqual(result, { data: [{ ...job, batch_id: batch }], page: { next_cursor: jobId } });
+  assert.equal(fixture.calls[1]!.path, '/rest/v1/rpc/eps_list_jobs_by_batch');
+  assert.deepEqual(fixture.calls[1]!.body, { p_workspace_id: workspace, p_status: 'queued', p_cursor: jobId, p_limit: 1, p_batch_id: batch });
+  await jobs.listJobs(actor);
+  assert.equal(fixture.calls[2]!.path, '/rest/v1/rpc/eps_list_jobs');
+  assert.deepEqual(fixture.calls[2]!.body, { p_workspace_id: null, p_status: null, p_cursor: null, p_limit: 25 });
+  const calls = fixture.calls.length;
+  await assert.rejects(jobs.listJobs(actor, { batch_id: 'not-a-uuid' }), code('INVALID_REQUEST'));
+  await assert.rejects(jobs.listJobs({ principal_id: 'foreign' }, { batch_id: batch }), code('ACCESS_DENIED'));
+  assert.equal(fixture.calls.length, calls);
+  const mismatch = service({ data: [job], page: { next_cursor: null } });
+  await assert.rejects((await createCentralJobs(mismatch.client)).listJobs(actor, { batch_id: batch }), code('CENTRAL_RESPONSE_INVALID'));
+});
+
 test('unreadable source DTO gives safe replacement or manual-information guidance with retry policy intact', async () => {
   const row = { ...job, kind: 'candidate_scan', status: 'failed', stage: 'prepare_candidate',
     error: { code: 'SOURCE_UNREADABLE', message: 'private-provider-diagnostic https://private.invalid?token=secret', details: { cause_code: 'SOURCE_UNREADABLE' }, retryable: false } };

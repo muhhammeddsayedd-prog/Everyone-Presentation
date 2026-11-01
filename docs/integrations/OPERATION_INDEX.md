@@ -78,8 +78,8 @@
 | `create_comment` | `POST /versions/{version_id}/comments` | workspaces.write | Yes |
 | `update_comment` | `PATCH /comments/{comment_id}` | workspaces.write | Yes |
 | `set_preference` | `PUT /versions/{version_id}/preferences` | workspaces.write | Yes |
-| `list_jobs` | `GET /jobs` | operations.read OR owning workspace read | Yes |
-| `get_job` | `GET /jobs/{job_id}` | operations.read OR owning workspace read | Yes |
+| `list_jobs` | `GET /jobs` | operations.read OR owning workspace read OR own frame read | Yes |
+| `get_job` | `GET /jobs/{job_id}` | operations.read OR owning workspace read OR own frame read | Yes |
 | `retry_job` | `POST /jobs/{job_id}/retry` | operations.retry | Yes |
 | `cancel_job` | `POST /jobs/{job_id}/cancel` | operations.retry | Yes |
 | `get_settings` | `GET /settings` | settings.manage | Yes |

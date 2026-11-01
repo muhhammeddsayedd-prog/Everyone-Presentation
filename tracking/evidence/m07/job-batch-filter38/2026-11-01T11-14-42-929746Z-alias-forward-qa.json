@@ -1,0 +1,37 @@
+{
+  "actual_Root_Main_draft_test": {
+    "command": ".venv-skills/Scripts/python.exe -X utf8 -B development/m07/job-batch-filter/test_candidate.py",
+    "duration_seconds": 3.816,
+    "exit_code": 0,
+    "passed": 8
+  },
+  "cb11_claim_replayed": false,
+  "cb11_failed_history_preserved": true,
+  "changed_files": {
+    "development/m07/job-batch-filter/build_candidate.py": "2338e8c1943ebe9cc0f1b74856ef80897226da25c6a9077e8799a10ba932f583",
+    "development/m07/job-batch-filter/candidate.sql.txt": "331e6d9a83220d9baed3fed58810cd2bea70ea7acf05642c1d93885640fddb30",
+    "development/m07/job-batch-filter/test_candidate.py": "978c81e22deaf8c2b631e0b37397f5f1d624c3ff96997a235007890b8810aad4"
+  },
+  "cloud_or_provider_mutation": false,
+  "collision_regression": {
+    "archived_old_case_detected": true,
+    "corrected_case_clear": true,
+    "independent_pg_namespace_counterexample": true
+  },
+  "complete_functional_RPC_suffix_byte_equal_to_parent": true,
+  "counterpart_Main_actual_SQL_proof": {
+    "all376_seals_and_full_cleanup": true,
+    "candidate_sha256": "331e6d9a83220d9baed3fed58810cd2bea70ea7acf05642c1d93885640fddb30",
+    "no_JWT_HTTP_MCP_or_hosted_acceptance": true,
+    "receipt": "tracking/evidence/m07/job-batch-filter-proof/2026-11-01T11-07-36-550Z-197c2009.json",
+    "result": "passed",
+    "sha256": "bce16d1767f5fae4a89c2f022a10644d9cb60b4375cd16d6164c732c3a700b81"
+  },
+  "functional_body_sha256": "323d6c19b056cd722cb915717d88616eaf28ed52c82c2743327f84690287d3f9",
+  "parent_source_commit": "4b1c94d",
+  "previous_full_TS_tests_types_lint_retained_at_parent": true,
+  "recorded_at": "2026-11-01T11:14:42.929746+00:00",
+  "schema_version": "1.0",
+  "scope": "Alias-only admission forward fix; source/regression and counterpart Main owned-SQL evidence, no new TS/API changes or hosted claim",
+  "unnecessary_full_TS_rerun": false
+}

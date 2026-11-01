@@ -6,7 +6,37 @@ acceptance reconciliation, not a new feature decision or a production pass.
 No operational command, provider request, upload or database change was made
 for this document. The root agent owns the main progress/handoff updates.
 
-## Current checkpoint - 2026-11-01T17:25:53Z: 205-job SQL pagination and preservation passed
+## Current checkpoint - 2026-11-01T17:31:59Z: canonical38 applied; compatible web build next
+
+Official `20261101110939_m07_job_batch_filter.sql` is5869B SHA256
+47af16421613320b76abc6e7119da92912859f0334b03b047a98492f75f6ea2d.
+Actual apply PASSED with normal return and two equal full reads:
+`tracking/evidence/m07/job-batch-filter38-release/2026-11-01T17-28-00-388406Z-apply.json`.
+Separate two-static-read readback passed at17:28:42.546410UTC. All74 business
+hashes/trace, whole old4 pg_proc, old catalogue/OAuth/RLS/grants/owners and
+English/Reviewed/Ready/media/protectedM02 were preserved. Only38 history and the
+new five-argument read function changed. No worker/env/OAuth mutation occurred.
+
+The15 core/contract/docs/tests files plus4 branch QA receipts are integrated from
+758affc; all24 branch paths matched before the documentation status update.
+The376 actual205-proof sources are recoverable before merge from364 checked raw
+Git blobs atd369848 plus12 public installed inputs in the retained archive.
+Full postmerge quality PASSED928 tests/0skips, lint/typecheck exit0. Exact sparse
+web payload285files/3,068,061B/4edc5f1a passed14-family private-value/source scan.
+Fresh17:28:55 health showed stable webEUK29 and unchanged worker2uAS with one
+alive2GiB dub1 instance. New web operator is Root-enabled with actual native/
+SQL/quality pins; source preparation passed. Current web remainsEUK29; compatible
+build, deployment Ready, signed-in filter and MCP regression are not yet credited.
+Frontend coordination was appended without changing its21396 existing bytes or
+layouts. Worker, owner guide/assets and completed Claude connection acceptance
+remain preserved. Feedback MCP/guest check and owner upload dependency remain
+pending; no new link was created. Pilot stays running, screen reader pending,
+mobile skipped; AT069 policy block remains with no retry/provider action.
+
+Next: isolated quality build, exact canonical static admission, source deployment
+to the existing stable pilot, then Ready/worker/authenticated filter regressions.
+
+## Historical checkpoint - 2026-11-01T17:25:53Z: 205-job SQL pagination and preservation passed
 
 Fresh bb9cf2bf-f3b9-4d7a-beff-47df65dfe76b PASSED in68,362ms:
 `tracking/evidence/m07/job-batch-filter-proof/2026-11-01T17-23-47-142Z-bb9cf2bf.json`

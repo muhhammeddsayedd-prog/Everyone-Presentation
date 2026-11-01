@@ -1,6 +1,6 @@
 {
   "pack_version": "1.0",
-  "updated_at": "2026-11-01T17:25:53Z",
+  "updated_at": "2026-11-01T17:31:59Z",
   "implementation_started": true,
   "current_milestone": "M07",
   "current_pilot": {
@@ -10741,14 +10741,14 @@
   },
   "batch_filter38_current": {
     "status": "implemented_unverified",
-    "source_isolated": true,
-    "canonical_history": 37,
+    "source_isolated": false,
+    "canonical_history": 38,
     "local_sql197c_passed": true,
     "local_sql197c_scope": "three accessible rows across three pages; not >100 jobs",
-    "next": "guarded canonical38 fill/review/apply/readback before compatible core/web integration",
+    "next": "isolated web build, canonical static admission, deploy Ready and signed-in batch/MCP regression",
     "owner_feedback_mcp_pending": true,
     "owner_guest_link_permission_pending": true,
-    "official38_empty_unapplied": true,
+    "official38_empty_unapplied": false,
     "local_sql205_passed": true,
     "local_sql205_receipt": "tracking/evidence/m07/job-batch-filter-proof/2026-11-01T17-23-47-142Z-bb9cf2bf.json",
     "local_sql205_elapsed_ms": 68362,
@@ -10758,6 +10758,16 @@
       "787da730-4f7c-4c52-ba8e-a3a6946e9fdd",
       "625d7c32-0fcb-447b-9276-c679d3552767"
     ],
-    "failed_preflight_lock_reconciled": true
+    "failed_preflight_lock_reconciled": true,
+    "canonical38_applied": true,
+    "canonical38_apply": "tracking/evidence/m07/job-batch-filter38-release/2026-11-01T17-28-00-388406Z-apply.json",
+    "canonical38_readback": "tracking/evidence/m07/job-batch-filter38-release/2026-11-01T17-28-42-546410Z-readback.json",
+    "all74_business_trace_old_rpc_OAuth_versions_preserved": true,
+    "main_core_integrated": true,
+    "full_tests_passed": 928,
+    "full_test_skipped": 0,
+    "lint_exit": 0,
+    "typecheck_exit": 0,
+    "web_deployment_pending": true
   }
 }

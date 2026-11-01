@@ -18922,7 +18922,7 @@
         "method": "GET",
         "path": "/jobs"
       },
-      "capability": "operations.read OR owning workspace read",
+      "capability": "operations.read OR owning workspace read OR own frame read",
       "inputSchema": {
         "type": "object",
         "additionalProperties": false,
@@ -18941,6 +18941,12 @@
             "minimum": 1,
             "maximum": 100,
             "default": 25
+          },
+          "batch_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+            "description": "Optional batch grouping filter. Existing ordinary-job project checks and requester-only Cast Library frame visibility still apply; a batch UUID grants no access. Page and ascending job-ID cursor semantics are unchanged."
           }
         },
         "required": [],
@@ -19308,7 +19314,7 @@
         "method": "GET",
         "path": "/jobs/{job_id}"
       },
-      "capability": "operations.read OR owning workspace read",
+      "capability": "operations.read OR owning workspace read OR own frame read",
       "inputSchema": {
         "type": "object",
         "additionalProperties": false,

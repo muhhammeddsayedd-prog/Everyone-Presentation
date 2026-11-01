@@ -1,0 +1,171 @@
+{
+  "action": "prepare",
+  "api_gates": {
+    "path": "tracking/evidence/m07/job-batch-filter38/2026-11-01T17-30-53-272311Z-root-postmerge-quality.json",
+    "sha256": "8dc8365c456cda6c97edd1d73fc5acd888c97f9a04ba00a667cd88fcca8e89fb"
+  },
+  "credentials_or_raw_cli_persisted": false,
+  "deployment_method": "provider_source_build",
+  "environment_values_persisted": false,
+  "no_prebuilt_acceptance": true,
+  "oauth_or_environment_mutations": false,
+  "plan_sha256": "7f00a875f072a84d162cf4ac1010114fdd931ed631224452aa2c5de359c773a0",
+  "project_id": "prj_7xOsfRtvJ9voYi7rTEfra5ncOoA0",
+  "public_environment_keys": [
+    "APP_BASE_URL",
+    "APP_ENV",
+    "CENTRAL_ADAPTER_MODE",
+    "EPS_PILOT_OWNER_CONTROLLED",
+    "EPS_RELEASE_MODE",
+    "NODE_ENV",
+    "SUPABASE_PUBLISHABLE_KEY",
+    "SUPABASE_URL"
+  ],
+  "public_environment_sha256": "9302f7fe5adcd54c0960306a44b04f246d4f52b0657ddf20b827388299a46805",
+  "run_id": "ba3119e7-fe86-48fe-8c27-8e3dcebd8310",
+  "schema_version": "1.0",
+  "source": {
+    "path": "tracking/evidence/m07/controlled-pilot/2026-11-01T17-30-53-679Z-a0438b92-web-source.json",
+    "sha256": "f762b18852f60c93353660473b5fd4ef1c10b998e341caa03337491306a02f89"
+  },
+  "source_delta": {
+    "added": [
+      {
+        "after": {
+          "bytes": 1767,
+          "path": "packages/domain/src/job-filters.ts",
+          "sha256": "6e7163df85d11ed157e04f3db9886931baea1d6ca95deaa98d260a2c2f4ebd0b"
+        },
+        "before": null,
+        "path": "packages/domain/src/job-filters.ts"
+      }
+    ],
+    "baseline_entries": 284,
+    "baseline_ready": {
+      "path": "tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-14-01-892380Z-ready.json",
+      "sha256": "b9455c1001ff4b8aacd874582bc475e3b49aa26ddcc895d4843dfd37c6e4f1e9"
+    },
+    "baseline_source": {
+      "path": "tracking/evidence/m07/controlled-pilot/2026-11-01T10-02-58-943Z-7f987547-web-source.json",
+      "sha256": "0463395083aed2ade456d26a57c0a5ea2bfb1d0da3bbb899bb66a5c49b64ced7"
+    },
+    "changed": [
+      {
+        "after": {
+          "bytes": 145060,
+          "path": "apps/web/lib/generated-contracts.json",
+          "sha256": "ad8333b036e1df0c36ee84915713273f4d84615df92a8744eb5b77e3a35cc2f2"
+        },
+        "before": {
+          "bytes": 145060,
+          "path": "apps/web/lib/generated-contracts.json",
+          "sha256": "95c915181105e67c0805dc9fc0ccc8ffb86d18f822f3bb8c3b75a65c470d21f4"
+        },
+        "path": "apps/web/lib/generated-contracts.json"
+      },
+      {
+        "after": {
+          "bytes": 2922,
+          "path": "apps/web/lib/job-http.ts",
+          "sha256": "b702118210a96032ef5553580cacea4210c6927cbce603bf16a4a081613fde46"
+        },
+        "before": {
+          "bytes": 2809,
+          "path": "apps/web/lib/job-http.ts",
+          "sha256": "d2a03687e62cdfcf7ea2be0b2505e2a45750324172fd9b25d06f97af2aa71b7a"
+        },
+        "path": "apps/web/lib/job-http.ts"
+      },
+      {
+        "after": {
+          "bytes": 1518,
+          "path": "apps/web/lib/mcp-capabilities.ts",
+          "sha256": "ef60eb112571b011c90dc2d50d58d14c04ca036e2146bcd118a97793615f7a4d"
+        },
+        "before": {
+          "bytes": 1340,
+          "path": "apps/web/lib/mcp-capabilities.ts",
+          "sha256": "791fbb6a03c7ed4be9d39439715fbb5929c142e354e22aeb31e217cb40cb0f60"
+        },
+        "path": "apps/web/lib/mcp-capabilities.ts"
+      },
+      {
+        "after": {
+          "bytes": 648533,
+          "path": "contracts/mcp-tool-catalog.json",
+          "sha256": "d9511710406bba82c427bedad17ec2d37aaf4086c1ff28e71fafb579030fb65f"
+        },
+        "before": {
+          "bytes": 648056,
+          "path": "contracts/mcp-tool-catalog.json",
+          "sha256": "68566fe933a9b61a37b7714a5aa2ba351955eaa5f9c01c1c372f7007580f38b0"
+        },
+        "path": "contracts/mcp-tool-catalog.json"
+      },
+      {
+        "after": {
+          "bytes": 11900,
+          "path": "packages/central/src/jobs.ts",
+          "sha256": "74edc9bc4758b6fdc1ecec3115b4293af9f9205f96cc3a8eb72ca5ca632e96b4"
+        },
+        "before": {
+          "bytes": 12178,
+          "path": "packages/central/src/jobs.ts",
+          "sha256": "429c540f80897f5441660ec94f9be4415127d428ac763adef0895b3a34484acb"
+        },
+        "path": "packages/central/src/jobs.ts"
+      },
+      {
+        "after": {
+          "bytes": 32418,
+          "path": "packages/domain/src/index.ts",
+          "sha256": "40b9416726ff05376c05731edcc85aad4da9b36bfa07134d8b718bcca6435b35"
+        },
+        "before": {
+          "bytes": 32384,
+          "path": "packages/domain/src/index.ts",
+          "sha256": "c305cfaff371f4e18789dd91159bbb9b97e8df042f04bd181e57269ba6ffa621"
+        },
+        "path": "packages/domain/src/index.ts"
+      }
+    ],
+    "current_entries": 285,
+    "current_source_sha256": "4edc5f1a3db2db62cb01d2f804589ae948c46cccb93fbf169f85b0090ccdc0b8",
+    "deployment_performed": false,
+    "environment_values_included": false,
+    "removed": [],
+    "ui_redesign_included": false,
+    "worker_payload_changed": false
+  },
+  "source_pins": {
+    "apps/web/lib/generated-contracts.json": "ad8333b036e1df0c36ee84915713273f4d84615df92a8744eb5b77e3a35cc2f2",
+    "apps/web/lib/job-http.ts": "b702118210a96032ef5553580cacea4210c6927cbce603bf16a4a081613fde46",
+    "apps/web/lib/mcp-capabilities.ts": "ef60eb112571b011c90dc2d50d58d14c04ca036e2146bcd118a97793615f7a4d",
+    "cli_helper:chunks/chunk-2PYFJXKS.js": "f19e025f07602444e832f4096c829928959f5a315ab09048c66f8505277d189b",
+    "contracts/mcp-tool-catalog.json": "d9511710406bba82c427bedad17ec2d37aaf4086c1ff28e71fafb579030fb65f",
+    "development/m03/english-release34/release.py": "cfb1de71b308d6bfe7b9115980a67d84341b014f06babf1fac84aa3c9806364a",
+    "development/m03/english-web-release34/test_web.py": "75697dd2db6dbbc89f6f4fb29d9eaccf6479188ee3193fc2b6c30878e9034749",
+    "development/m03/english-web-release34/web.py": "51453cae704ed3a59dfc7fe58c9f86ccdeea951f77b911b72e2cea4b33f60cc1",
+    "development/m07/controlled-pilot/stage-web.mjs": "2aaf2e6885cd77b7ee6bc77c20fe28d39fc2bb14bd75307e54eb930abc45ecd4",
+    "development/m07/job-batch-filter38-web/README.md": "ac7c9a009fd8306c44af73411ca3827efedbc1a1e8f7e716880c80db2792e1a7",
+    "development/m07/job-batch-filter38-web/inputs.template.json": "b6967d19839cced997e87726f71523b1f8163c52f64067614b373385e5f8a13b",
+    "development/m07/job-batch-filter38-web/test_web.py": "a050bbfd4ca977bf7d8fa81723bffb381a60c1a288d2c7a7e81447dbf9481be1",
+    "development/m07/job-batch-filter38-web/web.py": "836d140607949d6f10de3b2e3680da3c18b0a650fb95da24441099f306bef1f4",
+    "development/m07/workspace-summary35-web/README.md": "d3c8c7ff19b58c61a39f5f4afa20625c3e84609a609b0380fd522a81636cfe34",
+    "development/m07/workspace-summary35-web/inputs.template.json": "1a22a457b23627c56f7748b221ba2ea46ed3405463d41a1820f420e80517d398",
+    "development/m07/workspace-summary35-web/test_web.py": "1a08906b3b2bf0dd6443a520700f804cb12b410b084f7a6652a12cc4f0bca437",
+    "development/m07/workspace-summary35-web/web.py": "b306de33cbfe1a2d43426d0d9ec8e397618e847d94cd19692a3f6caff3e0a483",
+    "npm_cli_sha256": "3ce7cba6f5128dd5f54c98b6a5036b0f850496878cc2e21044b675fe3c594e3e",
+    "packages/central/src/jobs.ts": "74edc9bc4758b6fdc1ecec3115b4293af9f9205f96cc3a8eb72ca5ca632e96b4",
+    "packages/domain/src/index.ts": "40b9416726ff05376c05731edcc85aad4da9b36bfa07134d8b718bcca6435b35",
+    "packages/domain/src/job-filters.ts": "6e7163df85d11ed157e04f3db9886931baea1d6ca95deaa98d260a2c2f4ebd0b",
+    "tracking/evidence/m07/controlled-pilot/2026-11-01T10-02-58-943Z-7f987547-web-source.json": "0463395083aed2ade456d26a57c0a5ea2bfb1d0da3bbb899bb66a5c49b64ced7",
+    "tracking/evidence/m07/controlled-pilot/2026-11-01T11-13-51-575999Z-web-worker-health-before38.json": "04c8f0366dc9abad31c694732ef7ee1461baceac09b944431fefa8d139c2ed6f",
+    "tracking/evidence/m07/feedback-summary37-web/2026-11-01T10-14-01-892380Z-ready.json": "b9455c1001ff4b8aacd874582bc475e3b49aa26ddcc895d4843dfd37c6e4f1e9",
+    "tracking/evidence/m07/job-batch-filter-proof/2026-11-01T17-23-47-142Z-bb9cf2bf.json": "c2020d123b7d54c27a6440b4bf6ede7c9dd1c751ec13b1613f7ad2c1bf62b2c4",
+    "tracking/evidence/m07/job-batch-filter38/2026-11-01T17-30-53-272311Z-root-postmerge-quality.json": "8dc8365c456cda6c97edd1d73fc5acd888c97f9a04ba00a667cd88fcca8e89fb"
+  },
+  "team_id": "team_gboXPxTevpCOZuaA8eY9PmR1",
+  "worker_anchor": "dpl_2uASsbYobSDwWjMptPjGLcVEdCg3",
+  "worker_redeployment_attempted": false
+}

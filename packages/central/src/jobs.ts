@@ -1,9 +1,8 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { DomainError, type Actor, type MutationContext } from '@eps/domain';
+import { DomainError, JOB_STATUSES as STATUSES, parseJobListOptions, type JobListOptions, type Actor, type MutationContext } from '@eps/domain';
 import { verifyCentralUser } from './client.ts';
 import { centralRpcError } from './errors.ts';
 
-const STATUSES = ['queued', 'running', 'waiting_for_input', 'succeeded', 'failed', 'cancelled'] as const;
 const KINDS = ['specs_extract', 'candidate_scan', 'frame_extract', 'ai_suggestion', 'review_fit', 'presentation_render', 'presentation_export'] as const;
 const SAFE_ERRORS: Record<string, string> = {
   SOURCE_UNREADABLE: 'The supplied source could not be read. Replace it with a valid supported file, or enter the available information manually.', UNSUPPORTED_FORMAT: 'The source format is unsupported.',
@@ -41,7 +40,7 @@ export interface CentralJob {
   created_at: string; updated_at: string; row_version: number; frame_extraction?: FrameExtractionOutcome;
   can_retry?: boolean; can_cancel?: boolean;
 }
-export interface JobListOptions { workspace_id?: string; status?: typeof STATUSES[number]; cursor?: string; limit?: number }
+export type { JobListOptions } from '@eps/domain';
 export interface JobMutationInput { row_version: number; reason?: string | null }
 function fail(): never { throw new DomainError('CENTRAL_RESPONSE_INVALID', 'Central job data did not match its public contract.', 503); }
 function invalid(): never { throw new DomainError('INVALID_REQUEST', 'Provide bounded job identifiers, filters, row version and Idempotency-Key.', 400); }
@@ -111,13 +110,16 @@ export async function createCentralJobs(client: SupabaseClient) {
     async getJob(actor: Actor, jobId: string) { actorCheck(actor); if (!id(jobId)) invalid(); const result = jobDto(await rpc(actor, 'eps_get_job', { p_job_id: jobId })); if (result.id !== jobId) fail(); return result; },
     async listJobs(actor: Actor, options: JobListOptions = {}) {
       actorCheck(actor);
-      if (!options || typeof options !== 'object' || Array.isArray(options) || Object.keys(options).some(key => !['workspace_id', 'status', 'cursor', 'limit'].includes(key))
-        || options.workspace_id !== undefined && !id(options.workspace_id) || options.cursor !== undefined && !id(options.cursor)
-        || options.status !== undefined && !STATUSES.includes(options.status) || options.limit !== undefined && (!count(options.limit) || options.limit < 1 || options.limit > 100)) invalid();
-      const value = exact(await rpc(actor, 'eps_list_jobs', { p_workspace_id: options.workspace_id ?? null, p_status: options.status ?? null, p_cursor: options.cursor ?? null, p_limit: options.limit ?? 25 }), ['data', 'page']);
+      options = parseJobListOptions(options);
+      const value = exact(await rpc(actor, options.batch_id === undefined ? 'eps_list_jobs' : 'eps_list_jobs_by_batch', {
+        p_workspace_id: options.workspace_id ?? null, p_status: options.status ?? null, p_cursor: options.cursor ?? null, p_limit: options.limit ?? 25,
+        ...(options.batch_id === undefined ? {} : { p_batch_id: options.batch_id }),
+      }), ['data', 'page']);
       const page = exact(value.page, ['next_cursor']);
       if (!Array.isArray(value.data) || value.data.length > (options.limit ?? 25) || !(page.next_cursor === null || id(page.next_cursor))) fail();
-      return { data: value.data.map(jobDto), page: { next_cursor: page.next_cursor as string | null } };
+      const data = value.data.map(jobDto);
+      if (options.batch_id !== undefined && data.some(job => job.batch_id !== options.batch_id)) fail();
+      return { data, page: { next_cursor: page.next_cursor as string | null } };
     },
     retryJob: (actor: Actor, jobId: string, input: JobMutationInput, context?: MutationContext) => mutation(actor, 'eps_retry_job', jobId, input, context),
     cancelJob: (actor: Actor, jobId: string, input: JobMutationInput, context?: MutationContext) => mutation(actor, 'eps_cancel_job', jobId, input, context),

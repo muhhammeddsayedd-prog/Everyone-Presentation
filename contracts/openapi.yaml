@@ -6522,7 +6522,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-      x-capability: operations.read OR owning workspace read
+      x-capability: operations.read OR owning workspace read OR own frame read
       x-mcp-exposed: true
       x-shared-service-operation: list_jobs
       security:
@@ -6535,6 +6535,15 @@ paths:
           type: string
       - *id002
       - *id003
+      - name: batch_id
+        in: query
+        required: false
+        description: Optional batch grouping filter. Existing ordinary-job project checks and requester-only Cast Library frame visibility still
+          apply; a batch UUID grants no access. Page and ascending job-ID cursor semantics are unchanged.
+        schema:
+          type: string
+          format: uuid
+          pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
   /jobs/{job_id}:
     get:
       operationId: get_job
@@ -6609,7 +6618,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-      x-capability: operations.read OR owning workspace read
+      x-capability: operations.read OR owning workspace read OR own frame read
       x-mcp-exposed: true
       x-shared-service-operation: get_job
       security:

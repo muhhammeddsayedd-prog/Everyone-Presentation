@@ -48,7 +48,13 @@ test('M07 discovery evaluates the published compound capabilities without replac
     assert.ok(names.includes('add_workspace_candidate'));
     assert.ok(names.includes('create_upload_session'));
     assert.ok(!names.includes('suggest_candidate_filters'));
-    assert.ok(!names.includes('list_jobs'));
+    // M03 permits cast.read requester-only frame jobs. Advertising the read
+    // tool does not replace its final requester/resource/project SQL checks.
+    assert.ok(names.includes('list_jobs')); assert.ok(names.includes('get_job'));
+    assert.ok(!names.includes('retry_job')); assert.ok(!names.includes('cancel_job'));
+    p.setCapabilities(['workspaces.write']);
+    names = (await c.client.listTools()).tools.map(tool => tool.name);
+    assert.ok(!names.includes('list_jobs')); assert.ok(!names.includes('get_job'));
   } finally { await c.close(); }
 });
 test('M07 delegation intersects signed limits with business authority for discovery and calls', async () => {
