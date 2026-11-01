@@ -6,12 +6,15 @@ This is an execution order for remaining evidence, not a new product scope or a
 claim of full production readiness. Canonical35 is applied/read back as of
 2026-11-01T00:57:45.216887UTC. Summary web6L6v/source282-13209b is Ready on the
 stable alias; worker2uAS/English1.0 remain running. Signed-in Summary HTTP read
-and query rejection passed; new Summary MCP read and app capture remain pending.
+and query rejection passed. Actual01:10 app English regression passed; the owner
+reports the new Summary MCP read matches HTTP, without MCP request ID/server
+correlation. Actual local attempt36 proof7cff passed with all185 source seals and
+rollback/preservation/cleanup independently checked; no cloud36 release yet.
 
 | Order / case | Current evidence boundary | Concrete next action and dependency |
 | --- | --- | --- |
-| 1. English rollout / AT-068 | Controlled scan/internal/frozen version24checks/PDF/old-cohort proof passed. Approved guest create/test/revoke completed2026-11-01: frozen248-byte English/video, guest PDF visual equality and actual annotation destination playback, then UI/reload denial after revoke. Normal owner Chrome profile only; no fresh-anonymous/native-PDF-viewer-click claim. Canonical35/all74 preservation and compatible web6L6v Ready/authenticated Summary HTTP read now passed. | Carry forward completed English proof with its exact browser boundary; no pending guest approval or active self-test link remains. Capture current signed-in app and new authenticated Summary MCP read, then remaining live M07 work. No extra language labels/selector. |
-| 2. Operator correlation / AT-074 | Durable new-job binding confirms latest31686/attempt5/6events/5delivered. Corrected root one-GET31686 returned normal404/no metadata; no retry. CurrentWF02 GET200 confirms save:none/manual:false/progress:false unchanged; no exact absence cause proven. Future append-only claim metadata source merged5b2d2a0/c3cb76d outside migration history, independently19 jobs/parser+8 SQL/source tests passed. No actual SQL run. | Complete the reviewed owned-local transaction/rollback/preservation proof now being prepared, followed by its separate guarded release and real successful/failed nonprotected operator audit. Preserve all historical failures; never enable node-payload retention, reconstruct old stage IDs or retry old jobs for tracing. AT-074 remains partial. |
+| 1. English rollout / AT-068 | Controlled scan/internal/frozen version/PDF/old-cohort proof and approved guest create/test/revoke passed with normal-owner-profile/actual-annotation-destination boundaries. Canonical35/all74 preservation, web6L6v Ready, signed-in HTTP and01:10 app English regression passed. Owner Summary MCP result matches HTTP without server request correlation. | Carry completed English and owner connection evidence forward; continue remaining live M07 work. No pending guest approval/active self-test link, labels or selector. |
+| 2. Operator correlation / AT-074 | Historical31686 GET404/currentWF02 save:none remain recorded without proved absence cause. Source5b2d2a0/c3cb76d passed19+8 tests. Actual owned-local7cff passed direct-trigger and real claim/callback/manual-reset/replay/fencing routines;185 seals, rollback to33 and cleanup/original29/Auth-Storage/global-role preservation independently checked. Candidate36 remains outside canonical history/undeployed. | Review the separately prepared guarded additive release proposal, then actual preflight/apply/readback and real successful/failed nonprotected operator audit. Local synthetic SQL does not close AT-074. Never enable payload retention, reconstruct old stage IDs or retry old jobs for tracing. |
 | 3. Full delegated workflow / AT-064,066,068 | Owner initial authorization, duplicate details, redirect-only reconnect and authenticated Dummy Pilot Test reads passed. Controlled signed lifecycle/permission/idempotency tests remain separate from a complete real delegated journey. | Owner's already working Claude client performs the remaining ordinary operations against shared persisted pilot data: real byte transfer, processing/review, changes/Reviewed, assignment/Shortlist, generation/PDF and link lifecycle. Record real IDs plus app readback and typed stale/idempotent/retry behavior. Do not re-open connection acceptance or configure/sign in/consent for the owner. |
 | 4. Token and contributor boundaries / AT-065 | Current production code and controlled signed transport/SQL tests enforce scopes. Live refresh/rotation/revocation and a real contributor's denied operations remain unverified. | Use authorized test sessions/principals and a reviewed bounded lifecycle plan. Preserve the owner's accepted grant/session and current account permissions. Do not invent cloud identities, weaken checks or turn existing sign-in access into a new broad grant. Source-only test preparation can proceed while real session/identity access is unavailable. |
 | 5. Queued-job replacement / AT-069 | Local drained restart and fencing pass; English compatibility rollout alone does not prove replacement with queued/running work or rollback. | Prepare source-pinned before/after observations, one approved queued job, old/new consumer fencing, compatible application rollback and old Ready-version preservation. Perform only with actual deployment/resource ownership and a bounded recovery plan. Keep the compatible SDK after34. |
@@ -62,12 +65,21 @@ The provider source-build Ready receipt is
 It proves original source282/SHA13209b, stable alias and unchanged environment/
 project/static-contract metadata. Actual signed-in Summary HTTP read d28d95bc
 and unexpected-query rejection4865d0ef passed; six public GETs/four Summary/MCP
-denial/metadata checks passed. The new Summary MCP read remains pending; signed-in app navigation/English display
-passed at01:10:51UTC, preserving Reviewed and explicit legacy absence. Worker health01:06:22 confirms one alive2GiB dub1 instance;
+denial/metadata checks passed. The owner-reported new Summary MCP read matches
+HTTP with no supplied MCP request ID or verified server correlation; signed-in
+app navigation/English display passed at01:10:51UTC, preserving Reviewed and
+explicit legacy absence. Worker health01:06:22 confirms one alive2GiB dub1 instance;
 the original false-negative digest-prefix verifier receipt/correction are both
 retained, no worker failure or extra health request.
-Next: new authenticated Summary MCP read and the
-owned-local AT-074 metadata proof; no acceptance is inferred from source tests.
+The owner MCP receipt is
+`tracking/evidence/m07/workspace-summary35-web/2026-11-01-owner-mcp-summary-read.json`.
+Actual local attempt36 proof7cff passed at01:17:34.069UTC: both fixtures, full
+34/35/36 rollback to33/no36 history, original29/Auth-Storage/profile/global roles
+exact, both databases/new roles absent and shared lock released. Actual receipt:
+`tracking/evidence/m07/job-attempt-observability36-proof/2026-11-01T01-16-10-092Z-7cff5c7d.json`.
+Next: review guarded additive attempt-trace release proposal before any canonical
+dispatch, then real successful/failed nonprotected operator audit. Local synthetic
+SQL grants no hosted AT-074 acceptance.
 Continue eligible safe
 observability/full-journey checks without enabling node payload retention or
 inventing per-stage history. Claude frontend, owner connection and local33

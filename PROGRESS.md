@@ -1,6 +1,40 @@
 # Everyone Presentation Studio - current English-output rollout
 
-## 2026-11-01, 01:10 UTC: deployed app English regression passed
+## 2026-11-01, 01:19 UTC: local attempt-trace SQL and owner Summary MCP read passed
+
+Root's one owned-local attempt36 run7cff5c7d passed,01:16:10.092?01:17:34.069UTC
+(83.977seconds). The actual direct-trigger fixture and real generation/claim-
+replay/heartbeat/success/failure/manual-retry/stale-callback routines passed.
+Three exact synthetic execution references retained total attempts1/2/3 and
+stage counters1/1/1 after the supported manual reset. Independent review checked
+the prior admission, all185 current main source seals and every cleanup field.
+
+The entire actual34/35/candidate36 hook rolled back to owned history33, with
+history34/35 ephemeral/no36 history and trace role/table/function/trigger absent.
+Both disposable databases/new33 roles were removed; original29/full Auth-Storage
+catalogue/profile/data/global role OIDs/attributes/memberships stayed exact and
+the shared lock released. No cloud/provider/runtime-config/canonical business
+writes, Storage HTTP or deployed-restore acceptance follows. Actual receipt:
+`tracking/evidence/m07/job-attempt-observability36-proof/2026-11-01T01-16-10-092Z-7cff5c7d.json`.
+
+The owner's new `get_workspace_summary` MCP result matches the complete actual
+HTTP d28d95bc snapshot: workspace rowversion9/draft8, clarification1, candidates2/
+unreviewed1/open slot1, Selection1/Shortlist1, Ready series93fb7425/version1 and
+null review issues. No MCP request ID was provided; no server correlation is
+claimed. Public owner-attested evidence:
+`tracking/evidence/m07/workspace-summary35-web/2026-11-01-owner-mcp-summary-read.json`.
+Earlier initial/reconnect/Dummy Pilot Test read acceptance stays passed; actual
+01:10 signed-in app English regression also remains passed.
+
+Serving state stays web6L6v/worker2uAS/canonical35/English1.0. Candidate36 is locally
+proved but is NOT a canonical migration or hosted release. Next: review the
+separately prepared guarded additive release proposal, then actual preflight/
+apply/readback and a real successful/failed nonprotected operator audit. AT-074
+and the complete delegated/token/recovery journey remain incomplete in their
+recorded scope. English/guest/revocation/old-cohort/local33 recovery stay passed;
+screen reader pending, mobile skipped, no labels/selector and pilot running.
+
+## Historical deployed app English checkpoint - 2026-11-01, 01:10 UTC
 
 The current web6L6v/canonical35/worker2uAS pilot passed actual signed-in navigation
 through Dummy Pilot Test to the Reviewed profile. The new introduction rendered

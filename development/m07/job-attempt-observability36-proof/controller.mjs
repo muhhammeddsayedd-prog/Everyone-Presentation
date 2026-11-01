@@ -8,7 +8,7 @@ import { ownedPredicate33 } from '../recovery33/ownership.mjs';
 import { sha } from '../recovery33/compiler.mjs';
 import { validateSources,PURPOSE,PRIOR_RECEIPT,PRIOR_RECEIPT_SHA } from './sources.mjs';
 
-export const EXECUTION_ENABLED=false;
+export const EXECUTION_ENABLED=true;
 export const CANDIDATE='development/m07/job-attempt-observability36/candidate.sql';
 export const DIRECT_FIXTURE='development/m07/job-attempt-observability36/fixture.sql';
 export const FIXTURE04='tests/db/m04-assignments-fixture.sql';

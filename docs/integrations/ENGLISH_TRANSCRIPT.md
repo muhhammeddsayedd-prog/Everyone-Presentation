@@ -215,7 +215,7 @@ The [actual signed-in Summary HTTP read](../../tracking/evidence/m07/workspace-s
 passed with requestd28d95bc-24ed-4e52-88be-0bf65a74bcb3. Unexpected query input was
 rejected with `VALIDATION_FAILED`, request4865d0ef-3c44-4ee5-b878-9da04002b59d.
 Six public GET and four Summary/MCP denial/metadata checks passed separately.
-The new authenticated Summary MCP read remains pending; the signed-in app English
+At this deployment checkpoint the new Summary MCP read was pending; the app English
 regression now passed at01:10:51UTC with the same248-byte saved hash and Reviewed
 state preserved (see `2026-11-01-authenticated-app-english-regression.json` in the same evidence folder);
 the earlier accepted Claude initial/reconnect/project read remains passed.
@@ -225,6 +225,27 @@ The initial health verifier omitted `sha256:` from its expected digest and
 incorrectly reported failure. Its original receipt and separate correction are
 retained; the worker state was correct and no new request/restart was needed.
 English1.0, actual scan/frozen saved version/guest revocation and old-cohort proof
-carry forward. AT-074's merged source-only metadata slice has19+8 independent
-test passes but no SQL runtime/migration acceptance. No labels or selector;
+carry forward. At that deployment checkpoint AT-074's source candidate had19+8
+test passes; the later actual local SQL result is recorded below. No labels or selector;
 screen reader pending, mobile skipped and pilot running until owner stop.
+
+## 2026-11-01 local attempt-trace and owner MCP follow-up
+
+The [actual owned-local attempt36 proof](../../tracking/evidence/m07/job-attempt-observability36-proof/2026-11-01T01-16-10-092Z-7cff5c7d.json)
+passed in83.977seconds, ending01:17:34.069UTC. Direct-trigger and real generation/
+claim-replay/callback/manual-retry/stale-attempt fixtures passed. Independent
+review matched all185 source seals and confirmed full34/35/36 rollback to owned33,
+ephemeral34/35 history/no36 history, trace role rollback, both databases/new roles
+absent, original29/Auth-Storage/profile/global roles exact and lock released.
+This is synthetic PostgreSQL proof with no cloud/provider or hosted36 release.
+Canonical35/web6L6v/worker2uAS/English1.0 and all English evidence are unchanged.
+
+The [owner-reported Summary MCP read](../../tracking/evidence/m07/workspace-summary35-web/2026-11-01-owner-mcp-summary-read.json)
+matches the complete HTTP snapshot: workspace rowversion9/draft8, clarification1,
+candidates2/unreviewed1/open slot1, Selection1/Shortlist1, Ready series93fb7425/
+version1 and null review issues. No MCP request ID was supplied; this is client
+attestation without verified server correlation. Prior initial/reconnect/project
+read acceptance and actual01:10 app English regression stay passed. Next is the
+separate guarded attempt-trace release proposal and real successful/failed
+nonprotected operator audit; AT-074 remains partial. Screen reader pending,
+mobile skipped, no labels/selector, frontend preserved and pilot running.
