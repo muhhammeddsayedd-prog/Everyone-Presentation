@@ -94,10 +94,10 @@ def postcondition_sql(before=None,expected_schema=None,local=False,migration_ver
  tables="(select jsonb_agg(k order by k)from jsonb_array_elements_text((p.value->'eps_tables')||'[\"job_stage_attempts\"]'::jsonb)t(k))"
  delta="jsonb_set(jsonb_set(p.value->'delta_metadata','{trace_schema_acl}',"+b.json_sql({'count':1,'rows':[{'schema':'eps','grantor':'postgres','privilege':'USAGE','grantable':False}]})+"),'{jobs_has_triggers}','true'::jsonb)"
  trace=b.json_sql({'count':0,'sha256':sha(b'')})
- return "(select (o.value-"+changed+")=(p.value-"+changed+")and o.value->'history'=("+history+")and o.value->'eps_tables'="+tables+"and o.value->'delta_metadata'="+delta+"and o.value->'trace_rows'="+trace+"and("+gate+")is true from("+state_sql('after',local=local)+"as value)o cross join(select "+prior+"as value)p)"
+ return "(select (o.value-"+changed+")=(p.value-"+changed+")and o.value->'history'=("+history+")and o.value->'eps_tables'="+tables+"and o.value->'delta_metadata'="+delta+"and o.value->'trace_rows'="+trace+" and("+gate+")is true from("+state_sql('after',local=local)+" as value)o cross join(select "+prior+" as value)p)"
 def disable_postcondition_sql(before=None,expected_schema=None,local=False):
  b,prior,gate=_atomic_parts(before,expected_schema,local,'D',installed=True)
- return "(select(o.value-'schema')=(p.value-'schema')and("+gate+")is true from("+state_sql('disabled',local=local)+"as value)o cross join(select "+prior+"as value)p)"
+ return "(select(o.value-'schema')=(p.value-'schema')and("+gate+")is true from("+state_sql('disabled',local=local)+" as value)o cross join(select "+prior+" as value)p)"
 def static_schema(value):
  b=base();return {**{key:copy.deepcopy(value[key])for key in b.STATIC_KEYS},'control_plane':{name:copy.deepcopy(value['data'][name])for name in b.CONTROL_TABLES},
   'schema':copy.deepcopy(value['schema']),'delta_metadata':copy.deepcopy(value['delta_metadata']),'claim_ports':copy.deepcopy(value['claim_ports'])}

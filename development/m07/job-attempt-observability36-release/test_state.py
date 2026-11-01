@@ -1,7 +1,7 @@
 """Inert transition/query tests with explicitly synthetic catalogue metadata."""
 import copy,importlib.util,unittest
 from pathlib import Path
-from pglast import parse_sql,parse_plpgsql
+from pglast import ast,parse_sql,parse_plpgsql,visitors
 HERE=Path(__file__).resolve().parent
 def load(name):
  spec=importlib.util.spec_from_file_location('attempt36_test_'+name,HERE/(name+'.py'));value=importlib.util.module_from_spec(spec);spec.loader.exec_module(value);return value
@@ -21,6 +21,15 @@ def after(value,version=s.VERSION):
  result['schema']=sample.after_fixture();result['delta_metadata']['jobs_has_triggers']=True
  result['delta_metadata']['trace_schema_acl']={'count':1,'rows':[{'schema':'eps','grantor':'postgres','privilege':'USAGE','grantable':False}]}
  result['trace_rows']={'count':0,'sha256':s.sha(b'')};return result
+
+class CastBoundaries(visitors.Visitor):
+ def __init__(self):super().__init__();self.types=set();self.prior_casts=[]
+ def visit_TypeName(self,_ancestors,node):self.types.add(tuple(part.sval for part in node.names))
+ def visit_RangeSubselect(self,_ancestors,node):
+  if node.alias and node.alias.aliasname=='p'and isinstance(node.subquery,ast.SelectStmt):
+   targets=node.subquery.targetList
+   if len(targets)==1 and targets[0].name=='value'and isinstance(targets[0].val,ast.TypeCast):
+    self.prior_casts.append(tuple(part.sval for part in targets[0].val.typeName.names))
 
 class StateTests(unittest.TestCase):
  def test_actual_proof_admission_promotion_and_only_header_diff(self):
@@ -83,5 +92,17 @@ class StateTests(unittest.TestCase):
   with self.assertRaises(ValueError):s.check_disable_transition(a,bad)
   bad=copy.deepcopy(disabled);next(row for row in bad['schema']['triggers']if row['internal'])['enabled']='D'
   with self.assertRaises(ValueError):s.check_disable_transition(a,bad)
+ def test_atomic_sql_casts_are_known_types_and_prior_alias_remains_jsonb(self):
+  # Syntax parsing accepts unknown type names: the actual207 PG run proved
+  # ::jsonb+as and ::jsonb+and became jsonbas/jsonband. Inspect actual AST types.
+  expected={('jsonb',),('oid',),('pg_catalog','int2'),('pg_catalog','int8'),('pg_catalog','interval'),
+   ('pg_catalog','numeric'),('regclass',),('regnamespace',),('regprocedure',),('regrole',),('regtype',),('text',)}
+  a=before();schema=sample.after_fixture()
+  variants={'local_post':s.postcondition_sql(local=True,migration_version=s.VERSION),'local_disable':s.disable_postcondition_sql(local=True),
+   'production_post':s.postcondition_sql(a,schema,migration_version=s.VERSION),'production_disable':s.disable_postcondition_sql(after(a),schema)}
+  for label,sql in variants.items():
+   visitor=CastBoundaries();visitor(parse_sql('select '+sql+';'))
+   self.assertEqual(visitor.types-expected,set(),label)
+   self.assertTrue(visitor.prior_casts,label);self.assertEqual(set(visitor.prior_casts),{('jsonb',)},label)
 
 if __name__=='__main__':unittest.main()
