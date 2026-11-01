@@ -65,7 +65,7 @@ do $batch_filter_admit$declare p pg_proc;begin
  or(pg_control_system()).system_identifier::text<>'7701520506262638626'
  or(select array_agg(version order by version)from supabase_migrations.schema_migrations)is distinct from {history}
  or to_regprocedure('{NEW_SIGNATURE}')is not null
- or exists(select 1 from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public'and p.proname='eps_list_jobs_by_batch')
+ or exists(select 1 from pg_proc prospective_proc join pg_namespace prospective_namespace on prospective_namespace.oid=prospective_proc.pronamespace where prospective_namespace.nspname='public'and prospective_proc.proname='eps_list_jobs_by_batch')
  or has_schema_privilege('eps_jobs_owner','public','CREATE')
  or not exists(select 1 from pg_roles where rolname='eps_jobs_owner'and not rolcanlogin and not rolsuper and not rolinherit and not rolbypassrls and not rolcreaterole and not rolcreatedb and not rolreplication)
  then raise exception'JOB_BATCH_FILTER_OWNED37_REQUIRED';end if;

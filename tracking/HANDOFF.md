@@ -1,6 +1,55 @@
 # Everyone Presentation Studio - current English-output handoff
 
-## Current checkpoint - 2026-11-01T10:54:38Z: batch SQL admission failed; cleanup/archive passed
+## Current checkpoint - 2026-11-01T11:11:45Z: batch SQL forward proof passed; cloud38 next
+
+Fresh run `197c2009-15e7-49de-8945-f0dfb6f10551` PASSED from11:07:36.550UTC
+to11:08:43.310UTC (66,760ms): `tracking/evidence/m07/job-batch-filter-proof/2026-11-01T11-07-36-550Z-197c2009.json`
+(SHA256 `bce16d1767f5fae4a89c2f022a10644d9cb60b4375cd16d6164c732c3a700b81`). All376 executed bytes match. Actual34-37 DDL and current
+batch candidate331e6d9a/fixture7c099e93 ran inside the nested37 transaction.
+Batch filtering/pagination, current frame/requester/project authority and
+synthetic broad-business/narrow-delegation/session-expiry SQL checks passed.
+Exact full37 catalogue/all-table hashes/history/global roles/session identity
+were restored after nested rollback; the unchanged old37 fixture ran, then
+outer rollback returned33. Original29 data/full Auth-Storage/catalogue/profile/
+settings, preexisting roles/memberships/OIDs, both owned DB absences and lock
+cleanup passed. Actual injected and base wire hashes are distinct and recorded.
+
+Cb11 remains FAILED/archived/cleaned at92ca856; its claim was never replayed.
+The forward fix changes only the candidate admission aliases plus its builder/
+collision regression and the proof's pins/test. The complete functional RPC
+suffix and existinga223 port remain byte-exact. The actual archived collision
+is RED; corrected AST/wire tests are GREEN (8 draft/11 proof, overlapping source
+checks). Runtime, runner, fixture, READMEs and all365 prior sources stayed exact.
+
+This is local PostgreSQL authority/rollback evidence, not native media, actual
+HTTP/MCP, signed JWT/provider OAuth/session revocation, hosted or restore proof.
+The separately passed full local37 native recovery remains5b6f66b. Completed
+owner connection/reconnect/project/job/summary acceptance and English/Reviewed/
+old-version evidence remain passed. New feedback tool/guest checks await replies;
+no new guest link was created by Codex.
+
+Root's pinned SupabaseCLI2.122.0 CREATED local empty coordinated filename
+`supabase/migrations/20261101110939_m07_job_batch_filter.sql`. This is authoring
+only: SQL is not filled/applied, canonical history stays37, core20-file source
+branch4b1c94d plus alias fix remains unmerged, and webEUK29/worker2uAS stays
+the last confirmed pilot deployment. English1.0 and pilot-until-owner-stop hold.
+
+Next: prepare/review additive production38 guard and once-claim/full-preservation
+release, apply/independently read back before compatible core/web integration,
+then signed-in filter and relevant MCP/auth regressions. Source-only operator
+preparation is underway; no provider mutation is credited. Preserve frontend
+changes and existing owner upload dependency (expired inbox unreplayed/unread),
+AT069 policy block (blocked by policy; no retry/provider action), pending manual
+screen reader, skipped mobile, no language labels/selector and open M07 release.
+
+## Historical checkpoint - 2026-11-01T10:54:38Z: batch SQL admission failed; cleanup/archive passed
+
+Alias forward correction is now applied to Main drafts and independently
+reviewed:8 draft plus11 proof inert checks passed (overlapping source checks),
+with the complete functional RPC suffix unchanged. Root armed the new proof for
+a FRESH UUID/claim. Cb11 remains failed/archived/cleaned; no native authority pass
+is claimed until the new result. Source runtime/runner/fixture and all365 prior
+inputs remain exact; no product merge/cloud38 occurred.
 
 Actual run `cb11a73c-505b-47bb-ae97-ab32a9c1c771` FAILED after54,930ms at
 `batch-filter-owned-nested-SQL-proof`: `tracking/evidence/m07/job-batch-filter-proof/2026-11-01T10-48-59-914Z-cb11a73c.json`

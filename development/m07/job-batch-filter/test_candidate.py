@@ -26,7 +26,44 @@ def plpgsql_queries(value):
         else:
             for child in value.values():yield from plpgsql_queries(child)
 
+class QualifiedRelations(visitors.Visitor):
+    def __init__(self):super().__init__();self.aliases={};self.qualifiers=set()
+    def visit_RangeVar(self,_a,node):
+        if node.alias:self.aliases[node.alias.aliasname]=node.relname
+    def visit_ColumnRef(self,_a,node):
+        if len(node.fields or())>1 and isinstance(node.fields[0],ast.String):self.qualifiers.add(node.fields[0].sval)
+
+def record_alias_collisions(source):
+    """Find SQL-qualified aliases also naming a declared matching row/record.
+
+    This is a source regression for the native42702 failure, not a replacement
+    for PostgreSQL's resolver. It handles identifiers/types generically.
+    """
+    collisions=set()
+    for raw in parse_sql(source):
+        if not isinstance(raw.stmt,(ast.DoStmt,ast.CreateFunctionStmt)):continue
+        functions=parse_plpgsql(RawStream()(raw.stmt))
+        for function in functions:
+            variables={}
+            for datum in function['PLpgSQL_function']['datums']:
+                var=datum.get('PLpgSQL_var',{})
+                if 'refname'in var and 'datatype'in var:
+                    variables[var['refname']]=var['datatype']['PLpgSQL_type']['typname'].split('.')[-1].replace('"','')
+            for query in plpgsql_queries([function]):
+                relations=QualifiedRelations();relations(parse_sql(query))
+                for alias,table in relations.aliases.items():
+                    if alias in relations.qualifiers and variables.get(alias)in(table,'record',table+'%ROWTYPE'):
+                        collisions.add((alias,table))
+    return sorted(collisions)
+
 class CandidateTests(unittest.TestCase):
+    def test_declared_record_names_never_collide_with_qualified_sql_relation_aliases(self):
+        counterexample="do $$declare row_candidate pg_namespace;begin perform 1 from pg_namespace row_candidate where row_candidate.nspname='public';end$$;"
+        self.assertEqual(record_alias_collisions(counterexample),[('row_candidate','pg_namespace')])
+        corrected=counterexample.replace('from pg_namespace row_candidate where row_candidate.','from pg_namespace namespace_candidate where namespace_candidate.')
+        self.assertEqual(record_alias_collisions(corrected),[])
+        self.assertEqual(record_alias_collisions(b.render()),[])
+
     def test_current37_body_includes_applied_m03_frame_and_cast_authority(self):
         old,new=b.bodies()
         self.assertEqual(hashlib.sha256(old.encode()).hexdigest(),'a2239225b995673e9ab432ac63014f742b25032cc586c790535db260c551d241')

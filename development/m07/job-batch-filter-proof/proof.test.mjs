@@ -33,6 +33,15 @@ test('candidate adapter removes only exact outer fences and refuses transaction 
  const original=sources.get(DRAFT+'candidate.sql.txt').toString();assert.equal(candidateBody(original),original.replace('\nbegin;\n','\n').slice(0,-'commit;\n'.length));
  assert.throws(()=>candidateBody(original+'-- changed'));assert.throws(()=>candidateBody(original.replace('notify pgrst',"commit;\nnotify pgrst")),/TRANSACTION_ESCAPE/);
 });
+test('actual injected candidate rejects the confirmed record/relation alias collision while its RPC body stays exact',()=>{
+ const actual=candidateBody(sources.get(DRAFT+'candidate.sql.txt').toString());assert(renderBatchWire(sources,identity).body.includes(actual));
+ assert.equal(actual.split('pg_proc prospective_proc join pg_namespace prospective_namespace').length,2);
+ const failedShape=actual.replace('pg_proc prospective_proc join pg_namespace prospective_namespace','pg_proc p join pg_namespace n').replaceAll('prospective_proc.','p.').replaceAll('prospective_namespace.','n.');
+ assert(failedShape.includes('p.pronamespace'));assert.notEqual(actual,failedShape);
+ const code="import sys,json,hashlib;from pathlib import Path;import pglast;from pglast import ast,parse_sql;assert pglast.__version__=='v7.21';sys.path.insert(0,str(Path.cwd()/'development/m07/job-batch-filter'));from test_candidate import record_alias_collisions;s=json.load(sys.stdin);assert record_alias_collisions(s['actual'])==[];assert record_alias_collisions(s['failed_shape'])==[('p','pg_proc')];f=[r.stmt for r in parse_sql(s['actual'])if isinstance(r.stmt,ast.CreateFunctionStmt)];assert len(f)==1;b=next(o.arg[0].sval for o in f[0].options if o.defname=='as');assert hashlib.sha256(b.encode()).hexdigest()=='323d6c19b056cd722cb915717d88616eaf28ed52c82c2743327f84690287d3f9';print('ALIAS_REGRESSION_AND_UNCHANGED_RPC_PASSED_SOURCE_ONLY')";
+ const p=spawnSync(path.join(ROOT,'.venv-skills/Scripts/python.exe'),['-I','-X','utf8','-B','-c',code],{cwd:ROOT,input:JSON.stringify({actual,failed_shape:failedShape}),encoding:'utf8',windowsHide:true,timeout:20000});
+ assert.equal(p.status,0,p.stderr);assert.equal(p.stdout.trim(),'ALIAS_REGRESSION_AND_UNCHANGED_RPC_PASSED_SOURCE_ONLY');
+});
 test('nested wire runs current37 batch before original37 fixture and restores exact session/rows/roles before continuation',()=>{
  const w=renderBatchWire(sources,identity),s=w.body;
  assert.notEqual(w.base_wire_sha256,w.injected_wire_sha256);assert.equal(sha(s),w.injected_wire_sha256);
