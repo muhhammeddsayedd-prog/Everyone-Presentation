@@ -8,7 +8,7 @@ HERE=Path(__file__).resolve().parent
 def module(name,file):
  spec=importlib.util.spec_from_file_location(name,file);value=importlib.util.module_from_spec(spec);spec.loader.exec_module(value);return value
 b=module('completion_registry_local_build',HERE/'build.py')
-REGISTRY_ENABLED=False
+REGISTRY_ENABLED=True
 MAIN=b.SOURCE_ROOT;ROOT=b.ROOT;EVIDENCE=b.EVIDENCE
 PRIVATE=MAIN/'.local/completion-worker-registry'/b.RUN
 DOCKER_CONFIG=PRIVATE/'docker-client';CONFIG=PRIVATE/'regctl-config.json'
