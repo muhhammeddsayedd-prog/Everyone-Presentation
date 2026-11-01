@@ -1,0 +1,34 @@
+{
+  "observed_at": "2026-11-01T00:55:44.094381+00:00",
+  "scope": "source-only forward fix after confirmed read-only preplan expiry drift",
+  "actual_drift_evidence_sha256": "389ac7e34a49f0cb49301869ebe7d27c58eed20f70248a122c0a0ee51f61f125",
+  "failed_enabled_operator_preserved_sha256": "3a3c9e26c73556fffb9de79f985226c74143e7dd171c8095e896a59fc48b4670",
+  "old_union_preserved_sha256": "1861074e18eef8a915f6c1320ef21f3950e897cad4b6ac2a0e52ae1df33923d6",
+  "normalization": "Only rolvaliduntil for exact OID 17603/name cli_login_postgres; independent finite future TTL of at most 600 seconds and safe role attributes.",
+  "provider_ttl_guaranteed": false,
+  "actual_drift_metadata_validated_offline": true,
+  "pure_release_tests": 16,
+  "pure_original_diagnostic_tests": 5,
+  "sql_and_plpgsql_parse": "pass",
+  "static_schema_control_plane_tables": 10,
+  "full_apply_row_tables_preserved": 74,
+  "root_enablement_flag_line_modified": false,
+  "old_failure_and_no_plan_no_claim_state_preserved": true,
+  "network_cli_database_provider_role_or_deployment_action_by_author": false,
+  "git_diff_check": "pass",
+  "source_sha256": {
+    "release.py": "bb6d0c5e16aaa5399aee2c1d83ccff7f7b3dc92ebb4735768af37410e4c8142f",
+    "test_release.py": "27a02891cc84a2b7e79d2cc63bb705c3be8d80626e3b0375347a476d586a03f2",
+    "catalogue_diagnostic.py": "215cec599180df3c12d699b157243d5162245a6e411d7c9e7b70e436cefd3087",
+    "test_catalogue_diagnostic.py": "c19ae9092be770fbaedf02d20b3c17e7b30125eaf8235f8f781df7ae05af31f0",
+    "README.md": "1ea4b6b018aaa9a4ccbc2c5592839f66db0a81b6e374eef69b610dd755784856",
+    "ROLE_VALIDITY_FORWARD_FIX.md": "cf843db2a6e502c9991b6a12a09b654dc63b63d1a193e9522362dac2b7e71d20",
+    "admission.template.json": "95d4ea739a28eb40552db08d7168a40a136c658d85f71793db87ab4355055b73"
+  },
+  "remaining": [
+    "root source review/cherry-pick retaining rootenablement",
+    "freshactualreadonlyinspect/plan",
+    "one claimedcanonical35apply/readback",
+    "laterstaticwebgate/currentactorHTTP/MCPsmoke"
+  ]
+}

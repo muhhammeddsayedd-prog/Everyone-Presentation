@@ -1,26 +1,21 @@
 """Pure hash-only catalogue drilldown. No CLI, database or network operation.
 
-Reuses the exact failed-inspection union without dropping/normalizing fields.
-Both original release bytes and root's enablement-only variant are admitted.
+Reads the archived exact failed-inspection union, without executing old code or
+following any future release normalization. No fields are dropped here.
 """
 from pathlib import Path
-import hashlib, importlib.util, re
+import hashlib, re
 
 HERE=Path(__file__).resolve().parent
-RELEASE_SHAS={'8d8da522e6f9ba84437dda9b886e9e33c321663d5f225703457d0dbffa103edc',
- '3a3c9e26c73556fffb9de79f985226c74143e7dd171c8095e896a59fc48b4670'}
+UNION_SHA='1861074e18eef8a915f6c1320ef21f3950e897cad4b6ac2a0e52ae1df33923d6'
+ARCHIVE=HERE/'source-history'/ (UNION_SHA+'-catalogue-union.sql.txt')
 GROUPS={'procedure','pg_class','pg_type','pg_constraint','pg_policy','pg_trigger','pg_index','pg_attribute','pg_attrdef','pg_rewrite','enum','namespace','role','membership','default_acl'}
 
-def release():
- file=HERE/'release.py'
- if hashlib.sha256(file.read_bytes()).hexdigest()not in RELEASE_SHAS:raise ValueError('CATALOGUE_DIAGNOSTIC_SOURCE_CHANGED')
- spec=importlib.util.spec_from_file_location('catalogue_diagnostic_frozen_release',file)
- value=importlib.util.module_from_spec(spec);spec.loader.exec_module(value);return value
-
 def union_sql():
- source=release().catalogue_sql();anchor="from(select 'procedure:"
- if source.count(anchor)!=1 or not source.endswith(')catalogue)'):raise ValueError('CATALOGUE_DIAGNOSTIC_SEAM_CHANGED')
- return source[source.index(anchor)+len('from('):-len(')catalogue)')]
+ if not ARCHIVE.is_file()or ARCHIVE.is_symlink()or ARCHIVE.stat().st_nlink!=1 or ARCHIVE.stat().st_size>1024*1024:raise ValueError('CATALOGUE_DIAGNOSTIC_ARCHIVE_REQUIRED')
+ raw=ARCHIVE.read_bytes()
+ if hashlib.sha256(raw).hexdigest()!=UNION_SHA:raise ValueError('CATALOGUE_DIAGNOSTIC_ARCHIVE_CHANGED')
+ return raw.decode('utf8')
 
 def literal(value):return "'"+value.replace("'","''")+"'"
 def group_value(group):

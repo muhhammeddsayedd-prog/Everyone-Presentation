@@ -1,6 +1,6 @@
 """Pure SQL rendering/parsing only; no database, CLI or provider."""
 from pathlib import Path
-import importlib.util, unittest
+import hashlib, importlib.util, unittest
 from pglast import parse_sql
 
 HERE=Path(__file__).resolve().parent
@@ -9,7 +9,9 @@ d=importlib.util.module_from_spec(spec);spec.loader.exec_module(d)
 
 class CatalogueDiagnostics(unittest.TestCase):
  def test_union_is_byte_exact_to_failed_release(self):
-  self.assertEqual(d.release().catalogue_sql(),"(select jsonb_build_object('count',count(*),'sha256',encode(sha256(convert_to(coalesce(string_agg(k||':'||"+d.release().digest_sql('v')+",E'\\n'order by k collate \"C\"),''),'UTF8')),'hex'))from("+d.union_sql()+')catalogue)')
+  self.assertEqual(hashlib.sha256(d.union_sql().encode()).hexdigest(),d.UNION_SHA)
+  self.assertIn("to_jsonb(r)-'rolpassword'from pg_roles r",d.union_sql())
+  self.assertNotIn("'{rolvaliduntil}'",d.union_sql())
  def test_all_levels_parse_and_preserve_all_fields(self):
   for sql in [d.groups_sql(),d.keys_sql('pg_class'),d.keys_sql('pg_attribute','pg_attribute:123:-1',25),d.fields_sql('pg_class','pg_class:123')]:
    parse_sql(sql);self.assertIn('read only;',sql);self.assertTrue(sql.endswith('rollback;'))

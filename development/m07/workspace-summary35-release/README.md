@@ -34,6 +34,22 @@ The frozen OAuth metadata reader supplies its existing security/namespace
 checks; its whole normalized result is preserved by hash. No Auth user/session
 payloads are selected by the new snapshot.
 
+The [confirmed CLI-expiry forward fix](ROLE_VALIDITY_FORWARD_FIX.md) preserves the
+first failed inspection and its exact original operator/union. It normalizes
+only the observed temporary CLI role's expiry for exact OID/name and separately
+enforces its safe attributes and bounded finite future validity. Other roles,
+role fields and memberships remain protected. No credential or expiry is altered.
+
+The new `static_schema` / `read_static_state()` contract lets a later web gate
+compare immutable schema/security with an actual passed apply receipt while
+normal business and OAuth claim rows evolve. It excludes only those dynamic
+inputs; apply still exactly preserves its full data/drain/full-OAuth snapshot.
+Exactly ten control-plane table hashes/counts stay bound, as listed in the
+forward-fix record. Normal per-user capability and project/client membership
+changes remain live during a web build; current actor permissions and postdeploy
+HTTP/MCP checks enforce them. Configuration drift can refuse deployment for
+review. No old authority rows are restored by the web gate.
+
 Apply requires the actual ef4cb6c2 local pass/cleanup receipt, hash-bound to the
 current35 migration and corrected synthetic fixture. It retains an exclusive
 claim **before** dispatch. After a fresh comparison, one repeatable-read
