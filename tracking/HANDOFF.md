@@ -1,6 +1,43 @@
 # Everyone Presentation Studio - current English-output handoff
 
-## Current checkpoint - 2026-11-01T18:31:04Z: native diagnostic image published and hosted proof passed; daemon preparation unresolved
+## Current checkpoint - 2026-11-01T18:33:53Z: native hosted proof passed; local concurrency setup failure preserved
+
+Native50082's actual hosted nine-task/164-source/boundary/PDF proof and complete
+ten-resource cleanup remain passed (Root admission18:31). Both matching local
+OCI exports passed. Daemon prepare remains unconfirmed before extraction;
+its consumed claim and valid existing configs/export/context remain preserved.
+No daemon publication or cloud processing pause/adoption occurred. Pilot webCUXV,
+DB38 and running worker2uAS/430d0992/795f8f77 remain unchanged.
+
+The first actual owned current38 concurrency run0e9fd373 failed during migration36
+admission: M07_ATTEMPT36_EXACT_REVIEWED35_REQUIRED. The inherited checkpoint name
+still said migration33, but source33 catalogue and trace-creation-attempt metadata
+show that setup reached36. Migration36 requires the canonical protected M02 row,
+which is deliberately absent from the empty local clone. No concurrency case ran.
+The actual receipt `tracking/evidence/m07/worker38-concurrency/2026-11-01T18-31-48-908Z-0e9fd373.json` confirms both owned DBs absent, trace/new33 roles
+removed, original29/Auth/Storage/catalogue/profile/global roles unchanged and
+shared lock released. Failed claim/source/receipt are retained, not replayed.
+The next adapter will replace only that cloud-specific prerequisite with strict
+owned-local admission and fix per-migration checkpoint reporting; functional DDL,
+history, function hashes and cloud protection remain exact.
+
+Independent review passed13 inert adoption tests but found an availability gap
+after pause if replacement fails. The six adoption files remain disabled. A
+separate pre-pin forward-availability extension is being prepared; it does not
+perform daemon transport, rollback/redeployment or the blocked AT069 action.
+Actual new-daemon Ready can precede DB native pin while flags remain paused;
+forward phase order is being revised before any cloud action. All164 worker
+source files remain held exact. Initial/reconnect Claude acceptance, English,
+Reviewed/Ready/old-version/local37 recovery evidence remain completed; new owner
+MCP/guest deltas pending, screen-reader pending, mobile skipped, pilot running.
+
+Next: source-review the separate local daemon-prepare reconciliation, fix and
+run a fresh owned concurrency proof once, and complete the availability plan.
+Do not arm cloud adoption until those actual gates pass. Historical specs13699983
+and protected M02 remain untouched. AT069's automatic approval rejection
+('blocked by policy') remains untouched, with no retry/manual equivalent/provider action.
+
+## Historical checkpoint - 2026-11-01T18:31:04Z: native diagnostic image published and hosted proof passed; daemon preparation unresolved
 
 The matching native50082f72 image is Ready in the existing private native
 repository. Actual registry prepare, refresh, copy and Ready receipts are in

@@ -1,6 +1,6 @@
 {
   "pack_version": "1.0",
-  "updated_at": "2026-11-01T18:31:04Z",
+  "updated_at": "2026-11-01T18:33:53Z",
   "implementation_started": true,
   "current_milestone": "M07",
   "current_pilot": {
@@ -10816,8 +10816,8 @@
     "current_worker_deployment": "dpl_2uASsbYobSDwWjMptPjGLcVEdCg3",
     "drain_snapshot_receipt": "tracking/evidence/m07/specs-diagnostic-worker38/2026-11-01T17-55-03-096505Z-drain-inventory.json",
     "future_quiescence_not_inferred": true,
-    "native_concurrency_proof": "not_run",
-    "next": "Read-only diagnose daemon preparation; exact forward reconciliation only after confirmed cause. Execute owned current38 config/intake concurrency proof, then daemon publication and guarded adoption; no current pilot interruption.",
+    "native_concurrency_proof": "failed_setup36_no_cases_run",
+    "next": "Source review local daemon reconciliation; strict owned36 prerequisite adapter and fresh concurrency proof; safe pre-pin availability plan. Current pilot unchanged.",
     "native_registry_pushed": true,
     "native_registry_ready": "tracking/evidence/m07/specs-diagnostic-worker38/2026-11-01T18-23-21-396167Z-native-registry-ready.json",
     "daemon_registry_pushed": false,
@@ -10829,6 +10829,11 @@
     "daemon_prepare_failure_code": "TRANSPORT_UNCONFIRMED",
     "daemon_prepare_claim_retained": true,
     "daemon_prepare_retry_performed": false,
-    "daemon_prepare_failure_receipt": "tracking/evidence/m07/specs-diagnostic-worker38/2026-11-01T18-26-26-263725Z-daemon-registry-prepare.json"
+    "daemon_prepare_failure_receipt": "tracking/evidence/m07/specs-diagnostic-worker38/2026-11-01T18-26-26-263725Z-daemon-registry-prepare.json",
+    "native_concurrency_failed_receipt": "tracking/evidence/m07/worker38-concurrency/2026-11-01T18-31-48-908Z-0e9fd373.json",
+    "native_concurrency_cleanup_passed": true,
+    "adoption_disabled": true,
+    "adoption_inert_tests_passed": 13,
+    "adoption_review_blocker": "availability gap after pause; pre-pin forward availability extension in preparation, no AT069 transport"
   }
 }
