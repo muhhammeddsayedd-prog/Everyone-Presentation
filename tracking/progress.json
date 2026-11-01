@@ -1,16 +1,16 @@
 {
   "pack_version": "1.0",
-  "updated_at": "2026-11-01T00:57:45.216887+00:00",
+  "updated_at": "2026-11-01T01:10:51.642Z",
   "implementation_started": true,
   "current_milestone": "M07",
   "current_pilot": {
-    "observed_at": "2026-10-31T17:49:47.805229Z",
+    "observed_at": "2026-11-01T01:06:22.753Z",
     "status": "in_progress",
     "origin": "https://everyone-presentation-pilot.vercel.app",
     "owner_stop_only": true,
-    "web_deployment_id": "dpl_5vEMBfsnD23cGL3ontWm8AUAErKr",
+    "web_deployment_id": "dpl_6L6vS8FnaGDckcYq8Xm4QxHGc74b",
     "worker_deployment_id": "dpl_2uASsbYobSDwWjMptPjGLcVEdCg3",
-    "worker_state": "Actual17:49:47 Ready readback: one alive dub1/2048MiB daemon430d instance; compatible source160/b348 native795f/manifest0a24. Controlled English job3cf25d3b completed with persisted English and Reviewed preservation; internal/saved/guest playback and guest revocation passed. Worker not redeployed by canonical35 release.",
+    "worker_state": "Actual01:06:22.753UTC unchanged worker2uAS Ready/one alive2048MiB dub1 daemon430d; initial verifier expected digest lacked sha256: prefix, original false-negative receipt/correction preserved from same provider read. No worker failure/restart/new health dispatch.",
     "worker_context_run": "4186fd1e-55c7-4ea5-956e-ad9ad92f64b1",
     "worker_source_hash": "b3489d64fb1bb207e0a1020fadac3db14490c94ba6d2aedf9c6a358ebb36f181",
     "native_runtime": "sha256:795f8f7736594fb51cc0c304d85bae9d29f31861e606eec0c2a83806fff5d3b9",
@@ -48,7 +48,9 @@
       "selection_pdf": "passed",
       "guest_feedback": "passed",
       "guest_original_video": "passed",
-      "guest_english": "passed_with_normal_profile_and_annotation_destination_boundary"
+      "guest_english": "passed_with_normal_profile_and_annotation_destination_boundary",
+      "workspace_summary_HTTP": "passed_signed_in_read_and_invalid_query_rejection",
+      "workspace_summary_MCP": "pending_new_owner_operation_prior_connection_accepted"
     },
     "video_receipts": [
       "tracking/evidence/m07/controlled-pilot/2026-10-31-hosted-video-provider-metadata.json",
@@ -67,14 +69,14 @@
       182
     ],
     "application_test_evidence": "tracking/evidence/m07/backend-continuation/2026-10-31-886-application-tests.json",
-    "application_test_scope": "LOCAL886 plus final15 overlapping UI regressions/build/types; controlled v2 English scan, saved24checks, internal and guest English/video/PDF/revocation and old-cohort compare PASS with recorded browser boundaries. Summary31 synthetic regressions/localSQL35/guarded canonical35 passed; current Summary web/app/HTTP/MCP acceptance pending. Full redesign separate.",
+    "application_test_scope": "Local module/lint/typecheck/production-audit gates passed; real controlled English scan/saved/guest/video/PDF/revocation and old-cohort proof carried forward. Current web6L6v Ready plus signed-in Summary HTTP/public regressions passed. Signed-in current app capture and new Summary MCP operation remain pending; full redesign remains separate.",
     "oauth_state": "Verified scoped owner connection: full-details initial authorization and read, cached duplicate details, already-consented redirect-only reconnect and authenticated post-reconnect get_project; exact owner/server request ID matches. FullM07/refresh/revocation/write journey remain separate.",
     "AT_072": "pending",
     "M03_broader_semantics": "Owner clarified English-only output for all scanned introductions; more English/mixed labels are not required. Existing Arabic name/age acceptance preserved; broader semantic accuracy unclaimed.",
     "mobile_testing": "skipped by owner",
     "production_deployment_verified": false,
     "prior_snapshot": "tracking/evidence/m07/controlled-pilot/2026-10-31T01-24Z-prior-progress-snapshot.json",
-    "next_action": "Canonical35 apply/readback passed with normal return, two matching independent readbacks and all74 table/full OAuth preservation. Complete the compatible Summary provider source-build quality/deployment/readback, then actual signed-in app and authenticated HTTP/MCP Summary reads. Web5vEM/worker2uAS/English1.0 remain serving until actual web replacement. Carry forward completed guest create/test/revoke, owner Claude acceptance and local33 recovery; continue separate live AT074/delegated/token/recovery checks. No labels/selector; screen reader pending, mobile skipped, pilot until owner stop.",
+    "next_action": "Obtain the newly deployed get_workspace_summary read through the owner working Claude client; existing initial/reconnect/project-read connection acceptance remains passed. Execute the next reviewed owned-local AT074 claim/callback/manual-retry rollback proof before any candidate SQL release, then real success/failure operator audit and remaining delegated/token/recovery work. Hosted English scan/version/guest/revocation/old-version and current app/HTTP passes stand; screen reader pending, mobile skipped, no labels or selector, pilot until owner stop.",
     "specs_local_proof": "tracking/evidence/m07/specs-ack31/2026-10-31T01-22-16-662Z-dc886d4e-local-proof.json",
     "specs_canonical_apply": "tracking/evidence/m07/specs-ack31/2026-10-31T01-57-10-621248Z-a99247a4-canonical31-continuation-apply.json",
     "specs_canonical_apply_confirmed": true,
@@ -464,15 +466,35 @@
       "superseded_by": "english_output_rollout and workspace_summary_backend for current release status"
     },
     "serving_source_quality": {
-      "tests": 853,
-      "evidence": "tracking/evidence/m07/backend-continuation/2026-10-31-response-scope-quality.json",
-      "deployment": "dpl_CcwVabZ5PkadAPaeANRLJD4GqVg3"
+      "files": 282,
+      "source_sha256": "13209ba54d3e47a5f794ee6a4956fef8096c421e4691bd979b177e545afb831c",
+      "ready_evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01T01-03-59-685059Z-ready.json",
+      "provider_source_build": true,
+      "application_capture_pending": true
     },
-    "latest_alias_evidence": "tracking/evidence/m07/backend-continuation/2026-10-31-final-pilot-alias.json",
-    "latest_daemon_evidence": "tracking/evidence/m07/controlled-pilot/2026-10-31T15-38-08.452Z-a3d0dac5-daemon-runtime.json",
-    "worker_observation": "tracking/evidence/m07/controlled-pilot/2026-10-31T17-04-34.108Z-fb08504f-daemon-runtime.json",
-    "release_phase_recorded_at": "2026-10-31T18:26:25.996409Z",
-    "release_phase_observed_at": "2026-10-31T17:54:57.429937Z",
+    "latest_alias_evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01T01-03-59-685059Z-ready.json",
+    "latest_daemon_evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-worker-health-verifier-correction.json",
+    "worker_observation": {
+      "observed_at": "2026-11-01T01:06:22.753Z",
+      "evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-worker-health-verifier-correction.json",
+      "original_verifier_receipt": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-worker-health.json",
+      "deployment_id": "dpl_2uASsbYobSDwWjMptPjGLcVEdCg3",
+      "status": "ready",
+      "ready": 1,
+      "desired": 1,
+      "total": 1,
+      "memory_mib": 2048,
+      "region": "dub1",
+      "instance_alive": true,
+      "daemon_digest": "sha256:430d0992ef3280f13fb52ff206d0ae09eedb2fee0831583f868db77d4012f12f",
+      "worker_redeployed": false,
+      "startup_logs_verified": false,
+      "verifier_false_negative": "Original expected digest omitted sha256: prefix; original receipt preserved, correction reuses same read and dispatches no second provider request.",
+      "worker_failure_claimed": false,
+      "new_provider_request_for_correction": false
+    },
+    "release_phase_recorded_at": "2026-11-01T01:06:22.753Z",
+    "release_phase_observed_at": "2026-11-01T01:06:22.753Z",
     "prepared_english_worker": {
       "status": "deployed_ready_current",
       "prepare_session": 69151,
@@ -493,21 +515,79 @@
       "superseded_by_ready_readback": "tracking/evidence/m03/english-worker-release34/2026-10-31T17-49-47-805229Z-ready.json"
     },
     "last_health_read": {
-      "receipt": "tracking/evidence/m07/workspace-summary35/2026-10-31-current-pilot-health.json",
-      "observed_at": "2026-10-31T18:52:00.214345+00:00",
-      "read_only": true,
-      "web_deployment_id": "dpl_5vEMBfsnD23cGL3ontWm8AUAErKr",
-      "worker_deployment_id": "dpl_2uASsbYobSDwWjMptPjGLcVEdCg3",
-      "worker_ready": 1,
-      "worker_instance_alive": true,
-      "database_requeried": false
+      "observed_at": "2026-11-01T01:06:22.753Z",
+      "evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-worker-health-verifier-correction.json",
+      "original_verifier_receipt": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-worker-health.json",
+      "deployment_id": "dpl_2uASsbYobSDwWjMptPjGLcVEdCg3",
+      "status": "ready",
+      "ready": 1,
+      "desired": 1,
+      "total": 1,
+      "memory_mib": 2048,
+      "region": "dub1",
+      "instance_alive": true,
+      "daemon_digest": "sha256:430d0992ef3280f13fb52ff206d0ae09eedb2fee0831583f868db77d4012f12f",
+      "worker_redeployed": false,
+      "startup_logs_verified": false,
+      "verifier_false_negative": "Original expected digest omitted sha256: prefix; original receipt preserved, correction reuses same read and dispatches no second provider request.",
+      "worker_failure_claimed": false,
+      "new_provider_request_for_correction": false
     },
     "guest_english_workflow_evidence": "tracking/evidence/m03/english-guest34/2026-11-01-guest-english-workflow.json",
     "guest_english_selftest_link_state": "approved_created_tested_then_revoked_no_active_selftest_link",
     "canonical_database_observed_at": "2026-11-01T00:57:45.216887+00:00",
     "canonical35_apply_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-22-943495Z-apply.json",
     "canonical35_readback_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-45-216113Z-readback.json",
-    "summary_web_deployed": false
+    "summary_web_deployed": true,
+    "historical_previous_web": {
+      "deployment_id": "dpl_5vEMBfsnD23cGL3ontWm8AUAErKr",
+      "ready_evidence": "tracking/evidence/m07/backend-continuation/2026-10-31-final-pilot-alias.json"
+    },
+    "summary_web_release": {
+      "status": "deployed_ready_HTTP_summary_passed_new_MCP_and_app_capture_pending",
+      "deployment_id": "dpl_6L6vS8FnaGDckcYq8Xm4QxHGc74b",
+      "ready_receipt": "tracking/evidence/m07/workspace-summary35-web/2026-11-01T01-03-59-685059Z-ready.json",
+      "ready_receipt_written_at": "2026-11-01T01:03:59.685059Z",
+      "deployment_method": "provider_source_build",
+      "source_files": 282,
+      "source_sha256": "13209ba54d3e47a5f794ee6a4956fef8096c421e4691bd979b177e545afb831c",
+      "stable_alias_matches": true,
+      "environment_ids_targets_preserved": true,
+      "project_settings_link_preserved": true,
+      "canonical35_static_oauth_preserved": true,
+      "private_environment_retransferred": false,
+      "worker_or_oauth_configuration_changed": false,
+      "local_isolated_build_quality_only": true,
+      "prebuilt_runtime_acceptance_claimed": false,
+      "authenticated_HTTP_summary": {
+        "result": "passed",
+        "evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-authenticated-summary-read.json",
+        "observed_at": "2026-11-01T01:04:40.600Z",
+        "request_id": "d28d95bc-24ed-4e52-88be-0bf65a74bcb3"
+      },
+      "unexpected_query_rejection": {
+        "result": "passed",
+        "evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-authenticated-summary-input-validation.json",
+        "observed_at": "2026-11-01T01:05:21.320Z",
+        "request_id": "4865d0ef-3c44-4ee5-b878-9da04002b59d",
+        "error_code": "VALIDATION_FAILED"
+      },
+      "public_host_GET_checks": {
+        "evidence": "tracking/evidence/m07/controlled-pilot/2026-11-01T01-04-50-416Z-72819ef9-public-host.json",
+        "passed": 6,
+        "credential_free": true
+      },
+      "summary_MCP_metadata_and_denial_checks": {
+        "evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-public-summary-mcp-regression.json",
+        "passed": 4,
+        "authenticated_token_lifecycle_acceptance": false
+      },
+      "signed_in_app_capture": "pending_root_observation",
+      "new_authenticated_summary_MCP_read": "pending_owner_client_operation",
+      "prior_owner_initial_reconnect_project_read_acceptance": "passed_carried_forward"
+    },
+    "signed_in_app_capture_verified": true,
+    "signed_in_app_evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-authenticated-app-english-regression.json"
   },
   "milestones": [
     {
@@ -945,7 +1025,7 @@
       "blockers": [
         "English real scan/internal saved/PDF and guest create/test/revoke passed, with normal owner Chrome profile and privately extracted actual PDF annotation destination; no fresh-anonymous/native-PDF-click/broad-semantic-accuracy claim. Existing old-version/Reviewed preservation carried forward. No additional language labels/selector required. Remaining milestone/release acceptance stays separately tracked."
       ],
-      "next_action": "Guarded canonical35 release source65bc518 is prepared/disabled pending root review: perform target preflight/apply/independent readback, then current authenticated API/MCP Summary read and compatible hosted web release. Guest English create/test/revoke is completed with normal-profile/actual-annotation-destination boundaries. Continue separate live M07 observability/full journey/token/recovery checks; canonical34/English1.0 remain current until actual release, no labels/selector, owner/recovery passes retained."
+      "next_action": "Obtain the newly deployed get_workspace_summary read through the owner working Claude client; existing initial/reconnect/project-read connection acceptance remains passed. Execute the next reviewed owned-local AT074 claim/callback/manual-retry rollback proof before any candidate SQL release, then real success/failure operator audit and remaining delegated/token/recovery work. Hosted English scan/version/guest/revocation/old-version and current app/HTTP passes stand; screen reader pending, mobile skipped, no labels or selector, pilot until owner stop."
     },
     {
       "id": "M04",
@@ -1158,7 +1238,9 @@
         "de276c704a8984733fddb206be77e350fe6c2fb1",
         "66956b71cfd53c472a6ad409a66b075c737bed36",
         "c8e4faee2b8ddf35fd69323a5fbf8050ffb8a9de",
-        "29079b2"
+        "29079b2",
+        "5b2d2a0",
+        "c3cb76d"
       ],
       "migrations": [
         {
@@ -1246,14 +1328,22 @@
         "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-56-24-483044Z-inspect.json",
         "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-22-943495Z-apply.json",
         "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-45-216113Z-readback.json",
-        "tracking/evidence/m07/workspace-summary35-release/2026-11-01-cli-role-validity-drift.json"
+        "tracking/evidence/m07/workspace-summary35-release/2026-11-01-cli-role-validity-drift.json",
+        "tracking/evidence/m07/workspace-summary35-web/2026-11-01T01-03-59-685059Z-ready.json",
+        "tracking/evidence/m07/workspace-summary35-web/2026-11-01-authenticated-summary-read.json",
+        "tracking/evidence/m07/workspace-summary35-web/2026-11-01-authenticated-summary-input-validation.json",
+        "tracking/evidence/m07/controlled-pilot/2026-11-01T01-04-50-416Z-72819ef9-public-host.json",
+        "tracking/evidence/m07/workspace-summary35-web/2026-11-01-public-summary-mcp-regression.json",
+        "tracking/evidence/m07/workspace-summary35-web/2026-11-01-worker-health.json",
+        "tracking/evidence/m07/workspace-summary35-web/2026-11-01-worker-health-verifier-correction.json",
+        "tracking/evidence/m07/workspace-summary35-web/2026-11-01-authenticated-app-english-regression.json"
       ],
       "blockers": [
         "Owner initial authorization/reconnect/authenticated Dummy Pilot Test read stays passed. Full real delegated write/processing/generation/sharing, live refresh/rotation/revocation and actual contributor denial remain unverified.",
         "History33 synthetic local metadata/media recovery stays passed; deployed/independentcluster and actual provider/config/secret restore plus representative provider cost/endurance remain unverified.",
-        "English guest workflow now completed/approved link revoked with explicit normal-profile/annotation-destination boundary. Local SQL35 and canonical35 apply/readback passed; hosted Summary/current app/API+MCP read remain pending. FullAT074/delegated lifecycle/recovery evidence incomplete. Screen reader pending/mobile skipped; no labels/selector required."
+        "English guest workflow now completed/approved link revoked with explicit normal-profile/annotation-destination boundary. Local SQL35 and canonical35 apply/readback passed; Summary web and authenticated HTTP read passed; current app English regression passed; new authenticated Summary MCP read remains pending. FullAT074/delegated lifecycle/recovery evidence incomplete. Screen reader pending/mobile skipped; no labels/selector required."
       ],
-      "next_action": "Canonical35 apply/readback passed with normal return, two matching independent readbacks and all74 table/full OAuth preservation. Complete the compatible Summary provider source-build quality/deployment/readback, then actual signed-in app and authenticated HTTP/MCP Summary reads. Web5vEM/worker2uAS/English1.0 remain serving until actual web replacement. Carry forward completed guest create/test/revoke, owner Claude acceptance and local33 recovery; continue separate live AT074/delegated/token/recovery checks. No labels/selector; screen reader pending, mobile skipped, pilot until owner stop.",
+      "next_action": "Obtain the newly deployed get_workspace_summary read through the owner working Claude client; existing initial/reconnect/project-read connection acceptance remains passed. Execute the next reviewed owned-local AT074 claim/callback/manual-retry rollback proof before any candidate SQL release, then real success/failure operator audit and remaining delegated/token/recovery work. Hosted English scan/version/guest/revocation/old-version and current app/HTTP passes stand; screen reader pending, mobile skipped, no labels or selector, pilot until owner stop.",
       "scope_constraints": {
         "AT_072": "pending",
         "M03_broader_semantic_checks": "pending",
@@ -1266,7 +1356,7 @@
       "current_checkpoint": {
         "milestone": "M07",
         "status": "in_progress",
-        "observed_at": "2026-11-01T00:57:45.216887+00:00",
+        "observed_at": "2026-11-01T01:06:22.753Z",
         "base_commit": "009536e",
         "canonical_migration_count": 35,
         "local_migration_count": 29,
@@ -1286,14 +1376,14 @@
         "manual_screenreader": "AT-072 pending",
         "mobile_testing": "skipped by owner",
         "hosting_deferred": false,
-        "pilot_running": "web5vEM Ready; compatible worker2uAS Ready one alive2GiB dub1, daemon430d/native795f verified17:49:47; owner-stop-only duration",
+        "pilot_running": "web6L6v provider source-build Ready on stable alias; unchanged worker2uAS Ready one alive2GiB dub1 at01:06:22; canonical35/English1.0, until owner stop",
         "english_processing_enabled": true,
         "production_deployment_verified": false,
         "local_restore": "passed local synthetic same-cluster history33 metadata/media proof; no deployed/StorageHTTP/Authconfig/secret/RTO/RPO claim",
         "local_restore_evidence": "tracking/evidence/m07/recovery33/2026-10-31T15-34-37-577Z-9af6774f.json",
         "name_diagnosis": "tracking/evidence/m03/english-name-review/2026-10-31T16-31-07-348316Z-5ed61ea9-8c38-4c1a-a3a2-958d6ccd5d72.json",
         "native_build_failure": "tracking/evidence/m03/english-image34/2026-10-31T17-03-17-960492Z-v2-registry-tls-diagnosis.json",
-        "next_action": "Canonical35 apply/readback passed with normal return, two matching independent readbacks and all74 table/full OAuth preservation. Complete the compatible Summary provider source-build quality/deployment/readback, then actual signed-in app and authenticated HTTP/MCP Summary reads. Web5vEM/worker2uAS/English1.0 remain serving until actual web replacement. Carry forward completed guest create/test/revoke, owner Claude acceptance and local33 recovery; continue separate live AT074/delegated/token/recovery checks. No labels/selector; screen reader pending, mobile skipped, pilot until owner stop.",
+        "next_action": "Summary-compatible web6L6v/source282-13209b and canonical35 are Ready/read back; actual signed-in Summary HTTP read/query rejection and public denial/metadata checks passed. Capture the actual signed-in app and obtain the new authenticated Summary MCP read through the owner client; earlier initial/reconnect/project-read connection acceptance stays passed. Continue source-pinned owned-local AT074 claim-trace transaction/rollback/preservation proof before any candidate SQL release, then real success/failure operator audit and remaining delegated/token/recovery checks. English scan/version/guest/revocation/old-cohort passes carry forward; worker2uAS unchanged/Ready, screen reader pending, mobile skipped, no labels/selector, pilot until owner stop.",
         "source_checkpoints": [
           "c6a3f15",
           "28c3d3c",
@@ -1302,7 +1392,9 @@
           "de276c7",
           "66956b7",
           "c8e4fae",
-          "29079b2"
+          "29079b2",
+          "5b2d2a0",
+          "c3cb76d"
         ],
         "english_rollout": {
           "reference": "english_output_rollout",
@@ -1324,7 +1416,7 @@
         "saved_english_version_id": "4f1b81a1-adb7-425b-8223-458d8bd82c28",
         "AT074_latest_execution_result": "actual31686GET404/no metadata; actualcurrentWF02GET200 save:none/manualfalse/progressfalse unchanged; fullAT074partial/no exact404cause",
         "workspace_summary_backend": {
-          "recorded_at": "2026-11-01T00:57:45.216887+00:00",
+          "recorded_at": "2026-11-01T01:06:22.753Z",
           "source_commit": "ab1c3d5b34d8541347484e91b3f60759472b6f80",
           "original_source_commit": "1db430df005cdfb05da8b2c9b7e3194652a0f8a2",
           "main_merged": true,
@@ -1334,7 +1426,7 @@
           "regression_recorded_at": "2026-10-31T18:33:32.149253+00:00",
           "sql35_executed": true,
           "sql35_cloud_applied": true,
-          "summary_web_deployed": false,
+          "summary_web_deployed": true,
           "canonical_history_still": 35,
           "owned_local_proof": "passed_actual_SQL_fixtures_full_rollback_and_cleanup",
           "owned_local_proof_path": "development/m07/workspace-summary35-proof",
@@ -1380,7 +1472,7 @@
             "result_notes": "development/m07/workspace-summary35-proof/LIVE_SQL_RESULT.md"
           },
           "canonical35_applied": true,
-          "hosted_summary_deployed": false,
+          "hosted_summary_deployed": true,
           "local_sql_history": [
             {
               "status": "failed_synthetic_fixture_before_runtime_acceptance",
@@ -1406,14 +1498,15 @@
           ],
           "fixture_correction_commit": "c8e4faee2b8ddf35fd69323a5fbf8050ffb8a9de",
           "sql35_execution_environment": "passed_owned_disposable_rollback_then_guarded_canonical_apply_and_readback",
-          "next_action": "Canonical35 apply/readback passed with normal return, two matching independent readbacks and all74 table/full OAuth preservation. Complete the compatible Summary provider source-build quality/deployment/readback, then actual signed-in app and authenticated HTTP/MCP Summary reads. Web5vEM/worker2uAS/English1.0 remain serving until actual web replacement. Carry forward completed guest create/test/revoke, owner Claude acceptance and local33 recovery; continue separate live AT074/delegated/token/recovery checks. No labels/selector; screen reader pending, mobile skipped, pilot until owner stop.",
+          "next_action": "Summary-compatible web6L6v/source282-13209b and canonical35 are Ready/read back; actual signed-in Summary HTTP read/query rejection and public denial/metadata checks passed. Capture the actual signed-in app and obtain the new authenticated Summary MCP read through the owner client; earlier initial/reconnect/project-read connection acceptance stays passed. Continue source-pinned owned-local AT074 claim-trace transaction/rollback/preservation proof before any candidate SQL release, then real success/failure operator audit and remaining delegated/token/recovery checks. English scan/version/guest/revocation/old-cohort passes carry forward; worker2uAS unchanged/Ready, screen reader pending, mobile skipped, no labels/selector, pilot until owner stop.",
           "release_preparation": {
             "source_commit": "29079b2",
-            "status": "canonical_inspect_one_apply_and_separate_readback_passed_web_pending",
+            "status": "canonical35_and_compatible_web_Ready_HTTP_passed_new_MCP_app_capture_pending",
             "canonical35_applied": true,
-            "hosted_summary_deployed": false,
+            "hosted_summary_deployed": true,
             "apply_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-22-943495Z-apply.json",
-            "readback_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-45-216113Z-readback.json"
+            "readback_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-45-216113Z-readback.json",
+            "web_ready_evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01T01-03-59-685059Z-ready.json"
           },
           "canonical_history_count": 35,
           "canonical_release": {
@@ -1455,13 +1548,60 @@
               "permits_live_changes": "ordinary business/jobs/feedback, per-user capability/membership rows and dynamic OAuth claims_count; current permissions must take effect",
               "full_atomic_table_and_oauth_preservation_retained": true
             },
-            "hosted_summary_deployed": false,
-            "authenticated_HTTP_MCP_summary_read_verified": false
+            "hosted_summary_deployed": true,
+            "authenticated_HTTP_MCP_summary_read_verified": false,
+            "authenticated_HTTP_summary_read_verified": true
+          },
+          "authenticated_HTTP_summary_read_verified": true,
+          "new_authenticated_MCP_summary_read_verified": false,
+          "signed_in_app_capture_verified": false,
+          "web_release": {
+            "status": "deployed_ready_HTTP_summary_passed_new_MCP_and_app_capture_pending",
+            "deployment_id": "dpl_6L6vS8FnaGDckcYq8Xm4QxHGc74b",
+            "ready_receipt": "tracking/evidence/m07/workspace-summary35-web/2026-11-01T01-03-59-685059Z-ready.json",
+            "ready_receipt_written_at": "2026-11-01T01:03:59.685059Z",
+            "deployment_method": "provider_source_build",
+            "source_files": 282,
+            "source_sha256": "13209ba54d3e47a5f794ee6a4956fef8096c421e4691bd979b177e545afb831c",
+            "stable_alias_matches": true,
+            "environment_ids_targets_preserved": true,
+            "project_settings_link_preserved": true,
+            "canonical35_static_oauth_preserved": true,
+            "private_environment_retransferred": false,
+            "worker_or_oauth_configuration_changed": false,
+            "local_isolated_build_quality_only": true,
+            "prebuilt_runtime_acceptance_claimed": false,
+            "authenticated_HTTP_summary": {
+              "result": "passed",
+              "evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-authenticated-summary-read.json",
+              "observed_at": "2026-11-01T01:04:40.600Z",
+              "request_id": "d28d95bc-24ed-4e52-88be-0bf65a74bcb3"
+            },
+            "unexpected_query_rejection": {
+              "result": "passed",
+              "evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-authenticated-summary-input-validation.json",
+              "observed_at": "2026-11-01T01:05:21.320Z",
+              "request_id": "4865d0ef-3c44-4ee5-b878-9da04002b59d",
+              "error_code": "VALIDATION_FAILED"
+            },
+            "public_host_GET_checks": {
+              "evidence": "tracking/evidence/m07/controlled-pilot/2026-11-01T01-04-50-416Z-72819ef9-public-host.json",
+              "passed": 6,
+              "credential_free": true
+            },
+            "summary_MCP_metadata_and_denial_checks": {
+              "evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-public-summary-mcp-regression.json",
+              "passed": 4,
+              "authenticated_token_lifecycle_acceptance": false
+            },
+            "signed_in_app_capture": "pending_root_observation",
+            "new_authenticated_summary_MCP_read": "pending_owner_client_operation",
+            "prior_owner_initial_reconnect_project_read_acceptance": "passed_carried_forward"
           }
         },
         "local_SQL35_proof": "passed_actual_fixtures_rollback_cleanup_ef4cb6c2",
         "canonical35_applied": true,
-        "hosted_summary_deployed": false,
+        "hosted_summary_deployed": true,
         "guest_english_acceptance_scope": "normal_signed_in_Chrome_profile_guest_route_and_grant_identity; actual_PDF_annotation_destination_opened; no fresh_anonymous_or_native_PDF_click_claim",
         "guest_selftest_link_revoked": true,
         "guest_evidence": "tracking/evidence/m03/english-guest34/2026-11-01-guest-english-workflow.json",
@@ -1504,8 +1644,101 @@
             "permits_live_changes": "ordinary business/jobs/feedback, per-user capability/membership rows and dynamic OAuth claims_count; current permissions must take effect",
             "full_atomic_table_and_oauth_preservation_retained": true
           },
-          "hosted_summary_deployed": false,
-          "authenticated_HTTP_MCP_summary_read_verified": false
+          "hosted_summary_deployed": true,
+          "authenticated_HTTP_MCP_summary_read_verified": false,
+          "authenticated_HTTP_summary_read_verified": true
+        },
+        "web_deployment_id": "dpl_6L6vS8FnaGDckcYq8Xm4QxHGc74b",
+        "workspace_summary_web_release": {
+          "status": "deployed_ready_HTTP_summary_passed_new_MCP_and_app_capture_pending",
+          "deployment_id": "dpl_6L6vS8FnaGDckcYq8Xm4QxHGc74b",
+          "ready_receipt": "tracking/evidence/m07/workspace-summary35-web/2026-11-01T01-03-59-685059Z-ready.json",
+          "ready_receipt_written_at": "2026-11-01T01:03:59.685059Z",
+          "deployment_method": "provider_source_build",
+          "source_files": 282,
+          "source_sha256": "13209ba54d3e47a5f794ee6a4956fef8096c421e4691bd979b177e545afb831c",
+          "stable_alias_matches": true,
+          "environment_ids_targets_preserved": true,
+          "project_settings_link_preserved": true,
+          "canonical35_static_oauth_preserved": true,
+          "private_environment_retransferred": false,
+          "worker_or_oauth_configuration_changed": false,
+          "local_isolated_build_quality_only": true,
+          "prebuilt_runtime_acceptance_claimed": false,
+          "authenticated_HTTP_summary": {
+            "result": "passed",
+            "evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-authenticated-summary-read.json",
+            "observed_at": "2026-11-01T01:04:40.600Z",
+            "request_id": "d28d95bc-24ed-4e52-88be-0bf65a74bcb3"
+          },
+          "unexpected_query_rejection": {
+            "result": "passed",
+            "evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-authenticated-summary-input-validation.json",
+            "observed_at": "2026-11-01T01:05:21.320Z",
+            "request_id": "4865d0ef-3c44-4ee5-b878-9da04002b59d",
+            "error_code": "VALIDATION_FAILED"
+          },
+          "public_host_GET_checks": {
+            "evidence": "tracking/evidence/m07/controlled-pilot/2026-11-01T01-04-50-416Z-72819ef9-public-host.json",
+            "passed": 6,
+            "credential_free": true
+          },
+          "summary_MCP_metadata_and_denial_checks": {
+            "evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-public-summary-mcp-regression.json",
+            "passed": 4,
+            "authenticated_token_lifecycle_acceptance": false
+          },
+          "signed_in_app_capture": "pending_root_observation",
+          "new_authenticated_summary_MCP_read": "pending_owner_client_operation",
+          "prior_owner_initial_reconnect_project_read_acceptance": "passed_carried_forward"
+        },
+        "AT074_source_candidate": {
+          "status": "source_merged_candidate_SQL_unexecuted_outside_migration_history",
+          "source_commits": [
+            "5b2d2a0",
+            "c3cb76d"
+          ],
+          "original_commits": [
+            "18dab3c",
+            "b005952"
+          ],
+          "source_folder": "development/m07/job-attempt-observability36",
+          "future_committed_claim_metadata": true,
+          "old_backfill": false,
+          "existing_claim_routines_changed": false,
+          "node_payload_retention_enabled": false,
+          "independent_jobs_parser_tests_passed": 19,
+          "independent_SQL_source_tests_passed": 8,
+          "independent_tests_skipped": 0,
+          "review_fixes": [
+            "Allow existing manual presentation/PDF retry stage-budget reset without uniqueness conflict.",
+            "Require literal execution-reference state strings without coercion or raw errors."
+          ],
+          "actual_SQL_executed": false,
+          "canonical_migration_added": false,
+          "hosted_worker_or_web_integrated": false,
+          "owned_local_proof": "source_preparation_in_progress_not_executed",
+          "live_AT074_acceptance": "partial_unverified_success_and_failure_operator_audit",
+          "next_action": "Reviewed owned-local actual SQL/fixture transaction, full rollback/preservation/cleanup proof; no provider or cloud run from source tests."
+        },
+        "worker_health": {
+          "observed_at": "2026-11-01T01:06:22.753Z",
+          "evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-worker-health-verifier-correction.json",
+          "original_verifier_receipt": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-worker-health.json",
+          "deployment_id": "dpl_2uASsbYobSDwWjMptPjGLcVEdCg3",
+          "status": "ready",
+          "ready": 1,
+          "desired": 1,
+          "total": 1,
+          "memory_mib": 2048,
+          "region": "dub1",
+          "instance_alive": true,
+          "daemon_digest": "sha256:430d0992ef3280f13fb52ff206d0ae09eedb2fee0831583f868db77d4012f12f",
+          "worker_redeployed": false,
+          "startup_logs_verified": false,
+          "verifier_false_negative": "Original expected digest omitted sha256: prefix; original receipt preserved, correction reuses same read and dispatches no second provider request.",
+          "worker_failure_claimed": false,
+          "new_provider_request_for_correction": false
         }
       },
       "historical_checkpoint_before_english34": {
@@ -1725,7 +1958,7 @@
   "latest_checkpoint": {
     "milestone": "M07",
     "status": "in_progress",
-    "observed_at": "2026-11-01T00:57:45.216887+00:00",
+    "observed_at": "2026-11-01T01:10:51.642Z",
     "base_commit": "009536e",
     "canonical_migration_count": 35,
     "local_migration_count": 29,
@@ -1745,14 +1978,14 @@
     "manual_screenreader": "AT-072 pending",
     "mobile_testing": "skipped by owner",
     "hosting_deferred": false,
-    "pilot_running": "web5vEM Ready; compatible worker2uAS Ready one alive2GiB dub1, daemon430d/native795f verified17:49:47; owner-stop-only duration",
+    "pilot_running": "web6L6v provider source-build Ready on stable alias; unchanged worker2uAS Ready one alive2GiB dub1 at01:06:22; canonical35/English1.0, until owner stop",
     "english_processing_enabled": true,
     "production_deployment_verified": false,
     "local_restore": "passed local synthetic same-cluster history33 metadata/media proof; no deployed/StorageHTTP/Authconfig/secret/RTO/RPO claim",
     "local_restore_evidence": "tracking/evidence/m07/recovery33/2026-10-31T15-34-37-577Z-9af6774f.json",
     "name_diagnosis": "tracking/evidence/m03/english-name-review/2026-10-31T16-31-07-348316Z-5ed61ea9-8c38-4c1a-a3a2-958d6ccd5d72.json",
     "native_build_failure": "tracking/evidence/m03/english-image34/2026-10-31T17-03-17-960492Z-v2-registry-tls-diagnosis.json",
-    "next_action": "Canonical35 apply/readback passed with normal return, two matching independent readbacks and all74 table/full OAuth preservation. Complete the compatible Summary provider source-build quality/deployment/readback, then actual signed-in app and authenticated HTTP/MCP Summary reads. Web5vEM/worker2uAS/English1.0 remain serving until actual web replacement. Carry forward completed guest create/test/revoke, owner Claude acceptance and local33 recovery; continue separate live AT074/delegated/token/recovery checks. No labels/selector; screen reader pending, mobile skipped, pilot until owner stop.",
+    "next_action": "Obtain the newly deployed get_workspace_summary read through the owner working Claude client; existing initial/reconnect/project-read connection acceptance remains passed. Execute the next reviewed owned-local AT074 claim/callback/manual-retry rollback proof before any candidate SQL release, then real success/failure operator audit and remaining delegated/token/recovery work. Hosted English scan/version/guest/revocation/old-version and current app/HTTP passes stand; screen reader pending, mobile skipped, no labels or selector, pilot until owner stop.",
     "source_checkpoints": [
       "c6a3f15",
       "28c3d3c",
@@ -1761,7 +1994,9 @@
       "de276c7",
       "66956b7",
       "c8e4fae",
-      "29079b2"
+      "29079b2",
+      "5b2d2a0",
+      "c3cb76d"
     ],
     "english_rollout": {
       "reference": "english_output_rollout",
@@ -1783,7 +2018,7 @@
     "saved_english_version_id": "4f1b81a1-adb7-425b-8223-458d8bd82c28",
     "AT074_latest_execution_result": "actual31686GET404/no metadata; actualcurrentWF02GET200 save:none/manualfalse/progressfalse unchanged; fullAT074partial/no exact404cause",
     "workspace_summary_backend": {
-      "recorded_at": "2026-11-01T00:57:45.216887+00:00",
+      "recorded_at": "2026-11-01T01:06:22.753Z",
       "source_commit": "ab1c3d5b34d8541347484e91b3f60759472b6f80",
       "original_source_commit": "1db430df005cdfb05da8b2c9b7e3194652a0f8a2",
       "main_merged": true,
@@ -1793,7 +2028,7 @@
       "regression_recorded_at": "2026-10-31T18:33:32.149253+00:00",
       "sql35_executed": true,
       "sql35_cloud_applied": true,
-      "summary_web_deployed": false,
+      "summary_web_deployed": true,
       "canonical_history_still": 35,
       "owned_local_proof": "passed_actual_SQL_fixtures_full_rollback_and_cleanup",
       "owned_local_proof_path": "development/m07/workspace-summary35-proof",
@@ -1839,7 +2074,7 @@
         "result_notes": "development/m07/workspace-summary35-proof/LIVE_SQL_RESULT.md"
       },
       "canonical35_applied": true,
-      "hosted_summary_deployed": false,
+      "hosted_summary_deployed": true,
       "local_sql_history": [
         {
           "status": "failed_synthetic_fixture_before_runtime_acceptance",
@@ -1865,14 +2100,15 @@
       ],
       "fixture_correction_commit": "c8e4faee2b8ddf35fd69323a5fbf8050ffb8a9de",
       "sql35_execution_environment": "passed_owned_disposable_rollback_then_guarded_canonical_apply_and_readback",
-      "next_action": "Canonical35 apply/readback passed with normal return, two matching independent readbacks and all74 table/full OAuth preservation. Complete the compatible Summary provider source-build quality/deployment/readback, then actual signed-in app and authenticated HTTP/MCP Summary reads. Web5vEM/worker2uAS/English1.0 remain serving until actual web replacement. Carry forward completed guest create/test/revoke, owner Claude acceptance and local33 recovery; continue separate live AT074/delegated/token/recovery checks. No labels/selector; screen reader pending, mobile skipped, pilot until owner stop.",
+      "next_action": "Obtain the newly deployed get_workspace_summary read through the owner working Claude client; existing initial/reconnect/project-read connection acceptance remains passed. Execute the next reviewed owned-local AT074 claim/callback/manual-retry rollback proof before any candidate SQL release, then real success/failure operator audit and remaining delegated/token/recovery work. Hosted English scan/version/guest/revocation/old-version and current app/HTTP passes stand; screen reader pending, mobile skipped, no labels or selector, pilot until owner stop.",
       "release_preparation": {
         "source_commit": "29079b2",
-        "status": "canonical_inspect_one_apply_and_separate_readback_passed_web_pending",
+        "status": "canonical35_and_compatible_web_Ready_HTTP_passed_new_MCP_app_capture_pending",
         "canonical35_applied": true,
-        "hosted_summary_deployed": false,
+        "hosted_summary_deployed": true,
         "apply_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-22-943495Z-apply.json",
-        "readback_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-45-216113Z-readback.json"
+        "readback_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-45-216113Z-readback.json",
+        "web_ready_evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01T01-03-59-685059Z-ready.json"
       },
       "canonical_history_count": 35,
       "canonical_release": {
@@ -1914,13 +2150,61 @@
           "permits_live_changes": "ordinary business/jobs/feedback, per-user capability/membership rows and dynamic OAuth claims_count; current permissions must take effect",
           "full_atomic_table_and_oauth_preservation_retained": true
         },
-        "hosted_summary_deployed": false,
-        "authenticated_HTTP_MCP_summary_read_verified": false
-      }
+        "hosted_summary_deployed": true,
+        "authenticated_HTTP_MCP_summary_read_verified": false,
+        "authenticated_HTTP_summary_read_verified": true
+      },
+      "authenticated_HTTP_summary_read_verified": true,
+      "new_authenticated_MCP_summary_read_verified": false,
+      "signed_in_app_capture_verified": true,
+      "web_release": {
+        "status": "deployed_ready_HTTP_summary_passed_new_MCP_and_app_capture_pending",
+        "deployment_id": "dpl_6L6vS8FnaGDckcYq8Xm4QxHGc74b",
+        "ready_receipt": "tracking/evidence/m07/workspace-summary35-web/2026-11-01T01-03-59-685059Z-ready.json",
+        "ready_receipt_written_at": "2026-11-01T01:03:59.685059Z",
+        "deployment_method": "provider_source_build",
+        "source_files": 282,
+        "source_sha256": "13209ba54d3e47a5f794ee6a4956fef8096c421e4691bd979b177e545afb831c",
+        "stable_alias_matches": true,
+        "environment_ids_targets_preserved": true,
+        "project_settings_link_preserved": true,
+        "canonical35_static_oauth_preserved": true,
+        "private_environment_retransferred": false,
+        "worker_or_oauth_configuration_changed": false,
+        "local_isolated_build_quality_only": true,
+        "prebuilt_runtime_acceptance_claimed": false,
+        "authenticated_HTTP_summary": {
+          "result": "passed",
+          "evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-authenticated-summary-read.json",
+          "observed_at": "2026-11-01T01:04:40.600Z",
+          "request_id": "d28d95bc-24ed-4e52-88be-0bf65a74bcb3"
+        },
+        "unexpected_query_rejection": {
+          "result": "passed",
+          "evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-authenticated-summary-input-validation.json",
+          "observed_at": "2026-11-01T01:05:21.320Z",
+          "request_id": "4865d0ef-3c44-4ee5-b878-9da04002b59d",
+          "error_code": "VALIDATION_FAILED"
+        },
+        "public_host_GET_checks": {
+          "evidence": "tracking/evidence/m07/controlled-pilot/2026-11-01T01-04-50-416Z-72819ef9-public-host.json",
+          "passed": 6,
+          "credential_free": true
+        },
+        "summary_MCP_metadata_and_denial_checks": {
+          "evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-public-summary-mcp-regression.json",
+          "passed": 4,
+          "authenticated_token_lifecycle_acceptance": false
+        },
+        "signed_in_app_capture": "pending_root_observation",
+        "new_authenticated_summary_MCP_read": "pending_owner_client_operation",
+        "prior_owner_initial_reconnect_project_read_acceptance": "passed_carried_forward"
+      },
+      "signed_in_app_evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-authenticated-app-english-regression.json"
     },
     "local_SQL35_proof": "passed_actual_fixtures_rollback_cleanup_ef4cb6c2",
     "canonical35_applied": true,
-    "hosted_summary_deployed": false,
+    "hosted_summary_deployed": true,
     "guest_english_acceptance_scope": "normal_signed_in_Chrome_profile_guest_route_and_grant_identity; actual_PDF_annotation_destination_opened; no fresh_anonymous_or_native_PDF_click_claim",
     "guest_selftest_link_revoked": true,
     "guest_evidence": "tracking/evidence/m03/english-guest34/2026-11-01-guest-english-workflow.json",
@@ -1963,9 +2247,107 @@
         "permits_live_changes": "ordinary business/jobs/feedback, per-user capability/membership rows and dynamic OAuth claims_count; current permissions must take effect",
         "full_atomic_table_and_oauth_preservation_retained": true
       },
-      "hosted_summary_deployed": false,
-      "authenticated_HTTP_MCP_summary_read_verified": false
-    }
+      "hosted_summary_deployed": true,
+      "authenticated_HTTP_MCP_summary_read_verified": false,
+      "authenticated_HTTP_summary_read_verified": true
+    },
+    "web_deployment_id": "dpl_6L6vS8FnaGDckcYq8Xm4QxHGc74b",
+    "workspace_summary_web_release": {
+      "status": "deployed_ready_HTTP_summary_passed_new_MCP_and_app_capture_pending",
+      "deployment_id": "dpl_6L6vS8FnaGDckcYq8Xm4QxHGc74b",
+      "ready_receipt": "tracking/evidence/m07/workspace-summary35-web/2026-11-01T01-03-59-685059Z-ready.json",
+      "ready_receipt_written_at": "2026-11-01T01:03:59.685059Z",
+      "deployment_method": "provider_source_build",
+      "source_files": 282,
+      "source_sha256": "13209ba54d3e47a5f794ee6a4956fef8096c421e4691bd979b177e545afb831c",
+      "stable_alias_matches": true,
+      "environment_ids_targets_preserved": true,
+      "project_settings_link_preserved": true,
+      "canonical35_static_oauth_preserved": true,
+      "private_environment_retransferred": false,
+      "worker_or_oauth_configuration_changed": false,
+      "local_isolated_build_quality_only": true,
+      "prebuilt_runtime_acceptance_claimed": false,
+      "authenticated_HTTP_summary": {
+        "result": "passed",
+        "evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-authenticated-summary-read.json",
+        "observed_at": "2026-11-01T01:04:40.600Z",
+        "request_id": "d28d95bc-24ed-4e52-88be-0bf65a74bcb3"
+      },
+      "unexpected_query_rejection": {
+        "result": "passed",
+        "evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-authenticated-summary-input-validation.json",
+        "observed_at": "2026-11-01T01:05:21.320Z",
+        "request_id": "4865d0ef-3c44-4ee5-b878-9da04002b59d",
+        "error_code": "VALIDATION_FAILED"
+      },
+      "public_host_GET_checks": {
+        "evidence": "tracking/evidence/m07/controlled-pilot/2026-11-01T01-04-50-416Z-72819ef9-public-host.json",
+        "passed": 6,
+        "credential_free": true
+      },
+      "summary_MCP_metadata_and_denial_checks": {
+        "evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-public-summary-mcp-regression.json",
+        "passed": 4,
+        "authenticated_token_lifecycle_acceptance": false
+      },
+      "signed_in_app_capture": "pending_root_observation",
+      "new_authenticated_summary_MCP_read": "pending_owner_client_operation",
+      "prior_owner_initial_reconnect_project_read_acceptance": "passed_carried_forward",
+      "signed_in_app_capture_verified": true,
+      "signed_in_app_evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-authenticated-app-english-regression.json",
+      "next_action": "Obtain the newly deployed get_workspace_summary read through the owner working Claude client; existing initial/reconnect/project-read connection acceptance remains passed. Execute the next reviewed owned-local AT074 claim/callback/manual-retry rollback proof before any candidate SQL release, then real success/failure operator audit and remaining delegated/token/recovery work. Hosted English scan/version/guest/revocation/old-version and current app/HTTP passes stand; screen reader pending, mobile skipped, no labels or selector, pilot until owner stop."
+    },
+    "AT074_source_candidate": {
+      "status": "source_merged_candidate_SQL_unexecuted_outside_migration_history",
+      "source_commits": [
+        "5b2d2a0",
+        "c3cb76d"
+      ],
+      "original_commits": [
+        "18dab3c",
+        "b005952"
+      ],
+      "source_folder": "development/m07/job-attempt-observability36",
+      "future_committed_claim_metadata": true,
+      "old_backfill": false,
+      "existing_claim_routines_changed": false,
+      "node_payload_retention_enabled": false,
+      "independent_jobs_parser_tests_passed": 19,
+      "independent_SQL_source_tests_passed": 8,
+      "independent_tests_skipped": 0,
+      "review_fixes": [
+        "Allow existing manual presentation/PDF retry stage-budget reset without uniqueness conflict.",
+        "Require literal execution-reference state strings without coercion or raw errors."
+      ],
+      "actual_SQL_executed": false,
+      "canonical_migration_added": false,
+      "hosted_worker_or_web_integrated": false,
+      "owned_local_proof": "source_preparation_in_progress_not_executed",
+      "live_AT074_acceptance": "partial_unverified_success_and_failure_operator_audit",
+      "next_action": "Reviewed owned-local actual SQL/fixture transaction, full rollback/preservation/cleanup proof; no provider or cloud run from source tests."
+    },
+    "worker_health": {
+      "observed_at": "2026-11-01T01:06:22.753Z",
+      "evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-worker-health-verifier-correction.json",
+      "original_verifier_receipt": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-worker-health.json",
+      "deployment_id": "dpl_2uASsbYobSDwWjMptPjGLcVEdCg3",
+      "status": "ready",
+      "ready": 1,
+      "desired": 1,
+      "total": 1,
+      "memory_mib": 2048,
+      "region": "dub1",
+      "instance_alive": true,
+      "daemon_digest": "sha256:430d0992ef3280f13fb52ff206d0ae09eedb2fee0831583f868db77d4012f12f",
+      "worker_redeployed": false,
+      "startup_logs_verified": false,
+      "verifier_false_negative": "Original expected digest omitted sha256: prefix; original receipt preserved, correction reuses same read and dispatches no second provider request.",
+      "worker_failure_claimed": false,
+      "new_provider_request_for_correction": false
+    },
+    "signed_in_app_capture_verified": true,
+    "signed_in_app_evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-authenticated-app-english-regression.json"
   },
   "historical_notes": [
     {
@@ -2000,8 +2382,8 @@
       "One controlled real OpenAI+n8n scan, English app/guest display and new frozen presentation version; old versions intact.",
       "Remaining live M07 operator/token/delegated/recovery/workload evidence in eligible order without reopening passed owner connection."
     ],
-    "current_phase": "canonical35_applied_read_back_summary_web_quality_and_deployment_pending",
-    "next_independent_backend_slice": "compatible_summary_web_deployment_then_current_authenticated_HTTP_MCP_app_reads"
+    "current_phase": "canonical35_summary_web_Ready_HTTP_passed_app_capture_new_MCP_read_pending",
+    "next_independent_backend_slice": "AT074_owned_local_claim_trace_SQL_proof_after_source_review"
   },
   "historical_sessions": [
     {
@@ -3019,9 +3401,9 @@
     }
   ],
   "latest_backend_checkpoint": {
-    "recorded_at": "2026-11-01T00:57:45.216887+00:00",
+    "recorded_at": "2026-11-01T01:10:51.642Z",
     "base_commit": "009536e",
-    "web_deployment_id": "dpl_5vEMBfsnD23cGL3ontWm8AUAErKr",
+    "web_deployment_id": "dpl_6L6vS8FnaGDckcYq8Xm4QxHGc74b",
     "canonical_history_count": 35,
     "original_local_history_count": 29,
     "english34_applied": true,
@@ -3043,7 +3425,7 @@
       "reference": "english_output_rollout",
       "status": "real_scan_saved_internal_and_guest_english_pdf_revocation_verified_browser_boundary"
     },
-    "next_action": "Canonical35 apply/readback passed with normal return, two matching independent readbacks and all74 table/full OAuth preservation. Complete the compatible Summary provider source-build quality/deployment/readback, then actual signed-in app and authenticated HTTP/MCP Summary reads. Web5vEM/worker2uAS/English1.0 remain serving until actual web replacement. Carry forward completed guest create/test/revoke, owner Claude acceptance and local33 recovery; continue separate live AT074/delegated/token/recovery checks. No labels/selector; screen reader pending, mobile skipped, pilot until owner stop.",
+    "next_action": "Obtain the newly deployed get_workspace_summary read through the owner working Claude client; existing initial/reconnect/project-read connection acceptance remains passed. Execute the next reviewed owned-local AT074 claim/callback/manual-retry rollback proof before any candidate SQL release, then real success/failure operator audit and remaining delegated/token/recovery work. Hosted English scan/version/guest/revocation/old-version and current app/HTTP passes stand; screen reader pending, mobile skipped, no labels or selector, pilot until owner stop.",
     "source_checkpoints": [
       "c6a3f15",
       "28c3d3c",
@@ -3052,7 +3434,9 @@
       "de276c7",
       "66956b7",
       "c8e4fae",
-      "29079b2"
+      "29079b2",
+      "5b2d2a0",
+      "c3cb76d"
     ],
     "worker_v2_deployed": true,
     "last_confirmed_deployed_worker": "dpl_2uASsbYobSDwWjMptPjGLcVEdCg3",
@@ -3062,7 +3446,7 @@
     "guest_english_passed": true,
     "AT074_latest_execution_result": "actual31686GET404/no metadata; actualcurrentWF02GET200 save:none/manualfalse/progressfalse unchanged; fullAT074partial/no exact404cause",
     "workspace_summary_backend": {
-      "recorded_at": "2026-11-01T00:57:45.216887+00:00",
+      "recorded_at": "2026-11-01T01:06:22.753Z",
       "source_commit": "ab1c3d5b34d8541347484e91b3f60759472b6f80",
       "original_source_commit": "1db430df005cdfb05da8b2c9b7e3194652a0f8a2",
       "main_merged": true,
@@ -3072,7 +3456,7 @@
       "regression_recorded_at": "2026-10-31T18:33:32.149253+00:00",
       "sql35_executed": true,
       "sql35_cloud_applied": true,
-      "summary_web_deployed": false,
+      "summary_web_deployed": true,
       "canonical_history_still": 35,
       "owned_local_proof": "passed_actual_SQL_fixtures_full_rollback_and_cleanup",
       "owned_local_proof_path": "development/m07/workspace-summary35-proof",
@@ -3118,7 +3502,7 @@
         "result_notes": "development/m07/workspace-summary35-proof/LIVE_SQL_RESULT.md"
       },
       "canonical35_applied": true,
-      "hosted_summary_deployed": false,
+      "hosted_summary_deployed": true,
       "local_sql_history": [
         {
           "status": "failed_synthetic_fixture_before_runtime_acceptance",
@@ -3144,14 +3528,15 @@
       ],
       "fixture_correction_commit": "c8e4faee2b8ddf35fd69323a5fbf8050ffb8a9de",
       "sql35_execution_environment": "passed_owned_disposable_rollback_then_guarded_canonical_apply_and_readback",
-      "next_action": "Canonical35 apply/readback passed with normal return, two matching independent readbacks and all74 table/full OAuth preservation. Complete the compatible Summary provider source-build quality/deployment/readback, then actual signed-in app and authenticated HTTP/MCP Summary reads. Web5vEM/worker2uAS/English1.0 remain serving until actual web replacement. Carry forward completed guest create/test/revoke, owner Claude acceptance and local33 recovery; continue separate live AT074/delegated/token/recovery checks. No labels/selector; screen reader pending, mobile skipped, pilot until owner stop.",
+      "next_action": "Obtain the newly deployed get_workspace_summary read through the owner working Claude client; existing initial/reconnect/project-read connection acceptance remains passed. Execute the next reviewed owned-local AT074 claim/callback/manual-retry rollback proof before any candidate SQL release, then real success/failure operator audit and remaining delegated/token/recovery work. Hosted English scan/version/guest/revocation/old-version and current app/HTTP passes stand; screen reader pending, mobile skipped, no labels or selector, pilot until owner stop.",
       "release_preparation": {
         "source_commit": "29079b2",
-        "status": "canonical_inspect_one_apply_and_separate_readback_passed_web_pending",
+        "status": "canonical35_and_compatible_web_Ready_HTTP_passed_new_MCP_app_capture_pending",
         "canonical35_applied": true,
-        "hosted_summary_deployed": false,
+        "hosted_summary_deployed": true,
         "apply_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-22-943495Z-apply.json",
-        "readback_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-45-216113Z-readback.json"
+        "readback_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-45-216113Z-readback.json",
+        "web_ready_evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01T01-03-59-685059Z-ready.json"
       },
       "canonical_history_count": 35,
       "canonical_release": {
@@ -3193,13 +3578,61 @@
           "permits_live_changes": "ordinary business/jobs/feedback, per-user capability/membership rows and dynamic OAuth claims_count; current permissions must take effect",
           "full_atomic_table_and_oauth_preservation_retained": true
         },
-        "hosted_summary_deployed": false,
-        "authenticated_HTTP_MCP_summary_read_verified": false
-      }
+        "hosted_summary_deployed": true,
+        "authenticated_HTTP_MCP_summary_read_verified": false,
+        "authenticated_HTTP_summary_read_verified": true
+      },
+      "authenticated_HTTP_summary_read_verified": true,
+      "new_authenticated_MCP_summary_read_verified": false,
+      "signed_in_app_capture_verified": true,
+      "web_release": {
+        "status": "deployed_ready_HTTP_summary_passed_new_MCP_and_app_capture_pending",
+        "deployment_id": "dpl_6L6vS8FnaGDckcYq8Xm4QxHGc74b",
+        "ready_receipt": "tracking/evidence/m07/workspace-summary35-web/2026-11-01T01-03-59-685059Z-ready.json",
+        "ready_receipt_written_at": "2026-11-01T01:03:59.685059Z",
+        "deployment_method": "provider_source_build",
+        "source_files": 282,
+        "source_sha256": "13209ba54d3e47a5f794ee6a4956fef8096c421e4691bd979b177e545afb831c",
+        "stable_alias_matches": true,
+        "environment_ids_targets_preserved": true,
+        "project_settings_link_preserved": true,
+        "canonical35_static_oauth_preserved": true,
+        "private_environment_retransferred": false,
+        "worker_or_oauth_configuration_changed": false,
+        "local_isolated_build_quality_only": true,
+        "prebuilt_runtime_acceptance_claimed": false,
+        "authenticated_HTTP_summary": {
+          "result": "passed",
+          "evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-authenticated-summary-read.json",
+          "observed_at": "2026-11-01T01:04:40.600Z",
+          "request_id": "d28d95bc-24ed-4e52-88be-0bf65a74bcb3"
+        },
+        "unexpected_query_rejection": {
+          "result": "passed",
+          "evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-authenticated-summary-input-validation.json",
+          "observed_at": "2026-11-01T01:05:21.320Z",
+          "request_id": "4865d0ef-3c44-4ee5-b878-9da04002b59d",
+          "error_code": "VALIDATION_FAILED"
+        },
+        "public_host_GET_checks": {
+          "evidence": "tracking/evidence/m07/controlled-pilot/2026-11-01T01-04-50-416Z-72819ef9-public-host.json",
+          "passed": 6,
+          "credential_free": true
+        },
+        "summary_MCP_metadata_and_denial_checks": {
+          "evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-public-summary-mcp-regression.json",
+          "passed": 4,
+          "authenticated_token_lifecycle_acceptance": false
+        },
+        "signed_in_app_capture": "pending_root_observation",
+        "new_authenticated_summary_MCP_read": "pending_owner_client_operation",
+        "prior_owner_initial_reconnect_project_read_acceptance": "passed_carried_forward"
+      },
+      "signed_in_app_evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-authenticated-app-english-regression.json"
     },
     "local_SQL35_proof": "passed_actual_fixtures_rollback_cleanup_ef4cb6c2",
     "canonical35_applied": true,
-    "hosted_summary_deployed": false,
+    "hosted_summary_deployed": true,
     "guest_english_acceptance_scope": "normal_signed_in_Chrome_profile_guest_route_and_grant_identity; actual_PDF_annotation_destination_opened; no fresh_anonymous_or_native_PDF_click_claim",
     "guest_selftest_link_revoked": true,
     "guest_evidence": "tracking/evidence/m03/english-guest34/2026-11-01-guest-english-workflow.json",
@@ -3242,12 +3675,109 @@
         "permits_live_changes": "ordinary business/jobs/feedback, per-user capability/membership rows and dynamic OAuth claims_count; current permissions must take effect",
         "full_atomic_table_and_oauth_preservation_retained": true
       },
-      "hosted_summary_deployed": false,
-      "authenticated_HTTP_MCP_summary_read_verified": false
-    }
+      "hosted_summary_deployed": true,
+      "authenticated_HTTP_MCP_summary_read_verified": false,
+      "authenticated_HTTP_summary_read_verified": true
+    },
+    "workspace_summary_web_release": {
+      "status": "deployed_ready_HTTP_summary_passed_new_MCP_and_app_capture_pending",
+      "deployment_id": "dpl_6L6vS8FnaGDckcYq8Xm4QxHGc74b",
+      "ready_receipt": "tracking/evidence/m07/workspace-summary35-web/2026-11-01T01-03-59-685059Z-ready.json",
+      "ready_receipt_written_at": "2026-11-01T01:03:59.685059Z",
+      "deployment_method": "provider_source_build",
+      "source_files": 282,
+      "source_sha256": "13209ba54d3e47a5f794ee6a4956fef8096c421e4691bd979b177e545afb831c",
+      "stable_alias_matches": true,
+      "environment_ids_targets_preserved": true,
+      "project_settings_link_preserved": true,
+      "canonical35_static_oauth_preserved": true,
+      "private_environment_retransferred": false,
+      "worker_or_oauth_configuration_changed": false,
+      "local_isolated_build_quality_only": true,
+      "prebuilt_runtime_acceptance_claimed": false,
+      "authenticated_HTTP_summary": {
+        "result": "passed",
+        "evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-authenticated-summary-read.json",
+        "observed_at": "2026-11-01T01:04:40.600Z",
+        "request_id": "d28d95bc-24ed-4e52-88be-0bf65a74bcb3"
+      },
+      "unexpected_query_rejection": {
+        "result": "passed",
+        "evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-authenticated-summary-input-validation.json",
+        "observed_at": "2026-11-01T01:05:21.320Z",
+        "request_id": "4865d0ef-3c44-4ee5-b878-9da04002b59d",
+        "error_code": "VALIDATION_FAILED"
+      },
+      "public_host_GET_checks": {
+        "evidence": "tracking/evidence/m07/controlled-pilot/2026-11-01T01-04-50-416Z-72819ef9-public-host.json",
+        "passed": 6,
+        "credential_free": true
+      },
+      "summary_MCP_metadata_and_denial_checks": {
+        "evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-public-summary-mcp-regression.json",
+        "passed": 4,
+        "authenticated_token_lifecycle_acceptance": false
+      },
+      "signed_in_app_capture": "pending_root_observation",
+      "new_authenticated_summary_MCP_read": "pending_owner_client_operation",
+      "prior_owner_initial_reconnect_project_read_acceptance": "passed_carried_forward",
+      "signed_in_app_capture_verified": true,
+      "signed_in_app_evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-authenticated-app-english-regression.json",
+      "next_action": "Obtain the newly deployed get_workspace_summary read through the owner working Claude client; existing initial/reconnect/project-read connection acceptance remains passed. Execute the next reviewed owned-local AT074 claim/callback/manual-retry rollback proof before any candidate SQL release, then real success/failure operator audit and remaining delegated/token/recovery work. Hosted English scan/version/guest/revocation/old-version and current app/HTTP passes stand; screen reader pending, mobile skipped, no labels or selector, pilot until owner stop."
+    },
+    "AT074_source_candidate": {
+      "status": "source_merged_candidate_SQL_unexecuted_outside_migration_history",
+      "source_commits": [
+        "5b2d2a0",
+        "c3cb76d"
+      ],
+      "original_commits": [
+        "18dab3c",
+        "b005952"
+      ],
+      "source_folder": "development/m07/job-attempt-observability36",
+      "future_committed_claim_metadata": true,
+      "old_backfill": false,
+      "existing_claim_routines_changed": false,
+      "node_payload_retention_enabled": false,
+      "independent_jobs_parser_tests_passed": 19,
+      "independent_SQL_source_tests_passed": 8,
+      "independent_tests_skipped": 0,
+      "review_fixes": [
+        "Allow existing manual presentation/PDF retry stage-budget reset without uniqueness conflict.",
+        "Require literal execution-reference state strings without coercion or raw errors."
+      ],
+      "actual_SQL_executed": false,
+      "canonical_migration_added": false,
+      "hosted_worker_or_web_integrated": false,
+      "owned_local_proof": "source_preparation_in_progress_not_executed",
+      "live_AT074_acceptance": "partial_unverified_success_and_failure_operator_audit",
+      "next_action": "Reviewed owned-local actual SQL/fixture transaction, full rollback/preservation/cleanup proof; no provider or cloud run from source tests."
+    },
+    "worker_health": {
+      "observed_at": "2026-11-01T01:06:22.753Z",
+      "evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-worker-health-verifier-correction.json",
+      "original_verifier_receipt": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-worker-health.json",
+      "deployment_id": "dpl_2uASsbYobSDwWjMptPjGLcVEdCg3",
+      "status": "ready",
+      "ready": 1,
+      "desired": 1,
+      "total": 1,
+      "memory_mib": 2048,
+      "region": "dub1",
+      "instance_alive": true,
+      "daemon_digest": "sha256:430d0992ef3280f13fb52ff206d0ae09eedb2fee0831583f868db77d4012f12f",
+      "worker_redeployed": false,
+      "startup_logs_verified": false,
+      "verifier_false_negative": "Original expected digest omitted sha256: prefix; original receipt preserved, correction reuses same read and dispatches no second provider request.",
+      "worker_failure_claimed": false,
+      "new_provider_request_for_correction": false
+    },
+    "signed_in_app_capture_verified": true,
+    "signed_in_app_evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-authenticated-app-english-regression.json"
   },
   "english_output_rollout": {
-    "recorded_at": "2026-11-01T00:57:45.216887+00:00",
+    "recorded_at": "2026-11-01T01:10:51.642Z",
     "resume_base_commit": "009536e",
     "status": "real_scan_saved_internal_and_guest_english_pdf_revocation_verified_browser_boundary",
     "frontend": {
@@ -3285,16 +3815,18 @@
       "redesign_latest_observed_head": "031c17bc5119f83a68e784eb66ca56ba05d5053f",
       "redesign_reported_fixture_tests_passed": 113,
       "redesign_quality_scope": "Reported frontend fixture/mock e2e plus lint/types/build and isolated axe; not root-rerun or hosted redesign acceptance.",
-      "backend_requests_1_through_6": "workspace_summary_source_merged_local_SQL_and_canonical35_applied_hosted_web_and_live_reads_pending_others_pending",
+      "backend_requests_1_through_6": "workspace_summary_canonical35_and_compatible_web_deployed_HTTP_read_passed_new_MCP_app_capture_pending_others_pending",
       "backend_contract_proposal": "development/m07/frontend-contracts/PROPOSAL.md",
       "workspace_summary_worktree": "D:/Everyone/Presentation/Everyone-Presentation-Studio-Backend-Summary",
       "workspace_summary_main_merged": true,
-      "workspace_summary_deployed": false,
+      "workspace_summary_deployed": true,
       "workspace_summary_source_commit": "ab1c3d5b34d8541347484e91b3f60759472b6f80",
       "workspace_summary_sql35_executed": true,
       "workspace_summary_sql35_execution_scope": "owned_local_rollback_passed_then_guarded_canonical35_applied_read_back",
       "workspace_summary_fixture_commit": "c8e4faee2b8ddf35fd69323a5fbf8050ffb8a9de",
-      "workspace_summary_cloud_applied": true
+      "workspace_summary_cloud_applied": true,
+      "workspace_summary_HTTP_read_verified": true,
+      "workspace_summary_new_MCP_read_verified": false
     },
     "quality": {
       "last_composed_module_tests": 886,
@@ -3384,16 +3916,16 @@
     "hosted_english_job": "succeeded_actual_v2_provider_source_and_Reviewed_preservation_verified",
     "hosted_english_app_guest_new_version_demonstration": "passed_with_normal_browser_context_and_annotation_destination_boundary",
     "new_version_old_version_preservation_check": "passed_actual_old_cohort_subset_compare",
-    "last_confirmed_serving_web": "dpl_5vEMBfsnD23cGL3ontWm8AUAErKr",
+    "last_confirmed_serving_web": "dpl_6L6vS8FnaGDckcYq8Xm4QxHGc74b",
     "last_confirmed_serving_worker": "dpl_2uASsbYobSDwWjMptPjGLcVEdCg3",
     "owner_connection_acceptance": "passed_preserved",
     "current33_local_recovery": "passed_preserved",
     "manual_AT072": "pending",
     "mobile_testing": "skipped",
     "pilot_duration": "until_owner_stops",
-    "next_action": "Canonical35 apply/readback passed with normal return, two matching independent readbacks and all74 table/full OAuth preservation. Complete the compatible Summary provider source-build quality/deployment/readback, then actual signed-in app and authenticated HTTP/MCP Summary reads. Web5vEM/worker2uAS/English1.0 remain serving until actual web replacement. Carry forward completed guest create/test/revoke, owner Claude acceptance and local33 recovery; continue separate live AT074/delegated/token/recovery checks. No labels/selector; screen reader pending, mobile skipped, pilot until owner stop.",
+    "next_action": "Obtain the newly deployed get_workspace_summary read through the owner working Claude client; existing initial/reconnect/project-read connection acceptance remains passed. Execute the next reviewed owned-local AT074 claim/callback/manual-retry rollback proof before any candidate SQL release, then real success/failure operator audit and remaining delegated/token/recovery work. Hosted English scan/version/guest/revocation/old-version and current app/HTTP passes stand; screen reader pending, mobile skipped, no labels or selector, pilot until owner stop.",
     "remaining_m07_review": "development/m07/REMAINING_AFTER_ENGLISH34.md",
-    "web_ready": "tracking/evidence/m03/english-web-release34/2026-10-31T16-55-43-885447Z-ready.json",
+    "web_ready": "tracking/evidence/m07/workspace-summary35-web/2026-11-01T01-03-59-685059Z-ready.json",
     "web_legacy_app": "tracking/evidence/m03/english-web-release34/2026-10-31-hosted-compatibility-app.json",
     "preservation_baseline": "tracking/evidence/m03/english-preservation34/2026-10-31T16-55-59-693221Z-3f3adfca-4aff-4dcc-8f51-541317433407-baseline.json",
     "operator_trace_followup": {
@@ -3435,7 +3967,36 @@
       "settings_origin_matches_execution_origin": true,
       "execution_payload_retention_changed": false,
       "execution_404_cause_proven": false,
-      "next_safe_gap": "Durable per-stage attempt/workflow-execution correlation metadata in a future coordinated backend slice, without enabling node payload retention or retrying jobs."
+      "next_safe_gap": "Durable per-stage attempt/workflow-execution correlation metadata in a future coordinated backend slice, without enabling node payload retention or retrying jobs.",
+      "future_claim_trace_source": {
+        "status": "source_merged_candidate_SQL_unexecuted_outside_migration_history",
+        "source_commits": [
+          "5b2d2a0",
+          "c3cb76d"
+        ],
+        "original_commits": [
+          "18dab3c",
+          "b005952"
+        ],
+        "source_folder": "development/m07/job-attempt-observability36",
+        "future_committed_claim_metadata": true,
+        "old_backfill": false,
+        "existing_claim_routines_changed": false,
+        "node_payload_retention_enabled": false,
+        "independent_jobs_parser_tests_passed": 19,
+        "independent_SQL_source_tests_passed": 8,
+        "independent_tests_skipped": 0,
+        "review_fixes": [
+          "Allow existing manual presentation/PDF retry stage-budget reset without uniqueness conflict.",
+          "Require literal execution-reference state strings without coercion or raw errors."
+        ],
+        "actual_SQL_executed": false,
+        "canonical_migration_added": false,
+        "hosted_worker_or_web_integrated": false,
+        "owned_local_proof": "source_preparation_in_progress_not_executed",
+        "live_AT074_acceptance": "partial_unverified_success_and_failure_operator_audit",
+        "next_action": "Reviewed owned-local actual SQL/fixture transaction, full rollback/preservation/cleanup proof; no provider or cloud run from source tests."
+      }
     },
     "controlled_app_intake": {
       "existing_reviewed_candidate_reused_in_dummy_pilot_via_app": true,
@@ -3651,12 +4212,110 @@
         "permits_live_changes": "ordinary business/jobs/feedback, per-user capability/membership rows and dynamic OAuth claims_count; current permissions must take effect",
         "full_atomic_table_and_oauth_preservation_retained": true
       },
-      "hosted_summary_deployed": false,
-      "authenticated_HTTP_MCP_summary_read_verified": false
-    }
+      "hosted_summary_deployed": true,
+      "authenticated_HTTP_MCP_summary_read_verified": false,
+      "authenticated_HTTP_summary_read_verified": true
+    },
+    "prior_english_web_ready": "tracking/evidence/m03/english-web-release34/2026-10-31T16-55-43-885447Z-ready.json",
+    "workspace_summary_web_release": {
+      "status": "deployed_ready_HTTP_summary_passed_new_MCP_and_app_capture_pending",
+      "deployment_id": "dpl_6L6vS8FnaGDckcYq8Xm4QxHGc74b",
+      "ready_receipt": "tracking/evidence/m07/workspace-summary35-web/2026-11-01T01-03-59-685059Z-ready.json",
+      "ready_receipt_written_at": "2026-11-01T01:03:59.685059Z",
+      "deployment_method": "provider_source_build",
+      "source_files": 282,
+      "source_sha256": "13209ba54d3e47a5f794ee6a4956fef8096c421e4691bd979b177e545afb831c",
+      "stable_alias_matches": true,
+      "environment_ids_targets_preserved": true,
+      "project_settings_link_preserved": true,
+      "canonical35_static_oauth_preserved": true,
+      "private_environment_retransferred": false,
+      "worker_or_oauth_configuration_changed": false,
+      "local_isolated_build_quality_only": true,
+      "prebuilt_runtime_acceptance_claimed": false,
+      "authenticated_HTTP_summary": {
+        "result": "passed",
+        "evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-authenticated-summary-read.json",
+        "observed_at": "2026-11-01T01:04:40.600Z",
+        "request_id": "d28d95bc-24ed-4e52-88be-0bf65a74bcb3"
+      },
+      "unexpected_query_rejection": {
+        "result": "passed",
+        "evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-authenticated-summary-input-validation.json",
+        "observed_at": "2026-11-01T01:05:21.320Z",
+        "request_id": "4865d0ef-3c44-4ee5-b878-9da04002b59d",
+        "error_code": "VALIDATION_FAILED"
+      },
+      "public_host_GET_checks": {
+        "evidence": "tracking/evidence/m07/controlled-pilot/2026-11-01T01-04-50-416Z-72819ef9-public-host.json",
+        "passed": 6,
+        "credential_free": true
+      },
+      "summary_MCP_metadata_and_denial_checks": {
+        "evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-public-summary-mcp-regression.json",
+        "passed": 4,
+        "authenticated_token_lifecycle_acceptance": false
+      },
+      "signed_in_app_capture": "pending_root_observation",
+      "new_authenticated_summary_MCP_read": "pending_owner_client_operation",
+      "prior_owner_initial_reconnect_project_read_acceptance": "passed_carried_forward",
+      "signed_in_app_capture_verified": true,
+      "signed_in_app_evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-authenticated-app-english-regression.json",
+      "next_action": "Obtain the newly deployed get_workspace_summary read through the owner working Claude client; existing initial/reconnect/project-read connection acceptance remains passed. Execute the next reviewed owned-local AT074 claim/callback/manual-retry rollback proof before any candidate SQL release, then real success/failure operator audit and remaining delegated/token/recovery work. Hosted English scan/version/guest/revocation/old-version and current app/HTTP passes stand; screen reader pending, mobile skipped, no labels or selector, pilot until owner stop."
+    },
+    "AT074_source_candidate": {
+      "status": "source_merged_candidate_SQL_unexecuted_outside_migration_history",
+      "source_commits": [
+        "5b2d2a0",
+        "c3cb76d"
+      ],
+      "original_commits": [
+        "18dab3c",
+        "b005952"
+      ],
+      "source_folder": "development/m07/job-attempt-observability36",
+      "future_committed_claim_metadata": true,
+      "old_backfill": false,
+      "existing_claim_routines_changed": false,
+      "node_payload_retention_enabled": false,
+      "independent_jobs_parser_tests_passed": 19,
+      "independent_SQL_source_tests_passed": 8,
+      "independent_tests_skipped": 0,
+      "review_fixes": [
+        "Allow existing manual presentation/PDF retry stage-budget reset without uniqueness conflict.",
+        "Require literal execution-reference state strings without coercion or raw errors."
+      ],
+      "actual_SQL_executed": false,
+      "canonical_migration_added": false,
+      "hosted_worker_or_web_integrated": false,
+      "owned_local_proof": "source_preparation_in_progress_not_executed",
+      "live_AT074_acceptance": "partial_unverified_success_and_failure_operator_audit",
+      "next_action": "Reviewed owned-local actual SQL/fixture transaction, full rollback/preservation/cleanup proof; no provider or cloud run from source tests."
+    },
+    "worker_latest_health": {
+      "observed_at": "2026-11-01T01:06:22.753Z",
+      "evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-worker-health-verifier-correction.json",
+      "original_verifier_receipt": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-worker-health.json",
+      "deployment_id": "dpl_2uASsbYobSDwWjMptPjGLcVEdCg3",
+      "status": "ready",
+      "ready": 1,
+      "desired": 1,
+      "total": 1,
+      "memory_mib": 2048,
+      "region": "dub1",
+      "instance_alive": true,
+      "daemon_digest": "sha256:430d0992ef3280f13fb52ff206d0ae09eedb2fee0831583f868db77d4012f12f",
+      "worker_redeployed": false,
+      "startup_logs_verified": false,
+      "verifier_false_negative": "Original expected digest omitted sha256: prefix; original receipt preserved, correction reuses same read and dispatches no second provider request.",
+      "worker_failure_claimed": false,
+      "new_provider_request_for_correction": false
+    },
+    "signed_in_app_capture_verified": true,
+    "signed_in_app_evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-authenticated-app-english-regression.json"
   },
   "workspace_summary_backend": {
-    "recorded_at": "2026-11-01T00:57:45.216887+00:00",
+    "recorded_at": "2026-11-01T01:10:51.642Z",
     "source_commit": "ab1c3d5b34d8541347484e91b3f60759472b6f80",
     "original_source_commit": "1db430df005cdfb05da8b2c9b7e3194652a0f8a2",
     "main_merged": true,
@@ -3666,7 +4325,7 @@
     "regression_recorded_at": "2026-10-31T18:33:32.149253+00:00",
     "sql35_executed": true,
     "sql35_cloud_applied": true,
-    "summary_web_deployed": false,
+    "summary_web_deployed": true,
     "canonical_history_still": 35,
     "owned_local_proof": "passed_actual_SQL_fixtures_full_rollback_and_cleanup",
     "owned_local_proof_path": "development/m07/workspace-summary35-proof",
@@ -3712,7 +4371,7 @@
       "result_notes": "development/m07/workspace-summary35-proof/LIVE_SQL_RESULT.md"
     },
     "canonical35_applied": true,
-    "hosted_summary_deployed": false,
+    "hosted_summary_deployed": true,
     "local_sql_history": [
       {
         "status": "failed_synthetic_fixture_before_runtime_acceptance",
@@ -3738,14 +4397,15 @@
     ],
     "fixture_correction_commit": "c8e4faee2b8ddf35fd69323a5fbf8050ffb8a9de",
     "sql35_execution_environment": "passed_owned_disposable_rollback_then_guarded_canonical_apply_and_readback",
-    "next_action": "Canonical35 apply/readback passed with normal return, two matching independent readbacks and all74 table/full OAuth preservation. Complete the compatible Summary provider source-build quality/deployment/readback, then actual signed-in app and authenticated HTTP/MCP Summary reads. Web5vEM/worker2uAS/English1.0 remain serving until actual web replacement. Carry forward completed guest create/test/revoke, owner Claude acceptance and local33 recovery; continue separate live AT074/delegated/token/recovery checks. No labels/selector; screen reader pending, mobile skipped, pilot until owner stop.",
+    "next_action": "Obtain the newly deployed get_workspace_summary read through the owner working Claude client; existing initial/reconnect/project-read connection acceptance remains passed. Execute the next reviewed owned-local AT074 claim/callback/manual-retry rollback proof before any candidate SQL release, then real success/failure operator audit and remaining delegated/token/recovery work. Hosted English scan/version/guest/revocation/old-version and current app/HTTP passes stand; screen reader pending, mobile skipped, no labels or selector, pilot until owner stop.",
     "release_preparation": {
       "source_commit": "29079b2",
-      "status": "canonical_inspect_one_apply_and_separate_readback_passed_web_pending",
+      "status": "canonical35_and_compatible_web_Ready_HTTP_passed_new_MCP_app_capture_pending",
       "canonical35_applied": true,
-      "hosted_summary_deployed": false,
+      "hosted_summary_deployed": true,
       "apply_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-22-943495Z-apply.json",
-      "readback_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-45-216113Z-readback.json"
+      "readback_evidence": "tracking/evidence/m07/workspace-summary35-release/2026-11-01T00-57-45-216113Z-readback.json",
+      "web_ready_evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01T01-03-59-685059Z-ready.json"
     },
     "canonical_history_count": 35,
     "canonical_release": {
@@ -3787,9 +4447,60 @@
         "permits_live_changes": "ordinary business/jobs/feedback, per-user capability/membership rows and dynamic OAuth claims_count; current permissions must take effect",
         "full_atomic_table_and_oauth_preservation_retained": true
       },
-      "hosted_summary_deployed": false,
-      "authenticated_HTTP_MCP_summary_read_verified": false
-    }
+      "hosted_summary_deployed": true,
+      "authenticated_HTTP_MCP_summary_read_verified": false,
+      "authenticated_HTTP_summary_read_verified": true
+    },
+    "authenticated_HTTP_summary_read_verified": true,
+    "new_authenticated_MCP_summary_read_verified": false,
+    "signed_in_app_capture_verified": true,
+    "web_release": {
+      "status": "deployed_ready_HTTP_summary_passed_new_MCP_and_app_capture_pending",
+      "deployment_id": "dpl_6L6vS8FnaGDckcYq8Xm4QxHGc74b",
+      "ready_receipt": "tracking/evidence/m07/workspace-summary35-web/2026-11-01T01-03-59-685059Z-ready.json",
+      "ready_receipt_written_at": "2026-11-01T01:03:59.685059Z",
+      "deployment_method": "provider_source_build",
+      "source_files": 282,
+      "source_sha256": "13209ba54d3e47a5f794ee6a4956fef8096c421e4691bd979b177e545afb831c",
+      "stable_alias_matches": true,
+      "environment_ids_targets_preserved": true,
+      "project_settings_link_preserved": true,
+      "canonical35_static_oauth_preserved": true,
+      "private_environment_retransferred": false,
+      "worker_or_oauth_configuration_changed": false,
+      "local_isolated_build_quality_only": true,
+      "prebuilt_runtime_acceptance_claimed": false,
+      "authenticated_HTTP_summary": {
+        "result": "passed",
+        "evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-authenticated-summary-read.json",
+        "observed_at": "2026-11-01T01:04:40.600Z",
+        "request_id": "d28d95bc-24ed-4e52-88be-0bf65a74bcb3"
+      },
+      "unexpected_query_rejection": {
+        "result": "passed",
+        "evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-authenticated-summary-input-validation.json",
+        "observed_at": "2026-11-01T01:05:21.320Z",
+        "request_id": "4865d0ef-3c44-4ee5-b878-9da04002b59d",
+        "error_code": "VALIDATION_FAILED"
+      },
+      "public_host_GET_checks": {
+        "evidence": "tracking/evidence/m07/controlled-pilot/2026-11-01T01-04-50-416Z-72819ef9-public-host.json",
+        "passed": 6,
+        "credential_free": true
+      },
+      "summary_MCP_metadata_and_denial_checks": {
+        "evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-public-summary-mcp-regression.json",
+        "passed": 4,
+        "authenticated_token_lifecycle_acceptance": false
+      },
+      "signed_in_app_capture": "pending_root_observation",
+      "new_authenticated_summary_MCP_read": "pending_owner_client_operation",
+      "prior_owner_initial_reconnect_project_read_acceptance": "passed_carried_forward",
+      "signed_in_app_capture_verified": true,
+      "signed_in_app_evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-authenticated-app-english-regression.json",
+      "next_action": "Obtain the newly deployed get_workspace_summary read through the owner working Claude client; existing initial/reconnect/project-read connection acceptance remains passed. Execute the next reviewed owned-local AT074 claim/callback/manual-retry rollback proof before any candidate SQL release, then real success/failure operator audit and remaining delegated/token/recovery work. Hosted English scan/version/guest/revocation/old-version and current app/HTTP passes stand; screen reader pending, mobile skipped, no labels or selector, pilot until owner stop."
+    },
+    "signed_in_app_evidence": "tracking/evidence/m07/workspace-summary35-web/2026-11-01-authenticated-app-english-regression.json"
   },
   "settings_error_boundary_regression": {
     "commit": "de276c704a8984733fddb206be77e350fe6c2fb1",
@@ -3797,5 +4508,34 @@
     "exported_route_tests_passed_before_production_change": 7,
     "bug_claim_retracted": true,
     "production_change_made": false
+  },
+  "job_attempt_observability_candidate": {
+    "status": "source_merged_candidate_SQL_unexecuted_outside_migration_history",
+    "source_commits": [
+      "5b2d2a0",
+      "c3cb76d"
+    ],
+    "original_commits": [
+      "18dab3c",
+      "b005952"
+    ],
+    "source_folder": "development/m07/job-attempt-observability36",
+    "future_committed_claim_metadata": true,
+    "old_backfill": false,
+    "existing_claim_routines_changed": false,
+    "node_payload_retention_enabled": false,
+    "independent_jobs_parser_tests_passed": 19,
+    "independent_SQL_source_tests_passed": 8,
+    "independent_tests_skipped": 0,
+    "review_fixes": [
+      "Allow existing manual presentation/PDF retry stage-budget reset without uniqueness conflict.",
+      "Require literal execution-reference state strings without coercion or raw errors."
+    ],
+    "actual_SQL_executed": false,
+    "canonical_migration_added": false,
+    "hosted_worker_or_web_integrated": false,
+    "owned_local_proof": "source_preparation_in_progress_not_executed",
+    "live_AT074_acceptance": "partial_unverified_success_and_failure_operator_audit",
+    "next_action": "Reviewed owned-local actual SQL/fixture transaction, full rollback/preservation/cleanup proof; no provider or cloud run from source tests."
   }
 }

@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-11-01T01:05:03.029Z",
+  "environment": "hosted_pilot",
+  "result": "passed",
+  "checks": [
+    {
+      "name": "anonymous_summary",
+      "path": "/api/v1/workspaces/86936940-b48d-497d-b1ff-8e0da0913afa/summary",
+      "status": 401,
+      "expected_status": 401,
+      "private_no_store": true,
+      "no_set_cookie": true,
+      "error_code": "AUTH_REQUIRED",
+      "metadata_matches": true,
+      "passed": true
+    },
+    {
+      "name": "anonymous_mcp",
+      "path": "/mcp",
+      "status": 401,
+      "expected_status": 401,
+      "private_no_store": true,
+      "no_set_cookie": true,
+      "error_code": "invalid_token",
+      "metadata_matches": true,
+      "passed": true
+    },
+    {
+      "name": "invalid_bearer_mcp",
+      "path": "/mcp",
+      "status": 401,
+      "expected_status": 401,
+      "private_no_store": true,
+      "no_set_cookie": true,
+      "error_code": "invalid_token",
+      "metadata_matches": true,
+      "passed": true
+    },
+    {
+      "name": "protected_resource_metadata",
+      "path": "/.well-known/oauth-protected-resource/mcp",
+      "status": 200,
+      "expected_status": 200,
+      "private_no_store": true,
+      "no_set_cookie": true,
+      "error_code": null,
+      "metadata_matches": true,
+      "passed": true
+    }
+  ],
+  "cookies_or_real_credentials_sent": false,
+  "synthetic_invalid_bearer": true,
+  "redirects_followed": false,
+  "raw_payload_or_headers_persisted": false,
+  "authenticated_token_lifecycle_acceptance": false
+}

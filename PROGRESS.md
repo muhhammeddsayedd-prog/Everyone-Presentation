@@ -1,6 +1,63 @@
 # Everyone Presentation Studio - current English-output rollout
 
-## 2026-11-01, 00:57 UTC: canonical35 applied; Summary web release pending
+## 2026-11-01, 01:10 UTC: deployed app English regression passed
+
+The current web6L6v/canonical35/worker2uAS pilot passed actual signed-in navigation
+through Dummy Pilot Test to the Reviewed profile. The new introduction rendered
+one visible lang=en transcript matching the saved248-byte SHA0e81d416...f561cecd.
+Reviewed remained true with its confirmation button disabled; legacy material
+retained explicit English-not-captured wording. No facts, frames, jobs, versions
+or links were changed by this regression. Receipt:
+`tracking/evidence/m07/workspace-summary35-web/2026-11-01-authenticated-app-english-regression.json`.
+The screenshot is private/ignored; raw transcript and media URLs are not in Git.
+
+Provider Ready, authenticated Summary HTTP read/query rejection and public
+API/MCP denial/discovery checks have passed. The new Summary MCP read is pending
+the owner's already working client; earlier connection/reconnect/project-read
+acceptance stays completed. AT074 metadata source5b2d2a0/c3cb76d passed root19
+jobs/parser plus8 SQL/source tests, separately from the still-unexecuted SQL.
+Next: new MCP Summary read and the reviewed owned-local claim/callback/retry
+rollback proof. Keep screen reader pending, mobile skipped, frontend preserved
+and pilot running until owner stop. No language labels or selector.
+
+## Historical Summary web/HTTP checkpoint - 2026-11-01, 01:06 UTC
+
+The stable pilot alias now serves Summary-compatible web
+`dpl_6L6vS8FnaGDckcYq8Xm4QxHGc74b`, source282/SHA13209ba5...afb831c.
+The provider source-build Ready/readback passed at01:03:59UTC, preserving the
+project settings/link, environment IDs/targets and canonical35/static OAuth
+contract. No worker/OAuth/environment configuration was changed or retransferred.
+Actual Ready receipt:
+`tracking/evidence/m07/workspace-summary35-web/2026-11-01T01-03-59-685059Z-ready.json`.
+
+The signed-in owner HTTP Summary read passed at01:04:40.600UTC, request
+`d28d95bc-24ed-4e52-88be-0bf65a74bcb3`; an unexpected query parameter was rejected
+as `VALIDATION_FAILED` at01:05:21.320UTC, request
+`4865d0ef-3c44-4ee5-b878-9da04002b59d`. Six no-credential public GET checks and
+four Summary/MCP metadata/denial checks also passed. These are actual HTTP
+results, not the new authenticated Summary MCP operation or signed-in app capture;
+those two checks remain pending at this checkpoint.
+
+Worker2uAS remains Ready with one alive2048MiB dub1 instance at01:06:22.753UTC.
+The first health receipt incorrectly marked failure because its expected digest
+omitted `sha256:`; the observed worker state/digest were correct. The original
+receipt and a separate verifier-correction receipt are retained; no worker failure,
+restart or second provider request is claimed. English1.0/canonical35 remain active.
+
+AT-074's next metadata slice is merged as5b2d2a0/c3cb76d, source-only outside
+migration history. Independent19 jobs/parser and8 SQL/source tests passed after
+fixing resettable stage-counter uniqueness and strict enum parsing. Actual SQL
+has not run; the next owned-local rollback/proof package is being prepared.
+Historical31686 metadata absence and full AT-074 acceptance remain unresolved.
+
+Next: capture the actual signed-in app, then obtain the new authenticated Summary
+MCP read through the owner's working client; continue the owned-local AT-074
+proof and remaining live M07 checks. The earlier Claude initial/reconnect/project
+read acceptance remains passed. English scan/new version/guest/revocation and
+old-cohort proofs carry forward, screen reader pending, mobile skipped, no labels
+or language selector, frontend preserved and pilot running until owner stop.
+
+## Historical canonical35 apply checkpoint - 2026-11-01, 00:57 UTC
 
 Canonical migration35 is now applied to the existing Everyone-Presentation
 project. Root's target inspect passed at00:56:24.483835UTC. The single guarded

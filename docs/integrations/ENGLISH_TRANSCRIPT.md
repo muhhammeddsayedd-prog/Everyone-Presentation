@@ -198,9 +198,33 @@ later web gate binds schema/RLS/grants/owners/static OAuth/ten control-plane
 configs while permitting ordinary business, per-user authority and claim-count
 changes to take effect.
 
-The serving web remains5vEM and worker2uAS with English1.0. Summary's compatible
-web source is not deployed/live-read-verified yet. Next is its provider source
-build/deployment/readback and actual signed-in app/authenticated API+MCP Summary
-reads. Existing English guest/link revocation, owner Claude connection and
-old-cohort preservation passes retain their exact evidence boundaries. No labels
-or language selector; screen reader pending, mobile skipped, pilot running.
+At that00:57UTC checkpoint the web remained5vEM/worker2uAS/English1.0 and Summary's
+web/read proof was still pending. The subsequent deployment is recorded below.
+
+## 2026-11-01 Summary-compatible web release
+
+The [provider source-build Ready/readback](../../tracking/evidence/m07/workspace-summary35-web/2026-11-01T01-03-59-685059Z-ready.json)
+now confirms web `dpl_6L6vS8FnaGDckcYq8Xm4QxHGc74b` on the stable alias, source282
+SHA13209ba54d3e47a5f794ee6a4956fef8096c421e4691bd979b177e545afb831c.
+Project settings/link, environment IDs/targets and canonical35/static OAuth
+contract were preserved. No private environment transfer or worker/OAuth
+configuration change occurred. The isolated local build was quality proof;
+the hosted artifact came from the provider's source build.
+
+The [actual signed-in Summary HTTP read](../../tracking/evidence/m07/workspace-summary35-web/2026-11-01-authenticated-summary-read.json)
+passed with requestd28d95bc-24ed-4e52-88be-0bf65a74bcb3. Unexpected query input was
+rejected with `VALIDATION_FAILED`, request4865d0ef-3c44-4ee5-b878-9da04002b59d.
+Six public GET and four Summary/MCP denial/metadata checks passed separately.
+The new authenticated Summary MCP read remains pending; the signed-in app English
+regression now passed at01:10:51UTC with the same248-byte saved hash and Reviewed
+state preserved (see `2026-11-01-authenticated-app-english-regression.json` in the same evidence folder);
+the earlier accepted Claude initial/reconnect/project read remains passed.
+
+Worker2uAS is still Ready with one alive2048MiB dub1 instance at01:06:22.753UTC.
+The initial health verifier omitted `sha256:` from its expected digest and
+incorrectly reported failure. Its original receipt and separate correction are
+retained; the worker state was correct and no new request/restart was needed.
+English1.0, actual scan/frozen saved version/guest revocation and old-cohort proof
+carry forward. AT-074's merged source-only metadata slice has19+8 independent
+test passes but no SQL runtime/migration acceptance. No labels or selector;
+screen reader pending, mobile skipped and pilot running until owner stop.
