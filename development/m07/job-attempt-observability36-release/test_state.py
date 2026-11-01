@@ -2,6 +2,8 @@
 import copy,importlib.util,unittest
 from pathlib import Path
 from pglast import ast,parse_sql,parse_plpgsql,visitors
+from pglast.stream import RawStream
+from types import SimpleNamespace
 HERE=Path(__file__).resolve().parent
 def load(name):
  spec=importlib.util.spec_from_file_location('attempt36_test_'+name,HERE/(name+'.py'));value=importlib.util.module_from_spec(spec);spec.loader.exec_module(value);return value
@@ -31,6 +33,14 @@ class CastBoundaries(visitors.Visitor):
    if len(targets)==1 and targets[0].name=='value'and isinstance(targets[0].val,ast.TypeCast):
     self.prior_casts.append(tuple(part.sval for part in targets[0].val.typeName.names))
 
+class ScopedFilters(visitors.Visitor):
+ def __init__(self):super().__init__();self.filters={}
+ def visit_SelectStmt(self,_ancestors,node):
+  if node.whereClause and 'trace_acl.'in RawStream()(node.whereClause):self.filters['trace_acl']=RawStream()(node.whereClause)
+  for source in node.fromClause or ():
+   if isinstance(source,ast.RangeFunction)and source.alias and source.alias.aliasname=='role_row':
+    self.filters[source.alias.aliasname]=RawStream()(node.whereClause)
+
 class StateTests(unittest.TestCase):
  def test_actual_proof_admission_promotion_and_only_header_diff(self):
   candidate=(s.ROOT/p.CANDIDATE).read_bytes();raw=(s.ROOT/s.MIGRATION).read_bytes();proof=(s.ROOT/p.PROOF).read_bytes()
@@ -45,6 +55,49 @@ class StateTests(unittest.TestCase):
    self.assertIn('unsupported_metadata_count',sql);self.assertIn('claim_ports',sql)
    if phase=='before':self.assertNotIn('from eps.job_stage_attempts t',sql)
    else:self.assertIn('from eps.job_stage_attempts t',sql)
+ def test_oauth_normalizer_pins_old_sql_and_adapts_both_full_and_static_hashes(self):
+  b=p.load_base();raw=b.old.oauth_sql();normalized=s.normalized_oauth_sql(b)
+  self.assertEqual(s.sha(raw.encode()),s.OAUTH_SQL_SHA)
+  self.assertEqual(len(parse_sql('select '+normalized)),1)
+  # Both inherited hashes must consume exactly this same normalized envelope;
+  # the full hash keeps claims_count, while only static omits that one key.
+  adapted=s.normalized_base_state_sql(b)
+  self.assertEqual(adapted,b.state_sql().replace(raw,normalized))
+  self.assertEqual(adapted.count(normalized),2)
+  self.assertIn(b.digest_sql('v'),adapted)
+  self.assertIn(b.digest_sql("v-'claims_count'"),adapted)
+  self.assertTrue(normalized.endswith('from(select '+raw+' as value)q)'))
+  changed=SimpleNamespace(old=SimpleNamespace(oauth_sql=lambda:raw+' '),state_sql=b.state_sql)
+  with self.assertRaises(ValueError):s.normalized_oauth_sql(changed)
+  changed=SimpleNamespace(old=b.old,state_sql=lambda:'select '+raw)
+  with self.assertRaises(ValueError):s.normalized_base_state_sql(changed)
+ def test_oauth_normalizer_filters_only_exact_trace_role_and_eps_grantee(self):
+  sql=s.normalized_oauth_sql(p.load_base());visitor=ScopedFilters();visitor(parse_sql('select '+sql))
+  expected={
+   'role_row':"role_row.value ->> 'name' IS DISTINCT FROM 'eps_job_trace_owner'",
+   'trace_acl':"n.nspname = 'eps' AND trace_acl.grantee IS DISTINCT FROM to_regrole('eps_job_trace_owner')"}
+  expected={key:RawStream()(parse_sql('select 1 where '+value)[0].stmt.whereClause)for key,value in expected.items()}
+  self.assertEqual(visitor.filters,expected)
+  self.assertIn("q.value#>'{base,catalogue,roles}'",sql)
+  self.assertIn("case when namespace_row.value->>'name'='eps'then jsonb_set(namespace_row.value,'{acl}'",sql)
+  self.assertIn('else namespace_row.value end order by namespace_row.ordinality',sql)
+  self.assertIn("aclexplode(coalesce(n.nspacl,acldefault('n',n.nspowner)))",sql)
+  for field in ['grantee','grantor','privilege','grantable']:self.assertIn("'"+field+"'",sql)
+  self.assertIn("case when trace_acl.grantee=0 then 'PUBLIC'else pg_get_userbyid(trace_acl.grantee)end",sql)
+ def test_atomic_oauth_changes_still_fail_and_static_omits_only_dynamic_claim_count_hash(self):
+  a=before();z=after(a)
+  # Model changed full-envelope hashes from a new consent claim or any unrelated
+  # role/ACL/security/ledger change: none is an allowed atomic DDL delta.
+  for sha_field in ['sha256']:
+   changed=copy.deepcopy(z);changed['oauth'][sha_field]='0'*64
+   with self.assertRaises(ValueError):s.check_transition(a,changed,migration_version=s.VERSION)
+   self.assertEqual(s.static_schema(changed),s.static_schema(z))
+  changed=copy.deepcopy(z);changed['oauth_static_sha256']='0'*64
+  with self.assertRaises(ValueError):s.check_transition(a,changed,migration_version=s.VERSION)
+  self.assertNotEqual(s.static_schema(changed),s.static_schema(z))
+  for field,value in [('oauth',{'sha256':None,'coordinator_auth_usage':False}),('oauth_static_sha256',None)]:
+   changed=copy.deepcopy(a);changed[field]=value
+   with self.assertRaises(ValueError):s.check_before(changed)
  def test_full_cloud_transition_preserves_all74_business_oauth_and_catalogue(self):
   a=before();z=after(a);self.assertTrue(s.check_transition(a,z,migration_version=s.VERSION)['all74_old_table_hashes_unchanged'])
   for field in ['catalogue','data','oauth','english','protected_m02','claim_ports','legacy']:

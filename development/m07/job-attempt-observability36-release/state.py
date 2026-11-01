@@ -5,6 +5,7 @@ import copy,hashlib,importlib.util,json,re
 HERE=Path(__file__).resolve().parent;ROOT=HERE.parents[2]
 VERSION='20261101012057'
 MIGRATION='supabase/migrations/20261101012057_m07_job_attempt_observability.sql'
+OAUTH_SQL_SHA='b6aff42a18127ca33c924cfa45050c56a234a66af1789d9a428860ed1116066d'
 PORTS=('eps.claim_job_stage(jsonb)','eps.claim_candidate_job_stage(jsonb)','eps.claim_review_job_stage(jsonb)',
  'eps.claim_presentation_job_stage(jsonb)','eps.claim_export_job_stage(jsonb)','eps.claim_job_stage_replay(jsonb,text,text,text)',
  'eps.record_job_event(jsonb)','public.eps_retry_job(uuid,jsonb,text)','eps.retry_guest_pdf_export(uuid,uuid,uuid,uuid)')
@@ -35,11 +36,32 @@ def legacy_sql():
 def ports_sql(b):
  values=','.join('('+b.literal(signature)+')'for signature in PORTS)
  return "(select jsonb_object_agg(s.signature,jsonb_build_object('exists',p.oid is not null,'owner',pg_get_userbyid(p.proowner),'definer',p.prosecdef,'config',p.proconfig,'body_sha256',"+b.digest_sql("replace(p.prosrc,E'\\r\\n',E'\\n')")+",'acl',"+b.acl_sql('p')+"))from(values"+values+")s(signature)left join pg_proc p on p.oid=to_regprocedure(s.signature))"
+
+def normalized_oauth_sql(b):
+ """Keep the frozen OAuth envelope except the separately admitted trace delta.
+
+ Actual281 proved the broad old role inventory and raw eps ACL included this
+ additive role/grant too. Normalize only those two paths, with all new-role
+ attributes/grants still checked by schema_gate/catalogue_delta in the same
+ snapshot. Full claims_count and every other OAuth/security field stay intact.
+ """
+ raw=b.old.oauth_sql();need(sha(raw.encode())==OAUTH_SQL_SHA)
+ roles="(select coalesce(jsonb_agg(role_row.value order by role_row.ordinality),'[]'::jsonb)from jsonb_array_elements(q.value#>'{base,catalogue,roles}')with ordinality role_row(value,ordinality)where role_row.value->>'name' is distinct from 'eps_job_trace_owner')"
+ acl="(select coalesce(jsonb_agg(jsonb_build_object('grantee',case when trace_acl.grantee=0 then 'PUBLIC'else pg_get_userbyid(trace_acl.grantee)end,'grantor',pg_get_userbyid(trace_acl.grantor),'privilege',trace_acl.privilege_type,'grantable',trace_acl.is_grantable)order by trace_acl.grantee,trace_acl.grantor,trace_acl.privilege_type,trace_acl.is_grantable),'[]'::jsonb)from pg_namespace n cross join lateral aclexplode(coalesce(n.nspacl,acldefault('n',n.nspowner)))trace_acl where n.nspname='eps'and trace_acl.grantee is distinct from to_regrole('eps_job_trace_owner'))"
+ namespaces="(select jsonb_agg(case when namespace_row.value->>'name'='eps'then jsonb_set(namespace_row.value,'{acl}',"+acl+")else namespace_row.value end order by namespace_row.ordinality)from jsonb_array_elements(q.value->'namespace')with ordinality namespace_row(value,ordinality))"
+ shape="jsonb_typeof(q.value#>'{base,catalogue,roles}')='array'and jsonb_typeof(q.value->'namespace')='array'and(select count(*)from jsonb_array_elements(q.value->'namespace')ns where ns->>'name'='eps')=1"
+ return "(select case when "+shape+" then jsonb_set(jsonb_set(q.value,'{base,catalogue,roles}',"+roles+"),'{namespace}',"+namespaces+")else null end from(select "+raw+" as value)q)"
+
+def normalized_base_state_sql(b):
+ raw=b.old.oauth_sql();normalized=normalized_oauth_sql(b);sql=b.state_sql()
+ # One full-envelope hash and one hash omitting ONLY claims_count. Refuse a
+ # changed inherited composition instead of silently leaving one unadapted.
+ need(sql.count(raw)==2);return sql.replace(raw,normalized)
 def state_sql(phase='before',local=False):
  need(phase in('before','after','disabled')and type(local)is bool)
  b=base();d=module('catalogue_delta');g=module('schema_gate');normal=d.normalized_catalogue_sql(b.catalogue_sql())
  trace="null::jsonb"if phase=='before'else"(select jsonb_build_object('count',count(*),'sha256',"+b.digest_sql("coalesce(string_agg(h,E'\\n'order by h),'')")+")from(select "+b.digest_sql('to_jsonb(t)')+"h from eps.job_stage_attempts t)hashed)"
- return "select(select (b.value-'static_schema')||jsonb_build_object('catalogue',"+normal+",'schema',( "+g.new_schema_sql()+"),'delta_metadata',"+d.delta_metadata_sql()+",'legacy',"+legacy_sql()+",'claim_ports',"+ports_sql(b)+",'session_user',session_user,'trace_rows',"+trace+")from("+b.state_sql()+"as value)b)"
+ return "select(select (b.value-'static_schema')||jsonb_build_object('catalogue',"+normal+",'schema',( "+g.new_schema_sql()+"),'delta_metadata',"+d.delta_metadata_sql()+",'legacy',"+legacy_sql()+",'claim_ports',"+ports_sql(b)+",'session_user',session_user,'trace_rows',"+trace+")from("+normalized_base_state_sql(b)+" as value)b)"
 def check_before(value,local=False,expected_ports=None):
  b=base();g=module('schema_gate');need(type(local)is bool and type(value)is dict)
  need(set(value)=={'database','operator','cli_role_safe','history','protected_m02','protected_m02_integrity','drain','english','oauth','oauth_static_sha256',
@@ -48,6 +70,8 @@ def check_before(value,local=False,expected_ports=None):
  need(value['operator']=='postgres'and value['history']==b.HISTORY+[b.VERSION]and value['summary']==b.SUMMARY)
  need(value['owner_no_public_create']is True and value['review_owner_safe']is True and value['eps_tables']==b.EPS_TABLES)
  need(set(value['data'])==set(b.TABLES)and len(value['data'])==74 and value['oauth']['coordinator_auth_usage']is False)
+ need(type(value['oauth'])is dict and set(value['oauth'])=={'sha256','coordinator_auth_usage'})
+ for digest in [value['oauth']['sha256'],value['oauth_static_sha256']]:need(type(digest)is str and re.fullmatch('[a-f0-9]{64}',digest))
  for row in [value['catalogue'],*value['data'].values()]:need(type(row)is dict and set(row)=={'count','sha256'}and type(row['count'])is int and row['count']>=0 and type(row['sha256'])is str and re.fullmatch('[a-f0-9]{64}',row['sha256']))
  legacy=value['legacy'];need(type(legacy)is dict and set(legacy)=={'unsupported_metadata_count','job_count','kinds'}and type(legacy['unsupported_metadata_count'])is int and legacy['unsupported_metadata_count']==0)
  need(type(legacy['job_count'])is int and legacy['job_count']>=0 and type(legacy['kinds'])is dict and set(legacy['kinds'])<=set(['specs_extract','candidate_scan','frame_extract','ai_suggestion','review_fit','presentation_render','presentation_export']))
