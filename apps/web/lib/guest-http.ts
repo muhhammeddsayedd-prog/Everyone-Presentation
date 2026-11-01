@@ -4,6 +4,7 @@ import type { GuestAccess, GuestContent, GuestMutationContext, GuestReviewOperat
 import { guestIdentifier, parseCommentCreate, parseCommentPatch, parseExportPrepare, parseGuestCommentCreate, parseGuestCommentPatch,
   parseGuestIdentity, parseGuestListOptions, parseGuestRowVersion, parsePreferenceSet, parseReviewLinkCreate, parseReviewLinkListOptions, parseReviewLinkPatch } from '../../../packages/domain/src/guest';
 import { json, NO_STORE, readBoundedBody, readJson } from './http';
+import { parseFeedbackSummaryVersionId } from '../../../packages/domain/src/feedback-summary';
 
 type Context = MutationContext & { requestId: string };
 const PRIVATE_HEADERS = { ...NO_STORE, 'Referrer-Policy': 'no-referrer', 'X-Frame-Options': 'DENY' };
@@ -21,6 +22,7 @@ function parameters(request: Request, names: string[]) {
 }
 export function isReviewLinkRoute(s: string[]): boolean {
   return s[0] === 'review-links' && (s.length === 1 || s.length === 2 || s.length === 3 && ['revoke', 'rotate'].includes(s[2]))
+    || s[0] === 'versions' && s.length === 4 && s[2] === 'feedback' && s[3] === 'summary'
     || s[0] === 'versions' && s.length === 3 && ['feedback', 'comments', 'preferences'].includes(s[2])
     || s[0] === 'comments' && s.length === 2
     || s[0] === 'pdf-exports' && (s.length === 1 || s.length === 2 || s.length === 3 && ['download', 'content'].includes(s[2]));
@@ -32,6 +34,7 @@ function binary(content: GuestContent): Response {
 export async function handleReviewLinkRequest(request: Request, s: string[], actor: Actor, service: ReviewLinkOperations, context: Context): Promise<Response> {
   if (!isReviewLinkRoute(s)) invalid(); s.forEach(guestIdentifier);
   const method = request.method;
+  if (method === 'GET' && s.length === 4 && s[0] === 'versions' && s[2] === 'feedback' && s[3] === 'summary') { const version = parseFeedbackSummaryVersionId(s[1]); parameters(request, []); await readBoundedBody(request, 0); return json(await service.getFeedbackSummary(actor, version), context.requestId); }
   if (method === 'GET' && s[0] === 'review-links' && s.length === 1) return Response.json({ request_id: context.requestId, ...await service.listReviewLinks(actor, parseReviewLinkListOptions(parameters(request, ['workspace_id', 'cursor', 'limit']))) }, { headers: PRIVATE_HEADERS });
   if (method === 'GET' && s[0] === 'versions' && s[2] === 'feedback') return json(await service.listFeedback(actor, s[1], parseGuestListOptions(parameters(request, ['cursor', 'limit']))), context.requestId);
   parameters(request, []);
@@ -116,6 +119,7 @@ export async function handleGuestReviewRequest(request: Request, s: string[], se
     return binary(s[1] === 'versions' ? await service.getMediaContent(auth.credential, s[2], s[4], request.headers.get('range')) : await service.getPdfExportContent(auth.credential, s[2], request.headers.get('range')));
   }
   if (method === 'GET' && s.length === 4 && s[1] === 'versions' && s[3] === 'feedback') return emit(await service.listFeedback(auth.credential, s[2], parseGuestListOptions(parameters(request, ['cursor', 'limit']))));
+  if (method === 'GET' && s.length === 5 && s[1] === 'versions' && s[3] === 'feedback' && s[4] === 'summary') { const version = parseFeedbackSummaryVersionId(s[2]); parameters(request, []); await readBoundedBody(request, 0); return emit(await service.getFeedbackSummary(auth.credential, version)); }
   parameters(request, []);
   if (s.length === 2) {
     if (method === 'GET' && s[1] === 'session') return emit(browserAccess(await service.getSession(auth.credential)));

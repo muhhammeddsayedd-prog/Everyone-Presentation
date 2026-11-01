@@ -1,6 +1,71 @@
 # Everyone Presentation Studio - current English-output rollout
 
-## Current checkpoint - 2026-11-01, 04:29 UTC: owned metadata36 passed; SQL37 and owner journey pending
+## Current checkpoint - 2026-11-01, 09:50 UTC: SQL37 owned proof passed; bounded Auth metadata observed; cloud37 pending
+
+Actual owned SQL37 run `e109a4d1-b3e8-4caf-98d8-773251359e91` PASSED from
+09:45:45.482UTC to 09:46:54.994UTC (69,512ms). Receipt:
+`tracking/evidence/m07/feedback-summary37-proof/2026-11-01T09-45-45-482Z-e109a4d1.json`
+(SHA256 `3a98d0dabac723e8c599f200a30e6849596b41281c0828868a64a313d008b1b9`).
+All 217 executed source seals match and are frozen. Actual Postgres executed
+34-37 functional DDL and the synthetic 72-statement count/authority fixture,
+then rolled back DDL/data/catalogue/roles and ephemeral history to source33.
+Both owned databases were removed; original29 data/full Auth-Storage catalogue,
+profile/settings and global-role identities/attributes/memberships remained
+exact, new33 roles were removed and the shared lock was released. The receipt's
+`native_executed:false` means no FFmpeg/native-media work; Postgres SQL did run.
+No cloud37, hosted feedback-summary, provider, media-byte or restore acceptance
+comes from this SQL proof. Prior b7 full36 metadata and local33 media recovery
+remain passed in their separate scopes, with all failed archives retained.
+
+Before execution, review found the fixture's three preference calls omitted the
+required idempotency-key argument. Root fixed their arity with stable synthetic
+keys, added actual canonical-signature regression and explicit internal/guest
+non-Ready assertions, and changed the wire test to exercise the actual compiled
+`sql()` port. Two unit regressions were RED before correction and all seven proof
+tests then passed. Earlier syntax/structure review had missed the arity error;
+its broad fixture-readiness acceptance was retracted. Latest focused checks are
+7 Python SQL/source checks,7 inert proof tests and12 focused API/SDK/MCP tests
+(overlapping scopes, not an additive live count). Root also completed full
+`npm test`, `npm run lint` and `npm run typecheck`, each exit0; no aggregate test
+count is claimed from truncated output. This does not resolve the separate
+AT069 targeted-file lint errors or its automatic policy block.
+
+A separate ACTUAL read-only Auth observation returned bounded limited metadata:
+`tracking/evidence/m07/oauth-refresh-metadata36/2026-11-01T09-47-58-887145Z-9042fd51-4d70-42d6-9b51-86cd72cfd147.json`
+(observed09:47:59.895351UTC; SHA256
+`0c4d80173e26b805d4fae274eda54a8c0d406daf714c3477be3621523c2ac535`).
+Exact six-column Auth schema/history36/principal-FK/client gates passed. For the
+known accepted owner/client, two retained sessions included one refresh timestamp
+after creation; latest refresh09:33:21.062735UTC. Audit login/refreshed counts were
+both zero in the bounded window; their absence cause is unknown and audit rows
+are not client-bound. This is a source-founded retained-client-session timestamp
+inference, not proof of the exact current Claude process, token receipt/storage,
+rotation, revocation, subsequent MCP use or current deployed Auth version. The
+v2.197.0 health evidence is historical. No direct helper credential-store read,
+Auth mutation, grant/config change or token-endpoint call occurred; normal
+Supabase CLI authentication was used. Operator retry was disabled; CLI internal
+retry policy was not verified. The three executed observer files are held exact.
+
+Canonical37 and the compatible web are NOT applied/deployed yet; a new disabled
+release proposal is being prepared. Current pilot remains canonical36,
+web `dpl_6pcN8Qb1XDkBTsiwKVmexKfWUvf7`, worker
+`dpl_2uASsbYobSDwWjMptPjGLcVEdCg3`, English1.0 enabled. Source inventory is
+88 user operations/88 tools/118 OpenAPI operations; serving last accepted
+inventory stays87/87/116. No frontend redesign merge, environment transfer,
+restart or replacement is claimed by this checkpoint.
+
+Next: complete guarded canonical37/web release preparation and live summary
+acceptance, while continuing independent owner-controlled delegated-upload
+proof. Never replay the expired04:06 inbox or inspect its capabilities. Keep
+completed initial authorization/reconnect/authenticated reads, English/app/guest/
+PDF/oldversions/Reviewed and local33 proofs passed. AT069 remains policy-blocked
+with2 partial files/9 inert passes/17 targeted no-undef errors and no retry or
+provider action. Full delegated journey, contributor denial, full refresh/
+rotation/revocation/current-process use, representative workload and future
+native/filesystem extension remain open. AT072 screen reader pending, mobile
+skipped, frontend changes preserved, no new labels/selector, pilot until owner stop.
+
+## Historical checkpoint - 2026-11-01, 04:29 UTC: owned metadata36 passed; SQL37 and owner journey pending
 
 Owned full metadata36 recovery now PASSED. Fresh run
 `b7b41927-ff04-4b9d-8d27-f90dff822453` started 04:23:15.971UTC and ended

@@ -22482,6 +22482,199 @@
         "idempotentHint": true,
         "openWorldHint": false
       }
+    },
+    {
+      "name": "get_feedback_summary",
+      "description": "Read full body-free feedback counts on the exact requested Ready version in one snapshot, without cursor/limit truncation. All actual slides appear in ordinal order, including zero cover rows. Pending slides have comments only. Count visible undeleted comment rows including replies, unresolved rows with resolved=false, and current stored votes by value. Totals sum per_slide; unresolved_count cannot exceed comment_count. No bodies, names or author/session identifiers. Signed-in authority remains workspaces.read plus current presentation/project scope; guest authority remains the existing live link/session/external-series checks and excludes all internal comment counts. No mutation or provider call.",
+      "operationId": "get_feedback_summary",
+      "http": {
+        "method": "GET",
+        "path": "/versions/{version_id}/feedback/summary"
+      },
+      "capability": "workspaces.read",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "version_id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          }
+        },
+        "required": [
+          "version_id"
+        ],
+        "$defs": {}
+      },
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "request_id": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/$defs/FeedbackSummary"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/Warning"
+            }
+          }
+        },
+        "required": [
+          "request_id",
+          "data"
+        ],
+        "$defs": {
+          "FeedbackSummary": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "version_id": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+              },
+              "per_slide": {
+                "type": "array",
+                "maxItems": 1000,
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "version_slide_id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                    },
+                    "preferred": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    "maybe": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    "not_preferred": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    "comment_count": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    "unresolved_count": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": [
+                    "version_slide_id",
+                    "preferred",
+                    "maybe",
+                    "not_preferred",
+                    "comment_count",
+                    "unresolved_count"
+                  ]
+                }
+              },
+              "totals": {
+                "$ref": "#/$defs/FeedbackCounts"
+              }
+            },
+            "required": [
+              "version_id",
+              "per_slide",
+              "totals"
+            ]
+          },
+          "FeedbackCounts": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "preferred": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "maybe": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "not_preferred": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "comment_count": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "unresolved_count": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "preferred",
+              "maybe",
+              "not_preferred",
+              "comment_count",
+              "unresolved_count"
+            ]
+          },
+          "Warning": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "entity_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "code",
+              "message",
+              "entity_id"
+            ]
+          },
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          }
+        }
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
     }
   ],
   "excluded_operations": [

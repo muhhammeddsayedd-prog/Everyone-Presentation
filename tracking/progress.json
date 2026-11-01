@@ -1,10 +1,10 @@
 {
   "pack_version": "1.0",
-  "updated_at": "2026-11-01T04:29:26Z",
+  "updated_at": "2026-11-01T09:50:54Z",
   "implementation_started": true,
   "current_milestone": "M07",
   "current_pilot": {
-    "observed_at": "2026-11-01T04:25:02.093Z",
+    "observed_at": "2026-11-01T09:47:59.895351+00:00",
     "status": "in_progress",
     "origin": "https://everyone-presentation-pilot.vercel.app",
     "owner_stop_only": true,
@@ -52,7 +52,9 @@
       "workspace_summary_HTTP": "passed_signed_in_read_and_invalid_query_rejection",
       "workspace_summary_MCP": "passed_owner_attested_result_matches_HTTP_no_server_request_correlation",
       "operator_trace_AT074": "passed_scoped_pair_and_deployed_actionable_API_app_owner_MCP_guidance",
-      "owned_history36_metadata_recovery": "passed_local_synthetic_same_cluster_no_object_bytes"
+      "owned_history36_metadata_recovery": "passed_local_synthetic_same_cluster_no_object_bytes",
+      "feedback_summary37_owned_local_SQL": "passed_synthetic_Postgres_full_rollback_cleanup_not_hosted",
+      "OAuth_refresh_metadata": "observed_source_founded_client_session_timestamp_not_full_lifecycle"
     },
     "video_receipts": [
       "tracking/evidence/m07/controlled-pilot/2026-10-31-hosted-video-provider-metadata.json",
@@ -71,14 +73,14 @@
       182
     ],
     "application_test_evidence": "tracking/evidence/m07/backend-continuation/2026-10-31-886-application-tests.json",
-    "application_test_scope": "Recorded886 composed module tests are historical. Scoped AT074/app/API/owner get_job and English/Summary acceptance remain passed. Feedback37 has source-only31 guest/13 contract/typecheck/11 focused new/5 inert SQL checks; no native37/cloud acceptance or redesign merge.",
+    "application_test_scope": "Historical886 retained separately. Latest Root full npm test/lint/typecheck each exit0; no aggregate count inferred from truncated output. Latest focused7 Python SQL/source+7 proof+12 API/SDK/MCP checks overlap. Actual owned SQL37 e109 passed, canonical37/hosted feedback summary pending.",
     "oauth_state": "Verified scoped owner connection: full-details initial authorization and read, cached duplicate details, already-consented redirect-only reconnect and authenticated post-reconnect get_project; exact owner/server request ID matches. FullM07/refresh/revocation/write journey remain separate.",
     "AT_072": "pending",
     "M03_broader_semantics": "Owner clarified English-only output for all scanned introductions; more English/mixed labels are not required. Existing Arabic name/age acceptance preserved; broader semantic accuracy unclaimed.",
     "mobile_testing": "skipped by owner",
     "production_deployment_verified": false,
     "prior_snapshot": "tracking/evidence/m07/controlled-pilot/2026-10-31T01-24Z-prior-progress-snapshot.json",
-    "next_action": "Complete the source-reviewed feedback-summary37 owned local SQL/rollback proof before any canonical37 or compatible web rollout; official CLI-created migration path is 20261101042702_m07_feedback_summary.sql, not an applied migration. Continue the owner-controlled private upload journey with a fresh inbox if needed: the recorded04:06 inbox expired and no owner result was received, without inferring that no MCP operation occurred. Current36 owned metadata recovery b7 passed; a separately reviewed future-current37 native/filesystem-media extension remains unimplemented. AT069 partial source is policy-blocked/no retry, live token/contributor and representative workload remain open. Preserve owner connection/get_job, English/guest/Reviewed/local33 passes, AT072 pending/mobile skipped, frontend and running6pcN/2uAS pilot.",
+    "next_action": "Finish the disabled guarded canonical37 release proposal, then inspect/apply/read back migration20261101042702 and deploy the compatible web only after its gates pass; live internal/guest API and MCP feedback-summary acceptance remains pending. Canonical36/web6pcN/worker2uAS and English1.0 remain current. Preserve the passed owned217-source SQL37 proof and bounded client refresh-timestamp observation without claiming exact current Claude-process refresh, rotation/revocation or MCP use. Continue the owner-controlled private upload journey with a fresh inbox if needed, never replay the expired04:06 inbox or inspect its capability. Future-current37 native/filesystem extension remains separate; AT069 partial source is policy-blocked/no retry, contributor denial/representative workload remain open. Preserve English/guest/Reviewed/oldversions/local33 and completed owner connection acceptance; AT072 pending/mobile skipped, frontend preserved, no labels/selector, pilot until owner stop.",
     "specs_local_proof": "tracking/evidence/m07/specs-ack31/2026-10-31T01-22-16-662Z-dc886d4e-local-proof.json",
     "specs_canonical_apply": "tracking/evidence/m07/specs-ack31/2026-10-31T01-57-10-621248Z-a99247a4-canonical31-continuation-apply.json",
     "specs_canonical_apply_confirmed": true,
@@ -1155,19 +1157,19 @@
     },
     "README_current_header_reconciled": true,
     "feedback_summary37": {
-      "status": "source_implemented_local_tests_passed_native_SQL_and_cloud_pending",
+      "status": "owned_local_SQL37_proof_passed_canonical_and_hosted_pending",
       "contract": "docs/integrations/FEEDBACK_SUMMARY.md",
       "source_folder": "development/m07/feedback-summary37",
       "migration": "supabase/migrations/20261101042702_m07_feedback_summary.sql",
       "migration_filename_created_by_CLI": "2.122.0",
       "filename_creation_is_not_SQL_apply": true,
-      "focused_new_tests_passed": 11,
+      "focused_new_tests_passed": 12,
       "guest_existing_and_new_tests_passed": 31,
       "contract_tests_passed": 13,
-      "inert_SQL_source_checks_passed": 5,
+      "inert_SQL_source_checks_passed": 7,
       "counts_overlap_not_additive": true,
       "typecheck": "passed",
-      "native_SQL_executed": false,
+      "native_SQL_executed": true,
       "canonical37_applied": false,
       "hosted_deployed": false,
       "source_inventory": {
@@ -1180,7 +1182,81 @@
         "MCP_tools": 87,
         "OpenAPI_operations": 116
       },
-      "next_action": "Finish source filling/review and owned SQL37 full rollback/cleanup proof before guarded cloud/web rollout."
+      "next_action": "Finish the disabled guarded canonical37 release proposal, then inspect/apply/read back migration20261101042702 and deploy the compatible web only after its gates pass; live internal/guest API and MCP feedback-summary acceptance remains pending. Canonical36/web6pcN/worker2uAS and English1.0 remain current. Preserve the passed owned217-source SQL37 proof and bounded client refresh-timestamp observation without claiming exact current Claude-process refresh, rotation/revocation or MCP use. Continue the owner-controlled private upload journey with a fresh inbox if needed, never replay the expired04:06 inbox or inspect its capability. Future-current37 native/filesystem extension remains separate; AT069 partial source is policy-blocked/no retry, contributor denial/representative workload remain open. Preserve English/guest/Reviewed/oldversions/local33 and completed owner connection acceptance; AT072 pending/mobile skipped, frontend preserved, no labels/selector, pilot until owner stop.",
+      "prior_source_checkpoint_before_e109": {
+        "status": "source_implemented_local_tests_passed_native_SQL_and_cloud_pending",
+        "contract": "docs/integrations/FEEDBACK_SUMMARY.md",
+        "source_folder": "development/m07/feedback-summary37",
+        "migration": "supabase/migrations/20261101042702_m07_feedback_summary.sql",
+        "migration_filename_created_by_CLI": "2.122.0",
+        "filename_creation_is_not_SQL_apply": true,
+        "focused_new_tests_passed": 11,
+        "guest_existing_and_new_tests_passed": 31,
+        "contract_tests_passed": 13,
+        "inert_SQL_source_checks_passed": 5,
+        "counts_overlap_not_additive": true,
+        "typecheck": "passed",
+        "native_SQL_executed": false,
+        "canonical37_applied": false,
+        "hosted_deployed": false,
+        "source_inventory": {
+          "user_operations": 88,
+          "MCP_tools": 88,
+          "OpenAPI_operations": 118
+        },
+        "serving_last_accepted_inventory": {
+          "user_operations": 87,
+          "MCP_tools": 87,
+          "OpenAPI_operations": 116
+        },
+        "next_action": "Finish source filling/review and owned SQL37 full rollback/cleanup proof before guarded cloud/web rollout."
+      },
+      "actual_Postgres_SQL_executed": true,
+      "native_media_executed": false,
+      "owned_local_proof": {
+        "status": "passed_owned_local_SQL_full_rollback_cleanup",
+        "evidence": "tracking/evidence/m07/feedback-summary37-proof/2026-11-01T09-45-45-482Z-e109a4d1.json",
+        "sha256": "3a98d0dabac723e8c599f200a30e6849596b41281c0828868a64a313d008b1b9",
+        "run_id": "e109a4d1-b3e8-4caf-98d8-773251359e91",
+        "started_at": "2026-11-01T09:45:45.482Z",
+        "finished_at": "2026-11-01T09:46:54.994Z",
+        "elapsed_ms": 69512,
+        "source_seals": 217,
+        "all217_current_sources_match": true,
+        "executed_sources_frozen": true,
+        "actual_Postgres_SQL_executed": true,
+        "fixture_SQL_statements": 72,
+        "functional_DDL34_to37": true,
+        "ephemeral_history_rolled_back_to": 33,
+        "all_original29_AuthStorage_profile_global_roles_databases_lock_cleanup_passed": true,
+        "native_media_executed": false,
+        "cloud37_applied": false,
+        "hosted_acceptance": false,
+        "restore_acceptance": false
+      },
+      "latest_quality": {
+        "recorded_at": "2026-11-01T09:50:54Z",
+        "source": "Root actual command completion; output truncated, no aggregate count inferred",
+        "npm_test_exit_code": 0,
+        "npm_lint_exit_code": 0,
+        "npm_typecheck_exit_code": 0,
+        "aggregate_test_count": null,
+        "scoped_SQL_source_checks_passed": 7,
+        "scoped_proof_tests_passed": 7,
+        "scoped_API_SDK_MCP_tests_passed": 12,
+        "counts_overlap_not_additive": true,
+        "AT069_targeted_errors_not_resolved": true
+      },
+      "preexecution_corrections": {
+        "fixture_missing_required_idempotency_key_fixed": true,
+        "stable_synthetic_keys": true,
+        "canonical_signature_regression": true,
+        "internal_and_guest_nonReady_assertions": true,
+        "actual_compiled_sql_port_VM_parse": true,
+        "unit_RED_before_fix": 2,
+        "unit_GREEN_after_fix": 7,
+        "prior_structure_only_acceptance_retracted": true
+      }
     },
     "worker_replacement69": {
       "status": "blocked_source_only_partial_two_files",
@@ -1202,7 +1278,35 @@
       "ROLLBACK_TRANSPORT_md_exists": false,
       "actual_replacement_or_rollback_acceptance": false
     },
-    "recorded_at": "2026-11-01T04:29:26Z"
+    "recorded_at": "2026-11-01T04:29:26Z",
+    "oauth_refresh_metadata36": {
+      "status": "observed_limited_metadata",
+      "evidence": "tracking/evidence/m07/oauth-refresh-metadata36/2026-11-01T09-47-58-887145Z-9042fd51-4d70-42d6-9b51-86cd72cfd147.json",
+      "sha256": "0c4d80173e26b805d4fae274eda54a8c0d406daf714c3477be3621523c2ac535",
+      "observed_at": "2026-11-01T09:47:59.895351+00:00",
+      "client_id": "f2acafd5-d4b6-4176-b86c-067c57e45ecc",
+      "safe_Auth_schema_FK_client_history36_gates_passed": true,
+      "retained_sessions": 2,
+      "sessions_refreshed_after_creation": 1,
+      "last_refreshed_at": "2026-11-01T09:33:21.062735+00:00",
+      "audit_login_count": 0,
+      "audit_token_refreshed_count": 0,
+      "audit_absence_cause": "unknown",
+      "audit_client_binding": false,
+      "current_deployed_auth_version_verified": false,
+      "exact_current_process_proven": false,
+      "token_received_or_stored_proven": false,
+      "rotation_proven": false,
+      "revocation_proven": false,
+      "MCP_use_proven": false,
+      "direct_helper_credential_store_read": false,
+      "normal_Supabase_CLI_authentication_used": true,
+      "operator_automatic_retry": false,
+      "CLI_internal_retry_policy_verified": false,
+      "Auth_mutation": false,
+      "grant_or_configuration_change": false,
+      "observer_executed_sources_held_exact": true
+    }
   },
   "milestones": [
     {
@@ -1993,15 +2097,17 @@
         "tracking/evidence/m07/recovery36-trace-profile/2026-11-01T04-23-15-971Z-b7b41927.json",
         "tracking/evidence/m07/controlled-pilot/2026-11-01T04-17-19-997448Z-worker-web-health.json",
         "tracking/evidence/m07/recovery36-trace-profile/2026-11-01T04-04-49-683Z-e3af2cb6.json",
-        "tracking/evidence/m07/recovery36-trace-profile/2026-11-01T04-10-16-185Z-d5634756.json"
+        "tracking/evidence/m07/recovery36-trace-profile/2026-11-01T04-10-16-185Z-d5634756.json",
+        "tracking/evidence/m07/feedback-summary37-proof/2026-11-01T09-45-45-482Z-e109a4d1.json",
+        "tracking/evidence/m07/oauth-refresh-metadata36/2026-11-01T09-47-58-887145Z-9042fd51-4d70-42d6-9b51-86cd72cfd147.json"
       ],
       "blockers": [
-        "Owner initial authorization/reconnect/authenticated Dummy Pilot Test read stays passed. Full real delegated write/processing/generation/sharing, live refresh/rotation/revocation and actual contributor denial remain unverified.",
+        "Owner initial authorization/reconnect/authenticated Dummy Pilot Test read stays passed. Actual bounded Auth metadata observed2 retained matching sessions/1 later refresh timestamp; exact current-process refresh, token receipt/rotation/revocation/MCP use and deployed-provider-version remain unproved. Full delegated write/processing/generation/sharing and actual contributor denial remain unverified.",
         "Owned metadata36 b7 passed with17,684 exact catalogue/all populated table hashes, English/trace/fences and full cleanup; old failed runs/archives remain retained. Future-current37 native/filesystem extension, StorageHTTP/providerAuth/config/secrets/deployed/independent/RTO_RPO remain unverified.",
         "Scoped paired AT074 and deployed actionable app/API/owner-MCP guidance passed; terminal n8n metadata404 cause unproved. Full delegated/token/contributor/replacement/representative-cost/endurance remains unverified; manual AT072 pending/mobile skipped, frontend preserved, no labels/selector.",
-        "Feedback37 is source implemented/local tests passed but owned native SQL37, cloud apply and hosted integration remain pending. AT069 source continuation is policy-blocked:2 partial files/9 inert passes/17 no-undef errors, no retry/provider action."
+        "Feedback37 actual owned217-source Postgres SQL/rollback/fullcleanup proof passed; canonical37/cloud apply and hosted integration remain pending. AT069 source continuation stays policy-blocked:2 partial files/9 inert passes/17 targeted no-undef errors, no retry/provider action."
       ],
-      "next_action": "Complete the source-reviewed feedback-summary37 owned local SQL/rollback proof before any canonical37 or compatible web rollout; official CLI-created migration path is 20261101042702_m07_feedback_summary.sql, not an applied migration. Continue the owner-controlled private upload journey with a fresh inbox if needed: the recorded04:06 inbox expired and no owner result was received, without inferring that no MCP operation occurred. Current36 owned metadata recovery b7 passed; a separately reviewed future-current37 native/filesystem-media extension remains unimplemented. AT069 partial source is policy-blocked/no retry, live token/contributor and representative workload remain open. Preserve owner connection/get_job, English/guest/Reviewed/local33 passes, AT072 pending/mobile skipped, frontend and running6pcN/2uAS pilot.",
+      "next_action": "Finish the disabled guarded canonical37 release proposal, then inspect/apply/read back migration20261101042702 and deploy the compatible web only after its gates pass; live internal/guest API and MCP feedback-summary acceptance remains pending. Canonical36/web6pcN/worker2uAS and English1.0 remain current. Preserve the passed owned217-source SQL37 proof and bounded client refresh-timestamp observation without claiming exact current Claude-process refresh, rotation/revocation or MCP use. Continue the owner-controlled private upload journey with a fresh inbox if needed, never replay the expired04:06 inbox or inspect its capability. Future-current37 native/filesystem extension remains separate; AT069 partial source is policy-blocked/no retry, contributor denial/representative workload remain open. Preserve English/guest/Reviewed/oldversions/local33 and completed owner connection acceptance; AT072 pending/mobile skipped, frontend preserved, no labels/selector, pilot until owner stop.",
       "scope_constraints": {
         "AT_072": "pending",
         "M03_broader_semantic_checks": "Owner declined further labels; controlled English-output workflow passed, Arabic name/age retained; broader semantic accuracy unclaimed.",
@@ -2013,15 +2119,15 @@
       "dependency_override": "Proceed with independent M07 implementation; do not upgrade M06/M03 acceptance.",
       "current_checkpoint": {
         "milestone": "M07",
-        "status": "M07_in_progress_owned_metadata36_passed_feedback37_SQL_owner_journey_pending",
-        "observed_at": "2026-11-01T04:25:02.093Z",
+        "status": "M07_in_progress_owned_SQL37_passed_bounded_Auth_observed_cloud37_pending",
+        "observed_at": "2026-11-01T09:47:59.895351+00:00",
         "base_commit": "009536e",
         "canonical_migration_count": 36,
         "local_migration_count": 29,
         "canonical_apply": "Canonical36 actual02:19 normal return +two immediate matching readbacks; separate02:20 readback. All74 existing data/normalized catalogue/Auth/OAuth/nine ports/English/M02 preserved, empty new trace installed, capture enabled.",
         "canonical_readback": "tracking/evidence/m07/job-attempt-observability36-release/2026-11-01T02-20-17-194633Z-readback.json",
         "application_tests": 886,
-        "application_tests_scope": "886 composed module tests before final UI metadata fix; final15 overlapping candidate/playback UI tests and final build/typecheck passed.",
+        "application_tests_scope": "Historical886 retained separately. Latest Root full npm test/lint/typecheck each exit0; no aggregate count inferred from truncated output. Latest focused7 Python SQL/source+7 proof+12 API/SDK/MCP checks overlap. Actual owned SQL37 e109 passed, canonical37/hosted feedback summary pending.",
         "controlled_english_ui": {
           "initial": 17,
           "final_candidate_and_playback": 15,
@@ -2041,7 +2147,7 @@
         "local_restore_evidence": "tracking/evidence/m07/recovery36-trace-profile/2026-11-01T04-23-15-971Z-b7b41927.json",
         "name_diagnosis": "tracking/evidence/m03/english-name-review/2026-10-31T16-31-07-348316Z-5ed61ea9-8c38-4c1a-a3a2-958d6ccd5d72.json",
         "native_build_failure": "tracking/evidence/m03/english-image34/2026-10-31T17-03-17-960492Z-v2-registry-tls-diagnosis.json",
-        "next_action": "Complete the source-reviewed feedback-summary37 owned local SQL/rollback proof before any canonical37 or compatible web rollout; official CLI-created migration path is 20261101042702_m07_feedback_summary.sql, not an applied migration. Continue the owner-controlled private upload journey with a fresh inbox if needed: the recorded04:06 inbox expired and no owner result was received, without inferring that no MCP operation occurred. Current36 owned metadata recovery b7 passed; a separately reviewed future-current37 native/filesystem-media extension remains unimplemented. AT069 partial source is policy-blocked/no retry, live token/contributor and representative workload remain open. Preserve owner connection/get_job, English/guest/Reviewed/local33 passes, AT072 pending/mobile skipped, frontend and running6pcN/2uAS pilot.",
+        "next_action": "Finish the disabled guarded canonical37 release proposal, then inspect/apply/read back migration20261101042702 and deploy the compatible web only after its gates pass; live internal/guest API and MCP feedback-summary acceptance remains pending. Canonical36/web6pcN/worker2uAS and English1.0 remain current. Preserve the passed owned217-source SQL37 proof and bounded client refresh-timestamp observation without claiming exact current Claude-process refresh, rotation/revocation or MCP use. Continue the owner-controlled private upload journey with a fresh inbox if needed, never replay the expired04:06 inbox or inspect its capability. Future-current37 native/filesystem extension remains separate; AT069 partial source is policy-blocked/no retry, contributor denial/representative workload remain open. Preserve English/guest/Reviewed/oldversions/local33 and completed owner connection acceptance; AT072 pending/mobile skipped, frontend preserved, no labels/selector, pilot until owner stop.",
         "source_checkpoints": [
           "c6a3f15",
           "28c3d3c",
@@ -2865,19 +2971,19 @@
           "details_reference": "client_upload_inbox"
         },
         "feedback_summary37": {
-          "status": "source_implemented_local_tests_passed_native_SQL_and_cloud_pending",
+          "status": "owned_local_SQL37_proof_passed_canonical_and_hosted_pending",
           "contract": "docs/integrations/FEEDBACK_SUMMARY.md",
           "source_folder": "development/m07/feedback-summary37",
           "migration": "supabase/migrations/20261101042702_m07_feedback_summary.sql",
           "migration_filename_created_by_CLI": "2.122.0",
           "filename_creation_is_not_SQL_apply": true,
-          "focused_new_tests_passed": 11,
+          "focused_new_tests_passed": 12,
           "guest_existing_and_new_tests_passed": 31,
           "contract_tests_passed": 13,
-          "inert_SQL_source_checks_passed": 5,
+          "inert_SQL_source_checks_passed": 7,
           "counts_overlap_not_additive": true,
           "typecheck": "passed",
-          "native_SQL_executed": false,
+          "native_SQL_executed": true,
           "canonical37_applied": false,
           "hosted_deployed": false,
           "source_inventory": {
@@ -2890,7 +2996,81 @@
             "MCP_tools": 87,
             "OpenAPI_operations": 116
           },
-          "next_action": "Finish source filling/review and owned SQL37 full rollback/cleanup proof before guarded cloud/web rollout."
+          "next_action": "Finish the disabled guarded canonical37 release proposal, then inspect/apply/read back migration20261101042702 and deploy the compatible web only after its gates pass; live internal/guest API and MCP feedback-summary acceptance remains pending. Canonical36/web6pcN/worker2uAS and English1.0 remain current. Preserve the passed owned217-source SQL37 proof and bounded client refresh-timestamp observation without claiming exact current Claude-process refresh, rotation/revocation or MCP use. Continue the owner-controlled private upload journey with a fresh inbox if needed, never replay the expired04:06 inbox or inspect its capability. Future-current37 native/filesystem extension remains separate; AT069 partial source is policy-blocked/no retry, contributor denial/representative workload remain open. Preserve English/guest/Reviewed/oldversions/local33 and completed owner connection acceptance; AT072 pending/mobile skipped, frontend preserved, no labels/selector, pilot until owner stop.",
+          "prior_source_checkpoint_before_e109": {
+            "status": "source_implemented_local_tests_passed_native_SQL_and_cloud_pending",
+            "contract": "docs/integrations/FEEDBACK_SUMMARY.md",
+            "source_folder": "development/m07/feedback-summary37",
+            "migration": "supabase/migrations/20261101042702_m07_feedback_summary.sql",
+            "migration_filename_created_by_CLI": "2.122.0",
+            "filename_creation_is_not_SQL_apply": true,
+            "focused_new_tests_passed": 11,
+            "guest_existing_and_new_tests_passed": 31,
+            "contract_tests_passed": 13,
+            "inert_SQL_source_checks_passed": 5,
+            "counts_overlap_not_additive": true,
+            "typecheck": "passed",
+            "native_SQL_executed": false,
+            "canonical37_applied": false,
+            "hosted_deployed": false,
+            "source_inventory": {
+              "user_operations": 88,
+              "MCP_tools": 88,
+              "OpenAPI_operations": 118
+            },
+            "serving_last_accepted_inventory": {
+              "user_operations": 87,
+              "MCP_tools": 87,
+              "OpenAPI_operations": 116
+            },
+            "next_action": "Finish source filling/review and owned SQL37 full rollback/cleanup proof before guarded cloud/web rollout."
+          },
+          "actual_Postgres_SQL_executed": true,
+          "native_media_executed": false,
+          "owned_local_proof": {
+            "status": "passed_owned_local_SQL_full_rollback_cleanup",
+            "evidence": "tracking/evidence/m07/feedback-summary37-proof/2026-11-01T09-45-45-482Z-e109a4d1.json",
+            "sha256": "3a98d0dabac723e8c599f200a30e6849596b41281c0828868a64a313d008b1b9",
+            "run_id": "e109a4d1-b3e8-4caf-98d8-773251359e91",
+            "started_at": "2026-11-01T09:45:45.482Z",
+            "finished_at": "2026-11-01T09:46:54.994Z",
+            "elapsed_ms": 69512,
+            "source_seals": 217,
+            "all217_current_sources_match": true,
+            "executed_sources_frozen": true,
+            "actual_Postgres_SQL_executed": true,
+            "fixture_SQL_statements": 72,
+            "functional_DDL34_to37": true,
+            "ephemeral_history_rolled_back_to": 33,
+            "all_original29_AuthStorage_profile_global_roles_databases_lock_cleanup_passed": true,
+            "native_media_executed": false,
+            "cloud37_applied": false,
+            "hosted_acceptance": false,
+            "restore_acceptance": false
+          },
+          "latest_quality": {
+            "recorded_at": "2026-11-01T09:50:54Z",
+            "source": "Root actual command completion; output truncated, no aggregate count inferred",
+            "npm_test_exit_code": 0,
+            "npm_lint_exit_code": 0,
+            "npm_typecheck_exit_code": 0,
+            "aggregate_test_count": null,
+            "scoped_SQL_source_checks_passed": 7,
+            "scoped_proof_tests_passed": 7,
+            "scoped_API_SDK_MCP_tests_passed": 12,
+            "counts_overlap_not_additive": true,
+            "AT069_targeted_errors_not_resolved": true
+          },
+          "preexecution_corrections": {
+            "fixture_missing_required_idempotency_key_fixed": true,
+            "stable_synthetic_keys": true,
+            "canonical_signature_regression": true,
+            "internal_and_guest_nonReady_assertions": true,
+            "actual_compiled_sql_port_VM_parse": true,
+            "unit_RED_before_fix": 2,
+            "unit_GREEN_after_fix": 7,
+            "prior_structure_only_acceptance_retracted": true
+          }
         },
         "worker_replacement69": {
           "status": "blocked_source_only_partial_two_files",
@@ -2912,7 +3092,49 @@
           "ROLLBACK_TRANSPORT_md_exists": false,
           "actual_replacement_or_rollback_acceptance": false
         },
-        "prior_local33_restore_evidence": "tracking/evidence/m07/recovery33/2026-10-31T15-34-37-577Z-9af6774f.json"
+        "prior_local33_restore_evidence": "tracking/evidence/m07/recovery33/2026-10-31T15-34-37-577Z-9af6774f.json",
+        "recorded_at": "2026-11-01T09:50:54Z",
+        "oauth_refresh_metadata36": {
+          "status": "observed_limited_metadata",
+          "evidence": "tracking/evidence/m07/oauth-refresh-metadata36/2026-11-01T09-47-58-887145Z-9042fd51-4d70-42d6-9b51-86cd72cfd147.json",
+          "sha256": "0c4d80173e26b805d4fae274eda54a8c0d406daf714c3477be3621523c2ac535",
+          "observed_at": "2026-11-01T09:47:59.895351+00:00",
+          "client_id": "f2acafd5-d4b6-4176-b86c-067c57e45ecc",
+          "safe_Auth_schema_FK_client_history36_gates_passed": true,
+          "retained_sessions": 2,
+          "sessions_refreshed_after_creation": 1,
+          "last_refreshed_at": "2026-11-01T09:33:21.062735+00:00",
+          "audit_login_count": 0,
+          "audit_token_refreshed_count": 0,
+          "audit_absence_cause": "unknown",
+          "audit_client_binding": false,
+          "current_deployed_auth_version_verified": false,
+          "exact_current_process_proven": false,
+          "token_received_or_stored_proven": false,
+          "rotation_proven": false,
+          "revocation_proven": false,
+          "MCP_use_proven": false,
+          "direct_helper_credential_store_read": false,
+          "normal_Supabase_CLI_authentication_used": true,
+          "operator_automatic_retry": false,
+          "CLI_internal_retry_policy_verified": false,
+          "Auth_mutation": false,
+          "grant_or_configuration_change": false,
+          "observer_executed_sources_held_exact": true
+        },
+        "latest_full_project_quality": {
+          "recorded_at": "2026-11-01T09:50:54Z",
+          "source": "Root actual command completion; output truncated, no aggregate count inferred",
+          "npm_test_exit_code": 0,
+          "npm_lint_exit_code": 0,
+          "npm_typecheck_exit_code": 0,
+          "aggregate_test_count": null,
+          "scoped_SQL_source_checks_passed": 7,
+          "scoped_proof_tests_passed": 7,
+          "scoped_API_SDK_MCP_tests_passed": 12,
+          "counts_overlap_not_additive": true,
+          "AT069_targeted_errors_not_resolved": true
+        }
       },
       "historical_checkpoint_before_english34": {
         "milestone": "M07",
@@ -3089,7 +3311,9 @@
         "tracking/evidence/m07/recovery36-trace-profile/2026-11-01T04-23-15-971Z-b7b41927.json",
         "tracking/evidence/m07/controlled-pilot/2026-11-01T04-17-19-997448Z-worker-web-health.json",
         "tracking/evidence/m07/recovery36-trace-profile/2026-11-01T04-04-49-683Z-e3af2cb6.json",
-        "tracking/evidence/m07/recovery36-trace-profile/2026-11-01T04-10-16-185Z-d5634756.json"
+        "tracking/evidence/m07/recovery36-trace-profile/2026-11-01T04-10-16-185Z-d5634756.json",
+        "tracking/evidence/m07/feedback-summary37-proof/2026-11-01T09-45-45-482Z-e109a4d1.json",
+        "tracking/evidence/m07/oauth-refresh-metadata36/2026-11-01T09-47-58-887145Z-9042fd51-4d70-42d6-9b51-86cd72cfd147.json"
       ],
       "scope": "Owner connection/get_job, hosted English/guest/Reviewed/Summary and scopedAT074 remain passed. Current36 owned metadata recovery b7 passed with full cleanup; prior33 native/media preserved. FullM07/production remains in progress.",
       "remaining": [
@@ -3351,6 +3575,55 @@
         "native_SQL_result_is_separate": true
       },
       "prior_failed_claims_replayed": false
+    },
+    "feedback_summary37_owned_SQL": {
+      "status": "passed_owned_local_SQL_full_rollback_cleanup",
+      "evidence": "tracking/evidence/m07/feedback-summary37-proof/2026-11-01T09-45-45-482Z-e109a4d1.json",
+      "sha256": "3a98d0dabac723e8c599f200a30e6849596b41281c0828868a64a313d008b1b9",
+      "run_id": "e109a4d1-b3e8-4caf-98d8-773251359e91",
+      "started_at": "2026-11-01T09:45:45.482Z",
+      "finished_at": "2026-11-01T09:46:54.994Z",
+      "elapsed_ms": 69512,
+      "source_seals": 217,
+      "all217_current_sources_match": true,
+      "executed_sources_frozen": true,
+      "actual_Postgres_SQL_executed": true,
+      "fixture_SQL_statements": 72,
+      "functional_DDL34_to37": true,
+      "ephemeral_history_rolled_back_to": 33,
+      "all_original29_AuthStorage_profile_global_roles_databases_lock_cleanup_passed": true,
+      "native_media_executed": false,
+      "cloud37_applied": false,
+      "hosted_acceptance": false,
+      "restore_acceptance": false
+    },
+    "oauth_refresh_metadata36": {
+      "status": "observed_limited_metadata",
+      "evidence": "tracking/evidence/m07/oauth-refresh-metadata36/2026-11-01T09-47-58-887145Z-9042fd51-4d70-42d6-9b51-86cd72cfd147.json",
+      "sha256": "0c4d80173e26b805d4fae274eda54a8c0d406daf714c3477be3621523c2ac535",
+      "observed_at": "2026-11-01T09:47:59.895351+00:00",
+      "client_id": "f2acafd5-d4b6-4176-b86c-067c57e45ecc",
+      "safe_Auth_schema_FK_client_history36_gates_passed": true,
+      "retained_sessions": 2,
+      "sessions_refreshed_after_creation": 1,
+      "last_refreshed_at": "2026-11-01T09:33:21.062735+00:00",
+      "audit_login_count": 0,
+      "audit_token_refreshed_count": 0,
+      "audit_absence_cause": "unknown",
+      "audit_client_binding": false,
+      "current_deployed_auth_version_verified": false,
+      "exact_current_process_proven": false,
+      "token_received_or_stored_proven": false,
+      "rotation_proven": false,
+      "revocation_proven": false,
+      "MCP_use_proven": false,
+      "direct_helper_credential_store_read": false,
+      "normal_Supabase_CLI_authentication_used": true,
+      "operator_automatic_retry": false,
+      "CLI_internal_retry_policy_verified": false,
+      "Auth_mutation": false,
+      "grant_or_configuration_change": false,
+      "observer_executed_sources_held_exact": true
     }
   },
   "development_tooling": {
@@ -3385,15 +3658,15 @@
   "notes": "Canonical36/web6pcN source283/worker2uAS/English1.0 pilot running until owner stop. Scoped AT074/actionable app/API/owner MCP guidance and completed connection/English/local33 stand. Current36 c0/5d restore-profile failures have full automatic cleanup pass; native508 exact trace ownerACL/NULL privilege proof/full cleanup passed; profile exception/full36 restore unadmitted. Transfer/inbox committed29 local tests passed; prepared03:51/expires04:06 is not live delegated acceptance. Manual AT072 pending, mobile skipped, frontend preserved, no labels/selector.",
   "latest_checkpoint": {
     "milestone": "M07",
-    "status": "M07_in_progress_owned_metadata36_passed_feedback37_SQL_owner_journey_pending",
-    "observed_at": "2026-11-01T04:25:02.093Z",
+    "status": "M07_in_progress_owned_SQL37_passed_bounded_Auth_observed_cloud37_pending",
+    "observed_at": "2026-11-01T09:47:59.895351+00:00",
     "base_commit": "009536e",
     "canonical_migration_count": 36,
     "local_migration_count": 29,
     "canonical_apply": "Canonical36 actual02:19 normal return +two immediate matching readbacks; separate02:20 readback. All74 existing data/normalized catalogue/Auth/OAuth/nine ports/English/M02 preserved, empty new trace installed, capture enabled.",
     "canonical_readback": "tracking/evidence/m07/job-attempt-observability36-release/2026-11-01T02-20-17-194633Z-readback.json",
     "application_tests": 886,
-    "application_tests_scope": "886 composed module tests before final UI metadata fix; final15 overlapping candidate/playback UI tests and final build/typecheck passed.",
+    "application_tests_scope": "Historical886 retained separately. Latest Root full npm test/lint/typecheck each exit0; no aggregate count inferred from truncated output. Latest focused7 Python SQL/source+7 proof+12 API/SDK/MCP checks overlap. Actual owned SQL37 e109 passed, canonical37/hosted feedback summary pending.",
     "controlled_english_ui": {
       "initial": 17,
       "final_candidate_and_playback": 15,
@@ -3413,7 +3686,7 @@
     "local_restore_evidence": "tracking/evidence/m07/recovery36-trace-profile/2026-11-01T04-23-15-971Z-b7b41927.json",
     "name_diagnosis": "tracking/evidence/m03/english-name-review/2026-10-31T16-31-07-348316Z-5ed61ea9-8c38-4c1a-a3a2-958d6ccd5d72.json",
     "native_build_failure": "tracking/evidence/m03/english-image34/2026-10-31T17-03-17-960492Z-v2-registry-tls-diagnosis.json",
-    "next_action": "Complete the source-reviewed feedback-summary37 owned local SQL/rollback proof before any canonical37 or compatible web rollout; official CLI-created migration path is 20261101042702_m07_feedback_summary.sql, not an applied migration. Continue the owner-controlled private upload journey with a fresh inbox if needed: the recorded04:06 inbox expired and no owner result was received, without inferring that no MCP operation occurred. Current36 owned metadata recovery b7 passed; a separately reviewed future-current37 native/filesystem-media extension remains unimplemented. AT069 partial source is policy-blocked/no retry, live token/contributor and representative workload remain open. Preserve owner connection/get_job, English/guest/Reviewed/local33 passes, AT072 pending/mobile skipped, frontend and running6pcN/2uAS pilot.",
+    "next_action": "Finish the disabled guarded canonical37 release proposal, then inspect/apply/read back migration20261101042702 and deploy the compatible web only after its gates pass; live internal/guest API and MCP feedback-summary acceptance remains pending. Canonical36/web6pcN/worker2uAS and English1.0 remain current. Preserve the passed owned217-source SQL37 proof and bounded client refresh-timestamp observation without claiming exact current Claude-process refresh, rotation/revocation or MCP use. Continue the owner-controlled private upload journey with a fresh inbox if needed, never replay the expired04:06 inbox or inspect its capability. Future-current37 native/filesystem extension remains separate; AT069 partial source is policy-blocked/no retry, contributor denial/representative workload remain open. Preserve English/guest/Reviewed/oldversions/local33 and completed owner connection acceptance; AT072 pending/mobile skipped, frontend preserved, no labels/selector, pilot until owner stop.",
     "source_checkpoints": [
       "c6a3f15",
       "28c3d3c",
@@ -4237,19 +4510,19 @@
       "details_reference": "client_upload_inbox"
     },
     "feedback_summary37": {
-      "status": "source_implemented_local_tests_passed_native_SQL_and_cloud_pending",
+      "status": "owned_local_SQL37_proof_passed_canonical_and_hosted_pending",
       "contract": "docs/integrations/FEEDBACK_SUMMARY.md",
       "source_folder": "development/m07/feedback-summary37",
       "migration": "supabase/migrations/20261101042702_m07_feedback_summary.sql",
       "migration_filename_created_by_CLI": "2.122.0",
       "filename_creation_is_not_SQL_apply": true,
-      "focused_new_tests_passed": 11,
+      "focused_new_tests_passed": 12,
       "guest_existing_and_new_tests_passed": 31,
       "contract_tests_passed": 13,
-      "inert_SQL_source_checks_passed": 5,
+      "inert_SQL_source_checks_passed": 7,
       "counts_overlap_not_additive": true,
       "typecheck": "passed",
-      "native_SQL_executed": false,
+      "native_SQL_executed": true,
       "canonical37_applied": false,
       "hosted_deployed": false,
       "source_inventory": {
@@ -4262,7 +4535,81 @@
         "MCP_tools": 87,
         "OpenAPI_operations": 116
       },
-      "next_action": "Finish source filling/review and owned SQL37 full rollback/cleanup proof before guarded cloud/web rollout."
+      "next_action": "Finish the disabled guarded canonical37 release proposal, then inspect/apply/read back migration20261101042702 and deploy the compatible web only after its gates pass; live internal/guest API and MCP feedback-summary acceptance remains pending. Canonical36/web6pcN/worker2uAS and English1.0 remain current. Preserve the passed owned217-source SQL37 proof and bounded client refresh-timestamp observation without claiming exact current Claude-process refresh, rotation/revocation or MCP use. Continue the owner-controlled private upload journey with a fresh inbox if needed, never replay the expired04:06 inbox or inspect its capability. Future-current37 native/filesystem extension remains separate; AT069 partial source is policy-blocked/no retry, contributor denial/representative workload remain open. Preserve English/guest/Reviewed/oldversions/local33 and completed owner connection acceptance; AT072 pending/mobile skipped, frontend preserved, no labels/selector, pilot until owner stop.",
+      "prior_source_checkpoint_before_e109": {
+        "status": "source_implemented_local_tests_passed_native_SQL_and_cloud_pending",
+        "contract": "docs/integrations/FEEDBACK_SUMMARY.md",
+        "source_folder": "development/m07/feedback-summary37",
+        "migration": "supabase/migrations/20261101042702_m07_feedback_summary.sql",
+        "migration_filename_created_by_CLI": "2.122.0",
+        "filename_creation_is_not_SQL_apply": true,
+        "focused_new_tests_passed": 11,
+        "guest_existing_and_new_tests_passed": 31,
+        "contract_tests_passed": 13,
+        "inert_SQL_source_checks_passed": 5,
+        "counts_overlap_not_additive": true,
+        "typecheck": "passed",
+        "native_SQL_executed": false,
+        "canonical37_applied": false,
+        "hosted_deployed": false,
+        "source_inventory": {
+          "user_operations": 88,
+          "MCP_tools": 88,
+          "OpenAPI_operations": 118
+        },
+        "serving_last_accepted_inventory": {
+          "user_operations": 87,
+          "MCP_tools": 87,
+          "OpenAPI_operations": 116
+        },
+        "next_action": "Finish source filling/review and owned SQL37 full rollback/cleanup proof before guarded cloud/web rollout."
+      },
+      "actual_Postgres_SQL_executed": true,
+      "native_media_executed": false,
+      "owned_local_proof": {
+        "status": "passed_owned_local_SQL_full_rollback_cleanup",
+        "evidence": "tracking/evidence/m07/feedback-summary37-proof/2026-11-01T09-45-45-482Z-e109a4d1.json",
+        "sha256": "3a98d0dabac723e8c599f200a30e6849596b41281c0828868a64a313d008b1b9",
+        "run_id": "e109a4d1-b3e8-4caf-98d8-773251359e91",
+        "started_at": "2026-11-01T09:45:45.482Z",
+        "finished_at": "2026-11-01T09:46:54.994Z",
+        "elapsed_ms": 69512,
+        "source_seals": 217,
+        "all217_current_sources_match": true,
+        "executed_sources_frozen": true,
+        "actual_Postgres_SQL_executed": true,
+        "fixture_SQL_statements": 72,
+        "functional_DDL34_to37": true,
+        "ephemeral_history_rolled_back_to": 33,
+        "all_original29_AuthStorage_profile_global_roles_databases_lock_cleanup_passed": true,
+        "native_media_executed": false,
+        "cloud37_applied": false,
+        "hosted_acceptance": false,
+        "restore_acceptance": false
+      },
+      "latest_quality": {
+        "recorded_at": "2026-11-01T09:50:54Z",
+        "source": "Root actual command completion; output truncated, no aggregate count inferred",
+        "npm_test_exit_code": 0,
+        "npm_lint_exit_code": 0,
+        "npm_typecheck_exit_code": 0,
+        "aggregate_test_count": null,
+        "scoped_SQL_source_checks_passed": 7,
+        "scoped_proof_tests_passed": 7,
+        "scoped_API_SDK_MCP_tests_passed": 12,
+        "counts_overlap_not_additive": true,
+        "AT069_targeted_errors_not_resolved": true
+      },
+      "preexecution_corrections": {
+        "fixture_missing_required_idempotency_key_fixed": true,
+        "stable_synthetic_keys": true,
+        "canonical_signature_regression": true,
+        "internal_and_guest_nonReady_assertions": true,
+        "actual_compiled_sql_port_VM_parse": true,
+        "unit_RED_before_fix": 2,
+        "unit_GREEN_after_fix": 7,
+        "prior_structure_only_acceptance_retracted": true
+      }
     },
     "worker_replacement69": {
       "status": "blocked_source_only_partial_two_files",
@@ -4285,7 +4632,48 @@
       "actual_replacement_or_rollback_acceptance": false
     },
     "prior_local33_restore_evidence": "tracking/evidence/m07/recovery33/2026-10-31T15-34-37-577Z-9af6774f.json",
-    "recorded_at": "2026-11-01T04:29:26Z"
+    "recorded_at": "2026-11-01T09:50:54Z",
+    "oauth_refresh_metadata36": {
+      "status": "observed_limited_metadata",
+      "evidence": "tracking/evidence/m07/oauth-refresh-metadata36/2026-11-01T09-47-58-887145Z-9042fd51-4d70-42d6-9b51-86cd72cfd147.json",
+      "sha256": "0c4d80173e26b805d4fae274eda54a8c0d406daf714c3477be3621523c2ac535",
+      "observed_at": "2026-11-01T09:47:59.895351+00:00",
+      "client_id": "f2acafd5-d4b6-4176-b86c-067c57e45ecc",
+      "safe_Auth_schema_FK_client_history36_gates_passed": true,
+      "retained_sessions": 2,
+      "sessions_refreshed_after_creation": 1,
+      "last_refreshed_at": "2026-11-01T09:33:21.062735+00:00",
+      "audit_login_count": 0,
+      "audit_token_refreshed_count": 0,
+      "audit_absence_cause": "unknown",
+      "audit_client_binding": false,
+      "current_deployed_auth_version_verified": false,
+      "exact_current_process_proven": false,
+      "token_received_or_stored_proven": false,
+      "rotation_proven": false,
+      "revocation_proven": false,
+      "MCP_use_proven": false,
+      "direct_helper_credential_store_read": false,
+      "normal_Supabase_CLI_authentication_used": true,
+      "operator_automatic_retry": false,
+      "CLI_internal_retry_policy_verified": false,
+      "Auth_mutation": false,
+      "grant_or_configuration_change": false,
+      "observer_executed_sources_held_exact": true
+    },
+    "latest_full_project_quality": {
+      "recorded_at": "2026-11-01T09:50:54Z",
+      "source": "Root actual command completion; output truncated, no aggregate count inferred",
+      "npm_test_exit_code": 0,
+      "npm_lint_exit_code": 0,
+      "npm_typecheck_exit_code": 0,
+      "aggregate_test_count": null,
+      "scoped_SQL_source_checks_passed": 7,
+      "scoped_proof_tests_passed": 7,
+      "scoped_API_SDK_MCP_tests_passed": 12,
+      "counts_overlap_not_additive": true,
+      "AT069_targeted_errors_not_resolved": true
+    }
   },
   "historical_notes": [
     {
@@ -4320,8 +4708,8 @@
       "One controlled real OpenAI+n8n scan, English app/guest display and new frozen presentation version; old versions intact.",
       "Remaining live M07 operator/token/delegated/recovery/workload evidence in eligible order without reopening passed owner connection."
     ],
-    "current_phase": "owned_metadata36_b7_passed_feedback37_native_SQL_preparation_owner_result_pending",
-    "next_independent_backend_slice": "Finish owned SQL37 proof before cloud/web; current37 native-filesystem recovery remains source-proposed only."
+    "current_phase": "owned_SQL37_e109_passed_bounded_Auth_observed_guarded_canonical37_release_preparation",
+    "next_independent_backend_slice": "Finish disabled guarded canonical37/web release proposal and live summary gates; owner journey/contributor/workload and separate native extension remain open."
   },
   "historical_sessions": [
     {
@@ -5339,7 +5727,7 @@
     }
   ],
   "latest_backend_checkpoint": {
-    "recorded_at": "2026-11-01T04:29:26Z",
+    "recorded_at": "2026-11-01T09:50:54Z",
     "base_commit": "009536e",
     "web_deployment_id": "dpl_6pcN8Qb1XDkBTsiwKVmexKfWUvf7",
     "canonical_history_count": 36,
@@ -5357,13 +5745,13 @@
     "full_media_restore": "verified_local_synthetic_same_cluster",
     "full_restore_evidence": "tracking/evidence/m07/recovery33/2026-10-31T15-34-37-577Z-9af6774f.json",
     "english_processing_enabled": true,
-    "application_quality_scope": "886 composed module tests before final UI metadata fix; final15 overlapping candidate/playback UI tests and final build/typecheck passed.",
+    "application_quality_scope": "Historical886 retained separately. Latest Root full npm test/lint/typecheck each exit0; no aggregate count inferred from truncated output. Latest focused7 Python SQL/source+7 proof+12 API/SDK/MCP checks overlap. Actual owned SQL37 e109 passed, canonical37/hosted feedback summary pending.",
     "frontend_english_acknowledged": true,
     "english_rollout": {
       "reference": "english_output_rollout",
       "status": "real_scan_saved_internal_and_guest_english_pdf_revocation_verified_browser_boundary"
     },
-    "next_action": "Complete the source-reviewed feedback-summary37 owned local SQL/rollback proof before any canonical37 or compatible web rollout; official CLI-created migration path is 20261101042702_m07_feedback_summary.sql, not an applied migration. Continue the owner-controlled private upload journey with a fresh inbox if needed: the recorded04:06 inbox expired and no owner result was received, without inferring that no MCP operation occurred. Current36 owned metadata recovery b7 passed; a separately reviewed future-current37 native/filesystem-media extension remains unimplemented. AT069 partial source is policy-blocked/no retry, live token/contributor and representative workload remain open. Preserve owner connection/get_job, English/guest/Reviewed/local33 passes, AT072 pending/mobile skipped, frontend and running6pcN/2uAS pilot.",
+    "next_action": "Finish the disabled guarded canonical37 release proposal, then inspect/apply/read back migration20261101042702 and deploy the compatible web only after its gates pass; live internal/guest API and MCP feedback-summary acceptance remains pending. Canonical36/web6pcN/worker2uAS and English1.0 remain current. Preserve the passed owned217-source SQL37 proof and bounded client refresh-timestamp observation without claiming exact current Claude-process refresh, rotation/revocation or MCP use. Continue the owner-controlled private upload journey with a fresh inbox if needed, never replay the expired04:06 inbox or inspect its capability. Future-current37 native/filesystem extension remains separate; AT069 partial source is policy-blocked/no retry, contributor denial/representative workload remain open. Preserve English/guest/Reviewed/oldversions/local33 and completed owner connection acceptance; AT072 pending/mobile skipped, frontend preserved, no labels/selector, pilot until owner stop.",
     "source_checkpoints": [
       "c6a3f15",
       "28c3d3c",
@@ -6034,7 +6422,7 @@
         "diagnostic": "tracking/evidence/m07/job-attempt-observability36-gate-proof/2026-11-01-failed281-diagnostic.json"
       }
     ],
-    "observed_at": "2026-11-01T04:25:02.093Z",
+    "observed_at": "2026-11-01T09:47:59.895351+00:00",
     "canonical36_release": {
       "status": "canonical36_applied_normal_return_and_independent_readback",
       "target": "pyibofyctwnqpvktepse",
@@ -6163,7 +6551,7 @@
       "scope": "owned same-cluster synthetic metadata only; no bytes/StorageHTTP/provider Auth/deployed/independent/RTO_RPO",
       "native_proof_evidence": "tracking/evidence/m07/recovery36-trace-acl-native/2026-11-01T03-57-54-599Z-508198d5.json"
     },
-    "status": "M07_in_progress_owned_metadata36_passed_feedback37_SQL_owner_journey_pending",
+    "status": "M07_in_progress_owned_SQL37_passed_bounded_Auth_observed_cloud37_pending",
     "private_upload_handoff": {
       "status": "local_source_passed_recorded_inbox_expired_owner_result_not_received",
       "local_evidence": "tracking/evidence/m07/client-upload-inbox/2026-11-01-local-verification.json",
@@ -6175,19 +6563,19 @@
       "details_reference": "client_upload_inbox"
     },
     "feedback_summary37": {
-      "status": "source_implemented_local_tests_passed_native_SQL_and_cloud_pending",
+      "status": "owned_local_SQL37_proof_passed_canonical_and_hosted_pending",
       "contract": "docs/integrations/FEEDBACK_SUMMARY.md",
       "source_folder": "development/m07/feedback-summary37",
       "migration": "supabase/migrations/20261101042702_m07_feedback_summary.sql",
       "migration_filename_created_by_CLI": "2.122.0",
       "filename_creation_is_not_SQL_apply": true,
-      "focused_new_tests_passed": 11,
+      "focused_new_tests_passed": 12,
       "guest_existing_and_new_tests_passed": 31,
       "contract_tests_passed": 13,
-      "inert_SQL_source_checks_passed": 5,
+      "inert_SQL_source_checks_passed": 7,
       "counts_overlap_not_additive": true,
       "typecheck": "passed",
-      "native_SQL_executed": false,
+      "native_SQL_executed": true,
       "canonical37_applied": false,
       "hosted_deployed": false,
       "source_inventory": {
@@ -6200,7 +6588,81 @@
         "MCP_tools": 87,
         "OpenAPI_operations": 116
       },
-      "next_action": "Finish source filling/review and owned SQL37 full rollback/cleanup proof before guarded cloud/web rollout."
+      "next_action": "Finish the disabled guarded canonical37 release proposal, then inspect/apply/read back migration20261101042702 and deploy the compatible web only after its gates pass; live internal/guest API and MCP feedback-summary acceptance remains pending. Canonical36/web6pcN/worker2uAS and English1.0 remain current. Preserve the passed owned217-source SQL37 proof and bounded client refresh-timestamp observation without claiming exact current Claude-process refresh, rotation/revocation or MCP use. Continue the owner-controlled private upload journey with a fresh inbox if needed, never replay the expired04:06 inbox or inspect its capability. Future-current37 native/filesystem extension remains separate; AT069 partial source is policy-blocked/no retry, contributor denial/representative workload remain open. Preserve English/guest/Reviewed/oldversions/local33 and completed owner connection acceptance; AT072 pending/mobile skipped, frontend preserved, no labels/selector, pilot until owner stop.",
+      "prior_source_checkpoint_before_e109": {
+        "status": "source_implemented_local_tests_passed_native_SQL_and_cloud_pending",
+        "contract": "docs/integrations/FEEDBACK_SUMMARY.md",
+        "source_folder": "development/m07/feedback-summary37",
+        "migration": "supabase/migrations/20261101042702_m07_feedback_summary.sql",
+        "migration_filename_created_by_CLI": "2.122.0",
+        "filename_creation_is_not_SQL_apply": true,
+        "focused_new_tests_passed": 11,
+        "guest_existing_and_new_tests_passed": 31,
+        "contract_tests_passed": 13,
+        "inert_SQL_source_checks_passed": 5,
+        "counts_overlap_not_additive": true,
+        "typecheck": "passed",
+        "native_SQL_executed": false,
+        "canonical37_applied": false,
+        "hosted_deployed": false,
+        "source_inventory": {
+          "user_operations": 88,
+          "MCP_tools": 88,
+          "OpenAPI_operations": 118
+        },
+        "serving_last_accepted_inventory": {
+          "user_operations": 87,
+          "MCP_tools": 87,
+          "OpenAPI_operations": 116
+        },
+        "next_action": "Finish source filling/review and owned SQL37 full rollback/cleanup proof before guarded cloud/web rollout."
+      },
+      "actual_Postgres_SQL_executed": true,
+      "native_media_executed": false,
+      "owned_local_proof": {
+        "status": "passed_owned_local_SQL_full_rollback_cleanup",
+        "evidence": "tracking/evidence/m07/feedback-summary37-proof/2026-11-01T09-45-45-482Z-e109a4d1.json",
+        "sha256": "3a98d0dabac723e8c599f200a30e6849596b41281c0828868a64a313d008b1b9",
+        "run_id": "e109a4d1-b3e8-4caf-98d8-773251359e91",
+        "started_at": "2026-11-01T09:45:45.482Z",
+        "finished_at": "2026-11-01T09:46:54.994Z",
+        "elapsed_ms": 69512,
+        "source_seals": 217,
+        "all217_current_sources_match": true,
+        "executed_sources_frozen": true,
+        "actual_Postgres_SQL_executed": true,
+        "fixture_SQL_statements": 72,
+        "functional_DDL34_to37": true,
+        "ephemeral_history_rolled_back_to": 33,
+        "all_original29_AuthStorage_profile_global_roles_databases_lock_cleanup_passed": true,
+        "native_media_executed": false,
+        "cloud37_applied": false,
+        "hosted_acceptance": false,
+        "restore_acceptance": false
+      },
+      "latest_quality": {
+        "recorded_at": "2026-11-01T09:50:54Z",
+        "source": "Root actual command completion; output truncated, no aggregate count inferred",
+        "npm_test_exit_code": 0,
+        "npm_lint_exit_code": 0,
+        "npm_typecheck_exit_code": 0,
+        "aggregate_test_count": null,
+        "scoped_SQL_source_checks_passed": 7,
+        "scoped_proof_tests_passed": 7,
+        "scoped_API_SDK_MCP_tests_passed": 12,
+        "counts_overlap_not_additive": true,
+        "AT069_targeted_errors_not_resolved": true
+      },
+      "preexecution_corrections": {
+        "fixture_missing_required_idempotency_key_fixed": true,
+        "stable_synthetic_keys": true,
+        "canonical_signature_regression": true,
+        "internal_and_guest_nonReady_assertions": true,
+        "actual_compiled_sql_port_VM_parse": true,
+        "unit_RED_before_fix": 2,
+        "unit_GREEN_after_fix": 7,
+        "prior_structure_only_acceptance_retracted": true
+      }
     },
     "worker_replacement69": {
       "status": "blocked_source_only_partial_two_files",
@@ -6237,7 +6699,50 @@
       "object_bytes_or_native_media_current36_proved": false,
       "prior33_native_media_pass_preserved": true
     },
-    "full_media_restore_scope": "Prior history33 same-cluster native/filesystem proof only; no current37 native-media/StorageHTTP/provider Auth/deployed/independent/RTO_RPO acceptance."
+    "full_media_restore_scope": "Prior history33 same-cluster native/filesystem proof only; no current37 native-media/StorageHTTP/provider Auth/deployed/independent/RTO_RPO acceptance.",
+    "oauth_refresh_metadata36": {
+      "status": "observed_limited_metadata",
+      "evidence": "tracking/evidence/m07/oauth-refresh-metadata36/2026-11-01T09-47-58-887145Z-9042fd51-4d70-42d6-9b51-86cd72cfd147.json",
+      "sha256": "0c4d80173e26b805d4fae274eda54a8c0d406daf714c3477be3621523c2ac535",
+      "observed_at": "2026-11-01T09:47:59.895351+00:00",
+      "client_id": "f2acafd5-d4b6-4176-b86c-067c57e45ecc",
+      "safe_Auth_schema_FK_client_history36_gates_passed": true,
+      "retained_sessions": 2,
+      "sessions_refreshed_after_creation": 1,
+      "last_refreshed_at": "2026-11-01T09:33:21.062735+00:00",
+      "audit_login_count": 0,
+      "audit_token_refreshed_count": 0,
+      "audit_absence_cause": "unknown",
+      "audit_client_binding": false,
+      "current_deployed_auth_version_verified": false,
+      "exact_current_process_proven": false,
+      "token_received_or_stored_proven": false,
+      "rotation_proven": false,
+      "revocation_proven": false,
+      "MCP_use_proven": false,
+      "direct_helper_credential_store_read": false,
+      "normal_Supabase_CLI_authentication_used": true,
+      "operator_automatic_retry": false,
+      "CLI_internal_retry_policy_verified": false,
+      "Auth_mutation": false,
+      "grant_or_configuration_change": false,
+      "observer_executed_sources_held_exact": true
+    },
+    "latest_full_project_quality": {
+      "recorded_at": "2026-11-01T09:50:54Z",
+      "source": "Root actual command completion; output truncated, no aggregate count inferred",
+      "npm_test_exit_code": 0,
+      "npm_lint_exit_code": 0,
+      "npm_typecheck_exit_code": 0,
+      "aggregate_test_count": null,
+      "scoped_SQL_source_checks_passed": 7,
+      "scoped_proof_tests_passed": 7,
+      "scoped_API_SDK_MCP_tests_passed": 12,
+      "counts_overlap_not_additive": true,
+      "AT069_targeted_errors_not_resolved": true
+    },
+    "application_tests_scope": "Historical886 retained separately. Latest Root full npm test/lint/typecheck each exit0; no aggregate count inferred from truncated output. Latest focused7 Python SQL/source+7 proof+12 API/SDK/MCP checks overlap. Actual owned SQL37 e109 passed, canonical37/hosted feedback summary pending.",
+    "historical_application_quality_scope_before_e109": "886 composed module tests before final UI metadata fix; final15 overlapping candidate/playback UI tests and final build/typecheck passed."
   },
   "english_output_rollout": {
     "recorded_at": "2026-11-01T04:29:26Z",
@@ -6390,7 +6895,7 @@
     "manual_AT072": "pending",
     "mobile_testing": "skipped",
     "pilot_duration": "until_owner_stops",
-    "next_action": "Complete the source-reviewed feedback-summary37 owned local SQL/rollback proof before any canonical37 or compatible web rollout; official CLI-created migration path is 20261101042702_m07_feedback_summary.sql, not an applied migration. Continue the owner-controlled private upload journey with a fresh inbox if needed: the recorded04:06 inbox expired and no owner result was received, without inferring that no MCP operation occurred. Current36 owned metadata recovery b7 passed; a separately reviewed future-current37 native/filesystem-media extension remains unimplemented. AT069 partial source is policy-blocked/no retry, live token/contributor and representative workload remain open. Preserve owner connection/get_job, English/guest/Reviewed/local33 passes, AT072 pending/mobile skipped, frontend and running6pcN/2uAS pilot.",
+    "next_action": "Finish the disabled guarded canonical37 release proposal, then inspect/apply/read back migration20261101042702 and deploy the compatible web only after its gates pass; live internal/guest API and MCP feedback-summary acceptance remains pending. Canonical36/web6pcN/worker2uAS and English1.0 remain current. Preserve the passed owned217-source SQL37 proof and bounded client refresh-timestamp observation without claiming exact current Claude-process refresh, rotation/revocation or MCP use. Continue the owner-controlled private upload journey with a fresh inbox if needed, never replay the expired04:06 inbox or inspect its capability. Future-current37 native/filesystem extension remains separate; AT069 partial source is policy-blocked/no retry, contributor denial/representative workload remain open. Preserve English/guest/Reviewed/oldversions/local33 and completed owner connection acceptance; AT072 pending/mobile skipped, frontend preserved, no labels/selector, pilot until owner stop.",
     "remaining_m07_review": "development/m07/REMAINING_AFTER_ENGLISH34.md",
     "web_ready": "tracking/evidence/m07/workspace-summary35-web/2026-11-01T01-03-59-685059Z-ready.json",
     "web_legacy_app": "tracking/evidence/m03/english-web-release34/2026-10-31-hosted-compatibility-app.json",
@@ -7693,19 +8198,19 @@
     "next_action": "Use fresh owner-controlled preparation if continuing; never replay expired/consumed inbox or read capabilities into agent output."
   },
   "feedback_summary37": {
-    "status": "source_implemented_local_tests_passed_native_SQL_and_cloud_pending",
+    "status": "owned_local_SQL37_proof_passed_canonical_and_hosted_pending",
     "contract": "docs/integrations/FEEDBACK_SUMMARY.md",
     "source_folder": "development/m07/feedback-summary37",
     "migration": "supabase/migrations/20261101042702_m07_feedback_summary.sql",
     "migration_filename_created_by_CLI": "2.122.0",
     "filename_creation_is_not_SQL_apply": true,
-    "focused_new_tests_passed": 11,
+    "focused_new_tests_passed": 12,
     "guest_existing_and_new_tests_passed": 31,
     "contract_tests_passed": 13,
-    "inert_SQL_source_checks_passed": 5,
+    "inert_SQL_source_checks_passed": 7,
     "counts_overlap_not_additive": true,
     "typecheck": "passed",
-    "native_SQL_executed": false,
+    "native_SQL_executed": true,
     "canonical37_applied": false,
     "hosted_deployed": false,
     "source_inventory": {
@@ -7718,7 +8223,81 @@
       "MCP_tools": 87,
       "OpenAPI_operations": 116
     },
-    "next_action": "Finish source filling/review and owned SQL37 full rollback/cleanup proof before guarded cloud/web rollout."
+    "next_action": "Finish the disabled guarded canonical37 release proposal, then inspect/apply/read back migration20261101042702 and deploy the compatible web only after its gates pass; live internal/guest API and MCP feedback-summary acceptance remains pending. Canonical36/web6pcN/worker2uAS and English1.0 remain current. Preserve the passed owned217-source SQL37 proof and bounded client refresh-timestamp observation without claiming exact current Claude-process refresh, rotation/revocation or MCP use. Continue the owner-controlled private upload journey with a fresh inbox if needed, never replay the expired04:06 inbox or inspect its capability. Future-current37 native/filesystem extension remains separate; AT069 partial source is policy-blocked/no retry, contributor denial/representative workload remain open. Preserve English/guest/Reviewed/oldversions/local33 and completed owner connection acceptance; AT072 pending/mobile skipped, frontend preserved, no labels/selector, pilot until owner stop.",
+    "prior_source_checkpoint_before_e109": {
+      "status": "source_implemented_local_tests_passed_native_SQL_and_cloud_pending",
+      "contract": "docs/integrations/FEEDBACK_SUMMARY.md",
+      "source_folder": "development/m07/feedback-summary37",
+      "migration": "supabase/migrations/20261101042702_m07_feedback_summary.sql",
+      "migration_filename_created_by_CLI": "2.122.0",
+      "filename_creation_is_not_SQL_apply": true,
+      "focused_new_tests_passed": 11,
+      "guest_existing_and_new_tests_passed": 31,
+      "contract_tests_passed": 13,
+      "inert_SQL_source_checks_passed": 5,
+      "counts_overlap_not_additive": true,
+      "typecheck": "passed",
+      "native_SQL_executed": false,
+      "canonical37_applied": false,
+      "hosted_deployed": false,
+      "source_inventory": {
+        "user_operations": 88,
+        "MCP_tools": 88,
+        "OpenAPI_operations": 118
+      },
+      "serving_last_accepted_inventory": {
+        "user_operations": 87,
+        "MCP_tools": 87,
+        "OpenAPI_operations": 116
+      },
+      "next_action": "Finish source filling/review and owned SQL37 full rollback/cleanup proof before guarded cloud/web rollout."
+    },
+    "actual_Postgres_SQL_executed": true,
+    "native_media_executed": false,
+    "owned_local_proof": {
+      "status": "passed_owned_local_SQL_full_rollback_cleanup",
+      "evidence": "tracking/evidence/m07/feedback-summary37-proof/2026-11-01T09-45-45-482Z-e109a4d1.json",
+      "sha256": "3a98d0dabac723e8c599f200a30e6849596b41281c0828868a64a313d008b1b9",
+      "run_id": "e109a4d1-b3e8-4caf-98d8-773251359e91",
+      "started_at": "2026-11-01T09:45:45.482Z",
+      "finished_at": "2026-11-01T09:46:54.994Z",
+      "elapsed_ms": 69512,
+      "source_seals": 217,
+      "all217_current_sources_match": true,
+      "executed_sources_frozen": true,
+      "actual_Postgres_SQL_executed": true,
+      "fixture_SQL_statements": 72,
+      "functional_DDL34_to37": true,
+      "ephemeral_history_rolled_back_to": 33,
+      "all_original29_AuthStorage_profile_global_roles_databases_lock_cleanup_passed": true,
+      "native_media_executed": false,
+      "cloud37_applied": false,
+      "hosted_acceptance": false,
+      "restore_acceptance": false
+    },
+    "latest_quality": {
+      "recorded_at": "2026-11-01T09:50:54Z",
+      "source": "Root actual command completion; output truncated, no aggregate count inferred",
+      "npm_test_exit_code": 0,
+      "npm_lint_exit_code": 0,
+      "npm_typecheck_exit_code": 0,
+      "aggregate_test_count": null,
+      "scoped_SQL_source_checks_passed": 7,
+      "scoped_proof_tests_passed": 7,
+      "scoped_API_SDK_MCP_tests_passed": 12,
+      "counts_overlap_not_additive": true,
+      "AT069_targeted_errors_not_resolved": true
+    },
+    "preexecution_corrections": {
+      "fixture_missing_required_idempotency_key_fixed": true,
+      "stable_synthetic_keys": true,
+      "canonical_signature_regression": true,
+      "internal_and_guest_nonReady_assertions": true,
+      "actual_compiled_sql_port_VM_parse": true,
+      "unit_RED_before_fix": 2,
+      "unit_GREEN_after_fix": 7,
+      "prior_structure_only_acceptance_retracted": true
+    }
   },
   "worker_replacement69": {
     "status": "blocked_source_only_partial_two_files",
@@ -7739,5 +8318,33 @@
     "provider_action_performed": false,
     "ROLLBACK_TRANSPORT_md_exists": false,
     "actual_replacement_or_rollback_acceptance": false
+  },
+  "oauth_refresh_metadata36": {
+    "status": "observed_limited_metadata",
+    "evidence": "tracking/evidence/m07/oauth-refresh-metadata36/2026-11-01T09-47-58-887145Z-9042fd51-4d70-42d6-9b51-86cd72cfd147.json",
+    "sha256": "0c4d80173e26b805d4fae274eda54a8c0d406daf714c3477be3621523c2ac535",
+    "observed_at": "2026-11-01T09:47:59.895351+00:00",
+    "client_id": "f2acafd5-d4b6-4176-b86c-067c57e45ecc",
+    "safe_Auth_schema_FK_client_history36_gates_passed": true,
+    "retained_sessions": 2,
+    "sessions_refreshed_after_creation": 1,
+    "last_refreshed_at": "2026-11-01T09:33:21.062735+00:00",
+    "audit_login_count": 0,
+    "audit_token_refreshed_count": 0,
+    "audit_absence_cause": "unknown",
+    "audit_client_binding": false,
+    "current_deployed_auth_version_verified": false,
+    "exact_current_process_proven": false,
+    "token_received_or_stored_proven": false,
+    "rotation_proven": false,
+    "revocation_proven": false,
+    "MCP_use_proven": false,
+    "direct_helper_credential_store_read": false,
+    "normal_Supabase_CLI_authentication_used": true,
+    "operator_automatic_retry": false,
+    "CLI_internal_retry_policy_verified": false,
+    "Auth_mutation": false,
+    "grant_or_configuration_change": false,
+    "observer_executed_sources_held_exact": true
   }
 }

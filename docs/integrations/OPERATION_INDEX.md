@@ -74,6 +74,7 @@
 | `revoke_review_link` | `POST /review-links/{review_link_id}/revoke` | review_links.manage | Yes |
 | `rotate_review_link` | `POST /review-links/{review_link_id}/rotate` | review_links.manage | Yes |
 | `list_feedback` | `GET /versions/{version_id}/feedback` | workspaces.read | Yes |
+| `get_feedback_summary` | `GET /versions/{version_id}/feedback/summary` | workspaces.read; same version/project scope | Yes |
 | `create_comment` | `POST /versions/{version_id}/comments` | workspaces.write | Yes |
 | `update_comment` | `PATCH /comments/{comment_id}` | workspaces.write | Yes |
 | `set_preference` | `PUT /versions/{version_id}/preferences` | workspaces.write | Yes |
@@ -91,6 +92,7 @@
 | `guest_get_current_version` | `GET /review/presentation` | guest | No |
 | `guest_get_version` | `GET /review/versions/{version_id}` | guest | No |
 | `guest_list_feedback` | `GET /review/versions/{version_id}/feedback` | guest | No |
+| `guest_get_feedback_summary` | `GET /review/versions/{version_id}/feedback/summary` | same live guest session/link/version | No |
 | `guest_create_comment` | `POST /review/versions/{version_id}/comments` | guest | No |
 | `guest_update_comment` | `PATCH /review/comments/{comment_id}` | guest | No |
 | `guest_set_preference` | `PUT /review/versions/{version_id}/preferences` | guest | No |

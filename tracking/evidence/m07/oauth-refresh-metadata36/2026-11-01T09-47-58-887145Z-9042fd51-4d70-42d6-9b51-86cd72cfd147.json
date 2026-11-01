@@ -1,0 +1,79 @@
+{
+  "auth_mutation": false,
+  "cli_internal_retry_policy_verified": false,
+  "current_deployed_auth_version_verified": false,
+  "direct_credential_or_token_store_read": false,
+  "historical_auth_observed_at": "2026-10-30T11:12:13.825Z",
+  "historical_auth_version": "v2.197.0",
+  "kind": "actual_readonly_oauth_refresh_metadata",
+  "metadata": {
+    "audit": {
+      "actions": [
+        {
+          "action": "login",
+          "count": 0,
+          "first_at": null,
+          "last_at": null
+        },
+        {
+          "action": "token_refreshed",
+          "count": 0,
+          "first_at": null,
+          "last_at": null
+        }
+      ],
+      "truncated": false
+    },
+    "audit_client_binding": false,
+    "client_id": "f2acafd5-d4b6-4176-b86c-067c57e45ecc",
+    "current_deployed_auth_version_verified": false,
+    "exact_current_process_proven": false,
+    "mcp_use_proven": false,
+    "observed_at": "2026-11-01T09:47:59.895351+00:00",
+    "revocation_proven": false,
+    "rotation_proven": false,
+    "sessions": {
+      "count": 2,
+      "first_created_at": "2026-10-31T13:23:50.070877+00:00",
+      "last_created_at": "2026-10-31T13:36:08.185477+00:00",
+      "last_refreshed_at": "2026-11-01T09:33:21.062735+00:00",
+      "missing_created_count": 0,
+      "refreshed_after_creation_count": 1,
+      "refreshed_count": 1,
+      "truncated": false
+    },
+    "token_received_or_stored_proven": false,
+    "verdict": "source_founded_retained_client_refresh_timestamp",
+    "window_end": "2026-11-01T09:47:46.339490+00:00",
+    "window_start": "2026-10-31T13:40:13.706+00:00"
+  },
+  "normal_supabase_cli_authentication_used": true,
+  "operator_automatic_retry": false,
+  "raw_cli_or_auth_rows_persisted": false,
+  "read_only_rollback": true,
+  "result": "observed_limited_metadata",
+  "run_id": "9042fd51-4d70-42d6-9b51-86cd72cfd147",
+  "schema_version": "1.0",
+  "source_auth_commit": "4eee58f296d9698a1c2c0ae14d7a0b379c7622d3",
+  "source_pins": {
+    "apps/web/lib/mcp-auth.ts": "3ebbdb287898761342f49c75f6fef96c70c14b9019b745d4acc4dd82cb893a01",
+    "apps/web/lib/mcp-central-session.ts": "a773c07b5e2fc150f499ac59f7ade1d5fb3abcfec16f04f3c6d4f8bc0a7925ac",
+    "development/m07/oauth-attempt-trace/inspect-attempt.py": "1359373d078ee67d5dd644d1717a048f274c98f3617bb57c3668a45866c4c03c",
+    "development/m07/oauth-refresh-metadata36/README.md": "7e72d12d1f7b9c8ac1adfffffec0c97f78e14c7d8e7f395b4ad504fdc7275a85",
+    "development/m07/oauth-refresh-metadata36/observer.py": "fd145d8cc4375d37ad1101b22f0db8d0c938bbd31afe2b55044e31e38ccae143",
+    "development/m07/oauth-refresh-metadata36/test_observer.py": "1c03dd6acb8fc1d9c16e6b469bba2ee34d8fdaf2123833815c70f88c99c02514",
+    "development/m07/workspace-summary35-release/release.py": "33e64f3c9a3d2b5d394a6a7a1468968974ef05765802c03748db70ef3890510f",
+    "packages/central/src/client.ts": "a21f37b900d4ffee50cedfce244500c73e0afb24bf3786ad9cb1cc9f04887f74",
+    "supabase/migrations/20261028010943_m01_canonical_foundation.sql": "8a5f3ed7727a72051e630307d2daecab8c4a74054398a6425e73bd85e17568b9",
+    "supabase/migrations/20261030111549_m07_settings_delegated_session.sql": "6531e8decab5496e212eb01575aca666cd9e03b0575f92dd66bd380760f84af4",
+    "tools/provision_logo_verifier.py": "660f2eb0d15b1ed17801ecef22270dbb389fdf93181c340f16d715fc2b3a340c",
+    "tools/release_foundation.py": "02aac0cefc4b46419c7d5a086da672398716cf7ee73882602574cff99659d751",
+    "tools/release_logo.py": "efd1de07b3304d8d5c89f29bbeaf77ff2ce1d8d42ffbf885f960c36f506b47f4",
+    "tracking/evidence/m07/2026-10-30-provider-auth-metadata.json": "a8ee3a1c7cb2c46e9a9a70496e0f156a00b7405a50a97bab2dedb99f6388541a",
+    "tracking/evidence/m07/job-attempt-observability36-release/2026-11-01T02-20-17-194633Z-readback.json": "fcfd3972cc660d8a9fdded4fc24db72ceac7c3bdafe1d461671d03baa6045b10",
+    "tracking/evidence/m07/oauth-attempt-trace/2026-10-31-owner-connection-acceptance.json": "579377062d37de3909fab7212eeec0fb50db87f1c3e7341f3bbe435a8c268ed9"
+  },
+  "sql_sha256": "f332c6620be74f75624bd529f6d38a550f2a86b6d8708c8a0b66afd58a54a477",
+  "target": "pyibofyctwnqpvktepse",
+  "token_endpoint_called": false
+}

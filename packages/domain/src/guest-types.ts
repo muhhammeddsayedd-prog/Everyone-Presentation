@@ -1,5 +1,6 @@
 import type { Actor, MutationContext, Page } from './types.ts';
 import type { PdfDownload, VersionMediaPlayback, VersionSlide } from './presentation-types.ts';
+import type { FeedbackSummary } from './feedback-summary.ts';
 
 export interface ReviewLink {
   id: string; series_id: string; label: string; expires_at: string; download_enabled: boolean;
@@ -60,6 +61,7 @@ export interface ReviewLinkOperations {
   revokeReviewLink(actor: Actor, id: string, input: { row_version: number }, context: GuestMutationContext): Promise<ReviewLink>;
   rotateReviewLink(actor: Actor, id: string, input: { row_version: number }, context: GuestMutationContext): Promise<ReviewLinkCreated>;
   listFeedback(actor: Actor, versionId: string, options?: FeedbackListOptions): Promise<Feedback>;
+  getFeedbackSummary(actor: Actor, versionId: string): Promise<FeedbackSummary>;
   createComment(actor: Actor, versionId: string, input: CommentCreate, context: GuestMutationContext): Promise<FeedbackComment>;
   updateComment(actor: Actor, id: string, input: CommentPatch, context?: GuestMutationContext): Promise<FeedbackComment>;
   setPreference(actor: Actor, versionId: string, input: PreferenceSet, context: GuestMutationContext): Promise<PreferenceResult>;
@@ -75,6 +77,7 @@ export interface GuestReviewOperations {
   getCurrentVersion(session: string): Promise<ExternalPresentationVersion | null>;
   getVersion(session: string, id: string): Promise<ExternalPresentationVersion>;
   listFeedback(session: string, versionId: string, options?: FeedbackListOptions): Promise<Feedback>;
+  getFeedbackSummary(session: string, versionId: string): Promise<FeedbackSummary>;
   createComment(session: string, versionId: string, input: GuestCommentCreate, context: GuestMutationContext): Promise<FeedbackComment>;
   updateComment(session: string, id: string, input: GuestCommentPatch, context?: GuestMutationContext): Promise<FeedbackComment>;
   setPreference(session: string, versionId: string, input: PreferenceSet, context: GuestMutationContext): Promise<PreferenceResult>;
