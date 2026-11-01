@@ -2,12 +2,13 @@ import { isIP } from 'node:net';
 
 type Environment = Readonly<Record<string, string | undefined>>;
 const CENTRAL_ORIGIN = 'https://pyibofyctwnqpvktepse.supabase.co';
-function denied(): never { throw new Error('PILOT_CONFIGURATION_REQUIRED: use the explicitly configured central staging pilot.'); }
+function denied(): never { throw new Error('PILOT_CONFIGURATION_REQUIRED: configure the canonical central deployment mode, origin and credentials.'); }
 
 /** Deployment admission only. Acting-user authentication and domain permissions
  * remain mandatory. No origin, identity or credentials are inferred from a request. */
-export function assertHostedPilotConfig(env: Environment, now: number = Date.now()): void {
-  if (env.EPS_RELEASE_MODE !== 'controlled_pilot' || env.APP_ENV !== 'staging' || env.NODE_ENV !== 'production'
+export function assertHostedDeploymentConfig(env: Environment, now: number = Date.now()): void {
+  const production = env.EPS_RELEASE_MODE === 'production';
+  if ((production ? env.APP_ENV !== 'production' : env.EPS_RELEASE_MODE !== 'controlled_pilot' || env.APP_ENV !== 'staging') || env.NODE_ENV !== 'production'
     || env.CENTRAL_ADAPTER_MODE !== 'supabase' || env.EPS_TEST_SERVER === 'true' || !Number.isFinite(now)) denied();
   let origin: URL;
   try { origin = new URL(env.APP_BASE_URL ?? ''); } catch { return denied(); }
@@ -19,6 +20,8 @@ export function assertHostedPilotConfig(env: Environment, now: number = Date.now
   const publishableKey = env.SUPABASE_PUBLISHABLE_KEY ?? '';
   if (env.SUPABASE_URL !== CENTRAL_ORIGIN || publishableKey.length > 4096
     || !/^sb_publishable_[A-Za-z0-9_-]{8,}$/u.test(publishableKey)) denied();
+  // Production has no pilot deadline. Reject a stale nonempty deadline.
+  if (production) { if (env.EPS_PILOT_EXPIRES_AT) denied(); return; }
   const ownerControlled = env.EPS_PILOT_OWNER_CONTROLLED;
   if (ownerControlled !== undefined && ownerControlled !== 'true' && ownerControlled !== 'false') denied();
   const expiry = env.EPS_PILOT_EXPIRES_AT;
@@ -30,4 +33,10 @@ export function assertHostedPilotConfig(env: Environment, now: number = Date.now
   if (!Number.isFinite(deadline) || deadline <= now) denied();
   const canonical = new Date(deadline).toISOString();
   if (expiry !== canonical && expiry !== canonical.replace('.000Z', 'Z')) denied();
+}
+
+/** Retain the dedicated pilot contract for its existing launchers/operators. */
+export function assertHostedPilotConfig(env: Environment, now: number = Date.now()): void {
+  if (env.EPS_RELEASE_MODE !== 'controlled_pilot') denied();
+  assertHostedDeploymentConfig(env, now);
 }
