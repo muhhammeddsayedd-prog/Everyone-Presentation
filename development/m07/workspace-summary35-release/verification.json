@@ -1,0 +1,41 @@
+{
+  "observed_at": "2026-11-01T00:29:52.912002+00:00",
+  "status": "source_prepared_live_unverified",
+  "target": "pyibofyctwnqpvktepse",
+  "apply_enabled": false,
+  "source_checks": {
+    "offline_tests": 10,
+    "result": "pass",
+    "complete_generated_transaction_parse": true,
+    "plpgsql_guard_parse": true,
+    "actual_local_proof_hash_and_semantics_verified_offline": true,
+    "local_proof_sha256": "417d1f32cc1b417c51107899e7b6e529e22ffa7b5be7e713b50f58901dac67a9",
+    "eps_tables_hashed": 69,
+    "canonical_tables_hashed": 5,
+    "unknown_dispatch_claim_retention_test": true,
+    "changed_postclaim_preflight_prevents_dispatch_test": true,
+    "git_diff_check": "pass"
+  },
+  "independent_review": "english_display_patch read-only source review; no confirmed blocker; no reviewer helper/database execution",
+  "source_sha256": {
+    "release.py": "8d8da522e6f9ba84437dda9b886e9e33c321663d5f225703457d0dbffa103edc",
+    "test_release.py": "7ef46b59b88809cbac5a8a08a163a32c07042427abbabab10767d9d9deaf688f",
+    "README.md": "ae81b975f90da6fc627b8e29c4923d7637fc7577486267b032cac9cd17765c88",
+    "admission.template.json": "0764c324312994651099cd4b73206ebbfe024ac173cba605d4d642d061c78c95"
+  },
+  "network_cli_database_provider_or_deployment_called": false,
+  "remaining": [
+    "root finalize enablement and source before inspect",
+    "actual canonical34 inspection and protected plan review",
+    "single atomic claimed35 apply and independent committed-state readback",
+    "compatible web/SDK deployment and actual HTTP/MCP summary checks"
+  ],
+  "preserved": [
+    "existing accepted Claude connection",
+    "completed local SQL35/recovery proof",
+    "pilot running",
+    "screen-reader pending",
+    "mobile skipped",
+    "frontend work preserved"
+  ]
+}
