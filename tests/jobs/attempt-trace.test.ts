@@ -35,6 +35,17 @@ test('all existing job kinds accept only their own stage namespace', () => {
   }
 });
 
+test('explicit presentation retry may reset the stage budget while total attempt stays distinct', () => {
+  const first = { ...trace(), kind: 'presentation_render', stage: 'render_presentation', attempt: 1, stage_attempt: 1 };
+  const afterReset = { ...first, attempt: 2, attempt_id: 'a0740000-0000-4000-8000-000000000003',
+    dispatch_generation: 3, job_row_version: 9, workflow_execution_id: 'synthetic-after-manual-retry' };
+  const rows = [first, afterReset].map(parseJobStageAttemptTrace);
+  assert.deepEqual(rows.map(row => row.stage_attempt), [1, 1]);
+  assert.deepEqual(rows.map(row => row.attempt), [1, 2]);
+  assert.notEqual(rows[0]!.attempt_id, rows[1]!.attempt_id);
+  assert.notEqual(rows[0]!.workflow_execution_id, rows[1]!.workflow_execution_id);
+});
+
 test('unknown payload, secret, actor/session and free-form error fields fail closed', () => {
   for (const key of ['input', 'result', 'receipt', 'error', 'source_text', 'transcript', 'lease_token', 'lease_token_digest',
     'authorization', 'session_id', 'requested_by', 'principal_id', 'workflow_node_data']) {
@@ -71,4 +82,14 @@ test('malformed identities, counters, correlation and timestamps cannot cross th
   const getter = trace();
   Object.defineProperty(getter, 'workflow_execution_id', { get() { throw new Error('sensitive-sentinel'); } });
   assert.throws(() => parseJobStageAttemptTrace(getter), invalid);
+});
+
+test('execution reference state is a literal string and never coerces untrusted hooks', () => {
+  let coerced = false;
+  const hook = { toString() { coerced = true; throw new Error('sensitive-coercion-sentinel'); } };
+  for (const state of [{ toString: () => 'not_provided' }, [], null, Symbol('not_provided'), hook]) {
+    assert.throws(() => parseJobStageAttemptTrace({ ...trace(), workflow_execution_id: null,
+      workflow_execution_ref_state: state }), invalid);
+  }
+  assert.equal(coerced, false);
 });

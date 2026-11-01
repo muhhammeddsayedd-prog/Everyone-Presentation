@@ -54,7 +54,8 @@ export function parseJobStageAttemptTrace(value: unknown): JobStageAttemptTrace 
     || !Number.isFinite(Date.parse(row.claimed_at))) invalid();
   if (row.workflow_execution_ref_state === 'recorded') {
     if (typeof row.workflow_execution_id !== 'string' || !reference.test(row.workflow_execution_id)) invalid();
-  } else if (!['not_provided', 'invalid_omitted'].includes(String(row.workflow_execution_ref_state))
+  } else if (typeof row.workflow_execution_ref_state !== 'string'
+    || !['not_provided', 'invalid_omitted'].includes(row.workflow_execution_ref_state)
     || row.workflow_execution_id !== null) invalid();
   // Build a detached allowlist instead of returning the caller's object.
   return Object.fromEntries(fields.map(key => [key, row[key]])) as unknown as JobStageAttemptTrace;

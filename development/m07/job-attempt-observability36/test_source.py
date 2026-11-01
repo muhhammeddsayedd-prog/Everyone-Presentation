@@ -46,7 +46,7 @@ class SourceTests(unittest.TestCase):
         self.assertEqual(columns, expected)
         self.assertIn('primary key(job_id,attempt_id)', SQL)
         self.assertIn('unique(job_id,attempt)', SQL)
-        self.assertIn('unique(job_id,stage,stage_attempt)', SQL)
+        self.assertNotIn('unique(job_id,stage,stage_attempt)', SQL)
         self.assertIn("workflow_execution_ref_state='recorded')=(workflow_execution_id is not null)", SQL)
         self.assertNotRegex(SQL, r'(?i)\b(?:jsonb|bytea|encrypted_response)\b')
 
@@ -87,6 +87,7 @@ class SourceTests(unittest.TestCase):
             self.assertIn(parameter, QUERY)
         self.assertIn('$3::integer between 1 and 100', QUERY)
         self.assertIn('limit 101', QUERY)
+        self.assertIn('order by sequence desc limit 101', QUERY)
         self.assertIn('ordinal<=100', QUERY)
         self.assertIn('count(*)>100', QUERY)
         self.assertIn('e.job_id=a.job_id and e.attempt_id=a.attempt_id', QUERY)
@@ -106,6 +107,16 @@ class SourceTests(unittest.TestCase):
         self.assertNotRegex('\n'.join(line for line in FIXTURE.splitlines() if not line.startswith('--')), r'(?i)\bcommit\b')
         # Future root must execute this actual SQL; pure parsing alone proves no DB behavior.
         self.assertIn('UNEXECUTED', FIXTURE)
+
+    def test_existing_manual_retry_stage_budget_reset_can_repeat_metadata_counter(self):
+        m05 = (ROOT/'supabase/migrations/20261029215218_m05_immutable_presentation_versions.sql').read_text(encoding='utf-8')
+        m06 = (ROOT/'supabase/migrations/20261030004643_m06_credential_admission_guest_retry.sql').read_text(encoding='utf-8')
+        self.assertIn("stage_attempts=case when kind=''presentation_render''then stage_attempts-stage else stage_attempts end", m05)
+        self.assertIn("stage_attempts=stage_attempts-'render_export'", m06)
+        self.assertNotRegex(SQL, r'unique\s*\(\s*job_id\s*,\s*stage\s*,\s*stage_attempt\s*\)')
+        self.assertIn('stage_attempts=stage_attempts-stage', FIXTURE)
+        self.assertIn('array_agg(stage_attempt order by attempt)=array[1,1]', FIXTURE)
+        self.assertIn('manual presentation reset/reclaim preserves both attempts', FIXTURE)
 
 if __name__ == '__main__':
     unittest.main()

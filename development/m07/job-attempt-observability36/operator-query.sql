@@ -14,8 +14,8 @@ left join lateral (
   order by sequence) filter(where ordinal<=100) as events,
   count(*)>100 as truncated
  from (
-  select sequence,event_type,created_at,row_number()over(order by sequence)as ordinal
-  from eps.job_events e where e.job_id=a.job_id and e.attempt_id=a.attempt_id order by sequence limit 101
+  select sequence,event_type,created_at,row_number()over(order by sequence desc)as ordinal
+  from eps.job_events e where e.job_id=a.job_id and e.attempt_id=a.attempt_id order by sequence desc limit 101
  ) bounded
 ) events on true
 where a.job_id=$1::uuid and a.attempt>$2::integer

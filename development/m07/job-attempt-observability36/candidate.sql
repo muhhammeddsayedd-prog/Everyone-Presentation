@@ -42,7 +42,8 @@ create table eps.job_stage_attempts (
  job_row_version bigint not null check(job_row_version between 1 and 9007199254740991),
  primary key(job_id,attempt_id),
  unique(job_id,attempt),
- unique(job_id,stage,stage_attempt),
+ -- Explicit presentation/PDF retries may reset stage_attempts; this is metadata,
+ -- not a globally unique identity. Total attempt and attempt UUID remain unique.
  check((workflow_execution_ref_state='recorded')=(workflow_execution_id is not null)),
  check((kind='specs_extract' and stage in('prepare_document','extract_specs','apply_specs'))
   or(kind='candidate_scan' and stage in('prepare_candidate','transcribe_candidate','extract_candidate','select_frames','apply_candidate'))

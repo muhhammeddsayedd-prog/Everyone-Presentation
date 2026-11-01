@@ -34,8 +34,10 @@ The worker's bound n8n work order and service claim input remain unchanged.
 a distinct new non-null attempt ID after existing claim validation succeeds.
 The record and claim commit or roll back together. Same-ID claim replay,
 heartbeats, callbacks, enqueue, cancellation and recovery without a fresh claim
-produce no new row. Unique job/attempt, total-attempt and stage/attempt keys
-reject conflicting identities. An insertion failure aborts that claim rather
+produce no new row. Unique job/attempt and total-attempt keys reject conflicting
+identities. Per-stage counters are observed metadata: existing explicit
+presentation/PDF retries may reset that budget, so stage/attempt pairs may repeat.
+An insertion failure aborts that claim rather
 than silently leaving a correlation gap.
 
 The trigger additionally requires the running status and one-step claim-counter
@@ -79,8 +81,9 @@ internal service/operator exclusion from ordinary API/MCP parity.
 
 `operator-query.sql` is a source template for an existing reviewed administrator,
 with bound job UUID, after-attempt cursor and1–100 page size. It emits a closed
-`attempt` projection (parsed by `parseJobStageAttemptTrace`) and at most100
-accepted event sequence/type/time records plus an explicit truncation flag.
+`attempt` projection (parsed by `parseJobStageAttemptTrace`) and the latest100
+accepted event sequence/type/time records in sequence order plus an explicit
+older-event truncation flag. A terminal event stays visible after many heartbeats.
 The event join uses both job and attempt IDs. It excludes callback receipts,
 event-ID free text and current job payloads. There is no new admin credential,
 public route or arbitrary SQL executor. Any future operator wrapper must retain
@@ -101,7 +104,7 @@ job tests continue to exercise claim contention, fencing, retry, cancellation,
 callback idempotency and transactional rollback. These are deterministic source
 tests, not database or hosted acceptance.
 
-Observed local source checks on2026-11-01:17/17 focused jobs/parser tests and7/7
+Observed local source checks on2026-11-01:19/19 focused jobs/parser tests and8/8
 SQL/source/security tests passed; full TypeScript typecheck, targeted ESLint and
 `git diff --check` passed. The SQL parser consumed the actual candidate, fixture,
 query, trigger body and anonymous blocks. No database was opened for these checks.
@@ -109,7 +112,8 @@ query, trigger body and anonymous blocks. No database was opened for these check
 `fixture.sql` is unexecuted actual SQL for a future **owned-local rollback**
 proof. It creates only synthetic a074-prefixed records, exercises first/stage/
 retry claims, same-ID replay, omitted refs, safe event joins, a rolled-back claim
-and invalid counter transition, then checks least privilege. It intentionally
+and invalid counter transition, explicit failed presentation retry with a reset
+stage budget and retained two attempt records, then checks least privilege. It intentionally
 tests the actual trigger directly; it does not claim authenticated service API
 coverage. The owner must wrap candidate plus fixture in one transaction and
 roll back the role/DDL/data, preserve original database/catalogue/global roles,

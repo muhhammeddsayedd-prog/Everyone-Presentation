@@ -84,6 +84,33 @@ end$$;
 select pg_temp.trace_assert((select count(*)=4 from eps.job_stage_attempts),'invalid claim rolled back');
 select pg_temp.trace_assert((select count(*)=2 from eps.job_events e join eps.job_stage_attempts a
  on a.job_id=e.job_id and a.attempt_id=e.attempt_id),'success/failure metadata joins exact attempts');
+-- The established explicit presentation retry clears this stage's retry budget.
+-- Its next claim has a new UUID/total attempt but may legitimately be stage_attempt1 again.
+insert into eps.jobs(id,workspace_id,requested_by,kind,stage,resource_id,input,input_hash,input_hash_version,dedupe_key,correlation_id)
+values('a0740000-0000-4000-8000-000000000006','a0740000-0000-4000-8000-000000000004',
+ 'a0740000-0000-4000-8000-000000000002','presentation_render','render_presentation','a0740000-0000-4000-8000-000000000007',
+ '{}',repeat('7',64),'eps.presentation-job-input.cast-canonical.v1',repeat('8',64),'synthetic-074-manual-retry');
+update eps.jobs set status='running',attempt=1,current_attempt_id='a0740000-0000-4000-8000-000000000021',
+ lease_token_digest=repeat('9',64),lease_expires_at=clock_timestamp()+interval'90 seconds',
+ stage_attempts='{"render_presentation":1}',n8n_execution_id='synthetic-render-before-reset',row_version=row_version+1,updated_at=clock_timestamp()
+where id='a0740000-0000-4000-8000-000000000006';
+update eps.jobs set status='failed',lease_token_digest=null,lease_expires_at=null,
+ error='{"code":"PROCESSING_FAILED","retryable":false}',row_version=row_version+1
+where id='a0740000-0000-4000-8000-000000000006';
+-- The actual M05 public.eps_retry_job patch removes stage_attempts-stage. Exercise
+-- that transition directly here; authenticated/domain retry coverage is separate.
+update eps.jobs set status='queued',stage_attempts=stage_attempts-stage,error=null,
+ dispatch_generation=dispatch_generation+1,row_version=row_version+1
+where id='a0740000-0000-4000-8000-000000000006';
+update eps.jobs set status='running',attempt=2,current_attempt_id='a0740000-0000-4000-8000-000000000022',
+ lease_token_digest=repeat('9',64),lease_expires_at=clock_timestamp()+interval'90 seconds',
+ stage_attempts='{"render_presentation":1}',n8n_execution_id='synthetic-render-after-reset',row_version=row_version+1,updated_at=clock_timestamp()
+where id='a0740000-0000-4000-8000-000000000006';
+select pg_temp.trace_assert((select array_agg(stage_attempt order by attempt)=array[1,1]
+ and array_agg(attempt order by attempt)=array[1,2]
+ and array_agg(workflow_execution_id order by attempt)=array['synthetic-render-before-reset','synthetic-render-after-reset']
+ from eps.job_stage_attempts where job_id='a0740000-0000-4000-8000-000000000006'),
+ 'manual presentation reset/reclaim preserves both attempts');
 select pg_temp.trace_assert(not has_table_privilege('anon','eps.job_stage_attempts','SELECT')
  and not has_table_privilege('authenticated','eps.job_stage_attempts','SELECT')
  and not has_table_privilege('service_role','eps.job_stage_attempts','SELECT')
