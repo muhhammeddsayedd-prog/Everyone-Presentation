@@ -1,5 +1,22 @@
 # Release evidence and test-data runbook
 
+**Current overview - 2 November 2026 (Africa/Cairo): M07 remains in progress.**
+A fresh22:05 UTC read confirms canonical38/English1.0, all five processing flags
+enabled, stable pilot web4Gm85 and workerG6CV Ready. This is a deployment/control
+readback, not a new worker-startup or complete business-journey acceptance.
+[Readback](../../tracking/evidence/m07/delegated-journey38/2026-11-01T22-05-26-769637Z-before.json).
+Preserve the completed English guest playback/PDF/revocation, initial/reconnect
+MCP, workspace/job/empty-batch reads,205-record local pagination, scoped AT074,
+and local38 metadata/media recovery. The fresh delegated journey waits for the
+owner's currently busy Claude session; token/contributor, guest-summary,
+representative provider workload and final frontend/assistive-technology acceptance
+remain open. Independent Storage/API recovery is being exercised separately.
+The [bounded checklist](../../development/m07/ACCEPTANCE_DELTA_2026-11-01.md) and
+[backend contracts](../../development/m07/BACKEND_CONTRACT_HANDOFF_2026-11-01.md)
+define exact evidence scopes. AT069 remains policy-blocked; mobile stays skipped.
+Older overview paragraphs below are dated historical checkpoints.
+
+
 **Current overview — 2026-10-31: M07 is in progress; production release remains unverified.** The [stable pilot](https://everyone-presentation-pilot.vercel.app) serves web deployment `CcwVabZ5PkadAPaeANRLJD4GqVg3`, confirmed by the [14:19 UTC alias/deployment receipt](../../tracking/evidence/m07/backend-continuation/2026-10-31-response-scope-web-deployment.json). The signed-in Dummy Pilot Test workspace passed after the SDK response-scope correction. Canonical history remains33; the original owned local database remains29. Worker `CVDMpdETNwZYxdEyJ8XM66kSppdQ` was [observed Ready with one live instance at14:20 UTC](../../tracking/evidence/m07/controlled-pilot/2026-10-31T14-20-21.838Z-c70a7099-daemon-runtime.json). The pilot stays running until the owner stops it.
 
 **Scoped owner OAuth/MCP connection acceptance is passed and preserved.** The owner completed initial authorization and an authenticated Dummy Pilot Test read, then an already-consented redirect-only reconnect and another authenticated `get_project`. The [final acceptance receipt](../../tracking/evidence/m07/oauth-attempt-trace/2026-10-31-owner-connection-acceptance.json) binds the owner-visible request `23c439a1-4869-4228-a3f1-d4a6004ef4f0` to the expected acting principal, registered direct Claude Code client and exact project. This closes the earlier redirect-only limitation; it does not close refresh/rotation/revocation, contributor limits or the full delegated write/processing/generation/sharing journey. The owner retains Claude configuration, sign-in and consent control.
@@ -40,11 +57,11 @@ Never copy service credentials, bearer review tokens, private source URLs, full 
 | --- | --- | --- | --- |
 | Discovery and shared DB compatibility | AT-001–005, AT-067 | Historical discovery/foundation, original-profile reconciliation, real-role local29 proof and one-time local/canonical29 apply plus independent readback pass; earlier refusal preserved. | Actual updated runtime/browser/shared-workflow compatibility; preserve the exact applied29/source/readback history. |
 | Producer workflow and persistence | AT-006–014, AT-025–034 | Historical M02/M04/M05/M06 persisted app evidence; M07 desktop fixtures cover paging/settings/retirement. | One coherent fresh M07 human journey against the release services and shared data. |
-| Real source processing | AT-015–024, AT-055–062 | Historical real technical scans and one owner-grounded Arabic Reviewed profile; M03 broader labelled semantics still pending. M07200-file native diagnostic is synthetic/probe-heavy. | Representative independent English/Arabic/mixed ground truth, true provider/storage/queue duration/cost and required recovery. |
+| Real source processing | AT-015-024, AT-055-062 | Actual OpenAI/n8n specs and candidate processing, English saved content and owner-confirmed Arabic facts are preserved. The200-file native workload is synthetic/probe-heavy. | Required representative provider/storage/queue duration and usage/cost remain separate. Owner declined further language labels; broad semantic accuracy is unclaimed. |
 | Presentation and PDF | AT-035–044 | M05/M06 saved-file/native/visual evidence retained; isolated history28 restore validates synthetic PDF/video bytes. | Release-version human/Claude outputs, fixed-media access and layout proof through actual services. |
 | External review | AT-045–054, AT-076 | M06 actual shared feedback/lifecycle/PDF/video evidence retained. | Preserve those guarantees through release. Mobile stays skipped by owner instruction; AT-072 remains distinct. |
-| Full API/MCP parity | AT-063–066 | Source matrix86/86/115; controlled SDK/HTTP/SQL permission/replay tests. Actual Claude Code performs five calls over synthetic ports; exact original protocol revision unrecorded. | Full authorized producer/contributor Claude journeys, real-byte transfer, live OAuth issuance/refresh/revocation and shared app data parity. |
-| Production operations | AT-068–070, AT-074–075 | Isolated history28 metadata/object restore; bounded-two native diagnostic and source scope audit. | Real staging/deployed replacement/rollback, operator correlation audit and environment-specific recovery. No hosting/endurance/RTO pass. |
+| Full API/MCP parity | AT-063-066 | Current88 user/MCP operations; deployed workspace/feedback summaries and batch filter. Owner connection/reconnect, workspace/job/empty-batch reads and local205 pagination passed. | Fresh owner-led byte-upload/write/processing/saved-version journey, feedback MCP/anonymous guest delta, actual contributor/requester cases and full token lifecycle. |
+| Production operations | AT-068-070, AT-074-075 | Current38 local metadata/four-object/native restore and scoped paired AT074 passed. Fresh independent Storage/API recovery has separate receipts. | Complete independent/deployed recovery and representative measurements within their precise scopes. AT069 automatic policy block remains; no rollback or full-production claim. |
 | Accessibility | AT-071–073 | Earlier keyboard/controlled automated evidence retained; M07 desktop interaction tests add no screen-reader proof. | AT-072 manual screen-reader journey and remaining non-waived release accessibility evidence. |
 
 Update this table with links to results, not just ticks. A blocked credential or unavailable external service is **Blocked**, not Passed and not silently replaced by a mock.

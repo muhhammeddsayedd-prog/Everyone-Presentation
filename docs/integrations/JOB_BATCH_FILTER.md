@@ -1,5 +1,11 @@
 # Optional batch filter on job listing
 
+Deployed on canonical schema38 and pilot web4Gm85. Preserve the passed signed-in
+HTTP checks, owner-attested MCP empty filtered page, and isolated205-record
+PostgreSQL pagination proof (100/100/5). Hosted nonempty pagination and actual
+contributor/requester-frame cases are separate unverified scopes. See the
+[bounded acceptance delta](../../development/m07/ACCEPTANCE_DELTA_2026-11-01.md).
+
 Request3's first slice extends the existing `list_jobs` operation only:
 
 ```text
@@ -62,7 +68,7 @@ pilot serves compatible web/SDK `dpl_CUXVUZkWjkrQPBTv7XqmA9tF3y4o` with285 seale
 source files. Signed-in HTTP passed the empty batch filter, malformed/duplicate
 parameter denials and the unchanged24-job unfiltered page. All those saved jobs
 have null batch IDs: this is not a hosted nonzero batch demonstration. The205-row
-nonzero case is local SQL evidence. The new owner MCP filtered read is pending;
+nonzero case is local SQL evidence. The owner MCP empty filtered read passed;
 completed connection/reconnect acceptance remains passed. Six public auth/
 discovery checks passed, and the worker remains unchanged/healthy.
 Frontend coordination is recorded separately; no redesign was merged here.

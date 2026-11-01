@@ -7,17 +7,17 @@ passed, including the final project read after reconnect with matching owner/ser
 request ID23c439a1. Scoped connection acceptance is passed. Refresh-token
 lifecycle and the complete delegated journey retain separate acceptance checks.
 
-| Setting | Value |
-| --- | --- |
-| Studio | https://everyone-presentation-pilot.vercel.app |
-| MCP URL | https://everyone-presentation-pilot.vercel.app/mcp |
-| Transport | Streamable HTTP |
-| OAuth issuer | https://pyibofyctwnqpvktepse.supabase.co/auth/v1 |
-| Public client ID | `f2acafd5-d4b6-4176-b86c-067c57e45ecc` |
-| Callback | `http://localhost:3118/callback` |
-| Scope | `openid` |
+| Setting                | Value                                                                                 |
+| ---------------------- | ------------------------------------------------------------------------------------- |
+| Studio                 | https://everyone-presentation-pilot.vercel.app                                        |
+| MCP URL                | https://everyone-presentation-pilot.vercel.app/mcp                                    |
+| Transport              | Streamable HTTP                                                                       |
+| OAuth issuer           | https://pyibofyctwnqpvktepse.supabase.co/auth/v1                                      |
+| Public client ID       | `f2acafd5-d4b6-4176-b86c-067c57e45ecc`                                                |
+| Callback               | `http://localhost:3118/callback`                                                      |
+| Scope                  | `openid`                                                                              |
 | Authorization metadata | https://everyone-presentation-pilot.vercel.app/.well-known/oauth-authorization-server |
-| Client authentication | Public client, no secret, PKCE S256 |
+| Client authentication  | Public client, no secret, PKCE S256                                                   |
 
 Merge this entry into your Claude Code MCP configuration yourself:
 

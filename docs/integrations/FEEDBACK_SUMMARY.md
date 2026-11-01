@@ -1,8 +1,11 @@
 # Version feedback summary contract
 
-Approved additive source/local slice, 2026-11-01. Implementation and verification
-are in progress; no migration/cloud/deployment acceptance is claimed here.
-This implements frontend dependency2 without UI or lockfile changes.
+Implemented and deployed on canonical schema38 and pilot web4Gm85. The owned
+PostgreSQL checks and signed-in exact-version HTTP/invalid-query checks passed.
+The new owner MCP read and fresh anonymous guest-summary delta remain unverified.
+This implements frontend dependency2 without UI or lockfile changes. Current
+evidence and remaining boundaries are in
+[the backend handoff](../../development/m07/BACKEND_CONTRACT_HANDOFF_2026-11-01.md).
 
 Signed-in HTTP: `GET /api/v1/versions/{version_id}/feedback/summary`.
 MCP: `get_feedback_summary`, using the same acting-user service and `workspaces.read`.
