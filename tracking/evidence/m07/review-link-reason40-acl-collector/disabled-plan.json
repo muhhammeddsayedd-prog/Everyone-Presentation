@@ -1,0 +1,158 @@
+{
+  "ACL_shape_change": {
+    "after_clause": "a.attacl is null and(to_jsonb(a)-array['attname','attnum','attacl']::text[])=(to_jsonb(reference)-array['attname','attnum','attacl']::text[])",
+    "before_clause": "reference.attacl is null and(to_jsonb(a)-array['attname','attnum']::text[])=(to_jsonb(reference)-array['attname','attnum']::text[])",
+    "exclude_only_name_ordinal_ACL_from_shape_comparison": true,
+    "existing_reference_ACL_full_identity_and_catalogue_checks_unchanged": true,
+    "full_state_checkpoint_inverse_single_clause_diff": true,
+    "new_checkpoint_sha256": "061ba5e2548b9eb7bab104ee9ebae9211e9103431c4c9575f774360eb1d0f42b",
+    "new_state_sha256": "1e9ee34baea7edd418b86d747ce24cbf5e0c704bdf8ca8f878f9c00f50fd74c9",
+    "no_privilege_copy_or_change": true,
+    "old_typed_checkpoint_sha256": "5dafc9c6c306fc23bdefc1b4bcfa216933b9391bb1ced2f0e985a998ae65e405",
+    "old_typed_state_sha256": "893dd99e9b2906b4732d6359807ca4ca9be6bcee4d956b19224b3dec13472ca7",
+    "require_new_reason_ACL_null": true,
+    "same_six_key_text_array": [
+      "columns|eps.audit_events.reason|type",
+      "columns|eps.audit_events.reason|not_null",
+      "columns|eps.audit_events.reason|acl",
+      "columns|eps.audit_events.reason|identity",
+      "columns|eps.audit_events.reason|generated",
+      "columns|eps.audit_events.reason|default"
+    ]
+  },
+  "accepted_canonical40_checkpoint": null,
+  "actual_diagnostic_result": null,
+  "actual_normal40_nonce": null,
+  "canonical_entry": {
+    "Context_injection_and_inherited_orchestration_only": true,
+    "all_intermediate_entry_flags_stay_false": true,
+    "latest_and_original_library_flags_only_for_future_arming": true,
+    "new_cloud_transport": false,
+    "path": "development/m07/review-link-reason40-acl-collector/release.py",
+    "typed_old_proof_predicate_replaced_by_exact_ACL_and_zero_diagnostic_gate": true
+  },
+  "cloud_or_provider_calls": 0,
+  "diagnostic_phase": {
+    "SQL_capture_maximum_bytes": 16777216,
+    "SQL_timeouts_unchanged": true,
+    "Windows_owner_SYSTEM_private_create_exclusive_fsync_hash": true,
+    "all_types_compared": true,
+    "any_nonzero_difference_stops_before_correct_transaction": true,
+    "bridge_input_maximum_bytes": 33554432,
+    "bridge_output_maximum_bytes": 8388608,
+    "bridge_timeout_seconds": 15,
+    "canonical_checkpoint_or_restore_claim": false,
+    "exclusive_private_claim_before_dispatch": true,
+    "maximum_depth": 32,
+    "maximum_differences": 100,
+    "normal_COMMIT_nonce_claimed_from_diagnostic": false,
+    "poststate_capture": "normalized actual poststate plus new/reference pg_attribute metadata",
+    "private_artifact_maximum_bytes": 16777216,
+    "private_path": ".local/reason40-acl-collector-validation/<run>/diagnostic-poststate.json",
+    "public_difference_fields": [
+      "path",
+      "expected_sha256",
+      "actual_sha256"
+    ],
+    "raw_values_public": false,
+    "replace_only_outer_final_assertion_and_COMMIT_tail_with_closed_SELECT_ROLLBACK": true,
+    "rollback_preimage_readback_exact_required_even_on_diff": true,
+    "same_locks_preimage_migration_inner_guards_and_history_insert": true,
+    "truncation_refuses": true,
+    "zero_differences_equal_hashes_required": true
+  },
+  "finite_case_projection": {
+    "all_other_bytes_inverse_identical_to_frozen_typed_cases": true,
+    "bridge_URL_change": true,
+    "diagnostic_block_before_unchanged_positive_call": true,
+    "two_closed_diagnostic_actions_added": true
+  },
+  "flags": {
+    "intermediate_READ_APPLY_false": true,
+    "latest_APPLY_ENABLED": false,
+    "latest_READ_ENABLED": false,
+    "local_EXECUTION_ENABLED": false,
+    "original_APPLY_ENABLED": false,
+    "original_READ_ENABLED": false
+  },
+  "frozen_migration40": {
+    "path": "supabase/migrations/20261102085405_m07_review_link_action_reason.sql",
+    "sha256": "08bf4de8a63823b0e7c9aee75560a6e7de0620eb9b8b3c483c65929578db8212",
+    "unchanged": true
+  },
+  "local_SQL_Docker_execution": false,
+  "next_action": "Root source/plan review, then separate flag-only arm and ONE fresh owned local run if authorized. No canonical/provider calls.",
+  "observed_at": "2026-11-02T12:28:08.673507+00:00",
+  "offline_validation": {
+    "SQL_and_PLpgSQL_generated_Node_parse": true,
+    "actual_SQL_or_Windows_ACL_execution_claimed": false,
+    "command": "& 'D:/Everyone/Presentation/Everyone-Presentation-Studio/.venv-skills/Scripts/python.exe' -X utf8 -B -m unittest discover -s development/m07/review-link-reason40-acl-collector -p test_acl.py -v",
+    "default_off_refuses_before_target": true,
+    "exit_code": 0,
+    "failed": 0,
+    "fake_nonzero_diagnostic_permits_zero_positive_transactions": true,
+    "fake_private_capture_exclusive_claims_and_values_not_in_public_differences": true,
+    "fake_zero_diagnostic_permits_one_positive_transaction": true,
+    "tests": 7
+  },
+  "owned_protocol": {
+    "exact_owned_resource_absence_required": true,
+    "fresh_source_runtime_UUIDs_and_permanent_claims": true,
+    "labels": "eps.reason40acl.*",
+    "network": "none",
+    "no_automatic_retry": true,
+    "no_canonical_configuration_acceptance": true,
+    "no_old_claim_or_main_replay": true,
+    "original29_readonly_data_catalogue_globalroles_and_sharedlock_release_required": true,
+    "private_root": ".local/reason40-acl-collector-validation/<fresh UUID>",
+    "public_receipt_family": "tracking/evidence/m07/reason40-collector-validation/",
+    "resource_prefix": "eps-r40a-",
+    "same_five_config_setup_exclusions": true,
+    "same_valid_config95e9_and_three_row_qualification9ca7": true,
+    "shared_lock": "Main/.local/local-postgres/test-db.lock"
+  },
+  "prior_failure": {
+    "path": "tracking/evidence/m07/reason40-collector-validation/2026-11-02T11-53-00.629Z-66bca8e3.json",
+    "sha256": "e7b62380b2438135a299f5a4f503f0a587204b6bf9b69375d178185002176ebd",
+    "sources_claim_cleanup_preserved": true
+  },
+  "purpose": "reason40_acl_shape_and_rollback_diagnostic_disabled_plan",
+  "result": "source_prepared_not_executed",
+  "schema_version": "1.0",
+  "shared_lock_held": false,
+  "single_correct_transaction": {
+    "full76_after_checkpoint_and_old_row_catalogue_roles_functions_grants_dependencies_preservation": true,
+    "only_executed_after_zero_diagnostic_differences_and_rollback_readback": true,
+    "positive_dispatches": 1,
+    "rendered_full_postguard_and_COMMIT_nonce_unchanged": true,
+    "two_independent_postcommit_collectors": true
+  },
+  "source_commit": "5a3d7f2e6add104407349204cebafd23b8ae63ad",
+  "source_queries": {
+    "checkpoint_sql": {
+      "bytes": 164911,
+      "sha256": "061ba5e2548b9eb7bab104ee9ebae9211e9103431c4c9575f774360eb1d0f42b"
+    },
+    "config_setup_sql": {
+      "bytes": 5254,
+      "sha256": "95e9f308dfebb14169f3f19a7354c927349ab239cf33f33463cc569773d81b04"
+    },
+    "qualification_sql": {
+      "bytes": 27328,
+      "sha256": "9ca76b04b6061abb12908e89a6a0f7dbd22985525a89fab8b439a5a3c69e17fd"
+    },
+    "state_sql": {
+      "bytes": 149290,
+      "sha256": "1e9ee34baea7edd418b86d747ce24cbf5e0c704bdf8ca8f878f9c00f50fd74c9"
+    }
+  },
+  "source_seals": {
+    "development/m07/review-link-reason40-acl-collector/README.md": "a366553b96d1d3442b409d1d7dcb3fc753df15bd55d77748a121cc5e17d9155d",
+    "development/m07/review-link-reason40-acl-collector/cases.mjs": "e7c2ca45817d52127dca3135906428dfdf7d1ec62416aec3cda3157d52734419",
+    "development/m07/review-link-reason40-acl-collector/compiler.py": "3ee1c6765f599a32da3d868183b675aa957db1a170518f5a6e0d8308ee9c58e9",
+    "development/m07/review-link-reason40-acl-collector/context.py": "ffe2b950f185789111346e2cd5120c577169d654be8c949a06dc34cbd99cf9e4",
+    "development/m07/review-link-reason40-acl-collector/local.py": "a8a5536a6c8364cf0ea349b7400c94a002c6f3a38fa6105eed55fe063223e596",
+    "development/m07/review-link-reason40-acl-collector/release.py": "61fd7992aa96ab4afc6c3c43fb26a9e60c4abce9263cb15f833634ea6851eabb",
+    "development/m07/review-link-reason40-acl-collector/test_acl.py": "1ce7f34de118c8809138f20b4d12ccca654390934e55a460e61c6781a8173896"
+  }
+}
