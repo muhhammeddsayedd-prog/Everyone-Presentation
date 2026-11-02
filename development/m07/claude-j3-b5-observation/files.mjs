@@ -7,7 +7,7 @@ import { pathToFileURL } from 'node:url';
 import { APPROVED, SEALS, V2 } from './approved-pair.mjs';
 import { admitReleasePair, compareAcrossRelease, need, sha } from './compare.mjs';
 
-export const FILE_COMPARISON_ENABLED=false;
+export const FILE_COMPARISON_ENABLED=true;
 const INPUT=/^tracking\/evidence\/m07\/claude-j3-b5-observation\/[A-Za-z0-9.-]+\.json$/u;
 const OBS=/^tracking\/evidence\/m07\/completion-oauth\/[A-Za-z0-9.-]+-request-observation\.json$/u;
 const EXEC=/^tracking\/evidence\/m07\/completion-oauth\/[A-Za-z0-9.-]+-collector-v2-execution\.json$/u;
