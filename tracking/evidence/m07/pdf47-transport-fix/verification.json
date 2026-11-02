@@ -1,0 +1,134 @@
+{
+  "schema_version": "1.0",
+  "purpose": "PDF47_minimal_transport_error_fix_verification",
+  "observed_at": "2026-11-02T15:45:20.124667+00:00",
+  "scope": "Frontend worktree deterministic tests and read-only dependency/source audit; no production fix or processing acceptance",
+  "source_commit": "7a55fefd9282312b494e58a57b44da2f5a9204e0",
+  "patch_base": "8c1bdfdcb58c53e383bc381b0e2fe5e9f68a2ee1",
+  "source_seals": {
+    "packages/integrations/src/openai-specs.ts": "68f2208e496e3f9a567d2477c8f826df9a66b8739fb72d18635c678f42fa3768",
+    "tests/integrations/specs-sdk-errors.test.ts": "77f42206e32d9e9da766271b3b952703685f1fa46995a771c1835affbeed7b14"
+  },
+  "checks": {
+    "red": {
+      "passed": 2,
+      "failed": 4,
+      "log": {
+        "path": ".local/pdf47-sdk-errors/red.log",
+        "sha256": "8e57306d5666a893dd76991c060b8e15f580a2faa33dd83a7afd7531940d1403"
+      }
+    },
+    "green": {
+      "passed": 6,
+      "failed": 0,
+      "log": {
+        "path": ".local/pdf47-sdk-errors/green.log",
+        "sha256": "33642199dd0787167d990f0074715a691a5ff2840ffd1caf01bd703b5fe345ec"
+      }
+    },
+    "focused": {
+      "passed": 40,
+      "failed": 0,
+      "log": {
+        "path": ".local/pdf47-sdk-errors/focused.log",
+        "sha256": "f285ff8e45e6e3a78824b7dca39f7bbdbeaf6bf68366073229d0a151539d8386"
+      }
+    },
+    "full": {
+      "command": "npm.cmd test",
+      "passed": 968,
+      "failed": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "scope": "Frontend worktree only",
+      "log": {
+        "path": ".local/pdf47-sdk-errors/full-test.log",
+        "sha256": "0092001c13d2dc9091cf5250a534f20ff83deb4d72b577b8786133a6d5f81cbe"
+      }
+    },
+    "typecheck": {
+      "exit_code": 0,
+      "log": {
+        "path": ".local/pdf47-sdk-errors/typecheck.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "focused_lint": {
+      "exit_code": 0,
+      "log": {
+        "path": ".local/pdf47-sdk-errors/lint.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "git_diff_check": {
+      "exit_code": 0
+    }
+  },
+  "SDK": {
+    "official_tag": "v7.45.1",
+    "sources": [
+      {
+        "url": "https://raw.githubusercontent.com/openai/openai-node/v7.45.1/src/core/error.ts",
+        "upstream_sha256": "aea17690aeb31b3e46fa79f04d43c448134416a2f416d97e0f5d3accc0742257",
+        "installed_path": "node_modules/openai/src/core/error.ts",
+        "installed_sha256": "aea17690aeb31b3e46fa79f04d43c448134416a2f416d97e0f5d3accc0742257",
+        "installed_source_byte_equal": true
+      },
+      {
+        "url": "https://raw.githubusercontent.com/openai/openai-node/v7.45.1/src/client.ts",
+        "upstream_sha256": "2c261bd7faffbd847f45acaa5f0dbd433764b638431ad05d4e841cae6061b0f5",
+        "installed_path": "node_modules/openai/src/client.ts",
+        "installed_sha256": "2c261bd7faffbd847f45acaa5f0dbd433764b638431ad05d4e841cae6061b0f5",
+        "installed_source_byte_equal": true
+      },
+      {
+        "url": "https://raw.githubusercontent.com/openai/openai-node/v7.45.1/README.md",
+        "upstream_sha256": "8cf814b6f272f795797087128d04669ad8bf8ea4521284128d486cf210f44303",
+        "installed_path": "node_modules/openai/README.md",
+        "installed_sha256": "8cf814b6f272f795797087128d04669ad8bf8ea4521284128d486cf210f44303",
+        "installed_source_byte_equal": true
+      }
+    ],
+    "runtime_hashes": {
+      "node_modules/openai/core/error.mjs": "f9af78fa51cabb0128ebdd820259ba93a38d405434e698381b9dbc5b7ca55174",
+      "node_modules/openai/client.mjs": "65b8e9b0a52f5b855d239f3edb75710019d1cceaeac8da1e5cba122762e86ba2",
+      "node_modules/openai/package.json": "fd91cc6cd6191ffcffdecd6e8b9db5598451ef4b383b7c871e6a913c1af8f470"
+    },
+    "actual_error_classes_used": true,
+    "official_source_reads_are_not_provider_processing": true
+  },
+  "request_and_checked_configuration_bytes_unchanged": true,
+  "model_schema_prompt_deadline_output_budget_and_SDK_retries_unchanged": true,
+  "dependency_audits": [
+    {
+      "path": "tracking/evidence/m07/pdf47-transport-fix/runtime-closure.json",
+      "sha256": "c74da32ca6b2db7073d37784fe925a3125787d749e739447a73bbcf95f1a86e4"
+    },
+    {
+      "path": "tracking/evidence/m07/pdf47-transport-fix/runtime-closure-with-paths.json",
+      "sha256": "6dbbad144a2256ffb4275e3de76984f6fc7aebc2495f1898675c5d5b00a9c4d7"
+    }
+  ],
+  "related_live_readonly_evidence": [
+    {
+      "path": "tracking/evidence/m07/completion-release/2026-11-02-6269df24-pdf47-worker-diagnostic.json",
+      "sha256": "97ababf13c5cbab6ad0113c97540c925309441894e095ae57346fa6f17e60dc4",
+      "workspace": "Main",
+      "read_only": true
+    },
+    {
+      "path": "tracking/evidence/m07/completion-release/2026-11-02-68ae8433-pdf47-prepared-metadata.json",
+      "sha256": "394b817dbbfaed6f649acada433f0e3154c7d4a581693f88d96189eebd3706d7",
+      "workspace": "Main",
+      "read_only": true
+    }
+  ],
+  "provider_processing_calls_during_fix": 0,
+  "job_retry_or_cancel_calls": 0,
+  "production_deployments": 0,
+  "failed_production_attempts_and_unknown_costs_preserved": true,
+  "daemon_executable_change": true,
+  "native_executable_change_from_this_two_file_fix": false,
+  "whole_165_source_identity_changes": true,
+  "current_full_source_verifier_coupling_not_bypassed": true
+}

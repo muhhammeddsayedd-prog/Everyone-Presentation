@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-11-02T15:30:05.140Z",
+  "scope": "read-only TypeScript AST and emitted JavaScript comparison against exact serving165 code-only source context; no application modules executed",
+  "patch_base": "8c1bdfdcb58c53e383bc381b0e2fe5e9f68a2ee1",
+  "actual_packed_source_sha256": "0566342ec367efef328885aac513adeb5a942048ba01c88e1af63e4d636b6730",
+  "actual_packed_source_manifest_sha256": "5339296da8242e003c8ce6252af00333d77e91fb72f43acf362c4ef4b2ae5a0c",
+  "all_sealed_files_verified": 165,
+  "changed": [
+    {
+      "path": "packages/integrations/src/openai-specs.ts",
+      "current_sha256": "68f2208e496e3f9a567d2477c8f826df9a66b8739fb72d18635c678f42fa3768",
+      "sealed": true,
+      "base_matches_image_source": true,
+      "emitted_js_changed": true
+    },
+    {
+      "path": "tests/integrations/specs-sdk-errors.test.ts",
+      "current_sha256": "77f42206e32d9e9da766271b3b952703685f1fa46995a771c1835affbeed7b14",
+      "sealed": false,
+      "base_matches_image_source": null,
+      "emitted_js_changed": true
+    }
+  ],
+  "closures": [
+    {
+      "kind": "daemon",
+      "entries": [
+        "apps/worker/src/runtime-hosted.ts"
+      ],
+      "static_runtime_modules": 90,
+      "nonliteral_dynamic_imports": 0,
+      "executable_changed_intersection": [
+        "packages/integrations/src/openai-specs.ts"
+      ],
+      "type_only_reachable": []
+    },
+    {
+      "kind": "native",
+      "entries": [
+        "apps/worker/src/native-sandbox-launch.mjs",
+        "apps/worker/src/native-sandbox-task.mjs",
+        "apps/worker/src/native-sandbox-boundary.mjs"
+      ],
+      "static_runtime_modules": 54,
+      "nonliteral_dynamic_imports": 0,
+      "executable_changed_intersection": [],
+      "type_only_reachable": []
+    }
+  ],
+  "conclusion": "Read each exact executable intersection independently; a packed-source change alone does not establish native runtime reachability. No image was built or deployed."
+}
