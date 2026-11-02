@@ -27,22 +27,28 @@ Fresh anonymous guest9aff88b7 opened and confirmed at15:29UTC. One external
 comment7460398d was created on Ready Selectionv2; exact same-key replay returned
 that comment. Per-slide/total comments and unresolved each rose0?1, preferences
 stayed0, internal note466c303f was excluded, and prior feedback was preserved.
-Producer MCP readback, actual Narrator checks, link revocation and anonymous
-denial remain pending before the link's16:00UTC expiry. Do not print capabilities
-or replay unknown mutations. Contributor/mobile remain skipped.
+Independent canonical metadata confirmed revocation at15:46:54UTC. Old session
+and original token denial both passed at15:49 before natural expiry; the private
+session file was removed and the helper live switch separately closed. Known
+comments remain; later3external/1internal counts include2additional comments
+awaiting owner attribution. Owner MCP and actual Narrator reports remain pending.
+Do not print capabilities or replay unknown mutations. Contributor/mobile skipped.
 
 The original SQL40 collector passed602f1dd4. Canonical preparation8b166bbe
 refused a changed static baseline before migration dispatch; its claim remains
 consumed. Read-only classification found one additional OAuth coordination row
 and official managed Storage0074 metadata changes. Historical identity equality
 since39 is unproven. A distinct five-field qualified current baseline preserves
-all other guards; its targeted owned proof is now authorized once after Root5/5
-pure checks. No canonical apply has occurred. The helper-only generation
+all other guards. Targeted owned proof80be failed before fixture DDL because
+the guardedpostgres session could not assume StorageAdmin. Cleanup passed with
+original29/globalroles exact, owned resources absent and lock released. A narrow
+owned-session setup correction is in preparation; no replay or canonical apply.
+The helper-only generation
 candidate still fails MCP-large8s; all four local failures/cleanup are retained.
 A source-only four-body data-reuse change is in progress with no timeout or
 permission relaxation.
 
-Next: finish the current guest handoff and its cleanup; complete the isolated
+Next: record owner MCP/manual reports for the closed guest run; complete the isolated
 SQL40 proof and PDF fix; verify generation semantics/performance before any
 migration or retained production retry. Preserve original records, source
 worktrees, failed attempts and AT069's unreplayed policy restriction.

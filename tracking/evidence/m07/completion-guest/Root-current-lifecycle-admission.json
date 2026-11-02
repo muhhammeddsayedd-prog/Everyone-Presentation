@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0",
+  "purpose": "Root_actual_guest_delta_and_independently_bound_revocation_denial",
+  "recorded_at": "2026-11-02T15:51:58.783498+00:00",
+  "result": "passed_scoped_HTTP_and_canonical_lifecycle",
+  "run_id": "9aff88b7-e02b-4c7e-a59e-258654ebd505",
+  "review_link_id": "7f736e5a-2576-4895-ae30-116d624f40e2",
+  "version_id": "1b20ec2d-f133-4912-8efe-df2e21a3865e",
+  "receipts": {
+    "confirmation": {
+      "path": "tracking/evidence/m07/completion-guest/2026-11-02T15-29-11.323Z-9aff88b7-e02b-4c7e-a59e-258654ebd505-fae7f6df-efc0-4c35-8242-795fd540ed31-confirmed.json",
+      "sha256": "f1e610aca35ea70969d2858a7ce1d01850f4bfbf41e6211fc3cbc602de717b41"
+    },
+    "canonical_metadata": {
+      "path": "tracking/evidence/m07/completion-guest/2026-11-02T15-48-49Z-f2a86340-link-metadata.json",
+      "sha256": "4ce3041cd7f507285142bc0020f93afd4ce6d58eaeacf1be9390d2bec229ee5e"
+    },
+    "denial": {
+      "path": "tracking/evidence/m07/completion-guest/2026-11-02T15-49-00.834Z-9aff88b7-e02b-4c7e-a59e-258654ebd505-673ce8b1-1e7d-4053-a97c-8103c1d4ba2f-denied.json",
+      "sha256": "416405ad3931b618fe5bbf7342e01fcaadb4b1510a139763499655d6ef464448"
+    }
+  },
+  "anonymous_exact_count_delta_and_same_key_replay": true,
+  "internal_note_excluded_from_guest": true,
+  "canonical_revocation_independently_verified": true,
+  "revoked_at": "2026-11-02T15:46:54.104284+00:00",
+  "old_session_and_original_token_denied_before_natural_expiry": true,
+  "private_session_file_removed": true,
+  "known_external_and_internal_comments_preserved": true,
+  "later_complete_canonical_counts": {
+    "external_comments": 3,
+    "internal_comments": 1
+  },
+  "later_additional_external_comments_not_attributed_without_owner_report": 2,
+  "HTTP_confirmation_counts_are_point_in_time_not_overwritten": true,
+  "owner_MCP_reciprocal_readback": "pending_owner_report",
+  "manual_screen_reader_acceptance": "pending_owner_report",
+  "natural_expiry_denial_in_this_run": false,
+  "scope": "No producer MCP or manual reader result inferred from canonical metadata; no feedback deletion or unrelated access change."
+}

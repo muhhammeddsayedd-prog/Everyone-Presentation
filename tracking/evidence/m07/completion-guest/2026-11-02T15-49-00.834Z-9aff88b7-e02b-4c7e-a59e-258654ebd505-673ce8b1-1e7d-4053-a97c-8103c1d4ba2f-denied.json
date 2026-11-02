@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "result": "passed",
+  "scope": "actual_anonymous_guest_HTTP_denial_when_real_fetch_is_used",
+  "origin": "https://everyone-presentation-pilot.vercel.app",
+  "review_link_id": "7f736e5a-2576-4895-ae30-116d624f40e2",
+  "version_id": "1b20ec2d-f133-4912-8efe-df2e21a3865e",
+  "observed_at": "2026-11-02T15:49:00.065Z",
+  "expected_owner_action": "revoked",
+  "known_link_deadline_elapsed": false,
+  "producer_lifecycle_change_independently_verified": false,
+  "old_session_denied": {
+    "status": 404,
+    "code": "REVIEW_UNAVAILABLE",
+    "request_id": "8777e754-b47a-4564-b6d7-3e48db6c8c26"
+  },
+  "original_link_open_denied": {
+    "status": 404,
+    "code": "REVIEW_UNAVAILABLE",
+    "request_id": "b464117e-ac44-46fa-9e57-e77d495924dd"
+  },
+  "summary_sha256": "2853682b4a7d3bf830f4c5a5d48032138ee5c25ce75c3ff748e3cb5cabe34137",
+  "automatic_retry": false,
+  "requests": 2,
+  "source_seals": {
+    "development/m07/completion-guest/writer.mts": "57266d9a6c8ded410d1f8be7e3d799f75807929f354fefec6f287bbfdb98cda2",
+    "development/m07/completion-guest/inbox.mts": "29b26c916dc60e3d38d591db68dba031d0f30fad465908a024970b97ea18ecd7",
+    "development/m07/guest-summary-delta/probe.mts": "949053080f20bf62f7869217be327ba363983538bdf2ff78d689c28c988b5c61",
+    "tools/client-upload-inbox.mts": "ace01a8432eff1f7e0c0d0892e9ca71d4956ee149d02ce1081a587659d5080e4",
+    "tools/client-upload-transfer.mts": "4ed5efd3cdf4f00393e2833a3b90bb481ba84edeaff8c1ce36949e876d6ef4ba",
+    "packages/domain/src/feedback-summary.ts": "e96af0862f60ee78443bcafeeef0a0be1ed20b33d7c362e9ced075c4285baa62",
+    "packages/domain/src/guest.ts": "dd19469cb0f945b47b195d7b223880e1635f589077a25c8128904678988a8a14"
+  },
+  "private_session_file_removed": true,
+  "feedback_deleted": false
+}
