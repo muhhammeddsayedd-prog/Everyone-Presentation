@@ -27,4 +27,3 @@ do $owned$begin if current_database()<>'project39'or(pg_control_system()).system
 select jsonb_build_object('pid',pg_backend_pid(),'database',current_database(),'system',(pg_control_system()).system_identifier::text);`));assert.equal(identity.database,'project39');assert.equal(identity.system,ctx.system);assert(Number.isSafeInteger(identity.pid)&&identity.pid>0);return value;
  }};ctx.sessions.push(value);return value;
 }
-
