@@ -23,11 +23,19 @@ def canonical(value):return json.dumps(value,sort_keys=True,separators=(',',':')
 def reference(ref):
  need(type(ref)is dict and set(ref)=={'path','sha256'}and type(ref['path'])is str and re.fullmatch(r'tracking/evidence/[A-Za-z0-9_./-]+\.json',ref['path'])and'..'not in ref['path'].split('/'))
  raw=load(MAIN/ref['path']);need(sha(raw)==ref['sha256']);return json.loads(raw)
-def seal():
+def sdk_pins(sdk_entry=None):
+ expected=(HERE.parents[2]/'node_modules/@modelcontextprotocol/client/dist/index.mjs').resolve()
+ if sdk_entry is not None:need(type(sdk_entry)is str and len(sdk_entry)<=4096 and Path(sdk_entry).resolve()==expected)
+ executed=expected.parent.parent;main=(MAIN/'node_modules/@modelcontextprotocol/client').resolve();result={}
+ for label,folder in(('sdk',main),('executed-sdk',executed)):
+  need(json.loads(load(folder/'package.json'))['version']=='2.4.0')
+  for relative in('package.json','dist/index.d.mts','dist/index.mjs','dist/public-CvV4ZHkX.mjs','dist/src-CeKsbNLO.mjs'):result[label+':'+relative]=sha(load(folder/relative))
+ for relative in('package.json','dist/index.d.mts','dist/index.mjs','dist/public-CvV4ZHkX.mjs','dist/src-CeKsbNLO.mjs'):need(result['sdk:'+relative]==result['executed-sdk:'+relative])
+ result['executed-sdk:entry_identity']=sha(expected.as_posix().casefold().encode());return result
+def seal(sdk_entry=None):
  result={name:sha(load(HERE/name))for name in CODE}
  for relative in('apps/web/lib/mcp-auth.ts','apps/web/lib/mcp-http.ts','apps/web/app/mcp/route.ts','package-lock.json','tools/provision_logo_verifier.py','tools/release_foundation.py','tools/release_logo.py','development/m07/oauth-attempt-trace/inspect-attempt.py','development/m07/production-web-release/release.py','development/m07/production-web-release/state.py',OWNER):result['main:'+relative]=sha(load(MAIN/relative))
- for relative in('package.json','dist/index.d.mts','dist/public-CvV4ZHkX.mjs'):result['sdk:'+relative]=sha(load(MAIN/'node_modules/@modelcontextprotocol/client'/relative))
- need(result['main:'+OWNER]==OWNER_SHA and json.loads(load(MAIN/'node_modules/@modelcontextprotocol/client/package.json'))['version']=='2.4.0');return result
+ result.update(sdk_pins(sdk_entry));need(result['main:'+OWNER]==OWNER_SHA);return result
 
 class Journal:
  def __init__(self,run):self.s=module('temporary_oauth_frozen_store',HERE/'private_store.py').Store(run);self.run=run
@@ -43,8 +51,8 @@ class Journal:
   return True
  def exists(self,name):return self.path(name).exists()
 
-def context(j):
- inputs=j.read('inputs');need(type(inputs)is dict and set(inputs)=={'run','source_pins','web_ready_receipt'}and inputs['run']==j.run and inputs['source_pins']==seal())
+def context(j,sdk_entry=None):
+ inputs=j.read('inputs');need(type(inputs)is dict and set(inputs)=={'run','source_pins','web_ready_receipt'}and inputs['run']==j.run and inputs['source_pins']==seal(sdk_entry))
  owner=json.loads(load(MAIN/OWNER));need(owner['status']=='passed'and owner['request_principal_client_project_match']is True and owner['server_receipt']['client_id']==CLIENT and owner['server_receipt']['request_id']==owner['owner_result']['request_id']=='23c439a1-4869-4228-a3f1-d4a6004ef4f0');principal=owner['server_receipt']['principal_id'];need(re.fullmatch(r'[a-f0-9]{8}-(?:[a-f0-9]{4}-){3}[a-f0-9]{12}',principal))
  ready=reference(inputs['web_ready_receipt']);need(ready['result']=='passed'and ready['stable_alias_matches']is True and ready['two_independent_reads_equal']is True and ready['normal_process_return_observed']is True);deployment=ready['deployment'];need(deployment['state']=='READY'and deployment['project_id']==PROJECT and deployment['team_id']==TEAM)
  guard=j.s.secure
@@ -78,19 +86,19 @@ def deployment_read(c,identity):
 
 def main():
  try:
-  need(len(sys.argv)==1);value=json.loads(sys.stdin.buffer.read(1024*1024+1));operation=value.pop('operation')
-  if operation=='seal':result=seal()
+  need(len(sys.argv)==1);value=json.loads(sys.stdin.buffer.read(1024*1024+1));operation=value.pop('operation');sdk_entry=value.pop('sdk_entry');need(type(sdk_entry)is str and Path(sdk_entry).resolve()==(HERE.parents[2]/'node_modules/@modelcontextprotocol/client/dist/index.mjs').resolve())
+  if operation=='seal':result=seal(sdk_entry)
   else:
    if operation in('preflight','deployment','inventory'):need(LIVE_ENABLED)
    j=Journal(value.pop('run'))
-   if operation=='context':result=context(j)
+   if operation=='context':result=context(j,sdk_entry)
    elif operation in('create','read','exists'):result=getattr(j,operation)(**value)
    elif operation=='native':
     method=value.pop('method');need(method in('claim','persist','normal','inspect','read'));result=getattr(j.s,method)(**value)
    elif operation=='latest_tokens':
     found=next((name for name in('generation-3.json','generation-2.json','generation-1.json')if j.s.path(name).exists()),None);need(found is not None);result=j.s.read(found)
    else:
-    need(LIVE_ENABLED);c=context(j)
+    need(LIVE_ENABLED);c=context(j,sdk_entry)
     if operation=='preflight':result=query_metadata(j,c,'preflight')
     elif operation=='deployment':result=deployment_read(c,value['identity'])
     elif operation=='inventory':result=query_metadata(j,c,'inventory')

@@ -27,6 +27,11 @@ Every phase rechecks exact helper/dependency/product source pins and the same
 private context. The actual stable alias and exact deployment are independently
 read through the normal Vercel65.8 CLI; both must equal the admitted Ready
 deployment. No consumed web deployment/configuration claim is replayed.
+The Node bridge supplies its actual `import.meta.resolve` SDK entry. The seal
+checks that resolved worktree installation, version2.4, package/declaration,
+executed index, OAuth chunk and transport chunk; every executed SDK byte must
+equal the corresponding Main installation. Main-only hashes cannot admit a
+different sibling dependency tree.
 
 Fresh read-only Supabase2.122 queries, through the existing bounded normal CLI
 reader and new protected SQL files, verify current history39, the exact public
@@ -75,6 +80,14 @@ owner is ready. The owner controls sign-in and consent in the browser; nothing
 automates approval. The normal bridge context must be captured in RAM when
 computing this binding, never forwarded to chat. Python `canonical(context)`
 and the Node coordinator use the same sorted ASCII JSON binding.
+Immediately before its claim/listener, authorize collects a fresh complete
+session inventory and requires every projected row to equal the prepared
+baseline, with the existing30-second age and1-second future-clock bounds applied
+before the listener. A same-client session arriving since prepare refuses before consent
+or code exchange. The brief consent window must be coordinated against other
+new enrollment/sign-in; before/after inventory cannot establish a causal owner
+for an unrelated session created concurrently inside that window. Existing
+Claude reads/refresh with its retained session remain permitted and preserved.
 
 The callback adapter is a new coordinator-owned copy of the reviewed bounded
 loopback source. It binds only localhost3118's IPv4/IPv6 loopback listeners,

@@ -22,6 +22,16 @@ def fixtures():
  return j,pins,docs,ready,load,reference
 
 class Tests(unittest.TestCase):
+ def test_sdk_seal_binds_actual_entry_and_executed_auth_transport_chunks_to_Main(self):
+  fake_here=Path('D:/synthetic-executed/development/m07/temporary-oauth-lifecycle');fake_main=Path('D:/synthetic-main');executed=fake_here.parents[2]/'node_modules/@modelcontextprotocol/client';main=fake_main/'node_modules/@modelcontextprotocol/client';drift=False
+  def load(file,maximum=0):
+   if file.name=='package.json':return b'{"version":"2.4.0"}'
+   return b'drift'if drift and file==executed/'dist/index.mjs'else('same:'+file.name).encode()
+  with patch.object(m,'HERE',fake_here),patch.object(m,'MAIN',fake_main),patch.object(m,'load',side_effect=load):
+   pins=m.sdk_pins(str(executed/'dist/index.mjs'));self.assertEqual(pins['executed-sdk:dist/index.mjs'],pins['sdk:dist/index.mjs']);self.assertIn('executed-sdk:dist/src-CeKsbNLO.mjs',pins);self.assertIn('executed-sdk:dist/public-CvV4ZHkX.mjs',pins)
+   drift=True
+   with self.assertRaises(ValueError):m.sdk_pins(str(executed/'dist/index.mjs'))
+   with self.assertRaises(ValueError):m.sdk_pins(str(main/'dist/index.mjs'))
  def test_live_query_and_deployment_entries_refuse_before_auth_source_or_private_read(self):
   self.assertIs(m.LIVE_ENABLED,False)
   with patch.object(Path,'read_text',side_effect=AssertionError('private read')),patch.object(m,'load',side_effect=AssertionError('source read')):

@@ -6,13 +6,14 @@ import { mkdir,writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
 import { clearTimeout,setTimeout } from 'node:timers';
-import { pathToFileURL,URL } from 'node:url';
+import { fileURLToPath,pathToFileURL,URL } from 'node:url';
 import { Client,StreamableHTTPClientTransport } from '@modelcontextprotocol/client';
 import * as core from './core.mjs';
 import { ownerCallback } from './coordinator_callback.mjs';
 export const LIVE_ENABLED=false;
 const {Response,Request,Headers,AbortController}=globalThis;
 const ROOT='D:/Everyone/Presentation/Everyone-Presentation-Studio',HERE=import.meta.dirname;
+const SDK_ENTRY=fileURLToPath(import.meta.resolve('@modelcontextprotocol/client'));
 const UUID=/^[a-f0-9]{8}-(?:[a-f0-9]{4}-){3}[a-f0-9]{12}$/u;
 const PHASES=['prepare','authorize','expiry','refresh','logout','cleanup'];
 const DISCOVERY='https://pyibofyctwnqpvktepse.supabase.co/.well-known/oauth-authorization-server/auth/v1';
@@ -71,7 +72,7 @@ export class Coordinator{
   try{await client.connect(transport);const result=await client.callTool({name:'get_project',arguments:{project_id:core.SCOPE.project}});const value=result.structuredContent;need(!result.isError&&record(value)&&UUID.test(value.request_id)&&record(value.data)&&value.data.id===core.SCOPE.project&&methods.has('tools/call'));return{request_id:value.request_id,project_id:core.SCOPE.project,success:true};}finally{await client.close();}
  }
  async authorize(){
-  await this.verify();await this.prior('prepare');const ready=await this.p.read('ready');need(exact(ready,['run','owner_ready','context_sha256'])&&ready.run===this.run&&ready.owner_ready===true&&ready.context_sha256===digest(this.context));await this.serving();preflight(await this.p.preflight());const plan=await this.plan(),claim=await this.claim('authorize'),begin=await core.authorization(plan.metadata);
+  await this.verify();await this.prior('prepare');const ready=await this.p.read('ready');need(exact(ready,['run','owner_ready','context_sha256'])&&ready.run===this.run&&ready.owner_ready===true&&ready.context_sha256===digest(this.context));await this.serving();preflight(await this.p.preflight());const plan=await this.plan(),fresh=await this.current(),now=this.p.now();need(fresh.observed_at_ms<=now+1000&&now-fresh.observed_at_ms<=30000);equal(rows(fresh),rows(plan.baseline));const claim=await this.claim('authorize'),begin=await core.authorization(plan.metadata);
   await this.p.create('ownership',{v:1,run:this.run,source:'pending_owner_controlled_consent',code_verifier:begin.codeVerifier,state:begin.state});
   const result=await this.p.ownerCallback({begin,claim:phase=>this.native('claim',{phase}),onReady:url=>this.p.ownerReady(url),onCode:async code=>{
    const grant=await core.grant({phase:'exchange',metadata:plan.metadata,...this.grantPorts(),code:code.code,iss:code.iss,verifier:code.verifier});const owned=await this.admitted(grant.tokens,plan);const read=await this.readProject(owned);const proof={session_id:owned.sessionId,principal_id:owned.principalId,claims:core.safeClaims(owned),read,original_baseline_sha256:digest(plan.baseline)};await this.p.create('initial',proof);return proof;
@@ -117,7 +118,7 @@ export function nativePorts(run){
   if(operation!=='seal')requireCleanEnvironment();
   const child=spawn(path.join(ROOT,'.venv-skills/Scripts/python.exe'),['-X','utf8','-B',path.join(HERE,'coordinator_bridge.py')],{cwd:ROOT,env:environment,windowsHide:true,shell:false,stdio:['pipe','pipe','pipe']});let output='',errorBytes=0,failed=false;const timer=setTimeout(()=>{failed=true;child.kill();},90000);
   child.on('error',()=>{failed=true;});child.stdout.on('data',raw=>{output+=raw;if(Buffer.byteLength(output)>2*1024*1024){failed=true;child.kill();}});child.stderr.on('data',raw=>{errorBytes+=raw.length;if(errorBytes>65536){failed=true;child.kill();}});child.stdin.on('error',()=>{failed=true;});
-  child.on('close',code=>{clearTimeout(timer);try{need(!failed&&code===0);const result=JSON.parse(output);need(exact(result,['ok','value'])&&result.ok===true);resolve(result.value);}catch{reject(Error('TEMP_OAUTH_PRIVATE_BRIDGE_UNCONFIRMED'));}});child.stdin.end(JSON.stringify({operation,...(operation==='seal'?{}:{run}),...value}));
+  child.on('close',code=>{clearTimeout(timer);try{need(!failed&&code===0);const result=JSON.parse(output);need(exact(result,['ok','value'])&&result.ok===true);resolve(result.value);}catch{reject(Error('TEMP_OAUTH_PRIVATE_BRIDGE_UNCONFIRMED'));}});child.stdin.end(JSON.stringify({operation,sdk_entry:SDK_ENTRY,...(operation==='seal'?{}:{run}),...value}));
  });
  let context;return{now:()=>Date.now(),context:async()=>context=await bridge('context'),seal:()=>bridge('seal'),read:name=>bridge('read',{name}),exists:name=>bridge('exists',{name}),create:(name,value)=>bridge('create',{name,value}),native:(method,value)=>bridge('native',{method,...value}),latestTokens:()=>bridge('latest_tokens'),preflight:()=>bridge('preflight'),inventory:()=>bridge('inventory'),deployment:identity=>bridge('deployment',{identity}),ownerCallback,ownerReady:url=>{need(url==='http://localhost:3118/start');process.stderr.write('Owner browser handoff: http://localhost:3118/start\n');},
   http:(url,init)=>{need(context&&[DISCOVERY,RESOURCE_METADATA,core.SCOPE.jwks,core.SCOPE.token,core.SCOPE.resource,core.SCOPE.issuer+'/logout?scope=local'].includes(String(url)));const headers=new Headers(init.headers);if(String(url)===core.SCOPE.issuer+'/logout?scope=local')headers.set('apikey',context.publishable_key);return globalThis.fetch(url,{...init,headers,redirect:'error',credentials:'omit',cache:'no-store'});}};
