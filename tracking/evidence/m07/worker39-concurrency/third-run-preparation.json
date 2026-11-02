@@ -1,0 +1,55 @@
+{
+  "checkpoint_actual_execution": false,
+  "checkpoint_application_tables": 76,
+  "checkpoint_query_bytes": 159942,
+  "checkpoint_query_sha256": "273ad36c1b65177b63780162b82892e131eb095ace9ff2b49d824d82335fe518",
+  "execution_enabled": false,
+  "fixture_mutations_per_row": [
+    "status_to_terminal",
+    "lease_token_digest_to_null",
+    "lease_expires_at_to_null"
+  ],
+  "fixture_rows": [
+    {
+      "copy_sha256": "7bb0d1ebfa8680d1e28ff2aaf8d68fb380d2746e7fb5b7ef2b19cf7de5ceea39",
+      "id": "eb636d22-f702-4463-9a4d-63307ae6a835",
+      "old_status": "running",
+      "table": "eps.jobs",
+      "terminal_status": "cancelled"
+    },
+    {
+      "copy_sha256": "fbe853813633e003a979c089ad173428845a589dcbe91978cde1ac3f76a95e7d",
+      "id": "0f489b6b-911d-4bbe-8462-088896a31bcd",
+      "old_status": "leased",
+      "table": "eps.outbox_events",
+      "terminal_status": "dead"
+    }
+  ],
+  "fixture_source_metadata_sha256": "12df4e565d466c008095498903237ae24f304403887db396b8bc46b5cf93346c",
+  "no_counter_predicate_rewrite": true,
+  "observed_at": "2026-11-02T00:50:12.307043+00:00",
+  "only_two_old_row_hashes_and_five_config_setup_exceptions": true,
+  "production_sql_hashes": {
+    "comparable_sql": "38201b99ce8172115b7e65b99c538d2e5cda08e3e29f638c7f731327074f93dc",
+    "full_postcondition_template": "d2dd9ed3b4672ce623f0aa01414bedfc37de640e8aa2419d51bd2061bb0c585e",
+    "lifecycle_sql": "afd875bf71fb7cd74bb41b026fca9bd6e3cb419c91d840621bc1538c840629b7",
+    "pause_updates": "74714b99ef06b82146269ca0d61cbecaae76646f359f4ec64bc0329711ac18ea",
+    "postcondition_template": "538dc15c0e644e80051d4ec424ddd525a4a9d15b4cb850b8ed15e17918c7a961",
+    "precondition_template": "a2bb045956b40402d4d988311087159045c8cd8a55cb0806800c1056129b587c",
+    "prefix": "ab35cb440a9df6db3e11dd2464f7ec562c49eb1d7ff94dadbb8e9bf1e1e55123",
+    "resume_updates": "d128633f9c0558e5fcd05d6f854767bface945567b015daa74e717f538743eea",
+    "snapshot_sql": "45bab3f7d5da2edf13725db8f0dc1c4cfc123db43673b97f0aa37f3439f63499"
+  },
+  "production_sql_hashes_unchanged_from_failed_ef324060": true,
+  "pure_tests": 7,
+  "result": "prepared_local_only",
+  "source_pins": {
+    "README.md": "4ebdec2d4687e4931515adedc4a817c0dda3244d1d1ac2b797c248126e289802",
+    "cases.mjs": "56762858cad8320bf95962a43cf583240e456ddb76624e0491733490aa0fa22a",
+    "compiler.py": "0a568b2c1521ca424edd729dd612bb86649c63262d53034e184fbeca5d8fbc94",
+    "qualification.py": "e3d358d2a5995cbea84e89529081815bf0f5ac3ce88f560818d82e53d7d47edd",
+    "test_compiler.py": "5e1b21d6961fad4e6392464ec0267f1d32a67685d858e6d099c0a20b5c074ba9"
+  },
+  "sql_contract_sha256": "4c184701d181e539d3b5de2d2d4a68d7a985086c195108872dde5d6fe61a4ff9",
+  "sql_or_docker_executed": false
+}

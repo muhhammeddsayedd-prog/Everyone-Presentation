@@ -1,7 +1,8 @@
 # Worker39 independent local SQL concurrency purpose
 
 Callbacks started disabled and Root armed only the execution flag after peer
-review. Root/peer source review is required before arming and an
+review for each earlier run. The new third-run preparation is disabled again.
+Root/peer source review is required before arming and an
 actual owned-local run. Compilation/tests do not execute Docker or SQL, call a
 provider, or replay any historical controller/claim. There is no cloud transport.
 
@@ -28,6 +29,16 @@ and synthetic old-native label are adapted, with finite counted substitutions.
 The real specs submit/retry RPCs and their config/permission rules are unchanged.
 The five config rows intentionally receive local synthetic setup before the test
 baseline; original synthetic rows outside those named setup rows stay exact.
+Two explicitly fingerprinted inherited busy rows are qualified before the test
+baseline: synthetic job `eb636d22-f702-4463-9a4d-63307ae6a835` becomes cancelled,
+and its leased outbox `0f489b6b-911d-4bbe-8462-088896a31bcd` becomes dead. Only their
+status and lease-token-digest/expiry fields change. Whole-row COPY fingerprints
+from verified metadata12df are required before mutation, with exact owned
+database/system/run/history and actual running1/leased1 lifecycle. No raw row
+payload enters source. The actual lifecycle SQL must then report all seven0;
+counters are never rewritten/filtered. Their two original row hashes are the
+sole additional exact-row exceptions in final clone preservation, alongside the
+five declared config setup tables. Backup/source/original29 remain unchanged.
 Pause/unwind and retry rollback must preserve their complete actual local
 preimages, including every unrelated business/intent/trace/config-fixed field.
 
@@ -56,3 +67,18 @@ fix removes only those two incorrect unwraps; State4c SQL/guards/updates remain
 byte-identical. A regression was RED on the failed source and now distinguishes
 the direct psql row from a CLI wrapper. Five pure tests, syntax/lint and diff
 checks pass. A second actual run requires Root's explicit new-run review.
+
+The reviewed second run `ef324060` correctly refused its unchanged restored
+synthetic baseline at the zero-work gate: running1 and leased_outbox1. No intake/
+pause case ran. Both owned resources were absent afterward; original29 data,
+catalogue/globalroles and shared-lock release were verified. Its executed source
+and failed receipt stay frozen. Root authorized preparation of the concrete
+two-row qualification above; the new third run remains pending peer review.
+
+The same new run will execute the exact fixed production checkpoint SQL273ad36c
+through the existing32MiB owned one-shot port. It checks all76 table arrays/counts,
+history39 and full state equality before/after, with no row output persisted.
+Checkpoint failures discard raw stdout before diagnostics. Interactive sessions
+retain their2MiB bound. Seven pure/source tests now pass, including qualification
+fingerprint denial/SQL+PLpgSQL parsing and bounded100-argument JSON builders in
+the exact159942-byte checkpoint. No checkpoint/native success is claimed yet.

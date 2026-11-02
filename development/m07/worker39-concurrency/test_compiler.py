@@ -14,8 +14,10 @@ class Tests(unittest.TestCase):
   self.assertEqual(len(cfg['pause_updates']),5);self.assertEqual(len(cfg['resume_updates']),5);self.assertIn('project_creation_intents',cfg['snapshot_sql'])
  def test_new_disabled_purpose_preserves_owned_bootstrap_cleanup_and_source_fences(self):
   text=self.source
-  self.assertLess(text.index("assert(worker39.EXECUTION_ENABLED"),text.index('port.verifyLocalTarget()'));self.assertIn('--network',text);self.assertIn("'none'",text);self.assertIn('all_owned_resources_absent',text);self.assertIn('original_data_catalogue_and_global_roles_unchanged',text);self.assertIn('shared_lock_released',text)
-  self.assertIn('worker39.runCases',text);self.assertNotIn("report.checkpoint = 'same-key-independent-session-race'",text);self.assertIn('all_preexisting_rows_except_explicit_fixture_config_setup_preserved',text);self.assertIn("version,statements,name)values('20261101223342'",text)
+  self.assertLess(text.index("assert(worker39.EXECUTION_ENABLED"),text.index('port.verifyLocalTarget()'))
+  for marker in ['--network',"'none'",'all_owned_resources_absent','original_data_catalogue_and_global_roles_unchanged','shared_lock_released','worker39.runCases','all_other_cloned_rows_preserved',"version,statements,name)values('20261101223342'"]:
+   self.assertTrue(marker in text,'MISSING_OWNERSHIP_SOURCE_MARKER:'+marker)
+  self.assertFalse("report.checkpoint = 'same-key-independent-session-race'"in text)
   self.assertRegex((HERE/'cases.mjs').read_text(),r'export const EXECUTION_ENABLED = (?:true|false);')
  def test_changed_current_contract_is_denied_before_configuration(self):
   with patch.object(c,'STATE_SHA','0'*64):
@@ -30,4 +32,22 @@ class Tests(unittest.TestCase):
   observed=re.search(r'const observed = ([^;]+);',text)[1]
   program="import assert from'node:assert/strict';const actual={canonical:{synthetic:true},intent_data:{count:0}};const only=r=>{assert.equal(r.length,1);return r[0];};const cfg={snapshot_sql:'select synthetic'};const control={request:async()=>[actual]};"+snap+"assert.deepEqual(await snap(),actual);const visible={rows:[actual]};assert.deepEqual("+observed+",actual);control.request=async()=>[{worker39_snapshot:actual}];assert.notDeepEqual(await snap(),actual);console.log('PASS_DIRECT_PSQL_JSON');"
   done=subprocess.run(['C:/Program Files/nodejs/node.exe','--input-type=module','-e',program],capture_output=True,timeout=10);self.assertEqual(done.returncode,0);self.assertIn(b'PASS_DIRECT_PSQL_JSON',done.stdout)
+ def test_exact_two_source_fingerprints_and_only_terminal_lease_changes(self):
+  from pglast import parse_sql,parse_plpgsql
+  cfg=self.cfg;sql=cfg['qualification_sql'].replace('__WORKER39_OWNED_SYSTEM_SQL__',"'7703000000000000000'").replace('__WORKER39_OWNED_RUN_SQL__',"'11111111-1111-4111-8111-111111111111'");parse_sql(sql)
+  body=re.search(r'do \$fixture_zero\$(.*?)\$fixture_zero\$;',sql,re.S)[1];parse_plpgsql('create function pg_temp.test_qualification()returns void language plpgsql as $test$'+body+';$test$;')
+  self.assertEqual(len(cfg['qualification_rows']),2);self.assertEqual(sql.count('get diagnostics changed=row_count'),2);self.assertEqual(sql.count('lease_token_digest=null,lease_expires_at=null where id='),2)
+  self.assertIn("'eb636d22-f702-4463-9a4d-63307ae6a835'::uuid",sql);self.assertIn("'0f489b6b-911d-4bbe-8462-088896a31bcd'::uuid",sql);self.assertIn("set status='cancelled'",sql);self.assertIn("set status='dead'",sql)
+  self.assertTrue('q.original_row_hash=project39_proof.original_rows.row_hash'in self.source)
+  spec=importlib.util.spec_from_file_location('qualification_negative_tests',HERE/'qualification.py');q=importlib.util.module_from_spec(spec);spec.loader.exec_module(q);raw=c.load(c.MAIN/'.local/m07-recovery/639da33a-7e90-4471-b0ec-c7a8ff6097ef/backup/metadata.sql')
+  with patch.dict(q.ROWS[0],copy_sha256='0'*64):
+   with self.assertRaises(ValueError):q.source_rows(raw)
+  with self.assertRaises(ValueError):q.source_rows(raw+b'changed')
+ def test_exact_chunked_checkpoint_has76_tables_and_bounded_function_arguments(self):
+  from pglast import parse_sql,visitors
+  cfg=self.cfg;self.assertEqual(c.sha(cfg['checkpoint_sql'].encode()),c.CHECKPOINT_SHA);self.assertEqual(len(cfg['checkpoint_tables']),76);self.assertIn(cfg['snapshot_sql'],cfg['checkpoint_sql'])
+  class Functions(visitors.Visitor):
+   def visit_FuncCall(inner,ancestors,node):
+    if node.funcname[-1].sval=='jsonb_build_object':self.assertLessEqual(len(node.args or()),100)
+  Functions()(parse_sql(cfg['checkpoint_sql']));text=(HERE/'cases.mjs').read_text();self.assertIn("ctx.sql('set session authorization postgres;' + cfg.checkpoint_sql)",text);self.assertNotIn('control.request(cfg.checkpoint_sql)',text);self.assertIn("catch { throw Error('WORKER39_EXACT_CHECKPOINT_VALIDATION_UNCONFIRMED'); }",text)
 if __name__=='__main__':unittest.main()

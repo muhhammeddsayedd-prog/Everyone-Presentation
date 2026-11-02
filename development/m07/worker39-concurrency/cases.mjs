@@ -5,7 +5,7 @@ import { spawn } from 'node:child_process';
 import { createHash, randomUUID } from 'node:crypto';
 import { clearTimeout, setTimeout } from 'node:timers';
 import { setTimeout as delay } from 'node:timers/promises';
-export const EXECUTION_ENABLED = true;
+export const EXECUTION_ENABLED = false;
 const sha = raw => createHash('sha256').update(raw).digest('hex');
 const literal = text => "'" + text.replaceAll("'", "''") + "'";
 const json = value => literal(JSON.stringify(value)) + '::jsonb';
@@ -42,6 +42,21 @@ export function pause(cfg, before) {
 export function restoreFlags(cfg, paused, original) {
   return cfg.prefix + assertion(cfg.precondition_template, paused) + cfg.resume_updates.join('')
     + assertion(cfg.full_postcondition_template, original) + 'commit;';
+}
+async function validateCheckpoint(ctx, cfg, before) {
+  // The existing owned one-shot port has a32MiB capture. No raw application
+  // rows enter the interactive session, report, or an error diagnostic.
+  try {
+    const wire = await ctx.sql('set session authorization postgres;' + cfg.checkpoint_sql);
+    const rows = wire.stdout.split(/\r?\n/u).filter(line => line.startsWith('{')).map(line => JSON.parse(line)); const value = only(rows);
+    same(Object.keys(value).sort(), ['application_tables', 'catalogue', 'state']); same(value.state, before); same(Object.keys(value.application_tables).sort(), cfg.checkpoint_tables);
+    assert.equal(cfg.checkpoint_tables.length, 76); assert(value.catalogue && typeof value.catalogue === 'object' && !Array.isArray(value.catalogue));
+    for (const table of cfg.checkpoint_tables) { const expected = table === 'job_stage_attempts' ? before.canonical.base.trace_rows.count : table === 'project_creation_intents' ? before.intent_data.count : before.canonical.base.data[table].count;
+      assert(Array.isArray(value.application_tables[table]) && value.application_tables[table].length === expected); }
+    const after = only((await ctx.sql("set session authorization postgres;begin isolation level repeatable read read only;set local search_path='';set local timezone='UTC';" + cfg.snapshot_sql + ';rollback;')).stdout.split(/\r?\n/u).filter(line => line.startsWith('{')).map(line => JSON.parse(line))); same(after, before);
+    ctx.report.checkpoint_query_validation = { query_sha256: cfg.checkpoint_sha256, application_tables: 76, same_state_before_after: true, table_counts_match_state: true, history_count: before.canonical.base.history.length,
+      raw_rows_persisted: false, stdout_bytes: Buffer.byteLength(wire.stdout), maximum_capture_bytes: 32 * 1024 ** 2, owned_session_authorization: 'postgres' };
+  } catch { throw Error('WORKER39_EXACT_CHECKPOINT_VALIDATION_UNCONFIRMED'); }
 }
 function session(ctx, tag) {
   assert(/^[a-z_]{1,12}$/u.test(tag)); const application = 'worker39_' + ctx.runId.slice(0, 8) + '_' + tag;
@@ -81,6 +96,7 @@ export async function runCases(ctx, cfg) {
     const before = await snap(); same(before.canonical.lifecycle, Object.fromEntries(cfg.counters.map(key => [key, 0]))); assert.equal(before.canonical.base.history.length, 39); assert(cfg.tables.every(table => before.canonical.processing_config[table].public.enabled));
     ctx.report.owned_snapshot_qualifications = { canonical_check_called: false, cli_role_safe_observed: before.canonical.base.cli_role_safe, protected_m02_integrity_observed: before.canonical.base.protected_m02_integrity,
       synthetic_data_only: true, canonical_protected_rows_or_role_oids_not_created: true, complete_local_preimage_preserved_by_actual_collector: true };
+    await validateCheckpoint(ctx, cfg, before);
     const actor = "begin;set local role authenticated;select eps_worker38_conc.set_actor();";
     const accepted = only(await a.request(actor + "select eps_worker38_conc.submit('worker39-cached-intake-rollback',1);")); assert.equal(accepted.status, 'queued');
     const wait = async (blocked, blocker, configOnly) => {
