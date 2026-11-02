@@ -11,9 +11,10 @@ class Tests(unittest.TestCase):
   c=projection.Context();file=c.root/'tools/provision_logo_verifier.py';self.assertEqual(hashlib.sha256(file.read_bytes()).hexdigest(),'660f2eb0d15b1ed17801ecef22270dbb389fdf93181c340f16d715fc2b3a340c');old=sys.path[:]
   try:sys.path.insert(0,str(file.parent));guard=module('test_existing_Main_private_guard',file)
   finally:sys.path[:]=old
-  run='734df9f4-7bc5-405d-9548-fba3ef7fb439';expected=c.root/'.local/reason40-main-diagnostics'/run/'diagnostic.claim.json';sibling=c.source/'.local/reason40-main-diagnostics'/run/'diagnostic.claim.json';self.assertFalse(expected.exists());guard.safe_path(expected)
+  run='734df9f4-7bc5-405d-9548-fba3ef7fb439';expected=c.root/'.local/reason40-main-diagnostics'/run/'diagnostic.claim.json';sibling=(c.root.parent/'Everyone-Presentation-Studio-Production-Admission'/'.local/reason40-main-diagnostics'/run/'diagnostic.claim.json').resolve();self.assertNotEqual(sibling,expected);self.assertFalse(sibling.is_relative_to(c.root));self.assertFalse(expected.exists());guard.safe_path(expected)
   with self.assertRaises(Exception):guard.safe_path(sibling)
-  self.assertFalse(expected.exists());self.assertEqual(local.folder(c,run),expected.parent)
+  self.assertFalse(expected.exists())
+  for source in(c.source,c.root):self.assertEqual(local.folder(types.SimpleNamespace(root=c.root,source=source),run),expected.parent)
  def test_fresh_main_folder_claim_once_only_and_only_diagnostics_copied(self):
   with tempfile.TemporaryDirectory()as temporary:
    root=Path(temporary).resolve();main=root/'Main';source=root/'Source';main.mkdir();source.mkdir()

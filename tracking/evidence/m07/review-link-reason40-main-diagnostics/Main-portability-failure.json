@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "purpose": "reason40_Main_storage_portable_negative_test_failure",
+  "recorded_at": "2026-11-02 13:22:26 UTC",
+  "reported_by": "Root",
+  "observation_scope": "Root-reported actual Main offline test execution; no local SQL or provider operation",
+  "source": {
+    "original_source_commit": "0753149f363b51643176c692e67679255ba21091",
+    "original_plan_commit": "29cb11cd599a7f63946cca65478882a121bf8166",
+    "Main_cherry_pick_short_refs": [
+      "b3d8",
+      "b483"
+    ],
+    "original_test_sha256": "524a2fa5545d343ed7896d24dcb8397e1464c37a2b5ca1f1d3648f5271070117"
+  },
+  "result": "failed",
+  "offline_tests": {
+    "passed": 3,
+    "failed": 1,
+    "total": 4,
+    "command_not_independently_captured": true
+  },
+  "cause": {
+    "test_only": true,
+    "Main_context_source_equals_root": true,
+    "negative_path_derived_from_source_equalled_admitted_Main_path": true,
+    "expected_rejection_assertion_invalid_in_Main": true
+  },
+  "preserved_boundaries": {
+    "storage_wrapper_unchanged": true,
+    "SQL_and_migration_unchanged": true,
+    "canonical_READ_APPLY_false": true,
+    "no_owned_SQL_or_Docker_dispatch": true,
+    "no_canonical_or_provider_call": true,
+    "no_diagnostic_artifact_or_COMMIT_claim": true
+  },
+  "correction": "Use the explicit known Production-Admission sibling under Main.parent, require it is outside Main and distinct from the admitted path; test folder semantics with source equal to Main as well.",
+  "original_plan_preserved": true
+}
