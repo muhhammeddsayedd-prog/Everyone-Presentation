@@ -50,6 +50,10 @@ class State:
   need(type(value)is dict and set(value)=={'canonical','intent_data'})
   canonical=value['canonical'];normalized=copy.deepcopy(canonical)
   for row in normalized['processing_config'].values():row['public']['enabled']=True
+  # The migration proof used an empty intents table. Reuse only its schema/
+  # permission validation, while the actual current count/hash remain separate.
+  intent_rows=canonical['project39']['intent_rows'];need(type(intent_rows)is int and intent_rows>=0)
+  normalized['project39']['intent_rows']=0
   self.c.check(normalized,True)
   need(len(canonical['base']['history'])==39 and canonical['base']['history'][-1]==self.m.VERSION)
   for table,(_,fields)in self.config.items():
@@ -67,7 +71,14 @@ class State:
    del value['canonical']['base']['data'][table];del value['canonical']['processing_config'][table]['table_hash']
   return value
  def initial(self,value):
-  self.check(value);need(value['canonical']==self.anchor)
+  self.check(value)
+  current=copy.deepcopy(value['canonical']);anchor=copy.deepcopy(self.anchor)
+  # Legitimate owner/delegated writes may occur after migration39. Keep the
+  # historical schema/grants/OIDs/config/protected cohort exact, then capture
+  # fresh business/trace/intent preimages for this purpose's preservation window.
+  for item in(current,anchor):
+   del item['base']['data'];del item['base']['trace_rows'];del item['project39']['intent_rows']
+  need(current==anchor)
   need(all(row['public']['enabled']is True for row in value['canonical']['processing_config'].values()))
   need(value['canonical']['processing_config']['frame_extraction_config']['public']['native_image_id']==OLD_NATIVE)
   return value

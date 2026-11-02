@@ -41,7 +41,16 @@ class Tests(unittest.TestCase):
   paused=self.after(self.value(),'pause');sql=self.state.render(paused,'pin',str(uuid.uuid4()))
   self.assertEqual(sql.count('get diagnostics changed=row_count'),1);self.assertIn("update eps.frame_extraction_config set native_image_id='"+s.NATIVE+"'",sql);self.assertNotIn('update eps.jobs',sql);self.assertNotIn('delete from',sql.lower())
  def test_wrong_initial_history_pin_or_any_anchor_business_change_denied(self):
-  for mutate in [lambda v:v['canonical']['base']['history'].pop(),lambda v:v['canonical']['processing_config']['frame_extraction_config']['public'].update(native_image_id=s.NATIVE),lambda v:v['canonical']['base']['trace_rows'].update(sha256='c'*64)]:
+  for mutate in [lambda v:v['canonical']['base']['history'].pop(),lambda v:v['canonical']['processing_config']['frame_extraction_config']['public'].update(native_image_id=s.NATIVE),lambda v:v['canonical']['project39']['old_identities'].update(sha256='c'*64)]:
    value=self.value();mutate(value)
    with self.assertRaises(ValueError):self.state.initial(value)
+ def test_fresh_business_trace_and_nonempty_intents_are_captured_then_preserved(self):
+  value=self.value();name=next(key for key in value['canonical']['base']['data']if key not in self.state.config)
+  value['canonical']['base']['data'][name]={'count':15,'sha256':'c'*64};value['canonical']['base']['trace_rows']={'count':2,'sha256':'d'*64}
+  value['canonical']['project39']['intent_rows']=1;value['intent_data']={'count':1,'sha256':'e'*64};self.state.initial(value)
+  paused=self.after(value,'pause');self.assertTrue(self.state.transition(value,paused,'pause'))
+  changed=copy.deepcopy(paused);changed['intent_data']['sha256']='f'*64
+  with self.assertRaises(ValueError):self.state.transition(value,changed,'pause')
+  changed=copy.deepcopy(value);changed['intent_data']['count']=0
+  with self.assertRaises(ValueError):self.state.initial(changed)
 if __name__=='__main__':unittest.main()
