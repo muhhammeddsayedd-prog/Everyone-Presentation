@@ -6,7 +6,7 @@ directory or successful execution is manufactured during source preparation.
 from pathlib import Path
 import datetime,hashlib,importlib.util,json,os,re,sys,tarfile,uuid
 HERE=Path(__file__).resolve().parent;MAIN=Path('D:/Everyone/Presentation/Everyone-Presentation-Studio')
-BUILD_ENABLED=False
+BUILD_ENABLED=True
 PREFIX='vcr.vercel.com/muhammed-abdelrahman/everyone-presentation-worker-pilot/'
 HOST='npipe:////./pipe/dockerDesktopLinuxEngine'
 DOCKER=Path('C:/Program Files/Docker/Docker/resources/bin/docker.exe')
