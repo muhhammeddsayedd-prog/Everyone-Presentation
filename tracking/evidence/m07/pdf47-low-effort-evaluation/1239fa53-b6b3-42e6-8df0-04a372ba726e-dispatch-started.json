@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "purpose": "one_retained_pdf47_low_effort_evaluation",
+  "run_id": "1239fa53-b6b3-42e6-8df0-04a372ba726e",
+  "job_id": "47f86513-8999-4946-b5d9-f2fd6a18fd00",
+  "source_asset_id": "0fbc905f-c51e-472d-9d03-74664ee9ac86",
+  "input_sha256": "9185702344c74088328b8c6dee0d78d47bd70cf60c78ad520499937bb74e9742",
+  "settings": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "low",
+    "timeout_ms": 60000,
+    "max_output_tokens": 16384,
+    "sdk_retries": 0,
+    "maximum_provider_requests": 1,
+    "store": false,
+    "stream": false,
+    "tools": 0
+  },
+  "source_seals": {
+    "packages/integrations/src/openai-specs.ts": "aa72bb5a46a91142a07968b80bcd49b0361cd51fc091cc543b5c2a874f84bdb9",
+    "packages/integrations/src/specs-schema.ts": "389c36f8cca115f46390024170071851e8a974befdde19476771a20cbc63569c",
+    "packages/integrations/src/prompts/specs-v1.ts": "719e7e9225cc2f939df279ff2b8bfc325f68ce0b03d30d4f3ef7ede2820e7033",
+    "contracts/json-schema/specs-extraction.schema.json": "c55e758da1b71119a3a8d7cc408340e502088c8ab88a89c81da7effb85a8809d",
+    "development/m07/pdf47-low-effort-evaluation/evaluate.mts": "9d5a3c18c5a978b33c4e7fe012a0f356165260ff582cfa00e1d99e96715c7c62",
+    "development/m07/pdf47-low-effort-evaluation/private_bridge.py": "5eb26b4023ab7e98755c4079f93548f9768bf58a864c7d8aaf67eb6a9f38a8e3",
+    "package-lock.json": "6859471ff399d9c5fc6364a8bbc0b8e66d4b274e3849b444e85b54ad34f9f4d1",
+    "node_modules/openai/package.json": "fd91cc6cd6191ffcffdecd6e8b9db5598451ef4b383b7c871e6a913c1af8f470",
+    "node_modules/openai/index.mjs": "17cdb2c28d43e69bad6688cbefcf206674d15efaff37481923eef2991a239e11",
+    "node_modules/openai/client.mjs": "65b8e9b0a52f5b855d239f3edb75710019d1cceaeac8da1e5cba122762e86ba2",
+    "node_modules/openai/core/error.mjs": "f9af78fa51cabb0128ebdd820259ba93a38d405434e698381b9dbc5b7ca55174"
+  },
+  "job_outbox_or_writeback": false,
+  "production_acceptance": false,
+  "result": "dispatch_started",
+  "provider_requests_initiated": 0
+}

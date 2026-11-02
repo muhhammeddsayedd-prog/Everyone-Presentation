@@ -2,7 +2,7 @@
 from pathlib import Path
 import datetime,hashlib,importlib.util,json,os,re,sys,uuid
 MAIN=Path('D:/Everyone/Presentation/Everyone-Presentation-Studio')
-BRIDGE_ENABLED=True
+BRIDGE_ENABLED=False
 HELPER=MAIN/'tools/provision_logo_verifier.py'
 HELPER_SHA='660f2eb0d15b1ed17801ecef22270dbb389fdf93181c340f16d715fc2b3a340c'
 READER=MAIN/'development/m07/oauth-attempt-trace/inspect-attempt.py'

@@ -1,7 +1,11 @@
 # Disabled one-call low-effort evaluation
 
-Both live flags are false. No retained source, provider configuration or private
-file is read during import or default-off CLI refusal. This implements only the
+Both live flags are closed after the one authorized run1239fa53. Its retained
+[result](../../../tracking/evidence/m07/pdf47-low-effort-evaluation/1239fa53-b6b3-42e6-8df0-04a372ba726e-result.json)
+records OPENAI_TIMEOUT at60,025ms, no validated output and unknown remote
+completion/cost. The permanent dispatch claim remains; no replay is authorized.
+No retained source, provider configuration or private file is read during import
+or default-off CLI refusal. This implements only the
 [reviewed one-request plan](../pdf47-transport-fix/LOW_EFFORT_EVALUATION_PLAN.md).
 It does not retry PDF47, emit a job/outbox/callback, apply a result or establish
 production/n8n/factual-quality acceptance.
@@ -37,7 +41,10 @@ transport is included.
 
 The new runner/bridge are source-only helpers outside the native/daemon image
 graph. The optional adapter change is the separate `dfec3fa` candidate. Root must
-arm only these new helper flags after review; no actual prepare/evaluate has run.
+arm only these new helper flags after review. The one completed evaluation
+attempt and its original armed source seals are preserved in the result,
+dispatch and execution receipts; the commands below are historical instructions,
+not authorization for another request.
 The public evidence directory must exist before evaluation. Root supplies the
 existing authorized provider configuration privately, never through argv or
 source. Reviewed commands, shown for later execution only:

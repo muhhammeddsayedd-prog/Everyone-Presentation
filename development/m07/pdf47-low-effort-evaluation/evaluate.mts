@@ -11,7 +11,7 @@ import { IntegrationError } from '../../../packages/integrations/src/errors.ts';
 import type { OpenAISpecsConfig } from '../../../packages/integrations/src/openai-specs.ts';
 import type { SpecsExtractionInput, SpecsExtractionOutput } from '../../../packages/integrations/src/specs-types.ts';
 
-export const EVALUATION_ENABLED = true;
+export const EVALUATION_ENABLED = false;
 const MAIN = 'D:/Everyone/Presentation/Everyone-Presentation-Studio';
 const ROOT = path.resolve(import.meta.dirname, '../../..');
 const UUID = /^[a-f0-9]{8}-(?:[a-f0-9]{4}-){3}[a-f0-9]{12}$/u;

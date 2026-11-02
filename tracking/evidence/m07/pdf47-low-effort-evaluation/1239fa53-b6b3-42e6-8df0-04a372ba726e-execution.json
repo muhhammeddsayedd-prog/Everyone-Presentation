@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0",
+  "purpose": "one_retained_pdf47_low_effort_execution_closeout",
+  "run_id": "1239fa53-b6b3-42e6-8df0-04a372ba726e",
+  "observed_at": "2026-11-02T17:31:03.692717+00:00",
+  "source_commit_at_dispatch": "ca3c6b735af61e6d99c8332c8019a016acbbfc71",
+  "head_at_closeout": "62dd2a5d34b4a01cad1127c8f6ba341bb4e68b11",
+  "result": "completed_one_authorized_attempt_without_validated_output",
+  "launcher": {
+    "path": ".local/pdf47-low-effort-evaluation/launch-1239fa53.mjs",
+    "sha256": "dc14856dc6f63bf4b52e978de6a58f0bc68b6ed54b6f25049b7a01089893b3b7",
+    "peer_review": "closed_pass_source_only",
+    "private_environment_forwarded_fields": [
+      "OPENAI_API_KEY",
+      "OPENAI_EXTRACTION_MODEL"
+    ],
+    "raw_child_output_published": false
+  },
+  "prepare": {
+    "exit_code": 0,
+    "duration_seconds": 8.7599475,
+    "bounded_normal_readonly_query_count": 1,
+    "provider_requests": 0,
+    "timeout": false,
+    "overflow": false
+  },
+  "evaluate": {
+    "exit_code": 0,
+    "provider_requests_initiated": 1,
+    "timeout_code": "OPENAI_TIMEOUT",
+    "duration_ms": 60025,
+    "provider_request_id": null,
+    "http_status": null,
+    "automatic_retry": false,
+    "new_uuid_or_second_dispatch": false,
+    "charge_or_remote_completion_unknown": true
+  },
+  "custody": {
+    "protected_private_files_verified": 3,
+    "permanent_dispatch_claim_retained": true,
+    "validated_private_output_present": false,
+    "input_and_claim_not_removed": true
+  },
+  "evidence": {
+    "result": {
+      "path": "tracking/evidence/m07/pdf47-low-effort-evaluation/1239fa53-b6b3-42e6-8df0-04a372ba726e-result.json",
+      "sha256": "019c01c98f027044c1a2909e8f823950511d23ac4db4fcbc33c0e677046aeb49"
+    },
+    "dispatch": {
+      "path": "tracking/evidence/m07/pdf47-low-effort-evaluation/1239fa53-b6b3-42e6-8df0-04a372ba726e-dispatch-started.json",
+      "sha256": "8dcda7acf07c46e8abc68d3fff301afc916670d15d80baf802455fb9c378e1fe"
+    }
+  },
+  "selected_source_seals": {
+    "development/m07/pdf47-low-effort-evaluation/evaluate.mts": "9d5a3c18c5a978b33c4e7fe012a0f356165260ff582cfa00e1d99e96715c7c62",
+    "development/m07/pdf47-low-effort-evaluation/private_bridge.py": "5eb26b4023ab7e98755c4079f93548f9768bf58a864c7d8aaf67eb6a9f38a8e3",
+    "tools/worker-private-env.mjs": "ef935580876c9150b8150947c3796dd4760d1ad2910bc3bf322dd5015eea4d79",
+    "packages/integrations/src/openai-specs.ts": "aa72bb5a46a91142a07968b80bcd49b0361cd51fc091cc543b5c2a874f84bdb9"
+  },
+  "selected_source_stable": true,
+  "private_role_headcount_negation_missing_evidence_comparison": {
+    "performed": false,
+    "reason": "no_validated_provider_output"
+  },
+  "claims": {
+    "low_effort_completed_within_deadline": false,
+    "provider_actual_remote_outcome_known": false,
+    "factual_quality_acceptance": false,
+    "job_retry": false,
+    "outbox_or_callback": false,
+    "canonical_writeback": false,
+    "production_n8n_acceptance": false
+  }
+}
