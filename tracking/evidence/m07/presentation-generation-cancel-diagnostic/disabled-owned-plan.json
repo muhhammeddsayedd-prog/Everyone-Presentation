@@ -1,0 +1,230 @@
+{
+  "schema_version": "single-candidate-MCP-cancellation-diagnostic-disabled-plan.v1",
+  "observed_at": "2026-11-02T23:31:40.929704+00:00",
+  "source_commits": [
+    "7452e1574528db0a407191fae7a6c411fd54d423",
+    "379dba6610cdab8630eb685162d749a9f625e895"
+  ],
+  "entry_execution_enabled": false,
+  "compiled_only": true,
+  "execution_dispatched": false,
+  "runtime_UUID_issued": false,
+  "compile_uuid": "555a123a-9a37-46bc-8e4d-b17d103165a4",
+  "source_seals": {
+    "development/m07/presentation-generation-cancel-diagnostic/admit.mjs": "505fab1894e93c96e5e651168f4ec0cff099e2849368901d7b278b0091e91528",
+    "development/m07/presentation-generation-cancel-diagnostic/capture.mjs": "a7486885e77493aee2c8bd7972512c6a3cc3c43bf399ad5318c321e19b811741",
+    "development/m07/presentation-generation-cancel-diagnostic/capture.test.mjs": "84b6c74cca9dc5d1b3d7cdfa7b1a8041bb8208c8362464578b0bb38de2724b5f",
+    "development/m07/presentation-generation-cancel-diagnostic/compiler.py": "0fcf1f5c4b02655ff10768a07f1a20f9b3d55c05ad4377541888d855f569b270",
+    "development/m07/presentation-generation-cancel-diagnostic/entry.mjs": "a4d7c5642e21001b1a28a024c36596f48bce8cbdf1413ea26f00925ea57774dc",
+    "development/m07/presentation-generation-cancel-diagnostic/README.md": "61af36e29426819a41b6a284a542f64d917db60d75bf9900d398dabc1b363f8d",
+    "development/m07/presentation-generation-cancel-diagnostic/run.mjs": "13a0e0e03d87ade12e188ebe78429711caa7cf122ffdb45776d96ceba8ad739a",
+    "development/m07/presentation-generation-cancel-diagnostic/source.py": "ccc9f2803e80adff28c46befeb33d721c4307af11a1b30989763653b9a87586f",
+    "development/m07/presentation-generation-cancel-diagnostic/temporary.py": "c1aac88ee826fd7827848fb188f367f1cac7a84a3c7fb12f9243ffb44fe5c9d7",
+    "development/m07/presentation-generation-cancel-diagnostic/test_proof.py": "87efd3fe413d09fc13d6cd5a2e98dc960d0b7407bd69bda1124ac4477f7399d7"
+  },
+  "compiled_outputs": [
+    {
+      "path": ".local/presentation-generation-cancel-diagnostic-compiled/cases-555a123a-9a37-46bc-8e4d-b17d103165a4.mjs",
+      "sha256": "b765540fb3a5a5af24e5bc066f5e7315ee81d96941569ad3689c0241b6ae20b9",
+      "bytes": 3261,
+      "node_check_exit": 0
+    },
+    {
+      "path": ".local/presentation-generation-cancel-diagnostic-compiled/callback-555a123a-9a37-46bc-8e4d-b17d103165a4.mjs",
+      "sha256": "bda3cf324bd5611ac94c300a46d8b74868f5c6aed5cd1c48998506b1d848a196",
+      "bytes": 27136,
+      "node_check_exit": 0
+    },
+    {
+      "path": ".local/presentation-generation-cancel-diagnostic-compiled/controller-555a123a-9a37-46bc-8e4d-b17d103165a4.mjs",
+      "sha256": "2635ed730326767cd474fecc3418d5f3db55f7adcd62a9cf780b89148bb7bb1c",
+      "bytes": 215890,
+      "node_check_exit": 0
+    }
+  ],
+  "callback_projection": {
+    "inverse_byte_equal": true,
+    "same_fixture_prefix_280_four_candidate_bodies": true,
+    "removed_matrix_tail_sha256": "136ec3f476644c1d4cf2bc1b4a5a1a9f0c4dd6f82df6b5023e0976d93a905e35",
+    "exactly_one_fresh_MCP_large_public_generation": true,
+    "no_matrix_focus_or_warming_replay": true
+  },
+  "temporary_SQL_projection": {
+    "original_temp_sha256": "6c34eae348be361652b001cc1e14ea5e2d4bca16513eace77777592df924e33c",
+    "patched_temp_sha256": "d83a270af0bba18953a908ef989567517925961befb1c14205a54518ba21dc0f",
+    "inverse_byte_equal": true,
+    "only_local_declarations_and_QUERY_CANCELED_capture": true,
+    "pre_error_application_work_or_bounds_changed": false,
+    "functionstats_or_session_config_added": false
+  },
+  "public_stage_map": {
+    "candidate_generate_body_sha256": "a5e5c60d3f94d9e05c62fc1cfc76ac4552713000b72b1efe4eac028da15c0d40",
+    "line_stages": [
+      {
+        "line": 1,
+        "stage": "input_authority_and_series_fence"
+      },
+      {
+        "line": 22,
+        "stage": "source_locking"
+      },
+      {
+        "line": 23,
+        "stage": "post_lock_revision"
+      },
+      {
+        "line": 26,
+        "stage": "review_and_fit"
+      },
+      {
+        "line": 29,
+        "stage": "template_validation"
+      },
+      {
+        "line": 32,
+        "stage": "slide_data_assembly"
+      },
+      {
+        "line": 44,
+        "stage": "asset_inventory"
+      },
+      {
+        "line": 49,
+        "stage": "payload_assembly"
+      },
+      {
+        "line": 54,
+        "stage": "job_and_version_rows"
+      },
+      {
+        "line": 57,
+        "stage": "slide_rows"
+      },
+      {
+        "line": 60,
+        "stage": "asset_pins"
+      },
+      {
+        "line": 64,
+        "stage": "source_companions"
+      },
+      {
+        "line": 65,
+        "stage": "finalize_and_remember"
+      }
+    ]
+  },
+  "same_helper_sha256": "280244090e5350b912dec5b23b74bb5d260e9e21df497c8ddfc2ae322fb774c4",
+  "four_candidate_body_shas": [
+    "4b37255bd919719086175f5df2b197584555f3c08000ee13fe18a7dbe62f8cc3",
+    "c6f93795e1926bcbb2e550b428f2e76a9ffe04dc29199e799c3d3a0e7b73cd10",
+    "a5e5c60d3f94d9e05c62fc1cfc76ac4552713000b72b1efe4eac028da15c0d40",
+    "afe33691e2bb1dad42999b49c8c5ba9d583d68bfc6cced60bfbea0adadc37dd7"
+  ],
+  "restore_helper_sha256": "4107c87b1a51d2c5ed506a64c81378026068406a5136b202779767efb30264e7",
+  "catalogue_prosrc_exclusions": 5,
+  "failed78_baseline": {
+    "path": "tracking/evidence/m07/presentation-generation-combined-proof/2026-11-02T22-44-11.890Z-78df9599.json",
+    "sha256": "1732443e726cfe1e40e3a4b4160e18bd732196f86992580f357af3681dafb942",
+    "result": "failed; all8 first results retained; largeMCP57014 both variants; no cancellation context preserved",
+    "performance_acceptance": false
+  },
+  "carried_actual_helper_security_chain": [
+    {
+      "path": "tracking/evidence/m07/presentation-lock-source-complete-oracle-proof/2026-11-02T20-33-12.340Z-39386edd.json",
+      "sha256": "f5de1993783c8c3f4e618189091291ea905bd34839effd088af59e403d477cac",
+      "result": "failed; datedcompleted12/150+8/first3RRonly"
+    },
+    {
+      "path": "tracking/evidence/m07/presentation-lock-source-edge-rls-proof/2026-11-02T21-26-58.893Z-278a260d.json",
+      "sha256": "338cb6dd81a9572d9d5811367a3ffe6b6dd49f73d64617d83297bcbc3c07a75b",
+      "result": "failed; dated4RLS/crossFKonly"
+    },
+    {
+      "path": "tracking/evidence/m07/presentation-lock-source-uuid-proof/2026-11-02T22-00-11.340Z-c35b7493.json",
+      "sha256": "1c73ede315fc040dc9a5080209307b7ed7380dd292dc25831fd66ab95768e632",
+      "result": "passed; remainingRCfence/authority/expiry+restore"
+    },
+    {
+      "path": "tracking/evidence/m07/presentation-lock-source-uuid-proof/c35b7493-outcome.json",
+      "sha256": "e9119108244c8cd6bd7340536eb2c174e49bba6407a53458d0e3e40aaf5fa870",
+      "normal_process_exit": 0
+    }
+  ],
+  "proposed_ordered_actual_scope": [
+    "fresh38-to39-to40 owned synthetic fixture/background and exact280 plus4candidate bodies",
+    "one fresh-backend actual MCP large public generation as first application call; no matrix/projection/focus/warm replay",
+    "QUERY_CANCELED-only private stacked diagnostic custody BEFORE closed public generation projection",
+    "normal success means cancellation_not_reproduced, never combined performance acceptance",
+    "outer rollback and full fresh baseline check; exact original4107/four old bodies/config restore",
+    "original29 full data/catalogue/global roles and exact owned cleanup; independent same-engine inventories and fresh shared-lock absence"
+  ],
+  "nominal_counts": {
+    "actual_public_generate_calls": 1,
+    "warm_calls": 0,
+    "matrix_replays": 0,
+    "projection_replays": 0,
+    "focus_replays": 0,
+    "function_stats_sessions": 0
+  },
+  "privacy_contract": {
+    "raw_context_message_sqlstate_protected_wx_file_only": true,
+    "custody_before_public_assignment": true,
+    "closed_public_fields_only": true,
+    "allowlisted_function_line_stage_only": true,
+    "stage_map_bound_to_exact_candidate_body": true,
+    "private_sink_extras_stripped": true,
+    "missing_or_failed_custody_fails_closed": true,
+    "empty_context_unknown": true,
+    "no_arbitrary_context_SQL_or_message_in_public_report": true
+  },
+  "bounds": {
+    "application_statement_ms": 8000,
+    "lock_ms": 8000,
+    "native_request_ms": 45000,
+    "native_stdout_bytes": 2097152,
+    "native_stderr_bytes": 131072,
+    "finish_ms": 5000,
+    "clock_or_authority_extension": false,
+    "global_or_role_timeout_change": false
+  },
+  "offline_results": {
+    "Python_AST_inverse_compiler_checks": {
+      "passed": 4,
+      "seconds": 0.97
+    },
+    "Node_privacy_fake_port_checks": {
+      "passed": 5,
+      "milliseconds": 180.5329
+    },
+    "eslint_exit": 0,
+    "compiled_node_checks": 3
+  },
+  "independent_peer": {
+    "agent": "runtime_release",
+    "source_commits": [
+      "7452e157",
+      "379dba66"
+    ],
+    "result": "closed_pass",
+    "Python_checks": {
+      "passed": 4,
+      "seconds": 0.943
+    },
+    "Node_checks": {
+      "passed": 5,
+      "milliseconds": 200.9
+    },
+    "RAM_only_private_sink_metadata_mutant": "RED; actual source GREEN; no disk source changes"
+  },
+  "limitations": [
+    "disabled source/compiled plan only; no actual DB/Docker/provider execution",
+    "new cancellation stack cannot retrospectively identify exact78 cancelled subphase",
+    "shared buffers differ from78 because no matrix replay; this is not cold OS-cache or timing acceptance",
+    "no production SQL/body/policy/authority/timeout/session setting changes",
+    "no authority data/result cache; candidate data caches remain original success-only bounded4MiB",
+    "no function statistics/extension/global reset in this minimal diagnostic",
+    "failure stops; no automatic retry/replay/newUUID/claim repair",
+    "Root review and exact one-shot authorization required before actual dispatch; plan itself is not authorization"
+  ]
+}
