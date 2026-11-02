@@ -53,7 +53,7 @@ def prepare(port):
 def operate(action,port):
  need(FORWARD_ENABLED)
  if action!='prepare':
-  plan=port.read('plan.json');reference=plan['forward_preparation'];need(reference['retained_read_only_preparation']['prepare_claim_sha256']==PRIOR_SHA and reference['forward_claim_sha256']==port.hash(CLAIM))
+  plan=port.read('plan.json');reference=plan['forward_preparation'];need(port.hash('prepare.claim.json')==PRIOR_SHA and reference['retained_read_only_preparation']['prepare_claim_sha256']==PRIOR_SHA and reference['forward_claim_sha256']==port.hash(CLAIM))
   return c.operate(action,port,port.s)
  try:result=prepare(port)
  except Exception:result={'result':'unconfirmed','code':'FORWARD39_PREPARATION_UNCONFIRMED','claim_retained':True,'automatic_retry':False,'provider_rollback_or_AT069_performed':False}

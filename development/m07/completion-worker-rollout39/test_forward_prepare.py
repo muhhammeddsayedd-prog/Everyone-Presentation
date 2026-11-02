@@ -10,7 +10,7 @@ class Tests(unittest.TestCase):
  @classmethod
  def setUpClass(cls):cls.state=f.f.State()
  def ports(self):
-  port=t.Ports(self.state);port.concurrency=Mock(return_value={'path':'synthetic','sha256':'a'*64});legacy=port.value['canonical']['base']['legacy'];legacy['job_count']+=1;legacy['kinds']['review_fit']=legacy['kinds'].get('review_fit',0)+1;return port
+  port=t.Ports(self.state);hash_file=port.hash;port.hash=lambda name:f.PRIOR_SHA if name=='prepare.claim.json'else hash_file(name);port.concurrency=Mock(return_value={'path':'synthetic','sha256':'a'*64});legacy=port.value['canonical']['base']['legacy'];legacy['job_count']+=1;legacy['kinds']['review_fit']=legacy['kinds'].get('review_fit',0)+1;return port
  def test_disabled_main_never_constructs_provider(self):
   with patch.object(f,'FORWARD_ENABLED',False),patch.object(f,'ForwardProvider')as provider,patch.object(sys,'argv',['forward_prepare.py','prepare']):
    with self.assertRaises(ValueError):f.main()
@@ -36,4 +36,12 @@ class Tests(unittest.TestCase):
   with patch.object(f,'retained_preparation',return_value={'prepare_claim_sha256':f.PRIOR_SHA}),patch.object(f,'FORWARD_ENABLED',True):
    result=f.operate('prepare',port);self.assertEqual(result['result'],'unconfirmed');self.assertIn(f.CLAIM,port.files);self.assertNotIn('plan.json',port.files);self.assertEqual(port.snapshot.call_count,1)
    result=f.operate('prepare',port);self.assertEqual(result['result'],'unconfirmed');self.assertEqual(port.snapshot.call_count,1)
+ def test_every_following_phase_rechecks_both_actual_claim_hashes(self):
+  port=self.ports()
+  with patch.object(f,'retained_preparation',return_value={'prepare_claim_sha256':f.PRIOR_SHA}),patch.object(f,'FORWARD_ENABLED',True):
+   self.assertEqual(f.operate('prepare',port)['result'],'prepared');hash_file=port.hash;calls=copy.deepcopy(port.calls)
+   for changed in('prepare.claim.json',f.CLAIM):
+    port.hash=lambda name:'0'*64 if name==changed else hash_file(name)
+    with self.assertRaises(ValueError):f.operate('pause',port)
+    self.assertEqual(port.calls,calls);self.assertNotIn('pause.claim.json',port.files)
 if __name__=='__main__':unittest.main()
