@@ -1,0 +1,289 @@
+{
+  "all_six_hashes_per_v1_unchanged": {
+    "63787eff-a60c-4e62-9806-a5f8d9c43805": {
+      "assets_jsonb_sha256": true,
+      "inventory_sha256": true,
+      "manifest_sha256": true,
+      "slides_jsonb_sha256": true,
+      "snapshot_sha256": true,
+      "version_row_jsonb_sha256": true
+    },
+    "8f1c303e-310b-473c-b217-212a65bdf245": {
+      "assets_jsonb_sha256": true,
+      "inventory_sha256": true,
+      "manifest_sha256": true,
+      "slides_jsonb_sha256": true,
+      "snapshot_sha256": true,
+      "version_row_jsonb_sha256": true
+    }
+  },
+  "audit_source_sha256": "27d26a571afc459c496c131014d988cadfe5e4e7f45f85c925e14d324864ac11",
+  "automatic_retry": false,
+  "baseline": {
+    "observed_at": "2026-11-02T03:43:49.656399+00:00",
+    "path": "tracking/evidence/m07/production-specs-job-audit/2026-11-02T03-43-50-093717Z-v1-snapshots.json",
+    "sha256": "3f4d9ef431e42252ee35a80279bef72a5dd4c1d68fa5e7d2a54a157d473c9bcc"
+  },
+  "exit_code": 0,
+  "limits": [
+    "v1 equality is between stated baseline and final canonical read",
+    "known synthetic verification note is represented by a boolean only",
+    "browserPDFredownload/Poppler/all10labels proof remains separately owned by Root",
+    "no business accuracy/guest/MCP/authprotocol/AT069 closure"
+  ],
+  "metadata": {
+    "current_assignments": [
+      {
+        "candidate_id": "25a3c924-7b6c-48e3-88ce-c72e72b99c6d",
+        "candidate_is_reviewed": true,
+        "candidate_profile_jsonb_sha256": "983fe789da9996be61945bb703b2bb3c7c610e84d3ad2cee0b8ce1ec172b13a9",
+        "id": "2b1f6db1-d475-47b7-8e70-0f4f279d8608",
+        "internal_notes_present": false,
+        "position": "main",
+        "presentation_notes_present": false,
+        "selected_candidate_media_id": "13614da0-9c0e-40c4-afbf-2c739f463a74",
+        "selected_frame_asset_ids": [
+          "6cc898ae-2804-4c38-9ea1-5a2eea72dd0d",
+          "c3781d48-6b19-477d-867a-e2d3e544db86",
+          "981a238e-8e4a-4cbe-94ca-d239586f7a1a"
+        ],
+        "shortlist_included": true,
+        "slot_id": "43575bc9-fc15-42e0-bc8f-a57c44d77e9c",
+        "workspace_candidate_id": "cee08060-1a13-49aa-94cb-869fc6bdcfdf"
+      }
+    ],
+    "database": "postgres",
+    "observed_at": "2026-11-02T03:48:46.370339+00:00",
+    "operator": "postgres",
+    "versions": [
+      {
+        "assets": {
+          "candidate_frames": 3,
+          "candidate_videos": 1,
+          "count": 6,
+          "manifests": 1,
+          "pdfs": 1
+        },
+        "assets_jsonb_sha256": "7013e21992ae33c8d1e2c0bbae8d12815cfcfcecb983f3b9964e1a1c565e50ca",
+        "generation_job_id": "d9069d65-557c-44bb-9939-5ea7761af6aa",
+        "id": "1b20ec2d-f133-4912-8efe-df2e21a3865e",
+        "internal_notes_key_in_manifest": false,
+        "internal_notes_key_in_snapshot": false,
+        "inventory_sha256": "7f32a744d650f88db7da6e25d8f9382f445582414cf6438a8b5b00bf848fba81",
+        "manifest_asset_id": "bfa0991f-6cab-40a6-8b6e-6e3c42f1af61",
+        "manifest_sha256": "c8e7466277476f8e68f9dfa76ba88ce75eede7b27f78deff897ed17e7d2d324e",
+        "output_type": "selection",
+        "page_count": 2,
+        "pdf_asset_id": "39eaea49-baea-4d03-84f4-60d67438354a",
+        "ready_at": "2026-11-02T03:43:03.114276+00:00",
+        "series_id": "0b26d206-645a-4c9c-bbee-7307265ac68c",
+        "slides": [
+          {
+            "assignment_id": null,
+            "candidate_id": null,
+            "content_sha256": "b3d691bdcbeed592d65cab623ff1b531e707cbe95a646fdcdba1f9c77836a1d9",
+            "field_keys": [],
+            "frame_asset_ids": [],
+            "id": "08944301-c9bd-4165-81fd-c3b8a20ddbe4",
+            "kind": "cover",
+            "ordinal": 0,
+            "position": null,
+            "review_status": null,
+            "slot_id": null,
+            "video_asset_id": null
+          },
+          {
+            "assignment_id": "2b1f6db1-d475-47b7-8e70-0f4f279d8608",
+            "candidate_id": "25a3c924-7b6c-48e3-88ce-c72e72b99c6d",
+            "content_sha256": "5198030eb8217a250f26e4a406701dc0fbae155fa98e155b32d234e1b320e358",
+            "field_keys": [
+              "age_or_range",
+              "availability",
+              "city",
+              "classification",
+              "height_measurements",
+              "languages_accents",
+              "name_or_id",
+              "presentation_notes",
+              "previous_projects_roles",
+              "skills_experience"
+            ],
+            "frame_asset_ids": [
+              "6cc898ae-2804-4c38-9ea1-5a2eea72dd0d",
+              "c3781d48-6b19-477d-867a-e2d3e544db86",
+              "981a238e-8e4a-4cbe-94ca-d239586f7a1a"
+            ],
+            "id": "c2b15ca1-6559-41d8-9783-4544202991ee",
+            "kind": "candidate",
+            "ordinal": 1,
+            "position": "main",
+            "review_status": "reviewed",
+            "slot_id": "43575bc9-fc15-42e0-bc8f-a57c44d77e9c",
+            "video_asset_id": "d9db9907-5e60-4382-b61c-bb2b67709c09"
+          }
+        ],
+        "slides_jsonb_sha256": "92ccc8418fc787bafc8dda5c1356b7328ed2e0c1660bc2c9031ba43a69a9e4d8",
+        "snapshot_sha256": "a7fd0321e39802e3d859012cd597c01c74b4652278b17e6b05f91d5c7942bebd",
+        "status": "ready",
+        "version_number": 2,
+        "version_row_jsonb_sha256": "aff6fdd23890fc87428619bf648c8c30b883191042ec1f831a0557fbc62f9f1e",
+        "workflow_verification_note_present": true
+      },
+      {
+        "assets": {
+          "candidate_frames": 3,
+          "candidate_videos": 1,
+          "count": 6,
+          "manifests": 1,
+          "pdfs": 1
+        },
+        "assets_jsonb_sha256": "3bbb96f85b8bd3f69d51b3a0bb2ad1fc3e643f4ddc2f382a963c937076ee88de",
+        "generation_job_id": "c0240fd0-fcc2-4e58-9e08-2868f109e16e",
+        "id": "63787eff-a60c-4e62-9806-a5f8d9c43805",
+        "internal_notes_key_in_manifest": false,
+        "internal_notes_key_in_snapshot": false,
+        "inventory_sha256": "7f32a744d650f88db7da6e25d8f9382f445582414cf6438a8b5b00bf848fba81",
+        "manifest_asset_id": "54c14d2a-53a9-439e-836c-b8c2b6485162",
+        "manifest_sha256": "1871ba95a842c12ee04bda8ac7f075086c532d2aff21230681e929c3a4a5c846",
+        "output_type": "shortlist",
+        "page_count": 2,
+        "pdf_asset_id": "93cc7c04-4982-4473-9213-26cba0eef8ed",
+        "ready_at": "2026-11-02T03:37:42.218684+00:00",
+        "series_id": "16f21857-8c2c-4ac2-a1da-b7e3433bafc6",
+        "slides": [
+          {
+            "assignment_id": null,
+            "candidate_id": null,
+            "content_sha256": "d815eb8d9ffd9bdfac5541da6775c3863ce1245035753e702d7f3663d5096db7",
+            "field_keys": [],
+            "frame_asset_ids": [],
+            "id": "803c67c4-01d4-4c62-94d0-2399427c7ee7",
+            "kind": "cover",
+            "ordinal": 0,
+            "position": null,
+            "review_status": null,
+            "slot_id": null,
+            "video_asset_id": null
+          },
+          {
+            "assignment_id": "2b1f6db1-d475-47b7-8e70-0f4f279d8608",
+            "candidate_id": "25a3c924-7b6c-48e3-88ce-c72e72b99c6d",
+            "content_sha256": "904508d6385cf983565dfd2ff5e08bbd354eafbfa3337bdd21ff27ed501f2c7a",
+            "field_keys": [
+              "age_or_range",
+              "availability",
+              "city",
+              "classification",
+              "height_measurements",
+              "languages_accents",
+              "name_or_id",
+              "presentation_notes",
+              "previous_projects_roles",
+              "skills_experience"
+            ],
+            "frame_asset_ids": [
+              "6cc898ae-2804-4c38-9ea1-5a2eea72dd0d",
+              "c3781d48-6b19-477d-867a-e2d3e544db86",
+              "981a238e-8e4a-4cbe-94ca-d239586f7a1a"
+            ],
+            "id": "509fb3cb-6a98-4171-8a1f-522365a5e059",
+            "kind": "candidate",
+            "ordinal": 1,
+            "position": "main",
+            "review_status": "reviewed",
+            "slot_id": "43575bc9-fc15-42e0-bc8f-a57c44d77e9c",
+            "video_asset_id": "d9db9907-5e60-4382-b61c-bb2b67709c09"
+          }
+        ],
+        "slides_jsonb_sha256": "074f553a57f2762dbb271fcab9dd1b4bc6e911d04620484b6d43406d150d2630",
+        "snapshot_sha256": "9150acb2206b354ec2f5e64b724b126fdfc42e179c9ef71450efdbb49ba74511",
+        "status": "ready",
+        "version_number": 1,
+        "version_row_jsonb_sha256": "5e053e1977a33fd9c00f609a5cd44b1076239437e8c4e0a0cdc0cf6b4bf6aabc",
+        "workflow_verification_note_present": false
+      },
+      {
+        "assets": {
+          "candidate_frames": 3,
+          "candidate_videos": 1,
+          "count": 6,
+          "manifests": 1,
+          "pdfs": 1
+        },
+        "assets_jsonb_sha256": "fd333dbc60c1139cecda6462454480364c022e804a99435ca92e0e64e33bad82",
+        "generation_job_id": "fb029c89-034e-4030-8bde-4528b55b8fbb",
+        "id": "8f1c303e-310b-473c-b217-212a65bdf245",
+        "internal_notes_key_in_manifest": false,
+        "internal_notes_key_in_snapshot": false,
+        "inventory_sha256": "7f32a744d650f88db7da6e25d8f9382f445582414cf6438a8b5b00bf848fba81",
+        "manifest_asset_id": "2fdc29f7-a99f-4c2f-b257-9f4122398f24",
+        "manifest_sha256": "1672986143eb879d37d5c052538db56ea74824be705747bfd06fe8df6fe44a86",
+        "output_type": "selection",
+        "page_count": 2,
+        "pdf_asset_id": "2c6ca16c-16c3-4458-916d-a0ec3b0d4e88",
+        "ready_at": "2026-11-02T03:35:55.478402+00:00",
+        "series_id": "0b26d206-645a-4c9c-bbee-7307265ac68c",
+        "slides": [
+          {
+            "assignment_id": null,
+            "candidate_id": null,
+            "content_sha256": "e66e6c03e597a0eb6265dc41bf8743c01ab53186f9a86196c2186551840449f4",
+            "field_keys": [],
+            "frame_asset_ids": [],
+            "id": "15caa887-8499-40af-b588-2868ee012683",
+            "kind": "cover",
+            "ordinal": 0,
+            "position": null,
+            "review_status": null,
+            "slot_id": null,
+            "video_asset_id": null
+          },
+          {
+            "assignment_id": "2b1f6db1-d475-47b7-8e70-0f4f279d8608",
+            "candidate_id": "25a3c924-7b6c-48e3-88ce-c72e72b99c6d",
+            "content_sha256": "5c93ca71eb4c87a26dae207fe7c3ca29b87fe4374c78033a63c248ee44db7728",
+            "field_keys": [
+              "age_or_range",
+              "availability",
+              "city",
+              "classification",
+              "height_measurements",
+              "languages_accents",
+              "name_or_id",
+              "presentation_notes",
+              "previous_projects_roles",
+              "skills_experience"
+            ],
+            "frame_asset_ids": [
+              "6cc898ae-2804-4c38-9ea1-5a2eea72dd0d",
+              "c3781d48-6b19-477d-867a-e2d3e544db86",
+              "981a238e-8e4a-4cbe-94ca-d239586f7a1a"
+            ],
+            "id": "25ca66b2-15f3-40f2-be75-4e811a2ecef9",
+            "kind": "candidate",
+            "ordinal": 1,
+            "position": "main",
+            "review_status": "reviewed",
+            "slot_id": "43575bc9-fc15-42e0-bc8f-a57c44d77e9c",
+            "video_asset_id": "d9db9907-5e60-4382-b61c-bb2b67709c09"
+          }
+        ],
+        "slides_jsonb_sha256": "33041ff098c41795d2d7cda2dec8fd6516056f0a1a673ab209cd9ff9796dca0a",
+        "snapshot_sha256": "75729373909d81a2eee555a87923314638d334c20278c434906fc83ddbb5b48f",
+        "status": "ready",
+        "version_number": 1,
+        "version_row_jsonb_sha256": "07cd63dc2c2e8a92466e040678d793ed5bccd7307ac5797748fd7e1ddb8d3ea2",
+        "workflow_verification_note_present": false
+      }
+    ]
+  },
+  "observed_at": "2026-11-02T03:48:46.774509+00:00",
+  "output_limit_exceeded": false,
+  "raw_person_facts_names_notes_snapshots_payloads_or_credentials_saved": false,
+  "read_only_rollback": true,
+  "result": "passed",
+  "schema_version": "1.0",
+  "sql_sha256": "4511d283e29279aad9cc1838c801b8599df91e57a2ae7f99c90a33553411a85e",
+  "target": "pyibofyctwnqpvktepse",
+  "timed_out": false
+}

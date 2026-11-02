@@ -1,0 +1,47 @@
+{
+  "job_id": "6e3cb86f-b0c4-4afd-9a0f-61f18b216866",
+  "limitations": [
+    "DB records n8n execution references; independent execution status was not returned",
+    "DB stage attempts do not store daemon instance IDs; no direct job-to-instance log attribution claimed",
+    "Root production startup/current-identity evidence remains separately scoped",
+    "no workflow rerun, processing trigger, mutation, restore or configuration change"
+  ],
+  "local_predispatch_failures": {
+    "Main_anchored_private_guard_rejections_for_Recovery_local_path": 2,
+    "SQL_dispatched_during_these_failures": false,
+    "owned_empty_Recovery_directories_retained": true,
+    "sql_parser_rejection": 1
+  },
+  "n8n_connector_attempt": {
+    "error_class": "Internal error",
+    "execution_id": "31922",
+    "execution_or_workflow_changed": false,
+    "includeData": false,
+    "mcp_error_code": -32603,
+    "metadata_returned": false,
+    "requested_workflow_id": "Nu4bvU634yTLnRy1"
+  },
+  "raw_node_data_log_messages_payloads_or_credentials_saved": false,
+  "read_only": true,
+  "recorded_at": "2026-11-02T03:54:16.255788+00:00",
+  "result": "independent_connector_metadata_unavailable",
+  "schema_version": "1.0",
+  "separate_postjourney_worker_identity": {
+    "path": "tracking/evidence/m07/completion-release/production-worker-current-identity.json",
+    "scope": "Root normal inspect/inventory/read-only canonical observation; not a job-specific log receipt",
+    "sha256": "9f2eba96ceb5c22a6b8b0b39feb2e45674a5365a0841ac2facedb9197c3e2a02"
+  },
+  "worker_log_connector_attempt": {
+    "absence_of_logs_inferred": false,
+    "connector_error_code": "INVALID_ARGUMENT",
+    "deployment_id": "dpl_Cp1TW1vP3JiLJoL5G3Zx2yfei97M",
+    "http_status": 403,
+    "limit": 30,
+    "metadata_returned": false,
+    "project_id": "prj_I4SMkDzaDy0KHNgiF00v4Da5aLb6",
+    "provider_error_code": "forbidden",
+    "since": "2026-11-02T03:20:40Z",
+    "source": "daemon",
+    "until": "2026-11-02T03:21:05Z"
+  }
+}
