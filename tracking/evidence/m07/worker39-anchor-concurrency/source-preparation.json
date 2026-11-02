@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-11-02T01:26:27.849207+00:00",
+  "result": "passed",
+  "scope": "source-only disabled fifth owned worker39 proof preparation; no SQL or Docker execution",
+  "execution_enabled": false,
+  "sql_called": false,
+  "docker_called": false,
+  "provider_called": false,
+  "shared_lock_acquired": false,
+  "forward_state_sha256": "f8aa16ba5f5969d497d1326b3368cc66c98dddd59cc675f633af0377d6506107",
+  "frozen_base_state_sha256": "4c184701d181e539d3b5de2d2d4a68d7a985086c195108872dde5d6fe61a4ff9",
+  "prior_fourth_passed_receipt": "tracking/evidence/m07/worker39-concurrency/2026-11-02T01-11-30.311Z-f62f594e.json",
+  "prior_fourth_receipt_sha256": "3b642b23b3c6771963ed20913dccec3ed441a56168fb807335f84902fcf495e8",
+  "nine_sql_fragments_byte_identical_to_passed_fourth": true,
+  "checkpoint_and_qualification_sql_identical": true,
+  "source_files": {
+    "development/m07/worker39-anchor-concurrency/cases.mjs": "8169f6664e7d399dda198ee205276dcc0f9d3f1ff325a47d766614326ac4690b",
+    "development/m07/worker39-anchor-concurrency/compiler.py": "274c3e0d4736b99ca945c5159b80cda42013114f5594a5f0ee3f17c3d8e14d51",
+    "development/m07/worker39-anchor-concurrency/README.md": "61be3615d25c927866042746507a980b73d8e86722db29065171adf44c70e65a",
+    "development/m07/worker39-anchor-concurrency/test_compiler.py": "d9ef4e47e6ce4c2604065fe64cb4fa8b8dff1f1b5a67a88c5fdf149e240565b2"
+  },
+  "private_disabled_source": ".local/worker39-anchor-concurrency-source/controller-3cec80d4-99b0-430b-be97-8aae4c48ae42.mjs",
+  "private_disabled_source_sha256": "c39d3a18bef76d39191e0ac7b8e33b0f775bc6f7f90ccf4a8f4e9f26e732df37",
+  "checks": [
+    {
+      "command": ".venv-skills/Scripts/python.exe -X utf8 -B development/m07/worker39-anchor-concurrency/test_compiler.py",
+      "exit_code": 0,
+      "tests": 5
+    },
+    {
+      "command": ".venv-skills/Scripts/python.exe -X utf8 -B development/m07/worker39-anchor-concurrency/compiler.py",
+      "exit_code": 0,
+      "compilation_only": true
+    },
+    {
+      "command": "node --check .local/worker39-anchor-concurrency-source/controller-3cec80d4-99b0-430b-be97-8aae4c48ae42.mjs",
+      "exit_code": 0
+    },
+    {
+      "command": "node --check development/m07/worker39-anchor-concurrency/cases.mjs",
+      "exit_code": 0
+    },
+    {
+      "command": "eslint development/m07/worker39-anchor-concurrency/cases.mjs",
+      "exit_code": 0
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0
+    }
+  ]
+}
