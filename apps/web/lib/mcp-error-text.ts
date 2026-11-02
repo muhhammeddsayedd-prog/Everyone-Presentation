@@ -14,7 +14,7 @@ export function mcpErrorText(value: unknown, mutation = false): string {
   }
   const code = typeof error.code === 'string' && /^[A-Z][A-Z0-9_]{0,99}$/u.test(error.code) ? error.code : 'DEPENDENCY_UNAVAILABLE';
   let message = typeof error.message === 'string' && error.message.length <= 2000 ? error.message : 'The operation could not be completed. Contact the workspace administrator.';
-  if (mutation && ['CENTRAL_RESPONSE_INVALID', 'DEPENDENCY_UNAVAILABLE'].includes(code)) {
+  if (mutation && ['OPERATION_RESPONSE_INVALID', 'CENTRAL_RESPONSE_INVALID', 'DEPENDENCY_UNAVAILABLE'].includes(code)) {
     message += ' A mutation may already have been applied: read the saved state before retrying and keep the same idempotency key for the same intent.';
   }
   return JSON.stringify({

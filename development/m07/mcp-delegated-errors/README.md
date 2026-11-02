@@ -77,3 +77,11 @@ These are deterministic local results, not live delegated/provider acceptance.
 The existing next-env generated drift and untracked redesign output remain
 excluded and preserved. Root owns any later Main integration, quality seal and
 deployment after its current owned OAuth session is cleaned up.
+
+## Follow-up: read and mutation error guidance
+
+A separate follow-up after `c2f1906` corrects the original output guard's advice scope. The validator now returns the generic `OPERATION_RESPONSE_INVALID` message for every invalid success. Only the mutation-aware MCP text formatter appends reconciliation guidance, for that code and the existing `CENTRAL_RESPONSE_INVALID` and `DEPENDENCY_UNAVAILABLE` codes. Read operations receive no mutation or same-key directive. Guidance is emitted once.
+
+Three added regressions failed against the preceding source and then passed: generic validation for reads/writes, an actual SDK read with malformed private output, and a controlled non-JSON success response exercising the real JSON-parse fallback for both GET and mutation calls. Private failed bytes remain suppressed. The eight-file focused selection passed **42/42**, with zero failures/skips/cancellations; typecheck, focused ESLint and diff checks passed. These are local synthetic-boundary results, with no live/provider/SQL acceptance claim.
+
+The follow-up changes only the two web error modules and their focused tests/documentation. It does not change the prior reason parser/MAC implementation, auth, route, permissions, dependency/lock files or worker sources. Main and deployment remain untouched.

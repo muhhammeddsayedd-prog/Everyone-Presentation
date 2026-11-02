@@ -80,6 +80,7 @@ test('post-commit response rejection exposes reconciliation guidance without lea
     const result = await c.client.callTool({ name: 'add_workspace_candidate', arguments: args });
     assert.equal(result.isError, true); const error = textError(result);
     assert.equal(error.error.code, 'OPERATION_RESPONSE_INVALID'); assert.match(error.error.message, /same idempotency key/iu);
+    assert.equal((error.error.message.match(/same idempotency key/giu) ?? []).length, 1);
     assert.ok(!JSON.stringify(result).includes('synthetic-private-output'));
     await c.client.callTool({ name: 'add_workspace_candidate', arguments: args }); assert.equal(commits, 1);
     const readback = await c.client.callTool({ name: 'list_workspace_candidates', arguments: { workspace_id: candidate.workspace_id } });
@@ -101,4 +102,45 @@ test('a central post-commit DTO failure retains its code and warns to reconcile 
   const result = await invokeMcpTool('add_workspace_candidate', { workspace_id: 'synthetic-workspace', body: { candidate_id: 'synthetic-candidate' }, idempotency_key: key }, actor, ports);
   assert.equal(result.isError, true); assert.equal(textError(result).error.code, 'CENTRAL_RESPONSE_INVALID');
   assert.match(textError(result).error.message, /read the saved state/iu); assert.match(textError(result).error.message, /same idempotency key/iu); assert.equal(commits, 1);
+});
+
+test('malformed read output stays generic without mutation or same-key advice', async () => {
+  const ports = services(); let reads = 0;
+  ports.studio = { ...ports.studio, async getProject() { reads++; return { private_result: 'synthetic-private-read-output' }; } } as unknown as McpServices['studio'];
+  const c = await connect(ports);
+  try {
+    const result = await c.client.callTool({ name: 'get_project', arguments: { project_id: 'synthetic-project' } });
+    assert.equal(result.isError, true);
+    const error = textError(result);
+    assert.equal(error.error.code, 'OPERATION_RESPONSE_INVALID');
+    assert.equal(error.error.message, 'The operation result did not match its published contract.');
+    assert.doesNotMatch(JSON.stringify(result), /mutation|idempotency|synthetic-private-read-output/iu);
+    assert.equal(reads, 1);
+  } finally { await c.close(); }
+});
+
+test('non-JSON success fallback adds reconciliation once only for mutation calls', async t => {
+  const ports = services(); let reads = 0; let mutations = 0;
+  ports.studio = { ...ports.studio, async getProject() { reads++; return { id: 'synthetic-project' }; } } as unknown as McpServices['studio'];
+  ports.presentation = { async generateVersion() { mutations++; return { job_id: 'synthetic-job', resource_id: 'synthetic-version', poll_url: '/api/v1/jobs/synthetic-job', status: 'queued' }; } } as unknown as McpServices['presentation'];
+  const original = Response.json;
+  // A controlled successful HTTP response has malformed bytes. The fallback
+  // still runs the real Response.json parser and the closed error projection.
+  t.mock.method(Response, 'json', (value: unknown, init?: ResponseInit) => {
+    if (value && typeof value === 'object' && Object.hasOwn(value, 'data')
+      && String((value as { request_id?: unknown }).request_id).startsWith('synthetic-non-json-')) {
+      return new Response('synthetic-private-non-json-success', { ...init, headers: { 'Content-Type': 'text/plain' } });
+    }
+    return original(value, init);
+  });
+  for (const mutation of [false, true]) {
+    const result = await invokeMcpTool(mutation ? 'generate_version' : 'get_project', mutation ? generate : { project_id: 'synthetic-project' }, actor, ports, `synthetic-non-json-${mutation ? 'mutation' : 'read'}`);
+    assert.equal(result.isError, true);
+    const error = textError(result);
+    assert.equal(error.error.code, 'OPERATION_RESPONSE_INVALID');
+    assert.ok(!JSON.stringify(result).includes('synthetic-private-non-json-success'));
+    assert.equal((error.error.message.match(/same idempotency key/giu) ?? []).length, mutation ? 1 : 0);
+    assert.equal((result.structuredContent as { error: { message: string } }).error.message, 'The operation result did not match its published contract.');
+  }
+  assert.equal(reads, 1); assert.equal(mutations, 1);
 });

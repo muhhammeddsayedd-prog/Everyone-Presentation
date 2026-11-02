@@ -20,3 +20,11 @@ test('MCP output guard refuses private unexpected data and unknown tools without
     assert.throws(() => validateMcpSuccess(name, payload), error => error instanceof DomainError && error.status === 503 && !JSON.stringify(error).includes(privateMarker));
   }
 });
+
+test('MCP output validation is transport-neutral and never prescribes mutation retries for reads', () => {
+  for (const name of ['get_project', 'add_workspace_candidate']) {
+    assert.throws(() => validateMcpSuccess(name, {}), error => error instanceof DomainError
+      && error.code === 'OPERATION_RESPONSE_INVALID'
+      && error.message === 'The operation result did not match its published contract.');
+  }
+});
