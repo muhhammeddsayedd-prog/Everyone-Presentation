@@ -1,6 +1,6 @@
 # M07 acceptance matrix
 
-## Current production acceptance - 2026-11-02T03:49:45.756463+00:00
+## Current production acceptance - 2026-11-02T03:57:35.309246+00:00
 
 Production web `dpl_J3hmctcHndRp8zDVAPYfcnjEgpzG` serves product `c88f58c` /
 manifest `f947fb53` at the stable alias. WorkerCp source056/native46/daemon2d66/
@@ -13,17 +13,22 @@ and all five processing flags resumed. This is scoped deployment acceptance;
 | Production web | [Normal deployment/readback](production-web-release/2026-11-02T02-34-07-437169Z-readback.json), exact stable alias/source; [ten public checks](completion-release/2026-11-02T02-40-42.581Z-61b370e7-production-public.json) passed | Full signed-in human/authorized-Claude workflow; public probes do not prove it |
 | Production worker | [Ready/startup](completion-worker/2026-11-02T02-20-07-299859Z-rollout39-ready.json): 23 bound records, complete first ten minutes, one new instance/old absent; [pin](completion-worker/2026-11-02T02-24-16-275686Z-rollout39-pin.json) and [resume](completion-worker/2026-11-02T02-28-39-166492Z-rollout39-resume.json) normal with two readbacks; private/preview metadata preserved | AT069 queued replacement/compatible rollback remains policy-blocked; no replay or equivalent transport |
 | Project creation/types | Actual UI/canonical [Planned98eb](completion-release/planned-project-production.json): one creator/receipt/audit, no workspace/jobs/series/versions; [Castingbf650](completion-release/casting-project-production.json): separate workspace5505; no new global/client grants; shared-client wording restored | Live MCP creation and full reciprocal human/Claude readbacks; logo file transfer blocked by browser extension file-URL permission |
-| Current human Casting journey | [Bounded real UI and downloaded artifacts](completion-release/production-human-journey-checkpoint.json): library/frame/assignment/Main/Shortlist persistence; Ready Selection8f1c303e/Shortlist63787eff/new Selection1b20ec2d; technical/visual PDFs and original-video playback; old Selection SHA dd7b7b37 unchanged after presentation-only edit, v2 PDF979ead40 contains new wording | Specs provider audit and actual-Claude/guest reciprocal acceptance remain pending; no representative/full business-accuracy claim |
+| Current human Casting journey | [Bounded real UI and downloaded artifacts](completion-release/production-human-journey-checkpoint.json): saved choices, both outputs, v2, PDFs and video; [Root-admitted canonical audit](production-specs-job-audit/Root-admission.json): three-stage provider metadata, both v1 hashes, v2 and ten historical Ready versions preserved | Actual-Claude/guest reciprocal acceptance and direct intake remain pending; no representative/full business-accuracy claim |
 | Auth and delegated access | Prior real owner connection retained; separate [operator run402aca12](temporary-oauth-lifecycle-coordinator/2026-11-02T03-18-15.949Z-402aca12-prepare.json) armed/prepared against current web, no listener/token session | Private owner Ready pending; actual-Claude natural expiry/renewal and operator rotation/local-revoke/denials are distinct unverified proofs |
 | Guest/contributor | Existing scoped guest evidence retained; current additive helpers implemented; producer access preserved | Nonzero actual anonymous guest summary/readback/internal-note exclusion and lifecycle; genuine contributor private provisioning plus requester/nonrequester frame permissions pending |
 | Recovery/native | Native46 actual nine-task/ten-resource-cleanup smoke and independent synthetic39 metadata/authority/four-object StorageHTTP/API restore passed, each within its receipt scope | These do not establish managed Auth/private production configuration/real canonical media restore, deployed rollback or RTO/RPO; canonical76-table checkpoint is a backup, not restore acceptance |
 | Accessibility and quality | Earlier scoped955 module/138 browser/lint/type checks retained; redesigned frontend is deployed; [manual production AT072 task](../../../development/m07/PRODUCTION_UI_AT072_TASK.md) prepared | Actual manual screen-reader AT072 pending; mobile skipped by owner instruction; no broader semantic/cost/endurance claim |
 
 Exact worker identities/phase receipts are in the [cutover checkpoint](../../WORKER_CUTOVER_CURRENT_2026-11-02.md).
-Last confirmed remote Main remains a61ebb7; local checkpoint423d107/later docs are
+Last confirmed remote Main remains a61ebb7; local checkpoint511a1a4/later docs are
 not claimed pushed. No new product deployment or full M07 verification follows
 from this documentation update.
 
+
+Fresh03:51 web alias/direct read confirms all308 Main product bytes equal deployedc88;
+fresh03:52 worker/DB read confirms the same sole instance, schema39/native46/five flags.
+Chrome control remains unavailable for further direct intake; no new temporary
+contributor grants/operator OAuth session were created.
 
 The dated checkpoints below are preserved history; the current checkpoint above governs serving state and next actions.
 

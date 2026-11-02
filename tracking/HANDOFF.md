@@ -1,6 +1,6 @@
 # Everyone Presentation Studio - current English-output handoff
 
-## Production worker and web serving; M07 acceptance continues - 2026-11-02T03:49:45.756463+00:00
+## Production worker and web serving; M07 acceptance continues - 2026-11-02T03:57:35.309246+00:00
 
 The stable production alias https://everyone-presentation-pilot.vercel.app serves
 `dpl_J3hmctcHndRp8zDVAPYfcnjEgpzG`, product source `c88f58c` / manifest `f947fb53`.
@@ -17,6 +17,12 @@ window with 23 bound records, one Ready/alive instance and no old instances.
 return and matching readbacks. Private/preview environment metadata was preserved.
 See the [cutover checkpoint](../tracking/WORKER_CUTOVER_CURRENT_2026-11-02.md); cached platform health is not a
 fresh heartbeat claim. Do not replay completed deployment/configuration claims.
+
+Fresh [web alias/direct identity](../tracking/evidence/m07/completion-release/production-web-current-identity.json)
+at03:51:45 verifies all308 selected Main product files still equal deployedc88.
+Fresh [worker/DB identity](../tracking/evidence/m07/completion-release/production-worker-current-identity.json)
+at03:52:47 verifies the same sole worker instance, schema39, native46 and all five
+flags enabled; cached platform health remains separate from a fresh heartbeat.
 
 [Production public admission](../tracking/evidence/m07/completion-release/2026-11-02T02-40-42.581Z-61b370e7-production-public.json) passed all ten checks, without
 credentials or signed-in workflow credit; both earlier failed probes remain.
@@ -35,9 +41,13 @@ internal project-note exclusion and no clipping/overlap. Original video `d9db`
 loaded at 21.856s / 853x480, readyState4/no error, played and paused. A
 presentation-only note edit changed no library fact; old Selectionv1 retained
 SHA256 prefix `dd7b7b37`, while new v2 PDF `979ead40` contains the new wording.
-Specs job `6e3cb86f` completed through real services from synthetic input; its
-provider audit remains pending. Full human/Claude/guest and representative
-business-accuracy acceptance is not inferred from this bounded technical proof.
+[Root-admitted canonical specs/preservation audit](../tracking/evidence/m07/production-specs-job-audit/Root-admission.json) confirms
+all three stages, recorded n8n31922/31923/31924 and source-bound OpenAI usage
+1,634 tokens for controlled synthetic input. Both new v1 versions retained six
+hashes; v2 wording and the Reviewed profile passed. All ten preexisting Ready
+versions, 57 slides and 42 asset pins, plus the whole Reviewed profile, exactly
+match the protected pre-release checkpoint. Independent n8n lookup and direct
+job-to-instance log attribution remain unavailable; no business-accuracy claim.
 
 [Operator OAuth run402aca12 preparation](../tracking/evidence/m07/temporary-oauth-lifecycle-coordinator/2026-11-02T03-18-15.949Z-402aca12-prepare.json) is armed and prepared
 against this web source, but no listener, token exchange or new session has run;
@@ -54,11 +64,13 @@ Auth/private production configuration/real canonical media restore, RTO/RPO,
 representative endurance and AT069 queued replacement/compatible rollback are
 not verified; the AT069 policy block is unchanged. All dated failures remain.
 The repository is private; last confirmed remote Main is `a61ebb7`, while the
-current local checkpoint before this documentation change is `423d107`.
+current local checkpoint before this documentation change is `511a1a4`.
 Later commits are not claimed pushed. No full M07/release verification is claimed.
 
-Next: audit specs provider evidence and complete guest/actual-Claude reciprocal
-readbacks; continue auth after the existing private owner-ready condition.
+Next: complete guest/actual-Claude reciprocal readbacks; continue auth after the existing private owner-ready condition.
+Chrome control stopped during an additional read after the completed downloads;
+restore extension control/file-URL access before remaining direct intake checks.
+No temporary contributor grants, OAuth listener or operator session were created.
 This documentation update needs no product change or redeployment.
 
 The dated checkpoints below are preserved history; the current checkpoint above governs serving state and next actions.
