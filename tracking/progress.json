@@ -1,6 +1,6 @@
 {
   "pack_version": "1.0",
-  "updated_at": "2026-11-02T01:06:47.155307+00:00",
+  "updated_at": "2026-11-02T01:10:06.600922+00:00",
   "implementation_started": true,
   "current_milestone": "M07",
   "current_pilot": {
@@ -11088,9 +11088,9 @@
     "frontend_integrated": true,
     "project_creation": "canonical39_applied_and_preservation_verified_final_web_API_MCP_pending",
     "production_admission": "implemented_local_start_and_build_verified",
-    "independent_recovery": "schema38_independent_Storage_and_API_passed",
+    "independent_recovery": "schema39_independent_Storage_and_API_passed_actual4c302b36_root_admitted",
     "production_verified": false,
-    "next_action": "Complete exact39 local pause/checkpoint proof and independent39 recovery; obtain owner idle status, then reviewed worker pause/env/deploy/startup/pin/resume and exact-main web deployment.",
+    "next_action": "Fresh exact39 worker preparation then atomic pause/env/deploy/complete startup/pin/resume; exact-main production web deploy/readbacks. Optional owner coordination reply is not a new approval gate.",
     "repository_visibility": "private",
     "repository_pushed": true,
     "reader_rollback_deployment": "dpl_8mFQY4SkHiHmSVo6hR8QPLSdgwaS",
@@ -11099,7 +11099,7 @@
       "Contributor account provisioning pending; last canonical read00:17 found no matching account",
       "Manual screen-reader acceptance after integrated frontend deployment"
     ],
-    "published_source_commit": "715d48513e7aeed55e919e14ca64eedfc95913b2",
+    "published_source_commit": "3ca5552caf2131f1dacf874a09f2eff2399fe2e7",
     "native_registry": "46de_ready_verified",
     "daemon_registry": "2d66_ready_verified_with_separate_no_login_continuation",
     "quality": {
@@ -11114,8 +11114,40 @@
     },
     "native_runtime": "actual_9_tasks_10_resources_absent_and_root_admitted",
     "production_web": "exact_c88_source_isolated_production_build_and_four_env_steps_passed_alias_deployment_pending",
-    "worker_production": "disabled_canonical39_rollout_prepared_actual_SQL_qualification_pending",
+    "worker_production": "actual_worker39_SQL_concurrency_and76table_checkpoint_passed_final_arm_pending",
     "production_web_source_commit": "c88f58c00820169f7396d72def77a74f1443594e",
-    "production_web_source_sha256": "f947fb53479d991b382bd50bf39e32a4e56dd17598470b209f2a185ed9f58d0a"
+    "production_web_source_sha256": "f947fb53479d991b382bd50bf39e32a4e56dd17598470b209f2a185ed9f58d0a",
+    "independent_recovery39": {
+      "receipt": "tracking/evidence/m07/independent-recovery39/2026-11-02T01-05-56.716Z-4c302b36.json",
+      "sha256": "0a2597f71815490b42a31c37804ff67c989e3f01e6170de188b4d202d3a261ef",
+      "Root_admission": "tracking/evidence/m07/independent-recovery39/Root-admission-4c302b36.json",
+      "restored_catalogue_fields": 17853,
+      "Storage_HTTP_byte_hash_roundtrips": 4,
+      "actual_created_project_membership_intent_audit_idempotency_restored": true,
+      "all8_owned_resources_absent": true,
+      "original29_and_roles_preserved": true,
+      "cloud_provider_private_configuration_native46_or_rollback_acceptance": false
+    },
+    "local_worker39_failures_preserved": [
+      "9c2d3926",
+      "ef324060",
+      "2de4ffa2"
+    ],
+    "policy_block": {
+      "acceptance": "AT-069 queued-job replacement and compatible rollback",
+      "rejected_preparation": "zero-retry rollback transport/compiler edit",
+      "historical_auto_review_reason": "blocked by policy",
+      "restriction_lift_confirmed": false,
+      "replayed_or_equivalent_transport_substituted": false
+    },
+    "worker39_concurrency": {
+      "receipt": "tracking/evidence/m07/worker39-concurrency/2026-11-02T01-11-30.311Z-f62f594e.json",
+      "sha256": "3b642b23b3c6771963ed20913dccec3ed441a56168fb807335f84902fcf495e8",
+      "actual_independent_sessions": 6,
+      "result": "passed",
+      "all_owned_resources_absent": true,
+      "original29_and_roles_preserved": true,
+      "shared_lock_released": true
+    }
   }
 }

@@ -1,5 +1,27 @@
 # Everyone Presentation Studio - current English-output handoff
 
+## Independent recovery39 accepted - 2026-11-02T01:10:06.600922+00:00
+
+Fresh owned run4c302b36 passed in96,250ms with separate PostgreSQL17 source
+and restore clusters,17,853 catalogue fields, project/creator/intent/audit/
+idempotency restoration, actual StorageHTTP byte/hash roundtrips for4objects,
+and API read/replay/permission denials. All8resources are absent; original29
+and global roles remain exact. Root independently checked source seals, committed
+public delta blobs, distinct system identities and zero owned inventories.
+See tracking/evidence/m07/independent-recovery39/Root-admission-4c302b36.json.
+This is synthetic isolated recovery; private provider/Auth configuration,
+real canonical Storage backup restoration and deployed rollback stay unverified.
+
+Worker39 third proof validated the exact76-table checkpoint and normal linked
+version lifecycle, then failed in a read-only PID observer query. Three lexical
+spaces are corrected with rendered-query RED/GREEN regression and peer review;
+The fourth owned run f62f594e now PASSED all six-session race cases, genuine
+retry counts and the exact76-table checkpoint; all cleanup/preservation passed.
+All three failed attempts and their evidence remain. No worker or final web
+deployment occurred. Optional owner coordination is not a new approval gate;
+fresh equal snapshots/zero counters and atomic intake fencing establish actual
+quiescence for the already-authorized switch.
+
 ## Current production preparation - 2026-11-02T00:47:11.145407+00:00
 
 Exact main sourcec88f58c / sparse web manifestf947fb53 passes955 modules,
