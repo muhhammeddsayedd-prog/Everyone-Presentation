@@ -4,7 +4,7 @@ import importlib.util,json,sys
 HERE=Path(__file__).resolve().parent
 s=importlib.util.spec_from_file_location('compatible_registry_anchors',HERE/'anchors.py');a=importlib.util.module_from_spec(s);s.loader.exec_module(a)
 old=a.library('registry.py');need=old.need;normal=old.normal
-REGISTRY_ENABLED=False
+REGISTRY_ENABLED=True
 
 class Ports(old.Ports):
  def pins(self):
