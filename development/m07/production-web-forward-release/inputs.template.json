@@ -1,0 +1,11 @@
+{
+  "prepare_inputs": {
+    "run_id": "NEW_V4_UUID",
+    "source_receipt": { "path": "tracking/evidence/m07/production-web-forward-release/source-NEW_V4_UUID.json", "sha256": "EXACT_NEW_STAGE_RECEIPT_SHA256" },
+    "quality_receipt": { "path": "tracking/evidence/m07/completion-release/2026-11-02T21-13-18.744Z-a7dc8241-streaming-root-quality.json", "sha256": "62bc4f3dcba081525564e98ec4936c1b59269a3ad467c403f430fbab5269e4c1" },
+    "canonical_key": "schema40",
+    "canonical_receipt": { "path": "tracking/evidence/m07/review-link-reason40-canonical-release/2026-11-02T16-28-48-678533Z-apply.json", "sha256": "e04cca3019363a5e9bdcc46790118e23d939dc0e893fb56bb708d8823451a6cf" },
+    "public_build_environment": { "APP_ENV": "production", "EPS_RELEASE_MODE": "production", "NODE_ENV": "production", "CENTRAL_ADAPTER_MODE": "supabase", "APP_BASE_URL": "https://everyone-presentation-pilot.vercel.app", "SUPABASE_URL": "https://pyibofyctwnqpvktepse.supabase.co", "SUPABASE_PUBLISHABLE_KEY": "EXISTING_PUBLIC_KEY" }
+  },
+  "deploy_inputs": { "preflight_receipt": { "path": "tracking/evidence/m07/production-web-forward-release/EXACT_NEW_CANONICAL_PREFLIGHT.json", "sha256": "EXACT_NEW_PREFLIGHT_SHA256" } }
+}
