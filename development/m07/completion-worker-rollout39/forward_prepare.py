@@ -2,7 +2,7 @@
 from pathlib import Path
 import hashlib,importlib.util,json,sys,uuid
 HERE=Path(__file__).resolve().parent
-FORWARD_ENABLED=False
+FORWARD_ENABLED=True
 FROZEN={'state.py':'4c184701d181e539d3b5de2d2d4a68d7a985086c195108872dde5d6fe61a4ff9','provider.py':'8ae748c4176ae6553e2fcdef81696aa0bce6652a8d0991c449aa95e147749054','controller.py':'76aec005352f845928454e4aaba1b1f4700a00820a54d35f512cb401ed7c764c','forward_state.py':'f8aa16ba5f5969d497d1326b3368cc66c98dddd59cc675f633af0377d6506107'}
 def module(name,file):
  spec=importlib.util.spec_from_file_location(name,file);value=importlib.util.module_from_spec(spec);spec.loader.exec_module(value);return value
