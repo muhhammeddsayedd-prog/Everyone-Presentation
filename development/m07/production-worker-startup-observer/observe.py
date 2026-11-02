@@ -6,7 +6,7 @@ Raw messages/cursors/configuration never leave this process or persist on disk.
 """
 from pathlib import Path
 import copy, datetime, hashlib, json, os, re, subprocess, sys
-HERE=Path(__file__).resolve().parent;ROOT=HERE.parents[2];OBSERVE_ENABLED=False
+HERE=Path(__file__).resolve().parent;ROOT=HERE.parents[2];OBSERVE_ENABLED=True
 PROJECT='prj_I4SMkDzaDy0KHNgiF00v4Da5aLb6';TEAM='team_gboXPxTevpCOZuaA8eY9PmR1'
 OLD_DEPLOYMENT='dpl_G6CVBYjPxYwh8zNaAYLu4pURoVG4'
 ENDPOINT='/v1/observability/events?teamId='+TEAM
