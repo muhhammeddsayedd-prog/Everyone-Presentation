@@ -22,7 +22,7 @@ export function mutation(method: string, body?: unknown): RequestInit {
 
 export function errorMessage(error: unknown): string {
   if (error instanceof Error && ['AbortError', 'TimeoutError'].includes(error.name)) return 'The request was interrupted. Retry the same change to confirm whether it was saved.';
-  if (error instanceof ApiError && error.status === 409) return 'This record changed since you opened it. Reload the saved details, then reapply your changes.';
+  if (error instanceof ApiError && error.status === 409 && error.code === 'STALE_RESOURCE_VERSION') return 'This record changed since you opened it. Reload the saved details, then reapply your changes.';
   if (error instanceof ApiError && error.status === 401) return 'Your session expired. Sign in again.';
   return error instanceof Error ? error.message : 'The request could not be completed. Please try again.';
 }

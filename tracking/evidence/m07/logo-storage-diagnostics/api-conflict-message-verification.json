@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "purpose": "preserve_non_stale_http409_messages",
+  "observed_at": "2026-11-02T18:13:08.244857+00:00",
+  "environment": "Frontend worktree; synthetic fetch and unit cases only",
+  "source_seals": {
+    "apps/web/components/api.ts": "efe8d1bedb8c9e4928c9fa920678cbdc0e7da6b5a31cd62782dc0c10c92cba64",
+    "tests/server/api-error-message.test.ts": "0080d4fc4799fece38084dea4852d5d39f2af8504c5facbc899fc92407f5304f"
+  },
+  "checks": {
+    "red": {
+      "tests": 3,
+      "passed": 1,
+      "failed": 2,
+      "log_sha256": "d42b82b36673e32790956f34f7c1b605317978fde6d343d9b33bb48ffbae63a7"
+    },
+    "focused": {
+      "command": "node tools/run-tests.mjs tests/server/api-error-message.test.ts tests/server/specs-form.test.ts",
+      "tests": 8,
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "log_sha256": "7d9d4edbaf8d39864c361ed36271cc7bb26d84954efa214d4480643cde85739f"
+    },
+    "typecheck": {
+      "exit_code": 0,
+      "log_sha256": "63dbaa165359a370f81fa6d619a1569ad84c24a4a726e0b4e03bb94528b8dd4f"
+    },
+    "lint": {
+      "exit_code": 0,
+      "log_sha256": "dcf04cf56739f2f68b315b919013254295716cfac4a2b9aaca7e25ee40e8f2db"
+    }
+  },
+  "behavior": {
+    "reload_guidance_requires_status409_and_code": "STALE_RESOURCE_VERSION",
+    "other_conflicts_preserve_safe_server_message": true,
+    "api_error_status_code_and_request_id_preserved": true,
+    "session_and_interruption_text_unchanged": true
+  },
+  "scope": {
+    "provider_calls": 0,
+    "upload_retry_cancel_or_permission_changes": false,
+    "contracts_changed": false,
+    "browser_or_production_acceptance": false,
+    "earlier_storage404_root_cause_proved": false,
+    "existing_worktree_dirt_preserved": true
+  },
+  "peer_review": {
+    "reviewer": "release_gaps",
+    "result": "closed_pass_source_only"
+  }
+}
