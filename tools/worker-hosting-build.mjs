@@ -102,7 +102,12 @@ function workerGraph(files, sourceRead, entrypoints) {
     compiler: { name: 'typescript', version: ts.version, target: 'ES2022', module: 'ESNext', generator_sha256: sha(readFileSync(import.meta.filename)) } };
 }
 export function workerNativeGraph(files, read) { return workerGraph(files, read, NATIVE_SOURCE_ENTRYPOINTS); }
-export function workerDaemonGraph(files, read) { return workerGraph(files, read, ['apps/worker/src/runtime-hosted.ts']); }
+export function workerDaemonGraph(files, read) {
+  const sourceSha = sha(JSON.stringify(files)); parseNativeSourceSeal({ source_sha256: sourceSha, files }, sourceSha);
+  const inputs = files.filter(item => !/\.(?:ts|mjs)$/u.test(item.path) && item.path !== 'apps/worker/Dockerfile.native-sandbox');
+  for (const item of inputs) { const bytes = read(item.path); if (bytes.length !== item.bytes || sha(bytes) !== item.sha256) error(); }
+  return { ...workerGraph(files, read, ['apps/worker/src/runtime-hosted.ts']), build_inputs: inputs.map(item => item.path), build_input_files: inputs };
+}
 export function workerNativeCompatibility(daemon, native, manifestSha, graph, read) {
   if (JSON.stringify(graph) !== JSON.stringify(workerNativeGraph(daemon.files, read))) error();
   const descriptor = { schema_version: '1.0', daemon_source_sha256: daemon.source_sha256, native_source_sha256: native.source_sha256,

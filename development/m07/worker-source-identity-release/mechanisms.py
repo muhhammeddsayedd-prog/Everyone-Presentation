@@ -15,7 +15,7 @@ FROZEN={
  'tools/release_foundation.py':'02aac0cefc4b46419c7d5a086da672398716cf7ee73882602574cff99659d751',
  'tools/release_logo.py':'efd1de07b3304d8d5c89f29bbeaf77ff2ce1d8d42ffbf885f960c36f506b47f4',
 }
-EMITTER='tools/worker-hosting-build.mjs';EMITTER_SHA='a9565d7c5ab93bb7967d015e6bbbf3cc094060f2f345ad7d0aac4eb7f8b53659'
+EMITTER='tools/worker-hosting-build.mjs';EMITTER_SHA='70158c412da4f776b9afe2457452a513518e691b94b2dec13919ff955e91b613'
 def need(value):
  if not value:raise ValueError('WORKER_IDENTITY_MECHANISM_REFUSED')
 def sha(raw):return hashlib.sha256(raw).hexdigest()

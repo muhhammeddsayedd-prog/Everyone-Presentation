@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-11-02T18:30:59.212465+00:00",
+  "purpose": "daemon_actual_Docker_build_input_correction",
+  "result": "passed_source_validation",
+  "predecessor_commit": "70480fd15d66c1bfe108594db18442cac51f189c",
+  "predecessor_receipt_preserved": "tracking/evidence/m07/worker-source-identity-release/dual-graph-source-validation.json",
+  "source_seals": {
+    "tools/worker-hosting-build.mjs": "70158c412da4f776b9afe2457452a513518e691b94b2dec13919ff955e91b613",
+    "tests/worker/worker-hosting-build.test.ts": "277addac01e75f30d4a2d7e5a390cc9582ff549a7e9d1eaa4f1c711827a4dba0",
+    "development/m07/worker-source-identity-release/mechanisms.py": "4a7449b349794d9d2e2b49842d5e8ff6d82d7288077845d3f1b1061cef0842dc"
+  },
+  "correction": "Daemon graph binds Dockerfile.daemon and all actual daemon noncode build input row hashes; native graph and compatibility schema unchanged.",
+  "red": {
+    "tests": 8,
+    "pass": 7,
+    "fail": 1,
+    "duration_ms": 16339,
+    "cause": "Dockerfile.daemon-only mutation left daemon build identity unchanged"
+  },
+  "green": {
+    "tests": 13,
+    "pass": 13,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "duration_ms": 16271.9641
+  },
+  "typecheck_exit_code": 0,
+  "focused_lint_exit_code": 0,
+  "scope": "Runtime checkout source-only, not final Main archive or artifact acceptance",
+  "stage_calls": 0,
+  "builds": 0,
+  "provider_calls": 0,
+  "SQL_executed": false,
+  "existing46_anchors_unchanged": true,
+  "independent_frontend_source_peer": "closed_pass_final70158c41"
+}

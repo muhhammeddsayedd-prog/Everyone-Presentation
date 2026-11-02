@@ -45,6 +45,18 @@ test('daemon closure uses its own fixed entry and includes provider code without
   assert(!names.includes('apps/worker/src/native-sandbox-task.mjs')); assert(!names.includes('apps/worker/src/native-sandbox-boundary.mjs'));
 });
 
+test('daemon Docker changes alter daemon build identity while native closure and inputs remain equal', async () => {
+  const files: { path: string; bytes: number; sha256: string }[] = await workerContextFiles(); const relative = 'apps/worker/Dockerfile.daemon';
+  const bytes = Buffer.concat([readFileSync(relative), Buffer.from('\nENV EPS_SYNTHETIC_DAEMON_BUILD=1\n')]);
+  const changed = files.map(item => item.path === relative ? { path: relative, sha256: createHash('sha256').update(bytes).digest('hex'), bytes: bytes.length } : item);
+  const read = (name: string) => name === relative ? bytes : readFileSync(name);
+  const native = workerNativeGraph(files, readFileSync), nativeAfter = workerNativeGraph(changed, read);
+  const daemon = workerDaemonGraph(files, readFileSync), daemonAfter = workerDaemonGraph(changed, read);
+  assert.deepEqual(nativeAfter, native); assert.notDeepEqual(daemonAfter, daemon);
+  assert(daemon.build_inputs.includes(relative)); assert(!daemon.build_inputs.includes('apps/worker/Dockerfile.native-sandbox'));
+  assert(daemon.build_input_files.some((item: { path: string; sha256: string }) => item.path === relative && item.sha256 === files.find(item => item.path === relative)!.sha256));
+});
+
 test('emitter compatibility permits a daemon-only patch and refuses graph, lock, schema, asset or Docker drift', async () => {
   const files: { path: string; bytes: number; sha256: string }[] = await workerContextFiles();
   const bytes = new Map<string, Buffer>(files.map(item => [item.path, readFileSync(item.path)]));
