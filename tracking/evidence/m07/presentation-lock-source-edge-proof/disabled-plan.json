@@ -1,0 +1,104 @@
+{
+  "family": "m07-presentation-locksource41-edge-forward-plan",
+  "observed_at": "2026-11-02T13:53:02.153664+00:00",
+  "result": "prepared_disabled",
+  "execution_enabled": false,
+  "compiled_only": true,
+  "execution_dispatched": false,
+  "dispatch_hold": "Peer/source preparation only; Root review and new one-run authorization required",
+  "source_seals": {
+    "development/m07/presentation-lock-source-edge-proof/compiler.py": "8fb944c9235a5903a09d004fb77522c3b228f891ad5d0f7939f7d15e43bef4bc",
+    "development/m07/presentation-lock-source-edge-proof/entry.mjs": "64b63a95e0e26e541f3615b040ee68f3588458a09bdddcf9f48fcf42975d696b",
+    "development/m07/presentation-lock-source-edge-proof/README.md": "fc9bf61ba7663e221507abeda90333ba3725e7a937807c6333ca94ddcc0a7675",
+    "development/m07/presentation-lock-source-edge-proof/test_edge.py": "c477428c130ed39bcef0d13db66ec515dcf2dc53863b64e2b275a14077575345"
+  },
+  "pinned_libraries": {
+    "development/m07/presentation-lock-source-proof/proof.mjs": "087df11fa717f72043c9782c8da7380ae8cda559221a0495582d1dcd01d22448",
+    "development/m07/presentation-lock-source-proof/probes.mjs": "8973de4f38895f2497b46d87d6dda0fe929f2652d8cebb870c9d402587bf21b4",
+    "development/m07/presentation-lock-source-dedupe-proof/entry.mjs": "d6f2c841c1f0bc678e14bc7b5d3cbd2b11e4f902603a5b20a11acc8d3507f605",
+    "development/m07/presentation-lock-source-dedupe-proof/compiler.py": "b7ce789a621ca4efe92b26770ad28b3210f5bb407d8fe61bacb12ad9427db3cf"
+  },
+  "retained11ea": {
+    "source_commit": "6933b9d20987ab1d87d9a702a905efd9ea711785",
+    "checkpoint_commit": "52332f4bd51f20b9851de4eb1fb624003be190fb",
+    "receipt": "tracking/evidence/m07/presentation-lock-source-dedupe-proof/2026-11-02T13-17-13.306Z-11ea4b21.json",
+    "receipt_sha256": "33d49afd9f30691e64321e5ae9cb2018e5ac23bafb7b2be15ea8725bf82129d0",
+    "timings_failures_claims_and_source_unchanged": true,
+    "original_primary_native_error_retained": false
+  },
+  "only_SQL_correction": {
+    "source_whitespace_sites": 3,
+    "source_templates": 2,
+    "bad_tokens_before": {
+      "::uuidwhere": 1,
+      "::uuidand": 2
+    },
+    "rendered_queries": 16,
+    "parser_failures_before": 2,
+    "parser_failures_after": 0,
+    "changed_queries": [
+      {
+        "query_index": 2,
+        "before_sha256": "c0f2809bfc5d72d3c0d81faf3cb18a9366ad445aadb9c30352d912ae91b5008b",
+        "after_sha256": "f01c6046e6ff2a693adb096613859e868fc50e80663d9688e725c1f19d932988",
+        "inverse_byte_equal": true
+      },
+      {
+        "query_index": 3,
+        "before_sha256": "f4ba35f3afe539a3b7572a30c82a0025dee6ca82541407c5ea5c5c0647fd42f5",
+        "after_sha256": "c38d58c552e5e0b3b446ab6d66692c842e63452ed2e8eaeb1e662be8c87fa023",
+        "inverse_byte_equal": true
+      }
+    ],
+    "all_other_rendered_queries_identical": true,
+    "source_locks_candidate_semantics_thresholds_and_assertions_unchanged": true,
+    "previous_seven_seed_aliases_and_three_dedupe_expressions_retained": true
+  },
+  "first_error_metadata": {
+    "phase": "closed owned request phase only",
+    "code": "whitelisted actual error.code SQLSTATE or closed transport/unknown code",
+    "first_observed_rejection_not_claimed_primary_cause": true,
+    "same_Error_rethrown": true,
+    "original_session_array_and_cleanup_methods_retained": true,
+    "raw_SQL_message_payload_diagnostic_read_or_stored_by_wrapper": false,
+    "actual_frozen_transport_ordinary_failure_code": "OWNED_SESSION_FAILED",
+    "prior_native_error_not_recovered": true
+  },
+  "compiled_controller": {
+    "path": ".local/presentation-lock-source-edge-proof-compiled/controller-8d7f7434-ec4b-4828-a579-44d83553bf0b.mjs",
+    "sha256": "216c8a89a9070265ed58fc51a901e20455911a9045949f794ad39eae7f583129",
+    "executed": false
+  },
+  "fresh_ownership": {
+    "private_root": ".local/presentation-lock-source-edge-proof/<newRuntimeUUID>",
+    "evidence_root": "tracking/evidence/m07/presentation-lock-source-edge-proof",
+    "controller_root": ".local/presentation-lock-source-edge-proof-compiled",
+    "docker_label_namespace": "eps.locksource41edge",
+    "prefix": "eps-locksrc41edge-",
+    "shared_lock_purpose": "presentation-lock-source41-edge-owned-proof",
+    "shared_lock": "Main/.local/local-postgres/test-db.lock",
+    "network": "none",
+    "host_ports": []
+  },
+  "offline_checks": {
+    "focused_pure_tests": 4,
+    "independent_peer_pure_tests": 4,
+    "peer_review": "Frontend closed PASS on exact4sources; no concreteblocker",
+    "generated_node_syntax_exit": 0,
+    "eslint_exit": 0,
+    "SQL_parser_validation": "pglast all16actual fake-port-rendered queries, not PostgreSQL execution"
+  },
+  "unchanged_acceptance": [
+    "Full8s actual owner/authenticated/API/MCP component and generation rollback gates",
+    "Original12lock table/cohort/NOWAIT/authority and old-edge assertions",
+    "All security/equality/race/frame checks and post40fullreason/data/function preservation",
+    "Safe actual measured samples before assertions",
+    "Original29data/catalogue/globalroles plus exact cleanup/independentemptyinventories/sharedlockrelease"
+  ],
+  "limits": [
+    "No new SQL/Docker/provider/canonical run by this purpose",
+    "No candidate performance acceptance or productsecurityfinding",
+    "No threshold/oracle relaxation or oldcontroller/claimreplay",
+    "Unknown or further semantic failure stops for Root review; no automatic replay"
+  ]
+}
