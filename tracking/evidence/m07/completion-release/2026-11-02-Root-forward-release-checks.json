@@ -1,0 +1,42 @@
+{
+  "recorded_at": "2026-11-02T21:59:47.379501+00:00",
+  "result": "passed",
+  "tested_source_head": "b75556b4a9e975213c8ef91792ed104d225de0e6",
+  "provider_or_SQL_called_by_checks": false,
+  "checks": [
+    {
+      "purpose": "worker-compatible-daemon-release",
+      "tests": 17,
+      "seconds": 0.072,
+      "command": "python -X utf8 -m unittest discover -s development/m07/worker-compatible-daemon-release -p test_*.py -v",
+      "exit": 0
+    },
+    {
+      "purpose": "presentation-lock-source-uuid-proof",
+      "python_tests": 4,
+      "python_seconds": 0.989,
+      "node_tests": 5,
+      "node_milliseconds": 886.2869,
+      "exit": 0,
+      "flag_at_test": "disabled"
+    },
+    {
+      "purpose": "production-web-forward-release",
+      "tests": 18,
+      "seconds": 0.934,
+      "command": ".venv-skills/Scripts/python.exe -X utf8 -B -m unittest discover -s development/m07/production-web-forward-release -p test_release.py -v",
+      "exit": 0
+    }
+  ],
+  "preserved_invocation_failure": {
+    "purpose": "web pure checks first attempted with system Python",
+    "exit": 1,
+    "failure": "ModuleNotFoundError: pglast",
+    "test_methods_executed": 0,
+    "resource_phase_executed": false,
+    "correction": "Use the documented existing isolated environment;18 tests then passed."
+  },
+  "full_product_quality_receipt": "tracking/evidence/m07/completion-release/2026-11-02T21-13-18.744Z-a7dc8241-streaming-root-quality.json",
+  "full_product_quality_repeated": false,
+  "deployment_or_release_acceptance": false
+}
