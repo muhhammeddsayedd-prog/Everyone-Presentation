@@ -7,7 +7,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { clearTimeout, setTimeout } from 'node:timers';
 import { pathToFileURL, URL } from 'node:url';
-export const EXECUTION_ENABLED=true;
+export const EXECUTION_ENABLED=false;
 const sha=raw=>createHash('sha256').update(raw).digest('hex');
 const quote=value=>"'"+value.replaceAll("'","''")+"'";
 const json=value=>quote(JSON.stringify(value))+'::jsonb';
