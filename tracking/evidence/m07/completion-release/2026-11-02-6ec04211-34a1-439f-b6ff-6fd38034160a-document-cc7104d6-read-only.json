@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0",
+  "purpose": "fixed_cc7104d6_document_failure_read_only",
+  "run_id": "6ec04211-34a1-439f-b6ff-6fd38034160a",
+  "observed_at": "2026-11-02T23:38:32.716751+00:00",
+  "job_id": "cc7104d6-6a27-4a4d-93da-f50a7769a71f",
+  "workspace_id": "a22bd4e5-b95c-4594-98bc-66c2a0f53260",
+  "project_id": "9a8e8750-1515-4227-a662-3be2d6a1d81c",
+  "target": "pyibofyctwnqpvktepse",
+  "result": "observed",
+  "source_sha256": "79ab9f18742c79cd1824f06ac653f846636abe0a1b101e18e64ff8fb25bb9dfe",
+  "provider_source_sha256": "2a663f05af131099f199fd1b7e137be06571518a73985c3b3befc2e562995d1b",
+  "sql_sha256": "910b34b89125c9c97075fc2d28fafd152d68fd64d261f6a7496d33a135803452",
+  "private_projection": {
+    "path": ".local/completion-release/document-cc7104d6-6ec04211-34a1-439f-b6ff-6fd38034160a/closed-projection.json",
+    "sha256": "132409f1757f9dd8421b6af1252d7450a986f2191c50011cf4193f30080ba4d1"
+  },
+  "read_only_rollback": true,
+  "query_calls": 1,
+  "job_or_configuration_mutated": false,
+  "processing_triggered": false,
+  "raw_CLI_saved": false,
+  "metadata": {
+    "attempt_count": 1,
+    "attempts": [
+      {
+        "attempt": 1,
+        "attempt_id": "4c1d15c1-2d94-488f-8485-035fef86b6ed",
+        "claimed_at": "2026-11-02T23:32:35.154513+00:00",
+        "correlation_id": "73ac9a38-a905-4fa1-97a3-94193bb7ead2",
+        "dispatch_generation": 1,
+        "stage": "prepare_document",
+        "stage_attempt": 1,
+        "workflow_execution_id": "32095",
+        "workflow_execution_ref_state": "recorded"
+      }
+    ],
+    "database": "postgres",
+    "event_counts": [
+      {
+        "count": 1,
+        "event_type": "failed",
+        "stage": "prepare_document"
+      },
+      {
+        "count": 2,
+        "event_type": "heartbeat",
+        "stage": "prepare_document"
+      }
+    ],
+    "extract_attempt_count": 0,
+    "history_count": 40,
+    "job": {
+      "attempt": 1,
+      "cause_code": null,
+      "completed_stage_count": 0,
+      "correlation_id": "73ac9a38-a905-4fa1-97a3-94193bb7ead2",
+      "created_at": "2026-11-02T23:32:32.441974+00:00",
+      "current_attempt_id": "4c1d15c1-2d94-488f-8485-035fef86b6ed",
+      "error_code": "PROCESSING_FAILED",
+      "id": "cc7104d6-6a27-4a4d-93da-f50a7769a71f",
+      "request_id": null,
+      "retryable": false,
+      "stage": "prepare_document",
+      "status": "failed",
+      "updated_at": "2026-11-02T23:33:20.751819+00:00",
+      "workflow_execution_id": "32095"
+    },
+    "observed_at": "2026-11-02T23:38:32.584431+00:00",
+    "operator": "postgres",
+    "session_user": "postgres",
+    "source": {
+      "asset_id": "f945891f-7ee5-40e6-afa8-a78af1065aa2",
+      "mime_type": "application/pdf",
+      "purpose": "specs",
+      "sha256": "7956a85f80907f9b2ac74311d0f82b3900bc6d84cbd560f5c3fbf6f8987c4e8b",
+      "sha256_matches": true,
+      "size_bytes": 3058335,
+      "size_matches": true,
+      "status": "ready"
+    },
+    "stage_payload_count": 0,
+    "stage_payloads": [],
+    "workspace_project_matches": true
+  },
+  "limitations": [
+    "Stage attempt/payload metadata does not independently prove provider billing or the original native exception.",
+    "No private message, prompt, paragraphs, filenames, URLs, lease tokens or credentials were selected."
+  ]
+}

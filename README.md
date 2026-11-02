@@ -1,6 +1,19 @@
 # Everyone Presentation Studio — Codex development pack
 
-## Current checkpoint - 2026-11-02T23:07:38.204293Z
+## Current checkpoint - 2026-11-02T23:50:08.289473Z
+
+Production is **web9mi/source3ff/manifest67f1, canonical40 and worker6o/daemon697/source dc12; native3d is now DB-pinned and processing is RESUMED**. The [full ten-minute startup](tracking/evidence/m07/worker-compatible-daemon-env-store-forward/2026-11-02T23-12-37-406966Z-ready.json) passed for instance dmni_01m6f7sz07x7wg6989wk6kwnz4:24 bound records, one recognized source-identity event,23 retained unrecognized informational records, zero warnings/truncation/unbound records. This does not claim all24 messages were parsed or a new native task probe. Native source f742/manifestfa221/compatibility24737 and exact native graph247992 remain attributed to the retained native3d artifact; the old Cp instance was observed absent.
+
+The [native3d pin](tracking/evidence/m07/worker-compatible-daemon-env-store-forward/2026-11-02T23-17-39-035761Z-pin.json) and [processing resume](tracking/evidence/m07/worker-compatible-daemon-env-store-forward/2026-11-02T23-25-06-361305Z-resume.json) both passed with real normal returns and two equal State readbacks. The guarded resume verifies all five processing configurations enabled. The earlier env1 normal return remains unknown and was never replayed; env2 normal response custody and equal readbacks remain retained. Prior interrupted attempts and all consumed claims are preserved.
+
+The [combined78 generation outcome](tracking/evidence/m07/presentation-generation-combined-proof/78df9599-outcome.json) remains FAILED: eight first results retained; both large-MCP variants hit57014 at8s; candidate API-large5615ms versus old6927ms is scoped timing only. Later projections/focused/security/final clone restoration were unreached, while original29/catalogue/global roles/owned-resource/same-engine inventory/lock cleanup passed. No performance SQL or whole-generation acceptance is released.
+
+Root actual UI created verification project9a8e8750/workspacea22bd4e5 and uploaded/submitted the approved SamsungPDF3,058,335bytes (SHA7956a85f...). New jobcc7104d6 was accepted, then FAILED Document preparation at23:33Z before AI. Exact error/cause is pending the one authorized read-only metadata diagnosis; no retry or provider outcome is inferred. Old job47 remains untouched/exhausted. Worker rollout startup/pin/resume passed, but the real native/SSE journey is failed/unverified. The earlier32k diagnostic output remains private/unapplied; owner logo remains pending.
+
+The [last receipt-bound private push](tracking/evidence/m07/completion-release/canonical-push-b230f70-readback.json) is b230f70; later Main changes are not claimed pushed. Root1011 quality and forward7/store3 offline scopes remain distinct from hosted acceptance. Narrator/contributor/mobile are skipped, not passed; AT069 is unreplayed. **Full M07/release acceptance remains false.** Next: Diagnose new Samsung jobcc710 document-preparation failure using the single authorized read-only error projection; preserve old47 exhausted and the new failure, with no retry/config/deploy change. Finish owner logo diagnosis and localize large-MCP57014 before performance SQL or further generation acceptance. Keep the existing Claude connection and Ready versions; AT069 remains unreplayed.
+
+
+## Historical checkpoint - 2026-11-02T23:07:38.204293Z
 
 Web9mi/source3ff/manifest67f1 and canonical40 remain unchanged. The [new environment continuation](tracking/evidence/m07/worker-compatible-daemon-env-store-forward/2026-11-02T22-55-06-976737Z-complete-env.json) passed: env1 is accepted as observed only, its original normal return stays false, and it was not replayed; only previously unattempted env2 received one normal request with protected response custody and equal State/readbacks. The [normal deployment submission](tracking/evidence/m07/worker-compatible-daemon-env-store-forward/2026-11-02T22-59-09-565281Z-deploy.json) passed.
 
