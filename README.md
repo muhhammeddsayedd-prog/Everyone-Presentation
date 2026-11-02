@@ -1,6 +1,18 @@
 # Everyone Presentation Studio — Codex development pack
 
-## Current checkpoint - 2026-11-02T20:55:06Z
+## Current checkpoint - 2026-11-02T21:19:41Z
+
+The owned worker40 pause/pin/resume, full76 preservation and intake/retry
+concurrency proof passed with cleanup. The production-only bounded specs fix
+passed Root1011 tests/types/lint/production guards; its actual219-paragraph
+request matches the successful32k diagnostic. Native3d has an exact54-module/
+build-input reuse match; the changed91-module daemon needs a new artifact.
+Production remains4fro/a567, canonical40 and Cp/native46; nothing new is deployed.
+Generation edge/remainingRC/combined proof, owner logo and forward release remain
+open. Narrator/contributor/mobile are skipped. Full release acceptance is false.
+See [current handoff](tracking/HANDOFF.md) and [workflow matrix](tracking/evidence/m07/ACCEPTANCE_MATRIX.md).
+
+## Historical checkpoint - 2026-11-02T20:55:06Z
 
 Production remains **4fro/sourcea567/manifest92e1, canonical40 and Cp/native46**.
 New native3d/daemonf846 artifacts and native probe passed but are **not deployed**.

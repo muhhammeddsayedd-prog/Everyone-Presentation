@@ -1,6 +1,26 @@
 # Everyone Presentation Studio - current English-output handoff
 
-## Current checkpoint - 2026-11-02T20:55:06.306681+00:00
+## Current checkpoint - 2026-11-02T21:19:41.250803+00:00
+
+Production remains web4fro/sourcea567, canonical40 and workerCp/native46.
+The [owned worker40 validation](evidence/m07/worker-source-identity-sql-observation-proof/cb8bd7f9-outcome.json) now **passed** all three guarded phases, full76/reason/metadata
+preservation, five configuration locks and intake/retry races in141262ms.
+Cleanup/original29/catalogue/roles/independent inventories/lock passed; flags
+closed. Earlier failed runs are retained. This is owned validation, not rollout.
+
+The production-only specs streaming fix is implemented on tested Main3ff3cb2.
+[Root1011 checks/types/lint/production guards](evidence/m07/completion-release/2026-11-02T21-13-18.744Z-a7dc8241-streaming-root-quality.json) passed. [Network-free actual219-paragraph capture](evidence/m07/pdf47-production-streaming/Root-exact-body-capture.json) exactly matches the successful32k
+diagnostic request. [Native54 modules/all build inputs match](evidence/m07/pdf47-production-streaming/Root-native-reuse-graph.json) the existing3d image; daemon91/new167-file source
+requires a new artifact. Unreleased daemonf846 predates this fix and will not be
+relabelled. No new worker/web deployment or application job retry occurred.
+
+Generation393 completed all12/150locks/8negatives and four RR tuple sets but
+failed its final missing-pair edge assertion. Focused RLS/remainingRC/combined
+generation proof is pending. Logo owner result is pending; Narrator/contributor/
+mobile are skipped. Main99f7888 is last confirmed remote; later local changes
+await push. AT069 remains unreplayed. **Full release acceptance remains false.**
+
+## Historical checkpoint - 2026-11-02T20:55:06.306681+00:00
 
 Production remains **web4fro/sourcea567/manifest92e1, canonical40 and workerCp/native46**
 ([serving identity](evidence/m07/logo-failure-trace-web-release/2026-11-02T17-58-22-617365Z-a8890fe6-9fb0-4f92-8a2f-5d5a85abda11-readback.json)). New native3d/daemonf846 exports, registryReady and the native9-task/
