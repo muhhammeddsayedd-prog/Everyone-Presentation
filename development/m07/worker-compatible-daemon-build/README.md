@@ -27,4 +27,4 @@ Offline check from the worktree:
 & 'D:/Everyone/Presentation/Everyone-Presentation-Studio/.venv-skills/Scripts/python.exe' -X utf8 -B -m unittest discover -s development/m07/worker-compatible-daemon-build -p test_build.py -v
 ```
 
-Eight tests cover dual-source acceptance, changed native module/build-input/graph/manifest/descriptor rejection, every default-off/native-action denial, actual inherited once claims through fake stage/reuse ports, unknown outcome/no replay, source drift and actual disabled CLI refusal before protected profile initialization. No actual build or full worker acceptance is claimed.
+Nine tests cover dual-source acceptance, changed native module/build-input/graph/manifest/descriptor rejection, every default-off/native-action denial, actual inherited once claims through fake stage/reuse ports, unknown outcome/no replay, source drift and actual disabled CLI refusal before protected profile initialization. A same-emitted-graph native module or lock-row change is rejected before a reuse claim or emitter reuse call; the identical shared dependency guard also runs after reuse. No actual build or full worker acceptance is claimed.

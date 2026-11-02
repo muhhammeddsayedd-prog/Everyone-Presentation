@@ -5,8 +5,17 @@ from unittest.mock import patch
 HERE=Path(__file__).resolve().parent
 spec=importlib.util.spec_from_file_location('compatible_daemon_build_tests',HERE/'build.py');b=importlib.util.module_from_spec(spec);spec.loader.exec_module(b)
 RUN='00000000-0000-4000-8000-000000000001';STAGE='00000000-0000-4000-8000-000000000002'
+def identity_fixture():
+ old=b.MAIN/'.local/worker-hosting'/b.a.BUILD_RUN
+ provenance=json.loads((old/'source-provenance.json').read_bytes());native=json.loads((old/'context/apps/worker/native-source.json').read_bytes());manifest=(old/'context/apps/worker/native-sandbox-manifest.json').read_bytes()
+ files=copy.deepcopy(native['files']);next(r for r in files if r['path']=='packages/integrations/src/openai-specs.ts')['sha256']='1'*64
+ source={'commit':'a'*40,'tree':'b'*40,'archive':{'path':'.local/synthetic/source.tar','sha256':'c'*64},'source_sha256':b.sha(b.base.compact(files)),'files':files,'native_graph_sha256':b.a.GRAPH,'daemon_graph_sha256':b.sha(b.base.compact(provenance['daemon_graph'])),'quality':{'path':'tracking/evidence/synthetic.json','sha256':'d'*64}}
+ graphs={'native':copy.deepcopy(provenance['native_graph']),'daemon':copy.deepcopy(provenance['daemon_graph'])}
+ descriptor={'schema_version':'1.0','daemon_source_sha256':source['source_sha256'],'native_source_sha256':b.a.SOURCE,'native_manifest_sha256':b.a.MANIFEST,'native_graph_sha256':b.a.GRAPH,'native_graph':graphs['native']}
+ return source,native,manifest,descriptor,graphs,provenance['native_graph']
 class Fake(b.Build):
- def __init__(self):self.inputs={'run':RUN};self.source={'source_sha256':'a'*64,'files':[{'path':'synthetic'}]};self.build_run=None;self.files={};self.version=1;self.calls=[];self.unknown=False;self.drift=False
+ def __init__(self):
+  self.inputs={'run':RUN};self.source,self.native_source,_,_,self.graphs,self.previous=identity_fixture();self.build_run=None;self.files={};self.version=1;self.calls=[];self.unknown=False;self.drift=False
  def exists(self,name):return name in self.files
  def read(self,name):return copy.deepcopy(self.files[name])
  def write(self,name,value):
@@ -15,7 +24,8 @@ class Fake(b.Build):
  def hash(self,name):return b.sha(b.base.compact(self.files[name]))
  def pins(self):return{'new_source':self.version}
  def source_admission(self):return{'archive':'approved','quality':'approved'}
- def retained_native(self):return{'artifact':{'runtime_digest':b.a.DIGEST},'references':{'export':b.a.EXPORT,'ready':b.a.READY,'probe':b.a.PROBE}}
+ def retained_native(self):return{'artifact':{'runtime_digest':b.a.DIGEST},'source':self.native_source,'native_graph':self.previous,'references':{'export':b.a.EXPORT,'ready':b.a.READY,'probe':b.a.PROBE}}
+ def staged_native_graph(self):return self.graphs['native']
  def context(self,kind):
   if kind=='native':
    b.need(not self.exists('reuse-native.claim.json'));return{'scope':'pre_reuse_only'}
@@ -23,22 +33,12 @@ class Fake(b.Build):
  def _daemon_context(self):return{'daemon_source_sha256':self.source['source_sha256'],'native_source_sha256':b.a.SOURCE,'native_manifest_sha256':b.a.MANIFEST,'native_compatibility_sha256':'c'*64,'native_graph_sha256':b.a.GRAPH}
  def emitter(self,args):
   self.calls.append(args)
-  if args==['stage']:return{'directory':'.local/worker-hosting/'+STAGE,'source_sha256':self.source['source_sha256'],'file_count':1}
+  if args==['stage']:return{'directory':'.local/worker-hosting/'+STAGE,'source_sha256':self.source['source_sha256'],'file_count':len(self.source['files'])}
   if self.unknown:raise TimeoutError('UNKNOWN')
   if self.drift:self.version+=1
   return self._daemon_context()
 class Tests(unittest.TestCase):
- @classmethod
- def setUpClass(cls):
-  # Immutable small source metadata only; no archive/profile/guard operation.
-  old=b.MAIN/'.local/worker-hosting'/b.a.BUILD_RUN
-  cls.provenance=json.loads((old/'source-provenance.json').read_bytes());cls.native=json.loads((old/'context/apps/worker/native-source.json').read_bytes());cls.manifest=(old/'context/apps/worker/native-sandbox-manifest.json').read_bytes()
- def fixture(self):
-  native=copy.deepcopy(self.native);files=copy.deepcopy(native['files']);row=next(r for r in files if r['path']=='packages/integrations/src/openai-specs.ts');row['sha256']='1'*64
-  source={'commit':'a'*40,'tree':'b'*40,'archive':{'path':'.local/synthetic/source.tar','sha256':'c'*64},'source_sha256':b.sha(b.base.compact(files)),'files':files,'native_graph_sha256':b.a.GRAPH,'daemon_graph_sha256':b.sha(b.base.compact(self.provenance['daemon_graph'])),'quality':{'path':'tracking/evidence/synthetic.json','sha256':'d'*64}}
-  graphs={'native':copy.deepcopy(self.provenance['native_graph']),'daemon':copy.deepcopy(self.provenance['daemon_graph'])}
-  descriptor={'schema_version':'1.0','daemon_source_sha256':source['source_sha256'],'native_source_sha256':b.a.SOURCE,'native_manifest_sha256':b.a.MANIFEST,'native_graph_sha256':b.a.GRAPH,'native_graph':graphs['native']}
-  return source,native,self.manifest,descriptor,graphs,self.provenance['native_graph']
+ def fixture(self):return identity_fixture()
  def test_exact_dual_sources_retain_old_native_and_new_daemon_without_relabel(self):
   args=self.fixture();value=b.dual_identity(*args);self.assertEqual(value['native_source_sha256'],b.a.SOURCE);self.assertNotEqual(value['daemon_source_sha256'],b.a.SOURCE);self.assertFalse(value['native_rebuilt'])
  def test_native_graph_build_input_and_descriptor_negatives_cannot_use_a_claimed_hash_only(self):
@@ -86,6 +86,14 @@ class Tests(unittest.TestCase):
    f.stage();f.drift=True
    with self.assertRaises(ValueError):f.reuse_native()
   self.assertNotIn('reuse-native.normal.json',f.files)
+ def test_same_emitted_graph_with_changed_native_dependency_row_refuses_before_claim_or_emitter_reuse(self):
+  for path in('apps/worker/src/native-sandbox.ts','package-lock.json'):
+   f=Fake()
+   with patch.object(b,'BUILD_ENABLED',True):
+    f.stage();next(r for r in f.source['files']if r['path']==path)['sha256']='5'*64;f.source['source_sha256']=b.sha(b.base.compact(f.source['files']))
+    self.assertEqual(f.graphs['native'],f.previous)
+    with self.assertRaises(ValueError):f.reuse_native()
+   self.assertEqual(f.calls,[['stage']]);self.assertNotIn('reuse-native.claim.json',f.files);self.assertNotIn('reuse-native.normal.json',f.files)
  def test_profile_unset_and_actual_defaultoff_entry_do_not_open_private_profile(self):
   with self.assertRaises(ValueError):b.load_profile()
   with self.assertRaises(ValueError):b.load_build()

@@ -14,14 +14,18 @@ need(sha((MAIN/a.OLD/'mechanisms.py').read_bytes())==a.MECHANISMS_SHA)
 base=module('compatible_daemon_frozen_build_library',MAIN/a.OLD/'build.py')
 BUILD_ENABLED=False
 
-def dual_identity(source,native_source,manifest_raw,descriptor,graphs,previous_graph):
- """Pure identity check; caller separately verifies every staged/current file."""
+def native_dependency_rows(source,native_source,graph,previous_graph):
+ """Complete native graph and dependency row equality, before and after reuse."""
  base.source_shape(source);need(source['source_sha256']!=a.SOURCE)
  need(native_source['source_sha256']==a.SOURCE and sha(base.compact(native_source['files']))==a.SOURCE)
- need(graphs['native']==previous_graph and sha(base.compact(graphs['native']))==a.GRAPH==source['native_graph_sha256'])
- need(sha(base.compact(graphs['daemon']))==source['daemon_graph_sha256'])
+ need(graph==previous_graph and sha(base.compact(graph))==a.GRAPH==source['native_graph_sha256'])
  old={row['path']:row for row in native_source['files']};new={row['path']:row for row in source['files']}
- for path in [*graphs['native']['build_inputs'],*(row['path']for row in graphs['native']['modules'])]:need(old.get(path)==new.get(path)and path in old)
+ for path in [*graph['build_inputs'],*(row['path']for row in graph['modules'])]:need(old.get(path)==new.get(path)and path in old)
+
+def dual_identity(source,native_source,manifest_raw,descriptor,graphs,previous_graph):
+ """Pure identity check; caller separately verifies every staged/current file."""
+ native_dependency_rows(source,native_source,graphs['native'],previous_graph)
+ need(sha(base.compact(graphs['daemon']))==source['daemon_graph_sha256'])
  need(sha(manifest_raw)==a.MANIFEST)
  manifest=json.loads(manifest_raw);need(manifest=={'schema_version':'1.0','transport':'vercel_sandbox','protocol':'eps-native-files-v1','image':base.PREFIX.removeprefix('vcr.vercel.com/')+'native@'+a.DIGEST,'region':'dub1','source_sha256':a.SOURCE})
  need(descriptor=={'schema_version':'1.0','daemon_source_sha256':source['source_sha256'],'native_source_sha256':a.SOURCE,'native_manifest_sha256':a.MANIFEST,'native_graph_sha256':a.GRAPH,'native_graph':graphs['native']})
@@ -97,8 +101,10 @@ class Build(base.Build):
    if file.is_file():actual.append(file.relative_to(root).as_posix())
   need(set(actual)==set(expected))
   return {**result,'native_compatibility_sha256':sha(descriptor_raw),'file_count':len(self.source['files']),'private_pattern_families':len(base.PATTERNS),'private_pattern_hits':hits,'private_credentials_opened':False,'context_files':len(actual),'retained_native_references':retained['references']}
+ def staged_native_graph(self):return json.loads(base.load(self.directory()/'source-provenance.json'))['native_graph']
  def reuse_native(self):
   need(BUILD_ENABLED);self.accepted_stage();before=self.source_admission();retained=self.retained_native();self.context('native')
+  native_dependency_rows(self.source,{'source_sha256':a.SOURCE,'files':retained['source']['files']},self.staged_native_graph(),retained['native_graph'])
   def dispatch():
    value=self.emitter(['reuse-native',self.build_run,a.BUILD_RUN]);context=self._daemon_context()
    need(value=={k:context[k]for k in('daemon_source_sha256','native_source_sha256','native_manifest_sha256','native_compatibility_sha256','native_graph_sha256')})
