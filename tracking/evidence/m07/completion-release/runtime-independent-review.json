@@ -1,0 +1,240 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-11-02T03:48:52.397309+00:00",
+  "result": "reviewed_no_blocking_evidence_or_public_content_finding",
+  "scope": "independent read-only local evidence/source review; no fresh provider state or live UI/auth verification",
+  "reviewed_sources": [
+    {
+      "path": "tracking/evidence/m07/production-web-release/2026-11-02T02-29-51-821819Z-deploy.json",
+      "sha256": "62a1df62a023800bba36fb5fed4cea7fa3ddc7343c3362fb2f546b26efda0111"
+    },
+    {
+      "path": "tracking/evidence/m07/production-web-release/2026-11-02T02-34-07-437169Z-readback.json",
+      "sha256": "410caceb600e01589147fdb1e13cd3cbb5b8dc8d8ce8459f27c7ee178c0116cb"
+    },
+    {
+      "path": "tracking/evidence/m07/completion-worker/2026-11-02T01-47-41-594208Z-rollout39-complete-preflight.json",
+      "sha256": "2030eb8fbfb83474e8627be1fb2c8584646ad91da72469e7a577079ffa672ed1"
+    },
+    {
+      "path": "tracking/evidence/m07/completion-worker/2026-11-02T01-51-23-347269Z-rollout39-complete-prepare.json",
+      "sha256": "b95978428f47791f1e02139106fddf4993b6f236ec9ac32f2e727bc0d2203927"
+    },
+    {
+      "path": "tracking/evidence/m07/completion-worker/2026-11-02T01-55-10-472671Z-rollout39-pause.json",
+      "sha256": "b9084194f9436005f8edc6d4e82837f5ff2648fdd41753124a627996fed144ac"
+    },
+    {
+      "path": "tracking/evidence/m07/completion-worker/2026-11-02T02-02-47-144040Z-rollout39-env.json",
+      "sha256": "f62344d9beb835c80d9c7abe98ac9bb812edde37063da0e2e1412ede614f9880"
+    },
+    {
+      "path": "tracking/evidence/m07/completion-worker/2026-11-02T02-06-57-221015Z-rollout39-deploy.json",
+      "sha256": "a4429c26a4b153c182d3995f4c4d2350f6160222aa189ae157d0d37da9e70820"
+    },
+    {
+      "path": "tracking/evidence/m07/completion-worker/2026-11-02T02-07-48-488179Z-rollout39-readback-deploy.json",
+      "sha256": "a4ef271de2891b0b94c089c2d6c20059433178699f92d4b1c67e13586db7c2d4"
+    },
+    {
+      "path": "tracking/evidence/m07/completion-worker/2026-11-02T02-20-07-299859Z-rollout39-ready.json",
+      "sha256": "7fb027530760868997cbda954324fa2b0fadc2d06303e6107af74c55b80142c5"
+    },
+    {
+      "path": "tracking/evidence/m07/completion-worker/2026-11-02T02-24-16-275686Z-rollout39-pin.json",
+      "sha256": "7127b6f25871c8e08a361bf705da5ae10c5005f48e8b2f47ce5bce7726306d28"
+    },
+    {
+      "path": "tracking/evidence/m07/completion-worker/2026-11-02T02-28-39-166492Z-rollout39-resume.json",
+      "sha256": "f1e22e7c71a4b72b64d70eacb4acd33355a0e492a4cbaf65469f6d9f89cb894a"
+    },
+    {
+      "path": "tracking/evidence/m07/temporary-oauth-lifecycle-coordinator/2026-11-02T03-18-15.949Z-402aca12-prepare.json",
+      "sha256": "3afeb2e1319644935df6ffed73f91bb8e1e9b067a84059a1e78a5aa3d423aa3f"
+    },
+    {
+      "path": "tracking/evidence/m07/temporary-oauth-lifecycle-coordinator/armed-main-source-402aca12-60e1-464e-8573-c48958c3ab1f.json",
+      "sha256": "cd65719bac0d6620dc22725d9ca978982f15af41bd871cca7950a85d5d8a2a7a"
+    },
+    {
+      "path": "tracking/evidence/m07/completion-release/2026-11-02T02-38-46.477Z-1629a67e-production-public.json",
+      "sha256": "0b4d5c7289f156f29c2647c536c30c44fcc1a8755d36e40c499c231e7ee6ad7f"
+    },
+    {
+      "path": "tracking/evidence/m07/completion-release/2026-11-02T02-40-22.362Z-2fc8bcde-production-public.json",
+      "sha256": "b8b7b9d783552ce39de8a597b4abec6097349f1f26ad6d6c13f01eef134d94b6"
+    },
+    {
+      "path": "tracking/evidence/m07/completion-release/2026-11-02T02-40-42.581Z-61b370e7-production-public.json",
+      "sha256": "39b0cd96227ca3377c7d285361b3b218fc461644622d9e182443ad9358a485b4"
+    },
+    {
+      "path": "tracking/evidence/m07/completion-release/casting-project-production.json",
+      "sha256": "93c580a6cb2b33f2a1b9c8525096cb539b25dd4072d666957aa1aa2160e7c892"
+    },
+    {
+      "path": "tracking/evidence/m07/completion-release/planned-project-production.json",
+      "sha256": "ff06162cd8884239a9d769c96025cfd22243615bce5786b51cabf405f28bf331"
+    },
+    {
+      "path": "tracking/evidence/m07/completion-release/selection-production-pdf.json",
+      "sha256": "737be1a437eb27d18b10dab6085a0dad87d1d883c3ec4a5f901442e3eb104173"
+    }
+  ],
+  "public_content_review": {
+    "reviewed_json_files": 19,
+    "credential_and_signed_or_query_url_pattern_findings": 0,
+    "http_urls_reviewed": 6,
+    "raw_secret_url_or_body_matches_logged": false,
+    "ordinary_query_free_deployment_and_resource_urls_only": true,
+    "not_a_general_security_or_business_data_audit": true
+  },
+  "closure": {
+    "web": {
+      "deployment_id": "dpl_J3hmctcHndRp8zDVAPYfcnjEgpzG",
+      "source_commit": "c88f58c00820169f7396d72def77a74f1443594e",
+      "source_manifest": "f947fb53479d991b382bd50bf39e32a4e56dd17598470b209f2a185ed9f58d0a",
+      "normal_return_two_independent_reads_and_stable_alias": true,
+      "rollback_anchor": "dpl_8mFQY4SkHiHmSVo6hR8QPLSdgwaS",
+      "Ready_receipt_not_full_application_acceptance": true
+    },
+    "worker": {
+      "deployment_id": "dpl_Cp1TW1vP3JiLJoL5G3Zx2yfei97M",
+      "instance_id": "dmni_01m6d0523mz7hc2s6mqw035ys2",
+      "startup_first_10min_records": 23,
+      "complete_identity_bound_startup_window_no_warnings_or_fatals": true,
+      "one_dub1_2048MiB_instance_and_old_absent": true,
+      "pin_and_resume_normal_returns_and_two_equal_readbacks": true,
+      "resume_five_enabled_flags_only": true,
+      "native_digest": "sha256:46de2f0c0772e10d712fba514788d24041d6741faa8966b6fe9c554fe47e4af4",
+      "daemon_digest": "sha256:2d66eed2c5f584f3f261d2f241062cbb9fa088bbbc32437aed1ce0b6adf2c594",
+      "cached_platform_metadata_not_fresh_application_heartbeat": true,
+      "not_AT069_rollback_or_queued_replacement_or_endurance": true
+    },
+    "OAuth": {
+      "run": "402aca12-60e1-464e-8573-c48958c3ab1f",
+      "public_result": "prepared",
+      "baseline_sessions": 5,
+      "fixed_phase_file_existence_only": {
+        "coordinator-ready.json": false,
+        "coordinator-authorize.claim.json": false,
+        "authorize.claim.json": false,
+        "exchange.claim.json": false,
+        "generation-1.json": false,
+        "coordinator-expiry.claim.json": false,
+        "refresh.claim.json": false,
+        "logout.claim.json": false,
+        "denials.claim.json": false
+      },
+      "no_private_phase_contents_read": true,
+      "no_consent_refresh_logout_or_actual_Claude_claim": true
+    },
+    "public_probe_history": {
+      "first_two_failed_retained": true,
+      "third_passed_after_test_route_and_status_correction": true,
+      "application_source_unchanged": true,
+      "not_signed_in_or_full_workflow_acceptance": true
+    }
+  },
+  "runtime_observation_proposal": {
+    "not_executed": true,
+    "new_read_only_purpose_and_UUID_required": true,
+    "never_replay_consumed_worker_controller_or_strict_business_preimages": true,
+    "normal_cli_version": "65.8.0",
+    "maximum_cli_processes": 3,
+    "per_process_capture_and_timeout_bounds_required": true,
+    "raw_logs_only_in_RAM": true,
+    "CLI_internal_HTTP_retries_possible_exact_attempts_not_claimed": true,
+    "inspect_before_and_after_argv": [
+      "C:/Program Files/nodejs/node.exe",
+      ".local/m07-pilot/tooling/node_modules/vercel/dist/vc.js",
+      "daemons",
+      "inspect",
+      "worker",
+      "--project",
+      "prj_I4SMkDzaDy0KHNgiF00v4Da5aLb6",
+      "--scope",
+      "muhammed-abdelrahman",
+      "--global-config",
+      "C:/Users/iway/AppData/Roaming/xdg.data/com.vercel.cli",
+      "--json"
+    ],
+    "events_argv": [
+      "C:/Program Files/nodejs/node.exe",
+      ".local/m07-pilot/tooling/node_modules/vercel/dist/vc.js",
+      "api",
+      "/v1/observability/events?teamId=team_gboXPxTevpCOZuaA8eY9PmR1",
+      "--method",
+      "POST",
+      "--raw",
+      "--scope",
+      "muhammed-abdelrahman",
+      "--global-config",
+      "C:/Users/iway/AppData/Roaming/xdg.data/com.vercel.cli",
+      "--header",
+      "x-vercel-observability-query-reason:cli/daemons-logs",
+      "--input",
+      "-"
+    ],
+    "events_body_template": {
+      "event": "vercel.log",
+      "scope": {
+        "ownerId": "team_gboXPxTevpCOZuaA8eY9PmR1",
+        "projectIds": [
+          "prj_I4SMkDzaDy0KHNgiF00v4Da5aLb6"
+        ]
+      },
+      "timeRange": {
+        "start": "FILL_ACTUAL_CLOSED_UTC_WINDOW_START",
+        "end": "START_PLUS_EXACT_600000ms_NOT_FUTURE"
+      },
+      "select": [
+        "projectId",
+        "requestId",
+        "branch",
+        "deploymentId",
+        "domain",
+        "environment",
+        "requestPath",
+        "requestMethod",
+        "source",
+        "service",
+        "isSystemLog",
+        "region",
+        "runtime",
+        "level",
+        "message",
+        "stream",
+        "traceId",
+        "spanId",
+        "attributes",
+        "truncated",
+        "daemonName",
+        "daemonInstanceId"
+      ],
+      "order": "asc",
+      "limit": 100,
+      "filter": "deploymentId:\"dpl_Cp1TW1vP3JiLJoL5G3Zx2yfei97M\" AND source:daemon AND (environment:\"production\" OR (attributes/'scope.type':\"target\" AND attributes/'scope.value':\"production\")) AND (daemonName:\"worker\" OR attributes/'daemonName':\"worker\") AND (daemonInstanceId:\"dmni_01m6d0523mz7hc2s6mqw035ys2\" OR attributes/'daemonInstanceId':\"dmni_01m6d0523mz7hc2s6mqw035ys2\")"
+    },
+    "window": "exact closed10min containing actual recorded UI version creation; collect only after end, or use recent10min if creation falls inside",
+    "projection": "new runtime-window adapter may reuse pure projectDaemon/projectRuntimeLogs and control_plane_ready; never call startup normalize/startup or runtimeObservation startup gate for a later window",
+    "required_checks": [
+      "same exact deployment/daemon image/instance before and after, one ready alive dub1/2048MiB instance",
+      "every returned row exact project/deployment/daemon/instance/time/production binding",
+      "pagination false/null, no excluded intervals, warnings, errors or truncation",
+      "no error/fatal levels; count declared runtime unconfirmed/rejected notices separately",
+      "no fabricated expected record count or required startup event in later window",
+      "correlate actual UI version/job IDs with stage_callback_committed/current job readback separately",
+      "zero logs provides no fresh application progress; recovery_completed is only a source-grounded loop/recovery notice, not OIDC refresh/endurance",
+      "identity drift or incomplete page =>unconfirmed, no provider mutation/restart/automatic replay"
+    ],
+    "scope_limits": "does not establish OAuth lifecycle, queued-work replacement, AT069 rollback, OIDC recovery or long-term endurance"
+  },
+  "actions_by_reviewer": {
+    "provider_calls": 0,
+    "auth_phases_or_listeners": 0,
+    "API_or_canonical_mutations": 0,
+    "SQL_or_Docker_calls": 0,
+    "frontend_four_docs_modified": false
+  }
+}
