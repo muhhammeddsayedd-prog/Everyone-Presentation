@@ -1,6 +1,6 @@
 {
   "pack_version": "1.0",
-  "updated_at": "2026-11-02T03:57:35.309246+00:00",
+  "updated_at": "2026-11-02T04:02:53.180067+00:00",
   "implementation_started": true,
   "current_milestone": "M07",
   "current_pilot": {
@@ -35,7 +35,8 @@
     "full_M07_verified": false,
     "post_journey_worker_receipt": "tracking/evidence/m07/completion-release/production-worker-current-identity.json",
     "post_journey_web_receipt": "tracking/evidence/m07/completion-release/production-web-current-identity.json",
-    "selected_308_main_product_bytes_equal_deployed": true
+    "selected_308_main_product_bytes_equal_deployed": true,
+    "canonical_push_receipt": "tracking/evidence/m07/completion-release/canonical-push-readback.json"
   },
   "historical_pilot_records": {
     "observed_at": "2026-11-01T17:37:06.827794Z",
@@ -4081,7 +4082,7 @@
         "milestone": "M07",
         "status": "production_worker_web_serving_M07_acceptance_in_progress",
         "observed_at": "2026-11-02T03:57:35.309246+00:00",
-        "main_checkpoint_commit": "511a1a42e1e87048b5c4807c4b55230c61ab7843",
+        "main_checkpoint_commit": "62df0230fa7ba3a98572a192445bf676dc8d8fda",
         "canonical_migration_count": 39,
         "local_original_migration_count": 29,
         "web_deployment_id": "dpl_J3hmctcHndRp8zDVAPYfcnjEgpzG",
@@ -4151,8 +4152,8 @@
           "token_exchange_or_new_session": false,
           "actual_Claude_acceptance": false
         },
-        "last_confirmed_remote_main": "a61ebb72e97286168824a39df3925768a0c5f224",
-        "latest_main_push_verified": false,
+        "last_confirmed_remote_main": "62df0230fa7ba3a98572a192445bf676dc8d8fda",
+        "latest_main_push_verified": true,
         "manual_screenreader": "AT072 pending",
         "mobile_testing": "skipped by owner",
         "next_action": "Continue owner-dependent acceptance on serving production: actual-Claude resource/request readbacks and natural token expiry, private owner Ready for the separate operator OAuth flow, genuine contributor provisioning, external guest delta/lifecycle and manual AT072. Restore Chrome extension control/file-URL access for direct intake. Preserve all claims and AT069 policy block; no redeployment for evidence-only changes.",
@@ -4161,7 +4162,12 @@
         "canonical_specs_and_preservation_audit": "tracking/evidence/m07/production-specs-job-audit/Root-admission.json",
         "post_journey_web_receipt": "tracking/evidence/m07/completion-release/production-web-current-identity.json",
         "post_journey_worker_receipt": "tracking/evidence/m07/completion-release/production-worker-current-identity.json",
-        "current_main_checkpoint": "511a1a42e1e87048b5c4807c4b55230c61ab7843"
+        "current_main_checkpoint": "62df0230fa7ba3a98572a192445bf676dc8d8fda",
+        "published_source_commit": "62df0230fa7ba3a98572a192445bf676dc8d8fda",
+        "canonical_push_receipt": "tracking/evidence/m07/completion-release/canonical-push-readback.json",
+        "canonical_push_observed_at": "2026-11-02T04:02:53.180067+00:00",
+        "repository_visibility": "private",
+        "repository_push_scope": "Release checkpoint62df023 normally pushed and independently matched by GitHub ref; following evidence-only reconciliation receives a separate normal push, reported by Root final readback."
       }
     }
   ],
@@ -4493,7 +4499,7 @@
         "milestone": "M07",
         "status": "production_worker_web_serving_M07_acceptance_in_progress",
         "observed_at": "2026-11-02T03:57:35.309246+00:00",
-        "main_checkpoint_commit": "511a1a42e1e87048b5c4807c4b55230c61ab7843",
+        "main_checkpoint_commit": "62df0230fa7ba3a98572a192445bf676dc8d8fda",
         "canonical_migration_count": 39,
         "local_original_migration_count": 29,
         "web_deployment_id": "dpl_J3hmctcHndRp8zDVAPYfcnjEgpzG",
@@ -4563,8 +4569,8 @@
           "token_exchange_or_new_session": false,
           "actual_Claude_acceptance": false
         },
-        "last_confirmed_remote_main": "a61ebb72e97286168824a39df3925768a0c5f224",
-        "latest_main_push_verified": false,
+        "last_confirmed_remote_main": "62df0230fa7ba3a98572a192445bf676dc8d8fda",
+        "latest_main_push_verified": true,
         "manual_screenreader": "AT072 pending",
         "mobile_testing": "skipped by owner",
         "next_action": "Continue owner-dependent acceptance on serving production: actual-Claude resource/request readbacks and natural token expiry, private owner Ready for the separate operator OAuth flow, genuine contributor provisioning, external guest delta/lifecycle and manual AT072. Restore Chrome extension control/file-URL access for direct intake. Preserve all claims and AT069 policy block; no redeployment for evidence-only changes.",
@@ -4573,7 +4579,12 @@
         "canonical_specs_and_preservation_audit": "tracking/evidence/m07/production-specs-job-audit/Root-admission.json",
         "post_journey_web_receipt": "tracking/evidence/m07/completion-release/production-web-current-identity.json",
         "post_journey_worker_receipt": "tracking/evidence/m07/completion-release/production-worker-current-identity.json",
-        "current_main_checkpoint": "511a1a42e1e87048b5c4807c4b55230c61ab7843"
+        "current_main_checkpoint": "62df0230fa7ba3a98572a192445bf676dc8d8fda",
+        "published_source_commit": "62df0230fa7ba3a98572a192445bf676dc8d8fda",
+        "canonical_push_receipt": "tracking/evidence/m07/completion-release/canonical-push-readback.json",
+        "canonical_push_observed_at": "2026-11-02T04:02:53.180067+00:00",
+        "repository_visibility": "private",
+        "repository_push_scope": "Release checkpoint62df023 normally pushed and independently matched by GitHub ref; following evidence-only reconciliation receives a separate normal push, reported by Root final readback."
       },
       "historical_component_details": "Dated component subrecords below are retained history; current deployment and remaining acceptance are governed by current_checkpoint/completion_release."
     },
@@ -11300,7 +11311,8 @@
     "record_updated_at": "2026-11-02T03:57:35.309246+00:00",
     "post_journey_worker_receipt": "tracking/evidence/m07/completion-release/production-worker-current-identity.json",
     "post_journey_web_receipt": "tracking/evidence/m07/completion-release/production-web-current-identity.json",
-    "selected_308_main_product_bytes_equal_deployed": true
+    "selected_308_main_product_bytes_equal_deployed": true,
+    "canonical_push_receipt": "tracking/evidence/m07/completion-release/canonical-push-readback.json"
   },
   "recovery38": {
     "status": "passed_owned_local38",
@@ -11377,7 +11389,7 @@
       "Privately provision the genuine distinct contributor identity, then confirm eligibility before any narrowly authorized absent-only grant",
       "Complete manual AT072 against serving production UI; mobile waiver retained"
     ],
-    "published_source_commit": "a61ebb72e97286168824a39df3925768a0c5f224",
+    "published_source_commit": "62df0230fa7ba3a98572a192445bf676dc8d8fda",
     "native_registry": "46de_ready_verified",
     "daemon_registry": "2d66_ready_verified_with_separate_no_login_continuation",
     "quality": {
@@ -11447,9 +11459,9 @@
     "native_pin_receipt": "tracking/evidence/m07/completion-worker/2026-11-02T02-24-16-275686Z-rollout39-pin.json",
     "resume_receipt": "tracking/evidence/m07/completion-worker/2026-11-02T02-28-39-166492Z-rollout39-resume.json",
     "production_serving_verified": true,
-    "current_main_push_verified": false,
-    "current_main_checkpoint": "511a1a42e1e87048b5c4807c4b55230c61ab7843",
-    "repository_push_scope": "Only a61ebb72 was confirmed pushed; later Main commits and this documentation update are not claimed pushed",
+    "current_main_push_verified": true,
+    "current_main_checkpoint": "62df0230fa7ba3a98572a192445bf676dc8d8fda",
+    "repository_push_scope": "Release checkpoint62df023 normally pushed and independently matched by GitHub ref; following evidence-only reconciliation receives a separate normal push, reported by Root final readback.",
     "production_UI": {
       "planned_receipt": "tracking/evidence/m07/completion-release/planned-project-production.json",
       "casting_receipt": "tracking/evidence/m07/completion-release/casting-project-production.json",
@@ -11513,13 +11525,16 @@
     "recorded_at": "2026-11-02T03:57:35.309246+00:00",
     "canonical_specs_and_preservation_audit": "tracking/evidence/m07/production-specs-job-audit/Root-admission.json",
     "post_journey_web_receipt": "tracking/evidence/m07/completion-release/production-web-current-identity.json",
-    "post_journey_worker_receipt": "tracking/evidence/m07/completion-release/production-worker-current-identity.json"
+    "post_journey_worker_receipt": "tracking/evidence/m07/completion-release/production-worker-current-identity.json",
+    "last_confirmed_remote_main": "62df0230fa7ba3a98572a192445bf676dc8d8fda",
+    "canonical_push_receipt": "tracking/evidence/m07/completion-release/canonical-push-readback.json",
+    "canonical_push_observed_at": "2026-11-02T04:02:53.180067+00:00"
   },
   "latest_checkpoint": {
     "milestone": "M07",
     "status": "production_worker_web_serving_M07_acceptance_in_progress",
     "observed_at": "2026-11-02T03:57:35.309246+00:00",
-    "main_checkpoint_commit": "511a1a42e1e87048b5c4807c4b55230c61ab7843",
+    "main_checkpoint_commit": "62df0230fa7ba3a98572a192445bf676dc8d8fda",
     "canonical_migration_count": 39,
     "local_original_migration_count": 29,
     "web_deployment_id": "dpl_J3hmctcHndRp8zDVAPYfcnjEgpzG",
@@ -11589,8 +11604,8 @@
       "token_exchange_or_new_session": false,
       "actual_Claude_acceptance": false
     },
-    "last_confirmed_remote_main": "a61ebb72e97286168824a39df3925768a0c5f224",
-    "latest_main_push_verified": false,
+    "last_confirmed_remote_main": "62df0230fa7ba3a98572a192445bf676dc8d8fda",
+    "latest_main_push_verified": true,
     "manual_screenreader": "AT072 pending",
     "mobile_testing": "skipped by owner",
     "next_action": "Continue owner-dependent acceptance on serving production: actual-Claude resource/request readbacks and natural token expiry, private owner Ready for the separate operator OAuth flow, genuine contributor provisioning, external guest delta/lifecycle and manual AT072. Restore Chrome extension control/file-URL access for direct intake. Preserve all claims and AT069 policy block; no redeployment for evidence-only changes.",
@@ -11599,7 +11614,12 @@
     "canonical_specs_and_preservation_audit": "tracking/evidence/m07/production-specs-job-audit/Root-admission.json",
     "post_journey_web_receipt": "tracking/evidence/m07/completion-release/production-web-current-identity.json",
     "post_journey_worker_receipt": "tracking/evidence/m07/completion-release/production-worker-current-identity.json",
-    "current_main_checkpoint": "511a1a42e1e87048b5c4807c4b55230c61ab7843"
+    "current_main_checkpoint": "62df0230fa7ba3a98572a192445bf676dc8d8fda",
+    "published_source_commit": "62df0230fa7ba3a98572a192445bf676dc8d8fda",
+    "canonical_push_receipt": "tracking/evidence/m07/completion-release/canonical-push-readback.json",
+    "canonical_push_observed_at": "2026-11-02T04:02:53.180067+00:00",
+    "repository_visibility": "private",
+    "repository_push_scope": "Release checkpoint62df023 normally pushed and independently matched by GitHub ref; following evidence-only reconciliation receives a separate normal push, reported by Root final readback."
   },
   "production_status_history": [
     {

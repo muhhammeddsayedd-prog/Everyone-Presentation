@@ -20,9 +20,9 @@ and all five processing flags resumed. This is scoped deployment acceptance;
 | Accessibility and quality | Earlier scoped955 module/138 browser/lint/type checks retained; redesigned frontend is deployed; [manual production AT072 task](../../../development/m07/PRODUCTION_UI_AT072_TASK.md) prepared | Actual manual screen-reader AT072 pending; mobile skipped by owner instruction; no broader semantic/cost/endurance claim |
 
 Exact worker identities/phase receipts are in the [cutover checkpoint](../../WORKER_CUTOVER_CURRENT_2026-11-02.md).
-Last confirmed remote Main remains a61ebb7; local checkpoint511a1a4/later docs are
-not claimed pushed. No new product deployment or full M07 verification follows
-from this documentation update.
+[Canonical normal push/readback](completion-release/canonical-push-readback.json)
+confirmed release checkpoint62df023 on private Main. This final reconciliation
+adds documentation only; it does not create a new product deployment or full M07 acceptance.
 
 
 Fresh03:51 web alias/direct read confirms all308 Main product bytes equal deployedc88;

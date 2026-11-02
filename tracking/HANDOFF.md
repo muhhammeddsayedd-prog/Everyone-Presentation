@@ -63,9 +63,10 @@ and the private canonical76-table checkpoint retain distinct scopes. Managed
 Auth/private production configuration/real canonical media restore, RTO/RPO,
 representative endurance and AT069 queued replacement/compatible rollback are
 not verified; the AT069 policy block is unchanged. All dated failures remain.
-The repository is private; last confirmed remote Main is `a61ebb7`, while the
-current local checkpoint before this documentation change is `511a1a4`.
-Later commits are not claimed pushed. No full M07/release verification is claimed.
+[Canonical normal push and independent GitHub ref](../tracking/evidence/m07/completion-release/canonical-push-readback.json) confirm
+release checkpoint `62df023` is published on Main. Repository visibility remains
+private; the fixed-secret scan is not a full PII audit. This readback reconciliation
+adds documentation only. No full M07/release verification is claimed.
 
 Next: complete guest/actual-Claude reciprocal readbacks; continue auth after the existing private owner-ready condition.
 Chrome control stopped during an additional read after the completed downloads;
