@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "purpose": "actual_logo_intake_exact_complete_function_diagnostic",
+  "observed_at": "2026-11-02T18:01:29.227569+00:00",
+  "result": "observed",
+  "deployment_id": "dpl_4fro7gR9EUhEQCzG4vavXevHgWVo",
+  "platform_request_id": "pjvs9-1793642396725-9d1750d679c3",
+  "window": {
+    "start": "2026-11-02T17:59:56.000Z",
+    "end": "2026-11-02T17:59:58.000Z"
+  },
+  "source_sha256": "73905eeeb06e69773c8b205a51ada89f842c28f73c51117aef69fdd7bc8dd200",
+  "query_sha256": "79296bd016afabf5c822e31d5ea2091f8d215cac83c09df425d1acdce6668852",
+  "maximum_reads": 1,
+  "automatic_retry": false,
+  "exit_code": 0,
+  "timed_out": false,
+  "output_limit_exceeded": false,
+  "metadata": {
+    "matched_event_count": 1,
+    "safe_diagnostics": [
+      {
+        "codes_observed": [
+          "NoSuchKey",
+          "UPLOAD_INCOMPLETE"
+        ],
+        "logo_phase": "download",
+        "storage_code": "NoSuchKey",
+        "storage_http_status": 400,
+        "storage_body_status": 404,
+        "safe_request_id": "af393d93-c7a7-4fa2-b489-3d1372269edc"
+      }
+    ],
+    "complete_page_for_exact_request_window": true,
+    "underlying_error_code_unobserved": false
+  },
+  "raw_logs_messages_errors_headers_bodies_tokens_credentials_or_URLs_saved": false,
+  "upload_mint_retry_cancel_or_business_mutation_called": false
+}

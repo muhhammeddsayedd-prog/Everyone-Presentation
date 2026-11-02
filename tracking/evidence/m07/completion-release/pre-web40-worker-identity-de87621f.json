@@ -1,0 +1,39 @@
+{
+  "result": "passed",
+  "observed_at": "2026-11-02T17:55:59.198482+00:00",
+  "read_only": true,
+  "deployment_id": "dpl_Cp1TW1vP3JiLJoL5G3Zx2yfei97M",
+  "instance": {
+    "instance_id": "dmni_01m6d0523mz7hc2s6mqw035ys2",
+    "id": "dmni_01m6d0523mz7hc2s6mqw035ys2",
+    "started_at_ms": 1793585219277,
+    "deployment_id": "dpl_Cp1TW1vP3JiLJoL5G3Zx2yfei97M",
+    "digest": "sha256:2d66eed2c5f584f3f261d2f241062cbb9fa088bbbc32437aed1ce0b6adf2c594"
+  },
+  "new_instance_is_only_current_instance": true,
+  "cached_health": {
+    "last_checked_at_ms": 1793642082684,
+    "last_checked_age_ms": 74538,
+    "observed_at_ms": 1793642157222,
+    "kind": "cached_platform_metadata",
+    "fresh_application_heartbeat_proven": false
+  },
+  "cached_health_is_not_application_heartbeat": true,
+  "database_or_worker_mutation_called": false,
+  "raw_rows_credentials_or_cli_persisted": false,
+  "purpose": "post40_web_release_worker_identity",
+  "observer_change": "same sealed normal CLI and strict projections; historical build-emitter guard is not a read-only service prerequisite",
+  "prior_failed_read_attempts": [
+    {
+      "interpreter": "system_python",
+      "phase": "construct",
+      "error_type": "ModuleNotFoundError"
+    },
+    {
+      "interpreter": "project_venv",
+      "phase": "inspect_before_dispatch",
+      "error_type": "ValueError",
+      "cause": "historical local-build emitter admission differs from current source"
+    }
+  ]
+}

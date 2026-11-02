@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "purpose": "actual_logo_intake_reservation_metadata",
+  "observed_at": "2026-11-02T18:00:37.325184+00:00",
+  "result": "observed",
+  "target": "pyibofyctwnqpvktepse",
+  "workspace_id": "5505def3-f7af-4684-968c-d1b154931601",
+  "window": {
+    "start": "2026-11-02T17:59:00Z",
+    "end": "2026-11-02T18:05:00Z"
+  },
+  "read_only_rollback": true,
+  "maximum_reads": 1,
+  "automatic_retry": false,
+  "source_sha256": "d56a1a747ee6a11cdd73f39c462f701dbd85ffb3c3e6443bf3cf24f3987cefa4",
+  "query_sha256": "5cec866e07b87cceb4911bc85f42ae23c805a206f5583f3a5cf94ac0210a4f6d",
+  "exit_code": 0,
+  "timed_out": false,
+  "output_limit_exceeded": false,
+  "metadata": {
+    "database": "postgres",
+    "matched_reservation_count": 1,
+    "observed_at": "2026-11-02T18:00:37.145948+00:00",
+    "operator": "postgres",
+    "reservations": [
+      {
+        "asset_id": "f5b0434a-c520-401d-8dd9-5c562a66bcce",
+        "asset_status": "failed",
+        "create_audit_count": 1,
+        "create_audit_request_ids": [
+          "b3353253-adcc-4530-bd0a-d8ec73779fd1"
+        ],
+        "created_at": "2026-11-02T17:59:55.852164+00:00",
+        "expires_at": "2026-11-02T19:59:55.852164+00:00",
+        "idempotency_receipt_count": 1,
+        "reservation_mime_matches": true,
+        "reservation_size_matches": true,
+        "status": "cancelled",
+        "storage_object_exists": true,
+        "upload_id": "b920c770-550a-4cb0-a9de-4a85cca6a8a5"
+      }
+    ],
+    "workspace_id": "5505def3-f7af-4684-968c-d1b154931601",
+    "workspace_logo_is_null": true
+  },
+  "raw_rows_keys_tokens_URLs_credentials_or_source_bytes_saved": false,
+  "signed_URL_mint_upload_cancel_or_business_mutation_called": false
+}

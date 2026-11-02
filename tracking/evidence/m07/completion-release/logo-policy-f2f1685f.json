@@ -1,0 +1,546 @@
+{
+  "result": "observed",
+  "observed_at": "2026-11-02T18:07:34.674622+00:00",
+  "purpose": "logo_completion_catalogue_and_known_object_metadata",
+  "target": "pyibofyctwnqpvktepse",
+  "read_only_rollback": true,
+  "maximum_reads": 1,
+  "policy_metadata": [
+    {
+      "command": "r",
+      "name": "candidate_apply_assets_read",
+      "permissive": true,
+      "roles": [
+        "eps_candidate_apply_owner"
+      ],
+      "table": "eps.media_assets",
+      "expression_sha256": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b"
+    },
+    {
+      "command": "r",
+      "name": "candidate_asset_service_read",
+      "permissive": true,
+      "roles": [
+        "eps_candidate_assets_owner"
+      ],
+      "table": "eps.media_assets",
+      "expression_sha256": "c0541bd5f33481e83d3970446f086e9564408bf703de296c20e1bf1a715847fe"
+    },
+    {
+      "command": "r",
+      "name": "candidate_stage_media_read",
+      "permissive": true,
+      "roles": [
+        "eps_candidate_stage_owner"
+      ],
+      "table": "eps.media_assets",
+      "expression_sha256": "c0541bd5f33481e83d3970446f086e9564408bf703de296c20e1bf1a715847fe"
+    },
+    {
+      "command": "r",
+      "name": "candidate_upload_assets_read",
+      "permissive": true,
+      "roles": [
+        "eps_candidate_upload_owner"
+      ],
+      "table": "eps.media_assets",
+      "expression_sha256": "5b8ac5cd7e0225bfd4cd46ade66ddbc7b6b21007a02d399063d71ba006bbd8e8"
+    },
+    {
+      "command": "r",
+      "name": "cast_assets_read",
+      "permissive": true,
+      "roles": [
+        "eps_cast_owner"
+      ],
+      "table": "eps.media_assets",
+      "expression_sha256": "d0a358c2b36bca77dd9650695a558d4f88aa30baa773798005b5d3e11d5624a4"
+    },
+    {
+      "command": "r",
+      "name": "logo_media_verifier_read",
+      "permissive": true,
+      "roles": [
+        "eps_logo_verify_owner"
+      ],
+      "table": "eps.media_assets",
+      "expression_sha256": "3223e5f0ae11aec20c922fec0dfbbb316d7a023e91af71d7dd583575ea3c53ad"
+    },
+    {
+      "command": "r",
+      "name": "m06_guest_asset_read",
+      "permissive": true,
+      "roles": [
+        "eps_guest_owner"
+      ],
+      "table": "eps.media_assets",
+      "expression_sha256": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b"
+    },
+    {
+      "command": "r",
+      "name": "m06_internal_export_asset_read",
+      "permissive": true,
+      "roles": [
+        "eps_review_owner"
+      ],
+      "table": "eps.media_assets",
+      "expression_sha256": "4614e9df381b28f14e88f10866abed0af14d623510077854664fca443068a93a"
+    },
+    {
+      "command": "r",
+      "name": "media_read",
+      "permissive": true,
+      "roles": [
+        "eps_api_owner"
+      ],
+      "table": "eps.media_assets",
+      "expression_sha256": "947e154d10a855ef95ca38bc7f8c7a31333fd2a8814e2a6ed81d75efedfaa926"
+    },
+    {
+      "command": "r",
+      "name": "presentation_asset_service_read",
+      "permissive": true,
+      "roles": [
+        "eps_candidate_assets_owner"
+      ],
+      "table": "eps.media_assets",
+      "expression_sha256": "7c474061aa9ccd3f3d5b2c3aea579a166ea015a3f9b31402d82e52083bc8da26"
+    },
+    {
+      "command": "r",
+      "name": "presentation_retained_asset_read",
+      "permissive": true,
+      "roles": [
+        "eps_review_owner"
+      ],
+      "table": "eps.media_assets",
+      "expression_sha256": "6f6d0ce28b26f9c6facda5108fc8faab7ccfcbfc4bb76fece7ab2b910951bd0c"
+    },
+    {
+      "command": "r",
+      "name": "review_assets_read",
+      "permissive": true,
+      "roles": [
+        "eps_review_owner"
+      ],
+      "table": "eps.media_assets",
+      "expression_sha256": "b003191691efcca37ee4b2ac292dd1416ac587d60cb2b477cc0eadb9ad2a5816"
+    },
+    {
+      "command": "r",
+      "name": "review_stage_read",
+      "permissive": true,
+      "roles": [
+        "eps_review_stage_owner"
+      ],
+      "table": "eps.media_assets",
+      "expression_sha256": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b"
+    },
+    {
+      "command": "r",
+      "name": "specs_asset_service_read",
+      "permissive": true,
+      "roles": [
+        "eps_specs_stage_owner",
+        "eps_specs_apply_owner",
+        "eps_specs_assets_owner"
+      ],
+      "table": "eps.media_assets",
+      "expression_sha256": "9b47eed5fc9adc7db4eb323d99abcec138a389194618aa9734e813b2696f57e6"
+    },
+    {
+      "command": "r",
+      "name": "specs_asset_submit_read",
+      "permissive": true,
+      "roles": [
+        "eps_specs_submit_owner"
+      ],
+      "table": "eps.media_assets",
+      "expression_sha256": "d8b491aa5132f17ce683e2e451c4800e8d0ac540ae9c3a106cbde212cb32485e"
+    },
+    {
+      "command": "r",
+      "name": "specs_original_read",
+      "permissive": true,
+      "roles": [
+        "eps_specs_upload_owner",
+        "eps_specs_verify_owner"
+      ],
+      "table": "eps.media_assets",
+      "expression_sha256": "de483a342f799ca90ae848731be127b2a3711b7179349a8fdc5e6020f67ed0f7"
+    },
+    {
+      "command": "r",
+      "name": "support_asset_read",
+      "permissive": true,
+      "roles": [
+        "eps_support_upload_owner",
+        "eps_support_verify_owner"
+      ],
+      "table": "eps.media_assets",
+      "expression_sha256": "0ea4c80ff88ee20667373c240aeaff0499929f2dcab255b44021f88fc68bfcbd"
+    },
+    {
+      "command": "r",
+      "name": "logo_upload_api_read",
+      "permissive": true,
+      "roles": [
+        "eps_api_owner"
+      ],
+      "table": "eps.upload_sessions",
+      "expression_sha256": "c18baf9ccc1599d087a6425ec9bc53d1006de1ecd8ebf3a67458010f4e4e1890"
+    },
+    {
+      "command": "r",
+      "name": "logo_upload_verifier_read",
+      "permissive": true,
+      "roles": [
+        "eps_logo_verify_owner"
+      ],
+      "table": "eps.upload_sessions",
+      "expression_sha256": "c18baf9ccc1599d087a6425ec9bc53d1006de1ecd8ebf3a67458010f4e4e1890"
+    },
+    {
+      "command": "*",
+      "name": "candidate_owners_no_objects",
+      "permissive": false,
+      "roles": [
+        "eps_candidate_stage_owner",
+        "eps_candidate_assets_owner",
+        "eps_candidate_upload_owner"
+      ],
+      "table": "storage.objects",
+      "expression_sha256": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+    },
+    {
+      "command": "r",
+      "name": "eps_candidate_pending_info",
+      "permissive": true,
+      "roles": [
+        "authenticated"
+      ],
+      "table": "storage.objects",
+      "expression_sha256": "c46f50b598bd7d0cbd894c84c17ab9c44f5b368f75f52be38d2f1d93f30fa679"
+    },
+    {
+      "command": "r",
+      "name": "eps_candidate_read_guard",
+      "permissive": false,
+      "roles": [
+        "public"
+      ],
+      "table": "storage.objects",
+      "expression_sha256": "b89e15adb39c82be805e8993fb6e1b199f4abe073d93fb09cc07e5dfe52992c4"
+    },
+    {
+      "command": "r",
+      "name": "eps_candidate_service_read",
+      "permissive": true,
+      "roles": [
+        "anon"
+      ],
+      "table": "storage.objects",
+      "expression_sha256": "9ffcc15d094c501db0b5dacb9ee914dc4bc82bd8fa1f10576275c33f5526f91e"
+    },
+    {
+      "command": "r",
+      "name": "eps_candidate_user_read",
+      "permissive": true,
+      "roles": [
+        "authenticated"
+      ],
+      "table": "storage.objects",
+      "expression_sha256": "4cf197467747b63ab4b2700692ed9518d532d8a0f83e3a0989c0d5c5e6b53f6c"
+    },
+    {
+      "command": "*",
+      "name": "eps_cast_no_objects",
+      "permissive": false,
+      "roles": [
+        "eps_cast_owner"
+      ],
+      "table": "storage.objects",
+      "expression_sha256": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+    },
+    {
+      "command": "*",
+      "name": "eps_casting_no_objects",
+      "permissive": false,
+      "roles": [
+        "eps_casting_owner"
+      ],
+      "table": "storage.objects",
+      "expression_sha256": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+    },
+    {
+      "command": "*",
+      "name": "eps_jobs_no_objects",
+      "permissive": false,
+      "roles": [
+        "eps_jobs_owner",
+        "eps_jobs_dispatcher"
+      ],
+      "table": "storage.objects",
+      "expression_sha256": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+    },
+    {
+      "command": "r",
+      "name": "eps_logo_read",
+      "permissive": true,
+      "roles": [
+        "authenticated"
+      ],
+      "table": "storage.objects",
+      "expression_sha256": "5b2e3ea056e2bbcdf29821c657d9997e2c76cb73f749d73312eca2a7f4f39cdb"
+    },
+    {
+      "command": "r",
+      "name": "eps_logo_read_guard",
+      "permissive": false,
+      "roles": [
+        "authenticated"
+      ],
+      "table": "storage.objects",
+      "expression_sha256": "b95d1a54d8c9f7ed14a3e41d274f3cca8a87aaba6d2a1895ac7ceb09eaf631c2"
+    },
+    {
+      "command": "*",
+      "name": "eps_logo_verifier_no_storage",
+      "permissive": false,
+      "roles": [
+        "eps_logo_verify_owner"
+      ],
+      "table": "storage.objects",
+      "expression_sha256": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+    },
+    {
+      "command": "*",
+      "name": "eps_review_no_storage",
+      "permissive": false,
+      "roles": [
+        "eps_review_owner"
+      ],
+      "table": "storage.objects",
+      "expression_sha256": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+    },
+    {
+      "command": "*",
+      "name": "eps_review_stage_no_storage",
+      "permissive": false,
+      "roles": [
+        "eps_review_stage_owner"
+      ],
+      "table": "storage.objects",
+      "expression_sha256": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+    },
+    {
+      "command": "*",
+      "name": "eps_settings_no_storage",
+      "permissive": false,
+      "roles": [
+        "eps_settings_owner"
+      ],
+      "table": "storage.objects",
+      "expression_sha256": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+    },
+    {
+      "command": "r",
+      "name": "eps_specs_capability_read",
+      "permissive": true,
+      "roles": [
+        "anon"
+      ],
+      "table": "storage.objects",
+      "expression_sha256": "20f819f0ceb92b068be6344b9d19b7fde4844d2816092a8953eec117923c7ca8"
+    },
+    {
+      "command": "*",
+      "name": "eps_specs_no_objects",
+      "permissive": false,
+      "roles": [
+        "eps_specs_owner"
+      ],
+      "table": "storage.objects",
+      "expression_sha256": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+    },
+    {
+      "command": "r",
+      "name": "eps_specs_original_read",
+      "permissive": true,
+      "roles": [
+        "authenticated"
+      ],
+      "table": "storage.objects",
+      "expression_sha256": "743bd89c5821ba0de2d57bd432c27f9963dd6bb69cda5e1f47d9dd62d403649d"
+    },
+    {
+      "command": "*",
+      "name": "eps_specs_owners_no_objects",
+      "permissive": false,
+      "roles": [
+        "eps_specs_upload_owner",
+        "eps_specs_verify_owner",
+        "eps_specs_assets_owner"
+      ],
+      "table": "storage.objects",
+      "expression_sha256": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+    },
+    {
+      "command": "r",
+      "name": "eps_specs_read_guard",
+      "permissive": false,
+      "roles": [
+        "public"
+      ],
+      "table": "storage.objects",
+      "expression_sha256": "6ea6a14a40847852f0e92d6d410938aa18996a8e0fd13b73183276350b8063c2"
+    },
+    {
+      "command": "*",
+      "name": "eps_specs_submit_no_objects",
+      "permissive": false,
+      "roles": [
+        "eps_specs_submit_owner"
+      ],
+      "table": "storage.objects",
+      "expression_sha256": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+    },
+    {
+      "command": "r",
+      "name": "eps_support_read",
+      "permissive": true,
+      "roles": [
+        "authenticated"
+      ],
+      "table": "storage.objects",
+      "expression_sha256": "444c63dbbb827a24e7c784406e3c735896bde6388e4703663c784a150cb6452a"
+    },
+    {
+      "command": "r",
+      "name": "eps_support_read_guard",
+      "permissive": false,
+      "roles": [
+        "public"
+      ],
+      "table": "storage.objects",
+      "expression_sha256": "e4e752939ffa483b86802f927aaa505cf82b854a13f74bf83f8d4d38daefd26d"
+    },
+    {
+      "command": "r",
+      "name": "export_service_storage_read",
+      "permissive": true,
+      "roles": [
+        "anon"
+      ],
+      "table": "storage.objects",
+      "expression_sha256": "1981651d944f54d066ec221c717e85a2270b6f1504dd7c93e72c239b2a9bed85"
+    },
+    {
+      "command": "r",
+      "name": "m06_guest_storage_select",
+      "permissive": true,
+      "roles": [
+        "anon",
+        "authenticated"
+      ],
+      "table": "storage.objects",
+      "expression_sha256": "ae480f480b71053af7bf597ff6c59e98147771897224b3ab1a42bfe67ccf8b49"
+    },
+    {
+      "command": "r",
+      "name": "m06_internal_export_storage_select",
+      "permissive": true,
+      "roles": [
+        "authenticated"
+      ],
+      "table": "storage.objects",
+      "expression_sha256": "b8a7cc49491d7d29b8f26ab7c2e5385b92f65230f05e8a1d359a1df4a889c82d"
+    },
+    {
+      "command": "r",
+      "name": "presentation_output_read_guard",
+      "permissive": false,
+      "roles": [
+        "public"
+      ],
+      "table": "storage.objects",
+      "expression_sha256": "c248c50e0fde1cd0b1067dfdb86125883f6c81eb4ade40d644f3d4816ea11f7f"
+    },
+    {
+      "command": "r",
+      "name": "presentation_service_storage_read",
+      "permissive": true,
+      "roles": [
+        "anon"
+      ],
+      "table": "storage.objects",
+      "expression_sha256": "30e969deca5babdac5798ea75cc3b5212f1b6e212982138b94deb9125f4bba4b"
+    },
+    {
+      "command": "r",
+      "name": "presentation_user_storage_read",
+      "permissive": true,
+      "roles": [
+        "authenticated"
+      ],
+      "table": "storage.objects",
+      "expression_sha256": "3f3bbe78d8b2b1f89301bcf8c41b60f46569d96cf41f0d11f66e25d8296d8189"
+    },
+    {
+      "command": "*",
+      "name": "support_owners_no_objects",
+      "permissive": false,
+      "roles": [
+        "eps_support_upload_owner",
+        "eps_support_verify_owner"
+      ],
+      "table": "storage.objects",
+      "expression_sha256": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+    }
+  ],
+  "function_metadata": [
+    {
+      "owner": "eps_api_owner",
+      "security_definer": true,
+      "signature": "eps.logo_scope(uuid,boolean)",
+      "definition_sha256": "8ac3b35a5da232819275f87f8f82e7ede7c04ba6d3b977a015194e034af67f68"
+    },
+    {
+      "owner": "eps_api_owner",
+      "security_definer": true,
+      "signature": "eps.logo_storage_read_allowed(text,text)",
+      "definition_sha256": "5b446dedc187954e6c2029e8904e83859acfbe316562d4bd3791aa068f75e422"
+    },
+    {
+      "owner": "supabase_storage_admin",
+      "security_definer": false,
+      "signature": "storage.allow_only_operation(text)",
+      "definition_sha256": "a12f88ff4e00a9a63c24a93ea5b120e790be63a3555e840656c6525ff6dc0a85"
+    },
+    {
+      "owner": "supabase_storage_admin",
+      "security_definer": false,
+      "signature": "storage.operation()",
+      "definition_sha256": "45b3c213bf286ff7601da09fd91d246339d8c79e0bd573bfb6984d806841fcde"
+    }
+  ],
+  "known_failed_object": {
+    "exists": true,
+    "metadata_keys": [
+      "cacheControl",
+      "contentLength",
+      "eTag",
+      "httpStatusCode",
+      "lastModified",
+      "mimetype",
+      "size"
+    ],
+    "mime_matches": true,
+    "owner_matches_upload_principal": true,
+    "size_matches": true,
+    "version_present": true
+  },
+  "protected_definition_file": ".local/completion-release/logo-policy-f2f1685f-796e-44cb-b45d-1c813b3830c9/catalogue.json",
+  "secret_or_row_payload_recorded": false,
+  "auth_claims_impersonation_API_or_business_mutation_called": false
+}

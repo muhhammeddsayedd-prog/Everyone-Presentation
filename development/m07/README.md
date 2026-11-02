@@ -1,6 +1,35 @@
 # M07 implementation checkpoint
 
-## Current checkpoint - 2026-11-02T17:39:31.739426+00:00
+## Current checkpoint - 2026-11-02T18:14:44.064468+00:00
+
+Production web4fro now serves exact tested Main a5670eb / manifest92e1bb61
+(311 product files). Normal submission, two equal alias/direct Ready readbacks,
+the actual signed-in project page, Root993/types/lint/guard/build and all10
+fresh public admission checks passed. Main fbe2932 was pushed normally and
+independently matched; the repository remains private. Canonical40 is unchanged.
+WorkerCp/native46 remains the sole current instance; the fresh metadata read
+does not claim a new application heartbeat. New worker release/proof source is
+still disabled and being completed.
+
+One fresh approved31749-byte logo attempt b920c770 transferred, then complete409
+and cancel200. The closed trace proves UPLOAD_INCOMPLETE at download, Storage
+wire400/body404/NoSuchKey (requestaf393d93). The object later exists with matching
+size/MIME/owner; stored byte hash and the underlying cause remain unproved.
+The stale-record UI wording is a generic409 misclassification, now fixed and
+peer reviewed in a separate unreleased source change. Both actual failed
+attempts and blobs remain preserved; no further upload or policy change occurred.
+
+Samsung's three original failures plus the one60s low-effort timeout remain;
+the separate metadataGET200/914ms proves only model/auth transport at that time.
+An independent120s diagnostic is in source review, retaining the exact request
+and production validation while production60s/default70s cap stay unchanged.
+No new inference, performance migration, worker activation or generation retry
+has occurred. Folder/Narrator/owner MCP reports remain pending; contributor and
+mobile remain skipped. All valid recovery/guest/immutability evidence carries
+its original scope. AT069's historical policy rejection is unreplayed, and
+full M07/release acceptance remains false.
+
+## Historical checkpoint - 2026-11-02T17:39:31.739426+00:00
 
 Production web5A9e is Ready at the retained stable URL. The normal submission,
 two equal alias/direct readbacks and actual signed-in redesigned project page

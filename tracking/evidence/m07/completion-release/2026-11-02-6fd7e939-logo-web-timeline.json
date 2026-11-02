@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "purpose": "actual_logo_intake_4fro_request_timeline",
+  "observed_at": "2026-11-02T18:00:55.998641+00:00",
+  "result": "observed",
+  "deployment_id": "dpl_4fro7gR9EUhEQCzG4vavXevHgWVo",
+  "upload_id": "b920c770-550a-4cb0-a9de-4a85cca6a8a5",
+  "window": {
+    "start": "2026-11-02T17:59:40.000Z",
+    "end": "2026-11-02T18:00:20.000Z"
+  },
+  "source_sha256": "a42dd4f21f2e2da2583f9139cbd743e7063b40f11f954b266de89bc9dd012bf6",
+  "query_sha256": "870355c2705846eb5a177311f6b94083e64fb99670d390b9b5c8e0220c8b60a0",
+  "maximum_reads": 1,
+  "automatic_retry": false,
+  "exit_code": 0,
+  "timed_out": false,
+  "output_limit_exceeded": false,
+  "metadata": {
+    "requests": [
+      {
+        "observed_at": "2026-11-02T17:59:55.467000+00:00",
+        "platform_request_id": "mlzm4-1793642395467-f08b166b9b17",
+        "path": "/api/v1/uploads",
+        "method": "POST",
+        "http_status": 201
+      },
+      {
+        "observed_at": "2026-11-02T17:59:56.725000+00:00",
+        "platform_request_id": "pjvs9-1793642396725-9d1750d679c3",
+        "path": "/api/v1/uploads/b920c770-550a-4cb0-a9de-4a85cca6a8a5/complete",
+        "method": "POST",
+        "http_status": 409
+      },
+      {
+        "observed_at": "2026-11-02T17:59:57.227000+00:00",
+        "platform_request_id": "kxsdk-1793642397227-c112a53f7682",
+        "path": "/api/v1/uploads/b920c770-550a-4cb0-a9de-4a85cca6a8a5/cancel",
+        "method": "POST",
+        "http_status": 200
+      }
+    ],
+    "complete_page_for_exact_window": true
+  },
+  "messages_headers_bodies_tokens_credentials_or_private_URLs_selected_or_saved": false,
+  "upload_mint_retry_cancel_or_business_mutation_called": false
+}

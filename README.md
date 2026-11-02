@@ -1,9 +1,9 @@
 # Everyone Presentation Studio — Codex development pack
 
-Current 2026-11-02T17:39:31.739426+00:00. Production web5A9e now serves exact Main source7196d69 at the stable URL;
-canonical40 and workerCp/native46 remain active. Root988 deterministic tests,
-types/lint/guard/build and actual signed-in project readback passed. Samsung
-extraction and logo intake still fail within their recorded scopes; generation
+Current 2026-11-02T18:14:44+00:00. Production web4fro serves exact Main sourcea5670eb at the stable URL;
+canonical40 and workerCp/native46 remain active. Root993 deterministic tests,
+types/lint/guard/build, ten public checks and signed-in project readback passed.
+Samsung extraction and logo download404 remain unresolved; generation
 performance, folder and manual screen-reader acceptance remain open. Follow
 [the current handoff](tracking/HANDOFF.md) and
 [workflow matrix](tracking/evidence/m07/ACCEPTANCE_MATRIX.md). Full release
@@ -15,7 +15,7 @@ A complete initial specification for developing the presentation app end to end.
 
 **Resume from [tracking/HANDOFF.md](tracking/HANDOFF.md) and [PROGRESS.md](PROGRESS.md).** The original pack started without app code. Current implementation and actual service evidence are recorded there; no milestone or production acceptance is implied by this specification.
 
-**Current release checkpoint (2026-11-02):** production webB5L2/source1c72f2a,
+**Historical release checkpoint (2026-11-02, before web5A9e/4fro):** production webB5L2/source1c72f2a,
 workerCp/native46 and canonical40 are serving the redesigned app. Actual project
 creation and renewed Claude access passed their scoped readbacks. Direct Samsung
 PDF bytes/preparation passed; extraction timed out and remains under repair.
