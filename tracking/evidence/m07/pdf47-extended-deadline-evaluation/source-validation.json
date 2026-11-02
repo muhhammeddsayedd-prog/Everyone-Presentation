@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0",
+  "purpose": "disabled_pdf47_extended_deadline_evaluation_source",
+  "observed_at": "2026-11-02T18:17:00.185018+00:00",
+  "base_commit": "0031a9a2b1b54136ce525ef2759d890161a5bf9a",
+  "source_seals": {
+    "development/m07/pdf47-extended-deadline-evaluation/evaluate.mts": "2521a95b3dc3f991a9a21d36fae6b2f96694dbc2d2e4266ef4cede9333af1c64",
+    "development/m07/pdf47-extended-deadline-evaluation/evaluate.test.mts": "acd436931b4bf2e2c47dc401d5875db5af5d480102c3bd2f97cb8e4fef8a61fd",
+    "development/m07/pdf47-extended-deadline-evaluation/private_bridge.py": "6627a451e71d3b4f826bf1b5450cc3c21ddf809016be248a1382ada4baa61f4d",
+    "development/m07/pdf47-extended-deadline-evaluation/README.md": "34ac3b46fa09f60acf76bde0bb451a826f62df95161070b38c00147b185442b1",
+    "development/m07/pdf47-extended-deadline-evaluation/test_private_bridge.py": "696244db78f1acc273691103c4cc343c76215f5300ed4b43f3c4c7689c93b08b",
+    "development/m07/pdf47-extended-deadline-evaluation/transport.mts": "1d66e829c11b55320b2c2e1e331ae123b8ed6aad6b83c52172fe298c8db03a18",
+    "development/m07/pdf47-extended-deadline-evaluation/tsconfig.json": "e0b645393a266af822d22f129c5eb7961e2d7179c5866038d30591176dda050f"
+  },
+  "checks": {
+    "actual_sdk_fake_fetch_node": {
+      "tests": 10,
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0,
+      "raw_log_sha256": "c8edabda85016113e0d4c9881f647c69826b6174eb84e8d5c85dc937bbe75b32"
+    },
+    "pure_python": {
+      "tests": 5,
+      "passed": 5,
+      "failed": 0,
+      "raw_log_sha256": "72b460f7ce7e96afa97a7b2849ed972373f652802f1851e0cb51f398941208ab"
+    },
+    "scoped_types": {
+      "exit_code": 0,
+      "raw_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "scoped_lint": {
+      "exit_code": 0,
+      "raw_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "request": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "low",
+    "max_output_tokens": 16384,
+    "production_builder_validation_timeout_ms": 60000,
+    "production_cap_ms_unchanged": 70000,
+    "extended_transport_deadline_ms": 120000,
+    "sdk_retries": 0,
+    "maximum_provider_requests": 1,
+    "same_model_prompt_schema_input_store_tools_stream": true,
+    "production_builder_capture_zero_sdk": true,
+    "outbound_serialized_body_equal_to_capture": true,
+    "production_response_validator_rebuilt_request_equal": true
+  },
+  "custody": {
+    "new_private_namespace": ".local/pdf47-extended-deadline-evaluation/<run>",
+    "loader_hash_and_normal_path_verified_before_dynamic_import_and_credential_read": true,
+    "exclusive_permanent_dispatch_claim": true,
+    "response_private_before_validation": true,
+    "validated_output_private_separately": true,
+    "unknown_outcome_no_replay": true,
+    "result_receipt_written_once": true
+  },
+  "scope": {
+    "helper_enabled": false,
+    "bridge_enabled": false,
+    "provider_or_database_calls": 0,
+    "real_private_input_or_configuration_reads": 0,
+    "real_native_acl_operations": 0,
+    "old_source_or_claim_changed": false,
+    "existing_product_source_changed_by_this_purpose": false,
+    "job_outbox_or_writeback": false,
+    "factual_quality_or_whole_production_function_acceptance": false,
+    "build_or_deploy": false
+  },
+  "review_fix": {
+    "finding": "Loader must be verified before it executes or reads credentials.",
+    "resolution": "Fixed normal loader file, path and hash are checked before dynamic import/invocation; regression proves refusal precedes loader access.",
+    "prior_source_preparation_receipt_retained_ignored_sha256": "781ad319d8ede2e993a1f54cec4c323a25ac62a2785b6455eb8cc1ca3febd6d3"
+  },
+  "limitations": [
+    "Tests use the actual SDK with injected synthetic fetches and mocked timers; no paid evaluation has run.",
+    "The transport deadline of 120 seconds is independent of production extraction deadlines.",
+    "Source preparation is not n8n, job, factual-quality or production acceptance."
+  ],
+  "peer_review": {
+    "reviewer": "runtime_release",
+    "result": "closed_pass",
+    "independent_node_passed": 10,
+    "independent_python_passed": 5,
+    "loader_ordering_finding_resolved": true
+  }
+}
