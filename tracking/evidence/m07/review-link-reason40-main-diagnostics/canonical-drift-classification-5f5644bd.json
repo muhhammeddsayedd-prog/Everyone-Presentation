@@ -1,0 +1,122 @@
+{
+  "boundaries": {
+    "applyclaim_created": false,
+    "flags_changed": false,
+    "hash_ignore_or_rebase": false,
+    "migration_dispatched": false,
+    "new_source_or_SQL_guard_changes": false,
+    "normal_return_created": false,
+    "original_prepare_replayed": false,
+    "plan_created": false,
+    "provider_mutations": 0,
+    "second_metadata_query": false
+  },
+  "catalogue": {
+    "added_count": 17,
+    "added_keys": [
+      "functions|storage.enforce_versioning_status_transition()|acl",
+      "functions|storage.enforce_versioning_status_transition()|argument_defaults",
+      "functions|storage.enforce_versioning_status_transition()|config",
+      "functions|storage.enforce_versioning_status_transition()|definer",
+      "functions|storage.enforce_versioning_status_transition()|identity_arguments",
+      "functions|storage.enforce_versioning_status_transition()|kind",
+      "functions|storage.enforce_versioning_status_transition()|language",
+      "functions|storage.enforce_versioning_status_transition()|leakproof",
+      "functions|storage.enforce_versioning_status_transition()|owner",
+      "functions|storage.enforce_versioning_status_transition()|parallel",
+      "functions|storage.enforce_versioning_status_transition()|returns",
+      "functions|storage.enforce_versioning_status_transition()|source_sha256",
+      "functions|storage.enforce_versioning_status_transition()|strict",
+      "functions|storage.enforce_versioning_status_transition()|support",
+      "functions|storage.enforce_versioning_status_transition()|volatility",
+      "triggers|storage.buckets.enforce_versioning_status_transition|definition",
+      "triggers|storage.buckets.enforce_versioning_status_transition|enabled"
+    ],
+    "changed_keys": [],
+    "current_full_key_count": 20571,
+    "current_remaining_key_count": 20428,
+    "historical_full_key_count": 20555,
+    "historical_remaining_key_count": 20412,
+    "removed_count": 1,
+    "removed_keys": [
+      "constraints|storage.buckets.buckets_versioning_dark_check|definition"
+    ],
+    "retained_changed_count": 0,
+    "retained_equal_count": 20554
+  },
+  "failed_prepare_run": "8b166bbe-3ef9-4142-b3cc-99eb6d2eed02",
+  "identity": {
+    "additions_only_counterfactual": {
+      "count": 6441,
+      "sha256": "6aec85ba76194ad585acd3f874e3a8bc002f7546b40489068b0e680782ccc023"
+    },
+    "additions_only_reconstructs_historical": false,
+    "current_C_ASCII_key_order_digest_reproduced_from_PostgreSQL_per_row_hashes": true,
+    "current_aggregate": {
+      "count": 6443,
+      "sha256": "d49227164cdbe18aac92c2b9ac295365a9f22959c58f3b3b273123d91d8c6392"
+    },
+    "exact_two_new_identity_keys": [
+      "pg_proc:storage.enforce_versioning_status_transition()",
+      "pg_trigger:17268:enforce_versioning_status_transition"
+    ],
+    "existing_storage_buckets_relchecks_may_also_be_changed_by_drop_not_blanket_excluded": true,
+    "historical_aggregate": {
+      "count": 6442,
+      "sha256": "4c2f95e5b47e3567448f8bee52c0b656278e3ebfd8ce55f5656ed22aa0be7724"
+    },
+    "limitation": "The historical constraint was removed, so excluding additions alone cannot reconstruct the old full identity aggregate. No exact old raw constraint identity was found in the inspected anchors; full historical OID/row preservation is not inferred."
+  },
+  "next_action": "Root reviews these exact findings before any separately versioned finite compatibility qualification; existing guard remains a correct refusal against the original historical metadata anchor.",
+  "oauth": {
+    "conclusion": "Only the mutable consent ledger count explains base.oauth.sha256; all normalized static OAuth metadata is unchanged.",
+    "current_claims_count": 3,
+    "current_full_hash_matches": true,
+    "current_static_hash_matches": true,
+    "historical_claims_count": 2,
+    "historical_static_hash_matches": true,
+    "only_old_count_replacement_reconstructs_historical_full_hash": true,
+    "raw_Auth_rows_tokens_clients_or_principal_values_public": false
+  },
+  "purpose": "reason40_current_vs_historical_metadata_drift_classification",
+  "read_only_diagnostic": {
+    "SQL_sha256": "2a5d35b70267586f73a392c56f6d8797a8ecb72071c591991362165ab0ae3e04",
+    "helper": {
+      "path": ".local/completion-release/classify-reason40-metadata-readonly.py",
+      "sha256": "2d266f1a80e55c8e72b9591ec950a57ef0ac3788c4fb94c61db021b0b9e42728"
+    },
+    "historical_private_checkpoint": {
+      "catalogue_and_identity_hashes_match_historical39_anchor": true,
+      "path": ".local/completion-worker-production39/67305390-0d94-4896-b924-e11229400bb8/canonical39-checkpoint.json",
+      "sha256": "d50647eec503fe6672898deec2e4e19460432edd8a951397e37454c15d3ab88d",
+      "workspace": "Main"
+    },
+    "new_bounded_normal_CLI_metadata_queries": 1,
+    "normal_exit_code": 0,
+    "private_projection": {
+      "Main_guard_verified": true,
+      "contains_metadata_only_no_Auth_data_rows": true,
+      "path": ".local/review-link-reason40-canonical-release/8b166bbe-3ef9-4142-b3cc-99eb6d2eed02/metadata-drift-5f5644bd.json",
+      "sha256": "a2c057df01b12270ed4234b04af1b6a77fa1c025a242d716424165add949a182",
+      "workspace": "Main"
+    },
+    "read_only_rollback": true
+  },
+  "recorded_at": "2026-11-02T14:01:18.584988+00:00",
+  "result": "classified_with_historical_identity_reconstruction_limit",
+  "schema_version": "1.0",
+  "upstream_source_match": {
+    "exact_drop_constraint_function_trigger_object_set_matches": true,
+    "function_oid": "22000",
+    "git_blob_sha1": "d0e28135e866601b78de24dee901c026fcb4a2eb",
+    "inference": "Observed catalog delta matches the official managed Storage0074 migration. Actor and application time were not observed.",
+    "new_function_prosrc_exact_bytes_match": true,
+    "new_function_source_sha256": "7acc27abc9a7b7d0a54fe179f98c5297d34424207a635684c5ddaaa6597baf9e",
+    "sha256": "60fb345d3c03dd8a629a73aa6b296743a9c9f81887c9cc81af8fcf71d9994ec0",
+    "trigger_enabled": "O",
+    "trigger_function_oid_matches": true,
+    "trigger_oid": "22001",
+    "trigger_type_before_update_each_row": 19,
+    "url": "https://raw.githubusercontent.com/supabase/storage/master/migrations/tenant/0074-unlock-object-versioning.sql"
+  }
+}
