@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-11-02T03:08:02.726840+00:00",
+  "result": "passed",
+  "scope": "completed disabled OAuth coordinator with peer-reviewed fresh consent baseline and actual executed SDK binding; offline only",
+  "source_commit": "4b57e17814903dc68ae0a4cc5ad1020d17050526",
+  "supersedes_source_validation": "tracking/evidence/m07/temporary-oauth-lifecycle-coordinator/source-validation.json",
+  "historical_evidence_preserved": true,
+  "source_seal": {
+    "path": "tracking/evidence/m07/temporary-oauth-lifecycle-coordinator/source-seal-v2.json",
+    "sha256": "6a6c99df5a2361e9f6d4227d9968ebe246ca6ddb253340b6ce4f081d26293414",
+    "source_pins": 39,
+    "actual_import_identity_bound": true,
+    "executed_sdk_2_4_bytes_equal_Main": true
+  },
+  "new_live_flags_enabled": false,
+  "old_ten_helper_files_unchanged": true,
+  "real_provider_calls": 0,
+  "real_authorizations": 0,
+  "listeners_started": 0,
+  "canonical_mutations": 0,
+  "worker_graph_changes": 0,
+  "checks": [
+    {
+      "command": "node --test development/m07/temporary-oauth-lifecycle/coordinator.test.mjs",
+      "independently_executed_by": "frontend_integration",
+      "tests": 10,
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "reviewed_source_hashes": {
+        "coordinator.mjs": "dd3ca15da9ae8a25113fd1620fc7d04023da1f9a6e191ed12772e0a16bbe8e22",
+        "coordinator_bridge.py": "c8c251e5cdc2610a1c6754f146a4c07f644e93bb417dc70ee40cef57d274109d",
+        "coordinator.test.mjs": "b8b286e3b1ad0d99442bb217f69fc3a96ae9f6850c9ea6b4ab9c8d7d994fbcf2"
+      }
+    },
+    {
+      "command": ".venv-skills/Scripts/python.exe -X utf8 -B development/m07/temporary-oauth-lifecycle/test_coordinator_bridge.py",
+      "tests": 6,
+      "passed": 6,
+      "exit_code": 0,
+      "actual_synthetic_protected_journal_cycle_and_cleanup": true
+    },
+    {
+      "command": "eslint development/m07/temporary-oauth-lifecycle/coordinator.mjs development/m07/temporary-oauth-lifecycle/coordinator.test.mjs development/m07/temporary-oauth-lifecycle/coordinator_callback.mjs",
+      "exit_code": 0
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0
+    }
+  ],
+  "actual_disabled_cli": {
+    "action": "prepare",
+    "source_commit": "4b57e17814903dc68ae0a4cc5ad1020d17050526",
+    "exit_code": 1,
+    "expected_refusal": true,
+    "private_provider_or_phase_claim_access": false
+  },
+  "peer_review": {
+    "reviewed_commit": "4b57e17814903dc68ae0a4cc5ad1020d17050526",
+    "reviewer": "frontend_integration",
+    "remaining_concrete_blocking_defects": 0,
+    "no_private_native_or_provider_review_actions": true
+  },
+  "fixed_findings": [
+    {
+      "finding": "same-client unrelated session appearing between prepare and consent could be owned",
+      "regression_red": "late-session fixture returned authorized",
+      "green": "fresh full equal baseline within existing30s/1s policy required before claim/listener/exchange"
+    },
+    {
+      "finding": "Main-only SDK seals did not bind actual sibling import/transport bytes",
+      "green": "Node-resolved entry checked; actual package/declaration/index/auth/transport sealed equal Main, wrong entry or executed drift denied"
+    }
+  ],
+  "residual_boundary": "Coordinate against other new enrollment/sign-in during bounded consent window; existing same-session Claude reads/refresh permitted. No provider creation-time assumption or actual-Claude acceptance.",
+  "synthetic_private_run_directories_remaining": 0
+}
