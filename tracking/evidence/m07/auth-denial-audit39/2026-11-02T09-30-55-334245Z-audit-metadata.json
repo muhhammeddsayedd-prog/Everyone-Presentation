@@ -1,0 +1,39 @@
+{
+  "automatic_retry": false,
+  "cli_version": "2.122.0",
+  "exit_code": 0,
+  "guard_sha256": "660f2eb0d15b1ed17801ecef22270dbb389fdf93181c340f16d715fc2b3a340c",
+  "limits": [
+    "Audit action rows are not HTTP response receipts; absent status/code/request_id cannot reconstruct the original denial.",
+    "No raw Auth payloads, IP addresses, emails, tokens, session secrets or credential stores selected.",
+    "Optional database audit storage and asynchronous delivery limit conclusions from no matching rows.",
+    "No exposed Supabase connector or documented Auth-log subcommand found in pinned normal CLI help; no custom management transport or login introduced."
+  ],
+  "metadata": {
+    "count": 0,
+    "database": "postgres",
+    "history_count": 39,
+    "observed_at": "2026-11-02T09:30:55.017696+00:00",
+    "operator": "postgres",
+    "read_only": true,
+    "rows": [],
+    "truncated": false,
+    "window_end_exclusive": "2026-11-02T09:17:03Z",
+    "window_start": "2026-11-02T09:16:59Z"
+  },
+  "native_refresh_logout_or_denials_replayed": false,
+  "observed_at": "2026-11-02T09:30:55.333235+00:00",
+  "output_limit_exceeded": false,
+  "owned_session_identifier_printed_or_saved_in_receipt": false,
+  "protected_initial_metadata_sha256": "fcaeb5b42df75a567e42e178f166aa2c500548d5d8123b7be84d10586676bea1",
+  "raw_cli_persisted": false,
+  "read_only_rollback": true,
+  "reader_sha256": "1359373d078ee67d5dd644d1717a048f274c98f3617bb57c3668a45866c4c03c",
+  "result": "observed",
+  "schema_version": "1.0",
+  "scope": "fixed_read_only_Auth_audit_metadata_after_consumed_denials",
+  "source_sha256": "f4bb3eeb95001faa5ad8649b837a89e4a5f139650e6f823b7d106b254381e832",
+  "sql_sha256": "a99136f31532f4391bd9979eda67c1f8fd4ca7a9231d51a92acca05a62bd8397",
+  "timed_out": false,
+  "token_or_secret_or_raw_payload_read": false
+}
