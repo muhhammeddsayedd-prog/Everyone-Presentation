@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-11-02T10:30:39.591772+00:00",
+  "evidence_kind": "Root_actual_production_UI_same_intent_confirmation",
+  "deployment_id": "dpl_5sevM277cLpQZPJV1XkaJxhMLqpe",
+  "source_commit": "fdd0aba30fbff3ecebd4f29915bb8b74b143fea2",
+  "source_manifest_sha256": "f68d43576db9c530a54c85af960658d7115547d5c2c406d47ead8ed0a7d11bb1",
+  "readback": "tracking/evidence/m07/mcp-diagnostic-web-release/2026-11-02T10-21-25-065548Z-958dbf0e-7cf7-4288-9a97-c7f52e001523-readback.json",
+  "project_id": "6da14b82-8458-451f-aa21-28cb6c85bdc5",
+  "workspace_id": "86936940-b48d-497d-b1ff-8e0da0913afa",
+  "series_id": "93fb7425-7311-4b69-94cb-61588724c153",
+  "observed_window_UTC": [
+    "2026-11-02T10:21:00Z",
+    "2026-11-02T10:24:00Z"
+  ],
+  "action": "Confirm generation request",
+  "same_retained_intent_confirmed_once": true,
+  "new_request_or_key_created_by_Root": false,
+  "safe_visible_response": "Generation may have been accepted. Confirm the same request before starting another. Central presentation processing is unavailable (database code 57014).",
+  "database_code": "57014",
+  "database_condition": "query_canceled",
+  "official_code_reference": "https://www.postgresql.org/docs/17/errcodes-appendix.html",
+  "underlying_timeout_or_cancellation_cause": "not_yet_proven",
+  "native_database_error_message_observed": false,
+  "canonical_readback": "tracking/evidence/m07/presentation-cancel-audit39/2026-11-02T10-27-16-747287Z-cancellation-metadata.json",
+  "generation_fixed": false,
+  "another_generation_retry_performed": false,
+  "private_candidate_facts_frames_urls_tokens_or_keys_recorded": false
+}

@@ -1,5 +1,78 @@
 # Everyone Presentation Studio - current English-output rollout
 
+## Diagnostic web released; M07 remains in progress - 2026-11-02T10:30:39.591772+00:00
+
+https://everyone-presentation-pilot.vercel.app serves `dpl_5sevM277cLpQZPJV1XkaJxhMLqpe`,
+exact tested product `fdd0aba` / manifest `f68d4357`. The [normal deployment and equal Ready/alias/direct readbacks](tracking/evidence/m07/mcp-diagnostic-web-release/2026-11-02T10-21-25-065548Z-958dbf0e-7cf7-4288-9a97-c7f52e001523-readback.json) passed10:21:25UTC.
+All settings/environment metadata remained exact. No database, worker or native
+configuration changed. Initial unconfirmed readback is preserved. J3/c88 is the
+compatible rollback anchor; no rollback was executed. Main source checkpoint
+`d1e4559` was pushed to the private canonical repository and independently read back.
+
+The [fresh worker/DB read at10:13:53UTC](tracking/evidence/m07/completion-release/pre-diagnostic-web-worker-identity-958dbf0e.json) confirms sole workerCp,
+daemon2d66/native46/source056/manifest a317, schema39 and all five processing flags.
+Actual complete first-ten-minute startup remains23records. Cached health is not
+a fresh heartbeat. Canonical migration39 remains applied with its normal marker
+and equal readbacks; SQL40 is not applied. Native executable closures did not change.
+
+Safe MCP text errors and bounded SQL diagnostics are deployed. [Fresh verification](tracking/evidence/m07/completion-release/2026-11-02T10-00-21.237Z-bea51fe2-mcp-diagnostic-root-quality.json)
+passed968/968 deterministic tests, typecheck/lint/production guard on stable clean
+source; earlier generated next-env stability failure remains. The reviewed new
+release controller passed11 offline checks, then actual source scan/build/preflight.
+
+Root [confirmed the same retained generation intent once](tracking/evidence/m07/completion-release/diagnostic-generation-observation-958dbf0e.json); the actual UI
+response exposes57014 (`query_canceled`). [Canonical metadata](tracking/evidence/m07/presentation-cancel-audit39/2026-11-02T10-27-16-747287Z-cancellation-metadata.json) confirms
+zero new versions/render jobs and unchanged119/118 revisions. Configured8s timeouts
+support a hypothesis; original native cancellation message/historical lock state
+were not observed. No further generation retry was made. Both registered1.1.0
+series still have measured zero-overflow fits. Root is investigating narrow SQL
+scaling/RLS work, preserving inactive/history rows and all authorization boundaries.
+
+The corrected isolated SQL40 proof passed real reason/boundary/MAC/replay/race/
+session-media invalidation and exact old-row/resource cleanup checks. Earlier50f
+fixture failure and its corrected diagnosis remain preserved. Its additive
+canonical release and compatible parser remain separate, unmerged/unapplied.
+
+Temporary OAuth402 passed expired bearer401, one refresh/rotation/MCP read and
+native204 logout. Independent cleanup verified all original five sessions on
+three reads, owned session absent and refreshed bearer401 before expiry. No owned
+temporary access remains. Refresh-token denial phase is unconfirmed, not replayed;
+full protocol is not claimed. Product/history freeze ended after cleanup. Existing
+Claude's first request/token trace is separate; owner now has steps1-2 of the
+continuation for after-expiry/no-reconnect evidence and actual project MCP parity.
+
+The earlier bounded human production journey remains valid: real canonical
+Planned/Casting creation, central client writeback/restoration, controlled real
+three-stage specs processing, persisted library/frame/assignment/Main/Shortlist,
+both Ready outputs, independent downloaded PDFs/original video, v2 wording and
+exact historical Ready/Reviewed preservation. It does not replace the unfinished
+actual-Claude outputs or representative business accuracy. Independent synthetic39
+Storage/API restoration and native smoke retain their recorded scopes; canonical
+76-table checkpoint is a backup, not a private production restore claim.
+
+File-URL access was enabled; logo and document chooser hooks still timed out with
+zero files, and native picker fallback is unavailable. No upload was submitted by
+those attempts; direct file/folder/logo intake remains unverified. Guest nonzero
+exact-version delta/internal-note exclusion/lifecycle and actual manual AT072
+remain open. Contributor and mobile acceptance are skipped by owner, not passed.
+AT069 remains unreplayed under the recorded automatic-review rejection, reason
+only **blocked by policy**; no equivalent transport or rollback was substituted.
+
+[Reachable-history privacy inventory](tracking/evidence/m07/completion-release/2026-11-02-reachable-history-privacy-inventory.md)
+and the current fixed-family scan have separate scopes. Full public publication
+is not admitted while live-material provenance/consent/PII history is unresolved.
+The canonical repository stays private. Full M07/production acceptance is false.
+
+Next: prove/fix the generation cancellation locally before another retained-intent
+attempt, complete the separate additive SQL40 release, and finish the outstanding
+owner/guest/direct-intake/manual evidence. Preserve all source worktrees and claims.
+
+The dated checkpoints below are preserved history; the current checkpoint above governs serving state and next actions.
+
+## Historical checkpoint before diagnostic5sev release
+
+# Everyone Presentation Studio - current English-output rollout
+
 ## Production worker and web serving; M07 acceptance continues - 2026-11-02T10:02:28.642787+00:00
 
 The stable production alias https://everyone-presentation-pilot.vercel.app serves
