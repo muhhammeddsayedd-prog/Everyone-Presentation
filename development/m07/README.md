@@ -1,6 +1,27 @@
 # M07 implementation checkpoint
 
-## Current checkpoint - 2026-11-02T19:02:15Z
+## Current checkpoint - 2026-11-02T19:48:34Z
+
+Latest verified production remains web4fro/sourcea567, canonical40 and workerCp/native46.
+Root998 deterministic checks passed on c7f0cc2. New local native3d42 and daemonf846
+exports, private registry copies/two readbacks/Ready, and the actual native9-task/10-resource
+probe passed with cleanup ([artifact admission](../../tracking/evidence/m07/worker-source-identity-release/bbf4b5da-artifact-admission.json)).
+These artifacts are **not deployed**; the owned40 phase/lock/full76 proof is being finalized.
+
+The explicit test-profile duplicate decision saved once, with [canonical readback](../../tracking/evidence/m07/completion-release/2026-11-02-9d65cc8f-duplicate7be-readback.json).
+The Reviewed profile, old10 Ready versions/57slides/42pins remain exact. Folder10/one
+actual processed video, owner guest4/3 counts and Narrator/contributor/mobile skips retain
+their recorded scopes. No manual reader pass is claimed.
+
+Oracle continuation140b also failed57014, now in original candidate_media before the
+heavy partitions; [cleanup and original29/roles/lock passed](../../tracking/evidence/m07/presentation-lock-source-oracle-proof/140bda15-outcome.json).
+Its successor will cover all12 complete universes; no performance SQL or generation
+was released. Samsung60/120 failures are retained; a new one-call bounded streaming
+diagnostic is source-only/default-off. Logo owner diagnostic result is pending.
+Main66a3002 was pushed normally and matched private GitHub; later local commits are
+not claimed pushed. AT069 remains unreplayed. Full release acceptance remains false.
+
+## Historical checkpoint - 2026-11-02T19:02:15Z
 
 Production web **4fro / source a5670eb / manifest 92e1bb61** is serving;
 canonical40 and worker Cp/native46 are unchanged. [Normal Ready readbacks](../../tracking/evidence/m07/logo-failure-trace-web-release/2026-11-02T17-58-22-617365Z-a8890fe6-9fb0-4f92-8a2f-5d5a85abda11-readback.json)

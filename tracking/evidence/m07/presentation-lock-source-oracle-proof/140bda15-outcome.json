@@ -1,0 +1,239 @@
+{
+  "schema_version": "complete-snapshot-oracle-owned-run-safe-outcome.v1",
+  "run_id": "140bda15-6315-437b-9ccd-d41f5642be41",
+  "compile_uuid": "159b73d9-f21a-468a-890f-e7befb9333ac",
+  "receipt": "tracking/evidence/m07/presentation-lock-source-oracle-proof/2026-11-02T19-23-47.240Z-140bda15.json",
+  "receipt_sha256": "38f1f3b2919adf1ae4481900ed667196abbe9d4780cb7fb5bb19eb2db44d21ea",
+  "normal_process_exit": 1,
+  "result": "failed",
+  "checkpoint": "pool-proof-semantic-baseline",
+  "observed_at": "2026-11-02T19:23:47.240Z",
+  "finished_at": "2026-11-02T19:25:39.448Z",
+  "elapsed_ms": 112208,
+  "closed_final_failure_code": "LOCKSOURCE41_COMMAND_FAILED",
+  "first_native_error_capture": {
+    "phase": "owned_request",
+    "request_sha256": "ae814144ce2dec8eca1023bfade553162165ea0ab600867c2eb885420b769f81",
+    "native_sqlstate": "57014",
+    "native_sqlstate_provenance": "first_verbose_psql_ERROR_line",
+    "private_capture_normal_return": true
+  },
+  "actual_native_oracle_error": {
+    "private_capture_sha256": "4f3941a0ba76f62c84041c33acca16d3bcf62e4d5ff77aba7ea31b6af524a972",
+    "sqlstate": "57014",
+    "explicit_statement_timeout": true,
+    "explicit_lock_timeout": false,
+    "safe_context_stack": [
+      {
+        "function": "jwt",
+        "line": null
+      },
+      {
+        "function": "mcp_claim_uuid",
+        "line": null
+      },
+      {
+        "function": "public.eps_validate_own_oauth_session",
+        "line": 24
+      },
+      {
+        "function": "eps.mcp_token_permits_capability",
+        "line": 4
+      },
+      {
+        "function": "has_capability",
+        "line": null
+      },
+      {
+        "function": "project_scope",
+        "line": null
+      },
+      {
+        "function": "review_scope",
+        "line": null
+      },
+      {
+        "function": "pg_temp_68.pool_proof_cohort",
+        "line": 39
+      }
+    ],
+    "private_raw_capture_copied_or_printed": false,
+    "physical_plan_or_per_node_time_known": false
+  },
+  "prior_timing_evidence": {
+    "path": "tracking/evidence/m07/presentation-lock-source-pool-proof/2026-11-02T18-53-13.327Z-c2f4fe15.json",
+    "sha256": "6db69c2ce69a6491e7b144057d33545ea6cb58c95fcc18eaded65d48244c0187",
+    "scope": "retained actual isolated helper first8/warm8 only; original oracle failed57014; no full acceptance",
+    "fresh_timing_claim": false
+  },
+  "fresh_timing_matrix_executed": false,
+  "semantic": [
+    {
+      "name": "baseline",
+      "helper": {
+        "ok": true,
+        "role": "eps_review_owner",
+        "duration_ms": 6529.016
+      },
+      "tuples": {
+        "captured_pool_count": 11,
+        "old_tuple_count": 11,
+        "new_tuple_count": 11,
+        "old_tuple_sha256": "8809c4dbd8148f46686c5816866c953917d8db7e954e65099dab59f72db6916b",
+        "new_tuple_sha256": "8809c4dbd8148f46686c5816866c953917d8db7e954e65099dab59f72db6916b"
+      },
+      "held": {
+        "relations": [
+          {
+            "relation": "public.projects",
+            "normal_return": true,
+            "selected_rows": 1,
+            "held_rows": 1,
+            "rowset_sha256": "52e63486179afd5c03c955dd75895b2a4b19a11afab18daf9d9c7f5d444ad643"
+          },
+          {
+            "relation": "public.clients",
+            "normal_return": true,
+            "selected_rows": 0,
+            "held_rows": 0,
+            "rowset_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          {
+            "relation": "eps.presentation_templates",
+            "normal_return": true,
+            "selected_rows": 1,
+            "held_rows": 1,
+            "rowset_sha256": "ca4f0da0009ecaa8e9aeebe525f3c270e858b039b63efdeca9fcc0a50a9a753c"
+          },
+          {
+            "relation": "eps.specs",
+            "normal_return": true,
+            "selected_rows": 1,
+            "held_rows": 1,
+            "rowset_sha256": "30f96e0899ff5562f71b57e0edc95eea2eaf8826ae85ef407a694169b854178b"
+          },
+          {
+            "relation": "eps.roles",
+            "normal_return": true,
+            "selected_rows": 2,
+            "held_rows": 2,
+            "rowset_sha256": "7bac888083b9d737c9bcd191b95f75d91933ff31644d0dc9eaf85320ba221c8f"
+          },
+          {
+            "relation": "eps.slots",
+            "normal_return": true,
+            "selected_rows": 16,
+            "held_rows": 16,
+            "rowset_sha256": "d19b5bdab9597de3b2fa5322ac6c857c89e3c0ccd7ff17beafce499621d52b0c"
+          },
+          {
+            "relation": "eps.assignments",
+            "normal_return": true,
+            "selected_rows": 19,
+            "held_rows": 19,
+            "rowset_sha256": "c370a9673eb4f3a3e75a580328c42dca6aeb5932273a037887d0e0b0a633d41d"
+          },
+          {
+            "relation": "eps.workspace_candidates",
+            "normal_return": true,
+            "selected_rows": 11,
+            "held_rows": 11,
+            "rowset_sha256": "e65ee7a02275d86647e0a70fcb0ecd22ce38acfacf4c499c0c3b51af586fbb11"
+          },
+          {
+            "relation": "eps.candidates",
+            "normal_return": true,
+            "selected_rows": 11,
+            "held_rows": 11,
+            "rowset_sha256": "4fd81da64bbb1f410852d82c0951434adfccab77b65b5cc71967ec4ced64a547"
+          },
+          {
+            "relation": "eps.candidate_media",
+            "normal_return": false,
+            "selected_rows": null,
+            "held_rows": 0,
+            "error": {
+              "sqlstate": "57014",
+              "provenance": "first_verbose_psql_ERROR_line",
+              "application_code": null
+            },
+            "private_error": {
+              "private_file": "case-oracle_eps_candidate_media-error.json",
+              "normal_return": true
+            }
+          }
+        ],
+        "negatives": [],
+        "oracle_snapshot": "repeatable_read_read_only",
+        "partitioned_oracle": {
+          "chunk_size": 16,
+          "complete_global_primary_key_snapshot": true,
+          "same_connection_required": true,
+          "identity_checks": 20,
+          "universes": {
+            "eps.media_assets": {
+              "rows": 501,
+              "sha256": "aae45a64cc86f3689a5b8c604205918f1401a74a1ac66be993b7020d1c48f785",
+              "chunks": 32
+            },
+            "eps.candidate_media_frames": {
+              "rows": 328,
+              "sha256": "2de08e9b2fdb521090348abad0534950bf73fcd12d5ce577fdb54834cd2ca9ed",
+              "chunks": 21
+            }
+          },
+          "relations": [],
+          "trusted_pid": 743,
+          "snapshot_sha256": "180046ea6363df7b22d3d5d35e58f2415739766777508955dbd8d6e3f46ec0e9"
+        }
+      },
+      "error": {
+        "sqlstate": "57014",
+        "provenance": "first_verbose_psql_ERROR_line",
+        "application_code": null
+      },
+      "private_error": {
+        "private_file": "case-semantic_baseline-error.json",
+        "normal_return": true
+      },
+      "rolled_back": true
+    }
+  ],
+  "not_reached": [
+    "complete_candidate_media_oracle",
+    "media_assets_and_frame_partitions",
+    "unselected_negative_probes",
+    "empty_assignment_edge",
+    "archived_pool_edge",
+    "missing_frame_pair_edge",
+    "cross_workspace_FK_cases",
+    "workspace_fence_race",
+    "live_authority_races",
+    "final_owned_clone_equality_and_source_restore"
+  ],
+  "four_body_generation_provider_or_release_acceptance": false,
+  "cleanup": {
+    "all_owned_resources_absent": true,
+    "independent_successful_daemon_label_inventories_empty": true,
+    "original_data_catalogue_and_global_roles_unchanged": true,
+    "shared_lock_released": true
+  },
+  "independent_postreturn_same_engine_label_inventories": [
+    {
+      "kind": "ps",
+      "normal_exit": 0,
+      "empty": true,
+      "stderr_empty": true
+    },
+    {
+      "kind": "volume",
+      "normal_exit": 0,
+      "empty": true,
+      "stderr_empty": true
+    }
+  ],
+  "fresh_shared_lock_exists": false,
+  "permanent_compile_claim_retained": true,
+  "automatic_retry": false,
+  "source_or_threshold_changes": false
+}

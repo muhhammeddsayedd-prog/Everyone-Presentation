@@ -1,6 +1,13 @@
 # Everyone Presentation Studio — Codex development pack
 
-Current checkpoint - 2026-11-02T19:02:15Z. Production **4fro/sourcea567/manifest92e1**,
+Current checkpoint - 2026-11-02T19:48:34Z. New native3d42/daemonf846 exports,
+private registry Ready and native9-task/10-resource cleanup passed; they are not
+deployed. Root998 and actual duplicate-resolution readback passed. Production
+remains4fro/canonical40/Cp46. Generation, logo and Samsung work remains open;
+full release acceptance is false. Narrator/contributor/mobile are skipped.
+See [the current handoff](tracking/HANDOFF.md).
+
+Historical checkpoint - 2026-11-02T19:02:15Z. Production **4fro/sourcea567/manifest92e1**,
 canonical40 and worker Cp/native46 are serving. The owner guest/MCP report is
 recorded; Narrator is explicitly skipped, not passed. Ten folder files were
 queued and one 4,316,429-byte video completed real provider processing. Samsung's

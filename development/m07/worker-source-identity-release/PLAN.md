@@ -1,5 +1,13 @@
 # First release of separate worker source identities
 
+Current 2026-11-02T19:48:34Z: runbbf4b5da passed both local exports, private
+registry copies/readbacks/Ready and admitted native9-task/10-resource cleanup.
+Build/registry/probe were deliberately armed; consumed claims remain. Production
+controller/startup remain disabled; no production SQL/env/worker deployment occurred.
+See [artifact admission](../../../tracking/evidence/m07/worker-source-identity-release/bbf4b5da-artifact-admission.json).
+
+The preparation text below is historical.
+
 Status: source-only preparation, all execution disabled. No final Main archive,
 context, image, native probe, environment action, SQL transaction or deployment
 has been created for this purpose. Main product source is still being finalized.

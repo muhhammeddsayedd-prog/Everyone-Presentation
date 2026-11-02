@@ -1,5 +1,13 @@
 # Implemented first-release operations
 
+Current 2026-11-02T19:48:34Z: runbbf4b5da passed both local exports, private
+registry copies/readbacks/Ready and admitted native9-task/10-resource cleanup.
+Build/registry/probe were deliberately armed; consumed claims remain. Production
+controller/startup remain disabled; no production SQL/env/worker deployment occurred.
+See [artifact admission](../../../tracking/evidence/m07/worker-source-identity-release/bbf4b5da-artifact-admission.json).
+
+The preparation text below is historical.
+
 All five execution flags are false. No source archive, input profile, stage,
 image, registry copy, native task, SQL phase or deployment exists for this new
 purpose. The code is ready for source review. Root can arm and run the local
