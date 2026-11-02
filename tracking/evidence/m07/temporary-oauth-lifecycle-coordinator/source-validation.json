@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-11-02T02:39:50.267188+00:00",
+  "result": "passed",
+  "scope": "concrete disabled operator-session OAuth coordinator; offline source/native bridge validation only",
+  "source_commit": "d444ae07b0b35f77f9186ab8aaec730bbb34e70b",
+  "source_seal": {
+    "path": "tracking/evidence/m07/temporary-oauth-lifecycle-coordinator/source-seal.json",
+    "sha256": "4c54173ada8ea43f911d21137697da1f76e7ba03b4fe4afb79f2d92bbb243c32",
+    "pins": 31
+  },
+  "new_live_flags": {
+    "coordinator.mjs": false,
+    "coordinator_bridge.py": false,
+    "coordinator_callback.mjs": false
+  },
+  "old_ten_helper_sources_unchanged": true,
+  "provider_calls": 0,
+  "listeners_started": 0,
+  "authorization_flows_started": 0,
+  "real_credentials_used": false,
+  "worker_graph_mutated": false,
+  "canonical_database_mutated": false,
+  "checks": [
+    {
+      "command": "node --test development/m07/temporary-oauth-lifecycle/coordinator.test.mjs",
+      "exit_code": 0,
+      "tests": 8,
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "command": ".venv-skills/Scripts/python.exe -X utf8 -B development/m07/temporary-oauth-lifecycle/test_coordinator_bridge.py",
+      "exit_code": 0,
+      "tests": 5,
+      "passed": 5,
+      "actual_synthetic_Win32_journal_acl_and_cleanup": true
+    },
+    {
+      "command": "eslint development/m07/temporary-oauth-lifecycle/coordinator.mjs development/m07/temporary-oauth-lifecycle/coordinator.test.mjs development/m07/temporary-oauth-lifecycle/coordinator_callback.mjs",
+      "exit_code": 0
+    },
+    {
+      "command": "node --check development/m07/temporary-oauth-lifecycle/coordinator.mjs",
+      "exit_code": 0
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0
+    }
+  ],
+  "actual_disabled_CLI": {
+    "command": "node development/m07/temporary-oauth-lifecycle/coordinator.mjs prepare 77777777-7777-4777-8777-777777777777",
+    "expected_exit_code": 1,
+    "observed_exit_code": 1,
+    "closed_error": "TEMP_OAUTH_COORDINATOR_UNCONFIRMED",
+    "private_or_provider_access": false,
+    "phase_claim_created": false
+  },
+  "earlier_source_only_seal_refusal": {
+    "source_commit": "e20655b1d19399b6fdc0534cce7d99b383f37399",
+    "stage": "native_port_environment_admission_before_child",
+    "guarded_environment_name": "DEBUG",
+    "environment_value_read_or_logged": false,
+    "private_or_provider_access": false,
+    "forward_fix_commit": "d444ae07b0b35f77f9186ab8aaec730bbb34e70b",
+    "regression": "RED constructor refusal; GREEN source-only seal permitted while private/live operations still reject diagnostic environment"
+  },
+  "acceptance_boundary": {
+    "complete_coordinator_source": true,
+    "genuine_owner_consent": false,
+    "live_rotation_or_revocation": false,
+    "actual_Claude_acceptance": false,
+    "no_broad_product_reruns": true
+  },
+  "synthetic_private_run_directories_remaining": 0
+}
