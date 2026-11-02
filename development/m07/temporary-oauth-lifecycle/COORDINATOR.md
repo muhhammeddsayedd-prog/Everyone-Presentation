@@ -62,6 +62,10 @@ refuse before private/provider access. Arming later requires only the **new**
 flags in `coordinator.mjs`, `coordinator_bridge.py` and
 `coordinator_callback.mjs`; the frozen old callback/metadata flags stay false.
 Root must approve the armed source pins before private inputs are created.
+Live commands require the normal clean child environment: debug/Node injection,
+TLS overrides and credential-routing environment overrides are refused before
+private access. The code-only `seal` tolerates a shell diagnostic DEBUG setting;
+its Python child still receives only the explicit safe environment whitelist.
 
 `prepare` permanently claims the new purpose, verifies admission and saves
 immutable discovery/JWKS/original session inventory. `authorize` additionally

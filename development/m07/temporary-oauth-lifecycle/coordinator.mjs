@@ -111,9 +111,10 @@ export class Coordinator{
 }
 
 export function nativePorts(run){
- for(const key of['DEBUG','NODE_DEBUG','NODE_DEBUG_NATIVE','NODE_OPTIONS','NODE_TLS_REJECT_UNAUTHORIZED','NODE_EXTRA_CA_CERTS','SUPABASE_ACCESS_TOKEN','SUPABASE_DB_PASSWORD','VERCEL_TOKEN','DATABASE_URL','PGPASSWORD'])need(!process.env[key]);
+ const requireCleanEnvironment=()=>{for(const key of['DEBUG','NODE_DEBUG','NODE_DEBUG_NATIVE','NODE_OPTIONS','NODE_TLS_REJECT_UNAUTHORIZED','NODE_EXTRA_CA_CERTS','SUPABASE_ACCESS_TOKEN','SUPABASE_DB_PASSWORD','VERCEL_TOKEN','DATABASE_URL','PGPASSWORD'])need(!process.env[key]);};
  const environment=Object.fromEntries(['PATH','PATHEXT','COMSPEC','SystemRoot','WINDIR','USERPROFILE','APPDATA','LOCALAPPDATA','HOMEDRIVE','HOMEPATH','TEMP','TMP','LANG'].filter(key=>process.env[key]!==undefined).map(key=>[key,process.env[key]]));
  const bridge=async(operation,value={})=>new Promise((resolve,reject)=>{
+  if(operation!=='seal')requireCleanEnvironment();
   const child=spawn(path.join(ROOT,'.venv-skills/Scripts/python.exe'),['-X','utf8','-B',path.join(HERE,'coordinator_bridge.py')],{cwd:ROOT,env:environment,windowsHide:true,shell:false,stdio:['pipe','pipe','pipe']});let output='',errorBytes=0,failed=false;const timer=setTimeout(()=>{failed=true;child.kill();},90000);
   child.on('error',()=>{failed=true;});child.stdout.on('data',raw=>{output+=raw;if(Buffer.byteLength(output)>2*1024*1024){failed=true;child.kill();}});child.stderr.on('data',raw=>{errorBytes+=raw.length;if(errorBytes>65536){failed=true;child.kill();}});child.stdin.on('error',()=>{failed=true;});
   child.on('close',code=>{clearTimeout(timer);try{need(!failed&&code===0);const result=JSON.parse(output);need(exact(result,['ok','value'])&&result.ok===true);resolve(result.value);}catch{reject(Error('TEMP_OAUTH_PRIVATE_BRIDGE_UNCONFIRMED'));}});child.stdin.end(JSON.stringify({operation,...(operation==='seal'?{}:{run}),...value}));

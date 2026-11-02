@@ -1,10 +1,11 @@
 /** Full coordinator offline: real SDK+JOSE, synthetic HTTP, in-memory durable ports. */
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
+import process from 'node:process';
 import { test } from 'node:test';
 import { URL,URLSearchParams } from 'node:url';
 import { decodeJwt,exportJWK,generateKeyPair,SignJWT } from 'jose';
-import { Coordinator,live,LIVE_ENABLED } from './coordinator.mjs';
+import { Coordinator,live,LIVE_ENABLED,nativePorts } from './coordinator.mjs';
 import * as core from './core.mjs';
 import { ownerCallback as disabledOwnerCallback,LIVE_ENABLED as CALLBACK_ENABLED } from './coordinator_callback.mjs';
 const {Response,Headers}=globalThis;
@@ -51,6 +52,9 @@ function harness(){
 }
 
 test('disabled public live entry and new callback refuse before private/provider/listener ports',async()=>{assert.equal(LIVE_ENABLED,false);assert.equal(CALLBACK_ENABLED,false);let reads=0;await assert.rejects(()=>live('prepare',randomUUID(),{context:async()=>{reads++;}}),/TEMP_OAUTH_COORDINATOR_REFUSED/u);assert.equal(reads,0);await assert.rejects(()=>disabledOwnerCallback({claim:async()=>{reads++;}}),/TEMP_OAUTH_OWNER_CALLBACK_REFUSED/u);assert.equal(reads,0);});
+test('source-only port construction tolerates shell DEBUG while every private/live operation still refuses',async()=>{
+ const original=process.env.DEBUG;process.env.DEBUG='synthetic_source_test';try{const ports=nativePorts('');await assert.rejects(()=>ports.context(),/TEMP_OAUTH_COORDINATOR_REFUSED/u);}finally{if(original===undefined)delete process.env.DEBUG;else process.env.DEBUG=original;}
+});
 test('complete coordinator uses actual SDK/JOSE through expiry/rotation/read/local logout/denials without secret output',async()=>{
  const h=harness(),results=[];results.push(await h.ready());assert.equal(results[0].result,'authorized');assert.equal(h.counts.exchange,1);
  const waiting=await h.controller.execute('expiry');assert.equal(waiting.result,'waiting');assert(!h.files.has('expiry.claim'));h.advance();results.push(await h.controller.execute('expiry'));assert.equal(results[1].result,'expired_bearer_denied');
