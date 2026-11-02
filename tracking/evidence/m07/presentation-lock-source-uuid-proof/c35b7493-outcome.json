@@ -1,0 +1,190 @@
+{
+  "schema_version": "UUID-qualified-remaining-RC-actual-outcome.v1",
+  "observed_at": "2026-11-02T22:03:25.558377+00:00",
+  "actual_runtime_uuid": "c35b7493-c72c-4e14-9002-de2c726e58e4",
+  "compile_uuid": "acf7cd75-7ad6-4bdc-b02c-63f914170b22",
+  "normal_process_exit_code": 0,
+  "result": "passed",
+  "elapsed_ms": 83627,
+  "checkpoint": "complete",
+  "actual_receipt": {
+    "path": "tracking/evidence/m07/presentation-lock-source-uuid-proof/2026-11-02T22-00-11.340Z-c35b7493.json",
+    "sha256": "1c73ede315fc040dc9a5080209307b7ed7380dd292dc25831fd66ab95768e632"
+  },
+  "pure_namespace_qualification": {
+    "schema_version": "pure-public-UUID-fixture-qualification.v1",
+    "criterion": "ONLY canonical UUID validity of unchanged first public assignment slot_id and workspace_candidate_id",
+    "attempt_cap": 4096,
+    "attempt_count": 26,
+    "rejected_namespace_count": 25,
+    "selection_before_database_or_claim": true,
+    "outcome_or_timing_observed": false,
+    "source_rows_or_SQL_changed": false,
+    "first_slot_index": 1,
+    "first_pool_index": 7,
+    "slot_sha256": "a7aad919a2c67b5ef73a3e7eb4d92be39d3f683936727758d64c9d4144ffa8c0",
+    "pool_sha256": "6c3a38e5d0e6c2b34f79d38578345ae0a34d5d79b8ebe63e0bd844a60f172a16",
+    "slot_domain_UUID_valid": true,
+    "pool_domain_UUID_valid": true
+  },
+  "fresh_actual_workspace_fence": {
+    "actual_distinct_pid_wait": true,
+    "normal_public_mutation_return": true,
+    "writer_rolled_back": true,
+    "helper": {
+      "ok": true,
+      "role": "eps_review_owner",
+      "duration_ms": 6643.659
+    },
+    "assignment_id_sha256": "1841505cb807e712f398072871206e6b4c328ff518220e94e77c68795bb80d02"
+  },
+  "fresh_actual_authority_cases": [
+    {
+      "case": "membership",
+      "actual_relation_wait": true,
+      "authority_changed": true,
+      "authority_restored": true,
+      "expected_denial": true,
+      "database_clock_expired": null,
+      "preimage_sha256": "643f4d0f5ec75c55d4591eb8e959c1f44559544147ea79546d639f24181fa058",
+      "error": {
+        "sqlstate": "P0001",
+        "provenance": "first_verbose_psql_ERROR_line",
+        "application_code": "RESOURCE_NOT_FOUND"
+      },
+      "private_error": {
+        "private_file": "case-authority_membership-error.json",
+        "normal_return": true
+      }
+    },
+    {
+      "case": "capability",
+      "actual_relation_wait": true,
+      "authority_changed": true,
+      "authority_restored": true,
+      "expected_denial": true,
+      "database_clock_expired": null,
+      "preimage_sha256": "f69e56f1c3620022a054e9224ea1944a101dc17553a6fb920f8260b89ff888e7",
+      "error": {
+        "sqlstate": "P0001",
+        "provenance": "first_verbose_psql_ERROR_line",
+        "application_code": "RESOURCE_NOT_FOUND"
+      },
+      "private_error": {
+        "private_file": "case-authority_capability-error.json",
+        "normal_return": true
+      }
+    },
+    {
+      "case": "expiry",
+      "actual_relation_wait": true,
+      "authority_changed": false,
+      "authority_restored": false,
+      "expected_denial": true,
+      "database_clock_expired": true,
+      "preimage_sha256": null,
+      "error": {
+        "sqlstate": "P0001",
+        "provenance": "first_verbose_psql_ERROR_line",
+        "application_code": "RESOURCE_NOT_FOUND"
+      },
+      "private_error": {
+        "private_file": "case-authority_expiry-error.json",
+        "normal_return": true
+      }
+    }
+  ],
+  "source_and_baseline_restoration": {
+    "completed_RLS_and_cross_FK_carried_not_replayed": true,
+    "remaining_semantics_and_security_completed": true,
+    "restored_helper_source_sha256": "4107c87b1a51d2c5ed506a64c81378026068406a5136b202779767efb30264e7",
+    "original_lock_and_four_preceding_bodies_restored": true,
+    "full_fresh_data_catalogue_reason_ready_auth_preserved": true,
+    "original_presentation_configuration_restored": true
+  },
+  "carried_dated_evidence_not_replayed": {
+    "schema_version": "edge-rls-dated-carry.v1",
+    "receipt": "tracking/evidence/m07/presentation-lock-source-complete-oracle-proof/2026-11-02T20-33-12.340Z-39386edd.json",
+    "receipt_sha256": "f5de1993783c8c3f4e618189091291ea905bd34839effd088af59e403d477cac",
+    "observed_at": "2026-11-02T20:33:12.340Z",
+    "result": "partial_pass_from_failed_run",
+    "helper_sha256": "280244090e5350b912dec5b23b74bb5d260e9e21df497c8ddfc2ae322fb774c4",
+    "complete_oracle_relations": 12,
+    "held_selected_rows": 150,
+    "unselected_negatives": 8,
+    "total_universe_keys": 1637,
+    "carried_RR_cases": [
+      "baseline",
+      "empty_assignments",
+      "referenced_archived_pool"
+    ],
+    "fourth_case_tuple_equality_only": true,
+    "failed_assertion_retained": {
+      "case": "missing_selected_pair",
+      "found": true,
+      "locked": false
+    },
+    "fresh_oracle_or_benchmark_replay": false,
+    "RC_fence_authority_expiry_not_carried": true,
+    "whole_generation_or_four_body_acceptance": false,
+    "additional_dated278": {
+      "receipt": "tracking/evidence/m07/presentation-lock-source-edge-rls-proof/2026-11-02T21-26-58.893Z-278a260d.json",
+      "receipt_sha256": "338cb6dd81a9572d9d5811367a3ffe6b6dd49f73d64617d83297bcbc3c07a75b",
+      "observed_at": "2026-11-02T21:26:58.893Z",
+      "result": "dated_partial_PASS_from_failed_run",
+      "four_RLS_controls": true,
+      "cross_workspace_FK": true,
+      "remaining_RC_fence_membership_capability_expiry_not_carried": true,
+      "final_clone_restoration_not_carried": true,
+      "replayed": false
+    },
+    "fresh_fixture_counts_equal": true,
+    "cross_run_business_hash_equality_claimed": false,
+    "fresh_runtime_namespace_qualified_only_for_canonical_public_inputs": true
+  },
+  "fresh_baseline_summary": {
+    "tables": 87,
+    "ready_versions": 13,
+    "pins": 60,
+    "reason_nonnull_rows": 1,
+    "baseline_sha256": "63b43ef8a1f1e5188c5e98c91215175b58d2d362b678228e439bc793ac2a3af3"
+  },
+  "cleanup": {
+    "all_owned_resources_absent": true,
+    "original_data_catalogue_and_global_roles_unchanged": true,
+    "shared_lock_released": true,
+    "independent_successful_daemon_label_inventories_empty": true
+  },
+  "independent_same_engine_readback": {
+    "engine": "npipe:////./pipe/dockerDesktopLinuxEngine",
+    "label": "eps.uuidproof.run=c35b7493-c72c-4e14-9002-de2c726e58e4",
+    "container_inventory": {
+      "normal_exit_code": 0,
+      "stdout_empty": true,
+      "stderr_empty": true
+    },
+    "volume_inventory": {
+      "normal_exit_code": 0,
+      "stdout_empty": true,
+      "stderr_empty": true
+    },
+    "fresh_shared_lock_exists": false
+  },
+  "final_Main_flag_only_closure": {
+    "path": "development/m07/presentation-lock-source-uuid-proof/entry.mjs",
+    "disabled_sha256": "a92a26d668fff088277bd9bab2e49ddbf241279546cb5af0d68622d6a027e875",
+    "child_touched_Main_Git_index_or_commit": false,
+    "permanent_compile_claim_retained": true
+  },
+  "limits": [
+    "actual local controlled API/MCP role/RLS; not signed real OAuth-client protocol acceptance",
+    "existing393/278 failures remain failed; only completed dated scopes carried",
+    "helper280 and all four OLD data bodies tested; four-body reuse candidate remains unexecuted",
+    "no whole-generation8s or production optimization acceptance",
+    "no provider or canonical/prod calls; no automatic replay"
+  ],
+  "CPU_and_shared_SQL_hold_released": true,
+  "combined_runtime_remains_paused_for_Root_web_build": true,
+  "cloud_called": false,
+  "provider_called": false
+}
