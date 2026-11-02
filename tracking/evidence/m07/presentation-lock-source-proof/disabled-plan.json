@@ -1,0 +1,150 @@
+{
+  "family": "m07-presentation-locksource41-owned-proof-plan",
+  "observed_at": "2026-11-02T12:11:13.035355+00:00",
+  "result": "prepared_disabled",
+  "compiled_only": true,
+  "execution_dispatched": false,
+  "execution_enabled": false,
+  "candidate_commit": "e0abdf2def583049ee391093bf4d564414c49ba1",
+  "frontend_helper_commit": "87ac721b3085c1f3e21e80de0a10a7cc99f7a07a",
+  "source_seals": {
+    "development/m07/presentation-lock-source-proof/background.sql": "e8d61b12ebf4d25a57ba10944bd91d65494cdcfe79b9230a4c785bfe4484b544",
+    "development/m07/presentation-lock-source-proof/cohorts.sql": "06d12e3c2b2ca36deb7831579a7ef55ec183cdd77b9e66515b18c3b0bbc953ef",
+    "development/m07/presentation-lock-source-proof/compiler.py": "39f4a54d6c5d9a80f020488439618560efe99724a0ffa5c04046bc9108066fbe",
+    "development/m07/presentation-lock-source-proof/counts.sql": "c38896c8e867289fe890b48f99573d25bf5627677410e3639008613a0eb0fb2a",
+    "development/m07/presentation-lock-source-proof/fixture.sql": "aa976e76fa2a69fd7ea2b8f6f90609c28f734b889b20c15fe8de8d50dc29d22d",
+    "development/m07/presentation-lock-source-proof/probes.mjs": "8973de4f38895f2497b46d87d6dda0fe929f2652d8cebb870c9d402587bf21b4",
+    "development/m07/presentation-lock-source-proof/proof.mjs": "4992d8be67020776ab0f07c56a35d6887e7d79cfda7b18039ff999181bb03a0f",
+    "development/m07/presentation-lock-source-proof/README.md": "3ec0655944728d08e8e6f0e71ea7116358c81a637d0595ea7e6d72e018d7ce40",
+    "development/m07/presentation-lock-source-proof/scale.sql": "0a74ce47ff97339b4e63cf8df3aa3801321e2099588ed22367e5fe4317acaa7f",
+    "development/m07/presentation-lock-source-proof/session.mjs": "54c713b39ddb7833a040e76a11ffdbfdaa1ad75d09736ebe55a8e5357cb7ff9f",
+    "development/m07/presentation-lock-source-proof/temporary.sql": "6c34eae348be361652b001cc1e14ea5e2d4bca16513eace77777592df924e33c",
+    "development/m07/presentation-lock-source-proof/test_cohorts.py": "e2d358ac7bfff72a83d836df9dbb3b081370904d21c220c521a749c06936a2f1",
+    "development/m07/presentation-lock-source-proof/test_proof.py": "430419262fb17f836a062b24faa608ae2f161e03e545341869c17c28e9c1ce5e"
+  },
+  "compiled_controller": {
+    "path": ".local/presentation-lock-source-proof-compiled/controller-338ddabf-5b17-446b-b274-5e34fdf6e0d8.mjs",
+    "sha256": "272b189c7ba20f44f601080b2eaeeea75220dafe516f5fb6083943e6c9dd6fa1",
+    "executed": false
+  },
+  "bootstrap": {
+    "root": "D:/Everyone/Presentation/Everyone-Presentation-Studio",
+    "source": "development/m07/project-creation39-proof/concurrency.mjs",
+    "sha256": "fe4f6e7cddb749690fea9587dd675a67d6db723ca458a700a8f6b53e67072fdd",
+    "frozen_synthetic38_metadata_sha256": "12df4e565d466c008095498903237ae24f304403887db396b8bc46b5cf93346c",
+    "original_local29_system_identifier": "7701520506262638626",
+    "original_is_readonly_preservation_anchor": true,
+    "shared_lock": "Main/.local/local-postgres/test-db.lock",
+    "network": "none",
+    "host_ports": [],
+    "new_owned_labels": "eps.locksource41.{run,workspace,purpose}"
+  },
+  "functions": {
+    "old_lock_body_sha256": "4107c87b1a51d2c5ed506a64c81378026068406a5136b202779767efb30264e7",
+    "candidate_lock_body_sha256": "1ff8ce429ec61785c1e1037da8de5d2a4b9426789074a64eab0f6f89241c48e4",
+    "same_twelve_ordered_nowait_lock_tables": true,
+    "same_invoker_security_and_entry_exit_scope": true,
+    "generate_body_sha256": "b20fef7adc8dee0da91db1508b30d4116855bb3e9be9e881072a7e8d55fcee08",
+    "exact40_source": "supabase/migrations/20261102085405_m07_review_link_action_reason.sql",
+    "exact40_sha256": "08bf4de8a63823b0e7c9aee75560a6e7de0620eb9b8b3c483c65929578db8212",
+    "only_owned40_admission_predicate_adapted_inverse_byte_equal": true
+  },
+  "synthetic_scale": {
+    "large_active_archived_roles": [
+      2,
+      34
+    ],
+    "large_active_archived_slots": [
+      16,
+      547
+    ],
+    "large_active_archived_assignments": [
+      19,
+      1
+    ],
+    "large_active_archived_pools": [
+      11,
+      4
+    ],
+    "large_selected_candidates_media_frames": [
+      11,
+      11,
+      33
+    ],
+    "control_active_role_slot_pool_assignment": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "global_candidates_media_frame_pairs_assets": [
+      28,
+      27,
+      328,
+      501
+    ],
+    "ready_versions": 13,
+    "total_versions": 14,
+    "slides": 63,
+    "pins": 60,
+    "original_rendering_version_retained": true,
+    "twelve_added_ready_rows_are_declared_synthetic_retained_metadata": true,
+    "fit_rows_are_synthetic_metadata_not_actual_measurement": true,
+    "existing_nonnull_audit_reason_fixture": true
+  },
+  "execution_contract": {
+    "statement_timeout": "8s",
+    "roles": [
+      "authenticated",
+      "eps_review_owner"
+    ],
+    "modes": [
+      "api",
+      "mcp"
+    ],
+    "local_mcp_current_session_and_permission_intersection": true,
+    "signed_oauth_acceptance": false,
+    "component_samples_per_profile_mode": 2,
+    "components": [
+      "locks",
+      "review",
+      "snapshot",
+      "hash"
+    ],
+    "whole_generation": "actual RPC in outer ROLLBACK",
+    "output_comparison": "declared UUID/time-normalized projection; old cancellation keeps comparison unavailable",
+    "cases": [
+      "twelve exact original row cohorts and selected55P03",
+      "eight unselected or absent negatives",
+      "archived pool active assignment: FK KEY SHARE free control then helper SHARE blocked",
+      "two composite cross-workspace FK23503 denials",
+      "missing selected frame remains blocking",
+      "actual concurrent candidate fact/frame pair/pool changes",
+      "workspace wait then membership or capability revocation",
+      "in-helper media_assets relation wait then capability revocation"
+    ],
+    "preservation": [
+      "full fresh post40 all-table hashes including nonnull reason",
+      "all other application function source/identity",
+      "exact original lock helper restored",
+      "full original presentation config restored",
+      "original38 rows retained with additive audit reason projection only",
+      "original29 complete data/catalogue/global roles unchanged",
+      "owned container and volume absent with successful independent empty inventories",
+      "exclusive shared lock released"
+    ]
+  },
+  "offline_validation": {
+    "own_parser_compiler_fake_port_tests": 8,
+    "delegated_cohort_ast_fake_session_tests": 4,
+    "eslint_exit": 0,
+    "generated_node_syntax": true,
+    "diff_check": true
+  },
+  "limits": [
+    "No SQL or Docker execution by this purpose yet",
+    "No canonical, provider, media-byte, native, browser, OAuth protocol or production performance acceptance",
+    "No source41 migration or source optimization selected from parse-only evidence",
+    "Root review and one fresh owned-run authorization required before flag arming/execution"
+  ]
+}

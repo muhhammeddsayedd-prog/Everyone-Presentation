@@ -1,0 +1,20 @@
+select jsonb_build_object('profiles',(select jsonb_agg(jsonb_build_object(
+ 'label',c.label,
+ 'active_roles',(select count(*)from eps.roles where workspace_id=c.workspace and archived_at is null),
+ 'archived_roles',(select count(*)from eps.roles where workspace_id=c.workspace and archived_at is not null),
+ 'active_slots',(select count(*)from eps.slots where workspace_id=c.workspace and archived_at is null),
+ 'archived_slots',(select count(*)from eps.slots where workspace_id=c.workspace and archived_at is not null),
+ 'active_assignments',(select count(*)from eps.assignments where workspace_id=c.workspace and archived_at is null),
+ 'archived_assignments',(select count(*)from eps.assignments where workspace_id=c.workspace and archived_at is not null),
+ 'active_pools',(select count(*)from eps.workspace_candidates where workspace_id=c.workspace and archived_at is null),
+ 'archived_pools',(select count(*)from eps.workspace_candidates where workspace_id=c.workspace and archived_at is not null),
+ 'selected_candidates',(select count(distinct p.candidate_id)from eps.assignments a join eps.workspace_candidates p on p.id=a.workspace_candidate_id where a.workspace_id=c.workspace and a.archived_at is null),
+ 'selected_media',(select count(distinct p.selected_candidate_media_id)from eps.assignments a join eps.workspace_candidates p on p.id=a.workspace_candidate_id where a.workspace_id=c.workspace and a.archived_at is null),
+ 'selected_frames',(select count(distinct f)from eps.assignments a join eps.workspace_candidates p on p.id=a.workspace_candidate_id cross join lateral unnest(p.selected_frame_asset_ids)f where a.workspace_id=c.workspace and a.archived_at is null),
+ 'assignment_weighted_fact_source_bytes',(select coalesce(sum(octet_length(k.facts::text)+octet_length(k.field_sources::text)),0)from eps.assignments a join eps.workspace_candidates p on p.id=a.workspace_candidate_id join eps.candidates k on k.id=p.candidate_id where a.workspace_id=c.workspace and a.archived_at is null)
+ )order by c.label)from locksource41_proof.context c),
+ 'candidates',(select count(*)from eps.candidates),'media',(select count(*)from eps.candidate_media),
+ 'frames',(select count(*)from eps.candidate_media_frames),'assets',(select count(*)from eps.media_assets),
+ 'ready_versions',(select count(*)from eps.presentation_versions where status='ready'),
+ 'total_versions',(select count(*)from eps.presentation_versions),'slides',(select count(*)from eps.version_slides),
+ 'pins',(select count(*)from eps.presentation_version_assets));
