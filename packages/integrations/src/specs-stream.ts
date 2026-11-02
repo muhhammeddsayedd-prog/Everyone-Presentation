@@ -76,7 +76,7 @@ export async function sendBoundedSpecsStream(request: ResponseCreateParamsNonStr
   } catch (error) {
     const failure = projectError(limitFailure ?? error);
     throw new IntegrationError(failure.code, failure.message, failure.retryable,
-      { ...failure.details, http_status: httpStatus ?? failure.details.http_status ?? null, request_id: requestId ?? failure.details.request_id ?? null });
+      { ...failure.details, http_status: httpStatus, request_id: requestId });
   } finally {
     signals.request.removeEventListener('abort', interrupt); controller.abort(); abortStream?.();
     // Cleanup cannot make an uncooperative response body defeat the whole deadline.

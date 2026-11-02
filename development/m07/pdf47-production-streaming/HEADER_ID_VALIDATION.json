@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "purpose": "streamed_header_request_id_provenance_followup",
+  "observed_at": "2026-11-02T21:10:57.777574+00:00",
+  "base_commit": "998baec8aa9a5ff030a792f4c7b92e336cee0ce2",
+  "result": "passed_source_only",
+  "source_seals": {
+    "packages/integrations/src/openai-specs.ts": "74bdeade72b6c3a9a121002d3aa1e8c74852144822ea2997ae8c4df552ecd425",
+    "packages/integrations/src/specs-stream.ts": "5c14f5db3455f1a383d8a01d260f5e664e152b4f25df13ce805bb4e96c3585f4",
+    "tests/integrations/specs-streaming.test.ts": "cff66d33c1a248e6d704b60cafc1f45fc20473b34b47aa530ede6f68821fd1d7"
+  },
+  "red": {
+    "inverse": "restore nullish terminal payload request_id fallback only",
+    "exit_code": 1,
+    "observed": "untrusted terminal request ID incorrectly entered stream metadata",
+    "log_sha256": "9da6e95687213c4761fdfb01837ea926f1981434a3e4f696eec012c15c88a0fa"
+  },
+  "green": {
+    "command": "node --import tsx --test --test-name-pattern=actual default SDK|missing or malformed stream header|SDK SSE errors tests/integrations/specs-streaming.test.ts",
+    "passed": 3,
+    "failed": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "duration_ms": 1962.4384,
+    "log_sha256": "3546c7986ed0f0f1295d3cb83fa4eff7be58d7ab1ec814798c0261ad7d0d42ca"
+  },
+  "types": {
+    "command": "node node_modules/typescript/bin/tsc --noEmit",
+    "exit_code": 0,
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "lint_exit_code": 0,
+  "peer_review": "Recovery independently read exact current product branches and tests; closed PASS; no duplicate tests or provider call",
+  "boundary": {
+    "success_missing_or_invalid_wire_id_remains_null": true,
+    "legacy_buffered_id_preserved": true,
+    "error_wire_status_and_id_authoritative": true,
+    "retry_after_and_classification_preserved": true,
+    "installed_SDK_SSE_errors_already_use_response_headers": true,
+    "existing_error_payload_ID_exploit_claimed": false
+  },
+  "native_daemon_closure": {
+    "scope": "pure AST closure of immutablef742 context plus four exact candidate product overlays; no stage/build",
+    "base_source_sha256": "f742e9e5e4b83643f5bae18cace3e9e253912c0114f59b4489f0d163bcb39368",
+    "candidate_source_sha256": "dc12eaab6d862b2d151665b13c092568a273a2b1c7e2fde24516654c7db40648",
+    "files": 167,
+    "native_modules": 54,
+    "native_graph_sha256": "247992bbe3331251f33186cfac22835e8734833cd229bb6a4d8bcafa3bc0c214",
+    "native_graph_and_build_inputs_byte_equal": true,
+    "native_changed_file_intersection": [],
+    "daemon_modules": 91,
+    "daemon_graph_sha256": "9c751f186e67dec8dccc7f8339760ed25210e79f109ff65be12bdb3108123234",
+    "daemon_changed_file_intersection": [
+      "packages/integrations/src/openai-specs.ts",
+      "packages/integrations/src/specs-stream.ts",
+      "packages/integrations/src/index.ts",
+      "apps/worker/src/runtime-main.ts"
+    ],
+    "changed_files": {
+      "packages/integrations/src/openai-specs.ts": "74bdeade72b6c3a9a121002d3aa1e8c74852144822ea2997ae8c4df552ecd425",
+      "packages/integrations/src/specs-stream.ts": "5c14f5db3455f1a383d8a01d260f5e664e152b4f25df13ce805bb4e96c3585f4",
+      "packages/integrations/src/index.ts": "9c10d2bdc3790795a4ecdd8f5338542dfceca1136c33f90b185001fe53c55ad5",
+      "apps/worker/src/runtime-main.ts": "63d0cf59c96291cffa0edc993373083d8111804a35d11b6c2ab52caeed3c7d01"
+    },
+    "emitter_changed": false
+  },
+  "actual_provider_or_SQL_or_build_or_deployment": false
+}

@@ -36,6 +36,24 @@ test('actual default SDK consumes bounded SSE once and records headerID without 
  let built:Record<string,unknown>|undefined;await adapter.extractSpecs(input,bounded,async request=>{built=structuredClone(request)as unknown as Record<string,unknown>;return response();});
  wire!.stream=false;assert.deepEqual(wire,built);assert.equal(JSON.stringify(output.metadata).includes('PRIVATE_'),false);
 });
+test('missing or malformed stream header requestID never falls back to terminal payload requestID',async t=>{
+ for(const header of[null,'sk-UNTRUSTED_HEADER']){
+  let calls=0;t.mock.method(globalThis,'fetch',async()=>{calls++;const headers:Record<string,string>={'content-type':'text/event-stream'};if(header!==null)headers['x-request-id']=header;
+   return new Response(event('response.completed',{response:{...response(),_request_id:'req_untrusted_terminal_payload'}}),{headers});});
+  const output=await adapter.extractSpecs(input,bounded);assert.equal(calls,1);assert.equal(output.metadata.request_id,null);
+  assert(!JSON.stringify(output.metadata).includes('req_untrusted_terminal_payload'));t.mock.restoreAll();
+ }
+ const legacy=await adapter.extractSpecs(input,base,async()=>({...response(),_request_id:'req_legacy_sdk'}));assert.equal(legacy.metadata.request_id,'req_legacy_sdk');
+});
+test('SDK SSE errors use captured wire status/header only and never copy requestID from error data',async t=>{
+ for(const header of[null,'sk-UNTRUSTED_HEADER','req_actual_error_header']){
+  t.mock.method(globalThis,'fetch',async()=>{const headers:Record<string,string>={'content-type':'text/event-stream'};if(header!==null)headers['x-request-id']=header;
+   return new Response(event('error',{error:{message:'PRIVATE_SSE_ERROR',request_id:'req_untrusted_error_data',requestID:'req_untrusted_error_data'}}),{headers});});
+  await assert.rejects(adapter.extractSpecs(input,bounded),error=>{assert(error instanceof IntegrationError);assert.equal(error.details.http_status,200);
+   assert.equal(error.details.request_id,header==='req_actual_error_header'?header:null);assert(!JSON.stringify(error).includes('PRIVATE_SSE_ERROR'));assert(!JSON.stringify(error).includes('req_untrusted_error_data'));return true;});
+  t.mock.restoreAll();
+ }
+});
 test('headers cannot finish the whole deadline; stalled body and headers abort without another SDK dispatch',async t=>{
  for(const headers of[false,true]){
   let calls=0,cancelled=false;t.mock.method(globalThis,'fetch',async(_url:Parameters<typeof fetch>[0],init?:Parameters<typeof fetch>[1])=>{calls++;

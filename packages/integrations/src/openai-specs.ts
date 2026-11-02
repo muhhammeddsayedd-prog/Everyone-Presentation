@@ -221,7 +221,7 @@ export async function extractSpecs(
   }
   return { result, metadata: {
     provider: 'openai', sdk_version: '7.45.1', requested_model: config.model, resolved_model: parsed.model,
-    response_id: parsed.id, request_id: streamMetadata?.requestId ?? parsed.requestId, correlation_id: input.correlationId,
+    response_id: parsed.id, request_id: streamMetadata !== undefined ? streamMetadata.requestId : parsed.requestId, correlation_id: input.correlationId,
     input_sha256: input.inputHash, prepared_source_sha256: sha256(source),
     prompt_version: SPECS_PROMPT_VERSION, prompt_sha256: sha256(SPECS_PROMPT),
     schema_version: '1.0', schema_sha256: SPECS_SCHEMA_SHA256, provider_schema_sha256: SPECS_PROVIDER_SCHEMA_SHA256,
