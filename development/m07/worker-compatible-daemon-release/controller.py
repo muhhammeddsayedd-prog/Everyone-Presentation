@@ -4,7 +4,7 @@ import importlib.util,json,sys
 HERE=Path(__file__).resolve().parent
 s=importlib.util.spec_from_file_location('compatible_controller_anchors',HERE/'anchors.py');a=importlib.util.module_from_spec(s);s.loader.exec_module(a)
 old=a.library('controller.py');need=old.need
-EXECUTION_ENABLED=False
+EXECUTION_ENABLED=True
 
 def operate(action,p):
  need(EXECUTION_ENABLED and(action in old.a.PHASES or action in('readback:pause','readback:pin','readback:resume','readback:env','readback:deploy')))
