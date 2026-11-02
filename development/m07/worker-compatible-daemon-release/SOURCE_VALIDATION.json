@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-11-02T21:53:13.771464+00:00",
+  "result": "passed_source_and_fake_ports_only",
+  "purpose": "disabled_compatible_daemon_release_adapter",
+  "source_seals": {
+    "anchors.py": "29082b95b2d003fd727d87e7e6a416171096e2d39da44056009c37c0090e0a43",
+    "controller.py": "12173e6d05fa8e1a0cefcae4823ff61980d702a38ce908d247131dffce271e78",
+    "inputs.template.json": "a014b429964f00c90c2a8049ec2eb4e3d6ac6660253c56fda9fbe1d980d0025d",
+    "provider.py": "2a663f05af131099f199fd1b7e137be06571518a73985c3b3befc2e562995d1b",
+    "README.md": "4317881b3773979c53b86f6c28cd1a418bad511baafd0925e80196c505e6f256",
+    "registry.py": "fd2403e1dc754655d84e309dd0cd4800a6d52aad6081586353e3ed6bfd2bc6b8",
+    "startup.py": "64cdadf1caeee0da245f350507460ef86468ed347a89e723f45e6bb9718befe5",
+    "test_controller.py": "3ae39aedf8d8b333c9177af36ea7bc5a483dba46f355239d7d9d869c73a376da",
+    "test_provider.py": "1d02634e1f3fcc6cc2c006afc7b84794db0a9275ddd8aa48c83ed933b0633fb7",
+    "test_registry.py": "b86946878b5de6a533a46d5f4b3b4c296cafff6c0f6ca062de75bed26b3b5be4",
+    "test_startup.py": "2d6053c69c585b7236b9800d080d251d611cf63745f262c220d398657a8e6156"
+  },
+  "actual_checks": {
+    "tests": 17,
+    "pass": 17,
+    "fail": 0,
+    "duration_seconds": 0.118,
+    "post_mutation_provider_tests": 6,
+    "post_mutation_provider_pass": 6,
+    "post_mutation_provider_seconds": 0.068,
+    "diff_check_exit_code": 0,
+    "actual_armed_build_module_and_anchors_pin_checks_before_inert_constructor_only": true
+  },
+  "final_RAM_mutation_witness": {
+    "change": "remove only per-kind registry-copy source equality",
+    "tests": 7,
+    "pass": 6,
+    "fail": 1,
+    "errors": 0,
+    "working_source_unchanged": true,
+    "original_provider_sha256": "2a663f05af131099f199fd1b7e137be06571518a73985c3b3befc2e562995d1b",
+    "mutated_provider_sha256": "bcd2e65e48e6608357a3c656fa3e97e4311c24fd52605e4ead5465ffb6ff0bb5",
+    "failed_test": "test_per_kind_copy_source_admission_preserves_old_native_and_actual_current_proof"
+  },
+  "independent_source_peer": {
+    "agent": "frontend_integration",
+    "result": "closed_pass",
+    "all_implementation_and_tests_read": true,
+    "independent_test_execution": false
+  },
+  "live_flags": {
+    "controller": false,
+    "registry": false,
+    "observer": false
+  },
+  "actual_registered_armed_build": {
+    "build_py_sha256": "1409d10ccd1a5e0d48878ab256318ebe3a785d5a90343c57f8b7c771be6d75d0",
+    "anchors_py_sha256": "591ea939dfb7fd43b999d81db78ab12eaeacc954984a9bb32bd48d51b4f05545",
+    "normalization_used": false,
+    "source_files_edited": false
+  },
+  "worker_SQL_evidence": {
+    "path": "tracking/evidence/m07/worker-source-identity-sql-observation-proof/2026-11-02T21-03-49.392Z-cb8bd7f9.json",
+    "sha256": "ddcb58b91a07e7d557834acfa852afc6f76a958f2dc67b0d14aea6dfb6bf97e3"
+  },
+  "new_Registry_Provider_DB_Docker_auth_private_input_or_native_phase_called": false,
+  "actual_future_Ready_or_worker_deploy_claimed": false,
+  "new_native_export_copy_probe_claimed": false,
+  "old_source_flags_or_claims_edited": false,
+  "rollback_or_AT069_action_included": false,
+  "final_protected_provider_inputs_created": false,
+  "new_claim_created": false
+}
