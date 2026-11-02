@@ -22,7 +22,8 @@ const token = `synthetic.${Buffer.from(JSON.stringify({ sub: principal, role: 'a
 type Call = { path: string; headers: Headers; signal: AbortSignal | null | undefined };
 function code(expected: string, status: number) { return (error: unknown) => error instanceof DomainError && error.code === expected && error.status === status; }
 
-async function harness(settings: { signedPath?: string; downloadStatus?: number; stream?: () => ReadableStream<Uint8Array>; timeout?: number } = {}) {
+async function harness(settings: { signedPath?: string; signedStatus?: number; downloadStatus?: number; bodyStatus?: string;
+  storageCode?: string; signFailure?: boolean; stream?: () => ReadableStream<Uint8Array>; timeout?: number } = {}) {
   const png = await sharp({ create: { width: 32, height: 16, channels: 4, background: { r: 10, g: 80, b: 30, alpha: .5 } } }).png().toBuffer();
   const digest = createHash('sha256').update(png).digest('hex');
   const calls: Call[] = [];
@@ -52,9 +53,11 @@ async function harness(settings: { signedPath?: string; downloadStatus?: number;
     calls.push({ path: url.pathname, headers: new Headers(init?.headers), signal: init?.signal });
     assert.equal(init?.cache, 'no-store'); assert.equal(init?.redirect, 'error');
     if (url.pathname === '/auth/v1/user') return Response.json({ id: principal, role: 'authenticated', aud: 'authenticated', email: 'synthetic@example.invalid', app_metadata: {}, user_metadata: {}, created_at: '2026-10-28T00:00:00Z', is_anonymous: false });
-    if (url.pathname.startsWith('/storage/v1/object/upload/sign/')) return Response.json({ url: settings.signedPath ?? `/object/upload/sign/${bucket}/${objectKey}?token=synthetic-signed-capability` });
+    if (url.pathname.startsWith('/storage/v1/object/upload/sign/')) return settings.signedStatus
+      ? Response.json({ message: 'PRIVATE_PROVIDER_BODY synthetic-signed-capability', statusCode: settings.bodyStatus, code: settings.storageCode }, { status: settings.signedStatus })
+      : Response.json({ url: settings.signedPath ?? `/object/upload/sign/${bucket}/${objectKey}?token=synthetic-signed-capability` });
     if (url.pathname === `/storage/v1/object/${bucket}/${objectKey}`) {
-      if (settings.downloadStatus) return Response.json({ message: 'Private provider detail synthetic-signed-capability', statusCode: String(settings.downloadStatus), error: 'Storage failure' }, { status: settings.downloadStatus });
+      if (settings.downloadStatus) return Response.json({ message: 'Private provider detail synthetic-signed-capability', statusCode: settings.bodyStatus ?? String(settings.downloadStatus), code: settings.storageCode, error: 'Storage failure' }, { status: settings.downloadStatus });
       const stream = settings.stream?.() ?? new ReadableStream<Uint8Array>({ start(controller) { controller.enqueue(png.subarray(0, 35)); controller.enqueue(png.subarray(35)); controller.close(); } });
       const response = new Response(stream, { headers: { 'Content-Type': 'image/png', 'Content-Length': '1' } });
       response.blob = async () => { blobCalls++; throw new Error('Unbounded Blob path must not run.'); };
@@ -65,7 +68,7 @@ async function harness(settings: { signedPath?: string; downloadStatus?: number;
   const client = createBearerUserClient({ url: storageOrigin, publishableKey: 'sb_publishable_synthetic-logo-test', accessToken: token }, { fetch: fetcher });
   const adapter = await createLogoStorageAdapter({ client, storageOrigin, brandBucket: bucket, rpc, now: () => now, downloadTimeoutMs: settings.timeout,
     async decodeLogo(bytes) { decodedCount++; const image = sharp(bytes, { limitInputPixels: 40_000_000, failOn: 'warning' }); const meta = await image.metadata(); await image.raw().toBuffer(); return { mimeType: `image/${meta.format}`, width: meta.width!, height: meta.height! }; },
-    signReceipt(facts) { signedCount++; proofFacts = structuredClone(facts); const claims: LogoReceiptClaims = { ...facts, schema_version: '1.0', audience: 'eps.logo-verification.v1', purpose: 'client_logo', key_id: 'test-logo-key', issued_at: now / 1000, expires_at: now / 1000 + 90 }; return signLogoReceipt(claims, key, { now: now / 1000 }); },
+    signReceipt(facts) { signedCount++; if (settings.signFailure) throw Error('PRIVATE_SIGNER_KEY_PATH synthetic-signed-capability'); proofFacts = structuredClone(facts); const claims: LogoReceiptClaims = { ...facts, schema_version: '1.0', audience: 'eps.logo-verification.v1', purpose: 'client_logo', key_id: 'test-logo-key', issued_at: now / 1000, expires_at: now / 1000 + 90 }; return signLogoReceipt(claims, key, { now: now / 1000 }); },
   });
   return { adapter, client, rpc, png, digest, reservation, calls, revoke: () => { scopeAllowed = false; }, counters: () => ({ blobCalls, decodedCount, signedCount, preparedCount, finalizedCount, cancelledCount }), facts: () => proofFacts };
 }
@@ -84,6 +87,52 @@ test('user-scoped SDK mint sets explicit false without mutating shared headers; 
   assert.equal(download.headers.get('Authorization'), `Bearer ${token}`);
   assert.ok(download.signal);
   assert.doesNotMatch(JSON.stringify(complete), /synthetic-signed-capability|test-logo-key|payload|\bmac\b/);
+});
+
+test('actual SDK legacy wire400 retains body403/404 and recognized codes without raw provider content', async () => {
+  for (const [bodyStatus, storageCode, expectedCode, expectedStatus] of [
+    ['403', 'AccessDenied', 'ACCESS_DENIED', 403], ['404', 'NoSuchKey', 'UPLOAD_INCOMPLETE', 409],
+  ] as const) {
+    const state = await harness({ downloadStatus: 400, bodyStatus, storageCode });
+    await assert.rejects(state.adapter.completeUpload(actor, uploadId, { actual_size_bytes: state.png.length, start_processing: false }), error => {
+      assert(error instanceof DomainError); assert.equal(error.code, expectedCode); assert.equal(error.status, expectedStatus);
+      assert.deepEqual(error.details, { logo_phase: 'download', storage_http_status: 400, storage_body_status: Number(bodyStatus), storage_code: storageCode });
+      assert.doesNotMatch(error.message + JSON.stringify(error.details), /Private provider|synthetic-signed|https?:/u); return true;
+    });
+    assert.equal(state.counters().decodedCount, 0); assert.equal(state.counters().signedCount, 0); assert.equal(state.counters().finalizedCount, 0);
+  }
+});
+
+test('signed-upload failure has safe phase while preserving the already reserved session', async () => {
+  const state = await harness({ signedStatus: 400, bodyStatus: '403', storageCode: 'AccessDenied' });
+  await assert.rejects(state.adapter.createUploadSession(actor, { workspace_id: workspaceId, purpose: 'client_logo', filename: 'synthetic-logo.png', mime_type: 'image/png', size_bytes: state.png.length }), error => {
+    assert(error instanceof DomainError); assert.equal(error.code, 'ACCESS_DENIED'); assert.equal(error.details.logo_phase, 'sign_upload');
+    assert.equal(error.details.storage_http_status, 400); assert.equal(error.details.storage_body_status, 403);
+    assert.doesNotMatch(error.message + JSON.stringify(error.details), /PRIVATE_|synthetic-signed/u); return true;
+  });
+  assert.equal(state.reservation.status, 'open'); assert.equal(state.counters().cancelledCount, 0);
+});
+
+test('unknown Storage code remains excluded and legacy body status never overrides a wire500', async () => {
+  const state = await harness({ downloadStatus: 500, bodyStatus: '403', storageCode: 'https://PRIVATE_TOKEN_CANARY' });
+  await assert.rejects(state.adapter.completeUpload(actor, uploadId, { actual_size_bytes: state.png.length, start_processing: false }), error => {
+    assert(error instanceof DomainError); assert.equal(error.code, 'DEPENDENCY_UNAVAILABLE'); assert.equal(error.status, 503);
+    assert.deepEqual(error.details, { logo_phase: 'download', storage_http_status: 500, storage_body_status: 403, storage_code: null });
+    assert.doesNotMatch(error.message + JSON.stringify(error.details), /PRIVATE_|synthetic-signed|https?:/u); return true;
+  });
+});
+
+test('unexpected stream and verification-sign failures are distinguishable without exposing internals', async () => {
+  const states = [await harness({ stream: () => new ReadableStream({ start(controller) { controller.error(Error('PRIVATE_STREAM_TOKEN')); } }) }),
+    await harness({ signFailure: true })];
+  for (const [index, state] of states.entries()) {
+    await assert.rejects(state.adapter.completeUpload(actor, uploadId, { actual_size_bytes: state.png.length, start_processing: false }), error => {
+      assert(error instanceof DomainError); assert.equal(error.code, 'DEPENDENCY_UNAVAILABLE'); assert.equal(error.status, 503);
+      assert.equal(error.details.logo_phase, index === 0 ? 'stream' : 'sign_verification');
+      assert.doesNotMatch(error.message + JSON.stringify(error.details), /PRIVATE_|synthetic-signed/u); return true;
+    });
+    assert.equal(state.counters().finalizedCount, 0);
+  }
 });
 
 test('completed replay rechecks scope before returning cached results and does not download, decode or sign again', async () => {

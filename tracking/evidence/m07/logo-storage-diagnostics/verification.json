@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "purpose": "closed_logo_phase_and_storage_error_projection_source",
+  "source_seals": {
+    "packages/central/src/logo-storage.ts": "277bdd293d54c3c39cecdfd1e204b627b49a353190289bda0386ca05c2e0b9b1",
+    "packages/central/test/logo-storage.test.ts": "8c781efc3481572664a3c71515f217ccc4cc6d3f8fa2a1e254d2d5ff4f348d62"
+  },
+  "local_validation": {
+    "red": {"tests": 12, "passed": 8, "failed": 4, "log_sha256": "467fdcf1f4101a16fedb4c7d004362653388e581d9059e4af9195968bdd82a6c"},
+    "final_focused": {"command": "node tools/run-tests.mjs packages/central/test/logo-storage.test.ts", "tests": 12, "passed": 12, "failed": 0, "log_sha256": "ba80aca379406c17dd414d2761cab937f26e0b5638abe29b41141fa3f61ba2ec"},
+    "final_full_frontend_worktree": {"command": "npm.cmd test", "tests": 974, "passed": 974, "failed": 0, "skipped": 0, "cancelled": 0, "log_sha256": "b5985dca2c892e95be705c3edeafc67ad736c3c94fcda99be69047a74ed6aca5"},
+    "typecheck_exit": 0,
+    "focused_lint_exit": 0,
+    "prior_lint_failure": "no-unsafe-finally; final code stores a failure and throws after cleanup",
+    "prior_full_before_lint_correction": {"passed": 974, "log_sha256": "4c78237258d0a6e2053eb8bb5538d93cdc9375a63bee79c14d6d91f54fb1fb85", "used_as_final_acceptance": false},
+    "protected_logs": ".local/logo-storage-diagnostics"
+  },
+  "independent_peer": {"reviewer": "/root/runtime_release", "tests_passed": 12, "source_seals_match": true, "scope": "source and actual SDK fake HTTP only"},
+  "installed_sdk": {"name": "@supabase/storage-js", "version": "2.118.0", "StorageFileApi_source_sha256": "e25dc6d3c42ce223edf5d9fa3dd555e46feeffbcfea6cf3b30a1d803ab8baf7a", "errors_source_sha256": "b40549256a180656358e01eb7b811254bdc6200e9dd17f2b4ef1b63eb689c8f2", "fetch_source_sha256": "9f21e3fb8a31a3bd6039d36d95b257bf888c610733bed4e21b0823af5a1e558f"},
+  "official_current_source_observations": [
+    {"url": "https://raw.githubusercontent.com/supabase/storage/master/src/internal/errors/codes.ts", "sha256": "52dc9430abd3681ea12c6f5fb2c619e280e154502af7f3d2543b87af8b9ab81c"},
+    {"url": "https://raw.githubusercontent.com/supabase/storage/master/src/internal/errors/storage-error.ts", "sha256": "808af79d568a9343c08208df560ac11410607b005230c0acffc568ece1af9cac"}
+  ],
+  "actual_failed_attempt": {"underlying_storage_code_or_cause_observed": false, "reservation_status": "cancelled", "asset_status": "failed", "storage_object_exists": true, "workspace_logo_is_null": true},
+  "source_change_called_provider_or_mutated_cloud": false,
+  "retry_mint_download_cancel_or_deployment_performed": false,
+  "RLS_grant_or_success_DTO_change": false,
+  "live_logo_success_claim": false
+}

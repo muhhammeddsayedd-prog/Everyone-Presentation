@@ -79,14 +79,43 @@ function completion(value: unknown, reservation: LogoReservation, input: Complet
     || reservation.expected_sha256 && asset.sha256 !== reservation.expected_sha256) invalid();
   return { asset, processing_job_id: null, status: 'ready' };
 }
-function storageError(error: unknown, reading = false): DomainError {
-  const value = error && typeof error === 'object' ? error as { status?: unknown; statusCode?: unknown } : {};
-  const status = Number(value.status ?? value.statusCode);
-  if (reading && status === 404) return new DomainError('UPLOAD_INCOMPLETE', 'The uploaded logo bytes are not available yet.', 409);
-  if (status === 401) return new DomainError('AUTH_REQUIRED', 'Sign in again before accessing this logo.', 401);
-  if (status === 403) return new DomainError('ACCESS_DENIED', 'Your account cannot access this logo operation.', 403);
-  if (status === 429) return new DomainError('STORAGE_RATE_LIMITED', 'Logo storage is temporarily rate limited. Try again shortly.', 429, {}, true);
-  return new DomainError('DEPENDENCY_UNAVAILABLE', 'Private logo storage is temporarily unavailable.', 503, {}, true);
+type LogoPhase = 'reserve' | 'sign_upload' | 'sign_upload_response' | 'prepare_completion' | 'download' | 'stream' | 'decode' | 'sign_verification' | 'finalize_completion' | 'unclassified';
+// Official Storage codes, never free-form error/message/header values.
+// https://supabase.com/docs/guides/storage/debugging/error-codes
+const storageCodes = new Set(['NoSuchBucket', 'NoSuchKey', 'NoSuchUpload', 'InvalidJWT', 'InvalidRequest', 'TenantNotFound',
+  'EntityTooLarge', 'InternalError', 'ResourceAlreadyExists', 'DatabaseTimeout', 'InvalidSignature', 'SignatureDoesNotMatch',
+  'AccessDenied', 'ResourceLocked', 'DatabaseError']);
+function storageError(error: unknown, reading = false, phase: LogoPhase = 'unclassified'): DomainError {
+  const http = (value: unknown): number | null => {
+    const number = typeof value === 'number' ? value : typeof value === 'string' && /^[1-5][0-9]{2}$/u.test(value) ? Number(value) : null;
+    return number !== null && Number.isInteger(number) && number >= 100 && number <= 599 ? number : null;
+  };
+  let wire: number | null = null, body: number | null = null, code: string | null = null;
+  try {
+    const value = error && typeof error === 'object' ? error as { status?: unknown; statusCode?: unknown; code?: unknown } : {};
+    wire = http(value.status); body = http(value.statusCode);
+    const rawCode = value.code;
+    if (typeof rawCode === 'string' && storageCodes.has(rawCode)) code = rawCode;
+  } catch { /* Unsafe getters never copy an error or defeat the static projection. */ }
+  const details = { logo_phase: phase, storage_http_status: wire, storage_body_status: body, storage_code: code };
+  // Storage's documented legacy JSON envelope can use wire400 with body403/404.
+  // Preserve both values; a body status cannot override another wire failure.
+  const status = wire === null ? body : wire === 400 && (body === 403 || body === 404) ? body : wire;
+  if (reading && status === 404) return new DomainError('UPLOAD_INCOMPLETE', 'The uploaded logo bytes are not available yet.', 409, details);
+  if (status === 401) return new DomainError('AUTH_REQUIRED', 'Sign in again before accessing this logo.', 401, details);
+  if (status === 403) return new DomainError('ACCESS_DENIED', 'Your account cannot access this logo operation.', 403, details);
+  if (status === 429) return new DomainError('STORAGE_RATE_LIMITED', 'Logo storage is temporarily rate limited. Try again shortly.', 429, details, true);
+  return new DomainError('DEPENDENCY_UNAVAILABLE', 'Private logo storage is temporarily unavailable.', 503, details, true);
+}
+async function inLogoPhase<T>(phase: LogoPhase, action: () => T | PromiseLike<T>, reading = false): Promise<T> {
+  try { return await action(); }
+  catch (error) {
+    if (error instanceof DomainError) {
+      if (error.details.logo_phase) throw error;
+      throw new DomainError(error.code, error.message, error.status, { ...error.details, logo_phase: phase }, error.retryable);
+    }
+    throw storageError(error, reading, phase);
+  }
 }
 
 export async function createLogoStorageAdapter(options: LogoStorageOptions) {
@@ -127,9 +156,9 @@ export async function createLogoStorageAdapter(options: LogoStorageOptions) {
     if (status === 'open') {
       requireVerifier();
       // from() constructs a new file client; setHeader clones its headers, never global user state.
-      const { data, error } = await options.client.storage.from(item.bucket).setHeader('x-upsert', 'false').createSignedUploadUrl(item.object_key, { upsert: false });
-      if (error || !data) throw storageError(error);
-      const target = new URL(data.signedUrl);
+      const { data, error } = await inLogoPhase('sign_upload', () => options.client.storage.from(item.bucket).setHeader('x-upsert', 'false').createSignedUploadUrl(item.object_key, { upsert: false }));
+      if (error || !data) throw storageError(error, false, 'sign_upload');
+      const target = await inLogoPhase('sign_upload_response', () => new URL(data.signedUrl));
       const path = `/storage/v1/object/upload/sign/${encodeURIComponent(item.bucket)}/${item.object_key.split('/').map(encodeURIComponent).join('/')}`;
       if (target.origin !== origin.origin || target.pathname !== path || target.username || target.password || target.hash
         || Array.from(target.searchParams.keys()).some(key => key !== 'token') || target.searchParams.getAll('token').length !== 1
@@ -147,24 +176,37 @@ export async function createLogoStorageAdapter(options: LogoStorageOptions) {
     let rejectDeadline: (error: Error) => void = () => undefined;
     const deadline = new Promise<never>((_resolve, reject) => { rejectDeadline = reject; });
     const timer = setTimeout(() => { controller.abort(); rejectDeadline(timeoutError); void reader?.cancel().catch(() => undefined); }, timeout);
+    let failed = false, failure: unknown;
+    let output: Buffer | undefined;
     try {
       // The package's user-client fetch already enforces redirect:error; SDK FetchParameters
       // exposes signal/cache but does not expose redirect as an operation option.
-      const result = await Promise.race([options.client.storage.from(item.bucket).download(item.object_key, {}, { signal: controller.signal, cache: 'no-store' }).asStream(), deadline]);
-      if (result.error || !result.data) throw storageError(result.error, true);
-      reader = result.data.getReader();
-      const chunks: Buffer[] = []; let size = 0;
-      while (true) {
-        const next = await Promise.race([reader.read(), deadline]);
-        if (next.done) break;
-        if (!(next.value instanceof Uint8Array)) throw new DomainError('SOURCE_UNREADABLE', 'The logo storage response was invalid.', 422);
-        size += next.value.byteLength;
-        if (size > MAXIMUM_BYTES) { controller.abort(); void reader.cancel().catch(() => undefined); throw new DomainError('SOURCE_UNREADABLE', 'The stored logo exceeds 5 MiB. Upload a smaller image.', 422); }
-        chunks.push(Buffer.from(next.value));
+      const result = await inLogoPhase('download', () => Promise.race([options.client.storage.from(item.bucket).download(item.object_key, {}, { signal: controller.signal, cache: 'no-store' }).asStream(), deadline]), true);
+      if (result.error || !result.data) throw storageError(result.error, true, 'download');
+      output = await inLogoPhase('stream', async () => {
+        reader = result.data.getReader();
+        const chunks: Buffer[] = []; let size = 0;
+        while (true) {
+          const next = await Promise.race([reader.read(), deadline]);
+          if (next.done) break;
+          if (!(next.value instanceof Uint8Array)) throw new DomainError('SOURCE_UNREADABLE', 'The logo storage response was invalid.', 422);
+          size += next.value.byteLength;
+          if (size > MAXIMUM_BYTES) { controller.abort(); void reader.cancel().catch(() => undefined); throw new DomainError('SOURCE_UNREADABLE', 'The stored logo exceeds 5 MiB. Upload a smaller image.', 422); }
+          chunks.push(Buffer.from(next.value));
+        }
+        if (size === 0) throw new DomainError('UPLOAD_INCOMPLETE', 'The uploaded logo is empty.', 409);
+        return Buffer.concat(chunks, size);
+      }, true);
+    } catch (error) { failed = true; failure = error; }
+    finally {
+      clearTimeout(timer); controller.abort();
+      if (reader) {
+        try { void reader.cancel().catch(() => undefined); reader.releaseLock(); }
+        catch (error) { if (!failed) { failed = true; failure = storageError(error, true, 'stream'); } }
       }
-      if (size === 0) throw new DomainError('UPLOAD_INCOMPLETE', 'The uploaded logo is empty.', 409);
-      return Buffer.concat(chunks, size);
-    } finally { clearTimeout(timer); controller.abort(); if (reader) { void reader.cancel().catch(() => undefined); reader.releaseLock(); } }
+    }
+    if (failed) throw failure;
+    return output!;
   }
   async function safe<T>(action: () => Promise<T>): Promise<T> {
     try { return await action(); } catch (error) { if (error instanceof DomainError) throw error; throw storageError(error); }
@@ -189,14 +231,14 @@ export async function createLogoStorageAdapter(options: LogoStorageOptions) {
       if (input.purpose !== 'client_logo' || !id(input.workspace_id) || !integer(input.size_bytes, MAXIMUM_BYTES) || !MIME_TYPES.includes(input.mime_type as LogoMime)
         || !simpleFilename(input.filename)
         || input.sha256 !== undefined && !hash(input.sha256)) inputError('Choose a workspace and a PNG, JPEG or WebP logo up to 5 MiB with a simple filename.');
-      const item = reservation(await options.rpc.reserveUpload(actor, input, context), actor);
+      const item = reservation(await inLogoPhase('reserve', () => options.rpc.reserveUpload(actor, input, context)), actor);
       if (item.workspace_id !== input.workspace_id || item.expected_size_bytes !== input.size_bytes || item.expected_mime_type !== input.mime_type || input.sha256 && item.expected_sha256 !== input.sha256) invalid();
       return transferSession(item);
     }),
     getUploadSession: (actor: Actor, uploadId: string) => safe(async () => { checkActor(actor); return transferSession(reservation(await options.rpc.getUpload(actor, uploadId), actor, uploadId)); }),
     completeUpload: (actor: Actor, uploadId: string, input: CompleteUpload, context?: MutationContext) => safe(async () => {
       checkActor(actor); completeInput(input);
-      const prepared = fields(await options.rpc.prepareCompletion(actor, uploadId, input, context), ['reservation', 'replay']);
+      const prepared = fields(await inLogoPhase('prepare_completion', () => options.rpc.prepareCompletion(actor, uploadId, input, context)), ['reservation', 'replay']);
       const item = reservation(prepared.reservation, actor, uploadId);
       if (prepared.replay !== null) { if (item.status !== 'completed') invalid(); return completion(prepared.replay, item, input); }
       const activeVerifier = requireVerifier();
@@ -207,12 +249,12 @@ export async function createLogoStorageAdapter(options: LogoStorageOptions) {
       const digest = createHash('sha256').update(bytes).digest('hex');
       if (input.sha256 && input.sha256 !== digest || item.expected_sha256 && item.expected_sha256 !== digest) inputError('The stored logo checksum does not match the upload.');
       let decoded: LogoDecoded;
-      try { decoded = await activeVerifier.decodeLogo(bytes); } catch { throw new DomainError('SOURCE_UNREADABLE', 'This logo could not be decoded. Upload a valid PNG, JPEG or WebP.', 422); }
+      try { decoded = await activeVerifier.decodeLogo(bytes); } catch { throw new DomainError('SOURCE_UNREADABLE', 'This logo could not be decoded. Upload a valid PNG, JPEG or WebP.', 422, { logo_phase: 'decode' }); }
       if (decoded.mimeType !== item.expected_mime_type || !integer(decoded.width, MAXIMUM_PIXELS) || !integer(decoded.height, MAXIMUM_PIXELS) || decoded.width * decoded.height > MAXIMUM_PIXELS) inputError('The decoded logo type or dimensions are unsupported.');
-      const proof = await activeVerifier.signReceipt({ verification_id: item.verification_id, upload_id: item.upload_id, asset_id: item.asset.id, principal_id: actor.principal_id,
+      const proof = await inLogoPhase('sign_verification', () => activeVerifier.signReceipt({ verification_id: item.verification_id, upload_id: item.upload_id, asset_id: item.asset.id, principal_id: actor.principal_id,
         workspace_id: item.workspace_id, reservation_revision: item.reservation_revision, bucket: item.bucket, object_key: item.object_key,
-        size_bytes: bytes.length, sha256: digest, mime_type: decoded.mimeType as LogoMime, width: decoded.width, height: decoded.height });
-      const result = completion(await options.rpc.finalizeCompletion(actor, uploadId, input, proof, context), item, input);
+        size_bytes: bytes.length, sha256: digest, mime_type: decoded.mimeType as LogoMime, width: decoded.width, height: decoded.height }));
+      const result = completion(await inLogoPhase('finalize_completion', () => options.rpc.finalizeCompletion(actor, uploadId, input, proof, context)), item, input);
       if (result.asset.sha256 !== digest || result.asset.width !== decoded.width || result.asset.height !== decoded.height) invalid();
       return result;
     }),

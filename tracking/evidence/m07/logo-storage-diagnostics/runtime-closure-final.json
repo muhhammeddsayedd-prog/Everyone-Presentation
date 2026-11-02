@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-11-02T17:07:35.502Z",
+  "scope": "Read-only AST and emitted-JS audit against the retained production165 code-only context; no live provider/image identity query or application module execution.",
+  "patch_base": "a127407d2384742b897fe415cace95b232fa08ef",
+  "actual_packed_source_sha256": "0566342ec367efef328885aac513adeb5a942048ba01c88e1af63e4d636b6730",
+  "actual_packed_source_manifest_sha256": "5339296da8242e003c8ce6252af00333d77e91fb72f43acf362c4ef4b2ae5a0c",
+  "all_sealed_files_verified": 165,
+  "changed": [
+    {
+      "path": "packages/central/src/logo-storage.ts",
+      "current_sha256": "277bdd293d54c3c39cecdfd1e204b627b49a353190289bda0386ca05c2e0b9b1",
+      "sealed": true,
+      "base_matches_image_source": true,
+      "emitted_js_changed": true
+    },
+    {
+      "path": "packages/central/test/logo-storage.test.ts",
+      "current_sha256": "8c781efc3481572664a3c71515f217ccc4cc6d3f8fa2a1e254d2d5ff4f348d62",
+      "sealed": false,
+      "base_matches_image_source": null,
+      "emitted_js_changed": true
+    }
+  ],
+  "closures": [
+    {
+      "kind": "daemon",
+      "entries": [
+        "apps/worker/src/runtime-hosted.ts"
+      ],
+      "static_runtime_modules": 90,
+      "nonliteral_dynamic_imports": 0,
+      "executable_changed_intersection": [],
+      "type_only_reachable": [],
+      "static_runtime_paths_sha256": "c975ff18fea92d32f1d1bf08226f1972193efacf8dca8c21a9ce6d201d5a1f10"
+    },
+    {
+      "kind": "native",
+      "entries": [
+        "apps/worker/src/native-sandbox-launch.mjs",
+        "apps/worker/src/native-sandbox-task.mjs",
+        "apps/worker/src/native-sandbox-boundary.mjs"
+      ],
+      "static_runtime_modules": 54,
+      "nonliteral_dynamic_imports": 0,
+      "executable_changed_intersection": [],
+      "type_only_reachable": [],
+      "static_runtime_paths_sha256": "a454dab96eab7974f864360f901d726cd6b0d532860b08cbd694ad710afc5e9a"
+    }
+  ],
+  "conclusion": "Read each exact executable intersection independently; a packed-source change alone does not establish native runtime reachability. No image was built or deployed."
+}
