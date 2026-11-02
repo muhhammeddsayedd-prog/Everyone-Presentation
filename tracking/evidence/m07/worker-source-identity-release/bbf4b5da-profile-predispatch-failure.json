@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-11-02T19:06:25.363509+00:00",
+  "result": "failed_before_profile_or_build",
+  "phase": "Git_binary_pin_validation",
+  "code": "FIXED_GIT_HARDLINK_COUNT_MISMATCH",
+  "expected_links": 1,
+  "observed_links": 2,
+  "fixed_binary_sha256": "22fead8244ef3a7225fb800099a4e43eca8bcec0466774917669599c2f19a05a",
+  "archive_retained": {
+    "path": ".local/worker-source-identity-release/selected-source-bbf4b5da-8723-4fc4-930e-be3aba8d6fa3.tar",
+    "bytes": 1976320,
+    "sha256": "c80df2477bb45d78ae3b33ae4c255014137f57789555a4e4b287bac386f05b3e"
+  },
+  "build_profile_present": false,
+  "build_or_registry_or_provider_called": false,
+  "automatic_retry": false
+}

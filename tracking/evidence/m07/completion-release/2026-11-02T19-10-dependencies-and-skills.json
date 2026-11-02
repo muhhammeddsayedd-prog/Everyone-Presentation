@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-11-02T19:12:41.023618+00:00",
+  "scope": "actual audit and project-local skill checks; no dependency or skill source changes",
+  "package_lock_sha256": "6859471ff399d9c5fc6364a8bbc0b8e66d4b274e3849b444e85b54ad34f9f4d1",
+  "full_audit": {
+    "command": "npm.cmd audit --json",
+    "normal_exit": 1,
+    "vulnerabilities": {
+      "info": 0,
+      "low": 0,
+      "moderate": 12,
+      "high": 0,
+      "critical": 0,
+      "total": 12
+    },
+    "advisory": "https://github.com/advisories/GHSA-g3hv-75wg-m249",
+    "affected_tree": "minimatch and dependent development lint packages",
+    "auto_fix_or_downgrade_performed": false
+  },
+  "production_audit": {
+    "command": "npm.cmd audit --omit=dev --json",
+    "normal_exit": 0,
+    "vulnerabilities": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    }
+  },
+  "dependencies": {
+    "prod": 145,
+    "dev": 159,
+    "optional": 75,
+    "peer": 0,
+    "peerOptional": 0,
+    "total": 378
+  },
+  "project_skills": {
+    "command": ".venv-skills/Scripts/python.exe -X utf8 -B tools/manage_project_skills.py",
+    "normal_exit": 0,
+    "observed_at": "2026-11-02T19:09:44.301857+00:00",
+    "status": "PASS",
+    "canonical_skills": 53,
+    "source_files": 550,
+    "installed_files": 550,
+    "adapted_files": 71,
+    "local_markdown_links_checked": 436,
+    "source_tree_sha256": "2d44fb85e09505e8bb55780f7158cb7efc115c3947e6661e0b60c70a5d0594c0",
+    "errors": 0,
+    "warnings": 0,
+    "runtime_or_hosted_acceptance_implied": false
+  }
+}

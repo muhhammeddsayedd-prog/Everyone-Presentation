@@ -1,11 +1,11 @@
 {
   "pack_version": "1.0",
-  "updated_at": "2026-11-02T18:32:40.344697+00:00",
+  "updated_at": "2026-11-02T19:12:41.023618+00:00",
   "implementation_started": true,
   "current_milestone": "M07",
   "current_pilot": {
     "status": "production_deployed_acceptance_in_progress",
-    "record_updated_at": "2026-11-02T18:14:44.064468+00:00",
+    "record_updated_at": "2026-11-02T19:06:25.363509+00:00",
     "authority": "latest_checkpoint, current_hosted_release and completion_release; all superseded dated records remain historical",
     "origin": "https://everyone-presentation-pilot.vercel.app",
     "canonical_history": 40,
@@ -62,7 +62,7 @@
       "preservation_admission": "tracking/evidence/m07/completion-release/role-focus-release-Root-admission.json"
     },
     "last_confirmed_remote_main": "fbe293292c3673460add40b7d4c234dc964a0d53",
-    "current_main_checkpoint": "0537427cf4841041acae88a4984d4546c4921933",
+    "current_main_checkpoint": "6cbd3c0395acc4151255cc34cfee01950b9f34e9",
     "latest_main_push_verified": false,
     "push_verified_scope": "Source checkpoint45c81ba normally pushed and independently matched; later development/evidence/docs changes await their own push.",
     "contributor_acceptance": "skipped_by_owner_not_verified",
@@ -100,7 +100,14 @@
     "selected_310_main_product_bytes_equal_deployed": false,
     "web_source_count": 311,
     "selected_311_main_product_bytes_equal_deployed": false,
-    "manual_screenreader": "explicitly_skipped_by_owner_not_a_verified_pass"
+    "manual_screenreader": "explicitly_skipped_by_owner_not_a_verified_pass",
+    "current_local_quality": {
+      "receipt": "tracking/evidence/m07/completion-release/2026-11-02T19-04-15.971Z-0b4f1377-identity-root-quality.json",
+      "passed_tests": 998,
+      "types_lint_production_guard": "passed",
+      "build_or_hosted_acceptance_implied": false
+    },
+    "current_main_checkpoint_observed_at": "2026-11-02T19:12:41.023618+00:00"
   },
   "historical_pilot_records": {
     "observed_at": "2026-11-01T17:37:06.827794Z",
@@ -11529,7 +11536,7 @@
       "historical_asset_pins_preserved": 42,
       "whole_Reviewed_profile_preserved": true
     },
-    "record_updated_at": "2026-11-02T18:14:44.064468+00:00",
+    "record_updated_at": "2026-11-02T19:06:25.363509+00:00",
     "post_journey_worker_receipt": "tracking/evidence/m07/completion-release/pre-web40-worker-identity-de87621f.json",
     "post_journey_web_receipt": "tracking/evidence/m07/completion-release/production-web-current-identity.json",
     "selected_308_main_product_bytes_equal_deployed": false,
@@ -11546,7 +11553,15 @@
     "web_source_count": 311,
     "selected_311_main_product_bytes_equal_deployed": false,
     "manual_screenreader": "explicitly_skipped_by_owner_not_a_verified_pass",
-    "active_acceptance": "logo_download_PDF47_generation_and_worker_forward_release_with_manual_reader_waived"
+    "active_acceptance": "logo_download_PDF47_generation_and_worker_forward_release_with_manual_reader_waived",
+    "current_local_quality": {
+      "receipt": "tracking/evidence/m07/completion-release/2026-11-02T19-04-15.971Z-0b4f1377-identity-root-quality.json",
+      "passed_tests": 998,
+      "types_lint_production_guard": "passed",
+      "build_or_hosted_acceptance_implied": false
+    },
+    "current_main_checkpoint": "6cbd3c0395acc4151255cc34cfee01950b9f34e9",
+    "current_main_checkpoint_observed_at": "2026-11-02T19:12:41.023618+00:00"
   },
   "recovery38": {
     "status": "passed_owned_local38",
@@ -11693,7 +11708,7 @@
     "resume_receipt": "tracking/evidence/m07/completion-worker/2026-11-02T02-28-39-166492Z-rollout39-resume.json",
     "production_serving_verified": true,
     "current_main_push_verified": false,
-    "current_main_checkpoint": "fbe293292c3673460add40b7d4c234dc964a0d53",
+    "current_main_checkpoint": "6cbd3c0395acc4151255cc34cfee01950b9f34e9",
     "repository_push_scope": "Release checkpoint62df023 normally pushed and independently matched by GitHub ref; following evidence-only reconciliation receives a separate normal push, reported by Root final readback.",
     "production_UI": {
       "planned_receipt": "tracking/evidence/m07/completion-release/planned-project-production.json",
@@ -11790,7 +11805,7 @@
     "diagnostic_quality_receipt": "tracking/evidence/m07/completion-release/2026-11-02T17-47-11.447Z-3de2c3c9-logo-trace-root-quality.json",
     "diagnostic_deterministic_tests": 993,
     "generation_metadata_receipt": "tracking/evidence/m07/presentation-cancel-audit39/2026-11-02T10-27-16-747287Z-cancellation-metadata.json",
-    "record_updated_at": "2026-11-02T18:14:44.064468+00:00",
+    "record_updated_at": "2026-11-02T19:06:25.363509+00:00",
     "web_deployment_id": "dpl_4fro7gR9EUhEQCzG4vavXevHgWVo",
     "web_source_commit": "a5670eb063b799c15790496ad20bad38a16b2dcb",
     "web_source_manifest_sha256": "92e1bb61ad60d2e8c0f78c1c521eee3f8d7a32da0a19e0e55915af5f816772c7",
@@ -11927,11 +11942,7 @@
       "parser_main_commit": "83ca44d",
       "parser_web_deployed": false
     },
-    "manual_screenreader": {
-      "status": "skipped_by_owner",
-      "actual_check_performed": false,
-      "receipt": "tracking/evidence/m07/completion-guest/owner-finish-and-reader-waiver.json"
-    },
+    "manual_screenreader": "explicitly_skipped_by_owner_not_a_verified_pass",
     "direct_pdf_failure_receipt": "tracking/evidence/m07/completion-release/2026-11-02T14-59-29Z-70c066bb-direct-pdf-metadata.json",
     "unreleased_provider_error_fix": "SDK classifier source is present in web archive; worker activation still pending, current worker remains056/Cp/native46",
     "authentication_scope_reconciliation": "tracking/evidence/m07/completion-release/authentication-scope-reconciliation.json",
@@ -11994,7 +12005,73 @@
       "automatic_retry": false,
       "result": "tracking/evidence/m07/pdf47-extended-deadline-evaluation/a619b610-168e-43c6-99ae-967a9f3cc835-result.json",
       "production_timeout_unchanged": true
-    }
+    },
+    "current_local_quality": {
+      "receipt": "tracking/evidence/m07/completion-release/2026-11-02T19-04-15.971Z-0b4f1377-identity-root-quality.json",
+      "passed_tests": 998,
+      "types_lint_production_guard": "passed",
+      "build_or_hosted_acceptance_implied": false
+    },
+    "folder_intake": {
+      "status": "actual_native_folder_selection_and_one_file_processed",
+      "queued_files": 10,
+      "queued_bytes": 52016551,
+      "uploaded_files": 1,
+      "confirmed_bytes": 4316429,
+      "job_id": "07f1ff33-50ba-43a9-86a8-202a5a754a65",
+      "job_status": "succeeded",
+      "current_attempt_provider_response_records": 4,
+      "frames": 12,
+      "selected_frames": 3,
+      "remaining9_transferred_bytes": 0,
+      "metadata_receipt": "tracking/evidence/m07/completion-release/2026-11-02-42a79abe-8566-416f-8ad6-dd77e0d25afb-img2850-job07-metadata.json",
+      "capacity_acceptance_claimed": false
+    },
+    "fresh_after_video_preservation": {
+      "receipt": "tracking/evidence/m07/completion-release/2026-11-02T18-39-08.540857+00-00-8331566f-post-focus-preservation.json",
+      "Reviewed_profile_exact": true,
+      "old_versions": 10,
+      "old_slides": 57,
+      "old_asset_pins": 42,
+      "newer13version_hash_check_claimed": false
+    },
+    "pool_helper_proof": {
+      "status": "failed_at_separate_media_assets_oracle_57014",
+      "run_id": "c2f4fe15-ee8d-468b-abee-8e3166a508b6",
+      "receipt": "tracking/evidence/m07/presentation-lock-source-pool-proof/c2f4fe15-outcome.json",
+      "new_first4_under8s": true,
+      "warm8_completed": true,
+      "full_semantics_or_generation_acceptance": false,
+      "cleanup_original29_data_catalogue_global_roles_and_lock": "passed",
+      "dispatch_flag_closed": true,
+      "production_migration_applied": false
+    },
+    "worker_source_identity_preparation": {
+      "status": "actual_local_stage_native_export_and_manifest_passed_daemon_export_running",
+      "pure_tests": 54,
+      "root_library_pins": 17,
+      "local_receipt": "tracking/evidence/m07/worker-source-identity-release/bbf4b5da-local-stage-native-manifest.json",
+      "native_digest": "sha256:3d4286db01b27b40ec9078e303158e93003a096d5ddad1c9802130238de6dd80",
+      "packed_source_sha256": "f742e9e5e4b83643f5bae18cace3e9e253912c0114f59b4489f0d163bcb39368",
+      "file_count": 166,
+      "registry_native_task_SQL_or_deployment_called": false,
+      "serving_worker_unchanged": true
+    },
+    "logo_owner_diagnostic": {
+      "status": "released_to_existing_owner_connection",
+      "run_id": "b74863ce-3bfb-4818-af38-60eb80489486",
+      "safe_release_receipt": "tracking/evidence/m07/completion-release/owner-logo-diagnostic-b74863ce-root-release.json",
+      "result_pending": true,
+      "no_failure_autocancel": true
+    },
+    "dependency_and_skill_checks": {
+      "receipt": "tracking/evidence/m07/completion-release/2026-11-02T19-10-dependencies-and-skills.json",
+      "production_vulnerabilities": 0,
+      "full_high_or_critical": 0,
+      "development_moderate": 12,
+      "skills_status": "PASS"
+    },
+    "current_main_checkpoint_observed_at": "2026-11-02T19:12:41.023618+00:00"
   },
   "latest_checkpoint": {
     "milestone": "M07",
@@ -12091,7 +12168,7 @@
     "canonical_specs_and_preservation_audit": "tracking/evidence/m07/production-specs-job-audit/Root-admission.json",
     "post_journey_web_receipt": "tracking/evidence/m07/completion-release/production-web-current-identity.json",
     "post_journey_worker_receipt": "tracking/evidence/m07/completion-release/pre-web40-worker-identity-de87621f.json",
-    "current_main_checkpoint": "1697f78323878a052d357d56708426a4371109fd",
+    "current_main_checkpoint": "6cbd3c0395acc4151255cc34cfee01950b9f34e9",
     "published_source_commit": "ca692e3e2eaca32c174de9006e11db20b763edec",
     "canonical_push_receipt": "tracking/evidence/m07/completion-release/canonical-push-fbe2932-readback.json",
     "canonical_push_observed_at": "2026-11-02T04:02:53.180067+00:00",
@@ -12114,7 +12191,7 @@
     "diagnostic_quality_receipt": "tracking/evidence/m07/completion-release/2026-11-02T10-00-21.237Z-bea51fe2-mcp-diagnostic-root-quality.json",
     "diagnostic_deterministic_tests": 968,
     "generation_metadata_receipt": "tracking/evidence/m07/presentation-cancel-audit39/2026-11-02T10-27-16-747287Z-cancellation-metadata.json",
-    "record_updated_at": "2026-11-02T18:14:44.064468+00:00",
+    "record_updated_at": "2026-11-02T19:06:25.363509+00:00",
     "web_readback_receipt": "tracking/evidence/m07/logo-failure-trace-web-release/2026-11-02T17-58-22-617365Z-a8890fe6-9fb0-4f92-8a2f-5d5a85abda11-readback.json",
     "local_diagnostic_product_changes_deployed": true,
     "selected_309_main_product_bytes_equal_deployed": false,
@@ -12253,7 +12330,14 @@
     "selected_310_main_product_bytes_equal_deployed": false,
     "web_source_count": 311,
     "selected_311_main_product_bytes_equal_deployed": false,
-    "active_acceptance": "logo_download_PDF47_generation_and_worker_forward_release_with_manual_reader_waived"
+    "active_acceptance": "logo_download_PDF47_generation_and_worker_forward_release_with_manual_reader_waived",
+    "current_local_quality": {
+      "receipt": "tracking/evidence/m07/completion-release/2026-11-02T19-04-15.971Z-0b4f1377-identity-root-quality.json",
+      "passed_tests": 998,
+      "types_lint_production_guard": "passed",
+      "build_or_hosted_acceptance_implied": false
+    },
+    "current_main_checkpoint_observed_at": "2026-11-02T19:12:41.023618+00:00"
   },
   "production_status_history": [
     {

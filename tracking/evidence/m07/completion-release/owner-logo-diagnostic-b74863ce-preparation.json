@@ -1,0 +1,35 @@
+{
+  "api_reservation_transfer_completion_cancellation_calls": 0,
+  "approved_png_bytes": 31749,
+  "approved_png_sha256": "9c751250590cd298ca52c1e9a4717e38d17cce297ff50b1c36d01c844fb74e27",
+  "file_sha256": {
+    "OWNER_LOGO_DIAGNOSTIC.md": "7a7cf28abf0e111a6cb77038eef799ecb377290bcf44db95d01ff27ce5e9e7a3",
+    "owner-logo-transfer.py": "70d984fc1ce208fe4d6f167417559bd2816e6b209a9d7197672321c3c5e26b20",
+    "transfer-input.json": "2ec3a0db0252afebb43188ce34cdfe184da8beadd3656616333f71f097c6d3ef"
+  },
+  "folder_and_files_owner_system_only": true,
+  "limitations": [
+    "Draft source and offline process-bound tests do not prove actual logo transfer or completion.",
+    "No signed upload URL or credentials exist in this prepared template.",
+    "Original failed reservations and all prior claims remain untouched."
+  ],
+  "observed_at": "2026-11-02T18:57:13.699792+00:00",
+  "private_folder": ".local/completion-release/owner-logo-diagnostic-b74863ce-3bfb-4818-af38-60eb80489486",
+  "private_signed_session_present": false,
+  "purpose": "owner_logo_diagnostic_preparation",
+  "result": "prepared_default_off",
+  "root_review_and_handoff": "pending",
+  "run_id": "b74863ce-3bfb-4818-af38-60eb80489486",
+  "schema_version": "1.0",
+  "tests": {
+    "command": ".venv-skills/Scripts/python.exe -X utf8 -B -W error::ResourceWarning .local/completion-release/test-owner-logo-diagnostic.py",
+    "duration_seconds": 0.656,
+    "failed": 0,
+    "harmless_local_python_child_processes": 2,
+    "network_calls": 0,
+    "passed": 9,
+    "source_sha256": "a877d1f950f11bb95e98ea8740587c821019b8d8eb487d866a704386afae2360"
+  },
+  "transfer_claim_exists": false,
+  "transfer_enabled": false
+}
