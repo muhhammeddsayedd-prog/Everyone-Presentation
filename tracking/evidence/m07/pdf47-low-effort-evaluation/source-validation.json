@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "purpose": "disabled_one_call_pdf47_low_effort_evaluation_source",
+  "source_base_commit": "dfec3fa4b096c044429c5a5b5cbee74e7213459c",
+  "source_seals": {
+    "development/m07/pdf47-low-effort-evaluation/evaluate.mts": "a920ab590c59a210f6a5ffa07d19ec3baa7ec0ea18eae256d2d88c604693c4a9",
+    "development/m07/pdf47-low-effort-evaluation/private_bridge.py": "ffdeeb88f8dbc2b13a12842713ef9b77fbaeaaa0dfde61ff3ef89fd9884b6c0d",
+    "development/m07/pdf47-low-effort-evaluation/evaluate.test.mts": "97ce3a12bfe6d63f37763a75bb8f95b733686685b823fd5b501d517ad81afa0c",
+    "development/m07/pdf47-low-effort-evaluation/test_private_bridge.py": "bc5621358f0a96e6b4d95c2cb6164d8bec50de82d056fae7116f551c91930a0b",
+    "development/m07/pdf47-low-effort-evaluation/README.md": "040ed7a0df24491a9feb75ca0419e1b382f3bf5596b4a4a6abc26c937fb6ffd6",
+    "development/m07/pdf47-low-effort-evaluation/tsconfig.json": "ebeef5a4de9776a9d75785be7ce176d36e0edfc661e7e99b8f51eea78f75b240"
+  },
+  "execution_flags": {"EVALUATION_ENABLED": false, "BRIDGE_ENABLED": false},
+  "checks": {
+    "node": {"command": "node tools/run-tests.mjs development/m07/pdf47-low-effort-evaluation/evaluate.test.mts", "passed": 6, "failed": 0, "skipped": 0, "cancelled": 0},
+    "python": {"command": "Main/.venv-skills/Scripts/python.exe -X utf8 -B -m unittest discover -s development/m07/pdf47-low-effort-evaluation -p test_*.py", "passed": 4, "failed": 0},
+    "types": {"command": "node node_modules/typescript/bin/tsc --noEmit -p development/m07/pdf47-low-effort-evaluation/tsconfig.json", "exit_code": 0},
+    "lint": {"exit_code": 0, "files": ["evaluate.mts", "evaluate.test.mts"]},
+    "history": ["Initial helper parse typo fixed before tests executed.", "Source-drift admission regression first failed (4 pass,1 fail); exact adapter seal and source paragraph admission fixed it.", "A test-only union property required explicit narrowing; focused types then passed."]
+  },
+  "scope": "pure injected ports, synthetic temporary fake-guard custody, SQL parser and actual default-off CLI refusals",
+  "real_private_acl_or_input_read": false,
+  "canonical_query_executed": false,
+  "provider_request_executed": false,
+  "job_outbox_writeback_or_deployment": false,
+  "performance_factual_quality_or_production_acceptance": false
+}
