@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.0",
+  "purpose": "review_link_reason40_owned_local_sql_proof_admission_plan",
+  "observed_at": "2026-11-02T09:48:41.000Z",
+  "result": "prepared_disabled",
+  "source_commit": "ae8b4e8c15cb92eae4cfbbb259852d4ab89f1bda",
+  "execution_enabled": false,
+  "sql_or_docker_executed": false,
+  "canonical_or_provider_called": false,
+  "original_shared_lock_exists_at_inspection": false,
+  "peer_reports_no_held_or_planned_local_lock": true,
+  "sources": {
+    "supabase/migrations/20261102085405_m07_review_link_action_reason.sql": "08bf4de8a63823b0e7c9aee75560a6e7de0620eb9b8b3c483c65929578db8212",
+    "development/m07/review-link-reason/proof.mjs": "5450523ca6568acff3eb07a8fdad73eab18fa4257ed299ee91b0b0e499687efa",
+    "development/m07/review-link-reason/compiler.py": "b43b741235e176972d0981ced897ce3be512a58173fa1db43fcd3da13356d567",
+    "development/m07/review-link-reason/fixture.sql": "ebd92fb2c4746c12912dd42a2458acc71a991d988df7dca61810b3497e01a49f",
+    "development/m07/review-link-reason/before-functions.json": "a2406af08d72e87981ee1efcf59ca67ebc91d7bafa22e54cfe39f3ed5d0f0d3a"
+  },
+  "original_source_root": "D:/Everyone/Presentation/Everyone-Presentation-Studio",
+  "proof_source_root": "D:/Everyone/Presentation/Everyone-Presentation-Studio-Production-Admission",
+  "reviewed_main_inputs_observed": {
+    "development/m07/project-creation39-proof/concurrency.mjs": "fe4f6e7cddb749690fea9587dd675a67d6db723ca458a700a8f6b53e67072fdd",
+    "development/m07/project-creation39-proof/run.mjs": "be0987779cac7758419cd73122a61a32824f53515bcf3d93afdaa3e8c024afcf",
+    "development/m07/independent-recovery38/guards.mjs": "d8eebcb91902d840b211827a7e4891938cc52f1573f4456ae9d3ab87c6c3195a"
+  },
+  "disabled_compiled_controller": {
+    "path": ".local/review-link-reason40-source/controller-1b01deea-157e-4535-853a-1771635d80a4.mjs",
+    "sha256": "83a12db76d8c6e8fa6f4bff51776c7a7a331b045f67a1a57fc7bc46a81718c91",
+    "executed": false,
+    "arming_requires_new_compilation_and_source_hash": true
+  },
+  "existing_synthetic_backup": {
+    "run_id": "639da33a-7e90-4471-b0ec-c7a8ff6097ef",
+    "metadata_sha256": "12df4e565d466c008095498903237ae24f304403887db396b8bc46b5cf93346c",
+    "restore38_all_table_hashes_and_catalogue_required": true,
+    "exact_functional39_applied_only_to_disposable_clone": true,
+    "local_history39_before_candidate40_required": true,
+    "canonical_business_auth_or_media_data_copied": false
+  },
+  "owned_target": {
+    "image": "public.ecr.aws/supabase/postgres@sha256:6942962433a569e87f228b4d4ab7e11db5deca64e43babb3a038443ad6c4f1bb",
+    "image_pull": false,
+    "database": "project39",
+    "network": "none",
+    "published_ports": [],
+    "runtime_run_uuid": "fresh random UUID generated once by reviewed controller",
+    "container_name_pattern": "eps-reason40-<runtime UUID without hyphens>-db",
+    "volume_name_pattern": "eps-reason40-<runtime UUID without hyphens>-data",
+    "resource_labels": ["eps.reason40.run", "eps.reason40.workspace", "eps.reason40.purpose"],
+    "resource_purpose": "reason40-compatibility-proof",
+    "private_artifacts_pattern": ".local/review-link-reason40-proof/<runtime UUID>/",
+    "private_acl": "current Windows owner and SYSTEM only",
+    "immutable_local_claim": "new runtime UUID claim.json; no automatic replay"
+  },
+  "original_target_preservation": {
+    "required_system_identifier": "7701520506262638626",
+    "access": "existing guarded local port; read-only before/after only",
+    "shared_lock": "Main/.local/local-postgres/test-db.lock, exclusive wx and exact owner release",
+    "roles_or_schema_or_data_writes": false,
+    "exact_data_catalogue_global_role_attributes_and_memberships_equal_required": true,
+    "exact_owned_container_and_volume_absence_required": true
+  },
+  "candidate_admission_adapter": {
+    "allowed_change": "canonical database admission only becomes exact owned database/system/run admission",
+    "full_candidate_history_source_owner_acl_and_post_identity_guards_retained": true,
+    "four_function_bodies_and_nullable_audit_column_unchanged": true
+  },
+  "fixture_scope": {
+    "new_synthetic_actor_and_unrelated_actor_only": true,
+    "gateway_config_temporarily_enabled_with_synthetic_key_then_restored_exact": true,
+    "expired_nonce_preimages_captured_and_normal_prune_observed_then_exactly_restored": true,
+    "other_old_business_rows_excluded": false,
+    "old_audit_every_original_column_compared_and_new_reason_null_required": true,
+    "new_session_guard_and_synthetic_grant_metadata_tested": true,
+    "native_export_browser_or_canonical_acceptance_claimed": false
+  },
+  "required_cases": [
+    "old39 reason rejection RED and successful row-version-only receipts replay after40",
+    "exact omitted/null/empty/whitespace/Unicode/control/over10k/65536-byte reason persistence",
+    "invalid types and65537-byte body rejection",
+    "actual changed-reason MAC tampering and complete target preimage preservation",
+    "actual non-rotation65536/65537 boundary and malformed closed rotation envelopes",
+    "both operations same-key and different-key independent-session blocking races",
+    "single audit/replay/revision, changed-reason conflicts and current authority on cache replay",
+    "closed trace header fallback without private headers or unrelated reason copying",
+    "real old session guard then anonymous session/media denial and grant revoked state",
+    "all old row projections preserved, exact owned resource cleanup and original shared target equality"
+  ],
+  "source_validation": {
+    "pure_tests_passed": 10,
+    "pure_tests_failed": 0,
+    "focused_lint_exit_code": 0,
+    "actual_temporary_plpgsql_helpers_parsed": 5,
+    "actual_database_case_result": "not_executed"
+  },
+  "execution_after_review": {
+    "allowed_source_change": "only proof.mjs EXECUTION_ENABLED false to true, separately committed",
+    "next": "regenerate a fresh compiled controller binding armed source, then one owned local invocation",
+    "normal_runner": "Node24.18.0 with existing Main/node_modules/tsx/dist/cli.mjs",
+    "target_argument": "D:/Everyone/Presentation/Everyone-Presentation-Studio",
+    "disable_debug_and_node_injection_environment": true,
+    "canonical_cloud_apply_authorized": false
+  }
+}
