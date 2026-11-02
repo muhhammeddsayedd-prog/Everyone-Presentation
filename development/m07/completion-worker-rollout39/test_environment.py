@@ -7,7 +7,7 @@ class Tests(unittest.TestCase):
  def fixture(self):
   values={key:'true'for key in e.FLAGS};values.update(EPS_RELEASE_MODE='controlled_pilot',EPS_NATIVE_MANIFEST_SHA256=e.OLD_MANIFEST,EPS_NATIVE_TRANSPORT='vercel_sandbox',SUPABASE_URL='https://pyibofyctwnqpvktepse.supabase.co',SUPABASE_PUBLISHABLE_KEY='sb_publishable_SYNTHETIC_1234',EPS_PILOT_OWNER_CONTROLLED='true')
   rows=[{'id':e.MANIFEST_ID if key=='EPS_NATIVE_MANIFEST_SHA256'else'id_'+key,'key':key,'type':'plain','target':['production'],'gitBranch':None,'createdAt':1,'updatedAt':2}for key in values]
-  rows +=[{'id':'private_id','key':'OPENAI_API_KEY','type':'sensitive','target':['production','preview'],'gitBranch':None,'createdAt':1,'updatedAt':2,'value':'PRIVATE_NOT_PROJECTED'}, {'id':'preview','key':'APP_ENV','type':'plain','target':['preview'],'gitBranch':'feature/test','createdAt':1,'updatedAt':2}]
+  rows +=[{'id':'private_id','key':'OPENAI_API_KEY','type':'sensitive','target':['production','preview'],'gitBranch':None,'createdAt':1,'updatedAt':2,'value':'PRIVATE_NOT_PROJECTED','legacyValue':'PRIVATE_NOT_PROJECTED','vsmValue':'PRIVATE_NOT_PROJECTED','internalContentHint':{'type':'flags-secret','encryptedValue':'PRIVATE_NOT_PROJECTED'}}, {'id':'preview','key':'APP_ENV','type':'plain','target':['preview'],'gitBranch':'feature/test','createdAt':1,'updatedAt':2}]
   return e.projection(e.metadata({'envs':rows}),values)
  def apply(self,value,action):
   after=copy.deepcopy(value);key=action['key'];after['public'][key]=action['body']['value']
@@ -27,6 +27,9 @@ class Tests(unittest.TestCase):
   before=self.fixture();action=e.actions(before)[0];after=self.apply(before,action)
   for identity in ['private_id','preview']:
    changed=copy.deepcopy(after);next(row for row in changed['metadata']if row['id']==identity)['updatedAt']=9
+   with self.assertRaises(ValueError):e.preserved(before,changed,action)
+  for key,value in [('customEnvironmentIds',['foreign']),('visibility','changed'),('comment','changed')]:
+   changed=copy.deepcopy(after);next(row for row in changed['metadata']if row['id']=='private_id')[key]=value
    with self.assertRaises(ValueError):e.preserved(before,changed,action)
  def test_same_id_patch_cannot_change_type_target_created_or_other_public_values(self):
   before=self.fixture();action=e.actions(before)[1];after=self.apply(before,action)
