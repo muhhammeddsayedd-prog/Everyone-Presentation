@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "scope": "independently_owned_local_pg17_sql40_result_and_cleanup_only",
+  "result": "passed",
+  "run_id": "51a83db4-54ef-473a-8f30-09ac4c19513f",
+  "source_commit": "38f3865e0a6e4a32def5350f6e6f0d157ea8d28e",
+  "normal_process_exit_code": 0,
+  "receipt": {
+    "path": "tracking/evidence/m07/review-link-reason40-preparing-proof/2026-11-02T10-22-01.195Z-51a83db4.json",
+    "sha256": "d79b1938472a0d943c3c7e993bffeaeff1c51d78a73454e092b16767dbfd4060"
+  },
+  "candidate_migration_sha256": "08bf4de8a63823b0e7c9aee75560a6e7de0620eb9b8b3c483c65929578db8212",
+  "candidate_guard_qualification": "Only canonical database admission was replaced by exact disposable database/system/run admission; all four source/owner/ACL and post-OID/security/signature/config checks completed unchanged.",
+  "restored_synthetic38_row_hashes_and_catalogue_exact": true,
+  "normal_external_preparing_series_created_without_versions": true,
+  "missing_generation_fixture_cause_observed": {
+    "same_role_plain_external_before": 1,
+    "same_role_for_share_before": 0,
+    "same_role_plain_external_after_new_actor_generation_capability": 1,
+    "same_role_for_share_after_new_actor_generation_capability": 1,
+    "old_series_or_ready_snapshot_rewritten": false
+  },
+  "reason_values_accepted_with_exact_audit_persistence": 15,
+  "legacy_acknowledgements_replayed_unchanged": true,
+  "omitted_to_null_and_changed_reason_same_key_conflicts": true,
+  "exact_65536_byte_body_accepted_and_65537_denied": true,
+  "actual_signed_reason_tampering_denied_without_target_preimage_change": true,
+  "other_gateway_operation_65536_limit_preserved": true,
+  "closed_rotation_envelope_malformed_or_oversized_metadata_denied": true,
+  "actual_independent_session_races": 4,
+  "actual_lock_wait_event": "transactionid",
+  "one_audit_one_replay_revision2_per_race_winner": true,
+  "current_project_authority_required_before_cached_return": true,
+  "unrelated_and_anonymous_permission_denials_preserved": true,
+  "closed_shared_trace_header_and_reason_rules_passed": true,
+  "actual_anonymous_session_and_media_success_before_then_denial_after": true,
+  "successful_before_probes_rolled_back_all_expiry_cleanup_and_issued_asset_grants": true,
+  "all_preexisting_row_values_preserved": true,
+  "all_historical_audit_reason_values_null": true,
+  "all_preexisting_session_and_grant_rows_preserved": true,
+  "gateway_fixture_row_restored_exact": true,
+  "expired_original_nonce_cohort": {
+    "count": 0,
+    "original_nonce_rows_deleted": 0,
+    "original_nonce_rows_restored": 0,
+    "receipt_prune_observed_field_interpretation": "The normal verifier prune SQL path executed, but no original nonce rows were expired; no nonempty deletion cohort is claimed."
+  },
+  "original_shared_data_catalogue_global_roles_memberships_exact": true,
+  "shared_lock_released": true,
+  "shared_lock_exists_after_normal_return": false,
+  "owned_resource_removal_in_harness_verified": true,
+  "independent_post_return_label_inventories": {
+    "label": "eps.reason40preparing.run=51a83db4-54ef-473a-8f30-09ac4c19513f",
+    "container_inventory_exit_code": 0,
+    "container_matches": 0,
+    "volume_inventory_exit_code": 0,
+    "volume_matches": 0,
+    "owned_networks_created": 0
+  },
+  "prior_failed_attempt_preserved": {
+    "run_id": "50f795f1-da49-4175-937c-aed0507959d7",
+    "receipt_sha256": "68dae78e35ae1ca476eb125d38a933da13003dcceb7d15a10adc73661d6b7c27",
+    "normal_failure_and_cleanup_retained": true,
+    "executed_sources_and_controller_unchanged": true
+  },
+  "canonical_cloud_or_provider_applied": false,
+  "native_worker_or_browser_acceptance_claimed": false,
+  "original_auth_unknown_denial_or_logout_markers_modified": false
+}

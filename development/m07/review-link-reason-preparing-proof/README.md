@@ -63,3 +63,23 @@ node node_modules/eslint/bin/eslint.js development/m07/review-link-reason-prepar
 Root/peer review precedes arming only this new callback flag, fresh compilation
 and one separately authorized owned runtime UUID. No consumed claim or unknown
 result is automatically replayed. Keep every actual outcome and cleanup receipt.
+
+## Actual owned result
+
+Root authorized flag-only arming at `38f3865`, followed by one fresh run
+`51a83db4-54ef-473a-8f30-09ac4c19513f`. It passed in50,390ms and exited normally0.
+The immutable receipt and separate accepted-local-outcome record live under
+`tracking/evidence/m07/review-link-reason40-preparing-proof/`. All reason/MAC/
+boundary/legacy/trace/authority cases and four actual transaction-ID lock waits
+passed. The normal Preparing fixture and before/after anonymous access checks
+passed; all old row projections, Ready snapshots, sessions and grants remained
+exact. The candidate's original four function identity/ACL/security postguards
+completed unchanged inside the owned cluster.
+
+Both owned resources were removed, exact post-return label inventories found
+zero containers/volumes with successful exit0, the shared lock was absent, and
+the original data/catalogue/global roles/memberships matched exactly. The
+expired-original-nonce cohort was **zero**; the normal prune statement executed
+but no nonempty old nonce deletion is claimed. The first50f failure/source
+lineage stays unchanged. This is local proof only; no canonical SQL40 migration,
+provider mutation, native render or browser acceptance ran here.
