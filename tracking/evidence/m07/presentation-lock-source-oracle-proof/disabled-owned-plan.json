@@ -1,0 +1,168 @@
+{
+  "schema_version": "complete-snapshot-partition-oracle-disabled-owned-plan.v1",
+  "source_commit": "990af6bc1061c5c5ffe21022a2bc3baddb92b2a1",
+  "execution_enabled": false,
+  "compiled_only": true,
+  "execution_dispatched": false,
+  "SQL_commands_issued": 0,
+  "Docker_commands_issued": 0,
+  "provider_calls": 0,
+  "runtime_uuid": null,
+  "resources": [],
+  "compile_uuid": "3468cd35-f5d0-4c2d-af69-8d7ed4907434",
+  "compiled_artifacts": [
+    {
+      "kind": "cases",
+      "path": ".local/presentation-lock-source-oracle-proof-compiled/cases-3468cd35-f5d0-4c2d-af69-8d7ed4907434.mjs",
+      "sha256": "f238643c1cadb5d4694a01d129fb82fd03f44eb7e38cb8bcd57c0ba896f4ec71"
+    },
+    {
+      "kind": "callback",
+      "path": ".local/presentation-lock-source-oracle-proof-compiled/callback-3468cd35-f5d0-4c2d-af69-8d7ed4907434.mjs",
+      "sha256": "f3d193c349ec1d5d55811b89df041f8fee89d9bd2ae1f8bf84baa519d8ba9b27"
+    },
+    {
+      "kind": "controller",
+      "path": ".local/presentation-lock-source-oracle-proof-compiled/controller-3468cd35-f5d0-4c2d-af69-8d7ed4907434.mjs",
+      "sha256": "9bc7679c989c1b8a6473c6e841994b72f88aee080615fb79dce149a4bd91af04"
+    }
+  ],
+  "source_seals": {
+    "development/m07/presentation-lock-source-oracle-proof/admit.mjs": "93a5ac2f0460bc8c6bfa7fd4232265f417ffbdc37f244bccb7c3d63db68a59a3",
+    "development/m07/presentation-lock-source-oracle-proof/admit.test.mjs": "751ef9b6f810b6b867a8e19193d6881e1d726636738a7ae084c2e02c93612ea3",
+    "development/m07/presentation-lock-source-oracle-proof/compiler.py": "df51881c7b29d5442e1fdd018c4e0dac929b4a17d9d2c834735184b9e4ec391f",
+    "development/m07/presentation-lock-source-oracle-proof/entry.mjs": "f2797bb3b824d2f14d949691f35f81769057e06ae77059d2c3ea1adcd2021504",
+    "development/m07/presentation-lock-source-oracle-proof/oracle.mjs": "50e08f70b12041059a9b107450a215fcccd719bce215eaa3a81c733a9f0c009b",
+    "development/m07/presentation-lock-source-oracle-proof/oracle.py": "c4f7243af8a5a3edbe5d67a60f1a6d49144d9abb1940404a0593af210bdf340c",
+    "development/m07/presentation-lock-source-oracle-proof/README.md": "ad8424f5d25b0a49c208f75eaff38a5df6c17d89518521de3f353d32d5f0f0bb",
+    "development/m07/presentation-lock-source-oracle-proof/source.py": "f548ca56b05555e956d64fc80ed1b309f27bac97f0ff3868c64d9c6e2dbbb43b",
+    "development/m07/presentation-lock-source-oracle-proof/test_oracle.py": "e07baca778500eead3def3cf262002d7244e86e42851aa9d003083a9cf374b29",
+    "development/m07/presentation-lock-source-oracle-proof/test_source.py": "4619f137a07903fe86b5783180596a59e88f8a16dc59785387b0b7b1841e15d4"
+  },
+  "oracle_metadata": {
+    "frozen_oracle_sha256": "18f1cd7291a75c5dd5c51a1f48606684887a0e1888c2476d8997c523d27c2e8b",
+    "original_cohorts_sha256": "06d12e3c2b2ca36deb7831579a7ef55ec183cdd77b9e66515b18c3b0bbc953ef",
+    "chunk_size": 16,
+    "complete_global_primary_key_universe": true,
+    "same_snapshot_same_connection_required": true,
+    "unchanged_other_ten_statements": {
+      "public.projects": "4cdb19b9f1edf8f0033c30f217cc2109b595a08e464677be9e1a81a29e82c04b",
+      "public.clients": "3afdf065897797b65edef87c145871602903d7946dc0911e0cf14646fa6b3655",
+      "eps.presentation_templates": "d5b3138b4b1cc3f2d04f188772b74d06e3923028b553d90438d625ecd837910b",
+      "eps.specs": "1b2a2cfb60d85add222ccf611b7874f772cc2d44146455be5fae446b01cb66c8",
+      "eps.roles": "ba2945859e5ccfda5578b58cc23fdaa41a2e05006e424d500a040dbd705ba733",
+      "eps.slots": "6cb2cbc880add641b1a0dec88a8c02fa6444d7e32852be727aa025a99614b3ce",
+      "eps.assignments": "5009a31d6d21ab3e557f950065da05737f3db3432e8c331d38c37baf4d03b8ae",
+      "eps.workspace_candidates": "090bbdf9fb69039acbc2e308972663178fd401c7e8538ea454273acca3cc3647",
+      "eps.candidates": "d86cedc74588dd301a27eebde2f693b9269b5d0f1ebe68b4bcaf232c36fc8bcd",
+      "eps.candidate_media": "fb27a03dbdf5ed8c2c589b6bc1e052a165367b93ff8f9b5d06be3055c1d94b2e"
+    },
+    "original_predicate_statement_sha256": {
+      "eps.media_assets": "0bcab421b310157e49244cc0c699a071791ab673d0ac0bc0696cd445e1c6a7bc",
+      "eps.candidate_media_frames": "38298bd3b0fb41aedc90a8381d794a05be02bb60cb4ea3bd05bafbac3cb378f4"
+    },
+    "slice_statement_sha256": {
+      "eps.media_assets": "e6daaf1cd502fba01bfa223b3589e39a35e94d8a958cb27cdad8d2c53215e93c",
+      "eps.candidate_media_frames": "d8b68f9acae72c874b990f7c40ecc188ac6c33288306f38c375862a78a993d6c"
+    },
+    "sql_sha256": "daed9f4bd7aae365044f84058b92c0594227c6d5e716c574080a68f8589c38e5"
+  },
+  "retained_actual_evidence": {
+    "c2_receipt_path": "tracking/evidence/m07/presentation-lock-source-pool-proof/2026-11-02T18-53-13.327Z-c2f4fe15.json",
+    "c2_receipt_sha256": "6db69c2ce69a6491e7b144057d33545ea6cb58c95fcc18eaded65d48244c0187",
+    "c2_safe_outcome_sha256": "f98337155069fe31804cfc17d94015a86dd79fe404ec964dc055d1fc5dbc805c",
+    "c2_actual_oracle_error": "57014 explicit statement timeout in original media_assets oracle; context inside live authority/RLS path",
+    "physical_plan_or_per_node_time_known": false,
+    "candidate_timing_reused_only_as_exact_historical_evidence": true,
+    "fresh_timing_matrix_or_generation_executed": false,
+    "no_cross_run_UUID_timestamp_or_raw_rowhash_equivalence_claim": true
+  },
+  "semantic_partition_proof": {
+    "universe": "Complete table PK universe, not candidate-selected IDs;501 assets and328 exact composite frame pairs.",
+    "same_connection_snapshot": "Trusted observer enumerates all keys in one RR READONLY transaction, then same PID/transaction switches to acting MCP/eps_review_owner.",
+    "proof_identity_each_read": [
+      "same_backend_PID",
+      "same_private_pg_current_snapshot",
+      "effective_role",
+      "repeatable_read",
+      "read_only_on",
+      "statement_timeout_8s",
+      "lock_timeout_8s"
+    ],
+    "raw_keys_and_snapshot_private_only_public_count_SHA": true,
+    "partitions_unique_disjoint_exhaustive": true,
+    "chunk_size": 16,
+    "whole_original_predicate_retained_as_parenthesized_AND_term": true,
+    "membership_queries_under_original_actual_RLS": true,
+    "result_each_slice_unique_subset_of_exact_universe_chunk": true,
+    "all_chunks_and_final_same_snapshot_required_before_completion": true,
+    "frame_pairs_zipped_exact_never_marginal_Cartesian": true,
+    "other_ten_original_statements_unchanged": true,
+    "equivalence": "For full frozen universeU and disjoint exhaustiveU_i, union of (actualRLS AND originalP AND key inU_i) equals full original result at that same snapshot.",
+    "no_authorization_result_cache_or_bypass": true,
+    "no_prediction_of_physical_plan_or_chunk_performance": true,
+    "oracle_runs_only_baseline_no_holder_source_DML": true
+  },
+  "unchanged_product_controls_and_remaining_checks": {
+    "helper_body_sha256": "280244090e5350b912dec5b23b74bb5d260e9e21df497c8ddfc2ae322fb774c4",
+    "four_data_bodies_preceding_bytes_fully_catalogue_checked": true,
+    "no_production_SQL_schema_timeout_role_grant_policy_or_helper_body_change": true,
+    "all12_source_cohorts_counts_and_distinct_session_55P03_probes": true,
+    "unselected_negative_probes": 8,
+    "remaining_cases": [
+      "baseline_tuple_equality",
+      "empty_assignments",
+      "archived_pool_active_reference_KEYSHARE_control_and_SHARE_probe",
+      "selected_frame_missing_pair",
+      "cross_workspace_FKs_23503",
+      "actual_public_assignment_workspace_fence_wait",
+      "live_membership_revocation",
+      "live_capability_revocation",
+      "database_clock_token_expiry"
+    ],
+    "original_workspace_fence_composite_FK_precondition_and_standalone_limit_unchanged": true,
+    "no_uncommitted_holder_changes_visible_to_observer_claim": true,
+    "all_expected_denials_and_full_authority_preimage_restore_required": true,
+    "allmeasurements_errors_and_chunk_attempts_attached_before_assertions": true
+  },
+  "owned_preservation": {
+    "same_pinned_independentPG17_network_none_no_host_ports_synthetic38_exact39_exact40_prefix": true,
+    "new_purpose": "presentation-lock-oracle-owned-proof",
+    "new_labels_prefix": "eps.oracleproof",
+    "new_private_root": ".local/presentation-lock-source-oracle-proof/<freshUUID>",
+    "new_permanent_compile_once_claim": ".local/presentation-lock-source-oracle-proof-once/3468cd35-f5d0-4c2d-af69-8d7ed4907434/claim.json",
+    "once_claim_before_original_target_or_Docker_never_removed": true,
+    "claim_created_by_compilation": false,
+    "shared_lock": "Main/.local/local-postgres/test-db.lock",
+    "original29_system_forbidden_as_target": "7701520506262638626",
+    "new_callback_and_cases_finite_inverse_proved_no_old_controller_replay": true,
+    "mask_only_one_helper_prosrc_complete_pg_proc_attributes_checked": true,
+    "restore_exact4107_old_four_bodies_and_presentation_config_before_outer_guard": true,
+    "fresh_full_data_catalogue_reason_Ready_auth_Storage_history_equal": true,
+    "original29_full_data_catalogue_global_roles_unchanged": true,
+    "exact_owned_resources_absent_successful_empty_independent_inventories_and_fresh_lock_absent": true,
+    "private_native_errors_before_identical_rethrow_no_raw_values_public": true,
+    "normal_status_recorded_unknown_stops_no_retry": true
+  },
+  "offline_checks": {
+    "Python_source_AST_snapshot_partition_fake_session_and_compiler_passed": 10,
+    "Python_duration_seconds": 1.302,
+    "Node_actual_receipt_partial_admission_passed": 2,
+    "Node_duration_ms": 158.5425,
+    "ESLint_exit": 0,
+    "diff_check_exit": 0,
+    "all_three_compiled_Nodecheck_exit": 0,
+    "actual_database_transport_or_performance_acceptance": false
+  },
+  "review": {
+    "independent_oracle_component_read_and_tests_by_Recovery": "closed source-only; no concrete blocker",
+    "Frontend_independent_adapter_source_peer": "pending",
+    "Root_full_source_plan_and_execution_authorization": "pending"
+  },
+  "execution_interface": "After explicit Root admission only: node <exact admitted controller> <owned original workspace root>; required positional root argument, correct matching cwd; no invocation has occurred.",
+  "limits": [
+    "Remaining local synthetic semantics/security only.",
+    "No fresh helper benchmark, whole-generation8s, four-body reuse, renderer, Storage/provider, worker or production acceptance.",
+    "Combined four-body proof remains separate mandatory work."
+  ]
+}
