@@ -1,7 +1,7 @@
 """NEW default-off web-only purpose; no historical main or claim is replayed."""
 from pathlib import Path
 import datetime, importlib.util, json, os, re, sys
-HERE=Path(__file__).resolve().parent;ROOT=Path('D:/Everyone/Presentation/Everyone-Presentation-Studio');RELEASE_ENABLED=False
+HERE=Path(__file__).resolve().parent;ROOT=Path('D:/Everyone/Presentation/Everyone-Presentation-Studio');RELEASE_ENABLED=True
 spec=importlib.util.spec_from_file_location('role_archive_focus_web_gates',HERE/'gates.py');g=importlib.util.module_from_spec(spec);spec.loader.exec_module(g)
 
 def module(name,path):
