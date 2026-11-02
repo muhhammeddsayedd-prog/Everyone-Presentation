@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "purpose": "qualified_reason40_current_baseline_canonical_entry_disabled_plan",
+  "recorded_at": "2026-11-02T16:20:16.081887+00:00",
+  "target": "pyibofyctwnqpvktepse",
+  "before_history_count": 39,
+  "after_history_count": 40,
+  "migration": {
+    "path": "supabase/migrations/20261102085405_m07_review_link_action_reason.sql",
+    "sha256": "08bf4de8a63823b0e7c9aee75560a6e7de0620eb9b8b3c483c65929578db8212"
+  },
+  "entry_flags": {
+    "READ_ENABLED": false,
+    "APPLY_ENABLED": false
+  },
+  "existing_consumed_source_flags_unchanged": true,
+  "query_validation": {
+    "path": "tracking/evidence/m07/reason40-collector-validation/2026-11-02T15-57-52.741Z-bd221d39.json",
+    "sha256": "4b25872ffe84758d98acfce52c2d0b95da6476d05749bbef15b696ccdb90c3dd"
+  },
+  "functional_local_proof_remains51a": true,
+  "collector_and_qualified_forward_guard_proof_is_bd221d39": true,
+  "baseline_scope": "classified_current_full_identity_to_future40_only",
+  "historical_identity_equivalence_since39": false,
+  "guard_methods_and_canonical_query_phase_checkpoint_transaction_transport_inherited_unchanged": true,
+  "only_five_classified_baseline_scalars_changed": true,
+  "all_other_identity_catalogue_roles_grants_dependencies_config_and_seven_zero_work_guards_retained": true,
+  "fresh_UUID_required_old8b_claim_untouched": true,
+  "fresh_protected_full76_before_after_checkpoints_required_not_restore_claims": true,
+  "source_seals": {
+    "development/m07/review-link-reason40-forward-baseline/proposal.py": "b68b2b063094111cdf9c7887e589b657f03152746b2a3db9c4ee652bcb76079c",
+    "development/m07/review-link-reason40-forward-baseline/release.py": "1fc857e0ef98c844bd8437e4acbfb96837de9fb0ce71633b0a9c959ebf4ec8b4",
+    "development/m07/review-link-reason40-forward-baseline/test_release.py": "e412f1acffe032ed14bb973a15d8788b8f3e2770607c82647797bb1526f60742"
+  },
+  "root_pure_checks": {
+    "tests": 4,
+    "passed": 4,
+    "failed": 0,
+    "seconds": 0.01,
+    "provider_calls": 0
+  },
+  "independent_peer": {
+    "result": "closed_pass",
+    "tests": 4,
+    "passed": 4,
+    "failed": 0,
+    "seconds": 0.008,
+    "provider_calls": 0
+  },
+  "canonical_calls_performed_by_preparation": 0,
+  "next": "Separate exact flag-only arm before one fresh prepare. After normal prepare, source/flags stay frozen through apply; any refusal or unknown retains claims and stops. No automatic replay."
+}
