@@ -1,0 +1,148 @@
+{
+  "purpose": "first_worker_separate_source_identity_release",
+  "execution_enabled": false,
+  "operations_implemented": false,
+  "canonical": {
+    "canonical_apply": {
+      "path": "tracking/evidence/m07/review-link-reason40-canonical-release/2026-11-02T16-28-48-678533Z-apply.json",
+      "sha256": "e04cca3019363a5e9bdcc46790118e23d939dc0e893fb56bb708d8823451a6cf"
+    },
+    "functional_sql40_proof": {
+      "path": "tracking/evidence/m07/review-link-reason40-preparing-proof/2026-11-02T10-22-01.195Z-51a83db4.json",
+      "sha256": "d79b1938472a0d943c3c7e993bffeaeff1c51d78a73454e092b16767dbfd4060"
+    },
+    "collector_validation": {
+      "path": "tracking/evidence/m07/reason40-collector-validation/2026-11-02T15-57-52.741Z-bd221d39.json",
+      "sha256": "4b25872ffe84758d98acfce52c2d0b95da6476d05749bbef15b696ccdb90c3dd"
+    },
+    "after_apply_checkpoint": {
+      "path": ".local/review-link-reason40-canonical-release/c1e984fa-965b-48fa-8ace-188233f30874/after-checkpoint.json",
+      "sha256": "981510d1dde26df882a4dbac3faaf9c54eb5df529bd387be789daa462897544e",
+      "history_path": [
+        "state",
+        "history"
+      ],
+      "scope": "after_apply",
+      "tables": 76,
+      "restore_verified": false
+    },
+    "history": [
+      "20261028010943",
+      "20261028013324",
+      "20261028013655",
+      "20261028024205",
+      "20261028072515",
+      "20261028162702",
+      "20261028162800",
+      "20261028172320",
+      "20261028184145",
+      "20261028222030",
+      "20261029001520",
+      "20261029003941",
+      "20261029070038",
+      "20261029090500",
+      "20261029090724",
+      "20261029094600",
+      "20261029100500",
+      "20261029133455",
+      "20261029135318",
+      "20261029174841",
+      "20261029180953",
+      "20261029202629",
+      "20261029203953",
+      "20261029215218",
+      "20261030002634",
+      "20261030004643",
+      "20261030013832",
+      "20261030030717",
+      "20261030111549",
+      "20261030154824",
+      "20261031010000",
+      "20261031104603",
+      "20261031130207",
+      "20261031143711",
+      "20261031182038",
+      "20261101012057",
+      "20261101042702",
+      "20261101110939",
+      "20261101223342",
+      "20261102085405"
+    ]
+  },
+  "old_worker_anchor": {
+    "deployment_id": "dpl_Cp1TW1vP3JiLJoL5G3Zx2yfei97M",
+    "source_sha256": "0566342ec367efef328885aac513adeb5a942048ba01c88e1af63e4d636b6730",
+    "native_digest": "sha256:46de2f0c0772e10d712fba514788d24041d6741faa8966b6fe9c554fe47e4af4",
+    "daemon_digest": "sha256:2d66eed2c5f584f3f261d2f241062cbb9fa088bbbc32437aed1ce0b6adf2c594",
+    "manifest_sha256": "a317b0c7398ab12d960271f9d9d8ce98d846ed390a77fc0bb02c50b9b6df9943"
+  },
+  "final_Main_source": null,
+  "native_build": null,
+  "daemon_build": null,
+  "new_native_ready": null,
+  "new_native_probe": null,
+  "current40_worker_SQL_proof": null,
+  "new_startup_observer": null,
+  "required_new_public_digests": [
+    "EPS_DAEMON_SOURCE_SHA256",
+    "EPS_NATIVE_COMPATIBILITY_SHA256"
+  ],
+  "phase_order": [
+    "prepare",
+    "pause",
+    "env",
+    "deploy",
+    "ready",
+    "pin",
+    "resume"
+  ],
+  "fresh_prepare_checkpoint_required": true,
+  "historical_checkpoint_is_restore_proof": false,
+  "private_namespace": ".local/worker-source-identity-release",
+  "evidence_namespace": "tracking/evidence/m07/worker-source-identity-release",
+  "permanent_claim_namespaces": [
+    "native-export",
+    "daemon-export",
+    "native-oci-prepare",
+    "daemon-oci-prepare",
+    "native-registry",
+    "daemon-registry",
+    "native-probe",
+    "prepare",
+    "pause",
+    "env",
+    "deploy",
+    "pin",
+    "resume"
+  ],
+  "normal_return_markers_required": true,
+  "env_has_separate_per_operation_claims": true,
+  "rollback_or_AT069_operation_included": false,
+  "automatic_replay": false,
+  "source_archive_frozen": false,
+  "observed_at": "2026-11-02T17:05:14.325655+00:00",
+  "result": "disabled_source_preparation",
+  "source_seals": {
+    "development/m07/worker-source-identity-release/admission.py": "de0a9e5a9005b32c862f6eb79c90066b2716f9d64b6d79caacb8e9f5a93746bd",
+    "development/m07/worker-source-identity-release/PLAN.md": "c17ee3702f77ebd682ce51a21af6df34fa291a8c3606d99b356193894eb286c4",
+    "development/m07/worker-source-identity-release/test_admission.py": "71c487eb30082dcb1ff4fb18a251c3dca0437ea177683a7a772a12919c741b67"
+  },
+  "historical_library_source_seals": {
+    "development/m07/completion-worker/build.py": "0ccf0dd20672c59f9b61a41e92ec4bb6c4025b2c6717c0935d8d6a68d3bf78e0",
+    "development/m07/specs-diagnostic-worker38/build.py": "2548608d9bf12bea7b48b2535e208fc2e9d7452a6113531eaf64b685565834fc",
+    "development/m07/completion-worker/prepare_oci.py": "bbc564b02591349ebe749cbabadd8973a36ea0e746e2f7f741041fff07eba465",
+    "development/m07/completion-worker/registry.py": "809561e1585f164bba92363a9fb854fc55d1efc4f1d6343acc461c3ae3fbd50c",
+    "development/m07/specs-diagnostics38-native/compile-native-probe38.mjs": "8dc2ed91ee1d0107094afadb600bba378aec6e73ccdec7baa79c700bcd5b589e",
+    "development/m07/specs-diagnostics38-native/admit-native-probe38.mjs": "03af9944785a0d00983ba6d423619b1a09e21776e191b04d423b2a2597b8e196",
+    "tools/probe-hosted-native.mjs": "84630e42f2e5277fe8865721d00779939802cc73d059bf795cffb9915e5cb3ab",
+    "development/m07/completion-worker-rollout39/provider.py": "8ae748c4176ae6553e2fcdef81696aa0bce6652a8d0991c449aa95e147749054",
+    "development/m07/completion-worker-rollout39/controller.py": "76aec005352f845928454e4aaba1b1f4700a00820a54d35f512cb401ed7c764c",
+    "development/m07/completion-worker-rollout39/state.py": "4c184701d181e539d3b5de2d2d4a68d7a985086c195108872dde5d6fe61a4ff9",
+    "development/m07/completion-worker-rollout39/capture.py": "7145afd1a856e3c3fdec53c71bd7c37240873ebece5e1088b71f9d5e9c66e07d",
+    "development/m07/production-worker-startup-observer/observe.py": "01087405e55f0824d43ae7f55a62c0511cd01dfeb0353da16eb0526ea13f84c3"
+  },
+  "historical_mains_must_not_execute": true,
+  "new_emitter_required_sha256": "a9a628e004fc8a6a636486a67878e8f84fda335a32c13c7fcb68d60c33124c3c",
+  "provider_calls": 0,
+  "private_files_read": false
+}
