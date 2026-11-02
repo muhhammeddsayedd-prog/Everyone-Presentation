@@ -1,0 +1,2011 @@
+{
+  "schema_version": "1.0",
+  "run_id": "bd221d39-fb0c-4cb2-9df1-7438b6a822c3",
+  "observed_at": "2026-11-02T15:57:52.741Z",
+  "result": "passed",
+  "checkpoint": "complete",
+  "scope": "new owned PG17 corrected initial-admin fixture context; exact0074/ledger and full SQL40 guard unchanged; no canonical/provider/OAuth/restore acceptance",
+  "cloud_called": false,
+  "provider_called": false,
+  "private_acl_verified": true,
+  "metadata_sha256": "12df4e565d466c008095498903237ae24f304403887db396b8bc46b5cf93346c",
+  "migration_sha256": "c17af7708a1886d2129df2dc9e4eb196e6b760862939bd2f5fd3c7c1c687e242",
+  "functional_sha256": "0664f439f310c9e7cf1be8513f7d6b6ad608918132f133f66cd8b744297698df",
+  "original_baseline_sha256": "fdf817fdebf54466f0f2d7167ea0f418dba2666bdba4f8aa1ca469b9e31d9fac",
+  "source_seals": {
+    ".local/reason40-forward-owner-source/controller-92c74ff4-0b09-4eea-a18b-fb2aefc6614e.mjs": "dd4da02ecfda3bddd81c7958cd0cf03883919a299f513b0f16bae17a80f174da",
+    "development/m07/project-creation39-proof/concurrency.mjs": "fe4f6e7cddb749690fea9587dd675a67d6db723ca458a700a8f6b53e67072fdd",
+    "development/m07/project-creation39-proof/run.mjs": "be0987779cac7758419cd73122a61a32824f53515bcf3d93afdaa3e8c024afcf",
+    "development/m07/independent-recovery38/guards.mjs": "d8eebcb91902d840b211827a7e4891938cc52f1573f4456ae9d3ab87c6c3195a",
+    "development/m07/review-link-reason40-canonical-release/local-cases.mjs": "32e0d07b310577c4e969bab76cef1953096ffb90583b25aed83f2d1198d81acd",
+    "development/m07/review-link-reason40-canonical-release/local-compiler.py": "3e5f68841d20548abe3f7ac2a50bddb7191bfd25a5870b8e5c249cd7b3e1412a",
+    "development/m07/review-link-reason40-canonical-release/local.py": "483cea4d8d1717f73ca5ebeb48c02a16e1e1d1a2c51b1301dcc6e38169e327a3",
+    "development/m07/review-link-reason40-canonical-release/README.md": "25bc96daded028b892ff69656c63de2c55bbe0b2049e03181b5edae114c9d9be",
+    "development/m07/review-link-reason40-canonical-release/release.py": "dcd522fd91f8643fd36cdfbd61434dd62614126e1005d3f644f5bfc314748f90",
+    "development/m07/review-link-reason40-canonical-release/state.py": "712762e9b1b886e986111510b9823a88c7490edf689fb68a50a32b4dbba146f2",
+    "development/m07/review-link-reason40-canonical-release/test_local.py": "7ee2742694f0bf22fa041a0c75f90afbe73936da1fa3d226095b3bf3655217d3",
+    "development/m07/review-link-reason40-canonical-release/test_release.py": "98488e5fbe60ad3874a764a9e5fe7dd4d32a4b93f60b9c48db3ba41f2958dd64",
+    "supabase/migrations/20261102085405_m07_review_link_action_reason.sql": "08bf4de8a63823b0e7c9aee75560a6e7de0620eb9b8b3c483c65929578db8212",
+    "tracking/evidence/m07/review-link-reason40-preparing-proof/2026-11-02T10-22-01.195Z-51a83db4.json": "d79b1938472a0d943c3c7e993bffeaeff1c51d78a73454e092b16767dbfd4060",
+    "development/m07/worker39-concurrency/qualification.py": "96bb3ac850a1bf43adf8486ec705aa38f02d8ba451fdab5005d7c3a6c2f54370",
+    "development/m07/review-link-reason40-collector-fixture/cases.mjs": "ace47f15011c155769b35e696548e2a3146244dcd07bb589360045413ac6a9d1",
+    "development/m07/review-link-reason40-collector-fixture/compiler.py": "73c55b90e26181d17db5957e54375c99cdc3451e836e7d99ae0a698316ee8f7d",
+    "development/m07/review-link-reason40-collector-fixture/fixture.py": "7d297022e5fd5f878fab14972facf7c6b1db890d9231ae4d81377d09ed29cfa4",
+    "development/m07/review-link-reason40-collector-fixture/README.md": "982944df76aead035719d3a5561fd422c780313a4a25bc22860498949c2541c8",
+    "development/m07/review-link-reason40-collector-fixture/test_fixture.py": "edea128cf7e1a4372403c914846f036afd2ebb26cf10f1050c5f0d46db1e2e13",
+    "tracking/evidence/m07/reason40-collector-validation/2026-11-02T11-16-01.701Z-ec29f8df.json": "bda5f7c4a0e75ea1c2f37795853ecfd790f1b1ed440446acc941423f0b463e6b",
+    "development/m07/review-link-reason40-typed-collector/cases.mjs": "4994962a1587e4535e007e0b30e1bb57ce7930fb44f7e0a084fb066552967616",
+    "development/m07/review-link-reason40-typed-collector/compiler.py": "fcfb5b65a00a7f81a34235916449516d9084ffa85144d0ddabff10a4216f4bcb",
+    "development/m07/review-link-reason40-typed-collector/context.py": "d35aea7b80f1c496ae99f10b2379eb8dbd63bf6bc7609c705dc406280278e188",
+    "development/m07/review-link-reason40-typed-collector/local.py": "d9be46ee4f000c002e051086afd39b737a47df4ea530053524db1a5692f2e339",
+    "development/m07/review-link-reason40-typed-collector/README.md": "9a4a16c1fb881df01930bd7ae136784e619d8b0427c2fa2b4773c769f9ec638c",
+    "development/m07/review-link-reason40-typed-collector/release.py": "bbac9dc7a111a88492ef4ab492bfec13d1868bf41423119fbe2329156861eddf",
+    "development/m07/review-link-reason40-typed-collector/test_typed.py": "3470558dc49205ae38de379cc87dfd0e5edf18894aba0f58dce7e6b0d0bbca88",
+    ".local/reason40-forward-owner-source/controller-92c74ff4-0b09-4eea-a18b-fb2aefc6614e-cases.mjs": "bf29ff5765ed9119d993578b73455b19d052661aa8541e1852e3fb8ac93b603b",
+    "development/m07/review-link-reason40-acl-collector/cases.mjs": "fae5e6cdaebfd5d684979b24a00128d1ea34a9bdae735ba10879c0b5afd13345",
+    "development/m07/review-link-reason40-acl-collector/compiler.py": "3ee1c6765f599a32da3d868183b675aa957db1a170518f5a6e0d8308ee9c58e9",
+    "development/m07/review-link-reason40-acl-collector/context.py": "ffe2b950f185789111346e2cd5120c577169d654be8c949a06dc34cbd99cf9e4",
+    "development/m07/review-link-reason40-acl-collector/local.py": "a8a5536a6c8364cf0ea349b7400c94a002c6f3a38fa6105eed55fe063223e596",
+    "development/m07/review-link-reason40-acl-collector/README.md": "a366553b96d1d3442b409d1d7dcb3fc753df15bd55d77748a121cc5e17d9155d",
+    "development/m07/review-link-reason40-acl-collector/release.py": "61fd7992aa96ab4afc6c3c43fb26a9e60c4abce9263cb15f833634ea6851eabb",
+    "development/m07/review-link-reason40-acl-collector/test_acl.py": "1ce7f34de118c8809138f20b4d12ccca654390934e55a460e61c6781a8173896",
+    "tracking/evidence/m07/reason40-collector-validation/2026-11-02T11-53-00.629Z-66bca8e3.json": "e7b62380b2438135a299f5a4f503f0a587204b6bf9b69375d178185002176ebd",
+    "development/m07/review-link-reason40-main-diagnostics/cases.mjs": "be5c0fcb5aa48f8d1816f0ed9b456aa80081ac34178502028777e3252ca6b982",
+    "development/m07/review-link-reason40-main-diagnostics/compiler.py": "53c3e3366d895ad8ff29feaf4587f32981833142a428ebe7bf31d462debb9feb",
+    "development/m07/review-link-reason40-main-diagnostics/context.py": "209378698e118b6c5ce0b292f5ed1772c1a9cfd8f40a2000c159fb1c362ffcf6",
+    "development/m07/review-link-reason40-main-diagnostics/local.py": "69bc50ab625e8d3b084090c2402d3886db98a69409461def04402148127ec08d",
+    "development/m07/review-link-reason40-main-diagnostics/README.md": "363e7c517bac739d0d546f58ab1fa351cf37d5963cf59dda202e51e85550af63",
+    "development/m07/review-link-reason40-main-diagnostics/release.py": "e4ac245e426550a8dc5c83e88bd6783c17c6f599d10686557b1931dca703f160",
+    "development/m07/review-link-reason40-main-diagnostics/test_storage.py": "bf4dc6e306ccb1b9f1c484c07718e070fabc1c7877592299a04b5111c65a2188",
+    "tracking/evidence/m07/reason40-collector-validation/2026-11-02T12-39-18.790Z-7c251681.json": "d506fe4530b1a3c89f87958aa412226cd06347365b2009996226b08c559ba693",
+    "development/m07/review-link-reason40-forward-proof/cases.mjs": "a2079f70417c9303cc598c6676f274ffb4be36a9e4652901aa3694e5778d0071",
+    "development/m07/review-link-reason40-forward-proof/compiler.py": "dc3f16d092e02910497d0bbb3638c4c400c8977be6ab2be1931d2a0f5195251d",
+    "development/m07/review-link-reason40-forward-proof/fixture.py": "0271cf6546e3b4de74c29cd22a83640c575f9467f4928630f29e44e037f5c1a9",
+    "development/m07/review-link-reason40-forward-proof/local.py": "6ea04bdafa8280092831bd4d2ace29fec8aa8b6769bcdda864110882b0183bbd",
+    "development/m07/review-link-reason40-forward-proof/README.md": "f1fd361cf05369854503b6c5b36d9c98e80b7d16ae279721fd4d97fb28f40d04",
+    "development/m07/review-link-reason40-forward-proof/test_proof.py": "35819e49bcdd7717e7010ba46a8bdeb3b72ff718c2c3cd853dce34ce791ef534",
+    "development/m07/review-link-reason40-forward-proof/upstream/0062-object-versioning-core.sql": "65525a911066368e0375190045de813964b4c8052985a877a5521ccdb9944e07",
+    "development/m07/review-link-reason40-forward-proof/upstream/0074-unlock-object-versioning.sql": "60fb345d3c03dd8a629a73aa6b296743a9c9f81887c9cc81af8fcf71d9994ec0",
+    "development/m07/review-link-reason40-forward-proof/upstream/observed-historical-dark-check.json": "a45b23c42ace617d552467ead1e55844ed424eb78b6bc9d0eab96646d7573a89",
+    "tracking/evidence/m07/reason40-collector-validation/2026-11-02T13-27-25.744Z-602f1dd4.json": "70f98f8cde94f963851eafc6e1feca4e52d411317e9724ab85ad03c892b98a6a",
+    "tracking/evidence/m07/review-link-reason40-main-diagnostics/forward-baseline-proposal-validation.json": "b35895aa05c29d5542bbc5adf8a44cef474739e9b4fe78448cee7071ddeb640d",
+    "development/m07/review-link-reason40-forward-baseline/DESIGN.md": "a4011f07a1b7ed00286ad014bab396b7809a456567ae7f2736c6ba30d9139ba5",
+    "development/m07/review-link-reason40-forward-baseline/proposal.py": "b68b2b063094111cdf9c7887e589b657f03152746b2a3db9c4ee652bcb76079c",
+    "development/m07/review-link-reason40-forward-baseline/test_proposal.py": "a1a1234197e08a712a979de113acfcbe87799c884e74a566fc433e8f899d7f07",
+    "development/m07/review-link-reason40-forward-owner-proof/cases.mjs": "a2079f70417c9303cc598c6676f274ffb4be36a9e4652901aa3694e5778d0071",
+    "development/m07/review-link-reason40-forward-owner-proof/compiler.py": "e97f6c13ac9ebdb3f143b3eb0971d7aaab859f09f869c6a985d1ba1ec7fb2e41",
+    "development/m07/review-link-reason40-forward-owner-proof/fixture-correction.py": "46611eb3a4d25488f3e9168eecfb10a26f6d587d9f2a2f222ca2387275934925",
+    "development/m07/review-link-reason40-forward-owner-proof/README.md": "0b3701a3e69e58fc82b48402d5665487a89548ac911ebaa9adb9dbfb20808153",
+    "development/m07/review-link-reason40-forward-owner-proof/test_correction.py": "58b10046914338f36ff60af17017cceed80db895daa5cee8d3ffa3b27da3bf72",
+    "tracking/evidence/m07/reason40-collector-validation/2026-11-02T15-33-05.149Z-80be12f3.json": "5a67bd0720bca71cbfeb7e74616cd58049411e15be3c2266d8c3fe3f6509eab6"
+  },
+  "image_id": "sha256:6942962433a569e87f228b4d4ab7e11db5deca64e43babb3a038443ad6c4f1bb",
+  "independent_cluster": {
+    "database": "project39",
+    "system_identifier": "7703604015719292968"
+  },
+  "restored38_all_table_hashes_exact": true,
+  "restored38_catalogue_exact": true,
+  "catalogue39_delta": {
+    "columns|public.project_memberships.active|acl": {
+      "before": [
+        "eps_candidate_apply_owner=r/postgres",
+        "eps_candidate_stage_owner=r/postgres",
+        "eps_specs_apply_owner=r/postgres",
+        "eps_specs_stage_owner=r/postgres"
+      ],
+      "after": [
+        "eps_candidate_apply_owner=r/postgres",
+        "eps_candidate_stage_owner=r/postgres",
+        "eps_project_creator=a/postgres",
+        "eps_specs_apply_owner=r/postgres",
+        "eps_specs_stage_owner=r/postgres"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "columns|public.project_memberships.can_write|acl": {
+      "before": [
+        "eps_candidate_apply_owner=r/postgres",
+        "eps_candidate_stage_owner=r/postgres",
+        "eps_specs_apply_owner=r/postgres",
+        "eps_specs_stage_owner=r/postgres"
+      ],
+      "after": [
+        "eps_candidate_apply_owner=r/postgres",
+        "eps_candidate_stage_owner=r/postgres",
+        "eps_project_creator=a/postgres",
+        "eps_specs_apply_owner=r/postgres",
+        "eps_specs_stage_owner=r/postgres"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "columns|public.project_memberships.principal_id|acl": {
+      "before": [
+        "eps_candidate_apply_owner=r/postgres",
+        "eps_candidate_stage_owner=r/postgres",
+        "eps_specs_apply_owner=r/postgres",
+        "eps_specs_stage_owner=r/postgres"
+      ],
+      "after": [
+        "eps_candidate_apply_owner=r/postgres",
+        "eps_candidate_stage_owner=r/postgres",
+        "eps_project_creator=a/postgres",
+        "eps_specs_apply_owner=r/postgres",
+        "eps_specs_stage_owner=r/postgres"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "columns|public.project_memberships.project_id|acl": {
+      "before": [
+        "eps_candidate_apply_owner=r/postgres",
+        "eps_candidate_stage_owner=r/postgres",
+        "eps_specs_apply_owner=r/postgres",
+        "eps_specs_stage_owner=r/postgres"
+      ],
+      "after": [
+        "eps_candidate_apply_owner=r/postgres",
+        "eps_candidate_stage_owner=r/postgres",
+        "eps_project_creator=a/postgres",
+        "eps_specs_apply_owner=r/postgres",
+        "eps_specs_stage_owner=r/postgres"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "columns|public.projects.client_id|acl": {
+      "before": [
+        "eps_draft_owner=r/postgres"
+      ],
+      "after": [
+        "eps_draft_owner=r/postgres",
+        "eps_project_creator=a/postgres"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "columns|public.projects.id|acl": {
+      "before": [
+        "eps_candidate_apply_owner=r/postgres",
+        "eps_candidate_stage_owner=r/postgres",
+        "eps_draft_owner=r/postgres",
+        "eps_review_owner=w/postgres",
+        "eps_specs_apply_owner=r/postgres",
+        "eps_specs_stage_owner=r/postgres"
+      ],
+      "after": [
+        "eps_candidate_apply_owner=r/postgres",
+        "eps_candidate_stage_owner=r/postgres",
+        "eps_draft_owner=r/postgres",
+        "eps_project_creator=a/postgres",
+        "eps_review_owner=w/postgres",
+        "eps_specs_apply_owner=r/postgres",
+        "eps_specs_stage_owner=r/postgres"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "columns|public.projects.name|acl": {
+      "before": [
+        "eps_api_owner=w/postgres"
+      ],
+      "after": [
+        "eps_api_owner=w/postgres",
+        "eps_project_creator=a/postgres"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "functions|eps.check_input(jsonb,text[])|acl": {
+      "before": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_apply_owner=X/eps_api_owner",
+        "eps_candidate_stage_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_logo_verify_owner=X/eps_api_owner",
+        "eps_settings_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_submit_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "after": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_apply_owner=X/eps_api_owner",
+        "eps_candidate_stage_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_logo_verify_owner=X/eps_api_owner",
+        "eps_project_creator=X/eps_api_owner",
+        "eps_settings_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_submit_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "functions|eps.fail(text,text,integer,bigint)|acl": {
+      "before": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_apply_owner=X/eps_api_owner",
+        "eps_candidate_assets_owner=X/eps_api_owner",
+        "eps_candidate_stage_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_casting_owner=X/eps_api_owner",
+        "eps_guest_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_logo_verify_owner=X/eps_api_owner",
+        "eps_review_owner=X/eps_api_owner",
+        "eps_review_stage_owner=X/eps_api_owner",
+        "eps_settings_owner=X/eps_api_owner",
+        "eps_specs_apply_owner=X/eps_api_owner",
+        "eps_specs_assets_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_stage_owner=X/eps_api_owner",
+        "eps_specs_submit_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "after": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_apply_owner=X/eps_api_owner",
+        "eps_candidate_assets_owner=X/eps_api_owner",
+        "eps_candidate_stage_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_casting_owner=X/eps_api_owner",
+        "eps_guest_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_logo_verify_owner=X/eps_api_owner",
+        "eps_project_creator=X/eps_api_owner",
+        "eps_review_owner=X/eps_api_owner",
+        "eps_review_stage_owner=X/eps_api_owner",
+        "eps_settings_owner=X/eps_api_owner",
+        "eps_specs_apply_owner=X/eps_api_owner",
+        "eps_specs_assets_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_stage_owner=X/eps_api_owner",
+        "eps_specs_submit_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "functions|eps.finish_mutation(text,text,jsonb,jsonb,uuid)|acl": {
+      "before": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_logo_verify_owner=X/eps_api_owner",
+        "eps_settings_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "after": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_logo_verify_owner=X/eps_api_owner",
+        "eps_project_creator=X/eps_api_owner",
+        "eps_settings_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "functions|eps.idempotency_begin(text,text,jsonb)|acl": {
+      "before": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_casting_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_logo_verify_owner=X/eps_api_owner",
+        "eps_review_owner=X/eps_api_owner",
+        "eps_settings_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_submit_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "after": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_casting_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_logo_verify_owner=X/eps_api_owner",
+        "eps_project_creator=X/eps_api_owner",
+        "eps_review_owner=X/eps_api_owner",
+        "eps_settings_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_submit_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "functions|eps.input_text(jsonb,text,integer,boolean)|acl": {
+      "before": [
+        "eps_api_owner=X/eps_api_owner"
+      ],
+      "after": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_project_creator=X/eps_api_owner"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "functions|eps.input_uuid(text)|acl": {
+      "before": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_apply_owner=X/eps_api_owner",
+        "eps_candidate_assets_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_review_stage_owner=X/eps_api_owner",
+        "eps_specs_assets_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_submit_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "after": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_apply_owner=X/eps_api_owner",
+        "eps_candidate_assets_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_project_creator=X/eps_api_owner",
+        "eps_review_stage_owner=X/eps_api_owner",
+        "eps_specs_assets_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_submit_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "functions|eps.project_dto(uuid)|source_sha256": {
+      "before": "80a4d36bc55ee7445ce633d825e3a429d8a4261b865bbe56f11016be1e695c8c",
+      "after": "6fdec9e404401c95cc11a08fbf5d23ef50e59f0d3b234544b48a29a5c3aecd76",
+      "added": false,
+      "removed": false
+    },
+    "functions|eps.require_capability(text)|acl": {
+      "before": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_casting_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_logo_verify_owner=X/eps_api_owner",
+        "eps_review_owner=X/eps_api_owner",
+        "eps_settings_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_submit_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "after": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_casting_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_logo_verify_owner=X/eps_api_owner",
+        "eps_project_creator=X/eps_api_owner",
+        "eps_review_owner=X/eps_api_owner",
+        "eps_settings_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_submit_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "schemas|eps|acl": {
+      "before": [
+        "anon=U/postgres",
+        "authenticated=U/postgres",
+        "eps_api_owner=U/postgres",
+        "eps_candidate_apply_owner=U/postgres",
+        "eps_candidate_assets_owner=U/postgres",
+        "eps_candidate_stage_owner=U/postgres",
+        "eps_candidate_upload_owner=U/postgres",
+        "eps_cast_owner=U/postgres",
+        "eps_casting_guard_owner=U/postgres",
+        "eps_casting_owner=U/postgres",
+        "eps_draft_owner=U/postgres",
+        "eps_guest_owner=U/postgres",
+        "eps_job_trace_owner=U/postgres",
+        "eps_jobs_dispatcher=U/postgres",
+        "eps_jobs_executor=U/postgres",
+        "eps_jobs_owner=U/postgres",
+        "eps_logo_verify_owner=U/postgres",
+        "eps_mcp_issuer_owner=U/postgres",
+        "eps_mcp_session_owner=U/postgres",
+        "eps_oauth_consent_owner=U/postgres",
+        "eps_review_owner=U/postgres",
+        "eps_review_stage_owner=U/postgres",
+        "eps_settings_owner=U/postgres",
+        "eps_specs_apply_owner=U/postgres",
+        "eps_specs_assets_executor=U/postgres",
+        "eps_specs_assets_owner=U/postgres",
+        "eps_specs_initializer=U/postgres",
+        "eps_specs_owner=U/postgres",
+        "eps_specs_stage_owner=U/postgres",
+        "eps_specs_submit_owner=U/postgres",
+        "eps_specs_upload_owner=U/postgres",
+        "eps_specs_verify_owner=U/postgres",
+        "eps_support_upload_owner=U/postgres",
+        "eps_support_verify_owner=U/postgres",
+        "postgres=UC/postgres",
+        "supabase_auth_admin=U/postgres"
+      ],
+      "after": [
+        "anon=U/postgres",
+        "authenticated=U/postgres",
+        "eps_api_owner=U/postgres",
+        "eps_candidate_apply_owner=U/postgres",
+        "eps_candidate_assets_owner=U/postgres",
+        "eps_candidate_stage_owner=U/postgres",
+        "eps_candidate_upload_owner=U/postgres",
+        "eps_cast_owner=U/postgres",
+        "eps_casting_guard_owner=U/postgres",
+        "eps_casting_owner=U/postgres",
+        "eps_draft_owner=U/postgres",
+        "eps_guest_owner=U/postgres",
+        "eps_job_trace_owner=U/postgres",
+        "eps_jobs_dispatcher=U/postgres",
+        "eps_jobs_executor=U/postgres",
+        "eps_jobs_owner=U/postgres",
+        "eps_logo_verify_owner=U/postgres",
+        "eps_mcp_issuer_owner=U/postgres",
+        "eps_mcp_session_owner=U/postgres",
+        "eps_oauth_consent_owner=U/postgres",
+        "eps_project_creator=U/postgres",
+        "eps_review_owner=U/postgres",
+        "eps_review_stage_owner=U/postgres",
+        "eps_settings_owner=U/postgres",
+        "eps_specs_apply_owner=U/postgres",
+        "eps_specs_assets_executor=U/postgres",
+        "eps_specs_assets_owner=U/postgres",
+        "eps_specs_initializer=U/postgres",
+        "eps_specs_owner=U/postgres",
+        "eps_specs_stage_owner=U/postgres",
+        "eps_specs_submit_owner=U/postgres",
+        "eps_specs_upload_owner=U/postgres",
+        "eps_specs_verify_owner=U/postgres",
+        "eps_support_upload_owner=U/postgres",
+        "eps_support_verify_owner=U/postgres",
+        "postgres=UC/postgres",
+        "supabase_auth_admin=U/postgres"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "schemas|public|acl": {
+      "before": [
+        "anon=U/pg_database_owner",
+        "authenticated=U/pg_database_owner",
+        "eps_api_owner=U/pg_database_owner",
+        "eps_candidate_apply_owner=U/pg_database_owner",
+        "eps_candidate_assets_owner=U/pg_database_owner",
+        "eps_candidate_stage_owner=U/pg_database_owner",
+        "eps_candidate_upload_owner=U/pg_database_owner",
+        "eps_cast_owner=U/pg_database_owner",
+        "eps_casting_owner=U/pg_database_owner",
+        "eps_draft_owner=U/pg_database_owner",
+        "eps_guest_owner=U/pg_database_owner",
+        "eps_jobs_owner=U/pg_database_owner",
+        "eps_logo_verify_owner=U/pg_database_owner",
+        "eps_mcp_issuer_owner=U/pg_database_owner",
+        "eps_mcp_session_owner=U/pg_database_owner",
+        "eps_oauth_consent_owner=U/pg_database_owner",
+        "eps_review_owner=U/pg_database_owner",
+        "eps_review_stage_owner=U/pg_database_owner",
+        "eps_settings_owner=U/pg_database_owner",
+        "eps_specs_apply_owner=U/pg_database_owner",
+        "eps_specs_assets_owner=U/pg_database_owner",
+        "eps_specs_owner=U/pg_database_owner",
+        "eps_specs_stage_owner=U/pg_database_owner",
+        "eps_specs_submit_owner=U/pg_database_owner",
+        "eps_specs_upload_owner=U/pg_database_owner",
+        "eps_specs_verify_owner=U/pg_database_owner",
+        "eps_support_upload_owner=U/pg_database_owner",
+        "eps_support_verify_owner=U/pg_database_owner",
+        "pg_database_owner=UC/pg_database_owner",
+        "postgres=U/pg_database_owner",
+        "service_role=U/pg_database_owner"
+      ],
+      "after": [
+        "=U/pg_database_owner",
+        "anon=U/pg_database_owner",
+        "authenticated=U/pg_database_owner",
+        "eps_api_owner=U/pg_database_owner",
+        "eps_candidate_apply_owner=U/pg_database_owner",
+        "eps_candidate_assets_owner=U/pg_database_owner",
+        "eps_candidate_stage_owner=U/pg_database_owner",
+        "eps_candidate_upload_owner=U/pg_database_owner",
+        "eps_cast_owner=U/pg_database_owner",
+        "eps_casting_owner=U/pg_database_owner",
+        "eps_draft_owner=U/pg_database_owner",
+        "eps_guest_owner=U/pg_database_owner",
+        "eps_jobs_owner=U/pg_database_owner",
+        "eps_logo_verify_owner=U/pg_database_owner",
+        "eps_mcp_issuer_owner=U/pg_database_owner",
+        "eps_mcp_session_owner=U/pg_database_owner",
+        "eps_oauth_consent_owner=U/pg_database_owner",
+        "eps_project_creator=U/pg_database_owner",
+        "eps_review_owner=U/pg_database_owner",
+        "eps_review_stage_owner=U/pg_database_owner",
+        "eps_settings_owner=U/pg_database_owner",
+        "eps_specs_apply_owner=U/pg_database_owner",
+        "eps_specs_assets_owner=U/pg_database_owner",
+        "eps_specs_owner=U/pg_database_owner",
+        "eps_specs_stage_owner=U/pg_database_owner",
+        "eps_specs_submit_owner=U/pg_database_owner",
+        "eps_specs_upload_owner=U/pg_database_owner",
+        "eps_specs_verify_owner=U/pg_database_owner",
+        "eps_support_upload_owner=U/pg_database_owner",
+        "eps_support_verify_owner=U/pg_database_owner",
+        "pg_database_owner=UC/pg_database_owner",
+        "postgres=U/pg_database_owner",
+        "service_role=U/pg_database_owner"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "tables|eps.audit_events|acl": {
+      "before": [
+        "eps_api_owner=a/postgres",
+        "eps_candidate_upload_owner=a/postgres",
+        "eps_cast_owner=a/postgres",
+        "eps_jobs_owner=a/postgres",
+        "eps_logo_verify_owner=a/postgres",
+        "eps_review_owner=a/postgres",
+        "eps_settings_owner=a/postgres",
+        "eps_specs_owner=a/postgres",
+        "eps_specs_submit_owner=a/postgres",
+        "eps_specs_upload_owner=a/postgres",
+        "eps_specs_verify_owner=a/postgres",
+        "eps_support_upload_owner=a/postgres",
+        "eps_support_verify_owner=a/postgres",
+        "postgres=arwdDxtm/postgres"
+      ],
+      "after": [
+        "eps_api_owner=a/postgres",
+        "eps_candidate_upload_owner=a/postgres",
+        "eps_cast_owner=a/postgres",
+        "eps_jobs_owner=a/postgres",
+        "eps_logo_verify_owner=a/postgres",
+        "eps_project_creator=a/postgres",
+        "eps_review_owner=a/postgres",
+        "eps_settings_owner=a/postgres",
+        "eps_specs_owner=a/postgres",
+        "eps_specs_submit_owner=a/postgres",
+        "eps_specs_upload_owner=a/postgres",
+        "eps_specs_verify_owner=a/postgres",
+        "eps_support_upload_owner=a/postgres",
+        "eps_support_verify_owner=a/postgres",
+        "postgres=arwdDxtm/postgres"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "tables|eps.idempotency_records|acl": {
+      "before": [
+        "eps_api_owner=ar/postgres",
+        "eps_candidate_upload_owner=ar/postgres",
+        "eps_cast_owner=ar/postgres",
+        "eps_casting_owner=ar/postgres",
+        "eps_jobs_owner=ar/postgres",
+        "eps_logo_verify_owner=ar/postgres",
+        "eps_review_owner=ar/postgres",
+        "eps_settings_owner=ar/postgres",
+        "eps_specs_owner=ar/postgres",
+        "eps_specs_submit_owner=ar/postgres",
+        "eps_specs_upload_owner=ar/postgres",
+        "eps_specs_verify_owner=ar/postgres",
+        "eps_support_upload_owner=ar/postgres",
+        "eps_support_verify_owner=ar/postgres",
+        "postgres=arwdDxtm/postgres"
+      ],
+      "after": [
+        "eps_api_owner=ar/postgres",
+        "eps_candidate_upload_owner=ar/postgres",
+        "eps_cast_owner=ar/postgres",
+        "eps_casting_owner=ar/postgres",
+        "eps_jobs_owner=ar/postgres",
+        "eps_logo_verify_owner=ar/postgres",
+        "eps_project_creator=ar/postgres",
+        "eps_review_owner=ar/postgres",
+        "eps_settings_owner=ar/postgres",
+        "eps_specs_owner=ar/postgres",
+        "eps_specs_submit_owner=ar/postgres",
+        "eps_specs_upload_owner=ar/postgres",
+        "eps_specs_verify_owner=ar/postgres",
+        "eps_support_upload_owner=ar/postgres",
+        "eps_support_verify_owner=ar/postgres",
+        "postgres=arwdDxtm/postgres"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_at|acl": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_at|default": {
+      "before": null,
+      "after": "now()",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_at|generated": {
+      "before": null,
+      "after": "",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_at|identity": {
+      "before": null,
+      "after": "",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_at|not_null": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_at|type": {
+      "before": null,
+      "after": "timestamp with time zone",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_by|acl": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_by|default": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_by|generated": {
+      "before": null,
+      "after": "",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_by|identity": {
+      "before": null,
+      "after": "",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_by|not_null": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_by|type": {
+      "before": null,
+      "after": "uuid",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.presentation_type|acl": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.presentation_type|default": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.presentation_type|generated": {
+      "before": null,
+      "after": "",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.presentation_type|identity": {
+      "before": null,
+      "after": "",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.presentation_type|not_null": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.presentation_type|type": {
+      "before": null,
+      "after": "text",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.project_id|acl": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.project_id|default": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.project_id|generated": {
+      "before": null,
+      "after": "",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.project_id|identity": {
+      "before": null,
+      "after": "",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.project_id|not_null": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.project_id|type": {
+      "before": null,
+      "after": "uuid",
+      "added": true,
+      "removed": false
+    },
+    "constraints|eps.project_creation_intents.project_creation_intents_created_by_fkey|definition": {
+      "before": null,
+      "after": "FOREIGN KEY (created_by) REFERENCES auth.users(id) ON DELETE RESTRICT",
+      "added": true,
+      "removed": false
+    },
+    "constraints|eps.project_creation_intents.project_creation_intents_pkey|definition": {
+      "before": null,
+      "after": "PRIMARY KEY (project_id)",
+      "added": true,
+      "removed": false
+    },
+    "constraints|eps.project_creation_intents.project_creation_intents_presentation_type_check|definition": {
+      "before": null,
+      "after": "CHECK ((presentation_type = ANY (ARRAY['casting'::text, 'wardrobe'::text, 'art_direction'::text, 'storyboard'::text, 'vehicles_animals'::text, 'fitting'::text, 'pre_ppm'::text, 'ppm'::text, 'production_documents'::text])))",
+      "added": true,
+      "removed": false
+    },
+    "constraints|eps.project_creation_intents.project_creation_intents_project_id_fkey|definition": {
+      "before": null,
+      "after": "FOREIGN KEY (project_id) REFERENCES public.projects(id) ON DELETE RESTRICT",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|acl": {
+      "before": null,
+      "after": [
+        "authenticated=X/eps_project_creator",
+        "eps_project_creator=X/eps_project_creator"
+      ],
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|argument_defaults": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|config": {
+      "before": null,
+      "after": [
+        "search_path=\"\""
+      ],
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|definer": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|identity_arguments": {
+      "before": null,
+      "after": "p_input jsonb, p_idempotency_key text",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|kind": {
+      "before": null,
+      "after": "f",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|language": {
+      "before": null,
+      "after": "plpgsql",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|leakproof": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|owner": {
+      "before": null,
+      "after": "eps_project_creator",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|parallel": {
+      "before": null,
+      "after": "u",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|returns": {
+      "before": null,
+      "after": "jsonb",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|source_sha256": {
+      "before": null,
+      "after": "42768728559b3e020d54b1432a43eb126c49da42a32a61e16ef03cec580640f9",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|strict": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|support": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|volatility": {
+      "before": null,
+      "after": "v",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|acl": {
+      "before": null,
+      "after": [
+        "authenticated=X/eps_api_owner",
+        "eps_api_owner=X/eps_api_owner"
+      ],
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|argument_defaults": {
+      "before": null,
+      "after": "''::text, NULL::text, 25",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|config": {
+      "before": null,
+      "after": [
+        "search_path=\"\""
+      ],
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|definer": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|identity_arguments": {
+      "before": null,
+      "after": "p_q text, p_cursor text, p_limit integer",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|kind": {
+      "before": null,
+      "after": "f",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|language": {
+      "before": null,
+      "after": "plpgsql",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|leakproof": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|owner": {
+      "before": null,
+      "after": "eps_api_owner",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|parallel": {
+      "before": null,
+      "after": "u",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|returns": {
+      "before": null,
+      "after": "jsonb",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|source_sha256": {
+      "before": null,
+      "after": "5c4a0fe97d1e340330207777ea9c9dfae10213b6e9fed74911f61dfd1aff9eb8",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|strict": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|support": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|volatility": {
+      "before": null,
+      "after": "s",
+      "added": true,
+      "removed": false
+    },
+    "indexes|eps.project_creation_intents_pkey|definition": {
+      "before": null,
+      "after": "CREATE UNIQUE INDEX project_creation_intents_pkey ON eps.project_creation_intents USING btree (project_id)",
+      "added": true,
+      "removed": false
+    },
+    "indexes|eps.project_creation_intents_pkey|live": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "indexes|eps.project_creation_intents_pkey|ready": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "indexes|eps.project_creation_intents_pkey|valid": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "memberships|authenticated>eps_project_creator/postgres|admin": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "memberships|authenticated>eps_project_creator/postgres|grantor": {
+      "before": null,
+      "after": "postgres",
+      "added": true,
+      "removed": false
+    },
+    "memberships|authenticated>eps_project_creator/postgres|inherit": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "memberships|authenticated>eps_project_creator/postgres|set": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "memberships|eps_project_creator>postgres/postgres|admin": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "memberships|eps_project_creator>postgres/postgres|grantor": {
+      "before": null,
+      "after": "postgres",
+      "added": true,
+      "removed": false
+    },
+    "memberships|eps_project_creator>postgres/postgres|inherit": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "memberships|eps_project_creator>postgres/postgres|set": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "memberships|eps_project_creator>postgres/supabase_admin|admin": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "memberships|eps_project_creator>postgres/supabase_admin|grantor": {
+      "before": null,
+      "after": "supabase_admin",
+      "added": true,
+      "removed": false
+    },
+    "memberships|eps_project_creator>postgres/supabase_admin|inherit": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "memberships|eps_project_creator>postgres/supabase_admin|set": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.audit_events.project_creator_audit|cmd": {
+      "before": null,
+      "after": "INSERT",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.audit_events.project_creator_audit|permissive": {
+      "before": null,
+      "after": "PERMISSIVE",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.audit_events.project_creator_audit|qual": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.audit_events.project_creator_audit|roles": {
+      "before": null,
+      "after": [
+        "eps_project_creator"
+      ],
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.audit_events.project_creator_audit|with_check": {
+      "before": null,
+      "after": "((principal_id = auth.uid()) AND (action = 'create_project'::text))",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.idempotency_records.project_creator_idempotency|cmd": {
+      "before": null,
+      "after": "ALL",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.idempotency_records.project_creator_idempotency|permissive": {
+      "before": null,
+      "after": "PERMISSIVE",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.idempotency_records.project_creator_idempotency|qual": {
+      "before": null,
+      "after": "((principal_id = auth.uid()) AND (operation = 'create_project'::text))",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.idempotency_records.project_creator_idempotency|roles": {
+      "before": null,
+      "after": [
+        "eps_project_creator"
+      ],
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.idempotency_records.project_creator_idempotency|with_check": {
+      "before": null,
+      "after": "((principal_id = auth.uid()) AND (operation = 'create_project'::text))",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.project_creation_intents.project_intent_insert|cmd": {
+      "before": null,
+      "after": "INSERT",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.project_creation_intents.project_intent_insert|permissive": {
+      "before": null,
+      "after": "PERMISSIVE",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.project_creation_intents.project_intent_insert|qual": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.project_creation_intents.project_intent_insert|roles": {
+      "before": null,
+      "after": [
+        "eps_project_creator"
+      ],
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.project_creation_intents.project_intent_insert|with_check": {
+      "before": null,
+      "after": "((created_by = auth.uid()) AND (project_id = (NULLIF(current_setting('eps.project_create.new_id'::text, true), ''::text))::uuid))",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.project_creation_intents.project_intent_read|cmd": {
+      "before": null,
+      "after": "SELECT",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.project_creation_intents.project_intent_read|permissive": {
+      "before": null,
+      "after": "PERMISSIVE",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.project_creation_intents.project_intent_read|qual": {
+      "before": null,
+      "after": "eps.project_access(project_id, false)",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.project_creation_intents.project_intent_read|roles": {
+      "before": null,
+      "after": [
+        "eps_api_owner"
+      ],
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.project_creation_intents.project_intent_read|with_check": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "policies|public.project_memberships.creator_membership_insert|cmd": {
+      "before": null,
+      "after": "INSERT",
+      "added": true,
+      "removed": false
+    },
+    "policies|public.project_memberships.creator_membership_insert|permissive": {
+      "before": null,
+      "after": "PERMISSIVE",
+      "added": true,
+      "removed": false
+    },
+    "policies|public.project_memberships.creator_membership_insert|qual": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "policies|public.project_memberships.creator_membership_insert|roles": {
+      "before": null,
+      "after": [
+        "eps_project_creator"
+      ],
+      "added": true,
+      "removed": false
+    },
+    "policies|public.project_memberships.creator_membership_insert|with_check": {
+      "before": null,
+      "after": "((project_id = (NULLIF(current_setting('eps.project_create.new_id'::text, true), ''::text))::uuid) AND (principal_id = auth.uid()) AND can_write AND active)",
+      "added": true,
+      "removed": false
+    },
+    "policies|public.projects.new_project_insert|cmd": {
+      "before": null,
+      "after": "INSERT",
+      "added": true,
+      "removed": false
+    },
+    "policies|public.projects.new_project_insert|permissive": {
+      "before": null,
+      "after": "PERMISSIVE",
+      "added": true,
+      "removed": false
+    },
+    "policies|public.projects.new_project_insert|qual": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "policies|public.projects.new_project_insert|roles": {
+      "before": null,
+      "after": [
+        "eps_project_creator"
+      ],
+      "added": true,
+      "removed": false
+    },
+    "policies|public.projects.new_project_insert|with_check": {
+      "before": null,
+      "after": "((id = (NULLIF(current_setting('eps.project_create.new_id'::text, true), ''::text))::uuid) AND eps.has_capability('projects.read'::text) AND eps.has_capability('projects.write'::text) AND ((client_id IS NULL) OR eps.client_access(client_id, true)))",
+      "added": true,
+      "removed": false
+    },
+    "roles|eps_project_creator|bypassrls": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "roles|eps_project_creator|connection_limit": {
+      "before": null,
+      "after": -1,
+      "added": true,
+      "removed": false
+    },
+    "roles|eps_project_creator|create_db": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "roles|eps_project_creator|create_role": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "roles|eps_project_creator|inherit": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "roles|eps_project_creator|login": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "roles|eps_project_creator|replication": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "roles|eps_project_creator|super": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "roles|eps_project_creator|valid_until": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "tables|eps.project_creation_intents|acl": {
+      "before": null,
+      "after": [
+        "eps_api_owner=r/postgres",
+        "eps_project_creator=a/postgres",
+        "postgres=arwdDxtm/postgres"
+      ],
+      "added": true,
+      "removed": false
+    },
+    "tables|eps.project_creation_intents|force_rls": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "tables|eps.project_creation_intents|owner": {
+      "before": null,
+      "after": "postgres",
+      "added": true,
+      "removed": false
+    },
+    "tables|eps.project_creation_intents|rls": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "types|eps.project_creation_intents|acl": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "types|eps.project_creation_intents|base": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "types|eps.project_creation_intents|default": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "types|eps.project_creation_intents|enum_labels": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "types|eps.project_creation_intents|kind": {
+      "before": null,
+      "after": "c",
+      "added": true,
+      "removed": false
+    },
+    "types|eps.project_creation_intents|not_null": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "types|eps.project_creation_intents|owner": {
+      "before": null,
+      "after": "postgres",
+      "added": true,
+      "removed": false
+    }
+  },
+  "catalogue39_delta_sha256": "0294707da8494dfb9a8caf35293289c5c61dbbb04418ce67ff400ce9a0f1c70b",
+  "original_setup_failure": {
+    "path": "tracking/evidence/m07/reason40-collector-validation/2026-11-02T11-16-01.701Z-ec29f8df.json",
+    "sha256": "bda5f7c4a0e75ea1c2f37795853ecfd790f1b1ed440446acc941423f0b463e6b",
+    "cleanup_verified": true
+  },
+  "prior_postimage_failure": {
+    "path": "tracking/evidence/m07/reason40-collector-validation/2026-11-02T11-53-00.629Z-66bca8e3.json",
+    "sha256": "e7b62380b2438135a299f5a4f503f0a587204b6bf9b69375d178185002176ebd",
+    "cleanup_verified": true
+  },
+  "prior_failed_run": {
+    "path": "tracking/evidence/m07/reason40-collector-validation/2026-11-02T12-39-18.790Z-7c251681.json",
+    "sha256": "d506fe4530b1a3c89f87958aa412226cd06347365b2009996226b08c559ba693",
+    "cleanup_verified": true
+  },
+  "prior_passed_collector": {
+    "path": "tracking/evidence/m07/reason40-collector-validation/2026-11-02T13-27-25.744Z-602f1dd4.json",
+    "sha256": "70f98f8cde94f963851eafc6e1feca4e52d411317e9724ab85ad03c892b98a6a"
+  },
+  "prior_failed_owner_fixture": {
+    "path": "tracking/evidence/m07/reason40-collector-validation/2026-11-02T15-33-05.149Z-80be12f3.json",
+    "sha256": "5a67bd0720bca71cbfeb7e74616cd58049411e15be3c2266d8c3fe3f6509eab6",
+    "observed_psql_exit": 3,
+    "inferred_SQLSTATE": "42501",
+    "SQLSTATE_captured": false
+  },
+  "synthetic_qualification": {
+    "rows": [
+      {
+        "copy_sha256": "7bb0d1ebfa8680d1e28ff2aaf8d68fb380d2746e7fb5b7ef2b19cf7de5ceea39",
+        "id": "eb636d22-f702-4463-9a4d-63307ae6a835",
+        "mutable_fields": [
+          "status",
+          "lease_token_digest",
+          "lease_expires_at"
+        ],
+        "old_status": "running",
+        "table": "eps.jobs",
+        "terminal_status": "cancelled"
+      },
+      {
+        "copy_sha256": "fbe853813633e003a979c089ad173428845a589dcbe91978cde1ac3f76a95e7d",
+        "id": "0f489b6b-911d-4bbe-8462-088896a31bcd",
+        "mutable_fields": [
+          "status",
+          "lease_token_digest",
+          "lease_expires_at"
+        ],
+        "old_status": "leased",
+        "table": "eps.outbox_events",
+        "terminal_status": "dead"
+      },
+      {
+        "copy_sha256": "bc990999ffdff03c65acfc57d238ae73aca292099b86e78261907b6c616fe72b",
+        "id": "a5a0feec-b60e-46a0-82c1-ed380331b23a",
+        "mutable_fields": [
+          "status",
+          "failure_code",
+          "row_version",
+          "updated_at"
+        ],
+        "old_status": "rendering",
+        "table": "eps.presentation_versions",
+        "terminal_status": "failed",
+        "trigger_only": true
+      }
+    ],
+    "config_setup_tables": [
+      "candidate_asset_config",
+      "frame_extraction_config",
+      "presentation_processing_config",
+      "review_processing_config",
+      "specs_pipeline_config"
+    ],
+    "normal_version_trigger_only": true,
+    "no_canonical_role_or_protected_data_created": true
+  },
+  "forward_owned_fixture": {
+    "claims_after": 2,
+    "claims_before": 1,
+    "storage_bucket_count": 7,
+    "new_owned_function_oid": "20275",
+    "official0074_exact_source": true,
+    "one_synthetic_ledger_row_added": true,
+    "owned_bucket_prerequisite_new_column": true,
+    "new_bucket_versioning_status_all_disabled": true,
+    "historical_dark_check_installed_then_removed": true,
+    "original_Auth_users_sessions_clients_untouched": true,
+    "setup_before_fresh_baseline": true,
+    "source_sha256": "60fb345d3c03dd8a629a73aa6b296743a9c9f81887c9cc81af8fcf71d9994ec0",
+    "core_column_source_sha256": "65525a911066368e0375190045de813964b4c8052985a877a5521ccdb9944e07",
+    "historical_dark_definition_source_sha256": "a45b23c42ace617d552467ead1e55844ed424eb78b6bc9d0eab96646d7573a89",
+    "synthetic_coordination_row_not_live_OAuth": true,
+    "no_canonical_identity_or_managed_upgrade_acceptance": true,
+    "new_bucket_column_values_preserved_after40": true,
+    "storage_bucket_count_preserved_after40": true
+  },
+  "forward_guard_negatives": {
+    "baseline_accepted": true,
+    "cases": [
+      {
+        "label": "existing_acl",
+        "actual_mutation_rolled_back": true,
+        "actual_guard_refused": true,
+        "exact_baseline_after_rollback": true,
+        "mutation_sha256": "d2a4e338906bf9236d2428d9161a634a8801187b7c76f91a95b31a0a2d7156a4"
+      },
+      {
+        "label": "existing_function_value",
+        "actual_mutation_rolled_back": true,
+        "actual_guard_refused": true,
+        "exact_baseline_after_rollback": true,
+        "mutation_sha256": "569eb701f9a811c5039510b281b761a759860df3f616d9ec9a942527e6719fd6"
+      }
+    ],
+    "owned_current_identity": {
+      "count": 5224,
+      "sha256": "329ac845853e5e5d281cc0e6d1d91251114f24cbd2663f8e11521732cafbc9ed"
+    },
+    "canonical_hardbound_five_scalar_baseline_claimed": false
+  },
+  "diagnostic_rollback": {
+    "commit_nonce_claimed": false,
+    "difference_count": 0,
+    "differences": [],
+    "expected_sha256": "732ed7bdda702ce7fc5a4eadc66fb16c8128761ee2bbcafcdd680d15e54e1406",
+    "observed_sha256": "732ed7bdda702ce7fc5a4eadc66fb16c8128761ee2bbcafcdd680d15e54e1406",
+    "private_poststate": {
+      "canonical_checkpoint": false,
+      "path": ".local/reason40-main-diagnostics/bd221d39-fb0c-4cb2-9df1-7438b6a822c3/diagnostic-poststate.json",
+      "scope": "owned_diagnostic_rollback_poststate",
+      "sha256": "f11694b717bc6e8fd7283af7173329a1f18ee1c2e245259f416ea86062a741e7",
+      "workspace": "Main"
+    },
+    "result": "passed",
+    "truncated": false,
+    "rolled_back_preimage_exact": true
+  },
+  "collector_validation": {
+    "actual_state_checkpoint_and_rendered_transaction": true,
+    "all76_old_column_rows_and_catalogue_preserved": true,
+    "canonical_guard_sql_unmodified_except_owned_migration_target": true,
+    "canonical_identity_admission_claimed": false,
+    "full_role_membership_function_identity_and_dependency_preimages_preserved": true,
+    "owned_identity_qualifications": [
+      "database_project39_system_run",
+      "synthetic_cli_role_safe_false",
+      "synthetic_protected_m02_identity_absent",
+      "fresh_verified_synthetic_static_anchor_and_OIDs"
+    ],
+    "result": "passed",
+    "actual_negative_preimage_refused_and_rolled_back": true,
+    "normal_commit_nonce_observed": true,
+    "two_equal_before_reads": true,
+    "two_equal_after_reads": true,
+    "before_and_after_full76_checkpoints_checked": true,
+    "checkpoint_rows_RAM_only": true,
+    "raw_checkpoint_bytes_persisted": false,
+    "canonical_render_sha256": "3b8cef57017e27380011ec37c5be0bd9cae5fe26a491c30d1cc15d516f579918",
+    "owned_render_sha256": "0af915faa3fe02268be54723b66156f024bee0437521f61127b950073b8cfe0f",
+    "only_database_system_run_admission_changed": true
+  },
+  "collector_source_pins": {
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\.local\\reason40-forward-owner-source\\controller-92c74ff4-0b09-4eea-a18b-fb2aefc6614e-cases.mjs": "bf29ff5765ed9119d993578b73455b19d052661aa8541e1852e3fb8ac93b603b",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-acl-collector\\README.md": "a366553b96d1d3442b409d1d7dcb3fc753df15bd55d77748a121cc5e17d9155d",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-acl-collector\\cases.mjs": "fae5e6cdaebfd5d684979b24a00128d1ea34a9bdae735ba10879c0b5afd13345",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-acl-collector\\compiler.py": "3ee1c6765f599a32da3d868183b675aa957db1a170518f5a6e0d8308ee9c58e9",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-acl-collector\\context.py": "ffe2b950f185789111346e2cd5120c577169d654be8c949a06dc34cbd99cf9e4",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-acl-collector\\local.py": "a8a5536a6c8364cf0ea349b7400c94a002c6f3a38fa6105eed55fe063223e596",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-acl-collector\\release.py": "61fd7992aa96ab4afc6c3c43fb26a9e60c4abce9263cb15f833634ea6851eabb",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-acl-collector\\test_acl.py": "1ce7f34de118c8809138f20b4d12ccca654390934e55a460e61c6781a8173896",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-canonical-release\\README.md": "25bc96daded028b892ff69656c63de2c55bbe0b2049e03181b5edae114c9d9be",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-canonical-release\\local-cases.mjs": "32e0d07b310577c4e969bab76cef1953096ffb90583b25aed83f2d1198d81acd",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-canonical-release\\local-compiler.py": "3e5f68841d20548abe3f7ac2a50bddb7191bfd25a5870b8e5c249cd7b3e1412a",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-canonical-release\\local.py": "483cea4d8d1717f73ca5ebeb48c02a16e1e1d1a2c51b1301dcc6e38169e327a3",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-canonical-release\\release.py": "dcd522fd91f8643fd36cdfbd61434dd62614126e1005d3f644f5bfc314748f90",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-canonical-release\\state.py": "712762e9b1b886e986111510b9823a88c7490edf689fb68a50a32b4dbba146f2",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-canonical-release\\test_local.py": "7ee2742694f0bf22fa041a0c75f90afbe73936da1fa3d226095b3bf3655217d3",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-canonical-release\\test_release.py": "98488e5fbe60ad3874a764a9e5fe7dd4d32a4b93f60b9c48db3ba41f2958dd64",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-collector-fixture\\README.md": "982944df76aead035719d3a5561fd422c780313a4a25bc22860498949c2541c8",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-collector-fixture\\cases.mjs": "ace47f15011c155769b35e696548e2a3146244dcd07bb589360045413ac6a9d1",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-collector-fixture\\compiler.py": "73c55b90e26181d17db5957e54375c99cdc3451e836e7d99ae0a698316ee8f7d",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-collector-fixture\\fixture.py": "7d297022e5fd5f878fab14972facf7c6b1db890d9231ae4d81377d09ed29cfa4",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-collector-fixture\\test_fixture.py": "edea128cf7e1a4372403c914846f036afd2ebb26cf10f1050c5f0d46db1e2e13",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-forward-baseline\\DESIGN.md": "a4011f07a1b7ed00286ad014bab396b7809a456567ae7f2736c6ba30d9139ba5",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-forward-baseline\\proposal.py": "b68b2b063094111cdf9c7887e589b657f03152746b2a3db9c4ee652bcb76079c",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-forward-baseline\\test_proposal.py": "a1a1234197e08a712a979de113acfcbe87799c884e74a566fc433e8f899d7f07",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-forward-owner-proof\\README.md": "0b3701a3e69e58fc82b48402d5665487a89548ac911ebaa9adb9dbfb20808153",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-forward-owner-proof\\cases.mjs": "a2079f70417c9303cc598c6676f274ffb4be36a9e4652901aa3694e5778d0071",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-forward-owner-proof\\compiler.py": "e97f6c13ac9ebdb3f143b3eb0971d7aaab859f09f869c6a985d1ba1ec7fb2e41",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-forward-owner-proof\\fixture-correction.py": "46611eb3a4d25488f3e9168eecfb10a26f6d587d9f2a2f222ca2387275934925",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-forward-owner-proof\\test_correction.py": "58b10046914338f36ff60af17017cceed80db895daa5cee8d3ffa3b27da3bf72",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-forward-proof\\README.md": "f1fd361cf05369854503b6c5b36d9c98e80b7d16ae279721fd4d97fb28f40d04",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-forward-proof\\cases.mjs": "a2079f70417c9303cc598c6676f274ffb4be36a9e4652901aa3694e5778d0071",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-forward-proof\\compiler.py": "dc3f16d092e02910497d0bbb3638c4c400c8977be6ab2be1931d2a0f5195251d",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-forward-proof\\fixture.py": "0271cf6546e3b4de74c29cd22a83640c575f9467f4928630f29e44e037f5c1a9",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-forward-proof\\local.py": "6ea04bdafa8280092831bd4d2ace29fec8aa8b6769bcdda864110882b0183bbd",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-forward-proof\\test_proof.py": "35819e49bcdd7717e7010ba46a8bdeb3b72ff718c2c3cd853dce34ce791ef534",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-forward-proof\\upstream\\0062-object-versioning-core.sql": "65525a911066368e0375190045de813964b4c8052985a877a5521ccdb9944e07",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-forward-proof\\upstream\\0074-unlock-object-versioning.sql": "60fb345d3c03dd8a629a73aa6b296743a9c9f81887c9cc81af8fcf71d9994ec0",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-forward-proof\\upstream\\observed-historical-dark-check.json": "a45b23c42ace617d552467ead1e55844ed424eb78b6bc9d0eab96646d7573a89",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-main-diagnostics\\README.md": "363e7c517bac739d0d546f58ab1fa351cf37d5963cf59dda202e51e85550af63",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-main-diagnostics\\cases.mjs": "be5c0fcb5aa48f8d1816f0ed9b456aa80081ac34178502028777e3252ca6b982",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-main-diagnostics\\compiler.py": "53c3e3366d895ad8ff29feaf4587f32981833142a428ebe7bf31d462debb9feb",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-main-diagnostics\\context.py": "209378698e118b6c5ce0b292f5ed1772c1a9cfd8f40a2000c159fb1c362ffcf6",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-main-diagnostics\\local.py": "69bc50ab625e8d3b084090c2402d3886db98a69409461def04402148127ec08d",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-main-diagnostics\\release.py": "e4ac245e426550a8dc5c83e88bd6783c17c6f599d10686557b1931dca703f160",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-main-diagnostics\\test_storage.py": "bf4dc6e306ccb1b9f1c484c07718e070fabc1c7877592299a04b5111c65a2188",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-typed-collector\\README.md": "9a4a16c1fb881df01930bd7ae136784e619d8b0427c2fa2b4773c769f9ec638c",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-typed-collector\\cases.mjs": "4994962a1587e4535e007e0b30e1bb57ce7930fb44f7e0a084fb066552967616",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-typed-collector\\compiler.py": "fcfb5b65a00a7f81a34235916449516d9084ffa85144d0ddabff10a4216f4bcb",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-typed-collector\\context.py": "d35aea7b80f1c496ae99f10b2379eb8dbd63bf6bc7609c705dc406280278e188",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-typed-collector\\local.py": "d9be46ee4f000c002e051086afd39b737a47df4ea530053524db1a5692f2e339",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-typed-collector\\release.py": "bbac9dc7a111a88492ef4ab492bfec13d1868bf41423119fbe2329156861eddf",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason40-typed-collector\\test_typed.py": "3470558dc49205ae38de379cc87dfd0e5edf18894aba0f58dce7e6b0d0bbca88",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason\\before-functions.json": "a2406af08d72e87981ee1efcf59ca67ebc91d7bafa22e54cfe39f3ed5d0f0d3a",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\development\\m07\\review-link-reason\\build.py": "64af80394fcb81b584bcc9c216b55aca1b37d7c04ad639cc9c93b8aae7afc68f",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\supabase\\migrations\\20261028222030_m02_specs_pipeline.sql": "1e5319bb81be1f12896f7efb5a2cb7706653b79eb440a4dc1aaaca4ed9556895",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\supabase\\migrations\\20261029100500_m03_candidate_pipeline.sql": "4af04b4a3fb050e39aa23958c3f82e304cc7d7a1f450a5d93f7f50bc001bd836",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\supabase\\migrations\\20261029133455_m03_remaining_media_library.sql": "2e190e001b2bda044d9c90da4287f54e5839b0af7ffec84d4c93083909c944fb",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\supabase\\migrations\\20261029202629_m04_review_series_processing.sql": "3f1543b9d4b525d486287f2f00711270ed1fbdc30911dac3aea725aee50679e4",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\supabase\\migrations\\20261029215218_m05_immutable_presentation_versions.sql": "09d78c225ca02d436a8b1c2bcc6e55f273dfea116976807af4a8b228b99de5f4",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\supabase\\migrations\\20261102085405_m07_review_link_action_reason.sql": "08bf4de8a63823b0e7c9aee75560a6e7de0620eb9b8b3c483c65929578db8212",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\tracking\\evidence\\m07\\reason40-collector-validation\\2026-11-02T11-16-01.701Z-ec29f8df.json": "bda5f7c4a0e75ea1c2f37795853ecfd790f1b1ed440446acc941423f0b463e6b",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\tracking\\evidence\\m07\\reason40-collector-validation\\2026-11-02T11-53-00.629Z-66bca8e3.json": "e7b62380b2438135a299f5a4f503f0a587204b6bf9b69375d178185002176ebd",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\tracking\\evidence\\m07\\reason40-collector-validation\\2026-11-02T12-39-18.790Z-7c251681.json": "d506fe4530b1a3c89f87958aa412226cd06347365b2009996226b08c559ba693",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\tracking\\evidence\\m07\\reason40-collector-validation\\2026-11-02T13-27-25.744Z-602f1dd4.json": "70f98f8cde94f963851eafc6e1feca4e52d411317e9724ab85ad03c892b98a6a",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\tracking\\evidence\\m07\\reason40-collector-validation\\2026-11-02T15-33-05.149Z-80be12f3.json": "5a67bd0720bca71cbfeb7e74616cd58049411e15be3c2266d8c3fe3f6509eab6",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\tracking\\evidence\\m07\\review-link-reason40-main-diagnostics\\forward-baseline-proposal-validation.json": "b35895aa05c29d5542bbc5adf8a44cef474739e9b4fe78448cee7071ddeb640d",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Production-Admission\\tracking\\evidence\\m07\\review-link-reason40-preparing-proof\\2026-11-02T10-22-01.195Z-51a83db4.json": "d79b1938472a0d943c3c7e993bffeaeff1c51d78a73454e092b16767dbfd4060",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\development\\m03\\english-release34\\release.py": "cfb1de71b308d6bfe7b9115980a67d84341b014f06babf1fac84aa3c9806364a",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\development\\m03\\english-transcript34\\port-patches.json": "12a675415e0970825903de616dae271911da6f01edd13d9dee62e0befecf813e",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\development\\m07\\completion-worker-rollout39\\capture.py": "7145afd1a856e3c3fdec53c71bd7c37240873ebece5e1088b71f9d5e9c66e07d",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\development\\m07\\feedback-summary37-release\\state.py": "a2b59a9f09a4d82897370dd3d187af04d6268210eed16d585e530ae5f1081abc",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\development\\m07\\feedback-summary37\\build_migration.py": "c63159bca248b397d3cc3ceb820424555aecbfb788820eb637c0ff7276aaf880",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\development\\m07\\job-attempt-observability36-release\\catalogue_delta.py": "bad16efbc12f045ea57bb03eedf5d44b05d8779a041d14fdbf3cbb0b069dd65c",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\development\\m07\\job-attempt-observability36-release\\proposal.py": "26eec43740e63fee5c803f0baa8c9fa3ed5a11ca5e4ea48e16ff82c4e68f1003",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\development\\m07\\job-attempt-observability36-release\\schema_gate.py": "4ac028d48e773f881cda74f4cd7a201b86cd7c6d0a5a275d09eae5fbd855ac13",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\development\\m07\\job-attempt-observability36-release\\state.py": "2240ad7b9ae85ebc7d1ab94857e9ed5a5c572f51b6ef7fb18c1fd72b9a0b13f9",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\development\\m07\\job-attempt-observability36\\candidate.sql": "dc4eec586a3ae0fc9722a70ca6229742971eb21279916c32ab47cea4a802ed3b",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\development\\m07\\job-batch-filter38-release\\build_migration.py": "5b5be0a71a41b49fb6890442e30da8c1804997d8da5f18d487e2f66c025066b6",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\development\\m07\\job-batch-filter38-release\\state.py": "7bc47bf8589a6a211497073d25d7621688c0126f195fd40e382324e72ce5d06f",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\development\\m07\\job-batch-filter\\candidate.sql.txt": "331e6d9a83220d9baed3fed58810cd2bea70ea7acf05642c1d93885640fddb30",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\development\\m07\\oauth-attempt-trace\\inspect-attempt.py": "1359373d078ee67d5dd644d1717a048f274c98f3617bb57c3668a45866c4c03c",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\development\\m07\\oauth-consent-fix\\discover.py": "6ce739dc9394d67ba98a851651455dfb2ffaf553602f8312b1626130f2a125e9",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\development\\m07\\oauth-consent-fix\\discovery.sql": "0d19f8e10a12a4cd71c10cc476fea4654ce7d7591ee73b40ff02903bfb63809c",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\development\\m07\\oauth-consent-fix\\release_v3.py": "bec36223e8b22217ab5c9e1a2c557ff9aa0bd4dabbeae1361469fdc9079a1c77",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\development\\m07\\project-creation39-canonical-release\\README.md": "adb348ca9154dbe0e0e99ba9bcc4199bbe6ffdc1f4343e9b56cf42e44d59a033",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\development\\m07\\project-creation39-canonical-release\\catalogue.sql": "896e1ae0c17798470233ea4d4947b1b20070927cc4a5075d98a0a41a3d39cc26",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\development\\m07\\project-creation39-canonical-release\\release.py": "d91d329192c85e385e9dcbedd5a966e9acf7409bcc34630ea768f5eae1beaefe",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\development\\m07\\project-creation39-canonical-release\\state.py": "52beee5cb7d6143af858db5d8f5d2fc62f00708f2703f29f44f1e2c9b8ffd082",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\development\\m07\\project-creation39-canonical-release\\test_release.py": "eac8ca3d4e7cd14e3e6f6c0038492625309146bc07a820e72217d195215dc1ae",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\development\\m07\\project-creation39-canonical-release\\validate_local.py": "cf47cdbb02bd44f4cde20e53e9a8fec202a6c1f1e7cbac752c99077029a03f74",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\development\\m07\\specs-diagnostic-worker38-adoption\\state.py": "690ae972ab0481026c139af5bcbf42017aa2fe63144f2981bd035dd139bbe8ff",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\development\\m07\\workspace-summary35-release\\release.py": "33e64f3c9a3d2b5d394a6a7a1468968974ef05765802c03748db70ef3890510f",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\supabase\\migrations\\20261028010943_m01_canonical_foundation.sql": "8a5f3ed7727a72051e630307d2daecab8c4a74054398a6425e73bd85e17568b9",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\supabase\\migrations\\20261028013324_m01_identity_role_inheritance.sql": "5382efe9fbdf9c194010257e0ac0024dcb447207522036560056d5d1a4e20e30",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\supabase\\migrations\\20261028013655_m01_workspace_scope_alias.sql": "67ddb2cff9fed9c42d34657e833c613aec4afd2769543a991bbac84da355db64",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\supabase\\migrations\\20261028024205_m01_private_logo_boundary.sql": "b04af5119b4e384bd96136573eec39e69f21a0ffb7d9f4aeb07bbf48f2976b9d",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\supabase\\migrations\\20261028072515_m01_logo_upload_capability.sql": "4dbd400092d7743b02dd0769ae511c208e6f4f349428fc0e7f0fb9c573ba4b24",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\supabase\\migrations\\20261028162702_m01_replay_scope_refresh.sql": "82a4f2ec03efc0787aa58e5f1e68ab626e5dddb5e4c645444103456757bf4251",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\supabase\\migrations\\20261028162800_m02_jobs_outbox.sql": "f619b3dfb9d964ab5902d04941b8cd59b44e9da36f1ab3f7b10bd45298ff4013",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\supabase\\migrations\\20261028172320_m02_manual_specs_draft.sql": "8ab866a49cb2e01eabf3b83076fe4519a60255263d0a1a170ef3ba9718a2349c",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\supabase\\migrations\\20261028184145_m02_role_order.sql": "14f96c7e635fe46cb11393a881bca26068d696c32f5e454df8655299702b1efa",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\supabase\\migrations\\20261028222030_m02_specs_pipeline.sql": "1e5319bb81be1f12896f7efb5a2cb7706653b79eb440a4dc1aaaca4ed9556895",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\supabase\\migrations\\20261029001520_m02_specs_assets.sql": "9b35e8efdfc5184252ab4ecfe1a50861c8991dadf2b20544d481b51b3b7fb288",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\supabase\\migrations\\20261029003941_m02_specs_mime_guard.sql": "5a4439e9dd5262cae7e6f813997c4c9506db3eb74fe4ea95d2a352726effb549",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\supabase\\migrations\\20261029070038_m02_specs_read_operation.sql": "040151ec89b461be2dc0c1d4ab8446652062488aac5f63822129d497ecf1702e",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\supabase\\migrations\\20261029090500_m02_service_claim_replay.sql": "705d7432ab8cbe04fa5a94e090e1ce55e36c622590c09e0ce922ac5a59c6baf2",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\supabase\\migrations\\20261029090724_m03_candidate_library.sql": "2a84e240fa1ed3a283a483775e797e7ef1bafeea36d2d11ace17e06b857d8b8d",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\supabase\\migrations\\20261029094600_m02_pdf_vision.sql": "5b7ad204f6dddde82ae829577ea1130fd426a3998797460871baad20d789cb50",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\supabase\\migrations\\20261029100500_m03_candidate_pipeline.sql": "4af04b4a3fb050e39aa23958c3f82e304cc7d7a1f450a5d93f7f50bc001bd836",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\supabase\\migrations\\20261029133455_m03_remaining_media_library.sql": "2e190e001b2bda044d9c90da4287f54e5839b0af7ffec84d4c93083909c944fb",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\supabase\\migrations\\20261029135318_m03_frame_request_resubmission.sql": "e816ad6b491626ace489efd256b56c322d25d9101de94e5fb8b24d2d4b745048",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\supabase\\migrations\\20261029174841_m04_casting_assignments_lifecycle.sql": "2825681bf529f1b32db2473749180901f0961b025e8da847b38ad49c06f4b900",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\supabase\\migrations\\20261029180953_m03_frame_vision_selection.sql": "bcd12794eccfa590e5d160f62dfd67838c8186376cddda1952f291c50d03bec8",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\supabase\\migrations\\20261029202629_m04_review_series_processing.sql": "3f1543b9d4b525d486287f2f00711270ed1fbdc30911dac3aea725aee50679e4",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\supabase\\migrations\\20261029203953_m04_ai_apply_source_guard.sql": "1bf897c3c6dcae03c96f0d434ba61edfc89b01d2c700dc4e8c11ce17e285832c",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\supabase\\migrations\\20261029215218_m05_immutable_presentation_versions.sql": "09d78c225ca02d436a8b1c2bcc6e55f273dfea116976807af4a8b228b99de5f4",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\supabase\\migrations\\20261030002634_m06_guest_review_feedback_exports.sql": "2c72507216efdcd3e9dcea3f9b94270b19e1275ebcd2fcf91dad9253ddde8d2a",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\supabase\\migrations\\20261030004643_m06_credential_admission_guest_retry.sql": "a0fb9dfec8cdae2718719d455ed11b4f25dd9b79e8fc9de19bd53c229b64089e",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\supabase\\migrations\\20261030013832_m06_guest_storage_policy_composition.sql": "9e3ab85655c2fa0490aba07118fe730dae2c6193f651c3ba086910d82b7eb171",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\supabase\\migrations\\20261030030717_m06_frozen_video_source_transcripts.sql": "6334ea62a49966963e675c61e6a73d2acb5981d35f261cf2dff519d097905178",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\supabase\\migrations\\20261030111549_m07_settings_delegated_session.sql": "6531e8decab5496e212eb01575aca666cd9e03b0575f92dd66bd380760f84af4",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\supabase\\migrations\\20261030154824_m07_native_oauth_issuer.sql": "e5fd2121784c8372743f330664508b2a38a25cd622b24cf6765c570ae6f2a785",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\supabase\\migrations\\20261031010000_m07_specs_submit_ack_projection.sql": "c1c4cb41460df067d726e4058cc24eacbcf55e5cc73e6a18365394e2c2fbc5e5",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\supabase\\migrations\\20261031104603_m07_oauth_consent_binding_and_claims.sql": "0d7b7a7577ffe1ff4b24eba202ce6ac7e87c616ca8039397800e607c651908a5",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\supabase\\migrations\\20261031130207_m07_oauth_consent_browser_context.sql": "9923e7a1cb52e160041aacea053a21cb9c25c1fc468db99eb7b7ea77e15dcb81",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\supabase\\migrations\\20261031143711_m03_english_transcript_projection.sql": "0705f1940abbc5c4afc65a49e85d9ef2ce6a6489178b6dd82c3acb33cf976472",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\supabase\\migrations\\20261031182038_m07_workspace_summary.sql": "cbb12610603318bce68ced4a58d0a9a01ee07737838c99a2ea0e6214e5e933e0",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\supabase\\migrations\\20261101012057_m07_job_attempt_observability.sql": "4209e16b7d67cfb793375d24dfd22f9fee72f3516e3dde16be1d2b0d633b7267",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\supabase\\migrations\\20261101042702_m07_feedback_summary.sql": "14bb7f74e597b9a1a9b49df6fe047b16a788efa703e5d7a849ed254c3cbe98b3",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\supabase\\migrations\\20261101110939_m07_job_batch_filter.sql": "47af16421613320b76abc6e7119da92912859f0334b03b047a98492f75f6ea2d",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\supabase\\migrations\\20261101223342_m07_project_creation.sql": "c17af7708a1886d2129df2dc9e4eb196e6b760862939bd2f5fd3c7c1c687e242",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tools\\provision_logo_verifier.py": "660f2eb0d15b1ed17801ecef22270dbb389fdf93181c340f16d715fc2b3a340c",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tools\\release_foundation.py": "02aac0cefc4b46419c7d5a086da672398716cf7ee73882602574cff99659d751",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tools\\release_logo.py": "efd1de07b3304d8d5c89f29bbeaf77ff2ce1d8d42ffbf885f960c36f506b47f4",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tracking\\evidence\\m07\\completion-release\\canonical38-private-snapshot.json": "1972d54e921d1d439314b5a2f8470be5dd766d1bbc6327b0eee1d238098e7579",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tracking\\evidence\\m07\\completion-release\\reader-baseline-ready.json": "b44b296216268f165d09cdf2163f6358c84b1e58f311a65d61db7e4ff5374ccc",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tracking\\evidence\\m07\\completion-worker\\2026-11-02T02-28-39-166492Z-rollout39-resume.json": "f1e22e7c71a4b72b64d70eacb4acd33355a0e492a4cbaf65469f6d9f89cb894a",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tracking\\evidence\\m07\\feedback-summary37-release\\2026-11-01T10-02-00-079274Z-apply.json": "776ddc9e16af407c613d9203b6c07918826160ae0b3f48af7437b88409bed4f6",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tracking\\evidence\\m07\\feedback-summary37-release\\2026-11-01T10-02-27-793801Z-readback.json": "cc0936d60ab10c9f2bdabcd6c7b26dc07655abc9126de692cfe519a589e2c8c2",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tracking\\evidence\\m07\\oauth-consent-fix\\2026-10-31T10-55-03-058615Z-catalogue.json": "cea1b708a9c43f5c1436797651094b3041f3ce3365cf44690782f027c709ea80",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tracking\\evidence\\m07\\project-creation39-canonical-release\\2026-11-01T23-46-11-679664Z-apply.json": "badbed58027c49897734251edb3aba666571eb57aa6b4e3f6e053c88dc264864",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tracking\\evidence\\m07\\project-creation39-proof\\2026-11-01T22-51-16.947Z-70b3b36e.json": "b33fc470e49ad0d09618c7d3298562c30fb1703eec696743bdf75e4ff5b98686",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tracking\\evidence\\m07\\project-creation39-race\\2026-11-01T22-59-30.771Z-9e589ba0.json": "c8e08bf76b191e3456b5c5f820e3ddf96443695c616887b61d596e8b7ca6ecfb",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tracking\\evidence\\m07\\project-creation39-release\\diagnostic-9be2ab0a-7528-43d6-bcf6-68e98feda29a.json": "2089d760677c9466ccc6cc04871f593ff9ae29373ed02332b53d87fdcd96c0d9"
+  },
+  "valid_synthetic_config_fixture": {
+    "setup_before_fresh_baseline": true,
+    "canonical_configuration_acceptance": false,
+    "fields": {
+      "candidate_asset_config": {
+        "actual_changed_fields": [
+          "enabled",
+          "extraction_model",
+          "transcription_model"
+        ],
+        "after": {
+          "enabled": true,
+          "english_transcript_version": "1.0",
+          "extraction_model": "synthetic-model",
+          "id": true,
+          "media_implementation_version": "video-preparation.v1",
+          "prompt_version": "candidate-v1",
+          "schema_version": "1.0",
+          "transcription_model": "synthetic-transcription"
+        },
+        "before": {
+          "enabled": false,
+          "english_transcript_version": "1.0",
+          "extraction_model": null,
+          "id": true,
+          "media_implementation_version": "video-preparation.v1",
+          "prompt_version": "candidate-v1",
+          "schema_version": "1.0",
+          "transcription_model": null
+        },
+        "changes": {
+          "enabled": true,
+          "extraction_model": "synthetic-model",
+          "transcription_model": "synthetic-transcription"
+        },
+        "constraints": {
+          "candidate_asset_config_check": "not enabled OR transcription_model/extraction_model both nonnull with lengths1..200"
+        },
+        "copy_sha256": "9996fba453fc8a1ea965dfb219dae14c9af82a6bfa76ba8694b06b27cb5d0390",
+        "exact_backup_constraints": {
+          "candidate_asset_config_check": "(((NOT enabled) OR ((transcription_model IS NOT NULL) AND ((length(transcription_model) >= 1) AND (length(transcription_model) <= 200)) AND (extraction_model IS NOT NULL) AND ((length(extraction_model) >= 1) AND (length(extraction_model) <= 200)))))",
+          "candidate_asset_config_english_transcript_version_check": "(((english_transcript_version IS NULL) OR (english_transcript_version = '1.0'::text)))",
+          "candidate_asset_config_id_check": "(id)",
+          "candidate_asset_config_media_implementation_version_check": "((media_implementation_version = 'video-preparation.v1'::text))",
+          "candidate_asset_config_prompt_version_check": "((prompt_version = 'candidate-v1'::text))",
+          "candidate_asset_config_schema_version_check": "((schema_version = '1.0'::text))"
+        },
+        "source": "supabase/migrations/20261029100500_m03_candidate_pipeline.sql",
+        "source_sha256": "4af04b4a3fb050e39aa23958c3f82e304cc7d7a1f450a5d93f7f50bc001bd836"
+      },
+      "frame_extraction_config": {
+        "actual_changed_fields": [
+          "enabled",
+          "native_image_id"
+        ],
+        "after": {
+          "enabled": true,
+          "id": true,
+          "implementation_version": "frame-extraction.v1",
+          "native_image_id": "sha256:46de2f0c0772e10d712fba514788d24041d6741faa8966b6fe9c554fe47e4af4"
+        },
+        "before": {
+          "enabled": false,
+          "id": true,
+          "implementation_version": "frame-extraction.v1",
+          "native_image_id": null
+        },
+        "changes": {
+          "enabled": true,
+          "native_image_id": "sha256:46de2f0c0772e10d712fba514788d24041d6741faa8966b6fe9c554fe47e4af4"
+        },
+        "constraints": {
+          "frame_extraction_config_check": "not enabled OR native_image_id nonnull",
+          "frame_extraction_config_implementation_version_check": "retained implementation_version=frame-extraction.v1",
+          "frame_extraction_config_native_image_id_check": "native_image_id matches ^sha256:[a-f0-9]{64}$"
+        },
+        "copy_sha256": "f03bae4e1c0089554541197a34e650d55dfa106458a7b715910975787b55f15a",
+        "exact_backup_constraints": {
+          "frame_extraction_config_check": "(((NOT enabled) OR (native_image_id IS NOT NULL)))",
+          "frame_extraction_config_id_check": "(id)",
+          "frame_extraction_config_implementation_version_check": "((implementation_version = 'frame-extraction.v1'::text))",
+          "frame_extraction_config_native_image_id_check": "((native_image_id ~ '^sha256:[a-f0-9]{64}$'::text))"
+        },
+        "source": "supabase/migrations/20261029133455_m03_remaining_media_library.sql",
+        "source_sha256": "2e190e001b2bda044d9c90da4287f54e5839b0af7ffec84d4c93083909c944fb"
+      },
+      "presentation_processing_config": {
+        "actual_changed_fields": [],
+        "after": {
+          "application_origin": "http://127.0.0.1:3000",
+          "enabled": true,
+          "id": true,
+          "max_manifest_bytes": 8388608,
+          "max_pages": 1000,
+          "max_pdf_bytes": 67108864,
+          "renderer_version": "everyone-casting-pdf-v1"
+        },
+        "before": {
+          "application_origin": "http://127.0.0.1:3000",
+          "enabled": true,
+          "id": true,
+          "max_manifest_bytes": 8388608,
+          "max_pages": 1000,
+          "max_pdf_bytes": 67108864,
+          "renderer_version": "everyone-casting-pdf-v1"
+        },
+        "changes": {
+          "enabled": true
+        },
+        "constraints": {
+          "presentation_processing_config_application_origin_check": "retained http://127.0.0.1:3000",
+          "presentation_processing_config_max_manifest_bytes_check": "retained8388608",
+          "presentation_processing_config_max_pages_check": "retained1000",
+          "presentation_processing_config_max_pdf_bytes_check": "retained67108864",
+          "presentation_processing_config_renderer_version_check": "retained everyone-casting-pdf-v1"
+        },
+        "copy_sha256": "76150896aaf715db72a1d0f0890a75634c215717a3705764c6a6ab9fc070d63e",
+        "exact_backup_constraints": {
+          "presentation_processing_config_application_origin_check": "(((application_origin = 'http://127.0.0.1:3000'::text) OR (application_origin ~ '^https://[a-z0-9][a-z0-9.-]*(:[0-9]{1,5})?$'::text)))",
+          "presentation_processing_config_id_check": "(id)",
+          "presentation_processing_config_max_manifest_bytes_check": "((max_manifest_bytes = 8388608))",
+          "presentation_processing_config_max_pages_check": "((max_pages = 1000))",
+          "presentation_processing_config_max_pdf_bytes_check": "((max_pdf_bytes = 67108864))",
+          "presentation_processing_config_renderer_version_check": "((renderer_version = 'everyone-casting-pdf-v1'::text))"
+        },
+        "source": "supabase/migrations/20261029215218_m05_immutable_presentation_versions.sql",
+        "source_sha256": "09d78c225ca02d436a8b1c2bcc6e55f273dfea116976807af4a8b228b99de5f4"
+      },
+      "review_processing_config": {
+        "actual_changed_fields": [],
+        "after": {
+          "enabled": true,
+          "id": true,
+          "model": "gpt-6.1-sol",
+          "prompt_version": "contextual_suggestion_v1",
+          "renderer_version": "everyone-casting-fit-v1"
+        },
+        "before": {
+          "enabled": true,
+          "id": true,
+          "model": "gpt-6.1-sol",
+          "prompt_version": "contextual_suggestion_v1",
+          "renderer_version": "everyone-casting-fit-v1"
+        },
+        "changes": {
+          "enabled": true
+        },
+        "constraints": {
+          "not_null": "retained prompt contextual_suggestion_v1 and renderer everyone-casting-fit-v1",
+          "review_processing_config_model_check": "retained gpt-6.1-sol matches ^[A-Za-z0-9._-]{1,200}$"
+        },
+        "copy_sha256": "6edd27ef70ceeb706e9f674406bc1584ba3eae10de687095b5919aa83da8f33b",
+        "exact_backup_constraints": {
+          "review_processing_config_id_check": "(id)",
+          "review_processing_config_model_check": "((model ~ '^[A-Za-z0-9._-]{1,200}$'::text))"
+        },
+        "source": "supabase/migrations/20261029202629_m04_review_series_processing.sql",
+        "source_sha256": "3f1543b9d4b525d486287f2f00711270ed1fbdc30911dac3aea725aee50679e4"
+      },
+      "specs_pipeline_config": {
+        "actual_changed_fields": [
+          "document_preparation_version",
+          "enabled",
+          "model_version",
+          "prompt_version",
+          "result_schema_version"
+        ],
+        "after": {
+          "document_preparation_version": "document-preparation.v1",
+          "enabled": true,
+          "id": 1,
+          "model_version": "synthetic-model",
+          "prompt_version": "specs-v1",
+          "result_schema_version": "1.0"
+        },
+        "before": {
+          "document_preparation_version": null,
+          "enabled": false,
+          "id": 1,
+          "model_version": null,
+          "prompt_version": null,
+          "result_schema_version": null
+        },
+        "changes": {
+          "document_preparation_version": "document-preparation.v1",
+          "enabled": true,
+          "model_version": "synthetic-model",
+          "prompt_version": "specs-v1",
+          "result_schema_version": "1.0"
+        },
+        "constraints": {
+          "specs_pipeline_config_check": "not enabled OR all4 version fields nonnull",
+          "version_text_checks": "each nonnull version is trimmed, length1..200"
+        },
+        "copy_sha256": "b429cfea7b10d2d2ea1628414a6747c55c1adf9b63f7a50dfc6c92445bfc5c8f",
+        "exact_backup_constraints": {
+          "specs_pipeline_config_check": "(((NOT enabled) OR ((document_preparation_version IS NOT NULL) AND (model_version IS NOT NULL) AND (prompt_version IS NOT NULL) AND (result_schema_version IS NOT NULL))))",
+          "specs_pipeline_config_document_preparation_version_check": "(((document_preparation_version IS NULL) OR (((length(document_preparation_version) >= 1) AND (length(document_preparation_version) <= 200)) AND (document_preparation_version = btrim(document_preparation_version)))))",
+          "specs_pipeline_config_id_check": "((id = 1))",
+          "specs_pipeline_config_model_version_check": "(((model_version IS NULL) OR (((length(model_version) >= 1) AND (length(model_version) <= 200)) AND (model_version = btrim(model_version)))))",
+          "specs_pipeline_config_prompt_version_check": "(((prompt_version IS NULL) OR (((length(prompt_version) >= 1) AND (length(prompt_version) <= 200)) AND (prompt_version = btrim(prompt_version)))))",
+          "specs_pipeline_config_result_schema_version_check": "(((result_schema_version IS NULL) OR (((length(result_schema_version) >= 1) AND (length(result_schema_version) <= 200)) AND (result_schema_version = btrim(result_schema_version)))))"
+        },
+        "source": "supabase/migrations/20261028222030_m02_specs_pipeline.sql",
+        "source_sha256": "1e5319bb81be1f12896f7efb5a2cb7706653b79eb440a4dc1aaaca4ed9556895"
+      }
+    }
+  },
+  "acl_catalogue_projection": {
+    "same_six_key_text_array": [
+      "columns|eps.audit_events.reason|type",
+      "columns|eps.audit_events.reason|not_null",
+      "columns|eps.audit_events.reason|acl",
+      "columns|eps.audit_events.reason|identity",
+      "columns|eps.audit_events.reason|generated",
+      "columns|eps.audit_events.reason|default"
+    ],
+    "new_reason_acl_null": true,
+    "existing_reference_acl_preserved": true,
+    "shape_comparison_excludes_only": [
+      "attname",
+      "attnum",
+      "attacl"
+    ],
+    "state_sha256": "1e9ee34baea7edd418b86d747ce24cbf5e0c704bdf8ca8f878f9c00f50fd74c9",
+    "checkpoint_sha256": "061ba5e2548b9eb7bab104ee9ebae9211e9103431c4c9575f774360eb1d0f42b",
+    "case_source_changes": [
+      "owned_bridge_URL",
+      "diagnostic_action_allowlist",
+      "bounded_rollback_diagnostic_before_unchanged_commit"
+    ]
+  },
+  "main_diagnostic_storage": {
+    "workspace": "Main",
+    "existing_Main_guard": true,
+    "no_ROOT_or_cache_manipulation": true,
+    "no_new_IO_subprocess_port": true,
+    "SQL_and_acceptance_unchanged": true
+  },
+  "forward_source_scope": {
+    "new_forward_guard_source_pinned": true,
+    "SQL_guard_methods_inherited_unchanged": true,
+    "owned_current_identity_qualification_only": true,
+    "canonical_hardbound_five_scalar_baseline_claimed": false,
+    "historical_identity_equality_since39_claimed": false
+  },
+  "all_other_cloned_old_column_rows_preserved": true,
+  "all_owned_resources_absent": true,
+  "original_data_catalogue_and_global_roles_unchanged": true,
+  "shared_lock_released": true,
+  "finished_at": "2026-11-02T15:59:28.911Z",
+  "elapsed_ms": 96170
+}

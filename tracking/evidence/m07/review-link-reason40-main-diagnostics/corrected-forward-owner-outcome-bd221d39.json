@@ -1,0 +1,160 @@
+{
+  "actual_actor_scope": {
+    "actual_initial_supabase_admin_and_existing_super_assertion_passed": true,
+    "actual_postgres_actor_return_assertion_passed_before_collector": true,
+    "existing_StorageAdmin_executed_only_declared_managed_fixture": true,
+    "one_synthetic_ledger_row_under_original_owned_admin": true,
+    "owned_target_guard_before_initialadmin_restore": true,
+    "role_grants_memberships_attributes_changed": false
+  },
+  "actual_collector_transaction": {
+    "actual_negative_preimage_refused_and_rolled_back": true,
+    "actual_state_checkpoint_and_rendered_transaction": true,
+    "all76_old_column_rows_and_catalogue_preserved": true,
+    "before_and_after_full76_checkpoints_checked": true,
+    "canonical_guard_sql_unmodified_except_owned_migration_target": true,
+    "canonical_identity_admission_claimed": false,
+    "canonical_render_sha256": "3b8cef57017e27380011ec37c5be0bd9cae5fe26a491c30d1cc15d516f579918",
+    "checkpoint_rows_RAM_only": true,
+    "full_role_membership_function_identity_and_dependency_preimages_preserved": true,
+    "normal_commit_nonce_observed": true,
+    "only_database_system_run_admission_changed": true,
+    "owned_identity_qualifications": [
+      "database_project39_system_run",
+      "synthetic_cli_role_safe_false",
+      "synthetic_protected_m02_identity_absent",
+      "fresh_verified_synthetic_static_anchor_and_OIDs"
+    ],
+    "owned_render_sha256": "0af915faa3fe02268be54723b66156f024bee0437521f61127b950073b8cfe0f",
+    "raw_checkpoint_bytes_persisted": false,
+    "result": "passed",
+    "two_equal_after_reads": true,
+    "two_equal_before_reads": true
+  },
+  "actual_diagnostic": {
+    "commit_nonce_claimed": false,
+    "difference_count": 0,
+    "differences": [],
+    "expected_sha256": "732ed7bdda702ce7fc5a4eadc66fb16c8128761ee2bbcafcdd680d15e54e1406",
+    "observed_sha256": "732ed7bdda702ce7fc5a4eadc66fb16c8128761ee2bbcafcdd680d15e54e1406",
+    "private_poststate": {
+      "canonical_checkpoint": false,
+      "path": ".local/reason40-main-diagnostics/bd221d39-fb0c-4cb2-9df1-7438b6a822c3/diagnostic-poststate.json",
+      "scope": "owned_diagnostic_rollback_poststate",
+      "sha256": "f11694b717bc6e8fd7283af7173329a1f18ee1c2e245259f416ea86062a741e7",
+      "workspace": "Main"
+    },
+    "result": "passed",
+    "rolled_back_preimage_exact": true,
+    "truncated": false
+  },
+  "actual_negative_guards": {
+    "baseline_accepted": true,
+    "canonical_hardbound_five_scalar_baseline_claimed": false,
+    "cases": [
+      {
+        "actual_guard_refused": true,
+        "actual_mutation_rolled_back": true,
+        "exact_baseline_after_rollback": true,
+        "label": "existing_acl",
+        "mutation_sha256": "d2a4e338906bf9236d2428d9161a634a8801187b7c76f91a95b31a0a2d7156a4"
+      },
+      {
+        "actual_guard_refused": true,
+        "actual_mutation_rolled_back": true,
+        "exact_baseline_after_rollback": true,
+        "label": "existing_function_value",
+        "mutation_sha256": "569eb701f9a811c5039510b281b761a759860df3f616d9ec9a942527e6719fd6"
+      }
+    ],
+    "owned_current_identity": {
+      "count": 5224,
+      "sha256": "329ac845853e5e5d281cc0e6d1d91251114f24cbd2663f8e11521732cafbc9ed"
+    }
+  },
+  "actual_run": {
+    "elapsed_ms": 96170,
+    "id": "bd221d39-fb0c-4cb2-9df1-7438b6a822c3",
+    "normal_exit_code": 0,
+    "receipt": {
+      "path": "tracking/evidence/m07/reason40-collector-validation/2026-11-02T15-57-52.741Z-bd221d39.json",
+      "sha256": "4b25872ffe84758d98acfce52c2d0b95da6476d05749bbef15b696ccdb90c3dd"
+    }
+  },
+  "boundaries": {
+    "Main_consumed_flags_unchanged": true,
+    "all_failed_sources_arms_claims_receipts_preserved": true,
+    "automatic_retry": false,
+    "canonical_provider_calls": 0,
+    "historical_opaque_identity_equality_since39_claimed": false,
+    "live_OAuth_or_managed_upgrade_acceptance_claimed": false,
+    "only_one_new_owned_run": true,
+    "private_canonical_checkpoint_or_restore_claimed": false,
+    "production_hardbound5_scalar_baseline_claimed": false
+  },
+  "cleanup": {
+    "Root_and_Recovery_explicitly_notified": true,
+    "all_other_cloned_oldcolumn_rows_preserved": true,
+    "all_owned_resources_absent": true,
+    "fresh_lock_exists": false,
+    "original29_data_catalogue_globalroles_exact": true,
+    "shared_lock_released": true
+  },
+  "fixture": {
+    "claims_after": 2,
+    "claims_before": 1,
+    "core_column_source_sha256": "65525a911066368e0375190045de813964b4c8052985a877a5521ccdb9944e07",
+    "historical_dark_check_installed_then_removed": true,
+    "historical_dark_definition_source_sha256": "a45b23c42ace617d552467ead1e55844ed424eb78b6bc9d0eab96646d7573a89",
+    "new_bucket_column_values_preserved_after40": true,
+    "new_bucket_versioning_status_all_disabled": true,
+    "new_owned_function_oid": "20275",
+    "no_canonical_identity_or_managed_upgrade_acceptance": true,
+    "official0074_exact_source": true,
+    "one_synthetic_ledger_row_added": true,
+    "original_Auth_users_sessions_clients_untouched": true,
+    "owned_bucket_prerequisite_new_column": true,
+    "setup_before_fresh_baseline": true,
+    "source_sha256": "60fb345d3c03dd8a629a73aa6b296743a9c9f81887c9cc81af8fcf71d9994ec0",
+    "storage_bucket_count": 7,
+    "storage_bucket_count_preserved_after40": true,
+    "synthetic_coordination_row_not_live_OAuth": true
+  },
+  "independent_verification": {
+    "actual_Main_guard_claim_poststate_ACL_and_exact2_names_verified": true,
+    "container_inventory_empty": true,
+    "explicit_same_Docker_engine_container_inventory_exit_code": 0,
+    "explicit_same_Docker_engine_volume_inventory_exit_code": 0,
+    "private_payload_printed": false,
+    "private_poststate_hash_matches": true,
+    "volume_inventory_empty": true
+  },
+  "next_action": "Root reviews/adopts exact owned proof; canonical forward entry/admission remains separate. Identity source implementation may now resume without builds/deploy/provider calls.",
+  "purpose": "corrected_owned_forward_fixture_actual_outcome",
+  "recorded_at": "2026-11-02T16:03:22.695210+00:00",
+  "result": "passed",
+  "schema_version": "1.0",
+  "scope": {
+    "SQL_guard_methods_inherited_unchanged": true,
+    "canonical_hardbound_five_scalar_baseline_claimed": false,
+    "historical_identity_equality_since39_claimed": false,
+    "new_forward_guard_source_pinned": true,
+    "owned_current_identity_qualification_only": true
+  },
+  "source": {
+    "Root_pure_receipt": {
+      "path": "tracking/evidence/m07/review-link-reason40-main-diagnostics/Root-owner-correction-pure-validation.json",
+      "sha256": "c2df3674d95be07983bf7a7d20cdf438f74d83e4b6ddc06ff1ab36058b820d1c"
+    },
+    "actual40_migration_source_seal": "08bf4de8a63823b0e7c9aee75560a6e7de0620eb9b8b3c483c65929578db8212",
+    "all144_cfg_pins_match_after_normal_return": true,
+    "candidate_commit": "e46530dff0be2fac583f36379610b9fb3bbf9835",
+    "compiled_controller_sha256": "dd4da02ecfda3bddd81c7958cd0cf03883919a299f513b0f16bae17a80f174da",
+    "compiled_controller_uuid": "92c74ff4-0b09-4eea-a18b-fb2aefc6614e",
+    "flag_only_arm_commit": "f0f421e3f20c642877905be7f2c91bf7ce2165be",
+    "inherited_top_migration_sha256_is_bootstrap39": true,
+    "plan_commit": "ff6a526a356429b08364d100166b630393e6a337",
+    "plan_sha256": "10993e092d8f7c84758cc43824ebd4702effef3a8d494f42fdf0fff026893b4d",
+    "private_case_sha256": "bf29ff5765ed9119d993578b73455b19d052661aa8541e1852e3fb8ac93b603b"
+  }
+}
