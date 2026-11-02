@@ -24,6 +24,11 @@ const errors: Record<string, { status: number; message: string }> = {
   VERSION_NOT_READY: { status: 409, message: 'This fixed version is not ready to download.' },
   PRESENTATION_STATE_INVALID: { status: 409, message: 'The presentation state changed. Reload its saved status.' },
   PRESENTATION_LIMIT_EXCEEDED: { status: 422, message: 'This presentation exceeds the supported processing budget.' },
+  SNAPSHOT_INVALID: { status: 503, message: 'The captured presentation snapshot is invalid or exceeds its supported contract.' },
+  ASSET_UNAVAILABLE: { status: 503, message: 'A selected or retained presentation asset is unavailable.' },
+  LAYOUT_NOT_READY: { status: 409, message: 'Measure and resolve the current presentation layout before generating.' },
+  PRESENTATION_PROCESSING_UNAVAILABLE: { status: 503, message: 'Presentation rendering is not enabled.' },
+  PDF_BUDGET_EXCEEDED: { status: 503, message: 'The captured presentation exceeds the technical metadata budget.' },
 };
 /** Verified-user facade only. Canonical transactions capture inputs and own
  * version allocation, idempotency, current permissions and ready publication. */
@@ -41,7 +46,12 @@ export async function createCentralPresentations(client: SupabaseClient, options
       if (result.error) {
         const known = result.error.code === 'P0001' && Object.hasOwn(errors, result.error.message) ? errors[result.error.message] : null;
         if (known) throw new DomainError(result.error.message, known.message, known.status);
-        throw centralRpcError(result.error);
+        const projected = centralRpcError(result.error);
+        const code = result.error.code;
+        if (projected.code === 'DEPENDENCY_UNAVAILABLE' && typeof code === 'string' && /^(?:[A-Z0-9]{5}|PGRST[0-9]{3})$/u.test(code)) {
+          throw new DomainError('DEPENDENCY_UNAVAILABLE', `Central presentation processing is unavailable (database code ${code}).`, 503, { database_code: code }, true);
+        }
+        throw projected;
       }
       return result.data;
     } catch (error) { if (error instanceof DomainError) throw error; throw new DomainError('DEPENDENCY_UNAVAILABLE', 'Central presentation processing is temporarily unavailable.', 503, {}, true); }

@@ -1,0 +1,56 @@
+{
+  "RPC_or_JWT_or_synthetic_actor_used": false,
+  "exit_code": 0,
+  "generation_or_confirm_or_retry_performed": false,
+  "limits": [
+    "Current version/job absence in this fixed window proves no durable accepted generation found in this scope, not the original server error code.",
+    "No generation retry, uncertain-intent confirmation, canonical mutation or acting-role simulation performed."
+  ],
+  "metadata": {
+    "database": "postgres",
+    "history_count": 39,
+    "jobs": {
+      "count": 0,
+      "rows": [],
+      "truncated": false
+    },
+    "observed_at": "2026-11-02T09:43:53.523758+00:00",
+    "operator": "postgres",
+    "read_only": true,
+    "series": [
+      {
+        "id": "93fb7425-7311-4b69-94cb-61588724c153",
+        "latest_ready_version_id": "4f1b81a1-adb7-425b-8223-458d8bd82c28",
+        "output_type": "selection",
+        "row_version": 3,
+        "version_count": 1
+      },
+      {
+        "id": "dcf357b7-0249-42d2-9513-35e9a83ced65",
+        "latest_ready_version_id": null,
+        "output_type": "shortlist",
+        "row_version": 1,
+        "version_count": 0
+      }
+    ],
+    "versions": {
+      "count": 0,
+      "rows": [],
+      "truncated": false
+    },
+    "window_end_exclusive": "2026-11-02T09:37:00Z",
+    "window_start": "2026-11-02T09:34:00Z",
+    "workspace_count": 1
+  },
+  "observed_at": "2026-11-02T09:43:53.819535+00:00",
+  "output_limit_exceeded": false,
+  "project_id": "6da14b82-8458-451f-aa21-28cb6c85bdc5",
+  "raw_cli_or_private_values_saved": false,
+  "read_only_rollback": true,
+  "result": "observed",
+  "schema_version": "1.0",
+  "scope": "bounded_canonical_after_single_owner_UI_generation_attempt",
+  "source_sha256": "72a622b7ea94ace3f8edb604f387175757769e0152b915e53aa3a490fded1e97",
+  "sql_sha256": "934255e13aaaf02b1f90f0f79defef9c9e7b28eb5d1c083865526cb85e7c3549",
+  "timed_out": false
+}
