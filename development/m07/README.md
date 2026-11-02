@@ -23,13 +23,13 @@ retain that failure. Prepared input is24 pages/219 paragraphs/12,807UTF8 bytes;
 no extraction response or billed-usage evidence was retained. A minimal SDK
 error-classification/request-ID fix is in progress; no new retry was made.
 
-Guest preparation now has one known internal note on Ready Selectionv2 and no
-external feedback. The protected fresh handoff9aff88b7 expires15:45:01UTC;
-open/confirm only that run before expiry, then owner MCP readback/revoke and
-anonymous denial before the temporary link's16:00UTC expiry. Do not reconstruct
-or print capabilities, replay unknown mutations, or allow manual feedback to
-race the exact-count HTTP proof. Actual Narrator acceptance remains pending;
-reader version is unrecorded, not a waiver. Contributor/mobile remain skipped.
+Fresh anonymous guest9aff88b7 opened and confirmed at15:29UTC. One external
+comment7460398d was created on Ready Selectionv2; exact same-key replay returned
+that comment. Per-slide/total comments and unresolved each rose0?1, preferences
+stayed0, internal note466c303f was excluded, and prior feedback was preserved.
+Producer MCP readback, actual Narrator checks, link revocation and anonymous
+denial remain pending before the link's16:00UTC expiry. Do not print capabilities
+or replay unknown mutations. Contributor/mobile remain skipped.
 
 The original SQL40 collector passed602f1dd4. Canonical preparation8b166bbe
 refused a changed static baseline before migration dispatch; its claim remains
