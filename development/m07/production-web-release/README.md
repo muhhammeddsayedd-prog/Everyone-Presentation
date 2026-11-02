@@ -13,12 +13,18 @@ bytes. The selected product paths must be clean and identical to main; later
 controller/docs-only commits are permitted. This is a source-family check, not
 full PII/privacy or browser acceptance. Stage has no cloud side effects.
 
-The template now pins the immutable308-file `c8d0ff3` product stage after the
-reviewed MCP fixes were committed. Its source hash is
-`1043d03f7da32f5a0636d38126ca0bf38d97febfb886a78d974a4cd648e3f33e`.
+The template now pins the immutable308-file `c88f58c` product stage after the
+reviewed request-scoped verified-token observation was committed. Its source hash
+is `f947fb53479d991b382bd50bf39e32a4e56dd17598470b209f2a185ed9f58d0a`.
 The quality receipt binds its exact commit/source hash, result `passed`, failed
 and skipped0, and commands `{test:0,typecheck:0,lint:0,production_guard:0}`. The
-949 tests/typecheck/lint are explicitly carried forward from actual root run
+current955 tests/typecheck/lint/production guard are fresh actual root run
+`3a9ab5d8`, at a clean unchanged committed HEAD. New `fresh_quality.py` binds the
+exact raw receipt, all1328 testable Git blob/mode identities, complete tested tree,
+five reviewed seals, actual four commands/exits/counts/timestamps, and immutable
+archive byte equality. It runs no quality commands. The earlier308-file `c8d0ff3`
+stage and949 tests/typecheck/lint admission remain preserved separately. They are
+explicitly carried forward from actual root run
 `41676ea4`: its three reviewed seals match committed bytes exactly and the only
 selected product change since its tested HEAD is the reviewed catalogue seal.
 `quality.py` rechecks the complete immutable archive against those facts and runs
@@ -54,9 +60,12 @@ the known compatible deployment anchor.
 
 ```powershell
 .venv-skills/Scripts/python.exe -X utf8 -B development/m07/production-web-release/test_release.py
+.venv-skills/Scripts/python.exe -X utf8 -B development/m07/production-web-release/test_fresh_quality.py
 # Local source staging after final MCP/main source is settled:
 .venv-skills/Scripts/python.exe -X utf8 -B development/m07/production-web-release/stage.py FULL_COMMIT
 .venv-skills/Scripts/python.exe -X utf8 -B development/m07/production-web-release/quality.py SOURCE_RECEIPT_PATH
+# Fresh exact OAuth quality admission runs no test/guard commands:
+.venv-skills/Scripts/python.exe -X utf8 -B development/m07/production-web-release/fresh_quality.py SOURCE_RECEIPT_PATH
 # Root arms only after source review; every action uses new purpose files:
 .venv-skills/Scripts/python.exe -X utf8 -B development/m07/production-web-release/release.py prepare
 .venv-skills/Scripts/python.exe -X utf8 -B development/m07/production-web-release/release.py build
@@ -75,3 +84,10 @@ only in memory, with provider calls forced to fail. Initial staging lacked the
 security helper's tools import path and exited before archive/cloud activity;
 the scoped import setup was corrected. No environment/deployment/build/worker
 mutation or application acceptance is claimed by this preparation.
+
+Four additional fresh-quality tests pass: actual955/full-inventory admission with
+Git-only subprocesses, changed tree/blob/seal/clean-HEAD refusal, skipped/no-op/
+missing/timed-out gate refusal and older/tampered source-archive denial. A new
+actual offline admission binds the current source/fresh955/canonical39 with
+provider calls forbidden and a synthetic publishable key only in memory. The
+previous carried-forward quality implementation and all old receipts are intact.

@@ -48,7 +48,7 @@ class Operator:
  def file_sha(self,path):return s.sha(load(path))
  def pins(self):
   pins=self.base.source_pins()
-  for name in('release.py','state.py','stage.py','quality.py','scan-stage.mjs','test_release.py','inputs.template.json','README.md'):pins['development/m07/production-web-release/'+name]=s.sha(load(self.own/name))
+  for name in('release.py','state.py','stage.py','quality.py','fresh_quality.py','scan-stage.mjs','test_release.py','test_fresh_quality.py','inputs.template.json','README.md'):pins['development/m07/production-web-release/'+name]=s.sha(load(self.own/name))
   path=self.old.CLI.parent/'commands/env/index.js';s.need(s.sha(load(path))=='66890df33a9c3b4e86b154efb200ba71552f3beec5d1a6759ff3cd6946369e8d');pins['cli:commands/env/index.js']=s.sha(load(path))
   pins[SECURITY]=SECURITY_SHA
   for path in('tools/release_foundation.py','tools/release_logo.py','tools/scan-private-values.mjs'):pins[path]=s.sha(load(self.root/path))
@@ -81,9 +81,12 @@ class Operator:
   self.git_source(commit,[row['path']for row in rows])
   quality=self.reference(value['quality_receipt']);s.need(quality['result']=='passed'and quality['source_commit']==commit and quality['source_sha256']==source['source_sha256']and quality['failed']==quality['skipped']==0 and set(quality['commands'])=={'test','typecheck','lint','production_guard'}and all(code==0 for code in quality['commands'].values()))
   s.need(quality['source_receipt']==value['source_receipt'])
-  carried=module('production_web_quality_admission',self.own/'quality.py');s.need(quality['quality_kind']=='carried_forward_reviewed_product_bytes'and quality['carried_forward_verification']==carried.carry(self.root,source,self.reference(carried.ORIGINAL))and quality['fresh_production_guard']['exit_code']==0 and quality['full_tests_rerun']is False)
-  for path,digest in quality['fresh_production_guard']['source_pins'].items():s.need(path in('tools/check-production-guard.ts','apps/web/lib/config.ts','apps/web/lib/hosting-pilot.ts')and s.sha(load(self.root/path))==digest)
-  s.need(set(quality['fresh_production_guard']['source_pins'])=={'tools/check-production-guard.ts','apps/web/lib/config.ts','apps/web/lib/hosting-pilot.ts'})
+  if quality['quality_kind']=='carried_forward_reviewed_product_bytes':
+   carried=module('production_web_quality_admission',self.own/'quality.py');s.need(quality['carried_forward_verification']==carried.carry(self.root,source,self.reference(carried.ORIGINAL))and quality['fresh_production_guard']['exit_code']==0 and quality['full_tests_rerun']is False)
+   for path,digest in quality['fresh_production_guard']['source_pins'].items():s.need(path in('tools/check-production-guard.ts','apps/web/lib/config.ts','apps/web/lib/hosting-pilot.ts')and s.sha(load(self.root/path))==digest)
+   s.need(set(quality['fresh_production_guard']['source_pins'])=={'tools/check-production-guard.ts','apps/web/lib/config.ts','apps/web/lib/hosting-pilot.ts'})
+  else:
+   fresh=module('production_web_fresh_quality_admission',self.own/'fresh_quality.py');s.need(quality['quality_kind']=='fresh_reviewed_product_bytes'and quality['fresh_quality_verification']==fresh.admit(self.root,source,self.reference(fresh.RAW))and quality['additional_quality_commands_run']is False)
   canonical=self.reference(value['canonical_receipt']);s.need(canonical['result']=='passed'and canonical['target']=='pyibofyctwnqpvktepse'and canonical['version']=='20261101223342'and canonical['normal_return_marker_observed']is True and canonical['two_independent_readbacks_equal']is True and canonical['first']==canonical['second']and len(canonical['first']['base']['history'])==39 and canonical['first']['base']['history'][-1]=='20261101223342')
   public=value['public_build_environment'];fixed={'APP_ENV':'production','EPS_RELEASE_MODE':'production','NODE_ENV':'production','CENTRAL_ADAPTER_MODE':'supabase','APP_BASE_URL':'https://'+s.ALIAS,'SUPABASE_URL':'https://pyibofyctwnqpvktepse.supabase.co'}
   s.need(type(public)is dict and set(public)==set(fixed)|{'SUPABASE_PUBLISHABLE_KEY'}and all(public[k]==v for k,v in fixed.items())and re.fullmatch('sb_publishable_[A-Za-z0-9_-]{8,4096}',public['SUPABASE_PUBLISHABLE_KEY']))
