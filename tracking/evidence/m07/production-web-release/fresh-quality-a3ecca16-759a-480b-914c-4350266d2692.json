@@ -1,0 +1,76 @@
+{
+  "actual_full_tests": 955,
+  "additional_quality_commands_run": false,
+  "commands": {
+    "lint": 0,
+    "production_guard": 0,
+    "test": 0,
+    "typecheck": 0
+  },
+  "failed": 0,
+  "fresh_quality_verification": {
+    "actual_command_exit_codes": {
+      "lint": 0,
+      "production_guard": 0,
+      "test": 0,
+      "typecheck": 0
+    },
+    "actual_failed": 0,
+    "actual_pass": 955,
+    "actual_skipped": 0,
+    "actual_tests": 955,
+    "additional_quality_commands_run": false,
+    "carried_forward": false,
+    "complete_testable_tree_preserved": true,
+    "every_selected_blob_matches_archive": true,
+    "original_finished_at": "2026-11-02T00:08:23.891Z",
+    "original_started_at": "2026-11-02T00:07:16.978Z",
+    "raw_quality": {
+      "path": "tracking/evidence/m07/completion-release/2026-11-02T00-08-23.891Z-3a9ab5d8-oauth-root-quality.json",
+      "sha256": "7d40dff89354d746b80018e67983e8e8e38070c402bdb12b2b6efe494672871d"
+    },
+    "reviewed_source_seals": [
+      {
+        "bytes": 21236,
+        "path": "apps/web/lib/mcp-auth.ts",
+        "sha256": "98a6bc17ffdd4e1360431cb998af14313c136dbc3c6714a1460a2d3897a3e99e"
+      },
+      {
+        "bytes": 8527,
+        "path": "apps/web/lib/mcp-http.ts",
+        "sha256": "35641767857f73dfcec903ddbb3c2155d11086262ed8a22f19364d37fdb9dc4a"
+      },
+      {
+        "bytes": 3234,
+        "path": "apps/web/app/mcp/route.ts",
+        "sha256": "85af587a7c63cb46dc975c2b15d33be8b20c8797c95841097994522cfcead28b"
+      },
+      {
+        "bytes": 7343,
+        "path": "tests/server/mcp-verified-token-trace.test.ts",
+        "sha256": "b782e2362d90527b20d669a923a3e7d7e95ee96534fc68dedbca1c21513513bb"
+      },
+      {
+        "bytes": 6368,
+        "path": "development/m07/completion-oauth/README.md",
+        "sha256": "a93262ee55492f01f892f08c4ba11b5a2a6222e45eef17905862718f699cf4f5"
+      }
+    ],
+    "testable_inventory_sha256": "cb964b6a9a11cbbd21b9215a2351b9ed0faa419ec8e744562a4592091233c8ee",
+    "testable_source_file_count": 1328,
+    "tested_head": "c88f58c00820169f7396d72def77a74f1443594e",
+    "tested_tree": "1bc63c161c95f93ea4607eb3d7f6d4452e6763dd"
+  },
+  "observed_at": "2026-11-02T00:11:02.860216+00:00",
+  "provider_or_deployment_called": false,
+  "quality_kind": "fresh_reviewed_product_bytes",
+  "raw_logs_or_private_values_persisted": false,
+  "result": "passed",
+  "skipped": 0,
+  "source_commit": "c88f58c00820169f7396d72def77a74f1443594e",
+  "source_receipt": {
+    "path": "tracking/evidence/m07/production-web-release/source-c5fee9c1-db68-41c5-9386-8c56bab0b418.json",
+    "sha256": "ec36e3940a178eb816b898991ce816d8a78e3dfecfa7b155ec5ffe9e1d1085ce"
+  },
+  "source_sha256": "f947fb53479d991b382bd50bf39e32a4e56dd17598470b209f2a185ed9f58d0a"
+}
