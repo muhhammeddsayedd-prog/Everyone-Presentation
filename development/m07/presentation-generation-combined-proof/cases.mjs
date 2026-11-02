@@ -18,7 +18,7 @@ export async function firstWholeGenerations(ctx){
   for(const mode of['api','mcp'])for(const label of['control','large']){
    const p=ctx.profiles[label],record={variant,mode,label,phase:'session_start',normal_return:false,rolled_back:false,application_calls_before_dispatch:0,first_in_fresh_backend:true};
    records.push(record);ctx.report.checkpoint='combined-first-'+variant+'-'+mode+'-'+label;
-   const s=await ctx.startFreshGeneration('whole_'+variant+'_'+mode+'_'+label);record.pid=s.pid;
+   const s=await ctx.startFreshGeneration('wf_'+variant[0]+mode[0]+label[0]);record.pid=s.pid;
    let primary,cleanupError;
    try{
     record.phase='begin';await s.request('begin;'+ctx.acting(mode,'authenticated')+bounds);
@@ -31,6 +31,7 @@ export async function firstWholeGenerations(ctx){
      await s.request('reset role;');record.phase='persisted_projection';
      record.projection=only(await s.request(`select pg_temp.locksource41_generated_projection(${literal(record.generation.resource_id)}::uuid);`));
      record.pins=only(await s.request(`select pg_temp.data_reuse_pin_projection(${literal(record.generation.resource_id)}::uuid);`));
+     record.manifest=only(await s.request(`select pg_temp.combined_manifest_projection(${literal(record.generation.resource_id)}::uuid);`));
     }
    }catch(error){primary=error;record.error=nativeError(error);record.private_error=await ctx.captureError('combined_first_'+variant+'_'+mode+'_'+label,error);}
    finally{
@@ -52,6 +53,8 @@ export async function firstWholeGenerations(ctx){
     assert(result.duration_ms<8000,'COMBINED_WHOLE_GENERATION_BUDGET_EXCEEDED');
     assert.equal(result.role,'authenticated');assert.equal(record.projection.job_status,'queued');assert.equal(record.projection.outbox_rows,1);
     assert.equal(record.pins.private_filename_in_output,false);
+    for(const key of['stored_snapshot_hash_valid','stored_manifest_hash_valid','stored_inventory_hash_valid'])assert.equal(record.manifest[key],true);
+    assert.equal(record.manifest.input_fingerprint,p.meta.input.expected_input_fingerprint);
    }else record.baseline_cancellation_retained=true;
    assert.deepEqual(await ctx.value(SNAPSHOT),ctx.baseline,'COMBINED_FIRST_ROLLBACK_BASELINE_CHANGED');record.full_baseline_restored=true;
   }
@@ -59,7 +62,7 @@ export async function firstWholeGenerations(ctx){
  assert.equal(records.length,8);assert.equal(new Set(records.map(x=>x.pid)).size,8);
  for(const after of records.filter(x=>x.variant==='candidate')){
   const before=records.find(x=>x.variant==='old'&&x.mode===after.mode&&x.label===after.label);
-  if(before.generation.ok){assert.deepEqual(before.projection,after.projection);assert.deepEqual(before.pins,after.pins);after.normalized_old_new_equal=true;}
+  if(before.generation.ok){assert.deepEqual(before.projection,after.projection);assert.deepEqual(before.pins,after.pins);assert.deepEqual(before.manifest,after.manifest);after.normalized_old_new_equal=true;}
   else after.old_generation_projection_unavailable=true;
  }
  ctx.report.combined_generation.actual_first_whole_generation_matrix_completed=true;
@@ -72,7 +75,7 @@ export async function projectionEqualities(ctx){
   await ctx.installVariant(variant);
   for(const mode of['api','mcp'])for(const label of['control','large'])for(const operation of['review','snapshot']){
    const record={variant,mode,label,operation,normal_return:false,rolled_back:false};records.push(record);
-   const s=await ctx.startFreshGeneration('projection_'+variant+'_'+mode+'_'+label+'_'+operation);
+   const s=await ctx.startFreshGeneration('pe_'+variant[0]+mode[0]+label[0]+operation[0]);
    let primary;
    try{
     await s.request('begin;'+ctx.acting(mode)+bounds);
@@ -93,4 +96,31 @@ export async function projectionEqualities(ctx){
   assert.equal(before.result.contract_hash,after.result.contract_hash,'COMBINED_DATA_FINGERPRINT_CHANGED');after.old_new_contract_hash_equal=true;
  }
  ctx.report.combined_generation.review_and_snapshot_contract_equalities_completed=true;
+}
+
+export async function missingFrameEquality(ctx){
+ assert.equal(ctx.report.combined_generation.actual_first_whole_generation_matrix_completed,true,'COMBINED_FIRST_MATRIX_REQUIRED_BEFORE_MISSING_FRAME');
+ const records=ctx.report.combined_generation.missing_selected_frame=[];
+ for(const variant of['old','candidate']){
+  await ctx.installVariant(variant);
+  const record={variant,own_pair_deleted:false,rolled_back:false,concurrent_helper_race:false,old_ready_dml_issued:false};records.push(record);
+  ctx.report.checkpoint='combined-'+variant+'-missing-frame-snapshot';
+  const s=await ctx.startFreshGeneration('mf_'+variant[0]);let primary,cleanupError;
+  try{
+   const removed=await s.request(`reset role;begin;delete from eps.candidate_media_frames where candidate_media_id=${literal(ctx.id('media-2'))}::uuid and asset_id=${literal(ctx.id('frame-4'))}::uuid returning jsonb_build_object('deleted',true);`);
+   record.own_pair_deleted=removed.length===1;assert.equal(record.own_pair_deleted,true);
+   await s.request(ctx.acting('mcp')+bounds);
+   record.snapshot=only(await s.request(metric('snapshot',ctx.profiles.large)));record.normal_return=true;
+  }catch(error){primary=error;record.error=nativeError(error);record.private_error=await ctx.captureError('combined_missing_frame_'+variant,error);}
+  finally{
+   try{await s.request('rollback;reset role;');record.rolled_back=true;}
+   catch(error){record.cleanup_error=nativeError(error);if(!primary){cleanupError=error;record.private_cleanup_error=await ctx.captureError('combined_missing_frame_cleanup_'+variant,error);}}
+   await s.finish();
+  }
+  if(primary)throw primary;if(cleanupError)throw cleanupError;
+  assert.equal(record.snapshot.ok,true);assert.equal(record.snapshot.can_generate,false);assert(record.snapshot.blocking_codes.includes('FRAME_UNAVAILABLE'));
+  assert.deepEqual(await ctx.value(SNAPSHOT),ctx.baseline,'COMBINED_MISSING_FRAME_ROLLBACK_CHANGED');record.full_baseline_restored=true;
+ }
+ assert.equal(records[0].snapshot.contract_hash,records[1].snapshot.contract_hash,'COMBINED_MISSING_FRAME_DATA_CHANGED');
+ ctx.report.combined_generation.missing_selected_frame_blocking_equal=true;
 }
