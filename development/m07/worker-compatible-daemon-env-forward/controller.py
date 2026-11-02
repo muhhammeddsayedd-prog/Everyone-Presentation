@@ -3,7 +3,7 @@ from pathlib import Path
 import importlib.util,json,sys
 HERE=Path(__file__).resolve().parent
 spec=importlib.util.spec_from_file_location('compatible_env_forward',HERE/'forward.py');f=importlib.util.module_from_spec(spec);spec.loader.exec_module(f)
-EXECUTION_ENABLED=False
+EXECUTION_ENABLED=True
 
 def operate(action,p,c,store):
  f.need(EXECUTION_ENABLED and action in('complete-env','deploy','ready','pin','resume','readback:deploy','readback:pin','readback:resume'))
