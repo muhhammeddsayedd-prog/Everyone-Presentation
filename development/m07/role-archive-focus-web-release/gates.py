@@ -1,0 +1,92 @@
+"""Closed local receipt admission. No provider, database or quality commands."""
+from pathlib import Path
+import datetime, hashlib, io, json, re, subprocess, tarfile, uuid
+
+PROJECT='prj_7xOsfRtvJ9voYi7rTEfra5ncOoA0';TEAM='team_gboXPxTevpCOZuaA8eY9PmR1';SLUG='muhammed-abdelrahman'
+ALIAS='everyone-presentation-pilot.vercel.app';TARGET='pyibofyctwnqpvktepse'
+BASELINE='dpl_5sevM277cLpQZPJV1XkaJxhMLqpe'
+BASE_COMMIT='fdd0aba30fbff3ecebd4f29915bb8b74b143fea2'
+BASE_MANIFEST='f68d43576db9c530a54c85af960658d7115547d5c2c406d47ead8ed0a7d11bb1'
+BASELINE_RECEIPT={'path':'tracking/evidence/m07/mcp-diagnostic-web-release/2026-11-02T10-21-25-065548Z-958dbf0e-7cf7-4288-9a97-c7f52e001523-readback.json','sha256':'2ba99d53a414ea1fc4a77c28ecc262f6ce0eb230aadf4c0d583381864e946bbd'}
+CANONICAL={
+ 'schema39':{'ref':{'path':'tracking/evidence/m07/project-creation39-canonical-release/2026-11-01T23-46-11-679664Z-apply.json','sha256':'badbed58027c49897734251edb3aba666571eb57aa6b4e3f6e053c88dc264864'},'version':'20261101223342','count':39},
+}
+FROZEN={'release.py':'62ce229284777f01a81589c61738cfef0feeadc1f68ef0049c883b54fdfed337','state.py':'84e90862eb72013663e1531a869563b0b9c7a9b57ae79e994825a7dcec4feba9','stage.py':'230ddc6bcb94bf5f1f63d8cc8850b844af5df595142802da191106bcbc5c59a0','fresh_quality.py':'ab3b9739b740f62b93f2295ecd64b186ec977ffdb551d6d17e9fd4463645c6de','scan-stage.mjs':'daaff6e5644bfd10e2548f5ce8634ac3bc36c1411d1ea596e06b5079e9935454'}
+PREDECESSOR={'release.py':'d1a8d744f4e4c481d0ed2cee9b42a930c5ebc9c029893606ae694aeeda72690c','gates.py':'bd071110608af61f066e74d398f1b85ecbfbeaac4ce0197fa5d844ed116070ac','stage.py':'918848f8dfc38f441e4094fa0ba9b86fb73992420acea16147e4522dcfafd406','scan-stage.mjs':'ca0e72c67eb2af520964f8619b9827d8e00adb19e5bcd9323b0f50a4d2c1ae50','preflight.py':'f839f103181dd6b0cfb5eae8c1c0d454f3d8377b93dac7725fb92b49bc7c2419','inputs.template.json':'46132c1557a24091561041ff2ec576a7c59db6b30068bf2ca9b255fb7b638027','test_release.py':'ab57e394b311f1d9806b8c0feeb062b439888c3e272784943092d63d5000a23f','README.md':'89b3d14017eaf335740d42bc0e64c71c749174f8d329cce670223650bb72c05f'}
+TESTABLE=['apps','packages','contracts','tests','tools','fixtures','package.json','package-lock.json','tsconfig.json','eslint.config.mjs','playwright.config.ts']
+COMMANDS={'test':['test'],'typecheck':['run','typecheck'],'lint':['run','lint'],'production_guard':['run','check:production-guard']}
+NATIVE='sha256:46de2f0c0772e10d712fba514788d24041d6741faa8966b6fe9c554fe47e4af4'
+RECOVERY_CHECKPOINT='d50647eec503fe6672898deec2e4e19460432edd8a951397e37454c15d3ab88d'
+RECOVERY_SCOPE='historical_canonical39_before_worker_cutover'
+UI_SEALS={'apps/web/components/SpecsView.tsx': '54715407b26efbe08d3324f98dcda65aff91a0d366ac048502a21942611b8b29', 'apps/web/components/RoleEditor.tsx': '13d8a8722c69ba7dea9a114011e1baa74cc0bb700d58c7b009e8fcaf2561dd5b'}
+BROWSER_SEALS={'apps/web/components/SpecsView.tsx': '54715407b26efbe08d3324f98dcda65aff91a0d366ac048502a21942611b8b29', 'apps/web/components/RoleEditor.tsx': '13d8a8722c69ba7dea9a114011e1baa74cc0bb700d58c7b009e8fcaf2561dd5b', 'tests/e2e/role-order-ui.spec.ts': '22b0fcb789f6a0d8b8b3ed02c3294eb0596f2c933b6f5bb61b6aee2b7627309d', 'tests/e2e/casting-retirement-ui.spec.ts': 'd8615e4ff2de196d7c4222fa54c5dd3c6b156cb398afc84457156e3962b765ad', 'tests/e2e/specs-ui.spec.ts': '5f1cbe001d72271d2e0d911aaa88db5cc50186463f6a47f538cc8b8e27ddaa6e'}
+BROWSER_SUITES=['tests/e2e/role-order-ui.spec.ts','tests/e2e/casting-retirement-ui.spec.ts','tests/e2e/specs-ui.spec.ts']
+
+
+def need(value):
+ if not value:raise ValueError('ROLE_ARCHIVE_FOCUS_WEB_UNCONFIRMED')
+def sha(raw):return hashlib.sha256(raw).hexdigest()
+def digest(value):return sha(json.dumps(value,sort_keys=True,separators=(',',':')).encode())
+def run_id(value):need(type(value)is str and str(uuid.UUID(value))==value and uuid.UUID(value).version==4);return value
+def load(path,limit=16*1024**2):
+ need(path.is_file()and not path.is_symlink()and not path.is_junction()and path.resolve()==path and path.stat().st_nlink==1 and 0<path.stat().st_size<=limit);return path.read_bytes()
+def reference(root,ref):
+ need(type(ref)is dict and set(ref)=={'path','sha256'}and type(ref['path'])is str and re.fullmatch(r'tracking/evidence/m07/[A-Za-z0-9_./-]+\.json',ref['path'])and'..'not in ref['path'].split('/')and re.fullmatch('[a-f0-9]{64}',ref['sha256']))
+ raw=load(root/ref['path']);need(sha(raw)==ref['sha256']);return json.loads(raw)
+def git(root,args):
+ result=subprocess.run(['git',*args],cwd=root,stdin=subprocess.DEVNULL,stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=60);need(result.returncode==0 and len(result.stdout)<16*1024**2 and len(result.stderr)<65536);return result.stdout
+def canonical(root,key,ref):
+ need(key in CANONICAL and CANONICAL[key]is not None);approved=CANONICAL[key];need(ref==approved['ref']);value=reference(root,ref)
+ need(value['result']=='passed'and value['target']==TARGET and value['version']==approved['version']and value['normal_return_marker_observed']is True and value['two_independent_readbacks_equal']is True and value['first']==value['second'])
+ history=value['first']['base']['history'];need(type(history)is list and len(history)==approved['count']and len(set(history))==len(history)and all(type(x)is str and re.fullmatch('[0-9]{14}',x)for x in history)and history==sorted(history)and history[-1]==approved['version'])
+ return {'key':key,'ref':ref,'version':approved['version'],'history':history,'historical_recovery_anchor':{'sha256':RECOVERY_CHECKPOINT,'scope':RECOVERY_SCOPE,'restore_verified':False}}
+def preflight(root,ref,plan,now,built_at):
+ value=reference(root,ref);keys={'schema_version','purpose','result','run_id','source_commit','source_manifest_sha256','target','canonical_receipt','recovery_checkpoint_sha256','recovery_checkpoint_scope','observed_at','first','second','two_independent_readbacks_equal','cloud_mutations'}
+ need(set(value)==keys and value['schema_version']=='1.0'and value['purpose']=='role_archive_focus_web_canonical_preflight'and value['result']=='passed'and value['target']==TARGET and value['run_id']==plan['run_id']and value['source_commit']==plan['gates']['source_commit']and value['source_manifest_sha256']==plan['gates']['source_sha256']and value['canonical_receipt']==plan['gates']['canonical']['ref']and value['recovery_checkpoint_sha256']==RECOVERY_CHECKPOINT and value['recovery_checkpoint_scope']==RECOVERY_SCOPE and value['two_independent_readbacks_equal']is True and value['cloud_mutations']is False and value['first']==value['second'])
+ observed=datetime.datetime.fromisoformat(value['observed_at']);built=datetime.datetime.fromisoformat(built_at);need(observed.tzinfo is not None and built.tzinfo is not None and now.tzinfo is not None and built<observed and -60<=(now-observed).total_seconds()<=900)
+ current=value['first'];need(type(current)is dict and set(current)=={'history','gates','native_image_id','english_transcript_version','lifecycle'}and current['history']==plan['gates']['canonical']['history']and current['native_image_id']==NATIVE and current['english_transcript_version']=='1.0')
+ gates=current['gates'];need(type(gates)is dict and set(gates)=={'specs','candidates','support','frames','presentations'}and all(x is True for x in gates.values()))
+ lifecycle=current['lifecycle'];need(type(lifecycle)is dict and set(lifecycle)=={'queued','running','waiting_for_input','generic_retry_lifecycle','presentation_retry_lifecycle','pending_outbox','leased_outbox'}and all(type(x)is int and x==0 for x in lifecycle.values()))
+ return {'ref':ref,'run_id':plan['run_id'],'observed_at':value['observed_at'],'after_local_build':True,'exact_history_and_production_gates':True,'two_independent_readbacks_equal':True}
+def quality(root,source,ref):
+ value=reference(root,ref);commit=source['source_commit'];tree=git(root,['rev-parse',commit+'^{tree}']).decode().strip()
+ need(value['result']=='passed'and value['source_head_before']==value['source_head_after']==commit and value['source_tree']==tree and value['reviewed_source_stable']is True and value['testable_graph_worktree_clean']is True and value['changed_source_paths']==[]and value['review']['unresolved_findings']==0 and value['node_version']=='v24.18.0')
+ need(type(value['checks'])is list and len(value['checks'])==4);checks={x['name']:x for x in value['checks']};need(set(checks)==set(COMMANDS))
+ for name,row in checks.items():
+  need(row['result']=='passed'and type(row['exit_code'])is int and row['exit_code']==0 and row['signal']is None and all(row[x]is False for x in('timed_out','output_limit_exceeded','spawn_failed')))
+  need(type(row['command'])is list and len(row['command'])>=3 and Path(row['command'][0])==Path('C:/Program Files/nodejs/node.exe')and Path(row['command'][1])==Path('C:/Program Files/nodejs/node_modules/npm/bin/npm-cli.js')and row['command'][2:]==COMMANDS[name])
+ test=checks['test'];need(type(test['tests'])is int and test['tests']==test['pass']and test['tests']>=968 and test['suite_summaries']==6 and all(type(test[x])is int and test[x]==0 for x in('fail','cancelled','skipped','todo')))
+ rows=[]
+ for line in git(root,['ls-tree','-r','-z',commit,'--',*TESTABLE]).decode().split('\0'):
+  if not line:continue
+  match=re.fullmatch(r'(100644|100755) blob ([a-f0-9]{40})\t(.+)',line);need(match is not None);rows.append({'path':match[3],'mode':match[1],'git_blob':match[2]})
+ need(rows==value['all_testable_source_files']and len(rows)==value['testable_source_file_count']and len(rows)>1000 and len({x['path']for x in rows})==len(rows))
+ required=set(UI_SEALS)
+ changed=set(git(root,['diff','--name-only',BASE_COMMIT,commit,'--',*TESTABLE]).decode().splitlines())
+ selected_changed=changed&{x['path']for x in source['files']};need(selected_changed==set(UI_SEALS));required|=selected_changed
+ for file,expected in UI_SEALS.items():need(sha(git(root,['show',commit+':'+file]))==expected)
+ seals=value['reviewed_source_seals'];need(type(seals)is list and required<={x['path']for x in seals}and len({x['path']for x in seals})==len(seals))
+ for row in seals:
+  need(type(row['path'])is str and'..'not in row['path'].split('/')and not row['path'].startswith('/'));raw=git(root,['show',commit+':'+row['path']]);need(len(raw)==row['bytes']and sha(raw)==row['sha256'])
+ archive=git(root,['archive','--format=tar',commit,'--',*[x['path']for x in source['files']]]);need(sha(archive)==source['archive_sha256'])
+ with tarfile.open(fileobj=io.BytesIO(archive),mode='r:')as tar:
+  files={m.name:m for m in tar.getmembers()if m.isfile()};need(set(files)=={x['path']for x in source['files']})
+  for row in source['files']:
+   raw=tar.extractfile(files[row['path']]).read();need(len(raw)==row['bytes']and sha(raw)==row['sha256'])
+ return {'ref':ref,'tested_head':commit,'tested_tree':tree,'actual_tests':test['tests'],'testable_inventory_sha256':digest(rows),'all_commands_passed':True,'fresh_actual_quality':True}
+
+def browser(root,source,ref):
+ value=reference(root,ref);commit=source['source_commit'];tree=git(root,['rev-parse',commit+'^{tree}']).decode().strip()
+ keys={'schema_version','purpose','result','source_head_before','source_head_after','source_tree','reviewed_source_stable','node_version','playwright_version','suites','command','exit_code','signal','timed_out','output_limit_exceeded','spawn_failed','stats','source_seals','raw_report'}
+ need(type(value)is dict and set(value)==keys and value['schema_version']=='1.0'and value['purpose']=='role_archive_focus_browser_acceptance'and value['result']=='passed'and value['source_head_before']==value['source_head_after']==commit and value['source_tree']==tree and value['reviewed_source_stable']is True and value['node_version']=='v24.18.0'and value['playwright_version']=='1.64.1'and value['suites']==BROWSER_SUITES)
+ need(type(value['exit_code'])is int and value['exit_code']==0 and value['signal']is None and all(value[x]is False for x in('timed_out','output_limit_exceeded','spawn_failed')))
+ command=value['command'];need(type(command)is list and all(type(x)is str for x in command)and len(command)>=6 and Path(command[0])==Path('C:/Program Files/nodejs/node.exe')and Path(command[1])in(root/'node_modules/@playwright/test/cli.js',Path('node_modules/@playwright/test/cli.js'))and command[2:6]==['test',*BROWSER_SUITES])
+ tail=command[6:];need(not tail or len(tail)==2 and tail[0]=='--config'and re.fullmatch(r'\.local/[A-Za-z0-9_./-]+\.ts',tail[1])and'..'not in tail[1].split('/'))
+ stats=value['stats'];need(type(stats)is dict and set(stats)=={'expected','unexpected','skipped','flaky'}and type(stats['expected'])is int and stats['expected']==12 and all(type(stats[x])is int and stats[x]==0 for x in('unexpected','skipped','flaky')))
+ seals=value['source_seals'];need(type(seals)is list and len(seals)==len(BROWSER_SEALS)and len({x['path']for x in seals})==len(seals)and {x['path']for x in seals}==set(BROWSER_SEALS))
+ for row in seals:
+  need(type(row)is dict and set(row)=={'path','bytes','sha256'});raw=git(root,['show',commit+':'+row['path']]);need(type(row['bytes'])is int and len(raw)==row['bytes']and sha(raw)==row['sha256']==BROWSER_SEALS[row['path']])
+ report=value['raw_report'];need(type(report)is dict and set(report)=={'path','sha256'}and type(report['path'])is str and re.fullmatch(r'\.local/[A-Za-z0-9_./-]+\.json',report['path'])and'..'not in report['path'].split('/')and type(report['sha256'])is str and re.fullmatch('[a-f0-9]{64}',report['sha256']))
+ # Root's reviewed public receipt records the actual normal invocation and raw
+ # report hash. Private browser output is neither copied nor emitted here.
+ return {'ref':ref,'tested_head':commit,'tested_tree':tree,'actual_tests':12,'all_three_suites_passed':True,'raw_report':report,'source_seals_sha256':digest(seals),'hosted_acceptance':False}

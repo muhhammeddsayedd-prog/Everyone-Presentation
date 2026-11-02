@@ -1,0 +1,37 @@
+{
+  "prepare_inputs": {
+    "run_id": "NEW_V4_UUID",
+    "source_receipt": {
+      "path": "tracking/evidence/m07/role-archive-focus-web-release/source-NEW_V4_UUID.json",
+      "sha256": "EXACT_NEW_STAGE_RECEIPT_SHA256"
+    },
+    "quality_receipt": {
+      "path": "tracking/evidence/m07/completion-release/EXACT_FRESH_ROOT_QUALITY.json",
+      "sha256": "EXACT_FRESH_ROOT_QUALITY_SHA256"
+    },
+    "canonical_key": "schema39",
+    "canonical_receipt": {
+      "path": "tracking/evidence/m07/project-creation39-canonical-release/2026-11-01T23-46-11-679664Z-apply.json",
+      "sha256": "badbed58027c49897734251edb3aba666571eb57aa6b4e3f6e053c88dc264864"
+    },
+    "public_build_environment": {
+      "APP_ENV": "production",
+      "EPS_RELEASE_MODE": "production",
+      "NODE_ENV": "production",
+      "CENTRAL_ADAPTER_MODE": "supabase",
+      "APP_BASE_URL": "https://everyone-presentation-pilot.vercel.app",
+      "SUPABASE_URL": "https://pyibofyctwnqpvktepse.supabase.co",
+      "SUPABASE_PUBLISHABLE_KEY": "OWNER_SUPPLIED_EXISTING_PUBLIC_KEY"
+    },
+    "browser_receipt": {
+      "path": "tracking/evidence/m07/completion-release/EXACT_FRESH_ROOT_UI_FOCUS_BROWSER.json",
+      "sha256": "EXACT_FRESH_ROOT_BROWSER_RECEIPT_SHA256"
+    }
+  },
+  "deploy_inputs": {
+    "preflight_receipt": {
+      "path": "tracking/evidence/m07/completion-release/EXACT_NEW_ROOT_CANONICAL_PREFLIGHT.json",
+      "sha256": "EXACT_NEW_ROOT_CANONICAL_PREFLIGHT_SHA256"
+    }
+  }
+}
