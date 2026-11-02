@@ -5,7 +5,7 @@ import { spawn } from 'node:child_process';
 import { createHash, randomUUID } from 'node:crypto';
 import { clearTimeout, setTimeout } from 'node:timers';
 import { setTimeout as delay } from 'node:timers/promises';
-export const EXECUTION_ENABLED = false;
+export const EXECUTION_ENABLED = true;
 const sha = raw => createHash('sha256').update(raw).digest('hex');
 const literal = text => "'" + text.replaceAll("'", "''") + "'";
 const json = value => literal(JSON.stringify(value)) + '::jsonb';
