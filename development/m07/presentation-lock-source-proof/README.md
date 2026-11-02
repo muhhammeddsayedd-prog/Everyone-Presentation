@@ -36,6 +36,8 @@ Each profile/mode runs two timed samples for source locking, review, snapshot
 and hashing, then actual authenticated generation inside an outer rollback.
 Order is old then candidate on the same database; raw durations and cancellation
 codes remain visible. No invented minimum speedup or production success claim.
+Safe samples, codes and generation projections attach to the report before
+acceptance assertions, so a later failure preserves completed observations.
 Review/fingerprint and generated projections compare where the old operation
 completes. Generated UUIDs and creation time are explicitly normalized; that
 projection is not full snapshot byte equality. Old cancellation leaves the

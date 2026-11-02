@@ -47,6 +47,7 @@ class Tests(unittest.TestCase):
   self.assertIn('await lockProof.runCases(',source);self.assertNotIn("report.checkpoint = 'same-key-independent-session-race'",source)
   self.assertIn("'--network', 'none'",source);self.assertNotIn("'--publish'",source)
   self.assertIn('independent_successful_daemon_label_inventories_empty=true',source)
+  self.assertIn("'LOCKSOURCE41_ASSERTION_FAILED'",source);self.assertNotIn("'PROJECT39_RACE_ASSERTION_FAILED'",source)
   self.assertIn('all_preexisting_old_column_rows_preserved',source);self.assertIn("to_jsonb(t)-''reason''",source)
   self.assertIn('presentation-lock-source-proof/probes.mjs',source)
   self.assertIn('presentation-lock-source-proof/test_cohorts.py',source)
@@ -69,11 +70,14 @@ const holder={pid:391,async request(sql){calls.push(['holder',sql]);return[];}};
 const writer={pid:393,async request(sql){calls.push(['writer',sql]);return[];}};
 const observer={pid:394,async request(sql){calls.push(['observer',sql]);return[{waiting:true}];}};
 const contender={pid:392,async request(sql){calls.push(['contender',sql]);if(sql.startsWith('select pg_temp.locksource41_measure')){operation++;if(operation===4)return[{ok:true,duration_ms:1}];return[{ok:false,code:operation<4?'INPUT_CHANGED':'RESOURCE_NOT_FOUND',duration_ms:1}];}return[];}};
-const result=await changedSourceRaces({holder,writer,observer,contender,variant:'new',runId:run,id:label=>idFor(run,label),profiles:{large:{project:idFor(run,'project'),workspace:idFor(run,'workspace'),series:idFor(run,'series'),meta:{input:{expected_workspace_row_version:1,expected_draft_revision:1,expected_input_fingerprint:'a'.repeat(64)}}}},value:async sql=>{calls.push(['value',sql]);return{id:idFor(run,'preimage'),active:true};}});
+const context={holder,writer,observer,contender,variant:'new',runId:run,id:label=>idFor(run,label),profiles:{large:{project:idFor(run,'project'),workspace:idFor(run,'workspace'),series:idFor(run,'series'),meta:{input:{expected_workspace_row_version:1,expected_draft_revision:1,expected_input_fingerprint:'a'.repeat(64)}}}},value:async sql=>{calls.push(['value',sql]);return{id:idFor(run,'preimage'),active:true};}};
+const result=await changedSourceRaces(context);
 assert.equal(result.length,7);assert.equal(result[6].actual_relation_wait,true);assert.equal(operation,7);
 const wait=calls.findIndex(([who,sql])=>who==='observer'&&sql.includes('pg_stat_activity'));
 const revoke=calls.findIndex(([who,sql])=>who==='writer'&&sql.includes('delete from public.project_memberships'));
-assert(wait>=0&&revoke>wait);process.stdout.write(JSON.stringify(calls.map(([,sql])=>sql)));
+assert(wait>=0&&revoke>wait);
+const partial=[];await assert.rejects(changedSourceRaces({...context,raceEvidence:partial,contender:{pid:392,async request(sql){calls.push(['failure-contender',sql]);return sql.startsWith('select pg_temp.locksource41_measure')?[{ok:false,code:'42501',duration_ms:1}]:[];}}}));assert.equal(partial.length,1);assert.equal(partial[0].code,'42501');assert.equal(partial[0].ok,false);
+process.stdout.write(JSON.stringify(calls.map(([,sql])=>sql)));
 """.replace('MODULE',module('proof.mjs'))
   sqls=node(script);self.assertGreater(len(sqls),35)
   for sql in sqls:parse_sql(sql);parse_plpgsql(sql)
@@ -82,6 +86,9 @@ assert(wait>=0&&revoke>wait);process.stdout.write(JSON.stringify(calls.map(([,sq
  def test_evidence_boundaries_and_full_reason_preservation(self):
   source=(HERE/'proof.mjs').read_text();fixture=(HERE/'fixture.sql').read_text();temp=(HERE/'temporary.sql').read_text()
   self.assertIn('old_generation_comparison_unavailable',source);self.assertIn('if(variant===\'candidate\')assert.equal(generation.ok,true',source)
+  self.assertLess(source.index('Object.assign(ctx.report.performance,{results'),source.index("for(const variant of['old','candidate'])"))
+  self.assertLess(source.index('record[operation].push(result)'),source.index("'LOCKSOURCE41_CANDIDATE_COMPONENT_FAILED'"))
+  self.assertLess(source.index('record.generation=generation'),source.index('assert(generation.ok||'))
   self.assertIn('full_reason_column_preserved:true',source);self.assertIn('to_jsonb(t)::text',fixture);self.assertNotIn("to_jsonb(t)-'reason'",fixture)
   self.assertIn('reason is not null',fixture);self.assertIn('Synthetic existing reason must remain exact.',fixture)
   self.assertIn("snapshot-'created_at'",temp);self.assertIn('normalization',temp);self.assertNotIn('set_config(\'eps.',temp)

@@ -42,6 +42,7 @@ def compile_source(relative):
  new="'select count(*)from(select row_hash from project39_proof.original_rows where table_name=%L except select encode(sha256(convert_to(%s::text,''UTF8'')),''hex'')from %s t)s',r.table_name,case when r.table_name='eps.audit_events'then'(to_jsonb(t)-''reason'')'else'to_jsonb(t)'end,r.table_name"
  replace(old,new);replace('report.all_preexisting_rows_preserved = true;','report.all_preexisting_old_column_rows_preserved = true;')
  replace('report.all_owned_resources_absent = resources.length === 2;',"report.all_owned_resources_absent = resources.length === 2;assert.equal((await docker(['container','ls','-aq','--filter','label=eps.locksource41.run='+runId])).stdout.trim(),'');assert.equal((await docker(['volume','ls','-q','--filter','label=eps.locksource41.run='+runId])).stdout.trim(),'');report.independent_successful_daemon_label_inventories_empty=true;")
+ replace("report.failure_code = error instanceof assert.AssertionError ? 'PROJECT39_RACE_ASSERTION_FAILED' : 'PROJECT39_RACE_COMMAND_FAILED';","report.failure_code = error instanceof assert.AssertionError ? 'LOCKSOURCE41_ASSERTION_FAILED' : 'LOCKSOURCE41_COMMAND_FAILED';")
  return source
 if __name__=='__main__':
  relative='.local/presentation-lock-source-proof-compiled/controller-'+str(uuid.uuid4())+'.mjs';text=compile_source(relative);p=ROOT/relative;p.parent.mkdir(parents=True,exist_ok=True)
