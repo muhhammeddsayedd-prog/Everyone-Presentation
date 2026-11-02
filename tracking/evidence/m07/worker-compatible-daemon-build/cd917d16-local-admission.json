@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-11-02T21:50:18.151713+00:00",
+  "result": "all5_local_daemon_only_phases_passed",
+  "run": "cd917d16-2d3d-4915-9d65-364d1edf4fe9",
+  "build_run": "de3323fa-cb76-4145-8419-beea83b5f523",
+  "source_commit": "db2139f567376ba3b58bd9992ddc06ae29d7e4dc",
+  "source_sha256": "dc12eaab6d862b2d151665b13c092568a273a2b1c7e2fde24516654c7db40648",
+  "source_files": 167,
+  "context": {
+    "daemon_source_sha256": "dc12eaab6d862b2d151665b13c092568a273a2b1c7e2fde24516654c7db40648",
+    "native_source_sha256": "f742e9e5e4b83643f5bae18cace3e9e253912c0114f59b4489f0d163bcb39368",
+    "native_manifest_sha256": "fa221d833f0417d303c55ecc43629b2edf68ccdcc020d90e7f1864341e02fa57",
+    "native_graph_sha256": "247992bbe3331251f33186cfac22835e8734833cd229bb6a4d8bcafa3bc0c214",
+    "daemon_graph_sha256": "9c751f186e67dec8dccc7f8339760ed25210e79f109ff65be12bdb3108123234",
+    "native_rebuilt": false,
+    "native_compatibility_sha256": "24737d69156a7dfb10459668c828265c7665be0efae80c5da678ea53fd61328b",
+    "file_count": 167,
+    "private_pattern_families": 6,
+    "private_pattern_hits": 0,
+    "private_credentials_opened": false,
+    "context_files": 174,
+    "retained_native_references": {
+      "export": {
+        "path": "tracking/evidence/m07/worker-source-identity-release/2026-11-02T19-09-59-072239Z-native-export.json",
+        "sha256": "a05c6dba0e59813afadc42b07a286c0fd43c07852fe4474fc48cf2916b870814"
+      },
+      "copy": {
+        "path": "tracking/evidence/m07/worker-source-identity-release/2026-11-02T19-20-16-978244Z-native-registry-copy.json",
+        "sha256": "8c5ca46033600d1e0db890f5623c2d33c63f59b03587366618be40b1aaaff324"
+      },
+      "ready": {
+        "path": "tracking/evidence/m07/worker-source-identity-release/2026-11-02T19-23-34-403749Z-native-registry-ready.json",
+        "sha256": "7fcecd4e585e6f8f14809671c51636c13634ee590958eb197283b407e50e98c2"
+      },
+      "probe": {
+        "path": "tracking/evidence/m07/worker-source-identity-release/2026-11-02T19-33-56-730888Z-native-probe-admitted.json",
+        "sha256": "a03db92ca8975c1cf32affc50480327fd4b7ac47ee140303543b5be4480fb662"
+      }
+    }
+  },
+  "daemon_digest": "sha256:697362169825a7f71493e98870505cb74a2ae163999209785c02ac7a0b0a0329",
+  "archive": {
+    "archive_sha256": "798ff17f0563d188b0ff299b0db75276ff356c11c8de9218fdf7dff6d7ce8ce8",
+    "archive_bytes": 111166976,
+    "index_digest": "sha256:697362169825a7f71493e98870505cb74a2ae163999209785c02ac7a0b0a0329",
+    "runtime_digest": "sha256:697362169825a7f71493e98870505cb74a2ae163999209785c02ac7a0b0a0329",
+    "blobs_verified": 18,
+    "compressed_blob_bytes": 111149575,
+    "all_blob_sha256_and_descriptor_sizes_verified": true,
+    "all_blobs_reachable": true,
+    "layers_recompressed": false,
+    "legacy_manifest_used": false,
+    "external_descriptor_urls": false
+  },
+  "production_import_gate": {
+    "user": "1000:1000",
+    "network": "none",
+    "step": "#22",
+    "completed": true,
+    "cached": false,
+    "build_exit_code": 0
+  },
+  "normal_build_process_return_observed": true,
+  "source_revalidated_after_export": true,
+  "phases": [
+    {
+      "phase": "stage",
+      "claim_sha256": "52881540b12f5b698c1f30650c38a5c80bf6c64617974c627412f074d57c2568",
+      "normal_sha256": "4fe7473cc6bc21edc29406830a8940cf47921e14e2af7911fa53d83b36fde75d",
+      "normal_return_observed": true,
+      "source_pins_exact": true
+    },
+    {
+      "phase": "reuse-native",
+      "claim_sha256": "52881540b12f5b698c1f30650c38a5c80bf6c64617974c627412f074d57c2568",
+      "normal_sha256": "8999aa5de573a83405ea743f9d68774ee3cf1c09ac2f3690d191754190c6e86f",
+      "normal_return_observed": true,
+      "source_pins_exact": true
+    },
+    {
+      "phase": "daemon-export",
+      "claim_sha256": "52881540b12f5b698c1f30650c38a5c80bf6c64617974c627412f074d57c2568",
+      "normal_sha256": "3645285aa689abb5b6815b23dbb6444ec4a1a887091c03484a007c9a475f4103",
+      "normal_return_observed": true,
+      "source_pins_exact": true
+    },
+    {
+      "phase": "daemon-oci",
+      "claim_sha256": "52881540b12f5b698c1f30650c38a5c80bf6c64617974c627412f074d57c2568",
+      "normal_sha256": "63d9940c76a8f21aae9d87813dccbdc096f19d431643736b21831886dfba8e7a",
+      "normal_return_observed": true,
+      "source_pins_exact": true
+    },
+    {
+      "phase": "emit",
+      "claim_sha256": "52881540b12f5b698c1f30650c38a5c80bf6c64617974c627412f074d57c2568",
+      "normal_sha256": "1a67e67332d7b1313ee6aa36dcdc360c8962a55c1306ea8ec2e6ef7ba2fa0d47",
+      "normal_return_observed": true,
+      "source_pins_exact": true
+    }
+  ],
+  "native_rebuilt_or_copied_or_probed_again": false,
+  "native_source_relabelled": false,
+  "registry_API_SQL_provider_or_deployment_called": false,
+  "serving_worker_changed": false,
+  "build_flags_and_profile_frozen_after_claims": true
+}
