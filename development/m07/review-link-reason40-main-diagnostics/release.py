@@ -6,8 +6,8 @@ def module(name,path):
  spec=importlib.util.spec_from_file_location(name,path);value=importlib.util.module_from_spec(spec);spec.loader.exec_module(value);return value
 projection=module('reason40_main_entry_context',HERE/'context.py');s=projection.base
 file=projection.ACL/'release.py';s.need(s.sha(s.load(file))=='61fd7992aa96ab4afc6c3c43fb26a9e60c4abce9263cb15f833634ea6851eabb');prior=module('reason40_main_frozen_acl_entry',file)
-READ_ENABLED=False
-APPLY_ENABLED=False
+READ_ENABLED=True
+APPLY_ENABLED=True
 class Release(prior.Release):
  def __init__(self,run,context=None):super().__init__(run,context or projection.Context())
  def enabled(self,apply=False):s.need(READ_ENABLED and prior.prior.r.READ_ENABLED and(not apply or APPLY_ENABLED and prior.prior.r.APPLY_ENABLED))

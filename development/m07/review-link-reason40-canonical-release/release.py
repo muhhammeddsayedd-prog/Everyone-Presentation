@@ -4,8 +4,8 @@ import datetime,importlib.util,json,os,re,sys,uuid
 
 HERE=Path(__file__).resolve().parent
 spec=importlib.util.spec_from_file_location('reason40_canonical_state',HERE/'state.py');s=importlib.util.module_from_spec(spec);spec.loader.exec_module(s)
-READ_ENABLED=False
-APPLY_ENABLED=False
+READ_ENABLED=True
+APPLY_ENABLED=True
 PURPOSE='review-link-reason40-canonical-release'
 
 def now():return datetime.datetime.now(datetime.timezone.utc).isoformat()
