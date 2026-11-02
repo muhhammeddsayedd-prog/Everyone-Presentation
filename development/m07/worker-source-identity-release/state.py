@@ -86,7 +86,7 @@ class State:
   return 'select(select '+term+' from('+self.state_sql()+' as value)q)'
  def render(self,before,phase,marker):
   need(str(uuid.UUID(marker))==marker);after=self.expected(before,phase)
-  def assertion(sql,expected,tag):return 'do $worker_identity$declare observed jsonb;begin '+sql+' into observed;if observed is distinct from '+json_sql(expected)+"then raise exception'"+tag+"';end if;end$worker_identity$;\n"
+  def assertion(sql,expected,tag):return 'do $worker_identity$declare observed jsonb;begin '+sql+' into observed;if observed is distinct from '+json_sql(expected)+" then raise exception'"+tag+"';end if;end$worker_identity$;\n"
   sql=self.prefix()+assertion(self.state_sql(),before,'WORKER_IDENTITY_PREIMAGE_CHANGED')
   for table in('frame_extraction_config',)if phase=='pin'else CONFIG:
    assignment='native_image_id='+literal(self.new_native)if phase=='pin'else'enabled='+str(phase=='resume').lower()

@@ -133,7 +133,7 @@ The original local target, roles and shared lock must remain exact after cleanup
 ## Exact forward cutover sequence
 
 1. **prepare:** fresh two equal current40 snapshots, zero active work, complete
-   current worker/instance/native-session inventory, same public-env metadata
+   current worker/instance inventory and exact accepted native-probe cleanup, same public-env metadata
    twice, all full source/image/probe admissions and a fresh protected76-table
    checkpoint. Record its real path/hash/history; checkpoint is not restore proof.
 2. **pause:** one permanent claim and exact transaction preimage; update only
@@ -150,7 +150,7 @@ The original local target, roles and shared lock must remain exact after cleanup
    dub1/2Gi/300s and exact actual new image/source/manifest/compatibility metadata.
    Native46 remains the DB pin while paused. No old deployment/image deletion.
 5. **ready:** exact new deployment/daemon/digest and two matching actual instance
-   inventories, old instance absent, no outstanding native sessions, then complete
+   inventories, old instance absent, the actual boot global-idle assertion and exact new probe absence, then complete
    first600000ms startup window for the actual new instance. No pagination,
    truncation, warnings/errors/excluded intervals or fixed historical23 count.
    Require worker_started and the new hosted_worker_source_identity record with

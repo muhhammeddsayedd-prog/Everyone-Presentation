@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-11-02T18:52:58.389146+00:00",
+  "purpose": "disabled_concrete_worker_source_identity_operations",
+  "result": "passed_source_validation",
+  "source_seals": {
+    "development/m07/worker-source-identity-release/admission.py": "55d6c22d8ed7f628d2ba4c9484c9343b9213b25ba9e6d268828f79a1fc73f4e5",
+    "development/m07/worker-source-identity-release/build-inputs.template.json": "1fe31b0b1b856e08cf7fb61066ec1f3c592944336d5b757d3f2c88c608642e03",
+    "development/m07/worker-source-identity-release/build.py": "4dddf57279c16e4e2e7000705765a7e0598b416e074eeaf293e908a9dc317c66",
+    "development/m07/worker-source-identity-release/controller.py": "f93670f84134c0fe227dad75c8c2fa9023188a6b0982bc34bc8256dcc695821f",
+    "development/m07/worker-source-identity-release/environment.py": "ce0f72c6f6c0fc1e56ab449513c36d0d2989731a2b7ad28c3186300eeb5aa7d6",
+    "development/m07/worker-source-identity-release/inputs.template.json": "0eddef99303eecb0ff932d0b8c1f2171539eb3bf09ff5ffe1142f5b50274073f",
+    "development/m07/worker-source-identity-release/LOCAL_OPERATIONS.md": "c2747a403a738b9b40b6e581755a71b230ecec15497f3907fb2558dc9200dd7c",
+    "development/m07/worker-source-identity-release/mechanisms.py": "4a7449b349794d9d2e2b49842d5e8ff6d82d7288077845d3f1b1061cef0842dc",
+    "development/m07/worker-source-identity-release/native-inputs.template.json": "2fee0f791a5e28466a5c1b289dbb62476ac5e544aadd9b809ad34899de7910d7",
+    "development/m07/worker-source-identity-release/native_probe.py": "e7ccd13f27fd79a4bd216dc840e77c4906671af5e4ca37f21b22d5a7b3210534",
+    "development/m07/worker-source-identity-release/PLAN.md": "3a26db5d3f72c6cbadbe52e8288b8b2b267888477bfffacc588b6c228699d823",
+    "development/m07/worker-source-identity-release/provider.py": "6d7b9193ebff6e81ff309ad92ac71de829ead3eb6f609b32be8e80784198c17d",
+    "development/m07/worker-source-identity-release/registry.py": "25d6111d2957fec9444fcf3c2f5c1dbd5ec09d78110fc060655ebe383f9e4ad5",
+    "development/m07/worker-source-identity-release/startup.py": "8da52175dd38d8084f1cc4c5fc111c28843d3bcd898533d97dc0a12ef19effcb",
+    "development/m07/worker-source-identity-release/state.py": "83b859f8e5cb325c91a77c0b04f492354a0d28ffa6cad324fd2abb20bc9c466c",
+    "development/m07/worker-source-identity-release/test_admission.py": "b25f2acb1f629d829d34f723c54adb59ce12d4f13ddaf1bcf055bcdaeb9684f8",
+    "development/m07/worker-source-identity-release/test_build.py": "ba2eda3f09da67f41565f531c6cca123ac8a7059bdc865e9cc8e41daecb90a89",
+    "development/m07/worker-source-identity-release/test_controller.py": "022ba0bf9ddae5c65d38cd5dfb258d8226a84b81abef872b9d54512051eda43b",
+    "development/m07/worker-source-identity-release/test_environment.py": "b678b64f0652eb88113f983df188b83c037d1be4f1d2bed6de099da646224663",
+    "development/m07/worker-source-identity-release/test_inherited_state.py": "1570b3f7f3235bb3eb1bd0e17f04e980159e32bad044b6ea3e8a0816b4bd648a",
+    "development/m07/worker-source-identity-release/test_native_probe.py": "18f1754617cdbc70f72b6b48bd3f74f31fbad492913063ebfc2630b789463896",
+    "development/m07/worker-source-identity-release/test_provider.py": "0db4076728dd8fded580d1d27a69b36bda5d1dbb3d5fbb8e9333cd0b3a1fa02a",
+    "development/m07/worker-source-identity-release/test_registry.py": "8d2eb18f6baaf68334f0bd3e8fa7d9a75b5e096f79ad3f9a78fce1f71fb713b1",
+    "development/m07/worker-source-identity-release/test_rendered_sql.py": "2c6237368d12dafa4099fdd389d7272bc6a6f315f2093331b6c507ce67111d6a",
+    "development/m07/worker-source-identity-release/test_startup.py": "4e2f47f631bcfc59ce2993a547fc0b86b5ba5b69bb362f86dc3c207274495ae5",
+    "development/m07/worker-source-identity-release/test_state.py": "e62ecd012bae835da1e1683e56c284973f7446104f5f169798b1035bb6578e7c"
+  },
+  "flags": {
+    "build.py:BUILD_ENABLED": false,
+    "registry.py:REGISTRY_ENABLED": false,
+    "native_probe.py:PROBE_ENABLED": false,
+    "controller.py:EXECUTION_ENABLED": false,
+    "startup.py:OBSERVE_ENABLED": false
+  },
+  "test_command": "Main/.venv-skills/Scripts/python.exe -X utf8 -B -m unittest discover -s development/m07/worker-source-identity-release -p test_*.py",
+  "environment": "Runtime worktree, Node24, Main isolated Python/pglast",
+  "tests": 52,
+  "pass": 52,
+  "fail": 0,
+  "scope": [
+    "real inherited accepted40 checker with non-null full audit-hash projection",
+    "real collector/checkpoint SQL and all three phase PLpgSQL parsing, not SQL type or execution proof",
+    "local claim/source/quality/archive and default-off unit boundaries",
+    "same registry transport body validation and normal/unknown/no-replay fake-port cases",
+    "finite frozen native probe/admission inverse and generated Node syntax checks"
+  ],
+  "rendered_SQL_red": {
+    "tests": 2,
+    "errors": 3,
+    "failures": 0,
+    "primary": "pause ParseError missing THEN at end of SQL expression",
+    "secondary": "pin/resume input state did not advance after pause parser failure",
+    "SQL_executed": false
+  },
+  "rendered_SQL_green": {
+    "tests": 2,
+    "pass": 2,
+    "phase_DO_bodies": 3,
+    "scope": "parser only"
+  },
+  "test_fixture_correction_preserved": {
+    "tests": 52,
+    "pass": 51,
+    "fail": 1,
+    "reason": "Initial negative expected newline rejection; existing frozen raw-body formatter intentionally trims CLI newline. Negative now mutates actual JSON bytes and preserves newline compatibility."
+  },
+  "local_build_source_pin_scope": [
+    "build.py",
+    "mechanisms.py",
+    "test_build.py",
+    "fixed new emitter and frozen OCI/archive/binaries",
+    "selected exact packed product/archive/quality bytes"
+  ],
+  "later_registry_probe_and_separate_SQL_proof_do_not_mutate_local_build_pins": true,
+  "final_Main_source_selected": false,
+  "private_inputs_created": false,
+  "stage_calls": 0,
+  "Docker_exports": 0,
+  "registry_or_provider_calls": 0,
+  "native_probe_executed": false,
+  "SQL_executed": false,
+  "AT069_or_equivalent_prepared": false,
+  "production_runtime_acceptance_claimed": false
+}
