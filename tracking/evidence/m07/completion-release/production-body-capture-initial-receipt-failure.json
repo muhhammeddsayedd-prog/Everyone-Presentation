@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0",
+  "result": "local_receipt_write_failed_after_network_free_capture",
+  "phase": "public_receipt_creation",
+  "cause": "FileNotFoundError: destination evidence directory had not been created",
+  "capture_child_exit_code": 0,
+  "network_dispatches": 0,
+  "app_writeback": false,
+  "fix": "Create the evidence parent directory before exclusive receipt write; repeat only the pure injected capture, never a provider request",
+  "first_raw_trace_retained_in_tool_history": true
+}
