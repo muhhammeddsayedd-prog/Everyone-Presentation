@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { URL } from 'node:url';
 import * as previous from '../presentation-lock-source-proof/proof.mjs';
-export const EXECUTION_ENABLED=false;
+export const EXECUTION_ENABLED=true;
 export const SEED_SHA='0a74ce47ff97339b4e63cf8df3aa3801321e2099588ed22367e5fe4317acaa7f';
 export const BEFORE="if(select candidates<>3 or media<>1 or frames<>0 or assets<>4 or ready<>1 or slides<>16 or pins<>4 from locksource41_proof.seed_counts)then";
 export const AFTER="if(select seed.candidates<>3 or seed.media<>1 or seed.frames<>0 or seed.assets<>4 or seed.ready<>1 or seed.slides<>16 or seed.pins<>4 from locksource41_proof.seed_counts seed)then";
