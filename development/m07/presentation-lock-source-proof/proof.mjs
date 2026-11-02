@@ -6,7 +6,7 @@ import { URL } from 'node:url';
 import { setTimeout } from 'node:timers/promises';
 import { session } from './session.mjs';
 import { verifyHeld, verifyEdges } from './probes.mjs';
-export const EXECUTION_ENABLED=false;
+export const EXECUTION_ENABLED=true;
 export const ACTOR='a4410000-0000-4000-8000-000000000001',OTHER='a4410000-0000-4000-8000-000000000002';
 const CLIENT='a4410000-0000-4000-8000-000000000003',SID='a4410000-0000-4000-8000-000000000004';
 const RESOURCE='https://everyone-presentation-pilot.vercel.app/mcp';
