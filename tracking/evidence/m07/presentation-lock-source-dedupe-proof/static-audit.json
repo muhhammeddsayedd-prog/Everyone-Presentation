@@ -1,0 +1,99 @@
+{
+  "kind": "finite_static_audit_only",
+  "metadata_sha256": "12df4e565d466c008095498903237ae24f304403887db396b8bc46b5cf93346c",
+  "source_files": {
+    "fixture.sql": "aa976e76fa2a69fd7ea2b8f6f90609c28f734b889b20c15fe8de8d50dc29d22d",
+    "scale.sql": "6fb57962bc461bfb9dd8d86dcda392d5c919aedcf97d030a634e4e526a8c4192",
+    "background.sql": "8c26ce2bc6357686fe025f80652ca213460b295d6b56a289ef722940eaf66088",
+    "temporary.sql": "6c34eae348be361652b001cc1e14ea5e2d4bca16513eace77777592df924e33c",
+    "cohorts.sql": "06d12e3c2b2ca36deb7831579a7ef55ec183cdd77b9e66515b18c3b0bbc953ef",
+    "counts.sql": "c38896c8e867289fe890b48f99573d25bf5627677410e3639008613a0eb0fb2a",
+    "proof.mjs": "087df11fa717f72043c9782c8da7380ae8cda559221a0495582d1dcd01d22448"
+  },
+  "fixture_insert_statements_checked": 32,
+  "fixture_tables_touched": [
+    "auth.oauth_clients",
+    "auth.sessions",
+    "auth.users",
+    "eps.assignments",
+    "eps.audit_events",
+    "eps.candidate_media",
+    "eps.candidate_media_frames",
+    "eps.candidates",
+    "eps.job_stage_attempts",
+    "eps.jobs",
+    "eps.mcp_oauth_resources",
+    "eps.media_assets",
+    "eps.presentation_version_assets",
+    "eps.presentation_versions",
+    "eps.review_fit_results",
+    "eps.roles",
+    "eps.slots",
+    "eps.version_slides",
+    "eps.workspace_candidates",
+    "public.app_capability_grants"
+  ],
+  "missing_insert_columns": [],
+  "missing_required_without_default": [],
+  "pinned_schema_CHECKs_parsed": 332,
+  "declared_job_counts": {
+    "scale": 26,
+    "background": 12,
+    "fit": 2
+  },
+  "known_dedupe_sites_all_qualified": true,
+  "seven_seed_thresholds_unchanged": true,
+  "UUID_array_text_types_checked": true,
+  "FK_order_and_active_assignment_uniqueness_reviewed": true,
+  "actual_context_RPC_inputs_previously_advanced_in_both_failed_owned_runs": true,
+  "generation_input_and_owner_authenticated_8s_guards_checked": true,
+  "frame_pair_and_archived_pool_paths_retained": true,
+  "all_sql_and_plpgsql_parsed": true,
+  "SQL_operator_resolution_or_actual_constraint_function_execution": false,
+  "provider_or_canonical_acceptance": false,
+  "family": "m07-locksource41-finite-fixture-function-input-audit",
+  "observed_at": "2026-11-02T13:11:08.437005+00:00",
+  "new_correction_sources": {
+    "development/m07/presentation-lock-source-dedupe-proof/compiler.py": "b7ce789a621ca4efe92b26770ad28b3210f5bb407d8fe61bacb12ad9427db3cf",
+    "development/m07/presentation-lock-source-dedupe-proof/entry.mjs": "64a9c2b7058a60609dda5ce74adf2ab75ff6f15b3e4f5c8bf6763b8d47f49321",
+    "development/m07/presentation-lock-source-dedupe-proof/README.md": "afe8bfe4a7907aa612c13b07fe2140cc775c1f95f12745dfa7ba0d56dba0075e",
+    "development/m07/presentation-lock-source-dedupe-proof/test_dedupe.py": "2623478ff3c791e7ecfb1e554ec0e9e233eeaf69407625b698283daa352b31a8"
+  },
+  "reviewed_function_inputs": [
+    "normal create_project/create_workspace/create_series argument fields and existing exact39 contracts (both prior runs advanced these)",
+    "review_snapshot_data/presentation_manifest/hash/time/cast_fingerprint typed metadata inputs",
+    "temporary measure5args; actual authenticated generate UUID/JSONB/text input with3revision-fingerprint keys",
+    "review_fit metadata row exact current input_fingerprint and measured/overflows shape; no actual DOM measurement claim",
+    "MCP delegation4keys, current synthetic session/client/resource and10capabilities; no signed OAuth claim",
+    "actual invoker owner/authenticated8s guards and zero provider path",
+    "original12cohort predicates/closed row-key probe types/exactframe pairs",
+    "generation normalization explicit UUID/time fields and complete raw/English companion metadata projection"
+  ],
+  "manual_constraint_review": {
+    "covered_groups": [
+      "media_assets typed purposes/buckets/output stages/bytes/dimensions/FK insertion order",
+      "job kind/stage/hash/dedupe/correlation/status/defaults and trace positive counters",
+      "candidate facts/review fingerprint/media/frame cardinality and source relationships",
+      "roles/slots/activeMain and candidate-per-slot uniqueness/compositeworkspaceFKs",
+      "Readyversion/slides/pins/status/English enum/manifest shape and insertion order",
+      "fit job/result FK/fingerprint/status/result and existing nonnull audit reason"
+    ],
+    "additional_definite_literal_constraint_conflicts_found": 0,
+    "known_corrections": [
+      "qualified7seed-count columns",
+      "SHA256 original dedupe expression in scale/background/fit sites"
+    ],
+    "job_dedupe_declared_labels_unique": 40,
+    "job_dedupe_results_hex64_unique": 40,
+    "constraints_or_thresholds_relaxed": false
+  },
+  "prior_failures_retained": [
+    "99873a5f",
+    "e1ce4832"
+  ],
+  "known_limits": [
+    "Static source/AST/type/default/FK/literal review does not execute PostgreSQL operators, constraints, PL/pgSQL or RLS.",
+    "Declared Ready/fit/scan rows are synthetic workload metadata, not render/provider/accuracy evidence.",
+    "Future measurements/security/races/cleanup remain unverified until Root-reviewed single owned run."
+  ]
+}

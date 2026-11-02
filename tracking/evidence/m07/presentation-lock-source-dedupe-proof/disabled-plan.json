@@ -1,0 +1,104 @@
+{
+  "family": "m07-presentation-locksource41-dedupe-forward-plan",
+  "observed_at": "2026-11-02T13:13:36.183527+00:00",
+  "result": "prepared_disabled",
+  "execution_enabled": false,
+  "compiled_only": true,
+  "execution_dispatched": false,
+  "dispatch_hold": "Root review required; source-only correction currently authorized",
+  "source_seals": {
+    "development/m07/presentation-lock-source-dedupe-proof/compiler.py": "b7ce789a621ca4efe92b26770ad28b3210f5bb407d8fe61bacb12ad9427db3cf",
+    "development/m07/presentation-lock-source-dedupe-proof/entry.mjs": "64a9c2b7058a60609dda5ce74adf2ab75ff6f15b3e4f5c8bf6763b8d47f49321",
+    "development/m07/presentation-lock-source-dedupe-proof/README.md": "afe8bfe4a7907aa612c13b07fe2140cc775c1f95f12745dfa7ba0d56dba0075e",
+    "development/m07/presentation-lock-source-dedupe-proof/test_dedupe.py": "2623478ff3c791e7ecfb1e554ec0e9e233eeaf69407625b698283daa352b31a8"
+  },
+  "static_audit": {
+    "path": "tracking/evidence/m07/presentation-lock-source-dedupe-proof/static-audit.json",
+    "sha256": "f2cf3abbb118c5395bae145b7c829f64f2c98dcc90a58c71c685b6fbc7e62bba",
+    "explicit_insert_sites": 32,
+    "targets": 20,
+    "missing_columns": 0,
+    "missing_required_without_defaults": 0,
+    "independent_agent_readonly_audit": "Frontend independently reported same coverage and no additional definite violation",
+    "executable_constraint_or_function_validation": false
+  },
+  "pinned_libraries": {
+    "development/m07/presentation-lock-source-proof/compiler.py": "0bed646aeb5f1af8a1c1bd686900335bdffb6b8c88e1be128bb1f9be2d0cfd25",
+    "development/m07/presentation-lock-source-proof/proof.mjs": "087df11fa717f72043c9782c8da7380ae8cda559221a0495582d1dcd01d22448",
+    "development/m07/presentation-lock-source-proof/scale.sql": "0a74ce47ff97339b4e63cf8df3aa3801321e2099588ed22367e5fe4317acaa7f",
+    "development/m07/presentation-lock-source-proof/background.sql": "e8d61b12ebf4d25a57ba10944bd91d65494cdcfe79b9230a4c785bfe4484b544",
+    "development/m07/presentation-lock-source-seed-proof/compiler.py": "9467330333be87a1b4e2718ad62da4538e35068f6507ca38e9ac15a8a00d65d9",
+    "development/m07/presentation-lock-source-seed-proof/entry.mjs": "a6697aa4dde6995220ea81b64015043b1b08915c3673c8028d97fe4af6efc819"
+  },
+  "retained_failures": [
+    {
+      "run_id": "99873a5f-6a47-4cc1-bd0f-ff05a4b08d8c",
+      "receipt": "tracking/evidence/m07/presentation-lock-source-proof/2026-11-02T12-31-05.332Z-99873a5f.json",
+      "sha256": "3670111ac9c7cc556bb94b392fa0b1da11fba2a3b541efdf11e84614ca0b2014",
+      "checkpoint_commit": "a6018d1dc37e86d98a69e498dddf498268a24733"
+    },
+    {
+      "run_id": "e1ce4832-77c3-47cb-805e-2ba36cc6489f",
+      "receipt": "tracking/evidence/m07/presentation-lock-source-seed-proof/2026-11-02T12-48-25.819Z-e1ce4832.json",
+      "sha256": "5b87947b799f740815db78a5402372ea3c2a47b8555970426880b35c3c005e79",
+      "checkpoint_commit": "fdec4e3ba4cf9f2c74d473906293df76d649faf1"
+    }
+  ],
+  "only_new_semantic_changes": {
+    "sites": 3,
+    "actual_fixture_job_rows": 40,
+    "sites_by_rows": {
+      "scale_candidate_scan": 26,
+      "background_presentation_render_metadata": 12,
+      "synthetic_review_fit": 2
+    },
+    "operation": "dedupe_key becomes SHA256 UTF8 of its exact previous label expression",
+    "correlation_ids_unchanged": true,
+    "original_label_uniqueness_relationship_retained": true,
+    "existing_CHECK_and_unique_constraints_unchanged": true,
+    "source_scale_counts_and_thresholds_unchanged": true,
+    "previous_seven_seed_alias_qualifications_retained": true,
+    "all_other_fixture_SQL_and_candidate_function_unchanged": true,
+    "scale_before_sha256": "aee1e6dfbe072ebd7f971f7534b76c11cbf78eb7b5bf5b73f04c29edaef83da1",
+    "scale_after_sha256": "6fb57962bc461bfb9dd8d86dcda392d5c919aedcf97d030a634e4e526a8c4192",
+    "background_before_sha256": "e8d61b12ebf4d25a57ba10944bd91d65494cdcfe79b9230a4c785bfe4484b544",
+    "background_after_sha256": "8c26ce2bc6357686fe025f80652ca213460b295d6b56a289ef722940eaf66088",
+    "inverse_byte_equal": true
+  },
+  "compiled_controller": {
+    "path": ".local/presentation-lock-source-dedupe-proof-compiled/controller-3752bea2-1e3f-4ef0-b96b-2301818e417b.mjs",
+    "sha256": "d8bbf42a2eeeab4badd209413e0af11883c1ec8d08122a9be9e72bbadfa372bf",
+    "executed": false
+  },
+  "fresh_ownership": {
+    "private_root": ".local/presentation-lock-source-dedupe-proof/<newRuntimeUUID>",
+    "evidence_root": "tracking/evidence/m07/presentation-lock-source-dedupe-proof",
+    "controller_root": ".local/presentation-lock-source-dedupe-proof-compiled",
+    "docker_label_namespace": "eps.locksource41dedupe",
+    "prefix": "eps-locksrc41dedupe-",
+    "shared_lock_purpose": "presentation-lock-source41-dedupe-owned-proof",
+    "shared_lock": "Main/.local/local-postgres/test-db.lock",
+    "network": "none",
+    "host_ports": []
+  },
+  "offline_checks": {
+    "new_focused_tests": 5,
+    "generated_node_syntax_exit": 0,
+    "eslint_exit": 0,
+    "staged_diff_check_exit": 0,
+    "exact_diff_independent_peer": "pending"
+  },
+  "unchanged_requirements": [
+    "All complete8s owner/authenticated/API/MCP component and actual rollback generation cases",
+    "All original12sourcecohorts/permissions/equality/security/races",
+    "Safe samples/codes/projections before assertions; qualification dispatch flags before await",
+    "Full post40 reason/data/function-source and original Ready preservation",
+    "Original29data/catalogue/globalroles preservation plus exact owned cleanup/independent empty inventories/sharedlockrelease"
+  ],
+  "limits": [
+    "No third performance run authorized/dispatched by this source preparation",
+    "No old controller replay or consumed source/claim edits",
+    "No provider/canonical calls or actual performance claim",
+    "Any further semantic failure requires Root review; no automatic replay"
+  ]
+}
