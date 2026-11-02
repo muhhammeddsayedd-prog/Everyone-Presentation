@@ -91,6 +91,11 @@ creates protected `query-validation.json` containing only that actual public
 receipt's `{path,sha256}`, and arms only the intended live flags. Admission binds
 its actual normal/negative/checkpoint results, cleanup and unchanged query source;
 an absent proof cannot be replaced with parse-only tests or the older51a proof.
+The proof also seals all `release.py` bytes: only the exact single
+`READ_ENABLED` and `APPLY_ENABLED` boolean assignment lines are normalized to
+false for comparison with the proof's disabled source. Literal flag activation
+is allowed; duplicate/malformed assignments or any other orchestration drift
+refuse admission. Line endings and all other bytes remain unchanged.
 A prepare claim is exclusive and permanent;
 an unknown prepare is retained, without automatic retry or a fabricated plan.
 Apply requires unchanged pins/admission, the exact fresh preimage/checkpoint and

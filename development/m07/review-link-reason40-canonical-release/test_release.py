@@ -32,6 +32,18 @@ class TestRelease(unittest.TestCase):
  def test_actual_proof_admission_and_exact_source(self):
   admission=self.c.admission();self.assertEqual(admission['local_proof'],{'path':s.PROOF,'sha256':s.PROOF_SHA});self.assertEqual(s.sha(self.c.migration),s.MIGRATION_SHA)
   self.assertEqual(len(self.c.names),4);self.assertEqual(len(self.c.tables),76);self.assertEqual(len(self.c.history),39)
+ def test_release_provenance_allows_only_exact_flag_activation(self):
+  raw=s.load(HERE/'release.py');self.assertEqual(r.disabled_release_bytes(raw),raw);expected=s.sha(raw)
+  for read,apply in((True,False),(False,True),(True,True)):
+   current=raw.replace(b'\nREAD_ENABLED=False\n',b'\nREAD_ENABLED='+str(read).encode()+b'\n').replace(b'\nAPPLY_ENABLED=False\n',b'\nAPPLY_ENABLED='+str(apply).encode()+b'\n')
+   self.assertEqual(s.sha(r.disabled_release_bytes(current)),expected)
+  crlf=raw.replace(b'\n',b'\r\n');self.assertEqual(r.disabled_release_bytes(crlf.replace(b'READ_ENABLED=False\r\n',b'READ_ENABLED=True\r\n')),crlf)
+ def test_release_provenance_rejects_other_orchestration_drift(self):
+  raw=s.load(HERE/'release.py');expected=s.sha(raw)
+  changed=raw.replace(b"'REASON40_DISPATCH_UNCONFIRMED'",b"'ALTERED_DISPATCH'");self.assertNotEqual(s.sha(r.disabled_release_bytes(changed)),expected)
+  changed=raw+b'\n# unrelated orchestration change\n';self.assertNotEqual(s.sha(r.disabled_release_bytes(changed)),expected)
+  for changed in(raw+b'\nREAD_ENABLED=True\n',raw.replace(b'\nAPPLY_ENABLED=False\n',b'\nAPPLY_ENABLED =False\n'),raw.replace(b'\nREAD_ENABLED=False\n',b'\nREAD_ENABLED=1\n')):
+   with self.assertRaises(ValueError):r.disabled_release_bytes(changed)
  def test_exact_transition_rejects_unapproved_changes(self):
   before=self.before();after=self.c.expected(before);self.assertTrue(all(self.c.transition(before,after).values()))
   mutations=[lambda v:v['functions'][self.c.names[0]]['identity'].update(oid=999),lambda v:v['functions'][self.c.names[1]]['identity'].update(proacl=[]),lambda v:v['reason'].update(historical_nonnull=1),lambda v:v['dependencies']['old'].update(count=101),lambda v:v['authority'].update(roles='f'*64),lambda v:v['history_identity'].update(old_rows='f'*64),lambda v:v['canonical']['base']['data']['public.projects'].update(count=999)]

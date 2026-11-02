@@ -1,6 +1,6 @@
 """NEW normal-CLI SQL40 purpose. Every live entry is disabled for source review."""
 from pathlib import Path
-import datetime,importlib.util,json,os,sys,uuid
+import datetime,importlib.util,json,os,re,sys,uuid
 
 HERE=Path(__file__).resolve().parent
 spec=importlib.util.spec_from_file_location('reason40_canonical_state',HERE/'state.py');s=importlib.util.module_from_spec(spec);spec.loader.exec_module(s)
@@ -10,6 +10,12 @@ PURPOSE='review-link-reason40-canonical-release'
 
 def now():return datetime.datetime.now(datetime.timezone.utc).isoformat()
 def encoded(value):return(json.dumps(value,sort_keys=True,separators=(',',':'))+'\n').encode()
+def disabled_release_bytes(raw):
+ for flag in(b'READ_ENABLED',b'APPLY_ENABLED'):
+  matches=list(re.finditer(rb'(?m)^'+flag+rb'=(True|False)(?=\r?$)',raw));s.need(len(matches)==1)
+  match=matches[0]
+  if match[1]==b'True':raw=raw[:match.start(1)]+b'False'+raw[match.end(1):]
+ return raw
 def rows(stdout):
  payload=json.loads(stdout);value=payload if type(payload)is list else payload.get('rows')if type(payload)is dict else None
  s.need(type(value)is list and len(value)==1 and type(value[0])is dict and set(value[0])=={'reason40_release'});return value[0]['reason40_release']
@@ -34,6 +40,7 @@ class Release:
   validation=proof['collector_validation'];s.need(validation['result']=='passed'and all(validation[key]is True for key in('actual_state_checkpoint_and_rendered_transaction','all76_old_column_rows_and_catalogue_preserved','full_role_membership_function_identity_and_dependency_preimages_preserved','actual_negative_preimage_refused_and_rolled_back','normal_commit_nonce_observed','two_equal_before_reads','two_equal_after_reads','before_and_after_full76_checkpoints_checked','only_database_system_run_admission_changed'))and validation['canonical_identity_admission_claimed']is False)
   for name in('state.py','local.py','local-cases.mjs','local-compiler.py'):
    relative_name=(HERE/name).relative_to(self.c.source).as_posix();s.need(proof['source_seals'][relative_name]==s.sha(s.load(HERE/name)))
+  relative_name=(HERE/'release.py').relative_to(self.c.source).as_posix();s.need(proof['source_seals'][relative_name]==s.sha(disabled_release_bytes(s.load(HERE/'release.py'))))
   s.need(proof['source_seals'][s.MIGRATION]==s.MIGRATION_SHA);value['collector_validation']=reference;return value
  def query(self,sql,label):
   s.need(READ_ENABLED and label in('prepare','inspect','apply','readback','checkpoint'))
