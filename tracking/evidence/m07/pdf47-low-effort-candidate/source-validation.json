@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "purpose": "specs_low_effort_source_candidate",
+  "scope": "Frontend worktree source, actual installed SDK serialization and local fixture tests only",
+  "candidate_base_commit": "35567824b4799ee3fc6e60c232eee94ae70b4d57",
+  "source_seals": {
+    "packages/integrations/src/openai-specs.ts": "aa72bb5a46a91142a07968b80bcd49b0361cd51fc091cc543b5c2a874f84bdb9",
+    "tests/integrations/specs-low-effort.test.ts": "18e546d613890e49c0b85e1fc4bb92f4a51177a247b1b1435378368b9b743f9d",
+    "development/m07/pdf47-transport-fix/LOW_EFFORT_EVALUATION_PLAN.md": "5cd324771d34c666283bdaa7b3bc27e6161fd2d78868223308f24ea3c7efb53e"
+  },
+  "candidate": {
+    "optional_low_only": true,
+    "default_request_unchanged": true,
+    "environment_activation": false,
+    "persisted_metadata_contract_unchanged": true,
+    "model_prompt_schema_input_budget_deadline_unchanged": true,
+    "production_activated": false
+  },
+  "checks": {
+    "red": {"tests": 2, "passed": 0, "failed": 2, "log_sha256": "f6f9e518329b8d6e8a0c75878721be1aae102913740315cbba0bc6eb68eddaa7"},
+    "final_focused": {"command": "node tools/run-tests.mjs tests/integrations/specs-low-effort.test.ts", "tests": 2, "passed": 2, "failed": 0, "log_sha256": "62e9c831817aaf99209b7b2efab1b8e782e3bfc090e2c0e02b5bd94dda5d7621"},
+    "adapter_job_worker": {"tests": 42, "passed": 42, "failed": 0, "skipped": 0, "cancelled": 0, "log_sha256": "10b8e5789c496cbfada693bdc7d7799c53cc4eb3f616a1779391f866b4df6471"},
+    "full_worktree": {"command": "npm.cmd test", "tests": 970, "passed": 970, "failed": 0, "skipped": 0, "cancelled": 0, "log_sha256": "bea3b94472969a347ff829b5bdb7c05c1775f4f8d62b0aff80fe5cbaaf73eff9", "note": "Before a test-only unused destructuring replacement; final focused tests, typecheck and lint passed after that replacement. Product source was unchanged."},
+    "typecheck": {"command": "node node_modules/typescript/bin/tsc --noEmit", "exit_code": 0},
+    "lint": {"command": "node node_modules/eslint/bin/eslint.js packages/integrations/src/openai-specs.ts tests/integrations/specs-low-effort.test.ts --max-warnings 0", "exit_code": 0, "prior_failure": "One test-only unused destructuring binding; corrected and rerun."}
+  },
+  "protected_log_directory": ".local/pdf47-low-effort",
+  "provider_requests": 0,
+  "cloud_mutations": false,
+  "job_retry_or_writeback": false,
+  "evaluation_executed": false,
+  "latency_or_factual_quality_claim": false
+}

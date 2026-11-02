@@ -13,6 +13,8 @@ export interface OpenAISpecsConfig {
   model: string;
   timeoutMs?: number;
   maxOutputTokens?: number;
+  /** Explicit evaluation candidate only; omitted preserves the current provider default. */
+  reasoningEffort?: 'low';
 }
 
 /** Injection is for deterministic adapter tests; it does not imply a real provider call. */
@@ -22,7 +24,7 @@ export function openAISpecsConfigFromEnv(environment: Readonly<Record<string, st
   return checkedConfig({ apiKey: environment.OPENAI_API_KEY ?? '', model: environment.OPENAI_EXTRACTION_MODEL ?? '' });
 }
 
-function checkedConfig(config: OpenAISpecsConfig): Required<OpenAISpecsConfig> {
+function checkedConfig(config: OpenAISpecsConfig): OpenAISpecsConfig & { timeoutMs: number; maxOutputTokens: number } {
   if (!config.apiKey.trim()) {
     throw new IntegrationError('OPENAI_KEY_REQUIRED', 'Configure OPENAI_API_KEY in the server secret environment.');
   }
@@ -35,10 +37,12 @@ function checkedConfig(config: OpenAISpecsConfig): Required<OpenAISpecsConfig> {
   const timeoutMs = config.timeoutMs ?? 60_000;
   const maxOutputTokens = config.maxOutputTokens ?? 16_384;
   if (!Number.isInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > 70_000
-    || !Number.isInteger(maxOutputTokens) || maxOutputTokens < 256 || maxOutputTokens > 32_768) {
+    || !Number.isInteger(maxOutputTokens) || maxOutputTokens < 256 || maxOutputTokens > 32_768
+    || (config.reasoningEffort !== undefined && config.reasoningEffort !== 'low')) {
     throw new IntegrationError('OPENAI_CONFIGURATION_INVALID', 'OpenAI extraction timeout or output budget is invalid.');
   }
-  return { apiKey: config.apiKey.trim(), model: config.model, timeoutMs, maxOutputTokens };
+  return { apiKey: config.apiKey.trim(), model: config.model, timeoutMs, maxOutputTokens,
+    ...(config.reasoningEffort === 'low' ? { reasoningEffort: 'low' as const } : {}) };
 }
 
 function isolatedSDKHeaders(apiKey: string): Record<string, string | null> {
@@ -171,6 +175,7 @@ export async function extractSpecs(
   // https://developers.openai.com/api/docs/guides/structured-outputs?api-mode=responses
   const request: ResponseCreateParamsNonStreaming = {
     model: config.model, stream: false, store: false, tools: [],
+    ...(config.reasoningEffort ? { reasoning: { effort: config.reasoningEffort } } : {}),
     instructions: SPECS_PROMPT,
     input: [{ role: 'user', content: [{ type: 'input_text', text: source }] }],
     text: { format: { type: 'json_schema', name: 'specs_extraction_v1', strict: true, schema: structuredClone(SPECS_PROVIDER_SCHEMA) } },
