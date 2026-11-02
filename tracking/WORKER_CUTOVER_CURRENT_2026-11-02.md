@@ -1,22 +1,26 @@
-# Worker cutover checkpoint — 2026-11-02
+# Production cutover checkpoint - 2026-11-02
 
-Current state from the six committed phase receipts below and Root's read-only
-instance observation at 02:12:35 UTC. This is an in-progress checkpoint.
+Current state from the nine committed worker phase receipts below and Root's
+production web readback at 02:34:07 UTC. Worker and web are in production;
+remaining end-to-end acceptance is tracked by Root's main matrix and handoff.
 
-- Five processing configurations are paused, with the normal pause return and
-  two matching readbacks recorded.
+- All five processing configurations are enabled again. Pin and resume passed
+  with normal returns and two matching readbacks at 02:24:16 and 02:28:39 UTC.
 - Worker project APP_ENV and release mode are production; the public native
   manifest is a317b0c7398ab12d960271f9d9d8ce98d846ed390a77fc0bb02c50b9b6df9943.
 - New production deployment dpl_Cp1TW1vP3JiLJoL5G3Zx2yfei97M uses daemon
   sha256:2d66eed2c5f584f3f261d2f241062cbb9fa088bbbc32437aed1ce0b6adf2c594.
   Submission returned normally; two metadata reads observed READY and exact bindings.
-- Root observed one new ready/alive instance dmni_01m6d0523mz7hc2s6mqw035ys2
-  and no old instance. It started at 02:06:59.277 UTC; the complete first ten-minute
-  startup window ends at 02:16:59.277 UTC. Full startup admission is still pending.
-- The database native pin remains
-  sha256:50082f72d4438653d4c831a1f9a360d61e64d19b3568ed1c2a2456d486f0d77c
-  until startup admission, future-work pin and resume succeed.
-- Web remains at the prior `8m` deployment. Final web release is pending.
+- Readiness passed at 02:20:07 UTC: one new ready/alive instance
+  dmni_01m6d0523mz7hc2s6mqw035ys2, old instances absent, and the complete actual
+  first ten-minute startup window admitted. Instance start was 02:06:59.277 UTC;
+  the window ended at 02:16:59.277 UTC.
+- Future frame work now uses database native pin
+  sha256:46de2f0c0772e10d712fba514788d24041d6741faa8966b6fe9c554fe47e4af4.
+- New production web deployment dpl_J3hmctcHndRp8zDVAPYfcnjEgpzG returned
+  normally at 02:29:51 UTC. Root's stable alias, direct deployment and environment
+  readbacks passed at 02:34:07 UTC. Root observed the new UI, actual Planned
+  project creation and an existing Casting workspace; the shared client name was restored.
 
 | Phase | Actual receipt | Result |
 | --- | --- | --- |
@@ -26,8 +30,15 @@ instance observation at 02:12:35 UTC. This is an in-progress checkpoint.
 | Production environment | [02:02:47](evidence/m07/completion-worker/2026-11-02T02-02-47-144040Z-rollout39-env.json) | passed |
 | Deployment | [02:06:57](evidence/m07/completion-worker/2026-11-02T02-06-57-221015Z-rollout39-deploy.json) | submitted, normal return |
 | Deployment readback | [02:07:48](evidence/m07/completion-worker/2026-11-02T02-07-48-488179Z-rollout39-readback-deploy.json) | observed, normal return retained |
+| Readiness and startup | [02:20:07](evidence/m07/completion-worker/2026-11-02T02-20-07-299859Z-rollout39-ready.json) | passed, complete startup window |
+| Future-work native pin | [02:24:16](evidence/m07/completion-worker/2026-11-02T02-24-16-275686Z-rollout39-pin.json) | passed, normal return and two readbacks |
+| Resume | [02:28:39](evidence/m07/completion-worker/2026-11-02T02-28-39-166492Z-rollout39-resume.json) | passed, normal return and two readbacks |
 
-Root runs readiness after the full window, then pin and resume through the
-reviewed complete_preparation entry. Cached platform lastCheckedAt metadata is
-separate from the required complete startup-log observation. No ready/pin/resume,
-full app release or AT069 acceptance is claimed by this checkpoint.
+All worker phases used the same reviewed complete_preparation entry. Cached
+platform lastCheckedAt metadata stays separate from the completed startup-log
+acceptance. These deployment effects do not close full app release or AT069.
+
+Remaining acceptance includes owner MCP/manual checks, guest and auth-protocol
+proof. Contributor access was still absent at 01:41 UTC. Chrome file selection
+is blocked by its Allow file URLs setting. Root retains these boundaries in the
+main progress, matrix and handoff; no full release closure is claimed here.
