@@ -9,8 +9,8 @@ projection=module('reason40_qualified_forward_context',HERE/'proposal.py');s=pro
 prior=module('reason40_qualified_frozen_main_release',HERE.parent/'review-link-reason40-main-diagnostics/release.py')
 r=prior.prior.prior.r
 s.need(s.sha(r.disabled_release_bytes(s.load(HERE.parent/'review-link-reason40-main-diagnostics/release.py')))=='e4ac245e426550a8dc5c83e88bd6783c17c6f599d10686557b1931dca703f160')
-READ_ENABLED=False
-APPLY_ENABLED=False
+READ_ENABLED=True
+APPLY_ENABLED=True
 PROOF={'path':'tracking/evidence/m07/reason40-collector-validation/2026-11-02T15-57-52.741Z-bd221d39.json','sha256':'4b25872ffe84758d98acfce52c2d0b95da6476d05749bbef15b696ccdb90c3dd'}
 
 def validate_proof(raw):
