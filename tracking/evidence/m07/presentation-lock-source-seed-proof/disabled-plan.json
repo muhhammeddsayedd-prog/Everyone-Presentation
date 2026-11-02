@@ -1,0 +1,96 @@
+{
+  "family": "m07-presentation-locksource41-seed-forward-plan",
+  "observed_at": "2026-11-02T12:42:12.509369+00:00",
+  "result": "prepared_disabled",
+  "execution_enabled": false,
+  "compiled_only": true,
+  "execution_dispatched": false,
+  "dispatch_hold": "Root coordination hold until Runtime next exact cleanup/shared-lock release; no forward dispatch yet",
+  "authorization": "Root authorized one finite alias-only new owned attempt after peer/default-off checks; not a replay of99873",
+  "source_seals": {
+    "development/m07/presentation-lock-source-seed-proof/compiler.py": "9467330333be87a1b4e2718ad62da4538e35068f6507ca38e9ac15a8a00d65d9",
+    "development/m07/presentation-lock-source-seed-proof/entry.mjs": "b28737a691a15decbd461788138349a48d8867e68f4c240d66afa3dd4b8eca4e",
+    "development/m07/presentation-lock-source-seed-proof/README.md": "2391eb2ef8d20ee472634269b96b71c67540659d7a74e9f0596d6229266c5a8d",
+    "development/m07/presentation-lock-source-seed-proof/test_seed.py": "91ffb5f7fde4eede783c096ea0a0fb48fd003e0513ea995ee5dca5a3767e4bf3"
+  },
+  "pinned_libraries": {
+    "development/m07/presentation-lock-source-proof/compiler.py": "0bed646aeb5f1af8a1c1bd686900335bdffb6b8c88e1be128bb1f9be2d0cfd25",
+    "development/m07/presentation-lock-source-proof/proof.mjs": "087df11fa717f72043c9782c8da7380ae8cda559221a0495582d1dcd01d22448",
+    "development/m07/presentation-lock-source-proof/scale.sql": "0a74ce47ff97339b4e63cf8df3aa3801321e2099588ed22367e5fe4317acaa7f",
+    "development/m07/presentation-lock-source-proof/session.mjs": "ddb76b4db7bb578c2dfa2896fd59451037679c9a5fc2777a13412765c296e252",
+    "development/m07/presentation-lock-source-proof/probes.mjs": "8973de4f38895f2497b46d87d6dda0fe929f2652d8cebb870c9d402587bf21b4"
+  },
+  "retained_failure": {
+    "source_commit": "c9f8fee2776bc2b8349a7e8271062683b08080f1",
+    "checkpoint_commit": "a6018d1dc37e86d98a69e498dddf498268a24733",
+    "run_id": "99873a5f-6a47-4cc1-bd0f-ff05a4b08d8c",
+    "receipt": "tracking/evidence/m07/presentation-lock-source-proof/2026-11-02T12-31-05.332Z-99873a5f.json",
+    "receipt_sha256": "3670111ac9c7cc556bb94b392fa0b1da11fba2a3b541efdf11e84614ca0b2014",
+    "private_claim_and_diagnostics_unchanged": true
+  },
+  "only_SQL_projection": {
+    "original_sha256": "0a74ce47ff97339b4e63cf8df3aa3801321e2099588ed22367e5fe4317acaa7f",
+    "qualified_sha256": "aee1e6dfbe072ebd7f971f7534b76c11cbf78eb7b5bf5b73f04c29edaef83da1",
+    "columns": [
+      "candidates",
+      "media",
+      "frames",
+      "assets",
+      "ready",
+      "slides",
+      "pins"
+    ],
+    "alias": "seed",
+    "thresholds": [
+      3,
+      1,
+      0,
+      4,
+      1,
+      16,
+      4
+    ],
+    "inverse_byte_equal": true,
+    "all_other_SQL_unchanged": true
+  },
+  "compiled_controller": {
+    "path": ".local/presentation-lock-source-seed-proof-compiled/controller-0679b5d7-0902-49a7-8dad-3f48a2d54336.mjs",
+    "sha256": "c0f777a64e8daee10e850dd5a54886f32851e088a55c1e79d5ca4c4fad85daae",
+    "executed": false
+  },
+  "fresh_ownership": {
+    "private_root": ".local/presentation-lock-source-seed-proof/<newRuntimeUUID>",
+    "evidence_root": "tracking/evidence/m07/presentation-lock-source-seed-proof",
+    "controller_root": ".local/presentation-lock-source-seed-proof-compiled",
+    "docker_label_namespace": "eps.locksource41seed",
+    "docker_prefix": "eps-locksrc41seed-",
+    "shared_lock_purpose": "presentation-lock-source41-seed-owned-proof",
+    "shared_lock": "Main/.local/local-postgres/test-db.lock",
+    "old_target_local_GUC_names_retained_for_pinned_library_with_fresh_UUID": true,
+    "original_local29_system_identifier": "7701520506262638626",
+    "network": "none",
+    "host_ports": []
+  },
+  "unchanged_acceptance": [
+    "same8s authenticated/owner/API/MCP permission paths",
+    "same12 ordered source locks and NOWAIT row cohorts",
+    "same timing/equality/security/race/real generation rollback cases",
+    "same full post40 audit reason/data/function-source baseline",
+    "same original38 rows and original29data/catalogue/globalroles preservation",
+    "same exact owned cleanup and successful independent empty inventories",
+    "same safe samples/codes/projections before assertions"
+  ],
+  "offline_checks": {
+    "focused_pure_parser_compiler_tests": 4,
+    "generated_node_syntax_exit": 0,
+    "eslint_exit": 0,
+    "peer_review": "pending"
+  },
+  "limits": [
+    "No SQL/Docker/provider/canonical execution by this new purpose yet",
+    "No old controller/claim replay",
+    "No arming until peer closure and no dispatch until Runtime exact lock release",
+    "If another semantic change is needed stop for Root review",
+    "No automatic replay after unknown or failed outcome"
+  ]
+}
