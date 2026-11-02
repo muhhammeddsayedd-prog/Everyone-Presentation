@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "purpose": "one_readonly_official_model_metadata_diagnostic",
+  "observed_at": "2026-11-02T17:36:54.490907+00:00",
+  "source_commit": "243928de7eff69c0fff8c445bfcb4c37646ff949",
+  "sdk_version": "7.45.1",
+  "configured_model": "gpt-6.1-sol",
+  "method": "GET",
+  "canonical_api_origin_bound": true,
+  "maximum_http_dispatches": 1,
+  "sdk_retries": 0,
+  "deadline_ms": 15000,
+  "source": {
+    "path": ".local/pdf47-low-effort-evaluation/model-metadata-diagnostic.mjs",
+    "reviewed_disabled_sha256": "78a0e13d5c82a8d82c719997904de801d31f3eba0998c85791eb9aa89c326d12",
+    "executed_armed_sha256": "da24185191a4cf3589485f2bb614c18585c73d5c3628e29989fd3adf2e543353",
+    "source_pins": {
+      "node_modules/openai/package.json": "fd91cc6cd6191ffcffdecd6e8b9db5598451ef4b383b7c871e6a913c1af8f470",
+      "node_modules/openai/index.mjs": "17cdb2c28d43e69bad6688cbefcf206674d15efaff37481923eef2991a239e11",
+      "node_modules/openai/client.mjs": "65b8e9b0a52f5b855d239f3edb75710019d1cceaeac8da1e5cba122762e86ba2",
+      "node_modules/openai/core/error.mjs": "f9af78fa51cabb0128ebdd820259ba93a38d405434e698381b9dbc5b7ca55174",
+      "node_modules/openai/core/api-promise.mjs": "edb8be5b07bc29b303f6ca13f35c97a21a014f8ff16be02ce38466d38a65c559",
+      "node_modules/openai/resources/models.mjs": "70fa23acc71a5d489264a45198442aa8b59b23b2b4b6432adba2b310d33e6c74",
+      "tools/worker-private-env.mjs": "ef935580876c9150b8150947c3796dd4760d1ad2910bc3bf322dd5015eea4d79"
+    }
+  },
+  "result": {
+    "duration_ms": 914,
+    "http_status": 200,
+    "request_id": null,
+    "error_code": null,
+    "model_id_match": true
+  },
+  "process_exit_code": 0,
+  "permanent_once_claim_retained": true,
+  "claim_sha256": "79ef7cb5a54ec5adcc575b1c48904f57873bfdb2742fa9dfa0dc691f4c32c74d",
+  "flag_closed": true,
+  "inference_requests": 0,
+  "job_retry_or_outbox_or_writeback": false,
+  "raw_response_headers_or_body_persisted": false,
+  "scope": "Model metadata transport/auth succeeded at this observation; extraction latency cause, remote prior inference outcomes, factual quality and job completion remain unproved."
+}

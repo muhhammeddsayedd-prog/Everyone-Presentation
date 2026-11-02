@@ -1,5 +1,14 @@
 # Everyone Presentation Studio — Codex development pack
 
+Current 2026-11-02T17:39:31.739426+00:00. Production web5A9e now serves exact Main source7196d69 at the stable URL;
+canonical40 and workerCp/native46 remain active. Root988 deterministic tests,
+types/lint/guard/build and actual signed-in project readback passed. Samsung
+extraction and logo intake still fail within their recorded scopes; generation
+performance, folder and manual screen-reader acceptance remain open. Follow
+[the current handoff](tracking/HANDOFF.md) and
+[workflow matrix](tracking/evidence/m07/ACCEPTANCE_MATRIX.md). Full release
+acceptance is not complete; dated earlier statements below are historical.
+
 **Version 1.0 · 27 October 2026**
 
 A complete initial specification for developing the presentation app end to end. Casting is the first production module: connected Cast Selection and Cast Shortlist, real uploads and AI extraction, shared Cast Library, branded immutable presentations/PDFs, external review and full Claude API/MCP operation.

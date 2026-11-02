@@ -1,5 +1,35 @@
 # M07 current workflow matrix
 
+Recorded 2026-11-02T17:39:31.739426+00:00. This table governs current state; dated tables below are historical.
+Web5A9e/source7196/manifestba752, canonical40 and workerCp/native46 serve production.
+
+| Workflow | Implementation | Real-service integration | Verification | Deployment | Remaining |
+| --- | --- | --- | --- | --- | --- |
+| Web/frontend | Redesign, focus and optional-reason parser integrated | Actual signed-in project page opens on stable alias | Root988/types/lint/guard/build; normal submission and two equal alias/direct reads | 5A9e serving exact7196 source/310 files | Remaining end-to-end and manual acceptance |
+| Project creation/types | Shared domain/HTTP/MCP/UI, atomic39 | Actual Planned/Casting and owner MCP same-key replay | Canonical atomic records, zero Planned processing resources, reciprocal app readback | Serving | Preserve current grants and Planned semantics |
+| Human Casting | Supported review/frames/assignments/outputs | Controlled real providers, Ready PDFs/original media and immutable versions | Prior bounded human workflow and preservation evidence retained | Serving | Representative intake/processing, logo and folder |
+| Delegated generation | Safe errors serving; data-query changes prepared | Actual Claude upload/assignment/fits retained | c7 and tiny754 failures before candidate; exact cleanup; new fenced pool-ID proposal7 pure passes | No performance SQL applied | Owned first-call/cohort/race proof, then both delegated outputs/PDF/media |
+| Reason/audit | Nullable audit reason/four compatible bodies and parser | Functional51a, collectorbd221, actual canonical c1e984fa passed | Normal COMMIT/equal40 readbacks, qualified76-table checkpoint | Schema40 and compatible reader serving | Keep checkpoint distinct from restore |
+| Authentication | Real OAuth and tracing | Actual Claude renewed access; separate temporary operator expiry/rotation/logout | Exact4f3/1d, no reconnect/sign-in; revoked JWT401 and original sessions preserved | Existing sessions retained; temporary session removed | Raw Claude exchange unclaimed, original RT denial unconfirmed; no new gate |
+| Guest/permissions | Version-specific summaries/link controls | Anonymous guest9aff external comment and same-key replay | Exact counts/internal exclusion; independent before-expiry revoked session/token denial | Serving | Owner MCP/manual report; contributor skipped |
+| Direct intake/providers | Real byte queue, folder-per-file, safe diagnostic source | Samsung bytes/preparation; logo transfer/complete503/cancel | Three job failures plus one low-effort60s timeout; separate metadataGET200/914ms | Web diagnostics serving; worker update pending | Observable logo cause, actual folder, successful representative extraction |
+| Worker/native | Independent source identities implemented | CurrentCp/native46 unchanged and freshly read | Root988 includes identity tests; new release/proof source in progress | No new image/worker activation | Final source, paired builds, native9-task proof and bounded forward release |
+| Recovery | Independent synthetic39 metadata + four Storage/API object restore | AT070 scoped pass retained | Cleanup/original29 roles and native smoke retained | Current worker preserved | AT069 queued replacement/compatible rollback policy rejection remains unreplayed |
+| Accessibility | Keyboard fixes and automated checks | Actual production reorder/archive retained | Prior focused12; manual reader pending | 5A9e serves fixes | Actual Narrator report; mobile skipped |
+| Repository | All source worktrees/failures recoverable | Private remote writable, normal push62dd independently matched | Fresh927-blob/33,041,228B delta has0 fixed-family hits | Exact7196 product source published | Later helper/evidence push; no public PII/consent publication admission |
+
+Fresh [deployment](review-link-reason-web-release/2026-11-02T17-34-45-120037Z-26951679-bcc3-441f-8ccb-8f0d1991cab6-readback.json),
+[quality](completion-release/2026-11-02T17-16-36.995Z-199528a8-reason-web-root-quality.json),
+[actual app](completion-release/production-web40-application-readback.json),
+[one low-effort outcome](pdf47-low-effort-evaluation/1239fa53-b6b3-42e6-8df0-04a372ba726e-result.json).
+Full M07 remains false. Skips are not passes; synthetic capacity is separate
+from measured provider work. Private-production restore/RTO/RPO remain unclaimed
+extensions, not added release gates. Every prior failure/evidence remains below.
+
+## Historical matrix before web5A9e
+
+# M07 historical workflow matrix
+
 Recorded 2026-11-02T16:42:55.092243+00:00. This table governs current state; every older dated table below
 is historical evidence. ProductionB5L2/1c72, workerCp/native46 and canonical40
 remain serving. Main focus fix1c72 is deployed with actual production keyboard acceptance.

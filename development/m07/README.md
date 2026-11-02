@@ -1,6 +1,40 @@
 # M07 implementation checkpoint
 
-## Current checkpoint - 2026-11-02T16:42:55.092243+00:00
+## Current checkpoint - 2026-11-02T17:39:31.739426+00:00
+
+Production web5A9e is Ready at the retained stable URL. The normal submission,
+two equal alias/direct readbacks and actual signed-in redesigned project page
+passed for exact tested Main source7196d69 / manifestba75256d (310 product files).
+Root988 tests, typecheck, lint, production guard and isolated build passed.
+Canonical40 remains applied, with the qualified76-table checkpoint and original
+preservation boundaries retained. WorkerCp/native46 is unchanged; its fresh
+17:32 metadata shows one instance, not a new application-heartbeat proof.
+
+The one authorized low-effort Samsung evaluation1239fa53 timed out at60,025ms;
+no validated extraction exists, remote completion/cost is unknown and the claim
+is retained. Both helper flags are now closed. A separate one-time read-only
+official model metadata GET passed200 in914ms with exact model identity; this
+does not explain inference latency or accept a production processing change.
+The original three job failures remain. Logo8149dd4c transfer/complete503/cancel
+and null selection remain; a closed server diagnostic is being added before
+one further actual attempt. Folder selection and actual Narrator report remain
+owner-dependent; no contributor or mobile pass is claimed (both skipped).
+
+Tiny generation proof754fcf15 failed its first helper call with caught57014 at
+8,000.099ms, before cohorts or any four-body candidate ran. Cleanup and original
+data/catalogue/roles passed. Fenced pool-ID reuse has seven pure checks plus
+independent review; its concrete owned SQL proof is still source preparation.
+No performance migration or production generation retry has occurred.
+
+Private remote main62dd2a5 was pushed normally and independently matched;
+later helper/evidence changes remain local until the next reviewed push. All
+worktrees, failed receipts, Ready versions and current processing resources are
+preserved. Guest exact-version delta/replay and before-expiry revoked denial
+remain passed; owner MCP/manual reports are pending. AT069's historical
+automatic-review rejection remains unreplayed. Full M07/release acceptance
+is still false; the workflow matrix governs the remaining work.
+
+## Historical checkpoint - 2026-11-02T16:42:55.092243+00:00
 
 Canonical40 is applied: [normal commit and two equal readbacks](../../tracking/evidence/m07/review-link-reason40-canonical-release/2026-11-02T16-28-48-678533Z-apply.json) passed with all76 old-column rows and existing identities,
 roles, grants and dependencies preserved. SQL40 adds nullable audit reason and
