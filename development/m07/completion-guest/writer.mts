@@ -5,7 +5,7 @@ import { feedbackSummaryDto, type FeedbackSummary } from '../../../packages/doma
 import { readPrivateInput } from '../../../tools/client-upload-transfer.mts';
 import { closed, GuestDeltaError, need, ORIGIN, timestamp, token, uuid } from '../guest-summary-delta/probe.mts';
 
-export const LIVE_WRITES_ENABLED=false;
+export const LIVE_WRITES_ENABLED=true;
 export const LABEL='Release acceptance guest';
 const same=(a:unknown,b:unknown)=>JSON.stringify(a)===JSON.stringify(b);
 export interface Input{run_id:string;review_link_id:string;series_id:string;version_id:string;version_slide_id:string;internal_comment_id:string;link_expires_at:string;review_token:string;expected_guest_before:FeedbackSummary;producer_before:FeedbackSummary}
