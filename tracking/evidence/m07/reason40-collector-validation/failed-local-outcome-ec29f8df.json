@@ -1,0 +1,64 @@
+{
+  "actual_local_armed_flag_verified_before_dispatch": true,
+  "automatic_retry": false,
+  "bootstrap39_top_level_migration_hash_retained": "c17af7708a1886d2129df2dc9e4eb196e6b760862939bd2f5fd3c7c1c687e242",
+  "candidate40": {
+    "executed": false,
+    "path": "supabase/migrations/20261102085405_m07_review_link_action_reason.sql",
+    "sha256": "08bf4de8a63823b0e7c9aee75560a6e7de0620eb9b8b3c483c65929578db8212"
+  },
+  "canonical_APPLY_ENABLED": false,
+  "canonical_READ_ENABLED": false,
+  "claim_retained": true,
+  "cleanup": {
+    "all_owned_resources_absent": true,
+    "independent_container_count": 0,
+    "independent_container_inventory_exit": 0,
+    "independent_volume_count": 0,
+    "independent_volume_inventory_exit": 0,
+    "network_created": false,
+    "original29_data_catalogue_and_global_roles_unchanged": true,
+    "shared_lock_filesystem_exists": false,
+    "shared_lock_released": true
+  },
+  "cloud_called": false,
+  "compiler_static_execution_enabled_label": false,
+  "elapsed_ms": 28472,
+  "next_step": "Review a separately owned forward purpose using valid bounded synthetic configuration in the five already declared setup tables; do not replay this controller or modify its source.",
+  "normal_process_exit": 1,
+  "observed_at": "2026-11-02T11:19:03.929257+00:00",
+  "private_diagnostics_retained": true,
+  "provider_called": false,
+  "purpose": "review_link_reason40_failed_owned_collector_outcome",
+  "reached": {
+    "canonical_admission": false,
+    "functional39": true,
+    "negative_preimage_case": false,
+    "new_collector": false,
+    "new_full76_checkpoint": false,
+    "normal40_commit_nonce": false,
+    "qualification_attempt": true,
+    "rendered40_transaction": false,
+    "synthetic38_catalogue_restore": true,
+    "synthetic38_full_row_restore": true
+  },
+  "receipt": {
+    "path": "tracking/evidence/m07/reason40-collector-validation/2026-11-02T11-16-01.701Z-ec29f8df.json",
+    "sha256": "bda5f7c4a0e75ea1c2f37795853ecfd790f1b1ed440446acc941423f0b463e6b"
+  },
+  "result": "failed_preserved_no_replay",
+  "run_id": "ec29f8df-9e95-439a-aef1-18fb42796257",
+  "safe_native_failure": {
+    "constraint": "candidate_asset_config_check",
+    "psql_exit_code": 3,
+    "raw_database_error_or_values_logged": false,
+    "reason": "enabled=true setup lacks required synthetic runtime configuration fields",
+    "relation": "candidate_asset_config"
+  },
+  "schema_version": "1.0",
+  "source_controller": {
+    "path": ".local/reason40-collector-validation-source/controller-74e6fc2b-1add-4238-98fd-447a18d14f99.mjs",
+    "sha256": "172cb864f8dfcac0e5f7c6079682fd7ea99a6a187b4f6bdc53074c0910ba83da"
+  },
+  "stage": "reason40-collector-exact-fixture-qualification"
+}
