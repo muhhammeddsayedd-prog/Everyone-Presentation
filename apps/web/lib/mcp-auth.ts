@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { createRemoteJWKSet, customFetch, errors, jwtVerify, type JWTPayload } from 'jose';
 import { bearerAuthChallengeResponse, getOAuthProtectedResourceMetadataUrl, oauthMetadataResponse, OAuthError, OAuthErrorCode, requireBearerAuth,
   type AuthInfo, type OAuthMetadata } from '@modelcontextprotocol/server';
@@ -43,6 +44,22 @@ export interface McpAuthorizationStageTrace {
     | 'MCP_SESSION_VALIDATION_UNAVAILABLE' | 'ACCESS_DENIED' | 'AUTH_REQUIRED' | 'CAPABILITY_REQUIRED' | 'MCP_AUTH_CONFIGURATION_REQUIRED';
 }
 export interface McpAuthorizationTraceOptions { traceId: string; log(value: McpAuthorizationStageTrace): void }
+const LIFECYCLE_CLIENT_ID = 'f2acafd5-d4b6-4176-b86c-067c57e45ecc';
+export interface McpVerifiedTokenTrace {
+  event: 'eps.mcp.verified_token'; trace_id: string;
+  client_id: typeof LIFECYCLE_CLIENT_ID; session_sha256: string; iat: number; exp: number;
+}
+export type McpVerifiedTokenLog = (value: McpVerifiedTokenTrace) => void | Promise<void>;
+interface VerifiedTokenObservation { clientId: string; sessionId: string; issuedAt: number; expiresAt: number }
+/** Separate from stage enums; only a successfully verified request supplies these fields. */
+function observeVerifiedToken(traceId: string | undefined, log: McpVerifiedTokenLog | undefined, value: VerifiedTokenObservation | undefined): void {
+  if (!traceId || !UUID.test(traceId) || !log || value?.clientId !== LIFECYCLE_CLIENT_ID) return;
+  try {
+    const event: McpVerifiedTokenTrace = { event: 'eps.mcp.verified_token', trace_id: traceId, client_id: LIFECYCLE_CLIENT_ID,
+      session_sha256: createHash('sha256').update(value.sessionId, 'utf8').digest('hex'), iat: value.issuedAt, exp: value.expiresAt };
+    void Promise.resolve(log(event)).catch(() => { /* A rejected sink never changes authorization or logs its error. */ });
+  } catch { /* Hashing and synchronous observer failures cannot change authorization. */ }
+}
 type StageObservation = Omit<McpAuthorizationStageTrace, 'event' | 'trace_id'>;
 /** The caller supplies fixed enums only; no request, identity or provider payload enters this projection. */
 export function observeMcpAuthorizationStage(options: McpAuthorizationTraceOptions | undefined, value: StageObservation): void {
@@ -60,7 +77,7 @@ export function mcpAuthorizationErrorCode(error: unknown): McpAuthorizationStage
     }
   }
 }
-interface ResourceDependencies { fetch?: typeof fetch; checkSession?: McpSessionCheck; authorizationTrace?: McpAuthorizationTraceOptions }
+interface ResourceDependencies { fetch?: typeof fetch; checkSession?: McpSessionCheck; authorizationTrace?: McpAuthorizationTraceOptions; verifiedTokenLog?: McpVerifiedTokenLog }
 const identities = new WeakMap<AuthInfo, McpIdentity>();
 const validatedMetadata = new WeakSet<OAuthMetadata>();
 function invalidToken(): never { throw new OAuthError(OAuthErrorCode.InvalidToken, 'The access token is not valid for this Studio resource.'); }
@@ -180,6 +197,7 @@ export function createMcpResourceGate(config: McpOAuthConfig, dependencies: Reso
     // This closure is request-local even when callers reuse the gate and its cached JWKS concurrently.
     let verifierSucceeded = false;
     let requiredScopesPresent = false;
+    let verifiedToken: VerifiedTokenObservation | undefined;
     const gate = requireBearerAuth({ expectedResource: new URL(config.resourceUrl), requiredScopes: [...config.scopesSupported],
     resourceMetadataUrl: getOAuthProtectedResourceMetadataUrl(new URL(config.resourceUrl)), verifier: {
       async verifyAccessToken(token): Promise<AuthInfo> {
@@ -218,6 +236,7 @@ export function createMcpResourceGate(config: McpOAuthConfig, dependencies: Reso
         if (!capabilities(state.capabilities)) { observe({ stage: 'session', result: 'unavailable', status: 503, reason: 'session_capabilities_invalid' }); return unavailable(); }
         observe({ stage: 'session', result: 'accepted', status: null });
         const effective = identity.delegatedCapabilities.filter(capability => state.capabilities.includes(capability));
+        verifiedToken = { clientId: identity.clientId, sessionId: identity.sessionId, issuedAt: payload.iat!, expiresAt: payload.exp! };
         verifierSucceeded = true;
         requiredScopesPresent = config.scopesSupported.every(scope => identity.scopes.includes(scope));
         return { token, clientId: identity.clientId, scopes: identity.scopes, expiresAt: payload.exp, resource: new URL(config.resourceUrl),
@@ -234,6 +253,7 @@ export function createMcpResourceGate(config: McpOAuthConfig, dependencies: Reso
     const extra = result.extra!;
     identities.set(result, Object.freeze({ principalId: extra.principalId as string, sessionId: extra.sessionId as string,
       clientId: result.clientId, capabilities: extra.capabilities as readonly string[] }));
+    observeVerifiedToken(dependencies.authorizationTrace?.traceId, dependencies.verifiedTokenLog, verifiedToken);
     return result;
   };
 }

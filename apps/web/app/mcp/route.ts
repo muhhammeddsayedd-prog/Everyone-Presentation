@@ -32,13 +32,14 @@ async function handle(request: Request) {
         sharing: await optionalSharing(getReviewLinkService), settings: await getSettingsService() };
     }
     return createMcpHttpHandler({ config, runtime: runtimeConfig, authorizationTrace,
+      verifiedTokenLog: value => console.info('EPS MCP verified token', JSON.stringify(value)),
       ...(config.mode === 'oauth' && central ? { checkSession: createMcpCentralSessionCheck(central, config.resourceUrl) } : {}),
       localContext: async () => ({ actor: (await currentActor())!, services: await services() }),
       // OAuth never invokes currentActor or obtains identity through a browser fallback.
       oauthContext: async () => services(),
       onToolCompleted: (identity, event) => {
         const receipt = mcpProjectReadReceipt(identity, event);
-        if (receipt) console.info('EPS MCP read receipt', JSON.stringify(receipt));
+        if (receipt) console.info('EPS MCP read receipt', JSON.stringify({ ...receipt, trace_id: traceId }));
       },
     })(request);
   } catch (error) {

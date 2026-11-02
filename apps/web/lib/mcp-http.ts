@@ -2,7 +2,7 @@ import { createMcpHandler, type AuthInfo } from '@modelcontextprotocol/server';
 import { DomainError, type Actor } from '@eps/domain';
 import { createStudioMcpServer, requireLocalMcpRequest, type McpServices, type McpToolCompleted } from './mcp.ts';
 import { createMcpResourceGate, loadMcpAuthorizationMetadata, mcpMetadataResponse, verifiedMcpIdentity,
-  observeMcpAuthorizationStage, mcpAuthorizationErrorCode, type McpAuthorizationTraceOptions, type McpIdentity, type McpSessionCheck } from './mcp-auth.ts';
+  observeMcpAuthorizationStage, mcpAuthorizationErrorCode, type McpAuthorizationTraceOptions, type McpIdentity, type McpSessionCheck, type McpVerifiedTokenLog } from './mcp-auth.ts';
 import type { McpAuthConfig } from './mcp-auth-config.ts';
 import { failure, NO_STORE } from './http.ts';
 
@@ -13,6 +13,7 @@ export interface McpHttpDependencies {
   fetch?: typeof fetch;
   checkSession?: McpSessionCheck;
   authorizationTrace?: McpAuthorizationTraceOptions;
+  verifiedTokenLog?: McpVerifiedTokenLog;
   localContext(request: Request): Promise<{ actor: Actor; services: McpServices }>;
   oauthContext(request: Request, identity: McpIdentity): Promise<McpServices>;
   onToolCompleted?(identity: McpIdentity, event: McpToolCompleted): void | Promise<void>;
