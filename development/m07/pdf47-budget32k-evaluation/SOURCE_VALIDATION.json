@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "purpose": "pdf47_budget32k_source_preparation",
+  "observed_at": "2026-11-02T20:28:55.343407+00:00",
+  "result": "local_checks_passed_peer_pending",
+  "scope": "source and synthetic local tests only; no actual retained input, provider, ACL, job or application mutation",
+  "source_seals": {
+    "development/m07/pdf47-budget32k-evaluation/evaluate.mts": "e20acd8d830ef42c0e0f1a27dcce13f2d5d7ac5d90521482554473edc79ba74d",
+    "development/m07/pdf47-budget32k-evaluation/evaluate.test.mts": "a3efeae6624fe8332d9c732b35b8838a427db8ca389e2483a5c3aa056e1238c5",
+    "development/m07/pdf47-budget32k-evaluation/native.mts": "fc23cdd8c481b732747f62399bf45891203e272127025a5f097ae4b921568447",
+    "development/m07/pdf47-budget32k-evaluation/private_bridge.py": "4f7023df11f3c90d0255714427024084f389469615362ddb02d6cf04615f9578",
+    "development/m07/pdf47-budget32k-evaluation/README.md": "a7f89fa2258f110bff4a5dba572a5563f42f443bb42a71a0fbf3a177d1a8c0dc",
+    "development/m07/pdf47-budget32k-evaluation/test_private_bridge.py": "05a7ecf199f944a7ca6eeaad8dd29549fa050cecb6a1d9457b8b1a63945fb7fb",
+    "development/m07/pdf47-budget32k-evaluation/transport.mts": "145f0e4b497fdd44f2097ac73fa286562c705312a0824efd2542e8b55bbd4719",
+    "development/m07/pdf47-budget32k-evaluation/tsconfig.json": "e0b645393a266af822d22f129c5eb7961e2d7179c5866038d30591176dda050f"
+  },
+  "flags": {
+    "evaluation_enabled": false,
+    "bridge_enabled": false
+  },
+  "retained_reference": {
+    "path": "tracking/evidence/m07/pdf47-streaming-evaluation/45452578-b14e-48e5-af08-187089cb9b58-result.json",
+    "sha256": "178c5da68c52b97a7c0d3318a36f6b1db1808c0d457a1b9c7fdc7a58764262a8"
+  },
+  "request_deltas": [
+    "max_output_tokens:16384->32768",
+    "stream:false->true"
+  ],
+  "reused_source_seals": {
+    "development/m07/pdf47-streaming-evaluation/transport.mts": "2bd36deadee595157c01494cfa4016bcf9e6baefcd026e9bbfd58b148b61da1e",
+    "development/m07/pdf47-streaming-evaluation/private_bridge.py": "ac8a6d1c219d82781aa78fbfa84dbbf1c80a4098215162bd3a7784b28ee34b22"
+  },
+  "checks": [
+    {
+      "command": "node --import tsx --test development/m07/pdf47-budget32k-evaluation/evaluate.test.mts",
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "duration_ms": 2100.1591
+    },
+    {
+      "command": "D:/Everyone/Presentation/Everyone-Presentation-Studio/.venv-skills/Scripts/python.exe -X utf8 -B -m unittest discover -s development/m07/pdf47-budget32k-evaluation -p test_private_bridge.py -v",
+      "passed": 5,
+      "failed": 0,
+      "duration_seconds": 0.223
+    },
+    {
+      "command": "node node_modules/typescript/bin/tsc -p development/m07/pdf47-budget32k-evaluation/tsconfig.json --noEmit",
+      "exit_code": 0
+    },
+    {
+      "command": "node node_modules/eslint/bin/eslint.js --no-ignore development/m07/pdf47-budget32k-evaluation/*.mts --max-warnings 0",
+      "exit_code": 0
+    }
+  ],
+  "initial_typecheck": {
+    "exit_code": 1,
+    "code": "TS2339",
+    "resolved": "explicit closed dispatch_count property in safe observation; final typecheck and Node suite passed"
+  },
+  "production_adapter_default_changed": false,
+  "old_helper_changed": false,
+  "worker_build_or_product_file_changed": false,
+  "actual_runtime_graph_recomputed": false,
+  "actual_private_prepare": false,
+  "actual_provider_request": false,
+  "actual_job_outbox_or_writeback": false,
+  "production_acceptance": false,
+  "peer_review": "pending Runtime source review; source remains disabled",
+  "root_review_correction": {
+    "charge_unknown_separate": true,
+    "remote_terminal_status_known_after_completed_incomplete_or_failed_exchange": true,
+    "actual_injected_stream_timeout_unknown_regression_passed": true
+  },
+  "static_daemon_only_inspection": {
+    "existing_source_sha256": "f742e9e5e4b83643f5bae18cace3e9e253912c0114f59b4489f0d163bcb39368",
+    "existing_provenance_sha256": "d0146464982fdc71f966e84f9b99699afe7a69137462fc6a16e510aea100a4ef",
+    "native_modules": 54,
+    "native_graph_sha256": "247992bbe3331251f33186cfac22835e8734833cd229bb6a4d8bcafa3bc0c214",
+    "daemon_modules": 90,
+    "daemon_graph_sha256": "062ebf3a8197221bde59ba2a1292248d1161cdccc450b2e19f299a795d2ee456",
+    "openai_specs_in_native": false,
+    "openai_specs_in_daemon": true,
+    "new_graph_or_build_executed": false,
+    "native_artifact_deployment_claimed": false
+  }
+}
