@@ -1,0 +1,34 @@
+{
+  "recorded_at": "2026-11-02T23:05:59.736468+00:00",
+  "result": "passed_scoped_source_checks",
+  "checks": [
+    {
+      "purpose": "presentation-generation-combined-proof",
+      "Python_pass": 6,
+      "Python_seconds": 1.121,
+      "Node_pass": 9,
+      "Node_milliseconds": 438.7907,
+      "entry_at_checks": "disabled",
+      "actual_runtime_acceptance": false
+    },
+    {
+      "purpose": "worker-compatible-daemon-env-forward",
+      "Python_pass": 7,
+      "seconds": 0.166,
+      "entry_at_checks": "disabled",
+      "Store_path_coverage_limitation": "Memory Store tests missed actual State-instance loader; real local failure retained separately."
+    },
+    {
+      "purpose": "worker-compatible-daemon-env-store-forward",
+      "Python_pass": 3,
+      "seconds": 1.13,
+      "entry_at_checks": "disabled",
+      "actual_synthetic_file_Store": true,
+      "fake_ACL_guard": true,
+      "old_loader_actual_State_RED_new_module_loader_GREEN": true
+    }
+  ],
+  "tests_repeat_of_product_1011": false,
+  "provider_or_SQL_called_by_checks": false,
+  "full_release_acceptance": false
+}

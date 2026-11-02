@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-11-02T22:59:09.561110+00:00",
+  "run": "cd917d16-2d3d-4915-9d65-364d1edf4fe9",
+  "action": "deploy",
+  "source_pins": {
+    "controller.py": "f57d4bec97987b9de1b9af633fb4ab2abf80fe2999d4b2e33cd7e0957704e66b",
+    "forward.py": "b622c269518b9f709279386f17a002d25b68e797f74f83e2771f16e73873d392",
+    "README.md": "61b3e5717578d52a8cb10d2b3f39667d0b73bb3ae2d90ddd43fd0026a6959e0a",
+    "test_store.py": "62f4d01d9fc5e97e7ce7483590815f0afc75fdc0d2dca4e74194150edb0c41f3",
+    "frozen/forward.py": "9781ecb2b555b55acde67f97b38064d90d165a46b60330f77348448253047012",
+    "frozen/controller.py": "c29505a93adb5de679c7d792c541af35abfa1dfa1070b6419f9473812133b1a1",
+    "frozen/test_forward.py": "8741fe70149b28ed5c84dcd172a396761718384a02c53e05d0ed1a83e49e40f6",
+    "frozen/README.md": "6b4bf51ea8bfcbe668a8754ba95fa3ecc75b040c36979d5e91cd4fb64a48caf5"
+  },
+  "prior_env_claim_sha256": "a55fac74159fe0d7a50a11ef9b4beb1a894b8e5cd4e9aeb12f5170136e9be7ff",
+  "prior_env1_claim_sha256": "0c494b95601690aca8038afa779a862cbd1eec2c08c05763047af6aeb43ffe35",
+  "env1_normal_return_observed": false,
+  "env1_replayed": false,
+  "bindings": {
+    "daemon_source_sha256": "dc12eaab6d862b2d151665b13c092568a273a2b1c7e2fde24516654c7db40648",
+    "native_source_sha256": "f742e9e5e4b83643f5bae18cace3e9e253912c0114f59b4489f0d163bcb39368",
+    "native_graph_sha256": "247992bbe3331251f33186cfac22835e8734833cd229bb6a4d8bcafa3bc0c214",
+    "daemon_graph_sha256": "9c751f186e67dec8dccc7f8339760ed25210e79f109ff65be12bdb3108123234",
+    "native_manifest_sha256": "fa221d833f0417d303c55ecc43629b2edf68ccdcc020d90e7f1864341e02fa57",
+    "native_compatibility_sha256": "24737d69156a7dfb10459668c828265c7665be0efae80c5da678ea53fd61328b",
+    "native_digest": "sha256:3d4286db01b27b40ec9078e303158e93003a096d5ddad1c9802130238de6dd80",
+    "daemon_digest": "sha256:697362169825a7f71493e98870505cb74a2ae163999209785c02ac7a0b0a0329",
+    "environment": {
+      "EPS_NATIVE_MANIFEST_SHA256": "fa221d833f0417d303c55ecc43629b2edf68ccdcc020d90e7f1864341e02fa57",
+      "EPS_DAEMON_SOURCE_SHA256": "dc12eaab6d862b2d151665b13c092568a273a2b1c7e2fde24516654c7db40648",
+      "EPS_NATIVE_COMPATIBILITY_SHA256": "24737d69156a7dfb10459668c828265c7665be0efae80c5da678ea53fd61328b"
+    }
+  },
+  "rollback_or_AT069_performed": false,
+  "result": "submitted",
+  "normal_return_observed": true,
+  "url": "https://everyone-presentation-worker-pilot-drcrx2mew.vercel.app",
+  "five_configs_paused": true,
+  "db_native_pin_retained": "sha256:46de2f0c0772e10d712fba514788d24041d6741faa8966b6fe9c554fe47e4af4",
+  "ready_claimed": false
+}

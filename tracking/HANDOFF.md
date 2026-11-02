@@ -1,6 +1,17 @@
 # Everyone Presentation Studio - current English-output handoff
 
-## Current checkpoint - 2026-11-02T22:22:01.439171Z
+## Current checkpoint - 2026-11-02T23:07:38.204293Z
+
+Web9mi/source3ff/manifest67f1 and canonical40 remain unchanged. The [new environment continuation](evidence/m07/worker-compatible-daemon-env-store-forward/2026-11-02T22-55-06-976737Z-complete-env.json) passed: env1 is accepted as observed only, its original normal return stays false, and it was not replayed; only previously unattempted env2 received one normal request with protected response custody and equal State/readbacks. The [normal deployment submission](evidence/m07/worker-compatible-daemon-env-store-forward/2026-11-02T22-59-09-565281Z-deploy.json) passed.
+
+The [early control-plane observation](evidence/m07/worker-compatible-daemon-env-store-forward/2026-11-02T23-01-52-342434Z-early-startup-control-plane.json) at23:01:52Z reports READY deployment6oA1 / instance dmni_01m6f7sz07x7wg6989wk6kwnz4, daemon697362/source dc12, declared native3d/source f742/manifestfa221 and compatibility24737. The old Cp instance was observed absent. **DB native pin remains46 and processing is PAUSED.** Full startup is unverified, current startup log count is unclaimed, and cached platform health is not a fresh application heartbeat. The new ten-minute window ends23:09:13.250Z; no new pin or resume is claimed.
+
+The [actual combined generation78df failure](evidence/m07/presentation-generation-combined-proof/78df9599-outcome.json) retained eight first-call results. Both old and candidate large-MCP calls returned57014 at the unchanged8s boundary; candidate API-large was5615.022ms versus old6926.662ms. No warm retry occurred. Later projections/focused/security/final clone restoration were unreached; original29 data/catalogue/global roles, all owned resources, same-engine inventories and shared-lock cleanup passed. The combined flag is closed; no performance SQL or whole-generation acceptance is admitted.
+
+Root1011 and the forward/store offline checks7/3 remain separate from live acceptance. [Last independently matched private pushb230](evidence/m07/completion-release/canonical-push-b230f70-readback.json) has its safe receipt; current source snapshotc81d is not claimed pushed. Owner logo remains pending; Narrator/contributor/mobile are skipped, AT069 unreplayed, and **full M07/release acceptance is false**. Next: Keep Studio/Claude writes idle and processing paused. After23:09:13.250Z Root runs the new store-forward controller ready, then pin and resume only after each normal accepted result. Diagnose the retained large-MCP57014 before performance SQL; finish supported Samsung/logo journeys after worker readiness.
+
+
+## Historical checkpoint - 2026-11-02T22:22:01.439171Z
 
 Worker update 2026-11-02T22:30:26.574619+00:00: the environment phase stopped unconfirmed after child1. [Read-only reconciliation](evidence/m07/worker-compatible-daemon-release/env-interruption-current.json) proved the intended child1 hash applied and unrelated settings/paused state preserved. Its original normal return stays unconfirmed; no request or marker was replayed. Child2 has not been attempted, no worker deployment occurred, and processing remains paused while a bounded forward continuation is reviewed.
 
