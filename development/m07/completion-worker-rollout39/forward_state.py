@@ -11,10 +11,12 @@ need=base.need
 class State(base.State):
  def initial(self,value):
   self.check(value)
-  legacy=value['canonical']['base']['legacy']
-  need(type(legacy)is dict and set(legacy)=={'unsupported_metadata_count','job_count','kinds'}and type(legacy['unsupported_metadata_count'])is int and legacy['unsupported_metadata_count']==0)
-  need(type(legacy['job_count'])is int and legacy['job_count']>=0 and type(legacy['kinds'])is dict and set(legacy['kinds'])<=set(('specs_extract','candidate_scan','frame_extract','ai_suggestion','review_fit','presentation_render','presentation_export')))
-  need(all(type(n)is int and n>=0 for n in legacy['kinds'].values())and sum(legacy['kinds'].values())==legacy['job_count'])
+  legacy=value['canonical']['base']['legacy'];historical=self.anchor['base']['legacy']
+  for item in(legacy,historical):
+   need(type(item)is dict and set(item)=={'unsupported_metadata_count','job_count','kinds'}and type(item['unsupported_metadata_count'])is int and item['unsupported_metadata_count']==0)
+   need(type(item['job_count'])is int and item['job_count']>=0 and type(item['kinds'])is dict and set(item['kinds'])<=set(('specs_extract','candidate_scan','frame_extract','ai_suggestion','review_fit','presentation_render','presentation_export')))
+   need(all(type(n)is int and n>=0 for n in item['kinds'].values())and sum(item['kinds'].values())==item['job_count'])
+  need(legacy['job_count']>=historical['job_count']and all(legacy['kinds'].get(kind,0)>=count for kind,count in historical['kinds'].items()))
   current=copy.deepcopy(value['canonical']);anchor=copy.deepcopy(self.anchor)
   for item in(current,anchor):
    del item['base']['data'];del item['base']['trace_rows'];del item['project39']['intent_rows']

@@ -20,6 +20,8 @@ class Tests(unittest.TestCase):
    with self.assertRaises(ValueError):self.state.initial(bad)
   bad=copy.deepcopy(value);bad['canonical']['base']['protected_m02_integrity']=False
   with self.assertRaises(ValueError):self.state.initial(bad)
+  kind=next(key for key,count in self.state.anchor['base']['legacy']['kinds'].items()if count>0);bad=copy.deepcopy(value);legacy=bad['canonical']['base']['legacy'];legacy['kinds'][kind]=self.state.anchor['base']['legacy']['kinds'][kind]-1;legacy['job_count']=sum(legacy['kinds'].values())
+  with self.assertRaises(ValueError):self.state.initial(bad)
  def test_full_fresh_legacy_counts_remain_in_phase_comparison(self):
   before=self.fresh();after=copy.deepcopy(before)
   for row in after['canonical']['processing_config'].values():row['public']['enabled']=False
