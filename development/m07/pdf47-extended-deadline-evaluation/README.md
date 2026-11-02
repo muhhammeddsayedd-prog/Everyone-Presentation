@@ -1,9 +1,11 @@
 # Independent extended-deadline evaluation
 
-Default off. No provider request, private preparation, job retry, callback or
-writeback has run from this purpose. Root reserved a single later 120-second
-diagnostic; execution awaits Root's source review. The consumed 60-second run,
-its permanent claim, failures and unknown costs remain immutable.
+Both live flags are closed after the one authorized run a619b610. Its
+[result](../../../tracking/evidence/m07/pdf47-extended-deadline-evaluation/a619b610-168e-43c6-99ae-967a9f3cc835-result.json)
+records OPENAI_TIMEOUT at120,009ms, no response and unknown remote completion or
+cost. The permanent claim is retained; no replay is authorized. There was no job
+retry, callback or writeback. The earlier60-second run and all three original
+job failures remain unchanged with their original evidence.
 
 This is a separate diagnostic of the retained PDF47 input, not a production
 timeout change. The production adapter still defaults to 60 seconds and refuses

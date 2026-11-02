@@ -1,6 +1,6 @@
 {
   "pack_version": "1.0",
-  "updated_at": "2026-11-02T18:14:44.064468+00:00",
+  "updated_at": "2026-11-02T18:32:40.344697+00:00",
   "implementation_started": true,
   "current_milestone": "M07",
   "current_pilot": {
@@ -37,7 +37,7 @@
     "post_journey_web_receipt": "tracking/evidence/m07/completion-release/production-web-current-identity.json",
     "selected_308_main_product_bytes_equal_deployed": false,
     "canonical_push_receipt": "tracking/evidence/m07/completion-release/canonical-push-fbe2932-readback.json",
-    "active_acceptance": "guest_lifecycle_PDF47_fix_qualified_reason40_and_generation_performance_then_manual_Narrator",
+    "active_acceptance": "logo_download_PDF47_generation_and_worker_forward_release_with_manual_reader_waived",
     "local_diagnostic_product_changes_deployed": true,
     "web_readback_receipt": "tracking/evidence/m07/logo-failure-trace-web-release/2026-11-02T17-58-22-617365Z-a8890fe6-9fb0-4f92-8a2f-5d5a85abda11-readback.json",
     "selected_309_main_product_bytes_equal_deployed": false,
@@ -99,7 +99,8 @@
     "production_full_acceptance_verified": false,
     "selected_310_main_product_bytes_equal_deployed": false,
     "web_source_count": 311,
-    "selected_311_main_product_bytes_equal_deployed": false
+    "selected_311_main_product_bytes_equal_deployed": false,
+    "manual_screenreader": "explicitly_skipped_by_owner_not_a_verified_pass"
   },
   "historical_pilot_records": {
     "observed_at": "2026-11-01T17:37:06.827794Z",
@@ -11543,7 +11544,9 @@
     "production_full_acceptance_verified": false,
     "selected_310_main_product_bytes_equal_deployed": false,
     "web_source_count": 311,
-    "selected_311_main_product_bytes_equal_deployed": false
+    "selected_311_main_product_bytes_equal_deployed": false,
+    "manual_screenreader": "explicitly_skipped_by_owner_not_a_verified_pass",
+    "active_acceptance": "logo_download_PDF47_generation_and_worker_forward_release_with_manual_reader_waived"
   },
   "recovery38": {
     "status": "passed_owned_local38",
@@ -11924,7 +11927,11 @@
       "parser_main_commit": "83ca44d",
       "parser_web_deployed": false
     },
-    "manual_screenreader": "Windows_Narrator_default_actual_AT072_pending_version_unrecorded",
+    "manual_screenreader": {
+      "status": "skipped_by_owner",
+      "actual_check_performed": false,
+      "receipt": "tracking/evidence/m07/completion-guest/owner-finish-and-reader-waiver.json"
+    },
     "direct_pdf_failure_receipt": "tracking/evidence/m07/completion-release/2026-11-02T14-59-29Z-70c066bb-direct-pdf-metadata.json",
     "unreleased_provider_error_fix": "SDK classifier source is present in web archive; worker activation still pending, current worker remains056/Cp/native46",
     "authentication_scope_reconciliation": "tracking/evidence/m07/completion-release/authentication-scope-reconciliation.json",
@@ -11971,6 +11978,22 @@
       "commit": "87cff96",
       "status": "implemented_undeployed",
       "reason": "UPLOAD_INCOMPLETE and other409 now retain the safe server message; current4fro UI still has earlier generic wording"
+    },
+    "active_acceptance": "logo_download_PDF47_generation_and_worker_forward_release_with_manual_reader_waived",
+    "owner_guest_finish": "received_safe_complete_counts_and_matching_revocation",
+    "folder_selection": "actual10per_file_queue_rows_zero_bytes_verified",
+    "pdf47_extended_evaluation": {
+      "status": "failed_or_unknown",
+      "run_id": "a619b610-168e-43c6-99ae-967a9f3cc835",
+      "timeout_ms": 120000,
+      "duration_ms": 120009,
+      "code": "OPENAI_TIMEOUT",
+      "response_observed": false,
+      "helper_flags_closed": true,
+      "permanent_claim_retained": true,
+      "automatic_retry": false,
+      "result": "tracking/evidence/m07/pdf47-extended-deadline-evaluation/a619b610-168e-43c6-99ae-967a9f3cc835-result.json",
+      "production_timeout_unchanged": true
     }
   },
   "latest_checkpoint": {
@@ -12060,7 +12083,7 @@
     },
     "last_confirmed_remote_main": "fbe293292c3673460add40b7d4c234dc964a0d53",
     "latest_main_push_verified": false,
-    "manual_screenreader": "Windows_Narrator_default_actual_AT072_pending_version_unrecorded",
+    "manual_screenreader": "explicitly_skipped_by_owner_not_a_verified_pass",
     "mobile_testing": "skipped by owner",
     "next_action": "Release merged optional-reason web reader/parser againstactual40/native46 afterfreshquality/preflight; finish tiny generation baseline diagnosis and daemon/native provenance source; review bounded low-effort evaluation before anypaidcall; complete directfolder/logo and actualmanual/Claude reports. AT069 restrictionunreplayed.",
     "observation_scope": "Root actual UI/PDF proof, fresh normal read-only web/worker/canonical observations and independent audit admission; remaining owner/policy gates stay open.",
@@ -12229,7 +12252,8 @@
     "canonical_history": 40,
     "selected_310_main_product_bytes_equal_deployed": false,
     "web_source_count": 311,
-    "selected_311_main_product_bytes_equal_deployed": false
+    "selected_311_main_product_bytes_equal_deployed": false,
+    "active_acceptance": "logo_download_PDF47_generation_and_worker_forward_release_with_manual_reader_waived"
   },
   "production_status_history": [
     {
