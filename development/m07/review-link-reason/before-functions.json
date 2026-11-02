@@ -1,0 +1,80 @@
+{
+  "history": [
+    "20261028010943",
+    "20261028013324",
+    "20261028013655",
+    "20261028024205",
+    "20261028072515",
+    "20261028162702",
+    "20261028162800",
+    "20261028172320",
+    "20261028184145",
+    "20261028222030",
+    "20261029001520",
+    "20261029003941",
+    "20261029070038",
+    "20261029090500",
+    "20261029090724",
+    "20261029094600",
+    "20261029100500",
+    "20261029133455",
+    "20261029135318",
+    "20261029174841",
+    "20261029180953",
+    "20261029202629",
+    "20261029203953",
+    "20261029215218",
+    "20261030002634",
+    "20261030004643",
+    "20261030013832",
+    "20261030030717",
+    "20261030111549",
+    "20261030154824",
+    "20261031010000",
+    "20261031104603",
+    "20261031130207",
+    "20261031143711",
+    "20261031182038",
+    "20261101012057",
+    "20261101042702",
+    "20261101110939",
+    "20261101223342"
+  ],
+  "routines": [
+    {
+      "acl": [
+        "eps_guest_owner=X/eps_guest_owner",
+        "eps_review_owner=X/eps_guest_owner"
+      ],
+      "definition": "CREATE OR REPLACE FUNCTION eps.review_gateway_verify(p_operation text, p_input jsonb, p_proof jsonb)\n RETURNS void\n LANGUAGE plpgsql\n SET search_path TO ''\nAS $function$\ndeclare config eps.review_gateway_config;expected bytea;provided bytea;difference integer:=0;issued bigint;now_ms bigint;begin\n select * into config from eps.review_gateway_config where id and enabled;\n if not found then perform eps.fail('REVIEW_UNAVAILABLE','Review access is unavailable.',503);end if;\n perform eps.review_body(p_proof,array['issued_at','nonce','signature'],array['issued_at','nonce','signature']);\n if jsonb_typeof(p_input)is distinct from'object'or octet_length(p_input::text)>65536 or p_proof->>'issued_at'!~'^[0-9]{13}$'\n or p_proof->>'nonce'!~'^[a-f0-9]{32}$'or p_proof->>'signature'!~'^[a-f0-9]{64}$'\n then perform eps.fail('REVIEW_UNAVAILABLE','Review access is unavailable.',404);end if;\n issued:=(p_proof->>'issued_at')::bigint;now_ms:=floor(extract(epoch from clock_timestamp())*1000)::bigint;\n if issued>now_ms+30000 or issued<now_ms-60000 then perform eps.fail('REVIEW_UNAVAILABLE','Review access is unavailable.',404);end if;\n expected:=extensions.hmac(convert_to(eps.cast_canonical(jsonb_build_object('operation',p_operation,'input',p_input,'issued_at',issued,'nonce',p_proof->>'nonce')),'UTF8'),config.backend_key,'sha256');provided:=decode(p_proof->>'signature','hex');\n for index_value in 0..31 loop difference:=difference|(get_byte(expected,index_value)#get_byte(provided,index_value));end loop;\n if difference<>0 then perform eps.fail('REVIEW_UNAVAILABLE','Review access is unavailable.',404);end if;\n delete from eps.review_gateway_nonces where expires_at<=clock_timestamp();\n begin insert into eps.review_gateway_nonces(nonce,expires_at)values(p_proof->>'nonce',clock_timestamp()+interval'120seconds');exception when unique_violation then perform eps.fail('REVIEW_UNAVAILABLE','Review access is unavailable.',404);end;\nend$function$\n",
+      "owner": "eps_guest_owner",
+      "signature": "eps.review_gateway_verify(text,jsonb,jsonb)"
+    },
+    {
+      "acl": [
+        "eps_review_owner=X/eps_review_owner"
+      ],
+      "definition": "CREATE OR REPLACE FUNCTION eps.review_remember(p_operation text, p_key text, p_input jsonb, p_result jsonb, p_resource uuid)\n RETURNS jsonb\n LANGUAGE plpgsql\n SET search_path TO ''\nAS $function$begin\r\n insert into eps.idempotency_records(principal_id,operation,key,request_hash,response)values(auth.uid(),'review.'||p_operation,p_key,encode(sha256(convert_to(p_input::text,'UTF8')),'hex'),p_result);\r\n insert into eps.audit_events(principal_id,action,resource_id)values(auth.uid(),'review.'||p_operation,p_resource);return p_result;\r\nend$function$\n",
+      "owner": "eps_review_owner",
+      "signature": "eps.review_remember(text,text,jsonb,jsonb,uuid)"
+    },
+    {
+      "acl": [
+        "eps_review_owner=X/eps_review_owner",
+        "authenticated=X/eps_review_owner"
+      ],
+      "definition": "CREATE OR REPLACE FUNCTION public.eps_revoke_review_link(p_review_link_id uuid, p_input jsonb, p_idempotency_key text)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$declare item eps.review_links;cached jsonb;begin\n perform eps.review_body(p_input,array['row_version'],array['row_version']);select * into item from eps.review_links where id=p_review_link_id for update;\n if not found then perform eps.fail('RESOURCE_NOT_FOUND','Review link not found.',404);end if;perform eps.review_link_require(item.series_id,true);\n cached:=eps.review_replay('revoke_link',p_idempotency_key,jsonb_build_object('id',p_review_link_id,'input',p_input));if cached is not null then return cached;end if;\n if eps.logo_integer(p_input->'row_version',1,9007199254740991)<>item.row_version then perform eps.fail('STALE_RESOURCE_VERSION','Refresh current link settings.',409,item.row_version);end if;\n if item.revoked_at is null then update eps.review_links set revoked_at=clock_timestamp(),row_version=row_version+1,updated_at=clock_timestamp()where id=item.id returning * into item;end if;\n update eps.review_media_grants set revoked_at=coalesce(revoked_at,clock_timestamp())where review_link_id=item.id;\n return eps.review_remember('revoke_link',p_idempotency_key,jsonb_build_object('id',p_review_link_id,'input',p_input),eps.review_link_dto(item),item.id);\nend$function$\n",
+      "owner": "eps_review_owner",
+      "signature": "public.eps_revoke_review_link(uuid,jsonb,text)"
+    },
+    {
+      "acl": [
+        "eps_review_owner=X/eps_review_owner",
+        "authenticated=X/eps_review_owner"
+      ],
+      "definition": "CREATE OR REPLACE FUNCTION public.eps_rotate_review_link(p_review_link_id uuid, p_input jsonb, p_credential jsonb, p_idempotency_key text)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''\nAS $function$declare item eps.review_links;cached eps.review_link_replays;begin\n perform eps.review_body(p_input,array['row_version'],array['row_version']);perform eps.review_credential(p_credential-'proof');\n -- Lock link before replay: every mutation uses link->replay ordering.\n select * into item from eps.review_links where id=p_review_link_id for update;if not found then perform eps.fail('RESOURCE_NOT_FOUND','Review link not found.',404);end if;perform eps.review_link_require(item.series_id,true);\n perform eps.review_credential_admit(auth.uid(),'rotate_review_link',p_review_link_id,p_input,p_idempotency_key,p_credential);\n cached:=eps.review_token_replay('rotate',p_idempotency_key,jsonb_build_object('id',p_review_link_id,'input',p_input));\n if cached.review_link_id is not null then\n  if item.revoked_at is not null or item.token_generation<>cached.token_generation then perform eps.fail('TOKEN_REPLAY_EXPIRED','This token response is no longer current. Rotate explicitly.',409);end if;\n  return jsonb_build_object('link',eps.review_link_dto(item),'response_encrypted',cached.response_encrypted);\n end if;\n if item.revoked_at is not null then perform eps.fail('LINK_REVOKED','Revoked links cannot be rotated.',409);end if;\n if eps.logo_integer(p_input->'row_version',1,9007199254740991)<>item.row_version then perform eps.fail('STALE_RESOURCE_VERSION','Refresh current link settings.',409,item.row_version);end if;\n update eps.review_links set token_digest=p_credential->>'token_digest',token_generation=token_generation+1,export_revision=export_revision+1,row_version=row_version+1,updated_at=clock_timestamp()where id=item.id returning * into item;\n update eps.review_media_grants set revoked_at=coalesce(revoked_at,clock_timestamp())where review_link_id=item.id;\n insert into eps.review_link_replays(principal_id,operation,key,request_hash,review_link_id,token_generation,response_encrypted,expires_at)\n values(auth.uid(),'rotate',p_idempotency_key,eps.presentation_hash(jsonb_build_object('id',p_review_link_id,'input',p_input)),item.id,item.token_generation,p_credential->>'response_encrypted',clock_timestamp()+interval'24hours');\n insert into eps.audit_events(principal_id,action,resource_id)values(auth.uid(),'review.rotate_link',item.id);\n return jsonb_build_object('link',eps.review_link_dto(item),'response_encrypted',p_credential->>'response_encrypted');\nend$function$\n",
+      "owner": "eps_review_owner",
+      "signature": "public.eps_rotate_review_link(uuid,jsonb,jsonb,text)"
+    }
+  ]
+}
