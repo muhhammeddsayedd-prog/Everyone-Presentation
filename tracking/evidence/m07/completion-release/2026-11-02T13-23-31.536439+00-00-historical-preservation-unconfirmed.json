@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-11-02T13:23:31.536439+00:00",
+  "result": "unconfirmed",
+  "purpose": "post_focus_historical_preservation_invocation",
+  "source": "development/m07/production-specs-job-audit/preserve.py",
+  "source_sha256": "2ead1045044692864ce0574cf65d2f48da79177926efe023360c85f23d8fb94c",
+  "command": [
+    ".venv-skills/Scripts/python.exe",
+    "-X",
+    "utf8",
+    "development/m07/production-specs-job-audit/preserve.py"
+  ],
+  "normal_outer_exit_code": 1,
+  "safe_output": "PRODUCTION_HISTORICAL_PRESERVATION_UNCONFIRMED",
+  "inner_exit_code": null,
+  "inner_timeout_or_error_cause_observed": false,
+  "read_only_rollback": true,
+  "automatic_retry": false,
+  "prior_passed_receipt": "tracking/evidence/m07/production-specs-job-audit/2026-11-02T12-55-16-334542Z-historical-preservation.json",
+  "new_preservation_acceptance_from_this_invocation": false,
+  "raw_CLI_output_credentials_private_business_values_saved": false
+}

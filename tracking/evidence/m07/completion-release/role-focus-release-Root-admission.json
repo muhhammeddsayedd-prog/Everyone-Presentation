@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-11-02T13:24:35.788528+00:00",
+  "result": "passed",
+  "purpose": "Root_focus_release_preservation_admission",
+  "reviewer": "Root",
+  "provider_calls_by_this_comparison": 0,
+  "baseline": {
+    "path": "tracking/evidence/m07/production-specs-job-audit/2026-11-02T03-48-46-775064Z-v1-v2-compare.json",
+    "sha256": "ae13004213b1dfb7dad0d2db30c986eef620b034debff6957e2c1dfcbd81364f"
+  },
+  "current": {
+    "path": "tracking/evidence/m07/production-specs-job-audit/2026-11-02T13-18-18-265728Z-v1-v2-compare.json",
+    "sha256": "d0848e4325bf3d356f09de96e461f0498a592ddd9b0faf8db1feec26253e5bd4"
+  },
+  "new_human_versions_compared": 3,
+  "all_six_hashes_each_unchanged": {
+    "1b20ec2d-f133-4912-8efe-df2e21a3865e": {
+      "snapshot_sha256": true,
+      "manifest_sha256": true,
+      "inventory_sha256": true,
+      "version_row_jsonb_sha256": true,
+      "slides_jsonb_sha256": true,
+      "assets_jsonb_sha256": true
+    },
+    "63787eff-a60c-4e62-9806-a5f8d9c43805": {
+      "snapshot_sha256": true,
+      "manifest_sha256": true,
+      "inventory_sha256": true,
+      "version_row_jsonb_sha256": true,
+      "slides_jsonb_sha256": true,
+      "assets_jsonb_sha256": true
+    },
+    "8f1c303e-310b-473c-b217-212a65bdf245": {
+      "snapshot_sha256": true,
+      "manifest_sha256": true,
+      "inventory_sha256": true,
+      "version_row_jsonb_sha256": true,
+      "slides_jsonb_sha256": true,
+      "assets_jsonb_sha256": true
+    }
+  },
+  "selected_current_Main_product_files_exactly_equal_deployed": 309,
+  "deployed_source_commit": "1c72f2a2cc36e7f3f6c6d093fb24dd28dbe9fc20",
+  "deployed_manifest_sha256": "05a398700628b8c2310704f05db5971d9fc46ac59795bd77e30148ca3d6f663f",
+  "historical_cohort_fresh_receipt": "tracking/evidence/m07/completion-release/2026-11-02T13-23-38.320859+00-00-997b9a49-post-focus-preservation.json",
+  "scope": "Three new human Ready versions retain all six stored hash projections; separately the historical10/57/42/Reviewed cohort and controlled role/Main remain exact. No generation, guest, Claude, manual screen-reader or full M07 closure."
+}

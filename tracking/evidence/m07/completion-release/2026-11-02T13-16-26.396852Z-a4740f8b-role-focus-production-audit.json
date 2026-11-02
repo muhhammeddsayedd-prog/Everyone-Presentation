@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0",
+  "purpose": "actual_production_role_focus_release_acceptance",
+  "result": "unconfirmed",
+  "recorded_at": "2026-11-02T13:16:26.396852+00:00",
+  "target": "pyibofyctwnqpvktepse",
+  "read_only_rollback": true,
+  "automatic_retry": false,
+  "exit_code": 0,
+  "timed_out": false,
+  "output_limit_exceeded": false,
+  "source_sha256": "5285a946e1db5623a56ffbf76bade36e727f6c2f0d4fbf66018f3e8a99b3176e",
+  "sql_sha256": "38cfc66464b2ce64e6008588dbba9fa72f69c143316978c6192f96165cb2c685",
+  "metadata": {
+    "active_role_count": 1,
+    "history_count": 39,
+    "observed_at": "2026-11-02T13:16:26.129554+00:00",
+    "roles": [
+      {
+        "active_assignments": 1,
+        "active_main_assignments": 1,
+        "active_slots": 1,
+        "archived": false,
+        "archived_slots": 0,
+        "id": "feaee949-4bba-44ee-a599-d318ea78a6ca",
+        "original_role": true,
+        "row_version": 3,
+        "sort_order": 0,
+        "synthetic_test_role": false
+      }
+    ],
+    "workspaces": [
+      {
+        "draft_revision": 14,
+        "id": "5505def3-f7af-4684-968c-d1b154931601",
+        "row_version": 15
+      },
+      {
+        "draft_revision": 118,
+        "id": "86936940-b48d-497d-b1ff-8e0da0913afa",
+        "row_version": 119
+      }
+    ]
+  },
+  "ui_observation": {
+    "deployment_id": "dpl_B5L2mM6QVQo99VJsqtEPDeq8i9n5",
+    "source_commit": "1c72f2a2cc36e7f3f6c6d093fb24dd28dbe9fc20",
+    "source_manifest_sha256": "05a398700628b8c2310704f05db5971d9fc46ac59795bd77e30148ca3d6f663f",
+    "source_readback": "tracking/evidence/m07/role-archive-focus-web-release/2026-11-02T13-11-38-700539Z-38fa1d8a-6d4d-48ea-924e-65052dbe38e4-readback.json",
+    "existing_producer_session_survived_reload": true,
+    "new_empty_synthetic_role_added": true,
+    "new_role_id_seen_in_DOM": "77682854-6e7e-42cd-b129-3d5169dc1ad6",
+    "escape_closed_review_and_focused_enabled_remove_role": true,
+    "keep_role_closed_review_and_focused_enabled_remove_role": true,
+    "archive_dialog_affected_assignments": 0,
+    "archive_dialog_affected_main": 0,
+    "archive_dialog_affected_shortlisted": 0,
+    "confirm_archive_reached_by_tab_and_activated_by_enter": true,
+    "new_role_disappeared_original_role_remained": true,
+    "focus_after_archive": {
+      "tag": "H2",
+      "id": "roles-heading",
+      "label": "Roles and individual slots"
+    },
+    "role_labelled_success_status_visible": true,
+    "actual_production_focus_acceptance": true
+  },
+  "limitations": [
+    "Safe database metadata confirms final state; keyboard actions are directly observed UI evidence, not inferred from SQL.",
+    "Only the newly created empty synthetic role and slot were soft archived; no casting choice was removed.",
+    "Historical immutable content is checked by a separate complete hash receipt.",
+    "Actual desktop screen reader acceptance remains pending."
+  ],
+  "raw_business_facts_tokens_or_private_urls_saved": false
+}

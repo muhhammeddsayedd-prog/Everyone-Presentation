@@ -1,0 +1,144 @@
+{
+  "observed_at": "2026-11-02T13:12:29.521Z",
+  "result": "passed",
+  "deployment_id": "dpl_B5L2mM6QVQo99VJsqtEPDeq8i9n5",
+  "source_commit": "1c72f2a2cc36e7f3f6c6d093fb24dd28dbe9fc20",
+  "base": {
+    "schema_version": "1.0",
+    "host": "https://everyone-presentation-pilot.vercel.app",
+    "result": "passed",
+    "checks": [
+      {
+        "path": "/",
+        "expected_status": 307,
+        "status": 307,
+        "redirect_blocked": true,
+        "nosniff": true,
+        "no_set_cookie": true,
+        "private_no_store": false,
+        "expected_public_shape": true,
+        "request_id": null,
+        "passed": true
+      },
+      {
+        "path": "/projects",
+        "expected_status": 200,
+        "status": 200,
+        "redirect_blocked": false,
+        "nosniff": true,
+        "no_set_cookie": true,
+        "private_no_store": true,
+        "expected_public_shape": true,
+        "request_id": null,
+        "passed": true
+      },
+      {
+        "path": "/api/session",
+        "expected_status": 200,
+        "status": 200,
+        "redirect_blocked": false,
+        "nosniff": true,
+        "no_set_cookie": true,
+        "private_no_store": true,
+        "expected_public_shape": true,
+        "request_id": "2449888c-3f9c-40f3-bf2f-3d7fbbb59687",
+        "passed": true
+      },
+      {
+        "path": "/api/v1/projects",
+        "expected_status": 401,
+        "status": 401,
+        "redirect_blocked": false,
+        "nosniff": true,
+        "no_set_cookie": true,
+        "private_no_store": true,
+        "expected_public_shape": true,
+        "request_id": "2437a417-9cb5-428a-8823-8dce78aa297d",
+        "passed": true
+      },
+      {
+        "path": "/api/v1/settings",
+        "expected_status": 401,
+        "status": 401,
+        "redirect_blocked": false,
+        "nosniff": true,
+        "no_set_cookie": true,
+        "private_no_store": true,
+        "expected_public_shape": true,
+        "request_id": "0936411f-6c52-485e-9054-986820105104",
+        "passed": true
+      },
+      {
+        "path": "/api/dev/session",
+        "expected_status": 403,
+        "status": 403,
+        "redirect_blocked": false,
+        "nosniff": true,
+        "no_set_cookie": true,
+        "private_no_store": true,
+        "expected_public_shape": true,
+        "request_id": "958cdc70-4a90-408c-b8ea-426e6c69c949",
+        "passed": true
+      }
+    ],
+    "scope": "Public no-credential admission preflight only; not signed-in app, worker, OAuth or delegated-client acceptance.",
+    "full_core_or_oauth_acceptance": false,
+    "requests": 6,
+    "methods": [
+      "GET"
+    ],
+    "redirects_followed": false,
+    "cookies_or_authorization_sent": false,
+    "valid_guest_or_authorization_selectors_used": false,
+    "consent_login_or_model_call": false,
+    "raw_body_headers_or_diagnostics_recorded": false
+  },
+  "additional": [
+    {
+      "path": "/api/v1/clients",
+      "method": "GET",
+      "status": 401,
+      "expected_status": 401,
+      "expected_code": true,
+      "request_id": "d647386b-5f47-4e40-9400-cc5aa697509e",
+      "no_set_cookie": true,
+      "passed": true
+    },
+    {
+      "path": "/api/v1/presentation-types",
+      "method": "GET",
+      "status": 401,
+      "expected_status": 401,
+      "expected_code": true,
+      "request_id": "7e6df973-5268-4bcf-807e-ba3b4765f1b5",
+      "no_set_cookie": true,
+      "passed": true
+    },
+    {
+      "path": "/api/dev/central-logo-probe",
+      "method": "POST",
+      "status": 404,
+      "expected_status": 404,
+      "expected_code": true,
+      "request_id": "17e80ab8-7060-4537-9956-4e74f4449abc",
+      "no_set_cookie": true,
+      "passed": true
+    },
+    {
+      "path": "/mcp",
+      "method": "POST",
+      "status": 401,
+      "expected_status": 401,
+      "expected_code": true,
+      "request_id": null,
+      "no_set_cookie": true,
+      "passed": true
+    }
+  ],
+  "credentials_or_cookies_sent": false,
+  "raw_bodies_or_secrets_recorded": false,
+  "prior_failed_probe": "tracking/evidence/m07/completion-release/2026-11-02T02-38-46.477Z-1629a67e-production-public.json",
+  "second_failed_probe": "tracking/evidence/m07/completion-release/2026-11-02T02-40-22.362Z-2fc8bcde-production-public.json",
+  "test_correction": "Source requireCentralLogoProbe denies the actual fixture POST with404 RESOURCE_NOT_FOUND; earlier guessed route and status expectations were test errors. Application source unchanged.",
+  "signed_in_or_full_workflow_acceptance": false
+}
