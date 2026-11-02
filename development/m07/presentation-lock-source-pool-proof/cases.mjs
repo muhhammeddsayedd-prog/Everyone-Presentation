@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { URL } from 'node:url';
 import { setTimeout } from 'node:timers/promises';
+import { performance } from 'node:perf_hooks';
 import { literal,json,sha,ACTOR } from '../presentation-lock-source-proof/proof.mjs';
 import { nativeError } from './native.mjs';
 
@@ -34,11 +35,13 @@ export async function firstAndWarm(ctx){
     target.phase='helper';target.helper_calls_before_dispatch=helperCalls;
     if(kind==='first')assert.equal(helperCalls,0);
     assert.equal(++helperCalls,index);target.helper_call_index=index;target.dispatched=true;
+    const started=performance.now();
     try{
-     const response=only(await s.request(measure(ctx.profiles.large.workspace)));target.response=response;target.normal_return=true;
+     const response=only(await s.request(measure(ctx.profiles.large.workspace)));target.client_elapsed_ms=performance.now()-started;target.response=response;target.normal_return=true;
      assert.equal(response.ok,true);assert(response.duration_ms<8000);target.phase='rollback';await s.request('rollback;reset role;');target.rollback_normal=true;
      return true;
     }catch(error){
+     target.client_elapsed_ms??=performance.now()-started;
      target.error=nativeError(error);target.private_error=await ctx.captureError(id+'_'+kind+'_'+index,error);
      try{await s.request('rollback;reset role;');target.rollback_normal=true;}catch{
       const exited=await Promise.race([s.done,setTimeout(5000).then(()=>null)]);target.backend_exit=exited;assert.equal(exited,3,'POOL_PROOF_FAILED_BACKEND_EXIT_UNCONFIRMED');

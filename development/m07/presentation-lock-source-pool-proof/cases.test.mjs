@@ -43,6 +43,7 @@ test('all8 fresh first calls precede every warm; each new backend gets only2warm
 test('new first failure retains result/code and stops before every scheduled warm',async()=>{
  const f=fixture('n_m_s');await assert.rejects(firstAndWarm(f.ctx),error=>error===f.primary);
  assert.equal(f.ctx.report.pool_helper_proof.cold.at(-1).error.sqlstate,'57014');assert.equal(f.ctx.report.pool_helper_proof.warm.length,0);
+ assert(Number.isFinite(f.ctx.report.pool_helper_proof.cold.at(-1).client_elapsed_ms));
  assert.equal(f.events.some(row=>row.kind==='warm'),false);assert.equal(f.captured.length,1);
 });
 
@@ -67,6 +68,7 @@ test('a lost private baseline error capture stops without treating cancellation 
 test('slow successful response is retained before threshold assertion; no warm escape',async()=>{
  const f=fixture(null,'57014',8000);f.ctx.captureError=async()=>({normal_return:true});await assert.rejects(firstAndWarm(f.ctx));
  assert.equal(f.ctx.report.pool_helper_proof.cold[0].response.duration_ms,8000);assert.equal(f.ctx.report.pool_helper_proof.cold[0].normal_return,true);assert.equal(f.ctx.report.pool_helper_proof.warm.length,0);
+ assert(Number.isFinite(f.ctx.report.pool_helper_proof.cold[0].client_elapsed_ms));
 });
 
 test('oracle failure leaves recorded timings intact and remains unconfirmed',async()=>{

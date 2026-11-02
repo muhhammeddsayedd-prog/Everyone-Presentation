@@ -36,6 +36,8 @@ stops. Every new-helper first call must complete inside8s. A new failure stops
 without retry or warming. Only after all four new first calls succeed do those
 unchanged new backends take two planned warm samples each. Responses/codes and
 dispatch counters are stored before assertions. There is no “warm until pass”.
+Each dispatched call also retains monotonic client elapsed time on success or
+failure, separately from the successful helper's server duration.
 
 The new pg_temp measurement has no exception handler, so actual native failures
 reach verbose psql and protected first-error storage. Node EPIPE is never called
