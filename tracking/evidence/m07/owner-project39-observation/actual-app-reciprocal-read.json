@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "purpose": "actual_app_readback_of_owner_MCP_created_planned_project",
+  "observation_window_utc": {"start":"2026-11-02T15:22:31Z","end":"2026-11-02T15:24:14Z"},
+  "environment": "stable_production_alias",
+  "browser_tab_id": "1091387919",
+  "web_deployment_identity_receipt": "tracking/evidence/m07/role-archive-focus-web-release/2026-11-02T13-11-38-700539Z-38fa1d8a-6d4d-48ea-924e-65052dbe38e4-readback.json",
+  "project_id": "09f4286a-d46d-4245-9255-67a6ee8e54f5",
+  "observed": {
+    "expected_project_name_visible": true,
+    "presentation_type": "storyboard",
+    "workflow_label": "Planned",
+    "no_client_linked": true,
+    "shared_project_name_editable": true,
+    "unlinked_client_field_readonly": true,
+    "saved_project_explanation_visible": true,
+    "no_presentation_generated_explanation_visible": true,
+    "casting_start_or_generation_action_present": false
+  },
+  "owner_reported_MCP": {
+    "create_request_id": "5cf2962f-5b7e-46fc-90ef-36980f15dd68",
+    "same_key_same_body_replay_request_id": "0e6796aa-433b-469f-bed5-4b181f68fa1e",
+    "replay_returned_same_project": true,
+    "get_request_id": "03565c63-f4b6-416d-953f-cb1e4c1ebef3",
+    "get_row_version": 1,
+    "no_casting_workspace": true,
+    "exact_name_count_request_id": "6eaefea4-b239-4321-a887-3f828ac0cc86",
+    "exact_name_count": 1,
+    "list_clients_request_id": "2dd2c428-7488-4122-94c1-fc7119f5e94c",
+    "list_presentation_types_request_id": "ad94d2ba-2388-48c8-818c-6c8ef546dc23",
+    "app_created_project_MCP_read_request_id": "b8f4655c-5ffa-4060-8fd9-071fd9badf8c",
+    "no_reconnect_or_signin_reported": true
+  },
+  "canonical_readback_receipt": "tracking/evidence/m07/owner-project39-observation/actual-project09-canonical.json",
+  "writes_by_this_browser_observation": 0,
+  "scope": "Visible app reciprocal read plus separately labelled owner MCP results; canonical receipt independently verifies atomic records and zero processing resources. No concurrency or private idempotency-key reconstruction claim.",
+  "result": "passed"
+}

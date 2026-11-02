@@ -1,0 +1,121 @@
+{
+  "schema_version": "1.0",
+  "purpose": "failed_reason40_prepare_readonly_diagnosis",
+  "recorded_at": "2026-11-02T13:42:56.152072+00:00",
+  "started_at": "2026-11-02T13:42:41.028065+00:00",
+  "result": "observed",
+  "run_id": "8b166bbe-3ef9-4142-b3cc-99eb6d2eed02",
+  "original_prepare_normal_exit_code": 1,
+  "original_safe_error": "REASON40_MAIN_RELEASE_UNCONFIRMED",
+  "original_two_read_queries_existed": true,
+  "plan_created": false,
+  "apply_claim_created": false,
+  "normal_return_marker_created": false,
+  "apply_dispatched": false,
+  "fresh_read_count": 2,
+  "fresh_reads_equal": true,
+  "fresh_read_difference_paths": [],
+  "fresh_check_results": [
+    {
+      "passed": false,
+      "exception_class": "ValueError",
+      "source_locations": [
+        {
+          "file": ".local/completion-release/diagnose-reason40-prepare-readonly.py",
+          "line": 22,
+          "function": "<module>"
+        },
+        {
+          "file": "development/m07/review-link-reason40-canonical-release/state.py",
+          "line": 127,
+          "function": "check"
+        },
+        {
+          "file": "development/m07/review-link-reason40-canonical-release/state.py",
+          "line": 24,
+          "function": "need"
+        }
+      ]
+    },
+    {
+      "passed": false,
+      "exception_class": "ValueError",
+      "source_locations": [
+        {
+          "file": ".local/completion-release/diagnose-reason40-prepare-readonly.py",
+          "line": 22,
+          "function": "<module>"
+        },
+        {
+          "file": "development/m07/review-link-reason40-canonical-release/state.py",
+          "line": 127,
+          "function": "check"
+        },
+        {
+          "file": "development/m07/review-link-reason40-canonical-release/state.py",
+          "line": 24,
+          "function": "need"
+        }
+      ]
+    }
+  ],
+  "fresh_static_anchor_difference_paths": [
+    "$.base.oauth.sha256",
+    "$.project39.old_identities.count",
+    "$.project39.old_identities.sha256",
+    "$.project39.remaining_catalogue.count",
+    "$.project39.remaining_catalogue.sha256"
+  ],
+  "fresh_history": [
+    "20261028010943",
+    "20261028013324",
+    "20261028013655",
+    "20261028024205",
+    "20261028072515",
+    "20261028162702",
+    "20261028162800",
+    "20261028172320",
+    "20261028184145",
+    "20261028222030",
+    "20261029001520",
+    "20261029003941",
+    "20261029070038",
+    "20261029090500",
+    "20261029090724",
+    "20261029094600",
+    "20261029100500",
+    "20261029133455",
+    "20261029135318",
+    "20261029174841",
+    "20261029180953",
+    "20261029202629",
+    "20261029203953",
+    "20261029215218",
+    "20261030002634",
+    "20261030004643",
+    "20261030013832",
+    "20261030030717",
+    "20261030111549",
+    "20261030154824",
+    "20261031010000",
+    "20261031104603",
+    "20261031130207",
+    "20261031143711",
+    "20261031182038",
+    "20261101012057",
+    "20261101042702",
+    "20261101110939",
+    "20261101223342"
+  ],
+  "reason_state": {
+    "historical_nonnull": 0,
+    "present": false,
+    "shape_valid": false
+  },
+  "read_exception_class_without_message": null,
+  "raw_state_rows_functions_business_values_or_credentials_in_public_receipt": false,
+  "private_diagnostic_states_saved": 2,
+  "read_only_rollback": true,
+  "automatic_retry": false,
+  "original_prepare_replayed": false
+}

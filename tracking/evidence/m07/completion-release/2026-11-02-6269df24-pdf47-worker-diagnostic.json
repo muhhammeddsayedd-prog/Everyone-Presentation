@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "purpose": "actual_pdf47_closed_worker_failure_diagnostic",
+  "observed_at": "2026-11-02T15:11:34.545785+00:00",
+  "result": "observed",
+  "read_only_observation_query": true,
+  "job_id": "47f86513-8999-4946-b5d9-f2fd6a18fd00",
+  "deployment_id": "dpl_Cp1TW1vP3JiLJoL5G3Zx2yfei97M",
+  "instance_id": "dmni_01m6d0523mz7hc2s6mqw035ys2",
+  "window": {
+    "start": "2026-11-02T14:43:00.000Z",
+    "end": "2026-11-02T14:47:00.000Z"
+  },
+  "maximum_provider_reads": 1,
+  "provider_reads_initiated": 1,
+  "automatic_retry": false,
+  "query_sha256": "1723af9a57e8b68c4e0e383cc4d5ca5df5e4add753574021598fa6a567c03667",
+  "source_sha256": "21f640bf0eab704ba4705aa4a2c91cce8d6606c753f94820f11e267b80416490",
+  "exit_code": 0,
+  "timed_out": false,
+  "output_limit_exceeded": false,
+  "metadata": {
+    "rows": [
+      {
+        "logged_at": "2026-11-02T14:44:04.745000+00:00",
+        "event": "specs_stage_processing_failed",
+        "job_id": "47f86513-8999-4946-b5d9-f2fd6a18fd00",
+        "attempt_id": "4b24ae86-e814-4981-8a5f-366d162d5ab2",
+        "stage": "extract_specs",
+        "correlation_id": "be252853-6d8b-4ba8-bcbe-9acf787c4d78",
+        "error_kind": "integration",
+        "code": "OPENAI_UNAVAILABLE",
+        "http_status": null,
+        "request_id": null
+      },
+      {
+        "logged_at": "2026-11-02T14:45:08.356000+00:00",
+        "event": "specs_stage_processing_failed",
+        "job_id": "47f86513-8999-4946-b5d9-f2fd6a18fd00",
+        "attempt_id": "d3114ca5-2523-40fb-ac9e-a22701b19167",
+        "stage": "extract_specs",
+        "correlation_id": "be252853-6d8b-4ba8-bcbe-9acf787c4d78",
+        "error_kind": "integration",
+        "code": "OPENAI_UNAVAILABLE",
+        "http_status": null,
+        "request_id": null
+      },
+      {
+        "logged_at": "2026-11-02T14:46:14.874000+00:00",
+        "event": "specs_stage_processing_failed",
+        "job_id": "47f86513-8999-4946-b5d9-f2fd6a18fd00",
+        "attempt_id": "54080900-264b-4cb9-bb4f-d0c046f0246e",
+        "stage": "extract_specs",
+        "correlation_id": "be252853-6d8b-4ba8-bcbe-9acf787c4d78",
+        "error_kind": "integration",
+        "code": "OPENAI_UNAVAILABLE",
+        "http_status": null,
+        "request_id": null
+      }
+    ],
+    "matched_attempt_count": 3,
+    "all_three_attempts_observed": true,
+    "complete_api_page": true
+  },
+  "raw_logs_or_private_payloads_or_credentials_saved": false,
+  "OpenAI_or_native_processing_or_job_mutation_called": false,
+  "usage_or_cost_not_inferred_from_absence": true
+}

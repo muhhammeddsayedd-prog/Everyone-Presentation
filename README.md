@@ -6,17 +6,14 @@ A complete initial specification for developing the presentation app end to end.
 
 **Resume from [tracking/HANDOFF.md](tracking/HANDOFF.md) and [PROGRESS.md](PROGRESS.md).** The original pack started without app code. Current implementation and actual service evidence are recorded there; no milestone or production acceptance is implied by this specification.
 
-**Current backend checkpoint (2026-11-01):** stable pilot web4Gm85 and workerG6CV
-are running on canonical38, native50082 and English1.0 with processing enabled.
-The new worker passed bound startup/Ready and full preserving pin/resume checks.
-A fresh app specs job passed real OpenAI/n8n processing, saved an English Studio
-Guide role and survived reload; protected jobs, Reviewed facts and old Ready
-versions stayed intact. [App proof](tracking/evidence/m07/specs-worker38-audit/2026-11-01-hosted-specs-app.json) and the [current handoff](tracking/HANDOFF.md) define exact evidence and remaining work.
-Claude connection/reconnect and filtered MCP acceptance stay passed. M07 remains
-in progress; screen-reader acceptance pending, mobile skipped, pilot until owner stop.
-Current38 local metadata/four-object/native PDF-video recovery also passed with
-full cleanup and original-database preservation; [recovery proof](development/m07/RECOVERY.md) records its strict local scope.
-The following dated evidence is retained.
+**Current release checkpoint (2026-11-02):** production webB5L2/source1c72f2a,
+workerCp/native46 and canonical39 are serving the redesigned app. Actual project
+creation and renewed Claude access passed their scoped readbacks. Direct Samsung
+PDF bytes/preparation passed; extraction timed out and remains under repair.
+Guest lifecycle and actual screen-reader checks remain open. Follow the
+[current handoff](tracking/HANDOFF.md) and [workflow matrix](tracking/evidence/m07/ACCEPTANCE_MATRIX.md).
+Full M07/release acceptance remains in progress. Mobile and contributor acceptance
+are explicitly skipped. The following dated evidence is historical.
 
 The controlled Vercel pilot is active at **https://everyone-presentation-pilot.vercel.app**, authorized until the owner stops it. The [hosted core gate](tracking/evidence/m07/controlled-pilot/HOSTED_CORE.json) now passes all nine checks, backed by fifteen public receipts: Projects, Settings, Processing, specs and video through actual OpenAI/n8n, native frames, Selection PDF, guest feedback and linked original video. This bounded pilot proof does not complete M03 semantic acceptance, AT-072, or the full human/delegated production journey. Mobile testing remains skipped under the owner's waiver.
 

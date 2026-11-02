@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0",
+  "scope": "actual_Claude_same_session_renewed_operational_access_across_compatible_release",
+  "result": "passed",
+  "before_deployment_id": "dpl_J3hmctcHndRp8zDVAPYfcnjEgpzG",
+  "after_deployment_id": "dpl_B5L2mM6QVQo99VJsqtEPDeq8i9n5",
+  "client_id": "f2acafd5-d4b6-4176-b86c-067c57e45ecc",
+  "before_request_id": "4f3a7c5a-d83f-4e65-9931-306a2db0f101",
+  "after_request_id": "1d370c0f-bf80-4e90-a00d-96c933abe721",
+  "before_iat": 1793608768,
+  "before_exp": 1793612368,
+  "after_iat": 1793626482,
+  "after_exp": 1793630082,
+  "same_session_verified": true,
+  "later_signed_token_verified": true,
+  "owner_no_reconnect_and_no_signin_attested": true,
+  "reviewed_diagnostics_and_focus_delta_verified": true,
+  "auth_collector_seals_unchanged": true,
+  "before_observation": {
+    "path": "tracking/evidence/m07/completion-oauth/2026-11-02T14-08-37.727Z-bfc94f6d-request-observation.json",
+    "sha256": "1adfa7f68e098968cbb4030c7bdf2017b7ec96c9fda4c673273a2b34e0bc2f78"
+  },
+  "after_observation": {
+    "path": "tracking/evidence/m07/completion-oauth/2026-11-02T14-04-20.643Z-d987a40a-request-observation.json",
+    "sha256": "b078ff482e7c44e76294b648be8438acedd2006c45b07c23f30be8aef9c66a4f"
+  },
+  "before_execution": {
+    "path": "tracking/evidence/m07/completion-oauth/2026-11-02T14-08-37.729Z-d4beeb50-collector-v2-execution.json",
+    "sha256": "4b263a393f2e0d10815755762891a562ecad5960e162cf6a4fb3beea4f73e8df"
+  },
+  "after_execution": {
+    "path": "tracking/evidence/m07/completion-oauth/2026-11-02T14-04-20.646Z-de232990-collector-v2-execution.json",
+    "sha256": "8d54ac7820311f4cba168b311d3b7c487f1dbbf69e2fad6f01bbecd388beb5a2"
+  },
+  "owner_attestation_sha256": "dd031323b5ac5e934f558545062862666819764aeaa4cbf1aab7afe556fbc239",
+  "approved_pair": {
+    "before": {
+      "deployment": "dpl_J3hmctcHndRp8zDVAPYfcnjEgpzG",
+      "commit": "c88f58c00820169f7396d72def77a74f1443594e",
+      "manifest": "f947fb53479d991b382bd50bf39e32a4e56dd17598470b209f2a185ed9f58d0a",
+      "entries": 308,
+      "readback": {
+        "path": "tracking/evidence/m07/production-web-release/2026-11-02T02-34-07-437169Z-readback.json",
+        "sha256": "410caceb600e01589147fdb1e13cd3cbb5b8dc8d8ce8459f27c7ee178c0116cb"
+      },
+      "source": {
+        "path": "tracking/evidence/m07/production-web-release/source-c5fee9c1-db68-41c5-9386-8c56bab0b418.json",
+        "sha256": "ec36e3940a178eb816b898991ce816d8a78e3dfecfa7b155ec5ffe9e1d1085ce"
+      },
+      "archive": {
+        "path": ".local/production-web-release/source-c5fee9c1-db68-41c5-9386-8c56bab0b418.tar",
+        "sha256": "47ad9d1b2cfb4c096d0ced3041307c9f0ca1fb93e47142899e2d396bd0452dad"
+      }
+    },
+    "after": {
+      "deployment": "dpl_B5L2mM6QVQo99VJsqtEPDeq8i9n5",
+      "commit": "1c72f2a2cc36e7f3f6c6d093fb24dd28dbe9fc20",
+      "manifest": "05a398700628b8c2310704f05db5971d9fc46ac59795bd77e30148ca3d6f663f",
+      "entries": 309,
+      "readback": {
+        "path": "tracking/evidence/m07/role-archive-focus-web-release/2026-11-02T13-11-38-700539Z-38fa1d8a-6d4d-48ea-924e-65052dbe38e4-readback.json",
+        "sha256": "7efe9129b5475cdb338f2eb384e7d8e77008a4e9789ff298445c105c7896d6ab"
+      },
+      "source": {
+        "path": "tracking/evidence/m07/role-archive-focus-web-release/source-38fa1d8a-6d4d-48ea-924e-65052dbe38e4.json",
+        "sha256": "a76e2f7e3ed7c29c0834ca707152aa5b05ab2c9c79b087d88549a5a4df03c039"
+      },
+      "archive": {
+        "path": ".local/role-archive-focus-web-release/38fa1d8a-6d4d-48ea-924e-65052dbe38e4/source.tar",
+        "sha256": "eb1818e653e49578f3f0bd5cb2df825c517bd78c64e4022c7bd09e7c1dd8084c"
+      }
+    }
+  },
+  "old_expired_bearer_denial_collected": false,
+  "refresh_HTTP_exchange_collected": false,
+  "refresh_token_rotation_storage_verified": false,
+  "targeted_session_revocation_verified": false,
+  "full_lifecycle_verified": false,
+  "inputs": {
+    "path": "tracking/evidence/m07/claude-j3-b5-observation/actual-4f3-1d-input.json",
+    "sha256": "bc7fde1efa11ee79b3e58a3993eb9bb533444bacdad6a208a9d12df7b53bc578"
+  },
+  "owner_attestation": {
+    "path": "tracking/evidence/m07/claude-j3-b5-observation/owner-statement-4f3-1d.json",
+    "sha256": "dd031323b5ac5e934f558545062862666819764aeaa4cbf1aab7afe556fbc239"
+  },
+  "provider_reads": 0,
+  "local_files_written": 0
+}

@@ -1,5 +1,54 @@
 # Everyone Presentation Studio - current English-output handoff
 
+## Current checkpoint - 2026-11-02T15:26:47.382359+00:00
+
+Production remains on web B5L2 / source1c72f2a / manifest05a39870, workerCp /
+native46 and canonical39. The [workflow matrix](../tracking/evidence/m07/ACCEPTANCE_MATRIX.md)
+is the current completion record. SQL40 is still unapplied; no generation
+performance change is deployed. Full release acceptance remains open.
+
+Actual existing-Claude renewed operational access passed for the bound4f3/1d
+reads across natural expiry, with owner confirmation of no reconnect/sign-in.
+The new Planned project09f4286a passed owner MCP create/same-key replay,
+independent canonical atomic-record/resource checks and actual app readback.
+See [renewal](../tracking/evidence/m07/claude-j3-b5-observation/actual-4f3-1d-result.json)
+and [reciprocal project read](../tracking/evidence/m07/owner-project39-observation/actual-app-reciprocal-read.json).
+This observational renewal proof does not claim the raw refresh exchange.
+
+The agreed Samsung source PDF reached private Storage with exact3,058,335 bytes
+and SHA256. Native preparation succeeded; extraction job47f86513 failed three
+attempts near60s. [Metadata](../tracking/evidence/m07/completion-release/2026-11-02T14-59-29Z-70c066bb-direct-pdf-metadata.json)
+and [worker diagnostic](../tracking/evidence/m07/completion-release/2026-11-02-6269df24-pdf47-worker-diagnostic.json)
+retain that failure. Prepared input is24 pages/219 paragraphs/12,807UTF8 bytes;
+no extraction response or billed-usage evidence was retained. A minimal SDK
+error-classification/request-ID fix is in progress; no new retry was made.
+
+Guest preparation now has one known internal note on Ready Selectionv2 and no
+external feedback. The protected fresh handoff9aff88b7 expires15:45:01UTC;
+open/confirm only that run before expiry, then owner MCP readback/revoke and
+anonymous denial before the temporary link's16:00UTC expiry. Do not reconstruct
+or print capabilities, replay unknown mutations, or allow manual feedback to
+race the exact-count HTTP proof. Actual Narrator acceptance remains pending;
+reader version is unrecorded, not a waiver. Contributor/mobile remain skipped.
+
+The original SQL40 collector passed602f1dd4. Canonical preparation8b166bbe
+refused a changed static baseline before migration dispatch; its claim remains
+consumed. Read-only classification found one additional OAuth coordination row
+and official managed Storage0074 metadata changes. Historical identity equality
+since39 is unproven. A distinct five-field qualified current baseline preserves
+all other guards; its targeted owned proof is now authorized once after Root5/5
+pure checks. No canonical apply has occurred. The helper-only generation
+candidate still fails MCP-large8s; all four local failures/cleanup are retained.
+A source-only four-body data-reuse change is in progress with no timeout or
+permission relaxation.
+
+Next: finish the current guest handoff and its cleanup; complete the isolated
+SQL40 proof and PDF fix; verify generation semantics/performance before any
+migration or retained production retry. Preserve original records, source
+worktrees, failed attempts and AT069's unreplayed policy restriction.
+
+## Historical checkpoint before renewed Claude/project and direct-PDF evidence
+
 ## Current checkpoint - 2026-11-02T13:28:00.772921+00:00
 
 The stable release URL serves `dpl_B5L2mM6QVQo99VJsqtEPDeq8i9n5`, exact product

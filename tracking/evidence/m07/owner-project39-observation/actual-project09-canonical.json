@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "purpose": "actual_owner_MCP_project_creation_canonical_observation",
+  "observed_at": "2026-11-02T14:25:36.745541+00:00",
+  "result": "passed",
+  "read_only_rollback": true,
+  "automatic_retry": false,
+  "target": "pyibofyctwnqpvktepse",
+  "query": {
+    "path": "development/m07/owner-project39-observation/inspect.sql",
+    "sha256": "b38fb5bfdd0427f78b11a698966386664eba24887060e9931280ff0e7cfa781d"
+  },
+  "reader_source_sha256": "1359373d078ee67d5dd644d1717a048f274c98f3617bb57c3668a45866c4c03c",
+  "exit_code": 0,
+  "timed_out": false,
+  "output_limit_exceeded": false,
+  "metadata": {
+    "active_row1_client_null": true,
+    "canonical_body_hash_and_receipt_match": true,
+    "create_audit_count": 1,
+    "creator_active_writer_count": 1,
+    "database": "postgres",
+    "idempotency_receipt_count": 1,
+    "intent_count": 1,
+    "membership_count": 1,
+    "operator": "postgres",
+    "original_create_audit_bound": true,
+    "project_count": 1,
+    "project_id": "09f4286a-d46d-4245-9255-67a6ee8e54f5",
+    "resources": {
+      "candidate_pool": 0,
+      "jobs": 0,
+      "origin_media": 0,
+      "roles": 0,
+      "series": 0,
+      "slots": 0,
+      "specs": 0,
+      "versions": 0,
+      "workspaces": 0
+    },
+    "same_name_project_count": 1,
+    "storyboard_intent": true
+  },
+  "owner_reported_create_request_id": "5cf2962f-5b7e-46fc-90ef-36980f15dd68",
+  "owner_reported_replay_request_id": "0e6796aa-433b-469f-bed5-4b181f68fa1e",
+  "replay_transport_independently_observed_by_this_query": false,
+  "owner_same_key_replay_same_project_reported": true,
+  "key_actor_name_request_body_or_business_rows_in_receipt": false,
+  "limitations": [
+    "Actual canonical MCP audit and atomic creation are independently observed; same-key replay is the owner returned MCP result plus one durable receipt, not reconstructed key/transport.",
+    "Planned overview app reciprocal readback and service request logs remain separate."
+  ]
+}
