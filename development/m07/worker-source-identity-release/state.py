@@ -105,3 +105,8 @@ class State:
    need(type(rows)is list and len(rows)==count)
   return value
  def sql_contract_sha256(self):return sha(load(Path(__file__).resolve()))
+ def source_pins(self):
+  pins=self.context.source_pins();pins[str(MAIN/CONTEXT)]=CONTEXT_SHA;pins[str(MAIN/a.APPLY['path'])]=a.APPLY['sha256']
+  for file in sorted(HERE.iterdir()):
+   if file.is_file():pins[str(file)]=sha(load(file))
+  return dict(sorted(pins.items()))

@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-11-02T17:44:26.707678+00:00",
+  "scope": "actual inherited ProposedContext.check with synthetic audit/config/OAuth projections; no SQL",
+  "result": "passed",
+  "command": "Main/.venv-skills/Scripts/python.exe -X utf8 -B development/m07/worker-source-identity-release/test_inherited_state.py",
+  "tests": 4,
+  "failed": 0,
+  "duration_seconds": 0.634,
+  "actual_inherited_checker_called": true,
+  "synthetic_opaque_audit_hash_and_nonnull_reason_projection": true,
+  "allowed_control_phases_checked": [
+    "pause",
+    "pin",
+    "resume"
+  ],
+  "catalogue_identity_fixed_configuration_function_ACL_role_authority_negatives": true,
+  "protected_historical_metadata_read_using_existing_guard": true,
+  "source_seals": {
+    "development/m07/worker-source-identity-release/state.py": "2cde5e3f39ec819221a0428defdeaf12967e4860c6d79ef048488a12c084251d",
+    "development/m07/worker-source-identity-release/test_inherited_state.py": "1570b3f7f3235bb3eb1bd0e17f04e980159e32bad044b6ea3e8a0816b4bd648a"
+  },
+  "collector_SQL_unchanged_from_680e73d0_parse_record": true,
+  "SQL_executed": false,
+  "provider_called": false,
+  "build_or_deploy_executed": false,
+  "owned_SQL_proof_still_required": true
+}
