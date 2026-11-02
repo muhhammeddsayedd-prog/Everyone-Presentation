@@ -29,14 +29,19 @@ and synthetic old-native label are adapted, with finite counted substitutions.
 The real specs submit/retry RPCs and their config/permission rules are unchanged.
 The five config rows intentionally receive local synthetic setup before the test
 baseline; original synthetic rows outside those named setup rows stay exact.
-Two explicitly fingerprinted inherited busy rows are qualified before the test
+Three explicitly fingerprinted inherited rows are qualified before the test
 baseline: synthetic job `eb636d22-f702-4463-9a4d-63307ae6a835` becomes cancelled,
 and its leased outbox `0f489b6b-911d-4bbe-8462-088896a31bcd` becomes dead. Only their
-status and lease-token-digest/expiry fields change. Whole-row COPY fingerprints
+status and lease-token-digest/expiry fields change through two direct UPDATEs.
+The linked rendering version `a5a0feec-b60e-46a0-82c1-ed380331b23a` is captured and
+fingerprinted before either change. Its existing normal lifecycle trigger must
+set failed/JOB_CANCELLED/revision3/new updated_at; its other23 columns, immutable
+payload and saved assets stay exact. There is no direct version DML, trigger
+suppression, or fabricated succeeded state. Whole-row COPY fingerprints
 from verified metadata12df are required before mutation, with exact owned
 database/system/run/history and actual running1/leased1 lifecycle. No raw row
 payload enters source. The actual lifecycle SQL must then report all seven0;
-counters are never rewritten/filtered. Their two original row hashes are the
+counters are never rewritten/filtered. Their three original row hashes are the
 sole additional exact-row exceptions in final clone preservation, alongside the
 five declared config setup tables. Backup/source/original29 remain unchanged.
 Pause/unwind and retry rollback must preserve their complete actual local
@@ -73,7 +78,10 @@ synthetic baseline at the zero-work gate: running1 and leased_outbox1. No intake
 pause case ran. Both owned resources were absent afterward; original29 data,
 catalogue/globalroles and shared-lock release were verified. Its executed source
 and failed receipt stay frozen. Root authorized preparation of the concrete
-two-row qualification above; the new third run remains pending peer review.
+qualification above; the new third run remains pending peer review. Static
+source review caught the normal linked-version trigger before this run; Root
+explicitly expanded the fixture scope to that exact third row. The earlier
+two-row preparation receipt remains historical and was never executed.
 
 The same new run will execute the exact fixed production checkpoint SQL273ad36c
 through the existing32MiB owned one-shot port. It checks all76 table arrays/counts,

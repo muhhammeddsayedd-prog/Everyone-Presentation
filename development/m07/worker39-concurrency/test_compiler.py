@@ -32,13 +32,15 @@ class Tests(unittest.TestCase):
   observed=re.search(r'const observed = ([^;]+);',text)[1]
   program="import assert from'node:assert/strict';const actual={canonical:{synthetic:true},intent_data:{count:0}};const only=r=>{assert.equal(r.length,1);return r[0];};const cfg={snapshot_sql:'select synthetic'};const control={request:async()=>[actual]};"+snap+"assert.deepEqual(await snap(),actual);const visible={rows:[actual]};assert.deepEqual("+observed+",actual);control.request=async()=>[{worker39_snapshot:actual}];assert.notDeepEqual(await snap(),actual);console.log('PASS_DIRECT_PSQL_JSON');"
   done=subprocess.run(['C:/Program Files/nodejs/node.exe','--input-type=module','-e',program],capture_output=True,timeout=10);self.assertEqual(done.returncode,0);self.assertIn(b'PASS_DIRECT_PSQL_JSON',done.stdout)
- def test_exact_two_source_fingerprints_and_only_terminal_lease_changes(self):
+ def test_exact_three_source_fingerprints_and_only_two_direct_updates_plus_normal_trigger(self):
   from pglast import parse_sql,parse_plpgsql
   cfg=self.cfg;sql=cfg['qualification_sql'].replace('__WORKER39_OWNED_SYSTEM_SQL__',"'7703000000000000000'").replace('__WORKER39_OWNED_RUN_SQL__',"'11111111-1111-4111-8111-111111111111'");parse_sql(sql)
   body=re.search(r'do \$fixture_zero\$(.*?)\$fixture_zero\$;',sql,re.S)[1];parse_plpgsql('create function pg_temp.test_qualification()returns void language plpgsql as $test$'+body+';$test$;')
-  self.assertEqual(len(cfg['qualification_rows']),2);self.assertEqual(sql.count('get diagnostics changed=row_count'),2);self.assertEqual(sql.count('lease_token_digest=null,lease_expires_at=null where id='),2)
+  self.assertEqual(len(cfg['qualification_rows']),3);self.assertEqual(sql.count('get diagnostics changed=row_count'),2);self.assertEqual(sql.count('lease_token_digest=null,lease_expires_at=null where id='),2)
   self.assertIn("'eb636d22-f702-4463-9a4d-63307ae6a835'::uuid",sql);self.assertIn("'0f489b6b-911d-4bbe-8462-088896a31bcd'::uuid",sql);self.assertIn("set status='cancelled'",sql);self.assertIn("set status='dead'",sql)
   self.assertTrue('q.original_row_hash=project39_proof.original_rows.row_hash'in self.source)
+  self.assertNotIn('update eps.presentation_versions',sql);self.assertNotIn('disable trigger',sql.lower());self.assertNotIn('session_replication_role',sql);self.assertIn("t.failure_code='JOB_CANCELLED'and t.row_version=3",sql)
+  self.assertIn("'bc990999ffdff03c65acfc57d238ae73aca292099b86e78261907b6c616fe72b'",sql);self.assertLess(sql.index("'eps.presentation_versions',t.id"),sql.index('update eps.jobs'))
   spec=importlib.util.spec_from_file_location('qualification_negative_tests',HERE/'qualification.py');q=importlib.util.module_from_spec(spec);spec.loader.exec_module(q);raw=c.load(c.MAIN/'.local/m07-recovery/639da33a-7e90-4471-b0ec-c7a8ff6097ef/backup/metadata.sql')
   with patch.dict(q.ROWS[0],copy_sha256='0'*64):
    with self.assertRaises(ValueError):q.source_rows(raw)
