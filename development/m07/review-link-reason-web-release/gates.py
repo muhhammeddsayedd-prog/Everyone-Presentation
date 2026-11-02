@@ -4,10 +4,10 @@ import datetime, hashlib, io, json, re, subprocess, tarfile, uuid
 
 PROJECT='prj_7xOsfRtvJ9voYi7rTEfra5ncOoA0';TEAM='team_gboXPxTevpCOZuaA8eY9PmR1';SLUG='muhammed-abdelrahman'
 ALIAS='everyone-presentation-pilot.vercel.app';TARGET='pyibofyctwnqpvktepse'
-BASELINE='dpl_5sevM277cLpQZPJV1XkaJxhMLqpe'
-BASE_COMMIT='fdd0aba30fbff3ecebd4f29915bb8b74b143fea2'
-BASE_MANIFEST='f68d43576db9c530a54c85af960658d7115547d5c2c406d47ead8ed0a7d11bb1'
-BASELINE_RECEIPT={'path':'tracking/evidence/m07/mcp-diagnostic-web-release/2026-11-02T10-21-25-065548Z-958dbf0e-7cf7-4288-9a97-c7f52e001523-readback.json','sha256':'2ba99d53a414ea1fc4a77c28ecc262f6ce0eb230aadf4c0d583381864e946bbd'}
+BASELINE='dpl_B5L2mM6QVQo99VJsqtEPDeq8i9n5'
+BASE_COMMIT='1c72f2a2cc36e7f3f6c6d093fb24dd28dbe9fc20'
+BASE_MANIFEST='05a398700628b8c2310704f05db5971d9fc46ac59795bd77e30148ca3d6f663f'
+BASELINE_RECEIPT={'path':'tracking/evidence/m07/role-archive-focus-web-release/2026-11-02T13-11-38-700539Z-38fa1d8a-6d4d-48ea-924e-65052dbe38e4-readback.json','sha256':'7efe9129b5475cdb338f2eb384e7d8e77008a4e9789ff298445c105c7896d6ab'}
 # Root must register exact accepted proof/apply/checkpoint references together.
 # Neither pending schema can be admitted by a private hash or count alone.
 CANONICAL={'schema40':None,'schema41':None}

@@ -23,6 +23,17 @@ def fake():
  op.run=lambda *args,**kwargs:calls.append((args,kwargs))or'{}';return op,memory,calls
 
 class Tests(unittest.TestCase):
+ def test_new_normal_B5_baseline_is_required_and_5sev_cannot_be_reused(self):
+  op,_,_=fake();deployment={'id':g.BASELINE,'state':'READY','meta':{'epsSourceCommit':g.BASE_COMMIT,'epsSourceManifest':g.BASE_MANIFEST}}
+  receipt={'result':'passed','normal_process_return_observed':True,'two_independent_reads_equal':True,'stable_alias_matches':True,'deployment':copy.deepcopy(deployment)}
+  with patch.object(g,'reference',return_value=receipt):
+   r.Operator.baseline(op,deployment)
+   for change in [lambda v:v.update(id='dpl_5sevM277cLpQZPJV1XkaJxhMLqpe'),lambda v:v['meta'].update(epsSourceCommit='fdd0aba30fbff3ecebd4f29915bb8b74b143fea2'),lambda v:v['meta'].update(epsSourceManifest='f'*64),lambda v:v.update(state='BUILDING')]:
+    bad=copy.deepcopy(deployment);change(bad)
+    with self.assertRaises(ValueError):r.Operator.baseline(op,bad)
+   receipt['normal_process_return_observed']=False
+   with self.assertRaises(ValueError):r.Operator.baseline(op,deployment)
+  self.assertEqual(g.CANONICAL,{'schema40':None,'schema41':None});self.assertFalse(r.RELEASE_ENABLED)
  def test_disabled_refuses_before_constructor_sources_private_files_or_provider(self):
   with patch.object(r,'RELEASE_ENABLED',False):
    with patch.object(r,'legacy',side_effect=AssertionError('Must not load helpers')):
