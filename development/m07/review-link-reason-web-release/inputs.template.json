@@ -1,0 +1,13 @@
+{
+  "prepare_inputs": {
+    "run_id": "NEW_V4_UUID",
+    "source_receipt": { "path": "tracking/evidence/m07/review-link-reason-web-release/source-NEW_V4_UUID.json", "sha256": "EXACT_NEW_STAGE_RECEIPT_SHA256" },
+    "quality_receipt": { "path": "tracking/evidence/m07/completion-release/EXACT_FRESH_ROOT_QUALITY.json", "sha256": "EXACT_FRESH_ROOT_QUALITY_SHA256" },
+    "canonical_key": "schema40",
+    "canonical_receipt": { "path": "tracking/evidence/m07/EXACT_APPROVED40_OR41_APPLY.json", "sha256": "EXACT_REGISTERED_APPLY_RECEIPT_SHA256" },
+    "public_build_environment": { "APP_ENV": "production", "EPS_RELEASE_MODE": "production", "NODE_ENV": "production", "CENTRAL_ADAPTER_MODE": "supabase", "APP_BASE_URL": "https://everyone-presentation-pilot.vercel.app", "SUPABASE_URL": "https://pyibofyctwnqpvktepse.supabase.co", "SUPABASE_PUBLISHABLE_KEY": "OWNER_SUPPLIED_EXISTING_PUBLIC_KEY" }
+  },
+  "deploy_inputs": {
+    "preflight_receipt": { "path": "tracking/evidence/m07/completion-release/EXACT_NEW_ROOT_CANONICAL_PREFLIGHT.json", "sha256": "EXACT_NEW_ROOT_CANONICAL_PREFLIGHT_SHA256" }
+  }
+}
