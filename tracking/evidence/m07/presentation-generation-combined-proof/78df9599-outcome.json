@@ -1,0 +1,285 @@
+{
+  "schema_version": "combined-generation-actual-failure-outcome.v1",
+  "observed_at": "2026-11-02T22:54:10.877854+00:00",
+  "runtime_uuid": "78df9599-a7e7-4b7d-81ff-235218430a45",
+  "compile_uuid": "b4bf624a-828c-42c1-97be-4cb611d16d2d",
+  "normal_process_exit_code": 1,
+  "result": "failed",
+  "elapsed_ms": 101758,
+  "checkpoint": "combined-first-candidate-mcp-large",
+  "failure_code": "LOCKSOURCE41_ASSERTION_FAILED",
+  "actual_receipt": {
+    "path": "tracking/evidence/m07/presentation-generation-combined-proof/2026-11-02T22-44-11.890Z-78df9599.json",
+    "sha256": "1732443e726cfe1e40e3a4b4160e18bd732196f86992580f357af3681dafb942"
+  },
+  "eight_fresh_first_call_matrix": [
+    {
+      "variant": "old",
+      "mode": "api",
+      "label": "control",
+      "fresh_pid": 632,
+      "first_application_call_in_backend": true,
+      "application_calls_before_dispatch": 0,
+      "normal_SQL_wrapper_return": true,
+      "server_result": {
+        "ok": true,
+        "duration_ms": 675.199,
+        "role": "authenticated",
+        "status": "queued"
+      },
+      "client_elapsed_ms": 679.0253000000012,
+      "outer_transaction_rollback": true,
+      "full_fresh_baseline_hash_check_after_call": true,
+      "persisted_projection_recorded": true,
+      "actual_stored_hash_flags": {
+        "stored_snapshot_hash_valid": true,
+        "stored_manifest_hash_valid": true,
+        "stored_inventory_hash_valid": true
+      }
+    },
+    {
+      "variant": "old",
+      "mode": "api",
+      "label": "large",
+      "fresh_pid": 653,
+      "first_application_call_in_backend": true,
+      "application_calls_before_dispatch": 0,
+      "normal_SQL_wrapper_return": true,
+      "server_result": {
+        "ok": true,
+        "duration_ms": 6926.662,
+        "role": "authenticated",
+        "status": "queued"
+      },
+      "client_elapsed_ms": 6931.379200000003,
+      "outer_transaction_rollback": true,
+      "full_fresh_baseline_hash_check_after_call": true,
+      "persisted_projection_recorded": true,
+      "actual_stored_hash_flags": {
+        "stored_snapshot_hash_valid": true,
+        "stored_manifest_hash_valid": true,
+        "stored_inventory_hash_valid": true
+      }
+    },
+    {
+      "variant": "old",
+      "mode": "mcp",
+      "label": "control",
+      "fresh_pid": 696,
+      "first_application_call_in_backend": true,
+      "application_calls_before_dispatch": 0,
+      "normal_SQL_wrapper_return": true,
+      "server_result": {
+        "ok": true,
+        "duration_ms": 2234.864,
+        "role": "authenticated",
+        "status": "queued"
+      },
+      "client_elapsed_ms": 2238.711200000005,
+      "outer_transaction_rollback": true,
+      "full_fresh_baseline_hash_check_after_call": true,
+      "persisted_projection_recorded": true,
+      "actual_stored_hash_flags": {
+        "stored_snapshot_hash_valid": true,
+        "stored_manifest_hash_valid": true,
+        "stored_inventory_hash_valid": true
+      }
+    },
+    {
+      "variant": "old",
+      "mode": "mcp",
+      "label": "large",
+      "fresh_pid": 717,
+      "first_application_call_in_backend": true,
+      "application_calls_before_dispatch": 0,
+      "normal_SQL_wrapper_return": true,
+      "server_result": {
+        "ok": false,
+        "code": "57014",
+        "operation": "generate",
+        "duration_ms": 8000.308
+      },
+      "client_elapsed_ms": 8003.823199999999,
+      "outer_transaction_rollback": true,
+      "full_fresh_baseline_hash_check_after_call": true,
+      "persisted_projection_recorded": false,
+      "actual_stored_hash_flags": null
+    },
+    {
+      "variant": "candidate",
+      "mode": "api",
+      "label": "control",
+      "fresh_pid": 791,
+      "first_application_call_in_backend": true,
+      "application_calls_before_dispatch": 0,
+      "normal_SQL_wrapper_return": true,
+      "server_result": {
+        "ok": true,
+        "duration_ms": 838.863,
+        "role": "authenticated",
+        "status": "queued"
+      },
+      "client_elapsed_ms": 841.7802000000083,
+      "outer_transaction_rollback": true,
+      "full_fresh_baseline_hash_check_after_call": true,
+      "persisted_projection_recorded": true,
+      "actual_stored_hash_flags": {
+        "stored_snapshot_hash_valid": true,
+        "stored_manifest_hash_valid": true,
+        "stored_inventory_hash_valid": true
+      }
+    },
+    {
+      "variant": "candidate",
+      "mode": "api",
+      "label": "large",
+      "fresh_pid": 813,
+      "first_application_call_in_backend": true,
+      "application_calls_before_dispatch": 0,
+      "normal_SQL_wrapper_return": true,
+      "server_result": {
+        "ok": true,
+        "duration_ms": 5615.022,
+        "role": "authenticated",
+        "status": "queued"
+      },
+      "client_elapsed_ms": 5617.790399999998,
+      "outer_transaction_rollback": true,
+      "full_fresh_baseline_hash_check_after_call": true,
+      "persisted_projection_recorded": true,
+      "actual_stored_hash_flags": {
+        "stored_snapshot_hash_valid": true,
+        "stored_manifest_hash_valid": true,
+        "stored_inventory_hash_valid": true
+      }
+    },
+    {
+      "variant": "candidate",
+      "mode": "mcp",
+      "label": "control",
+      "fresh_pid": 848,
+      "first_application_call_in_backend": true,
+      "application_calls_before_dispatch": 0,
+      "normal_SQL_wrapper_return": true,
+      "server_result": {
+        "ok": true,
+        "duration_ms": 2382.151,
+        "role": "authenticated",
+        "status": "queued"
+      },
+      "client_elapsed_ms": 2386.236300000004,
+      "outer_transaction_rollback": true,
+      "full_fresh_baseline_hash_check_after_call": true,
+      "persisted_projection_recorded": true,
+      "actual_stored_hash_flags": {
+        "stored_snapshot_hash_valid": true,
+        "stored_manifest_hash_valid": true,
+        "stored_inventory_hash_valid": true
+      }
+    },
+    {
+      "variant": "candidate",
+      "mode": "mcp",
+      "label": "large",
+      "fresh_pid": 877,
+      "first_application_call_in_backend": true,
+      "application_calls_before_dispatch": 0,
+      "normal_SQL_wrapper_return": true,
+      "server_result": {
+        "ok": false,
+        "code": "57014",
+        "operation": "generate",
+        "duration_ms": 7999.633
+      },
+      "client_elapsed_ms": 8005.681500000006,
+      "outer_transaction_rollback": true,
+      "full_fresh_baseline_hash_check_after_call": false,
+      "persisted_projection_recorded": false,
+      "actual_stored_hash_flags": null
+    }
+  ],
+  "offline_existing_observer_comparisons_only": [
+    {
+      "mode": "api",
+      "label": "control",
+      "classification": "offline comparison of already-recorded actual persisted observers; in-run final equality loop unreached",
+      "normalized_snapshot_projection_equal": true,
+      "pin_metadata_and_companion_projection_equal": true,
+      "normalized_actual_manifest_inventory_fingerprint_equal": true,
+      "old_observer_sha256": "b817d7d592273e5538a25112dbd20208f39be4456e6c234473bd7689efaba7fa",
+      "new_observer_sha256": "b817d7d592273e5538a25112dbd20208f39be4456e6c234473bd7689efaba7fa"
+    },
+    {
+      "mode": "mcp",
+      "label": "control",
+      "classification": "offline comparison of already-recorded actual persisted observers; in-run final equality loop unreached",
+      "normalized_snapshot_projection_equal": true,
+      "pin_metadata_and_companion_projection_equal": true,
+      "normalized_actual_manifest_inventory_fingerprint_equal": true,
+      "old_observer_sha256": "b817d7d592273e5538a25112dbd20208f39be4456e6c234473bd7689efaba7fa",
+      "new_observer_sha256": "b817d7d592273e5538a25112dbd20208f39be4456e6c234473bd7689efaba7fa"
+    },
+    {
+      "mode": "api",
+      "label": "large",
+      "classification": "offline comparison of already-recorded actual persisted observers; in-run final equality loop unreached",
+      "normalized_snapshot_projection_equal": true,
+      "pin_metadata_and_companion_projection_equal": true,
+      "normalized_actual_manifest_inventory_fingerprint_equal": true,
+      "old_observer_sha256": "7217879414268964048f71945b7d35490e152a7752b69bcfac37ed284529c70a",
+      "new_observer_sha256": "7217879414268964048f71945b7d35490e152a7752b69bcfac37ed284529c70a"
+    }
+  ],
+  "failure_boundary": {
+    "new_large_MCP_whole_generation": "actual PostgreSQL QUERY_CANCELED handler returned57014 at unchanged8s; stops without retry",
+    "private_failure_basename": "failure.json",
+    "private_failure_sha256": "3f7d53a6afffbc4b35da0b38d8ce84da35dc67cc0bcab52e8822e209d0268c24",
+    "private_failure_diagnostic_is_null": true,
+    "first_unhandled_native_error_file_exists": false,
+    "cancellation_stack_or_exact_SQL_subphase_observed": false,
+    "code_provenance": "frozen temporary measurement function EXCEPTION WHEN query_canceled; not a recovered verbose-error stack",
+    "remaining_MCP_validation_or_RLS_overhead": "hypothesis only; not measured call counts or localized plan"
+  },
+  "unreached_scopes": [
+    "16post-first review/snapshot equalities",
+    "fresh missing-frame snapshot negative/equality",
+    "fourMiB fallback",
+    "focused6generation+6association pervariant and4Englishstates",
+    "permission/source-generation races/return-expiry undernew4bodies",
+    "in-run final old/new projection equality loop",
+    "final clone original4107/four-old-body/config restoration"
+  ],
+  "candidate_actual_source_authority_verified": true,
+  "new_whole_generation_acceptance": false,
+  "performance_canonical_release_admitted": false,
+  "cleanup": {
+    "all_owned_resources_absent": true,
+    "original_data_catalogue_and_global_roles_unchanged": true,
+    "shared_lock_released": true,
+    "independent_successful_daemon_label_inventories_empty": true
+  },
+  "independent_same_engine_readback": {
+    "engine": "npipe:////./pipe/dockerDesktopLinuxEngine",
+    "label": "eps.combinedproof.run=78df9599-a7e7-4b7d-81ff-235218430a45",
+    "container_inventory": {
+      "normal_exit_code": 0,
+      "stdout_empty": true,
+      "stderr_empty": true
+    },
+    "volume_inventory": {
+      "normal_exit_code": 0,
+      "stdout_empty": true,
+      "stderr_empty": true
+    },
+    "fresh_shared_lock_exists": false
+  },
+  "Main_flag_only_closure": {
+    "disabled_sha256": "8dca5891b9f2e832f94c8ebc206377f159fd234441a4721d0e812f3055f51e88",
+    "Main_index_or_commit_touched_by_child": false,
+    "permanent_compile_claim_retained": true
+  },
+  "no_automatic_retry_warming_fix_or_threshold_change": true,
+  "no_source_or_claim_repair": true,
+  "cloud_called": false,
+  "provider_called": false
+}
