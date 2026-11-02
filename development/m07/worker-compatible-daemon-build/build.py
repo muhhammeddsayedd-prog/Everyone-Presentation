@@ -12,7 +12,7 @@ sha=lambda raw:hashlib.sha256(raw).hexdigest()
 need(sha((MAIN/a.OLD/'build.py').read_bytes())==a.BUILD_SHA)
 need(sha((MAIN/a.OLD/'mechanisms.py').read_bytes())==a.MECHANISMS_SHA)
 base=module('compatible_daemon_frozen_build_library',MAIN/a.OLD/'build.py')
-BUILD_ENABLED=False
+BUILD_ENABLED=True
 
 def native_dependency_rows(source,native_source,graph,previous_graph):
  """Complete native graph and dependency row equality, before and after reuse."""

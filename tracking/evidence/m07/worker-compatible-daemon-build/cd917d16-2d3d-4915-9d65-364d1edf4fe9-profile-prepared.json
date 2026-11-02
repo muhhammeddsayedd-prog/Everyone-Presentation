@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-11-02T21:38:35.108302+00:00",
+  "result": "exact_Main_archive_profile_and_readonly_retained_native_admission_passed",
+  "run": "cd917d16-2d3d-4915-9d65-364d1edf4fe9",
+  "source_commit": "db2139f567376ba3b58bd9992ddc06ae29d7e4dc",
+  "source_tree": "466725695744cc976a4d4a2f5ec13ee354e8b979",
+  "source_sha256": "dc12eaab6d862b2d151665b13c092568a273a2b1c7e2fde24516654c7db40648",
+  "file_count": 167,
+  "native_graph_sha256": "247992bbe3331251f33186cfac22835e8734833cd229bb6a4d8bcafa3bc0c214",
+  "daemon_graph_sha256": "9c751f186e67dec8dccc7f8339760ed25210e79f109ff65be12bdb3108123234",
+  "archive": {
+    "path": ".local/worker-compatible-daemon-build/selected-source-cd917d16-2d3d-4915-9d65-364d1edf4fe9.tar",
+    "sha256": "df7b49bdd39201e10fd29816343f67c5136fc30d1e9d239ddfa8df591592047a"
+  },
+  "archive_bytes": 1986560,
+  "profile": {
+    "path": ".local/worker-compatible-daemon-build/build-inputs.json",
+    "sha256": "87b480bb960aee60f38030b156cb571dae08fe022a6b9d20c595e73f8de10f51"
+  },
+  "source_admission": {
+    "archive": {
+      "path": ".local/worker-compatible-daemon-build/selected-source-cd917d16-2d3d-4915-9d65-364d1edf4fe9.tar",
+      "sha256": "df7b49bdd39201e10fd29816343f67c5136fc30d1e9d239ddfa8df591592047a",
+      "commit": "db2139f567376ba3b58bd9992ddc06ae29d7e4dc",
+      "selected_source_exact": true,
+      "archive_extracted": false
+    },
+    "quality": {
+      "ref": {
+        "path": "tracking/evidence/m07/completion-release/2026-11-02T21-13-18.744Z-a7dc8241-streaming-root-quality.json",
+        "sha256": "62bc4f3dcba081525564e98ec4936c1b59269a3ad467c403f430fbab5269e4c1"
+      },
+      "tested_commit": "3ff3cb229826a939df2be26030f522347681bda9",
+      "selected_packed_source_bytes_equal": true,
+      "carried_forward_to_exact_selected_bytes": true,
+      "test_count": 1011
+    }
+  },
+  "retained_native_references": {
+    "export": {
+      "path": "tracking/evidence/m07/worker-source-identity-release/2026-11-02T19-09-59-072239Z-native-export.json",
+      "sha256": "a05c6dba0e59813afadc42b07a286c0fd43c07852fe4474fc48cf2916b870814"
+    },
+    "copy": {
+      "path": "tracking/evidence/m07/worker-source-identity-release/2026-11-02T19-20-16-978244Z-native-registry-copy.json",
+      "sha256": "8c5ca46033600d1e0db890f5623c2d33c63f59b03587366618be40b1aaaff324"
+    },
+    "ready": {
+      "path": "tracking/evidence/m07/worker-source-identity-release/2026-11-02T19-23-34-403749Z-native-registry-ready.json",
+      "sha256": "7fcecd4e585e6f8f14809671c51636c13634ee590958eb197283b407e50e98c2"
+    },
+    "probe": {
+      "path": "tracking/evidence/m07/worker-source-identity-release/2026-11-02T19-33-56-730888Z-native-probe-admitted.json",
+      "sha256": "a03db92ca8975c1cf32affc50480327fd4b7ac47ee140303543b5be4480fb662"
+    }
+  },
+  "retained_native_digest": "sha256:3d4286db01b27b40ec9078e303158e93003a096d5ddad1c9802130238de6dd80",
+  "retained_native_source": "f742e9e5e4b83643f5bae18cace3e9e253912c0114f59b4489f0d163bcb39368",
+  "retained_native_readonly_actual_archive_and_normal_claims_verified": true,
+  "Root_source_tests_passed": 9,
+  "Root_source_tests_seconds": 0.33,
+  "build_flag_armed": false,
+  "stage_build_Docker_registry_provider_SQL_called": false
+}

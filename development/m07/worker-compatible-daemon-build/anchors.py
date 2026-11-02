@@ -16,4 +16,4 @@ EXPORT={'path':'tracking/evidence/m07/worker-source-identity-release/2026-11-02T
 COPY={'path':'tracking/evidence/m07/worker-source-identity-release/2026-11-02T19-20-16-978244Z-native-registry-copy.json','sha256':'8c5ca46033600d1e0db890f5623c2d33c63f59b03587366618be40b1aaaff324'}
 READY={'path':'tracking/evidence/m07/worker-source-identity-release/2026-11-02T19-23-34-403749Z-native-registry-ready.json','sha256':'7fcecd4e585e6f8f14809671c51636c13634ee590958eb197283b407e50e98c2'}
 PROBE={'path':'tracking/evidence/m07/worker-source-identity-release/2026-11-02T19-33-56-730888Z-native-probe-admitted.json','sha256':'a03db92ca8975c1cf32affc50480327fd4b7ac47ee140303543b5be4480fb662'}
-FUTURE_DAEMON_PROFILE=None
+FUTURE_DAEMON_PROFILE={'path':'.local/worker-compatible-daemon-build/build-inputs.json','sha256':'87b480bb960aee60f38030b156cb571dae08fe022a6b9d20c595e73f8de10f51'}
