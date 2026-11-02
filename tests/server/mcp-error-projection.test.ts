@@ -55,15 +55,15 @@ test('generation precondition errors expose the safe request and current revisio
   assert.ok(!JSON.stringify(value).includes('synthetic-private-details')); assert.equal(generated, 1);
 });
 
-test('advertised optional revoke reason currently fails before mutation and its error must reach text-only clients', async () => {
+test('advertised optional revoke reason reaches the service and its safe rejection reaches text-only clients', async () => {
   const validator = new AjvJsonSchemaValidator();
   const args = { review_link_id: 'synthetic-link', idempotency_key: key, body: { row_version: 1, reason: 'Synthetic revocation reason' } };
   type Schema = Parameters<AjvJsonSchemaValidator['getValidator']>[0];
   assert.equal(validator.getValidator(catalog.tools.find(tool => tool.name === 'revoke_review_link')!.inputSchema as unknown as Schema)(args).valid, true);
   const ports = services(); let revoked = 0;
-  ports.sharing = { async revokeReviewLink() { revoked++; throw Error('must not dispatch'); } } as unknown as McpServices['sharing'];
+  ports.sharing = { async revokeReviewLink(_actor: unknown, _id: string, input: unknown) { revoked++; assert.deepEqual(input, args.body); throw new DomainError('STALE_RESOURCE_VERSION', 'Reload the current link.', 409); } } as unknown as McpServices['sharing'];
   const result = await invokeMcpTool('revoke_review_link', args, actor, ports, 'synthetic-revoke-request');
-  assert.equal(result.isError, true); assert.equal(textError(result).error.code, 'VALIDATION_FAILED'); assert.equal(revoked, 0);
+  assert.equal(result.isError, true); assert.equal(textError(result).error.code, 'STALE_RESOURCE_VERSION'); assert.equal(revoked, 1);
 });
 
 test('post-commit response rejection exposes reconciliation guidance without leaking the invalid candidate output', async () => {

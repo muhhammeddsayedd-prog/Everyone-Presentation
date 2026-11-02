@@ -2,8 +2,9 @@ import { createHash } from 'node:crypto';
 import { DomainError, type Actor, type MutationContext } from '@eps/domain';
 import type { GuestAccess, GuestContent, GuestMutationContext, GuestReviewOperations, ReviewLinkOperations } from '../../../packages/domain/src/guest-types';
 import { guestIdentifier, parseCommentCreate, parseCommentPatch, parseExportPrepare, parseGuestCommentCreate, parseGuestCommentPatch,
-  parseGuestIdentity, parseGuestListOptions, parseGuestRowVersion, parsePreferenceSet, parseReviewLinkCreate, parseReviewLinkListOptions, parseReviewLinkPatch } from '../../../packages/domain/src/guest';
+  parseGuestIdentity, parseGuestListOptions, parsePreferenceSet, parseReviewLinkCreate, parseReviewLinkListOptions, parseReviewLinkPatch } from '../../../packages/domain/src/guest';
 import { json, NO_STORE, readBoundedBody, readJson } from './http';
+import { parseReviewLinkAction } from '../../../packages/domain/src/review-link-action.ts';
 import { parseFeedbackSummaryVersionId } from '../../../packages/domain/src/feedback-summary';
 
 type Context = MutationContext & { requestId: string };
@@ -41,7 +42,7 @@ export async function handleReviewLinkRequest(request: Request, s: string[], act
   if (s[0] === 'review-links') {
     if (method === 'POST' && s.length === 1) return json(await service.createReviewLink(actor, parseReviewLinkCreate(await readJson(request)), requiredKey(context)), context.requestId, 201);
     if (method === 'PATCH' && s.length === 2) return json(await service.updateReviewLink(actor, s[1], parseReviewLinkPatch(await readJson(request)), optionalKey(context)), context.requestId);
-    if (method === 'POST' && s.length === 3) { const input = parseGuestRowVersion(await readJson(request)); const metadata = requiredKey(context); return json(s[2] === 'rotate' ? await service.rotateReviewLink(actor, s[1], input, metadata) : await service.revokeReviewLink(actor, s[1], input, metadata), context.requestId); }
+    if (method === 'POST' && s.length === 3) { const input = parseReviewLinkAction(await readJson(request)); const metadata = requiredKey(context); return json(s[2] === 'rotate' ? await service.rotateReviewLink(actor, s[1], input, metadata) : await service.revokeReviewLink(actor, s[1], input, metadata), context.requestId); }
   }
   if (s[0] === 'versions' && s.length === 3) {
     if (method === 'POST' && s[2] === 'comments') return json(await service.createComment(actor, s[1], parseCommentCreate(await readJson(request)), requiredKey(context)), context.requestId, 201);

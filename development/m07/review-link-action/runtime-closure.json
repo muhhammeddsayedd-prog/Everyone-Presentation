@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-11-02T09:03:45.897Z",
+  "scope": "read-only TypeScript AST and emitted JavaScript comparison; no application modules executed",
+  "patch_base": "f486ceea51b2a884277401e425ab816ef937e842",
+  "actual_packed_source_sha256": "0566342ec367efef328885aac513adeb5a942048ba01c88e1af63e4d636b6730",
+  "actual_packed_source_manifest_sha256": "5339296da8242e003c8ce6252af00333d77e91fb72f43acf362c4ef4b2ae5a0c",
+  "all_sealed_files_verified": 165,
+  "changed": [
+    {
+      "path": "apps/web/lib/guest-http.ts",
+      "current_sha256": "e262ce7977380b40d1236b710aa288c6a65764b63470cb1583b0798ec8db4c9d",
+      "sealed": false,
+      "base_matches_image_source": null,
+      "emitted_js_changed": true
+    },
+    {
+      "path": "packages/domain/src/guest-types.ts",
+      "current_sha256": "b272a8c9a48b07e1d6b3984b220192430f758f5017aab4b746a30df3ff3eb503",
+      "sealed": true,
+      "base_matches_image_source": true,
+      "emitted_js_changed": false
+    },
+    {
+      "path": "packages/domain/src/review-link-action.ts",
+      "current_sha256": "c62a4612fa71e42d4301ca40d68f1e6c96a3e7a62d721a895723b84f43d51cc0",
+      "sealed": false,
+      "base_matches_image_source": null,
+      "emitted_js_changed": true
+    },
+    {
+      "path": "packages/central/src/guest-reviews.ts",
+      "current_sha256": "06baccc64300addc2dca8d74c16d888d288895c44e652e66204150d2da1ea84a",
+      "sealed": true,
+      "base_matches_image_source": true,
+      "emitted_js_changed": true
+    },
+    {
+      "path": "packages/central/src/review-credentials.ts",
+      "current_sha256": "97dec6f43c13218977bad105edd286b7c3c5b9ed21c193620bb1273badc5cf3c",
+      "sealed": true,
+      "base_matches_image_source": true,
+      "emitted_js_changed": true
+    }
+  ],
+  "shared_guest_source_unchanged": true,
+  "closures": [
+    {
+      "kind": "daemon",
+      "entries": [
+        "apps/worker/src/runtime-hosted.ts"
+      ],
+      "static_runtime_modules": 90,
+      "nonliteral_dynamic_imports": 0,
+      "executable_changed_intersection": [],
+      "type_only_reachable": [
+        "packages/domain/src/guest-types.ts"
+      ]
+    },
+    {
+      "kind": "native",
+      "entries": [
+        "apps/worker/src/native-sandbox-launch.mjs",
+        "apps/worker/src/native-sandbox-task.mjs",
+        "apps/worker/src/native-sandbox-boundary.mjs"
+      ],
+      "static_runtime_modules": 54,
+      "nonliteral_dynamic_imports": 0,
+      "executable_changed_intersection": [],
+      "type_only_reachable": [
+        "packages/domain/src/guest-types.ts"
+      ]
+    }
+  ],
+  "conclusion": "No executable native/daemon import closure change. Packed source bytes differ; do not claim unchanged full source graph or a rebuilt worker."
+}

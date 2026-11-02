@@ -3,9 +3,10 @@ import { DomainError, type Actor } from '@eps/domain';
 import type { GuestMutationContext, GuestReviewOperations, ReviewLinkOperations } from '../../domain/src/guest-types.ts';
 import { exportPreparationDto, externalVersionDto, feedbackCommentDto, guestAccessDto, guestFeedbackDto, guestIdentifier,
   guestRecord, guestResponseInvalid, parseCommentCreate, parseCommentPatch, parseExportPrepare, parseGuestCommentCreate,
-  parseGuestCommentPatch, parseGuestIdentity, parseGuestListOptions, parseGuestRowVersion, parsePreferenceSet,
+  parseGuestCommentPatch, parseGuestIdentity, parseGuestListOptions, parsePreferenceSet,
   parseReviewLinkCreate, parseReviewLinkListOptions, parseReviewLinkPatch, preferenceResultDto, presentationExportDto, reviewLinkDto } from '../../domain/src/guest.ts';
 import { presentationApplicationOrigin } from '../../domain/src/presentation.ts';
+import { parseReviewLinkAction } from '../../domain/src/review-link-action.ts';
 import { parseCastingMutationContext } from '../../domain/src/casting.ts';
 import { verifyCentralUser } from './client.ts';
 import { checkedCentralConfig, type CentralConfig } from './config.ts';
@@ -99,8 +100,8 @@ export async function createCentralReviewLinks(client: SupabaseClient, options: 
     },
     async createReviewLink(actor, value, context) { const { series_id, ...input } = parseReviewLinkCreate(value); return tokenMutation(actor, 'create', series_id, input, context); },
     async updateReviewLink(actor, id, value, context) { const trace = context ? mutation(context) : undefined; const result = reviewLinkDto(await rpc(actor, 'eps_update_review_link', { p_review_link_id: guestIdentifier(id), p_input: parseReviewLinkPatch(value), ...(trace ? { p_idempotency_key: trace.idempotencyKey } : {}) }, trace)); if (result.id !== id) guestResponseInvalid(); return result; },
-    async revokeReviewLink(actor, id, value, context) { const trace = mutation(context); const result = reviewLinkDto(await rpc(actor, 'eps_revoke_review_link', { p_review_link_id: guestIdentifier(id), p_input: parseGuestRowVersion(value), p_idempotency_key: trace.idempotencyKey }, trace)); if (result.id !== id) guestResponseInvalid(); return result; },
-    async rotateReviewLink(actor, id, value, context) { return tokenMutation(actor, 'rotate', guestIdentifier(id), parseGuestRowVersion(value), context); },
+    async revokeReviewLink(actor, id, value, context) { const trace = mutation(context); const result = reviewLinkDto(await rpc(actor, 'eps_revoke_review_link', { p_review_link_id: guestIdentifier(id), p_input: parseReviewLinkAction(value), p_idempotency_key: trace.idempotencyKey }, trace)); if (result.id !== id) guestResponseInvalid(); return result; },
+    async rotateReviewLink(actor, id, value, context) { return tokenMutation(actor, 'rotate', guestIdentifier(id), parseReviewLinkAction(value), context); },
     async listFeedback(actor, versionId, value = {}) { const id = guestIdentifier(versionId); const input = parseGuestListOptions(value); const result = guestFeedbackDto(await rpc(actor, 'eps_list_feedback', { p_version_id: id, p_options: input })); if (result.version_id !== id || result.comments.length + result.preferences.length > (input.limit ?? 25)) guestResponseInvalid(); return result; },
     async getFeedbackSummary(actor, versionId) { const id = parseFeedbackSummaryVersionId(versionId); const result = feedbackSummaryDto(await rpc(actor, 'eps_get_feedback_summary', { p_version_id: id })); if (result.version_id !== id) guestResponseInvalid(); return result; },
     async createComment(actor, versionId, value, context) { const trace = mutation(context); const id = guestIdentifier(versionId); const input = parseCommentCreate(value); const result = feedbackCommentDto(await rpc(actor, 'eps_create_comment', { p_version_id: id, p_input: input, p_idempotency_key: trace.idempotencyKey }, trace)); if (result.version_id !== id || result.version_slide_id !== input.version_slide_id || result.visibility !== input.visibility) guestResponseInvalid(); return result; },

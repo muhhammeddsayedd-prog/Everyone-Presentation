@@ -9,6 +9,7 @@ export interface ReviewLink {
 export interface ReviewLinkCreated { link: ReviewLink; url: string; token: string }
 export interface ReviewLinkCreate { series_id: string; label?: string; expires_at?: string; download_enabled?: boolean }
 export interface ReviewLinkPatch { row_version: number; label?: string; expires_at?: string; download_enabled?: boolean }
+export type ReviewLinkAction = { row_version: number; reason?: string | null };
 export interface ReviewLinkListOptions { workspace_id?: string; cursor?: string; limit?: number }
 export interface GuestAccess {
   access_token: string; expires_at: string; series_id: string; version_id: string | null;
@@ -58,8 +59,8 @@ export interface ReviewLinkOperations {
   listReviewLinks(actor: Actor, options?: ReviewLinkListOptions): Promise<{ data: ReviewLink[]; page: Page }>;
   createReviewLink(actor: Actor, input: ReviewLinkCreate, context: GuestMutationContext): Promise<ReviewLinkCreated>;
   updateReviewLink(actor: Actor, id: string, input: ReviewLinkPatch, context?: GuestMutationContext): Promise<ReviewLink>;
-  revokeReviewLink(actor: Actor, id: string, input: { row_version: number }, context: GuestMutationContext): Promise<ReviewLink>;
-  rotateReviewLink(actor: Actor, id: string, input: { row_version: number }, context: GuestMutationContext): Promise<ReviewLinkCreated>;
+  revokeReviewLink(actor: Actor, id: string, input: ReviewLinkAction, context: GuestMutationContext): Promise<ReviewLink>;
+  rotateReviewLink(actor: Actor, id: string, input: ReviewLinkAction, context: GuestMutationContext): Promise<ReviewLinkCreated>;
   listFeedback(actor: Actor, versionId: string, options?: FeedbackListOptions): Promise<Feedback>;
   getFeedbackSummary(actor: Actor, versionId: string): Promise<FeedbackSummary>;
   createComment(actor: Actor, versionId: string, input: CommentCreate, context: GuestMutationContext): Promise<FeedbackComment>;
