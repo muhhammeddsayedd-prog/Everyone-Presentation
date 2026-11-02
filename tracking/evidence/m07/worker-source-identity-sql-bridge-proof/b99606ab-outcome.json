@@ -1,0 +1,140 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-11-02T20:56:16.617736+00:00",
+  "purpose": "preserved_single_owned_worker40_bridge_partial_outcome",
+  "result": "failed",
+  "runtime_uuid": "b99606ab-ba10-47e5-a067-e7ec86e1edb8",
+  "compile_uuid": "a8498068-e626-46c7-9e56-d8e3c0b99bef",
+  "receipt": {
+    "path": "tracking/evidence/m07/worker-source-identity-sql-bridge-proof/2026-11-02T20-51-28.204Z-b99606ab.json",
+    "sha256": "fa61026136146eee765c6983a8bf66ac94c33ac6a864a01a5474adf63e39827d"
+  },
+  "armed_plan_sha256": "53a21bd303263a80729501238244c3874e52636ba67bc0cdd89f67ba95f8450f",
+  "pre_dispatch": {
+    "three_artifacts_and_all176_source_pins_exact": true,
+    "shared_lock_and_compile_claim_absent": true,
+    "required_root_argument_supplied": true
+  },
+  "process_exit_code": 1,
+  "elapsed_ms": 53380,
+  "checkpoint": "worker40-actual-phase-and-concurrency",
+  "bridge_render_process": {
+    "action": "render",
+    "request": {
+      "path": ".local/worker-source-identity-sql-bridge-proof/b99606ab-ba10-47e5-a067-e7ec86e1edb8/bridge-render-a2b13f5c-34e5-418f-bde0-46ca63eb2a82-input.json",
+      "sha256": "b493e282e754b0bb1b517ff9d845d787df4d4cb831c58d4a387aca813a7b642b",
+      "bytes": 104092
+    },
+    "raw_stdout": {
+      "path": ".local/worker-source-identity-sql-bridge-proof/b99606ab-ba10-47e5-a067-e7ec86e1edb8/bridge-render-a2b13f5c-34e5-418f-bde0-46ca63eb2a82-stdout.bin",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "raw_stderr": {
+      "path": ".local/worker-source-identity-sql-bridge-proof/b99606ab-ba10-47e5-a067-e7ec86e1edb8/bridge-render-a2b13f5c-34e5-418f-bde0-46ca63eb2a82-stderr.bin",
+      "sha256": "9ea2599d21705b5abb75695f94e202875474c0731074c4d53683b987583d1fcf",
+      "bytes": 66
+    },
+    "raw_error": null,
+    "exit_code": 1,
+    "timed_out": false,
+    "overflow": false,
+    "stdout_bytes": 0,
+    "stderr_bytes": 66,
+    "retained_output_bytes": 66,
+    "json_parse_passed": false,
+    "stage": "exit",
+    "signal": null,
+    "process_disposition": "closed",
+    "automatic_retry": false
+  },
+  "partial_passes": {
+    "restore38_full_hashes_and_catalogue": true,
+    "admin_qualification_context": {
+      "original_current_and_session_supabase_admin": true,
+      "super_and_schema_owner_asserted": true,
+      "owned_database_system_run_asserted_before_qualification": true,
+      "config_and_actual_State_explicit_postgres": true,
+      "no_role_grant_or_owner_change": true
+    },
+    "SQL40_owned_installation_reason_fixture_initial_State_and_full76_checkpoint": true,
+    "metadata_negatives": [
+      {
+        "label": "ACL",
+        "actual_guard_refused": true,
+        "exact_after_rollback": true
+      },
+      {
+        "label": "function_value",
+        "actual_guard_refused": true,
+        "exact_after_rollback": true
+      }
+    ],
+    "three_prior_check_children_normal0_JSON_parsed": true
+  },
+  "unreached": {
+    "normal_phase_nonces": 0,
+    "phase_diagnostics": 0,
+    "guarded_reason_preimage_refusal": false,
+    "pause_pin_resume_acceptance": false,
+    "projected_concurrency_executed": false
+  },
+  "exact_input_offline_localization": {
+    "result": "reproduced",
+    "exception_class": "ValueError",
+    "closed_condition_code": "WORKER_IDENTITY_RELEASE_ANCHOR_REFUSED",
+    "trace": {
+      "path": ".local/worker-source-identity-sql-bridge-proof/b99606ab-ba10-47e5-a067-e7ec86e1edb8/offline-render-localization.json",
+      "sha256": "8be0718aee47560c0d88762c8c01699f0671a21cffffaa634b219028b3099d72",
+      "created_with_existing_protected_Windows_guard": true
+    },
+    "failing_source": {
+      "path": "development/m07/worker-source-identity-release/state.py",
+      "line": 40,
+      "condition": "OAuth static envelope and reconstructed anchor equality"
+    },
+    "oauth_subconditions": {
+      "count_nondecreasing": true,
+      "count_matches_current": true,
+      "full_matches_current": true,
+      "static_matches_current": true,
+      "static_matches_initial": false,
+      "reconstructed_matches_initial": false
+    },
+    "database_operator_session_history_unchanged": true,
+    "differing_paths": 75,
+    "difference_categories": {
+      "intended_audit_data_hash": 1,
+      "OAuth_metadata_hashes": 5,
+      "catalogue_metadata_text_values": 69
+    },
+    "source_defect": "The rollback-only audit mutation collector at frozen cases.mjs71 omits SET LOCAL search_path empty, while other collector transactions require it. Qualified catalogue identity output depends on search_path. Strict guard correctly refuses the resulting observation drift.",
+    "actual_omitted_transaction_search_path_value_captured": false,
+    "official_source": "https://www.postgresql.org/docs/17/datatype-oid.html",
+    "specific_source_fix_proposed_only": "Set the same empty local search_path before that unchanged audit update and snapshot; preserve all State identity/hash conditions.",
+    "new_DB_Docker_provider_or_phase_call": false
+  },
+  "cleanup": {
+    "all_owned_resources_absent": true,
+    "original_data_catalogue_and_global_roles_unchanged": true,
+    "shared_lock_released": true
+  },
+  "independent_same_engine_readback": {
+    "host": "npipe:////./pipe/dockerDesktopLinuxEngine",
+    "label": "eps.worker40bridge.run=b99606ab-ba10-47e5-a067-e7ec86e1edb8",
+    "containers_exit_code": 0,
+    "containers_empty": true,
+    "containers_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "volumes_exit_code": 0,
+    "volumes_empty": true,
+    "volumes_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "fresh_shared_lock_exists": false
+  },
+  "permanent_claim_retained": true,
+  "single_invocation": true,
+  "replayed": false,
+  "source_edited_during_run": false,
+  "cloud_called": false,
+  "provider_called": false,
+  "actual_release_acceptance": false
+}
