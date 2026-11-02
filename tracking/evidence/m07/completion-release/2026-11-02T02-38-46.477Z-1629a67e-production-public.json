@@ -1,0 +1,141 @@
+{
+  "observed_at": "2026-11-02T02:38:46.476Z",
+  "result": "failed",
+  "deployment_id": "dpl_J3hmctcHndRp8zDVAPYfcnjEgpzG",
+  "source_commit": "c88f58c00820169f7396d72def77a74f1443594e",
+  "base": {
+    "schema_version": "1.0",
+    "host": "https://everyone-presentation-pilot.vercel.app",
+    "result": "passed",
+    "checks": [
+      {
+        "path": "/",
+        "expected_status": 307,
+        "status": 307,
+        "redirect_blocked": true,
+        "nosniff": true,
+        "no_set_cookie": true,
+        "private_no_store": false,
+        "expected_public_shape": true,
+        "request_id": null,
+        "passed": true
+      },
+      {
+        "path": "/projects",
+        "expected_status": 200,
+        "status": 200,
+        "redirect_blocked": false,
+        "nosniff": true,
+        "no_set_cookie": true,
+        "private_no_store": true,
+        "expected_public_shape": true,
+        "request_id": null,
+        "passed": true
+      },
+      {
+        "path": "/api/session",
+        "expected_status": 200,
+        "status": 200,
+        "redirect_blocked": false,
+        "nosniff": true,
+        "no_set_cookie": true,
+        "private_no_store": true,
+        "expected_public_shape": true,
+        "request_id": "f6b41a03-b632-495b-b0a7-5bc3e93f5961",
+        "passed": true
+      },
+      {
+        "path": "/api/v1/projects",
+        "expected_status": 401,
+        "status": 401,
+        "redirect_blocked": false,
+        "nosniff": true,
+        "no_set_cookie": true,
+        "private_no_store": true,
+        "expected_public_shape": true,
+        "request_id": "1af05d9e-d814-41ac-aa84-e186452feac5",
+        "passed": true
+      },
+      {
+        "path": "/api/v1/settings",
+        "expected_status": 401,
+        "status": 401,
+        "redirect_blocked": false,
+        "nosniff": true,
+        "no_set_cookie": true,
+        "private_no_store": true,
+        "expected_public_shape": true,
+        "request_id": "c7419a9d-383f-4e95-a4ba-c170cef17e73",
+        "passed": true
+      },
+      {
+        "path": "/api/dev/session",
+        "expected_status": 403,
+        "status": 403,
+        "redirect_blocked": false,
+        "nosniff": true,
+        "no_set_cookie": true,
+        "private_no_store": true,
+        "expected_public_shape": true,
+        "request_id": "306af658-c3c6-436c-8525-c997cb691ad9",
+        "passed": true
+      }
+    ],
+    "scope": "Public no-credential admission preflight only; not signed-in app, worker, OAuth or delegated-client acceptance.",
+    "full_core_or_oauth_acceptance": false,
+    "requests": 6,
+    "methods": [
+      "GET"
+    ],
+    "redirects_followed": false,
+    "cookies_or_authorization_sent": false,
+    "valid_guest_or_authorization_selectors_used": false,
+    "consent_login_or_model_call": false,
+    "raw_body_headers_or_diagnostics_recorded": false
+  },
+  "additional": [
+    {
+      "path": "/api/v1/clients",
+      "method": "GET",
+      "status": 401,
+      "expected_status": 401,
+      "expected_code": true,
+      "request_id": "2299c5a2-afe7-49af-9787-9500d1c04503",
+      "no_set_cookie": true,
+      "passed": true
+    },
+    {
+      "path": "/api/v1/presentation-types",
+      "method": "GET",
+      "status": 401,
+      "expected_status": 401,
+      "expected_code": true,
+      "request_id": "05ebb2c9-5046-4827-9467-bb8fad7285d2",
+      "no_set_cookie": true,
+      "passed": true
+    },
+    {
+      "path": "/api/dev/probe",
+      "method": "GET",
+      "status": 200,
+      "expected_status": 404,
+      "expected_code": true,
+      "request_id": null,
+      "no_set_cookie": true,
+      "passed": false
+    },
+    {
+      "path": "/mcp",
+      "method": "POST",
+      "status": 401,
+      "expected_status": 401,
+      "expected_code": true,
+      "request_id": null,
+      "no_set_cookie": true,
+      "passed": true
+    }
+  ],
+  "credentials_or_cookies_sent": false,
+  "raw_bodies_or_secrets_recorded": false,
+  "signed_in_or_full_workflow_acceptance": false
+}

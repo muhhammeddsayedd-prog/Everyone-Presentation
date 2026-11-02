@@ -1,0 +1,143 @@
+{
+  "observed_at": "2026-11-02T02:40:22.362Z",
+  "result": "failed",
+  "deployment_id": "dpl_J3hmctcHndRp8zDVAPYfcnjEgpzG",
+  "source_commit": "c88f58c00820169f7396d72def77a74f1443594e",
+  "base": {
+    "schema_version": "1.0",
+    "host": "https://everyone-presentation-pilot.vercel.app",
+    "result": "passed",
+    "checks": [
+      {
+        "path": "/",
+        "expected_status": 307,
+        "status": 307,
+        "redirect_blocked": true,
+        "nosniff": true,
+        "no_set_cookie": true,
+        "private_no_store": false,
+        "expected_public_shape": true,
+        "request_id": null,
+        "passed": true
+      },
+      {
+        "path": "/projects",
+        "expected_status": 200,
+        "status": 200,
+        "redirect_blocked": false,
+        "nosniff": true,
+        "no_set_cookie": true,
+        "private_no_store": true,
+        "expected_public_shape": true,
+        "request_id": null,
+        "passed": true
+      },
+      {
+        "path": "/api/session",
+        "expected_status": 200,
+        "status": 200,
+        "redirect_blocked": false,
+        "nosniff": true,
+        "no_set_cookie": true,
+        "private_no_store": true,
+        "expected_public_shape": true,
+        "request_id": "9d4ead8e-8abd-4640-8bbe-401af954a568",
+        "passed": true
+      },
+      {
+        "path": "/api/v1/projects",
+        "expected_status": 401,
+        "status": 401,
+        "redirect_blocked": false,
+        "nosniff": true,
+        "no_set_cookie": true,
+        "private_no_store": true,
+        "expected_public_shape": true,
+        "request_id": "760c7fa6-eb66-4233-8c1d-6d24e8360fa4",
+        "passed": true
+      },
+      {
+        "path": "/api/v1/settings",
+        "expected_status": 401,
+        "status": 401,
+        "redirect_blocked": false,
+        "nosniff": true,
+        "no_set_cookie": true,
+        "private_no_store": true,
+        "expected_public_shape": true,
+        "request_id": "c2875173-cd31-4ace-9f01-b574fdaed4c9",
+        "passed": true
+      },
+      {
+        "path": "/api/dev/session",
+        "expected_status": 403,
+        "status": 403,
+        "redirect_blocked": false,
+        "nosniff": true,
+        "no_set_cookie": true,
+        "private_no_store": true,
+        "expected_public_shape": true,
+        "request_id": "880907ab-5cf1-4a1d-946f-46881e71830f",
+        "passed": true
+      }
+    ],
+    "scope": "Public no-credential admission preflight only; not signed-in app, worker, OAuth or delegated-client acceptance.",
+    "full_core_or_oauth_acceptance": false,
+    "requests": 6,
+    "methods": [
+      "GET"
+    ],
+    "redirects_followed": false,
+    "cookies_or_authorization_sent": false,
+    "valid_guest_or_authorization_selectors_used": false,
+    "consent_login_or_model_call": false,
+    "raw_body_headers_or_diagnostics_recorded": false
+  },
+  "additional": [
+    {
+      "path": "/api/v1/clients",
+      "method": "GET",
+      "status": 401,
+      "expected_status": 401,
+      "expected_code": true,
+      "request_id": "910edad9-19be-4745-8a1b-5f0251e71854",
+      "no_set_cookie": true,
+      "passed": true
+    },
+    {
+      "path": "/api/v1/presentation-types",
+      "method": "GET",
+      "status": 401,
+      "expected_status": 401,
+      "expected_code": true,
+      "request_id": "d868d231-89d6-46c2-bcb9-66cd7cd96c05",
+      "no_set_cookie": true,
+      "passed": true
+    },
+    {
+      "path": "/api/dev/central-logo-probe",
+      "method": "POST",
+      "status": 404,
+      "expected_status": 403,
+      "expected_code": false,
+      "request_id": "575f1a04-31f3-460f-a8cf-938f12a635b9",
+      "no_set_cookie": true,
+      "passed": false
+    },
+    {
+      "path": "/mcp",
+      "method": "POST",
+      "status": 401,
+      "expected_status": 401,
+      "expected_code": true,
+      "request_id": null,
+      "no_set_cookie": true,
+      "passed": true
+    }
+  ],
+  "credentials_or_cookies_sent": false,
+  "raw_bodies_or_secrets_recorded": false,
+  "prior_failed_probe": "tracking/evidence/m07/completion-release/2026-11-02T02-38-46.477Z-1629a67e-production-public.json",
+  "test_correction": "Use the source-defined production-denied logo probe POST; the original guessed GET path is not a fixture route.",
+  "signed_in_or_full_workflow_acceptance": false
+}
