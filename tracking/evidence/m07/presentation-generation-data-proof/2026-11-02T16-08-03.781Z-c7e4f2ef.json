@@ -1,0 +1,3306 @@
+{
+  "schema_version": "1.0",
+  "run_id": "c7e4f2ef-ef40-47ef-b25c-971775716c72",
+  "observed_at": "2026-11-02T16:08:03.781Z",
+  "result": "failed",
+  "checkpoint": "locksource41-old-cohorts",
+  "scope": "fresh owned network-none PG17 synthetic38-to39-to40 old/new lock-source performance, RLS equality, actual generation rollback and races; no canonical, provider, OAuth protocol, native or UI acceptance",
+  "cloud_called": false,
+  "provider_called": false,
+  "private_acl_verified": true,
+  "metadata_sha256": "12df4e565d466c008095498903237ae24f304403887db396b8bc46b5cf93346c",
+  "migration_sha256": "c17af7708a1886d2129df2dc9e4eb196e6b760862939bd2f5fd3c7c1c687e242",
+  "functional_sha256": "0664f439f310c9e7cf1be8513f7d6b6ad608918132f133f66cd8b744297698df",
+  "original_baseline_sha256": "fdf817fdebf54466f0f2d7167ea0f418dba2666bdba4f8aa1ca469b9e31d9fac",
+  "source_seals": {
+    ".local/presentation-generation-data-proof-compiled/controller-744f42d7-3a2e-4d57-8d76-75d9518c9791.mjs": "8f41b32c4d42b06c4862adb9cf33e96f2412a70eef601f7bfbfd58d12c4d270a",
+    "development/m07/project-creation39-proof/concurrency.mjs": "fe4f6e7cddb749690fea9587dd675a67d6db723ca458a700a8f6b53e67072fdd",
+    "development/m07/project-creation39-proof/run.mjs": "be0987779cac7758419cd73122a61a32824f53515bcf3d93afdaa3e8c024afcf",
+    "development/m07/independent-recovery38/guards.mjs": "d8eebcb91902d840b211827a7e4891938cc52f1573f4456ae9d3ab87c6c3195a",
+    "development/m07/presentation-lock-source-proof/compiler.py": "0bed646aeb5f1af8a1c1bd686900335bdffb6b8c88e1be128bb1f9be2d0cfd25",
+    "development/m07/presentation-lock-source-proof/proof.mjs": "087df11fa717f72043c9782c8da7380ae8cda559221a0495582d1dcd01d22448",
+    "development/m07/presentation-lock-source-proof/session.mjs": "ddb76b4db7bb578c2dfa2896fd59451037679c9a5fc2777a13412765c296e252",
+    "development/m07/presentation-lock-source-proof/probes.mjs": "8973de4f38895f2497b46d87d6dda0fe929f2652d8cebb870c9d402587bf21b4",
+    "development/m07/presentation-lock-source-proof/fixture.sql": "aa976e76fa2a69fd7ea2b8f6f90609c28f734b889b20c15fe8de8d50dc29d22d",
+    "development/m07/presentation-lock-source-proof/scale.sql": "0a74ce47ff97339b4e63cf8df3aa3801321e2099588ed22367e5fe4317acaa7f",
+    "development/m07/presentation-lock-source-proof/background.sql": "e8d61b12ebf4d25a57ba10944bd91d65494cdcfe79b9230a4c785bfe4484b544",
+    "development/m07/presentation-lock-source-proof/cohorts.sql": "06d12e3c2b2ca36deb7831579a7ef55ec183cdd77b9e66515b18c3b0bbc953ef",
+    "development/m07/presentation-lock-source-proof/temporary.sql": "6c34eae348be361652b001cc1e14ea5e2d4bca16513eace77777592df924e33c",
+    "development/m07/presentation-lock-source-proof/counts.sql": "c38896c8e867289fe890b48f99573d25bf5627677410e3639008613a0eb0fb2a",
+    "development/m07/presentation-lock-source-proof/test_proof.py": "a039d92cdfead91a5591af4c790b02fbe175eb3244ff1a2fa20acb2dc01e6d44",
+    "development/m07/presentation-lock-source-proof/test_cohorts.py": "e2d358ac7bfff72a83d836df9dbb3b081370904d21c220c521a749c06936a2f1",
+    "development/m07/presentation-lock-source-proof/README.md": "1eec7fc38ddafbce88284ce3ec92a5d7be41717de2910c13dad97dada52da382",
+    "development/m07/presentation-lock-source-optimization/candidate.py": "0639ade8dd50a6f3bb2c95f1739dd52e633af9a1e66d1cd92910f1bc87acbdb7",
+    "supabase/migrations/20261102085405_m07_review_link_action_reason.sql": "08bf4de8a63823b0e7c9aee75560a6e7de0620eb9b8b3c483c65929578db8212",
+    "development/m07/presentation-lock-source-seed-proof/compiler.py": "9467330333be87a1b4e2718ad62da4538e35068f6507ca38e9ac15a8a00d65d9",
+    "development/m07/presentation-lock-source-seed-proof/entry.mjs": "a6697aa4dde6995220ea81b64015043b1b08915c3673c8028d97fe4af6efc819",
+    "development/m07/presentation-lock-source-seed-proof/test_seed.py": "91ffb5f7fde4eede783c096ea0a0fb48fd003e0513ea995ee5dca5a3767e4bf3",
+    "development/m07/presentation-lock-source-seed-proof/README.md": "2391eb2ef8d20ee472634269b96b71c67540659d7a74e9f0596d6229266c5a8d",
+    "development/m07/presentation-lock-source-dedupe-proof/compiler.py": "b7ce789a621ca4efe92b26770ad28b3210f5bb407d8fe61bacb12ad9427db3cf",
+    "development/m07/presentation-lock-source-dedupe-proof/entry.mjs": "d6f2c841c1f0bc678e14bc7b5d3cbd2b11e4f902603a5b20a11acc8d3507f605",
+    "development/m07/presentation-lock-source-dedupe-proof/test_dedupe.py": "2623478ff3c791e7ecfb1e554ec0e9e233eeaf69407625b698283daa352b31a8",
+    "development/m07/presentation-lock-source-dedupe-proof/README.md": "afe8bfe4a7907aa612c13b07fe2140cc775c1f95f12745dfa7ba0d56dba0075e",
+    "development/m07/presentation-lock-source-edge-proof/compiler.py": "8fb944c9235a5903a09d004fb77522c3b228f891ad5d0f7939f7d15e43bef4bc",
+    "development/m07/presentation-lock-source-edge-proof/entry.mjs": "afda8e16b1d41325fbdbc622457fac54ee3dfe4d193c5091ed69927bebdae1b8",
+    "development/m07/presentation-lock-source-edge-proof/test_edge.py": "c477428c130ed39bcef0d13db66ec515dcf2dc53863b64e2b275a14077575345",
+    "development/m07/presentation-lock-source-edge-proof/README.md": "fc9bf61ba7663e221507abeda90333ba3725e7a937807c6333ca94ddcc0a7675",
+    "development/m07/presentation-generation-data-proof/cases.mjs": "aeb5972c0ba19ab8ae8dcdb9a1292af69b1d026df10eafff233a437e151cd239",
+    "development/m07/presentation-generation-data-proof/cases.sql": "052770e2f3267a9036adeebf3c790fa104d2bb621251bd03266a1d07644faa2c",
+    "development/m07/presentation-generation-data-proof/compiler.py": "6ec01de30d7a3c73adf911d53c70ed69b44ca4e82360fc511265b77c8f3e6815",
+    "development/m07/presentation-generation-data-proof/entry.mjs": "18177115fc20a6810d90af4dfda7a12ced022f883dba6db4cf070474414a5283",
+    "development/m07/presentation-generation-data-proof/proof_source.py": "67cc13d0fed354e102eb769bf5d9712b07e1af1f434d2a3da8ede57333232c1c",
+    "development/m07/presentation-generation-data-proof/README.md": "124db2712e4246c86945eded4c1bdff4fcacbc178aba46497fc709eaa7a957a9",
+    "development/m07/presentation-generation-data-proof/test_projection.py": "ff1d1ae373ea4314bc1e0980588e2d9a306eeec5e07a2ebb46923a6cd4b0c65b",
+    "development/m07/presentation-generation-data-reuse/build.py": "cda17a14ead6d7ee8aa225d04b5026c9998e5fc67efbaf3472bb108e6e3fadbd",
+    "development/m07/presentation-generation-data-reuse/capture.py": "656123b39e84b6d880436a7e678197a707d9c7f38e34802995c0ad825a7db305",
+    "development/m07/presentation-generation-data-reuse/PROOF_DESIGN.md": "112f4f6dde11fe1181d274ebbc41c85a6ce33d60cc9c8430425d04988ddcac41",
+    "development/m07/presentation-generation-data-reuse/README.md": "02a2b2a5a0e7be480ee0a2bf6c461d2e9235ad0dc8abf7abcd6ce40e306b4cd4",
+    "development/m07/presentation-generation-data-reuse/review.py": "793c6dfa782e844d0e762ca14e79afbac587364d8c13b71baabcba4a1d3339fa",
+    "development/m07/presentation-generation-data-reuse/source.py": "029c2dac690c61a7944b73633971ab037e05b8060e7c8a6cd3adbd45dd7406cb",
+    "development/m07/presentation-generation-data-reuse/test_build.py": "3c7fe0a48b27ccd4714c4551477d07974b52b4b2b135c831a2b1a4b8d111ab17",
+    "development/m07/presentation-generation-data-reuse/test_capture.py": "1719f37d3cda7074de9958ba232df1d7334b255ed627c1ae0de44d091f472d4d",
+    "development/m07/presentation-generation-data-reuse/test_review.py": "406e5c13fc8ec1d0e506f94e03054e14530bd04ff553e8f04f7a06ba050a5cb7",
+    ".local/presentation-generation-data-proof-compiled/callback-744f42d7-3a2e-4d57-8d76-75d9518c9791.mjs": "10db400e231888f83936ba010e1031216beba97674ac890aa652f03e588c498a"
+  },
+  "image_id": "sha256:6942962433a569e87f228b4d4ab7e11db5deca64e43babb3a038443ad6c4f1bb",
+  "independent_cluster": {
+    "database": "project39",
+    "system_identifier": "7703606634986680360"
+  },
+  "restored38_all_table_hashes_exact": true,
+  "restored38_catalogue_exact": true,
+  "catalogue39_delta": {
+    "columns|public.project_memberships.active|acl": {
+      "before": [
+        "eps_candidate_apply_owner=r/postgres",
+        "eps_candidate_stage_owner=r/postgres",
+        "eps_specs_apply_owner=r/postgres",
+        "eps_specs_stage_owner=r/postgres"
+      ],
+      "after": [
+        "eps_candidate_apply_owner=r/postgres",
+        "eps_candidate_stage_owner=r/postgres",
+        "eps_project_creator=a/postgres",
+        "eps_specs_apply_owner=r/postgres",
+        "eps_specs_stage_owner=r/postgres"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "columns|public.project_memberships.can_write|acl": {
+      "before": [
+        "eps_candidate_apply_owner=r/postgres",
+        "eps_candidate_stage_owner=r/postgres",
+        "eps_specs_apply_owner=r/postgres",
+        "eps_specs_stage_owner=r/postgres"
+      ],
+      "after": [
+        "eps_candidate_apply_owner=r/postgres",
+        "eps_candidate_stage_owner=r/postgres",
+        "eps_project_creator=a/postgres",
+        "eps_specs_apply_owner=r/postgres",
+        "eps_specs_stage_owner=r/postgres"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "columns|public.project_memberships.principal_id|acl": {
+      "before": [
+        "eps_candidate_apply_owner=r/postgres",
+        "eps_candidate_stage_owner=r/postgres",
+        "eps_specs_apply_owner=r/postgres",
+        "eps_specs_stage_owner=r/postgres"
+      ],
+      "after": [
+        "eps_candidate_apply_owner=r/postgres",
+        "eps_candidate_stage_owner=r/postgres",
+        "eps_project_creator=a/postgres",
+        "eps_specs_apply_owner=r/postgres",
+        "eps_specs_stage_owner=r/postgres"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "columns|public.project_memberships.project_id|acl": {
+      "before": [
+        "eps_candidate_apply_owner=r/postgres",
+        "eps_candidate_stage_owner=r/postgres",
+        "eps_specs_apply_owner=r/postgres",
+        "eps_specs_stage_owner=r/postgres"
+      ],
+      "after": [
+        "eps_candidate_apply_owner=r/postgres",
+        "eps_candidate_stage_owner=r/postgres",
+        "eps_project_creator=a/postgres",
+        "eps_specs_apply_owner=r/postgres",
+        "eps_specs_stage_owner=r/postgres"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "columns|public.projects.client_id|acl": {
+      "before": [
+        "eps_draft_owner=r/postgres"
+      ],
+      "after": [
+        "eps_draft_owner=r/postgres",
+        "eps_project_creator=a/postgres"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "columns|public.projects.id|acl": {
+      "before": [
+        "eps_candidate_apply_owner=r/postgres",
+        "eps_candidate_stage_owner=r/postgres",
+        "eps_draft_owner=r/postgres",
+        "eps_review_owner=w/postgres",
+        "eps_specs_apply_owner=r/postgres",
+        "eps_specs_stage_owner=r/postgres"
+      ],
+      "after": [
+        "eps_candidate_apply_owner=r/postgres",
+        "eps_candidate_stage_owner=r/postgres",
+        "eps_draft_owner=r/postgres",
+        "eps_project_creator=a/postgres",
+        "eps_review_owner=w/postgres",
+        "eps_specs_apply_owner=r/postgres",
+        "eps_specs_stage_owner=r/postgres"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "columns|public.projects.name|acl": {
+      "before": [
+        "eps_api_owner=w/postgres"
+      ],
+      "after": [
+        "eps_api_owner=w/postgres",
+        "eps_project_creator=a/postgres"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "functions|eps.check_input(jsonb,text[])|acl": {
+      "before": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_apply_owner=X/eps_api_owner",
+        "eps_candidate_stage_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_logo_verify_owner=X/eps_api_owner",
+        "eps_settings_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_submit_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "after": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_apply_owner=X/eps_api_owner",
+        "eps_candidate_stage_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_logo_verify_owner=X/eps_api_owner",
+        "eps_project_creator=X/eps_api_owner",
+        "eps_settings_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_submit_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "functions|eps.fail(text,text,integer,bigint)|acl": {
+      "before": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_apply_owner=X/eps_api_owner",
+        "eps_candidate_assets_owner=X/eps_api_owner",
+        "eps_candidate_stage_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_casting_owner=X/eps_api_owner",
+        "eps_guest_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_logo_verify_owner=X/eps_api_owner",
+        "eps_review_owner=X/eps_api_owner",
+        "eps_review_stage_owner=X/eps_api_owner",
+        "eps_settings_owner=X/eps_api_owner",
+        "eps_specs_apply_owner=X/eps_api_owner",
+        "eps_specs_assets_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_stage_owner=X/eps_api_owner",
+        "eps_specs_submit_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "after": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_apply_owner=X/eps_api_owner",
+        "eps_candidate_assets_owner=X/eps_api_owner",
+        "eps_candidate_stage_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_casting_owner=X/eps_api_owner",
+        "eps_guest_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_logo_verify_owner=X/eps_api_owner",
+        "eps_project_creator=X/eps_api_owner",
+        "eps_review_owner=X/eps_api_owner",
+        "eps_review_stage_owner=X/eps_api_owner",
+        "eps_settings_owner=X/eps_api_owner",
+        "eps_specs_apply_owner=X/eps_api_owner",
+        "eps_specs_assets_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_stage_owner=X/eps_api_owner",
+        "eps_specs_submit_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "functions|eps.finish_mutation(text,text,jsonb,jsonb,uuid)|acl": {
+      "before": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_logo_verify_owner=X/eps_api_owner",
+        "eps_settings_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "after": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_logo_verify_owner=X/eps_api_owner",
+        "eps_project_creator=X/eps_api_owner",
+        "eps_settings_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "functions|eps.idempotency_begin(text,text,jsonb)|acl": {
+      "before": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_casting_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_logo_verify_owner=X/eps_api_owner",
+        "eps_review_owner=X/eps_api_owner",
+        "eps_settings_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_submit_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "after": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_casting_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_logo_verify_owner=X/eps_api_owner",
+        "eps_project_creator=X/eps_api_owner",
+        "eps_review_owner=X/eps_api_owner",
+        "eps_settings_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_submit_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "functions|eps.input_text(jsonb,text,integer,boolean)|acl": {
+      "before": [
+        "eps_api_owner=X/eps_api_owner"
+      ],
+      "after": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_project_creator=X/eps_api_owner"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "functions|eps.input_uuid(text)|acl": {
+      "before": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_apply_owner=X/eps_api_owner",
+        "eps_candidate_assets_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_review_stage_owner=X/eps_api_owner",
+        "eps_specs_assets_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_submit_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "after": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_apply_owner=X/eps_api_owner",
+        "eps_candidate_assets_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_project_creator=X/eps_api_owner",
+        "eps_review_stage_owner=X/eps_api_owner",
+        "eps_specs_assets_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_submit_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "functions|eps.project_dto(uuid)|source_sha256": {
+      "before": "80a4d36bc55ee7445ce633d825e3a429d8a4261b865bbe56f11016be1e695c8c",
+      "after": "6fdec9e404401c95cc11a08fbf5d23ef50e59f0d3b234544b48a29a5c3aecd76",
+      "added": false,
+      "removed": false
+    },
+    "functions|eps.require_capability(text)|acl": {
+      "before": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_casting_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_logo_verify_owner=X/eps_api_owner",
+        "eps_review_owner=X/eps_api_owner",
+        "eps_settings_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_submit_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "after": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_casting_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_logo_verify_owner=X/eps_api_owner",
+        "eps_project_creator=X/eps_api_owner",
+        "eps_review_owner=X/eps_api_owner",
+        "eps_settings_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_submit_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "schemas|eps|acl": {
+      "before": [
+        "anon=U/postgres",
+        "authenticated=U/postgres",
+        "eps_api_owner=U/postgres",
+        "eps_candidate_apply_owner=U/postgres",
+        "eps_candidate_assets_owner=U/postgres",
+        "eps_candidate_stage_owner=U/postgres",
+        "eps_candidate_upload_owner=U/postgres",
+        "eps_cast_owner=U/postgres",
+        "eps_casting_guard_owner=U/postgres",
+        "eps_casting_owner=U/postgres",
+        "eps_draft_owner=U/postgres",
+        "eps_guest_owner=U/postgres",
+        "eps_job_trace_owner=U/postgres",
+        "eps_jobs_dispatcher=U/postgres",
+        "eps_jobs_executor=U/postgres",
+        "eps_jobs_owner=U/postgres",
+        "eps_logo_verify_owner=U/postgres",
+        "eps_mcp_issuer_owner=U/postgres",
+        "eps_mcp_session_owner=U/postgres",
+        "eps_oauth_consent_owner=U/postgres",
+        "eps_review_owner=U/postgres",
+        "eps_review_stage_owner=U/postgres",
+        "eps_settings_owner=U/postgres",
+        "eps_specs_apply_owner=U/postgres",
+        "eps_specs_assets_executor=U/postgres",
+        "eps_specs_assets_owner=U/postgres",
+        "eps_specs_initializer=U/postgres",
+        "eps_specs_owner=U/postgres",
+        "eps_specs_stage_owner=U/postgres",
+        "eps_specs_submit_owner=U/postgres",
+        "eps_specs_upload_owner=U/postgres",
+        "eps_specs_verify_owner=U/postgres",
+        "eps_support_upload_owner=U/postgres",
+        "eps_support_verify_owner=U/postgres",
+        "postgres=UC/postgres",
+        "supabase_auth_admin=U/postgres"
+      ],
+      "after": [
+        "anon=U/postgres",
+        "authenticated=U/postgres",
+        "eps_api_owner=U/postgres",
+        "eps_candidate_apply_owner=U/postgres",
+        "eps_candidate_assets_owner=U/postgres",
+        "eps_candidate_stage_owner=U/postgres",
+        "eps_candidate_upload_owner=U/postgres",
+        "eps_cast_owner=U/postgres",
+        "eps_casting_guard_owner=U/postgres",
+        "eps_casting_owner=U/postgres",
+        "eps_draft_owner=U/postgres",
+        "eps_guest_owner=U/postgres",
+        "eps_job_trace_owner=U/postgres",
+        "eps_jobs_dispatcher=U/postgres",
+        "eps_jobs_executor=U/postgres",
+        "eps_jobs_owner=U/postgres",
+        "eps_logo_verify_owner=U/postgres",
+        "eps_mcp_issuer_owner=U/postgres",
+        "eps_mcp_session_owner=U/postgres",
+        "eps_oauth_consent_owner=U/postgres",
+        "eps_project_creator=U/postgres",
+        "eps_review_owner=U/postgres",
+        "eps_review_stage_owner=U/postgres",
+        "eps_settings_owner=U/postgres",
+        "eps_specs_apply_owner=U/postgres",
+        "eps_specs_assets_executor=U/postgres",
+        "eps_specs_assets_owner=U/postgres",
+        "eps_specs_initializer=U/postgres",
+        "eps_specs_owner=U/postgres",
+        "eps_specs_stage_owner=U/postgres",
+        "eps_specs_submit_owner=U/postgres",
+        "eps_specs_upload_owner=U/postgres",
+        "eps_specs_verify_owner=U/postgres",
+        "eps_support_upload_owner=U/postgres",
+        "eps_support_verify_owner=U/postgres",
+        "postgres=UC/postgres",
+        "supabase_auth_admin=U/postgres"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "schemas|public|acl": {
+      "before": [
+        "anon=U/pg_database_owner",
+        "authenticated=U/pg_database_owner",
+        "eps_api_owner=U/pg_database_owner",
+        "eps_candidate_apply_owner=U/pg_database_owner",
+        "eps_candidate_assets_owner=U/pg_database_owner",
+        "eps_candidate_stage_owner=U/pg_database_owner",
+        "eps_candidate_upload_owner=U/pg_database_owner",
+        "eps_cast_owner=U/pg_database_owner",
+        "eps_casting_owner=U/pg_database_owner",
+        "eps_draft_owner=U/pg_database_owner",
+        "eps_guest_owner=U/pg_database_owner",
+        "eps_jobs_owner=U/pg_database_owner",
+        "eps_logo_verify_owner=U/pg_database_owner",
+        "eps_mcp_issuer_owner=U/pg_database_owner",
+        "eps_mcp_session_owner=U/pg_database_owner",
+        "eps_oauth_consent_owner=U/pg_database_owner",
+        "eps_review_owner=U/pg_database_owner",
+        "eps_review_stage_owner=U/pg_database_owner",
+        "eps_settings_owner=U/pg_database_owner",
+        "eps_specs_apply_owner=U/pg_database_owner",
+        "eps_specs_assets_owner=U/pg_database_owner",
+        "eps_specs_owner=U/pg_database_owner",
+        "eps_specs_stage_owner=U/pg_database_owner",
+        "eps_specs_submit_owner=U/pg_database_owner",
+        "eps_specs_upload_owner=U/pg_database_owner",
+        "eps_specs_verify_owner=U/pg_database_owner",
+        "eps_support_upload_owner=U/pg_database_owner",
+        "eps_support_verify_owner=U/pg_database_owner",
+        "pg_database_owner=UC/pg_database_owner",
+        "postgres=U/pg_database_owner",
+        "service_role=U/pg_database_owner"
+      ],
+      "after": [
+        "=U/pg_database_owner",
+        "anon=U/pg_database_owner",
+        "authenticated=U/pg_database_owner",
+        "eps_api_owner=U/pg_database_owner",
+        "eps_candidate_apply_owner=U/pg_database_owner",
+        "eps_candidate_assets_owner=U/pg_database_owner",
+        "eps_candidate_stage_owner=U/pg_database_owner",
+        "eps_candidate_upload_owner=U/pg_database_owner",
+        "eps_cast_owner=U/pg_database_owner",
+        "eps_casting_owner=U/pg_database_owner",
+        "eps_draft_owner=U/pg_database_owner",
+        "eps_guest_owner=U/pg_database_owner",
+        "eps_jobs_owner=U/pg_database_owner",
+        "eps_logo_verify_owner=U/pg_database_owner",
+        "eps_mcp_issuer_owner=U/pg_database_owner",
+        "eps_mcp_session_owner=U/pg_database_owner",
+        "eps_oauth_consent_owner=U/pg_database_owner",
+        "eps_project_creator=U/pg_database_owner",
+        "eps_review_owner=U/pg_database_owner",
+        "eps_review_stage_owner=U/pg_database_owner",
+        "eps_settings_owner=U/pg_database_owner",
+        "eps_specs_apply_owner=U/pg_database_owner",
+        "eps_specs_assets_owner=U/pg_database_owner",
+        "eps_specs_owner=U/pg_database_owner",
+        "eps_specs_stage_owner=U/pg_database_owner",
+        "eps_specs_submit_owner=U/pg_database_owner",
+        "eps_specs_upload_owner=U/pg_database_owner",
+        "eps_specs_verify_owner=U/pg_database_owner",
+        "eps_support_upload_owner=U/pg_database_owner",
+        "eps_support_verify_owner=U/pg_database_owner",
+        "pg_database_owner=UC/pg_database_owner",
+        "postgres=U/pg_database_owner",
+        "service_role=U/pg_database_owner"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "tables|eps.audit_events|acl": {
+      "before": [
+        "eps_api_owner=a/postgres",
+        "eps_candidate_upload_owner=a/postgres",
+        "eps_cast_owner=a/postgres",
+        "eps_jobs_owner=a/postgres",
+        "eps_logo_verify_owner=a/postgres",
+        "eps_review_owner=a/postgres",
+        "eps_settings_owner=a/postgres",
+        "eps_specs_owner=a/postgres",
+        "eps_specs_submit_owner=a/postgres",
+        "eps_specs_upload_owner=a/postgres",
+        "eps_specs_verify_owner=a/postgres",
+        "eps_support_upload_owner=a/postgres",
+        "eps_support_verify_owner=a/postgres",
+        "postgres=arwdDxtm/postgres"
+      ],
+      "after": [
+        "eps_api_owner=a/postgres",
+        "eps_candidate_upload_owner=a/postgres",
+        "eps_cast_owner=a/postgres",
+        "eps_jobs_owner=a/postgres",
+        "eps_logo_verify_owner=a/postgres",
+        "eps_project_creator=a/postgres",
+        "eps_review_owner=a/postgres",
+        "eps_settings_owner=a/postgres",
+        "eps_specs_owner=a/postgres",
+        "eps_specs_submit_owner=a/postgres",
+        "eps_specs_upload_owner=a/postgres",
+        "eps_specs_verify_owner=a/postgres",
+        "eps_support_upload_owner=a/postgres",
+        "eps_support_verify_owner=a/postgres",
+        "postgres=arwdDxtm/postgres"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "tables|eps.idempotency_records|acl": {
+      "before": [
+        "eps_api_owner=ar/postgres",
+        "eps_candidate_upload_owner=ar/postgres",
+        "eps_cast_owner=ar/postgres",
+        "eps_casting_owner=ar/postgres",
+        "eps_jobs_owner=ar/postgres",
+        "eps_logo_verify_owner=ar/postgres",
+        "eps_review_owner=ar/postgres",
+        "eps_settings_owner=ar/postgres",
+        "eps_specs_owner=ar/postgres",
+        "eps_specs_submit_owner=ar/postgres",
+        "eps_specs_upload_owner=ar/postgres",
+        "eps_specs_verify_owner=ar/postgres",
+        "eps_support_upload_owner=ar/postgres",
+        "eps_support_verify_owner=ar/postgres",
+        "postgres=arwdDxtm/postgres"
+      ],
+      "after": [
+        "eps_api_owner=ar/postgres",
+        "eps_candidate_upload_owner=ar/postgres",
+        "eps_cast_owner=ar/postgres",
+        "eps_casting_owner=ar/postgres",
+        "eps_jobs_owner=ar/postgres",
+        "eps_logo_verify_owner=ar/postgres",
+        "eps_project_creator=ar/postgres",
+        "eps_review_owner=ar/postgres",
+        "eps_settings_owner=ar/postgres",
+        "eps_specs_owner=ar/postgres",
+        "eps_specs_submit_owner=ar/postgres",
+        "eps_specs_upload_owner=ar/postgres",
+        "eps_specs_verify_owner=ar/postgres",
+        "eps_support_upload_owner=ar/postgres",
+        "eps_support_verify_owner=ar/postgres",
+        "postgres=arwdDxtm/postgres"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_at|acl": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_at|default": {
+      "before": null,
+      "after": "now()",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_at|generated": {
+      "before": null,
+      "after": "",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_at|identity": {
+      "before": null,
+      "after": "",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_at|not_null": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_at|type": {
+      "before": null,
+      "after": "timestamp with time zone",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_by|acl": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_by|default": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_by|generated": {
+      "before": null,
+      "after": "",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_by|identity": {
+      "before": null,
+      "after": "",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_by|not_null": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_by|type": {
+      "before": null,
+      "after": "uuid",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.presentation_type|acl": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.presentation_type|default": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.presentation_type|generated": {
+      "before": null,
+      "after": "",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.presentation_type|identity": {
+      "before": null,
+      "after": "",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.presentation_type|not_null": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.presentation_type|type": {
+      "before": null,
+      "after": "text",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.project_id|acl": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.project_id|default": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.project_id|generated": {
+      "before": null,
+      "after": "",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.project_id|identity": {
+      "before": null,
+      "after": "",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.project_id|not_null": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.project_id|type": {
+      "before": null,
+      "after": "uuid",
+      "added": true,
+      "removed": false
+    },
+    "constraints|eps.project_creation_intents.project_creation_intents_created_by_fkey|definition": {
+      "before": null,
+      "after": "FOREIGN KEY (created_by) REFERENCES auth.users(id) ON DELETE RESTRICT",
+      "added": true,
+      "removed": false
+    },
+    "constraints|eps.project_creation_intents.project_creation_intents_pkey|definition": {
+      "before": null,
+      "after": "PRIMARY KEY (project_id)",
+      "added": true,
+      "removed": false
+    },
+    "constraints|eps.project_creation_intents.project_creation_intents_presentation_type_check|definition": {
+      "before": null,
+      "after": "CHECK ((presentation_type = ANY (ARRAY['casting'::text, 'wardrobe'::text, 'art_direction'::text, 'storyboard'::text, 'vehicles_animals'::text, 'fitting'::text, 'pre_ppm'::text, 'ppm'::text, 'production_documents'::text])))",
+      "added": true,
+      "removed": false
+    },
+    "constraints|eps.project_creation_intents.project_creation_intents_project_id_fkey|definition": {
+      "before": null,
+      "after": "FOREIGN KEY (project_id) REFERENCES public.projects(id) ON DELETE RESTRICT",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|acl": {
+      "before": null,
+      "after": [
+        "authenticated=X/eps_project_creator",
+        "eps_project_creator=X/eps_project_creator"
+      ],
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|argument_defaults": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|config": {
+      "before": null,
+      "after": [
+        "search_path=\"\""
+      ],
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|definer": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|identity_arguments": {
+      "before": null,
+      "after": "p_input jsonb, p_idempotency_key text",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|kind": {
+      "before": null,
+      "after": "f",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|language": {
+      "before": null,
+      "after": "plpgsql",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|leakproof": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|owner": {
+      "before": null,
+      "after": "eps_project_creator",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|parallel": {
+      "before": null,
+      "after": "u",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|returns": {
+      "before": null,
+      "after": "jsonb",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|source_sha256": {
+      "before": null,
+      "after": "42768728559b3e020d54b1432a43eb126c49da42a32a61e16ef03cec580640f9",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|strict": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|support": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|volatility": {
+      "before": null,
+      "after": "v",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|acl": {
+      "before": null,
+      "after": [
+        "authenticated=X/eps_api_owner",
+        "eps_api_owner=X/eps_api_owner"
+      ],
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|argument_defaults": {
+      "before": null,
+      "after": "''::text, NULL::text, 25",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|config": {
+      "before": null,
+      "after": [
+        "search_path=\"\""
+      ],
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|definer": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|identity_arguments": {
+      "before": null,
+      "after": "p_q text, p_cursor text, p_limit integer",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|kind": {
+      "before": null,
+      "after": "f",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|language": {
+      "before": null,
+      "after": "plpgsql",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|leakproof": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|owner": {
+      "before": null,
+      "after": "eps_api_owner",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|parallel": {
+      "before": null,
+      "after": "u",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|returns": {
+      "before": null,
+      "after": "jsonb",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|source_sha256": {
+      "before": null,
+      "after": "5c4a0fe97d1e340330207777ea9c9dfae10213b6e9fed74911f61dfd1aff9eb8",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|strict": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|support": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|volatility": {
+      "before": null,
+      "after": "s",
+      "added": true,
+      "removed": false
+    },
+    "indexes|eps.project_creation_intents_pkey|definition": {
+      "before": null,
+      "after": "CREATE UNIQUE INDEX project_creation_intents_pkey ON eps.project_creation_intents USING btree (project_id)",
+      "added": true,
+      "removed": false
+    },
+    "indexes|eps.project_creation_intents_pkey|live": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "indexes|eps.project_creation_intents_pkey|ready": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "indexes|eps.project_creation_intents_pkey|valid": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "memberships|authenticated>eps_project_creator/postgres|admin": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "memberships|authenticated>eps_project_creator/postgres|grantor": {
+      "before": null,
+      "after": "postgres",
+      "added": true,
+      "removed": false
+    },
+    "memberships|authenticated>eps_project_creator/postgres|inherit": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "memberships|authenticated>eps_project_creator/postgres|set": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "memberships|eps_project_creator>postgres/postgres|admin": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "memberships|eps_project_creator>postgres/postgres|grantor": {
+      "before": null,
+      "after": "postgres",
+      "added": true,
+      "removed": false
+    },
+    "memberships|eps_project_creator>postgres/postgres|inherit": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "memberships|eps_project_creator>postgres/postgres|set": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "memberships|eps_project_creator>postgres/supabase_admin|admin": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "memberships|eps_project_creator>postgres/supabase_admin|grantor": {
+      "before": null,
+      "after": "supabase_admin",
+      "added": true,
+      "removed": false
+    },
+    "memberships|eps_project_creator>postgres/supabase_admin|inherit": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "memberships|eps_project_creator>postgres/supabase_admin|set": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.audit_events.project_creator_audit|cmd": {
+      "before": null,
+      "after": "INSERT",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.audit_events.project_creator_audit|permissive": {
+      "before": null,
+      "after": "PERMISSIVE",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.audit_events.project_creator_audit|qual": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.audit_events.project_creator_audit|roles": {
+      "before": null,
+      "after": [
+        "eps_project_creator"
+      ],
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.audit_events.project_creator_audit|with_check": {
+      "before": null,
+      "after": "((principal_id = auth.uid()) AND (action = 'create_project'::text))",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.idempotency_records.project_creator_idempotency|cmd": {
+      "before": null,
+      "after": "ALL",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.idempotency_records.project_creator_idempotency|permissive": {
+      "before": null,
+      "after": "PERMISSIVE",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.idempotency_records.project_creator_idempotency|qual": {
+      "before": null,
+      "after": "((principal_id = auth.uid()) AND (operation = 'create_project'::text))",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.idempotency_records.project_creator_idempotency|roles": {
+      "before": null,
+      "after": [
+        "eps_project_creator"
+      ],
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.idempotency_records.project_creator_idempotency|with_check": {
+      "before": null,
+      "after": "((principal_id = auth.uid()) AND (operation = 'create_project'::text))",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.project_creation_intents.project_intent_insert|cmd": {
+      "before": null,
+      "after": "INSERT",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.project_creation_intents.project_intent_insert|permissive": {
+      "before": null,
+      "after": "PERMISSIVE",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.project_creation_intents.project_intent_insert|qual": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.project_creation_intents.project_intent_insert|roles": {
+      "before": null,
+      "after": [
+        "eps_project_creator"
+      ],
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.project_creation_intents.project_intent_insert|with_check": {
+      "before": null,
+      "after": "((created_by = auth.uid()) AND (project_id = (NULLIF(current_setting('eps.project_create.new_id'::text, true), ''::text))::uuid))",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.project_creation_intents.project_intent_read|cmd": {
+      "before": null,
+      "after": "SELECT",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.project_creation_intents.project_intent_read|permissive": {
+      "before": null,
+      "after": "PERMISSIVE",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.project_creation_intents.project_intent_read|qual": {
+      "before": null,
+      "after": "eps.project_access(project_id, false)",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.project_creation_intents.project_intent_read|roles": {
+      "before": null,
+      "after": [
+        "eps_api_owner"
+      ],
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.project_creation_intents.project_intent_read|with_check": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "policies|public.project_memberships.creator_membership_insert|cmd": {
+      "before": null,
+      "after": "INSERT",
+      "added": true,
+      "removed": false
+    },
+    "policies|public.project_memberships.creator_membership_insert|permissive": {
+      "before": null,
+      "after": "PERMISSIVE",
+      "added": true,
+      "removed": false
+    },
+    "policies|public.project_memberships.creator_membership_insert|qual": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "policies|public.project_memberships.creator_membership_insert|roles": {
+      "before": null,
+      "after": [
+        "eps_project_creator"
+      ],
+      "added": true,
+      "removed": false
+    },
+    "policies|public.project_memberships.creator_membership_insert|with_check": {
+      "before": null,
+      "after": "((project_id = (NULLIF(current_setting('eps.project_create.new_id'::text, true), ''::text))::uuid) AND (principal_id = auth.uid()) AND can_write AND active)",
+      "added": true,
+      "removed": false
+    },
+    "policies|public.projects.new_project_insert|cmd": {
+      "before": null,
+      "after": "INSERT",
+      "added": true,
+      "removed": false
+    },
+    "policies|public.projects.new_project_insert|permissive": {
+      "before": null,
+      "after": "PERMISSIVE",
+      "added": true,
+      "removed": false
+    },
+    "policies|public.projects.new_project_insert|qual": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "policies|public.projects.new_project_insert|roles": {
+      "before": null,
+      "after": [
+        "eps_project_creator"
+      ],
+      "added": true,
+      "removed": false
+    },
+    "policies|public.projects.new_project_insert|with_check": {
+      "before": null,
+      "after": "((id = (NULLIF(current_setting('eps.project_create.new_id'::text, true), ''::text))::uuid) AND eps.has_capability('projects.read'::text) AND eps.has_capability('projects.write'::text) AND ((client_id IS NULL) OR eps.client_access(client_id, true)))",
+      "added": true,
+      "removed": false
+    },
+    "roles|eps_project_creator|bypassrls": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "roles|eps_project_creator|connection_limit": {
+      "before": null,
+      "after": -1,
+      "added": true,
+      "removed": false
+    },
+    "roles|eps_project_creator|create_db": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "roles|eps_project_creator|create_role": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "roles|eps_project_creator|inherit": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "roles|eps_project_creator|login": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "roles|eps_project_creator|replication": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "roles|eps_project_creator|super": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "roles|eps_project_creator|valid_until": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "tables|eps.project_creation_intents|acl": {
+      "before": null,
+      "after": [
+        "eps_api_owner=r/postgres",
+        "eps_project_creator=a/postgres",
+        "postgres=arwdDxtm/postgres"
+      ],
+      "added": true,
+      "removed": false
+    },
+    "tables|eps.project_creation_intents|force_rls": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "tables|eps.project_creation_intents|owner": {
+      "before": null,
+      "after": "postgres",
+      "added": true,
+      "removed": false
+    },
+    "tables|eps.project_creation_intents|rls": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "types|eps.project_creation_intents|acl": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "types|eps.project_creation_intents|base": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "types|eps.project_creation_intents|default": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "types|eps.project_creation_intents|enum_labels": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "types|eps.project_creation_intents|kind": {
+      "before": null,
+      "after": "c",
+      "added": true,
+      "removed": false
+    },
+    "types|eps.project_creation_intents|not_null": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "types|eps.project_creation_intents|owner": {
+      "before": null,
+      "after": "postgres",
+      "added": true,
+      "removed": false
+    }
+  },
+  "catalogue39_delta_sha256": "0294707da8494dfb9a8caf35293289c5c61dbbb04418ce67ff400ce9a0f1c70b",
+  "edge_template_qualification": {
+    "frozen_probe_sha256": "8973de4f38895f2497b46d87d6dda0fe929f2652d8cebb870c9d402587bf21b4",
+    "only_three_whitespace_sites_in_two_templates": true,
+    "acceptance_and_SQL_semantics_unchanged": true,
+    "actual_requests": []
+  },
+  "data_reuse_body_installations": [
+    {
+      "expected": [
+        {
+          "name": "eps.review_snapshot_data",
+          "source": "4d46151993a60d8c6ac9d36e48781fee34c12c3e1dede727ac1ed4d31a953ab7"
+        },
+        {
+          "name": "eps.review_snapshot",
+          "source": "f0815e014144f1345b4679d96114aab6b358d95df317e3cfe6ac6b59989813cb"
+        },
+        {
+          "name": "public.eps_generate_version",
+          "source": "b20fef7adc8dee0da91db1508b30d4116855bb3e9be9e881072a7e8d55fcee08"
+        },
+        {
+          "name": "eps.capture_presentation_video_transcripts",
+          "source": "ed4a3469971fa410078b546b13aa0a875b4867efdda4b134dc729563dd887187"
+        }
+      ],
+      "actual": {
+        "eps.review_snapshot": {
+          "source": "f0815e014144f1345b4679d96114aab6b358d95df317e3cfe6ac6b59989813cb",
+          "authority": {
+            "oid": "17422",
+            "proacl": [
+              "eps_review_owner=X/eps_review_owner"
+            ],
+            "probin": null,
+            "procost": 100,
+            "prokind": "f",
+            "prolang": "13619",
+            "proname": "review_snapshot",
+            "prorows": 0,
+            "pronargs": 3,
+            "proowner": "16678",
+            "proconfig": [
+              "search_path=\"\""
+            ],
+            "proretset": false,
+            "prosecdef": false,
+            "prorettype": "3802",
+            "prosqlbody": null,
+            "prosupport": "-",
+            "proargmodes": null,
+            "proargnames": [
+              "p_workspace",
+              "p_series_id",
+              "p_output"
+            ],
+            "proargtypes": [
+              "2950",
+              "2950",
+              "25"
+            ],
+            "proisstrict": false,
+            "proparallel": "u",
+            "protrftypes": null,
+            "provariadic": "0",
+            "provolatile": "s",
+            "proleakproof": false,
+            "pronamespace": "16776",
+            "proallargtypes": null,
+            "proargdefaults": "({CONST :consttype 25 :consttypmod -1 :constcollid 100 :constlen -1 :constbyval false :constisnull true :location -1 :constvalue <>})",
+            "pronargdefaults": 1
+          }
+        },
+        "eps.review_snapshot_data": {
+          "source": "4d46151993a60d8c6ac9d36e48781fee34c12c3e1dede727ac1ed4d31a953ab7",
+          "authority": {
+            "oid": "17423",
+            "proacl": [
+              "eps_review_owner=X/eps_review_owner",
+              "eps_review_stage_owner=X/eps_review_owner"
+            ],
+            "probin": null,
+            "procost": 100,
+            "prokind": "f",
+            "prolang": "13619",
+            "proname": "review_snapshot_data",
+            "prorows": 0,
+            "pronargs": 3,
+            "proowner": "16678",
+            "proconfig": [
+              "search_path=\"\""
+            ],
+            "proretset": false,
+            "prosecdef": false,
+            "prorettype": "3802",
+            "prosqlbody": null,
+            "prosupport": "-",
+            "proargmodes": null,
+            "proargnames": [
+              "p_workspace",
+              "p_series_id",
+              "p_output"
+            ],
+            "proargtypes": [
+              "2950",
+              "2950",
+              "25"
+            ],
+            "proisstrict": false,
+            "proparallel": "u",
+            "protrftypes": null,
+            "provariadic": "0",
+            "provolatile": "s",
+            "proleakproof": false,
+            "pronamespace": "16776",
+            "proallargtypes": null,
+            "proargdefaults": "({CONST :consttype 25 :consttypmod -1 :constcollid 100 :constlen -1 :constbyval false :constisnull true :location -1 :constvalue <>})",
+            "pronargdefaults": 1
+          }
+        },
+        "public.eps_generate_version": {
+          "source": "b20fef7adc8dee0da91db1508b30d4116855bb3e9be9e881072a7e8d55fcee08",
+          "authority": {
+            "oid": "17618",
+            "proacl": [
+              "eps_review_owner=X/eps_review_owner",
+              "authenticated=X/eps_review_owner"
+            ],
+            "probin": null,
+            "procost": 100,
+            "prokind": "f",
+            "prolang": "13619",
+            "proname": "eps_generate_version",
+            "prorows": 0,
+            "pronargs": 3,
+            "proowner": "16678",
+            "proconfig": [
+              "search_path=\"\""
+            ],
+            "proretset": false,
+            "prosecdef": true,
+            "prorettype": "3802",
+            "prosqlbody": null,
+            "prosupport": "-",
+            "proargmodes": null,
+            "proargnames": [
+              "p_series_id",
+              "p_input",
+              "p_idempotency_key"
+            ],
+            "proargtypes": [
+              "2950",
+              "3802",
+              "25"
+            ],
+            "proisstrict": false,
+            "proparallel": "u",
+            "protrftypes": null,
+            "provariadic": "0",
+            "provolatile": "v",
+            "proleakproof": false,
+            "pronamespace": "16778",
+            "proallargtypes": null,
+            "proargdefaults": null,
+            "pronargdefaults": 0
+          }
+        },
+        "eps.capture_presentation_video_transcripts": {
+          "source": "ed4a3469971fa410078b546b13aa0a875b4867efdda4b134dc729563dd887187",
+          "authority": {
+            "oid": "16990",
+            "proacl": [
+              "eps_review_owner=X/eps_review_owner"
+            ],
+            "probin": null,
+            "procost": 100,
+            "prokind": "f",
+            "prolang": "13619",
+            "proname": "capture_presentation_video_transcripts",
+            "prorows": 0,
+            "pronargs": 1,
+            "proowner": "16678",
+            "proconfig": [
+              "search_path=\"\""
+            ],
+            "proretset": false,
+            "prosecdef": false,
+            "prorettype": "23",
+            "prosqlbody": null,
+            "prosupport": "-",
+            "proargmodes": null,
+            "proargnames": [
+              "p_version"
+            ],
+            "proargtypes": [
+              "2950"
+            ],
+            "proisstrict": false,
+            "proparallel": "u",
+            "protrftypes": null,
+            "provariadic": "0",
+            "provolatile": "v",
+            "proleakproof": false,
+            "pronamespace": "16776",
+            "proallargtypes": null,
+            "proargdefaults": null,
+            "pronargdefaults": 0
+          }
+        }
+      },
+      "normal_return": true
+    },
+    {
+      "expected": [
+        {
+          "name": "eps.review_snapshot_data",
+          "source": "4d46151993a60d8c6ac9d36e48781fee34c12c3e1dede727ac1ed4d31a953ab7"
+        },
+        {
+          "name": "eps.review_snapshot",
+          "source": "f0815e014144f1345b4679d96114aab6b358d95df317e3cfe6ac6b59989813cb"
+        },
+        {
+          "name": "public.eps_generate_version",
+          "source": "b20fef7adc8dee0da91db1508b30d4116855bb3e9be9e881072a7e8d55fcee08"
+        },
+        {
+          "name": "eps.capture_presentation_video_transcripts",
+          "source": "ed4a3469971fa410078b546b13aa0a875b4867efdda4b134dc729563dd887187"
+        }
+      ],
+      "actual": {
+        "eps.review_snapshot": {
+          "source": "f0815e014144f1345b4679d96114aab6b358d95df317e3cfe6ac6b59989813cb",
+          "authority": {
+            "oid": "17422",
+            "proacl": [
+              "eps_review_owner=X/eps_review_owner"
+            ],
+            "probin": null,
+            "procost": 100,
+            "prokind": "f",
+            "prolang": "13619",
+            "proname": "review_snapshot",
+            "prorows": 0,
+            "pronargs": 3,
+            "proowner": "16678",
+            "proconfig": [
+              "search_path=\"\""
+            ],
+            "proretset": false,
+            "prosecdef": false,
+            "prorettype": "3802",
+            "prosqlbody": null,
+            "prosupport": "-",
+            "proargmodes": null,
+            "proargnames": [
+              "p_workspace",
+              "p_series_id",
+              "p_output"
+            ],
+            "proargtypes": [
+              "2950",
+              "2950",
+              "25"
+            ],
+            "proisstrict": false,
+            "proparallel": "u",
+            "protrftypes": null,
+            "provariadic": "0",
+            "provolatile": "s",
+            "proleakproof": false,
+            "pronamespace": "16776",
+            "proallargtypes": null,
+            "proargdefaults": "({CONST :consttype 25 :consttypmod -1 :constcollid 100 :constlen -1 :constbyval false :constisnull true :location -1 :constvalue <>})",
+            "pronargdefaults": 1
+          }
+        },
+        "eps.review_snapshot_data": {
+          "source": "4d46151993a60d8c6ac9d36e48781fee34c12c3e1dede727ac1ed4d31a953ab7",
+          "authority": {
+            "oid": "17423",
+            "proacl": [
+              "eps_review_owner=X/eps_review_owner",
+              "eps_review_stage_owner=X/eps_review_owner"
+            ],
+            "probin": null,
+            "procost": 100,
+            "prokind": "f",
+            "prolang": "13619",
+            "proname": "review_snapshot_data",
+            "prorows": 0,
+            "pronargs": 3,
+            "proowner": "16678",
+            "proconfig": [
+              "search_path=\"\""
+            ],
+            "proretset": false,
+            "prosecdef": false,
+            "prorettype": "3802",
+            "prosqlbody": null,
+            "prosupport": "-",
+            "proargmodes": null,
+            "proargnames": [
+              "p_workspace",
+              "p_series_id",
+              "p_output"
+            ],
+            "proargtypes": [
+              "2950",
+              "2950",
+              "25"
+            ],
+            "proisstrict": false,
+            "proparallel": "u",
+            "protrftypes": null,
+            "provariadic": "0",
+            "provolatile": "s",
+            "proleakproof": false,
+            "pronamespace": "16776",
+            "proallargtypes": null,
+            "proargdefaults": "({CONST :consttype 25 :consttypmod -1 :constcollid 100 :constlen -1 :constbyval false :constisnull true :location -1 :constvalue <>})",
+            "pronargdefaults": 1
+          }
+        },
+        "public.eps_generate_version": {
+          "source": "b20fef7adc8dee0da91db1508b30d4116855bb3e9be9e881072a7e8d55fcee08",
+          "authority": {
+            "oid": "17618",
+            "proacl": [
+              "eps_review_owner=X/eps_review_owner",
+              "authenticated=X/eps_review_owner"
+            ],
+            "probin": null,
+            "procost": 100,
+            "prokind": "f",
+            "prolang": "13619",
+            "proname": "eps_generate_version",
+            "prorows": 0,
+            "pronargs": 3,
+            "proowner": "16678",
+            "proconfig": [
+              "search_path=\"\""
+            ],
+            "proretset": false,
+            "prosecdef": true,
+            "prorettype": "3802",
+            "prosqlbody": null,
+            "prosupport": "-",
+            "proargmodes": null,
+            "proargnames": [
+              "p_series_id",
+              "p_input",
+              "p_idempotency_key"
+            ],
+            "proargtypes": [
+              "2950",
+              "3802",
+              "25"
+            ],
+            "proisstrict": false,
+            "proparallel": "u",
+            "protrftypes": null,
+            "provariadic": "0",
+            "provolatile": "v",
+            "proleakproof": false,
+            "pronamespace": "16778",
+            "proallargtypes": null,
+            "proargdefaults": null,
+            "pronargdefaults": 0
+          }
+        },
+        "eps.capture_presentation_video_transcripts": {
+          "source": "ed4a3469971fa410078b546b13aa0a875b4867efdda4b134dc729563dd887187",
+          "authority": {
+            "oid": "16990",
+            "proacl": [
+              "eps_review_owner=X/eps_review_owner"
+            ],
+            "probin": null,
+            "procost": 100,
+            "prokind": "f",
+            "prolang": "13619",
+            "proname": "capture_presentation_video_transcripts",
+            "prorows": 0,
+            "pronargs": 1,
+            "proowner": "16678",
+            "proconfig": [
+              "search_path=\"\""
+            ],
+            "proretset": false,
+            "prosecdef": false,
+            "prorettype": "23",
+            "prosqlbody": null,
+            "prosupport": "-",
+            "proargmodes": null,
+            "proargnames": [
+              "p_version"
+            ],
+            "proargtypes": [
+              "2950"
+            ],
+            "proisstrict": false,
+            "proparallel": "u",
+            "protrftypes": null,
+            "provariadic": "0",
+            "provolatile": "v",
+            "proleakproof": false,
+            "pronamespace": "16776",
+            "proallargtypes": null,
+            "proargdefaults": null,
+            "pronargdefaults": 0
+          }
+        }
+      },
+      "normal_return": true
+    }
+  ],
+  "data_reuse_cases": {
+    "old": {
+      "budget": [
+        {
+          "name": "actual_oversize_private_row",
+          "note_bytes": 4194304,
+          "rolled_back": true,
+          "cost": {
+            "note_bytes": 4194304,
+            "over_budget": true
+          },
+          "snapshot": {
+            "ok": true,
+            "role": "eps_review_owner",
+            "operation": "snapshot",
+            "duration_ms": 1667.835,
+            "can_generate": true,
+            "contract_hash": "e41e83abae14f5c7b3507965f9a7eeaeef7b1975ff2aea9742d9d125e1acfc9b",
+            "blocking_codes": [],
+            "preparation_ms": null
+          }
+        }
+      ],
+      "generation": [
+        {
+          "name": "private_asset_metadata",
+          "fixture_changes_rolled_back": true,
+          "synthetic_fit_metadata_only": true,
+          "generation": {
+            "ok": true,
+            "role": "authenticated",
+            "job_id": "1e782674-7274-45f5-937d-2f400f4cf9a9",
+            "status": "queued",
+            "duration_ms": 835.529,
+            "resource_id": "5e3142a2-c1d2-473a-b8eb-d822cfac7f63"
+          },
+          "projection": {
+            "pins": 4,
+            "pages": 2,
+            "slides": 2,
+            "job_status": "queued",
+            "outbox_rows": 1,
+            "normalization": [
+              "created_at",
+              "generated version_id",
+              "generated slide ids by ordinal",
+              "companion captured_at"
+            ],
+            "source_companions": [
+              {
+                "status": "not_provided",
+                "languages": [],
+                "source_sha256": null,
+                "video_asset_id": "af6ac83d-d93c-ba34-b094-e2c556c9324c",
+                "candidate_media_id": "b7042213-4b86-d60b-6b07-decd8de7060f",
+                "source_media_row_version": 1
+              }
+            ],
+            "english_companions": [
+              {
+                "status": "not_captured",
+                "source_sha256": null,
+                "english_sha256": null,
+                "video_asset_id": "af6ac83d-d93c-ba34-b094-e2c556c9324c",
+                "candidate_media_id": "b7042213-4b86-d60b-6b07-decd8de7060f",
+                "source_media_row_version": 1
+              }
+            ],
+            "reason_nonnull_rows": 1,
+            "normalized_snapshot_sha256": "278b379fa5a7dc87b2bb4d07e7fd7ae63fdf048e0a3a35119aa2422a2c010d60"
+          },
+          "pins": {
+            "raw_count": 1,
+            "english_count": 1,
+            "english_states": [
+              "not_captured"
+            ],
+            "pin_metadata_sha256": "dac74f6d0c6f7a118c3bef3b5273498775d0327b8102bbd55464f3104ed84ba0",
+            "private_filename_sha256": "914ca8cf543d9402795d3e482ca342055ecb81e4c09f41510a283492f223f819",
+            "private_filename_in_output": false,
+            "private_filename_examined_count": 1
+          }
+        },
+        {
+          "name": "no_video",
+          "fixture_changes_rolled_back": true,
+          "synthetic_fit_metadata_only": true,
+          "generation": {
+            "ok": true,
+            "role": "authenticated",
+            "job_id": "b5653980-c81c-4fec-adfa-9d8dec494c7a",
+            "status": "queued",
+            "duration_ms": 415.783,
+            "resource_id": "fdc06f26-4476-4f3f-b6bc-9409400ae757"
+          },
+          "projection": {
+            "pins": 0,
+            "pages": 2,
+            "slides": 2,
+            "job_status": "queued",
+            "outbox_rows": 1,
+            "normalization": [
+              "created_at",
+              "generated version_id",
+              "generated slide ids by ordinal",
+              "companion captured_at"
+            ],
+            "source_companions": [],
+            "english_companions": [],
+            "reason_nonnull_rows": 1,
+            "normalized_snapshot_sha256": "27b354748a962cd5db9871cb15e2435b1c9a8bd1f273cbb0cc6bbf96f776eebf"
+          },
+          "pins": {
+            "raw_count": 0,
+            "english_count": 0,
+            "english_states": [],
+            "pin_metadata_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "private_filename_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "private_filename_in_output": false,
+            "private_filename_examined_count": 0
+          }
+        },
+        {
+          "name": "english_not_captured",
+          "fixture_changes_rolled_back": true,
+          "synthetic_fit_metadata_only": true,
+          "generation": {
+            "ok": true,
+            "role": "authenticated",
+            "job_id": "805c8668-b8a1-453f-8b13-d2b282145283",
+            "status": "queued",
+            "duration_ms": 1014.998,
+            "resource_id": "bd0f9ec2-06e6-4d55-a2fe-369151662a31"
+          },
+          "projection": {
+            "pins": 4,
+            "pages": 2,
+            "slides": 2,
+            "job_status": "queued",
+            "outbox_rows": 1,
+            "normalization": [
+              "created_at",
+              "generated version_id",
+              "generated slide ids by ordinal",
+              "companion captured_at"
+            ],
+            "source_companions": [
+              {
+                "status": "not_provided",
+                "languages": [],
+                "source_sha256": null,
+                "video_asset_id": "af6ac83d-d93c-ba34-b094-e2c556c9324c",
+                "candidate_media_id": "b7042213-4b86-d60b-6b07-decd8de7060f",
+                "source_media_row_version": 1
+              }
+            ],
+            "english_companions": [
+              {
+                "status": "not_captured",
+                "source_sha256": null,
+                "english_sha256": null,
+                "video_asset_id": "af6ac83d-d93c-ba34-b094-e2c556c9324c",
+                "candidate_media_id": "b7042213-4b86-d60b-6b07-decd8de7060f",
+                "source_media_row_version": 1
+              }
+            ],
+            "reason_nonnull_rows": 1,
+            "normalized_snapshot_sha256": "278b379fa5a7dc87b2bb4d07e7fd7ae63fdf048e0a3a35119aa2422a2c010d60"
+          },
+          "pins": {
+            "raw_count": 1,
+            "english_count": 1,
+            "english_states": [
+              "not_captured"
+            ],
+            "pin_metadata_sha256": "dac74f6d0c6f7a118c3bef3b5273498775d0327b8102bbd55464f3104ed84ba0",
+            "private_filename_sha256": "914ca8cf543d9402795d3e482ca342055ecb81e4c09f41510a283492f223f819",
+            "private_filename_in_output": false,
+            "private_filename_examined_count": 1
+          }
+        },
+        {
+          "name": "english_not_provided",
+          "fixture_changes_rolled_back": true,
+          "synthetic_fit_metadata_only": true,
+          "generation": {
+            "ok": true,
+            "role": "authenticated",
+            "job_id": "99b9ec36-d56f-4ba7-a872-adc406b46fdd",
+            "status": "queued",
+            "duration_ms": 845.782,
+            "resource_id": "95bd0a90-1562-49e8-8035-c5cdfeae10e2"
+          },
+          "projection": {
+            "pins": 4,
+            "pages": 2,
+            "slides": 2,
+            "job_status": "queued",
+            "outbox_rows": 1,
+            "normalization": [
+              "created_at",
+              "generated version_id",
+              "generated slide ids by ordinal",
+              "companion captured_at"
+            ],
+            "source_companions": [
+              {
+                "status": "not_provided",
+                "languages": [],
+                "source_sha256": null,
+                "video_asset_id": "af6ac83d-d93c-ba34-b094-e2c556c9324c",
+                "candidate_media_id": "b7042213-4b86-d60b-6b07-decd8de7060f",
+                "source_media_row_version": 1
+              }
+            ],
+            "english_companions": [
+              {
+                "status": "not_provided",
+                "source_sha256": null,
+                "english_sha256": null,
+                "video_asset_id": "af6ac83d-d93c-ba34-b094-e2c556c9324c",
+                "candidate_media_id": "b7042213-4b86-d60b-6b07-decd8de7060f",
+                "source_media_row_version": 1
+              }
+            ],
+            "reason_nonnull_rows": 1,
+            "normalized_snapshot_sha256": "278b379fa5a7dc87b2bb4d07e7fd7ae63fdf048e0a3a35119aa2422a2c010d60"
+          },
+          "pins": {
+            "raw_count": 1,
+            "english_count": 1,
+            "english_states": [
+              "not_provided"
+            ],
+            "pin_metadata_sha256": "dac74f6d0c6f7a118c3bef3b5273498775d0327b8102bbd55464f3104ed84ba0",
+            "private_filename_sha256": "914ca8cf543d9402795d3e482ca342055ecb81e4c09f41510a283492f223f819",
+            "private_filename_in_output": false,
+            "private_filename_examined_count": 1
+          }
+        },
+        {
+          "name": "english_available",
+          "fixture_changes_rolled_back": true,
+          "synthetic_fit_metadata_only": true,
+          "generation": {
+            "ok": true,
+            "role": "authenticated",
+            "job_id": "0e732040-07da-4aca-8b69-bcee60015d5a",
+            "status": "queued",
+            "duration_ms": 949.289,
+            "resource_id": "a28cfdec-0186-447f-ab77-0df529456f93"
+          },
+          "projection": {
+            "pins": 4,
+            "pages": 2,
+            "slides": 2,
+            "job_status": "queued",
+            "outbox_rows": 1,
+            "normalization": [
+              "created_at",
+              "generated version_id",
+              "generated slide ids by ordinal",
+              "companion captured_at"
+            ],
+            "source_companions": [
+              {
+                "status": "available",
+                "languages": [],
+                "source_sha256": "49b371614547c21d47d5380e0b4bcd11d3322f1be53d387135d4beb85ad0cc97",
+                "video_asset_id": "af6ac83d-d93c-ba34-b094-e2c556c9324c",
+                "candidate_media_id": "b7042213-4b86-d60b-6b07-decd8de7060f",
+                "source_media_row_version": 1
+              }
+            ],
+            "english_companions": [
+              {
+                "status": "available",
+                "source_sha256": "49b371614547c21d47d5380e0b4bcd11d3322f1be53d387135d4beb85ad0cc97",
+                "english_sha256": "1d4772cb31a376bdb14a2e25953e49de0226603f07ddb8da2655ac18e2c6ed86",
+                "video_asset_id": "af6ac83d-d93c-ba34-b094-e2c556c9324c",
+                "candidate_media_id": "b7042213-4b86-d60b-6b07-decd8de7060f",
+                "source_media_row_version": 1
+              }
+            ],
+            "reason_nonnull_rows": 1,
+            "normalized_snapshot_sha256": "5a241c4390ca6665268651aabcc0084b884d31647115948b706bb8e35cc6a935"
+          },
+          "pins": {
+            "raw_count": 1,
+            "english_count": 1,
+            "english_states": [
+              "available"
+            ],
+            "pin_metadata_sha256": "dac74f6d0c6f7a118c3bef3b5273498775d0327b8102bbd55464f3104ed84ba0",
+            "private_filename_sha256": "914ca8cf543d9402795d3e482ca342055ecb81e4c09f41510a283492f223f819",
+            "private_filename_in_output": false,
+            "private_filename_examined_count": 1
+          }
+        },
+        {
+          "name": "english_unavailable",
+          "fixture_changes_rolled_back": true,
+          "synthetic_fit_metadata_only": true,
+          "generation": {
+            "ok": true,
+            "role": "authenticated",
+            "job_id": "4597cebd-7138-4ede-875b-6ad8d2830fd8",
+            "status": "queued",
+            "duration_ms": 867.348,
+            "resource_id": "48dec93b-3bac-4ba7-a038-b8af07494108"
+          },
+          "projection": {
+            "pins": 4,
+            "pages": 2,
+            "slides": 2,
+            "job_status": "queued",
+            "outbox_rows": 1,
+            "normalization": [
+              "created_at",
+              "generated version_id",
+              "generated slide ids by ordinal",
+              "companion captured_at"
+            ],
+            "source_companions": [
+              {
+                "status": "available",
+                "languages": [],
+                "source_sha256": "49b371614547c21d47d5380e0b4bcd11d3322f1be53d387135d4beb85ad0cc97",
+                "video_asset_id": "af6ac83d-d93c-ba34-b094-e2c556c9324c",
+                "candidate_media_id": "b7042213-4b86-d60b-6b07-decd8de7060f",
+                "source_media_row_version": 1
+              }
+            ],
+            "english_companions": [
+              {
+                "status": "unavailable",
+                "source_sha256": "49b371614547c21d47d5380e0b4bcd11d3322f1be53d387135d4beb85ad0cc97",
+                "english_sha256": null,
+                "video_asset_id": "af6ac83d-d93c-ba34-b094-e2c556c9324c",
+                "candidate_media_id": "b7042213-4b86-d60b-6b07-decd8de7060f",
+                "source_media_row_version": 1
+              }
+            ],
+            "reason_nonnull_rows": 1,
+            "normalized_snapshot_sha256": "5a241c4390ca6665268651aabcc0084b884d31647115948b706bb8e35cc6a935"
+          },
+          "pins": {
+            "raw_count": 1,
+            "english_count": 1,
+            "english_states": [
+              "unavailable"
+            ],
+            "pin_metadata_sha256": "dac74f6d0c6f7a118c3bef3b5273498775d0327b8102bbd55464f3104ed84ba0",
+            "private_filename_sha256": "914ca8cf543d9402795d3e482ca342055ecb81e4c09f41510a283492f223f819",
+            "private_filename_in_output": false,
+            "private_filename_examined_count": 1
+          }
+        }
+      ],
+      "expiry": {
+        "actual_distinct_pid_relation_wait": true,
+        "database_clock_expired": true,
+        "seconds_after_expiry": 0.12794899940490723,
+        "response": {
+          "ok": true,
+          "role": "eps_review_owner",
+          "operation": "review",
+          "duration_ms": 3928.843,
+          "can_generate": false,
+          "contract_hash": "7655d387f582a2c2f583831233a85758254036c0f935db4cb9650d45df951a78",
+          "blocking_codes": [
+            "FIT_MEASUREMENT_REQUIRED",
+            "FRAME_UNAVAILABLE",
+            "MEDIA_UNAVAILABLE"
+          ],
+          "preparation_ms": null
+        }
+      },
+      "capture_associations": [
+        {
+          "name": "duplicate",
+          "declared_owned_queued_metadata_only": true,
+          "old_ready_dml_issued": false,
+          "rolled_back": true,
+          "result": {
+            "ok": true,
+            "captured": 1,
+            "duration_ms": 340.948
+          },
+          "pins": {
+            "raw_count": 1,
+            "english_count": 1,
+            "english_states": [
+              "not_captured"
+            ],
+            "pin_metadata_sha256": "dac74f6d0c6f7a118c3bef3b5273498775d0327b8102bbd55464f3104ed84ba0",
+            "private_filename_sha256": "914ca8cf543d9402795d3e482ca342055ecb81e4c09f41510a283492f223f819",
+            "private_filename_in_output": false,
+            "private_filename_examined_count": 1
+          }
+        },
+        {
+          "name": "ambiguous",
+          "declared_owned_queued_metadata_only": true,
+          "old_ready_dml_issued": false,
+          "rolled_back": true,
+          "result": {
+            "ok": false,
+            "code": "SNAPSHOT_INVALID"
+          }
+        },
+        {
+          "name": "unrelated_malformed",
+          "declared_owned_queued_metadata_only": true,
+          "old_ready_dml_issued": false,
+          "rolled_back": true,
+          "result": {
+            "ok": true,
+            "captured": 1,
+            "duration_ms": 282.829
+          },
+          "pins": {
+            "raw_count": 1,
+            "english_count": 1,
+            "english_states": [
+              "not_captured"
+            ],
+            "pin_metadata_sha256": "dac74f6d0c6f7a118c3bef3b5273498775d0327b8102bbd55464f3104ed84ba0",
+            "private_filename_sha256": "914ca8cf543d9402795d3e482ca342055ecb81e4c09f41510a283492f223f819",
+            "private_filename_in_output": false,
+            "private_filename_examined_count": 1
+          }
+        },
+        {
+          "name": "matched_malformed",
+          "declared_owned_queued_metadata_only": true,
+          "old_ready_dml_issued": false,
+          "rolled_back": true,
+          "result": {
+            "ok": false,
+            "code": "22P02"
+          }
+        },
+        {
+          "name": "mismatched_media",
+          "declared_owned_queued_metadata_only": true,
+          "old_ready_dml_issued": false,
+          "rolled_back": true,
+          "result": {
+            "ok": false,
+            "code": "SNAPSHOT_INVALID"
+          }
+        },
+        {
+          "name": "absent_media",
+          "declared_owned_queued_metadata_only": true,
+          "old_ready_dml_issued": false,
+          "rolled_back": true,
+          "result": {
+            "ok": false,
+            "code": "SNAPSHOT_INVALID"
+          }
+        }
+      ]
+    }
+  },
+  "data_reuse_fixture_fit_dispatches": [
+    {
+      "label": "control",
+      "before_sha256": "47bd5547061ba41b89da9879fa08bb1ea3c00c9e92c3d30b6851920873e652d0",
+      "after_sha256": "6a22e4df650c52a7462975f355f132f0ca4336a8f47a5828a9a618d2665933d5",
+      "dispatch_started": true,
+      "normal_return": true
+    },
+    {
+      "label": "large",
+      "before_sha256": "f3ae91fbab246db6cad49a3d4949fee78767337ffca0f5cf3285a3e6e94e26ee",
+      "after_sha256": "60b9bf13a5d8af9160acde6103909274f84c2959724580991e6fb2da8f429de4",
+      "dispatch_started": true,
+      "normal_return": true
+    }
+  ],
+  "exact40_owned_adapter": {
+    "source_sha256": "08bf4de8a63823b0e7c9aee75560a6e7de0620eb9b8b3c483c65929578db8212",
+    "only_database_system_run_predicate_adapted": true,
+    "inverse_byte_equal": true
+  },
+  "performance": {
+    "fixture_counts": {
+      "pins": 60,
+      "media": 27,
+      "assets": 501,
+      "frames": 328,
+      "slides": 63,
+      "profiles": [
+        {
+          "label": "background",
+          "active_pools": 12,
+          "active_roles": 1,
+          "active_slots": 35,
+          "archived_pools": 0,
+          "archived_roles": 0,
+          "archived_slots": 0,
+          "selected_media": 12,
+          "selected_frames": 36,
+          "active_assignments": 35,
+          "selected_candidates": 12,
+          "archived_assignments": 0,
+          "assignment_weighted_fact_source_bytes": 31726
+        },
+        {
+          "label": "control",
+          "active_pools": 1,
+          "active_roles": 1,
+          "active_slots": 1,
+          "archived_pools": 0,
+          "archived_roles": 0,
+          "archived_slots": 0,
+          "selected_media": 1,
+          "selected_frames": 3,
+          "active_assignments": 1,
+          "selected_candidates": 1,
+          "archived_assignments": 0,
+          "assignment_weighted_fact_source_bytes": 906
+        },
+        {
+          "label": "large",
+          "active_pools": 11,
+          "active_roles": 2,
+          "active_slots": 16,
+          "archived_pools": 4,
+          "archived_roles": 34,
+          "archived_slots": 547,
+          "selected_media": 11,
+          "selected_frames": 33,
+          "active_assignments": 19,
+          "selected_candidates": 11,
+          "archived_assignments": 1,
+          "assignment_weighted_fact_source_bytes": 17220
+        }
+      ],
+      "candidates": 28,
+      "ready_versions": 13,
+      "total_versions": 14
+    },
+    "fit_is_declared_synthetic_metadata_not_renderer_measurement": true,
+    "background_is_synthetic_metadata_not_render_storage_or_provider_acceptance": true,
+    "api_and_mcp_are_actual_local_RLS_with_controlled_claims_not_signed_OAuth_protocol": true,
+    "results": {
+      "old": {
+        "api_control": {
+          "locks": [
+            {
+              "ok": true,
+              "role": "eps_review_owner",
+              "operation": "locks",
+              "duration_ms": 379.452,
+              "can_generate": null,
+              "contract_hash": null,
+              "blocking_codes": [],
+              "preparation_ms": null
+            },
+            {
+              "ok": true,
+              "role": "eps_review_owner",
+              "operation": "locks",
+              "duration_ms": 409.015,
+              "can_generate": null,
+              "contract_hash": null,
+              "blocking_codes": [],
+              "preparation_ms": null
+            }
+          ],
+          "review": [
+            {
+              "ok": true,
+              "role": "eps_review_owner",
+              "operation": "review",
+              "duration_ms": 133.659,
+              "can_generate": true,
+              "contract_hash": "7b58d4e2c9111f59a5cee5e65f533e0154f53107b92b7cd01dd8fe438f256fe4",
+              "blocking_codes": [],
+              "preparation_ms": null
+            },
+            {
+              "ok": true,
+              "role": "eps_review_owner",
+              "operation": "review",
+              "duration_ms": 176.086,
+              "can_generate": true,
+              "contract_hash": "7b58d4e2c9111f59a5cee5e65f533e0154f53107b92b7cd01dd8fe438f256fe4",
+              "blocking_codes": [],
+              "preparation_ms": null
+            }
+          ],
+          "snapshot": [
+            {
+              "ok": true,
+              "role": "eps_review_owner",
+              "operation": "snapshot",
+              "duration_ms": 121.707,
+              "can_generate": true,
+              "contract_hash": "878c6d28561dd20cb9223c113451b4f5be61e5d865c2d83658469139914b0e24",
+              "blocking_codes": [],
+              "preparation_ms": null
+            },
+            {
+              "ok": true,
+              "role": "eps_review_owner",
+              "operation": "snapshot",
+              "duration_ms": 107.244,
+              "can_generate": true,
+              "contract_hash": "878c6d28561dd20cb9223c113451b4f5be61e5d865c2d83658469139914b0e24",
+              "blocking_codes": [],
+              "preparation_ms": null
+            }
+          ],
+          "hash": [
+            {
+              "ok": true,
+              "role": "eps_review_owner",
+              "operation": "hash",
+              "duration_ms": 8.027,
+              "can_generate": true,
+              "contract_hash": "878c6d28561dd20cb9223c113451b4f5be61e5d865c2d83658469139914b0e24",
+              "blocking_codes": [],
+              "preparation_ms": 99.818
+            },
+            {
+              "ok": true,
+              "role": "eps_review_owner",
+              "operation": "hash",
+              "duration_ms": 13.602,
+              "can_generate": true,
+              "contract_hash": "878c6d28561dd20cb9223c113451b4f5be61e5d865c2d83658469139914b0e24",
+              "blocking_codes": [],
+              "preparation_ms": 107.746
+            }
+          ],
+          "current_review": {
+            "input": {
+              "expected_draft_revision": 0,
+              "expected_input_fingerprint": "c619ee33bc1cbd46ada4a23926b5c0cc5e35c515a672b8d3b897c8ae9f5e06fc",
+              "expected_workspace_row_version": 1
+            },
+            "fit_status": "measured",
+            "review_hash": "7b58d4e2c9111f59a5cee5e65f533e0154f53107b92b7cd01dd8fe438f256fe4",
+            "can_generate": true,
+            "pending_slides": 0,
+            "template_sha256": "bbe72bf2bb08f37fe394c75563e2eca3ab8da72b1775db75704d47ae54f4f638",
+            "candidate_slides": 1
+          },
+          "generation": {
+            "ok": true,
+            "role": "authenticated",
+            "job_id": "535fa0e2-3dc9-4e22-b5db-43ca80a362dd",
+            "status": "queued",
+            "duration_ms": 777.176,
+            "resource_id": "bf2cf173-fa5e-4321-922d-0c5c46acbbb1",
+            "projection": {
+              "pins": 4,
+              "pages": 2,
+              "slides": 2,
+              "job_status": "queued",
+              "outbox_rows": 1,
+              "normalization": [
+                "created_at",
+                "generated version_id",
+                "generated slide ids by ordinal",
+                "companion captured_at"
+              ],
+              "source_companions": [
+                {
+                  "status": "not_provided",
+                  "languages": [],
+                  "source_sha256": null,
+                  "video_asset_id": "af6ac83d-d93c-ba34-b094-e2c556c9324c",
+                  "candidate_media_id": "b7042213-4b86-d60b-6b07-decd8de7060f",
+                  "source_media_row_version": 1
+                }
+              ],
+              "english_companions": [
+                {
+                  "status": "not_captured",
+                  "source_sha256": null,
+                  "english_sha256": null,
+                  "video_asset_id": "af6ac83d-d93c-ba34-b094-e2c556c9324c",
+                  "candidate_media_id": "b7042213-4b86-d60b-6b07-decd8de7060f",
+                  "source_media_row_version": 1
+                }
+              ],
+              "reason_nonnull_rows": 1,
+              "normalized_snapshot_sha256": "278b379fa5a7dc87b2bb4d07e7fd7ae63fdf048e0a3a35119aa2422a2c010d60"
+            }
+          }
+        },
+        "api_large": {
+          "locks": [
+            {
+              "ok": true,
+              "role": "eps_review_owner",
+              "operation": "locks",
+              "duration_ms": 3738.514,
+              "can_generate": null,
+              "contract_hash": null,
+              "blocking_codes": [],
+              "preparation_ms": null
+            },
+            {
+              "ok": true,
+              "role": "eps_review_owner",
+              "operation": "locks",
+              "duration_ms": 4730.589,
+              "can_generate": null,
+              "contract_hash": null,
+              "blocking_codes": [],
+              "preparation_ms": null
+            }
+          ],
+          "review": [
+            {
+              "ok": true,
+              "role": "eps_review_owner",
+              "operation": "review",
+              "duration_ms": 1879.392,
+              "can_generate": true,
+              "contract_hash": "a809311086f8daca3a42ef19dfb863b2a61eee02a40711910a1431d5f5d50554",
+              "blocking_codes": [],
+              "preparation_ms": null
+            },
+            {
+              "ok": true,
+              "role": "eps_review_owner",
+              "operation": "review",
+              "duration_ms": 1907.376,
+              "can_generate": true,
+              "contract_hash": "a809311086f8daca3a42ef19dfb863b2a61eee02a40711910a1431d5f5d50554",
+              "blocking_codes": [],
+              "preparation_ms": null
+            }
+          ],
+          "snapshot": [
+            {
+              "ok": true,
+              "role": "eps_review_owner",
+              "operation": "snapshot",
+              "duration_ms": 1850.359,
+              "can_generate": true,
+              "contract_hash": "e41e83abae14f5c7b3507965f9a7eeaeef7b1975ff2aea9742d9d125e1acfc9b",
+              "blocking_codes": [],
+              "preparation_ms": null
+            },
+            {
+              "ok": true,
+              "role": "eps_review_owner",
+              "operation": "snapshot",
+              "duration_ms": 1936.091,
+              "can_generate": true,
+              "contract_hash": "e41e83abae14f5c7b3507965f9a7eeaeef7b1975ff2aea9742d9d125e1acfc9b",
+              "blocking_codes": [],
+              "preparation_ms": null
+            }
+          ],
+          "hash": [
+            {
+              "ok": true,
+              "role": "eps_review_owner",
+              "operation": "hash",
+              "duration_ms": 177.423,
+              "can_generate": true,
+              "contract_hash": "e41e83abae14f5c7b3507965f9a7eeaeef7b1975ff2aea9742d9d125e1acfc9b",
+              "blocking_codes": [],
+              "preparation_ms": 1921.282
+            },
+            {
+              "ok": true,
+              "role": "eps_review_owner",
+              "operation": "hash",
+              "duration_ms": 156.322,
+              "can_generate": true,
+              "contract_hash": "e41e83abae14f5c7b3507965f9a7eeaeef7b1975ff2aea9742d9d125e1acfc9b",
+              "blocking_codes": [],
+              "preparation_ms": 1604.975
+            }
+          ],
+          "current_review": {
+            "input": {
+              "expected_draft_revision": 0,
+              "expected_input_fingerprint": "58073e1b039a16f7ef0406b88995d373da7df1ed396c70e2a8c37c6580771d1b",
+              "expected_workspace_row_version": 1
+            },
+            "fit_status": "measured",
+            "review_hash": "a809311086f8daca3a42ef19dfb863b2a61eee02a40711910a1431d5f5d50554",
+            "can_generate": true,
+            "pending_slides": 0,
+            "template_sha256": "bbe72bf2bb08f37fe394c75563e2eca3ab8da72b1775db75704d47ae54f4f638",
+            "candidate_slides": 19
+          },
+          "generation": {
+            "ok": false,
+            "code": "57014",
+            "operation": "generate",
+            "duration_ms": 8000.507
+          }
+        },
+        "mcp_control": {
+          "locks": [
+            {
+              "ok": true,
+              "role": "eps_review_owner",
+              "operation": "locks",
+              "duration_ms": 884.016,
+              "can_generate": null,
+              "contract_hash": null,
+              "blocking_codes": [],
+              "preparation_ms": null
+            },
+            {
+              "ok": true,
+              "role": "eps_review_owner",
+              "operation": "locks",
+              "duration_ms": 1007.045,
+              "can_generate": null,
+              "contract_hash": null,
+              "blocking_codes": [],
+              "preparation_ms": null
+            }
+          ],
+          "review": [
+            {
+              "ok": true,
+              "role": "eps_review_owner",
+              "operation": "review",
+              "duration_ms": 409.801,
+              "can_generate": true,
+              "contract_hash": "7b58d4e2c9111f59a5cee5e65f533e0154f53107b92b7cd01dd8fe438f256fe4",
+              "blocking_codes": [],
+              "preparation_ms": null
+            },
+            {
+              "ok": true,
+              "role": "eps_review_owner",
+              "operation": "review",
+              "duration_ms": 396.961,
+              "can_generate": true,
+              "contract_hash": "7b58d4e2c9111f59a5cee5e65f533e0154f53107b92b7cd01dd8fe438f256fe4",
+              "blocking_codes": [],
+              "preparation_ms": null
+            }
+          ],
+          "snapshot": [
+            {
+              "ok": true,
+              "role": "eps_review_owner",
+              "operation": "snapshot",
+              "duration_ms": 445.3,
+              "can_generate": true,
+              "contract_hash": "878c6d28561dd20cb9223c113451b4f5be61e5d865c2d83658469139914b0e24",
+              "blocking_codes": [],
+              "preparation_ms": null
+            },
+            {
+              "ok": true,
+              "role": "eps_review_owner",
+              "operation": "snapshot",
+              "duration_ms": 448.836,
+              "can_generate": true,
+              "contract_hash": "878c6d28561dd20cb9223c113451b4f5be61e5d865c2d83658469139914b0e24",
+              "blocking_codes": [],
+              "preparation_ms": null
+            }
+          ],
+          "hash": [
+            {
+              "ok": true,
+              "role": "eps_review_owner",
+              "operation": "hash",
+              "duration_ms": 8.224,
+              "can_generate": true,
+              "contract_hash": "878c6d28561dd20cb9223c113451b4f5be61e5d865c2d83658469139914b0e24",
+              "blocking_codes": [],
+              "preparation_ms": 427.552
+            },
+            {
+              "ok": true,
+              "role": "eps_review_owner",
+              "operation": "hash",
+              "duration_ms": 9.239,
+              "can_generate": true,
+              "contract_hash": "878c6d28561dd20cb9223c113451b4f5be61e5d865c2d83658469139914b0e24",
+              "blocking_codes": [],
+              "preparation_ms": 444.713
+            }
+          ],
+          "current_review": {
+            "input": {
+              "expected_draft_revision": 0,
+              "expected_input_fingerprint": "c619ee33bc1cbd46ada4a23926b5c0cc5e35c515a672b8d3b897c8ae9f5e06fc",
+              "expected_workspace_row_version": 1
+            },
+            "fit_status": "measured",
+            "review_hash": "7b58d4e2c9111f59a5cee5e65f533e0154f53107b92b7cd01dd8fe438f256fe4",
+            "can_generate": true,
+            "pending_slides": 0,
+            "template_sha256": "bbe72bf2bb08f37fe394c75563e2eca3ab8da72b1775db75704d47ae54f4f638",
+            "candidate_slides": 1
+          },
+          "generation": {
+            "ok": true,
+            "role": "authenticated",
+            "job_id": "e380603b-3430-4c9e-9222-8d06a14c4996",
+            "status": "queued",
+            "duration_ms": 2954.896,
+            "resource_id": "9d752235-997f-4b31-953c-8b26d3e55cce",
+            "projection": {
+              "pins": 4,
+              "pages": 2,
+              "slides": 2,
+              "job_status": "queued",
+              "outbox_rows": 1,
+              "normalization": [
+                "created_at",
+                "generated version_id",
+                "generated slide ids by ordinal",
+                "companion captured_at"
+              ],
+              "source_companions": [
+                {
+                  "status": "not_provided",
+                  "languages": [],
+                  "source_sha256": null,
+                  "video_asset_id": "af6ac83d-d93c-ba34-b094-e2c556c9324c",
+                  "candidate_media_id": "b7042213-4b86-d60b-6b07-decd8de7060f",
+                  "source_media_row_version": 1
+                }
+              ],
+              "english_companions": [
+                {
+                  "status": "not_captured",
+                  "source_sha256": null,
+                  "english_sha256": null,
+                  "video_asset_id": "af6ac83d-d93c-ba34-b094-e2c556c9324c",
+                  "candidate_media_id": "b7042213-4b86-d60b-6b07-decd8de7060f",
+                  "source_media_row_version": 1
+                }
+              ],
+              "reason_nonnull_rows": 1,
+              "normalized_snapshot_sha256": "278b379fa5a7dc87b2bb4d07e7fd7ae63fdf048e0a3a35119aa2422a2c010d60"
+            }
+          }
+        },
+        "mcp_large": {
+          "locks": [
+            {
+              "ok": true,
+              "role": "eps_review_owner",
+              "operation": "locks",
+              "duration_ms": 2976.959,
+              "can_generate": null,
+              "contract_hash": null,
+              "blocking_codes": [],
+              "preparation_ms": null
+            },
+            {
+              "ok": true,
+              "role": "eps_review_owner",
+              "operation": "locks",
+              "duration_ms": 3129.003,
+              "can_generate": null,
+              "contract_hash": null,
+              "blocking_codes": [],
+              "preparation_ms": null
+            }
+          ],
+          "review": [
+            {
+              "ok": true,
+              "role": "eps_review_owner",
+              "operation": "review",
+              "duration_ms": 6628.528,
+              "can_generate": true,
+              "contract_hash": "a809311086f8daca3a42ef19dfb863b2a61eee02a40711910a1431d5f5d50554",
+              "blocking_codes": [],
+              "preparation_ms": null
+            },
+            {
+              "ok": true,
+              "role": "eps_review_owner",
+              "operation": "review",
+              "duration_ms": 7159.018,
+              "can_generate": true,
+              "contract_hash": "a809311086f8daca3a42ef19dfb863b2a61eee02a40711910a1431d5f5d50554",
+              "blocking_codes": [],
+              "preparation_ms": null
+            }
+          ],
+          "snapshot": [
+            {
+              "ok": true,
+              "role": "eps_review_owner",
+              "operation": "snapshot",
+              "duration_ms": 6511.02,
+              "can_generate": true,
+              "contract_hash": "e41e83abae14f5c7b3507965f9a7eeaeef7b1975ff2aea9742d9d125e1acfc9b",
+              "blocking_codes": [],
+              "preparation_ms": null
+            },
+            {
+              "ok": true,
+              "role": "eps_review_owner",
+              "operation": "snapshot",
+              "duration_ms": 6574.447,
+              "can_generate": true,
+              "contract_hash": "e41e83abae14f5c7b3507965f9a7eeaeef7b1975ff2aea9742d9d125e1acfc9b",
+              "blocking_codes": [],
+              "preparation_ms": null
+            }
+          ],
+          "hash": [
+            {
+              "ok": true,
+              "role": "eps_review_owner",
+              "operation": "hash",
+              "duration_ms": 215.869,
+              "can_generate": true,
+              "contract_hash": "e41e83abae14f5c7b3507965f9a7eeaeef7b1975ff2aea9742d9d125e1acfc9b",
+              "blocking_codes": [],
+              "preparation_ms": 6618.317
+            },
+            {
+              "ok": true,
+              "role": "eps_review_owner",
+              "operation": "hash",
+              "duration_ms": 145.235,
+              "can_generate": true,
+              "contract_hash": "e41e83abae14f5c7b3507965f9a7eeaeef7b1975ff2aea9742d9d125e1acfc9b",
+              "blocking_codes": [],
+              "preparation_ms": 6185.127
+            }
+          ],
+          "current_review": {
+            "input": {
+              "expected_draft_revision": 0,
+              "expected_input_fingerprint": "58073e1b039a16f7ef0406b88995d373da7df1ed396c70e2a8c37c6580771d1b",
+              "expected_workspace_row_version": 1
+            },
+            "fit_status": "measured",
+            "review_hash": "a809311086f8daca3a42ef19dfb863b2a61eee02a40711910a1431d5f5d50554",
+            "can_generate": true,
+            "pending_slides": 0,
+            "template_sha256": "bbe72bf2bb08f37fe394c75563e2eca3ab8da72b1775db75704d47ae54f4f638",
+            "candidate_slides": 19
+          },
+          "generation": {
+            "ok": false,
+            "code": "57014",
+            "operation": "generate",
+            "duration_ms": 8000.081
+          }
+        }
+      }
+    },
+    "security": {
+      "old": [
+        {
+          "name": "unrelated_project_actor",
+          "ok": false,
+          "code": "RESOURCE_NOT_FOUND"
+        },
+        {
+          "name": "mcp_capability_intersection",
+          "ok": false,
+          "code": "CAPABILITY_REQUIRED"
+        },
+        {
+          "name": "mcp_wrong_session",
+          "ok": false,
+          "code": "CAPABILITY_REQUIRED"
+        }
+      ]
+    },
+    "locks": {},
+    "edges": {},
+    "races": {},
+    "post40_complete_baseline": {
+      "pins": 60,
+      "tables": {
+        "eps.jobs": {
+          "count": 46,
+          "sha256": "d945dea6fd5723a672dc66913bfcded4efd32f8e5bd1a69d8859aa8cd0964ecb"
+        },
+        "eps.roles": {
+          "count": 42,
+          "sha256": "76dd053b2596ec24a10f9fbcb1b601cefcf5370156fc3c18e28cff0d5f986a82"
+        },
+        "eps.slots": {
+          "count": 605,
+          "sha256": "860258a887e04822d3720369083a61b19b046e62aea0fa389e6206acb1431a46"
+        },
+        "eps.specs": {
+          "count": 5,
+          "sha256": "154aceeb03c9204602ce4057a9a0915baf4b8e25e65b094ca1fe731f5cd49cb7"
+        },
+        "auth.users": {
+          "count": 4,
+          "sha256": "377c36a2600887f732fbf2c3d1fc006b296461aa01c4450b06fdb42917124aba"
+        },
+        "auth.sessions": {
+          "count": 2,
+          "sha256": "94d2d4062643ebe73bcace86bc5952754c6b2f533140a729fa065db2baf64863"
+        },
+        "auth.instances": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.candidates": {
+          "count": 28,
+          "sha256": "bb4f188da2cba16c4d22b4655b8775ecc55bf189c0519fb20e2425759616b5c2"
+        },
+        "eps.job_events": {
+          "count": 5,
+          "sha256": "42630fe1d4e80d8cc7a12f99e00681b735878b4cdbc7e37bd753a836cec62d0f"
+        },
+        "eps.workspaces": {
+          "count": 5,
+          "sha256": "ff16d0b31eda61d5326e917be22b0e0606370ae4f3dab1529b649c06a65eec41"
+        },
+        "public.clients": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.assignments": {
+          "count": 62,
+          "sha256": "b335f5d3566caa9504dbfae3683db4b53e11d0c8a003a8cbb0f998a38babebff"
+        },
+        "public.projects": {
+          "count": 5,
+          "sha256": "6f2659161955c2dec4aa61007dc15c1cc00d680cdaa690f1734eecf52a09b2bf"
+        },
+        "storage.buckets": {
+          "count": 7,
+          "sha256": "bcf01e76e5b3068e2aab4aa7219b236e21637d31f8de2e98d890775913e6f846"
+        },
+        "storage.objects": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.app_settings": {
+          "count": 1,
+          "sha256": "96e0dd3f0a951376de46eb712e2bdb4a3d69a12d348401d41389a9a349d8cdc4"
+        },
+        "eps.audit_events": {
+          "count": 21,
+          "sha256": "bb2d1a858964bc0a72c579eac4b954651aac2364c6fb0aaae2decc529b41e92e"
+        },
+        "eps.media_assets": {
+          "count": 501,
+          "sha256": "a66c63bacfd6b9c8dc672c3985dd0810bbd69225939454249063db5fa9fafab0"
+        },
+        "eps.review_links": {
+          "count": 1,
+          "sha256": "5eccf7b18da399bdd6af34883dc193ae7a29db0ce5807088fbf7a85476a4c6c3"
+        },
+        "eps.outbox_events": {
+          "count": 6,
+          "sha256": "53823bd2218bf956cbcef641408f8e7e3387684ab48fe4a1721d41e496a6c1ff"
+        },
+        "auth.oauth_clients": {
+          "count": 2,
+          "sha256": "a6bd3c0e0aaeeba247e685183d4ea61f0882b4627ca53726a7b8e6ea39a21037"
+        },
+        "eps.ai_suggestions": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.guest_sessions": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.version_slides": {
+          "count": 63,
+          "sha256": "5371a288fd527bd1de5f117c657a1519823b99ef5383860817681742436b8946"
+        },
+        "auth.refresh_tokens": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.candidate_media": {
+          "count": 27,
+          "sha256": "5f5deca6a6154fde85d819eeb2a885b40ba7a827301896a36365ffd80d8884dc"
+        },
+        "eps.support_uploads": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.upload_sessions": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.audience_presets": {
+          "count": 4,
+          "sha256": "8d428cf440776c4832d2406b3f19818bad1268a7e498bd29a1e2b5ae6d50a6ac"
+        },
+        "eps.candidate_support": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.candidate_uploads": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.feedback_comments": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.guest_idempotency": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "auth.audit_log_entries": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "auth.schema_migrations": {
+          "count": 7,
+          "sha256": "da8bf712bc4fec34de683399184da75cd8d8762b63548b2b0379f8c9a9ccca24"
+        },
+        "eps.guest_asset_grants": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.job_stage_attempts": {
+          "count": 44,
+          "sha256": "02826d186c352ba1173839591432ff4c247b6608d40b9249d4982bf1b0e8eb08"
+        },
+        "eps.review_fit_results": {
+          "count": 5,
+          "sha256": "733921baf8b22bb1107ee3ea697ae7299e64a559adb47cf09f6c132f4648a9e4"
+        },
+        "eps.specs_asset_config": {
+          "count": 1,
+          "sha256": "c628171680739f1fecb14b9ee8e78ae41752f7487ad904a2ab8a62ed82178255"
+        },
+        "eps.specs_asset_grants": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.idempotency_records": {
+          "count": 20,
+          "sha256": "3804c1d2144263692942432016e694a2c2505369c3daff71f0c07bc03d4baf92"
+        },
+        "eps.mcp_oauth_resources": {
+          "count": 2,
+          "sha256": "2d35e65b3b9fa40c6c2e6c6feb639c4a37425442b6f14fa94530bda8a453050c"
+        },
+        "eps.presentation_series": {
+          "count": 5,
+          "sha256": "49ccffd8946a509c17267405a0f1fa00efedac067838bcf928b4a5c83b1d7ec9"
+        },
+        "eps.review_link_replays": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.review_media_grants": {
+          "count": 1,
+          "sha256": "6d9fba9962fe4d3a08fceab46b56a479ad11939ba4fcc8c88fdff1cf67739ba5"
+        },
+        "eps.specs_source_inputs": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.cast_operation_notes": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.feedback_preferences": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.oauth_consent_claims": {
+          "count": 1,
+          "sha256": "14a019235022b79416f3d4534a2bba9970a5aea8a077e73410fe00783c63e422"
+        },
+        "eps.presentation_exports": {
+          "count": 1,
+          "sha256": "a57d931f457ad1eae1042f84a444bd7dcffb4b537aa3a7867da7d655e731c914"
+        },
+        "eps.review_gateway_rates": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.specs_stage_payloads": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.workspace_candidates": {
+          "count": 32,
+          "sha256": "360852f6f8f79b772e39c2d58b19bed8c7146933409dea123fe4b8f28762c680"
+        },
+        "auth.oauth_authorizations": {
+          "count": 1,
+          "sha256": "8d8f3a0c99f6e74bf7aa03658d31d793d25880e2ce797d7b7b48cf9e34263caa"
+        },
+        "eps.presentation_versions": {
+          "count": 14,
+          "sha256": "c031a0ae21acfb9539b7504c560e61d36b7bfe27b8ee5fc323f738f4cbfd54d2"
+        },
+        "eps.review_gateway_config": {
+          "count": 1,
+          "sha256": "2ee82681b39df82b0ee0333cb5b74a502ee3ca1234e915c830c962c1e76dd08a"
+        },
+        "eps.review_gateway_nonces": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.review_stage_payloads": {
+          "count": 5,
+          "sha256": "05e946663b3f1c9c3151be98996833915dc476ee2847374bcc8257523358a295"
+        },
+        "eps.specs_pipeline_config": {
+          "count": 1,
+          "sha256": "5449176c66e66558b18ba02dec2b2a24a784a7c5e8cdb859e03bfb75eb70ad79"
+        },
+        "eps.specs_upload_sessions": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "public.client_memberships": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.candidate_asset_config": {
+          "count": 1,
+          "sha256": "74c0f32267dcb59926ddd87bf2beb42069c9deb9e2d2b782fa7b7ed713505c31"
+        },
+        "eps.candidate_asset_grants": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.candidate_media_frames": {
+          "count": 328,
+          "sha256": "a22ca93fd8d30acb9a30c8bd491bc984884840a30b986bebf2078a2027e15b44"
+        },
+        "eps.logo_verification_keys": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.presentation_templates": {
+          "count": 2,
+          "sha256": "16db590da8b0fd644abbe47410def9959be998a82c064f9a621feb5e206c8424"
+        },
+        "public.project_memberships": {
+          "count": 6,
+          "sha256": "071d76515bc5e4cd4482d88623970edd8f1dd6d1e0e0b475ab5b00c5b2a677be"
+        },
+        "eps.frame_extraction_config": {
+          "count": 1,
+          "sha256": "f18a192cd6c5fda9ef3ffdab82cf51656242e9c60b2f0a0426dee41e1c004a3e"
+        },
+        "eps.job_stage_claim_replays": {
+          "count": 6,
+          "sha256": "a9ec7bf7b954d126827cc1415d3b01382754391e0074e0271674131ef5f9252e"
+        },
+        "eps.specs_file_preparations": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.specs_verification_keys": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.assignment_change_events": {
+          "count": 6,
+          "sha256": "31dd4e9ff733df855779a7885bb127d2936ee0a0d8f70cd2a79db9549b7a6cf6"
+        },
+        "eps.candidate_stage_payloads": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.candidate_support_config": {
+          "count": 1,
+          "sha256": "bd12feb29f67ef5e8957aee7374db3d3f6edee16a11489229f22fe2494fc370d"
+        },
+        "eps.project_creation_intents": {
+          "count": 3,
+          "sha256": "b4e601b76d0604956a6b8e3de2c908b145892d10d804f5947526b3ee9f691969"
+        },
+        "eps.review_processing_config": {
+          "count": 1,
+          "sha256": "fa38eb698184f985cc7306bdfac13f6993c0682f047891150ba6bb009b0678c8"
+        },
+        "public.app_capability_grants": {
+          "count": 33,
+          "sha256": "382e8ee234704c8c3cc2968b97c33085166bee60f2a310fdb88bbccfe983e25f"
+        },
+        "eps.frame_extraction_requests": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.presentation_asset_grants": {
+          "count": 5,
+          "sha256": "ce1a42262220ca92be66c616f743cd77c84176b2993c0ae0aa212ee39e82a213"
+        },
+        "eps.support_verification_keys": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.user_workspace_preferences": {
+          "count": 3,
+          "sha256": "c3c25c190e4a5bfb50f004e4bbf94daa19cab62e7f708a64f13faf9f6c92829c"
+        },
+        "eps.presentation_version_assets": {
+          "count": 60,
+          "sha256": "6fece1a932fbd89ee301b7edadee7f8028218a7b2d227fd35cc67b6a7f3347fb"
+        },
+        "eps.assignment_change_consumptions": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.presentation_processing_config": {
+          "count": 1,
+          "sha256": "21ad9b5c60f5408b7aca042074aada5cd1aabe08e7674798bb9ac7cff2ab51d9"
+        },
+        "eps.presentation_video_transcripts": {
+          "count": 2,
+          "sha256": "5b1e94452c61e1d6e145347167ab31be7cd3087951468abaf58d083c7e0e4d6a"
+        },
+        "supabase_migrations.schema_migrations": {
+          "count": 40,
+          "sha256": "13373f7f23183921efed40178af5d43193c3da10d34071334532127fa6caa607"
+        },
+        "eps.presentation_video_english_transcripts": {
+          "count": 2,
+          "sha256": "96229d624092b319b0c43c3a95ba991a940069c3b5e795f1501f91fd5d83e5f4"
+        }
+      },
+      "ready_versions": 13,
+      "reason_nonnull_rows": 1,
+      "application_catalogue_sha256": "ad5b92825e499298e1734cccf7fb32b791e0eba6ef9d7b0bd6db11544cdf00ba"
+    }
+  },
+  "first_owned_request_error": {
+    "phase": "holder_request",
+    "code": "OWNED_SESSION_FAILED",
+    "code_kind": "closed_transport_or_unknown",
+    "scope": "first observed owned request rejection; not a recovered primary error"
+  },
+  "failure_code": "LOCKSOURCE41_ASSERTION_FAILED",
+  "all_owned_resources_absent": true,
+  "independent_successful_daemon_label_inventories_empty": true,
+  "original_data_catalogue_and_global_roles_unchanged": true,
+  "shared_lock_released": true,
+  "finished_at": "2026-11-02T16:11:22.476Z",
+  "elapsed_ms": 198695
+}
