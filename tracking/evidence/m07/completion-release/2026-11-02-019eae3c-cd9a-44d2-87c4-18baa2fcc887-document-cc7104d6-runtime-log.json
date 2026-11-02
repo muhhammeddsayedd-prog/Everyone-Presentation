@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0",
+  "purpose": "fixed_cc7104d6_runtime_log_read_only",
+  "result": "observed",
+  "observed_at": "2026-11-02T23:52:51.214846+00:00",
+  "run_id": "019eae3c-cd9a-44d2-87c4-18baa2fcc887",
+  "project_id": "prj_I4SMkDzaDy0KHNgiF00v4Da5aLb6",
+  "deployment_id": "dpl_6oA1iaHte26KG1DEkBEJ9KU3ahS7",
+  "instance_id": "dmni_01m6f7sz07x7wg6989wk6kwnz4",
+  "job_id": "cc7104d6-6a27-4a4d-93da-f50a7769a71f",
+  "attempt_id": "4c1d15c1-2d94-488f-8485-035fef86b6ed",
+  "time_range": {
+    "start": "2026-11-02T23:32:30.000Z",
+    "end": "2026-11-02T23:33:30.000Z"
+  },
+  "normal_CLI_API_read_calls": 1,
+  "automatic_retry": false,
+  "private_raw": {
+    "path": ".local/completion-release/document-cc7104d6-logs-019eae3c-cd9a-44d2-87c4-18baa2fcc887/raw-observation.json",
+    "sha256": "27feb8360acf6bd6720f648e2ad55c1b9d0191333bb6b0ead50532b858a01f1b",
+    "bytes": 1191
+  },
+  "provider_source_sha256": "2a663f05af131099f199fd1b7e137be06571518a73985c3b3befc2e562995d1b",
+  "source_sha256": "eadac340c7c9b18f0bb0cde8b534acb19f18ac34bca5ba30672592374dcfe724",
+  "query_sha256": "d3de9d57f43cb570786054cb819e761841264c544df7932f38482448029b9d66",
+  "connector_attempt": {
+    "result": "forbidden",
+    "http_status": 403,
+    "rows_observed": 0
+  },
+  "complete_returned_window": true,
+  "pagination": {
+    "hasMore": false,
+    "nextCursor": null
+  },
+  "excluded_intervals": [],
+  "returned_records": 1,
+  "unrecognized_record_count": 0,
+  "diagnostics": [
+    {
+      "logged_at": "2026-11-02T23:33:20.753Z",
+      "level": "info",
+      "event": "specs_stage_processing_failed",
+      "job_id": "cc7104d6-6a27-4a4d-93da-f50a7769a71f",
+      "attempt_id": "4c1d15c1-2d94-488f-8485-035fef86b6ed",
+      "stage": "prepare_document",
+      "correlation_id": "73ac9a38-a905-4fa1-97a3-94193bb7ead2",
+      "error_kind": "integration",
+      "code": "OPENAI_CONFIGURATION_INVALID",
+      "http_status": null,
+      "request_id": null
+    }
+  ],
+  "processing_triggered": false,
+  "job_or_configuration_mutated": false,
+  "raw_logs_public": false
+}
