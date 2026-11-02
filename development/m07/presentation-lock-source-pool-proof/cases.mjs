@@ -14,6 +14,9 @@ const measure=workspace=>`select pg_temp.pool_proof_measure(${literal(workspace)
 const begin=(ctx,mode='mcp',role='eps_review_owner',extra={})=>'begin;'+ctx.acting(mode,role,ACTOR,extra)+"set local statement_timeout='8s';set local lock_timeout='8s';";
 const fence=workspace=>`select jsonb_build_object('workspace_fenced',id)from eps.workspaces where id=${literal(workspace)}::uuid for update;`;
 const canon=value=>Array.isArray(value)?value.map(canon):value&&typeof value==='object'?Object.fromEntries(Object.keys(value).sort().map(key=>[key,canon(value[key])])):value;
+// Polling/barrier awaits must not leave a native rejection temporarily unhandled.
+// Keep the original Promise so its later await still observes the identical error.
+export function observePending(pending){pending.catch(()=>{});return pending;}
 
 export async function firstAndWarm(ctx){
  const result=ctx.report.pool_helper_proof;
@@ -185,7 +188,7 @@ async function workspaceFenceRace(ctx){
   await holder.request(begin(ctx));only(await holder.request(fence(p.workspace)));record.helper=only(await holder.request(measure(p.workspace)));assert.equal(record.helper.ok,true);
   await writer.request(begin(ctx,'mcp','authenticated'));
   const input={slot_id:pair.slot,workspace_candidate_id:pair.pool,expected_slot_row_version:Number(pair.slot_revision),shortlist_included:false};
-  pending=writer.request(`select public.eps_create_assignment(${literal(p.workspace)}::uuid,${json(input)},${literal('poolproof-'+ctx.runId+'-fence')});`);
+  pending=observePending(writer.request(`select public.eps_create_assignment(${literal(p.workspace)}::uuid,${json(input)},${literal('poolproof-'+ctx.runId+'-fence')});`));
   for(let i=0;i<80;i++){
    const wait=only(await observer.request(`reset role;select jsonb_build_object('waiting',coalesce((select wait_event_type='Lock'and ${holder.pid}=any(pg_blocking_pids(pid))from pg_stat_activity where pid=${writer.pid}),false));`));
    if(wait.waiting){record.actual_distinct_pid_wait=true;break;}await setTimeout(20);
@@ -212,7 +215,7 @@ async function authorityCases(ctx){
   try{
    await blocker.request('reset role;begin;lock table eps.candidate_media in access exclusive mode;');
    await holder.request(begin(ctx,'mcp','eps_review_owner',change==='expiry'?{exp:expires}:{}));only(await holder.request(fence(p.workspace)));
-   pending=holder.request(measure(p.workspace));
+   pending=observePending(holder.request(measure(p.workspace)));
    for(let i=0;i<80;i++){
     const wait=only(await observer.request(`reset role;select jsonb_build_object('waiting',exists(select 1 from pg_locks where pid=${holder.pid} and not granted and relation='eps.candidate_media'::regclass)and ${blocker.pid}=any(pg_blocking_pids(${holder.pid})));`));
     if(wait.waiting){record.actual_relation_wait=true;break;}await setTimeout(20);

@@ -75,6 +75,9 @@ FKs must deny23503. Relation barriers exercise membership/capability revocation
 and database-clock token expiry inside the helper; current denial and exact owned
 authority restoration are mandatory. These use existing controls, not disabled
 policies/triggers, synthetic denial injection or timeout changes.
+Both pending race requests attach an immediate rejection observer before polling
+or barrier awaits. The original Promise and later error are retained, so early
+failures reach capture/cleanup without an unhandled-rejection process exit.
 
 ## Preservation and limits
 
@@ -94,7 +97,7 @@ helper pass cannot admit the unexecuted four-body reuse change or complete M07.
 The combined first-call API/MCP control/large generation and full release proof
 remain separate required work. EXPLAIN is not included or implicitly authorized.
 
-Focused checks are8 Node fake-port state tests and6 Python source/parser/actual
+Focused checks are9 Node fake-port/pure-runtime tests and6 Python source/parser/actual
 template/disabled/once-admission checks. They do not establish database behavior.
 
 ```

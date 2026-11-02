@@ -1,5 +1,8 @@
-/** Fake-port state-machine tests only. No process, database or provider calls. */
+/** Fake-port/pure Node state-machine tests only. No database or provider calls. */
 import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
+import process from 'node:process';
+import { URL } from 'node:url';
 import test from 'node:test';
 import { firstAndWarm,heldCohorts } from './cases.mjs';
 import { nativeError } from './native.mjs';
@@ -84,4 +87,18 @@ test('only first verbose PostgreSQL ERROR supplies public code; Node EPIPE/priva
  assert.deepEqual(nativeError(Object.assign(Error('x'),{code:'EPIPE'})),{sqlstate:null,provenance:null,application_code:null});
  assert.equal(nativeError({diagnostic:{stderr:'ERROR: denied\nDETAIL: ERROR: 57014: PRIVATE'}}).sqlstate,null);
  const value=nativeError({diagnostic:{stderr:'ERROR: P0001: RESOURCE_NOT_FOUND\nDETAIL: PRIVATE'}});assert.equal(value.application_code,'RESOURCE_NOT_FOUND');assert(!JSON.stringify(value).includes('PRIVATE'));
+});
+
+test('early native rejection stays observed during polling, retaining original Promise and Error',()=>{
+ const run=observed=>spawnSync(process.execPath,['--unhandled-rejections=strict','--input-type=module','-e',`
+import assert from 'node:assert/strict';import {setTimeout}from 'node:timers/promises';
+import {observePending}from ${JSON.stringify(new URL('./cases.mjs',import.meta.url).href)};
+const error=Error('SYNTHETIC_EARLY_NATIVE_REJECTION'),original=Promise.reject(error);
+const selected=${observed?'observePending(original)':'original'};
+assert.equal(selected,original);await setTimeout(20);
+await assert.rejects(selected,value=>value===error);
+`],{encoding:'utf8',windowsHide:true});
+ const red=run(false),green=run(true);
+ assert.notEqual(red.status,0);assert.match(red.stderr,/SYNTHETIC_EARLY_NATIVE_REJECTION/u);
+ assert.equal(green.status,0,green.stderr);assert.equal(green.stderr,'');
 });
