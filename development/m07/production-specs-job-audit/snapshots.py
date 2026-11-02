@@ -1,0 +1,42 @@
+"""Fixed v1 snapshot hashes and casting metadata, never person/slide text."""
+from pathlib import Path
+import datetime,importlib.util,json,os,re,sys,uuid
+HERE=Path(__file__).resolve().parent
+spec=importlib.util.spec_from_file_location('snapshots_existing_readonly_audit',HERE/'audit.py');a=importlib.util.module_from_spec(spec);spec.loader.exec_module(a)
+VERSIONS={'8f1c303e-310b-473c-b217-212a65bdf245':('0b26d206-645a-4c9c-bbee-7307265ac68c','fb029c89-034e-4030-8bde-4528b55b8fbb','selection'),'63787eff-a60c-4e62-9806-a5f8d9c43805':('16f21857-8c2c-4ac2-a1da-b7e3433bafc6','c0240fd0-fcc2-4e58-9e08-2868f109e16e','shortlist')}
+def sql():
+ l=a.old.literal;workspace=l(a.WORKSPACE)+'::uuid';project=l(a.PROJECT)+'::uuid';versions=','.join(l(v)+'::uuid'for v in VERSIONS)
+ digest=lambda value:"encode(sha256(convert_to(("+value+")::text,'UTF8')),'hex')"
+ slides="(select coalesce(jsonb_agg(jsonb_build_object('id',s.id,'ordinal',s.ordinal,'kind',s.kind,'assignment_id',s.source_assignment_id,'slot_id',s.source_slot_id,'candidate_id',s.snapshot->>'candidate_id','position',s.snapshot->>'position','review_status',s.snapshot->>'review_status','frame_asset_ids',s.snapshot->'frame_asset_ids','video_asset_id',s.snapshot->>'video_asset_id','field_keys',(select coalesce(jsonb_agg(k order by k),'[]'::jsonb)from jsonb_object_keys(coalesce(nullif(s.snapshot->'fields','null'::jsonb),'{}'::jsonb))k),'content_sha256',s.content_sha256)order by s.ordinal),'[]'::jsonb)from eps.version_slides s where s.version_id=v.id)"
+ slidehash="(select "+digest("coalesce(jsonb_agg(to_jsonb(s)order by s.ordinal),'[]'::jsonb)")+"from eps.version_slides s where s.version_id=v.id)"
+ assethash="(select "+digest("coalesce(jsonb_agg(to_jsonb(x)order by x.asset_id),'[]'::jsonb)")+"from eps.presentation_version_assets x where x.version_id=v.id)"
+ assets="(select jsonb_build_object('count',count(*),'candidate_frames',count(*)filter(where x.asset_kind='candidate_frame'),'candidate_videos',count(*)filter(where x.asset_kind='candidate_video'),'pdfs',count(*)filter(where x.asset_kind='presentation_pdf'),'manifests',count(*)filter(where x.asset_kind='presentation_manifest'))from eps.presentation_version_assets x where x.version_id=v.id)"
+ frozen="(select coalesce(jsonb_agg(jsonb_build_object('id',v.id,'series_id',v.series_id,'version_number',v.version_number,'status',v.status,'generation_job_id',v.generation_job_id,'output_type',v.manifest->>'output_type','page_count',v.page_count,'ready_at',v.ready_at,'pdf_asset_id',v.pdf_asset_id,'manifest_asset_id',v.manifest_asset_id,'snapshot_sha256',v.snapshot_sha256,'manifest_sha256',v.manifest_sha256,'inventory_sha256',v.inventory_sha256,'version_row_jsonb_sha256',"+digest('to_jsonb(v)')+",'slides_jsonb_sha256',"+slidehash+",'assets_jsonb_sha256',"+assethash+",'internal_notes_key_in_snapshot',jsonb_path_exists(v.snapshot,'$.**.internal_notes'),'internal_notes_key_in_manifest',jsonb_path_exists(v.manifest,'$.**.internal_notes'),'slides',"+slides+",'assets',"+assets+")order by v.id),'[]'::jsonb)from eps.presentation_versions v where v.id in("+versions+')and v.workspace_id='+workspace+' and v.project_id='+project+')'
+ assignments="(select coalesce(jsonb_agg(jsonb_build_object('id',x.id,'slot_id',x.slot_id,'workspace_candidate_id',x.workspace_candidate_id,'candidate_id',c.id,'position',x.position,'shortlist_included',x.shortlist_included,'presentation_notes_present',coalesce(length(x.presentation_notes),0)>0,'internal_notes_present',coalesce(length(x.internal_notes),0)>0,'candidate_is_reviewed',eps.cast_is_reviewed(c),'candidate_profile_jsonb_sha256',"+digest('to_jsonb(c)')+",'selected_candidate_media_id',w.selected_candidate_media_id,'selected_frame_asset_ids',w.selected_frame_asset_ids)order by x.id),'[]'::jsonb)from eps.assignments x join eps.workspace_candidates w on w.id=x.workspace_candidate_id and w.workspace_id=x.workspace_id join eps.candidates c on c.id=w.candidate_id where x.workspace_id="+workspace+' and x.archived_at is null)'
+ return "begin isolation level repeatable read read only;set local search_path='';set local timezone='UTC';set local statement_timeout='45s';select jsonb_build_object('observed_at',clock_timestamp(),'database',current_database(),'operator',current_user,'versions',"+frozen+",'current_assignments',"+assignments+')as production_snapshot_metadata;rollback;'
+def validate(value):
+ a.need(set(value)=={'observed_at','database','operator','versions','current_assignments'}and value['database']==value['operator']=='postgres');a.old.timestamp(value['observed_at']);a.need(len(value['versions'])==2)
+ for v in value['versions']:
+  expected=VERSIONS[v['id']];a.need((v['series_id'],v['generation_job_id'],v['output_type'])==expected and v['version_number']==1 and v['status']=='ready'and v['page_count']==2 and v['internal_notes_key_in_snapshot']is False and v['internal_notes_key_in_manifest']is False)
+  for key in('snapshot_sha256','manifest_sha256','inventory_sha256','version_row_jsonb_sha256','slides_jsonb_sha256','assets_jsonb_sha256'):a.need(type(v[key])is str and re.fullmatch('[a-f0-9]{64}',v[key]))
+  a.need(len(v['slides'])==2 and len([s for s in v['slides']if s['kind']=='candidate'])==1 and v['assets']['candidate_frames']==3 and v['assets']['candidate_videos']==1)
+  for s in v['slides']:
+   if s['kind']=='candidate':a.need(len(s['field_keys'])==10 and len(s['frame_asset_ids'])==3 and s['position']in('main','option','backup')and s['review_status']in('reviewed','unreviewed'))
+ for row in value['current_assignments']:
+  for key in('id','slot_id','workspace_candidate_id','candidate_id','selected_candidate_media_id'):a.old.identifier(row[key])
+  a.need(row['position']in('main','backup','option')and type(row['shortlist_included'])is bool and type(row['candidate_is_reviewed'])is bool and len(row['selected_frame_asset_ids'])<=3)
+ return value
+def main():
+ a.need(len(sys.argv)==1 and(a.MAIN/'supabase/.temp/project-ref').read_text().strip()==a.TARGET);text=sql();import pglast;pglast.parse_sql(text)
+ private=a.MAIN/'.local/production-specs-snapshot-audit'/str(uuid.uuid4());private.mkdir(parents=True,exist_ok=False);a.need(private.resolve()==private and private.is_relative_to(a.MAIN/'.local/production-specs-snapshot-audit'));file=private/'snapshot.sql';guard=a.old.s.s.b.security()
+ with guard.create(file)as stream:stream.write(text.encode());stream.flush();os.fsync(stream.fileno());guard.verify_open(stream)
+ args=['npx.cmd','--yes','supabase@2.122.0','db','query','--linked','--project-ref',a.TARGET,'--file',str(file),'--output-format','json','--workdir',str(a.MAIN)];code,timeout,overflow,out,_=a.reader.bounded(args,a.reader.environment());value=None
+ if code==0 and not timeout and not overflow:
+  parsed=json.loads(out);rows=parsed if type(parsed)is list else parsed.get('rows');a.need(type(rows)is list and len(rows)==1 and set(rows[0])=={'production_snapshot_metadata'});value=validate(rows[0]['production_snapshot_metadata'])
+ receipt={'schema_version':'1.0','observed_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'result':'observed'if value else'unconfirmed','target':a.TARGET,'workspace_id':a.WORKSPACE,'project_id':a.PROJECT,'read_only_rollback':True,'automatic_retry':False,'sql_sha256':a.sha(text.encode()),'audit_source_sha256':a.sha(Path(__file__).read_bytes()),'exit_code':code,'timed_out':timeout,'output_limit_exceeded':overflow,'raw_person_facts_names_notes_snapshots_payloads_or_credentials_saved':False,'metadata':value,'limits':['current v1 bytes/hash baseline at observed_at; no earlier-time claim','persisted metadata only; rendered PDF/played video acceptance is separate Root evidence','current assignment/Reviewed state and frozen version state are distinct','no guest/MCP/authprotocol/AT069/business accuracy proof']}
+ folder=a.ROOT/'tracking/evidence/m07/production-specs-job-audit';folder.mkdir(parents=True,exist_ok=True);file=folder/(datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%dT%H-%M-%S-%fZ')+'-v1-snapshots.json')
+ with file.open('x',encoding='utf8',newline='\n')as stream:json.dump(receipt,stream,sort_keys=True,indent=2);stream.write('\n')
+ print(json.dumps({'result':receipt['result'],'receipt':file.relative_to(a.ROOT).as_posix(),'versions':len(value['versions'])if value else None}));a.need(value is not None)
+if __name__=='__main__':
+ try:main()
+ except Exception:print('PRODUCTION_SNAPSHOT_AUDIT_UNCONFIRMED');sys.exit(1)
