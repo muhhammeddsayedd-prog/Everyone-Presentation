@@ -3,6 +3,7 @@ from pathlib import Path
 import copy,importlib.util,json,time,types,unittest,uuid
 from unittest.mock import Mock
 import pglast
+from pglast.visitors import Visitor
 HERE=Path(__file__).resolve().parent
 def module(name,file):
  spec=importlib.util.spec_from_file_location(name,file);v=importlib.util.module_from_spec(spec);spec.loader.exec_module(v);return v
@@ -33,6 +34,12 @@ class Tests(unittest.TestCase):
   value=self.adapter();self.assertEqual(pglast.__version__,'v7.21');checkpoint=value.checkpoint_sql();parsed=pglast.parse_sql(checkpoint);self.assertGreater(len(parsed),3)
   self.assertIn('repeatable read read only',checkpoint);self.assertIn('eps.project_creation_intents',checkpoint);self.assertNotIn('pg_authid',checkpoint)
   self.assertTrue(all(type(row.stmt).__name__ in ('TransactionStmt','VariableSetStmt','SelectStmt')for row in parsed))
+  counts=[]
+  class FunctionBounds(Visitor):
+   def visit_FuncCall(visitor,ancestors,node):
+    if tuple(part.sval for part in node.funcname)==('jsonb_build_object',):counts.append(len(node.args or()))
+  FunctionBounds()(parsed)
+  self.assertGreaterEqual(len(counts),2);self.assertLessEqual(max(counts),100)
   before=t.Ports(self.state).value
   for phase in('pause','pin','resume','unwind'):
    current=copy.deepcopy(before)

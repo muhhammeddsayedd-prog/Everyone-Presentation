@@ -115,7 +115,7 @@ def operate(action,p,state):
 def main():
  need(ROLLOUT_ENABLED and len(sys.argv)==2)
  module=s.module('completion39_new_bounded_provider',HERE/'provider.py');p=module.Provider();value=operate(sys.argv[1],p,p.s);print(json.dumps(value))
- if value['result']not in('passed','prepared','submitted'):raise ValueError('COMPLETION39_UNCONFIRMED')
+ if value['result']not in('passed','prepared','submitted','observed'):raise ValueError('COMPLETION39_UNCONFIRMED')
 if __name__=='__main__':
  try:main()
  except Exception:print('COMPLETION39_UNCONFIRMED');sys.exit(1)

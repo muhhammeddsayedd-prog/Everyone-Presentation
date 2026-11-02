@@ -12,6 +12,7 @@ REGISTRY=s.ROOT/'development/m07/completion-worker/registry.py';REGISTRY_SHA='80
 RUNTIME=s.MAIN/'development/m07/controlled-pilot/daemon-runtime.mjs';RUNTIME_SHA='528072b8e21ee0dfe79911a42ceeffeaf43b631688f16c0c6ddf5ce025b86263'
 EMITTER=s.MAIN/'tools/worker-hosting-build.mjs';EMITTER_SHA='3f27ca1bf039579905763365c592b4d6e94754437753a3f645c4bad85e7bcb69'
 OBSERVER=s.MAIN/'development/m07/production-worker-startup-observer/observe.py'
+CHECKPOINT_SHA='273ad36c1b65177b63780162b82892e131eb095ace9ff2b49d824d82335fe518'
 OUTPUT=s.MAIN/'.local/worker-hosting/8b559ebe-1b6c-4741-b371-9498c5855976/deployment'
 CLI_PINS={'commands/deploy/index.js':'87147e9eda4f3f43f156a93b54b157ac356f7108a196027692120efb71c40ee2','commands-routing.js':'1314ff6bb482b556ac540e12bf87d899b15e2e30ed1c907e54d5b664dea5ba90','commands-deployments.js':'5309d52278f46cf3cd7764690873038b4054c0b702ff885b9878a67ee6ff218a','chunks/chunk-CJHVHB2F.js':'c9301bc282bed45b0d8b127bf70cbc951c9d2ccf00be71289b331560445d03a0','chunks/chunk-OLAG7Y3P.js':'96356f41ba1d0a364761c04470e831dea6365ca51744f19d4dc710c728927b52','chunks/chunk-2PYFJXKS.js':'f19e025f07602444e832f4096c829928959f5a315ab09048c66f8505277d189b','chunks/chunk-YIOT5B5Z.js':'36a7d817e495b18babf431a5380e530f3f6ceb262120bafc56b3d9163aaae661','chunks/chunk-QZEZCUUZ.js':'d81dab4301ba45c2d3c786bbca5c29a5027e98976118102de7aa8e99b607d23a'}
 REFS={
@@ -32,6 +33,7 @@ class Provider:
   self.observer=module('completion39_new_data_only_startup_observer',OBSERVER)
  def pins(self):
   pins={**self.s.source_pins(),**self.r.sources()}
+  checkpoint=self.checkpoint_sql().encode();need(s.sha(checkpoint)==CHECKPOINT_SHA and s.load(HERE/'checkpoint-query.sql')==checkpoint)
   for file,digest in[(RUNTIME,RUNTIME_SHA),(EMITTER,EMITTER_SHA)]:need(s.sha(s.load(file))==digest);pins[str(file)]=digest
   need(s.sha(s.load(OBSERVER))==self.inputs['startup_observer_sha256']);pins.update({str(s.MAIN/key):value for key,value in self.observer.pins().items()})
   for name,digest in CLI_PINS.items():file=self.r.CLI.parent/name;need(s.sha(s.load(file))==digest);pins[str(file)]=digest
@@ -42,7 +44,7 @@ class Provider:
    PRIVATE.mkdir(parents=True,exist_ok=False);need(PRIVATE.resolve()==PRIVATE and not PRIVATE.is_symlink());self._create(PRIVATE/'owner.json',owner)
   else:need(PRIVATE.resolve()==PRIVATE and not PRIVATE.is_symlink()and self.read('owner.json')==owner)
  def _create(self,file,value):
-  need(file.parent==PRIVATE and not file.exists());raw=value if type(value)is bytes else(json.dumps(value,sort_keys=True)+'\n').encode();guard=self.r.helpers().private_security()
+  need(file.parent==PRIVATE and not file.exists());raw=value if type(value)is bytes else(json.dumps(value,sort_keys=True,ensure_ascii=False,separators=(',',':'))+'\n').encode();guard=self.r.helpers().private_security()
   with guard.create(file)as stream:guard.verify_open(stream);stream.write(raw);stream.flush();os.fsync(stream.fileno());guard.verify_open(stream)
  def exists(self,name):need(re.fullmatch('[A-Za-z0-9_.-]+',name));return(PRIVATE/name).exists()
  def write(self,name,value):self._ensure();need(re.fullmatch('[A-Za-z0-9_.-]+',name));self._create(PRIVATE/name,value)
@@ -68,12 +70,15 @@ class Provider:
   if body is not None:
    name='request-'+str(uuid.uuid4())+'.json';self.write(name,body);args+=['--input',str(PRIVATE/name)]
   return json.loads(self.run(self.r.cli(args)))
- def query(self,sql):
+ def query(self,sql,*,checkpoint=False):
   need((s.MAIN/'supabase/.temp/project-ref').read_text().strip()==s.TARGET and not any(os.environ.get(key)for key in('SUPABASE_ACCESS_TOKEN','SUPABASE_DB_PASSWORD')))
   reader=module('completion39_existing_normal_sql_reader',s.MAIN/'development/m07/oauth-attempt-trace/inspect-attempt.py')
   name='query-'+str(uuid.uuid4())+'.sql';self.write(name,sql.encode())
   args=['npx.cmd','--yes','supabase@2.122.0','db','query','--linked','--project-ref',s.TARGET,'--file',str(PRIVATE/name),'--output-format','json','--workdir',str(s.MAIN)]
-  code,timeout,overflow,out,_=reader.bounded(args,reader.environment());need(code==0 and not timeout and not overflow)
+  if checkpoint:
+   capture=module('completion39_checkpoint_only_capture',HERE/'capture.py');code,timeout,overflow,out,_=capture.bounded_checkpoint(args,reader.environment(),cwd=s.MAIN)
+  else:code,timeout,overflow,out,_=reader.bounded(args,reader.environment())
+  need(code==0 and not timeout and not overflow)
   value=json.loads(out);rows=value if type(value)is list else value.get('rows')if type(value)is dict else None
   need(type(rows)is list and len(rows)==1 and set(rows[0])=={'completion39_rollout'});return rows[0]['completion39_rollout']
  def snapshot(self):
@@ -83,7 +88,8 @@ class Provider:
   for table in tables:
    relation=table if table.startswith('public.')else'eps.'+table
    terms+=[self.s.b.literal(table),"(select coalesce(jsonb_agg(to_jsonb(t)order by to_jsonb(t)::text),'[]'::jsonb)from "+relation+' t)']
-  data='jsonb_build_object('+','.join(terms)+')'
+  # jsonb_build_object accepts at most100 arguments (50 key/value pairs).
+  data='('+'||'.join('jsonb_build_object('+','.join(terms[index:index+100])+')'for index in range(0,len(terms),100))+')'
   expression="select jsonb_build_object('state',("+self.s.state_sql()+"),'application_tables',"+data+",'catalogue',(select catalog from("+self.s.c.catalogue+")c))"
   return "begin isolation level repeatable read read only;set local search_path='';set local timezone='UTC';set local statement_timeout='60s';"+expression+" as completion39_rollout;rollback;"
  def schema_capsule(self):
@@ -94,7 +100,7 @@ class Provider:
  def checkpoint(self,before):
   schema=self.schema_capsule()
   tables=sorted(set(self.s.b.TABLES)|{'job_stage_attempts','project_creation_intents'})
-  value=self.query(self.checkpoint_sql())
+  value=self.query(self.checkpoint_sql(),checkpoint=True)
   need(value['state']==before and set(value['application_tables'])==set(tables)and len(tables)==76)
   self.write('canonical39-checkpoint.json',value)
   return {'protected_file':(PRIVATE/'canonical39-checkpoint.json').relative_to(s.MAIN).as_posix(),'sha256':self.hash('canonical39-checkpoint.json'),'history_count':39,'tables':76,
@@ -184,6 +190,7 @@ class Provider:
    ref=self.inputs['native_concurrency'];need(type(ref)is dict and set(ref)=={'path','sha256'}and ref['path'].startswith('tracking/evidence/')and'..'not in Path(ref['path']).parts)
    raw=s.load(s.MAIN/ref['path']);need(s.sha(raw)==ref['sha256']);value=json.loads(raw)
    need(value['result']=='passed'and value['actual_native_sql_concurrency']is True and value['sql_contract_sha256']==self.s.sql_contract_sha256()and all(value[k]is True for k in('cached_intake_waited_before_snapshot','fresh_intake_denied_after_pause','retry_lifecycle_not_hidden_by_pause','all_resources_cleaned','original_state_preserved')));refs['native_concurrency']=ref
+   checked=value['checkpoint_query_validation'];need(checked['query_sha256']==CHECKPOINT_SHA and checked['application_tables']==76 and checked['same_state_before_after']is True and checked['table_counts_match_state']is True and checked['raw_rows_persisted']is False and type(checked['stdout_bytes'])is int and 0<checked['stdout_bytes']<=32*1024**2)
   return {'references':refs,'source_sha256':s.SOURCE,'native_digest':s.NATIVE,'daemon_digest':s.DAEMON,'manifest_sha256':s.MANIFEST,'daemon_import':export_ref,'native_cleanup_confirmed':True,'actual_AT069_or_queued_replacement_claimed':False}
  def before_pause_availability(self,plan):
   need(self.environment()==plan['environment']);self.old_matches(plan['old']);self.write('forward-availability.json',{'pins':self.pins(),'plan_sha256':self.hash('plan.json'),'old':plan['old'],'deploy_claim_must_be_absent':True})
@@ -210,7 +217,7 @@ class Provider:
   if returned:identifier=returned['value']['url'].removeprefix('https://')
   else:
    payload=self.api('GET','/v7/deployments?projectId='+PROJECT+'&target=production&limit=20&teamId='+TEAM)
-   need(type(payload.get('deployments'))is list and len(payload['deployments'])<=20 and type(payload.get('pagination'))is dict and payload['pagination'].get('next')is None)
+   need(type(payload.get('deployments'))is list and len(payload['deployments'])<=20 and type(payload.get('pagination'))is dict and'next'in payload['pagination']and payload['pagination']['next']is None)
    found=[row for row in payload['deployments']if all(row.get('meta',{}).get(key)==wanted for key,wanted in meta(claim['marker']).items())];need(len(found)==1)
    identifier=found[0].get('uid',found[0].get('id'));need(type(identifier)is str and re.fullmatch('dpl_[A-Za-z0-9]{10,80}',identifier))
   one=self.deployment_metadata(self.api('GET','/v13/deployments/'+identifier+'?teamId='+TEAM),claim['marker'])

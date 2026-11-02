@@ -30,6 +30,12 @@ include managed Auth, Storage object bytes or private runtime environment, and
 does not claim a verified restore. Separate independent39 recovery is required
 for that acceptance scope. No raw DB rows, credential values or CLI logs go to
 public receipts. Existing backups and frozen sources remain intact.
+Checkpoint capture has a separate fixed16MiB stdout/64KiB stderr/60-second
+bound; ordinary snapshots retain the existing256KiB bound. The76-key data object
+uses concatenated chunks of at most50 pairs per `jsonb_build_object`. Exact SQL
+is `checkpoint-query.sql`, SHA273ad36c1b65177b63780162b82892e131eb095ace9ff2b49d824d82335fe518.
+Actual owned-local execution must verify all76 table counts against the same
+collector before/after, in addition to parser/function-argument checks.
 
 ## Exact order and failure boundaries
 
