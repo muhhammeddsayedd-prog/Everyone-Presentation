@@ -1,0 +1,327 @@
+{
+  "schema_version": "edge-rls-focused-actual-outcome.v1",
+  "observed_at": "2026-11-02T21:33:18.549329+00:00",
+  "actual_runtime_uuid": "278a260d-9070-4896-b565-95c860411a26",
+  "compile_uuid": "63be43ae-4155-456f-9b4a-6f7363b30331",
+  "normal_process_exit_code": 1,
+  "result": "failed",
+  "elapsed_ms": 84066,
+  "checkpoint": "edge-rls-new-own_pair_deleted",
+  "failure_code": "LOCKSOURCE41_COMMAND_FAILED",
+  "actual_receipt": {
+    "path": "tracking/evidence/m07/presentation-lock-source-edge-rls-proof/2026-11-02T21-26-58.893Z-278a260d.json",
+    "sha256": "338cb6dd81a9572d9d5811367a3ffe6b6dd49f73d64617d83297bcbc3c07a75b"
+  },
+  "carried_evidence": {
+    "schema_version": "edge-rls-dated-carry.v1",
+    "receipt": "tracking/evidence/m07/presentation-lock-source-complete-oracle-proof/2026-11-02T20-33-12.340Z-39386edd.json",
+    "receipt_sha256": "f5de1993783c8c3f4e618189091291ea905bd34839effd088af59e403d477cac",
+    "observed_at": "2026-11-02T20:33:12.340Z",
+    "result": "partial_pass_from_failed_run",
+    "helper_sha256": "280244090e5350b912dec5b23b74bb5d260e9e21df497c8ddfc2ae322fb774c4",
+    "complete_oracle_relations": 12,
+    "held_selected_rows": 150,
+    "unselected_negatives": 8,
+    "total_universe_keys": 1637,
+    "carried_RR_cases": [
+      "baseline",
+      "empty_assignments",
+      "referenced_archived_pool"
+    ],
+    "fourth_case_tuple_equality_only": true,
+    "failed_assertion_retained": {
+      "case": "missing_selected_pair",
+      "found": true,
+      "locked": false
+    },
+    "fresh_oracle_or_benchmark_replay": false,
+    "RC_fence_authority_expiry_not_carried": true,
+    "whole_generation_or_four_body_acceptance": false,
+    "fresh_fixture_counts_equal": true,
+    "cross_run_business_hash_equality_claimed": false
+  },
+  "fresh_partial_PASS": {
+    "four_same_holder_RLS_counterfactuals": [
+      {
+        "variant": "old",
+        "state": "visible",
+        "normal_return": true,
+        "rolled_back": true,
+        "physical": {
+          "pair_exists": true,
+          "asset_exists": true,
+          "selected_frame_unchanged": true
+        },
+        "holder_visibility": {
+          "role": "eps_review_owner",
+          "pair_visible": true,
+          "asset_visible": true
+        },
+        "before": {
+          "visibility": {
+            "role": "eps_review_owner",
+            "pair_visible": true,
+            "asset_visible": true
+          },
+          "probe": {
+            "found": true,
+            "locked": false
+          }
+        },
+        "branch": {
+          "role": "eps_review_owner",
+          "found": true,
+          "lock_timeout": "8s",
+          "statement_timeout": "8s",
+          "source_ids_include_target": null
+        },
+        "after": {
+          "visibility": {
+            "role": "eps_review_owner",
+            "pair_visible": true,
+            "asset_visible": true
+          },
+          "probe": {
+            "code": "55P03",
+            "found": true,
+            "locked": true
+          }
+        },
+        "full_baseline_restored": true
+      },
+      {
+        "variant": "old",
+        "state": "own_pair_deleted",
+        "normal_return": true,
+        "rolled_back": true,
+        "physical": {
+          "pair_exists": false,
+          "asset_exists": true,
+          "selected_frame_unchanged": true
+        },
+        "holder_visibility": {
+          "role": "eps_review_owner",
+          "pair_visible": false,
+          "asset_visible": false
+        },
+        "before": {
+          "visibility": {
+            "role": "eps_review_owner",
+            "pair_visible": true,
+            "asset_visible": true
+          },
+          "probe": {
+            "found": true,
+            "locked": false
+          }
+        },
+        "branch": {
+          "role": "eps_review_owner",
+          "found": false,
+          "lock_timeout": "8s",
+          "statement_timeout": "8s",
+          "source_ids_include_target": null
+        },
+        "after": {
+          "visibility": {
+            "role": "eps_review_owner",
+            "pair_visible": true,
+            "asset_visible": true
+          },
+          "probe": {
+            "found": true,
+            "locked": false
+          }
+        },
+        "full_baseline_restored": true
+      },
+      {
+        "variant": "new",
+        "state": "visible",
+        "normal_return": true,
+        "rolled_back": true,
+        "physical": {
+          "pair_exists": true,
+          "asset_exists": true,
+          "selected_frame_unchanged": true
+        },
+        "holder_visibility": {
+          "role": "eps_review_owner",
+          "pair_visible": true,
+          "asset_visible": true
+        },
+        "before": {
+          "visibility": {
+            "role": "eps_review_owner",
+            "pair_visible": true,
+            "asset_visible": true
+          },
+          "probe": {
+            "found": true,
+            "locked": false
+          }
+        },
+        "branch": {
+          "role": "eps_review_owner",
+          "found": true,
+          "lock_timeout": "8s",
+          "statement_timeout": "8s",
+          "source_ids_include_target": true
+        },
+        "after": {
+          "visibility": {
+            "role": "eps_review_owner",
+            "pair_visible": true,
+            "asset_visible": true
+          },
+          "probe": {
+            "code": "55P03",
+            "found": true,
+            "locked": true
+          }
+        },
+        "full_baseline_restored": true
+      },
+      {
+        "variant": "new",
+        "state": "own_pair_deleted",
+        "normal_return": true,
+        "rolled_back": true,
+        "physical": {
+          "pair_exists": false,
+          "asset_exists": true,
+          "selected_frame_unchanged": true
+        },
+        "holder_visibility": {
+          "role": "eps_review_owner",
+          "pair_visible": false,
+          "asset_visible": false
+        },
+        "before": {
+          "visibility": {
+            "role": "eps_review_owner",
+            "pair_visible": true,
+            "asset_visible": true
+          },
+          "probe": {
+            "found": true,
+            "locked": false
+          }
+        },
+        "branch": {
+          "role": "eps_review_owner",
+          "found": false,
+          "lock_timeout": "8s",
+          "statement_timeout": "8s",
+          "source_ids_include_target": true
+        },
+        "after": {
+          "visibility": {
+            "role": "eps_review_owner",
+            "pair_visible": true,
+            "asset_visible": true
+          },
+          "probe": {
+            "found": true,
+            "locked": false
+          }
+        },
+        "full_baseline_restored": true
+      }
+    ],
+    "edge_counterfactual_completed": true,
+    "cross_workspace_FK": {
+      "normal_return": true,
+      "rolled_back": true,
+      "result": {
+        "pool": "23503",
+        "slot": "23503"
+      }
+    }
+  },
+  "fresh_uncompleted": {
+    "workspace_fence": {
+      "actual_distinct_pid_wait": false,
+      "normal_public_mutation_return": false,
+      "writer_rolled_back": false,
+      "helper": {
+        "ok": true,
+        "role": "eps_review_owner",
+        "duration_ms": 6202.466
+      }
+    },
+    "membership_capability_expiry_cases": "unreached",
+    "final_clone_source_and_config_restoration": "unreached",
+    "combined_generation_four_body": "unexecuted"
+  },
+  "native_first_error": {
+    "private_basename": "first-owned-native-error.json",
+    "sha256": "9720a244e3111eef0f79113cacb265493a61135a4832fa2c0979457a78606ea6",
+    "SQLSTATE": "P0001",
+    "provenance": "first_verbose_psql_ERROR_line",
+    "closed_application_code": "VALIDATION_FAILED",
+    "message_class": "UUID required",
+    "stack": [
+      {
+        "function": "eps.fail",
+        "line": 2
+      },
+      {
+        "function": "eps.casting_uuid",
+        "line": 2
+      },
+      {
+        "function": "public.eps_create_assignment",
+        "line": 5
+      }
+    ],
+    "request_sha256": "e54fa1a8b9b69d388bbaf54a6da9aa4fb89c248be93c44acb6b454d809502eb9",
+    "private_file_custody_verified": true,
+    "embedded_prewrite_capture_normal_return": false,
+    "raw_values_omitted": true
+  },
+  "source_cause": {
+    "source_metadata_sha256": "12df4e565d466c008095498903237ae24f304403887db396b8bc46b5cf93346c",
+    "actual_RPC_validates_UUID_before_workspace_lock": true,
+    "UUID_validation_line": 5,
+    "workspace_lock_line": 9,
+    "fixture_uid_is_raw_MD5_UUID": true,
+    "exact_first_pair_from_frozen_fixture_and_query_order": {
+      "slot_fixture_index": 7,
+      "pool_fixture_index": 3,
+      "slot_matches_domain_UUID_regex": true,
+      "pool_matches_domain_UUID_regex": false,
+      "slot_sha256": "f4dc1edf2409e4a20fc677e73fa691eb9bb2d5e0848836dde82e14911c86bfc2",
+      "pool_sha256": "a7d9d736592dce0bd86075459b5086b20f17af02ad58fcff5327630fb4b28afd"
+    },
+    "request_payload_recovered_from_stderr": false,
+    "pair_reconstruction_is_source_bound": true,
+    "classification": "fixture API input validation failure before actual workspace-fence wait; no candidate RLS regression established"
+  },
+  "cleanup": {
+    "all_owned_resources_absent": true,
+    "original_data_catalogue_and_global_roles_unchanged": true,
+    "shared_lock_released": true,
+    "independent_successful_daemon_label_inventories_empty": true
+  },
+  "independent_same_engine_readback": {
+    "engine": "npipe:////./pipe/dockerDesktopLinuxEngine",
+    "label": "eps.edgerls.run=278a260d-9070-4896-b565-95c860411a26",
+    "container_inventory": {
+      "normal_exit_code": 0,
+      "stdout_empty": true,
+      "stderr_empty": true
+    },
+    "volume_inventory": {
+      "normal_exit_code": 0,
+      "stdout_empty": true,
+      "stderr_empty": true
+    },
+    "fresh_shared_lock_exists": false
+  },
+  "no_automatic_replay": true,
+  "no_source_or_claim_repair": true,
+  "cloud_called": false,
+  "provider_called": false,
+  "no_full_performance_or_release_acceptance": true
+}
