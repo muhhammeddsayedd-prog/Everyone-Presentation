@@ -1,0 +1,69 @@
+{
+  "actual_run": {
+    "elapsed_ms": 46431,
+    "id": "80be12f3-74d4-48ad-bbaa-b368380dd408",
+    "normal_exit_code": 1,
+    "receipt": {
+      "path": "tracking/evidence/m07/reason40-collector-validation/2026-11-02T15-33-05.149Z-80be12f3.json",
+      "sha256": "5a67bd0720bca71cbfeb7e74616cd58049411e15be3c2266d8c3fe3f6509eab6"
+    }
+  },
+  "causal_source": {
+    "minimal_future_source_correction": "Only inside exact owned DB/system/run guard, restore initial supabase_admin session, assert exact admin/super, use StorageAdmin for DDL, resetrole and return session authorizationpostgres before collectors.",
+    "no_grant_or_role_change_attempted": true,
+    "postgres_has_no_StorageAdmin_SET_permission": true,
+    "sealed_bootstrap_initial_psql_user": "supabase_admin",
+    "wrapper_changes_session_authorization_to": "postgres"
+  },
+  "cleanup": {
+    "Root_and_Recovery_notified": true,
+    "all_owned_resources_absent": true,
+    "fresh_lock_exists": false,
+    "independent_container_inventory_empty": true,
+    "independent_container_inventory_exit_code": 0,
+    "independent_volume_inventory_empty": true,
+    "independent_volume_inventory_exit_code": 0,
+    "original29_data_catalogue_globalroles_exact": true,
+    "shared_lock_released": true
+  },
+  "observed_error": {
+    "SQLSTATE_captured": false,
+    "SQLSTATE_mapping_is_inferred": true,
+    "SQLSTATE_source_mapping": "42501",
+    "before_any0062_0074_or_ledger_insert": true,
+    "native_psql_exit_code": 3,
+    "phase": "SET LOCAL ROLE supabase_storage_admin in prebaseline fixture",
+    "safe_exact_message": "permission denied to set role \"supabase_storage_admin\"",
+    "stderr_sha256": "f131feeaf0c631a2e4fe5307c86f8141ba974925cf8ac56e7d6264f127bb3431"
+  },
+  "purpose": "reason40_forward_owned_failure_exact_owner_context",
+  "recorded_at": "2026-11-02T15:42:27.518411+00:00",
+  "result": "failed",
+  "schema_version": "1.0",
+  "scope": {
+    "Main_consumed_flags_unchanged": true,
+    "automatic_retry": false,
+    "cloud_called": false,
+    "failed_source_arm_controller_claim_receipt_preserved": true,
+    "new_owned_dispatches": 1,
+    "provider_called": false
+  },
+  "source": {
+    "Root_pure_receipt": {
+      "path": "tracking/evidence/m07/review-link-reason40-main-diagnostics/Root-forward-pure-validation.json",
+      "sha256": "4d1dc2bdc2292d5b0188fd16413b69d6d117a202b0e46e16141a281e937d2e77"
+    },
+    "compiled_controller_sha256": "82bc6f4034327faa7a12aed1ab0181ca06d9ec0154696ff43afbf8d026acaefb",
+    "compiled_controller_uuid": "96bf36b2-da86-44dc-803b-43dc5502a072",
+    "disabled_source_commit": "3658d2401f909ec2a19d7b5d76a24297d0acc5cf",
+    "flag_only_arm_commit": "6d81f135dd6ab37eeb18b6916c07f8ce685820a0",
+    "plan_commit": "0885deb28e77d85840abefda21b7fc9493ea059c"
+  },
+  "unreached": {
+    "collector_acceptance": false,
+    "diagnostic_ROLLBACK_capture_or_COMMIT": false,
+    "forward_fixture_confirmed": false,
+    "migration40_dispatch": false,
+    "negative_guard_cases": false
+  }
+}
