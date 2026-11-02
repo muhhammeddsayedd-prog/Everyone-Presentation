@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { pathToFileURL } from 'node:url';
-export const EXECUTION_ENABLED=false;
+export const EXECUTION_ENABLED=true;
 export async function runCases(ctx,cfg){
  assert(EXECUTION_ENABLED,'REASON40_TYPED_EXECUTION_DISABLED');
  const raw=await readFile(cfg.typed_cases_path);assert.equal(createHash('sha256').update(raw).digest('hex'),cfg.typed_cases_sha256);
