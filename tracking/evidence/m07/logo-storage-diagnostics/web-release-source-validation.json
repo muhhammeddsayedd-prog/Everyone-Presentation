@@ -1,0 +1,18 @@
+{
+  "result": "passed_source_only",
+  "purpose": "logo_failure_trace_web_release",
+  "execution_enabled_at_review": false,
+  "baseline_deployment": "dpl_5A9eKKEC1eWhaNzor48y7eK5C9TS",
+  "baseline_source": "7196d69e1dbe35981d8479a05c82219752f9eeb3",
+  "baseline_manifest": "ba75256dd66f269dbde6e439b2736635807f5319c4abe524193c88fee79cc059",
+  "files_reviewed": 8,
+  "root_offline_tests": { "pass": 13, "fail": 0, "duration_seconds": 0.261 },
+  "independent_peer_offline_tests": { "pass": 13, "fail": 0, "duration_seconds": 0.083 },
+  "independent_peer": "frontend_integration",
+  "diff_scope": "New namespace, default-off flag, pinned passed5A9 baseline and required actual HTTP catch/logger source seals. Stronger old-baseline refusal. Same once-only claims, normal submission, complete source/archive quality, canonical40 preflight, alias/direct and unchanged environment gates.",
+  "schema40_actual_evidence_bound": true,
+  "schema41_admitted": false,
+  "consumed_previous_source_or_claim_modified": false,
+  "provider_SQL_stage_build_or_deploy_called_by_tests": false,
+  "production_application_acceptance": false
+}
