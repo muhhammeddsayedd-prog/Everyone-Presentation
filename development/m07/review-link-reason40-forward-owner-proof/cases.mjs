@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import { runCases as prior } from '../review-link-reason40-main-diagnostics/cases.mjs';
-export const EXECUTION_ENABLED=false;
+export const EXECUTION_ENABLED=true;
 const quote=value=>"'"+value.replaceAll("'","''")+"'";
 const only=text=>{const rows=text.split(/\r?\n/u).filter(line=>line.startsWith('{')).map(line=>JSON.parse(line));assert.equal(rows.length,1);return rows[0];};
 export async function runCases(ctx,cfg){
