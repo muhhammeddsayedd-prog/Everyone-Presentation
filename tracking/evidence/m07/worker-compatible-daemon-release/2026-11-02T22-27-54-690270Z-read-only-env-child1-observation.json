@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-11-02T22:27:54.689802+00:00",
+  "action": "read-only-env-child1-observation",
+  "purpose": "daemon_only_release_reusing_exact_native_3d",
+  "run": "cd917d16-2d3d-4915-9d65-364d1edf4fe9",
+  "project_id": "prj_I4SMkDzaDy0KHNgiF00v4Da5aLb6",
+  "team_id": "team_gboXPxTevpCOZuaA8eY9PmR1",
+  "target": "pyibofyctwnqpvktepse",
+  "bindings": {
+    "daemon_source_sha256": "dc12eaab6d862b2d151665b13c092568a273a2b1c7e2fde24516654c7db40648",
+    "native_source_sha256": "f742e9e5e4b83643f5bae18cace3e9e253912c0114f59b4489f0d163bcb39368",
+    "native_graph_sha256": "247992bbe3331251f33186cfac22835e8734833cd229bb6a4d8bcafa3bc0c214",
+    "daemon_graph_sha256": "9c751f186e67dec8dccc7f8339760ed25210e79f109ff65be12bdb3108123234",
+    "native_manifest_sha256": "fa221d833f0417d303c55ecc43629b2edf68ccdcc020d90e7f1864341e02fa57",
+    "native_compatibility_sha256": "24737d69156a7dfb10459668c828265c7665be0efae80c5da678ea53fd61328b",
+    "native_digest": "sha256:3d4286db01b27b40ec9078e303158e93003a096d5ddad1c9802130238de6dd80",
+    "daemon_digest": "sha256:697362169825a7f71493e98870505cb74a2ae163999209785c02ac7a0b0a0329",
+    "environment": {
+      "EPS_NATIVE_MANIFEST_SHA256": "fa221d833f0417d303c55ecc43629b2edf68ccdcc020d90e7f1864341e02fa57",
+      "EPS_DAEMON_SOURCE_SHA256": "dc12eaab6d862b2d151665b13c092568a273a2b1c7e2fde24516654c7db40648",
+      "EPS_NATIVE_COMPATIBILITY_SHA256": "24737d69156a7dfb10459668c828265c7665be0efae80c5da678ea53fd61328b"
+    }
+  },
+  "cached_platform_health_metadata": [],
+  "fresh_application_heartbeat_claimed": false,
+  "raw_cli_logs_persisted": false,
+  "private_checkpoint_is_restore_proof": false,
+  "rollback_or_AT069_performed": false,
+  "retained_native_source_sha256": "f742e9e5e4b83643f5bae18cace3e9e253912c0114f59b4489f0d163bcb39368",
+  "new_native_build_probe_or_copy_claimed": false,
+  "result": "observed",
+  "read_only": true,
+  "child1_applied": true,
+  "two_equal_environment_reads": true,
+  "source_and_paused_State_unchanged": true,
+  "child1_normal_return_observed": false,
+  "environment_resubmitted": false,
+  "projection_ref": {
+    "path": ".local/worker-compatible-daemon-release/cd917d16-2d3d-4915-9d65-364d1edf4fe9/env-child1-read-only-observation.json",
+    "sha256": "67786eadc639be53bc213c2ecb34e0b3f33f1bc7843fd7c4286def79fc89144c"
+  },
+  "expected_digest_match": {
+    "EPS_NATIVE_MANIFEST_SHA256": true,
+    "EPS_DAEMON_SOURCE_SHA256": true,
+    "EPS_NATIVE_COMPATIBILITY_SHA256": false
+  },
+  "normal_marker_created_or_repaired": false
+}
