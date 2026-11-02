@@ -1,0 +1,188 @@
+{
+  "schema_version": "single-candidate-MCP-cancellation-diagnostic-actual-outcome.v1",
+  "observed_at": "2026-11-02T23:37:26.745Z",
+  "finished_at": "2026-11-02T23:38:34.427Z",
+  "audited_at": "2026-11-02T23:40:53.359763+00:00",
+  "runtime_uuid": "13f5ba7e-47a5-46f8-a5a5-e394210b4c57",
+  "compile_uuid": "01111181-fca8-40fa-adeb-cbcff8c118ab",
+  "normal_process_exit": 0,
+  "shell_session": 11998,
+  "elapsed_ms": 67682,
+  "diagnostic_result": "passed",
+  "checkpoint": "complete",
+  "actual_receipt": {
+    "path": "tracking/evidence/m07/presentation-generation-cancel-diagnostic/2026-11-02T23-37-26.745Z-13f5ba7e.json",
+    "sha256": "24bfbc438f1e9f77a85d0ec56e0bf6905ec801cca71dcc16dadb9780d3e74acf"
+  },
+  "armed_plan": {
+    "path": "tracking/evidence/m07/presentation-generation-cancel-diagnostic/Main-01111181-fca8-40fa-adeb-cbcff8c118ab-armed-compiled-plan.json",
+    "sha256": "d534134a1513770d63c180b7e888b63e320eb8a3dd5dffee15c3b26f49990073"
+  },
+  "source_seal_count": 126,
+  "actual_call": {
+    "profile": "large",
+    "mode": "mcp",
+    "body_variant": "candidate",
+    "first_application_call_in_fresh_backend": true,
+    "application_calls_before_dispatch": 0,
+    "normal_SQL_return": true,
+    "rolled_back": true,
+    "performance_acceptance": false,
+    "pid": 608,
+    "sql_client_elapsed_ms": 8006.7785,
+    "result": {
+      "ok": false,
+      "code": "57014",
+      "operation": "generate",
+      "duration_ms": 8001.129
+    },
+    "cancellation": {
+      "sqlstate": "57014",
+      "message_class": "statement_timeout",
+      "private_custody": {
+        "normal_return": true,
+        "private_file": "query-canceled-private.json",
+        "sha256": "f848e276aa1aa44cb660625c31cb5b6b64502af417276fecb082f244479315cc"
+      },
+      "context_empty": false,
+      "allowlisted_frames": [
+        {
+          "language": "plpgsql",
+          "function": "eps.mcp_token_permits_capability",
+          "line": 4
+        },
+        {
+          "language": "sql",
+          "function": "has_capability",
+          "statement": 1
+        },
+        {
+          "language": "sql",
+          "function": "project_scope",
+          "statement": 1
+        },
+        {
+          "language": "sql",
+          "function": "review_scope",
+          "statement": 1
+        },
+        {
+          "language": "plpgsql",
+          "function": "eps.review_snapshot_data",
+          "line": 36
+        },
+        {
+          "language": "plpgsql",
+          "function": "eps.review_snapshot",
+          "line": 3
+        },
+        {
+          "language": "plpgsql",
+          "function": "public.eps_get_workspace_review",
+          "line": 3
+        },
+        {
+          "language": "plpgsql",
+          "function": "public.eps_generate_version",
+          "line": 26
+        },
+        {
+          "language": "plpgsql",
+          "function": "pg_temp.locksource41_measure",
+          "line": 6
+        }
+      ],
+      "unknown_frame_count": 1,
+      "stack_frame_count": 10,
+      "frame_projection_truncated": false,
+      "stage": "review_and_fit",
+      "candidate_body_sha256": "a5e5c60d3f94d9e05c62fc1cfc76ac4552713000b72b1efe4eac028da15c0d40"
+    },
+    "diagnostic_status": "cancellation_observed_private_context_preserved",
+    "full_fresh_baseline_restored": true
+  },
+  "actual_application_result": "query_canceled_statement_timeout",
+  "performance_or_release_acceptance": false,
+  "source_localization": {
+    "candidate_review_data_body_sha256": "4b37255bd919719086175f5df2b197584555f3c08000ee13fe18a7dbe62f8cc3",
+    "review_data_line": 36,
+    "operation": "per-slot active assignment SELECT",
+    "predicate_dimensions": [
+      "workspace_id",
+      "slot_id",
+      "archived_at_is_null",
+      "selection_or_shortlist_included"
+    ],
+    "order": [
+      "sort_order",
+      "id"
+    ],
+    "per_assignment_source_cache_lookup_starts_line": 38,
+    "stack_active_in": "mcp_token_permits_capability via has_capability/project_scope/review_scope",
+    "interpretation": "This fresh statement timed out during review assignment enumeration with delegated authorization evaluation on the stack. The stack does not measure cumulative or per-stage cost, invocation counts or the cancelled phase of failed78."
+  },
+  "private_custody_readback": {
+    "file": "query-canceled-private.json",
+    "actual_bytes": 1000,
+    "actual_sha256": "f848e276aa1aa44cb660625c31cb5b6b64502af417276fecb082f244479315cc",
+    "public_custody_hash_equal": true,
+    "normal_JSON_readback": true,
+    "context_nonempty": true,
+    "native_code_and_exact_statement_timeout_message_verified_privately": true,
+    "directory_ACL_protected": true,
+    "directory_and_file_only_SYSTEM_and_current_user_allow": true,
+    "directory_allow_count": 2,
+    "file_allow_count": 2,
+    "file_inherits_private_directory_ACL": true,
+    "raw_context_or_message_in_this_artifact": false
+  },
+  "restoration": {
+    "candidate_helper_and_four_body_identity_verified": true,
+    "single_call_completed": true,
+    "original78_performance_failure_remains_open": true,
+    "original4107_and_four_old_bodies_restored": true,
+    "original_config_and_full_baseline_restored": true
+  },
+  "cleanup": {
+    "all_preexisting_old_column_rows_preserved": true,
+    "all_owned_resources_absent": true,
+    "independent_successful_daemon_label_inventories_empty": true,
+    "original_data_catalogue_and_global_roles_unchanged": true,
+    "shared_lock_released": true
+  },
+  "independent_postreturn_readbacks": {
+    "engine": "npipe:////./pipe/dockerDesktopLinuxEngine",
+    "fixed_label": "eps.gendiag.run=13f5ba7e-47a5-46f8-a5a5-e394210b4c57",
+    "container_inventory": {
+      "normal_exit": 0,
+      "stdout_empty": true,
+      "stderr_empty": true
+    },
+    "volume_inventory": {
+      "normal_exit": 0,
+      "stdout_empty": true,
+      "stderr_empty": true
+    },
+    "fresh_shared_lock_exists": false,
+    "compile_once_claim_retained": true
+  },
+  "new_entry_closed_only": {
+    "path": "development/m07/presentation-generation-cancel-diagnostic/entry.mjs",
+    "disabled_sha256": "a4d7c5642e21001b1a28a024c36596f48bce8cbdf1413ea26f00925ea57774dc",
+    "only_true_to_false_boolean_changed": true,
+    "Main_change_unstaged_for_Root_sole_commit": true
+  },
+  "failed78_unchanged": {
+    "path": "tracking/evidence/m07/presentation-generation-combined-proof/2026-11-02T22-44-11.890Z-78df9599.json",
+    "sha256": "1732443e726cfe1e40e3a4b4160e18bd732196f86992580f357af3681dafb942",
+    "status": "failed; retained and still open"
+  },
+  "limitations": [
+    "No production/provider/canonical SQL called.",
+    "One instrumented first public generation only; no matrix, warming, projections, focused cases or security-race replay.",
+    "Diagnostic mechanism passed; the application still exceeded the unchanged8s timeout.",
+    "Actual local synthetic controlled MCP claims are not signed OAuth protocol acceptance.",
+    "No production performance SQL or combined equality/security acceptance.",
+    "The private stack localizes this actual cancellation; it does not retrospectively identify failed78 context or establish dominant total cost."
+  ]
+}
