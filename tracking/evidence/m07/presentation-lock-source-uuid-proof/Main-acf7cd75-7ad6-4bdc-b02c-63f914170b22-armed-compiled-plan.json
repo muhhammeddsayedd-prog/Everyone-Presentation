@@ -1,0 +1,154 @@
+{
+  "schema_version": "pure-UUID-qualified-Main-armed-plan.v1",
+  "observed_at": "2026-11-02T21:58:40.978025+00:00",
+  "source_commit": "cf64da021ce23cc0dfe0477c17df30c33ff09e11",
+  "entry_execution_enabled": true,
+  "compiled_only": true,
+  "execution_dispatched": false,
+  "runtime_UUID_issued": false,
+  "compile_uuid": "acf7cd75-7ad6-4bdc-b02c-63f914170b22",
+  "source_seals": {
+    "development/m07/presentation-lock-source-uuid-proof/admit.mjs": "06d4fe8e11c5bbc3c068b9c3b001a6ebefb1acb34cf70316655739ee426b7509",
+    "development/m07/presentation-lock-source-uuid-proof/compiler.py": "274f23c2d45d7d65f9b80d52979aebe481f731bc44de1520d74a55acf6b511a5",
+    "development/m07/presentation-lock-source-uuid-proof/driver.test.mjs": "945834d8177ec30de269a11aea51e3906a942050f8cd517db4bfe62d587579f7",
+    "development/m07/presentation-lock-source-uuid-proof/entry.mjs": "15341d0c00925a97299b9cd542c7146dfaa3e828fd7862955168458ea3ea7af4",
+    "development/m07/presentation-lock-source-uuid-proof/fixture.mjs": "44c8d35f5a70828c7a4c69d45c9ce098ac889d070b0334f7bc7546b1eab418e6",
+    "development/m07/presentation-lock-source-uuid-proof/fixture.py": "935d490fca37104d3698bde9e84839d71c3b8e94a9d73150a035be07fa397072",
+    "development/m07/presentation-lock-source-uuid-proof/README.md": "c1c14a7d9da4f563b8c750e743462f1212c3a49f6888653b62ea3a8c51af10c7",
+    "development/m07/presentation-lock-source-uuid-proof/source.py": "bd541ddb788482daac7e002a127caa608db8230498d5ccb4eb561b86aaf97c58",
+    "development/m07/presentation-lock-source-uuid-proof/test_proof.py": "ce843dd05008832e7555861413ce6e348fdae69603d373de5fec9864b05c2013"
+  },
+  "compiled_outputs": [
+    {
+      "path": ".local/presentation-lock-source-uuid-proof-compiled/cases-acf7cd75-7ad6-4bdc-b02c-63f914170b22.mjs",
+      "sha256": "6da8ae30667051f8c9a4246f0bc2c6a69ad307d93aca43c2678c289319dd0afc",
+      "node_check_exit": 0
+    },
+    {
+      "path": ".local/presentation-lock-source-uuid-proof-compiled/callback-acf7cd75-7ad6-4bdc-b02c-63f914170b22.mjs",
+      "sha256": "d67d981678f1a448918ce68ccbf1cad82229a00d5ec8473eaba98ff428192aed",
+      "node_check_exit": 0
+    },
+    {
+      "path": ".local/presentation-lock-source-uuid-proof-compiled/controller-acf7cd75-7ad6-4bdc-b02c-63f914170b22.mjs",
+      "sha256": "018a552e23004bce5a0510f2ec9b13e61b49bf92624e19396340c8e3c1722418",
+      "node_check_exit": 0
+    }
+  ],
+  "fixture_binding_and_public_input_audit": {
+    "active_slots": 16,
+    "active_pools": 11,
+    "active_assignments": 19,
+    "assignment_slot_modulus": 16,
+    "assignment_pool_modulus": 11,
+    "domain_uuid_pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+    "source_scale_sha256": "0a74ce47ff97339b4e63cf8df3aa3801321e2099588ed22367e5fe4317acaa7f",
+    "source_fixture_sha256": "aa976e76fa2a69fd7ea2b8f6f90609c28f734b889b20c15fe8de8d50dc29d22d",
+    "source_cases_sha256": "2832ee76211ed1a2494adad26b1d17fc90adae6e600b943232b6bc170a4e9dc5",
+    "exact_first_pair_query_sha256": "3138c747a16a96079ba52e5e665e25275722f0871f7b87f07d6df300a3516413",
+    "domain_UUID_guard_definition_sha256": "08a05b81473c8db40ee7491eaa6fc31a79af00b78d91f0a2b0f36fe4b76f388d",
+    "metadata_sha256": "12df4e565d466c008095498903237ae24f304403887db396b8bc46b5cf93346c",
+    "first_pair_formula": "UUID byte-order slots16 x pools11, excluding active19 modulo16/modulo11; first pair only",
+    "raw_MD5_fixture_SQL_unchanged": true,
+    "actual_RC_functions_unchanged": true,
+    "public_JSON_input_audit": {
+      "create_project": "No JSON UUID field in this fixture call.",
+      "create_workspace": "project_id comes from the normal successful create_project RPC; server generated canonical ID.",
+      "create_presentation_series": "workspace_id comes from normal create_workspace RPC; audience_preset_id is the same frozen seed chosen by the already successful393/278 prefix.",
+      "create_assignment": "Only positive public JSON raw-MD5 UUID inputs: slot_id and workspace_candidate_id. Qualify the exact first pair before any DB/claim.",
+      "generate_version": "Series argument comes from normal create_series RPC. Closed JSON input has revisions/fingerprint/optional note, no UUID input key.",
+      "review_and_snapshot": "Workspace/series arguments come from normal RPCs, not raw-MD5 JSON inputs.",
+      "internal_capture_association_cases": "Raw media/asset/slide/version IDs are trusted owned fixture rows consumed by unchanged PostgreSQL UUID casts, not casting_uuid. Malformed strings are explicit negative tests.",
+      "wrong_MCP_session_negative": "Absent raw-MD5 session claim is an intentional authorization denial, not a positive public JSON ID.",
+      "actor_client_session_constants": "Existing fixed controlled positive identities already match the canonical guard; no identity or authority change."
+    },
+    "no_extra_grants_rows_production_changes_or_outcome_timing_selection": true
+  },
+  "finite_inverse_projection": {
+    "inverse_byte_equal": true,
+    "actual_RC_function_sha256": {
+      "crossWorkspaceKeys": "50b8975d4a81753b040169bbde9fc042038b46f1d0186edae608cc8da003338d",
+      "workspaceFenceRace": "cd369da0c4de4402c7d37da8a9c27949de44ba31bc39534e072c5bee15a5a5fb",
+      "authorityCases": "0e695818662aba21f0103d162a913e5c149250b336aa3764f17023d1377fb7aa"
+    },
+    "only_completed_RLS_and_cross_FK_invocations_omitted": true,
+    "unchanged_fence_pair_query_and_mutation_body": true
+  },
+  "pure_namespace_qualification": {
+    "attempt_cap": 4096,
+    "actual_runtime_attempt_count": null,
+    "criterion": "ONLY canonical UUID input validity of the unchanged first public assignment slot/pool pair",
+    "selection_before_database_and_claim": true,
+    "outcome_timing_or_authority_observed": false,
+    "rejected_namespaces_have_no_DB_claim_or_resource": true,
+    "no_fixture_SQL_rows_grants_guard_or_timeout_changes": true
+  },
+  "actual_retained_RED_case": {
+    "run": "278a260d-9070-4896-b565-95c860411a26",
+    "first_slot_index": 7,
+    "slot_canonical_valid": true,
+    "first_pool_index": 3,
+    "pool_canonical_valid": false,
+    "native_SQLSTATE": "P0001",
+    "closed_application_code": "VALIDATION_FAILED",
+    "native_error_custody_sha256": "9720a244e3111eef0f79113cacb265493a61135a4832fa2c0979457a78606ea6"
+  },
+  "dated_partial_carry": [
+    {
+      "receipt": "tracking/evidence/m07/presentation-lock-source-complete-oracle-proof/2026-11-02T20-33-12.340Z-39386edd.json",
+      "sha256": "f5de1993783c8c3f4e618189091291ea905bd34839effd088af59e403d477cac",
+      "scopes": "12 completePK/150selectedlocks/8negatives/first3RR cases",
+      "original_result": "failed"
+    },
+    {
+      "receipt": "tracking/evidence/m07/presentation-lock-source-edge-rls-proof/2026-11-02T21-26-58.893Z-278a260d.json",
+      "sha256": "338cb6dd81a9572d9d5811367a3ffe6b6dd49f73d64617d83297bcbc3c07a75b",
+      "scopes": "four actual old/new RLS counterfactuals and both cross-workspace FK23503",
+      "original_result": "failed"
+    }
+  ],
+  "new_proposed_actual_scope": [
+    "unchanged RC real public assignment waits on actual workspace fence and returns normally after release, rollback exact",
+    "unchanged RC membership/capability removal and current-clock expiry require actual relation wait and fresh denial",
+    "exact source/config/full fresh87-table reason/Ready baseline restoration",
+    "outer original29 full data/catalogue/globalroles preservation and successful same-engine owned resource absence"
+  ],
+  "no_carried_unreached_Races_or_restoration": true,
+  "no_oracle_edge_or_benchmark_replay": true,
+  "helper280_and_four_old_bodies_unchanged": true,
+  "bounds_unchanged": {
+    "statement_ms": 8000,
+    "lock_ms": 8000,
+    "request_ms": 45000,
+    "stdout_bytes": 2097152,
+    "stderr_bytes": 131072,
+    "JWT_lifetime_extension": false
+  },
+  "offline_results": {
+    "Python_source_compiler_tests": {
+      "passed": 4,
+      "seconds": 0.865
+    },
+    "Node_pure_receipt_namespace_tests": {
+      "passed": 5,
+      "milliseconds": 919.8371
+    },
+    "eslint_exit": 0,
+    "compiled_node_checks": 3
+  },
+  "holds": [
+    "Root sole Main committer must commit the single flag and this plan.",
+    "No runtime dispatch authorized until Root reviews exact new Main artifacts and issues exact once-only command."
+  ],
+  "no_production_or_whole_generation_acceptance": true,
+  "disabled_source_plan": {
+    "path": "tracking/evidence/m07/presentation-lock-source-uuid-proof/disabled-owned-plan.json",
+    "sha256": "1b16c35fa1d23237060d3995f33a592c8c50a5ddf86998c8ffc8ce646fed0ba6"
+  },
+  "normalized_disabled_entry_sha256": "a92a26d668fff088277bd9bab2e49ddbf241279546cb5af0d68622d6a027e875",
+  "only_entry_flag_changed_from_reviewed_source": true,
+  "Main_Git_or_index_mutated_by_child": false,
+  "Main_HEAD_execution_guard": false,
+  "compile_once_claim_directory_absent": true,
+  "shared_SQL_lock_absent_at_plan": true
+}
