@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { addManualRole, createEmptySpecsDraft, planRoleOrder, roleToDto } from '@eps/domain';
+import { addManualRole, createEmptySpecsDraft, planRoleOrder, roleToDto, slotToDto } from '@eps/domain';
 
 // Controlled browser/HTTP acceptance only; no Supabase, provider or real identity.
 const projectId = '82700000-0000-4000-8000-000000000001';
@@ -13,6 +13,7 @@ async function controlledOrder(page: Page, mode: 'normal' | 'unavailable' | 'los
   for (const name of ['First', 'Second', 'Third']) draft = addManualRole(draft, { name, headcount: 1, requirements }, allocate);
   let rowVersion = 19; let attempted = false;
   const calls: { key: string; input: unknown }[] = []; const cache = new Map<string, unknown>();
+  const archives: { key: string; input: unknown }[] = [];
   const workspace = () => ({ id: workspaceId, project_id: projectId, module: 'casting', title: 'Synthetic Order Project',
     logo_asset_id: null, logo_placement: 'cover', active_output: 'selection', row_version: rowVersion,
     draft_revision: draft.draft_revision, has_unpublished_changes: true, created_at: '2026-10-28T00:00:00Z', updated_at: '2026-10-28T00:00:00Z' });
@@ -29,6 +30,19 @@ async function controlledOrder(page: Page, mode: 'normal' | 'unavailable' | 'los
     if (pathname === `/api/v1/workspaces/${workspaceId}/specs`) return ok(draft.spec);
     if (pathname === `/api/v1/workspaces/${workspaceId}/roles`) return route.fulfill({ json: { request_id: 'synthetic-order',
       data: order().map(roleToDto), page: { next_cursor: null } } });
+    if (request.method() === 'GET' && pathname.startsWith('/api/v1/roles/') && pathname.endsWith('/slots')) {
+      const roleId = pathname.split('/')[4];
+      return route.fulfill({ json: { request_id: 'synthetic-order', data: draft.slots.filter(slot => slot.role_id === roleId && !slot.archived).map(slotToDto), page: { next_cursor: null } } });
+    }
+    if (request.method() === 'GET' && [
+      `/api/v1/workspaces/${workspaceId}/candidates`, `/api/v1/workspaces/${workspaceId}/assignments`,
+    ].includes(pathname)) return route.fulfill({ json: { request_id: 'synthetic-order', data: [], page: { next_cursor: null } } });
+    if (request.method() === 'POST' && pathname.startsWith('/api/v1/roles/') && pathname.endsWith('/archive')) {
+      const roleId = pathname.split('/')[4]; archives.push({ key: request.headers()['idempotency-key'], input: request.postDataJSON() });
+      draft = { ...draft, draft_revision: draft.draft_revision + 1, roles: draft.roles.map(role => role.id === roleId ? { ...role, archived: true } : role),
+        slots: draft.slots.map(slot => slot.role_id === roleId ? { ...slot, archived: true } : slot) }; rowVersion++;
+      return ok({ success: true, affected_ids: [roleId] });
+    }
     if (pathname === `/api/v1/workspaces/${workspaceId}/order` && request.method() === 'PUT') {
       const input = request.postDataJSON(); const key = request.headers()['idempotency-key']; calls.push({ key, input });
       if (mode === 'unavailable') return fail(503, 'FEATURE_NOT_IMPLEMENTED', 'Role ordering is not available yet. Your saved order has been kept.');
@@ -46,8 +60,31 @@ async function controlledOrder(page: Page, mode: 'normal' | 'unavailable' | 'los
     return fail(503, 'CONTROLLED_ROUTE_NOT_IMPLEMENTED', 'This controlled operation is not available.');
   });
   const errors: string[] = []; page.on('pageerror', error => errors.push(error.message));
-  return { calls, names: () => order().map(role => role.name), slots: () => structuredClone(draft.slots), errors };
+  return { calls, archives, names: () => order().map(role => role.name), slots: () => structuredClone(draft.slots), errors };
 }
+
+test('keyboard role archive returns focus after its trigger unmounts and replaces stale order status', async ({ page }) => {
+  const model = await controlledOrder(page); await page.goto(path);
+  await page.getByRole('button', { name: 'Change role order', exact: true }).click();
+  await page.getByRole('button', { name: 'Move Third up', exact: true }).focus(); await page.keyboard.press('Enter');
+  await expect(page.getByRole('status').filter({ hasText: /^Role order saved\.$/ })).toBeVisible();
+  const role = page.getByRole('article', { name: 'Third requirements', exact: true });
+  await role.getByText('Edit requirements', { exact: true }).focus(); await page.keyboard.press('Enter');
+  const remove = role.getByRole('button', { name: 'Remove role', exact: true });
+  await remove.focus(); await page.keyboard.press('Enter');
+  const dialog = page.getByRole('dialog', { name: 'Review affected casting choices', exact: true });
+  await expect(dialog).toContainText('Currently shown: 0 casting assignments, 0 Main, 0 shortlisted.');
+  await page.keyboard.press('Escape'); await expect(dialog).toHaveCount(0); await expect(remove).toBeFocused();
+  expect(model.archives).toHaveLength(0);
+  await remove.focus(); await page.keyboard.press('Enter'); await expect(dialog).toContainText('Currently shown: 0 casting assignments, 0 Main, 0 shortlisted.');
+  await expect(dialog).toBeFocused(); await page.keyboard.press('Tab'); await page.keyboard.press('Tab');
+  await expect(dialog.getByRole('button', { name: 'Confirm archive', exact: true })).toBeFocused(); await page.keyboard.press('Enter');
+  await expect(role).toHaveCount(0);
+  await expect(page.getByRole('heading', { name: 'Roles and individual slots', exact: true })).toBeFocused();
+  await expect(page.getByRole('status').filter({ hasText: /^Role "Third" archived\.$/ })).toBeVisible();
+  await expect(page.getByRole('status').filter({ hasText: /^Role order saved\.$/ })).toHaveCount(0);
+  expect(model.archives).toHaveLength(1); expect(model.names()).toEqual(['First', 'Second']); expect(model.errors).toEqual([]);
+});
 
 test('controlled role move persists exact identities/order across reload', async ({ page }, testInfo) => {
   const model = await controlledOrder(page); const slots = model.slots(); await page.goto(path); await page.getByRole('button', { name: 'Change role order', exact: true }).click();

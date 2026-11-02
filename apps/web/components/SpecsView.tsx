@@ -96,6 +96,7 @@ export function SpecsView({ workspaceId, projectId, canWrite, uploadPurposes = [
   const [sourceLocked, setSourceLocked] = useState(false); const [sourceEpoch, setSourceEpoch] = useState(0);
   const [retirement, setRetirement] = useState<{ resourceId: string; label: string } | null>(null); const [undoLocked, setUndoLocked] = useState(false);
   const sourceLockChanged = useCallback((locked: boolean) => setSourceLocked(locked), []);
+  const rolesHeading = useRef<HTMLHeadingElement>(null); const archiveFocusPending = useRef(false);
   const orderIntent = useRef<{ input: ReorderWorkspace; key: string } | null>(null);
   const orderActive = useRef(false); const orderSequence = useRef(0); const orderAbort = useRef<AbortController | null>(null);
   const [dirty, setDirty] = useState<Record<string, boolean>>({});
@@ -107,6 +108,11 @@ export function SpecsView({ workspaceId, projectId, canWrite, uploadPurposes = [
   const manualEditsPending = Object.entries(dirty).some(([id, value]) => id !== 'spec-source' && value) || orderPending || reordering;
   useEffect(() => () => { orderSequence.current++; orderAbort.current?.abort(); }, [workspaceId]);
   useEffect(() => { onDirtyChange(hasUnsaved); return () => onDirtyChange(false); }, [hasUnsaved, onDirtyChange]);
+  useEffect(() => {
+    if (!archiveFocusPending.current) return;
+    archiveFocusPending.current = false;
+    rolesHeading.current?.focus();
+  }, [roles]);
   useEffect(() => {
     let current = true; const abort = new AbortController(); const signal = AbortSignal.any([abort.signal, AbortSignal.timeout(20_000)]);
     Promise.all([api<Spec>(`/api/v1/workspaces/${encodeURIComponent(workspaceId)}/specs`, { signal }),
@@ -168,6 +174,14 @@ export function SpecsView({ workspaceId, projectId, canWrite, uploadPurposes = [
       return [...current.filter(role => role.id !== next.id), next].sort((left, right) => left.sort_order - right.sort_order || left.id.localeCompare(right.id));
     });
   }
+  function roleArchived(id: string) {
+    const label = roles.find(role => role.id === id)?.name || 'Unnamed role';
+    // The editor and its modal opener disappear together. Focus after that
+    // commit, once the modal's ordinary opener restoration has cleaned up.
+    archiveFocusPending.current = true;
+    setRoles(current => current.filter(role => role.id !== id));
+    setOrderStatus(`Role "${label}" archived.`);
+  }
   async function loadMore() {
     if (!cursor || loadingMore) return;
     const requestedCursor = cursor; setLoadingMore(true);
@@ -193,7 +207,7 @@ export function SpecsView({ workspaceId, projectId, canWrite, uploadPurposes = [
       <div className="specs-editor stack-lg">
         <Instructions key={`${spec.id}/${refresh}/${sourceEpoch}`} spec={spec} canWrite={canWrite && !reordering && !orderPending && !sourceLocked} onSaved={next => { setSpec(current => current && current.row_version > next.row_version ? current : next); onWorkspaceChanged(); }} onDirtyChange={dirtyChanged} />
         <section className="panel roles-panel" aria-labelledby="roles-heading">
-          <header className="panel-header"><div><h2 id="roles-heading">Roles and individual slots</h2><p className="small muted">{roles.length} {roles.length === 1 ? 'role' : 'roles'}{cursor ? ' loaded' : ''} · A role may cover several scenes. Its headcount determines the number of slots.</p></div>
+          <header className="panel-header"><div><h2 id="roles-heading" ref={rolesHeading} tabIndex={-1}>Roles and individual slots</h2><p className="small muted">{roles.length} {roles.length === 1 ? 'role' : 'roles'}{cursor ? ' loaded' : ''} · A role may cover several scenes. Its headcount determines the number of slots.</p></div>
             <div className="button-row"><button className="button button-small button-quiet" disabled={reordering || sourceLocked} onClick={() => void reload()}><Icon name="refresh" />Reload saved requirements</button>
               {canWrite && roles.length > 1 && <button className="button button-small" aria-expanded={ordering} aria-controls="role-order-panel" onClick={() => setOrdering(value => !value)}><Icon name="order" />{ordering ? 'Done ordering' : 'Change role order'}</button>}</div></header>
           <div className="panel-body stack">
@@ -206,7 +220,7 @@ export function SpecsView({ workspaceId, projectId, canWrite, uploadPurposes = [
             <p className="save-state" role="status" aria-live="polite">{reordering ? 'Saving role order…' : orderStatus}</p>
             {orderError && <ErrorNotice message={orderError} retry={orderPending ? () => { void reorder(); } : undefined} />}
             {orderPending && !reordering && <p className="small muted">The order could not be confirmed. Retry this same change or reload the saved requirements before editing.</p>}
-            {roles.length ? <div className="role-list">{roles.map(role => <RoleEditor key={`${role.id}/${refresh}/${sourceEpoch}`} role={role} canWrite={canWrite && !reordering && !orderPending && !sourceLocked && !undoLocked} onSaved={roleSaved} onArchived={id => setRoles(current => current.filter(role => role.id !== id))} onWorkspaceChanged={onWorkspaceChanged} onDirtyChange={dirtyChanged} onReload={() => void reload()} onRetired={retired} />)}</div>
+            {roles.length ? <div className="role-list">{roles.map(role => <RoleEditor key={`${role.id}/${refresh}/${sourceEpoch}`} role={role} canWrite={canWrite && !reordering && !orderPending && !sourceLocked && !undoLocked} onSaved={roleSaved} onArchived={roleArchived} onWorkspaceChanged={onWorkspaceChanged} onDirtyChange={dirtyChanged} onReload={() => void reload()} onRetired={retired} />)}</div>
               : <div className="requirements-empty"><h3>No casting requirements yet</h3><p className="muted">Add a role when its requirements are available. You can continue while information is missing.</p></div>}
             {cursor && <div className="load-more"><button className="button button-small" disabled={loadingMore} onClick={loadMore}>{loadingMore ? 'Loading…' : 'Load more roles'}</button></div>}
           </div>

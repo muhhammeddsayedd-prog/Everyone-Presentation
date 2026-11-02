@@ -35,12 +35,18 @@ export function RoleEditor({ role, canWrite, onSaved, onArchived, onWorkspaceCha
   }
   const [saving, setSaving] = useState(false); const [error, setError] = useState(''); const [saved, setSaved] = useState(false);
   const [archiveReview, setArchiveReview] = useState(false); const archiving = archiveReview;
+  const archiveButton = useRef<HTMLButtonElement>(null); const archiveCancelFocus = useRef(false);
   const intent = useRef<{ key: string; input: string } | null>(null);
   const dirty = JSON.stringify(rolePatch(form, role.row_version)) !== JSON.stringify(rolePatch(roleForm(role), role.row_version));
   useEffect(() => {
     onDirtyChange(role.id, dirty || saving || archiving);
     return () => onDirtyChange(role.id, false);
   }, [role.id, dirty, saving, archiving, onDirtyChange]);
+  useEffect(() => {
+    if (archiveReview || !archiveCancelFocus.current) return;
+    archiveCancelFocus.current = false;
+    archiveButton.current?.focus();
+  }, [archiveReview]);
   async function save() {
     if (!canWrite || saving || archiving || !dirty) return;
     const submitted = form; const input = rolePatch(submitted, role.row_version); const serialized = JSON.stringify(input);
@@ -65,6 +71,7 @@ export function RoleEditor({ role, canWrite, onSaved, onArchived, onWorkspaceCha
     if (!result || result.success !== true || !Array.isArray(result.affected_ids) || !result.affected_ids.includes(role.id)) throw new Error('The role archive response could not be confirmed. Retry the same removal.');
     onRetired?.(role.id, 'role removal'); onArchived(role.id); onWorkspaceChanged();
   }
+  function cancelArchive() { archiveCancelFocus.current = true; setArchiveReview(false); }
   const label = role.name || 'Unnamed role';
   const summary = [role.category, role.requirements.age_range, role.requirements.gender_requirement, ...role.requirements.languages].filter(value => typeof value === 'string' && value.trim()).join(' · ');
   const openMarkers = form.clarifications.filter(marker => !marker.resolved).length;
@@ -81,12 +88,12 @@ export function RoleEditor({ role, canWrite, onSaved, onArchived, onWorkspaceCha
         }} />{multiple && <span className="small muted">One entry per line.</span>}</div>)}
     </div><Clarifications entries={form.clarifications} disabled={!canWrite || archiving} onChange={clarifications => change({ clarifications })} />
       {canWrite && <div className="button-row role-actions"><button className="button button-small" disabled={!dirty || saving || archiving} onClick={save}>{saving ? 'Saving…' : 'Save requirements'}</button>
-        <button className="button button-small button-danger-quiet" disabled={saving || dirty || archiveReview} onClick={() => setArchiveReview(true)}><Icon name="trash" />Remove role</button></div>}
+        <button ref={archiveButton} className="button button-small button-danger-quiet" disabled={saving || dirty || archiveReview} onClick={() => setArchiveReview(true)}><Icon name="trash" />Remove role</button></div>}
     </details>
     {error && <><ErrorNotice message={error} /><div className="button-row"><button className="button button-small" disabled={saving || archiving || !dirty} onClick={save}>Retry saving</button><button className="button button-small button-quiet" onClick={onReload}>Reload saved requirements</button></div></>}
     {archiveReview && <CastingRetirementReview key={`${role.id}:${role.row_version}`} workspaceId={role.workspace_id} scope={{ kind: 'role', id: role.id, row_version: role.row_version }}
       scopeLabel={`the role ${label}, its active slots and all their casting assignments`} confirmLabel="Confirm archive" cancelLabel="Keep role"
-      request={{ path: `/api/v1/roles/${encodeURIComponent(role.id)}/archive`, body: { row_version: role.row_version, reason: null } }} onSaved={archiveSaved} onCancel={() => setArchiveReview(false)} />}
+      request={{ path: `/api/v1/roles/${encodeURIComponent(role.id)}/archive`, body: { row_version: role.row_version, reason: null } }} onSaved={archiveSaved} onCancel={cancelArchive} />}
     <RoleSlots role={role} canWrite={canWrite && !dirty && !saving && !archiving} onRoleSaved={onSaved} onWorkspaceChanged={onWorkspaceChanged} onDirtyChange={onDirtyChange} onRetired={onRetired} />
   </article>;
 }
