@@ -76,19 +76,22 @@ function validateInput(input: SpecsExtractionInput): string {
   return source;
 }
 
-function providerError(error: unknown, signal?: AbortSignal): IntegrationError {
-  if (error instanceof IntegrationError) return error;
+function providerError(error: unknown, signal?: AbortSignal, deadlineExpired = false): IntegrationError {
   if (signal?.aborted) return new IntegrationError('PROCESSING_CANCELLED', 'The extraction attempt was cancelled.');
+  if (error instanceof IntegrationError) return error;
   const details = record(error);
   const status = typeof details?.status === 'number' ? details.status : null;
   const name = typeof details?.name === 'string' ? details.name : '';
   const headers = details?.headers;
   const retryHeader = headers instanceof Headers ? headers.get('retry-after') : record(headers)?.['retry-after'];
-  const requestId = safeIdentifier(details?.request_id);
+  const requestId = [details?.request_id, details?.requestID].map(safeIdentifier)
+    .find((value): value is string => value !== null && /^req_[A-Za-z0-9_-]{1,128}$/u.test(value)) ?? null;
   const diagnostic = { http_status: status !== null && Number.isInteger(status) && status >= 100 && status <= 599 ? status : null,
     request_id: requestId && /^req_[A-Za-z0-9_-]{1,128}$/u.test(requestId) ? requestId : null,
     retry_after_ms: retryAfterMs(typeof retryHeader === 'string' ? retryHeader : null) };
-  if (name.includes('Timeout') || name === 'AbortError') {
+  // SDK7.45.1 subclasses inherit Error.name. The internal deadline may surface
+  // as APIUserAbortError; an external cancellation was handled above.
+  if (deadlineExpired || error instanceof OpenAI.APIConnectionTimeoutError || name.includes('Timeout') || name === 'AbortError') {
     return new IntegrationError('OPENAI_TIMEOUT', 'OpenAI extraction timed out; the job can retry.', true, diagnostic);
   }
   if (status === 401 || status === 403) {
@@ -183,7 +186,7 @@ export async function extractSpecs(
   const requestSignal = signal ? AbortSignal.any([signal, deadline]) : deadline;
   let response: unknown;
   try { response = await send(request, requestSignal); }
-  catch (error) { throw providerError(error, signal); }
+  catch (error) { throw providerError(error, signal, deadline.aborted); }
   if (signal?.aborted) throw new IntegrationError('PROCESSING_CANCELLED', 'The extraction attempt was cancelled.');
   if (deadline.aborted) throw new IntegrationError('OPENAI_TIMEOUT', 'OpenAI extraction timed out; the job can retry.', true);
   const parsed = parseResponse(response);
