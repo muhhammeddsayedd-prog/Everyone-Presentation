@@ -1,6 +1,6 @@
 # Everyone Presentation Studio - current English-output handoff
 
-## Production worker and web serving; M07 acceptance continues - 2026-11-02T03:57:35.309246+00:00
+## Production worker and web serving; M07 acceptance continues - 2026-11-02T09:04:27.144707+00:00
 
 The stable production alias https://everyone-presentation-pilot.vercel.app serves
 `dpl_J3hmctcHndRp8zDVAPYfcnjEgpzG`, product source `c88f58c` / manifest `f947fb53`.
@@ -49,14 +49,36 @@ versions, 57 slides and 42 asset pins, plus the whole Reviewed profile, exactly
 match the protected pre-release checkpoint. Independent n8n lookup and direct
 job-to-instance log attribution remain unavailable; no business-accuracy claim.
 
-[Operator OAuth run402aca12 preparation](../tracking/evidence/m07/temporary-oauth-lifecycle-coordinator/2026-11-02T03-18-15.949Z-402aca12-prepare.json) is armed and prepared
-against this web source, but no listener, token exchange or new session has run;
-the private owner Ready handoff is pending. Actual-Claude renewal observation
-is separate. Genuine contributor remains absent at03:35:02; private provisioning and
-restricted-frame acceptance,
-anonymous guest delta/token lifecycle and manual AT072 remain open. The
-[production UI/manual AT072 task](../development/m07/PRODUCTION_UI_AT072_TASK.md)
-is pending; mobile testing stays skipped by owner instruction.
+[Separate operator OAuth run402aca12](../tracking/evidence/m07/temporary-oauth-lifecycle-coordinator/2026-11-02T08-14-37.282Z-402aca12-authorize.json) completed genuine
+owner sign-in/consent and an SDK MCP project read at08:14UTC. Its signed natural
+expiry is09:14:24UTC /11:14:24 Cairo. The early expiry phase correctly returned
+waiting without a dispatch claim. Expired-bearer denial, one refresh/rotation,
+local logout and independent denial/preservation proofs remain pending. Keep
+Main product, deployedJ3/c88 and canonical history39 frozen through cleanup;
+all fixes are isolated in worktrees until then.
+
+[Actual existing-Claude read](../tracking/evidence/m07/completion-oauth/2026-11-02T08-41-14.135Z-98295c0c-request-observation.json) matched request3b4ebef2
+to the same exchange's verified-token trace. That token expired08:34:42UTC /
+10:34:42 Cairo; a new after-expiry owner read/no-reconnect attestation is pending.
+This is distinct from the temporary operator SDK session. The old collector's
+quoted KQL command failed; additive v2 fixed the query and records separate
+executed-source provenance. Failed collection/recorder attempts remain recorded.
+
+The [actual Claude canonical audit](../tracking/evidence/m07/actual-claude-receipt-audit39/RESULTS.md)
+confirms the completed upload/scan, pool/Option+Shortlist assignment, fits and
+revoked link, preserving the Reviewed profile and old Ready content. That flow
+ran November1 before Cp/J3; the reported later generation retries also failed.
+Both series are registered1.1.0 with measured zero-overflow fits; the cause of
+the four generation failures remains unconfirmed. Client transcripts dropped
+structured errors, so a tested safe text-summary fix is isolated in Frontend.
+Advertised review-link reason support and lost review audit correlation are
+confirmed contract defects; compatible additive SQL40/parser work is local only.
+
+Contributor acceptance is **skipped by owner**, not passed; no identity or grants
+were created. File-URL permission was enabled, but the chooser hook still timed
+out with zero selected files and the native picker fallback is unavailable.
+Direct logo/file/folder UI intake remains unverified. Actual manual AT072 remains
+pending; mobile testing stays skipped by owner instruction.
 
 Native46 smoke, [independent synthetic39 Storage/API recovery](../tracking/evidence/m07/independent-recovery39/2026-11-02T01-05-56.716Z-4c302b36.json)
 and the private canonical76-table checkpoint retain distinct scopes. Managed
@@ -68,11 +90,7 @@ release checkpoint `62df023` is published on Main. Repository visibility remains
 private; the fixed-secret scan is not a full PII audit. This readback reconciliation
 adds documentation only. No full M07/release verification is claimed.
 
-Next: complete guest/actual-Claude reciprocal readbacks; continue auth after the existing private owner-ready condition.
-Chrome control stopped during an additional read after the completed downloads;
-restore extension control/file-URL access before remaining direct intake checks.
-No temporary contributor grants, OAuth listener or operator session were created.
-This documentation update needs no product change or redeployment.
+Next: complete natural SDK expiry/rotation/local-revoke, collect the actual-Claude after-expiry read, then release the source freeze. Review/verify the isolated MCP error/contract fixes before deploying and requesting one controlled delegated generation retry. Guest delta and manual AT072 remain open; AT069 stays unreplayed.
 
 The dated checkpoints below are preserved history; the current checkpoint above governs serving state and next actions.
 
