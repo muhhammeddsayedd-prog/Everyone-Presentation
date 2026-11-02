@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-11-02T10:50:22.183647+00:00",
+  "original_exact_observed_at": null,
+  "scope": "actual_normal_read_only_count_reconciliation_after_policy_validation_refusal",
+  "result": "observed",
+  "CLI_exit_code": 0,
+  "timed_out": false,
+  "output_limit_exceeded": false,
+  "read_only_rollback": true,
+  "sql_sha256": "02438eb6461640411c1710d49697ead576c90ce00e244ca05a8bafe1cd205397",
+  "private_SQL_path": ".local/presentation-cancel-policy-counts39/4eb76b49-6833-47de-9ef6-2b72eb7fb15f/query.sql",
+  "counts": {
+    "helpers": 4,
+    "all_role_policies": 157,
+    "indexes": 45,
+    "relations": 10
+  },
+  "private_payloads_or_raw_diagnostics_saved": false,
+  "limits": [
+    "This later successful count-only read explains the100-policy bound refusal; it does not fabricate a retained native return for the first collector.",
+    "No generation, role, configuration, schema or other database mutation performed."
+  ]
+}

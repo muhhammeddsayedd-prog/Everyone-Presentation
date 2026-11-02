@@ -1,0 +1,12 @@
+begin isolation level repeatable read read only;
+set local search_path='';
+set local timezone='UTC';
+set local statement_timeout='20s';
+with relations as(select c.oid,n.nspname schema,c.relname name,c.relrowsecurity rls,c.relforcerowsecurity force_rls from pg_class c join pg_namespace n on n.oid=c.relnamespace where(n.nspname='eps'and c.relname in('slots','assignments','workspace_candidates','candidate_media','candidate_media_frames','media_assets','presentation_version_assets','presentation_versions','workspaces'))or(n.nspname='public'and c.relname='projects'))
+select jsonb_build_object('database',current_database(),'operator',current_user,'read_only',current_setting('transaction_read_only')='on','observed_at',clock_timestamp(),'history_count',(select count(*)from supabase_migrations.schema_migrations),
+ 'helpers',(select jsonb_agg(jsonb_build_object('signature',p.oid::regprocedure::text,'source_sha256',encode(sha256(convert_to(replace(p.prosrc,E'\r\n',E'\n'),'UTF8')),'hex'),'config',p.proconfig,'definition',pg_get_functiondef(p.oid))order by p.oid::regprocedure::text)from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='eps'and p.proname in('has_capability','project_scope','review_scope','presentation_scope')),
+ 'policies',(select jsonb_agg(jsonb_build_object('table',r.schema||'.'||r.name,'name',p.polname,'command',p.polcmd,'permissive',p.polpermissive,'roles',(select jsonb_agg(case when role_oid=0 then'public'else case when pg_get_userbyid(role_oid)~'^eps_[a-z_]+$'or pg_get_userbyid(role_oid)in('authenticated','anon','service_role','postgres')then pg_get_userbyid(role_oid)else'[other]'end end order by role_oid)from unnest(p.polroles)role_oid),'qual',pg_get_expr(p.polqual,p.polrelid),'with_check',pg_get_expr(p.polwithcheck,p.polrelid))order by r.schema,r.name,p.polname)from pg_policy p join relations r on r.oid=p.polrelid),
+ 'indexes',(select jsonb_agg(jsonb_build_object('table',r.schema||'.'||r.name,'name',c.relname,'definition',pg_get_indexdef(i.indexrelid))order by r.schema,r.name,c.relname)from pg_index i join relations r on r.oid=i.indrelid join pg_class c on c.oid=i.indexrelid),
+ 'review_owner_privileges',(select jsonb_agg(jsonb_build_object('table',r.schema||'.'||r.name,'rls',r.rls,'force_rls',r.force_rls,'select',has_table_privilege('eps_review_owner',r.oid,'SELECT'),'table_update',has_table_privilege('eps_review_owner',r.oid,'UPDATE'),'any_column_update',has_any_column_privilege('eps_review_owner',r.oid,'UPDATE'))order by r.schema,r.name)from relations r)
+)as policy_metadata;
+rollback;

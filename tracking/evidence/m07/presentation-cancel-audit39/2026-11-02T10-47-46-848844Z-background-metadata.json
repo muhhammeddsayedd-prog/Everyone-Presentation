@@ -1,0 +1,45 @@
+{
+  "facts_transcript_values_or_personal_text_returned": false,
+  "generation_role_or_database_mutation": false,
+  "metadata": {
+    "database": "postgres",
+    "global": {
+      "presentation_exports": 9,
+      "ready_versions": 13,
+      "review_links": 6,
+      "review_media_grants": 9,
+      "version_asset_pins": 60,
+      "version_slides": 63,
+      "versions": 13
+    },
+    "history_count": 39,
+    "observed_at": "2026-11-02T10:47:46.557765+00:00",
+    "operator": "postgres",
+    "read_only": true,
+    "workspace_payload_sizes": [
+      {
+        "active_role_requirement_bytes": 296,
+        "assignment_weighted_fact_source_bytes": 625,
+        "distinct_selected_media_original_transcript_bytes": 284,
+        "label": "controlled",
+        "normalized_instruction_bytes": 0,
+        "spec_rows": 1
+      },
+      {
+        "active_role_requirement_bytes": 956,
+        "assignment_weighted_fact_source_bytes": 17058,
+        "distinct_selected_media_original_transcript_bytes": 3589,
+        "label": "legacy",
+        "normalized_instruction_bytes": 141,
+        "spec_rows": 1
+      }
+    ]
+  },
+  "observed_at": "2026-11-02T10:47:46.848587+00:00",
+  "read_only_rollback": true,
+  "result": "observed",
+  "schema_version": "1.0",
+  "scope": "read_only_synthetic_scale_inputs_counts_and_byte_sizes_only",
+  "source_sha256": "1a1f7488c7ffbdca73c450b975196a84c8b60c7b0dee43085d4b844753ca5421",
+  "sql_sha256": "3321ea801d51570ea3e39079695828d0c361381c5f395cd2f623aaae61b06617"
+}
