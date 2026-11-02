@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "scope": "actual_Claude_request_id_correlated_verified_token_observation",
+  "read_only": true,
+  "deployment_id": "dpl_B5L2mM6QVQo99VJsqtEPDeq8i9n5",
+  "project_id": "prj_7xOsfRtvJ9voYi7rTEfra5ncOoA0",
+  "request_id_source": "owner_supplied_actual_Claude_get_project_result",
+  "observed_at": "2026-11-02T14:04:20.634Z",
+  "since": "2026-11-02T13:10:00.000Z",
+  "project_read": {
+    "logged_at": "2026-11-02T13:57:22.433Z",
+    "event": "eps.mcp.project_read_succeeded",
+    "request_id": "1d370c0f-bf80-4e90-a00d-96c933abe721",
+    "trace_id": "c2d86c60-4571-4672-8db5-cd1793862ea5",
+    "client_id": "f2acafd5-d4b6-4176-b86c-067c57e45ecc",
+    "project_id": "6da14b82-8458-451f-aa21-28cb6c85bdc5"
+  },
+  "verified_token": {
+    "logged_at": "2026-11-02T13:57:21.689Z",
+    "event": "eps.mcp.verified_token",
+    "trace_id": "c2d86c60-4571-4672-8db5-cd1793862ea5",
+    "client_id": "f2acafd5-d4b6-4176-b86c-067c57e45ecc",
+    "session_sha256": "737468d2a7da9ee2ff3e0387487394f63a1f0bade62f0616857fd106112bcb16",
+    "iat": 1793626482,
+    "exp": 1793630082
+  },
+  "source_seals": {
+    "development/m07/completion-oauth/collect.mjs": "ae466c59167952b9cc0b5cda915b93d8b664d9009d22b7b8d4df2ee8453cc2c1",
+    "development/m07/oauth-consent-fix/read-pilot-trace.mjs": "0b998169cfcf4f4811398634ec4901a2074192830a5d1c5a84caeec36b81e179",
+    "apps/web/lib/mcp-auth.ts": "98a6bc17ffdd4e1360431cb998af14313c136dbc3c6714a1460a2d3897a3e99e",
+    "apps/web/app/mcp/route.ts": "85af587a7c63cb46dc975c2b15d33be8b20c8797c95841097994522cfcead28b"
+  },
+  "maximum_provider_reads": 2,
+  "automatic_retry": false,
+  "raw_cli_persisted": false
+}

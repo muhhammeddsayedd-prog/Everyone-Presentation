@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "scope": "actual_Claude_observation_collector_v2_execution_provenance",
+  "execution_id": "b28d1f64-d34e-416c-893e-6912044d7f6a",
+  "observed_at": "2026-11-02T14:08:37.728Z",
+  "result": "passed",
+  "stage": "complete",
+  "read_only": true,
+  "source_file": "development/m07/completion-oauth/collect-v2.mjs",
+  "collector_sha256": "33ca64eb8281630e48cf754ea64a16bd5cd598cf46ea83b1fc1306ed9ddbf6ce",
+  "cli_version": "65.8.0",
+  "cli_entry_sha256": "5724f20cc65bb0e13c7a0668af107770ddb101bb72dd3fd6160aca672ea2a493",
+  "cli_query_help_sha256": "f19e025f07602444e832f4096c829928959f5a315ab09048c66f8505277d189b",
+  "query_schema": "vercel65.8_runtime_unquoted_allowlisted_event_AND_uuid_v1",
+  "original_entrypoint_executed": false,
+  "original_exports_imported": [
+    "command",
+    "projectBatch",
+    "compare"
+  ],
+  "observation_source_seals": {
+    "development/m07/completion-oauth/collect.mjs": "ae466c59167952b9cc0b5cda915b93d8b664d9009d22b7b8d4df2ee8453cc2c1",
+    "development/m07/oauth-consent-fix/read-pilot-trace.mjs": "0b998169cfcf4f4811398634ec4901a2074192830a5d1c5a84caeec36b81e179",
+    "apps/web/lib/mcp-auth.ts": "98a6bc17ffdd4e1360431cb998af14313c136dbc3c6714a1460a2d3897a3e99e",
+    "apps/web/app/mcp/route.ts": "85af587a7c63cb46dc975c2b15d33be8b20c8797c95841097994522cfcead28b"
+  },
+  "observation": {
+    "path": "tracking/evidence/m07/completion-oauth/2026-11-02T14-08-37.727Z-bfc94f6d-request-observation.json",
+    "sha256": "1adfa7f68e098968cbb4030c7bdf2017b7ec96c9fda4c673273a2b34e0bc2f78"
+  },
+  "provider_reads_initiated": 2,
+  "maximum_provider_reads": 2,
+  "automatic_retry": false,
+  "raw_cli_persisted": false,
+  "raw_stderr_persisted": false
+}

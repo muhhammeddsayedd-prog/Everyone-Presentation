@@ -1,0 +1,80 @@
+{
+    "schema_version":  "1.0",
+    "purpose":  "finite_owner_supplied_Claude_request_observation_lookup",
+    "recorded_at":  "2026-11-02T14:15:38.133Z",
+    "result":  "observed",
+    "read_only":  true,
+    "before_request_id":  "4f3a7c5a-d83f-4e65-9931-306a2db0f101",
+    "after_request_id":  "1d370c0f-bf80-4e90-a00d-96c933abe721",
+    "source":  "owner_supplied_actual_Claude_results",
+    "prior_public_tracking_match_found":  false,
+    "unrelated_retained_3b_observation_excluded":  true,
+    "lookups":  [
+                    {
+                        "since":  "2026-11-02T13:10:00.000Z",
+                        "execution":  {
+                                          "sha256":  "8d54ac7820311f4cba168b311d3b7c487f1dbbf69e2fad6f01bbecd388beb5a2",
+                                          "path":  "tracking/evidence/m07/completion-oauth/2026-11-02T14-04-20.646Z-de232990-collector-v2-execution.json"
+                                      },
+                        "deployment_id":  "dpl_B5L2mM6QVQo99VJsqtEPDeq8i9n5",
+                        "request_id":  "1d370c0f-bf80-4e90-a00d-96c933abe721",
+                        "initiated_reads":  2,
+                        "result":  "passed"
+                    },
+                    {
+                        "since":  "2026-11-02T13:11:38.700Z",
+                        "execution":  {
+                                          "sha256":  "e3e0a7c8e8b72d68a8d0826519cc003746b170b8921665d0ea02f3d69715b2cb",
+                                          "path":  "tracking/evidence/m07/completion-oauth/2026-11-02T14-07-36.288Z-0e97d73f-collector-v2-unconfirmed.json"
+                                      },
+                        "deployment_id":  "dpl_B5L2mM6QVQo99VJsqtEPDeq8i9n5",
+                        "request_id":  "4f3a7c5a-d83f-4e65-9931-306a2db0f101",
+                        "initiated_reads":  1,
+                        "result":  "unconfirmed"
+                    },
+                    {
+                        "since":  "2026-11-02T10:21:25.065Z",
+                        "execution":  {
+                                          "sha256":  "5dd0e17952b33080e91c6b9e01b067bfda6a09a980d4bf0a64be351c41b11564",
+                                          "path":  "tracking/evidence/m07/completion-oauth/2026-11-02T14-08-00.050Z-37b2997c-collector-v2-unconfirmed.json"
+                                      },
+                        "deployment_id":  "dpl_5sevM277cLpQZPJV1XkaJxhMLqpe",
+                        "request_id":  "4f3a7c5a-d83f-4e65-9931-306a2db0f101",
+                        "initiated_reads":  1,
+                        "result":  "unconfirmed"
+                    },
+                    {
+                        "since":  "2026-11-02T02:34:07.437Z",
+                        "execution":  {
+                                          "sha256":  "4b263a393f2e0d10815755762891a562ecad5960e162cf6a4fb3beea4f73e8df",
+                                          "path":  "tracking/evidence/m07/completion-oauth/2026-11-02T14-08-37.729Z-d4beeb50-collector-v2-execution.json"
+                                      },
+                        "deployment_id":  "dpl_J3hmctcHndRp8zDVAPYfcnjEgpzG",
+                        "request_id":  "4f3a7c5a-d83f-4e65-9931-306a2db0f101",
+                        "initiated_reads":  2,
+                        "result":  "passed"
+                    }
+                ],
+    "before_observation":  {
+                               "sha256":  "1adfa7f68e098968cbb4030c7bdf2017b7ec96c9fda4c673273a2b34e0bc2f78",
+                               "path":  "tracking/evidence/m07/completion-oauth/2026-11-02T14-08-37.727Z-bfc94f6d-request-observation.json"
+                           },
+    "after_observation":  {
+                              "sha256":  "b078ff482e7c44e76294b648be8438acedd2006c45b07c23f30be8aef9c66a4f",
+                              "path":  "tracking/evidence/m07/completion-oauth/2026-11-02T14-04-20.643Z-d987a40a-request-observation.json"
+                          },
+    "stop_after_first_matching_deployment":  true,
+    "failed_scopes_do_not_prove_historical_absence":  true,
+    "automatic_retry":  false,
+    "provider_reads_initiated":  6,
+    "raw_cli_or_stderr_persisted":  false,
+    "auth_or_credential_store_read":  false,
+    "session_or_business_mutations":  false,
+    "original_collectors_and_comparators_unchanged":  true,
+    "cross_release_admission_pending":  true,
+    "renewed_operational_access_accepted":  false,
+    "raw_refresh_HTTP_verified":  false,
+    "refresh_token_rotation_verified":  false,
+    "revocation_verified":  false,
+    "full_lifecycle_verified":  false
+}
