@@ -151,7 +151,7 @@ class Provider:
  def js(self,kind,payload):
   need(kind in('daemon','native'));file=RUNTIME if kind=='daemon'else s.ROOT/'development/m07/completion-native/admit-native-probe.mjs'
   program="import fs from'node:fs';const p=JSON.parse(fs.readFileSync(process.argv[1],'utf8'));const m=await import("+json.dumps(file.as_uri())+");process.stdout.write(JSON.stringify("+('m.projectDaemon(p.value,p.deployment)'if kind=='daemon'else'm.admitNativeProbe(p.receipt,p.plan)')+"));"
-  name='project-'+str(uuid.uuid4())+'.json';self.write(name,payload);return json.loads(self.run([str(self.r.NODE),'--input-type=module','-e',program,str(PRIVATE/name)]))
+  name='project-'+str(uuid.uuid4())+'.json';self.write(name,(json.dumps(payload,ensure_ascii=False,separators=(',',':'))+'\n').encode());return json.loads(self.run([str(self.r.NODE),'--input-type=module','-e',program,str(PRIVATE/name)]))
  def inspect(self,deployment):return self.js('daemon',{'value':json.loads(self.run(self.r.cli(['daemons','inspect','worker','--project',PROJECT,'--json']))),'deployment':deployment})
  def healthy(self,value,deployment,digest):
   now=int(time.time()*1000);need(value['project_id']==PROJECT and value['team_id']==TEAM and value['daemon']=='worker'and value['deployment_id']==deployment and value['environment']=='production'and value['status']=='ready'

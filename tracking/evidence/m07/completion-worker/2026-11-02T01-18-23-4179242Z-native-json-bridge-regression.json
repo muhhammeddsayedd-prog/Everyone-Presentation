@@ -1,0 +1,36 @@
+﻿{
+    "schema_version":  "1.0",
+    "observed_at":  "2026-11-02T01:18:23.1540167Z",
+    "purpose":  "completion-worker39-native-json-bridge-regression",
+    "result":  "passed_offline",
+    "provider_called":  false,
+    "cloud_mutations":  false,
+    "prepare_retried":  false,
+    "original_failure_receipt":  {
+                                     "path":  "tracking/evidence/m07/completion-worker/2026-11-02T01-15-35-164257Z-rollout39-prepare.json",
+                                     "sha256":  "2075ee170319ea718b79401e6bdedff0da7e9051302f38762aa8df1c2780c3f3"
+                                 },
+    "raw_original_native_admission":  "passed_equal_to_saved_admitted_proof",
+    "sorted_saved_bridge_admission":  "COMPLETION_NATIVE_RECEIPT_UNCONFIRMED",
+    "error_type":  "Error",
+    "source_function":  "admitNativeProbe",
+    "source_line":  21,
+    "actual_receipt_release_key_order_changed":  true,
+    "actual_plan_context_key_order_changed":  false,
+    "correction":  "Provider.js serializes only its payload as insertion-order bytes through existing private _create bytes path",
+    "regression":  {
+                       "actual_raw_native_receipt_and_plan":  true,
+                       "actual_Provider_js_and_private_write_bridge":  true,
+                       "actual_frozen_native_admission_module":  true,
+                       "temporary_public_fixture_only":  true,
+                       "red_tests":  11,
+                       "red_errors":  1,
+                       "green_tests":  11,
+                       "green_errors":  0,
+                       "tampered_cleanup_receipt_rejected":  true
+                   },
+    "frozen_native_sources_modified":  false,
+    "original_private_failed_payload_retained":  true,
+    "prepare_claim_exists":  false,
+    "plan_exists":  false
+}
