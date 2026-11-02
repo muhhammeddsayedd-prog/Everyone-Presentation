@@ -1,6 +1,24 @@
 # Everyone Presentation Studio — Codex development pack
 
-Current checkpoint - 2026-11-02T19:48:34Z. New native3d42/daemonf846 exports,
+## Current checkpoint - 2026-11-02T20:37:05Z
+
+Production remains **4fro/sourcea567/manifest92e1, canonical40 and Cp/native46**.
+New native3d/daemonf846 artifacts and native probe passed but are **not deployed**.
+Owned worker40admin727 failed at its first bridge render after partial checks;
+cleanup/original29/roles/lock passed, while nonce phases and concurrency were
+unreached. The16k streaming diagnostic reached terminalincomplete/max_output_tokens,
+not timeout; validation rejected it and no extraction was saved. Its flags are closed.
+Single32k evaluation3289384d completed and passed schema/evidence validation:
+39roles/96evidence/23clarifications; private output was not applied to the app,
+and factual quality remains unreviewed. Both helper flags are closed. The all12
+oracle controllerc6c2/runtime39386edd remains in flight with no result. Root998 and focused successor checks
+passed only their recorded local scopes. Owner logo result is pending;409 wording
+fix is undeployed. Narrator/contributor/mobile are skipped, not passed. Last verified
+private push remains66a3002. Full M07/release acceptance remains false.
+See [current handoff](tracking/HANDOFF.md), [current workflow matrix](tracking/evidence/m07/ACCEPTANCE_MATRIX.md),
+[worker40 partial outcome](tracking/evidence/m07/worker-source-identity-sql-admin-proof/727bb36d-outcome.json), [16k terminal evidence](tracking/evidence/m07/pdf47-streaming-evaluation/45452578-b14e-48e5-af08-187089cb9b58-execution.json) and [focused Root checks](tracking/evidence/m07/completion-release/2026-11-02T20-32-successor-root-checks.json).
+
+Historical checkpoint - 2026-11-02T19:48:34Z. New native3d42/daemonf846 exports,
 private registry Ready and native9-task/10-resource cleanup passed; they are not
 deployed. Root998 and actual duplicate-resolution readback passed. Production
 remains4fro/canonical40/Cp46. Generation, logo and Samsung work remains open;

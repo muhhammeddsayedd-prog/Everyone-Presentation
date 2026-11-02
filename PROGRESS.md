@@ -1,6 +1,39 @@
 # Everyone Presentation Studio - current English-output rollout
 
-## Current checkpoint - 2026-11-02T19:48:34Z
+## Current checkpoint - 2026-11-02T20:37:05Z
+
+Production remains **web4fro/sourcea567/manifest92e1, canonical40 and workerCp/native46**
+([serving identity](tracking/evidence/m07/logo-failure-trace-web-release/2026-11-02T17-58-22-617365Z-a8890fe6-9fb0-4f92-8a2f-5d5a85abda11-readback.json)). New native3d/daemonf846 exports, registryReady and the native9-task/
+10-resource probe passed, but these artifacts are **not deployed** ([artifact admission](tracking/evidence/m07/worker-source-identity-release/bbf4b5da-artifact-admission.json)).
+Root998 and the newer focused32k10Node/5Python and oracle9Python/8Node checks
+retain their local deterministic scopes ([Root successor checks](tracking/evidence/m07/completion-release/2026-11-02T20-32-successor-root-checks.json)); they do not replace serving993 evidence.
+
+Owned worker40admin727 **failed after55,905ms** at its first local bridge render,
+`WORKER40_BRIDGE_FAILED` ([partial failed outcome](tracking/evidence/m07/worker-source-identity-sql-admin-proof/727bb36d-outcome.json)). Admin qualification, currentSQL40,
+reason fixture and metadata ACL/function negatives passed. Guarded reason-preimage,
+diagnostic and all three nonce phases/concurrency were unreached; the collapsed
+error retained no native stderr/SQLSTATE, so its specific cause is unknown.
+Original29 data/catalogue/global roles, exact owned cleanup, same-engine empty
+inventories and lock release passed. Its flag is closed; no release is accepted.
+
+Samsung16k SSE454 receivedHTTP200 and a terminal **incomplete/max_output_tokens**
+at117,179.8665ms, with9170 input/16384 output tokens ([16k terminal evidence](tracking/evidence/m07/pdf47-streaming-evaluation/45452578-b14e-48e5-af08-187089cb9b58-execution.json)). Raw terminal custody
+passed, but `AI_RESPONSE_INCOMPLETE` rejected validation; no valid output or
+writeback exists. Billing cost remains unknown. Both flags are closed and earlier
+three job failures/60s/120s timeouts remain preserved. The single independent32k
+run3289384d **completed and passed production schema/evidence validation** ([32k validated diagnostic](tracking/evidence/m07/pdf47-budget32k-evaluation/3289384d-3a4e-43c5-874b-59f6999e0d09-execution.json)): onePOST200, terminal129,488ms/helper130,230ms,9170input/16,397output tokens,
+39roles/96evidence/23clarifications, raw and validated private custody. Both flags
+are closed. The output was **not applied**, factual quality is unreviewed and
+billing cost unknown. Production16k/60s default/70s cap is unchanged. Complete12-PK
+oracle controllerc6c2/runtime39386edd remains in flight; no proof result is claimed.
+
+Owner logo diagnostic result remains pending; the409 wording fix is undeployed.
+Folder10/one actual provider-processed job07, guest producer4/external3, preserved
+Ready content and explicit Narrator/contributor/mobile skips retain their recorded
+scopes. Main66a3002 is the last independently matched private push ([readback](tracking/evidence/m07/completion-release/canonical-push-66a3002-readback.json)); no
+later push is claimed. AT069 remains unreplayed. **Full M07/release acceptance is false.**
+
+## Historical checkpoint - 2026-11-02T19:48:34Z
 
 Latest verified production remains web4fro/sourcea567, canonical40 and workerCp/native46.
 Root998 deterministic checks passed on c7f0cc2. New local native3d42 and daemonf846
