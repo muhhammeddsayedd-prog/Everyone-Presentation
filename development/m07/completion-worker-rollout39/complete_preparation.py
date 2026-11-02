@@ -2,7 +2,7 @@
 from pathlib import Path
 import hashlib,importlib.util,json,sys,uuid
 HERE=Path(__file__).resolve().parent
-COMPLETE_ENABLED=False
+COMPLETE_ENABLED=True
 FORWARD_SHA='9071469ebf91592bb5175691cad2ee6f08dac630b503157c4d5cff2ae9e3a4ba'
 def module(name,file):
  spec=importlib.util.spec_from_file_location(name,file);value=importlib.util.module_from_spec(spec);spec.loader.exec_module(value);return value
