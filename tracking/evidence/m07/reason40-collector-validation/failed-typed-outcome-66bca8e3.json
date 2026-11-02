@@ -1,0 +1,62 @@
+{
+  "SQL40_commit_nonce_observed": false,
+  "accepted40": false,
+  "all_consumed_sources_claims_and_private_diagnostics_retained": true,
+  "automatic_replay": false,
+  "canonical_READ_APPLY_all_four_false": true,
+  "canonical_configuration_acceptance": false,
+  "cleanup": {
+    "all_owned_resources_absent": true,
+    "independent_container_count": 0,
+    "independent_container_inventory_exit": 0,
+    "independent_volume_count": 0,
+    "independent_volume_inventory_exit": 0,
+    "network_created": false,
+    "original29_data_catalogue_and_global_roles_unchanged": true,
+    "shared_lock_filesystem_exists": false,
+    "shared_lock_released": true
+  },
+  "cloud_called": false,
+  "earlier_case_progress": {
+    "actual_negative_preimage_refusal_and_rollback": true,
+    "all_or_nothing_collector_validation_result_written": false,
+    "evidence_kind": "inferred_from_frozen_sequential_control_flow_and_native_positive_postcondition_failure",
+    "full76_before_checkpoint": true,
+    "independent_postcommit_readbacks_and_after_checkpoint": false,
+    "owned_context_render_binding": true,
+    "positive_SQL40_migration_and_postcollector_reached": true,
+    "two_equal_before_collectors": true,
+    "unchanged_before_snapshot_after_negative": true
+  },
+  "elapsed_ms": 45761,
+  "native_error": "REASON40_POSTIMAGE_CHANGED",
+  "normal_process_exit": 1,
+  "observed_at": "2026-11-02T12:00:37.584546+00:00",
+  "provider_called": false,
+  "psql_exit": 3,
+  "purpose": "reason40_typed_owned_failure_preserved",
+  "receipt": {
+    "path": "tracking/evidence/m07/reason40-collector-validation/2026-11-02T11-53-00.629Z-66bca8e3.json",
+    "sha256": "e7b62380b2438135a299f5a4f503f0a587204b6bf9b69375d178185002176ebd"
+  },
+  "result": "failed_before_commit_no_replay",
+  "run_id": "66bca8e3-d56a-4450-84b6-7d29f18e827f",
+  "schema_version": "1.0",
+  "source_controller": {
+    "path": ".local/reason40-typed-collector-source/controller-f5c4b661-90dc-4baf-ac72-0cfca4ba2463.mjs",
+    "private_case_sha256": "ea4b11983ed0f0272631c0ce6672e065951a42ed16c23c33ac44f7f0a67caa84",
+    "sha256": "edcc374d8cb45ee2bec7ecdf11f0393abc0c3952f3e1201b495cfcc86764539b"
+  },
+  "source_diagnosis": {
+    "erroneous_guard_requires_reference_ACL_null_and_compares_it_to_new_column": true,
+    "exactly_one_mismatch_claimed": false,
+    "existing_reference_column": "eps.audit_events.request_id",
+    "existing_reference_column_ACL_nonnull": true,
+    "field": "reason.shape_valid",
+    "kind": "definite_component_from_source_and_exact_pinned_dump_grants_not_captured_postimage",
+    "new_reason_column_ACL_must_be_null": true,
+    "proposed_narrow_fix": "Require new reason ACL null independently; compare other attribute fields except name/ordinal/ACL; preserve existing request_id ACL via unchanged full identity/catalogue checks. New reviewed version required."
+  },
+  "typed_SQL_operator_resolution_exercised": true,
+  "valid_config_and_exact_three_row_qualification_completed": true
+}
