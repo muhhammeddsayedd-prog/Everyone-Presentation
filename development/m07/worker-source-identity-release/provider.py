@@ -141,7 +141,7 @@ class Provider:
   for name,wanted in expected.items():raw=s.load(root/name);need(json.loads(raw)==wanted);result.append({'path':name,'sha256':s.sha(raw),'bytes':len(raw)})
   return result
  def admission(self,phase):
-  need(self.o.OBSERVE_ENABLED is True);source=self.build().context('daemon');need(source['daemon_source_sha256']==self.bindings()['daemon_source_sha256'])
+  need(self.o.OBSERVE_ENABLED is True);self.build().source_admission();source=self.build().context('daemon');need(source['daemon_source_sha256']==self.bindings()['daemon_source_sha256'])
   self.build().accepted_export('native');self.build().accepted_export('daemon')
   for kind in('native','daemon'):
    copy_proof=read_ref(self.inputs[kind]['registry_copy']);ready_proof=read_ref(self.inputs[kind]['ready'])

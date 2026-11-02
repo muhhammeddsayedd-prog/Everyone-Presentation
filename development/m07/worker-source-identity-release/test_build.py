@@ -1,6 +1,7 @@
 """Local source/claim tests only. No stage, archive build or provider action."""
 from pathlib import Path
-import copy,hashlib,importlib.util,json,unittest
+import copy,hashlib,importlib.util,json,types,unittest
+from unittest.mock import patch
 HERE=Path(__file__).resolve().parent
 spec=importlib.util.spec_from_file_location('worker_identity_build_tests',HERE/'build.py');b=importlib.util.module_from_spec(spec);spec.loader.exec_module(b)
 class Fake:
@@ -43,4 +44,10 @@ class Tests(unittest.TestCase):
   for action in(lambda:build.stage(),lambda:build.export('native'),lambda:build.manifest(),lambda:build.prepare_oci('native'),lambda:build.emit()):
    with self.assertRaises(ValueError):action()
   self.assertEqual(calls,[])
+ def test_actual_pin_builder_binds_selected_archive_quality_and_run_even_when_packed_bytes_equal(self):
+  build=b.Build.__new__(b.Build);build.inputs={'run':'owned'};build.source={'source_sha256':'same-packed-source','archive':{'sha256':'first'},'quality':{'sha256':'quality'}};build.l=types.SimpleNamespace(pins=lambda:{'frozen':'unchanged'})
+  fake_load=lambda path,*_:Path(path).name.encode()
+  with patch.object(b,'load',fake_load),patch.object(b,'BINARIES',{}),patch.object(b,'ARCHIVE_VALIDATOR_SHA',b.sha(Path(b.ARCHIVE_VALIDATOR).name.encode())):
+   original=build.pins();build.source['archive']['sha256']='different';changed=build.pins();self.assertNotEqual(original['selected_build_profile_sha256'],changed['selected_build_profile_sha256']);self.assertEqual({k:v for k,v in original.items()if k!='selected_build_profile_sha256'},{k:v for k,v in changed.items()if k!='selected_build_profile_sha256'})
+   build.source['quality']['sha256']='different';quality=build.pins();self.assertNotEqual(changed['selected_build_profile_sha256'],quality['selected_build_profile_sha256']);build.inputs['run']='another';self.assertNotEqual(quality['selected_build_profile_sha256'],build.pins()['selected_build_profile_sha256'])
 if __name__=='__main__':unittest.main()

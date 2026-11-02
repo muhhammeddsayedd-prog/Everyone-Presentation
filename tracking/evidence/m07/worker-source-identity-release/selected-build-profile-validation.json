@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-11-02T18:56:48.923178+00:00",
+  "purpose": "selected_build_profile_provenance_binding",
+  "result": "passed_source_validation",
+  "predecessor_commit": "10f0c0df4d560addc0b405588cc4d083389c1b82",
+  "predecessor_receipt_preserved": "tracking/evidence/m07/worker-source-identity-release/disabled-operations-source-validation.json",
+  "source_seals": {
+    "development/m07/worker-source-identity-release/build.py": "e7058fd42fa2b2956794f931cf5dcb7ef536bdf5959742605fcb60542162024b",
+    "development/m07/worker-source-identity-release/provider.py": "596f33da5a3f02ab9055452f7488170d66954fdcdaadc701be8ad23ed821f497",
+    "development/m07/worker-source-identity-release/test_build.py": "91a40bae84e340af92f90b6e2d294e34cae7353f0bbd67dc0d3bf6a18dc4a670"
+  },
+  "change": "Bind selected run/archive/quality/graph profile into actual local build pins, including when packed product bytes equal; revalidate actual archive and quality at production admission. Later registry/probe/controller/ownedSQL source remains excluded from local-only pins.",
+  "tests": 53,
+  "pass": 53,
+  "fail": 0,
+  "duration_seconds": 3.874,
+  "source_review_pending": true,
+  "all_five_execution_flags": false,
+  "stage_or_Docker_or_registry_or_provider_or_SQL_called": false
+}

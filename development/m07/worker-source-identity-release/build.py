@@ -74,7 +74,7 @@ class Build:
  def read(self,name):file=self.file(name);self.guard.verify(file);return json.loads(load(file))
  def hash(self,name):file=self.file(name);self.guard.verify(file);return sha(load(file))
  def pins(self):
-  result=self.l.pins()
+  result=self.l.pins();result['selected_build_profile_sha256']=sha(compact({'run':self.inputs['run'],'source':self.source}))
   # Later registry/native/controller arming and the separately owned SQL proof
   # do not change these local build mechanisms or the selected product bytes.
   for name in('build.py','mechanisms.py','test_build.py'):
