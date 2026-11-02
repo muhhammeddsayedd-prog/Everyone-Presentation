@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "purpose": "pdf47_readonly_source_budget_trace",
+  "observed_at": "2026-11-02T16:54:54.060Z",
+  "source_commit": "a124151a2793bff2f9004b06e2a794bd6a09ac4c",
+  "scope": "Runtime checkout source facts; hosted settings not freshly observed",
+  "source_seals": {
+    "packages/integrations/src/openai-specs.ts": "68f2208e496e3f9a567d2477c8f826df9a66b8739fb72d18635c678f42fa3768",
+    "apps/worker/src/specs-executor.ts": "7ae93cc2a4c24d02674fc090a844dc4437f9dbd177d0f25de6b60bb02c72841c",
+    "apps/worker/src/runtime.ts": "7c4f2ef4495e5f1634a9fb22a084a26912100c51b10adb030347593b1e83a8a9",
+    "apps/worker/src/runtime-main.ts": "5fa566ae69cbc199e123ce3967063c5863f22acf16ca6b8239b2cc181f36d93e",
+    "apps/worker/src/n8n-orchestrator.ts": "7be252a5115c5f600d0f161458e60b056ec3d2109a634592dc7336792efa5e93",
+    "packages/central/src/specs-runtime-gateway.ts": "5e3e6c1b4da316ebac501967769712ecc61d590b68a4e6fd942e50a382f9d1de",
+    "supabase/migrations/20261029001520_m02_specs_assets.sql": "9b35e8efdfc5184252ab4ecfe1a50861c8991dadf2b20544d481b51b3b7fb288",
+    "n8n/eps-wf01-specs-stage.json": "e55befa47cef1c550c9814e66465d06221cad175db7c9d5d14b16a56e374b5e3",
+    "apps/worker/src/native-sandbox.ts": "dde0952dc5a0e7168e1e9f99206c1f09782510b7e7866cc1bade0040ef2279c0",
+    "development/m07/pdf47-budget-trace/README.md": "5d889f754f05dffd0ee18efad5109e56de52ab67d1c35451dfa348bb6882ab2f"
+  },
+  "budgets": {
+    "provider_default_ms": 60000,
+    "provider_default_max_output_tokens": 16384,
+    "sdk_retries": 0,
+    "heartbeat_default_ms": 20000,
+    "stage_gateway_max_ms": 15000,
+    "stage_lease_seconds": 90,
+    "durable_stage_attempt_limit": 3,
+    "sql_statement_ms": 8000,
+    "sql_lock_ms": 2000,
+    "sql_query_ms": 10000,
+    "n8n_router_default_ms": 10000,
+    "n8n_workflow_seconds": 30,
+    "worker_poll_default_ms": 3000,
+    "worker_recovery_default_ms": 30000
+  },
+  "order": [
+    "n8n_route",
+    "durable_stage_claim",
+    "outbox_ack",
+    "stage_execute"
+  ],
+  "n8n_nodes": [
+    "n8n-nodes-base.webhook",
+    "n8n-nodes-base.set",
+    "n8n-nodes-base.respondToWebhook",
+    "n8n-nodes-base.respondToWebhook"
+  ],
+  "provider_completed_response_observed": false,
+  "reasoning_token_count_observed": false,
+  "causal_latency_diagnosis": false,
+  "provider_calls": 0,
+  "database_queries": 0,
+  "n8n_operations": 0,
+  "job_retries": 0,
+  "configuration_changes": 0,
+  "production_acceptance": false
+}
