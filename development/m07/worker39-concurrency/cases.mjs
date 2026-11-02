@@ -77,7 +77,7 @@ export async function runCases(ctx, cfg) {
   const sessions = []; const start = async tag => { const s = session(ctx, tag); sessions.push(s); return s.start(); };
   try {
     const observer = await start('observer'), control = await start('control'), a = await start('cached'), b = await start('pauser');
-    const snap = async () => only(await control.request("begin read only;set local search_path='';" + cfg.snapshot_sql + ' as worker39_snapshot;rollback;')).worker39_snapshot;
+    const snap = async () => only(await control.request("begin read only;set local search_path='';" + cfg.snapshot_sql + ' as worker39_snapshot;rollback;'));
     const before = await snap(); same(before.canonical.lifecycle, Object.fromEntries(cfg.counters.map(key => [key, 0]))); assert.equal(before.canonical.base.history.length, 39); assert(cfg.tables.every(table => before.canonical.processing_config[table].public.enabled));
     ctx.report.owned_snapshot_qualifications = { canonical_check_called: false, cli_role_safe_observed: before.canonical.base.cli_role_safe, protected_m02_integrity_observed: before.canonical.base.protected_m02_integrity,
       synthetic_data_only: true, canonical_protected_rows_or_role_oids_not_created: true, complete_local_preimage_preserved_by_actual_collector: true };
@@ -102,7 +102,7 @@ export async function runCases(ctx, cfg) {
     await control.request(restoreFlags(cfg, paused, before)); same(await snap(), before);
     const raced = only(await a.request(actor + "select eps_worker38_conc.submit('worker39-cached-intake-commit-race',2);")); assert.equal(raced.status, 'queued');
     const racedSnapshot = b.request(cfg.prefix + cfg.snapshot_sql + ' as worker39_snapshot;').then(rows => ({ rows }), failure => ({ failure })); const commitWait = await wait(b, a, true);
-    await a.request('commit;'); const visible = await racedSnapshot; assert(!visible.failure); const observed = only(visible.rows).worker39_snapshot; assert.equal(observed.canonical.lifecycle.queued, 1); assert(observed.canonical.lifecycle.pending_outbox >= 1); assert.notDeepEqual(observed, before);
+    await a.request('commit;'); const visible = await racedSnapshot; assert(!visible.failure); const observed = only(visible.rows); assert.equal(observed.canonical.lifecycle.queued, 1); assert(observed.canonical.lifecycle.pending_outbox >= 1); assert.notDeepEqual(observed, before);
     const rejection = await b.request(assertion(cfg.precondition_template, before)).then(() => null, failure => failure); assert.equal(rejection?.code, 'COMPLETION39_PREFLIGHT_CHANGED');
     const final = await snap(); assert(cfg.tables.every(table => final.canonical.processing_config[table].public.enabled)); assert.equal(final.canonical.lifecycle.queued, 1);
     const actual = only(await control.request(`begin read only;select jsonb_build_object('exists',exists(select 1 from eps.jobs where id=${literal(raced.job_id ?? raced.id)}::uuid and workspace_id=eps_worker38_conc.workspace(2)and status='queued'));rollback;`)); assert(actual.exists);

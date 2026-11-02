@@ -1,6 +1,7 @@
 # Worker39 independent local SQL concurrency purpose
 
-Disabled callbacks. Root/peer source review is required before arming and an
+Callbacks started disabled and Root armed only the execution flag after peer
+review. Root/peer source review is required before arming and an
 actual owned-local run. Compilation/tests do not execute Docker or SQL, call a
 provider, or replay any historical controller/claim. There is no cloud transport.
 
@@ -45,3 +46,13 @@ and owned resources must be absent; the original shared target must remain exact
 # Source-only compilation, still disabled:
 .venv-skills/Scripts/python.exe -X utf8 -B development/m07/worker39-concurrency/compiler.py
 ```
+
+First owned run `9c2d3926` passed full38 restore/hash/catalogue and39 setup, then
+failed before pause cases because the new local parser expected a CLI column
+wrapper around psql's direct JSONB value. Its receipt and exact executed source
+are retained. Both owned resources were absent afterward, original29 full
+data/catalogue/globalroles matched and the shared lock was released. The forward
+fix removes only those two incorrect unwraps; State4c SQL/guards/updates remain
+byte-identical. A regression was RED on the failed source and now distinguishes
+the direct psql row from a CLI wrapper. Five pure tests, syntax/lint and diff
+checks pass. A second actual run requires Root's explicit new-run review.
