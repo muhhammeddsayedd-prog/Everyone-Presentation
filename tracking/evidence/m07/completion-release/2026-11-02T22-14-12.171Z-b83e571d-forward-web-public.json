@@ -1,0 +1,143 @@
+{
+  "observed_at": "2026-11-02T22:14:12.171Z",
+  "result": "passed",
+  "deployment_id": "dpl_9miSRSQgzwycmN6Ut5sRmeF3x5WF",
+  "source_commit": "3ff3cb229826a939df2be26030f522347681bda9",
+  "deployment_identity_receipt": "tracking/evidence/m07/production-web-forward-release/2026-11-02T22-08-54-577976Z-7470f23c-b475-4b2e-9082-17d4ff344118-readback.json",
+  "base": {
+    "schema_version": "1.0",
+    "host": "https://everyone-presentation-pilot.vercel.app",
+    "result": "passed",
+    "checks": [
+      {
+        "path": "/",
+        "expected_status": 307,
+        "status": 307,
+        "redirect_blocked": true,
+        "nosniff": true,
+        "no_set_cookie": true,
+        "private_no_store": false,
+        "expected_public_shape": true,
+        "request_id": null,
+        "passed": true
+      },
+      {
+        "path": "/projects",
+        "expected_status": 200,
+        "status": 200,
+        "redirect_blocked": false,
+        "nosniff": true,
+        "no_set_cookie": true,
+        "private_no_store": true,
+        "expected_public_shape": true,
+        "request_id": null,
+        "passed": true
+      },
+      {
+        "path": "/api/session",
+        "expected_status": 200,
+        "status": 200,
+        "redirect_blocked": false,
+        "nosniff": true,
+        "no_set_cookie": true,
+        "private_no_store": true,
+        "expected_public_shape": true,
+        "request_id": "51ddc873-322a-4b31-b397-4e75f563367c",
+        "passed": true
+      },
+      {
+        "path": "/api/v1/projects",
+        "expected_status": 401,
+        "status": 401,
+        "redirect_blocked": false,
+        "nosniff": true,
+        "no_set_cookie": true,
+        "private_no_store": true,
+        "expected_public_shape": true,
+        "request_id": "6779bf9a-3a84-4b48-92cf-b962a0de5f97",
+        "passed": true
+      },
+      {
+        "path": "/api/v1/settings",
+        "expected_status": 401,
+        "status": 401,
+        "redirect_blocked": false,
+        "nosniff": true,
+        "no_set_cookie": true,
+        "private_no_store": true,
+        "expected_public_shape": true,
+        "request_id": "02a4d9ad-9b9b-4151-b609-1a6bf0370ca3",
+        "passed": true
+      },
+      {
+        "path": "/api/dev/session",
+        "expected_status": 403,
+        "status": 403,
+        "redirect_blocked": false,
+        "nosniff": true,
+        "no_set_cookie": true,
+        "private_no_store": true,
+        "expected_public_shape": true,
+        "request_id": "3cabab23-7e01-4e56-9ea1-6ae7d6b95f12",
+        "passed": true
+      }
+    ],
+    "scope": "Public no-credential admission preflight only; not signed-in app, worker, OAuth or delegated-client acceptance.",
+    "full_core_or_oauth_acceptance": false,
+    "requests": 6,
+    "methods": [
+      "GET"
+    ],
+    "redirects_followed": false,
+    "cookies_or_authorization_sent": false,
+    "valid_guest_or_authorization_selectors_used": false,
+    "consent_login_or_model_call": false,
+    "raw_body_headers_or_diagnostics_recorded": false
+  },
+  "additional": [
+    {
+      "path": "/api/v1/clients",
+      "method": "GET",
+      "status": 401,
+      "expected_status": 401,
+      "expected_code": true,
+      "request_id": "b8259769-fc79-45ea-b378-e368b3e812a8",
+      "no_set_cookie": true,
+      "passed": true
+    },
+    {
+      "path": "/api/v1/presentation-types",
+      "method": "GET",
+      "status": 401,
+      "expected_status": 401,
+      "expected_code": true,
+      "request_id": "8117b974-d750-4813-8346-0a55774cac58",
+      "no_set_cookie": true,
+      "passed": true
+    },
+    {
+      "path": "/api/dev/central-logo-probe",
+      "method": "POST",
+      "status": 404,
+      "expected_status": 404,
+      "expected_code": true,
+      "request_id": "8be24efd-4cbb-45b2-b4af-3cd767f41720",
+      "no_set_cookie": true,
+      "passed": true
+    },
+    {
+      "path": "/mcp",
+      "method": "POST",
+      "status": 401,
+      "expected_status": 401,
+      "expected_code": true,
+      "request_id": null,
+      "no_set_cookie": true,
+      "passed": true
+    }
+  ],
+  "credentials_or_cookies_sent": false,
+  "raw_bodies_or_secrets_recorded": false,
+  "inference_or_business_write_called": false,
+  "signed_in_or_full_workflow_acceptance": false
+}

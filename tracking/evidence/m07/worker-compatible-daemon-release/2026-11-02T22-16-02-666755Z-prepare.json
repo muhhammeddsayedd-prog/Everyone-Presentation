@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-11-02T22:16:02.666212+00:00",
+  "action": "prepare",
+  "purpose": "daemon_only_release_reusing_exact_native_3d",
+  "run": "cd917d16-2d3d-4915-9d65-364d1edf4fe9",
+  "project_id": "prj_I4SMkDzaDy0KHNgiF00v4Da5aLb6",
+  "team_id": "team_gboXPxTevpCOZuaA8eY9PmR1",
+  "target": "pyibofyctwnqpvktepse",
+  "bindings": {
+    "daemon_source_sha256": "dc12eaab6d862b2d151665b13c092568a273a2b1c7e2fde24516654c7db40648",
+    "native_source_sha256": "f742e9e5e4b83643f5bae18cace3e9e253912c0114f59b4489f0d163bcb39368",
+    "native_graph_sha256": "247992bbe3331251f33186cfac22835e8734833cd229bb6a4d8bcafa3bc0c214",
+    "daemon_graph_sha256": "9c751f186e67dec8dccc7f8339760ed25210e79f109ff65be12bdb3108123234",
+    "native_manifest_sha256": "fa221d833f0417d303c55ecc43629b2edf68ccdcc020d90e7f1864341e02fa57",
+    "native_compatibility_sha256": "24737d69156a7dfb10459668c828265c7665be0efae80c5da678ea53fd61328b",
+    "native_digest": "sha256:3d4286db01b27b40ec9078e303158e93003a096d5ddad1c9802130238de6dd80",
+    "daemon_digest": "sha256:697362169825a7f71493e98870505cb74a2ae163999209785c02ac7a0b0a0329",
+    "environment": {
+      "EPS_NATIVE_MANIFEST_SHA256": "fa221d833f0417d303c55ecc43629b2edf68ccdcc020d90e7f1864341e02fa57",
+      "EPS_DAEMON_SOURCE_SHA256": "dc12eaab6d862b2d151665b13c092568a273a2b1c7e2fde24516654c7db40648",
+      "EPS_NATIVE_COMPATIBILITY_SHA256": "24737d69156a7dfb10459668c828265c7665be0efae80c5da678ea53fd61328b"
+    }
+  },
+  "cached_platform_health_metadata": [
+    {
+      "last_checked_at_ms": 1793657588327,
+      "last_checked_age_ms": 75676,
+      "observed_at_ms": 1793657664003,
+      "kind": "cached_platform_metadata",
+      "fresh_application_heartbeat_proven": false
+    },
+    {
+      "last_checked_at_ms": 1793657588327,
+      "last_checked_age_ms": 77943,
+      "observed_at_ms": 1793657666270,
+      "kind": "cached_platform_metadata",
+      "fresh_application_heartbeat_proven": false
+    }
+  ],
+  "fresh_application_heartbeat_claimed": false,
+  "raw_cli_logs_persisted": false,
+  "private_checkpoint_is_restore_proof": false,
+  "rollback_or_AT069_performed": false,
+  "retained_native_source_sha256": "f742e9e5e4b83643f5bae18cace3e9e253912c0114f59b4489f0d163bcb39368",
+  "new_native_build_probe_or_copy_claimed": false,
+  "result": "prepared",
+  "provider_mutations": false,
+  "before_sha256": "3b45021c2772614330acd40f8fae0f38c614273d1e28cd446765e2a8d4530b51",
+  "checkpoint": {
+    "path": ".local/worker-compatible-daemon-release/cd917d16-2d3d-4915-9d65-364d1edf4fe9/canonical40-checkpoint.json",
+    "sha256": "1dc1b48690d210517ce61f41aaf2ed9dc7d35016c2d0d6dc7791f3cec225030b",
+    "history_path": [
+      "state",
+      "schema40",
+      "history"
+    ],
+    "tables": 76,
+    "scope": "before_worker_pause",
+    "restore_verified": false
+  }
+}
