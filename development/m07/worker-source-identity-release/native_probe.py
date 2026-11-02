@@ -6,7 +6,7 @@ bounded SDK, ownership/session/UID/network checks and cleanup remain unchanged.
 from pathlib import Path
 import importlib.util,json,re,sys,uuid
 HERE=Path(__file__).resolve().parent
-PROBE_ENABLED=False
+PROBE_ENABLED=True
 BASE_OPERATOR='tools/probe-hosted-native.mjs';BASE_OPERATOR_SHA='84630e42f2e5277fe8865721d00779939802cc73d059bf795cffb9915e5cb3ab'
 BASE_ADMISSION='development/m07/completion-native/admit-native-probe.mjs';BASE_ADMISSION_SHA='3d4063414ae08a0c419be1e893322332f61f431afa57f45ff2957780cd889060'
 BASE_RELEASE_SHA='b8eec2107417f4f4641c9dd7810ce056e5af937d2cada3236f05c454eb9cff26'
