@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-11-02T19:06:42.243385+00:00",
+  "purpose": "fixed_normal_Git_binary_two_link_qualification",
+  "result": "passed_source_validation",
+  "predecessor_commit": "15792ea2d2cba3b50546e93b64f683e673bb4e99",
+  "root_reported_predispatch_failure": {
+    "classification": "generic single-link file guard refused fixed regular normal Git executable with two links",
+    "build_profile_created": false,
+    "stage_claim_created": false,
+    "stage_called": false,
+    "provider_called": false,
+    "archive_preserved": {
+      "owner_reported_run_prefix": "bbf4b5da",
+      "owner_reported_sha256_prefix": "c80df247",
+      "bytes": 1976320,
+      "exact_ref_not_in_message": true
+    },
+    "root_prior_independent_tests": {
+      "tests": 53,
+      "pass": 53,
+      "duration_seconds": 3.921
+    }
+  },
+  "exact_binary": {
+    "path": "C:/Program Files/Git/cmd/git.exe",
+    "sha256": "22fead8244ef3a7225fb800099a4e43eca8bcec0466774917669599c2f19a05a",
+    "bytes": 46936,
+    "links": 2,
+    "regular": true,
+    "symlink": false,
+    "resolved_exact": true
+  },
+  "generic_loader_unchanged": true,
+  "all_other_binary_guards_unchanged": true,
+  "source_seals": {
+    "development/m07/worker-source-identity-release/build.py": "edcbb78323130915ead0013def602bbd1fafde7941d04f19e66d4b693d210573",
+    "development/m07/worker-source-identity-release/test_build.py": "0ad83c18403bd7e3c27c4e7f7c84ecdcfc5f4eefe2d4bb17d2d73108282fc6e5"
+  },
+  "focused_actual_Git_and_profile_tests": {
+    "tests": 7,
+    "pass": 7,
+    "fail": 0,
+    "duration_seconds": 0.03
+  },
+  "actual_full_pure_suite": {
+    "tests": 54,
+    "pass": 54,
+    "fail": 0,
+    "duration_seconds": 4.048
+  },
+  "all_five_execution_flags": false,
+  "Git_invoked_by_fix_validation": false,
+  "build_provider_or_SQL_actions": false,
+  "independent_frontend_source_peer": "closed_pass_exact_edcbb783_0ad83c18"
+}

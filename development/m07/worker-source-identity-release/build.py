@@ -12,6 +12,7 @@ HOST='npipe:////./pipe/dockerDesktopLinuxEngine'
 DOCKER=Path('C:/Program Files/Docker/Docker/resources/bin/docker.exe')
 PLUGIN=Path('C:/Program Files/Docker/Docker/resources/cli-plugins/docker-buildx.exe')
 GIT=Path('C:/Program Files/Git/cmd/git.exe')
+GIT_SHA='22fead8244ef3a7225fb800099a4e43eca8bcec0466774917669599c2f19a05a'
 BINARIES={DOCKER:'e768033e4b3f0dc760162f417a80360094644d16cd9fb12ad65c9d97508c076f',PLUGIN:'f2512b849418b860d1e497708ccdd4864e2377a97fe15d500af83381cf5f967e'}
 ARCHIVE_VALIDATOR='development/m07/specs-diagnostic-worker38/build.py'
 ARCHIVE_VALIDATOR_SHA='2548608d9bf12bea7b48b2535e208fc2e9d7452a6113531eaf64b685565834fc'
@@ -22,6 +23,8 @@ def module(name,file):
 m=module('worker_identity_local_mechanisms',HERE/'mechanisms.py');need=m.need;sha=m.sha;load=m.load
 def stamp():return datetime.datetime.now(datetime.timezone.utc).isoformat()
 def compact(value):return json.dumps(value,separators=(',',':'),ensure_ascii=False).encode()
+def git_binary_pin():
+ need(GIT==Path('C:/Program Files/Git/cmd/git.exe'));info=GIT.lstat();need(GIT.is_file()and not GIT.is_symlink()and GIT.resolve()==GIT and info.st_nlink==2 and info.st_size==46936);need(sha(GIT.read_bytes())==GIT_SHA);return GIT_SHA
 def kind_value(kind):need(kind in('native','daemon'));return kind
 def reference(value):
  need(type(value)is dict and set(value)=={'path','sha256'}and re.fullmatch(r'tracking/evidence/[A-Za-z0-9_./-]+\.json',value['path'])and'..'not in Path(value['path']).parts and re.fullmatch('[a-f0-9]{64}',value['sha256']));raw=load(MAIN/value['path']);need(sha(raw)==value['sha256']);return json.loads(raw)
@@ -82,7 +85,7 @@ class Build:
   need(sha(load(MAIN/ARCHIVE_VALIDATOR))==ARCHIVE_VALIDATOR_SHA);result[str(MAIN/ARCHIVE_VALIDATOR)]=ARCHIVE_VALIDATOR_SHA
   for file,digest in BINARIES.items():
    need(file.is_file()and not file.is_symlink()and file.resolve()==file and sha(file.read_bytes())==digest);result[str(file)]=digest
-  result[str(GIT)]=sha(load(GIT,128*1024**2))
+  result[str(GIT)]=git_binary_pin()
   return dict(sorted(result.items()))
  def source_admission(self):
   self.pins();self.guard.verify(MAIN/self.source['archive']['path']);read=lambda relative:load(MAIN/relative)

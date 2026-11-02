@@ -50,4 +50,11 @@ class Tests(unittest.TestCase):
   with patch.object(b,'load',fake_load),patch.object(b,'BINARIES',{}),patch.object(b,'ARCHIVE_VALIDATOR_SHA',b.sha(Path(b.ARCHIVE_VALIDATOR).name.encode())):
    original=build.pins();build.source['archive']['sha256']='different';changed=build.pins();self.assertNotEqual(original['selected_build_profile_sha256'],changed['selected_build_profile_sha256']);self.assertEqual({k:v for k,v in original.items()if k!='selected_build_profile_sha256'},{k:v for k,v in changed.items()if k!='selected_build_profile_sha256'})
    build.source['quality']['sha256']='different';quality=build.pins();self.assertNotEqual(changed['selected_build_profile_sha256'],quality['selected_build_profile_sha256']);build.inputs['run']='another';self.assertNotEqual(quality['selected_build_profile_sha256'],build.pins()['selected_build_profile_sha256'])
+ def test_actual_fixed_Git_hardlink2_pin_and_foreign_path_refusal_preserve_generic_loader(self):
+  self.assertEqual(b.git_binary_pin(),'22fead8244ef3a7225fb800099a4e43eca8bcec0466774917669599c2f19a05a');self.assertEqual(b.GIT.lstat().st_nlink,2)
+  # Only the named Git executable gains this exact qualification. The generic
+  # existing single-link loader must continue to refuse this same file.
+  with self.assertRaises(ValueError):b.load(b.GIT,128*1024**2)
+  with patch.object(b,'GIT',Path('C:/foreign/git.exe')),patch.object(Path,'read_bytes',side_effect=AssertionError('foreign binary must not open')):
+   with self.assertRaises(ValueError):b.git_binary_pin()
 if __name__=='__main__':unittest.main()
