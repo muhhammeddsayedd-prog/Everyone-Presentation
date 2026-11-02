@@ -1,9 +1,21 @@
 # Fresh forward-anchor worker39 concurrency proof
 
-This new purpose starts disabled. No SQL, Docker, provider call or local shared
-lock has been used by this purpose during preparation. Execution needs Root's
-source review and a fresh UUID. Previous attempts and their consumed claims are
-preserved, including the passed fourth proof `f62f594e`.
+Actual fifth owned-local run `0b2a39cb` passed on 2 November 2026 in 48,600 ms.
+Six distinct backend sessions passed every concurrency/retry/preimage assertion.
+Checkpoint273 matched all 76 tables, history39 and full state before/after;
+1,667,583 raw output bytes stayed only in RAM. Both owned resources were absent,
+original29 data/catalogue/global roles matched, and the shared lock was removed.
+The receipt is
+`tracking/evidence/m07/worker39-anchor-concurrency/2026-11-02T01-27-46.301Z-0b2a39cb.json`
+(SHA256 `a2e7d49e2916b1d8050d42972b3f90ff4f06339acab5f5f4e7329c7d576c4018`).
+
+The purpose started disabled at commit `7bf776b`. Its actual compiled CLI was
+invoked once with normal tsx and refused with exit1 before any target/lock/SQL/
+Docker admission. No run claim or receipt was created by that refusal. Following
+Root review and five passing pure/source gates, commit `305454c` changed only the
+new execution flag. A fresh compiled controller and UUID performed the one
+authorized fifth run. Previous attempts and consumed claims remain preserved,
+including the passed fourth proof `f62f594e`. No cloud/provider call occurred.
 
 The additive `completion-worker-rollout39/forward_state.py` qualifies legitimate
 post-migration job aggregate changes in its initial historical comparison. It
@@ -42,12 +54,14 @@ exact inherited row identifiers and source qualifications.
 
 ```powershell
 .venv-skills/Scripts/python.exe -X utf8 -B development/m07/worker39-anchor-concurrency/test_compiler.py
-# Source-only compilation; callbacks remain disabled:
+# Source-only compilation; does not execute the armed callback:
 .venv-skills/Scripts/python.exe -X utf8 -B development/m07/worker39-anchor-concurrency/compiler.py
 ```
 
 Pure tests parse the actual emitted SQL and all four rendered lock observer
 queries, deny changed current source or SQL, and compare callbacks to the frozen
-passed source. This preparation establishes source compatibility only. An actual
-fifth-run outcome and cleanup receipt do not exist yet. It does not establish
-canonical admission, a deployed worker, provider processing or restore success.
+passed source. Five pure gates, syntax/lint, independent source review and the
+actual owned-local run passed. These establish local source/SQL behavior with
+explicit synthetic fixture qualifications. They do not establish canonical
+admission, a deployed worker, provider processing or restore success. The source
+and consumed fifth-run claim are historical and must not be replayed.
