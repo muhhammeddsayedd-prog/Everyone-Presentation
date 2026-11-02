@@ -22,6 +22,7 @@ import { getGuestReviewService, getReviewLinkService } from '../../../../lib/gue
 import { handleGuestReviewRequest, handleReviewLinkRequest, isGuestReviewRoute, isReviewLinkRoute } from '../../../../lib/guest-http';
 import { readRuntimeConfig } from '../../../../lib/config';
 import { guestOperationClass, logGuestRequestFailure, type GuestOperationClass } from '../../../../lib/guest-error-log';
+import { logLogoRequestFailure } from '../../../../lib/logo-error-log';
 import { getSettingsService } from '../../../../lib/settings';
 import { handleSettingsRequest, isSettingsRoute } from '../../../../lib/settings-http';
 import { handleWorkspaceSummaryRequest, isWorkspaceSummaryRoute } from '../../../../lib/workspace-summary-http';
@@ -120,6 +121,7 @@ async function handle(request: Request, context: Context) {
     throw new DomainError('FEATURE_NOT_IMPLEMENTED', 'This operation is pending its implementation milestone.', 503);
   } catch (e) {
     if (guestOperation !== null) logGuestRequestFailure(guestOperation, e, requestId);
+    logLogoRequestFailure(e, requestId);
     const response = failure(e, requestId);
     if (e instanceof DomainError && e.status === 429) response.headers.set('Retry-After', '60');
     return response;

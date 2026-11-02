@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "purpose": "scoped_http_logo_failure_trace",
+  "observed_at": "2026-11-02T17:43:25.380411+00:00",
+  "environment": "Frontend worktree; synthetic Auth/RPC/Storage fake boundaries",
+  "base_commit": "a5fd823033ac2ce25dfeb09a4072e8f51a479ac4",
+  "source_seals": {
+    "apps/web/lib/logo-error-log.ts": "0ff749b53ca742e22c4ad683ca7c5523e15fe2562f01e3d4cb20290a95905e0f",
+    "apps/web/app/api/v1/[...segments]/route.ts": "a15580c1c0c8fc63afd03c2bf3e7956bd12f8003e1535ad81375ec70089ee252",
+    "tests/server/logo-error-log.test.ts": "a336f58a3ee577b3ea21f1be1762673d1a4b756b48e9637bb4d051ea639483b2"
+  },
+  "checks": {
+    "meaningful_red": {
+      "new_http_cases": 2,
+      "passed": 0,
+      "failed": 2,
+      "failure": "Expected one safe log event; observed zero",
+      "raw_log_sha256": "9083cf12a115a9fc83140ef220ffb92cfef4198f94a2d34b40b603d3b35474d1"
+    },
+    "focused": {
+      "command": "node tools/run-tests.mjs tests/server/logo-error-log.test.ts tests/server/guest-error-log.test.ts packages/central/test/logo-storage.test.ts",
+      "passed": 21,
+      "failed": 0,
+      "skipped": 0,
+      "new_cases": 5,
+      "raw_log_sha256": "e32131219337baa4fef9d225644e99f0ff7c866c764dde8298dd1c1d01ecaa56"
+    },
+    "typecheck": {
+      "command": "npm run typecheck",
+      "exit_code": 0,
+      "raw_log_sha256": "63dbaa165359a370f81fa6d619a1569ad84c24a4a726e0b4e03bb94528b8dd4f"
+    },
+    "lint": {
+      "command": "npm run lint",
+      "exit_code": 0,
+      "raw_log_sha256": "dcf04cf56739f2f68b315b919013254295716cfac4a2b9aaca7e25ee40e8f2db"
+    }
+  },
+  "scope": {
+    "generic_http_error_contract_changed": false,
+    "ui_flow_changed": false,
+    "auth_rls_or_grants_changed": false,
+    "worker_native_or_dependency_source_changed": false,
+    "private_payload_logged": false,
+    "live_provider_calls": 0,
+    "production_upload_or_deployment": false,
+    "earlier_managed_storage_root_cause_proved": false
+  },
+  "preservation": {
+    "existing_next_env_drift_unstaged": true,
+    "original_worktree_untracked_output_untouched": true,
+    "preliminary_harness_failures_retained_ignored": true,
+    "main_product_git_index_untouched": true
+  }
+}
