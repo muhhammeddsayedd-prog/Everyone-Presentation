@@ -1,0 +1,115 @@
+{
+  "schema_version": "cohort-only-native-diagnostic-disabled-plan.v1",
+  "source_commit": "67d059c28755478a95d1e041066ae95c7d294abd",
+  "execution_enabled": false,
+  "compiled_only": true,
+  "execution_dispatched": false,
+  "SQL_commands_issued": 0,
+  "Docker_commands_issued": 0,
+  "provider_calls": 0,
+  "runtime_uuid": null,
+  "resources": [],
+  "controller": {
+    "path": ".local/presentation-generation-data-diagnostics-compiled/controller-e3373f78-37d6-42b1-bd78-084d135038ec.mjs",
+    "sha256": "823490cd2d7c9ba33fc5598c030ef6c9deb58ee45cffa9080939b285dde23ddd"
+  },
+  "callback": {
+    "path": ".local/presentation-generation-data-diagnostics-compiled/callback-e3373f78-37d6-42b1-bd78-084d135038ec.mjs",
+    "sha256": "be061b336c613a11ab09c61153ce9245f305a69b52f22c63a7d7d23bccf63051"
+  },
+  "source_seals": {
+    "development/m07/presentation-generation-data-diagnostics/capture.mjs": "9766a654f319f740fa37aef4c79a025f8f977c44f3a89220c2aedf39e311c407",
+    "development/m07/presentation-generation-data-diagnostics/capture.test.mjs": "2802f1ee52d45c5d1661b57aa99386dbd4aeb0b81306941893436f40998e59da",
+    "development/m07/presentation-generation-data-diagnostics/compiler.py": "d7a9e29325878cee3045e137f7b2169d9db5b5b12bac6add2e1e09eae3d27129",
+    "development/m07/presentation-generation-data-diagnostics/entry.mjs": "94424b7da8958a7ff81dcb833028ce61b6ab0d53ef8864b43782b1c74a5afff0",
+    "development/m07/presentation-generation-data-diagnostics/README.md": "288a89fd022d60c2cadc5a335510cd903d25d5f5fc4fa5906a3d3431ff10135e",
+    "development/m07/presentation-generation-data-diagnostics/test_tiny.py": "f8b30e727bde4a9a72ff26a7b48eaaa73921fae07dc2f44fea4d8b2ce98f25c5",
+    "development/m07/presentation-generation-data-diagnostics/tiny_source.py": "c5e7d629ff8a71e65dfe18c233e499e978f7cc11940084f63947360ce897999c",
+    "development/m07/presentation-generation-data-diagnostics/transport.test.mjs": "4dbe309a82414b88c341269673efde4bb1fd343b1dd7527b4a7d299313369a8c"
+  },
+  "retained_failure": {
+    "receipt": "tracking/evidence/m07/presentation-generation-data-proof/2026-11-02T16-08-03.781Z-c7e4f2ef.json",
+    "sha256": "f1685acb849fef5b810c9c9cf4b1e2e9ad1664148a3171434a0d212dc411ed94",
+    "native_original_SQLSTATE": "unavailable; higher cleanup assertion masked primary private error",
+    "closed_final_error": "LOCKSOURCE41_PROBE_ROLLBACK_UNCONFIRMED",
+    "normal_process_exit": 1,
+    "cleanup_original29_globalroles_and_lock_verified": true
+  },
+  "operation": {
+    "same_pinned_synthetic38_restore_exact39_exact40_fixture_prefix": true,
+    "lock_body_sha256": "1ff8ce429ec61785c1e1037da8de5d2a4b9426789074a64eab0f6f89241c48e4",
+    "only_preceding_four_source_bodies_installed": true,
+    "candidate_four_bodies_executed": false,
+    "same_fixed_synthetic_actor_client_session_and_capability_contract": true,
+    "real_MCP_eps_review_owner_RLS": true,
+    "statement_timeout_seconds": 8,
+    "one_normal_bounded_lock_helper_then_exact_original_12_relation_cohort_read": true,
+    "no_cohort_predicate_or_role_policy_trigger_authority_change": true,
+    "skipped_old_component_measurements": 32,
+    "skipped_old_extra_generations": 6,
+    "skipped_old_association_cases": 6,
+    "no_semantic_oracle_fix_selected_without_native_evidence": true
+  },
+  "state": {
+    "same_fixture_recipe_and_counts": true,
+    "counts": {
+      "candidates": 28,
+      "media": 27,
+      "frames": 328,
+      "assets": 501,
+      "ready_versions": 13,
+      "total_versions": 14,
+      "slides": 63,
+      "pins": 60
+    },
+    "full_fresh_pre_and_post_row_catalogue_reason_Ready_hash_equality_required": true,
+    "source_full_pg_proc_authority_and_exact_hashes_preserved": true,
+    "c7e4f2ef_historical_raw_rowhash_equivalence_claimed": false,
+    "reason": "fresh runtime and real RPC UUIDs/timestamps differ; only historical hashes retained, no final raw-row checkpoint exists"
+  },
+  "observation": {
+    "actual_frozen_receiver_sha256": "ddb76b4db7bb578c2dfa2896fd59451037679c9a5fc2777a13412765c296e252",
+    "receiver_code_unchanged": true,
+    "client_only_extra_psql_args": [
+      "-v",
+      "VERBOSITY=verbose"
+    ],
+    "private_owner_SYSTEM_directory_and_exact_own_claim_required": true,
+    "private_first_error_wx_before_identical_rethrow": true,
+    "native_code_only_from_first_verbose_psql_ERROR_line": true,
+    "Node_EPIPE_never_a_native_SQLSTATE": true,
+    "public_fields_only": [
+      "phase",
+      "request_sha256",
+      "native_sqlstate",
+      "native_sqlstate_provenance",
+      "private_capture_normal_return",
+      "private_capture_failed"
+    ],
+    "full_diagnostic_private_only": true
+  },
+  "ownership": {
+    "purpose": "presentation-original-cohort-diagnostic",
+    "private_root": ".local/presentation-generation-data-diagnostics/<newUUID>",
+    "labels_prefix": "eps.cohortdiagnostic",
+    "network": "none",
+    "host_ports": [],
+    "original29_system_forbidden_as_target": "7701520506262638626",
+    "shared_lock": "Main/.local/local-postgres/test-db.lock",
+    "new_UUID_source_snapshot_and_once_claim_required": true
+  },
+  "acceptance": {
+    "diagnosis_only_not_full_performance_equality_or_lock_acceptance": true,
+    "all_existing_original29_data_catalogue_global_roles_preservation_and_owned_cleanup": true,
+    "successful_independent_daemon_absence_and_fresh_lock_false_required": true,
+    "normal_outcome_recorded": true,
+    "failure_stops_no_automatic_retry": true,
+    "full_candidate_performance_security_equality_proof_still_mandatory_later": true
+  },
+  "offline_checks": {
+    "capture_cleanup_and_actual_receiver_logic_with_fake_child_stream_tests": 8,
+    "pure_tiny_prefix_compiler_disabled_checks": 3,
+    "real_SQL_or_psql_observation": false
+  },
+  "Root_and_independent_source_plan_review_before_any_owned_execution": true
+}
