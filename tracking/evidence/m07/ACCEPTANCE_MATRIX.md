@@ -1,5 +1,39 @@
 # M07 current workflow matrix
 
+Recorded 2026-11-02T19:02:15Z. This table governs the current checkpoint; dated tables below
+remain historical. Production4fro/a567/92e1, canonical40 and worker Cp/native46
+remain serving. Full M07/release acceptance is false.
+
+| Workflow | Current evidence | Remaining / boundary |
+| --- | --- | --- |
+| Web/frontend | Exact4fro sourcea567; normal submission/equal alias/direct Ready; Root 993 +types/lint/guard/build | Non-stale409 wording fix is tested but undeployed; no new worker activation |
+| Project creation/types | Human Planned/Casting plus owner MCP create/same-key replay and reciprocal readbacks passed | Preserve canonical projects, creator grants and no-processing Planned semantics |
+| Human Casting | Existing controlled provider/Ready PDF/original-video journeys retained; old 10 Ready/57slides/42pins and Reviewed profile preserved at18:39 | Representative specs extraction and logo completion remain unresolved |
+| Folder/video intake | Owner and Root confirmed10 selected files/52,016,551bytes; IMG2850 alone uploaded4,316,429bytes; job07 succeeded through five stages | Other9 files last observed queued at0bytes; one video does not accept the whole batch |
+| Provider processing | Job07 has four current-attempt response records, one media record, 12frames/3selected, English available; no failure event | Metadata is not independent billing/wire proof; cached/repeated observations do not count as new calls |
+| Samsung PDF47 | Original three failures retained;60s and120s low-effort diagnostics timed out; metadataGET200/914ms was separate | No validated output; cost/remote completion unknown; flags closed/claims retained; production60s default/70s cap unchanged |
+| Logo/storage | SignedPUT succeeded; completion409 traced to download400/body404/NoSuchKey; later current/not-archived/non-delete object metadata retained | Root cause/original GET visibility/physical bytes unproved; retain failures; owner same-connection diagnostic prepared, not executed |
+| Delegated generation | Pool c2f FAILED at media-assets oracle57014 after cold/warm measurements; new cold MCP 3.213s fenced/6.330s standalone | Not equality/security/release proof; no four-body reuse or generation executed; exact owned cleanup/original29/roles/lock passed |
+| Reason/audit | Compatible SQL40 applied with normal commit/two readbacks and qualified76-table checkpoint; parser serving | Checkpoint is not a restore proof; preserve exact reason/MAC/audit contracts |
+| Authentication | Actual existing-Claude same-session renewed access; separate temporary operator rotation/logout/bearer401 and original sessions preserved | Raw Claude refresh wire unclaimed; original RT-denial phase unconfirmed/unreplayed, no extra gate |
+| Guest/permissions | Anonymous exact-version comment/replay and before-expiry revoked token/session denial passed; owner MCP/preview now reports producer4/external3 comments and internal-note exclusion | Natural expiry was not tested in this run; contributor explicitly skipped |
+| Accessibility | Real production keyboard/focus acceptance retained; owner reports preview controls working | Narrator explicitly skipped, not passed; do not ask again. Mobile skipped |
+| Worker/recovery | CurrentCp/native46 unchanged; independent synthetic39 metadata +four-object Storage/API restore and cleanup retain scoped AT070 pass | New image/source-identity release remains separate; AT069 queued replacement/compatible rollback policy rejection unreplayed |
+| Repository | Private repository; last cited independent pushfbe293 matched; source/failure history retained | No claim this documentation or later local commits are pushed; public-history/PII publication not admitted |
+
+Evidence: [serving identity](logo-failure-trace-web-release/2026-11-02T17-58-22-617365Z-a8890fe6-9fb0-4f92-8a2f-5d5a85abda11-readback.json), [quality](completion-release/2026-11-02T17-47-11.447Z-3de2c3c9-logo-trace-root-quality.json),
+[owner guest/reader waiver](completion-guest/owner-finish-and-reader-waiver.json), [guest lifecycle](completion-guest/Root-current-lifecycle-admission.json),
+[job07 provider metadata](completion-release/2026-11-02-42a79abe-8566-416f-8ad6-dd77e0d25afb-img2850-job07-metadata.json), [120s closed outcome](pdf47-extended-deadline-evaluation/a619b610-168e-43c6-99ae-967a9f3cc835-execution.json),
+[pool failed outcome](presentation-lock-source-pool-proof/c2f4fe15-outcome.json), [logo failure](completion-release/production-logo-trace-page-and-intake.json),
+[409 source fix](logo-storage-diagnostics/api-conflict-message-verification.json), [preservation](completion-release/2026-11-02T18-39-08.540857+00-00-8331566f-post-focus-preservation.json),
+[auth scope](completion-release/authentication-scope-reconciliation.json) and [last cited push](completion-release/canonical-push-fbe2932-readback.json).
+Skips are not passes. Private-production restore/RTO/RPO remain unclaimed
+extensions, not added release gates. Every dated failure and checkpoint remains below.
+
+## Historical matrix before the19:02 reconciliation
+
+# M07 historical workflow matrix
+
 Recorded 2026-11-02T18:14:44.064468+00:00. This table governs current state; dated tables below are historical.
 Web4fro/sourcea567/manifest92e1, canonical40 and workerCp/native46 serve production.
 

@@ -1,6 +1,16 @@
 # Everyone Presentation Studio — Codex development pack
 
-Current 2026-11-02T18:14:44+00:00. Production web4fro serves exact Main sourcea5670eb at the stable URL;
+Current checkpoint - 2026-11-02T19:02:15Z. Production **4fro/sourcea567/manifest92e1**,
+canonical40 and worker Cp/native46 are serving. The owner guest/MCP report is
+recorded; Narrator is explicitly skipped, not passed. Ten folder files were
+queued and one 4,316,429-byte video completed real provider processing. Samsung's
+single 120s diagnostic timed out and is closed; logo download404 and generation
+performance remain unresolved. The 409 wording fix is undeployed; pool c2f failed
+its oracle despite scoped timings and passed cleanup. Full M07/release acceptance
+remains false. See [current handoff](tracking/HANDOFF.md) and
+[workflow/evidence matrix](tracking/evidence/m07/ACCEPTANCE_MATRIX.md).
+
+Historical checkpoint - 2026-11-02T18:14:44+00:00. Production web4fro serves exact Main sourcea5670eb at the stable URL;
 canonical40 and workerCp/native46 remain active. Root993 deterministic tests,
 types/lint/guard/build, ten public checks and signed-in project readback passed.
 Samsung extraction and logo download404 remain unresolved; generation

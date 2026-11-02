@@ -1,6 +1,48 @@
 # Everyone Presentation Studio - current English-output handoff
 
-## Current checkpoint - 2026-11-02T18:14:44.064468+00:00
+## Current checkpoint - 2026-11-02T19:02:15Z
+
+Production web **4fro / source a5670eb / manifest 92e1bb61** is serving;
+canonical40 and worker Cp/native46 are unchanged. [Normal Ready readbacks](evidence/m07/logo-failure-trace-web-release/2026-11-02T17-58-22-617365Z-a8890fe6-9fb0-4f92-8a2f-5d5a85abda11-readback.json)
+and [Root 993 tests, types/lint/guard/build](evidence/m07/completion-release/2026-11-02T17-47-11.447Z-3de2c3c9-logo-trace-root-quality.json) retain their recorded scope.
+No replacement worker or performance SQL has been deployed.
+
+The [owner guest/preview report](evidence/m07/completion-guest/owner-finish-and-reader-waiver.json) now confirms working controls and
+producer/external comment totals of 4/3, including the private internal note only
+for the producer. [Anonymous delta/replay and revoked-access denial](evidence/m07/completion-guest/Root-current-lifecycle-admission.json)
+remain separate HTTP/canonical proofs. Narrator is **skipped by explicit owner
+instruction**, not passed; do not ask again. Mobile and contributor checks are
+also skipped.
+
+All 10 folder files were selected (52,016,551 bytes); only IMG2850 was uploaded.
+[Job07](evidence/m07/completion-release/2026-11-02-42a79abe-8566-416f-8ad6-dd77e0d25afb-img2850-job07-metadata.json) completed all five stages with four current-attempt provider
+response records, one media record, 12 frame rows and 3 selected frames. The other 9
+files remain queued at0 bytes in the last observation. Persisted response records
+are not independent billing/wire proof, and cached/repeated reads are not new calls.
+[Old10 Ready versions/57 slides/42 pins and Reviewed profile](evidence/m07/completion-release/2026-11-02T18-39-08.540857+00-00-8331566f-post-focus-preservation.json) were preserved.
+
+Samsung PDF47 still has three original job failures plus the 60-second diagnostic
+timeout. The [single 120-second evaluation](evidence/m07/pdf47-extended-deadline-evaluation/a619b610-168e-43c6-99ae-967a9f3cc835-execution.json) also timed out (120,009ms):
+no response or validated extraction, cost/remote completion unknown, both flags
+closed and claim retained. Production60-second default/70-second cap is unchanged.
+
+[Logo completion](evidence/m07/completion-release/production-logo-trace-page-and-intake.json) still fails at download with wire400/body404/NoSuchKey;
+[later current-object metadata](evidence/m07/completion-release/logo-current-version-6e2dab03.json) does not prove the original GET/RLS or
+stored bytes. The [non-stale409 wording fix](evidence/m07/logo-storage-diagnostics/api-conflict-message-verification.json) is tested but **undeployed**.
+Keep the failed reservations; the separate owner diagnostic is prepared, not run.
+
+Owned [pool proof c2f4fe15](evidence/m07/presentation-lock-source-pool-proof/c2f4fe15-outcome.json) **FAILED** at the media-assets oracle (57014).
+New MCP cold helper calls measured 3.213s fenced/6.330s standalone before that
+failure; this is not equality/security, generation or release acceptance.
+Four-body reuse and generation did not run. Owned cleanup, original29 data/
+catalogue/global roles and lock release passed.
+
+Next: resolve the scoped oracle/performance proof and representative extraction,
+then complete delegated outputs and the reviewed logo diagnostic. Preserve all
+failures and existing sessions/Ready content. AT069's policy rejection remains
+unreplayed; full M07/release acceptance remains false.
+
+## Historical checkpoint - 2026-11-02T18:14:44.064468+00:00
 
 Production web4fro now serves exact tested Main a5670eb / manifest92e1bb61
 (311 product files). Normal submission, two equal alias/direct Ready readbacks,
