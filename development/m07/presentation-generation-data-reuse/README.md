@@ -24,7 +24,7 @@ error precedence at that edge need not match the preceding implementation.
 It is not a new MVCC snapshot or an authorization cache. Direct service/AI data
 callers retain their existing guards. The lock1ff8 and English helper stay exact.
 
-The generation/raw-capture transforms are being prepared independently in
+The generation/raw-capture transforms were prepared independently in
 `capture.py`. Full captured asset metadata stays private and only the original
 public inventory subset can enter outputs. Association reuse retains TEXT until
 the original per-pin UUID cast and cardinality checks.
@@ -35,7 +35,7 @@ Run focused source checks with the project's isolated Python:
 D:/Everyone/Presentation/Everyone-Presentation-Studio/.venv-skills/Scripts/python.exe -X utf8 -B -m unittest discover -s development/m07/presentation-generation-data-reuse -p test_*.py
 ```
 
-Seven review/source/finite-inverse/PLpgSQL checks currently pass. These do not
+Fourteen review/capture/assembly/finite-inverse/PLpgSQL checks currently pass. These do not
 resolve types/operators, exercise database permissions, prove equality under
 execution or establish performance. `PROOF_DESIGN.md` defines the fresh owned
 preservation/security/8s proof; its future source/plan must be reviewed before
