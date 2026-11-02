@@ -2,7 +2,7 @@
 from pathlib import Path
 import datetime,hashlib,importlib.util,json,os,sys,uuid
 MAIN=Path('D:/Everyone/Presentation/Everyone-Presentation-Studio')
-BRIDGE_ENABLED=False
+BRIDGE_ENABLED=True
 BASE=Path(__file__).resolve().parent.parent/'pdf47-streaming-evaluation/private_bridge.py'
 BASE_SHA='ac8a6d1c219d82781aa78fbfa84dbbf1c80a4098215162bd3a7784b28ee34b22'
 SCHEMA='pdf47-budget32k-input.v1'
