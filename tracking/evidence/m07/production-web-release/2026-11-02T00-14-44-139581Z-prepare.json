@@ -1,0 +1,57 @@
+{
+  "action": "prepare",
+  "cloud_mutation": false,
+  "configuration_steps": [
+    {
+      "body": {
+        "target": [
+          "preview"
+        ]
+      },
+      "id": "rBmr8lo01xRyCSvB",
+      "key": "APP_ENV",
+      "kind": "split"
+    },
+    {
+      "body": {
+        "key": "APP_ENV",
+        "target": [
+          "production"
+        ],
+        "type": "plain",
+        "value": "production"
+      },
+      "key": "APP_ENV",
+      "kind": "create"
+    },
+    {
+      "body": {
+        "target": [
+          "preview"
+        ]
+      },
+      "id": "5ceU8Bc0fDHq80z4",
+      "key": "EPS_RELEASE_MODE",
+      "kind": "split"
+    },
+    {
+      "body": {
+        "key": "EPS_RELEASE_MODE",
+        "target": [
+          "production"
+        ],
+        "type": "plain",
+        "value": "production"
+      },
+      "key": "EPS_RELEASE_MODE",
+      "kind": "create"
+    }
+  ],
+  "credentials_or_raw_cli_persisted": false,
+  "observed_at": "2026-11-02T00:14:44.139794+00:00",
+  "project_id": "prj_7xOsfRtvJ9voYi7rTEfra5ncOoA0",
+  "result": "prepared",
+  "source_commit": "c88f58c00820169f7396d72def77a74f1443594e",
+  "source_sha256": "f947fb53479d991b382bd50bf39e32a4e56dd17598470b209f2a185ed9f58d0a",
+  "team_id": "team_gboXPxTevpCOZuaA8eY9PmR1"
+}

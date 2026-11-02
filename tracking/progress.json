@@ -1,6 +1,6 @@
 {
   "pack_version": "1.0",
-  "updated_at": "2026-11-01T23:47:59.224671+00:00",
+  "updated_at": "2026-11-02T00:47:11.145407+00:00",
   "implementation_started": true,
   "current_milestone": "M07",
   "current_pilot": {
@@ -11002,7 +11002,9 @@
     "redesign_deployed": false,
     "database_observed_at": "2026-11-01T23:46:11.679664+00:00",
     "project_creation_migration": "20261101223342",
-    "project_creation_apply_receipt": "tracking/evidence/m07/project-creation39-canonical-release/2026-11-01T23-46-11-679664Z-apply.json"
+    "project_creation_apply_receipt": "tracking/evidence/m07/project-creation39-canonical-release/2026-11-01T23-46-11-679664Z-apply.json",
+    "web_project_production_configuration_receipt": "tracking/evidence/m07/production-web-release/2026-11-02T00-21-08-000295Z-configure.json",
+    "serving_release_mode": "controlled_pilot"
   },
   "recovery38": {
     "status": "passed_owned_local38",
@@ -11069,26 +11071,32 @@
     "production_admission": "implemented_local_start_and_build_verified",
     "independent_recovery": "schema38_independent_Storage_and_API_passed",
     "production_verified": false,
-    "next_action": "Complete reviewed native46de runtime proof and paired daemon registry/startup, deploy exact main under production configuration, then complete connected journeys and remaining mandatory acceptance.",
+    "next_action": "Complete exact39 local pause/checkpoint proof and independent39 recovery; obtain owner idle status, then reviewed worker pause/env/deploy/startup/pin/resume and exact-main web deployment.",
     "repository_visibility": "private",
     "repository_pushed": true,
     "reader_rollback_deployment": "dpl_8mFQY4SkHiHmSVo6hR8QPLSdgwaS",
     "pending_owner_actions": [
-      "Safe results from running existing Claude delegated journey and reciprocal app readbacks",
-      "Existing contributor identity: supplied alternate address absent; owner clarification pending",
+      "Return safe delegated Claude journey results and confirm Studio is idle for worker switch",
+      "Contributor account provisioning pending; last canonical read00:17 found no matching account",
       "Manual screen-reader acceptance after integrated frontend deployment"
     ],
     "published_source_commit": "715d48513e7aeed55e919e14ca64eedfc95913b2",
     "native_registry": "46de_ready_verified",
-    "daemon_registry": "refresh_unknown_no_repeat_login_copy_pending_reviewed_continuation",
+    "daemon_registry": "2d66_ready_verified_with_separate_no_login_continuation",
     "quality": {
-      "deterministic_tests_passed": 949,
+      "deterministic_tests_passed": 955,
       "lint": "passed",
       "typecheck": "passed",
       "browser_tests_passed": 138,
       "browser_skipped": 0,
       "browser_flaky": 0,
-      "browser_scope": "synthetic_services_not_live_acceptance"
-    }
+      "browser_scope": "synthetic_services_not_live_acceptance",
+      "oauth_observation_signed_jwt_cases": 6
+    },
+    "native_runtime": "actual_9_tasks_10_resources_absent_and_root_admitted",
+    "production_web": "exact_c88_source_isolated_production_build_and_four_env_steps_passed_alias_deployment_pending",
+    "worker_production": "disabled_canonical39_rollout_prepared_actual_SQL_qualification_pending",
+    "production_web_source_commit": "c88f58c00820169f7396d72def77a74f1443594e",
+    "production_web_source_sha256": "f947fb53479d991b382bd50bf39e32a4e56dd17598470b209f2a185ed9f58d0a"
   }
 }

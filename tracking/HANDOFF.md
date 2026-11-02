@@ -1,5 +1,28 @@
 # Everyone Presentation Studio - current English-output handoff
 
+## Current production preparation - 2026-11-02T00:47:11.145407+00:00
+
+Exact main sourcec88f58c / sparse web manifestf947fb53 passes955 modules,
+lint, TypeScript, production guard and an isolated actual-production build.
+Four normal Vercel env operations passed independent readbacks, preserving
+preview and private variables. Deployment has not run: stable alias still
+serves compatible reader8m/e494, with workerG6/daemonce23/native50082.
+
+New native46de and daemon2d66 are independently registry Ready. Actual native
+smoke passed9 tasks, ten resources absent, identity/network/source checks and
+cleanup; root admitted fe8b3008. Original daemon refresh remains unknown; its
+separate no-login continuation passed normalcopy/readbacks/Ready. No accepted
+or failed registry/native claim is replayed. The new worker rollout remains
+disabled pending actual local39 pause/checkpoint SQL qualification and source
+review. Two new local proof failures have exact cleanup/preservation evidence;
+the synthetic busy source cohort will not be hidden from lifecycle counters.
+
+Independent synthetic39 authority/media restoration is being prepared as a
+separate delta to valid independent38 evidence. Owner Claude results/idle status,
+genuine contributor provisioning, actual token lifecycle, guest delta and manual
+screen-reader acceptance remain pending. AT069's historical policy block remains
+unreplayed. No full production or development closure is claimed.
+
 ## Current completion checkpoint - 2026-11-01T23:47:59.224671+00:00
 
 Canonical migration39 (`20261101223342`, SHA c17af770) applied successfully with
