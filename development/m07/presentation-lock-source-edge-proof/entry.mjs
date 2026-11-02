@@ -4,7 +4,7 @@ import { readFile } from 'node:fs/promises';
 import { URL } from 'node:url';
 import * as previous from '../presentation-lock-source-dedupe-proof/entry.mjs';
 import { idFor,literal,sha } from '../presentation-lock-source-proof/proof.mjs';
-export const EXECUTION_ENABLED=false;
+export const EXECUTION_ENABLED=true;
 export const PROBE_SHA='8973de4f38895f2497b46d87d6dda0fe929f2652d8cebb870c9d402587bf21b4';
 const UUID=/^[a-f0-9]{8}-(?:[a-f0-9]{4}-){3}[a-f0-9]{12}$/u;
 export function qualifyEdge(text,run){
