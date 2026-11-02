@@ -1,0 +1,62 @@
+{
+  "schema_version": "pool-proof-oracle-offline-causal-boundary.v1",
+  "actual_run_id": "c2f4fe15-ee8d-468b-abee-8e3166a508b6",
+  "receipt_sha256": "6db69c2ce69a6491e7b144057d33545ea6cb58c95fcc18eaded65d48244c0187",
+  "safe_outcome_sha256": "f98337155069fe31804cfc17d94015a86dd79fe404ec964dc055d1fc5dbc805c",
+  "protected_capture_sha256": "03a0cd24c7a39b0e538ef1746512fb5ffb76d16708cb74c587b79659ec591a01",
+  "private_capture_copied_or_printed": false,
+  "native_sqlstate": "57014",
+  "native_explicit_statement_timeout": true,
+  "native_lock_timeout": false,
+  "native_code_provenance": "first_verbose_psql_ERROR_line",
+  "safe_context_stack": [
+    { "function": "jwt" },
+    { "function": "mcp_claim_uuid" },
+    { "function": "public.eps_validate_own_oauth_session", "line": 24 },
+    { "function": "eps.mcp_token_permits_capability", "line": 4 },
+    { "function": "has_capability" },
+    { "function": "project_scope" },
+    { "function": "review_scope" },
+    { "function": "pg_temp_0.pool_proof_cohort", "line": 42 }
+  ],
+  "failed_statement": "Unchanged original media_assets oracle predicate under actual MCP RLS.",
+  "observed_interruption_inside_live_authority_RLS_path": true,
+  "physical_plan_captured": false,
+  "per_node_time_or_actual_scan_count_known": false,
+  "not_proven": [
+    "All8seconds spent in any one authority function.",
+    "Specific physical scan/index strategy.",
+    "Candidate helper caused this later oracle failure.",
+    "Full remaining semantic/security proof passed."
+  ],
+  "separate_observed_helper_scope": {
+    "candidate_body_sha256": "280244090e5350b912dec5b23b74bb5d260e9e21df497c8ddfc2ae322fb774c4",
+    "all_four_new_first_calls_and_eight_warms_normal_under_8seconds": true,
+    "baseline_old_MCP_first_calls_native_57014": 2,
+    "semantic_baseline_helper_ms": 2698.659,
+    "old_new_selected_tuple_count_each": 11,
+    "selected_tuple_hashes_equal": true,
+    "completed_original_relation_cohorts": 10,
+    "held_selected_rows": 73,
+    "four_body_reuse_or_generation_executed": false
+  },
+  "preservation": {
+    "original29_data_catalogue_global_roles_exact": true,
+    "both_owned_resources_absent": true,
+    "successful_independent_same_engine_label_inventories_empty": true,
+    "fresh_shared_lock_absent": true,
+    "permanent_claim_retained": true,
+    "automatic_retry": false
+  },
+  "successor_scope": {
+    "source_only_default_OFF": true,
+    "original_complete_predicate_with_disjoint_exhaustive_PK_partitions": true,
+    "complete_independent_universe_in_same_RR_read_only_snapshot": true,
+    "each_slice_actual_acting_user_RLS_and_8seconds": true,
+    "zipped_exact_frame_pairs": true,
+    "other10_predicates_unchanged": true,
+    "retained_timing_only_no_new_benchmark_claim": true,
+    "no_production_SQL_timeout_policy_or_permission_change": true
+  },
+  "SQL_Docker_provider_commands_during_offline_diagnosis": 0
+}
