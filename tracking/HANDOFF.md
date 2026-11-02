@@ -1,6 +1,39 @@
 # Everyone Presentation Studio - current English-output handoff
 
-## Current checkpoint - 2026-11-02T15:26:47.382359+00:00
+## Current checkpoint - 2026-11-02T16:42:55.092243+00:00
+
+Canonical40 is applied: [normal commit and two equal readbacks](../tracking/evidence/m07/review-link-reason40-canonical-release/2026-11-02T16-28-48-678533Z-apply.json) passed with all76 old-column rows and existing identities,
+roles, grants and dependencies preserved. SQL40 adds nullable audit reason and
+four compatible function bodies. Fresh after-checkpoint981510d1 captures all76
+tables; it is not a restore claim. The classified current identity baseline is
+explicitly qualified; historical opaque identity equality since39 stays unproven.
+Consumed8b and failed80be remain preserved; owned corrected proofbd221d39 passed.
+
+Fresh pre-release reads confirm webB5L2/source1c72/manifest05a398 and sole
+workerCp/native46. The optional-reason parser is merged as83ca44d and its web
+release registry now binds actual40 plus the fresh checkpoint; web deployment
+is pending. SDK diagnostic fixc140655 passed Root974 tests/types/lint/guard/build
+but is not activated on the worker. Independent daemon/native provenance work
+and an optional low-effort one-call evaluation remain source/local preparation.
+
+Samsung PDF bytes/preparation passed; its3 extraction failures remain. The
+real logo transfer reached Storage, then complete503 and cancel200; selected
+logo stayednull, asset692a673a failed and upload8149dd4c cancelled. Underlying
+Storage failure is unobserved; do not retry or claim logo hash/branding success.
+The generation c7e4f2ef proof failed at baseline large-MCP cohorts before any
+candidate body ran; cleanup passed. A tiny first-native-error reproduction is
+prepared, with8s/permissions unchanged and no production generation retry.
+
+Guest9aff exact external delta/replay and independent before-expiry revoked
+session/token denial passed; known comments remain and the helper is closed.
+Owner MCP/manual Narrator reports remain pending. Mobile/contributor skipped;
+AT069's recorded policy rejection is unreplayed. Production serves real code,
+but fullM07/release acceptance remains false. The [workflow matrix](../tracking/evidence/m07/ACCEPTANCE_MATRIX.md) governs
+completion, with dated prior evidence retained.
+
+## Historical checkpoint before canonical40
+
+## Historical checkpoint - 2026-11-02T15:26:47.382359+00:00
 
 Production remains on web B5L2 / source1c72f2a / manifest05a39870, workerCp /
 native46 and canonical39. The [workflow matrix](../tracking/evidence/m07/ACCEPTANCE_MATRIX.md)
@@ -55,7 +88,7 @@ worktrees, failed attempts and AT069's unreplayed policy restriction.
 
 ## Historical checkpoint before renewed Claude/project and direct-PDF evidence
 
-## Current checkpoint - 2026-11-02T13:28:00.772921+00:00
+## Historical checkpoint - 2026-11-02T13:28:00.772921+00:00
 
 The stable release URL serves `dpl_B5L2mM6QVQo99VJsqtEPDeq8i9n5`, exact product
 `1c72f2a` / manifest `05a39870`. [Normal build/deploy and two equal direct/alias
@@ -430,7 +463,7 @@ Redesigned frontend, real-project UI/API/MCP/domain contracts, folder intake, ex
 
 Authorized implementation has started. Intended root changes were checkpointed in 1a8a411; frontend/redesign including unfinished summary/feedback/batch/transcript source is merged into main. Source worktrees and untracked design captures remain preserved. New canonical project creation, API/MCP parity, folder intake, explicit production admission and independent recovery are being implemented. No new cloud mutation or production acceptance is claimed. Root coordinates migrations/deployments; existing AT069 policy rejection and all pending acceptance remain explicit.
 
-## Current checkpoint - 2026-11-01T20:29:11Z: hosted specs workflow and actual local38 recovery passed
+## Historical checkpoint - 2026-11-01T20:29:11Z: hosted specs workflow and actual local38 recovery passed
 
 The hosted pilot is running with ALL FIVE processing flags enabled,canonical38,
 English1.0,web4Gm85/sourcec69b59c8 and workerG6CV/daemonce23/native50082. Fresh

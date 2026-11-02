@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "purpose": "actual_logo_intake_b5_request_timeline",
+  "observed_at": "2026-11-02T16:16:03.499211+00:00",
+  "result": "observed",
+  "deployment_id": "dpl_B5L2mM6QVQo99VJsqtEPDeq8i9n5",
+  "upload_id": "8149dd4c-1eea-4d3c-a42b-7706776cbfde",
+  "window": {
+    "start": "2026-11-02T15:59:20.000Z",
+    "end": "2026-11-02T16:00:30.000Z"
+  },
+  "source_sha256": "2cf3751829a0f8692e9be7cf74a4786c539d171238eae6505f042a56449a43a8",
+  "query_sha256": "ccea0e90a93138ab1f32d709ea332ef00d88dcf482147dbce54203b0b3e91a72",
+  "maximum_reads": 1,
+  "automatic_retry": false,
+  "exit_code": 0,
+  "timed_out": false,
+  "output_limit_exceeded": false,
+  "metadata": {
+    "requests": [
+      {
+        "observed_at": "2026-11-02T15:59:30.376000+00:00",
+        "platform_request_id": "5xqcz-1793635170376-caa936842ae0",
+        "path": "/api/v1/uploads",
+        "method": "POST",
+        "http_status": 201
+      },
+      {
+        "observed_at": "2026-11-02T15:59:31.880000+00:00",
+        "platform_request_id": "g4k9w-1793635171880-d35c6b24fdd7",
+        "path": "/api/v1/uploads/8149dd4c-1eea-4d3c-a42b-7706776cbfde/complete",
+        "method": "POST",
+        "http_status": 503
+      },
+      {
+        "observed_at": "2026-11-02T15:59:32.528000+00:00",
+        "platform_request_id": "g4k9w-1793635172528-1f69a02f1869",
+        "path": "/api/v1/uploads/8149dd4c-1eea-4d3c-a42b-7706776cbfde/cancel",
+        "method": "POST",
+        "http_status": 200
+      }
+    ],
+    "complete_page_for_exact_window": true
+  },
+  "messages_headers_bodies_tokens_credentials_or_private_URLs_selected_or_saved": false,
+  "upload_mint_retry_cancel_or_business_mutation_called": false
+}

@@ -1,6 +1,6 @@
 # Optional-reason web release preparation
 
-This NEW purpose is default off. It has not staged source, read actual private inputs/checkpoints, built the app, queried a provider/database or deployed. It preserves the consumed diagnostics run `958dbf0e-7cf7-4288-9a97-c7f52e001523` and every previous purpose file/input/claim. Root owns any later registration, arming and execution. The parser change remains the separate `c2f1906` commit; this preparation does not merge it into Main.
+This NEW purpose is default off. It has not staged source, read actual private inputs/checkpoints, built the app, queried a provider/database or deployed. It preserves the consumed diagnostics run `958dbf0e-7cf7-4288-9a97-c7f52e001523` and every previous purpose file/input/claim. Root owns any later registration, arming and execution. The parser change was merged separately into Main as83ca44d after canonical40 passed; no deployment is implied.
 
 The current exact normal baseline/rollback anchor is `dpl_B5L2mM6QVQo99VJsqtEPDeq8i9n5`, tested product commit `1c72f2a2cc36e7f3f6c6d093fb24dd28dbe9fc20`, manifest `05a398700628b8c2310704f05db5971d9fc46ac59795bd77e30148ca3d6f663f`. Its actual normal Ready stable-alias/direct readback is `tracking/evidence/m07/role-archive-focus-web-release/2026-11-02T13-11-38-700539Z-38fa1d8a-6d4d-48ea-924e-65052dbe38e4-readback.json`, SHA `7efe9129b5475cdb338f2eb384e7d8e77008a4e9789ff298445c105c7896d6ab`, observed `2026-11-02T13:11:38.700347+00:00`. This is a deployment identity anchor, not canonical40/41 approval or full M07 acceptance.
 
@@ -12,9 +12,9 @@ Prepare requires two equal observations of the existing project/settings/environ
 
 Fresh full quality is mandatory for the NEW parser source. It must match the exact tested commit/tree, complete testable Git inventory, successful actual test/typecheck/lint/production-guard commands, zero failure/skip counters and exact archived bytes. All five reason parser/HTTP/central/MAC source files must exist and have reviewed seals, as must every other selected product change since B5L2's `1c72f2a`. The keyboard-fix968 result cannot approve a later parser commit. Unit-test counts in fake receipts are synthetic validation fixtures, not a new app-quality run.
 
-## Pending canonical registry
+## Canonical registry after actual40 acceptance
 
-`CANONICAL` contains only `schema40: None` and `schema41: None`. There is no schema39 fallback and no private-input override. Root may register an entry only after reviewing actual accepted evidence. Every entry binds these fields together in source:
+`schema40` is registered to actual apply c1e984fa at16:28:48UTC, SHAe04cca3019363a5e9bdcc46790118e23d939dc0e893fb56bb708d8823451a6cf. It binds the actual functional51a proof and fresh after-checkpoint981510d1. Its separately pinned collector validation is actualbd221d39. `schema41` remains None. There is no schema39 fallback and no private-input override. Entries require actual accepted evidence. Every entry binds these fields together in source:
 
 ```text
 ref: exact passed canonical apply/readback receipt path + SHA256
@@ -29,7 +29,7 @@ count: exactly40 or41, matching the registry key
 
 The accepted apply receipt must echo the exact `local_proof` and `checkpoint` references. The proof must have passed with owned resources absent, original data/catalogue/global roles unchanged, and shared lock released. The protected checkpoint must pass the existing private-file guard, single-file checks and a 16 MiB maximum. Its target and full ordered history must equal the accepted readback and include the reason migration `20261102085405`. Both canonical observations must match and include a normal COMMIT return marker. The checkpoint's `restore_verified:false` is retained honestly; capture does not prove a restore exercise.
 
-The historical protected39 checkpoint `d50647eec503fe6672898deec2e4e19460432edd8a951397e37454c15d3ab88d` stays historical. This purpose never relabels or accepts it as a40/41 checkpoint. Runtime has proposed `first.history`/`second.history` and private `state.history` for40; no actual accepted40/41 record exists in this preparation.
+The historical protected39 checkpoint `d50647eec503fe6672898deec2e4e19460432edd8a951397e37454c15d3ab88d` stays historical. This purpose never relabels or accepts it as a40/41 checkpoint. Actual40 confirms `first.history`/`second.history` and private `state.history`. No accepted41 record exists. The fresh40 checkpoint is a capture, not a new restore exercise.
 
 After the normal source-only local build, a protected completion marker binds the plan/build report/permanent build claim. The included default-off preflight uses the admitted registry entry and its fresh checkpoint. It performs exactly two bounded normal SupabaseCLI2.122 read-only queries, verifies database/operator/session-user provenance, and preserves the original protected-M02 lifecycle exclusion. The exact ordered approved40/41 history, five enabled flags, native46, English1.0 and seven zero lifecycle counts must match. Observation must follow the actual build and be within fifteen minutes of dispatch, allowing at most sixty seconds of clock skew. No database write, actor impersonation, timeout/grant change or fake identity is introduced.
 

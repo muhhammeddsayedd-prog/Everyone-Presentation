@@ -7,7 +7,7 @@ A complete initial specification for developing the presentation app end to end.
 **Resume from [tracking/HANDOFF.md](tracking/HANDOFF.md) and [PROGRESS.md](PROGRESS.md).** The original pack started without app code. Current implementation and actual service evidence are recorded there; no milestone or production acceptance is implied by this specification.
 
 **Current release checkpoint (2026-11-02):** production webB5L2/source1c72f2a,
-workerCp/native46 and canonical39 are serving the redesigned app. Actual project
+workerCp/native46 and canonical40 are serving the redesigned app. Actual project
 creation and renewed Claude access passed their scoped readbacks. Direct Samsung
 PDF bytes/preparation passed; extraction timed out and remains under repair.
 Guest lifecycle and actual screen-reader checks remain open. Follow the

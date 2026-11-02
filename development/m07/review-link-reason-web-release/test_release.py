@@ -33,7 +33,14 @@ class Tests(unittest.TestCase):
     with self.assertRaises(ValueError):r.Operator.baseline(op,bad)
    receipt['normal_process_return_observed']=False
    with self.assertRaises(ValueError):r.Operator.baseline(op,deployment)
-  self.assertEqual(g.CANONICAL,{'schema40':None,'schema41':None});self.assertFalse(r.RELEASE_ENABLED)
+  self.assertIsNone(g.CANONICAL['schema41']);self.assertFalse(r.RELEASE_ENABLED)
+  approved=g.CANONICAL['schema40'];actual=g.reference(HERE.parents[2],approved['ref'])
+  self.assertEqual(actual['result'],'passed');self.assertTrue(actual['normal_return_marker_observed'])
+  self.assertTrue(actual['two_independent_readbacks_equal']);self.assertEqual(actual['first'],actual['second'])
+  self.assertEqual(len(actual['first']['history']),approved['count']);self.assertEqual(approved['count'],40)
+  self.assertEqual(actual['first']['history'][-1],approved['version']);self.assertEqual(approved['version'],'20261102085405')
+  self.assertEqual(approved['proof'],actual['local_proof']);self.assertEqual(approved['checkpoint'],actual['checkpoint'])
+  self.assertEqual(approved['checkpoint']['scope'],'after_apply');self.assertFalse(approved['checkpoint']['restore_verified'])
  def test_disabled_refuses_before_constructor_sources_private_files_or_provider(self):
   with patch.object(r,'RELEASE_ENABLED',False):
    with patch.object(r,'legacy',side_effect=AssertionError('Must not load helpers')):
