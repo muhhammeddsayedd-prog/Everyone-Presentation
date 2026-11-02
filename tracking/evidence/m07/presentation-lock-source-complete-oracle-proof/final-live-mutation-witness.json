@@ -1,0 +1,31 @@
+{
+  "schema_version": "complete-oracle-final-live-mutation-witness.v1",
+  "source_commit": "56f3ca917dc88893b488306af8d89cf8067de9d6",
+  "source_only_temp_uuid": "8bf0f6d2-dc06-4ecd-a1d6-a5cb4ae354b2",
+  "source_only_temp_path": ".local/presentation-lock-source-complete-oracle-proof-mutation/8bf0f6d2-dc06-4ecd-a1d6-a5cb4ae354b2",
+  "mutation": "Remove ONLY final await live(oracle,state,evidence) in readOracle, before final verify.",
+  "zero_key_zero_selected_final_scope_test": true,
+  "original_source_seals": {
+    "oracle.mjs": "3301d16b49cda0037bc57d21e699f72a41a8db90b8302938198cb121f6f37e26",
+    "keys.mjs": "04ef958f1a18e16d9d9c6c9009bdd41039d866e0f0d7a2d90848c34ebcd0982e",
+    "semantic.mjs": "b8bff14d78c115aee29d0d78e4f9b54269777a9ea0ef9bad6192736b77d4fd42",
+    "driver.test.mjs": "a75adad7c0793c27653792b3ce8359c33a340d583011e45e1778cfa3d130e49e"
+  },
+  "mutant_oracle_sha256": "be99118f3c9b2b1bbed9176650ba50b1d476da7104719ffb3131ec4d3ade2c29",
+  "RED": {
+    "normal_exit": 1,
+    "missing_expected_rejection_observed": true,
+    "stdout_sha256": "2908ece9737f586e3818129169ce61094c82aef3027d2c5ea77778c61906133a",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "GREEN": {
+    "normal_exit": 0,
+    "restored_exact_original_oracle_sha256": "3301d16b49cda0037bc57d21e699f72a41a8db90b8302938198cb121f6f37e26",
+    "stdout_sha256": "d60bf4da8113dc9bf83b7d2234cb7e9fffb3accd003a7904bb25c48749cbcf6b",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "restored_temp_copy_exact": true,
+  "worktree_sources_unchanged": true,
+  "SQL_Docker_provider_commands": 0,
+  "runtime_claims_or_resources_created": false
+}
