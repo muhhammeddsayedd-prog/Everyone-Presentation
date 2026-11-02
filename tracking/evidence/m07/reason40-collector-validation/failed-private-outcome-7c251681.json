@@ -1,0 +1,50 @@
+{
+  "accepted40": false,
+  "all_canonical_READ_APPLY_flags_false": true,
+  "all_consumed_sources_claims_failures_retained": true,
+  "automatic_replay": false,
+  "cleanup": {
+    "all_owned_resources_absent": true,
+    "independent_container_count": 0,
+    "independent_container_inventory_exit": 0,
+    "independent_volume_count": 0,
+    "independent_volume_inventory_exit": 0,
+    "network_created": false,
+    "original29_data_catalogue_and_global_roles_unchanged": true,
+    "shared_lock_filesystem_exists": false,
+    "shared_lock_released": true
+  },
+  "cloud_called": false,
+  "diagnostic_claim_exists": false,
+  "diagnostic_poststate_exists": false,
+  "diagnostic_result": null,
+  "earlier_progress": {
+    "diagnostic_DDL_or_correct_COMMIT": "not_reached",
+    "render_or_negative_case_completion": "unconfirmed",
+    "two_before_collectors_and_full76_checkpoint": "inferred_reached_from_frozen_flow_before_first_bridge_call"
+  },
+  "elapsed_ms": 41096,
+  "exact_child_bridge_substage_observed": false,
+  "normal_COMMIT_nonce": false,
+  "normal_process_exit": 1,
+  "observed_at": "2026-11-02T12:57:17.803870+00:00",
+  "private_failure_diagnostic_is_null": true,
+  "private_failure_message": "REASON40_LOCAL_BRIDGE_UNCONFIRMED",
+  "provider_called": false,
+  "purpose": "reason40_acl_private_bridge_failure_preserved",
+  "receipt": {
+    "path": "tracking/evidence/m07/reason40-collector-validation/2026-11-02T12-39-18.790Z-7c251681.json",
+    "sha256": "d506fe4530b1a3c89f87958aa412226cd06347365b2009996226b08c559ba693"
+  },
+  "result": "failed_before_diagnostic_or_commit_no_replay",
+  "run_id": "7c251681-6054-49da-a1c4-fb1f60bdba7e",
+  "schema_version": "1.0",
+  "source_finding": {
+    "Main_scoped_guard_rejects_authorized_sibling_diagnostic_path": true,
+    "Root_selected_correction": "new version uses Main-scoped diagnostic storage with existing Main guard; no ROOT/cache manipulation or subprocess port",
+    "fresh_source_process_readonly_path_admission_succeeds_with_identical_guard_bytes": true,
+    "only_failure_cause_claimed": false,
+    "read_only_scope_reproduction_created_no_files": true,
+    "same_process_import_cache_can_retain_Main_ROOT": true
+  }
+}
