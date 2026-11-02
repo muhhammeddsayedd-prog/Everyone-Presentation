@@ -1,11 +1,11 @@
 {
   "pack_version": "1.0",
-  "updated_at": "2026-11-02T11:44:47.737301+00:00",
+  "updated_at": "2026-11-02T13:01:48.909734+00:00",
   "implementation_started": true,
   "current_milestone": "M07",
   "current_pilot": {
     "status": "production_deployed_acceptance_in_progress",
-    "record_updated_at": "2026-11-02T10:30:39.591772+00:00",
+    "record_updated_at": "2026-11-02T13:01:48.909734+00:00",
     "authority": "latest_checkpoint, current_hosted_release and completion_release; all superseded dated records remain historical",
     "origin": "https://everyone-presentation-pilot.vercel.app",
     "canonical_history": 39,
@@ -40,8 +40,52 @@
     "active_acceptance": "diagnose_generation_cancellation_then_separate_reason40_release_and_owner_acceptance",
     "local_diagnostic_product_changes_deployed": true,
     "web_readback_receipt": "tracking/evidence/m07/mcp-diagnostic-web-release/2026-11-02T10-21-25-065548Z-958dbf0e-7cf7-4288-9a97-c7f52e001523-readback.json",
-    "selected_309_main_product_bytes_equal_deployed": true,
-    "post_diagnostic_worker_receipt": "tracking/evidence/m07/completion-release/pre-diagnostic-web-worker-identity-958dbf0e.json"
+    "selected_309_main_product_bytes_equal_deployed": false,
+    "post_diagnostic_worker_receipt": "tracking/evidence/m07/completion-release/pre-diagnostic-web-worker-identity-958dbf0e.json",
+    "role_archive_focus_fix": {
+      "status": "merged_and_verified_locally_not_deployed",
+      "source_commit": "1c72f2a2cc36e7f3f6c6d093fb24dd28dbe9fc20",
+      "quality_receipt": "tracking/evidence/m07/completion-release/2026-11-02T12-56-41.891Z-a4f745f8-role-focus-root-quality.json",
+      "deterministic_tests_passed": 968,
+      "focused_browser_receipt": "tracking/evidence/m07/completion-release/2026-11-02T12-55-01.830Z-15fc9ce6-role-focus-root-browser.json",
+      "focused_browser_tests_passed": 12,
+      "keyboard_production_journey_receipt": "tracking/evidence/m07/completion-release/2026-11-02T12-56-38.485498Z-f267110a-role-keyboard-audit.json",
+      "fresh_historical_preservation_receipt": "tracking/evidence/m07/production-specs-job-audit/2026-11-02T12-55-16-334542Z-historical-preservation.json",
+      "changes": [
+        "SpecsView.tsx",
+        "RoleEditor.tsx"
+      ],
+      "deployment_id": null,
+      "actual_production_focus_acceptance": false
+    },
+    "last_confirmed_remote_main": "aa4e1c93ea8c5c1ebf45d4d29f76b557b7625a35",
+    "current_main_checkpoint": "dfd55aea22a58113bd7073b8ea0f6bea35a04a43",
+    "latest_main_push_verified": false,
+    "push_verified_scope": "Private canonical remote aa4e1c9 independently read back in this session; later source/evidence commits remain local.",
+    "contributor_acceptance": "skipped_by_owner_not_verified",
+    "next_action": "Release reviewed two-component focus fix on schema39 after source/build/preflight/readback. Finish narrow local fixture corrections for generation performance and SQL40 collector before any canonical changes; no old controller replay. Existing Claude and native picker/screen-reader owner handoffs remain pending.",
+    "reason40_collector_validation": {
+      "functional_proof51a": "passed",
+      "canonical_history": 39,
+      "canonical40_applied": false,
+      "preserved_failed_runs": [
+        "ec29f8df",
+        "66bca8e3",
+        "7c251681"
+      ],
+      "latest_failure": "Main private-file guard rejected diagnostic path in sibling worktree before diagnostic creation or COMMIT; exact local cleanup and original29 preservation passed.",
+      "next": "Small Main-scoped storage correction under review; all canonical READ/APPLY flags false."
+    },
+    "generation_performance_validation": {
+      "canonical_changed": false,
+      "preserved_failed_runs": [
+        "99873a5f",
+        "e1ce4832"
+      ],
+      "timings_or_speedup_accepted": false,
+      "latest_failure": "Synthetic fixture job dedupe literals violated existing 64-lowercase-hex CHECK; narrow deterministic hash correction under review.",
+      "cleanup": "All owned resources absent and original29/global roles exact after each normal failed attempt."
+    }
   },
   "historical_pilot_records": {
     "observed_at": "2026-11-01T17:37:06.827794Z",
@@ -2530,21 +2574,23 @@
         "tracking/WORKER_CUTOVER_CURRENT_2026-11-02.md"
       ],
       "blockers": [
-        "Full coherent human/authorized-Claude and guest reciprocal acceptance remains in progress. The safe bounded human receipt verifies Ready Selection8f1c303e, Shortlist63787eff and new Selection1b20ec2d, PDF/original-video checks and unchanged old Selection bytes after a presentation-only edit. Specs6e3cb provider audit remains separate; no representative or full business-accuracy claim.",
-        "Actual-Claude natural-expiry renewal observation and the separate operator-SDK rotation/local-revoke/denial proof remain unverified. Coordinator run402aca12 is armed and prepared only; no listener, token exchange or new session, and private owner Ready is pending.",
-        "The genuine distinct contributor account is being provisioned privately. Latest canonical identity read03:35:02 found no match; no temporary contributor grants or memberships have been added and existing producer access is preserved.",
-        "Manual AT072 screen-reader acceptance is pending; mobile testing remains skipped by owner instruction. Broader semantic accuracy, representative cost/throughput/endurance and actual current release full journey are not inferred from fixture tests or one synthetic specs job.",
-        "AT069 queued-job replacement/compatible rollback remains policy-blocked with no retry or equivalent transport. Synthetic independent39 Storage/API restore, native46 smoke and the private canonical checkpoint retain separate scopes; managed Auth/private production configuration/real canonical media restore and RTO/RPO are not verified."
+        "Resolve current57014 generation cancellation using a measured owned proof, verify the retained intent and complete both actual-Claude outputs/PDF/media plus reciprocal reads.",
+        "Complete actual-Claude catalogue/create/replay and after-expiry same-session observation with explicit owner attestation; separate temporary-SDK refresh-token denial remains unconfirmed and unreplayed.",
+        "Finish the new SQL40 collector postimage comparison, additive canonical release and compatible optional-reason parser; production remains39.",
+        "Complete nonzero exact-version anonymous feedback/internal-note exclusion, expired/revoked denial and direct file/folder/logo intake; native picker is unavailable to automation.",
+        "Actual manual AT072 remains pending; contributor and mobile are explicitly skipped by owner, not passed.",
+        "AT069 queued-job replacement/compatible rollback remains blocked by the recorded automatic review reason only blocked by policy; no replay or equivalent transport."
       ],
       "next_action": "Diagnose57014 using source/read-only metadata; prove narrow fix locally before another retained-intent attempt. Review separate SQL40 additive canonical release after passed local proof; schema39 unchanged. Owner MCP parity/renewal, delegated outputs, guest delta, direct intake and manual AT072 remain open; contributor/mobile skipped, AT069 unreplayed, public-history privacy not admitted.",
       "scope_constraints": {
         "AT_072": "pending",
         "M03_broader_semantic_checks": "Owner declined further labels; controlled English-output workflow passed, Arabic name/age retained; broader semantic accuracy unclaimed.",
         "mobile_testing": "skipped",
-        "hosting": "Production worker/web serving verified; full M07 and end-to-end release acceptance remain in progress",
+        "hosting": "Production5sev/Cp serving verified; fullM07 remains open",
         "cloud_reset_or_seed": "forbidden",
-        "unrelated_paths": "Screenshots102/redesign-output58 retained",
-        "frontend": "Redesigned sourcec88 deployed; manual screen-reader acceptance pending"
+        "unrelated_paths": "Original Screenshots and redesign-output retained; no unrelated deletion",
+        "frontend": "Redesigned UI and diagnostic sourcefdd deployed as5sev; actual manual AT072 pending",
+        "contributor_acceptance": "skipped_by_owner_not_passed"
       },
       "dependency_override": "Proceed with independent M07 implementation; do not upgrade M06/M03 acceptance.",
       "historical_checkpoint_before_production39": {
@@ -4202,7 +4248,7 @@
         "diagnostic_quality_receipt": "tracking/evidence/m07/completion-release/2026-11-02T10-00-21.237Z-bea51fe2-mcp-diagnostic-root-quality.json",
         "diagnostic_deterministic_tests": 968,
         "generation_metadata_receipt": "tracking/evidence/m07/presentation-cancel-audit39/2026-11-02T10-27-16-747287Z-cancellation-metadata.json",
-        "record_updated_at": "2026-11-02T11:25:07.026016+00:00",
+        "record_updated_at": "2026-11-02T12:09:20.136301+00:00",
         "web_readback_receipt": "tracking/evidence/m07/mcp-diagnostic-web-release/2026-11-02T10-21-25-065548Z-958dbf0e-7cf7-4288-9a97-c7f52e001523-readback.json",
         "local_diagnostic_product_changes_deployed": true,
         "selected_309_main_product_bytes_equal_deployed": true,
@@ -4229,7 +4275,21 @@
           "record_updated_at": "2026-11-02T11:44:47.737301+00:00"
         },
         "new_diagnostic_public_checks_receipt": "tracking/evidence/m07/completion-release/2026-11-02T10-53-52.606Z-e0624be5-production-public.json",
-        "owner_planned_project_observation": "tracking/evidence/m07/completion-release/owner-planned-project-observation-4eade178-66e3-40ed-8b8d-710c43f5fb35.json"
+        "owner_planned_project_observation": "tracking/evidence/m07/completion-release/owner-planned-project-observation-4eade178-66e3-40ed-8b8d-710c43f5fb35.json",
+        "AT070_current": {
+          "status": "passed_scoped_nonproduction",
+          "requirement": "AT070 explicitly uses nonproduction data",
+          "receipt": "tracking/evidence/m07/independent-recovery39/2026-11-02T01-05-56.716Z-4c302b36.json",
+          "root_admission": "tracking/evidence/m07/independent-recovery39/Root-admission-4c302b36.json",
+          "catalogue_fields": 17853,
+          "actual_storage_HTTP_byte_hash_roundtrips": 4,
+          "independent_systems_and_all8_owned_cleanup": true,
+          "production_restore_or_RTO_RPO_claimed": false
+        },
+        "unclaimed_extensions_are_not_added_release_gates": [
+          "managed_Auth_private_runtime_real_production_media_restore",
+          "measured_RTO_RPO"
+        ]
       }
     }
   ],
@@ -4357,18 +4417,20 @@
         "tracking/evidence/m07/feedback-summary37-proof/2026-11-01T09-45-45-482Z-e109a4d1.json",
         "tracking/evidence/m07/oauth-refresh-metadata36/2026-11-01T09-47-58-887145Z-9042fd51-4d70-42d6-9b51-86cd72cfd147.json"
       ],
-      "scope": "Owner connection/get_job, hosted English/guest/Reviewed/Summary and scopedAT074 remain passed. Current36 owned metadata recovery b7 passed with full cleanup; prior33 native/media preserved. FullM07/production remains in progress.",
+      "scope": "Production web5sev/fdd/f68d and workerCp/native46/schema39 serve. Bounded human, first actual-Claude upload and trace, temporary-SDK cleanup, native smoke and nonproduction independent39 restore have distinct admitted scopes. FullM07 remains unverified.",
       "remaining": [
-        "Complete the source-reviewed feedback-summary37 owned local SQL/rollback proof before any canonical37 or compatible web rollout; official CLI-created migration path is 20261101042702_m07_feedback_summary.sql, not an applied migration. Continue the owner-controlled private upload journey with a fresh inbox if needed: the recorded04:06 inbox expired and no owner result was received, without inferring that no MCP operation occurred. Current36 owned metadata recovery b7 passed; a separately reviewed future-current37 native/filesystem-media extension remains unimplemented. AT069 partial source is policy-blocked/no retry, live token/contributor and representative workload remain open. Preserve owner connection/get_job, English/guest/Reviewed/local33 passes, AT072 pending/mobile skipped, frontend and running6pcN/2uAS pilot.",
-        "Full delegated/shared-data journey, live refresh/rotation/revocation and actual contributor denial remain unverified.",
-        "AT069 replacement/rollback, future-current37 native/filesystem/StorageHTTP/providerAuth/deployed recovery and representative workload/cost remain unverified.",
-        "Manual AT072 pending; mobile skipped; no further labels or language selector."
+        "Resolve current57014 generation cancellation using a measured owned proof, verify the retained intent and complete both actual-Claude outputs/PDF/media plus reciprocal reads.",
+        "Complete actual-Claude catalogue/create/replay and after-expiry same-session observation with explicit owner attestation; separate temporary-SDK refresh-token denial remains unconfirmed and unreplayed.",
+        "Finish the new SQL40 collector postimage comparison, additive canonical release and compatible optional-reason parser; production remains39.",
+        "Complete nonzero exact-version anonymous feedback/internal-note exclusion, expired/revoked denial and direct file/folder/logo intake; native picker is unavailable to automation.",
+        "Actual manual AT072 remains pending; contributor and mobile are explicitly skipped by owner, not passed.",
+        "AT069 queued-job replacement/compatible rollback remains blocked by the recorded automatic review reason only blocked by policy; no replay or equivalent transport."
       ],
       "manual_screenreader": "pending",
       "M03_semantic_checks": "controlled_English_output_passed_broader_accuracy_unclaimed_no_more_labels",
       "mobile": "skipped",
-      "hosting": "controlled Vercel pilot running until owner stop; broad production acceptance unverified",
-      "notes": "e3af/d563 failed with exact6-byte archives and fullcleanup; boundary fixes led to actualb7 fullmetadata pass. No current37/native-media/StorageHTTP/providerAuth/deployed/independent/RTO_RPO acceptance. Expired inbox has no owner result, without negativeMCP inference. Feedback37 source only;69 blocked before execution.",
+      "hosting": "Production serving verified at the exact recorded deployment/readback times; full end-to-end acceptance remains open.",
+      "notes": "Dated failures, receipts, source seals and cleanup are preserved. AT070 nonproduction restore passed; production Auth/private-runtime/media restoration and RTO/RPO are unclaimed extensions, not additional gates. Contributor/mobile skipped; no new language-label collection. Current generation57014 cause is under bounded SQL investigation.",
       "canonical36_release": {
         "status": "canonical36_applied_normal_return_and_independent_readback",
         "target": "pyibofyctwnqpvktepse",
@@ -4676,7 +4738,7 @@
         "diagnostic_quality_receipt": "tracking/evidence/m07/completion-release/2026-11-02T10-00-21.237Z-bea51fe2-mcp-diagnostic-root-quality.json",
         "diagnostic_deterministic_tests": 968,
         "generation_metadata_receipt": "tracking/evidence/m07/presentation-cancel-audit39/2026-11-02T10-27-16-747287Z-cancellation-metadata.json",
-        "record_updated_at": "2026-11-02T11:25:07.026016+00:00",
+        "record_updated_at": "2026-11-02T12:09:20.136301+00:00",
         "web_readback_receipt": "tracking/evidence/m07/mcp-diagnostic-web-release/2026-11-02T10-21-25-065548Z-958dbf0e-7cf7-4288-9a97-c7f52e001523-readback.json",
         "local_diagnostic_product_changes_deployed": true,
         "selected_309_main_product_bytes_equal_deployed": true,
@@ -4703,9 +4765,34 @@
           "record_updated_at": "2026-11-02T11:44:47.737301+00:00"
         },
         "new_diagnostic_public_checks_receipt": "tracking/evidence/m07/completion-release/2026-11-02T10-53-52.606Z-e0624be5-production-public.json",
-        "owner_planned_project_observation": "tracking/evidence/m07/completion-release/owner-planned-project-observation-4eade178-66e3-40ed-8b8d-710c43f5fb35.json"
+        "owner_planned_project_observation": "tracking/evidence/m07/completion-release/owner-planned-project-observation-4eade178-66e3-40ed-8b8d-710c43f5fb35.json",
+        "AT070_current": {
+          "status": "passed_scoped_nonproduction",
+          "requirement": "AT070 explicitly uses nonproduction data",
+          "receipt": "tracking/evidence/m07/independent-recovery39/2026-11-02T01-05-56.716Z-4c302b36.json",
+          "root_admission": "tracking/evidence/m07/independent-recovery39/Root-admission-4c302b36.json",
+          "catalogue_fields": 17853,
+          "actual_storage_HTTP_byte_hash_roundtrips": 4,
+          "independent_systems_and_all8_owned_cleanup": true,
+          "production_restore_or_RTO_RPO_claimed": false
+        },
+        "unclaimed_extensions_are_not_added_release_gates": [
+          "managed_Auth_private_runtime_real_production_media_restore",
+          "measured_RTO_RPO"
+        ]
       },
-      "historical_component_details": "Dated component subrecords below are retained history; current deployment and remaining acceptance are governed by current_checkpoint/completion_release."
+      "historical_component_details": "Dated component subrecords below are retained history; current deployment and remaining acceptance are governed by current_checkpoint/completion_release.",
+      "AT070_current": {
+        "status": "passed_scoped_nonproduction",
+        "requirement": "AT070 explicitly uses nonproduction data",
+        "receipt": "tracking/evidence/m07/independent-recovery39/2026-11-02T01-05-56.716Z-4c302b36.json",
+        "root_admission": "tracking/evidence/m07/independent-recovery39/Root-admission-4c302b36.json",
+        "catalogue_fields": 17853,
+        "actual_storage_HTTP_byte_hash_roundtrips": 4,
+        "independent_systems_and_all8_owned_cleanup": true,
+        "production_restore_or_RTO_RPO_claimed": false
+      },
+      "record_updated_at": "2026-11-02T12:09:20.136301+00:00"
     },
     "current33_local_metadata_media_restore": {
       "status": "verified",
@@ -4846,7 +4933,7 @@
       "scope": "Project-local skill setup only; does not advance app milestones or verify integrations."
     }
   },
-  "notes": "Production webJ3/c88/f947 and workerCp/source056/native46/daemon2d66/a317 are serving on canonical39; complete first10min23-record startup, future pin and five-flag resume passed. Scoped real project creation passed; human/delegated output, auth/guest/contributor and manualAT072 acceptance continues. Last confirmed remotea61 only; no full M07 claim.",
+  "notes": "Production5sev/fdd/f68d and workerCp/source056/native46/daemon2d66/a317 serve canonical39. Main role focus correction1c72 passed fresh968 deterministic plus12 focused browser checks, not yet deployed. Original role/Main choice and historical Ready/Reviewed content remain intact. Contributor/mobile skipped. Actual-Claude parity/renewal/outputs, guest, direct intake, manual AT072 and AT069 remain open; full M07 false. Last confirmed private remote aa4e1c9; later commits local.",
   "historical_checkpoint_before_production39": {
     "milestone": "M07",
     "status": "M07_in_progress_owned_SQL37_passed_bounded_Auth_observed_cloud37_pending",
@@ -11501,16 +11588,16 @@
     "production_admission": "production_worker_and_web_deployed_ready_and_source_bound_scoped_acceptance_remaining",
     "independent_recovery": "schema39_independent_Storage_and_API_passed_actual4c302b36_root_admitted",
     "production_verified": false,
-    "next_action": "Diagnose57014 using source/read-only metadata; prove narrow fix locally before another retained-intent attempt. Review separate SQL40 additive canonical release after passed local proof; schema39 unchanged. Owner MCP parity/renewal, delegated outputs, guest delta, direct intake and manual AT072 remain open; contributor/mobile skipped, AT069 unreplayed, public-history privacy not admitted.",
+    "next_action": "Release reviewed two-component focus fix on schema39 after source/build/preflight/readback. Finish narrow local fixture corrections for generation performance and SQL40 collector before any canonical changes; no old controller replay. Existing Claude and native picker/screen-reader owner handoffs remain pending.",
     "repository_visibility": "private",
     "repository_pushed": true,
-    "reader_rollback_deployment": "dpl_8mFQY4SkHiHmSVo6hR8QPLSdgwaS",
+    "reader_rollback_deployment": "dpl_J3hmctcHndRp8zDVAPYfcnjEgpzG",
     "pending_owner_actions": [
       "Return actual-Claude after-expiry get_project request ID and no-reconnect attestation",
       "Complete bounded delegated outputs after Root deploys and verifies generation fix",
       "Complete guest delta and actual manual AT072; mobile/contributor skipped by owner"
     ],
-    "published_source_commit": "d1e45592c972d4d14bde13a1517594ee896398e9",
+    "published_source_commit": "aa4e1c93ea8c5c1ebf45d4d29f76b557b7625a35",
     "native_registry": "46de_ready_verified",
     "daemon_registry": "2d66_ready_verified_with_separate_no_login_continuation",
     "quality": {
@@ -11580,8 +11667,8 @@
     "native_pin_receipt": "tracking/evidence/m07/completion-worker/2026-11-02T02-24-16-275686Z-rollout39-pin.json",
     "resume_receipt": "tracking/evidence/m07/completion-worker/2026-11-02T02-28-39-166492Z-rollout39-resume.json",
     "production_serving_verified": true,
-    "current_main_push_verified": true,
-    "current_main_checkpoint": "d1e45592c972d4d14bde13a1517594ee896398e9",
+    "current_main_push_verified": false,
+    "current_main_checkpoint": "dfd55aea22a58113bd7073b8ea0f6bea35a04a43",
     "repository_push_scope": "Release checkpoint62df023 normally pushed and independently matched by GitHub ref; following evidence-only reconciliation receives a separate normal push, reported by Root final readback.",
     "production_UI": {
       "planned_receipt": "tracking/evidence/m07/completion-release/planned-project-production.json",
@@ -11658,7 +11745,7 @@
     "canonical_specs_and_preservation_audit": "tracking/evidence/m07/production-specs-job-audit/Root-admission.json",
     "post_journey_web_receipt": "tracking/evidence/m07/completion-release/production-web-current-identity.json",
     "post_journey_worker_receipt": "tracking/evidence/m07/completion-release/production-worker-current-identity.json",
-    "last_confirmed_remote_main": "d1e45592c972d4d14bde13a1517594ee896398e9",
+    "last_confirmed_remote_main": "aa4e1c93ea8c5c1ebf45d4d29f76b557b7625a35",
     "canonical_push_receipt": "tracking/evidence/m07/completion-release/canonical-push-readback.json",
     "canonical_push_observed_at": "2026-11-02T04:02:53.180067+00:00",
     "actual_Claude_token_observation": {
@@ -11675,50 +11762,85 @@
     "delegated_generation": "retained_UI_confirmation_database57014_no_new_versions_jobs_or_revision_change",
     "delegated_audit": "tracking/evidence/m07/actual-claude-receipt-audit39/RESULTS.md",
     "isolated_fix_work": "diagnostics_deployed_reason_SQL40_owned_proof_passed_canonical_unapplied",
-    "latest_main_push_verified": true,
+    "latest_main_push_verified": false,
     "diagnostic_quality_receipt": "tracking/evidence/m07/completion-release/2026-11-02T10-00-21.237Z-bea51fe2-mcp-diagnostic-root-quality.json",
     "diagnostic_deterministic_tests": 968,
     "generation_metadata_receipt": "tracking/evidence/m07/presentation-cancel-audit39/2026-11-02T10-27-16-747287Z-cancellation-metadata.json",
-    "record_updated_at": "2026-11-02T11:25:07.026016+00:00",
+    "record_updated_at": "2026-11-02T13:01:48.909734+00:00",
     "web_deployment_id": "dpl_5sevM277cLpQZPJV1XkaJxhMLqpe",
     "web_source_commit": "fdd0aba30fbff3ecebd4f29915bb8b74b143fea2",
     "web_source_manifest_sha256": "f68d43576db9c530a54c85af960658d7115547d5c2c406d47ead8ed0a7d11bb1",
     "web_readback_receipt": "tracking/evidence/m07/mcp-diagnostic-web-release/2026-11-02T10-21-25-065548Z-958dbf0e-7cf7-4288-9a97-c7f52e001523-readback.json",
     "local_diagnostic_product_changes_deployed": true,
-    "selected_309_main_product_bytes_equal_deployed": true,
+    "selected_309_main_product_bytes_equal_deployed": false,
     "post_diagnostic_worker_receipt": "tracking/evidence/m07/completion-release/pre-diagnostic-web-worker-identity-958dbf0e.json",
     "full_M07_verified": false,
     "web_readback": "tracking/evidence/m07/mcp-diagnostic-web-release/2026-11-02T10-21-25-065548Z-958dbf0e-7cf7-4288-9a97-c7f52e001523-readback.json",
-    "main_checkpoint_commit": "d1e45592c972d4d14bde13a1517594ee896398e9",
-    "push_verified_scope": "d1e4559 source checkpoint; later docs/evidence tracked separately",
+    "main_checkpoint_commit": "dfd55aea22a58113bd7073b8ea0f6bea35a04a43",
+    "push_verified_scope": "Private canonical remote aa4e1c9 independently read back in this session; later source/evidence commits remain local.",
     "diagnostic_UI_receipt": "tracking/evidence/m07/completion-release/diagnostic-generation-observation-958dbf0e.json",
     "public_repository_publication_admitted": false,
     "reason40_collector_validation": {
-      "status": "owned_setup_failed_before_collector_migration",
-      "receipt": "tracking/evidence/m07/reason40-collector-validation/2026-11-02T11-16-01.701Z-ec29f8df.json",
-      "actual_collector_executed": false,
-      "canonical_called": false,
-      "owned_cleanup_and_original29_preserved": true,
-      "next": "new_disabled_valid_synthetic_config_purpose",
-      "offline_checks_passed": 16,
-      "additional_source_review": {
-        "kind": "source_review_only",
-        "finding": "new collector JSONB deletion operand must be exact six-key text[] instead of jsonb",
-        "actual_query_execution_reached": false,
-        "frozen_failed_sources_preserved": true,
-        "next": "versioned minimal corrected Context plus valid synthetic fixture proof",
-        "canonical_changed": false
-      },
-      "record_updated_at": "2026-11-02T11:44:47.737301+00:00"
+      "functional_proof51a": "passed",
+      "canonical_history": 39,
+      "canonical40_applied": false,
+      "preserved_failed_runs": [
+        "ec29f8df",
+        "66bca8e3",
+        "7c251681"
+      ],
+      "latest_failure": "Main private-file guard rejected diagnostic path in sibling worktree before diagnostic creation or COMMIT; exact local cleanup and original29 preservation passed.",
+      "next": "Small Main-scoped storage correction under review; all canonical READ/APPLY flags false."
     },
     "new_diagnostic_public_checks_receipt": "tracking/evidence/m07/completion-release/2026-11-02T10-53-52.606Z-e0624be5-production-public.json",
-    "owner_planned_project_observation": "tracking/evidence/m07/completion-release/owner-planned-project-observation-4eade178-66e3-40ed-8b8d-710c43f5fb35.json"
+    "owner_planned_project_observation": "tracking/evidence/m07/completion-release/owner-planned-project-observation-4eade178-66e3-40ed-8b8d-710c43f5fb35.json",
+    "AT070_current": {
+      "status": "passed_scoped_nonproduction",
+      "requirement": "AT070 explicitly uses nonproduction data",
+      "receipt": "tracking/evidence/m07/independent-recovery39/2026-11-02T01-05-56.716Z-4c302b36.json",
+      "root_admission": "tracking/evidence/m07/independent-recovery39/Root-admission-4c302b36.json",
+      "catalogue_fields": 17853,
+      "actual_storage_HTTP_byte_hash_roundtrips": 4,
+      "independent_systems_and_all8_owned_cleanup": true,
+      "production_restore_or_RTO_RPO_claimed": false
+    },
+    "unclaimed_extensions_are_not_added_release_gates": [
+      "managed_Auth_private_runtime_real_production_media_restore",
+      "measured_RTO_RPO"
+    ],
+    "role_archive_focus_fix": {
+      "status": "merged_and_verified_locally_not_deployed",
+      "source_commit": "1c72f2a2cc36e7f3f6c6d093fb24dd28dbe9fc20",
+      "quality_receipt": "tracking/evidence/m07/completion-release/2026-11-02T12-56-41.891Z-a4f745f8-role-focus-root-quality.json",
+      "deterministic_tests_passed": 968,
+      "focused_browser_receipt": "tracking/evidence/m07/completion-release/2026-11-02T12-55-01.830Z-15fc9ce6-role-focus-root-browser.json",
+      "focused_browser_tests_passed": 12,
+      "keyboard_production_journey_receipt": "tracking/evidence/m07/completion-release/2026-11-02T12-56-38.485498Z-f267110a-role-keyboard-audit.json",
+      "fresh_historical_preservation_receipt": "tracking/evidence/m07/production-specs-job-audit/2026-11-02T12-55-16-334542Z-historical-preservation.json",
+      "changes": [
+        "SpecsView.tsx",
+        "RoleEditor.tsx"
+      ],
+      "deployment_id": null,
+      "actual_production_focus_acceptance": false
+    },
+    "generation_performance_validation": {
+      "canonical_changed": false,
+      "preserved_failed_runs": [
+        "99873a5f",
+        "e1ce4832"
+      ],
+      "timings_or_speedup_accepted": false,
+      "latest_failure": "Synthetic fixture job dedupe literals violated existing 64-lowercase-hex CHECK; narrow deterministic hash correction under review.",
+      "cleanup": "All owned resources absent and original29/global roles exact after each normal failed attempt."
+    },
+    "historical_reader_rollback_deployment": "dpl_8mFQY4SkHiHmSVo6hR8QPLSdgwaS"
   },
   "latest_checkpoint": {
     "milestone": "M07",
     "status": "production_worker_web_serving_M07_acceptance_in_progress",
     "observed_at": "2026-11-02T09:04:27.144707+00:00",
-    "main_checkpoint_commit": "d1e45592c972d4d14bde13a1517594ee896398e9",
+    "main_checkpoint_commit": "dfd55aea22a58113bd7073b8ea0f6bea35a04a43",
     "canonical_migration_count": 39,
     "local_original_migration_count": 29,
     "web_deployment_id": "dpl_5sevM277cLpQZPJV1XkaJxhMLqpe",
@@ -11799,18 +11921,18 @@
       "Main_product_and_deployed_J3_and_history39_frozen_until_cleanup": false,
       "actual_Claude_acceptance": false
     },
-    "last_confirmed_remote_main": "d1e45592c972d4d14bde13a1517594ee896398e9",
-    "latest_main_push_verified": true,
+    "last_confirmed_remote_main": "aa4e1c93ea8c5c1ebf45d4d29f76b557b7625a35",
+    "latest_main_push_verified": false,
     "manual_screenreader": "AT072 pending",
     "mobile_testing": "skipped by owner",
-    "next_action": "Diagnose57014 using source/read-only metadata; prove narrow fix locally before another retained-intent attempt. Review separate SQL40 additive canonical release after passed local proof; schema39 unchanged. Owner MCP parity/renewal, delegated outputs, guest delta, direct intake and manual AT072 remain open; contributor/mobile skipped, AT069 unreplayed, public-history privacy not admitted.",
+    "next_action": "Release reviewed two-component focus fix on schema39 after source/build/preflight/readback. Finish narrow local fixture corrections for generation performance and SQL40 collector before any canonical changes; no old controller replay. Existing Claude and native picker/screen-reader owner handoffs remain pending.",
     "observation_scope": "Root actual UI/PDF proof, fresh normal read-only web/worker/canonical observations and independent audit admission; remaining owner/policy gates stay open.",
     "recorded_at": "2026-11-02T10:02:28.642787+00:00",
     "canonical_specs_and_preservation_audit": "tracking/evidence/m07/production-specs-job-audit/Root-admission.json",
     "post_journey_web_receipt": "tracking/evidence/m07/completion-release/production-web-current-identity.json",
     "post_journey_worker_receipt": "tracking/evidence/m07/completion-release/production-worker-current-identity.json",
-    "current_main_checkpoint": "d1e45592c972d4d14bde13a1517594ee896398e9",
-    "published_source_commit": "d1e45592c972d4d14bde13a1517594ee896398e9",
+    "current_main_checkpoint": "dfd55aea22a58113bd7073b8ea0f6bea35a04a43",
+    "published_source_commit": "aa4e1c93ea8c5c1ebf45d4d29f76b557b7625a35",
     "canonical_push_receipt": "tracking/evidence/m07/completion-release/canonical-push-readback.json",
     "canonical_push_observed_at": "2026-11-02T04:02:53.180067+00:00",
     "repository_visibility": "private",
@@ -11833,34 +11955,68 @@
     "diagnostic_quality_receipt": "tracking/evidence/m07/completion-release/2026-11-02T10-00-21.237Z-bea51fe2-mcp-diagnostic-root-quality.json",
     "diagnostic_deterministic_tests": 968,
     "generation_metadata_receipt": "tracking/evidence/m07/presentation-cancel-audit39/2026-11-02T10-27-16-747287Z-cancellation-metadata.json",
-    "record_updated_at": "2026-11-02T11:25:07.026016+00:00",
+    "record_updated_at": "2026-11-02T13:01:48.909734+00:00",
     "web_readback_receipt": "tracking/evidence/m07/mcp-diagnostic-web-release/2026-11-02T10-21-25-065548Z-958dbf0e-7cf7-4288-9a97-c7f52e001523-readback.json",
     "local_diagnostic_product_changes_deployed": true,
-    "selected_309_main_product_bytes_equal_deployed": true,
+    "selected_309_main_product_bytes_equal_deployed": false,
     "post_diagnostic_worker_receipt": "tracking/evidence/m07/completion-release/pre-diagnostic-web-worker-identity-958dbf0e.json",
-    "push_verified_scope": "d1e4559 source checkpoint; later docs/evidence tracked separately",
+    "push_verified_scope": "Private canonical remote aa4e1c9 independently read back in this session; later source/evidence commits remain local.",
     "diagnostic_UI_receipt": "tracking/evidence/m07/completion-release/diagnostic-generation-observation-958dbf0e.json",
     "public_repository_publication_admitted": false,
     "reason40_collector_validation": {
-      "status": "owned_setup_failed_before_collector_migration",
-      "receipt": "tracking/evidence/m07/reason40-collector-validation/2026-11-02T11-16-01.701Z-ec29f8df.json",
-      "actual_collector_executed": false,
-      "canonical_called": false,
-      "owned_cleanup_and_original29_preserved": true,
-      "next": "new_disabled_valid_synthetic_config_purpose",
-      "offline_checks_passed": 16,
-      "additional_source_review": {
-        "kind": "source_review_only",
-        "finding": "new collector JSONB deletion operand must be exact six-key text[] instead of jsonb",
-        "actual_query_execution_reached": false,
-        "frozen_failed_sources_preserved": true,
-        "next": "versioned minimal corrected Context plus valid synthetic fixture proof",
-        "canonical_changed": false
-      },
-      "record_updated_at": "2026-11-02T11:44:47.737301+00:00"
+      "functional_proof51a": "passed",
+      "canonical_history": 39,
+      "canonical40_applied": false,
+      "preserved_failed_runs": [
+        "ec29f8df",
+        "66bca8e3",
+        "7c251681"
+      ],
+      "latest_failure": "Main private-file guard rejected diagnostic path in sibling worktree before diagnostic creation or COMMIT; exact local cleanup and original29 preservation passed.",
+      "next": "Small Main-scoped storage correction under review; all canonical READ/APPLY flags false."
     },
     "new_diagnostic_public_checks_receipt": "tracking/evidence/m07/completion-release/2026-11-02T10-53-52.606Z-e0624be5-production-public.json",
-    "owner_planned_project_observation": "tracking/evidence/m07/completion-release/owner-planned-project-observation-4eade178-66e3-40ed-8b8d-710c43f5fb35.json"
+    "owner_planned_project_observation": "tracking/evidence/m07/completion-release/owner-planned-project-observation-4eade178-66e3-40ed-8b8d-710c43f5fb35.json",
+    "AT070_current": {
+      "status": "passed_scoped_nonproduction",
+      "requirement": "AT070 explicitly uses nonproduction data",
+      "receipt": "tracking/evidence/m07/independent-recovery39/2026-11-02T01-05-56.716Z-4c302b36.json",
+      "root_admission": "tracking/evidence/m07/independent-recovery39/Root-admission-4c302b36.json",
+      "catalogue_fields": 17853,
+      "actual_storage_HTTP_byte_hash_roundtrips": 4,
+      "independent_systems_and_all8_owned_cleanup": true,
+      "production_restore_or_RTO_RPO_claimed": false
+    },
+    "unclaimed_extensions_are_not_added_release_gates": [
+      "managed_Auth_private_runtime_real_production_media_restore",
+      "measured_RTO_RPO"
+    ],
+    "role_archive_focus_fix": {
+      "status": "merged_and_verified_locally_not_deployed",
+      "source_commit": "1c72f2a2cc36e7f3f6c6d093fb24dd28dbe9fc20",
+      "quality_receipt": "tracking/evidence/m07/completion-release/2026-11-02T12-56-41.891Z-a4f745f8-role-focus-root-quality.json",
+      "deterministic_tests_passed": 968,
+      "focused_browser_receipt": "tracking/evidence/m07/completion-release/2026-11-02T12-55-01.830Z-15fc9ce6-role-focus-root-browser.json",
+      "focused_browser_tests_passed": 12,
+      "keyboard_production_journey_receipt": "tracking/evidence/m07/completion-release/2026-11-02T12-56-38.485498Z-f267110a-role-keyboard-audit.json",
+      "fresh_historical_preservation_receipt": "tracking/evidence/m07/production-specs-job-audit/2026-11-02T12-55-16-334542Z-historical-preservation.json",
+      "changes": [
+        "SpecsView.tsx",
+        "RoleEditor.tsx"
+      ],
+      "deployment_id": null,
+      "actual_production_focus_acceptance": false
+    },
+    "generation_performance_validation": {
+      "canonical_changed": false,
+      "preserved_failed_runs": [
+        "99873a5f",
+        "e1ce4832"
+      ],
+      "timings_or_speedup_accepted": false,
+      "latest_failure": "Synthetic fixture job dedupe literals violated existing 64-lowercase-hex CHECK; narrow deterministic hash correction under review.",
+      "cleanup": "All owned resources absent and original29/global roles exact after each normal failed attempt."
+    }
   },
   "production_status_history": [
     {
@@ -12695,6 +12851,46 @@
         "diagnostic_deterministic_tests": 968,
         "generation_metadata_receipt": "tracking/evidence/m07/presentation-facade-diagnostics/2026-11-02T09-43-53-820241Z-generation-metadata.json"
       }
+    }
+  ],
+  "current_label_reconciliation_history": [
+    {
+      "recorded_at": "2026-11-02T12:09:20.136301+00:00",
+      "reason": "remove stale generic release labels and match AT070 nonproduction scope",
+      "prior_M07_blockers": [
+        "Full coherent human/authorized-Claude and guest reciprocal acceptance remains in progress. The safe bounded human receipt verifies Ready Selection8f1c303e, Shortlist63787eff and new Selection1b20ec2d, PDF/original-video checks and unchanged old Selection bytes after a presentation-only edit. Specs6e3cb provider audit remains separate; no representative or full business-accuracy claim.",
+        "Actual-Claude natural-expiry renewal observation and the separate operator-SDK rotation/local-revoke/denial proof remain unverified. Coordinator run402aca12 is armed and prepared only; no listener, token exchange or new session, and private owner Ready is pending.",
+        "The genuine distinct contributor account is being provisioned privately. Latest canonical identity read03:35:02 found no match; no temporary contributor grants or memberships have been added and existing producer access is preserved.",
+        "Manual AT072 screen-reader acceptance is pending; mobile testing remains skipped by owner instruction. Broader semantic accuracy, representative cost/throughput/endurance and actual current release full journey are not inferred from fixture tests or one synthetic specs job.",
+        "AT069 queued-job replacement/compatible rollback remains policy-blocked with no retry or equivalent transport. Synthetic independent39 Storage/API restore, native46 smoke and the private canonical checkpoint retain separate scopes; managed Auth/private production configuration/real canonical media restore and RTO/RPO are not verified."
+      ],
+      "prior_M07_scope_constraints": {
+        "AT_072": "pending",
+        "M03_broader_semantic_checks": "Owner declined further labels; controlled English-output workflow passed, Arabic name/age retained; broader semantic accuracy unclaimed.",
+        "mobile_testing": "skipped",
+        "hosting": "Production worker/web serving verified; full M07 and end-to-end release acceptance remain in progress",
+        "cloud_reset_or_seed": "forbidden",
+        "unrelated_paths": "Screenshots102/redesign-output58 retained",
+        "frontend": "Redesigned sourcec88 deployed; manual screen-reader acceptance pending"
+      },
+      "prior_gate_labels": {
+        "scope": "Owner connection/get_job, hosted English/guest/Reviewed/Summary and scopedAT074 remain passed. Current36 owned metadata recovery b7 passed with full cleanup; prior33 native/media preserved. FullM07/production remains in progress.",
+        "hosting": "controlled Vercel pilot running until owner stop; broad production acceptance unverified",
+        "remaining": [
+          "Complete the source-reviewed feedback-summary37 owned local SQL/rollback proof before any canonical37 or compatible web rollout; official CLI-created migration path is 20261101042702_m07_feedback_summary.sql, not an applied migration. Continue the owner-controlled private upload journey with a fresh inbox if needed: the recorded04:06 inbox expired and no owner result was received, without inferring that no MCP operation occurred. Current36 owned metadata recovery b7 passed; a separately reviewed future-current37 native/filesystem-media extension remains unimplemented. AT069 partial source is policy-blocked/no retry, live token/contributor and representative workload remain open. Preserve owner connection/get_job, English/guest/Reviewed/local33 passes, AT072 pending/mobile skipped, frontend and running6pcN/2uAS pilot.",
+          "Full delegated/shared-data journey, live refresh/rotation/revocation and actual contributor denial remain unverified.",
+          "AT069 replacement/rollback, future-current37 native/filesystem/StorageHTTP/providerAuth/deployed recovery and representative workload/cost remain unverified.",
+          "Manual AT072 pending; mobile skipped; no further labels or language selector."
+        ],
+        "notes": "e3af/d563 failed with exact6-byte archives and fullcleanup; boundary fixes led to actualb7 fullmetadata pass. No current37/native-media/StorageHTTP/providerAuth/deployed/independent/RTO_RPO acceptance. Expired inbox has no owner result, without negativeMCP inference. Feedback37 source only;69 blocked before execution."
+      }
+    },
+    {
+      "recorded_at": "2026-11-02T13:01:48.909734+00:00",
+      "reason": "Merged role focus fix changes Main product bytes; refresh remote and preserve prior stale current labels.",
+      "previous_notes": "Production webJ3/c88/f947 and workerCp/source056/native46/daemon2d66/a317 are serving on canonical39; complete first10min23-record startup, future pin and five-flag resume passed. Scoped real project creation passed; human/delegated output, auth/guest/contributor and manualAT072 acceptance continues. Last confirmed remotea61 only; no full M07 claim.",
+      "previous_current_remote": "d1e45592c972d4d14bde13a1517594ee896398e9",
+      "previous_current_main_equals_deployed": true
     }
   ]
 }

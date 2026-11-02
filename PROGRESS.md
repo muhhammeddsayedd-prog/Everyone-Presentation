@@ -1,5 +1,50 @@
 # Everyone Presentation Studio - current English-output rollout
 
+## Current checkpoint — 2026-11-02T13:01:48.909734+00:00
+
+Production still serves web `5sev` / product `fdd0aba` / manifest `f68d4357`,
+worker `Cp1` / daemon `2d66eed2` / native `46de2f0c`, and canonical history39.
+The private remote was independently confirmed at `aa4e1c9`; later local Main
+checkpoints are preserved and await the next normal push. No canonical40 or
+performance migration has been applied.
+
+The real keyboard journey added, reordered, reloaded, restored and archived only
+one new empty synthetic role/slot. [Canonical final-state readback](tracking/evidence/m07/completion-release/2026-11-02T12-56-38.485498Z-f267110a-role-keyboard-audit.json)
+confirms the original role remains first with its one Main assignment; the
+legacy workspace remains119/118. The old web leaves focus on BODY after archive.
+The merged two-component fix `1c72f2a` restores focus to Roles after success and
+to Remove role after cancellation. [Fresh Main quality](tracking/evidence/m07/completion-release/2026-11-02T12-56-41.891Z-a4f745f8-role-focus-root-quality.json) passed968/968,
+typecheck, lint and production guard; [focused browser checks](tracking/evidence/m07/completion-release/2026-11-02T12-55-01.830Z-15fc9ce6-role-focus-root-browser.json) passed
+12/12 without skips/flakes. It is not deployed yet. Main selected product bytes
+therefore differ from the currently serving source.
+
+[Fresh preservation](tracking/evidence/m07/production-specs-job-audit/2026-11-02T12-55-16-334542Z-historical-preservation.json) confirms every retained10 Ready versions,
+57 slides,42 asset pins and the Reviewed profile are still exact. Earlier
+functional SQL40 proof51a remains passed. Collector attempts ec29,66b and7c251
+failed before accepted canonical application; their receipts and exact cleanup
+are retained. The latest private diagnostic path failure is being corrected
+without weakening the guard. Both local generation performance attempts failed
+during synthetic setup; no timing/equality/speedup acceptance is claimed. The
+new correction hashes only invalid fixture dedupe literals to satisfy existing
+constraints. All production database release flags remain false.
+
+Contributor and mobile acceptance are skipped by owner. Existing-Claude
+project/renewal/output handoff and native-picker/manual screen-reader availability
+are pending. Guest nonzero exact-version/internal-note/lifecycle evidence and
+direct file/folder/logo intake remain open. AT070 passed its required
+nonproduction metadata-plus-Storage/API restore scope; private-production restore
+and RTO/RPO remain unclaimed extensions, not extra gates. AT069 still retains the
+automatic approval rejection **“blocked by policy.”** No rejected action or
+equivalent transport was replayed, and no rollback was executed.
+
+Next: release the independently verified UI focus fix on schema39; finish the
+narrow local database fixture corrections before any canonical DB change; then
+complete the outstanding owner/guest/direct-intake/manual acceptance. Full M07
+and full production acceptance remain false. Keep every source worktree,
+failed receipt, claim and unrelated local artifact recoverable.
+
+## Historical checkpoints before the role focus fix
+
 ## Diagnostic web released; M07 remains in progress - 2026-11-02T10:30:39.591772+00:00
 
 https://everyone-presentation-pilot.vercel.app serves `dpl_5sevM277cLpQZPJV1XkaJxhMLqpe`,
@@ -68,6 +113,8 @@ attempt, complete the separate additive SQL40 release, and finish the outstandin
 owner/guest/direct-intake/manual evidence. Preserve all source worktrees and claims.
 
 The new SQL40 collector passed16 offline checks but actual owned runec29 stopped during synthetic candidate-config setup, before collector/checkpoint/migration. Cleanup and original29/global-role preservation passed; the failed source/receipt remains unchanged. A new valid-config fixture purpose is in preparation; production READ/APPLY flags remain false.
+
+AT070 is passed within its required nonproduction scope (independent39 metadata plus actual Storage/API byte restoration). Managed Auth/private production runtime/media restore and RTO/RPO remain unclaimed extensions; they are not extra release gates.
 
 The dated checkpoints below are preserved history; the current checkpoint above governs serving state and next actions.
 

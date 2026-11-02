@@ -1,3 +1,32 @@
+# M07 current workflow matrix
+
+Recorded 2026-11-02T13:01:48.909734+00:00. This table governs current state; every older dated table below
+is historical evidence. Production5sev/fdd, workerCp/native46 and canonical39
+are unchanged. Main focus fix1c72 is verified locally and awaits deployment.
+
+| Workflow | Implementation | Real-service integration | Verification | Deployment | Remaining |
+| --- | --- | --- | --- | --- | --- |
+| Web/frontend | Redesign integrated; focus fix merged | Current production5sev | Normal prior build/alias readbacks; new Root968+focused12 passed | Focus fix not deployed | New39 build/push/deploy/readback and real focus check |
+| Project creation/types | Shared domain/HTTP/MCP/UI plus atomic39 | Actual Planned/Casting UI and canonical receipts | Local races/replay/revocation/client denial; real UI readback | Schema39 serving | Actual Claude catalogue/create/same-key replay and reciprocal readback |
+| Human Casting | Intake/review/frames/assignments/outputs implemented | Actual controlled specs/providers, library/frame/Main/Shortlist, Ready PDFs/video/v2 | Historical10/57/42 plus Reviewed exact at12:55; keyboard final-state readback passed | Current supported workflows serving | Direct file/folder/logo bytes; representative scope remains separate |
+| Delegated generation | Safe diagnostic text deployed; narrow SQL candidate | Actual Claude upload/assignment/fits; existing human outputs | Legacy actual57014 with no new job/version; two local fixture setup failures retained | No performance SQL applied | Correct synthetic CHECK inputs, real local timing/equality/races, then both delegated outputs |
+| Reason/audit | SQL40 and parser prepared separately | Functional local51a passed | Collector ec29/66b/7c251 failures retained; exact cleanup/original preservation | Canonical40 unapplied; parser separate | Guard-compatible local diagnostic storage, collector proof, additive release and parser |
+| Auth | Real OAuth/tracing implemented | Temporary expiry/rotation/MCP/logout and independent cleanup; original Claude trace | No owned temporary access; original five sessions exact | Existing session preserved | RT-denial unconfirmed/unreplayed; owner after-expiry same-session attestation/read |
+| Guest/permissions | Exact-version feedback/link controls implemented | Prior scoped evidence retained | New nonzero anonymous exact-version/internal-note/lifecycle acceptance open | Current operations serving | Fresh clean recipient delta and expiry/revocation denial; contributor skipped |
+| Direct intake | Real byte queue, folder-per-file and logo operations | Claude byte transfer passed separately | User enabled file URLs; chooser hook still0files, no submission | UI serving | Native picker handoff and actual direct byte journeys |
+| Recovery | Independent39 metadata/four-object StorageHTTP/API restore | Actual nonproduction AT070 passed; native9-task smoke | Owned cleanup and original data/roles preserved | WorkerCp/native46 unchanged | AT069 queued-job replacement/compatible rollback policy-blocked; no replay |
+| Accessibility | Keyboard fixes and automated checks | Real keyboard reorder/archive observed | Root focused12 passed; actual reader pending | Fix awaiting deploy | Actual manual AT072; mobile skipped |
+| Repository | Recoverable source checkpoints, preserved failed receipts | Private remote writable, independently aa4e1c9 | Fixed-family history scans retained; new delta pending before push | Later Main checkpoints local | New reviewed push; public PII/consent/history publication not admitted |
+
+Fresh receipts: [Root quality](completion-release/2026-11-02T12-56-41.891Z-a4f745f8-role-focus-root-quality.json),
+[focused browser](completion-release/2026-11-02T12-55-01.830Z-15fc9ce6-role-focus-root-browser.json),
+[keyboard database readback](completion-release/2026-11-02T12-56-38.485498Z-f267110a-role-keyboard-audit.json),
+[immutable preservation](production-specs-job-audit/2026-11-02T12-55-16-334542Z-historical-preservation.json).
+Private-production restore/RTO/RPO are unclaimed extensions, not added release
+gates. Contributor/mobile skips are not passes. Full M07 acceptance remains false.
+
+## Historical matrix before merged role focus fix
+
 # M07 acceptance matrix
 
 ## Current production acceptance - 2026-11-02T10:30:39.591772+00:00
@@ -15,10 +44,12 @@ M07 is in progress. Dated evidence and failed attempts are preserved below.
 | Authentication | Existing OAuth flow plus safe tracing | Actual temporary session and first existing-Claude trace | Expiry/rotation/MCP read/native204; independent cleanup preserves original five and denies owned bearer | Existing sessions preserved | RT-denial phase unconfirmed/unreplayed; actual-Claude renewal/attestation |
 | Guest/permissions | Guest/version/count/link operations implemented | Prior scoped evidence retained | New exact-version nonzero delta/lifecycle pending; contributor skipped by owner | Existing guest operations | Clean recipient delta/internal exclusion, expiry and revoked denial |
 | Direct intake | Byte queue/file/folder/logo paths implemented | Delegated4,316,429-byte transfer succeeded separately | File-URL enabled; document/logo chooser0files/no submit | Intake UI serving | Actual direct file/folder/logo byte journey; native picker capability blocked |
-| Recovery/native | Recovery controls and isolated restore implemented | Native smoke and independent synthetic39 Storage/API roundtrips | Exact cleanup/original preservation; canonical backup is not restore proof | WorkerCp/native46 unchanged | Private production restore/RTO/RPO; AT069 queued replacement/rollback policy block unreplayed |
+| Recovery/native | Recovery controls and isolated restore implemented | Native smoke and independent synthetic39 Storage/API roundtrips | Exact cleanup/original preservation; canonical backup is not restore proof | WorkerCp/native46 unchanged | AT069 queued replacement/rollback policy block unreplayed |
 | Repository privacy | Intended content/history checkpointed; all worktrees retained | Private canonical remote | Fixed-family scans0hits; reachable-history metadata review separate from PII | Mainaa4 pushed/read back; later source checkpoints local | Public-history/consent/PII publication not admitted |
 
 Current tracking/evidence/m07/mcp-diagnostic-web-release/2026-11-02T10-21-25-065548Z-958dbf0e-7cf7-4288-9a97-c7f52e001523-readback.json, tracking/evidence/m07/completion-release/diagnostic-generation-observation-958dbf0e.json and tracking/evidence/m07/presentation-cancel-audit39/2026-11-02T10-27-16-747287Z-cancellation-metadata.json contain exact scopes.
+
+AT070 is passed within its required nonproduction scope (independent39 metadata plus actual Storage/API byte restoration). Managed Auth/private production runtime/media restore and RTO/RPO remain unclaimed extensions; they are not extra release gates.
 
 The dated checkpoints below are preserved history; the current checkpoint above governs serving state and next actions.
 
