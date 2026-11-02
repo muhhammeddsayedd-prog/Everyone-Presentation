@@ -1,0 +1,164 @@
+{
+  "schema_version": "generation-data-reuse-disabled-owned-plan.v1",
+  "source_commit": "122aa838f3182e9daf68c3e57e260005dabcca05",
+  "execution_enabled": false,
+  "compiled_only": true,
+  "execution_dispatched": false,
+  "SQL_commands_issued": 0,
+  "Docker_commands_issued": 0,
+  "provider_calls": 0,
+  "runtime_uuid": null,
+  "resources": [],
+  "purpose": "fresh-owned-local-generation-data-reuse-performance-equality",
+  "controller": {
+    "path": ".local/presentation-generation-data-proof-compiled/controller-82f11728-804e-4072-b8fa-fa806512c1b8.mjs",
+    "sha256": "83420bd6911b3e716f463871a62c34cad560a0416cb27b358d8c6fe776a3f8f6"
+  },
+  "callback": {
+    "path": ".local/presentation-generation-data-proof-compiled/callback-82f11728-804e-4072-b8fa-fa806512c1b8.mjs",
+    "sha256": "10db400e231888f83936ba010e1031216beba97674ac890aa652f03e588c498a"
+  },
+  "source_seals": {
+    "development/m07/presentation-generation-data-proof/cases.mjs": "aeb5972c0ba19ab8ae8dcdb9a1292af69b1d026df10eafff233a437e151cd239",
+    "development/m07/presentation-generation-data-proof/cases.sql": "052770e2f3267a9036adeebf3c790fa104d2bb621251bd03266a1d07644faa2c",
+    "development/m07/presentation-generation-data-proof/compiler.py": "6ec01de30d7a3c73adf911d53c70ed69b44ca4e82360fc511265b77c8f3e6815",
+    "development/m07/presentation-generation-data-proof/entry.mjs": "c209f862d9895244391ded03771dc552661b308f0f9910252beeae7e76e4f8c8",
+    "development/m07/presentation-generation-data-proof/proof_source.py": "67cc13d0fed354e102eb769bf5d9712b07e1af1f434d2a3da8ede57333232c1c",
+    "development/m07/presentation-generation-data-proof/README.md": "124db2712e4246c86945eded4c1bdff4fcacbc178aba46497fc709eaa7a957a9",
+    "development/m07/presentation-generation-data-proof/test_projection.py": "ff1d1ae373ea4314bc1e0980588e2d9a306eeec5e07a2ebb46923a6cd4b0c65b",
+    "development/m07/presentation-generation-data-reuse/build.py": "cda17a14ead6d7ee8aa225d04b5026c9998e5fc67efbaf3472bb108e6e3fadbd",
+    "development/m07/presentation-generation-data-reuse/capture.py": "656123b39e84b6d880436a7e678197a707d9c7f38e34802995c0ad825a7db305",
+    "development/m07/presentation-generation-data-reuse/PROOF_DESIGN.md": "112f4f6dde11fe1181d274ebbc41c85a6ce33d60cc9c8430425d04988ddcac41",
+    "development/m07/presentation-generation-data-reuse/README.md": "02a2b2a5a0e7be480ee0a2bf6c461d2e9235ad0dc8abf7abcd6ce40e306b4cd4",
+    "development/m07/presentation-generation-data-reuse/review.py": "793c6dfa782e844d0e762ca14e79afbac587364d8c13b71baabcba4a1d3339fa",
+    "development/m07/presentation-generation-data-reuse/source.py": "029c2dac690c61a7944b73633971ab037e05b8060e7c8a6cd3adbd45dd7406cb",
+    "development/m07/presentation-generation-data-reuse/test_build.py": "3c7fe0a48b27ccd4714c4551477d07974b52b4b2b135c831a2b1a4b8d111ab17",
+    "development/m07/presentation-generation-data-reuse/test_capture.py": "1719f37d3cda7074de9958ba232df1d7334b255ed627c1ae0de44d091f472d4d",
+    "development/m07/presentation-generation-data-reuse/test_review.py": "406e5c13fc8ec1d0e506f94e03054e14530bd04ff553e8f04f7a06ba050a5cb7"
+  },
+  "four_bodies": [
+    {
+      "name": "eps.review_snapshot_data",
+      "before_body_sha256": "4d46151993a60d8c6ac9d36e48781fee34c12c3e1dede727ac1ed4d31a953ab7",
+      "after_body_sha256": "4b37255bd919719086175f5df2b197584555f3c08000ee13fe18a7dbe62f8cc3"
+    },
+    {
+      "name": "eps.review_snapshot",
+      "before_body_sha256": "f0815e014144f1345b4679d96114aab6b358d95df317e3cfe6ac6b59989813cb",
+      "after_body_sha256": "c6f93795e1926bcbb2e550b428f2e76a9ffe04dc29199e799c3d3a0e7b73cd10"
+    },
+    {
+      "name": "public.eps_generate_version",
+      "before_body_sha256": "b20fef7adc8dee0da91db1508b30d4116855bb3e9be9e881072a7e8d55fcee08",
+      "after_body_sha256": "a5e5c60d3f94d9e05c62fc1cfc76ac4552713000b72b1efe4eac028da15c0d40"
+    },
+    {
+      "name": "eps.capture_presentation_video_transcripts",
+      "before_body_sha256": "ed4a3469971fa410078b546b13aa0a875b4867efdda4b134dc729563dd887187",
+      "after_body_sha256": "afe33691e2bb1dad42999b49c8c5ba9d583d68bfc6cced60bfbea0adadc37dd7"
+    }
+  ],
+  "baseline": {
+    "lock_body_sha256": "1ff8ce429ec61785c1e1037da8de5d2a4b9426789074a64eab0f6f89241c48e4",
+    "four_bodies": "exact preceding four bodies",
+    "English_capture_unchanged_sha256": "c68de52a4ede0ec6401aa05e0f40b5932905dd8dc8c1c72149c9f95c51a23aeb",
+    "timeout_seconds": 8,
+    "normalized_prosrc_exclusions": [
+      "eps.presentation_lock_sources(uuid,text,text)",
+      "eps.review_snapshot_data(uuid,uuid,text)",
+      "eps.review_snapshot(uuid,uuid,text)",
+      "public.eps_generate_version(uuid,jsonb,text)",
+      "eps.capture_presentation_video_transcripts(uuid)"
+    ],
+    "full_pg_proc_attributes_and_exact_actual_body_hashes_separately_required": true,
+    "full_existing_audit_reason_preserved": true
+  },
+  "local_target": {
+    "restore": "pinned independent synthetic38 then exact39 functional plus exact40 owned database/system/run-only adapter",
+    "original29_system_identifier_forbidden_as_target": "7701520506262638626",
+    "network": "none",
+    "host_ports": [],
+    "shared_lock": "Main/.local/local-postgres/test-db.lock",
+    "fresh_runtime_UUID_and_exclusive_claim_required": true
+  },
+  "fixture_counts": {
+    "candidates": 28,
+    "media": 27,
+    "frames": 328,
+    "assets": 501,
+    "ready_versions": 13,
+    "total_versions": 14,
+    "slides": 63,
+    "pins": 60,
+    "large": {
+      "roles_active": 2,
+      "roles_archived": 34,
+      "slots_active": 16,
+      "slots_archived": 547,
+      "assignments_active": 19,
+      "assignments_archived": 1,
+      "pools_active": 11,
+      "pools_archived": 4,
+      "selected_candidates": 11,
+      "selected_media": 11,
+      "selected_frames": 33
+    }
+  },
+  "focused_cases": {
+    "oversize_private_confirmation_note_bytes": 4194304,
+    "whole_record_and_key_cost_must_exceed_cache_budget": true,
+    "no_retained_asset_UPDATE": true,
+    "existing_private_filename_hash_count_and_output_absence_required": true,
+    "generation_scenarios": [
+      "private_asset_metadata",
+      "no_video",
+      "english_not_captured",
+      "english_not_provided",
+      "english_available",
+      "english_unavailable"
+    ],
+    "association_savepoint_queued_metadata_scenarios": [
+      "duplicate",
+      "ambiguous",
+      "unrelated_malformed",
+      "matched_malformed",
+      "mismatched_media",
+      "absent_media"
+    ],
+    "English_helper_unchanged": true,
+    "expiry": {
+      "controlled_local_MCP_only": true,
+      "actual_distinct_PID_relation_wait_required": true,
+      "database_clock_expired_required": true,
+      "candidate_denial_required": true,
+      "intentionally_tighter_return_time_authority": true
+    }
+  },
+  "acceptance": {
+    "all_four_API_MCP_control_large_candidate_components_and_generations_normal_inside_8s": true,
+    "baseline_failures_retained_not_pass": true,
+    "full_review_fingerprint_normalized_generation_pin_raw_English_equality": true,
+    "all_existing_denial_cohort_edge_and_race_gates": true,
+    "each_safe_sample_and_result_recorded_before_assert": true,
+    "full_post40_rows_and_catalogue_reason_oldReady_preserved": true,
+    "original29_data_catalogue_globalroles_exact": true,
+    "both_exact_owned_resources_absent_and_successful_empty_label_inventories": true,
+    "shared_lock_removed_and_fresh_exists_false": true,
+    "normal_process_outcome_required": true,
+    "failure_or_unknown_stops_no_automatic_replay": true
+  },
+  "offline_checks": {
+    "transform_assembly_tests": 14,
+    "proof_source_rendered_SQL_compiler_fake_evidence_tests": 7,
+    "independent_peer_proof_tests": 7,
+    "independent_peer_scope": "source/parser/fake ports only",
+    "actual_SQL_or_performance_acceptance": false
+  },
+  "limits": [
+    "synthetic fit/Ready metadata is not renderer or Storage/provider proof",
+    "controlled local MCP claims are not signed OAuth protocol proof",
+    "no production cancellation cause or performance acceptance",
+    "no migration/canonical/provider or production retry authorization",
+    "all old sources/claims/failed receipts preserved"
+  ]
+}
