@@ -1,0 +1,164 @@
+{
+  "schema_version": "helper280-four-body-combined-Main-armed-plan.v1",
+  "observed_at": "2026-11-02T22:41:25.426522+00:00",
+  "source_commit": "199ea209de38443ad869264b4b08cf46ff3a5507",
+  "prior_core_commit": "74c59069e0a916a0880153891b3938fb9116548e",
+  "entry_execution_enabled": true,
+  "compiled_only": true,
+  "execution_dispatched": false,
+  "runtime_UUID_issued": false,
+  "compile_uuid": "b4bf624a-828c-42c1-97be-4cb611d16d2d",
+  "source_seals": {
+    "development/m07/presentation-generation-combined-proof/admit.mjs": "a3fcdea5ca7072e62324f9f319cb42a441087fa9231ec64e13ab8411c74ccdba",
+    "development/m07/presentation-generation-combined-proof/admit.test.mjs": "bdd6f128150eff372cd643344e4e96c98ceaf5c705b83e6690d852d3695f97d5",
+    "development/m07/presentation-generation-combined-proof/cases.mjs": "f7ead827571ded1ea5d2b7d5cae9b2af3df1d46bc03f474128f585bc5fd9e3c1",
+    "development/m07/presentation-generation-combined-proof/cases.test.mjs": "0f0330ac1ca4d1828ba3871503eb95e6d9e93ab14a472e1d708875f397311551",
+    "development/m07/presentation-generation-combined-proof/compiler.py": "fecec16554f6e4440fa7bb1106348f74bf13ba0f16781f403bc5cf7af98d5e07",
+    "development/m07/presentation-generation-combined-proof/entry.mjs": "f97b2f415598d2b9835aa66d124900cd44ebacc0b8289c3cea103ef8d3e1a1c5",
+    "development/m07/presentation-generation-combined-proof/observations.sql": "f773b59351ecc8883c335adfa68975d889132ebc7c9b92291f1efc88b84d77dd",
+    "development/m07/presentation-generation-combined-proof/PROOF_DESIGN.md": "bbdc91875c6e30d797668b6a97d3661b6fd6c3397536950cce882f6de694d014",
+    "development/m07/presentation-generation-combined-proof/source.py": "9ff14004b0ba0cc097ecafae1bbdec813e30d8c3ea0e59b0c269a52e6d915189",
+    "development/m07/presentation-generation-combined-proof/test_proof.py": "d490a00796994f3fe495fee70322c0051d6d4fa93cc51f305be1e937ec1785ad"
+  },
+  "compiled_outputs": [
+    {
+      "path": ".local/presentation-generation-combined-proof-compiled/cases-b4bf624a-828c-42c1-97be-4cb611d16d2d.mjs",
+      "sha256": "8ffe7addaa4bdbf383334f43f5bb78c802fb139fdbca6c9e507c21257fe0e08e",
+      "node_check_exit": 0,
+      "bytes": 14673
+    },
+    {
+      "path": ".local/presentation-generation-combined-proof-compiled/callback-b4bf624a-828c-42c1-97be-4cb611d16d2d.mjs",
+      "sha256": "650fd9c917c57a21635602cd931ae773d24cf8214fa11640c2370c74573330fa",
+      "node_check_exit": 0,
+      "bytes": 29760
+    },
+    {
+      "path": ".local/presentation-generation-combined-proof-compiled/controller-b4bf624a-828c-42c1-97be-4cb611d16d2d.mjs",
+      "sha256": "7d313a4a378fd6248a5fc783e64709d4067d0d1b55a758c16020336691089fc3",
+      "node_check_exit": 0,
+      "bytes": 201877
+    }
+  ],
+  "callback_projection": {
+    "inverse_byte_equal": true,
+    "removed_old_matrix_oracle_tail_sha256": "c18507951af0daba8993fa8b77cc377955efcd892ee9c4bee9ab600c73e91d90",
+    "same_exact_frozen_fixture_prefix_five_prosrc_mask": true,
+    "same280_helper_old_four_vs_new_four": true,
+    "no_broad_cohort_or_RLS_edge_replay": true,
+    "permission_negative_loop_byte_preserved": true,
+    "three_pending_requests_observed_immediately_without_replacing_original": true
+  },
+  "focused_cases_projection": {
+    "inverse_byte_equal": true,
+    "frozen_focused_cases_sha256": "aeb5972c0ba19ab8ae8dcdb9a1292af69b1d026df10eafff233a437e151cd239",
+    "two_temp_CREATE_markers_only_become_CREATE_OR_REPLACE": true,
+    "adds_actual_persisted_manifest_hash_observer": true,
+    "immediate_original_Promise_observation": true,
+    "all_six_generation_six_association_four_English_budget_expiry_original_predicates_unchanged": true
+  },
+  "same_helper_old_new_sha256": "280244090e5350b912dec5b23b74bb5d260e9e21df497c8ddfc2ae322fb774c4",
+  "original_restore_helper_sha256": "4107c87b1a51d2c5ed506a64c81378026068406a5136b202779767efb30264e7",
+  "four_candidate_body_shas": [
+    "4b37255bd919719086175f5df2b197584555f3c08000ee13fe18a7dbe62f8cc3",
+    "c6f93795e1926bcbb2e550b428f2e76a9ffe04dc29199e799c3d3a0e7b73cd10",
+    "a5e5c60d3f94d9e05c62fc1cfc76ac4552713000b72b1efe4eac028da15c0d40",
+    "afe33691e2bb1dad42999b49c8c5ba9d583d68bfc6cced60bfbea0adadc37dd7"
+  ],
+  "catalogue_prosrc_exclusions": 5,
+  "proposed_ordered_actual_scope": [
+    "8distinct fresh backend first-public-generation calls before warming; old57014 honest, all4candidate whole calls mustpass8s",
+    "16old/new review+snapshot post-first contract-hash checks; no baseline timeout waiver",
+    "2own-missing-frame snapshots requirecan_generatefalse/FRAME_UNAVAILABLE+equalhash; no disputedassetlock oracle",
+    "2actual4MiB-overbudget private-row fallbacks withsamehash",
+    "12focused normalcontrolgenerations: privateasset/no_video/fourEnglishstates",
+    "12queued-only associationcases: duplicate/ambiguous/unrelatedmalformed/matchedmalformed/mismatchedmedia/absentmedia",
+    "actualpersisted normalizedsnapshot+manifest/inventory/fingerprint/pins/companions andstoredhashvalidity",
+    "3actualpublicpermissionnegatives pervariant; originalconcurrentsource+generation authority races; actualreturnexpiry",
+    "exactfivefunctionauthority/source restore, originalconfig, fullfreshrow/catalogue/Ready/reason baseline",
+    "outeroriginal29data/catalogue/globalroles+independentsameengineownedresourceabsence"
+  ],
+  "nominal_counts": {
+    "fresh_native_sessions": 26,
+    "initial_original_sessions": 4,
+    "first_generation_calls": 8,
+    "post_first_projection_calls": 16,
+    "missing_frame_snapshots": 2,
+    "oversize_snapshots": 2,
+    "focused_generations": 12,
+    "association_captures": 12,
+    "permission_negatives": 6,
+    "oracle_replay_queries": 0
+  },
+  "bounds": {
+    "application_statement_ms": 8000,
+    "lock_ms": 8000,
+    "native_request_ms": 45000,
+    "native_stdout_bytes": 2097152,
+    "native_stderr_bytes": 131072,
+    "finish_ms": 5000,
+    "clock_or_authority_extension": false,
+    "global_or_role_timeout_change": false
+  },
+  "carried_actual_helper_security_chain": [
+    {
+      "path": "tracking/evidence/m07/presentation-lock-source-complete-oracle-proof/2026-11-02T20-33-12.340Z-39386edd.json",
+      "sha256": "f5de1993783c8c3f4e618189091291ea905bd34839effd088af59e403d477cac",
+      "result": "failed; datedcompleted12/150+8/first3RRonly"
+    },
+    {
+      "path": "tracking/evidence/m07/presentation-lock-source-edge-rls-proof/2026-11-02T21-26-58.893Z-278a260d.json",
+      "sha256": "338cb6dd81a9572d9d5811367a3ffe6b6dd49f73d64617d83297bcbc3c07a75b",
+      "result": "failed; dated4RLS/crossFKonly"
+    },
+    {
+      "path": "tracking/evidence/m07/presentation-lock-source-uuid-proof/2026-11-02T22-00-11.340Z-c35b7493.json",
+      "sha256": "1c73ede315fc040dc9a5080209307b7ed7380dd292dc25831fd66ab95768e632",
+      "result": "passed; remainingRCfence/authority/expiry+restore"
+    },
+    {
+      "path": "tracking/evidence/m07/presentation-lock-source-uuid-proof/c35b7493-outcome.json",
+      "sha256": "e9119108244c8cd6bd7340536eb2c174e49bba6407a53458d0e3e40aaf5fa870",
+      "normal_process_exit": 0
+    }
+  ],
+  "offline_results": {
+    "Python_AST_compiler_inverse_checks": {
+      "passed": 6,
+      "seconds": 0.813
+    },
+    "Node_receipt_and_fake_port_checks": {
+      "passed": 9,
+      "milliseconds": 446.5652
+    },
+    "eslint_exit": 0,
+    "compiled_node_checks": 3
+  },
+  "source_only_harness_qualifications": [
+    "twoTEMPfunctionCREATE markersONLY becomeCREATEORREPLACE; completeAST/bodyinverseequal",
+    "threependingrequests immediatelyobserved; originalPromise/Error laterawaitpreserved",
+    "shortuniquenative backendtags complyunchangedguard",
+    "actualpersistedmanifestobserverprivatehashonly queuedACTORpostgresguard",
+    "purecanonicalinput namespacequalificationretained beforeclaims/DB; nooutcome/timecriterion"
+  ],
+  "limitations": [
+    "noactualcombinedexecution or performancepass",
+    "noRootsourceclaim cloud/production/provider/OAuthprotocol/rendererfitacceptance",
+    "frozenReadydata preserved; newversionsqueuedandrolledbackonly",
+    "oldlargegenerationtimeoutcannotcreate fabricatedoldprojection",
+    "originalreview/snapshottimeout leaves equalityunconfirmed andstops",
+    "failurestops; noautomaticreplay or repair",
+    "Rootreview+independentpeer precede flagarming/freshMaincompile/exactonceauthorization"
+  ],
+  "disabled_source_plan": {
+    "path": "tracking/evidence/m07/presentation-generation-combined-proof/disabled-owned-plan.json",
+    "sha256": "62bb0e36976fd3ca52380396ee217321c466b7f96014bb12f30521b3eb4917bb"
+  },
+  "normalized_disabled_entry_sha256": "8dca5891b9f2e832f94c8ebc206377f159fd234441a4721d0e812f3055f51e88",
+  "only_entry_literal_armed": true,
+  "Main_Git_index_or_commits_touched_by_child": false,
+  "Main_HEAD_hard_binding": false,
+  "compile_once_claim_directory_absent": true,
+  "shared_SQL_lock_absent_at_plan": true,
+  "execution_gate": "No execution authorized until Root sole Main committer commits flag/plan, reviews exact artifacts, and issues exact once-only command."
+}
