@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 // @ts-expect-error reviewed Node ESM builder has no generated TS declaration
-import { workerContextFiles, workerDaemonOutput, workerNativeCompatibility, workerNativeGraph, workerNativeManifest, validateWorkerBuildOwner } from '../../tools/worker-hosting-build.mjs';
+import { workerContextFiles, workerDaemonGraph, workerDaemonOutput, workerNativeCompatibility, workerNativeGraph, workerNativeManifest, validateWorkerBuildOwner } from '../../tools/worker-hosting-build.mjs';
 import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 test('daemon-only output keeps one bounded dub1 worker and no HTTP/static/functions', () => {
@@ -36,6 +36,13 @@ test('native closure includes literal dynamic tasks and rejects missing or compu
     const changed = files.map((item: { path: string }) => item.path === relative ? { path: relative, bytes: bytes.length, sha256: createHash('sha256').update(bytes).digest('hex') } : item);
     assert.throws(() => workerNativeGraph(changed, (name: string) => name === relative ? bytes : readFileSync(name)));
   }
+});
+
+test('daemon closure uses its own fixed entry and includes provider code without native task roots', async () => {
+  const files = await workerContextFiles(); const graph = workerDaemonGraph(files, readFileSync); const names = graph.modules.map((item: { path: string }) => item.path);
+  assert.deepEqual(graph.entrypoints, ['apps/worker/src/runtime-hosted.ts']);
+  for (const relative of ['apps/worker/src/runtime-main.ts', 'apps/worker/src/native-source-seal.ts', 'packages/integrations/src/openai-specs.ts']) assert(names.includes(relative));
+  assert(!names.includes('apps/worker/src/native-sandbox-task.mjs')); assert(!names.includes('apps/worker/src/native-sandbox-boundary.mjs'));
 });
 
 test('emitter compatibility permits a daemon-only patch and refuses graph, lock, schema, asset or Docker drift', async () => {

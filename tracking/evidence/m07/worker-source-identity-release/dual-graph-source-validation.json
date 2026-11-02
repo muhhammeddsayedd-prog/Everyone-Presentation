@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-11-02T18:06:15.174966+00:00",
+  "purpose": "fixed_native_and_daemon_source_graphs",
+  "result": "passed_source_validation",
+  "baseline_identity_commit": "a124151a2793bff2f9004b06e2a794bd6a09ac4c",
+  "source_seals": {
+    "tools/worker-hosting-build.mjs": "a9565d7c5ab93bb7967d015e6bbbf3cc094060f2f345ad7d0aac4eb7f8b53659",
+    "tests/worker/worker-hosting-build.test.ts": "bf23af24548e9d7a218eae9527bf9b334d60946a1360c7bc2249f860bd22eb7d",
+    "development/m07/worker-source-identity-release/mechanisms.py": "ea583c39e2045c314de34220c5443b49e170d00ed789d6e0f578ab6840b9cd91"
+  },
+  "changed_runtime_product_files": [],
+  "native_manifest_shape_unchanged": true,
+  "native_runtime_graph_schema_unchanged": true,
+  "new_daemon_fixed_entry": "apps/worker/src/runtime-hosted.ts",
+  "shared_AST_walker_private": true,
+  "source_provenance_includes_and_rederives_both_graphs": true,
+  "no_custom_loader_or_source_overlay": true,
+  "native_generator_hash_changed_truthfully": true,
+  "red": {
+    "tests": 7,
+    "pass": 6,
+    "fail": 1,
+    "cause": "workerDaemonGraph API absent",
+    "duration_ms": 11276.9829
+  },
+  "green": {
+    "tests": 12,
+    "pass": 12,
+    "fail": 0,
+    "duration_ms": 11513.6682
+  },
+  "typecheck_exit_code": 0,
+  "focused_lint_exit_code": 0,
+  "independent_frontend_source_peer": "passed",
+  "audit_scope": "Runtime checkout, not final Main build admission",
+  "checkout_audit": {
+    "source_files": 164,
+    "native_modules": 53,
+    "daemon_modules": 89,
+    "build_inputs_each": 25,
+    "packed_source_sha256": "c2729b1220db4992419f9a29395ba34e90e8c33f4f972e7689bcdc655ae8bb4c",
+    "native_graph_sha256": "5b226192c130085c9fdcc56951f992cb0c9d2073e753d4c826c1aa8a4a0a81ce",
+    "daemon_graph_sha256": "894e6b0bd7c65b0de9a96a6a20f6701280ffe342e44bd20046e109f4fcfc3fb3"
+  },
+  "stage_calls": 0,
+  "builds": 0,
+  "provider_calls": 0,
+  "SQL_executed": false,
+  "first_native_rebuild_still_required_by_actual_shared_verifier_changes": true,
+  "existing46_anchors_unchanged": true
+}

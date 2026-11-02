@@ -33,7 +33,7 @@ export function workerNativeManifest(imageReference, sourceSha) {
 }
 /** Static analysis only: ordinary TypeScript erasure, literal module edges and
  * package-lock resolution. No module loader, application import or execution. */
-export function workerNativeGraph(files, sourceRead) {
+function workerGraph(files, sourceRead, entrypoints) {
   const entries = new Map(files.map(item => [item.path, item]));
   const read = relative => { const item = entries.get(relative); if (!item) error(); const bytes = sourceRead(relative); if (bytes.length !== item.bytes || sha(bytes) !== item.sha256) error(); return bytes; };
   const names = new Set(files.map(item => item.path)); const lock = JSON.parse(read('package-lock.json').toString());
@@ -73,7 +73,7 @@ export function workerNativeGraph(files, sourceRead) {
     external.set(key, { name, lock_path: key, version: pkg.version, integrity: pkg.integrity });
     return { specifier, kind: 'external', resolved: key };
   };
-  const pending = [...NATIVE_SOURCE_ENTRYPOINTS];
+  const pending = [...entrypoints];
   while (pending.length) {
     const relative = pending.pop(); if (modules.has(relative)) continue; if (!names.has(relative)) error();
     const bytes = read(relative); const emitted = relative.endsWith('.json') ? bytes.toString() : ts.transpileModule(bytes.toString(), {
@@ -97,10 +97,12 @@ export function workerNativeGraph(files, sourceRead) {
     modules.set(relative, { path: relative, emitted_sha256: sha(text), imports: edges });
     for (const edge of edges) if (edge.kind === 'local') pending.push(edge.resolved);
   }
-  return { entrypoints: [...NATIVE_SOURCE_ENTRYPOINTS], modules: [...modules.values()].sort((a, b) => a.path < b.path ? -1 : 1),
+  return { entrypoints: [...entrypoints], modules: [...modules.values()].sort((a, b) => a.path < b.path ? -1 : 1),
     build_inputs: nativeBuildInputs(files), external: [...external.values()].sort((a, b) => a.lock_path < b.lock_path ? -1 : 1),
     compiler: { name: 'typescript', version: ts.version, target: 'ES2022', module: 'ESNext', generator_sha256: sha(readFileSync(import.meta.filename)) } };
 }
+export function workerNativeGraph(files, read) { return workerGraph(files, read, NATIVE_SOURCE_ENTRYPOINTS); }
+export function workerDaemonGraph(files, read) { return workerGraph(files, read, ['apps/worker/src/runtime-hosted.ts']); }
 export function workerNativeCompatibility(daemon, native, manifestSha, graph, read) {
   if (JSON.stringify(graph) !== JSON.stringify(workerNativeGraph(daemon.files, read))) error();
   const descriptor = { schema_version: '1.0', daemon_source_sha256: daemon.source_sha256, native_source_sha256: native.source_sha256,
@@ -137,6 +139,7 @@ export async function workerContextFiles() {
 export async function stageWorkerContext() {
   const files = await workerContextFiles(); const sourceSha = sha(JSON.stringify(files));
   const graph = workerNativeGraph(files, sourceReader(ROOT));
+  const daemonGraph = workerDaemonGraph(files, sourceReader(ROOT));
   const run = randomUUID(); const directory = path.join(ROOT, '.local', 'worker-hosting', run); await mkdir(directory, { recursive: true });
   if (!samePath(await realpath(directory), directory)) error();
   const context = path.join(directory, 'context'); await mkdir(context);
@@ -146,11 +149,12 @@ export async function stageWorkerContext() {
   }
   const source = JSON.stringify({ source_sha256: sourceSha, files }, null, 2) + '\n';
   for (const kind of ['native', 'daemon']) await writeFile(path.join(context, `apps/worker/${kind}-source.json`), source, { flag: 'wx' });
-  await writeFile(path.join(directory, 'source-provenance.json'), JSON.stringify({ schema_version: '1.0', run, source_sha256: sourceSha, native_graph: graph }, null, 2) + '\n', { flag: 'wx' });
+  await writeFile(path.join(directory, 'source-provenance.json'), JSON.stringify({ schema_version: '1.0', run, source_sha256: sourceSha, native_graph: graph, daemon_graph: daemonGraph }, null, 2) + '\n', { flag: 'wx' });
   for (const kind of ['daemon', 'native-sandbox']) await writeFile(path.join(context, `Dockerfile.${kind}`), await readFile(path.join(ROOT, `apps/worker/Dockerfile.${kind}`)), { flag: 'wx' });
   await writeFile(path.join(context, '.dockerignore'), '.git\n.env*\n.local\nnode_modules\n**/node_modules\n', { flag: 'wx' });
   await writeFile(path.join(directory, 'owner.json'), JSON.stringify({ owner: 'eps-worker-hosting-build', run, source_sha256: sourceSha }), { flag: 'wx' });
-  return { directory: path.relative(ROOT, directory).replaceAll('\\', '/'), context: path.relative(ROOT, context).replaceAll('\\', '/'), source_sha256: sourceSha, file_count: files.length };
+  return { directory: path.relative(ROOT, directory).replaceAll('\\', '/'), context: path.relative(ROOT, context).replaceAll('\\', '/'), source_sha256: sourceSha, file_count: files.length,
+    native_graph_sha256: sha(JSON.stringify(graph)), daemon_graph_sha256: sha(JSON.stringify(daemonGraph)) };
 }
 async function ownedBuild(run) {
   if (!/^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/u.test(run)) error();
@@ -163,10 +167,10 @@ async function ownedBuild(run) {
   const owner = await readJson('owner.json'); validateWorkerBuildOwner(owner, run);
   const read = sourceReader(path.join(directory, 'context'));
   const source = await readJson('context/apps/worker/daemon-source.json'); verifyNativeSourceSeal(source, owner.source_sha256, read);
-  const graph = workerNativeGraph(source.files, read); const provenance = await readJson('source-provenance.json');
-  if (Object.keys(provenance).sort().join(',') !== 'native_graph,run,schema_version,source_sha256' || provenance.schema_version !== '1.0'
-    || provenance.run !== run || provenance.source_sha256 !== owner.source_sha256 || JSON.stringify(provenance.native_graph) !== JSON.stringify(graph)) error();
-  return { directory, owner, readJson, read, source, graph };
+  const graph = workerNativeGraph(source.files, read); const daemonGraph = workerDaemonGraph(source.files, read); const provenance = await readJson('source-provenance.json');
+  if (Object.keys(provenance).sort().join(',') !== 'daemon_graph,native_graph,run,schema_version,source_sha256' || provenance.schema_version !== '1.0'
+    || provenance.run !== run || provenance.source_sha256 !== owner.source_sha256 || JSON.stringify(provenance.native_graph) !== JSON.stringify(graph) || JSON.stringify(provenance.daemon_graph) !== JSON.stringify(daemonGraph)) error();
+  return { directory, owner, readJson, read, source, graph, daemonGraph };
 }
 async function writeCompatibility(build, native, manifest, graph) {
   const manifestBytes = JSON.stringify(manifest, null, 2) + '\n'; const manifestSha = sha(manifestBytes);
@@ -221,7 +225,7 @@ async function main() {
     await writeFile(path.join(target, 'config.json'), JSON.stringify(output.config, null, 2) + '\n', { flag: 'wx' });
     await writeFile(path.join(target, 'daemons/worker/.vc-config.json'), JSON.stringify(output.daemon, null, 2) + '\n', { flag: 'wx' });
     console.log(JSON.stringify({ source_sha256: owner.source_sha256, daemon_source_sha256: owner.source_sha256, native_source_sha256: native.source_sha256,
-      native_graph_sha256: descriptor.native_graph_sha256, native_manifest_sha256: manifestSha,
+      native_graph_sha256: descriptor.native_graph_sha256, daemon_graph_sha256: sha(JSON.stringify(build.daemonGraph)), native_manifest_sha256: manifestSha,
       native_compatibility_sha256: sha(await readFile(path.join(directory, 'context/apps/worker/native-compatibility.json'))), output: path.relative(ROOT, target).replaceAll('\\', '/') })); return;
   }
   error();
