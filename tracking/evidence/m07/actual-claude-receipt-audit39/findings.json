@@ -1,0 +1,102 @@
+{
+  "all_new_audit_files_in_Recovery": true,
+  "canonical_flow_time": {
+    "fit_completed": [
+      "2026-11-01T23:50:28.510351+00:00",
+      "2026-11-01T23:51:02.112022+00:00"
+    ],
+    "flow_precedes_Nov2_Cp_J3_release": true,
+    "scan_completed": "2026-11-01T23:36:17.880513+00:00",
+    "scan_created": "2026-11-01T23:35:24.78284+00:00"
+  },
+  "local_predispatch_failures": [
+    {
+      "query_dispatched": false,
+      "stage": "local Python parser",
+      "type": "SyntaxError"
+    },
+    {
+      "query_dispatched": false,
+      "stage": "local PostgreSQL parser",
+      "type": "ParseError"
+    }
+  ],
+  "measured_facts": {
+    "all_fit_overflows_zero": true,
+    "anonymous_deny_observed": false,
+    "fit_result_matches_expected_job_fingerprint": true,
+    "profile_exact_to_prior_baseline": true,
+    "profile_reviewed": true,
+    "retained_version_preservation": {
+      "all_baseline_asset_pins_unchanged": true,
+      "all_baseline_slides_unchanged": true,
+      "baseline_path": "tracking/evidence/m07/production-specs-job-audit/2026-11-02T03-52-18-532909Z-historical-preservation.json",
+      "baseline_sha256": "d6959284310f8a71cb31052768579096436c51670aff7e4cf0cfc424ecbceb3f",
+      "retained_version_in_baseline": true,
+      "version_row_unchanged": true
+    },
+    "review_link_revoked": true,
+    "review_link_row_version": 2,
+    "shortlist_version_count": 0,
+    "templates_registered_1_1_supported": true
+  },
+  "metadata_limits": {
+    "actual_issued_Claude_JWT_capabilities_read": false,
+    "catalog_capability_requirements": {
+      "create_presentation_series": "presentations.generate",
+      "generate_version": "presentations.generate",
+      "request_workspace_review_fit": "workspaces.write"
+    },
+    "current_scoped_session_rows": 3,
+    "failed_tool_request_replayed": false,
+    "fixed_client_session_count_scope": "scan requester plus fixed client only; not global and not attributed to Claude or SDK",
+    "old_template_or_recorded_overflow_cause_supported": false,
+    "permission_or_input_or_revision_failure_cause_confirmed": false,
+    "prior_structured_generation_error_retrieved": false,
+    "request_id_available_for_failed_generate": false
+  },
+  "normal_mutations_or_retries": 0,
+  "normal_request_id_trace": [
+    {
+      "action": "candidate.reserve_upload",
+      "created_at": "2026-11-01T23:34:24.130509+00:00",
+      "request_id": "055305b7-e911-488a-a524-9afb5fe5c8b7",
+      "resource_id": "3e6567d1-4eed-47d3-b2a7-1fcae52b6315"
+    },
+    {
+      "action": "candidate.complete_upload",
+      "created_at": "2026-11-01T23:35:24.697838+00:00",
+      "request_id": "30e584b7-2d1f-4d75-9be0-6809d3dc0f22",
+      "resource_id": "3e6567d1-4eed-47d3-b2a7-1fcae52b6315"
+    },
+    {
+      "action": "casting.create_assignment",
+      "created_at": "2026-11-01T23:49:53.574963+00:00",
+      "request_id": "ca5a23ed-a753-4cc6-bae5-0dd47c9035ee",
+      "resource_id": "4f57713a-c57a-4c15-97fe-bdf171d4cd80"
+    }
+  ],
+  "read_only": true,
+  "recorded_at": "2026-11-02T08:40:36.585973+00:00",
+  "schema_version": "1.0",
+  "source_interpretation_files": {
+    "apps/web/lib/mcp-auth.ts": "3ebbdb287898761342f49c75f6fef96c70c14b9019b745d4acc4dd82cb893a01",
+    "apps/web/lib/mcp-capabilities.ts": "ef60eb112571b011c90dc2d50d58d14c04ca036e2146bcd118a97793615f7a4d",
+    "apps/web/lib/mcp-output-validation.ts": "30026e1c38953c96cefbdd5c82cc9e3a567c4bf755d8bb7d748481d4be6cd583",
+    "apps/web/lib/mcp.ts": "1bccd5bc9128737f8bffdfa57073822839417872a74fc58e53acf9f9e2ff6fd2",
+    "contracts/mcp-tool-catalog.json": "d9511710406bba82c427bedad17ec2d37aaf4086c1ff28e71fafb579030fb65f"
+  },
+  "source_receipt": {
+    "path": "tracking/evidence/m07/actual-claude-receipt-audit39/2026-11-02T08-31-01-523979Z-canonical-receipts.json",
+    "sha256": "581e5f08f40e4b34a0f43001d8dbcb6dc38ea0c7d73af65827cc232bab263219"
+  },
+  "successful_remote_queries": 1,
+  "unsafe_data_saved": false,
+  "workspace_revision_context": {
+    "Root_reported_shared_client_rename_restore_legitimately_advanced_revisions": true,
+    "current_draft_revision": 118,
+    "current_row_version": 119,
+    "current_updated_at": "2026-11-02T02:54:25.811694+00:00",
+    "revision_or_timestamp_restored": false
+  }
+}
