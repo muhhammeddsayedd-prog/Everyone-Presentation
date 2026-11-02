@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-11-02T20:05:48.368346+00:00",
+  "purpose": "preserved_single_owned_worker40_failed_outcome",
+  "result": "failed",
+  "runtime_uuid": "dc652691-f7ed-406d-8a05-18e05d11ba6f",
+  "controller_compile_uuid": "809aafd8-d55f-4735-a263-3414bb5ccb79",
+  "receipt": {
+    "path": "tracking/evidence/m07/worker-source-identity-sql-proof/2026-11-02T19-56-40.835Z-dc652691.json",
+    "sha256": "43f38baa4fa1ed0e05802d1863068046360e8b026311d7b8d5d7e7e0ebb56440"
+  },
+  "process_exit_code": 1,
+  "elapsed_ms": 44694,
+  "checkpoint": "worker40-declared-fixtures",
+  "native_psql_exit_code": 3,
+  "safe_first_native_error": "permission denied for schema project39_proof",
+  "SQLSTATE_captured": false,
+  "SQLSTATE_42501_inferred_only": true,
+  "first_error_preserved_private": {
+    "path": ".local/worker-source-identity-sql-proof/dc652691-f7ed-406d-8a05-18e05d11ba6f/failure.json",
+    "sha256": "405e6446a4b28c948482923079468d4b22824ee7a346ede7b7f0f2260dbbc66b"
+  },
+  "reached": {
+    "owned_cluster": true,
+    "restore38_full_hashes_and_catalogue": true,
+    "functional39": true,
+    "qualification_transaction_normal_return": false,
+    "SQL40": false,
+    "reason_fixture": false,
+    "diagnostic": false,
+    "normal_phase_nonces": 0,
+    "concurrency": false
+  },
+  "controller_cleanup": {
+    "all_owned_resources_absent": true,
+    "original_data_catalogue_and_global_roles_unchanged": true,
+    "shared_lock_released": true
+  },
+  "independent_same_engine_readback": {
+    "docker_host": "npipe:////./pipe/dockerDesktopLinuxEngine",
+    "label": "eps.worker40.run=dc652691-f7ed-406d-8a05-18e05d11ba6f",
+    "containers_exit_code": 0,
+    "containers_empty": true,
+    "volumes_exit_code": 0,
+    "volumes_empty": true,
+    "shared_lock_exists": false
+  },
+  "claim_retained": true,
+  "replayed": false,
+  "source_edited_after_dispatch": false,
+  "cloud_called": false,
+  "provider_called": false,
+  "source_cause_classification": "New compiler selected postgres session authorization before unchanged q.sql created its qualification table in the bootstrap original-admin-owned project39_proof schema. Role/owner attribution is source-derived; no post-cleanup DB query performed."
+}
