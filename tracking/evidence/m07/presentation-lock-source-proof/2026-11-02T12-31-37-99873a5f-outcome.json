@@ -1,0 +1,65 @@
+{
+  "family": "m07-presentation-locksource41-owned-proof-outcome",
+  "observed_at": "2026-11-02 12:35:13 UTC",
+  "result": "failed_setup_preserved",
+  "run_id": "99873a5f-6a47-4cc1-bd0f-ff05a4b08d8c",
+  "authorization": "Exactly one Root-authorized owned local run; no replay",
+  "source_commit": "c9f8fee2776bc2b8349a7e8271062683b08080f1",
+  "reviewed_disabled_source_commit": "3105120c7fb60512b396704d50234f7f30cb728d",
+  "reviewed_plan_sha256": "467224839e97daa7548fbe044c4d5cb42c60604b2a68778c98125ff0e0804160",
+  "compiled_controller": {
+    "path": ".local/presentation-lock-source-proof-compiled/controller-4253b0d7-6ac7-4a96-a4a8-00dbe7626027.mjs",
+    "sha256": "fd2bf4a1007eaea0961f9d260b55996432dd0952bd47fec764e45a41e3b5849a"
+  },
+  "actual_receipt": {
+    "path": "tracking/evidence/m07/presentation-lock-source-proof/2026-11-02T12-31-05.332Z-99873a5f.json",
+    "sha256": "3670111ac9c7cc556bb94b392fa0b1da11fba2a3b541efdf11e84614ca0b2014"
+  },
+  "normal_process_exit_code": 1,
+  "elapsed_ms": 32151,
+  "failed_checkpoint": "locksource41-fixture-scale.sql",
+  "closed_failure_code": "LOCKSOURCE41_COMMAND_FAILED",
+  "diagnosis": {
+    "code": "PLPGSQL_AMBIGUOUS_COLUMN_REFERENCE",
+    "identifier": "frames",
+    "source": "development/m07/presentation-lock-source-proof/scale.sql",
+    "statement": "initial seed-count guard",
+    "inline_block_line": 2,
+    "cause": "The block declares frames uuid[]; the SELECT guard also references the seed_counts.frames column without a qualifier.",
+    "raw_diagnostics_public": false,
+    "private_failure_sha256": "62f5c4fce2c893989652e120f1bb8447564d86e32e23b91e5afb0fe27b8ec6ff",
+    "proposed_forward_fix_not_implemented": "Qualify the seven existing seed-count columns with one table alias; keep every threshold unchanged."
+  },
+  "completed_scope": {
+    "independent_network_none_PG17": true,
+    "synthetic38_full_rows_and_catalogue_restored": true,
+    "exact39_and_owned40_setup_advanced": true,
+    "normal_project_workspace_series_fixture_RPCs_advanced": true,
+    "scale_transaction_committed": false,
+    "performance_samples_recorded": 0,
+    "candidate_optimization_measured": false,
+    "cloud_called": false,
+    "provider_called": false
+  },
+  "preservation": {
+    "all_owned_resources_absent": true,
+    "controller_successful_daemon_label_inventories_empty": true,
+    "independent_post_return_container_inventory": {
+      "normal_exit_code": 0,
+      "count": 0
+    },
+    "independent_post_return_volume_inventory": {
+      "normal_exit_code": 0,
+      "count": 0
+    },
+    "original29_data_catalogue_global_roles_exact": true,
+    "shared_lock_released": true,
+    "fresh_filesystem_shared_lock_exists": false,
+    "consumed_sources_receipts_and_private_diagnostics_retained": true
+  },
+  "limits": [
+    "No accepted old/new timing, equality, security, race or generation result from this attempt.",
+    "No canonical/provider/production acceptance.",
+    "No automatic replay or second run authorized by this outcome."
+  ]
+}
