@@ -1,0 +1,219 @@
+{
+  "automatic_retry": false,
+  "configuration_or_schema_or_session_cancellation_mutation": false,
+  "exit_code": 0,
+  "generate_or_confirm_or_retry_or_actor_simulation": false,
+  "guard_sha256": "660f2eb0d15b1ed17801ecef22270dbb389fdf93181c340f16d715fc2b3a340c",
+  "limits": [
+    "57014 means query_canceled; the original native cancellation message was not retrieved by this query.",
+    "Configured role/function/database metadata is distinct from observing settings in the original PostgREST backend.",
+    "Current activity/lock absence cannot exclude a blocker during the earlier failed request.",
+    "No generation RPC, acting-role/JWT simulation, mutating EXPLAIN ANALYZE, cancellation, configuration change or retry performed."
+  ],
+  "metadata": {
+    "activity": [
+      {
+        "backend_type": "client backend",
+        "blocked_count": 0,
+        "count": 9,
+        "generation_rpc_count": 0,
+        "max_active_query_age_seconds": null,
+        "max_blocker_count": 0,
+        "max_transaction_age_seconds": 0,
+        "state": "idle",
+        "wait_event": "ClientRead",
+        "wait_event_type": "Client"
+      },
+      {
+        "backend_type": "pg_net 0.20.4 worker",
+        "blocked_count": 0,
+        "count": 1,
+        "generation_rpc_count": 0,
+        "max_active_query_age_seconds": null,
+        "max_blocker_count": 0,
+        "max_transaction_age_seconds": 0,
+        "state": "idle",
+        "wait_event": "Extension",
+        "wait_event_type": "Extension"
+      },
+      {
+        "backend_type": "pg_cron launcher",
+        "blocked_count": 0,
+        "count": 1,
+        "generation_rpc_count": 0,
+        "max_active_query_age_seconds": null,
+        "max_blocker_count": 0,
+        "max_transaction_age_seconds": 0,
+        "state": null,
+        "wait_event": "Extension",
+        "wait_event_type": "Extension"
+      }
+    ],
+    "configured_timeouts": [
+      {
+        "database_scope": "all",
+        "name": "statement_timeout",
+        "role_name": "anon",
+        "source": "database_role",
+        "value": "3s"
+      },
+      {
+        "database_scope": "all",
+        "name": "statement_timeout",
+        "role_name": "authenticated",
+        "source": "database_role",
+        "value": "8s"
+      },
+      {
+        "database_scope": "all",
+        "name": "lock_timeout",
+        "role_name": "authenticator",
+        "source": "database_role",
+        "value": "8s"
+      },
+      {
+        "database_scope": "all",
+        "name": "statement_timeout",
+        "role_name": "authenticator",
+        "source": "database_role",
+        "value": "8s"
+      },
+      {
+        "database_scope": "all",
+        "name": "statement_timeout",
+        "role_name": "anon",
+        "source": "role",
+        "value": "3s"
+      },
+      {
+        "database_scope": "all",
+        "name": "statement_timeout",
+        "role_name": "authenticated",
+        "source": "role",
+        "value": "8s"
+      },
+      {
+        "database_scope": "all",
+        "name": "lock_timeout",
+        "role_name": "authenticator",
+        "source": "role",
+        "value": "8s"
+      },
+      {
+        "database_scope": "all",
+        "name": "statement_timeout",
+        "role_name": "authenticator",
+        "source": "role",
+        "value": "8s"
+      }
+    ],
+    "database": "postgres",
+    "function_metadata": [
+      {
+        "arguments": "p_workspace uuid, p_template_key text, p_template_version text",
+        "name": "eps.presentation_lock_sources",
+        "security_definer": false,
+        "source_sha256": "4107c87b1a51d2c5ed506a64c81378026068406a5136b202779767efb30264e7",
+        "timeout_settings": {}
+      },
+      {
+        "arguments": "p_workspace uuid, p_series_id uuid, p_output text",
+        "name": "eps.review_snapshot",
+        "security_definer": false,
+        "source_sha256": "f0815e014144f1345b4679d96114aab6b358d95df317e3cfe6ac6b59989813cb",
+        "timeout_settings": {}
+      },
+      {
+        "arguments": "p_series_id uuid, p_input jsonb, p_idempotency_key text",
+        "name": "public.eps_generate_version",
+        "security_definer": true,
+        "source_sha256": "b20fef7adc8dee0da91db1508b30d4116855bb3e9be9e881072a7e8d55fcee08",
+        "timeout_settings": {}
+      }
+    ],
+    "history_count": 39,
+    "jobs": {
+      "count": 0,
+      "rows": [],
+      "truncated": false
+    },
+    "observed_at": "2026-11-02T10:27:16.384557+00:00",
+    "operator": "postgres",
+    "read_only": true,
+    "reader_session_settings": {
+      "is_PostgREST_request": false,
+      "lock_timeout": "0",
+      "statement_timeout": "20s"
+    },
+    "relevant_relation_lock_waiters": 0,
+    "relevant_relation_locks": [],
+    "series": [
+      {
+        "id": "93fb7425-7311-4b69-94cb-61588724c153",
+        "latest_ready_version_id": "4f1b81a1-adb7-425b-8223-458d8bd82c28",
+        "next_version_number": 2,
+        "row_version": 3,
+        "versions": 1
+      },
+      {
+        "id": "dcf357b7-0249-42d2-9513-35e9a83ced65",
+        "latest_ready_version_id": null,
+        "next_version_number": 1,
+        "row_version": 1,
+        "versions": 0
+      }
+    ],
+    "session_user": "postgres",
+    "versions": {
+      "count": 0,
+      "rows": [],
+      "truncated": false
+    },
+    "window_end_exclusive": "2026-11-02T10:24:00Z",
+    "window_start": "2026-11-02T10:21:00Z",
+    "workspaces": [
+      {
+        "asset_pins": 18,
+        "assignments": 1,
+        "draft_revision": 8,
+        "id": "5505def3-f7af-4684-968c-d1b154931601",
+        "label": "controlled",
+        "pool_rows": 1,
+        "roles": 1,
+        "row_version": 9,
+        "series": 2,
+        "slides": 6,
+        "slots": 1,
+        "updated_at": "2026-11-02T03:41:28.856716+00:00",
+        "versions": 3
+      },
+      {
+        "asset_pins": 6,
+        "assignments": 20,
+        "draft_revision": 118,
+        "id": "86936940-b48d-497d-b1ff-8e0da0913afa",
+        "label": "legacy",
+        "pool_rows": 15,
+        "roles": 36,
+        "row_version": 119,
+        "series": 3,
+        "slides": 3,
+        "slots": 563,
+        "updated_at": "2026-11-02T02:54:25.811694+00:00",
+        "versions": 1
+      }
+    ]
+  },
+  "normal_cli": "Supabase2.122.0",
+  "observed_at": "2026-11-02T10:27:16.746395+00:00",
+  "output_limit_exceeded": false,
+  "raw_query_client_IP_principal_or_private_payload_output": false,
+  "read_only_rollback": true,
+  "reader_sha256": "1359373d078ee67d5dd644d1717a048f274c98f3617bb57c3668a45866c4c03c",
+  "result": "observed",
+  "schema_version": "1.0",
+  "scope": "canonical39_after_owner_single_confirm_query_canceled_57014",
+  "source_sha256": "88505135991b42ccf54851fe103f5cfdf54161f71016ad5152f0bfcee9f323ad",
+  "sql_sha256": "80354b40ec4837903edbb6bf428c68d8222e19f2eae7acf1fbddeb39e94ab1d6",
+  "timed_out": false
+}

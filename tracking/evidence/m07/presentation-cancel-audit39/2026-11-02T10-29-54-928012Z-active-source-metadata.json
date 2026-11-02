@@ -1,0 +1,92 @@
+{
+  "generation_or_role_simulation_or_explain_or_mutation": false,
+  "metadata": {
+    "database": "postgres",
+    "functions": [
+      {
+        "definition_sha256": "1e4959ac75e1d62c79400ddb33b26ec0e95d4276e5a44e3c24826cac7c1b8584",
+        "signature": "eps.presentation_hash(jsonb)",
+        "source_sha256": "8b5504049c9c6dd23d050caa5daff9b2ec4c306186d14bbd0164968adaf7c796"
+      },
+      {
+        "definition_sha256": "c73e3c553c650a1d54b286d8650e2983129dd4bec0028d32de49630e34760678",
+        "signature": "eps.presentation_lock_sources(uuid,text,text)",
+        "source_sha256": "4107c87b1a51d2c5ed506a64c81378026068406a5136b202779767efb30264e7"
+      },
+      {
+        "definition_sha256": "93eec0195ce6b62b4a4e0c22ce075a0792b09e1f8611a43dc6dc665d940c7332",
+        "signature": "eps.review_snapshot_data(uuid,uuid,text)",
+        "source_sha256": "4d46151993a60d8c6ac9d36e48781fee34c12c3e1dede727ac1ed4d31a953ab7"
+      },
+      {
+        "definition_sha256": "9f0a30eb86b7098e1a5718f98912f01ef665ea94209f02f37e8a11e954364fc2",
+        "signature": "eps.review_snapshot(uuid,uuid,text)",
+        "source_sha256": "f0815e014144f1345b4679d96114aab6b358d95df317e3cfe6ac6b59989813cb"
+      },
+      {
+        "definition_sha256": "a8f629986236b1cc1c1419a69bb41368c3745b913ec4dd4259523934dad1ead1",
+        "signature": "public.eps_generate_version(uuid,jsonb,text)",
+        "source_sha256": "b20fef7adc8dee0da91db1508b30d4116855bb3e9be9e881072a7e8d55fcee08"
+      },
+      {
+        "definition_sha256": "40eaee023ae2ef520652c3ba55e8478fac2b5018714278cd1ccfe9f5b59d2bdf",
+        "signature": "public.eps_get_workspace_review(uuid,uuid,text)",
+        "source_sha256": "5bf2f621c4df891506302255f0d4daaa25b43db3f857ca171463edc99d8ce5cd"
+      }
+    ],
+    "global_relation_counts": {
+      "candidate_media": 27,
+      "candidate_media_frames": 328,
+      "candidates": 28,
+      "media_assets": 501
+    },
+    "history_count": 39,
+    "observed_at": "2026-11-02T10:29:54.5655+00:00",
+    "operator": "postgres",
+    "read_only": true,
+    "workspaces": [
+      {
+        "assignments_active": 1,
+        "assignments_archived": 0,
+        "distinct_active_assignment_candidates": 1,
+        "distinct_selected_frame_assets": 3,
+        "distinct_selected_media": 1,
+        "id": "5505def3-f7af-4684-968c-d1b154931601",
+        "label": "controlled",
+        "pool_active": 1,
+        "pool_archived": 0,
+        "roles_active": 1,
+        "roles_archived": 0,
+        "slots_active": 1,
+        "slots_archived": 0,
+        "slots_under_active_roles": 1
+      },
+      {
+        "assignments_active": 19,
+        "assignments_archived": 1,
+        "distinct_active_assignment_candidates": 11,
+        "distinct_selected_frame_assets": 33,
+        "distinct_selected_media": 11,
+        "id": "86936940-b48d-497d-b1ff-8e0da0913afa",
+        "label": "legacy",
+        "pool_active": 11,
+        "pool_archived": 4,
+        "roles_active": 2,
+        "roles_archived": 34,
+        "slots_active": 16,
+        "slots_archived": 547,
+        "slots_under_active_roles": 16
+      }
+    ]
+  },
+  "observed_at": "2026-11-02T10:29:54.927303+00:00",
+  "private_source_path": ".local/presentation-cancel-source39/3ce9a2b4-8208-4bca-b7df-a2f62e7d311f/catalog-source.json",
+  "private_source_sha256": "012cbc0b4435fc0cc97093a721a56e5d556c76b2907517b0aee4cc5e8d208ec0",
+  "raw_function_source_published": false,
+  "read_only_rollback": true,
+  "result": "observed",
+  "schema_version": "1.0",
+  "scope": "read_only_catalog_source_and_active_vs_archived_counts",
+  "source_sha256": "b9812f63b7ff59a3d03c0e385d2d092314beaa00130bc4446f4d9823a342f266",
+  "sql_sha256": "5dace2f3e7b15f565b86c53544c9066fd85620354ff938342f9680a08f542104"
+}
