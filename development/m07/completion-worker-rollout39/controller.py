@@ -6,7 +6,7 @@ from pathlib import Path
 import copy,importlib.util,json,sys,uuid
 HERE=Path(__file__).resolve().parent
 spec=importlib.util.spec_from_file_location('completion39_controller_state',HERE/'state.py');s=importlib.util.module_from_spec(spec);spec.loader.exec_module(s)
-ROLLOUT_ENABLED=False
+ROLLOUT_ENABLED=True
 need=s.need
 DB_PHASES=('pause','pin','resume','unwind')
 
