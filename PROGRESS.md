@@ -1,6 +1,6 @@
 # Everyone Presentation Studio - current English-output rollout
 
-## Current checkpoint - 2026-11-02T20:37:05Z
+## Current checkpoint - 2026-11-02T20:55:06.306681+00:00
 
 Production remains **web4fro/sourcea567/manifest92e1, canonical40 and workerCp/native46**
 ([serving identity](tracking/evidence/m07/logo-failure-trace-web-release/2026-11-02T17-58-22-617365Z-a8890fe6-9fb0-4f92-8a2f-5d5a85abda11-readback.json)). New native3d/daemonf846 exports, registryReady and the native9-task/
@@ -25,12 +25,16 @@ run3289384d **completed and passed production schema/evidence validation** ([32k
 39roles/96evidence/23clarifications, raw and validated private custody. Both flags
 are closed. The output was **not applied**, factual quality is unreviewed and
 billing cost unknown. Production16k/60s default/70s cap is unchanged. Complete12-PK
-oracle controllerc6c2/runtime39386edd remains in flight; no proof result is claimed.
+oracle39386edd completed all12 cohorts/150 held rows/8 negatives and four RR tuple
+sets, then failed the final missing-pair lock assertion ([partial outcome](tracking/evidence/m07/presentation-lock-source-complete-oracle-proof/39386edd-outcome.json)).
+Original29/catalogue/roles/owned cleanup/independent inventories/lock passed;
+remaining RC races and whole generation are unverified. The bridge successorb996
+retained exact input/child exit1 for offline diagnosis; no phase nonce passed.
 
 Owner logo diagnostic result remains pending; the409 wording fix is undeployed.
 Folder10/one actual provider-processed job07, guest producer4/external3, preserved
 Ready content and explicit Narrator/contributor/mobile skips retain their recorded
-scopes. Main66a3002 is the last independently matched private push ([readback](tracking/evidence/m07/completion-release/canonical-push-66a3002-readback.json)); no
+scopes. Main99f7888 is now the last independently matched private push ([readback](tracking/evidence/m07/completion-release/canonical-push-99f7888-readback.json)); no
 later push is claimed. AT069 remains unreplayed. **Full M07/release acceptance is false.**
 
 ## Historical checkpoint - 2026-11-02T19:48:34Z
