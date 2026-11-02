@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0",
+  "scope": "collector_v2_local_source_and_synthetic_validation_only",
+  "observed_at": "2026-11-02T08:40:56.000Z",
+  "source_commit": "106ade402fb5215c03a0528e36de8a6a982525cf",
+  "source_files": {
+    "development/m07/completion-oauth/collect-v2.mjs": "33ca64eb8281630e48cf754ea64a16bd5cd598cf46ea83b1fc1306ed9ddbf6ce",
+    "development/m07/completion-oauth/collect-v2.test.mjs": "801302270d8583e758cfb836c72a7f98977bd49d6d51e7fc232925b74f69fa6c",
+    "development/m07/completion-oauth/COLLECTOR-V2.md": "013576e2bef82eca3f259a8c11d4678722e375c7c3141e033635f560c51ac375"
+  },
+  "red": {
+    "command": "node --test development/m07/completion-oauth/collect-v2.test.mjs",
+    "exit_code": 1,
+    "tests": 3,
+    "passed": 2,
+    "failed": 1,
+    "failure": "assert(bareQuery.test(actual[13])) rejected the original quoted bare-message query"
+  },
+  "green": {
+    "command": "node --test development/m07/completion-oauth/collect-v2.test.mjs",
+    "exit_code": 0,
+    "tests": 5,
+    "passed": 5,
+    "failed": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "lint": {
+    "command": "node node_modules/eslint/bin/eslint.js development/m07/completion-oauth/collect-v2.mjs development/m07/completion-oauth/collect-v2.test.mjs --max-warnings 0",
+    "exit_code": 0
+  },
+  "query_grammar_evidence": {
+    "installed_cli_version": "65.8.0",
+    "public_help_source": "chunks/chunk-2PYFJXKS.js",
+    "public_help_source_sha256": "f19e025f07602444e832f4096c829928959f5a315ab09048c66f8505277d189b",
+    "checked_documented_rule": "Bare message terms must be unquoted; quotes work only in field values.",
+    "actual_cli_query_execution_by_author": false,
+    "actual_cli_parser_execution_by_tests": false
+  },
+  "synthetic_cases": [
+    "original quoted query violates the actual pinned CLI documented grammar",
+    "v2 changes only argument 13 after original exact admission",
+    "closed original projection drops private platform fields and rejects incomplete or duplicate events",
+    "two exact reads join request UUID to returned trace UUID and support frozen compare",
+    "source drift and first-read failure refuse without retry",
+    "separate closed provenance binds new collector and observation bytes without claiming old entrypoint execution"
+  ],
+  "unchanged_main_imports_observed": {
+    "development/m07/completion-oauth/collect.mjs": "ae466c59167952b9cc0b5cda915b93d8b664d9009d22b7b8d4df2ee8453cc2c1",
+    "development/m07/oauth-consent-fix/read-pilot-trace.mjs": "0b998169cfcf4f4811398634ec4901a2074192830a5d1c5a84caeec36b81e179"
+  },
+  "main_product_or_coordinator_files_modified": false,
+  "provider_calls_by_author": 0,
+  "auth_phase_calls_by_author": 0,
+  "listener_started": false,
+  "live_observation_collected": false,
+  "all_39_coordinator_pins_independently_checked_by_this_receipt": false,
+  "root_must_verify_39_pins_before_live_use": true,
+  "raw_log_or_stderr_persisted": false,
+  "secrets_or_private_urls_persisted": false
+}
