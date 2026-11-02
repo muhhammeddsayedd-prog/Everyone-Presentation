@@ -1,0 +1,73 @@
+{
+  "family": "m07-presentation-locksource41-seed-owned-outcome",
+  "observed_at": "2026-11-02 12:56:40 UTC",
+  "result": "failed_setup_preserved",
+  "run_id": "e1ce4832-77c3-47cb-805e-2ba36cc6489f",
+  "source_commit": "9e74c6c047877c740d2da90e1baa17f2326707c4",
+  "reviewed_source_commit": "219e427e670c106d311aceaeabe726f6da01caae",
+  "compiled_controller": {
+    "path": ".local/presentation-lock-source-seed-proof-compiled/controller-da4029bb-c4e7-4e47-8085-ac435aa1f69c.mjs",
+    "sha256": "dd124d83c396b9f4123c09eeb7ef9c569fee286177f409001682c4759f4433c0"
+  },
+  "receipt": {
+    "path": "tracking/evidence/m07/presentation-lock-source-seed-proof/2026-11-02T12-48-25.819Z-e1ce4832.json",
+    "sha256": "5b87947b799f740815db78a5402372ea3c2a47b8555970426880b35c3c005e79"
+  },
+  "normal_process_exit_code": 1,
+  "elapsed_ms": 34191,
+  "checkpoint": "locksource41-fixture-scale.sql",
+  "closed_failure_code": "LOCKSOURCE41_COMMAND_FAILED",
+  "diagnosis": {
+    "code": "CHECK_CONSTRAINT_VIOLATION",
+    "table": "eps.jobs",
+    "constraint": "jobs_dedupe_key_check",
+    "source": "development/m07/presentation-lock-source-proof/scale.sql",
+    "required_format": "64 lowercase hexadecimal characters",
+    "cause": "A declared fixture job uses an unhashed synthetic dedupe label.",
+    "related_static_same_field_sites": [
+      "scale candidate_scan jobs",
+      "background presentation_render fixture jobs",
+      "synthetic review_fit jobs"
+    ],
+    "private_failure_sha256": "0bdc669b061bedf1c6717da2f5cbc47aba5b5cb0e4ac36e850a6e9a0bb7367d6",
+    "failing_row_or_raw_diagnostics_public": false
+  },
+  "alias_only_projection": {
+    "original_scale_sha256": "0a74ce47ff97339b4e63cf8df3aa3801321e2099588ed22367e5fe4317acaa7f",
+    "qualified_scale_sha256": "aee1e6dfbe072ebd7f971f7534b76c11cbf78eb7b5bf5b73f04c29edaef83da1",
+    "dispatch_started": true,
+    "normal_return": false,
+    "inverse_byte_equal": true,
+    "thresholds_unchanged": true
+  },
+  "completed_scope": {
+    "restored38_full_rows_and_catalogue": true,
+    "exact39_and_owned40_and_context_prelude_advanced": true,
+    "scale_transaction_committed": false,
+    "performance_samples": 0,
+    "candidate_optimization_measured": false,
+    "cloud_or_provider_called": false
+  },
+  "preservation": {
+    "all_owned_resources_absent": true,
+    "controller_successful_daemon_inventories_empty": true,
+    "independent_post_return_container_inventory": {
+      "normal_exit_code": 0,
+      "count": 0
+    },
+    "independent_post_return_volume_inventory": {
+      "normal_exit_code": 0,
+      "count": 0
+    },
+    "original29_data_catalogue_global_roles_exact": true,
+    "shared_lock_released": true,
+    "fresh_filesystem_shared_lock_existed_after_return": false,
+    "previous99873_source_receipt_claim_unchanged": true,
+    "consumed_sources_and_private_diagnostics_retained": true
+  },
+  "limits": [
+    "No timing/equality/security/race/generation acceptance from this attempt.",
+    "The dedupe fix is beyond the consumed alias-only authority; no automatic replay.",
+    "Root now authorizes source-only narrow three-expression correction/audit/peer review; next dispatch is on Root review hold."
+  ]
+}
