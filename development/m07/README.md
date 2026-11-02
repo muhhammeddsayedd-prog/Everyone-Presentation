@@ -1,5 +1,58 @@
 # M07 implementation checkpoint
 
+## Current checkpoint - 2026-11-02T13:28:00.772921+00:00
+
+The stable release URL serves `dpl_B5L2mM6QVQo99VJsqtEPDeq8i9n5`, exact product
+`1c72f2a` / manifest `05a39870`. [Normal build/deploy and two equal direct/alias
+Ready readbacks](../../tracking/evidence/m07/role-archive-focus-web-release/2026-11-02T13-11-38-700539Z-38fa1d8a-6d4d-48ea-924e-65052dbe38e4-readback.json) passed at13:11:38UTC. Settings/environment metadata
+remained exact; no database/worker/native changes. The normal release source
+checkpoint45c81ba was pushed and independently read back on the private remote.
+Later development/evidence checkpoints remain local until the next normal push.
+All309 current Main selected product bytes equal deployed source. Rollback anchor
+is5sev/fdd; J3/c88 remains historical. No rollback was executed.
+
+The two-component keyboard correction passed fresh Main968/968 deterministic,
+typecheck/lint/production-guard gates and12/12 relevant fixture browser checks.
+[Actual production Escape and Keep-role cancellation](../../tracking/evidence/m07/completion-release/2026-11-02T13-17-27.840011Z-7ae32ee4-role-focus-production-id-audit.json) returned focus to
+the enabled Remove button; confirming the empty role archive focused the Roles
+heading and announced the role-specific status. The original role remains first,
+with its one Main assignment. Only the new empty synthetic role/slot was soft
+archived; no casting decision was removed. Legacy workspace remains119/118.
+[Ten fresh public admission checks](../../tracking/evidence/m07/completion-release/2026-11-02T13-12-29.521Z-3988516f-production-public.json) passed. Real screen-reader AT072
+remains pending, and mobile/contributor acceptance are skipped by owner.
+
+[Fresh old-cohort reconciliation](../../tracking/evidence/m07/completion-release/2026-11-02T13-23-38.320859+00-00-997b9a49-post-focus-preservation.json) confirms all10 Ready versions,
+57 slides,42 pins and the full Reviewed profile unchanged. [Pure comparison of
+three newer human versions](../../tracking/evidence/m07/completion-release/role-focus-release-Root-admission.json) confirms all six stored hash projections
+unchanged since03:48. The first Unicode name-filter audit and an unconfirmed
+old-cohort read are preserved; ID-bound/fresh reconciliation passed. Temporary
+operator OAuth access remains removed; existing Claude sign-in stays untouched.
+
+WorkerCp/source056/daemon2d66/native46/manifest a317 and canonical39 remain.
+SQL40 is unapplied. Its functional reason/MAC/replay/race proof51a passed; the
+collector's ec29/66b/7c251 failures and Root-only negative-test failure remain
+recorded. Portable Main guard checks now pass4/4; one fresh local diagnostic run
+is authorized with production release flags false. Generation proof11ea finally
+passed full synthetic fixture scale and captured old measurements/security/locks,
+but stopped at an old-edge assertion before the candidate. No speedup, candidate
+semantics or generation fix is accepted. Both local tracks retain exact cleanup
+and original29/global-role preservation at their recorded completed boundaries.
+
+Existing-Claude project parity/renewal/output handoff and native-picker/manual
+reader availability are pending. Guest nonzero exact-version/internal-note and
+expiry/revocation evidence, direct file/folder/logo byte intake and manual AT072
+remain open. AT070 passed its required nonproduction metadata-plus-Storage/API
+restore scope. Private-production restore/RTO/RPO are unclaimed extensions, not
+new gates. AT069 retains the automatic approval rejection **blocked by policy**;
+no rejected action/equivalent transport or rollback was attempted.
+
+Next: finish local database proofs and narrow diagnosis before canonical changes;
+complete the outstanding owner/guest/direct-intake/manual acceptance. Full M07
+and full production acceptance remain false. Preserve all worktrees, claims,
+failed receipts and unrelated Screenshots/redesign-output artifacts.
+
+## Historical focus preparation before the B5 release
+
 ## Current checkpoint — 2026-11-02T13:01:48.909734+00:00
 
 Production still serves web `5sev` / product `fdd0aba` / manifest `f68d4357`,

@@ -1,17 +1,17 @@
 {
   "pack_version": "1.0",
-  "updated_at": "2026-11-02T13:01:48.909734+00:00",
+  "updated_at": "2026-11-02T13:28:00.772921+00:00",
   "implementation_started": true,
   "current_milestone": "M07",
   "current_pilot": {
     "status": "production_deployed_acceptance_in_progress",
-    "record_updated_at": "2026-11-02T13:01:48.909734+00:00",
+    "record_updated_at": "2026-11-02T13:28:00.772921+00:00",
     "authority": "latest_checkpoint, current_hosted_release and completion_release; all superseded dated records remain historical",
     "origin": "https://everyone-presentation-pilot.vercel.app",
     "canonical_history": 39,
     "database_observed_at": "2026-11-02T03:52:47.010448+00:00",
-    "web_deployment_id": "dpl_5sevM277cLpQZPJV1XkaJxhMLqpe",
-    "web_source_commit": "fdd0aba30fbff3ecebd4f29915bb8b74b143fea2",
+    "web_deployment_id": "dpl_B5L2mM6QVQo99VJsqtEPDeq8i9n5",
+    "web_source_commit": "1c72f2a2cc36e7f3f6c6d093fb24dd28dbe9fc20",
     "web_role": "production_redesigned_UI_and_project_creation_serving",
     "worker_deployment_id": "dpl_Cp1TW1vP3JiLJoL5G3Zx2yfei97M",
     "worker_deployment_metadata_observed_at": "2026-11-02T02:20:07.299913+00:00",
@@ -28,7 +28,7 @@
     "worker_first10min_ends_at": "2026-11-02T02:16:59.277Z",
     "worker_mode": "production",
     "native_DB_pin": "sha256:46de2f0c0772e10d712fba514788d24041d6741faa8966b6fe9c554fe47e4af4",
-    "web_source_manifest_sha256": "f68d43576db9c530a54c85af960658d7115547d5c2c406d47ead8ed0a7d11bb1",
+    "web_source_manifest_sha256": "05a398700628b8c2310704f05db5971d9fc46ac59795bd77e30148ca3d6f663f",
     "worker_startup_log_records": 23,
     "web_mode": "production",
     "production_serving_verified": true,
@@ -39,11 +39,11 @@
     "canonical_push_receipt": "tracking/evidence/m07/completion-release/canonical-push-readback.json",
     "active_acceptance": "diagnose_generation_cancellation_then_separate_reason40_release_and_owner_acceptance",
     "local_diagnostic_product_changes_deployed": true,
-    "web_readback_receipt": "tracking/evidence/m07/mcp-diagnostic-web-release/2026-11-02T10-21-25-065548Z-958dbf0e-7cf7-4288-9a97-c7f52e001523-readback.json",
-    "selected_309_main_product_bytes_equal_deployed": false,
+    "web_readback_receipt": "tracking/evidence/m07/role-archive-focus-web-release/2026-11-02T13-11-38-700539Z-38fa1d8a-6d4d-48ea-924e-65052dbe38e4-readback.json",
+    "selected_309_main_product_bytes_equal_deployed": true,
     "post_diagnostic_worker_receipt": "tracking/evidence/m07/completion-release/pre-diagnostic-web-worker-identity-958dbf0e.json",
     "role_archive_focus_fix": {
-      "status": "merged_and_verified_locally_not_deployed",
+      "status": "deployed_and_actual_production_keyboard_verified",
       "source_commit": "1c72f2a2cc36e7f3f6c6d093fb24dd28dbe9fc20",
       "quality_receipt": "tracking/evidence/m07/completion-release/2026-11-02T12-56-41.891Z-a4f745f8-role-focus-root-quality.json",
       "deterministic_tests_passed": 968,
@@ -55,15 +55,18 @@
         "SpecsView.tsx",
         "RoleEditor.tsx"
       ],
-      "deployment_id": null,
-      "actual_production_focus_acceptance": false
+      "deployment_id": "dpl_B5L2mM6QVQo99VJsqtEPDeq8i9n5",
+      "actual_production_focus_acceptance": true,
+      "production_UI_receipt": "tracking/evidence/m07/completion-release/2026-11-02T13-17-27.840011Z-7ae32ee4-role-focus-production-id-audit.json",
+      "production_readback": "tracking/evidence/m07/role-archive-focus-web-release/2026-11-02T13-11-38-700539Z-38fa1d8a-6d4d-48ea-924e-65052dbe38e4-readback.json",
+      "preservation_admission": "tracking/evidence/m07/completion-release/role-focus-release-Root-admission.json"
     },
-    "last_confirmed_remote_main": "aa4e1c93ea8c5c1ebf45d4d29f76b557b7625a35",
-    "current_main_checkpoint": "dfd55aea22a58113bd7073b8ea0f6bea35a04a43",
+    "last_confirmed_remote_main": "45c81ba704d947ca5ee421c984e3ef52a4faa246",
+    "current_main_checkpoint": "0537427cf4841041acae88a4984d4546c4921933",
     "latest_main_push_verified": false,
-    "push_verified_scope": "Private canonical remote aa4e1c9 independently read back in this session; later source/evidence commits remain local.",
+    "push_verified_scope": "Source checkpoint45c81ba normally pushed and independently matched; later development/evidence/docs changes await their own push.",
     "contributor_acceptance": "skipped_by_owner_not_verified",
-    "next_action": "Release reviewed two-component focus fix on schema39 after source/build/preflight/readback. Finish narrow local fixture corrections for generation performance and SQL40 collector before any canonical changes; no old controller replay. Existing Claude and native picker/screen-reader owner handoffs remain pending.",
+    "next_action": "Finish the current local Main-scoped SQL40 collector proof and diagnose baseline edge assertion in the generation performance proof before any canonical change. Then apply only verified additive release(s) and complete actual Claude parity/renewal/outputs, guest delta/lifecycle, direct intake and manualAT072. Contributor/mobile skipped, AT069 restriction unreplayed.",
     "reason40_collector_validation": {
       "functional_proof51a": "passed",
       "canonical_history": 39,
@@ -73,19 +76,24 @@
         "66bca8e3",
         "7c251681"
       ],
-      "latest_failure": "Main private-file guard rejected diagnostic path in sibling worktree before diagnostic creation or COMMIT; exact local cleanup and original29 preservation passed.",
-      "next": "Small Main-scoped storage correction under review; all canonical READ/APPLY flags false."
+      "latest_failure": "Main-only negative path test assumed source!=Main; portable test corrected and Root4/4pass. Earlier 7c251 diagnostic path failure preserved.",
+      "next": "One fresh Main-scoped diagnostic local proof authorized under exact v2plan; production READ/APPLY still false."
     },
     "generation_performance_validation": {
       "canonical_changed": false,
       "preserved_failed_runs": [
         "99873a5f",
-        "e1ce4832"
+        "e1ce4832",
+        "11ea4b21"
       ],
       "timings_or_speedup_accepted": false,
-      "latest_failure": "Synthetic fixture job dedupe literals violated existing 64-lowercase-hex CHECK; narrow deterministic hash correction under review.",
+      "latest_failure": "Dedupe-qualified fixture setup and old measurements/security/locks reached; stopped on old-edge assertion before candidate. Safe diagnosis/measurements pending; no optimized result accepted.",
       "cleanup": "All owned resources absent and original29/global roles exact after each normal failed attempt."
-    }
+    },
+    "web_readback": "tracking/evidence/m07/role-archive-focus-web-release/2026-11-02T13-11-38-700539Z-38fa1d8a-6d4d-48ea-924e-65052dbe38e4-readback.json",
+    "post_focus_historical_preservation_receipt": "tracking/evidence/m07/completion-release/2026-11-02T13-23-38.320859+00-00-997b9a49-post-focus-preservation.json",
+    "post_focus_public_receipt": "tracking/evidence/m07/completion-release/2026-11-02T13-12-29.521Z-3988516f-production-public.json",
+    "public_admission_checks_passed": 10
   },
   "historical_pilot_records": {
     "observed_at": "2026-11-01T17:37:06.827794Z",
@@ -4933,7 +4941,7 @@
       "scope": "Project-local skill setup only; does not advance app milestones or verify integrations."
     }
   },
-  "notes": "Production5sev/fdd/f68d and workerCp/source056/native46/daemon2d66/a317 serve canonical39. Main role focus correction1c72 passed fresh968 deterministic plus12 focused browser checks, not yet deployed. Original role/Main choice and historical Ready/Reviewed content remain intact. Contributor/mobile skipped. Actual-Claude parity/renewal/outputs, guest, direct intake, manual AT072 and AT069 remain open; full M07 false. Last confirmed private remote aa4e1c9; later commits local.",
+  "notes": "ProductionB5L2/1c72/05a398 and workerCp/source056/native46/daemon2d66/a317 serve canonical39. Normal UI-only build/deploy/equalalias-directReady passed13:11:38; actual Escape/Keep/archive focus accepted, ten public checks passed. All old10Ready/57slides/42pins/Reviewed plus all six hashes of3newhumanversions preserved. Main45c81ba independently pushed; later source/evidence commits local. Contributor/mobile skipped; full M07 false. Generation/SQL40 local proofs and owner/guest/direct/manual/AT069 scopes remain open.",
   "historical_checkpoint_before_production39": {
     "milestone": "M07",
     "status": "M07_in_progress_owned_SQL37_passed_bounded_Auth_observed_cloud37_pending",
@@ -6339,7 +6347,7 @@
       "Complete separate actual-Claude renewal observation and operator-SDK lifecycle after private owner readiness",
       "Verify genuine contributor restrictions after private provisioning; manual AT072 remains pending"
     ],
-    "owner_dependency": "Private contributor provisioning and OAuth owner Ready are pending; no new listener/token session has started.",
+    "owner_dependency": "Existing Claude task steps1-2 and native-picker/manual-reader availability pending; operator consent/refresh/cleanup already completed within recorded scopes; contributor/mobile skipped.",
     "constraints": {
       "AT069": "policy-blocked; no retry/equivalent transport",
       "mobile": "skipped by owner",
@@ -11588,16 +11596,16 @@
     "production_admission": "production_worker_and_web_deployed_ready_and_source_bound_scoped_acceptance_remaining",
     "independent_recovery": "schema39_independent_Storage_and_API_passed_actual4c302b36_root_admitted",
     "production_verified": false,
-    "next_action": "Release reviewed two-component focus fix on schema39 after source/build/preflight/readback. Finish narrow local fixture corrections for generation performance and SQL40 collector before any canonical changes; no old controller replay. Existing Claude and native picker/screen-reader owner handoffs remain pending.",
+    "next_action": "Finish the current local Main-scoped SQL40 collector proof and diagnose baseline edge assertion in the generation performance proof before any canonical change. Then apply only verified additive release(s) and complete actual Claude parity/renewal/outputs, guest delta/lifecycle, direct intake and manualAT072. Contributor/mobile skipped, AT069 restriction unreplayed.",
     "repository_visibility": "private",
     "repository_pushed": true,
-    "reader_rollback_deployment": "dpl_J3hmctcHndRp8zDVAPYfcnjEgpzG",
+    "reader_rollback_deployment": "dpl_5sevM277cLpQZPJV1XkaJxhMLqpe",
     "pending_owner_actions": [
-      "Return actual-Claude after-expiry get_project request ID and no-reconnect attestation",
-      "Complete bounded delegated outputs after Root deploys and verifies generation fix",
-      "Complete guest delta and actual manual AT072; mobile/contributor skipped by owner"
+      "Existing Claude: original session after-expiry project read and no-reenrollment attestation; catalogue/Planned create/same-key replay steps1-2 of prepared task.",
+      "Native picker and real desktop screen-reader availability handoff pending.",
+      "Actual delegated Selection/Shortlist continuation after generation fix; guest reciprocal feedback/link lifecycle after ready outputs."
     ],
-    "published_source_commit": "aa4e1c93ea8c5c1ebf45d4d29f76b557b7625a35",
+    "published_source_commit": "45c81ba704d947ca5ee421c984e3ef52a4faa246",
     "native_registry": "46de_ready_verified",
     "daemon_registry": "2d66_ready_verified_with_separate_no_login_continuation",
     "quality": {
@@ -11613,8 +11621,8 @@
     "native_runtime": "actual_9_tasks_10_resources_absent_and_root_admitted",
     "production_web": "normal_deploy_and_two_equal_stable_alias_READYS_passed_redesigned_production_UI_serving",
     "worker_production": "first10min23_records_passed_native46_pin_and_five_flags_resume_passed",
-    "production_web_source_commit": "c88f58c00820169f7396d72def77a74f1443594e",
-    "production_web_source_sha256": "f947fb53479d991b382bd50bf39e32a4e56dd17598470b209f2a185ed9f58d0a",
+    "production_web_source_commit": "1c72f2a2cc36e7f3f6c6d093fb24dd28dbe9fc20",
+    "production_web_source_sha256": "05a398700628b8c2310704f05db5971d9fc46ac59795bd77e30148ca3d6f663f",
     "independent_recovery39": {
       "receipt": "tracking/evidence/m07/independent-recovery39/2026-11-02T01-05-56.716Z-4c302b36.json",
       "sha256": "0a2597f71815490b42a31c37804ff67c989e3f01e6170de188b4d202d3a261ef",
@@ -11661,14 +11669,14 @@
       "managed_auth_storage_bytes_private_runtime_included": false
     },
     "observed_at": "2026-11-02T09:04:27.144707+00:00",
-    "production_web_readback": "tracking/evidence/m07/production-web-release/2026-11-02T02-34-07-437169Z-readback.json",
-    "production_web_deployment_id": "dpl_J3hmctcHndRp8zDVAPYfcnjEgpzG",
+    "production_web_readback": "tracking/evidence/m07/role-archive-focus-web-release/2026-11-02T13-11-38-700539Z-38fa1d8a-6d4d-48ea-924e-65052dbe38e4-readback.json",
+    "production_web_deployment_id": "dpl_B5L2mM6QVQo99VJsqtEPDeq8i9n5",
     "worker_startup_log_records": 23,
     "native_pin_receipt": "tracking/evidence/m07/completion-worker/2026-11-02T02-24-16-275686Z-rollout39-pin.json",
     "resume_receipt": "tracking/evidence/m07/completion-worker/2026-11-02T02-28-39-166492Z-rollout39-resume.json",
     "production_serving_verified": true,
     "current_main_push_verified": false,
-    "current_main_checkpoint": "dfd55aea22a58113bd7073b8ea0f6bea35a04a43",
+    "current_main_checkpoint": "0537427cf4841041acae88a4984d4546c4921933",
     "repository_push_scope": "Release checkpoint62df023 normally pushed and independently matched by GitHub ref; following evidence-only reconciliation receives a separate normal push, reported by Root final readback.",
     "production_UI": {
       "planned_receipt": "tracking/evidence/m07/completion-release/planned-project-production.json",
@@ -11745,7 +11753,7 @@
     "canonical_specs_and_preservation_audit": "tracking/evidence/m07/production-specs-job-audit/Root-admission.json",
     "post_journey_web_receipt": "tracking/evidence/m07/completion-release/production-web-current-identity.json",
     "post_journey_worker_receipt": "tracking/evidence/m07/completion-release/production-worker-current-identity.json",
-    "last_confirmed_remote_main": "aa4e1c93ea8c5c1ebf45d4d29f76b557b7625a35",
+    "last_confirmed_remote_main": "45c81ba704d947ca5ee421c984e3ef52a4faa246",
     "canonical_push_receipt": "tracking/evidence/m07/completion-release/canonical-push-readback.json",
     "canonical_push_observed_at": "2026-11-02T04:02:53.180067+00:00",
     "actual_Claude_token_observation": {
@@ -11766,18 +11774,18 @@
     "diagnostic_quality_receipt": "tracking/evidence/m07/completion-release/2026-11-02T10-00-21.237Z-bea51fe2-mcp-diagnostic-root-quality.json",
     "diagnostic_deterministic_tests": 968,
     "generation_metadata_receipt": "tracking/evidence/m07/presentation-cancel-audit39/2026-11-02T10-27-16-747287Z-cancellation-metadata.json",
-    "record_updated_at": "2026-11-02T13:01:48.909734+00:00",
-    "web_deployment_id": "dpl_5sevM277cLpQZPJV1XkaJxhMLqpe",
-    "web_source_commit": "fdd0aba30fbff3ecebd4f29915bb8b74b143fea2",
-    "web_source_manifest_sha256": "f68d43576db9c530a54c85af960658d7115547d5c2c406d47ead8ed0a7d11bb1",
-    "web_readback_receipt": "tracking/evidence/m07/mcp-diagnostic-web-release/2026-11-02T10-21-25-065548Z-958dbf0e-7cf7-4288-9a97-c7f52e001523-readback.json",
+    "record_updated_at": "2026-11-02T13:28:00.772921+00:00",
+    "web_deployment_id": "dpl_B5L2mM6QVQo99VJsqtEPDeq8i9n5",
+    "web_source_commit": "1c72f2a2cc36e7f3f6c6d093fb24dd28dbe9fc20",
+    "web_source_manifest_sha256": "05a398700628b8c2310704f05db5971d9fc46ac59795bd77e30148ca3d6f663f",
+    "web_readback_receipt": "tracking/evidence/m07/role-archive-focus-web-release/2026-11-02T13-11-38-700539Z-38fa1d8a-6d4d-48ea-924e-65052dbe38e4-readback.json",
     "local_diagnostic_product_changes_deployed": true,
-    "selected_309_main_product_bytes_equal_deployed": false,
+    "selected_309_main_product_bytes_equal_deployed": true,
     "post_diagnostic_worker_receipt": "tracking/evidence/m07/completion-release/pre-diagnostic-web-worker-identity-958dbf0e.json",
     "full_M07_verified": false,
-    "web_readback": "tracking/evidence/m07/mcp-diagnostic-web-release/2026-11-02T10-21-25-065548Z-958dbf0e-7cf7-4288-9a97-c7f52e001523-readback.json",
-    "main_checkpoint_commit": "dfd55aea22a58113bd7073b8ea0f6bea35a04a43",
-    "push_verified_scope": "Private canonical remote aa4e1c9 independently read back in this session; later source/evidence commits remain local.",
+    "web_readback": "tracking/evidence/m07/role-archive-focus-web-release/2026-11-02T13-11-38-700539Z-38fa1d8a-6d4d-48ea-924e-65052dbe38e4-readback.json",
+    "main_checkpoint_commit": "0537427cf4841041acae88a4984d4546c4921933",
+    "push_verified_scope": "Source checkpoint45c81ba normally pushed and independently matched; later development/evidence/docs changes await their own push.",
     "diagnostic_UI_receipt": "tracking/evidence/m07/completion-release/diagnostic-generation-observation-958dbf0e.json",
     "public_repository_publication_admitted": false,
     "reason40_collector_validation": {
@@ -11789,8 +11797,8 @@
         "66bca8e3",
         "7c251681"
       ],
-      "latest_failure": "Main private-file guard rejected diagnostic path in sibling worktree before diagnostic creation or COMMIT; exact local cleanup and original29 preservation passed.",
-      "next": "Small Main-scoped storage correction under review; all canonical READ/APPLY flags false."
+      "latest_failure": "Main-only negative path test assumed source!=Main; portable test corrected and Root4/4pass. Earlier 7c251 diagnostic path failure preserved.",
+      "next": "One fresh Main-scoped diagnostic local proof authorized under exact v2plan; production READ/APPLY still false."
     },
     "new_diagnostic_public_checks_receipt": "tracking/evidence/m07/completion-release/2026-11-02T10-53-52.606Z-e0624be5-production-public.json",
     "owner_planned_project_observation": "tracking/evidence/m07/completion-release/owner-planned-project-observation-4eade178-66e3-40ed-8b8d-710c43f5fb35.json",
@@ -11809,7 +11817,7 @@
       "measured_RTO_RPO"
     ],
     "role_archive_focus_fix": {
-      "status": "merged_and_verified_locally_not_deployed",
+      "status": "deployed_and_actual_production_keyboard_verified",
       "source_commit": "1c72f2a2cc36e7f3f6c6d093fb24dd28dbe9fc20",
       "quality_receipt": "tracking/evidence/m07/completion-release/2026-11-02T12-56-41.891Z-a4f745f8-role-focus-root-quality.json",
       "deterministic_tests_passed": 968,
@@ -11821,32 +11829,40 @@
         "SpecsView.tsx",
         "RoleEditor.tsx"
       ],
-      "deployment_id": null,
-      "actual_production_focus_acceptance": false
+      "deployment_id": "dpl_B5L2mM6QVQo99VJsqtEPDeq8i9n5",
+      "actual_production_focus_acceptance": true,
+      "production_UI_receipt": "tracking/evidence/m07/completion-release/2026-11-02T13-17-27.840011Z-7ae32ee4-role-focus-production-id-audit.json",
+      "production_readback": "tracking/evidence/m07/role-archive-focus-web-release/2026-11-02T13-11-38-700539Z-38fa1d8a-6d4d-48ea-924e-65052dbe38e4-readback.json",
+      "preservation_admission": "tracking/evidence/m07/completion-release/role-focus-release-Root-admission.json"
     },
     "generation_performance_validation": {
       "canonical_changed": false,
       "preserved_failed_runs": [
         "99873a5f",
-        "e1ce4832"
+        "e1ce4832",
+        "11ea4b21"
       ],
       "timings_or_speedup_accepted": false,
-      "latest_failure": "Synthetic fixture job dedupe literals violated existing 64-lowercase-hex CHECK; narrow deterministic hash correction under review.",
+      "latest_failure": "Dedupe-qualified fixture setup and old measurements/security/locks reached; stopped on old-edge assertion before candidate. Safe diagnosis/measurements pending; no optimized result accepted.",
       "cleanup": "All owned resources absent and original29/global roles exact after each normal failed attempt."
     },
-    "historical_reader_rollback_deployment": "dpl_8mFQY4SkHiHmSVo6hR8QPLSdgwaS"
+    "historical_reader_rollback_deployment": "dpl_8mFQY4SkHiHmSVo6hR8QPLSdgwaS",
+    "post_focus_historical_preservation_receipt": "tracking/evidence/m07/completion-release/2026-11-02T13-23-38.320859+00-00-997b9a49-post-focus-preservation.json",
+    "post_focus_public_receipt": "tracking/evidence/m07/completion-release/2026-11-02T13-12-29.521Z-3988516f-production-public.json",
+    "public_admission_checks_passed": 10,
+    "historical_reader_rollback_deployment_before_B5": "dpl_J3hmctcHndRp8zDVAPYfcnjEgpzG"
   },
   "latest_checkpoint": {
     "milestone": "M07",
     "status": "production_worker_web_serving_M07_acceptance_in_progress",
     "observed_at": "2026-11-02T09:04:27.144707+00:00",
-    "main_checkpoint_commit": "dfd55aea22a58113bd7073b8ea0f6bea35a04a43",
+    "main_checkpoint_commit": "0537427cf4841041acae88a4984d4546c4921933",
     "canonical_migration_count": 39,
     "local_original_migration_count": 29,
-    "web_deployment_id": "dpl_5sevM277cLpQZPJV1XkaJxhMLqpe",
-    "web_source_commit": "fdd0aba30fbff3ecebd4f29915bb8b74b143fea2",
-    "web_source_manifest_sha256": "f68d43576db9c530a54c85af960658d7115547d5c2c406d47ead8ed0a7d11bb1",
-    "web_readback": "tracking/evidence/m07/mcp-diagnostic-web-release/2026-11-02T10-21-25-065548Z-958dbf0e-7cf7-4288-9a97-c7f52e001523-readback.json",
+    "web_deployment_id": "dpl_B5L2mM6QVQo99VJsqtEPDeq8i9n5",
+    "web_source_commit": "1c72f2a2cc36e7f3f6c6d093fb24dd28dbe9fc20",
+    "web_source_manifest_sha256": "05a398700628b8c2310704f05db5971d9fc46ac59795bd77e30148ca3d6f663f",
+    "web_readback": "tracking/evidence/m07/role-archive-focus-web-release/2026-11-02T13-11-38-700539Z-38fa1d8a-6d4d-48ea-924e-65052dbe38e4-readback.json",
     "worker_deployment_id": "dpl_Cp1TW1vP3JiLJoL5G3Zx2yfei97M",
     "worker_source_sha256": "0566342ec367efef328885aac513adeb5a942048ba01c88e1af63e4d636b6730",
     "daemon_runtime": "sha256:2d66eed2c5f584f3f261d2f241062cbb9fa088bbbc32437aed1ce0b6adf2c594",
@@ -11921,18 +11937,18 @@
       "Main_product_and_deployed_J3_and_history39_frozen_until_cleanup": false,
       "actual_Claude_acceptance": false
     },
-    "last_confirmed_remote_main": "aa4e1c93ea8c5c1ebf45d4d29f76b557b7625a35",
+    "last_confirmed_remote_main": "45c81ba704d947ca5ee421c984e3ef52a4faa246",
     "latest_main_push_verified": false,
     "manual_screenreader": "AT072 pending",
     "mobile_testing": "skipped by owner",
-    "next_action": "Release reviewed two-component focus fix on schema39 after source/build/preflight/readback. Finish narrow local fixture corrections for generation performance and SQL40 collector before any canonical changes; no old controller replay. Existing Claude and native picker/screen-reader owner handoffs remain pending.",
+    "next_action": "Finish the current local Main-scoped SQL40 collector proof and diagnose baseline edge assertion in the generation performance proof before any canonical change. Then apply only verified additive release(s) and complete actual Claude parity/renewal/outputs, guest delta/lifecycle, direct intake and manualAT072. Contributor/mobile skipped, AT069 restriction unreplayed.",
     "observation_scope": "Root actual UI/PDF proof, fresh normal read-only web/worker/canonical observations and independent audit admission; remaining owner/policy gates stay open.",
     "recorded_at": "2026-11-02T10:02:28.642787+00:00",
     "canonical_specs_and_preservation_audit": "tracking/evidence/m07/production-specs-job-audit/Root-admission.json",
     "post_journey_web_receipt": "tracking/evidence/m07/completion-release/production-web-current-identity.json",
     "post_journey_worker_receipt": "tracking/evidence/m07/completion-release/production-worker-current-identity.json",
-    "current_main_checkpoint": "dfd55aea22a58113bd7073b8ea0f6bea35a04a43",
-    "published_source_commit": "aa4e1c93ea8c5c1ebf45d4d29f76b557b7625a35",
+    "current_main_checkpoint": "0537427cf4841041acae88a4984d4546c4921933",
+    "published_source_commit": "45c81ba704d947ca5ee421c984e3ef52a4faa246",
     "canonical_push_receipt": "tracking/evidence/m07/completion-release/canonical-push-readback.json",
     "canonical_push_observed_at": "2026-11-02T04:02:53.180067+00:00",
     "repository_visibility": "private",
@@ -11955,12 +11971,12 @@
     "diagnostic_quality_receipt": "tracking/evidence/m07/completion-release/2026-11-02T10-00-21.237Z-bea51fe2-mcp-diagnostic-root-quality.json",
     "diagnostic_deterministic_tests": 968,
     "generation_metadata_receipt": "tracking/evidence/m07/presentation-cancel-audit39/2026-11-02T10-27-16-747287Z-cancellation-metadata.json",
-    "record_updated_at": "2026-11-02T13:01:48.909734+00:00",
-    "web_readback_receipt": "tracking/evidence/m07/mcp-diagnostic-web-release/2026-11-02T10-21-25-065548Z-958dbf0e-7cf7-4288-9a97-c7f52e001523-readback.json",
+    "record_updated_at": "2026-11-02T13:28:00.772921+00:00",
+    "web_readback_receipt": "tracking/evidence/m07/role-archive-focus-web-release/2026-11-02T13-11-38-700539Z-38fa1d8a-6d4d-48ea-924e-65052dbe38e4-readback.json",
     "local_diagnostic_product_changes_deployed": true,
-    "selected_309_main_product_bytes_equal_deployed": false,
+    "selected_309_main_product_bytes_equal_deployed": true,
     "post_diagnostic_worker_receipt": "tracking/evidence/m07/completion-release/pre-diagnostic-web-worker-identity-958dbf0e.json",
-    "push_verified_scope": "Private canonical remote aa4e1c9 independently read back in this session; later source/evidence commits remain local.",
+    "push_verified_scope": "Source checkpoint45c81ba normally pushed and independently matched; later development/evidence/docs changes await their own push.",
     "diagnostic_UI_receipt": "tracking/evidence/m07/completion-release/diagnostic-generation-observation-958dbf0e.json",
     "public_repository_publication_admitted": false,
     "reason40_collector_validation": {
@@ -11972,8 +11988,8 @@
         "66bca8e3",
         "7c251681"
       ],
-      "latest_failure": "Main private-file guard rejected diagnostic path in sibling worktree before diagnostic creation or COMMIT; exact local cleanup and original29 preservation passed.",
-      "next": "Small Main-scoped storage correction under review; all canonical READ/APPLY flags false."
+      "latest_failure": "Main-only negative path test assumed source!=Main; portable test corrected and Root4/4pass. Earlier 7c251 diagnostic path failure preserved.",
+      "next": "One fresh Main-scoped diagnostic local proof authorized under exact v2plan; production READ/APPLY still false."
     },
     "new_diagnostic_public_checks_receipt": "tracking/evidence/m07/completion-release/2026-11-02T10-53-52.606Z-e0624be5-production-public.json",
     "owner_planned_project_observation": "tracking/evidence/m07/completion-release/owner-planned-project-observation-4eade178-66e3-40ed-8b8d-710c43f5fb35.json",
@@ -11992,7 +12008,7 @@
       "measured_RTO_RPO"
     ],
     "role_archive_focus_fix": {
-      "status": "merged_and_verified_locally_not_deployed",
+      "status": "deployed_and_actual_production_keyboard_verified",
       "source_commit": "1c72f2a2cc36e7f3f6c6d093fb24dd28dbe9fc20",
       "quality_receipt": "tracking/evidence/m07/completion-release/2026-11-02T12-56-41.891Z-a4f745f8-role-focus-root-quality.json",
       "deterministic_tests_passed": 968,
@@ -12004,19 +12020,25 @@
         "SpecsView.tsx",
         "RoleEditor.tsx"
       ],
-      "deployment_id": null,
-      "actual_production_focus_acceptance": false
+      "deployment_id": "dpl_B5L2mM6QVQo99VJsqtEPDeq8i9n5",
+      "actual_production_focus_acceptance": true,
+      "production_UI_receipt": "tracking/evidence/m07/completion-release/2026-11-02T13-17-27.840011Z-7ae32ee4-role-focus-production-id-audit.json",
+      "production_readback": "tracking/evidence/m07/role-archive-focus-web-release/2026-11-02T13-11-38-700539Z-38fa1d8a-6d4d-48ea-924e-65052dbe38e4-readback.json",
+      "preservation_admission": "tracking/evidence/m07/completion-release/role-focus-release-Root-admission.json"
     },
     "generation_performance_validation": {
       "canonical_changed": false,
       "preserved_failed_runs": [
         "99873a5f",
-        "e1ce4832"
+        "e1ce4832",
+        "11ea4b21"
       ],
       "timings_or_speedup_accepted": false,
-      "latest_failure": "Synthetic fixture job dedupe literals violated existing 64-lowercase-hex CHECK; narrow deterministic hash correction under review.",
+      "latest_failure": "Dedupe-qualified fixture setup and old measurements/security/locks reached; stopped on old-edge assertion before candidate. Safe diagnosis/measurements pending; no optimized result accepted.",
       "cleanup": "All owned resources absent and original29/global roles exact after each normal failed attempt."
-    }
+    },
+    "post_focus_historical_preservation_receipt": "tracking/evidence/m07/completion-release/2026-11-02T13-23-38.320859+00-00-997b9a49-post-focus-preservation.json",
+    "post_focus_public_receipt": "tracking/evidence/m07/completion-release/2026-11-02T13-12-29.521Z-3988516f-production-public.json"
   },
   "production_status_history": [
     {
@@ -12891,6 +12913,16 @@
       "previous_notes": "Production webJ3/c88/f947 and workerCp/source056/native46/daemon2d66/a317 are serving on canonical39; complete first10min23-record startup, future pin and five-flag resume passed. Scoped real project creation passed; human/delegated output, auth/guest/contributor and manualAT072 acceptance continues. Last confirmed remotea61 only; no full M07 claim.",
       "previous_current_remote": "d1e45592c972d4d14bde13a1517594ee896398e9",
       "previous_current_main_equals_deployed": true
+    },
+    {
+      "recorded_at": "2026-11-02T13:28:00.772921+00:00",
+      "reason": "Normal B5 focus release and actual UI/metadata/immutable readbacks passed. Prior serving5sev remains a rollback anchor.",
+      "previous_notes": "Production5sev/fdd/f68d and workerCp/source056/native46/daemon2d66/a317 serve canonical39. Main role focus correction1c72 passed fresh968 deterministic plus12 focused browser checks, not yet deployed. Original role/Main choice and historical Ready/Reviewed content remain intact. Contributor/mobile skipped. Actual-Claude parity/renewal/outputs, guest, direct intake, manual AT072 and AT069 remain open; full M07 false. Last confirmed private remote aa4e1c9; later commits local.",
+      "previous_pending_owner_actions": [
+        "Return actual-Claude after-expiry get_project request ID and no-reconnect attestation",
+        "Complete bounded delegated outputs after Root deploys and verifies generation fix",
+        "Complete guest delta and actual manual AT072; mobile/contributor skipped by owner"
+      ]
     }
   ]
 }
