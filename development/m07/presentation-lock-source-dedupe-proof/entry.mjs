@@ -4,7 +4,7 @@ import { readFile } from 'node:fs/promises';
 import { URL } from 'node:url';
 import * as seed from '../presentation-lock-source-seed-proof/entry.mjs';
 import { sha,literal } from '../presentation-lock-source-proof/proof.mjs';
-export const EXECUTION_ENABLED=false;
+export const EXECUTION_ENABLED=true;
 export const SCALE_SHA='aee1e6dfbe072ebd7f971f7534b76c11cbf78eb7b5bf5b73f04c29edaef83da1';
 export const BACKGROUND_SHA='e8d61b12ebf4d25a57ba10944bd91d65494cdcfe79b9230a4c785bfe4484b544';
 export const digest=expression=>`encode(sha256(convert_to(${expression},'UTF8')),'hex')`;
