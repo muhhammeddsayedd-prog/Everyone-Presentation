@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-11-02T20:36:58.957580+00:00",
+  "run_id": "3289384d-3a4e-43c5-874b-59f6999e0d09",
+  "result": "actual_single32k_stream_completed_production_schema_and_evidence_validated",
+  "prepare_normal_exit": 0,
+  "evaluate_normal_exit": 0,
+  "provider_requests_initiated": 1,
+  "result_receipt": {
+    "path": "tracking/evidence/m07/pdf47-budget32k-evaluation/3289384d-3a4e-43c5-874b-59f6999e0d09-result.json",
+    "sha256": "62269ab07fd16e7905e061c93d1815459935c9bf6951b03d5b5393e7f3d4c71c"
+  },
+  "actual_header_request_id": "req_cca2f69d05b04ce8a26b84e73600177b",
+  "sdk_request_id": null,
+  "no_manufactured_request_id": true,
+  "observation": {
+    "http_status": 200,
+    "header_request_id": "req_cca2f69d05b04ce8a26b84e73600177b",
+    "dispatch_count": 1,
+    "headers_ms": 2143.1924000000004,
+    "created_ms": 2152.5762,
+    "in_progress_ms": 2154.4869999999996,
+    "first_output_delta_ms": 8685.0624,
+    "terminal_ms": 129488.3876,
+    "duration_ms": 129488.4997,
+    "wire_bytes": 4540654,
+    "output_text_bytes": 59127,
+    "parsed_events": 16202,
+    "event_counts": {
+      "created": 1,
+      "in_progress": 1,
+      "output_text_delta": 16192,
+      "completed": 1,
+      "incomplete": 0,
+      "failed": 0,
+      "other": 7
+    },
+    "terminal_event": "completed",
+    "terminal_status": "completed"
+  },
+  "usage": {
+    "input_tokens": 9170,
+    "output_tokens": 16397,
+    "total_tokens": 25567,
+    "reasoning_tokens": 165
+  },
+  "usage_is_provider_metadata_not_independent_billing": true,
+  "billing_cost_unknown": true,
+  "role_count": 39,
+  "evidence_count": 96,
+  "clarification_count": 23,
+  "private_custody": {
+    "source.sql": {
+      "sha256": "00a91855bc6bd15560acbd848e3e5c66a67fe8f4096311670715eb419a053944",
+      "bytes": 1216,
+      "private_ACL_verified": true
+    },
+    "input.json": {
+      "sha256": "54cba3a172ca7fd9641e8639579f35ab5ca0e110b6d69576a5dc4c94c3c7ed27",
+      "bytes": 26345,
+      "private_ACL_verified": true
+    },
+    "dispatch.claim.json": {
+      "sha256": "5aa628ff1611247ace722275ea0ae4f7f4b7699d742c10acca3ce57f99316e48",
+      "bytes": 4910,
+      "private_ACL_verified": true
+    },
+    "response.json": {
+      "sha256": "8bb42231cdea0215981a35beb2cee29c18f9ab3290025e452bbf83abaed5d926",
+      "bytes": 76194,
+      "private_ACL_verified": true
+    },
+    "output.json": {
+      "sha256": "5a24e79d9c89a0f88a2a77d2704f37d68360a3ba52a0f0e2d6c54b442d62fd3d",
+      "bytes": 57108,
+      "private_ACL_verified": true
+    }
+  },
+  "source_seals_exact_after_two_flag_closure_inverse": true,
+  "flags_closed": true,
+  "permanent_claim_retained": true,
+  "automatic_retry": false,
+  "app_job_retry_outbox_callback_or_writeback": false,
+  "production_settings_changed": false,
+  "factual_or_headcount_quality_evaluated": false,
+  "whole_production_function_or_nonstream_transport_acceptance": false,
+  "earlier_timeout_causes_proved": false,
+  "raw_source_response_text_credentials_private_URLs_recorded": false,
+  "next": "Implement and verify the bounded production adapter/lease/workflow path, then normal supported job retry after release; diagnostic output is not applied to a job."
+}
