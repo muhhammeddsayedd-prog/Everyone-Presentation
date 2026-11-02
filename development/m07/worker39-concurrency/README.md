@@ -90,3 +90,15 @@ Checkpoint failures discard raw stdout before diagnostics. Interactive sessions
 retain their2MiB bound. Seven pure/source tests now pass, including qualification
 fingerprint denial/SQL+PLpgSQL parsing and bounded100-argument JSON builders in
 the exact159942-byte checkpoint. No checkpoint/native success is claimed yet.
+
+Third owned run `2de4ffa2` verified the exact three-row fingerprints, existing
+normal version-trigger effect, genuine zero lifecycle and exact checkpoint273:
+all76 table counts/history/full state matched, with1,667,583 output bytes kept
+only in RAM. A subsequent new lock-observer SELECT failed on a missing space
+after a numeric PID. Race acceptance is unconfirmed. Both resources were absent,
+original29 data/catalogue/globalroles matched and the shared lock was released.
+The executed source/receipt remain frozen. The narrow forward fix adds only
+three missing spaces. Its new regression renders both actual observer templates
+with both branches/numeric PIDs and parses all four SQL statements: RED on the
+failed bytes, GREEN after the fix. Eight pure checks pass. The next fresh run
+requires the authorized peer review and coordinated shared-lock release.

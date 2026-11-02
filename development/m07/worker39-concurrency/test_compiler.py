@@ -52,4 +52,11 @@ class Tests(unittest.TestCase):
    def visit_FuncCall(inner,ancestors,node):
     if node.funcname[-1].sval=='jsonb_build_object':self.assertLessEqual(len(node.args or()),100)
   Functions()(parse_sql(cfg['checkpoint_sql']));text=(HERE/'cases.mjs').read_text();self.assertIn("ctx.sql('set session authorization postgres;' + cfg.checkpoint_sql)",text);self.assertNotIn('control.request(cfg.checkpoint_sql)',text);self.assertIn("catch { throw Error('WORKER39_EXACT_CHECKPOINT_VALIDATION_UNCONFIRMED'); }",text)
+ def test_every_actual_lock_observer_select_renders_and_parses_for_both_branches(self):
+  from pglast import parse_sql
+  text=(HERE/'cases.mjs').read_text();templates=re.findall(r'observer\.request\(`(.*?)`\)',text,re.S);self.assertEqual(len(templates),2)
+  program="import fs from'node:fs';const p=JSON.parse(fs.readFileSync(0,'utf8'));const literal=t=>String.fromCharCode(39)+t.replaceAll(String.fromCharCode(39),String.fromCharCode(39,39))+String.fromCharCode(39);const out=[];for(const text of p.templates){const render=Function('blocked','blocker','configOnly','cfg','literal','b','return `'+text+'`');for(const branch of [true,false])out.push(render({pid:394},{pid:417},branch,{tables:p.tables},literal,{pid:512}));}process.stdout.write(JSON.stringify(out));"
+  done=subprocess.run(['C:/Program Files/nodejs/node.exe','--input-type=module','-e',program],input=json.dumps({'templates':templates,'tables':self.cfg['tables']}).encode(),capture_output=True,timeout=10);self.assertEqual(done.returncode,0);queries=json.loads(done.stdout);self.assertEqual(len(queries),4)
+  for sql in queries:parse_sql(sql)
+  self.assertIn('pid=394 and locktype',queries[0]);self.assertIn('pid=417 and relation',queries[0]);self.assertIn('pid=512 and granted',queries[-1]);self.assertNotEqual(queries[0],queries[1])
 if __name__=='__main__':unittest.main()
