@@ -5,18 +5,18 @@
 Web5sev serves exact fdd/f68d; workerCp/daemon2d66/native46/schema39 remain.
 M07 is in progress. Dated evidence and failed attempts are preserved below.
 
-| Workflow | Current evidence | Remaining |
-| --- | --- | --- |
-| Web release | Normal deploy + equal alias/direct Ready, environment/settings exact; actual build and fresh39 preflight | Full workflow acceptance; J3 rollback anchor retained, rollback not executed |
-| Quality |968/968 deterministic tests, types/lint/guard0, stable source;11 new-controller checks | Manual AT072; prior138 fixture-browser tests have their own scope |
-| Generation | Same retained UI confirmation now exposes57014; canonical0 new jobs/versions, unchanged119/118 | Narrow source-bound fix/proof and successful delegated Selection/Shortlist/PDF/media |
-| Project parity | Human Planned/Casting canonical proof retained; owner has live MCP steps1-2 | Actual list/create/same-key replay and reciprocal MCP readback |
-| Reason/audit contract | Revised local SQL40 real reason/MAC/boundary/race/session-access proof passed; exact cleanup | Separate additive canonical release and parser; still schema39 |
-| Auth | Expiry/rotation/MCP read/native204 and independent cleanup preserving original five; owned bearer401 | Refresh-token denial phase unconfirmed/unreplayed; separate actual-Claude renewal/attestation |
-| Guest/permissions | Prior scoped evidence retained; contributor/mobile skipped by owner | Nonzero exact-version external feedback/internal exclusion and clean lifecycle denials |
-| Direct intake | File-URL enabled; document/logo chooser timed out,0files/no submit | Actual direct file/folder/logo byte journey; delegated transfer is separate |
-| Recovery/native | Native smoke and independent synthetic39 Storage/API restoration retained | Private production restore/RTO/RPO and AT069 queued replacement/rollback; policy rejection unreplayed |
-| Repository privacy | Private canonical Main checkpointd1e pushed/read back; fixed-family scan0hits | Full public-history/PII/consent publication review not admitted |
+| Workflow | Implementation | Real-service integration | Verification | Deployment | Remaining |
+| --- | --- | --- | --- | --- | --- |
+| Web release | Redesigned frontend and production admission implemented | Existing Vercel projects/settings/environment preserved | Normal build/deploy; equal alias/direct Ready; ten fresh public checks pass | 5sev/fdd/f68d | Full workflow acceptance; J3 rollback anchor retained, no rollback executed |
+| Quality/accessibility | Keyboard/automated checks implemented | Existing production UI |968/968 deterministic tests, types/lint/guard0; prior138 fixture-browser checks separate | Diagnostic source serving | Actual manual AT072; mobile skipped by owner |
+| Generation | Immutable generation implemented; exact-ID lock candidate source-only | Controlled human outputs Ready; legacy real request57014 | No saved new job/version, unchanged119/118; candidate5 pure checks only | Existing generation plus safe diagnostics | Owned timing/equality/race proof, narrow fix, both delegated outputs/PDF/media |
+| Project creation/types | Shared domain/HTTP/MCP/UI and atomic39 implemented | Human Planned/Casting canonical writeback passed | Local SQL races/replay/authority and real UI proof; owner MCP steps1-2 pending | Schema39/API/UI/MCP serving | Actual MCP catalogue/create/replay/reciprocal readback; zero fixed-label matches observed only |
+| Reason/audit contract | SQL40 and parser prepared separately | No canonical40 call | Owned51a reason/MAC/boundary/race/access proof passed; collector rehearsal ec29 stopped during synthetic setup with cleanup | Candidate/proofs on Main; live schema39 | Fresh collector validation, additive canonical release, parser deployment |
+| Authentication | Existing OAuth flow plus safe tracing | Actual temporary session and first existing-Claude trace | Expiry/rotation/MCP read/native204; independent cleanup preserves original five and denies owned bearer | Existing sessions preserved | RT-denial phase unconfirmed/unreplayed; actual-Claude renewal/attestation |
+| Guest/permissions | Guest/version/count/link operations implemented | Prior scoped evidence retained | New exact-version nonzero delta/lifecycle pending; contributor skipped by owner | Existing guest operations | Clean recipient delta/internal exclusion, expiry and revoked denial |
+| Direct intake | Byte queue/file/folder/logo paths implemented | Delegated4,316,429-byte transfer succeeded separately | File-URL enabled; document/logo chooser0files/no submit | Intake UI serving | Actual direct file/folder/logo byte journey; native picker capability blocked |
+| Recovery/native | Recovery controls and isolated restore implemented | Native smoke and independent synthetic39 Storage/API roundtrips | Exact cleanup/original preservation; canonical backup is not restore proof | WorkerCp/native46 unchanged | Private production restore/RTO/RPO; AT069 queued replacement/rollback policy block unreplayed |
+| Repository privacy | Intended content/history checkpointed; all worktrees retained | Private canonical remote | Fixed-family scans0hits; reachable-history metadata review separate from PII | Mainaa4 pushed/read back; later source checkpoints local | Public-history/consent/PII publication not admitted |
 
 Current tracking/evidence/m07/mcp-diagnostic-web-release/2026-11-02T10-21-25-065548Z-958dbf0e-7cf7-4288-9a97-c7f52e001523-readback.json, tracking/evidence/m07/completion-release/diagnostic-generation-observation-958dbf0e.json and tracking/evidence/m07/presentation-cancel-audit39/2026-11-02T10-27-16-747287Z-cancellation-metadata.json contain exact scopes.
 

@@ -30,8 +30,8 @@ scaling/RLS work, preserving inactive/history rows and all authorization boundar
 
 The corrected isolated SQL40 proof passed real reason/boundary/MAC/replay/race/
 session-media invalidation and exact old-row/resource cleanup checks. Earlier50f
-fixture failure and its corrected diagnosis remain preserved. Its additive
-canonical release and compatible parser remain separate, unmerged/unapplied.
+fixture failure and its corrected diagnosis remain preserved. Its additive release controller is on Main and disabled. The compatible parser
+remains isolated; canonical schema39 is unchanged.
 
 Temporary OAuth402 passed expired bearer401, one refresh/rotation/MCP read and
 native204 logout. Independent cleanup verified all original five sessions on
@@ -66,6 +66,8 @@ The canonical repository stays private. Full M07/production acceptance is false.
 Next: prove/fix the generation cancellation locally before another retained-intent
 attempt, complete the separate additive SQL40 release, and finish the outstanding
 owner/guest/direct-intake/manual evidence. Preserve all source worktrees and claims.
+
+The new SQL40 collector passed16 offline checks but actual owned runec29 stopped during synthetic candidate-config setup, before collector/checkpoint/migration. Cleanup and original29/global-role preservation passed; the failed source/receipt remains unchanged. A new valid-config fixture purpose is in preparation; production READ/APPLY flags remain false.
 
 The dated checkpoints below are preserved history; the current checkpoint above governs serving state and next actions.
 

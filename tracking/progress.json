@@ -1,6 +1,6 @@
 {
   "pack_version": "1.0",
-  "updated_at": "2026-11-02T10:30:39.591772+00:00",
+  "updated_at": "2026-11-02T11:44:47.737301+00:00",
   "implementation_started": true,
   "current_milestone": "M07",
   "current_pilot": {
@@ -4202,14 +4202,34 @@
         "diagnostic_quality_receipt": "tracking/evidence/m07/completion-release/2026-11-02T10-00-21.237Z-bea51fe2-mcp-diagnostic-root-quality.json",
         "diagnostic_deterministic_tests": 968,
         "generation_metadata_receipt": "tracking/evidence/m07/presentation-cancel-audit39/2026-11-02T10-27-16-747287Z-cancellation-metadata.json",
-        "record_updated_at": "2026-11-02T10:30:39.591772+00:00",
+        "record_updated_at": "2026-11-02T11:25:07.026016+00:00",
         "web_readback_receipt": "tracking/evidence/m07/mcp-diagnostic-web-release/2026-11-02T10-21-25-065548Z-958dbf0e-7cf7-4288-9a97-c7f52e001523-readback.json",
         "local_diagnostic_product_changes_deployed": true,
         "selected_309_main_product_bytes_equal_deployed": true,
         "post_diagnostic_worker_receipt": "tracking/evidence/m07/completion-release/pre-diagnostic-web-worker-identity-958dbf0e.json",
         "push_verified_scope": "d1e4559 source checkpoint; later docs/evidence tracked separately",
         "diagnostic_UI_receipt": "tracking/evidence/m07/completion-release/diagnostic-generation-observation-958dbf0e.json",
-        "public_repository_publication_admitted": false
+        "public_repository_publication_admitted": false,
+        "reason40_collector_validation": {
+          "status": "owned_setup_failed_before_collector_migration",
+          "receipt": "tracking/evidence/m07/reason40-collector-validation/2026-11-02T11-16-01.701Z-ec29f8df.json",
+          "actual_collector_executed": false,
+          "canonical_called": false,
+          "owned_cleanup_and_original29_preserved": true,
+          "next": "new_disabled_valid_synthetic_config_purpose",
+          "offline_checks_passed": 16,
+          "additional_source_review": {
+            "kind": "source_review_only",
+            "finding": "new collector JSONB deletion operand must be exact six-key text[] instead of jsonb",
+            "actual_query_execution_reached": false,
+            "frozen_failed_sources_preserved": true,
+            "next": "versioned minimal corrected Context plus valid synthetic fixture proof",
+            "canonical_changed": false
+          },
+          "record_updated_at": "2026-11-02T11:44:47.737301+00:00"
+        },
+        "new_diagnostic_public_checks_receipt": "tracking/evidence/m07/completion-release/2026-11-02T10-53-52.606Z-e0624be5-production-public.json",
+        "owner_planned_project_observation": "tracking/evidence/m07/completion-release/owner-planned-project-observation-4eade178-66e3-40ed-8b8d-710c43f5fb35.json"
       }
     }
   ],
@@ -4656,14 +4676,34 @@
         "diagnostic_quality_receipt": "tracking/evidence/m07/completion-release/2026-11-02T10-00-21.237Z-bea51fe2-mcp-diagnostic-root-quality.json",
         "diagnostic_deterministic_tests": 968,
         "generation_metadata_receipt": "tracking/evidence/m07/presentation-cancel-audit39/2026-11-02T10-27-16-747287Z-cancellation-metadata.json",
-        "record_updated_at": "2026-11-02T10:30:39.591772+00:00",
+        "record_updated_at": "2026-11-02T11:25:07.026016+00:00",
         "web_readback_receipt": "tracking/evidence/m07/mcp-diagnostic-web-release/2026-11-02T10-21-25-065548Z-958dbf0e-7cf7-4288-9a97-c7f52e001523-readback.json",
         "local_diagnostic_product_changes_deployed": true,
         "selected_309_main_product_bytes_equal_deployed": true,
         "post_diagnostic_worker_receipt": "tracking/evidence/m07/completion-release/pre-diagnostic-web-worker-identity-958dbf0e.json",
         "push_verified_scope": "d1e4559 source checkpoint; later docs/evidence tracked separately",
         "diagnostic_UI_receipt": "tracking/evidence/m07/completion-release/diagnostic-generation-observation-958dbf0e.json",
-        "public_repository_publication_admitted": false
+        "public_repository_publication_admitted": false,
+        "reason40_collector_validation": {
+          "status": "owned_setup_failed_before_collector_migration",
+          "receipt": "tracking/evidence/m07/reason40-collector-validation/2026-11-02T11-16-01.701Z-ec29f8df.json",
+          "actual_collector_executed": false,
+          "canonical_called": false,
+          "owned_cleanup_and_original29_preserved": true,
+          "next": "new_disabled_valid_synthetic_config_purpose",
+          "offline_checks_passed": 16,
+          "additional_source_review": {
+            "kind": "source_review_only",
+            "finding": "new collector JSONB deletion operand must be exact six-key text[] instead of jsonb",
+            "actual_query_execution_reached": false,
+            "frozen_failed_sources_preserved": true,
+            "next": "versioned minimal corrected Context plus valid synthetic fixture proof",
+            "canonical_changed": false
+          },
+          "record_updated_at": "2026-11-02T11:44:47.737301+00:00"
+        },
+        "new_diagnostic_public_checks_receipt": "tracking/evidence/m07/completion-release/2026-11-02T10-53-52.606Z-e0624be5-production-public.json",
+        "owner_planned_project_observation": "tracking/evidence/m07/completion-release/owner-planned-project-observation-4eade178-66e3-40ed-8b8d-710c43f5fb35.json"
       },
       "historical_component_details": "Dated component subrecords below are retained history; current deployment and remaining acceptance are governed by current_checkpoint/completion_release."
     },
@@ -11639,7 +11679,7 @@
     "diagnostic_quality_receipt": "tracking/evidence/m07/completion-release/2026-11-02T10-00-21.237Z-bea51fe2-mcp-diagnostic-root-quality.json",
     "diagnostic_deterministic_tests": 968,
     "generation_metadata_receipt": "tracking/evidence/m07/presentation-cancel-audit39/2026-11-02T10-27-16-747287Z-cancellation-metadata.json",
-    "record_updated_at": "2026-11-02T10:30:39.591772+00:00",
+    "record_updated_at": "2026-11-02T11:25:07.026016+00:00",
     "web_deployment_id": "dpl_5sevM277cLpQZPJV1XkaJxhMLqpe",
     "web_source_commit": "fdd0aba30fbff3ecebd4f29915bb8b74b143fea2",
     "web_source_manifest_sha256": "f68d43576db9c530a54c85af960658d7115547d5c2c406d47ead8ed0a7d11bb1",
@@ -11652,7 +11692,27 @@
     "main_checkpoint_commit": "d1e45592c972d4d14bde13a1517594ee896398e9",
     "push_verified_scope": "d1e4559 source checkpoint; later docs/evidence tracked separately",
     "diagnostic_UI_receipt": "tracking/evidence/m07/completion-release/diagnostic-generation-observation-958dbf0e.json",
-    "public_repository_publication_admitted": false
+    "public_repository_publication_admitted": false,
+    "reason40_collector_validation": {
+      "status": "owned_setup_failed_before_collector_migration",
+      "receipt": "tracking/evidence/m07/reason40-collector-validation/2026-11-02T11-16-01.701Z-ec29f8df.json",
+      "actual_collector_executed": false,
+      "canonical_called": false,
+      "owned_cleanup_and_original29_preserved": true,
+      "next": "new_disabled_valid_synthetic_config_purpose",
+      "offline_checks_passed": 16,
+      "additional_source_review": {
+        "kind": "source_review_only",
+        "finding": "new collector JSONB deletion operand must be exact six-key text[] instead of jsonb",
+        "actual_query_execution_reached": false,
+        "frozen_failed_sources_preserved": true,
+        "next": "versioned minimal corrected Context plus valid synthetic fixture proof",
+        "canonical_changed": false
+      },
+      "record_updated_at": "2026-11-02T11:44:47.737301+00:00"
+    },
+    "new_diagnostic_public_checks_receipt": "tracking/evidence/m07/completion-release/2026-11-02T10-53-52.606Z-e0624be5-production-public.json",
+    "owner_planned_project_observation": "tracking/evidence/m07/completion-release/owner-planned-project-observation-4eade178-66e3-40ed-8b8d-710c43f5fb35.json"
   },
   "latest_checkpoint": {
     "milestone": "M07",
@@ -11773,14 +11833,34 @@
     "diagnostic_quality_receipt": "tracking/evidence/m07/completion-release/2026-11-02T10-00-21.237Z-bea51fe2-mcp-diagnostic-root-quality.json",
     "diagnostic_deterministic_tests": 968,
     "generation_metadata_receipt": "tracking/evidence/m07/presentation-cancel-audit39/2026-11-02T10-27-16-747287Z-cancellation-metadata.json",
-    "record_updated_at": "2026-11-02T10:30:39.591772+00:00",
+    "record_updated_at": "2026-11-02T11:25:07.026016+00:00",
     "web_readback_receipt": "tracking/evidence/m07/mcp-diagnostic-web-release/2026-11-02T10-21-25-065548Z-958dbf0e-7cf7-4288-9a97-c7f52e001523-readback.json",
     "local_diagnostic_product_changes_deployed": true,
     "selected_309_main_product_bytes_equal_deployed": true,
     "post_diagnostic_worker_receipt": "tracking/evidence/m07/completion-release/pre-diagnostic-web-worker-identity-958dbf0e.json",
     "push_verified_scope": "d1e4559 source checkpoint; later docs/evidence tracked separately",
     "diagnostic_UI_receipt": "tracking/evidence/m07/completion-release/diagnostic-generation-observation-958dbf0e.json",
-    "public_repository_publication_admitted": false
+    "public_repository_publication_admitted": false,
+    "reason40_collector_validation": {
+      "status": "owned_setup_failed_before_collector_migration",
+      "receipt": "tracking/evidence/m07/reason40-collector-validation/2026-11-02T11-16-01.701Z-ec29f8df.json",
+      "actual_collector_executed": false,
+      "canonical_called": false,
+      "owned_cleanup_and_original29_preserved": true,
+      "next": "new_disabled_valid_synthetic_config_purpose",
+      "offline_checks_passed": 16,
+      "additional_source_review": {
+        "kind": "source_review_only",
+        "finding": "new collector JSONB deletion operand must be exact six-key text[] instead of jsonb",
+        "actual_query_execution_reached": false,
+        "frozen_failed_sources_preserved": true,
+        "next": "versioned minimal corrected Context plus valid synthetic fixture proof",
+        "canonical_changed": false
+      },
+      "record_updated_at": "2026-11-02T11:44:47.737301+00:00"
+    },
+    "new_diagnostic_public_checks_receipt": "tracking/evidence/m07/completion-release/2026-11-02T10-53-52.606Z-e0624be5-production-public.json",
+    "owner_planned_project_observation": "tracking/evidence/m07/completion-release/owner-planned-project-observation-4eade178-66e3-40ed-8b8d-710c43f5fb35.json"
   },
   "production_status_history": [
     {
