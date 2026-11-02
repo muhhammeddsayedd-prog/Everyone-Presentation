@@ -1,7 +1,24 @@
 # Worker39 independent local SQL concurrency purpose
 
+Actual owned-local run `f62f594e` passed on2 November2026 in49,218ms. Six distinct
+backends proved the cached intake/config-lock wait before the first snapshot,
+all five AccessExclusive locks, fresh intake denial after pause, visible retry
+lifecycle and real generic retry, then committed intake visibility and genuine
+preimage refusal before updates. The exact checkpoint273 query passed all76
+table counts/history39/state equality with1,667,583 bytes kept only in RAM.
+The normal linked-version trigger changed only its four permitted control fields;
+all other23 fields, old Ready versions and all other cloned rows stayed exact.
+Both owned resources were absent afterward; original29 full data/catalogue/global
+roles matched, and the shared lock was removed. The receipt is
+`tracking/evidence/m07/worker39-concurrency/2026-11-02T01-11-30.311Z-f62f594e.json`
+(SHA256 `3b642b23b3c6771963ed20913dccec3ed441a56168fb807335f84902fcf495e8`).
+This proves local SQL concurrency/checkpoint behavior with explicit synthetic
+fixture qualifications. It does not establish canonical admission, a deployed
+worker, provider processing, media restore or production release acceptance.
+
 Callbacks started disabled and Root armed only the execution flag after peer
-review for each earlier run. The new third-run preparation is disabled again.
+review for each approved run. The fourth approved run has finished; its source,
+claim and prior attempts are retained and must not replay.
 Root/peer source review is required before arming and an
 actual owned-local run. Compilation/tests do not execute Docker or SQL, call a
 provider, or replay any historical controller/claim. There is no cloud transport.
@@ -89,7 +106,8 @@ history39 and full state equality before/after, with no row output persisted.
 Checkpoint failures discard raw stdout before diagnostics. Interactive sessions
 retain their2MiB bound. Seven pure/source tests now pass, including qualification
 fingerprint denial/SQL+PLpgSQL parsing and bounded100-argument JSON builders in
-the exact159942-byte checkpoint. No checkpoint/native success is claimed yet.
+the exact159942-byte checkpoint. At that preparation point actual execution was
+pending; the completed fourth-run result above supersedes that pending status.
 
 Third owned run `2de4ffa2` verified the exact three-row fingerprints, existing
 normal version-trigger effect, genuine zero lifecycle and exact checkpoint273:
