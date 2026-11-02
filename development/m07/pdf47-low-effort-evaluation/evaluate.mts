@@ -2,7 +2,8 @@
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { createHash } from 'node:crypto';
-import { lstat, readFile, writeFile } from 'node:fs/promises';
+import { lstat, readFile, realpath, writeFile } from 'node:fs/promises';
+import { findPackageJSON } from 'node:module';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { extractSpecs, openAISpecsConfigFromEnv } from '../../../packages/integrations/src/openai-specs.ts';
@@ -14,6 +15,10 @@ export const EVALUATION_ENABLED = false;
 const MAIN = 'D:/Everyone/Presentation/Everyone-Presentation-Studio';
 const ROOT = path.resolve(import.meta.dirname, '../../..');
 const UUID = /^[a-f0-9]{8}-(?:[a-f0-9]{4}-){3}[a-f0-9]{12}$/u;
+export function verifySDKLocation(root: string, adapterPackage: string | undefined, esmEntry: string) {
+  assert.equal(adapterPackage && path.resolve(adapterPackage).toLowerCase(), path.join(root, 'node_modules/openai/package.json').toLowerCase());
+  assert.equal(esmEntry, pathToFileURL(path.join(root, 'node_modules/openai/index.mjs')).href);
+}
 export const SETTINGS = { model: 'gpt-6.1-sol', reasoning_effort: 'low', timeout_ms: 60_000, max_output_tokens: 16_384,
   sdk_retries: 0, maximum_provider_requests: 1, store: false, stream: false, tools: 0 } as const;
 type Prepared = { schema_version: string; job_id: string; prepared_text_bytes: number; mapped_pages: number;
@@ -116,7 +121,7 @@ async function bridge(run: string, operation: string, value?: unknown): Promise<
 const sourcePaths = ['packages/integrations/src/openai-specs.ts', 'packages/integrations/src/specs-schema.ts',
   'packages/integrations/src/prompts/specs-v1.ts', 'contracts/json-schema/specs-extraction.schema.json',
   'development/m07/pdf47-low-effort-evaluation/evaluate.mts', 'development/m07/pdf47-low-effort-evaluation/private_bridge.py',
-  'package-lock.json', 'node_modules/openai/package.json', 'node_modules/openai/client.mjs', 'node_modules/openai/core/error.mjs'];
+  'package-lock.json', 'node_modules/openai/package.json', 'node_modules/openai/index.mjs', 'node_modules/openai/client.mjs', 'node_modules/openai/core/error.mjs'];
 async function main() {
   assert(EVALUATION_ENABLED, 'PDF47_LOW_EFFORT_EVALUATION_DISABLED');
   const [operation, run, ...extra] = process.argv.slice(2); assert(!extra.length && UUID.test(run) && ['prepare', 'evaluate'].includes(operation));
@@ -127,10 +132,14 @@ async function main() {
   const ports: Ports = {
     read: async () => await bridge(run, 'read') as Prepared, config: () => openAISpecsConfigFromEnv(),
     seals: async () => {
+      const adapterPackage = findPackageJSON('openai', pathToFileURL(path.join(ROOT, 'packages/integrations/src/openai-specs.ts')));
+      verifySDKLocation(ROOT, adapterPackage, import.meta.resolve('openai'));
+      assert.equal(await realpath(adapterPackage!), path.join(ROOT, 'node_modules/openai/package.json'));
       assert.equal(JSON.parse(await readFile(path.join(ROOT, 'node_modules/openai/package.json'), 'utf8')).version, '7.45.1');
       const seals = Object.fromEntries(await Promise.all(sourcePaths.map(async file => [file, createHash('sha256').update(await readFile(path.join(ROOT, file))).digest('hex')])));
       for (const [file, expected] of Object.entries({
         'node_modules/openai/package.json': 'fd91cc6cd6191ffcffdecd6e8b9db5598451ef4b383b7c871e6a913c1af8f470',
+        'node_modules/openai/index.mjs': '17cdb2c28d43e69bad6688cbefcf206674d15efaff37481923eef2991a239e11',
         'node_modules/openai/client.mjs': '65b8e9b0a52f5b855d239f3edb75710019d1cceaeac8da1e5cba122762e86ba2',
         'node_modules/openai/core/error.mjs': 'f9af78fa51cabb0128ebdd820259ba93a38d405434e698381b9dbc5b7ca55174',
       })) assert.equal(seals[file], expected);

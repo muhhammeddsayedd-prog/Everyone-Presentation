@@ -17,7 +17,10 @@ The private bridge receives a whitelist environment without the provider key.
 
 `evaluate` uses only the existing authorized process API-key/model configuration.
 It fixes gpt-6.1-sol/low/60s/16,384 output tokens/SDK retries0 and verifies the
-reviewed adapter source hash and SDK7.45.1. The default worker request remains
+reviewed adapter source hash and SDK7.45.1. The SDK's actual ESM index is also
+pinned; Node24 resolves the package from the adapter module's base URL and must
+find the same normal root installation and ESM entry, with no nested or symlinked
+substitute. The default worker request remains
 unchanged. Source hashes and the selected settings enter an exclusive permanent
 claim and safe predispatch receipt before the one adapter call. The raw source
 and validated result never enter public receipts; existing adapter metadata,

@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "purpose": "disabled_pdf47_evaluation_actual_sdk_entry_provenance_followup",
+  "previous_source_commit": "9d462f55e0adf5832ac3e25e087f496253690461",
+  "finding": "The actual ESM OpenAI index was not included in the original package/client/error runtime seals.",
+  "correction": "Resolve the package from the actual adapter module base, require the normal root package realpath and ESM entry, and bind exact index.mjs bytes.",
+  "source_seals": {
+    "development/m07/pdf47-low-effort-evaluation/evaluate.mts": "e4e26dc0d00355032160b7b0f3ca8c9bf2dcaac174502b19eb43c672cd93a2a4",
+    "development/m07/pdf47-low-effort-evaluation/evaluate.test.mts": "4cfe382dfbfca5ae10d42b375408ac9718032501d253f146f649767bb00b0e80",
+    "node_modules/openai/index.mjs": "17cdb2c28d43e69bad6688cbefcf206674d15efaff37481923eef2991a239e11"
+  },
+  "checks": {"node_tests_passed": 7, "node_tests_failed": 0, "focused_typecheck_exit": 0, "focused_lint_exit": 0,
+    "actual_code_only_adapter_package_resolves_to_root": true, "actual_code_only_runner_esm_resolves_to_root": true,
+    "initial_new_test_import_refused_missing_new_export_before_tests": true},
+  "private_bridge_and_product_adapter_unchanged": true,
+  "both_execution_flags_false": true,
+  "real_preparation_private_data_or_provider_request": false,
+  "paid_or_production_acceptance": false
+}

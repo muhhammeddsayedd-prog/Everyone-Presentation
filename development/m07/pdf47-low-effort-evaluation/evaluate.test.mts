@@ -1,10 +1,20 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { evaluateOnce, SETTINGS } from './evaluate.mts';
+import { evaluateOnce, SETTINGS, verifySDKLocation } from './evaluate.mts';
+import { pathToFileURL } from 'node:url';
+import path from 'node:path';
 import { IntegrationError } from '../../../packages/integrations/src/errors.ts';
 import type { SpecsExtractionOutput } from '../../../packages/integrations/src/specs-types.ts';
 const run = '00000000-0000-4000-8000-000000000001';
+test('SDK ESM entry and adapter package must resolve to the same normal root installation', () => {
+  const root = path.resolve('D:/synthetic-closed-root');
+  const pkg = path.join(root, 'node_modules/openai/package.json');
+  const entry = pathToFileURL(path.join(root, 'node_modules/openai/index.mjs')).href;
+  assert.doesNotThrow(() => verifySDKLocation(root, pkg, entry));
+  assert.throws(() => verifySDKLocation(root, path.join(root, 'packages/integrations/node_modules/openai/package.json'), entry));
+  assert.throws(() => verifySDKLocation(root, pkg, pathToFileURL(path.join(root, 'node_modules/openai/index.js')).href));
+});
 function fixture() {
   let claimed = false, calls = 0, persisted = 0;
   const receipts: unknown[] = [];
