@@ -1,0 +1,327 @@
+{
+  "actual_new_collector_result": null,
+  "canonical_config_acceptance": false,
+  "cloud_or_provider_calls": 0,
+  "compiler_metadata": {
+    "actual_unique_new_flag_derived": true,
+    "compiled_only": true,
+    "execution_dispatched": false,
+    "old_static_false_output_preserved": true
+  },
+  "exact_config_fixture": {
+    "candidate_asset_config": {
+      "actual_changed_fields": [
+        "enabled",
+        "extraction_model",
+        "transcription_model"
+      ],
+      "after": {
+        "enabled": true,
+        "english_transcript_version": "1.0",
+        "extraction_model": "synthetic-model",
+        "id": true,
+        "media_implementation_version": "video-preparation.v1",
+        "prompt_version": "candidate-v1",
+        "schema_version": "1.0",
+        "transcription_model": "synthetic-transcription"
+      },
+      "before": {
+        "enabled": false,
+        "english_transcript_version": "1.0",
+        "extraction_model": null,
+        "id": true,
+        "media_implementation_version": "video-preparation.v1",
+        "prompt_version": "candidate-v1",
+        "schema_version": "1.0",
+        "transcription_model": null
+      },
+      "changes": {
+        "enabled": true,
+        "extraction_model": "synthetic-model",
+        "transcription_model": "synthetic-transcription"
+      },
+      "constraints": {
+        "candidate_asset_config_check": "not enabled OR transcription_model/extraction_model both nonnull with lengths1..200"
+      },
+      "copy_sha256": "9996fba453fc8a1ea965dfb219dae14c9af82a6bfa76ba8694b06b27cb5d0390",
+      "exact_backup_constraints": {
+        "candidate_asset_config_check": "(((NOT enabled) OR ((transcription_model IS NOT NULL) AND ((length(transcription_model) >= 1) AND (length(transcription_model) <= 200)) AND (extraction_model IS NOT NULL) AND ((length(extraction_model) >= 1) AND (length(extraction_model) <= 200)))))",
+        "candidate_asset_config_english_transcript_version_check": "(((english_transcript_version IS NULL) OR (english_transcript_version = '1.0'::text)))",
+        "candidate_asset_config_id_check": "(id)",
+        "candidate_asset_config_media_implementation_version_check": "((media_implementation_version = 'video-preparation.v1'::text))",
+        "candidate_asset_config_prompt_version_check": "((prompt_version = 'candidate-v1'::text))",
+        "candidate_asset_config_schema_version_check": "((schema_version = '1.0'::text))"
+      },
+      "source": "supabase/migrations/20261029100500_m03_candidate_pipeline.sql",
+      "source_sha256": "4af04b4a3fb050e39aa23958c3f82e304cc7d7a1f450a5d93f7f50bc001bd836"
+    },
+    "frame_extraction_config": {
+      "actual_changed_fields": [
+        "enabled",
+        "native_image_id"
+      ],
+      "after": {
+        "enabled": true,
+        "id": true,
+        "implementation_version": "frame-extraction.v1",
+        "native_image_id": "sha256:46de2f0c0772e10d712fba514788d24041d6741faa8966b6fe9c554fe47e4af4"
+      },
+      "before": {
+        "enabled": false,
+        "id": true,
+        "implementation_version": "frame-extraction.v1",
+        "native_image_id": null
+      },
+      "changes": {
+        "enabled": true,
+        "native_image_id": "sha256:46de2f0c0772e10d712fba514788d24041d6741faa8966b6fe9c554fe47e4af4"
+      },
+      "constraints": {
+        "frame_extraction_config_check": "not enabled OR native_image_id nonnull",
+        "frame_extraction_config_implementation_version_check": "retained implementation_version=frame-extraction.v1",
+        "frame_extraction_config_native_image_id_check": "native_image_id matches ^sha256:[a-f0-9]{64}$"
+      },
+      "copy_sha256": "f03bae4e1c0089554541197a34e650d55dfa106458a7b715910975787b55f15a",
+      "exact_backup_constraints": {
+        "frame_extraction_config_check": "(((NOT enabled) OR (native_image_id IS NOT NULL)))",
+        "frame_extraction_config_id_check": "(id)",
+        "frame_extraction_config_implementation_version_check": "((implementation_version = 'frame-extraction.v1'::text))",
+        "frame_extraction_config_native_image_id_check": "((native_image_id ~ '^sha256:[a-f0-9]{64}$'::text))"
+      },
+      "source": "supabase/migrations/20261029133455_m03_remaining_media_library.sql",
+      "source_sha256": "2e190e001b2bda044d9c90da4287f54e5839b0af7ffec84d4c93083909c944fb"
+    },
+    "presentation_processing_config": {
+      "actual_changed_fields": [],
+      "after": {
+        "application_origin": "http://127.0.0.1:3000",
+        "enabled": true,
+        "id": true,
+        "max_manifest_bytes": 8388608,
+        "max_pages": 1000,
+        "max_pdf_bytes": 67108864,
+        "renderer_version": "everyone-casting-pdf-v1"
+      },
+      "before": {
+        "application_origin": "http://127.0.0.1:3000",
+        "enabled": true,
+        "id": true,
+        "max_manifest_bytes": 8388608,
+        "max_pages": 1000,
+        "max_pdf_bytes": 67108864,
+        "renderer_version": "everyone-casting-pdf-v1"
+      },
+      "changes": {
+        "enabled": true
+      },
+      "constraints": {
+        "presentation_processing_config_application_origin_check": "retained http://127.0.0.1:3000",
+        "presentation_processing_config_max_manifest_bytes_check": "retained8388608",
+        "presentation_processing_config_max_pages_check": "retained1000",
+        "presentation_processing_config_max_pdf_bytes_check": "retained67108864",
+        "presentation_processing_config_renderer_version_check": "retained everyone-casting-pdf-v1"
+      },
+      "copy_sha256": "76150896aaf715db72a1d0f0890a75634c215717a3705764c6a6ab9fc070d63e",
+      "exact_backup_constraints": {
+        "presentation_processing_config_application_origin_check": "(((application_origin = 'http://127.0.0.1:3000'::text) OR (application_origin ~ '^https://[a-z0-9][a-z0-9.-]*(:[0-9]{1,5})?$'::text)))",
+        "presentation_processing_config_id_check": "(id)",
+        "presentation_processing_config_max_manifest_bytes_check": "((max_manifest_bytes = 8388608))",
+        "presentation_processing_config_max_pages_check": "((max_pages = 1000))",
+        "presentation_processing_config_max_pdf_bytes_check": "((max_pdf_bytes = 67108864))",
+        "presentation_processing_config_renderer_version_check": "((renderer_version = 'everyone-casting-pdf-v1'::text))"
+      },
+      "source": "supabase/migrations/20261029215218_m05_immutable_presentation_versions.sql",
+      "source_sha256": "09d78c225ca02d436a8b1c2bcc6e55f273dfea116976807af4a8b228b99de5f4"
+    },
+    "review_processing_config": {
+      "actual_changed_fields": [],
+      "after": {
+        "enabled": true,
+        "id": true,
+        "model": "gpt-6.1-sol",
+        "prompt_version": "contextual_suggestion_v1",
+        "renderer_version": "everyone-casting-fit-v1"
+      },
+      "before": {
+        "enabled": true,
+        "id": true,
+        "model": "gpt-6.1-sol",
+        "prompt_version": "contextual_suggestion_v1",
+        "renderer_version": "everyone-casting-fit-v1"
+      },
+      "changes": {
+        "enabled": true
+      },
+      "constraints": {
+        "not_null": "retained prompt contextual_suggestion_v1 and renderer everyone-casting-fit-v1",
+        "review_processing_config_model_check": "retained gpt-6.1-sol matches ^[A-Za-z0-9._-]{1,200}$"
+      },
+      "copy_sha256": "6edd27ef70ceeb706e9f674406bc1584ba3eae10de687095b5919aa83da8f33b",
+      "exact_backup_constraints": {
+        "review_processing_config_id_check": "(id)",
+        "review_processing_config_model_check": "((model ~ '^[A-Za-z0-9._-]{1,200}$'::text))"
+      },
+      "source": "supabase/migrations/20261029202629_m04_review_series_processing.sql",
+      "source_sha256": "3f1543b9d4b525d486287f2f00711270ed1fbdc30911dac3aea725aee50679e4"
+    },
+    "specs_pipeline_config": {
+      "actual_changed_fields": [
+        "document_preparation_version",
+        "enabled",
+        "model_version",
+        "prompt_version",
+        "result_schema_version"
+      ],
+      "after": {
+        "document_preparation_version": "document-preparation.v1",
+        "enabled": true,
+        "id": 1,
+        "model_version": "synthetic-model",
+        "prompt_version": "specs-v1",
+        "result_schema_version": "1.0"
+      },
+      "before": {
+        "document_preparation_version": null,
+        "enabled": false,
+        "id": 1,
+        "model_version": null,
+        "prompt_version": null,
+        "result_schema_version": null
+      },
+      "changes": {
+        "document_preparation_version": "document-preparation.v1",
+        "enabled": true,
+        "model_version": "synthetic-model",
+        "prompt_version": "specs-v1",
+        "result_schema_version": "1.0"
+      },
+      "constraints": {
+        "specs_pipeline_config_check": "not enabled OR all4 version fields nonnull",
+        "version_text_checks": "each nonnull version is trimmed, length1..200"
+      },
+      "copy_sha256": "b429cfea7b10d2d2ea1628414a6747c55c1adf9b63f7a50dfc6c92445bfc5c8f",
+      "exact_backup_constraints": {
+        "specs_pipeline_config_check": "(((NOT enabled) OR ((document_preparation_version IS NOT NULL) AND (model_version IS NOT NULL) AND (prompt_version IS NOT NULL) AND (result_schema_version IS NOT NULL))))",
+        "specs_pipeline_config_document_preparation_version_check": "(((document_preparation_version IS NULL) OR (((length(document_preparation_version) >= 1) AND (length(document_preparation_version) <= 200)) AND (document_preparation_version = btrim(document_preparation_version)))))",
+        "specs_pipeline_config_id_check": "((id = 1))",
+        "specs_pipeline_config_model_version_check": "(((model_version IS NULL) OR (((length(model_version) >= 1) AND (length(model_version) <= 200)) AND (model_version = btrim(model_version)))))",
+        "specs_pipeline_config_prompt_version_check": "(((prompt_version IS NULL) OR (((length(prompt_version) >= 1) AND (length(prompt_version) <= 200)) AND (prompt_version = btrim(prompt_version)))))",
+        "specs_pipeline_config_result_schema_version_check": "(((result_schema_version IS NULL) OR (((length(result_schema_version) >= 1) AND (length(result_schema_version) <= 200)) AND (result_schema_version = btrim(result_schema_version)))))"
+      },
+      "source": "supabase/migrations/20261028222030_m02_specs_pipeline.sql",
+      "source_sha256": "1e5319bb81be1f12896f7efb5a2cb7706653b79eb440a4dc1aaaca4ed9556895"
+    }
+  },
+  "flags": {
+    "canonical_APPLY_ENABLED": false,
+    "canonical_READ_ENABLED": false,
+    "new_EXECUTION_ENABLED": false,
+    "old_consumed_local_flag_retained": true
+  },
+  "frozen_files_not_edited": true,
+  "frozen_library_seals": {
+    "local-cases.mjs": "32e0d07b310577c4e969bab76cef1953096ffb90583b25aed83f2d1198d81acd",
+    "local-compiler.py": "3e5f68841d20548abe3f7ac2a50bddb7191bfd25a5870b8e5c249cd7b3e1412a",
+    "local.py": "483cea4d8d1717f73ca5ebeb48c02a16e1e1d1a2c51b1301dcc6e38169e327a3",
+    "release.py": "dcd522fd91f8643fd36cdfbd61434dd62614126e1005d3f644f5bfc314748f90",
+    "state.py": "712762e9b1b886e986111510b9823a88c7490edf689fb68a50a32b4dbba146f2"
+  },
+  "local_SQL_or_Docker_execution": false,
+  "migration40": {
+    "bytes_unchanged": true,
+    "path": "supabase/migrations/20261102085405_m07_review_link_action_reason.sql",
+    "sha256": "08bf4de8a63823b0e7c9aee75560a6e7de0620eb9b8b3c483c65929578db8212"
+  },
+  "minimal_addition_to_failed_setup": {
+    "candidate_asset_config": [
+      "transcription_model=synthetic-transcription",
+      "extraction_model=synthetic-model"
+    ],
+    "other_existing_setup_fields_unchanged": true,
+    "presentation_and_review_updates_are_exact_noops": true,
+    "specs_pipeline_config": [
+      "document_preparation_version=document-preparation.v1",
+      "model_version=synthetic-model",
+      "prompt_version=specs-v1",
+      "result_schema_version=1.0"
+    ]
+  },
+  "new_ownership": {
+    "automatic_retry": false,
+    "canonical_closed_proof_admission_changed": false,
+    "fresh_source_and_runtime_UUIDs_required": true,
+    "labels": "eps.reason40fixture.*",
+    "new_source_seals_also_recorded_and_checked": true,
+    "old_main_or_claim_replayed": false,
+    "private_root": ".local/reason40-collector-fixture-validation/<fresh UUID>",
+    "public_receipt_family": "tracking/evidence/m07/reason40-collector-validation/",
+    "resource_prefix": "eps-r40f-",
+    "shared_lock": "Main/.local/local-postgres/test-db.lock"
+  },
+  "next_action": "Root and independent peer review; separately arm ONLY new wrapper flag and authorize one fresh owned local run. No canonical/provider calls.",
+  "observed_at": "2026-11-02T11:30:53.463666+00:00",
+  "offline_validation": {
+    "actual_SQL_and_PLpgSQL_parse": true,
+    "command": "& 'D:/Everyone/Presentation/Everyone-Presentation-Studio/.venv-skills/Scripts/python.exe' -X utf8 -B -m unittest discover -s development/m07/review-link-reason40-collector-fixture -p test_fixture.py -v",
+    "constraint_execution_claimed": false,
+    "default_off_refuses_before_target": true,
+    "exit_code": 0,
+    "failed": 0,
+    "generated_Node_syntax_checked": true,
+    "tests": 4
+  },
+  "old_actual_render_negative_nonce_comparison_functions_reused_without_edit": true,
+  "only_config_tables": [
+    "candidate_asset_config",
+    "frame_extraction_config",
+    "presentation_processing_config",
+    "review_processing_config",
+    "specs_pipeline_config"
+  ],
+  "original_preservation": {
+    "all_other_old_rows_preserved": true,
+    "exact_three_busy_rows_same_COPY_fingerprints_and_normal_trigger": true,
+    "full76_fresh_config_and_old_rows_preserved_across40": true,
+    "network_none_owned_PG17": true,
+    "original29_data_catalogue_globalroles_sharedlock_and_exact_owned_cleanup_required": true,
+    "same_five_config_setup_table_exclusions": true,
+    "verified_synthetic38_restore_then_functional39": true
+  },
+  "owned_target_qualifications_unchanged": true,
+  "prior_failed_run": {
+    "path": "tracking/evidence/m07/reason40-collector-validation/2026-11-02T11-16-01.701Z-ec29f8df.json",
+    "preserved_unchanged": true,
+    "sha256": "bda5f7c4a0e75ea1c2f37795853ecfd790f1b1ed440446acc941423f0b463e6b"
+  },
+  "purpose": "reason40_valid_synthetic_config_collector_disabled_plan",
+  "result": "source_prepared_not_executed",
+  "schema_version": "1.0",
+  "shared_lock_held": false,
+  "source_commit": "7f71a6f1a76424dad96dda2062e76e7ca922c4c2",
+  "source_queries": {
+    "checkpoint_sql": {
+      "bytes": 164897,
+      "sha256": "4737f4ff1cf4ead4faf654b439cd879cbe9974c84058aa70b43100550f8978b7"
+    },
+    "config_setup_sql": {
+      "bytes": 5254,
+      "sha256": "95e9f308dfebb14169f3f19a7354c927349ab239cf33f33463cc569773d81b04"
+    },
+    "qualification_sql": {
+      "bytes": 27328,
+      "sha256": "9ca76b04b6061abb12908e89a6a0f7dbd22985525a89fab8b439a5a3c69e17fd"
+    },
+    "state_sql": {
+      "bytes": 149276,
+      "sha256": "9b352fb4b3a14e31e396b7fee03c9cd991cea4bbacf663ea094830ba9d2e6133"
+    }
+  },
+  "source_seals": {
+    "development/m07/review-link-reason40-collector-fixture/README.md": "982944df76aead035719d3a5561fd422c780313a4a25bc22860498949c2541c8",
+    "development/m07/review-link-reason40-collector-fixture/cases.mjs": "ace47f15011c155769b35e696548e2a3146244dcd07bb589360045413ac6a9d1",
+    "development/m07/review-link-reason40-collector-fixture/compiler.py": "73c55b90e26181d17db5957e54375c99cdc3451e836e7d99ae0a698316ee8f7d",
+    "development/m07/review-link-reason40-collector-fixture/fixture.py": "7d297022e5fd5f878fab14972facf7c6b1db890d9231ae4d81377d09ed29cfa4",
+    "development/m07/review-link-reason40-collector-fixture/test_fixture.py": "edea128cf7e1a4372403c914846f036afd2ebb26cf10f1050c5f0d46db1e2e13"
+  },
+  "synthetic_config_setup_before_fresh_baseline": true
+}
