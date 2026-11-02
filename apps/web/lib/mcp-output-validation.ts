@@ -16,6 +16,6 @@ export function validateMcpSuccess(name: string, value: unknown): Record<string,
     const tool = catalog.tools.find(tool => tool.name === name);
     if (tool) { validate = ajv.compile(tool.outputSchema); validators.set(name, validate); }
   }
-  if (!validate || !validate(value)) throw new DomainError('OPERATION_RESPONSE_INVALID', 'The operation result did not match its published contract. Retry access or contact the workspace administrator.', 503);
+  if (!validate || !validate(value)) throw new DomainError('OPERATION_RESPONSE_INVALID', 'The operation result did not match its published contract. A mutation may already have been applied: read the saved state before retrying and keep the same idempotency key for the same intent.', 503);
   return value as Record<string, unknown>;
 }

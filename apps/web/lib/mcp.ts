@@ -20,6 +20,7 @@ import type { ReviewLinkOperations } from '@eps/domain';
 import { handleMediaPlaybackRequest, isMediaPlaybackRoute } from './media-http';
 import { failure, json, NO_STORE } from './http';
 import { validateMcpSuccess } from './mcp-output-validation';
+import { mcpErrorText } from './mcp-error-text';
 import { mcpCapabilityAllowed } from './mcp-capabilities';
 import { handleSettingsRequest, isSettingsRoute } from './settings-http';
 import type { SettingsOperations } from '@eps/domain';
@@ -151,7 +152,7 @@ export async function invokeMcpTool(name: string, supplied: unknown, actor: Acto
     response = failure(error instanceof DomainError ? error : new DomainError('OPERATION_RESPONSE_INVALID', 'The operation result did not match its published contract.', 503), requestId);
     structuredContent = await response.json() as Record<string, unknown>;
   }
-  return { content: [{ type: 'text', text: response.ok ? `${name} completed.` : `${name} could not be completed. Read the structured error.` }],
+  return { content: [{ type: 'text', text: response.ok ? `${name} completed.` : mcpErrorText(structuredContent, entries.some(tool => tool.name === name && tool.http.method !== 'GET')) }],
     structuredContent, ...(response.ok ? {} : { isError: true }) };
 }
 
@@ -176,9 +177,8 @@ export function createStudioMcpServer(actor: Actor, services: McpServices, autho
         throw new DomainError('CAPABILITY_REQUIRED', 'Your current delegation and business account do not permit this operation.', 403, { capability: entry.capability });
       }
     } catch (error) {
-      const response = failure(error);
-      return { content: [{ type: 'text', text: 'This operation could not be authorized. Read the structured error.' }],
-        structuredContent: await response.json() as Record<string, unknown>, isError: true };
+      const response = failure(error); const structuredContent = await response.json() as Record<string, unknown>;
+      return { content: [{ type: 'text', text: mcpErrorText(structuredContent) }], structuredContent, isError: true };
     }
     const result = await invokeMcpTool(request.params.name, request.params.arguments ?? {}, actor, services);
     if (!result.isError && result.structuredContent && typeof result.structuredContent === 'object' && !Array.isArray(result.structuredContent) && authority.onToolCompleted) {
