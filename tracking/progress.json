@@ -99,7 +99,7 @@
     "production_full_acceptance_verified": false,
     "selected_310_main_product_bytes_equal_deployed": false,
     "web_source_count": 311,
-    "selected_311_main_product_bytes_equal_deployed": true
+    "selected_311_main_product_bytes_equal_deployed": false
   },
   "historical_pilot_records": {
     "observed_at": "2026-11-01T17:37:06.827794Z",
@@ -11543,7 +11543,7 @@
     "production_full_acceptance_verified": false,
     "selected_310_main_product_bytes_equal_deployed": false,
     "web_source_count": 311,
-    "selected_311_main_product_bytes_equal_deployed": true
+    "selected_311_main_product_bytes_equal_deployed": false
   },
   "recovery38": {
     "status": "passed_owned_local38",
@@ -11951,7 +11951,7 @@
       "cost_or_remote_completion_unknown": true,
       "separate_readonly_model_metadata_receipt": "tracking/evidence/m07/pdf47-low-effort-evaluation/model-metadata-once-result.json"
     },
-    "selected_311_main_product_bytes_equal_deployed": true,
+    "selected_311_main_product_bytes_equal_deployed": false,
     "public_admission_receipt": "tracking/evidence/m07/completion-release/2026-11-02T18-13-06.783Z-e454fcc7-logo-trace-public.json",
     "logo_current": {
       "metadata": "tracking/evidence/m07/completion-release/2026-11-02-f0da74af-logo-intake-metadata.json",
@@ -11966,6 +11966,11 @@
       "blob_retained": true,
       "stored_byte_hash_verified": false,
       "UI_409_wording_fix": "reviewed_separate_unreleased_source"
+    },
+    "unreleased_UI_409_fix": {
+      "commit": "87cff96",
+      "status": "implemented_undeployed",
+      "reason": "UPLOAD_INCOMPLETE and other409 now retain the safe server message; current4fro UI still has earlier generic wording"
     }
   },
   "latest_checkpoint": {
@@ -12224,7 +12229,7 @@
     "canonical_history": 40,
     "selected_310_main_product_bytes_equal_deployed": false,
     "web_source_count": 311,
-    "selected_311_main_product_bytes_equal_deployed": true
+    "selected_311_main_product_bytes_equal_deployed": false
   },
   "production_status_history": [
     {
