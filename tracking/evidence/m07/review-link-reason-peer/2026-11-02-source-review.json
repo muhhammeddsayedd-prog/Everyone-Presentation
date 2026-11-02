@@ -1,0 +1,68 @@
+{
+  "execution_boundaries": {
+    "Main_or_cloud_or_auth_mutations": false,
+    "SQL40_applied_or_proven_in_PostgreSQL": false,
+    "SQL_Docker_or_native_execution_by_reviewer": false,
+    "author_runtime_closure_report_independently_executed_by_reviewer": false,
+    "provider_or_UI_acceptance": false
+  },
+  "independent_checks": [
+    {
+      "command": "node --import tsx --test tests/server/review-link-action-reason.test.ts",
+      "environment": "Frontend worktree; synthetic transport only",
+      "failed": 0,
+      "passed": 5,
+      "scope": "reason parser, real in-memory HTTP/central/MAC and MCP boundary"
+    },
+    {
+      "command": "node --import tsx --test tests/server/mcp-error-projection.test.ts tests/server/mcp-output-validation.test.ts",
+      "environment": "Frontend worktree; synthetic transport only",
+      "failed": 0,
+      "passed": 11,
+      "scope": "read versus write MCP guidance and output validation"
+    },
+    {
+      "command": "Main .venv-skills/Scripts/python.exe -X utf8 -B development/m07/review-link-reason/test_build.py",
+      "environment": "Production-Admission worktree; source-only",
+      "failed": 0,
+      "passed": 6,
+      "scope": "finite SQL40 builder, AST, signatures, security attributes, hash/MAC ordering and derived bounds"
+    }
+  ],
+  "observed_at": "2026-11-02T09:32:26.063980+00:00",
+  "remaining": "Root/source owner review and an explicitly owned local PG17 proof are required before any SQL40 runtime acceptance. Canonical remains39.",
+  "result": "no_concrete_blocking_source_defect_found",
+  "review_findings": [
+    "Optional reason preserves omitted/null/empty/exact representable text; isolated parser leaves sealed guest.ts and worker runtime graph unchanged.",
+    "Only the exact six-key backend-attested rotation envelope can exceed the generic65536 bound; the nested action retains its canonical65536 bound. The earlier full-envelope review_body draft cap was corrected before database execution.",
+    "Same four SQL function signatures/outer attributes, old replay hashes and authorization/MAC-before-cache ordering are retained; rotation keeps its existing encrypted replay store.",
+    "One nullable audit reason column; only known revoke/rotate inputs populate reason; request/client traces are closed and raw headers are not stored.",
+    "Disabled local proof includes successful old39 omitted-reason replay after40, literal MAC reason tampering, independently blocked row-lock races, old session/media invalidation, generic and closed-envelope limits, helper header fallbacks and cached authority denial. These are reviewed future execution cases, not actual PostgreSQL results.",
+    "MCP response-invalid advice is conditioned on mutation; malformed reads remain generic."
+  ],
+  "schema_version": "1.0",
+  "scope": "independent_source_review_reason_contract_and_error_guidance",
+  "source_pins": {
+    "frontend": {
+      "apps/web/lib/guest-http.ts": "e262ce7977380b40d1236b710aa288c6a65764b63470cb1583b0798ec8db4c9d",
+      "apps/web/lib/mcp-error-text.ts": "b32bba6afade505fe074cf7f519c8c6274cb8d1bf196f53d8bbc5041acf085e2",
+      "apps/web/lib/mcp-output-validation.ts": "2010f05eecc7a0240229f7ac6a2700269910f299d6f5a276056b9735b970ca80",
+      "packages/central/src/guest-reviews.ts": "06baccc64300addc2dca8d74c16d888d288895c44e652e66204150d2da1ea84a",
+      "packages/central/src/review-credentials.ts": "97dec6f43c13218977bad105edd286b7c3c5b9ed21c193620bb1273badc5cf3c",
+      "packages/domain/src/guest-types.ts": "b272a8c9a48b07e1d6b3984b220192430f758f5017aab4b746a30df3ff3eb503",
+      "packages/domain/src/review-link-action.ts": "c62a4612fa71e42d4301ca40d68f1e6c96a3e7a62d721a895723b84f43d51cc0",
+      "tests/server/mcp-error-projection.test.ts": "3882d4b6eedb57ba1bc811b05567b9282191d1c00c685e74b506c0307a7d9ab2",
+      "tests/server/mcp-output-validation.test.ts": "08de965ab830b3fc53046d31c43c6eec7faa39c1d86179404f8b13c9eae30b5a",
+      "tests/server/review-link-action-reason.test.ts": "0b25c2e898d864b88cc2651beb8977230e1f38711b4988d5a2426d477082fad9"
+    },
+    "runtime": {
+      "development/m07/review-link-reason/before-functions.json": "a2406af08d72e87981ee1efcf59ca67ebc91d7bafa22e54cfe39f3ed5d0f0d3a",
+      "development/m07/review-link-reason/build.py": "64af80394fcb81b584bcc9c216b55aca1b37d7c04ad639cc9c93b8aae7afc68f",
+      "development/m07/review-link-reason/compiler.py": "b43b741235e176972d0981ced897ce3be512a58173fa1db43fcd3da13356d567",
+      "development/m07/review-link-reason/fixture.sql": "ebd92fb2c4746c12912dd42a2458acc71a991d988df7dca61810b3497e01a49f",
+      "development/m07/review-link-reason/proof.mjs": "5450523ca6568acff3eb07a8fdad73eab18fa4257ed299ee91b0b0e499687efa",
+      "development/m07/review-link-reason/test_build.py": "9c2242172ddaa1aa956d4695a18cf43c28ec85ddae7d6b709749f8307c9d5316",
+      "supabase/migrations/20261102085405_m07_review_link_action_reason.sql": "08bf4de8a63823b0e7c9aee75560a6e7de0620eb9b8b3c483c65929578db8212"
+    }
+  }
+}
