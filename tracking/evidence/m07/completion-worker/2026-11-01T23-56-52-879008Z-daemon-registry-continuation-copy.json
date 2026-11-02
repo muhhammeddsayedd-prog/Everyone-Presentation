@@ -1,0 +1,163 @@
+{
+  "action": "continuation-copy",
+  "admission": {
+    "daemon_normal_refresh_return_observed": false,
+    "daemon_unknown_refresh_claim_sha256": "cb335899b7330014dc68512cdde7f87dbf5c7469b6fe9b9d8fe04a1e0499f488",
+    "fresh_observations": [
+      {
+        "helper_backed_known_images": {
+          "new_native": "sha256:46de2f0c0772e10d712fba514788d24041d6741faa8966b6fe9c554fe47e4af4",
+          "previous_daemon": "sha256:ce23af3ba163199c1e35f224f71a281ab450d7acfc0f4ab85b6044df5246431c",
+          "previous_native": "sha256:50082f72d4438653d4c831a1f9a360d61e64d19b3568ed1c2a2456d486f0d77c"
+        },
+        "metadata": {
+          "project_id": "prj_I4SMkDzaDy0KHNgiF00v4Da5aLb6",
+          "repositories": {
+            "daemon": {
+              "id": "repo_4pE99mGA4WLDm9q9wUqA56Qd5p9K",
+              "name": "daemon",
+              "project_id": "prj_I4SMkDzaDy0KHNgiF00v4Da5aLb6",
+              "public": false
+            },
+            "native": {
+              "id": "repo_OpIvBNiZ8vPVROs68HxcMb39W6yz",
+              "name": "native",
+              "project_id": "prj_I4SMkDzaDy0KHNgiF00v4Da5aLb6",
+              "public": false
+            }
+          },
+          "team_id": "team_gboXPxTevpCOZuaA8eY9PmR1"
+        },
+        "observed_at": "2026-11-01T23:54:47.663401+00:00",
+        "processes": {
+          "owned_daemon_copy_processes": 0,
+          "owned_login_processes": 0,
+          "query_succeeded": true,
+          "scanned_processes": 494
+        }
+      },
+      {
+        "helper_backed_known_images": {
+          "new_native": "sha256:46de2f0c0772e10d712fba514788d24041d6741faa8966b6fe9c554fe47e4af4",
+          "previous_daemon": "sha256:ce23af3ba163199c1e35f224f71a281ab450d7acfc0f4ab85b6044df5246431c",
+          "previous_native": "sha256:50082f72d4438653d4c831a1f9a360d61e64d19b3568ed1c2a2456d486f0d77c"
+        },
+        "metadata": {
+          "project_id": "prj_I4SMkDzaDy0KHNgiF00v4Da5aLb6",
+          "repositories": {
+            "daemon": {
+              "id": "repo_4pE99mGA4WLDm9q9wUqA56Qd5p9K",
+              "name": "daemon",
+              "project_id": "prj_I4SMkDzaDy0KHNgiF00v4Da5aLb6",
+              "public": false
+            },
+            "native": {
+              "id": "repo_OpIvBNiZ8vPVROs68HxcMb39W6yz",
+              "name": "native",
+              "project_id": "prj_I4SMkDzaDy0KHNgiF00v4Da5aLb6",
+              "public": false
+            }
+          },
+          "team_id": "team_gboXPxTevpCOZuaA8eY9PmR1"
+        },
+        "observed_at": "2026-11-01T23:54:57.414327+00:00",
+        "processes": {
+          "owned_daemon_copy_processes": 0,
+          "owned_login_processes": 0,
+          "query_succeeded": true,
+          "scanned_processes": 494
+        }
+      }
+    ],
+    "native_refresh_claim_sha256": "4877284855ca2e57bc569e14debc2f9c1664ce41133a48256daad41aaccf0070",
+    "new_login_submitted": false,
+    "references": {
+      "daemon_reconciliation": {
+        "path": "tracking/evidence/m07/completion-worker/2026-11-01T23-40-51-102774Z-daemon-registry-refresh-readback.json",
+        "sha256": "2e7a2e69962479d5f5a3c7efebc43c99fd644fd599152ed692bccafee115435d"
+      },
+      "daemon_refresh": {
+        "path": "tracking/evidence/m07/completion-worker/2026-11-01T23-40-18-869282Z-daemon-registry-refresh.json",
+        "sha256": "1f5cbbcc6595c7f6e873f5a536dcae5ecf6eaf2ca5fede0bb94d14fe75776711"
+      },
+      "native_refresh": {
+        "path": "tracking/evidence/m07/completion-worker/2026-11-01T23-16-34-101236Z-native-registry-refresh.json",
+        "sha256": "d501614884b03294af9f58dbf8980a3c7adb83cce944f89c97c5e891c0bfa637"
+      }
+    },
+    "separate_native_normal_project_login_used": true
+  },
+  "automatic_copy_retry": false,
+  "cli_internal_auth_maintenance_possible": true,
+  "copy_failure_code": null,
+  "credentials_extracted": false,
+  "daemon_normal_refresh_return_observed": false,
+  "daemon_runtime_startup_proven": false,
+  "exact_wire_attempt_count_claimed": false,
+  "export": {
+    "receipt": "tracking/evidence/m07/completion-worker/2026-11-01T23-00-05-580007Z-daemon-export.json",
+    "sha256": "46ed042da363507a0ef6e6adc157d604d74a9580e4f88a9d04ceedfeb75d03ab"
+  },
+  "failure_code": null,
+  "kind": "daemon",
+  "new_login_submitted": false,
+  "normal_copy_return_observed": true,
+  "observed_at": "2026-11-01T23:56:52.879107+00:00",
+  "original_unknown_refresh_preserved": true,
+  "pins": {
+    "C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker-credential-desktop.exe": "2856e226b29ae2a9c67dd2419adbd527c03c34a84fc82454856b61f555c2b3b5",
+    "C:\\Program Files\\nodejs\\node.exe": "9a4eb5f1c29c6a2e93852ead46b999e284a6a5ca8bab4d4e241d587d025a52de",
+    "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe": "9785001b0dcf755eddb8af294a373c0b87b2498660f724e76c4d53f9c217c7a3",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Recovery\\development\\m07\\completion-worker\\DAEMON_CONTINUATION.md": "ff808b45a01443c06d011ef9ec65cbfe5098c8656a16e5d4531bcbd35ce323f2",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Recovery\\development\\m07\\completion-worker\\REGISTRY.md": "ac5d563667205acdaec7d8159df426a4c8ac3f5a2ff6acf1a9dae0d5f597f42a",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Recovery\\development\\m07\\completion-worker\\build.py": "0ccf0dd20672c59f9b61a41e92ec4bb6c4025b2c6717c0935d8d6a68d3bf78e0",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Recovery\\development\\m07\\completion-worker\\daemon-continuation.py": "af15611bdb5d0aa6d7aff822e57ec4cc8c050d3295c7dbe730645f88578f1aba",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Recovery\\development\\m07\\completion-worker\\registry.py": "809561e1585f164bba92363a9fb854fc55d1efc4f1d6343acc461c3ae3fbd50c",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Recovery\\development\\m07\\completion-worker\\test_build.py": "18283edc04f3a02fc9865e607f8bc6035a37390a4e080e7e8a0d3ed0cf9dddae",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Recovery\\development\\m07\\completion-worker\\test_daemon_continuation.py": "12a7b0b626aac7e8f356e057f402a62e46d9cb32f5ddaada3ea703d28fe554de",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Recovery\\development\\m07\\completion-worker\\test_registry.py": "a2382bc1221dfd9517ba44241b4dde1b45a1e94c27f2cd24b32d7a2dc7f040fc",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\.local\\m07-pilot\\tooling\\node_modules\\vercel\\dist\\chunks\\chunk-3AXMZRAB.js": "e43d8d2565d33655855c44a145778dd9070488df18701673018807cf62c48298",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\.local\\m07-pilot\\tooling\\node_modules\\vercel\\dist\\chunks\\chunk-KDRCBWRY.js": "79d75b4c54d42c0779cee699f2e37ed84dcadb6c6e178315d740a5d264952807",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\.local\\m07-pilot\\tooling\\node_modules\\vercel\\dist\\chunks\\login-EPBJQDEK.js": "36608450dc87f554a3b0570a0f6deab24b82581c3178731e20130e4b311f26fb",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\.local\\m07-pilot\\tooling\\node_modules\\vercel\\dist\\vc.js": "5724f20cc65bb0e13c7a0668af107770ddb101bb72dd3fd6160aca672ea2a493",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\.local\\m07-pilot\\tooling\\regctl-v0.11.7.exe": "70f195ff4923082340738c796880864f66a296e6c5d3296bf743310653ad761f",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\development\\m03\\english-image34\\build-image-v2.py": "5562cf2d1e7d4b23f2b86e45ef75bc2f02a1744b80a5ba580814c751b53948a2",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\development\\m03\\english-image34\\build-image.py": "f1ced25d33bf039909289bc1be17ab42bbdf5d662e15c22c6460693a16045cd4",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\development\\m03\\english-image34\\refresh-vcr.py": "3104f3405c2fdd0ffd2e402098522ba2ba7d6720aaed13aedfb2923c33c73224",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\development\\m03\\english-oci34\\export.py": "ed386e1e0fa8fa5f31b1af089e36f43b4cd1f9d95fb65b3a739e60335b763f53",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\development\\m03\\english-oci34\\oci.py": "48fa22d83cb6f8643696a84358b5ba831852f93e6b920f7ef7f7a6808ae60758",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\development\\m03\\english-oci34\\transfer.py": "f9694ac52fec08b24ab81c8a25ad4aa4c6ac0986fbfcdfc06d70ab724d23a5e3",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\development\\m03\\english-release34\\native_admission.py": "cfaf0eafb51ee99961a7f3552c34090f377475be4a7a1d23d9c5582e050cb9cf",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\development\\m07\\specs-ack31\\canonical_acl.py": "6f711e8f3940120158982dd338f838a424c2b5b620a721136f06d4587a2682fc",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\development\\m07\\specs-diagnostic-worker38\\build.py": "2548608d9bf12bea7b48b2535e208fc2e9d7452a6113531eaf64b685565834fc",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\development\\m07\\specs-diagnostic-worker38\\registry.py": "5d7a4090e307d7c4eafa45e4effac090b9c516f824a93da6cc5d8d1d6c467b11",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tools\\provision_logo_verifier.py": "660f2eb0d15b1ed17801ecef22270dbb389fdf93181c340f16d715fc2b3a340c",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tools\\release_foundation.py": "02aac0cefc4b46419c7d5a086da672398716cf7ee73882602574cff99659d751",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tools\\release_logo.py": "efd1de07b3304d8d5c89f29bbeaf77ff2ce1d8d42ffbf885f960c36f506b47f4",
+    "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio\\tools\\worker-hosting-build.mjs": "3f27ca1bf039579905763365c592b4d6e94754437753a3f645c4bad85e7bcb69",
+    "buildx_plugin_sha256": "f2512b849418b860d1e497708ccdd4864e2377a97fe15d500af83381cf5f967e",
+    "docker_sha256": "e768033e4b3f0dc760162f417a80360094644d16cd9fb12ad65c9d97508c076f"
+  },
+  "project_id": "prj_I4SMkDzaDy0KHNgiF00v4Da5aLb6",
+  "provider_mutations": true,
+  "raw_logs_or_credentials_persisted": false,
+  "read_only": false,
+  "remote_readbacks": [
+    {
+      "digest": "sha256:2d66eed2c5f584f3f261d2f241062cbb9fa088bbbc32437aed1ce0b6adf2c594",
+      "tag": "sha256:2d66eed2c5f584f3f261d2f241062cbb9fa088bbbc32437aed1ce0b6adf2c594"
+    },
+    {
+      "digest": "sha256:2d66eed2c5f584f3f261d2f241062cbb9fa088bbbc32437aed1ce0b6adf2c594",
+      "tag": "sha256:2d66eed2c5f584f3f261d2f241062cbb9fa088bbbc32437aed1ce0b6adf2c594"
+    }
+  ],
+  "result": "passed",
+  "run": "8b559ebe-1b6c-4741-b371-9498c5855976",
+  "runtime_digest": "sha256:2d66eed2c5f584f3f261d2f241062cbb9fa088bbbc32437aed1ce0b6adf2c594",
+  "schema_version": "1.0",
+  "source_sha256": "0566342ec367efef328885aac513adeb5a942048ba01c88e1af63e4d636b6730",
+  "target": "vcr.vercel.com/muhammed-abdelrahman/everyone-presentation-worker-pilot/daemon:completion-8b559ebe",
+  "team_id": "team_gboXPxTevpCOZuaA8eY9PmR1",
+  "worker_deployed": false
+}

@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.0",
+  "run_id": "be31a6e0-74b3-4ac2-96a0-cca9c7f18874",
+  "started_at": "2026-11-01T23:49:29.885Z",
+  "result": "unconfirmed",
+  "project_id": "prj_I4SMkDzaDy0KHNgiF00v4Da5aLb6",
+  "team_id": "team_gboXPxTevpCOZuaA8eY9PmR1",
+  "source_sha256": "0566342ec367efef328885aac513adeb5a942048ba01c88e1af63e4d636b6730",
+  "private_media_used": false,
+  "worker_polling": false,
+  "db_jobs_or_openai_n8n_calls": false,
+  "provider_control_plane_called": false,
+  "token_persisted": false,
+  "local_signature_verification": false,
+  "sdk_transport_policy": {
+    "sdk_default_retries_maximum": 2,
+    "sdk_default_retry_loop_attempts_maximum": 3,
+    "non_detached_command_http_retries": 0,
+    "repeated_create_uses_same_project_name": true,
+    "sandbox_auto_resume_possible": true,
+    "exact_wire_or_vm_count_proven": false,
+    "scope": "Bounds count distinct named resources. SDK creation/read/write/stop/delete may retry; non-detached command POST uses retry zero. Sandbox methods may auto-resume a session. Passing proof requires initial/current/cleanup session equality; no exact wire or VM-session count claim."
+  },
+  "probe_release": {
+    "source_sha256": "0566342ec367efef328885aac513adeb5a942048ba01c88e1af63e4d636b6730",
+    "context_relative": ".local/worker-hosting/8b559ebe-1b6c-4741-b371-9498c5855976/context",
+    "file_count": 165,
+    "context_proof": {
+      "path": "tracking/evidence/m07/completion-worker/2026-11-01T23-41-02-214Z-native-context-audit.json",
+      "sha256": "ca1b54499479a02f096405b14b128dabe01243f7a7c74bff5e1a30825ddfb85c"
+    },
+    "native_uid": 65432,
+    "native_gid": 65432,
+    "native_identity_sha256": "f3b55692bdc48ab05b108915692509d124f50ea4d32153ebf39d87f0ff5d3aa0",
+    "native_task_limits_sha256": "f648ae3a0c82c7d8cdc5d8c553d34014f8b20319ce7ff569eea8ae04185a9df0",
+    "native_launcher_sha256": "3efb0a965fb23dc5d8a07dae7b8a590238a7172ca7606aadf3b8c40f2baaac23",
+    "seal_validator_sha256": "ce7b9c4fa9c0d557d0d28784f6caca7b6752379dcfd218e4d9d526cf4ee94cc6",
+    "runtime_contract_sha256": {
+      "contracts/json-schema/candidate-extraction.schema.json": "693f12f8d6a7c19627a453a142a9f4a77847c494b428c33b3888d4305046af64",
+      "contracts/json-schema/frame-selection.schema.json": "200555c60381f36a37b9628046f0059d004adc0b2fe020e167dfbda165af1b8c",
+      "contracts/json-schema/slide-wording.schema.json": "c7a6681aa341d9ac217c12888486b422010bbf1893ad4790de7a24b74408bf56",
+      "contracts/json-schema/specs-extraction.schema.json": "c55e758da1b71119a3a8d7cc408340e502088c8ab88a89c81da7effb85a8809d"
+    },
+    "diagnostic_modes_enabled": false
+  },
+  "phases": [],
+  "cleanup_confirmed": true,
+  "transport_observations": [],
+  "completion_native_admission": {
+    "base_operator_sha256": "84630e42f2e5277fe8865721d00779939802cc73d059bf795cffb9915e5cb3ab",
+    "release_sha256": "41a4f9c84970d9c1509ac60fda878a746156f02a9be5f598c977276f78b5b7f9",
+    "compiler_sha256": "f3ce51899fdb71fe16ccda310f0419fd940e936616863e012899064d21143d4b",
+    "mode": "smoke",
+    "image": "muhammed-abdelrahman/everyone-presentation-worker-pilot/native@sha256:46de2f0c0772e10d712fba514788d24041d6741faa8966b6fe9c554fe47e4af4",
+    "source_sha256": "0566342ec367efef328885aac513adeb5a942048ba01c88e1af63e4d636b6730",
+    "context_proof": {
+      "path": "tracking/evidence/m07/completion-worker/2026-11-01T23-41-02-214Z-native-context-audit.json",
+      "sha256": "ca1b54499479a02f096405b14b128dabe01243f7a7c74bff5e1a30825ddfb85c"
+    },
+    "native_ready": {
+      "path": "tracking/evidence/m07/completion-worker/2026-11-01T23-38-34-463049Z-native-registry-ready.json",
+      "sha256": "9c5c6ed9f6cf74df71dd60981666fd03b5849b4ce8ca15358d308f455d1e2742"
+    }
+  },
+  "image": "muhammed-abdelrahman/everyone-presentation-worker-pilot/native@sha256:46de2f0c0772e10d712fba514788d24041d6741faa8966b6fe9c554fe47e4af4",
+  "plan": {
+    "mode": "smoke",
+    "maximum_named_resources": 10,
+    "overall_timeout_ms": 600000,
+    "cleanup_timeout_ms": 30000,
+    "maximum_http_calls": 240
+  },
+  "sdk_transport_source_sha256": {
+    "api-client/base-client.js": "ce90630c640f0edbb52b1504c2c4c9c5868850106bee05ec53d7cb8d529fdf63",
+    "api-client/with-retry.js": "4fd9fd7acfb64eed38b65ef92326bc6710767a097cb253e4f44bd68ab089866d",
+    "api-client/api-client.js": "b1de5c164fe5360a34bfd51c653df63abd37c9cb4d53280d072c751d3cfd5da1",
+    "session.js": "bf6aee3451ab7622076ec18351462ea71d2db968d4f9e61fd49508e8c468a20c",
+    "sandbox.js": "314e2889e186c979ce32f381b1a77a8caea32fa246424baddd1c929f7d88b866",
+    "utils/paginator.js": "400ebf6732c42e83e525ef730a81c15f11de9a7c6ebe4ce5a4ddeada1afa7f12"
+  },
+  "probe_release_source_sha256": "41a4f9c84970d9c1509ac60fda878a746156f02a9be5f598c977276f78b5b7f9",
+  "failed_phase": "synthetic_fixture",
+  "code": "PROBE_OPERATION_UNCONFIRMED",
+  "initial_current_cleanup_sessions_equal": false,
+  "resources": [],
+  "sdk_http_calls": 0,
+  "cli_mint_commands": 0,
+  "elapsed_ms": 342,
+  "finished_at": "2026-11-01T23:49:30.227Z",
+  "lock_released": false
+}
