@@ -1,5 +1,22 @@
 # Disabled forward baseline proposal
 
+The pure Context is unchanged. A new `release.py` entry is now prepared with
+READ/APPLY both false. It supplies that Context to the existing Main release
+class and inherits every query, phase, checkpoint and transaction method. Its
+additional admission binds actual owned proofbd221d39/SHA4b25872f, including the
+classified managed fixture, negative guard cases, normal commit/readbacks,
+preservation and cleanup. No canonical phase has run through this new entry.
+Four focused checks pass, including early refusal, proof-byte drift, inherited
+method identity and refusal to claim historical identity equality. Independent
+source review precedes activation. A fresh UUID and exact query-validation
+reference are required; consumed8b is never replayed.
+
+The original functional proof remains51a; bd221d39 is collector/forward-guard
+evidence. The owned fixture does not establish production's five hardbound
+scalars. Fresh canonical reads must still match them and every unchanged guard.
+
+## Historical pure proposal before the owned forward proof
+
 This is a pure, default-off proposal for Root review. It has no live phase,
 provider transport, private-file writer, dispatch flag activation or new local
 SQL run. Consumed run8b166bbe and its failed prepare claim remain immutable.
