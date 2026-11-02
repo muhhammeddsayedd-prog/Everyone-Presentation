@@ -1,0 +1,244 @@
+{
+  "schema_version": "fenced-pool-id-cold-first-disabled-owned-plan.v1",
+  "source_commits": [
+    "716cf494ac5a148aeb43b57051538be1352a3354",
+    "396b2e6c7d2a2c1ee2ef27a070e4a05e9a378577",
+    "7ad806058e38192cf8aaa4a5997afbdc618af7ee"
+  ],
+  "execution_enabled": false,
+  "compiled_only": true,
+  "execution_dispatched": false,
+  "SQL_commands_issued": 0,
+  "Docker_commands_issued": 0,
+  "provider_calls": 0,
+  "runtime_uuid": null,
+  "resources": [],
+  "compile_uuid": "0de45f95-cacd-46ed-997b-5bd3c11bc69d",
+  "controller": {
+    "path": ".local/presentation-lock-source-pool-proof-compiled/controller-0de45f95-cacd-46ed-997b-5bd3c11bc69d.mjs",
+    "sha256": "5f7e1615e9a144b1484416070126bd6bc2a9e19bd533dd4af284a089d73b773a"
+  },
+  "callback": {
+    "path": ".local/presentation-lock-source-pool-proof-compiled/callback-0de45f95-cacd-46ed-997b-5bd3c11bc69d.mjs",
+    "sha256": "f6618632939da40051962c2e895eaab801f507e84814ac538c1ed8b18775f011"
+  },
+  "source_seals": {
+    "development/m07/presentation-lock-source-pool-proof/cases.mjs": "2832ee76211ed1a2494adad26b1d17fc90adae6e600b943232b6bc170a4e9dc5",
+    "development/m07/presentation-lock-source-pool-proof/cases.test.mjs": "d7f5ee87e7e0f6b5947fffe20afeddd9ba4288c8b7dbe5be04fc174f0e0bd9d1",
+    "development/m07/presentation-lock-source-pool-proof/compiler.py": "1d09d0a6d76495b3f4b0b60602aff0a5811b57c254426eb5866c1f41f92f0026",
+    "development/m07/presentation-lock-source-pool-proof/entry.mjs": "810f1893f611179986f35741dba8054952d05690e47bfd23ad62ed0abfcd4d6f",
+    "development/m07/presentation-lock-source-pool-proof/measure.sql": "b6c69370cd22c37cf835452e19b770f6a8ec198c92f164b1a42168e0b666f256",
+    "development/m07/presentation-lock-source-pool-proof/native.mjs": "7c050b63e9c6a016742c940e1db65b42c996bcbb400b4717a843b9b5a02ef32d",
+    "development/m07/presentation-lock-source-pool-proof/oracle.py": "18f1cd7291a75c5dd5c51a1f48606684887a0e1888c2476d8997c523d27c2e8b",
+    "development/m07/presentation-lock-source-pool-proof/README.md": "50b5e7a7dcc45110fe25393a0ac2991bc2f1f2003fa8d0d3a1e96cd0e8d740d0",
+    "development/m07/presentation-lock-source-pool-proof/render_sql.mjs": "e401c084a59c2e497e80f51aa7038b3fb3db2cba85e6f7dac13d3a0aa9554f7f",
+    "development/m07/presentation-lock-source-pool-proof/source.py": "7c2e36912fa4e989d7ef8dc86e30168d51aaa386982193e6bdde988649525378",
+    "development/m07/presentation-lock-source-pool-proof/test_proof.py": "ae0817fb2dc1aea38114aff1672f128f2dfc53ac85e4e3cf0c9aa76ed023aca8",
+    "development/m07/presentation-lock-source-pool-reuse/candidate.py": "c646bc4f62b3c98f836398edf19ff2d66e49c9ef851f62cdce7c6e54063a2a5d",
+    "development/m07/presentation-lock-source-pool-reuse/README.md": "2719199e37a53e2504e6a9f9c9f3f707b0d7feeea20d43361df46763087209d4",
+    "development/m07/presentation-lock-source-pool-reuse/test_candidate.py": "80ebe8db55f90efcb770f7ed3980a3634bf12d8acd6e5233bae131f7f6c54b40",
+    "development/m07/presentation-lock-source-pool-reuse/TEST_PLAN.md": "821d1d2fce24a231365c9023a925a1b9581a13ec706fd7651694fabede3e4514",
+    "development/m07/presentation-generation-data-diagnostics/capture.mjs": "9766a654f319f740fa37aef4c79a025f8f977c44f3a89220c2aedf39e311c407"
+  },
+  "helper": {
+    "baseline_body_sha256": "1ff8ce429ec61785c1e1037da8de5d2a4b9426789074a64eab0f6f89241c48e4",
+    "candidate_body_sha256": "280244090e5350b912dec5b23b74bb5d260e9e21df497c8ddfc2ae322fb774c4",
+    "restored_original_body_sha256": "4107c87b1a51d2c5ed506a64c81378026068406a5136b202779767efb30264e7",
+    "candidate_commit": "c4cea995acfd3cfd369149a5965f1e601e8bc479",
+    "difference": "Only selected CTE assignment rejoin becomes a fresh workspace-and-captured-pool-ID read after pool SHARE locks.",
+    "all_12_lock_order_strength_NOWAIT_and_entry_footer_checks_unchanged": true,
+    "invoker_RLS_authorization_helpers_grants_and_timeout_unchanged": true,
+    "no_authorization_result_cache": true,
+    "equivalence_requires_actual_workspace_generation_fence_and_validated_composite_FKs": true,
+    "standalone_is_quiescent_only_no_unfenced_phantom_equality_claim": true,
+    "referenced_archived_pools_retained_and_mutable_fields_read_after_SHARE": true,
+    "four_data_capture_bodies_stay_preceding_bytes_and_fully_catalogue_checked": true,
+    "candidate_four_body_reuse_executed": false,
+    "actual_generation_executed": false,
+    "catalogue_prosrc_exclusions": 1
+  },
+  "first_calls": {
+    "matrix": {
+      "variant": [
+        "old",
+        "new"
+      ],
+      "mode": [
+        "api",
+        "mcp"
+      ],
+      "large_profile": [
+        "quiescent_standalone",
+        "workspace_fenced"
+      ]
+    },
+    "fresh_distinct_backend_count": 8,
+    "effective_role": "eps_review_owner",
+    "real_local_RLS_with_controlled_claims_not_signed_OAuth_protocol": true,
+    "statement_timeout_seconds": 8,
+    "lock_timeout_seconds": 8,
+    "first_target_call_before_helper_or_oracle_or_EXPLAIN_in_each_backend": true,
+    "actual_workspace_FOR_UPDATE_for_fenced_cases": true,
+    "all_8_first_calls_before_any_warm_sample": true,
+    "baseline_warm_calls": 0,
+    "baseline_known_failure_only": "First verbose psql PostgreSQL57014, private capture normal and failed backend normal exit3; every other baseline failure stops.",
+    "every_new_first_call_must_return_normal_under_8s_before_any_warm": true,
+    "candidate_first_failure_stops_without_retry_or_warm": true,
+    "planned_warm_samples_per_same_unchanged_new_backend": 2,
+    "planned_total_warm_samples": 8,
+    "response_code_client_monotonic_elapsed_and_dispatch_state_retained_before_assertion": true,
+    "client_elapsed_separate_from_server_duration": true,
+    "OS_or_shared_buffer_cold_claim": false
+  },
+  "semantic_and_security": {
+    "exact_old_and_new_selected_tuple_hashes_counts_under_same_fence_and_real_RLS": true,
+    "rollback_cases": [
+      "baseline_19_assignments_11_pools",
+      "empty_assignments",
+      "active_assignment_references_archived_pool",
+      "selected_frame_pair_missing"
+    ],
+    "archived_pool_FK_KEY_SHARE_control_then_helper_SHARE_NOKEYUPDATE_denial": true,
+    "missing_frame_kept_in_selected_tuple_and_asset_lock_without_invented_pair": true,
+    "oracle": {
+      "predicates": 12,
+      "exact_original_predicate_bytes": true,
+      "one_read_only_repeatable_read_observer_snapshot_after_holder_fence_and_locks": true,
+      "separate_bounded_8s_relation_reads_validation_only": true,
+      "no_product_statement_budget_change": true,
+      "expected_counts": {
+        "projects": 1,
+        "clients": 0,
+        "templates": 1,
+        "active_roles": 2,
+        "active_slots": 16,
+        "active_assignments": 19,
+        "referenced_pools": 11,
+        "candidates": 11,
+        "media": 11,
+        "assets": 44,
+        "frame_pairs": 33
+      },
+      "all_selected_rows_require_distinct_session_55P03_not_42501": true,
+      "unselected_or_missing_negatives": 8,
+      "oracle_failure_retains_timings_but_stays_unconfirmed": true
+    },
+    "cross_workspace_slot_and_pool_FKs_must_fail_23503": true,
+    "actual_authenticated_MCP_public_assignment_call_waits_on_workspace_fence_then_returns_and_rolls_back": true,
+    "live_authority_relation_barrier_cases": [
+      "membership_revocation",
+      "capability_revocation",
+      "database_clock_token_expiry"
+    ],
+    "authority_preimages_private_full_row_restore_and_exact_hash_equality": true,
+    "no_Ready_DML_or_constraint_trigger_policy_disable": true
+  },
+  "preservation": {
+    "same_pinned_synthetic38_exact39_exact40_prefix_recipe": true,
+    "counts": {
+      "candidates": 28,
+      "media": 27,
+      "frames": 328,
+      "assets": 501,
+      "ready_versions": 13,
+      "total_versions": 14,
+      "slides": 63,
+      "pins": 60
+    },
+    "large_active_archived": {
+      "roles": [
+        2,
+        34
+      ],
+      "slots": [
+        16,
+        547
+      ],
+      "assignments": [
+        19,
+        1
+      ],
+      "pools": [
+        11,
+        4
+      ]
+    },
+    "full_fresh_rows_auth_Storage_history_reason_Ready_slides_pins_and_catalogue_equal": true,
+    "complete_pg_proc_attributes_and_four_preceding_source_hashes_required": true,
+    "restore_original4107_plus_four_old_bodies_and_fresh_full_baseline": true,
+    "original_reviewed_presentation_config_restore_before_outer_old_row_guard": true,
+    "original29_full_data_catalogue_and_global_roles_unchanged": true,
+    "no_cross_run_UUID_or_timestamp_rowhash_equivalence_claim": true
+  },
+  "ownership_and_error_evidence": {
+    "purpose": "presentation-lock-pool-owned-proof",
+    "private_runtime_root": ".local/presentation-lock-source-pool-proof/<fresh-runtimeUUID>",
+    "private_compile_artifact_once_claim": ".local/presentation-lock-source-pool-proof-once/0de45f95-cacd-46ed-997b-5bd3c11bc69d/claim.json",
+    "once_claim_not_created_during_compilation": true,
+    "protected_owner_SYSTEM_once_directory_and_wx_claim_before_original_target_or_Docker": true,
+    "per_admitted_compiled_artifact_no_replay_claim_never_removed": true,
+    "labels_prefix": "eps.poolproof",
+    "network": "none",
+    "host_ports": [],
+    "original29_system_forbidden_as_target": "7701520506262638626",
+    "shared_lock": "Main/.local/local-postgres/test-db.lock",
+    "normal_existing_transport": "presentation-lock-source-proof/session.mjs",
+    "transport_sha256": "ddb76b4db7bb578c2dfa2896fd59451037679c9a5fc2777a13412765c296e252",
+    "only_extra_psql_args": [
+      "-v",
+      "VERBOSITY=verbose"
+    ],
+    "first_native_and_case_full_diagnostics_private_wx_before_rethrow": true,
+    "native_SQLSTATE_only_first_verbose_psql_ERROR_never_Node_EPIPE": true,
+    "unknown_native_provenance_remains_null": true,
+    "all_exact_owned_resources_absent_successful_same_engine_label_inventories_empty_and_fresh_lock_absent_required": true,
+    "normal_process_outcome_and_cleanup_recorded_failure_stops_no_automatic_retry": true,
+    "both_race_requests_observed_before_polling_retaining_original_Promise_and_Error": true
+  },
+  "retained_actual_failures": [
+    {
+      "path": "tracking/evidence/m07/presentation-generation-data-proof/2026-11-02T16-08-03.781Z-c7e4f2ef.json",
+      "sha256": "f1685acb849fef5b810c9c9cf4b1e2e9ad1664148a3171434a0d212dc411ed94",
+      "scope": "Original cohort-stage native cause remains unavailable; candidate four bodies unreached."
+    },
+    {
+      "path": "tracking/evidence/m07/presentation-generation-data-diagnostics/2026-11-02T16-57-04.142Z-754fcf15.json",
+      "sha256": "f37e01d08c4631f38bb4c3ee883eac125a0806cdcc80b10a4ea46dfeff4c25e4",
+      "scope": "Actual first old helper caught57014 at8000.099ms before cohorts; no attribution to prior masked error."
+    }
+  ],
+  "offline_checks": {
+    "Node_fake_port_source_tests": {
+      "passed": 9,
+      "failed": 0,
+      "duration_ms": 5265.9826
+    },
+    "Python_source_parser_actual_template_compiler_defaultoff_checks": {
+      "passed": 6,
+      "failed": 0,
+      "duration_seconds": 1.283
+    },
+    "ESLint_exit": 0,
+    "git_diff_check_exit": 0,
+    "compiled_controller_and_callback_Nodecheck_exit": 0,
+    "real_SQL_psql_or_Docker_observation": false,
+    "real_Node_strict_unhandled_rejection_delayed_await_RED_GREEN": true
+  },
+  "review_status": {
+    "Runtime_preservation_onceclaim_auth_subset": "source-only closed; no blocker on716cf; elapsed-only follow-up does not change those paths",
+    "Frontend_full_independent_peer": "closed source-only on716cf+396b; independent8Node+6Python PASS, no blocker",
+    "Root_source_plan_review_and_execution_authorization": "pending",
+    "Frontend_pending_rejection_followup_peer": "finding and original-Promise design confirmed; exact7ad8060 diff review pending"
+  },
+  "release_limits": [
+    "Synthetic local helper proof only.",
+    "No four-body reuse, whole generation8s, rendering, Storage, OpenAI, n8n, worker or production acceptance.",
+    "No canonical migration or production retry is authorized by this artifact."
+  ],
+  "prior_disabled_plan": {
+    "path": "tracking/evidence/m07/presentation-lock-source-pool-proof/disabled-owned-plan.json",
+    "sha256": "395e266c64da0a293ee8655cbbcd59fd477b2d3824d1954f1099179ae36b60f1",
+    "retained": true
+  },
+  "revision_reason": "Observe two pending native Promise rejections before polling/barrier awaits; preserve original Promise and later identical error. SQL, ordering and acceptance unchanged."
+}
