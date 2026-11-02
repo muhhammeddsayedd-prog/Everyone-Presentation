@@ -1,6 +1,6 @@
 # M07 acceptance matrix
 
-## Current production acceptance - 2026-11-02T09:04:27.144707+00:00
+## Current production acceptance - 2026-11-02T10:02:28.642787+00:00
 
 Production web `dpl_J3hmctcHndRp8zDVAPYfcnjEgpzG` serves product `c88f58c` /
 manifest `f947fb53` at the stable alias. WorkerCp source056/native46/daemon2d66/
@@ -14,24 +14,22 @@ and all five processing flags resumed. This is scoped deployment acceptance;
 | Production worker | [Ready/startup](completion-worker/2026-11-02T02-20-07-299859Z-rollout39-ready.json): 23 bound records, complete first ten minutes, one new instance/old absent; [pin](completion-worker/2026-11-02T02-24-16-275686Z-rollout39-pin.json) and [resume](completion-worker/2026-11-02T02-28-39-166492Z-rollout39-resume.json) normal with two readbacks; private/preview metadata preserved | AT069 queued replacement/compatible rollback remains policy-blocked; no replay or equivalent transport |
 | Project creation/types | Actual UI/canonical [Planned98eb](completion-release/planned-project-production.json): one creator/receipt/audit, no workspace/jobs/series/versions; [Castingbf650](completion-release/casting-project-production.json): separate workspace5505; no new global/client grants; shared-client wording restored | Live MCP creation and full reciprocal human/Claude readbacks; file-URL permission enabled but chooser hook still fails; no file selected, native fallback unavailable |
 | Current human Casting journey | [Bounded real UI and downloaded artifacts](completion-release/production-human-journey-checkpoint.json): saved choices, both outputs, v2, PDFs and video; [Root-admitted canonical audit](production-specs-job-audit/Root-admission.json): three-stage provider metadata, both v1 hashes, v2 and ten historical Ready versions preserved | Actual-Claude/guest reciprocal acceptance and direct intake remain pending; no representative/full business-accuracy claim |
-| Auth and delegated access | Operator402aca12 authorized/read; natural deadline11:14:24 Cairo. Actual-Claude3b4ebef2 read/token joined, deadline10:34:42 Cairo. Collector v2 repaired old quoted KQL and retains provenance/failures | SDK expiry/one refresh/local-revoke/denials pending; separate actual-Claude after-expiry same-session/no-reconnect proof pending; source/history/deployment frozen through cleanup |
+| Auth and delegated access | Operator402 expiry401, one actual rotation/MCP read, native204 logout; [independent cleanup reconciliation](temporary-oauth-cleanup-reconciliation/2026-11-02T09-42-49.604Z-605d159c-64e5-4aa9-b3c0-e694266cb62e-cleanup-reconciliation.json) confirms original five sessions exact on three reads, owned absent, refreshed bearer401 before expiry. Actual-Claude3b4 read/token joined separately | Refresh-token denial phase unconfirmed and unreplayed; actual-Claude after-expiry same-session/no-reconnect proof pending. Source freeze released after cleanup |
 | Guest/contributor | Prior scoped guest evidence retained; owner-reported link0d796f8c canonically revoked. Contributor acceptance explicitly skipped by owner; no identity/grants created | Nonzero anonymous exact-version summary/internal-note exclusion and guest expiry/revocation denial remain open; no genuine contributor pass is claimed |
 | Recovery/native | Native46 actual nine-task/ten-resource-cleanup smoke and independent synthetic39 metadata/authority/four-object StorageHTTP/API restore passed, each within its receipt scope | These do not establish managed Auth/private production configuration/real canonical media restore, deployed rollback or RTO/RPO; canonical76-table checkpoint is a backup, not restore acceptance |
-| Accessibility and quality | Earlier scoped955 module/138 browser/lint/type checks retained; redesigned frontend is deployed; [manual production AT072 task](../../../development/m07/PRODUCTION_UI_AT072_TASK.md) prepared | Actual manual screen-reader AT072 pending; mobile skipped by owner instruction; no broader semantic/cost/endurance claim |
+| Accessibility and quality | [Fresh local Main diagnostics](completion-release/2026-11-02T10-00-21.237Z-bea51fe2-mcp-diagnostic-root-quality.json):968/968 deterministic tests, types/lint/production guard0, stable source. Prior138 fixture-browser checks retained separately | Diagnostics not deployed; actual manual screen-reader AT072 pending; mobile skipped by owner. No broader accuracy/cost/endurance claim |
 
 Exact worker identities/phase receipts are in the [cutover checkpoint](../../WORKER_CUTOVER_CURRENT_2026-11-02.md).
 [Canonical normal push/readback](completion-release/canonical-push-readback.json)
-confirmed release checkpoint62df023 on private Main. This final reconciliation
-adds documentation only; it does not create a new product deployment or full M07 acceptance.
+confirmed release checkpoint62df023 on private Main. Local Main now includes the reviewed diagnostic slice; it has not been pushed/deployed. J3/c88 remains serving and full M07 acceptance is open.
 
 
 Fresh03:51 web alias/direct read confirms all308 Main product bytes equal deployedc88;
 fresh03:52 worker/DB read confirms the same sole instance, schema39/native46/five flags.
-Chrome control remains unavailable for further direct intake; no new temporary
-contributor grants/operator OAuth session were created.
+Chrome control returned and file-URL access was enabled; the chooser still timed out with zero files. The temporary OAuth session was created and independently removed; no contributor grants were added.
 
 
-Current delegated generation failure remains unresolved: both1.1 series/fits are valid, but client error text dropped the structured code/request ID. Safe text projection and confirmed reason/audit compatibility repairs are isolated; SQL40 is not applied.
+Current delegated generation failure remains unresolved: both1.1 series/fits are valid, but client error text dropped the structured code/request ID. Safe text projection and presentation diagnostics are on local Mainfdd0aba, not deployed. Root reproduced one UI failure with zero new jobs/versions; the same intent is retained. Reason/audit SQL40/parser remains isolated and unapplied. First local rehearsal failed before migration on fixture access; the initial internal-series diagnosis was corrected (both stored snapshots were external). Cleanup/preservation passed.
 
 The dated checkpoints below are preserved history; the current checkpoint above governs serving state and next actions.
 

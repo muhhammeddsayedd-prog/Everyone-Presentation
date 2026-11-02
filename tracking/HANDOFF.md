@@ -1,6 +1,6 @@
 # Everyone Presentation Studio - current English-output handoff
 
-## Production worker and web serving; M07 acceptance continues - 2026-11-02T09:04:27.144707+00:00
+## Production worker and web serving; M07 acceptance continues - 2026-11-02T10:02:28.642787+00:00
 
 The stable production alias https://everyone-presentation-pilot.vercel.app serves
 `dpl_J3hmctcHndRp8zDVAPYfcnjEgpzG`, product source `c88f58c` / manifest `f947fb53`.
@@ -49,13 +49,13 @@ versions, 57 slides and 42 asset pins, plus the whole Reviewed profile, exactly
 match the protected pre-release checkpoint. Independent n8n lookup and direct
 job-to-instance log attribution remain unavailable; no business-accuracy claim.
 
-[Separate operator OAuth run402aca12](../tracking/evidence/m07/temporary-oauth-lifecycle-coordinator/2026-11-02T08-14-37.282Z-402aca12-authorize.json) completed genuine
-owner sign-in/consent and an SDK MCP project read at08:14UTC. Its signed natural
-expiry is09:14:24UTC /11:14:24 Cairo. The early expiry phase correctly returned
-waiting without a dispatch claim. Expired-bearer denial, one refresh/rotation,
-local logout and independent denial/preservation proofs remain pending. Keep
-Main product, deployedJ3/c88 and canonical history39 frozen through cleanup;
-all fixes are isolated in worktrees until then.
+The temporary operator OAuth run402aca12 passed [natural expired-bearer denial](../tracking/evidence/m07/temporary-oauth-lifecycle-coordinator/2026-11-02T09-15-19.523Z-402aca12-expiry.json) and [one refresh with token rotation and MCP read](../tracking/evidence/m07/temporary-oauth-lifecycle-coordinator/2026-11-02T09-16-00.314Z-402aca12-refresh.json).
+Its native logout returned204, but the following refresh-token denial phase did
+not record a normal completion; [that failed outer receipt](../tracking/evidence/m07/temporary-oauth-lifecycle-coordinator/2026-11-02T09-17-01.142Z-402aca12-logout.json) is retained and must not be replayed.
+The separate [read-only cleanup reconciliation](../tracking/evidence/m07/temporary-oauth-cleanup-reconciliation/2026-11-02T09-42-49.604Z-605d159c-64e5-4aa9-b3c0-e694266cb62e-cleanup-reconciliation.json) verified the exact original five sessions on three complete reads, absence of
+the owned session, and401 invalid_token for its still-unexpired refreshed bearer.
+No temporary access remains. Full refresh-token denial protocol is unconfirmed;
+the product/history freeze was released after the scoped cleanup pass.
 
 [Actual existing-Claude read](../tracking/evidence/m07/completion-oauth/2026-11-02T08-41-14.135Z-98295c0c-request-observation.json) matched request3b4ebef2
 to the same exchange's verified-token trace. That token expired08:34:42UTC /
@@ -68,11 +68,18 @@ The [actual Claude canonical audit](../tracking/evidence/m07/actual-claude-recei
 confirms the completed upload/scan, pool/Option+Shortlist assignment, fits and
 revoked link, preserving the Reviewed profile and old Ready content. That flow
 ran November1 before Cp/J3; the reported later generation retries also failed.
-Both series are registered1.1.0 with measured zero-overflow fits; the cause of
-the four generation failures remains unconfirmed. Client transcripts dropped
-structured errors, so a tested safe text-summary fix is isolated in Frontend.
+Both series are registered1.1.0 with measured zero-overflow fits. Root reproduced
+generation failure once in the real UI; [canonical metadata](../tracking/evidence/m07/presentation-facade-diagnostics/2026-11-02T09-43-53-820241Z-generation-metadata.json) confirms no new version/render job. The app retains the same generation intent
+for one confirmation after diagnostics deploy. The underlying cause is unresolved.
+
+Safe MCP text errors and bounded presentation SQL diagnostics are now on local
+Mainfdd0aba, independently reviewed and [freshly verified](../tracking/evidence/m07/completion-release/2026-11-02T10-00-21.237Z-bea51fe2-mcp-diagnostic-root-quality.json):968/968 deterministic tests, typecheck, lint and production guard passed on
+unchanged clean source. The earlier generated next-env stability failure is
+preserved. These product changes are not deployed yet; J3/c88 remains serving.
 Advertised review-link reason support and lost review audit correlation are
-confirmed contract defects; compatible additive SQL40/parser work is local only.
+confirmed contract defects. SQL40/parser work remains isolated and unapplied;
+the first owned rehearsal failed before migration on fixture access validation,
+with exact original-target preservation and owned-resource cleanup.
 
 Contributor acceptance is **skipped by owner**, not passed; no identity or grants
 were created. File-URL permission was enabled, but the chooser hook still timed
@@ -90,7 +97,7 @@ release checkpoint `62df023` is published on Main. Repository visibility remains
 private; the fixed-secret scan is not a full PII audit. This readback reconciliation
 adds documentation only. No full M07/release verification is claimed.
 
-Next: complete natural SDK expiry/rotation/local-revoke, collect the actual-Claude after-expiry read, then release the source freeze. Review/verify the isolated MCP error/contract fixes before deploying and requesting one controlled delegated generation retry. Guest delta and manual AT072 remain open; AT069 stays unreplayed.
+Next: deploy the independently reviewed web-only diagnostics with fresh canonical39/readback admission, then confirm the retained UI generation request once and fix the observed cause. Complete the owned SQL40 rehearsal and compatibility release separately. Actual-Claude renewal/delegated outputs, guest delta, direct UI intake and manual AT072 remain open; contributor/mobile are skipped by owner, and AT069 stays unreplayed.
 
 The dated checkpoints below are preserved history; the current checkpoint above governs serving state and next actions.
 
