@@ -1,5 +1,68 @@
 # Everyone Presentation Studio - current English-output handoff
 
+## Production worker and web serving; M07 acceptance continues - 2026-11-02T03:49:45.756463+00:00
+
+The stable production alias https://everyone-presentation-pilot.vercel.app serves
+`dpl_J3hmctcHndRp8zDVAPYfcnjEgpzG`, product source `c88f58c` / manifest `f947fb53`.
+The [normal deployment and two equal Ready/alias readbacks](../tracking/evidence/m07/production-web-release/2026-11-02T02-34-07-437169Z-readback.json) passed
+at 02:34:07 UTC. The redesigned UI and project creation are serving;
+this does not verify the complete M07 journey.
+
+Worker `dpl_Cp1TW1vP3JiLJoL5G3Zx2yfei97M` uses source `0566342e`,
+daemon `2d66eed2`, native `46de2f0c` and manifest `a317b0c7`.
+[Startup admission](../tracking/evidence/m07/completion-worker/2026-11-02T02-20-07-299859Z-rollout39-ready.json) passed the actual complete first ten-minute
+window with 23 bound records, one Ready/alive instance and no old instances.
+[Future native pin](../tracking/evidence/m07/completion-worker/2026-11-02T02-24-16-275686Z-rollout39-pin.json) passed at 02:24:16 and
+[all five processing flags resumed](../tracking/evidence/m07/completion-worker/2026-11-02T02-28-39-166492Z-rollout39-resume.json) at 02:28:39, each with normal
+return and matching readbacks. Private/preview environment metadata was preserved.
+See the [cutover checkpoint](../tracking/WORKER_CUTOVER_CURRENT_2026-11-02.md); cached platform health is not a
+fresh heartbeat claim. Do not replay completed deployment/configuration claims.
+
+[Production public admission](../tracking/evidence/m07/completion-release/2026-11-02T02-40-42.581Z-61b370e7-production-public.json) passed all ten checks, without
+credentials or signed-in workflow credit; both earlier failed probes remain.
+Actual signed-in creation/reload plus canonical readback passed for
+[Planned Storyboard project98eb37f8](../tracking/evidence/m07/completion-release/planned-project-production.json) (one creator membership,
+audit/receipt, zero workspaces/jobs/series/versions) and
+[Casting projectbf650022](../tracking/evidence/m07/completion-release/casting-project-production.json) with separately started workspace
+`5505def3`. Temporary shared-client wording was restored; no new client
+memberships/global grants were added. MCP creation remains separately unverified.
+
+The [bounded production human journey](../tracking/evidence/m07/completion-release/production-human-journey-checkpoint.json) passed actual UI/library/frame/
+assignment/Main/Shortlist persistence. Selection `8f1c303e`, Shortlist `63787eff`
+and new Selection `1b20ec2d` are Ready and downloaded. Independent Poppler and
+visual checks confirm two-page PDFs, all ten labels/three actual images,
+internal project-note exclusion and no clipping/overlap. Original video `d9db`
+loaded at 21.856s / 853x480, readyState4/no error, played and paused. A
+presentation-only note edit changed no library fact; old Selectionv1 retained
+SHA256 prefix `dd7b7b37`, while new v2 PDF `979ead40` contains the new wording.
+Specs job `6e3cb86f` completed through real services from synthetic input; its
+provider audit remains pending. Full human/Claude/guest and representative
+business-accuracy acceptance is not inferred from this bounded technical proof.
+
+[Operator OAuth run402aca12 preparation](../tracking/evidence/m07/temporary-oauth-lifecycle-coordinator/2026-11-02T03-18-15.949Z-402aca12-prepare.json) is armed and prepared
+against this web source, but no listener, token exchange or new session has run;
+the private owner Ready handoff is pending. Actual-Claude renewal observation
+is separate. Genuine contributor remains absent at03:35:02; private provisioning and
+restricted-frame acceptance,
+anonymous guest delta/token lifecycle and manual AT072 remain open. The
+[production UI/manual AT072 task](../development/m07/PRODUCTION_UI_AT072_TASK.md)
+is pending; mobile testing stays skipped by owner instruction.
+
+Native46 smoke, [independent synthetic39 Storage/API recovery](../tracking/evidence/m07/independent-recovery39/2026-11-02T01-05-56.716Z-4c302b36.json)
+and the private canonical76-table checkpoint retain distinct scopes. Managed
+Auth/private production configuration/real canonical media restore, RTO/RPO,
+representative endurance and AT069 queued replacement/compatible rollback are
+not verified; the AT069 policy block is unchanged. All dated failures remain.
+The repository is private; last confirmed remote Main is `a61ebb7`, while the
+current local checkpoint before this documentation change is `423d107`.
+Later commits are not claimed pushed. No full M07/release verification is claimed.
+
+Next: audit specs provider evidence and complete guest/actual-Claude reciprocal
+readbacks; continue auth after the existing private owner-ready condition.
+This documentation update needs no product change or redeployment.
+
+The dated checkpoints below are preserved history; the current checkpoint above governs serving state and next actions.
+
 ## Production worker deployed; processing paused - 2026-11-02T02:14:31.375610+00:00
 
 Normal pause01:55:10, all3production environment writes and preserving readbacks
