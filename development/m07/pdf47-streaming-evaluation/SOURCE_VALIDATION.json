@@ -1,0 +1,84 @@
+{
+  "bounds": {
+    "maximum_canonical_POSTs": 1,
+    "outer_sse_ms": 300000,
+    "parsed_events": 50000,
+    "sdk_retries": 0,
+    "wire_bytes": 8388608
+  },
+  "checks": {
+    "diff_check_exit": 0,
+    "lint_exit": 0,
+    "node": {
+      "command": "node --import tsx --test development/m07/pdf47-streaming-evaluation/evaluate.test.mts",
+      "duration_ms": 3601.181,
+      "failed": 0,
+      "passed": 16,
+      "skipped": 0
+    },
+    "python": {
+      "command": ".venv-skills/Scripts/python.exe -X utf8 -B development/m07/pdf47-streaming-evaluation/test_private_bridge.py",
+      "duration_seconds": 0.244,
+      "failed": 0,
+      "passed": 5
+    },
+    "typecheck_exit": 0
+  },
+  "execution": {
+    "Root_Main_edits_by_task": false,
+    "actual_database_queries": 0,
+    "actual_job_outbox_callback_or_writeback": false,
+    "actual_private_preparation": false,
+    "actual_provider_network_requests": 0,
+    "actual_retained_input_read": false,
+    "bridge_enabled": false,
+    "evaluation_enabled": false,
+    "old_claims_or_outcomes_changed": false,
+    "packed_product_or_build_inputs_changed_by_task": false
+  },
+  "limits": [
+    "Actual SDK tests inject synthetic fetch/SSE only; no live provider latency or factual-quality claim.",
+    "Private terminal custody and unchanged production validation are separate from changed-delivery transport.",
+    "Production60s default/70s cap remain unchanged; no exact non-stream or whole-production acceptance.",
+    "All old failures and unknown costs retain their original scope."
+  ],
+  "observed_at": "2026-11-02T19:59:21.657909+00:00",
+  "peer_review": {
+    "agent": "runtime_release",
+    "custody_source_order_finding": {
+      "fix": "post-transport seal check before raw bridge custody, existing post-custody pre-validator check retained",
+      "regression_green_in_full16": true,
+      "regression_red": {
+        "expected": 0,
+        "failed": 1,
+        "raw_custody_calls": 1,
+        "tests": 1
+      }
+    },
+    "result": "closed_pass",
+    "scope": "source only; no test/provider/private operation by peer"
+  },
+  "purpose": "pdf47_streaming_diagnostic_source_validation",
+  "reference": {
+    "input_sha256": "9185702344c74088328b8c6dee0d78d47bd70cf60c78ad520499937bb74e9742",
+    "path": "tracking/evidence/m07/pdf47-extended-deadline-evaluation/a619b610-168e-43c6-99ae-967a9f3cc835-result.json",
+    "production_request_sha256": "db2b95fd8f8ccfdcfe9b0294593652efcf6c80207e1e8ea69259cbe0451993be",
+    "sha256": "11db93cd66f5b2ff7f8878e98caa521477b6f7dcf0533b8a7da570f33fe850e4"
+  },
+  "result": "passed_source_only_default_off",
+  "reused_pure_builder": {
+    "old_send_or_entry_invoked": false,
+    "path": "development/m07/pdf47-extended-deadline-evaluation/transport.mts",
+    "sha256": "1d66e829c11b55320b2c2e1e331ae123b8ed6aad6b83c52172fe298c8db03a18"
+  },
+  "schema_version": "1.0",
+  "source_pins": {
+    "README.md": "f6b6aa2eca10489e6d0dfd05d774303657829d5aa65e907e7970623d447f5deb",
+    "evaluate.mts": "02839565d8b657287ca7bc15f553f695a2f75e5a138365c6d19009d2a8e7858b",
+    "evaluate.test.mts": "5cfbcb632334ab930133e7a0efd6dd075a067fda0e9da498c0fbfd9b9fefde8b",
+    "private_bridge.py": "ac8a6d1c219d82781aa78fbfa84dbbf1c80a4098215162bd3a7784b28ee34b22",
+    "test_private_bridge.py": "8004c5d49f7828b3723a8df239182f9bdb8011ea235cbf079787f6dad7e6c1e8",
+    "transport.mts": "2bd36deadee595157c01494cfa4016bcf9e6baefcd026e9bbfd58b148b61da1e",
+    "tsconfig.json": "e0b645393a266af822d22f129c5eb7961e2d7179c5866038d30591176dda050f"
+  }
+}
