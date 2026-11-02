@@ -1,0 +1,115 @@
+{
+  "schema_version": "edge-rls-disabled-owned-plan.v1",
+  "observed_at": "2026-11-02T21:20:11.233148+00:00",
+  "source_commit": "46deb3741649d5df40ddbb0a3541f07a31f3f0ee",
+  "entry_execution_enabled": false,
+  "compiled_only": true,
+  "execution_dispatched": false,
+  "compile_uuid": "8de99904-ddab-4544-9eeb-828dbb90d52c",
+  "source_seals": {
+    "development/m07/presentation-lock-source-edge-rls-proof/admit.mjs": "a39caed32227eb8c1d2a1dc4c3e94b2e5baddbca4b1af8187134710fad58b2a0",
+    "development/m07/presentation-lock-source-edge-rls-proof/compiler.py": "916bba555dd16a8254e6d3eb7b5bb007099ff42a26af6b3be4cda9803a58d882",
+    "development/m07/presentation-lock-source-edge-rls-proof/driver.test.mjs": "428050a7a2873f53128d3ec612cf6285c40106363109b03b890b829b6bbb5db4",
+    "development/m07/presentation-lock-source-edge-rls-proof/edge.mjs": "26d0b8b79eceac3f7651ac907472f4b1486852657bd4dbaa4d32c9093b21813d",
+    "development/m07/presentation-lock-source-edge-rls-proof/edge.py": "10db4bebb3e53fd76f83393acca65d1dc02eda8189cee015e33af436efd44a2d",
+    "development/m07/presentation-lock-source-edge-rls-proof/entry.mjs": "3a372cbdb8f38b87bb86e11ba5d24194de8bb39c5aa08a20fd8b585d0acc1a47",
+    "development/m07/presentation-lock-source-edge-rls-proof/README.md": "df619dc22a0f2ed5cf090f8a461c998636092863f68436af5faf38305b30c17d",
+    "development/m07/presentation-lock-source-edge-rls-proof/source.py": "94926dbff61a32458434cd700fc203ca427d6f029dba1478fbd2f57c0607979a",
+    "development/m07/presentation-lock-source-edge-rls-proof/test_proof.py": "c343ec6b9ab42286980ac4b19de33d10c034a1b11d162f162f0ed717dac31823"
+  },
+  "compiled_outputs": [
+    {
+      "path": ".local/presentation-lock-source-edge-rls-proof-compiled/cases-8de99904-ddab-4544-9eeb-828dbb90d52c.mjs",
+      "sha256": "f98f059afed16198865450e5eeef2d28a96ad173e1318c027b83a41f79e2c5e6",
+      "node_check_exit": 0
+    },
+    {
+      "path": ".local/presentation-lock-source-edge-rls-proof-compiled/callback-8de99904-ddab-4544-9eeb-828dbb90d52c.mjs",
+      "sha256": "83f215064507c2b0e0b6f048300daa64b59a561b563b4767f554669350a1a459",
+      "node_check_exit": 0
+    },
+    {
+      "path": ".local/presentation-lock-source-edge-rls-proof-compiled/controller-8de99904-ddab-4544-9eeb-828dbb90d52c.mjs",
+      "sha256": "cff0eb316ff11d1eeec13c2457c4cd125f85d67b44d672357ea25e1aa8cefa13",
+      "node_check_exit": 0
+    }
+  ],
+  "edge_SQL_sha256": "cb3f732e012b589bd13dc9a493b3c81d7bdac2510703b2052db71c742eff5cfd",
+  "source_projection": {
+    "inverse_byte_equal": true,
+    "replaced_only_semantic_invocation_and_added_point_helpers": true,
+    "unchanged_RC_function_sha256": {
+      "crossWorkspaceKeys": "50b8975d4a81753b040169bbde9fc042038b46f1d0186edae608cc8da003338d",
+      "workspaceFenceRace": "cd369da0c4de4402c7d37da8a9c27949de44ba31bc39534e072c5bee15a5a5fb",
+      "authorityCases": "0e695818662aba21f0103d162a913e5c149250b336aa3764f17023d1377fb7aa"
+    },
+    "all12_and_benchmark_not_replayed": true
+  },
+  "source_branch_proof": {
+    "original4107_asset_statement_sha256": "643d4352b85c40daacc999cbc48248e3e0799656241dcc8db87ed85f6cfa19a4",
+    "original4107_whole_asset_predicate_sha256": "9a80cf52ac2939e825bc03317cc6de9b9e1318f1832a651e1f822b1c3b7f0004",
+    "candidate280_pre_asset_stage_sha256": "b1c65c37d2d0e7606d5ec62ebb5e3c29c124fcf557c3e35d3ec3c56de0545ce5",
+    "unchanged1ff_280_asset_assembly_lock_sha256": "2c5fb98d97eefba273cd84aa5d5e6428369dfb80fde336a34ea32c0b119e133b",
+    "asset_assembly_lock_byte_equal": true,
+    "point_restriction_only_for_original_whole_asset_predicate": true,
+    "actual_helper_installed_unchanged": "280244090e5350b912dec5b23b74bb5d260e9e21df497c8ddfc2ae322fb774c4",
+    "direct_branch_control_not_full_old_helper_timing": true,
+    "same_security_invoker_RLS_and_FOR_SHARE_NOWAIT": true,
+    "edge_only_RR_own_DML_no_concurrent_source_or_authority_writer": true
+  },
+  "retained_receipt": {
+    "path": "tracking/evidence/m07/presentation-lock-source-complete-oracle-proof/2026-11-02T20-33-12.340Z-39386edd.json",
+    "sha256": "f5de1993783c8c3f4e618189091291ea905bd34839effd088af59e403d477cac"
+  },
+  "carried_dated_partial_scopes": {
+    "all12_PK_oracle_keys": 1637,
+    "actual_selected_locks": 150,
+    "unselected_negatives": 8,
+    "RR_cases": [
+      "baseline",
+      "empty_assignments",
+      "referenced_archived_pool"
+    ],
+    "missing_pair_tuple_equality_only": true,
+    "failed_fourth_assertion_retained": true,
+    "RC_security_not_carried": true,
+    "benchmark_or_oracle_replay": false
+  },
+  "fresh_proposed_scopes": [
+    "four same-holder asset-RLS counterfactuals with original WHERE/new IDs and real same-actor FOR SHARE/contender controls",
+    "unchanged cross-workspace FK rejection",
+    "unchanged RC public assignment workspace-fence race",
+    "unchanged RC membership removal, capability removal and current-clock expiry races",
+    "full fresh row/catalogue/reason/Ready/config/source restoration",
+    "outer original29 complete data/catalogue/globalroles preservation and independent same-engine owned-resource absence"
+  ],
+  "bounds": {
+    "statement_ms": 8000,
+    "lock_ms": 8000,
+    "transport_request_ms": 45000,
+    "stdout_bytes": 2097152,
+    "stderr_bytes": 131072,
+    "new_authority_or_expiry_extension": false
+  },
+  "limitations": [
+    "no actual SQL/Docker/provider dispatch",
+    "no production SQL or generation retry",
+    "no helper/policy/grant/timeout change",
+    "isolated RR controls do not prove concurrent authority revocation",
+    "no whole-generation or four-body acceptance",
+    "old full-helper timing not replayed",
+    "per-point native failure stops; no automatic replay"
+  ],
+  "offline_results": {
+    "Python_AST_projection_compiler_checks": {
+      "passed": 5,
+      "seconds": 0.892
+    },
+    "Node_receipt_fakeport_checks": {
+      "passed": 5,
+      "milliseconds": 404.7906
+    },
+    "eslint_exit": 0,
+    "compiled_node_checks": 3
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "schema_version": "missing-frame-asset-RLS-source-analysis.v1",
+  "observed_at": "2026-11-02T21:20:11.233148+00:00",
+  "classification": "source-based hypothesis; actual same-holder counterfactual still unexecuted",
+  "retained_failure": {
+    "path": "tracking/evidence/m07/presentation-lock-source-complete-oracle-proof/2026-11-02T20-33-12.340Z-39386edd.json",
+    "sha256": "f5de1993783c8c3f4e618189091291ea905bd34839effd088af59e403d477cac"
+  },
+  "restored_metadata_sha256": "12df4e565d466c008095498903237ae24f304403887db396b8bc46b5cf93346c",
+  "facts_from_pinned_sources": {
+    "media_assets_RLS_enabled_and_forced": true,
+    "review_owner_non_superuser_non_bypass_RLS": true,
+    "review_owner_explicit_inherited_role": "authenticated",
+    "review_owner_direct_SELECT_policy_branches": 3,
+    "candidate_frame_direct_association_REQUIRED_for_review_assets_read": true,
+    "retained_background_version_project_not_actor_authorized": true,
+    "original4107_whole_asset_WHERE_preserved": true,
+    "1ff_280_asset_assembly_and_lock_byte_equal": true,
+    "selected_frame_ID_does_not_require_frame_pair": true
+  },
+  "observed393": {
+    "holder_deleted_one_pair_uncommitted": true,
+    "same_actor_separate_RC_contender_found_asset": true,
+    "contender_asset_lock_was_free": true,
+    "native_SQLSTATE_available": false,
+    "fourth_case_tuple_hashes_equal": true,
+    "original29_roles_catalogue_preserved": true,
+    "cleanup_passed": true
+  },
+  "inferred_causal_boundary": "Holder own-deleted association can remove its SELECT visibility while the same-actor contender sees the committed pair. The failed assertion alone does not establish a helper regression.",
+  "required_fresh_controls": [
+    "four same-holder asset-RLS counterfactuals with original WHERE/new IDs and real same-actor FOR SHARE/contender controls"
+  ],
+  "source_fragment_seals": {
+    "original4107_asset_statement_sha256": "643d4352b85c40daacc999cbc48248e3e0799656241dcc8db87ed85f6cfa19a4",
+    "original4107_whole_asset_predicate_sha256": "9a80cf52ac2939e825bc03317cc6de9b9e1318f1832a651e1f822b1c3b7f0004",
+    "candidate280_pre_asset_stage_sha256": "b1c65c37d2d0e7606d5ec62ebb5e3c29c124fcf557c3e35d3ec3c56de0545ce5",
+    "unchanged1ff_280_asset_assembly_lock_sha256": "2c5fb98d97eefba273cd84aa5d5e6428369dfb80fde336a34ea32c0b119e133b",
+    "asset_assembly_lock_byte_equal": true,
+    "point_restriction_only_for_original_whole_asset_predicate": true,
+    "actual_helper_installed_unchanged": "280244090e5350b912dec5b23b74bb5d260e9e21df497c8ddfc2ae322fb774c4",
+    "direct_branch_control_not_full_old_helper_timing": true,
+    "same_security_invoker_RLS_and_FOR_SHARE_NOWAIT": true,
+    "edge_only_RR_own_DML_no_concurrent_source_or_authority_writer": true
+  },
+  "no_SQL_or_provider_called": true,
+  "no_private_candidate_names_facts_transcripts_or_payloads_in_artifact": true
+}
