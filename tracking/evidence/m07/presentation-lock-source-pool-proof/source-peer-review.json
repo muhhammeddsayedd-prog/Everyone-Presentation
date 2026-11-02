@@ -1,0 +1,63 @@
+{
+  "schema_version": "pool-proof-independent-source-peer-review.v1",
+  "scope": "Read-only source, parser, fake ports and pure Node behavior; not an executed database proof.",
+  "source_commits": [
+    "716cf494ac5a148aeb43b57051538be1352a3354",
+    "396b2e6c7d2a2c1ee2ef27a070e4a05e9a378577",
+    "7ad806058e38192cf8aaa4a5997afbdc618af7ee"
+  ],
+  "disabled_plan": {
+    "path": "tracking/evidence/m07/presentation-lock-source-pool-proof/disabled-owned-plan-v2.json",
+    "sha256": "0115366e4605efe40fa82c6bf1e54d958dff6a3d111efd4b85aac0901c6bf01d",
+    "unchanged": true,
+    "pending_peer_status_was_accurate_when_plan_was_written": true
+  },
+  "frontend_full_review": {
+    "reviewer": "/root/frontend_integration",
+    "result": "closed_pass_no_concrete_blocker",
+    "reviewed": "All11 new source files and elapsed-time follow-up.",
+    "independent_Node_fake_port_checks": { "passed": 8, "failed": 0, "duration_seconds": 5.170 },
+    "independent_Python_source_parser_compiler_checks": { "passed": 6, "failed": 0, "duration_seconds": 1.155 },
+    "confirmed": [
+      "All8 fresh-backend first calls precede any warm; only4 successful new backends receive2 planned warms each.",
+      "Known baseline57014 requires real verbose provenance, normal private capture and normal failed psql exit3.",
+      "Oracle12 original predicates are independently bounded8s in one read-only repeatable-read snapshot after real holder fence/helper; counts and NOWAIT negatives fail closed.",
+      "Selected tuples, archived-pool FK KEY SHARE control, missing pair, cross-workspace FKs, public assignment wait and live authority cases retain fence, rollback and preservation semantics.",
+      "Only helper prosrc is masked; exact4107, four old body catalogue identities and original presentation configuration are restored.",
+      "Protected compile-artifact once claim precedes original target and Docker; no execution permission inferred."
+    ]
+  },
+  "runtime_preservation_subset": {
+    "reviewer": "/root/runtime_release",
+    "result": "closed_no_concrete_blocker",
+    "scope": "One-helper mask, unchanged four old identities,4107/config restoration, once claim ordering, authority preimage restoration and outer owned cleanup.",
+    "extra_test_run": false,
+    "executed_database_acceptance": false
+  },
+  "frontend_pending_rejection_followup": {
+    "reviewer": "/root/frontend_integration",
+    "result": "closed_pass_no_concrete_blocker",
+    "commit": "7ad806058e38192cf8aaa4a5997afbdc618af7ee",
+    "cases_sha256": "2832ee76211ed1a2494adad26b1d17fc90adae6e600b943232b6bc170a4e9dc5",
+    "test_sha256": "d7f5ee87e7e0f6b5947fffe20afeddd9ba4288c8b7dbe5be04fc174f0e0bd9d1",
+    "finding": "Native race requests could reject before their later await during polling or barrier work.",
+    "correction": "Immediate no-op rejection observer retains the original Promise and later original Error; both pending sites use it.",
+    "strict_Node_subprocess_RED_GREEN_regression_source_reviewed": true,
+    "SQL_sequence_and_acceptance_unchanged": true,
+    "extra_test_run": false
+  },
+  "author_final_focused_checks": {
+    "Node_passed": 9,
+    "Python_passed": 6,
+    "ESLint_exit": 0,
+    "diff_check_exit": 0,
+    "compiled_controller_callback_Nodecheck_exit": 0
+  },
+  "execution_enabled": false,
+  "SQL_commands_issued_by_this_preparation": 0,
+  "Docker_commands_issued_by_this_preparation": 0,
+  "provider_calls_by_this_preparation": 0,
+  "runtime_claims_or_resources_created": false,
+  "Root_exact_source_plan_review_and_execution_authorization": "pending",
+  "no_performance_generation_or_release_acceptance_claim": true
+}
