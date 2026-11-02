@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-11-02T01:55:55.348285+00:00",
+  "result": "passed",
+  "scope": "inert temporary operator SDK OAuth primitives, protected storage and disabled adapters; offline acceptance only",
+  "source_commit": "abf2a5439becf5bc2ddd1f078443fe874890404f",
+  "actual_Claude_acceptance": false,
+  "live_coordinator_implemented": false,
+  "owner_callback_live_enabled": false,
+  "metadata_reader_enabled": false,
+  "provider_calls": 0,
+  "authorization_flows": 0,
+  "listeners_started": 0,
+  "real_credentials_used": false,
+  "source_files": {
+    "development/m07/temporary-oauth-lifecycle/core.mjs": "e508b79855f9d66aea9e918dd50b96a4a44cec25e6543a61799a3b44e501a316",
+    "development/m07/temporary-oauth-lifecycle/core.test.mjs": "b5e65f01c1ad62187aa3a1409eb6206c0e97c9dea94627f08daaaebd3b04195c",
+    "development/m07/temporary-oauth-lifecycle/DESIGN.md": "ddf6774de6d760899f692db8eedcb7cf6ebb74e0216d461a7848bfd0796ca4fa",
+    "development/m07/temporary-oauth-lifecycle/metadata_reader.py": "538b78b60ffb641f5fb656dc8bc173e4cf17090ae0e04cafaad8235ec3be3d60",
+    "development/m07/temporary-oauth-lifecycle/owner_callback.mjs": "b400fdb73c57895950f0ca43833980bd02d71c87a2d953b78a5d9316075dc3fb",
+    "development/m07/temporary-oauth-lifecycle/owner_callback.test.mjs": "c2f1806770dd844caa584cbe6c1f557754bf87f9d5363c46adb999f9d2d44057",
+    "development/m07/temporary-oauth-lifecycle/private_store.py": "bfd1c1bd75a319e30afec3330a33132a236cff46362b42074eabdca412abfcf0",
+    "development/m07/temporary-oauth-lifecycle/README.md": "b1f6d5ce0dce4b63c0abe0ec33298ba10cc93a8c6b788c818e0bebe2dddbcbcb",
+    "development/m07/temporary-oauth-lifecycle/test_metadata_reader.py": "936e13b753af865e527049987f2c80c0c9ed8a4b0765ed15e24e291980aa59ff",
+    "development/m07/temporary-oauth-lifecycle/test_private_store.py": "11339a61da2141878ac5e27994dae0a3bd41653d483d594d6306b23c294dd88b"
+  },
+  "checks": [
+    {
+      "command": "node --test development/m07/temporary-oauth-lifecycle/core.test.mjs development/m07/temporary-oauth-lifecycle/owner_callback.test.mjs",
+      "exit_code": 0,
+      "tests": 12,
+      "pass": 12,
+      "fail": 0,
+      "skip": 0,
+      "actual_timeout_test_ms": 10000
+    },
+    {
+      "command": ".venv-skills/Scripts/python.exe -X utf8 -B -m unittest discover -s development/m07/temporary-oauth-lifecycle -p test_*.py",
+      "exit_code": 0,
+      "tests": 4,
+      "actual_Windows_private_acl_synthetic_write_and_cleanup": true,
+      "readonly_SQL_parse_and_Node_Python_byte_equality": true
+    },
+    {
+      "command": "eslint development/m07/temporary-oauth-lifecycle/{core.mjs,core.test.mjs,owner_callback.mjs,owner_callback.test.mjs}",
+      "exit_code": 0
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0
+    }
+  ],
+  "disabled_native_entry": {
+    "command": ".venv-skills/Scripts/python.exe -X utf8 -B development/m07/temporary-oauth-lifecycle/metadata_reader.py",
+    "expected_exit_code": 1,
+    "closed_error": "TEMP_OAUTH_METADATA_REFUSED",
+    "query_dispatched": false
+  },
+  "peer_review": {
+    "reviewed_commit": "abf2a5439becf5bc2ddd1f078443fe874890404f",
+    "reviewer": "frontend_integration",
+    "remaining_concrete_blocking_findings": 0,
+    "independent_pure_Node_tests": 12,
+    "no_live_or_ACL_cycles_by_reviewer": true
+  },
+  "red_green_regressions": [
+    {
+      "case": "missing previous access token",
+      "red": "missing expected rejection",
+      "green": "required before claim or HTTP"
+    },
+    {
+      "case": "changed unrelated session not_after",
+      "red": "missing expected exception",
+      "green": "all unrelated projected fields exact"
+    },
+    {
+      "case": "original baseline session missing before logout",
+      "red": "missing expected exception",
+      "green": "prelogout baseline subset exact"
+    }
+  ],
+  "synthetic_private_run_directories_remaining": 0
+}
