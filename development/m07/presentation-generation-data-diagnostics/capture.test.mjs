@@ -46,3 +46,17 @@ test('no native SQLSTATE is inferred from non-verbose error words or public payl
  await assert.rejects(target.request('select 1;'));
  assert.equal(report.first_native_error_capture.native_sqlstate,null);assert(!JSON.stringify(report).includes('PRIVATE_RELATION'));
 });
+
+test('Node EPIPE cannot become a native SQLSTATE',async()=>{
+ const report={},target={async request(){throw Object.assign(Error('transport'),{code:'EPIPE'});}};
+ preserveFirstOwnedError([],async()=>{},report).push(target);
+ await assert.rejects(target.request('select 1;'));
+ assert.equal(report.first_native_error_capture.native_sqlstate,null);assert.equal(report.first_native_error_capture.native_sqlstate_provenance,null);
+});
+
+test('later private text resembling an ERROR cannot replace a nonverbose first ERROR',async()=>{
+ const report={},target={async request(){throw Object.assign(Error('LOCKSOURCE41_SESSION_FAILED'),{diagnostic:{stderr:'ERROR: permission denied\nDETAIL: PRIVATE_ROW\nERROR: 22P02: PRIVATE_ROW_TEXT'}});}};
+ preserveFirstOwnedError([],async()=>{},report).push(target);
+ await assert.rejects(target.request('select 1;'));
+ assert.equal(report.first_native_error_capture.native_sqlstate,null);assert(!JSON.stringify(report).includes('PRIVATE_ROW'));
+});

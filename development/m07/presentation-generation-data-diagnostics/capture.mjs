@@ -3,6 +3,11 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 
 const code=value=>typeof value==='string'&&/^[0-9A-Z]{5}$/u.test(value)?value:null;
+const verbosePsqlState=stderr=>{
+ if(typeof stderr!=='string')return null;
+ const first=stderr.split(/\r?\n/u).find(line=>/^(?:psql:[^\r\n]*:[0-9]+:\s*)?ERROR:/u.test(line));
+ return code(typeof first==='string'?/^(?:psql:[^\r\n]*:[0-9]+:\s*)?ERROR:\s+([0-9A-Z]{5}):(?:\s|$)/u.exec(first)?.[1]:null);
+};
 const phase=text=>/^\s*select pg_temp\.locksource41_cohorts\(/u.test(text)?'source_cohort_read':/^\s*select pg_temp\.locksource41_measure\('locks',/u.test(text)?'source_lock_measure':text.trim()==='rollback;'?'cleanup_rollback':'owned_request';
 
 export function preserveFirstOwnedError(target,sink,report){
@@ -21,8 +26,10 @@ export function preserveFirstOwnedError(target,sink,report){
        attempted=true;
        const diagnostic=error?.diagnostic;
        const stdout=typeof diagnostic?.stdout==='string'?diagnostic.stdout:null,stderr=typeof diagnostic?.stderr==='string'?diagnostic.stderr:null;
-       const sqlstate=code(error?.code)??code(typeof stderr==='string'?/\bERROR:\s+([0-9A-Z]{5}):/u.exec(stderr)?.[1]:null);
-       const metadata={phase:phase(text),request_sha256:createHash('sha256').update(text).digest('hex'),native_sqlstate:sqlstate,private_capture_normal_return:false};
+       // Node's EPIPE is five characters, too. Only the first verbose psql
+       // ERROR line can supply this value; an Error.code is never PG evidence.
+       const sqlstate=verbosePsqlState(stderr);
+       const metadata={phase:phase(text),request_sha256:createHash('sha256').update(text).digest('hex'),native_sqlstate:sqlstate,native_sqlstate_provenance:sqlstate===null?null:'first_verbose_psql_ERROR_line',private_capture_normal_return:false};
        report.first_native_error_capture=metadata;
        try{
         await sink({schema_version:'owned-first-native-error.v1',...metadata,message:typeof error?.message==='string'?error.message:null,stdout,stderr});
