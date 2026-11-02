@@ -3,7 +3,7 @@ import { createServer } from 'node:http';
 import { clearTimeout,setTimeout } from 'node:timers';
 import { URL } from 'node:url';
 import { authorizationTarget,callback } from './core.mjs';
-export const LIVE_ENABLED=false;
+export const LIVE_ENABLED=true;
 const need=value=>{if(!value)throw Error('TEMP_OAUTH_OWNER_CALLBACK_REFUSED');};
 export function requestTarget({method,host,remoteAddress,url,origin}){
  need(method==='GET'&&host==='localhost:3118'&&['127.0.0.1','::1','::ffff:127.0.0.1'].includes(remoteAddress)&&typeof url==='string'&&url.length<=8192&&(origin===undefined||origin==='http://localhost:3118'));

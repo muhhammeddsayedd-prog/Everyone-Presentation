@@ -2,7 +2,7 @@
 from pathlib import Path
 import hashlib,importlib.util,json,os,re,sys,uuid
 HERE=Path(__file__).resolve().parent;MAIN=Path('D:/Everyone/Presentation/Everyone-Presentation-Studio')
-LIVE_ENABLED=False
+LIVE_ENABLED=True
 OWNER='tracking/evidence/m07/oauth-attempt-trace/2026-10-31-owner-connection-acceptance.json'
 OWNER_SHA='579377062d37de3909fab7212eeec0fb50db87f1c3e7341f3bbe435a8c268ed9'
 CLI=MAIN/'.local/m07-pilot/tooling/node_modules/vercel/dist/vc.js'

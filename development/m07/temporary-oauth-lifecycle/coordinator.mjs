@@ -10,7 +10,7 @@ import { fileURLToPath,pathToFileURL,URL } from 'node:url';
 import { Client,StreamableHTTPClientTransport } from '@modelcontextprotocol/client';
 import * as core from './core.mjs';
 import { ownerCallback } from './coordinator_callback.mjs';
-export const LIVE_ENABLED=false;
+export const LIVE_ENABLED=true;
 const {Response,Request,Headers,AbortController}=globalThis;
 const ROOT='D:/Everyone/Presentation/Everyone-Presentation-Studio',HERE=import.meta.dirname;
 const SDK_ENTRY=fileURLToPath(import.meta.resolve('@modelcontextprotocol/client'));
