@@ -32,7 +32,8 @@
       "pass": 12,
       "fail": 0,
       "skip": 0,
-      "actual_timeout_test_ms": 10000
+      "timeout_deadline_ms": 10000,
+      "actual_timeout_test_passed": true
     },
     {
       "command": ".venv-skills/Scripts/python.exe -X utf8 -B -m unittest discover -s development/m07/temporary-oauth-lifecycle -p test_*.py",
