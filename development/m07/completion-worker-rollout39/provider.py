@@ -25,6 +25,13 @@ def meta(marker):
  need(str(uuid.UUID(marker))==marker)
  return {'epsCompletionSource':s.SOURCE,'epsCompletionNative':s.NATIVE,'epsCompletionDaemon':s.DAEMON,'epsCompletionManifest':s.MANIFEST,'epsCompletionRun':marker}
 
+def check_native_concurrency(value,sql_contract):
+ need(value['result']=='passed'and value['cloud_called']is False and value['provider_called']is False and value['sql_contract_sha256']==sql_contract)
+ need(all(value[k]is True for k in('cached_intake_waited_before_snapshot','fresh_intake_denied_after_pause','retry_lifecycle_not_hidden_by_pause','committed_intake_visible_to_first_snapshot','committed_intake_preimage_refused_before_updates','actual_committed_intake_job_preserved','all_other_cloned_rows_preserved','all_owned_resources_absent','original_data_catalogue_and_global_roles_unchanged','shared_lock_released')))
+ need(value['all_five_actual_config_locks_held']=={'config_access_exclusive':5})
+ pids=value['distinct_backend_pids'];need(type(pids)is list and len(pids)==6 and all(type(pid)is int and pid>0 for pid in pids)and len(set(pids))==6)
+ checked=value['checkpoint_query_validation'];need(checked['query_sha256']==CHECKPOINT_SHA and checked['application_tables']==76 and checked['same_state_before_after']is True and checked['table_counts_match_state']is True and checked['history_count']==39 and checked['raw_rows_persisted']is False and checked['maximum_capture_bytes']==32*1024**2 and checked['owned_session_authorization']=='postgres'and type(checked['stdout_bytes'])is int and 0<checked['stdout_bytes']<=32*1024**2)
+
 class Provider:
  def __init__(self):
   need(s.sha(s.load(REGISTRY))==REGISTRY_SHA);self.r=module('completion39_existing_bounded_transport',REGISTRY)
@@ -189,8 +196,7 @@ class Provider:
   if phase in('pause','deploy'):
    ref=self.inputs['native_concurrency'];need(type(ref)is dict and set(ref)=={'path','sha256'}and ref['path'].startswith('tracking/evidence/')and'..'not in Path(ref['path']).parts)
    raw=s.load(s.MAIN/ref['path']);need(s.sha(raw)==ref['sha256']);value=json.loads(raw)
-   need(value['result']=='passed'and value['actual_native_sql_concurrency']is True and value['sql_contract_sha256']==self.s.sql_contract_sha256()and all(value[k]is True for k in('cached_intake_waited_before_snapshot','fresh_intake_denied_after_pause','retry_lifecycle_not_hidden_by_pause','all_resources_cleaned','original_state_preserved')));refs['native_concurrency']=ref
-   checked=value['checkpoint_query_validation'];need(checked['query_sha256']==CHECKPOINT_SHA and checked['application_tables']==76 and checked['same_state_before_after']is True and checked['table_counts_match_state']is True and checked['raw_rows_persisted']is False and type(checked['stdout_bytes'])is int and 0<checked['stdout_bytes']<=32*1024**2)
+   check_native_concurrency(value,self.s.sql_contract_sha256());refs['native_concurrency']=ref
   return {'references':refs,'source_sha256':s.SOURCE,'native_digest':s.NATIVE,'daemon_digest':s.DAEMON,'manifest_sha256':s.MANIFEST,'daemon_import':export_ref,'native_cleanup_confirmed':True,'actual_AT069_or_queued_replacement_claimed':False}
  def before_pause_availability(self,plan):
   need(self.environment()==plan['environment']);self.old_matches(plan['old']);self.write('forward-availability.json',{'pins':self.pins(),'plan_sha256':self.hash('plan.json'),'old':plan['old'],'deploy_claim_must_be_absent':True})

@@ -13,6 +13,16 @@ class Tests(unittest.TestCase):
  def setUpClass(cls):cls.state=p.s.State()
  def adapter(self):
   value=p.Provider.__new__(p.Provider);value.s=self.state;value.e=p.e;value.r=types.SimpleNamespace(cli=lambda args:args,API={},DAEMON_REPO='synthetic_daemon');value.observer=types.SimpleNamespace(ENDPOINT='/v1/observability/events?teamId='+p.TEAM,HEADER='x-vercel-observability-query-reason:cli/daemons-logs');value.run=Mock(return_value=b'{}');value.write=Mock();value.schema_capsule=Mock(return_value={'schema38_capsule_receipt':{'path':'synthetic'},'additive39_migration_sha256':'a'*64});return value
+ def test_exact_actual_worker39_receipt_contract_and_required_witnesses(self):
+  ref=json.loads(p.s.load(HERE/'inputs.json'))['native_concurrency'];raw=p.s.load(p.s.MAIN/ref['path']);self.assertEqual(p.s.sha(raw),ref['sha256']);value=json.loads(raw);p.check_native_concurrency(value,self.state.sql_contract_sha256())
+  for key in('cached_intake_waited_before_snapshot','fresh_intake_denied_after_pause','retry_lifecycle_not_hidden_by_pause','committed_intake_visible_to_first_snapshot','committed_intake_preimage_refused_before_updates','actual_committed_intake_job_preserved','all_other_cloned_rows_preserved','all_owned_resources_absent','original_data_catalogue_and_global_roles_unchanged','shared_lock_released'):
+   bad=copy.deepcopy(value);bad[key]=False
+   with self.assertRaises(ValueError):p.check_native_concurrency(bad,self.state.sql_contract_sha256())
+  for key,replacement in [('all_five_actual_config_locks_held',{'config_access_exclusive':4}),('distinct_backend_pids',[1,2,3,4,5,5]),('sql_contract_sha256','0'*64)]:
+   bad=copy.deepcopy(value);bad[key]=replacement
+   with self.assertRaises(ValueError):p.check_native_concurrency(bad,self.state.sql_contract_sha256())
+  bad=copy.deepcopy(value);bad['checkpoint_query_validation']['query_sha256']='0'*64
+  with self.assertRaises(ValueError):p.check_native_concurrency(bad,self.state.sql_contract_sha256())
  def test_narrow_api_rejects_foreign_project_methods_and_other_env_creation(self):
   value=self.adapter()
   for method,endpoint,body in [('DELETE','/v10/projects/'+p.PROJECT+'/env?teamId='+p.TEAM,None),('GET','https://arbitrary.invalid',None),('GET','/v1/projects/foreign/env/key?teamId='+p.TEAM,None),('POST','/v10/projects/'+p.PROJECT+'/env?teamId='+p.TEAM,{'key':'OPENAI_API_KEY','value':'PRIVATE'}),('PATCH','/v9/projects/'+p.PROJECT+'/env/id?teamId='+p.TEAM,{'value':'x','type':'plain'})]:
