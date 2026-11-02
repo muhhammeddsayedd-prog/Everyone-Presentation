@@ -1,0 +1,57 @@
+{
+  "schema_version": "cohort-only-actual-outcome.v1",
+  "run_id": "754fcf15-0c30-4659-bdcf-9b27c0e8c400",
+  "observed_at": "2026-11-02T17:00:46.303583+00:00",
+  "result": "failed",
+  "normal_process_exit_code": 1,
+  "normal_outcome_returned": true,
+  "receipt": "tracking/evidence/m07/presentation-generation-data-diagnostics/2026-11-02T16-57-04.142Z-754fcf15.json",
+  "receipt_sha256": "f37e01d08c4631f38bb4c3ee883eac125a0806cdcc80b10a4ea46dfeff4c25e4",
+  "observed_at_in_receipt": "2026-11-02T16:57:04.142Z",
+  "finished_at": "2026-11-02T16:58:20.467Z",
+  "elapsed_ms": 76325,
+  "checkpoint": "cohort-diagnostic-lock-helper",
+  "safe_assertion_code": "COHORT_DIAGNOSTIC_HELPER_DID_NOT_COMPLETE",
+  "private_failure_sha256": "bc2d3d5d6dbb9e6e9f11f3d43df37ea2aea64984a07948d7e075ec369944f0d6",
+  "actual_sql_handler_result": {
+    "ok": false,
+    "code": "57014",
+    "operation": "locks",
+    "duration_ms": 8000.099
+  },
+  "handler_code_provenance": "original pg_temp.locksource41_measure WHEN query_canceled branch returned code57014 normally",
+  "actual_verbose_psql_ERROR_observed": false,
+  "native_psql_SQLSTATE": null,
+  "first_private_native_error_file_exists": false,
+  "reason": "the SQL exception was handled and returned normally; no process request failed before the assertion",
+  "c7e4f2ef_primary_native_cause_established": false,
+  "original_12_relation_cohort_read_executed": false,
+  "candidate_four_bodies_executed": false,
+  "benchmark_generation_association_cycles_replayed": false,
+  "full_candidate_performance_equality_security_or_release_acceptance": false,
+  "full_fresh_baseline_state_sha256": "16dfbfe7917de1783b7485f4bdfeeb3bcb2bf8e04aa767cba886d5b698e68f75",
+  "full_within_run_post_cohort_equality_gate_reached": false,
+  "original_lock_restoration_in_owned_clone_reached": false,
+  "cleanup": {
+    "all_owned_resources_absent": true,
+    "independent_successful_daemon_label_inventories_empty": true,
+    "original_data_catalogue_and_global_roles_unchanged": true,
+    "shared_lock_released": true
+  },
+  "fresh_shared_lock_exists": false,
+  "independent_postreturn_inventories": [
+    {
+      "kind": "container",
+      "engine": "npipe:////./pipe/dockerDesktopLinuxEngine",
+      "exit_code": 0,
+      "matching_rows": 0
+    },
+    {
+      "kind": "volume",
+      "engine": "npipe:////./pipe/dockerDesktopLinuxEngine",
+      "exit_code": 0,
+      "matching_rows": 0
+    }
+  ],
+  "scope": "one owned local synthetic cohort-only attempt, original1ff8 and preceding4 bodies; no canonical/provider; failure stopped without automatic retry"
+}
