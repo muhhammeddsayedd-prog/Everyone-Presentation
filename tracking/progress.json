@@ -1,9 +1,28 @@
 {
   "pack_version": "1.0",
-  "updated_at": "2026-11-02T00:47:11.145407+00:00",
+  "updated_at": "2026-11-02T01:06:47.155307+00:00",
   "implementation_started": true,
   "current_milestone": "M07",
   "current_pilot": {
+    "status": "controlled_pilot_production_release_in_progress",
+    "record_updated_at": "2026-11-02T01:06:47.155307+00:00",
+    "authority": "current_hosted_release and completion_release; dated historical detail is retained in historical_pilot_records",
+    "origin": "https://everyone-presentation-pilot.vercel.app",
+    "canonical_history": 39,
+    "database_observed_at": "2026-11-01T23:46:11.679664+00:00",
+    "web_deployment_id": "dpl_8mFQY4SkHiHmSVo6hR8QPLSdgwaS",
+    "web_source_commit": "e494371894d148e335fa5a8bc50b601ac80bd555",
+    "web_role": "compatible_reader_baseline_redesign_not_serving",
+    "worker_deployment_id": "dpl_G6CVBYjPxYwh8zNaAYLu4pURoVG4",
+    "worker_deployment_metadata_observed_at": "2026-11-02T00:58:29.098285+00:00",
+    "worker_metadata_receipt": "tracking/evidence/m07/completion-release/worker-deployment-shape.json",
+    "worker_new_instance_or_startup_observed_by_that_receipt": false,
+    "native_runtime": "sha256:50082f72d4438653d4c831a1f9a360d61e64d19b3568ed1c2a2456d486f0d77c",
+    "daemon_runtime": "sha256:ce23af3ba163199c1e35f224f71a281ab450d7acfc0f4ab85b6044df5246431c",
+    "production_verified": false,
+    "historical_checkpoint_canonical_json_sha256": "c939a426f1614dc0d108b90af44a9d12720f22cf6ff2afc7efffef6971b3d2ca"
+  },
+  "historical_pilot_records": {
     "observed_at": "2026-11-01T17:37:06.827794Z",
     "status": "in_progress",
     "origin": "https://everyone-presentation-pilot.vercel.app",
@@ -3326,14 +3345,14 @@
         "source_unreadable36_web_release": {
           "status": "Ready_stable_alias_authenticated_API_app_and_owner_MCP_guidance_passed",
           "evidence": "tracking/evidence/m07/source-unreadable36-web/2026-11-01T03-10-26-362504Z-ready.json",
-          "details_reference": "current_pilot.source_unreadable36_web_release"
+          "details_reference": "historical_pilot_records.source_unreadable36_web_release"
         },
         "current_recovery36": {
           "status": "passed_owned_same_cluster_history36_metadata_full_cleanup_native_media_separate",
           "evidence": "tracking/evidence/m07/recovery36-trace-profile/2026-11-01T04-23-15-971Z-b7b41927.json",
           "sha256": "9a1a12fbf1989e278aa05d6656a42d83f024e5620f9322152661f581dc58a5c8",
           "finished_at": "2026-11-01T04:25:02.093Z",
-          "details_reference": "current_pilot.current_recovery36",
+          "details_reference": "historical_pilot_records.current_recovery36",
           "scope": "owned same-cluster synthetic metadata only; no bytes/StorageHTTP/provider Auth/deployed/independent/RTO_RPO",
           "native_proof_evidence": "tracking/evidence/m07/recovery36-trace-acl-native/2026-11-01T03-57-54-599Z-508198d5.json"
         },
@@ -4285,14 +4304,14 @@
       "source_unreadable36_web_release": {
         "status": "Ready_stable_alias_authenticated_API_app_and_owner_MCP_guidance_passed",
         "evidence": "tracking/evidence/m07/source-unreadable36-web/2026-11-01T03-10-26-362504Z-ready.json",
-        "details_reference": "current_pilot.source_unreadable36_web_release"
+        "details_reference": "historical_pilot_records.source_unreadable36_web_release"
       },
       "current_recovery36": {
         "status": "passed_owned_same_cluster_history36_metadata_full_cleanup_native_media_separate",
         "evidence": "tracking/evidence/m07/recovery36-trace-profile/2026-11-01T04-23-15-971Z-b7b41927.json",
         "sha256": "9a1a12fbf1989e278aa05d6656a42d83f024e5620f9322152661f581dc58a5c8",
         "finished_at": "2026-11-01T04:25:02.093Z",
-        "details_reference": "current_pilot.current_recovery36",
+        "details_reference": "historical_pilot_records.current_recovery36",
         "scope": "owned same-cluster synthetic metadata only; no bytes/StorageHTTP/provider Auth/deployed/independent/RTO_RPO",
         "native_proof_evidence": "tracking/evidence/m07/recovery36-trace-acl-native/2026-11-01T03-57-54-599Z-508198d5.json"
       },
@@ -5329,14 +5348,14 @@
     "source_unreadable36_web_release": {
       "status": "Ready_stable_alias_authenticated_API_app_and_owner_MCP_guidance_passed",
       "evidence": "tracking/evidence/m07/source-unreadable36-web/2026-11-01T03-10-26-362504Z-ready.json",
-      "details_reference": "current_pilot.source_unreadable36_web_release"
+      "details_reference": "historical_pilot_records.source_unreadable36_web_release"
     },
     "current_recovery36": {
       "status": "passed_owned_same_cluster_history36_metadata_full_cleanup_native_media_separate",
       "evidence": "tracking/evidence/m07/recovery36-trace-profile/2026-11-01T04-23-15-971Z-b7b41927.json",
       "sha256": "9a1a12fbf1989e278aa05d6656a42d83f024e5620f9322152661f581dc58a5c8",
       "finished_at": "2026-11-01T04:25:02.093Z",
-      "details_reference": "current_pilot.current_recovery36",
+      "details_reference": "historical_pilot_records.current_recovery36",
       "scope": "owned same-cluster synthetic metadata only; no bytes/StorageHTTP/provider Auth/deployed/independent/RTO_RPO",
       "native_proof_evidence": "tracking/evidence/m07/recovery36-trace-acl-native/2026-11-01T03-57-54-599Z-508198d5.json"
     },
@@ -8231,14 +8250,14 @@
     "source_unreadable36_web_release": {
       "status": "Ready_stable_alias_authenticated_API_app_and_owner_MCP_guidance_passed",
       "evidence": "tracking/evidence/m07/source-unreadable36-web/2026-11-01T03-10-26-362504Z-ready.json",
-      "details_reference": "current_pilot.source_unreadable36_web_release"
+      "details_reference": "historical_pilot_records.source_unreadable36_web_release"
     },
     "current_recovery36": {
       "status": "passed_owned_same_cluster_history36_metadata_full_cleanup_native_media_separate",
       "evidence": "tracking/evidence/m07/recovery36-trace-profile/2026-11-01T04-23-15-971Z-b7b41927.json",
       "sha256": "9a1a12fbf1989e278aa05d6656a42d83f024e5620f9322152661f581dc58a5c8",
       "finished_at": "2026-11-01T04:25:02.093Z",
-      "details_reference": "current_pilot.current_recovery36",
+      "details_reference": "historical_pilot_records.current_recovery36",
       "scope": "owned same-cluster synthetic metadata only; no bytes/StorageHTTP/provider Auth/deployed/independent/RTO_RPO",
       "native_proof_evidence": "tracking/evidence/m07/recovery36-trace-acl-native/2026-11-01T03-57-54-599Z-508198d5.json"
     },
@@ -8428,7 +8447,7 @@
       "evidence": "tracking/evidence/m07/recovery36-trace-profile/2026-11-01T04-23-15-971Z-b7b41927.json",
       "sha256": "9a1a12fbf1989e278aa05d6656a42d83f024e5620f9322152661f581dc58a5c8",
       "finished_at": "2026-11-01T04:25:02.093Z",
-      "details_reference": "current_pilot.current_recovery36",
+      "details_reference": "historical_pilot_records.current_recovery36",
       "scope": "owned same-cluster synthetic metadata only; no bytes/StorageHTTP/provider Auth/deployed/independent/RTO_RPO",
       "native_proof_evidence": "tracking/evidence/m07/recovery36-trace-acl-native/2026-11-01T03-57-54-599Z-508198d5.json"
     },
@@ -9610,14 +9629,14 @@
     "source_unreadable36_web_release": {
       "status": "Ready_stable_alias_authenticated_API_app_and_owner_MCP_guidance_passed",
       "evidence": "tracking/evidence/m07/source-unreadable36-web/2026-11-01T03-10-26-362504Z-ready.json",
-      "details_reference": "current_pilot.source_unreadable36_web_release"
+      "details_reference": "historical_pilot_records.source_unreadable36_web_release"
     },
     "current_recovery36": {
       "status": "passed_owned_same_cluster_history36_metadata_full_cleanup_native_media_separate",
       "evidence": "tracking/evidence/m07/recovery36-trace-profile/2026-11-01T04-23-15-971Z-b7b41927.json",
       "sha256": "9a1a12fbf1989e278aa05d6656a42d83f024e5620f9322152661f581dc58a5c8",
       "finished_at": "2026-11-01T04:25:02.093Z",
-      "details_reference": "current_pilot.current_recovery36",
+      "details_reference": "historical_pilot_records.current_recovery36",
       "scope": "owned same-cluster synthetic metadata only; no bytes/StorageHTTP/provider Auth/deployed/independent/RTO_RPO",
       "native_proof_evidence": "tracking/evidence/m07/recovery36-trace-acl-native/2026-11-01T03-57-54-599Z-508198d5.json"
     },
