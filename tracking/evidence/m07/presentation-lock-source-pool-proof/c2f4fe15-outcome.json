@@ -1,0 +1,485 @@
+{
+  "schema_version": "fenced-pool-id-owned-run-safe-outcome.v1",
+  "run_id": "c2f4fe15-ee8d-468b-abee-8e3166a508b6",
+  "compile_uuid": "33010af8-7ac1-4946-99b4-f6f988af76ce",
+  "receipt": "tracking/evidence/m07/presentation-lock-source-pool-proof/2026-11-02T18-53-13.327Z-c2f4fe15.json",
+  "receipt_sha256": "6db69c2ce69a6491e7b144057d33545ea6cb58c95fcc18eaded65d48244c0187",
+  "normal_process_exit": 1,
+  "result": "failed",
+  "checkpoint": "pool-proof-semantic-baseline",
+  "observed_at": "2026-11-02T18:53:13.327Z",
+  "finished_at": "2026-11-02T18:55:40.262Z",
+  "elapsed_ms": 146935,
+  "failure_code": "LOCKSOURCE41_COMMAND_FAILED",
+  "first_native_error_capture": {
+    "phase": "owned_request",
+    "request_sha256": "2607aafb5258da99c49ad2531e3ec806ce47ed5f4fcefd738283628cc2d97d10",
+    "native_sqlstate": "57014",
+    "native_sqlstate_provenance": "first_verbose_psql_ERROR_line",
+    "private_capture_normal_return": true
+  },
+  "cold": [
+    {
+      "case_id": "old_api_standalone",
+      "variant": "old",
+      "mode": "api",
+      "profile": "large",
+      "fenced": false,
+      "first_in_fresh_backend": true,
+      "helper_calls_before_dispatch": 0,
+      "helper_call_index": 1,
+      "phase": "rollback",
+      "normal_return": true,
+      "client_elapsed_ms": 3704.642200000002,
+      "response": {
+        "ok": true,
+        "role": "eps_review_owner",
+        "duration_ms": 3700.417
+      },
+      "rollback_normal": true
+    },
+    {
+      "case_id": "old_api_fenced",
+      "variant": "old",
+      "mode": "api",
+      "profile": "large",
+      "fenced": true,
+      "first_in_fresh_backend": true,
+      "helper_calls_before_dispatch": 0,
+      "helper_call_index": 1,
+      "phase": "rollback",
+      "normal_return": true,
+      "client_elapsed_ms": 3774.716100000005,
+      "response": {
+        "ok": true,
+        "role": "eps_review_owner",
+        "duration_ms": 3770.924
+      },
+      "rollback_normal": true
+    },
+    {
+      "case_id": "old_mcp_standalone",
+      "variant": "old",
+      "mode": "mcp",
+      "profile": "large",
+      "fenced": false,
+      "first_in_fresh_backend": true,
+      "helper_calls_before_dispatch": 0,
+      "helper_call_index": 1,
+      "phase": "helper",
+      "normal_return": false,
+      "client_elapsed_ms": 8031.5484,
+      "error": {
+        "sqlstate": "57014",
+        "provenance": "first_verbose_psql_ERROR_line",
+        "application_code": null
+      },
+      "private_error": {
+        "private_file": "case-old_mcp_standalone_first_1-error.json",
+        "normal_return": true
+      },
+      "backend_exit": 3,
+      "baseline_cancellation_retained": true
+    },
+    {
+      "case_id": "old_mcp_fenced",
+      "variant": "old",
+      "mode": "mcp",
+      "profile": "large",
+      "fenced": true,
+      "first_in_fresh_backend": true,
+      "helper_calls_before_dispatch": 0,
+      "helper_call_index": 1,
+      "phase": "helper",
+      "normal_return": false,
+      "client_elapsed_ms": 8015.895000000004,
+      "error": {
+        "sqlstate": "57014",
+        "provenance": "first_verbose_psql_ERROR_line",
+        "application_code": null
+      },
+      "private_error": {
+        "private_file": "case-old_mcp_fenced_first_1-error.json",
+        "normal_return": true
+      },
+      "backend_exit": 3,
+      "baseline_cancellation_retained": true
+    },
+    {
+      "case_id": "new_api_standalone",
+      "variant": "new",
+      "mode": "api",
+      "profile": "large",
+      "fenced": false,
+      "first_in_fresh_backend": true,
+      "helper_calls_before_dispatch": 0,
+      "helper_call_index": 1,
+      "phase": "rollback",
+      "normal_return": true,
+      "client_elapsed_ms": 1935.9232000000047,
+      "response": {
+        "ok": true,
+        "role": "eps_review_owner",
+        "duration_ms": 1931.307
+      },
+      "rollback_normal": true
+    },
+    {
+      "case_id": "new_api_fenced",
+      "variant": "new",
+      "mode": "api",
+      "profile": "large",
+      "fenced": true,
+      "first_in_fresh_backend": true,
+      "helper_calls_before_dispatch": 0,
+      "helper_call_index": 1,
+      "phase": "rollback",
+      "normal_return": true,
+      "client_elapsed_ms": 1856.117699999988,
+      "response": {
+        "ok": true,
+        "role": "eps_review_owner",
+        "duration_ms": 1853.274
+      },
+      "rollback_normal": true
+    },
+    {
+      "case_id": "new_mcp_standalone",
+      "variant": "new",
+      "mode": "mcp",
+      "profile": "large",
+      "fenced": false,
+      "first_in_fresh_backend": true,
+      "helper_calls_before_dispatch": 0,
+      "helper_call_index": 1,
+      "phase": "rollback",
+      "normal_return": true,
+      "client_elapsed_ms": 6332.032699999996,
+      "response": {
+        "ok": true,
+        "role": "eps_review_owner",
+        "duration_ms": 6330.191
+      },
+      "rollback_normal": true
+    },
+    {
+      "case_id": "new_mcp_fenced",
+      "variant": "new",
+      "mode": "mcp",
+      "profile": "large",
+      "fenced": true,
+      "first_in_fresh_backend": true,
+      "helper_calls_before_dispatch": 0,
+      "helper_call_index": 1,
+      "phase": "rollback",
+      "normal_return": true,
+      "client_elapsed_ms": 3215.982099999994,
+      "response": {
+        "ok": true,
+        "role": "eps_review_owner",
+        "duration_ms": 3212.726
+      },
+      "rollback_normal": true
+    }
+  ],
+  "warm": [
+    {
+      "case_id": "new_api_standalone",
+      "variant": "new",
+      "helper_calls_before_dispatch": 1,
+      "helper_call_index": 2,
+      "sample": 0,
+      "first_call_already_completed": true,
+      "phase": "rollback",
+      "normal_return": true,
+      "client_elapsed_ms": 733.3990000000049,
+      "response": {
+        "ok": true,
+        "role": "eps_review_owner",
+        "duration_ms": 730.828
+      },
+      "rollback_normal": true
+    },
+    {
+      "case_id": "new_api_standalone",
+      "variant": "new",
+      "helper_calls_before_dispatch": 2,
+      "helper_call_index": 3,
+      "sample": 1,
+      "first_call_already_completed": true,
+      "phase": "rollback",
+      "normal_return": true,
+      "client_elapsed_ms": 658.9495000000024,
+      "response": {
+        "ok": true,
+        "role": "eps_review_owner",
+        "duration_ms": 655.764
+      },
+      "rollback_normal": true
+    },
+    {
+      "case_id": "new_api_fenced",
+      "variant": "new",
+      "helper_calls_before_dispatch": 1,
+      "helper_call_index": 2,
+      "sample": 0,
+      "first_call_already_completed": true,
+      "phase": "rollback",
+      "normal_return": true,
+      "client_elapsed_ms": 719.5659000000014,
+      "response": {
+        "ok": true,
+        "role": "eps_review_owner",
+        "duration_ms": 716.694
+      },
+      "rollback_normal": true
+    },
+    {
+      "case_id": "new_api_fenced",
+      "variant": "new",
+      "helper_calls_before_dispatch": 2,
+      "helper_call_index": 3,
+      "sample": 1,
+      "first_call_already_completed": true,
+      "phase": "rollback",
+      "normal_return": true,
+      "client_elapsed_ms": 632.190499999997,
+      "response": {
+        "ok": true,
+        "role": "eps_review_owner",
+        "duration_ms": 629.402
+      },
+      "rollback_normal": true
+    },
+    {
+      "case_id": "new_mcp_standalone",
+      "variant": "new",
+      "helper_calls_before_dispatch": 1,
+      "helper_call_index": 2,
+      "sample": 0,
+      "first_call_already_completed": true,
+      "phase": "rollback",
+      "normal_return": true,
+      "client_elapsed_ms": 2555.6533999999956,
+      "response": {
+        "ok": true,
+        "role": "eps_review_owner",
+        "duration_ms": 2552.202
+      },
+      "rollback_normal": true
+    },
+    {
+      "case_id": "new_mcp_standalone",
+      "variant": "new",
+      "helper_calls_before_dispatch": 2,
+      "helper_call_index": 3,
+      "sample": 1,
+      "first_call_already_completed": true,
+      "phase": "rollback",
+      "normal_return": true,
+      "client_elapsed_ms": 2453.1526000000013,
+      "response": {
+        "ok": true,
+        "role": "eps_review_owner",
+        "duration_ms": 2449.799
+      },
+      "rollback_normal": true
+    },
+    {
+      "case_id": "new_mcp_fenced",
+      "variant": "new",
+      "helper_calls_before_dispatch": 1,
+      "helper_call_index": 2,
+      "sample": 0,
+      "first_call_already_completed": true,
+      "phase": "rollback",
+      "normal_return": true,
+      "client_elapsed_ms": 2608.391100000008,
+      "response": {
+        "ok": true,
+        "role": "eps_review_owner",
+        "duration_ms": 2604.702
+      },
+      "rollback_normal": true
+    },
+    {
+      "case_id": "new_mcp_fenced",
+      "variant": "new",
+      "helper_calls_before_dispatch": 2,
+      "helper_call_index": 3,
+      "sample": 1,
+      "first_call_already_completed": true,
+      "phase": "rollback",
+      "normal_return": true,
+      "client_elapsed_ms": 3249.9072000000015,
+      "response": {
+        "ok": true,
+        "role": "eps_review_owner",
+        "duration_ms": 3247.332
+      },
+      "rollback_normal": true
+    }
+  ],
+  "semantic": [
+    {
+      "name": "baseline",
+      "rolled_back": true,
+      "old_ready_dml_issued": false,
+      "helper": {
+        "ok": true,
+        "role": "eps_review_owner",
+        "duration_ms": 2698.659
+      },
+      "tuples": {
+        "captured_pool_count": 11,
+        "old_tuple_count": 11,
+        "new_tuple_count": 11,
+        "old_tuple_sha256": "07745923147f3f0e160241792452b690786d9104071e947ce1b062d8f95e946a",
+        "new_tuple_sha256": "07745923147f3f0e160241792452b690786d9104071e947ce1b062d8f95e946a"
+      },
+      "held": {
+        "relations": [
+          {
+            "relation": "public.projects",
+            "normal_return": true,
+            "selected_rows": 1,
+            "held_rows": 1,
+            "rowset_sha256": "13562cf8de848be31cceca0e7e339052be2cf46695428e03fadeb17ee93d1661"
+          },
+          {
+            "relation": "public.clients",
+            "normal_return": true,
+            "selected_rows": 0,
+            "held_rows": 0,
+            "rowset_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          {
+            "relation": "eps.presentation_templates",
+            "normal_return": true,
+            "selected_rows": 1,
+            "held_rows": 1,
+            "rowset_sha256": "ca4f0da0009ecaa8e9aeebe525f3c270e858b039b63efdeca9fcc0a50a9a753c"
+          },
+          {
+            "relation": "eps.specs",
+            "normal_return": true,
+            "selected_rows": 1,
+            "held_rows": 1,
+            "rowset_sha256": "f5c301a470f27f7254bac730c7cae9c9f68e51652888542bb69f0d086b45229f"
+          },
+          {
+            "relation": "eps.roles",
+            "normal_return": true,
+            "selected_rows": 2,
+            "held_rows": 2,
+            "rowset_sha256": "3e533d19fc099402ab03edd9a34feab03c359bb0279b4e8624d96d6dc2682474"
+          },
+          {
+            "relation": "eps.slots",
+            "normal_return": true,
+            "selected_rows": 16,
+            "held_rows": 16,
+            "rowset_sha256": "1d300a2d6f70b81194fb76b4b244c33790ceb14c72c5cc286c9c6a4eb867b0fb"
+          },
+          {
+            "relation": "eps.assignments",
+            "normal_return": true,
+            "selected_rows": 19,
+            "held_rows": 19,
+            "rowset_sha256": "68e62a2edd2d11002f7f73218e253ed310b7c18f27d86adf1a68c88d09c1deb0"
+          },
+          {
+            "relation": "eps.workspace_candidates",
+            "normal_return": true,
+            "selected_rows": 11,
+            "held_rows": 11,
+            "rowset_sha256": "ff95258fed6fc44f2a1928b7ed9f40b4fa6057bbf03550cf9390c11796cd036f"
+          },
+          {
+            "relation": "eps.candidates",
+            "normal_return": true,
+            "selected_rows": 11,
+            "held_rows": 11,
+            "rowset_sha256": "74c2d91c2d1ed3ccb2aa02903de257552465d07f22b8537c6fe429cf73aa03b7"
+          },
+          {
+            "relation": "eps.candidate_media",
+            "normal_return": true,
+            "selected_rows": 11,
+            "held_rows": 11,
+            "rowset_sha256": "9fff0d2d16d1380586453edd0a0b440d9b7cec52116b5cd4b0b7d7ad49d1bb65"
+          },
+          {
+            "relation": "eps.media_assets",
+            "normal_return": false,
+            "selected_rows": null,
+            "held_rows": 0,
+            "error": {
+              "sqlstate": "57014",
+              "provenance": "first_verbose_psql_ERROR_line",
+              "application_code": null
+            },
+            "private_error": {
+              "private_file": "case-oracle_eps_media_assets-error.json",
+              "normal_return": true
+            }
+          }
+        ],
+        "negatives": [],
+        "oracle_snapshot": "repeatable_read_read_only"
+      },
+      "error": {
+        "sqlstate": "57014",
+        "provenance": "first_verbose_psql_ERROR_line",
+        "application_code": null
+      },
+      "private_error": {
+        "private_file": "case-semantic_baseline-error.json",
+        "normal_return": true
+      }
+    }
+  ],
+  "constraints": {
+    "valid_composite_pool_fk": true,
+    "valid_composite_slot_fk": true
+  },
+  "cold_and_warm_measured_before_later_oracle_failure": true,
+  "four_body_reuse_executed": false,
+  "actual_generation_executed": false,
+  "full_equality_security_or_release_acceptance": false,
+  "not_reached": [
+    "remaining_media_assets_and_frames_oracle",
+    "unselected_negative_probes",
+    "empty_assignment_edge",
+    "archived_pool_edge",
+    "missing_frame_pair_edge",
+    "cross_workspace_FK_cases",
+    "workspace_fence_race",
+    "live_authority_races",
+    "final_owned_clone_equality_and_source_restore"
+  ],
+  "cleanup": {
+    "all_owned_resources_absent": true,
+    "independent_successful_daemon_label_inventories_empty": true,
+    "original_data_catalogue_and_global_roles_unchanged": true,
+    "shared_lock_released": true
+  },
+  "independent_postreturn_same_engine_label_inventories": [
+    {
+      "kind": "ps",
+      "normal_exit": 0,
+      "empty": true,
+      "stderr_empty": true
+    },
+    {
+      "kind": "volume",
+      "normal_exit": 0,
+      "empty": true,
+      "stderr_empty": true
+    }
+  ],
+  "fresh_shared_lock_exists": false,
+  "permanent_compile_once_claim_retained": true,
+  "automatic_retry": false,
+  "source_or_threshold_changes": false
+}

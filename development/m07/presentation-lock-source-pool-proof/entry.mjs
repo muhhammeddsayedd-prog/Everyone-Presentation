@@ -6,7 +6,7 @@ import { pathToFileURL,URL } from 'node:url';
 import { sha } from '../presentation-lock-source-proof/proof.mjs';
 import { qualifyFit } from '../presentation-lock-source-dedupe-proof/entry.mjs';
 import { preserveFirstOwnedError } from '../presentation-generation-data-diagnostics/capture.mjs';
-export const EXECUTION_ENABLED=true;
+export const EXECUTION_ENABLED=false;
 const UUID='[a-f0-9]{8}-(?:[a-f0-9]{4}-){3}[a-f0-9]{12}';
 const CAPTURE_SHA='9766a654f319f740fa37aef4c79a025f8f977c44f3a89220c2aedf39e311c407';
 const BEFORE=['4d46151993a60d8c6ac9d36e48781fee34c12c3e1dede727ac1ed4d31a953ab7','f0815e014144f1345b4679d96114aab6b358d95df317e3cfe6ac6b59989813cb','b20fef7adc8dee0da91db1508b30d4116855bb3e9be9e881072a7e8d55fcee08','ed4a3469971fa410078b546b13aa0a875b4867efdda4b134dc729563dd887187'];
