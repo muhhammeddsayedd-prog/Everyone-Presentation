@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-11-02T20:17:31.193474+00:00",
+  "result": "actual_provider_incomplete_output_budget_observed_validator_rejected",
+  "run_id": "45452578-b14e-48e5-af08-187089cb9b58",
+  "prepare_normal_exit": 0,
+  "evaluate_normal_exit": 0,
+  "provider_requests_initiated": 1,
+  "result_receipt": {
+    "path": "tracking/evidence/m07/pdf47-streaming-evaluation/45452578-b14e-48e5-af08-187089cb9b58-result.json",
+    "sha256": "178c5da68c52b97a7c0d3318a36f6b1db1808c0d457a1b9c7fdc7a58764262a8"
+  },
+  "http_status": 200,
+  "actual_header_request_id": "req_5910c95f0dda486b93e363b985f140b9",
+  "observation": {
+    "http_status": 200,
+    "header_request_id": "req_5910c95f0dda486b93e363b985f140b9",
+    "headers_ms": 2404.7458000000006,
+    "created_ms": 2415.7527,
+    "in_progress_ms": 2417.3799,
+    "first_output_delta_ms": 8823.984199999999,
+    "terminal_ms": 117179.86649999999,
+    "duration_ms": 117179.9708,
+    "dispatch_count": 1,
+    "wire_bytes": 4534847,
+    "output_text_bytes": 58942,
+    "parsed_events": 16180,
+    "event_counts": {
+      "created": 1,
+      "in_progress": 1,
+      "output_text_delta": 16170,
+      "completed": 0,
+      "incomplete": 1,
+      "failed": 0,
+      "other": 7
+    },
+    "terminal_event": "incomplete",
+    "terminal_status": "incomplete"
+  },
+  "terminal_status": "incomplete",
+  "incomplete_reason": "max_output_tokens",
+  "configured_output_limit": 16384,
+  "usage": {
+    "input_tokens": 9170,
+    "output_tokens": 16384,
+    "total_tokens": 25554,
+    "reasoning_tokens": 176
+  },
+  "usage_is_provider_metadata_not_independent_billing": true,
+  "billing_cost_unknown": true,
+  "remote_terminal_status_observed_not_unknown": true,
+  "partial_lexical_progress_not_factual_output": {
+    "complete_role_objects_in_partial_text": 40,
+    "source_role_key_occurrences": 40,
+    "complete_object_evidence_items": 89,
+    "complete_object_clarification_items": 14,
+    "partial_text_bytes": 58942,
+    "semantic_or_headcount_acceptance": false
+  },
+  "raw_terminal_response_private_ACL_verified": true,
+  "validated_output_present": false,
+  "flags_closed": true,
+  "source_seals_exact_after_two_flag_closure_inverse": true,
+  "permanent_claim_retained": true,
+  "automatic_retry": false,
+  "job_retry_outbox_callback_or_writeback": false,
+  "production_timeout_or_budget_changed": false,
+  "raw_source_or_response_text_or_credentials_or_private_URLs_recorded": false,
+  "limits": [
+    "This one streaming request proves an incomplete output-limit terminal at16384 tokens; it does not prove the reason for earlier timeout-only runs.",
+    "Partial object/evidence/clarification counts are lexical progress only and do not accept roles, headcount or factual interpretation."
+  ]
+}
