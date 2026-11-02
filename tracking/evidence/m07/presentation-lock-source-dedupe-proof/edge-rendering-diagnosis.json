@@ -1,0 +1,27 @@
+{
+  "scope": "pure_fake_port_rendering_and_parser_only",
+  "SQL_Docker_or_provider_executed": false,
+  "frozen_probe_sha256": "8973de4f38895f2497b46d87d6dda0fe929f2652d8cebb870c9d402587bf21b4",
+  "rendered_query_count": 16,
+  "invalid_rendered_queries": [
+    {
+      "query_index": 2,
+      "sha256": "c0f2809bfc5d72d3c0d81faf3cb18a9366ad445aadb9c30352d912ae91b5008b",
+      "parser_error_type": "ParseError"
+    },
+    {
+      "query_index": 3,
+      "sha256": "f4ba35f3afe539a3b7572a30c82a0025dee6ca82541407c5ea5c5c0647fd42f5",
+      "parser_error_type": "ParseError"
+    }
+  ],
+  "invalid_token_occurrences": {
+    "::uuidwhere": 1,
+    "::uuidand": 2
+  },
+  "three_whitespace_insertions_in_RAM_parse_all_queries": true,
+  "frozen_source_modified": false,
+  "actual11ea_primary_native_error_retained": false,
+  "actual11ea_observed_failure": "LOCKSOURCE41_EDGE_ROLLBACK_UNCONFIRMED",
+  "causality_limit": "The invalid rendered SQL is a definite harness defect. The original native session error was masked by cleanup, so this is not recovery of that lost HTTP/SQL diagnostic or a product-security finding."
+}
