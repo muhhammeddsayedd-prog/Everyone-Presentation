@@ -1,0 +1,24 @@
+# Focused asset RLS counterfactual and remaining RC proof
+
+This new purpose is default OFF and has not executed SQL, Docker, a provider or production operations. Its compiler only writes new owned artifacts. No consumed controller, claim, fixture or receipt is edited or replayed.
+
+The failed `39386edd` run completed all twelve independent PK-universe oracles (1,637 keys), 150 actual selected row-lock probes, eight unselected negatives and the first three isolated RR semantic cases. Its fourth tuple set was equal, but the missing-pair asset probe returned visible and unlocked. That failure and cleanup remain unchanged. The new admission binds the exact receipt and all 88 source/artifact seals, allowing only the old entry flag literal to be closed. Carried scopes remain dated partial evidence from a failed run; no oracle or timing matrix is repeated. Fresh fixture counts and source recipes are checked; cross-run business-row hash equality is not claimed.
+
+The pinned restored metadata SHA `12df4e565d466c008095498903237ae24f304403887db396b8bc46b5cf93346c` gives the review owner a SELECT path to a candidate frame through its source-media/frame association, or an authorized retained-version path. This actor inherits authenticated, not the other owner roles. Frame4's only media2 association disappears in the holder's own uncommitted DELETE; its retained background version belongs to the other project. A separate same-actor RC contender still sees the committed association. The source-derived hypothesis is therefore holder RLS invisibility, rather than a missing selected ID: the 1ff and 280 asset assembly/lock blocks are byte-identical and both retain selected frame IDs. This remains a hypothesis until the focused run returns.
+
+The fresh proof runs four controls: original4107 whole asset WHERE plus a target PK, and the 280 actual source-derived asset-ID branch plus the same target PK, each with an intact pair and with the holder's own pair deletion. Both controls use SECURITY INVOKER, original RLS, exact FOR SHARE NOWAIT and eight-second statement/lock bounds. The new branch retains the actual pool/candidate/media locks and reads selected fields and source IDs at their original stages. No helper, policy, grant, timeout or production SQL changes. The old full large helper is not benchmarked again.
+
+Each isolated RR holder takes the real workspace fence, records physical existence and unchanged selection under the trusted role, then switches to the actual MCP review owner. It records same-holder point visibility and separate committed-view contender visibility/free probe before the branch; branch and post-probe results are attached before assertions. Intact pairs must be visible/held in both variants. Own-deleted pairs must be physically present and selected yet invisible/unheld in both variants, while the contender sees the committed pair. Failure of either control stops; this does not merely reverse the old assertion. No other session commits source or authority changes in these isolated RR controls. Every transaction rolls back and checks the complete fresh row/catalogue/reason/Ready baseline.
+
+The original cross-workspace FK tests, workspace-fence public assignment race, membership/capability removal races and current-clock expiry race follow byte-for-byte in READ COMMITTED. RR is not applied to them, and carried evidence proves none of these unreached races. The unchanged callback restores original4107, all four old generation bodies and the exact presentation config, then the outer controller proves original29 data/catalogue/global roles and actual owned-resource cleanup. Permanent new compile claims are retained. The original transport's 45-second request, 2 MiB output and 128 KiB stderr bounds remain; every production/helper and point-control statement remains eight seconds. No JWT clock or authority cache is extended.
+
+This proof has four point counterfactuals and remaining security tests, not 2,021 membership queries or a generation benchmark. A per-point cancellation is a retained failure, not a reason to widen limits. Whole generation with 280 plus the four-body data reuse remains a separate unexecuted requirement.
+
+Offline checks:
+
+```powershell
+& 'D:/Everyone/Presentation/Everyone-Presentation-Studio/.venv-skills/Scripts/python.exe' -X utf8 -B -m unittest discover -s development/m07/presentation-lock-source-edge-rls-proof -p test_proof.py
+node --test development/m07/presentation-lock-source-edge-rls-proof/driver.test.mjs
+```
+
+The tests parse the actual SQL/PLpgSQL, compare the complete original predicate AST, prove the finite inverse and unchanged RC bodies, validate retained evidence and reject drift, and exercise control/cleanup/evidence ordering through fake ports. They do not prove actual RLS or performance. Root reviews the disabled source/plan before any fresh owned run.
