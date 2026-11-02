@@ -1,0 +1,729 @@
+{
+  "family": "m07-locksource41-edge-owned-outcome",
+  "observed_at": "2026-11-02T14:09:53.506810+00:00",
+  "result": "failed_candidate_MCP_large_generation_preserved",
+  "run_id": "e37e2690-39a3-4089-8223-457ab3988335",
+  "source_commit": "b11825b164d46a26172ce00e1d435e28ac7a2a23",
+  "reviewed_source_commit": "23509b3a372e1b72a9247815a1f4d19d6236d4b8",
+  "receipt": {
+    "path": "tracking/evidence/m07/presentation-lock-source-edge-proof/2026-11-02T13-55-48.201Z-e37e2690.json",
+    "sha256": "bfff1bd13c18a0afdcb65e97cfe2257c38e1e1d113a109d8152a5035fb0f499e"
+  },
+  "compiled_controller": {
+    "path": ".local/presentation-lock-source-edge-proof-compiled/controller-673b6d01-0151-437d-b96a-53c224b8274e.mjs",
+    "sha256": "d488a07cffe7ab68f17c13ad663e6dadd6a8720da60cbe4a0bcbaf188d74c9dc"
+  },
+  "normal_process_exit_code": 1,
+  "elapsed_ms": 368296,
+  "checkpoint": "locksource41-candidate-mcp-large-generate",
+  "closed_failure_code": "LOCKSOURCE41_ASSERTION_FAILED",
+  "observed_assertion": "LOCKSOURCE41_CANDIDATE_GENERATION_FAILED",
+  "private_failure_sha256": "86a97023aeb6e046e9d2d45cd340d1fb7c33b1730fce8bffce4e81d50c9604c8",
+  "actual_first_owned_request_error": null,
+  "failure_shape": "57014 returned as a normal measured JSON result, then the unchanged candidate generation acceptance assertion failed",
+  "fixture_counts": {
+    "pins": 60,
+    "media": 27,
+    "assets": 501,
+    "frames": 328,
+    "slides": 63,
+    "profiles": [
+      {
+        "label": "background",
+        "active_pools": 12,
+        "active_roles": 1,
+        "active_slots": 35,
+        "archived_pools": 0,
+        "archived_roles": 0,
+        "archived_slots": 0,
+        "selected_media": 12,
+        "selected_frames": 36,
+        "active_assignments": 35,
+        "selected_candidates": 12,
+        "archived_assignments": 0,
+        "assignment_weighted_fact_source_bytes": 31726
+      },
+      {
+        "label": "control",
+        "active_pools": 1,
+        "active_roles": 1,
+        "active_slots": 1,
+        "archived_pools": 0,
+        "archived_roles": 0,
+        "archived_slots": 0,
+        "selected_media": 1,
+        "selected_frames": 3,
+        "active_assignments": 1,
+        "selected_candidates": 1,
+        "archived_assignments": 0,
+        "assignment_weighted_fact_source_bytes": 906
+      },
+      {
+        "label": "large",
+        "active_pools": 11,
+        "active_roles": 2,
+        "active_slots": 16,
+        "archived_pools": 4,
+        "archived_roles": 34,
+        "archived_slots": 547,
+        "selected_media": 11,
+        "selected_frames": 33,
+        "active_assignments": 19,
+        "selected_candidates": 11,
+        "archived_assignments": 1,
+        "assignment_weighted_fact_source_bytes": 17220
+      }
+    ],
+    "candidates": 28,
+    "ready_versions": 13,
+    "total_versions": 14
+  },
+  "edge_template_qualification": {
+    "frozen_probe_sha256": "8973de4f38895f2497b46d87d6dda0fe929f2652d8cebb870c9d402587bf21b4",
+    "only_three_whitespace_sites_in_two_templates": true,
+    "acceptance_and_SQL_semantics_unchanged": true,
+    "actual_requests": [
+      {
+        "phase": "edge_assignment_update",
+        "space_insertions": 2,
+        "inverse_byte_equal": true
+      },
+      {
+        "phase": "edge_pool_state",
+        "space_insertions": 1,
+        "inverse_byte_equal": true
+      }
+    ]
+  },
+  "measurements": {
+    "old": {
+      "api_control": {
+        "locks": [
+          {
+            "ok": false,
+            "code": "57014",
+            "duration_ms": 8000.197
+          },
+          {
+            "ok": false,
+            "code": "57014",
+            "duration_ms": 8000.138
+          }
+        ],
+        "review": [
+          {
+            "ok": true,
+            "duration_ms": 112.312,
+            "preparation_ms": null,
+            "contract_hash": "4e5a402400efea1080be5f081c94cf5ee308f51872b2fd3a86b97d7a5e3a9131"
+          },
+          {
+            "ok": true,
+            "duration_ms": 118.725,
+            "preparation_ms": null,
+            "contract_hash": "4e5a402400efea1080be5f081c94cf5ee308f51872b2fd3a86b97d7a5e3a9131"
+          }
+        ],
+        "snapshot": [
+          {
+            "ok": true,
+            "duration_ms": 99.401,
+            "preparation_ms": null,
+            "contract_hash": "47701fcbb69ea1d2d687e905f168c219c98337477e1dabe6a1f2a3a94f567740"
+          },
+          {
+            "ok": true,
+            "duration_ms": 124.564,
+            "preparation_ms": null,
+            "contract_hash": "47701fcbb69ea1d2d687e905f168c219c98337477e1dabe6a1f2a3a94f567740"
+          }
+        ],
+        "hash": [
+          {
+            "ok": true,
+            "duration_ms": 8.281,
+            "preparation_ms": 95.423,
+            "contract_hash": "47701fcbb69ea1d2d687e905f168c219c98337477e1dabe6a1f2a3a94f567740"
+          },
+          {
+            "ok": true,
+            "duration_ms": 8.345,
+            "preparation_ms": 115.568,
+            "contract_hash": "47701fcbb69ea1d2d687e905f168c219c98337477e1dabe6a1f2a3a94f567740"
+          }
+        ],
+        "generation": {
+          "ok": false,
+          "code": "57014",
+          "duration_ms": 8000.203
+        },
+        "generation_projection_recorded": false
+      },
+      "api_large": {
+        "locks": [
+          {
+            "ok": false,
+            "code": "57014",
+            "duration_ms": 8000.098
+          },
+          {
+            "ok": false,
+            "code": "57014",
+            "duration_ms": 8000.068
+          }
+        ],
+        "review": [
+          {
+            "ok": true,
+            "duration_ms": 1920.167,
+            "preparation_ms": null,
+            "contract_hash": "d102ad98f422b52dfc837771da4af05159f9e0a3ed0f0eb4e7adcec19bede91c"
+          },
+          {
+            "ok": true,
+            "duration_ms": 2155.558,
+            "preparation_ms": null,
+            "contract_hash": "d102ad98f422b52dfc837771da4af05159f9e0a3ed0f0eb4e7adcec19bede91c"
+          }
+        ],
+        "snapshot": [
+          {
+            "ok": true,
+            "duration_ms": 1869.497,
+            "preparation_ms": null,
+            "contract_hash": "d8de71ad0375cf6ba1e1c0066f0c8af831de28493aa1da05cca04cdf37e70af9"
+          },
+          {
+            "ok": true,
+            "duration_ms": 1827.515,
+            "preparation_ms": null,
+            "contract_hash": "d8de71ad0375cf6ba1e1c0066f0c8af831de28493aa1da05cca04cdf37e70af9"
+          }
+        ],
+        "hash": [
+          {
+            "ok": true,
+            "duration_ms": 137.49,
+            "preparation_ms": 1811.357,
+            "contract_hash": "d8de71ad0375cf6ba1e1c0066f0c8af831de28493aa1da05cca04cdf37e70af9"
+          },
+          {
+            "ok": true,
+            "duration_ms": 158.258,
+            "preparation_ms": 1467.678,
+            "contract_hash": "d8de71ad0375cf6ba1e1c0066f0c8af831de28493aa1da05cca04cdf37e70af9"
+          }
+        ],
+        "generation": {
+          "ok": false,
+          "code": "57014",
+          "duration_ms": 8000.174
+        },
+        "generation_projection_recorded": false
+      },
+      "mcp_control": {
+        "locks": [
+          {
+            "ok": false,
+            "code": "57014",
+            "duration_ms": 8000.224
+          },
+          {
+            "ok": false,
+            "code": "57014",
+            "duration_ms": 8000.157
+          }
+        ],
+        "review": [
+          {
+            "ok": true,
+            "duration_ms": 449.809,
+            "preparation_ms": null,
+            "contract_hash": "4e5a402400efea1080be5f081c94cf5ee308f51872b2fd3a86b97d7a5e3a9131"
+          },
+          {
+            "ok": true,
+            "duration_ms": 505.194,
+            "preparation_ms": null,
+            "contract_hash": "4e5a402400efea1080be5f081c94cf5ee308f51872b2fd3a86b97d7a5e3a9131"
+          }
+        ],
+        "snapshot": [
+          {
+            "ok": true,
+            "duration_ms": 558.74,
+            "preparation_ms": null,
+            "contract_hash": "47701fcbb69ea1d2d687e905f168c219c98337477e1dabe6a1f2a3a94f567740"
+          },
+          {
+            "ok": true,
+            "duration_ms": 449.229,
+            "preparation_ms": null,
+            "contract_hash": "47701fcbb69ea1d2d687e905f168c219c98337477e1dabe6a1f2a3a94f567740"
+          }
+        ],
+        "hash": [
+          {
+            "ok": true,
+            "duration_ms": 24.072,
+            "preparation_ms": 581.782,
+            "contract_hash": "47701fcbb69ea1d2d687e905f168c219c98337477e1dabe6a1f2a3a94f567740"
+          },
+          {
+            "ok": true,
+            "duration_ms": 9.706,
+            "preparation_ms": 483.346,
+            "contract_hash": "47701fcbb69ea1d2d687e905f168c219c98337477e1dabe6a1f2a3a94f567740"
+          }
+        ],
+        "generation": {
+          "ok": false,
+          "code": "57014",
+          "duration_ms": 7999.962
+        },
+        "generation_projection_recorded": false
+      },
+      "mcp_large": {
+        "locks": [
+          {
+            "ok": false,
+            "code": "57014",
+            "duration_ms": 8000.311
+          },
+          {
+            "ok": false,
+            "code": "57014",
+            "duration_ms": 8000.168
+          }
+        ],
+        "review": [
+          {
+            "ok": true,
+            "duration_ms": 6526.434,
+            "preparation_ms": null,
+            "contract_hash": "d102ad98f422b52dfc837771da4af05159f9e0a3ed0f0eb4e7adcec19bede91c"
+          },
+          {
+            "ok": true,
+            "duration_ms": 6578.055,
+            "preparation_ms": null,
+            "contract_hash": "d102ad98f422b52dfc837771da4af05159f9e0a3ed0f0eb4e7adcec19bede91c"
+          }
+        ],
+        "snapshot": [
+          {
+            "ok": true,
+            "duration_ms": 6599.384,
+            "preparation_ms": null,
+            "contract_hash": "d8de71ad0375cf6ba1e1c0066f0c8af831de28493aa1da05cca04cdf37e70af9"
+          },
+          {
+            "ok": true,
+            "duration_ms": 6478.899,
+            "preparation_ms": null,
+            "contract_hash": "d8de71ad0375cf6ba1e1c0066f0c8af831de28493aa1da05cca04cdf37e70af9"
+          }
+        ],
+        "hash": [
+          {
+            "ok": true,
+            "duration_ms": 156.496,
+            "preparation_ms": 6459.923,
+            "contract_hash": "d8de71ad0375cf6ba1e1c0066f0c8af831de28493aa1da05cca04cdf37e70af9"
+          },
+          {
+            "ok": true,
+            "duration_ms": 159.796,
+            "preparation_ms": 6236.233,
+            "contract_hash": "d8de71ad0375cf6ba1e1c0066f0c8af831de28493aa1da05cca04cdf37e70af9"
+          }
+        ],
+        "generation": {
+          "ok": false,
+          "code": "57014",
+          "duration_ms": 8000.057
+        },
+        "generation_projection_recorded": false
+      }
+    },
+    "candidate": {
+      "api_control": {
+        "locks": [
+          {
+            "ok": true,
+            "duration_ms": 205.564,
+            "preparation_ms": null,
+            "contract_hash": null
+          },
+          {
+            "ok": true,
+            "duration_ms": 201.747,
+            "preparation_ms": null,
+            "contract_hash": null
+          }
+        ],
+        "review": [
+          {
+            "ok": true,
+            "duration_ms": 144.446,
+            "preparation_ms": null,
+            "contract_hash": "4e5a402400efea1080be5f081c94cf5ee308f51872b2fd3a86b97d7a5e3a9131"
+          },
+          {
+            "ok": true,
+            "duration_ms": 182.473,
+            "preparation_ms": null,
+            "contract_hash": "4e5a402400efea1080be5f081c94cf5ee308f51872b2fd3a86b97d7a5e3a9131"
+          }
+        ],
+        "snapshot": [
+          {
+            "ok": true,
+            "duration_ms": 110.278,
+            "preparation_ms": null,
+            "contract_hash": "47701fcbb69ea1d2d687e905f168c219c98337477e1dabe6a1f2a3a94f567740"
+          },
+          {
+            "ok": true,
+            "duration_ms": 113.297,
+            "preparation_ms": null,
+            "contract_hash": "47701fcbb69ea1d2d687e905f168c219c98337477e1dabe6a1f2a3a94f567740"
+          }
+        ],
+        "hash": [
+          {
+            "ok": true,
+            "duration_ms": 8.157,
+            "preparation_ms": 101.391,
+            "contract_hash": "47701fcbb69ea1d2d687e905f168c219c98337477e1dabe6a1f2a3a94f567740"
+          },
+          {
+            "ok": true,
+            "duration_ms": 8.265,
+            "preparation_ms": 103.02,
+            "contract_hash": "47701fcbb69ea1d2d687e905f168c219c98337477e1dabe6a1f2a3a94f567740"
+          }
+        ],
+        "generation": {
+          "ok": true,
+          "duration_ms": 786.178
+        },
+        "generation_projection_recorded": true
+      },
+      "api_large": {
+        "locks": [
+          {
+            "ok": true,
+            "duration_ms": 823.316,
+            "preparation_ms": null,
+            "contract_hash": null
+          },
+          {
+            "ok": true,
+            "duration_ms": 924.826,
+            "preparation_ms": null,
+            "contract_hash": null
+          }
+        ],
+        "review": [
+          {
+            "ok": true,
+            "duration_ms": 1723.726,
+            "preparation_ms": null,
+            "contract_hash": "d102ad98f422b52dfc837771da4af05159f9e0a3ed0f0eb4e7adcec19bede91c"
+          },
+          {
+            "ok": true,
+            "duration_ms": 1609.185,
+            "preparation_ms": null,
+            "contract_hash": "d102ad98f422b52dfc837771da4af05159f9e0a3ed0f0eb4e7adcec19bede91c"
+          }
+        ],
+        "snapshot": [
+          {
+            "ok": true,
+            "duration_ms": 1647.859,
+            "preparation_ms": null,
+            "contract_hash": "d8de71ad0375cf6ba1e1c0066f0c8af831de28493aa1da05cca04cdf37e70af9"
+          },
+          {
+            "ok": true,
+            "duration_ms": 1683.97,
+            "preparation_ms": null,
+            "contract_hash": "d8de71ad0375cf6ba1e1c0066f0c8af831de28493aa1da05cca04cdf37e70af9"
+          }
+        ],
+        "hash": [
+          {
+            "ok": true,
+            "duration_ms": 141.002,
+            "preparation_ms": 1440.785,
+            "contract_hash": "d8de71ad0375cf6ba1e1c0066f0c8af831de28493aa1da05cca04cdf37e70af9"
+          },
+          {
+            "ok": true,
+            "duration_ms": 120.85,
+            "preparation_ms": 1483.754,
+            "contract_hash": "d8de71ad0375cf6ba1e1c0066f0c8af831de28493aa1da05cca04cdf37e70af9"
+          }
+        ],
+        "generation": {
+          "ok": true,
+          "duration_ms": 5636.522
+        },
+        "generation_projection_recorded": true
+      },
+      "mcp_control": {
+        "locks": [
+          {
+            "ok": true,
+            "duration_ms": 690.024,
+            "preparation_ms": null,
+            "contract_hash": null
+          },
+          {
+            "ok": true,
+            "duration_ms": 657.315,
+            "preparation_ms": null,
+            "contract_hash": null
+          }
+        ],
+        "review": [
+          {
+            "ok": true,
+            "duration_ms": 490.347,
+            "preparation_ms": null,
+            "contract_hash": "4e5a402400efea1080be5f081c94cf5ee308f51872b2fd3a86b97d7a5e3a9131"
+          },
+          {
+            "ok": true,
+            "duration_ms": 503.63,
+            "preparation_ms": null,
+            "contract_hash": "4e5a402400efea1080be5f081c94cf5ee308f51872b2fd3a86b97d7a5e3a9131"
+          }
+        ],
+        "snapshot": [
+          {
+            "ok": true,
+            "duration_ms": 489.188,
+            "preparation_ms": null,
+            "contract_hash": "47701fcbb69ea1d2d687e905f168c219c98337477e1dabe6a1f2a3a94f567740"
+          },
+          {
+            "ok": true,
+            "duration_ms": 446.962,
+            "preparation_ms": null,
+            "contract_hash": "47701fcbb69ea1d2d687e905f168c219c98337477e1dabe6a1f2a3a94f567740"
+          }
+        ],
+        "hash": [
+          {
+            "ok": true,
+            "duration_ms": 10.568,
+            "preparation_ms": 483.943,
+            "contract_hash": "47701fcbb69ea1d2d687e905f168c219c98337477e1dabe6a1f2a3a94f567740"
+          },
+          {
+            "ok": true,
+            "duration_ms": 8.014,
+            "preparation_ms": 574.384,
+            "contract_hash": "47701fcbb69ea1d2d687e905f168c219c98337477e1dabe6a1f2a3a94f567740"
+          }
+        ],
+        "generation": {
+          "ok": true,
+          "duration_ms": 2515.63
+        },
+        "generation_projection_recorded": true
+      },
+      "mcp_large": {
+        "locks": [
+          {
+            "ok": true,
+            "duration_ms": 3097.485,
+            "preparation_ms": null,
+            "contract_hash": null
+          },
+          {
+            "ok": true,
+            "duration_ms": 3223.74,
+            "preparation_ms": null,
+            "contract_hash": null
+          }
+        ],
+        "review": [
+          {
+            "ok": true,
+            "duration_ms": 6593.271,
+            "preparation_ms": null,
+            "contract_hash": "d102ad98f422b52dfc837771da4af05159f9e0a3ed0f0eb4e7adcec19bede91c"
+          },
+          {
+            "ok": true,
+            "duration_ms": 6474.438,
+            "preparation_ms": null,
+            "contract_hash": "d102ad98f422b52dfc837771da4af05159f9e0a3ed0f0eb4e7adcec19bede91c"
+          }
+        ],
+        "snapshot": [
+          {
+            "ok": true,
+            "duration_ms": 6295.89,
+            "preparation_ms": null,
+            "contract_hash": "d8de71ad0375cf6ba1e1c0066f0c8af831de28493aa1da05cca04cdf37e70af9"
+          },
+          {
+            "ok": true,
+            "duration_ms": 6407.321,
+            "preparation_ms": null,
+            "contract_hash": "d8de71ad0375cf6ba1e1c0066f0c8af831de28493aa1da05cca04cdf37e70af9"
+          }
+        ],
+        "hash": [
+          {
+            "ok": true,
+            "duration_ms": 151.7,
+            "preparation_ms": 6243.119,
+            "contract_hash": "d8de71ad0375cf6ba1e1c0066f0c8af831de28493aa1da05cca04cdf37e70af9"
+          },
+          {
+            "ok": true,
+            "duration_ms": 133.553,
+            "preparation_ms": 6272.63,
+            "contract_hash": "d8de71ad0375cf6ba1e1c0066f0c8af831de28493aa1da05cca04cdf37e70af9"
+          }
+        ],
+        "generation": {
+          "ok": false,
+          "code": "57014",
+          "duration_ms": 8000.144
+        },
+        "generation_projection_recorded": false
+      }
+    }
+  },
+  "offline_captured_review_snapshot_hash_comparisons": {
+    "comparisons": 24,
+    "equal": 24,
+    "scope": "post-run comparison of recorded contract hashes; not the unexecuted final program equality gate"
+  },
+  "old_security": [
+    {
+      "name": "unrelated_project_actor",
+      "ok": false,
+      "code": "RESOURCE_NOT_FOUND"
+    },
+    {
+      "name": "mcp_capability_intersection",
+      "ok": false,
+      "code": "CAPABILITY_REQUIRED"
+    },
+    {
+      "name": "mcp_wrong_session",
+      "ok": false,
+      "code": "CAPABILITY_REQUIRED"
+    }
+  ],
+  "old_edges": {
+    "result": "unconfirmed",
+    "variant": "old",
+    "measure": {
+      "ok": false,
+      "duration_ms": 8000.125,
+      "code": "57014"
+    },
+    "cross_workspace_foreign_keys_rejected": true,
+    "edge_assignment_exactly_restored": true,
+    "missing_selected_frame": {
+      "lock": {
+        "ok": false,
+        "code": "57014",
+        "operation": "locks",
+        "duration_ms": 8000.14
+      },
+      "snapshot": {
+        "ok": true,
+        "role": "eps_review_owner",
+        "operation": "snapshot",
+        "duration_ms": 6448.419,
+        "can_generate": false,
+        "contract_hash": "98506036301f3880576dbc45692c4216e08c680391b4d99b612a6ddd821ba292",
+        "blocking_codes": [
+          "FRAME_UNAVAILABLE"
+        ],
+        "preparation_ms": null
+      },
+      "removed_pair_restored_by_rollback": true
+    }
+  },
+  "old_races": [
+    {
+      "case": "candidate_fact",
+      "ok": false,
+      "code": "57014",
+      "changed_rows_rolled_back": true
+    },
+    {
+      "case": "selected_frame_pair",
+      "ok": false,
+      "code": "57014",
+      "changed_rows_rolled_back": true
+    },
+    {
+      "case": "selected_pool",
+      "ok": false,
+      "code": "INPUT_CHANGED",
+      "changed_rows_rolled_back": true
+    },
+    {
+      "case": "unselected_frame_change",
+      "ok": false,
+      "code": "57014",
+      "changed_rows_rolled_back": true
+    },
+    {
+      "case": "membership_revoked_while_waiting",
+      "actual_distinct_pid_lock_wait": true,
+      "ok": false,
+      "code": "RESOURCE_NOT_FOUND",
+      "exact_new_authority_preimage_restored": true
+    },
+    {
+      "case": "capability_revoked_while_waiting",
+      "actual_distinct_pid_lock_wait": true,
+      "ok": false,
+      "code": "RESOURCE_NOT_FOUND",
+      "exact_new_authority_preimage_restored": true
+    },
+    {
+      "case": "capability_revoked_inside_helper",
+      "actual_relation_wait": false,
+      "ok": false,
+      "code": "57014",
+      "authority_was_changed": false
+    }
+  ],
+  "preservation_scope": {
+    "post40_full_baseline_captured": true,
+    "old_variant_full_baseline_assertion_completed_before_candidate": true,
+    "basis_for_old_baseline": "sealed control flow reached the candidate loop after its old-variant full-baseline assertion",
+    "candidate_postvariant_full_baseline_assertion_reached": false,
+    "candidate_security_cohorts_edges_races_reached": false,
+    "original29_external_data_catalogue_global_roles_exact": true
+  },
+  "cleanup": {
+    "all_owned_resources_absent": true,
+    "controller_successful_empty_label_inventories": true,
+    "shared_lock_released": true,
+    "fresh_filesystem_shared_lock_existed_after_return": false
+  },
+  "conclusion": "Lock narrowing materially reduces measured local locking time, but is insufficient alone for the unchanged8s MCP-large whole generation boundary. No acceptance threshold is relaxed.",
+  "limits": [
+    "Candidate had32 successful component samples and3 successful generation profiles, but MCP-large generation returned57014 at8s.",
+    "No candidate security/cohort/edge/race/full-preservation or complete old/new generation acceptance.",
+    "Old generation never completed, so no normalized cross-generation projection equality claim.",
+    "Hash duration excludes its separately recorded preparation_ms.",
+    "Synthetic local timings do not prove production cancellation cause or production performance.",
+    "No old source/claim replay, provider/canonical action or automatic retry."
+  ]
+}
