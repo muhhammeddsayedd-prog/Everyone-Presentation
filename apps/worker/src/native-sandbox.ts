@@ -3,7 +3,7 @@ import { readFileSync, lstatSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import type { Readable } from 'node:stream';
 import path from 'node:path';
-import { verifyNativeSourceSeal } from './native-source-seal.ts';
+import { verifyNativeCompatibility, verifyNativeSourceSeal } from './native-source-seal.ts';
 
 export const NATIVE_PROTOCOL = 'eps-native-files-v1';
 export const NATIVE_TASKS = Object.freeze({
@@ -30,6 +30,9 @@ export function parseNativeManifest(value: unknown): NativeManifest {
   return Object.freeze({ ...value }) as unknown as NativeManifest;
 }
 let configured: NativeManifest | undefined;
+interface NativeSourceIdentity { daemon_source_sha256: string; native_source_sha256: string; native_graph_sha256: string; native_manifest_sha256: string; native_compatibility_sha256: string }
+let sourceIdentity: Readonly<NativeSourceIdentity> | undefined;
+export function nativeSandboxSourceIdentity(): Readonly<NativeSourceIdentity> | undefined { return sourceIdentity; }
 /** Fixed image-baked manifest, never a job-supplied path/image/command. */
 export function nativeSandboxConfiguration(environment: Readonly<Record<string, string | undefined>> = process.env): NativeManifest | undefined {
   const mode = environment.EPS_NATIVE_TRANSPORT;
@@ -38,18 +41,29 @@ export function nativeSandboxConfiguration(environment: Readonly<Record<string, 
     || (environment.EPS_RELEASE_MODE === 'production' ? environment.APP_ENV !== 'production' : environment.EPS_RELEASE_MODE !== 'controlled_pilot') || environment.NODE_ENV !== 'production'
     || environment.VERCEL_OIDC_TOKEN_FILE !== '/var/run/secrets/vercel.com/token'
     || ['VERCEL_TOKEN', 'VERCEL_ACCESS_TOKEN', 'N8N_API_KEY', 'SUPABASE_SERVICE_ROLE_KEY'].some(key => environment[key])) fail('NATIVE_CONFIGURATION_INVALID');
-  if (configured) return configured;
+  const pins = [environment.EPS_DAEMON_SOURCE_SHA256, environment.EPS_NATIVE_MANIFEST_SHA256, environment.EPS_NATIVE_COMPATIBILITY_SHA256];
+  if (!pins.every(digest)) fail('NATIVE_CONFIGURATION_INVALID');
+  if (configured) {
+    if (sourceIdentity?.daemon_source_sha256 !== pins[0] || sourceIdentity.native_manifest_sha256 !== pins[1] || sourceIdentity.native_compatibility_sha256 !== pins[2]) fail('NATIVE_CONFIGURATION_INVALID');
+    return configured;
+  }
   const file = fileURLToPath(new URL('../native-sandbox-manifest.json', import.meta.url));
   const seal = fileURLToPath(new URL('../native-source.json', import.meta.url));
+  const daemonSeal = fileURLToPath(new URL('../daemon-source.json', import.meta.url));
+  const compatibility = fileURLToPath(new URL('../native-compatibility.json', import.meta.url));
   try {
-    for (const target of [file, seal]) { const info = lstatSync(target); if (!info.isFile() || info.isSymbolicLink() || info.size > 1024 * 1024) fail('NATIVE_CONFIGURATION_INVALID'); }
+    for (const target of [file, seal, daemonSeal, compatibility]) { const info = lstatSync(target); if (!info.isFile() || info.isSymbolicLink() || info.size > 1024 * 1024) fail('NATIVE_CONFIGURATION_INVALID'); }
     const bytes = readFileSync(file); if (!digest(environment.EPS_NATIVE_MANIFEST_SHA256) || hash(bytes) !== environment.EPS_NATIVE_MANIFEST_SHA256) fail('NATIVE_CONFIGURATION_INVALID');
     const manifest = parseNativeManifest(JSON.parse(bytes.toString('utf8')));
-    // source seal is produced from the reviewed sparse context, independently
-    // pinned in both images. Runtime never selects an arbitrary local image ID.
-    const source: unknown = JSON.parse(readFileSync(seal, 'utf8'));
+    const source: unknown = JSON.parse(readFileSync(seal, 'utf8')); const daemon: unknown = JSON.parse(readFileSync(daemonSeal, 'utf8'));
     const root = fileURLToPath(new URL('../../../', import.meta.url));
-    verifyNativeSourceSeal(source, manifest.source_sha256, relative => { const target = path.join(root, relative); const info = lstatSync(target); if (!info.isFile() || info.isSymbolicLink()) fail('NATIVE_CONFIGURATION_INVALID'); return readFileSync(target); });
+    const read = (relative: string) => { const target = path.join(root, relative); const info = lstatSync(target); if (!info.isFile() || info.isSymbolicLink()) fail('NATIVE_CONFIGURATION_INVALID'); return readFileSync(target); };
+    verifyNativeSourceSeal(daemon, environment.EPS_DAEMON_SOURCE_SHA256!, read);
+    const compatibilityBytes = readFileSync(compatibility); if (hash(compatibilityBytes) !== environment.EPS_NATIVE_COMPATIBILITY_SHA256) fail('NATIVE_CONFIGURATION_INVALID');
+    const descriptor: unknown = JSON.parse(compatibilityBytes.toString('utf8'));
+    verifyNativeCompatibility(descriptor, daemon, source, { daemon_source_sha256: environment.EPS_DAEMON_SOURCE_SHA256!, native_source_sha256: manifest.source_sha256, native_manifest_sha256: environment.EPS_NATIVE_MANIFEST_SHA256! }, read);
+    sourceIdentity = Object.freeze({ daemon_source_sha256: environment.EPS_DAEMON_SOURCE_SHA256!, native_source_sha256: manifest.source_sha256,
+      native_graph_sha256: (descriptor as { native_graph_sha256: string }).native_graph_sha256, native_manifest_sha256: environment.EPS_NATIVE_MANIFEST_SHA256!, native_compatibility_sha256: environment.EPS_NATIVE_COMPATIBILITY_SHA256! });
     configured = manifest; return configured;
   } catch { return fail('NATIVE_CONFIGURATION_INVALID'); }
 }

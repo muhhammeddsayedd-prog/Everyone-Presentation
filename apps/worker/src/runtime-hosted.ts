@@ -1,5 +1,5 @@
 import { holdHostedWorker, hostedWorkerEnvironment } from './runtime-hosted-config.ts';
-import { assertNativeSandboxIdle, nativeImageIdentity, nativeSandboxCleanupUnconfirmed, nativeSandboxConfiguration } from './native-sandbox.ts';
+import { assertNativeSandboxIdle, nativeImageIdentity, nativeSandboxCleanupUnconfirmed, nativeSandboxConfiguration, nativeSandboxSourceIdentity } from './native-sandbox.ts';
 import { startSpecsWorker } from './runtime-main.ts';
 
 // No private file is baked, loaded or accepted as an argument. Keep the OIDC
@@ -12,6 +12,7 @@ async function main() {
   // A restart never adopts/resumes a VM left by a prior process. Owner must
   // reconcile its exact identity before a fresh credentialed poller may start.
   await assertNativeSandboxIdle();
+  process.stdout.write(JSON.stringify({ event: 'hosted_worker_source_identity', ...nativeSandboxSourceIdentity() }) + '\n');
   for (const key of ['EPS_MEDIA_IMAGE_ID', 'EPS_FRAME_IMAGE_ID', 'EPS_PDF_RASTER_IMAGE_ID']) process.env[key] = nativeImageIdentity(native);
   const controller = new AbortController(); let timer: ReturnType<typeof setTimeout> | undefined;
   const checkExpiry = () => { const remaining = Date.parse(environment.EPS_PILOT_EXPIRES_AT) - Date.now(); if (remaining <= 0) { process.stdout.write('{"event":"hosted_worker_pilot_expired"}\n'); controller.abort(); } else timer = setTimeout(checkExpiry, Math.min(remaining, 2_147_483_647)); };

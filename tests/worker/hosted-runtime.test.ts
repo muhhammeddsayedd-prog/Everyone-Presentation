@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { EventEmitter } from 'node:events';
 import { hostedWorkerEnvironment, holdHostedWorker } from '../../apps/worker/src/runtime-hosted-config.ts';
 const flags = ['EPS_SPECS_FILES_ENABLED','EPS_CANDIDATE_MEDIA_ENABLED','EPS_FRAME_EXTRACTION_ENABLED','EPS_PDF_VISION_ENABLED','EPS_REVIEW_ENABLED','EPS_PRESENTATION_ENABLED','EPS_GUEST_EXPORTS_ENABLED'];
-const environment = { VERCEL: '1', VERCEL_ENV: 'production', VERCEL_OIDC_TOKEN_FILE: '/var/run/secrets/vercel.com/token', EPS_RELEASE_MODE: 'controlled_pilot', EPS_PILOT_EXPIRES_AT: new Date(Date.now() + 3_600_000).toISOString(), NODE_ENV: 'production', EPS_NATIVE_TRANSPORT: 'vercel_sandbox', EPS_NATIVE_MANIFEST_SHA256: 'a'.repeat(64), ...Object.fromEntries(flags.map(flag => [flag, 'true'])) };
+const environment = { VERCEL: '1', VERCEL_ENV: 'production', VERCEL_OIDC_TOKEN_FILE: '/var/run/secrets/vercel.com/token', EPS_RELEASE_MODE: 'controlled_pilot', EPS_PILOT_EXPIRES_AT: new Date(Date.now() + 3_600_000).toISOString(), NODE_ENV: 'production', EPS_NATIVE_TRANSPORT: 'vercel_sandbox', EPS_NATIVE_MANIFEST_SHA256: 'a'.repeat(64), EPS_DAEMON_SOURCE_SHA256: 'b'.repeat(64), EPS_NATIVE_COMPATIBILITY_SHA256: 'c'.repeat(64), ...Object.fromEntries(flags.map(flag => [flag, 'true'])) };
 test('hosted entry accepts only explicit pilot sandbox mode and excludes ambient credentials', () => {
   const result = hostedWorkerEnvironment({ ...environment, RANDOM_PRIVATE_SENTINEL: 'secret', PATH: 'untrusted' });
   assert.equal(result.PATH, ''); assert.equal(result.RANDOM_PRIVATE_SENTINEL, undefined); assert.equal(result.EPS_NATIVE_TRANSPORT, 'vercel_sandbox');

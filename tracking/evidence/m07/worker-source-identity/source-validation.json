@@ -1,0 +1,112 @@
+{
+  "schema_version": "1.0",
+  "purpose": "separate_daemon_and_native_source_identity",
+  "observed_at": "2026-11-02T16:52:11.878Z",
+  "scope": "source implementation and offline validation in Production-Admission checkout",
+  "baseline_commit": "c4adefaf77d9d0ccf65c3501db9c1067fe2740ec",
+  "source_seals": {
+    "apps/worker/src/native-sandbox.ts": "dde0952dc5a0e7168e1e9f99206c1f09782510b7e7866cc1bade0040ef2279c0",
+    "apps/worker/src/native-source-seal.ts": "5bc870ed9e807e093a06ce5e90d4afcdc0a62ba8fea9e6015d416a7b772cfcd5",
+    "apps/worker/src/runtime-hosted-config.ts": "1831b2b791f4eaada59ea62646351613d7201f2e5f96644971a3a18df7039fa5",
+    "apps/worker/src/runtime-hosted.ts": "e822c87d328f1aed6c323219da1e7c52f452cb9184592834ca8bbec604f23981",
+    "tools/worker-hosting-build.mjs": "a9a628e004fc8a6a636486a67878e8f84fda335a32c13c7fcb68d60c33124c3c",
+    "tests/worker/native-source-seal.test.ts": "598d4ff540956f708f6777a0a6d514fe61f24bfa354180c13d96fbb212df30ec",
+    "tests/worker/production-admission.test.ts": "82dc45e32973760df8baea6d516469c8754d4a2f47982df0f53dcff5454d1ab0",
+    "tests/worker/worker-hosting-build.test.ts": "27cefabaff6d08382a48f43603813b26bd0f521830d6ec67c365775ac63d7f02",
+    "tests/worker/hosted-runtime.test.ts": "48a993845635ec696a67d60e676428cc9b0276bb6a6538dcd488eb72e5db18f1",
+    "development/m07/worker-source-identity/README.md": "1b492576bdd713a3d8f3b769da9880f8a207cb4bba50a57737d83c2db6b2153b"
+  },
+  "native_manifest_public_shape_unchanged": true,
+  "native_vm_complete_artifact_seal_independent": true,
+  "hosted_public_settings_added": [
+    "EPS_DAEMON_SOURCE_SHA256",
+    "EPS_NATIVE_COMPATIBILITY_SHA256"
+  ],
+  "source_audit": {
+    "module_audit_observed_at": "2026-11-02T16:46:29.127Z",
+    "final_inventory_observed": true,
+    "source_files": 164,
+    "native_modules": 53,
+    "native_build_inputs": 25,
+    "source_sha256": "c2729b1220db4992419f9a29395ba34e90e8c33f4f972e7689bcdc655ae8bb4c",
+    "native_graph_sha256": "d5b9eb7accbb646d097cf5f63a5084c0f769034709a3b8e896b2e63e048796e0",
+    "native_source_and_emitted_changes": [
+      "apps/worker/src/native-sandbox.ts",
+      "apps/worker/src/native-source-seal.ts"
+    ],
+    "source_inventory_unchanged_since_module_audit": true,
+    "first_new_native_and_daemon_required": true,
+    "existing46_artifacts_unchanged": true,
+    "counts_are_checkout_specific_not_Main_build_admission": true
+  },
+  "validation": {
+    "red": {
+      "command": "node tools/run-tests.mjs tests/worker/native-source-seal.test.ts",
+      "exit_code": 1,
+      "passed": 2,
+      "failed": 1,
+      "cause": "new compatibility API absent"
+    },
+    "worker": {
+      "command": "npm.cmd run test:worker",
+      "exit_code": 0,
+      "passed": 256,
+      "failed": 0,
+      "skipped": 0,
+      "duration_ms": 32923.0537,
+      "scope": "final runtime product bytes; before two test-only lines and equivalent generator read-path lint correction",
+      "log": {
+        "path": ".local/worker-source-identity-worker-tests.log",
+        "sha256": "7b13b8b7135a831ebbaba7e56aef80474c62a8e24c1e7fe4d33b0ab5da7b0501"
+      }
+    },
+    "focused_final": {
+      "command": "node tools/run-tests.mjs tests/worker/native-source-seal.test.ts tests/worker/worker-hosting-build.test.ts tests/worker/production-admission.test.ts tests/worker/hosted-runtime.test.ts",
+      "exit_code": 0,
+      "passed": 16,
+      "failed": 0,
+      "skipped": 0,
+      "duration_ms": 11331.1248,
+      "log": {
+        "path": ".local/worker-source-identity-focused-tests.log",
+        "sha256": "4e632998bf0ba154ed409853a72ecb2e08ebe1097c595c1c8fdf3352954d083f"
+      }
+    },
+    "typecheck": {
+      "command": "npm.cmd run typecheck",
+      "exit_code": 0
+    },
+    "lint": {
+      "command": "npx.cmd eslint <nine changed source/test files> --max-warnings 0",
+      "exit_code": 0
+    },
+    "retained_intermediate_failures": [
+      {
+        "gate": "typecheck",
+        "scope": "new test Map value inference",
+        "code": "TS2345",
+        "resolved": "explicit Map<string,Buffer>"
+      },
+      {
+        "gate": "lint",
+        "scope": "generator hash expression",
+        "code": "no-undef URL",
+        "resolved": "Node24 import.meta.filename"
+      }
+    ],
+    "independent_peer": {
+      "agent": "frontend_integration",
+      "source_review": "passed",
+      "tests": 11,
+      "failed": 0,
+      "scope": "prior final product/test pins plus separately reviewed tiny equivalent generator-path and test-only followups",
+      "provider_calls": 0
+    }
+  },
+  "builds_executed": 0,
+  "stage_calls": 0,
+  "provider_calls": 0,
+  "deployed": false,
+  "production_acceptance": false,
+  "native_rebuild_proved": false
+}
