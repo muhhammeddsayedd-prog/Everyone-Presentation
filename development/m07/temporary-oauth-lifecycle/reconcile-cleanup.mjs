@@ -8,7 +8,7 @@ import { fileURLToPath,pathToFileURL } from 'node:url';
 import { createLocalJWKSet,jwtVerify } from 'jose';
 import { Coordinator,nativePorts,preflight } from './coordinator.mjs';
 import * as core from './core.mjs';
-export const READ_ENABLED=false;
+export const READ_ENABLED=true;
 const {Headers}=globalThis;
 const ROOT='D:/Everyone/Presentation/Everyone-Presentation-Studio',ENTRY='development/m07/temporary-oauth-lifecycle/reconcile-cleanup.mjs';
 const RUN='402aca12-60e1-464e-8573-c48958c3ab1f',DEPLOYMENT='dpl_J3hmctcHndRp8zDVAPYfcnjEgpzG',SOURCE='c88f58c00820169f7396d72def77a74f1443594e',MANIFEST='f947fb53479d991b382bd50bf39e32a4e56dd17598470b209f2a185ed9f58d0a';
