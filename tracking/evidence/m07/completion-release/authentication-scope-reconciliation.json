@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "purpose": "reconcile_required_authentication_results_without_conflating_client_sessions",
+  "recorded_from_existing_evidence": true,
+  "client_id": "f2acafd5-d4b6-4176-b86c-067c57e45ecc",
+  "intended_existing_Claude_connection": {
+    "receipt": "tracking/evidence/m07/claude-j3-b5-observation/actual-4f3-1d-result.json",
+    "renewed_operational_MCP_access_after_prior_token_expiry": true,
+    "same_verified_session_and_client": true,
+    "owner_attests_no_reconnect_or_signin": true,
+    "raw_refresh_HTTP_exchange_observed": false
+  },
+  "separate_temporary_operator_session_under_same_approved_client": {
+    "run": "402aca12-60e1-464e-8573-c48958c3ab1f",
+    "expired_bearer_denial_receipt": "tracking/evidence/m07/temporary-oauth-lifecycle-coordinator/2026-11-02T09-15-19.523Z-402aca12-expiry.json",
+    "refresh_rotation_receipt": "tracking/evidence/m07/temporary-oauth-lifecycle-coordinator/2026-11-02T09-16-00.314Z-402aca12-refresh.json",
+    "MCP_after_refresh_request_id": "4c22bedd-0ea7-4c6d-ab91-7854ba53c480",
+    "cleanup_and_revoked_bearer_receipt": "tracking/evidence/m07/temporary-oauth-cleanup-reconciliation/2026-11-02T09-42-49.604Z-605d159c-64e5-4aa9-b3c0-e694266cb62e-cleanup-reconciliation.json",
+    "refresh_token_rotation_proven": true,
+    "native_logout_returned_204": true,
+    "owned_session_absent": true,
+    "refreshed_still_unexpired_bearer_denied_401": true,
+    "original_five_sessions_exact_across_three_complete_reads": true,
+    "temporary_access_remaining": false,
+    "original_refresh_token_denial_phase": "unconfirmed_no_replay"
+  },
+  "scope": "The existing Claude connection supplies renewed same-session operational access. The distinct owner-consented temporary session supplies actual rotation, logout, subsequent bearer denial and unrelated-session preservation. These are separate observed sessions, not a wire trace of Claude's refresh exchange.",
+  "full_protocol_verified": false,
+  "unconfirmed_refresh_denial_promoted_to_pass": false,
+  "new_refresh_wire_or_token_denial_gate_added": false,
+  "result": "required_scoped_results_recorded_with_explicit_protocol_limits"
+}

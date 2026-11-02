@@ -1,5 +1,17 @@
 # One bounded named anonymous guest feedback check
 
+Current run9aff88b7 opened and confirmed on2026-11-02 at15:29UTC. The reviewed
+writer is armed. Actual unauthenticated HTTP created one external comment on
+Selectionv2, same-key replay returned that comment, exact per-slide/total counts
+rose0→1, preferences stayed0 and the internal note was absent. See the
+[actual receipt](../../../tracking/evidence/m07/completion-guest/2026-11-02T15-29-11.323Z-9aff88b7-e02b-4c7e-a59e-258654ebd505-fae7f6df-efc0-4c35-8242-795fd540ed31-confirmed.json).
+Owner MCP reciprocal read, manual Narrator and revoke/deny remain pending. The
+temporary link expires16:00:02UTC. Keep the seven source seals unchanged until
+denial/cleanup; do not rerun the default-off test against this armed source.
+Preserve comment7460398d and internal note466c303f. Never replay a consumed phase.
+
+## Historical preparation and offline scope
+
 **Disabled; no live acceptance has run.** `LIVE_WRITES_ENABLED=false` blocks real
 HTTP opening, identity, comment and lifecycle phases. Only injected synthetic
 test ports ran. No real handoff/inbox was prepared. Root reviews the complete
