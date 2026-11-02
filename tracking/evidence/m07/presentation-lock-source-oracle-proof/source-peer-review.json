@@ -1,0 +1,55 @@
+{
+  "schema_version": "complete-snapshot-oracle-independent-source-peer.v1",
+  "source_commit": "990af6bc1061c5c5ffe21022a2bc3baddb92b2a1",
+  "disabled_plan": {
+    "path": "tracking/evidence/m07/presentation-lock-source-oracle-proof/disabled-owned-plan.json",
+    "sha256": "ee0b7d5222a133c622800ab52c266a3596197435d2c61cecd1c7225f130a2fda",
+    "unchanged": true,
+    "pending_peer_status_was_accurate_when_written": true
+  },
+  "oracle_component": {
+    "author": "/root/frontend_integration",
+    "independent_reviewer": "/root/release_gaps",
+    "result": "closed_no_concrete_blocker",
+    "files": {
+      "oracle.py": "c4f7243af8a5a3edbe5d67a60f1a6d49144d9abb1940404a0593af210bdf340c",
+      "oracle.mjs": "50e08f70b12041059a9b107450a215fcccd719bce215eaa3a81c733a9f0c009b",
+      "test_oracle.py": "e07baca778500eead3def3cf262002d7244e86e42851aa9d003083a9cf374b29"
+    },
+    "confirmed": [
+      "Complete501-asset and328-frame-pair universes are private independent table PKs, not candidate-derived selections.",
+      "Same backend and RR read-only snapshot span trusted enumeration and actual MCP/eps_review_owner reads; every slice validates PID, snapshot, role, isolation, readonly and8s bounds.",
+      "Disjoint exhaustive16-key partitions retain each complete original predicate as a parenthesized AND term; exact zipped frame pairs prevent invented combinations.",
+      "Other10 relation query bodies remain original; full coverage and final identity precede completion; timeout or any mismatch fails closed."
+    ],
+    "independently_rerun_with_adapter_suite": true
+  },
+  "adapter_component": {
+    "author": "/root/release_gaps",
+    "independent_reviewer": "/root/frontend_integration",
+    "result": "closed_pass_no_concrete_blocker",
+    "reviewed_files": ["source.py", "compiler.py", "entry.mjs", "admit.mjs", "admit.test.mjs", "test_source.py", "README.md"],
+    "confirmed": [
+      "Finite inverse oldcase projection changes observer begin/read and explicit historical timing admission; no benchmark replay.",
+      "Exact6db c2 receipt is admitted only for its observed partial timing and cleanup scope.",
+      "Three fresh artifact hashes, new namespaces and permanent once claim before original target/Docker; no old entry/controller/claim invoked.",
+      "Unchanged280 plus four old bodies, full original/config restoration and inherited preservation/cleanup remain mandatory."
+    ],
+    "extra_duplicate_test_cycle": false
+  },
+  "integrated_checks_by_Recovery": {
+    "Python_source_AST_partition_snapshot_fake_session_compiler_passed": 10,
+    "duration_seconds": 1.302,
+    "Node_actual_retained_receipt_admission_passed": 2,
+    "Node_duration_ms": 158.5425,
+    "ESLint_exit": 0,
+    "diff_check_exit": 0,
+    "all_three_compiled_artifact_Nodecheck_exit": 0
+  },
+  "execution_enabled": false,
+  "SQL_Docker_provider_commands": 0,
+  "runtime_claims_or_resources_created": false,
+  "Main_changes": false,
+  "Root_full_source_plan_review_and_execution_authorization": "pending",
+  "actual_remaining_semantic_security_or_release_acceptance": false
+}
