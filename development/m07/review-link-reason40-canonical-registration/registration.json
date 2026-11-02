@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.0",
+  "purpose": "reason40_existing_disabled_canonical_source_registration",
+  "canonical_execution_enabled": false,
+  "target": "pyibofyctwnqpvktepse",
+  "version": "20261102085405",
+  "required_before_history_count": 39,
+  "expected_after_history_count": 40,
+  "migration": {
+    "path": "supabase/migrations/20261102085405_m07_review_link_action_reason.sql",
+    "sha256": "08bf4de8a63823b0e7c9aee75560a6e7de0620eb9b8b3c483c65929578db8212"
+  },
+  "entry": {
+    "path": "development/m07/review-link-reason40-main-diagnostics/release.py",
+    "sha256": "e4ac245e426550a8dc5c83e88bd6783c17c6f599d10686557b1931dca703f160"
+  },
+  "orchestration_library": {
+    "path": "development/m07/review-link-reason40-canonical-release/release.py",
+    "sha256": "dcd522fd91f8643fd36cdfbd61434dd62614126e1005d3f644f5bfc314748f90"
+  },
+  "context": "development/m07/review-link-reason40-main-diagnostics/context.py",
+  "functional_local_proof": {
+    "path": "tracking/evidence/m07/review-link-reason40-preparing-proof/2026-11-02T10-22-01.195Z-51a83db4.json",
+    "sha256": "d79b1938472a0d943c3c7e993bffeaeff1c51d78a73454e092b16767dbfd4060"
+  },
+  "collector_validation": {
+    "path": "tracking/evidence/m07/reason40-collector-validation/2026-11-02T13-27-25.744Z-602f1dd4.json",
+    "sha256": "70f98f8cde94f963851eafc6e1feca4e52d411317e9724ab85ad03c892b98a6a"
+  },
+  "historical39_anchor": {
+    "path": "tracking/evidence/m07/project-creation39-canonical-release/2026-11-01T23-46-11-679664Z-apply.json",
+    "sha256": "badbed58027c49897734251edb3aba666571eb57aa6b4e3f6e053c88dc264864"
+  },
+  "query_validation_file": {
+    "Main_path_template": ".local/review-link-reason40-canonical-release/<fresh UUID>/query-validation.json",
+    "existing_Main_private_guard_required": true,
+    "created": false,
+    "exact_content": {
+      "path": "tracking/evidence/m07/reason40-collector-validation/2026-11-02T13-27-25.744Z-602f1dd4.json",
+      "sha256": "70f98f8cde94f963851eafc6e1feca4e52d411317e9724ab85ad03c892b98a6a"
+    }
+  },
+  "future_flag_activation": {
+    "latest_READ_ENABLED": false,
+    "latest_APPLY_ENABLED": false,
+    "original_library_READ_ENABLED": false,
+    "original_library_APPLY_ENABLED": false,
+    "typed_and_ACL_intermediate_flags_stay_false": true,
+    "all_intended_flags_armed_before_prepare": true,
+    "no_flag_or_source_changes_after_prepare": true
+  },
+  "phase_sequence": [
+    "prepare <same fresh UUID>",
+    "apply <same fresh UUID>",
+    "reconcile <same UUID> only if outcome unknown; read-only and no marker repair"
+  ],
+  "fresh_admission": {
+    "all_seven_lifecycle_counters_zero": true,
+    "all_five_processing_flags_enabled_and_shapes_valid": true,
+    "production_native_image_id": "sha256:46de2f0c0772e10d712fba514788d24041d6741faa8966b6fe9c554fe47e4af4",
+    "current_business_rows_may_have_advanced_but_full_fresh_preimage_phase_frozen": true,
+    "historical_closed_kind_nonnegative_sum_and_monotonic_job_counts_required": true,
+    "full_OIDs_owners_ACLs_roles_memberships_RLS_grants_dependencies_exact": true,
+    "transaction_rechecks_preimage_under_history_and_76_table_locks": true
+  },
+  "fresh_checkpoint": {
+    "Main_directory_template": ".local/review-link-reason40-canonical-release/<same UUID>/",
+    "before_filename": "before-checkpoint.json",
+    "after_filename": "after-checkpoint.json",
+    "tables": 76,
+    "history_path": [
+      "state",
+      "history"
+    ],
+    "max_stdout_and_artifact_bytes": 16777216,
+    "scope": "after_apply",
+    "restore_verified": false,
+    "historical39_checkpoint_substitution_allowed": false,
+    "created": false
+  },
+  "future_reason_web_registration": {
+    "accepted_canonical_ref": null,
+    "accepted_after_checkpoint": null,
+    "registry_entry": null,
+    "local_proof_field_remains_functional51": true,
+    "collector_validation_path_in_apply_receipt": [
+      "admission",
+      "collector_validation"
+    ],
+    "required_migration_sha256": "08bf4de8a63823b0e7c9aee75560a6e7de0620eb9b8b3c483c65929578db8212",
+    "readback_history_path": [
+      "history"
+    ],
+    "activation_requires_actual_normal_marker_two_equal_readbacks_and_fresh_private_checkpoint": true
+  },
+  "cloud_calls": 0,
+  "canonical_claims_or_plan_created": false,
+  "sealed_query_source_unchanged": true
+}
