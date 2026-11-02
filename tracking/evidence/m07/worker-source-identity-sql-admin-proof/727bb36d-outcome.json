@@ -1,0 +1,120 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-11-02T20:31:33.747230+00:00",
+  "purpose": "preserved_single_owned_worker40_admin_partial_outcome",
+  "result": "failed",
+  "runtime_uuid": "727bb36d-5ea0-4ac5-9e29-615c10b8fc7c",
+  "controller_compile_uuid": "0bb3a161-e477-413d-946c-a66c4a9b8184",
+  "receipt": {
+    "path": "tracking/evidence/m07/worker-source-identity-sql-admin-proof/2026-11-02T20-26-27.192Z-727bb36d.json",
+    "sha256": "f576a81b37bcfa8b1ed02ff6070dc6122fd4c80d0105c04a5ce29569ad609eec"
+  },
+  "armed_compiled_plan": {
+    "path": "tracking/evidence/m07/worker-source-identity-sql-admin-proof/Main-0bb3a161-e477-413d-946c-a66c4a9b8184-armed-compiled-plan.json",
+    "sha256": "0e29549cd071c49e040f27ccd1192a396eb9c7ab0eab6e2e8716fedd51c224b4"
+  },
+  "pre_dispatch": {
+    "three_artifact_hashes_exact": true,
+    "all168_source_pins_exact": true,
+    "shared_lock_absent": true,
+    "permanent_compile_claim_absent": true,
+    "required_Main_root_argument_supplied": true
+  },
+  "process_exit_code": 1,
+  "elapsed_ms": 55905,
+  "checkpoint": "worker40-actual-phase-and-concurrency",
+  "controller_failure_code": "PROJECT39_RACE_COMMAND_FAILED",
+  "exact_first_owned_error": {
+    "name": "Error",
+    "message": "WORKER40_BRIDGE_FAILED",
+    "diagnostic": null,
+    "native_stderr_exit_code_SQLSTATE_not_retained": true
+  },
+  "private_error_refs": {
+    "failure.json": {
+      "path": ".local/worker-source-identity-sql-admin-proof/727bb36d-5ea0-4ac5-9e29-615c10b8fc7c/failure.json",
+      "sha256": "2f67bebb4b60ce749d5c39b68170b017ce398771cd41fd3331f11e297e714d76"
+    },
+    "first-owned-error.json": {
+      "path": ".local/worker-source-identity-sql-admin-proof/727bb36d-5ea0-4ac5-9e29-615c10b8fc7c/first-owned-error.json",
+      "sha256": "775750f11e66dfc6e2e72802bc36dee4da775153d709e1feb1d20ad85b4c1c19"
+    }
+  },
+  "source_localization": {
+    "file": "development/m07/worker-source-identity-sql-proof/cases.mjs",
+    "line": 72,
+    "action": "first render for rollback-only changed audit preimage",
+    "evidence": "metadata negatives recorded; before-checkpoint written; no reason-preimage-pass flag, phase records or diagnostic/normal files",
+    "specific_child_failure_branch": "unknown; bridge collapses spawn/nonzero/timeout/overflow/stderr/JSON errors"
+  },
+  "partial_passes": {
+    "restored38_all_table_hashes_exact": true,
+    "restored38_catalogue_exact": true,
+    "functional39": true,
+    "admin_qualification_context": {
+      "original_current_and_session_supabase_admin": true,
+      "super_and_schema_owner_asserted": true,
+      "owned_database_system_run_asserted_before_qualification": true,
+      "config_and_actual_State_explicit_postgres": true,
+      "no_role_grant_or_owner_change": true
+    },
+    "SQL40_and_history40_installed_in_owned_clone": true,
+    "normal_new_Preparing_series_and_exact_nonnull_reason_MCP_audit": true,
+    "fresh_actual_State_initial_checker_and_two_equal_snapshots": true,
+    "before_checkpoint_all76_captured": true,
+    "actual_metadata_negatives": [
+      {
+        "label": "ACL",
+        "actual_guard_refused": true,
+        "exact_after_rollback": true
+      },
+      {
+        "label": "function_value",
+        "actual_guard_refused": true,
+        "exact_after_rollback": true
+      }
+    ]
+  },
+  "unreached_or_unconfirmed": {
+    "guarded_reason_preimage_refusal": false,
+    "diagnostic_zero_difference": false,
+    "normal_phase_nonces_observed": 0,
+    "pause_pin_resume_phase_acceptance": false,
+    "projected_concurrency_executed": false,
+    "release_or_canonical_identity_acceptance": false
+  },
+  "offline_pure_localization_only": {
+    "captured_baseline_render": "passed",
+    "changed_audit_hash_only_model_render": "passed",
+    "frozen_Python_CLI_baseline_render": {
+      "exit_code": 0,
+      "stdout_bytes": 889883,
+      "stderr_bytes": 0,
+      "valid_JSON": true
+    },
+    "lost_exact_changed_input_reconstructed": false,
+    "new_DB_provider_or_phase_call": false
+  },
+  "controller_cleanup": {
+    "all_owned_resources_absent": true,
+    "original_data_catalogue_and_global_roles_unchanged": true,
+    "shared_lock_released": true
+  },
+  "independent_same_engine_readback": {
+    "docker_host": "npipe:////./pipe/dockerDesktopLinuxEngine",
+    "label": "eps.worker40admin.run=727bb36d-5ea0-4ac5-9e29-615c10b8fc7c",
+    "containers_exit_code": 0,
+    "containers_empty": true,
+    "containers_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "volumes_exit_code": 0,
+    "volumes_empty": true,
+    "volumes_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "fresh_shared_lock_exists": false
+  },
+  "claim_retained": true,
+  "single_invocation": true,
+  "replayed": false,
+  "source_edited_after_dispatch": false,
+  "cloud_called": false,
+  "provider_called": false
+}
