@@ -1,0 +1,33 @@
+{
+  "schema_version": "edge-rls-selected-ID-mutation-witness.v1",
+  "observed_at": "2026-11-02T21:24:08.291036+00:00",
+  "scope": "own temp source copies; actual fake-port selected-ID rejection test; no SQL/Docker/provider",
+  "original_source_sha256": "26d0b8b79eceac3f7651ac907472f4b1486852657bd4dbaa4d32c9093b21813d",
+  "temp_source_before_sha256": "2c98ba2b84065067f4fbd1c4dfabcf257c6cca462adae543e7277be2f2d67f44",
+  "mutated_source_sha256": "19a0caa4c4f5914930a07afbf8c962a1063d1f908576350c3b7e18933daf8ebb",
+  "restored_temp_source_sha256": "2c98ba2b84065067f4fbd1c4dfabcf257c6cca462adae543e7277be2f2d67f44",
+  "mutation": "remove only exact source_ids_include_target assertion",
+  "path_only_import_projection_inverse_equal": true,
+  "pre_mutation_GREEN": {
+    "exit_code": 0,
+    "stdout_sha256": "76f3dbfbe3c824c1591f05f3c4f03f9a40d6daf10c15628ff361c34194b6012d",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "missing_expected_rejection": false
+  },
+  "mutated_RED": {
+    "exit_code": 1,
+    "stdout_sha256": "abf06498b68b89d34649f362feec4845f5496bac729cdd8f5e27042ab121f8d0",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "missing_expected_rejection": true
+  },
+  "restored_GREEN": {
+    "exit_code": 0,
+    "stdout_sha256": "383f3232740f9772ab5183542f52b4b39985c624e5a9dd178c8abe7fa0fecb4a",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "missing_expected_rejection": false
+  },
+  "original_worktree_source_unchanged": true,
+  "temp_restored_exact": true,
+  "test_source_sha256": "138fc43259d10745e3d669f90dd0b3de3fc1ce2c40540a0fe15f502a7e811b10",
+  "no_actual_RLS_or_performance_claim": true
+}

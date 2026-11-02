@@ -36,7 +36,7 @@ test('all88 retained source/artifact bytes are read-only checked, only old flag 
  baseline.tables['eps.media_assets'].count--;assert.throws(()=>freshCarry(ctx,admitted));
 });
 
-function fake({wrongDeletedVisibility=false,failBranch=false}={}){
+function fake({wrongDeletedVisibility=false,wrongNewSourceInclusion=false,failBranch=false}={}){
  const baseline={synthetic:true},requests=[],sessions=[];let counter=0,state='visible',variant='old',inHolder=false;
  const ctx={report:{pool_helper_proof:{}},profiles:{large:{workspace:'00000000-0000-4000-8000-000000000001'}},id:label=>label==='frame-4'?'00000000-0000-4000-8000-000000000004':'00000000-0000-4000-8000-000000000002',acting:mode=>'/*ACTING_'+mode+'*/set role eps_review_owner;',baseline,
   value:async()=>baseline,captureError:async()=>({normal_return:true,private_file:'closed-error.json'}),
@@ -48,7 +48,7 @@ function fake({wrongDeletedVisibility=false,failBranch=false}={}){
     if(sql.includes("'fenced'"))return[{fenced:ctx.profiles.large.workspace}];
     if(sql.includes("'asset_exists'"))return[{asset_exists:true,selected_frame_unchanged:true,pair_exists:state==='visible'}];
     if(sql.includes("'asset_visible'")){const visible=!holder||state==='visible'||wrongDeletedVisibility;return[{asset_visible:visible,pair_visible:!holder||state==='visible',role:'eps_review_owner'}];}
-    if(sql.includes('select pg_temp.edge41_')){if(failBranch)throw Object.assign(new Error('PRIVATE_SQL'),{diagnostic:{stderr:'PRIVATE'}});variant=sql.includes('edge41_old')?'old':'new';inHolder=true;return[{found:state==='visible',source_ids_include_target:variant==='new'?true:null,role:'eps_review_owner',statement_timeout:'8s',lock_timeout:'8s'}];}
+    if(sql.includes('select pg_temp.edge41_')){if(failBranch)throw Object.assign(new Error('PRIVATE_SQL'),{diagnostic:{stderr:'PRIVATE'}});variant=sql.includes('edge41_old')?'old':'new';inHolder=true;return[{found:state==='visible',source_ids_include_target:variant==='new'?!wrongNewSourceInclusion:null,role:'eps_review_owner',statement_timeout:'8s',lock_timeout:'8s'}];}
     if(sql.includes('locksource41_probe('))return[inHolder&&state==='visible'?{found:true,locked:true,code:'55P03'}:{found:true,locked:false}];
     return[];
    }};sessions.push(s);return s;
@@ -68,6 +68,13 @@ test('disputed edge visibility mismatch retains both branch/probe controls befor
  const f=fake({wrongDeletedVisibility:true});await assert.rejects(edgeCounterfactual(f.ctx));
  const row=f.ctx.report.pool_helper_proof.edge_rls.at(-1);assert.equal(row.state,'own_pair_deleted');assert(row.branch&&row.after);assert.equal(row.normal_return,false);assert.equal(row.rolled_back,true);
  assert.equal(f.ctx.report.pool_helper_proof.edge_rls_counterfactual_completed,undefined);assert(f.sessions.every(x=>x.finished));
+});
+
+test('new branch selected-ID inclusion is mandatory even when physical selection and visibility agree',async()=>{
+ const f=fake({wrongNewSourceInclusion:true});await assert.rejects(edgeCounterfactual(f.ctx));
+ const row=f.ctx.report.pool_helper_proof.edge_rls.at(-1);assert.equal(row.variant,'new');assert.equal(row.physical.selected_frame_unchanged,true);
+ assert.equal(row.branch.source_ids_include_target,false);assert.equal(row.branch_normal_return,true);assert(row.after);
+ assert.equal(row.normal_return,false);assert.equal(row.rolled_back,true);assert.equal(f.ctx.report.pool_helper_proof.edge_rls_counterfactual_completed,undefined);
 });
 
 test('first actual-transport error is privately captured before cleanup; public evidence contains no raw diagnostics',async()=>{
