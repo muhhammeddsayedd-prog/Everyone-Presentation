@@ -33,7 +33,7 @@ def project_source():
   };
   const p=profiles.large;
   ctx.report.checkpoint='cohort-diagnostic-lock-helper';
-  await holder.request('begin;'+acting('mcp','eps_review_owner'));
+  await holder.request('begin;'+acting('mcp','eps_review_owner')+"set local statement_timeout='8s';set local lock_timeout='8s';");
   const helper=only(await holder.request(measure('locks',p)));evidence.lock_measure=helper;
   assert.equal(helper.ok,true,'COHORT_DIAGNOSTIC_HELPER_DID_NOT_COMPLETE');assert(helper.duration_ms<8000);
   const actor=only(await holder.request(`select jsonb_build_object('role',current_user,'actor_matches',auth.uid()=${literal(ACTOR)}::uuid,'claims_sha256',encode(sha256(convert_to(current_setting('request.jwt.claims'),'UTF8')),'hex'),'timeout',current_setting('statement_timeout'));`));

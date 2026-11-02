@@ -31,6 +31,7 @@ class Tests(unittest.TestCase):
         self.assertFalse('await verifyDataReuseCases(' in callback)
         self.assertFalse('await changedSourceRaces(' in callback)
         self.assertIn("measure('locks',p)", callback)
+        self.assertIn("acting('mcp','eps_review_owner')+\"set local statement_timeout='8s';set local lock_timeout='8s';\"", callback)
         self.assertIn('select pg_temp.locksource41_cohorts(${literal(p.workspace)}::uuid,${literal(p.series)}::uuid);', callback)
         self.assertIn("'COHORT_DIAGNOSTIC_PREIMAGE_CHANGED'", callback)
         self.assertIn("'COHORT_DIAGNOSTIC_POSTIMAGE_CHANGED'", callback)
