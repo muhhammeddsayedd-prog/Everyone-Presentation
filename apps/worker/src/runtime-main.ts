@@ -2,7 +2,7 @@ import process from 'node:process';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { createSpecsRuntimeGateway, readSpecsRuntimeConfig, specsRuntimeFailureDiagnostics, type SpecsRuntimeFailureDiagnostics } from '@eps/central/specs-runtime';
-import { openAISpecsConfigFromEnv, openAIMediaConfigFromEnv } from '@eps/integrations';
+import { openAISpecsConfigFromEnv, boundedStreamingSpecsConfigFromEnv, openAIMediaConfigFromEnv } from '@eps/integrations';
 import { N8nSpecsOrchestrator } from './n8n-orchestrator.ts';
 import { runSpecsWorker, specsWorkerFilesConfiguration } from './runtime.ts';
 import { createCandidateStageAssets } from './candidate-assets.ts';
@@ -44,7 +44,8 @@ export async function verifySpecsWorkerStartup(environment: Readonly<Record<stri
   try {
     if (environment.N8N_API_KEY || !/^v24\./u.test(process.version)) throw Object.assign(new Error('Worker scope invalid.'), { code: 'WORKER_RUNTIME_SCOPE_INVALID' });
     nativeSandboxConfiguration(environment);
-    checkpoint = 'provider_configuration'; const openAI = openAISpecsConfigFromEnv(environment);
+    checkpoint = 'provider_configuration'; const openAI = environment.EPS_RELEASE_MODE === 'production'
+      ? boundedStreamingSpecsConfigFromEnv(environment) : openAISpecsConfigFromEnv(environment);
     checkpoint = 'orchestration_configuration';
     const specsRouter = new N8nSpecsOrchestrator({ url: environment.N8N_DISPATCH_URL ?? '', secret: environment.N8N_DISPATCH_SECRET ?? '' });
     let router: SpecsStageRouter = specsRouter;

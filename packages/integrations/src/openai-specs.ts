@@ -7,14 +7,17 @@ import {
   validateSpecsExtraction,
 } from './specs-schema.ts';
 import type { SpecsExtractionInput, SpecsExtractionOutput } from './specs-types.ts';
+import { sendBoundedSpecsStream } from './specs-stream.ts';
 
 export interface OpenAISpecsConfig {
   apiKey: string;
   model: string;
   timeoutMs?: number;
   maxOutputTokens?: number;
-  /** Explicit evaluation candidate only; omitted preserves the current provider default. */
+  /** Explicit specs profile or evaluation setting; omission preserves the provider default. */
   reasoningEffort?: 'low';
+  /** Explicit daemon specs admission; existing direct/injected callers stay buffered. */
+  transportMode?: 'bounded_stream';
 }
 
 /** Injection is for deterministic adapter tests; it does not imply a real provider call. */
@@ -22,6 +25,12 @@ export type SpecsTransport = (request: ResponseCreateParamsNonStreaming, signal?
 
 export function openAISpecsConfigFromEnv(environment: Readonly<Record<string, string | undefined>> = process.env): OpenAISpecsConfig {
   return checkedConfig({ apiKey: environment.OPENAI_API_KEY ?? '', model: environment.OPENAI_EXTRACTION_MODEL ?? '' });
+}
+
+/** Reviewed specs-only production profile; no new environment switches or model default. */
+export function boundedStreamingSpecsConfigFromEnv(environment: Readonly<Record<string, string | undefined>> = process.env): OpenAISpecsConfig {
+  return checkedConfig({ apiKey: environment.OPENAI_API_KEY ?? '', model: environment.OPENAI_EXTRACTION_MODEL ?? '',
+    transportMode: 'bounded_stream', timeoutMs: 300_000, maxOutputTokens: 32_768, reasoningEffort: 'low' });
 }
 
 function checkedConfig(config: OpenAISpecsConfig): OpenAISpecsConfig & { timeoutMs: number; maxOutputTokens: number } {
@@ -36,13 +45,15 @@ function checkedConfig(config: OpenAISpecsConfig): OpenAISpecsConfig & { timeout
   }
   const timeoutMs = config.timeoutMs ?? 60_000;
   const maxOutputTokens = config.maxOutputTokens ?? 16_384;
-  if (!Number.isInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > 70_000
+  if (!Number.isInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > (config.transportMode === 'bounded_stream' ? 300_000 : 70_000)
     || !Number.isInteger(maxOutputTokens) || maxOutputTokens < 256 || maxOutputTokens > 32_768
-    || (config.reasoningEffort !== undefined && config.reasoningEffort !== 'low')) {
+    || (config.reasoningEffort !== undefined && config.reasoningEffort !== 'low')
+    || (config.transportMode !== undefined && config.transportMode !== 'bounded_stream')) {
     throw new IntegrationError('OPENAI_CONFIGURATION_INVALID', 'OpenAI extraction timeout or output budget is invalid.');
   }
   return { apiKey: config.apiKey.trim(), model: config.model, timeoutMs, maxOutputTokens,
-    ...(config.reasoningEffort === 'low' ? { reasoningEffort: 'low' as const } : {}) };
+    ...(config.reasoningEffort === 'low' ? { reasoningEffort: 'low' as const } : {}),
+    ...(config.transportMode === 'bounded_stream' ? { transportMode: 'bounded_stream' as const } : {}) };
 }
 
 function isolatedSDKHeaders(apiKey: string): Record<string, string | null> {
@@ -189,16 +200,28 @@ export async function extractSpecs(
   }).responses.create(body, { signal: requestSignal }));
   const deadline = AbortSignal.timeout(config.timeoutMs);
   const requestSignal = signal ? AbortSignal.any([signal, deadline]) : deadline;
-  let response: unknown;
-  try { response = await send(request, requestSignal); }
+  let response: unknown; let streamMetadata: { requestId: string | null; httpStatus: number | null } | undefined;
+  try {
+    if (!transport && config.transportMode === 'bounded_stream') {
+      const received = await sendBoundedSpecsStream(request, { apiKey: config.apiKey, timeoutMs: config.timeoutMs,
+        headers: isolatedSDKHeaders(config.apiKey) }, { request: requestSignal, deadline, caller: signal },
+      error => providerError(error, signal, deadline.aborted));
+      response = received.response; streamMetadata = received;
+    } else response = await send(request, requestSignal);
+  }
   catch (error) { throw providerError(error, signal, deadline.aborted); }
   if (signal?.aborted) throw new IntegrationError('PROCESSING_CANCELLED', 'The extraction attempt was cancelled.');
   if (deadline.aborted) throw new IntegrationError('OPENAI_TIMEOUT', 'OpenAI extraction timed out; the job can retry.', true);
-  const parsed = parseResponse(response);
-  const result = validateSpecsExtraction(parsed.payload, input);
+  let parsed: ReturnType<typeof parseResponse>; let result: SpecsExtractionOutput['result'];
+  try { parsed = parseResponse(response); result = validateSpecsExtraction(parsed.payload, input); }
+  catch (error) {
+    if (streamMetadata && error instanceof IntegrationError) throw new IntegrationError(error.code, error.message, error.retryable,
+      { ...error.details, http_status: streamMetadata.httpStatus, request_id: streamMetadata.requestId });
+    throw error;
+  }
   return { result, metadata: {
     provider: 'openai', sdk_version: '7.45.1', requested_model: config.model, resolved_model: parsed.model,
-    response_id: parsed.id, request_id: parsed.requestId, correlation_id: input.correlationId,
+    response_id: parsed.id, request_id: streamMetadata?.requestId ?? parsed.requestId, correlation_id: input.correlationId,
     input_sha256: input.inputHash, prepared_source_sha256: sha256(source),
     prompt_version: SPECS_PROMPT_VERSION, prompt_sha256: sha256(SPECS_PROMPT),
     schema_version: '1.0', schema_sha256: SPECS_SCHEMA_SHA256, provider_schema_sha256: SPECS_PROVIDER_SCHEMA_SHA256,

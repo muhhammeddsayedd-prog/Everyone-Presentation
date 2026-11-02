@@ -1,0 +1,106 @@
+{
+  "schema_version": "1.0",
+  "purpose": "production_specs_bounded_streaming_source_validation",
+  "observed_at": "2026-11-02T21:01:10.145365+00:00",
+  "result": "focused_checks_passed_source_only",
+  "source_seals": {
+    "packages/integrations/src/openai-specs.ts": "f42021128db85767f2c28b9eee39c02642d4925247aa7beef995b46812bdfeac",
+    "packages/integrations/src/specs-stream.ts": "de6dec2a356ff3fedbaf354e0007c09fb2bfd3f539eba8a62d9c4e74a1641350",
+    "packages/integrations/src/index.ts": "9c10d2bdc3790795a4ecdd8f5338542dfceca1136c33f90b185001fe53c55ad5",
+    "apps/worker/src/runtime-main.ts": "63d0cf59c96291cffa0edc993373083d8111804a35d11b6c2ab52caeed3c7d01",
+    "tests/integrations/specs-streaming.test.ts": "d66349134e56dcd777a5823303b40120f100164962f2f6738d64e20d0b29a34d",
+    "tests/worker/specs-executor.test.ts": "cc9528598e6d013033cca27799f26724dc2787cc4b678e5b313a541ee4a2f944",
+    "tests/worker/startup.test.ts": "fbda740c2a6729c8554d3c9878889e7666e77594ff9e2d3a94f31914c290d2c7",
+    "development/m07/pdf47-production-streaming/PLAN.md": "1715f029c20f604e9fa941317401b66024863a5b79627c397749dedec4038625"
+  },
+  "source_configuration": {
+    "selector": "EPS_RELEASE_MODE=production",
+    "reasoning_effort": "low",
+    "timeout_ms": 300000,
+    "max_output_tokens": 32768,
+    "wire_cap": 8388608,
+    "event_cap": 50000,
+    "sdk_retries": 0,
+    "requests_per_attempt": 1,
+    "legacy_profile_and_injected_receivers_preserved": true
+  },
+  "red_green": {
+    "prior_aa72_adapter_RED": "OPENAI_CONFIGURATION_INVALID",
+    "terminal_guard_inverse_RED": "Missing expected rejection",
+    "red_log_sha256": "342d84e455eda7ea501d18779696de19730e04808fb9d3ec8508755bd31c8baf",
+    "mismatch_red_log_sha256": "cd6d47503379c01336c4604aa9f9bcfd3b8e37022cb20d8df35a8fd4c9334f19"
+  },
+  "checks": [
+    {
+      "scope": "SDK streaming plus prior adapter/SDK-error/low-effort and worker-executor suites",
+      "passed": 48,
+      "failed": 0,
+      "skip_cancel": 0,
+      "duration_ms": 9159.1948,
+      "log_sha256": "fa63da27bbf115b200b433df04db47e84cd7d3bcc5f0cbf81514a59dec36c932"
+    },
+    {
+      "scope": "startup including explicit production/pilot/direct modes",
+      "passed": 10,
+      "failed": 0,
+      "skip_cancel": 0,
+      "duration_ms": 3411.9781,
+      "log_sha256": "05f50f34b426f37865706cd48ba9489709581c093429f626d668d5d245924db4"
+    }
+  ],
+  "types": {
+    "command": "node node_modules/typescript/bin/tsc --noEmit",
+    "exit_code": 0,
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "lint": {
+    "scope": "four product and three changed test files",
+    "exit_code": 0,
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "initial_typecheck": {
+    "exit_code": 2,
+    "code": "TS7006",
+    "resolved": "mocked-fetch test parameter annotations"
+  },
+  "native_daemon_closure": {
+    "scope": "pure AST closure of immutablef742 context plus four exact candidate product overlays; no stage/build",
+    "base_source_sha256": "f742e9e5e4b83643f5bae18cace3e9e253912c0114f59b4489f0d163bcb39368",
+    "candidate_source_sha256": "190b91808e167c5bb8d127ce4ac72aaad4c1656feb12762ba91a34010ab6377c",
+    "files": 167,
+    "native_modules": 54,
+    "native_graph_sha256": "247992bbe3331251f33186cfac22835e8734833cd229bb6a4d8bcafa3bc0c214",
+    "native_graph_and_build_inputs_byte_equal": true,
+    "native_changed_file_intersection": [],
+    "daemon_modules": 91,
+    "daemon_graph_sha256": "5e8ccf2ad103df0a6131905a986f790a4f9fe7a9a3e3e9721b67d66c31a7943f",
+    "daemon_changed_file_intersection": [
+      "packages/integrations/src/openai-specs.ts",
+      "packages/integrations/src/specs-stream.ts",
+      "packages/integrations/src/index.ts",
+      "apps/worker/src/runtime-main.ts"
+    ],
+    "changed_files": {
+      "packages/integrations/src/openai-specs.ts": "f42021128db85767f2c28b9eee39c02642d4925247aa7beef995b46812bdfeac",
+      "packages/integrations/src/specs-stream.ts": "de6dec2a356ff3fedbaf354e0007c09fb2bfd3f539eba8a62d9c4e74a1641350",
+      "packages/integrations/src/index.ts": "9c10d2bdc3790795a4ecdd8f5338542dfceca1136c33f90b185001fe53c55ad5",
+      "apps/worker/src/runtime-main.ts": "63d0cf59c96291cffa0edc993373083d8111804a35d11b6c2ab52caeed3c7d01"
+    },
+    "emitter_changed": false
+  },
+  "production_mode_evidence": {
+    "path": "tracking/evidence/m07/completion-worker/2026-11-02T02-02-47-144040Z-rollout39-env.json",
+    "sha256": "f62344d9beb835c80d9c7abe98ac9bb812edde37063da0e2e1412ede614f9880",
+    "fresh_private_or_provider_read": false
+  },
+  "official_sources": [
+    "https://developers.openai.com/api/docs/guides/streaming-responses",
+    "https://github.com/openai/openai-node#request-ids"
+  ],
+  "prompt_schema_model_dependency_lock_emitter_changes": false,
+  "migration_workflow_retry_policy_changes": false,
+  "public_metadata_keyset_changed": false,
+  "peer_review": "Root draft findings corrected; final independent source review pending",
+  "actual_provider_job_database_or_deployment_action": false,
+  "production_acceptance": false
+}

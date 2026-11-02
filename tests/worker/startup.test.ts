@@ -18,6 +18,17 @@ test('import and startup verification do not poll/claim or call provider/orchest
   assert.equal(factories, 1); assert.equal(closes, 0); assert.ok(result.fileConfiguration);
   await result.gateway.close(); assert.equal(closes, 1);
 });
+test('only explicit production startup selects bounded specs streaming; pilot and direct startup retain legacy profile', async () => {
+  const factory = (async () => ({ close: async () => {} })) as never;
+  for (const mode of [undefined, 'controlled_pilot', 'production']) {
+    const result = await verifySpecsWorkerStartup({ ...environment, ...(mode ? { EPS_RELEASE_MODE: mode } : {}) }, factory);
+    assert.equal(result.openAI.transportMode, mode === 'production' ? 'bounded_stream' : undefined);
+    assert.equal(result.openAI.timeoutMs, mode === 'production' ? 300_000 : 60_000);
+    assert.equal(result.openAI.maxOutputTokens, mode === 'production' ? 32_768 : 16_384);
+    assert.equal(result.openAI.reasoningEffort, mode === 'production' ? 'low' : undefined);
+    await result.gateway.close();
+  }
+});
 test('gateway startup failure reports only safe checkpoint, code and projected flag boolean', async () => {
   await assert.rejects(verifySpecsWorkerStartup(environment, (async () => {
     throw { code: 'RUNTIME_ROLE_UNVERIFIED', message: environment.EPS_SPECS_PG_PASSWORD, details: environment.OPENAI_API_KEY };

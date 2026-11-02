@@ -3,7 +3,7 @@ import { createHash } from 'node:crypto';
 import test from 'node:test';
 import { executeSpecsStage, DOCUMENT_PREPARATION_VERSION, projectSpecsStageFailure, SpecsExecutionError, type SpecsStageGateway } from '../../apps/worker/src/specs-executor.ts';
 import { preparePastedText } from '../../apps/worker/src/pasted-text.ts';
-import { extractSpecs, IntegrationError } from '@eps/integrations';
+import { extractSpecs, IntegrationError, boundedStreamingSpecsConfigFromEnv } from '@eps/integrations';
 import type { JobEvent, JobEventReceipt, StageLease } from '@eps/jobs';
 import { prepareDocumentIsolated } from '../../apps/worker/src/process.ts';
 import { pdf } from './document-fixtures.ts';
@@ -150,6 +150,50 @@ test('heartbeats serialize with one terminal callback and stop after completion'
   assert.equal(events.at(-1)?.event_type, 'succeeded');
   assert.deepEqual(events.map(event => event.sequence), events.map((_, index) => index + 1));
   const amount = events.length; await delay(40); assert.equal(events.length, amount);
+});
+
+test('bounded SDK stream lasts130 virtual seconds with serialized20s heartbeats and one terminal callback', async t => {
+  t.mock.timers.enable({ apis: ['setTimeout', 'Date'], now: Date.now() });
+  const f = fixture('extract_specs'); let calls = 0, renewUntil = Date.now() + 90_000;
+  let output: ReadableStreamDefaultController<Uint8Array> | undefined;
+  const encoder = new TextEncoder();
+  t.mock.method(globalThis, 'fetch', async () => { calls++;
+    return new Response(new ReadableStream<Uint8Array>({ start(value) { output = value; value.enqueue(encoder.encode('event: response.created\ndata: {"type":"response.created"}\n\n')); } }),
+      { headers: { 'content-type': 'text/event-stream', 'x-request-id': 'req_worker_stream' } });
+  });
+  f.gateway.recordEvent = async event => {
+    assert(Date.now() < renewUntil, 'A healthy heartbeat must retain the90s lease.');
+    if (event.event_type === 'heartbeat') renewUntil = Date.now() + 90_000;
+    f.events.push(structuredClone(event)); return f.receipt(event);
+  };
+  const openAI = boundedStreamingSpecsConfigFromEnv({ OPENAI_API_KEY: 'synthetic-test-key', OPENAI_EXTRACTION_MODEL: configuration.model_version });
+  const pending = executeSpecsStage(f.lease, f.gateway, { openAI });
+  const flush = () => new Promise(resolve => setImmediate(resolve));
+  await flush(); assert.equal(calls, 1); assert(output);
+  for (let i = 0; i < 6; i++) { t.mock.timers.tick(20_000); await flush(); }
+  t.mock.timers.tick(10_000); await flush();
+  const terminal = { id: 'resp_worker_stream', model: configuration.model_version, status: 'completed', error: null,
+    output: [{ type: 'message', role: 'assistant', status: 'completed', content: [{ type: 'output_text', text: JSON.stringify(emptyResult) }] }],
+    usage: { input_tokens: 10, output_tokens: 20, total_tokens: 30 } };
+  output.enqueue(encoder.encode('event: response.completed\ndata: ' + JSON.stringify({ type: 'response.completed', response: terminal }) + '\n\n')); output.close();
+  await pending;
+  assert.equal(calls, 1); assert.equal(f.events.filter(e => e.event_type === 'heartbeat').length, 6);
+  assert.equal(f.events.filter(e => e.event_type === 'succeeded').length, 1); assert.equal(f.events.at(-1)?.event_type, 'succeeded');
+  assert.equal((f.events.at(-1)?.result?.metadata as Record<string, unknown>).request_id, 'req_worker_stream');
+  assert.deepEqual(f.events.map(e => e.sequence), f.events.map((_, i) => i + 1));
+});
+
+test('stale heartbeat aborts actual bounded SDK stream without a second POST or fabricated terminal callback', async t => {
+  const f = fixture('extract_specs'); let calls = 0, cancelled = false;
+  t.mock.method(globalThis, 'fetch', async () => { calls++;
+    return new Response(new ReadableStream<Uint8Array>({ start(value) { value.enqueue(new TextEncoder().encode('event: response.created\ndata: {"type":"response.created"}\n\n')); }, cancel() { cancelled = true; } }),
+      { headers: { 'content-type': 'text/event-stream', 'x-request-id': 'req_worker_stale' } });
+  });
+  f.gateway.recordEvent = async event => { f.events.push(structuredClone(event)); return { ...f.receipt(event), applied: false, stale: true }; };
+  const openAI = boundedStreamingSpecsConfigFromEnv({ OPENAI_API_KEY: 'synthetic-test-key', OPENAI_EXTRACTION_MODEL: configuration.model_version });
+  await assert.rejects(executeSpecsStage(f.lease, f.gateway, { openAI, heartbeatMs: 10 }),
+    error => error instanceof SpecsExecutionError && error.code === 'LEASE_STALE');
+  assert.equal(calls, 1); assert.equal(cancelled, true); assert.deepEqual(f.events.map(e => e.event_type), ['heartbeat']);
 });
 
 test('unknown or stale heartbeat aborts the adapter and never fabricates a terminal callback', async () => {
