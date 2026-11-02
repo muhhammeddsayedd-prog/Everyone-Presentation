@@ -15,7 +15,7 @@ import {CREATOR,MIGRATION,MIGRATION_SHA,NATIVE,GRAPH,INPUT,functional39,projectR
 import {fullCatalogue33Sql} from '../recovery33/compiler.mjs';
 import {dataSql36} from '../recovery36/runtime.mjs';
 const ROOT=path.resolve(import.meta.dirname,'../../..');
-export const ENTRY_ENABLED=false;
+export const ENTRY_ENABLED=true;
 const BACKUP_RUN='639da33a-7e90-4471-b0ec-c7a8ff6097ef';
 const METADATA_HASH='12df4e565d466c008095498903237ae24f304403887db396b8bc46b5cf93346c';
 const IMAGES={db:'public.ecr.aws/supabase/postgres@sha256:6942962433a569e87f228b4d4ab7e11db5deca64e43babb3a038443ad6c4f1bb',storage:'public.ecr.aws/supabase/storage-api@sha256:a0420573837ee08c0afdc9cd01f90b4b8027579da99e0b9a159fe912ef756c99',rest:'public.ecr.aws/supabase/postgrest@sha256:1347d7552b88f17832912c06afbf7c43209af6eeeb60834b04aae12c9bd9d5cc'};
