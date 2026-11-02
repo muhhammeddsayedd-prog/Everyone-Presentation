@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "purpose": "new_external_preparing_fixture_proof_proposal",
+  "result": "prepared_disabled",
+  "observed_at": "2026-11-02T10:17:05.383985+00:00",
+  "prior_failed_receipt": {
+    "path": "tracking/evidence/m07/review-link-reason40-proof/2026-11-02T09-58-29.387Z-50f795f1.json",
+    "sha256": "68dae78e35ae1ca476eb125d38a933da13003dcceb7d15a10adc73661d6b7c27",
+    "failed_normal_return": true,
+    "owned_cleanup_and_original_equality_verified": true
+  },
+  "candidate_migration": {
+    "path": "supabase/migrations/20261102085405_m07_review_link_action_reason.sql",
+    "sha256": "08bf4de8a63823b0e7c9aee75560a6e7de0620eb9b8b3c483c65929578db8212",
+    "unchanged": true
+  },
+  "source_seals": {
+    "development/m07/review-link-reason-preparing-proof/compiler.py": "19e1ca1bc9a5537b06d5ba3ce5ace952a71bcd5b251661a1130ff5460b6ead93",
+    "development/m07/review-link-reason-preparing-proof/proof.mjs": "c1a8a9a4bac58b765d0e3685601cfbbf3d23b708951071c60bcc0a3235e12028",
+    "development/m07/review-link-reason-preparing-proof/fixture.sql": "cd718d9f73bcf07d3098bea68807e1040791e0cc8658964737b9605c2a67aa55",
+    "development/m07/review-link-reason-preparing-proof/test_compiler.py": "439d1484008f450b2b7f8d68ae4c447e621b53a836c57b6bbf2eb26f05174a18",
+    "development/m07/review-link-reason-preparing-proof/README.md": "ca012d729da039ba117085c5853e917e6e25a5fdd269bcf6ecfd323377409976"
+  },
+  "execution_enabled": false,
+  "sql_or_docker_executed": false,
+  "new_compiled_disabled_controller": {
+    "path": ".local/review-link-reason40-preparing-source/controller-10c56c1e-1b7f-451a-a74c-66ce56280542.mjs",
+    "sha256": "7ab3820f6a342d27ff98b47424b9a57904a11f26331452f25d6b34456170f572",
+    "executed": false
+  },
+  "scope_changes": [
+    "actual same-role plain external1/FOR SHARE0 observation before generation capability",
+    "only new synthetic actor receives existing presentations.generate capability, then same-role visibility1/1 required",
+    "one normal create-series RPC using unused active external preset; require new Preparing/noReady/zeroVersions",
+    "unchanged reason/MAC/replay/boundary/race bodies; candidate08bf unchanged",
+    "access tests target retained external Ready series and require actual anonymous session/media success inside rollback before revoke/rotate denial",
+    "new private paths/claims/labels/container names and retained failed-source lineage"
+  ],
+  "no_old_immutable_snapshot_writes": true,
+  "no_new_render_or_provider_calls": true,
+  "old_data_preservation_exclusions_added": false,
+  "normal_preparing_link_supported_by_current_wrapper": true,
+  "pure_tests": {
+    "passed": 7,
+    "failed": 0,
+    "focused_lint_exit": 0,
+    "actual_database_result": "not_executed"
+  },
+  "requires_root_review_before_flag_only_arming_and_fresh_owned_run": true,
+  "canonical_apply_authorized": false
+}
