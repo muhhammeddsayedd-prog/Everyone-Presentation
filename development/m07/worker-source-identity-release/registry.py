@@ -2,7 +2,7 @@
 from pathlib import Path
 import datetime,importlib.util,json,os,re,sys
 HERE=Path(__file__).resolve().parent
-REGISTRY_ENABLED=False
+REGISTRY_ENABLED=True
 def module(name,file):
  spec=importlib.util.spec_from_file_location(name,file);value=importlib.util.module_from_spec(spec);spec.loader.exec_module(value);return value
 b=module('worker_identity_registry_build',HERE/'build.py');need=b.need;load=b.load;sha=b.sha
