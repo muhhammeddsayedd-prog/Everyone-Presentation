@@ -5,7 +5,6 @@ import {setTimeout}from 'node:timers/promises';
 import {literal,json}from '../presentation-lock-source-proof/proof.mjs';
 import {nativeError}from '../presentation-lock-source-pool-proof/native.mjs';
 import {custodyAndStrip}from './capture.mjs';
-const only=rows=>{assert.equal(rows.length,1);return rows[0];};
 export async function runDiagnostic(ctx){
  const record=ctx.report.generation_cancel_diagnostic.call={profile:'large',mode:'mcp',body_variant:'candidate',first_application_call_in_fresh_backend:true,application_calls_before_dispatch:0,normal_SQL_return:false,rolled_back:false,performance_acceptance:false};
  const p=ctx.profiles.large,s=await ctx.startFreshGeneration('diag_mcp_large');record.pid=s.pid;
