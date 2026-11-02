@@ -7,7 +7,7 @@ import { sha } from '../presentation-lock-source-proof/proof.mjs';
 import { qualifyFit } from '../presentation-lock-source-dedupe-proof/entry.mjs';
 import { trackedSessions,PROBE_SHA } from '../presentation-lock-source-edge-proof/entry.mjs';
 import { preserveFirstOwnedError } from './capture.mjs';
-export const EXECUTION_ENABLED=false;
+export const EXECUTION_ENABLED=true;
 const UUID='[a-f0-9]{8}-(?:[a-f0-9]{4}-){3}[a-f0-9]{12}';
 
 export async function runCases(ctx){
