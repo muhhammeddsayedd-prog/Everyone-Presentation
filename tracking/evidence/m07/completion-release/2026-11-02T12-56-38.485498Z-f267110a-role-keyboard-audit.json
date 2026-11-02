@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.0",
+  "purpose": "actual_production_role_keyboard_journey_metadata",
+  "result": "passed",
+  "recorded_at": "2026-11-02T12:56:38.485498+00:00",
+  "target": "pyibofyctwnqpvktepse",
+  "read_only_rollback": true,
+  "automatic_retry": false,
+  "exit_code": 0,
+  "timed_out": false,
+  "output_limit_exceeded": false,
+  "source_sha256": "7fb4def22e9a860609f37e1c1d553e3318d43ae9daa949a30c7a3c453a124293",
+  "sql_sha256": "ee9c68d3d69b13fa29baa5609b1c86d8d0993ee95cc8c8a732ff371f63248ae8",
+  "metadata": {
+    "active_role_count": 1,
+    "history_count": 39,
+    "observed_at": "2026-11-02T12:56:37.892724+00:00",
+    "roles": [
+      {
+        "active_assignments": 1,
+        "active_main_assignments": 1,
+        "active_slots": 1,
+        "archived": false,
+        "archived_slots": 0,
+        "id": "feaee949-4bba-44ee-a599-d318ea78a6ca",
+        "original_role": true,
+        "row_version": 3,
+        "sort_order": 0,
+        "synthetic_test_role": false
+      },
+      {
+        "active_assignments": 0,
+        "active_main_assignments": 0,
+        "active_slots": 0,
+        "archived": true,
+        "archived_slots": 1,
+        "id": "71b848de-fe1d-4ca6-ac74-8d3c44480f9d",
+        "original_role": false,
+        "row_version": 4,
+        "sort_order": 1,
+        "synthetic_test_role": true
+      }
+    ],
+    "workspaces": [
+      {
+        "draft_revision": 12,
+        "id": "5505def3-f7af-4684-968c-d1b154931601",
+        "row_version": 13
+      },
+      {
+        "draft_revision": 118,
+        "id": "86936940-b48d-497d-b1ff-8e0da0913afa",
+        "row_version": 119
+      }
+    ]
+  },
+  "ui_observation": {
+    "deployment_id": "dpl_5sevM277cLpQZPJV1XkaJxhMLqpe",
+    "new_empty_synthetic_role_added_by_keyboard": true,
+    "moved_up_by_keyboard_and_order_survived_reload": true,
+    "moved_down_to_restore_original_role_first": true,
+    "archive_dialog_affected_assignments": 0,
+    "archive_dialog_affected_main": 0,
+    "archive_dialog_affected_shortlisted": 0,
+    "confirm_archive_reached_by_tab_and_activated_by_enter": true,
+    "new_role_disappeared_original_role_remained": true,
+    "focus_after_archive_tag": "BODY",
+    "focus_issue_still_present_on_production_readback": "2026-11-02T12:56Z",
+    "fix_merged_locally": "1c72f2a2cc36e7f3f6c6d093fb24dd28dbe9fc20",
+    "fix_deployed_at_this_observation": false
+  },
+  "limitations": [
+    "Safe database metadata confirms final state; keyboard actions are directly observed UI evidence, not inferred from SQL.",
+    "Only the newly created empty synthetic role and slot were soft archived; no casting choice was removed.",
+    "Historical immutable content is checked by a separate complete hash receipt.",
+    "Actual desktop screen reader acceptance remains pending."
+  ],
+  "raw_business_facts_tokens_or_private_urls_saved": false
+}
