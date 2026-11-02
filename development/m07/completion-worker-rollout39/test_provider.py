@@ -1,7 +1,7 @@
 """Offline adapter/privacy/bounds tests; actual SQL grammar, no provider calls."""
 from pathlib import Path
-import copy,importlib.util,json,time,types,unittest,uuid
-from unittest.mock import Mock
+import copy,importlib.util,json,subprocess,tempfile,time,types,unittest,uuid
+from unittest.mock import Mock,patch
 import pglast
 from pglast.visitors import Visitor
 HERE=Path(__file__).resolve().parent
@@ -23,6 +23,21 @@ class Tests(unittest.TestCase):
    with self.assertRaises(ValueError):p.check_native_concurrency(bad,self.state.sql_contract_sha256())
   bad=copy.deepcopy(value);bad['checkpoint_query_validation']['query_sha256']='0'*64
   with self.assertRaises(ValueError):p.check_native_concurrency(bad,self.state.sql_contract_sha256())
+ def test_real_native_receipt_survives_actual_private_json_bridge_without_reordering(self):
+  relative,digest=p.REFS['native_admitted'];raw=p.s.load(p.s.ROOT/'tracking/evidence/m07'/relative);self.assertEqual(p.s.sha(raw),digest);admitted=json.loads(raw);payload={}
+  for name,key in [('receipt','actual_receipt'),('plan','execution_plan')]:
+   ref=admitted[key];raw=p.s.load(p.s.ROOT/ref['path']);self.assertEqual(p.s.sha(raw),ref['sha256']);payload[name]=json.loads(raw)
+  value=self.adapter();value._ensure=Mock();value.write=types.MethodType(p.Provider.write,value);guard=types.SimpleNamespace(create=lambda file:open(file,'xb'),verify_open=Mock());value.r=types.SimpleNamespace(NODE=Path('C:/Program Files/nodejs/node.exe'),helpers=lambda:types.SimpleNamespace(private_security=lambda:guard))
+  def run(args):
+   done=subprocess.run(args,capture_output=True,timeout=10)
+   if done.returncode!=0:raise ValueError('OFFLINE_NATIVE_BRIDGE_UNCONFIRMED')
+   return done.stdout
+  value.run=run
+  with tempfile.TemporaryDirectory(prefix='eps-public-native-bridge-')as folder,patch.object(p,'PRIVATE',Path(folder)):
+   result=value.js('native',payload);self.assertEqual(result,admitted['admitted'])
+   saved=json.loads(next(Path(folder).glob('project-*.json')).read_bytes());self.assertEqual(list(saved['receipt']['probe_release']),list(payload['receipt']['probe_release']))
+   bad=copy.deepcopy(payload);bad['receipt']['cleanup_confirmed']=False
+   with self.assertRaises(ValueError):value.js('native',bad)
  def test_narrow_api_rejects_foreign_project_methods_and_other_env_creation(self):
   value=self.adapter()
   for method,endpoint,body in [('DELETE','/v10/projects/'+p.PROJECT+'/env?teamId='+p.TEAM,None),('GET','https://arbitrary.invalid',None),('GET','/v1/projects/foreign/env/key?teamId='+p.TEAM,None),('POST','/v10/projects/'+p.PROJECT+'/env?teamId='+p.TEAM,{'key':'OPENAI_API_KEY','value':'PRIVATE'}),('PATCH','/v9/projects/'+p.PROJECT+'/env/id?teamId='+p.TEAM,{'value':'x','type':'plain'})]:
