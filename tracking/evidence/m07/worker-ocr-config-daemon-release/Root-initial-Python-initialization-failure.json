@@ -1,0 +1,24 @@
+{
+  "recorded_at": "2026-11-03T00:53:14Z",
+  "scope": "Preserved first local initialization failure before any canonical release phase.",
+  "initial_entry": "python -X utf8 -B development/m07/worker-ocr-config-daemon-release/controller.py prepare",
+  "normal_process_exit": 1,
+  "output": "OCR_CONFIG_FORWARD_DISABLED_OR_UNCONFIRMED",
+  "phase_claim_or_owner_created": false,
+  "only_protected_inputs_file_existed": true,
+  "cloud_or_phase_call_reached": false,
+  "local_only_constructor_diagnostic": {
+    "normal_process_exit": 0,
+    "result": "constructor_failed",
+    "exception_type": "ModuleNotFoundError",
+    "missing_module": "pglast",
+    "private_trace": ".local/completion-release/ocr-constructor-f0c480a9-be4a-4d2c-b4a4-ebdd8207cfd9/private-trace.txt",
+    "trace_sha256": "4903fd45e76e56b3d8b443ea4b86fe82b6b0ec2569ab2fcc4440ba96faef1751",
+    "private_trace_or_values_published": false
+  },
+  "correction": "Use the established .venv-skills Python environment, as used for the project's source/parser checks.",
+  "controller_or_provider_source_changed_to_fix_environment": false,
+  "no_prior_phase_claim_was_replayed": true,
+  "corrected_preflight_result_claimed_here": false,
+  "registry_copy_unknown_cause_not_attributed_to_this_error": true
+}
