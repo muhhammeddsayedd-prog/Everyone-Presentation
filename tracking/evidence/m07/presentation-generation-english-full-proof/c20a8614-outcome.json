@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "run_id": "c20a8614-6d63-4128-8bdb-a0b78881f30c",
+  "result": "failed",
+  "normal_process_exit": 1,
+  "normal_process_exit_source": "Root_actual_execution_report_session97376_write_stdin_return",
+  "elapsed_ms": 66827,
+  "checkpoint": "combined-first-candidate-mcp-large",
+  "actual_receipt": {
+    "path": "tracking/evidence/m07/presentation-generation-english-full-proof/2026-11-03T06-42-50.816Z-c20a8614.json",
+    "sha256": "386db57c4010ea547d03648f62d5edb9083478b3f4500c69a45b76115777e1fc",
+    "observed_at": "2026-11-03T06:42:50.816Z"
+  },
+  "source_seal_count": 183,
+  "first_and_only_application_call": {
+    "variant": "candidate",
+    "mode": "mcp",
+    "label": "large",
+    "phase": "actual_public_generate",
+    "normal_return": true,
+    "rolled_back": true,
+    "application_calls_before_dispatch": 0,
+    "first_in_fresh_backend": true,
+    "pid": 627,
+    "dispatched": true,
+    "generation": {
+      "ok": false,
+      "code": "57014",
+      "operation": "generate",
+      "duration_ms": 7999.674
+    },
+    "client_elapsed_ms": 8006.537199999999
+  },
+  "current_helper_verified_separately": {
+    "variant": "candidate",
+    "source_sha256": "aa1db8b1c2f8e9a15360c24fd9a4216df03c9f14767b1b300898a3e88a7220e3",
+    "authority_unchanged": true
+  },
+  "actual_candidate_installation": {
+    "index": 1,
+    "normal_return": true,
+    "expected_and_actual_pg_proc_sources_equal": [
+      {
+        "name": "eps.review_snapshot_data",
+        "source": "0dba1d407199191d3bbb4d84ddab94d9f4e33da6a0172738b86133e8c7bf61fd"
+      },
+      {
+        "name": "eps.review_snapshot",
+        "source": "c6f93795e1926bcbb2e550b428f2e76a9ffe04dc29199e799c3d3a0e7b73cd10"
+      },
+      {
+        "name": "public.eps_generate_version",
+        "source": "41fe515f53fdc411b7fc2485c402d9d06241f8e23b7224aaaea3d5330544bf7d"
+      },
+      {
+        "name": "eps.capture_presentation_video_transcripts",
+        "source": "f2229b303a83d7c9ca053e3c0f7e65ec3472b0cbe3b624aad4ff1a1e4af1c4d5"
+      },
+      {
+        "name": "eps.capture_presentation_video_english_transcripts",
+        "source": "b763cd502ed70c49f7d9d07106397bd6c774a6c00d87322f7e0954f25f1ac4ad"
+      }
+    ],
+    "all_five_full_authority_records_equal_initial_canonical": true
+  },
+  "installation_count": 2,
+  "final_canonical_installation_record_present": false,
+  "current_cancellation_stack_or_stage": "unobserved",
+  "prior9ed_English_context_not_relabeled": true,
+  "unreached": [
+    "remaining_seven_first_calls",
+    "sixteen_component_projections",
+    "fresh_AA_twelve_locksets_and_RC_authority",
+    "focused_English_states_associations_fallback_Shortlist_and_return_expiry",
+    "pin_insert_authority_cases",
+    "raw_legacy_zero_and_authority_cases",
+    "final_original4107_canonical_five_config_full_clone_restore_and_readback"
+  ],
+  "outer_original_target_preservation_and_cleanup": {
+    "all_owned_resources_absent": true,
+    "original_data_catalogue_and_global_roles_unchanged": true,
+    "shared_lock_released": true,
+    "independent_successful_daemon_label_inventories_empty": true
+  },
+  "Root_independent_audit": {
+    "path": "tracking/evidence/m07/presentation-generation-english-full-proof/Root-c20a8614-postrun-audit.json",
+    "sha256": "1005aff24c1fe983251e4e1315a8f5f5e9c5b5a9e21741ca1f40d8cad81722b2",
+    "result": "passed_audit_of_failed_application_run",
+    "private_failure_reference": {
+      "path": ".local/presentation-generation-english-full-proof/c20a8614-6d63-4128-8bdb-a0b78881f30c/failure.json",
+      "sha256": "3f7d53a6afffbc4b35da0b38d8ce84da35dc67cc0bcab52e8822e209d0268c24",
+      "bytes": 88
+    }
+  },
+  "entry_closed_by_Root": {
+    "armed_sha256": "c50d34b3400a13b4c7d09349fc69e78a6850729ec3576e3c30794f9f292e3159",
+    "closed_sha256": "f6e4f892bc55724c88e6109ca7cb1a9d99d28fecdc107293d897eb857a91c8fc",
+    "only_literal_flag_changed": true
+  },
+  "performance_semantic_security_or_production_acceptance": false,
+  "automatic_retry": false,
+  "new_SQL_provider_or_cleanup_dispatched_by_Recovery": false
+}
