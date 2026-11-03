@@ -55,12 +55,14 @@ matching accepted fresh timing slice and complete semantic/security evidence:
 - Fresh AA original-predicate lock/cohort/FK/NOWAIT and RC authority/fence/expiry
   evidence. Historical280 scopes alone do not establish changed-helper security.
 - Raw batch exact paired locked-media semantics and row-count completeness.
-  Direct legacy/null-English calls require **both nonempty video-pin and empty
-  zero-video paths**: actual membership removal, required-capability revocation
-  and database-clock expiry, with causal wait evidence, fresh authority denial
-  and exact rollback/restoration. Each path also requires unchanged valid
-  controls that return normally; an early fixture/permission error or generic
-  omitted-row SNAPSHOT_INVALID is not authority proof. Its explicit fresh scope
+  The implemented direct legacy/null-English pair has **six cases per variant**:
+  valid nonempty and valid empty controls; nonempty membership removal,
+  required-capability revocation and database-clock expiry; and empty expiry.
+  Require their causal wait evidence, fresh authority denial where applicable
+  and exact rollback/restoration. Empty membership/capability are not additional
+  proof gates; broader permission expectations remain the existing contract.
+  An early fixture/permission error or generic omitted-row SNAPSHOT_INVALID is
+  not authority proof. Its explicit fresh scope
   intentionally tightens late authority; deferred INSERT/error/command-snapshot
   timing is not claimed identical.
 - Actual normal restoration/cleanup and all source seals for each admitted proof.
