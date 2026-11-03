@@ -4,7 +4,7 @@ import hashlib,importlib.util,json,sys,types
 HERE=Path(__file__).resolve().parent
 s=importlib.util.spec_from_file_location('ocr_controller_anchors',HERE/'anchors.py');a=importlib.util.module_from_spec(s);s.loader.exec_module(a)
 old=a.frozen('worker-source-identity-release/controller.py');need=a.need
-EXECUTION_ENABLED=False
+EXECUTION_ENABLED=True
 PHASES=('prepare','pause','env','deploy','ready','resume')
 def phases():
  # Only resume's prerequisite is projected: native3d is already pinned, so it
