@@ -1,0 +1,34 @@
+{
+  "schema_version": "root-d093-read-only-audit.v1",
+  "observed_at": "2026-11-03T01:49:27.870586+00:00",
+  "result": "passed",
+  "actual_generation_result": "failed",
+  "receipt_sha256": "6761aae8363a506197e1a5cca45c97a3dca20d1645dafa07c5182831ed007de2",
+  "runtime_source_seals_verified": 131,
+  "only_current_delta": [
+    {
+      "path": "development/m07/presentation-generation-assignment-proof/entry.mjs",
+      "runtime_sha256": "6ded113d9c51b98dbfb2138be62e2e57398a5502bdfad61a9e86c94104e630be",
+      "current_sha256": "8b9c0afe4080b6673fbb19303dc19655ef9bf4c4c1d4069bb6e2567554372785"
+    }
+  ],
+  "independent_same_engine_inventories": [
+    {
+      "kind": "ps",
+      "normal_exit": 0,
+      "stdout_empty": true,
+      "stderr_empty": true
+    },
+    {
+      "kind": "volume",
+      "normal_exit": 0,
+      "stdout_empty": true,
+      "stderr_empty": true
+    }
+  ],
+  "shared_lock_absent": true,
+  "original_preservation_basis": "Actual closed runtime receipt and independent safe outcome; not rerun here.",
+  "cloud_called": false,
+  "mutation_or_retry_performed": false,
+  "performance_SQL_released": false
+}
