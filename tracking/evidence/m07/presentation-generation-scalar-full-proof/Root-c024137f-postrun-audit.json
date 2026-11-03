@@ -1,0 +1,63 @@
+{
+  "schema_version": "root-scalar-full-postrun-audit.v1",
+  "recorded_at": "2026-11-03T08:34:00.764926+00:00",
+  "run_id": "c024137f-e397-4a26-a5f0-8be9236aff38",
+  "actual_receipt": {
+    "path": "tracking/evidence/m07/presentation-generation-scalar-full-proof/2026-11-03T08-29-24.099Z-c024137f.json",
+    "sha256": "c1a320db56836dd263a76ee0a0f3c50be656cc7394436cd40ae4a5ba29d4a391"
+  },
+  "normal_process_exit": 1,
+  "elapsed_ms": 66690,
+  "runtime_source_seals_verified": 212,
+  "actual_and_private_executed_source_hashes_equal": true,
+  "installation_count": 2,
+  "all_six_actual_body_sources_and_full_authority_equal_expected": true,
+  "public_validator_full_identity_unchanged": true,
+  "candidate_scalar845_and_GENaf_actually_installed": true,
+  "first_and_only_application_call": {
+    "variant": "candidate",
+    "mode": "mcp",
+    "label": "large",
+    "phase": "actual_public_generate",
+    "normal_return": true,
+    "rolled_back": true,
+    "application_calls_before_dispatch": 0,
+    "first_in_fresh_backend": true,
+    "pid": 626,
+    "dispatched": true,
+    "generation": {
+      "ok": false,
+      "code": "57014",
+      "operation": "generate",
+      "duration_ms": 7999.681
+    },
+    "client_elapsed_ms": 8006.015200000002
+  },
+  "semantic_projection_count": 0,
+  "current_cancellation_stage": "unobserved",
+  "final_in_callback_original7_restore_reached": false,
+  "private_failure": {
+    "bytes": 88,
+    "sha256": "3f7d53a6afffbc4b35da0b38d8ce84da35dc67cc0bcab52e8822e209d0268c24"
+  },
+  "independent_successful_daemon_label_inventories_empty": true,
+  "independent_inventories": [
+    {
+      "kind": "ps",
+      "normal_exit": 0,
+      "empty": true
+    },
+    {
+      "kind": "volume",
+      "normal_exit": 0,
+      "empty": true
+    }
+  ],
+  "fresh_shared_lock_absent": true,
+  "sole_entry_closure": {
+    "path": "development/m07/presentation-generation-scalar-full-proof/entry.mjs",
+    "armed_sha256": "738e0c2078b7661882f6789734861d0a418be810a5ac54082f3613330cace314",
+    "closed_sha256": "984e50c42a7e942e7b15cb852a4be6d71b4095f40759fe9e42ddfb1d4bce164a"
+  },
+  "generation_performance_security_or_production_acceptance": false
+}
