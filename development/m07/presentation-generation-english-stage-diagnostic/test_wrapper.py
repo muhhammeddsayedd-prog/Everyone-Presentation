@@ -3,7 +3,9 @@ from pathlib import Path
 import importlib.util
 import json
 import subprocess
+import tempfile
 import unittest
+from unittest.mock import patch
 from pglast import parse_plpgsql
 
 HERE=Path(__file__).resolve().parent
@@ -71,6 +73,24 @@ class Tests(unittest.TestCase):
             with self.assertRaises(ValueError):p.admit_entry(bad)
         result=subprocess.run(['node','--input-type=module','-e','import{runCases}from '+json.dumps((HERE/'entry.mjs').as_uri())+';await runCases({});'],capture_output=True,text=True)
         self.assertNotEqual(result.returncode,0);self.assertIn('ENGLISH_STAGE_DIAG_EXECUTION_DISABLED',result.stderr);self.assertEqual(result.stdout,'')
+
+    def test_compiler_admission_reads_real_entry_bytes_without_newline_normalization(self):
+        closed=p.project_entry();flag='export const EXECUTION_ENABLED=false;'
+        with tempfile.TemporaryDirectory(prefix='English-stage-entry-bytes-')as name:
+            folder=Path(name);entry=folder/'entry.mjs';calls=[]
+            def loader(module,file):
+                calls.append(module)
+                if module=='English_stage_projection':return p
+                raise RuntimeError('FROZEN_COMPILER_BOUNDARY_REACHED')
+            with patch.object(c,'HERE',folder),patch.object(c,'load',loader):
+                for text in [closed,closed.replace(flag,'export const EXECUTION_ENABLED=true;',1)]:
+                    entry.write_bytes(text.encode('utf8'));calls.clear()
+                    with self.assertRaisesRegex(RuntimeError,'FROZEN_COMPILER_BOUNDARY_REACHED'):c.compile_source(self.relative)
+                    self.assertEqual(calls,['English_stage_projection','English_stage_frozen_compiler'])
+                for raw in [closed.replace('\n','\r\n').encode('utf8'),(closed+'\n').encode('utf8')]:
+                    entry.write_bytes(raw);calls.clear()
+                    with self.assertRaises(ValueError):c.compile_source(self.relative)
+                    self.assertEqual(calls,['English_stage_projection'])
 
 
 if __name__=='__main__':unittest.main()

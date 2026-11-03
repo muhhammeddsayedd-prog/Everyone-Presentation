@@ -22,7 +22,7 @@ def load(name,file):
 
 
 def compile_source(relative):
-    p=load('English_stage_projection',HERE/'projection.py');p.frozen();p.admit_entry((HERE/'entry.mjs').read_text(encoding='utf8'))
+    p=load('English_stage_projection',HERE/'projection.py');p.frozen();p.admit_entry((HERE/'entry.mjs').read_bytes().decode('utf8'))
     match=re.fullmatch(r'\.local/presentation-generation-english-stage-diagnostic-compiled/controller-([a-f0-9-]{36})\.mjs',relative)
     need(match is not None and str(uuid.UUID(match[1]))==match[1] and uuid.UUID(match[1]).version==4)
     old_relative=relative.replace(p.NAMESPACE,p.PREVIOUS_NAMESPACE)

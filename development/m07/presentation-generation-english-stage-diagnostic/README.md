@@ -48,11 +48,13 @@ failed custody refuses success. The inherited once-before-target/shared-lock and
 owned38-to39-to40 fixture, original local database preservation and owned resource
 cleanup remain exact. Canonical41/production are not targeted.
 
-Three Python checks compare generated old/new definitions, exact cases/temp/map,
+Four Python checks compare generated old/new definitions, exact cases/temp/map,
 six-target extension/inverses and once ordering; they parse actual English SQL
 and Node artifacts. Three Node checks use the actual public c20 evidence plus
 synthetic source/authority/cleanup/stage mutations and exact flag closure. No
 SQL, Docker, provider, credential, runtime claim or phase executes in these tests.
+The real-file compiler-boundary regression admits exact LF closed/armed entries
+and rejects CRLF or added-newline bytes before the inherited compiler is loaded.
 
 Root may arm only the exact single new entry literal in a separate action before
 fresh compilation. Compiler admits exactly default OFF or that one unique flag
