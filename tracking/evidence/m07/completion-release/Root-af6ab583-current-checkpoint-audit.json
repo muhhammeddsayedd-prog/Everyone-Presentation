@@ -1,0 +1,49 @@
+{
+    "schema_version":  "Root-raw-English9ed-checkpoint-audit.v1",
+    "recorded_at":  "2026-11-03T06:31:04.7581846Z",
+    "receipt":  {
+                    "sha256":  "b9adc49736d2a63672c33e22e0935da8995e91d7c8fbd06d240210db2ed95124",
+                    "path":  "tracking/evidence/m07/completion-release/2026-11-03-af6ab583-1862-46be-b598-cb16bbe0e654-raw-English9ed-current-checkpoint.json"
+                },
+    "source_author_disabled_sha256":  "e911061be2db72a4644ad38c75521712dba353b099975d0137b5ecc4d29937ee",
+    "Root_disabled_after_one_review_fix_sha256":  "3b192bb78ee768938dcb9cc874cb32a2bb6b7f7a73b8755f9f1ff40fc0de9a1c",
+    "Root_armed_once_sha256":  "9611abff8647fe05a0c13601ed7ffb4eb7ac2c6b4a5d0ca01fa11e4c63f95701",
+    "review_fix":  "NEXT now correctly orders local proof before performance SQL, then actual delegated generation/export afterward; original wording was circular",
+    "Root_pure_AST_proposal_main_excluded":  "passed_six_files_no_writes",
+    "six_current_and_private_backup_hashes_verified":  [
+                                                           {
+                                                               "after_sha256":  "426dc9e22eddd9e75fa95d94a14dd45a0249a3d708d8f8057554954b7ecca155",
+                                                               "path":  "README.md",
+                                                               "backup_before_sha256_verified":  true
+                                                           },
+                                                           {
+                                                               "after_sha256":  "e6ba1b0e71e2222410ddb897ff156e4ad7f546ef72cb62c3aa25dd69d7949ba9",
+                                                               "path":  "PROGRESS.md",
+                                                               "backup_before_sha256_verified":  true
+                                                           },
+                                                           {
+                                                               "after_sha256":  "586dea3a44b7c3572f7ef7249c74da34dc15e3bcdb62eb08e2cbee010a5efd27",
+                                                               "path":  "tracking/HANDOFF.md",
+                                                               "backup_before_sha256_verified":  true
+                                                           },
+                                                           {
+                                                               "after_sha256":  "69249f2c0f741f40232ca964150510f2bdb2014a8587357ef4c4b57068fbb7d3",
+                                                               "path":  "development/m07/README.md",
+                                                               "backup_before_sha256_verified":  true
+                                                           },
+                                                           {
+                                                               "after_sha256":  "5230c72bb3bfd5b6d2d606648530539202ffd5d5d3d4887c6673e133639a0b08",
+                                                               "path":  "tracking/evidence/m07/ACCEPTANCE_MATRIX.md",
+                                                               "backup_before_sha256_verified":  true
+                                                           },
+                                                           {
+                                                               "after_sha256":  "a7abd50aa9af4b9ba821c6243609ca6f97679158168e27bb4b90cd85b8aac5e0",
+                                                               "path":  "tracking/progress.json",
+                                                               "backup_before_sha256_verified":  true
+                                                           }
+                                                       ],
+    "writer_claim_permanent_and_consumed":  true,
+    "source_flag_field_scope":  "Product/operator flags unchanged; only the new private checkpoint writer WRITE_ENABLED was armed for this once execution",
+    "provider_SQL_browser_or_cleanup_called":  false,
+    "full_M07_acceptance":  false
+}
