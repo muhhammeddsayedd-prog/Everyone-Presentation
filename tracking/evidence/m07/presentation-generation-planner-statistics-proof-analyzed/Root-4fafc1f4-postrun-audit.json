@@ -1,0 +1,53 @@
+{
+  "schema_version": "root-statistics-analyzed-postrun-audit.v1",
+  "recorded_at": "2026-11-03T09:23:55.782033+00:00",
+  "run_id": "4fafc1f4-9c10-4bb2-a4e7-9f6ba07eb71d",
+  "actual_receipt": {
+    "path": "tracking/evidence/m07/presentation-generation-planner-statistics-proof-analyzed/2026-11-03T09-18-12.768Z-4fafc1f4.json",
+    "sha256": "96111a8ef4eba3099bc68ff5b6dd7774d9bdcec48f5ae0060eed8efa73d8c4a5"
+  },
+  "normal_process_exit": 0,
+  "elapsed_ms": 67609,
+  "runtime_source_seals_verified": 196,
+  "actual_and_private_executed_source_hashes_equal": true,
+  "canonical_eight_function_identities_unchanged": true,
+  "full_application_rollback_and_original_target_preserved": true,
+  "explicit_ANALYZE_normal_return": true,
+  "all18_analyze_timestamps_and_nonnegative_estimates_observed": true,
+  "application_result": {
+    "ok": false,
+    "code": "57014",
+    "operation": "generate",
+    "duration_ms": 8000.539
+  },
+  "independent_successful_daemon_label_inventories_empty": true,
+  "independent_inventories": [
+    {
+      "kind": "ps",
+      "normal_exit": 0,
+      "empty": true
+    },
+    {
+      "kind": "volume",
+      "normal_exit": 0,
+      "empty": true
+    }
+  ],
+  "fresh_shared_lock_absent": true,
+  "paired_control": {
+    "path": "tracking/evidence/m07/presentation-generation-planner-statistics-proof-control/2026-11-03T09-14-46.339Z-5fc3f01f.json",
+    "sha256": "0453b595828b16a66c7bf974ddbf0addf10e54254aaed84e2b0c8facd918ff50",
+    "independent_cluster_system_ids_differ": true,
+    "all_baseline_application_table_counts_equal": true,
+    "effective_nine_settings_equal": true,
+    "autoanalyze_counters_unchanged_both_arms": true
+  },
+  "sole_shared_entry_closure_after_both_arms": {
+    "path": "development/m07/presentation-generation-planner-statistics-proof/entry.mjs",
+    "armed_sha256": "1a005064e8c61a9ce8bf44fc9e47bfdc60cf7dc5f1f7321f3385734d490579cb",
+    "closed_sha256": "ac2a6f4f753313ae1dd8bbb9cf83b9a5a58b432795dd228c0f44ee862150ca6f"
+  },
+  "statistics_alone_did_not_resolve_original_graph_timeout_in_this_pair": true,
+  "JIT_before_profile_on_effective_off_both": true,
+  "causal_speedup_or_production_acceptance": false
+}

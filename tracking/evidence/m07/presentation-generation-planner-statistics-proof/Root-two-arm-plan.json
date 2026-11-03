@@ -1,0 +1,57 @@
+{
+  "schema_version": "root-statistics-two-arm-plan.v1",
+  "recorded_at": "2026-11-03T09:14:25.354043+00:00",
+  "source_commit": "324619a9",
+  "author_commit": "4499ee74f463bfaf5939069189d292bf82f04556",
+  "Root_source_review": "PASS_all8",
+  "Runtime_independent_source_peer": "PASS_all8",
+  "focused_checks": {
+    "Python_passed": 3,
+    "Python_seconds": 3.057,
+    "Node_passed": 5,
+    "Node_ms": 191.4004
+  },
+  "all8_Main_bytes_equal_reviewed_Git_blobs_before_sole_flag_change": true,
+  "entry_closed_sha256": "ac2a6f4f753313ae1dd8bbb9cf83b9a5a58b432795dd228c0f44ee862150ca6f",
+  "entry_armed_sha256": "1a005064e8c61a9ce8bf44fc9e47bfdc60cf7dc5f1f7321f3385734d490579cb",
+  "arms": {
+    "control": [
+      {
+        "path": ".local/presentation-generation-planner-statistics-proof-compiled/cases-control-bf105b5a-5d20-4431-8840-a153aee9722d.mjs",
+        "sha256": "c35249428fb4e0e7fcfbebc4bf0a0aa312c0eef1f0b2ecb7052835a6a1268fbe",
+        "syntax_exit": 0
+      },
+      {
+        "path": ".local/presentation-generation-planner-statistics-proof-compiled/callback-control-bf105b5a-5d20-4431-8840-a153aee9722d.mjs",
+        "sha256": "69db7f38e64506c912ded1622a3ab3a4eda91a5b22b3ea292bc8aac942c19aa2",
+        "syntax_exit": 0
+      },
+      {
+        "path": ".local/presentation-generation-planner-statistics-proof-compiled/controller-control-bf105b5a-5d20-4431-8840-a153aee9722d.mjs",
+        "sha256": "9f86363d893a2c550ec15f43874782728f6568a9596cb79d0c7354c10dfdf3ed",
+        "syntax_exit": 0
+      }
+    ],
+    "analyzed": [
+      {
+        "path": ".local/presentation-generation-planner-statistics-proof-compiled/cases-analyzed-88f94ee5-a417-46e0-84dc-1b4c8fe95ecf.mjs",
+        "sha256": "c35249428fb4e0e7fcfbebc4bf0a0aa312c0eef1f0b2ecb7052835a6a1268fbe",
+        "syntax_exit": 0
+      },
+      {
+        "path": ".local/presentation-generation-planner-statistics-proof-compiled/callback-analyzed-88f94ee5-a417-46e0-84dc-1b4c8fe95ecf.mjs",
+        "sha256": "7cea305a6f6f053e2aeb1c9c7e31c5719e4276bcfbe6ac555b5dab593f4f975d",
+        "syntax_exit": 0
+      },
+      {
+        "path": ".local/presentation-generation-planner-statistics-proof-compiled/controller-analyzed-88f94ee5-a417-46e0-84dc-1b4c8fe95ecf.mjs",
+        "sha256": "38d0c701ed072fe9159947db621d99efc35048a70b44fc85b21042e5a39b0a47",
+        "syntax_exit": 0
+      }
+    ]
+  },
+  "execution_dispatched": false,
+  "sequential_fresh_original_graph_arms": true,
+  "treatment_dispatch_condition": "control must return normal diagnostic with actual queued or57014 and verified original/owned cleanup; otherwise stop and diagnose",
+  "scope": "owned synthetic statistics experiment only; no productbodyreplacement, productionANALYZE or releaseacceptance"
+}

@@ -1,0 +1,39 @@
+{
+  "schema_version": "root-statistics-control-postrun-audit.v1",
+  "recorded_at": "2026-11-03T09:18:04.978485+00:00",
+  "run_id": "5fc3f01f-68de-4198-b6d3-856f66e4b343",
+  "actual_receipt": {
+    "path": "tracking/evidence/m07/presentation-generation-planner-statistics-proof-control/2026-11-03T09-14-46.339Z-5fc3f01f.json",
+    "sha256": "0453b595828b16a66c7bf974ddbf0addf10e54254aaed84e2b0c8facd918ff50"
+  },
+  "normal_process_exit": 0,
+  "elapsed_ms": 69946,
+  "runtime_source_seals_verified": 196,
+  "actual_and_private_executed_source_hashes_equal": true,
+  "canonical_eight_function_identities_unchanged": true,
+  "full_application_rollback_and_original_target_preserved": true,
+  "explicit_ANALYZE_executed": false,
+  "application_result": {
+    "ok": false,
+    "code": "57014",
+    "operation": "generate",
+    "duration_ms": 8000.109
+  },
+  "independent_successful_daemon_label_inventories_empty": true,
+  "independent_inventories": [
+    {
+      "kind": "ps",
+      "normal_exit": 0,
+      "empty": true
+    },
+    {
+      "kind": "volume",
+      "normal_exit": 0,
+      "empty": true
+    }
+  ],
+  "fresh_shared_lock_absent": true,
+  "shared_entry_remains_armed_for_preplanned_treatment": true,
+  "preplanned_treatment_condition_met": true,
+  "performance_or_production_acceptance": false
+}
