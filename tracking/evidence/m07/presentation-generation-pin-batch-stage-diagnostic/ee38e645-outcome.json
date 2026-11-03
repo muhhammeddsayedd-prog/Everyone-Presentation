@@ -1,0 +1,206 @@
+{
+  "schema_version": 1,
+  "run_id": "ee38e645-aa4c-4479-911c-d85e49eb7da0",
+  "diagnostic_result": "passed",
+  "normal_process_exit": 0,
+  "normal_process_exit_source": "Root_actual_execution_report",
+  "elapsed_ms": 67918,
+  "actual_receipt": {
+    "path": "tracking/evidence/m07/presentation-generation-pin-batch-stage-diagnostic/2026-11-03T05-33-02.824Z-ee38e645.json",
+    "sha256": "44e91aa99288fb3c7bc17fc9172082a17980679159e6809cabd21de8d433f008",
+    "observed_at": "2026-11-03T05:33:02.824Z"
+  },
+  "actual_source_seal_count": 174,
+  "application_result": {
+    "ok": false,
+    "code": "57014",
+    "operation": "generate",
+    "duration_ms": 7998.633
+  },
+  "client_elapsed_ms": 8003.489300000001,
+  "first_MCP_large_call_in_fresh_backend": true,
+  "normal_SQL_return": true,
+  "rolled_back": true,
+  "current_closed_cancellation": {
+    "sqlstate": "57014",
+    "message_class": "statement_timeout",
+    "private_custody": {
+      "normal_return": true,
+      "private_file": "query-canceled-private.json",
+      "sha256": "c4f4d73e6bafb31042f6a12a134b8b03f2a980afb7a9c4163e5398b14a8115b4"
+    },
+    "context_empty": false,
+    "allowlisted_frames": [
+      {
+        "language": "sql",
+        "function": "has_capability",
+        "statement": 1
+      },
+      {
+        "language": "sql",
+        "function": "project_scope",
+        "statement": 1
+      },
+      {
+        "language": "sql",
+        "function": "presentation_scope",
+        "statement": 1
+      },
+      {
+        "language": "plpgsql",
+        "function": "eps.capture_presentation_video_transcripts",
+        "line": 35
+      },
+      {
+        "language": "plpgsql",
+        "function": "public.eps_generate_version",
+        "line": 64
+      },
+      {
+        "language": "plpgsql",
+        "function": "pg_temp.locksource41_measure",
+        "line": 6
+      }
+    ],
+    "unknown_frame_count": 1,
+    "stack_frame_count": 7,
+    "frame_projection_truncated": false,
+    "stage": "raw_source_companion_capture",
+    "candidate_body_sha256": "b3bc105e6fb7d14194b04db6dbb5e8bbaad8bad9fe237d276cbde751c112b2a3"
+  },
+  "current_fixed_marker_projection": {
+    "private_custody": {
+      "private_file": "phase-markers-private.json",
+      "sha256": "d417d78f36910d0c11a5fad6a7973a13525b663bd0337d285431969d2a7de89d",
+      "normal_return": true
+    },
+    "stage_trace_confirmed": true,
+    "events": [
+      {
+        "stage": "measure_enter",
+        "elapsed_ms": 0
+      },
+      {
+        "stage": "gen_enter",
+        "elapsed_ms": 8.22591781616211
+      },
+      {
+        "stage": "gen_sources_enter",
+        "elapsed_ms": 210.08586883544922
+      },
+      {
+        "stage": "gen_sources_exit",
+        "elapsed_ms": 2104.1648387908936
+      },
+      {
+        "stage": "gen_review_enter",
+        "elapsed_ms": 2108.621835708618
+      },
+      {
+        "stage": "data_enter",
+        "elapsed_ms": 2134.536027908325
+      },
+      {
+        "stage": "data_assignments_enter",
+        "elapsed_ms": 2345.630884170532
+      },
+      {
+        "stage": "data_assignments_exit",
+        "elapsed_ms": 2697.377920150757
+      },
+      {
+        "stage": "data_return",
+        "elapsed_ms": 5674.728870391846
+      },
+      {
+        "stage": "gen_review_exit",
+        "elapsed_ms": 5719.839811325073
+      },
+      {
+        "stage": "gen_capture_enter",
+        "elapsed_ms": 7270.634889602661
+      },
+      {
+        "stage": "measure_cancel",
+        "elapsed_ms": 7997.323989868164
+      }
+    ],
+    "paired_diagnostic_intervals": {
+      "source_locking": {
+        "completed": true,
+        "duration_ms": 1894.0789699554443
+      },
+      "public_review": {
+        "completed": true,
+        "duration_ms": 3611.217975616455
+      },
+      "review_DATA": {
+        "completed": true,
+        "duration_ms": 3540.1928424835205
+      },
+      "assignment_enumeration": {
+        "completed": true,
+        "duration_ms": 351.7470359802246
+      },
+      "source_companions": {
+        "completed": false,
+        "duration_ms": null
+      }
+    },
+    "terminal": "measure_cancel",
+    "whole_notice_span_ms": 7997.323989868164,
+    "instrumentation_overhead_included": true,
+    "performance_acceptance": false
+  },
+  "actual_current_business_bodies": [
+    {
+      "name": "eps.review_snapshot_data",
+      "current_candidate_body_sha256": "0dba1d407199191d3bbb4d84ddab94d9f4e33da6a0172738b86133e8c7bf61fd",
+      "after_body_sha256": "234cec65947a522b488c679cdc3eed9fec662394f80998626f31fba2d90dc72c",
+      "line_count_equal": true,
+      "business_SQL_inverse_byte_equal": true
+    },
+    {
+      "name": "eps.review_snapshot",
+      "current_candidate_body_sha256": "c6f93795e1926bcbb2e550b428f2e76a9ffe04dc29199e799c3d3a0e7b73cd10",
+      "after_body_sha256": "c6f93795e1926bcbb2e550b428f2e76a9ffe04dc29199e799c3d3a0e7b73cd10",
+      "line_count_equal": true,
+      "business_SQL_inverse_byte_equal": true
+    },
+    {
+      "name": "public.eps_generate_version",
+      "current_candidate_body_sha256": "41fe515f53fdc411b7fc2485c402d9d06241f8e23b7224aaaea3d5330544bf7d",
+      "after_body_sha256": "b3bc105e6fb7d14194b04db6dbb5e8bbaad8bad9fe237d276cbde751c112b2a3",
+      "line_count_equal": true,
+      "business_SQL_inverse_byte_equal": true
+    },
+    {
+      "name": "eps.capture_presentation_video_transcripts",
+      "current_candidate_body_sha256": "afe33691e2bb1dad42999b49c8c5ba9d583d68bfc6cced60bfbea0adadc37dd7",
+      "after_body_sha256": "afe33691e2bb1dad42999b49c8c5ba9d583d68bfc6cced60bfbea0adadc37dd7",
+      "line_count_equal": true,
+      "business_SQL_inverse_byte_equal": true
+    }
+  ],
+  "reached_gen_capture_after_pin_statement_returned": true,
+  "all_pins_or_whole_generation_performance_accepted": false,
+  "nested_intervals_are_not_additive": true,
+  "prior_374_current_stage_remains_unknown": true,
+  "raw_companion_capture_completed": false,
+  "late_English_companion_finalize_and_generation_return_unreached": true,
+  "fresh_clone_full_baseline_restored": true,
+  "original4107_four_canonical_bodies_and_config_restored": true,
+  "controller_preservation_and_cleanup": {
+    "all_owned_resources_absent": true,
+    "original_data_catalogue_and_global_roles_unchanged": true,
+    "shared_lock_released": true,
+    "independent_successful_daemon_label_inventories_empty": true
+  },
+  "Root_independent_postrun_audit": "pending_at_outcome_capture",
+  "private_custody_metadata_source": "actual_safe_receipt_not_independently_reread_by_Recovery",
+  "entry_closure": "Root_owned_pending_at_outcome_capture",
+  "automatic_retry": false,
+  "new_SQL_provider_or_cleanup_dispatched_by_Recovery": false,
+  "benchmark_or_production_acceptance": false,
+  "instrumentation_cost_present": true
+}
