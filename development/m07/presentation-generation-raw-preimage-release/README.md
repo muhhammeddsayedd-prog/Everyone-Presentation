@@ -31,3 +31,7 @@ embedded literal CRLF→LF change is rejected by the witness. Raw hash, normaliz
 equivalence and another function's source mutations refuse. OFF phases refuse
 before ports, and normal method bytecode/global bindings remain checked. No DB,
 provider, claim or compiled runtime was used.
+
+After its pinned bootstrap, normal phase imports use the exact frozen guarded
+`parent.module`/`parent.load`. One focused loader check passed in1.155s, refusing
+directories, oversized input and hardlinked files before module execution.

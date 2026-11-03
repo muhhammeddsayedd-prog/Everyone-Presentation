@@ -3,6 +3,8 @@ from pathlib import Path
 import copy
 import importlib.util
 import json
+import os
+import tempfile
 import unittest
 from unittest.mock import patch
 from pglast import scan, parse_sql, parse_plpgsql
@@ -117,6 +119,24 @@ class Tests(unittest.TestCase):
         armed = raw.replace(b'READ_ENABLED=False', b'READ_ENABLED=True').replace(b'APPLY_ENABLED=False', b'APPLY_ENABLED=True')
         self.assertEqual(normalize(raw), raw)
         self.assertEqual(normalize(armed), raw)
+
+    def test_normal_phase_loader_is_exact_guarded_parent_and_refuses_unsafe_files(self):
+        self.assertIs(s.module, s.parent.module)
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            with self.assertRaises(ValueError):
+                s.module('directory_must_not_import', root)
+            oversized = root / 'oversized.py'
+            with oversized.open('wb') as stream:
+                stream.truncate(s.MAXIMUM + 1)
+            with self.assertRaises(ValueError):
+                s.module('oversized_must_not_import', oversized)
+            file, linked = root / 'unsafe.py', root / 'hardlink.py'
+            file.write_text("raise AssertionError('unsafe module imported')\n", encoding='utf8')
+            os.link(file, linked)
+            self.assertEqual(file.stat().st_nlink, 2)
+            with self.assertRaises(ValueError):
+                s.module('hardlink_must_not_import', file)
 
 
 if __name__ == '__main__':

@@ -12,7 +12,7 @@ PARENT = MAIN / 'development/m07/presentation-generation-canonical-release/state
 PARENT_SHA = 'b750905718decdcdaa3d2ab554370fd07e1de49bf5c4e5a9bb88823a566e50aa'
 
 
-def module(name, file, expected=None):
+def bootstrap_module(name, file, expected=None):
     file = Path(file)
     stat = file.lstat()
     if not (file.is_file() and not file.is_symlink() and file.resolve() == file and stat.st_nlink == 1 and 0 < stat.st_size <= 16 * 1024**2):
@@ -28,7 +28,10 @@ def module(name, file, expected=None):
     return value
 
 
-parent = module('generation42_frozen_LF_context', PARENT, PARENT_SHA)
+parent = bootstrap_module('generation42_frozen_LF_context', PARENT, PARENT_SHA)
+# Normal Release.query also uses s.module for its fixed reader/capture imports.
+# Reuse the accepted file-identity/size guard rather than a bootstrap-only loader.
+module = parent.module
 for _name in ('TARGET', 'MAXIMUM', 'VERSION', 'MIGRATION', 'MIGRATION_SHA', 'MIGRATION_NAME', 'REMAINING_PROOF_REF', 'REMAINING_AUDIT_REF', 'READY', 'FIXED', 'uuid', 'need', 'sha', 'load', 'literal', 'json_sql', 'digest', 'parts'):
     globals()[_name] = getattr(parent, _name)
 RAW = {
