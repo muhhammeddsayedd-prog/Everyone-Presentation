@@ -1,0 +1,84 @@
+{
+  "schema_version": "root-d958-read-only-audit.v1",
+  "observed_at": "2026-11-03T02:47:45.047078+00:00",
+  "result": "passed",
+  "diagnostic_result": "passed",
+  "application_generation": "failed_statement_timeout57014",
+  "raw_receipt_sha256": "347a3d1bdee31a8367e9656b324789a72cc90fbd8358ac22150846f31f5c8099",
+  "runtime_source_seals_verified": 147,
+  "only_current_delta": [
+    {
+      "path": "development/m07/presentation-generation-stage-diagnostic/entry.mjs",
+      "runtime_sha256": "859c0ea06aadf1fc8b38cb0bcb8db1d057b7d2e2c6fbe8ceac1aa184808b0e77",
+      "current_sha256": "d8eff4fa9bc0a851377b89e32dc8d455006bc2d3ad30d1fb0264e1ff0f872f8f"
+    }
+  ],
+  "independent_same_engine_inventories": [
+    {
+      "kind": "ps",
+      "normal_exit": 0,
+      "stdout_empty": true,
+      "stderr_empty": true
+    },
+    {
+      "kind": "volume",
+      "normal_exit": 0,
+      "stdout_empty": true,
+      "stderr_empty": true
+    }
+  ],
+  "shared_lock_absent": true,
+  "private_custody_readbacks": [
+    {
+      "file": "query-canceled-private.json",
+      "bytes": 1210,
+      "sha256": "2e841acee467198bd38cc3b696c44e10d07610bcd0a74881fcc3ef9b3125e43b",
+      "Root_file_ACL_verification": "passed_matching_protected_directory_inheritance_model",
+      "raw_content_printed": false
+    },
+    {
+      "file": "phase-markers-private.json",
+      "bytes": 739,
+      "sha256": "12af485e54251df9d04a69f7374173d790183120e9f607fa4f69ad901deee630",
+      "Root_file_ACL_verification": "passed_matching_protected_directory_inheritance_model",
+      "raw_content_printed": false
+    }
+  ],
+  "original29_and_full_clone_restore_basis": "Source-sealed actual runtime receipt and safe outcome, not repeated here.",
+  "performance_or_production_acceptance": false,
+  "cloud_or_mutation_or_retry_performed": false,
+  "actual_ACL_readbacks": [
+    {
+      "kind": "directory",
+      "owner_matches_current": true,
+      "protected": true,
+      "rule_count": 2,
+      "only_current_user_and_SYSTEM_FullControl": true,
+      "inheritance_model_matches": true
+    },
+    {
+      "kind": "query-canceled-private.json",
+      "owner_matches_current": true,
+      "protected": false,
+      "rule_count": 2,
+      "only_current_user_and_SYSTEM_FullControl": true,
+      "inheritance_model_matches": true
+    },
+    {
+      "kind": "phase-markers-private.json",
+      "owner_matches_current": true,
+      "protected": false,
+      "rule_count": 2,
+      "only_current_user_and_SYSTEM_FullControl": true,
+      "inheritance_model_matches": true
+    }
+  ],
+  "initial_Root_audit": {
+    "source_sha256": "82ae830b72020d2cad0e0f352224bfe0a5ec5ab18e6353e7787dd8dd5f329ce1",
+    "result": "failed_before_receipt_at_file_guard_protected_DACL_requirement",
+    "safe_exception": "ProvisionBlocked",
+    "cause": "File-level protected-DACL guard did not match this proof protected-directory/inherited-file contract.",
+    "original_source_or_permissions_changed": false,
+    "actual_matching_model_verified_by_successor": true
+  }
+}

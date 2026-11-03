@@ -1,0 +1,96 @@
+{
+  "purpose": "fixed_owner_logo_metadata",
+  "run": "1be1e4b2-6694-44f2-986e-7241fa175fb1",
+  "upload_id": "295c6231-f61f-4c64-89d6-fe829ac0d0c1",
+  "asset_id": "136ba510-683b-4d56-ae69-314711fecd71",
+  "source_sha256": "e99b412793a8a9b51f3e9064a978b0d1e142aec9c10baa6ea02e8287e941985d",
+  "sql_sha256": "2ba2558f2428516ed9842e6029df1e878ed47e16105438c4de655b0f996b9e4c",
+  "automatic_retry": false,
+  "schema_version": "1.0",
+  "result": "observed",
+  "target": "pyibofyctwnqpvktepse",
+  "workspace_id": "5505def3-f7af-4684-968c-d1b154931601",
+  "project_id": "bf650022-0f7f-4928-a8eb-46a27ef555d4",
+  "owner_completion_request_id": "1b301848-e9b3-48ad-b5b7-c195f6112d32",
+  "metadata": {
+    "asset": {
+      "canonical_asset_path_matches": true,
+      "client_is_null": true,
+      "filename_matches": true,
+      "mime_matches": true,
+      "origin_workspace_matches": true,
+      "purpose_matches": true,
+      "reservation_mapping_matches": true,
+      "sha256_matches": null,
+      "sha256_present": false,
+      "size_bytes": 31749,
+      "status": "uploading"
+    },
+    "asset_count": 1,
+    "audit": {
+      "completion_count": 0,
+      "completion_receipt_count": 0,
+      "completion_request_matches": 0,
+      "create_count": 1
+    },
+    "bucket": {
+      "public": false,
+      "versioning_status": "disabled"
+    },
+    "database": "postgres",
+    "history_count": 40,
+    "observed_at": "2026-11-03T02:12:18.62125+00:00",
+    "operator": "postgres",
+    "session": {
+      "bucket_matches": true,
+      "completed_at": null,
+      "created_at": "2026-11-03T02:04:28.329207+00:00",
+      "expected_checksum_matches": true,
+      "expected_checksum_present": true,
+      "expected_mime_matches": true,
+      "expected_size_matches": true,
+      "expired_at_observation": false,
+      "expires_at": "2026-11-03T04:04:28.329207+00:00",
+      "principal_present": true,
+      "purpose_matches": true,
+      "reservation_revision": 1,
+      "status": "open"
+    },
+    "session_count": 1,
+    "session_user": "postgres",
+    "storage_object_count": 1,
+    "storage_objects": [
+      {
+        "created_at": "2026-11-03T02:04:51.835596+00:00",
+        "delete_marker_field_present": true,
+        "is_delete_marker": false,
+        "is_versioned": false,
+        "is_versioned_field_present": true,
+        "mapping_matches_asset": true,
+        "metadata_mime_matches": true,
+        "metadata_sha256_matches": null,
+        "metadata_size_bytes": 31749,
+        "not_archived": true,
+        "owner_text_matches_upload_principal": true,
+        "owner_uuid_matches_upload_principal": true,
+        "updated_at": "2026-11-03T02:04:51.835596+00:00",
+        "version_present": true
+      }
+    ],
+    "workspace_logo_is_null": true,
+    "workspace_logo_is_this_asset": null,
+    "workspace_project_matches": true
+  },
+  "read_only_rollback": true,
+  "query_calls": 1,
+  "raw_cli_or_storage_keys_or_principals_or_credentials_saved": false,
+  "Storage_HTTP_or_upload_or_completion_or_cancel_called": false,
+  "original_acting_RLS_or_physical_GET_proved": false,
+  "current_metadata_is_original_request_time_proof": false,
+  "source_pins": {
+    "development/m07/oauth-attempt-trace/inspect-attempt.py": "1359373d078ee67d5dd644d1717a048f274c98f3617bb57c3668a45866c4c03c",
+    "tools/provision_logo_verifier.py": "660f2eb0d15b1ed17801ecef22270dbb389fdf93181c340f16d715fc2b3a340c",
+    "tools/release_foundation.py": "02aac0cefc4b46419c7d5a086da672398716cf7ee73882602574cff99659d751",
+    "tools/release_logo.py": "efd1de07b3304d8d5c89f29bbeaf77ff2ce1d8d42ffbf885f960c36f506b47f4"
+  }
+}

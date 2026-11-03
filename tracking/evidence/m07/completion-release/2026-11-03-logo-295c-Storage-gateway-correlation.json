@@ -1,0 +1,83 @@
+{
+  "schema_version": "Root-normal-browser-Storage-read-correlation.v1",
+  "recorded_at": "2026-11-03T02:37:34.721025+00:00",
+  "result": "observed",
+  "project_ref": "pyibofyctwnqpvktepse",
+  "upload_id": "295c6231-f61f-4c64-89d6-fe829ac0d0c1",
+  "asset_id": "136ba510-683b-4d56-ae69-314711fecd71",
+  "owner_completion_request_id": "1b301848-e9b3-48ad-b5b7-c195f6112d32",
+  "access": "Existing signed-in Supabase Studio, read-only project Logs UI. No CLI credential extraction or unused Management API prototype.",
+  "filter_scope": {
+    "time_range": "last60minutes",
+    "asset_exact_match": true,
+    "Storage_only_complete_rows": 4,
+    "Storage_plus_gateway_complete_rows": 7,
+    "final_GET_only_complete_rows": 2
+  },
+  "events": [
+    {
+      "source": "Storage",
+      "log_id": "0242d9be-badd-4203-8c27-50f703f413a4",
+      "UTC_second": "2026-11-03T02:04:28Z",
+      "method": "POST",
+      "path_kind": "sign_upload_for_exact_asset",
+      "http_status": 200
+    },
+    {
+      "source": "Storage",
+      "log_id": "9b31797c-5b56-4ab1-9026-29a47c1be951",
+      "UTC_second": "2026-11-03T02:04:51Z",
+      "method": "PUT",
+      "path_kind": "signed_upload_for_exact_asset",
+      "http_status": 200
+    },
+    {
+      "source": "Storage",
+      "log_id": "c7473c97-728e-4644-bb80-e7d9cd9aea14",
+      "UTC_second": "2026-11-03T02:04:51Z",
+      "event": "ObjectCreated:Post_for_exact_asset"
+    },
+    {
+      "source": "Storage",
+      "log_id": "ac503b47-c343-40cd-be31-dda676134ea2",
+      "UTC_second": "2026-11-03T02:04:57Z",
+      "method": "GET",
+      "path_kind": "object_info_for_exact_asset_without_authenticated_segment",
+      "http_status": 400,
+      "ray_base": "a547cfa88a60b844",
+      "ray_location_suffix": "MAD",
+      "response_time_ms": 29.58
+    },
+    {
+      "source": "API_Gateway",
+      "log_id": "e77688fb-5114-448b-a393-5b0c4e455b6e",
+      "UTC_second": "2026-11-03T02:04:57Z",
+      "method": "GET",
+      "path_kind": "original_object_download_for_exact_asset_without_authenticated_segment",
+      "http_status": 400,
+      "ray_base": "a547cfa88a60b844",
+      "ray_location_suffix": "DUB",
+      "request_id": "01a19f27-052d-7c55-8a5e-3d7e67b05895",
+      "origin_time_ms": 224,
+      "response_content_length": 88,
+      "response_content_type": "application/json; charset=utf-8",
+      "gateway_mode": "direct",
+      "gateway_version": "1",
+      "cache_status": "BYPASS",
+      "user_present": true
+    }
+  ],
+  "correlation": {
+    "same_asset": true,
+    "same_UTC_second": true,
+    "same_16_hex_ray_base": true,
+    "different_location_suffixes_preserved": true,
+    "inference": "The original object-download gateway request is correlated with the Storage info request. This identifies an info-operation boundary; physical object bytes and a successful repaired read remain unverified."
+  },
+  "response_body_or_exact_Storage_error_code_read": false,
+  "authorization_headers_or_raw_JSON_read": false,
+  "raw_event_messages_or_private_URLs_or_tokens_saved_in_receipt": false,
+  "provider_logging_limitation": "A gateway signed-PUT event message exposes a raw signed-upload URL. One initial seven-row UI text read included it unexpectedly. It was not copied into source/artifacts or reused; subsequent gateway reads were GET-only and omitted raw event-message columns. Storage-only screenshot has redacted upload query.",
+  "mutation_or_new_upload_or_completion_or_cancel_performed": false,
+  "policy_changed": false
+}
