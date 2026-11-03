@@ -12,6 +12,9 @@ exec(compile(_projection.projected_tests(), 'pdf-metadata-inherited-fake-tests',
 
 class Filename(unittest.TestCase):
     def test_actual_generated_filename_passes_unchanged_closed_reference_validator(self):
+        self.assertEqual(r.g.TESTED_COMMIT, p.TESTED)
+        self.assertEqual(r.g.QUALITY_RECEIPT, p.QUALITY)
+        self.assertEqual(r.g._projection.MIN_TESTS, 1030)
         run = '00000000-0000-4000-8000-000000000042'
         observed = '2026-11-03T13:40:41.005273+00:00'
         name = f.receipt_filename(observed, run)

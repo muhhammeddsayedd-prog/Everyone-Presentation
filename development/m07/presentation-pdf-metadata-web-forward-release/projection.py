@@ -25,9 +25,9 @@ PARENT_PINS = {
 }
 PRIOR_FAILURE = {'path': 'tracking/evidence/m07/final-canonical42-web-forward-release/Root-38c4-preclaim-path-failure.json', 'sha256': '6c07f56b75b45b271a53354725850acff63f0573c5f07d04a8f3883186b797df'}
 NAMESPACE = 'presentation-pdf-metadata-web-forward-release'
-TESTED = None
-QUALITY = None
-MIN_TESTS = None
+TESTED = '514447f5e82d97b18cf45807eebe77287e17044a'
+QUALITY = {'path': 'tracking/evidence/m07/completion-release/2026-11-03T14-14-04.950Z-235ee1b3-pdf-metadata-root-quality.json', 'sha256': '93a99f2ec4eb0ea065aaf207d58b68c806e47ae860fc993a02b99cf5a105b6c0'}
+MIN_TESTS = 1030
 REASON_FILES = {'packages/central/src/studio.ts'}
 
 
@@ -129,14 +129,16 @@ def projected_tests():
     tree = ast.parse(before)
     cls = next(node for node in tree.body if isinstance(node, ast.ClassDef) and node.name == 'Source')
     first = ast.get_source_segment(before, cls.body[0])
-    replacement = '''def test_closed_or_unbound_refuse_before_operator_or_reader(self):
+    replacement = '''def test_closed_or_missing_selected_source_refuse_before_operator_or_reader(self):
         self.assertIs(r.RELEASE_ENABLED, False)
-        self.assertEqual((p.TESTED, p.QUALITY, p.MIN_TESTS), (None,) * 3)
+        self.assertEqual(p.TESTED, '514447f5e82d97b18cf45807eebe77287e17044a')
+        self.assertEqual(p.QUALITY['sha256'], '93a99f2ec4eb0ea065aaf207d58b68c806e47ae860fc993a02b99cf5a105b6c0')
+        self.assertEqual(p.MIN_TESTS, 1030)
         self.assertEqual(p.REASON_FILES, {'packages/central/src/studio.ts'})
         with patch.object(r, 'legacy', side_effect=AssertionError('transport loaded')):
             with self.assertRaises(ValueError):
                 r.Operator('00000000-0000-4000-8000-000000000000')
-            with patch.object(r, 'RELEASE_ENABLED', True):
+            with patch.object(r, 'RELEASE_ENABLED', True), patch.object(r._projection, 'TESTED', None):
                 with self.assertRaises(ValueError):
                     r.Operator('00000000-0000-4000-8000-000000000000')
         with patch.object(f.r, 'Operator', side_effect=AssertionError('operator constructed')):
