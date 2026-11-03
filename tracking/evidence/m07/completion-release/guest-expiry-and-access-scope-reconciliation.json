@@ -1,0 +1,112 @@
+{
+  "schema_version": "1.0",
+  "purpose": "Reconcile existing guest expiry, revocation and temporary-access evidence without performing new actions.",
+  "recorded_from_existing_evidence": true,
+  "new_observation_timestamp_claimed": false,
+  "requirement": {
+    "reference": "docs/quality/TEST_STRATEGY.md#f-guest-access-and-feedback",
+    "acceptance_id": "AT-051",
+    "scope": "Expired/revoked access denial across page, feedback, media and PDF endpoints.",
+    "natural_30_day_wait_required": false,
+    "new_acceptance_gate_added": false
+  },
+  "actual_expiry_evidence": {
+    "receipt": {
+      "path": "tracking/evidence/m06/live-app/2026-10-30-final-lifecycle-mobile.json",
+      "sha256": "cebd5607b57eb3e7ad9912fedbdedf5c8cc2497fbbeacd82b4a51ffe4d498c34"
+    },
+    "canonical_observer": {
+      "path": "tracking/evidence/m06/app-capture27/2026-10-30T02-37-42-009158Z-22d8c593.json",
+      "sha256": "36f35421877b245276e425ee4734f043824fc270af11462a0df2aa09e75da5e7"
+    },
+    "environment": "Actual local app against canonical services; normal Producer and account-free incognito guest. Hosting was deferred.",
+    "expiry_event_observed_at": "2026-10-30T02:32:37.105Z",
+    "deadline_set_by_supported_UI": "2026-10-28T21:00:00.000000Z",
+    "expired_parent_original_PDF_media_denied": true,
+    "explicit_extension_restored_same_original_media_observed_at": "2026-10-30T02:32:49.663Z",
+    "subsequent_revocation_denied_fresh_media_request_observed_at": "2026-10-30T02:33:02.065Z",
+    "carry_forward_scope": "Prior actual expired-parent original-media denial may carry as dated M06 evidence. It is not a mock result.",
+    "limits": [
+      "Earlier fill-only saves did not change expiry and were not credited.",
+      "No 30-day natural wait or current Gp3 hosted expiry observation is claimed.",
+      "This receipt does not prove an expired-only hosted page, feedback or PDF endpoint matrix."
+    ]
+  },
+  "actual_hosted_revocation_evidence": {
+    "admission": {
+      "path": "tracking/evidence/m07/completion-guest/Root-current-lifecycle-admission.json",
+      "sha256": "a6d97cd4a2c1fdfdf21d1b4c7c37b49ebcca3b13b407d7e3e103b8029e28dc1c"
+    },
+    "denial": {
+      "path": "tracking/evidence/m07/completion-guest/2026-11-02T15-49-00.834Z-9aff88b7-e02b-4c7e-a59e-258654ebd505-673ce8b1-1e7d-4053-a97c-8103c1d4ba2f-denied.json",
+      "sha256": "416405ad3931b618fe5bbf7342e01fcaadb4b1510a139763499655d6ef464448"
+    },
+    "canonical_metadata": {
+      "path": "tracking/evidence/m07/completion-guest/2026-11-02T15-48-49Z-f2a86340-link-metadata.json",
+      "sha256": "4ce3041cd7f507285142bc0020f93afd4ce6d58eaeacf1be9390d2bec229ee5e"
+    },
+    "review_link_id": "7f736e5a-2576-4895-ae30-116d624f40e2",
+    "revoked_at": "2026-11-02T15:46:54.104284+00:00",
+    "denial_observed_at": "2026-11-02T15:49:00.065Z",
+    "link_deadline": "2026-11-02T16:00:02.623+00:00",
+    "original_link_open_and_existing_session": {
+      "status": 404,
+      "code": "REVIEW_UNAVAILABLE",
+      "both_denied_before_deadline": true
+    },
+    "private_guest_session_file_removed": true,
+    "natural_expiry_denial_in_this_run": false,
+    "limits": "Later passage of the deadline cannot turn this already-revoked link's denial into an isolated expiry proof. These two HTTP reads are not all AT-051 endpoints."
+  },
+  "separate_synthetic_coverage": {
+    "guest_lifecycle_and_export": {
+      "path": "tracking/evidence/m06/guest-local/2026-10-30T00-24-31-067Z-6e803f6f.json",
+      "sha256": "406f7c7273fd83778d8f06ae0d2caa088d33d56c2c9b68b3320974575726c0ce",
+      "result": "passed",
+      "scope": "Owned isolated local24 synthetic SQL; expiry, extension, rotation, revocation and export-access assertions. DDL/data rolled back; no hosted configuration, provider or real media."
+    },
+    "composed_Storage_RLS": {
+      "path": "tracking/evidence/m06/storage-rls-local/2026-10-30T01-37-21-791Z-abba75e3.json",
+      "sha256": "e7050bc90962d6ac77d0f6d83bf2b55326677122e6696927aa78ee14a2dc9c38",
+      "result": "passed",
+      "scope": "Owned isolated local26 synthetic Storage metadata; real anon/authenticated SQL roles and composed SELECT expiry/revocation denials. All candidate DDL/data rolled back."
+    },
+    "hosted_endpoint_acceptance_inferred": false
+  },
+  "remaining_scope": {
+    "expired_original_media_actual_evidence_exists": true,
+    "hosted_revoked_original_token_and_session_actual_evidence_exists": true,
+    "blanket_hosted_expired_endpoint_proof": false,
+    "unverified_live_scope": "The retained receipts do not establish an expired-only hosted original-token/session/page, feedback and PDF endpoint matrix. Broader synthetic assertions remain separate. This is an existing AT-051 evidence limit, not a new gate or required replay of the earlier actual expiry check.",
+    "full_AT051_or_full_M07_acceptance_claimed": false
+  },
+  "temporary_access_cleanup": {
+    "cleanup_receipt": {
+      "path": "tracking/evidence/m07/temporary-oauth-cleanup-reconciliation/2026-11-02T09-42-49.604Z-605d159c-64e5-4aa9-b3c0-e694266cb62e-cleanup-reconciliation.json",
+      "sha256": "54e760c6a9854d3b0df71eec19e271d70b874b0a71af2baad9a810462ef375fa"
+    },
+    "scope_reconciliation": {
+      "path": "tracking/evidence/m07/completion-release/authentication-scope-reconciliation.json",
+      "sha256": "fb2f2063297663459788b93bf2cea5f6b01c1a8c9dbfdf1586e9025cc1372d83"
+    },
+    "temporary_owned_OAuth_session_absent": true,
+    "refreshed_unexpired_bearer_denied_401": true,
+    "exact_original_five_sessions_preserved_across_three_complete_reads": true,
+    "temporary_access_remaining_at_recorded_cleanup": false,
+    "known_outstanding_temporary_token_or_grant_cleanup_in_bound_records": false,
+    "original_refresh_token_denial_phase": "unconfirmed_no_replay",
+    "unrelated_link_preservation_report": {
+      "path": "tracking/evidence/m07/completion-guest/owner-finish-and-reader-waiver.json",
+      "sha256": "f4149496b5148f4bd0944545bebb807223eb082cf9c373c2f963f713b05bfc0b",
+      "evidence_class": "owner_reported",
+      "unrelated_link_44891b76_preserved": true
+    },
+    "limits": "Cleanup is supported at the recorded observations, not by a fresh current inventory. Original OAuth sessions and unrelated review links were intentionally preserved; they are not cleanup targets. An unconfirmed refresh-denial phase is not evidence of active temporary access."
+  },
+  "actions_performed_for_this_reconciliation": {
+    "existing_source_and_receipts_read": true,
+    "browser_API_SQL_token_or_grant_actions": false,
+    "links_created_extended_revoked_or_replayed": false,
+    "private_credentials_or_bearer_URLs_published": false
+  }
+}
