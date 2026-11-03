@@ -13,21 +13,38 @@ unset until the timing/semantic/lock/raw-authority gates pass. A later candidate
 change requires its own sealed manifest and matching evidence; failed attempts
 are retained. Do not silently accept a changed history or substitute an old pass.
 
-These are the currently proposed body SHA256 values, not accepted production
-postimages. These five working targets are not a closed final manifest: the
-latest diagnostic reached the English companion, so a separately reviewed
-`eps.capture_presentation_video_english_transcripts(uuid)` change may become a
-sixth target. Its production preimage/postimage hashes are unresolved. Final
-function count, graph, hashes and proof bindings must be sealed together after
-the pending evidence; neither a five-function nor six-function release is ready:
+These are the seven currently proposed body SHA256 targets, not accepted
+production postimages or a closed final manifest. The graph includes the slide
+INSERT batch, English companion batch and cache-free scalar capability candidate.
+Final selection, function count, graph, hashes and proof bindings remain unset
+until the complete matching eight-call, 16-projection and security evidence
+passes. Source review and isolated local parity do not select this release:
 
 | Exact signature | Production preimage | Provisional postimage |
 | --- | --- | --- |
 | `eps.presentation_lock_sources(uuid,text,text)` | `4107c87b1a51d2c5ed506a64c81378026068406a5136b202779767efb30264e7` | `aa1db8b1c2f8e9a15360c24fd9a4216df03c9f14767b1b300898a3e88a7220e3` |
 | `eps.review_snapshot_data(uuid,uuid,text)` | `4d46151993a60d8c6ac9d36e48781fee34c12c3e1dede727ac1ed4d31a953ab7` | `0dba1d407199191d3bbb4d84ddab94d9f4e33da6a0172738b86133e8c7bf61fd` |
 | `eps.review_snapshot(uuid,uuid,text)` | `f0815e014144f1345b4679d96114aab6b358d95df317e3cfe6ac6b59989813cb` | `c6f93795e1926bcbb2e550b428f2e76a9ffe04dc29199e799c3d3a0e7b73cd10` |
-| `public.eps_generate_version(uuid,jsonb,text)` | `b20fef7adc8dee0da91db1508b30d4116855bb3e9be9e881072a7e8d55fcee08` | `41fe515f53fdc411b7fc2485c402d9d06241f8e23b7224aaaea3d5330544bf7d` |
+| `public.eps_generate_version(uuid,jsonb,text)` | `b20fef7adc8dee0da91db1508b30d4116855bb3e9be9e881072a7e8d55fcee08` | `af486a7217ed5ddafea5d98dc2979d928a8e9ba675862ef0960c2930b362b198` |
 | `eps.capture_presentation_video_transcripts(uuid)` | `ed4a3469971fa410078b546b13aa0a875b4867efdda4b134dc729563dd887187` | `f2229b303a83d7c9ca053e3c0f7e65ec3472b0cbe3b624aad4ff1a1e4af1c4d5` |
+| `eps.capture_presentation_video_english_transcripts(uuid)` | `c68de52a4ede0ec6401aa05e0f40b5932905dd8dc8c1c72149c9f95c51a23aeb` | `b763cd502ed70c49f7d9d07106397bd6c774a6c00d87322f7e0954f25f1ac4ad` |
+| `eps.mcp_token_permits_capability(text)` | `5eb6c1272a78a4ca821569082c54d2b1ce434516585c8eac533c29ec1c445ccc` | `8455eeb4094d74a11e487627711f237192c9b591fdf61d1b54b9114bedd487ab` |
+
+The GEN postimage replaces the prior working 41fe body with the reviewed
+[slide INSERT batch](../presentation-slide-insert-batch/candidate.py).
+The [English companion](../presentation-english-companion-batch/candidate.py)
+and [scalar capability](../presentation-mcp-scalar-capability/candidate.py)
+builders bind their separate exact preimages and finite inverses. The public
+validator `public.eps_validate_own_oauth_session(text)` remains unchanged at body
+SHA `9fe44accb3998d924bb0f453c721a33f5603f20e4c245abbf0e46807561891f6`;
+it is not an eighth target.
+
+Scalar run 4e6f2d50 passed 122 synthetic owned-local cases in 61 old/candidate pairs,
+with normal exit 0, exact rollback and audited cleanup. Its scoped outcome is
+`tracking/evidence/m07/presentation-mcp-scalar-owned-proof/4e6f2d50-outcome.json`
+SHA `c8dc25d78bc3425d7cf3c0c4394d5e5162ba38b7314c8ef909588e0bb361f461`.
+This is local scalar parity only, not signed OAuth, hosted Auth, generation,
+performance or production acceptance; the seven-target full proof is pending.
 
 **The live helper preimage is production4107, not the local comparison helper280.**
 The raw live preimage is canonical ed4a, not intermediate afe. Source builders may
