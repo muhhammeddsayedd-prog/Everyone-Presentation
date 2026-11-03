@@ -54,7 +54,9 @@ function context(variant='candidate',options={}){
   if(sql.includes("'epoch'")){current.clockReads++;return[{epoch:current.clockReads===1?1000:1005}];}
   if(sql.includes('pg_locks')){
    assert(sql.includes("mode='RowExclusiveLock'"));assert(sql.includes("relation='eps.presentation_version_assets'::regclass"));
-   const waiting=!options.noWait&&barrier&&Boolean(current.resolve);current.waitObserved=waiting;return[{waiting}];
+   current.polls=(current.polls??0)+1;
+   const eligible=current.change!=='membership'||current.polls>(options.delayMembershipWaitPolls??0);
+   const waiting=!options.noWait&&eligible&&barrier&&Boolean(current.resolve);current.waitObserved=waiting;return[{waiting}];
   }
   return[];
  }};
@@ -112,6 +114,14 @@ test('verbose native denial requires private custody and actual exit3 then disca
  assert.equal(row.native_error.provenance,'first_verbose_psql_ERROR_line');assert.equal(row.backend_exit,3);
  assert.equal(row.rollback_by_backend_exit,true);assert.equal(row.authority_restored,true);
  assert(f.senders[0].finished);assert.equal(f.senders.length,3);assert(!JSON.stringify(f.ctx.report).includes(canary));
+});
+
+test('pin wait after eighty observations remains eligible without changing statement or expiry limits',async()=>{
+ const f=context('candidate',{delayMembershipWaitPolls:81});await verifyPinAuthorityCases(f.ctx);
+ const row=f.ctx.report.pin_batch_cases.candidate.cases[0];
+ assert.equal(f.senders[0].polls,82);assert.equal(row.actual_pin_INSERT_wait,true);
+ assert.equal(row.completed,true);assert.equal(f.senders[2].override.exp,1004);
+ assert(f.calls.filter(([port,sql])=>port==='sender'&&sql.startsWith('begin isolation')).every(([,sql])=>sql.includes("set local statement_timeout='8s';set local lock_timeout='8s';")));
 });
 
 test('57014 is retained but never counted as authority denial or retried',async()=>{

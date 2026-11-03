@@ -45,7 +45,7 @@ async function oneCase(ctx,evidence,change){
   record.dispatched=true;
   pending=observePending(sender.request(`select pg_temp.locksource41_measure('generate',${literal(p.workspace)}::uuid,${literal(p.series)}::uuid,${json(p.meta.input)},${literal(key)});`));
   let settled=false;pending.then(()=>{settled=true;},()=>{settled=true;});
-  for(let i=0;i<80;i++){
+  for(let i=0;i<150;i++){
    const wait=only(await observer.request(`reset role;select jsonb_build_object('waiting',exists(select 1 from pg_locks where pid=${sender.pid} and not granted and relation='eps.presentation_version_assets'::regclass and mode='RowExclusiveLock')and ${holder.pid}=any(pg_blocking_pids(${sender.pid})));`));
    if(wait.waiting===true){record.actual_pin_INSERT_wait=true;break;}
    if(settled)break;
