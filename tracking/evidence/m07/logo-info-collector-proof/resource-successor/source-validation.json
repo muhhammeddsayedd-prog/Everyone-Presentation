@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-11-03T04:14:08.031835+00:00",
+  "scope": "pure source/AST/fakeSQL/tempNode only",
+  "source_seals": {
+    "development/m07/logo-info-collector-resource-proof/compiler.py": "3dc216f16517cbbf87248c7a1c5e50c76395995bced4cec43d342a70e788d44e",
+    "development/m07/logo-info-collector-resource-proof/entry.mjs": "6ede1183b5b7180537ff6a2f21fe03679b20e8c4b00179d4ff5da242a351c91c",
+    "development/m07/logo-info-collector-resource-proof/README.md": "6fdda4c3e369b3b8e1f59e3d59923b0057910cbf777ac5e0dfc954e24a5036f4",
+    "development/m07/logo-info-collector-resource-proof/test_resource.py": "c52adaef8e99d8fb6aa51e4a4f17455994731f41b9c370d309b7065b02923e75"
+  },
+  "checks": {
+    "unittest": {
+      "tests": 4,
+      "passed": 4,
+      "failed": 0,
+      "seconds": 4.071,
+      "exit_code": 0
+    },
+    "three_actual_generated_Node_syntax_checks": 0,
+    "default_off_before_ports": true,
+    "schema_derived_old_missing_resource_RED_new_INSERT_GREEN": true,
+    "inherited_actual8setup_statements_fake_executed_then_SQL_parsed": true,
+    "all3source_inverses": true,
+    "diff_check_exit_code": 0
+  },
+  "failed_parent": {
+    "path": "tracking/evidence/m07/logo-info-collector-proof/2026-11-03T04-03-51.226Z-925f434b.json",
+    "sha256": "d1fe06328373d6e21cea68b52c508d77cef4e7811115c6fed1ff463ba5d3cb03",
+    "phase": "setup before bridge/collector",
+    "observed_native_error": "null resource_id in audit_events violates NOT NULL",
+    "child_exit_code": 3,
+    "actual_numeric_SQLSTATE_retained": false,
+    "parent_source_claims_private_errors_unchanged": true
+  },
+  "execution_enabled": false,
+  "SQL_executed": false,
+  "Docker_called": false,
+  "cloud_called": false,
+  "provider_called": false
+}
