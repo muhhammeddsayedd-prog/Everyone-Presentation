@@ -6,8 +6,8 @@ def module(name,file):
  spec=importlib.util.spec_from_file_location(name,file);value=importlib.util.module_from_spec(spec);spec.loader.exec_module(value);return value
 s=module('logo41_alias_context',HERE/'state.py')
 file=s.MAIN/'development/m07/logo-info-canonical-release/release.py';s.need(s.sha(s.load(file))=='74432d59044a04dff443b5ec3f47a5e1e3c305f879caf446eaec564839ddd0e2');old=module('logo41_alias_frozen_release',file)
-READ_ENABLED=False
-APPLY_ENABLED=False
+READ_ENABLED=True
+APPLY_ENABLED=True
 PURPOSE='logo-info-canonical-alias-release'
 def bind(function,**values):
  namespace=dict(function.__globals__);namespace.update(values)
