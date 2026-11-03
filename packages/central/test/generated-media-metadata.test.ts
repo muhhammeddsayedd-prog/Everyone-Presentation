@@ -75,6 +75,16 @@ test('malformed or unknown central records fail closed without public locator or
   }
 });
 
+test('generated timestamps match date-time while source identifiers remain opaque published Ids', async () => {
+  for (const created_at of ['2026-11-03', '2026-02-30T13:00:00Z', '2026-11-03 13:00:00Z', '2026-11-03T24:00:00Z']) {
+    const io = await service(() => Response.json(envelope({ ...asset, created_at })));
+    await assert.rejects(io.studio.getMedia(actor, assetId), isCode('CENTRAL_RESPONSE_INVALID', 503));
+  }
+  const expected = { ...asset, created_at: '2026-11-03T15:00:00.123456+02:00', source_asset_id: 'opaque-source-id' };
+  const io = await service(() => Response.json(envelope(expected)));
+  assert.deepEqual(await io.studio.getMedia(actor, assetId), expected);
+});
+
 test('generated metadata never broadens content reads or purpose-specific RPC scopes', async () => {
   const options = { logoRead: { storageOrigin: origin, brandBucket: 'eps-brand-assets' }, specsRead: { storageOrigin: origin } };
   const io = await service(() => Response.json(envelope(asset)), options);

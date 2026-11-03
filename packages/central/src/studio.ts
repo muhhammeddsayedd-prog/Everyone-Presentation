@@ -58,6 +58,15 @@ function scopedDto<T>(value: unknown, parse: (value: unknown) => T, inScope: (re
 
 const generatedMediaPurposes = ['preview_video', 'presentation_pdf', 'presentation_preview', 'presentation_manifest', 'document_text', 'document_page'];
 
+function generatedMediaDateTime(value: string): boolean {
+  const parts = /^(\d{4})-(\d{2})-(\d{2})[Tt](\d{2}):(\d{2}):(\d{2})(?:\.\d+)?(?:[Zz]|[+-](\d{2}):(\d{2}))$/u.exec(value);
+  if (!parts) return false;
+  const [, year, month, day, hour, minute, second, offsetHour, offsetMinute] = parts.map(part => Number(part ?? 0));
+  const days = [31, year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  return month >= 1 && month <= 12 && day >= 1 && day <= days[month - 1] && hour <= 23 && minute <= 59 && second <= 59
+    && offsetHour <= 23 && offsetMinute <= 59;
+}
+
 /** Scope RPCs return public metadata alongside private Storage locators. Source
  * adapters must still fetch their own exact record before reading/signing bytes. */
 function scopedMediaAsset(value: unknown, requestedId: string): MediaAsset {
@@ -77,7 +86,8 @@ function scopedMediaAsset(value: unknown, requestedId: string): MediaAsset {
     || !['duration_ms','source_timestamp_ms'].every(field=>asset[field] === null || number(asset[field],0))
     || !['width','height'].every(field=>asset[field] === null || number(asset[field],1))
     || !(asset.source_asset_id === null || text(asset.source_asset_id,200))
-    || typeof asset.created_at !== 'string' || !Number.isFinite(Date.parse(asset.created_at))) return malformed();
+    || typeof asset.created_at !== 'string' || !Number.isFinite(Date.parse(asset.created_at))
+    || generatedMediaPurposes.includes(asset.purpose) && !generatedMediaDateTime(asset.created_at)) return malformed();
   return { id: asset.id, purpose: asset.purpose, filename: asset.filename, mime_type: asset.mime_type, size_bytes: asset.size_bytes,
     sha256: asset.sha256, status: asset.status, duration_ms: asset.duration_ms, width: asset.width, height: asset.height,
     source_asset_id: asset.source_asset_id, source_timestamp_ms: asset.source_timestamp_ms, created_at: asset.created_at } as MediaAsset;
