@@ -1,0 +1,33 @@
+{
+  "schema_version": "Root-pin-stage-postrun-audit.v1",
+  "recorded_at": "2026-11-03T05:35:34.940Z",
+  "result": "passed_diagnostic_audit",
+  "run_id": "ee38e645-aa4c-4479-911c-d85e49eb7da0",
+  "receipt": {
+    "path": "tracking/evidence/m07/presentation-generation-pin-batch-stage-diagnostic/2026-11-03T05-33-02.824Z-ee38e645.json",
+    "sha256": "44e91aa99288fb3c7bc17fc9172082a17980679159e6809cabd21de8d433f008"
+  },
+  "runtime_source_seals_verified": 174,
+  "private_custody_hashes_and_caps_verified": [
+    {
+      "name": "query-canceled-private.json",
+      "bytes": 1164,
+      "sha256": "c4f4d73e6bafb31042f6a12a134b8b03f2a980afb7a9c4163e5398b14a8115b4",
+      "cap_verified": true
+    },
+    {
+      "name": "phase-markers-private.json",
+      "bytes": 922,
+      "sha256": "d417d78f36910d0c11a5fad6a7973a13525b663bd0337d285431969d2a7de89d",
+      "cap_verified": true
+    }
+  ],
+  "application_still_57014_at_companion_capture": true,
+  "full_clone_original_five_bodies_config_and_baseline_restored": true,
+  "original29_data_catalogue_global_roles_unchanged": true,
+  "same_engine_container_volume_inventories_normal0_empty": true,
+  "shared_lock_absent": true,
+  "raw_context_SQL_phase_payload_printed": false,
+  "SQL_provider_retry_cleanup_or_access_change": false,
+  "performance_or_release_acceptance": false
+}
