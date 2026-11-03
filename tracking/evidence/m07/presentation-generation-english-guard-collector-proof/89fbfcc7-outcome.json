@@ -1,0 +1,118 @@
+{
+  "schema_version": "generation-English-guard-collector-safe-outcome.v1",
+  "run_id": "89fbfcc7-41a8-4cb5-ae9e-08148ed461a7",
+  "references": {
+    "raw": {
+      "path": "tracking/evidence/m07/presentation-generation-english-guard-collector-proof/2026-11-03T11-51-31.429Z-89fbfcc7.json",
+      "sha256": "9a6d8598ad7efab26dfeccdec0fdc855ef045c4dda00d61220c60ee987efbbcc"
+    },
+    "audit": {
+      "path": "tracking/evidence/m07/presentation-generation-english-guard-collector-proof/Root-89fbfcc7-postrun-audit.json",
+      "sha256": "851583afef95b18bf687fc99b4b93ed4629666e166b509ab3d8ba0bb30473143"
+    }
+  },
+  "actual_outcome": {
+    "result": "passed",
+    "checkpoint": "complete",
+    "normal_process_exit": 0,
+    "elapsed_ms": 130447,
+    "runtime_source_seals_verified": 266,
+    "actual_and_private_executed_source_hashes_equal": true,
+    "cloud_called": false,
+    "provider_called": false,
+    "production_identity_admission_claimed": false
+  },
+  "actual_collector_checks": {
+    "actual_state_checkpoint_and_rendered_transaction": true,
+    "actual_negative_preimage_refused_and_rolled_back": true,
+    "diagnostic_rollback_exact": true,
+    "diagnostic_difference_count": 0,
+    "diagnostic_normal_nonce_claimed": false,
+    "two_equal_before_reads": true,
+    "two_equal_after_reads": true,
+    "before_and_after_full_checkpoints_checked": true,
+    "all76_full_rows_including_every_reason_value_preserved": true,
+    "all_function_attributes_OIDs_ACLs_roles_policies_dependencies_preserved": true,
+    "catalogue_only_seven_declared_source_hash_deltas": true,
+    "fixed_logo_and_public_validator_unchanged": true,
+    "normalized_full_scope_equal": true,
+    "English_security_predicate_true_before_and_after": true,
+    "independent_existing_checkpoint_comparison_function_passed": true,
+    "exact_one_history42_row_appended": true,
+    "final_history_count": 42
+  },
+  "exact_seven_source_changes": {
+    "eps.presentation_lock_sources(uuid,text,text)": {
+      "before": "dc398779de1d2d6d997d4f40fff99b5c840f2c7ca1b780e26ee28027aad83fff",
+      "after": "aa1db8b1c2f8e9a15360c24fd9a4216df03c9f14767b1b300898a3e88a7220e3"
+    },
+    "eps.review_snapshot_data(uuid,uuid,text)": {
+      "before": "4d46151993a60d8c6ac9d36e48781fee34c12c3e1dede727ac1ed4d31a953ab7",
+      "after": "0dba1d407199191d3bbb4d84ddab94d9f4e33da6a0172738b86133e8c7bf61fd"
+    },
+    "eps.review_snapshot(uuid,uuid,text)": {
+      "before": "27a9e0738186c7df7f8df842ccd21a66d3fd84cda5c203e87e87ef2c9efd3d85",
+      "after": "c6f93795e1926bcbb2e550b428f2e76a9ffe04dc29199e799c3d3a0e7b73cd10"
+    },
+    "public.eps_generate_version(uuid,jsonb,text)": {
+      "before": "b20fef7adc8dee0da91db1508b30d4116855bb3e9be9e881072a7e8d55fcee08",
+      "after": "af486a7217ed5ddafea5d98dc2979d928a8e9ba675862ef0960c2930b362b198"
+    },
+    "eps.capture_presentation_video_transcripts(uuid)": {
+      "before": "ed4a3469971fa410078b546b13aa0a875b4867efdda4b134dc729563dd887187",
+      "after": "f2229b303a83d7c9ca053e3c0f7e65ec3472b0cbe3b624aad4ff1a1e4af1c4d5"
+    },
+    "eps.capture_presentation_video_english_transcripts(uuid)": {
+      "before": "c68de52a4ede0ec6401aa05e0f40b5932905dd8dc8c1c72149c9f95c51a23aeb",
+      "after": "b763cd502ed70c49f7d9d07106397bd6c774a6c00d87322f7e0954f25f1ac4ad"
+    },
+    "eps.mcp_token_permits_capability(text)": {
+      "before": "5eb6c1272a78a4ca821569082c54d2b1ce434516585c8eac533c29ec1c445ccc",
+      "after": "8455eeb4094d74a11e487627711f237192c9b591fdf61d1b54b9114bedd487ab"
+    }
+  },
+  "normal_commit": {
+    "nonce_matched_private_normal_return": true,
+    "return": {
+      "marker": "8db7cdc8-37b5-4004-84e4-d64042a42266",
+      "version": "20261103104337",
+      "migration_sha256": "685010d2130a83cf4fcd8f11184b4faf1384d1ddc34436d33d458d8987744b78"
+    }
+  },
+  "private_custody": {
+    "before_checkpoint": {
+      "bytes": 2770075,
+      "sha256": "8c784480305370e077c1625928cbe3faaae82c701d4e74e5bf78cb45b05c69d9"
+    },
+    "after_checkpoint": {
+      "bytes": 2785196,
+      "sha256": "09f8580b9fb703ad5deb4bf873a883f36406d51fe7fdd33f6268e3c0a1312a53"
+    },
+    "diagnostic_poststate": {
+      "bytes": 62833,
+      "sha256": "131b378332dc2e759a6fbdb2d3b95f1edd7df6ee29edf39fb4fe57a978caa47f"
+    },
+    "raw_checkpoint_rows_or_private_payloads_copied_to_this_outcome": false
+  },
+  "cleanup": {
+    "all_owned_resources_absent": true,
+    "original29_full_data_catalogue_and_global_roles_unchanged": true,
+    "shared_lock_released": true,
+    "independent_same_daemon_containers_normal_zero_empty": true,
+    "independent_same_daemon_volumes_normal_zero_empty": true,
+    "fresh_shared_lock_absent": true
+  },
+  "sole_entry_closure": {
+    "path": "development/m07/presentation-generation-english-guard-collector-proof/entry.mjs",
+    "armed_sha256": "0ec85840475595245ef95b6970bdf44ac465d5a6d48478171ef27be4d409e62a",
+    "closed_sha256": "537674e9ca7b444358de4026b8d365f436abc049d6ab5686dbb040a69dfd6183"
+  },
+  "acceptance_boundary": {
+    "owned_collector_accepted": true,
+    "generation_performance_matrix_replayed": false,
+    "canonical_apply_or_hosted_acceptance_claimed": false,
+    "prior_failed_collector_receipts_relabelled": false,
+    "prior_ec5_and_guest_expiry_evidence_preserved": true,
+    "automatic_retry_or_extra_dispatch_by_this_outcome": false
+  }
+}
