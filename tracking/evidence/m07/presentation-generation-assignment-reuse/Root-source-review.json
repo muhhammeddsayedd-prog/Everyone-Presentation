@@ -1,0 +1,30 @@
+{
+  "recorded_at": "2026-11-03T00:07:13Z",
+  "scope": "Source-only bounded assignment enumeration review; no SQL, provider or production admission.",
+  "candidate_commit": "4b14a2e0bf97b17ad46f23aede493808c9776d7c",
+  "Main_integration_commit": "fa63567",
+  "Root_source_review": "passed with actual proof still required",
+  "independent_runtime_peer": "passed; no material source defect found",
+  "Root_checks": {
+    "command": ".venv-skills/Scripts/python.exe -X utf8 -B -m unittest discover -s development/m07/presentation-generation-assignment-reuse -p test_candidate.py -v",
+    "tests": 8,
+    "passed": 8,
+    "failed": 0,
+    "seconds": 0.316
+  },
+  "actual_FK_guard_required": [
+    "exact conrelid and confrelid",
+    "ordered conkey and confkey for workspace_id,slot_id to workspace_id,id",
+    "convalidated=true, condeferrable=false, condeferred=false"
+  ],
+  "preserved_source_boundaries": [
+    "invoker RLS, STABLE and search_path",
+    "full workspace/output/slot/archive predicate and sort order",
+    "shared 4MiB row-data budget with complete original-query fallback",
+    "unchanged final authority and live-clock checks",
+    "no capability, membership, session or denial result cache"
+  ],
+  "remaining": "Actual first-call timing, semantic equality, fallback, NO_MAIN/Shortlist, RLS and final-expiry proofs remain unexecuted. Prefetch can change authorized unused-row cost or technical error timing.",
+  "performance_or_production_accepted": false,
+  "migrations_applied": false
+}

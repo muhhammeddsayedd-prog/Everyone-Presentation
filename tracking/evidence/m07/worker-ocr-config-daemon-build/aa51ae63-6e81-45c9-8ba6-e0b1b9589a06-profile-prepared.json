@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-11-03T00:06:32.604950+00:00",
+  "result": "exact_Main_archive_profile_and_readonly_retained_native_admission_passed",
+  "run": "aa51ae63-6e81-45c9-8ba6-e0b1b9589a06",
+  "source_commit": "68d590a398123e968cd4277fc5da70e166c802b1",
+  "source_tree": "fb4c21e33c30cf416ebfac703cde5ae6a8218d5b",
+  "source_sha256": "f8142f08baa37efcc160aea96c32b389dfd0a0ee5569f267642fc9ff396907b4",
+  "file_count": 167,
+  "native_graph_sha256": "247992bbe3331251f33186cfac22835e8734833cd229bb6a4d8bcafa3bc0c214",
+  "daemon_graph_sha256": "109b298cf3c42a7f8c6e5aaf30aefe49e493595726daf3c71b97b26cb81543b1",
+  "archive": {
+    "path": ".local/worker-ocr-config-daemon-build/selected-source-aa51ae63-6e81-45c9-8ba6-e0b1b9589a06.tar",
+    "sha256": "c965ab9a1f87b97027becbeec8bdd51a03360212f069c9566c1497c062a90da9"
+  },
+  "archive_bytes": 1986560,
+  "profile": {
+    "path": ".local/worker-ocr-config-daemon-build/build-inputs.json",
+    "sha256": "b981a7d7d5ec3f5cd9e8750a0a0e76ad2b7fcc4fd591082f3a8acfd261330bb1"
+  },
+  "source_admission": {
+    "archive": {
+      "path": ".local/worker-ocr-config-daemon-build/selected-source-aa51ae63-6e81-45c9-8ba6-e0b1b9589a06.tar",
+      "sha256": "c965ab9a1f87b97027becbeec8bdd51a03360212f069c9566c1497c062a90da9",
+      "commit": "68d590a398123e968cd4277fc5da70e166c802b1",
+      "selected_source_exact": true,
+      "archive_extracted": false
+    },
+    "quality": {
+      "ref": {
+        "path": "tracking/evidence/m07/completion-release/2026-11-03T00-04-19.583Z-ea8942ea-ocr-config-root-quality.json",
+        "sha256": "c903353fe679f7e0db987b26281d466c4c1df0e41f8d4a479b53ed2990e1a404"
+      },
+      "tested_commit": "9f305c565a44df2dd2acd545f8baf7f4183cd0df",
+      "selected_packed_source_bytes_equal": true,
+      "carried_forward_to_exact_selected_bytes": true,
+      "test_count": 1013
+    }
+  },
+  "retained_native_references": {
+    "export": {
+      "path": "tracking/evidence/m07/worker-source-identity-release/2026-11-02T19-09-59-072239Z-native-export.json",
+      "sha256": "a05c6dba0e59813afadc42b07a286c0fd43c07852fe4474fc48cf2916b870814"
+    },
+    "copy": {
+      "path": "tracking/evidence/m07/worker-source-identity-release/2026-11-02T19-20-16-978244Z-native-registry-copy.json",
+      "sha256": "8c5ca46033600d1e0db890f5623c2d33c63f59b03587366618be40b1aaaff324"
+    },
+    "ready": {
+      "path": "tracking/evidence/m07/worker-source-identity-release/2026-11-02T19-23-34-403749Z-native-registry-ready.json",
+      "sha256": "7fcecd4e585e6f8f14809671c51636c13634ee590958eb197283b407e50e98c2"
+    },
+    "probe": {
+      "path": "tracking/evidence/m07/worker-source-identity-release/2026-11-02T19-33-56-730888Z-native-probe-admitted.json",
+      "sha256": "a03db92ca8975c1cf32affc50480327fd4b7ac47ee140303543b5be4480fb662"
+    }
+  },
+  "retained_native_digest": "sha256:3d4286db01b27b40ec9078e303158e93003a096d5ddad1c9802130238de6dd80",
+  "retained_native_source": "f742e9e5e4b83643f5bae18cace3e9e253912c0114f59b4489f0d163bcb39368",
+  "native_task_or_build_executed": false,
+  "future_build_profile_bound": false,
+  "stage_build_Docker_registry_provider_SQL_called": false
+}
