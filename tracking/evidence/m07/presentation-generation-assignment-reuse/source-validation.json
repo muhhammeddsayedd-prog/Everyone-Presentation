@@ -1,0 +1,48 @@
+{
+  "schema_version": "assignment-enumeration-source-validation.v1",
+  "observed_at": "2026-11-03T00:02:50.294511+00:00",
+  "source_only": true,
+  "entry_enabled": false,
+  "SQL_executed": false,
+  "Docker_or_provider_called": false,
+  "source_seals": {
+    "development/m07/presentation-generation-assignment-reuse/candidate.py": "0e62792bce8230a9b98bc11f387cf781ddf4095afaa09b37798331809d11c864",
+    "development/m07/presentation-generation-assignment-reuse/PROOF_PLAN.md": "c21b95a10ef740ad46c33f1434fa78722b05af26090b1fb97184817224cff594",
+    "development/m07/presentation-generation-assignment-reuse/test_candidate.py": "f69e15cfcb62e9d0f8ffd84e384049da75f6ba8a17e2dbcf5ed882f54e3a1306"
+  },
+  "before_body_sha256": "4b37255bd919719086175f5df2b197584555f3c08000ee13fe18a7dbe62f8cc3",
+  "after_body_sha256": "0dba1d407199191d3bbb4d84ddab94d9f4e33da6a0172738b86133e8c7bf61fd",
+  "finite_edit_count": 5,
+  "inverse_byte_equal": true,
+  "required_actual_FK": {
+    "name": "assignments_workspace_id_slot_id_fkey",
+    "convalidated": true,
+    "condeferrable": false,
+    "condeferred": false
+  },
+  "offline_suite": {
+    "passed": 8,
+    "previous_recorded_seconds": 0.301,
+    "scope": "AST/PLpgSQL/finite-inverse/typed-data-contract/static metadata/default-off, not PostgreSQL runtime"
+  },
+  "RAM_only_mutation": {
+    "change": "remove cached Shortlist predicate only; keep actual source rows and fallback",
+    "RED": {
+      "tests": 1,
+      "failures": 1,
+      "errors": 0
+    },
+    "restored_GREEN": {
+      "tests": 8,
+      "failures": 0,
+      "errors": 0
+    },
+    "disk_sources_unchanged": true
+  },
+  "limitations": [
+    "No actual query plan or performance gain observed.",
+    "Original live wrapper/direct caller guards/locks/security attributes unchanged.",
+    "Whole-workspace prefetch changes extra-row cost/error timing; actual equality/security/clock/fallback/8s proof remains required.",
+    "Future actual catalogue guard must bind immediate validated FK; current checks are static pinned12df DDL only."
+  ]
+}
