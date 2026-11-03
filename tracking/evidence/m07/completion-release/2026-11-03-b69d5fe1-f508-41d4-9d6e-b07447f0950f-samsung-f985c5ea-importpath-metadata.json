@@ -1,0 +1,226 @@
+{
+  "purpose": "fixed_f985c5ea_metadata_read",
+  "run": "b69d5fe1-f508-41d4-9d6e-b07447f0950f",
+  "job": "f985c5ea-01de-47bd-80ca-91a38ab4c548",
+  "source_sha256": "09d8fbcf03478414aa19d527265740e97d1411e704b1d8afe06c2551318c8815",
+  "sql_sha256": "2b9e4936350d6e77b9dc2bed027233d20eecc2909319210f88646cdd791bc1c6",
+  "automatic_retry": false,
+  "schema_version": "1.0",
+  "result": "observed",
+  "observed_at": "2026-11-03T01:56:51.988267+00:00",
+  "target": "pyibofyctwnqpvktepse",
+  "workspace_id": "a22bd4e5-b95c-4594-98bc-66c2a0f53260",
+  "project_id": "9a8e8750-1515-4227-a662-3be2d6a1d81c",
+  "provider_source_sha256": "2a663f05af131099f199fd1b7e137be06571518a73985c3b3befc2e562995d1b",
+  "private_guard_source_pins": {
+    "tools/provision_logo_verifier.py": "660f2eb0d15b1ed17801ecef22270dbb389fdf93181c340f16d715fc2b3a340c",
+    "tools/release_foundation.py": "02aac0cefc4b46419c7d5a086da672398716cf7ee73882602574cff99659d751",
+    "tools/release_logo.py": "efd1de07b3304d8d5c89f29bbeaf77ff2ce1d8d42ffbf885f960c36f506b47f4"
+  },
+  "declared_release_context": {
+    "receipt": {
+      "path": "tracking/evidence/m07/worker-ocr-config-daemon-release/2026-11-03T01-38-19-111153Z-resume.json",
+      "sha256": "57551d733091eb59672f978545d9595b9c52ebad13d058c90a157fa245695b79"
+    },
+    "daemon_digest": "sha256:ffb4ce64dbb5a9a1854e96e32063539c72025023fee504c189b8f775e029cd98",
+    "daemon_source_sha256": "f8142f08baa37efcc160aea96c32b389dfd0a0ee5569f267642fc9ff396907b4",
+    "native_digest": "sha256:3d4286db01b27b40ec9078e303158e93003a096d5ddad1c9802130238de6dd80",
+    "job_bound_execution_identity_proved": false
+  },
+  "query_calls": 1,
+  "read_only_rollback": true,
+  "full_State_or_checkpoint_or_release_phase_called": false,
+  "job_or_configuration_mutated": false,
+  "processing_triggered": false,
+  "old_cc710_or_47_mutated": false,
+  "raw_CLI_saved": false,
+  "private_projection": {
+    "path": ".local/completion-release/samsung-f985c5ea-importpath-b69d5fe1-f508-41d4-9d6e-b07447f0950f/closed-projection.json",
+    "sha256": "e3669261634d37b075167b6b239b2c71c2ed53b33621ce4dd0538c97a1d68a34"
+  },
+  "metadata": {
+    "attempt_count": 3,
+    "attempts": [
+      {
+        "attempt": 1,
+        "attempt_id": "d3406f6c-e378-4618-a397-b81af1277e64",
+        "claimed_at": "2026-11-03T01:43:50.304573+00:00",
+        "correlation_id": "47702f3b-cc94-4228-be14-1a1467ab0c46",
+        "dispatch_generation": 1,
+        "stage": "prepare_document",
+        "stage_attempt": 1,
+        "workflow_execution_id": "32098",
+        "workflow_execution_ref_state": "recorded"
+      },
+      {
+        "attempt": 2,
+        "attempt_id": "90f0dd21-1380-42da-b2f5-2bb05a7a0444",
+        "claimed_at": "2026-11-03T01:45:58.931575+00:00",
+        "correlation_id": "47702f3b-cc94-4228-be14-1a1467ab0c46",
+        "dispatch_generation": 2,
+        "stage": "extract_specs",
+        "stage_attempt": 1,
+        "workflow_execution_id": "32099",
+        "workflow_execution_ref_state": "recorded"
+      },
+      {
+        "attempt": 3,
+        "attempt_id": "e30f5ba6-4805-4cf2-bc62-7aea22fe1b5a",
+        "claimed_at": "2026-11-03T01:48:06.136862+00:00",
+        "correlation_id": "47702f3b-cc94-4228-be14-1a1467ab0c46",
+        "dispatch_generation": 3,
+        "stage": "apply_specs",
+        "stage_attempt": 1,
+        "workflow_execution_id": "32100",
+        "workflow_execution_ref_state": "recorded"
+      }
+    ],
+    "configuration": {
+      "current_native_image_id": "sha256:3d4286db01b27b40ec9078e303158e93003a096d5ddad1c9802130238de6dd80",
+      "current_specs_enabled": true,
+      "document_preparation_version": "document-preparation.v1",
+      "frozen_job_config_sha256": "e17a7989cfafa176b42c7520658a2f23a05338f3a8cb90a14367b8f97a51a8c2",
+      "job_daemon_source_sha256_if_recorded": null,
+      "model_version": "gpt-6.1-sol",
+      "prompt_version": "spec_extract_v1.0.0",
+      "result_schema_version": "1.0"
+    },
+    "database": "postgres",
+    "events": [
+      {
+        "count": 1,
+        "event_type": "succeeded",
+        "first_at": "2026-11-03T01:48:06.726536+00:00",
+        "last_at": "2026-11-03T01:48:06.726536+00:00",
+        "stage": "apply_specs"
+      },
+      {
+        "count": 6,
+        "event_type": "heartbeat",
+        "first_at": "2026-11-03T01:46:19.098634+00:00",
+        "last_at": "2026-11-03T01:47:59.257549+00:00",
+        "stage": "extract_specs"
+      },
+      {
+        "count": 1,
+        "event_type": "succeeded",
+        "first_at": "2026-11-03T01:48:05.809135+00:00",
+        "last_at": "2026-11-03T01:48:05.809135+00:00",
+        "stage": "extract_specs"
+      },
+      {
+        "count": 6,
+        "event_type": "heartbeat",
+        "first_at": "2026-11-03T01:44:10.386879+00:00",
+        "last_at": "2026-11-03T01:45:50.537628+00:00",
+        "stage": "prepare_document"
+      },
+      {
+        "count": 1,
+        "event_type": "succeeded",
+        "first_at": "2026-11-03T01:45:58.617153+00:00",
+        "last_at": "2026-11-03T01:45:58.617153+00:00",
+        "stage": "prepare_document"
+      }
+    ],
+    "history_count": 40,
+    "job": {
+      "attempt": 3,
+      "cause_code": null,
+      "completed_stage_count": 3,
+      "correlation_id": "47702f3b-cc94-4228-be14-1a1467ab0c46",
+      "created_at": "2026-11-03T01:43:47.914412+00:00",
+      "current_attempt_id": "e30f5ba6-4805-4cf2-bc62-7aea22fe1b5a",
+      "error_code": null,
+      "heartbeat_at": "2026-11-03T01:48:06.136862+00:00",
+      "http_status": null,
+      "id": "f985c5ea-01de-47bd-80ca-91a38ab4c548",
+      "input_sha256": "b3c6e3e1f1dff269d4c59864a7f4dc55cc457371b271ce54bb4bf25756bca966",
+      "lease_expires_at": null,
+      "request_id": null,
+      "retryable": null,
+      "stage": "apply_specs",
+      "status": "succeeded",
+      "updated_at": "2026-11-03T01:48:06.259384+00:00",
+      "workflow_execution_id": "32100"
+    },
+    "observed_at": "2026-11-03T01:56:51.885178+00:00",
+    "operator": "postgres",
+    "persisted_counts": {
+      "active_source_job_roles": 40,
+      "active_source_job_slots": 566,
+      "source_job_role_evidence": 100,
+      "source_job_roles": 40,
+      "spec_source_extraction_matches_job": true
+    },
+    "session_user": "postgres",
+    "source": {
+      "asset_id": "7eb9ef85-4d16-4e68-9198-80401cee907c",
+      "mime_type": "application/pdf",
+      "purpose": "specs",
+      "sha256": "7956a85f80907f9b2ac74311d0f82b3900bc6d84cbd560f5c3fbf6f8987c4e8b",
+      "sha256_matches": true,
+      "size_bytes": 3058335,
+      "size_matches": true,
+      "status": "ready"
+    },
+    "stage_payload_count": 2,
+    "stage_payloads": [
+      {
+        "attempt_bound": true,
+        "attempt_id": "d3406f6c-e378-4618-a397-b81af1277e64",
+        "attempt_to_payload_elapsed_ms": 128302.311,
+        "created_at": "2026-11-03T01:45:58.606884+00:00",
+        "extraction_evidence_count": 0,
+        "extraction_method": "pdf_vision",
+        "extraction_role_count": 0,
+        "http_status": null,
+        "input_matches_job": true,
+        "prepared_paragraph_count": 226,
+        "provider": null,
+        "provider_duration_ms_if_recorded": null,
+        "request_id": null,
+        "requested_model": null,
+        "resolved_model": null,
+        "response_id": null,
+        "result_schema": "document-preparation.v1",
+        "sdk_version": null,
+        "stage": "prepare_document",
+        "usage": null
+      },
+      {
+        "attempt_bound": true,
+        "attempt_id": "90f0dd21-1380-42da-b2f5-2bb05a7a0444",
+        "attempt_to_payload_elapsed_ms": 126873.069,
+        "created_at": "2026-11-03T01:48:05.804644+00:00",
+        "extraction_evidence_count": 100,
+        "extraction_method": null,
+        "extraction_role_count": 40,
+        "http_status": null,
+        "input_matches_job": true,
+        "prepared_paragraph_count": 0,
+        "provider": "openai",
+        "provider_duration_ms_if_recorded": null,
+        "request_id": "req_c2d7eecf6d1242698a99b32c9d4da13c",
+        "requested_model": "gpt-6.1-sol",
+        "resolved_model": "gpt-6.1-sol",
+        "response_id": "resp_0a62561c36960eef016ae93cd72d7487d2b83eb2a52de8218f",
+        "result_schema": "specs-extraction-stage.v1",
+        "sdk_version": "7.45.1",
+        "stage": "extract_specs",
+        "usage": {
+          "input_tokens": 7083,
+          "output_tokens": 18300,
+          "total_tokens": 25383
+        }
+      }
+    ],
+    "workspace_project_matches": true
+  },
+  "limitations": [
+    "Persisted provider response metadata is not independent provider billing/wire proof.",
+    "Attempt-to-payload elapsed includes stage work and persistence, not isolated provider latency.",
+    "Daemon identity is not inferred from the current native DB pin; absent job fingerprints remain null.",
+    "No raw document, source/provider text, role names, evidence excerpts, URLs, tokens, leases or credentials selected."
+  ]
+}

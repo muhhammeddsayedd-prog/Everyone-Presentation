@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-11-03T01:56:20.866659+00:00",
+  "purpose": "fixed_samsung_observer_preprivate_import_failure_source_diagnosis",
+  "failed_source": {
+    "path": ".local/completion-release/observe-samsung-f985c5ea.py",
+    "sha256": "ba7147a2e18886f4240768b99eddfcd1ac07144a4e7cd1ec2df973436ebe11b2"
+  },
+  "Root_reported_initial_attempt": {
+    "normal_exit": 1,
+    "public_result": "FIXED_SAMSUNG_METADATA_UNCONFIRMED",
+    "elapsed_seconds_approximate": 0.4,
+    "private_namespace_exists": false,
+    "read_claim_exists": false,
+    "query_file_created": false,
+    "query_reached": false,
+    "full_initial_exception_observed": false
+  },
+  "inert_checks": {
+    "provider_pin": "passed",
+    "guard_source_pins": "passed",
+    "provider_import": "passed",
+    "release_receipt_hash_and_flags": "passed",
+    "SQL_parse": "passed"
+  },
+  "exact_import_statement_probe": {
+    "exception_type": "ModuleNotFoundError",
+    "frames": [
+      {
+        "file": "tools/provision_logo_verifier.py",
+        "line": 36,
+        "function": "<module>"
+      }
+    ],
+    "probe_scope": "Only the two pinned ImportFrom nodes; no guard module/class/method or network execution",
+    "raw_exception_message_or_private_values_recorded": false
+  },
+  "source_cause": "Guard dependency imports require ROOT/tools on sys.path; initial observer omitted the established setup.",
+  "successor": {
+    "path": ".local/completion-release/observe-samsung-f985c5ea-importpath.py",
+    "sha256": "09d8fbcf03478414aa19d527265740e97d1411e704b1d8afe06c2551318c8815",
+    "only_behavior_delta": "sys.path.insert(0,str(ROOT/tools)) before source imports; fresh RUN/private/public namespace",
+    "finite_inverse_exact": true,
+    "query_executed": false
+  },
+  "original_source_or_claim_repaired": false,
+  "automatic_replay": false,
+  "provider_called": false
+}
