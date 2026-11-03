@@ -1,0 +1,59 @@
+{
+  "schema_version": "bounded-assignment-combined-Main-armed-plan.v1",
+  "recorded_at": "2026-11-03T01:35:49.076687+00:00",
+  "reviewed_disabled_plan": {
+    "path": "tracking/evidence/m07/presentation-generation-assignment-proof/disabled-owned-plan.json",
+    "sha256": "17152fd3fdefe550912f499ea53a725af5ae431a24b87088e48733283bde3882"
+  },
+  "compile_uuid": "f6053a23-dd0f-4af7-a375-f9b53b8b1f8f",
+  "entry_execution_enabled": true,
+  "execution_dispatched": false,
+  "runtime_UUID_issued": false,
+  "source_seals": {
+    "development/m07/presentation-generation-assignment-proof/admit.mjs": "8f9872ba6d6d1058a4ebdfe9a3c6eea00591f2619df18e4a477bb8081aab0898",
+    "development/m07/presentation-generation-assignment-proof/admit.test.mjs": "ccab1f7a1cd61b5b41e2a6f9aa1b5326ccdfc4fb1d4dd4c123431a47447195c5",
+    "development/m07/presentation-generation-assignment-proof/assignment-cases.mjs": "1d585710bd583f78988668cdae3e6f3199270cbe3f05188f32d81f6c61d65624",
+    "development/m07/presentation-generation-assignment-proof/assignment-cases.sql": "93335cfcf8f8f2764d7dd78f94208664ee5d9963864049b1c0fdfcc119e0fb62",
+    "development/m07/presentation-generation-assignment-proof/assignment-cases.test.mjs": "e05abda1111f3489d32143598d94fff16f4a7c0f08dfaca45d70f33ca0e34c96",
+    "development/m07/presentation-generation-assignment-proof/compiler.py": "b8b1c3d57003371bb83cd8fedb0eb1b3803455bf51d75a51834cbc1a0608f620",
+    "development/m07/presentation-generation-assignment-proof/entry.mjs": "6ded113d9c51b98dbfb2138be62e2e57398a5502bdfad61a9e86c94104e630be",
+    "development/m07/presentation-generation-assignment-proof/matrix.mjs": "03b1331ae546f111fe756be59a51b95bc7d32592b8f6b9f19cc88ca42bbf9b1b",
+    "development/m07/presentation-generation-assignment-proof/README.md": "db2f8b0e282af0411dd8075b22d42d742c27612d949e20f37de056d0da31fe3d",
+    "development/m07/presentation-generation-assignment-proof/source.py": "0e4e467dc4cf0574664c62413438dc5122a8cb62e947ff906d81cd1bb44a18a6",
+    "development/m07/presentation-generation-assignment-proof/test_proof.py": "c86e635448bec29ccc244c555d1ec443c442193eaa25d181ece9b6a7b782b38b",
+    "development/m07/presentation-generation-assignment-reuse/candidate.py": "0e62792bce8230a9b98bc11f387cf781ddf4095afaa09b37798331809d11c864",
+    "development/m07/presentation-generation-assignment-reuse/PROOF_PLAN.md": "c21b95a10ef740ad46c33f1434fa78722b05af26090b1fb97184817224cff594",
+    "development/m07/presentation-generation-assignment-reuse/test_candidate.py": "f69e15cfcb62e9d0f8ffd84e384049da75f6ba8a17e2dbcf5ed882f54e3a1306"
+  },
+  "compiled_outputs": [
+    {
+      "path": ".local/presentation-generation-assignment-proof-compiled/cases-f6053a23-dd0f-4af7-a375-f9b53b8b1f8f.mjs",
+      "sha256": "8ffe7addaa4bdbf383334f43f5bb78c802fb139fdbca6c9e507c21257fe0e08e",
+      "bytes": 14673,
+      "node_check_exit": 0
+    },
+    {
+      "path": ".local/presentation-generation-assignment-proof-compiled/callback-f6053a23-dd0f-4af7-a375-f9b53b8b1f8f.mjs",
+      "sha256": "c22db5f155bffe73cbbafbb84b6b13fc4d91310af81cf436fed0ca2b52240398",
+      "bytes": 31445,
+      "node_check_exit": 0
+    },
+    {
+      "path": ".local/presentation-generation-assignment-proof-compiled/controller-f6053a23-dd0f-4af7-a375-f9b53b8b1f8f.mjs",
+      "sha256": "4b89698892f3507b69233bc8f3b86c852465f99593fb8e4670258b56fb34c34c",
+      "bytes": 210949,
+      "node_check_exit": 0
+    }
+  ],
+  "Root_independent_tests": {
+    "Python_passed": 5,
+    "Python_seconds": 2.677,
+    "Node_passed": 7,
+    "Node_duration_ms": 197.781
+  },
+  "independent_runtime_peer": "passed",
+  "first_call": "candidate MCP large exactly once, then remaining seven only on success",
+  "timeout_ms": 8000,
+  "new_cancellation_context_claimed": false,
+  "performance_or_canonical_release_accepted": false
+}
