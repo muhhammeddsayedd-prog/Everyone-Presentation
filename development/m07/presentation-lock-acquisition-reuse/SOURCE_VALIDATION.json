@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "scope": "source_only_offline_validation",
+  "entry_enabled": false,
+  "SQL_executed": false,
+  "Docker_or_provider_executed": false,
+  "performance_acceptance": false,
+  "before_body_sha256": "280244090e5350b912dec5b23b74bb5d260e9e21df497c8ddfc2ae322fb774c4",
+  "candidate_body_sha256": "aa1db8b1c2f8e9a15360c24fd9a4216df03c9f14767b1b300898a3e88a7220e3",
+  "focused_checks": {
+    "command": "D:/Everyone/Presentation/Everyone-Presentation-Studio/.venv-skills/Scripts/python.exe -X utf8 -B -m unittest discover -s development/m07/presentation-lock-acquisition-reuse -p test_candidate.py",
+    "passed": 7,
+    "failed": 0,
+    "elapsed_seconds": 0.246,
+    "stages": [
+      "final_PLpgSQL_parse",
+      "each_embedded_SELECT_parse",
+      "four_exact_inverse_edits",
+      "twelve_lock_levels_predicates_order_strength_nowait",
+      "three_fully_consumed_ordered_inner_lock_streams",
+      "same_level_distinct_aggregate_limit_negatives",
+      "null_empty_source_frame_pairs",
+      "2592_small_valid_relational_cases",
+      "pinned_immediate_FK_and_fenced_caller",
+      "unfenced_invalid_FK_counterexamples",
+      "default_off_no_transport_and_exact_artifacts"
+    ]
+  },
+  "retained_development_results": [
+    {
+      "kind": "RED",
+      "test": "test_plpgsql_and_fully_consumed_locking_streams",
+      "expected_failure": "unchanged280_has_no_three_aggregated_lock_streams",
+      "failed": 1,
+      "elapsed_seconds": 0.021
+    },
+    {
+      "kind": "test_scope_correction",
+      "passed": 6,
+      "failed": 1,
+      "cause": "assertion_included_original_final_union_NULL_filter_instead_of_only_media_lock_stream",
+      "implementation_changed": false
+    }
+  ],
+  "limits": [
+    "No_backend_operator_or_privilege_resolution",
+    "No_actual_row_lock_or_concurrency_evidence",
+    "No_fresh_or_production_performance_claim",
+    "FK_and_caller_are_pinned_metadata_not_current_live_readback"
+  ],
+  "source_sha256": {
+    "candidate.py": "961d9969a8646831c64d0f9e2f0960d7e7910cc1ddd29a558d2e7bd990f66ec6",
+    "test_candidate.py": "c92e595952803eb3768d2375fd1f1b9a680e2d7f8db94b9c5837cd95e659acca",
+    "README.md": "ef4e154b49b44bf93a88a5f402b060fc357a01e7cf403f7760731198d2d11ecd",
+    "before-body.sql": "280244090e5350b912dec5b23b74bb5d260e9e21df497c8ddfc2ae322fb774c4",
+    "candidate-body.sql": "aa1db8b1c2f8e9a15360c24fd9a4216df03c9f14767b1b300898a3e88a7220e3",
+    "body.diff": "938cf9dc81d5707fc3cf8ae581853f606c7169c4ab7fbad8d7042903cbc0d441"
+  }
+}
