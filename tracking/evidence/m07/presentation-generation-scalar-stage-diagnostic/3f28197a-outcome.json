@@ -1,0 +1,152 @@
+{
+    "schema_version":  1,
+    "run_id":  "3f28197a-e3ca-485c-9698-0fad0b4d2187",
+    "result":  "passed_diagnostic",
+    "normal_process_exit":  0,
+    "normal_process_exit_source":  "Root_actual_execution_and_independent_postrun_audit",
+    "elapsed_ms":  68669,
+    "checkpoint":  "complete",
+    "actual_receipt":  {
+                           "path":  "tracking/evidence/m07/presentation-generation-scalar-stage-diagnostic/2026-11-03T08-54-48.406Z-3f28197a.json",
+                           "sha256":  "8a4ac4b043a31d8e36c8e1e413381e028c9fe471f9bdce45853044a8d8867904",
+                           "observed_at":  "2026-11-03T08:54:48.406Z",
+                           "finished_at":  "2026-11-03T08:55:57.075Z"
+                       },
+    "source_seal_count":  218,
+    "diagnostic_status":  "cancellation_not_reproduced",
+    "one_fresh_instrumented_application_call":  {
+                                                    "profile":  "large",
+                                                    "mode":  "mcp",
+                                                    "first_application_call_in_fresh_backend":  true,
+                                                    "application_calls_before_dispatch":  0,
+                                                    "normal_SQL_return":  true,
+                                                    "rolled_back":  true,
+                                                    "pid":  624,
+                                                    "result":  {
+                                                                   "ok":  true,
+                                                                   "role":  "authenticated",
+                                                                   "job_id":  "0e3a46d6-4849-47f1-a877-2507662ed54a",
+                                                                   "status":  "queued",
+                                                                   "duration_ms":  7901.047,
+                                                                   "resource_id":  "fc407e0b-ede5-492a-85fc-e62a64d724a2"
+                                                               },
+                                                    "sql_client_elapsed_ms":  7903.9899000000005,
+                                                    "instrumentation_cost_present":  true,
+                                                    "cancellation":  null,
+                                                    "full_fresh_baseline_restored":  true
+                                                },
+    "actual_candidate_installation":  {
+                                          "index":  1,
+                                          "normal_return":  true,
+                                          "actual_and_business_source_projections":  [
+                                                                                         {
+                                                                                             "name":  "eps.review_snapshot_data",
+                                                                                             "actual_installed_body_sha256":  "234cec65947a522b488c679cdc3eed9fec662394f80998626f31fba2d90dc72c",
+                                                                                             "business_body_sha256":  "0dba1d407199191d3bbb4d84ddab94d9f4e33da6a0172738b86133e8c7bf61fd"
+                                                                                         },
+                                                                                         {
+                                                                                             "name":  "eps.review_snapshot",
+                                                                                             "actual_installed_body_sha256":  "c6f93795e1926bcbb2e550b428f2e76a9ffe04dc29199e799c3d3a0e7b73cd10",
+                                                                                             "business_body_sha256":  "c6f93795e1926bcbb2e550b428f2e76a9ffe04dc29199e799c3d3a0e7b73cd10"
+                                                                                         },
+                                                                                         {
+                                                                                             "name":  "public.eps_generate_version",
+                                                                                             "actual_installed_body_sha256":  "5b0f389300a86b9cfa0b39e182eaca49f5bac81566e0bb72be1caa152faecca1",
+                                                                                             "business_body_sha256":  "af486a7217ed5ddafea5d98dc2979d928a8e9ba675862ef0960c2930b362b198"
+                                                                                         },
+                                                                                         {
+                                                                                             "name":  "eps.capture_presentation_video_transcripts",
+                                                                                             "actual_installed_body_sha256":  "f2229b303a83d7c9ca053e3c0f7e65ec3472b0cbe3b624aad4ff1a1e4af1c4d5",
+                                                                                             "business_body_sha256":  "f2229b303a83d7c9ca053e3c0f7e65ec3472b0cbe3b624aad4ff1a1e4af1c4d5"
+                                                                                         },
+                                                                                         {
+                                                                                             "name":  "eps.capture_presentation_video_english_transcripts",
+                                                                                             "actual_installed_body_sha256":  "b763cd502ed70c49f7d9d07106397bd6c774a6c00d87322f7e0954f25f1ac4ad",
+                                                                                             "business_body_sha256":  "b763cd502ed70c49f7d9d07106397bd6c774a6c00d87322f7e0954f25f1ac4ad"
+                                                                                         },
+                                                                                         {
+                                                                                             "name":  "eps.mcp_token_permits_capability",
+                                                                                             "actual_installed_body_sha256":  "8455eeb4094d74a11e487627711f237192c9b591fdf61d1b54b9114bedd487ab",
+                                                                                             "business_body_sha256":  "8455eeb4094d74a11e487627711f237192c9b591fdf61d1b54b9114bedd487ab"
+                                                                                         }
+                                                                                     ],
+                                          "all_six_full_authority_records_equal_initial_canonical":  true,
+                                          "public_validator_full_identity_unchanged":  true,
+                                          "public_validator_body_sha256":  "9fe44accb3998d924bb0f453c721a33f5603f20e4c245abbf0e46807561891f6",
+                                          "helperAA_verified_separately":  true,
+                                          "helper_candidate_body_sha256":  "aa1db8b1c2f8e9a15360c24fd9a4216df03c9f14767b1b300898a3e88a7220e3"
+                                      },
+    "final_original_installation":  {
+                                        "index":  2,
+                                        "normal_return":  true,
+                                        "actual_six_full_rows_and_public_validator_equal_initial_index0":  true,
+                                        "original_helper4107_config_full_clone_restored":  true,
+                                        "original_helper_body_sha256":  "4107c87b1a51d2c5ed506a64c81378026068406a5136b202779767efb30264e7"
+                                    },
+    "installation_count":  3,
+    "catalogue_prosrc_exclusions":  7,
+    "phase_observations":  {
+                               "public_event_count":  14,
+                               "stage_trace_confirmed":  true,
+                               "terminal":  "measure_exit",
+                               "whole_notice_span_ms":  7900.057077407837,
+                               "paired_diagnostic_intervals":  {
+                                                                   "source_locking":  {
+                                                                                          "completed":  true,
+                                                                                          "duration_ms":  1789.4489765167236
+                                                                                      },
+                                                                   "public_review":  {
+                                                                                         "completed":  true,
+                                                                                         "duration_ms":  3182.5380325317383
+                                                                                     },
+                                                                   "review_DATA":  {
+                                                                                       "completed":  true,
+                                                                                       "duration_ms":  3114.8200035095215
+                                                                                   },
+                                                                   "assignment_enumeration":  {
+                                                                                                  "completed":  true,
+                                                                                                  "duration_ms":  345.0648784637451
+                                                                                              },
+                                                                   "source_companions":  {
+                                                                                             "completed":  true,
+                                                                                             "duration_ms":  2062.6559257507324
+                                                                                         }
+                                                               },
+                               "nested_intervals_not_additive":  true,
+                               "review_DATA_return_boundary_excludes_final_JSON_expression":  true,
+                               "instrumentation_overhead_included":  true,
+                               "private_phase":  {
+                                                     "private_file":  "phase-markers-private.json",
+                                                     "bytes":  1049,
+                                                     "sha256":  "af67a3ed105aceffc42844065e601961c0a48cc463cc18c1b379cb25bc10a01e",
+                                                     "normal_return":  true
+                                                 }
+                           },
+    "outer_original_target_preservation_and_cleanup":  {
+                                                           "all_owned_resources_absent":  true,
+                                                           "original_data_catalogue_and_global_roles_unchanged":  true,
+                                                           "shared_lock_released":  true,
+                                                           "independent_successful_daemon_label_inventories_empty":  true,
+                                                           "fresh_shared_lock_absent":  true
+                                                       },
+    "Root_independent_audit":  {
+                                   "path":  "tracking/evidence/m07/presentation-generation-scalar-stage-diagnostic/Root-3f28197a-postrun-audit.json",
+                                   "sha256":  "babb408b3d930df3b45bcf7e68137fecd156d747309c3cc49f761e70f82233da",
+                                   "runtime_source_seals_verified":  218,
+                                   "actual_and_private_executed_source_hashes_equal":  true,
+                                   "private_acl_verified":  true
+                               },
+    "entry_closed_by_Root":  {
+                                 "path":  "development/m07/presentation-generation-scalar-stage-diagnostic/entry.mjs",
+                                 "armed_sha256":  "707ae08def04de2c37da3f4196ad3b2f21d6b5a1331cc728f57b4a67767be839",
+                                 "closed_sha256":  "fb04e2f64eeb346b046cc5c6a3455b177bb44d85316542772f5a079941051f36"
+                             },
+    "uninstrumented_c024_failure_still_open":  true,
+    "uninstrumented_eight_call_matrix_sixteen_projections_and_security_acceptance":  "pending",
+    "dominant_cost_or_individual_English_INSERT_attribution_claimed":  false,
+    "performance_or_production_acceptance":  false,
+    "cloud_called":  false,
+    "provider_called":  false,
+    "automatic_retry":  false,
+    "new_SQL_test_or_runtime_dispatched_by_Recovery":  false
+}
