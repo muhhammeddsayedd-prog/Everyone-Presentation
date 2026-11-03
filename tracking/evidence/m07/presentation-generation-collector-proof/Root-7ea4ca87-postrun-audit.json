@@ -1,0 +1,46 @@
+{
+  "schema_version": "root-generation42-collector-failed-setup-audit.v1",
+  "recorded_at": "2026-11-03T10:59:45.370576+00:00",
+  "run_id": "7ea4ca87-98e5-4f20-bce1-739816a5858b",
+  "actual_receipt": {
+    "path": "tracking/evidence/m07/presentation-generation-collector-proof/2026-11-03T10-56-59.946Z-7ea4ca87.json",
+    "sha256": "fc2cf8ee9960f97ff217316b5336b2f2dd0074394b14fdef6585fe267ce15444"
+  },
+  "normal_process_exit": 1,
+  "elapsed_ms": 51997,
+  "runtime_source_seals_verified": 236,
+  "actual_and_private_executed_source_hashes_equal": true,
+  "failed_checkpoint": "logo-info-rollback-proof",
+  "failure_kind": "post_fixture_history_array_assertion_expected40_actual41",
+  "actual_accepted41_fixture_appended_before_legacy40_assertion": true,
+  "native_SQL_failure_claimed": false,
+  "collector_validation_started": false,
+  "seven_target_42_migration_dispatched": false,
+  "private_failure": {
+    "path": "failure.json",
+    "bytes": 270,
+    "sha256": "041ac15e817483d4f2a70d572e6bf8b02d3f3d3db2e12a4321e71a3d15ef928e"
+  },
+  "independent_successful_daemon_label_inventories_empty": true,
+  "independent_inventories": [
+    {
+      "kind": "containers",
+      "normal_exit": 0,
+      "empty": true
+    },
+    {
+      "kind": "volumes",
+      "normal_exit": 0,
+      "empty": true
+    }
+  ],
+  "fresh_shared_lock_absent": true,
+  "original_target_preserved": true,
+  "sole_entry_closure": {
+    "path": "development/m07/presentation-generation-collector-proof/entry.mjs",
+    "armed_sha256": "6d2ceda0d9fd97da0bdb45c2c8938c289e87be666a66568db2ed1a2eb9913acb",
+    "closed_sha256": "12ef5cf69bdc65d06a49bf2c567b896e77bf388df1cc0b283e976c9381b9e7f3"
+  },
+  "canonical_or_collector_acceptance": false,
+  "prior_local_generation_ec5_or_guest_expiry_acceptance_invalidated": false
+}
