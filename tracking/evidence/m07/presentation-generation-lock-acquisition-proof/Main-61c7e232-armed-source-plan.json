@@ -1,0 +1,49 @@
+{
+  "status": "armed_source_reviewed_execution_not_dispatched",
+  "recorded_at": "2026-11-03T03:46:55.891884+00:00",
+  "compile_uuid": "61c7e232-641a-4783-892e-7bef01748050",
+  "Root_review": "Finite helper four-edit candidate and full lock-acquisition new logic; source compiler admission entry lock cases tests and retained exact source-function subset reviewed; full nine-file independent Frontend peer closed PASS.",
+  "Root_default_off_checks": {
+    "python": 5,
+    "python_duration_seconds": 2.655,
+    "node": 9,
+    "node_duration_ms": 235.7545,
+    "fail": 0,
+    "skipped": 0
+  },
+  "source_seals": {
+    "admit.mjs": "cb2b89a2f403cdcbdd9c7df5d7940770ee68ca423237580ebc9a6483e70db058",
+    "compiler.py": "93583dba4fb4ffcc08e5f18cdbff8661661586f2810d6c09fb708c739b5a82be",
+    "entry.mjs": "a40af5d5f772ba938074b7ee5f06cf9f27237a3c29677d9e9cdc17b36d9488d2",
+    "locks.mjs": "ac40ca0f57c81c0040032f6f555c1bf311f42cf977cac5a15031da9d5fe5f5f1",
+    "proof.test.mjs": "443b639c07763f595e251e7f7ab0bda6f0f8ac3f06cc822ab0599f3201deb054",
+    "README.md": "c363c357dfcef7c30f322347a590b07febdeff970ca5c0ac6121c4a0bd4c04c8",
+    "security.mjs": "8f7b1ea87071c4748a51002ef91a1f24e1033c7236220c492ef61afc3e5ba9b5",
+    "source.py": "72920b540f5b40ed7f3aedc4f5d6f9d67ddd5bd23b4ee6f4749b71d57a002ffe",
+    "test_proof.py": "42e58e3ccf54339733d3950cea79d89fb6788f2372e702f8d9c44493acfc7cd5"
+  },
+  "compiled": [
+    {
+      "path": ".local/presentation-generation-lock-acquisition-proof-compiled/cases-61c7e232-641a-4783-892e-7bef01748050.mjs",
+      "sha256": "8ffe7addaa4bdbf383334f43f5bb78c802fb139fdbca6c9e507c21257fe0e08e",
+      "node_syntax_exit": 0
+    },
+    {
+      "path": ".local/presentation-generation-lock-acquisition-proof-compiled/callback-61c7e232-641a-4783-892e-7bef01748050.mjs",
+      "sha256": "09c374206557d25a0f5a67954738864504ef731abf3f56bdadc3a094908f8ac0",
+      "node_syntax_exit": 0
+    },
+    {
+      "path": ".local/presentation-generation-lock-acquisition-proof-compiled/controller-61c7e232-641a-4783-892e-7bef01748050.mjs",
+      "sha256": "efeb24735b44be1d658a278b59fd74ce6e5deb0fc2e34a5c5459814191a8a2c2",
+      "node_syntax_exit": 0
+    }
+  ],
+  "original_baseline": "helper280 plus four original canonical bodies",
+  "candidate": "helperaa1 plus DATA0dba wrapperc6 GENa5 captureafe",
+  "runtime_admission": "Root must separately grant local SQL/CPU slot after Runtime logo41 collector cleanup. This artifact dispatches nothing.",
+  "first_candidate_MCP_large_failure_stops_all_remaining": true,
+  "normal_limits_and_full_preservation_required": true,
+  "historical_helper280_security_is_dated_scope_only": true,
+  "provider_or_production_changes": false
+}
