@@ -1,0 +1,46 @@
+{
+  "recorded_at": "2026-11-03T09:56:53.224287+00:00",
+  "run_id": "48ed954a-d841-4c56-8339-c3a28248867c",
+  "actual_receipt": {
+    "path": "tracking/evidence/m07/presentation-generation-canonical-profile-full-proof/2026-11-03T09-36-23.937Z-48ed954a.json",
+    "sha256": "599527b663a20a5a4e1e66c34a89c41078ca5b87c0998f96f89c546bbc48e721"
+  },
+  "scope": "completed helperAA prefix before old raw observer syntax failure; not entire security/continuation acceptance",
+  "fresh_AA_all12_NOWAIT_archived_FK_crossworkspace_workspace_fence_and_three_authority_cases_passed": true,
+  "individual_case_flags": {
+    "all_twelve": {
+      "normal_return": true,
+      "rolled_back": true,
+      "actual_helper_RC": true,
+      "fenced_caller_only": true,
+      "full_baseline_restored": true
+    },
+    "archived_reference": {
+      "normal_return": true,
+      "rolled_back": true,
+      "actual_helper_RC": true,
+      "fenced_caller_only": true,
+      "ready_dml_issued": false,
+      "full_baseline_restored": true
+    },
+    "cross_workspace": {
+      "normal_return": true,
+      "rolled_back": true
+    },
+    "workspace_fence": {
+      "actual_distinct_pid_wait": true,
+      "normal_public_mutation_return": true,
+      "writer_rolled_back": true
+    }
+  },
+  "selected_rows": 150,
+  "held_rows": 150,
+  "authority_cases": [
+    "membership",
+    "capability",
+    "expiry"
+  ],
+  "missing_selected_frame_blocking_old_candidate_equality_passed": true,
+  "old_raw_general_denials_source_races_candidate_remaining_and_final7_restore_complete": false,
+  "new_runtime_dispatched": false
+}
