@@ -1,0 +1,297 @@
+{
+  "schema_version": "single-current-candidate-stage-diagnostic-actual-outcome.v1",
+  "observed_at": "2026-11-03T02:34:41.040Z",
+  "finished_at": "2026-11-03T02:36:18.820Z",
+  "audited_at": "2026-11-03T02:42:55.036056+00:00",
+  "runtime_uuid": "d958af2c-caf1-4f7a-a068-0099d466fd59",
+  "compile_uuid": "5c95f78d-ea8a-44da-9bb8-30c2eb9a5e93",
+  "normal_process_exit": 0,
+  "shell_session": 70039,
+  "diagnostic_result": "passed",
+  "application_generation": "statement_timeout57014",
+  "checkpoint": "complete",
+  "elapsed_ms": 97780,
+  "actual_receipt": {
+    "path": "tracking/evidence/m07/presentation-generation-stage-diagnostic/2026-11-03T02-34-41.040Z-d958af2c.json",
+    "sha256": "347a3d1bdee31a8367e9656b324789a72cc90fbd8358ac22150846f31f5c8099"
+  },
+  "armed_plan": {
+    "path": "tracking/evidence/m07/presentation-generation-stage-diagnostic/Main-5c95f78d-armed-plan.json",
+    "sha256": "46ab602833929362dc8a8b658ff33e67966ea72c5ffdbc692d2060787df39aaf"
+  },
+  "source_seal_count": 147,
+  "actual_call": {
+    "profile": "large",
+    "mode": "mcp",
+    "first_application_call_in_fresh_backend": true,
+    "application_calls_before_dispatch": 0,
+    "normal_SQL_return": true,
+    "rolled_back": true,
+    "instrumentation_cost_present": true,
+    "performance_acceptance": false,
+    "pid": 767,
+    "sql_client_elapsed_ms": 8004.295899999997,
+    "result": {
+      "ok": false,
+      "code": "57014",
+      "operation": "generate",
+      "duration_ms": 8000.76
+    },
+    "cancellation": {
+      "sqlstate": "57014",
+      "message_class": "statement_timeout",
+      "private_custody": {
+        "normal_return": true,
+        "private_file": "query-canceled-private.json",
+        "sha256": "2e841acee467198bd38cc3b696c44e10d07610bcd0a74881fcc3ef9b3125e43b"
+      },
+      "context_empty": false,
+      "allowlisted_frames": [
+        {
+          "language": "sql",
+          "function": "has_capability",
+          "statement": 1
+        },
+        {
+          "language": "plpgsql",
+          "function": "eps.review_snapshot_data",
+          "line": 124
+        },
+        {
+          "language": "plpgsql",
+          "function": "eps.review_snapshot",
+          "line": 3
+        },
+        {
+          "language": "plpgsql",
+          "function": "public.eps_get_workspace_review",
+          "line": 3
+        },
+        {
+          "language": "plpgsql",
+          "function": "public.eps_generate_version",
+          "line": 26
+        },
+        {
+          "language": "plpgsql",
+          "function": "pg_temp.locksource41_measure",
+          "line": 6
+        }
+      ],
+      "unknown_frame_count": 1,
+      "stack_frame_count": 7,
+      "frame_projection_truncated": false,
+      "stage": "review_and_fit",
+      "candidate_body_sha256": "e027442ba36b260fb573316e41cf6e8839baf42fe08d10277d8455cb7caaa6c7"
+    },
+    "diagnostic_status": "cancellation_observed_private_context_preserved",
+    "stages": {
+      "private_custody": {
+        "private_file": "phase-markers-private.json",
+        "sha256": "12af485e54251df9d04a69f7374173d790183120e9f607fa4f69ad901deee630",
+        "normal_return": true
+      },
+      "stage_trace_confirmed": true,
+      "events": [
+        {
+          "stage": "measure_enter",
+          "elapsed_ms": 0
+        },
+        {
+          "stage": "gen_enter",
+          "elapsed_ms": 3.7097930908203125
+        },
+        {
+          "stage": "gen_sources_enter",
+          "elapsed_ms": 196.34580612182617
+        },
+        {
+          "stage": "gen_sources_exit",
+          "elapsed_ms": 7041.233777999878
+        },
+        {
+          "stage": "gen_review_enter",
+          "elapsed_ms": 7046.288967132568
+        },
+        {
+          "stage": "data_enter",
+          "elapsed_ms": 7086.603879928589
+        },
+        {
+          "stage": "data_assignments_enter",
+          "elapsed_ms": 7391.464948654175
+        },
+        {
+          "stage": "data_assignments_exit",
+          "elapsed_ms": 7811.636924743652
+        },
+        {
+          "stage": "measure_cancel",
+          "elapsed_ms": 7999.672889709473
+        }
+      ],
+      "paired_diagnostic_intervals": {
+        "source_locking": {
+          "completed": true,
+          "duration_ms": 6844.887971878052
+        },
+        "public_review": {
+          "completed": false,
+          "duration_ms": null
+        },
+        "review_DATA": {
+          "completed": false,
+          "duration_ms": null
+        },
+        "assignment_enumeration": {
+          "completed": true,
+          "duration_ms": 420.17197608947754
+        },
+        "source_companions": {
+          "completed": false,
+          "duration_ms": null
+        }
+      },
+      "terminal": "measure_cancel",
+      "whole_notice_span_ms": 7999.672889709473,
+      "instrumentation_overhead_included": true,
+      "performance_acceptance": false
+    },
+    "full_fresh_baseline_restored": true
+  },
+  "private_file_readbacks": [
+    {
+      "file": "query-canceled-private.json",
+      "actual_bytes": 1210,
+      "actual_sha256": "2e841acee467198bd38cc3b696c44e10d07610bcd0a74881fcc3ef9b3125e43b",
+      "custody_hash_equal": true,
+      "normal_JSON_readback": true,
+      "only_SYSTEM_and_current_user_allow": true,
+      "file_inherits_two_protected_directory_allow_rules": true
+    },
+    {
+      "file": "phase-markers-private.json",
+      "actual_bytes": 739,
+      "actual_sha256": "12af485e54251df9d04a69f7374173d790183120e9f607fa4f69ad901deee630",
+      "custody_hash_equal": true,
+      "normal_JSON_readback": true,
+      "only_SYSTEM_and_current_user_allow": true,
+      "file_inherits_two_protected_directory_allow_rules": true
+    }
+  ],
+  "private_directory_ACL_protected": true,
+  "private_directory_allow_count": 2,
+  "actual_FK_guard": {
+    "deferred": false,
+    "validated": true,
+    "deferrable": false,
+    "references_slots": true,
+    "workspace_slot_columns": true,
+    "referenced_workspace_id_columns": true
+  },
+  "same_business_SQL_inverse_and_instrumentation": [
+    {
+      "name": "eps.review_snapshot_data",
+      "current_candidate_body_sha256": "0dba1d407199191d3bbb4d84ddab94d9f4e33da6a0172738b86133e8c7bf61fd",
+      "after_body_sha256": "234cec65947a522b488c679cdc3eed9fec662394f80998626f31fba2d90dc72c",
+      "instrumented": true,
+      "line_count_equal": true,
+      "business_SQL_inverse_byte_equal": true
+    },
+    {
+      "name": "eps.review_snapshot",
+      "current_candidate_body_sha256": "c6f93795e1926bcbb2e550b428f2e76a9ffe04dc29199e799c3d3a0e7b73cd10",
+      "after_body_sha256": "c6f93795e1926bcbb2e550b428f2e76a9ffe04dc29199e799c3d3a0e7b73cd10",
+      "instrumented": false,
+      "line_count_equal": true,
+      "business_SQL_inverse_byte_equal": true
+    },
+    {
+      "name": "public.eps_generate_version",
+      "current_candidate_body_sha256": "a5e5c60d3f94d9e05c62fc1cfc76ac4552713000b72b1efe4eac028da15c0d40",
+      "after_body_sha256": "e027442ba36b260fb573316e41cf6e8839baf42fe08d10277d8455cb7caaa6c7",
+      "instrumented": true,
+      "line_count_equal": true,
+      "business_SQL_inverse_byte_equal": true
+    },
+    {
+      "name": "eps.capture_presentation_video_transcripts",
+      "current_candidate_body_sha256": "afe33691e2bb1dad42999b49c8c5ba9d583d68bfc6cced60bfbea0adadc37dd7",
+      "after_body_sha256": "afe33691e2bb1dad42999b49c8c5ba9d583d68bfc6cced60bfbea0adadc37dd7",
+      "instrumented": false,
+      "line_count_equal": true,
+      "business_SQL_inverse_byte_equal": true
+    }
+  ],
+  "current_observation_limits": {
+    "source_locking_boundary_completed": true,
+    "source_locking_instrumented_ms": 6844.887971878052,
+    "assignment_enumeration_boundary_completed": true,
+    "assignment_enumeration_instrumented_ms": 420.17197608947754,
+    "public_review_completed": false,
+    "review_DATA_return_boundary_completed": false,
+    "source_companions_entered": false,
+    "current_cancelled_coarse_stage": "review_and_fit",
+    "current_cancelled_DATA_line": 124,
+    "current_has_capability_frame": true,
+    "prior_context_not_relabeled": true,
+    "instrumentation_overhead_included": true,
+    "nested_intervals_not_additive": true,
+    "review_DATA_boundary_excludes_final_JSON_expression": true,
+    "precise_per_function_or_RLS_call_counts_claimed": false,
+    "production_or_uninstrumented_performance_gain_claimed": false
+  },
+  "restoration": {
+    "single_call_completed": true,
+    "original4107_and_four_old_bodies_restored": true,
+    "original_config_and_full_baseline_restored": true,
+    "d093_performance_failure_remains_open": true
+  },
+  "outer_cleanup": {
+    "all_owned_resources_absent": true,
+    "independent_successful_daemon_label_inventories_empty": true,
+    "original_data_catalogue_and_global_roles_unchanged": true,
+    "shared_lock_released": true
+  },
+  "independent_postreturn_readbacks": {
+    "engine": "npipe:////./pipe/dockerDesktopLinuxEngine",
+    "fixed_label": "eps.stagediag.run=d958af2c-caf1-4f7a-a068-0099d466fd59",
+    "container_inventory": {
+      "normal_exit": 0,
+      "stdout_empty": true,
+      "stderr_empty": true
+    },
+    "volume_inventory": {
+      "normal_exit": 0,
+      "stdout_empty": true,
+      "stderr_empty": true
+    },
+    "fresh_shared_lock_exists": false,
+    "compile_once_claim_retained": true
+  },
+  "new_entry_closed_only": {
+    "path": "development/m07/presentation-generation-stage-diagnostic/entry.mjs",
+    "armed_sha256": "859c0ea06aadf1fc8b38cb0bcb8db1d057b7d2e2c6fbe8ceac1aa184808b0e77",
+    "disabled_sha256": "d8eff4fa9bc0a851377b89e32dc8d455006bc2d3ad30d1fb0264e1ff0f872f8f",
+    "only_literal_true_to_false": true,
+    "Main_change_unstaged_for_Root_sole_commit": true
+  },
+  "cloud_called": false,
+  "provider_called": false,
+  "performance_or_release_acceptance": false,
+  "unreached_and_not_claimed": [
+    "completecurrentreview/DATAresult",
+    "normalwholegeneration/newstoredversion/manifest/companionreturn",
+    "eight-first-callmatrixandAPI/MCPfullstoredparity",
+    "allfreshcombinedsemantic/fallback/Shortlist/security-raceacceptance",
+    "productionperformanceSQLorcanonicalmigration"
+  ],
+  "limitations": [
+    "ExactlyoneinstrumentedMCP-largegeneration;noothermatrix/component/focus/warmretry.",
+    "Thediagnosticmechanismpassed;applicationstillfailedtheunchanged8sbound.",
+    "Currentstageboundarieslocalizelargeobservedtimeinsource-lockingbutareinstrumentedintervals,notCPU/RLSfunctionprofiles.",
+    "ExistinggeneratorSECURITYDEFINERandDATASECURITYINVOKERmodeswerepreserved,notreplacedbyuniversalinvoker.",
+    "Noauthoritycache,grants,policy,clock,timeoutchangesorfunctionstats.",
+    "D093/78failuresandpriorcompletedpartialscopesremainintact;fullcombinedacceptancestillopen."
+  ]
+}
