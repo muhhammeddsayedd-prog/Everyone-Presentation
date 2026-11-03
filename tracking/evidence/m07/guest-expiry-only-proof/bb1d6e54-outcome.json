@@ -1,0 +1,93 @@
+{
+  "schema_version": "hosted-guest-expiry-only-outcome.v1",
+  "result": "passed",
+  "run_id": "bb1d6e54-ba50-4d63-b999-53427257441b",
+  "review_link_id": "22ffafe5-9081-4adb-a34a-8356873e29f7",
+  "series_id": "0b26d206-645a-4c9c-bbee-7307265ac68c",
+  "version_id": "1b20ec2d-f133-4912-8efe-df2e21a3865e",
+  "scope": "Actual hosted anonymous short-lived link access before expiry, denial after its deadline before revocation, and cleanup of only that new link.",
+  "references": {
+    "before": {
+      "path": "tracking/evidence/m07/guest-expiry-only-proof/2026-11-03T10-34-56.499Z-bb1d6e54-ba50-4d63-b999-53427257441b-before.json",
+      "sha256": "b4ff7447686371e61e58f6539ef704c648dfac210c6fb8f1e1120c5c8bf95521"
+    },
+    "after": {
+      "path": "tracking/evidence/m07/guest-expiry-only-proof/2026-11-03T10-45-47.074Z-bb1d6e54-ba50-4d63-b999-53427257441b-after.json",
+      "sha256": "20c40126c4311cc68b2a6892b0f45c89feb01992f46891b3ec37e10746cc60f2"
+    },
+    "Root_audit": {
+      "path": "tracking/evidence/m07/guest-expiry-only-proof/Root-bb1d6e54-expiry-cleanup-audit.json",
+      "sha256": "e7ab7d283e6943f7381038a4b0b958961f2695058358e1426ff41e910404b804",
+      "recorded_at": "2026-11-03T10:47:45.707144+00:00"
+    }
+  },
+  "before_expiry": {
+    "observed_at": "2026-11-03T10:34:55.572Z",
+    "deadline": "2026-11-03T10:45:00Z",
+    "real_anonymous_HTTP_requests": 15,
+    "cookies_or_Authorization_sent": false,
+    "exact_current_and_saved_v2_manifest_access": true,
+    "manifest_slides": 2,
+    "external_feedback": {"comments": 3, "preferences": 1, "unresolved_comments": 3, "all_pages_completed": true},
+    "export_prepare_posts": 1,
+    "cached_export": false,
+    "status_polls": 5,
+    "export_id": "66010cc0-78df-420a-b502-ea12db8d7fe6",
+    "job_id": "eebd42b8-8c55-4ec7-9616-558f481714c7",
+    "PDF": {
+      "HTTP_status": 200,
+      "bytes": 96259,
+      "sha256": "2c466f9e32c306b23e305bb239a53e0ba01bf25caa4d2f93f40ab175fd27c275",
+      "complete_bounded_PDF_download_verified": true
+    },
+    "original_video": {
+      "HTTP_status": 206,
+      "range": "bytes=0-1023",
+      "received_bytes": 1024,
+      "advertised_total_bytes": 4316429,
+      "range_sha256": "c9e92ab307d1cbd19dc0f5c2fece7ae0275c584dd9da5dc6d57ee647a1f6204c",
+      "new_full_original_file_hash_or_playback_claimed": false
+    }
+  },
+  "expiry_before_revocation": {
+    "observed_at": "2026-11-03T10:45:47.065Z",
+    "deadline_elapsed": true,
+    "denials": 11,
+    "all_denials_HTTP_status": 404,
+    "all_denials_code": "REVIEW_UNAVAILABLE",
+    "surfaces": ["old_session", "current_manifest", "fixed_v2_manifest", "feedback", "feedback_summary", "export_status", "saved_PDF_URL", "saved_video_URL", "reconstructed_PDF_path", "reconstructed_video_path", "fresh_link_token_exchange"],
+    "fresh_paths_are_not_newly_issued_capabilities": true,
+    "Root_Expired_and_not_Revoked_producer_UI_observed_at": "2026-11-03T10:46:18.520Z",
+    "Root_guest_unavailable_UI_verified": true,
+    "public_page_shell_HTTP200_is_not_guest_authorization": true,
+    "UI_observation_provenance": "Root audit; no new browser observation by the outcome reviewer"
+  },
+  "cleanup": {
+    "Root_only_new_link_revoked_and_fresh_UI_denied_observed_at": "2026-11-03T10:46:49.732Z",
+    "new_temporary_capability_revoked": true,
+    "other_4489_and_7f_link_mutations_issued": false,
+    "private_sources_claims_state_and_bytes_retained": true,
+    "post_revoke_denial_is_not_independent_revocation_only_proof": true
+  },
+  "independent_evidence_review": {
+    "three_reference_hashes_verified": true,
+    "eleven_before_after_source_seals_equal": true,
+    "current_sources_equal_except_exact_sole_flag_closure": true,
+    "client_armed_sha256": "14412254708f3eb17351c34b120ad8403799f229d54d3d599bafeb41d57a445a",
+    "client_closed_sha256": "b60b88a1d7522aafdb4082971950abecc13657eb220d9eadcdb610cf635b80f7",
+    "Root_private_JSON_envelope_equality_counts": {"before": 12, "after": 11},
+    "published_manifest_sha256_field": {
+      "value": "7d7ace8df67ca3f72aec7109172bf7f1e18cc24c6c985dc3b128162ba2b51ba3",
+      "meaning": "private inbox manifest binding; inbox publication overwrote the same-named presentation DTO digest field",
+      "presentation_manifest_digest_claimed_from_this_field": false
+    },
+    "new_HTTP_browser_token_or_private_payload_inspection_by_reviewer": false
+  },
+  "limits": {
+    "thirty_day_waiting_claimed": false,
+    "PDF_embedded_media_grant_route_matrix_newly_tested": false,
+    "feedback_identity_preferences_or_generate_version_mutated": false,
+    "new_factual_visual_screen_reader_or_full_M07_acceptance": false,
+    "old_expiry_revocation_or_access_evidence_superseded": false
+  }
+}
