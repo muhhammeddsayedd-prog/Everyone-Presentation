@@ -1,6 +1,6 @@
 """Real frozen phase code + new custody adapter through in-memory ports only."""
 from pathlib import Path
-import copy,importlib.util,json,subprocess,sys,unittest
+import copy,importlib.util,json,subprocess,sys,tempfile,unittest
 from unittest.mock import patch
 HERE=Path(__file__).resolve().parent
 def module(name,file):
@@ -37,6 +37,9 @@ class Tests(unittest.TestCase):
   phases=c.phases();self.assertIsNot(phases['deploy'].__globals__,c.old.deploy.__globals__)
   for name in('prepare','environment','deploy','ready','accepted_env','accepted_db'):self.assertIs(phases[name].__code__,getattr(c.old,name).__code__)
   self.assertIs(c.old.deploy.__globals__['accepted_env'],c.old.accepted_env)
+  with tempfile.TemporaryDirectory()as root:
+   file=Path(root)/'controller.py';file.write_bytes((c.a.GENERIC/'controller.py').read_bytes()+b'\n# source drift\n')
+   with patch.object(c.a,'GENERIC',Path(root)),self.assertRaises(ValueError):c.phases()
  def test_wrong_response_private_custody_before_projection_and_unknown_transport_never_resubmit(self):
   for mode in('projector','transport'):
    port=Port()

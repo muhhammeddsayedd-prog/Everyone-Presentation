@@ -1,6 +1,6 @@
 """Default-off forward sequence; no native pin phase or consumed globals edits."""
 from pathlib import Path
-import importlib.util,json,sys,types
+import hashlib,importlib.util,json,sys,types
 HERE=Path(__file__).resolve().parent
 s=importlib.util.spec_from_file_location('ocr_controller_anchors',HERE/'anchors.py');a=importlib.util.module_from_spec(s);s.loader.exec_module(a)
 old=a.frozen('worker-source-identity-release/controller.py');need=a.need
@@ -9,8 +9,8 @@ PHASES=('prepare','pause','env','deploy','ready','resume')
 def phases():
  # Only resume's prerequisite is projected: native3d is already pinned, so it
  # accepts the new pause directly. Every other frozen phase code is unchanged.
- import inspect
- text=inspect.getsource(old.db_phase);before="accepted_db(p,'pin'if phase=='resume'else'pause')";need(text.count(before)==1)
+ file=a.GENERIC/'controller.py';need(file.is_file()and not file.is_symlink()and file.stat().st_nlink==1 and 0<file.stat().st_size<=65536);raw=file.read_bytes();need(hashlib.sha256(raw).hexdigest()==a.FROZEN['worker-source-identity-release/controller.py'])
+ source=raw.decode().replace('\r\n','\n');need(source.count('def db_phase(p,phase):')==1 and source.count('def environment(p):')==1);text=source[source.index('def db_phase(p,phase):'):source.index('def environment(p):')];before="accepted_db(p,'pin'if phase=='resume'else'pause')";need(text.count(before)==1)
  projected=text.replace(before,"accepted_db(p,'pause')",1);need(projected.replace("accepted_db(p,'pause')",before,1)==text)
  namespace=dict(old.__dict__);exec(compile(projected,str(HERE/'controller.py')+':resume-prerequisite','exec'),namespace)
  for name in('normal','accepted_db','accepted_env','ready','prepare','environment','deploy'):
