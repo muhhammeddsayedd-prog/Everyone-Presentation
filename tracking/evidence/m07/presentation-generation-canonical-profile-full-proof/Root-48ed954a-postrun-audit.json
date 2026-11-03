@@ -1,0 +1,71 @@
+{
+  "schema_version": "root-observed-profile-full-postrun-audit.v1",
+  "recorded_at": "2026-11-03T09:52:12.553764+00:00",
+  "run_id": "48ed954a-d841-4c56-8339-c3a28248867c",
+  "actual_receipt": {
+    "path": "tracking/evidence/m07/presentation-generation-canonical-profile-full-proof/2026-11-03T09-36-23.937Z-48ed954a.json",
+    "sha256": "599527b663a20a5a4e1e66c34a89c41078ca5b87c0998f96f89c546bbc48e721"
+  },
+  "normal_process_exit": 1,
+  "elapsed_ms": 677964,
+  "runtime_source_seals_verified": 220,
+  "actual_and_private_executed_source_hashes_equal": true,
+  "installation_count": 15,
+  "six_body_full_authority_and_actual_sources_verified_every_install": true,
+  "public_validator_full_identity_unchanged": true,
+  "first_call_matrix_count": 8,
+  "all_four_candidate_calls_normal_queued_within8s": true,
+  "semantic_projection_count": 16,
+  "completed_call_and_projection_full_baselines_restored": true,
+  "profile_backend_observations_verified": 56,
+  "owned_default_command_preserved_only_jit_off_appended": true,
+  "failed_checkpoint": "combined-old-focused-cases",
+  "private_failures": {
+    "case-authority_capability-error.json": {
+      "bytes": 1649,
+      "sha256": "f981a1bdeead771ed3bcbca2ff34a840622f166cb25fe026d1f2cb4fc5774970"
+    },
+    "case-authority_expiry-error.json": {
+      "bytes": 1645,
+      "sha256": "f8d299ff7b0c5529f2a26e9dc8f8358234f200406de1157cdedcc92fbb74946e"
+    },
+    "case-authority_membership-error.json": {
+      "bytes": 1649,
+      "sha256": "cd1b6de22500ff712039101ff98566f105762a8b51f8022b2840fdce68866067"
+    },
+    "case-raw_old_valid_one_failure-error.json": {
+      "bytes": 18925,
+      "sha256": "4564318bfecd84fb1dde8acb26b280ce77820f8f6b9b5d4ca95cef5f699ce6ab"
+    },
+    "failure.json": {
+      "bytes": 18833,
+      "sha256": "96daa815297f7f865e1e67225b5e59b011a60a76a549f7cc652c79802dcfb08c"
+    },
+    "first-owned-native-error.json": {
+      "bytes": 1827,
+      "sha256": "b4661883f71c92d0f425cf781b72b90d4ff3900457d7b934b5c46e7ba57b29ad"
+    }
+  },
+  "final_in_callback_original7_restore_reached": false,
+  "independent_successful_daemon_label_inventories_empty": true,
+  "independent_inventories": [
+    {
+      "kind": "ps",
+      "normal_exit": 0,
+      "empty": true
+    },
+    {
+      "kind": "volume",
+      "normal_exit": 0,
+      "empty": true
+    }
+  ],
+  "fresh_shared_lock_absent": true,
+  "sole_entry_closure": {
+    "path": "development/m07/presentation-generation-canonical-profile-full-proof/entry.mjs",
+    "armed_sha256": "35a394b40a6c416d056b032a9107c62f9e5eac7f14e43f3d7a6b2fc8aa445782",
+    "closed_sha256": "b142d757016293048d3ecfb47b2b6cf51775ed4a918976bedf060e6185736177"
+  },
+  "whole_security_performance_or_production_acceptance": false,
+  "actual_production_MCP_backend_GUC_observation_claimed": false
+}

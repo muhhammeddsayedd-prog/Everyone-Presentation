@@ -1,0 +1,35 @@
+{
+  "schema_version": "root-observed-profile-full-armed-plan.v1",
+  "recorded_at": "2026-11-03T09:36:08.086946+00:00",
+  "source_commit": "65eaf052",
+  "author_commit": "0af62cc7cbf66b2ee5dfa1aa8a96407efaec4d7e",
+  "Root_source_review": "PASS_all7",
+  "Recovery_independent_source_peer": "PASS_all7",
+  "focused_checks": {
+    "Python_passed": 3,
+    "Python_seconds": 2.249,
+    "Node_passed": 4,
+    "Node_ms": 217.4143
+  },
+  "entry_closed_sha256": "b142d757016293048d3ecfb47b2b6cf51775ed4a918976bedf060e6185736177",
+  "entry_armed_sha256": "35a394b40a6c416d056b032a9107c62f9e5eac7f14e43f3d7a6b2fc8aa445782",
+  "outputs": [
+    {
+      "path": ".local/presentation-generation-canonical-profile-full-proof-compiled/cases-bc5ad792-36ed-484d-9d46-a564f8783987.mjs",
+      "sha256": "8ffe7addaa4bdbf383334f43f5bb78c802fb139fdbca6c9e507c21257fe0e08e",
+      "syntax_exit": 0
+    },
+    {
+      "path": ".local/presentation-generation-canonical-profile-full-proof-compiled/callback-bc5ad792-36ed-484d-9d46-a564f8783987.mjs",
+      "sha256": "5f55e960f8d6287b77ed363602e142bfeb514f91fef1f9452c6951878aff5b3a",
+      "syntax_exit": 0
+    },
+    {
+      "path": ".local/presentation-generation-canonical-profile-full-proof-compiled/controller-bc5ad792-36ed-484d-9d46-a564f8783987.mjs",
+      "sha256": "ca20e190ce96f75b99d249f463f9730ca8122a303e5652bdb58260315531f626",
+      "syntax_exit": 0
+    }
+  ],
+  "execution_dispatched": false,
+  "scope": "full7 unchanged matrix under observed admin-CLI profile with inherited owned-server jitOff; actual production MCP backend profile unobserved; no production mutation or acceptance"
+}
