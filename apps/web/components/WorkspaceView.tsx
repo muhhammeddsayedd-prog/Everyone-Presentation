@@ -101,7 +101,7 @@ function WorkspaceScope({ projectId, workspaceId, step, actor, storageOrigin, on
   const seriesQuery = (path: string) => contextSeries && ['review', 'presentations'].includes(path) ? `?series_id=${contextSeries}` : '';
   const stepBody = step === 'project' ? <div className="project-step">
       <div className="stack-lg"><ProjectDetails key={project.id} project={project} onSaved={projectSaved} onDirtyChange={detailsChanged} /><NextSteps base={base} summary={summary} output={workspace.active_output} unpublished={workspace.has_unpublished_changes} /></div>
-      <LogoPanel key={workspace.id} workspace={workspace} clientLogoAssetId={project.client_logo_asset_id} canWrite={canWrite} canUpload={canUpload} onSaved={setWorkspace} onDirtyChange={logoChanged} projectName={project.name} clientName={project.client_name} />
+      <LogoPanel key={workspace.id} actorId={actor.id} workspace={workspace} clientLogoAssetId={project.client_logo_asset_id} canWrite={canWrite} canUpload={canUpload} onSaved={setWorkspace} onDirtyChange={logoChanged} projectName={project.name} clientName={project.client_name} />
     </div>
     : step === 'specs' && central ? <SpecsView workspaceId={workspaceId} projectId={projectId} canWrite={canWrite} uploadPurposes={actor.upload_purposes ?? []} storageOrigin={storageOrigin} onDirtyChange={specsChanged} onWorkspaceChanged={specsWorkspaceChanged} />
     : step === 'cast' && central ? <WorkspaceCandidatesView workspaceId={workspaceId} projectId={projectId} actor={actor} storageOrigin={storageOrigin} onDirtyChange={castChanged} onWorkspaceChanged={specsWorkspaceChanged} />

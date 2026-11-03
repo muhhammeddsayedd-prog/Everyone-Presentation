@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.0",
+  "recorded_at": "2026-11-03T01:42:44.223570+00:00",
+  "scope": "isolated local source plus synthetic helper/controlled browser HTTP; no live Storage or production acceptance",
+  "base_Main_commit": "90c8a18cd64f3f80de390370b897181921624d7a",
+  "branch": "codex/logo-upload-recovery",
+  "source_seals": [
+    {
+      "path": "apps/web/components/LogoPanel.tsx",
+      "bytes": 12211,
+      "sha256": "9419261024ae4b116cc0e16609be2e538a65461b54a1da957466d95c6c7ff06c"
+    },
+    {
+      "path": "apps/web/components/WorkspaceView.tsx",
+      "bytes": 15876,
+      "sha256": "253f87a65a157c09e546558d9b7d79721baea1dbb40bf8608c23ae13a1de35cf"
+    },
+    {
+      "path": "apps/web/components/logo-upload-recovery.ts",
+      "bytes": 10839,
+      "sha256": "cb3f561292e586346ddc65c93b0b693f2c4400bae28cd1fcd1b7fed64efd7c84"
+    },
+    {
+      "path": "tests/e2e/logo-upload-recovery-ui.spec.ts",
+      "bytes": 8971,
+      "sha256": "b9dff21fd5871c4e100db7fd6f03d0faec031f3bd61bd3f09715cc5634c29bea"
+    },
+    {
+      "path": "tests/server/logo-upload-recovery.test.ts",
+      "bytes": 7014,
+      "sha256": "2241a4453cf0ec1c616985ff0c48ec6790695f153414b640b068b759bf546de7"
+    },
+    {
+      "path": "development/m07/logo-upload-recovery/README.md",
+      "bytes": 3282,
+      "sha256": "3b056cfbd635d598277ea23ffdb24fff74f7cf163d205a884e8321cf441e4339"
+    }
+  ],
+  "browser_RED": {
+    "tests_failed": 1,
+    "reason": "prior LogoPanel catch sent one cancel after PUT200 plus completion503; expected zero",
+    "receipt": ".local/logo-recovery/browser-RED.json",
+    "sha256": "6d8c0c9911c4522188cae9a5e819e3a556f8e6a039debc8c7932586c5f05dc4e"
+  },
+  "browser_GREEN": {
+    "tests_passed": 8,
+    "tests_failed": 0,
+    "duration_ms": 22659.917999999998,
+    "command": "node node_modules/@playwright/test/cli.js test tests/e2e/logo-upload-recovery-ui.spec.ts",
+    "HTTP_intercepted": true,
+    "actual_Storage_or_user_or_provider": false,
+    "receipt": ".local/logo-recovery/browser-GREEN.json",
+    "sha256": "98c68e7bdbf74443152e45d5c614f9397d9894470c9652c4c3855e3fd0cec98a"
+  },
+  "helper_and_existing_transfer_guards": {
+    "passed": 13,
+    "failed": 0,
+    "duration_ms": 1187.3223,
+    "command": "node tools/run-tests.mjs tests/server/logo-upload-recovery.test.ts tests/server/guards.test.ts"
+  },
+  "typecheck": {
+    "exit_code": 0,
+    "command": "node node_modules/typescript/bin/tsc --noEmit",
+    "tracked_next_env_restored_before_final_check": true
+  },
+  "focused_lint": {
+    "exit_code": 0,
+    "warnings": 0
+  },
+  "RAM_only_mutation": {
+    "removed_only_concurrent_branding_guard": true,
+    "exact_source_PATCH_dispatches": 0,
+    "mutant_PATCH_dispatches": 1,
+    "source_unchanged": true
+  },
+  "recovery_scope": {
+    "durable_within_tab_across_reload_navigation": true,
+    "user_workspace_scoped": true,
+    "server_authority_and_status_rechecked": true,
+    "request_bodies_and_keys_retained": true,
+    "file_bytes_tokens_headers_and_signed_URLs_persisted": false,
+    "automatic_postPUT_cancel_or_unmount_cancel": false,
+    "uncertain_PUT_replayed": false,
+    "closed_session_revived": false,
+    "concurrent_selection_silently_rebased": false
+  },
+  "native_worker_SQL_permissions_dependencies_lockfiles_modified": false,
+  "Main_product_or_index_modified": false,
+  "provider_called": false,
+  "production_deployed": false,
+  "actual_logo_failure_cause_proved": false,
+  "setup_note": "Initial linked node_modules Turbopack setup failed before tests; copied existing dependency bytes locally with same in-worktree workspace links, no install/lock/config change. Generated own next-env restored after browser process closed."
+}
