@@ -1,3 +1,15 @@
+# Current production cutover pointer - 2026-11-03
+
+The [14:44:32 UTC web readback](evidence/m07/presentation-pdf-metadata-web-forward-release/2026-11-03T14-44-32-244101Z-b5e29aa2-7f3e-4a7a-8fe2-e1246a0ab705-readback.json) confirms Ready `dpl_4gdhR5Le7K9pMnPSNpbHzkNjWjoo`, source `514447f5e82d97b18cf45807eebe77287e17044a` and stable-alias equality. Exact-Main quality passed 1,030 tests/types/lint/production guard. Worker Fxd/OCR daemon with retained native3d, canonical history42 and all five enabled processing configurations remain unchanged. This web release adds no new worker/native build, heartbeat or startup-window observation.
+
+The [Root HTTP/UI receipt](evidence/m07/completion-release/Root-4gdh-production-metadata-and-UI.json) records permitted PDF metadata without private locators, independent anonymous401 and refreshed Selection v2 Ready20. The existing-Claude metadata read remains pending. Earlier owner generation/PDF/video/feedback and guest-expiry/temporary-access cleanup retain their dated scopes; they are not pending worker cutover actions and need no replay.
+
+Full M07 remains false. AT060 representative200-video measurements remain open; AT069's historical policy block remains unreplayed. Nonproduction AT070 recovery carries, while Narrator/contributor/mobile are skipped, not passed. The [current matrix](evidence/m07/ACCEPTANCE_MATRIX.md) and [handoff](HANDOFF.md) own remaining metadata, final privacy/push, operator-document and access-cleanup disposition.
+
+## Historical cutover record retained unchanged
+
+The November2 identities, native pin, times and pending labels below describe that completed cutover only. Preserve its receipts; do not use its old IDs or commands as current deployment instructions.
+
 # Production cutover checkpoint - 2026-11-02
 
 Current state from the nine committed worker phase receipts below and Root's

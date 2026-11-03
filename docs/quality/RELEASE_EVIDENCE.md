@@ -1,3 +1,15 @@
+# Current release evidence - 2026-11-03
+
+The [14:44:32 UTC readback](../../tracking/evidence/m07/presentation-pdf-metadata-web-forward-release/2026-11-03T14-44-32-244101Z-b5e29aa2-7f3e-4a7a-8fe2-e1246a0ab705-readback.json) confirms production web `dpl_4gdhR5Le7K9pMnPSNpbHzkNjWjoo` is Ready, matches the stable alias and binds source `514447f5e82d97b18cf45807eebe77287e17044a`. [Exact-Main quality](../../tracking/evidence/m07/completion-release/2026-11-03T14-14-04.950Z-235ee1b3-pdf-metadata-root-quality.json) passed 1,030 tests, types, lint and production guard. Worker Fxd with retained native3d, canonical history42 and all five enabled processing configurations are unchanged; this web readback is not a fresh worker-startup or heartbeat proof.
+
+The [14:46:35 UTC Root receipt](../../tracking/evidence/m07/completion-release/Root-4gdh-production-metadata-and-UI.json) confirms refreshed Selection v2 Ready with 20 slides, the permitted PDF's 13-field metadata and retained 810,902-byte hash, plus independent unauthenticated HTTP401. No private Storage locator or URL was returned. The existing-Claude metadata check is still pending; the earlier failed request8202116c remains preserved. Completed owner Selection/Shortlist/PDF/video/feedback journeys need no regeneration or replay.
+
+Full M07 remains false. AT060 representative200-video duration/bytes/failures/queue/retry/cost acceptance is open; the synthetic native workload does not close it. AT069 remains historically policy-blocked without replay or substitute transport. Scoped nonproduction AT070 recovery carries; Narrator, contributor and mobile remain explicitly skipped, not passed. Final privacy/push, operator-document reconciliation and any remaining access-cleanup disposition retain their exact evidence scopes. The [current matrix](../../tracking/evidence/m07/ACCEPTANCE_MATRIX.md) and [handoff](../../tracking/HANDOFF.md) track subsequent acceptance.
+
+## Preserved historical records
+
+All dated checkpoints below retain their original wording. Their former “current”, deferred-hosting and pending-journey labels describe those dates; they do not override the checkpoint above or authorize old commands, replays or access changes.
+
 # Release evidence and test-data runbook
 
 **Current overview - 2 November 2026 (Africa/Cairo): M07 remains in progress.**

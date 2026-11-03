@@ -1,3 +1,15 @@
+# Current API and MCP operator checkpoint - 2026-11-03
+
+The production origin is [everyone-presentation-pilot.vercel.app](https://everyone-presentation-pilot.vercel.app), with API `/api/v1` and MCP `/mcp`. The [14:44:32 UTC identity readback](../../tracking/evidence/m07/presentation-pdf-metadata-web-forward-release/2026-11-03T14-44-32-244101Z-b5e29aa2-7f3e-4a7a-8fe2-e1246a0ab705-readback.json) confirms Ready web `dpl_4gdhR5Le7K9pMnPSNpbHzkNjWjoo`, source `514447f5e82d97b18cf45807eebe77287e17044a` and stable-alias equality. Exact-Main quality passed 1,030 tests/types/lint/production guard; worker Fxd/native3d and canonical42 remain unchanged.
+
+Authenticated `get_media` is a metadata operation. The [Root HTTP/UI check](../../tracking/evidence/m07/completion-release/Root-4gdh-production-metadata-and-UI.json) returned the saved PDF's 13 public fields without Storage locators/URLs, matched its retained hash and observed independent anonymous401. Refreshed Selection v2 remained Ready with20 slides. Existing-Claude metadata acceptance remains pending; retain failed request8202116c without replaying completed generation, PDF/video downloads or feedback. Existing source-media/content adapters and scoped PDF-download operations keep their own permissions.
+
+Use the existing authorized client/account; preserve its session and unrelated links. Retained temporary OAuth/link cleanup is dated evidence, not a fresh inventory or authorization to reconnect/revoke again. Full M07 remains false: AT060 representative200-video evidence is open, AT069 remains historically blocked without replay, and Narrator/contributor/mobile stay skipped. Follow the [current handoff](../../tracking/HANDOFF.md) for remaining metadata, privacy/push and runbook closure.
+
+## Preserved historical development examples
+
+The local origins, process references and deferred-hosting statements below describe the earlier development checkpoint. Keep its examples and security guidance as historical implementation documentation; they do not identify the current serving deployment or authorize restarting old processes.
+
 # Development API and MCP client runbook
 
 This is an implementation guide, not an executed client transcript. The app origin last recorded by the handoff is `http://127.0.0.1:3000`; recheck owned processes before using it. Controlled Playwright uses a separate synthetic `http://127.0.0.1:3100` origin. There is no selected public/production origin. Hosting remains deferred.
