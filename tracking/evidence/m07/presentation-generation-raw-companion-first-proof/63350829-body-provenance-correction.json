@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "run_id": "63350829-0a08-4095-94f4-99523a6a74b7",
+  "corrects_safe_outcome": {
+    "path": "tracking/evidence/m07/presentation-generation-raw-companion-first-proof/63350829-outcome.json",
+    "sha256": "cdc0752a76dd2cb3eb85be9b39780723847f3b183d492c1c792cb452ea7d3c25",
+    "preserved_unmodified": true,
+    "field": "actual_current_business_bodies",
+    "prior_field_is_final_canonical_restoration_not_measured_candidate": true
+  },
+  "raw_receipt_sha256": "24df393b180678451a34e92904060fd97f618c51463948ca9b9356631c880863",
+  "candidate_installation_index": 1,
+  "candidate_expected": [
+    {
+      "name": "eps.review_snapshot_data",
+      "source": "0dba1d407199191d3bbb4d84ddab94d9f4e33da6a0172738b86133e8c7bf61fd"
+    },
+    {
+      "name": "eps.review_snapshot",
+      "source": "c6f93795e1926bcbb2e550b428f2e76a9ffe04dc29199e799c3d3a0e7b73cd10"
+    },
+    {
+      "name": "public.eps_generate_version",
+      "source": "41fe515f53fdc411b7fc2485c402d9d06241f8e23b7224aaaea3d5330544bf7d"
+    },
+    {
+      "name": "eps.capture_presentation_video_transcripts",
+      "source": "f2229b303a83d7c9ca053e3c0f7e65ec3472b0cbe3b624aad4ff1a1e4af1c4d5"
+    }
+  ],
+  "candidate_actual_pg_proc_source_hashes": {
+    "eps.review_snapshot_data": "0dba1d407199191d3bbb4d84ddab94d9f4e33da6a0172738b86133e8c7bf61fd",
+    "eps.review_snapshot": "c6f93795e1926bcbb2e550b428f2e76a9ffe04dc29199e799c3d3a0e7b73cd10",
+    "public.eps_generate_version": "41fe515f53fdc411b7fc2485c402d9d06241f8e23b7224aaaea3d5330544bf7d",
+    "eps.capture_presentation_video_transcripts": "f2229b303a83d7c9ca053e3c0f7e65ec3472b0cbe3b624aad4ff1a1e4af1c4d5"
+  },
+  "candidate_installation_normal_return": true,
+  "final_restoration_installation_index": 2,
+  "final_canonical_expected": [
+    {
+      "name": "eps.review_snapshot_data",
+      "source": "4d46151993a60d8c6ac9d36e48781fee34c12c3e1dede727ac1ed4d31a953ab7"
+    },
+    {
+      "name": "eps.review_snapshot",
+      "source": "f0815e014144f1345b4679d96114aab6b358d95df317e3cfe6ac6b59989813cb"
+    },
+    {
+      "name": "public.eps_generate_version",
+      "source": "b20fef7adc8dee0da91db1508b30d4116855bb3e9be9e881072a7e8d55fcee08"
+    },
+    {
+      "name": "eps.capture_presentation_video_transcripts",
+      "source": "ed4a3469971fa410078b546b13aa0a875b4867efdda4b134dc729563dd887187"
+    }
+  ],
+  "final_canonical_actual_pg_proc_source_hashes": {
+    "eps.review_snapshot_data": "4d46151993a60d8c6ac9d36e48781fee34c12c3e1dede727ac1ed4d31a953ab7",
+    "eps.review_snapshot": "f0815e014144f1345b4679d96114aab6b358d95df317e3cfe6ac6b59989813cb",
+    "public.eps_generate_version": "b20fef7adc8dee0da91db1508b30d4116855bb3e9be9e881072a7e8d55fcee08",
+    "eps.capture_presentation_video_transcripts": "ed4a3469971fa410078b546b13aa0a875b4867efdda4b134dc729563dd887187"
+  },
+  "final_restoration_normal_return": true,
+  "actual_callback": {
+    "path": ".local/presentation-generation-raw-companion-first-proof-compiled/callback-6bbfbe8c-d407-474f-b2ee-8579acd41f6a.mjs",
+    "sha256": "e9d2e58b6982f51d9827038acfd4ac7b9fda34fe47dba3024848a506fdb8abd7",
+    "candidate_install_before_first_call_before_canonical_restore": true
+  },
+  "timing_application57014_noqueued_and_cleanup_facts_unchanged": true,
+  "performance_or_security_acceptance": false,
+  "new_execution_or_SQL": false
+}
