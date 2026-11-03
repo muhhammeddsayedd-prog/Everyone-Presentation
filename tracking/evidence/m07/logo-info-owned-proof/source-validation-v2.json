@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-11-03T02:52:50.590263+00:00",
+  "scope": "source and offline fake-port/parser only",
+  "source_seals": {
+    "compiler.py": "d6a9f64b92dd02c424729e5a7f0ed7bd00d6a5a7301e427a3d9b4c1a385afb35",
+    "entry.mjs": "cc3c1cf2909ee8d3e9a88c0c0397a40f08ba63f3a945230ccb6f44903b97a3bc",
+    "entry.test.mjs": "357b82223fce55358e8f597806805afd8b4cdfe2ed527807a0b297a8ae7cffba",
+    "README.md": "2f392462c139502d2f2737ded6d93421f9e9f879a021d033dc85abbd36647b00",
+    "test_compiler.py": "148a9910ff074ef3eaf4533e987487459a0d09096052b4752d3fcace62fb2552"
+  },
+  "candidate_dependency_commits": [
+    "0a516cf01aba3bb0912916c34eac30312c9a3865",
+    "b394d3a0e210a41c95a82dfa8460fa90b1bfb992"
+  ],
+  "checks": {
+    "python": {
+      "tests": 5,
+      "passed": 5,
+      "seconds": 0.39,
+      "exit_code": 0
+    },
+    "node": {
+      "tests": 6,
+      "passed": 6,
+      "duration_ms": 202.3388,
+      "exit_code": 0
+    },
+    "rendered_controller_node_check": {
+      "exit_code": 0
+    },
+    "entry_node_check": {
+      "exit_code": 0
+    },
+    "diff_check": {
+      "exit_code": 0
+    },
+    "eslint": {
+      "exit_code": 0,
+      "errors": 0,
+      "warnings": 0
+    }
+  },
+  "retained_initial_failure": {
+    "phase": "Python test assertion",
+    "tests": 5,
+    "passed": 4,
+    "failed": 1,
+    "seconds": 0.327,
+    "actual_CreateFunctionStmt_count": 7,
+    "incorrect_test_expected_count": 8,
+    "source_logic_changed_for_failure": false
+  },
+  "mutation_witness": {
+    "temporary_copy_only": true,
+    "remove_permanent_claim_write": "RED exit1",
+    "real_source_suite": "GREEN 6/6",
+    "actual_source_unchanged": true
+  },
+  "execution_enabled": false,
+  "SQL_executed": false,
+  "Docker_called": false,
+  "cloud_called": false,
+  "provider_called": false,
+  "supersedes": "source-validation.json",
+  "retained_lint_failure": {
+    "errors": 1,
+    "cause": "test URL global missing explicit node:url import",
+    "fix": "test import only",
+    "production_source_changed": false
+  }
+}
