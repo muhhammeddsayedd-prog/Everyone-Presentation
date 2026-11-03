@@ -28,7 +28,7 @@ NAMESPACE = 'presentation-pdf-metadata-web-forward-release'
 TESTED = None
 QUALITY = None
 MIN_TESTS = None
-REASON_FILES = None
+REASON_FILES = {'packages/central/src/studio.ts'}
 
 
 def need(ok):
@@ -131,7 +131,8 @@ def projected_tests():
     first = ast.get_source_segment(before, cls.body[0])
     replacement = '''def test_closed_or_unbound_refuse_before_operator_or_reader(self):
         self.assertIs(r.RELEASE_ENABLED, False)
-        self.assertEqual((p.TESTED, p.QUALITY, p.MIN_TESTS, p.REASON_FILES), (None,) * 4)
+        self.assertEqual((p.TESTED, p.QUALITY, p.MIN_TESTS), (None,) * 3)
+        self.assertEqual(p.REASON_FILES, {'packages/central/src/studio.ts'})
         with patch.object(r, 'legacy', side_effect=AssertionError('transport loaded')):
             with self.assertRaises(ValueError):
                 r.Operator('00000000-0000-4000-8000-000000000000')
@@ -142,7 +143,7 @@ def projected_tests():
             with self.assertRaises(ValueError):
                 f.main([])'''
     text = before.replace(first, replacement, 1)
-    text = text.replace("self.assertIn('REASON_FILES=set()', gates)", "self.assertIn('REASON_FILES=None', gates)")
+    text = text.replace("self.assertIn('REASON_FILES=set()', gates)", "self.assertIn('REASON_FILES=' + repr(p.REASON_FILES), gates)")
     marker = "MIN_TESTS=1023, CANONICAL42="
     need(text.count(marker) == 1)
     text = text.replace(marker, "MIN_TESTS=1023, REASON_FILES={'packages/central/src/studio.ts'}, CANONICAL42=", 1)

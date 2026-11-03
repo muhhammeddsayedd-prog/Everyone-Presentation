@@ -1,7 +1,11 @@
 # Fresh PDF metadata web forward purpose — execution OFF
 
-`RELEASE_ENABLED=False`; exact `TESTED`, `QUALITY`, `MIN_TESTS` and
-`REASON_FILES` remain unbound until the new product fix and Root quality exist.
+`RELEASE_ENABLED=False`; exact `TESTED`, `QUALITY` and `MIN_TESTS` remain unbound
+until Root's new exact-Main quality exists. The selected-product delta is exactly
+`packages/central/src/studio.ts`; the focused test is
+`packages/central/test/generated-media-metadata.test.ts` and is not shipped.
+These paths come from sealed Recovery fixf871b63c; the Main raw source seal is
+captured by Root quality after integration rather than copied from Recovery.
 The predecessor38 source, inputs, stage/build/prepare claims, failed deploy
 receipt and original preflight remain unchanged. Its reviewed diagnostic proves
 the plus-containing filename was refused before deploy claim/submission; it is
@@ -39,7 +43,8 @@ registration. Root owns eventual arming, stage, inputs, build, preflight, single
 dispatch and readback. These offline tests are source/fixture evidence, not
 provider, deployment or new owner acceptance.
 
-Eight offline checks passed in0.159s; scanner syntax and diff checks passed.
+Eight initial offline checks passed in0.159s; scanner syntax and diff checks passed.
 These reuse the six prior source/fixture checks with explicit unbound-quality
-and product-delta refusal, plus two real filename/reference-format regressions.
+and exact product-delta admission, plus two real filename/reference-format regressions.
+After registering the sealed selected path, all eight passed again in0.213s.
 No Operator, private input, CLI, query, stage, build or provider was invoked.
