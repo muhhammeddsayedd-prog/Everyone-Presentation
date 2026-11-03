@@ -1,0 +1,72 @@
+{
+  "schema_version": "root-hosted-guest-expiry-and-cleanup.v1",
+  "recorded_at": "2026-11-03T10:47:45.707144+00:00",
+  "run_id": "bb1d6e54-ba50-4d63-b999-53427257441b",
+  "review_link_id": "22ffafe5-9081-4adb-a34a-8356873e29f7",
+  "series_id": "0b26d206-645a-4c9c-bbee-7307265ac68c",
+  "version_id": "1b20ec2d-f133-4912-8efe-df2e21a3865e",
+  "before": {
+    "path": "tracking/evidence/m07/guest-expiry-only-proof/2026-11-03T10-34-56.499Z-bb1d6e54-ba50-4d63-b999-53427257441b-before.json",
+    "sha256": "b4ff7447686371e61e58f6539ef704c648dfac210c6fb8f1e1120c5c8bf95521"
+  },
+  "after": {
+    "path": "tracking/evidence/m07/guest-expiry-only-proof/2026-11-03T10-45-47.074Z-bb1d6e54-ba50-4d63-b999-53427257441b-after.json",
+    "sha256": "20c40126c4311cc68b2a6892b0f45c89feb01992f46891b3ec37e10746cc60f2"
+  },
+  "source_seals_verified": 11,
+  "raw_private_JSON_envelopes_independently_equal": {
+    "before": 12,
+    "after": 11
+  },
+  "full_PDF_bytes_hash_verified": true,
+  "original_video_range_only_1024_bytes_verified": true,
+  "full_original_file_hash_newly_verified": false,
+  "exact_deadline": "2026-11-03T10:45:00Z",
+  "after_expiry_HTTP11_denials_before_revoke": true,
+  "Root_Expired_not_Revoked_producer_UI_observed_at": "2026-11-03T10:46:18.520Z",
+  "Root_guest_UI_heading": "This review link is no longer available.",
+  "Root_guest_unavailable_UI_verified": true,
+  "Root_only_new_link_revoked_and_fresh_UI_denied_observed_at": "2026-11-03T10:46:49.732Z",
+  "post_revoke_denial_does_not_isolate_revocation_from_expiry": true,
+  "public_shell_HTTP200_not_guest_authorization": true,
+  "other4489_and7f_links_no_mutations_issued": true,
+  "feedback_or_identity_mutations_issued": false,
+  "temporary_link_initially_default30days_then_normal_UI_expiry_edit_before_guest_open": true,
+  "native_datetime_key_events_required_for_saved_input": true,
+  "private_sources_claims_state_bytes_retained": true,
+  "temporary_capability_revoked": true,
+  "clipboard_cleared_only_if_same_URL": true,
+  "private_screenshots": [
+    {
+      "private_path": ".local/completion-release/browser-proof/guest-expiry-bb1d-active.png",
+      "bytes": 137362,
+      "sha256": "a5ed5e6c06d6767371f000f5155dc8973b955c3e7a0977440ba306a83d44c86a"
+    },
+    {
+      "private_path": ".local/completion-release/browser-proof/guest-expiry-bb1d-expired-unrevoked.png",
+      "bytes": 140340,
+      "sha256": "dc67a053ed3af54cc918ba0b39e6e0d96e1619861be695786a3c83653784804c"
+    },
+    {
+      "private_path": ".local/completion-release/browser-proof/guest-expiry-bb1d-unavailable.png",
+      "bytes": 28829,
+      "sha256": "35bdac7b8b01779a11bf25ca07f85593f741023a7c7148c6fcf809bcfa170668"
+    },
+    {
+      "private_path": ".local/completion-release/browser-proof/guest-expiry-bb1d-revoked.png",
+      "bytes": 136853,
+      "sha256": "2e81424acb6cb31f5d0d3242926589b2004c4e9c4150e556206bc142d17b9d33"
+    },
+    {
+      "private_path": ".local/completion-release/browser-proof/guest-expiry-bb1d-postrevoke-unavailable.png",
+      "bytes": 28829,
+      "sha256": "35bdac7b8b01779a11bf25ca07f85593f741023a7c7148c6fcf809bcfa170668"
+    }
+  ],
+  "sole_client_closure": {
+    "path": "development/m07/guest-expiry-only-proof/client.mts",
+    "armed_sha256": "14412254708f3eb17351c34b120ad8403799f229d54d3d599bafeb41d57a445a",
+    "closed_sha256": "b60b88a1d7522aafdb4082971950abecc13657eb220d9eadcdb610cf635b80f7"
+  },
+  "scope": "hosted short-lived actual deadline expiry-only page,feedback,PDF and media denial; no30-day waiting claim; no new version/generate_version orscreenreaderclaim"
+}

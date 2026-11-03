@@ -1,0 +1,97 @@
+{
+  "result": "passed",
+  "phase": "after_expiry",
+  "run_id": "bb1d6e54-ba50-4d63-b999-53427257441b",
+  "review_link_id": "22ffafe5-9081-4adb-a34a-8356873e29f7",
+  "series_id": "0b26d206-645a-4c9c-bbee-7307265ac68c",
+  "version_id": "1b20ec2d-f133-4912-8efe-df2e21a3865e",
+  "observed_at": "2026-11-03T10:45:47.065Z",
+  "known_deadline": "2026-11-03T10:45:00Z",
+  "deadline_elapsed": true,
+  "Root_no_revoke_before_expiry_precondition": true,
+  "revocation_independently_checked": false,
+  "page": {
+    "status": 200,
+    "bytes": 7775,
+    "public_shell_only": true,
+    "guest_authorization_proven": false
+  },
+  "denials": {
+    "session": {
+      "status": 404,
+      "code": "REVIEW_UNAVAILABLE",
+      "request_id": "84b6f6d5-7ce6-4065-87aa-f956ff908a8d"
+    },
+    "current_manifest": {
+      "status": 404,
+      "code": "REVIEW_UNAVAILABLE",
+      "request_id": "34e1a5ed-9a6b-4378-9516-fc6ea2450960"
+    },
+    "fixed_manifest": {
+      "status": 404,
+      "code": "REVIEW_UNAVAILABLE",
+      "request_id": "335add59-38ff-4815-83bd-160e9b5a6694"
+    },
+    "feedback": {
+      "status": 404,
+      "code": "REVIEW_UNAVAILABLE",
+      "request_id": "56d30ce5-79b6-40a7-8ddd-e7243da9ffe5"
+    },
+    "summary": {
+      "status": 404,
+      "code": "REVIEW_UNAVAILABLE",
+      "request_id": "c4e6cb9a-6b0b-49b3-9827-8a40755b2cac"
+    },
+    "export_status": {
+      "status": 404,
+      "code": "REVIEW_UNAVAILABLE",
+      "request_id": "e6f6f5c3-2b9c-4055-8a39-1f08ee8e018e"
+    },
+    "old_pdf_url": {
+      "status": 404,
+      "code": "REVIEW_UNAVAILABLE",
+      "request_id": "f1af8acf-315d-4fe2-aede-ad244757b66a"
+    },
+    "old_media_url": {
+      "status": 404,
+      "code": "REVIEW_UNAVAILABLE",
+      "request_id": "8f37377f-1ec1-4a72-8532-82438b8fecb2"
+    },
+    "fresh_pdf_path": {
+      "status": 404,
+      "code": "REVIEW_UNAVAILABLE",
+      "request_id": "f5494a12-3c61-4cb2-88d5-683a8e1b6f4e"
+    },
+    "fresh_media_path": {
+      "status": 404,
+      "code": "REVIEW_UNAVAILABLE",
+      "request_id": "e3cef51d-880c-4c9c-b4a2-5f6ea226cf30"
+    },
+    "fresh_link_open": {
+      "status": 404,
+      "code": "REVIEW_UNAVAILABLE",
+      "request_id": "85caec06-c95d-4d5d-b24d-2347a06cf366"
+    }
+  },
+  "requests": 12,
+  "fresh_paths_are_reconstructed_not_newly_issued_capabilities": true,
+  "browser_visible_unavailable_UI_verified": false,
+  "cookies_or_Authorization_sent": false,
+  "feedback_mutated": false,
+  "export_or_generation_posted": false,
+  "automatic_retry": false,
+  "source_seals": {
+    "development/m07/guest-expiry-only-proof/client.mts": "14412254708f3eb17351c34b120ad8403799f229d54d3d599bafeb41d57a445a",
+    "development/m07/guest-expiry-only-proof/inbox.mts": "7f626155ae8a6f59f31cc084810a67ab5f7ee6f492387b27726f2e0d0dae3b34",
+    "development/m07/guest-summary-delta/probe.mts": "949053080f20bf62f7869217be327ba363983538bdf2ff78d689c28c988b5c61",
+    "tools/client-upload-inbox.mts": "ace01a8432eff1f7e0c0d0892e9ca71d4956ee149d02ce1081a587659d5080e4",
+    "tools/client-upload-transfer.mts": "4ed5efd3cdf4f00393e2833a3b90bb481ba84edeaff8c1ce36949e876d6ef4ba",
+    "packages/domain/src/guest.ts": "dd19469cb0f945b47b195d7b223880e1635f589077a25c8128904678988a8a14",
+    "packages/domain/src/feedback-summary.ts": "e96af0862f60ee78443bcafeeef0a0be1ed20b33d7c362e9ced075c4285baa62",
+    "apps/web/components/guest-pdf-transfer.ts": "a5dde3a6697da8f19d7aac09c9511412010dd8727ed87a7d6c521d6201a90e03",
+    "apps/web/lib/guest-http.ts": "e262ce7977380b40d1236b710aa288c6a65764b63470cb1583b0798ec8db4c9d",
+    "packages/central/src/guest-reviews.ts": "06baccc64300addc2dca8d74c16d888d288895c44e652e66204150d2da1ea84a",
+    "packages/central/src/guest-storage.ts": "4718cb35dc2b77dc261dce1ddcc7e4e9c536493b42122fce1f4b13b4733e6d46"
+  },
+  "manifest_sha256": "7d7ace8df67ca3f72aec7109172bf7f1e18cc24c6c985dc3b128162ba2b51ba3"
+}
