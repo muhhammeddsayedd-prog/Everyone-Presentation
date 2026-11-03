@@ -1,0 +1,37 @@
+--- afe33691-before-body
++++ f2229b30-candidate-body
+@@ -1,6 +1,6 @@
+ 
+ declare version eps.presentation_versions;pin record;media eps.candidate_media;source_ids uuid[];
+- value_text text;value_status text;value_hash text;value_languages text[];captured integer:=0;prior_context text;capture_slide_video_ids text[]:='{}'::text[];capture_slide_media_ids text[]:='{}'::text[];
++ value_text text;value_status text;value_hash text;value_languages text[];captured integer:=0;prior_context text;capture_slide_video_ids text[]:='{}'::text[];capture_slide_media_ids text[]:='{}'::text[];capture_video_ids uuid[]:='{}'::uuid[];capture_media_ids uuid[]:='{}'::uuid[];capture_inserted integer:=0;
+ begin
+  select * into version from eps.presentation_versions where id=p_version;
+  if not found or version.status<>'queued'or version.generated_by is distinct from auth.uid()
+@@ -32,10 +32,24 @@
+    value_status:='available';value_text:=media.original_transcript;value_languages:=media.languages;
+    value_hash:=encode(sha256(convert_to(value_text,'UTF8')),'hex');
+   end if;
+-  insert into eps.presentation_video_transcripts(version_id,video_asset_id,candidate_media_id,source_media_row_version,status,original_text,source_sha256,languages,captured_at)
+-   values(version.id,pin.asset_id,media.id,media.row_version,value_status,value_text,value_hash,value_languages,version.created_at);
++  capture_video_ids:=array_append(capture_video_ids,pin.asset_id);
++  capture_media_ids:=array_append(capture_media_ids,media.id);
+   captured:=captured+1;
+  end loop;
++ if captured>0 then
++  insert into eps.presentation_video_transcripts(version_id,video_asset_id,candidate_media_id,source_media_row_version,status,original_text,source_sha256,languages,captured_at)
++   select version.id,d.video_asset_id,m.id,m.row_version,
++    case when m.original_transcript is null or m.original_transcript!~U&'[^\0009\000A\000D\0020\00A0\1680\2000-\200A\2028\2029\202F\205F\3000\FEFF]' then 'not_provided'else 'available'end,
++    case when m.original_transcript is null or m.original_transcript!~U&'[^\0009\000A\000D\0020\00A0\1680\2000-\200A\2028\2029\202F\205F\3000\FEFF]' then null else m.original_transcript end,
++    case when m.original_transcript is null or m.original_transcript!~U&'[^\0009\000A\000D\0020\00A0\1680\2000-\200A\2028\2029\202F\205F\3000\FEFF]' then null else encode(sha256(convert_to(m.original_transcript,'UTF8')),'hex')end,
++    case when m.original_transcript is null or m.original_transcript!~U&'[^\0009\000A\000D\0020\00A0\1680\2000-\200A\2028\2029\202F\205F\3000\FEFF]' then '{}'::text[]else m.languages end,version.created_at
++   from unnest(capture_video_ids,capture_media_ids)with ordinality d(video_asset_id,candidate_media_id,ordinal)
++   join eps.candidate_media m on m.id=d.candidate_media_id and m.source_asset_id=d.video_asset_id order by d.ordinal;
++  get diagnostics capture_inserted=row_count;
++ end if;
++ if not eps.presentation_scope(version.workspace_id,true)
++ then perform eps.fail('IMMUTABLE_VERSION','Source companions are captured only by a fresh authorized generation.',409);end if;
++ if capture_inserted<>captured then perform eps.fail('SNAPSHOT_INVALID','The selected source transcript capture is incomplete.',503);end if;
+  if captured<>(select count(*)from eps.presentation_version_assets where version_id=version.id and asset_kind='candidate_video')
+  then perform eps.fail('SNAPSHOT_INVALID','The selected source transcript capture is incomplete.',503);end if;
+  if version.english_transcript_version='1.0'then perform eps.capture_presentation_video_english_transcripts(version.id);end if;
