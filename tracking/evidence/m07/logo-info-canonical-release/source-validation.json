@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-11-03T03:38:12.573311+00:00",
+  "scope": "source/parser/fake-port only",
+  "read_enabled": false,
+  "apply_enabled": false,
+  "source_seals": {
+    "development/m07/logo-info-canonical-release/DESIGN.md": "01757c6ce2f6c9bce84455b3f1cdc60e8a14492de20c70810fb119e552006fd6",
+    "development/m07/logo-info-canonical-release/plan.template.json": "7096f227b33fd1c0ad9a07c528382f0d82776a4baa177bc17ce8c642f54bcc6b",
+    "development/m07/logo-info-canonical-release/README.md": "4454e4b90dcd74c63a8a02f1afb70a2e4f3f4607c4f5df444757d044c0ba8273",
+    "development/m07/logo-info-canonical-release/release.py": "74432d59044a04dff443b5ec3f47a5e1e3c305f879caf446eaec564839ddd0e2",
+    "development/m07/logo-info-canonical-release/state.py": "701d7aeb4b57b45092f91b84abea5f2136c57a79be407a2ba92ec868b1da6a3a",
+    "development/m07/logo-info-canonical-release/test_release.py": "964be0ae3a87d6b8d1c65ad3a4b71bc334fde445127338fde7ca7b4bc95d14a2",
+    "development/m07/logo-info-canonical-release/test_state.py": "7b2515fc3065a46224663e60a118c25842ef61076f017c78175b83fa18f277c3",
+    "supabase/migrations/20261103031200_m07_logo_info_operation.sql": "4af699abab0501cade40f98e2104f2fb2d563ce6a43d0cb06d83744035a278ec"
+  },
+  "checks": {
+    "unittest": {
+      "tests": 12,
+      "passed": 12,
+      "failed": 0,
+      "seconds": 2.697,
+      "exit_code": 0
+    },
+    "actual_rendered_SQL_and_PLpgSQL_parsed": true,
+    "real_inherited40_checker_nonnull_reason": true,
+    "default_off_direct_methods_and_main": true,
+    "normal_response_custody_and_tamper": true,
+    "unknown_claim_no_transport_replay": true,
+    "future_collector_proof_normal_nonce_source_gate": true,
+    "diff_check_exit_code": 0
+  },
+  "mutation_witness": {
+    "scope": "in-memory temporary method only",
+    "skip_full_application_rows_comparison": "RED one expected test failure",
+    "actual_files_changed": false,
+    "real_source": "GREEN12/12"
+  },
+  "collector_SQL": {
+    "state_bytes": 190073,
+    "state_sha256": "0197c6637cdeb83d2c3c2f1ae7db713dc0b65d8be76e081addc1deae5f21efb6",
+    "checkpoint_bytes": 206026,
+    "checkpoint_sha256": "f47aeb6a5f6648f405a8c1f11c44accf4f32f1e9f87cfbf61d274b398cacabed"
+  },
+  "actual_SQL_type_resolution_or_transaction_executed": false,
+  "Docker_called": false,
+  "cloud_called": false,
+  "provider_called": false
+}

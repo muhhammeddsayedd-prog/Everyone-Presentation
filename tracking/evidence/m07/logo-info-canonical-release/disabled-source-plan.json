@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0",
+  "status": "disabled_source_implementation",
+  "read_enabled": false,
+  "apply_enabled": false,
+  "purpose": "logo-info-canonical-release",
+  "target": "pyibofyctwnqpvktepse",
+  "version": "20261103031200",
+  "migration": {
+    "path": "supabase/migrations/20261103031200_m07_logo_info_operation.sql",
+    "sha256": "4af699abab0501cade40f98e2104f2fb2d563ce6a43d0cb06d83744035a278ec"
+  },
+  "source_seals": {
+    "development/m07/logo-info-canonical-release/DESIGN.md": "01757c6ce2f6c9bce84455b3f1cdc60e8a14492de20c70810fb119e552006fd6",
+    "development/m07/logo-info-canonical-release/plan.template.json": "7096f227b33fd1c0ad9a07c528382f0d82776a4baa177bc17ce8c642f54bcc6b",
+    "development/m07/logo-info-canonical-release/README.md": "4454e4b90dcd74c63a8a02f1afb70a2e4f3f4607c4f5df444757d044c0ba8273",
+    "development/m07/logo-info-canonical-release/release.py": "74432d59044a04dff443b5ec3f47a5e1e3c305f879caf446eaec564839ddd0e2",
+    "development/m07/logo-info-canonical-release/state.py": "701d7aeb4b57b45092f91b84abea5f2136c57a79be407a2ba92ec868b1da6a3a",
+    "development/m07/logo-info-canonical-release/test_release.py": "964be0ae3a87d6b8d1c65ad3a4b71bc334fde445127338fde7ca7b4bc95d14a2",
+    "development/m07/logo-info-canonical-release/test_state.py": "7b2515fc3065a46224663e60a118c25842ef61076f017c78175b83fa18f277c3",
+    "supabase/migrations/20261103031200_m07_logo_info_operation.sql": "4af699abab0501cade40f98e2104f2fb2d563ce6a43d0cb06d83744035a278ec"
+  },
+  "local_functional_proof": {
+    "path": "tracking/evidence/m07/logo-info-owned-proof/2026-11-03T03-03-40.757Z-bc0c30ce.json",
+    "sha256": "fcfffbb6cd0e4ce6ce5778ed0fa0629c7b1a957e2d7e7e8b64f877f53a4f4a15",
+    "scope": "actual39 RLS/helper cases; no hosted/collector acceptance"
+  },
+  "required_collector_validation": {
+    "private_reference": "query-validation.json",
+    "receipt_prefix": "tracking/evidence/m07/logo-info-collector-proof/",
+    "actual_receipt": null,
+    "normal_commit_nonce_required": true,
+    "source_seals_required": true,
+    "production_identity_claim_forbidden": true
+  },
+  "fresh_before_checkpoint": null,
+  "fresh_after_checkpoint": null,
+  "full_application_tables": 76,
+  "full_audit_reason_values_preserved": true,
+  "target_source_only_qualification": true,
+  "normal_transport_reused": true,
+  "actual_SQL_operator_resolution_and_rendered_transaction_unverified": true,
+  "cloud_or_SQL_dispatched": false,
+  "next_step": "Root source review, then new default-off owned collector/transaction rehearsal source; no phase execution from this plan"
+}
