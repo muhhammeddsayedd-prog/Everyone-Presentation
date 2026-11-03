@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "status": "disabled_source_design",
+  "read_enabled": false,
+  "apply_enabled": false,
+  "purpose": "logo-info-canonical-release",
+  "target": "pyibofyctwnqpvktepse",
+  "before_history_count": 40,
+  "after_history_count": 41,
+  "version": null,
+  "migration_sha256": null,
+  "source_pins": null,
+  "local_proof": {
+    "path": "tracking/evidence/m07/logo-info-owned-proof/2026-11-03T03-03-40.757Z-bc0c30ce.json",
+    "sha256": "fcfffbb6cd0e4ce6ce5778ed0fa0629c7b1a957e2d7e7e8b64f877f53a4f4a15",
+    "scope": "39 SQL/RLS simulation cases with actual rollback and owned cleanup; no hosted Storage acceptance"
+  },
+  "local_proof_postrun_audit": {
+    "path": "tracking/evidence/m07/logo-info-owned-proof/Root-bc0c30ce-postrun-audit.json",
+    "sha256": "331a8b829086d5581eddb64f1ebf1ed514b10a02180c9ac87e1ef675a4e866ea"
+  },
+  "sole_closed_proof_flag_qualification": {
+    "path": "development/m07/logo-info-owned-proof/entry.mjs",
+    "armed_sha256": "7d3299a02ef3ffe40a0d4415977832b3b1422d0ebd283f2d9bc0590feb3860ae",
+    "closed_sha256": "cc3c1cf2909ee8d3e9a88c0c0397a40f08ba63f3a945230ccb6f44903b97a3bc",
+    "other_source_or_controller_normalization_allowed": false
+  },
+  "target_function": {
+    "signature": "eps.logo_storage_read_allowed(text,text)",
+    "old_body_sha256": "1f3f2a1440bf97400b7042bafd4b49ac98f7960cce8cd815f973ca5a7d166e87",
+    "new_body_sha256": "c6d72b2aded23a18ea47d6bea419163aca204293b5265ec3e08514463e1d76dd",
+    "all_non_prosrc_metadata_exact": true
+  },
+  "fresh_before_checkpoint": null,
+  "fresh_after_checkpoint": null,
+  "checkpoint_restore_verified": false,
+  "full_application_tables": 76,
+  "audit_reason_column_omitted_or_null_assumed": false,
+  "native_image": "sha256:3d4286db01b27b40ec9078e303158e93003a096d5ddad1c9802130238de6dd80",
+  "worker_deployment": "dpl_FxdXyuy6oqtmwVRZW7twb4Xawtkc",
+  "all_five_processing_configs_enabled": true,
+  "seven_lifecycle_counters_must_be_zero": true,
+  "permanent_once_claim": true,
+  "normal_commit_nonce_required": true,
+  "two_independent_equal_readbacks_required": true,
+  "unknown_replay_permitted": false,
+  "grants_policies_owners_or_native_pin_changed": false,
+  "cloud_called": false,
+  "SQL_dispatched": false
+}
