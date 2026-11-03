@@ -1,6 +1,15 @@
 # Everyone Presentation Studio — Codex development pack
 
-## Current checkpoint - 2026-11-03T08:37:55.050601+00:00
+## Current checkpoint - 2026-11-03T10:02:47.358184+00:00
+
+The seven-target candidate completed all eight first-call cases and all 16 review/snapshot projections under the observed admin-CLI JIT-Off profile. All four candidate calls queued within eight seconds; the cold large MCP call took 7,967.363 ms. [48ed evidence](tracking/evidence/m07/presentation-generation-canonical-profile-full-proof/48ed954a-outcome.json) also completed fresh AA lock/authority checks for 150 selected/held rows, all twelve cohorts, archived/FK/workspace fences, membership/capability/expiry denial and missing-frame equality. Actual production MCP connection settings remain unobserved.
+
+The overall run stopped later in old raw valid-one control: [retained diagnosis](development/m07/presentation-raw-observer-sql-fix/DIAGNOSIS.json) identified native 42601 from missing whitespace between a numeric PID and AND in test-observer SQL. A new successor changes exactly two spaces; consumed source stays intact. [Root audit](tracking/evidence/m07/presentation-generation-canonical-profile-full-proof/Root-48ed954a-postrun-audit.json) verified 220 actual/private source seals, 15 body installations, 56 backend-profile observations and outer original database/resource/lock preservation. Remaining raw/candidate/general-race scopes and final in-callback seven-function restoration are open. [Original-graph statistics arms](tracking/evidence/m07/presentation-generation-planner-statistics-proof/paired-outcome.json) both timed out; no production ANALYZE fix was inferred. No performance migration is released.
+
+Production remains web Gp3/e259, worker Fxd/native3d, processing enabled and canonical history 41. Accepted logo bytes/layout, human outputs, Samsung/native processing, project creation, scoped authentication, guest feedback/revocation and independent nonproduction recovery remain carried with dated evidence. [Private Main 975c6dd3](tracking/evidence/m07/completion-release/canonical-push-975c6dd3-readback.json) is REST-matched; later local commits are not claimed pushed. No new service startup, deployment or broad quality run is claimed. **Full M07 acceptance remains false.** Next: Run the remaining old raw controls, general permission/source races and candidate focused/security cases with the two-space observer correction, then verify original-seven/configuration/full-clone restoration. Carry actual 48ed timing/projection/AA evidence; recompute only old comparison observations that require fresh fixture IDs. After local closure, complete guarded canonical release, actual delegated outputs and final exact-Main deployment. Preserve AT069 historical policy block without replay; Narrator/contributor/mobile stay skipped.
+
+
+## Historical checkpoint - 2026-11-03T08:37:55.050601+00:00
 
 Production remains Gp3/e259, worker Fxd/native3d, processing enabled and canonical history 41. Approved logo bytes and completed layout job763d84ca remain accepted within their recorded production scopes. No new service observation, deployment, native rebuild or saved presentation is claimed. Root1023 still covers unchanged serving product source.
 
