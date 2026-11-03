@@ -4,7 +4,7 @@ import datetime,importlib.util,json,re,sys
 HERE=Path(__file__).resolve().parent
 spec=importlib.util.spec_from_file_location('ocr_build_anchors',HERE/'anchors.py');a=importlib.util.module_from_spec(spec);spec.loader.exec_module(a)
 old=a.library();need=a.need;MAIN=a.MAIN
-BUILD_ENABLED=False
+BUILD_ENABLED=True
 
 class Build(old.Build):
  def __init__(self,inputs,libraries=None):

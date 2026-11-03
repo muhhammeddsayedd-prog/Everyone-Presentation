@@ -4,7 +4,7 @@ import hashlib,importlib.util
 MAIN=Path('D:/Everyone/Presentation/Everyone-Presentation-Studio')
 OLD=MAIN/'development/m07/worker-compatible-daemon-build'
 FROZEN={'build.py':'1409d10ccd1a5e0d48878ab256318ebe3a785d5a90343c57f8b7c771be6d75d0','anchors.py':'591ea939dfb7fd43b999d81db78ab12eaeacc954984a9bb32bd48d51b4f05545'}
-PROFILE=None
+PROFILE={'path':'.local/worker-ocr-config-daemon-build/build-inputs.json','sha256':'b981a7d7d5ec3f5cd9e8750a0a0e76ad2b7fcc4fd591082f3a8acfd261330bb1'}
 PROFILE_PATH='.local/worker-ocr-config-daemon-build/build-inputs.json'
 PRIVATE='.local/worker-ocr-config-daemon-build'
 EVIDENCE='tracking/evidence/m07/worker-ocr-config-daemon-build'
