@@ -1,0 +1,35 @@
+{
+  "schema_version": "root-remaining-scopes-armed-plan.v1",
+  "recorded_at": "2026-11-03T10:15:32.019034+00:00",
+  "source_commit": "5194b198",
+  "author_commit": "cc7a64a5400ae42a7dccf05e7b8df2360282f2d8",
+  "Root_source_review": "PASS_all7",
+  "Frontend_and_Recovery_source_peers": "PASS_all7",
+  "focused_checks": {
+    "Python_passed": 3,
+    "Python_seconds": 3.359,
+    "Node_passed": 3,
+    "Node_ms": 1094.7348
+  },
+  "entry_closed_sha256": "47a6e847e2582fed47a0a6c501d312caa1d3a1bc047c39f5daaa52df8347a35b",
+  "entry_armed_sha256": "93fdb887ebdf6c9975997b7f32f2a6d9315ca42f2cb362af2a45b35cff860372",
+  "outputs": [
+    {
+      "path": ".local/presentation-generation-profile-remaining-proof-compiled/cases-1a24f2d1-ba9e-43f1-b9ac-4492639fc05c.mjs",
+      "sha256": "8ffe7addaa4bdbf383334f43f5bb78c802fb139fdbca6c9e507c21257fe0e08e",
+      "syntax_exit": 0
+    },
+    {
+      "path": ".local/presentation-generation-profile-remaining-proof-compiled/callback-1a24f2d1-ba9e-43f1-b9ac-4492639fc05c.mjs",
+      "sha256": "5318d3c8f41aabf71cea4ec6cd7b6509e1ffd38d649f7454a3879db8566fd665",
+      "syntax_exit": 0
+    },
+    {
+      "path": ".local/presentation-generation-profile-remaining-proof-compiled/controller-1a24f2d1-ba9e-43f1-b9ac-4492639fc05c.mjs",
+      "sha256": "a9c814b1502e457d3f25361f91d08a205172973f76fefa935a94aab297747d13",
+      "syntax_exit": 0
+    }
+  ],
+  "execution_dispatched": false,
+  "scope": "remaining focused/security/races and final7 restore; actual48ed prefix carried; narrow old comparisons recomputed for fresh fixture IDs; no matrix/AA repeat or production acceptance"
+}
