@@ -1,0 +1,986 @@
+{
+  "schema_version": "english-full-generation-proof.disabled-plan.v1",
+  "recorded_at": "2026-11-03T06:41:06.961278+00:00",
+  "source_commit": "a1cf64d5dbfa3f75b32e757b3c405264b9c33067",
+  "prerequisites": [
+    "a6d2b4948f6f8cf7f2919233e9b8a9ddba10a012",
+    "d4067e984d889101090dc540f2e0beacef4b3355"
+  ],
+  "default_off": true,
+  "compiled_only": true,
+  "execution_dispatched": false,
+  "runtime_claim_created": false,
+  "SQL_or_Docker_or_provider_called": false,
+  "compile_id": "871a83da-e7f3-4818-ac0b-0877d8270754",
+  "outputs": [
+    {
+      "kind": "cases",
+      "path": ".local/presentation-generation-english-full-proof-compiled/cases-871a83da-e7f3-4818-ac0b-0877d8270754.mjs",
+      "sha256": "2f8b1abee661d6f1ab7bf3fab7594e59e439b81058d26c16198cbfa88ec54c0d",
+      "node_check_exit": 0
+    },
+    {
+      "kind": "callback",
+      "path": ".local/presentation-generation-english-full-proof-compiled/callback-871a83da-e7f3-4818-ac0b-0877d8270754.mjs",
+      "sha256": "66e1a29a22c2ac490ccfd2f4034f34254fd941afabb4d3e489a055ed71f15e54",
+      "node_check_exit": 0
+    },
+    {
+      "kind": "controller",
+      "path": ".local/presentation-generation-english-full-proof-compiled/controller-871a83da-e7f3-4818-ac0b-0877d8270754.mjs",
+      "sha256": "1e539c7d82ae5ffe781bb3f0913e7675a77b9e96ad192295fe79d702dca85a8f",
+      "node_check_exit": 0
+    }
+  ],
+  "source_sha256": {
+    "development/m07/presentation-generation-english-full-proof/admit.mjs": "b54b9669d0e00a63045311f8ca5edffb748cc3af5f88242db5953713d57c3e55",
+    "development/m07/presentation-generation-english-full-proof/compiler.py": "7e84809ca94e4167a7d8bb15654e1de08762ee51c8def02f1a9b4a87e9ef6c98",
+    "development/m07/presentation-generation-english-full-proof/entry.mjs": "f6e4f892bc55724c88e6109ca7cb1a9d99d28fecdc107293d897eb857a91c8fc",
+    "development/m07/presentation-generation-english-full-proof/README.md": "dccaa7a4594eb576b3424cb67156864cc4e27f7a9862f3e62765409f40650f45",
+    "development/m07/presentation-generation-english-full-proof/source.py": "b021db1f43b265c76e39c5e93065efdc13e0702898207cc336c03da1c1b580d2",
+    "development/m07/presentation-generation-english-full-proof/test_proof.py": "5d5712afb43deaf6c29f70c427f94d188a76a7bb8ce01ea91c6369544f26ee87"
+  },
+  "compiled_source_seals": [
+    {
+      "root": "proof",
+      "path": ".local/presentation-generation-english-full-proof-compiled/controller-871a83da-e7f3-4818-ac0b-0877d8270754.mjs",
+      "sha256": "1e539c7d82ae5ffe781bb3f0913e7675a77b9e96ad192295fe79d702dca85a8f"
+    },
+    {
+      "root": "frozen_external",
+      "path": "development/m07/project-creation39-proof/concurrency.mjs",
+      "sha256": "fe4f6e7cddb749690fea9587dd675a67d6db723ca458a700a8f6b53e67072fdd"
+    },
+    {
+      "root": "frozen_external",
+      "path": "development/m07/project-creation39-proof/run.mjs",
+      "sha256": "be0987779cac7758419cd73122a61a32824f53515bcf3d93afdaa3e8c024afcf"
+    },
+    {
+      "root": "frozen_external",
+      "path": "development/m07/independent-recovery38/guards.mjs",
+      "sha256": "d8eebcb91902d840b211827a7e4891938cc52f1573f4456ae9d3ab87c6c3195a"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-proof/compiler.py",
+      "sha256": "0bed646aeb5f1af8a1c1bd686900335bdffb6b8c88e1be128bb1f9be2d0cfd25"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-proof/proof.mjs",
+      "sha256": "087df11fa717f72043c9782c8da7380ae8cda559221a0495582d1dcd01d22448"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-proof/session.mjs",
+      "sha256": "ddb76b4db7bb578c2dfa2896fd59451037679c9a5fc2777a13412765c296e252"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-proof/probes.mjs",
+      "sha256": "8973de4f38895f2497b46d87d6dda0fe929f2652d8cebb870c9d402587bf21b4"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-proof/fixture.sql",
+      "sha256": "aa976e76fa2a69fd7ea2b8f6f90609c28f734b889b20c15fe8de8d50dc29d22d"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-proof/scale.sql",
+      "sha256": "0a74ce47ff97339b4e63cf8df3aa3801321e2099588ed22367e5fe4317acaa7f"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-proof/background.sql",
+      "sha256": "e8d61b12ebf4d25a57ba10944bd91d65494cdcfe79b9230a4c785bfe4484b544"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-proof/cohorts.sql",
+      "sha256": "06d12e3c2b2ca36deb7831579a7ef55ec183cdd77b9e66515b18c3b0bbc953ef"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-proof/temporary.sql",
+      "sha256": "6c34eae348be361652b001cc1e14ea5e2d4bca16513eace77777592df924e33c"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-proof/counts.sql",
+      "sha256": "c38896c8e867289fe890b48f99573d25bf5627677410e3639008613a0eb0fb2a"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-proof/test_proof.py",
+      "sha256": "a039d92cdfead91a5591af4c790b02fbe175eb3244ff1a2fa20acb2dc01e6d44"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-proof/test_cohorts.py",
+      "sha256": "e2d358ac7bfff72a83d836df9dbb3b081370904d21c220c521a749c06936a2f1"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-proof/README.md",
+      "sha256": "1eec7fc38ddafbce88284ce3ec92a5d7be41717de2910c13dad97dada52da382"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-optimization/candidate.py",
+      "sha256": "0639ade8dd50a6f3bb2c95f1739dd52e633af9a1e66d1cd92910f1bc87acbdb7"
+    },
+    {
+      "root": "frozen_external",
+      "path": "supabase/migrations/20261102085405_m07_review_link_action_reason.sql",
+      "sha256": "08bf4de8a63823b0e7c9aee75560a6e7de0620eb9b8b3c483c65929578db8212"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-seed-proof/compiler.py",
+      "sha256": "9467330333be87a1b4e2718ad62da4538e35068f6507ca38e9ac15a8a00d65d9"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-seed-proof/entry.mjs",
+      "sha256": "a6697aa4dde6995220ea81b64015043b1b08915c3673c8028d97fe4af6efc819"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-seed-proof/test_seed.py",
+      "sha256": "91ffb5f7fde4eede783c096ea0a0fb48fd003e0513ea995ee5dca5a3767e4bf3"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-seed-proof/README.md",
+      "sha256": "2391eb2ef8d20ee472634269b96b71c67540659d7a74e9f0596d6229266c5a8d"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-dedupe-proof/compiler.py",
+      "sha256": "b7ce789a621ca4efe92b26770ad28b3210f5bb407d8fe61bacb12ad9427db3cf"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-dedupe-proof/entry.mjs",
+      "sha256": "d6f2c841c1f0bc678e14bc7b5d3cbd2b11e4f902603a5b20a11acc8d3507f605"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-dedupe-proof/test_dedupe.py",
+      "sha256": "2623478ff3c791e7ecfb1e554ec0e9e233eeaf69407625b698283daa352b31a8"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-dedupe-proof/README.md",
+      "sha256": "afe8bfe4a7907aa612c13b07fe2140cc775c1f95f12745dfa7ba0d56dba0075e"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-edge-proof/compiler.py",
+      "sha256": "8fb944c9235a5903a09d004fb77522c3b228f891ad5d0f7939f7d15e43bef4bc"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-edge-proof/entry.mjs",
+      "sha256": "afda8e16b1d41325fbdbc622457fac54ee3dfe4d193c5091ed69927bebdae1b8"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-edge-proof/test_edge.py",
+      "sha256": "c477428c130ed39bcef0d13db66ec515dcf2dc53863b64e2b275a14077575345"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-edge-proof/README.md",
+      "sha256": "fc9bf61ba7663e221507abeda90333ba3725e7a937807c6333ca94ddcc0a7675"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-data-proof/cases.mjs",
+      "sha256": "aeb5972c0ba19ab8ae8dcdb9a1292af69b1d026df10eafff233a437e151cd239"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-data-proof/cases.sql",
+      "sha256": "052770e2f3267a9036adeebf3c790fa104d2bb621251bd03266a1d07644faa2c"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-data-proof/compiler.py",
+      "sha256": "6ec01de30d7a3c73adf911d53c70ed69b44ca4e82360fc511265b77c8f3e6815"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-data-proof/entry.mjs",
+      "sha256": "18177115fc20a6810d90af4dfda7a12ced022f883dba6db4cf070474414a5283"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-data-proof/proof_source.py",
+      "sha256": "67cc13d0fed354e102eb769bf5d9712b07e1af1f434d2a3da8ede57333232c1c"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-data-proof/README.md",
+      "sha256": "124db2712e4246c86945eded4c1bdff4fcacbc178aba46497fc709eaa7a957a9"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-data-proof/test_projection.py",
+      "sha256": "ff1d1ae373ea4314bc1e0980588e2d9a306eeec5e07a2ebb46923a6cd4b0c65b"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-data-reuse/build.py",
+      "sha256": "cda17a14ead6d7ee8aa225d04b5026c9998e5fc67efbaf3472bb108e6e3fadbd"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-data-reuse/capture.py",
+      "sha256": "656123b39e84b6d880436a7e678197a707d9c7f38e34802995c0ad825a7db305"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-data-reuse/PROOF_DESIGN.md",
+      "sha256": "112f4f6dde11fe1181d274ebbc41c85a6ce33d60cc9c8430425d04988ddcac41"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-data-reuse/README.md",
+      "sha256": "02a2b2a5a0e7be480ee0a2bf6c461d2e9235ad0dc8abf7abcd6ce40e306b4cd4"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-data-reuse/review.py",
+      "sha256": "793c6dfa782e844d0e762ca14e79afbac587364d8c13b71baabcba4a1d3339fa"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-data-reuse/source.py",
+      "sha256": "029c2dac690c61a7944b73633971ab037e05b8060e7c8a6cd3adbd45dd7406cb"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-data-reuse/test_build.py",
+      "sha256": "3c7fe0a48b27ccd4714c4551477d07974b52b4b2b135c831a2b1a4b8d111ab17"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-data-reuse/test_capture.py",
+      "sha256": "1719f37d3cda7074de9958ba232df1d7334b255ed627c1ae0de44d091f472d4d"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-data-reuse/test_review.py",
+      "sha256": "406e5c13fc8ec1d0e506f94e03054e14530bd04ff553e8f04f7a06ba050a5cb7"
+    },
+    {
+      "root": "proof",
+      "path": ".local/presentation-generation-english-full-proof-compiled/callback-871a83da-e7f3-4818-ac0b-0877d8270754.mjs",
+      "sha256": "66e1a29a22c2ac490ccfd2f4034f34254fd941afabb4d3e489a055ed71f15e54"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-pool-proof/cases.mjs",
+      "sha256": "2832ee76211ed1a2494adad26b1d17fc90adae6e600b943232b6bc170a4e9dc5"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-pool-proof/cases.test.mjs",
+      "sha256": "d7f5ee87e7e0f6b5947fffe20afeddd9ba4288c8b7dbe5be04fc174f0e0bd9d1"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-pool-proof/compiler.py",
+      "sha256": "1d09d0a6d76495b3f4b0b60602aff0a5811b57c254426eb5866c1f41f92f0026"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-pool-proof/entry.mjs",
+      "sha256": "810f1893f611179986f35741dba8054952d05690e47bfd23ad62ed0abfcd4d6f"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-pool-proof/measure.sql",
+      "sha256": "b6c69370cd22c37cf835452e19b770f6a8ec198c92f164b1a42168e0b666f256"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-pool-proof/native.mjs",
+      "sha256": "7c050b63e9c6a016742c940e1db65b42c996bcbb400b4717a843b9b5a02ef32d"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-pool-proof/oracle.py",
+      "sha256": "18f1cd7291a75c5dd5c51a1f48606684887a0e1888c2476d8997c523d27c2e8b"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-pool-proof/README.md",
+      "sha256": "50b5e7a7dcc45110fe25393a0ac2991bc2f1f2003fa8d0d3a1e96cd0e8d740d0"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-pool-proof/render_sql.mjs",
+      "sha256": "e401c084a59c2e497e80f51aa7038b3fb3db2cba85e6f7dac13d3a0aa9554f7f"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-pool-proof/source.py",
+      "sha256": "7c2e36912fa4e989d7ef8dc86e30168d51aaa386982193e6bdde988649525378"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-pool-proof/test_proof.py",
+      "sha256": "ae0817fb2dc1aea38114aff1672f128f2dfc53ac85e4e3cf0c9aa76ed023aca8"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-pool-reuse/candidate.py",
+      "sha256": "c646bc4f62b3c98f836398edf19ff2d66e49c9ef851f62cdce7c6e54063a2a5d"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-pool-reuse/README.md",
+      "sha256": "2719199e37a53e2504e6a9f9c9f3f707b0d7feeea20d43361df46763087209d4"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-pool-reuse/test_candidate.py",
+      "sha256": "80ebe8db55f90efcb770f7ed3980a3634bf12d8acd6e5233bae131f7f6c54b40"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-pool-reuse/TEST_PLAN.md",
+      "sha256": "821d1d2fce24a231365c9023a925a1b9581a13ec706fd7651694fabede3e4514"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-data-diagnostics/capture.mjs",
+      "sha256": "9766a654f319f740fa37aef4c79a025f8f977c44f3a89220c2aedf39e311c407"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-oracle-proof/admit.mjs",
+      "sha256": "93a5ac2f0460bc8c6bfa7fd4232265f417ffbdc37f244bccb7c3d63db68a59a3"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-oracle-proof/admit.test.mjs",
+      "sha256": "751ef9b6f810b6b867a8e19193d6881e1d726636738a7ae084c2e02c93612ea3"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-oracle-proof/compiler.py",
+      "sha256": "df51881c7b29d5442e1fdd018c4e0dac929b4a17d9d2c834735184b9e4ec391f"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-oracle-proof/entry.mjs",
+      "sha256": "f2797bb3b824d2f14d949691f35f81769057e06ae77059d2c3ea1adcd2021504"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-oracle-proof/oracle.mjs",
+      "sha256": "50e08f70b12041059a9b107450a215fcccd719bce215eaa3a81c733a9f0c009b"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-oracle-proof/oracle.py",
+      "sha256": "c4f7243af8a5a3edbe5d67a60f1a6d49144d9abb1940404a0593af210bdf340c"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-oracle-proof/README.md",
+      "sha256": "ad8424f5d25b0a49c208f75eaff38a5df6c17d89518521de3f353d32d5f0f0bb"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-oracle-proof/source.py",
+      "sha256": "f548ca56b05555e956d64fc80ed1b309f27bac97f0ff3868c64d9c6e2dbbb43b"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-oracle-proof/test_oracle.py",
+      "sha256": "e07baca778500eead3def3cf262002d7244e86e42851aa9d003083a9cf374b29"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-oracle-proof/test_source.py",
+      "sha256": "4619f137a07903fe86b5783180596a59e88f8a16dc59785387b0b7b1841e15d4"
+    },
+    {
+      "root": "proof",
+      "path": ".local/presentation-generation-english-full-proof-compiled/cases-871a83da-e7f3-4818-ac0b-0877d8270754.mjs",
+      "sha256": "2f8b1abee661d6f1ab7bf3fab7594e59e439b81058d26c16198cbfa88ec54c0d"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-complete-oracle-proof/compiler.py",
+      "sha256": "f388fc3d47ebcac2fd6af961e2d314725d9710a7013bb2e38814622b1e5fa43b"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-complete-oracle-proof/driver.test.mjs",
+      "sha256": "a75adad7c0793c27653792b3ce8359c33a340d583011e45e1778cfa3d130e49e"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-complete-oracle-proof/entry.mjs",
+      "sha256": "98b7c5d2f2f5b6d80450396474d59ba3d710cd83c79e35c9a65916a92fbb4b3a"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-complete-oracle-proof/guard_audit.py",
+      "sha256": "fe6514dabf904fcd78c899cf97d8cb2d6fd15b1d629aa5e37ee2e0004712d9e8"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-complete-oracle-proof/keys.mjs",
+      "sha256": "04ef958f1a18e16d9d9c6c9009bdd41039d866e0f0d7a2d90848c34ebcd0982e"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-complete-oracle-proof/oracle.mjs",
+      "sha256": "3301d16b49cda0037bc57d21e699f72a41a8db90b8302938198cb121f6f37e26"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-complete-oracle-proof/oracle.py",
+      "sha256": "966669ea1addf7adf8a602bdfbdfe444ed0a1a4580bf427c23dde19dd51474c9"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-complete-oracle-proof/README.md",
+      "sha256": "95c49431747af441b7f9e9770439c63eeb39575f59c4de63598f6c778a867de3"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-complete-oracle-proof/semantic.mjs",
+      "sha256": "b8bff14d78c115aee29d0d78e4f9b54269777a9ea0ef9bad6192736b77d4fd42"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-complete-oracle-proof/semantic.py",
+      "sha256": "9a5d94ca66bdea1c218e49d4972ca83a3a75cc42071a23daee006a6f5d57ef29"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-complete-oracle-proof/source.py",
+      "sha256": "d5a2767b9a779ddfec7800ad175d6b555715d4071193daeb8c33fbbb27b740a8"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-complete-oracle-proof/spec.py",
+      "sha256": "d89b550a11dfacdc27e28d80bc40a6aa36e5f28e6b95251e16acc0d2e741d15a"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-complete-oracle-proof/test_proof.py",
+      "sha256": "37343907318139ed9cd33881f49d0fd7beb8a7be53f9563a21cf9aa16938411f"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-edge-rls-proof/admit.mjs",
+      "sha256": "a39caed32227eb8c1d2a1dc4c3e94b2e5baddbca4b1af8187134710fad58b2a0"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-edge-rls-proof/compiler.py",
+      "sha256": "916bba555dd16a8254e6d3eb7b5bb007099ff42a26af6b3be4cda9803a58d882"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-edge-rls-proof/driver.test.mjs",
+      "sha256": "138fc43259d10745e3d669f90dd0b3de3fc1ce2c40540a0fe15f502a7e811b10"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-edge-rls-proof/edge.mjs",
+      "sha256": "26d0b8b79eceac3f7651ac907472f4b1486852657bd4dbaa4d32c9093b21813d"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-edge-rls-proof/edge.py",
+      "sha256": "10db4bebb3e53fd76f83393acca65d1dc02eda8189cee015e33af436efd44a2d"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-edge-rls-proof/entry.mjs",
+      "sha256": "3a372cbdb8f38b87bb86e11ba5d24194de8bb39c5aa08a20fd8b585d0acc1a47"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-edge-rls-proof/README.md",
+      "sha256": "df619dc22a0f2ed5cf090f8a461c998636092863f68436af5faf38305b30c17d"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-edge-rls-proof/source.py",
+      "sha256": "94926dbff61a32458434cd700fc203ca427d6f029dba1478fbd2f57c0607979a"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-edge-rls-proof/test_proof.py",
+      "sha256": "c343ec6b9ab42286980ac4b19de33d10c034a1b11d162f162f0ed717dac31823"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-uuid-proof/admit.mjs",
+      "sha256": "06d4fe8e11c5bbc3c068b9c3b001a6ebefb1acb34cf70316655739ee426b7509"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-uuid-proof/compiler.py",
+      "sha256": "274f23c2d45d7d65f9b80d52979aebe481f731bc44de1520d74a55acf6b511a5"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-uuid-proof/driver.test.mjs",
+      "sha256": "945834d8177ec30de269a11aea51e3906a942050f8cd517db4bfe62d587579f7"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-uuid-proof/entry.mjs",
+      "sha256": "a92a26d668fff088277bd9bab2e49ddbf241279546cb5af0d68622d6a027e875"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-uuid-proof/fixture.mjs",
+      "sha256": "44c8d35f5a70828c7a4c69d45c9ce098ac889d070b0334f7bc7546b1eab418e6"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-uuid-proof/fixture.py",
+      "sha256": "935d490fca37104d3698bde9e84839d71c3b8e94a9d73150a035be07fa397072"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-uuid-proof/README.md",
+      "sha256": "c1c14a7d9da4f563b8c750e743462f1212c3a49f6888653b62ea3a8c51af10c7"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-uuid-proof/source.py",
+      "sha256": "bd541ddb788482daac7e002a127caa608db8230498d5ccb4eb561b86aaf97c58"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-source-uuid-proof/test_proof.py",
+      "sha256": "ce843dd05008832e7555861413ce6e348fdae69603d373de5fec9864b05c2013"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-combined-proof/admit.mjs",
+      "sha256": "a3fcdea5ca7072e62324f9f319cb42a441087fa9231ec64e13ab8411c74ccdba"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-combined-proof/admit.test.mjs",
+      "sha256": "bdd6f128150eff372cd643344e4e96c98ceaf5c705b83e6690d852d3695f97d5"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-combined-proof/cases.mjs",
+      "sha256": "f7ead827571ded1ea5d2b7d5cae9b2af3df1d46bc03f474128f585bc5fd9e3c1"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-combined-proof/cases.test.mjs",
+      "sha256": "0f0330ac1ca4d1828ba3871503eb95e6d9e93ab14a472e1d708875f397311551"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-combined-proof/compiler.py",
+      "sha256": "fecec16554f6e4440fa7bb1106348f74bf13ba0f16781f403bc5cf7af98d5e07"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-combined-proof/entry.mjs",
+      "sha256": "8dca5891b9f2e832f94c8ebc206377f159fd234441a4721d0e812f3055f51e88"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-combined-proof/observations.sql",
+      "sha256": "f773b59351ecc8883c335adfa68975d889132ebc7c9b92291f1efc88b84d77dd"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-combined-proof/PROOF_DESIGN.md",
+      "sha256": "bbdc91875c6e30d797668b6a97d3661b6fd6c3397536950cce882f6de694d014"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-combined-proof/source.py",
+      "sha256": "9ff14004b0ba0cc097ecafae1bbdec813e30d8c3ea0e59b0c269a52e6d915189"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-combined-proof/test_proof.py",
+      "sha256": "d490a00796994f3fe495fee70322c0051d6d4fa93cc51f305be1e937ec1785ad"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-assignment-proof/admit.mjs",
+      "sha256": "8f9872ba6d6d1058a4ebdfe9a3c6eea00591f2619df18e4a477bb8081aab0898"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-assignment-proof/admit.test.mjs",
+      "sha256": "ccab1f7a1cd61b5b41e2a6f9aa1b5326ccdfc4fb1d4dd4c123431a47447195c5"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-assignment-proof/assignment-cases.mjs",
+      "sha256": "1d585710bd583f78988668cdae3e6f3199270cbe3f05188f32d81f6c61d65624"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-assignment-proof/assignment-cases.sql",
+      "sha256": "93335cfcf8f8f2764d7dd78f94208664ee5d9963864049b1c0fdfcc119e0fb62"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-assignment-proof/assignment-cases.test.mjs",
+      "sha256": "e05abda1111f3489d32143598d94fff16f4a7c0f08dfaca45d70f33ca0e34c96"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-assignment-proof/compiler.py",
+      "sha256": "b8b1c3d57003371bb83cd8fedb0eb1b3803455bf51d75a51834cbc1a0608f620"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-assignment-proof/entry.mjs",
+      "sha256": "8b9c0afe4080b6673fbb19303dc19655ef9bf4c4c1d4069bb6e2567554372785"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-assignment-proof/matrix.mjs",
+      "sha256": "03b1331ae546f111fe756be59a51b95bc7d32592b8f6b9f19cc88ca42bbf9b1b"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-assignment-proof/README.md",
+      "sha256": "db2f8b0e282af0411dd8075b22d42d742c27612d949e20f37de056d0da31fe3d"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-assignment-proof/source.py",
+      "sha256": "0e4e467dc4cf0574664c62413438dc5122a8cb62e947ff906d81cd1bb44a18a6"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-assignment-proof/test_proof.py",
+      "sha256": "c86e635448bec29ccc244c555d1ec443c442193eaa25d181ece9b6a7b782b38b"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-assignment-reuse/candidate.py",
+      "sha256": "0e62792bce8230a9b98bc11f387cf781ddf4095afaa09b37798331809d11c864"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-assignment-reuse/PROOF_PLAN.md",
+      "sha256": "c21b95a10ef740ad46c33f1434fa78722b05af26090b1fb97184817224cff594"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-assignment-reuse/test_candidate.py",
+      "sha256": "f69e15cfcb62e9d0f8ffd84e384049da75f6ba8a17e2dbcf5ed882f54e3a1306"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-cancel-diagnostic/admit.mjs",
+      "sha256": "505fab1894e93c96e5e651168f4ec0cff099e2849368901d7b278b0091e91528"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-lock-acquisition-proof/admit.mjs",
+      "sha256": "cb2b89a2f403cdcbdd9c7df5d7940770ee68ca423237580ebc9a6483e70db058"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-lock-acquisition-proof/compiler.py",
+      "sha256": "93583dba4fb4ffcc08e5f18cdbff8661661586f2810d6c09fb708c739b5a82be"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-lock-acquisition-proof/entry.mjs",
+      "sha256": "04e329e27412aa7aea50c227f9c492c0aadd751cd9df6fac6263e651e96d4eb2"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-lock-acquisition-proof/locks.mjs",
+      "sha256": "ac40ca0f57c81c0040032f6f555c1bf311f42cf977cac5a15031da9d5fe5f5f1"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-lock-acquisition-proof/proof.test.mjs",
+      "sha256": "443b639c07763f595e251e7f7ab0bda6f0f8ac3f06cc822ab0599f3201deb054"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-lock-acquisition-proof/README.md",
+      "sha256": "c363c357dfcef7c30f322347a590b07febdeff970ca5c0ac6121c4a0bd4c04c8"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-lock-acquisition-proof/security.mjs",
+      "sha256": "8f7b1ea87071c4748a51002ef91a1f24e1033c7236220c492ef61afc3e5ba9b5"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-lock-acquisition-proof/source.py",
+      "sha256": "72920b540f5b40ed7f3aedc4f5d6f9d67ddd5bd23b4ee6f4749b71d57a002ffe"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-lock-acquisition-proof/test_proof.py",
+      "sha256": "42e58e3ccf54339733d3950cea79d89fb6788f2372e702f8d9c44493acfc7cd5"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-acquisition-reuse/before-body.sql",
+      "sha256": "280244090e5350b912dec5b23b74bb5d260e9e21df497c8ddfc2ae322fb774c4"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-acquisition-reuse/body.diff",
+      "sha256": "938cf9dc81d5707fc3cf8ae581853f606c7169c4ab7fbad8d7042903cbc0d441"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-acquisition-reuse/candidate-body.sql",
+      "sha256": "aa1db8b1c2f8e9a15360c24fd9a4216df03c9f14767b1b300898a3e88a7220e3"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-acquisition-reuse/candidate.py",
+      "sha256": "961d9969a8646831c64d0f9e2f0960d7e7910cc1ddd29a558d2e7bd990f66ec6"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-acquisition-reuse/README.md",
+      "sha256": "ef4e154b49b44bf93a88a5f402b060fc357a01e7cf403f7760731198d2d11ecd"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-acquisition-reuse/SOURCE_VALIDATION.json",
+      "sha256": "10ba6b1701be454c4123dc6f7792e7a4bed3d6c201f6cd0efced0f0d980e1358"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-lock-acquisition-reuse/test_candidate.py",
+      "sha256": "c92e595952803eb3768d2375fd1f1b9a680e2d7f8db94b9c5837cd95e659acca"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-asset-pin-batch/before-body.sql",
+      "sha256": "a5e5c60d3f94d9e05c62fc1cfc76ac4552713000b72b1efe4eac028da15c0d40"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-asset-pin-batch/body.diff",
+      "sha256": "24e8e32c9b8cc71bf4de64ba6016e7f4f0a819a8bea783b34a1f3e2e4e7028e9"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-asset-pin-batch/candidate-body.sql",
+      "sha256": "41fe515f53fdc411b7fc2485c402d9d06241f8e23b7224aaaea3d5330544bf7d"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-asset-pin-batch/candidate.py",
+      "sha256": "e6c41fb88f2d665c9b1b41982915339dc598f75dc2e90ff50e745ea63faa8d5a"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-asset-pin-batch/README.md",
+      "sha256": "3c03905dad99c52f274215c19b569b38d18b359b6f2ec58db1a4ca199d0df800"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-asset-pin-batch/test_candidate.py",
+      "sha256": "5e34044c5dfee10cfd6ee04898f3901c29dbd6a4a30e400c71adf779e5654691"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-pin-batch-proof/admit.mjs",
+      "sha256": "38c41104f2f4129facac39b09f4a4fe8a5f0e01691fa069440db4aef89432963"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-pin-batch-proof/compiler.py",
+      "sha256": "3b80325ffac756e036cd158b978708dc38cac838ed32cd22db647ff1bf903f18"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-pin-batch-proof/entry.mjs",
+      "sha256": "2c8e12d5432588a98a3207f81bc080dadffdaa0f07a77a47339166c27239577d"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-pin-batch-proof/pin-authority.mjs",
+      "sha256": "626bd88308882f100932ca67ff95e86125cdb98a3766310a1c94445b66e1da3a"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-pin-batch-proof/pin-authority.test.mjs",
+      "sha256": "0a547fd9fdfc107ed3ed8985f6c730895c82d55946810b2f99d5114b6ee28f3d"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-pin-batch-proof/proof.test.mjs",
+      "sha256": "a60f534d9771df311414d3bba57d377eb9e154d64467cade21d72052fbe37483"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-pin-batch-proof/README.md",
+      "sha256": "ab5ce20928e413122ac720625e90a4a7aeaed979afd88ebec4ecdd3e08727002"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-pin-batch-proof/source.py",
+      "sha256": "cd19a115d4cc7df09aca5ac230674586a89d703adf46d9da85fce3ac5c617530"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-pin-batch-proof/test_proof.py",
+      "sha256": "b6a1fa9d56d62d3d030e37bab4b663651d7d89c8832c9a8460722da08da26f43"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-english-companion-batch/before-body.sql",
+      "sha256": "c68de52a4ede0ec6401aa05e0f40b5932905dd8dc8c1c72149c9f95c51a23aeb"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-english-companion-batch/body.diff",
+      "sha256": "07315f5d4fbe2ad3e58c952ef5186210fbde4bdc526192a75a47f011d7cc1a63"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-english-companion-batch/candidate-body.sql",
+      "sha256": "b763cd502ed70c49f7d9d07106397bd6c774a6c00d87322f7e0954f25f1ac4ad"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-english-companion-batch/candidate.py",
+      "sha256": "88f49917165683774423d7f723fce4aec102ea54f4f0cba87073eeee4663f341"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-english-companion-batch/README.md",
+      "sha256": "71917df30f05ae632f8803442811e2fad20ce20ad743339897d874df82ae9fa4"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-english-companion-batch/test_candidate.py",
+      "sha256": "883d6ab9788dd79e30feeaee1299ba665104a71b6795c235502c18b6a12f631a"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-english-companion-first-proof/admit.mjs",
+      "sha256": "8b54cc234e2030809dd4fac92e2232155d1ae07bab961416514e609289e98b23"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-english-companion-first-proof/english.py",
+      "sha256": "537eb270278ed5a09beadec6ea332c25c0bb85fc874fa22aead1304cc0c901cb"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-english-full-proof/admit.mjs",
+      "sha256": "b54b9669d0e00a63045311f8ca5edffb748cc3af5f88242db5953713d57c3e55"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-english-full-proof/compiler.py",
+      "sha256": "7e84809ca94e4167a7d8bb15654e1de08762ee51c8def02f1a9b4a87e9ef6c98"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-english-full-proof/entry.mjs",
+      "sha256": "f6e4f892bc55724c88e6109ca7cb1a9d99d28fecdc107293d897eb857a91c8fc"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-english-full-proof/README.md",
+      "sha256": "dccaa7a4594eb576b3424cb67156864cc4e27f7a9862f3e62765409f40650f45"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-english-full-proof/source.py",
+      "sha256": "b021db1f43b265c76e39c5e93065efdc13e0702898207cc336c03da1c1b580d2"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-generation-english-full-proof/test_proof.py",
+      "sha256": "5d5712afb43deaf6c29f70c427f94d188a76a7bb8ce01ea91c6369544f26ee87"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-raw-companion-batch/before-body.sql",
+      "sha256": "afe33691e2bb1dad42999b49c8c5ba9d583d68bfc6cced60bfbea0adadc37dd7"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-raw-companion-batch/body.diff",
+      "sha256": "b0d03a3b8892f26871c36d61ecf5cd48bd9419b05bc5921de793ce0fd0eee682"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-raw-companion-batch/candidate-body.sql",
+      "sha256": "f2229b303a83d7c9ca053e3c0f7e65ec3472b0cbe3b624aad4ff1a1e4af1c4d5"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-raw-companion-batch/candidate.py",
+      "sha256": "df807cb6fce3afca3abf8f82b441e56fffd421f0c79666f61ac99ac5687911c7"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-raw-companion-batch/README.md",
+      "sha256": "de55df96773c3fc2cd63709438c6080ebc2ca4578c3cf143ea888fc7c18f7a4b"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-raw-companion-batch/test_candidate.py",
+      "sha256": "306226bf1325c0c55a67d8095be2036774ee2b7449e3fa9d080411599585baf7"
+    },
+    {
+      "root": "proof",
+      "path": "development/m07/presentation-raw-companion-batch-proof/raw-authority.mjs",
+      "sha256": "1b7d1743f1c1e7a750d12a26056c3208bbfa024f230386b5296998f02f333896"
+    }
+  ],
+  "six_closed_prosrc_targets": true,
+  "English_separate_bindings_four_body_arrays_unchanged": true,
+  "candidate_MCP_large_first_failstop": true,
+  "full_eight_matrix_sixteen_components_required": true,
+  "all_fresh_AA_RC_pin_and_existing_six_raw_cases_per_variant_required": true,
+  "original4107_and_all_five_old_bodies_config_and_full_baseline_restore_required": true,
+  "source_entry_admission": "exact generated closed or unique literal arming only; raw armed bytes sealed",
+  "checks": {
+    "Python_tests_passed": 5,
+    "Python_seconds": 1.449,
+    "generated_Node_checks_exit": [
+      0,
+      0,
+      0
+    ],
+    "historical_public_633_and_9ed_admitCarry_Main_passed": true,
+    "security_receipt_shape_preserved": true,
+    "initial_test_only_tuple_assertion": "4pass/1fail then corrected tuple[0], no implementation change"
+  },
+  "acceptance": {
+    "actual_generation": false,
+    "performance": false,
+    "semantic": false,
+    "security": false,
+    "production": false
+  }
+}
