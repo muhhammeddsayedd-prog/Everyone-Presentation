@@ -1,6 +1,15 @@
 # Everyone Presentation Studio - current English-output rollout
 
-## Current checkpoint - 2026-11-03T07:23:01.084995+00:00
+## Current checkpoint - 2026-11-03T08:37:55.050601+00:00
+
+Production remains Gp3/e259, worker Fxd/native3d, processing enabled and canonical history 41. Approved logo bytes and completed layout job763d84ca remain accepted within their recorded production scopes. No new service observation, deployment, native rebuild or saved presentation is claimed. Root1023 still covers unchanged serving product source.
+
+The [scalar permission parity](tracking/evidence/m07/presentation-mcp-scalar-owned-proof/4e6f2d50-outcome.json) passed 122 actual owned-local cases in 61 old/candidate pairs, including actual database-clock expiry, full Auth/clone rollback and audited cleanup. This is synthetic-claims local parity, not signed OAuth or generation acceptance. The [subsequent full seven-target run c024](tracking/evidence/m07/presentation-generation-scalar-full-proof/c024137f-outcome.json) still failed its first and only cold candidate MCP-large call with 57014 at 7999.681 ms (client 8006.0152 ms, process 1, total 66690 ms). The [212-seal audit](tracking/evidence/m07/presentation-generation-scalar-full-proof/Root-c024137f-postrun-audit.json) confirmed actual scalar845/GENaf installation, all six body authority records, unchanged public validator and outer original-database/resource/lock preservation. The current cancellation stage is unknown. Remaining seven first calls, 16 projections, fresh authority/lock scopes and final in-callback seven-function restore were unreached. No performance SQL is released. Earlier f540 English12 context remains dated and is not relabeled as c024.
+
+[Private Main push fceb46e5](tracking/evidence/m07/completion-release/canonical-push-fceb46e5-readback.json) is independently REST-matched; later local commits are not claimed pushed. The [guest/access reconciliation](tracking/evidence/m07/completion-release/guest-expiry-and-access-scope-reconciliation.json) retains its dated expired-media, hosted revocation and temporary-session cleanup scopes. **Full M07 acceptance remains false.** Next: Diagnose the current seven-target cancellation before further optimization. Preserve the actual c024 first-call failure and scalar 122 parity separately. Require the matching full 8/16, AA/RC, pin/raw authority and restoration evidence before performance SQL; then finish actual delegated Selection/Shortlist, PDF/media/feedback and exact-Main release checks. AT069 remains historically policy-blocked and unreplayed; Narrator/contributor/mobile remain skipped.
+
+
+## Historical checkpoint - 2026-11-03T07:23:01.084995+00:00
 
 Production retains Gp3/e259, worker Fxd/native3d, enabled processing and canonical history 41. The [fresh read-only identity check](tracking/evidence/m07/completion-release/serving-identity-8407d987-de6d-4ea5-a299-3d3de52d72c3.json) confirmed equal stable-alias/direct web metadata and Ready worker metadata; it did not prove a new heartbeat or native execution. The approved logo remains accepted. Its updated draft layout is measured, and [layout job 763d84ca](tracking/evidence/m07/completion-release/2026-11-03-logo41-layout-job-763d84ca-UI.json) is Completed in the production UI. No new saved presentation was generated.
 
