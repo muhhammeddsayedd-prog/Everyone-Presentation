@@ -1,0 +1,127 @@
+{
+  "schema_version": "bounded-assignment-combined-actual-outcome.v1",
+  "observed_at": "2026-11-03T01:37:14.180Z",
+  "finished_at": "2026-11-03T01:38:34.457Z",
+  "audited_at": "2026-11-03T01:42:01.089482+00:00",
+  "runtime_uuid": "d093fd61-304d-453a-bc2d-7c94fe85d228",
+  "compile_uuid": "f6053a23-dd0f-4af7-a375-f9b53b8b1f8f",
+  "normal_process_exit": 1,
+  "shell_session": 3929,
+  "result": "failed",
+  "checkpoint": "combined-first-candidate-mcp-large",
+  "elapsed_ms": 80277,
+  "actual_receipt": {
+    "path": "tracking/evidence/m07/presentation-generation-assignment-proof/2026-11-03T01-37-14.180Z-d093fd61.json",
+    "sha256": "6761aae8363a506197e1a5cca45c97a3dca20d1645dafa07c5182831ed007de2"
+  },
+  "armed_plan": {
+    "path": "tracking/evidence/m07/presentation-generation-assignment-proof/Main-f6053a23-armed-plan.json",
+    "sha256": "61fc6908318742d442f6973294782b2ec0fe4d9d4c6189cfaaf7aa7d958711ec"
+  },
+  "source_seal_count": 131,
+  "actual_first_call": {
+    "variant": "candidate",
+    "mode": "mcp",
+    "label": "large",
+    "phase": "actual_public_generate",
+    "pid": 683,
+    "normal_return": true,
+    "rolled_back": true,
+    "application_calls_before_dispatch": 0,
+    "first_in_fresh_backend": true,
+    "client_elapsed_ms": 8004.3609,
+    "generation": {
+      "ok": false,
+      "code": "57014",
+      "operation": "generate",
+      "duration_ms": 7999.653
+    }
+  },
+  "actual_application_calls": 1,
+  "remaining_seven_not_dispatched": true,
+  "projections_executed": 0,
+  "matrix_completed": false,
+  "application_failure": "normal temporary QUERY_CANCELED handler returned57014; candidate ok assertion stopped the proof",
+  "native_code_provenance": "sealed owned measurement QUERY_CANCELED branch, not an independently preserved exception context",
+  "private_failure": {
+    "file": "failure.json",
+    "actual_bytes": 88,
+    "sha256": "3f7d53a6afffbc4b35da0b38d8ce84da35dc67cc0bcab52e8822e209d0268c24",
+    "native_diagnostic_present": false,
+    "private_directory_ACL_protected": true,
+    "directory_and_file_only_SYSTEM_and_current_user_allow": true,
+    "file_inherits_two_private_directory_allow_rules": true,
+    "first_owned_native_error_file_exists": false,
+    "new_query_cancel_context_file_exists": false
+  },
+  "prior13f5_context_not_relabeled_as_current": true,
+  "current_cancelled_subphase": "unknown",
+  "actual_candidate_and_FK_preconditions": {
+    "before_data_sha256": "4b37255bd919719086175f5df2b197584555f3c08000ee13fe18a7dbe62f8cc3",
+    "after_data_sha256": "0dba1d407199191d3bbb4d84ddab94d9f4e33da6a0172738b86133e8c7bf61fd",
+    "same_shared_budget_bytes": 4194304,
+    "actual_FK": {
+      "deferred": false,
+      "validated": true,
+      "deferrable": false,
+      "references_slots": true,
+      "workspace_slot_columns": true,
+      "referenced_workspace_id_columns": true
+    }
+  },
+  "body_installation_record_count": 2,
+  "rollback_scope": {
+    "actual_first_call_outer_rollback": true,
+    "post_call_full_clone_baseline_comparison_reached": false,
+    "final_original4107_four_body_clone_restore_reached": false,
+    "final_clone_config_restore_reached": false,
+    "original_local29_preservation_verified": true
+  },
+  "unreached": [
+    "remaining7freshwhole-generationcalls",
+    "old/newandcandidateAPI/MCPstoredpayloadparity",
+    "16review/snapshotdataequalities",
+    "2missingselectedframechecks",
+    "original4MiBcandidatefallback/12focusedgenerations/12associationcaptures/fourEnglishstates",
+    "12newassignmentfocusedobservationsincludingcontrol5MiBfallback/NO_MAIN/Shortlist",
+    "2newempty-tailclockexpiryobservations",
+    "freshcombinedsource/permission/RCsecurityraces",
+    "fullclonedbefore/afterbody/configrestorationgates"
+  ],
+  "outer_cleanup": {
+    "all_owned_resources_absent": true,
+    "independent_successful_daemon_label_inventories_empty": true,
+    "original_data_catalogue_and_global_roles_unchanged": true,
+    "shared_lock_released": true
+  },
+  "independent_postreturn_readbacks": {
+    "engine": "npipe:////./pipe/dockerDesktopLinuxEngine",
+    "fixed_label": "eps.assignproof.run=d093fd61-304d-453a-bc2d-7c94fe85d228",
+    "container_inventory": {
+      "normal_exit": 0,
+      "stdout_empty": true,
+      "stderr_empty": true
+    },
+    "volume_inventory": {
+      "normal_exit": 0,
+      "stdout_empty": true,
+      "stderr_empty": true
+    },
+    "fresh_shared_lock_exists": false,
+    "compile_once_claim_retained": true
+  },
+  "closed_only_new_entry": {
+    "path": "development/m07/presentation-generation-assignment-proof/entry.mjs",
+    "armed_sha256": "6ded113d9c51b98dbfb2138be62e2e57398a5502bdfad61a9e86c94104e630be",
+    "disabled_sha256": "8b9c0afe4080b6673fbb19303dc19655ef9bf4c4c1d4069bb6e2567554372785",
+    "only_literal_true_to_false": true,
+    "Main_change_unstaged_for_Root_sole_commit": true
+  },
+  "limitations": [
+    "Bounded-assignment candidate did not meet whole-generation8s in this actual sample.",
+    "No measured cache-hit count, assignment-enumeration duration, authorization invocation count or dominant-cost attribution.",
+    "Current cancellation phase is unknown; dated13f5 stack is not current evidence.",
+    "No retry, warming, timeout/permission changes, provider/canonical SQL or production performance release.",
+    "Earlier78/13f5 failures and all earlier completed partial scopes remain unchanged; no new scope is waived."
+  ]
+}
