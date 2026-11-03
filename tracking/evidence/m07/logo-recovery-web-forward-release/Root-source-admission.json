@@ -1,0 +1,62 @@
+{
+  "schema_version": "root-logo-web-source-admission.v1",
+  "observed_at": "2026-11-03T02:06:53.094255+00:00",
+  "result": "passed",
+  "run_id": "636b12ba-e950-427d-bd2b-51bd5e9b9759",
+  "selected_source_commit": "7c8d32f52cb760974e251cd8ed5fcdd4277a39fe",
+  "quality_receipt": {
+    "path": "tracking/evidence/m07/completion-release/2026-11-03T01-47-46.934Z-82a90895-logo-recovery-root-quality.json",
+    "sha256": "c34f998b8898e725d5dc52834f6c2649292990111631061d0a70659ad2816c0f"
+  },
+  "source_seals": [
+    {
+      "path": "development/m07/logo-recovery-web-forward-release/gates.py",
+      "sha256": "ff0eb1c5a4b5b59d7f7aaa557f2964fd07484240ea9be606d7b35b6e9ce49994"
+    },
+    {
+      "path": "development/m07/logo-recovery-web-forward-release/inputs.template.json",
+      "sha256": "f2a208f8d1b4e4bcd32093974f99d413f69683037857edc529b5ea00e3549f68"
+    },
+    {
+      "path": "development/m07/logo-recovery-web-forward-release/preflight.py",
+      "sha256": "3722ab4632db3e513f738d8a0ad72f28e63e9589f9fd2eade1516412ad5954e8"
+    },
+    {
+      "path": "development/m07/logo-recovery-web-forward-release/projection.py",
+      "sha256": "cf1d1f3269f004182d7caf44fc4dcf63b93c635706410d47e76b889aae74db46"
+    },
+    {
+      "path": "development/m07/logo-recovery-web-forward-release/README.md",
+      "sha256": "2a17b1f80a69ac96e2f434731e0342515b9f228afa5ac277ac823af669a1512c"
+    },
+    {
+      "path": "development/m07/logo-recovery-web-forward-release/release.py",
+      "sha256": "7e363994879602e72d06dce2eba4c6a8d59cf15673f3839281890c62bc114fc7"
+    },
+    {
+      "path": "development/m07/logo-recovery-web-forward-release/scan-stage.mjs",
+      "sha256": "c9ab2c5ebbf9f677850e22d9480e5d86d8c4daf4eb690eea7497717ecd260af7"
+    },
+    {
+      "path": "development/m07/logo-recovery-web-forward-release/stage.py",
+      "sha256": "ded461e16605f8dba3c2e34d47186a5b510401af712c06e821501e3f2f86a1ee"
+    },
+    {
+      "path": "development/m07/logo-recovery-web-forward-release/test_release.py",
+      "sha256": "5a7e62091f2d16e6d6c610934d4683a43a4000ebb21a2e97cdee7985898a05d6"
+    }
+  ],
+  "Root_complete_nine_file_and_relevant_inherited_source_review": true,
+  "independent_Frontend_source_peer": "passed_on_Runtime_0c68d5c_exact_same_bytes_before_only_flag_arm",
+  "Root_Main_offline_tests": {
+    "passed": 19,
+    "failed": 0,
+    "duration_seconds": 1.278,
+    "normal_exit": 0,
+    "before_arming": true
+  },
+  "only_postreview_source_delta": "new purpose RELEASE_ENABLED false to true, before any claim",
+  "native_DB_worker_environment_or_rollback_mutation_authorized_by_this_helper": false,
+  "scope": "Existing authorized web source forward release; immutable source archive, guarded once dispatch, exact canonical40/native3d/Fxd read-only preflight. No AT069 operation or old claim replay.",
+  "cloud_or_stage_action_executed_at_this_record": false
+}
