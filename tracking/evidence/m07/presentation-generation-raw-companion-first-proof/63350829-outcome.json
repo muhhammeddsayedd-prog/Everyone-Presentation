@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "run_id": "63350829-0a08-4095-94f4-99523a6a74b7",
+  "limited_observation_result": "passed",
+  "normal_process_exit": 0,
+  "normal_process_exit_source": "Root_actual_execution_report",
+  "elapsed_ms": 68159,
+  "actual_receipt": {
+    "path": "tracking/evidence/m07/presentation-generation-raw-companion-first-proof/2026-11-03T05-58-13.099Z-63350829.json",
+    "sha256": "24df393b180678451a34e92904060fd97f618c51463948ca9b9356631c880863",
+    "observed_at": "2026-11-03T05:58:13.099Z"
+  },
+  "actual_source_seal_count": 187,
+  "call": {
+    "profile": "large",
+    "mode": "mcp",
+    "first_application_call_in_fresh_backend": true,
+    "application_calls_before_dispatch": 0,
+    "normal_SQL_return": true,
+    "rolled_back": true,
+    "instrumentation_cost_present": false,
+    "performance_acceptance": false,
+    "pid": 620,
+    "sql_client_elapsed_ms": 8002.1996,
+    "result": {
+      "ok": false,
+      "code": "57014",
+      "operation": "generate",
+      "duration_ms": 8000.5
+    },
+    "application_returned_queued": false,
+    "no_matrix_or_semantic_acceptance": true,
+    "child_exit": 0,
+    "full_fresh_baseline_restored": true
+  },
+  "actual_current_business_bodies": [
+    {
+      "name": "eps.review_snapshot_data",
+      "source": "4d46151993a60d8c6ac9d36e48781fee34c12c3e1dede727ac1ed4d31a953ab7"
+    },
+    {
+      "name": "eps.review_snapshot",
+      "source": "f0815e014144f1345b4679d96114aab6b358d95df317e3cfe6ac6b59989813cb"
+    },
+    {
+      "name": "public.eps_generate_version",
+      "source": "b20fef7adc8dee0da91db1508b30d4116855bb3e9be9e881072a7e8d55fcee08"
+    },
+    {
+      "name": "eps.capture_presentation_video_transcripts",
+      "source": "ed4a3469971fa410078b546b13aa0a875b4867efdda4b134dc729563dd887187"
+    }
+  ],
+  "current_cancelled_stage_or_stack": "unobserved",
+  "previous_ee38_stage_not_relabeled": true,
+  "queued_version_returned": false,
+  "single_call_only_no_warm_or_matrix": true,
+  "all_semantic_component_lock_authority_raw_legacy_English_and_pin_proofs_still_required": true,
+  "original4107_canonical4_config_full_clone_restored": true,
+  "controller_preservation_and_cleanup": {
+    "all_owned_resources_absent": true,
+    "original_data_catalogue_and_global_roles_unchanged": true,
+    "shared_lock_released": true,
+    "independent_successful_daemon_label_inventories_empty": true
+  },
+  "Root_postrun_audit": "pending_at_outcome_capture",
+  "entry_closure": "Root_owned_pending_at_outcome_capture",
+  "new_SQL_or_provider_or_cleanup_dispatched_by_Recovery": false,
+  "automatic_retry": false,
+  "performance_semantic_security_or_production_acceptance": false
+}
