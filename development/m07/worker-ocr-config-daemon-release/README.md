@@ -37,3 +37,23 @@ Old source/failed receipts remain. No grants, credentials route, model/prompt/
 timeout change, rollback or AT069 operation is part of this release mechanism.
 This source preparation has not staged/built/read private input or called SQL,
 Docker, auth, registry or a provider. Build/registry/release flags remain false.
+
+The original aa51 daemon copy outcome is UNKNOWN: a permanent claim exists,
+but no normal return marker or copy receipt exists. The fixed00:35 remote
+readback11402 and independently normal00:37 Ready observation07f303 establish
+current exactffb4 artifact availability only. Provider inputs retain the closed
+shape: daemon.registry_copy references the UNCONFIRMED readback, daemon.ready
+references the separate observed Ready receipt. Neither is relabelled as a
+normal copy. No marker is manufactured and copy/refresh is never retried.
+
+The unconsumed Provider admission finite-inversely retains the entire sealed
+compatible admission function, replacing only its two native+daemon normal-copy
+loops with native-only loops. Retained native copy/Ready/probe/SQL/source and
+live platform checks remain exact. The daemon replacement binds the two fixed
+receipt hashes, original claim hash, unchanged frozen registry pins and absent
+normal marker before/after fresh two-equal remote and two-equal Ready reads.
+Admission records retain original_copy_outcome=unknown and
+normal_copy_return_observed=false; every public phase receipt also carries the
+explicit daemon_original_copy_outcome/daemon_normal_copy_return_observed fields.
+Frozen registry
+three files, build four files, original claims and receipts stay unchanged.
