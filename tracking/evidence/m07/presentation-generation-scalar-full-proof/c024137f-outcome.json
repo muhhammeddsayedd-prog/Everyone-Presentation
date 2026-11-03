@@ -1,0 +1,121 @@
+{
+    "schema_version":  1,
+    "run_id":  "c024137f-e397-4a26-a5f0-8be9236aff38",
+    "result":  "failed",
+    "normal_process_exit":  1,
+    "normal_process_exit_source":  "Root_actual_execution_and_independent_postrun_audit",
+    "elapsed_ms":  66690,
+    "checkpoint":  "combined-first-candidate-mcp-large",
+    "actual_receipt":  {
+                           "path":  "tracking/evidence/m07/presentation-generation-scalar-full-proof/2026-11-03T08-29-24.099Z-c024137f.json",
+                           "sha256":  "c1a320db56836dd263a76ee0a0f3c50be656cc7394436cd40ae4a5ba29d4a391",
+                           "observed_at":  "2026-11-03T08:29:24.099Z",
+                           "finished_at":  "2026-11-03T08:30:30.789Z"
+                       },
+    "source_seal_count":  212,
+    "first_and_only_application_call":  {
+                                            "variant":  "candidate",
+                                            "mode":  "mcp",
+                                            "label":  "large",
+                                            "phase":  "actual_public_generate",
+                                            "normal_return":  true,
+                                            "rolled_back":  true,
+                                            "application_calls_before_dispatch":  0,
+                                            "first_in_fresh_backend":  true,
+                                            "pid":  626,
+                                            "dispatched":  true,
+                                            "generation":  {
+                                                               "ok":  false,
+                                                               "code":  "57014",
+                                                               "operation":  "generate",
+                                                               "duration_ms":  7999.681
+                                                           },
+                                            "client_elapsed_ms":  8006.015200000002
+                                        },
+    "current_helper_verified_separately":  {
+                                               "variant":  "candidate",
+                                               "source_sha256":  "aa1db8b1c2f8e9a15360c24fd9a4216df03c9f14767b1b300898a3e88a7220e3",
+                                               "authority_unchanged":  true
+                                           },
+    "actual_candidate_installation":  {
+                                          "index":  1,
+                                          "normal_return":  true,
+                                          "expected_and_actual_pg_proc_sources_equal":  [
+                                                                                            {
+                                                                                                "name":  "eps.review_snapshot_data",
+                                                                                                "source":  "0dba1d407199191d3bbb4d84ddab94d9f4e33da6a0172738b86133e8c7bf61fd"
+                                                                                            },
+                                                                                            {
+                                                                                                "name":  "eps.review_snapshot",
+                                                                                                "source":  "c6f93795e1926bcbb2e550b428f2e76a9ffe04dc29199e799c3d3a0e7b73cd10"
+                                                                                            },
+                                                                                            {
+                                                                                                "name":  "public.eps_generate_version",
+                                                                                                "source":  "af486a7217ed5ddafea5d98dc2979d928a8e9ba675862ef0960c2930b362b198"
+                                                                                            },
+                                                                                            {
+                                                                                                "name":  "eps.capture_presentation_video_transcripts",
+                                                                                                "source":  "f2229b303a83d7c9ca053e3c0f7e65ec3472b0cbe3b624aad4ff1a1e4af1c4d5"
+                                                                                            },
+                                                                                            {
+                                                                                                "name":  "eps.capture_presentation_video_english_transcripts",
+                                                                                                "source":  "b763cd502ed70c49f7d9d07106397bd6c774a6c00d87322f7e0954f25f1ac4ad"
+                                                                                            },
+                                                                                            {
+                                                                                                "name":  "eps.mcp_token_permits_capability",
+                                                                                                "source":  "8455eeb4094d74a11e487627711f237192c9b591fdf61d1b54b9114bedd487ab"
+                                                                                            }
+                                                                                        ],
+                                          "all_six_full_authority_records_equal_initial_canonical":  true,
+                                          "public_validator":  {
+                                                                   "name":  "public.eps_validate_own_oauth_session",
+                                                                   "source_sha256":  "9fe44accb3998d924bb0f453c721a33f5603f20e4c245abbf0e46807561891f6",
+                                                                   "full_source_and_authority_equal_initial_canonical":  true
+                                                               }
+                                      },
+    "installation_count":  2,
+    "catalogue_prosrc_exclusions":  7,
+    "current_cancellation_stack_or_stage":  "unobserved",
+    "prior_F540_English_context_not_relabeled":  true,
+    "semantic_projection_count":  0,
+    "final_original_seven_function_installation_record_present":  false,
+    "unreached":  [
+                      "remaining_seven_first_calls",
+                      "sixteen_component_projections",
+                      "fresh_AA_twelve_locksets_and_RC_authority",
+                      "focused_English_states_associations_fallback_Shortlist_and_return_expiry",
+                      "pin_insert_authority_cases",
+                      "raw_legacy_zero_and_authority_cases",
+                      "final_in_callback_original4107_canonical_six_config_full_clone_restore_and_readback"
+                  ],
+    "outer_original_target_preservation_and_cleanup":  {
+                                                           "all_owned_resources_absent":  true,
+                                                           "original_data_catalogue_and_global_roles_unchanged":  true,
+                                                           "shared_lock_released":  true,
+                                                           "independent_successful_daemon_label_inventories_empty":  true,
+                                                           "fresh_shared_lock_absent":  true
+                                                       },
+    "Root_independent_audit":  {
+                                   "path":  "tracking/evidence/m07/presentation-generation-scalar-full-proof/Root-c024137f-postrun-audit.json",
+                                   "sha256":  "1b96720eba9802a88d2b860dc6aa7fc533cb1072f7b3d988e95f299809495d0a",
+                                   "runtime_source_seals_verified":  212,
+                                   "actual_and_private_executed_source_hashes_equal":  true,
+                                   "all_six_actual_body_sources_and_full_authority_equal_expected":  true,
+                                   "public_validator_full_identity_unchanged":  true,
+                                   "private_failure":  {
+                                                           "bytes":  88,
+                                                           "sha256":  "3f7d53a6afffbc4b35da0b38d8ce84da35dc67cc0bcab52e8822e209d0268c24"
+                                                       }
+                               },
+    "entry_closed_by_Root":  {
+                                 "path":  "development/m07/presentation-generation-scalar-full-proof/entry.mjs",
+                                 "armed_sha256":  "738e0c2078b7661882f6789734861d0a418be810a5ac54082f3613330cace314",
+                                 "closed_sha256":  "984e50c42a7e942e7b15cb852a4be6d71b4095f40759fe9e42ddfb1d4bce164a"
+                             },
+    "generation_performance_semantic_security_or_production_acceptance":  false,
+    "prior_local_scalar_parity_does_not_establish_generation_acceptance":  true,
+    "cloud_called":  false,
+    "provider_called":  false,
+    "automatic_retry":  false,
+    "new_SQL_test_or_runtime_dispatched_by_Recovery":  false
+}
