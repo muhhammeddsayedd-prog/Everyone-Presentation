@@ -17,9 +17,11 @@ class Tests(unittest.TestCase):
  def test_registry_main_loads_only_new_build_profile_without_future_provider_module_or_inputs(self):
   calls=[]
   class Build:
-   def save(self,action,value):calls.append(('save',action));return{'path':'synthetic-public-receipt.json'}
+   def save(self,action,value):calls.append(('save',action,dict(value)));return{'path':'synthetic-public-receipt.json'}
   class Builder:
    def load_build(self):calls.append(('new_profile',));return Build()
-  with patch.object(r,'REGISTRY_ENABLED',True),patch.object(r.sys,'argv',['registry.py','copy','daemon']),patch.object(r.a,'builder',lambda:Builder()),patch.object(r.a,'module',side_effect=AssertionError('FUTURE_PROVIDER_IMPORTED')),patch.object(r,'Ports',lambda b:'new-build-ports'),patch.object(r,'operate',lambda action,kind,ports:calls.append((action,kind,ports))or{'result':'passed'}),contextlib.redirect_stdout(io.StringIO()):r.main()
-  self.assertEqual(calls,[('new_profile',),('copy','daemon','new-build-ports'),('save','daemon-registry-copy')])
+  for action in('copy','ready','prepare'):
+   calls.clear()
+   with patch.object(r,'REGISTRY_ENABLED',True),patch.object(r.sys,'argv',['registry.py',action,'daemon']),patch.object(r.a,'builder',lambda:Builder()),patch.object(r.a,'module',side_effect=AssertionError('FUTURE_PROVIDER_IMPORTED')),patch.object(r,'Ports',lambda b:'new-build-ports'),patch.object(r,'operate',lambda action,kind,ports:calls.append((action,kind,ports))or{'result':'passed'}),contextlib.redirect_stdout(io.StringIO()):r.main()
+   self.assertEqual(calls[:2],[('new_profile',),(action,'daemon','new-build-ports')]);self.assertEqual(calls[2],('save','daemon-registry-'+action,{'result':'passed','provider_called':action!='prepare','provider_mutations':action=='copy','credentials_extracted':False,'raw_credentials_persisted':False,'exact_wire_attempt_count_claimed':False}))
 if __name__=='__main__':unittest.main()

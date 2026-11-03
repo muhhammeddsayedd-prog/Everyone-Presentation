@@ -12,7 +12,7 @@ class Ports(old.Ports):
   return dict(sorted(result.items()))
 def operate(action,kind,ports):need(REGISTRY_ENABLED and kind=='daemon');return old.operate(action,kind,ports)
 def main():
- need(REGISTRY_ENABLED and len(sys.argv)==3);b=a.builder().load_build();action,kind=sys.argv[1:];value=operate(action,kind,Ports(b));ref=b.save('daemon-registry-'+action,value);print(json.dumps({'result':value.get('result','passed'),'receipt':ref}));need(value.get('result','passed')in('passed','observed'))
+ need(REGISTRY_ENABLED and len(sys.argv)==3);b=a.builder().load_build();action,kind=sys.argv[1:];value=operate(action,kind,Ports(b));value.update(provider_called=action!='prepare',provider_mutations=action in('refresh','copy'),credentials_extracted=False,raw_credentials_persisted=False,exact_wire_attempt_count_claimed=False);ref=b.save('daemon-registry-'+action,value);print(json.dumps({'result':value.get('result','passed'),'receipt':ref}));need(value.get('result','passed')in('passed','observed'))
 if __name__=='__main__':
  try:main()
  except Exception:print('OCR_CONFIG_REGISTRY_DISABLED_OR_UNCONFIRMED');raise SystemExit(1)from None
