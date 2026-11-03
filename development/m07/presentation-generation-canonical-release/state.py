@@ -16,6 +16,7 @@ VERSION = None
 MIGRATION = None
 MIGRATION_SHA = None
 REMAINING_PROOF_REF = None
+REMAINING_AUDIT_REF = None
 READY = False
 MIGRATION_NAME = 'm07_generation_data_reuse'
 CANONICAL41_VERSION = '20261103031200'
@@ -135,6 +136,7 @@ class Context:
         need(READY and isinstance(VERSION, str) and re.fullmatch('[0-9]{14}', VERSION) and VERSION not in self.history)
         need(isinstance(MIGRATION, str) and isinstance(MIGRATION_SHA, str) and re.fullmatch('[a-f0-9]{64}', MIGRATION_SHA))
         need(type(REMAINING_PROOF_REF) is dict and set(REMAINING_PROOF_REF) == {'path', 'sha256'})
+        need(type(REMAINING_AUDIT_REF) is dict and set(REMAINING_AUDIT_REF) == {'path', 'sha256'})
         migration = load(self.source / MIGRATION)
         need(sha(migration) == MIGRATION_SHA and migration.decode('utf8') == self.definitions_sql())
         return migration
@@ -268,10 +270,16 @@ class Context:
         raw = load(self.root / relative)
         need(sha(raw) == REMAINING_PROOF_REF['sha256'])
         proof = json.loads(raw)
+        audit_path = Path(REMAINING_AUDIT_REF['path'])
+        need(not audit_path.is_absolute() and '..' not in audit_path.parts)
+        audit_raw = load(self.root / audit_path)
+        need(sha(audit_raw) == REMAINING_AUDIT_REF['sha256'])
+        audit = json.loads(audit_raw)
         need(proof['result'] == 'passed' and proof['cloud_called'] is False and proof['provider_called'] is False)
         need(all(proof[key] is True for key in ('all_owned_resources_absent', 'original_data_catalogue_and_global_roles_unchanged', 'shared_lock_released')))
         g = proof['combined_generation']
         need(g['matching_graph_whole_generation_and_data_equalities_complete_with_dated48ed_prefix'] is True and g['original4107_and_all_six_old_bodies_restored'] is True)
+        self.helper_records(proof, audit)
         need(proof['remaining_scope_continuation']['references']['raw']['sha256'] == '599527b663a20a5a4e1e66c34a89c41078ca5b87c0998f96f89c546bbc48e721')
         need(all(proof['raw_authority_cases'][variant]['completed'] is True for variant in ('old', 'candidate')) and proof['pin_batch_cases']['candidate']['completed'] is True)
         installs = proof['data_reuse_body_installations']
@@ -287,4 +295,23 @@ class Context:
                 need(item['actual'][name]['authority'] == installs[0]['actual'][name]['authority'])
             need(item['actual']['public.eps_validate_own_oauth_session'] == installs[0]['actual']['public.eps_validate_own_oauth_session'])
         need(candidate_seen and all(installs[-1]['actual'][name]['source'] == row['before_sha256'] for name, row in names.items()))
-        return {'target': TARGET, 'version': VERSION, 'migration_sha256': MIGRATION_SHA, 'local_proof': REMAINING_PROOF_REF, 'full_reason_preservation': True, 'production_acceptance_claimed': False}
+        return {'target': TARGET, 'version': VERSION, 'migration_sha256': MIGRATION_SHA, 'local_proof': REMAINING_PROOF_REF, 'local_proof_postrun_audit': REMAINING_AUDIT_REF, 'full_reason_preservation': True, 'production_acceptance_claimed': False}
+
+    def helper_records(self, proof, audit):
+        helper = self.targets['eps.presentation_lock_sources(uuid,text,text)']
+        records = proof['combined_generation']['helper_installations']
+        need(records == [
+            {'variant': 'old', 'source_sha256': '280244090e5350b912dec5b23b74bb5d260e9e21df497c8ddfc2ae322fb774c4', 'authority_unchanged': True},
+            {'variant': 'candidate', 'source_sha256': helper['after_sha256'], 'authority_unchanged': True},
+        ])
+        need(helper['before_sha256'] == '4107c87b1a51d2c5ed506a64c81378026068406a5136b202779767efb30264e7')
+        need(proof['combined_generation']['original4107_and_all_six_old_bodies_restored'] is True)
+        need(proof['combined_generation']['full_data_reason_Ready_catalogue_authority_preserved'] is True)
+        need(audit['actual_receipt'] == REMAINING_PROOF_REF and audit['run_id'] == proof['run_id'] and audit['normal_process_exit'] == 0)
+        need(audit['runtime_source_seals_verified'] == len(proof['source_seals']))
+        need(all(audit[key] is True for key in (
+            'actual_and_private_executed_source_hashes_equal',
+            'helper_old280_candidateAA_full_installation_records_verified',
+            'final_original4107_and_six_source_config_full_clone_restoration_completed',
+            'independent_successful_daemon_label_inventories_empty', 'fresh_shared_lock_absent', 'original_target_preserved')))
+        return True

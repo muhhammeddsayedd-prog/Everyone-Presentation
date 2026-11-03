@@ -14,6 +14,11 @@ Each replacement changes only the body inside that production definition, so
 existing invoker/definer and volatility/search_path declarations stay intact.
 There is no uniform logo SECURITY DEFINER/STABLE assumption for these targets.
 Public validator9fe and accepted logo41 are fixed functions, not masked targets.
+Admission checks actual old280/candidateAA helper records independently of the
+six companion installations. The exact passed Root audit binds actual/private
+source equality and the executed original4107/full clone restoration; a boolean
+completion label cannot replace a changed helper record. Both proof and audit
+references remain unset here.
 
 The accepted alias-safe41 Context remains an inert compatibility library.
 Compatibility projects only the eventual42 history row away, then uses its
@@ -56,9 +61,11 @@ to the existing normal release flow.
 mixed-mode, alias, metadata/reason/nontarget preservation and unbound-before-port
 checks. No test executes PostgreSQL, a release phase or any provider. Test-only
 history labels are deliberately impossible calendar values and create no release
-artifact. The five focused offline tests passed in 3.221s, including parsing the
+artifact. The six focused offline tests passed in 3.554s, including parsing the
 rendered transaction and enforcing the existing query/render byte bounds. A
 RAM-only mutation that removed complete metadata equality made the targeted
 preservation test fail; the original method was restored and disk bytes were
-unchanged. These are source/parser checks, not collector, database, performance
-or release acceptance. No further checks run during Root's measured hold.
+unchanged. Helper source/authority/variant/restoration mutations and either
+missing genuine helper audit flag are also rejected. These are source/parser
+checks, not collector, database, performance or release acceptance. No checks
+were run during Root's measured hold.

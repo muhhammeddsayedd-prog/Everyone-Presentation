@@ -134,7 +134,7 @@ class Tests(unittest.TestCase):
         self.assertFalse(r.READ_ENABLED)
         self.assertFalse(r.APPLY_ENABLED)
         self.assertFalse(s.READY)
-        for name in ['VERSION', 'MIGRATION', 'MIGRATION_SHA', 'REMAINING_PROOF_REF']:
+        for name in ['VERSION', 'MIGRATION', 'MIGRATION_SHA', 'REMAINING_PROOF_REF', 'REMAINING_AUDIT_REF']:
             self.assertIsNone(getattr(s, name))
         self.assertIsNone(r.COLLECTOR_FAMILY)
         self.assertIs(r.Release.response_binding.__globals__['s'], r.s)
@@ -158,6 +158,34 @@ class Tests(unittest.TestCase):
             self.c.state_sql()
         with self.assertRaises(ValueError):
             self.c.render({}, '00000000-0000-4000-8000-000000000001')
+
+    def test_actual_helper_records_require_AA_source_authority_and_original4107_restore(self):
+        proof = {'run_id': 'actual-test-run', 'source_seals': {'fixture': 'a' * 64}, 'combined_generation': {'helper_installations': [
+            {'variant': 'old', 'source_sha256': '280244090e5350b912dec5b23b74bb5d260e9e21df497c8ddfc2ae322fb774c4', 'authority_unchanged': True},
+            {'variant': 'candidate', 'source_sha256': self.rows['eps.presentation_lock_sources(uuid,text,text)']['after_sha256'], 'authority_unchanged': True},
+        ], 'original4107_and_all_six_old_bodies_restored': True, 'full_data_reason_Ready_catalogue_authority_preserved': True}}
+        audit = {'actual_receipt': None, 'run_id': proof['run_id'], 'normal_process_exit': 0, 'runtime_source_seals_verified': 1}
+        for key in ('actual_and_private_executed_source_hashes_equal', 'helper_old280_candidateAA_full_installation_records_verified',
+                    'final_original4107_and_six_source_config_full_clone_restoration_completed',
+                    'independent_successful_daemon_label_inventories_empty', 'fresh_shared_lock_absent', 'original_target_preserved'):
+            audit[key] = True
+        self.assertTrue(self.c.helper_records(proof, audit))
+        mutations = [
+            lambda item: item['helper_installations'][1].__setitem__('source_sha256', 'f' * 64),
+            lambda item: item['helper_installations'][1].__setitem__('authority_unchanged', False),
+            lambda item: item['helper_installations'][0].__setitem__('source_sha256', self.rows['eps.presentation_lock_sources(uuid,text,text)']['before_sha256']),
+            lambda item: item.__setitem__('original4107_and_all_six_old_bodies_restored', False),
+        ]
+        for mutate in mutations:
+            bad = copy.deepcopy(proof)
+            mutate(bad['combined_generation'])
+            with self.assertRaises(ValueError):
+                self.c.helper_records(bad, audit)
+        for key in ('helper_old280_candidateAA_full_installation_records_verified', 'final_original4107_and_six_source_config_full_clone_restoration_completed'):
+            bad_audit = copy.deepcopy(audit)
+            bad_audit[key] = False
+            with self.assertRaises(ValueError):
+                self.c.helper_records(proof, bad_audit)
 
 
 if __name__ == '__main__':
