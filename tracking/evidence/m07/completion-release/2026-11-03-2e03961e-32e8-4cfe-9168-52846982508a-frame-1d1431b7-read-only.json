@@ -1,0 +1,176 @@
+{
+  "schema_version": "1.0",
+  "purpose": "fixed_1d1431b7_frame_success_read_only",
+  "run_id": "2e03961e-32e8-4cfe-9168-52846982508a",
+  "observed_at": "2026-11-03T00:10:53.094874+00:00",
+  "job_id": "1d1431b7-a885-4921-bae0-6ada2906fa5b",
+  "candidate_id": "7beca918-3fee-432f-88ae-52c620b95066",
+  "target": "pyibofyctwnqpvktepse",
+  "result": "observed",
+  "source_sha256": "bd8b035105f5da555a90fa32847bb226b836d6662a37f678c696b5ab87483c8f",
+  "provider_source_sha256": "2a663f05af131099f199fd1b7e137be06571518a73985c3b3befc2e562995d1b",
+  "sql_sha256": "3c23c636a72d7f4af9950b36639c79d2a8ef8fdb2aeee6104a535255cfb641e0",
+  "private_projection": {
+    "path": ".local/completion-release/frame-1d1431b7-2e03961e-32e8-4cfe-9168-52846982508a/closed-projection.json",
+    "sha256": "7f19e9efe8bdf5e0c3fb4f5f7d5ab3ba20802bcd33ef0390d64978e1edba9639"
+  },
+  "UI_receipt": {
+    "path": "tracking/evidence/m07/completion-release/2026-11-02-production-6o-chosen-frames-1d1431b7.json",
+    "sha256": "9aeb0c9fc88ec655e932823c43e522452073a31bf5427fc07f30f5f7369ed5ad"
+  },
+  "UI_worker_deployment": "dpl_6oA1iaHte26KG1DEkBEJ9KU3ahS7",
+  "read_only_rollback": true,
+  "query_calls": 1,
+  "job_or_configuration_mutated": false,
+  "processing_triggered": false,
+  "raw_CLI_saved": false,
+  "metadata": {
+    "attempt_count": 2,
+    "attempts": [
+      {
+        "attempt": 1,
+        "attempt_id": "74b1a982-afc6-49b1-9513-f62fa5c2df8c",
+        "claimed_at": "2026-11-02T23:58:16.357685+00:00",
+        "correlation_id": "frames:ad521a2b-4849-45dd-908e-75f324c1bd34",
+        "dispatch_generation": 1,
+        "stage": "extract_frames",
+        "stage_attempt": 1,
+        "workflow_execution_id": "32096",
+        "workflow_execution_ref_state": "recorded"
+      },
+      {
+        "attempt": 2,
+        "attempt_id": "de9ba1d8-dc41-45a8-b5dc-cf4c54e0179d",
+        "claimed_at": "2026-11-02T23:58:30.741874+00:00",
+        "correlation_id": "frames:ad521a2b-4849-45dd-908e-75f324c1bd34",
+        "dispatch_generation": 2,
+        "stage": "apply_frames",
+        "stage_attempt": 1,
+        "workflow_execution_id": "32097",
+        "workflow_execution_ref_state": "recorded"
+      }
+    ],
+    "database": "postgres",
+    "derivatives": [
+      {
+        "asset_id": "9d15d9ed-5778-4e23-b232-d5c26f62bd95",
+        "created_at": "2026-11-02T23:58:28.558523+00:00",
+        "linked_to_candidate_media": true,
+        "mime_type": "image/jpeg",
+        "output_stage": "extract_frames",
+        "producing_attempt_id": "74b1a982-afc6-49b1-9513-f62fa5c2df8c",
+        "purpose": "candidate_frame",
+        "sha256": "397596f58e13fa1da71dd1f6b4a99253fc3dea13c744d43ee7ee9c8bd2c040ac",
+        "size_bytes": 19941,
+        "source_asset_id": "7c9ab24b-3af1-46d5-899b-14cde65e23bb",
+        "source_timestamp_ms": 2000,
+        "status": "ready"
+      },
+      {
+        "asset_id": "61d7bc4f-c654-456e-bfea-dcf41c2d201f",
+        "created_at": "2026-11-02T23:58:29.180661+00:00",
+        "linked_to_candidate_media": true,
+        "mime_type": "image/jpeg",
+        "output_stage": "extract_frames",
+        "producing_attempt_id": "74b1a982-afc6-49b1-9513-f62fa5c2df8c",
+        "purpose": "candidate_frame",
+        "sha256": "10f1e46af42b04fb2beaa70032d630f0dc4f83fa51572c0c700762585cbd3c9a",
+        "size_bytes": 15807,
+        "source_asset_id": "7c9ab24b-3af1-46d5-899b-14cde65e23bb",
+        "source_timestamp_ms": 7000,
+        "status": "ready"
+      },
+      {
+        "asset_id": "35c961ef-25e6-45df-a546-ad0d6ecef335",
+        "created_at": "2026-11-02T23:58:29.712294+00:00",
+        "linked_to_candidate_media": true,
+        "mime_type": "image/jpeg",
+        "output_stage": "extract_frames",
+        "producing_attempt_id": "74b1a982-afc6-49b1-9513-f62fa5c2df8c",
+        "purpose": "candidate_frame",
+        "sha256": "e8a2a2a9d5a94c80a46daa5b212b719c4089c3df9226b603383ec8b1f41c77f2",
+        "size_bytes": 19951,
+        "source_asset_id": "7c9ab24b-3af1-46d5-899b-14cde65e23bb",
+        "source_timestamp_ms": 15000,
+        "status": "ready"
+      }
+    ],
+    "event_counts": [
+      {
+        "count": 1,
+        "event_type": "succeeded",
+        "stage": "apply_frames"
+      },
+      {
+        "count": 1,
+        "event_type": "succeeded",
+        "stage": "extract_frames"
+      }
+    ],
+    "history_count": 40,
+    "job": {
+      "attempt": 2,
+      "completed_stage_count": 2,
+      "correlation_id": "frames:ad521a2b-4849-45dd-908e-75f324c1bd34",
+      "created_at": "2026-11-02T23:58:14.034741+00:00",
+      "current_attempt_id": "de9ba1d8-dc41-45a8-b5dc-cf4c54e0179d",
+      "error_present": false,
+      "frame_count": 3,
+      "id": "1d1431b7-a885-4921-bae0-6ada2906fa5b",
+      "implementation_version": "frame-extraction.v1",
+      "input_configuration_keys": [
+        "implementation_version",
+        "native_image_id"
+      ],
+      "kind": "frame_extract",
+      "native_image_id": "sha256:3d4286db01b27b40ec9078e303158e93003a096d5ddad1c9802130238de6dd80",
+      "requested_count": 3,
+      "requested_times_match": true,
+      "result_frame_ids": [
+        "35c961ef-25e6-45df-a546-ad0d6ecef335",
+        "61d7bc4f-c654-456e-bfea-dcf41c2d201f",
+        "9d15d9ed-5778-4e23-b232-d5c26f62bd95"
+      ],
+      "stage": "apply_frames",
+      "status": "succeeded",
+      "unavailable_count": 0,
+      "updated_at": "2026-11-02T23:58:30.797959+00:00",
+      "workflow_execution_id": "32097"
+    },
+    "observed_at": "2026-11-03T00:10:52.988631+00:00",
+    "operator": "postgres",
+    "payload_count": 1,
+    "payload_metadata": [
+      {
+        "attempt_id": "74b1a982-afc6-49b1-9513-f62fa5c2df8c",
+        "created_at": "2026-11-02T23:58:30.339279+00:00",
+        "ffmpeg_version": null,
+        "implementation_version": "frame-extraction.v1",
+        "native_image_id": "sha256:3d4286db01b27b40ec9078e303158e93003a096d5ddad1c9802130238de6dd80",
+        "stage": "extract_frames"
+      }
+    ],
+    "request": {
+      "candidate_id": "7beca918-3fee-432f-88ae-52c620b95066",
+      "candidate_media_id": "53fccb71-edb9-4c1b-ad6b-12624a7ea522",
+      "frozen_input_equals_job": true,
+      "source_asset_id": "7c9ab24b-3af1-46d5-899b-14cde65e23bb"
+    },
+    "session_user": "postgres",
+    "source": {
+      "asset_id": "7c9ab24b-3af1-46d5-899b-14cde65e23bb",
+      "duration_ms": 21880,
+      "mime_type": "video/mp4",
+      "purpose": "candidate_video",
+      "sha256": "ffe461d30d48b32d90f1165627e2d104b6817f61d96a5a4bd9dcd6ff1964fc0a",
+      "size_bytes": 4316429,
+      "status": "ready"
+    }
+  },
+  "limitations": [
+    "The retained frozen job configuration and extracted payload attest requested/reported native image; no per-attempt platform manifest or independent native execution receipt was selected.",
+    "Worker deployment attribution is from the dated Root UI/rollout receipts; these DB rows do not contain a deployment ID.",
+    "This query verifies derivative metadata and links, not frame bytes, visual content or OpenAI processing.",
+    "No lease/request body, credentials, facts, filename, private URL, transcript or media bytes were selected."
+  ]
+}
