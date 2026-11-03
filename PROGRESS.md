@@ -1,6 +1,16 @@
 # Everyone Presentation Studio - current English-output rollout
 
-## Current checkpoint - 2026-11-03T12:42:46.386419+00:00
+## Current checkpoint - 2026-11-03T13:25:16.261235+00:00
+
+Canonical history 42 is accepted. The [compact normal apply](tracking/evidence/m07/presentation-generation-compact-release/2026-11-03T13-18-27-651163Z-apply.json) returned normally with a genuine commit marker and two equal after-readbacks. The [Root audit](tracking/evidence/m07/presentation-generation-compact-release/Root-2244e718-postapply-audit.json) verified 199 source pins and the exact 516,882-byte SQL request, all 76 table row multisets including every reason value, exactly seven prosrc changes with all other function attributes unchanged, the declared catalogue/history changes and unchanged fixed functions, roles, policies and dependencies. Protected before/after checkpoints are retained; they are not restore proof.
+
+The [compact owned collector](tracking/evidence/m07/presentation-generation-compact-collector-proof/144d063a-outcome.json) passed in 172,543 ms with 290 source pairs, negative-preimage refusal, diagnostic rollback, a genuine nonce, full checkpoints and audited cleanup. Seven complete old/compact state pairs were equal in the same read-only RR statements: five at history 41 and two at history 42. Only immutable function-body literals were reused. The accepted ec5 generation proof and dated48ed scopes remain carried without replay. Both earlier HTTP 413 attempts and their not-applied readbacks remain dated history; neither failed claim was replayed or repaired.
+
+Serving web Gp3/e259/f852 and worker Fxd/ffb4/f814 with retained native3d are unchanged; all five processing configurations remain enabled. Root1023 remains serving-source quality. This checkpoint adds no new UI journey, broad quality run, worker/native build, heartbeat or final web deployment. The held owner task has been released through the existing Claude connection; actual delegated outputs are pending. Human logo bytes, delegated video and the [hosted guest expiry/cleanup proof](tracking/evidence/m07/guest-expiry-only-proof/Root-bb1d6e54-expiry-cleanup-audit.json) retain their recorded scopes.
+
+The [last REST-matched private Main push](tracking/evidence/m07/completion-release/canonical-push-6c4f4d66-readback.json) remains 6c4f4d66; later local changes are not claimed pushed. Its recorded time is not an independently observed push time. Full M07 remains false. Next: Await the released existing Claude Selection/Shortlist task and verify its actual Ready versions, PDFs/original media, exact-version feedback and reciprocal app readbacks. Then finish final exact-Main quality and web release, privacy/push, runbooks and access cleanup. Preserve immutable versions and prior failures; Narrator/contributor/mobile remain skipped and AT069 remains historically blocked without replay.
+
+## Historical checkpoint - 2026-11-03T12:42:46.386419+00:00
 
 Production remains web Gp3/e259/f852, worker Fxd/ffb4/f814 with retained native3d, all five processing configurations enabled, and canonical history 41. Root1023 remains the accepted quality result for the unchanged serving product source; no new broad test, native build, startup or final web deployment is claimed.
 
