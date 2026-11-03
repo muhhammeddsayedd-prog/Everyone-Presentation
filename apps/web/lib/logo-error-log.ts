@@ -12,19 +12,33 @@ const storageCodes = new Set(['NoSuchBucket', 'NoSuchKey', 'NoSuchUpload', 'Inva
   'AccessDenied', 'ResourceLocked', 'DatabaseError']);
 const httpStatus = (value: unknown) => typeof value === 'number' && Number.isInteger(value) && value >= 100 && value <= 599 ? value : null;
 
+export interface LogoErrorDetails {
+  logo_phase: string; storage_http_status: number | null; storage_body_status: number | null; storage_code: string | null;
+}
+/** The same closed projection serves HTTP logging and text-only MCP clients. */
+export function safeLogoErrorDetails(value: unknown): LogoErrorDetails | null {
+  try {
+    if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
+    const details = value as Record<string, unknown>, phase = details.logo_phase;
+    if (typeof phase !== 'string' || !phases.has(phase)) return null;
+    const storageCode = details.storage_code;
+    return { logo_phase: phase, storage_http_status: httpStatus(details.storage_http_status),
+      storage_body_status: httpStatus(details.storage_body_status),
+      storage_code: typeof storageCode === 'string' && storageCodes.has(storageCode) ? storageCode : null };
+  } catch { return null; }
+}
+
 /** Emit only logo-marked failures at the existing HTTP catch. No request, error, message or arbitrary detail is serialized. */
 export function logLogoRequestFailure(error: unknown, requestId: string,
   write: (value: string) => void | Promise<void> = value => console.error(value)): void {
   try {
     if (!(error instanceof DomainError)) return;
-    const details = error.details, phase = details.logo_phase;
-    if (typeof phase !== 'string' || !phases.has(phase)) return;
-    const rawCode = error.code, storageCode = details.storage_code;
+    const details = safeLogoErrorDetails(error.details);
+    if (!details) return;
+    const rawCode = error.code;
     const correlation = typeof requestId === 'string' && /^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/u.test(requestId) ? requestId : 'unavailable';
     const emitted = write(JSON.stringify({ event: 'logo_request_failed', request_id: correlation,
-      code: codes.has(rawCode) ? rawCode : 'DEPENDENCY_UNAVAILABLE', logo_phase: phase,
-      storage_http_status: httpStatus(details.storage_http_status), storage_body_status: httpStatus(details.storage_body_status),
-      storage_code: typeof storageCode === 'string' && storageCodes.has(storageCode) ? storageCode : null }));
+      code: codes.has(rawCode) ? rawCode : 'DEPENDENCY_UNAVAILABLE', ...details }));
     if (emitted) void emitted.catch(() => {});
   } catch { /* Diagnostic getters or sink failures must not replace the original HTTP response. */ }
 }

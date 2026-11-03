@@ -1,3 +1,5 @@
+import { safeLogoErrorDetails } from './logo-error-log';
+
 type ErrorRecord = Record<string, unknown>;
 function record(value: unknown): ErrorRecord {
   return value && typeof value === 'object' && !Array.isArray(value) ? value as ErrorRecord : {};
@@ -12,6 +14,7 @@ export function mcpErrorText(value: unknown, mutation = false): string {
     const version = source[field];
     if (typeof version === 'number' && Number.isSafeInteger(version) && version >= (field === 'current_draft_revision' ? 0 : 1)) details[field] = version;
   }
+  Object.assign(details, safeLogoErrorDetails(source));
   const code = typeof error.code === 'string' && /^[A-Z][A-Z0-9_]{0,99}$/u.test(error.code) ? error.code : 'DEPENDENCY_UNAVAILABLE';
   let message = typeof error.message === 'string' && error.message.length <= 2000 ? error.message : 'The operation could not be completed. Contact the workspace administrator.';
   if (mutation && ['OPERATION_RESPONSE_INVALID', 'CENTRAL_RESPONSE_INVALID', 'DEPENDENCY_UNAVAILABLE'].includes(code)) {

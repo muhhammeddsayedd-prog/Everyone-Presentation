@@ -1,0 +1,50 @@
+{
+  "schema_version": "mcp-logo-error-text-source-validation.v1",
+  "scope": "Frontend isolated source + synthetic in-memory MCP/HTTP tests only",
+  "product_files": [
+    "apps/web/lib/logo-error-log.ts",
+    "apps/web/lib/mcp-error-text.ts"
+  ],
+  "test_file": "tests/server/mcp-logo-error-text.test.ts",
+  "source_sha256": {
+    "apps/web/lib/logo-error-log.ts": "e248cb6caee8d7fa4f4cb365cdcbbd1234909aaef8b9f220d52d7d69e1c12014",
+    "apps/web/lib/mcp-error-text.ts": "395b52788454ece0afd08d2579b9434b2a1e477d2692c6cdcd634b2a731aa5fc",
+    "tests/server/mcp-logo-error-text.test.ts": "29898a0b068d4d4fa294b036ced0351e8e03c68b90155341b2ee6c294c7c2edd"
+  },
+  "product_preimage_sha256": {
+    "apps/web/lib/logo-error-log.ts": "0ff749b53ca742e22c4ad683ca7c5523e15fe2562f01e3d4cb20290a95905e0f",
+    "apps/web/lib/mcp-error-text.ts": "b32bba6afade505fe074cf7f519c8c6274cb8d1bf196f53d8bbc5041acf085e2"
+  },
+  "RED": {
+    "command": "node tools/run-tests.mjs tests/server/mcp-logo-error-text.test.ts",
+    "tests": 4,
+    "passed": 1,
+    "failed": 3,
+    "cause": "text details omitted closed logo fields while structuredContent retained them"
+  },
+  "GREEN": {
+    "command": "node tools/run-tests.mjs tests/server/mcp-logo-error-text.test.ts tests/server/mcp-error-projection.test.ts tests/server/logo-error-log.test.ts",
+    "tests": 17,
+    "passed": 17,
+    "failed": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "duration_ms": 3583.5014
+  },
+  "typecheck": {
+    "command": "node node_modules/typescript/bin/tsc --noEmit --incremental false",
+    "exit_code": 0
+  },
+  "focused_lint": {
+    "command": "node node_modules/eslint/bin/eslint.js apps/web/lib/logo-error-log.ts apps/web/lib/mcp-error-text.ts tests/server/mcp-logo-error-text.test.ts --max-warnings 0",
+    "exit_code": 0
+  },
+  "diff_check_exit_code": 0,
+  "shared_existing_closed_sanitizer": true,
+  "revision_fields_mutation_guidance_HTTP_response_unchanged": true,
+  "provider_SQL_browser_or_deployment_calls": 0,
+  "public_contract_or_permissions_changed": false,
+  "original_worktree_dirt_preserved": true,
+  "Main_modified": false,
+  "live_MCP_client_acceptance_claimed": false
+}
