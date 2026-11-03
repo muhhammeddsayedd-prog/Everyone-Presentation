@@ -1,0 +1,61 @@
+{
+  "schema_version": "root-canonical42-compact-apply-audit.v1",
+  "recorded_at": "2026-11-03T13:19:32.386234+00:00",
+  "result": "passed",
+  "run_id": "2244e718-fe3a-415f-b85a-b5cbfad5cb99",
+  "target": "pyibofyctwnqpvktepse",
+  "canonical_history": 42,
+  "version": "20261103104337",
+  "migration_sha256": "685010d2130a83cf4fcd8f11184b4faf1384d1ddc34436d33d458d8987744b78",
+  "apply_receipt": {
+    "path": "tracking/evidence/m07/presentation-generation-compact-release/2026-11-03T13-18-27-651163Z-apply.json",
+    "sha256": "43ad177660d5951e32d9549394cac6265ae8c97014861585d25535724c220301"
+  },
+  "normal_process_exit": 0,
+  "source_seals_verified": 199,
+  "all_current_sources_equal_private_prepare_apply_and_public_receipt": true,
+  "protected_claim_normal_return_and_raw_response_binding": true,
+  "normal_commit_nonce": "8c926315-2bc7-45a6-bba9-1e64761fd320",
+  "response_sha256": "b59348248929047465a8304d6ef8f55bb8ef91d0132f7532d328618e02aae7fa",
+  "actual_SQL_bytes": 516882,
+  "actual_SQL_sha256": "943acac885deaecab5b362f3b6166bd06b4b6a29f7cb80c441ccdfe13c9fddd7",
+  "actual_SQL_exact_reviewed_renderer": true,
+  "two_independent_after_readbacks_equal_and_full76_checkpoints_verified": true,
+  "independent_full76_row_multisets_including_every_reason_unchanged": true,
+  "independent_exact_seven_raw_prosrc_only_all_other_function_attributes_equal": true,
+  "independent_catalogue_only_seven_declared_source_hash_changes": true,
+  "independent_exact_one_history42_row_append": true,
+  "fixed_logo_validator_and_normalized_function_role_policy_dependency_scope_equal": true,
+  "existing_complete_comparison_function_passed": true,
+  "before_checkpoint": {
+    "history_path": [
+      "state",
+      "history",
+      "versions"
+    ],
+    "path": ".local/presentation-generation-compact-release/2244e718-fe3a-415f-b85a-b5cbfad5cb99/before-checkpoint.json",
+    "restore_verified": false,
+    "scope": "before_apply",
+    "sha256": "eeae6776a867ec495a2f964b715639ce77116b81067542bc8713885ce9895daf",
+    "tables": 76
+  },
+  "after_checkpoint": {
+    "history_path": [
+      "state",
+      "history",
+      "versions"
+    ],
+    "path": ".local/presentation-generation-compact-release/2244e718-fe3a-415f-b85a-b5cbfad5cb99/after-checkpoint.json",
+    "restore_verified": false,
+    "scope": "after_apply",
+    "sha256": "69a70cc1074640742436869c0570d48264d4025c7a8862195a813cbe30b55ad7",
+    "tables": 76
+  },
+  "private_checkpoint_is_restore_proof": false,
+  "worker_two_metadata_GETs_equal": true,
+  "new_worker_heartbeat_or_native_build_claimed": false,
+  "audit_dispatched_SQL_or_API": false,
+  "previous_failed_claims_responses_and_unchanged_readbacks_preserved": true,
+  "hosted_generation_or_final_exact_Main_web_acceptance_claimed": false,
+  "AT069_action_prepared_or_replayed": false
+}

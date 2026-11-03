@@ -9,8 +9,8 @@ _spec = importlib.util.spec_from_file_location('generation42_compact_Context', H
 s = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(s)
 old = s.module('generation42_frozen_factored_TT_release', s.MAIN / 'development/m07/presentation-generation-factored-release/release.py', 'dab62e66fb5cbaaa7f358419e127d06cfa0dab915626c750d2d0045680b9b405')
-READ_ENABLED=False
-APPLY_ENABLED=False
+READ_ENABLED=True
+APPLY_ENABLED=True
 PURPOSE = 'presentation-generation-compact-release'
 COLLECTOR_FAMILY = 'presentation-generation-compact-collector-proof'
 
