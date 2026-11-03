@@ -1,0 +1,42 @@
+{
+  "schema_version": "root-generation42-English-guard-collector-armed-plan.v1",
+  "recorded_at": "2026-11-03T11:51:26.837820+00:00",
+  "source_commit": "f8540042",
+  "author_commits": [
+    "2e9afda07066c6f354f0233286464a0cfd531a12",
+    "c1e7b807ed8d1ff96de06338635c4a627fe0de5c"
+  ],
+  "Root_source_review": "PASS_canonical4_collector5",
+  "Runtime_canonical4_source_peer": "CLOSED_PASS",
+  "Frontend_collector5_source_peer": "CLOSED_PASS",
+  "focused_checks": {
+    "canonical_tests": 3,
+    "canonical_seconds": 3.761,
+    "collector_tests": 3,
+    "collector_seconds": 27.56
+  },
+  "actual_generated_syntax_checks": 3,
+  "entry_closed_sha256": "537674e9ca7b444358de4026b8d365f436abc049d6ab5686dbb040a69dfd6183",
+  "entry_armed_sha256": "0ec85840475595245ef95b6970bdf44ac465d5a6d48478171ef27be4d409e62a",
+  "outputs": [
+    {
+      "path": ".local/presentation-generation-collector-english-guard-compiled/bridge-4f4be11c-4737-4838-8a87-8881e2434892.mjs",
+      "sha256": "8cba7cd415dba24feb871933f7703a09e8eb3b5574e91722ba7ae142e5301254",
+      "syntax_exit": 0
+    },
+    {
+      "path": ".local/presentation-generation-collector-english-guard-compiled/entry-4f4be11c-4737-4838-8a87-8881e2434892.mjs",
+      "sha256": "e68214f53af1742b47071985dcea58c69153837dbe791c71807bb5880072e350",
+      "syntax_exit": 0
+    },
+    {
+      "path": ".local/presentation-generation-collector-english-guard-compiled/controller-4f4be11c-4737-4838-8a87-8881e2434892.mjs",
+      "sha256": "d8c0f96448eb4e89cbc217213bd2399f18622dbec48316a41fa9dcb55fa69c68",
+      "syntax_exit": 0
+    }
+  ],
+  "parent_controller_entry_bridge_inverse_equal": true,
+  "only_legacy_English_source_operand_and_new_ownership_changed": true,
+  "canonical_READ_APPLY_enabled": false,
+  "actual_execution_dispatched": false
+}
