@@ -1,0 +1,86 @@
+{
+  "schema_version": "generation-collector-setup-failure-safe-outcome.v1",
+  "run_id": "7ea4ca87-98e5-4f20-bce1-739816a5858b",
+  "references": {
+    "raw": {
+      "path": "tracking/evidence/m07/presentation-generation-collector-proof/2026-11-03T10-56-59.946Z-7ea4ca87.json",
+      "sha256": "fc2cf8ee9960f97ff217316b5336b2f2dd0074394b14fdef6585fe267ce15444"
+    },
+    "audit": {
+      "path": "tracking/evidence/m07/presentation-generation-collector-proof/Root-7ea4ca87-postrun-audit.json",
+      "sha256": "780d071f61ad65f13ff8119077f9198a8bf2e48e44d298b1f21018191771cae1"
+    }
+  },
+  "actual_outcome": {
+    "result": "failed",
+    "normal_process_exit": 1,
+    "elapsed_ms": 51997,
+    "failed_checkpoint": "logo-info-rollback-proof",
+    "safe_failure_code": "PROJECT39_RACE_ASSERTION_FAILED",
+    "runtime_source_seals_verified": 236,
+    "actual_and_private_executed_source_hashes_equal": true,
+    "dispatch_once_claim_created": true,
+    "cloud_called": false,
+    "provider_called": false
+  },
+  "confirmed_cause": {
+    "failure_kind": "post_fixture_history_array_assertion_expected40_actual41",
+    "accepted41_prerequisite_installed_before_legacy40_assertion": true,
+    "extra_accepted_history_version": "20261103031200",
+    "expected_legacy_history_entries": 40,
+    "actual_post_fixture_history_entries": 41,
+    "raw_legacy_restored_current40_history_count": 40,
+    "raw_legacy_count_is_not_a_post_fixture41_count": true,
+    "failure_is_JavaScript_history_deep_equality_not_a_native_SQL_error": true,
+    "native_SQLSTATE": null,
+    "native_SQL_failure_claimed": false,
+    "private_bridge_dispatch_observed": false
+  },
+  "completed_fixture_boundaries": {
+    "restored38_all_table_hashes_exact": true,
+    "restored38_catalogue_exact": true,
+    "declared_qualification_rows": 3,
+    "declared_config_tables": 5,
+    "declared_managed0074_and_one_ledger": true,
+    "declared_synthetic_audit_rows": 3,
+    "accepted41_fixture_appended": true,
+    "canonical_config_or_identity_claimed": false
+  },
+  "unreached": {
+    "collector_validation_started": false,
+    "seven_target_42_migration_dispatched": false,
+    "negative_preimage_transaction": false,
+    "diagnostic_rollback_transaction": false,
+    "normal_commit_nonce_transaction": false,
+    "two_equal_after_reads_and_full76_comparison": false
+  },
+  "private_custody": {
+    "failure.json": {
+      "bytes": 270,
+      "sha256": "041ac15e817483d4f2a70d572e6bf8b02d3f3d3db2e12a4321e71a3d15ef928e"
+    },
+    "private_acl_verified": true,
+    "raw_failure_or_private_payloads_copied_to_this_outcome": false
+  },
+  "cleanup": {
+    "all_owned_resources_absent": true,
+    "original_data_catalogue_and_global_roles_unchanged": true,
+    "shared_lock_released": true,
+    "independent_same_daemon_containers_normal_zero_empty": true,
+    "independent_same_daemon_volumes_normal_zero_empty": true,
+    "fresh_shared_lock_absent": true
+  },
+  "sole_entry_closure": {
+    "path": "development/m07/presentation-generation-collector-proof/entry.mjs",
+    "armed_sha256": "6d2ceda0d9fd97da0bdb45c2c8938c289e87be666a66568db2ed1a2eb9913acb",
+    "closed_sha256": "12ef5cf69bdc65d06a49bf2c567b896e77bf388df1cc0b283e976c9381b9e7f3"
+  },
+  "acceptance_boundary": {
+    "collector_or_canonical_acceptance_claimed": false,
+    "prior_local_generation_ec5_acceptance_invalidated": false,
+    "prior_guest_expiry_acceptance_invalidated": false,
+    "compiled_artifacts_and_claims_preserved": true,
+    "consumed_collector_source_changed_by_this_outcome": false,
+    "automatic_retry_or_new_runtime": false
+  }
+}
