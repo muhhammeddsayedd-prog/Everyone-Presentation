@@ -1,0 +1,17 @@
+{
+  "scope": "Root and independent peer source review of the fresh daemon-only build adapter; offline checks distinct from actual build receipts.",
+  "reviewed_disabled_commit": "5e8e3efa18decd0c0a1a04ecd3107cd7cafa407d",
+  "Main_armed_commit": "3383123",
+  "Root_full_four_file_review": "passed",
+  "independent_runtime_peer": "passed",
+  "Root_offline_tests": {"count": 9, "passed": 9, "failed": 0, "seconds": 0.256},
+  "receipt_header_issue": "Generic source_sha256 header restored before arming; serialization regression passed.",
+  "arming_only": ["BUILD_ENABLED false to true", "PROFILE None to exact protected aa51/b981 profile reference"],
+  "armed_build_sha256": "20dffed203fb108195c4d537dc66391875b37f31f8a4ffaafa98776ad1e73a67",
+  "armed_anchors_sha256": "c78fcc732fa98d214c4d670d4295c5afb43ad829c7845f35cd34298566a7fbc2",
+  "protected_profile_sha256": "b981a7d7d5ec3f5cd9e8750a0a0e76ad2b7fcc4fd591082f3a8acfd261330bb1",
+  "all_four_build_files_frozen_after_claims": true,
+  "old_consumed_sources_or_claims_edited": false,
+  "provider_or_deployment_admitted_by_this_record": false,
+  "actual_local_build_receipt": "tracking/evidence/m07/worker-ocr-config-daemon-build/aa51ae63-local-admission.json"
+}
