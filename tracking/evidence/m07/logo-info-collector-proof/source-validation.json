@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-11-03T04:01:21.473704+00:00",
+  "scope": "source/parser/fake-SQL ports only",
+  "source_seals": {
+    "development/m07/logo-info-collector-proof/compiler.py": "a0996447f7440055e77f7c95753e14e706162b79e4d30bdc6bcffbc86be697d9",
+    "development/m07/logo-info-collector-proof/entry.mjs": "ae464c02a6a1d8dad1ff83e737eed9ca03256227558344b518d52fd0f26648b3",
+    "development/m07/logo-info-collector-proof/local.py": "7426176548939d27caf039c9d93b6dcd79791ab3a1bdb4a99b75daab1ec86fd5",
+    "development/m07/logo-info-collector-proof/README.md": "3c006fe8b3f434e18f1debba7511e0f32741f79e014431b4fc4fed8f565b1ba7",
+    "development/m07/logo-info-collector-proof/test_proof.py": "9e86913f7517eb9878ce7b1ef479d6bfc32e1e2359fbe2688f8549e6a2c9e169"
+  },
+  "checks": {
+    "unittest": {
+      "tests": 5,
+      "passed": 5,
+      "failed": 0,
+      "seconds": 4.278,
+      "exit_code": 0
+    },
+    "eslint": {
+      "errors": 0,
+      "warnings": 0,
+      "exit_code": 0
+    },
+    "two_actual_generated_Node_syntax_checks": 0,
+    "diff_check_exit_code": 0,
+    "eight_real_setup_expressions_ran_only_against_fake_sql_then_AST_parsed": true,
+    "real_default_off_import_refused_before_ports": true
+  },
+  "retained_source_preparation_failures": [
+    {
+      "stage": "initial RAM-generated controller syntax",
+      "cause": "local migration variable collided with existing migration39 variable",
+      "fix": "rename only new setup variable to migration40",
+      "dispatch": false
+    },
+    {
+      "stage": "first fake-setup test",
+      "tests": 5,
+      "passed": 4,
+      "cause": "test-only fake script omitted node assert import",
+      "fix": "test harness import only",
+      "dispatch": false
+    },
+    {
+      "stage": "next fake-setup test",
+      "tests": 5,
+      "passed": 4,
+      "cause": "test expected escaped newline rather than actual emitted Unicode/multiline SQL literal",
+      "fix": "test assertion matches actual emitted literal; fixture bytes unchanged",
+      "dispatch": false
+    }
+  ],
+  "execution_enabled": false,
+  "SQL_executed": false,
+  "Docker_called": false,
+  "provider_called": false
+}
