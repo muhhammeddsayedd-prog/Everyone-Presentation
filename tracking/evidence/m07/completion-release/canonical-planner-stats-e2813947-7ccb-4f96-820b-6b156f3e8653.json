@@ -1,0 +1,231 @@
+{
+  "schema_version": "canonical-planner-stats-read.v1",
+  "run_id": "e2813947-7ccb-4f96-820b-6b156f3e8653",
+  "recorded_at": "2026-11-03T08:52:37.057715+00:00",
+  "target": "pyibofyctwnqpvktepse",
+  "normal_CLI_exit": 0,
+  "timed_out": false,
+  "overflow": false,
+  "query_sha256": "fc166279efba9c05f82253dbbca2227e6b4959fc9b5b643426a58d46acbf1710",
+  "stdout_sha256": "c320822880ab05be786d903fd59127756ed2e1a8e504a9f2ab0366d430331685",
+  "stderr_sha256": "674bac3cf7c77ecc2d37db6aa5af0f97f87b9c5dd22c630d73766e8e51b556f7",
+  "stdout_bytes": 7316,
+  "stderr_bytes": 252,
+  "analysis_vacuum_DDL_or_business_changes_requested": false,
+  "result": "passed",
+  "scope": "read-only closed planner estimates/settings for18 relations; not actual row counts, plan/JIT time or dominant-cost proof",
+  "data": {
+    "history_count": 41,
+    "latest_version": "20261103031200",
+    "observed_at": "2026-11-03T08:52:37.115085+00:00",
+    "server_version_num": "170011",
+    "settings": {
+      "default_statistics_target": "100",
+      "jit": "off",
+      "jit_above_cost": "100000",
+      "jit_inline_above_cost": "500000",
+      "jit_optimize_above_cost": "500000",
+      "plan_cache_mode": "auto"
+    },
+    "tables": [
+      {
+        "analyze_count": 0,
+        "autoanalyze_count": 2,
+        "estimated_rows": 5,
+        "last_analyze": null,
+        "last_autoanalyze": "2026-11-02T03:33:51.481667+00:00",
+        "live_estimate": 5,
+        "modifications_since_analyze": 45,
+        "pages": 1,
+        "table": "auth.sessions"
+      },
+      {
+        "analyze_count": 0,
+        "autoanalyze_count": 0,
+        "estimated_rows": -1,
+        "last_analyze": null,
+        "last_autoanalyze": null,
+        "live_estimate": 25,
+        "modifications_since_analyze": 44,
+        "pages": 0,
+        "table": "eps.assignments"
+      },
+      {
+        "analyze_count": 0,
+        "autoanalyze_count": 0,
+        "estimated_rows": -1,
+        "last_analyze": null,
+        "last_autoanalyze": null,
+        "live_estimate": 28,
+        "modifications_since_analyze": 34,
+        "pages": 0,
+        "table": "eps.candidate_media"
+      },
+      {
+        "analyze_count": 0,
+        "autoanalyze_count": 1,
+        "estimated_rows": 28,
+        "last_analyze": null,
+        "last_autoanalyze": "2026-11-01T13:33:26.417665+00:00",
+        "live_estimate": 29,
+        "modifications_since_analyze": 2,
+        "pages": 7,
+        "table": "eps.candidates"
+      },
+      {
+        "analyze_count": 0,
+        "autoanalyze_count": 0,
+        "estimated_rows": -1,
+        "last_analyze": null,
+        "last_autoanalyze": null,
+        "live_estimate": 1,
+        "modifications_since_analyze": 1,
+        "pages": 0,
+        "table": "eps.mcp_oauth_resources"
+      },
+      {
+        "analyze_count": 0,
+        "autoanalyze_count": 12,
+        "estimated_rows": 503,
+        "last_analyze": null,
+        "last_autoanalyze": "2026-11-02T14:43:45.713702+00:00",
+        "live_estimate": 529,
+        "modifications_since_analyze": 50,
+        "pages": 30,
+        "table": "eps.media_assets"
+      },
+      {
+        "analyze_count": 0,
+        "autoanalyze_count": 1,
+        "estimated_rows": 54,
+        "last_analyze": null,
+        "last_autoanalyze": "2026-11-02T03:37:51.644323+00:00",
+        "live_estimate": 60,
+        "modifications_since_analyze": 6,
+        "pages": 3,
+        "table": "eps.presentation_version_assets"
+      },
+      {
+        "analyze_count": 0,
+        "autoanalyze_count": 2,
+        "estimated_rows": 11,
+        "last_analyze": null,
+        "last_autoanalyze": "2026-11-02T03:36:51.616762+00:00",
+        "live_estimate": 13,
+        "modifications_since_analyze": 18,
+        "pages": 1,
+        "table": "eps.presentation_versions"
+      },
+      {
+        "analyze_count": 0,
+        "autoanalyze_count": 0,
+        "estimated_rows": -1,
+        "last_analyze": null,
+        "last_autoanalyze": null,
+        "live_estimate": 4,
+        "modifications_since_analyze": 4,
+        "pages": 0,
+        "table": "eps.presentation_video_english_transcripts"
+      },
+      {
+        "analyze_count": 0,
+        "autoanalyze_count": 0,
+        "estimated_rows": -1,
+        "last_analyze": null,
+        "last_autoanalyze": null,
+        "live_estimate": 6,
+        "modifications_since_analyze": 6,
+        "pages": 0,
+        "table": "eps.presentation_video_transcripts"
+      },
+      {
+        "analyze_count": 0,
+        "autoanalyze_count": 2,
+        "estimated_rows": 59,
+        "last_analyze": null,
+        "last_autoanalyze": "2026-11-02T12:23:12.513512+00:00",
+        "live_estimate": 100,
+        "modifications_since_analyze": 45,
+        "pages": 10,
+        "table": "eps.roles"
+      },
+      {
+        "analyze_count": 0,
+        "autoanalyze_count": 7,
+        "estimated_rows": 1165,
+        "last_analyze": null,
+        "last_autoanalyze": "2026-11-03T01:49:00.195966+00:00",
+        "live_estimate": 1165,
+        "modifications_since_analyze": 0,
+        "pages": 25,
+        "table": "eps.slots"
+      },
+      {
+        "analyze_count": 0,
+        "autoanalyze_count": 1,
+        "estimated_rows": 54,
+        "last_analyze": null,
+        "last_autoanalyze": "2026-10-31T01:25:36.559551+00:00",
+        "live_estimate": 63,
+        "modifications_since_analyze": 9,
+        "pages": 10,
+        "table": "eps.version_slides"
+      },
+      {
+        "analyze_count": 0,
+        "autoanalyze_count": 0,
+        "estimated_rows": -1,
+        "last_analyze": null,
+        "last_autoanalyze": null,
+        "live_estimate": 32,
+        "modifications_since_analyze": 47,
+        "pages": 0,
+        "table": "eps.workspace_candidates"
+      },
+      {
+        "analyze_count": 0,
+        "autoanalyze_count": 3,
+        "estimated_rows": 3,
+        "last_analyze": null,
+        "last_autoanalyze": "2026-11-01T13:18:26.034992+00:00",
+        "live_estimate": 6,
+        "modifications_since_analyze": 37,
+        "pages": 1,
+        "table": "eps.workspaces"
+      },
+      {
+        "analyze_count": 0,
+        "autoanalyze_count": 0,
+        "estimated_rows": -1,
+        "last_analyze": null,
+        "last_autoanalyze": null,
+        "live_estimate": 12,
+        "modifications_since_analyze": 12,
+        "pages": 0,
+        "table": "public.app_capability_grants"
+      },
+      {
+        "analyze_count": 0,
+        "autoanalyze_count": 0,
+        "estimated_rows": -1,
+        "last_analyze": null,
+        "last_autoanalyze": null,
+        "live_estimate": 8,
+        "modifications_since_analyze": 8,
+        "pages": 0,
+        "table": "public.project_memberships"
+      },
+      {
+        "analyze_count": 0,
+        "autoanalyze_count": 0,
+        "estimated_rows": -1,
+        "last_analyze": null,
+        "last_autoanalyze": null,
+        "live_estimate": 8,
+        "modifications_since_analyze": 11,
+        "pages": 0,
+        "table": "public.projects"
+      }
+    ]
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "schema_version": "root-current7-stage-armed-plan.v1",
+  "recorded_at": "2026-11-03T08:54:25.432609+00:00",
+  "source_commit": "e3df8ac7",
+  "author_commit": "9a77e1cf9c1606c5f153e938b7104bd4abacecae",
+  "Root_source_review": "PASS_all7",
+  "Recovery_independent_source_peer": "PASS_all7",
+  "focused_checks": {
+    "Python_passed": 5,
+    "Python_seconds": 7.841,
+    "Node_passed": 3,
+    "Node_ms": 2166.1972
+  },
+  "entry_closed_sha256": "fb04e2f64eeb346b046cc5c6a3455b177bb44d85316542772f5a079941051f36",
+  "entry_armed_sha256": "707ae08def04de2c37da3f4196ad3b2f21d6b5a1331cc728f57b4a67767be839",
+  "outputs": [
+    {
+      "path": ".local/presentation-generation-scalar-stage-diagnostic-compiled/cases-7aa7cf83-7ac5-40f8-8b79-98afda94277c.mjs",
+      "sha256": "64a4cffbab89c4cebbf46982fec827d1305fabab7a3172e71556058f28674516",
+      "syntax_exit": 0
+    },
+    {
+      "path": ".local/presentation-generation-scalar-stage-diagnostic-compiled/callback-7aa7cf83-7ac5-40f8-8b79-98afda94277c.mjs",
+      "sha256": "8549ff9762409918bb8294ddd12c1b357d493e07dbc920e4d796f02b50bdbb59",
+      "syntax_exit": 0
+    },
+    {
+      "path": ".local/presentation-generation-scalar-stage-diagnostic-compiled/controller-7aa7cf83-7ac5-40f8-8b79-98afda94277c.mjs",
+      "sha256": "efe94d1ba99b8810cd470a2b054d90f226f304c8797c48ca67577bf8c32f90e7",
+      "syntax_exit": 0
+    }
+  ],
+  "execution_dispatched": false,
+  "scope": "one fresh owned current7 MCP-large8s stage diagnostic, same frozen capture and original7 restoration; no performance or production acceptance"
+}

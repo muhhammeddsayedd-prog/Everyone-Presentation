@@ -1,0 +1,53 @@
+{
+  "schema_version": "root-current7-stage-postrun-audit.v1",
+  "recorded_at": "2026-11-03T09:00:32.845210+00:00",
+  "run_id": "3f28197a-e3ca-485c-9698-0fad0b4d2187",
+  "actual_receipt": {
+    "path": "tracking/evidence/m07/presentation-generation-scalar-stage-diagnostic/2026-11-03T08-54-48.406Z-3f28197a.json",
+    "sha256": "8a4ac4b043a31d8e36c8e1e413381e028c9fe471f9bdce45853044a8d8867904"
+  },
+  "normal_process_exit": 0,
+  "elapsed_ms": 68669,
+  "runtime_source_seals_verified": 218,
+  "actual_and_private_executed_source_hashes_equal": true,
+  "installation_count": 3,
+  "actual_original_six_function_rows_restored_exactly": true,
+  "original_helper4107_config_and_full_clone_restored": true,
+  "candidate_GEN_instrumented5b0f_businessAF_and_scalar845_verified": true,
+  "public_validator_full_identity_unchanged": true,
+  "application_result": {
+    "ok": true,
+    "role": "authenticated",
+    "job_id": "0e3a46d6-4849-47f1-a877-2507662ed54a",
+    "status": "queued",
+    "duration_ms": 7901.047,
+    "resource_id": "fc407e0b-ede5-492a-85fc-e62a64d724a2"
+  },
+  "diagnostic_status": "cancellation_not_reproduced",
+  "private_phase": {
+    "bytes": 1049,
+    "sha256": "af67a3ed105aceffc42844065e601961c0a48cc463cc18c1b379cb25bc10a01e",
+    "public_event_count": 14
+  },
+  "independent_successful_daemon_label_inventories_empty": true,
+  "independent_inventories": [
+    {
+      "kind": "ps",
+      "normal_exit": 0,
+      "empty": true
+    },
+    {
+      "kind": "volume",
+      "normal_exit": 0,
+      "empty": true
+    }
+  ],
+  "fresh_shared_lock_absent": true,
+  "sole_entry_closure": {
+    "path": "development/m07/presentation-generation-scalar-stage-diagnostic/entry.mjs",
+    "armed_sha256": "707ae08def04de2c37da3f4196ad3b2f21d6b5a1331cc728f57b4a67767be839",
+    "closed_sha256": "fb04e2f64eeb346b046cc5c6a3455b177bb44d85316542772f5a079941051f36"
+  },
+  "uninstrumented_c024_failure_still_open": true,
+  "performance_or_production_acceptance": false
+}
