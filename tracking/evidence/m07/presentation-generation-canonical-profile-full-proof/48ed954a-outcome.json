@@ -1,0 +1,426 @@
+{
+    "schema_version":  1,
+    "run_id":  "48ed954a-d841-4c56-8339-c3a28248867c",
+    "result":  "failed_after_completed_timing_projection_and_AA_scopes",
+    "normal_process_exit":  1,
+    "normal_process_exit_source":  "Root_actual_execution_and_independent_postrun_audit",
+    "elapsed_ms":  677964,
+    "failed_checkpoint":  "combined-old-focused-cases",
+    "actual_receipt":  {
+                           "path":  "tracking/evidence/m07/presentation-generation-canonical-profile-full-proof/2026-11-03T09-36-23.937Z-48ed954a.json",
+                           "sha256":  "599527b663a20a5a4e1e66c34a89c41078ca5b87c0998f96f89c546bbc48e721",
+                           "observed_at":  "2026-11-03T09:36:23.937Z",
+                           "finished_at":  "2026-11-03T09:47:41.901Z"
+                       },
+    "source_seal_count":  220,
+    "completed_first_call_matrix":  {
+                                        "count":  8,
+                                        "actual_completion_flag":  true,
+                                        "all_four_candidate_calls_normal_queued_within8s":  true,
+                                        "candidate_MCP_large_first":  true,
+                                        "all_calls_fresh_backends_and_rolled_back_full_baseline":  true,
+                                        "calls":  [
+                                                      {
+                                                          "variant":  "candidate",
+                                                          "mode":  "mcp",
+                                                          "profile":  "large",
+                                                          "result":  "queued",
+                                                          "server_ms":  7967.363,
+                                                          "client_ms":  7972.672900000005
+                                                      },
+                                                      {
+                                                          "variant":  "old",
+                                                          "mode":  "api",
+                                                          "profile":  "control",
+                                                          "result":  "queued",
+                                                          "server_ms":  647.456,
+                                                          "client_ms":  651.3418999999994
+                                                      },
+                                                      {
+                                                          "variant":  "old",
+                                                          "mode":  "api",
+                                                          "profile":  "large",
+                                                          "result":  "queued",
+                                                          "server_ms":  6865.105,
+                                                          "client_ms":  6868.045700000002
+                                                      },
+                                                      {
+                                                          "variant":  "old",
+                                                          "mode":  "mcp",
+                                                          "profile":  "control",
+                                                          "result":  "queued",
+                                                          "server_ms":  2260.308,
+                                                          "client_ms":  2263.4949999999953
+                                                      },
+                                                      {
+                                                          "variant":  "old",
+                                                          "mode":  "mcp",
+                                                          "profile":  "large",
+                                                          "result":  "57014",
+                                                          "server_ms":  8000.109,
+                                                          "client_ms":  8006.205600000001
+                                                      },
+                                                      {
+                                                          "variant":  "candidate",
+                                                          "mode":  "api",
+                                                          "profile":  "control",
+                                                          "result":  "queued",
+                                                          "server_ms":  663.998,
+                                                          "client_ms":  668.4928999999975
+                                                      },
+                                                      {
+                                                          "variant":  "candidate",
+                                                          "mode":  "api",
+                                                          "profile":  "large",
+                                                          "result":  "queued",
+                                                          "server_ms":  2372.821,
+                                                          "client_ms":  2376.893499999991
+                                                      },
+                                                      {
+                                                          "variant":  "candidate",
+                                                          "mode":  "mcp",
+                                                          "profile":  "control",
+                                                          "result":  "queued",
+                                                          "server_ms":  1952.17,
+                                                          "client_ms":  1955.7382999999973
+                                                      }
+                                                  ],
+                                        "old_MCP_large_57014_preserved":  true,
+                                        "old_MCP_large_generation_projection_unavailable":  true,
+                                        "candidate_large_API_MCP_normalized_equal":  true,
+                                        "available_old_new_normalized_equalities_recorded":  true
+                                    },
+    "completed_component_projections":  {
+                                            "count":  16,
+                                            "actual_contract_equality_completion_flag":  true,
+                                            "all_results_normal_under8s_and_full_baselines_restored":  true,
+                                            "pairs":  [
+                                                          {
+                                                              "mode":  "api",
+                                                              "profile":  "control",
+                                                              "operation":  "review",
+                                                              "old_ms":  188.483,
+                                                              "candidate_ms":  137.216,
+                                                              "old_new_contract_hash_equal":  true
+                                                          },
+                                                          {
+                                                              "mode":  "api",
+                                                              "profile":  "control",
+                                                              "operation":  "snapshot",
+                                                              "old_ms":  142.065,
+                                                              "candidate_ms":  141.016,
+                                                              "old_new_contract_hash_equal":  true
+                                                          },
+                                                          {
+                                                              "mode":  "api",
+                                                              "profile":  "large",
+                                                              "operation":  "review",
+                                                              "old_ms":  1640.186,
+                                                              "candidate_ms":  913.491,
+                                                              "old_new_contract_hash_equal":  true
+                                                          },
+                                                          {
+                                                              "mode":  "api",
+                                                              "profile":  "large",
+                                                              "operation":  "snapshot",
+                                                              "old_ms":  1559.206,
+                                                              "candidate_ms":  1007.267,
+                                                              "old_new_contract_hash_equal":  true
+                                                          },
+                                                          {
+                                                              "mode":  "mcp",
+                                                              "profile":  "control",
+                                                              "operation":  "review",
+                                                              "old_ms":  533.636,
+                                                              "candidate_ms":  371.105,
+                                                              "old_new_contract_hash_equal":  true
+                                                          },
+                                                          {
+                                                              "mode":  "mcp",
+                                                              "profile":  "control",
+                                                              "operation":  "snapshot",
+                                                              "old_ms":  460.544,
+                                                              "candidate_ms":  343.705,
+                                                              "old_new_contract_hash_equal":  true
+                                                          },
+                                                          {
+                                                              "mode":  "mcp",
+                                                              "profile":  "large",
+                                                              "operation":  "review",
+                                                              "old_ms":  6575.061,
+                                                              "candidate_ms":  3516.73,
+                                                              "old_new_contract_hash_equal":  true
+                                                          },
+                                                          {
+                                                              "mode":  "mcp",
+                                                              "profile":  "large",
+                                                              "operation":  "snapshot",
+                                                              "old_ms":  6430.691,
+                                                              "candidate_ms":  3359.465,
+                                                              "old_new_contract_hash_equal":  true
+                                                          }
+                                                      ],
+                                            "missing_selected_frame_blocking_equal":  true
+                                        },
+    "completed_fresh_AA_scope":  {
+                                     "helper_body_sha256":  "aa1db8b1c2f8e9a15360c24fd9a4216df03c9f14767b1b300898a3e88a7220e3",
+                                     "all_twelve_NOWAIT_archived_FK_workspace_fence_membership_capability_expiry_completed":  true,
+                                     "selected_rows":  150,
+                                     "held_rows":  150,
+                                     "negative_count":  8,
+                                     "actual_helper_and_RC_races_unchanged_isolation":  true,
+                                     "fenced_caller_only":  true,
+                                     "standalone_unfenced_equality_claimed":  false,
+                                     "authority":  [
+                                                       {
+                                                           "case":  "membership",
+                                                           "actual_relation_wait":  true,
+                                                           "authority_changed":  true,
+                                                           "authority_restored":  true,
+                                                           "expected_denial":  true,
+                                                           "database_clock_expired":  null
+                                                       },
+                                                       {
+                                                           "case":  "capability",
+                                                           "actual_relation_wait":  true,
+                                                           "authority_changed":  true,
+                                                           "authority_restored":  true,
+                                                           "expected_denial":  true,
+                                                           "database_clock_expired":  null
+                                                       },
+                                                       {
+                                                           "case":  "expiry",
+                                                           "actual_relation_wait":  true,
+                                                           "authority_changed":  false,
+                                                           "authority_restored":  false,
+                                                           "expected_denial":  true,
+                                                           "database_clock_expired":  true
+                                                       }
+                                                   ],
+                                     "individual_case_flags":  {
+                                                                   "all_twelve":  {
+                                                                                      "normal_return":  true,
+                                                                                      "rolled_back":  true,
+                                                                                      "actual_helper_RC":  true,
+                                                                                      "fenced_caller_only":  true,
+                                                                                      "full_baseline_restored":  true
+                                                                                  },
+                                                                   "archived_reference":  {
+                                                                                              "normal_return":  true,
+                                                                                              "rolled_back":  true,
+                                                                                              "actual_helper_RC":  true,
+                                                                                              "fenced_caller_only":  true,
+                                                                                              "ready_dml_issued":  false,
+                                                                                              "full_baseline_restored":  true
+                                                                                          },
+                                                                   "cross_workspace":  {
+                                                                                           "normal_return":  true,
+                                                                                           "rolled_back":  true
+                                                                                       },
+                                                                   "workspace_fence":  {
+                                                                                           "actual_distinct_pid_wait":  true,
+                                                                                           "normal_public_mutation_return":  true,
+                                                                                           "writer_rolled_back":  true
+                                                                                       }
+                                                               }
+                                 },
+    "completed_old_focused_prefix":  {
+                                         "data_generation_case_names":  [
+                                                                            "private_asset_metadata",
+                                                                            "no_video",
+                                                                            "english_not_captured",
+                                                                            "english_not_provided",
+                                                                            "english_available",
+                                                                            "english_unavailable"
+                                                                        ],
+                                         "data_association_case_names":  [
+                                                                             "duplicate",
+                                                                             "ambiguous",
+                                                                             "unrelated_malformed",
+                                                                             "matched_malformed",
+                                                                             "mismatched_media",
+                                                                             "absent_media"
+                                                                         ],
+                                         "assignment_case_names":  [
+                                                                       "selection_main",
+                                                                       "selection_no_main",
+                                                                       "oversize_private_assignment",
+                                                                       "shortlist_excluded_main",
+                                                                       "shortlist_included_main",
+                                                                       "shortlist_empty"
+                                                                   ],
+                                         "old_pin_three_cases_completed":  true,
+                                         "old_pin_cases":  [
+                                                               {
+                                                                   "case":  "membership",
+                                                                   "completed":  true,
+                                                                   "actual_pin_INSERT_wait":  true,
+                                                                   "fresh_authority_denial_observed":  true,
+                                                                   "full_baseline_restored":  true
+                                                               },
+                                                               {
+                                                                   "case":  "capability",
+                                                                   "completed":  true,
+                                                                   "actual_pin_INSERT_wait":  true,
+                                                                   "fresh_authority_denial_observed":  true,
+                                                                   "full_baseline_restored":  true
+                                                               },
+                                                               {
+                                                                   "case":  "expiry",
+                                                                   "completed":  true,
+                                                                   "actual_pin_INSERT_wait":  true,
+                                                                   "fresh_authority_denial_observed":  true,
+                                                                   "full_baseline_restored":  true
+                                                               }
+                                                           ],
+                                         "raw_old_completed":  false
+                                     },
+    "failed_raw_control":  {
+                               "variant":  "old",
+                               "case":  "valid_one",
+                               "completed":  false,
+                               "rolled_back":  true,
+                               "recorded_error":  {
+                                                      "sqlstate":  "42601",
+                                                      "provenance":  "first_verbose_psql_ERROR_line",
+                                                      "application_code":  null
+                                                  },
+                               "diagnosis":  "owned observer SQL template missing whitespace between numeric sender PID and AND",
+                               "diagnosis_source":  "Root_conveyed_Frontend_private_source_diagnosis_and_Recovery_read_only_template_confirmation",
+                               "source":  {
+                                              "path":  "development/m07/presentation-raw-companion-batch-proof/raw-authority.mjs",
+                                              "sha256":  "1b7d1743f1c1e7a750d12a26056c3208bbfa024f230386b5296998f02f333896",
+                                              "line":  50
+                                          },
+                               "product_authority_or_timeout_regression_claimed":  false,
+                               "first_owned_native_error_not_attributed_as_this_case_cause":  true
+                           },
+    "function_identity_scope":  {
+                                    "installation_count":  15,
+                                    "every_six_body_source_and_full_authority_checked":  true,
+                                    "public_validator_full_identity_unchanged":  true,
+                                    "candidate_body_sources":  [
+                                                                   {
+                                                                       "name":  "eps.review_snapshot_data",
+                                                                       "source":  "0dba1d407199191d3bbb4d84ddab94d9f4e33da6a0172738b86133e8c7bf61fd"
+                                                                   },
+                                                                   {
+                                                                       "name":  "eps.review_snapshot",
+                                                                       "source":  "c6f93795e1926bcbb2e550b428f2e76a9ffe04dc29199e799c3d3a0e7b73cd10"
+                                                                   },
+                                                                   {
+                                                                       "name":  "public.eps_generate_version",
+                                                                       "source":  "af486a7217ed5ddafea5d98dc2979d928a8e9ba675862ef0960c2930b362b198"
+                                                                   },
+                                                                   {
+                                                                       "name":  "eps.capture_presentation_video_transcripts",
+                                                                       "source":  "f2229b303a83d7c9ca053e3c0f7e65ec3472b0cbe3b624aad4ff1a1e4af1c4d5"
+                                                                   },
+                                                                   {
+                                                                       "name":  "eps.capture_presentation_video_english_transcripts",
+                                                                       "source":  "b763cd502ed70c49f7d9d07106397bd6c774a6c00d87322f7e0954f25f1ac4ad"
+                                                                   },
+                                                                   {
+                                                                       "name":  "eps.mcp_token_permits_capability",
+                                                                       "source":  "8455eeb4094d74a11e487627711f237192c9b591fdf61d1b54b9114bedd487ab"
+                                                                   }
+                                                               ],
+                                    "helper_AA_checked_separately":  true,
+                                    "catalogue_prosrc_exclusions":  7,
+                                    "last_install_not_claimed_as_final_seven_restore":  true
+                                },
+    "controlled_profile":  {
+                               "canonical_reference":  {
+                                                           "path":  "tracking/evidence/m07/completion-release/canonical-planner-stats-e2813947-7ccb-4f96-820b-6b156f3e8653.json",
+                                                           "sha256":  "8df6f004e2cc99e92fa43962dcc6523c93324910548f9836ddf927094a37a27d"
+                                                       },
+                               "reference_connection":  "canonical_admin_CLI",
+                               "actual_production_API_or_MCP_backend_settings_observed":  false,
+                               "expected":  {
+                                                "jit":  "off",
+                                                "plan_cache_mode":  "auto",
+                                                "default_statistics_target":  "100"
+                                            },
+                               "verified_backend_observations":  56,
+                               "all_effective_reset_and_JIT_command_source_values_verified":  true,
+                               "owned_postgres_command":  {
+                                                              "default_cmd":  [
+                                                                                  "postgres",
+                                                                                  "-D",
+                                                                                  "/etc/postgresql"
+                                                                              ],
+                                                              "entrypoint":  [
+                                                                                 "docker-entrypoint.sh"
+                                                                             ],
+                                                              "appended_args":  [
+                                                                                    "-c",
+                                                                                    "jit=off"
+                                                                                ],
+                                                              "existing_default_command_retained":  true
+                                                          },
+                               "ANALYZE_requested":  false,
+                               "cold_machine_cache_claimed":  false,
+                               "prior_JIT_on_failures_not_relabelled":  true
+                           },
+    "uncompleted":  [
+                        "remaining_old_raw_legacy_zero_authority_cases",
+                        "old_general_generation_permission_denials_and_source_generation_races",
+                        "candidate_focused_data_assignment_pin_raw_security_and_generation_races",
+                        "final_in_callback_original_seven_config_full_clone_restore_and_readback"
+                    ],
+    "final_in_callback_original7_restore_reached":  false,
+    "outer_original_target_preservation_and_cleanup":  {
+                                                           "all_owned_resources_absent":  true,
+                                                           "original_data_catalogue_and_global_roles_unchanged":  true,
+                                                           "shared_lock_released":  true,
+                                                           "independent_successful_daemon_label_inventories_empty":  true,
+                                                           "fresh_shared_lock_absent":  true
+                                                       },
+    "Root_independent_audit":  {
+                                   "path":  "tracking/evidence/m07/presentation-generation-canonical-profile-full-proof/Root-48ed954a-postrun-audit.json",
+                                   "sha256":  "bf1c991bdef2363629084499e3cc006253a5b1f53d839d81812061f8666601f9",
+                                   "runtime_source_seals_verified":  220,
+                                   "actual_and_private_executed_source_hashes_equal":  true,
+                                   "private_error_artifacts":  {
+                                                                   "case-authority_capability-error.json":  {
+                                                                                                                "bytes":  1649,
+                                                                                                                "sha256":  "f981a1bdeead771ed3bcbca2ff34a840622f166cb25fe026d1f2cb4fc5774970"
+                                                                                                            },
+                                                                   "case-authority_expiry-error.json":  {
+                                                                                                            "bytes":  1645,
+                                                                                                            "sha256":  "f8d299ff7b0c5529f2a26e9dc8f8358234f200406de1157cdedcc92fbb74946e"
+                                                                                                        },
+                                                                   "case-authority_membership-error.json":  {
+                                                                                                                "bytes":  1649,
+                                                                                                                "sha256":  "cd1b6de22500ff712039101ff98566f105762a8b51f8022b2840fdce68866067"
+                                                                                                            },
+                                                                   "case-raw_old_valid_one_failure-error.json":  {
+                                                                                                                     "bytes":  18925,
+                                                                                                                     "sha256":  "4564318bfecd84fb1dde8acb26b280ce77820f8f6b9b5d4ca95cef5f699ce6ab"
+                                                                                                                 },
+                                                                   "failure.json":  {
+                                                                                        "bytes":  18833,
+                                                                                        "sha256":  "96daa815297f7f865e1e67225b5e59b011a60a76a549f7cc652c79802dcfb08c"
+                                                                                    },
+                                                                   "first-owned-native-error.json":  {
+                                                                                                         "bytes":  1827,
+                                                                                                         "sha256":  "b4661883f71c92d0f425cf781b72b90d4ff3900457d7b934b5c46e7ba57b29ad"
+                                                                                                     }
+                                                               }
+                               },
+    "entry_closed_by_Root":  {
+                                 "path":  "development/m07/presentation-generation-canonical-profile-full-proof/entry.mjs",
+                                 "armed_sha256":  "35a394b40a6c416d056b032a9107c62f9e5eac7f14e43f3d7a6b2fc8aa445782",
+                                 "closed_sha256":  "b142d757016293048d3ecfb47b2b6cf51775ed4a918976bedf060e6185736177"
+                             },
+    "whole_security_performance_release_or_production_acceptance":  false,
+    "automatic_retry":  false,
+    "cloud_called":  false,
+    "provider_called":  false,
+    "new_SQL_test_or_runtime_dispatched_by_Recovery":  false,
+    "Root_completed_scope_supplement":  {
+                                            "path":  "tracking/evidence/m07/presentation-generation-canonical-profile-full-proof/Root-48ed954a-completed-scope-supplement.json",
+                                            "sha256":  "158cbbc9a7a867d0fd1cc3701a7f7ec5e39792cc953f9be81813582879251678",
+                                            "scope":  "completed helperAA prefix before old raw observer syntax failure; not entire security/continuation acceptance"
+                                        }
+}
