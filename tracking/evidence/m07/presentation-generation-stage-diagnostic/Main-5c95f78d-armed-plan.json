@@ -1,0 +1,59 @@
+{
+  "schema_version": "Root-stage-diagnostic-source-admission.v1",
+  "observed_at": "2026-11-03T02:33:27.922679+00:00",
+  "result": "source_and_compilation_admitted",
+  "compile_uuid": "5c95f78d-ea8a-44da-9bb8-30c2eb9a5e93",
+  "entry_execution_enabled": true,
+  "execution_dispatched": false,
+  "runtime_UUID_issued": false,
+  "source_seals": {
+    "development/m07/presentation-generation-stage-diagnostic/admit.mjs": "bcfefa2cc95c5e25e53b998eca28bf6391ee61f8f213189ba77500d6129cdc29",
+    "development/m07/presentation-generation-stage-diagnostic/admit.test.mjs": "f32174f35b5678effd91cea32fe6636f149e4ce4fa60194b025fca2b256df7f4",
+    "development/m07/presentation-generation-stage-diagnostic/compiler.py": "4f9c0899404c3857e9021b923bdeb544ef73276c255b958a340431ffa0635070",
+    "development/m07/presentation-generation-stage-diagnostic/entry.mjs": "859c0ea06aadf1fc8b38cb0bcb8db1d057b7d2e2c6fbe8ceac1aa184808b0e77",
+    "development/m07/presentation-generation-stage-diagnostic/instrument.py": "1540d3c69ed14fb2409c032b93d5ee1cd371801e5b98c7b4264870ca1cc7197c",
+    "development/m07/presentation-generation-stage-diagnostic/markers.mjs": "e65c3f2570c1d5d7976b3ea1ba75be2767e3a5f75af0e4ad863a938ca5f72b46",
+    "development/m07/presentation-generation-stage-diagnostic/markers.test.mjs": "3d618d4579efaf42d2697d9452de3472967339c2912d720e325b5a0d3234b86f",
+    "development/m07/presentation-generation-stage-diagnostic/README.md": "8b7ee6d22502cc754de1c32cce765ed06a57472787c95d26a160ff6e71f85dca",
+    "development/m07/presentation-generation-stage-diagnostic/receiver.test.mjs": "0f9e9c80a68f30c40c22fba906d8e65c503d7b9b20314472000c1cfd8ed1f4ed",
+    "development/m07/presentation-generation-stage-diagnostic/run.mjs": "c6163fe506810d2a5666150f86a84498ac655a1506a4d372c43624c9b3790663",
+    "development/m07/presentation-generation-stage-diagnostic/run.test.mjs": "6ff93fedfbc9eea0ff06297e259b075875a01d7d538c7c68a0f45a67d810d3fa",
+    "development/m07/presentation-generation-stage-diagnostic/session.mjs": "ea8b032d35946a19293ffc16c8f9ac8bf233c5601058f178230385c708d250a5",
+    "development/m07/presentation-generation-stage-diagnostic/source.py": "5847849a862e7b17deafdf5976117a31dd9250f12329e9c02120c40e0e68a0b0",
+    "development/m07/presentation-generation-stage-diagnostic/test_proof.py": "fd74360ccc6d5666a96ba53814448c3bd8c391d0d8792bbe58de7157d0dc815c"
+  },
+  "compiled_outputs": [
+    {
+      "path": ".local/presentation-generation-stage-diagnostic-compiled/cases-5c95f78d-ea8a-44da-9bb8-30c2eb9a5e93.mjs",
+      "sha256": "64a4cffbab89c4cebbf46982fec827d1305fabab7a3172e71556058f28674516",
+      "bytes": 4027,
+      "Root_node_check_exit": 0
+    },
+    {
+      "path": ".local/presentation-generation-stage-diagnostic-compiled/callback-5c95f78d-ea8a-44da-9bb8-30c2eb9a5e93.mjs",
+      "sha256": "80b6a902d006bd45ce96d021405f05f90afb6fa17501640212f9332b12a97b1b",
+      "bytes": 28455,
+      "Root_node_check_exit": 0
+    },
+    {
+      "path": ".local/presentation-generation-stage-diagnostic-compiled/controller-5c95f78d-ea8a-44da-9bb8-30c2eb9a5e93.mjs",
+      "sha256": "0fadbeb7780f7bd8bada86bdc24a4f207adb33202de346ddf6e4a439d40975b6",
+      "bytes": 228652,
+      "Root_node_check_exit": 0
+    }
+  ],
+  "Root_full_fourteen_source_review": true,
+  "independent_Runtime_full_source_peer": "passed_fa868a00",
+  "Root_offline_before_arm": {
+    "Python_passed": 6,
+    "Python_seconds": 1.85,
+    "Node_passed": 9,
+    "Node_seconds": 5.3374929,
+    "failed": 0,
+    "skipped": 0
+  },
+  "only_postreview_delta": "new entry false to true before any claim",
+  "authority_interpretation": "Existing generator SECURITY DEFINER and DATA invoker attributes are preserved exactly; no new mode or grant.",
+  "interval_interpretation": "review_DATA ends at data_return NOTICE before final JSON expression, so it is a boundary interval. Nested intervals cannot be summed as exclusive costs.",
+  "next_authorized_scope": "One first candidate MCP-large call under unchanged8s with private current cancellation context and fixed markers; no eight-call retry, warming, provider, canonical migration, production or performance acceptance."
+}
