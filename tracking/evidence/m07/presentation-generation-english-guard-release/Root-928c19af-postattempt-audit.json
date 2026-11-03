@@ -1,0 +1,38 @@
+{
+  "schema_version": "root-canonical42-rejected-payload-audit.v1",
+  "recorded_at": "2026-11-03T12:13:46.927779+00:00",
+  "run_id": "928c19af-e964-43f7-8e0b-0d3013fe4131",
+  "normal_apply_process_exit": 1,
+  "public_apply_receipt": {
+    "path": "tracking/evidence/m07/presentation-generation-english-guard-release/2026-11-03T12-02-36-418955Z-apply.json",
+    "sha256": "dfe0b4f4b6f190e1975e529cfd63f8b614d0de41f9478643b48656e204498abf"
+  },
+  "actual_source_pins_verified": 189,
+  "all_actual_sources_match_private_plan_and_claim": true,
+  "exact_raw_response_bound_to_claim_and_exit1": true,
+  "safe_HTTP_status": 413,
+  "safe_code": "DbQueryUnexpectedStatusError",
+  "safe_message": "request entity too large",
+  "apply_SQL": {
+    "bytes": 6137426,
+    "sha256": "1d9779f74d2cfb50db53ef7b813697b22972bc19801654e9b88175ca923ef59a"
+  },
+  "private_before_full_checkpoint": {
+    "bytes": 10865832,
+    "sha256": "aec953504b50adc6b607a24bb3cc91122fe91417658fb6c9823930eb2efc724b"
+  },
+  "normal_return_marker_absent_not_repaired": true,
+  "known_not_applied_reconciliation": {
+    "path": "tracking/evidence/m07/presentation-generation-english-guard-release/Root-928c19af-413-read-only-reconciliation.json",
+    "sha256": "3e9ef391c8dafc2ffbb56b0d11c20893087b1a36b0e337ef38fd475451ccc2e7"
+  },
+  "two_fresh_full_states_exact_original_before41": true,
+  "no_committed_change_observed": true,
+  "SQL_execution_beyond_HTTP_rejection_not_inferred": true,
+  "claim_response_and_private_SQL_retained": true,
+  "old_English_guard_entry_retained_TT_sha256": "84b0ae58dc9ec67066df1837d7351763a671de3f54f1a77c9c7d7b1fb7e607e7",
+  "old_apply_or_claim_not_replayed": true,
+  "same_normal_CLI_transport_no_alternative": true,
+  "AT069_action_replayed_or_lift_claimed": false,
+  "production42_acceptance": false
+}

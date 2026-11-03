@@ -9,8 +9,8 @@ _spec = importlib.util.spec_from_file_location('generation42_English_guard_Conte
 s = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(s)
 old = s.module('generation42_frozen_raw_release', s.MAIN / 'development/m07/presentation-generation-raw-preimage-release/release.py', 'f5a5a7fa8b4e43403e82e0174050d2af3634a34925b731ffc0fd65546e5b643c')
-READ_ENABLED=False
-APPLY_ENABLED=False
+READ_ENABLED=True
+APPLY_ENABLED=True
 PURPOSE = 'presentation-generation-english-guard-release'
 COLLECTOR_FAMILY = 'presentation-generation-english-guard-collector-proof'
 
