@@ -15,6 +15,9 @@ row comparison includes all76 tables and every existing reason value.
 The owned Context qualifies only the existing project39/system/run boundary,
 fresh owned identity/OIDs and the same synthetic OAuth ledger count2. It treats
 41 as already installed; its fixed logo and public validator remain unchanged.
+Its pinned accepted ACL OwnedContext also qualifies only the known absence of
+`=U/pg_database_owner` in the expected public-schema ACL. Actual complete ordered
+ACLs remain in the state/checkpoint and must match; no grant or new mask is added.
 Every target source, complete function attribute, catalogue, role, dependency,
 config and Ready row remains checked by the new canonical Context. The seven
 mixed function modes are preserved.
@@ -26,10 +29,14 @@ actual collector receipt yet. No migration, claim, database, Docker or provider
 action is created by writing this source. It is not collector, performance or
 canonical acceptance.
 
-Five focused offline checks passed in12.884s. They parse the actual seven-target
+Six focused offline checks passed in18.698s. They parse the actual seven-target
 snapshot/checkpoint, verify finite controller/entry/bridge inverses and declared
 41-before-baseline ordering, check the installed41 owned qualification, reject
 CRLF entry drift before inherited compiler load, and syntax-check all three
 RAM-compiled scripts. The generated OFF controller actually refuses before
-target/claim/Docker access. No compiled artifact was retained and no database,
-collector transaction or provider was executed.
+target/claim/Docker access. A hash-bound retained actual c879 metadata request is
+checked through the real accepted ACL binder, projected to installed41, then
+checked through the new binder. Replacing only the ACL class with the original
+worker class refuses that same image; unknown/missing/reordered ACL entries also
+refuse. No compiled artifact was retained and no database, collector transaction
+or provider was executed.

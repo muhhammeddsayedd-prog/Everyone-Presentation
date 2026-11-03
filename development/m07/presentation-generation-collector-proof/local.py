@@ -23,6 +23,10 @@ OLD = MAIN / 'development/m07/logo-info-collector-alias-proof/local.py'
 s.need(s.sha(s.load(OLD)) == '3327262ac378a71ba38a3ab4fa84eeb077c1a65a70dacd1316d23bca1c92fafb')
 old = module('generation42_accepted_owned_alias', OLD)
 qualification = old.old.old
+ACL = MAIN / 'development/m07/logo-info-collector-acl-proof/local.py'
+ACL_SHA = '6de6c2436df409af62022063d4b057d559730bbbc79938db2d54b502d3c776dc'
+s.need(s.sha(s.load(ACL)) == ACL_SHA)
+acl = module('generation42_accepted_owned_acl', ACL)
 
 
 class Canonical41Owned(old.Context):
@@ -32,7 +36,7 @@ class Canonical41Owned(old.Context):
         s.need(system.isdecimal() and system != qualification.ORIGINAL_SYSTEM and str(uuid.UUID(run)) == run and uuid.UUID(run).version == 4)
         value = initial['compatibility']
         s.need(value['schema40']['canonical']['base']['data']['oauth_consent_claims']['count'] == 2)
-        context = qualification.OwnedContext(root=MAIN, source=MAIN).bind_current(value['schema40'], system, run)
+        context = acl.OwnedContext(root=MAIN, source=MAIN).bind_current(value['schema40'], system, run)
         compat = qualification.m.State(old.old.s.NATIVE, context=context)
         compat.anchor = copy.deepcopy(value['schema40'])
         self.compat, self.system, self.run = compat, system, run
@@ -52,6 +56,12 @@ class Context(s.Context):
         self.system, self.run = system, run
         self.check(initial, False)
         return self
+
+    def source_pins(self):
+        pins = super().source_pins()
+        s.need(s.sha(s.load(ACL)) == ACL_SHA)
+        pins[str(ACL)] = ACL_SHA
+        return dict(sorted(pins.items()))
 
     def render(self, before, marker):
         canonical = super().render(before, marker)

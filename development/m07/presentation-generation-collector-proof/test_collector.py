@@ -71,11 +71,35 @@ class Tests(unittest.TestCase):
         class State:
             def __init__(self, *_args, **_kw):
                 pass
-        with patch.object(local.qualification, 'OwnedContext', Qualification), patch.object(local.qualification.m, 'State', State), patch.object(c, 'check', side_effect=lambda value, installed: checked.append((value, installed))):
+        with patch.object(local.acl, 'OwnedContext', Qualification), patch.object(local.qualification.m, 'State', State), patch.object(c, 'check', side_effect=lambda value, installed: checked.append((value, installed))):
             c.bind_installed(before, '123456789', RUN)
         self.assertEqual(checked, [(before, True)])
         with self.assertRaises(ValueError):
             c.bind_installed(before, local.qualification.ORIGINAL_SYSTEM, RUN)
+
+    def test_actual_retained_metadata_requires_accepted_ACL_qualification(self):
+        local = module('generation42_actual_acl_binding_tests', HERE / 'local.py')
+        file = m.MAIN / '.local/logo-info-collector-alias-proof/c8792790-efe3-4368-bb30-44ccb45f19d4/bridge-check-83b76609-e6c1-44b6-8ee5-edbb8caa1932-input.json'
+        raw = local.s.load(file)
+        self.assertEqual(local.s.sha(raw), 'f7a22df2c058d96ffc278f1ac73fcd6b9920c30fcbea01e928475ec0141527e2')
+        value = json.loads(raw)
+        accepted = local.acl.Context().bind(value['initial'], value['system'], value['run'])
+        installed41 = accepted.expected(value['initial'])
+        c = local.Canonical41Owned().bind_installed(installed41, value['system'], value['run'])
+        c.check(installed41, True)
+        # This is the actual former bug: full metadata check rejects the same
+        # retained image when construction bypasses the accepted ACL subclass.
+        with patch.object(local.acl, 'OwnedContext', local.qualification.OwnedContext):
+            with self.assertRaises(ValueError):
+                local.Canonical41Owned().bind_installed(installed41, value['system'], value['run'])
+        original = installed41['compatibility']['schema40']['canonical']['project39']['delta'][local.acl.KEY]['value']
+        self.assertNotIn(local.acl.PUBLIC_USAGE, original)
+        import copy
+        for changed_acl in [original + [local.acl.PUBLIC_USAGE], original + ['unknown=U/pg_database_owner'], original[1:], list(reversed(original))]:
+            bad = copy.deepcopy(installed41)
+            bad['compatibility']['schema40']['canonical']['project39']['delta'][local.acl.KEY]['value'] = changed_acl
+            with self.assertRaises(ValueError):
+                local.Canonical41Owned().bind_installed(bad, value['system'], value['run'])
 
     def test_actual_entry_bytes_before_compiler_load_and_unbound_configuration_refusal(self):
         with tempfile.TemporaryDirectory() as directory:
