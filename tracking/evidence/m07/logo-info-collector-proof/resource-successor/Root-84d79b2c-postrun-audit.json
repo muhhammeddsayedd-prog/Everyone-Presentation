@@ -1,0 +1,24 @@
+{
+  "schema_version": "Root-failed-resource-collector-audit.v1",
+  "recorded_at": "2026-11-03T04:21:25.082Z",
+  "result": "passed_audit_of_failed_collector_SQL",
+  "run_id": "84d79b2c-d3cd-46e4-bd96-a04e2c0d75c6",
+  "source_receipt": {
+    "path": "tracking/evidence/m07/logo-info-collector-proof/resource-successor/2026-11-03T04-16-01.656Z-84d79b2c.json",
+    "sha256": "5f34005d1e7418997e1623af65450df168877a8eb812c3244f0a886b0c246911"
+  },
+  "runtime_source_seals_verified": 200,
+  "declared_resource_fixture_setup_passed": true,
+  "bridge_negative_diagnostic_nonce_and_collector_acceptance_unreached": true,
+  "original29_data_catalogue_global_roles_unchanged": true,
+  "same_engine_container_volume_inventories_normal0_empty": true,
+  "shared_lock_absent": true,
+  "SQL_provider_retry_cleanup_or_access_change": false,
+  "source_cause_reported_by_author": {
+    "column": "p.oid",
+    "relation_alias": "pg_policies p",
+    "child_exit": 3,
+    "numeric_SQLSTATE_retained": false
+  },
+  "production_or_collector_acceptance": false
+}

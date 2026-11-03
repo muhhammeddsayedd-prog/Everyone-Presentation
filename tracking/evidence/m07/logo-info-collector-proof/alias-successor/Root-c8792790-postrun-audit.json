@@ -1,0 +1,26 @@
+{
+  "schema_version": "Root-failed-alias-collector-audit.v1",
+  "recorded_at": "2026-11-03T04:39:21.630Z",
+  "result": "passed_audit_of_failed_collector_validation_bridge",
+  "run_id": "c8792790-efe3-4368-bb30-44ccb45f19d4",
+  "source_receipt": {
+    "path": "tracking/evidence/m07/logo-info-collector-proof/alias-successor/2026-11-03T04-38-01.517Z-c8792790.json",
+    "sha256": "492ee6bf2b7a7e7cea901be5c8db4ad0488f372ae25568be79f0920217e68e30"
+  },
+  "runtime_source_seals_verified": 211,
+  "declared_resource_fixture_setup_passed": true,
+  "SQL_collector_passed_but_first_validation_bridge_exit1": true,
+  "negative_diagnostic_nonce_and_collector_acceptance_unreached": true,
+  "original29_data_catalogue_global_roles_unchanged": true,
+  "same_engine_container_volume_inventories_normal0_empty": true,
+  "shared_lock_absent": true,
+  "SQL_provider_retry_cleanup_or_access_change": false,
+  "validation_bridge": {
+    "exit_code": 1,
+    "timed_out": false,
+    "overflow": false,
+    "stderr_bytes": 2893,
+    "body_not_public": true
+  },
+  "production_or_collector_acceptance": false
+}
