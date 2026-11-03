@@ -1,5 +1,71 @@
 # M07 isolated recovery rehearsal
 
+## Current recovery boundary - 2026-11-03
+
+This section governs current evidence and restrictions. All dated local28/29/38
+material and commands below are retained history, not commands to replay against
+canonical42 or a different runtime. The [current handoff](../../tracking/HANDOFF.md)
+and [operations runbook](../../docs/operations/DEPLOYMENT_AND_RUNBOOK.md) own next
+operational actions; this file does not mark full M07 verified.
+
+### Accepted AT070 scope
+
+[Independent synthetic39 restore4c302b36](../../tracking/evidence/m07/independent-recovery39/2026-11-02T01-05-56.716Z-4c302b36.json)
+and its [Root admission](../../tracking/evidence/m07/independent-recovery39/Root-admission-4c302b36.json)
+passed with distinct PostgreSQL system identifiers,17853 restored catalogue
+fields and four actual local Storage/PostgREST HTTP byte/hash roundtrips. The
+normal-created synthetic project, membership, intent, audit and idempotency
+records were restored. All eight owned resources were absent afterward; the
+original local history29 database and existing global roles were preserved.
+The retained independent38 proof carries its own scope without being rerun.
+
+This is actual scoped nonproduction recovery acceptance. It is not a restore of
+private production data/secrets/configuration, deployed n8n/worker state, current
+native3d or schema42; no RTO/RPO is established. Those unclaimed extensions do not
+create new acceptance gates beyond the agreed pack. Existing local-cluster,
+filesystem-object and later independent-HTTP proofs remain distinct.
+
+### Current production checkpoints are not restore proof
+
+Canonical42's [normal compact apply](../../tracking/evidence/m07/presentation-generation-compact-release/2026-11-03T13-18-27-651163Z-apply.json)
+and [Root audit](../../tracking/evidence/m07/presentation-generation-compact-release/Root-2244e718-postapply-audit.json)
+prove the genuine nonce/two reads, all76 full row multisets including audit
+reasons, exact seven prosrc changes and unchanged attributes/OIDs/ACLs/fixed
+functions/catalogue/roles/policies/dependencies. The
+[owned compact collector144](../../tracking/evidence/m07/presentation-generation-compact-collector-proof/144d063a-outcome.json)
+adds290 source pairs, seven same-RR old/compact state equalities, negative
+preimage refusal, diagnostic rollback, normal nonce and owned cleanup. Its clone
+rollback and protected before/after checkpoints are not hosted backup restoration.
+
+Current web is Ready4gdh/selectedMain514 with1030-test Root quality; workerFxd and
+native3d are unchanged. The [new web readback](../../tracking/evidence/m07/presentation-pdf-metadata-web-forward-release/2026-11-03T14-44-32-244101Z-b5e29aa2-7f3e-4a7a-8fe2-e1246a0ab705-readback.json)
+and [scoped metadata/UI proof](../../tracking/evidence/m07/completion-release/Root-4gdh-production-metadata-and-UI.json)
+are deployment/read acceptance, not rollback, worker replacement or recovery.
+Existing-Claude metadata confirmation and AT060's real200 representative workload
+remain open; no authorized corpus is available for the latter. Narrator,
+contributor and mobile remain skipped, not passed. Full M07 remains false.
+
+### No replay or rollback workaround
+
+AT069 rollback-transport source preparation was rejected by automatic approval
+review with the exact recorded reason **blocked by policy** and no further
+reason. Do not retry the rejected action, use a manual/equivalent transport or
+perform a provider operation as its substitute. The retained
+[worker replacement plan](WORKER_REPLACEMENT69.md) and partial sources are not an
+executable rollback authorization. Later ordinary forward releases and normal
+worker resume do not satisfy queued replacement/compatible rollback acceptance.
+
+Consumed run IDs, claims, source pins and first errors stay immutable. Preserve
+unknown returns as unknown and reconcile only through the authorized read-only
+path before any separately authorized unattempted work. Both HTTP413 attempts
+were reconciled not applied; old web38 was refused before deploy claim/submission.
+Neither is repaired or replayed by the fresh b5e29 release. Do not remove another
+run's shared test-db lock, reset the original local database, or adapt a local
+restore command to a cloud target. Protect raw backup/checkpoint/log payloads
+with the existing current-user/SYSTEM guard; publish only safe evidence metadata.
+
+## Retained local38,29 and28 recovery history
+
 ## Current local38 proof - 2026-11-01
 
 Run639da33a passed actual owned local38 metadata/four-object/native PDF-video

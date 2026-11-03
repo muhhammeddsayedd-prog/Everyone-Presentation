@@ -1,5 +1,57 @@
 # Configuration and operational defaults
 
+## Current configuration ownership - 2026-11-03
+
+This current section supersedes the dated runtime claims below. Those original
+observations, sizing proposals and key-name planning tables remain historical.
+Read the [operations runbook](DEPLOYMENT_AND_RUNBOOK.md),
+[current worker record](../../tracking/WORKER_CUTOVER_CURRENT_2026-11-02.md)
+and [current handoff](../../tracking/HANDOFF.md) before a configuration change.
+No credential values were read or added for this update.
+
+| Configuration surface | Owner and accepted boundary | Recovery rule |
+| --- | --- | --- |
+| Web/API/MCP | Existing Vercel pilot project and stable alias; Ready4gdh serves exact Main514. Root quality passed1030 tests plus types/lint/production guard. | Use normal existing CLI authentication and a fresh guarded purpose; preserve project/team, source/archive/build metadata, environment and two equal alias/direct identities. |
+| Canonical business/configuration | Existing central target, history42 and five enabled processing configurations. Actual42 nonce/full76 reason and seven-body preservation are recorded below. | Follow coordinated history and exact raw preimages/attributes; do not reset, seed or replay a consumed migration/claim. Checkpoint retention is not restore acceptance. |
+| Worker/native identity | Existing Fxd daemon with retained native3d. The PDF metadata change does not enter the54-module native or91-module daemon graphs; a broader167-file seal can still change. | Keep native/daemon source, manifest, compatibility and image identities distinct. No worker/native build or probe follows from the web source change. |
+| OpenAI specs | Production startup explicitly selects bounded streaming:300000ms,32768 output tokens and low reasoning, with the configured evaluated model. | Preserve the frozen job/model/prompt contract and SDK zero-retry/bounded transport; no model or budget change is authorized by this document. |
+| OCR and media | Vision receives its own `openAIMediaConfigFromEnv('extraction', env)` configuration; its default is60000ms and media hard maximum70000ms. | Do not pass the300000ms specs profile into OCR/media or widen the media cap. Native image and frozen-model checks remain separate. |
+| Secrets and orchestration | Existing server/worker secret stores and n8n credential references; browser gets only reviewed public configuration and acting-user authority. | Configuration owner handles sign-in/consent/rotation. Do not expose tokens, full session objects, private URLs, service keys or environment values in handoffs/logs; do not relink or provision duplicate identities. |
+| Operational access | Existing Claude connection and acting-user scope; normal hosted API/MCP validation remains fresh per request. | Do not infer a signed OAuth flow from an owned fixture or relax grant/session/clock checks. Reconcile temporary access through its exact dated cleanup evidence. |
+
+The reviewed seven public build fields are `APP_ENV`, `EPS_RELEASE_MODE`,
+`NODE_ENV`, `CENTRAL_ADAPTER_MODE`, `APP_BASE_URL`, `SUPABASE_URL` and
+`SUPABASE_PUBLISHABLE_KEY`. Their existing values are reused through guarded RAM
+input preparation, not copied here or pulled into a new environment. Server-only
+OpenAI/n8n/callback credentials stay outside this public set. Actual supported
+names and refusal rules live in startup validators and `.env.example`; generic
+historical names below are not instructions to create new secrets.
+
+The [schema42 apply](../../tracking/evidence/m07/presentation-generation-compact-release/2026-11-03T13-18-27-651163Z-apply.json)
+plus [Root audit](../../tracking/evidence/m07/presentation-generation-compact-release/Root-2244e718-postapply-audit.json)
+preserve all76 current row multisets/reasons and non-target metadata. The compact
+read projection reuses only immutable body text; it does not cache authorization,
+sessions, clocks or current query results. Preflight uses two fresh same-RR
+canonical/idle observations and two worker identity GETs after build. Its seven
+zero lifecycle counters are dated observations, not a perpetual idle guarantee.
+Cached Ready metadata is not a fresh worker heartbeat.
+
+The [actual1030-test quality](../../tracking/evidence/m07/completion-release/2026-11-03T14-14-04.950Z-235ee1b3-pdf-metadata-root-quality.json)
+and [Ready web readback](../../tracking/evidence/m07/presentation-pdf-metadata-web-forward-release/2026-11-03T14-44-32-244101Z-b5e29aa2-7f3e-4a7a-8fe2-e1246a0ab705-readback.json)
+are separate from [Root's scoped HTTP/UI result](../../tracking/evidence/m07/completion-release/Root-4gdh-production-metadata-and-UI.json).
+The latter confirms the13-field PDF metadata read, refreshed Selection and
+anonymous401; existing-Claude metadata confirmation is still pending. Full M07
+remains false. No capacity/SLA, fresh heartbeat, new full-media download, RTO/RPO
+or private production restore claim follows from these configuration records.
+
+AT069's automatic approval rejection remains **blocked by policy**. Do not retry,
+use an equivalent/manual transport or substitute a provider action for the
+rejected rollback preparation. Narrator/screen-reader, contributor and mobile
+remain skipped, not passed. AT060's authorized real200 corpus/workload remains
+open; do not reinterpret the historical synthetic measurements as that proof.
+
+## Retained 2026-10-30 configuration and sizing record
+
 Updated2026-10-30 for the implemented local M07 sources and dated evidence. Hosting is deferred. The current runtime facts below take precedence over earlier sizing proposals; none is a production capacity or SLA claim. See the [M07 acceptance matrix](../../tracking/evidence/m07/ACCEPTANCE_MATRIX.md) for verification boundaries.
 
 ## Implemented configuration and observations

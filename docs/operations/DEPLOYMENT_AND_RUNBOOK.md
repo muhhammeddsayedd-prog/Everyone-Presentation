@@ -1,5 +1,81 @@
 # Deployment, recovery and operational runbook
 
+## Current operations checkpoint - 2026-11-03
+
+This section governs current operations. The dated material below is retained
+history and planning, not a current claim that hosting is deferred or OAuth is
+unavailable. [Current handoff](../../tracking/HANDOFF.md) and the
+[M07 matrix](../../tracking/evidence/m07/ACCEPTANCE_MATRIX.md) own milestone status.
+Full M07/release acceptance remains false.
+
+- Web deployment `dpl_4gdhR5Le7K9pMnPSNpbHzkNjWjoo` is Ready. The
+  [normal readback](../../tracking/evidence/m07/presentation-pdf-metadata-web-forward-release/2026-11-03T14-44-32-244101Z-b5e29aa2-7f3e-4a7a-8fe2-e1246a0ab705-readback.json)
+  at14:44:32Z proves two equal stable-alias/direct identities for selected Main
+  `514447f5e82d97b18cf45807eebe77287e17044a`. Its
+  [Root quality](../../tracking/evidence/m07/completion-release/2026-11-03T14-14-04.950Z-235ee1b3-pdf-metadata-root-quality.json)
+  passed1030/1030 plus typecheck, lint and production guard. The source/test delta
+  from e259 is exactly the reviewed central metadata fix and focused test.
+- [Root HTTP/UI verification](../../tracking/evidence/m07/completion-release/Root-4gdh-production-metadata-and-UI.json)
+  passed the supported13-field PDF metadata read, anonymous401 denial and refreshed
+  Ready20-page Selection UI. The existing Claude client's metadata read remains
+  pending; neither a new PDF/video download nor another generation is implied.
+  [Completed owner artifacts](../../tracking/evidence/m07/completion-release/2026-11-03-owner-generation42-retained-artifacts-outcome.json)
+  and [reciprocal app reads](../../tracking/evidence/m07/completion-release/Root-owner42-reciprocal-app-readback.json)
+  retain their separate Ready20/17/3 PDF/media/feedback and UI scopes. Do not replay
+  those completed operations to repair a metadata-only response.
+- Canonical `pyibofyctwnqpvktepse` is history42. The
+  [normal compact apply](../../tracking/evidence/m07/presentation-generation-compact-release/2026-11-03T13-18-27-651163Z-apply.json)
+  and [Root audit](../../tracking/evidence/m07/presentation-generation-compact-release/Root-2244e718-postapply-audit.json)
+  bind the genuine nonce, two equal readbacks, full76 rows including audit reasons,
+  exactly seven function bodies and unchanged attributes/OIDs/ACLs, fixed functions,
+  roles, policies and dependencies. Protected checkpoints are not restore proof.
+- WorkerFxd/ffb4/f814 and retained native3d are unchanged. All five processing
+  configurations remain enabled in the accepted checkpoint. The
+  [normal resume](../../tracking/evidence/m07/worker-ocr-config-daemon-release/2026-11-03T01-38-19-111153Z-resume.json)
+  and current web preflight are deployment/configuration evidence, not a fresh
+  heartbeat, native probe, worker rebuild or replacement-under-load proof.
+
+### Change and incident ownership
+
+Use [configuration ownership](CONFIGURATION.md) and the
+[current worker cutover record](../../tracking/WORKER_CUTOVER_CURRENT_2026-11-02.md).
+Root owns guarded normal CLI changes; runtime actors keep their existing scoped
+business permissions. Never copy secrets into docs, source, command output or
+another environment. Retain protected raw responses before safe projection.
+
+A permanent claim or unknown provider return is not permission to resubmit.
+Preserve the exact purpose, source pins, inputs and first error; reconcile with
+bounded read-only observations through the existing normal CLI path. A separately
+reviewed forward purpose may complete only its authorized unattempted work.
+Do not edit consumed helpers or repair a claim/nonce/normal marker. The original
+worker registry-copy return remains UNKNOWN; separate digest/Ready observations
+are not a fabricated normal copy return.
+
+The [38 preclaim diagnosis](../../tracking/evidence/m07/final-canonical42-web-forward-release/Root-38c4-preclaim-path-failure.json)
+retains its filename rejection and absent deploy claim/submission. The two older
+HTTP413 attempts retain their not-applied reconciliations. New b5e29 is a fresh
+source/build/release purpose, not a replay or alias repair of those attempts.
+For later schema/configuration work, preserve full reasons, all76 current rows,
+exact function authority/catalogue scope, native identity and idle counters; do
+not weaken comparisons to reuse an older checkpoint.
+
+### Open acceptance boundaries and restricted recovery
+
+Existing-Claude metadata confirmation, final privacy/push and handover evidence
+remain separate. AT060's real200 representative workload remains mandatory and
+open because no authorized corpus exists yet; synthetic throughput is not a
+substitute. Narrator/screen-reader, contributor and mobile were skipped, not
+passed, and are not to be requested again as new gates.
+
+AT069 rollback-transport preparation was rejected by automatic approval review
+with the exact recorded reason **blocked by policy**. Do not retry the rejected
+action, use a manual/equivalent transport or perform a provider action as its
+substitute. The historical worker plan and partial sources are not an executable
+recovery instruction or a replacement/rollback pass. Ordinary accepted forward
+releases do not satisfy AT069. See [recovery scopes](../../development/m07/RECOVERY.md).
+
+## Retained 2026-10-30 runbook and requirements
+
 Updated2026-10-30. M07 has implemented local sources and controlled/client/native evidence; production release remains unverified and hosting deferred. This runbook preserves the planned deployment/recovery requirements below. The [M07 matrix](../../tracking/evidence/m07/ACCEPTANCE_MATRIX.md) is the current evidence index; no command in this document independently authorizes provider changes or a shared reset.
 
 ## Current local operator checkpoint
