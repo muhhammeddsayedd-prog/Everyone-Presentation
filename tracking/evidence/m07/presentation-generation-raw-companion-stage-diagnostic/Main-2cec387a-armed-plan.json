@@ -1,0 +1,33 @@
+{
+    "status":  "Root_admitted_one_raw_f222_stage_diagnostic",
+    "source_commit":  "d5bd3b274f795413ddabc6ff58359c77abddd842",
+    "Root_source_and_independent_peer":  "passed",
+    "Root_offline_checks":  {
+                                "Python_passed":  3,
+                                "Python_seconds":  2.822,
+                                "skipped":  0,
+                                "Node_ms":  245.1589,
+                                "Node_passed":  10
+                            },
+    "outputs":  [
+                    {
+                        "sha256":  "64a4cffbab89c4cebbf46982fec827d1305fabab7a3172e71556058f28674516",
+                        "path":  ".local/presentation-generation-raw-companion-stage-diagnostic-compiled/cases-2cec387a-4331-4dd1-b9c9-f1b1b88dbd3a.mjs"
+                    },
+                    {
+                        "sha256":  "00acecb1a27280f3b512936bdc3e61f9fa98dd51da7ebb715236058563133ac8",
+                        "path":  ".local/presentation-generation-raw-companion-stage-diagnostic-compiled/callback-2cec387a-4331-4dd1-b9c9-f1b1b88dbd3a.mjs"
+                    },
+                    {
+                        "sha256":  "286241b603cfbfbdb33b335d03083470feb3240d25028c51475cc4fa31e9fbae",
+                        "path":  ".local/presentation-generation-raw-companion-stage-diagnostic-compiled/controller-2cec387a-4331-4dd1-b9c9-f1b1b88dbd3a.mjs"
+                    }
+                ],
+    "entry_armed_sha256":  "70db3c3c7828ff605c83fdacec569cc5e704fb886b936d411f7820e92fcb2029",
+    "raw_body_sha256":  "f2229b303a83d7c9ca053e3c0f7e65ec3472b0cbe3b624aad4ff1a1e4af1c4d5",
+    "unchanged_instrumentation_and_8s_bounds":  true,
+    "current633_stage":  "unknown",
+    "all_semantic_matrix_security_and_production_gates_open":  true,
+    "initial_literal_arm_check_refused_before_any_mutation":  "PowerShell Split treated delimiter as character set; corrected to escaped Regex exact occurrence",
+    "SQL_or_Docker_dispatched":  false
+}

@@ -1,0 +1,33 @@
+{
+  "schema_version": "Root-raw-stage-postrun-audit.v1",
+  "recorded_at": "2026-11-03T06:18:32.388Z",
+  "result": "passed_diagnostic_audit",
+  "run_id": "9ed4ca6c-b736-4b84-b1af-a4cf67328d83",
+  "receipt": {
+    "path": "tracking/evidence/m07/presentation-generation-raw-companion-stage-diagnostic/2026-11-03T06-16-43.493Z-9ed4ca6c.json",
+    "sha256": "9ad492f5e99be482dc3d9d69b35f31d24b0a4b9d4d7759382e96d15b49bd7767"
+  },
+  "runtime_source_seals_verified": 187,
+  "private_custody_hashes_and_caps_verified": [
+    {
+      "name": "query-canceled-private.json",
+      "bytes": 1464,
+      "sha256": "093e9e66ffb7b338383d5189088dd7f63e6c11136ec91cf5ff2361691bdc0ed2",
+      "cap_verified": true
+    },
+    {
+      "name": "phase-markers-private.json",
+      "bytes": 921,
+      "sha256": "f0220ca08ec42cf7e78a145a6afb93818847f666001e719ca99d7b138a1f443e",
+      "cap_verified": true
+    }
+  ],
+  "application_still_57014_at_companion_capture": true,
+  "full_clone_original_five_bodies_config_and_baseline_restored": true,
+  "original29_data_catalogue_global_roles_unchanged": true,
+  "same_engine_container_volume_inventories_normal0_empty": true,
+  "shared_lock_absent": true,
+  "raw_context_SQL_phase_payload_printed": false,
+  "SQL_provider_retry_cleanup_or_access_change": false,
+  "performance_or_release_acceptance": false
+}
