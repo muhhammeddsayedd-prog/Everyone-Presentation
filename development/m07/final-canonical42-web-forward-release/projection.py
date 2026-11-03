@@ -1,4 +1,4 @@
-"""Fresh unbound web purpose; frozen CLI/source mechanics, strict42 read gate."""
+"""Fresh quality-unbound web purpose; actual42 bindings, frozen CLI mechanics."""
 from pathlib import Path
 import copy
 import datetime
@@ -23,13 +23,17 @@ APPROVED = {
     'stage.py': '71902e53a30d7f0c9dc9191ec5fa6771a04bca76ac2cd9ca613f9616493253a9',
     'test_release.py': '7cc658f6714ac30ff18d946d8c5a76e74a2b4bdada916302ea58daabd6d4bb1d',
 }
-CONTEXT = None
-CONTEXT_SHA = None
-# Root supplies these together after actual42 and owner results, before arming.
+CONTEXT = MAIN / 'development/m07/presentation-generation-compact-release/state.py'
+CONTEXT_SHA = '2cda8d4cdb34fec14be322713e978be71ecbbc13d1d14c667568d4770092b5b4'
+# Root supplies exact final Main quality after owner results, before arming.
 TESTED = None
 QUALITY = None
 MIN_TESTS = None
-CANONICAL42 = None
+CANONICAL42 = {
+    'ref': {'path': 'tracking/evidence/m07/presentation-generation-compact-release/2026-11-03T13-18-27-651163Z-apply.json', 'sha256': '43ad177660d5951e32d9549394cac6265ae8c97014861585d25535724c220301'},
+    'proof': {'path': 'tracking/evidence/m07/presentation-generation-compact-collector-proof/2026-11-03T13-08-43.574Z-144d063a.json', 'sha256': 'ef98a232507f809a80faaa82f0942d445f8bc2468d7364168a94eedc6aa8e446'},
+    'checkpoint': {'path': '.local/presentation-generation-compact-release/2244e718-fe3a-415f-b85a-b5cbfad5cb99/after-checkpoint.json', 'sha256': '69a70cc1074640742436869c0570d48264d4025c7a8862195a813cbe30b55ad7', 'history_path': ['state', 'history', 'versions'], 'tables': 76, 'scope': 'after_apply', 'restore_verified': False},
+}
 BASELINE = {'path': 'tracking/evidence/m07/mcp-logo-text-web-forward-release/2026-11-03T03-33-59-832114Z-cfd646be-5d85-4ff3-95f2-15259aa94afd-readback.json', 'sha256': '53a77277d96ca926b3cd7e23dbe9776270af0ef513110b08e15e51ae57da053d'}
 BASE_DEPLOYMENT = 'dpl_Gp3KFYuNET9hTJeGngNKs7xGmoYu'
 BASE_COMMIT = 'e259b81cd96e49e95004d9847384773f544c3d62'

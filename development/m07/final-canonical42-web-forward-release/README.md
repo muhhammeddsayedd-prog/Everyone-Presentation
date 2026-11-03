@@ -1,11 +1,12 @@
 # Final exact-Main web forward purpose
 
-Source preparation only. `RELEASE_ENABLED=False`; `TESTED`, `QUALITY`,
-`MIN_TESTS`, `CANONICAL42` and the final accepted Context supplier path/SHA are
-unbound. This folder makes no claim that42
-has applied, that the eventual Main commit passed quality, or that a new web
-deployment exists. Root supplies those exact actual references together before
-arming and freezes all source after the first claim.
+Web source preparation only. `RELEASE_ENABLED=False`; `TESTED`, `QUALITY` and
+`MIN_TESTS` remain unbound until Root's final exact-Main quality. The accepted
+compact Context is bound by raw SHA, along with actual schema42 normal apply
+`43ad1776`, owned collector `144d063a` and the protected after-apply checkpoint.
+This does not claim final web quality, a new deployment or a completed owner
+generation. Root binds final quality before arming and freezes all source after
+the first claim.
 
 The frozen Gp3/e259 purpose is loaded as an inert compiler, never invoked as an
 entry or given a consumed run. Its nine raw files and its existing ancestor pin
@@ -26,9 +27,9 @@ There must be no selected web source difference from e259; full testable-source
 quality still binds the eventual exact Main commit, tree, inventory and seals.
 No source is silently taken from a later working tree.
 
-The final Context supplier must be the actual accepted successor, pinned by raw
-SHA; the failed HTTP413 purpose cannot stand in for an accepted apply. Schema42
-requires an actual normal apply receipt, actual passed owned collector
+The Context supplier is the actual accepted compact successor, pinned by raw
+SHA; the two earlier HTTP413 purposes stay preserved as not-applied failures.
+Schema42 binds its actual normal apply receipt, passed owned collector
 and protected after-apply full76 checkpoint. The accepted English-guard Context
 checks the seven exact installed sources, all raw target attributes/OIDs/ACLs,
 both fixed functions, history42, full function/catalogue/dependency scope and

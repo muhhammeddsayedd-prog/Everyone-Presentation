@@ -24,9 +24,14 @@ f = module('final42_test_preflight', HERE / 'preflight.py')
 
 
 class Source(unittest.TestCase):
-    def test_closed_and_unbound_refuse_before_operator_or_reader(self):
+    def test_closed_and_quality_unbound_refuse_before_operator_or_reader(self):
         self.assertIs(r.RELEASE_ENABLED, False)
-        self.assertEqual((p.TESTED, p.QUALITY, p.MIN_TESTS, p.CANONICAL42, p.CONTEXT, p.CONTEXT_SHA), (None,) * 6)
+        self.assertEqual((p.TESTED, p.QUALITY, p.MIN_TESTS), (None,) * 3)
+        self.assertEqual(p.CONTEXT, p.MAIN / 'development/m07/presentation-generation-compact-release/state.py')
+        self.assertEqual(p.sha(p.load(p.CONTEXT)), p.CONTEXT_SHA)
+        self.assertEqual(p.CANONICAL42['ref']['sha256'], '43ad177660d5951e32d9549394cac6265ae8c97014861585d25535724c220301')
+        self.assertEqual(p.CANONICAL42['proof']['sha256'], 'ef98a232507f809a80faaa82f0942d445f8bc2468d7364168a94eedc6aa8e446')
+        self.assertEqual(p.CANONICAL42['checkpoint']['tables'], 76)
         with patch.object(r, 'legacy', side_effect=AssertionError('transport loaded')):
             with self.assertRaises(ValueError):
                 r.Operator('00000000-0000-4000-8000-000000000000')
@@ -48,7 +53,7 @@ class Source(unittest.TestCase):
         gates = p.project('gates.py')
         self.assertIn('REASON_FILES=set()', gates)
         self.assertIn('changed&{x[\'path\']for x in source[\'files\']}==REASON_FILES', gates)
-        self.assertIn("'schema42': None", gates)
+        self.assertIn("'schema42': " + repr(p.CANONICAL42), gates)
         self.assertIn('_projection.canonical(', gates)
 
     def test_query_keeps_seven_idle_predicates_and_adds_only_state_operand(self):
