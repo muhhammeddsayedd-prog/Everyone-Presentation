@@ -1,0 +1,27 @@
+{
+  "schema_version": "root-final42-preclaim-path-failure.v1",
+  "recorded_at": "2026-11-03T13:57:27.986446+00:00",
+  "result": "known_not_submitted_preclaim_reference_path_rejection",
+  "run_id": "38c4f9c2-2476-46df-a401-12e2c635b815",
+  "attempt_receipt": {
+    "path": "tracking/evidence/m07/final-canonical42-web-forward-release/2026-11-03T13-41-55-580295Z-38c4f9c2-2476-46df-a401-12e2c635b815-deploy.json",
+    "sha256": "456e4051028ea307cc63d609e7e16be1eeea0563269fe71bf3401ce19c675f6c"
+  },
+  "preflight_receipt": {
+    "path": "tracking/evidence/m07/final-canonical42-web-forward-release/2026-11-03T13-40-41.005273+00-00-38c4f9c2-2476-46df-a401-12e2c635b815-canonical-preflight.json",
+    "sha256": "8c71245389f6c5ab4ec11fd4af7041654eba17c91a4cc2f158a6c210eabd9514"
+  },
+  "exact_failure": "UTC offset plus character in generated preflight filename rejected by unchanged closed reference path regex",
+  "original_receipt_bytes_and_digest_match": true,
+  "all_remaining_preflight_content_predicates_pass_at_original_attempt_time": true,
+  "checks_executed_in_independent_RAM_namespace_only_original_gate_unchanged": true,
+  "deploy_claim_absent": true,
+  "normal_deploy_return_absent": true,
+  "source_order_proves_reference_gate_precedes_claim_and_Vercel_POST": true,
+  "provider_GETs_may_have_occurred": true,
+  "provider_deployment_submission_occurred": false,
+  "old_source_receipt_inputs_claim_or_filename_mutated": false,
+  "retry_or_alias_repair_performed": false,
+  "next_scope": "fresh metadata-fix web purpose with UTC-Z filenames; old attempted purpose retained unchanged",
+  "AT069_action_or_equivalent_transport": false
+}
