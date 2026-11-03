@@ -1,0 +1,66 @@
+{
+  "schema_version": "raw-observer-sql-retained-diagnosis.v1",
+  "prepared_from_retained_evidence_only": true,
+  "new_database_or_provider_observation": false,
+  "source_report": {
+    "path": "tracking/evidence/m07/presentation-generation-canonical-profile-full-proof/2026-11-03T09-36-23.937Z-48ed954a.json",
+    "sha256": "599527b663a20a5a4e1e66c34a89c41078ca5b87c0998f96f89c546bbc48e721",
+    "observed_at": "2026-11-03T09:36:23.937Z",
+    "finished_at": "2026-11-03T09:47:41.901Z",
+    "result": "failed",
+    "checkpoint": "combined-old-focused-cases"
+  },
+  "executed_source": {
+    "path": "development/m07/presentation-raw-companion-batch-proof/raw-authority.mjs",
+    "sha256": "1b7d1743f1c1e7a750d12a26056c3208bbfa024f230386b5296998f02f333896",
+    "current_source_equals_actual_report_seal": true,
+    "consumed_source_modified": false,
+    "observer_sites": [50, 71]
+  },
+  "terminating_failure": {
+    "private_file": ".local/presentation-generation-canonical-profile-full-proof/48ed954a-d841-4c56-8339-c3a28248867c/case-raw_old_valid_one_failure-error.json",
+    "sha256": "4564318bfecd84fb1dde8acb26b280ce77820f8f6b9b5d4ca95cef5f699ce6ab",
+    "case": "old.valid_one",
+    "native_sqlstate": "42601",
+    "native_sqlstate_provenance": "first_verbose_psql_ERROR_line",
+    "safe_message": "trailing junk after numeric literal at or near <backend_pid>and",
+    "numeric_prefix_matches_actual_sender_pid": true,
+    "request_line": 1,
+    "native_function": "scanner_yyerror",
+    "native_source_file": "scan.l",
+    "native_source_line": 1244,
+    "source_site": 71,
+    "cause": "missing whitespace in an observer lock-wait query",
+    "queued_clone_checks_passed": true,
+    "helper_dispatch_started": true,
+    "recorded_helper_result": false,
+    "authority_mutation": false,
+    "barrier_released": true,
+    "sender_rollback_recorded": true,
+    "raw_helper_or_authority_failure_proven": false
+  },
+  "separate_earlier_first_error": {
+    "private_file": ".local/presentation-generation-canonical-profile-full-proof/48ed954a-d841-4c56-8339-c3a28248867c/first-owned-native-error.json",
+    "sha256": "b4661883f71c92d0f425cf781b72b90d4ff3900457d7b934b5c46e7ba57b29ad",
+    "native_sqlstate": "P0001",
+    "application_code": "RESOURCE_NOT_FOUND",
+    "native_sqlstate_provenance": "first_verbose_psql_ERROR_line",
+    "frames": [
+      {"function": "eps.fail(text,text,integer,bigint)", "line": 2, "operation": "RAISE"},
+      {"function": "eps.presentation_lock_sources(uuid,text,text)", "line": 58, "operation": "PERFORM"},
+      {"function": "pg_temp_18.pool_proof_measure(uuid)", "line": 5, "operation": "PERFORM"}
+    ],
+    "terminating_failure_cause": false,
+    "expected_or_unexpected_classification_added": false
+  },
+  "evidence_boundaries": {
+    "first_eight_calls_completed": true,
+    "sixteen_review_snapshot_projection_checks_completed": true,
+    "old_raw_authority_valid_control_completed": false,
+    "later_raw_authority_cases_completed": false,
+    "final_seven_function_restore_in_callback_reached": false,
+    "full_performance_or_security_acceptance": false,
+    "hosted_or_production_acceptance": false,
+    "private_SQL_claims_transcripts_or_values_copied": false
+  }
+}
