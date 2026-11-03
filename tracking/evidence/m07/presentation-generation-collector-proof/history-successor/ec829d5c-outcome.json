@@ -1,0 +1,80 @@
+{
+  "schema_version": "generation42-owned-collector-failure-outcome.v1",
+  "result": "failed",
+  "run_id": "ec829d5c-fc41-41b1-83cc-0b6e135046fb",
+  "references": {
+    "actual_owned_run": {
+      "path": "tracking/evidence/m07/presentation-generation-collector-proof/history-successor/2026-11-03T11-11-23.813Z-ec829d5c.json",
+      "sha256": "44bfece12935cecc2538eaab3e7fc7500c1adb3c4216ffc815359eb59eab649f"
+    },
+    "Root_audit": {
+      "path": "tracking/evidence/m07/presentation-generation-collector-proof/history-successor/Root-ec829d5c-postrun-audit.json",
+      "sha256": "8172293d42c28a2c27ebd55a5142fb93b8b6ad95c586f483a10b3b5de1112314",
+      "recorded_at": "2026-11-03T11:21:09.537010+00:00"
+    },
+    "separate_canonical_read": {
+      "path": "tracking/evidence/m07/completion-release/canonical-generation42-preimages-e0515159-b9d7-4460-9bf9-859a31e40b3a.json",
+      "sha256": "bd4e8d3943685c9160eb326118da32223de424abe367b5756c4fb6721c7a8e41",
+      "observed_at": "2026-11-03T11:18:07.665733+00:00",
+      "normal_process_exit": 0,
+      "read_only": true,
+      "history_count": 41,
+      "raw_sources_or_payloads_returned": false,
+      "canonical_change_executed": false
+    }
+  },
+  "actual_boundary": {
+    "observed_at": "2026-11-03T11:11:23.813Z",
+    "finished_at": "2026-11-03T11:12:24.761Z",
+    "normal_process_exit": 1,
+    "elapsed_ms": 60948,
+    "checkpoint": "logo-info-rollback-proof",
+    "restored38_rows_and_catalogue_exact": true,
+    "declared_owned_fixture_and_history41_setup_completed": true,
+    "history41_prerequisite_guard_passed": true,
+    "first_Context_check_completed": false,
+    "bridge_check_exit_code": 1,
+    "bridge_timeout_or_overflow": false,
+    "collector_validation_receipt_created": false,
+    "seven_target_42_transaction_dispatched": false,
+    "native_SQL_error_claimed": false,
+    "failure_kind": "Strict raw prosrc preimage guard correctly refused two CRLF bodies against adapter expectations that used LF-normalized hashes."
+  },
+  "two_raw_preimage_mismatches": {
+    "eps.presentation_lock_sources(uuid,text,text)": {
+      "actual_raw_sha256": "dc398779de1d2d6d997d4f40fff99b5c840f2c7ca1b780e26ee28027aad83fff",
+      "CRLF_count": 20,
+      "LF_normalized_sha256": "4107c87b1a51d2c5ed506a64c81378026068406a5136b202779767efb30264e7"
+    },
+    "eps.review_snapshot(uuid,uuid,text)": {
+      "actual_raw_sha256": "27a9e0738186c7df7f8df842ccd21a66d3fd84cda5c203e87e87ef2c9efd3d85",
+      "CRLF_count": 2,
+      "LF_normalized_sha256": "f0815e014144f1345b4679d96114aab6b358d95df317e3cfe6ac6b59989813cb"
+    },
+    "raw_hashes_match_fresh_canonical_read": true,
+    "other_five_target_and_two_fixed_function_raw_and_LF_hashes_match_expected": true,
+    "normalization_used_to_bypass_strict_guard": false,
+    "production_function_change_proven_by_this_mismatch": false
+  },
+  "preservation_and_cleanup": {
+    "Root_actual_and_private_executed_source_pairs_verified": 242,
+    "private_bridge_claim_input_outputs_and_failure_retained": true,
+    "original_data_catalogue_and_global_roles_unchanged": true,
+    "all_owned_resources_absent": true,
+    "raw_same_engine_container_and_volume_inventories_empty": true,
+    "Root_independent_same_engine_container_and_volume_inventories_normal0_empty": true,
+    "shared_lock_released_and_independently_absent": true,
+    "entry_armed_sha256": "d7b74f3458d5492fe22d82268dc48f8482220794e989d436946cf63cfd3996d3",
+    "entry_closed_sha256": "4268de1598195c12754221995785304d1be9412e8b5e5d0766dffede9998cdac",
+    "exact_sole_flag_closure_independently_verified": true
+  },
+  "scope_limits": {
+    "collector_nonce_rollback_or_normal_commit_acceptance": false,
+    "canonical42_or_hosted_generation_acceptance": false,
+    "canonical_history_remains_41_at_separate_read": true,
+    "candidate_bodies_changed_by_this_run": false,
+    "prior_local_generation_ec5_or_guest_expiry_acceptance_invalidated": false,
+    "new_reviewer_runtime_SQL_HTTP_browser_or_private_payload_read": false,
+    "earlier_failures_claims_or_evidence_rewritten": false
+  }
+}
