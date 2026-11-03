@@ -1,0 +1,15 @@
+--- GEN41fe
++++ slide-insert-batch
+@@ -54,9 +54,9 @@
+  insert into eps.jobs(id,workspace_id,requested_by,kind,resource_id,input,input_hash,input_hash_version,dedupe_key,stage,correlation_id)values(job_id,workspace.id,auth.uid(),'presentation_render',version_id,job_input,input_hash,'eps.presentation-job-input.cast-canonical.v1',encode(sha256(convert_to(auth.uid()::text||':presentation.generate:'||p_idempotency_key,'UTF8')),'hex'),'prepare_presentation',job_id::text);
+  insert into eps.presentation_versions(id,series_id,workspace_id,project_id,version_number,input_workspace_row_version,source_draft_revision,input_fingerprint,snapshot,snapshot_sha256,manifest,manifest_sha256,inventory_sha256,page_count,generation_job_id,generated_by,generation_note,created_at,english_transcript_version)
+  values(version_id,series.id,workspace.id,workspace.project_id,version_no,workspace.row_version,workspace.draft_revision,review->>'input_fingerprint',snapshot,snapshot_hash,manifest,manifest_hash,inventory_hash,jsonb_array_length(slides),job_id,auth.uid(),note,created_at,'1.0');
+- for item in select value from jsonb_array_elements(slides)loop
+-  insert into eps.version_slides(id,version_id,ordinal,kind,source_assignment_id,source_slot_id,snapshot,content_sha256)values((item->>'id')::uuid,version_id,(item->>'order')::integer,item->>'kind',(item->>'assignment_id')::uuid,(item->>'slot_id')::uuid,item,eps.presentation_hash(item));
+- end loop;
++ if coalesce(jsonb_array_length(slides),0)>0 then
++  insert into eps.version_slides(id,version_id,ordinal,kind,source_assignment_id,source_slot_id,snapshot,content_sha256)select(s.item->>'id')::uuid,version_id,(s.item->>'order')::integer,s.item->>'kind',(s.item->>'assignment_id')::uuid,(s.item->>'slot_id')::uuid,s.item,eps.presentation_hash(s.item)from jsonb_array_elements(slides)with ordinality s(item,slide_position)order by s.slide_position;
++ end if;
+  if coalesce(cardinality(capture_assets),0)>0 then
+   insert into eps.presentation_version_assets(version_id,asset_id,asset_kind,bucket,object_key,mime_type,byte_size,sha256,width,height,duration_ms,source_asset_id,timestamp_ms,filename,asset_created_at)
+   select version_id,a.id,a.purpose,a.bucket,a.object_key,a.mime_type,a.size_bytes,a.sha256,a.width,a.height,a.duration_ms,a.source_asset_id,a.source_timestamp_ms,a.filename,a.created_at from unnest(capture_assets)a order by a.id;
