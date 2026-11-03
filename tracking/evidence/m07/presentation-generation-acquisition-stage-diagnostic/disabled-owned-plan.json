@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "purpose": "presentation-generation-acquisition-stage-diagnostic",
+  "entry_enabled": false,
+  "compiled_only": true,
+  "execution_dispatched": false,
+  "SQL_executed": false,
+  "Docker_or_provider_executed": false,
+  "compile_id": "edf6d25f-f80c-4f67-b733-33f290b9a6d3",
+  "source_commit": "ed2f804b8d2f64d6d01d72a820a999d13b9f9bfc",
+  "source_sha256": {
+    "development/m07/presentation-generation-acquisition-stage-diagnostic/admit.mjs": "b86896643165e5d3d369890f127682a54cf30ab80c980f1bd7fa2a3418e63c73",
+    "development/m07/presentation-generation-acquisition-stage-diagnostic/compiler.py": "8e766b027a10e7d1cdbea6669e153031724d8d17df1500ff9d7fdddf0184cee3",
+    "development/m07/presentation-generation-acquisition-stage-diagnostic/entry.mjs": "989e2704bb361939f91223cf827f05330c8bfc943ef969d96b2ddd022f7eea64",
+    "development/m07/presentation-generation-acquisition-stage-diagnostic/projection.py": "9c17435b3709e87aafebcd3055d0341717d80a8bc3e27ad28ae57efcd0b965cf",
+    "development/m07/presentation-generation-acquisition-stage-diagnostic/README.md": "b31d242e00c9fe6961dbc6f4a992c06534dd0053ef5b431bdefa36440e9fef5d",
+    "development/m07/presentation-generation-acquisition-stage-diagnostic/test_wrapper.py": "69f3247aaece7f461a5597abe39991d1ff70cd93f6056c591ebf5c5224251f16",
+    "development/m07/presentation-generation-acquisition-stage-diagnostic/wrapper.test.mjs": "953ec08218f13f843e90b90be811614a0c626232f9028a24dc6480db47378d48"
+  },
+  "frozen_d958_source_sha256": {
+    "admit.mjs": "bcfefa2cc95c5e25e53b998eca28bf6391ee61f8f213189ba77500d6129cdc29",
+    "admit.test.mjs": "f32174f35b5678effd91cea32fe6636f149e4ce4fa60194b025fca2b256df7f4",
+    "compiler.py": "4f9c0899404c3857e9021b923bdeb544ef73276c255b958a340431ffa0635070",
+    "entry.mjs": "d8eff4fa9bc0a851377b89e32dc8d455006bc2d3ad30d1fb0264e1ff0f872f8f",
+    "instrument.py": "1540d3c69ed14fb2409c032b93d5ee1cd371801e5b98c7b4264870ca1cc7197c",
+    "markers.mjs": "e65c3f2570c1d5d7976b3ea1ba75be2767e3a5f75af0e4ad863a938ca5f72b46",
+    "markers.test.mjs": "3d618d4579efaf42d2697d9452de3472967339c2912d720e325b5a0d3234b86f",
+    "README.md": "8b7ee6d22502cc754de1c32cce765ed06a57472787c95d26a160ff6e71f85dca",
+    "receiver.test.mjs": "0f9e9c80a68f30c40c22fba906d8e65c503d7b9b20314472000c1cfd8ed1f4ed",
+    "run.mjs": "c6163fe506810d2a5666150f86a84498ac655a1506a4d372c43624c9b3790663",
+    "run.test.mjs": "6ff93fedfbc9eea0ff06297e259b075875a01d7d538c7c68a0f45a67d810d3fa",
+    "session.mjs": "ea8b032d35946a19293ffc16c8f9ac8bf233c5601058f178230385c708d250a5",
+    "source.py": "5847849a862e7b17deafdf5976117a31dd9250f12329e9c02120c40e0e68a0b0",
+    "test_proof.py": "fd74360ccc6d5666a96ba53814448c3bd8c391d0d8792bbe58de7157d0dc815c"
+  },
+  "artifacts": [
+    {
+      "kind": "cases",
+      "path": ".local/presentation-generation-acquisition-stage-diagnostic-compiled/cases-edf6d25f-f80c-4f67-b733-33f290b9a6d3.mjs",
+      "bytes": 4063,
+      "sha256": "6e9035fccbba1006d719c65e18564b9379d6c928951f7be29da77c32854f0c98",
+      "node_syntax_exit": 0
+    },
+    {
+      "kind": "callback",
+      "path": ".local/presentation-generation-acquisition-stage-diagnostic-compiled/callback-edf6d25f-f80c-4f67-b733-33f290b9a6d3.mjs",
+      "bytes": 28552,
+      "sha256": "6d6e3b8d43ddfe3adf84ad73311afcce0a6c115de887830c2e7b4ecbe4b62f1a",
+      "node_syntax_exit": 0
+    },
+    {
+      "kind": "controller",
+      "path": ".local/presentation-generation-acquisition-stage-diagnostic-compiled/controller-edf6d25f-f80c-4f67-b733-33f290b9a6d3.mjs",
+      "bytes": 238125,
+      "sha256": "769344c6e918dedd8f54bde2b68e50c966572489d43d830eef193675caa35cd1",
+      "node_syntax_exit": 0
+    }
+  ],
+  "only_business_function_delta": {
+    "before_sha256": "280244090e5350b912dec5b23b74bb5d260e9e21df497c8ddfc2ae322fb774c4",
+    "after_sha256": "aa1db8b1c2f8e9a15360c24fd9a4216df03c9f14767b1b300898a3e88a7220e3",
+    "before_definition_sha256": "d9d790fe49537ac88f94c93d1144968b2f1a1ad4d798c3805e8e3ccbfb63f632",
+    "after_definition_sha256": "d52c4ef982a358e6889bc4b456278a7765d06e53efd0401c18d63ca9205381db",
+    "source_sha256": "961d9969a8646831c64d0f9e2f0960d7e7910cc1ddd29a558d2e7bd990f66ec6",
+    "only_business_function_delta_from_d958": true
+  },
+  "current_four_business_body_sha256": [
+    "0dba1d407199191d3bbb4d84ddab94d9f4e33da6a0172738b86133e8c7bf61fd",
+    "c6f93795e1926bcbb2e550b428f2e76a9ffe04dc29199e799c3d3a0e7b73cd10",
+    "a5e5c60d3f94d9e05c62fc1cfc76ac4552713000b72b1efe4eac028da15c0d40",
+    "afe33691e2bb1dad42999b49c8c5ba9d583d68bfc6cced60bfbea0adadc37dd7"
+  ],
+  "same_frozen_instrumented_four_sha256": [
+    "234cec65947a522b488c679cdc3eed9fec662394f80998626f31fba2d90dc72c",
+    "c6f93795e1926bcbb2e550b428f2e76a9ffe04dc29199e799c3d3a0e7b73cd10",
+    "e027442ba36b260fb573316e41cf6e8839baf42fe08d10277d8455cb7caaa6c7",
+    "afe33691e2bb1dad42999b49c8c5ba9d583d68bfc6cced60bfbea0adadc37dd7"
+  ],
+  "callback_projection": {
+    "inverse_byte_equal": true,
+    "frozen_d958_projection": {
+      "inverse_byte_equal": true,
+      "frozen_assignment_prefix_and_actual_FK_guard_preserved": true,
+      "removed_combined_tail_sha256": "2f866977d06e89016017a5b7a0e04ede18faa89333a6f0d49d7b98ae636b4421",
+      "single_fresh_MCP_large_call_only": true,
+      "matrix_components_focus_and_warming_replayed": false,
+      "only_session_transport_change_passive_strict_stage_getter": true,
+      "only_new_session_setting_client_min_messages_notice": true
+    },
+    "callback_business_SQL_authority_and_restoration_byte_unchanged": true,
+    "only_helper_identity_and_failed_baseline_labels_changed": true
+  },
+  "temporary_and_stage_map_unchanged": true,
+  "projected_cases_bytes_unchanged": true,
+  "actual_call_limit": 1,
+  "mode": "mcp",
+  "profile": "large",
+  "fresh_backend_first_application_call": true,
+  "statement_timeout": "8s",
+  "lock_timeout": "8s",
+  "matrix_components_focus_or_warm_retry_executed": false,
+  "new_authority_or_session_clock_cache": false,
+  "functionstats_or_extra_profiling": false,
+  "raw_context_private_only": true,
+  "private_context_max_bytes": 2097152,
+  "private_phase_max_bytes": 16384,
+  "stderr_max_bytes": 131072,
+  "marker_line_max_bytes": 220,
+  "normal_fixed_marker_count": 14,
+  "maximum_marker_count": 15,
+  "notice_sampling_only_after_normal_child_close": true,
+  "only_a820_entry_closure_allowed": {
+    "armed": "a40af5d5f772ba938074b7ee5f06cf9f27237a3c29677d9e9cdc17b36d9488d2",
+    "closed": "04e329e27412aa7aea50c227f9c492c0aadd751cd9df6fac6263e651e96d4eb2",
+    "all_other_a820_source_seals_exact": true
+  },
+  "requires_original4107_four_canonical_config_full_fresh_baseline_restore": true,
+  "requires_original29_data_catalogue_global_roles_and_owned_cleanup": true,
+  "requires_independent_same_engine_inventories_and_lock_absence": true,
+  "automatic_replay": false,
+  "performance_or_release_acceptance": false,
+  "offline_checks": {
+    "python_passed": 3,
+    "python_failed": 0,
+    "python_elapsed_seconds": 1.94,
+    "node_passed": 9,
+    "node_failed": 0,
+    "node_skipped": 0,
+    "node_duration_ms": 231.6296,
+    "eslint_exit": 0,
+    "diff_check_exit": 0,
+    "compiled_node_checks": [
+      0,
+      0,
+      0
+    ]
+  },
+  "next_action": "Root source/disabled-plan review only; no arming or actual execution authorized by this plan"
+}
