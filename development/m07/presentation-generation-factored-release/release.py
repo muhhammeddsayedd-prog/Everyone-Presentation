@@ -9,8 +9,8 @@ _spec = importlib.util.spec_from_file_location('generation42_factored_Context', 
 s = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(s)
 old = s.module('generation42_frozen_413_normal_phase', s.MAIN / 'development/m07/presentation-generation-english-guard-release/release.py', '84b0ae58dc9ec67066df1837d7351763a671de3f54f1a77c9c7d7b1fb7e607e7')
-READ_ENABLED=False
-APPLY_ENABLED=False
+READ_ENABLED=True
+APPLY_ENABLED=True
 PURPOSE = 'presentation-generation-factored-release'
 COLLECTOR_FAMILY = 'presentation-generation-factored-collector-proof'
 
