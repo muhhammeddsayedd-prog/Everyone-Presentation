@@ -31,7 +31,7 @@ Canonical42's [normal compact apply](../../tracking/evidence/m07/presentation-ge
 and [Root audit](../../tracking/evidence/m07/presentation-generation-compact-release/Root-2244e718-postapply-audit.json)
 prove the genuine nonce/two reads, all76 full row multisets including audit
 reasons, exact seven prosrc changes and unchanged attributes/OIDs/ACLs/fixed
-functions/catalogue/roles/policies/dependencies. The
+functions/non-target catalogue/roles/policies/dependencies. The
 [owned compact collector144](../../tracking/evidence/m07/presentation-generation-compact-collector-proof/144d063a-outcome.json)
 adds290 source pairs, seven same-RR old/compact state equalities, negative
 preimage refusal, diagnostic rollback, normal nonce and owned cleanup. Its clone
@@ -42,7 +42,8 @@ native3d are unchanged. The [new web readback](../../tracking/evidence/m07/prese
 and [scoped metadata/UI proof](../../tracking/evidence/m07/completion-release/Root-4gdh-production-metadata-and-UI.json)
 are deployment/read acceptance, not rollback, worker replacement or recovery.
 Existing-Claude metadata confirmation and AT060's real200 representative workload
-remain open; no authorized corpus is available for the latter. Narrator,
+remain open: no authorized representative corpus has been identified; owner
+availability reply pending. Narrator,
 contributor and mobile remain skipped, not passed. Full M07 remains false.
 
 ### No replay or rollback workaround

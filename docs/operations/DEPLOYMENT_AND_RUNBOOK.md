@@ -63,8 +63,9 @@ not weaken comparisons to reuse an older checkpoint.
 
 Existing-Claude metadata confirmation, final privacy/push and handover evidence
 remain separate. AT060's real200 representative workload remains mandatory and
-open because no authorized corpus exists yet; synthetic throughput is not a
-substitute. Narrator/screen-reader, contributor and mobile were skipped, not
+open: no authorized representative corpus has been identified; owner availability
+reply pending. Synthetic throughput is not a substitute.
+Narrator/screen-reader, contributor and mobile were skipped, not
 passed, and are not to be requested again as new gates.
 
 AT069 rollback-transport preparation was rejected by automatic approval review
