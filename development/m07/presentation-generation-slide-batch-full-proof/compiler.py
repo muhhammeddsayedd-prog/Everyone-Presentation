@@ -30,7 +30,6 @@ def compile_source(relative):
     source,old_callback,cases=load('slide_full_frozen_compiler',p.OLD/'compiler.py').compile_source(old_relative)
     callback_relative=relative.replace('/controller-','/callback-');cases_relative=relative.replace('/controller-','/cases-')
     callback,proof=p.project_callback(ROOT/cases_relative)
-    p.admit_entry((HERE/'entry.mjs').read_bytes().decode('utf8'))
     need((HERE/'admit.mjs').read_bytes().decode('utf8').startswith(p.project_admit_prefix()))
 
     def replace(a,b):
