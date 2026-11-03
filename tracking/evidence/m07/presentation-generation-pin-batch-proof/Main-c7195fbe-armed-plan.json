@@ -1,0 +1,38 @@
+{
+  "status": "Root_admitted_one_fresh_owned_pin_batch_proof",
+  "source_commit": "41e078add553ceb19755b320ad47afb3129157e5",
+  "Main_source_commit": "11d48a5",
+  "candidate_commit": "024ea1a717ef842d138380fe9b99756f84ffaa14",
+  "Root_full_source_and_Runtime_peer_review": "passed",
+  "Root_offline_checks": {
+    "Python": {
+      "passed": 4,
+      "seconds": 1.606
+    },
+    "Node": {
+      "passed": 18,
+      "milliseconds": 2814.046,
+      "skipped": 0
+    }
+  },
+  "new_entry_armed_sha256": "bfe59d0a8876245a510eb711fce70a5a57c1f683a6219ace9d34a416aa840046",
+  "outputs": [
+    {
+      "path": ".local/presentation-generation-pin-batch-proof-compiled/controller-c7195fbe-5eef-429e-a14c-1870559ae260.mjs",
+      "sha256": "7be0f170b1db0a3f76c4f1622e679cf1d507f173de8231a11a24c514ab062f9a"
+    },
+    {
+      "path": ".local/presentation-generation-pin-batch-proof-compiled/callback-c7195fbe-5eef-429e-a14c-1870559ae260.mjs",
+      "sha256": "37583e89e7885529dd7cb0df1ebed108f8601e74ab05bf5418181c95b463ffa5"
+    },
+    {
+      "path": ".local/presentation-generation-pin-batch-proof-compiled/cases-c7195fbe-5eef-429e-a14c-1870559ae260.mjs",
+      "sha256": "8ffe7addaa4bdbf383334f43f5bb78c802fb139fdbca6c9e507c21257fe0e08e"
+    }
+  ],
+  "actual_SQL_or_Docker_dispatched": false,
+  "no_old_purpose_or_consumed_claim_replayed": true,
+  "unchanged_first_candidate_MCP_large_8s_bound": true,
+  "unreached_scopes_fail_closed": true,
+  "scope": "owned synthetic; no canonical or service integration acceptance"
+}

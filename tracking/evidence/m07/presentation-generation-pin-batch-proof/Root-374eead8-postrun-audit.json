@@ -1,0 +1,24 @@
+{
+  "schema_version": "Root-pinbatch-failure-postrun-audit.v1",
+  "observed_at": "2026-11-03T05:17:24.936Z",
+  "result": "passed_audit_of_failed_application_run",
+  "run_id": "374eead8-0ccf-4c83-8bc3-609ebaf1cb32",
+  "receipt": {
+    "path": "tracking/evidence/m07/presentation-generation-pin-batch-proof/2026-11-03T05-14-07.996Z-374eead8.json",
+    "sha256": "791d7a1a3d1658bb9b10c62cb12accb8b50ee3c61581289e4b84427ed3387b3e"
+  },
+  "runtime_source_seals_verified": 162,
+  "first_only_application_result": "57014",
+  "normal_SQL_result_and_first_transaction_rollback": true,
+  "private_failure_reference": {
+    "path": ".local/presentation-generation-pin-batch-proof/374eead8-0ccf-4c83-8bc3-609ebaf1cb32/failure.json",
+    "sha256": "3f7d53a6afffbc4b35da0b38d8ce84da35dc67cc0bcab52e8822e209d0268c24",
+    "bytes": 88
+  },
+  "all_remaining_matrix_component_lock_security_and_final_clone_restore_scopes_unreached": true,
+  "original29_data_catalogue_global_roles_unchanged": true,
+  "same_engine_container_volume_inventories_normal0_empty": true,
+  "shared_lock_absent": true,
+  "SQL_provider_cleanup_or_retry_dispatched": false,
+  "performance_or_production_acceptance": false
+}
