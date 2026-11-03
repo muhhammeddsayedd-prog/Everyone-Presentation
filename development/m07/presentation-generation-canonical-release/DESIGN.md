@@ -5,7 +5,7 @@ SQL, build or deployment is created here. Future READ/APPLY defaults remain OFF.
 The normal additive release is already authorized; the conditions below establish
 technical evidence and exact execution scope, without a new owner approval gate.
 
-## Provisional five-target manifest
+## Provisional working targets — final graph unresolved
 
 The eventual migration would append **42 after the exact current41 history**.
 Version, migration SHA, final source seals and accepted proof references stay
@@ -14,7 +14,12 @@ change requires its own sealed manifest and matching evidence; failed attempts
 are retained. Do not silently accept a changed history or substitute an old pass.
 
 These are the currently proposed body SHA256 values, not accepted production
-postimages:
+postimages. These five working targets are not a closed final manifest: the
+latest diagnostic reached the English companion, so a separately reviewed
+`eps.capture_presentation_video_english_transcripts(uuid)` change may become a
+sixth target. Its production preimage/postimage hashes are unresolved. Final
+function count, graph, hashes and proof bindings must be sealed together after
+the pending evidence; neither a five-function nor six-function release is ready:
 
 | Exact signature | Production preimage | Provisional postimage |
 | --- | --- | --- |
@@ -37,18 +42,27 @@ No existing timeout is a pass. The actual374 first-call failure and ee38 diagnos
 remain separate from successful canonical41/logo/Samsung acceptance. Require the
 matching accepted fresh timing slice and complete semantic/security evidence:
 
-- Candidate MCP-large first in a fresh backend, within the unchanged8s bound;
-  all required candidate API/MCP control/large results and available old/new
-  projections. No warm/retry substitution or ninth matrix call.
+- Candidate MCP-large first in a fresh backend, within the unchanged8s bound.
+  The final complete **eight first-call matrix** is old/candidate × API/MCP ×
+  control/large, with all four candidate calls normal and within8s. All **16
+  semantic component projections** must complete and satisfy their parity
+  checks before canonical selection. Old failures remain failure observations,
+  not a substitute for required parity. No warm/retry substitution, partial
+  matrix acceptance or ninth matrix call.
 - Complete required review/snapshot/fingerprint, immutable manifest/pin/raw and
   English companion equality, all English states, Selection/Shortlist/NO_MAIN,
   fallback, missing/invalid/whitespace/Unicode/language/association and empty paths.
 - Fresh AA original-predicate lock/cohort/FK/NOWAIT and RC authority/fence/expiry
   evidence. Historical280 scopes alone do not establish changed-helper security.
-- Raw batch exact paired locked-media semantics, row-count completeness and
-  causal revoke/expiry waits, including direct legacy/null-English/zero-video
-  return paths. Its explicit fresh scope intentionally tightens late authority;
-  deferred INSERT/error/command-snapshot timing is not claimed identical.
+- Raw batch exact paired locked-media semantics and row-count completeness.
+  Direct legacy/null-English calls require **both nonempty video-pin and empty
+  zero-video paths**: actual membership removal, required-capability revocation
+  and database-clock expiry, with causal wait evidence, fresh authority denial
+  and exact rollback/restoration. Each path also requires unchanged valid
+  controls that return normally; an early fixture/permission error or generic
+  omitted-row SNAPSHOT_INVALID is not authority proof. Its explicit fresh scope
+  intentionally tightens late authority; deferred INSERT/error/command-snapshot
+  timing is not claimed identical.
 - Actual normal restoration/cleanup and all source seals for each admitted proof.
   Unreached final clone restoration is distinct from passed outer original-local
   database preservation/resource cleanup. Never relabel instrumented timing as
@@ -56,7 +70,7 @@ matching accepted fresh timing slice and complete semantic/security evidence:
 
 Reuse existing proven scopes instead of rerunning completed large suites merely
 to add another gate. Any still-required collector/transaction rehearsal must
-exercise the final five-production-preimage manifest and report its own scope.
+exercise the final closed production-preimage manifest and report its own scope.
 
 ## Reuse the passed41 mechanism
 
@@ -73,8 +87,10 @@ environment, Win32 private-file custody, nonce/response binding and readback
 methods as inert libraries. Never invoke a consumed main or modify its files,
 flags, claims or markers. No new credentials, service key or provider transport.
 
-Extend the JSON-oid-safe source normalization to **exactly the five enumerated
+Extend the JSON-oid-safe source normalization to **exactly the final enumerated
 prosrc fields**, with inverses and separate actual complete target rows/hashes.
+Reject any unlisted target or unresolved hash; do not use a variable-width or
+open-ended function allowance while the candidate graph remains unsettled.
 Typed pg_proc paths stay typed; row/view paths use JSON oid extraction plus the
 prosrc-key predicate. Do not reintroduce a pg_policies.p.oid assumption.
 Project42 back to exact41 only for inherited compatibility/history checks, while
@@ -84,7 +100,7 @@ accepted postimage; its older historical projection must not mask a logo change.
 
 Retain all full scoped pg_proc rows, OID/owner/ACL/security/volatility/search_path/
 attributes, roles/memberships, policies, namespaces, catalogue and dependencies.
-Only the five declared sources and one exact history row may change. No grant,
+Only the final manifest's declared sources and one exact history row may change. No grant,
 policy, ownership, schema, configuration, timeout or native-pin change is planned.
 Any unexpected DDL metadata delta must be classified in the owned rehearsal,
 never handled by dropping catalogue fields or introducing a broad exception.
@@ -104,7 +120,7 @@ Bind target/history/source/path/SHA; preserve existing finite custody bounds.
 
 One guarded repeatable-read transaction uses empty search_path/UTC, established
 finite timeouts and preservation lock order, exact history and full captured
-preimage. Recheck all five actual bodies and complete target metadata immediately
+preimage. Recheck every final-manifest body and complete target metadata immediately
 before their guarded replacements; use native function-DDL locking, never writes
 to system catalogues. Append one exact42 history row, assert the sole permitted
 postimage, COMMIT, then return the exact version/migration SHA/fresh nonce.
@@ -112,7 +128,7 @@ postimage, COMMIT, then return the exact version/migration SHA/fresh nonce.
 Preserve the bounded protected response before parsing, bound to the permanent
 apply claim. Acceptance requires the genuine normal nonce, two independent equal
 42 readbacks and a **new after checkpoint**, with exact full76/reason/config/
-Ready/authority/dependency comparisons and declared five-source/history delta.
+Ready/authority/dependency comparisons and the exact declared source/history delta.
 Echo both checkpoint refs/history bindings. Neither checkpoint is restore proof.
 
 Unknown return means retained claim/status, no DDL resubmission/new UUID/marker
