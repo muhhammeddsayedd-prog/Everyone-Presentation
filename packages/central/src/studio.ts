@@ -56,10 +56,11 @@ function scopedDto<T>(value: unknown, parse: (value: unknown) => T, inScope: (re
   return result;
 }
 
-/** Legacy media scope RPCs can project another purpose's asset. This validates
- * only a bounded routing hint; the chosen adapter must fetch/validate its own
- * exact current-user record before returning metadata, signing or reading bytes. */
-function scopedMediaPurpose(value: unknown, requestedId: string) {
+const generatedMediaPurposes = ['preview_video', 'presentation_pdf', 'presentation_preview', 'presentation_manifest', 'document_text', 'document_page'];
+
+/** Scope RPCs return public metadata alongside private Storage locators. Source
+ * adapters must still fetch their own exact record before reading/signing bytes. */
+function scopedMediaAsset(value: unknown, requestedId: string): MediaAsset {
   const malformed = (): never => { throw new DomainError('CENTRAL_RESPONSE_INVALID', 'The private media scope response did not match its contract.', 503); };
   const record = (entry: unknown): entry is Record<string, unknown> => Boolean(entry) && typeof entry === 'object' && !Array.isArray(entry);
   const fields = ['id','purpose','filename','mime_type','size_bytes','sha256','status','duration_ms','width','height','source_asset_id','source_timestamp_ms','created_at'];
@@ -69,15 +70,17 @@ function scopedMediaPurpose(value: unknown, requestedId: string) {
     || !text(value.bucket,100) || !text(value.object_key,2000) || !record(value.asset)) return malformed();
   const asset = value.asset;
   if (Object.keys(asset).length !== fields.length || fields.some(field=>!Object.hasOwn(asset,field)) || asset.id !== requestedId
-    || typeof asset.purpose !== 'string' || !['client_logo','specs','candidate_video','candidate_support','candidate_frame','audio','transcript'].includes(asset.purpose)
-    || !text(asset.filename,255) || !text(asset.mime_type,200) || !number(asset.size_bytes,1)
+    || typeof asset.purpose !== 'string' || !['client_logo','specs','candidate_video','candidate_support','candidate_frame','audio','transcript', ...generatedMediaPurposes].includes(asset.purpose)
+    || !text(asset.filename,255) || !text(asset.mime_type,200) || !number(asset.size_bytes,generatedMediaPurposes.includes(asset.purpose) ? 0 : 1)
     || !(asset.sha256 === null || typeof asset.sha256 === 'string' && /^[a-f0-9]{64}$/u.test(asset.sha256))
     || typeof asset.status !== 'string' || !['uploading','ready','failed','quarantined','archived'].includes(asset.status)
     || !['duration_ms','source_timestamp_ms'].every(field=>asset[field] === null || number(asset[field],0))
     || !['width','height'].every(field=>asset[field] === null || number(asset[field],1))
     || !(asset.source_asset_id === null || text(asset.source_asset_id,200))
     || typeof asset.created_at !== 'string' || !Number.isFinite(Date.parse(asset.created_at))) return malformed();
-  return asset.purpose;
+  return { id: asset.id, purpose: asset.purpose, filename: asset.filename, mime_type: asset.mime_type, size_bytes: asset.size_bytes,
+    sha256: asset.sha256, status: asset.status, duration_ms: asset.duration_ms, width: asset.width, height: asset.height,
+    source_asset_id: asset.source_asset_id, source_timestamp_ms: asset.source_timestamp_ms, created_at: asset.created_at } as MediaAsset;
 }
 
 /** Verified once for this request; each RPC derives authorization from the same user's JWT. */
@@ -140,9 +143,9 @@ export async function createCentralStudio(client: SupabaseClient, options: Centr
     cancelUpload:(actor,id,context)=>rpc(actor,'eps_cancel_support_upload',{p_upload_id:identifier(id),p_idempotency_key:key(context,true)},raw,context),
     getMedia:(actor,id)=>rpc(actor,'eps_get_candidate_support_asset',{p_asset_id:identifier(id)},raw),
   }}):undefined;
-  async function storageFor(actor: Actor, id: string, media = false) {
+  async function mediaOrStorageFor(actor: Actor, id: string, media = false, metadata = false) {
     checkActor(actor);
-    if (!logo && !specs && !candidate && !support) return centralStoragePending();
+    if (!metadata && !logo && !specs && !candidate && !support) return centralStoragePending();
     const args = media ? { p_asset_id: identifier(id) } : { p_upload_id: identifier(id) };
     // Only a typed not-found selects the next scope probe. Denial or malformed
     // metadata never falls through. Upload routing stays purpose-specific.
@@ -170,17 +173,25 @@ export async function createCentralStudio(client: SupabaseClient, options: Centr
       try {
         const scoped = await rpc(actor,entry.operation,args,raw);
         if (media) {
-          const purpose = scopedMediaPurpose(scoped,id);
+          const asset = scopedMediaAsset(scoped,id); const purpose = asset.purpose;
           if (entry.operation==='eps_get_candidate_asset' && !['candidate_video','candidate_frame','audio','transcript'].includes(purpose)
             || entry.operation==='eps_get_specs_media' && purpose!=='specs'
             || entry.operation==='eps_get_candidate_support_asset'&&purpose!=='candidate_support') throw new DomainError('CENTRAL_RESPONSE_INVALID','The private media scope returned an unexpected purpose.',503);
-          return (purpose === 'client_logo' ? logo : purpose === 'specs' ? specs : purpose==='candidate_support'?support:candidate) ?? centralStoragePending();
+          if (generatedMediaPurposes.includes(purpose)) {
+            if (!metadata) throw new DomainError('CENTRAL_RESPONSE_INVALID','The private media scope returned an unexpected purpose.',503);
+            return { kind: 'metadata' as const, asset };
+          }
+          return { kind: 'storage' as const, adapter: (purpose === 'client_logo' ? logo : purpose === 'specs' ? specs : purpose==='candidate_support'?support:candidate) ?? centralStoragePending() };
         }
-        return entry.adapter ?? centralStoragePending();
+        return { kind: 'storage' as const, adapter: entry.adapter ?? centralStoragePending() };
       }
       catch(error) { if (!(error instanceof DomainError&&error.code==='RESOURCE_NOT_FOUND'&&error.status===404))throw error; }
     }
     throw new DomainError('RESOURCE_NOT_FOUND','Private upload or media not found.',404);
+  }
+  async function storageFor(actor: Actor, id: string, media = false) {
+    const result = await mediaOrStorageFor(actor, id, media);
+    return result.kind === 'storage' ? result.adapter : centralStoragePending();
   }
   return {
     verifiedIdentity: identity,
@@ -276,7 +287,10 @@ export async function createCentralStudio(client: SupabaseClient, options: Centr
     async completeUpload(actor: Actor, id: string, input: CompleteUpload, context?: MutationContext): Promise<UploadCompletion> { return (await storageFor(actor, id)).completeUpload(actor, id, input, context); },
     async cancelUpload(actor: Actor, id: string, context?: MutationContext): Promise<{ success: true; affected_ids: string[] }> { return (await storageFor(actor, id)).cancelUpload(actor, id, context); },
     async storeUploadedLogo(actor: Actor, _id: string, _bytes: Uint8Array): Promise<{ size_bytes: number; sha256: string }> { void _id; void _bytes; checkActor(actor); return centralStoragePending(); },
-    async getMedia(actor: Actor, id: string): Promise<MediaAsset> { return (await storageFor(actor, id, true)).getMedia(actor, id); },
+    async getMedia(actor: Actor, id: string): Promise<MediaAsset> {
+      const result = await mediaOrStorageFor(actor, id, true, true);
+      return result.kind === 'metadata' ? result.asset : result.adapter.getMedia(actor, id);
+    },
     async getMediaContent(actor: Actor, id: string): Promise<{ bytes: Buffer; mimeType: string }> { return (await storageFor(actor, id, true)).getMediaContent(actor, id); },
     async playMedia(actor:Actor,id:string) { checkActor(actor);return candidate?candidate.playMedia(actor,id):centralStoragePending(); },
   };
