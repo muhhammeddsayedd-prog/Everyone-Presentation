@@ -1,0 +1,38 @@
+{
+  "schema_version": "mcp-logo-text-web-forward-source-validation.v1",
+  "result": "passed_offline",
+  "selected_commit": "e259b81cd96e49e95004d9847384773f544c3d62",
+  "quality_receipt": {
+    "path": "tracking/evidence/m07/completion-release/2026-11-03T03-13-27.120Z-bb8a01ed-mcp-logo-root-quality.json",
+    "sha256": "3e5029c23cf3ccb95bd6e17bc9cbadea76deda3f176b8d5eb3fb5d12a720e9e5"
+  },
+  "full_quality_tests": 1023,
+  "selected_product_delta": [
+    "apps/web/lib/logo-error-log.ts",
+    "apps/web/lib/mcp-error-text.ts"
+  ],
+  "source_seals": {
+    "gates.py": "8cd42e026b46a9f45bfa106052a15bedc5308413b11c5e40dbd8f7a13bec6e56",
+    "inputs.template.json": "431246c7f60779217dc9222713b3009a039228337f86ff04ce0d68241cf6271c",
+    "preflight.py": "ddcbb7674d36a58c60a31548d7243644f404c506b44e6771b630092c29783f72",
+    "projection.py": "99eb139094a34f24fb65894d6a037c183763641103eb52bb70badbf0dca72002",
+    "README.md": "af3caf5bd736e18cada9cbf1298288241faa099de1d6e34139e2febcdcca350f",
+    "release.py": "9b05adcc3f5978fc7c53f701f8c0c5caaa159ca1792385de4142a73be430e331",
+    "scan-stage.mjs": "babaec86e121ca6ae8c9609552ea45074a267826ab41913025c31581cafc6670",
+    "stage.py": "71902e53a30d7f0c9dc9191ec5fa6771a04bca76ac2cd9ca613f9616493253a9",
+    "test_release.py": "7cc658f6714ac30ff18d946d8c5a76e74a2b4bdada916302ea58daabd6d4bb1d"
+  },
+  "checks": {
+    "command": "<Main>/.venv-skills/Scripts/python.exe -X utf8 -B -m unittest discover -s development/m07/mcp-logo-text-web-forward-release -p test_release.py",
+    "passed": 20,
+    "failed": 0,
+    "duration_seconds": 1.439,
+    "initial_test_only_stub_failure_preserved": true,
+    "node_scanner_syntax_exit": 0,
+    "diff_check_exit": 0
+  },
+  "RELEASE_ENABLED": false,
+  "stage_private_scan_input_build_SQL_provider_or_deploy_performed": false,
+  "current_worker_DB_guard_changed": false,
+  "production_or_client_acceptance_claimed": false
+}
