@@ -17,7 +17,7 @@ parent = s.module('generation42_accepted_normal_phases', s.MAIN / PARENT, PARENT
 READ_ENABLED=False
 APPLY_ENABLED=False
 PURPOSE = 'presentation-generation-canonical-release'
-COLLECTOR_FAMILY = None
+COLLECTOR_FAMILY = 'presentation-generation-collector-proof'
 
 
 def bind(function):

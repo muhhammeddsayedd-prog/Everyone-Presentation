@@ -1,10 +1,12 @@
-# Provisional seven-target canonical adapter — OFF and unbound
+# Seven-target canonical adapter — execution OFF
 
-This source is preparatory. READ/APPLY and READY are false. Version, migration
-path/SHA, actual remaining-proof reference and new collector family are unset.
-No migration file, timestamp, claim, command, credential or provider action is
-created. It cannot prepare, query, apply or reconcile while those bindings are
-unresolved, even if only the execution flags were changed.
+READ/APPLY are false. Root created the migration through normal CLI2.122
+`migration new`, then wrote the exact seven definitions. Version20261103104337,
+migration SHA685010d2 and the actual passed ec5 receipt/audit are now bound.
+READY describes this source binding; it is not execution authorization. No
+claim, command, credential or provider action was created here. The protected
+reference to the required new owned collector is still absent, so changing
+execution flags cannot substitute an older collector or skip its admission.
 
 The manifest is exactly the seven targets in DESIGN.md: production4107→AA,
 canonical DATA→0dba, wrapper→c6, GEN→af486, raw→f222, English→b763 and scalar→845.
@@ -18,7 +20,7 @@ Admission checks actual old280/candidateAA helper records independently of the
 six companion installations. The exact passed Root audit binds actual/private
 source equality and the executed original4107/full clone restoration; a boolean
 completion label cannot replace a changed helper record. Both proof and audit
-references remain unset here.
+references are the passed ec5 receipt and its genuine Root audit.
 
 The accepted alias-safe41 Context remains an inert compatibility library.
 Compatibility projects only the eventual42 history row away, then uses its
@@ -50,18 +52,17 @@ execute the exact seven definitions, append one history row, assert the complete
 postimage and return the genuine commit nonce. The application8s bound is not
 changed. No rollback/AT069 transport or equivalent preparation exists here.
 
-Current48ed carries only its completed8/16/AA/missing-frame/old-pin scopes; its
-remaining raw/security/final-restore work is not a pass. This adapter does not
-bind a future result or turn a queued timing observation into production
-acceptance. Root will bind actual completed evidence and the final version after
-the remaining proof succeeds; final collector/runtime admission remains subject
-to the existing normal release flow.
+The passed ec5 continuation completed the remaining raw/security/final-restore
+work and explicitly carries dated48ed8/16/AA/missing-frame/old-pin scopes without
+replaying them. It does not claim fresh timing measurements or actual production
+MCP connection settings. Final collector/runtime admission remains subject to
+the existing normal release flow; no canonical acceptance is claimed here.
 
 `test_adapter.py` contains focused offline SQL/PL parsing, exact manifest,
 mixed-mode, alias, metadata/reason/nontarget preservation and unbound-before-port
 checks. No test executes PostgreSQL, a release phase or any provider. Test-only
 history labels are deliberately impossible calendar values and create no release
-artifact. The six focused offline tests passed in 3.554s, including parsing the
+artifact. The seven focused offline tests passed in 3.170s, including parsing the
 rendered transaction and enforcing the existing query/render byte bounds. A
 RAM-only mutation that removed complete metadata equality made the targeted
 preservation test fail; the original method was restored and disk bytes were

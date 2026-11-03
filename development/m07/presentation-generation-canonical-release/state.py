@@ -12,12 +12,12 @@ SOURCE = HERE.parents[2]
 MAIN = Path('D:/Everyone/Presentation/Everyone-Presentation-Studio')
 TARGET = 'pyibofyctwnqpvktepse'
 MAXIMUM = 16 * 1024**2
-VERSION = None
-MIGRATION = None
-MIGRATION_SHA = None
-REMAINING_PROOF_REF = None
-REMAINING_AUDIT_REF = None
-READY = False
+VERSION = '20261103104337'
+MIGRATION = 'supabase/migrations/20261103104337_m07_generation_data_reuse.sql'
+MIGRATION_SHA = '685010d2130a83cf4fcd8f11184b4faf1384d1ddc34436d33d458d8987744b78'
+REMAINING_PROOF_REF = {'path': 'tracking/evidence/m07/presentation-generation-setup-meta-remaining-proof/2026-11-03T10-35-09.104Z-ec5bc4fe.json', 'sha256': '95d78e1c73e228427754dec10fec0dacb56d2c0c1fce39d53497e44f75740b9d'}
+REMAINING_AUDIT_REF = {'path': 'tracking/evidence/m07/presentation-generation-setup-meta-remaining-proof/Root-ec5bc4fe-postrun-audit.json', 'sha256': 'd6f4c2daf70cd9f7430758121907c4c00e96d5f3ffa0cf52498361bd547c9445'}
+READY = True
 MIGRATION_NAME = 'm07_generation_data_reuse'
 CANONICAL41_VERSION = '20261103031200'
 METADATA = MAIN / '.local/m07-recovery/639da33a-7e90-4471-b0ec-c7a8ff6097ef/backup/metadata.sql'
@@ -261,6 +261,11 @@ class Context:
                 pins[str(file)] = sha(load(file))
         if MIGRATION:
             pins[str(self.source / MIGRATION)] = sha(load(self.source / MIGRATION))
+        for reference in (REMAINING_PROOF_REF, REMAINING_AUDIT_REF):
+            if reference:
+                file = self.root / reference['path']
+                need(sha(load(file)) == reference['sha256'])
+                pins[str(file)] = reference['sha256']
         return dict(sorted(pins.items()))
 
     def admission(self):

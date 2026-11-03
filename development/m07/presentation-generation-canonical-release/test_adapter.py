@@ -24,7 +24,7 @@ r = module('generation42_test_entry', HERE / 'release.py')
 class Tests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.c = s.Context()
+        cls.c = s.Context(root=s.MAIN, source=s.MAIN)
         cls.rows = cls.c.targets
 
     def test_seven_exact_production_preimages_and_mixed_original_headers(self):
@@ -60,7 +60,7 @@ class Tests(unittest.TestCase):
             for query in (self.c.state_sql(), self.c.checkpoint_sql()):
                 self.assertEqual(len(parse_sql(query)), 1)
                 self.assertLess(len(query.encode()), s.MAXIMUM)
-        self.assertIsNone(s.VERSION)
+        self.assertEqual(s.VERSION, '20261103104337')
 
     def value(self):
         def identity(index):
@@ -130,13 +130,11 @@ class Tests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 r.Release.compare_checkpoints(view, 'before', 'after')
 
-    def test_unbound_and_off_refuse_before_any_phase_or_claim(self):
+    def test_off_phases_and_incomplete_binding_refuse_before_ports_or_claims(self):
         self.assertFalse(r.READ_ENABLED)
         self.assertFalse(r.APPLY_ENABLED)
-        self.assertFalse(s.READY)
-        for name in ['VERSION', 'MIGRATION', 'MIGRATION_SHA', 'REMAINING_PROOF_REF', 'REMAINING_AUDIT_REF']:
-            self.assertIsNone(getattr(s, name))
-        self.assertIsNone(r.COLLECTOR_FAMILY)
+        self.assertTrue(s.READY)
+        self.assertEqual(r.COLLECTOR_FAMILY, 'presentation-generation-collector-proof')
         self.assertIs(r.Release.response_binding.__globals__['s'], r.s)
         self.assertIs(r.Release.worker.__globals__['s'], r.s)
         self.assertIs(r.Base.query.__globals__['s'], r.s)
@@ -152,19 +150,25 @@ class Tests(unittest.TestCase):
         for phase in ['prepare', 'apply', 'reconcile', 'snapshot', 'admission']:
             with self.assertRaises(ValueError):
                 getattr(operation, phase)()
-        with self.assertRaises(ValueError):
-            self.c.require_ready()
-        with self.assertRaises(ValueError):
-            self.c.state_sql()
-        with self.assertRaises(ValueError):
-            self.c.render({}, '00000000-0000-4000-8000-000000000001')
+        with patch.object(s, 'READY', False):
+            with self.assertRaises(ValueError):
+                self.c.require_ready()
+            with self.assertRaises(ValueError):
+                self.c.render({}, '00000000-0000-4000-8000-000000000001')
+        with patch.object(s, 'VERSION', None):
+            with self.assertRaises(ValueError):
+                self.c.state_sql()
+        for name in ('MIGRATION', 'MIGRATION_SHA', 'REMAINING_PROOF_REF', 'REMAINING_AUDIT_REF'):
+            with patch.object(s, name, None):
+                with self.assertRaises(ValueError):
+                    self.c.require_ready()
 
     def test_actual_helper_records_require_AA_source_authority_and_original4107_restore(self):
         proof = {'run_id': 'actual-test-run', 'source_seals': {'fixture': 'a' * 64}, 'combined_generation': {'helper_installations': [
             {'variant': 'old', 'source_sha256': '280244090e5350b912dec5b23b74bb5d260e9e21df497c8ddfc2ae322fb774c4', 'authority_unchanged': True},
             {'variant': 'candidate', 'source_sha256': self.rows['eps.presentation_lock_sources(uuid,text,text)']['after_sha256'], 'authority_unchanged': True},
         ], 'original4107_and_all_six_old_bodies_restored': True, 'full_data_reason_Ready_catalogue_authority_preserved': True}}
-        audit = {'actual_receipt': None, 'run_id': proof['run_id'], 'normal_process_exit': 0, 'runtime_source_seals_verified': 1}
+        audit = {'actual_receipt': s.REMAINING_PROOF_REF, 'run_id': proof['run_id'], 'normal_process_exit': 0, 'runtime_source_seals_verified': 1}
         for key in ('actual_and_private_executed_source_hashes_equal', 'helper_old280_candidateAA_full_installation_records_verified',
                     'final_original4107_and_six_source_config_full_clone_restoration_completed',
                     'independent_successful_daemon_label_inventories_empty', 'fresh_shared_lock_absent', 'original_target_preserved'):
@@ -186,6 +190,13 @@ class Tests(unittest.TestCase):
             bad_audit[key] = False
             with self.assertRaises(ValueError):
                 self.c.helper_records(proof, bad_audit)
+
+    def test_actual_passed_remaining_reference_and_exact_migration_binding(self):
+        self.assertEqual(self.c.require_ready(), self.c.definitions_sql().encode())
+        value = self.c.admission()
+        self.assertEqual(value['local_proof'], s.REMAINING_PROOF_REF)
+        self.assertEqual(value['local_proof_postrun_audit'], s.REMAINING_AUDIT_REF)
+        self.assertFalse(value['production_acceptance_claimed'])
 
 
 if __name__ == '__main__':
