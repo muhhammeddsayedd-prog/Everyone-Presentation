@@ -76,7 +76,7 @@ export function LogoPanel({ actorId, workspace, clientLogoAssetId, canWrite, can
       if (file) selectedFile.current = file;
       const saved = await finishLogoUpload(request.current, { json: api<unknown>, put: (url, init) => fetch(url, init), origin: location.origin, checkpoint,
         active: () => mounted.current,
-        stage: stage => { if (mounted.current) setStatus({ reserving: 'Creating private upload?', uploading: 'Uploading logo?', verifying: 'Checking stored logo?', selecting: 'Applying verified logo?', closed: 'This stored upload is closed.' }[stage]); }
+        stage: stage => { if (mounted.current) setStatus({ reserving: 'Creating a private upload.', uploading: 'Uploading logo.', verifying: 'Checking stored logo.', selecting: 'Applying verified logo.', closed: 'This stored upload is closed.' }[stage]); }
       }, selectedFile.current, useCurrentBranding ? workspace : undefined);
       clearUpload();
       if (mounted.current) { onSaved(saved); setStatus('Logo saved'); }
@@ -135,7 +135,7 @@ export function LogoPanel({ actorId, workspace, clientLogoAssetId, canWrite, can
       </div></div>}
       {canWrite && !canUpload && <p className="permission-note"><Icon name="lock" />Logo uploads are not available yet. You can continue without a logo.</p>}
       <fieldset className="logo-placement" disabled={busy || hasUpload || !canWrite}><legend>Logo appears on</legend><div className="segmented"><SegmentIndicator /><label><input type="radio" name="logo-placement" checked={placement === 'cover'} onChange={() => change({ logo_placement: 'cover' })} />Cover only</label><label><input type="radio" name="logo-placement" checked={placement === 'every_slide'} onChange={() => change({ logo_placement: 'every_slide' })} />Every slide</label></div></fieldset>
-      {offerClientLogo && <div className="notice notice-info"><p>The client already has a shared logo in Everyone. Use it instead of a separate upload.</p><button className="button button-small" disabled={busy || !canWrite} onClick={() => change({ logo_asset_id: clientLogoAssetId })}>Use client logo</button></div>}
+      {offerClientLogo && <div className="notice notice-info"><p>The client already has a shared logo in Everyone. Use it instead of a separate upload.</p><button className="button button-small" disabled={busy || hasUpload || !canWrite} onClick={() => change({ logo_asset_id: clientLogoAssetId })}>Use client logo</button></div>}
       <p className="small muted">Removing the selection keeps the original asset. This does not replace a shared client logo.</p>
       {status && <p className="save-state" data-state="saved" role="status" aria-live="polite">{status}</p>}
       {error && <><ErrorNotice message={error} /><div className="button-row">{pendingPlacement && <button className="button" disabled={busy || !canWrite} onClick={() => change({ logo_placement: pendingPlacement })}>Retry branding</button>}<button className="button button-quiet" disabled={busy} onClick={reloadBranding}>Reload saved branding</button></div></>}
