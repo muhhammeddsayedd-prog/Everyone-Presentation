@@ -1,0 +1,2548 @@
+{
+  "schema_version": "1.0",
+  "run_id": "d093fd61-304d-453a-bc2d-7c94fe85d228",
+  "observed_at": "2026-11-03T01:37:14.180Z",
+  "result": "failed",
+  "checkpoint": "combined-first-candidate-mcp-large",
+  "scope": "owned synthetic whole-generation8s and exact assignment/data/companion/security comparison: helper280 both sides, original four versus bounded-assignment candidate four; completed helper scopes carried only; no provider/production acceptance",
+  "cloud_called": false,
+  "provider_called": false,
+  "fixture_uuid_qualification": {
+    "schema_version": "pure-public-UUID-fixture-qualification.v1",
+    "criterion": "ONLY canonical UUID validity of unchanged first public assignment slot_id and workspace_candidate_id",
+    "attempt_cap": 4096,
+    "attempt_count": 54,
+    "rejected_namespace_count": 53,
+    "selection_before_database_or_claim": true,
+    "outcome_or_timing_observed": false,
+    "source_rows_or_SQL_changed": false,
+    "first_slot_index": 9,
+    "first_pool_index": 5,
+    "slot_sha256": "a81e504ec52ed8adf35098aca4e4a0b0d813dd06a2707f9f9474b496602cb465",
+    "pool_sha256": "fb28546fc95bbc84c014ddd046229dbf266065ff6956684a0c91df3356388cd7",
+    "slot_domain_UUID_valid": true,
+    "pool_domain_UUID_valid": true
+  },
+  "fixture_public_input_audit": {
+    "active_slots": 16,
+    "active_pools": 11,
+    "active_assignments": 19,
+    "assignment_slot_modulus": 16,
+    "assignment_pool_modulus": 11,
+    "domain_uuid_pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+    "source_scale_sha256": "0a74ce47ff97339b4e63cf8df3aa3801321e2099588ed22367e5fe4317acaa7f",
+    "source_fixture_sha256": "aa976e76fa2a69fd7ea2b8f6f90609c28f734b889b20c15fe8de8d50dc29d22d",
+    "source_cases_sha256": "2832ee76211ed1a2494adad26b1d17fc90adae6e600b943232b6bc170a4e9dc5",
+    "exact_first_pair_query_sha256": "3138c747a16a96079ba52e5e665e25275722f0871f7b87f07d6df300a3516413",
+    "domain_UUID_guard_definition_sha256": "08a05b81473c8db40ee7491eaa6fc31a79af00b78d91f0a2b0f36fe4b76f388d",
+    "metadata_sha256": "12df4e565d466c008095498903237ae24f304403887db396b8bc46b5cf93346c",
+    "first_pair_formula": "UUID byte-order slots16 x pools11, excluding active19 modulo16/modulo11; first pair only",
+    "raw_MD5_fixture_SQL_unchanged": true,
+    "actual_RC_functions_unchanged": true,
+    "public_JSON_input_audit": {
+      "create_project": "No JSON UUID field in this fixture call.",
+      "create_workspace": "project_id comes from the normal successful create_project RPC; server generated canonical ID.",
+      "create_presentation_series": "workspace_id comes from normal create_workspace RPC; audience_preset_id is the same frozen seed chosen by the already successful393/278 prefix.",
+      "create_assignment": "Only positive public JSON raw-MD5 UUID inputs: slot_id and workspace_candidate_id. Qualify the exact first pair before any DB/claim.",
+      "generate_version": "Series argument comes from normal create_series RPC. Closed JSON input has revisions/fingerprint/optional note, no UUID input key.",
+      "review_and_snapshot": "Workspace/series arguments come from normal RPCs, not raw-MD5 JSON inputs.",
+      "internal_capture_association_cases": "Raw media/asset/slide/version IDs are trusted owned fixture rows consumed by unchanged PostgreSQL UUID casts, not casting_uuid. Malformed strings are explicit negative tests.",
+      "wrong_MCP_session_negative": "Absent raw-MD5 session claim is an intentional authorization denial, not a positive public JSON ID.",
+      "actor_client_session_constants": "Existing fixed controlled positive identities already match the canonical guard; no identity or authority change."
+    },
+    "no_extra_grants_rows_production_changes_or_outcome_timing_selection": true
+  },
+  "dispatch_once_claim_created": true,
+  "compile_uuid": "f6053a23-dd0f-4af7-a375-f9b53b8b1f8f",
+  "private_acl_verified": true,
+  "metadata_sha256": "12df4e565d466c008095498903237ae24f304403887db396b8bc46b5cf93346c",
+  "migration_sha256": "c17af7708a1886d2129df2dc9e4eb196e6b760862939bd2f5fd3c7c1c687e242",
+  "functional_sha256": "0664f439f310c9e7cf1be8513f7d6b6ad608918132f133f66cd8b744297698df",
+  "original_baseline_sha256": "fdf817fdebf54466f0f2d7167ea0f418dba2666bdba4f8aa1ca469b9e31d9fac",
+  "source_seals": {
+    ".local/presentation-generation-assignment-proof-compiled/controller-f6053a23-dd0f-4af7-a375-f9b53b8b1f8f.mjs": "4b89698892f3507b69233bc8f3b86c852465f99593fb8e4670258b56fb34c34c",
+    "development/m07/project-creation39-proof/concurrency.mjs": "fe4f6e7cddb749690fea9587dd675a67d6db723ca458a700a8f6b53e67072fdd",
+    "development/m07/project-creation39-proof/run.mjs": "be0987779cac7758419cd73122a61a32824f53515bcf3d93afdaa3e8c024afcf",
+    "development/m07/independent-recovery38/guards.mjs": "d8eebcb91902d840b211827a7e4891938cc52f1573f4456ae9d3ab87c6c3195a",
+    "development/m07/presentation-lock-source-proof/compiler.py": "0bed646aeb5f1af8a1c1bd686900335bdffb6b8c88e1be128bb1f9be2d0cfd25",
+    "development/m07/presentation-lock-source-proof/proof.mjs": "087df11fa717f72043c9782c8da7380ae8cda559221a0495582d1dcd01d22448",
+    "development/m07/presentation-lock-source-proof/session.mjs": "ddb76b4db7bb578c2dfa2896fd59451037679c9a5fc2777a13412765c296e252",
+    "development/m07/presentation-lock-source-proof/probes.mjs": "8973de4f38895f2497b46d87d6dda0fe929f2652d8cebb870c9d402587bf21b4",
+    "development/m07/presentation-lock-source-proof/fixture.sql": "aa976e76fa2a69fd7ea2b8f6f90609c28f734b889b20c15fe8de8d50dc29d22d",
+    "development/m07/presentation-lock-source-proof/scale.sql": "0a74ce47ff97339b4e63cf8df3aa3801321e2099588ed22367e5fe4317acaa7f",
+    "development/m07/presentation-lock-source-proof/background.sql": "e8d61b12ebf4d25a57ba10944bd91d65494cdcfe79b9230a4c785bfe4484b544",
+    "development/m07/presentation-lock-source-proof/cohorts.sql": "06d12e3c2b2ca36deb7831579a7ef55ec183cdd77b9e66515b18c3b0bbc953ef",
+    "development/m07/presentation-lock-source-proof/temporary.sql": "6c34eae348be361652b001cc1e14ea5e2d4bca16513eace77777592df924e33c",
+    "development/m07/presentation-lock-source-proof/counts.sql": "c38896c8e867289fe890b48f99573d25bf5627677410e3639008613a0eb0fb2a",
+    "development/m07/presentation-lock-source-proof/test_proof.py": "a039d92cdfead91a5591af4c790b02fbe175eb3244ff1a2fa20acb2dc01e6d44",
+    "development/m07/presentation-lock-source-proof/test_cohorts.py": "e2d358ac7bfff72a83d836df9dbb3b081370904d21c220c521a749c06936a2f1",
+    "development/m07/presentation-lock-source-proof/README.md": "1eec7fc38ddafbce88284ce3ec92a5d7be41717de2910c13dad97dada52da382",
+    "development/m07/presentation-lock-source-optimization/candidate.py": "0639ade8dd50a6f3bb2c95f1739dd52e633af9a1e66d1cd92910f1bc87acbdb7",
+    "supabase/migrations/20261102085405_m07_review_link_action_reason.sql": "08bf4de8a63823b0e7c9aee75560a6e7de0620eb9b8b3c483c65929578db8212",
+    "development/m07/presentation-lock-source-seed-proof/compiler.py": "9467330333be87a1b4e2718ad62da4538e35068f6507ca38e9ac15a8a00d65d9",
+    "development/m07/presentation-lock-source-seed-proof/entry.mjs": "a6697aa4dde6995220ea81b64015043b1b08915c3673c8028d97fe4af6efc819",
+    "development/m07/presentation-lock-source-seed-proof/test_seed.py": "91ffb5f7fde4eede783c096ea0a0fb48fd003e0513ea995ee5dca5a3767e4bf3",
+    "development/m07/presentation-lock-source-seed-proof/README.md": "2391eb2ef8d20ee472634269b96b71c67540659d7a74e9f0596d6229266c5a8d",
+    "development/m07/presentation-lock-source-dedupe-proof/compiler.py": "b7ce789a621ca4efe92b26770ad28b3210f5bb407d8fe61bacb12ad9427db3cf",
+    "development/m07/presentation-lock-source-dedupe-proof/entry.mjs": "d6f2c841c1f0bc678e14bc7b5d3cbd2b11e4f902603a5b20a11acc8d3507f605",
+    "development/m07/presentation-lock-source-dedupe-proof/test_dedupe.py": "2623478ff3c791e7ecfb1e554ec0e9e233eeaf69407625b698283daa352b31a8",
+    "development/m07/presentation-lock-source-dedupe-proof/README.md": "afe8bfe4a7907aa612c13b07fe2140cc775c1f95f12745dfa7ba0d56dba0075e",
+    "development/m07/presentation-lock-source-edge-proof/compiler.py": "8fb944c9235a5903a09d004fb77522c3b228f891ad5d0f7939f7d15e43bef4bc",
+    "development/m07/presentation-lock-source-edge-proof/entry.mjs": "afda8e16b1d41325fbdbc622457fac54ee3dfe4d193c5091ed69927bebdae1b8",
+    "development/m07/presentation-lock-source-edge-proof/test_edge.py": "c477428c130ed39bcef0d13db66ec515dcf2dc53863b64e2b275a14077575345",
+    "development/m07/presentation-lock-source-edge-proof/README.md": "fc9bf61ba7663e221507abeda90333ba3725e7a937807c6333ca94ddcc0a7675",
+    "development/m07/presentation-generation-data-proof/cases.mjs": "aeb5972c0ba19ab8ae8dcdb9a1292af69b1d026df10eafff233a437e151cd239",
+    "development/m07/presentation-generation-data-proof/cases.sql": "052770e2f3267a9036adeebf3c790fa104d2bb621251bd03266a1d07644faa2c",
+    "development/m07/presentation-generation-data-proof/compiler.py": "6ec01de30d7a3c73adf911d53c70ed69b44ca4e82360fc511265b77c8f3e6815",
+    "development/m07/presentation-generation-data-proof/entry.mjs": "18177115fc20a6810d90af4dfda7a12ced022f883dba6db4cf070474414a5283",
+    "development/m07/presentation-generation-data-proof/proof_source.py": "67cc13d0fed354e102eb769bf5d9712b07e1af1f434d2a3da8ede57333232c1c",
+    "development/m07/presentation-generation-data-proof/README.md": "124db2712e4246c86945eded4c1bdff4fcacbc178aba46497fc709eaa7a957a9",
+    "development/m07/presentation-generation-data-proof/test_projection.py": "ff1d1ae373ea4314bc1e0980588e2d9a306eeec5e07a2ebb46923a6cd4b0c65b",
+    "development/m07/presentation-generation-data-reuse/build.py": "cda17a14ead6d7ee8aa225d04b5026c9998e5fc67efbaf3472bb108e6e3fadbd",
+    "development/m07/presentation-generation-data-reuse/capture.py": "656123b39e84b6d880436a7e678197a707d9c7f38e34802995c0ad825a7db305",
+    "development/m07/presentation-generation-data-reuse/PROOF_DESIGN.md": "112f4f6dde11fe1181d274ebbc41c85a6ce33d60cc9c8430425d04988ddcac41",
+    "development/m07/presentation-generation-data-reuse/README.md": "02a2b2a5a0e7be480ee0a2bf6c461d2e9235ad0dc8abf7abcd6ce40e306b4cd4",
+    "development/m07/presentation-generation-data-reuse/review.py": "793c6dfa782e844d0e762ca14e79afbac587364d8c13b71baabcba4a1d3339fa",
+    "development/m07/presentation-generation-data-reuse/source.py": "029c2dac690c61a7944b73633971ab037e05b8060e7c8a6cd3adbd45dd7406cb",
+    "development/m07/presentation-generation-data-reuse/test_build.py": "3c7fe0a48b27ccd4714c4551477d07974b52b4b2b135c831a2b1a4b8d111ab17",
+    "development/m07/presentation-generation-data-reuse/test_capture.py": "1719f37d3cda7074de9958ba232df1d7334b255ed627c1ae0de44d091f472d4d",
+    "development/m07/presentation-generation-data-reuse/test_review.py": "406e5c13fc8ec1d0e506f94e03054e14530bd04ff553e8f04f7a06ba050a5cb7",
+    ".local/presentation-generation-assignment-proof-compiled/callback-f6053a23-dd0f-4af7-a375-f9b53b8b1f8f.mjs": "c22db5f155bffe73cbbafbb84b6b13fc4d91310af81cf436fed0ca2b52240398",
+    "development/m07/presentation-lock-source-pool-proof/cases.mjs": "2832ee76211ed1a2494adad26b1d17fc90adae6e600b943232b6bc170a4e9dc5",
+    "development/m07/presentation-lock-source-pool-proof/cases.test.mjs": "d7f5ee87e7e0f6b5947fffe20afeddd9ba4288c8b7dbe5be04fc174f0e0bd9d1",
+    "development/m07/presentation-lock-source-pool-proof/compiler.py": "1d09d0a6d76495b3f4b0b60602aff0a5811b57c254426eb5866c1f41f92f0026",
+    "development/m07/presentation-lock-source-pool-proof/entry.mjs": "810f1893f611179986f35741dba8054952d05690e47bfd23ad62ed0abfcd4d6f",
+    "development/m07/presentation-lock-source-pool-proof/measure.sql": "b6c69370cd22c37cf835452e19b770f6a8ec198c92f164b1a42168e0b666f256",
+    "development/m07/presentation-lock-source-pool-proof/native.mjs": "7c050b63e9c6a016742c940e1db65b42c996bcbb400b4717a843b9b5a02ef32d",
+    "development/m07/presentation-lock-source-pool-proof/oracle.py": "18f1cd7291a75c5dd5c51a1f48606684887a0e1888c2476d8997c523d27c2e8b",
+    "development/m07/presentation-lock-source-pool-proof/README.md": "50b5e7a7dcc45110fe25393a0ac2991bc2f1f2003fa8d0d3a1e96cd0e8d740d0",
+    "development/m07/presentation-lock-source-pool-proof/render_sql.mjs": "e401c084a59c2e497e80f51aa7038b3fb3db2cba85e6f7dac13d3a0aa9554f7f",
+    "development/m07/presentation-lock-source-pool-proof/source.py": "7c2e36912fa4e989d7ef8dc86e30168d51aaa386982193e6bdde988649525378",
+    "development/m07/presentation-lock-source-pool-proof/test_proof.py": "ae0817fb2dc1aea38114aff1672f128f2dfc53ac85e4e3cf0c9aa76ed023aca8",
+    "development/m07/presentation-lock-source-pool-reuse/candidate.py": "c646bc4f62b3c98f836398edf19ff2d66e49c9ef851f62cdce7c6e54063a2a5d",
+    "development/m07/presentation-lock-source-pool-reuse/README.md": "2719199e37a53e2504e6a9f9c9f3f707b0d7feeea20d43361df46763087209d4",
+    "development/m07/presentation-lock-source-pool-reuse/test_candidate.py": "80ebe8db55f90efcb770f7ed3980a3634bf12d8acd6e5233bae131f7f6c54b40",
+    "development/m07/presentation-lock-source-pool-reuse/TEST_PLAN.md": "821d1d2fce24a231365c9023a925a1b9581a13ec706fd7651694fabede3e4514",
+    "development/m07/presentation-generation-data-diagnostics/capture.mjs": "9766a654f319f740fa37aef4c79a025f8f977c44f3a89220c2aedf39e311c407",
+    "development/m07/presentation-lock-source-oracle-proof/admit.mjs": "93a5ac2f0460bc8c6bfa7fd4232265f417ffbdc37f244bccb7c3d63db68a59a3",
+    "development/m07/presentation-lock-source-oracle-proof/admit.test.mjs": "751ef9b6f810b6b867a8e19193d6881e1d726636738a7ae084c2e02c93612ea3",
+    "development/m07/presentation-lock-source-oracle-proof/compiler.py": "df51881c7b29d5442e1fdd018c4e0dac929b4a17d9d2c834735184b9e4ec391f",
+    "development/m07/presentation-lock-source-oracle-proof/entry.mjs": "f2797bb3b824d2f14d949691f35f81769057e06ae77059d2c3ea1adcd2021504",
+    "development/m07/presentation-lock-source-oracle-proof/oracle.mjs": "50e08f70b12041059a9b107450a215fcccd719bce215eaa3a81c733a9f0c009b",
+    "development/m07/presentation-lock-source-oracle-proof/oracle.py": "c4f7243af8a5a3edbe5d67a60f1a6d49144d9abb1940404a0593af210bdf340c",
+    "development/m07/presentation-lock-source-oracle-proof/README.md": "ad8424f5d25b0a49c208f75eaff38a5df6c17d89518521de3f353d32d5f0f0bb",
+    "development/m07/presentation-lock-source-oracle-proof/source.py": "f548ca56b05555e956d64fc80ed1b309f27bac97f0ff3868c64d9c6e2dbbb43b",
+    "development/m07/presentation-lock-source-oracle-proof/test_oracle.py": "e07baca778500eead3def3cf262002d7244e86e42851aa9d003083a9cf374b29",
+    "development/m07/presentation-lock-source-oracle-proof/test_source.py": "4619f137a07903fe86b5783180596a59e88f8a16dc59785387b0b7b1841e15d4",
+    ".local/presentation-generation-assignment-proof-compiled/cases-f6053a23-dd0f-4af7-a375-f9b53b8b1f8f.mjs": "8ffe7addaa4bdbf383334f43f5bb78c802fb139fdbca6c9e507c21257fe0e08e",
+    "development/m07/presentation-lock-source-complete-oracle-proof/compiler.py": "f388fc3d47ebcac2fd6af961e2d314725d9710a7013bb2e38814622b1e5fa43b",
+    "development/m07/presentation-lock-source-complete-oracle-proof/driver.test.mjs": "a75adad7c0793c27653792b3ce8359c33a340d583011e45e1778cfa3d130e49e",
+    "development/m07/presentation-lock-source-complete-oracle-proof/entry.mjs": "98b7c5d2f2f5b6d80450396474d59ba3d710cd83c79e35c9a65916a92fbb4b3a",
+    "development/m07/presentation-lock-source-complete-oracle-proof/guard_audit.py": "fe6514dabf904fcd78c899cf97d8cb2d6fd15b1d629aa5e37ee2e0004712d9e8",
+    "development/m07/presentation-lock-source-complete-oracle-proof/keys.mjs": "04ef958f1a18e16d9d9c6c9009bdd41039d866e0f0d7a2d90848c34ebcd0982e",
+    "development/m07/presentation-lock-source-complete-oracle-proof/oracle.mjs": "3301d16b49cda0037bc57d21e699f72a41a8db90b8302938198cb121f6f37e26",
+    "development/m07/presentation-lock-source-complete-oracle-proof/oracle.py": "966669ea1addf7adf8a602bdfbdfe444ed0a1a4580bf427c23dde19dd51474c9",
+    "development/m07/presentation-lock-source-complete-oracle-proof/README.md": "95c49431747af441b7f9e9770439c63eeb39575f59c4de63598f6c778a867de3",
+    "development/m07/presentation-lock-source-complete-oracle-proof/semantic.mjs": "b8bff14d78c115aee29d0d78e4f9b54269777a9ea0ef9bad6192736b77d4fd42",
+    "development/m07/presentation-lock-source-complete-oracle-proof/semantic.py": "9a5d94ca66bdea1c218e49d4972ca83a3a75cc42071a23daee006a6f5d57ef29",
+    "development/m07/presentation-lock-source-complete-oracle-proof/source.py": "d5a2767b9a779ddfec7800ad175d6b555715d4071193daeb8c33fbbb27b740a8",
+    "development/m07/presentation-lock-source-complete-oracle-proof/spec.py": "d89b550a11dfacdc27e28d80bc40a6aa36e5f28e6b95251e16acc0d2e741d15a",
+    "development/m07/presentation-lock-source-complete-oracle-proof/test_proof.py": "37343907318139ed9cd33881f49d0fd7beb8a7be53f9563a21cf9aa16938411f",
+    "development/m07/presentation-lock-source-edge-rls-proof/admit.mjs": "a39caed32227eb8c1d2a1dc4c3e94b2e5baddbca4b1af8187134710fad58b2a0",
+    "development/m07/presentation-lock-source-edge-rls-proof/compiler.py": "916bba555dd16a8254e6d3eb7b5bb007099ff42a26af6b3be4cda9803a58d882",
+    "development/m07/presentation-lock-source-edge-rls-proof/driver.test.mjs": "138fc43259d10745e3d669f90dd0b3de3fc1ce2c40540a0fe15f502a7e811b10",
+    "development/m07/presentation-lock-source-edge-rls-proof/edge.mjs": "26d0b8b79eceac3f7651ac907472f4b1486852657bd4dbaa4d32c9093b21813d",
+    "development/m07/presentation-lock-source-edge-rls-proof/edge.py": "10db4bebb3e53fd76f83393acca65d1dc02eda8189cee015e33af436efd44a2d",
+    "development/m07/presentation-lock-source-edge-rls-proof/entry.mjs": "3a372cbdb8f38b87bb86e11ba5d24194de8bb39c5aa08a20fd8b585d0acc1a47",
+    "development/m07/presentation-lock-source-edge-rls-proof/README.md": "df619dc22a0f2ed5cf090f8a461c998636092863f68436af5faf38305b30c17d",
+    "development/m07/presentation-lock-source-edge-rls-proof/source.py": "94926dbff61a32458434cd700fc203ca427d6f029dba1478fbd2f57c0607979a",
+    "development/m07/presentation-lock-source-edge-rls-proof/test_proof.py": "c343ec6b9ab42286980ac4b19de33d10c034a1b11d162f162f0ed717dac31823",
+    "development/m07/presentation-lock-source-uuid-proof/admit.mjs": "06d4fe8e11c5bbc3c068b9c3b001a6ebefb1acb34cf70316655739ee426b7509",
+    "development/m07/presentation-lock-source-uuid-proof/compiler.py": "274f23c2d45d7d65f9b80d52979aebe481f731bc44de1520d74a55acf6b511a5",
+    "development/m07/presentation-lock-source-uuid-proof/driver.test.mjs": "945834d8177ec30de269a11aea51e3906a942050f8cd517db4bfe62d587579f7",
+    "development/m07/presentation-lock-source-uuid-proof/entry.mjs": "a92a26d668fff088277bd9bab2e49ddbf241279546cb5af0d68622d6a027e875",
+    "development/m07/presentation-lock-source-uuid-proof/fixture.mjs": "44c8d35f5a70828c7a4c69d45c9ce098ac889d070b0334f7bc7546b1eab418e6",
+    "development/m07/presentation-lock-source-uuid-proof/fixture.py": "935d490fca37104d3698bde9e84839d71c3b8e94a9d73150a035be07fa397072",
+    "development/m07/presentation-lock-source-uuid-proof/README.md": "c1c14a7d9da4f563b8c750e743462f1212c3a49f6888653b62ea3a8c51af10c7",
+    "development/m07/presentation-lock-source-uuid-proof/source.py": "bd541ddb788482daac7e002a127caa608db8230498d5ccb4eb561b86aaf97c58",
+    "development/m07/presentation-lock-source-uuid-proof/test_proof.py": "ce843dd05008832e7555861413ce6e348fdae69603d373de5fec9864b05c2013",
+    "development/m07/presentation-generation-combined-proof/admit.mjs": "a3fcdea5ca7072e62324f9f319cb42a441087fa9231ec64e13ab8411c74ccdba",
+    "development/m07/presentation-generation-combined-proof/admit.test.mjs": "bdd6f128150eff372cd643344e4e96c98ceaf5c705b83e6690d852d3695f97d5",
+    "development/m07/presentation-generation-combined-proof/cases.mjs": "f7ead827571ded1ea5d2b7d5cae9b2af3df1d46bc03f474128f585bc5fd9e3c1",
+    "development/m07/presentation-generation-combined-proof/cases.test.mjs": "0f0330ac1ca4d1828ba3871503eb95e6d9e93ab14a472e1d708875f397311551",
+    "development/m07/presentation-generation-combined-proof/compiler.py": "fecec16554f6e4440fa7bb1106348f74bf13ba0f16781f403bc5cf7af98d5e07",
+    "development/m07/presentation-generation-combined-proof/entry.mjs": "8dca5891b9f2e832f94c8ebc206377f159fd234441a4721d0e812f3055f51e88",
+    "development/m07/presentation-generation-combined-proof/observations.sql": "f773b59351ecc8883c335adfa68975d889132ebc7c9b92291f1efc88b84d77dd",
+    "development/m07/presentation-generation-combined-proof/PROOF_DESIGN.md": "bbdc91875c6e30d797668b6a97d3661b6fd6c3397536950cce882f6de694d014",
+    "development/m07/presentation-generation-combined-proof/source.py": "9ff14004b0ba0cc097ecafae1bbdec813e30d8c3ea0e59b0c269a52e6d915189",
+    "development/m07/presentation-generation-combined-proof/test_proof.py": "d490a00796994f3fe495fee70322c0051d6d4fa93cc51f305be1e937ec1785ad",
+    "development/m07/presentation-generation-assignment-proof/admit.mjs": "8f9872ba6d6d1058a4ebdfe9a3c6eea00591f2619df18e4a477bb8081aab0898",
+    "development/m07/presentation-generation-assignment-proof/admit.test.mjs": "ccab1f7a1cd61b5b41e2a6f9aa1b5326ccdfc4fb1d4dd4c123431a47447195c5",
+    "development/m07/presentation-generation-assignment-proof/assignment-cases.mjs": "1d585710bd583f78988668cdae3e6f3199270cbe3f05188f32d81f6c61d65624",
+    "development/m07/presentation-generation-assignment-proof/assignment-cases.sql": "93335cfcf8f8f2764d7dd78f94208664ee5d9963864049b1c0fdfcc119e0fb62",
+    "development/m07/presentation-generation-assignment-proof/assignment-cases.test.mjs": "e05abda1111f3489d32143598d94fff16f4a7c0f08dfaca45d70f33ca0e34c96",
+    "development/m07/presentation-generation-assignment-proof/compiler.py": "b8b1c3d57003371bb83cd8fedb0eb1b3803455bf51d75a51834cbc1a0608f620",
+    "development/m07/presentation-generation-assignment-proof/entry.mjs": "6ded113d9c51b98dbfb2138be62e2e57398a5502bdfad61a9e86c94104e630be",
+    "development/m07/presentation-generation-assignment-proof/matrix.mjs": "03b1331ae546f111fe756be59a51b95bc7d32592b8f6b9f19cc88ca42bbf9b1b",
+    "development/m07/presentation-generation-assignment-proof/README.md": "db2f8b0e282af0411dd8075b22d42d742c27612d949e20f37de056d0da31fe3d",
+    "development/m07/presentation-generation-assignment-proof/source.py": "0e4e467dc4cf0574664c62413438dc5122a8cb62e947ff906d81cd1bb44a18a6",
+    "development/m07/presentation-generation-assignment-proof/test_proof.py": "c86e635448bec29ccc244c555d1ec443c442193eaa25d181ece9b6a7b782b38b",
+    "development/m07/presentation-generation-assignment-reuse/candidate.py": "0e62792bce8230a9b98bc11f387cf781ddf4095afaa09b37798331809d11c864",
+    "development/m07/presentation-generation-assignment-reuse/PROOF_PLAN.md": "c21b95a10ef740ad46c33f1434fa78722b05af26090b1fb97184817224cff594",
+    "development/m07/presentation-generation-assignment-reuse/test_candidate.py": "f69e15cfcb62e9d0f8ffd84e384049da75f6ba8a17e2dbcf5ed882f54e3a1306",
+    "development/m07/presentation-generation-cancel-diagnostic/admit.mjs": "505fab1894e93c96e5e651168f4ec0cff099e2849368901d7b278b0091e91528"
+  },
+  "image_id": "sha256:6942962433a569e87f228b4d4ab7e11db5deca64e43babb3a038443ad6c4f1bb",
+  "independent_cluster": {
+    "database": "project39",
+    "system_identifier": "7703753319059595310"
+  },
+  "restored38_all_table_hashes_exact": true,
+  "restored38_catalogue_exact": true,
+  "catalogue39_delta": {
+    "columns|public.project_memberships.active|acl": {
+      "before": [
+        "eps_candidate_apply_owner=r/postgres",
+        "eps_candidate_stage_owner=r/postgres",
+        "eps_specs_apply_owner=r/postgres",
+        "eps_specs_stage_owner=r/postgres"
+      ],
+      "after": [
+        "eps_candidate_apply_owner=r/postgres",
+        "eps_candidate_stage_owner=r/postgres",
+        "eps_project_creator=a/postgres",
+        "eps_specs_apply_owner=r/postgres",
+        "eps_specs_stage_owner=r/postgres"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "columns|public.project_memberships.can_write|acl": {
+      "before": [
+        "eps_candidate_apply_owner=r/postgres",
+        "eps_candidate_stage_owner=r/postgres",
+        "eps_specs_apply_owner=r/postgres",
+        "eps_specs_stage_owner=r/postgres"
+      ],
+      "after": [
+        "eps_candidate_apply_owner=r/postgres",
+        "eps_candidate_stage_owner=r/postgres",
+        "eps_project_creator=a/postgres",
+        "eps_specs_apply_owner=r/postgres",
+        "eps_specs_stage_owner=r/postgres"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "columns|public.project_memberships.principal_id|acl": {
+      "before": [
+        "eps_candidate_apply_owner=r/postgres",
+        "eps_candidate_stage_owner=r/postgres",
+        "eps_specs_apply_owner=r/postgres",
+        "eps_specs_stage_owner=r/postgres"
+      ],
+      "after": [
+        "eps_candidate_apply_owner=r/postgres",
+        "eps_candidate_stage_owner=r/postgres",
+        "eps_project_creator=a/postgres",
+        "eps_specs_apply_owner=r/postgres",
+        "eps_specs_stage_owner=r/postgres"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "columns|public.project_memberships.project_id|acl": {
+      "before": [
+        "eps_candidate_apply_owner=r/postgres",
+        "eps_candidate_stage_owner=r/postgres",
+        "eps_specs_apply_owner=r/postgres",
+        "eps_specs_stage_owner=r/postgres"
+      ],
+      "after": [
+        "eps_candidate_apply_owner=r/postgres",
+        "eps_candidate_stage_owner=r/postgres",
+        "eps_project_creator=a/postgres",
+        "eps_specs_apply_owner=r/postgres",
+        "eps_specs_stage_owner=r/postgres"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "columns|public.projects.client_id|acl": {
+      "before": [
+        "eps_draft_owner=r/postgres"
+      ],
+      "after": [
+        "eps_draft_owner=r/postgres",
+        "eps_project_creator=a/postgres"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "columns|public.projects.id|acl": {
+      "before": [
+        "eps_candidate_apply_owner=r/postgres",
+        "eps_candidate_stage_owner=r/postgres",
+        "eps_draft_owner=r/postgres",
+        "eps_review_owner=w/postgres",
+        "eps_specs_apply_owner=r/postgres",
+        "eps_specs_stage_owner=r/postgres"
+      ],
+      "after": [
+        "eps_candidate_apply_owner=r/postgres",
+        "eps_candidate_stage_owner=r/postgres",
+        "eps_draft_owner=r/postgres",
+        "eps_project_creator=a/postgres",
+        "eps_review_owner=w/postgres",
+        "eps_specs_apply_owner=r/postgres",
+        "eps_specs_stage_owner=r/postgres"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "columns|public.projects.name|acl": {
+      "before": [
+        "eps_api_owner=w/postgres"
+      ],
+      "after": [
+        "eps_api_owner=w/postgres",
+        "eps_project_creator=a/postgres"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "functions|eps.check_input(jsonb,text[])|acl": {
+      "before": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_apply_owner=X/eps_api_owner",
+        "eps_candidate_stage_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_logo_verify_owner=X/eps_api_owner",
+        "eps_settings_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_submit_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "after": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_apply_owner=X/eps_api_owner",
+        "eps_candidate_stage_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_logo_verify_owner=X/eps_api_owner",
+        "eps_project_creator=X/eps_api_owner",
+        "eps_settings_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_submit_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "functions|eps.fail(text,text,integer,bigint)|acl": {
+      "before": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_apply_owner=X/eps_api_owner",
+        "eps_candidate_assets_owner=X/eps_api_owner",
+        "eps_candidate_stage_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_casting_owner=X/eps_api_owner",
+        "eps_guest_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_logo_verify_owner=X/eps_api_owner",
+        "eps_review_owner=X/eps_api_owner",
+        "eps_review_stage_owner=X/eps_api_owner",
+        "eps_settings_owner=X/eps_api_owner",
+        "eps_specs_apply_owner=X/eps_api_owner",
+        "eps_specs_assets_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_stage_owner=X/eps_api_owner",
+        "eps_specs_submit_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "after": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_apply_owner=X/eps_api_owner",
+        "eps_candidate_assets_owner=X/eps_api_owner",
+        "eps_candidate_stage_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_casting_owner=X/eps_api_owner",
+        "eps_guest_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_logo_verify_owner=X/eps_api_owner",
+        "eps_project_creator=X/eps_api_owner",
+        "eps_review_owner=X/eps_api_owner",
+        "eps_review_stage_owner=X/eps_api_owner",
+        "eps_settings_owner=X/eps_api_owner",
+        "eps_specs_apply_owner=X/eps_api_owner",
+        "eps_specs_assets_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_stage_owner=X/eps_api_owner",
+        "eps_specs_submit_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "functions|eps.finish_mutation(text,text,jsonb,jsonb,uuid)|acl": {
+      "before": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_logo_verify_owner=X/eps_api_owner",
+        "eps_settings_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "after": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_logo_verify_owner=X/eps_api_owner",
+        "eps_project_creator=X/eps_api_owner",
+        "eps_settings_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "functions|eps.idempotency_begin(text,text,jsonb)|acl": {
+      "before": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_casting_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_logo_verify_owner=X/eps_api_owner",
+        "eps_review_owner=X/eps_api_owner",
+        "eps_settings_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_submit_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "after": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_casting_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_logo_verify_owner=X/eps_api_owner",
+        "eps_project_creator=X/eps_api_owner",
+        "eps_review_owner=X/eps_api_owner",
+        "eps_settings_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_submit_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "functions|eps.input_text(jsonb,text,integer,boolean)|acl": {
+      "before": [
+        "eps_api_owner=X/eps_api_owner"
+      ],
+      "after": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_project_creator=X/eps_api_owner"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "functions|eps.input_uuid(text)|acl": {
+      "before": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_apply_owner=X/eps_api_owner",
+        "eps_candidate_assets_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_review_stage_owner=X/eps_api_owner",
+        "eps_specs_assets_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_submit_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "after": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_apply_owner=X/eps_api_owner",
+        "eps_candidate_assets_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_project_creator=X/eps_api_owner",
+        "eps_review_stage_owner=X/eps_api_owner",
+        "eps_specs_assets_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_submit_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "functions|eps.project_dto(uuid)|source_sha256": {
+      "before": "80a4d36bc55ee7445ce633d825e3a429d8a4261b865bbe56f11016be1e695c8c",
+      "after": "6fdec9e404401c95cc11a08fbf5d23ef50e59f0d3b234544b48a29a5c3aecd76",
+      "added": false,
+      "removed": false
+    },
+    "functions|eps.require_capability(text)|acl": {
+      "before": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_casting_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_logo_verify_owner=X/eps_api_owner",
+        "eps_review_owner=X/eps_api_owner",
+        "eps_settings_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_submit_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "after": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_casting_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_logo_verify_owner=X/eps_api_owner",
+        "eps_project_creator=X/eps_api_owner",
+        "eps_review_owner=X/eps_api_owner",
+        "eps_settings_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_submit_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "schemas|eps|acl": {
+      "before": [
+        "anon=U/postgres",
+        "authenticated=U/postgres",
+        "eps_api_owner=U/postgres",
+        "eps_candidate_apply_owner=U/postgres",
+        "eps_candidate_assets_owner=U/postgres",
+        "eps_candidate_stage_owner=U/postgres",
+        "eps_candidate_upload_owner=U/postgres",
+        "eps_cast_owner=U/postgres",
+        "eps_casting_guard_owner=U/postgres",
+        "eps_casting_owner=U/postgres",
+        "eps_draft_owner=U/postgres",
+        "eps_guest_owner=U/postgres",
+        "eps_job_trace_owner=U/postgres",
+        "eps_jobs_dispatcher=U/postgres",
+        "eps_jobs_executor=U/postgres",
+        "eps_jobs_owner=U/postgres",
+        "eps_logo_verify_owner=U/postgres",
+        "eps_mcp_issuer_owner=U/postgres",
+        "eps_mcp_session_owner=U/postgres",
+        "eps_oauth_consent_owner=U/postgres",
+        "eps_review_owner=U/postgres",
+        "eps_review_stage_owner=U/postgres",
+        "eps_settings_owner=U/postgres",
+        "eps_specs_apply_owner=U/postgres",
+        "eps_specs_assets_executor=U/postgres",
+        "eps_specs_assets_owner=U/postgres",
+        "eps_specs_initializer=U/postgres",
+        "eps_specs_owner=U/postgres",
+        "eps_specs_stage_owner=U/postgres",
+        "eps_specs_submit_owner=U/postgres",
+        "eps_specs_upload_owner=U/postgres",
+        "eps_specs_verify_owner=U/postgres",
+        "eps_support_upload_owner=U/postgres",
+        "eps_support_verify_owner=U/postgres",
+        "postgres=UC/postgres",
+        "supabase_auth_admin=U/postgres"
+      ],
+      "after": [
+        "anon=U/postgres",
+        "authenticated=U/postgres",
+        "eps_api_owner=U/postgres",
+        "eps_candidate_apply_owner=U/postgres",
+        "eps_candidate_assets_owner=U/postgres",
+        "eps_candidate_stage_owner=U/postgres",
+        "eps_candidate_upload_owner=U/postgres",
+        "eps_cast_owner=U/postgres",
+        "eps_casting_guard_owner=U/postgres",
+        "eps_casting_owner=U/postgres",
+        "eps_draft_owner=U/postgres",
+        "eps_guest_owner=U/postgres",
+        "eps_job_trace_owner=U/postgres",
+        "eps_jobs_dispatcher=U/postgres",
+        "eps_jobs_executor=U/postgres",
+        "eps_jobs_owner=U/postgres",
+        "eps_logo_verify_owner=U/postgres",
+        "eps_mcp_issuer_owner=U/postgres",
+        "eps_mcp_session_owner=U/postgres",
+        "eps_oauth_consent_owner=U/postgres",
+        "eps_project_creator=U/postgres",
+        "eps_review_owner=U/postgres",
+        "eps_review_stage_owner=U/postgres",
+        "eps_settings_owner=U/postgres",
+        "eps_specs_apply_owner=U/postgres",
+        "eps_specs_assets_executor=U/postgres",
+        "eps_specs_assets_owner=U/postgres",
+        "eps_specs_initializer=U/postgres",
+        "eps_specs_owner=U/postgres",
+        "eps_specs_stage_owner=U/postgres",
+        "eps_specs_submit_owner=U/postgres",
+        "eps_specs_upload_owner=U/postgres",
+        "eps_specs_verify_owner=U/postgres",
+        "eps_support_upload_owner=U/postgres",
+        "eps_support_verify_owner=U/postgres",
+        "postgres=UC/postgres",
+        "supabase_auth_admin=U/postgres"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "schemas|public|acl": {
+      "before": [
+        "anon=U/pg_database_owner",
+        "authenticated=U/pg_database_owner",
+        "eps_api_owner=U/pg_database_owner",
+        "eps_candidate_apply_owner=U/pg_database_owner",
+        "eps_candidate_assets_owner=U/pg_database_owner",
+        "eps_candidate_stage_owner=U/pg_database_owner",
+        "eps_candidate_upload_owner=U/pg_database_owner",
+        "eps_cast_owner=U/pg_database_owner",
+        "eps_casting_owner=U/pg_database_owner",
+        "eps_draft_owner=U/pg_database_owner",
+        "eps_guest_owner=U/pg_database_owner",
+        "eps_jobs_owner=U/pg_database_owner",
+        "eps_logo_verify_owner=U/pg_database_owner",
+        "eps_mcp_issuer_owner=U/pg_database_owner",
+        "eps_mcp_session_owner=U/pg_database_owner",
+        "eps_oauth_consent_owner=U/pg_database_owner",
+        "eps_review_owner=U/pg_database_owner",
+        "eps_review_stage_owner=U/pg_database_owner",
+        "eps_settings_owner=U/pg_database_owner",
+        "eps_specs_apply_owner=U/pg_database_owner",
+        "eps_specs_assets_owner=U/pg_database_owner",
+        "eps_specs_owner=U/pg_database_owner",
+        "eps_specs_stage_owner=U/pg_database_owner",
+        "eps_specs_submit_owner=U/pg_database_owner",
+        "eps_specs_upload_owner=U/pg_database_owner",
+        "eps_specs_verify_owner=U/pg_database_owner",
+        "eps_support_upload_owner=U/pg_database_owner",
+        "eps_support_verify_owner=U/pg_database_owner",
+        "pg_database_owner=UC/pg_database_owner",
+        "postgres=U/pg_database_owner",
+        "service_role=U/pg_database_owner"
+      ],
+      "after": [
+        "=U/pg_database_owner",
+        "anon=U/pg_database_owner",
+        "authenticated=U/pg_database_owner",
+        "eps_api_owner=U/pg_database_owner",
+        "eps_candidate_apply_owner=U/pg_database_owner",
+        "eps_candidate_assets_owner=U/pg_database_owner",
+        "eps_candidate_stage_owner=U/pg_database_owner",
+        "eps_candidate_upload_owner=U/pg_database_owner",
+        "eps_cast_owner=U/pg_database_owner",
+        "eps_casting_owner=U/pg_database_owner",
+        "eps_draft_owner=U/pg_database_owner",
+        "eps_guest_owner=U/pg_database_owner",
+        "eps_jobs_owner=U/pg_database_owner",
+        "eps_logo_verify_owner=U/pg_database_owner",
+        "eps_mcp_issuer_owner=U/pg_database_owner",
+        "eps_mcp_session_owner=U/pg_database_owner",
+        "eps_oauth_consent_owner=U/pg_database_owner",
+        "eps_project_creator=U/pg_database_owner",
+        "eps_review_owner=U/pg_database_owner",
+        "eps_review_stage_owner=U/pg_database_owner",
+        "eps_settings_owner=U/pg_database_owner",
+        "eps_specs_apply_owner=U/pg_database_owner",
+        "eps_specs_assets_owner=U/pg_database_owner",
+        "eps_specs_owner=U/pg_database_owner",
+        "eps_specs_stage_owner=U/pg_database_owner",
+        "eps_specs_submit_owner=U/pg_database_owner",
+        "eps_specs_upload_owner=U/pg_database_owner",
+        "eps_specs_verify_owner=U/pg_database_owner",
+        "eps_support_upload_owner=U/pg_database_owner",
+        "eps_support_verify_owner=U/pg_database_owner",
+        "pg_database_owner=UC/pg_database_owner",
+        "postgres=U/pg_database_owner",
+        "service_role=U/pg_database_owner"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "tables|eps.audit_events|acl": {
+      "before": [
+        "eps_api_owner=a/postgres",
+        "eps_candidate_upload_owner=a/postgres",
+        "eps_cast_owner=a/postgres",
+        "eps_jobs_owner=a/postgres",
+        "eps_logo_verify_owner=a/postgres",
+        "eps_review_owner=a/postgres",
+        "eps_settings_owner=a/postgres",
+        "eps_specs_owner=a/postgres",
+        "eps_specs_submit_owner=a/postgres",
+        "eps_specs_upload_owner=a/postgres",
+        "eps_specs_verify_owner=a/postgres",
+        "eps_support_upload_owner=a/postgres",
+        "eps_support_verify_owner=a/postgres",
+        "postgres=arwdDxtm/postgres"
+      ],
+      "after": [
+        "eps_api_owner=a/postgres",
+        "eps_candidate_upload_owner=a/postgres",
+        "eps_cast_owner=a/postgres",
+        "eps_jobs_owner=a/postgres",
+        "eps_logo_verify_owner=a/postgres",
+        "eps_project_creator=a/postgres",
+        "eps_review_owner=a/postgres",
+        "eps_settings_owner=a/postgres",
+        "eps_specs_owner=a/postgres",
+        "eps_specs_submit_owner=a/postgres",
+        "eps_specs_upload_owner=a/postgres",
+        "eps_specs_verify_owner=a/postgres",
+        "eps_support_upload_owner=a/postgres",
+        "eps_support_verify_owner=a/postgres",
+        "postgres=arwdDxtm/postgres"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "tables|eps.idempotency_records|acl": {
+      "before": [
+        "eps_api_owner=ar/postgres",
+        "eps_candidate_upload_owner=ar/postgres",
+        "eps_cast_owner=ar/postgres",
+        "eps_casting_owner=ar/postgres",
+        "eps_jobs_owner=ar/postgres",
+        "eps_logo_verify_owner=ar/postgres",
+        "eps_review_owner=ar/postgres",
+        "eps_settings_owner=ar/postgres",
+        "eps_specs_owner=ar/postgres",
+        "eps_specs_submit_owner=ar/postgres",
+        "eps_specs_upload_owner=ar/postgres",
+        "eps_specs_verify_owner=ar/postgres",
+        "eps_support_upload_owner=ar/postgres",
+        "eps_support_verify_owner=ar/postgres",
+        "postgres=arwdDxtm/postgres"
+      ],
+      "after": [
+        "eps_api_owner=ar/postgres",
+        "eps_candidate_upload_owner=ar/postgres",
+        "eps_cast_owner=ar/postgres",
+        "eps_casting_owner=ar/postgres",
+        "eps_jobs_owner=ar/postgres",
+        "eps_logo_verify_owner=ar/postgres",
+        "eps_project_creator=ar/postgres",
+        "eps_review_owner=ar/postgres",
+        "eps_settings_owner=ar/postgres",
+        "eps_specs_owner=ar/postgres",
+        "eps_specs_submit_owner=ar/postgres",
+        "eps_specs_upload_owner=ar/postgres",
+        "eps_specs_verify_owner=ar/postgres",
+        "eps_support_upload_owner=ar/postgres",
+        "eps_support_verify_owner=ar/postgres",
+        "postgres=arwdDxtm/postgres"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_at|acl": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_at|default": {
+      "before": null,
+      "after": "now()",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_at|generated": {
+      "before": null,
+      "after": "",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_at|identity": {
+      "before": null,
+      "after": "",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_at|not_null": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_at|type": {
+      "before": null,
+      "after": "timestamp with time zone",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_by|acl": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_by|default": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_by|generated": {
+      "before": null,
+      "after": "",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_by|identity": {
+      "before": null,
+      "after": "",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_by|not_null": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_by|type": {
+      "before": null,
+      "after": "uuid",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.presentation_type|acl": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.presentation_type|default": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.presentation_type|generated": {
+      "before": null,
+      "after": "",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.presentation_type|identity": {
+      "before": null,
+      "after": "",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.presentation_type|not_null": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.presentation_type|type": {
+      "before": null,
+      "after": "text",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.project_id|acl": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.project_id|default": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.project_id|generated": {
+      "before": null,
+      "after": "",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.project_id|identity": {
+      "before": null,
+      "after": "",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.project_id|not_null": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.project_id|type": {
+      "before": null,
+      "after": "uuid",
+      "added": true,
+      "removed": false
+    },
+    "constraints|eps.project_creation_intents.project_creation_intents_created_by_fkey|definition": {
+      "before": null,
+      "after": "FOREIGN KEY (created_by) REFERENCES auth.users(id) ON DELETE RESTRICT",
+      "added": true,
+      "removed": false
+    },
+    "constraints|eps.project_creation_intents.project_creation_intents_pkey|definition": {
+      "before": null,
+      "after": "PRIMARY KEY (project_id)",
+      "added": true,
+      "removed": false
+    },
+    "constraints|eps.project_creation_intents.project_creation_intents_presentation_type_check|definition": {
+      "before": null,
+      "after": "CHECK ((presentation_type = ANY (ARRAY['casting'::text, 'wardrobe'::text, 'art_direction'::text, 'storyboard'::text, 'vehicles_animals'::text, 'fitting'::text, 'pre_ppm'::text, 'ppm'::text, 'production_documents'::text])))",
+      "added": true,
+      "removed": false
+    },
+    "constraints|eps.project_creation_intents.project_creation_intents_project_id_fkey|definition": {
+      "before": null,
+      "after": "FOREIGN KEY (project_id) REFERENCES public.projects(id) ON DELETE RESTRICT",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|acl": {
+      "before": null,
+      "after": [
+        "authenticated=X/eps_project_creator",
+        "eps_project_creator=X/eps_project_creator"
+      ],
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|argument_defaults": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|config": {
+      "before": null,
+      "after": [
+        "search_path=\"\""
+      ],
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|definer": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|identity_arguments": {
+      "before": null,
+      "after": "p_input jsonb, p_idempotency_key text",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|kind": {
+      "before": null,
+      "after": "f",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|language": {
+      "before": null,
+      "after": "plpgsql",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|leakproof": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|owner": {
+      "before": null,
+      "after": "eps_project_creator",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|parallel": {
+      "before": null,
+      "after": "u",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|returns": {
+      "before": null,
+      "after": "jsonb",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|source_sha256": {
+      "before": null,
+      "after": "42768728559b3e020d54b1432a43eb126c49da42a32a61e16ef03cec580640f9",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|strict": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|support": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|volatility": {
+      "before": null,
+      "after": "v",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|acl": {
+      "before": null,
+      "after": [
+        "authenticated=X/eps_api_owner",
+        "eps_api_owner=X/eps_api_owner"
+      ],
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|argument_defaults": {
+      "before": null,
+      "after": "''::text, NULL::text, 25",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|config": {
+      "before": null,
+      "after": [
+        "search_path=\"\""
+      ],
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|definer": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|identity_arguments": {
+      "before": null,
+      "after": "p_q text, p_cursor text, p_limit integer",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|kind": {
+      "before": null,
+      "after": "f",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|language": {
+      "before": null,
+      "after": "plpgsql",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|leakproof": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|owner": {
+      "before": null,
+      "after": "eps_api_owner",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|parallel": {
+      "before": null,
+      "after": "u",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|returns": {
+      "before": null,
+      "after": "jsonb",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|source_sha256": {
+      "before": null,
+      "after": "5c4a0fe97d1e340330207777ea9c9dfae10213b6e9fed74911f61dfd1aff9eb8",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|strict": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|support": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|volatility": {
+      "before": null,
+      "after": "s",
+      "added": true,
+      "removed": false
+    },
+    "indexes|eps.project_creation_intents_pkey|definition": {
+      "before": null,
+      "after": "CREATE UNIQUE INDEX project_creation_intents_pkey ON eps.project_creation_intents USING btree (project_id)",
+      "added": true,
+      "removed": false
+    },
+    "indexes|eps.project_creation_intents_pkey|live": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "indexes|eps.project_creation_intents_pkey|ready": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "indexes|eps.project_creation_intents_pkey|valid": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "memberships|authenticated>eps_project_creator/postgres|admin": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "memberships|authenticated>eps_project_creator/postgres|grantor": {
+      "before": null,
+      "after": "postgres",
+      "added": true,
+      "removed": false
+    },
+    "memberships|authenticated>eps_project_creator/postgres|inherit": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "memberships|authenticated>eps_project_creator/postgres|set": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "memberships|eps_project_creator>postgres/postgres|admin": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "memberships|eps_project_creator>postgres/postgres|grantor": {
+      "before": null,
+      "after": "postgres",
+      "added": true,
+      "removed": false
+    },
+    "memberships|eps_project_creator>postgres/postgres|inherit": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "memberships|eps_project_creator>postgres/postgres|set": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "memberships|eps_project_creator>postgres/supabase_admin|admin": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "memberships|eps_project_creator>postgres/supabase_admin|grantor": {
+      "before": null,
+      "after": "supabase_admin",
+      "added": true,
+      "removed": false
+    },
+    "memberships|eps_project_creator>postgres/supabase_admin|inherit": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "memberships|eps_project_creator>postgres/supabase_admin|set": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.audit_events.project_creator_audit|cmd": {
+      "before": null,
+      "after": "INSERT",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.audit_events.project_creator_audit|permissive": {
+      "before": null,
+      "after": "PERMISSIVE",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.audit_events.project_creator_audit|qual": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.audit_events.project_creator_audit|roles": {
+      "before": null,
+      "after": [
+        "eps_project_creator"
+      ],
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.audit_events.project_creator_audit|with_check": {
+      "before": null,
+      "after": "((principal_id = auth.uid()) AND (action = 'create_project'::text))",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.idempotency_records.project_creator_idempotency|cmd": {
+      "before": null,
+      "after": "ALL",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.idempotency_records.project_creator_idempotency|permissive": {
+      "before": null,
+      "after": "PERMISSIVE",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.idempotency_records.project_creator_idempotency|qual": {
+      "before": null,
+      "after": "((principal_id = auth.uid()) AND (operation = 'create_project'::text))",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.idempotency_records.project_creator_idempotency|roles": {
+      "before": null,
+      "after": [
+        "eps_project_creator"
+      ],
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.idempotency_records.project_creator_idempotency|with_check": {
+      "before": null,
+      "after": "((principal_id = auth.uid()) AND (operation = 'create_project'::text))",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.project_creation_intents.project_intent_insert|cmd": {
+      "before": null,
+      "after": "INSERT",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.project_creation_intents.project_intent_insert|permissive": {
+      "before": null,
+      "after": "PERMISSIVE",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.project_creation_intents.project_intent_insert|qual": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.project_creation_intents.project_intent_insert|roles": {
+      "before": null,
+      "after": [
+        "eps_project_creator"
+      ],
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.project_creation_intents.project_intent_insert|with_check": {
+      "before": null,
+      "after": "((created_by = auth.uid()) AND (project_id = (NULLIF(current_setting('eps.project_create.new_id'::text, true), ''::text))::uuid))",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.project_creation_intents.project_intent_read|cmd": {
+      "before": null,
+      "after": "SELECT",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.project_creation_intents.project_intent_read|permissive": {
+      "before": null,
+      "after": "PERMISSIVE",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.project_creation_intents.project_intent_read|qual": {
+      "before": null,
+      "after": "eps.project_access(project_id, false)",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.project_creation_intents.project_intent_read|roles": {
+      "before": null,
+      "after": [
+        "eps_api_owner"
+      ],
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.project_creation_intents.project_intent_read|with_check": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "policies|public.project_memberships.creator_membership_insert|cmd": {
+      "before": null,
+      "after": "INSERT",
+      "added": true,
+      "removed": false
+    },
+    "policies|public.project_memberships.creator_membership_insert|permissive": {
+      "before": null,
+      "after": "PERMISSIVE",
+      "added": true,
+      "removed": false
+    },
+    "policies|public.project_memberships.creator_membership_insert|qual": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "policies|public.project_memberships.creator_membership_insert|roles": {
+      "before": null,
+      "after": [
+        "eps_project_creator"
+      ],
+      "added": true,
+      "removed": false
+    },
+    "policies|public.project_memberships.creator_membership_insert|with_check": {
+      "before": null,
+      "after": "((project_id = (NULLIF(current_setting('eps.project_create.new_id'::text, true), ''::text))::uuid) AND (principal_id = auth.uid()) AND can_write AND active)",
+      "added": true,
+      "removed": false
+    },
+    "policies|public.projects.new_project_insert|cmd": {
+      "before": null,
+      "after": "INSERT",
+      "added": true,
+      "removed": false
+    },
+    "policies|public.projects.new_project_insert|permissive": {
+      "before": null,
+      "after": "PERMISSIVE",
+      "added": true,
+      "removed": false
+    },
+    "policies|public.projects.new_project_insert|qual": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "policies|public.projects.new_project_insert|roles": {
+      "before": null,
+      "after": [
+        "eps_project_creator"
+      ],
+      "added": true,
+      "removed": false
+    },
+    "policies|public.projects.new_project_insert|with_check": {
+      "before": null,
+      "after": "((id = (NULLIF(current_setting('eps.project_create.new_id'::text, true), ''::text))::uuid) AND eps.has_capability('projects.read'::text) AND eps.has_capability('projects.write'::text) AND ((client_id IS NULL) OR eps.client_access(client_id, true)))",
+      "added": true,
+      "removed": false
+    },
+    "roles|eps_project_creator|bypassrls": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "roles|eps_project_creator|connection_limit": {
+      "before": null,
+      "after": -1,
+      "added": true,
+      "removed": false
+    },
+    "roles|eps_project_creator|create_db": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "roles|eps_project_creator|create_role": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "roles|eps_project_creator|inherit": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "roles|eps_project_creator|login": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "roles|eps_project_creator|replication": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "roles|eps_project_creator|super": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "roles|eps_project_creator|valid_until": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "tables|eps.project_creation_intents|acl": {
+      "before": null,
+      "after": [
+        "eps_api_owner=r/postgres",
+        "eps_project_creator=a/postgres",
+        "postgres=arwdDxtm/postgres"
+      ],
+      "added": true,
+      "removed": false
+    },
+    "tables|eps.project_creation_intents|force_rls": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "tables|eps.project_creation_intents|owner": {
+      "before": null,
+      "after": "postgres",
+      "added": true,
+      "removed": false
+    },
+    "tables|eps.project_creation_intents|rls": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "types|eps.project_creation_intents|acl": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "types|eps.project_creation_intents|base": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "types|eps.project_creation_intents|default": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "types|eps.project_creation_intents|enum_labels": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "types|eps.project_creation_intents|kind": {
+      "before": null,
+      "after": "c",
+      "added": true,
+      "removed": false
+    },
+    "types|eps.project_creation_intents|not_null": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "types|eps.project_creation_intents|owner": {
+      "before": null,
+      "after": "postgres",
+      "added": true,
+      "removed": false
+    }
+  },
+  "catalogue39_delta_sha256": "0294707da8494dfb9a8caf35293289c5c61dbbb04418ce67ff400ce9a0f1c70b",
+  "data_reuse_body_installations": [
+    {
+      "expected": [
+        {
+          "name": "eps.review_snapshot_data",
+          "source": "4d46151993a60d8c6ac9d36e48781fee34c12c3e1dede727ac1ed4d31a953ab7"
+        },
+        {
+          "name": "eps.review_snapshot",
+          "source": "f0815e014144f1345b4679d96114aab6b358d95df317e3cfe6ac6b59989813cb"
+        },
+        {
+          "name": "public.eps_generate_version",
+          "source": "b20fef7adc8dee0da91db1508b30d4116855bb3e9be9e881072a7e8d55fcee08"
+        },
+        {
+          "name": "eps.capture_presentation_video_transcripts",
+          "source": "ed4a3469971fa410078b546b13aa0a875b4867efdda4b134dc729563dd887187"
+        }
+      ],
+      "actual": {
+        "eps.review_snapshot": {
+          "source": "f0815e014144f1345b4679d96114aab6b358d95df317e3cfe6ac6b59989813cb",
+          "authority": {
+            "oid": "17422",
+            "proacl": [
+              "eps_review_owner=X/eps_review_owner"
+            ],
+            "probin": null,
+            "procost": 100,
+            "prokind": "f",
+            "prolang": "13619",
+            "proname": "review_snapshot",
+            "prorows": 0,
+            "pronargs": 3,
+            "proowner": "16678",
+            "proconfig": [
+              "search_path=\"\""
+            ],
+            "proretset": false,
+            "prosecdef": false,
+            "prorettype": "3802",
+            "prosqlbody": null,
+            "prosupport": "-",
+            "proargmodes": null,
+            "proargnames": [
+              "p_workspace",
+              "p_series_id",
+              "p_output"
+            ],
+            "proargtypes": [
+              "2950",
+              "2950",
+              "25"
+            ],
+            "proisstrict": false,
+            "proparallel": "u",
+            "protrftypes": null,
+            "provariadic": "0",
+            "provolatile": "s",
+            "proleakproof": false,
+            "pronamespace": "16776",
+            "proallargtypes": null,
+            "proargdefaults": "({CONST :consttype 25 :consttypmod -1 :constcollid 100 :constlen -1 :constbyval false :constisnull true :location -1 :constvalue <>})",
+            "pronargdefaults": 1
+          }
+        },
+        "eps.review_snapshot_data": {
+          "source": "4d46151993a60d8c6ac9d36e48781fee34c12c3e1dede727ac1ed4d31a953ab7",
+          "authority": {
+            "oid": "17423",
+            "proacl": [
+              "eps_review_owner=X/eps_review_owner",
+              "eps_review_stage_owner=X/eps_review_owner"
+            ],
+            "probin": null,
+            "procost": 100,
+            "prokind": "f",
+            "prolang": "13619",
+            "proname": "review_snapshot_data",
+            "prorows": 0,
+            "pronargs": 3,
+            "proowner": "16678",
+            "proconfig": [
+              "search_path=\"\""
+            ],
+            "proretset": false,
+            "prosecdef": false,
+            "prorettype": "3802",
+            "prosqlbody": null,
+            "prosupport": "-",
+            "proargmodes": null,
+            "proargnames": [
+              "p_workspace",
+              "p_series_id",
+              "p_output"
+            ],
+            "proargtypes": [
+              "2950",
+              "2950",
+              "25"
+            ],
+            "proisstrict": false,
+            "proparallel": "u",
+            "protrftypes": null,
+            "provariadic": "0",
+            "provolatile": "s",
+            "proleakproof": false,
+            "pronamespace": "16776",
+            "proallargtypes": null,
+            "proargdefaults": "({CONST :consttype 25 :consttypmod -1 :constcollid 100 :constlen -1 :constbyval false :constisnull true :location -1 :constvalue <>})",
+            "pronargdefaults": 1
+          }
+        },
+        "public.eps_generate_version": {
+          "source": "b20fef7adc8dee0da91db1508b30d4116855bb3e9be9e881072a7e8d55fcee08",
+          "authority": {
+            "oid": "17618",
+            "proacl": [
+              "eps_review_owner=X/eps_review_owner",
+              "authenticated=X/eps_review_owner"
+            ],
+            "probin": null,
+            "procost": 100,
+            "prokind": "f",
+            "prolang": "13619",
+            "proname": "eps_generate_version",
+            "prorows": 0,
+            "pronargs": 3,
+            "proowner": "16678",
+            "proconfig": [
+              "search_path=\"\""
+            ],
+            "proretset": false,
+            "prosecdef": true,
+            "prorettype": "3802",
+            "prosqlbody": null,
+            "prosupport": "-",
+            "proargmodes": null,
+            "proargnames": [
+              "p_series_id",
+              "p_input",
+              "p_idempotency_key"
+            ],
+            "proargtypes": [
+              "2950",
+              "3802",
+              "25"
+            ],
+            "proisstrict": false,
+            "proparallel": "u",
+            "protrftypes": null,
+            "provariadic": "0",
+            "provolatile": "v",
+            "proleakproof": false,
+            "pronamespace": "16778",
+            "proallargtypes": null,
+            "proargdefaults": null,
+            "pronargdefaults": 0
+          }
+        },
+        "eps.capture_presentation_video_transcripts": {
+          "source": "ed4a3469971fa410078b546b13aa0a875b4867efdda4b134dc729563dd887187",
+          "authority": {
+            "oid": "16990",
+            "proacl": [
+              "eps_review_owner=X/eps_review_owner"
+            ],
+            "probin": null,
+            "procost": 100,
+            "prokind": "f",
+            "prolang": "13619",
+            "proname": "capture_presentation_video_transcripts",
+            "prorows": 0,
+            "pronargs": 1,
+            "proowner": "16678",
+            "proconfig": [
+              "search_path=\"\""
+            ],
+            "proretset": false,
+            "prosecdef": false,
+            "prorettype": "23",
+            "prosqlbody": null,
+            "prosupport": "-",
+            "proargmodes": null,
+            "proargnames": [
+              "p_version"
+            ],
+            "proargtypes": [
+              "2950"
+            ],
+            "proisstrict": false,
+            "proparallel": "u",
+            "protrftypes": null,
+            "provariadic": "0",
+            "provolatile": "v",
+            "proleakproof": false,
+            "pronamespace": "16776",
+            "proallargtypes": null,
+            "proargdefaults": null,
+            "pronargdefaults": 0
+          }
+        }
+      },
+      "normal_return": true
+    },
+    {
+      "expected": [
+        {
+          "name": "eps.review_snapshot_data",
+          "source": "0dba1d407199191d3bbb4d84ddab94d9f4e33da6a0172738b86133e8c7bf61fd"
+        },
+        {
+          "name": "eps.review_snapshot",
+          "source": "c6f93795e1926bcbb2e550b428f2e76a9ffe04dc29199e799c3d3a0e7b73cd10"
+        },
+        {
+          "name": "public.eps_generate_version",
+          "source": "a5e5c60d3f94d9e05c62fc1cfc76ac4552713000b72b1efe4eac028da15c0d40"
+        },
+        {
+          "name": "eps.capture_presentation_video_transcripts",
+          "source": "afe33691e2bb1dad42999b49c8c5ba9d583d68bfc6cced60bfbea0adadc37dd7"
+        }
+      ],
+      "actual": {
+        "eps.review_snapshot": {
+          "source": "c6f93795e1926bcbb2e550b428f2e76a9ffe04dc29199e799c3d3a0e7b73cd10",
+          "authority": {
+            "oid": "17422",
+            "proacl": [
+              "eps_review_owner=X/eps_review_owner"
+            ],
+            "probin": null,
+            "procost": 100,
+            "prokind": "f",
+            "prolang": "13619",
+            "proname": "review_snapshot",
+            "prorows": 0,
+            "pronargs": 3,
+            "proowner": "16678",
+            "proconfig": [
+              "search_path=\"\""
+            ],
+            "proretset": false,
+            "prosecdef": false,
+            "prorettype": "3802",
+            "prosqlbody": null,
+            "prosupport": "-",
+            "proargmodes": null,
+            "proargnames": [
+              "p_workspace",
+              "p_series_id",
+              "p_output"
+            ],
+            "proargtypes": [
+              "2950",
+              "2950",
+              "25"
+            ],
+            "proisstrict": false,
+            "proparallel": "u",
+            "protrftypes": null,
+            "provariadic": "0",
+            "provolatile": "s",
+            "proleakproof": false,
+            "pronamespace": "16776",
+            "proallargtypes": null,
+            "proargdefaults": "({CONST :consttype 25 :consttypmod -1 :constcollid 100 :constlen -1 :constbyval false :constisnull true :location -1 :constvalue <>})",
+            "pronargdefaults": 1
+          }
+        },
+        "eps.review_snapshot_data": {
+          "source": "0dba1d407199191d3bbb4d84ddab94d9f4e33da6a0172738b86133e8c7bf61fd",
+          "authority": {
+            "oid": "17423",
+            "proacl": [
+              "eps_review_owner=X/eps_review_owner",
+              "eps_review_stage_owner=X/eps_review_owner"
+            ],
+            "probin": null,
+            "procost": 100,
+            "prokind": "f",
+            "prolang": "13619",
+            "proname": "review_snapshot_data",
+            "prorows": 0,
+            "pronargs": 3,
+            "proowner": "16678",
+            "proconfig": [
+              "search_path=\"\""
+            ],
+            "proretset": false,
+            "prosecdef": false,
+            "prorettype": "3802",
+            "prosqlbody": null,
+            "prosupport": "-",
+            "proargmodes": null,
+            "proargnames": [
+              "p_workspace",
+              "p_series_id",
+              "p_output"
+            ],
+            "proargtypes": [
+              "2950",
+              "2950",
+              "25"
+            ],
+            "proisstrict": false,
+            "proparallel": "u",
+            "protrftypes": null,
+            "provariadic": "0",
+            "provolatile": "s",
+            "proleakproof": false,
+            "pronamespace": "16776",
+            "proallargtypes": null,
+            "proargdefaults": "({CONST :consttype 25 :consttypmod -1 :constcollid 100 :constlen -1 :constbyval false :constisnull true :location -1 :constvalue <>})",
+            "pronargdefaults": 1
+          }
+        },
+        "public.eps_generate_version": {
+          "source": "a5e5c60d3f94d9e05c62fc1cfc76ac4552713000b72b1efe4eac028da15c0d40",
+          "authority": {
+            "oid": "17618",
+            "proacl": [
+              "eps_review_owner=X/eps_review_owner",
+              "authenticated=X/eps_review_owner"
+            ],
+            "probin": null,
+            "procost": 100,
+            "prokind": "f",
+            "prolang": "13619",
+            "proname": "eps_generate_version",
+            "prorows": 0,
+            "pronargs": 3,
+            "proowner": "16678",
+            "proconfig": [
+              "search_path=\"\""
+            ],
+            "proretset": false,
+            "prosecdef": true,
+            "prorettype": "3802",
+            "prosqlbody": null,
+            "prosupport": "-",
+            "proargmodes": null,
+            "proargnames": [
+              "p_series_id",
+              "p_input",
+              "p_idempotency_key"
+            ],
+            "proargtypes": [
+              "2950",
+              "3802",
+              "25"
+            ],
+            "proisstrict": false,
+            "proparallel": "u",
+            "protrftypes": null,
+            "provariadic": "0",
+            "provolatile": "v",
+            "proleakproof": false,
+            "pronamespace": "16778",
+            "proallargtypes": null,
+            "proargdefaults": null,
+            "pronargdefaults": 0
+          }
+        },
+        "eps.capture_presentation_video_transcripts": {
+          "source": "afe33691e2bb1dad42999b49c8c5ba9d583d68bfc6cced60bfbea0adadc37dd7",
+          "authority": {
+            "oid": "16990",
+            "proacl": [
+              "eps_review_owner=X/eps_review_owner"
+            ],
+            "probin": null,
+            "procost": 100,
+            "prokind": "f",
+            "prolang": "13619",
+            "proname": "capture_presentation_video_transcripts",
+            "prorows": 0,
+            "pronargs": 1,
+            "proowner": "16678",
+            "proconfig": [
+              "search_path=\"\""
+            ],
+            "proretset": false,
+            "prosecdef": false,
+            "prorettype": "23",
+            "prosqlbody": null,
+            "prosupport": "-",
+            "proargmodes": null,
+            "proargnames": [
+              "p_version"
+            ],
+            "proargtypes": [
+              "2950"
+            ],
+            "proisstrict": false,
+            "proparallel": "u",
+            "protrftypes": null,
+            "provariadic": "0",
+            "provolatile": "v",
+            "proleakproof": false,
+            "pronamespace": "16776",
+            "proallargtypes": null,
+            "proargdefaults": null,
+            "pronargdefaults": 0
+          }
+        }
+      },
+      "normal_return": true
+    }
+  ],
+  "data_reuse_fixture_fit_dispatches": [
+    {
+      "label": "control",
+      "before_sha256": "0b5e22b44be9d8ecaae5510228f677fb1214b4d623ad7db71667e020836f3ae0",
+      "after_sha256": "8aa5e51baf55707020c96581372717a918b4ca459812fb5cb1b265cae166bcaf",
+      "dispatch_started": true,
+      "normal_return": true
+    },
+    {
+      "label": "large",
+      "before_sha256": "f4f2aa45595322d00cf91cf82b89d5e76e5d75264474963aaebadf4dc75c26a0",
+      "after_sha256": "cebcb384a0c6f346421aa102a2d024cd9cd26f55bdf4ee918eb936a84f734a0d",
+      "dispatch_started": true,
+      "normal_return": true
+    }
+  ],
+  "exact40_owned_adapter": {
+    "source_sha256": "08bf4de8a63823b0e7c9aee75560a6e7de0620eb9b8b3c483c65929578db8212",
+    "only_database_system_run_predicate_adapted": true,
+    "inverse_byte_equal": true
+  },
+  "performance": {
+    "fixture_counts": {
+      "pins": 60,
+      "media": 27,
+      "assets": 501,
+      "frames": 328,
+      "slides": 63,
+      "profiles": [
+        {
+          "label": "background",
+          "active_pools": 12,
+          "active_roles": 1,
+          "active_slots": 35,
+          "archived_pools": 0,
+          "archived_roles": 0,
+          "archived_slots": 0,
+          "selected_media": 12,
+          "selected_frames": 36,
+          "active_assignments": 35,
+          "selected_candidates": 12,
+          "archived_assignments": 0,
+          "assignment_weighted_fact_source_bytes": 31726
+        },
+        {
+          "label": "control",
+          "active_pools": 1,
+          "active_roles": 1,
+          "active_slots": 1,
+          "archived_pools": 0,
+          "archived_roles": 0,
+          "archived_slots": 0,
+          "selected_media": 1,
+          "selected_frames": 3,
+          "active_assignments": 1,
+          "selected_candidates": 1,
+          "archived_assignments": 0,
+          "assignment_weighted_fact_source_bytes": 906
+        },
+        {
+          "label": "large",
+          "active_pools": 11,
+          "active_roles": 2,
+          "active_slots": 16,
+          "archived_pools": 4,
+          "archived_roles": 34,
+          "archived_slots": 547,
+          "selected_media": 11,
+          "selected_frames": 33,
+          "active_assignments": 19,
+          "selected_candidates": 11,
+          "archived_assignments": 1,
+          "assignment_weighted_fact_source_bytes": 17220
+        }
+      ],
+      "candidates": 28,
+      "ready_versions": 13,
+      "total_versions": 14
+    },
+    "fit_is_declared_synthetic_metadata_not_renderer_measurement": true,
+    "background_is_synthetic_metadata_not_render_storage_or_provider_acceptance": true,
+    "api_and_mcp_are_actual_local_RLS_with_controlled_claims_not_signed_OAuth_protocol": true
+  },
+  "combined_generation": {
+    "catalogue_prosrc_exclusions": 5,
+    "helper_variant_same_both_sides": true,
+    "fresh_baseline": {
+      "pins": 60,
+      "tables": {
+        "eps.jobs": {
+          "count": 46,
+          "sha256": "340bee7f3cdc3af74fe4e091364068bfe8a86ffa94e4bd0d8f90adde01d0683b"
+        },
+        "eps.roles": {
+          "count": 42,
+          "sha256": "ef469bb268715efd981b18a9bd406426512dae3be2b029bf0be11c76b0de4843"
+        },
+        "eps.slots": {
+          "count": 605,
+          "sha256": "fe3570816001223d3db8e15a30c81efca42e3e14d2998dab848e6f064d2081dd"
+        },
+        "eps.specs": {
+          "count": 5,
+          "sha256": "c6b302487ad8b57d202f46a35269ffd01432a8df437dfe206ca841ec694cac3e"
+        },
+        "auth.users": {
+          "count": 4,
+          "sha256": "377c36a2600887f732fbf2c3d1fc006b296461aa01c4450b06fdb42917124aba"
+        },
+        "auth.sessions": {
+          "count": 2,
+          "sha256": "8292b8d0fc9b7a17087bc99e2e5939c676d3bda4dfac5cb17bcd31c38efd91da"
+        },
+        "auth.instances": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.candidates": {
+          "count": 28,
+          "sha256": "bec535124d6b86fc10f2234b37b224b6316e85efecf7e725094d545bb344b370"
+        },
+        "eps.job_events": {
+          "count": 5,
+          "sha256": "42630fe1d4e80d8cc7a12f99e00681b735878b4cdbc7e37bd753a836cec62d0f"
+        },
+        "eps.workspaces": {
+          "count": 5,
+          "sha256": "86a349f2ace1af717a094f2584d74e469a6e7b7dc66daad12b29a496ee75017a"
+        },
+        "public.clients": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.assignments": {
+          "count": 62,
+          "sha256": "1f1021606a706e355f916c1977a733894c58e169dae92aadb8ffc44bfd36b401"
+        },
+        "public.projects": {
+          "count": 5,
+          "sha256": "ea9b0b2ef33b2e1d7803442fe13405dd7288399a948b50c7ff1b641ebec45df0"
+        },
+        "storage.buckets": {
+          "count": 7,
+          "sha256": "bcf01e76e5b3068e2aab4aa7219b236e21637d31f8de2e98d890775913e6f846"
+        },
+        "storage.objects": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.app_settings": {
+          "count": 1,
+          "sha256": "96e0dd3f0a951376de46eb712e2bdb4a3d69a12d348401d41389a9a349d8cdc4"
+        },
+        "eps.audit_events": {
+          "count": 21,
+          "sha256": "873eb7557317a48b0293cff7fc381227afc1123e48a90c5bbccd60241ce03552"
+        },
+        "eps.media_assets": {
+          "count": 501,
+          "sha256": "888d2fd08d97bcbc2fbd8c9ed9e2343144c5fcb29e76863aaa41544667311368"
+        },
+        "eps.review_links": {
+          "count": 1,
+          "sha256": "5eccf7b18da399bdd6af34883dc193ae7a29db0ce5807088fbf7a85476a4c6c3"
+        },
+        "eps.outbox_events": {
+          "count": 6,
+          "sha256": "53823bd2218bf956cbcef641408f8e7e3387684ab48fe4a1721d41e496a6c1ff"
+        },
+        "auth.oauth_clients": {
+          "count": 2,
+          "sha256": "a6bd3c0e0aaeeba247e685183d4ea61f0882b4627ca53726a7b8e6ea39a21037"
+        },
+        "eps.ai_suggestions": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.guest_sessions": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.version_slides": {
+          "count": 63,
+          "sha256": "a070eaeec39d73047d198c0fa68519f473624b823497f913b64fd7d78eb03786"
+        },
+        "auth.refresh_tokens": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.candidate_media": {
+          "count": 27,
+          "sha256": "3fe93f6f6b8018ecfacbe5052679324fcc593ce402f30cba8edc015765abfb65"
+        },
+        "eps.support_uploads": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.upload_sessions": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.audience_presets": {
+          "count": 4,
+          "sha256": "8d428cf440776c4832d2406b3f19818bad1268a7e498bd29a1e2b5ae6d50a6ac"
+        },
+        "eps.candidate_support": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.candidate_uploads": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.feedback_comments": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.guest_idempotency": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "auth.audit_log_entries": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "auth.schema_migrations": {
+          "count": 7,
+          "sha256": "da8bf712bc4fec34de683399184da75cd8d8762b63548b2b0379f8c9a9ccca24"
+        },
+        "eps.guest_asset_grants": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.job_stage_attempts": {
+          "count": 44,
+          "sha256": "b923580f8a50a32fa17ea03f6eb56b971469e2ba91a63e4e7aaf6c1bea8eab6a"
+        },
+        "eps.review_fit_results": {
+          "count": 5,
+          "sha256": "5d9bc3f5c74019ffa11e142a153b534809a6098d130d04cca27adf9fcddefee5"
+        },
+        "eps.specs_asset_config": {
+          "count": 1,
+          "sha256": "c628171680739f1fecb14b9ee8e78ae41752f7487ad904a2ab8a62ed82178255"
+        },
+        "eps.specs_asset_grants": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.idempotency_records": {
+          "count": 20,
+          "sha256": "915ce800c9f5edddb438d7eb504b1b0f2031914cd6b3f531b7f4e733bf6029e0"
+        },
+        "eps.mcp_oauth_resources": {
+          "count": 2,
+          "sha256": "2d35e65b3b9fa40c6c2e6c6feb639c4a37425442b6f14fa94530bda8a453050c"
+        },
+        "eps.presentation_series": {
+          "count": 5,
+          "sha256": "d3895394b0663f72ba74d31cd2f47b3fedc80a95c12bf075730fc1fab95f0028"
+        },
+        "eps.review_link_replays": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.review_media_grants": {
+          "count": 1,
+          "sha256": "6d9fba9962fe4d3a08fceab46b56a479ad11939ba4fcc8c88fdff1cf67739ba5"
+        },
+        "eps.specs_source_inputs": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.cast_operation_notes": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.feedback_preferences": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.oauth_consent_claims": {
+          "count": 1,
+          "sha256": "14a019235022b79416f3d4534a2bba9970a5aea8a077e73410fe00783c63e422"
+        },
+        "eps.presentation_exports": {
+          "count": 1,
+          "sha256": "a57d931f457ad1eae1042f84a444bd7dcffb4b537aa3a7867da7d655e731c914"
+        },
+        "eps.review_gateway_rates": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.specs_stage_payloads": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.workspace_candidates": {
+          "count": 32,
+          "sha256": "08a0d4fd1e03e7f9f84649b7feee28a300e9c7de50a56ce0fda5575b09c28824"
+        },
+        "auth.oauth_authorizations": {
+          "count": 1,
+          "sha256": "8d8f3a0c99f6e74bf7aa03658d31d793d25880e2ce797d7b7b48cf9e34263caa"
+        },
+        "eps.presentation_versions": {
+          "count": 14,
+          "sha256": "0472ad0517891c225295aec3404f191463caadcf5bcf057287c74e16863e0a97"
+        },
+        "eps.review_gateway_config": {
+          "count": 1,
+          "sha256": "2ee82681b39df82b0ee0333cb5b74a502ee3ca1234e915c830c962c1e76dd08a"
+        },
+        "eps.review_gateway_nonces": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.review_stage_payloads": {
+          "count": 5,
+          "sha256": "05e946663b3f1c9c3151be98996833915dc476ee2847374bcc8257523358a295"
+        },
+        "eps.specs_pipeline_config": {
+          "count": 1,
+          "sha256": "5449176c66e66558b18ba02dec2b2a24a784a7c5e8cdb859e03bfb75eb70ad79"
+        },
+        "eps.specs_upload_sessions": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "public.client_memberships": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.candidate_asset_config": {
+          "count": 1,
+          "sha256": "74c0f32267dcb59926ddd87bf2beb42069c9deb9e2d2b782fa7b7ed713505c31"
+        },
+        "eps.candidate_asset_grants": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.candidate_media_frames": {
+          "count": 328,
+          "sha256": "5968ef087e0c7b17e4e374f901062061079acba659ce0daf07d01ec38d47aae8"
+        },
+        "eps.logo_verification_keys": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.presentation_templates": {
+          "count": 2,
+          "sha256": "16db590da8b0fd644abbe47410def9959be998a82c064f9a621feb5e206c8424"
+        },
+        "public.project_memberships": {
+          "count": 6,
+          "sha256": "b7974309407a6b89bde6c28085d7e896198e1d4656b7f1cdb868fc30fac863fb"
+        },
+        "eps.frame_extraction_config": {
+          "count": 1,
+          "sha256": "f18a192cd6c5fda9ef3ffdab82cf51656242e9c60b2f0a0426dee41e1c004a3e"
+        },
+        "eps.job_stage_claim_replays": {
+          "count": 6,
+          "sha256": "a9ec7bf7b954d126827cc1415d3b01382754391e0074e0271674131ef5f9252e"
+        },
+        "eps.specs_file_preparations": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.specs_verification_keys": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.assignment_change_events": {
+          "count": 6,
+          "sha256": "31dd4e9ff733df855779a7885bb127d2936ee0a0d8f70cd2a79db9549b7a6cf6"
+        },
+        "eps.candidate_stage_payloads": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.candidate_support_config": {
+          "count": 1,
+          "sha256": "bd12feb29f67ef5e8957aee7374db3d3f6edee16a11489229f22fe2494fc370d"
+        },
+        "eps.project_creation_intents": {
+          "count": 3,
+          "sha256": "541e06b9ea01070666faf9c051730ea9d33fdc4f851047dae0bef7fbb578cd4f"
+        },
+        "eps.review_processing_config": {
+          "count": 1,
+          "sha256": "fa38eb698184f985cc7306bdfac13f6993c0682f047891150ba6bb009b0678c8"
+        },
+        "public.app_capability_grants": {
+          "count": 33,
+          "sha256": "8f2f160636dd2a9fa0af4dd62f8d186064795c27426d1b1fb8b47891cb33d351"
+        },
+        "eps.frame_extraction_requests": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.presentation_asset_grants": {
+          "count": 5,
+          "sha256": "ce1a42262220ca92be66c616f743cd77c84176b2993c0ae0aa212ee39e82a213"
+        },
+        "eps.support_verification_keys": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.user_workspace_preferences": {
+          "count": 3,
+          "sha256": "648d07824581e9a2c9b5f993c4ec0ad8aeb73b19bb913b06d43c3363b17485eb"
+        },
+        "eps.presentation_version_assets": {
+          "count": 60,
+          "sha256": "b1fdf0cc11cbc93691659d08a35b5410c9a2f759b507fd1466fee8159790b870"
+        },
+        "eps.assignment_change_consumptions": {
+          "count": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "eps.presentation_processing_config": {
+          "count": 1,
+          "sha256": "21ad9b5c60f5408b7aca042074aada5cd1aabe08e7674798bb9ac7cff2ab51d9"
+        },
+        "eps.presentation_video_transcripts": {
+          "count": 2,
+          "sha256": "5b1e94452c61e1d6e145347167ab31be7cd3087951468abaf58d083c7e0e4d6a"
+        },
+        "supabase_migrations.schema_migrations": {
+          "count": 40,
+          "sha256": "13373f7f23183921efed40178af5d43193c3da10d34071334532127fa6caa607"
+        },
+        "eps.presentation_video_english_transcripts": {
+          "count": 2,
+          "sha256": "96229d624092b319b0c43c3a95ba991a940069c3b5e795f1501f91fd5d83e5f4"
+        }
+      },
+      "ready_versions": 13,
+      "reason_nonnull_rows": 1,
+      "application_catalogue_sha256": "ad5b92825e499298e1734cccf7fb32b791e0eba6ef9d7b0bd6db11544cdf00ba"
+    },
+    "first_calls": [
+      {
+        "variant": "candidate",
+        "mode": "mcp",
+        "label": "large",
+        "phase": "actual_public_generate",
+        "normal_return": true,
+        "rolled_back": true,
+        "application_calls_before_dispatch": 0,
+        "first_in_fresh_backend": true,
+        "pid": 683,
+        "dispatched": true,
+        "generation": {
+          "ok": false,
+          "code": "57014",
+          "operation": "generate",
+          "duration_ms": 7999.653
+        },
+        "client_elapsed_ms": 8004.3609
+      }
+    ],
+    "projections": [],
+    "carried_helper_security": {
+      "schema_version": "edge-rls-dated-carry.v1",
+      "receipt": "tracking/evidence/m07/presentation-lock-source-complete-oracle-proof/2026-11-02T20-33-12.340Z-39386edd.json",
+      "receipt_sha256": "f5de1993783c8c3f4e618189091291ea905bd34839effd088af59e403d477cac",
+      "observed_at": "2026-11-02T20:33:12.340Z",
+      "result": "partial_pass_from_failed_run",
+      "helper_sha256": "280244090e5350b912dec5b23b74bb5d260e9e21df497c8ddfc2ae322fb774c4",
+      "complete_oracle_relations": 12,
+      "held_selected_rows": 150,
+      "unselected_negatives": 8,
+      "total_universe_keys": 1637,
+      "carried_RR_cases": [
+        "baseline",
+        "empty_assignments",
+        "referenced_archived_pool"
+      ],
+      "fourth_case_tuple_equality_only": true,
+      "failed_assertion_retained": {
+        "case": "missing_selected_pair",
+        "found": true,
+        "locked": false
+      },
+      "fresh_oracle_or_benchmark_replay": false,
+      "RC_fence_authority_expiry_not_carried": true,
+      "whole_generation_or_four_body_acceptance": false,
+      "additional_dated278": {
+        "receipt": "tracking/evidence/m07/presentation-lock-source-edge-rls-proof/2026-11-02T21-26-58.893Z-278a260d.json",
+        "receipt_sha256": "338cb6dd81a9572d9d5811367a3ffe6b6dd49f73d64617d83297bcbc3c07a75b",
+        "observed_at": "2026-11-02T21:26:58.893Z",
+        "result": "dated_partial_PASS_from_failed_run",
+        "four_RLS_controls": true,
+        "cross_workspace_FK": true,
+        "remaining_RC_fence_membership_capability_expiry_not_carried": true,
+        "final_clone_restoration_not_carried": true,
+        "replayed": false
+      },
+      "additional_actual_remaining_RC": {
+        "receipt": "tracking/evidence/m07/presentation-lock-source-uuid-proof/2026-11-02T22-00-11.340Z-c35b7493.json",
+        "receipt_sha256": "1c73ede315fc040dc9a5080209307b7ed7380dd292dc25831fd66ab95768e632",
+        "observed_at": "2026-11-02T22:00:11.340Z",
+        "normal_process_exit_code": 0,
+        "result": "actual_local_remaining_RC_PASS",
+        "workspace_fence": true,
+        "membership_capability_clock_expiry": true,
+        "source_and_config_restoration": true,
+        "helper280_and_four_OLD_bodies_only": true,
+        "not_whole_generation_or_four_new_body_acceptance": true,
+        "replayed": false
+      },
+      "failed_combined78": {
+        "receipt": "tracking/evidence/m07/presentation-generation-combined-proof/2026-11-02T22-44-11.890Z-78df9599.json",
+        "receipt_sha256": "1732443e726cfe1e40e3a4b4160e18bd732196f86992580f357af3681dafb942",
+        "result": "failed",
+        "all_eight_results_retained": true,
+        "large_MCP_old_and_candidate_cancelled": true,
+        "diagnostic_context_previously_unavailable": true,
+        "unchanged_failed_performance_acceptance": true,
+        "replayed": false
+      },
+      "dated_cancellation_diagnostic": {
+        "receipt": "tracking/evidence/m07/presentation-generation-cancel-diagnostic/2026-11-02T23-37-26.745Z-13f5ba7e.json",
+        "receipt_sha256": "24bfbc438f1e9f77a85d0ec56e0bf6905ec801cca71dcc16dadb9780d3e74acf",
+        "observed_at": "2026-11-02T23:37:26.745Z",
+        "normal_process_exit": 0,
+        "diagnostic_mechanism": "passed",
+        "application_generation": "statement_timeout57014",
+        "active_stage": "review_and_fit",
+        "active_review_data_line": 36,
+        "dominant_cost_or_invocation_count_claimed": false,
+        "failed78_still_open": true,
+        "performance_acceptance": false,
+        "replayed": false
+      },
+      "fresh_fixture_counts_equal": true,
+      "cross_run_business_hash_equality_claimed": false,
+      "baseline_count_provenance_only": true,
+      "old_four_and_candidate_four_compared_fresh": true
+    },
+    "helper_installations": [
+      {
+        "variant": "candidate",
+        "source_sha256": "280244090e5350b912dec5b23b74bb5d260e9e21df497c8ddfc2ae322fb774c4",
+        "authority_unchanged": true
+      }
+    ]
+  },
+  "data_reuse_cases": {},
+  "assignment_cases": {},
+  "assignment_enumeration": {
+    "before_data_sha256": "4b37255bd919719086175f5df2b197584555f3c08000ee13fe18a7dbe62f8cc3",
+    "after_data_sha256": "0dba1d407199191d3bbb4d84ddab94d9f4e33da6a0172738b86133e8c7bf61fd",
+    "same_shared_budget_bytes": 4194304,
+    "actual_FK": {
+      "deferred": false,
+      "validated": true,
+      "deferrable": false,
+      "references_slots": true,
+      "workspace_slot_columns": true,
+      "referenced_workspace_id_columns": true
+    }
+  },
+  "failure_code": "LOCKSOURCE41_ASSERTION_FAILED",
+  "all_owned_resources_absent": true,
+  "independent_successful_daemon_label_inventories_empty": true,
+  "original_data_catalogue_and_global_roles_unchanged": true,
+  "shared_lock_released": true,
+  "finished_at": "2026-11-03T01:38:34.457Z",
+  "elapsed_ms": 80277
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-11-03T00:54:20.007178+00:00",
+  "purpose": "ocr_configuration_daemon_forward_retained_native3d",
+  "run": "aa51ae63-6e81-45c9-8ba6-e0b1b9589a06",
+  "action": "prepare",
+  "baseline": {
+    "deployment_id": "dpl_6oA1iaHte26KG1DEkBEJ9KU3ahS7",
+    "daemon_digest": "sha256:697362169825a7f71493e98870505cb74a2ae163999209785c02ac7a0b0a0329",
+    "daemon_source_sha256": "dc12eaab6d862b2d151665b13c092568a273a2b1c7e2fde24516654c7db40648",
+    "native_digest": "sha256:3d4286db01b27b40ec9078e303158e93003a096d5ddad1c9802130238de6dd80",
+    "native_manifest_sha256": "fa221d833f0417d303c55ecc43629b2edf68ccdcc020d90e7f1864341e02fa57",
+    "native_compatibility_sha256": "24737d69156a7dfb10459668c828265c7665be0efae80c5da678ea53fd61328b"
+  },
+  "bindings": {
+    "daemon_source_sha256": "f8142f08baa37efcc160aea96c32b389dfd0a0ee5569f267642fc9ff396907b4",
+    "native_source_sha256": "f742e9e5e4b83643f5bae18cace3e9e253912c0114f59b4489f0d163bcb39368",
+    "native_graph_sha256": "247992bbe3331251f33186cfac22835e8734833cd229bb6a4d8bcafa3bc0c214",
+    "daemon_graph_sha256": "109b298cf3c42a7f8c6e5aaf30aefe49e493595726daf3c71b97b26cb81543b1",
+    "native_manifest_sha256": "fa221d833f0417d303c55ecc43629b2edf68ccdcc020d90e7f1864341e02fa57",
+    "native_compatibility_sha256": "7c3b2632ae2512a313b48fed5f02e4cba3a9180716160c17da2426a69cc90dfc",
+    "native_digest": "sha256:3d4286db01b27b40ec9078e303158e93003a096d5ddad1c9802130238de6dd80",
+    "daemon_digest": "sha256:ffb4ce64dbb5a9a1854e96e32063539c72025023fee504c189b8f775e029cd98",
+    "environment": {
+      "EPS_NATIVE_MANIFEST_SHA256": "fa221d833f0417d303c55ecc43629b2edf68ccdcc020d90e7f1864341e02fa57",
+      "EPS_DAEMON_SOURCE_SHA256": "f8142f08baa37efcc160aea96c32b389dfd0a0ee5569f267642fc9ff396907b4",
+      "EPS_NATIVE_COMPATIBILITY_SHA256": "7c3b2632ae2512a313b48fed5f02e4cba3a9180716160c17da2426a69cc90dfc"
+    }
+  },
+  "DB_native_pin_preserved": "sha256:3d4286db01b27b40ec9078e303158e93003a096d5ddad1c9802130238de6dd80",
+  "native_pin_mutation_performed": false,
+  "rollback_or_AT069_performed": false,
+  "cached_platform_health_metadata": [
+    {
+      "last_checked_at_ms": 1793666916614,
+      "last_checked_age_ms": 209593,
+      "observed_at_ms": 1793667126207,
+      "kind": "cached_platform_metadata",
+      "fresh_application_heartbeat_proven": false
+    },
+    {
+      "last_checked_at_ms": 1793666916614,
+      "last_checked_age_ms": 212069,
+      "observed_at_ms": 1793667128683,
+      "kind": "cached_platform_metadata",
+      "fresh_application_heartbeat_proven": false
+    }
+  ],
+  "fresh_application_heartbeat_claimed": false,
+  "new_native_probe_claimed": false,
+  "daemon_original_copy_outcome": "unknown",
+  "daemon_normal_copy_return_observed": false,
+  "daemon_copy_replayed": false,
+  "result": "prepared",
+  "provider_mutations": false,
+  "before_sha256": "6654a9df898682197c08f55e1295a4972c8f13766d5e7c4e33e7c8f4aacdff09",
+  "checkpoint": {
+    "path": ".local/worker-ocr-config-daemon-release/aa51ae63-6e81-45c9-8ba6-e0b1b9589a06/canonical40-checkpoint.json",
+    "sha256": "d100518536381c2526d2d32128cc5f28f2db61006e1f4244674328ff7ae22ac0",
+    "history_path": [
+      "state",
+      "schema40",
+      "history"
+    ],
+    "tables": 76,
+    "scope": "before_worker_pause",
+    "restore_verified": false
+  }
+}
