@@ -1,0 +1,90 @@
+{
+  "AT069_or_rollback_actions": false,
+  "build_result_claimed": false,
+  "canonical41_admission": false,
+  "canonical_schema_admitted_by_frozen_purpose": 40,
+  "deploy_preflight_reference": null,
+  "environment_or_settings_changes": false,
+  "evidence_provenance": "Receipt contents and hashes read from retained public files; Root test and source-review results explicitly attributed above. No tests or stages were rerun for this artifact. The input helper disabled reviewed source and subsequent Root-armed actual source are separately identified. Root execution is explicitly attributed; preparer action booleans do not describe Root lifetime operations.",
+  "native_DB_pin_required_by_frozen_purpose": "sha256:3d4286db01b27b40ec9078e303158e93003a096d5ddad1c9802130238de6dd80",
+  "new_UI_or_MCP_runtime_acceptance_claimed": false,
+  "new_ignored_input_helper_sources": [
+    {
+      "Root_armed_actual_sha256": "f8094b9e51fd39765011ae2a99f090458957e0ebc03571711d773e8509220e83",
+      "Root_executed_once_normal0": true,
+      "Root_execution_provenance": "Attributed to Root report; not rerun or independently executed by preparer",
+      "WRITE_ENABLED": true,
+      "WRITE_ENABLED_scope": "Root-armed actual source at this correction",
+      "disabled_reviewed_sha256": "a1c3800689084699bab92bdcc2b21226cd304ceca0a0445d9c3ae4ec23205437",
+      "path": ".local/completion-release/prepare-mcp-logo-text-inputs-cfd646be.py"
+    },
+    {
+      "WRITE_ENABLED": false,
+      "path": ".local/completion-release/prepare-mcp-logo-text-deploy-ref-cfd646be.py",
+      "sha256": "8cd26853141687b6520924a3e132af5cbe1a8c733d04529cc2691ef0c325176f",
+      "source_prepared_only": true
+    }
+  ],
+  "new_purpose_offline_tests_reported_by_Root": {
+    "duration_seconds": 1.55,
+    "node_syntax_exit_code": 0,
+    "passed": 20
+  },
+  "peer_review_reported": {
+    "Recovery": "closed_pass_source_only",
+    "Root": "closed_pass"
+  },
+  "preparer_source_preparation_actions": {
+    "Main_Git_or_index_mutated": false,
+    "existing_private_input_read": false,
+    "helper_main_or_release_phase_executed": false,
+    "network_or_provider_calls": false,
+    "scope": "Only actions by Frontend while preparing the helper sources and this artifact; excludes subsequent Root execution and release phases"
+  },
+  "provider_submission_claimed": false,
+  "purpose": "mcp-logo-text-web-forward-release",
+  "purpose_raw_source_seals": {
+    "README.md": "af3caf5bd736e18cada9cbf1298288241faa099de1d6e34139e2febcdcca350f",
+    "gates.py": "8cd42e026b46a9f45bfa106052a15bedc5308413b11c5e40dbd8f7a13bec6e56",
+    "inputs.template.json": "431246c7f60779217dc9222713b3009a039228337f86ff04ce0d68241cf6271c",
+    "preflight.py": "ddcbb7674d36a58c60a31548d7243644f404c506b44e6771b630092c29783f72",
+    "projection.py": "99eb139094a34f24fb65894d6a037c183763641103eb52bb70badbf0dca72002",
+    "release.py": "10ced7245bc58085f4ef7006714af0ef5538a17e737d66acecdd11929f427f86",
+    "scan-stage.mjs": "babaec86e121ca6ae8c9609552ea45074a267826ab41913025c31581cafc6670",
+    "stage.py": "71902e53a30d7f0c9dc9191ec5fa6771a04bca76ac2cd9ca613f9616493253a9",
+    "test_release.py": "7cc658f6714ac30ff18d946d8c5a76e74a2b4bdada916302ea58daabd6d4bb1d"
+  },
+  "quality_actual_full_suite_pass_count_reported_by_Root": 1023,
+  "quality_receipt": {
+    "path": "tracking/evidence/m07/completion-release/2026-11-03T03-13-27.120Z-bb8a01ed-mcp-logo-root-quality.json",
+    "sha256": "3e5029c23cf3ccb95bd6e17bc9cbadea76deda3f176b8d5eb3fb5d12a720e9e5"
+  },
+  "quality_result": "passed",
+  "quality_source_heads_equal_verified": true,
+  "run_id": "cfd646be-5d85-4ff3-95f2-15259aa94afd",
+  "schema_version": 1,
+  "scope": "Source, offline quality and retained stage admission only; no build or deployment result asserted.",
+  "selected_product_delta_from_G14": [
+    "apps/web/lib/logo-error-log.ts",
+    "apps/web/lib/mcp-error-text.ts"
+  ],
+  "selected_source_commit": "e259b81cd96e49e95004d9847384773f544c3d62",
+  "source_seals_match_stage_receipt": true,
+  "stage_archive_source": true,
+  "stage_cloud_mutation": false,
+  "stage_entries": 313,
+  "stage_observed_at": "2026-11-03T03:20:39.605396+00:00",
+  "stage_private_scan": {
+    "private_hits": 0,
+    "private_input_families": 14,
+    "private_input_files": 10,
+    "private_inputs_stable": true
+  },
+  "stage_receipt": {
+    "path": "tracking/evidence/m07/mcp-logo-text-web-forward-release/source-cfd646be-5d85-4ff3-95f2-15259aa94afd.json",
+    "sha256": "f45dbd145e92b44efbf4ae345bae9fc05683403b3a3caaebab57a6b441ab2c68"
+  },
+  "stage_result": "passed",
+  "stage_source_manifest_sha256": "f8521eb97165f66ebb0c2e6096849fd6fa211182c2a9808187c5f98521753999",
+  "stage_source_stable": true
+}
