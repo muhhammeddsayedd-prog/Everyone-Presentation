@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-11-03T04:33:36.460540+00:00",
+  "scope": "source/parser/fakeSQL/defaultoff only",
+  "source_seals": {
+    "development/m07/logo-info-collector-alias-proof/compiler.py": "d8ca38da435b20371aef254529d942b8e9727045e29dc7570d66c7e1e34b94b7",
+    "development/m07/logo-info-collector-alias-proof/entry.mjs": "1e62b06bb6013cbe878b0e8304042aa630419a575cbf48e10505653553f7a68c",
+    "development/m07/logo-info-collector-alias-proof/local.py": "3327262ac378a71ba38a3ab4fa84eeb077c1a65a70dacd1316d23bca1c92fafb",
+    "development/m07/logo-info-collector-alias-proof/README.md": "4f15c1ad0d4eca3c0537b811c23b6e12aaa83f2452e29c5cb9a33c4eef2b3333",
+    "development/m07/logo-info-collector-alias-proof/test_alias.py": "0632624f95014e49a87fc8c1d47df0aae4dca3965e7249266308b1ffd2b0b6d3"
+  },
+  "checks": {
+    "tests": 4,
+    "passed": 4,
+    "failed": 0,
+    "seconds": 6.409,
+    "exit_code": 0,
+    "all3generatedNodechecks": 0,
+    "all3inverses": true,
+    "actual8setup_fakeSQL_and_schema_resource_regression": true,
+    "fixed_canonical_collector_exact_except_owned_count_scalar": true,
+    "same_dispatch_bytecode_independent_globals": true,
+    "defaultoff_before_ports": true
+  },
+  "failed84_retained": {
+    "path": "tracking/evidence/m07/logo-info-collector-proof/resource-successor/2026-11-03T04-16-01.656Z-84d79b2c.json",
+    "sha256": "5f34005d1e7418997e1623af65450df168877a8eb812c3244f0a886b0c246911",
+    "native_error": "column p.oid does not exist",
+    "actual_numeric_SQLSTATE_retained": false,
+    "no_bridge_or_nonce_reached": true
+  },
+  "execution_enabled": false,
+  "SQL_or_Docker_executed": false,
+  "cloud_or_provider_called": false
+}
