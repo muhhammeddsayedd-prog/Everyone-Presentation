@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-11-03T04:27:40.870252+00:00",
+  "scope": "source/parser/inherited-real-checker only",
+  "source_seals": {
+    "development/m07/logo-info-canonical-alias-release/README.md": "b9018a74912108549209970347c910a995e7a7da16ed82403d9c34c25b4a765e",
+    "development/m07/logo-info-canonical-alias-release/release.py": "87b3fee596b378971416185bffa75705d1108ce48d58e503bf4358e3cd228521",
+    "development/m07/logo-info-canonical-alias-release/state.py": "9fdb81c5816536438cf1489db3c782c02c6edec21b1bebdf84d3809a9f0a3133",
+    "development/m07/logo-info-canonical-alias-release/test_alias.py": "59d54daf135efcd9ab782d58c953dbb1ba3e2b6ec45a68d75fd2f7f2251890ef"
+  },
+  "checks": {
+    "tests": 9,
+    "passed": 9,
+    "failed": 0,
+    "seconds": 2.131,
+    "exit_code": 0,
+    "actual14row_site_inverse": true,
+    "pg_policies_without_oid_old_bad_scope_new_no_typed_oid": true,
+    "typed_pg_proc_source_guard_unchanged": true,
+    "inherited_full_reason_catalogue_authority_history_checks": true,
+    "same_phase_bytecode_independent_globals": true,
+    "fresh_namespace_default_off": true
+  },
+  "native_failure": {
+    "run": "84d79b2c-d3cd-46e4-bd96-a04e2c0d75c6",
+    "actual_error": "column p.oid does not exist",
+    "actual_numeric_SQLSTATE_retained": false,
+    "cause": "row alias pg_policies lacks oid",
+    "old_sources_claims_unchanged": true
+  },
+  "READ_ENABLED": false,
+  "APPLY_ENABLED": false,
+  "migration_4af699ab_unchanged": true,
+  "actual_new_collector_or_SQL_executed": false,
+  "cloud_called": false,
+  "provider_called": false
+}
