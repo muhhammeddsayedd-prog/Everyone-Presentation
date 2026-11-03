@@ -1,0 +1,31 @@
+{
+  "schema_version": "root-final42-forward-release-decision.v1",
+  "recorded_at": "2026-11-03T13:39:25.444971+00:00",
+  "authorization": "user explicitly authorized exact Main production deployment; continue unaffected compatible work",
+  "selected_Main_source": "06c85d9d2ca88ca7bf1ff96faefc27af1b32fce8",
+  "all_selected_product_and_testable_roots_equal_current_Main": true,
+  "same_serving_application_manifest": "f8521eb97165f66ebb0c2e6096849fd6fa211182c2a9808187c5f98521753999",
+  "quality_tests_passed": 1023,
+  "typecheck_lint_production_guard_and_build_passed": true,
+  "canonical_history": 42,
+  "canonical_normal_apply_and_Root_preservation_audit_passed": true,
+  "owner_report": {
+    "source": "owner-pasted Claude result",
+    "connection_tools_unavailable": true,
+    "Studio_reads": 0,
+    "Studio_writes": 0,
+    "generation_attempts": 0,
+    "request_IDs_or_server_error_code": null,
+    "Selection_attempt_unspent": true,
+    "reconnection_or_new_grants_performed_by_Root": false
+  },
+  "decision": "continue authorized compatible exact-Main web release after fresh canonical idle and worker preflight; keep delegated and full acceptance open",
+  "does_not_waive_delegated_acceptance": true,
+  "AT069_rejected_action_replayed_or_substituted": false,
+  "consumed_source_or_claim_mutated": false,
+  "full_M07_verified": false,
+  "build_receipt": {
+    "path": "tracking/evidence/m07/final-canonical42-web-forward-release/2026-11-03T13-36-29-452109Z-38c4f9c2-2476-46df-a401-12e2c635b815-build.json",
+    "sha256": "b579dc312a68d51f44b154bac5f2150d8acc0aecd5e9eccf8b7ae678bdc23a07"
+  }
+}

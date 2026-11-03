@@ -1,0 +1,41 @@
+{
+  "schema_version": "root-final-canonical42-web-stage-plan.v1",
+  "recorded_at": "2026-11-03T13:30:42.523827+00:00",
+  "run_id": "38c4f9c2-2476-46df-a401-12e2c635b815",
+  "source_commit": "06c85d9d2ca88ca7bf1ff96faefc27af1b32fce8",
+  "quality": {
+    "path": "tracking/evidence/m07/completion-release/2026-11-03T13-26-03.778Z-c88a48ed-final-canonical42-root-quality.json",
+    "sha256": "77bf3304e913e9fac01e39c0b6a1b538925090bd2f3e6fc72b85a93a0ef26eff"
+  },
+  "canonical42": {
+    "ref": {
+      "path": "tracking/evidence/m07/presentation-generation-compact-release/2026-11-03T13-18-27-651163Z-apply.json",
+      "sha256": "43ad177660d5951e32d9549394cac6265ae8c97014861585d25535724c220301"
+    },
+    "proof": {
+      "path": "tracking/evidence/m07/presentation-generation-compact-collector-proof/2026-11-03T13-08-43.574Z-144d063a.json",
+      "sha256": "ef98a232507f809a80faaa82f0942d445f8bc2468d7364168a94eedc6aa8e446"
+    },
+    "checkpoint": {
+      "path": ".local/presentation-generation-compact-release/2244e718-fe3a-415f-b85a-b5cbfad5cb99/after-checkpoint.json",
+      "sha256": "69a70cc1074640742436869c0570d48264d4025c7a8862195a813cbe30b55ad7",
+      "history_path": [
+        "state",
+        "history",
+        "versions"
+      ],
+      "tables": 76,
+      "scope": "after_apply",
+      "restore_verified": false
+    }
+  },
+  "single_flag_only": true,
+  "entry_closed_sha256": "a90bcdb05dad57e6c857322b8e442ced54af5901d5e6e7f9403dbcb8182f7234",
+  "entry_armed_sha256": "4afe7c1a6375eb7fe9e8132213c21fe3cd8b2a6ed54c48004b8e71918d7046cd",
+  "source_only_peer_reviews": 2,
+  "Root_affected_offline_checks": 6,
+  "stage_or_provider_dispatched": false,
+  "existing_Claude_task_connection_unavailable_owner_restoration_pending": true,
+  "generation_attempt_unspent_owner_reported": true,
+  "dispatch_or_full_release_acceptance_claimed": false
+}

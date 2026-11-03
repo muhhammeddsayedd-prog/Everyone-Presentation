@@ -1,0 +1,50 @@
+{
+  "schema_version": "final42-support-checks.v1",
+  "observed_at": "2026-11-03T13:37:09.072015+00:00",
+  "result": "passed",
+  "selected_source_commit": "06c85d9d2ca88ca7bf1ff96faefc27af1b32fce8",
+  "dependency_audits": [
+    {
+      "scope": "production",
+      "normal_exit": 0,
+      "counts": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 0
+      }
+    },
+    {
+      "scope": "all",
+      "normal_exit": 1,
+      "counts": {
+        "info": 0,
+        "low": 0,
+        "moderate": 12,
+        "high": 0,
+        "critical": 0,
+        "total": 12
+      }
+    }
+  ],
+  "package_lock_unchanged": true,
+  "automatic_fix_or_install": false,
+  "first_read_only_audit_output_save_failed_unsupported_bytes_empty_file_retained": true,
+  "project_skills": {
+    "observed_at": "2026-11-03T13:34:52.982341+00:00",
+    "status": "PASS",
+    "canonical_skills": 53,
+    "source_files": 550,
+    "installed_files": 550,
+    "adapted_files": 71,
+    "source_tree_sha256": "2d44fb85e09505e8bb55780f7158cb7efc115c3947e6661e0b60c70a5d0594c0",
+    "local_markdown_links_checked": 436,
+    "errors": 0,
+    "warnings": 0,
+    "scope": "static installation integrity; no skill runtime or provider acceptance"
+  },
+  "raw_audit_logs_private": true,
+  "build_deployment_or_owner_acceptance_claimed": false
+}
