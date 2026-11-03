@@ -1,0 +1,255 @@
+{
+  "schema_version": 1,
+  "run_id": "f540866b-2c78-4b8d-acef-79e815ce7c63",
+  "diagnostic_result": "passed",
+  "normal_process_exit": 0,
+  "normal_process_exit_source": "Root_actual_execution_report",
+  "elapsed_ms": 68688,
+  "actual_receipt": {
+    "path": "tracking/evidence/m07/presentation-generation-english-stage-diagnostic/2026-11-03T07-03-51.590Z-f540866b.json",
+    "sha256": "2aaed820518499fabdf2f81bec41fe032e57f36e213326e05ea05a17814d4242",
+    "observed_at": "2026-11-03T07:03:51.590Z"
+  },
+  "source_seal_count": 203,
+  "application_result": {
+    "ok": false,
+    "code": "57014",
+    "operation": "generate",
+    "duration_ms": 8000.24
+  },
+  "client_elapsed_ms": 8006.145699999994,
+  "normal_SQL_return": true,
+  "rolled_back": true,
+  "current_closed_cancellation": {
+    "sqlstate": "57014",
+    "message_class": "statement_timeout",
+    "private_custody": {
+      "normal_return": true,
+      "private_file": "query-canceled-private.json",
+      "sha256": "0f4ef0dbc06e660e0444512c830958d04cd54d81cd4ce126d7f4b4353f90836b"
+    },
+    "context_empty": false,
+    "allowlisted_frames": [
+      {
+        "language": "plpgsql",
+        "function": "eps.mcp_token_permits_capability",
+        "line": 4
+      },
+      {
+        "language": "sql",
+        "function": "has_capability",
+        "statement": 1
+      },
+      {
+        "language": "sql",
+        "function": "presentation_scope",
+        "statement": 1
+      },
+      {
+        "language": "plpgsql",
+        "function": "eps.capture_presentation_video_english_transcripts",
+        "line": 12
+      },
+      {
+        "language": "plpgsql",
+        "function": "eps.capture_presentation_video_transcripts",
+        "line": 55
+      },
+      {
+        "language": "plpgsql",
+        "function": "public.eps_generate_version",
+        "line": 64
+      },
+      {
+        "language": "plpgsql",
+        "function": "pg_temp.locksource41_measure",
+        "line": 6
+      }
+    ],
+    "unknown_frame_count": 1,
+    "stack_frame_count": 8,
+    "frame_projection_truncated": false,
+    "stage": "english_companion_capture",
+    "candidate_body_sha256": "b3bc105e6fb7d14194b04db6dbb5e8bbaad8bad9fe237d276cbde751c112b2a3"
+  },
+  "current_fixed_phase_projection": {
+    "private_custody": {
+      "private_file": "phase-markers-private.json",
+      "sha256": "2ba09fd866d04bf20e3bc8beb536ef9fab2945ddcd59059a3ebb2171c7421595",
+      "normal_return": true
+    },
+    "stage_trace_confirmed": true,
+    "events": [
+      {
+        "stage": "measure_enter",
+        "elapsed_ms": 0
+      },
+      {
+        "stage": "gen_enter",
+        "elapsed_ms": 4.462003707885742
+      },
+      {
+        "stage": "gen_sources_enter",
+        "elapsed_ms": 164.7779941558838
+      },
+      {
+        "stage": "gen_sources_exit",
+        "elapsed_ms": 2062.129020690918
+      },
+      {
+        "stage": "gen_review_enter",
+        "elapsed_ms": 2066.474199295044
+      },
+      {
+        "stage": "data_enter",
+        "elapsed_ms": 2094.473123550415
+      },
+      {
+        "stage": "data_assignments_enter",
+        "elapsed_ms": 2287.4791622161865
+      },
+      {
+        "stage": "data_assignments_exit",
+        "elapsed_ms": 2607.316017150879
+      },
+      {
+        "stage": "data_return",
+        "elapsed_ms": 5330.667972564697
+      },
+      {
+        "stage": "gen_review_exit",
+        "elapsed_ms": 5377.8791427612305
+      },
+      {
+        "stage": "gen_capture_enter",
+        "elapsed_ms": 6750.241041183472
+      },
+      {
+        "stage": "measure_cancel",
+        "elapsed_ms": 7999.4261264801025
+      }
+    ],
+    "paired_diagnostic_intervals": {
+      "source_locking": {
+        "completed": true,
+        "duration_ms": 1897.3510265350342
+      },
+      "public_review": {
+        "completed": true,
+        "duration_ms": 3311.4049434661865
+      },
+      "review_DATA": {
+        "completed": true,
+        "duration_ms": 3236.194849014282
+      },
+      "assignment_enumeration": {
+        "completed": true,
+        "duration_ms": 319.8368549346924
+      },
+      "source_companions": {
+        "completed": false,
+        "duration_ms": null
+      }
+    },
+    "terminal": "measure_cancel",
+    "whole_notice_span_ms": 7999.4261264801025,
+    "instrumentation_overhead_included": true,
+    "performance_acceptance": false
+  },
+  "normal_business_four_descriptors": [
+    {
+      "name": "eps.review_snapshot_data",
+      "current_candidate_body_sha256": "0dba1d407199191d3bbb4d84ddab94d9f4e33da6a0172738b86133e8c7bf61fd"
+    },
+    {
+      "name": "eps.review_snapshot",
+      "current_candidate_body_sha256": "c6f93795e1926bcbb2e550b428f2e76a9ffe04dc29199e799c3d3a0e7b73cd10"
+    },
+    {
+      "name": "public.eps_generate_version",
+      "current_candidate_body_sha256": "41fe515f53fdc411b7fc2485c402d9d06241f8e23b7224aaaea3d5330544bf7d"
+    },
+    {
+      "name": "eps.capture_presentation_video_transcripts",
+      "current_candidate_body_sha256": "f2229b303a83d7c9ca053e3c0f7e65ec3472b0cbe3b624aad4ff1a1e4af1c4d5"
+    }
+  ],
+  "separate_uninstrumented_English_body_sha256": "b763cd502ed70c49f7d9d07106397bd6c774a6c00d87322f7e0954f25f1ac4ad",
+  "actual_instrumented_candidate_installation": {
+    "index": 1,
+    "normal_return": true,
+    "expected_and_actual_pg_proc_sources_equal": [
+      {
+        "name": "eps.review_snapshot_data",
+        "source": "234cec65947a522b488c679cdc3eed9fec662394f80998626f31fba2d90dc72c"
+      },
+      {
+        "name": "eps.review_snapshot",
+        "source": "c6f93795e1926bcbb2e550b428f2e76a9ffe04dc29199e799c3d3a0e7b73cd10"
+      },
+      {
+        "name": "public.eps_generate_version",
+        "source": "b3bc105e6fb7d14194b04db6dbb5e8bbaad8bad9fe237d276cbde751c112b2a3"
+      },
+      {
+        "name": "eps.capture_presentation_video_transcripts",
+        "source": "f2229b303a83d7c9ca053e3c0f7e65ec3472b0cbe3b624aad4ff1a1e4af1c4d5"
+      },
+      {
+        "name": "eps.capture_presentation_video_english_transcripts",
+        "source": "b763cd502ed70c49f7d9d07106397bd6c774a6c00d87322f7e0954f25f1ac4ad"
+      }
+    ],
+    "all_five_full_authority_records_equal_initial_canonical": true
+  },
+  "final_canonical_restoration_installation": {
+    "index": 2,
+    "normal_return": true,
+    "expected_and_actual_pg_proc_sources_equal": [
+      {
+        "name": "eps.review_snapshot_data",
+        "source": "4d46151993a60d8c6ac9d36e48781fee34c12c3e1dede727ac1ed4d31a953ab7"
+      },
+      {
+        "name": "eps.review_snapshot",
+        "source": "f0815e014144f1345b4679d96114aab6b358d95df317e3cfe6ac6b59989813cb"
+      },
+      {
+        "name": "public.eps_generate_version",
+        "source": "b20fef7adc8dee0da91db1508b30d4116855bb3e9be9e881072a7e8d55fcee08"
+      },
+      {
+        "name": "eps.capture_presentation_video_transcripts",
+        "source": "ed4a3469971fa410078b546b13aa0a875b4867efdda4b134dc729563dd887187"
+      },
+      {
+        "name": "eps.capture_presentation_video_english_transcripts",
+        "source": "c68de52a4ede0ec6401aa05e0f40b5932905dd8dc8c1c72149c9f95c51a23aeb"
+      }
+    ],
+    "all_five_full_authority_records_equal_initial_canonical": true
+  },
+  "raw_pre_English_INSERT_fence_and_count_completed": true,
+  "English_rows_or_INSERT_count_observed": false,
+  "interrupted_statement_not_dominant_cost_proof": true,
+  "nested_intervals_are_not_additive": true,
+  "English_and_whole_generation_return_unreached": true,
+  "previous_c20_current_stage_remains_unknown": true,
+  "original4107_canonical_five_config_and_full_clone_restored": true,
+  "outer_original_preservation_and_cleanup": {
+    "all_owned_resources_absent": true,
+    "original_data_catalogue_and_global_roles_unchanged": true,
+    "shared_lock_released": true,
+    "independent_successful_daemon_label_inventories_empty": true
+  },
+  "Root_independent_audit": {
+    "path": "tracking/evidence/m07/presentation-generation-english-stage-diagnostic/Root-f540866b-postrun-audit.json",
+    "sha256": "66c9e7315d4aef6216ba7719cb7e3385b6c44b46cf1fd62a20c29701fb137099",
+    "result": "passed_diagnostic_audit"
+  },
+  "entry_closed_by_Root_sha256": "1c7e89c1800165832c8e20896ff1cbe60777d12c2041012b4abe661bfd5bef3c",
+  "all_matrix_semantic_lock_pin_raw_English_state_and_authority_proofs_still_required": true,
+  "performance_semantic_security_or_production_acceptance": false,
+  "automatic_retry": false,
+  "new_SQL_provider_or_cleanup_dispatched_by_Recovery": false
+}
