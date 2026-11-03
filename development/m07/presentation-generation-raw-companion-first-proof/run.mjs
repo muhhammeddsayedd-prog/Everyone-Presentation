@@ -27,13 +27,13 @@ export function closedResult(rows){
  assert(r&&typeof r==='object'&&!Array.isArray(r),'FIRST_CALL_RESULT_SHAPE_REQUIRED');
  const allowed=new Set(['ok','code','operation','duration_ms','role','job_id','resource_id','status']);assert(Object.keys(r).every(k=>allowed.has(k)),'FIRST_CALL_CLOSED_FIELDS_REQUIRED');
  assert(typeof r.ok==='boolean'&&Number.isFinite(r.duration_ms)&&r.duration_ms>=0,'FIRST_CALL_RESULT_SCALARS_REQUIRED');
- if(r.ok){assert.equal(r.role,'authenticated');assert.equal(r.status,'queued');for(const k of['job_id','resource_id'])assert(typeof r[k]==='string'&&/^[a-f0-9]{8}-(?:[a-f0-9]{4}-){3}[a-f0-9]{12}$/u.test(r[k]),'FIRST_CALL_GENERATED_UUID_REQUIRED');}
- else{assert(typeof r.code==='string'&&/^(?:57014|55P03|42501|CAPABILITY_REQUIRED|RESOURCE_NOT_FOUND|AUTH_REQUIRED|INPUT_CHANGED|STALE_RESOURCE_VERSION|LAYOUT_NOT_READY|SNAPSHOT_INVALID|ASSET_UNAVAILABLE|PRESENTATION_PROCESSING_UNAVAILABLE|PERMISSION_CHANGED)$/u.test(r.code),'FIRST_CALL_CLOSED_CODE_REQUIRED');assert.equal(r.operation,'generate');}
- return{...r};
+ if(r.ok){assert.deepEqual(Object.keys(r).sort(),['duration_ms','job_id','ok','resource_id','role','status'],'FIRST_CALL_SUCCESS_KEYS_REQUIRED');assert.equal(r.role,'authenticated');assert.equal(r.status,'queued');for(const k of['job_id','resource_id'])assert(typeof r[k]==='string'&&/^[a-f0-9]{8}-(?:[a-f0-9]{4}-){3}[a-f0-9]{12}$/u.test(r[k]),'FIRST_CALL_GENERATED_UUID_REQUIRED');}
+ else{assert.deepEqual(Object.keys(r).sort(),['code','duration_ms','ok','operation'],'FIRST_CALL_FAILURE_KEYS_REQUIRED');assert(typeof r.code==='string'&&/^(?:57014|55P03|42501|CAPABILITY_REQUIRED|RESOURCE_NOT_FOUND|AUTH_REQUIRED|INPUT_CHANGED|STALE_RESOURCE_VERSION|LAYOUT_NOT_READY|SNAPSHOT_INVALID|ASSET_UNAVAILABLE|PRESENTATION_PROCESSING_UNAVAILABLE|PERMISSION_CHANGED)$/u.test(r.code),'FIRST_CALL_CLOSED_CODE_REQUIRED');assert.equal(r.operation,'generate');}
+ return r.ok?{ok:true,duration_ms:r.duration_ms,role:r.role,job_id:r.job_id,resource_id:r.resource_id,status:r.status}:{ok:false,code:r.code,operation:r.operation,duration_ms:r.duration_ms};
 }
 export async function runDiagnostic(ctx){
  const record=ctx.report.generation_first_call.call={profile:'large',mode:'mcp',first_application_call_in_fresh_backend:true,application_calls_before_dispatch:0,normal_SQL_return:false,rolled_back:false,instrumentation_cost_present:false,performance_acceptance:false};
- const p=ctx.profiles.large,s=await ctx.startFreshGeneration('raw_first_mcp_large');record.pid=s.pid;let primary,cleanupError;
+ const p=ctx.profiles.large,s=await ctx.startFreshGeneration('raw_mcp_large');record.pid=s.pid;let primary,cleanupError;
  try{
   ctx.report.checkpoint='raw-first-single-candidate-mcp-large';await s.request('begin;'+ctx.acting('mcp','authenticated')+"set local statement_timeout='8s';set local lock_timeout='8s';");
   const started=performance.now();let rows;

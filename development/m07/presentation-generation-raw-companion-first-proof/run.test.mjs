@@ -1,19 +1,28 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import {readFile}from 'node:fs/promises';
+import {URL}from 'node:url';
 import {decodedRow}from '../presentation-lock-source-proof/session.mjs';
 import {closedResult,runDiagnostic}from './run.mjs';
 
 const failure={ok:false,code:'57014',operation:'generate',duration_ms:8000.1};
+const actualSession=await readFile(new URL('../presentation-generation-stage-diagnostic/session.mjs',import.meta.url),'utf8');
+const tagContract=actualSession.match(/assert\(\/(\^\[a-z_\]\{1,[0-9]+\}\$)\/u\.test\(tag\)\);/u);assert(tagContract,'ACTUAL_SESSION_TAG_REGEX_REQUIRED');
+const tagPattern=new RegExp(tagContract[1],'u');
+test('sender fake uses actual frozen session regex and rejects former overlong tag',()=>{assert.equal(tagPattern.test('raw_first_mcp_large'),false);assert.equal(tagPattern.test('raw_mcp_large'),true);});
 test('actual frozen decodedRow is flat JSON, not a DataAPI column wrapper',()=>{
  const flat=decodedRow(JSON.stringify(failure));assert.deepEqual(closedResult([flat]),failure);
  assert.throws(()=>closedResult([{locksource41_measure:flat}]));
  assert.throws(()=>closedResult([{...flat,private_text:'private-canary'}]));
+ assert.throws(()=>closedResult([{...flat,role:'PRIVATE_CANARY'}]));
+ const success={ok:true,duration_ms:123,role:'authenticated',status:'queued',job_id:'00000000-0000-4000-8000-000000000001',resource_id:'00000000-0000-4000-8000-000000000002'};
+ assert.throws(()=>closedResult([{...success,code:'PRIVATE_CANARY',operation:'PRIVATE_CANARY'}]));
 });
 function fixture(ok=false){
  const calls=[],baseline={fixture:true};
  const result=ok?{ok:true,duration_ms:123,role:'authenticated',status:'queued',job_id:'00000000-0000-4000-8000-000000000001',resource_id:'00000000-0000-4000-8000-000000000002'}:failure;
  const s={pid:42,done:Promise.resolve(0),request:async sql=>{calls.push(sql);return sql.startsWith('select pg_temp.locksource41_measure')?[decodedRow(JSON.stringify(result))]:[];},finish:async()=>{calls.push('finish');}};
- const ctx={report:{generation_first_call:{}},profiles:{large:{workspace:'00000000-0000-4000-8000-000000000003',series:'00000000-0000-4000-8000-000000000004',meta:{input:{}}}},acting:()=>"set local role authenticated;",runId:'00000000-0000-4000-8000-000000000005',baseline,startFreshGeneration:async()=>s,captureError:async()=>({private_file:'error.json',normal_return:true}),value:async()=>baseline};
+ const ctx={report:{generation_first_call:{}},profiles:{large:{workspace:'00000000-0000-4000-8000-000000000003',series:'00000000-0000-4000-8000-000000000004',meta:{input:{}}}},acting:()=>"set local role authenticated;",runId:'00000000-0000-4000-8000-000000000005',baseline,startFreshGeneration:async tag=>{assert(tagPattern.test(tag),'ACTUAL_SESSION_TAG_CONTRACT_REQUIRED');return s;},captureError:async()=>({private_file:'error.json',normal_return:true}),value:async()=>baseline};
  return{ctx,calls,s};
 }
 test('one normal cancellation is recorded then rollback/close/baseline, no warm or acceptance',async()=>{
