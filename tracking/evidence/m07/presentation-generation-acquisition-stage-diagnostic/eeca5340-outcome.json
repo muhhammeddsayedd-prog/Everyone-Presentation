@@ -1,0 +1,228 @@
+{
+  "schema_version": 1,
+  "run_id": "eeca5340-168f-4e86-81ba-58a96fa1a894",
+  "compile_uuid": "76d49cd3-d83f-4080-9d1a-1de801a61bf1",
+  "normal_process_exit": 0,
+  "shell_session_id": 20984,
+  "result": "diagnostic_passed_application_failed",
+  "elapsed_ms": 67820,
+  "actual_receipt": {
+    "path": "tracking/evidence/m07/presentation-generation-acquisition-stage-diagnostic/2026-11-03T04-23-30.017Z-eeca5340.json",
+    "sha256": "2f7bedb57007c0d54aadaffec2fbcd4cd0d94aa76d6604369c105d38876cb9f0",
+    "observed_at": "2026-11-03T04:23:30.017Z"
+  },
+  "actual_source_seal_count": 161,
+  "first_call": {
+    "profile": "large",
+    "mode": "mcp",
+    "first_application_call_in_fresh_backend": true,
+    "application_calls_before_dispatch": 0,
+    "normal_SQL_return": true,
+    "rolled_back": true,
+    "sql_client_elapsed_ms": 8002.680999999997,
+    "full_fresh_baseline_restored": true,
+    "diagnostic_status": "cancellation_observed_private_context_preserved"
+  },
+  "application_result": {
+    "ok": false,
+    "code": "57014",
+    "operation": "generate",
+    "duration_ms": 7998.573
+  },
+  "closed_current_cancellation": {
+    "sqlstate": "57014",
+    "message_class": "statement_timeout",
+    "private_custody": {
+      "normal_return": true,
+      "private_file": "query-canceled-private.json",
+      "sha256": "4d428ef7364f9efa3ce60db7ff31ceaae6d031a8cbe6bdf16a0ebdb3fb741fb8"
+    },
+    "context_empty": false,
+    "allowlisted_frames": [
+      {
+        "language": "plpgsql",
+        "function": "eps.mcp_token_permits_capability",
+        "line": 4
+      },
+      {
+        "language": "sql",
+        "function": "has_capability",
+        "statement": 1
+      },
+      {
+        "language": "sql",
+        "function": "project_scope",
+        "statement": 1
+      },
+      {
+        "language": "sql",
+        "function": "presentation_scope",
+        "statement": 1
+      },
+      {
+        "language": "plpgsql",
+        "function": "public.eps_generate_version",
+        "line": 61
+      },
+      {
+        "language": "plpgsql",
+        "function": "pg_temp.locksource41_measure",
+        "line": 6
+      }
+    ],
+    "unknown_frame_count": 1,
+    "stack_frame_count": 7,
+    "frame_projection_truncated": false,
+    "stage": "asset_pins",
+    "candidate_body_sha256": "e027442ba36b260fb573316e41cf6e8839baf42fe08d10277d8455cb7caaa6c7"
+  },
+  "fixed_phase_trace": {
+    "private_custody": {
+      "private_file": "phase-markers-private.json",
+      "sha256": "96dacc61ee6fe67514a2d77ccb6d28b8f13e65c1019c820fe23c69146a7de799",
+      "normal_return": true
+    },
+    "stage_trace_confirmed": true,
+    "events": [
+      {
+        "stage": "measure_enter",
+        "elapsed_ms": 0
+      },
+      {
+        "stage": "gen_enter",
+        "elapsed_ms": 7.5969696044921875
+      },
+      {
+        "stage": "gen_sources_enter",
+        "elapsed_ms": 153.1839370727539
+      },
+      {
+        "stage": "gen_sources_exit",
+        "elapsed_ms": 1884.5758438110352
+      },
+      {
+        "stage": "gen_review_enter",
+        "elapsed_ms": 1888.7178897857666
+      },
+      {
+        "stage": "data_enter",
+        "elapsed_ms": 1911.5090370178223
+      },
+      {
+        "stage": "data_assignments_enter",
+        "elapsed_ms": 2119.1799640655518
+      },
+      {
+        "stage": "data_assignments_exit",
+        "elapsed_ms": 2539.517879486084
+      },
+      {
+        "stage": "data_return",
+        "elapsed_ms": 5315.099000930786
+      },
+      {
+        "stage": "gen_review_exit",
+        "elapsed_ms": 5354.315996170044
+      },
+      {
+        "stage": "measure_cancel",
+        "elapsed_ms": 7997.4939823150635
+      }
+    ],
+    "paired_diagnostic_intervals": {
+      "source_locking": {
+        "completed": true,
+        "duration_ms": 1731.3919067382812
+      },
+      "public_review": {
+        "completed": true,
+        "duration_ms": 3465.5981063842773
+      },
+      "review_DATA": {
+        "completed": true,
+        "duration_ms": 3403.589963912964
+      },
+      "assignment_enumeration": {
+        "completed": true,
+        "duration_ms": 420.3379154205322
+      },
+      "source_companions": {
+        "completed": false,
+        "duration_ms": null
+      }
+    },
+    "terminal": "measure_cancel",
+    "whole_notice_span_ms": 7997.4939823150635,
+    "instrumentation_overhead_included": true,
+    "performance_acceptance": false
+  },
+  "interval_interpretation": {
+    "instrumentation_overhead_included": true,
+    "nested_intervals_additive": false,
+    "review_DATA_marker_precedes_final_JSON_expression": true,
+    "individual_pin_statement_or_function_CPU_cost_measured": false,
+    "no_companion_entry_observed": true,
+    "prior_d958_context_or_cost_attributed_to_a820": false
+  },
+  "private_custody_readback": [
+    {
+      "private_file": "query-canceled-private.json",
+      "actual_bytes": 1194,
+      "actual_sha256": "4d428ef7364f9efa3ce60db7ff31ceaae6d031a8cbe6bdf16a0ebdb3fb741fb8",
+      "public_custody_hash_equal": true,
+      "regular_single_link": true,
+      "SQLSTATE57014_and_statement_timeout_message_verified_privately": true,
+      "context_nonempty": true
+    },
+    {
+      "private_file": "phase-markers-private.json",
+      "actual_bytes": 860,
+      "actual_sha256": "96dacc61ee6fe67514a2d77ccb6d28b8f13e65c1019c820fe23c69146a7de799",
+      "public_custody_hash_equal": true,
+      "regular_single_link": true,
+      "after_normal_close": true,
+      "child_exit": 0,
+      "bounded_stderr": true,
+      "event_count": 11,
+      "invalid_owned_marker_count": 0,
+      "foreign_marker_count": 0,
+      "fixed_event_labels_equal_public_trace": true
+    }
+  ],
+  "actual_ACL_readback": {
+    "protected_private_directory": true,
+    "directory_rule_count": 2,
+    "files_each_inherit_exactly_two_rules": true,
+    "only_SYSTEM_and_current_user_Allow_FullControl": true,
+    "ACLs_changed": false
+  },
+  "completed_restoration": {
+    "candidate_aa1_four_body_identity_verified": true,
+    "original4107_and_four_old_bodies_restored": true,
+    "original_config_and_full_baseline_restored": true,
+    "a820_performance_failure_remains_open": true
+  },
+  "outer_original_target_preservation_and_cleanup": {
+    "all_owned_resources_absent": true,
+    "original_data_catalogue_and_global_roles_unchanged": true,
+    "shared_lock_released": true,
+    "independent_successful_daemon_label_inventories_empty": true
+  },
+  "independent_postreturn_observation": {
+    "engine": "npipe:////./pipe/dockerDesktopLinuxEngine",
+    "exact_label": "eps.acqstage.run=eeca5340-168f-4e86-81ba-58a96fa1a894",
+    "container_inventory_exit": 0,
+    "container_stdout_and_stderr_empty": true,
+    "volume_inventory_exit": 0,
+    "volume_stdout_and_stderr_empty": true,
+    "fresh_shared_lock_exists": false,
+    "permanent_compile_claim_retained": true,
+    "CPU_and_shared_local_slot_released": true
+  },
+  "new_helper_full_matrix_semantic_lock_and_security_acceptance": false,
+  "a820_remaining_seven_and_all_later_acceptance_still_unproven": true,
+  "provider_or_production_called": false,
+  "automatic_retry": false,
+  "new_optimization_or_performance_acceptance": false,
+  "entry_closure": "Root_owned_not_changed_by_Recovery"
+}
