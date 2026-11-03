@@ -29,7 +29,7 @@ class CandidateTests(unittest.TestCase):
   text=c.proof(RUN);statements=parse_sql(text)
   self.assertEqual(type(statements[0].stmt).__name__,'TransactionStmt');self.assertEqual(type(statements[-1].stmt).__name__,'TransactionStmt')
   self.assertTrue(text.rstrip().endswith('rollback;'));self.assertEqual(text.count(c.candidate()),1)
-  for marker in('OWNED_CANONICAL40_FIXTURE_REQUIRED','eps-presentation-canonical-pg17-local','baseline-own-open-INFO-denied','own-open-INFO','reader-ready-INFO','same-project-wrong-owner-open-INFO','unrelated-ready-denied','anonymous-ready-denied','expired-open-INFO-denied','revoked-write-open-denied','revoked-read-ready-denied','revoked-membership-ready-denied','cancelled-open-denied','wrong-key','wrong-bucket','sign-denied','spoofed-operation-header-denied','verifier-storage-denied','all function metadata/OID/ACL unchanged','all original policies unchanged'):
+  for marker in('OWNED_CANONICAL40_FIXTURE_REQUIRED','eps-presentation-canonical-pg17-local','baseline-own-open-INFO-denied','own-open-INFO','reader-ready-INFO','same-project-wrong-owner-open-INFO','unrelated-ready-denied','anonymous-ready-denied','expired-open-INFO-denied','revoked-write-open-denied','revoked-project-read-ready-denied','revoked-membership-ready-denied','cancelled-open-denied','wrong-key','wrong-bucket','sign-denied','spoofed-operation-header-denied','verifier-storage-denied','all function metadata/OID/ACL unchanged','all original policies unchanged'):
    self.assertIn(marker,text)
   self.assertIn('from storage.objects o where o.bucket_id=bucket and o.name=object_key',text)
   self.assertIn('create policy logo_info_test_broad',text);self.assertIn('drop policy logo_info_test_broad',text)
@@ -38,6 +38,18 @@ class CandidateTests(unittest.TestCase):
   self.assertEqual(len(parse_plpgsql(text)),8)
   self.assertIn("'baseline-verifier-storage-denied'",text)
   self.assertEqual(text.count('helper_wanted=>true'),2)
+ def test_existing_scoped_writer_without_read_capability_is_preserved(self):
+  file=c.ROOT/'supabase/migrations/20261028010943_m01_canonical_foundation.sql';raw=file.read_bytes()
+  self.assertEqual(c.sha(raw),'8a5f3ed7727a72051e630307d2daecab8c4a74054398a6425e73bd85e17568b9')
+  policies=[n.stmt for n in parse_sql(raw.decode())if type(n.stmt).__name__=='CreatePolicyStmt'and n.stmt.policy_name=='workspaces_write']
+  self.assertEqual(len(policies),1);self.assertEqual(policies[0].cmd_name,'all')
+  original=re.search(r'create policy workspaces_write .*?;',raw.decode(),re.S)[0]
+  self.assertIn("eps.has_capability('workspaces.write')",original);self.assertIn('eps.project_scope(project_id,true)',original);self.assertNotIn('workspaces.read',original)
+  text=c.proof(RUN)
+  for marker in('read-revoked-scoped-writer-open-allowed','read-revoked-scoped-writer-ready-allowed'):
+   self.assertRegex(text,re.escape("check_row('"+marker)+r"'.*?,true\)")
+  for marker in('revoked-project-read-open-denied','revoked-project-read-ready-denied'):
+   self.assertRegex(text,re.escape("check_row('"+marker)+r"'.*?,false\)")
  def test_render_is_inert_defaultoff_and_closed_run(self):
   self.assertFalse(c.EXECUTION_ENABLED)
   tree=ast.parse((HERE/'candidate.py').read_text())

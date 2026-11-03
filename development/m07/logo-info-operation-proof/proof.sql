@@ -120,10 +120,18 @@ reset role;
 update public.app_capability_grants set active=true where principal_id=pg_temp.uid('owner')and capability='workspaces.write';
 update public.app_capability_grants set active=false where principal_id=pg_temp.uid('owner')and capability='workspaces.read';
 set local role authenticated;
-select pg_temp.check_row('revoked-read-open-denied','object.get_authenticated_info','open',false);
-select pg_temp.check_row('revoked-read-ready-denied','object.get_authenticated_info','ready',false);
+-- Existing workspaces_write is permissive FOR ALL: an active scoped writer
+-- still sees this workspace without workspaces.read. Preserve that authority.
+select pg_temp.check_row('read-revoked-scoped-writer-open-allowed','object.get_authenticated_info','open',true);
+select pg_temp.check_row('read-revoked-scoped-writer-ready-allowed','object.get_authenticated_info','ready',true);
 reset role;
 update public.app_capability_grants set active=true where principal_id=pg_temp.uid('owner')and capability='workspaces.read';
+update public.app_capability_grants set active=false where principal_id=pg_temp.uid('owner')and capability='projects.read';
+set local role authenticated;
+select pg_temp.check_row('revoked-project-read-open-denied','object.get_authenticated_info','open',false);
+select pg_temp.check_row('revoked-project-read-ready-denied','object.get_authenticated_info','ready',false);
+reset role;
+update public.app_capability_grants set active=true where principal_id=pg_temp.uid('owner')and capability='projects.read';
 update public.project_memberships set active=false where principal_id=pg_temp.uid('owner')and project_id=pg_temp.uid('project');
 set local role authenticated;
 select pg_temp.check_row('revoked-membership-open-denied','object.get_authenticated_info','open',false);

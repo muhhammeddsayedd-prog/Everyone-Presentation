@@ -64,13 +64,19 @@ candidate within the same rollback transaction, then checks helper results and
 actual RLS-filtered storage.objects SELECT results. Positive cases cover owned
 Open and authorized Ready GET/INFO, including same-project nonowner Ready.
 Negatives cover anonymous, wrong owner, reader Open, unrelated project, revoked
-write/read/membership, clock-expired/cancelled Open, wrong key/bucket, unrelated
+workspace-write/project-read/membership, clock-expired/cancelled Open, wrong key/bucket, unrelated
 operations, spoofed operation header and verifier role. It records function/table
 ACL denials distinctly from a zero-row RLS result. A temporary broad permissive
 SELECT policy proves the existing restrictive guard still prevents bypass.
 The verifier inherits authenticated: its public helper can be true for an
 authorized acting-user JWT while its independent restrictive Storage policy
 still returns zero rows. Both old-GET and new-INFO cases check that distinction.
+Existing `workspaces_write` is a permissive FOR ALL policy. A scoped writer with
+`workspaces.write` and `projects.read` still sees the workspace after revoking
+only `workspaces.read`; both Open and Ready are therefore positive in that case.
+Revoking `projects.read` closes project_scope and supplies the actual read-denial
+control. This corrects a source-discovered fixture expectation and does not
+change the candidate or any authority rule.
 
 The original policies and every pg_proc metadata field except prosrc must remain
 equal. The candidate and all synthetic fixtures roll back. The SQL's final row
@@ -91,6 +97,7 @@ separate concrete observability gap. No product change for it is included here.
 The prepared tests check the exact finite inverse, refused drift, function shape,
 actual SQL parser acceptance, case inventory and absence of execution ports.
 They do not execute SQL or claim RLS runtime results. After the timing hold was
-released, **5/5 pure checks passed** in 0.024s, and the separate PL/pgSQL parse
-accepted the candidate body and all eight bodies in the rendered proof. No
-database, Docker or provider call was made.
+released, the original **5/5 pure checks passed**. The writer-without-read
+expectation correction adds a sixth check pinned to the foundation policy's
+actual FOR ALL shape. SQL/PLpgSQL parsing includes all eight rendered bodies.
+No database, Docker or provider call was made.
