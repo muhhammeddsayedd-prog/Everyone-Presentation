@@ -24,9 +24,11 @@ f = module('final42_test_preflight', HERE / 'preflight.py')
 
 
 class Source(unittest.TestCase):
-    def test_closed_and_quality_unbound_refuse_before_operator_or_reader(self):
+    def test_closed_or_missing_selected_quality_refuse_before_operator_or_reader(self):
         self.assertIs(r.RELEASE_ENABLED, False)
-        self.assertEqual((p.TESTED, p.QUALITY, p.MIN_TESTS), (None,) * 3)
+        self.assertEqual(p.TESTED, '06c85d9d2ca88ca7bf1ff96faefc27af1b32fce8')
+        self.assertEqual(p.QUALITY['sha256'], '77bf3304e913e9fac01e39c0b6a1b538925090bd2f3e6fc72b85a93a0ef26eff')
+        self.assertEqual(p.MIN_TESTS, 1023)
         self.assertEqual(p.CONTEXT, p.MAIN / 'development/m07/presentation-generation-compact-release/state.py')
         self.assertEqual(p.sha(p.load(p.CONTEXT)), p.CONTEXT_SHA)
         self.assertEqual(p.CANONICAL42['ref']['sha256'], '43ad177660d5951e32d9549394cac6265ae8c97014861585d25535724c220301')
@@ -35,7 +37,7 @@ class Source(unittest.TestCase):
         with patch.object(r, 'legacy', side_effect=AssertionError('transport loaded')):
             with self.assertRaises(ValueError):
                 r.Operator('00000000-0000-4000-8000-000000000000')
-            with patch.object(r, 'RELEASE_ENABLED', True):
+            with patch.object(r, 'RELEASE_ENABLED', True), patch.object(r._projection, 'TESTED', None):
                 with self.assertRaises(ValueError):
                     r.Operator('00000000-0000-4000-8000-000000000000')
         with patch.object(f.r, 'Operator', side_effect=AssertionError('operator constructed')):

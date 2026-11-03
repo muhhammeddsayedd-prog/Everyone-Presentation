@@ -1,12 +1,16 @@
 # Final exact-Main web forward purpose
 
-Web source preparation only. `RELEASE_ENABLED=False`; `TESTED`, `QUALITY` and
-`MIN_TESTS` remain unbound until Root's final exact-Main quality. The accepted
-compact Context is bound by raw SHA, along with actual schema42 normal apply
-`43ad1776`, owned collector `144d063a` and the protected after-apply checkpoint.
-This does not claim final web quality, a new deployment or a completed owner
-generation. Root binds final quality before arming and freezes all source after
-the first claim.
+Web source preparation only. `RELEASE_ENABLED=False`. Exact selected Main
+`06c85d9d2ca88ca7bf1ff96faefc27af1b32fce8` binds Root's normal `77bf3304` quality
+receipt: 1023/1023 plus typecheck, lint and production guard, with its tracked
+product graph equal to exact e259 before and after. The accepted compact Context
+is bound by raw SHA, along with actual schema42 normal apply `43ad1776`, owned
+collector `144d063a` and the protected after-apply checkpoint. This does not claim
+a new deployment or completed owner generation. Root may arm, stage and build
+this exact immutable source while owner work continues, then freezes all purpose
+source after the first claim. Owner acceptance remains a separate prerequisite
+for final acceptance; dispatch is held until owner results and the fresh idle
+preflight are accepted.
 
 The frozen Gp3/e259 purpose is loaded as an inert compiler, never invoked as an
 entry or given a consumed run. Its nine raw files and its existing ancestor pin

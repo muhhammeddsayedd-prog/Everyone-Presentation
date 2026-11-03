@@ -1,4 +1,4 @@
-"""Fresh quality-unbound web purpose; actual42 bindings, frozen CLI mechanics."""
+"""Fresh OFF web purpose; actual42 and exact-Main quality bindings."""
 from pathlib import Path
 import copy
 import datetime
@@ -25,10 +25,11 @@ APPROVED = {
 }
 CONTEXT = MAIN / 'development/m07/presentation-generation-compact-release/state.py'
 CONTEXT_SHA = '2cda8d4cdb34fec14be322713e978be71ecbbc13d1d14c667568d4770092b5b4'
-# Root supplies exact final Main quality after owner results, before arming.
-TESTED = None
-QUALITY = None
-MIN_TESTS = None
+# Stage/build may precede owner acceptance; dispatch requires its later release
+# decision and the existing fresh postbuild idle/canonical/worker preflight.
+TESTED = '06c85d9d2ca88ca7bf1ff96faefc27af1b32fce8'
+QUALITY = {'path': 'tracking/evidence/m07/completion-release/2026-11-03T13-26-03.778Z-c88a48ed-final-canonical42-root-quality.json', 'sha256': '77bf3304e913e9fac01e39c0b6a1b538925090bd2f3e6fc72b85a93a0ef26eff'}
+MIN_TESTS = 1023
 CANONICAL42 = {
     'ref': {'path': 'tracking/evidence/m07/presentation-generation-compact-release/2026-11-03T13-18-27-651163Z-apply.json', 'sha256': '43ad177660d5951e32d9549394cac6265ae8c97014861585d25535724c220301'},
     'proof': {'path': 'tracking/evidence/m07/presentation-generation-compact-collector-proof/2026-11-03T13-08-43.574Z-144d063a.json', 'sha256': 'ef98a232507f809a80faaa82f0942d445f8bc2468d7364168a94eedc6aa8e446'},
