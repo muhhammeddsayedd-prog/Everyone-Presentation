@@ -1,6 +1,6 @@
 """Offline fake ports; reads retained public native source artifacts only."""
 from pathlib import Path
-import copy,importlib.util,inspect,subprocess,unittest
+import copy,importlib.util,inspect,json,subprocess,tempfile,unittest
 from unittest.mock import patch
 HERE=Path(__file__).resolve().parent
 s=importlib.util.spec_from_file_location('ocr_build_tests',HERE/'build.py');b=importlib.util.module_from_spec(s);s.loader.exec_module(b)
@@ -80,4 +80,9 @@ class Tests(unittest.TestCase):
   for name in('retained_native','_daemon_context','context','accepted_export','local','validate_archive'):self.assertIs(getattr(b.Build,name),getattr(b.old.Build,name))
   export=inspect.getsource(b.old.base.Build.export);self.assertIn("command+=['--no-cache']",export);self.assertIn('self.l.oci.base.import_gate',export);self.assertIn('self.validate_archive(self.l.oci.archive_proof',export)
   self.assertNotIn('daemon-release',inspect.getsource(b.Build.pins))
+ def test_serialized_new_public_receipt_keeps_generic_and_dual_source_headers(self):
+  f=Fake();f.build_run=STAGE
+  with tempfile.TemporaryDirectory()as root,patch.object(b,'MAIN',Path(root)):
+   ref=b.save(f,'synthetic-source-only',{'result':'passed'});raw=(Path(root)/ref['path']).read_bytes();receipt=json.loads(raw)
+   self.assertEqual(ref['sha256'],b.old.sha(raw));self.assertEqual(receipt['source_sha256'],f.source['source_sha256']);self.assertEqual(receipt['daemon_source_sha256'],f.source['source_sha256']);self.assertEqual(receipt['native_source_sha256'],b.old.a.SOURCE);self.assertFalse(receipt['native_rebuilt']);self.assertFalse(receipt['provider_called'])
 if __name__=='__main__':unittest.main()

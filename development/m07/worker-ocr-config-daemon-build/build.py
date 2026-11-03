@@ -31,7 +31,7 @@ class Build(old.Build):
 def save(build,action,value):
  folder=MAIN/a.EVIDENCE;folder.mkdir(parents=True,exist_ok=True);need(folder.resolve()==folder and not folder.is_symlink())
  file=folder/(datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%dT%H-%M-%S-%fZ')+'-'+action+'.json')
- raw=old.base.compact({'schema_version':'1.0','observed_at':old.base.stamp(),'run':build.inputs['run'],'build_run':build.build_run,'action':action,'daemon_source_sha256':build.source['source_sha256'],'native_source_sha256':old.a.SOURCE,'native_rebuilt':False,'provider_called':False,'worker_deployed':False,**value})+b'\n'
+ raw=old.base.compact({'schema_version':'1.0','observed_at':old.base.stamp(),'run':build.inputs['run'],'build_run':build.build_run,'action':action,'source_sha256':build.source['source_sha256'],'daemon_source_sha256':build.source['source_sha256'],'native_source_sha256':old.a.SOURCE,'native_rebuilt':False,'provider_called':False,'worker_deployed':False,**value})+b'\n'
  with file.open('xb')as stream:stream.write(raw);stream.flush();old.os.fsync(stream.fileno())
  return {'path':file.relative_to(MAIN).as_posix(),'sha256':old.sha(old.base.load(file))}
 def load_profile(libraries=None):
