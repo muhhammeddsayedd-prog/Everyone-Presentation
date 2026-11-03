@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0",
+  "status": "CLOSED",
+  "observed_at": "2026-11-03T14:33:20.172Z",
+  "environment": "read-only-local-source-analysis",
+  "source": {
+    "repository": "Everyone-Presentation-Studio",
+    "main_commit_at_start": "d0db004db276ccf4c2519df2138ec2e8950de00a",
+    "main_commit_at_end": "d0db004db276ccf4c2519df2138ec2e8950de00a",
+    "metadata_binding_commit": "eb046ca8706f5ec695baaf995b42b3891cac4d02",
+    "fix_commits": [
+      "849989a8780edc7408a96fceea2634cccab906d4",
+      "740298f964c22042ac9dcbc6b78e3a5da2a5a4d2"
+    ],
+    "files_sha256": {
+      "packages/central/src/studio.ts": "91b325548f63afe075f203df83ac07bcbd285e7e38fa039ec27441e52eb4bac3",
+      "packages/central/test/generated-media-metadata.test.ts": "7944b5d04890d6bcb71b9a3b4bf0e9dd27c1ead488ea9fb5e6eb603475d67b0a",
+      "tools/worker-hosting-build.mjs": "70158c412da4f776b9afe2457452a513518e691b94b2dec13919ff955e91b613",
+      "apps/worker/src/native-source-seal.ts": "5bc870ed9e807e093a06ce5e90d4afcdc0a62ba8fea9e6015d416a7b772cfcd5"
+    },
+    "all_context_inputs_stable_after_read": true
+  },
+  "method": {
+    "module": "tools/worker-hosting-build.mjs",
+    "exports_called": [
+      "workerContextFiles",
+      "workerNativeGraph",
+      "workerDaemonGraph"
+    ],
+    "static_typescript_erasure_and_literal_import_resolution": true,
+    "application_modules_imported": false
+  },
+  "complete_context": {
+    "file_count": 167,
+    "current_sha256": "ee190e1fb576de9ad6e579dfd1a1360a337a839597d56018debce32931cb11dd",
+    "controlled_pre_fix_reconstruction": {
+      "basis": "Current Main complete context with only studio.ts replaced by the exact Git preimage before the metadata fix; not a historical whole-tree snapshot.",
+      "preimage_commit": "37a2ee5ef37be67a910449375a0c8d8a8abf0f58",
+      "path": "packages/central/src/studio.ts",
+      "preimage_sha256": "b1fdbb1ccfbf31fccfb1d25c76edba4c6c2de9dd34d0535325c72ba8803d9d71",
+      "preimage_bytes": 26322,
+      "context_sha256": "f8142f08baa37efcc160aea96c32b389dfd0a0ee5569f267642fc9ff396907b4",
+      "different_from_current": true
+    }
+  },
+  "runtime_graphs": {
+    "native": {
+      "module_count": 54,
+      "sha256": "247992bbe3331251f33186cfac22835e8734833cd229bb6a4d8bcafa3bc0c214",
+      "unchanged_against_controlled_pre_fix_reconstruction": true
+    },
+    "daemon": {
+      "module_count": 91,
+      "sha256": "109b298cf3c42a7f8c6e5aaf30aefe49e493595726daf3c71b97b26cb81543b1",
+      "unchanged_against_controlled_pre_fix_reconstruction": true
+    }
+  },
+  "membership": {
+    "packages/central/src/studio.ts": {
+      "complete_source_context": true,
+      "native_runtime_graph": false,
+      "daemon_runtime_graph": false
+    },
+    "packages/central/test/generated-media-metadata.test.ts": {
+      "complete_source_context": false,
+      "native_runtime_graph": false,
+      "daemon_runtime_graph": false
+    }
+  },
+  "conclusions": {
+    "complete_source_seal_changes": true,
+    "native_runtime_module_graph_changes": false,
+    "daemon_runtime_module_graph_changes": false,
+    "proof_scope": "Source closure only; no built-artifact, deployment, runtime or owner-read acceptance."
+  },
+  "actions_not_performed": [
+    "provider_call",
+    "owner_get_media_retry",
+    "SQL",
+    "stage",
+    "build",
+    "native_build",
+    "registry",
+    "tests",
+    "typecheck",
+    "lint"
+  ],
+  "historical_failed_request_preserved": "8202116c-eac6-408f-b2ff-3a2ea2e4e98d"
+}
