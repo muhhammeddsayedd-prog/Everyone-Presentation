@@ -1,0 +1,78 @@
+{
+  "schema_version": "source_only_validation.v1",
+  "observed_at": "2026-11-03T02:03:42.807976+00:00",
+  "purpose": "logo_recovery_web_forward_release",
+  "source_seals": [
+    {
+      "path": "development/m07/logo-recovery-web-forward-release/gates.py",
+      "sha256": "ff0eb1c5a4b5b59d7f7aaa557f2964fd07484240ea9be606d7b35b6e9ce49994"
+    },
+    {
+      "path": "development/m07/logo-recovery-web-forward-release/inputs.template.json",
+      "sha256": "f2a208f8d1b4e4bcd32093974f99d413f69683037857edc529b5ea00e3549f68"
+    },
+    {
+      "path": "development/m07/logo-recovery-web-forward-release/preflight.py",
+      "sha256": "3722ab4632db3e513f738d8a0ad72f28e63e9589f9fd2eade1516412ad5954e8"
+    },
+    {
+      "path": "development/m07/logo-recovery-web-forward-release/projection.py",
+      "sha256": "cf1d1f3269f004182d7caf44fc4dcf63b93c635706410d47e76b889aae74db46"
+    },
+    {
+      "path": "development/m07/logo-recovery-web-forward-release/README.md",
+      "sha256": "2a17b1f80a69ac96e2f434731e0342515b9f228afa5ac277ac823af669a1512c"
+    },
+    {
+      "path": "development/m07/logo-recovery-web-forward-release/release.py",
+      "sha256": "39abc8cc8f444be708c7ccfb704f3f390e1be6fd0fb3c6bc7b026505b27a80a0"
+    },
+    {
+      "path": "development/m07/logo-recovery-web-forward-release/scan-stage.mjs",
+      "sha256": "c9ab2c5ebbf9f677850e22d9480e5d86d8c4daf4eb690eea7497717ecd260af7"
+    },
+    {
+      "path": "development/m07/logo-recovery-web-forward-release/stage.py",
+      "sha256": "ded461e16605f8dba3c2e34d47186a5b510401af712c06e821501e3f2f86a1ee"
+    },
+    {
+      "path": "development/m07/logo-recovery-web-forward-release/test_release.py",
+      "sha256": "5a7e62091f2d16e6d6c610934d4683a43a4000ebb21a2e97cdee7985898a05d6"
+    }
+  ],
+  "release_enabled": false,
+  "selected_commit": "7c8d32f52cb760974e251cd8ed5fcdd4277a39fe",
+  "quality_receipt": {
+    "path": "tracking/evidence/m07/completion-release/2026-11-03T01-47-46.934Z-82a90895-logo-recovery-root-quality.json",
+    "sha256": "c34f998b8898e725d5dc52834f6c2649292990111631061d0a70659ad2816c0f"
+  },
+  "offline_checks": {
+    "command": "D:/Everyone/Presentation/Everyone-Presentation-Studio/.venv-skills/Scripts/python.exe -X utf8 -B -m unittest discover -s development/m07/logo-recovery-web-forward-release -p test_release.py",
+    "tests": 19,
+    "passed": 19,
+    "failed": 0,
+    "duration_seconds": 1.149,
+    "exit_code": 0,
+    "node_scanner_syntax_exit": 0,
+    "scanner_eslint_exit": 0,
+    "git_diff_check_exit": 0
+  },
+  "scope": {
+    "finite_inverse_source_projection": true,
+    "predecessor_raw_files_pinned": 9,
+    "ancestor_raw_files_pinned": 8,
+    "DB_query_text_byte_equal": true,
+    "expected_native": "retained3d",
+    "two_GET_only_worker_observations_source_prepared": true,
+    "historical_worker_startup_not_fresh_heartbeat": true,
+    "source_archive_not_prebuilt": true,
+    "permanent_unknown_claims_no_replay_preserved": true,
+    "actual_private_inputs_or_ACL_loaded": false,
+    "stage_executed": false,
+    "build_executed": false,
+    "database_queries": 0,
+    "provider_API_calls": 0,
+    "deployments": 0,
+    "browser_actions": 0
+  }
+}
