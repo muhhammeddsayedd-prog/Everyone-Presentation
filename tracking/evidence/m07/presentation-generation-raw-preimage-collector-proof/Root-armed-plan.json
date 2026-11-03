@@ -1,0 +1,45 @@
+{
+  "schema_version": "root-generation42-raw-collector-armed-plan.v1",
+  "recorded_at": "2026-11-03T11:34:38.365955+00:00",
+  "source_commit": "1da700fc",
+  "author_commits": [
+    "969a6e9b815549ac49f7fc5caf50ba9d8a9f54fe",
+    "bc7818c2f691e0a6c38269a3987a91df9affcb2c",
+    "7896d072b036042fe56a21a12fe8bbd6244498b1"
+  ],
+  "Root_source_review": "PASS_raw4_collector5_and_loaderfix",
+  "Runtime_raw4_source_peer": "CLOSED_PASS",
+  "Frontend_collector5_source_peer": "CLOSED_PASS_after_guarded_loader_fix",
+  "focused_checks": {
+    "raw_tests": 4,
+    "raw_seconds": 2.12,
+    "collector_tests": 3,
+    "collector_seconds": 28.376,
+    "guarded_loader_tests": 1,
+    "guarded_loader_seconds": 2.843
+  },
+  "actual_generated_syntax_checks": 3,
+  "entry_closed_sha256": "82783eb16765a9c4f8117dd271b8df7403ccaee876cb8876677ff4d142938941",
+  "entry_armed_sha256": "9801df4509394b488ad17c74cf2cb76ea072d414d4b47fb008c16161e904c612",
+  "outputs": [
+    {
+      "path": ".local/presentation-generation-collector-raw-compiled/bridge-7fce1414-d9bd-47c1-ae4c-1820e6cc23bd.mjs",
+      "sha256": "5a9d0248e1361e8d36090807f32e3a6b396095a9260b32301d6c7fce17c8f231",
+      "syntax_exit": 0
+    },
+    {
+      "path": ".local/presentation-generation-collector-raw-compiled/entry-7fce1414-d9bd-47c1-ae4c-1820e6cc23bd.mjs",
+      "sha256": "17c0a2e8dbe22bd1763cb27edffe8cf86ff839cbf8ab668fab446e8ccb917182",
+      "syntax_exit": 0
+    },
+    {
+      "path": ".local/presentation-generation-collector-raw-compiled/controller-7fce1414-d9bd-47c1-ae4c-1820e6cc23bd.mjs",
+      "sha256": "a97f2a3bff1db61d02b3f002fe0cf06223a962bda4d176af763ad3a3e98c8925",
+      "syntax_exit": 0
+    }
+  ],
+  "parent_controller_entry_bridge_inverse_equal": true,
+  "only_actual_raw_Context_and_new_ownership_changed": true,
+  "canonical_READ_APPLY_enabled": false,
+  "actual_execution_dispatched": false
+}

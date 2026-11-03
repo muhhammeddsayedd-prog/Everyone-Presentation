@@ -1,0 +1,156 @@
+{
+  "schema_version": "root-generation42-raw-collector-legacy-predicate-audit.v1",
+  "recorded_at": "2026-11-03T11:41:33.359385+00:00",
+  "run_id": "b1c52308-71af-4c26-986b-51f8715cb726",
+  "actual_receipt": {
+    "path": "tracking/evidence/m07/presentation-generation-raw-preimage-collector-proof/2026-11-03T11-34-44.748Z-b1c52308.json",
+    "sha256": "6fa1eb4d863ea37993d9bb4469ea725b0ff141f8181eb17c48e00a293b0b1199"
+  },
+  "normal_process_exit": 1,
+  "elapsed_ms": 98329,
+  "runtime_source_seals_verified": 255,
+  "actual_and_private_executed_source_hashes_equal": true,
+  "first_actual_raw_Context_check_passed": true,
+  "owned_before_full_checkpoint": {
+    "bytes": 2770075,
+    "sha256": "06a9d27423a7d768a394f7c1d583c9e120765ea524638a1f76ccf64b88a85865"
+  },
+  "negative_and_diagnostic_claims_present": true,
+  "diagnostic_SQL_returned_state_followed_by_sealed_rollback": true,
+  "diagnostic_difference_count": 1,
+  "diagnostic_difference_path": "$.canonical41.compatibility.schema40.canonical.base.english.security",
+  "diagnostic_expected_boolean": true,
+  "diagnostic_actual_boolean": false,
+  "all_seven_function_attributes_equal_before_diagnostic_after": true,
+  "fixed_functions_and_normalized_full_scope_equal": true,
+  "English_old_and_candidate_source_hashes_verified": true,
+  "normal_commit_nonce_unreached": true,
+  "after_full_checkpoint_unreached": true,
+  "collector_validation_receipt_created": false,
+  "native_SQL_failure_claimed": false,
+  "private_custody": {
+    "before-checkpoint.json": {
+      "bytes": 2770075,
+      "sha256": "06a9d27423a7d768a394f7c1d583c9e120765ea524638a1f76ccf64b88a85865"
+    },
+    "bridge-check-88cf2af6-5a2c-4645-aa74-aa94f7eb2d75-claim.json": {
+      "bytes": 613,
+      "sha256": "5256003aa0a69cf63489d0eb32c7cbb99ebf300603bed16437f3d402ca45bb97"
+    },
+    "bridge-check-88cf2af6-5a2c-4645-aa74-aa94f7eb2d75-input.json": {
+      "bytes": 125734,
+      "sha256": "c5eb45ec5e78991a71cd1b263fc47f9b130f3eaaa6692945a5ffe50ddce7ab2f"
+    },
+    "bridge-check-88cf2af6-5a2c-4645-aa74-aa94f7eb2d75-outcome.json": {
+      "bytes": 1066,
+      "sha256": "6c31145fdbccf36d2a08f7fcdb5fd1a15af416f307eb8522f490021e25ea09ac"
+    },
+    "bridge-check-88cf2af6-5a2c-4645-aa74-aa94f7eb2d75-stderr.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "bridge-check-88cf2af6-5a2c-4645-aa74-aa94f7eb2d75-stdout.bin": {
+      "bytes": 21,
+      "sha256": "72088d84cabaf8a8051fef1f53f8d5404a243e39205de8ad712c5ae8e92a8c42"
+    },
+    "bridge-diagnose-3197ddc0-f8da-48bc-97b9-09865f15e205-claim.json": {
+      "bytes": 619,
+      "sha256": "b42cc7ff97fea047f98610cbd6e3c576c17229ff1d7267c03a7d86fed46b2893"
+    },
+    "bridge-diagnose-3197ddc0-f8da-48bc-97b9-09865f15e205-input.json": {
+      "bytes": 188578,
+      "sha256": "b3539c6269048bfaac617e09a33be018f3e1955cd655742a5bf31afabfff422b"
+    },
+    "bridge-diagnose-3197ddc0-f8da-48bc-97b9-09865f15e205-outcome.json": {
+      "bytes": 1081,
+      "sha256": "f2a0319fe46235048e0dea2d9985bd14066bfa12ed53a3c34871e5b4de704a48"
+    },
+    "bridge-diagnose-3197ddc0-f8da-48bc-97b9-09865f15e205-stderr.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "bridge-diagnose-3197ddc0-f8da-48bc-97b9-09865f15e205-stdout.bin": {
+      "bytes": 336,
+      "sha256": "cc1b2fde6467c2d1438916374a3490a45ded3db3c152ff581a2d5244943c9b1c"
+    },
+    "bridge-render-329faf57-a646-4b46-9f59-60b3e6e80e5c-claim.json": {
+      "bytes": 615,
+      "sha256": "9f0fb7cd82b0c80faf686bbccc3fd3d3e88676e9b7e83892a5953fcacd7be079"
+    },
+    "bridge-render-329faf57-a646-4b46-9f59-60b3e6e80e5c-input.json": {
+      "bytes": 125780,
+      "sha256": "73252e1228df557e9c605ebe0d0fa3fa0dac9e90a0231274d37c4cee548f3edc"
+    },
+    "bridge-render-329faf57-a646-4b46-9f59-60b3e6e80e5c-outcome.json": {
+      "bytes": 1088,
+      "sha256": "cb279302a661a8499a7ea4712691f1476b10dcce982c9819c8724374b1b7920c"
+    },
+    "bridge-render-329faf57-a646-4b46-9f59-60b3e6e80e5c-stderr.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "bridge-render-329faf57-a646-4b46-9f59-60b3e6e80e5c-stdout.bin": {
+      "bytes": 12360524,
+      "sha256": "ec6881304d3f67b712bc23dde52f90441ce009e3be640c436b8436f8503a3ea6"
+    },
+    "bridge-render-8bbf9fcb-8d11-4152-b578-7a91c24800ea-claim.json": {
+      "bytes": 615,
+      "sha256": "1bd0a878c6a4d1ebeaa3310a5f1bf0077d753c25e6c479192e1e1c64e46d4951"
+    },
+    "bridge-render-8bbf9fcb-8d11-4152-b578-7a91c24800ea-input.json": {
+      "bytes": 125780,
+      "sha256": "0409e6dc695eddd248746bed89311fbae5004879b1ca110721a0021f652d1110"
+    },
+    "bridge-render-8bbf9fcb-8d11-4152-b578-7a91c24800ea-outcome.json": {
+      "bytes": 1088,
+      "sha256": "9e85ee85c32e986f025871281355c17519e60859f412b988803b8a44c18646df"
+    },
+    "bridge-render-8bbf9fcb-8d11-4152-b578-7a91c24800ea-stderr.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "bridge-render-8bbf9fcb-8d11-4152-b578-7a91c24800ea-stdout.bin": {
+      "bytes": 12360524,
+      "sha256": "e948dfddc8c47bb32d1cfeed432cc01ce7f9de529ccb847e91a1d5ca124b6864"
+    },
+    "diagnostic-claim.json": {
+      "bytes": 153,
+      "sha256": "9abd29b277dd71389ab51efc1a8b00afc7f56905855b4cd5a1c100ce9f80088a"
+    },
+    "diagnostic-poststate.json": {
+      "bytes": 62834,
+      "sha256": "718d8c012d5418453e76e180ae18ad5a5ad5c4400145643688c2c7a68bc824b7"
+    },
+    "failure.json": {
+      "bytes": 119,
+      "sha256": "b37d8ec4c433efab646902b3a6e58b9c2d64d06be3db97421f3a679887cd65db"
+    },
+    "negative-claim.json": {
+      "bytes": 105,
+      "sha256": "786654db81236fd07914d5f7766a572c554ec6337a47f085263089cd5f64ca76"
+    }
+  },
+  "independent_successful_daemon_label_inventories_empty": true,
+  "independent_inventories": [
+    {
+      "kind": "containers",
+      "normal_exit": 0,
+      "empty": true
+    },
+    {
+      "kind": "volumes",
+      "normal_exit": 0,
+      "empty": true
+    }
+  ],
+  "fresh_shared_lock_absent": true,
+  "original_target_preserved": true,
+  "sole_entry_closure": {
+    "path": "development/m07/presentation-generation-raw-preimage-collector-proof/entry.mjs",
+    "armed_sha256": "9801df4509394b488ad17c74cf2cb76ea072d414d4b47fb008c16161e904c612",
+    "closed_sha256": "82783eb16765a9c4f8117dd271b8df7403ccaee876cb8876677ff4d142938941"
+  },
+  "canonical_change_executed": false,
+  "collector_acceptance": false,
+  "prior_ec5_or_guest_expiry_acceptance_invalidated": false
+}
