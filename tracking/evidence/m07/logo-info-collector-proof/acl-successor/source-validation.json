@@ -1,0 +1,46 @@
+{
+  "observed_at": "2026-11-03T04:57:04.692449+00:00",
+  "source_commit": "316ac6be4e2ef43c413d2705ef1207a4dd01e515",
+  "source_seals": {
+    "development/m07/logo-info-collector-acl-proof/compiler.py": "6199b5565bce12a3a4d8248c8da1f0a83615df481e78c07eea439de881515a9d",
+    "development/m07/logo-info-collector-acl-proof/entry.mjs": "922dc5777ccad7a7e8aa16b03855dbc974bc50e54fd52863a34821f2d80ee9a9",
+    "development/m07/logo-info-collector-acl-proof/local.py": "6de6c2436df409af62022063d4b057d559730bbbc79938db2d54b502d3c776dc",
+    "development/m07/logo-info-collector-acl-proof/README.md": "ba073efa5656e540857919d5db1ff3287e43dcc5c6026a973f0270e6c7e1f8cd",
+    "development/m07/logo-info-collector-acl-proof/test_acl.py": "4010256682554aea37f309da4df2fd7de990abd637fd55171d32d95ef4364890"
+  },
+  "execution_enabled": false,
+  "execution_dispatched": false,
+  "cloud_called": false,
+  "provider_called": false,
+  "SQL_executed": false,
+  "Docker_called": false,
+  "command": "Main .venv-skills/Scripts/python.exe -X utf8 -B -m unittest discover -s development/m07/logo-info-collector-acl-proof -p test_acl.py -v (Runtime workdir)",
+  "result": "passed",
+  "tests": 7,
+  "duration_seconds": 20.46,
+  "generated_Node_syntax_checks": 3,
+  "actual_retained_input": {
+    "path": ".local/logo-info-collector-alias-proof/c8792790-efe3-4368-bb30-44ccb45f19d4/bridge-check-83b76609-e6c1-44b6-8ee5-edbb8caa1932-input.json",
+    "sha256": "f7a22df2c058d96ffc278f1ac73fcd6b9920c30fcbea01e928475ec0141527e2",
+    "actual_strict_check_expected_render_diagnose_passed": true,
+    "actual_full_raw_checkpoint_captured": false
+  },
+  "synthetic_checkpoint": {
+    "all76_captured_counts_used": true,
+    "raw_rows_synthetic_only": true,
+    "all76_row_mutations_refused": true,
+    "nonnull_empty_Unicode_null_reason_mutations_refused": true,
+    "no_SQL_acceptance_claim": true
+  },
+  "prior_test_failures_preserved": {
+    "first_import": "test syntax token __code__is corrected before execution",
+    "first_full_run": {
+      "tests": 7,
+      "duration_seconds": 91.138,
+      "passed": 6,
+      "errors": 1,
+      "cause": "synthetic function-owner mutation used str+=int; corrected to a synthetic text value"
+    },
+    "production_source_changed_for_test_failures": false
+  }
+}
