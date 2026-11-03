@@ -1,5 +1,5 @@
 import { createHash, randomUUID } from 'node:crypto';
-import { extractSpecs, IntegrationError, integrationErrorToJobFailure, type OpenAISpecsConfig } from '@eps/integrations';
+import { extractSpecs, IntegrationError, integrationErrorToJobFailure, type OpenAIMediaConfig, type OpenAISpecsConfig } from '@eps/integrations';
 import { SPECS_PROMPT_VERSION } from '../../../packages/integrations/src/prompts/specs-v1.ts';
 import type { JobEvent, JobEventReceipt, JsonObject, StageLease } from '@eps/jobs';
 import { prepareDocumentIsolated } from './process.ts';
@@ -29,7 +29,7 @@ export interface SpecsExecutionOptions {
   extract?: typeof extractSpecs;
   /** Optional real file capability port. Absence cannot fall back to pasted text. */
   files?: { port: SpecsAssetPort; publishableKey: string; fetch?: typeof fetch };
-  vision?: { imageId: string; onMetadata?: (metadata: PdfOCRMetadata & { rasterizer_version: string; job_id: string; attempt_id: string; input_hash: string }) => void };
+  vision?: { imageId: string; openAI: OpenAIMediaConfig; onMetadata?: (metadata: PdfOCRMetadata & { rasterizer_version: string; job_id: string; attempt_id: string; input_hash: string }) => void };
 }
 export class SpecsExecutionError extends Error {
   constructor(readonly code: 'INVALID_STAGE_SCOPE' | 'STAGE_INPUT_INVALID' | 'CALLBACK_UNCONFIRMED' | 'LEASE_STALE' | 'PROCESSING_CANCELLED') {
@@ -135,6 +135,7 @@ function parseInput(value: unknown, lease: StageLease): StageInput {
 export async function executeSpecsStage(lease: StageLease, gateway: SpecsStageGateway, options: SpecsExecutionOptions = {}) {
   try { lease = structuredClone(lease); } catch { fail('INVALID_STAGE_SCOPE'); }
   const openAI = options.openAI ? { ...options.openAI } : undefined;
+  const vision = options.vision ? { ...options.vision, openAI: { ...options.vision.openAI } } : undefined;
   const extract = options.extract ?? extractSpecs;
   const files = options.files ? { ...options.files } : undefined;
   const externalSignal = options.signal;
@@ -206,8 +207,8 @@ export async function executeSpecsStage(lease: StageLease, gateway: SpecsStageGa
         result = await prepareSpecsFileStage({ source_asset_id: input.source_asset_id, source_sha256: input.source_sha256,
           mime_type: input.mime_type, size_bytes: input.size_bytes }, { job_id: lease.job_id, attempt_id: lease.attempt_id, lease_token: lease.lease_token },
         files.port, { publishableKey: files.publishableKey, fetch: files.fetch, signal,
-          ...(options.vision && openAI && openAI.model === input.configuration.model_version ? { vision: { imageId: options.vision.imageId, openAI,
-            onMetadata: metadata => options.vision?.onMetadata?.({ ...metadata, job_id: lease.job_id, attempt_id: lease.attempt_id, input_hash: lease.input.input_hash as string }) } } : {}) }) as unknown as JsonObject;
+          ...(vision && vision.openAI.model === input.configuration.model_version ? { vision: { imageId: vision.imageId, openAI: vision.openAI,
+            onMetadata: metadata => vision.onMetadata?.({ ...metadata, job_id: lease.job_id, attempt_id: lease.attempt_id, input_hash: lease.input.input_hash as string }) } } : {}) }) as unknown as JsonObject;
       } else {
         const prepared = await prepareDocumentIsolated({ sourceKind: 'pasted_text', sourceAssetId: null, text: input.source_text }, { signal });
         if (prepared.sourceSha256 !== input.source_sha256) fail('STAGE_INPUT_INVALID');

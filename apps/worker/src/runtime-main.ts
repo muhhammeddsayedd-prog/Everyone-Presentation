@@ -52,7 +52,7 @@ export async function verifySpecsWorkerStartup(environment: Readonly<Record<stri
     checkpoint = 'file_configuration'; const fileConfiguration = specsWorkerFilesConfiguration(environment);
     const visionEnabled = environment.EPS_PDF_VISION_ENABLED;
     if (visionEnabled !== undefined && visionEnabled !== 'true' && visionEnabled !== 'false' || visionEnabled === 'true' && (!fileConfiguration || !nativeImageConfigured(environment.EPS_PDF_RASTER_IMAGE_ID, environment))) throw { code: 'PDF_VISION_CONFIGURATION_INVALID' };
-    const vision = visionEnabled === 'true' ? { imageId: environment.EPS_PDF_RASTER_IMAGE_ID! } : undefined;
+    const vision = visionEnabled === 'true' ? { imageId: environment.EPS_PDF_RASTER_IMAGE_ID!, openAI: openAIMediaConfigFromEnv('extraction', environment) } : undefined;
     const enabled = environment.EPS_CANDIDATE_MEDIA_ENABLED;
     if (enabled !== undefined && enabled !== 'false' && enabled !== 'true') throw { code: 'CANDIDATE_RUNTIME_CONFIGURATION_INVALID' };
     const framesEnabled = environment.EPS_FRAME_EXTRACTION_ENABLED;

@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.0",
+  "scope": "source_only_pdf_ocr_configuration_separation",
+  "observed_at": "2026-11-03T00:02:39.375Z",
+  "base_commit": "ddfe89e",
+  "source_seals": [
+    {
+      "path": "apps/worker/src/runtime-main.ts",
+      "sha256": "1203b4600298d2481619505c58b21b12b054829932b3d7f410540e1917e4763e"
+    },
+    {
+      "path": "apps/worker/src/specs-executor.ts",
+      "sha256": "7ab1c5ffdc871f84873022e7f49bdcd04585e832186ccd308f98aa0f31e58874"
+    },
+    {
+      "path": "tests/worker/pdf-ocr-config.test.ts",
+      "sha256": "02d590a3a54a245c00ff8c813be2ec53465fdf551ec9fffa4ccb52a1273442f4"
+    }
+  ],
+  "diagnosis": {
+    "actual_job": "cc7104d6-6a27-4a4d-93da-f50a7769a71f",
+    "actual_runtime_code": "OPENAI_CONFIGURATION_INVALID",
+    "stage": "prepare_document",
+    "log_receipt": {
+      "path": "tracking/evidence/m07/completion-release/2026-11-02-019eae3c-cd9a-44d2-87c4-18baa2fcc887-document-cc7104d6-runtime-log.json",
+      "sha256": "ad7cc2d3d11ea2c8835742cae3652028f062010648aea757af98414c3ebad105"
+    },
+    "source_cause": "Production specs timeout300000 was forwarded into PDF page OCR, whose unchanged media admission caps timeout at70000. Startup now supplies a separate media config with existing60000 timeout."
+  },
+  "red": {
+    "command": "node tools/run-tests.mjs tests/worker/pdf-ocr-config.test.ts",
+    "tests": 2,
+    "passed": 0,
+    "failed": 2,
+    "reason": "Missing independent PDF vision configuration on original product bytes."
+  },
+  "verification": {
+    "command": "node tools/run-tests.mjs tests/worker/pdf-ocr-config.test.ts tests/worker/startup.test.ts tests/integrations/pdf-ocr.test.ts",
+    "tests": 14,
+    "passed": 14,
+    "failed": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "duration_ms": 3234.245,
+    "typecheck": {
+      "command": "node node_modules/typescript/bin/tsc --noEmit",
+      "exit_code": 0
+    },
+    "lint": {
+      "command": "node node_modules/eslint/bin/eslint.js apps/worker/src/runtime-main.ts apps/worker/src/specs-executor.ts tests/worker/pdf-ocr-config.test.ts --max-warnings 0",
+      "exit_code": 0
+    },
+    "diff_check": 0
+  },
+  "independent_peer": {
+    "agent": "frontend_integration",
+    "source_review": "passed",
+    "focused_tests": 2,
+    "passed": 2,
+    "duration_ms": 2769.8
+  },
+  "graphs": {
+    "scope": "offline_literal_import_graph_comparison",
+    "native_graph_unchanged": true,
+    "native_modules": 54,
+    "native_sha256": "247992bbe3331251f33186cfac22835e8734833cd229bb6a4d8bcafa3bc0c214",
+    "daemon_modules": 91,
+    "daemon_before_sha256": "9c751f186e67dec8dccc7f8339760ed25210e79f109ff65be12bdb3108123234",
+    "daemon_after_sha256": "109b298cf3c42a7f8c6e5aaf30aefe49e493595726daf3c71b97b26cb81543b1",
+    "before_source_sha256": "dc12eaab6d862b2d151665b13c092568a273a2b1c7e2fde24516654c7db40648",
+    "after_source_sha256": "f8142f08baa37efcc160aea96c32b389dfd0a0ee5569f267642fc9ff396907b4",
+    "changed_product_files": [
+      "apps/worker/src/runtime-main.ts",
+      "apps/worker/src/specs-executor.ts"
+    ],
+    "build_inputs_unchanged": true,
+    "provider_calls": 0
+  },
+  "boundaries": {
+    "actual_provider_calls": 0,
+    "real_sdk_with_mock_fetch": true,
+    "native_pdf_preparation_acceptance": false,
+    "sql_calls": 0,
+    "builds": 0,
+    "deployments": 0,
+    "job_retries": 0,
+    "model_prompt_dependency_and_media_limit_changes": false
+  },
+  "local_setup_limits": [
+    "Initial new-worktree checks could not resolve package-local ajv until ignored dependency junctions were added. These are setup failures, not product RED results.",
+    "An intermediate expanded native-PDF fixture could not run the isolated child under junction-based dependencies (DOCUMENT_PROCESS_FAILED); the final regression deliberately covers startup plus actual OCR SDK admission with mocked fetch and does not claim native stage end-to-end. Root will run normal physical-dependency worker/full gates in Main."
+  ]
+}
