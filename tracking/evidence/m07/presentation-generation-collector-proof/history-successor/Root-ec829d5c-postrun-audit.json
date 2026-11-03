@@ -1,0 +1,77 @@
+{
+  "schema_version": "root-generation42-collector-raw-preimage-failure-audit.v1",
+  "recorded_at": "2026-11-03T11:21:09.537010+00:00",
+  "run_id": "ec829d5c-fc41-41b1-83cc-0b6e135046fb",
+  "actual_receipt": {
+    "path": "tracking/evidence/m07/presentation-generation-collector-proof/history-successor/2026-11-03T11-11-23.813Z-ec829d5c.json",
+    "sha256": "44bfece12935cecc2538eaab3e7fc7500c1adb3c4216ffc815359eb59eab649f"
+  },
+  "normal_process_exit": 1,
+  "elapsed_ms": 60948,
+  "runtime_source_seals_verified": 242,
+  "actual_and_private_executed_source_hashes_equal": true,
+  "failed_checkpoint": "logo-info-rollback-proof",
+  "history41_prerequisite_guard_passed": true,
+  "first_Context_check_completed": false,
+  "collector_validation_receipt_created": false,
+  "seven_target_42_migration_dispatched": false,
+  "failure_kind": "strict_RAW_prosrc_guard_correctly_rejects_two_CRLF_bodies_against_LF_expected_hashes",
+  "native_SQL_failure_claimed": false,
+  "actual_RAW_target_hashes": {
+    "eps.presentation_lock_sources(uuid,text,text)": "dc398779de1d2d6d997d4f40fff99b5c840f2c7ca1b780e26ee28027aad83fff",
+    "eps.review_snapshot(uuid,uuid,text)": "27a9e0738186c7df7f8df842ccd21a66d3fd84cda5c203e87e87ef2c9efd3d85"
+  },
+  "matching_fresh_canonical_source_read": {
+    "path": "tracking/evidence/m07/completion-release/canonical-generation42-preimages-e0515159-b9d7-4460-9bf9-859a31e40b3a.json",
+    "sha256": "bd4e8d3943685c9160eb326118da32223de424abe367b5756c4fb6721c7a8e41",
+    "observed_at": "2026-11-03T11:18:07.665733+00:00"
+  },
+  "private_bridge_and_error_custody": {
+    "bridge-check-7537d887-c065-4549-a32f-980c88f0425f-claim.json": {
+      "bytes": 595,
+      "sha256": "fc40be8343905f5e9a6075566d10e76e52d75f125b53f8b7d7c9f4518b64303f"
+    },
+    "bridge-check-7537d887-c065-4549-a32f-980c88f0425f-input.json": {
+      "bytes": 125734,
+      "sha256": "6ce7e5ca7cb895db6a3409a12232fa2d51162e85776155956a91d9e1a28f9ce7"
+    },
+    "bridge-check-7537d887-c065-4549-a32f-980c88f0425f-outcome.json": {
+      "bytes": 1054,
+      "sha256": "6cc4aa70a5b1981e9569ca6dee6efc6c0b3c8e5b23ecafbe0c429e79e321ee0e"
+    },
+    "bridge-check-7537d887-c065-4549-a32f-980c88f0425f-stderr.bin": {
+      "bytes": 1480,
+      "sha256": "cd7b0895d02e6daca7eb7959dfbde713a4730d43dc65abbf1f32fa8b05726602"
+    },
+    "bridge-check-7537d887-c065-4549-a32f-980c88f0425f-stdout.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "failure.json": {
+      "bytes": 1116,
+      "sha256": "5581164bf23d79ebae47cd73dc0fc3ec30196531882b97371f28ddbf6e08b52f"
+    }
+  },
+  "independent_successful_daemon_label_inventories_empty": true,
+  "independent_inventories": [
+    {
+      "kind": "containers",
+      "normal_exit": 0,
+      "empty": true
+    },
+    {
+      "kind": "volumes",
+      "normal_exit": 0,
+      "empty": true
+    }
+  ],
+  "fresh_shared_lock_absent": true,
+  "original_target_preserved": true,
+  "sole_entry_closure": {
+    "path": "development/m07/presentation-generation-collector-history-proof/entry.mjs",
+    "armed_sha256": "d7b74f3458d5492fe22d82268dc48f8482220794e989d436946cf63cfd3996d3",
+    "closed_sha256": "4268de1598195c12754221995785304d1be9412e8b5e5d0766dffede9998cdac"
+  },
+  "canonical_or_collector_acceptance": false,
+  "prior_local_generation_ec5_or_guest_expiry_acceptance_invalidated": false
+}

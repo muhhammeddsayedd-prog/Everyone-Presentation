@@ -1,0 +1,145 @@
+{
+  "schema_version": "root-canonical-generation42-source-read.v1",
+  "normal_process_exit": 0,
+  "query_sha256": "32a3323beeab468b9735e28b8fb157d89fc2fe8ef2cccb0dd9ffa03affc91a47",
+  "read_only": true,
+  "raw_sources_or_payloads_returned": false,
+  "canonical_change_executed": false,
+  "database": "postgres",
+  "functions": {
+    "eps.capture_presentation_video_english_transcripts(uuid)": {
+      "ACL": [
+        "eps_review_owner=X/eps_review_owner"
+      ],
+      "CRLF_count": 0,
+      "LF_source_sha256": "c68de52a4ede0ec6401aa05e0f40b5932905dd8dc8c1c72149c9f95c51a23aeb",
+      "owner": "eps_review_owner",
+      "raw_source_sha256": "c68de52a4ede0ec6401aa05e0f40b5932905dd8dc8c1c72149c9f95c51a23aeb",
+      "search_path_config": [
+        "search_path=\"\""
+      ],
+      "security_definer": false,
+      "volatility": "v"
+    },
+    "eps.capture_presentation_video_transcripts(uuid)": {
+      "ACL": [
+        "eps_review_owner=X/eps_review_owner"
+      ],
+      "CRLF_count": 0,
+      "LF_source_sha256": "ed4a3469971fa410078b546b13aa0a875b4867efdda4b134dc729563dd887187",
+      "owner": "eps_review_owner",
+      "raw_source_sha256": "ed4a3469971fa410078b546b13aa0a875b4867efdda4b134dc729563dd887187",
+      "search_path_config": [
+        "search_path=\"\""
+      ],
+      "security_definer": false,
+      "volatility": "v"
+    },
+    "eps.logo_storage_read_allowed(text,text)": {
+      "ACL": [
+        "eps_api_owner=X/eps_api_owner",
+        "authenticated=X/eps_api_owner"
+      ],
+      "CRLF_count": 0,
+      "LF_source_sha256": "c6d72b2aded23a18ea47d6bea419163aca204293b5265ec3e08514463e1d76dd",
+      "owner": "eps_api_owner",
+      "raw_source_sha256": "c6d72b2aded23a18ea47d6bea419163aca204293b5265ec3e08514463e1d76dd",
+      "search_path_config": [
+        "search_path=\"\""
+      ],
+      "security_definer": true,
+      "volatility": "s"
+    },
+    "eps.mcp_token_permits_capability(text)": {
+      "ACL": [
+        "eps_mcp_session_owner=X/eps_mcp_session_owner",
+        "authenticated=X/eps_mcp_session_owner"
+      ],
+      "CRLF_count": 0,
+      "LF_source_sha256": "5eb6c1272a78a4ca821569082c54d2b1ce434516585c8eac533c29ec1c445ccc",
+      "owner": "eps_mcp_session_owner",
+      "raw_source_sha256": "5eb6c1272a78a4ca821569082c54d2b1ce434516585c8eac533c29ec1c445ccc",
+      "search_path_config": [
+        "search_path=\"\""
+      ],
+      "security_definer": true,
+      "volatility": "s"
+    },
+    "eps.presentation_lock_sources(uuid,text,text)": {
+      "ACL": [
+        "eps_review_owner=X/eps_review_owner"
+      ],
+      "CRLF_count": 20,
+      "LF_source_sha256": "4107c87b1a51d2c5ed506a64c81378026068406a5136b202779767efb30264e7",
+      "owner": "eps_review_owner",
+      "raw_source_sha256": "dc398779de1d2d6d997d4f40fff99b5c840f2c7ca1b780e26ee28027aad83fff",
+      "search_path_config": [
+        "search_path=\"\""
+      ],
+      "security_definer": false,
+      "volatility": "v"
+    },
+    "eps.review_snapshot(uuid,uuid,text)": {
+      "ACL": [
+        "eps_review_owner=X/eps_review_owner"
+      ],
+      "CRLF_count": 2,
+      "LF_source_sha256": "f0815e014144f1345b4679d96114aab6b358d95df317e3cfe6ac6b59989813cb",
+      "owner": "eps_review_owner",
+      "raw_source_sha256": "27a9e0738186c7df7f8df842ccd21a66d3fd84cda5c203e87e87ef2c9efd3d85",
+      "search_path_config": [
+        "search_path=\"\""
+      ],
+      "security_definer": false,
+      "volatility": "s"
+    },
+    "eps.review_snapshot_data(uuid,uuid,text)": {
+      "ACL": [
+        "eps_review_owner=X/eps_review_owner",
+        "eps_review_stage_owner=X/eps_review_owner"
+      ],
+      "CRLF_count": 0,
+      "LF_source_sha256": "4d46151993a60d8c6ac9d36e48781fee34c12c3e1dede727ac1ed4d31a953ab7",
+      "owner": "eps_review_owner",
+      "raw_source_sha256": "4d46151993a60d8c6ac9d36e48781fee34c12c3e1dede727ac1ed4d31a953ab7",
+      "search_path_config": [
+        "search_path=\"\""
+      ],
+      "security_definer": false,
+      "volatility": "s"
+    },
+    "public.eps_generate_version(uuid,jsonb,text)": {
+      "ACL": [
+        "eps_review_owner=X/eps_review_owner",
+        "authenticated=X/eps_review_owner"
+      ],
+      "CRLF_count": 0,
+      "LF_source_sha256": "b20fef7adc8dee0da91db1508b30d4116855bb3e9be9e881072a7e8d55fcee08",
+      "owner": "eps_review_owner",
+      "raw_source_sha256": "b20fef7adc8dee0da91db1508b30d4116855bb3e9be9e881072a7e8d55fcee08",
+      "search_path_config": [
+        "search_path=\"\""
+      ],
+      "security_definer": true,
+      "volatility": "v"
+    },
+    "public.eps_validate_own_oauth_session(text)": {
+      "ACL": [
+        "eps_mcp_session_owner=X/eps_mcp_session_owner",
+        "authenticated=X/eps_mcp_session_owner"
+      ],
+      "CRLF_count": 0,
+      "LF_source_sha256": "9fe44accb3998d924bb0f453c721a33f5603f20e4c245abbf0e46807561891f6",
+      "owner": "eps_mcp_session_owner",
+      "raw_source_sha256": "9fe44accb3998d924bb0f453c721a33f5603f20e4c245abbf0e46807561891f6",
+      "search_path_config": [
+        "search_path=\"\""
+      ],
+      "security_definer": true,
+      "volatility": "s"
+    }
+  },
+  "history_count": 41,
+  "observed_at": "2026-11-03T11:18:07.665733+00:00",
+  "operator": "postgres"
+}
