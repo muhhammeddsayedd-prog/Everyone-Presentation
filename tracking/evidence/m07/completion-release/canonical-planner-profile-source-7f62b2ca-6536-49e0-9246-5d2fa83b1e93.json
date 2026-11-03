@@ -1,0 +1,38 @@
+{
+  "schema_version": "canonical-planner-profile-source-read.v1",
+  "run_id": "7f62b2ca-6536-49e0-9246-5d2fa83b1e93",
+  "recorded_at": "2026-11-03T09:32:11.863006+00:00",
+  "target": "pyibofyctwnqpvktepse",
+  "normal_CLI_exit": 0,
+  "timed_out": false,
+  "overflow": false,
+  "query_sha256": "df4a6c4cda0d5d6af879f33a77285924749283bc863fa8073834991848e43f31",
+  "stdout_sha256": "ebf63fa64afe57f67c0b738e1ef116f517843bcaecc569a05c07be58dda13dd2",
+  "stderr_sha256": "674bac3cf7c77ecc2d37db6aa5af0f97f87b9c5dd22c630d73766e8e51b556f7",
+  "read_only": true,
+  "actual_PostgREST_or_MCP_backend_profile_claimed": false,
+  "result": "passed",
+  "data": {
+    "current_user": "postgres",
+    "observed_at": "2026-11-03T09:32:11.89175+00:00",
+    "role_database_overrides": [],
+    "session_user": "postgres",
+    "settings": {
+      "default_statistics_target": {
+        "reset_val": "100",
+        "setting": "100",
+        "source": "configuration file"
+      },
+      "jit": {
+        "reset_val": "off",
+        "setting": "off",
+        "source": "configuration file"
+      },
+      "plan_cache_mode": {
+        "reset_val": "auto",
+        "setting": "auto",
+        "source": "default"
+      }
+    }
+  }
+}
