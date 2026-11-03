@@ -23,8 +23,8 @@ APPROVED = {
     'stage.py': '71902e53a30d7f0c9dc9191ec5fa6771a04bca76ac2cd9ca613f9616493253a9',
     'test_release.py': '7cc658f6714ac30ff18d946d8c5a76e74a2b4bdada916302ea58daabd6d4bb1d',
 }
-CONTEXT = MAIN / 'development/m07/presentation-generation-english-guard-release/state.py'
-CONTEXT_SHA = '330a8e89a266773d57ab0a51e4413a80ce2ac327a10467269ba7bcf9bcd8bcdb'
+CONTEXT = None
+CONTEXT_SHA = None
 # Root supplies these together after actual42 and owner results, before arming.
 TESTED = None
 QUALITY = None
@@ -70,10 +70,12 @@ def ready():
     need(type(TESTED) is str and re.fullmatch('[a-f0-9]{40}', TESTED) is not None)
     need(type(QUALITY) is dict and set(QUALITY) == {'path', 'sha256'} and type(MIN_TESTS) is int and MIN_TESTS >= 1023)
     need(type(CANONICAL42) is dict and set(CANONICAL42) == {'ref', 'proof', 'checkpoint'})
+    need(isinstance(CONTEXT, Path) and CONTEXT.is_relative_to(MAIN / 'development/m07') and CONTEXT.name == 'state.py' and type(CONTEXT_SHA) is str and re.fullmatch('[a-f0-9]{64}', CONTEXT_SHA) is not None)
     return True
 
 
 def context():
+    ready()
     need(sha(load(CONTEXT)) == CONTEXT_SHA)
     spec = importlib.util.spec_from_file_location('final42_pinned_read_only_Context', CONTEXT)
     state = importlib.util.module_from_spec(spec)

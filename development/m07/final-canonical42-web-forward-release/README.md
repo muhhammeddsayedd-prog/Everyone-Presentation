@@ -1,7 +1,8 @@
 # Final exact-Main web forward purpose
 
 Source preparation only. `RELEASE_ENABLED=False`; `TESTED`, `QUALITY`,
-`MIN_TESTS` and `CANONICAL42` are unbound. This folder makes no claim that42
+`MIN_TESTS`, `CANONICAL42` and the final accepted Context supplier path/SHA are
+unbound. This folder makes no claim that42
 has applied, that the eventual Main commit passed quality, or that a new web
 deployment exists. Root supplies those exact actual references together before
 arming and freezes all source after the first claim.
@@ -25,7 +26,9 @@ There must be no selected web source difference from e259; full testable-source
 quality still binds the eventual exact Main commit, tree, inventory and seals.
 No source is silently taken from a later working tree.
 
-Schema42 requires an actual normal apply receipt, actual passed owned collector
+The final Context supplier must be the actual accepted successor, pinned by raw
+SHA; the failed HTTP413 purpose cannot stand in for an accepted apply. Schema42
+requires an actual normal apply receipt, actual passed owned collector
 and protected after-apply full76 checkpoint. The accepted English-guard Context
 checks the seven exact installed sources, all raw target attributes/OIDs/ACLs,
 both fixed functions, history42, full function/catalogue/dependency scope and

@@ -26,7 +26,7 @@ f = module('final42_test_preflight', HERE / 'preflight.py')
 class Source(unittest.TestCase):
     def test_closed_and_unbound_refuse_before_operator_or_reader(self):
         self.assertIs(r.RELEASE_ENABLED, False)
-        self.assertEqual((p.TESTED, p.QUALITY, p.MIN_TESTS, p.CANONICAL42), (None, None, None, None))
+        self.assertEqual((p.TESTED, p.QUALITY, p.MIN_TESTS, p.CANONICAL42, p.CONTEXT, p.CONTEXT_SHA), (None,) * 6)
         with patch.object(r, 'legacy', side_effect=AssertionError('transport loaded')):
             with self.assertRaises(ValueError):
                 r.Operator('00000000-0000-4000-8000-000000000000')
@@ -120,7 +120,7 @@ class Source(unittest.TestCase):
                 return '20261103104337'
         g = types.SimpleNamespace(TARGET=r.g.TARGET, sha=p.sha, load=lambda file: raw, digest=r.g.digest, reference=lambda root, value: apply if value == ref else proof)
         verified = []
-        with patch.multiple(p, TESTED='c' * 40, QUALITY={'path': 'q', 'sha256': 'd' * 64}, MIN_TESTS=1023, CANONICAL42={'ref': ref, 'proof': proof_ref, 'checkpoint': checkpoint}), patch.object(p, 'context', return_value=Context()), patch.object(p, 'stable_scope', return_value={'synthetic': 'closed'}):
+        with patch.multiple(p, TESTED='c' * 40, QUALITY={'path': 'q', 'sha256': 'd' * 64}, MIN_TESTS=1023, CANONICAL42={'ref': ref, 'proof': proof_ref, 'checkpoint': checkpoint}, CONTEXT=p.MAIN / 'development/m07/synthetic/state.py', CONTEXT_SHA='f' * 64), patch.object(p, 'context', return_value=Context()), patch.object(p, 'stable_scope', return_value={'synthetic': 'closed'}):
             self.assertEqual(p.canonical(g, p.MAIN, 'schema42', ref, verified.append)['history'], state['history']['versions'])
             self.assertEqual(verified, [p.MAIN / checkpoint['path']])
             apply['normal_return_marker_observed'] = False
