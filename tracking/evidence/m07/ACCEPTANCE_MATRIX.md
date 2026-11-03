@@ -20,7 +20,6 @@ Recorded 2026-11-03T14:57:35.329674+00:00. Full M07 remains false.
 | Worker40 owned proof | Strict all 76 tables/reason/metadata guards retained | Historical cb8 proof and current normal OCR phase readbacks | Fresh checkpoint and all-five resume with native3d invariant | Current canonical 42; processing RESUMED | Checkpoint is not restore proof; fullM07 remains false |
 | Recovery | Independent synthetic39 metadata/four-object Storage/API restore implemented | Scoped actual nonproduction AT070 restore pass retained | Original local database data/global roles and owned cleanup preserved | Owned nonproduction restore; current production OCR worker separate | AT069 policy rejection unreplayed; private production restore/RTO/RPO remain unclaimed extensions |
 | Repository | Source, historical failures and claims retained | Private 5b4195c8 REST-matched | Exact selected Main 514 / Root 1030; scoped release audit 287 pins | New 4gdh Ready; later local commits not claimed pushed | Finish final evidence/privacy/push; receipt time is not exact push time |
-
 | Representative batch AT060 | Existing real intake/jobs implemented | Representative 200-real-video workload unverified | Prior tiny synthetic diagnostic is separate and insufficient | No new batch or capacity acceptance claimed | Required workload remains open; authorized corpus availability is not confirmed |
 
 ## Current checkpoint - 2026-11-03T14:57:35.329674+00:00
