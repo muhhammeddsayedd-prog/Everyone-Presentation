@@ -1,0 +1,69 @@
+{
+  "schema_version": "Root-G14-logo-failure-recovery-UI.v1",
+  "recorded_at": "2026-11-03T03:02:00.135893+00:00",
+  "result": "scoped_failure_and_reload_retention_observed",
+  "UI_observation_source": "Root existing normal signed-in browser observation; no new browser action by artifact preparer",
+  "deployment": {
+    "id": "dpl_G14dY1CobuaDg37rxPMoqZ6X3Uo9",
+    "source_commit": "7c8d32f52cb760974e251cd8ed5fcdd4277a39fe",
+    "source_manifest_sha256": "d4d8739099ccc7da746351dabb8b79ec38d96fe80568ae8768a13c42ddebb620",
+    "normal_readback": {
+      "path": "tracking/evidence/m07/logo-recovery-web-forward-release/2026-11-03T02-23-02-487750Z-636b12ba-e950-427d-bd2b-51bd5e9b9759-readback.json",
+      "sha256": "4500410b4b0c9f730105d3790f546cc4cd1436fec4a40315d5bc80c4850c0c44",
+      "observed_at": "2026-11-03T02:23:02.487562+00:00"
+    }
+  },
+  "project_id": "bf650022-0f7f-4928-a8eb-46a27ef555d4",
+  "workspace_id": "5505def3-f7af-4684-968c-d1b154931601",
+  "approved_input": {
+    "mime_type": "image/png",
+    "size_bytes": 31749,
+    "sha256": "9c751250590cd298ca52c1e9a4717e38d17cce297ff50b1c36d01c844fb74e27"
+  },
+  "UI_observation": {
+    "single_file_attempt": true,
+    "action_lower_bound_UTC": "2026-11-03T02:36:14Z",
+    "error_code_displayed": "UPLOAD_INCOMPLETE",
+    "Check_and_resume_control_retained": true,
+    "intentional_reload_performed_by_Root": true,
+    "Check_and_resume_visible_after_reload": true,
+    "Check_and_resume_invoked_in_this_scope": false,
+    "additional_PUT_reservation_or_completion_retry_performed_in_this_scope": false
+  },
+  "private_screenshot": {
+    "path": ".local/completion-release/browser-proof/G14-live-logo-recovery-after-reload.jpg",
+    "sha256": "5ca0c00a709669a86bf31c866dd599f10444b0d868bd8c5f97950bc1ab042e81",
+    "bytes": 151801,
+    "filesystem_last_write_UTC": "2026-11-03T02:42:44.739803+00:00",
+    "filesystem_timestamp_is_capture_time_attestation": false,
+    "private": true,
+    "fresh_image_analysis_by_artifact_preparer": false,
+    "image_committed_to_Git": false,
+    "prior_Root_commentary_embedding": "reported_by_Root_resumption_summary"
+  },
+  "canonical_observation": {
+    "path": "tracking/evidence/m07/completion-release/2026-11-03-a51f0d21-6dce-40d3-ad94-91b43796cfb7-g14-logo-retention.json",
+    "sha256": "0f30370688e0b69a66a450c2cad9431972ca50ab937d96f33e4d55099ed8dbba",
+    "observed_at": "2026-11-03T02:48:15.157907+00:00",
+    "upload_id": "599619c5-d873-4084-a8dd-b8a5b8501ee8",
+    "asset_id": "fc571fc2-2e95-4d71-b80f-129b1620b32d",
+    "status": "open",
+    "asset_status": "uploading",
+    "expires_at": "2026-11-03T04:39:51.416971+00:00",
+    "expired_at_observation": false,
+    "storage_object_count": 1,
+    "storage_matching_owner_count": 1,
+    "mapping_matches": true,
+    "create_audit_count": 1,
+    "complete_audit_count": 0,
+    "cancel_audit_count": 0,
+    "canonical_read_independently_proves_reload": false
+  },
+  "Ready_logo_or_successful_completion_accepted": false,
+  "workspace_logo_selected_or_changed_accepted": false,
+  "successful_repaired_storage_read_accepted": false,
+  "original_Storage_failure_cause_proved": false,
+  "whole_UI_or_full_M07_accepted": false,
+  "raw_URLs_headers_tokens_principals_or_idempotency_bodies_published": false,
+  "artifact_preparation_new_browser_provider_SQL_or_transfer_calls": 0
+}

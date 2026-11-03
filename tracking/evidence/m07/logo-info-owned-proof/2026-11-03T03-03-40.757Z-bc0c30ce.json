@@ -1,0 +1,1837 @@
+{
+  "schema_version": "1.0",
+  "run_id": "bc0c30ce-c8fb-4109-b65c-a1a6aa68ea15",
+  "observed_at": "2026-11-03T03:03:40.757Z",
+  "result": "passed",
+  "checkpoint": "complete",
+  "scope": "fresh owned PG17 restored38 plus exact39/40 functional DDL, one rollback-only logo INFO operation/RLS proof; no hosted Storage, bytes, cloud or provider acceptance",
+  "cloud_called": false,
+  "provider_called": false,
+  "dispatch_once_claim_created": true,
+  "private_acl_verified": true,
+  "metadata_sha256": "12df4e565d466c008095498903237ae24f304403887db396b8bc46b5cf93346c",
+  "migration_sha256": "c17af7708a1886d2129df2dc9e4eb196e6b760862939bd2f5fd3c7c1c687e242",
+  "functional_sha256": "0664f439f310c9e7cf1be8513f7d6b6ad608918132f133f66cd8b744297698df",
+  "original_baseline_sha256": "fdf817fdebf54466f0f2d7167ea0f418dba2666bdba4f8aa1ca469b9e31d9fac",
+  "source_seals": {
+    "development/m07/independent-recovery38/guards.mjs": "d8eebcb91902d840b211827a7e4891938cc52f1573f4456ae9d3ab87c6c3195a",
+    "development/m07/logo-info-operation-proof/README.md": "92dd5afda3fcb66abc87a0adc80a116142be462ae9f2c96b301b8f169c07a5e8",
+    "development/m07/logo-info-operation-proof/candidate.py": "8bc3689f3a6e04f49541891cf228d72141eb2a8f6f68bf56c365a7bdef7eba8c",
+    "development/m07/logo-info-operation-proof/proof.sql": "b1097971bd6556fc8fda1c68ecbe6bd803cd17ad19e03b5718e9601213256e21",
+    "development/m07/logo-info-operation-proof/test_candidate.py": "3dad5076d35dbd3366c75755a0f644da2a4ba8ad34dbece96d2d548eb46a0921",
+    "development/m07/logo-info-owned-proof/README.md": "2f392462c139502d2f2737ded6d93421f9e9f879a021d033dc85abbd36647b00",
+    "development/m07/logo-info-owned-proof/compiler.py": "d6a9f64b92dd02c424729e5a7f0ed7bd00d6a5a7301e427a3d9b4c1a385afb35",
+    "development/m07/logo-info-owned-proof/entry.mjs": "7d3299a02ef3ffe40a0d4415977832b3b1422d0ebd283f2d9bc0590feb3860ae",
+    "development/m07/logo-info-owned-proof/entry.test.mjs": "357b82223fce55358e8f597806805afd8b4cdfe2ed527807a0b297a8ae7cffba",
+    "development/m07/logo-info-owned-proof/test_compiler.py": "148a9910ff074ef3eaf4533e987487459a0d09096052b4752d3fcace62fb2552",
+    "development/m07/project-creation39-proof/concurrency.mjs": "fe4f6e7cddb749690fea9587dd675a67d6db723ca458a700a8f6b53e67072fdd",
+    "development/m07/project-creation39-proof/run.mjs": "be0987779cac7758419cd73122a61a32824f53515bcf3d93afdaa3e8c024afcf",
+    "development/m07/recovery33/compiler.mjs": "e53ba5ab07b3724f0b2c4da59d46090ddb351342be205f74325e46192c4cf0a6",
+    "development/m07/recovery36/runtime.mjs": "46759a3a6a4d8e0c5caf5e60ebc264cd351230cfa778cd72c7af1db629e1c506",
+    "supabase/migrations/20261101223342_m07_project_creation.sql": "c17af7708a1886d2129df2dc9e4eb196e6b760862939bd2f5fd3c7c1c687e242",
+    "supabase/migrations/20261102085405_m07_review_link_action_reason.sql": "08bf4de8a63823b0e7c9aee75560a6e7de0620eb9b8b3c483c65929578db8212",
+    "tools/local-postgres.mjs": "49929bce8eb51194d9299cfd9639e537eb237daaec76c15740cb88059604e2de",
+    "tools/m07-recovery-bundle.mjs": "0938d274456d19130eaa95554ee5d7b90b364efafed13912fa5c62001193268c",
+    ".local/logo-info-owned-compiled/controller-3c73282f-5e59-44e8-b77b-c14490eaddd7.mjs": "b2ce276d4bc96ac5a8358503aa293ab84d054cf81b558af5ab63679ad9fc7af7"
+  },
+  "image_id": "sha256:6942962433a569e87f228b4d4ab7e11db5deca64e43babb3a038443ad6c4f1bb",
+  "independent_cluster": {
+    "database": "project39",
+    "system_identifier": "7703775587288105000"
+  },
+  "restored38_all_table_hashes_exact": true,
+  "restored38_catalogue_exact": true,
+  "catalogue40_setup_delta": {
+    "columns|public.project_memberships.active|acl": {
+      "before": [
+        "eps_candidate_apply_owner=r/postgres",
+        "eps_candidate_stage_owner=r/postgres",
+        "eps_specs_apply_owner=r/postgres",
+        "eps_specs_stage_owner=r/postgres"
+      ],
+      "after": [
+        "eps_candidate_apply_owner=r/postgres",
+        "eps_candidate_stage_owner=r/postgres",
+        "eps_project_creator=a/postgres",
+        "eps_specs_apply_owner=r/postgres",
+        "eps_specs_stage_owner=r/postgres"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "columns|public.project_memberships.can_write|acl": {
+      "before": [
+        "eps_candidate_apply_owner=r/postgres",
+        "eps_candidate_stage_owner=r/postgres",
+        "eps_specs_apply_owner=r/postgres",
+        "eps_specs_stage_owner=r/postgres"
+      ],
+      "after": [
+        "eps_candidate_apply_owner=r/postgres",
+        "eps_candidate_stage_owner=r/postgres",
+        "eps_project_creator=a/postgres",
+        "eps_specs_apply_owner=r/postgres",
+        "eps_specs_stage_owner=r/postgres"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "columns|public.project_memberships.principal_id|acl": {
+      "before": [
+        "eps_candidate_apply_owner=r/postgres",
+        "eps_candidate_stage_owner=r/postgres",
+        "eps_specs_apply_owner=r/postgres",
+        "eps_specs_stage_owner=r/postgres"
+      ],
+      "after": [
+        "eps_candidate_apply_owner=r/postgres",
+        "eps_candidate_stage_owner=r/postgres",
+        "eps_project_creator=a/postgres",
+        "eps_specs_apply_owner=r/postgres",
+        "eps_specs_stage_owner=r/postgres"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "columns|public.project_memberships.project_id|acl": {
+      "before": [
+        "eps_candidate_apply_owner=r/postgres",
+        "eps_candidate_stage_owner=r/postgres",
+        "eps_specs_apply_owner=r/postgres",
+        "eps_specs_stage_owner=r/postgres"
+      ],
+      "after": [
+        "eps_candidate_apply_owner=r/postgres",
+        "eps_candidate_stage_owner=r/postgres",
+        "eps_project_creator=a/postgres",
+        "eps_specs_apply_owner=r/postgres",
+        "eps_specs_stage_owner=r/postgres"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "columns|public.projects.client_id|acl": {
+      "before": [
+        "eps_draft_owner=r/postgres"
+      ],
+      "after": [
+        "eps_draft_owner=r/postgres",
+        "eps_project_creator=a/postgres"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "columns|public.projects.id|acl": {
+      "before": [
+        "eps_candidate_apply_owner=r/postgres",
+        "eps_candidate_stage_owner=r/postgres",
+        "eps_draft_owner=r/postgres",
+        "eps_review_owner=w/postgres",
+        "eps_specs_apply_owner=r/postgres",
+        "eps_specs_stage_owner=r/postgres"
+      ],
+      "after": [
+        "eps_candidate_apply_owner=r/postgres",
+        "eps_candidate_stage_owner=r/postgres",
+        "eps_draft_owner=r/postgres",
+        "eps_project_creator=a/postgres",
+        "eps_review_owner=w/postgres",
+        "eps_specs_apply_owner=r/postgres",
+        "eps_specs_stage_owner=r/postgres"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "columns|public.projects.name|acl": {
+      "before": [
+        "eps_api_owner=w/postgres"
+      ],
+      "after": [
+        "eps_api_owner=w/postgres",
+        "eps_project_creator=a/postgres"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "functions|eps.check_input(jsonb,text[])|acl": {
+      "before": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_apply_owner=X/eps_api_owner",
+        "eps_candidate_stage_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_logo_verify_owner=X/eps_api_owner",
+        "eps_settings_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_submit_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "after": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_apply_owner=X/eps_api_owner",
+        "eps_candidate_stage_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_logo_verify_owner=X/eps_api_owner",
+        "eps_project_creator=X/eps_api_owner",
+        "eps_settings_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_submit_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "functions|eps.fail(text,text,integer,bigint)|acl": {
+      "before": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_apply_owner=X/eps_api_owner",
+        "eps_candidate_assets_owner=X/eps_api_owner",
+        "eps_candidate_stage_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_casting_owner=X/eps_api_owner",
+        "eps_guest_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_logo_verify_owner=X/eps_api_owner",
+        "eps_review_owner=X/eps_api_owner",
+        "eps_review_stage_owner=X/eps_api_owner",
+        "eps_settings_owner=X/eps_api_owner",
+        "eps_specs_apply_owner=X/eps_api_owner",
+        "eps_specs_assets_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_stage_owner=X/eps_api_owner",
+        "eps_specs_submit_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "after": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_apply_owner=X/eps_api_owner",
+        "eps_candidate_assets_owner=X/eps_api_owner",
+        "eps_candidate_stage_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_casting_owner=X/eps_api_owner",
+        "eps_guest_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_logo_verify_owner=X/eps_api_owner",
+        "eps_project_creator=X/eps_api_owner",
+        "eps_review_owner=X/eps_api_owner",
+        "eps_review_stage_owner=X/eps_api_owner",
+        "eps_settings_owner=X/eps_api_owner",
+        "eps_specs_apply_owner=X/eps_api_owner",
+        "eps_specs_assets_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_stage_owner=X/eps_api_owner",
+        "eps_specs_submit_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "functions|eps.finish_mutation(text,text,jsonb,jsonb,uuid)|acl": {
+      "before": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_logo_verify_owner=X/eps_api_owner",
+        "eps_settings_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "after": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_logo_verify_owner=X/eps_api_owner",
+        "eps_project_creator=X/eps_api_owner",
+        "eps_settings_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "functions|eps.idempotency_begin(text,text,jsonb)|acl": {
+      "before": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_casting_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_logo_verify_owner=X/eps_api_owner",
+        "eps_review_owner=X/eps_api_owner",
+        "eps_settings_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_submit_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "after": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_casting_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_logo_verify_owner=X/eps_api_owner",
+        "eps_project_creator=X/eps_api_owner",
+        "eps_review_owner=X/eps_api_owner",
+        "eps_settings_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_submit_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "functions|eps.input_text(jsonb,text,integer,boolean)|acl": {
+      "before": [
+        "eps_api_owner=X/eps_api_owner"
+      ],
+      "after": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_project_creator=X/eps_api_owner"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "functions|eps.input_uuid(text)|acl": {
+      "before": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_apply_owner=X/eps_api_owner",
+        "eps_candidate_assets_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_review_stage_owner=X/eps_api_owner",
+        "eps_specs_assets_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_submit_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "after": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_apply_owner=X/eps_api_owner",
+        "eps_candidate_assets_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_project_creator=X/eps_api_owner",
+        "eps_review_stage_owner=X/eps_api_owner",
+        "eps_specs_assets_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_submit_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "functions|eps.project_dto(uuid)|source_sha256": {
+      "before": "80a4d36bc55ee7445ce633d825e3a429d8a4261b865bbe56f11016be1e695c8c",
+      "after": "6fdec9e404401c95cc11a08fbf5d23ef50e59f0d3b234544b48a29a5c3aecd76",
+      "added": false,
+      "removed": false
+    },
+    "functions|eps.require_capability(text)|acl": {
+      "before": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_casting_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_logo_verify_owner=X/eps_api_owner",
+        "eps_review_owner=X/eps_api_owner",
+        "eps_settings_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_submit_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "after": [
+        "eps_api_owner=X/eps_api_owner",
+        "eps_candidate_upload_owner=X/eps_api_owner",
+        "eps_cast_owner=X/eps_api_owner",
+        "eps_casting_owner=X/eps_api_owner",
+        "eps_jobs_owner=X/eps_api_owner",
+        "eps_logo_verify_owner=X/eps_api_owner",
+        "eps_project_creator=X/eps_api_owner",
+        "eps_review_owner=X/eps_api_owner",
+        "eps_settings_owner=X/eps_api_owner",
+        "eps_specs_owner=X/eps_api_owner",
+        "eps_specs_submit_owner=X/eps_api_owner",
+        "eps_specs_upload_owner=X/eps_api_owner",
+        "eps_specs_verify_owner=X/eps_api_owner",
+        "eps_support_upload_owner=X/eps_api_owner",
+        "eps_support_verify_owner=X/eps_api_owner"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "functions|eps.review_gateway_verify(text,jsonb,jsonb)|source_sha256": {
+      "before": "6dcb44c5a8ed44f01528c929615c5a6232f86b38fdc3cf9ed20fcad4838742e4",
+      "after": "bd44c3bd5fb7a36d73d7ab4aece19a848bb2ed9a0088c69fe57e7198e168699f",
+      "added": false,
+      "removed": false
+    },
+    "functions|eps.review_remember(text,text,jsonb,jsonb,uuid)|source_sha256": {
+      "before": "4535704c355dbdb25df8156267237833f5f48b9755e0ed9260479bd3d3237004",
+      "after": "aacc5869d41d1508a4aebe05920ea80b0f31a5222ff7cc88b8c57c4753d5b05a",
+      "added": false,
+      "removed": false
+    },
+    "functions|public.eps_revoke_review_link(uuid,jsonb,text)|source_sha256": {
+      "before": "ccc280d9b16642012bf3e0f781d107bdac78c1fda4009b732fe7a8e33e3be083",
+      "after": "71d8601bad0144745bff526b2557e1bb7a208a3ad944cc036315c10348523e27",
+      "added": false,
+      "removed": false
+    },
+    "functions|public.eps_rotate_review_link(uuid,jsonb,jsonb,text)|source_sha256": {
+      "before": "10fc75a60494924ea63a7b3e5a7a42a4f2a596384357af611dd78a1155394428",
+      "after": "5eb64b4ed051a9068422d4bc4079a9e60935d43dfce3c2921df11102bc63abeb",
+      "added": false,
+      "removed": false
+    },
+    "schemas|eps|acl": {
+      "before": [
+        "anon=U/postgres",
+        "authenticated=U/postgres",
+        "eps_api_owner=U/postgres",
+        "eps_candidate_apply_owner=U/postgres",
+        "eps_candidate_assets_owner=U/postgres",
+        "eps_candidate_stage_owner=U/postgres",
+        "eps_candidate_upload_owner=U/postgres",
+        "eps_cast_owner=U/postgres",
+        "eps_casting_guard_owner=U/postgres",
+        "eps_casting_owner=U/postgres",
+        "eps_draft_owner=U/postgres",
+        "eps_guest_owner=U/postgres",
+        "eps_job_trace_owner=U/postgres",
+        "eps_jobs_dispatcher=U/postgres",
+        "eps_jobs_executor=U/postgres",
+        "eps_jobs_owner=U/postgres",
+        "eps_logo_verify_owner=U/postgres",
+        "eps_mcp_issuer_owner=U/postgres",
+        "eps_mcp_session_owner=U/postgres",
+        "eps_oauth_consent_owner=U/postgres",
+        "eps_review_owner=U/postgres",
+        "eps_review_stage_owner=U/postgres",
+        "eps_settings_owner=U/postgres",
+        "eps_specs_apply_owner=U/postgres",
+        "eps_specs_assets_executor=U/postgres",
+        "eps_specs_assets_owner=U/postgres",
+        "eps_specs_initializer=U/postgres",
+        "eps_specs_owner=U/postgres",
+        "eps_specs_stage_owner=U/postgres",
+        "eps_specs_submit_owner=U/postgres",
+        "eps_specs_upload_owner=U/postgres",
+        "eps_specs_verify_owner=U/postgres",
+        "eps_support_upload_owner=U/postgres",
+        "eps_support_verify_owner=U/postgres",
+        "postgres=UC/postgres",
+        "supabase_auth_admin=U/postgres"
+      ],
+      "after": [
+        "anon=U/postgres",
+        "authenticated=U/postgres",
+        "eps_api_owner=U/postgres",
+        "eps_candidate_apply_owner=U/postgres",
+        "eps_candidate_assets_owner=U/postgres",
+        "eps_candidate_stage_owner=U/postgres",
+        "eps_candidate_upload_owner=U/postgres",
+        "eps_cast_owner=U/postgres",
+        "eps_casting_guard_owner=U/postgres",
+        "eps_casting_owner=U/postgres",
+        "eps_draft_owner=U/postgres",
+        "eps_guest_owner=U/postgres",
+        "eps_job_trace_owner=U/postgres",
+        "eps_jobs_dispatcher=U/postgres",
+        "eps_jobs_executor=U/postgres",
+        "eps_jobs_owner=U/postgres",
+        "eps_logo_verify_owner=U/postgres",
+        "eps_mcp_issuer_owner=U/postgres",
+        "eps_mcp_session_owner=U/postgres",
+        "eps_oauth_consent_owner=U/postgres",
+        "eps_project_creator=U/postgres",
+        "eps_review_owner=U/postgres",
+        "eps_review_stage_owner=U/postgres",
+        "eps_settings_owner=U/postgres",
+        "eps_specs_apply_owner=U/postgres",
+        "eps_specs_assets_executor=U/postgres",
+        "eps_specs_assets_owner=U/postgres",
+        "eps_specs_initializer=U/postgres",
+        "eps_specs_owner=U/postgres",
+        "eps_specs_stage_owner=U/postgres",
+        "eps_specs_submit_owner=U/postgres",
+        "eps_specs_upload_owner=U/postgres",
+        "eps_specs_verify_owner=U/postgres",
+        "eps_support_upload_owner=U/postgres",
+        "eps_support_verify_owner=U/postgres",
+        "postgres=UC/postgres",
+        "supabase_auth_admin=U/postgres"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "schemas|public|acl": {
+      "before": [
+        "anon=U/pg_database_owner",
+        "authenticated=U/pg_database_owner",
+        "eps_api_owner=U/pg_database_owner",
+        "eps_candidate_apply_owner=U/pg_database_owner",
+        "eps_candidate_assets_owner=U/pg_database_owner",
+        "eps_candidate_stage_owner=U/pg_database_owner",
+        "eps_candidate_upload_owner=U/pg_database_owner",
+        "eps_cast_owner=U/pg_database_owner",
+        "eps_casting_owner=U/pg_database_owner",
+        "eps_draft_owner=U/pg_database_owner",
+        "eps_guest_owner=U/pg_database_owner",
+        "eps_jobs_owner=U/pg_database_owner",
+        "eps_logo_verify_owner=U/pg_database_owner",
+        "eps_mcp_issuer_owner=U/pg_database_owner",
+        "eps_mcp_session_owner=U/pg_database_owner",
+        "eps_oauth_consent_owner=U/pg_database_owner",
+        "eps_review_owner=U/pg_database_owner",
+        "eps_review_stage_owner=U/pg_database_owner",
+        "eps_settings_owner=U/pg_database_owner",
+        "eps_specs_apply_owner=U/pg_database_owner",
+        "eps_specs_assets_owner=U/pg_database_owner",
+        "eps_specs_owner=U/pg_database_owner",
+        "eps_specs_stage_owner=U/pg_database_owner",
+        "eps_specs_submit_owner=U/pg_database_owner",
+        "eps_specs_upload_owner=U/pg_database_owner",
+        "eps_specs_verify_owner=U/pg_database_owner",
+        "eps_support_upload_owner=U/pg_database_owner",
+        "eps_support_verify_owner=U/pg_database_owner",
+        "pg_database_owner=UC/pg_database_owner",
+        "postgres=U/pg_database_owner",
+        "service_role=U/pg_database_owner"
+      ],
+      "after": [
+        "anon=U/pg_database_owner",
+        "authenticated=U/pg_database_owner",
+        "eps_api_owner=U/pg_database_owner",
+        "eps_candidate_apply_owner=U/pg_database_owner",
+        "eps_candidate_assets_owner=U/pg_database_owner",
+        "eps_candidate_stage_owner=U/pg_database_owner",
+        "eps_candidate_upload_owner=U/pg_database_owner",
+        "eps_cast_owner=U/pg_database_owner",
+        "eps_casting_owner=U/pg_database_owner",
+        "eps_draft_owner=U/pg_database_owner",
+        "eps_guest_owner=U/pg_database_owner",
+        "eps_jobs_owner=U/pg_database_owner",
+        "eps_logo_verify_owner=U/pg_database_owner",
+        "eps_mcp_issuer_owner=U/pg_database_owner",
+        "eps_mcp_session_owner=U/pg_database_owner",
+        "eps_oauth_consent_owner=U/pg_database_owner",
+        "eps_project_creator=U/pg_database_owner",
+        "eps_review_owner=U/pg_database_owner",
+        "eps_review_stage_owner=U/pg_database_owner",
+        "eps_settings_owner=U/pg_database_owner",
+        "eps_specs_apply_owner=U/pg_database_owner",
+        "eps_specs_assets_owner=U/pg_database_owner",
+        "eps_specs_owner=U/pg_database_owner",
+        "eps_specs_stage_owner=U/pg_database_owner",
+        "eps_specs_submit_owner=U/pg_database_owner",
+        "eps_specs_upload_owner=U/pg_database_owner",
+        "eps_specs_verify_owner=U/pg_database_owner",
+        "eps_support_upload_owner=U/pg_database_owner",
+        "eps_support_verify_owner=U/pg_database_owner",
+        "pg_database_owner=UC/pg_database_owner",
+        "postgres=U/pg_database_owner",
+        "service_role=U/pg_database_owner"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "tables|eps.audit_events|acl": {
+      "before": [
+        "eps_api_owner=a/postgres",
+        "eps_candidate_upload_owner=a/postgres",
+        "eps_cast_owner=a/postgres",
+        "eps_jobs_owner=a/postgres",
+        "eps_logo_verify_owner=a/postgres",
+        "eps_review_owner=a/postgres",
+        "eps_settings_owner=a/postgres",
+        "eps_specs_owner=a/postgres",
+        "eps_specs_submit_owner=a/postgres",
+        "eps_specs_upload_owner=a/postgres",
+        "eps_specs_verify_owner=a/postgres",
+        "eps_support_upload_owner=a/postgres",
+        "eps_support_verify_owner=a/postgres",
+        "postgres=arwdDxtm/postgres"
+      ],
+      "after": [
+        "eps_api_owner=a/postgres",
+        "eps_candidate_upload_owner=a/postgres",
+        "eps_cast_owner=a/postgres",
+        "eps_jobs_owner=a/postgres",
+        "eps_logo_verify_owner=a/postgres",
+        "eps_project_creator=a/postgres",
+        "eps_review_owner=a/postgres",
+        "eps_settings_owner=a/postgres",
+        "eps_specs_owner=a/postgres",
+        "eps_specs_submit_owner=a/postgres",
+        "eps_specs_upload_owner=a/postgres",
+        "eps_specs_verify_owner=a/postgres",
+        "eps_support_upload_owner=a/postgres",
+        "eps_support_verify_owner=a/postgres",
+        "postgres=arwdDxtm/postgres"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "tables|eps.idempotency_records|acl": {
+      "before": [
+        "eps_api_owner=ar/postgres",
+        "eps_candidate_upload_owner=ar/postgres",
+        "eps_cast_owner=ar/postgres",
+        "eps_casting_owner=ar/postgres",
+        "eps_jobs_owner=ar/postgres",
+        "eps_logo_verify_owner=ar/postgres",
+        "eps_review_owner=ar/postgres",
+        "eps_settings_owner=ar/postgres",
+        "eps_specs_owner=ar/postgres",
+        "eps_specs_submit_owner=ar/postgres",
+        "eps_specs_upload_owner=ar/postgres",
+        "eps_specs_verify_owner=ar/postgres",
+        "eps_support_upload_owner=ar/postgres",
+        "eps_support_verify_owner=ar/postgres",
+        "postgres=arwdDxtm/postgres"
+      ],
+      "after": [
+        "eps_api_owner=ar/postgres",
+        "eps_candidate_upload_owner=ar/postgres",
+        "eps_cast_owner=ar/postgres",
+        "eps_casting_owner=ar/postgres",
+        "eps_jobs_owner=ar/postgres",
+        "eps_logo_verify_owner=ar/postgres",
+        "eps_project_creator=ar/postgres",
+        "eps_review_owner=ar/postgres",
+        "eps_settings_owner=ar/postgres",
+        "eps_specs_owner=ar/postgres",
+        "eps_specs_submit_owner=ar/postgres",
+        "eps_specs_upload_owner=ar/postgres",
+        "eps_specs_verify_owner=ar/postgres",
+        "eps_support_upload_owner=ar/postgres",
+        "eps_support_verify_owner=ar/postgres",
+        "postgres=arwdDxtm/postgres"
+      ],
+      "added": false,
+      "removed": false
+    },
+    "columns|eps.audit_events.reason|acl": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.audit_events.reason|default": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.audit_events.reason|generated": {
+      "before": null,
+      "after": "",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.audit_events.reason|identity": {
+      "before": null,
+      "after": "",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.audit_events.reason|not_null": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.audit_events.reason|type": {
+      "before": null,
+      "after": "text",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_at|acl": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_at|default": {
+      "before": null,
+      "after": "now()",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_at|generated": {
+      "before": null,
+      "after": "",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_at|identity": {
+      "before": null,
+      "after": "",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_at|not_null": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_at|type": {
+      "before": null,
+      "after": "timestamp with time zone",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_by|acl": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_by|default": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_by|generated": {
+      "before": null,
+      "after": "",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_by|identity": {
+      "before": null,
+      "after": "",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_by|not_null": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.created_by|type": {
+      "before": null,
+      "after": "uuid",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.presentation_type|acl": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.presentation_type|default": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.presentation_type|generated": {
+      "before": null,
+      "after": "",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.presentation_type|identity": {
+      "before": null,
+      "after": "",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.presentation_type|not_null": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.presentation_type|type": {
+      "before": null,
+      "after": "text",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.project_id|acl": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.project_id|default": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.project_id|generated": {
+      "before": null,
+      "after": "",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.project_id|identity": {
+      "before": null,
+      "after": "",
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.project_id|not_null": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "columns|eps.project_creation_intents.project_id|type": {
+      "before": null,
+      "after": "uuid",
+      "added": true,
+      "removed": false
+    },
+    "constraints|eps.project_creation_intents.project_creation_intents_created_by_fkey|definition": {
+      "before": null,
+      "after": "FOREIGN KEY (created_by) REFERENCES auth.users(id) ON DELETE RESTRICT",
+      "added": true,
+      "removed": false
+    },
+    "constraints|eps.project_creation_intents.project_creation_intents_pkey|definition": {
+      "before": null,
+      "after": "PRIMARY KEY (project_id)",
+      "added": true,
+      "removed": false
+    },
+    "constraints|eps.project_creation_intents.project_creation_intents_presentation_type_check|definition": {
+      "before": null,
+      "after": "CHECK ((presentation_type = ANY (ARRAY['casting'::text, 'wardrobe'::text, 'art_direction'::text, 'storyboard'::text, 'vehicles_animals'::text, 'fitting'::text, 'pre_ppm'::text, 'ppm'::text, 'production_documents'::text])))",
+      "added": true,
+      "removed": false
+    },
+    "constraints|eps.project_creation_intents.project_creation_intents_project_id_fkey|definition": {
+      "before": null,
+      "after": "FOREIGN KEY (project_id) REFERENCES public.projects(id) ON DELETE RESTRICT",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|acl": {
+      "before": null,
+      "after": [
+        "authenticated=X/eps_project_creator",
+        "eps_project_creator=X/eps_project_creator"
+      ],
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|argument_defaults": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|config": {
+      "before": null,
+      "after": [
+        "search_path=\"\""
+      ],
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|definer": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|identity_arguments": {
+      "before": null,
+      "after": "p_input jsonb, p_idempotency_key text",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|kind": {
+      "before": null,
+      "after": "f",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|language": {
+      "before": null,
+      "after": "plpgsql",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|leakproof": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|owner": {
+      "before": null,
+      "after": "eps_project_creator",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|parallel": {
+      "before": null,
+      "after": "u",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|returns": {
+      "before": null,
+      "after": "jsonb",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|source_sha256": {
+      "before": null,
+      "after": "42768728559b3e020d54b1432a43eb126c49da42a32a61e16ef03cec580640f9",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|strict": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|support": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_create_project(jsonb,text)|volatility": {
+      "before": null,
+      "after": "v",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|acl": {
+      "before": null,
+      "after": [
+        "authenticated=X/eps_api_owner",
+        "eps_api_owner=X/eps_api_owner"
+      ],
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|argument_defaults": {
+      "before": null,
+      "after": "''::text, NULL::text, 25",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|config": {
+      "before": null,
+      "after": [
+        "search_path=\"\""
+      ],
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|definer": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|identity_arguments": {
+      "before": null,
+      "after": "p_q text, p_cursor text, p_limit integer",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|kind": {
+      "before": null,
+      "after": "f",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|language": {
+      "before": null,
+      "after": "plpgsql",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|leakproof": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|owner": {
+      "before": null,
+      "after": "eps_api_owner",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|parallel": {
+      "before": null,
+      "after": "u",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|returns": {
+      "before": null,
+      "after": "jsonb",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|source_sha256": {
+      "before": null,
+      "after": "5c4a0fe97d1e340330207777ea9c9dfae10213b6e9fed74911f61dfd1aff9eb8",
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|strict": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|support": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "functions|public.eps_list_project_clients(text,text,integer)|volatility": {
+      "before": null,
+      "after": "s",
+      "added": true,
+      "removed": false
+    },
+    "indexes|eps.project_creation_intents_pkey|definition": {
+      "before": null,
+      "after": "CREATE UNIQUE INDEX project_creation_intents_pkey ON eps.project_creation_intents USING btree (project_id)",
+      "added": true,
+      "removed": false
+    },
+    "indexes|eps.project_creation_intents_pkey|live": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "indexes|eps.project_creation_intents_pkey|ready": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "indexes|eps.project_creation_intents_pkey|valid": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "memberships|authenticated>eps_project_creator/postgres|admin": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "memberships|authenticated>eps_project_creator/postgres|grantor": {
+      "before": null,
+      "after": "postgres",
+      "added": true,
+      "removed": false
+    },
+    "memberships|authenticated>eps_project_creator/postgres|inherit": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "memberships|authenticated>eps_project_creator/postgres|set": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "memberships|eps_project_creator>postgres/postgres|admin": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "memberships|eps_project_creator>postgres/postgres|grantor": {
+      "before": null,
+      "after": "postgres",
+      "added": true,
+      "removed": false
+    },
+    "memberships|eps_project_creator>postgres/postgres|inherit": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "memberships|eps_project_creator>postgres/postgres|set": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "memberships|eps_project_creator>postgres/supabase_admin|admin": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "memberships|eps_project_creator>postgres/supabase_admin|grantor": {
+      "before": null,
+      "after": "supabase_admin",
+      "added": true,
+      "removed": false
+    },
+    "memberships|eps_project_creator>postgres/supabase_admin|inherit": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "memberships|eps_project_creator>postgres/supabase_admin|set": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.audit_events.project_creator_audit|cmd": {
+      "before": null,
+      "after": "INSERT",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.audit_events.project_creator_audit|permissive": {
+      "before": null,
+      "after": "PERMISSIVE",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.audit_events.project_creator_audit|qual": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.audit_events.project_creator_audit|roles": {
+      "before": null,
+      "after": [
+        "eps_project_creator"
+      ],
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.audit_events.project_creator_audit|with_check": {
+      "before": null,
+      "after": "((principal_id = auth.uid()) AND (action = 'create_project'::text))",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.idempotency_records.project_creator_idempotency|cmd": {
+      "before": null,
+      "after": "ALL",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.idempotency_records.project_creator_idempotency|permissive": {
+      "before": null,
+      "after": "PERMISSIVE",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.idempotency_records.project_creator_idempotency|qual": {
+      "before": null,
+      "after": "((principal_id = auth.uid()) AND (operation = 'create_project'::text))",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.idempotency_records.project_creator_idempotency|roles": {
+      "before": null,
+      "after": [
+        "eps_project_creator"
+      ],
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.idempotency_records.project_creator_idempotency|with_check": {
+      "before": null,
+      "after": "((principal_id = auth.uid()) AND (operation = 'create_project'::text))",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.project_creation_intents.project_intent_insert|cmd": {
+      "before": null,
+      "after": "INSERT",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.project_creation_intents.project_intent_insert|permissive": {
+      "before": null,
+      "after": "PERMISSIVE",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.project_creation_intents.project_intent_insert|qual": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.project_creation_intents.project_intent_insert|roles": {
+      "before": null,
+      "after": [
+        "eps_project_creator"
+      ],
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.project_creation_intents.project_intent_insert|with_check": {
+      "before": null,
+      "after": "((created_by = auth.uid()) AND (project_id = (NULLIF(current_setting('eps.project_create.new_id'::text, true), ''::text))::uuid))",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.project_creation_intents.project_intent_read|cmd": {
+      "before": null,
+      "after": "SELECT",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.project_creation_intents.project_intent_read|permissive": {
+      "before": null,
+      "after": "PERMISSIVE",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.project_creation_intents.project_intent_read|qual": {
+      "before": null,
+      "after": "eps.project_access(project_id, false)",
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.project_creation_intents.project_intent_read|roles": {
+      "before": null,
+      "after": [
+        "eps_api_owner"
+      ],
+      "added": true,
+      "removed": false
+    },
+    "policies|eps.project_creation_intents.project_intent_read|with_check": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "policies|public.project_memberships.creator_membership_insert|cmd": {
+      "before": null,
+      "after": "INSERT",
+      "added": true,
+      "removed": false
+    },
+    "policies|public.project_memberships.creator_membership_insert|permissive": {
+      "before": null,
+      "after": "PERMISSIVE",
+      "added": true,
+      "removed": false
+    },
+    "policies|public.project_memberships.creator_membership_insert|qual": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "policies|public.project_memberships.creator_membership_insert|roles": {
+      "before": null,
+      "after": [
+        "eps_project_creator"
+      ],
+      "added": true,
+      "removed": false
+    },
+    "policies|public.project_memberships.creator_membership_insert|with_check": {
+      "before": null,
+      "after": "((project_id = (NULLIF(current_setting('eps.project_create.new_id'::text, true), ''::text))::uuid) AND (principal_id = auth.uid()) AND can_write AND active)",
+      "added": true,
+      "removed": false
+    },
+    "policies|public.projects.new_project_insert|cmd": {
+      "before": null,
+      "after": "INSERT",
+      "added": true,
+      "removed": false
+    },
+    "policies|public.projects.new_project_insert|permissive": {
+      "before": null,
+      "after": "PERMISSIVE",
+      "added": true,
+      "removed": false
+    },
+    "policies|public.projects.new_project_insert|qual": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "policies|public.projects.new_project_insert|roles": {
+      "before": null,
+      "after": [
+        "eps_project_creator"
+      ],
+      "added": true,
+      "removed": false
+    },
+    "policies|public.projects.new_project_insert|with_check": {
+      "before": null,
+      "after": "((id = (NULLIF(current_setting('eps.project_create.new_id'::text, true), ''::text))::uuid) AND eps.has_capability('projects.read'::text) AND eps.has_capability('projects.write'::text) AND ((client_id IS NULL) OR eps.client_access(client_id, true)))",
+      "added": true,
+      "removed": false
+    },
+    "roles|eps_project_creator|bypassrls": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "roles|eps_project_creator|connection_limit": {
+      "before": null,
+      "after": -1,
+      "added": true,
+      "removed": false
+    },
+    "roles|eps_project_creator|create_db": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "roles|eps_project_creator|create_role": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "roles|eps_project_creator|inherit": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "roles|eps_project_creator|login": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "roles|eps_project_creator|replication": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "roles|eps_project_creator|super": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "roles|eps_project_creator|valid_until": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "tables|eps.project_creation_intents|acl": {
+      "before": null,
+      "after": [
+        "eps_api_owner=r/postgres",
+        "eps_project_creator=a/postgres",
+        "postgres=arwdDxtm/postgres"
+      ],
+      "added": true,
+      "removed": false
+    },
+    "tables|eps.project_creation_intents|force_rls": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "tables|eps.project_creation_intents|owner": {
+      "before": null,
+      "after": "postgres",
+      "added": true,
+      "removed": false
+    },
+    "tables|eps.project_creation_intents|rls": {
+      "before": null,
+      "after": true,
+      "added": true,
+      "removed": false
+    },
+    "types|eps.project_creation_intents|acl": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "types|eps.project_creation_intents|base": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "types|eps.project_creation_intents|default": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "types|eps.project_creation_intents|enum_labels": {
+      "before": null,
+      "after": null,
+      "added": true,
+      "removed": false
+    },
+    "types|eps.project_creation_intents|kind": {
+      "before": null,
+      "after": "c",
+      "added": true,
+      "removed": false
+    },
+    "types|eps.project_creation_intents|not_null": {
+      "before": null,
+      "after": false,
+      "added": true,
+      "removed": false
+    },
+    "types|eps.project_creation_intents|owner": {
+      "before": null,
+      "after": "postgres",
+      "added": true,
+      "removed": false
+    }
+  },
+  "catalogue40_setup_delta_sha256": "db8335865943ac627024d2a3b7a36eec6be280b08fe34466cab6be13770d9430",
+  "restored_current40_history_count": 40,
+  "proof_input_sha256": "78f69d0536db847f3018a3e2eafa7222d5b6ca297d400690abb63277d4bfc697",
+  "logo_info": {
+    "cases": [
+      {
+        "case": "baseline-own-open-GET",
+        "passed": true,
+        "operation": "storage.object.get_authenticated",
+        "helper_allowed": true,
+        "selected_count": 1,
+        "table_select_denied": false,
+        "helper_execute_denied": false
+      },
+      {
+        "case": "baseline-own-open-INFO-denied",
+        "passed": true,
+        "operation": "object.get_authenticated_info",
+        "helper_allowed": false,
+        "selected_count": 0,
+        "table_select_denied": false,
+        "helper_execute_denied": false
+      },
+      {
+        "case": "baseline-ready-GET",
+        "passed": true,
+        "operation": "storage.object.get_authenticated",
+        "helper_allowed": true,
+        "selected_count": 1,
+        "table_select_denied": false,
+        "helper_execute_denied": false
+      },
+      {
+        "case": "baseline-ready-INFO-denied",
+        "passed": true,
+        "operation": "object.get_authenticated_info",
+        "helper_allowed": false,
+        "selected_count": 0,
+        "table_select_denied": false,
+        "helper_execute_denied": false
+      },
+      {
+        "case": "baseline-verifier-storage-denied",
+        "passed": true,
+        "operation": "storage.object.get_authenticated",
+        "helper_allowed": true,
+        "selected_count": 0,
+        "table_select_denied": false,
+        "helper_execute_denied": false
+      },
+      {
+        "case": "own-open-GET",
+        "passed": true,
+        "operation": "storage.object.get_authenticated",
+        "helper_allowed": true,
+        "selected_count": 1,
+        "table_select_denied": false,
+        "helper_execute_denied": false
+      },
+      {
+        "case": "own-open-INFO",
+        "passed": true,
+        "operation": "object.get_authenticated_info",
+        "helper_allowed": true,
+        "selected_count": 1,
+        "table_select_denied": false,
+        "helper_execute_denied": false
+      },
+      {
+        "case": "own-open-INFO-prefixed",
+        "passed": true,
+        "operation": "storage.object.get_authenticated_info",
+        "helper_allowed": true,
+        "selected_count": 1,
+        "table_select_denied": false,
+        "helper_execute_denied": false
+      },
+      {
+        "case": "own-ready-GET",
+        "passed": true,
+        "operation": "storage.object.get_authenticated",
+        "helper_allowed": true,
+        "selected_count": 1,
+        "table_select_denied": false,
+        "helper_execute_denied": false
+      },
+      {
+        "case": "own-ready-INFO",
+        "passed": true,
+        "operation": "object.get_authenticated_info",
+        "helper_allowed": true,
+        "selected_count": 1,
+        "table_select_denied": false,
+        "helper_execute_denied": false
+      },
+      {
+        "case": "wrong-key",
+        "passed": true,
+        "operation": "object.get_authenticated_info",
+        "helper_allowed": false,
+        "selected_count": 0,
+        "table_select_denied": false,
+        "helper_execute_denied": false
+      },
+      {
+        "case": "wrong-bucket",
+        "passed": true,
+        "operation": "object.get_authenticated_info",
+        "helper_allowed": false,
+        "selected_count": 0,
+        "table_select_denied": false,
+        "helper_execute_denied": false
+      },
+      {
+        "case": "sign-denied",
+        "passed": true,
+        "operation": "storage.object.sign",
+        "helper_allowed": false,
+        "selected_count": 0,
+        "table_select_denied": false,
+        "helper_execute_denied": false
+      },
+      {
+        "case": "upload-denied",
+        "passed": true,
+        "operation": "storage.object.upload",
+        "helper_allowed": false,
+        "selected_count": 0,
+        "table_select_denied": false,
+        "helper_execute_denied": false
+      },
+      {
+        "case": "list-denied",
+        "passed": true,
+        "operation": "storage.object.list",
+        "helper_allowed": false,
+        "selected_count": 0,
+        "table_select_denied": false,
+        "helper_execute_denied": false
+      },
+      {
+        "case": "unused-info-name-denied",
+        "passed": true,
+        "operation": "storage.object.info_authenticated",
+        "helper_allowed": false,
+        "selected_count": 0,
+        "table_select_denied": false,
+        "helper_execute_denied": false
+      },
+      {
+        "case": "spoofed-operation-header-denied",
+        "passed": true,
+        "operation": "storage.object.sign",
+        "helper_allowed": false,
+        "selected_count": 0,
+        "table_select_denied": false,
+        "helper_execute_denied": false
+      },
+      {
+        "case": "same-project-wrong-owner-open-GET",
+        "passed": true,
+        "operation": "storage.object.get_authenticated",
+        "helper_allowed": false,
+        "selected_count": 0,
+        "table_select_denied": false,
+        "helper_execute_denied": false
+      },
+      {
+        "case": "same-project-wrong-owner-open-INFO",
+        "passed": true,
+        "operation": "object.get_authenticated_info",
+        "helper_allowed": false,
+        "selected_count": 0,
+        "table_select_denied": false,
+        "helper_execute_denied": false
+      },
+      {
+        "case": "same-project-authorized-nonowner-ready-INFO",
+        "passed": true,
+        "operation": "object.get_authenticated_info",
+        "helper_allowed": true,
+        "selected_count": 1,
+        "table_select_denied": false,
+        "helper_execute_denied": false
+      },
+      {
+        "case": "reader-open-denied",
+        "passed": true,
+        "operation": "object.get_authenticated_info",
+        "helper_allowed": false,
+        "selected_count": 0,
+        "table_select_denied": false,
+        "helper_execute_denied": false
+      },
+      {
+        "case": "reader-ready-GET",
+        "passed": true,
+        "operation": "storage.object.get_authenticated",
+        "helper_allowed": true,
+        "selected_count": 1,
+        "table_select_denied": false,
+        "helper_execute_denied": false
+      },
+      {
+        "case": "reader-ready-INFO",
+        "passed": true,
+        "operation": "object.get_authenticated_info",
+        "helper_allowed": true,
+        "selected_count": 1,
+        "table_select_denied": false,
+        "helper_execute_denied": false
+      },
+      {
+        "case": "unrelated-open-denied",
+        "passed": true,
+        "operation": "object.get_authenticated_info",
+        "helper_allowed": false,
+        "selected_count": 0,
+        "table_select_denied": false,
+        "helper_execute_denied": false
+      },
+      {
+        "case": "unrelated-ready-denied",
+        "passed": true,
+        "operation": "object.get_authenticated_info",
+        "helper_allowed": false,
+        "selected_count": 0,
+        "table_select_denied": false,
+        "helper_execute_denied": false
+      },
+      {
+        "case": "anonymous-open-denied",
+        "passed": true,
+        "operation": "object.get_authenticated_info",
+        "helper_allowed": false,
+        "selected_count": 0,
+        "table_select_denied": false,
+        "helper_execute_denied": false
+      },
+      {
+        "case": "anonymous-ready-denied",
+        "passed": true,
+        "operation": "object.get_authenticated_info",
+        "helper_allowed": false,
+        "selected_count": 0,
+        "table_select_denied": false,
+        "helper_execute_denied": false
+      },
+      {
+        "case": "expired-open-GET-denied",
+        "passed": true,
+        "operation": "storage.object.get_authenticated",
+        "helper_allowed": false,
+        "selected_count": 0,
+        "table_select_denied": false,
+        "helper_execute_denied": false
+      },
+      {
+        "case": "expired-open-INFO-denied",
+        "passed": true,
+        "operation": "object.get_authenticated_info",
+        "helper_allowed": false,
+        "selected_count": 0,
+        "table_select_denied": false,
+        "helper_execute_denied": false
+      },
+      {
+        "case": "revoked-write-open-denied",
+        "passed": true,
+        "operation": "object.get_authenticated_info",
+        "helper_allowed": false,
+        "selected_count": 0,
+        "table_select_denied": false,
+        "helper_execute_denied": false
+      },
+      {
+        "case": "revoked-write-ready-remains-readable",
+        "passed": true,
+        "operation": "object.get_authenticated_info",
+        "helper_allowed": true,
+        "selected_count": 1,
+        "table_select_denied": false,
+        "helper_execute_denied": false
+      },
+      {
+        "case": "read-revoked-scoped-writer-open-allowed",
+        "passed": true,
+        "operation": "object.get_authenticated_info",
+        "helper_allowed": true,
+        "selected_count": 1,
+        "table_select_denied": false,
+        "helper_execute_denied": false
+      },
+      {
+        "case": "read-revoked-scoped-writer-ready-allowed",
+        "passed": true,
+        "operation": "object.get_authenticated_info",
+        "helper_allowed": true,
+        "selected_count": 1,
+        "table_select_denied": false,
+        "helper_execute_denied": false
+      },
+      {
+        "case": "revoked-project-read-open-denied",
+        "passed": true,
+        "operation": "object.get_authenticated_info",
+        "helper_allowed": false,
+        "selected_count": 0,
+        "table_select_denied": false,
+        "helper_execute_denied": false
+      },
+      {
+        "case": "revoked-project-read-ready-denied",
+        "passed": true,
+        "operation": "object.get_authenticated_info",
+        "helper_allowed": false,
+        "selected_count": 0,
+        "table_select_denied": false,
+        "helper_execute_denied": false
+      },
+      {
+        "case": "revoked-membership-open-denied",
+        "passed": true,
+        "operation": "object.get_authenticated_info",
+        "helper_allowed": false,
+        "selected_count": 0,
+        "table_select_denied": false,
+        "helper_execute_denied": false
+      },
+      {
+        "case": "revoked-membership-ready-denied",
+        "passed": true,
+        "operation": "object.get_authenticated_info",
+        "helper_allowed": false,
+        "selected_count": 0,
+        "table_select_denied": false,
+        "helper_execute_denied": false
+      },
+      {
+        "case": "cancelled-open-denied",
+        "passed": true,
+        "operation": "object.get_authenticated_info",
+        "helper_allowed": false,
+        "selected_count": 0,
+        "table_select_denied": false,
+        "helper_execute_denied": false
+      },
+      {
+        "case": "verifier-storage-denied",
+        "passed": true,
+        "operation": "object.get_authenticated_info",
+        "helper_allowed": true,
+        "selected_count": 0,
+        "table_select_denied": false,
+        "helper_execute_denied": false
+      }
+    ],
+    "case_count": 39,
+    "SQL_simulation_only": true,
+    "hosted_Storage_acceptance": false,
+    "normal_child_return": true,
+    "full_clone_rows_catalogue_roles_rollback_exact": true
+  },
+  "all_preexisting_rows_preserved": true,
+  "all_owned_resources_absent": true,
+  "cleanup_inventories": {
+    "same_engine_container_inventory_empty": true,
+    "same_engine_volume_inventory_empty": true
+  },
+  "original_data_catalogue_and_global_roles_unchanged": true,
+  "shared_lock_released": true,
+  "finished_at": "2026-11-03T03:04:34.136Z",
+  "elapsed_ms": 53379
+}
