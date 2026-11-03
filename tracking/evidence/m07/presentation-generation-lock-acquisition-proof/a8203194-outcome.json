@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "run_id": "a8203194-6bf4-4394-9faf-10781487824e",
+  "compile_uuid": "61c7e232-641a-4783-892e-7bef01748050",
+  "normal_process_exit": 1,
+  "shell_session_id": 95807,
+  "result": "failed",
+  "checkpoint": "combined-first-candidate-mcp-large",
+  "elapsed_ms": 82568,
+  "actual_receipt": {
+    "path": "tracking/evidence/m07/presentation-generation-lock-acquisition-proof/2026-11-03T03-50-32.539Z-a8203194.json",
+    "sha256": "b58999b7a84aa52dbdcc4d125126ec0db00d954cfeb1095c094abf6a55c4548a",
+    "observed_at": "2026-11-03T03:50:32.539Z"
+  },
+  "first_and_only_application_call": {
+    "variant": "candidate",
+    "mode": "mcp",
+    "profile": "large",
+    "first_in_fresh_backend": true,
+    "application_calls_before_dispatch": 0,
+    "normal_SQL_return": true,
+    "ok": false,
+    "code": "57014",
+    "server_duration_ms": 8001.261,
+    "client_elapsed_ms": 8006.671000000002,
+    "rolled_back": true,
+    "fresh_clone_baseline_hash_readback_reached": false,
+    "native_thrown_error": false,
+    "current_cancellation_stack_or_stage_observed": false
+  },
+  "actual_candidate_helper": {
+    "variant": "candidate",
+    "source_sha256": "aa1db8b1c2f8e9a15360c24fd9a4216df03c9f14767b1b300898a3e88a7220e3",
+    "authority_unchanged": true
+  },
+  "actual_candidate_four_body_sources": [
+    {
+      "name": "eps.review_snapshot_data",
+      "source": "0dba1d407199191d3bbb4d84ddab94d9f4e33da6a0172738b86133e8c7bf61fd"
+    },
+    {
+      "name": "eps.review_snapshot",
+      "source": "c6f93795e1926bcbb2e550b428f2e76a9ffe04dc29199e799c3d3a0e7b73cd10"
+    },
+    {
+      "name": "public.eps_generate_version",
+      "source": "a5e5c60d3f94d9e05c62fc1cfc76ac4552713000b72b1efe4eac028da15c0d40"
+    },
+    {
+      "name": "eps.capture_presentation_video_transcripts",
+      "source": "afe33691e2bb1dad42999b49c8c5ba9d583d68bfc6cced60bfbea0adadc37dd7"
+    }
+  ],
+  "actual_pool_FK": {
+    "deferred": false,
+    "validated": true,
+    "deferrable": false,
+    "foreign_key": true,
+    "source_columns": true,
+    "target_columns": true,
+    "source_relation": true,
+    "target_relation": true
+  },
+  "actual_slot_FK": {
+    "deferred": false,
+    "validated": true,
+    "deferrable": false,
+    "references_slots": true,
+    "workspace_slot_columns": true,
+    "referenced_workspace_id_columns": true
+  },
+  "actual_source_seal_count": 147,
+  "unreached": [
+    "remaining_seven_first_calls",
+    "sixteen_semantic_component_projections",
+    "fresh_twelve_locksets_150_NOWAIT_and_eight_negatives",
+    "fresh_archived_FK_share_control",
+    "fresh_changed_helper_crossFK_workspaceFence_membership_capability_expiry_RC",
+    "missing_frame_focus_generation_capture_English_fallback_NO_MAIN_Shortlist_and_final_return_expiry",
+    "final_clone_original4107_canonical4_config_data_catalogue_and_authority_restore_and_readback"
+  ],
+  "outer_original_target_preservation_and_cleanup": {
+    "all_owned_resources_absent": true,
+    "original_data_catalogue_and_global_roles_unchanged": true,
+    "shared_lock_released": true,
+    "independent_successful_daemon_label_inventories_empty": true
+  },
+  "independent_postreturn_observation": {
+    "engine": "npipe:////./pipe/dockerDesktopLinuxEngine",
+    "exact_label": "eps.acqproof.run=a8203194-6bf4-4394-9faf-10781487824e",
+    "container_inventory_exit": 0,
+    "container_inventory_stdout_empty": true,
+    "container_inventory_stderr_empty": true,
+    "volume_inventory_exit": 0,
+    "volume_inventory_stdout_empty": true,
+    "volume_inventory_stderr_empty": true,
+    "fresh_shared_lock_exists": false,
+    "permanent_compile_claim_retained": true,
+    "CPU_and_shared_local_slot_released": true
+  },
+  "private_error_metadata": {
+    "failure_file_bytes": 88,
+    "failure_file_sha256": "3f7d53a6afffbc4b35da0b38d8ce84da35dc67cc0bcab52e8822e209d0268c24",
+    "failure_diagnostic_present": false,
+    "first_owned_native_error_file_present": false,
+    "meaning": "SQL57014_was_returned_by_existing_handler_no_new_private_context_in_this_purpose"
+  },
+  "automatic_retry": false,
+  "performance_or_semantic_security_acceptance": false,
+  "current_cause_attribution": "unobserved_beyond_query_canceled57014",
+  "source_or_threshold_changes_during_or_after_run": false,
+  "entry_closure": "Root_owned_not_changed_by_Recovery",
+  "cloud_called": false,
+  "provider_called": false
+}
