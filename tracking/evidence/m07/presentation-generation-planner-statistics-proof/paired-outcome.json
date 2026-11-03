@@ -1,0 +1,164 @@
+{
+    "schema_version":  1,
+    "result":  "completed_paired_local_observation_both_applications_failed57014",
+    "scope":  "two independent owned restores, original canonical graph, one fresh MCP-large8s call per arm",
+    "arms":  [
+                 {
+                     "arm":  "control",
+                     "run_id":  "5fc3f01f-68de-4198-b6d3-856f66e4b343",
+                     "actual_receipt":  {
+                                            "path":  "tracking/evidence/m07/presentation-generation-planner-statistics-proof-control/2026-11-03T09-14-46.339Z-5fc3f01f.json",
+                                            "sha256":  "0453b595828b16a66c7bf974ddbf0addf10e54254aaed84e2b0c8facd918ff50",
+                                            "observed_at":  "2026-11-03T09:14:46.339Z",
+                                            "finished_at":  "2026-11-03T09:15:56.285Z"
+                                        },
+                     "normal_process_exit":  0,
+                     "elapsed_ms":  69946,
+                     "source_seal_count":  196,
+                     "actual_and_private_executed_source_hashes_equal":  true,
+                     "one_fresh_application_call":  {
+                                                        "profile":  "large",
+                                                        "mode":  "mcp",
+                                                        "first_application_call_in_fresh_backend":  true,
+                                                        "application_calls_before_dispatch":  0,
+                                                        "normal_SQL_return":  true,
+                                                        "rolled_back":  true,
+                                                        "instrumentation_cost_present":  false,
+                                                        "performance_acceptance":  false,
+                                                        "pid":  617,
+                                                        "sql_client_elapsed_ms":  8002.867299999998,
+                                                        "result":  {
+                                                                       "ok":  false,
+                                                                       "code":  "57014",
+                                                                       "operation":  "generate",
+                                                                       "duration_ms":  8000.109
+                                                                   },
+                                                        "application_returned_queued":  false,
+                                                        "no_matrix_or_semantic_acceptance":  true,
+                                                        "child_exit":  0,
+                                                        "full_fresh_baseline_restored":  true
+                                                    },
+                     "explicit_ANALYZE_requested":  false,
+                     "explicit_ANALYZE_normal_return":  false,
+                     "statistics_table_count":  18,
+                     "new_last_analyze_timestamps":  0,
+                     "nonnegative_estimates_after_setup":  18,
+                     "changed_estimated_row_values":  0,
+                     "autoanalyze_counters_and_timestamps_unchanged":  true,
+                     "canonical_eight_function_identities_unchanged":  true,
+                     "catalogue_prosrc_exclusions":  0,
+                     "product_functions_replaced":  false,
+                     "application_baseline_unchanged_after_setup":  true,
+                     "full_application_rollback_and_original_target_preserved":  true,
+                     "all_owned_resources_absent":  true,
+                     "independent_same_daemon_container_volume_normal0_empty":  true,
+                     "fresh_shared_lock_absent":  true,
+                     "Root_independent_audit":  {
+                                                    "path":  "tracking/evidence/m07/presentation-generation-planner-statistics-proof-control/Root-5fc3f01f-postrun-audit.json",
+                                                    "sha256":  "9d206a59c8dd196d29ef287a9fbb9d49d34b8c919582a1481872ae9a0e6fd5ae"
+                                                },
+                     "original_data_catalogue_and_global_roles_unchanged":  true,
+                     "shared_lock_released":  true
+                 },
+                 {
+                     "arm":  "analyzed",
+                     "run_id":  "4fafc1f4-9c10-4bb2-a4e7-9f6ba07eb71d",
+                     "actual_receipt":  {
+                                            "path":  "tracking/evidence/m07/presentation-generation-planner-statistics-proof-analyzed/2026-11-03T09-18-12.768Z-4fafc1f4.json",
+                                            "sha256":  "96111a8ef4eba3099bc68ff5b6dd7774d9bdcec48f5ae0060eed8efa73d8c4a5",
+                                            "observed_at":  "2026-11-03T09:18:12.768Z",
+                                            "finished_at":  "2026-11-03T09:19:20.377Z"
+                                        },
+                     "normal_process_exit":  0,
+                     "elapsed_ms":  67609,
+                     "source_seal_count":  196,
+                     "actual_and_private_executed_source_hashes_equal":  true,
+                     "one_fresh_application_call":  {
+                                                        "profile":  "large",
+                                                        "mode":  "mcp",
+                                                        "first_application_call_in_fresh_backend":  true,
+                                                        "application_calls_before_dispatch":  0,
+                                                        "normal_SQL_return":  true,
+                                                        "rolled_back":  true,
+                                                        "instrumentation_cost_present":  false,
+                                                        "performance_acceptance":  false,
+                                                        "pid":  606,
+                                                        "sql_client_elapsed_ms":  8002.620999999999,
+                                                        "result":  {
+                                                                       "ok":  false,
+                                                                       "code":  "57014",
+                                                                       "operation":  "generate",
+                                                                       "duration_ms":  8000.539
+                                                                   },
+                                                        "application_returned_queued":  false,
+                                                        "no_matrix_or_semantic_acceptance":  true,
+                                                        "child_exit":  0,
+                                                        "full_fresh_baseline_restored":  true
+                                                    },
+                     "explicit_ANALYZE_requested":  true,
+                     "explicit_ANALYZE_normal_return":  true,
+                     "statistics_table_count":  18,
+                     "new_last_analyze_timestamps":  18,
+                     "nonnegative_estimates_after_setup":  18,
+                     "changed_estimated_row_values":  16,
+                     "autoanalyze_counters_and_timestamps_unchanged":  true,
+                     "canonical_eight_function_identities_unchanged":  true,
+                     "catalogue_prosrc_exclusions":  0,
+                     "product_functions_replaced":  false,
+                     "application_baseline_unchanged_after_setup":  true,
+                     "full_application_rollback_and_original_target_preserved":  true,
+                     "all_owned_resources_absent":  true,
+                     "independent_same_daemon_container_volume_normal0_empty":  true,
+                     "fresh_shared_lock_absent":  true,
+                     "Root_independent_audit":  {
+                                                    "path":  "tracking/evidence/m07/presentation-generation-planner-statistics-proof-analyzed/Root-4fafc1f4-postrun-audit.json",
+                                                    "sha256":  "f1ee752320d2976e597b0d1b9dde3582143a114ddb500b1337a0d76b531a838f"
+                                                },
+                     "original_data_catalogue_and_global_roles_unchanged":  true,
+                     "shared_lock_released":  true
+                 }
+             ],
+    "paired_controls":  {
+                            "independent_cluster_system_identifiers_differ":  true,
+                            "baseline_table_count":  87,
+                            "all_baseline_application_table_counts_equal":  true,
+                            "cross_arm_business_row_hash_equality_claimed":  false,
+                            "effective_nine_settings_equal":  true,
+                            "effective_settings":  {
+                                                       "jit":  "off",
+                                                       "autovacuum":  "on",
+                                                       "jit_above_cost":  "100000",
+                                                       "plan_cache_mode":  "auto",
+                                                       "jit_inline_above_cost":  "500000",
+                                                       "jit_optimize_above_cost":  "500000",
+                                                       "default_statistics_target":  "100",
+                                                       "autovacuum_analyze_threshold":  "50",
+                                                       "autovacuum_analyze_scale_factor":  "0.1"
+                                                   },
+                            "inherited_sender_JIT_before_profile":  "on",
+                            "measured_sender_JIT_both_arms":  "off",
+                            "canonical_JIT_reference":  {
+                                                            "path":  "tracking/evidence/m07/completion-release/canonical-planner-stats-e2813947-7ccb-4f96-820b-6b156f3e8653.json",
+                                                            "sha256":  "8df6f004e2cc99e92fa43962dcc6523c93324910548f9836ddf927094a37a27d"
+                                                        },
+                            "canonical_reference_JIT":  "off",
+                            "autoanalyze_counters_and_timestamps_unchanged_both_arms":  true,
+                            "product_function_replacements":  0,
+                            "catalogue_prosrc_exclusions":  0,
+                            "original_helper4107_canonical_six_and_public_validator_unchanged":  true,
+                            "fresh_backend_is_not_cold_machine_cache":  true
+                        },
+    "sole_shared_entry_closure_after_both_arms":  {
+                                                      "path":  "development/m07/presentation-generation-planner-statistics-proof/entry.mjs",
+                                                      "armed_sha256":  "1a005064e8c61a9ce8bf44fc9e47bfdc60cf7dc5f1f7321f3385734d490579cb",
+                                                      "closed_sha256":  "ac2a6f4f753313ae1dd8bbb9cf83b9a5a58b432795dd228c0f44ee862150ca6f"
+                                                  },
+    "control_to_preplanned_treatment_condition_preserved":  true,
+    "statistics_alone_did_not_resolve_original_graph_timeout_in_this_pair":  true,
+    "both_application_timings_timeout_censored":  true,
+    "relative_speedup_or_causal_attribution_claimed":  false,
+    "production_ANALYZE_accepted_or_dispatched":  false,
+    "generation_semantic_security_performance_or_production_acceptance":  false,
+    "automatic_retry":  false,
+    "new_SQL_test_or_runtime_dispatched_by_Recovery":  false
+}
