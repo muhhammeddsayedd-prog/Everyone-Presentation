@@ -423,4 +423,15 @@ code-owned, versioned template used by every generation path.
 - PowerPoint is composed on request from the saved version with the caller's own
   permissions (no stored artifact, no new bucket or grant). MCP PowerPoint tool deferred.
 - `eps.review_target_context` keeps its 1.1.0 identity (AI wording context only).
+- 2026-11-04 release session: MCP `download_version_pptx` builds the PowerPoint under the acting
+  user and returns the in-app content route that needs the same signed-in user; no bearer URL,
+  stored copy or privileged storage identity (the web tier has none by design).
+- Cover separator: HTML/PDF draw the reference's baseline-to-cap stem from the authored `|`
+  (78.8 % size, raised 0.193 em); PowerPoint keeps the full-size `|` because it renders
+  baseline offsets as reduced superscript.
+- Staging for canonical migrations is a replica of the deployed catalogue built from read-only
+  schema/role dumps (migrations 30-42 are canonical-admission and cannot replay on a fresh DB).
+  The migration pins canonical preimage hashes and asserts postimage hashes.
+- The SQL mirror is executable by every `eps.presentation_hash` grantee including its owner
+  `eps_review_owner` (owner of security-definer `eps_generate_version`); staging caught the omission.
 - Settings default is not changed by migration; a producer selects 1.2.0 after release.

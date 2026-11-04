@@ -190,18 +190,30 @@ copied per slide.
 
 ## G. Production readiness
 
-Verified locally: unit, server, worker (real Chromium + pdf.js), SQL mirror on a
-disposable PostgreSQL 17 container from the pinned Supabase image, and PowerPoint
-round-trip through Microsoft PowerPoint (Windows).
+Verified locally: unit, server, worker (real Chromium + pdf.js), SQL mirror on the staging
+replica of the canonical catalogue, browser preview, and PowerPoint round-trip through
+Microsoft PowerPoint (Windows). Canonical read-only preflight passed on 4 Nov 2026
+(`tracking/evidence/m08/editorial-release/`).
 
-Required before release (guarded process, not done on this branch):
+Release order and tools (none of the production steps has been run):
 
-1. Canonical DB release of `20261104210000_m08_editorial_template.sql` with pinned
-   preimage hashes of the seven patched function bodies; local replay is only possible
-   to migration 29 because migrations 30–42 are canonical-admission migrations.
-2. Worker rebuild and native sandbox image with the refreshed source seal (General Sans
-   TTFs, licence and template images are now in the packaging list and allowlist).
-3. Web deployment, then a producer selects "Everyone Film Editorial 1.2.0" in Settings.
-4. Hosted verification: create a 1.2.0 series, measure fit, generate, download PDF and
-   PowerPoint, share a guest link and export, through both the UI and Claude.
+1. Database: `python development/editorial-template/release/release.py apply`, then
+   `readback` (two equal readbacks: history 43, template 1.2.0, the seven pinned
+   postimage hashes, mirror ACL; `version_hash` unchanged from the preflight). The apply
+   was refused in the 4 Nov session by the session's permission policy, before any change.
+2. Worker: fresh `node tools/worker-hosting-build.mjs stage` from this source, native and
+   daemon images, registry upload, pause, environment hashes, deploy, readiness, native
+   pin, resume — the existing worker release procedure (development/m07/worker-*).
+3. Web: deploy exact Main; then a producer selects "Everyone Film Editorial 1.2.0" in
+   Settings (future series only).
+4. Hosted verification: create a 1.2.0 series, measure fit, generate Selection and
+   Shortlist, download PDF and PowerPoint, share a guest link and export, through both the
+   UI and Claude MCP (`generate_version`, `get_job`, `download_version_pdf`,
+   `download_version_pptx`).
 5. Keynote import check on macOS.
+
+Rollback: the migration is additive. Web and worker roll back to their previous
+deployments (1.0/1.1 paths are unchanged in this source, so the old deployments keep
+working against the migrated database). To stop new 1.2.0 series, set the default
+template back to 1.1.0 in Settings; existing 1.2.0 versions stay immutable and readable
+by the new web only. Never drop the template row or rewrite saved versions.
