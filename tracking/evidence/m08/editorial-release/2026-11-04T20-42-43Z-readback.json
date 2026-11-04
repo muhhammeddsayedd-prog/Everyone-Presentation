@@ -1,0 +1,112 @@
+{
+ "action": "readback",
+ "equal_readbacks": true,
+ "expected_postimages": {
+  "eps.export_validate_result(eps.jobs,jsonb)": "612c3097f2d4a7337ae0b35502e79bae82c7af46aac5bee1ac279928d9d53d54",
+  "eps.presentation_validate_result(eps.jobs,jsonb)": "0d80168e25763f73d286494e45d58ec578cd39509000f12cc4d787611928c605",
+  "eps.review_snapshot_data(uuid,uuid,text)": "9f3b50b8fdfb0c46efb96260d6886d938c861f27d44fd02bfa9e5047684329f4",
+  "public.eps_generate_version(uuid,jsonb,text)": "b4a91343c6d805309536f75f73766edc0d11d403ee22bfcd858e47a66aa90333",
+  "public.eps_get_workspace_review(uuid,uuid,text)": "152511802f304f1e8d20843559d9fb69be70e8228cb00ff972c9ee627bca5fb7",
+  "public.eps_request_workspace_review_fit(uuid,uuid,jsonb,text)": "4463ab7cf4b8da6422799a35a569b7a297ea3cfdb9edd43752312f05d6e261a2",
+  "public.eps_update_settings(jsonb,text)": "c02d4d82f51e53b6c8759515a04315363f075abcb427a960e3af6cd7889d31b7"
+ },
+ "migration_sha256": "51b64e3f57312821d34b389b1f0f02603d77e11f835c9be2f67f036a13da2965",
+ "passed": true,
+ "recorded_at": "2026-11-04T20:42:43.517592+00:00",
+ "schema_version": "eps-m08-editorial-release.v1",
+ "state": {
+  "bodies": {
+   "eps.export_validate_result(eps.jobs,jsonb)": "612c3097f2d4a7337ae0b35502e79bae82c7af46aac5bee1ac279928d9d53d54",
+   "eps.presentation_validate_result(eps.jobs,jsonb)": "0d80168e25763f73d286494e45d58ec578cd39509000f12cc4d787611928c605",
+   "eps.review_snapshot_data(uuid,uuid,text)": "9f3b50b8fdfb0c46efb96260d6886d938c861f27d44fd02bfa9e5047684329f4",
+   "public.eps_generate_version(uuid,jsonb,text)": "b4a91343c6d805309536f75f73766edc0d11d403ee22bfcd858e47a66aa90333",
+   "public.eps_get_workspace_review(uuid,uuid,text)": "152511802f304f1e8d20843559d9fb69be70e8228cb00ff972c9ee627bca5fb7",
+   "public.eps_request_workspace_review_fit(uuid,uuid,jsonb,text)": "4463ab7cf4b8da6422799a35a569b7a297ea3cfdb9edd43752312f05d6e261a2",
+   "public.eps_update_settings(jsonb,text)": "c02d4d82f51e53b6c8759515a04315363f075abcb427a960e3af6cd7889d31b7"
+  },
+  "database": "postgres",
+  "history": [
+   "20261028010943",
+   "20261028013324",
+   "20261028013655",
+   "20261028024205",
+   "20261028072515",
+   "20261028162702",
+   "20261028162800",
+   "20261028172320",
+   "20261028184145",
+   "20261028222030",
+   "20261029001520",
+   "20261029003941",
+   "20261029070038",
+   "20261029090500",
+   "20261029090724",
+   "20261029094600",
+   "20261029100500",
+   "20261029133455",
+   "20261029135318",
+   "20261029174841",
+   "20261029180953",
+   "20261029202629",
+   "20261029203953",
+   "20261029215218",
+   "20261030002634",
+   "20261030004643",
+   "20261030013832",
+   "20261030030717",
+   "20261030111549",
+   "20261030154824",
+   "20261031010000",
+   "20261031104603",
+   "20261031130207",
+   "20261031143711",
+   "20261031182038",
+   "20261101012057",
+   "20261101042702",
+   "20261101110939",
+   "20261101223342",
+   "20261102085405",
+   "20261103031200",
+   "20261103104337",
+   "20261104210000"
+  ],
+  "mirror": {
+   "acl": "{postgres=X/postgres,eps_candidate_assets_owner=X/postgres,eps_guest_owner=X/postgres,eps_review_owner=X/postgres,eps_review_stage_owner=X/postgres}",
+   "owner": "postgres"
+  },
+  "operator": "postgres",
+  "series_templates": {
+   "1.0.0": 2,
+   "1.1.0": 9
+  },
+  "templates": [
+   {
+    "content_sha256": "8cfc99e874b2810d782f0a447628039e52e48a337fe1ce5b6286799c56e90001",
+    "font_key": "everyone-casting-fonts-v1",
+    "key": "everyone-casting",
+    "registered": true,
+    "version": "1.0.0"
+   },
+   {
+    "content_sha256": "bbe72bf2bb08f37fe394c75563e2eca3ab8da72b1775db75704d47ae54f4f638",
+    "font_key": "everyone-casting-fonts-v1",
+    "key": "everyone-casting",
+    "registered": true,
+    "version": "1.1.0"
+   },
+   {
+    "content_sha256": "9f6e281af2ec274af0762eb5fc9a4baa8a1a0130345ac0c3bb8a0477e09c2d4a",
+    "font_key": "everyone-film-fonts-v1",
+    "key": "everyone-casting",
+    "registered": true,
+    "version": "1.2.0"
+   }
+  ],
+  "version_hash": "c261cab3b85bc5870944baf1d0cace52330938e4d92313484bacc4f9eb993f03",
+  "version_templates": {
+   "1.1.0": 17
+  }
+ },
+ "target": "pyibofyctwnqpvktepse",
+ "version": "20261104210000"
+}
