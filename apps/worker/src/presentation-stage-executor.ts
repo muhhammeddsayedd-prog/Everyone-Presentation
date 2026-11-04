@@ -102,7 +102,7 @@ export async function executePresentationStage(supplied: StageLease, gateway: Re
       const manifest = await options.assets.read(scope, source!.manifest_asset, signal); const pdf = await options.assets.read(scope, source!.pdf_asset, signal);
       if (!Buffer.from(manifest).equals(Buffer.from(manifestBytes)) || sha(pdf) !== source!.pdf_asset.sha256 || pdf.byteLength !== source!.pdf_asset.size_bytes) fail('STAGE_INPUT_INVALID');
       const proof = await (options.validate ?? validatePresentationPdf)(snapshot, await images(), pdf, { signal }); result = validated({ ...binding, manifest_asset: source!.manifest_asset, pdf_asset: source!.pdf_asset, proof }, input, snapshot, source!);
-    } else result = { version_id: snapshot.version_id, manifest_asset_id: source!.manifest_asset.asset_id, pdf_asset_id: source!.pdf_asset.asset_id, pdf_sha256: source!.pdf_asset.sha256, page_count: snapshot.slides.length, template_version: snapshot.template.version, validation_passed: true, overflow_count: 0, renderer_build: PRESENTATION_RENDERER };
+    } else result = { version_id: snapshot.version_id, manifest_asset_id: source!.manifest_asset.asset_id, pdf_asset_id: source!.pdf_asset.asset_id, pdf_sha256: source!.pdf_asset.sha256, page_count: expectedLayout(snapshot).page_count, template_version: snapshot.template.version, validation_passed: true, overflow_count: 0, renderer_build: PRESENTATION_RENDERER };
   } catch (error) {
     await stop(); if (signal.aborted) return fail(options.signal?.aborted ? 'PROCESSING_CANCELLED' : 'LEASE_STALE'); if (error instanceof PresentationExecutionError) throw error;
     const retryable = error instanceof PresentationAssetError ? error.retryable : !(error instanceof PresentationPdfError) || error.code === 'PDF_RENDER_FAILED';

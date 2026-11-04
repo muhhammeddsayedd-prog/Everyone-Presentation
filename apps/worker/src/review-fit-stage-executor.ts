@@ -6,6 +6,7 @@ import { workspaceReviewDto } from '../../../packages/central/src/review-dto.ts'
 import { CandidateCallbackError, deliverCandidateCallback } from './candidate-callback.ts';
 import type { ReviewStageGateway, ReviewStageScope } from './review-stage-executor.ts';
 import { measureReviewFit, REVIEW_FIT_RENDERER_VERSION, ReviewFitError, type ReviewFitMeasurement } from './review-fit.ts';
+import { isEditorialTemplate } from './editorial-template.ts';
 
 export interface ReviewFitStageOptions { signal?: AbortSignal; heartbeatMs?: number; gatewayTimeoutMs?: number; measure?: typeof measureReviewFit }
 export class ReviewFitExecutionError extends Error {
@@ -17,8 +18,16 @@ const exact = (value: unknown, fields: readonly string[]): value is Record<strin
 const id = (value: unknown): value is string => typeof value === 'string' && /^[A-Za-z0-9._:-]{1,200}$/u.test(value);
 const digest = (value: unknown): value is string => typeof value === 'string' && /^[a-f0-9]{64}$/u.test(value);
 function fail(code: ReviewFitExecutionError['code']): never { throw new ReviewFitExecutionError(code); }
+/** Same rule as the domain template check: 1.0/1.1 measure with six IBM Plex faces;
+ * editorial 1.2.0 with six General Sans TrueType faces plus three Plex Arabic faces. */
+function fontsMatch(fonts: unknown, template: WorkspaceReview['template']) {
+  const editorial = isEditorialTemplate(template); const count = editorial ? 9 : 6;
+  const allowed = editorial ? /^apps\/web\/public\/fonts\/(?:GeneralSans-(?:Extralight|Light|Regular|Medium|Semibold|Bold)\.ttf|IBMPlexSansArabic-(?:Regular|Medium|SemiBold)\.woff2)$/u
+    : /^apps\/web\/public\/fonts\/IBMPlexSans(?:Arabic)?-(?:Regular|Medium|SemiBold)\.woff2$/u;
+  return object(fonts) && Object.keys(fonts).length === count && Object.entries(fonts).every(([key, sha]) => allowed.test(key) && digest(sha));
+}
 function measurement(value: unknown, review: WorkspaceReview): ReviewFitMeasurement {
-  if (!exact(value, ['schema_version', 'input_fingerprint', 'template_content_sha256', 'renderer_version', 'chromium_version', 'font_hashes', 'overflows', 'measured_at']) || value.schema_version !== '1.0' || value.input_fingerprint !== review.input_fingerprint || value.template_content_sha256 !== review.template.content_sha256 || value.renderer_version !== REVIEW_FIT_RENDERER_VERSION || typeof value.chromium_version !== 'string' || !/^[0-9]+(?:\.[0-9]+){2,3}$/u.test(value.chromium_version) || !object(value.font_hashes) || Object.keys(value.font_hashes).length !== 6 || Object.entries(value.font_hashes).some(([key, sha]) => !/^apps\/web\/public\/fonts\/IBMPlexSans(?:Arabic)?-(?:Regular|Medium|SemiBold)\.woff2$/u.test(key) || !digest(sha)) || !Array.isArray(value.overflows) || value.overflows.length > 10000 || typeof value.measured_at !== 'string' || value.measured_at.length > 50 || !Number.isFinite(Date.parse(value.measured_at))) fail('STAGE_INPUT_INVALID');
+  if (!exact(value, ['schema_version', 'input_fingerprint', 'template_content_sha256', 'renderer_version', 'chromium_version', 'font_hashes', 'overflows', 'measured_at']) || value.schema_version !== '1.0' || value.input_fingerprint !== review.input_fingerprint || value.template_content_sha256 !== review.template.content_sha256 || value.renderer_version !== REVIEW_FIT_RENDERER_VERSION || typeof value.chromium_version !== 'string' || !/^[0-9]+(?:\.[0-9]+){2,3}$/u.test(value.chromium_version) || !fontsMatch(value.font_hashes, review.template) || !Array.isArray(value.overflows) || value.overflows.length > 10000 || typeof value.measured_at !== 'string' || value.measured_at.length > 50 || !Number.isFinite(Date.parse(value.measured_at))) fail('STAGE_INPUT_INVALID');
   const fields = ['name_or_id', 'age_or_range', 'height_measurements', 'languages_accents', 'skills_experience', 'city', 'previous_projects_roles', 'classification', 'availability', 'presentation_notes', 'role_name', 'slot_label', 'requirements', 'project_name', 'client_name', 'title', 'layout', 'role_category', ...['age_range', 'gender_requirement', 'appearance_performance', 'languages', 'accents', 'skills', 'scene_references', 'shoot_dates', 'location', 'availability_requirements', 'other_instructions'].map(key => 'requirements.' + key)];
   for (const overflow of value.overflows) if (!exact(overflow, ['slide_index', 'field', 'axis', 'overflow_px']) || !Number.isSafeInteger(overflow.slide_index) || Number(overflow.slide_index) < 0 || Number(overflow.slide_index) > review.slides.length || !fields.includes(overflow.field as string) || !['horizontal', 'vertical'].includes(overflow.axis as string) || typeof overflow.overflow_px !== 'number' || !Number.isFinite(overflow.overflow_px) || overflow.overflow_px <= 0) fail('STAGE_INPUT_INVALID');
   return value as unknown as ReviewFitMeasurement;

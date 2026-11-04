@@ -6,6 +6,13 @@ import { renderPresentationPdf, validatePresentationPdf, PresentationPdfError } 
 import { measureReviewFit, loadReviewTemplateAssets, ReviewFitError } from '../../apps/worker/src/review-fit.ts';
 import { editorialExpectations } from '../../apps/worker/src/editorial-template.ts';
 import { editorialPresentation } from '../fixtures/editorial-snapshot.ts';
+import type { JobEvent, JsonObject, StageLease } from '@eps/jobs';
+import { executeReviewFitStage } from '../../apps/worker/src/review-fit-stage-executor.ts';
+import type { ReviewFitMeasurement } from '../../apps/worker/src/review-fit.ts';
+import type { ReviewStageGateway } from '../../apps/worker/src/review-stage-executor.ts';
+import { executePresentationStage } from '../../apps/worker/src/presentation-stage-executor.ts';
+import type { PresentationArtifact, PresentationStageAssets } from '../../apps/worker/src/presentation-assets.ts';
+import { presentationCanonicalHash, manifestFromSnapshot } from '../../packages/domain/src/presentation.ts';
 
 test('1.2.0 registry pins General Sans, the placeholder and every renderer file', async () => {
   const pinned = await loadReviewTemplateAssets({ key: registry.key, version: registry.version, content_sha256: registry.content_sha256, font_key: registry.font_key });
@@ -43,6 +50,51 @@ test('1.2.0 swapped, missing or mislabelled image bytes never become a PDF', { t
     if (mode === 'missing') images.delete(frame.asset_id); else images.set(frame.asset_id, images.get(snapshot.slides[4].frames[1].asset_id)!);
     await assert.rejects(renderPresentationPdf(snapshot, images), PresentationPdfError);
   }
+});
+
+test('1.2.0 fit through the real stage executor: nine-font measurement is published, a 1.1.0 font set is refused', { timeout: 180000 }, async () => {
+  const { snapshot } = editorialPresentation(); const review = reviewFromRenderSnapshot(snapshot);
+  review.slides.forEach((slide, n) => { if (slide.kind !== 'candidate') return; Object.assign(slide, { workspace_candidate_id: `pool-${n}`, candidate_media_id: slide.frames.length ? `media-${n}` : null, assignment_row_version: 1, workspace_candidate_row_version: 1, candidate_row_version: 1, review_status: 'reviewed' }); });
+  review.unreviewed_candidate_ids = []; review.fit = { status: 'unmeasured', input_fingerprint: null, measured_at: null, overflows: [], error_code: 'FIT_MEASUREMENT_REQUIRED' };
+  const draft = structuredClone(review) as Partial<typeof review>; delete draft.fit;
+  const input = { schema_version: '1.0', workspace_id: review.workspace_id, series_id: review.series_id, expected_input_fingerprint: review.input_fingerprint,
+    template: review.template, configuration: { renderer_version: 'everyone-casting-fit-v1' }, input_hash: 'b'.repeat(64) };
+  const run = async (measure?: Parameters<typeof executeReviewFitStage>[2]['measure']) => {
+    const lease: StageLease = { job_id: 'synthetic-job', attempt_id: 'synthetic-attempt', stage: 'measure_review_fit', lease_token: 'synthetic-lease',
+      lease_expires_at: new Date(Date.now() + 90000).toISOString(), already_completed: false, input: structuredClone(input) as unknown as JsonObject };
+    const events: JobEvent[] = [];
+    const gateway: ReviewStageGateway = {
+      async getInput() { return { ...structuredClone(input), job_id: lease.job_id, attempt_id: lease.attempt_id, stage: lease.stage, review: structuredClone(draft) }; },
+      async recordEvent(event) { events.push(structuredClone(event)); return { event_id: event.event_id, applied: true, duplicate: false, stale: false, job_status: event.event_type === 'succeeded' ? 'succeeded' : 'running' }; },
+    };
+    return { result: await executeReviewFitStage(lease, gateway, measure ? { measure } : {}), events };
+  };
+  const { events } = await run();
+  assert.equal(events.at(-1)?.event_type, 'succeeded'); assert.equal(Object.keys((events.at(-1)?.result as { font_hashes: object }).font_hashes).length, 9);
+  const legacyFonts = Object.fromEntries(['IBMPlexSans-Regular', 'IBMPlexSans-Medium', 'IBMPlexSans-SemiBold', 'IBMPlexSansArabic-Regular', 'IBMPlexSansArabic-Medium', 'IBMPlexSansArabic-SemiBold'].map(name => [`apps/web/public/fonts/${name}.woff2`, 'a'.repeat(64)]));
+  const real = (events.at(-1)?.result ?? {}) as unknown as ReviewFitMeasurement;
+  await assert.rejects(run(async () => ({ ...real, font_hashes: legacyFonts })), { code: 'STAGE_INPUT_INVALID' });
+});
+
+test('1.2.0 presentation through the real stage executor: prepare, render, validate and publish all succeed', { timeout: 240000 }, async () => {
+  const { snapshot, images } = editorialPresentation(); const expected = editorialExpectations(reviewFromRenderSnapshot(snapshot));
+  const stages = ['prepare_presentation', 'render_presentation', 'validate_presentation', 'publish_presentation'];
+  const small = { schema_version: '1.0', workspace_id: snapshot.workspace_id, series_id: snapshot.series_id, version_id: snapshot.version_id,
+    snapshot_sha256: await presentationCanonicalHash(snapshot), manifest_sha256: await presentationCanonicalHash(manifestFromSnapshot(snapshot)), inventory_sha256: await presentationCanonicalHash(snapshot.asset_inventory), configuration: snapshot.render_configuration };
+  const input = { ...small, input_hash: await presentationCanonicalHash(small) }; const outputs: Record<string, JsonObject | null> = { prepared: null, rendered: null, validated: null };
+  const events: JobEvent[] = []; const files = new Map<string, Uint8Array>(); let writes = 0;
+  const assets: PresentationStageAssets = {
+    async read(_scope, asset) { const bytes = 'asset_kind' in asset ? images.get(asset.asset_id) : files.get(asset.asset_id); assert.ok(bytes); return bytes; },
+    async write(_scope, value): Promise<PresentationArtifact> { const asset_id = `a5060000-0000-4000-8000-${String(950 + writes++).padStart(12, '0')}`; files.set(asset_id, new Uint8Array(value.bytes)); return { asset_id, sha256: value.sha256, size_bytes: value.bytes.length, mime_type: value.purpose === 'presentation_pdf' ? 'application/pdf' : 'application/json' }; },
+  };
+  for (let n = 0; n < 4; n++) {
+    const lease: StageLease = { job_id: 'a5060000-0000-4000-8000-000000000900', attempt_id: `a5060000-0000-4000-8000-${String(910 + n).padStart(12, '0')}`, stage: stages[n], lease_token: 'b'.repeat(64), lease_expires_at: new Date(Date.now() + 90000).toISOString(), already_completed: false, input: structuredClone(input) as JsonObject };
+    const gateway = { async getInput() { return { ...structuredClone(input), job_id: lease.job_id, attempt_id: lease.attempt_id, stage: lease.stage, snapshot: structuredClone(snapshot), ...structuredClone(outputs) }; },
+      async recordEvent(event: JobEvent) { events.push(event); return { event_id: event.event_id, applied: true, duplicate: false, stale: false, job_status: event.stage === 'publish_presentation' ? 'succeeded' as const : 'running' as const }; } };
+    const response = await executePresentationStage(lease, gateway, { assets }); assert.equal(response.receipt?.applied, true, stages[n]);
+    assert.equal(events.at(-1)!.event_type, 'succeeded', stages[n]); if (n < 3) outputs[['prepared', 'rendered', 'validated'][n]] = structuredClone(events.at(-1)!.result!);
+  }
+  const result = events.at(-1)!.result!; assert.equal(result.validation_passed, true); assert.equal(result.page_count, expected.page_count); assert.equal(result.template_version, '1.2.0');
 });
 
 test('1.2.0 fit measures the editorial layout and attributes overflow to the captured slide', { timeout: 180000 }, async () => {
