@@ -1,0 +1,89 @@
+{
+ "action": "ready",
+ "daemon": {
+  "context": {
+   "environment": "production",
+   "project": {
+    "id": "prj_I4SMkDzaDy0KHNgiF00v4Da5aLb6",
+    "name": "everyone-presentation-worker-pilot"
+   },
+   "team": {
+    "id": "team_gboXPxTevpCOZuaA8eY9PmR1",
+    "slug": "muhammed-abdelrahman"
+   }
+  },
+  "daemon": {
+   "config": {
+    "command": [
+     "/usr/local/bin/node",
+     "--import",
+     "tsx",
+     "/opt/eps/apps/worker/src/runtime-hosted.ts"
+    ],
+    "image": {
+     "requested": "vcr.vercel.com/muhammed-abdelrahman/everyone-presentation-worker-pilot/daemon@sha256:850d886b86c4b7d3a439b09b40699419693412329ef2598ac339b9a55a9ac9ba",
+     "resolved": "vcr.vercel.com/muhammed-abdelrahman/everyone-presentation-worker-pilot/daemon@sha256:850d886b86c4b7d3a439b09b40699419693412329ef2598ac339b9a55a9ac9ba"
+    },
+    "instances": {
+     "dub1": 1
+    },
+    "resources": {
+     "requests": {
+      "memory": "2048Mi"
+     }
+    },
+    "terminationGracePeriodSeconds": 300
+   },
+   "createdAt": "2026-10-31T00:29:21.835Z",
+   "deploymentId": "dpl_85QVNdX9dxsA8jGsMQNhZgFVrEBK",
+   "instances": {
+    "desired": 1,
+    "items": [
+     {
+      "alive": true,
+      "id": "dmni_01m6m9yeg5q4yna8m48phcmgtv",
+      "image": "vcr.vercel.com/muhammed-abdelrahman/everyone-presentation-worker-pilot/daemon@sha256:850d886b86c4b7d3a439b09b40699419693412329ef2598ac339b9a55a9ac9ba",
+      "lastCheckedAt": "2026-11-04T22:12:49.346Z",
+      "memoryMiB": 2048,
+      "region": "dub1",
+      "startedAt": "2026-11-04T22:12:49.346Z"
+     }
+    ],
+    "ready": 1,
+    "total": 1
+   },
+   "name": "worker",
+   "scope": {
+    "type": "target",
+    "value": "production"
+   },
+   "status": "ready",
+   "updatedAt": "2026-11-04T22:12:49.324Z"
+  },
+  "next": [
+   {
+    "command": "vercel daemons instances list worker --scope muhammed-abdelrahman --global-config C:/Users/iway/AppData/Roaming/xdg.data/com.vercel.cli --project prj_I4SMkDzaDy0KHNgiF00v4Da5aLb6",
+    "when": "List the daemon's instances"
+   }
+  ],
+  "regions": [
+   {
+    "alive": 1,
+    "configured": 1,
+    "desired": 1,
+    "ready": 1,
+    "region": "dub1"
+   }
+  ],
+  "scalingOverridden": false
+ },
+ "deployment": {
+  "created": 1793830366276,
+  "id": "dpl_85QVNdX9dxsA8jGsMQNhZgFVrEBK",
+  "meta_run": "d983fbb2-7ca5-4b52-a69e-6d6f59a4193f",
+  "state": "READY"
+ },
+ "recorded_at": "2026-11-04T22:13:01.241966+00:00",
+ "result": "observed",
+ "schema_version": "eps-m08-worker-rollout.v1"
+}

@@ -33,6 +33,7 @@ CLI = ['npx.cmd', '--yes', 'supabase@2.122.0']
 IMAGE = 'public.ecr.aws/supabase/postgres:17.11.0.011'
 CONTAINER = 'eps-editorial-staging-disposable'
 MIGRATION = ROOT / 'supabase/migrations/20261104210000_m08_editorial_template.sql'
+FIT_FIX = ROOT / 'supabase/migrations/20261104230000_m08_editorial_fit_fonts.sql'
 PATCHED = ['public.eps_update_settings(jsonb,text)', 'public.eps_get_workspace_review(uuid,uuid,text)',
            'public.eps_request_workspace_review_fit(uuid,uuid,jsonb,text)', 'eps.review_snapshot_data(uuid,uuid,text)',
            'public.eps_generate_version(uuid,jsonb,text)', 'eps.presentation_validate_result(eps.jobs,jsonb)',
@@ -93,7 +94,7 @@ def psql(sql, user='postgres', single=True):
     data = sql if isinstance(sql, bytes) else sql.encode('utf-8')
     done = subprocess.run(args, input=b"set search_path='';\n" + data, capture_output=True)
     if done.returncode:
-        raise RuntimeError(done.stderr.decode('utf-8', 'replace')[-2000:])
+        message = done.stderr.decode('utf-8', 'replace'); raise RuntimeError(message[:600] + ' ... ' + message[-300:])
     return done.stdout.decode('utf-8')
 
 
@@ -193,6 +194,49 @@ execute replace(d,'begin','begin/*drift*/');end$d$;""", 'supabase_admin')
     raise AssertionError('drifted preimage was not refused')
 
 
+def fit_fix(after_m08):
+    """Second migration: only eps.review_validate_fit changes; fit results are then
+    accepted for 1.2.0 with its nine pinned fonts and still refused otherwise."""
+    fn = 'eps.review_validate_fit(eps.jobs,jsonb)'
+    expected = psql("select encode(sha256(convert_to(replace(prosrc,'jsonb_object_keys(p_value->''font_hashes''))<>6 then',"
+                    "'jsonb_object_keys(p_value->''font_hashes''))<>(case when p_job.input#>>''{template,version}''=''1.2.0''then 9 else 6 end)then'),'UTF8')),'hex')"
+                    f" from pg_proc where oid='{fn}'::regprocedure;").split()[-1]
+    text = FIT_FIX.read_bytes()
+    if b'POSTIMAGE_SHA256' in text:
+        raise SystemExit(json.dumps({'fit_fix_postimage_sha256': expected}))
+    psql(text)
+    after = catalogue()
+    changed = sorted(k for k in after_m08['functions'] if after_m08['functions'][k] != after['functions'].get(k))
+    assert changed == [fn] and after['functions'][fn]['sha256'] == expected, changed
+    assert {k: v for k, v in after['functions'][fn].items() if k != 'sha256'} == {k: v for k, v in after_m08['functions'][fn].items() if k != 'sha256'}
+    assert after['tables'] == after_m08['tables'] and after['policies'] == after_m08['policies']
+    fonts = {t['version']: t['font_hashes'] for t in value('seed.json', 'seed')['templates']}
+    registry = json.loads((ROOT / 'packages/templates/versions/1.2.0/registry.json').read_text(encoding='utf-8'))
+    fonts['1.2.0'] = {f['path']: f['sha256'] for f in registry['fonts']}
+    content = {t['version']: t['content_sha256'] for t in value('seed.json', 'seed')['templates']}
+    content['1.2.0'] = registry['content_sha256']
+    def accepts(version, measured):
+        job = {'input': {'expected_input_fingerprint': 'a' * 64, 'template': {'key': 'everyone-casting', 'version': version, 'content_sha256': content[version]},
+                         'configuration': {'renderer_version': 'everyone-casting-fit-v1'}}}
+        value_ = {'schema_version': '1.0', 'input_fingerprint': 'a' * 64, 'template_content_sha256': content[version], 'renderer_version': 'everyone-casting-fit-v1',
+                  'chromium_version': '156.0.0.0', 'font_hashes': measured, 'overflows': [], 'measured_at': '2026-11-04T22:00:00Z'}
+        sql = (f"do $t$begin perform eps.review_validate_fit(jsonb_populate_record(null::eps.jobs,{literal(json.dumps(job))}::jsonb),{literal(json.dumps(value_))}::jsonb);end$t$;")
+        # The synthetic job has no workspace: passing the font check reaches the
+        # snapshot read, which then reports RESOURCE_NOT_FOUND.
+        try:
+            psql(sql)
+            return True
+        except RuntimeError as error:
+            if 'Measured font inventory is invalid' in str(error):
+                return False
+            assert 'RESOURCE_NOT_FOUND' in str(error), error
+            return True
+    checks = {'1.2.0_nine_fonts': accepts('1.2.0', fonts['1.2.0']), '1.1.0_six_fonts': accepts('1.1.0', fonts['1.1.0']),
+              '1.2.0_with_1.1.0_fonts': accepts('1.2.0', fonts['1.1.0'])}
+    assert checks == {'1.2.0_nine_fonts': True, '1.1.0_six_fonts': True, '1.2.0_with_1.1.0_fonts': False}, checks
+    return {'changed': changed, 'postimage_sha256': expected, 'checks': checks}
+
+
 def main(argv):
     if 'refresh' in argv:
         refresh()
@@ -203,9 +247,12 @@ def main(argv):
     canonical = value('catalogue.json', 'catalogue')
     migration = MIGRATION.read_bytes()
     psql(migration)  # one transaction, as postgres
+    # The release tool records history in the same transaction; mirror it here.
+    psql("insert into supabase_migrations.schema_migrations(version,statements,name)values('20261104210000',array[]::text[],'m08_editorial_template');", 'supabase_admin')
     after = catalogue()
     report = verify(before, after, canonical)
     report.update(drift_refused=drift_refused, migration_sha256=hashlib.sha256(migration).hexdigest(), image=IMAGE, container=CONTAINER)
+    report['fit_fix'] = fit_fix(after)
     (OUT / 'staging-report.json').write_text(json.dumps(report, indent=1, sort_keys=True), encoding='utf-8')
     print(json.dumps({'result': 'passed', 'changed': len(report['changed']), 'migration_sha256': report['migration_sha256']}))
 

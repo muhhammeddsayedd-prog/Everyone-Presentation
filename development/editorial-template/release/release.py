@@ -102,6 +102,39 @@ def apply():
     return before, marker, sql_hash, marker in returned
 
 
+FIT_VERSION = '20261104230000'
+FIT_NAME = 'm08_editorial_fit_fonts'
+FIT_MIGRATION = ROOT / 'supabase/migrations/20261104230000_m08_editorial_fit_fonts.sql'
+FIT_FUNCTION = 'eps.review_validate_fit(eps.jobs,jsonb)'
+FIT_PRE = '655bb4833c912b0f0d9523de5a61081e1b3afbb054cc29c8df46ee29ae73abea'
+FIT_POST = '91e27a9c641f64243a03fe54969e9f9f634bee62a50e0ff97a9534682d65adf0'
+FIT_STATE = (STATE[:-1] + ",'fit',(select jsonb_build_object('sha256',encode(sha256(convert_to(prosrc,'UTF8')),'hex'),'owner',pg_get_userbyid(proowner),'acl',proacl::text,'config',proconfig)"
+             f"from pg_proc where oid='{FIT_FUNCTION}'::regprocedure))")
+
+
+def read_fit(label):
+    data, sql_hash = query(f"begin isolation level repeatable read read only;set local search_path='';set local statement_timeout='30s';\n{FIT_STATE} as state;\nrollback;\n", label)
+    row = data[0] if isinstance(data, list) else data['rows'][0]
+    state = row['state']
+    return (json.loads(state) if isinstance(state, str) else state), sql_hash
+
+
+def apply_fit():
+    before, _ = read_fit('fit-preflight')
+    history43 = HISTORY42 + [VERSION]
+    if before['history'] != history43 or before['fit']['sha256'] != FIT_PRE:
+        raise RuntimeError('fit preflight refused')
+    marker = str(uuid.uuid4())
+    sql = ("begin;\nset local search_path='';set local lock_timeout='5s';set local statement_timeout='60s';\n"
+           "do $m08_fit_release$begin if(select array_agg(version order by version)from supabase_migrations.schema_migrations)is distinct from array["
+           + ','.join(map(literal, history43)) + "]::text[] then raise exception'M08_FIT_RELEASE_HISTORY43_REQUIRED';end if;end$m08_fit_release$;\n"
+           + FIT_MIGRATION.read_text(encoding='utf-8')
+           + f"\ninsert into supabase_migrations.schema_migrations(version,statements,name)values({literal(FIT_VERSION)},array[]::text[],{literal(FIT_NAME)});\n"
+           + f"commit;\nselect jsonb_build_object('version',{literal(FIT_VERSION)},'marker',{literal(marker)})as m08_fit_release;\n")
+    data, sql_hash = query(sql, 'apply-fit')
+    return before, marker, sql_hash, marker in json.dumps(data)
+
+
 def main(argv):
     action = argv[0]
     if action == 'preflight':
@@ -118,8 +151,16 @@ def main(argv):
         ok = (first == second and first['history'] == HISTORY42 + [VERSION] and first['bodies'] == post
               and [t['version'] for t in first['templates']] == ['1.0.0', '1.1.0', '1.2.0'] and first['mirror'] is not None)
         print(json.dumps({'result': 'passed' if ok else 'failed', 'receipt': str(record('readback', {'passed': ok, 'equal_readbacks': first == second, 'state': first, 'expected_postimages': post}))}))
+    elif action == 'apply-fit':
+        before, marker, sql_hash, returned = apply_fit()
+        print(json.dumps({'result': 'applied' if returned else 'unconfirmed', 'receipt': str(record('apply-fit', {'before': before, 'marker': marker, 'apply_sql_sha256': sql_hash, 'commit_marker_returned': returned, 'fit_migration_sha256': hashlib.sha256(FIT_MIGRATION.read_bytes()).hexdigest()}))}))
+    elif action == 'readback-fit':
+        first, _ = read_fit('fit-readback-a')
+        second, _ = read_fit('fit-readback-b')
+        ok = first == second and first['history'] == HISTORY42 + [VERSION, FIT_VERSION] and first['fit']['sha256'] == FIT_POST
+        print(json.dumps({'result': 'passed' if ok else 'failed', 'receipt': str(record('readback-fit', {'passed': ok, 'equal_readbacks': first == second, 'state': first, 'expected_postimage': FIT_POST}))}))
     else:
-        raise SystemExit('usage: release.py preflight|apply|readback')
+        raise SystemExit('usage: release.py preflight|apply|readback|apply-fit|readback-fit')
 
 
 if __name__ == '__main__':

@@ -1,0 +1,69 @@
+{
+ "action": "pause",
+ "after": {
+  "config": {
+   "candidate_asset_config": {
+    "enabled": false
+   },
+   "frame_extraction_config": {
+    "enabled": false,
+    "native_image_id": "sha256:bad8d92b52921675a9ff11dbc8268321f380d48e3756d85eeb79ab8e186bc111"
+   },
+   "presentation_processing_config": {
+    "enabled": false
+   },
+   "review_processing_config": {
+    "enabled": false
+   },
+   "specs_pipeline_config": {
+    "enabled": false
+   }
+  },
+  "counters": {
+   "generic_retry": 0,
+   "leased_outbox": 0,
+   "pending_outbox": 0,
+   "presentation_retry": 0,
+   "queued": 0,
+   "running": 0,
+   "waiting_for_input": 0
+  },
+  "history": 43,
+  "versions": "c261cab3b85bc5870944baf1d0cace52330938e4d92313484bacc4f9eb993f03"
+ },
+ "before": {
+  "config": {
+   "candidate_asset_config": {
+    "enabled": true
+   },
+   "frame_extraction_config": {
+    "enabled": true,
+    "native_image_id": "sha256:bad8d92b52921675a9ff11dbc8268321f380d48e3756d85eeb79ab8e186bc111"
+   },
+   "presentation_processing_config": {
+    "enabled": true
+   },
+   "review_processing_config": {
+    "enabled": true
+   },
+   "specs_pipeline_config": {
+    "enabled": true
+   }
+  },
+  "counters": {
+   "generic_retry": 0,
+   "leased_outbox": 0,
+   "pending_outbox": 0,
+   "presentation_retry": 0,
+   "queued": 0,
+   "running": 0,
+   "waiting_for_input": 0
+  },
+  "history": 43,
+  "versions": "c261cab3b85bc5870944baf1d0cace52330938e4d92313484bacc4f9eb993f03"
+ },
+ "marker": "701b303c-b5bc-4874-b76d-dda55306f451",
+ "recorded_at": "2026-11-04T22:12:02.659874+00:00",
+ "result": "passed",
+ "schema_version": "eps-m08-worker-rollout.v1"
+}
