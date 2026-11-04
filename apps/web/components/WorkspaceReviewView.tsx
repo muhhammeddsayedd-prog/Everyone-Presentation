@@ -1,11 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { useCallback, useEffect, useEffectEvent, useRef, useState } from 'react';
+import { useCallback, useEffect, useEffectEvent, useMemo, useRef, useState } from 'react';
 import type { AiSuggestion, AudiencePreset, CandidateMedia, PresentationSeries, ReviewJobAccepted, ReviewSlide, WorkspaceReview } from '@eps/domain';
 import { slideWordingFields, type SlideWordingField } from '../../../packages/domain/src/casting-types.ts';
 import { REVIEW_FIELD_LABELS } from '../../../packages/templates/src/render.ts';
 import { PENDING_REQUIREMENT_LABELS } from '../../../packages/templates/versions/1.1.0/render.ts';
+import { composeCastingDeck } from '../../../packages/templates/versions/1.2.0/compose-casting';
+import { EditorialDeck, deckAssetIds, useEditorialAssets, type AssetFetch } from './EditorialSlide';
 import { api, ApiError, errorMessage, mutation, type Actor, type Envelope } from './api';
 import { CandidateEnglishTranscript } from './english-transcript';
 import { ErrorNotice, Loading } from './Feedback';
@@ -18,7 +20,8 @@ interface Props { workspaceId: string; projectId: string; actor: Actor; initialO
 interface Intent { path: string; init: RequestInit; label: string; refresh?: boolean; accepted?: (data: unknown) => void }
 function fitFieldLabel(field: string) {
   const key = field.replace(/^requirements\./, '');
-  return REVIEW_FIELD_LABELS[field as SlideWordingField] ?? PENDING_REQUIREMENT_LABELS[key as keyof typeof PENDING_REQUIREMENT_LABELS] ?? field;
+  const editorial: Record<string, string> = { role_name: 'Role / slot title', project_name: 'Cover title', client_name: 'Client name', layout: 'Page layout' };
+  return REVIEW_FIELD_LABELS[field as SlideWordingField] ?? PENDING_REQUIREMENT_LABELS[key as keyof typeof PENDING_REQUIREMENT_LABELS] ?? editorial[field] ?? field;
 }
 async function allRows<T>(path: string, signal: AbortSignal) {
   const result: T[] = []; const seen = new Set<string>(); let cursor: string | null = null;
@@ -73,7 +76,7 @@ function ReviewScope({ workspaceId, projectId, actor, initialOutput, requestedSe
         const active = choices.filter(row => !row.archived); const available = audiences.filter(row => !row.archived);
         if (requestedSeriesId && !active.some(row => row.id === requestedSeriesId)) throw new Error('The linked review series is unavailable in this workspace. Choose a review context from the workspace again.');
         setSeries(active); setPresets(available); setPresetId(value => available.some(row => row.id === value) ? value : available[0]?.id ?? '');
-        setSeriesId(value => active.some(row => row.id === value) ? value : requestedSeriesId ?? active.find(row => row.output_type === initialOutput && row.template_version === '1.1.0')?.id ?? active.find(row => row.output_type === initialOutput)?.id ?? active[0]?.id ?? ''); setError('');
+        setSeriesId(value => active.some(row => row.id === value) ? value : requestedSeriesId ?? active.find(row => row.output_type === initialOutput && row.template_version === '1.2.0')?.id ?? active.find(row => row.output_type === initialOutput && row.template_version === '1.1.0')?.id ?? active.find(row => row.output_type === initialOutput)?.id ?? active[0]?.id ?? ''); setError('');
       }).catch(reason => { if (current) setError(errorMessage(reason)); }).finally(() => { if (current) setLoading(false); });
     return () => { current = false; controller.abort(); };
   }, [workspaceId, initialOutput, requestedSeriesId, refresh]);
@@ -178,6 +181,7 @@ function ReviewScope({ workspaceId, projectId, actor, initialOutput, requestedSe
         </fieldset>
         <fieldset disabled={!canWrite || locked || wordingDirty}><legend>Availability for this project</legend><label>Project availability<input value={availability} onChange={event => { setAvailability(event.target.value); setAvailabilityDirty(true); setSuggestionId(null); setSuggestionFingerprint(null); setProposal(null); }} maxLength={8000} /></label><button className="button" disabled={!availabilityDirty} onClick={() => void send({ path: `/api/v1/workspace-candidates/${selected.workspace_candidate_id}`, init: mutation('PATCH', { row_version: selected.workspace_candidate_row_version, availability: availability.trim() || null }), label: 'Project availability' })}>Save project availability</button><button className="button" disabled={!availabilityDirty} onClick={() => { setAvailability(selected.source_fields.availability === 'Not provided' ? '' : selected.source_fields.availability); setAvailabilityDirty(false); }}>Discard availability edit</button></fieldset>
       </section>}
+        {review.template.version === '1.2.0' && <DraftEditorialPreview review={review} />}
         <section className="panel" aria-labelledby="review-slides-heading"><header className="panel-header"><h3 id="review-slides-heading">Slides in this draft</h3><span className="small muted">Cover first, then one page per included assignment</span></header><ol className="review-slides">{review.slides.map((slide, index) => <li key={slide.assignment_id ?? slide.slot_id ?? 'requirements-pending'}><div><span className="small muted">Slide {index + 2}</span><h3>{slide.role_name} · {slide.slot_label}</h3><p>{slide.kind === 'pending' ? 'Pending' : `${slide.fields.name_or_id} · ${slide.position} · ${slide.review_status === 'reviewed' ? 'Reviewed facts' : 'Unreviewed facts'}`}</p></div>{slide.kind === 'candidate' ? <button className="button" disabled={locked || edited} onClick={() => open(slide)} aria-label={`Review ${slide.slot_label}`}>Review assignment</button> : <p className="small">No assignment is included for this output. This slot gets a Pending page.</p>}</li>)}</ol></section>
       </>}</div>
       <aside className="stack-lg review-rail"><div className="panel"><div className="panel-body"><fieldset className="review-context" disabled={locked || edited}><legend>Presentation context</legend><label>Saved series<select aria-label="Saved review series" value={seriesId} onChange={event => { setSeriesId(event.target.value); setReview(null); setSelectedId(null); setProposal(null); setSuggestionId(null); setFitJob(null); }}><option value="">Choose or create a series</option>{series.map(row => <option key={row.id} value={row.id}>{row.title} · {row.output_type} · {row.audience_snapshot.label} / template {row.template_version}</option>)}</select></label><div className="form-grid"><label>Output for a new series<select value={output} onChange={event => setOutput(event.target.value as typeof output)}><option value="selection">Cast Selection</option><option value="shortlist">Cast Shortlist</option></select></label><label>Audience for a new series<select value={presetId} onChange={event => setPresetId(event.target.value)}>{presets.map(row => <option key={row.id} value={row.id}>{row.label} · {row.scope}</option>)}</select></label></div><p className="small muted">Everyone Casting {review?.template.version ?? 'current registered layout'} · registered layout and bundled fonts. Changing audience policy creates a separate series.</p><button className="button" disabled={!canCreate || !presetId || loading} onClick={createSeries}>Create / reuse review series</button>{!canCreate && <p className="small">Creating a series requires presentation generation permission.</p>}</fieldset></div></div>
@@ -190,6 +194,16 @@ function ReviewScope({ workspaceId, projectId, actor, initialOutput, requestedSe
 const reviewGroupInfo = { blocking: { title: 'Blocks generation', note: 'Fix these before generating.' }, warning: { title: 'Needs attention', note: 'Allowed. These print as stated.' }, information: { title: 'For your information', note: 'Nothing to fix.' } } as const;
 function reviewGroups(issues: WorkspaceReview['issues']) {
   return (['blocking', 'warning', 'information'] as const).map(severity => ({ severity, ...reviewGroupInfo[severity], issues: issues.filter(issue => issue.severity === severity) })).filter(group => group.issues.length);
+}
+
+/** Working-draft pages in the series' Everyone Film template, composed exactly as
+ * generation will print them (the version number and date are added on capture). */
+function DraftEditorialPreview({ review }: { review: WorkspaceReview }) {
+  const deck = useMemo(() => composeCastingDeck(review), [review]);
+  const fetchAsset = useCallback<AssetFetch>((id, signal) => fetch(`/api/v1/media/${encodeURIComponent(id)}/content`, { cache: 'no-store', signal, headers: { Accept: 'image/*' } }), []);
+  const { assets, failed } = useEditorialAssets(useMemo(() => deckAssetIds(deck), [deck]), fetchAsset);
+  return <section className="panel" aria-labelledby="review-preview-heading"><header className="panel-header"><h3 id="review-preview-heading">Slide preview</h3><span className="small muted">{deck.pages.length} pages · Everyone Film template {review.template.version}</span></header>
+    <div className="panel-body stack">{failed.length > 0 && <ErrorNotice message={`${failed.length} image${failed.length === 1 ? '' : 's'} could not be opened for the preview.`} />}<EditorialDeck deck={deck} assets={assets} /></div></section>;
 }
 
 function ReviewSource({ slide }: { slide: ReviewSlide }) {

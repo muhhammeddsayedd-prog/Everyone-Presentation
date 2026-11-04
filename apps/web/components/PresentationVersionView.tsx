@@ -3,11 +3,15 @@ import { ShareDrawer } from './ShareDrawer';
 
 import Link from 'next/link';
 import { Icon } from './Icon';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { PresentationVersion, VersionSlide, VersionMediaPlayback, VersionTranscriptCompanion } from '@eps/domain';
 import { presentationCanonicalJson } from '../../../packages/domain/src/presentation';
 import { slideWordingFields } from '../../../packages/domain/src/casting-types';
 import completeRegistry from '../../../packages/templates/versions/1.1.0/registry.json';
+import editorialRegistry from '../../../packages/templates/versions/1.2.0/registry.json';
+import { composeCastingDeck, editorialDateLabel } from '../../../packages/templates/versions/1.2.0/compose-casting';
+import { reviewFromPresentationVersion } from '../../../packages/domain/src/presentation';
+import { EditorialDeck, deckAssetIds, useEditorialAssets, type AssetFetch } from './EditorialSlide';
 import { PENDING_REQUIREMENT_LABELS } from '../../../packages/templates/versions/1.1.0/render';
 import { REVIEW_FIELD_LABELS } from '../../../packages/templates/src/render';
 import { api, errorMessage, mutation, type Actor } from './api';
@@ -47,24 +51,37 @@ function VersionScope({ versionId, embedded = false, expectedSeriesId, onSettled
   const slide = version.slides[slideIndex] ?? version.slides[0]; const Heading = embedded ? 'h3' : 'h2';
   const supported = version.render_context.template.key === 'everyone-casting' && version.render_context.template.version === '1.0.0'
     && version.render_context.template.content_sha256 === '8cfc99e874b2810d782f0a447628039e52e48a337fe1ce5b6286799c56e90001'
-    || version.render_context.template.key === completeRegistry.key && version.render_context.template.version === completeRegistry.version && version.render_context.template.content_sha256 === completeRegistry.content_sha256;
+    || version.render_context.template.key === completeRegistry.key && version.render_context.template.version === completeRegistry.version && version.render_context.template.content_sha256 === completeRegistry.content_sha256
+    || isEditorial(version);
   return <section className="presentation-version" aria-label={`Saved version ${version.version_no}`}>
     <header className="section-heading"><div><Heading>Saved version {version.version_no}</Heading><p>Captured content · {version.status === 'ready' ? 'Ready' : version.status === 'failed' ? 'Generation failed' : version.status === 'rendering' ? 'Rendering' : 'Queued'} · <StudioDateTime value={version.created_at} /></p></div><button className="button" onClick={reload} disabled={loading}>Refresh saved version</button></header>
     <p className="small muted">This version keeps its captured words and media. Working-draft edits appear in a future version.</p>
     {error && <ErrorNotice message={error} retry={reload} />}
     {version.status !== 'ready' && <div className={`notice${version.status === 'failed' ? ' notice-error' : ''}`}><p>{version.status === 'failed' ? 'The PDF did not finish. Existing ready versions remain available.' : 'The captured content is saved. Its PDF is still processing.'}</p><Link className="button" href={`/processing?job=${version.generation_job_id}`}>Open generation processing</Link></div>}
     {version.status === 'failed' && <p className="small">An authorized retry uses this same captured version.</p>}
-    <div className="button-row saved-version-actions">{version.status === 'ready' && <><a className="button button-primary" href={`/api/v1/versions/${version.id}/pdf/content`} download>Download PDF</a><a className="button" href={`/api/v1/versions/${version.id}/pdf/content`} target="_blank" rel="noreferrer">Open saved PDF</a></>}<Link className="button" href={`/presentations/versions/${version.id}`}>Open version page</Link><button type="button" className="button" aria-haspopup="dialog" onClick={() => setSharing(true)}><Icon name="link" />Share for review</button></div>
+    <div className="button-row saved-version-actions">{version.status === 'ready' && <><a className="button button-primary" href={`/api/v1/versions/${version.id}/pdf/content`} download>Download PDF</a><a className="button" href={`/api/v1/versions/${version.id}/pdf/content`} target="_blank" rel="noreferrer">Open saved PDF</a>{isEditorial(version) && <a className="button" href={`/api/v1/versions/${version.id}/pptx/content`} download>Download editable PowerPoint</a>}</>}<Link className="button" href={`/presentations/versions/${version.id}`}>Open version page</Link><button type="button" className="button" aria-haspopup="dialog" onClick={() => setSharing(true)}><Icon name="link" />Share for review</button></div>
     {!supported ? <ErrorNotice message="This saved template is unavailable in this viewer. Open the original PDF or restore its registered template." /> : <>
       <div className="version-viewer"><nav className="saved-slide-navigation" aria-label="Slides in saved version"><ol>{version.slides.map((item, index) => <li key={item.id}><button className="button" aria-current={index === slideIndex ? 'step' : undefined} aria-label={slideLabel(item, index)} onClick={() => setSlideIndex(index)}>{index + 1}<span>{item.kind === 'cover' ? 'Cover' : `${item.role_label ?? 'Requirements pending'} / ${item.slot_label ?? 'Pending'}`}</span>{item.kind === 'pending' && <span className="badge">Pending</span>}</button></li>)}</ol></nav>
       <div className="version-stage" onKeyDown={event => { const target = event.target as HTMLElement; if (target.closest('.saved-frame-carousel, input, textarea, select')) return; if (event.key === 'ArrowLeft' && slideIndex > 0) { event.preventDefault(); setSlideIndex(slideIndex - 1); } if (event.key === 'ArrowRight' && slideIndex < version.slides.length - 1) { event.preventDefault(); setSlideIndex(slideIndex + 1); } }}>
         <div className="saved-slide-controls"><div className="segmented" role="group" aria-label="Preview layout"><SegmentIndicator /><button type="button" aria-pressed={layout === 'app'} onClick={() => setLayout('app')}>App view</button><button type="button" aria-pressed={layout === 'pdf'} onClick={() => setLayout('pdf')}>PDF preview</button></div><p role="status">Slide {slideIndex + 1} of {version.slides.length}</p><span className="button-row"><button className="button" disabled={slideIndex === 0} onClick={() => setSlideIndex(value => value - 1)}><Icon name="chevron-left" />Previous slide</button><button className="button" disabled={slideIndex >= version.slides.length - 1} onClick={() => setSlideIndex(value => value + 1)}>Next slide<Icon name="chevron-right" /></button></span></div>
         {sharing && <ShareDrawer seriesId={version.series_id} actor={actor} onClose={() => setSharing(false)} />}
-      <SavedSlide key={`${slide.id}:${layout}`} version={version} slide={slide} layout={layout} />
+      {isEditorial(version) ? <SavedEditorial key={`${slide.id}:${layout}`} version={version} slide={slide} layout={layout} /> : <SavedSlide key={`${slide.id}:${layout}`} version={version} slide={slide} layout={layout} />}
         <p className="small muted">{layout === 'pdf' ? 'PDF layout: every saved frame is shown together, as in the downloaded PDF.' : 'App view: frames appear one at a time. Use the arrow keys on the slide or the frame buttons.'}</p>
       </div></div>
     </>}
   </section>;
+}
+
+const isEditorial = (version: PresentationVersion) => version.render_context.template.key === editorialRegistry.key && version.render_context.template.version === editorialRegistry.version && version.render_context.template.content_sha256 === editorialRegistry.content_sha256;
+/** Everyone Film editorial 1.2.0: the same composed pages and markup as the saved PDF.
+ * App view shows this slide's own page; PDF preview shows every page in print order. */
+function SavedEditorial({ version, slide, layout }: { version: PresentationVersion; slide: VersionSlide; layout: 'app' | 'pdf' }) {
+  const deck = useMemo(() => composeCastingDeck(reviewFromPresentationVersion(version, 'saved-version'), { versionLabel: `Version ${version.version_no}`, dateLabel: editorialDateLabel(version.created_at) }), [version]);
+  const pages = useMemo(() => layout === 'pdf' ? undefined : deck.pages.filter(page => page.source_index === slide.order && ['cover_floward', 'cast_detail', 'cast_pending'].includes(page.layout)).map(page => page.index), [deck, layout, slide.order]);
+  const fetchAsset = useCallback<AssetFetch>((id, signal) => fetch(`/api/v1/versions/${encodeURIComponent(version.id)}/media/${encodeURIComponent(id)}/content`, { cache: 'no-store', signal, headers: { Accept: 'image/*' } }), [version.id]);
+  const { assets, failed } = useEditorialAssets(useMemo(() => deckAssetIds(deck, pages), [deck, pages]), fetchAsset);
+  const videoHrefs = useMemo(() => Object.fromEntries(version.slides.flatMap(item => item.video_asset_id ? [[item.video_asset_id, `/presentations/versions/${version.id}/media/${item.video_asset_id}`]] : [])), [version]);
+  return <div className="stack">{failed.length > 0 && <ErrorNotice message={`${failed.length} saved image${failed.length === 1 ? '' : 's'} could not be opened. The saved PDF is unchanged; refresh to retry.`} />}<EditorialDeck deck={deck} assets={assets} videoHrefs={videoHrefs} pages={pages} /></div>;
 }
 
 function slideLabel(slide: VersionSlide, index: number) { return `Slide ${index + 1}: ${slide.kind === 'cover' ? 'Cover' : `${slide.role_label ?? 'Requirements pending'} / ${slide.slot_label ?? 'Pending'}`}`; }

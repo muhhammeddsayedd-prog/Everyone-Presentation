@@ -45,7 +45,7 @@ function PresentationScope({ projectId, workspaceId, actor, initialOutput, reque
         if (!current || intent.current) return;
         if (requestedSeriesId && !all.some(row => row.id === requestedSeriesId)) throw new Error('The linked presentation series is unavailable in this workspace. Return to Final Review to choose its context.');
         all.forEach(row => knownSeries.current.set(row.id, row));
-        const selected = activeSeries.current || requestedSeriesId || all.find(row => row.output_type === initialOutput && row.template_version === '1.1.0')?.id || all.find(row => row.output_type === initialOutput)?.id || all[0]?.id || '';
+        const selected = activeSeries.current || requestedSeriesId || all.find(row => row.output_type === initialOutput && row.template_version === '1.2.0')?.id || all.find(row => row.output_type === initialOutput && row.template_version === '1.1.0')?.id || all.find(row => row.output_type === initialOutput)?.id || all[0]?.id || '';
         // An in-flight refresh never silently replaces an already chosen context.
         // Its previously read metadata stays visible until the actor chooses again.
         const prior = knownSeries.current.get(selected);

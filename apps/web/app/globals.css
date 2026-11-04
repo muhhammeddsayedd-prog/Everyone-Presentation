@@ -9,3 +9,9 @@
 @import './guest.css';
 @import './styles/screens.css';
 @import './styles/motion.css';
+
+/* Everyone Film editorial template preview: a fixed 1920×1080 canvas scaled as one
+   unit. Slide content lives in a Shadow DOM and is styled only by the template. */
+.ef-preview-frame { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; background: #f1f1f1; border-radius: 0; }
+.ef-preview-stage { position: absolute; inset: 0 auto auto 0; width: 1920px; height: 1080px; transform-origin: 0 0; }
+.ef-preview-deck { display: grid; gap: var(--space-4, 16px); margin: 0; padding: 0; list-style: none; }

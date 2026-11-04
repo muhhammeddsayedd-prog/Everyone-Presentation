@@ -37,7 +37,7 @@ const IMPLEMENTED = new Set(['get_capabilities','list_projects','list_clients','
   'list_workspace_candidates','add_workspace_candidate','update_workspace_candidate','remove_workspace_candidate']);
 const CASTING_TOOLS = new Set(['list_assignments','create_assignment','update_assignment','set_slot_main','undo_slot_main','remove_assignment']);
 const REVIEW_TOOLS = new Set(['list_presentation_series','create_presentation_series','get_presentation_series','update_presentation_series','get_workspace_review','create_ai_suggestion','get_ai_suggestion','request_workspace_review_fit','get_casting_retirement','undo_casting_retirement']);
-const PRESENTATION_TOOLS = new Set(['list_versions', 'generate_version', 'get_version', 'download_version_pdf', 'play_version_media']);
+const PRESENTATION_TOOLS = new Set(['list_versions', 'generate_version', 'get_version', 'download_version_pdf', 'download_version_pptx', 'play_version_media']);
 const SHARING_TOOLS = new Set(['list_review_links', 'create_review_link', 'update_review_link', 'revoke_review_link', 'rotate_review_link', 'list_feedback', 'get_feedback_summary', 'create_comment', 'update_comment', 'set_preference', 'prepare_pdf_export', 'get_pdf_export', 'download_pdf_export']);
 const SETTINGS_TOOLS = new Set(['get_settings', 'update_settings']);
 const entries = catalog.tools.filter(tool => IMPLEMENTED.has(tool.name) || CASTING_TOOLS.has(tool.name) || REVIEW_TOOLS.has(tool.name) || PRESENTATION_TOOLS.has(tool.name) || SHARING_TOOLS.has(tool.name) || SETTINGS_TOOLS.has(tool.name));

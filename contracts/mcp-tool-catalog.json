@@ -23208,6 +23208,148 @@
         "idempotentHint": true,
         "openWorldHint": false
       }
+    },
+    {
+      "name": "download_version_pptx",
+      "description": "Build the editable PowerPoint of a Ready version saved with the Everyone Film editorial template 1.2.0, from the same frozen content as its PDF, using only the caller's own version and media access. Returns the slide count, size and filename of the verified build and download_url: the in-app content route that requires the same signed-in user (no bearer or public URL). Open it in a browser signed in to the app; it is rebuilt from the same frozen content on download. Retained 1.0.0/1.1.0 versions return PPTX_TEMPLATE_UNSUPPORTED; unfinished versions return PRESENTATION_NOT_READY. Nothing is stored or shared.",
+      "operationId": "download_version_pptx",
+      "http": {
+        "method": "POST",
+        "path": "/versions/{version_id}/pptx"
+      },
+      "capability": "workspaces.read",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "version_id": {
+            "$ref": "#/$defs/Id"
+          }
+        },
+        "required": [
+          "version_id"
+        ],
+        "$defs": {
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          }
+        }
+      },
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "request_id": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/$defs/PptxDownload"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/Warning"
+            }
+          }
+        },
+        "required": [
+          "request_id",
+          "data"
+        ],
+        "$defs": {
+          "DateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          },
+          "Warning": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "entity_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "code",
+              "message",
+              "entity_id"
+            ]
+          },
+          "PptxDownload": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "version_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "download_url": {
+                "type": "string",
+                "format": "uri"
+              },
+              "access": {
+                "type": "string",
+                "enum": [
+                  "signed_in_session"
+                ]
+              },
+              "filename": {
+                "type": "string"
+              },
+              "size_bytes": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "slide_count": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "template_version": {
+                "type": "string",
+                "enum": [
+                  "1.2.0"
+                ]
+              }
+            },
+            "required": [
+              "version_id",
+              "download_url",
+              "access",
+              "filename",
+              "size_bytes",
+              "slide_count",
+              "template_version"
+            ]
+          }
+        }
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false
+      }
     }
   ],
   "excluded_operations": [

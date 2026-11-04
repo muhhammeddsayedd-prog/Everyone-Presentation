@@ -2,12 +2,16 @@
 import { ConfirmProvider, useConfirm } from './ui/Confirm';
 import { TextReveal } from './motion/TextReveal';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { ExternalPresentationVersion, GuestBrowserAccess } from '../../../packages/domain/src/guest-types';
 import type { VersionSlide, VersionMediaPlayback, VersionTranscriptCompanion } from '@eps/domain';
 import { slideWordingFields } from '../../../packages/domain/src/casting-types';
 import { REVIEW_FIELD_LABELS } from '../../../packages/templates/src/render';
 import { PENDING_REQUIREMENT_LABELS } from '../../../packages/templates/versions/1.1.0/render';
+import editorialRegistry from '../../../packages/templates/versions/1.2.0/registry.json';
+import { composeCastingDeck, editorialDateLabel } from '../../../packages/templates/versions/1.2.0/compose-casting';
+import type { ReviewSlide } from '../../../packages/domain/src/review-types';
+import { EditorialPage, useEditorialAssets, type AssetFetch, type LoadedAsset } from './EditorialSlide';
 import { ApiError } from './api';
 import { ErrorNotice, Loading } from './Feedback';
 import { ReviewFeedbackPanel } from './ReviewFeedbackPanel';
@@ -117,6 +121,11 @@ function GuestSlide({ slide, version, context }: { slide: VersionSlide; version:
       setTranscript(result.transcript);
     } catch (reason) { setError(reviewError(reason)); } finally { setBusy(false); }
   }
+  if (version.template_version === editorialRegistry.version && version.template_content_hash === editorialRegistry.content_sha256) return <>
+    <GuestEditorial slide={slide} version={version} context={context} />
+    {slide.video_asset_id && <section className="guest-original"><button className="button" disabled={busy} onClick={() => void play()}>{busy ? 'Opening original video…' : video ? 'Refresh video access' : 'Watch original introduction'}</button>{error && <ErrorNotice message={error} />}{video && <video src={video} controls preload="metadata" className="candidate-video" onError={() => { setVideo(''); setError('Video access is no longer available. Try opening the original video again.'); }} />}</section>}
+    {video && slide.video_asset_id && <SourceTranscript versionId={version.id} assetId={slide.video_asset_id} transcript={transcript} />}
+  </>;
   if (slide.kind === 'cover') return <article className="saved-casting-slide saved-casting-cover"><header>{brand}{slide.logo_asset_id && <GuestAssetImage versionId={version.id} assetId={slide.logo_asset_id} context={context} alt="Client logo" className="saved-client-logo" />}</header><div><h2 dir="auto">{version.cover.project_name}</h2><p dir="auto">{version.cover.client_name ?? 'Client not provided'}</p><h3 dir="auto">{version.cover.title}</h3></div><footer>Version {version.version_no} · {version.slides.length} slides</footer></article>;
   const frame = slide.frame_asset_ids[frameIndex];
   return <><article className="saved-casting-slide"><header className="saved-casting-header"><div><h2 dir="auto">{slide.role_label ?? 'Requirements pending'}</h2><p dir="auto">{slide.slot_label ?? 'Pending'} · {slide.position ?? 'Pending'}</p></div>{brand}</header>
@@ -128,6 +137,28 @@ function GuestSlide({ slide, version, context }: { slide: VersionSlide; version:
     </>}
     <footer className="saved-casting-footer"><span dir="auto">{version.cover.project_name}</span><span>Version {version.version_no} · {slide.order + 1}</span>{slide.logo_asset_id && <GuestAssetImage versionId={version.id} assetId={slide.logo_asset_id} context={context} alt="Client logo" className="saved-client-logo saved-client-logo-footer" />}</footer>
   </article>{video && slide.video_asset_id && <SourceTranscript versionId={version.id} assetId={slide.video_asset_id} transcript={transcript} />}</>;
+}
+
+/** Everyone Film editorial 1.2.0 page for one shared slide. Guest versions carry no
+ * internal role/slot identities, so grouping uses the saved labels and frame sizes
+ * come from the opened images; the downloadable PDF remains the exact artifact. */
+function guestDeckReview(version: ExternalPresentationVersion, assets: Record<string, LoadedAsset>) {
+  const empty = { name_or_id: 'Not provided', age_or_range: 'Not provided', height_measurements: 'Not provided', languages_accents: 'Not provided', skills_experience: 'Not provided', city: 'Not provided', previous_projects_roles: 'Not provided', classification: 'Not provided', availability: 'Not provided', presentation_notes: 'Not provided' };
+  const slides = version.slides.slice(1).map(item => {
+    const roleLevel = item.kind === 'pending' && (item.slot_label ?? 'Pending') === 'Pending';
+    return { kind: item.kind, role_id: item.role_label ?? `role-${item.order}`, role_name: item.role_label ?? 'Requirements pending', role_category: item.role_category, slot_id: roleLevel ? null : `${item.role_label} ${item.slot_label}`, slot_label: item.slot_label ?? 'Pending',
+      position: item.position, fields: item.fields ?? empty, requirements: item.requirements, video_asset_id: item.video_asset_id,
+      frames: item.frame_asset_ids.map(id => ({ asset_id: id, source_asset_id: item.video_asset_id ?? '', timestamp_ms: 0, width: assets[id]?.width ?? 1920, height: assets[id]?.height ?? 1080, sha256: '' })) } as unknown as ReviewSlide;
+  });
+  return { cover: version.cover, output_type: version.output_type, slides };
+}
+function GuestEditorial({ slide, version, context }: { slide: VersionSlide; version: ExternalPresentationVersion; context: string }) {
+  const fetchAsset = useCallback<AssetFetch>((id, signal) => fetch(`/api/v1/review/versions/${version.id}/media/${id}/content`, { cache: 'no-store', signal, headers: { 'X-Review-Context': context, Accept: 'image/*' } }), [version.id, context]);
+  const ids = useMemo(() => [...slide.logo_asset_id ? [slide.logo_asset_id] : [], ...slide.frame_asset_ids], [slide]);
+  const { assets, failed } = useEditorialAssets(ids, fetchAsset);
+  const deck = useMemo(() => composeCastingDeck(guestDeckReview(version, assets), { versionLabel: `Version ${version.version_no}`, dateLabel: editorialDateLabel(version.created_at) }), [version, assets]);
+  const page = deck.pages.find(item => item.source_index === slide.order && ['cover_floward', 'cast_detail', 'cast_pending'].includes(item.layout));
+  return <>{failed.length > 0 && <ErrorNotice message="Some images on this slide could not be opened." />}{page && <EditorialPage deck={deck} index={page.index} assets={assets} />}</>;
 }
 
 function GuestAssetImage({ versionId, assetId, context, alt, className }: { versionId: string; assetId: string; context: string; alt: string; className?: string }) {

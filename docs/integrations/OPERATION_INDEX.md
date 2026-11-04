@@ -71,6 +71,7 @@
 | `generate_version` | `POST /presentation-series/{series_id}/versions` | presentations.generate | Yes |
 | `get_version` | `GET /versions/{version_id}` | workspaces.read | Yes |
 | `download_version_pdf` | `POST /versions/{version_id}/pdf` | workspaces.read | Yes |
+| `download_version_pptx` | `POST /versions/{version_id}/pptx` | workspaces.read; 1.2.0 Ready version, caller's media access | Yes |
 | `list_review_links` | `GET /review-links` | review_links.manage | Yes |
 | `create_review_link` | `POST /review-links` | review_links.manage | Yes |
 | `update_review_link` | `PATCH /review-links/{review_link_id}` | review_links.manage | Yes |
