@@ -65,7 +65,7 @@ export function workspaceReviewDto(value: unknown): WorkspaceReview {
   const cover = reviewRecord(row.cover, ['project_name', 'client_name', 'title', 'output_type', 'logo_asset_id', 'logo_placement']);
   if (!string(cover.project_name) || !nullable(cover.client_name, string) || !string(cover.title) || cover.output_type !== row.output_type || !nullable(cover.logo_asset_id, isId) || !['cover', 'every_slide'].includes(cover.logo_placement as string)) fail();
   const slides = row.slides.map(slide); const candidateSlides = slides.filter(row => row.kind === 'candidate');
-  if (template.version === '1.1.0' && slides.some(item => !Object.hasOwn(item, 'role_category'))) fail();
+  if (['1.1.0', '1.2.0'].includes(template.version as string) && slides.some(item => !Object.hasOwn(item, 'role_category'))) fail();
   if (candidateSlides.length !== row.candidate_slide_count || slides.length - candidateSlides.length !== row.pending_slide_count || new Set(candidateSlides.map(row => row.assignment_id)).size !== candidateSlides.length || new Set(candidateSlides.map(row => `${row.slot_id}:${row.candidate_id}`)).size !== candidateSlides.length) fail();
   const unreviewed = [...new Set(candidateSlides.filter(row => row.review_status === 'unreviewed').map(row => row.candidate_id!))];
   if (unreviewed.length !== row.unreviewed_candidate_ids.length || unreviewed.some(id => !(row.unreviewed_candidate_ids as string[]).includes(id))) fail();

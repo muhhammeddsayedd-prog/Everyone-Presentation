@@ -10021,6 +10021,80 @@ paths:
         in: path
         required: true
         schema: *id010
+  /versions/{version_id}/pptx/content:
+    get:
+      operationId: get_version_pptx_content
+      summary: Compose an editable PowerPoint of a Ready Everyone Film editorial (template 1.2.0) version from its frozen content, using the caller's
+        own version and media access
+      tags:
+      - versions
+      responses:
+        '200':
+          description: Private authenticated attachment; no-store and nosniff. Not stored; built on request with native editable text and image
+            objects.
+          content:
+            application/vnd.openxmlformats-officedocument.presentationml.presentation:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: workspaces.read
+      x-mcp-exposed: false
+      x-shared-service-operation: get_version_pdf_content
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: version_id
+        in: path
+        required: true
+        schema: *id010
   /review/session:
     get:
       operationId: guest_get_session
@@ -11161,6 +11235,96 @@ paths:
       security:
       - InternalBearer: []
       parameters: []
+  /versions/{version_id}/pptx:
+    post:
+      operationId: download_version_pptx
+      summary: Build and link the editable PowerPoint of a fixed Ready version
+      tags:
+      - versions
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/PptxDownload'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: workspaces.read
+      x-mcp-exposed: true
+      x-shared-service-operation: download_version_pptx
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: version_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      description: 'Build the editable PowerPoint of a Ready version saved with the Everyone Film editorial template 1.2.0, from the same frozen
+        content as its PDF, using only the caller''s own version and media access. Returns the slide count, size and filename of the verified
+        build and download_url: the in-app content route that requires the same signed-in user (no bearer or public URL). Open it in a browser
+        signed in to the app; it is rebuilt from the same frozen content on download. Retained 1.0.0/1.1.0 versions return PPTX_TEMPLATE_UNSUPPORTED;
+        unfinished versions return PRESENTATION_NOT_READY. Nothing is stored or shared.'
 components:
   securitySchemes:
     InternalBearer:
@@ -15277,4 +15441,37 @@ components:
       - key
       - label
       - status
+    PptxDownload:
+      type: object
+      additionalProperties: false
+      properties:
+        version_id:
+          $ref: '#/components/schemas/Id'
+        download_url:
+          type: string
+          format: uri
+        access:
+          type: string
+          enum:
+          - signed_in_session
+        filename:
+          type: string
+        size_bytes:
+          type: integer
+          minimum: 0
+        slide_count:
+          type: integer
+          minimum: 1
+        template_version:
+          type: string
+          enum:
+          - 1.2.0
+      required:
+      - version_id
+      - download_url
+      - access
+      - filename
+      - size_bytes
+      - slide_count
+      - template_version
 x-contract-status: implementation specification; verify with generated routes and contract tests

@@ -12,7 +12,7 @@ test('new1.1 default public brand path renders without a native data-URI overrid
 test('multi-version loader retains 1.0.0 and loads separately registered 1.1.0 white brand', async () => {
   const old = await loadReviewTemplateAssets({ key: legacyRegistry.key, version: legacyRegistry.version, content_sha256: legacyRegistry.content_sha256, font_key: legacyRegistry.font_key });
   const { snapshot } = nativePresentation([], true, 'role'); const current = await loadReviewTemplateAssets(snapshot.template);
-  assert.notEqual(current.assets.brandLogo, old.assets.brandLogo); assert.deepEqual(current.font_hashes, old.font_hashes);
+  assert.notEqual((current.assets as { brandLogo?: string }).brandLogo, (old.assets as { brandLogo?: string }).brandLogo); assert.deepEqual(current.font_hashes, old.font_hashes);
 });
 test('actual1.1 font/geometry fit checks all Pending values and reports the specific overflowing requirement', { timeout: 120000 }, async () => {
   const { snapshot } = nativePresentation([], true, 'role'); const review = reviewFromRenderSnapshot(snapshot); const fit = await measureReviewFit(review); assert.deepEqual(fit.overflows, []);

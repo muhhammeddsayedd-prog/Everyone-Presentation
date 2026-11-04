@@ -56,7 +56,7 @@ function DefaultsEditor({ settings, onDirtyChange, onReload, onSaved }: {
       <p id="studio-timezone-help" className="small muted">Use an IANA timezone, such as Africa/Cairo, or UTC. Link expiry inputs use your browser's local time.</p>
     </div><div className="field"><label htmlFor="studio-template-version">Default presentation template</label>
       <select id="studio-template-version" value={template} disabled={write.locked} onChange={event => setTemplate(event.target.value)}>
-        {[...new Set([settings.template_version, '1.1.0'])].map(version => <option key={version} value={version}>Everyone Casting {version}</option>)}
+        {[...new Set([settings.template_version, '1.2.0', '1.1.0'])].map(version => <option key={version} value={version}>{version === '1.2.0' ? 'Everyone Film Editorial 1.2.0' : `Everyone Casting ${version}`}</option>)}
       </select></div></div>
     <dl className="connection-list"><div><dt>Default review access</dt><dd>30 days</dd></div>
       {Object.entries(settings.models).map(([name, model]) => <div key={name}><dt>{name.replaceAll('_', ' ')} model</dt><dd>{model}</dd></div>)}

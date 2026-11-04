@@ -16478,5 +16478,52 @@
       "previous_source": "7196d69e1dbe35981d8479a05c82219752f9eeb3",
       "reason": "normal compatible frontend trace release; previous complete records retained in commit0f76e03 and dated receipt"
     }
-  ]
+  ],
+  "editorial_template_1_2_0": {
+    "status": "implemented_unverified",
+    "scope": "Everyone Film editorial presentation template 1.2.0 (design kit 2026-11-04)",
+    "branch": "feature/editorial-template-1.2.0",
+    "updated_at": "2026-11-04",
+    "local_evidence": {
+      "unit": "469/469",
+      "contracts": "13/13",
+      "jobs": "19/19",
+      "integrations": "74/74",
+      "worker": "269/269 (SQL mirror on staging replica)",
+      "central": "204/204",
+      "typecheck": "pass",
+      "lint": "pass",
+      "production_guard": "pass",
+      "e2e_related": "34/34",
+      "powerpoint_roundtrip": "Microsoft PowerPoint (Windows): 14 slides, 228 text shapes, 18 pictures",
+      "visual_qa": "25 reference pages; cover separator within 2 units"
+    },
+    "not_verified": [
+      "canonical apply and readback of 20261104210000_m08_editorial_template.sql",
+      "worker native/daemon rebuild and deployment",
+      "web deployment",
+      "Settings activation of 1.2.0",
+      "hosted UI and Claude MCP journeys (PDF and PowerPoint)",
+      "Keynote import (no macOS)"
+    ],
+    "docs": "docs/presentation/EDITORIAL_TEMPLATE.md",
+    "commits": [
+      "c6941035",
+      "210b803c",
+      "f3d1a614",
+      "f634b24c",
+      "8c24379d",
+      "df636b5d"
+    ],
+    "staging": {
+      "kind": "replica of canonical history-42 catalogue in disposable Postgres 17.11 (no business rows)",
+      "builder": "development/editorial-template/staging/build_staging.py",
+      "result": "passed: replica==canonical, 7 bodies changed only, attributes unchanged, mirror callers executable, drift refused"
+    },
+    "canonical": {
+      "preflight": "passed (read-only)",
+      "apply": "not run: refused by session permission policy (Production Deploy)",
+      "readback": "not run"
+    }
+  }
 }

@@ -4,10 +4,12 @@ import { parseGenerateVersion, parseVersionListOptions } from '../../../packages
 import { parseCastingMutationContext } from '../../../packages/domain/src/casting';
 import { json, NO_STORE, readBoundedBody, readJson } from './http';
 import { validateContract } from './validation';
+import { PPTX_MIME, versionPptx, versionPptxDownload } from './presentation-pptx';
+import { readRuntimeConfig } from './config';
 export function isPresentationRoute(s: string[]): boolean {
   return s[0] === 'presentation-series' && s.length === 3 && s[2] === 'versions'
-    || s[0] === 'versions' && (s.length === 2 || s.length === 3 && s[2] === 'pdf'
-      || s.length === 4 && s[2] === 'pdf' && s[3] === 'content'
+    || s[0] === 'versions' && (s.length === 2 || s.length === 3 && (s[2] === 'pdf' || s[2] === 'pptx')
+      || s.length === 4 && (s[2] === 'pdf' || s[2] === 'pptx') && s[3] === 'content'
       || s.length === 5 && s[2] === 'media' && ['playback', 'content'].includes(s[4]));
 }
 function invalid(): never { throw new DomainError('INVALID_REQUEST', 'Use a supported presentation route with bounded parameters.', 400); }
@@ -46,6 +48,10 @@ export async function handlePresentationRequest(request: Request, s: string[], a
   if (url.search) invalid();
   if (request.method === 'GET' && s[0] === 'versions') {
     if (s.length === 2) return json(await service.getVersion(actor, s[1]), metadata.requestId);
+    if (s.length === 4 && s[2] === 'pptx' && s[3] === 'content') {
+      const pptx = await versionPptx(actor, s[1], service, url.origin);
+      return new Response(new Uint8Array(pptx.bytes), { headers: { ...NO_STORE, 'Content-Type': PPTX_MIME, 'Content-Length': String(pptx.bytes.byteLength), 'Content-Disposition': `attachment; filename="${pptx.filename}"` } });
+    }
     if (!(s.length === 4 && s[2] === 'pdf' && s[3] === 'content' || s.length === 5 && s[2] === 'media' && s[4] === 'content')) throw new DomainError('RESOURCE_NOT_FOUND', 'This presentation operation is unavailable.', 404);
     const content = s[2] === 'pdf' ? await service.getVersionPdfContent(actor, s[1]) : await service.getVersionMediaContent(actor, s[1], s[3]);
     return new Response(s[2] === 'pdf' ? verifiedPdfBody(content.bytes, request.signal) : new Uint8Array(content.bytes), { headers: { ...NO_STORE, 'Content-Type': content.mimeType, 'Content-Length': String(content.bytes.byteLength),
@@ -56,6 +62,11 @@ export async function handlePresentationRequest(request: Request, s: string[], a
     const context = { ...parseCastingMutationContext(metadata), idempotencyKey: metadata.idempotencyKey };
     const input = parseGenerateVersion(validateContract('GenerateVersion', await readJson(request)));
     return json(await service.generateVersion(actor, s[1], input, context), metadata.requestId, 202);
+  }
+  if (request.method === 'POST' && s[0] === 'versions' && s.length === 3 && s[2] === 'pptx') {
+    await readBoundedBody(request, 0);
+    // MCP dispatches in-process, so the link uses the configured public app origin.
+    return json(await versionPptxDownload(actor, s[1], service, readRuntimeConfig().baseUrl), metadata.requestId);
   }
   if (request.method === 'POST' && s[0] === 'versions' && (s.length === 3 && s[2] === 'pdf' || s.length === 5 && s[4] === 'playback')) {
     await readBoundedBody(request, 0);

@@ -1,0 +1,36 @@
+{
+ "schema_version": "eps-m08-editorial-release.v1",
+ "action": "postapply-catalogue-audit",
+ "recorded_at": "2026-11-04T20:43:17.597332+00:00",
+ "target": "pyibofyctwnqpvktepse",
+ "comparison": "full eps/public function, table and policy catalogue vs pre-release read-only snapshot (2026-11-04)",
+ "functions_before": 454,
+ "functions_after": 455,
+ "added": [
+  "eps.editorial_deck_counts(jsonb)"
+ ],
+ "removed": [],
+ "bodies_changed": [
+  "eps.export_validate_result(eps.jobs,jsonb)",
+  "eps.presentation_validate_result(eps.jobs,jsonb)",
+  "eps.review_snapshot_data(uuid,uuid,text)",
+  "public.eps_generate_version(uuid,jsonb,text)",
+  "public.eps_get_workspace_review(uuid,uuid,text)",
+  "public.eps_request_workspace_review_fit(uuid,uuid,jsonb,text)",
+  "public.eps_update_settings(jsonb,text)"
+ ],
+ "attribute_changes": [],
+ "tables_equal": true,
+ "policies_equal": true,
+ "mirror_callers_executable": {
+  "eps.presentation_validate_result": "eps_review_stage_owner",
+  "eps.export_validate_result": "eps_review_stage_owner",
+  "public.eps_generate_version": "eps_review_owner"
+ },
+ "saved_versions": {
+  "count": 17,
+  "template": "1.1.0",
+  "id_snapshot_status_sha256_prefix": "c261cab3b85bc587",
+  "unchanged": true
+ }
+}

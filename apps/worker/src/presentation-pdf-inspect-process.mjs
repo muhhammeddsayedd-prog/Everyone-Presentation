@@ -13,7 +13,8 @@ const bidi = bidiFactory();
 let task; let checkpoint = 'input';
 try {
   const chunks = []; let count = 0; for await (const chunk of process.stdin) { count += chunk.length; check(count <= 100 * 1024 * 1024); chunks.push(chunk); }
-  const input = JSON.parse(Buffer.concat(chunks).toString('utf8')); check(input && Object.keys(input).sort().join(',') === 'bytes,expected' && typeof input.bytes === 'string' && Array.isArray(input.expected) && input.expected.length >= 1 && input.expected.length <= 1000);
+  const input = JSON.parse(Buffer.concat(chunks).toString('utf8')); // Legacy callers omit page_points (1.0/1.1 fixed 1200×675 pt); editorial 1.2.0 sends 1440×810.
+  check(input && ['bytes,expected', 'bytes,expected,page_points'].includes(Object.keys(input).sort().join(',')) && (input.page_points ??= [1200, 675]) && Array.isArray(input.page_points) && ['1200,675', '1440,810'].includes(input.page_points.join(',')) && typeof input.bytes === 'string' && Array.isArray(input.expected) && input.expected.length >= 1 && input.expected.length <= 1000);
   const bytes = Buffer.from(input.bytes, 'base64'); check(bytes.length <= 64 * 1024 * 1024 && bytes.toString('base64') === input.bytes);
   task = getDocument({ data: new Uint8Array(bytes), verbosity: 0, stopAtErrors: true, useWorkerFetch: false, useWasm: false, useSystemFonts: false, disableFontFace: true, fontExtraProperties: true, enableXfa: false, isOffscreenCanvasSupported: false, isImageDecoderSupported: false, maxImageSize: 40000000, disableRange: true, disableStream: true, disableAutoFetch: true, BinaryDataFactory: NoExternalData });
   const pdf = await task.promise; checkpoint = 'document_security';
@@ -22,7 +23,7 @@ try {
   for (let n = 1; n <= pdf.numPages; n++) {
     const page = await pdf.getPage(n); const expected = input.expected[n - 1]; checkpoint = 'page_geometry';
     const pageWidth = page.view[2] - page.view[0]; const pageHeight = page.view[3] - page.view[1]; width ??= pageWidth; height ??= pageHeight;
-    check(page.rotate === 0 && page.userUnit === 1 && Math.abs(pageWidth - 1200) < 0.5 && Math.abs(pageHeight - 675) < 0.5 && pageWidth === width && pageHeight === height && !await page.getJSActions());
+    check(page.rotate === 0 && page.userUnit === 1 && Math.abs(pageWidth - input.page_points[0]) < 0.5 && Math.abs(pageHeight - input.page_points[1]) < 0.5 && pageWidth === width && pageHeight === height && !await page.getJSActions());
     const viewport = page.getViewport({ scale: 4 / 3 }); const text = await page.getTextContent({ disableNormalization: true });
     const items = text.items.filter(item => 'str' in item).map(item => { const transform = Util.transform(viewport.transform, item.transform); const height = Math.hypot(transform[2], transform[3]); return { str: item.str, dir: item.dir, x: transform[4], y: transform[5] - height, w: item.width * 4 / 3, h: height, font: item.fontName }; });
     checkpoint = 'text_regions'; for (const region of expected.regions) {
@@ -62,9 +63,17 @@ try {
     const remaining = [...expected.images];
     for (const image of actualImages) {
       const match = remaining.findIndex(target => {
-        const [x, y, w, h] = target.rect; const scale = Math.min(w / target.width, h / target.height); const width = target.width * scale; const height = target.height * scale;
-        const contained = [x + (w - width) / 2, y + (h - height) / 2, width, height];
-        return image.width === target.width && image.height === target.height && contained.every((value, index) => Math.abs(value - image.rect[index]) < 1);
+        // contain: whole image at its object-position (legacy: centered). cover:
+        // Skia either paints the full scaled image under the clip, or embeds only the
+        // visible source crop drawn at the box, rounded outward to whole source pixels.
+        const [x, y, w, h] = target.rect; const cover = target.fit === 'cover'; const [fx, fy] = Array.isArray(target.focal) ? target.focal : [0.5, 0.5];
+        const scale = cover ? Math.max(w / target.width, h / target.height) : Math.min(w / target.width, h / target.height); const width = target.width * scale; const height = target.height * scale;
+        const placed = [x + (w - width) * fx, y + (h - height) * fy, width, height];
+        if (image.width === target.width && image.height === target.height && placed.every((value, index) => Math.abs(value - image.rect[index]) < 1)) return true;
+        if (!cover || image.width > target.width || image.height > target.height) return false;
+        const slack = scale + 1; const [ix, iy, iw, ih] = image.rect;
+        return Math.abs(image.width - w / scale) <= 2 && Math.abs(image.height - h / scale) <= 2 && ix <= x + 0.5 && iy <= y + 0.5 && ix >= x - slack && iy >= y - slack
+          && ix + iw >= x + w - 0.5 && iy + ih >= y + h - 0.5 && ix + iw <= x + w + slack && iy + ih <= y + h + slack;
       });
       check(match >= 0); remaining.splice(match, 1);
     }

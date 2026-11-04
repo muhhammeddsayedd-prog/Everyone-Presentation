@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "x-source-sha256": "587d920074e5743bd61ca078b464217554f57ef435252121f062fff054d4804d",
+  "x-source-sha256": "c4a5b144e12368cb10e19bc5ca710454bc091360e839794fb18d011474d2f8ef",
   "$defs": {
     "Id": {
       "type": "string",
@@ -6215,6 +6215,51 @@
         "key",
         "label",
         "status"
+      ]
+    },
+    "PptxDownload": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "version_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "download_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "access": {
+          "type": "string",
+          "enum": [
+            "signed_in_session"
+          ]
+        },
+        "filename": {
+          "type": "string"
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "slide_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "template_version": {
+          "type": "string",
+          "enum": [
+            "1.2.0"
+          ]
+        }
+      },
+      "required": [
+        "version_id",
+        "download_url",
+        "access",
+        "filename",
+        "size_bytes",
+        "slide_count",
+        "template_version"
       ]
     }
   }
