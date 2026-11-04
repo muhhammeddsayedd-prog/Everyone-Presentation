@@ -16480,10 +16480,10 @@
     }
   ],
   "editorial_template_1_2_0": {
-    "status": "implemented_unverified",
+    "status": "blocked",
     "scope": "Everyone Film editorial presentation template 1.2.0 (design kit 2026-11-04)",
     "branch": "feature/editorial-template-1.2.0",
-    "updated_at": "2026-11-04",
+    "updated_at": "2026-11-05",
     "local_evidence": {
       "unit": "469/469",
       "contracts": "13/13",
@@ -16524,6 +16524,13 @@
       "preflight": "passed (read-only)",
       "apply": "not run: refused by session permission policy (Production Deploy)",
       "readback": "not run"
+    },
+    "production": {
+      "database_m08": "applied and verified (history 43)",
+      "database_fit_fix": "staged, staging-validated, not applied (Supabase CLI account changed)",
+      "worker": "dpl_85QVNdX9dxsA8jGsMQNhZgFVrEBK daemon 850d886b, native bad8d92b",
+      "web": "dpl_Et3KieHUi9jLZ1iU1cmdSqpAauDY (Main df893dec)",
+      "default_template": "1.1.0 (reverted)"
     }
   }
 }
