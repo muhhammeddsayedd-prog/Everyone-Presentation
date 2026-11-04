@@ -6,7 +6,8 @@ import { chromium, type Browser } from 'playwright';
 import type { ReviewFit, TemplateIdentity, WorkspaceReview } from '../../../packages/domain/src/review-types.ts';
 import { workspaceReviewDto } from '../../../packages/central/src/review-dto.ts';
 import type { TemplateAssets } from '../../../packages/templates/src/render.ts';
-import { renderRegisteredReviewDocument } from '../../../packages/templates/src/registered.ts';
+import { renderRegisteredReviewDocument, type RegisteredTemplateAssets } from '../../../packages/templates/src/registered.ts';
+import { editorialDeck, editorialStructureMatches, isEditorialTemplate, loadEditorialTemplateAssets, measureEditorialPage } from './editorial-template.ts';
 import { nativeBrowserEnvironment } from './native-browser.ts';
 import { nativeSandboxConfiguration, runConfiguredNative } from './native-sandbox.ts';
 import { decodeNativeResult } from './native-sandbox-result.ts';
@@ -51,9 +52,10 @@ async function publicRead(relative: string): Promise<Uint8Array> {
 }
 /** Fixed registered public assets only. The injected reader is an offline
  * tamper-test seam; a job cannot supply a path, URL, browser or font override. */
-export async function loadReviewTemplateAssets(expected: TemplateIdentity, options: { read?: (file: string) => Promise<Uint8Array> } = {}): Promise<{ assets: TemplateAssets; font_hashes: Record<string, string> }> {
+export async function loadReviewTemplateAssets(expected: TemplateIdentity, options: { read?: (file: string) => Promise<Uint8Array> } = {}): Promise<{ assets: RegisteredTemplateAssets; font_hashes: Record<string, string> }> {
   try {
     const read = options.read ? (relative: string) => options.read!(path.join(ROOT, relative)) : publicRead;
+    if (isEditorialTemplate(expected)) return await loadEditorialTemplateAssets(expected, read);
     const complete = expected.version === '1.1.0'; if (!complete && expected.version !== '1.0.0') fail('FIT_TEMPLATE_MISMATCH');
     const registryFile = complete ? COMPLETE_REGISTRY : REGISTRY; const rendererFile = complete ? COMPLETE_RENDERER : RENDERER; const brandFile = complete ? COMPLETE_BRAND : BRAND; const loadedSha = complete ? LOADED_COMPLETE_RENDERER_SHA : LOADED_RENDERER_SHA;
     const registry: unknown = JSON.parse(new TextDecoder('utf8', { fatal: true }).decode(await read(registryFile)));
@@ -94,13 +96,23 @@ export async function measureReviewFit(supplied: WorkspaceReview, options: Revie
     browser = await chromium.launch({ headless: true, timeout, env: nativeBrowserEnvironment(), args: ['--disable-background-networking', '--disable-component-update', '--disable-sync', '--no-first-run', '--force-color-profile=srgb'] });
     if (signal.aborted) { await browser.close(); fail('FIT_ABORTED'); }
     const version = browser.version(); if (!/^[0-9]+(?:\.[0-9]+){2,3}$/u.test(version)) fail('FIT_MEASUREMENT_FAILED');
-    const context = await browser.newContext({ viewport: { width: 1600, height: 900 }, serviceWorkers: 'block', javaScriptEnabled: false, offline: true, reducedMotion: 'reduce' });
+    const editorial = isEditorialTemplate(review.template);
+    const context = await browser.newContext({ viewport: editorial ? { width: 1920, height: 1080 } : { width: 1600, height: 900 }, serviceWorkers: 'block', javaScriptEnabled: false, offline: true, reducedMotion: 'reduce' });
     let blocked = 0; await context.route('**/*', route => { blocked++; return route.abort('blockedbyclient'); });
-    const imageSources = review.cover.logo_asset_id ? { [review.cover.logo_asset_id]: GEOMETRY_PIXEL } : undefined;
+    // Editorial frame/logo boxes are fixed by the composer; an inert pixel fills each box.
+    const imageSources = editorial ? Object.fromEntries([...review.cover.logo_asset_id ? [review.cover.logo_asset_id] : [], ...review.slides.flatMap(slide => slide.frames.map(frame => frame.asset_id))].map(id => [id, GEOMETRY_PIXEL]))
+      : review.cover.logo_asset_id ? { [review.cover.logo_asset_id]: GEOMETRY_PIXEL } : undefined;
     // A non-navigated relative link preserves the registered footer text/DOM.
     // Fit does not mint or inspect original-video access credentials.
     const videoHrefs = Object.fromEntries(review.slides.flatMap(slide => slide.video_asset_id ? [[slide.video_asset_id, '/original-video']] : []));
     const page = await context.newPage(); await page.setContent(renderRegisteredReviewDocument(review, { ...pinned.assets, imageSources, videoHrefs }), { waitUntil: 'load', timeout });
+    if (editorial) {
+      const result = await measureEditorialPage(page);
+      if (!result.fonts) fail('FIT_FONT_UNAVAILABLE'); if (blocked) fail('FIT_EXTERNAL_RESOURCE');
+      if (!editorialStructureMatches(editorialDeck(review), result) || result.pages.filter(item => item.layout === 'cast_detail').length !== review.candidate_slide_count) fail('FIT_MEASUREMENT_FAILED');
+      if (result.overflows.length > 10000) fail('FIT_BUDGET_EXCEEDED');
+      return { schema_version: '1.0', input_fingerprint: review.input_fingerprint, template_content_sha256: review.template.content_sha256, renderer_version: REVIEW_FIT_RENDERER_VERSION, chromium_version: version, font_hashes: pinned.font_hashes, overflows: result.overflows, measured_at: new Date().toISOString() };
+    }
     const loaded = await page.evaluate(async () => {
       await Promise.all(['Latin', 'Arabic'].flatMap(family => [400, 500, 600].map(weight => document.fonts.load(`${weight} 23px ${family}`, family === 'Arabic' ? 'تجربة' : 'Example'))));
       await document.fonts.ready;

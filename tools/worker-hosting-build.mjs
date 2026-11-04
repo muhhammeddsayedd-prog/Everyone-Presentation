@@ -133,6 +133,10 @@ export async function workerContextFiles() {
   await walk('packages/templates/src'); await walk('packages/templates/versions'); files.push('packages/templates/registry.json');
   for (const family of ['IBMPlexSans', 'IBMPlexSansArabic']) { for (const weight of ['Regular', 'Medium', 'SemiBold']) files.push(`apps/web/public/fonts/${family}-${weight}.woff2`); files.push(`apps/web/public/fonts/${family}-LICENSE.txt`); }
   for (const name of ['everyone-logotype.svg', 'everyone-logotype-white.svg']) files.push(`apps/web/public/brand/${name}`);
+  // Everyone Film editorial 1.2.0: official General Sans TrueType files, license and template images.
+  for (const weight of ['Extralight', 'Light', 'Regular', 'Medium', 'Semibold', 'Bold']) files.push(`apps/web/public/fonts/GeneralSans-${weight}.ttf`);
+  files.push('apps/web/public/fonts/GeneralSans-LICENSE.txt');
+  for (const name of ['casting-placeholder.png', 'everyone-wordmark.png']) files.push(`apps/web/public/templates/everyone-film/${name}`);
   const results = [];
   for (const relative of [...new Set(files)].sort()) {
     const target = path.join(ROOT, relative); const info = await lstat(target);

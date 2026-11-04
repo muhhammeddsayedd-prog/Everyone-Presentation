@@ -2,7 +2,8 @@ import { randomUUID, createHash } from 'node:crypto';
 import { isDeepStrictEqual } from 'node:util';
 import type { JobEvent, JobEventReceipt, JsonObject, StageLease } from '@eps/jobs';
 import type { RenderSnapshot } from '../../../packages/domain/src/presentation-types.ts';
-import { parseRenderSnapshot, manifestFromSnapshot, presentationCanonicalHash, presentationCanonicalJson } from '../../../packages/domain/src/presentation.ts';
+import { parseRenderSnapshot, manifestFromSnapshot, presentationCanonicalHash, presentationCanonicalJson, reviewFromRenderSnapshot } from '../../../packages/domain/src/presentation.ts';
+import { editorialExpectations, isEditorialTemplate } from './editorial-template.ts';
 import { CandidateCallbackError, deliverCandidateCallback } from './candidate-callback.ts';
 import type { ReviewStageGateway, ReviewStageScope } from './review-stage-executor.ts';
 import { PresentationAssetError, type PresentationArtifact, type PresentationStageAssets } from './presentation-assets.ts';
@@ -27,6 +28,13 @@ function artifact(value: unknown, mime: 'application/json' | 'application/pdf'):
   if (!exact(value, ['asset_id', 'sha256', 'size_bytes', 'mime_type']) || !id(value.asset_id) || !digest(value.sha256) || value.mime_type !== mime || !integer(value.size_bytes, 1, mime === 'application/pdf' ? 67108864 : 8388608)) fail('STAGE_INPUT_INVALID');
   return value as unknown as PresentationArtifact;
 }
+/** Template-specific proof expectations: 1.0/1.1 fixed rules, 1.2.0 from the shared composer. */
+function expectedLayout(snapshot: RenderSnapshot) {
+  if (isEditorialTemplate(snapshot.template)) return editorialExpectations(reviewFromRenderSnapshot(snapshot));
+  const frames = snapshot.slides.reduce((sum, slide) => sum + slide.frames.length, 0); const logos = snapshot.slides.filter(slide => slide.logo_asset_id).length;
+  return { page_count: snapshot.slides.length, width: 1600, height: 900, width_points: 1200, height_points: 675, frame_draw_count: frames, logo_draw_count: logos, image_draws: frames + logos,
+    text_regions: 3 + snapshot.slides.filter(slide => slide.kind === 'candidate').length * 23 + snapshot.slides.filter(slide => slide.kind === 'pending').length * (snapshot.template.version === '1.1.0' ? 27 : 4) };
+}
 function bound(value: Record<string, unknown>, input: Record<string, unknown>) { if (value.schema_version !== '1.0' || ['version_id', 'snapshot_sha256', 'manifest_sha256', 'inventory_sha256'].some(key => value[key] !== input[key])) fail('STAGE_INPUT_INVALID'); }
 function prepared(value: unknown, input: Record<string, unknown>, snapshot: RenderSnapshot): PresentationPrepared {
   if (!exact(value, ['schema_version', 'version_id', 'snapshot_sha256', 'manifest_sha256', 'inventory_sha256', 'template_content_sha256', 'font_hashes', 'renderer_version', 'prepared_at'])) fail('STAGE_INPUT_INVALID');
@@ -35,22 +43,21 @@ function prepared(value: unknown, input: Record<string, unknown>, snapshot: Rend
 async function rendered(value: unknown, input: Record<string, unknown>, snapshot: RenderSnapshot): Promise<PresentationRendered> {
   if (!exact(value, ['schema_version', 'version_id', 'snapshot_sha256', 'manifest_sha256', 'inventory_sha256', 'manifest_asset', 'pdf_asset', 'proof'])) fail('STAGE_INPUT_INVALID'); bound(value, input);
   const manifest = artifact(value.manifest_asset, 'application/json'); const pdf = artifact(value.pdf_asset, 'application/pdf'); if (manifest.asset_id === pdf.asset_id || manifest.sha256 !== input.manifest_sha256) fail('STAGE_INPUT_INVALID');
-  const proof = value.proof;
+  const proof = value.proof; const editorial = expectedLayout(snapshot);
   if (!exact(proof, ['renderer_version', 'chromium_version', 'template_content_sha256', 'font_hashes', 'page_count', 'width_css_px', 'height_css_px', 'overflow_count', 'candidate_field_count', 'frame_draw_count', 'logo_draw_count', 'video_link_count', 'fonts_ready', 'images_ready', 'link_targets_sha256', 'rendered_at'])
     || proof.renderer_version !== PRESENTATION_RENDERER || typeof proof.chromium_version !== 'string' || !/^[0-9]+(?:\.[0-9]+){2,3}$/u.test(proof.chromium_version) || proof.template_content_sha256 !== snapshot.template.content_sha256 || !isDeepStrictEqual(proof.font_hashes, snapshot.template.font_hashes)
-    || proof.page_count !== snapshot.slides.length || proof.width_css_px !== 1600 || proof.height_css_px !== 900 || proof.overflow_count !== 0 || proof.candidate_field_count !== snapshot.slides.filter(slide => slide.kind === 'candidate').length * 10
-    || proof.frame_draw_count !== snapshot.slides.reduce((sum, slide) => sum + slide.frames.length, 0) || proof.logo_draw_count !== snapshot.slides.filter(slide => slide.logo_asset_id).length || proof.video_link_count !== snapshot.slides.filter(slide => slide.video_asset_id).length || proof.fonts_ready !== true || proof.images_ready !== true
+    || proof.page_count !== editorial.page_count || proof.width_css_px !== editorial.width || proof.height_css_px !== editorial.height || proof.overflow_count !== 0 || proof.candidate_field_count !== snapshot.slides.filter(slide => slide.kind === 'candidate').length * 10
+    || proof.frame_draw_count !== editorial.frame_draw_count || proof.logo_draw_count !== editorial.logo_draw_count || proof.video_link_count !== snapshot.slides.filter(slide => slide.video_asset_id).length || proof.fonts_ready !== true || proof.images_ready !== true
     || proof.link_targets_sha256 !== await presentationCanonicalHash(snapshot.slides.flatMap(slide => slide.video_asset_id ? [presentationVideoHref(snapshot, slide.video_asset_id)] : [])) || !time(proof.rendered_at)) fail('STAGE_INPUT_INVALID');
   return value as unknown as PresentationRendered;
 }
 function validated(value: unknown, input: Record<string, unknown>, snapshot: RenderSnapshot, source: PresentationRendered): PresentationValidated {
   if (!exact(value, ['schema_version', 'version_id', 'snapshot_sha256', 'manifest_sha256', 'inventory_sha256', 'manifest_asset', 'pdf_asset', 'proof'])) fail('STAGE_INPUT_INVALID'); bound(value, input);
   if (!isDeepStrictEqual(value.manifest_asset, source.manifest_asset) || !isDeepStrictEqual(value.pdf_asset, source.pdf_asset)) fail('STAGE_INPUT_INVALID');
-  const proof = value.proof;
-  if (!exact(proof, ['pdf_sha256', 'page_count', 'width_points', 'height_points', 'text_regions_checked', 'image_draws_checked', 'video_links_checked', 'embedded_font_count', 'validated_at']) || proof.pdf_sha256 !== source.pdf_asset.sha256 || proof.page_count !== snapshot.slides.length
-    || typeof proof.width_points !== 'number' || !Number.isFinite(proof.width_points) || Math.abs(proof.width_points - 1200) > 0.5 || typeof proof.height_points !== 'number' || !Number.isFinite(proof.height_points) || Math.abs(proof.height_points - 675) > 0.5
-    || proof.text_regions_checked !== 3 + snapshot.slides.filter(slide => slide.kind === 'candidate').length * 23 + snapshot.slides.filter(slide => slide.kind === 'pending').length * (snapshot.template.version === '1.1.0' ? 27 : 4)
-    || proof.image_draws_checked !== source.proof.frame_draw_count + source.proof.logo_draw_count || proof.video_links_checked !== source.proof.video_link_count || !integer(proof.embedded_font_count, 1, 6000) || !time(proof.validated_at)) fail('STAGE_INPUT_INVALID');
+  const proof = value.proof; const layout = expectedLayout(snapshot);
+  if (!exact(proof, ['pdf_sha256', 'page_count', 'width_points', 'height_points', 'text_regions_checked', 'image_draws_checked', 'video_links_checked', 'embedded_font_count', 'validated_at']) || proof.pdf_sha256 !== source.pdf_asset.sha256 || proof.page_count !== layout.page_count
+    || typeof proof.width_points !== 'number' || !Number.isFinite(proof.width_points) || Math.abs(proof.width_points - layout.width_points) > 0.5 || typeof proof.height_points !== 'number' || !Number.isFinite(proof.height_points) || Math.abs(proof.height_points - layout.height_points) > 0.5
+    || proof.text_regions_checked !== layout.text_regions || proof.image_draws_checked !== layout.image_draws || proof.video_links_checked !== source.proof.video_link_count || !integer(proof.embedded_font_count, 1, 6000) || !time(proof.validated_at)) fail('STAGE_INPUT_INVALID');
   return value as unknown as PresentationValidated;
 }
 export async function executePresentationStage(supplied: StageLease, gateway: ReviewStageGateway, options: PresentationStageOptions) {

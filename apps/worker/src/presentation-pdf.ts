@@ -9,6 +9,7 @@ import { loadReviewTemplateAssets } from './review-fit.ts';
 import { nativeBrowserEnvironment } from './native-browser.ts';
 import { nativeSandboxConfiguration } from './native-sandbox.ts';
 import { sandboxPresentation } from './native-sandbox-result.ts';
+import { EDITORIAL_CANVAS, editorialDeck, editorialSnapshotOptions, editorialStructureMatches, isEditorialTemplate, measureEditorialPage } from './editorial-template.ts';
 
 export const PRESENTATION_RENDERER = 'everyone-casting-pdf-v1';
 export const PRESENTATION_PDF_LIMITS = Object.freeze({ pdfBytes: 64 * 1024 * 1024, imageBytes: 128 * 1024 * 1024 });
@@ -21,7 +22,7 @@ const fail = (code: PresentationPdfError['code']): never => { throw new Presenta
 const hash = (bytes: Uint8Array) => createHash('sha256').update(bytes).digest('hex');
 export interface PresentationRenderProof {
   renderer_version: typeof PRESENTATION_RENDERER; chromium_version: string; template_content_sha256: string; font_hashes: Record<string, string>;
-  page_count: number; width_css_px: 1600; height_css_px: 900; overflow_count: 0; candidate_field_count: number;
+  page_count: number; width_css_px: number; height_css_px: number; overflow_count: 0; candidate_field_count: number;
   frame_draw_count: number; logo_draw_count: number; video_link_count: number; fonts_ready: true; images_ready: true; link_targets_sha256: string; rendered_at: string;
 }
 export interface PresentationValidationProof {
@@ -32,7 +33,7 @@ export interface PresentationPdfOptions { signal?: AbortSignal; timeoutMs?: numb
 /** Secret-bearing response from the export grant port. Never serialize this
  * access object into a snapshot, job, outbox, diagnostic or callback. */
 export interface PresentationExportMediaAccess { version_id: string; grant_token: string }
-interface ExpectedPage { regions: { field: string; text: string; source_text: string; direction: string; lines: { start: number; end: number; top: number }[]; rect: number[] }[]; images: { width: number; height: number; rect: number[] }[]; links: string[] }
+interface ExpectedPage { regions: { field: string; text: string; source_text: string; direction: string; lines: { start: number; end: number; top: number }[]; rect: number[] }[]; images: { width: number; height: number; rect: number[]; fit?: string; focal?: number[] }[]; links: string[] }
 
 /** No temporary object URL or guest token is allowed into canonical PDF bytes. */
 export function presentationVideoHref(snapshot: RenderSnapshot, assetId: string): string {
@@ -92,9 +93,29 @@ async function documentOperation<T>(snapshot: RenderSnapshot, images: ReadonlyMa
   const run = async () => {
     browser = await chromium.launch({ headless: true, timeout, env: nativeBrowserEnvironment(), args: ['--disable-background-networking', '--disable-component-update', '--disable-sync', '--no-first-run', '--force-color-profile=srgb'] });
     if (signal.aborted) { await browser.close(); fail('PDF_ABORTED'); }
-    const context = await browser.newContext({ viewport: { width: 1600, height: 900 }, javaScriptEnabled: false, serviceWorkers: 'block', offline: true, reducedMotion: 'reduce' });
+    const editorial = isEditorialTemplate(snapshot.template);
+    const context = await browser.newContext({ viewport: editorial ? { width: EDITORIAL_CANVAS.width, height: EDITORIAL_CANVAS.height } : { width: 1600, height: 900 }, javaScriptEnabled: false, serviceWorkers: 'block', offline: true, reducedMotion: 'reduce' });
     let blocked = 0; await context.route('**/*', route => { blocked++; return route.abort('blockedbyclient'); });
     const page = await context.newPage(); await page.emulateMedia({ media: 'print' });
+    if (editorial) {
+      // Everyone Film editorial 1.2.0: one composed deck drives markup, checks and proof.
+      const deckOptions = editorialSnapshotOptions(snapshot); const deck = editorialDeck(review, deckOptions);
+      await page.setContent(renderRegisteredReviewDocument(review, { ...pinned.assets, imageSources: sources, videoHrefs, ...deckOptions }), { waitUntil: 'load', timeout });
+      const measured = await measureEditorialPage(page);
+      if (signal.aborted) fail('PDF_ABORTED'); if (blocked || !measured.fonts || !measured.images) fail('PDF_ASSET_INVALID'); if (measured.overflows.length) fail('PDF_OVERFLOW');
+      const inventory = new Map(snapshot.asset_inventory.map(asset => [asset.asset_id, asset]));
+      // Decoded pixels must equal the frozen inventory size for every drawn asset.
+      const natural = (id: string) => { const asset = inventory.get(id); return asset?.width && asset.height ? [asset.width, asset.height] as const : undefined; };
+      if (!editorialStructureMatches(deck, measured, natural)) fail('PDF_RENDER_FAILED');
+      const links = deck.pages.flatMap(item => item.elements.flatMap(element => element.kind === 'link' ? [videoHrefs[element.target.asset_id]] : []));
+      if (JSON.stringify(measured.pages.flatMap(item => item.links)) !== JSON.stringify(links)) fail('PDF_RENDER_FAILED');
+      const draws = (role: string) => deck.pages.flatMap(item => item.elements).filter(element => element.kind === 'image' && element.role === role).length;
+      const proof: PresentationRenderProof = { renderer_version: PRESENTATION_RENDERER, chromium_version: browser.version(), template_content_sha256: snapshot.template.content_sha256, font_hashes: pinned.font_hashes,
+        page_count: deck.pages.length, width_css_px: EDITORIAL_CANVAS.width, height_css_px: EDITORIAL_CANVAS.height, overflow_count: 0, candidate_field_count: deck.pages.filter(item => item.layout === 'cast_detail').length * 10,
+        frame_draw_count: draws('frame'), logo_draw_count: draws('logo'), video_link_count: links.length, fonts_ready: true, images_ready: true,
+        link_targets_sha256: await presentationCanonicalHash(links), rendered_at: new Date().toISOString() };
+      return operation(page, measured.expected, proof);
+    }
     await page.setContent(renderRegisteredReviewDocument(review, { ...pinned.assets, imageSources: sources, videoHrefs, versionLabel: `Version ${snapshot.version_no}` }), { waitUntil: 'load', timeout });
     const measured = await page.evaluate(async () => {
       await Promise.all(['Latin', 'Arabic'].flatMap(family => [400, 500, 600].map(weight => document.fonts.load(`${weight} 23px ${family}`, family === 'Arabic' ? 'تجربة' : 'Example'))));
@@ -172,7 +193,7 @@ export async function renderPresentationExportPdf(supplied: RenderSnapshot, imag
   const snapshot = checkedSnapshot(supplied, options.signal);
   return renderDocumentPdf(snapshot, images, options, checkedExportAccess(snapshot, access));
 }
-async function inspect(bytes: Uint8Array, expected: ExpectedPage[], signal?: AbortSignal): Promise<PresentationValidationProof> {
+async function inspect(bytes: Uint8Array, expected: ExpectedPage[], signal?: AbortSignal, pagePoints: [number, number] = [1200, 675]): Promise<PresentationValidationProof> {
   const source = fileURLToPath(new URL('./', import.meta.url)); const dependencies = fileURLToPath(new URL('../../../node_modules/', import.meta.url));
   const entry = fileURLToPath(new URL('./presentation-pdf-inspect-process.mjs', import.meta.url));
   const text = await new Promise<string>((resolve, reject) => {
@@ -182,7 +203,7 @@ async function inspect(bytes: Uint8Array, expected: ExpectedPage[], signal?: Abo
     child.on('error', stop); child.stdin.on('error', () => {}); child.stdout.on('data', chunk => { output += chunk.toString('utf8'); if (output.length > 65536) stop(); });
     child.stderr.on('data', chunk => { diagnostic += chunk.length; if (diagnostic > 65536) stop(); });
     child.on('close', code => { clearTimeout(timer); signal?.removeEventListener('abort', stop); if (problem || code !== 0) reject(new PresentationPdfError(signal?.aborted ? 'PDF_ABORTED' : 'PDF_VALIDATION_FAILED')); else resolve(output); });
-    if (signal?.aborted) stop(); child.stdin.end(JSON.stringify({ bytes: Buffer.from(bytes).toString('base64'), expected }));
+    if (signal?.aborted) stop(); child.stdin.end(JSON.stringify({ bytes: Buffer.from(bytes).toString('base64'), expected, page_points: pagePoints }));
   });
   let value; try { value = JSON.parse(text); } catch { return fail('PDF_VALIDATION_FAILED'); }
   if (value.ok !== true || value.proof.pdf_sha256 !== hash(bytes)) throw new PresentationPdfError('PDF_VALIDATION_FAILED', typeof value.checkpoint === 'string' && /^[a-z_0-9]{1,40}$/u.test(value.checkpoint) ? value.checkpoint : undefined);
@@ -193,7 +214,7 @@ export async function validatePresentationPdf(supplied: RenderSnapshot, images: 
   if (!(bytes instanceof Uint8Array) || bytes.length < 100 || bytes.length > PRESENTATION_PDF_LIMITS.pdfBytes || Buffer.from(bytes.subarray(0, 5)).toString() !== '%PDF-') fail('PDF_VALIDATION_FAILED');
   if (nativeSandboxConfiguration()) { await preparePresentationAssets(snapshot, images, options); return await sandboxPresentation('presentation_validate', snapshot, images, options, bytes) as unknown as PresentationValidationProof; }
   const expected = await documentOperation(snapshot, images, options, async (_page, pages) => pages);
-  return inspect(bytes, expected, options.signal);
+  return inspect(bytes, expected, options.signal, isEditorialTemplate(snapshot.template) ? [EDITORIAL_CANVAS.width_points, EDITORIAL_CANVAS.height_points] : [1200, 675]);
 }
 export async function validatePresentationExportPdf(supplied: RenderSnapshot, images: ReadonlyMap<string, Uint8Array>, bytes: Uint8Array, access: PresentationExportMediaAccess, options: PresentationPdfOptions = {}): Promise<PresentationValidationProof> {
   const snapshot = checkedSnapshot(supplied, options.signal);
@@ -201,5 +222,5 @@ export async function validatePresentationExportPdf(supplied: RenderSnapshot, im
   if (!(bytes instanceof Uint8Array) || bytes.length < 100 || bytes.length > PRESENTATION_PDF_LIMITS.pdfBytes || Buffer.from(bytes.subarray(0, 5)).toString() !== '%PDF-') fail('PDF_VALIDATION_FAILED');
   if (nativeSandboxConfiguration()) { await preparePresentationAssets(snapshot, images, options); return await sandboxPresentation('presentation_export_validate', snapshot, images, options, bytes, access) as unknown as PresentationValidationProof; }
   const expected = await documentOperation(snapshot, images, options, async (_page, pages) => pages, access);
-  return inspect(bytes, expected, options.signal);
+  return inspect(bytes, expected, options.signal, isEditorialTemplate(snapshot.template) ? [EDITORIAL_CANVAS.width_points, EDITORIAL_CANVAS.height_points] : [1200, 675]);
 }
