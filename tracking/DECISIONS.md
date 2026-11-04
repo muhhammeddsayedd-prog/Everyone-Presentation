@@ -396,3 +396,31 @@ Owner declined further independent English/mixed label collection. Scan and tran
 ## 2026-11-02 - Completion release scope confirmed
 
 Users with projects.read and projects.write may create real canonical projects through simple Studio UI, API and MCP. Name and presentation type are required; an authorized existing client is optional. Creator receives only project writer membership. Future types can be selected and saved with a Planned overview; only Casting workflows ship. Workspace creation retains existing permissions. Google Drive and client creation stay deferred. User confirmed Everyone-Presentation GitHub remote and retained stable pilot URL for final production.
+
+## 2026-11-04 - Everyone Film editorial presentation template 1.2.0
+
+Owner supplied `everyone_template_design_kit/` (design.md v1.0, tokens, 56 reference
+captures, brand assets) as the authoritative presentation design and asked for a
+code-owned, versioned template used by every generation path.
+
+- Registered as `everyone-casting` **1.2.0** (key retained so every existing key check,
+  series and RLS path applies), `font_key` `everyone-film-fonts-v1`, 1920×1080.
+  1.0.0/1.1.0 renderers and proof rules are unchanged; saved versions keep their template.
+- One composer (`compose-casting.ts`) produces an explicit deck model; HTML/PDF, in-app
+  preview and PowerPoint all render it. Proof counts come from the same composer and are
+  re-derived independently in SQL (`eps.editorial_deck_counts`).
+- Casting contract preserved: one detail page per included assignment with all ten
+  fields (application extension `cast_detail`), one page per pending slot/role
+  (`cast_pending`). Reference compositions added around them: cover, category dividers,
+  Main/Backup slot overviews, THANK YOU!. Labels come from `position` only.
+- General Sans: official Fontshare TrueType files under ITF FFL 2.0, unmodified, self-hosted
+  in this private app and embedded in its PDFs. The repository must stay private; files are
+  never offered to third parties as a font. TrueType chosen because Chromium embeds the CFF
+  builds as Type3 procedures. Geeza Pro cannot be bundled → IBM Plex Sans Arabic fallback.
+- Reference screenshots and client logos from the kit contain real people/brands → local QA
+  only, never committed. Repository fixtures are synthetic.
+- Every-slide client logo kept as an explicit, documented deviation from the reference.
+- PowerPoint is composed on request from the saved version with the caller's own
+  permissions (no stored artifact, no new bucket or grant). MCP PowerPoint tool deferred.
+- `eps.review_target_context` keeps its 1.1.0 identity (AI wording context only).
+- Settings default is not changed by migration; a producer selects 1.2.0 after release.

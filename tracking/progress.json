@@ -16478,5 +16478,34 @@
       "previous_source": "7196d69e1dbe35981d8479a05c82219752f9eeb3",
       "reason": "normal compatible frontend trace release; previous complete records retained in commit0f76e03 and dated receipt"
     }
-  ]
+  ],
+  "editorial_template_1_2_0": {
+    "status": "implemented_unverified",
+    "scope": "Everyone Film editorial presentation template 1.2.0 (design kit 2026-11-04)",
+    "branch": "feature/editorial-template-1.2.0",
+    "updated_at": "2026-11-04",
+    "local_evidence": {
+      "unit": "468/468",
+      "contracts": "13/13",
+      "jobs": "19/19",
+      "integrations": "74/74",
+      "worker": "268 pass, 1 opt-in skip",
+      "central": "204/204",
+      "typecheck": "pass",
+      "lint": "pass",
+      "targeted_rerun": "42/42 incl. SQL mirror on disposable PG17",
+      "e2e_editorial_preview": "pass",
+      "powerpoint_roundtrip": "Microsoft PowerPoint (Windows) opened and exported generated decks",
+      "visual_qa": "25 reference pages compared locally"
+    },
+    "not_verified": [
+      "canonical DB release of 20261104210000_m08_editorial_template.sql",
+      "worker/native rebuild with refreshed seal",
+      "web deployment",
+      "hosted UI and Claude journeys",
+      "Keynote import (no macOS)",
+      "MCP PowerPoint tool (deferred)"
+    ],
+    "docs": "docs/presentation/EDITORIAL_TEMPLATE.md"
+  }
 }
