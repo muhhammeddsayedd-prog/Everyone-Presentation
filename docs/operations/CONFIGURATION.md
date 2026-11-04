@@ -1,5 +1,7 @@
 # Configuration and operational defaults
 
+Owner update recorded 4 November 2026: [Claude metadata confirmation and AT060 disposition](../../tracking/evidence/m07/completion-release/2026-11-04-owner-PDF-metadata-confirmation.json) reports one successful `get_media` call, request `1337466a-43be-42ed-93fc-a1392b86cf7f`, Ready `presentation_pdf`, 810,902 bytes and SHA-256 `b50806f9abf577d6250889e226973162a243b9b9303bdb1361b3a791456c5dc2`. It matches the retained Selection v2 PDF. The earlier failed read is retained. The owner reports no corpus available and requests AT060 stay open. Full M07 remains false with AT069 historically blocked. Service identities below retain their recorded November 3 observation times; this update adds owner evidence only.
+
 ## Current configuration ownership - 2026-11-03
 
 This current section supersedes the dated runtime claims below. Those original
@@ -40,7 +42,7 @@ The [actual1030-test quality](../../tracking/evidence/m07/completion-release/202
 and [Ready web readback](../../tracking/evidence/m07/presentation-pdf-metadata-web-forward-release/2026-11-03T14-44-32-244101Z-b5e29aa2-7f3e-4a7a-8fe2-e1246a0ab705-readback.json)
 are separate from [Root's scoped HTTP/UI result](../../tracking/evidence/m07/completion-release/Root-4gdh-production-metadata-and-UI.json).
 The latter confirms the13-field PDF metadata read, refreshed Selection and
-anonymous401; existing-Claude metadata confirmation is still pending. Full M07
+anonymous401; existing-Claude metadata confirmation passed. Full M07
 remains false. No capacity/SLA, fresh heartbeat, new full-media download, RTO/RPO
 or private production restore claim follows from these configuration records.
 

@@ -1,0 +1,39 @@
+{
+  "schema_version": "owner-PDF-metadata-confirmation.v1",
+  "recorded_at": "2026-11-04T10:16:02.024545+00:00",
+  "owner_report_received_date": "2026-11-04",
+  "evidence_source": "owner-provided result from the requested existing Claude connection",
+  "exact_client_invocation_timestamp": null,
+  "result": "passed_owner_reported_MCP_metadata_read",
+  "operation": "get_media",
+  "reported_call_count": 1,
+  "asset_id": "ee37c2f4-e7e6-4e78-882e-a1fae2807ec3",
+  "status": "ready",
+  "purpose": "presentation_pdf",
+  "size_bytes": 810902,
+  "sha256": "b50806f9abf577d6250889e226973162a243b9b9303bdb1361b3a791456c5dc2",
+  "request_id": "1337466a-43be-42ed-93fc-a1392b86cf7f",
+  "matches_previously_verified_HTTP_metadata_and_retained_PDF": true,
+  "prior_HTTP_UI_receipt": {
+    "path": "tracking/evidence/m07/completion-release/Root-4gdh-production-metadata-and-UI.json",
+    "sha256": "9965d5e9ac468f8f5b018f3e209e67118fc4dc29c5743fa6b3549dc43496edb9"
+  },
+  "earlier_failed_read": {
+    "request_id": "8202116c-eac6-408f-b2ff-3a2ea2e4e98d",
+    "code": "CENTRAL_RESPONSE_INVALID",
+    "preserved": true,
+    "owner_reports_did_not_recur_on_this_call": true
+  },
+  "new_Root_service_calls_or_deployment_or_generation": false,
+  "fresh_deployment_identity_or_client_wire_capture_claimed": false,
+  "AT060_owner_disposition": {
+    "owner_answer": "No corpus available; leave AT-060 open",
+    "corpus_availability": "unavailable_owner_reported",
+    "acceptance_required": true,
+    "status": "open_unverified",
+    "waived": false,
+    "new_batch_or_capacity_measurement": false
+  },
+  "AT069_historical_policy_block_unreplayed": true,
+  "full_M07_acceptance": false
+}

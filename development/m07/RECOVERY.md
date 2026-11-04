@@ -1,5 +1,7 @@
 # M07 isolated recovery rehearsal
 
+Owner update recorded 4 November 2026: [Claude metadata confirmation and AT060 disposition](../../tracking/evidence/m07/completion-release/2026-11-04-owner-PDF-metadata-confirmation.json) reports one successful `get_media` call, request `1337466a-43be-42ed-93fc-a1392b86cf7f`, Ready `presentation_pdf`, 810,902 bytes and SHA-256 `b50806f9abf577d6250889e226973162a243b9b9303bdb1361b3a791456c5dc2`. It matches the retained Selection v2 PDF. The earlier failed read is retained. The owner reports no corpus available and requests AT060 stay open. Full M07 remains false with AT069 historically blocked. Service identities below retain their recorded November 3 observation times; this update adds owner evidence only.
+
 ## Current recovery boundary - 2026-11-03
 
 This section governs current evidence and restrictions. All dated local28/29/38
@@ -41,9 +43,8 @@ Current web is Ready4gdh/selectedMain514 with1030-test Root quality; workerFxd a
 native3d are unchanged. The [new web readback](../../tracking/evidence/m07/presentation-pdf-metadata-web-forward-release/2026-11-03T14-44-32-244101Z-b5e29aa2-7f3e-4a7a-8fe2-e1246a0ab705-readback.json)
 and [scoped metadata/UI proof](../../tracking/evidence/m07/completion-release/Root-4gdh-production-metadata-and-UI.json)
 are deployment/read acceptance, not rollback, worker replacement or recovery.
-Existing-Claude metadata confirmation and AT060's real200 representative workload
-remain open: no authorized representative corpus has been identified; owner
-availability reply pending. Narrator,
+Existing-Claude metadata confirmation passed. AT060 remains required and open:
+the owner reports no corpus available and requests leaving it open. Narrator,
 contributor and mobile remain skipped, not passed. Full M07 remains false.
 
 ### No replay or rollback workaround

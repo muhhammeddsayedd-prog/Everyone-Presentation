@@ -1,5 +1,7 @@
 # Deployment, recovery and operational runbook
 
+Owner update recorded 4 November 2026: [Claude metadata confirmation and AT060 disposition](../../tracking/evidence/m07/completion-release/2026-11-04-owner-PDF-metadata-confirmation.json) reports one successful `get_media` call, request `1337466a-43be-42ed-93fc-a1392b86cf7f`, Ready `presentation_pdf`, 810,902 bytes and SHA-256 `b50806f9abf577d6250889e226973162a243b9b9303bdb1361b3a791456c5dc2`. It matches the retained Selection v2 PDF. The earlier failed read is retained. The owner reports no corpus available and requests AT060 stay open. Full M07 remains false with AT069 historically blocked. Service identities below retain their recorded November 3 observation times; this update adds owner evidence only.
+
 ## Current operations checkpoint - 2026-11-03
 
 This section governs current operations. The dated material below is retained
@@ -17,8 +19,8 @@ Full M07/release acceptance remains false.
   from e259 is exactly the reviewed central metadata fix and focused test.
 - [Root HTTP/UI verification](../../tracking/evidence/m07/completion-release/Root-4gdh-production-metadata-and-UI.json)
   passed the supported13-field PDF metadata read, anonymous401 denial and refreshed
-  Ready20-page Selection UI. The existing Claude client's metadata read remains
-  pending; neither a new PDF/video download nor another generation is implied.
+  Ready20-page Selection UI. The existing Claude client's metadata read passed;
+  neither a new PDF/video download nor another generation is implied.
   [Completed owner artifacts](../../tracking/evidence/m07/completion-release/2026-11-03-owner-generation42-retained-artifacts-outcome.json)
   and [reciprocal app reads](../../tracking/evidence/m07/completion-release/Root-owner42-reciprocal-app-readback.json)
   retain their separate Ready20/17/3 PDF/media/feedback and UI scopes. Do not replay
@@ -61,10 +63,9 @@ not weaken comparisons to reuse an older checkpoint.
 
 ### Open acceptance boundaries and restricted recovery
 
-Existing-Claude metadata confirmation, final privacy/push and handover evidence
-remain separate. AT060's real200 representative workload remains mandatory and
-open: no authorized representative corpus has been identified; owner availability
-reply pending. Synthetic throughput is not a substitute.
+Existing-Claude metadata confirmation passed. Final publication and handover evidence
+retain their recorded scopes. AT060 remains mandatory and open: the owner reports
+no corpus available and requests leaving it open. Synthetic throughput is insufficient.
 Narrator/screen-reader, contributor and mobile were skipped, not
 passed, and are not to be requested again as new gates.
 
