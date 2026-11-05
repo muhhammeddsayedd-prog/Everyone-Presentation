@@ -29,9 +29,9 @@
 .review-comments .review-comment-reply { padding-left: var(--space-4); border-left: 2px solid var(--color-border-strong); }
 .review-feedback [aria-pressed=true] { border-color: var(--color-accent); background: var(--color-accent-soft); }
 .guest-original { margin-top: var(--space-5); }
-.guest-original video, .guest-media-destination video { width: 100%; display: block; margin-top: var(--space-4); }
+.guest-original video, .guest-media-destination:not(.guest-media-page) video { width: 100%; display: block; margin-top: var(--space-4); }
 .guest-footer { padding: var(--space-6) 0; border-top: 1px solid var(--color-border); }
-.guest-unavailable, .guest-preparing, .guest-media-destination { max-width: 960px; margin: var(--space-8) auto; }
+.guest-unavailable, .guest-preparing, .guest-media-destination:not(.guest-media-page) { max-width: 960px; margin: var(--space-8) auto; }
 .guest-unavailable h1, .guest-preparing h1 { font-size: var(--text-h2); margin-bottom: var(--space-4); }
 .guest-pdf-control { max-width: 340px; }
 .review-links-panel { border-top: 1px solid var(--color-border); margin-top: var(--space-8); padding-top: var(--space-6); }

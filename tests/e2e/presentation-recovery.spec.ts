@@ -39,7 +39,8 @@ test('a retained image retries a temporary failure without reading the live libr
   await expect.poll(() => image.evaluate(node => node instanceof HTMLImageElement && node.complete && node.naturalWidth > 0)).toBe(true);
   await expect(page.getByRole('button', { name: 'Retry saved image', exact: true })).toHaveCount(0);
   expect(imageReads).toBeGreaterThan(readsBeforeRetry);
-  expect(unexpected).toEqual([]);
+  // The viewer reads only this version, its retained media and the feedback given on this same version.
+  expect(unexpected.filter(path => !path.startsWith(`/api/v1/versions/${version.id}/feedback`))).toEqual([]);
 });
 
 test('a repeated series cursor reports the problem and reload starts from the first page', async ({ page }) => {

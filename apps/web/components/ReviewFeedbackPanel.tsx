@@ -15,9 +15,11 @@ interface Props {
   versionId: string; versionNo: number; slides: VersionSlide[]; slideId?: string;
   access?: GuestBrowserAccess; canWrite?: boolean; onIdentified?: (value: GuestBrowserAccess) => void;
   onStateChange?: (value: { locked: boolean; dirty: boolean }) => void;
+  /** Called when the reader picks another candidate here, so a stage beside the feedback can follow. */
+  onSlideChange?: (slideId: string) => void;
 }
 export function ReviewFeedbackPanel(props: Props) { return <FeedbackScope key={`${props.versionId}:${props.access?.guest_session_id ?? 'internal'}:${props.slideId ?? ''}`} {...props} />; }
-function FeedbackScope({ versionId, versionNo, slides, slideId, access, canWrite = true, onIdentified, onStateChange }: Props) {
+function FeedbackScope({ versionId, versionNo, slides, slideId, access, canWrite = true, onIdentified, onStateChange, onSlideChange }: Props) {
   const guest = !!access, context = access?.guest_session_id, prefix = guest ? '/api/v1/review' : '/api/v1';
   const candidates = slides.filter(slide => slide.kind === 'candidate');
   const [selected, setSelected] = useState(slideId ?? candidates[0]?.id ?? '');
@@ -117,7 +119,7 @@ function FeedbackScope({ versionId, versionNo, slides, slideId, access, canWrite
   const canCompose = canWrite && (!guest || access.display_name);
   return <section className="review-feedback" aria-label={`Feedback on version ${versionNo}`}>
     <header className="section-heading"><div><h2>Feedback</h2><p>Version {versionNo} · {slide?.role_label ?? 'Choose a candidate'}{slide?.slot_label ? ` / ${slide.slot_label}` : ''}</p></div><button className="button" disabled={write.locked || loading} onClick={reload}>Refresh feedback</button></header>
-    {!slideId && <label className="field">Role / slot<select value={selected} disabled={write.locked} onChange={async event => { const next = event.target.value; if (body.trim() && !await confirm({ title: 'Discard your unsent comment?', description: 'Opening feedback for another role or slot discards the comment you have not posted.', confirmLabel: 'Discard comment', cancelLabel: 'Keep writing', danger: true })) return; setSelected(next); setBody(''); setEditing(null); setReply(null); }}>{candidates.map(item => <option key={item.id} value={item.id}>{optionLabel(item)}</option>)}</select></label>}
+    {!slideId && <label className="field">Role / slot<select value={selected} disabled={write.locked} onChange={async event => { const next = event.target.value; if (body.trim() && !await confirm({ title: 'Discard your unsent comment?', description: 'Opening feedback for another role or slot discards the comment you have not posted.', confirmLabel: 'Discard comment', cancelLabel: 'Keep writing', danger: true })) return; setSelected(next); setBody(''); setEditing(null); setReply(null); onSlideChange?.(next); }}>{candidates.map(item => <option key={item.id} value={item.id}>{optionLabel(item)}</option>)}</select></label>}
     <p className="small muted">External feedback is shared with reviewers of this presentation. Preferences do not change casting positions.</p>
     {summary && <p className="small review-feedback-totals" aria-label={`Version ${versionNo} feedback totals`}>Version {versionNo}{guest ? ' (shared feedback)' : ''}: {summary.totals.preferred} preferred · {summary.totals.maybe} maybe · {summary.totals.not_preferred} not preferred · {summary.totals.comment_count} {summary.totals.comment_count === 1 ? 'comment' : 'comments'}{summary.totals.unresolved_count ? ` (${summary.totals.unresolved_count} unresolved)` : ''}</p>}
     {error && <ErrorNotice message={error} retry={!write.locked ? reload : undefined} />}

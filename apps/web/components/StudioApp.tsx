@@ -114,7 +114,7 @@ function Route({ pathname, segments, isWorkspace, central, actor, storageOrigin,
   if (segments[0] === 'library' && segments[1] === 'cast' && segments.length === 3) return <CandidateDetailView key={segments[2]} candidateId={segments[2]} actor={actor} onDirtyChange={onDirtyChange} />;
   if (central && segments[0] === 'presentations' && segments[1] === 'series' && segments[3] === 'sharing' && segments.length === 4) return <ReviewSharingView seriesId={segments[2]} actor={actor} onDirtyChange={onDirtyChange} />;
   if (central && pathname === '/presentations') return <PresentationIndex actor={actor} />;
-  if (central && segments[0] === 'presentations' && segments[1] === 'versions' && segments.length === 3) return <><header className="page-heading"><div><h1>Saved presentation</h1></div><Link className="button" href="/presentations">All presentations</Link></header><PresentationVersionView actor={actor} versionId={segments[2]} /></>;
+  if (central && segments[0] === 'presentations' && segments[1] === 'versions' && segments.length === 3) return <PresentationVersionView actor={actor} versionId={segments[2]} onDirtyChange={onDirtyChange} />;
   if (central && segments[0] === 'presentations' && segments[1] === 'versions' && segments[3] === 'media' && segments.length === 5) return <VersionMediaView actor={actor} versionId={segments[2]} assetId={segments[4]} />;
   if (pathname === '/settings') return <SettingsView actor={actor} onDirtyChange={onDirtyChange} />;
   if (pathname === '/processing') return <ProcessingView key={actor.id} actor={actor} onDirtyChange={onDirtyChange} />;

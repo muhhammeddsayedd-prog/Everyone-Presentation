@@ -43,7 +43,7 @@ test('generation retains an unknown request and saved versions never follow late
     return route.fulfill({ status: 404, json: { error: { code: 'NOT_FOUND', message: 'Synthetic route unavailable' } } });
   });
   await page.goto(`/projects/${project}/casting/${workspace}/presentations`);
-  await expect(page.getByRole('heading', { name: 'Presentation versions', exact: true })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Versions', exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Generate saved version', exact: true })).toBeEnabled();
   await page.getByRole('button', { name: 'Generate saved version', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Confirm generation request', exact: true })).toBeVisible();
@@ -64,7 +64,8 @@ test('generation retains an unknown request and saved versions never follow late
   await page.getByRole('button', { name: 'Generate saved version', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Saved version 2', exact: true })).toBeVisible();
   expect(allocations).toBe(2); expect(attempts[3].key).not.toBe(attempts[0].key);
-  await page.getByRole('combobox', { name: 'Saved version', exact: true }).selectOption(snapshot.version_id);
+  await page.getByRole('list', { name: 'Saved versions' }).getByRole('button', { name: /^Version 1 / }).click();
+  await expect(page.getByRole('heading', { name: 'Saved version 1', exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Slide 2: Synthetic Role / Synthetic Slot1', exact: true }).click();
   await expect(page.getByText('Synthetic Candidate', { exact: true })).toBeVisible();
   await expect(page.getByText('Changed working draft', { exact: true })).toHaveCount(0);
@@ -151,7 +152,7 @@ test('review and generation navigation keeps the chosen series instead of the wo
   const base = `/projects/${selection.project_id}/casting/${selection.workspace_id}`;
   await page.goto(`${base}/review`);
   await page.getByRole('combobox', { name: 'Saved review series', exact: true }).selectOption(shortlist.series_id);
-  await expect(page.getByRole('heading', { name: 'Synthetic Shortlist', exact: true })).toBeVisible();
+  await expect(page.getByText(/^Server check · revision \d+ · Synthetic Shortlist$/u)).toBeVisible();
   await expect(page.getByRole('link', { name: 'Open Presentation', exact: true })).toHaveAttribute('href', `${base}/presentations?series_id=${shortlist.series_id}`);
   await page.getByRole('link', { name: 'Open Presentation', exact: true }).click();
   await expect(page.getByRole('combobox', { name: 'Presentation series', exact: true })).toHaveValue(shortlist.series_id);
