@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { useDraftValue } from './workspace/WorkspaceDraftProvider';
+import { draftKey } from './workspace/draft-review';
 import { ApiError, api, errorMessage, mutation, type Workspace } from './api';
 import { ErrorNotice } from './Feedback';
 import { Icon } from './Icon';
@@ -116,8 +118,9 @@ export function LogoPanel({ actorId, workspace, clientLogoAssetId, canWrite, can
   }
 
   const placement = pendingPlacement ?? workspace.logo_placement;
+  useDraftValue(draftKey.logoPlacement, placement, placement !== workspace.logo_placement);
   const offerClientLogo = clientLogoAssetId && availableClientLogo === clientLogoAssetId && clientLogoAssetId !== workspace.logo_asset_id;
-  return <section className="panel" aria-labelledby="client-branding-heading">
+  return <section className="panel" aria-labelledby="client-branding-heading" data-draft-focus="cover">
     <header className="panel-header"><h2 id="client-branding-heading">Client branding</h2><span className="small muted">Optional</span></header>
     <div className="panel-body stack-lg">
       <figure className="cover-preview" aria-label="Live cover preview">

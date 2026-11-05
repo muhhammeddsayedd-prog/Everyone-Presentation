@@ -2,13 +2,16 @@
 
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
+import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { api, errorMessage, mutation, type Actor, type Project, type Workspace } from './api';
 import { ErrorNotice, Loading } from './Feedback';
 import { ProjectDetails } from './ProjectDetails';
 import { LogoPanel } from './LogoPanel';
 import { Icon, type IconName } from './Icon';
 import { FramePortal } from './shell/Frame';
+import { PageFrame } from './shell/PageFrame';
+import { LiveStage } from './workspace/LiveStage';
+import { WorkspaceDraftProvider } from './workspace/WorkspaceDraftProvider';
 import { SpecsView } from './SpecsView';
 import { useRuntimeMode } from './RuntimeMode';
 import { WorkspaceCandidatesView } from './WorkspaceCandidatesView';
@@ -19,6 +22,11 @@ import { rememberWorkspace } from './recent-workspaces';
 import { SegmentIndicator } from './motion/SegmentIndicator';
 import { plural, stepStatus, useWorkspaceSummary, type WorkspaceSummary } from './workspace-summary';
 
+// Steps edited beside the live slide stage. Review and Presentation keep their own layouts.
+const staged: Record<string, { title: string; subtitle: string }> = {
+  project: { title: 'Project', subtitle: 'Shared details & presentation setup' }, specs: { title: 'Specs', subtitle: 'Brief, roles and individual slots' },
+  cast: { title: 'Candidates', subtitle: 'People in this project' }, organize: { title: 'Casting', subtitle: 'Slots, positions and Shortlist' },
+};
 const steps: { path: string; label: string; icon: IconName }[] = [{ path: 'project', label: 'Project', icon: 'brief' }, { path: 'specs', label: 'Specs', icon: 'file' }, { path: 'cast', label: 'Candidates', icon: 'user-plus' }, { path: 'organize', label: 'Casting', icon: 'board' }, { path: 'review', label: 'Review', icon: 'checklist' }, { path: 'presentations', label: 'Presentation', icon: 'history' }];
 // Shown only without the central business connection (development fixture mode).
 const connectionNeeded = 'This step uses the central business connection, which this development session does not have. Sign in to the connected Studio to use it.';
@@ -63,7 +71,9 @@ function WorkspaceScope({ projectId, workspaceId, step, actor, storageOrigin, on
   const presentationChanged = useCallback((dirty: boolean) => setPresentationDirty(dirty), []);
   const workspaceRefresh = useRef(0);
   useEffect(() => () => { workspaceRefresh.current++; }, []);
+  const draftRefresh = useRef<(() => void) | null>(null);
   const specsWorkspaceChanged = useCallback(() => {
+    draftRefresh.current?.();
     const request = ++workspaceRefresh.current;
     void api<Workspace>(`/api/v1/workspaces/${workspaceId}`).then(result => { if (request !== workspaceRefresh.current) return; setWorkspace(current => current && current.id === result.data.id && current.row_version <= result.data.row_version
       ? { ...current, row_version: result.data.row_version, draft_revision: result.data.draft_revision, active_output: result.data.active_output, has_unpublished_changes: result.data.has_unpublished_changes, updated_at: result.data.updated_at } : current); })
@@ -79,16 +89,17 @@ function WorkspaceScope({ projectId, workspaceId, step, actor, storageOrigin, on
     }).catch(reason => { if (current) setError(errorMessage(reason)); }).finally(() => { if (current) setLoading(false); });
     return () => { current = false; };
   }, [projectId, workspaceId, refresh]);
+  const draftProject = useMemo(() => ({ name: project?.name ?? '', client_name: project?.client_name ?? null }), [project?.name, project?.client_name]);
   const summary = useWorkspaceSummary(workspaceId, central && !!workspace, workspace ? `${workspace.row_version}:${workspace.draft_revision}` : '');
   useEffect(() => { if (project && workspace) rememberWorkspace({ href: `/projects/${projectId}/casting/${workspaceId}/project`, projectId, workspaceId, name: project.name }); }, [project, workspace, projectId, workspaceId]);
   async function changeOutput(output: 'selection' | 'shortlist') {
     if (!workspace) return; workspaceRefresh.current++; setOutputSaving(true);
-    try { setWorkspace((await api<Workspace>(`/api/v1/workspaces/${workspace.id}`, mutation('PATCH', { row_version: workspace.row_version, active_output: output }))).data); }
+    try { setWorkspace((await api<Workspace>(`/api/v1/workspaces/${workspace.id}`, mutation('PATCH', { row_version: workspace.row_version, active_output: output }))).data); draftRefresh.current?.(); }
     catch (reason) { setError(errorMessage(reason)); }
     finally { setOutputSaving(false); }
   }
   async function projectSaved(next: Project) {
-    setProject(next);
+    setProject(next); draftRefresh.current?.();
     setWorkspace((await api<Workspace>(`/api/v1/workspaces/${workspaceId}`)).data);
   }
   if (loading) return <Loading />;
@@ -97,12 +108,14 @@ function WorkspaceScope({ projectId, workspaceId, step, actor, storageOrigin, on
   const canWrite = actor.capabilities?.includes('workspaces.write') ?? project.can_edit;
   const canUpload = canWrite && (actor.upload_purposes?.includes('client_logo') ?? false);
   const selectedStep = steps.find(item => item.path === step);
+  const meta = selectedStep && (central || step === 'project') ? staged[step] : undefined;
   const ownsOutput = ['organize', 'review', 'presentations'].includes(step) && central;
   const canChangeOutput = !outputSaving && Boolean(actor.capabilities?.includes('workspaces.write'));
   const seriesQuery = (path: string) => contextSeries && ['review', 'presentations'].includes(path) ? `?series_id=${contextSeries}` : '';
   const stepBody = step === 'project' ? <div className="project-step">
-      <div className="stack-lg"><ProjectDetails key={project.id} project={project} onSaved={projectSaved} onDirtyChange={detailsChanged} /><NextSteps base={base} summary={summary} output={workspace.active_output} unpublished={workspace.has_unpublished_changes} /></div>
-      <LogoPanel key={workspace.id} actorId={actor.id} workspace={workspace} clientLogoAssetId={project.client_logo_asset_id} canWrite={canWrite} canUpload={canUpload} onSaved={setWorkspace} onDirtyChange={logoChanged} projectName={project.name} clientName={project.client_name} />
+      <ProjectDetails key={project.id} project={project} onSaved={projectSaved} onDirtyChange={detailsChanged} />
+      <LogoPanel key={workspace.id} actorId={actor.id} workspace={workspace} clientLogoAssetId={project.client_logo_asset_id} canWrite={canWrite} canUpload={canUpload} onSaved={next => { setWorkspace(next); draftRefresh.current?.(); }} onDirtyChange={logoChanged} projectName={project.name} clientName={project.client_name} />
+      <NextSteps base={base} summary={summary} output={workspace.active_output} unpublished={workspace.has_unpublished_changes} />
     </div>
     : step === 'specs' && central ? <SpecsView workspaceId={workspaceId} projectId={projectId} canWrite={canWrite} uploadPurposes={actor.upload_purposes ?? []} storageOrigin={storageOrigin} onDirtyChange={specsChanged} onWorkspaceChanged={specsWorkspaceChanged} />
     : step === 'cast' && central ? <WorkspaceCandidatesView workspaceId={workspaceId} projectId={projectId} actor={actor} storageOrigin={storageOrigin} onDirtyChange={castChanged} onWorkspaceChanged={specsWorkspaceChanged} />
@@ -121,8 +134,11 @@ function WorkspaceScope({ projectId, workspaceId, step, actor, storageOrigin, on
       {step !== 'review' && <Link className="button button-primary" href={`${base}/review${seriesQuery('review')}`}>Review &amp; generate<Icon name="arrow" /></Link>}
     </div></FramePortal>
     <FramePortal slot="rail"><nav className="rail-group rail-steps" aria-label="Casting workspace steps"><SegmentIndicator />{steps.map((item, index) => <Link className="rail-link" href={`${base}/${item.path}${seriesQuery(item.path)}`} key={item.path} aria-current={step === item.path ? 'step' : undefined}><Icon name={item.icon} /><span className="rail-label"><span className="step-number">{index + 1}</span>{item.label}{(() => { const status = stepStatus(summary, item.path, workspace.active_output); return status && <span className={`step-status step-status-${status.tone}`}>{status.text}</span>; })()}</span></Link>)}</nav></FramePortal>
-    {error && <ErrorNotice message={error} retry={reloadData} />}
-    {stepBody}
+    {meta ? <WorkspaceDraftProvider enabled={central} workspaceId={workspaceId} projectId={projectId} canReadProfiles={actor.capabilities?.includes('cast.read') === true} project={draftProject} workspace={workspace} refreshRef={draftRefresh}>
+      <PageFrame inline className="workspace-frame" panel={{ title: meta.title, subtitle: meta.subtitle, label: `${meta.title} panel`, wide: true, body: <>{error && <ErrorNotice message={error} retry={reloadData} />}{stepBody}</> }}>
+        <LiveStage />
+      </PageFrame>
+    </WorkspaceDraftProvider> : <>{error && <ErrorNotice message={error} retry={reloadData} />}{stepBody}</>}
   </>;
 }
 
@@ -142,6 +158,10 @@ function nextStepBody(path: string, summary: WorkspaceSummary | null, output: 's
   return null;
 }
 function NextSteps({ base, summary, output, unpublished }: { base: string; summary: WorkspaceSummary | null; output: 'selection' | 'shortlist'; unpublished: boolean }) {
+  // Whole-workspace counts only; an unknown count says so instead of showing zero.
+  const tiles = [{ label: 'Candidates', value: summary?.project_candidate_count, unit: 'in project' }, { label: 'Assigned', value: summary?.assignment_count[output], unit: output === 'selection' ? 'in Cast Selection' : 'in Cast Shortlist' },
+    { label: 'Open slots', value: summary?.open_slot_count, unit: 'Pending' }, { label: 'To clarify', value: summary?.roles_needing_clarification, unit: 'roles' }];
   return <section className="panel" aria-labelledby="next-steps-heading"><header className="panel-header"><h2 id="next-steps-heading">Next up</h2><span className="small muted">Nothing here blocks you — missing information stays visible as “Not provided”.</span></header>
+    <dl className="next-up-tiles">{tiles.map(tile => <div key={tile.label}><dt>{tile.label}</dt><dd>{typeof tile.value === 'number' ? <><strong>{tile.value}</strong>{tile.unit}</> : 'Not available'}</dd></div>)}</dl>
     <ul className="next-steps">{nextSteps.map(item => { const known = nextStepBody(item.path, summary, output, unpublished); return <li key={item.path}><span className={`badge ${known?.tone === 'warn' ? 'badge-warn' : known?.tone === 'ok' ? 'badge-ok' : 'badge-outline'}`}>{item.tag}</span><span>{known?.body ?? item.body}</span><Link className="button button-quiet button-small" href={`${base}/${item.path}`}>{item.action}<Icon name="arrow" /></Link></li>; })}</ul></section>;
 }

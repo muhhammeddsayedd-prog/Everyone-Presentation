@@ -197,16 +197,17 @@ export function SpecsView({ workspaceId, projectId, canWrite, uploadPurposes = [
   const orderBlocked = hasUnsaved || Boolean(cursor) || loadingMore || orderNeedsReload;
   return <div className="specs-view">{retirement && <RetirementUndo workspaceId={workspaceId} resourceId={retirement.resourceId} label={retirement.label} canWrite={canWrite} disabled={otherEdits} onDirtyChange={retirementDirty} onDismiss={() => setRetirement(null)} onRestored={() => { setRetirement(null); setUndoLocked(false); setLoading(true); setRefresh(value => value + 1); onWorkspaceChanged(); }} />}
     <fieldset className="presentation-read-lock" disabled={undoLocked}>{error && <ErrorNotice message={error} retry={() => void reload()} />}
+    <SectionJump sections={SPEC_SECTIONS} />
     <div className="specs-layout">
-      <div className="specs-source stack-lg">
+      <div className="specs-source stack-lg" id="specs-brief">
         <SourceIntake key={`${workspaceId}/${spec.id}/${refresh}`} spec={spec} canWrite={canWrite} uploadPurposes={uploadPurposes} storageOrigin={storageOrigin} manualEditsPending={manualEditsPending} onDirtyChange={dirtyChanged} onLockChange={sourceLockChanged}
           onPersisted={(saved, savedRoles, nextCursor) => { setSpec(saved); setRoles(savedRoles); setCursor(nextCursor); setSourceEpoch(value => value + 1); onWorkspaceChanged(); }} />
         {spec.processing_job_id && <SpecsProcessing key={`${workspaceId}/${spec.id}/${spec.processing_job_id}`} workspaceId={workspaceId} specId={spec.id} jobId={spec.processing_job_id}
           loadBlocked={hasUnsaved || sourceLocked || loadingMore} onReload={() => void reload()} />}
       </div>
       <div className="specs-editor stack-lg">
-        <Instructions key={`${spec.id}/${refresh}/${sourceEpoch}`} spec={spec} canWrite={canWrite && !reordering && !orderPending && !sourceLocked} onSaved={next => { setSpec(current => current && current.row_version > next.row_version ? current : next); onWorkspaceChanged(); }} onDirtyChange={dirtyChanged} />
-        <section className="panel roles-panel" aria-labelledby="roles-heading">
+        <div id="specs-general" className="specs-anchor"><Instructions key={`${spec.id}/${refresh}/${sourceEpoch}`} spec={spec} canWrite={canWrite && !reordering && !orderPending && !sourceLocked} onSaved={next => { setSpec(current => current && current.row_version > next.row_version ? current : next); onWorkspaceChanged(); }} onDirtyChange={dirtyChanged} /></div>
+        <section className="panel roles-panel specs-anchor" id="specs-roles" aria-labelledby="roles-heading">
           <header className="panel-header"><div><h2 id="roles-heading" ref={rolesHeading} tabIndex={-1}>Roles and individual slots</h2><p className="small muted">{roles.length} {roles.length === 1 ? 'role' : 'roles'}{cursor ? ' loaded' : ''} · A role may cover several scenes. Its headcount determines the number of slots.</p></div>
             <div className="button-row"><button className="button button-small button-quiet" disabled={reordering || sourceLocked} onClick={() => void reload()}><Icon name="refresh" />Reload saved requirements</button>
               {canWrite && roles.length > 1 && <button className="button button-small" aria-expanded={ordering} aria-controls="role-order-panel" onClick={() => setOrdering(value => !value)}><Icon name="order" />{ordering ? 'Done ordering' : 'Change role order'}</button>}</div></header>
@@ -230,4 +231,25 @@ export function SpecsView({ workspaceId, projectId, canWrite, uploadPurposes = [
     </div>
     <footer className="sticky-bar workspace-continue"><p className="small muted">Missing requirements do not block preparation.</p><Link className="button button-primary" href={`/projects/${projectId}/casting/${workspaceId}/cast`}>Continue to Candidates<Icon name="arrow" /></Link></footer>
     </fieldset></div>;
+}
+
+// In page order: the brief, project-wide requirements, then roles.
+const SPEC_SECTIONS = [{ id: 'specs-brief', label: 'Brief' }, { id: 'specs-general', label: 'General' }, { id: 'specs-roles', label: 'Roles' }];
+/** Jump links to the panel's sections; the one in view is marked. Every section stays mounted, so unsaved edits survive. */
+function SectionJump({ sections }: { sections: { id: string; label: string }[] }) {
+  const [current, setCurrent] = useState(sections[0].id);
+  const nav = useRef<HTMLElement>(null);
+  useEffect(() => {
+    // The current section is the last one whose top has passed a line a third of the way down the visible panel.
+    const root = nav.current?.closest('.config-panel-body'); if (!root) return;
+    const update = () => { const top = nav.current?.getBoundingClientRect().bottom ?? 0; const bottom = Math.min(root.getBoundingClientRect().bottom, window.innerHeight);
+      const line = top + Math.max(24, (bottom - top) / 3); let found = sections[0].id;
+      for (const section of sections) { const node = document.getElementById(section.id); if (node && node.getBoundingClientRect().top <= line) found = section.id; }
+      setCurrent(found); };
+    // The panel scrolls on its own beside the stage; below 1024 px the page scrolls instead.
+    update(); root.addEventListener('scroll', update, { passive: true }); window.addEventListener('scroll', update, { passive: true });
+    return () => { root.removeEventListener('scroll', update); window.removeEventListener('scroll', update); };
+  }, [sections]);
+  return <nav ref={nav} className="section-jump" aria-label="Specs sections"><div className="segmented">{sections.map(section => <a key={section.id} href={`#${section.id}`} aria-current={current === section.id ? 'location' : undefined}
+    onClick={event => { event.preventDefault(); setCurrent(section.id); document.getElementById(section.id)?.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }}>{section.label}</a>)}</div></nav>;
 }

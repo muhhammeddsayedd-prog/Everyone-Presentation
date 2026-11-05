@@ -8,6 +8,8 @@ import { rebaseRoleForm, requirementFields, roleForm, rolePatch, type RoleForm }
 import { RoleSlots } from './RoleSlots';
 import { CastingRetirementReview } from './CastingRetirementReview';
 import { Icon } from './Icon';
+import { useDraftValue } from './workspace/WorkspaceDraftProvider';
+import { draftKey } from './workspace/draft-review';
 
 export function Clarifications({ entries, disabled, onChange, level = 4 }: { entries: SpecsClarification[]; disabled: boolean; onChange: (entries: SpecsClarification[]) => void; level?: 3 | 4 }) {
   if (!entries.length) return null;
@@ -42,6 +44,11 @@ export function RoleEditor({ role, canWrite, onSaved, onArchived, onWorkspaceCha
     onDirtyChange(role.id, dirty || saving || archiving);
     return () => onDirtyChange(role.id, false);
   }, [role.id, dirty, saving, archiving, onDirtyChange]);
+  // The role's slides (headings and Pending requirement pages) follow unsaved edits.
+  const draft = rolePatch(form, role.row_version);
+  useDraftValue(draftKey.roleName(role.id), draft.name ?? role.name, dirty && draft.name !== role.name);
+  useDraftValue(draftKey.roleCategory(role.id), draft.category ?? null, dirty && (draft.category ?? null) !== role.category);
+  useDraftValue(draftKey.roleRequirements(role.id), draft.requirements ?? role.requirements, dirty && JSON.stringify(draft.requirements) !== JSON.stringify(role.requirements));
   useEffect(() => {
     if (archiveReview || !archiveCancelFocus.current) return;
     archiveCancelFocus.current = false;
@@ -75,14 +82,14 @@ export function RoleEditor({ role, canWrite, onSaved, onArchived, onWorkspaceCha
   const label = role.name || 'Unnamed role';
   const summary = [role.category, role.requirements.age_range, role.requirements.gender_requirement, ...role.requirements.languages].filter(value => typeof value === 'string' && value.trim()).join(' · ');
   const openMarkers = form.clarifications.filter(marker => !marker.resolved).length;
-  return <article className="role-editor" aria-label={`${label} requirements`}>
+  return <article className="role-editor" aria-label={`${label} requirements`} data-draft-focus={`role:${role.id}`}>
     <div className="role-heading"><div className="role-title"><h3 dir="auto">{label}</h3><span className="role-count">{role.headcount === null ? 'Count needs clarification · one provisional slot' : `${role.headcount} ${role.headcount === 1 ? 'slot' : 'slots'}`}</span>
         <p className="small muted role-summary" dir="auto">{summary || 'Requirements not provided'}</p></div>
       <div className="role-flags">{openMarkers > 0 && <span className="badge badge-warn">{openMarkers} to clarify</span>}<span className="save-state" data-state={error ? 'error' : saved && !dirty ? 'saved' : undefined} role="status" aria-live="polite">{saving ? 'Saving…' : error ? 'Could not save' : dirty ? 'Unsaved changes' : saved ? 'Saved' : 'Up to date'}</span></div></div>
     <details className="requirements-details"><summary>Edit requirements</summary><div className="form-grid-3">
-      <div className="field"><label htmlFor={`role-${role.id}-name`}>Role name</label><input id={`role-${role.id}-name`} value={form.name} readOnly={!canWrite || archiving} placeholder="Not provided" onChange={event => change({ name: event.target.value })} /></div>
-      <div className="field"><label htmlFor={`role-${role.id}-category`}>Classification</label><input id={`role-${role.id}-category`} value={form.category} readOnly={!canWrite || archiving} placeholder="Not provided" onChange={event => change({ category: event.target.value })} /></div>
-      {requirementFields.map(([field, fieldLabel, multiple]) => <div className="field" key={field}><label htmlFor={`role-${role.id}-${field}`}>{fieldLabel}</label>
+      <div className="field" data-draft-field="role_name"><label htmlFor={`role-${role.id}-name`}>Role name</label><input id={`role-${role.id}-name`} value={form.name} readOnly={!canWrite || archiving} placeholder="Not provided" onChange={event => change({ name: event.target.value })} /></div>
+      <div className="field" data-draft-field="role_category"><label htmlFor={`role-${role.id}-category`}>Classification</label><input id={`role-${role.id}-category`} value={form.category} readOnly={!canWrite || archiving} placeholder="Not provided" onChange={event => change({ category: event.target.value })} /></div>
+      {requirementFields.map(([field, fieldLabel, multiple]) => <div className="field" key={field} data-draft-field={`requirements.${field}`}><label htmlFor={`role-${role.id}-${field}`}>{fieldLabel}</label>
         <textarea id={`role-${role.id}-${field}`} rows={2} value={form.requirements[field]} readOnly={!canWrite || archiving} placeholder="Not provided" dir="auto" onChange={event => {
           const value = event.target.value; setForm(current => ({ ...current, requirements: { ...current.requirements, [field]: value } })); setSaved(false);
         }} />{multiple && <span className="small muted">One entry per line.</span>}</div>)}

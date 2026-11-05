@@ -8,20 +8,21 @@ import { setPanelCollapsed, useMediaQuery, usePanelCollapsed } from './preferenc
 /* Page layout inside the frame: an optional config panel (filters, details, settings), the main area, and an
    optional right panel. ≥1280 the panel is a column the viewer can collapse (Ctrl/Cmd+\, remembered);
    below that it opens over the page, and on phones as a bottom sheet. The panel stays mounted at every width
-   so edits in it survive a resize. */
+   so edits in it survive a resize. An `inline` panel (the workspace editor) is the page's main content, so below
+   1280 it stays in the page flow above the main area instead of hiding behind a toggle. */
 
 export interface PanelSpec { title: string; subtitle?: string; actions?: ReactNode; footer?: ReactNode; body: ReactNode; wide?: boolean; label?: string }
 
 function Trap({ target, onClose }: { target: RefObject<HTMLElement | null>; onClose: () => void }) { useFocusTrap(target, onClose); return null; }
 
-export function PageFrame({ panel, right, children, className }: { panel?: PanelSpec; right?: ReactNode; children: ReactNode; className?: string }) {
+export function PageFrame({ panel, right, children, className, inline = false }: { panel?: PanelSpec; right?: ReactNode; children: ReactNode; className?: string; inline?: boolean }) {
   const collapsed = usePanelCollapsed();
   const wide = useMediaQuery('(min-width: 1280px)');
   const [overlayOpen, setOverlayOpen] = useState(false);
   const panelRef = useRef<HTMLElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const id = useId();
-  const open = panel ? (wide ? !collapsed : overlayOpen) : false;
+  const open = panel ? (wide ? !collapsed : inline || overlayOpen) : false;
   // The Show button only exists while the panel is closed, so focus moves to it after the render that closes the panel.
   const focusToggle = useRef(false);
   useEffect(() => { if (!open && focusToggle.current) { focusToggle.current = false; toggleRef.current?.focus(); } }, [open]);
@@ -33,21 +34,21 @@ export function PageFrame({ panel, right, children, className }: { panel?: Panel
     function key(event: KeyboardEvent) {
       if (event.key !== '\\' || !(event.ctrlKey || event.metaKey) || event.altKey) return;
       event.preventDefault();
-      if (wide) setPanelCollapsed(!collapsed); else setOverlayOpen(value => !value);
+      if (wide) setPanelCollapsed(!collapsed); else if (!inline) setOverlayOpen(value => !value);
     }
     window.addEventListener('keydown', key);
     return () => window.removeEventListener('keydown', key);
-  }, [panel, wide, collapsed]);
+  }, [panel, wide, collapsed, inline]);
   function toggle(next: boolean) { if (wide) setPanelCollapsed(!next); else setOverlayOpen(next); }
   const name = panel?.label ?? panel?.title;
-  return <div className={`page-frame${className ? ` ${className}` : ''}`} data-panel={panel ? (open ? 'open' : 'closed') : 'none'} data-right={right ? 'open' : undefined}>
+  return <div className={`page-frame${className ? ` ${className}` : ''}`} data-panel={panel ? (open ? 'open' : 'closed') : 'none'} data-right={right ? 'open' : undefined} data-inline={inline ? '' : undefined}>
     {panel && <>
       {!wide && overlayOpen && <><div className="panel-scrim" aria-hidden="true" onClick={() => { focusToggle.current = true; setOverlayOpen(false); }} /><Trap target={panelRef} onClose={() => { focusToggle.current = true; setOverlayOpen(false); }} /></>}
-      <aside ref={panelRef} id={id} className={`config-panel${panel.wide ? ' config-panel-wide' : ''}`} aria-label={name} tabIndex={-1} hidden={!open} data-overlay={!wide ? '' : undefined}>
+      <aside ref={panelRef} id={id} className={`config-panel${panel.wide ? ' config-panel-wide' : ''}`} aria-label={name} tabIndex={-1} hidden={!open} data-overlay={!wide && !inline ? '' : undefined}>
         <header className="config-panel-head">
           <div><h2>{panel.title}</h2>{panel.subtitle && <p>{panel.subtitle}</p>}</div>
           {panel.actions}
-          <button type="button" className="icon-button icon-button-small" aria-label={`Hide ${name}`} aria-controls={id} aria-expanded={open} onClick={() => { focusToggle.current = true; toggle(false); }}><Icon name={wide ? 'chevron-left' : 'close'} /></button>
+          {(wide || !inline) && <button type="button" className="icon-button icon-button-small" aria-label={`Hide ${name}`} aria-controls={id} aria-expanded={open} onClick={() => { focusToggle.current = true; toggle(false); }}><Icon name={wide ? 'chevron-left' : 'close'} /></button>}
         </header>
         <div className="config-panel-body">{panel.body}</div>
         {panel.footer && <footer className="config-panel-foot">{panel.footer}</footer>}

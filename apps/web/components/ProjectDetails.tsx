@@ -6,6 +6,8 @@ import { ErrorNotice } from './Feedback';
 import { Icon } from './Icon';
 import { useRuntimeMode } from './RuntimeMode';
 import { useConfirm } from './ui/Confirm';
+import { useDraftValue } from './workspace/WorkspaceDraftProvider';
+import { draftKey } from './workspace/draft-review';
 
 export function ProjectDetails({ project, onSaved, onDirtyChange }: { project: Project; onSaved: (project: Project) => void | Promise<void>; onDirtyChange: (dirty: boolean) => void }) {
   const runtimeMode = useRuntimeMode();
@@ -17,6 +19,9 @@ export function ProjectDetails({ project, onSaved, onDirtyChange }: { project: P
   const [saved, setSaved] = useState(false);
   const dirty = name !== project.name || client !== (project.client_name ?? '');
   useEffect(() => { onDirtyChange(dirty || saving); return () => onDirtyChange(false); }, [dirty, saving, onDirtyChange]);
+  // Inside a workspace the cover follows the name and client while they are typed.
+  useDraftValue(draftKey.projectName, name.trim(), name.trim() !== project.name && !!name.trim());
+  useDraftValue(draftKey.clientName, client.trim() || null, client !== (project.client_name ?? ''));
 
   async function save() {
     if (saving || !dirty || !name.trim()) return;
@@ -47,13 +52,13 @@ export function ProjectDetails({ project, onSaved, onDirtyChange }: { project: P
   }
 
   const state = saving ? 'saving' : error ? 'error' : saved && !dirty ? 'saved' : 'idle';
-  return <section className="panel" aria-labelledby="project-details-heading">
+  return <section className="panel" aria-labelledby="project-details-heading" data-draft-focus="cover">
     <header className="panel-header"><h2 id="project-details-heading">Shared project details</h2>
       <span className="save-state" data-state={state} role="status" aria-live="polite">{state === 'saved' && <Icon name="check" />}{saving ? 'Saving…' : error ? 'Could not save' : dirty ? 'Unsaved changes' : saved ? 'Saved to the shared project' : 'Up to date'}</span></header>
     <div className="panel-body stack">
       <div className="form-grid">
-        <div className="field" data-invalid={!name.trim() || undefined}><label htmlFor="project-name">Project name</label><input id="project-name" value={name} maxLength={200} readOnly={!project.can_edit} aria-invalid={!name.trim() || undefined} aria-describedby={!name.trim() ? 'project-name-error' : undefined} onChange={event => { setName(event.target.value); setSaved(false); }} />{!name.trim() && <span id="project-name-error" className="field-error">Enter a project name to save.</span>}</div>
-        <div className="field"><label htmlFor="client-name">Client name</label><input id="client-name" value={client} maxLength={200} readOnly={!project.can_edit || !project.client_id} onChange={event => { setClient(event.target.value); setSaved(false); }} />{!project.client_id && <span className="field-hint">No client linked to this project.</span>}</div>
+        <div className="field" data-draft-field="project_name" data-invalid={!name.trim() || undefined}><label htmlFor="project-name">Project name</label><input id="project-name" value={name} maxLength={200} readOnly={!project.can_edit} aria-invalid={!name.trim() || undefined} aria-describedby={!name.trim() ? 'project-name-error' : undefined} onChange={event => { setName(event.target.value); setSaved(false); }} />{!name.trim() && <span id="project-name-error" className="field-error">Enter a project name to save.</span>}</div>
+        <div className="field" data-draft-field="client_name"><label htmlFor="client-name">Client name</label><input id="client-name" value={client} maxLength={200} readOnly={!project.can_edit || !project.client_id} onChange={event => { setClient(event.target.value); setSaved(false); }} />{!project.client_id && <span className="field-hint">No client linked to this project.</span>}</div>
       </div>
       <p className="section-note"><Icon name="info" /><span>{runtimeMode === 'local_fixture' ? 'Changes save to the canonical development records.' : 'Edits update the central project and client used by every Everyone app.'}</span></p>
       {!project.can_edit && <p className="permission-note"><Icon name="lock" />Your acting user can view these shared details. Editing requires project write access.</p>}

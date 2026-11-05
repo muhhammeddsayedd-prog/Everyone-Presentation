@@ -12,6 +12,7 @@ export type MenuItem =
 export function ActionMenu({ label, items, trigger, disabled, align = 'end', triggerClassName }: { label: string; items: MenuItem[]; trigger?: ReactNode; disabled?: boolean; align?: 'start' | 'end' | 'side'; triggerClassName?: string }) {
   const [open, setOpen] = useState(false);
   const [place, setPlace] = useState<CSSProperties | null>(null);
+  const [follow, setFollow] = useState(0); const focusedOnOpen = useRef(false);
   const button = useRef<HTMLButtonElement>(null);
   const menu = useRef<HTMLDivElement>(null);
   const id = useId();
@@ -31,18 +32,25 @@ export function ActionMenu({ label, items, trigger, disabled, align = 'end', tri
     const top = up ? Math.max(edge, anchor.top - gap - box.height) : Math.min(anchor.bottom + gap, window.innerHeight - edge - box.height);
     const left = align === 'start' ? anchor.left : anchor.right - box.width;
     setPlace({ position: 'fixed', top: Math.max(edge, top), left: Math.min(Math.max(edge, left), window.innerWidth - edge - box.width), right: 'auto', maxHeight: `${(up ? above : below) - gap}px`, overflowY: 'auto' });
-  }, [open, align]);
+  }, [open, align, follow]);
   useEffect(() => {
     if (!open) return;
-    // A fixed menu would drift from its button, so scrolling the page or a panel closes it (not scrolling inside it).
-    function scroll(event: Event) { if (!menu.current?.contains(event.target as Node)) setOpen(false); }
+    // The fixed menu follows its button when the page or a container holding the button scrolls, and closes once the
+    // button leaves the screen. Scrolling inside the menu, or an unrelated region (such as the slide strip), is ignored.
+    function scroll(event: Event) {
+      const target = event.target;
+      if (!(target === document || target === document.documentElement || target instanceof Node && !menu.current?.contains(target) && target.contains(button.current))) return;
+      const anchor = button.current?.getBoundingClientRect();
+      if (!anchor || anchor.bottom < 0 || anchor.top > window.innerHeight) setOpen(false); else setFollow(value => value + 1);
+    }
     function resize() { setOpen(false); }
     window.addEventListener('scroll', scroll, true); window.addEventListener('resize', resize);
     return () => { window.removeEventListener('scroll', scroll, true); window.removeEventListener('resize', resize); };
   }, [open]);
   const entries = () => [...(menu.current?.querySelectorAll<HTMLButtonElement>('[role^="menuitem"]:not(:disabled)') ?? [])];
   // Focus the first item once the menu is placed (it is hidden for the one frame it takes to measure it).
-  useEffect(() => { if (open && place) entries()[0]?.focus({ preventScroll: true }); }, [open, place]);
+  // Only once per opening: a menu that repositions while scrolling keeps the item the viewer moved to.
+  useEffect(() => { if (!open) { focusedOnOpen.current = false; return; } if (place && !focusedOnOpen.current) { focusedOnOpen.current = true; entries()[0]?.focus({ preventScroll: true }); } }, [open, place]);
   useEffect(() => {
     if (!open) return;
     function outside(event: MouseEvent) { if (!menu.current?.contains(event.target as Node) && !button.current?.contains(event.target as Node)) setOpen(false); }

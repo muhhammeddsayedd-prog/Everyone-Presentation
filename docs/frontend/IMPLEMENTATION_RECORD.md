@@ -29,8 +29,58 @@ Owner decisions (2026-11-05):
 - **Portraits:** real candidate frames from `CandidatePortrait`, read lazily on view. The initial shows when there is no frame.
 - **Other:** quick actions; a closable project details panel; filter counts given as accessible descriptions; module cards on the overview; processing quick filters next to the `Status` select; a Settings section nav; a 404 state.
 - **Unchanged:** contracts, routes, mutations, permissions and visible texts that specs depend on. | Verified (mock) |
-| P2 workspace editor + live stage | `WorkspaceDraftProvider`, `useDraftDeck`, `LiveStage`, `SlideStrip`; steps become panels | Not started |
+| P2 workspace editor + live stage | Project, Specs, Candidates and Casting become config panels beside a live slide stage (`components/workspace/`).
+- **Draft data:** `WorkspaceDraftProvider` reads the saved records (roles, slots, pool, assignments, profiles, selected introductions, series, settings) and holds unsaved panel edits as an overlay.
+- **Projection:** `draft-review.ts` (`buildDraftReview`) projects them exactly as the server review does.
+- **Rendering:** `StageSlide` draws pages with the worker's own registered renderer (1.0/1.1 `renderRegisteredReviewDocument`, 1.2.0 `renderPageMarkup`) in a shadow root.
+- **Stage:** `LiveStage` adds status, the previewed series and template, Slide or All pages, a pager, keyboard navigation and a lazy `SlideStrip`.
+- **Selection sync:** panels declare `data-draft-focus` and `data-draft-field`, so the stage and the panel select each other and the edited field is highlighted.
+- **Unchanged:** saves, permissions, conflicts and generation; the server stays the authority. | Verified (mock); connected read-only parity |
 | P3–P5 | Review, versions, sharing, guest, mobile, hardening | Not started |
+
+P2 checks (2026-11-05):
+- Gate: `npm run lint`, `npm run typecheck`, `npm test` and `npm run check:production-guard` all pass. `npx playwright test`: 163 passed, 0 failed (156 earlier specs + 7 new). The unit suites pass in full (1,055 tests; the worker suite skips one by design).
+- New `tests/domain/workspace-draft-preview.test.ts` (6 tests):
+  - server order and field rules (trimmed facts, saved wording, casting-ID fallback, Pending slots);
+  - Selection versus Shortlist;
+  - each overlay key, and that clearing it restores the saved slide;
+  - foreign frames are dropped and reported;
+  - inconsistent records, unreadable profiles and unknown templates pause the preview;
+  - 1.2.0 page kinds and focus lookup;
+  - 1.0/1.1 pages match the registered document.
+- New `tests/e2e/live-stage-ui.spec.ts` (7 tests):
+  - typed notes reach the slide before saving, are written once, and stay after the refresh and a reload;
+  - discard restores the saved slide;
+  - an edit made elsewhere (draft revision moved) appears on focus;
+  - a failed read offers Try again and recovers;
+  - an unreadable profile pauses instead of inventing facts;
+  - stage ↔ panel selection and keyboard navigation;
+  - 1.2.0 ↔ 1.1.0 switching, and All pages;
+  - axe (WCAG 2.1 AA), and no sideways scroll at 390 px.
+- Specs adjusted where the preview legitimately adds reads:
+  - `specs-ui` now expects exactly one preview slot read per role. The editor still pages no slots before a role is opened.
+  - `casting-retirement-ui` arms its one-time preview failure after the stage has loaded, so the removal review's own read is the one that fails.
+- Fixed while checking:
+  - Role queries reach into open shadow roots, so the slide's own headings duplicated the panel's. The canvas is now `aria-hidden`, and the stage is a single named image ("Slide n of N: …").
+  - Absolute screen-reader text in the thumbnails escaped the strip's clipping and widened the page to 856 px at 390 px. Thumbnails are now positioned.
+  - Thumbnail names now contain their visible text (axe `label-content-name-mismatch`).
+  - `.specs-source` was sticky inside the scrolling panel and overlapped the roles.
+  - A drawer opened from the panel was painted under the sticky stage.
+  - `ActionMenu` closed on any scroll anywhere. The live strip and a focus-scrolled panel closed menus a frame after they opened, failing `casting-board-ui` 2–3 times in 10. Menus now follow their button when a container holding it scrolls, close only when the button leaves the screen, and ignore unrelated scrolls; afterwards 10/10. The strip now scrolls only itself, never the page.
+- Connected parity, read-only, against the live pilot with the designated "Release verification · Casting" test workspace:
+  - The same records the browser reads (roles, slots, pool, assignments, profile, introductions) were run through `buildDraftReview`.
+  - The result equals `GET /workspaces/{id}/review` for its 1.1.0 and 1.2.0 Selection series: slides, cover and template identity.
+  - The registered renderer produced byte-identical markup for both templates.
+  - Nothing was written. Private record data was not stored in the repository.
+- Scale (node, synthetic): about 600–680 slides cost 13–40 ms to rebuild per keystroke, and 8 visible 1.2.0 pages under 1 ms to render. The stage defers edits (`useDeferredValue`), so typing is not blocked. The thumbnail strip renders pages only when they near view. A live pilot workspace has 657 Pending slides.
+
+Differences from the P2 mockups (deliberate or deferred):
+- The stage toggles are "Slide" and "All pages", not "App view" and "PDF preview". The stage always shows the printed page, and the saved-version viewer keeps its app carousel. There is no zoom control yet.
+- The top bar keeps "Review & generate". Share and Generate version move into the bar with P3.
+- Specs uses jump links instead of tabs, in page order (Brief, General, Roles) and marking the section in view. Every section stays mounted, so unsaved edits survive. Candidates keeps its existing tabs.
+- A drawer opened from the panel (for example assignment notes) covers the panel only, so its slide stays in view. Below 1024 px drawers keep their full-width behaviour.
+- Below 1024 px the panel is the page and the stage follows it. The mockup's bottom-sheet pattern for workspace steps is planned for P4.
+- Review and Presentation keep their own layouts until P3.
 
 P1 checks (local, `local_fixture` and mocked API, 2026-11-05):
 - `npm run lint`, `npm run typecheck`, `npm test` and `npm run check:production-guard`: all pass.

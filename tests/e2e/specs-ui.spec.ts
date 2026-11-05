@@ -82,7 +82,9 @@ test('controlled specs UI preserves supplied text, count clarifications and expl
   const model = await controlledWorkspace(page);
   await page.goto(base);
   await expect(page.getByRole('heading', { name: 'General requirements' })).toBeVisible();
-  expect(model.slotGets()).toBe(0);
+  // The editor pages no slots until a role's slots are opened; the live preview reads each role's slots once to draw the deck.
+  await expect(page.getByRole('navigation', { name: 'Slides' }).getByRole('button').first()).toBeVisible();
+  expect(model.slotGets()).toBe(model.roles().length);
   const article = page.locator('.role-editor');
   await article.locator('summary').filter({ hasText: 'Edit requirements' }).click();
   await article.getByLabel('Role name', { exact: true }).fill('Server');

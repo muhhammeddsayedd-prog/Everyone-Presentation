@@ -1,0 +1,175 @@
+/* Presentation-first workspace (P2): the step's controls in the config panel, the working draft on a live
+   stage, and a thumbnail strip. Slide markup itself lives in shadow roots and is styled only by its template. */
+@layer screens {
+  .workspace-frame { --panel-width-wide: 400px; }
+  .workspace-frame > .page-frame-main { padding: 0; gap: 0; }
+
+  /* Stage */
+  .live-stage { position: sticky; top: var(--topbar-height); height: calc(100vh - var(--topbar-height)); display: flex; flex-direction: column; min-width: 0; background: var(--color-bg); }
+  .stage-bar { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); flex-wrap: wrap; padding: 10px 20px; border-bottom: 1px solid var(--color-border); }
+  .stage-state { display: flex; align-items: center; gap: var(--space-3); min-width: 0; flex-wrap: wrap; }
+  .stage-chip { display: inline-flex; align-items: center; gap: 8px; padding: 4px 11px; border-radius: 999px; background: var(--color-accent-soft); color: var(--color-accent); font-size: 12px; font-weight: var(--weight-semibold); white-space: nowrap; }
+  .stage-chip-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; box-shadow: 0 0 0 3px color-mix(in srgb, currentColor 22%, transparent); }
+  .stage-chip-warn { background: var(--color-warning-soft); color: var(--color-warning); }
+  .stage-chip-info { background: var(--color-surface-2); color: var(--color-text-secondary); }
+  .stage-chip-info .stage-chip-dot { animation: stage-pulse 1.1s ease-in-out infinite; }
+  .stage-meta { color: var(--color-text-muted); font-size: var(--text-small); white-space: nowrap; }
+  .stage-tools { display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap; }
+  .stage-template select { max-width: 300px; min-height: 34px; padding-block: 4px; font-size: 13px; }
+  .stage-notice { margin: 12px 20px 0; }
+  .stage-note { display: flex; align-items: center; gap: 6px; margin: 10px 20px 0; color: var(--color-text-muted); }
+  .stage-note svg { width: 14px; height: 14px; flex: none; }
+
+  .stage-canvas { flex: 1; min-height: 0; display: grid; grid-template-rows: minmax(0, 1fr) auto; justify-items: center; align-items: center; gap: var(--space-3); padding: 24px 32px 10px; container-type: size; outline: none; }
+  .stage-canvas:focus-visible { box-shadow: inset 0 0 0 2px var(--color-accent); }
+  .stage-frame { width: min(100cqw - 64px, (100cqh - 84px) * 16 / 9); min-width: 0; }
+  .stage-slide { position: relative; width: 100%; overflow: hidden; border-radius: 4px; background: var(--color-surface-2); box-shadow: 0 30px 70px -20px rgb(0 0 0 / .65), 0 0 0 1px rgb(255 255 255 / .04); }
+  .stage-slide-canvas { position: absolute; top: 0; left: 0; transform-origin: 0 0; }
+  .stage-pager { display: flex; align-items: center; gap: var(--space-3); }
+  .stage-count { min-width: 56px; text-align: center; font-weight: var(--weight-semibold); font-variant-numeric: tabular-nums; }
+  .stage-disclaimer { margin: 0; padding: 0 20px 8px; color: var(--color-text-muted); text-align: center; }
+
+  .stage-pages { flex: 1; min-height: 0; overflow-y: auto; display: grid; align-content: start; justify-items: center; gap: 24px; margin: 0; padding: 24px 32px; list-style: none; }
+  .stage-pages > li { width: min(100%, 980px); }
+  .stage-page { display: block; width: 100%; padding: 0; border: 0; background: none; border-radius: 6px; }
+  .stage-page[aria-current] .stage-slide { outline: 3px solid var(--color-accent); outline-offset: 4px; }
+  .stage-page:focus-visible { outline: none; }
+  .stage-page:focus-visible .stage-slide { outline: 3px solid var(--color-accent); outline-offset: 4px; }
+
+  /* Thumbnail strip */
+  .slide-strip-nav { flex: none; border-top: 1px solid var(--color-border); background: var(--color-surface-1); }
+  .stage-strip { display: flex; gap: 12px; overflow-x: auto; margin: 0; padding: 10px 16px 12px; list-style: none; scroll-padding-inline: 16px; scrollbar-width: thin; }
+  .stage-strip > li { flex: 0 0 156px; }
+  .strip-thumb { position: relative; display: grid; gap: 6px; width: 100%; padding: 0; border: 0; background: none; color: var(--color-text-secondary); text-align: left; }
+  .strip-thumb-title { display: flex; gap: 6px; overflow: hidden; font-size: 12px; font-weight: var(--weight-medium); white-space: nowrap; text-overflow: ellipsis; }
+  .strip-thumb-title span { color: var(--color-text-muted); font-variant-numeric: tabular-nums; }
+  .strip-thumb .stage-slide { box-shadow: none; outline: 2px solid transparent; outline-offset: 2px; transition: outline-color var(--duration-fast) var(--ease-standard); }
+  .strip-thumb:hover .stage-slide { outline-color: var(--color-border-strong); }
+  .strip-thumb[aria-current] { color: var(--color-text-primary); }
+  .strip-thumb[aria-current] .stage-slide { outline-color: var(--color-accent); }
+  .strip-thumb:focus-visible { outline: none; }
+  .strip-thumb:focus-visible .stage-slide { outline-color: var(--color-accent); }
+
+  .live-stage-empty { display: grid; place-items: center; padding: var(--space-10); }
+  .stage-loading { display: grid; justify-items: center; gap: var(--space-4); width: 100%; color: var(--color-text-muted); }
+  .stage-loading-slide { width: min(720px, 80%); aspect-ratio: 16 / 9; border-radius: 6px; background: linear-gradient(100deg, var(--color-surface-1) 30%, var(--color-surface-2) 50%, var(--color-surface-1) 70%) 0 0 / 300% 100%; animation: stage-shimmer 1.6s linear infinite; }
+  @keyframes stage-shimmer { to { background-position: -300% 0; } }
+  @keyframes stage-pulse { 50% { opacity: .35; } }
+  @media (prefers-reduced-motion: reduce) { .stage-loading-slide, .stage-chip-info .stage-chip-dot { animation: none; } }
+
+  /* Stage → panel selection */
+  .config-panel [data-draft-selected] { outline: 2px solid var(--color-accent); outline-offset: 3px; border-radius: 10px; }
+
+  /* Step content inside the panel: sections instead of nested cards */
+  .workspace-frame .config-panel-body { gap: var(--space-5); padding-bottom: 0; }
+  .workspace-frame .config-panel .panel { border: 0; background: none; box-shadow: none; border-radius: 0; }
+  .workspace-frame .config-panel .panel + .panel { padding-top: var(--space-5); border-top: 1px solid var(--color-border); }
+  .workspace-frame .config-panel .panel-header { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px var(--space-2); padding: 0 0 var(--space-3); border: 0; background: none; }
+  .workspace-frame .config-panel .panel-header h2, .workspace-frame .config-panel .panel-header h3 { color: var(--color-text-muted); font-size: 12px; font-weight: var(--weight-semibold); letter-spacing: .08em; text-transform: uppercase; }
+  .workspace-frame .config-panel .panel-body { padding: 0; }
+  .workspace-frame .config-panel .project-step { display: flex; flex-direction: column; gap: var(--space-5); }
+  .workspace-frame .config-panel .section-heading { flex-wrap: wrap; gap: var(--space-2); }
+  .workspace-frame .config-panel .section-heading h2 { font-size: 17px; }
+  .workspace-frame .config-panel .button-row { flex-wrap: wrap; }
+  .workspace-frame .config-panel-body > :is(.casting-board, .specs-view, .workspace-candidates), .workspace-frame .config-panel-body > :is(.casting-board, .specs-view, .workspace-candidates) > .presentation-read-lock { flex: 1 0 auto; display: flex; flex-direction: column; gap: var(--space-4); min-width: 0; }
+  .workspace-frame .config-panel .workspace-continue { position: sticky; bottom: 0; z-index: 2; margin: auto -18px 0; padding: 12px 18px; border: 0; border-top: 1px solid var(--color-border); border-radius: 0; background: var(--color-surface-1); box-shadow: none; display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center; }
+  .workspace-frame .config-panel .workspace-continue > p { flex: 1 1 100%; margin: 0; }
+  .workspace-frame .config-panel .workspace-continue .button-primary { margin-left: auto; }
+
+  /* Project: next-up tiles */
+  .workspace-frame .config-panel .next-steps { display: grid; gap: var(--space-2); }
+  .workspace-frame .config-panel .next-steps > li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px var(--space-2); align-items: start; padding: 12px; border: 1px solid var(--color-border); border-radius: 12px; background: var(--color-surface-2); }
+  .workspace-frame .config-panel .next-steps > li > .button { grid-column: 1 / -1; justify-self: start; }
+  .next-up-tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2); margin: 0 0 var(--space-3); }
+  .next-up-tiles > div { padding: 12px 14px; border: 1px solid var(--color-border); border-radius: 12px; background: var(--color-surface-2); }
+  .next-up-tiles dt { color: var(--color-text-muted); font-size: var(--text-small); }
+  .next-up-tiles dd { margin: 4px 0 0; color: var(--color-text-muted); font-size: var(--text-small); }
+  .next-up-tiles dd strong { margin-right: 4px; color: var(--color-text-primary); font-size: 22px; font-weight: var(--weight-semibold); font-variant-numeric: tabular-nums; }
+
+  /* Specs, Candidates and Casting share one column in the panel */
+  .workspace-frame .config-panel .specs-layout { display: flex; flex-direction: column; gap: var(--space-5); }
+  .workspace-frame .config-panel .form-grid { grid-template-columns: minmax(0, 1fr); }
+  .workspace-frame .config-panel .candidate-list-head { display: none; }
+  .workspace-frame .config-panel .candidate-row-summary { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "identity edit" "frames frames" "availability availability" "attention attention"; gap: 8px var(--space-2); }
+  .workspace-frame .config-panel .candidate-row-summary > .identity { grid-area: identity; }
+  .workspace-frame .config-panel .candidate-row-summary > .frame-strip { grid-area: frames; }
+  .workspace-frame .config-panel .candidate-row-summary > .candidate-availability { grid-area: availability; }
+  .workspace-frame .config-panel .candidate-row-summary > .cluster { grid-area: attention; }
+  .workspace-frame .config-panel .candidate-row-summary > .button { grid-area: edit; align-self: start; }
+  .workspace-frame .config-panel .tabs { overflow-x: auto; }
+  .workspace-frame .config-panel .drawer-inline { margin-inline: 0; }
+
+  /* Drawers and dialogs opened from the panel must paint above the (sticky) stage */
+  .workspace-frame .config-panel:has(.drawer, .modal, .modal-backdrop) { z-index: var(--z-drawer); }
+  /* With the panel beside the stage, a drawer opened from it covers the panel only, so its slide stays in view */
+  @media (min-width: 1024px) {
+    .workspace-frame .config-panel .drawer, .workspace-frame .config-panel .scrim { top: var(--topbar-height); left: var(--rail-width); right: auto; bottom: 0; width: var(--panel-width-wide); }
+    .workspace-frame .config-panel .drawer { border-left: 0; border-right: 1px solid var(--color-border); box-shadow: none; }
+  }
+  /* Small frame tiles: the full-size link covers the tile instead of spilling out of it */
+  .candidate-row .candidate-portrait, .candidate-row .frame-thumb { position: relative; }
+  .candidate-row .candidate-portrait > a, .candidate-row .frame-thumb > a { position: absolute; inset: 0; overflow: hidden; color: transparent; font-size: 0; border-radius: inherit; }
+  .candidate-row .candidate-portrait > a:focus-visible, .candidate-row .frame-thumb > a:focus-visible { box-shadow: var(--focus-ring); }
+
+
+  /* Specs in one column, with sticky jump links */
+  .workspace-frame .config-panel .specs-source { position: static; max-height: none; overflow: visible; }
+  .section-jump { position: sticky; top: -16px; z-index: 3; margin: -16px -18px 0; padding: 12px 18px; background: var(--color-surface-1); border-bottom: 1px solid var(--color-border); }
+  .section-jump .segmented { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); width: 100%; }
+  .section-jump a { display: grid; place-items: center; min-height: 32px; border-radius: 8px; color: var(--color-text-muted); font-size: var(--text-small); font-weight: var(--weight-semibold); }
+  .section-jump a:hover { color: var(--color-text-primary); text-decoration: none; }
+  .section-jump a[aria-current] { background: var(--color-surface-3); color: var(--color-text-primary); }
+  .section-jump a:focus-visible { box-shadow: var(--focus-ring); outline: none; }
+  .specs-anchor, #specs-brief { scroll-margin-top: 64px; }
+  .workspace-frame .config-panel .form-grid-3, .workspace-frame .config-panel .slot-labels { grid-template-columns: minmax(0, 1fr); }
+  .workspace-frame .config-panel .role-editor > .role-heading { flex-wrap: wrap; padding: 12px 14px; }
+  .workspace-frame .config-panel .role-editor { border-radius: 12px; background: var(--color-surface-2); }
+
+  /* Casting: roles → slots → assignment rows, project candidates underneath */
+  .workspace-frame .config-panel .casting-heading > div > p { display: none; }
+  .workspace-frame .config-panel .casting-board .board-tray { display: flex; flex-direction: column; gap: var(--space-5); }
+  .workspace-frame .config-panel .casting-board .board-tray > aside { position: static; }
+  .workspace-frame .config-panel .role-strip li { padding: 6px 6px 6px 10px; }
+  .workspace-frame .config-panel .role-chip-meta { display: none; }
+  .workspace-frame .config-panel .role-group { padding: 12px; border: 1px solid var(--color-border); border-radius: 14px; background: var(--color-surface-2); }
+  .workspace-frame .config-panel .role-panel-head { display: grid; gap: 4px; }
+  .workspace-frame .config-panel .slot-lane { padding: 10px; border-radius: 12px; background: var(--color-bg); }
+  .workspace-frame .config-panel .slot-lane-head { margin-bottom: var(--space-2); }
+  .workspace-frame .config-panel .slot-cards { grid-template-columns: minmax(0, 1fr); gap: var(--space-2); }
+  .workspace-frame .config-panel .assignment-card { grid-template-columns: 44px minmax(0, 1fr); gap: 10px; padding: 8px; border-radius: 10px; }
+  .workspace-frame .config-panel .assignment-card.is-main { border-color: var(--color-accent); box-shadow: inset 0 0 0 1px var(--color-accent); }
+  .workspace-frame .config-panel .assignment-frame { width: 44px; height: 54px; border-radius: 8px; overflow: hidden; }
+  .workspace-frame .config-panel .assignment-frame img { width: 100%; height: 100%; object-fit: cover; }
+  .workspace-frame .config-panel .assignment-body h5 { font-size: 14px; }
+  .workspace-frame .config-panel .assignment-add { padding: 8px; }
+  .workspace-frame .config-panel .candidate-tray { padding: 0; }
+  .workspace-frame .config-panel .candidate-tray .tray-list { max-height: none; padding: 0; }
+
+  /* Tablet: panel and stage stay side by side, the panel a little narrower */
+  @media (min-width: 1024px) and (max-width: 1279px) {
+    .workspace-frame { --panel-width-wide: 360px; }
+    .workspace-frame.page-frame[data-panel="open"] { grid-template-columns: var(--panel-width-wide) minmax(0, 1fr); }
+    .workspace-frame .config-panel { position: sticky; top: var(--topbar-height); height: calc(100vh - var(--topbar-height)); }
+    .stage-bar { padding-inline: 16px; }
+    .stage-canvas { padding-inline: 16px; }
+  }
+  /* Below 1024 the panel is the page; the stage follows it at a readable height */
+  @media (max-width: 1023px) {
+    .workspace-frame.page-frame, .workspace-frame.page-frame[data-panel="open"] { grid-template-columns: minmax(0, 1fr); }
+    .workspace-frame .config-panel { position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--color-border); }
+    .workspace-frame .config-panel-body { overflow: visible; }
+    .workspace-frame .config-panel .workspace-continue { margin-inline: -18px; }
+    .live-stage { position: static; height: auto; min-height: 0; }
+    .stage-canvas { container-type: inline-size; padding: 16px 16px 8px; }
+    .stage-frame { width: 100%; }
+  }
+  @media (max-width: 767px) {
+    .stage-bar { padding: 10px var(--gutter); }
+    .stage-meta { display: none; }
+    .stage-template select { max-width: 100%; }
+    .stage-tools { width: 100%; }
+    .stage-tools > .stage-template { flex: 1; }
+    .stage-strip > li { flex-basis: 128px; }
+    .live-stage { padding-bottom: 64px; }
+  }
+}

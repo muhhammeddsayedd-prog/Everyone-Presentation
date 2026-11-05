@@ -20,7 +20,7 @@ async function fixture(page: Page, options: { failPreview?: boolean; lostRemoval
     slide_wording: {}, sort_order: 0, row_version: 1, archived: false }));
   const removed = new Set<string>(); const cache = new Map<string, unknown>();
   const writes: { path: string; key: string; body: unknown }[] = [];
-  let version = 5; let revision = 4; let previewFailed = false; let lost = false; let deniedRetry = false; let effects = 0;
+  let version = 5; let revision = 4; let previewFailed = false; let previewArmed = false; let lost = false; let deniedRetry = false; let effects = 0;
   const current = () => ({ id: workspace, project_id: project, module: 'casting', title: 'Synthetic retirement project', logo_asset_id: null,
     logo_placement: 'cover', active_output: 'selection', row_version: version, draft_revision: revision, has_unpublished_changes: true,
     created_at: '2026-10-29T00:00:00Z', updated_at: '2026-10-29T00:00:00Z' });
@@ -38,7 +38,7 @@ async function fixture(page: Page, options: { failPreview?: boolean; lostRemoval
       if (path.endsWith('/slots')) return list(slots.filter(slot => !slot.archived));
       if (path === '/api/v1/workspaces/' + workspace + '/candidates') return list(pool.filter(item => !removed.has(item.id)));
       if (path.endsWith('/assignments')) {
-        if (options.failPreview && !previewFailed) { previewFailed = true; return fail('DEPENDENCY_UNAVAILABLE'); }
+        if (options.failPreview && previewArmed && !previewFailed) { previewFailed = true; return fail('DEPENDENCY_UNAVAILABLE'); }
         return list(assignments.filter(row => !row.archived));
       }
       if (path.endsWith('/supporting-files') || path.endsWith('/media')) return list([]);
@@ -68,11 +68,13 @@ async function fixture(page: Page, options: { failPreview?: boolean; lostRemoval
     return ok(result);
   });
   const errors: string[] = []; page.on('pageerror', error => errors.push(error.message));
-  return { writes, assignments, role, slots, errors, effects: () => effects, removed };
+  // The live slide preview reads the same assignments; the removal preview's own read is the one that fails.
+  return { writes, assignments, role, slots, errors, effects: () => effects, removed, armPreviewFailure: () => { previewArmed = true; } };
 }
 
 test('project removal fails closed on an unavailable preview and retries actual choices before confirmation', async ({ page }) => {
   const model = await fixture(page, { failPreview: true }); await page.goto(`/projects/${project}/casting/${workspace}/cast`);
+  await expect(page.getByRole('region', { name: 'Slide preview' })).toBeVisible(); await expect(page.locator('.live-stage[aria-busy="true"]')).toHaveCount(0); model.armPreviewFailure();
   const person = page.locator('.project-candidate-list > article').filter({ has: page.getByRole('heading', { name: 'Synthetic A', exact: true }) });
   await person.getByRole('button', { name: /^Edit project material for / }).click();
   await person.getByRole('button', { name: 'Remove from project', exact: true }).click();

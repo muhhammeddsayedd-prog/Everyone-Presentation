@@ -2,6 +2,8 @@
 import { Icon } from './Icon';
 
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
+import { useDraftValue } from './workspace/WorkspaceDraftProvider';
+import { draftKey } from './workspace/draft-review';
 import type { ResizeSlots, Role, Slot } from '@eps/domain';
 import { api, ApiError, errorMessage } from './api';
 import { ErrorNotice } from './Feedback';
@@ -193,6 +195,7 @@ function SlotLabelEditor({ slot, canWrite, onSaved, onDirtyChange }: { slot: Slo
   useEffect(() => { currentSlot.current = slot; }, [slot]);
   useEffect(() => { alive.current = true; return () => { alive.current = false; controller.current?.abort(); }; }, []);
   const dirtyId = `${slot.id}:label`;
+  useDraftValue(draftKey.slotLabel(slot.id), edit?.label ?? slot.label, edit !== null && edit.label !== slot.label);
   useEffect(() => { onDirtyChange(dirtyId, edit !== null || state === 'saving'); return () => onDirtyChange(dirtyId, false); }, [dirtyId, edit, state, onDirtyChange]);
   async function save() {
     if (!canWrite || !edit || pending.current) return;
@@ -213,7 +216,7 @@ function SlotLabelEditor({ slot, canWrite, onSaved, onDirtyChange }: { slot: Slo
     } catch (reason) { if (alive.current) { setError(request.signal.aborted ? 'The request timed out. Retry this same label to confirm the saved result.' : errorMessage(reason)); setState('failed'); } }
     finally { clearTimeout(timeout); pending.current = false; if (controller.current === request) controller.current = null; }
   }
-  return <div className="field slot-label-editor" data-slot-id={slot.id}><label htmlFor={inputId}>Label for {slot.label || 'unnamed slot'}</label><input id={inputId} value={edit?.label ?? slot.label} disabled={!canWrite}
+  return <div className="field slot-label-editor" data-slot-id={slot.id} data-draft-focus={`slot:${slot.id}`} data-draft-field="slot_label"><label htmlFor={inputId}>Label for {slot.label || 'unnamed slot'}</label><input id={inputId} value={edit?.label ?? slot.label} disabled={!canWrite}
     onChange={event => { const label = event.target.value; setEdit(current => label === slot.label && !pending.current ? null : { label, rowVersion: current?.rowVersion ?? slot.row_version }); if (!pending.current) setState('idle'); setError(''); }}
     onKeyDown={event => { if (event.key === 'Enter') { event.preventDefault(); void save(); } }} />
     <div className="button-row"><button type="button" className="button button-small" disabled={!canWrite || !edit || state === 'saving'} onClick={() => void save()}>Save label</button>
