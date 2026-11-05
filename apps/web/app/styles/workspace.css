@@ -97,6 +97,12 @@
   .workspace-frame .config-panel .candidate-row-summary > .cluster { grid-area: attention; }
   .workspace-frame .config-panel .candidate-row-summary > .button { grid-area: edit; align-self: start; }
   .workspace-frame .config-panel .tabs { overflow-x: auto; }
+  .workspace-frame .config-panel-body { container: workspace-panel / inline-size; }
+  @container workspace-panel (max-width: 720px) {
+    .cast-library-embedded .facet-layout { grid-template-columns: minmax(0, 1fr); }
+    .cast-library-embedded .facet-panel { position: static; max-height: none; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+    .cast-library-embedded .facet-panel > :is(.facet-head, .facet-group, .facet-toggle) { grid-column: 1 / -1; }
+  }
   .workspace-frame .config-panel .drawer-inline { margin-inline: 0; }
 
   /* Drawers and dialogs opened from the panel must paint above the (sticky) stage */

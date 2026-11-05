@@ -60,6 +60,12 @@
   .config-panel, .right-panel { position: sticky; top: var(--topbar-height); height: calc(100vh - var(--topbar-height)); display: flex; flex-direction: column; min-width: 0; background: var(--color-surface-1); }
   .config-panel { border-right: 1px solid var(--color-border); outline: none; }
   .config-panel[hidden] { display: none; }
+  .config-panel[data-resizable] { z-index: 3; }
+  .panel-resizer { position: absolute; top: 0; right: -6px; bottom: 0; width: 12px; cursor: col-resize; touch-action: none; outline: none; }
+  .panel-resizer::after { content: ""; position: absolute; top: 0; bottom: 0; left: 5px; width: 2px; background: transparent; transition: background-color var(--duration-fast) var(--ease-standard); }
+  .panel-resizer:hover::after, .panel-resizer:focus-visible::after, :root[data-resizing-panel] .panel-resizer::after { background: var(--color-accent); }
+  .panel-resizer:focus-visible { box-shadow: none; }
+  :root[data-resizing-panel], :root[data-resizing-panel] * { cursor: col-resize !important; user-select: none !important; }
   .right-panel { border-left: 1px solid var(--color-border); }
   .config-panel-head { display: flex; align-items: flex-start; gap: var(--space-2); padding: 16px 18px 12px; border-bottom: 1px solid var(--color-border); }
   .config-panel-head > div { flex: 1; min-width: 0; }

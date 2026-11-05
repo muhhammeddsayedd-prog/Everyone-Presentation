@@ -25,6 +25,29 @@ export function setPanelCollapsed(collapsed: boolean) {
   listeners.forEach(listener => listener());
 }
 
+export type PanelKind = 'wide' | 'narrow';
+const widthKey = 'eps.panel.width.v1';
+const widthMemory: Partial<Record<PanelKind, number>> = {};
+const widthListeners = new Set<() => void>();
+function readWidth(kind: PanelKind): number | null {
+  try { const saved: unknown = JSON.parse(window.localStorage.getItem(widthKey) ?? 'null'); const value = saved && typeof saved === 'object' ? (saved as Record<string, unknown>)[kind] : undefined;
+    if (typeof value === 'number' && Number.isFinite(value)) return value; } catch { /* storage blocked */ }
+  return widthMemory[kind] ?? null;
+}
+function subscribeWidth(listener: () => void) {
+  widthListeners.add(listener); window.addEventListener('storage', listener);
+  return () => { widthListeners.delete(listener); window.removeEventListener('storage', listener); };
+}
+/** The width the viewer gave the config panel (px), or null for the layout's own default. Wide panels (the workspace
+ * editor, presentation screens) and narrow ones (filters, sections) are remembered separately. */
+export function usePanelWidth(kind: PanelKind) { return useSyncExternalStore(subscribeWidth, () => readWidth(kind), () => null); }
+export function setPanelWidth(kind: PanelKind, width: number | null) {
+  if (width === null) delete widthMemory[kind]; else widthMemory[kind] = width;
+  try { const saved: unknown = JSON.parse(window.localStorage.getItem(widthKey) ?? 'null'); const next = { ...(saved && typeof saved === 'object' ? saved as Record<string, unknown> : {}) };
+    if (width === null) delete next[kind]; else next[kind] = width; window.localStorage.setItem(widthKey, JSON.stringify(next)); } catch { /* storage blocked */ }
+  widthListeners.forEach(listener => listener());
+}
+
 const noop = () => () => undefined;
 /** False in the server HTML and during hydration, true afterwards. */
 export function useHydrated() { return useSyncExternalStore(noop, () => true, () => false); }

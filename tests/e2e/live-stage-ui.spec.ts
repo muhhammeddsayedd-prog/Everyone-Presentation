@@ -230,3 +230,30 @@ test('without a 1.2.0 series the editorial design can still be previewed, labell
   await expect(stage(page).getByText(/^Preview only\. This workspace still generates with Everyone Casting 1\.1\.0/u)).toBeVisible();
   expect(model.errors).toEqual([]);
 });
+
+test('the config panel can be resized by keyboard and pointer; the stage and slides follow and the width is remembered', async ({ page }) => {
+  const model = await workspace(page); await page.setViewportSize({ width: 1440, height: 900 }); await page.goto(`${base}/organize`);
+  const panel = page.getByRole('complementary', { name: 'Casting panel' });
+  const handle = page.getByRole('separator', { name: 'Resize Casting panel' });
+  const width = async (locator: ReturnType<Page['locator']>) => Math.round((await locator.boundingBox())!.width);
+  await expect(strip(page).getByRole('button')).toHaveCount(7);
+  const start = await width(panel); const slideStart = await width(slide(page));
+  expect(start).toBe(400);
+  await handle.focus(); for (let n = 0; n < 5; n++) await page.keyboard.press('ArrowRight');
+  await expect.poll(() => width(panel)).toBe(480);
+  await expect(handle).toHaveAttribute('aria-valuenow', '480');
+  await expect.poll(() => width(slide(page))).toBeLessThan(slideStart);
+  await page.reload(); await expect(strip(page).getByRole('button')).toHaveCount(7);
+  await expect.poll(() => width(panel)).toBe(480);
+  // Pointer: drag the edge; the page never scrolls sideways and the stage keeps its minimum room.
+  const box = (await handle.boundingBox())!;
+  await page.mouse.move(box.x + box.width / 2, box.y + 200); await page.mouse.down(); await page.mouse.move(box.x + box.width / 2 - 160, box.y + 200, { steps: 6 }); await page.mouse.up();
+  await expect.poll(() => width(panel)).toBe(320);
+  await expect.poll(() => width(slide(page))).toBeGreaterThan(slideStart);
+  await handle.focus(); await page.keyboard.press('End');
+  await expect.poll(() => width(panel)).toBe(1440 - 64 - 480);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  await handle.dblclick();
+  await expect.poll(() => width(panel)).toBe(400);
+  expect(model.errors).toEqual([]);
+});
