@@ -22,6 +22,9 @@ export function PageFrame({ panel, right, children, className }: { panel?: Panel
   const toggleRef = useRef<HTMLButtonElement>(null);
   const id = useId();
   const open = panel ? (wide ? !collapsed : overlayOpen) : false;
+  // The Show button only exists while the panel is closed, so focus moves to it after the render that closes the panel.
+  const focusToggle = useRef(false);
+  useEffect(() => { if (!open && focusToggle.current) { focusToggle.current = false; toggleRef.current?.focus(); } }, [open]);
   // An overlay opened on a small screen does not carry over to the desktop column (or back).
   const [layoutWide, setLayoutWide] = useState(wide);
   if (layoutWide !== wide) { setLayoutWide(wide); setOverlayOpen(false); }
@@ -39,12 +42,12 @@ export function PageFrame({ panel, right, children, className }: { panel?: Panel
   const name = panel?.label ?? panel?.title;
   return <div className={`page-frame${className ? ` ${className}` : ''}`} data-panel={panel ? (open ? 'open' : 'closed') : 'none'} data-right={right ? 'open' : undefined}>
     {panel && <>
-      {!wide && overlayOpen && <><div className="panel-scrim" aria-hidden="true" onClick={() => setOverlayOpen(false)} /><Trap target={panelRef} onClose={() => { setOverlayOpen(false); toggleRef.current?.focus(); }} /></>}
+      {!wide && overlayOpen && <><div className="panel-scrim" aria-hidden="true" onClick={() => { focusToggle.current = true; setOverlayOpen(false); }} /><Trap target={panelRef} onClose={() => { focusToggle.current = true; setOverlayOpen(false); }} /></>}
       <aside ref={panelRef} id={id} className={`config-panel${panel.wide ? ' config-panel-wide' : ''}`} aria-label={name} tabIndex={-1} hidden={!open} data-overlay={!wide ? '' : undefined}>
         <header className="config-panel-head">
           <div><h2>{panel.title}</h2>{panel.subtitle && <p>{panel.subtitle}</p>}</div>
           {panel.actions}
-          <button type="button" className="icon-button icon-button-small" aria-label={`Hide ${name}`} aria-controls={id} aria-expanded={open} onClick={() => { toggle(false); toggleRef.current?.focus(); }}><Icon name={wide ? 'chevron-left' : 'close'} /></button>
+          <button type="button" className="icon-button icon-button-small" aria-label={`Hide ${name}`} aria-controls={id} aria-expanded={open} onClick={() => { focusToggle.current = true; toggle(false); }}><Icon name={wide ? 'chevron-left' : 'close'} /></button>
         </header>
         <div className="config-panel-body">{panel.body}</div>
         {panel.footer && <footer className="config-panel-foot">{panel.footer}</footer>}

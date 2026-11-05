@@ -1,5 +1,6 @@
 'use client';
 import { Drawer } from './ui/Overlay';
+import { PageFrame } from './shell/PageFrame';
 import { Icon } from './Icon';
 
 import Link from 'next/link';
@@ -130,16 +131,21 @@ function JobList({ status, cursor, batch }: { status: ProcessingStatus | null; c
   const state = usePolling(read, listDelay);
   const groups = new Map<string, ProcessingJob[]>();
   for (const job of state.data?.jobs ?? []) { const key = JSON.stringify([job.workspace_id, job.batch_id]); groups.set(key, [...groups.get(key) ?? [], job]); }
-  return <>
+  const panelBody = <>
+    <div className="field"><label htmlFor="processing-status">Status</label><select id="processing-status" value={status ?? ''} onChange={event => router.replace(processingHref({ status: event.target.value as ProcessingStatus || null, batch }))}><option value="">All jobs</option>{JOB_STATUSES.map(value => <option key={value} value={value}>{STATUS_LABELS[value]}</option>)}</select></div>
+    <div className="panel-section"><h3 className="panel-eyebrow">Quick filters</h3><ul className="panel-links">{([null, ...JOB_STATUSES] as (ProcessingStatus | null)[]).map(value => <li key={value ?? 'all'}><Link href={processingHref({ status: value, batch })} aria-current={status === value ? 'page' : undefined}><span className={`status-swatch status-swatch-${value ?? 'all'}`} aria-hidden="true" /><span>{value ? STATUS_LABELS[value] : 'All jobs'}</span></Link></li>)}</ul></div>
+    {batch && <div className="panel-section"><h3 className="panel-eyebrow">Batch</h3><p className="small muted">Showing one processing batch. Filters stay on this batch across pages.</p></div>}
+    <p className="small muted" role="status">{state.checking ? 'Checking saved jobs…' : state.checkedAt ? <StudioDateTime value={state.checkedAt} prefix="Last checked " /> : 'Reading saved jobs…'}</p>
+    <div className="section-note"><Icon name="info" /><p>Jobs keep their saved state across restarts. Retrying never creates a duplicate.</p></div>
+  </>;
+  return <PageFrame className="processing-page" panel={{ title: 'Filters', subtitle: batch ? 'Processing batch' : 'Processing jobs', label: 'Processing filters', body: panelBody }}>
     {batch && <Link className="back-link" href={processingHref({ status })}>← All processing jobs</Link>}
-    <header className="page-heading"><div><h1>{batch ? 'Processing batch' : 'Processing'}</h1><p>{batch ? 'Every job in this batch that your account can access. Use Next jobs to read further pages.' : 'Saved processing state for the projects shared with your account.'}</p></div><button className="button button-small button-quiet" disabled={state.checking} onClick={state.reload}>Refresh jobs</button></header>
-    <div className="processing-toolbar"><div className="field"><label htmlFor="processing-status">Status</label><select id="processing-status" value={status ?? ''} onChange={event => router.replace(processingHref({ status: event.target.value as ProcessingStatus || null, batch }))}><option value="">All jobs</option>{JOB_STATUSES.map(value => <option key={value} value={value}>{STATUS_LABELS[value]}</option>)}</select></div>
-      <p className="small muted" role="status">{state.checking ? 'Checking saved jobs…' : state.checkedAt ? <StudioDateTime value={state.checkedAt} prefix="Last checked " /> : 'Reading saved jobs…'}</p></div>
+    <header className="page-heading"><div><h1>{batch ? 'Processing batch' : 'Processing'}</h1><p>{batch ? 'Every job in this batch that your account can access. Use Next jobs to read further pages.' : 'Saved processing state for the projects shared with your account.'}</p></div><button className="button button-small" disabled={state.checking} onClick={state.reload}><Icon name="refresh" />Refresh jobs</button></header>
     {state.error && <ErrorNotice message={state.error} retry={state.reload} />}
     {!state.data && state.loading ? <Loading label="Loading processing jobs…" /> : state.data?.jobs.length ? <div className="processing-groups">{[...groups].map(([key, jobs]) => <JobGroup key={key} jobs={jobs} status={status} cursor={cursor} batch={batch} partial={Boolean(cursor || state.data?.cursor)} />)}</div>
       : !state.error && <div className="processing-empty"><h2>{status ? 'No jobs with this status' : batch ? 'No accessible jobs in this batch' : 'No processing jobs'}</h2><p className="muted">{status ? 'Choose another status to see your other accessible jobs.' : batch ? 'This batch has no jobs that your account can read.' : 'Jobs will appear here after processing is requested.'}</p></div>}
     <nav className="button-row processing-pagination" aria-label="Processing pages">{cursor && <Link className="button button-small button-quiet" href={processingHref({ status, batch })}>First jobs</Link>}{state.data?.cursor && <Link className="button button-small" href={processingHref({ status, cursor: state.data.cursor, batch })}>Next jobs</Link>}</nav>
-  </>;
+  </PageFrame>;
 }
 
 function JobDetail({ id, status, cursor, batch = null, canOperate, onDirtyChange, inDrawer = false }: { id: string; status: ProcessingStatus | null; cursor: string | null; batch?: string | null; canOperate: boolean; onDirtyChange: (dirty: boolean) => void ; inDrawer?: boolean }) {

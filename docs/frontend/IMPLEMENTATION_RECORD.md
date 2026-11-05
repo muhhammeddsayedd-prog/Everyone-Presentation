@@ -23,9 +23,42 @@ Owner decisions (2026-11-05):
 | Phase | Scope | Status |
 |---|---|---|
 | P0 + shell | General Sans. Frame tokens. `components/shell/Frame.tsx`: `AppFrame`, `TopBar`, `IconRail`, `RailLink`, `FramePortal`. `components/shell/PageFrame.tsx`: `PageFrame` with `ConfigPanel` and `RightPanel`. `components/shell/preferences.ts`: panel state stored as `eps.panel.v1` (try/catch), plus `useMediaQuery` and `useHydrated`. `app/styles/frame.css`. The icon rail replaces the sidebar and menu sheet. The workspace title, output toggle and Review & generate move into the top bar. The six steps become the rail's second group with unchanged link names. Under 768 px the rail is a bottom tab bar. Recent workspaces are in a rail menu that opens beside it. The panel collapses with Ctrl/Cmd+\ at ≥1280, is an overlay at 768–1279 and a bottom sheet under 768. Ported from `frontend/responsive`: fixed-position `ActionMenu`, the share-drawer aria-busy wait, and the media-query hooks. | Verified (mock) |
-| P1 global pages | Config panels and grids for Projects, overview, Cast Library, profile, Presentations, Processing, Settings | Not started |
+| P1 global pages | Pages: Projects, Project overview, Cast Library (page mode), Candidate profile, Presentations index, Processing, Settings, and Page not found. Each uses `PageFrame`.
+- **Panels:** filters and sections; the overview's shared details; the profile's supplied facts.
+- **Cover grids:** `shell/Cover.tsx` draws an editorial cover from record fields only. It is not a rendered slide.
+- **Portraits:** real candidate frames from `CandidatePortrait`, read lazily on view. The initial shows when there is no frame.
+- **Other:** quick actions; a closable project details panel; filter counts given as accessible descriptions; module cards on the overview; processing quick filters next to the `Status` select; a Settings section nav; a 404 state.
+- **Unchanged:** contracts, routes, mutations, permissions and visible texts that specs depend on. | Verified (mock) |
 | P2 workspace editor + live stage | `WorkspaceDraftProvider`, `useDraftDeck`, `LiveStage`, `SlideStrip`; steps become panels | Not started |
 | P3–P5 | Review, versions, sharing, guest, mobile, hardening | Not started |
+
+P1 checks (local, `local_fixture` and mocked API, 2026-11-05):
+- `npm run lint`, `npm run typecheck`, `npm test` and `npm run check:production-guard`: all pass.
+- `npx playwright test`: 156 passed, 0 failed.
+- New `tests/e2e/global-pages-ui.spec.ts` (5 tests):
+  - the filter panel and its loaded counts (descriptions);
+  - the cover grid and the closable details panel;
+  - collapse by button and by Ctrl+\, remembered across a reload;
+  - the 1024 px overlay with focus trap, Escape returning focus to the toggle, and the 390 px bottom sheet;
+  - Cast Library portraits from real frames, with initials otherwise;
+  - the Presentations output filter and the Settings section links;
+  - axe (WCAG 2.1 AA) on each page.
+- Fixed while checking:
+  - Panel titles must not repeat a page h1, so they are named "Filters" or "Sections".
+  - Hidden absolute-positioned text added a space to button names, so counts became descriptions.
+  - Cover buttons had an `aria-label` that did not contain their visible text; they are now named by hidden text.
+  - Planned module cards were faded with opacity, which failed contrast.
+  - `.candidate-portrait` collided with the workspace thumbnail class; the new class is `.library-portrait`.
+  - Fact chips duplicated text, which broke an exact-text spec; they were removed.
+- Visual check: 83 screens re-captured from the real app with the screenshot harness (synthetic API, 1440 px and 390 px) and compared with `Screenshots 2 Improved Design/`.
+
+Differences from the P1 mockups (deliberate or deferred):
+- Project and series covers are editorial covers built from record fields, not rendered presentation pages, and they do not load client logos.
+- The candidate profile shows a hero, facts and media instead of the mockup's slide preview. The slide preview needs the P2 draft-deck renderer.
+- The sign-in screens keep their existing layout inside the new frame.
+- Below 1280 px the right details panel stacks under the page instead of opening as a drawer.
+- Processing keeps the `Status` select, which specs depend on, and adds quick-filter links beside it.
+- The Cast Library embedded in the workspace Candidates step keeps its previous layout until P2.
 
 P0 checks (local, `local_fixture` and mocked API, 2026-11-05):
 - `npm run lint`, `npm run typecheck`, `npm test` and `npm run check:production-guard`: all pass.

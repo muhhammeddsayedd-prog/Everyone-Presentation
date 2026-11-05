@@ -51,7 +51,7 @@
   .main-content { min-width: 0; width: 100%; max-width: calc(var(--content-max) + 2 * var(--gutter-lg)); margin: 0 auto; padding: var(--space-6) var(--gutter-lg) var(--space-12); outline: none; }
 
   /* Page frame: config panel · main · right panel */
-  .main-content:has(> .page-frame) { max-width: none; padding: 0; }
+  .main-content:has(.page-frame) { max-width: none; padding: 0; }
   .page-frame { display: grid; grid-template-columns: minmax(0, 1fr); min-height: calc(100vh - var(--topbar-height)); }
   .page-frame[data-panel="open"] { grid-template-columns: var(--panel-width) minmax(0, 1fr); }
   .page-frame[data-panel="open"]:has(> .config-panel-wide) { grid-template-columns: var(--panel-width-wide) minmax(0, 1fr); }

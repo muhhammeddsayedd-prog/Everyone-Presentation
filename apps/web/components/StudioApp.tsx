@@ -120,5 +120,5 @@ function Route({ pathname, segments, isWorkspace, central, actor, storageOrigin,
   if (pathname === '/processing') return <ProcessingView key={actor.id} actor={actor} onDirtyChange={onDirtyChange} />;
   const empty = globalEmpty[pathname];
   if (empty) return <><header className="page-heading"><div><h1>{destinations.find(item => item.path === pathname)?.label}</h1></div></header><div className="empty-state"><Icon name={empty.icon} /><h2>{empty.title}</h2><p>{empty.body}</p><span className="badge">Implementation pending</span><Link className="button" href="/projects">Open Projects<Icon name="arrow" /></Link></div></>;
-  return <div className="empty-state"><h1>Page not found</h1><p>Return to Projects to open an accessible casting workspace.</p><Link className="button" href="/projects">Go to Projects</Link></div>;
+  return <div className="system-state"><span className="system-state-code" aria-hidden="true">404</span><h1>Page not found</h1><p>This address does not match a Studio page. Return to Projects to open an accessible casting workspace.</p><div className="button-row"><Link className="button button-primary" href="/projects">Go to Projects</Link><Link className="button button-quiet" href="/library/cast">Open Cast Library</Link></div></div>;
 }
