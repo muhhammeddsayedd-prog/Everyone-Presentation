@@ -10,7 +10,7 @@ const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR
 const requirements = (age: string | null) => ({ age_range: age, gender_requirement: null, appearance_performance: null, languages: [], accents: [], skills: [], scene_references: [], shoot_dates: [], location: null, availability_requirements: null, other_instructions: null });
 const facts = (name: string, casting: string) => ({ name, casting_id: casting, age_or_range: '41', stated_gender: null, height_measurements: '182 cm', languages: ['Arabic'], accents: [], skills_experience: 'Commercials', city: 'Cairo', previous_projects_roles: null, classification: null });
 
-interface Options { failRoles?: number; failProfile?: number; strict?: boolean }
+interface Options { failRoles?: number; failProfile?: number; strict?: boolean; noEditorialSeries?: boolean }
 async function workspace(page: Page, options: Options = {}) {
   let revision = 3; let rowVersion = 4; let failRoles = options.failRoles ?? 0; let failProfile = options.failProfile ?? 0;
   const errors: string[] = []; page.on('pageerror', error => errors.push(error.message)); const reads = { roles: 0 };
@@ -39,7 +39,7 @@ async function workspace(page: Page, options: Options = {}) {
       { id: PL1, workspace_id: W, candidate_id: C1, selected_candidate_media_id: M1, selected_frame_asset_ids: [F1, F2], availability: 'Available 12–14 Dec', fresh_material_required: false, media_confirmed: true, internal_notes: null, row_version: 1 },
       { id: PL2, workspace_id: W, candidate_id: C2, selected_candidate_media_id: null, selected_frame_asset_ids: [], availability: null, fresh_material_required: false, media_confirmed: false, internal_notes: null, row_version: 1 }]);
     if (method === 'GET' && path === `/api/v1/workspaces/${W}/assignments`) return list(assignments);
-    if (method === 'GET' && path === '/api/v1/presentation-series') return list([series(SER12, 'Editorial selection', '1.2.0'), series(SER11, 'Client selection', '1.1.0')]);
+    if (method === 'GET' && path === '/api/v1/presentation-series') return list(options.noEditorialSeries ? [series(SER11, 'Client selection', '1.1.0')] : [series(SER12, 'Editorial selection', '1.2.0'), series(SER11, 'Client selection', '1.1.0')]);
     if (method === 'GET' && path === '/api/v1/settings') return ok({ template_version: '1.1.0', default_timezone: 'Africa/Cairo', row_version: 1 });
     if (method === 'GET' && path === `/api/v1/candidates/${C1}/media`) return list([{ id: M1, candidate_id: C1, source_asset_id: V1, preview_asset_id: null, transcript_asset_id: null, original_transcript: null, languages: ['ar'],
       available_frames: [F1, F2].map((asset_id, n) => ({ asset_id, source_asset_id: V1, timestamp_ms: 1000 * (n + 1), width: 1080, height: 1350, quality_flags: [] })), selected_frame_asset_ids: [F1, F2], processing_issues: [], row_version: 1 }]);
@@ -218,4 +218,15 @@ test('a remote change to another record appears on its slide while an unsaved ed
   await strip(page).getByRole('button', { name: /: Synthetic Actor One$/u }).click();
   await expect(slide(page).locator('[data-fit-field="presentation_notes"]')).toHaveText('Still typing');
   expect(model.writes).toEqual([]); expect(model.errors).toEqual([]);
+});
+
+test('without a 1.2.0 series the editorial design can still be previewed, labelled as preview only', async ({ page }) => {
+  const model = await workspace(page, { noEditorialSeries: true }); await page.goto(`${base}/organize`);
+  await expect(strip(page).getByRole('button')).toHaveCount(4);
+  await page.getByRole('combobox', { name: 'Preview as' }).selectOption({ label: 'Everyone Film Editorial 1.2.0 · preview only' });
+  await expect(strip(page).getByRole('button')).toHaveCount(7);
+  await expect(page.locator('.stage-frame .ef-slide[data-layout="cover_floward"]')).toHaveCount(1);
+  await expect(stage(page).getByText('Preview only. This workspace still generates with Client selection', { exact: false })).toHaveCount(0);
+  await expect(stage(page).getByText(/^Preview only\. This workspace still generates with Everyone Casting 1\.1\.0/u)).toBeVisible();
+  expect(model.errors).toEqual([]);
 });

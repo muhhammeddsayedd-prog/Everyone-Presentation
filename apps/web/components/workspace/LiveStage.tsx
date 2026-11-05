@@ -10,6 +10,7 @@ import { useRenderedDeck } from './StageSlide';
 import { DeckStage, type StageChip } from './DeckStage';
 import { useWorkspaceDraft } from './WorkspaceDraftProvider';
 
+const EDITORIAL_PREVIEW = 'preview:editorial-1.2.0';
 const NO_ASSETS: Record<string, LoadedAsset> = {};
 const outputTitle = (output: 'selection' | 'shortlist') => output === 'selection' ? 'Cast Selection' : 'Cast Shortlist';
 const templateName = (version: string) => version === '1.2.0' ? 'Everyone Film Editorial 1.2.0' : `Everyone Casting ${version}`;
@@ -25,7 +26,11 @@ export function LiveStage() {
   const chosen = choice === 'default' ? null : series.find(row => row.id === choice)
     ?? (choice === 'auto' ? series.find(row => row.template_version === '1.2.0') ?? series.find(row => row.template_version === '1.1.0') ?? series[0] ?? null : null);
   const defaultTemplate = draft?.defaultTemplate && supportedTemplate(draft.defaultTemplate) ? draft.defaultTemplate : null;
-  const context: DraftContext = useMemo(() => ({ output, title: chosen?.title ?? outputTitle(output), templateVersion: chosen?.template_version ?? defaultTemplate ?? '1.1.0' }), [output, chosen?.title, chosen?.template_version, defaultTemplate]);
+  // The Everyone Film editorial template (the design kit) can always be previewed. When no 1.2.0 series exists and it is
+  // not the Studio default, it is offered as a preview only: this workspace would still generate with its own template.
+  const offerEditorial = !series.some(row => row.template_version === '1.2.0') && defaultTemplate !== '1.2.0';
+  const editorial = offerEditorial && choice === EDITORIAL_PREVIEW;
+  const context: DraftContext = useMemo(() => ({ output, title: chosen?.title ?? outputTitle(output), templateVersion: editorial ? '1.2.0' : chosen?.template_version ?? defaultTemplate ?? '1.1.0' }), [output, chosen?.title, chosen?.template_version, defaultTemplate, editorial]);
 
   // Typing never waits for the deck: on very large drafts the slide catches up a frame later.
   const source = draft?.source ?? null; const overlay = useDeferredValue(draft?.overlay); const profilesReadable = draft?.profilesReadable ?? false;
@@ -45,12 +50,15 @@ export function LiveStage() {
       : built?.error ? <ErrorNotice message={`Preview paused. ${built.error}`} retry={() => draft.refresh(true)} />
       : <div className="stage-loading" role="status"><span className="stage-loading-slide" aria-hidden="true" /><p>Opening the live preview…</p></div>}
   </section>;
-  return <StageView deck={deck} paused={built?.error ?? ''} notes={built?.notes ?? []} choice={chosen?.id ?? (choice === 'default' || !series.length ? 'default' : 'auto')} onChoice={setChoice}
-    seriesOptions={series.map(row => ({ id: row.id, label: `${row.title} · ${templateName(row.template_version)}` }))} defaultLabel={defaultTemplate ? `No saved series · ${templateName(defaultTemplate)} (Studio default)` : 'No saved series · Everyone Casting 1.1.0'} />;
+  const generatedWith = chosen ? templateName(chosen.template_version) : templateName(defaultTemplate ?? '1.1.0');
+  return <StageView deck={deck} paused={built?.error ?? ''} notes={built?.notes ?? []} choice={editorial ? EDITORIAL_PREVIEW : chosen?.id ?? (choice === 'default' || !series.length ? 'default' : 'auto')} onChoice={setChoice}
+    seriesOptions={[...series.map(row => ({ id: row.id, label: `${row.title} · ${templateName(row.template_version)}` })), ...(offerEditorial ? [{ id: EDITORIAL_PREVIEW, label: `${templateName('1.2.0')} · preview only` }] : [])]}
+    previewOnly={editorial ? `Preview only. This workspace still generates with ${generatedWith}; Everyone Film Editorial 1.2.0 is not yet available for generating here.` : ''}
+    defaultLabel={defaultTemplate ? `No saved series · ${templateName(defaultTemplate)} (Studio default)` : 'No saved series · Everyone Casting 1.1.0'} />;
 }
 
-interface StageViewProps { deck: StageDeck; paused: string; notes: string[]; choice: string; onChoice: (value: string) => void; seriesOptions: { id: string; label: string }[]; defaultLabel: string }
-function StageView({ deck, paused, notes, choice, onChoice, seriesOptions, defaultLabel }: StageViewProps) {
+interface StageViewProps { deck: StageDeck; paused: string; notes: string[]; previewOnly?: string; choice: string; onChoice: (value: string) => void; seriesOptions: { id: string; label: string }[]; defaultLabel: string }
+function StageView({ deck, paused, notes, previewOnly, choice, onChoice, seriesOptions, defaultLabel }: StageViewProps) {
   const draft = useWorkspaceDraft()!;
   const ids = useMemo(() => deck.template === '1.2.0' ? [...new Set(deckAssetIds(deck.deck))].sort() : [], [deck]);
   const { assets, failed } = useEditorialAssets(ids, fetchMedia);
@@ -82,6 +90,7 @@ function StageView({ deck, paused, notes, choice, onChoice, seriesOptions, defau
     tools={<label className="stage-template"><span className="sr-only">Preview as</span><select aria-label="Preview as" value={choice} onChange={event => onChoice(event.target.value)}>
       {choice === 'default' && <option value="default">{defaultLabel}</option>}{seriesOptions.map(option => <option key={option.id} value={option.id}>{option.label}</option>)}{choice !== 'default' && <option value="default">{defaultLabel}</option>}</select></label>}
     notices={<>
+      {previewOnly && <p className="stage-note small" role="note"><Icon name="info" />{previewOnly}</p>}
       {paused && <div className="notice notice-warning stage-notice" role="status"><p><strong>Preview paused.</strong> {paused} Your edits are kept; save or reload to continue.</p><button className="button button-small" type="button" onClick={() => draft.refresh(true)}>Reload preview</button></div>}
       {draft.stale && <div className="notice stage-notice"><p>{draft.stale}</p><button className="button button-small" type="button" disabled={draft.refreshing} onClick={() => draft.refresh(true)}>Retry</button></div>}
       {(failed.length > 0 || notes.includes('frames')) && <p className="stage-note small"><Icon name="info" />{failed.length > 0 ? `${failed.length} image${failed.length === 1 ? '' : 's'} could not be opened for the preview. ` : ''}{notes.includes('frames') ? 'Frames that are not part of the selected introduction are left out, as generation would.' : ''}</p>}
