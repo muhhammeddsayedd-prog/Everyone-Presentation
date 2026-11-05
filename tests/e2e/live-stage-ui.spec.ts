@@ -10,10 +10,10 @@ const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR
 const requirements = (age: string | null) => ({ age_range: age, gender_requirement: null, appearance_performance: null, languages: [], accents: [], skills: [], scene_references: [], shoot_dates: [], location: null, availability_requirements: null, other_instructions: null });
 const facts = (name: string, casting: string) => ({ name, casting_id: casting, age_or_range: '41', stated_gender: null, height_measurements: '182 cm', languages: ['Arabic'], accents: [], skills_experience: 'Commercials', city: 'Cairo', previous_projects_roles: null, classification: null });
 
-interface Options { failRoles?: number; failProfile?: number }
+interface Options { failRoles?: number; failProfile?: number; strict?: boolean }
 async function workspace(page: Page, options: Options = {}) {
   let revision = 3; let rowVersion = 4; let failRoles = options.failRoles ?? 0; let failProfile = options.failProfile ?? 0;
-  const errors: string[] = []; page.on('pageerror', error => errors.push(error.message));
+  const errors: string[] = []; page.on('pageerror', error => errors.push(error.message)); const reads = { roles: 0 };
   const assignments = [
     { id: A1, workspace_id: W, slot_id: S1, workspace_candidate_id: PL1, position: 'main', shortlist_included: true, presentation_notes: 'Saved note', internal_notes: null, slide_wording: {}, sort_order: 0, row_version: 1, archived: false },
     { id: A2, workspace_id: W, slot_id: S1, workspace_candidate_id: PL2, position: 'option', shortlist_included: false, presentation_notes: null, internal_notes: null, slide_wording: {}, sort_order: 1, row_version: 1, archived: false }];
@@ -30,7 +30,7 @@ async function workspace(page: Page, options: Options = {}) {
     if (method === 'GET' && path === `/api/v1/projects/${P}`) return ok({ id: P, name: 'Synthetic Spring Campaign', client_id: null, client_name: 'Synthetic Client', client_logo_asset_id: null, row_version: 1, client_row_version: 1, casting_workspace_id: W, can_edit: false, presentation_type: 'casting' });
     if (method === 'GET' && path === `/api/v1/workspaces/${W}`) return ok(current());
     if (method === 'GET' && path === `/api/v1/workspaces/${W}/summary`) return fail(404);
-    if (method === 'GET' && path === `/api/v1/workspaces/${W}/roles`) { if (failRoles > 0) { failRoles--; return fail(503); }
+    if (method === 'GET' && path === `/api/v1/workspaces/${W}/roles`) { reads.roles++; if (failRoles > 0) { failRoles--; return fail(503); }
       return list([{ id: R1, workspace_id: W, name: 'Father', headcount: 1, category: 'Lead', requirements: requirements('38-45'), clarifications: [], sort_order: 0, row_version: 1, archived: false },
         { id: R2, workspace_id: W, name: 'Kids', headcount: 1, category: null, requirements: requirements('8-11'), clarifications: [], sort_order: 1, row_version: 1, archived: false }]); }
     if (method === 'GET' && path === `/api/v1/roles/${R1}/slots`) return list([{ id: S1, role_id: R1, label: 'Father', sort_order: 0, row_version: 1, archived: false }]);
@@ -52,13 +52,16 @@ async function workspace(page: Page, options: Options = {}) {
     }
     if (method === 'GET' && /^\/api\/v1\/media\/[^/]+\/content$/u.test(path)) return route.fulfill({ status: 200, contentType: 'image/png', body: png });
     if (method === 'PATCH' && path.startsWith('/api/v1/assignments/')) {
-      const body = request.postDataJSON(); writes.push({ path, body });
-      const row = assignments.find(item => path.endsWith(item.id))!; Object.assign(row, body, { row_version: row.row_version + 1 }); revision++; rowVersion++;
+      const body = request.postDataJSON(); const row = assignments.find(item => path.endsWith(item.id))!;
+      // The server's optimistic check: a write based on an older row version is refused, never merged.
+      if (options.strict && body.row_version !== row.row_version) return route.fulfill({ status: 409, json: { request_id: 'synthetic-stage', error: { code: 'STALE_REVISION', message: 'This record changed since you opened it.', details: {}, retryable: false } } });
+      writes.push({ path, body }); Object.assign(row, body, { row_version: row.row_version + 1 }); revision++; rowVersion++;
       return ok(row);
     }
     return fail(404);
   });
-  return { errors, writes, assignments, bump: (notes: string) => { assignments[0].presentation_notes = notes; assignments[0].row_version++; revision++; rowVersion++; } };
+  const remote = (index: number, notes: string) => { assignments[index].presentation_notes = notes; assignments[index].row_version++; revision++; rowVersion++; };
+  return { errors, writes, assignments, reads, bump: (notes: string) => remote(0, notes), bumpOther: (notes: string) => remote(1, notes) };
 }
 const base = `/projects/${P}/casting/${W}`;
 const stage = (page: Page) => page.getByRole('region', { name: 'Slide preview' });
@@ -166,4 +169,53 @@ test('the workspace editor passes axe and fits a phone without sideways scrollin
   await expect(stage(page)).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   expect(model.errors).toEqual([]);
+});
+
+// P2 follow-up: unsaved edits and remote updates. A refresh brought by someone else's change never silently replaces
+// what is being typed — not in the field and not on the slide; saving it is then checked against the server's row version.
+async function openNotes(page: Page, text: string) {
+  await page.getByRole('button', { name: /^Assignment actions for Synthetic Actor One/ }).click();
+  await page.getByRole('menuitem', { name: 'Edit assignment notes' }).click();
+  await page.getByLabel('Presentation notes').fill(text);
+  await expect(slide(page).locator('[data-fit-field="presentation_notes"]')).toHaveText(text);
+}
+async function remoteRefresh(page: Page, model: Awaited<ReturnType<typeof workspace>>) {
+  const before = model.reads.roles;
+  await page.evaluate(() => window.dispatchEvent(new Event('focus')));
+  await expect.poll(() => model.reads.roles).toBeGreaterThan(before);
+  await expect(stage(page).getByText('Updating from saved changes…')).toHaveCount(0);
+}
+
+test('a remote change to the record being edited never overwrites the unsaved text; saving it meets the stale-version check', async ({ page }) => {
+  const model = await workspace(page, { strict: true }); await page.goto(`${base}/organize`);
+  await openNotes(page, 'My unsaved note');
+  model.bump('Changed by Claude');
+  await remoteRefresh(page, model);
+  // The field and the slide keep what was typed, and the stage says it includes unsaved edits.
+  await expect(page.getByLabel('Presentation notes')).toHaveValue('My unsaved note');
+  await expect(slide(page).locator('[data-fit-field="presentation_notes"]')).toHaveText('My unsaved note');
+  await expect(stage(page).getByText('Live preview · includes unsaved edits')).toBeVisible();
+  // Saving is based on the version that was opened, so the server refuses it instead of overwriting Claude's change.
+  await page.getByRole('button', { name: 'Save assignment notes' }).click();
+  await expect(page.getByText(/This record changed since you opened it\./u).first()).toBeVisible();
+  expect(model.writes).toEqual([]); expect(model.assignments[0].presentation_notes).toBe('Changed by Claude');
+  await expect(page.getByLabel('Presentation notes')).toHaveValue('My unsaved note');
+  // Discarding shows the other person's saved change on the slide.
+  await page.getByRole('button', { name: 'Discard note edits' }).click();
+  await expect(slide(page).locator('[data-fit-field="presentation_notes"]')).toHaveText('Changed by Claude');
+  expect(model.errors).toEqual([]);
+});
+
+test('a remote change to another record appears on its slide while an unsaved edit elsewhere is kept', async ({ page }) => {
+  const model = await workspace(page); await page.goto(`${base}/organize`);
+  await openNotes(page, 'Still typing');
+  model.bumpOther('Note added by a colleague');
+  await remoteRefresh(page, model);
+  await expect(page.getByLabel('Presentation notes')).toHaveValue('Still typing');
+  await expect(slide(page).locator('[data-fit-field="presentation_notes"]')).toHaveText('Still typing');
+  await strip(page).getByRole('button', { name: /: Synthetic Actor Two$/u }).click();
+  await expect(slide(page).locator('[data-fit-field="presentation_notes"]')).toHaveText('Note added by a colleague');
+  await strip(page).getByRole('button', { name: /: Synthetic Actor One$/u }).click();
+  await expect(slide(page).locator('[data-fit-field="presentation_notes"]')).toHaveText('Still typing');
+  expect(model.writes).toEqual([]); expect(model.errors).toEqual([]);
 });
