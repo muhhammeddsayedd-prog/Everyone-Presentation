@@ -6,6 +6,7 @@ import type { Role, RoleRequirements, Slot } from '../../../../packages/domain/s
 import legacyRegistry from '../../../../packages/templates/registry.json';
 import completeRegistry from '../../../../packages/templates/versions/1.1.0/registry.json';
 import editorialRegistry from '../../../../packages/templates/versions/1.2.0/registry.json';
+import slotRegistry from '../../../../packages/templates/versions/1.3.0/registry.json';
 
 /** Saved workspace records the live preview is projected from. Every value comes from the API; nothing is invented. */
 export interface DraftSource {
@@ -36,7 +37,7 @@ export const draftKey = {
 };
 export interface DraftMaterial { mediaId: string | null; frames: string[] }
 
-export const TEMPLATE_REGISTRY: Record<string, TemplateIdentity> = Object.fromEntries([legacyRegistry, completeRegistry, editorialRegistry]
+export const TEMPLATE_REGISTRY: Record<string, TemplateIdentity> = Object.fromEntries([legacyRegistry, completeRegistry, editorialRegistry, slotRegistry]
   .map(row => [row.version, { key: row.key, version: row.version, content_sha256: row.content_sha256, font_key: row.font_key }]));
 export const supportedTemplate = (version: string) => Object.hasOwn(TEMPLATE_REGISTRY, version);
 

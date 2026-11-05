@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { templateName } from '../workspace/template-names';
 import { useCallback, useEffect, useEffectEvent, useMemo, useRef, useState } from 'react';
 import type { AiSuggestion, AudiencePreset, CandidateMedia, PresentationSeries, ReviewJobAccepted, ReviewSlide, WorkspaceReview } from '@eps/domain';
 import { slideWordingFields, type SlideWordingField } from '../../../../packages/domain/src/casting-types.ts';
@@ -39,7 +40,6 @@ async function allRows<T>(path: string, signal: AbortSignal) {
   throw new Error('The review choices changed while paging. Refresh them.');
 }
 const outputName = (value: 'selection' | 'shortlist') => value === 'selection' ? 'Cast Selection' : 'Cast Shortlist';
-const templateName = (version: string) => version === '1.2.0' ? 'Everyone Film Editorial 1.2.0' : `Everyone Casting ${version}`;
 const plural = (count: number, one: string, many = `${one}s`) => `${count} ${count === 1 ? one : many}`;
 function slideTitle(slide: ReviewSlide) { return slide.kind === 'candidate' ? slide.fields.name_or_id : `${slide.slot_label} · Pending`; }
 

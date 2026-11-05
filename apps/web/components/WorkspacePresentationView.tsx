@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { templateName } from './workspace/template-names';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { PresentationSeries, PresentationVersion, ReviewJobAccepted, WorkspaceReview } from '@eps/domain';
 import { summarizePresentationChanges } from '../../../packages/domain/src/presentation';
@@ -17,7 +18,6 @@ import { SavedStage, statusLabel, useSavedVersion, VersionActions } from './pres
 interface Props { projectId: string; workspaceId: string; actor: Actor; initialOutput: 'selection' | 'shortlist'; requestedSeriesId?: string | null; onSeriesChanged?: (value: string) => void; onDirtyChange: (dirty: boolean) => void }
 interface GenerationIntent { path: string; init: RequestInit; seriesId: string }
 interface Draft { workspace: Workspace; review: WorkspaceReview; series: PresentationSeries; lastReady: PresentationVersion | null }
-const templateName = (version: string) => version === '1.2.0' ? 'Everyone Film Editorial 1.2.0' : `Everyone Casting ${version}`;
 
 /** Versions, presentation-first: series, the working draft and saved history in the panel; on the stage either the
  * server-checked working draft (exactly what Generate captures) or the selected saved version's own snapshot. */

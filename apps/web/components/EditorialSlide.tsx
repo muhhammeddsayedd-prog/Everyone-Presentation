@@ -71,7 +71,9 @@ export function EditorialDeck({ deck, assets, videoHrefs, pages }: { deck: Deck;
   return <ol className="ef-preview-deck">{shown.map(index => <li key={index}><EditorialPage deck={deck} index={index} assets={assets} videoHrefs={videoHrefs} /></li>)}</ol>;
 }
 
-export function deckAssetIds(deck: Deck, pages?: number[]) {
+/** Retained images a composed editorial deck (1.2.0 or 1.3.0) draws. */
+interface AssetElementLike { kind: string; source?: { type: string; asset_id?: string } }
+export function deckAssetIds(deck: { pages: readonly { index: number; elements: readonly AssetElementLike[] }[] }, pages?: number[]) {
   const selected = pages ? deck.pages.filter(page => pages.includes(page.index)) : deck.pages;
-  return selected.flatMap(page => page.elements.flatMap(element => element.kind === 'image' && element.source.type === 'asset' ? [element.source.asset_id] : []));
+  return selected.flatMap(page => page.elements.flatMap(element => element.kind === 'image' && element.source?.type === 'asset' && element.source.asset_id ? [element.source.asset_id] : []));
 }

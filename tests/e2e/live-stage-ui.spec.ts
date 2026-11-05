@@ -257,3 +257,15 @@ test('the config panel can be resized by keyboard and pointer; the stage and sli
   await expect.poll(() => width(panel)).toBe(400);
   expect(model.errors).toEqual([]);
 });
+
+test('the 1.3.0 slot template can be previewed: a slot\'s people share one page and no missing fact is drawn', async ({ page }) => {
+  const model = await workspace(page, { noEditorialSeries: true }); await page.goto(`${base}/organize`);
+  await page.getByRole('combobox', { name: 'Preview as' }).selectOption({ label: 'Everyone Film Editorial 1.3.0 (2–3 people per slide) · preview only' });
+  await expect(stage(page).getByText(/^Preview only\. This workspace still generates with Everyone Casting 1\.1\.0; Everyone Film Editorial 1\.3\.0/u)).toBeVisible();
+  const group = strip(page).getByRole('button', { name: /: Father · Synthetic Actor One, Synthetic Actor Two$/u });
+  await group.click();
+  await expect(page.locator('.stage-frame .ef-slide[data-layout="cast_group_detail"]')).toHaveCount(1);
+  await expect(page.locator('.stage-frame .ef-slide').getByText('Not provided')).toHaveCount(0);
+  await expect(page.locator('.stage-frame .ef-slide').getByText('Synthetic Actor Two', { exact: true })).toHaveCount(1);
+  expect(model.errors).toEqual([]);
+});

@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useDeferredValue, useMemo, useState } from 'react';
+import { templateName } from './template-names';
 import { deckAssetIds, useEditorialAssets, type AssetFetch, type LoadedAsset } from '../EditorialSlide';
 import { ErrorNotice } from '../Feedback';
 import { Icon } from '../Icon';
@@ -10,10 +11,10 @@ import { useRenderedDeck } from './StageSlide';
 import { DeckStage, type StageChip } from './DeckStage';
 import { useWorkspaceDraft } from './WorkspaceDraftProvider';
 
-const EDITORIAL_PREVIEW = 'preview:editorial-1.2.0';
+// Registered Everyone Film templates that can be previewed before a series (or the Studio default) uses them.
+const PREVIEW_TEMPLATES = ['1.3.0', '1.2.0'] as const; const PREVIEW_PREFIX = 'preview:editorial-';
 const NO_ASSETS: Record<string, LoadedAsset> = {};
 const outputTitle = (output: 'selection' | 'shortlist') => output === 'selection' ? 'Cast Selection' : 'Cast Shortlist';
-const templateName = (version: string) => version === '1.2.0' ? 'Everyone Film Editorial 1.2.0' : `Everyone Casting ${version}`;
 const fetchMedia: AssetFetch = (id, signal) => fetch(`/api/v1/media/${encodeURIComponent(id)}/content`, { cache: 'no-store', signal, headers: { Accept: 'image/*' } });
 
 /** The working draft on a live stage: the same registered template and markup generation prints, recomputed in the
@@ -28,17 +29,19 @@ export function LiveStage() {
   const defaultTemplate = draft?.defaultTemplate && supportedTemplate(draft.defaultTemplate) ? draft.defaultTemplate : null;
   // The Everyone Film editorial template (the design kit) can always be previewed. When no 1.2.0 series exists and it is
   // not the Studio default, it is offered as a preview only: this workspace would still generate with its own template.
-  const offerEditorial = !series.some(row => row.template_version === '1.2.0') && defaultTemplate !== '1.2.0';
-  const editorial = offerEditorial && choice === EDITORIAL_PREVIEW;
-  const context: DraftContext = useMemo(() => ({ output, title: chosen?.title ?? outputTitle(output), templateVersion: editorial ? '1.2.0' : chosen?.template_version ?? defaultTemplate ?? '1.1.0' }), [output, chosen?.title, chosen?.template_version, defaultTemplate, editorial]);
+  const previewable = PREVIEW_TEMPLATES.filter(version => !series.some(row => row.template_version === version) && defaultTemplate !== version);
+  const chosenPreview = choice.startsWith(PREVIEW_PREFIX) ? choice.slice(PREVIEW_PREFIX.length) : '';
+  const editorial: string | null = (chosenPreview === '1.3.0' || chosenPreview === '1.2.0') && !series.some(row => row.template_version === chosenPreview) && defaultTemplate !== chosenPreview ? chosenPreview : null;
+  const templateVersion = editorial ?? chosen?.template_version ?? defaultTemplate ?? '1.1.0'; const title = chosen?.title ?? outputTitle(output);
 
   // Typing never waits for the deck: on very large drafts the slide catches up a frame later.
   const source = draft?.source ?? null; const overlay = useDeferredValue(draft?.overlay); const profilesReadable = draft?.profilesReadable ?? false;
   const built = useMemo(() => {
     if (!source || !overlay) return null;
+    const context: DraftContext = { output, title, templateVersion };
     try { const result = buildDraftReview(source, overlay, context); return { deck: stageDeck(result.review), notes: result.notes, error: '' }; }
     catch (reason) { return { deck: null, notes: [], error: reason instanceof Error && reason.message === 'DRAFT_PROFILE_UNAVAILABLE' ? (profilesReadable ? 'A profile on this draft could not be read.' : 'Showing people on slides needs Cast Library access.') : 'An edit is not consistent yet (for example, a record changed elsewhere).' }; }
-  }, [source, overlay, profilesReadable, context]);
+  }, [source, overlay, profilesReadable, output, title, templateVersion]);
   // Keep the last consistent deck on screen while an intermediate edit or refresh cannot be projected.
   const [good, setGood] = useState<StageDeck | null>(null);
   if (built?.deck && built.deck !== good) setGood(built.deck);
@@ -51,18 +54,18 @@ export function LiveStage() {
       : <div className="stage-loading" role="status"><span className="stage-loading-slide" aria-hidden="true" /><p>Opening the live preview…</p></div>}
   </section>;
   const generatedWith = chosen ? templateName(chosen.template_version) : templateName(defaultTemplate ?? '1.1.0');
-  return <StageView deck={deck} paused={built?.error ?? ''} notes={built?.notes ?? []} choice={editorial ? EDITORIAL_PREVIEW : chosen?.id ?? (choice === 'default' || !series.length ? 'default' : 'auto')} onChoice={setChoice}
-    seriesOptions={[...series.map(row => ({ id: row.id, label: `${row.title} · ${templateName(row.template_version)}` })), ...(offerEditorial ? [{ id: EDITORIAL_PREVIEW, label: `${templateName('1.2.0')} · preview only` }] : [])]}
-    previewOnly={editorial ? `Preview only. This workspace still generates with ${generatedWith}; Everyone Film Editorial 1.2.0 is not yet available for generating here.` : ''}
+  return <StageView deck={deck} paused={built?.error ?? ''} notes={built?.notes ?? []} choice={editorial ? `${PREVIEW_PREFIX}${editorial}` : chosen?.id ?? (choice === 'default' || !series.length ? 'default' : 'auto')} onChoice={setChoice}
+    seriesOptions={[...series.map(row => ({ id: row.id, label: `${row.title} · ${templateName(row.template_version)}` })), ...previewable.map(version => ({ id: `${PREVIEW_PREFIX}${version}`, label: `${templateName(version)} · preview only` }))]}
+    previewOnly={editorial ? `Preview only. This workspace still generates with ${generatedWith}; ${templateName(editorial)} is not yet available for generating here.` : ''}
     defaultLabel={defaultTemplate ? `No saved series · ${templateName(defaultTemplate)} (Studio default)` : 'No saved series · Everyone Casting 1.1.0'} />;
 }
 
 interface StageViewProps { deck: StageDeck; paused: string; notes: string[]; previewOnly?: string; choice: string; onChoice: (value: string) => void; seriesOptions: { id: string; label: string }[]; defaultLabel: string }
 function StageView({ deck, paused, notes, previewOnly, choice, onChoice, seriesOptions, defaultLabel }: StageViewProps) {
   const draft = useWorkspaceDraft()!;
-  const ids = useMemo(() => deck.template === '1.2.0' ? [...new Set(deckAssetIds(deck.deck))].sort() : [], [deck]);
+  const ids = useMemo(() => 'deck' in deck ? [...new Set(deckAssetIds(deck.deck))].sort() : [], [deck]);
   const { assets, failed } = useEditorialAssets(ids, fetchMedia);
-  const rendered = useRenderedDeck(deck, deck.template === '1.2.0' ? assets : NO_ASSETS);
+  const rendered = useRenderedDeck(deck, 'deck' in deck ? assets : NO_ASSETS);
   const [currentKey, setCurrentKey] = useState('cover');
   const found = deck.pages.findIndex(page => page.key === currentKey);
   const [lastIndex, setLastIndex] = useState(0);

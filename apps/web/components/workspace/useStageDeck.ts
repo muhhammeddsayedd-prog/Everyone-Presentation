@@ -19,11 +19,11 @@ export function useStageDeck(review: WorkspaceReview | null) {
     catch { return { deck: null, error: 'This template cannot be shown in the Studio. The server review and saved PDFs are unaffected.' }; }
   }, [review]);
   const deck: StageDeck | null = built.deck;
-  const ids = useMemo(() => deck?.template === '1.2.0' ? [...new Set(deckAssetIds(deck.deck))].sort() : [], [deck]);
+  const ids = useMemo(() => deck && 'deck' in deck ? [...new Set(deckAssetIds(deck.deck))].sort() : [], [deck]);
   const { assets, failed } = useEditorialAssets(ids, fetchWorkspaceMedia);
   const rendered = useMemo(() => {
     if (!deck) return { rendered: EMPTY, error: '' };
-    try { return { rendered: renderDeck(deck, deck.template === '1.2.0' ? assets : NO_ASSETS), error: '' }; }
+    try { return { rendered: renderDeck(deck, 'deck' in deck ? assets : NO_ASSETS), error: '' }; }
     catch { return { rendered: EMPTY, error: 'This template cannot be shown in the Studio. The server review and saved PDFs are unaffected.' }; }
   }, [deck, assets]);
   return { deck: rendered.error ? null : deck, rendered: rendered.rendered, failed, error: built.error || rendered.error };
