@@ -137,7 +137,10 @@ test('controlled active detail polls durable state and stops after a confirmed c
   model.jobs.set(nextJobId, { ...model.jobs.get(nextJobId)!, status: 'succeeded', progress_completed: 3, row_version: 2 });
   await page.clock.fastForward(5001);
   await expect(page.locator('.processing-detail .badge')).toHaveText('Completed');
-  const readCount = model.reads.length; await page.clock.fastForward(30_000);
+  // The list and the detail both refresh on the same tick; let a list read already in flight land before counting.
+  let readCount = -1;
+  await expect.poll(() => { const settled = model.reads.length === readCount; readCount = model.reads.length; return settled; }, { intervals: [300, 300, 300, 300] }).toBe(true);
+  await page.clock.fastForward(30_000);
   expect(model.reads).toHaveLength(readCount); expect(model.errors).toEqual([]);
 });
 

@@ -2,7 +2,8 @@ import type { CSSProperties } from 'react';
 
 export type IconName = 'projects' | 'people' | 'slides' | 'processing' | 'settings' | 'arrow' | 'search' | 'upload' | 'check' | 'lock' | 'logout'
   | 'close' | 'more' | 'menu' | 'plus' | 'minus' | 'star' | 'star-filled' | 'chevron-right' | 'chevron-left' | 'chevron-down' | 'chevron-up' | 'eye' | 'drag'
-  | 'clock' | 'info' | 'alert' | 'trash' | 'link' | 'download' | 'play' | 'film' | 'file' | 'copy' | 'comment' | 'refresh' | 'filter' | 'image' | 'order' | 'external';
+  | 'clock' | 'info' | 'alert' | 'trash' | 'link' | 'download' | 'play' | 'film' | 'file' | 'copy' | 'comment' | 'refresh' | 'filter' | 'image' | 'order' | 'external'
+  | 'brief' | 'user-plus' | 'board' | 'checklist' | 'history' | 'share' | 'bell' | 'panel-left';
 const paths: Record<IconName, React.ReactNode> = {
   projects: <><path d="M3 7h7l2-3h9v15H3z" /><path d="M3 7V4h7l2 3" /></>,
   people: <><circle cx="9" cy="8" r="3" /><path d="M3 21v-3a6 6 0 0 1 12 0v3M16 5a3 3 0 0 1 0 6M21 21v-3a6 6 0 0 0-4-5" /></>,
@@ -44,6 +45,14 @@ const paths: Record<IconName, React.ReactNode> = {
   image: <><rect x="3" y="4" width="18" height="16" rx="2" /><circle cx="9" cy="10" r="2" /><path d="m21 17-5-5-9 8" /></>,
   order: <path d="M4 6h12M4 12h12M4 18h12M19 8l2-2-2-2M19 20l2-2-2-2" />,
   external: <><path d="M14 3h7v7M21 3l-9 9" /><path d="M19 14v7H3V5h7" /></>,
+  brief: <><rect x="3" y="7" width="18" height="13" rx="2" /><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M3 12.5h18" /></>,
+  'user-plus': <><circle cx="10" cy="8" r="3.4" /><path d="M3.5 19.5a6.5 6.5 0 0 1 13 0M19 8v6M16 11h6" /></>,
+  board: <><rect x="3" y="4" width="5" height="16" rx="1.5" /><rect x="10" y="4" width="5" height="10" rx="1.5" /><rect x="17" y="4" width="4" height="13" rx="1.5" /></>,
+  checklist: <path d="M4 6.5l1.6 1.6L8.5 5M4 12.5l1.6 1.6 2.9-3.1M4 18.5l1.6 1.6 2.9-3.1M11.5 7h8.5M11.5 13h8.5M11.5 19h8.5" />,
+  history: <><path d="M3.5 12a8.5 8.5 0 1 0 2.5-6L3.5 8.5" /><path d="M3.5 4v4.5H8M12 8v4.5l3 1.8" /></>,
+  share: <><circle cx="18" cy="5.5" r="2.5" /><circle cx="6" cy="12" r="2.5" /><circle cx="18" cy="18.5" r="2.5" /><path d="m8.2 10.8 7.6-4M8.2 13.2l7.6 4" /></>,
+  bell: <><path d="M6 10a6 6 0 0 1 12 0c0 5 2 6.5 2 6.5H4S6 15 6 10z" /><path d="M10 19.5a2 2 0 0 0 4 0" /></>,
+  'panel-left': <><rect x="3" y="4" width="18" height="16" rx="2" /><path d="M9 4v16" /></>,
 };
 
 export function Icon({ name, className, style }: { name: IconName; className?: string; style?: CSSProperties }) {

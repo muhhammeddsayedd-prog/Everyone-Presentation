@@ -7,7 +7,8 @@ import { api, errorMessage, mutation, type Actor, type Project, type Workspace }
 import { ErrorNotice, Loading } from './Feedback';
 import { ProjectDetails } from './ProjectDetails';
 import { LogoPanel } from './LogoPanel';
-import { Icon } from './Icon';
+import { Icon, type IconName } from './Icon';
+import { FramePortal } from './shell/Frame';
 import { SpecsView } from './SpecsView';
 import { useRuntimeMode } from './RuntimeMode';
 import { WorkspaceCandidatesView } from './WorkspaceCandidatesView';
@@ -18,7 +19,7 @@ import { rememberWorkspace } from './recent-workspaces';
 import { SegmentIndicator } from './motion/SegmentIndicator';
 import { plural, stepStatus, useWorkspaceSummary, type WorkspaceSummary } from './workspace-summary';
 
-const steps = [{ path: 'project', label: 'Project' }, { path: 'specs', label: 'Specs' }, { path: 'cast', label: 'Candidates' }, { path: 'organize', label: 'Casting' }, { path: 'review', label: 'Review' }, { path: 'presentations', label: 'Presentation' }];
+const steps: { path: string; label: string; icon: IconName }[] = [{ path: 'project', label: 'Project', icon: 'brief' }, { path: 'specs', label: 'Specs', icon: 'file' }, { path: 'cast', label: 'Candidates', icon: 'user-plus' }, { path: 'organize', label: 'Casting', icon: 'board' }, { path: 'review', label: 'Review', icon: 'checklist' }, { path: 'presentations', label: 'Presentation', icon: 'history' }];
 // Shown only without the central business connection (development fixture mode).
 const connectionNeeded = 'This step uses the central business connection, which this development session does not have. Sign in to the connected Studio to use it.';
 const pending: Record<string, { title: string; body: string }> = {
@@ -111,15 +112,15 @@ function WorkspaceScope({ projectId, workspaceId, step, actor, storageOrigin, on
     : selectedStep && pending[step] ? <div className="empty-state step-empty"><Icon name={step === 'cast' ? 'people' : step === 'presentations' ? 'slides' : 'projects'} /><h2>{pending[step].title}</h2><p>{pending[step].body}</p><span className="badge badge-pending">Implementation pending</span><Link className="button" href={`${base}/project`}>Return to Project</Link></div>
     : <ErrorNotice message="This workspace step does not exist. Use the navigation above." />;
   return <>
-    <nav className="workspace-breadcrumb" aria-label="Breadcrumb"><Link href="/projects">Projects</Link><Icon name="chevron-right" /><span>{project.client_name ?? project.name}</span><Icon name="chevron-right" /><span aria-current="page">Casting</span></nav>
-    <header className="workspace-heading">
-      <div><h1>{project.name}</h1><p><span>{project.client_name ?? 'Client not provided'}</span><span aria-hidden="true">·</span><span>Casting workspace</span>{workspace.has_unpublished_changes && <><span aria-hidden="true">·</span><span className="badge badge-dot badge-warn">Unpublished changes</span></>}</p></div>
-      <div className="workspace-actions">
-        {!ownsOutput && <div className="segmented" role="group" aria-label="Working output"><SegmentIndicator />{(['selection', 'shortlist'] as const).map(value => <button key={value} type="button" aria-pressed={workspace.active_output === value} disabled={!canChangeOutput} onClick={() => { if (workspace.active_output !== value) void changeOutput(value); }}>{value === 'selection' ? 'Cast Selection' : 'Cast Shortlist'}{summary && <span className="segment-count"><span className="sr-only">, </span>{summary.assignment_count[value]}<span className="sr-only"> {summary.assignment_count[value] === 1 ? 'assignment' : 'assignments'}</span></span>}</button>)}</div>}
-        {step !== 'review' && <Link className="button button-primary" href={`${base}/review${seriesQuery('review')}`}>Review &amp; generate<Icon name="arrow" /></Link>}
-      </div>
-    </header>
-    <nav className="workspace-steps" aria-label="Casting workspace steps"><SegmentIndicator />{steps.map((item, index) => <Link href={`${base}/${item.path}${seriesQuery(item.path)}`} key={item.path} aria-current={step === item.path ? 'step' : undefined}><span className="step-number">{index + 1}</span>{item.label}{(() => { const status = stepStatus(summary, item.path, workspace.active_output); return status && <span className={`step-status step-status-${status.tone}`}>{status.text}</span>; })()}</Link>)}</nav>
+    <FramePortal slot="top"><div className="workspace-top">
+      <div className="workspace-title"><h1>{project.name}</h1>{workspace.has_unpublished_changes && <span className="badge badge-dot badge-warn">Unpublished changes</span>}</div>
+      <nav className="workspace-breadcrumb" aria-label="Breadcrumb"><Link href="/projects">Projects</Link><Icon name="chevron-right" /><span>{project.client_name ?? 'Client not provided'}</span><Icon name="chevron-right" /><span aria-current="page">Casting workspace</span></nav>
+    </div>
+    <div className="workspace-actions">
+      {!ownsOutput && <div className="segmented" role="group" aria-label="Working output"><SegmentIndicator />{(['selection', 'shortlist'] as const).map(value => <button key={value} type="button" aria-pressed={workspace.active_output === value} disabled={!canChangeOutput} onClick={() => { if (workspace.active_output !== value) void changeOutput(value); }}>{value === 'selection' ? 'Cast Selection' : 'Cast Shortlist'}{summary && <span className="segment-count"><span className="sr-only">, </span>{summary.assignment_count[value]}<span className="sr-only"> {summary.assignment_count[value] === 1 ? 'assignment' : 'assignments'}</span></span>}</button>)}</div>}
+      {step !== 'review' && <Link className="button button-primary" href={`${base}/review${seriesQuery('review')}`}>Review &amp; generate<Icon name="arrow" /></Link>}
+    </div></FramePortal>
+    <FramePortal slot="rail"><nav className="rail-group rail-steps" aria-label="Casting workspace steps"><SegmentIndicator />{steps.map((item, index) => <Link className="rail-link" href={`${base}/${item.path}${seriesQuery(item.path)}`} key={item.path} aria-current={step === item.path ? 'step' : undefined}><Icon name={item.icon} /><span className="rail-label"><span className="step-number">{index + 1}</span>{item.label}{(() => { const status = stepStatus(summary, item.path, workspace.active_output); return status && <span className={`step-status step-status-${status.tone}`}>{status.text}</span>; })()}</span></Link>)}</nav></FramePortal>
     {error && <ErrorNotice message={error} retry={reloadData} />}
     {stepBody}
   </>;

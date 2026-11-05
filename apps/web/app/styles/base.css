@@ -1,4 +1,9 @@
 /* Element defaults. Values come from tokens.css (Design Elements brand tokens). */
+/* General Sans (ITF Free Font License, self-hosting permitted) is the UI face; IBM Plex stays as fallback and for Arabic. */
+@font-face { font-family: "General Sans"; src: url('/fonts/GeneralSans-Regular.ttf') format('truetype'); font-weight: 400; font-display: swap; }
+@font-face { font-family: "General Sans"; src: url('/fonts/GeneralSans-Medium.ttf') format('truetype'); font-weight: 500; font-display: swap; }
+@font-face { font-family: "General Sans"; src: url('/fonts/GeneralSans-Semibold.ttf') format('truetype'); font-weight: 600; font-display: swap; }
+@font-face { font-family: "General Sans"; src: url('/fonts/GeneralSans-Bold.ttf') format('truetype'); font-weight: 700; font-display: swap; }
 @font-face { font-family: EveryoneUI; src: url('/fonts/IBMPlexSans-Regular.woff2') format('woff2'); font-weight: 400; font-display: swap; }
 @font-face { font-family: EveryoneUI; src: url('/fonts/IBMPlexSans-Medium.woff2') format('woff2'); font-weight: 500; font-display: swap; }
 @font-face { font-family: EveryoneUI; src: url('/fonts/IBMPlexSans-SemiBold.woff2') format('woff2'); font-weight: 600 700; font-display: swap; }
@@ -7,12 +12,16 @@
 @font-face { font-family: EveryoneUIArabic; src: url('/fonts/IBMPlexSansArabic-SemiBold.woff2') format('woff2'); font-weight: 600 700; font-display: swap; unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF; }
 
 :root {
-  /* General Sans is not available in the repository; IBM Plex is the recorded development substitute. */
   --font-sans: "General Sans", EveryoneUI, EveryoneUIArabic, ui-sans-serif, system-ui, "Segoe UI", sans-serif;
   --font-arabic: EveryoneUIArabic, "IBM Plex Sans Arabic", "Segoe UI", Tahoma, sans-serif;
   --editor-width: 1120px;
   --brand-logo-width: 132px;
   --sidebar-width: 232px;
+  --rail-width: 64px;
+  --panel-width: 340px;
+  --panel-width-wide: 380px;
+  --right-panel-width: 340px;
+  --strip-height: 112px;
   --topbar-height: 56px;
   --gutter-lg: 28px;
   --drawer-width: 560px;

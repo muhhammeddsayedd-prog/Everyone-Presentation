@@ -34,6 +34,8 @@ test('share drawer creates a link with the shared controls and returns focus on 
   await expect(drawer.getByLabel('New review URL', { exact: true })).toHaveValue(new RegExp(`/r/${'s'.repeat(43)}$`));
   expect(model.created).toEqual([{ series_id: model.snapshot.series_id, label: 'Agency', download_enabled: true }]);
   await expect(drawer.getByRole('link', { name: /Open sharing and feedback page/ })).toHaveAttribute('href', `/presentations/series/${model.snapshot.series_id}/sharing`);
+  // The drawer ignores Escape while the link list is still refreshing after the create (aria-busy).
+  await expect(drawer).not.toHaveAttribute('aria-busy', 'true');
   await page.keyboard.press('Escape');
   await expect(drawer).toHaveCount(0);
   await expect(trigger).toBeFocused();

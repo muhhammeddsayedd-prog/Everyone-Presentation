@@ -10,6 +10,32 @@ This record covers the frontend redesign (presentation and interactions) only. C
 | Design references | `redesign-output/` (copied untracked from the main checkout), `Design Elements/assets/brand/tokens.css`, `docs/experience/SITEMAP_AND_PAGES.md`, `docs/experience/PRESENTATION_TEMPLATE.md`, `docs/integrations/ENGLISH_TRANSCRIPT.md` |
 | Route / interaction map | [ROUTE_INTERACTION_MATRIX.md](ROUTE_INTERACTION_MATRIX.md) |
 
+## Presentation-first redesign (from 2026-11-05)
+
+A second redesign brings the app to the approved concept in `Screenshots 2 Improved Design/` (204 screens, same names as `Screenshots 2/`). It runs on branch `frontend/presentation-first` in worktree `D:\Everyone\Presentation\Everyone-Presentation-Studio-PresentationFirst`, from `main` @ `def3c848`. The approved plan has six phases (P0–P5), each merged to `main` only after its gate passes.
+
+Owner decisions (2026-11-05):
+- The live slide preview is computed in the browser, using the existing `projectReviewSlides` and `composeCastingDeck`. The server review stays the authority for checks and for generating versions.
+- Rollout is phased.
+- The uncommitted collapsible sidebar on `frontend/responsive` is superseded and will not be merged.
+- The UI font is General Sans. It is self-hosted under the ITF Free Font License, which permits self-hosting. This replaces decision 2 below.
+
+| Phase | Scope | Status |
+|---|---|---|
+| P0 + shell | General Sans. Frame tokens. `components/shell/Frame.tsx`: `AppFrame`, `TopBar`, `IconRail`, `RailLink`, `FramePortal`. `components/shell/PageFrame.tsx`: `PageFrame` with `ConfigPanel` and `RightPanel`. `components/shell/preferences.ts`: panel state stored as `eps.panel.v1` (try/catch), plus `useMediaQuery` and `useHydrated`. `app/styles/frame.css`. The icon rail replaces the sidebar and menu sheet. The workspace title, output toggle and Review & generate move into the top bar. The six steps become the rail's second group with unchanged link names. Under 768 px the rail is a bottom tab bar. Recent workspaces are in a rail menu that opens beside it. The panel collapses with Ctrl/Cmd+\ at ≥1280, is an overlay at 768–1279 and a bottom sheet under 768. Ported from `frontend/responsive`: fixed-position `ActionMenu`, the share-drawer aria-busy wait, and the media-query hooks. | Verified (mock) |
+| P1 global pages | Config panels and grids for Projects, overview, Cast Library, profile, Presentations, Processing, Settings | Not started |
+| P2 workspace editor + live stage | `WorkspaceDraftProvider`, `useDraftDeck`, `LiveStage`, `SlideStrip`; steps become panels | Not started |
+| P3–P5 | Review, versions, sharing, guest, mobile, hardening | Not started |
+
+P0 checks (local, `local_fixture` and mocked API, 2026-11-05):
+- `npm run lint`, `npm run typecheck`, `npm test` and `npm run check:production-guard`: all pass.
+  - In one earlier interrupted run, 8 worker child-process tests failed under machine load. `npm run test:worker` then passed 270/270 on this branch and on `main`, and the rerun of the gate passed.
+- `npx playwright test`: 150 of 151 passed. The failure was `processing-ui` "controlled active detail polls…", a test race.
+  - Cause: the list and the detail refresh on the same tick, and a list read still in flight landed after the read count was taken. It failed 1 in 6 on this branch and 0 in 6 on `main`.
+  - Fix: the spec now waits for the read count to settle before fast-forwarding 30 s. It then passed 12/12.
+- New `tests/e2e/frame-ui.spec.ts` (3 tests): rail names, current page, tooltip on focus and axe; the recent-workspaces menu (keyboard use, opens beside the rail); the bottom bar at 390 px with no overflow at 390 or 320 px. All pass.
+- Visual comparison with `Screenshots 2 Improved Design/` at 1440, 1024 and 390 px: the frame matches. Page bodies keep their previous layout until P1 (global pages) and P2 (workspace editor and live stage).
+
 ## Status vocabulary
 
 These four values are used here and in the matrix.

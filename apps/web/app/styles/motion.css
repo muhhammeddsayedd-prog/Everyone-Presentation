@@ -37,9 +37,6 @@
 
 @layer screens {
   /* Workspace steps: the accent underline slides between steps */
-  .workspace-steps:has(> .segment-indicator) { position: relative; }
-  .workspace-steps > .segment-indicator { top: auto; bottom: 0; z-index: 0; height: 2px; transform: translateX(var(--segment-x, 0)); border-radius: 0; background: var(--color-accent); box-shadow: none; }
-  .workspace-steps:has(> .segment-indicator[data-active]) a[aria-current] { border-color: transparent; }
 
   /* Guest preference: the sliding fill takes the tone of the chosen answer */
   .preference-options > label:has(input:checked) { background: transparent !important; box-shadow: none !important; }
