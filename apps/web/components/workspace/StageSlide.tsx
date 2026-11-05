@@ -24,22 +24,25 @@ function ensureFonts(template: StageDeck['template']) {
 }
 
 export interface RenderedDeck { css: string; count: number; page: (index: number) => string }
+/** Saved versions print with their own retained images, original-video links and version label. */
+export interface RenderOptions { imageSources?: Record<string, string>; videoHrefs?: Record<string, string>; versionLabel?: string }
+export type HighlightTone = 'edit' | 'issue' | 'overflow';
 /** The registered renderer's own markup (what the worker prints), per page. 1.2.0 pages are rendered only when
  * shown and then cached for this deck, so a deck of hundreds of pages stays responsive while typing. */
 export function useRenderedDeck(deck: StageDeck, assets: Record<string, LoadedAsset>): RenderedDeck {
   return useMemo(() => renderDeck(deck, assets), [deck, assets]);
 }
-export function renderDeck(deck: StageDeck, assets: Record<string, LoadedAsset>): RenderedDeck {
+export function renderDeck(deck: StageDeck, assets: Record<string, LoadedAsset>, options: RenderOptions = {}): RenderedDeck {
   if (deck.template === '1.2.0') {
     const imageSources = Object.fromEntries(Object.entries(assets).map(([id, asset]) => [id, asset.url])); const cache = new Map<number, string>();
     return { css: EDITORIAL_CSS, count: deck.deck.pages.length, page: index => {
-      if (!cache.has(index)) cache.set(index, index < deck.deck.pages.length ? `<div class="ef-deck">${renderPageMarkup(deck.deck, index, { imageSources })}</div>` : '');
+      if (!cache.has(index)) cache.set(index, index < deck.deck.pages.length ? `<div class="ef-deck">${renderPageMarkup(deck.deck, index, { imageSources, videoHrefs: options.videoHrefs })}</div>` : '');
       return cache.get(index)!;
     } };
   }
   const ids = deck.review.slides.flatMap(slide => slide.frames.map(frame => frame.asset_id)).concat(deck.review.cover.logo_asset_id ? [deck.review.cover.logo_asset_id] : []);
-  const imageSources = Object.fromEntries(ids.filter(id => /^[a-f0-9-]{36}$/u.test(id)).map(id => [id, `/api/v1/media/${id}/content`]));
-  const html = renderRegisteredReviewDocument(deck.review as WorkspaceReview, { imageSources });
+  const imageSources = options.imageSources ?? Object.fromEntries(ids.filter(id => /^[a-f0-9-]{36}$/u.test(id)).map(id => [id, `/api/v1/media/${id}/content`]));
+  const html = renderRegisteredReviewDocument(deck.review as WorkspaceReview, { imageSources, videoHrefs: options.videoHrefs, versionLabel: options.versionLabel });
   // The renderer's pages are flat <article> siblings; the print body sets the page font, which the wrapper carries here.
   const style = /<style>([\s\S]*?)<\/style>/u.exec(html)?.[1] ?? '';
   const pages = html.match(/<article class="eps-page[\s\S]*?<\/article>/gu) ?? [];
@@ -47,8 +50,9 @@ export function renderDeck(deck: StageDeck, assets: Record<string, LoadedAsset>)
 }
 
 const escapeAttribute = (value: string) => value.replace(/["\\]/gu, '\\$&');
+const TONES: Record<HighlightTone, [string, string]> = { edit: ['#01bd68', 'rgba(1,189,104,.08)'], issue: ['#f5b544', 'rgba(245,181,68,.12)'], overflow: ['#ff6b6b', 'rgba(255,107,107,.12)'] };
 /** Draws one page on a fixed canvas, scaled as one unit. Links are inert: this is a preview, not the shared deck. */
-export function StageSlide({ deck, rendered, index, highlight, label, eager = true }: { deck: StageDeck; rendered: RenderedDeck; index: number; highlight?: string | null; label?: string; eager?: boolean }) {
+export function StageSlide({ deck, rendered, index, highlight, tone = 'edit', label, eager = true }: { deck: StageDeck; rendered: RenderedDeck; index: number; highlight?: string | null; tone?: HighlightTone; label?: string; eager?: boolean }) {
   const [width, height] = canvasOf(deck);
   const frame = useRef<HTMLDivElement>(null); const host = useRef<HTMLDivElement>(null); const [scale, setScale] = useState(0);
   useEffect(() => { ensureFonts(deck.template); }, [deck.template]);
@@ -58,7 +62,7 @@ export function StageSlide({ deck, rendered, index, highlight, label, eager = tr
     return () => observer.disconnect();
   }, [width]);
   const markup = eager ? rendered.page(index) : '';
-  const mark = highlight ? `[data-fit-field="${escapeAttribute(highlight)}"],[data-fit-field^="${escapeAttribute(highlight)}."]{outline:6px solid #01bd68;outline-offset:8px;border-radius:6px;background:rgba(1,189,104,.08)}` : '';
+  const mark = highlight ? `[data-fit-field="${escapeAttribute(highlight)}"],[data-fit-field^="${escapeAttribute(highlight)}."]{outline:6px solid ${TONES[tone][0]};outline-offset:8px;border-radius:6px;background:${TONES[tone][1]}}` : '';
   useEffect(() => {
     const element = host.current; if (!element || !eager) return;
     const root = element.shadowRoot ?? element.attachShadow({ mode: 'open' });

@@ -63,9 +63,9 @@ export function PageFrame({ panel, right, children, className, inline = false }:
 }
 
 /** Contextual details beside the page (≥1280), or a drawer over it on smaller screens. */
-export function RightPanel({ title, subtitle, onClose, footer, children, closeLabel }: { title: ReactNode; subtitle?: ReactNode; onClose?: () => void; footer?: ReactNode; children: ReactNode; closeLabel?: string }) {
+export function RightPanel({ title, subtitle, onClose, footer, children, closeLabel, label, className }: { title: ReactNode; subtitle?: ReactNode; onClose?: () => void; footer?: ReactNode; children: ReactNode; closeLabel?: string; label?: string; className?: string }) {
   const headingId = useId();
-  return <aside className="right-panel" aria-labelledby={headingId}>
+  return <aside className={`right-panel${className ? ` ${className}` : ''}`} aria-labelledby={label ? undefined : headingId} aria-label={label}>
     <header className="config-panel-head"><div><h2 id={headingId}>{title}</h2>{subtitle && <p>{subtitle}</p>}</div>{onClose && <button type="button" className="icon-button icon-button-small" aria-label={closeLabel ?? 'Close details'} onClick={onClose}><Icon name="close" /></button>}</header>
     <div className="config-panel-body">{children}</div>
     {footer && <footer className="config-panel-foot">{footer}</footer>}

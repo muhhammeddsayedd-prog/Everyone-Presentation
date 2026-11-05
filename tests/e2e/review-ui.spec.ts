@@ -28,23 +28,25 @@ test('review uses an exact series, retains ten fields and applies only previewed
   return route.fulfill({status:404,json:{error:{code:'NOT_FOUND',message:'Synthetic route unavailable'}}});
  });
  await page.goto(`/projects/${project}/casting/${workspace}/review`);
- await expect(page.getByRole('heading',{name:'Final review',exact:true})).toBeVisible();
+ await expect(page.getByRole('heading',{name:'Review',exact:true})).toBeVisible();
  await expect(page.getByText('1 candidate slide · 1 Pending slot',{exact:true})).toBeVisible();
- await expect(page.getByRole('heading',{name:'Assignment review',exact:true})).toHaveCount(0);
+ await expect(page.getByRole('complementary',{name:'Assignment review',exact:true})).toHaveCount(0);
+ // The checked draft is on the stage: go to the candidate's slide, then open it in the inspector.
+ await page.getByRole('navigation',{name:'Slides'}).getByRole('button',{name:'Slide 2 of 3: Synthetic review person',exact:true}).click();
  await page.getByRole('button',{name:'Review Father 1',exact:true}).click();
- await expect(page.getByRole('heading',{name:'Assignment review',exact:true})).toBeVisible();
+ await expect(page.getByRole('complementary',{name:'Assignment review',exact:true})).toBeVisible();
  await expect(page.getByText('Image not provided',{exact:true}).first()).toBeVisible();
- await page.getByText('English transcript and original video',{exact:true}).click();
+ await page.getByRole('tab',{name:'Video & transcript',exact:true}).click();
  await expect(page.getByText('Synthetic English transcript only.',{exact:true})).toBeVisible();
  await expect(page.getByText('Synthetic source transcript only.',{exact:true})).toHaveCount(0);
  await expect(page.getByRole('button',{name:'Play source video',exact:true})).toBeVisible();
+ await page.getByRole('tab',{name:'Wording',exact:true}).click();
  await page.getByRole('combobox',{name:'Slide wording field',exact:true}).selectOption('skills_experience');
  await page.getByRole('textbox',{name:'Presentation wording',exact:true}).fill('Supplied experience');
  await page.getByRole('button',{name:'Save slide wording',exact:true}).click();
  await expect.poll(()=>wording).toBe('Supplied experience');
  expect(fields.skills_experience).toBe('Supplied longer experience');expect(changes).toHaveLength(1);
  await expect(page.getByText('Slide wording saved.',{exact:true})).toBeVisible();
- await page.getByRole('button',{name:'Review Father 1',exact:true}).click();
  await page.getByRole('button',{name:'Suggest shorter saved wording',exact:true}).click();
  await expect.poll(()=>suggestionRequested).toBe(true);
  await page.getByRole('textbox',{name:'Presentation wording',exact:true}).fill('Manual draft keeps control');
@@ -54,7 +56,6 @@ test('review uses an exact series, retains ten fields and applies only previewed
  await page.getByRole('button',{name:'Save slide wording',exact:true}).click();
  await expect.poll(()=>wording).toBe('Manual draft keeps control');expect(changes).toHaveLength(2);
  await expect(page.getByText('Slide wording saved.',{exact:true})).toBeVisible();
- await page.getByRole('button',{name:'Review Father 1',exact:true}).click();
  await page.getByRole('button',{name:'Suggest shorter saved wording',exact:true}).click();
  await expect(page.getByRole('button',{name:'Apply this suggestion',exact:true})).toBeVisible();
  await page.getByRole('button',{name:'Apply this suggestion',exact:true}).click();
@@ -71,6 +72,7 @@ test('review uses an exact series, retains ten fields and applies only previewed
  await expect(page.getByRole('textbox',{name:'Presentation wording',exact:true})).toHaveValue('Refreshed source city');
  fields.availability='Refreshed project availability';fingerprint++;
  await page.getByRole('button',{name:'Refresh review',exact:true}).click();
+ await page.getByRole('tab',{name:'Facts',exact:true}).click();
  await expect(page.getByRole('textbox',{name:'Project availability',exact:true})).toHaveValue('Refreshed project availability');
  await page.getByRole('textbox',{name:'Project availability',exact:true}).fill('Unsent availability');
  await expect(page.getByRole('button',{name:'Refresh review',exact:true})).toBeDisabled();
@@ -82,7 +84,7 @@ test('review uses an exact series, retains ten fields and applies only previewed
   await page.setViewportSize({width:390,height:844});
   await expect.poll(()=>page.evaluate(()=>document.documentElement.clientWidth)).toBe(390);
   await expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth-document.documentElement.clientWidth)).toBe(0);
-  await page.getByRole('heading',{name:'Final review',exact:true}).click();
+  await page.getByRole('heading',{name:'Review',exact:true}).click();
   await page.screenshot({path:'.local/m04-review-root/review-mobile-controlled.png',fullPage:true});
  }
 });
