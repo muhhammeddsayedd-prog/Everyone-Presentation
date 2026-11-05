@@ -24,7 +24,7 @@ test('sharing keeps the same create request through lost acknowledgement and den
     return route.fulfill({ status: 404, json: { error: { code: 'NOT_FOUND', message: 'Synthetic unavailable route' } } });
   });
   await page.goto(`/presentations/series/${snapshot.series_id}/sharing`);
-  await expect(page.getByRole('heading', { name: 'Share and review', exact: true })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Share & feedback', exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Create review link', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Confirm link request', exact: true })).toBeVisible();
   await expect(page.getByLabel('Link label', { exact: true })).toBeDisabled();
