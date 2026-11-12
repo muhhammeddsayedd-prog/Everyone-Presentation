@@ -1,8 +1,18 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
-import type { Deck } from '../../../packages/templates/versions/1.2.0/deck';
+import type { Deck as EditorialDeckModel } from '../../../packages/templates/versions/1.2.0/deck';
+import type { Deck as SlotDeckModel } from '../../../packages/templates/versions/1.3.0/deck';
 import { EDITORIAL_CSS, fontFaceCss, PUBLIC_FONT_FACES, renderPageMarkup } from '../../../packages/templates/versions/1.2.0/html';
+import { EDITORIAL_CSS as SLOT_CSS, renderPageMarkup as renderSlotPage } from '../../../packages/templates/versions/1.3.0/html';
+
+/** A composed Everyone Film deck with the version whose registered markup draws it. */
+export type Deck = EditorialDeckModel | SlotDeckModel;
+export type EditorialTemplate = '1.2.0' | '1.3.0';
+const RENDERERS = {
+  '1.2.0': { css: EDITORIAL_CSS, page: (deck: Deck, index: number, options: Parameters<typeof renderPageMarkup>[2]) => renderPageMarkup(deck as EditorialDeckModel, index, options) },
+  '1.3.0': { css: SLOT_CSS, page: (deck: Deck, index: number, options: Parameters<typeof renderSlotPage>[2]) => renderSlotPage(deck as SlotDeckModel, index, options) },
+} as const;
 
 /** In-app preview of the Everyone Film editorial template. It renders the exact
  * page markup and stylesheet the PDF worker prints, inside a Shadow DOM so app
@@ -45,10 +55,11 @@ function useEditorialFonts() {
   }, []);
 }
 
-export function EditorialPage({ deck, index, assets, videoHrefs, label }: { deck: Deck; index: number; assets: Record<string, LoadedAsset>; videoHrefs?: Record<string, string>; label?: string }) {
+export function EditorialPage({ deck, index, assets, videoHrefs, label, template = '1.2.0' }: { deck: Deck; index: number; assets: Record<string, LoadedAsset>; videoHrefs?: Record<string, string>; label?: string; template?: EditorialTemplate }) {
+  const renderer = RENDERERS[template];
   useEditorialFonts();
   const frame = useRef<HTMLDivElement>(null); const host = useRef<HTMLDivElement>(null); const [scale, setScale] = useState(0);
-  const markup = useMemo(() => renderPageMarkup(deck, index, { imageSources: Object.fromEntries(Object.entries(assets).map(([id, asset]) => [id, asset.url])), videoHrefs }), [deck, index, assets, videoHrefs]);
+  const markup = useMemo(() => renderer.page(deck, index, { imageSources: Object.fromEntries(Object.entries(assets).map(([id, asset]) => [id, asset.url])), videoHrefs }), [renderer, deck, index, assets, videoHrefs]);
   useEffect(() => {
     const element = frame.current; if (!element) return;
     const observer = new ResizeObserver(([entry]) => setScale(entry.contentRect.width / deck.canvas.width)); observer.observe(element);
@@ -57,8 +68,8 @@ export function EditorialPage({ deck, index, assets, videoHrefs, label }: { deck
   useEffect(() => {
     const element = host.current; if (!element) return;
     const root = element.shadowRoot ?? element.attachShadow({ mode: 'open' });
-    root.innerHTML = `<style>${EDITORIAL_CSS}</style><div class="ef-deck">${markup}</div>`;
-  }, [markup]);
+    root.innerHTML = `<style>${renderer.css}</style><div class="ef-deck">${markup}</div>`;
+  }, [markup, renderer]);
   const page = deck.pages[index];
   return <div ref={frame} className="ef-preview-frame" role="group" aria-roledescription="slide" aria-label={label ?? `Slide ${index + 1} of ${deck.pages.length}`} data-layout={page?.layout}>
     <div ref={host} className="ef-preview-stage" style={{ transform: `scale(${scale})`, visibility: scale ? 'visible' : 'hidden' }} />
@@ -66,9 +77,9 @@ export function EditorialPage({ deck, index, assets, videoHrefs, label }: { deck
 }
 
 /** Every composed page in print order — what the downloaded PDF contains. */
-export function EditorialDeck({ deck, assets, videoHrefs, pages }: { deck: Deck; assets: Record<string, LoadedAsset>; videoHrefs?: Record<string, string>; pages?: number[] }) {
+export function EditorialDeck({ deck, assets, videoHrefs, pages, template = '1.2.0' }: { deck: Deck; assets: Record<string, LoadedAsset>; videoHrefs?: Record<string, string>; pages?: number[]; template?: EditorialTemplate }) {
   const shown = pages ?? deck.pages.map(page => page.index);
-  return <ol className="ef-preview-deck">{shown.map(index => <li key={index}><EditorialPage deck={deck} index={index} assets={assets} videoHrefs={videoHrefs} /></li>)}</ol>;
+  return <ol className="ef-preview-deck">{shown.map(index => <li key={index}><EditorialPage deck={deck} index={index} assets={assets} videoHrefs={videoHrefs} template={template} /></li>)}</ol>;
 }
 
 /** Retained images a composed editorial deck (1.2.0 or 1.3.0) draws. */

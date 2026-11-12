@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useDeferredValue, useMemo, useState } from 'react';
-import { templateName } from './template-names';
+import { CURRENT_TEMPLATE, isCurrentTemplate, templateName } from './template-names';
 import { deckAssetIds, useEditorialAssets, type AssetFetch, type LoadedAsset } from '../EditorialSlide';
 import { ErrorNotice } from '../Feedback';
 import { Icon } from '../Icon';
@@ -11,8 +11,6 @@ import { useRenderedDeck } from './StageSlide';
 import { DeckStage, type StageChip } from './DeckStage';
 import { useWorkspaceDraft } from './WorkspaceDraftProvider';
 
-// Registered Everyone Film templates that can be previewed before a series (or the Studio default) uses them.
-const PREVIEW_TEMPLATES = ['1.3.0', '1.2.0'] as const; const PREVIEW_PREFIX = 'preview:editorial-';
 const NO_ASSETS: Record<string, LoadedAsset> = {};
 const outputTitle = (output: 'selection' | 'shortlist') => output === 'selection' ? 'Cast Selection' : 'Cast Shortlist';
 const fetchMedia: AssetFetch = (id, signal) => fetch(`/api/v1/media/${encodeURIComponent(id)}/content`, { cache: 'no-store', signal, headers: { Accept: 'image/*' } });
@@ -23,16 +21,11 @@ export function LiveStage() {
   const draft = useWorkspaceDraft();
   const [choice, setChoice] = useState<string>('auto');
   const output = draft?.output ?? 'selection';
-  const series = useMemo(() => (draft?.series ?? []).filter(row => row.output_type === output && supportedTemplate(row.template_version)), [draft?.series, output]);
-  const chosen = choice === 'default' ? null : series.find(row => row.id === choice)
-    ?? (choice === 'auto' ? series.find(row => row.template_version === '1.2.0') ?? series.find(row => row.template_version === '1.1.0') ?? series[0] ?? null : null);
-  const defaultTemplate = draft?.defaultTemplate && supportedTemplate(draft.defaultTemplate) ? draft.defaultTemplate : null;
-  // The Everyone Film editorial template (the design kit) can always be previewed. When no 1.2.0 series exists and it is
-  // not the Studio default, it is offered as a preview only: this workspace would still generate with its own template.
-  const previewable = PREVIEW_TEMPLATES.filter(version => !series.some(row => row.template_version === version) && defaultTemplate !== version);
-  const chosenPreview = choice.startsWith(PREVIEW_PREFIX) ? choice.slice(PREVIEW_PREFIX.length) : '';
-  const editorial: string | null = (chosenPreview === '1.3.0' || chosenPreview === '1.2.0') && !series.some(row => row.template_version === chosenPreview) && defaultTemplate !== chosenPreview ? chosenPreview : null;
-  const templateVersion = editorial ?? chosen?.template_version ?? defaultTemplate ?? '1.1.0'; const title = chosen?.title ?? outputTitle(output);
+  // The draft is always drawn in Everyone Film Editorial 1.3.0, the only template new series use.
+  const series = useMemo(() => (draft?.series ?? []).filter(row => row.output_type === output && isCurrentTemplate(row.template_version) && supportedTemplate(row.template_version)), [draft?.series, output]);
+  const chosen = choice === 'default' ? null : series.find(row => row.id === choice) ?? (choice === 'auto' ? series[0] ?? null : null);
+  const defaultTemplate = draft?.defaultTemplate ?? null;
+  const templateVersion = CURRENT_TEMPLATE; const title = chosen?.title ?? outputTitle(output);
 
   // Typing never waits for the deck: on very large drafts the slide catches up a frame later.
   const source = draft?.source ?? null; const overlay = useDeferredValue(draft?.overlay); const profilesReadable = draft?.profilesReadable ?? false;
@@ -53,11 +46,11 @@ export function LiveStage() {
       : built?.error ? <ErrorNotice message={`Preview paused. ${built.error}`} retry={() => draft.refresh(true)} />
       : <div className="stage-loading" role="status"><span className="stage-loading-slide" aria-hidden="true" /><p>Opening the live preview…</p></div>}
   </section>;
-  const generatedWith = chosen ? templateName(chosen.template_version) : templateName(defaultTemplate ?? '1.1.0');
-  return <StageView deck={deck} paused={built?.error ?? ''} notes={built?.notes ?? []} choice={editorial ? `${PREVIEW_PREFIX}${editorial}` : chosen?.id ?? (choice === 'default' || !series.length ? 'default' : 'auto')} onChoice={setChoice}
-    seriesOptions={[...series.map(row => ({ id: row.id, label: `${row.title} · ${templateName(row.template_version)}` })), ...previewable.map(version => ({ id: `${PREVIEW_PREFIX}${version}`, label: `${templateName(version)} · preview only` }))]}
-    previewOnly={editorial ? `Preview only. This workspace still generates with ${generatedWith}; ${templateName(editorial)} is not yet available for generating here.` : ''}
-    defaultLabel={defaultTemplate ? `No saved series · ${templateName(defaultTemplate)} (Studio default)` : 'No saved series · Everyone Casting 1.1.0'} />;
+  const pendingDefault = !series.length && defaultTemplate !== null && !isCurrentTemplate(defaultTemplate);
+  return <StageView deck={deck} paused={built?.error ?? ''} notes={built?.notes ?? []} choice={chosen?.id ?? 'default'} onChoice={setChoice}
+    seriesOptions={series.map(row => ({ id: row.id, label: `${row.title} · ${row.audience_snapshot.label}` }))}
+    previewOnly={pendingDefault ? `The Studio default is still ${templateName(defaultTemplate)}. Generating with ${templateName(CURRENT_TEMPLATE)} starts once a Studio manager selects it in Settings.` : ''}
+    defaultLabel={`No saved series · ${templateName(CURRENT_TEMPLATE)}`} />;
 }
 
 interface StageViewProps { deck: StageDeck; paused: string; notes: string[]; previewOnly?: string; choice: string; onChoice: (value: string) => void; seriesOptions: { id: string; label: string }[]; defaultLabel: string }

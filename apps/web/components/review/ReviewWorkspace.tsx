@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { templateName } from '../workspace/template-names';
+import { CURRENT_TEMPLATE, isCurrentTemplate, templateName } from '../workspace/template-names';
 import { useCallback, useEffect, useEffectEvent, useMemo, useRef, useState } from 'react';
 import type { AiSuggestion, AudiencePreset, CandidateMedia, PresentationSeries, ReviewJobAccepted, ReviewSlide, WorkspaceReview } from '@eps/domain';
 import { slideWordingFields, type SlideWordingField } from '../../../../packages/domain/src/casting-types.ts';
@@ -49,6 +49,8 @@ function slideTitle(slide: ReviewSlide) { return slide.kind === 'candidate' ? sl
 export function ReviewWorkspace(props: Props) { return <ReviewScope key={`${props.actor.id}:${props.workspaceId}`} {...props} />; }
 function ReviewScope({ workspaceId, projectId, actor, initialOutput, requestedSeriesId, onSeriesChanged, onDirtyChange, onWorkspaceChanged }: Props) {
   const [series, setSeries] = useState<PresentationSeries[]>([]); const [presets, setPresets] = useState<AudiencePreset[]>([]);
+  // Only Everyone Film Editorial 1.3.0 series are offered; earlier-template series stay readable in Presentations.
+  const [earlierSeries, setEarlierSeries] = useState(0); const [defaultTemplate, setDefaultTemplate] = useState<string | null>(null);
   const [seriesId, setSeriesId] = useState(''); const [output, setOutput] = useState(initialOutput); const [presetId, setPresetId] = useState('');
   const [review, setReview] = useState<WorkspaceReview | null>(null); const [loading, setLoading] = useState(true); const [refresh, setRefresh] = useState(0);
   const [error, setError] = useState(''); const [notice, setNotice] = useState(''); const [busy, setBusy] = useState(false); const [uncertain, setUncertain] = useState(false);
@@ -86,13 +88,15 @@ function ReviewScope({ workspaceId, projectId, actor, initialOutput, requestedSe
   });
   useEffect(() => {
     const controller = new AbortController(); const signal = AbortSignal.any([controller.signal, AbortSignal.timeout(30000)]); let current = true;
-    Promise.all([allRows<PresentationSeries>(`/api/v1/presentation-series?workspace_id=${encodeURIComponent(workspaceId)}`, signal), allRows<AudiencePreset>('/api/v1/audience-presets', signal)])
-      .then(([choices, audiences]) => { if (!current) return;
+    Promise.all([allRows<PresentationSeries>(`/api/v1/presentation-series?workspace_id=${encodeURIComponent(workspaceId)}`, signal), allRows<AudiencePreset>('/api/v1/audience-presets', signal),
+      api<{ template_version: string }>('/api/v1/settings', { signal }).then(result => typeof result.data?.template_version === 'string' ? result.data.template_version : null).catch(() => null)])
+      .then(([choices, audiences, studioTemplate]) => { if (!current) return; setDefaultTemplate(studioTemplate);
         if (choices.some(row => row.workspace_id !== workspaceId)) throw new Error('The saved series belongs to a different workspace.');
-        const active = choices.filter(row => !row.archived); const available = audiences.filter(row => !row.archived);
+        const unarchived = choices.filter(row => !row.archived); const available = audiences.filter(row => !row.archived);
+        const active = unarchived.filter(row => isCurrentTemplate(row.template_version) || row.id === requestedSeriesId); setEarlierSeries(unarchived.length - active.length);
         if (requestedSeriesId && !active.some(row => row.id === requestedSeriesId)) throw new Error('The linked review series is unavailable in this workspace. Choose a review context from the workspace again.');
         setSeries(active); setPresets(available); setPresetId(value => available.some(row => row.id === value) ? value : available[0]?.id ?? '');
-        setSeriesId(value => active.some(row => row.id === value) ? value : requestedSeriesId ?? active.find(row => row.output_type === initialOutput && row.template_version === '1.2.0')?.id ?? active.find(row => row.output_type === initialOutput && row.template_version === '1.1.0')?.id ?? active.find(row => row.output_type === initialOutput)?.id ?? active[0]?.id ?? ''); setError('');
+        setSeriesId(value => active.some(row => row.id === value) ? value : requestedSeriesId ?? active.find(row => row.output_type === initialOutput && isCurrentTemplate(row.template_version))?.id ?? active.find(row => isCurrentTemplate(row.template_version))?.id ?? ''); setError('');
       }).catch(reason => { if (current) setError(errorMessage(reason)); }).finally(() => { if (current) setLoading(false); });
     return () => { current = false; controller.abort(); };
   }, [workspaceId, initialOutput, requestedSeriesId, refresh]);
@@ -241,11 +245,14 @@ function ReviewScope({ workspaceId, projectId, actor, initialOutput, requestedSe
         <label className="sr-only" htmlFor="review-series-choice">Saved series</label>
         <select id="review-series-choice" aria-label="Saved review series" value={seriesId} onChange={event => { setSeriesId(event.target.value); setReview(null); setSelectedId(null); setProposal(null); setSuggestionId(null); setFitJob(null); setStageKey('cover'); setMark(null); }}>
           <option value="">Choose or create a series</option>{series.map(row => <option key={row.id} value={row.id}>{row.title} · {row.audience_snapshot.label} · {templateName(row.template_version)}</option>)}</select>
+        {earlierSeries > 0 && <p className="small muted">{earlierSeries === 1 ? '1 series uses' : `${earlierSeries} series use`} an earlier template; {earlierSeries === 1 ? 'its' : 'their'} saved versions stay in <Link href="/presentations">Presentations</Link>.</p>}
+        {selectedSeries && !isCurrentTemplate(selectedSeries.template_version) && <p className="small" role="status">This linked series uses an earlier template. Create a series to present with {templateName(CURRENT_TEMPLATE)}.</p>}
         {selectedSeries && <p className="small muted">{outputName(selectedSeries.output_type)} · Audience: {selectedSeries.audience_snapshot.label} ({selectedSeries.audience_snapshot.scope === 'external' ? 'guests see shared feedback only' : 'internal only'}) · {templateName(selectedSeries.template_version)}</p>}
         <details className="review-new-series" open={!series.length || undefined}><summary>Create or reuse a series</summary>
           <div className="form-grid"><label>Output for a new series<select value={output} onChange={event => setOutput(event.target.value as typeof output)}><option value="selection">Cast Selection</option><option value="shortlist">Cast Shortlist</option></select></label><label>Audience for a new series<select value={presetId} onChange={event => setPresetId(event.target.value)}>{presets.map(row => <option key={row.id} value={row.id}>{row.label} · {row.scope}</option>)}</select></label></div>
-          <p className="small muted">Output, audience and template are fixed per series. Changing the audience creates a separate series; an existing matching series is reused.</p>
-          <button className="button" type="button" disabled={!canCreate || !presetId || loading} onClick={createSeries}>Create / reuse review series</button>{!canCreate && <p className="small">Creating a series requires presentation generation permission.</p>}
+          <p className="small muted">Output, audience and template are fixed per series. New series use {templateName(CURRENT_TEMPLATE)}. Changing the audience creates a separate series; an existing matching series is reused.</p>
+          {defaultTemplate !== null && !isCurrentTemplate(defaultTemplate) && <div className="notice notice-warning" role="status"><p>The Studio default is still {templateName(defaultTemplate)}, so a new series would not use {templateName(CURRENT_TEMPLATE)}. A Studio manager selects it in Settings.</p><Link className="button button-small" href="/settings#studio-defaults">Open Settings</Link></div>}
+          <button className="button" type="button" disabled={!canCreate || !presetId || loading || (defaultTemplate !== null && !isCurrentTemplate(defaultTemplate))} onClick={createSeries}>Create / reuse review series</button>{!canCreate && <p className="small">Creating a series requires presentation generation permission.</p>}
         </details>
       </fieldset>
     </section>

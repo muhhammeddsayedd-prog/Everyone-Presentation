@@ -1,5 +1,6 @@
 'use client';
 
+import { CURRENT_TEMPLATE, templateName } from './workspace/template-names';
 import { useEffect, useState } from 'react';
 import type { Settings } from '../../../packages/domain/src/settings-types';
 import { settingsDto } from '../../../packages/domain/src/settings';
@@ -55,9 +56,11 @@ function DefaultsEditor({ settings, onDirtyChange, onReload, onSaved }: {
       <input id="studio-default-timezone" value={timezone} maxLength={100} disabled={write.locked} onChange={event => setTimezone(event.target.value)} required aria-describedby="studio-timezone-help" />
       <p id="studio-timezone-help" className="small muted">Use an IANA timezone, such as Africa/Cairo, or UTC. Link expiry inputs use your browser's local time.</p>
     </div><div className="field"><label htmlFor="studio-template-version">Default presentation template</label>
-      <select id="studio-template-version" value={template} disabled={write.locked} onChange={event => setTemplate(event.target.value)}>
-        {[...new Set([settings.template_version, '1.2.0', '1.1.0'])].map(version => <option key={version} value={version}>{version === '1.2.0' ? 'Everyone Film Editorial 1.2.0' : `Everyone Casting ${version}`}</option>)}
-      </select></div></div>
+      <select id="studio-template-version" aria-describedby="studio-template-help" value={template} disabled={write.locked} onChange={event => setTemplate(event.target.value)}>
+        {[...new Set([settings.template_version, CURRENT_TEMPLATE])].map(version => <option key={version} value={version}>{templateName(version)}</option>)}
+      </select>
+      <p id="studio-template-help" className="small muted">New series use this template. Everyone Film Editorial 1.3.0 is the only template offered: one page per slot with its people side by side, and only the facts that were provided. Series and saved versions made with an earlier template keep it.</p>
+      {template !== CURRENT_TEMPLATE && <p className="small" role="status">The saved default is an earlier template. Choose Everyone Film Editorial 1.3.0 and save.</p>}</div></div>
     <dl className="connection-list"><div><dt>Default review access</dt><dd>30 days</dd></div>
       {Object.entries(settings.models).map(([name, model]) => <div key={name}><dt>{name.replaceAll('_', ' ')} model</dt><dd>{model}</dd></div>)}
     </dl>

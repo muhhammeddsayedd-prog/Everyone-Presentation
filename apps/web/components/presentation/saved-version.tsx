@@ -6,8 +6,8 @@ import type { PresentationVersion, VersionSlide } from '@eps/domain';
 import { presentationCanonicalJson, reviewFromPresentationVersion } from '../../../../packages/domain/src/presentation';
 import { slideWordingFields } from '../../../../packages/domain/src/casting-types';
 import completeRegistry from '../../../../packages/templates/versions/1.1.0/registry.json';
-import editorialRegistry from '../../../../packages/templates/versions/1.2.0/registry.json';
-import { composeCastingDeck, editorialDateLabel } from '../../../../packages/templates/versions/1.2.0/compose-casting';
+import { editorialDateLabel } from '../../../../packages/templates/versions/1.2.0/compose-casting';
+import { editorialTemplateOf, pagesForSlide } from './editorial';
 import { PENDING_REQUIREMENT_LABELS } from '../../../../packages/templates/versions/1.1.0/render';
 import { REVIEW_FIELD_LABELS } from '../../../../packages/templates/src/render';
 import { EditorialDeck, deckAssetIds, useEditorialAssets, type AssetFetch } from '../EditorialSlide';
@@ -46,7 +46,8 @@ export function useSavedVersion(versionId: string, expectedSeriesId?: string, on
   return { version, error, loading, reload };
 }
 
-export const isEditorial = (version: PresentationVersion) => version.render_context.template.key === editorialRegistry.key && version.render_context.template.version === editorialRegistry.version && version.render_context.template.content_sha256 === editorialRegistry.content_sha256;
+/** Saved with a registered Everyone Film editorial template (1.2.0 or 1.3.0). */
+export const isEditorial = (version: PresentationVersion) => editorialTemplateOf(version.render_context.template) !== null;
 export function isSupported(version: PresentationVersion) {
   const template = version.render_context.template;
   return template.key === 'everyone-casting' && template.version === '1.0.0' && template.content_sha256 === '8cfc99e874b2810d782f0a447628039e52e48a337fe1ce5b6286799c56e90001'
@@ -128,20 +129,22 @@ export function SavedSlideList({ version, index, onIndex, badges }: { version: P
   </li>)}</ol></nav>;
 }
 
-/** Everyone Film editorial 1.2.0: the same composed pages and markup as the saved PDF.
- * App view shows this slide's own page; PDF preview shows every page in print order. */
+/** Everyone Film editorial (1.2.0 / 1.3.0): the same composed pages and markup as the saved PDF.
+ * App view shows the page this slide is on (in 1.3.0 a slot page shows its people side by side);
+ * PDF preview shows every page in print order. */
 function SavedEditorial({ version, slide, layout }: { version: PresentationVersion; slide: VersionSlide; layout: 'app' | 'pdf' }) {
   const review = useMemo(() => reviewFromPresentationVersion(version, 'saved-version'), [version]);
   const options = useMemo(() => ({ versionLabel: `Version ${version.version_no}`, dateLabel: editorialDateLabel(version.created_at) }), [version.version_no, version.created_at]);
-  const base = useMemo(() => composeCastingDeck(review, options), [review, options]);
-  const pages = useMemo(() => layout === 'pdf' ? undefined : base.pages.filter(page => page.source_index === slide.order && ['cover_floward', 'cast_detail', 'cast_pending'].includes(page.layout)).map(page => page.index), [base, layout, slide.order]);
+  const template = editorialTemplateOf(version.render_context.template)!;
+  const base = useMemo(() => template.compose(review, options), [template, review, options]);
+  const pages = useMemo(() => layout === 'pdf' ? undefined : pagesForSlide(base, slide.order), [base, layout, slide.order]);
   const fetchAsset = useCallback<AssetFetch>((id, signal) => fetch(`/api/v1/versions/${encodeURIComponent(version.id)}/media/${encodeURIComponent(id)}/content`, { cache: 'no-store', signal, headers: { Accept: 'image/*' } }), [version.id]);
   const { assets, failed } = useEditorialAssets(useMemo(() => deckAssetIds(base, pages), [base, pages]), fetchAsset);
   // The worker lays the client logo out from its retained pixel size (editorialSnapshotOptions); the decoded logo has the same size.
   const logo = version.render_context.cover.logo_asset_id; const width = logo ? assets[logo]?.width : undefined; const height = logo ? assets[logo]?.height : undefined;
-  const deck = useMemo(() => width && height ? composeCastingDeck(review, { ...options, logoNatural: [width, height] as const }) : base, [base, review, options, width, height]);
+  const deck = useMemo(() => width && height ? template.compose(review, { ...options, logoNatural: [width, height] as const }) : base, [template, base, review, options, width, height]);
   const videoHrefs = useMemo(() => Object.fromEntries(version.slides.flatMap(item => item.video_asset_id ? [[item.video_asset_id, `/presentations/versions/${version.id}/media/${item.video_asset_id}`]] : [])), [version]);
-  return <div className="stack">{failed.length > 0 && <ErrorNotice message={`${failed.length} saved image${failed.length === 1 ? '' : 's'} could not be opened. The saved PDF is unchanged; refresh to retry.`} />}<EditorialDeck deck={deck} assets={assets} videoHrefs={videoHrefs} pages={pages} /></div>;
+  return <div className="stack">{failed.length > 0 && <ErrorNotice message={`${failed.length} saved image${failed.length === 1 ? '' : 's'} could not be opened. The saved PDF is unchanged; refresh to retry.`} />}<EditorialDeck deck={deck} assets={assets} videoHrefs={videoHrefs} pages={pages} template={template.version} /></div>;
 }
 
 function SavedSlide({ version, slide, layout = 'app' }: { version: PresentationVersion; slide: VersionSlide; layout?: 'app' | 'pdf' }) {

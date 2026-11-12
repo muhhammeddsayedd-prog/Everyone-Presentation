@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { templateName } from './workspace/template-names';
+import { isCurrentTemplate, templateName } from './workspace/template-names';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { PresentationSeries, PresentationVersion, ReviewJobAccepted, WorkspaceReview } from '@eps/domain';
 import { summarizePresentationChanges } from '../../../packages/domain/src/presentation';
@@ -46,13 +46,14 @@ function PresentationScope({ projectId, workspaceId, actor, initialOutput, reque
         for (let n = 0; n < 100; n++) {
           const page: Envelope<PresentationSeries[]> = await api(`/api/v1/presentation-series?workspace_id=${workspaceId}&limit=100${next ? `&cursor=${encodeURIComponent(next)}` : ''}`, { signal });
           if (!Array.isArray(page.data) || page.data.some(row => row.workspace_id !== workspaceId)) throw new Error('The saved series could not be read for this workspace.');
-          all.push(...page.data.filter(row => !row.archived)); next = page.page?.next_cursor ?? null;
+          // Only Everyone Film Editorial 1.3.0 series generate here; earlier-template series stay readable in Presentations.
+          all.push(...page.data.filter(row => !row.archived && (isCurrentTemplate(row.template_version) || row.id === requestedSeriesId))); next = page.page?.next_cursor ?? null;
           if (!next) break; if (seen.has(next) || n === 99) throw new Error('Series changed while paging. Refresh the choices.'); seen.add(next);
         }
         if (!current || intent.current) return;
         if (requestedSeriesId && !all.some(row => row.id === requestedSeriesId)) throw new Error('The linked presentation series is unavailable in this workspace. Return to Final Review to choose its context.');
         all.forEach(row => knownSeries.current.set(row.id, row));
-        const selected = activeSeries.current || requestedSeriesId || all.find(row => row.output_type === initialOutput && row.template_version === '1.2.0')?.id || all.find(row => row.output_type === initialOutput && row.template_version === '1.1.0')?.id || all.find(row => row.output_type === initialOutput)?.id || all[0]?.id || '';
+        const selected = activeSeries.current || requestedSeriesId || all.find(row => row.output_type === initialOutput)?.id || all[0]?.id || '';
         // An in-flight refresh never silently replaces an already chosen context.
         // Its previously read metadata stays visible until the actor chooses again.
         const prior = knownSeries.current.get(selected);
@@ -138,7 +139,7 @@ function PresentationScope({ projectId, workspaceId, actor, initialOutput, reque
         {!series.length && <option value="">No saved series</option>}{series.map(row => <option key={row.id} value={row.id}>{row.title} · {row.audience_snapshot.label} · {templateName(row.template_version)}</option>)}</select>
       {chosenSeries && <p className="small muted">{chosenSeries.output_type === 'selection' ? 'Cast Selection' : 'Cast Shortlist'} · {chosenSeries.audience_snapshot.label} ({chosenSeries.audience_snapshot.scope}). Output, audience and template are fixed per series; change them in Review.</p>}
     </section>
-    {loading && !draft && series.length > 0 ? <Loading label="Opening the working draft…" /> : !series.length ? !choicesLoading && <div className="empty-state compact"><Icon name="slides" /><h3>Choose a review context first</h3><p>Choose the output, audience and template in Review before generating.</p><Link className="button button-primary" href={reviewHref}>Open Final Review</Link></div>
+    {loading && !draft && series.length > 0 ? <Loading label="Opening the working draft…" /> : !series.length ? !choicesLoading && <div className="empty-state compact"><Icon name="slides" /><h3>Choose a review context first</h3><p>Create or choose an Everyone Film Editorial 1.3.0 series in Review before generating.</p><Link className="button button-primary" href={reviewHref}>Open Final Review</Link></div>
       : draft && <section className="draft-card presentation-draft" data-current={!selectedVersion ? '' : undefined} aria-labelledby="working-draft-heading">
         <div className="draft-card-head"><h3 id="working-draft-heading" className="stage-chip stage-chip-ok"><span className="stage-chip-dot" aria-hidden="true" />Working draft</h3>
           {selectedVersion ? <button type="button" className="button button-small" onClick={() => setSelectedVersion('')}>Show on stage</button> : <span className="small muted">On the stage</span>}</div>

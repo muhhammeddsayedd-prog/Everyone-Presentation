@@ -8,8 +8,9 @@ import type { VersionSlide, VersionMediaPlayback, VersionTranscriptCompanion } f
 import { slideWordingFields } from '../../../packages/domain/src/casting-types';
 import { REVIEW_FIELD_LABELS } from '../../../packages/templates/src/render';
 import { PENDING_REQUIREMENT_LABELS } from '../../../packages/templates/versions/1.1.0/render';
-import editorialRegistry from '../../../packages/templates/versions/1.2.0/registry.json';
-import { composeCastingDeck, editorialDateLabel } from '../../../packages/templates/versions/1.2.0/compose-casting';
+import { editorialDateLabel } from '../../../packages/templates/versions/1.2.0/compose-casting';
+import { editorialTemplateOf, pagesForSlide } from './presentation/editorial';
+import { Icon } from './Icon';
 import type { ReviewSlide } from '../../../packages/domain/src/review-types';
 import { EditorialPage, useEditorialAssets, type AssetFetch, type LoadedAsset } from './EditorialSlide';
 import { ApiError } from './api';
@@ -89,23 +90,50 @@ function GuestReview({ entryToken }: { entryToken: string }) {
   }, [feedbackState.dirty, navigationLocked]);
   async function canNavigate() { return !navigationLocked && (!feedbackState.dirty || await confirm({ title: 'Discard your unsent comment?', description: 'Changing the viewed slide or version discards the comment you have not posted. Posted feedback stays on its version.', confirmLabel: 'Discard comment', cancelLabel: 'Keep writing', danger: true })); }
   async function go(index: number) { if (version && index >= 0 && index < version.slides.length && await canNavigate()) setSlideIndex(index); }
-  if (unavailable) return <GuestShell><section className="guest-unavailable"><h1>This review link is no longer available.</h1><p>Please ask the producer for a new review link.</p></section></GuestShell>;
-  if (loading) return <GuestShell><Loading label="Opening shared presentation…" /></GuestShell>;
-  if (!access) return <GuestShell><h1>Review presentation</h1><ErrorNotice message={error || 'The presentation could not be opened.'} retry={() => { opening.current = null; setLoading(true); setRefresh(value => value + 1); }} /></GuestShell>;
-  if (!version) return <GuestShell><section className="guest-preparing"><h1>Your presentation is being prepared</h1><p>This link will show its first ready version here.</p>{error && <ErrorNotice message={error} />}<button className="button" onClick={() => void checkUpdates()}>Check for updates</button></section></GuestShell>;
+  const retry = () => { opening.current = null; setLoading(true); setRefresh(value => value + 1); };
+  if (unavailable) return <GuestShell><section className="guest-unavailable guest-state"><Icon name="lock" /><h1>This review link is no longer available.</h1><p>Please ask the producer for a new review link.</p></section></GuestShell>;
+  if (loading) return <GuestShell><div className="guest-state"><Loading label="Opening shared presentation…" /></div></GuestShell>;
+  if (!access) return <GuestShell><section className="guest-state"><h1>Review presentation</h1><ErrorNotice message={error || 'The presentation could not be opened.'} retry={retry} /></section></GuestShell>;
+  if (!version) return <GuestShell><section className="guest-preparing guest-state"><span className="stage-loading-slide" aria-hidden="true" /><h1>Your presentation is being prepared</h1><p>This link will show its first ready version here.</p>{error && <ErrorNotice message={error} />}<button className="button" onClick={() => void checkUpdates()}>Check for updates</button></section></GuestShell>;
   const slide = version.slides[slideIndex];
-  return <GuestShell><header className="guest-heading"><div><p className="eyebrow">Cast {version.output_type === 'selection' ? 'Selection' : 'Shortlist'}</p><h1><TextReveal text="Review presentation" /></h1><p dir="auto">{version.cover.project_name}{version.cover.client_name ? ` · ${version.cover.client_name}` : ''}</p><p className="small">Viewing version {version.version_no}</p></div><div className="button-row"><button className="button" onClick={() => void checkUpdates()}>Check for updates</button><GuestPdfDownload key={`${version.id}:${access.guest_session_id}`} version={version} access={access} onStateChange={onPdfState} /></div></header>
-    {error && <ErrorNotice message={error} />}
-    {nextVersion && <div className="notice" role="status"><p>A new version is available.</p><button className="button button-primary" disabled={navigationLocked} onClick={async () => { if (await canNavigate()) { updateSequence.current++; currentVersion.current = nextVersion; setVersion(nextVersion); setSlideIndex(0); setNextVersion(null); setFeedbackState({ locked: false, dirty: false }); } }}>Open version {nextVersion.version_no}</button><p className="small">Your feedback stays on the version you viewed.</p></div>}
-    <nav className="saved-slide-navigation" aria-label="Shared presentation slides"><ol>{version.slides.map((item, index) => <li key={item.id}><button className="button" aria-current={index === slideIndex ? 'step' : undefined} disabled={navigationLocked} aria-label={`Slide ${index + 1}: ${item.kind === 'cover' ? 'Cover' : `${item.role_label ?? 'Pending'} / ${item.slot_label ?? 'Pending'}`}`} onClick={() => go(index)}>{index + 1}<span>{item.kind === 'cover' ? 'Cover' : `${item.role_label ?? 'Pending'} / ${item.slot_label ?? 'Pending'}`}</span>{item.kind === 'pending' && <span className="badge">Pending</span>}</button></li>)}</ol></nav>
-    <div className="saved-slide-controls"><button className="button" disabled={slideIndex === 0 || navigationLocked} onClick={() => go(slideIndex - 1)}>Previous slide</button><p role="status">Slide {slideIndex + 1} of {version.slides.length}</p><button className="button" disabled={slideIndex === version.slides.length - 1 || navigationLocked} onClick={() => go(slideIndex + 1)}>Next slide</button></div>
-    <div className="guest-review-layout"><section aria-label="Shared slide" tabIndex={0} onKeyDown={event => { if (event.target !== event.currentTarget) return; if (event.key === 'ArrowLeft') { event.preventDefault(); go(slideIndex - 1); } if (event.key === 'ArrowRight') { event.preventDefault(); go(slideIndex + 1); } }}><GuestSlide key={`${version.id}:${slide.id}`} slide={slide} version={version} context={access.guest_session_id} /></section>
-      <ReviewFeedbackPanel versionId={version.id} versionNo={version.version_no} slides={version.slides} slideId={slide.id} access={access} onIdentified={setAccess} onStateChange={onFeedbackState} />
+  const output = version.output_type === 'selection' ? 'Cast Selection' : 'Cast Shortlist';
+  const place = (item: VersionSlide) => item.kind === 'cover' ? 'Cover' : `${item.role_label ?? 'Pending'} / ${item.slot_label ?? 'Pending'}`;
+  const who = (item: VersionSlide) => item.kind === 'cover' ? 'Project, client and title' : item.kind === 'pending' ? 'Pending' : `${item.fields?.name_or_id || 'Not provided'}${item.position ? ` · ${item.position[0].toUpperCase()}${item.position.slice(1)}` : ''}`;
+  return <GuestShell top={<>
+      <div className="guest-top-title"><h1 dir="auto"><span>{version.cover.project_name}</span><span className="guest-top-output"> · {output}</span></h1>
+        <p className="small"><span>Viewing version {version.version_no}</span>{version.cover.client_name ? <span dir="auto"> · {version.cover.client_name}</span> : null}</p></div>
+      <div className="guest-top-actions"><button className="button button-small" onClick={() => void checkUpdates()}><Icon name="refresh" />Check for updates</button>
+        <GuestPdfDownload key={`${version.id}:${access.guest_session_id}`} version={version} access={access} onStateChange={onPdfState} /></div></>}>
+    <h2 className="sr-only"><TextReveal text="Review presentation" /></h2>
+    <div className="guest-frame">
+      <aside className="config-panel guest-slides" aria-labelledby="guest-slides-heading">
+        <header className="config-panel-head"><div><h2 id="guest-slides-heading">Slides</h2><p>{version.slides.length} slides · use ← → to move</p></div></header>
+        <nav className="config-panel-body saved-slide-navigation" aria-label="Shared presentation slides"><ol className="version-slide-list">{version.slides.map((item, index) => <li key={item.id} className="version-slide-row">
+          <button className="version-slide-item" aria-current={index === slideIndex ? 'step' : undefined} disabled={navigationLocked} aria-label={`Slide ${index + 1}: ${place(item)}`} aria-describedby={`guest-slide-${item.id}`} onClick={() => go(index)}>
+            <span>{index + 1}</span>{' '}<strong className="version-slide-place" dir="auto">{place(item)}</strong></button>
+          <span id={`guest-slide-${item.id}`} className="version-slide-note" aria-hidden="true" dir="auto">{who(item)}</span>
+        </li>)}</ol></nav>
+      </aside>
+      <section className="guest-stage" aria-label="Shared slide" tabIndex={0} onKeyDown={event => { if (event.target !== event.currentTarget) return; if (event.key === 'ArrowLeft') { event.preventDefault(); go(slideIndex - 1); } if (event.key === 'ArrowRight') { event.preventDefault(); go(slideIndex + 1); } }}>
+        <header className="stage-bar"><div className="stage-state"><p className="guest-slide-count" role="status">Slide {slideIndex + 1} of {version.slides.length}</p></div></header>
+        {error && <ErrorNotice message={error} />}
+        {nextVersion && <div className="notice" role="status"><p>A new version is available.</p><button className="button button-primary" disabled={navigationLocked} onClick={async () => { if (await canNavigate()) { updateSequence.current++; currentVersion.current = nextVersion; setVersion(nextVersion); setSlideIndex(0); setNextVersion(null); setFeedbackState({ locked: false, dirty: false }); } }}>Open version {nextVersion.version_no}</button><p className="small">Your feedback stays on the version you viewed.</p></div>}
+        <div className="guest-stage-body"><GuestSlide key={`${version.id}:${slide.id}`} slide={slide} version={version} context={access.guest_session_id} /></div>
+        <div className="stage-pager"><button type="button" className="icon-button" aria-label="Previous slide" disabled={slideIndex === 0 || navigationLocked} onClick={() => go(slideIndex - 1)}><Icon name="chevron-left" /></button>
+          <span className="stage-count" aria-hidden="true">{slideIndex + 1} / {version.slides.length}</span>
+          <button type="button" className="icon-button" aria-label="Next slide" disabled={slideIndex === version.slides.length - 1 || navigationLocked} onClick={() => go(slideIndex + 1)}><Icon name="chevron-right" /></button></div>
+      </section>
+      <aside className="right-panel guest-feedback" aria-label="Feedback">
+        <div className="config-panel-body"><ReviewFeedbackPanel versionId={version.id} versionNo={version.version_no} slides={version.slides} slideId={slide.id} access={access} onIdentified={setAccess} onStateChange={onFeedbackState} /></div>
+        <footer className="config-panel-foot guest-feedback-note"><Icon name="lock" /><p className="small">Your comments are shared with the Everyone team and other reviewers on this link.</p></footer>
+      </aside>
     </div></GuestShell>;
 }
 
-export function GuestShell({ children }: { children: React.ReactNode }) {
-  return <div className="guest-shell"><a className="skip-link" href="#guest-content">Skip to presentation</a><header className="guest-brand"><img src="/brand/everyone-logotype.svg" alt="everyone." /><span>Presentation review</span></header><main id="guest-content" tabIndex={-1}>{children}</main><footer className="guest-footer">everyone. · Presentation Studio</footer></div>;
+export function GuestShell({ children, top }: { children: React.ReactNode; top?: React.ReactNode }) {
+  return <div className="guest-shell"><a className="skip-link" href="#guest-content">Skip to presentation</a>
+    <header className="guest-top"><div className="guest-brand"><img src="/brand/everyone-logotype-white.svg" alt="everyone." /><span className="guest-brand-label">Presentation review</span></div>{top}</header>
+    <main id="guest-content" tabIndex={-1}>{children}</main></div>;
 }
 
 function GuestSlide({ slide, version, context }: { slide: VersionSlide; version: ExternalPresentationVersion; context: string }) {
@@ -121,7 +149,7 @@ function GuestSlide({ slide, version, context }: { slide: VersionSlide; version:
       setTranscript(result.transcript);
     } catch (reason) { setError(reviewError(reason)); } finally { setBusy(false); }
   }
-  if (version.template_version === editorialRegistry.version && version.template_content_hash === editorialRegistry.content_sha256) return <>
+  if (guestTemplate(version)) return <>
     <GuestEditorial slide={slide} version={version} context={context} />
     {slide.video_asset_id && <section className="guest-original"><button className="button" disabled={busy} onClick={() => void play()}>{busy ? 'Opening original video…' : video ? 'Refresh video access' : 'Watch original introduction'}</button>{error && <ErrorNotice message={error} />}{video && <video src={video} controls preload="metadata" className="candidate-video" onError={() => { setVideo(''); setError('Video access is no longer available. Try opening the original video again.'); }} />}</section>}
     {video && slide.video_asset_id && <SourceTranscript versionId={version.id} assetId={slide.video_asset_id} transcript={transcript} />}
@@ -139,7 +167,8 @@ function GuestSlide({ slide, version, context }: { slide: VersionSlide; version:
   </article>{video && slide.video_asset_id && <SourceTranscript versionId={version.id} assetId={slide.video_asset_id} transcript={transcript} />}</>;
 }
 
-/** Everyone Film editorial 1.2.0 page for one shared slide. Guest versions carry no
+const guestTemplate = (version: ExternalPresentationVersion) => editorialTemplateOf({ key: 'everyone-casting', version: version.template_version, content_sha256: version.template_content_hash });
+/** Everyone Film editorial (1.2.0 / 1.3.0) page for one shared slide. Guest versions carry no
  * internal role/slot identities, so grouping uses the saved labels and frame sizes
  * come from the opened images; the downloadable PDF remains the exact artifact. */
 function guestDeckReview(version: ExternalPresentationVersion, assets: Record<string, LoadedAsset>) {
@@ -154,11 +183,14 @@ function guestDeckReview(version: ExternalPresentationVersion, assets: Record<st
 }
 function GuestEditorial({ slide, version, context }: { slide: VersionSlide; version: ExternalPresentationVersion; context: string }) {
   const fetchAsset = useCallback<AssetFetch>((id, signal) => fetch(`/api/v1/review/versions/${version.id}/media/${id}/content`, { cache: 'no-store', signal, headers: { 'X-Review-Context': context, Accept: 'image/*' } }), [version.id, context]);
-  const ids = useMemo(() => [...slide.logo_asset_id ? [slide.logo_asset_id] : [], ...slide.frame_asset_ids], [slide]);
+  const ids = useMemo(() => [...slide.logo_asset_id ? [slide.logo_asset_id] : [], ...slide.frame_asset_ids,
+    ...guestTemplate(version)?.version === '1.3.0' && slide.kind === 'candidate' ? version.slides.filter(item => item.kind === 'candidate' && item.role_label === slide.role_label && item.slot_label === slide.slot_label).flatMap(item => item.frame_asset_ids.slice(0, 1)) : []], [slide, version]);
   const { assets, failed } = useEditorialAssets(ids, fetchAsset);
-  const deck = useMemo(() => composeCastingDeck(guestDeckReview(version, assets), { versionLabel: `Version ${version.version_no}`, dateLabel: editorialDateLabel(version.created_at) }), [version, assets]);
-  const page = deck.pages.find(item => item.source_index === slide.order && ['cover_floward', 'cast_detail', 'cast_pending'].includes(item.layout));
-  return <>{failed.length > 0 && <ErrorNotice message="Some images on this slide could not be opened." />}{page && <EditorialPage deck={deck} index={page.index} assets={assets} />}</>;
+  const template = guestTemplate(version)!;
+  const deck = useMemo(() => template.compose(guestDeckReview(version, assets), { versionLabel: `Version ${version.version_no}`, dateLabel: editorialDateLabel(version.created_at) }), [template, version, assets]);
+  // In 1.3.0 a slot page shows this person beside the rest of the slot.
+  const page = pagesForSlide(deck, slide.order)[0];
+  return <>{failed.length > 0 && <ErrorNotice message="Some images on this slide could not be opened." />}{page !== undefined && <EditorialPage deck={deck} index={page} assets={assets} template={template.version} />}</>;
 }
 
 function GuestAssetImage({ versionId, assetId, context, alt, className }: { versionId: string; assetId: string; context: string; alt: string; className?: string }) {

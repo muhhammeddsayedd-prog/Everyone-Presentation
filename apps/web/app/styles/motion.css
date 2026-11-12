@@ -45,6 +45,6 @@
 
 @layer components {
   /* Changing slide cross-fades (slides are keyed, so this runs per slide). Opacity only. */
-  .version-stage .saved-casting-slide, .guest-review-layout .saved-casting-slide { animation: fade-in var(--duration-base) var(--ease-enter); }
+  .version-stage .saved-casting-slide, .guest-stage-body .saved-casting-slide { animation: fade-in var(--duration-base) var(--ease-enter); }
   @media print { .saved-casting-slide { animation: none !important; } }
 }
