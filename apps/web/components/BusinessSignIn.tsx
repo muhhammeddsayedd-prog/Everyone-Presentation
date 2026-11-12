@@ -27,6 +27,16 @@ export function BusinessSignIn() {
   const [leaving, setLeaving] = useState(false);
   const [requestError, setError] = useState<string | null>(null);
   const error = requestError ?? CALLBACK_MESSAGES[callbackCode] ?? '';
+  async function google() {
+    if (leaving) return;
+    setLeaving(true); setError('');
+    try {
+      const { data } = await api<{ url: string }>('/api/auth/google', mutation('POST', {}));
+      // The server only returns the central project's own Google authorize URL.
+      if (!data?.url?.startsWith('https://')) throw new Error('Google sign-in could not be started.');
+      window.location.assign(data.url);
+    } catch (reason) { setError(errorMessage(reason)); setLeaving(false); }
+  }
   async function submit(event: React.FormEvent) {
     event.preventDefault();
     if (state !== 'idle') return;
@@ -41,10 +51,9 @@ export function BusinessSignIn() {
     </div>
     <section className="session-form">
       <h2>Sign in to Everyone</h2>
-      {/* A plain form POST: the server starts Google sign-in and redirects this browser to Google. */}
-      <form className="google-sign-in-form" method="post" action="/api/auth/google" onSubmit={() => setLeaving(true)}>
-        <button className="button google-sign-in" type="submit" disabled={leaving || state === 'sending'}><GoogleMark />{leaving ? 'Opening Google…' : 'Continue with Google'}</button>
-      </form>
+      <div className="google-sign-in-form">
+        <button className="button google-sign-in" type="button" disabled={leaving || state === 'sending'} onClick={() => void google()}><GoogleMark />{leaving ? 'Opening Google…' : 'Continue with Google'}</button>
+      </div>
       <p className="sign-in-divider" role="separator" aria-label="or"><span aria-hidden="true">or</span></p>
       <p>We’ll email you a secure sign-in link. Request it in the browser you want to use, then open the email link in that browser.</p>
       <form className="business-sign-in-form" onSubmit={submit}>
