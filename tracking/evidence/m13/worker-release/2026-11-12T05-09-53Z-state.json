@@ -1,0 +1,74 @@
+{
+ "action": "state",
+ "db": {
+  "config": {
+   "candidate_asset_config": {
+    "enabled": true
+   },
+   "frame_extraction_config": {
+    "enabled": true,
+    "native_image_id": "sha256:93073cd1bd6d1ba65d5f898413034f83742789b14e7af0fa6bfb9d92f2af5907"
+   },
+   "presentation_processing_config": {
+    "enabled": true
+   },
+   "review_processing_config": {
+    "enabled": true
+   },
+   "specs_pipeline_config": {
+    "enabled": true
+   }
+  },
+  "counters": {
+   "generic_retry": 0,
+   "leased_outbox": 0,
+   "pending_outbox": 0,
+   "presentation_retry": 0,
+   "queued": 0,
+   "running": 0,
+   "waiting_for_input": 3
+  },
+  "history": 50,
+  "versions": "a2c854c40a67daff741c8948768c7fbcb23d195a6228809e05eb71e06ddcab63"
+ },
+ "deployments": [
+  {
+   "created": 1794460127919,
+   "id": "dpl_EPvgQPvbrHSpY7CF6VpsgpP6zTUP",
+   "meta_run": "912ee4e2-12b2-4842-a429-1b80451d80b2",
+   "state": "READY"
+  },
+  {
+   "created": 1793830366276,
+   "id": "dpl_85QVNdX9dxsA8jGsMQNhZgFVrEBK",
+   "meta_run": "d983fbb2-7ca5-4b52-a69e-6d6f59a4193f",
+   "state": "READY"
+  },
+  {
+   "created": 1793829233643,
+   "id": "dpl_FMUKM4nPRY4TRc8y7NXzj9uwQjao",
+   "meta_run": "0d373384-528f-4f04-b9c4-30c98d6c2ef8",
+   "state": "READY"
+  },
+  {
+   "created": 1793668330565,
+   "id": "dpl_FxdXyuy6oqtmwVRZW7twb4Xawtkc",
+   "meta_run": null,
+   "state": "READY"
+  },
+  {
+   "created": 1793660348546,
+   "id": "dpl_6oA1iaHte26KG1DEkBEJ9KU3ahS7",
+   "meta_run": null,
+   "state": "READY"
+  }
+ ],
+ "env": {
+  "EPS_DAEMON_SOURCE_SHA256": "f4069da4500bddaa0cc7180f198fd8e1cdfedfd6f85d1c64672cb59542b2e5c5",
+  "EPS_NATIVE_COMPATIBILITY_SHA256": "4af1e87497eb4324a7017c9944d2b3e771239160c3dc1b5e0d27c50c1d1a60d4",
+  "EPS_NATIVE_MANIFEST_SHA256": "69040ea0f1d4c4423e7e9e706c0504e530e2be2ce2ac0893bf1b9264dc38d26e"
+ },
+ "recorded_at": "2026-11-12T05:09:53.740934+00:00",
+ "result": "observed",
+ "schema_version": "eps-m08-worker-rollout.v1"
+}

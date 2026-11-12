@@ -33,10 +33,16 @@ GLOBAL = 'C:/Users/iway/AppData/Roaming/xdg.data/com.vercel.cli'
 PROTECTED_JOB = 'b3f90268-147d-41d4-8875-2a6435df1496'
 CONFIGS = ['candidate_asset_config', 'frame_extraction_config', 'presentation_processing_config', 'review_processing_config', 'specs_pipeline_config']
 ENV_KEYS = ['EPS_DAEMON_SOURCE_SHA256', 'EPS_NATIVE_COMPATIBILITY_SHA256', 'EPS_NATIVE_MANIFEST_SHA256']
-PLAN = ROOT / '.local/editorial-release/worker/plan.json'
-EVIDENCE = ROOT / 'tracking/evidence/m08/worker-release'
+import os
+# A later release (m13: template 1.3.0) points these at its own plan and evidence folder.
+PLAN = Path(os.environ.get('EPS_ROLLOUT_PLAN') or ROOT / '.local/editorial-release/worker/plan.json')
+EVIDENCE = Path(os.environ.get('EPS_ROLLOUT_EVIDENCE') or ROOT / 'tracking/evidence/m08/worker-release')
 WORK = ROOT / '.local/editorial-release/worker'
 SUPABASE = ['npx.cmd', '--yes', 'supabase@2.122.0', 'db', 'query', '--linked', '--project-ref', TARGET, '--output-format', 'json', '--workdir', str(ROOT)]
+# EPS_ROLLOUT_SQL names an owner-approved direct runner taking '--file <path>' and printing the rows as JSON
+# (used while the Supabase CLI login is refused); the default stays the linked CLI.
+if os.environ.get('EPS_ROLLOUT_SQL'):
+    SUPABASE = os.environ['EPS_ROLLOUT_SQL'].split('|')
 VERCEL = ['node', 'C:/Users/iway/AppData/Roaming/npm/node_modules/vercel/dist/vc.js', '--scope', SLUG, '--global-config', GLOBAL]
 
 ORDINARY_RETRY = ("kind not in('presentation_render','presentation_export')and status='failed'and cancel_requested_at is null "
@@ -120,7 +126,9 @@ def flags(enabled):
     before = db_state()
     need(all(c['enabled'] is (not enabled) for c in before['config'].values()), 'CONFIG_STATE_UNEXPECTED')
     if not enabled:
-        need(all(v == 0 for v in before['counters'].values()), 'WORK_NOT_DRAINED')
+        # Jobs parked for a person (waiting_for_input, e.g. specs awaiting Apply) hold no worker state and may stay;
+        # everything the worker could be executing or about to pick up must be drained.
+        need(all(v == 0 for k, v in before['counters'].items() if k != 'waiting_for_input'), 'WORK_NOT_DRAINED')
     statements = ''.join(f"do $f$declare n integer;begin update eps.{t} set enabled={str(enabled).lower()};get diagnostics n=row_count;if n<>1 then raise exception'ONE_CONFIG_REQUIRED';end if;end$f$;\n" for t in CONFIGS)
     marker = str(uuid.uuid4())
     sql(f"begin;set local search_path='';set local lock_timeout='5s';set local statement_timeout='30s';\n{statements}commit;\nselect '{marker}' as marker;\n", 'resume' if enabled else 'pause')

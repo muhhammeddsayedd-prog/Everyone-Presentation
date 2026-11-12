@@ -1,0 +1,69 @@
+{
+ "action": "resume",
+ "after": {
+  "config": {
+   "candidate_asset_config": {
+    "enabled": true
+   },
+   "frame_extraction_config": {
+    "enabled": true,
+    "native_image_id": "sha256:93073cd1bd6d1ba65d5f898413034f83742789b14e7af0fa6bfb9d92f2af5907"
+   },
+   "presentation_processing_config": {
+    "enabled": true
+   },
+   "review_processing_config": {
+    "enabled": true
+   },
+   "specs_pipeline_config": {
+    "enabled": true
+   }
+  },
+  "counters": {
+   "generic_retry": 0,
+   "leased_outbox": 0,
+   "pending_outbox": 0,
+   "presentation_retry": 0,
+   "queued": 0,
+   "running": 0,
+   "waiting_for_input": 3
+  },
+  "history": 50,
+  "versions": "a2c854c40a67daff741c8948768c7fbcb23d195a6228809e05eb71e06ddcab63"
+ },
+ "before": {
+  "config": {
+   "candidate_asset_config": {
+    "enabled": false
+   },
+   "frame_extraction_config": {
+    "enabled": false,
+    "native_image_id": "sha256:93073cd1bd6d1ba65d5f898413034f83742789b14e7af0fa6bfb9d92f2af5907"
+   },
+   "presentation_processing_config": {
+    "enabled": false
+   },
+   "review_processing_config": {
+    "enabled": false
+   },
+   "specs_pipeline_config": {
+    "enabled": false
+   }
+  },
+  "counters": {
+   "generic_retry": 0,
+   "leased_outbox": 0,
+   "pending_outbox": 0,
+   "presentation_retry": 0,
+   "queued": 0,
+   "running": 0,
+   "waiting_for_input": 3
+  },
+  "history": 50,
+  "versions": "a2c854c40a67daff741c8948768c7fbcb23d195a6228809e05eb71e06ddcab63"
+ },
+ "marker": "0a906459-25aa-4e4f-a29c-ef117bc3ca80",
+ "recorded_at": "2026-11-12T05:09:42.872738+00:00",
+ "result": "passed",
+ "schema_version": "eps-m08-worker-rollout.v1"
+}
