@@ -1,5 +1,13 @@
 # Everyone Presentation Studio - current English-output handoff
 
+## Presentation-first P3+P4 and template 1.3.0 only - 2026-11-12 (Claude, frontend + template)
+
+Owner request: test the whole app in the presentation-first design (`Screenshots 2 Improved Design/`) on a hosted staging URL, with Everyone Film Editorial 1.3.0 (`everyone_template_design_kit/`) as the only template.
+- Main fast-forwarded to df00a55a (P3 8d2d77d9; ceb2ec00 1.3.0 generation: version-aware worker, PowerPoint, migration m13 staged NOT applied; b27fb4a5 1.3.0-only UI + guest redesign; df00a55a phone sheet, OAuth card, contract rule, release tool). Not pushed.
+- Gate on frontend/presentation-first-p4: lint, typecheck, production guard, registry check, unit suites pass; Playwright 175/175. Opt-in SQL mirror tests pass on the disposable replica (302 snapshots); `build_staging_1_3.py` passed (8 bodies changed, 4 functions added, drift refused, fit fonts).
+- Staging: Vercel PREVIEW deployment dpl_ATigm1Z5P9N42NHXfELUB2rhqRm9 of project everyone-presentation-pilot from sealed source (receipt tracking/evidence/m07/controlled-pilot/2026-11-12T01-05-06-044Z-2a1bf194-web-source.json), alias https://everyone-presentation-staging.vercel.app, deployment-level APP_BASE_URL=that alias. Production alias unchanged. Preview uses the live central Supabase and worker. Vercel Deployment Protection is on for previews.
+- BLOCKED: Supabase CLI login gets 403 on pyibofyctwnqpvktepse. Next exact actions after owner re-login (`npx supabase@2.122.0 login`): `python development/editorial-template/release/release.py apply-fit` + `readback-fit`; `python development/editorial-template/release/release_1_3.py preflight`, `apply`, `readback`; guarded worker release (worker_rollout.py) from Main; Settings default -> 1.3.0; add https://everyone-presentation-staging.vercel.app/api/auth/callback (and /api/oauth/callback) to Supabase Auth redirect URLs; hosted journeys on staging.
+
 Owner update recorded 4 November 2026: [Claude metadata confirmation and AT060 disposition](evidence/m07/completion-release/2026-11-04-owner-PDF-metadata-confirmation.json) reports one successful `get_media` call, request `1337466a-43be-42ed-93fc-a1392b86cf7f`, Ready `presentation_pdf`, 810,902 bytes and SHA-256 `b50806f9abf577d6250889e226973162a243b9b9303bdb1361b3a791456c5dc2`. It matches the retained Selection v2 PDF. The earlier failed read is retained. The owner reports no corpus available and requests AT060 stay open. Full M07 remains false with AT069 historically blocked. Service identities below retain their recorded November 3 observation times; this update adds owner evidence only.
 
 ## Editorial template 1.2.0 handoff - 2026-11-04
