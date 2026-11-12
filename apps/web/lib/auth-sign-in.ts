@@ -57,3 +57,19 @@ export async function requestBusinessSignIn(input: unknown, baseUrl: string, req
   if (result.error) throw mapSignInError(result.error);
   return { requested: true };
 }
+
+/** Google sign-in through central Supabase Auth (PKCE). The provider URL is only followed when it is
+ * the configured central project's own authorize endpoint; the code verifier stays in this browser's
+ * cookies and the shared callback exchanges the code. Nothing provider-specific is stored here. */
+type StartOAuth = (input: { provider: 'google'; options: { redirectTo: string; skipBrowserRedirect: true } }) => Promise<{ data: { url: string | null }; error: unknown }>;
+export async function startGoogleSignIn(baseUrl: string, centralUrl: string, start: StartOAuth): Promise<string> {
+  const unavailable = () => new DomainError('AUTH_PROVIDER_UNAVAILABLE', 'Google sign-in is not available right now. Use the email link, or ask your workspace administrator to check Google sign-in.', 503, {}, true);
+  let result: Awaited<ReturnType<StartOAuth>>;
+  try { result = await start({ provider: 'google', options: { redirectTo: `${baseUrl}/api/auth/callback`, skipBrowserRedirect: true } }); }
+  catch { throw unavailable(); }
+  if (result.error || !result.data?.url) throw unavailable();
+  let url: URL;
+  try { url = new URL(result.data.url); } catch { throw unavailable(); }
+  if (url.origin !== new URL(centralUrl).origin || url.pathname !== '/auth/v1/authorize' || url.searchParams.get('provider') !== 'google') throw unavailable();
+  return url.toString();
+}
