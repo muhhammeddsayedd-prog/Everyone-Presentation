@@ -56,7 +56,7 @@ export const PUBLIC_FONT_FACES: NonNullable<DeckAssets['fontFaces']> = [
 function textMarkup(element: TextElement, inStack = false) {
   const attributes = [`class="ef-t ef-s-${element.style}${element.wrap ? ' ef-wrap' : ''}"`, `style="${place(element.box, !inStack)}${element.align && element.align !== 'left' ? `;text-align:${element.align}` : ''}"`];
   if (element.dir) attributes.push(`dir="${element.dir}"`); if (element.lang) attributes.push(`lang="${escape(element.lang)}"`);
-  if (element.fit) attributes.push(`data-fit-field="${escape(element.fit)}"`); if (element.region) attributes.push('data-region=""');
+  if (element.fit) attributes.push(`data-fit-field="${escape(element.fit)}"`); if (element.fit && element.owner !== undefined) attributes.push(`data-fit-source="${element.owner}"`); if (element.region) attributes.push('data-region=""');
   const body = element.separator === 'cap' ? element.text.split(COVER_SEPARATOR.token).map(escape).join(' <span class="ef-sep">|</span> ') : escape(element.text);
   return `<div ${attributes.join(' ')}>${body}</div>`;
 }

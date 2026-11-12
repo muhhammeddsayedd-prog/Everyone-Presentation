@@ -91,3 +91,17 @@ test('image header sizes match the frozen inventory for PNG and JPEG', () => {
   for (const asset of snapshot.asset_inventory.filter(item => images.has(item.asset_id))) assert.deepEqual(imageSize(images.get(asset.asset_id)!), [asset.width, asset.height]);
   assert.throws(() => imageSize(new Uint8Array([1, 2, 3, 4, 5, 6])), /PPTX_IMAGE_UNSUPPORTED/u);
 });
+
+test('editable PowerPoint for template 1.3.0: one native slide per slot page, only provided facts, people side by side', async () => {
+  const { composeCastingDeck: composeSlots } = await import('../../packages/templates/versions/1.3.0/compose-casting.ts');
+  const { snapshot, images } = editorialPresentation('cover', '1.3.0'); const version = { ...presentationVersionFixture(snapshot), status: 'ready' as const };
+  const mimes = new Map(snapshot.asset_inventory.map(asset => [asset.asset_id, asset.mime_type]));
+  const built = await versionPptx(actor, version.id, service(version, images, mimes), 'https://studio.example.invalid');
+  assert.equal(built.template_version, '1.3.0');
+  const deck = composeSlots(reviewFromRenderSnapshot(snapshot));
+  const files = unzipSync(built.bytes); const slides = Object.keys(files).filter(name => /^ppt\/slides\/slide\d+\.xml$/u.test(name));
+  assert.equal(slides.length, deck.pages.length); assert.equal(built.slide_count, deck.pages.length);
+  assert.ok(deck.pages.some(page => page.layout === 'cast_group_detail'));
+  const text = slides.map(name => strFromU8(files[name])).join('');
+  assert.doesNotMatch(text, /Not provided/u);
+});

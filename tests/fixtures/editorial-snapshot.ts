@@ -1,9 +1,11 @@
-import registry from '../../packages/templates/versions/1.2.0/registry.json';
+import editorialRegistry from '../../packages/templates/versions/1.2.0/registry.json';
+import slotRegistry from '../../packages/templates/versions/1.3.0/registry.json';
 import { nativePresentation } from '../worker/presentation-native-fixture.ts';
 
 /** Synthetic 1.2.0 snapshot: Main + Backup share one slot (overview page), an
  * Option with no frames, a three-frame candidate and a pending role. */
-export function editorialPresentation(logoPlacement: 'cover' | 'every_slide' = 'cover') {
+export function editorialPresentation(logoPlacement: 'cover' | 'every_slide' = 'cover', version: '1.2.0' | '1.3.0' = '1.2.0') {
+  const registry = version === '1.3.0' ? slotRegistry : editorialRegistry;
   const { snapshot, images } = nativePresentation([2, 1, 0, 3], true, 'role');
   snapshot.template = { key: registry.key, version: registry.version, content_sha256: registry.content_sha256, font_key: registry.font_key, font_hashes: Object.fromEntries(registry.fonts.map(font => [font.path, font.sha256])) };
   snapshot.cover.logo_placement = logoPlacement;

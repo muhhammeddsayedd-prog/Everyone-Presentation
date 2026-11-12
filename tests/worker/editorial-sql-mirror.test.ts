@@ -27,7 +27,7 @@ function variants(): [string, Review][] {
 
 test('SQL eps.editorial_deck_counts agrees with the TypeScript composer on every proof count', { skip: !container && 'EPS_EDITORIAL_SQL_CONTAINER not set' }, () => {
   for (const [name, review] of variants()) {
-    const ts = editorialExpectations(review);
+    const ts = editorialExpectations({ ...review, template: { version: '1.2.0' } });
     const literal = JSON.stringify(snapshotOf(review)).replaceAll("'", "''");
     const sql = JSON.parse(execFileSync('docker', ['exec', container!, 'psql', '-U', 'postgres', '-h', 'localhost', '-d', 'postgres', '-Atc', `select eps.editorial_deck_counts('${literal}'::jsonb)`], { encoding: 'utf8' }));
     assert.deepEqual({ pages: sql.pages, frames: sql.frame_draws, logos: sql.logo_draws, regions: sql.text_regions, images: sql.frame_draws + sql.logo_draws + sql.placeholder_draws, fields: sql.candidate_fields },

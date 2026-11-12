@@ -263,7 +263,7 @@ export const EVERY_SLIDE_LOGO = box(1654, 47.3, 232, 92.5);
 // ---- 1.3.0 slot pages ----------------------------------------------------------------
 /** A provided fact under a portrait: a short label beside its value (values wrap; their lines are planned up front). */
 export interface Fact { label: string; value: string; fit: string }
-export interface GroupPerson { label: string | null; name: string; nameFit: string; portrait: Portrait; facts: Fact[]; video: string | null }
+export interface GroupPerson { label: string | null; name: string; nameFit: string; portrait: Portrait; facts: Fact[]; video: string | null; source?: number }
 /** Two or three columns, centered as one row. */
 export const GROUP_COLUMNS: Record<2 | 3, readonly [number, number]> = { 2: [600, 120], 3: [540, 60] };
 const GROUP = { status: 246, top: 296, nameGap: 10, factsGap: 8, end: 1022, video: 1036, portraitMin: 200, portraitMax: 360, aspect: 464 / 498, labelWidth: 170, labelGap: 12 };
@@ -288,12 +288,12 @@ export function castGroupDetail(people: GroupPerson[]): DeckElement[] {
     elements.push(person.portrait.source ? image(slot, person.portrait.source, person.portrait.alt, 'frame', { focal: PORTRAIT_FOCAL, natural: person.portrait.natural })
       : image(slot, { type: 'static', key: 'casting_placeholder' }, person.portrait.alt, 'placeholder'));
     const nameTop = GROUP.top + portraitHeight + GROUP.nameGap;
-    elements.push(text(box(x, nameTop, width, lineBox('castName')), 'castName', person.name, { align: 'center', dir: 'auto', fit: person.nameFit }));
+    elements.push(text(box(x, nameTop, width, lineBox('castName')), 'castName', person.name, { align: 'center', dir: 'auto', fit: person.nameFit, owner: person.source }));
     let y = nameTop + lineBox('castName') + GROUP.factsGap;
     for (const fact of person.facts) {
       const lines = factLines(fact.value, width);
       elements.push(text(box(x, y + (VALUE_LINE - lineBox('factLabel')) / 2, GROUP.labelWidth, lineBox('factLabel')), 'factLabel', fact.label),
-        text(box(x + GROUP.labelWidth + GROUP.labelGap, y, valueWidth(width), VALUE_LINE * lines), 'factValue', fact.value, { wrap: lines > 1, dir: 'auto', fit: fact.fit }));
+        text(box(x + GROUP.labelWidth + GROUP.labelGap, y, valueWidth(width), VALUE_LINE * lines), 'factValue', fact.value, { wrap: lines > 1, dir: 'auto', fit: fact.fit, owner: person.source }));
       y += lines * VALUE_LINE + ROW_GAP;
     }
     if (person.video) elements.push({ kind: 'link', box: box(x, GROUP.video, width, lineBox('link')), style: 'link', text: 'Watch original introduction', target: { type: 'video', asset_id: person.video } });

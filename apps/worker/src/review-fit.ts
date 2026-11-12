@@ -7,7 +7,7 @@ import type { ReviewFit, TemplateIdentity, WorkspaceReview } from '../../../pack
 import { workspaceReviewDto } from '../../../packages/central/src/review-dto.ts';
 import type { TemplateAssets } from '../../../packages/templates/src/render.ts';
 import { renderRegisteredReviewDocument, type RegisteredTemplateAssets } from '../../../packages/templates/src/registered.ts';
-import { editorialDeck, editorialStructureMatches, isEditorialTemplate, loadEditorialTemplateAssets, measureEditorialPage } from './editorial-template.ts';
+import { editorialDeck, editorialPersonSlides, editorialStructureMatches, isEditorialTemplate, loadEditorialTemplateAssets, measureEditorialPage } from './editorial-template.ts';
 import { nativeBrowserEnvironment } from './native-browser.ts';
 import { nativeSandboxConfiguration, runConfiguredNative } from './native-sandbox.ts';
 import { decodeNativeResult } from './native-sandbox-result.ts';
@@ -109,7 +109,7 @@ export async function measureReviewFit(supplied: WorkspaceReview, options: Revie
     if (editorial) {
       const result = await measureEditorialPage(page);
       if (!result.fonts) fail('FIT_FONT_UNAVAILABLE'); if (blocked) fail('FIT_EXTERNAL_RESOURCE');
-      if (!editorialStructureMatches(editorialDeck(review), result) || result.pages.filter(item => item.layout === 'cast_detail').length !== review.candidate_slide_count) fail('FIT_MEASUREMENT_FAILED');
+      const deck = editorialDeck(review); if (!editorialStructureMatches(deck, result) || editorialPersonSlides(deck) !== review.candidate_slide_count) fail('FIT_MEASUREMENT_FAILED');
       if (result.overflows.length > 10000) fail('FIT_BUDGET_EXCEEDED');
       return { schema_version: '1.0', input_fingerprint: review.input_fingerprint, template_content_sha256: review.template.content_sha256, renderer_version: REVIEW_FIT_RENDERER_VERSION, chromium_version: version, font_hashes: pinned.font_hashes, overflows: result.overflows, measured_at: new Date().toISOString() };
     }

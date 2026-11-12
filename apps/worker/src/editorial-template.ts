@@ -4,16 +4,18 @@ import path from 'node:path';
 import type { Page } from 'playwright';
 import type { TemplateIdentity, WorkspaceReview } from '../../../packages/domain/src/review-types.ts';
 import type { RenderSnapshot } from '../../../packages/domain/src/presentation-types.ts';
-import { composeCastingDeck, deckCounts, editorialDateLabel } from '../../../packages/templates/versions/1.2.0/compose-casting.ts';
-import type { Deck } from '../../../packages/templates/versions/1.2.0/deck.ts';
+import { composeCastingDeck as composeEditorial, deckCounts as countsEditorial, editorialDateLabel } from '../../../packages/templates/versions/1.2.0/compose-casting.ts';
+import { composeCastingDeck as composeSlots, deckCounts as countsSlots } from '../../../packages/templates/versions/1.3.0/compose-casting.ts';
+import type { Deck as EditorialDeck } from '../../../packages/templates/versions/1.2.0/deck.ts';
+import type { Deck as SlotDeck } from '../../../packages/templates/versions/1.3.0/deck.ts';
 import type { TemplateAssets as EditorialAssets } from '../../../packages/templates/versions/1.2.0/render.ts';
 import { slideWordingFields } from '../../../packages/domain/src/casting-types.ts';
 
-/** Everyone Film editorial template 1.2.0 support for the worker. All template-
- * specific expectations come from the shared composer, never from constants
- * repeated here, so fit, render, validation and the stage checks cannot drift. */
+/** Everyone Film editorial templates (1.2.0, and 1.3.0 with one page per slot) for the
+ * worker. All template-specific expectations come from each version's own composer,
+ * never from constants repeated here, so fit, render, validation and the stage
+ * checks cannot drift. Both versions share the canvas and the nine pinned fonts. */
 const ROOT = path.resolve(import.meta.dirname, '../../..');
-const REGISTRY = 'packages/templates/versions/1.2.0/registry.json';
 const sha = (bytes: Uint8Array | string) => createHash('sha256').update(bytes).digest('hex');
 const object = (value: unknown): value is Record<string, unknown> => value !== null && typeof value === 'object' && !Array.isArray(value);
 const digest = (value: unknown): value is string => typeof value === 'string' && /^[a-f0-9]{64}$/u.test(value);
@@ -22,12 +24,25 @@ function canonical(value: unknown): string {
   if (object(value)) return '{' + Object.keys(value).sort().map(key => JSON.stringify(key) + ':' + canonical(value[key])).join(',') + '}';
   return JSON.stringify(value);
 }
-const RENDERER_FILES = ['tokens.ts', 'deck.ts', 'layouts.ts', 'compose-casting.ts', 'html.ts', 'render.ts', 'pptx.ts', 'static-images.ts'].map(file => `packages/templates/versions/1.2.0/${file}`);
+/** 1.3.0's deck model is a superset of 1.2.0's (same elements, two more layouts and styles). */
+export type Deck = SlotDeck;
+type DeckReview = Pick<WorkspaceReview, 'cover' | 'slides' | 'output_type'> & { template: Pick<TemplateIdentity, 'version'> };
+type DeckOptions = Parameters<typeof composeEditorial>[1];
+export const EDITORIAL_VERSIONS = ['1.2.0', '1.3.0'] as const;
+export type EditorialVersion = typeof EDITORIAL_VERSIONS[number];
+const COMPOSERS: Record<EditorialVersion, { compose: (review: Pick<WorkspaceReview, 'cover' | 'slides' | 'output_type'>, options?: DeckOptions) => Deck; counts: (deck: Deck) => ReturnType<typeof countsEditorial> }> = {
+  '1.2.0': { compose: (review, options) => composeEditorial(review, options) as unknown as Deck, counts: deck => countsEditorial(deck as unknown as EditorialDeck) },
+  '1.3.0': { compose: composeSlots, counts: countsSlots },
+};
+const rendererFiles = (version: EditorialVersion) => ['tokens.ts', 'deck.ts', 'layouts.ts', 'compose-casting.ts', 'html.ts', 'render.ts', 'pptx.ts', 'static-images.ts'].map(file => `packages/templates/versions/${version}/${file}`);
 // Bound to the module bytes loaded by this process; a changed layout needs a fresh worker.
-const LOADED_RENDERER = Object.fromEntries(RENDERER_FILES.map(file => [file, sha(readFileSync(path.join(ROOT, file)))]));
-export const EDITORIAL_VERSION = '1.2.0';
+const LOADED_RENDERER = Object.fromEntries(EDITORIAL_VERSIONS.flatMap(version => rendererFiles(version)).map(file => [file, sha(readFileSync(path.join(ROOT, file)))]));
 export const EDITORIAL_CANVAS = Object.freeze({ width: 1920, height: 1080, width_points: 1440, height_points: 810 });
-export const isEditorialTemplate = (template: Pick<TemplateIdentity, 'key' | 'version'>) => template.key === 'everyone-casting' && template.version === EDITORIAL_VERSION;
+export const isEditorialTemplate = (template: Pick<TemplateIdentity, 'key' | 'version'>): boolean => template.key === 'everyone-casting' && (EDITORIAL_VERSIONS as readonly string[]).includes(template.version);
+function composer(template: Pick<TemplateIdentity, 'version'>) {
+  if (!(EDITORIAL_VERSIONS as readonly string[]).includes(template.version)) throw new EditorialTemplateError();
+  return COMPOSERS[template.version as EditorialVersion];
+}
 
 export class EditorialTemplateError extends Error { constructor() { super('TEMPLATE_MISMATCH'); this.name = 'EditorialTemplateError'; } }
 const mismatch = (): never => { throw new EditorialTemplateError(); };
@@ -35,7 +50,9 @@ const mismatch = (): never => { throw new EditorialTemplateError(); };
 /** Verifies the registry, every renderer file, both static images and all nine
  * licensed font files against the exact snapshot identity, then inlines them. */
 export async function loadEditorialTemplateAssets(expected: TemplateIdentity, read: (relative: string) => Promise<Uint8Array>): Promise<{ assets: EditorialAssets; font_hashes: Record<string, string> }> {
-  const registry: unknown = JSON.parse(new TextDecoder('utf8', { fatal: true }).decode(await read(REGISTRY)));
+  if (!isEditorialTemplate(expected)) mismatch();
+  const version = expected.version as EditorialVersion; const RENDERER_FILES = rendererFiles(version);
+  const registry: unknown = JSON.parse(new TextDecoder('utf8', { fatal: true }).decode(await read(`packages/templates/versions/${version}/registry.json`)));
   if (!object(registry) || registry.key !== expected.key || registry.version !== expected.version || registry.font_key !== expected.font_key || registry.content_sha256 !== expected.content_sha256 || !digest(expected.content_sha256)) mismatch();
   const record = registry as Record<string, unknown>; const body = { ...record }; delete body.content_sha256;
   if (sha(canonical(body)) !== expected.content_sha256 || record.width !== 1920 || record.height !== 1080 || !Array.isArray(record.renderer_files) || record.renderer_files.length !== RENDERER_FILES.length) mismatch();
@@ -67,13 +84,17 @@ export function editorialSnapshotOptions(snapshot: RenderSnapshot) {
   const logo = snapshot.cover.logo_asset_id ? snapshot.asset_inventory.find(asset => asset.asset_id === snapshot.cover.logo_asset_id) : undefined;
   return { versionLabel: `Version ${snapshot.version_no}`, dateLabel: editorialDateLabel(snapshot.created_at), logoNatural: logo?.width && logo.height ? [logo.width, logo.height] as const : undefined };
 }
-export function editorialDeck(review: Pick<WorkspaceReview, 'cover' | 'slides' | 'output_type'>, options: Parameters<typeof composeCastingDeck>[1] = {}): Deck { return composeCastingDeck(review, options); }
+export function editorialDeck(review: DeckReview, options: DeckOptions = {}): Deck { return composer(review.template).compose(review, options); }
+/** Captured candidate slides drawn on person pages (1.2.0: one per page; 1.3.0: up to three per slot page). */
+export function editorialPersonSlides(deck: Deck) {
+  return (deck.pages as Deck['pages']).filter(page => page.layout === 'cast_detail' || page.layout === 'cast_group_detail').reduce((sum, page) => sum + ((page as { sources?: number[] }).sources?.length ?? 1), 0);
+}
 
 /** Proof expectations derived from the captured review. The database applies the
  * same rule (eps.editorial_deck_counts) to the frozen snapshot independently. */
-export function editorialExpectations(review: Pick<WorkspaceReview, 'cover' | 'slides' | 'output_type'>) {
-  const deck = composeCastingDeck(review); const counts = deckCounts(deck);
-  const placeholders = deck.pages.flatMap(page => page.elements).filter(element => element.kind === 'image' && element.source.type === 'static' && element.source.key === 'casting_placeholder').length;
+export function editorialExpectations(review: DeckReview) {
+  const { compose, counts: count } = composer(review.template); const deck = compose(review); const counts = count(deck);
+  const placeholders = (deck.pages as Deck['pages']).flatMap(page => page.elements).filter(element => element.kind === 'image' && element.source.type === 'static' && element.source.key === 'casting_placeholder').length;
   return { deck, page_count: counts.pages, candidate_field_count: counts.candidate_fields, frame_draw_count: counts.frame_draws, logo_draw_count: counts.logo_draws,
     video_link_count: counts.video_links, text_regions: counts.text_regions, image_draws: counts.frame_draws + counts.logo_draws + placeholders, ...EDITORIAL_CANVAS };
 }
@@ -101,8 +122,10 @@ export async function measureEditorialPage(page: Page, candidateFields: readonly
       const index = Number(slide.dataset.pageIndex); const source = Number(slide.dataset.sourceIndex); const rect = slide.getBoundingClientRect();
       for (const element of slide.querySelectorAll<HTMLElement>('[data-fit-field]')) {
         const field = element.dataset.fitField!;
-        if (element.scrollHeight - element.clientHeight > 1) overflows.push({ slide_index: source, field, axis: 'vertical', overflow_px: element.scrollHeight - element.clientHeight });
-        if (element.scrollWidth - element.clientWidth > 1) overflows.push({ slide_index: source, field, axis: 'horizontal', overflow_px: element.scrollWidth - element.clientWidth });
+        // A slot page shows several people; each fit region names its own captured slide.
+        const owner = element.dataset.fitSource === undefined ? source : Number(element.dataset.fitSource);
+        if (element.scrollHeight - element.clientHeight > 1) overflows.push({ slide_index: owner, field, axis: 'vertical', overflow_px: element.scrollHeight - element.clientHeight });
+        if (element.scrollWidth - element.clientWidth > 1) overflows.push({ slide_index: owner, field, axis: 'horizontal', overflow_px: element.scrollWidth - element.clientWidth });
       }
       const overflow = slide.scrollWidth > slide.clientWidth + 1 || slide.scrollHeight > slide.clientHeight + 1;
       if (overflow) overflows.push({ slide_index: source, field: 'layout', axis: slide.scrollWidth > slide.clientWidth + 1 ? 'horizontal' : 'vertical', overflow_px: Math.max(slide.scrollWidth - slide.clientWidth, slide.scrollHeight - slide.clientHeight) });
@@ -142,13 +165,13 @@ export async function measureEditorialPage(page: Page, candidateFields: readonly
 /** Structural agreement between the composed deck and the rendered DOM. */
 export function editorialStructureMatches(deck: Deck, measured: EditorialMeasurement, naturalSize?: (assetId: string) => readonly [number, number] | undefined) {
   if (measured.pages.length !== deck.pages.length) return false;
-  return deck.pages.every((page, n) => {
+  return (deck.pages as Deck['pages']).every((page, n) => {
     const actual = measured.pages[n]; const elements = page.elements.flatMap(element => element.kind === 'stack' ? element.items : [element]);
     const assets = elements.filter(element => element.kind === 'image' && element.source.type === 'asset').map(element => (element as { source: { asset_id: string } }).source.asset_id);
     const statics = elements.filter(element => element.kind === 'image' && element.source.type === 'static').map(element => (element as { source: { key: string } }).source.key);
     if (actual.index !== n || actual.source_index !== page.source_index || actual.layout !== page.layout || Math.abs(actual.width - 1920) > 0.1 || Math.abs(actual.height - 1080) > 0.1 || actual.missing !== 0) return false;
-    // Overview portraits carry a name_or_id fit too; the ten-field contract is per detail page.
-    if (page.layout === 'cast_detail' && actual.candidate_fields !== 10) return false;
+    // Every candidate fact the composer drew must be in the DOM (1.2.0: ten per detail page; 1.3.0: only the provided ones).
+    if (actual.candidate_fields !== elements.filter(element => element.kind === 'text' && element.fit !== undefined && (slideWordingFields as readonly string[]).includes(element.fit)).length) return false;
     if (JSON.stringify(actual.assets.map(item => item.asset_id)) !== JSON.stringify(assets) || JSON.stringify(actual.statics) !== JSON.stringify(statics)) return false;
     if (naturalSize && actual.assets.some(item => { const expected = naturalSize(item.asset_id); return !expected || expected[0] !== item.natural[0] || expected[1] !== item.natural[1]; })) return false;
     return actual.links.length === elements.filter(element => element.kind === 'link').length;

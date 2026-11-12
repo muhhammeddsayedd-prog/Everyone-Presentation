@@ -10024,7 +10024,7 @@ paths:
   /versions/{version_id}/pptx/content:
     get:
       operationId: get_version_pptx_content
-      summary: Compose an editable PowerPoint of a Ready Everyone Film editorial (template 1.2.0) version from its frozen content, using the caller's
+      summary: Compose an editable PowerPoint of a Ready Everyone Film editorial (template 1.2.0 or 1.3.0) version from its frozen content, using the caller's
         own version and media access
       tags:
       - versions
@@ -11320,7 +11320,7 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/Id'
-      description: 'Build the editable PowerPoint of a Ready version saved with the Everyone Film editorial template 1.2.0, from the same frozen
+      description: 'Build the editable PowerPoint of a Ready version saved with the Everyone Film editorial template (1.2.0 or 1.3.0), from the same frozen
         content as its PDF, using only the caller''s own version and media access. Returns the slide count, size and filename of the verified
         build and download_url: the in-app content route that requires the same signed-in user (no bearer or public URL). Open it in a browser
         signed in to the app; it is rebuilt from the same frozen content on download. Retained 1.0.0/1.1.0 versions return PPTX_TEMPLATE_UNSUPPORTED;
@@ -15466,6 +15466,7 @@ components:
           type: string
           enum:
           - 1.2.0
+          - 1.3.0
       required:
       - version_id
       - download_url

@@ -9,7 +9,7 @@ import { loadReviewTemplateAssets } from './review-fit.ts';
 import { nativeBrowserEnvironment } from './native-browser.ts';
 import { nativeSandboxConfiguration } from './native-sandbox.ts';
 import { sandboxPresentation } from './native-sandbox-result.ts';
-import { EDITORIAL_CANVAS, editorialDeck, editorialSnapshotOptions, editorialStructureMatches, isEditorialTemplate, measureEditorialPage } from './editorial-template.ts';
+import { EDITORIAL_CANVAS, editorialDeck, editorialExpectations, editorialSnapshotOptions, editorialStructureMatches, isEditorialTemplate, measureEditorialPage } from './editorial-template.ts';
 
 export const PRESENTATION_RENDERER = 'everyone-casting-pdf-v1';
 export const PRESENTATION_PDF_LIMITS = Object.freeze({ pdfBytes: 64 * 1024 * 1024, imageBytes: 128 * 1024 * 1024 });
@@ -98,7 +98,7 @@ async function documentOperation<T>(snapshot: RenderSnapshot, images: ReadonlyMa
     let blocked = 0; await context.route('**/*', route => { blocked++; return route.abort('blockedbyclient'); });
     const page = await context.newPage(); await page.emulateMedia({ media: 'print' });
     if (editorial) {
-      // Everyone Film editorial 1.2.0: one composed deck drives markup, checks and proof.
+      // Everyone Film editorial (1.2.0 / 1.3.0): one composed deck drives markup, checks and proof.
       const deckOptions = editorialSnapshotOptions(snapshot); const deck = editorialDeck(review, deckOptions);
       await page.setContent(renderRegisteredReviewDocument(review, { ...pinned.assets, imageSources: sources, videoHrefs, ...deckOptions }), { waitUntil: 'load', timeout });
       const measured = await measureEditorialPage(page);
@@ -111,7 +111,7 @@ async function documentOperation<T>(snapshot: RenderSnapshot, images: ReadonlyMa
       if (JSON.stringify(measured.pages.flatMap(item => item.links)) !== JSON.stringify(links)) fail('PDF_RENDER_FAILED');
       const draws = (role: string) => deck.pages.flatMap(item => item.elements).filter(element => element.kind === 'image' && element.role === role).length;
       const proof: PresentationRenderProof = { renderer_version: PRESENTATION_RENDERER, chromium_version: browser.version(), template_content_sha256: snapshot.template.content_sha256, font_hashes: pinned.font_hashes,
-        page_count: deck.pages.length, width_css_px: EDITORIAL_CANVAS.width, height_css_px: EDITORIAL_CANVAS.height, overflow_count: 0, candidate_field_count: deck.pages.filter(item => item.layout === 'cast_detail').length * 10,
+        page_count: deck.pages.length, width_css_px: EDITORIAL_CANVAS.width, height_css_px: EDITORIAL_CANVAS.height, overflow_count: 0, candidate_field_count: editorialExpectations(review).candidate_field_count,
         frame_draw_count: draws('frame'), logo_draw_count: draws('logo'), video_link_count: links.length, fonts_ready: true, images_ready: true,
         link_targets_sha256: await presentationCanonicalHash(links), rendered_at: new Date().toISOString() };
       return operation(page, measured.expected, proof);

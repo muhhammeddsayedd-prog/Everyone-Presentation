@@ -87,7 +87,7 @@ export function composeCastingDeck(review: Pick<WorkspaceReview, 'cover' | 'slid
     if (!fits) { for (const item of group) content('cast_detail', [item.source], path(slide), candidateDetail(item.slide)); continue; }
     for (const chunk of overviewChunks(group)) {
       if (chunk.length === 1) { content('cast_detail', [chunk[0].source], path(slide), candidateDetail(chunk[0].slide)); continue; }
-      const people: GroupPerson[] = chunk.map(({ slide: item }) => ({ label: item.position ? POSITION_LABELS[item.position] : null, name: item.fields.name_or_id, nameFit: 'name_or_id',
+      const people: GroupPerson[] = chunk.map(({ slide: item, source }) => ({ source, label: item.position ? POSITION_LABELS[item.position] : null, name: item.fields.name_or_id, nameFit: 'name_or_id',
         portrait: { source: item.frames[0] ? asset(item.frames[0].asset_id) : null, natural: item.frames[0] ? [item.frames[0].width, item.frames[0].height] : undefined,
           alt: item.frames[0] ? `${item.fields.name_or_id}, selected source frame` : `${item.fields.name_or_id}, image not provided` },
         facts: providedFacts(item, false, SHORT_LABELS), video: item.video_asset_id }));

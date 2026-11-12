@@ -5,6 +5,17 @@ import editorialRegistry from '../../../packages/templates/versions/1.2.0/regist
 import { composeCastingDeck, editorialDateLabel } from '../../../packages/templates/versions/1.2.0/compose-casting';
 import { imageSize, renderDeckPptx, type PptxImage } from '../../../packages/templates/versions/1.2.0/pptx';
 import { PPTX_STATIC_IMAGES } from '../../../packages/templates/versions/1.2.0/static-images';
+import slotRegistry from '../../../packages/templates/versions/1.3.0/registry.json';
+import { composeCastingDeck as composeSlotDeck } from '../../../packages/templates/versions/1.3.0/compose-casting';
+import { renderDeckPptx as renderSlotPptx } from '../../../packages/templates/versions/1.3.0/pptx';
+import { PPTX_STATIC_IMAGES as SLOT_STATIC_IMAGES } from '../../../packages/templates/versions/1.3.0/static-images';
+
+type Review = ReturnType<typeof reviewFromPresentationVersion>; type Options = Parameters<typeof composeCastingDeck>[1];
+/** Each editorial version builds with its own composer and PowerPoint writer, exactly as its PDF was printed. */
+const EDITORIAL = [
+  { registry: editorialRegistry, build: (review: Review, options: Options) => { const deck = composeCastingDeck(review, options); return { deck, write: (assets: { images: Record<string, PptxImage>; videoHrefs: Record<string, string> }, meta: { subject: string }) => renderDeckPptx(deck, { ...assets, staticImages: PPTX_STATIC_IMAGES }, meta) }; } },
+  { registry: slotRegistry, build: (review: Review, options: Options) => { const deck = composeSlotDeck(review, options); return { deck, write: (assets: { images: Record<string, PptxImage>; videoHrefs: Record<string, string> }, meta: { subject: string }) => renderSlotPptx(deck, { ...assets, staticImages: SLOT_STATIC_IMAGES }, meta) }; } },
+] as const;
 
 export const PPTX_MIME = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 /** Editable PowerPoint for a Ready Everyone Film editorial version, composed from the
@@ -14,9 +25,9 @@ export async function versionPptx(actor: Actor, versionId: string, service: Pres
   const version = await service.getVersion(actor, versionId);
   if (version.status !== 'ready') throw new DomainError('PRESENTATION_NOT_READY', 'The saved version is still processing. Try again when it is Ready.', 409);
   const template = version.render_context.template;
-  if (template.key !== editorialRegistry.key || template.version !== editorialRegistry.version || template.content_sha256 !== editorialRegistry.content_sha256)
-    throw new DomainError('PPTX_TEMPLATE_UNSUPPORTED', 'Editable PowerPoint is available for versions saved with the Everyone Film editorial template 1.2.0.', 409);
-  const deck = composeCastingDeck(reviewFromPresentationVersion(version, 'pptx-export'), { versionLabel: `Version ${version.version_no}`, dateLabel: editorialDateLabel(version.created_at) });
+  const editorial = EDITORIAL.find(item => template.key === item.registry.key && template.version === item.registry.version && template.content_sha256 === item.registry.content_sha256);
+  if (!editorial) throw new DomainError('PPTX_TEMPLATE_UNSUPPORTED', 'Editable PowerPoint is available for versions saved with an Everyone Film editorial template (1.2.0 or 1.3.0).', 409);
+  const { deck, write } = editorial.build(reviewFromPresentationVersion(version, 'pptx-export'), { versionLabel: `Version ${version.version_no}`, dateLabel: editorialDateLabel(version.created_at) });
   const ids = [...new Set(deck.pages.flatMap(page => page.elements.flatMap(element => element.kind === 'image' && element.source.type === 'asset' ? [element.source.asset_id] : [])))];
   const images: Record<string, PptxImage> = {}; let total = 0;
   for (const id of ids) {
@@ -27,9 +38,9 @@ export async function versionPptx(actor: Actor, versionId: string, service: Pres
   }
   // Links open the retained original in the app, where the viewer's own access applies.
   const videoHrefs = Object.fromEntries(version.slides.flatMap(slide => slide.video_asset_id ? [[slide.video_asset_id, `${origin}/presentations/versions/${version.id}/media/${slide.video_asset_id}`]] : []));
-  const bytes = await renderDeckPptx(deck, { images, staticImages: PPTX_STATIC_IMAGES, videoHrefs }, { subject: `${version.render_context.cover.project_name} — Version ${version.version_no}` });
+  const bytes = await write({ images, videoHrefs }, { subject: `${version.render_context.cover.project_name} — Version ${version.version_no}` });
   const base = `${version.render_context.cover.project_name}-${version.render_context.cover.output_type}-v${version.version_no}`.replace(/[^A-Za-z0-9._-]+/gu, '-').replace(/^-+|-+$/gu, '').slice(0, 120) || 'presentation';
-  return { bytes, filename: `${base}.pptx`, slide_count: deck.pages.length };
+  return { bytes, filename: `${base}.pptx`, slide_count: deck.pages.length, template_version: editorial.registry.version };
 }
 /** Claude/MCP: the same build under the caller's authority, returned as a verified
  * summary plus the in-app content route. That link needs the same signed-in user;
@@ -37,5 +48,5 @@ export async function versionPptx(actor: Actor, versionId: string, service: Pres
 export async function versionPptxDownload(actor: Actor, versionId: string, service: PresentationOperations, origin: string) {
   const built = await versionPptx(actor, versionId, service, origin);
   return { version_id: versionId, download_url: `${origin}/api/v1/versions/${encodeURIComponent(versionId)}/pptx/content`, access: 'signed_in_session' as const,
-    filename: built.filename, size_bytes: built.bytes.byteLength, slide_count: built.slide_count, template_version: editorialRegistry.version };
+    filename: built.filename, size_bytes: built.bytes.byteLength, slide_count: built.slide_count, template_version: built.template_version };
 }

@@ -25,6 +25,8 @@ export interface TextElement {
   wrap?: boolean; dir?: 'auto' | 'rtl'; lang?: string;
   /** Fit-measured region. Its key is reported with the page's source slide. */
   fit?: string; region?: boolean;
+  /** Captured slide this fit region belongs to, when a page shows several people (1.3.0 slot pages). */
+  owner?: number;
   /** `cap`: each ` | ` is drawn as the cover title's baseline-to-cap-height stem. */
   separator?: 'cap';
 }
