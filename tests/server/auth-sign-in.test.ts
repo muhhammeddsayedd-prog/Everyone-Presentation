@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { DomainError } from '@eps/domain';
-import { mapSignInError, requestBusinessSignIn, type SignInLinkRequest } from '../../apps/web/lib/auth-sign-in.ts';
+import { mapSignInError, requestBusinessSignIn, startGoogleSignIn, type SignInLinkRequest } from '../../apps/web/lib/auth-sign-in.ts';
 import { failure } from '../../apps/web/lib/http.ts';
 import { createElement } from 'react';
 import { renderToString } from 'react-dom/server';
@@ -16,7 +16,7 @@ test('callback failure URL cannot change the deterministic server-rendered sign-
       value: { location: { href: 'http://127.0.0.1:3000/?auth=failed' } } });
     const browserAvailableMarkup = renderToString(createElement(BusinessSignIn));
     assert.equal(browserAvailableMarkup, serverMarkup);
-    assert.doesNotMatch(serverMarkup, /This sign-in link could not be used/);
+    assert.doesNotMatch(serverMarkup, /Sign-in could not be completed/);
   } finally {
     if (originalWindow) Object.defineProperty(globalThis, 'window', originalWindow);
     else Reflect.deleteProperty(globalThis, 'window');
@@ -110,4 +110,15 @@ test('returned and thrown provider failures are mapped without automatic mail re
     }), (error: unknown) => error instanceof DomainError && error.code === 'AUTH_EMAIL_RATE_LIMITED');
     assert.equal(calls, 1);
   }
+});
+
+test('Google sign-in starts PKCE OAuth back to the shared callback and only follows the central authorize URL', async () => {
+  const central = 'https://synthetic-project.supabase.co'; const calls: unknown[] = [];
+  const ok = (url: string | null, error: unknown = null) => async (input: unknown) => { calls.push(input); return { data: { url }, error }; };
+  const url = await startGoogleSignIn('https://studio.example.invalid', central, ok(`${central}/auth/v1/authorize?provider=google&code_challenge=x&redirect_to=https%3A%2F%2Fstudio.example.invalid%2Fapi%2Fauth%2Fcallback`));
+  assert.match(url, /^https:\/\/synthetic-project\.supabase\.co\/auth\/v1\/authorize\?/u);
+  assert.deepEqual(calls[0], { provider: 'google', options: { redirectTo: 'https://studio.example.invalid/api/auth/callback', skipBrowserRedirect: true } });
+  for (const bad of [ok('https://attacker.example/auth/v1/authorize?provider=google'), ok(`${central}/auth/v1/authorize?provider=github`), ok(`${central}/other?provider=google`), ok(null), ok(`${central}/auth/v1/authorize?provider=google`, { code: 'provider_disabled' }),
+    async () => { throw new Error('network'); }])
+    await assert.rejects(startGoogleSignIn('https://studio.example.invalid', central, bad as never), (error: unknown) => error instanceof DomainError && error.code === 'AUTH_PROVIDER_UNAVAILABLE');
 });
