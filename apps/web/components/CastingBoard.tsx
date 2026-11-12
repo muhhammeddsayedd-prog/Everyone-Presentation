@@ -8,6 +8,7 @@ import type { Assignment, CastingOutput, MainUndo, SetSlotMainResult } from '../
 import { api, ApiError, errorMessage, mutation, type Actor, type Envelope, type Workspace } from './api';
 import { ErrorNotice, Loading } from './Feedback';
 import { CandidateFrameImage } from './CandidateFrameImage';
+import { CandidatePortrait } from './CandidatePortrait';
 import { useRouter } from 'next/navigation';
 import { Icon } from './Icon';
 import { ActionMenu, type MenuItem } from './ui/Menu';
@@ -260,7 +261,7 @@ function CastingBoardScope({ workspaceId, projectId, actor, initialOutput = 'sel
                   { label: 'Remove assignment', danger: true, onSelect: () => void remove(item) },
                 ];
                 return <article className={`assignment-card${item.position === 'main' ? ' is-main' : ''}`} key={item.id} onDragOver={event => allowDrop(event, 'assignment', slot.id)} onDrop={event => drop(event, 'assignment', item.id, slot.id)} aria-label={`${label}, ${positionLabel}`} data-draft-focus={`assignment:${item.id}`}>
-                  <div className="assignment-frame">{pool.selected_frame_asset_ids[0] ? <CandidateFrameImage assetId={pool.selected_frame_asset_ids[0]} alt={`Selected project frame 1 for ${label}`} /> : <span className="assignment-frame-empty"><Icon name="image" /><span className="sr-only">No project frames selected.</span></span>}</div>
+                  <div className="assignment-frame">{pool.selected_frame_asset_ids[0] ? <CandidateFrameImage assetId={pool.selected_frame_asset_ids[0]} alt={`Selected project frame 1 for ${label}`} /> : <span className="assignment-frame-photo"><CandidatePortrait candidateId={pool.candidate_id} name={label} /><span className="sr-only">No project frames selected.</span></span>}</div>
                   <div className="assignment-body">
                     <h5 dir="auto">{label}{profile?.review_status === 'reviewed' && <span className="reviewed-mark" title="Reviewed facts"><Icon name="check" /><span className="sr-only"> · Reviewed facts</span></span>}</h5>
                     <p className="small muted" dir="auto">{pool.availability || 'Availability pending'}{pool.fresh_material_required ? ' · Fresh material required' : ''}</p>
@@ -283,7 +284,7 @@ function CastingBoardScope({ workspaceId, projectId, actor, initialOutput = 'sel
         <ul className="tray-list">{data.pool.map(item => { const count = data.assignments.filter(row => row.workspace_candidate_id === item.id).length; const person = name(profiles[item.candidate_id], item.candidate_id);
           const items: MenuItem[] = roles.flatMap(group => [{ kind: 'label' as const, label: group.name }, ...ordered(data.slots.filter(slot => slot.role_id === group.id)).map(slot => { const existing = data.assignments.find(row => row.slot_id === slot.id && row.workspace_candidate_id === item.id); const present = !!existing && (output === 'selection' || existing.shortlist_included);
             return { label: present ? `${slot.label} · already included` : `${slot.label}${existing ? ' · add to Shortlist' : ''}`, disabled: present, onSelect: () => add(slot, item.id) }; })]);
-          return <li key={item.id}>{item.selected_frame_asset_ids[0] ? <span className="tray-thumb"><CandidateFrameImage assetId={item.selected_frame_asset_ids[0]} alt="" /></span> : <span className="tray-thumb" aria-hidden="true" />}<span className="tray-person"><strong dir="auto">{person}</strong><span className="small muted">{count ? `${count} ${count === 1 ? 'assignment' : 'assignments'}` : 'Not assigned'}</span></span>
+          return <li key={item.id}>{item.selected_frame_asset_ids[0] ? <span className="tray-thumb"><CandidateFrameImage assetId={item.selected_frame_asset_ids[0]} alt="" /></span> : <span className="tray-thumb assignment-frame-photo" aria-hidden="true"><CandidatePortrait candidateId={item.candidate_id} name={person} /></span>}<span className="tray-person"><strong dir="auto">{person}</strong><span className="small muted">{count ? `${count} ${count === 1 ? 'assignment' : 'assignments'}` : 'Not assigned'}</span></span>
             {canWrite && <ActionMenu label={`Assign ${person} to a slot ${output === 'shortlist' ? 'in Shortlist' : 'as Option'}`} disabled={actionsLocked || !data.slots.length} items={items} trigger={<><Icon name="plus" /><span className="sr-only">Assign {person}</span></>} />}</li>; })}</ul>
         <div className="panel-footer stack"><p className="small muted">Use + beside a person, or a slot’s Project candidate list, to assign. Each slot keeps its own Option, Main and Backup choices.</p><Link className="button button-small button-quiet" href={`${base}/cast`}><Icon name="plus" />Add from Cast Library</Link></div></aside>
     </div>}
