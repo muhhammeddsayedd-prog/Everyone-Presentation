@@ -39,8 +39,9 @@ async function workspace(page: Page, options: Options = {}) {
       { id: PL1, workspace_id: W, candidate_id: C1, selected_candidate_media_id: M1, selected_frame_asset_ids: [F1, F2], availability: 'Available 12–14 Dec', fresh_material_required: false, media_confirmed: true, internal_notes: null, row_version: 1 },
       { id: PL2, workspace_id: W, candidate_id: C2, selected_candidate_media_id: null, selected_frame_asset_ids: [], availability: null, fresh_material_required: false, media_confirmed: false, internal_notes: null, row_version: 1 }]);
     if (method === 'GET' && path === `/api/v1/workspaces/${W}/assignments`) return list(assignments);
-    if (method === 'GET' && path === '/api/v1/presentation-series') return list(options.noEditorialSeries ? [series(SER11, 'Client selection', '1.1.0')] : [series(SER12, 'Editorial selection', '1.2.0'), series(SER11, 'Client selection', '1.1.0')]);
-    if (method === 'GET' && path === '/api/v1/settings') return ok({ template_version: '1.1.0', default_timezone: 'Africa/Cairo', row_version: 1 });
+    // A 1.3.0 series and an earlier-template one: only 1.3.0 is offered on the stage.
+    if (method === 'GET' && path === '/api/v1/presentation-series') return list(options.noEditorialSeries ? [series(SER11, 'Client selection', '1.1.0')] : [series(SER12, 'Editorial selection', '1.3.0'), series(SER11, 'Client selection', '1.1.0')]);
+    if (method === 'GET' && path === '/api/v1/settings') return ok({ template_version: options.noEditorialSeries ? '1.1.0' : '1.3.0', default_timezone: 'Africa/Cairo', row_version: 1 });
     if (method === 'GET' && path === `/api/v1/candidates/${C1}/media`) return list([{ id: M1, candidate_id: C1, source_asset_id: V1, preview_asset_id: null, transcript_asset_id: null, original_transcript: null, languages: ['ar'],
       available_frames: [F1, F2].map((asset_id, n) => ({ asset_id, source_asset_id: V1, timestamp_ms: 1000 * (n + 1), width: 1080, height: 1350, quality_flags: [] })), selected_frame_asset_ids: [F1, F2], processing_issues: [], row_version: 1 }]);
     if (method === 'GET' && path.startsWith('/api/v1/candidates/') && path.endsWith('/media')) return list([]);
@@ -67,29 +68,32 @@ const base = `/projects/${P}/casting/${W}`;
 const stage = (page: Page) => page.getByRole('region', { name: 'Slide preview' });
 const slide = (page: Page) => page.locator('.stage-frame .stage-slide');
 const strip = (page: Page) => page.getByRole('navigation', { name: 'Slides' });
+// Template 1.3.0: the Father slot is one page with both people; each fact names its own captured slide (1 = Actor One, 2 = Actor Two).
+const notes = (page: Page, source = 1) => slide(page).locator(`[data-fit-field="presentation_notes"][data-fit-source="${source}"]`);
+const FATHER = 'Slide 3 of 5: Father · Synthetic Actor One, Synthetic Actor Two';
 
 test('typing presentation notes updates the slide before saving; the saved value stays after the refresh', async ({ page }) => {
   const model = await workspace(page); await page.goto(`${base}/organize`);
-  await expect(strip(page).getByRole('button')).toHaveCount(7);
+  await expect(strip(page).getByRole('button')).toHaveCount(5);
   await expect(stage(page).getByText('Live preview · updates as you edit')).toBeVisible();
   // Selecting the assignment in the panel brings its slide onto the stage.
   await page.locator(`[data-draft-focus="assignment:${A1}"]`).getByRole('heading', { name: 'Synthetic Actor One' }).click();
-  await expect(slide(page)).toHaveAttribute('aria-label', /^Slide 4 of 7: Synthetic Actor One$/u);
-  await expect(slide(page).locator('[data-fit-field="presentation_notes"]')).toHaveText('Saved note');
+  await expect(slide(page)).toHaveAttribute('aria-label', FATHER);
+  await expect(notes(page)).toHaveText('Saved note');
   await page.getByRole('button', { name: /^Assignment actions for Synthetic Actor One/ }).click();
   await page.getByRole('menuitem', { name: 'Edit assignment notes' }).click();
   await page.getByLabel('Presentation notes').fill('Typed live note');
-  await expect(slide(page).locator('[data-fit-field="presentation_notes"]')).toHaveText('Typed live note');
+  await expect(notes(page)).toHaveText('Typed live note');
   await expect(stage(page).getByText('Live preview · includes unsaved edits')).toBeVisible();
   expect(model.writes).toEqual([]);
   await page.getByRole('button', { name: 'Save assignment notes' }).click();
   await expect.poll(() => model.writes.length).toBe(1);
   expect(model.writes[0].body).toMatchObject({ presentation_notes: 'Typed live note' });
   await expect(stage(page).getByText('Live preview · updates as you edit')).toBeVisible();
-  await expect(slide(page).locator('[data-fit-field="presentation_notes"]')).toHaveText('Typed live note');
+  await expect(notes(page)).toHaveText('Typed live note');
   await page.reload();
   await page.locator(`[data-draft-focus="assignment:${A1}"]`).getByRole('heading', { name: 'Synthetic Actor One' }).click();
-  await expect(slide(page).locator('[data-fit-field="presentation_notes"]')).toHaveText('Typed live note');
+  await expect(notes(page)).toHaveText('Typed live note');
   expect(model.errors).toEqual([]);
 });
 
@@ -98,19 +102,19 @@ test('discarding an unsaved edit restores the saved slide immediately', async ({
   await page.getByRole('button', { name: /^Assignment actions for Synthetic Actor One/ }).click();
   await page.getByRole('menuitem', { name: 'Edit assignment notes' }).click();
   await page.getByLabel('Presentation notes').fill('Not kept');
-  await expect(slide(page).locator('[data-fit-field="presentation_notes"]')).toHaveText('Not kept');
+  await expect(notes(page)).toHaveText('Not kept');
   await page.getByRole('button', { name: 'Discard note edits' }).click();
-  await expect(slide(page).locator('[data-fit-field="presentation_notes"]')).toHaveText('Saved note');
+  await expect(notes(page)).toHaveText('Saved note');
   expect(model.writes).toEqual([]); expect(model.errors).toEqual([]);
 });
 
 test('a change made elsewhere (another user or Claude) appears once the draft revision moves', async ({ page }) => {
   const model = await workspace(page); await page.goto(`${base}/organize`);
   await page.locator(`[data-draft-focus="assignment:${A1}"]`).getByRole('heading', { name: 'Synthetic Actor One' }).click();
-  await expect(slide(page).locator('[data-fit-field="presentation_notes"]')).toHaveText('Saved note');
+  await expect(notes(page)).toHaveText('Saved note');
   model.bump('Changed by Claude');
   await page.evaluate(() => window.dispatchEvent(new Event('focus')));
-  await expect(slide(page).locator('[data-fit-field="presentation_notes"]')).toHaveText('Changed by Claude');
+  await expect(notes(page)).toHaveText('Changed by Claude');
   expect(model.errors).toEqual([]);
 });
 
@@ -118,51 +122,47 @@ test('a failed preview read reports the problem and recovers on retry; an unread
   const model = await workspace(page, { failRoles: 1 }); await page.goto(`${base}/project`);
   await expect(stage(page).getByRole('alert')).toContainText('The live preview could not be opened.');
   await stage(page).getByRole('button', { name: 'Try again' }).click();
-  await expect(strip(page).getByRole('button')).toHaveCount(7);
+  await expect(strip(page).getByRole('button')).toHaveCount(5);
   expect(model.errors).toEqual([]);
 
   const paused = await workspace(page, { failProfile: 1 }); await page.goto(`${base}/project`);
   await expect(stage(page).getByRole('alert')).toContainText('Preview paused. A profile on this draft could not be read.');
   await stage(page).getByRole('button', { name: 'Try again' }).click();
-  await expect(strip(page).getByRole('button')).toHaveCount(7);
-  await expect(strip(page).getByRole('button', { name: 'Slide 5 of 7: Synthetic Actor Two' })).toBeVisible();
+  await expect(strip(page).getByRole('button')).toHaveCount(5);
+  await expect(strip(page).getByRole('button', { name: FATHER })).toBeVisible();
   expect(paused.errors).toEqual([]);
 });
 
 test('stage and panel select each other: a thumbnail marks its row, a row brings its slide', async ({ page }) => {
   const model = await workspace(page); await page.goto(`${base}/organize`);
-  await strip(page).getByRole('button', { name: 'Slide 5 of 7: Synthetic Actor Two' }).click();
-  await expect(page.locator(`[data-draft-focus="assignment:${A2}"]`)).toHaveAttribute('data-draft-selected', '');
-  await expect(strip(page).getByRole('button', { name: 'Slide 5 of 7: Synthetic Actor Two' })).toHaveAttribute('aria-current', 'true');
+  await strip(page).getByRole('button', { name: FATHER }).click();
+  await expect(page.locator(`[data-draft-focus="assignment:${A1}"]`)).toHaveAttribute('data-draft-selected', '');
+  await expect(strip(page).getByRole('button', { name: FATHER })).toHaveAttribute('aria-current', 'true');
   await page.locator(`[data-draft-focus="slot:${S2}"]`).getByRole('heading', { name: 'Kid 1' }).click();
-  await expect(slide(page)).toHaveAttribute('aria-label', 'Slide 6 of 7: Kid 1 · Pending');
+  await expect(slide(page)).toHaveAttribute('aria-label', 'Slide 4 of 5: Kid 1 · Pending');
   // Keyboard: the stage moves with the arrow keys.
   await page.getByRole('region', { name: /Use the arrow keys to change slides/ }).focus();
   await page.keyboard.press('ArrowLeft');
-  await expect(slide(page)).toHaveAttribute('aria-label', 'Slide 5 of 7: Synthetic Actor Two');
+  await expect(slide(page)).toHaveAttribute('aria-label', FATHER);
   await page.keyboard.press('Home');
-  await expect(slide(page)).toHaveAttribute('aria-label', 'Slide 1 of 7: Cover');
+  await expect(slide(page)).toHaveAttribute('aria-label', 'Slide 1 of 5: Cover');
   expect(model.errors).toEqual([]);
 });
 
-test('switching the previewed series switches the registered template (1.2.0 ↔ 1.1.0)', async ({ page }) => {
+test('only Everyone Film Editorial 1.3.0 is offered: an earlier-template series is not a preview choice', async ({ page }) => {
   const model = await workspace(page); await page.goto(`${base}/organize`);
   await expect(page.getByLabel('Preview as')).toHaveValue(SER12);
+  await expect(page.getByLabel('Preview as').locator('option')).toHaveText(['Editorial selection · Client', 'No saved series · Everyone Film Editorial 1.3.0']);
   await expect(slide(page).locator('.ef-slide')).toHaveCount(1);
-  await expect(stage(page).getByText(/Draft preview in Everyone Film Editorial 1\.2\.0/)).toBeVisible();
-  await page.getByLabel('Preview as').selectOption(SER11);
-  await expect(strip(page).getByRole('button')).toHaveCount(4);
-  await expect(slide(page).locator('.eps-page')).toHaveCount(1);
-  await expect(slide(page).locator('.ef-slide')).toHaveCount(0);
-  await expect(stage(page).getByText(/Draft preview in Everyone Casting 1\.1\.0/)).toBeVisible();
+  await expect(stage(page).getByText(/Draft preview in Everyone Film Editorial 1\.3\.0/)).toBeVisible();
   await page.getByRole('button', { name: 'All pages' }).click();
-  await expect(page.getByRole('list', { name: 'All pages in print order' }).getByRole('button')).toHaveCount(4);
+  await expect(page.getByRole('list', { name: 'All pages in print order' }).getByRole('button')).toHaveCount(5);
   expect(model.errors).toEqual([]);
 });
 
 test('the workspace editor passes axe and fits a phone without sideways scrolling', async ({ page }) => {
   const model = await workspace(page); await page.goto(`${base}/organize`);
-  await expect(strip(page).getByRole('button')).toHaveCount(7);
+  await expect(strip(page).getByRole('button')).toHaveCount(5);
   const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze();
   expect(results.violations.map(item => `${item.id}: ${item.nodes.map(node => node.target.join(' ')).join(', ')}`)).toEqual([]);
   await page.setViewportSize({ width: 390, height: 844 });
@@ -177,7 +177,7 @@ async function openNotes(page: Page, text: string) {
   await page.getByRole('button', { name: /^Assignment actions for Synthetic Actor One/ }).click();
   await page.getByRole('menuitem', { name: 'Edit assignment notes' }).click();
   await page.getByLabel('Presentation notes').fill(text);
-  await expect(slide(page).locator('[data-fit-field="presentation_notes"]')).toHaveText(text);
+  await expect(notes(page)).toHaveText(text);
 }
 async function remoteRefresh(page: Page, model: Awaited<ReturnType<typeof workspace>>) {
   const before = model.reads.roles;
@@ -193,7 +193,7 @@ test('a remote change to the record being edited never overwrites the unsaved te
   await remoteRefresh(page, model);
   // The field and the slide keep what was typed, and the stage says it includes unsaved edits.
   await expect(page.getByLabel('Presentation notes')).toHaveValue('My unsaved note');
-  await expect(slide(page).locator('[data-fit-field="presentation_notes"]')).toHaveText('My unsaved note');
+  await expect(notes(page)).toHaveText('My unsaved note');
   await expect(stage(page).getByText('Live preview · includes unsaved edits')).toBeVisible();
   // Saving is based on the version that was opened, so the server refuses it instead of overwriting Claude's change.
   await page.getByRole('button', { name: 'Save assignment notes' }).click();
@@ -202,7 +202,7 @@ test('a remote change to the record being edited never overwrites the unsaved te
   await expect(page.getByLabel('Presentation notes')).toHaveValue('My unsaved note');
   // Discarding shows the other person's saved change on the slide.
   await page.getByRole('button', { name: 'Discard note edits' }).click();
-  await expect(slide(page).locator('[data-fit-field="presentation_notes"]')).toHaveText('Changed by Claude');
+  await expect(notes(page)).toHaveText('Changed by Claude');
   expect(model.errors).toEqual([]);
 });
 
@@ -212,22 +212,18 @@ test('a remote change to another record appears on its slide while an unsaved ed
   model.bumpOther('Note added by a colleague');
   await remoteRefresh(page, model);
   await expect(page.getByLabel('Presentation notes')).toHaveValue('Still typing');
-  await expect(slide(page).locator('[data-fit-field="presentation_notes"]')).toHaveText('Still typing');
-  await strip(page).getByRole('button', { name: /: Synthetic Actor Two$/u }).click();
-  await expect(slide(page).locator('[data-fit-field="presentation_notes"]')).toHaveText('Note added by a colleague');
-  await strip(page).getByRole('button', { name: /: Synthetic Actor One$/u }).click();
-  await expect(slide(page).locator('[data-fit-field="presentation_notes"]')).toHaveText('Still typing');
+  // Both people share the slot page: the colleague's note appears under Actor Two, the unsaved text stays under Actor One.
+  await expect(notes(page)).toHaveText('Still typing');
+  await expect(notes(page, 2)).toHaveText('Note added by a colleague');
   expect(model.writes).toEqual([]); expect(model.errors).toEqual([]);
 });
 
-test('without a 1.2.0 series the editorial design can still be previewed, labelled as preview only', async ({ page }) => {
+test('with an earlier Studio default and no 1.3.0 series the stage still draws 1.3.0 and says generation waits for Settings', async ({ page }) => {
   const model = await workspace(page, { noEditorialSeries: true }); await page.goto(`${base}/organize`);
-  await expect(strip(page).getByRole('button')).toHaveCount(4);
-  await page.getByRole('combobox', { name: 'Preview as' }).selectOption({ label: 'Everyone Film Editorial 1.2.0 · preview only' });
-  await expect(strip(page).getByRole('button')).toHaveCount(7);
+  await expect(strip(page).getByRole('button')).toHaveCount(5);
   await expect(page.locator('.stage-frame .ef-slide[data-layout="cover_floward"]')).toHaveCount(1);
-  await expect(stage(page).getByText('Preview only. This workspace still generates with Client selection', { exact: false })).toHaveCount(0);
-  await expect(stage(page).getByText(/^Preview only\. This workspace still generates with Everyone Casting 1\.1\.0/u)).toBeVisible();
+  await expect(page.getByLabel('Preview as').locator('option')).toHaveText(['No saved series · Everyone Film Editorial 1.3.0']);
+  await expect(stage(page).getByText(/^The Studio default is still Everyone Casting 1\.1\.0 \(earlier template\)\. Generating with Everyone Film Editorial 1\.3\.0 starts once a Studio manager selects it in Settings\./u)).toBeVisible();
   expect(model.errors).toEqual([]);
 });
 
@@ -236,14 +232,14 @@ test('the config panel can be resized by keyboard and pointer; the stage and sli
   const panel = page.getByRole('complementary', { name: 'Casting panel' });
   const handle = page.getByRole('separator', { name: 'Resize Casting panel' });
   const width = async (locator: ReturnType<Page['locator']>) => Math.round((await locator.boundingBox())!.width);
-  await expect(strip(page).getByRole('button')).toHaveCount(7);
+  await expect(strip(page).getByRole('button')).toHaveCount(5);
   const start = await width(panel); const slideStart = await width(slide(page));
   expect(start).toBe(400);
   await handle.focus(); for (let n = 0; n < 5; n++) await page.keyboard.press('ArrowRight');
   await expect.poll(() => width(panel)).toBe(480);
   await expect(handle).toHaveAttribute('aria-valuenow', '480');
   await expect.poll(() => width(slide(page))).toBeLessThan(slideStart);
-  await page.reload(); await expect(strip(page).getByRole('button')).toHaveCount(7);
+  await page.reload(); await expect(strip(page).getByRole('button')).toHaveCount(5);
   await expect.poll(() => width(panel)).toBe(480);
   // Pointer: drag the edge; the page never scrolls sideways and the stage keeps its minimum room.
   const box = (await handle.boundingBox())!;
@@ -258,12 +254,9 @@ test('the config panel can be resized by keyboard and pointer; the stage and sli
   expect(model.errors).toEqual([]);
 });
 
-test('the 1.3.0 slot template can be previewed: a slot\'s people share one page and no missing fact is drawn', async ({ page }) => {
-  const model = await workspace(page, { noEditorialSeries: true }); await page.goto(`${base}/organize`);
-  await page.getByRole('combobox', { name: 'Preview as' }).selectOption({ label: 'Everyone Film Editorial 1.3.0 (2–3 people per slide) · preview only' });
-  await expect(stage(page).getByText(/^Preview only\. This workspace still generates with Everyone Casting 1\.1\.0; Everyone Film Editorial 1\.3\.0/u)).toBeVisible();
-  const group = strip(page).getByRole('button', { name: /: Father · Synthetic Actor One, Synthetic Actor Two$/u });
-  await group.click();
+test('the 1.3.0 slot page shows a slot\'s people together and draws no missing fact', async ({ page }) => {
+  const model = await workspace(page); await page.goto(`${base}/organize`);
+  await strip(page).getByRole('button', { name: FATHER }).click();
   await expect(page.locator('.stage-frame .ef-slide[data-layout="cast_group_detail"]')).toHaveCount(1);
   await expect(page.locator('.stage-frame .ef-slide').getByText('Not provided')).toHaveCount(0);
   await expect(page.locator('.stage-frame .ef-slide').getByText('Synthetic Actor Two', { exact: true })).toHaveCount(1);

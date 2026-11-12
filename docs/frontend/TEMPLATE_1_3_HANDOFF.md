@@ -8,6 +8,10 @@ The owner chose four rules:
 - **Detail pages:** none. The slot page is each person's only page.
 - **Open slots:** still shown as "Pending", listing only the requirements that were given.
 
+## Status 2026-11-12
+
+Items 1–5 below are implemented on `frontend/presentation-first-p4` (contract/AGENTS/DECISIONS rule, migration `20261113120000_m13_editorial_template_1_3.sql` with the staging replica check `development/editorial-template/staging/build_staging_1_3.py`, version-aware worker, PowerPoint, viewer and guest routing). The template content hash is now `1e62d22b…` (per-person fit attribution). Not yet done: applying m08 fit fonts and m13 to canonical (`release.py apply-fit`, then `release_1_3.py preflight|apply|readback`; the Supabase CLI login currently gets 403), the worker release, and switching the Studio default to 1.3.0 (item 6).
+
 ## What already exists (frontend branch `frontend/presentation-first-p3`)
 
 **`packages/templates/versions/1.3.0/`**

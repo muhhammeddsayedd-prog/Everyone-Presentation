@@ -22,7 +22,7 @@ If this pack is imported into an existing repository, merge these instructions w
 - Shared library facts, selected project media/availability, slot assignment choices, slide wording and immutable generated versions are distinct concerns.
 - Selection is derived from every active assignment. Shortlist is explicit. Option/Main/Backup is independent; zero/one Main per slot; one active candidate assignment per slot.
 - Missing information, open slots and fewer frames are permitted. Never fabricate facts or images; use Not provided and Pending. Technical failure/access/layout overflow must be reported honestly.
-- One candidate slide per included assignment; all ten fields; carousel in app, available frames together in PDF; existing brand/design adapted to that contract.
+- One candidate slide per included assignment; all ten fields; carousel in app, available frames together in PDF; existing brand/design adapted to that contract. Exception, template 1.3.0 (owner decision, the only template for new series): one page per slot, people side by side, only provided fields, Pending lists only given requirements; saved 1.0–1.2 versions keep their rules.
 - Reviewed is factual confirmation, not casting approval. Producer/designated editors and Claude acting with those permissions can confirm it.
 - Guest links expire after 30 days by default and follow newest ready version only within the same series/output/audience. Feedback stays on viewed version. External feedback shared; internal notes private.
 - Every meaningful UI operation has API/MCP parity. Claude can complete the whole flow; it never receives service-role credentials or permissions beyond its acting user.

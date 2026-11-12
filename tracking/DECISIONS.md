@@ -435,3 +435,12 @@ code-owned, versioned template used by every generation path.
 - The SQL mirror is executable by every `eps.presentation_hash` grantee including its owner
   `eps_review_owner` (owner of security-definer `eps_generate_version`); staging caught the omission.
 - Settings default is not changed by migration; a producer selects 1.2.0 after release.
+
+## 2026-11-12 Everyone Film Editorial 1.3.0 is the only template for new series
+
+Owner decisions (2026-11-05 and 2026-11-12): presentations show only provided information, two or three people per slide, using the Everyone Film design kit (`everyone_template_design_kit/`); 1.3.0 is the only template offered across the app.
+- Composition: one page per slot, Main/Option/Backup side by side (up to three per page, split evenly); every provided field under each portrait, empty fields omitted; no separate detail page; open slots/roles print Pending pages listing only provided requirements; a slot whose facts cannot fit under the portraits falls back to one person per page.
+- Fit attribution: each fit region on a slot page names its own captured slide (`data-fit-source`).
+- Database: migration `20261113120000_m13_editorial_template_1_3.sql` registers 1.3.0 (content `1e62d22b…`, fonts `everyone-film-fonts-v1`), adds the independent SQL mirror `eps.editorial_deck_counts_1_3`, admits 1.3.0 in eight gates and takes the candidate field proof from the mirror. Requires m08 and the m08 fit-font fix first. Staging replica (`development/editorial-template/staging/build_staging_1_3.py`) passed; SQL mirror equals the composer on 302 synthetic snapshots.
+- Settings default is not changed by the migration; a Studio manager selects 1.3.0 after the release. Existing series and saved versions keep their template; the UI offers only 1.3.0 for new work and lists earlier-template series in Presentations.
+- Release order: m08 fit-font fix (`release.py apply-fit`/`readback-fit`) → m13 (`release_1_3.py preflight`/`apply`/`readback`) → worker release → web → Settings default 1.3.0.

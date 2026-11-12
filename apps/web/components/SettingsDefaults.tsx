@@ -60,7 +60,7 @@ function DefaultsEditor({ settings, onDirtyChange, onReload, onSaved }: {
         {[...new Set([settings.template_version, CURRENT_TEMPLATE])].map(version => <option key={version} value={version}>{templateName(version)}</option>)}
       </select>
       <p id="studio-template-help" className="small muted">New series use this template. Everyone Film Editorial 1.3.0 is the only template offered: one page per slot with its people side by side, and only the facts that were provided. Series and saved versions made with an earlier template keep it.</p>
-      {template !== CURRENT_TEMPLATE && <p className="small" role="status">The saved default is an earlier template. Choose Everyone Film Editorial 1.3.0 and save.</p>}</div></div>
+      {template !== CURRENT_TEMPLATE && <p className="small">The saved default is an earlier template. Choose Everyone Film Editorial 1.3.0 and save.</p>}</div></div>
     <dl className="connection-list"><div><dt>Default review access</dt><dd>30 days</dd></div>
       {Object.entries(settings.models).map(([name, model]) => <div key={name}><dt>{name.replaceAll('_', ' ')} model</dt><dd>{model}</dd></div>)}
     </dl>

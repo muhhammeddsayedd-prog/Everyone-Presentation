@@ -44,7 +44,13 @@ Owner decisions (2026-11-05):
 - **Viewer** (`PresentationVersionView.tsx`): slide list with comment counts in the panel, the saved stage (App view carousel / PDF preview), feedback beside it, PDF/PowerPoint/Share actions; queued, failed and missing states.
 - **Media:** `/presentations/versions/{id}/media/{asset}` and the guest `/m` page get a player stage with the captured transcript beside it; access is still requested only on Play.
 - **Top bar:** Share on every step; Generate version on Review (it opens Versions, where generation lives). | Verified (mock); connected read-only viewer check |
-| P4–P5 | Guest, mobile, hardening | Not started |
+| P4 guest, mobile, OAuth + template 1.3.0 only (2026-11-12) | Owner request: the full app in the new design on a hosted staging URL, with Everyone Film Editorial 1.3.0 (design kit) as the only template.
+- **Template 1.3.0 generates:** worker editorial support is version-aware (1.2.0/1.3.0); fit regions on slot pages name their own captured slide (`data-fit-source`); PDF/stage proof takes the provided-fact count from the composer; PowerPoint routes 1.3.0; migration m13 (staged, not applied) with SQL mirror; see [TEMPLATE_1_3_HANDOFF.md](TEMPLATE_1_3_HANDOFF.md).
+- **Only 1.3.0 offered:** Settings, Review, Versions and the live stage offer only 1.3.0; earlier-template series stay readable in Presentations; creating a series is blocked with an explanation while the Studio default is an earlier template. Saved-version viewer and guest view draw 1.3.0 snapshots (`presentation/editorial.ts`: `editorialTemplateOf`, `pagesForSlide`).
+- **Guest review:** black stage like the Studio; top bar (project · output, version, Check for updates, PDF), slide list | stage | feedback panel; phones show the slide, a slide strip, then feedback. The light guest theme is retired.
+- **Mobile workspace:** below 768 px the live slide is first and the step's panel is a bottom sheet above the step tab bar.
+- **OAuth consent:** CSS-only restyle to one centred card; text, fields and posted values unchanged. | Verified (mock); connected generation blocked on the database release |
+| P5 | Hardening | Not started |
 
 P3 checks (2026-11-05, branch `frontend/presentation-first-p3`):
 - Gate: `npm run lint`, `npm run typecheck`, `npm test` and `npm run check:production-guard` pass. `npx playwright test`: 172 passed, 0 failed (163 earlier + 2 P2 follow-up + 7 P3). Unit suites 1,057 passed (477 domain/server incl. the 2 new parity tests; the worker suite skips one by design).

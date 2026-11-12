@@ -12,7 +12,7 @@ test('generation retains an unknown request and saved versions never follow late
   const seriesDto = () => ({ id: series, workspace_id: workspace, output_type: 'selection', audience_preset_id: snapshot.audience_snapshot.id,
     audience_snapshot: snapshot.audience_snapshot, title: snapshot.cover.title, latest_ready_version_id: versions.size ? [...versions.keys()].at(-1) : null,
     latest_ready_version_no: versions.size || null, row_version: 1, archived: false, template_key: snapshot.template.key,
-    template_version: snapshot.template.version, template_content_sha256: snapshot.template.content_sha256, font_key: snapshot.template.font_key });
+    template_version: '1.3.0', template_content_sha256: snapshot.template.content_sha256, font_key: snapshot.template.font_key });
   await page.route('**/api/**', async route => {
     const req = route.request(), url = new URL(req.url()), path = url.pathname;
     const ok = (data: unknown) => route.fulfill({ json: { request_id: 'synthetic-presentation', data } });
@@ -129,7 +129,7 @@ test('review and generation navigation keeps the chosen series instead of the wo
   const seriesDto = (snapshot: typeof selection) => ({ id: snapshot.series_id, workspace_id: snapshot.workspace_id, output_type: snapshot.cover.output_type,
     audience_preset_id: snapshot.audience_snapshot.id, audience_snapshot: snapshot.audience_snapshot, title: snapshot.cover.title,
     latest_ready_version_id: null, latest_ready_version_no: null, row_version: 1, archived: false,
-    template_key: snapshot.template.key, template_version: snapshot.template.version, template_content_sha256: snapshot.template.content_sha256, font_key: snapshot.template.font_key });
+    template_key: snapshot.template.key, template_version: '1.3.0', template_content_sha256: snapshot.template.content_sha256, font_key: snapshot.template.font_key });
   await page.route('**/api/**', async route => {
     const url = new URL(route.request().url()), path = url.pathname;
     const ok = (data: unknown) => route.fulfill({ json: { request_id: 'synthetic-context', data } });

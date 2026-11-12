@@ -7,3 +7,13 @@
 .requested strong{display:block;font-size:var(--text-h3);margin-top:var(--space-2)}.details{margin:var(--space-6) 0;padding:var(--space-5) 0;border-top:1px solid var(--color-border);border-bottom:1px solid var(--color-border);display:grid;gap:var(--space-5)}.details dt{font-size:var(--text-small);color:var(--color-text-muted);margin-bottom:var(--space-2)}.details dd{margin:0;overflow-wrap:anywhere}.details code{font-family:inherit;font-weight:600}
 .actions{display:flex;gap:var(--space-3);flex-wrap:wrap;margin-top:var(--space-6)}.actions button{flex:1;min-width:150px}.form{display:grid;gap:var(--space-5);margin:var(--space-5) 0}.form input{margin-top:var(--space-2);width:100%}
 @media(max-width:800px){.layout{grid-template-columns:minmax(0,1fr);gap:var(--space-8);padding-top:var(--space-8)}.page{padding-top:var(--space-6)}.card{padding:var(--space-6)}}
+
+/* Presentation-first restyle: one centred consent card on the black stage (content and form unchanged). */
+.page{max-width:none;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--space-6);padding:var(--space-10) var(--gutter);background:radial-gradient(ellipse at 50% 30%,#141416 0%,#000 70%)}
+.header{width:100%;max-width:640px;border-bottom:0;padding-bottom:0;justify-content:space-between}
+.header img{width:132px}
+.layout{width:100%;max-width:640px;grid-template-columns:minmax(0,1fr);gap:var(--space-5);padding-top:0}
+.intro h1{font-size:clamp(24px,2.4vw,30px);margin-bottom:var(--space-3)}
+.intro>p{max-width:none;margin-bottom:var(--space-2);color:var(--color-text-secondary)}
+.card{border-radius:var(--radius-lg,16px);padding:var(--space-8);box-shadow:0 24px 60px rgba(0,0,0,.5)}
+@media(max-width:800px){.page{justify-content:flex-start;padding-top:var(--space-6)}}
