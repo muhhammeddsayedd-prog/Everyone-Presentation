@@ -12,6 +12,7 @@ export function isCandidatesRoute(s: string[]) {
     || s[0] === 'workspace-candidates' || s[0] === 'workspaces' && s.length === 3 && s[2] === 'candidates'
     || s[0] === 'roles' && s.length === 3 && s[2] === 'candidate-filters'
     || s[0] === 'candidate-support' && s.length === 3 && s[2] === 'archive'
+    || s[0] === 'candidate-photos' && s.length === 3 && s[2] === 'content'
     || s[0] === 'candidate-media' && s.length === 4 && s[2] === 'frames' && s[3] === 'extract';
 }
 const invalid = (): never => { throw new DomainError('INVALID_REQUEST', 'Provide supported candidate filters and bounded resource identifiers.', 400); };
@@ -39,6 +40,9 @@ export async function handleCandidatesRequest(request: Request, s: string[], act
   if (s[0] === 'candidates' && s.length === 3 && s[2] === 'media' && method === 'GET') return paged(await service.getCandidateMedia(actor, s[1], search(url, false)));
   if (s[0] === 'candidates' && s.length === 3 && s[2] === 'duplicates' && method === 'GET') return paged(await service.findCandidateDuplicates(actor, s[1], search(url, false)));
   if (url.search) invalid();
+  if (s[0] === 'candidates' && s.length === 3 && s[2] === 'photos' && method === 'GET') return paged(await service.listCandidatePhotos(actor, s[1]));
+  // Archive photos never change once stored, so a viewer's browser may keep them for a day.
+  if (s[0] === 'candidate-photos' && method === 'GET') { const photo = await service.getCandidatePhotoContent(actor, s[1]); return new Response(new Uint8Array(photo.bytes), { headers: { 'Cache-Control': 'private, max-age=86400', 'Content-Type': photo.mimeType, 'X-Content-Type-Options': 'nosniff' } }); }
   if (s[0] === 'roles' && method === 'GET') return json(await service.suggestCandidateFilters(actor, s[1]), context.requestId);
   if (s[0] === 'candidate-support' && method === 'POST') return json(await service.archiveCandidateSupport(actor,s[1],await body<CandidateSupportArchive>('CandidateSupportArchive'),context),context.requestId);
   if (s[0] === 'candidate-media' && s.length === 4 && method === 'POST') return json(await service.extractCandidateFrames(actor,s[1],await body<FrameExtractionInput>('FrameExtraction'),context),context.requestId,202);

@@ -1,5 +1,5 @@
 import { DomainError } from '@eps/domain';
-import { createCentralCandidates, createCentralCandidateFilters, createCentralFrameExtraction, createCentralCandidateSupport } from '@eps/central';
+import { createCentralCandidates, createCentralCandidateFilters, createCentralFrameExtraction, createCentralCandidateSupport, createCentralCandidatePhotos } from '@eps/central';
 import { getCentralClient } from './central-client';
 import { readRuntimeConfig } from './config';
 
@@ -15,5 +15,9 @@ export async function getCandidatesService() {
     return (await createCentralCandidateSupport(client)).listCandidateSupport(...args);
   }, async archiveCandidateSupport(...args: Parameters<Awaited<ReturnType<typeof createCentralCandidateSupport>>['archiveCandidateSupport']>) {
     return (await createCentralCandidateSupport(client)).archiveCandidateSupport(...args);
+  }, async listCandidatePhotos(...args: Parameters<Awaited<ReturnType<typeof createCentralCandidatePhotos>>['listCandidatePhotos']>) {
+    return (await createCentralCandidatePhotos(client)).listCandidatePhotos(...args);
+  }, async getCandidatePhotoContent(...args: Parameters<Awaited<ReturnType<typeof createCentralCandidatePhotos>>['getCandidatePhotoContent']>) {
+    return (await createCentralCandidatePhotos(client)).getCandidatePhotoContent(...args);
   } };
 }

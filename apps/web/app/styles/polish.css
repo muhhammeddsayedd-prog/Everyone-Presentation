@@ -131,4 +131,11 @@
   #studio-defaults .settings-scope-list { margin-bottom: var(--space-2); }
   .frame-order { padding: 0; }
   .facet-panel[hidden] { display: none; }
+  /* Candidate pictures fade in over the initial once loaded (archive photo, else a video frame) */
+  .library-portrait img { opacity: 0; transition: opacity var(--duration-slow) var(--ease-standard); }
+  .library-portrait[data-loaded] img { opacity: 1; }
+  .library-portrait[data-loaded] .library-portrait-initial { visibility: hidden; }
+  .candidate-portrait-photo { position: relative; }
+  .candidate-portrait-photo .library-portrait-initial { font-size: 18px; }
+  .cast-card-facts { overflow-wrap: anywhere; }
 }

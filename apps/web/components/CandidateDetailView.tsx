@@ -70,7 +70,7 @@ export function CandidateDetailView({candidateId,actor,onDirtyChange}:{candidate
       footer:canWrite&&!candidate.archived?<button className="button button-danger-quiet" disabled={lockOthers} onClick={()=>void confirm({title:'Archive this profile?',description:'It is removed from future Cast Library searches. Existing project selections and saved versions remain available.',confirmLabel:'Archive candidate',danger:true}).then(accepted=>{if(accepted)void save(`/api/v1/candidates/${candidateId}/archive`,'POST',{row_version:candidate.row_version},'Candidate archived.');})}><Icon name="trash"/>Archive candidate</button>:undefined}}>
       <div className="workspace-breadcrumb profile-breadcrumb"><Link href="/library/cast">Cast Library</Link><Icon name="chevron-right"/><span dir="auto">{candidate.facts.name??'Name not provided'}</span></div>
       <div className="profile-hero">
-        <div className="profile-hero-portrait"><CandidatePortrait candidateId={candidateId} name={candidate.facts.name}/></div>
+        <div className="profile-hero-portrait"><CandidatePortrait candidateId={candidateId} name={candidate.facts.name} size="large"/></div>
         <header className="profile-hero-identity">
           <div className="cluster">{candidate.review_status==='reviewed'?<span className="badge badge-dot badge-ok">Reviewed</span>:<span className="badge badge-dot badge-warn">Not reviewed</span>}{candidate.archived&&<span className="badge">Archived</span>}</div>
           <h1 dir="auto">{candidate.facts.name??'Name not provided'}</h1>

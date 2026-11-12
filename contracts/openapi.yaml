@@ -10024,8 +10024,8 @@ paths:
   /versions/{version_id}/pptx/content:
     get:
       operationId: get_version_pptx_content
-      summary: Compose an editable PowerPoint of a Ready Everyone Film editorial (template 1.2.0 or 1.3.0) version from its frozen content, using the caller's
-        own version and media access
+      summary: Compose an editable PowerPoint of a Ready Everyone Film editorial (template 1.2.0 or 1.3.0) version from its frozen content, using
+        the caller's own version and media access
       tags:
       - versions
       responses:
@@ -11320,11 +11320,179 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/Id'
-      description: 'Build the editable PowerPoint of a Ready version saved with the Everyone Film editorial template (1.2.0 or 1.3.0), from the same frozen
-        content as its PDF, using only the caller''s own version and media access. Returns the slide count, size and filename of the verified
-        build and download_url: the in-app content route that requires the same signed-in user (no bearer or public URL). Open it in a browser
-        signed in to the app; it is rebuilt from the same frozen content on download. Retained 1.0.0/1.1.0 versions return PPTX_TEMPLATE_UNSUPPORTED;
+      description: 'Build the editable PowerPoint of a Ready version saved with the Everyone Film editorial template (1.2.0 or 1.3.0), from the
+        same frozen content as its PDF, using only the caller''s own version and media access. Returns the slide count, size and filename of the
+        verified build and download_url: the in-app content route that requires the same signed-in user (no bearer or public URL). Open it in
+        a browser signed in to the app; it is rebuilt from the same frozen content on download. Retained 1.0.0/1.1.0 versions return PPTX_TEMPLATE_UNSUPPORTED;
         unfinished versions return PRESENTATION_NOT_READY. Nothing is stored or shared.'
+  /candidates/{candidate_id}/photos:
+    get:
+      operationId: list_candidate_photos
+      summary: List a candidate's cast archive photos, cover first
+      tags:
+      - candidate-media
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CandidatePhoto'
+                  page:
+                    $ref: '#/components/schemas/Page'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+                - page
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: cast.read
+      x-mcp-exposed: true
+      x-shared-service-operation: list_candidate_photos
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: candidate_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      description: List the photos imported with a person from the cast archive (at most 50), the cover photo first. Each row gives the full-size
+        asset_id and the small thumb_asset_id; read either through GET /candidate-photos/{asset_id}/content with the same signed-in user. People
+        without archive photos return an empty list.
+  /candidate-photos/{asset_id}/content:
+    get:
+      operationId: get_candidate_photo_content
+      summary: Read one cast archive photo or thumbnail
+      tags:
+      - media
+      responses:
+        '200':
+          description: Private authenticated exact JPEG bytes; private cache and nosniff.
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: cast.read
+      x-mcp-exposed: false
+      x-shared-service-operation: get_candidate_photo_content
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: asset_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      description: Private JPEG bytes of a ready candidate photo or its thumbnail, read with the caller's own session (cast.read). Archive photos
+        never change, so the response may be kept privately for a day.
 components:
   securitySchemes:
     InternalBearer:
@@ -15475,4 +15643,35 @@ components:
       - size_bytes
       - slide_count
       - template_version
+    CandidatePhoto:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        position:
+          type: integer
+          minimum: 1
+        cover:
+          type: boolean
+        width:
+          type: integer
+          minimum: 1
+          maximum: 4096
+        height:
+          type: integer
+          minimum: 1
+          maximum: 4096
+        asset_id:
+          $ref: '#/components/schemas/Id'
+        thumb_asset_id:
+          $ref: '#/components/schemas/Id'
+      required:
+      - id
+      - position
+      - cover
+      - width
+      - height
+      - asset_id
+      - thumb_asset_id
 x-contract-status: implementation specification; verify with generated routes and contract tests

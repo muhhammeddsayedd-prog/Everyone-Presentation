@@ -33,7 +33,7 @@ const IMPLEMENTED = new Set(['get_capabilities','list_projects','list_clients','
   'archive_audience_preset','list_jobs','get_job','retry_job','cancel_job',
   'search_candidates','create_candidate','get_candidate','update_candidate','confirm_candidate_reviewed','archive_candidate',
   'get_candidate_media','update_candidate_frames','list_duplicate_matches','resolve_duplicate','suggest_candidate_filters','extract_candidate_frames',
-  'list_candidate_support','archive_candidate_support',
+  'list_candidate_support','archive_candidate_support','list_candidate_photos',
   'list_workspace_candidates','add_workspace_candidate','update_workspace_candidate','remove_workspace_candidate']);
 const CASTING_TOOLS = new Set(['list_assignments','create_assignment','update_assignment','set_slot_main','undo_slot_main','remove_assignment']);
 const REVIEW_TOOLS = new Set(['list_presentation_series','create_presentation_series','get_presentation_series','update_presentation_series','get_workspace_review','create_ai_suggestion','get_ai_suggestion','request_workspace_review_fit','get_casting_retirement','undo_casting_retirement']);

@@ -175,7 +175,8 @@
         "apps/web/components/CandidateDetailView.tsx",
         "apps/web/components/RoleFilterSuggestions.tsx",
         "apps/web/components/CandidateFrameExtraction.tsx",
-        "apps/web/components/SupportingFiles.tsx"
+        "apps/web/components/SupportingFiles.tsx",
+        "apps/web/components/CandidatePortrait.tsx"
       ],
       "operations": [
         {
@@ -260,6 +261,12 @@
           "operation": "archive_candidate_support",
           "domain_symbol": "archiveCandidateSupport",
           "domain_source": "packages/central/src/candidate-support.ts",
+          "http_source": "apps/web/lib/candidates-http.ts"
+        },
+        {
+          "operation": "list_candidate_photos",
+          "domain_symbol": "listCandidatePhotos",
+          "domain_source": "packages/central/src/candidate-photos.ts",
           "http_source": "apps/web/lib/candidates-http.ts"
         }
       ]

@@ -10,12 +10,14 @@ import { ErrorNotice, Loading } from './Feedback';
 import { CastLibraryView } from './CastLibraryView';
 import { CandidateProcessingIssues } from './CandidateProcessingIssues';
 import { CandidateFrameImage } from './CandidateFrameImage';
+import { CandidatePortrait } from './CandidatePortrait';
 import { CandidateResumableUploads } from './CandidateResumableUploads';
 import { SupportingFiles } from './SupportingFiles';
 import {createCastLibraryRequests as createLatestReadRequests} from '../lib/cast-library-requests';
 import { CastingRetirementReview } from './CastingRetirementReview';
 import { RetirementUndo } from './RetirementUndo';
 import { Icon } from './Icon';
+import { cardCastingId } from './candidate-card';
 import { useDraftValue } from './workspace/WorkspaceDraftProvider';
 import { draftKey } from './workspace/draft-review';
 import { Drawer } from './ui/Overlay';
@@ -90,13 +92,13 @@ function ProjectCandidate({item,actor,storageOrigin,canWrite,open,onOpenChange,o
   const locked=busy||supportBusy||sourceBusy;
   return <article className={`candidate-row${open?' is-open':''}`} data-draft-focus={`pool:${item.id}`}>
     <div className="candidate-row-summary">
-      <div className="identity">{savedFrames[0]?<span className="candidate-portrait"><CandidateFrameImage assetId={savedFrames[0]} alt=""/></span>:<span className="candidate-portrait candidate-portrait-empty" aria-hidden="true"><Icon name="people"/></span>}<div><h3 dir="auto">{name}</h3><span className="identity-meta">{candidate?.facts.casting_id??'Casting ID not provided'} · <span className={reviewed?'text-ok':undefined}>{reviewed?'Reviewed':'Unreviewed'}</span></span></div></div>
+      <div className="identity">{savedFrames[0]?<span className="candidate-portrait"><CandidateFrameImage assetId={savedFrames[0]} alt=""/></span>:<span className="candidate-portrait candidate-portrait-photo" aria-hidden="true">{candidate?<CandidatePortrait candidateId={candidate.id} name={candidate.facts.name}/>:<Icon name="people"/>}</span>}<div><h3 dir="auto">{name}</h3><span className="identity-meta">{cardCastingId(candidate?.facts.casting_id??null)?`${cardCastingId(candidate?.facts.casting_id??null)} · `:''}<span className={reviewed?'text-ok':undefined}>{reviewed?'Reviewed':'Unreviewed'}</span></span></div></div>
       <div className="frame-strip" role="img" aria-label={`${savedFrames.length} of 3 project frames chosen`}>{[0,1,2].map(index=>savedFrames[index]?<span className="frame-thumb" key={index}><CandidateFrameImage assetId={savedFrames[index]} alt=""/></span>:<span className="frame-thumb frame-thumb-empty" key={index} aria-hidden="true"/>)}</div>
       <p className={item.availability?'candidate-availability':'candidate-availability muted'} dir="auto">{item.availability??'Pending'}</p>
       <div className="cluster">{dirty&&!open&&<span className="badge badge-warn">Unsaved changes</span>}{attention.length?attention.map(entry=><span key={entry.label} className={`badge badge-${entry.tone}`}>{entry.label}</span>):<span className="muted" aria-label="No attention needed">—</span>}</div>
       <button type="button" className="button button-small" aria-haspopup="dialog" aria-expanded={open} onClick={()=>onOpenChange(true)} aria-label={`Edit project material for ${name}`}>Edit<Icon name="chevron-right"/></button>
     </div>
-    {open&&<Drawer inline wide title={name} description={<>{reviewed?'Reviewed':'Unreviewed'} · {candidate?.facts.casting_id??'Casting ID not provided'} · Project material for this workspace only</>} onClose={()=>onOpenChange(false)} busy={locked} closeLabel={`Close ${name}`}
+    {open&&<Drawer inline wide title={name} description={<>{reviewed?'Reviewed':'Unreviewed'}{cardCastingId(candidate?.facts.casting_id??null)?` · ${cardCastingId(candidate?.facts.casting_id??null)}`:''} · Project material for this workspace only</>} onClose={()=>onOpenChange(false)} busy={locked} closeLabel={`Close ${name}`}
       footer={<>{canWrite&&<button type="button" className="button button-danger-quiet" disabled={busy||dirty||supportBusy||sourceBusy||removeReview} onClick={()=>setRemoveReview(true)}>Remove from project</button>}<Link className="button button-quiet" href={`/library/cast/${item.candidate_id}`}>Open shared profile<Icon name="external"/></Link><span className="grow"/>{dirty&&<><button type="button" className="button" disabled={busy} onClick={discard}>Discard project edits</button><button className="button button-primary" form={formId} disabled={busy}>{busy?'Saving…':'Save project choices'}</button></>}</>}>
       {error&&<ErrorNotice message={error}/>}
       <form id={formId} onSubmit={save} className="stack-lg"><fieldset className="stack-lg" disabled={!canWrite||busy||supportBusy||sourceBusy||removeReview}>

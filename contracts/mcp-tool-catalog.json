@@ -23351,6 +23351,299 @@
         "idempotentHint": false,
         "openWorldHint": false
       }
+    },
+    {
+      "name": "list_candidate_photos",
+      "description": "List the photos imported with a person from the cast archive (at most 50), the cover photo first. Each row gives the full-size asset_id and the small thumb_asset_id; read either through GET /candidate-photos/{asset_id}/content with the same signed-in user. People without archive photos return an empty list.",
+      "operationId": "list_candidate_photos",
+      "http": {
+        "method": "GET",
+        "path": "/candidates/{candidate_id}/photos"
+      },
+      "capability": "cast.read",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "candidate_id": {
+            "$ref": "#/$defs/Id"
+          }
+        },
+        "required": [
+          "candidate_id"
+        ],
+        "$defs": {
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          }
+        }
+      },
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "request_id": {
+            "type": "string"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/CandidatePhoto"
+            }
+          },
+          "page": {
+            "$ref": "#/$defs/Page"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/Warning"
+            }
+          }
+        },
+        "required": [
+          "request_id",
+          "data",
+          "page"
+        ],
+        "$defs": {
+          "DateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          },
+          "MediaAsset": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "$ref": "#/$defs/Id"
+              },
+              "purpose": {
+                "type": "string",
+                "enum": [
+                  "specs",
+                  "candidate_video",
+                  "candidate_support",
+                  "client_logo",
+                  "candidate_frame",
+                  "audio",
+                  "transcript",
+                  "preview_video",
+                  "presentation_pdf",
+                  "presentation_preview",
+                  "presentation_manifest",
+                  "document_text",
+                  "document_page"
+                ]
+              },
+              "filename": {
+                "type": "string"
+              },
+              "mime_type": {
+                "type": "string"
+              },
+              "size_bytes": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "sha256": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "uploading",
+                  "ready",
+                  "failed",
+                  "quarantined",
+                  "archived"
+                ]
+              },
+              "duration_ms": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "width": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "height": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "source_asset_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "source_timestamp_ms": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "created_at": {
+                "$ref": "#/$defs/DateTime"
+              }
+            },
+            "required": [
+              "id",
+              "purpose",
+              "filename",
+              "mime_type",
+              "size_bytes",
+              "sha256",
+              "status",
+              "duration_ms",
+              "width",
+              "height",
+              "source_asset_id",
+              "source_timestamp_ms",
+              "created_at"
+            ]
+          },
+          "Page": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "next_cursor": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "next_cursor"
+            ]
+          },
+          "Warning": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "entity_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "code",
+              "message",
+              "entity_id"
+            ]
+          },
+          "CandidatePhoto": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "$ref": "#/$defs/Id"
+              },
+              "position": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "cover": {
+                "type": "boolean"
+              },
+              "width": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 4096
+              },
+              "height": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 4096
+              },
+              "asset_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "thumb_asset_id": {
+                "$ref": "#/$defs/Id"
+              }
+            },
+            "required": [
+              "id",
+              "position",
+              "cover",
+              "width",
+              "height",
+              "asset_id",
+              "thumb_asset_id"
+            ]
+          }
+        }
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
     }
   ],
   "excluded_operations": [

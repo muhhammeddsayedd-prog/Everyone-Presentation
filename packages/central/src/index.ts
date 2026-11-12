@@ -19,6 +19,8 @@ export { createCentralCandidateFilters } from './candidate-filters.ts';
 export type { CentralCandidateFilters } from './candidate-filters.ts';
 export { createCentralFrameExtraction } from './candidate-frame-extraction.ts';
 export { createCentralCandidateSupport } from './candidate-support.ts';
+export { createCentralCandidatePhotos } from './candidate-photos.ts';
+export type { CandidatePhoto, CentralCandidatePhotos } from './candidate-photos.ts';
 export type { CentralCandidateSupport } from './candidate-support.ts';
 export {createCandidateSupportStorageAdapter} from './candidate-support-storage.ts';
 export type {SupportStorageOptions,SupportVerificationFacts,SupportMime,SupportVerifiedDocument} from './candidate-support-storage.ts';

@@ -9,6 +9,7 @@ import { CandidateFactsEditor, emptyCandidateFacts } from './CandidateFactsEdito
 import { createCastLibraryRequests } from '../lib/cast-library-requests';
 import { RoleFilterSuggestions } from './RoleFilterSuggestions';
 import { Icon } from './Icon';
+import { cardCastingId, cardLines } from './candidate-card';
 import { SegmentIndicator } from './motion/SegmentIndicator';
 import { stagger } from './motion/motion';
 import { PageFrame, PanelToggle } from './shell/PageFrame';
@@ -73,8 +74,9 @@ export function CastLibraryView({ actor, onDirtyChange, workspaceId, onAdded }: 
       : <ul ref={stagger} className={`cast-results cast-results-${layout}`} aria-label="Cast Library results">{items.map(candidate => <li key={candidate.id} className="cast-card">
         <Link className="cast-card-portrait" href={`/library/cast/${candidate.id}`} tabIndex={-1} aria-hidden="true"><CandidatePortrait candidateId={candidate.id} name={candidate.facts.name} />{candidate.possible_duplicate && <span className="badge badge-warn cast-card-flag">Possible duplicate</span>}{candidate.review_status === 'reviewed' && <span className="cast-card-reviewed"><Icon name="check" />Reviewed</span>}</Link>
         <div className="cast-result-details"><h3 dir="auto"><Link href={`/library/cast/${candidate.id}`}>{candidate.facts.name ?? 'Name not provided'}</Link>{candidate.review_status === 'reviewed' && <span className="reviewed-mark" title="Reviewed facts"><Icon name="check" /></span>}</h3>
-          <p className="small muted" dir="auto">{[candidate.facts.casting_id ?? 'Casting ID not provided', candidate.facts.age_or_range, candidate.facts.city].filter(Boolean).join(' · ')}</p>
-          <p className="small" dir="auto">{candidate.facts.languages.join(' · ') || 'Languages not provided'}</p>
+          {(() => { const lines = cardLines(candidate.facts); const castingId = cardCastingId(candidate.facts.casting_id); return <>
+            {(lines.primary || castingId) && <p className="small muted cast-card-facts" dir="auto">{[lines.primary, castingId].filter(Boolean).join(' · ')}</p>}
+            {lines.secondary && <p className="small cast-card-facts" dir="auto">{lines.secondary}</p>}</>; })()}
           <span className="sr-only">{candidate.review_status === 'reviewed' ? 'Reviewed' : 'Unreviewed'}</span>
           {!!candidate.search_match?.unknown_filter_fields.length && <p className="small text-warn">Unknown: {candidate.search_match.unknown_filter_fields.join(', ')}</p>}</div>
         <div className="button-row cast-card-actions"><Link className="button button-small button-quiet" href={`/library/cast/${candidate.id}`}>Open profile</Link>{canAdd && <button className="button button-small" disabled={busy} onClick={() => void add(candidate)}><Icon name="plus" />Add to project</button>}</div></li>)}</ul>}
