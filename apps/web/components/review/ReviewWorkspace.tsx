@@ -310,7 +310,7 @@ function ReviewScope({ workspaceId, projectId, actor, initialOutput, requestedSe
     </>}
   </div>;
   const panelFooter = review ? <div className="review-foot"><p className="small"><strong>{plural(notes, 'note')} · {plural(blocking, 'blocker')}</strong><span className="muted"> · {review.can_generate ? 'ready for generation' : 'generation is not available yet'}</span></p>
-    <div className="button-row"><Link className="button button-quiet" href={`${base}/organize`}>Back to Casting</Link><Link className={`button${review.can_generate ? ' button-primary' : ''}`} href={`${base}/presentations?series_id=${review.series_id}`}>Open Presentation</Link></div></div> : undefined;
+    <div className="button-row"><Link className="icon-button workspace-back" href={`${base}/organize`} aria-label="Back to Casting" data-tip="Back to Casting" data-tip-side="start" data-tip-pos="top"><Icon name="chevron-left" /></Link><Link className={`button${review.can_generate ? ' button-primary' : ''}`} href={`${base}/presentations?series_id=${review.series_id}`}>Open Presentation</Link></div></div> : undefined;
 
   const highlight: StageHighlight | null = previewEdit && current?.assignment_id === previewEdit.assignmentId ? { field: previewEdit.field ?? 'availability', tone: 'edit' }
     : mark && pages[index]?.key === mark.key ? { field: mark.field, tone: mark.tone } : null;

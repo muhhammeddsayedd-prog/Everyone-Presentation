@@ -24,7 +24,11 @@ test('library facets send supported filters, show removable chips and keep unkno
   await expect(page.getByText('Possible duplicate', { exact: true })).toBeVisible();
   await expect(page.getByText('Unknown: city', { exact: true })).toBeVisible();
 
+  // Filters start closed; the filter button opens them and then shows how many apply.
+  await expect(page.getByLabel('City', { exact: true })).toBeHidden();
+  await page.getByRole('button', { name: 'Filters', exact: true }).click();
   await page.getByLabel('City', { exact: true }).fill('Cairo');
+  await expect(page.getByRole('button', { name: 'Filters · 1 applied', exact: true })).toHaveAttribute('aria-expanded', 'true');
   await expect.poll(() => queries.at(-1)?.get('city')).toBe('Cairo');
   expect(queries.at(-1)?.get('include_unknown')).toBe('true');
   await page.getByRole('radio', { name: 'Reviewed', exact: true }).check();

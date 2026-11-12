@@ -169,6 +169,38 @@ P0 checks (local, `local_fixture` and mocked API, 2026-11-05):
 - New `tests/e2e/frame-ui.spec.ts` (3 tests): rail names, current page, tooltip on focus and axe; the recent-workspaces menu (keyboard use, opens beside the rail); the bottom bar at 390 px with no overflow at 390 or 320 px. All pass.
 - Visual comparison with `Screenshots 2 Improved Design/` at 1440, 1024 and 390 px: the frame matches. Page bodies keep their previous layout until P1 (global pages) and P2 (workspace editor and live stage).
 
+### Polish pass (2026-11-12, branch `frontend/presentation-first-p5-polish`)
+
+Owner feedback after testing staging: spacing, buttons and opened lists did not match the design style; filters must start closed and open from a filter icon, with React Bits-style motion.
+
+- **Filters start closed.** `PanelSpec.filters` marks a filter panel (Projects, Cast Library, Presentations, Processing). It opens from a filter icon button the page places in its toolbar (`<PanelToggle />`). The button shows the number of applied filters and `aria-expanded`. A filter panel does not use the shared "panel collapsed" preference, so it starts closed on every visit. Other panels (workspace editor, Settings sections, profile facts, sharing) still remember the viewer's choice.
+- **Projects search** moved out of the filter panel into a toolbar above the cards, beside the filter button.
+- **The Cast Library inside the workspace** (Candidates → Cast Library) opens its facets in place from the same filter button.
+- **Panel toggles:** the full-width "Show … panel" text button that sat against the rail is now an icon button. In the workspace, viewer and sharing screens it sits in the stage bar; elsewhere it gets the page gutter.
+- **Dropdown lists:** native `<select>` uses `appearance: base-select` where the browser supports it (Chromium 135+). The open list is drawn in the app's surface: rounded, elevated, with a hover row, an accent checkmark and an opening transition. Other browsers get the same closed control with a drawn chevron and the native list.
+- **Disclosures** (`<details>`): one chevron that turns, and content that fades in.
+- **Menus** (`…`): an entrance animation with staggered items.
+- **Icon buttons with tooltips** (`data-tip`; the accessible name stays on `aria-label`, so names are unchanged):
+  - audience preset Edit/Archive;
+  - supporting-file Download/Archive;
+  - frame order Earlier/Later;
+  - comment Reply/Edit/Resolve;
+  - step-footer "Back to …".
+  - Tooltips render only while hovered or focused, so they never widen the page.
+- **Fixes:**
+  - slide-strip titles overlapped the next thumbnail (they now truncate);
+  - the Studio defaults explainer sat outside its card;
+  - the feedback "Comments" tile wrapped badly;
+  - the frame picker's checkbox had no gap from its label;
+  - step footers wrapped onto two rows at 1024 px;
+  - Settings model labels were lower case.
+- **Motion** (ported from React Bits to CSS, no dependency): AnimatedContent for the panel, picker and menu entrances, and AnimatedList for the staggered sections and menu items. Transform and opacity only; reduced motion zeroes them (base.css). Styles are in `app/styles/polish.css`.
+- **Not issues:** the cut-off "1.25s" chip on candidate portraits and frames is printed inside the synthetic placeholder image. The overlapping "N" circle in local screenshots is the Next.js dev badge.
+- **Tests updated:**
+  - `global-pages-ui`: filters start closed, open from the button or Ctrl+Backslash, show the applied count, and start closed after a reload; the Settings panel still remembers its collapse.
+  - `cast-library-ui`, `processing-ui`: open the filters first.
+  - The phone sheet check waits for the slide-up to finish.
+
 ## Status vocabulary
 
 These four values are used here and in the matrix.

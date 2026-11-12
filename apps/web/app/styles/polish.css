@@ -1,0 +1,134 @@
+/* Polish pass (2026-11-12): consistent toolbars, filter toggles, tooltips, dropdown lists, disclosures and menus.
+   Motion is ported from React Bits to CSS (AnimatedContent for panels and pickers, AnimatedList for the staggered
+   entries); transform and opacity only, and base.css zeroes every duration under prefers-reduced-motion. */
+@layer components {
+  /* Toolbar above a list: search on the left, view and filter controls on the right */
+  .page-toolbar { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
+  .page-toolbar > .search-field { flex: 1 1 260px; max-width: 420px; }
+  .page-toolbar > .filter-toggle, .page-toolbar > .page-toolbar-status + .filter-toggle { margin-left: auto; }
+  .page-toolbar-status { flex: 1; min-width: 0; margin: 0; }
+  .page-heading-actions { display: flex; align-items: center; gap: var(--space-2); }
+
+  /* Filter toggle: an icon button that shows how many filters are applied */
+  .filter-toggle { position: relative; flex: none; border-color: var(--color-border-strong); background: var(--color-surface-2); color: var(--color-text-secondary); }
+  .filter-toggle:hover:not(:disabled) { border-color: var(--color-text-muted); }
+  .filter-toggle[aria-expanded="true"], .filter-toggle[aria-expanded="true"]:hover:not(:disabled) { color: var(--color-accent); border-color: var(--color-accent); background: var(--color-accent-soft); }
+  .filter-toggle svg { transition: transform var(--duration-base) var(--ease-standard); }
+  .filter-toggle[aria-expanded="true"] svg { transform: scale(.92); }
+  .filter-toggle-count { position: absolute; top: -6px; right: -6px; display: grid; place-items: center; min-width: 18px; height: 18px; padding: 0 5px; border-radius: var(--radius-full); background: var(--color-accent); color: var(--color-text-on-accent); font-size: 11px; font-weight: var(--weight-semibold); font-variant-numeric: tabular-nums; box-shadow: 0 0 0 2px var(--color-bg); animation: badge-pop var(--duration-base) var(--ease-enter); }
+  @keyframes badge-pop { from { transform: scale(.6); opacity: 0; } }
+
+  /* Show-panel toggle: a compact icon button with room from the rail */
+  .panel-toggle { flex: none; border-color: var(--color-border-strong); background: var(--color-surface-2); color: var(--color-text-secondary); }
+  .panel-toggle-row { display: flex; }
+  .stage-bar:has(> .panel-toggle) { justify-content: flex-start; }
+  .stage-bar:has(> .panel-toggle) > .stage-tools { margin-left: auto; }
+
+  /* Tooltips for icon-only buttons (the accessible name stays on aria-label) */
+  [data-tip] { position: relative; }
+  [data-tip]::after { content: attr(data-tip); position: absolute; top: calc(100% + 6px); left: 50%; z-index: var(--z-popover); display: none; padding: 4px 8px; border-radius: 6px; background: var(--color-text-primary); color: var(--color-text-on-accent); font-size: 12px; font-weight: var(--weight-semibold); line-height: 1.3; white-space: nowrap; pointer-events: none; opacity: 0; transform: translate(-50%, -2px); transition: opacity var(--duration-fast) var(--ease-standard), transform var(--duration-fast) var(--ease-standard), display var(--duration-fast) allow-discrete; }
+  /* Rendered only while hovered or focused, so a hidden tooltip never widens the page */
+  [data-tip]:is(:hover, :focus-visible)::after { display: block; opacity: 1; transform: translate(-50%, 0); transition-delay: 300ms; }
+  @starting-style { [data-tip]:is(:hover, :focus-visible)::after { opacity: 0; transform: translate(-50%, -2px); } }
+  [data-tip][data-tip-side="start"]::after { left: 0; transform: translate(0, -2px); }
+  [data-tip][data-tip-side="start"]:is(:hover, :focus-visible)::after { transform: none; }
+  [data-tip][data-tip-side="end"]::after { left: auto; right: 0; transform: translate(0, -2px); }
+  [data-tip][data-tip-side="end"]:is(:hover, :focus-visible)::after { transform: none; }
+  [data-tip][data-tip-pos="top"]::after { top: auto; bottom: calc(100% + 6px); }
+  @media (hover: none) { [data-tip]::after { display: none; } }
+
+  /* Step footers: a compact back button beside the primary action */
+  .workspace-back { flex: none; border-color: var(--color-border-strong); background: var(--color-surface-2); color: var(--color-text-secondary); }
+  .workspace-back:hover { text-decoration: none; }
+
+  /* Filter panels open with a short slide, then their sections settle in one after another */
+  .config-panel[data-filters]:not([hidden]) { animation: panel-enter var(--duration-slow) var(--ease-enter); }
+  .config-panel[data-filters]:not([hidden]) .config-panel-body > * { animation: list-enter var(--duration-slow) var(--ease-enter) both; }
+  .config-panel[data-filters] .config-panel-body > :nth-child(2) { animation-delay: 40ms; }
+  .config-panel[data-filters] .config-panel-body > :nth-child(3) { animation-delay: 80ms; }
+  .config-panel[data-filters] .config-panel-body > :nth-child(4) { animation-delay: 120ms; }
+  .config-panel[data-filters] .config-panel-body > :nth-child(5) { animation-delay: 160ms; }
+  .config-panel[data-filters] .config-panel-body > :nth-child(n+6) { animation-delay: 200ms; }
+  .facet-panel:not([hidden]) { animation: list-enter var(--duration-slow) var(--ease-enter); }
+  @keyframes panel-enter { from { opacity: 0; transform: translateX(-12px); } }
+  @keyframes list-enter { from { opacity: 0; transform: translateY(6px); } }
+  @media (max-width: 767px) { .config-panel[data-filters][data-overlay]:not([hidden]) { animation-name: sheet-enter; } }
+  @keyframes sheet-enter { from { opacity: 0; transform: translateY(24px); } }
+
+  /* Dropdown lists: one closed control, and an open list in the app's own surface where the browser allows it */
+  select { appearance: none; padding-right: 34px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239a9aa3' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; background-size: 16px; text-overflow: ellipsis; }
+  select[multiple], select[size]:not([size="1"]) { padding-right: 10px; background-image: none; }
+  @supports (appearance: base-select) {
+    select:not([multiple]), select:not([multiple])::picker(select) { appearance: base-select; }
+    select:not([multiple]) { display: inline-flex; align-items: center; gap: 8px; padding-right: 10px; background-image: none; max-width: 100%; white-space: nowrap; overflow: hidden; }
+    select:not([multiple]) > button { min-width: 0; overflow: hidden; }
+    select:not([multiple]) selectedcontent { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    select:not([multiple])::picker-icon { content: ""; width: 16px; height: 16px; margin-left: auto; flex: none; background: var(--color-text-muted); mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") center / contain no-repeat; transition: rotate var(--duration-base) var(--ease-standard); }
+    select:not([multiple]):open::picker-icon { rotate: 180deg; }
+    select:not([multiple]):open { border-color: var(--color-accent); box-shadow: 0 0 0 3px var(--color-accent-soft); }
+    ::picker(select) { min-width: anchor-size(width); max-height: min(360px, 60vh); margin-block: 4px; padding: 6px; overflow-y: auto; border: 0; border-radius: var(--radius-md); background: var(--color-surface-2); color: var(--color-text-primary); box-shadow: var(--elevation-pop); scrollbar-width: thin;
+      opacity: 0; transform: translateY(-4px) scale(.98); transform-origin: top center; transition: opacity var(--duration-base) var(--ease-enter), transform var(--duration-base) var(--ease-enter), display var(--duration-base) allow-discrete, overlay var(--duration-base) allow-discrete; }
+    select:open::picker(select) { opacity: 1; transform: none; }
+    @starting-style { select:open::picker(select) { opacity: 0; transform: translateY(-4px) scale(.98); } }
+    select option { display: flex; align-items: center; gap: 10px; min-height: 36px; padding: 7px 10px; border-radius: 6px; font-size: var(--text-small); color: var(--color-text-secondary); white-space: normal; }
+    select option:hover, select option:focus-visible { background: var(--color-surface-3); color: var(--color-text-primary); outline: none; }
+    select option:checked { color: var(--color-text-primary); font-weight: var(--weight-semibold); }
+    select option::checkmark { order: 1; margin-left: auto; content: ""; width: 16px; height: 16px; background: var(--color-accent); mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5 10 17 19 7'/%3E%3C/svg%3E") center / contain no-repeat; }
+    select option:disabled { opacity: .45; }
+    select optgroup { padding: 4px 0; font-size: var(--text-micro); color: var(--color-text-muted); }
+  }
+
+  /* Disclosures: one chevron that turns, and content that eases open */
+  details > summary { list-style: none; display: flex; align-items: center; gap: 8px; width: fit-content; max-width: 100%; border-radius: 6px; }
+  details > summary::-webkit-details-marker { display: none; }
+  details > summary::before { content: ""; flex: none; width: 14px; height: 14px; background: currentColor; opacity: .7; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 6 6 6-6 6'/%3E%3C/svg%3E") center / contain no-repeat; transition: rotate var(--duration-base) var(--ease-standard); }
+  details[open] > summary::before { rotate: 90deg; }
+  details > summary:hover { color: var(--color-text-primary); }
+  details > summary:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  details[open] > :not(summary) { animation: list-enter var(--duration-base) var(--ease-enter); }
+  /* Disclosures that draw their own chevron keep it */
+  details.review-group > summary::before, details.drawer-section > summary::before, details[data-own-marker] > summary::before { content: none; }
+
+  /* Menus (… buttons): the AnimatedList entrance, with consistent rows */
+  .menu[style*="position: fixed"] { animation: menu-enter var(--duration-base) var(--ease-enter); transform-origin: top right; }
+  .menu[style*="position: fixed"] > * { animation: list-enter var(--duration-base) var(--ease-enter) both; }
+  .menu > :nth-child(2) { animation-delay: 25ms; } .menu > :nth-child(3) { animation-delay: 50ms; } .menu > :nth-child(4) { animation-delay: 75ms; } .menu > :nth-child(n+5) { animation-delay: 100ms; }
+  @keyframes menu-enter { from { opacity: 0; transform: translateY(-4px) scale(.97); } }
+  .menu { padding: 6px; border-radius: var(--radius-md); }
+  .menu [role^="menuitem"] { border-radius: 6px; }
+  .menu hr { margin: 4px 6px; border: 0; border-top: 1px solid var(--color-border); }
+
+  /* Slide strip: the title truncates inside its own thumbnail */
+  .strip-thumb-title { min-width: 0; }
+  .strip-thumb-title .strip-thumb-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: inherit; }
+  .strip-thumb-title .strip-thumb-badge { flex: none; }
+
+  /* Candidate frame picker: checkbox and time on one line, order controls as compact icons */
+  .candidate-frame > label { display: inline-flex; align-items: center; gap: 8px; font-size: var(--text-small); font-variant-numeric: tabular-nums; }
+  .frame-order { list-style: none; padding: 0; margin: var(--space-3) 0 0; display: grid; gap: 6px; max-width: 360px; }
+  .frame-order > li { display: flex; align-items: center; gap: 6px; padding: 6px 6px 6px 12px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-surface-2); font-size: var(--text-small); font-variant-numeric: tabular-nums; }
+  .frame-order > li > span { flex: 1; min-width: 0; }
+
+  /* Row actions as icons */
+  .row-actions { display: inline-flex; align-items: center; gap: 2px; flex: none; }
+
+  /* File rows (supporting files) */
+  .file-list { list-style: none; margin: var(--space-2) 0 0; padding: 0; display: grid; gap: 6px; }
+  .file-list > li { display: flex; align-items: center; gap: 10px; padding: 8px 8px 8px 12px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-surface-2); }
+  .file-list > li > svg { width: 18px; height: 18px; flex: none; color: var(--color-text-muted); }
+  .file-list-name { flex: 1; min-width: 0; display: flex; align-items: baseline; gap: 8px; }
+  .file-list-name > a { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--color-text-primary); }
+
+  /* Feedback counts: three preference tiles, then comments across the full width */
+  .review-preference-counts > :nth-child(4) { grid-column: 1 / -1; display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-3); }
+  .review-preference-counts > :nth-child(4) dd { margin: 0; }
+}
+
+@layer screens {
+  /* Settings preset rows: badge and icon actions on one line */
+  .preset-actions { display: flex; align-items: center; gap: 4px; }
+  .preset-actions > .badge { margin-right: 6px; }
+  #studio-defaults .settings-scope-list { margin-bottom: var(--space-2); }
+  .frame-order { padding: 0; }
+  .facet-panel[hidden] { display: none; }
+}

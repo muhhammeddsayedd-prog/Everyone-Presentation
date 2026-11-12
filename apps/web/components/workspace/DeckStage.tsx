@@ -3,6 +3,7 @@
 import { useDeferredValue, useEffect, useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
 import { SegmentIndicator } from '../motion/SegmentIndicator';
 import { Icon } from '../Icon';
+import { PanelToggle } from '../shell/PageFrame';
 import type { StageDeck } from './stage-pages';
 import { StageSlide, type HighlightTone, type RenderedDeck } from './StageSlide';
 
@@ -29,6 +30,7 @@ export function DeckStage({ deck, rendered, index, onIndex, chip, meta, tools, n
   }
   return <section className="live-stage" aria-label={label} aria-busy={busy || undefined}>
     <header className="stage-bar">
+      <PanelToggle />
       <div className="stage-state"><span className={`stage-chip stage-chip-${chip.tone}`} role="status">{chip.tone === 'lock' ? <Icon name="lock" /> : <span className="stage-chip-dot" aria-hidden="true" />}{chip.text}</span>
         <span className="stage-meta">{meta}</span></div>
       <div className="stage-tools">{tools}
@@ -79,7 +81,7 @@ function Thumb({ deck, rendered, index, total, current, title, badge, onPick }: 
   const [ref, near] = useNearViewport<HTMLButtonElement>('.stage-strip');
   // The visible "n  Title" is the name; screen readers also hear "Slide … of N:" and any badge.
   return <button ref={ref} type="button" className="strip-thumb" data-index={index} aria-current={current ? 'true' : undefined} tabIndex={current ? 0 : -1} onClick={() => onPick(index)}>
-    <span className="strip-thumb-title"><span className="sr-only">Slide </span><span>{index + 1}</span><span className="sr-only"> of {total}:</span> {title}{badge && <span className="strip-thumb-badge"><span className="sr-only">, </span>{badge}</span>}</span>
+    <span className="strip-thumb-title"><span className="sr-only">Slide </span><span>{index + 1}</span><span className="sr-only"> of {total}:</span> <span className="strip-thumb-name">{title}</span>{badge && <span className="strip-thumb-badge"><span className="sr-only">, </span>{badge}</span>}</span>
     <StageSlide deck={deck} rendered={rendered} index={index} eager={near} label="" />
   </button>;
 }

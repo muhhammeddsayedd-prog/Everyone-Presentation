@@ -290,7 +290,7 @@ function CastingBoardScope({ workspaceId, projectId, actor, initialOutput = 'sel
     {editingItem && <Drawer inline title="Assignment notes" description={`${name(profiles[data.pool.find(row => row.id === editingItem.workspace_candidate_id)?.candidate_id ?? ''], data.pool.find(row => row.id === editingItem.workspace_candidate_id)?.candidate_id ?? editingItem.workspace_candidate_id)} · ${data.slots.find(slot => slot.id === editingItem.slot_id)?.label ?? 'Slot'}`} onClose={() => void closeNotes()} busy={busy}>
       <div data-draft-focus={`assignment:${editingItem.id}`}><AssignmentNotes key={`${editingItem.id}:${editingItem.row_version}`} item={editingItem} disabled={loading || busy || uncertain} canSave={fresh} onDirty={setNotesDirty} onDiscard={() => { setEditing(null); setNotesDirty(false); }} onSave={(presentation_notes, internal_notes) => patch(editingItem, { presentation_notes, internal_notes }, 'Assignment notes')} /></div>
     </Drawer>}
-    <footer className="sticky-bar workspace-continue"><Link className="button" href={`${base}/cast`}>Back to Candidates</Link><Link className="button button-primary" href={`${base}/review`}>Continue to Review<Icon name="arrow" /></Link></footer>
+    <footer className="sticky-bar workspace-continue"><Link className="icon-button workspace-back" href={`${base}/cast`} aria-label="Back to Candidates" data-tip="Back to Candidates" data-tip-side="start" data-tip-pos="top"><Icon name="chevron-left" /></Link><Link className="button button-primary" href={`${base}/review`}>Continue to Review<Icon name="arrow" /></Link></footer>
   </section>;
 }
 function MoveButtons({ label, disabled, first, last, move }: { label: string; disabled: boolean; first: boolean; last: boolean; move: (direction: -1 | 1) => void }) {

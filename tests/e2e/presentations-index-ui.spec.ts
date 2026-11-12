@@ -69,6 +69,7 @@ test('archive asks first, hides the series, and restore brings it back', async (
   await page.getByRole('menuitem', { name: 'Archive series', exact: true }).click();
   await page.getByRole('alertdialog', { name: 'Archive “Synthetic Selection”?' }).getByRole('button', { name: 'Archive series', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Synthetic Selection', exact: true })).toHaveCount(0);
+  await page.getByRole('button', { name: 'Series filters', exact: true }).click();
   await page.getByLabel('Show archived (1 loaded)').check();
   await expect(page.getByRole('heading', { name: 'Synthetic Selection', exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Series actions for Synthetic Selection', exact: true }).click();
@@ -82,5 +83,6 @@ test('archive asks first, hides the series, and restore brings it back', async (
 test('without generation permission the series actions are not offered', async ({ page }) => {
   await index(page, { capabilities: ['workspaces.read'] });
   await expect(page.getByRole('button', { name: /^Series actions for/ })).toHaveCount(0);
+  await page.getByRole('button', { name: 'Series filters', exact: true }).click();
   await expect(page.getByText('Renaming and archiving series requires presentation generation permission.')).toBeVisible();
 });

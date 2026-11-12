@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import type { Candidate, CandidateFacts, WorkspaceCandidate } from '@eps/domain';
 import { api, errorMessage, mutation, type Actor } from './api';
 import { ErrorNotice, Loading } from './Feedback';
@@ -11,7 +11,7 @@ import { RoleFilterSuggestions } from './RoleFilterSuggestions';
 import { Icon } from './Icon';
 import { SegmentIndicator } from './motion/SegmentIndicator';
 import { stagger } from './motion/motion';
-import { PageFrame } from './shell/PageFrame';
+import { PageFrame, PanelToggle } from './shell/PageFrame';
 import { CandidatePortrait } from './CandidatePortrait';
 
 type Props = { actor: Actor; onDirtyChange: (dirty: boolean) => void; workspaceId?: string; onAdded?: (candidate: WorkspaceCandidate) => void };
@@ -51,6 +51,9 @@ export function CastLibraryView({ actor, onDirtyChange, workspaceId, onAdded }: 
   const applied = filterFields.filter(field => filters[field.key]);
   const activeCount = applied.length + (filters.review_status ? 1 : 0);
   function setFilter(key: string, value: string) { setFilters(current => ({ ...current, [key]: value })); }
+  // Filters start closed. The page uses its filter panel; inside a workspace the facets open in place.
+  const [facetsOpen, setFacetsOpen] = useState(false); const facetsId = useId();
+  const filterToggle = workspaceId ? <button type="button" className="icon-button filter-toggle" aria-label={activeCount ? `Filters · ${activeCount} applied` : 'Filters'} aria-expanded={facetsOpen} aria-controls={facetsId} data-tip={facetsOpen ? 'Hide filters' : 'Show filters'} data-tip-side="end" onClick={() => setFacetsOpen(value => !value)}><Icon name="filter" />{activeCount > 0 && <span className="filter-toggle-count" aria-hidden="true">{activeCount}</span>}</button> : <PanelToggle />;
   const heading = <header className={workspaceId ? 'section-heading' : 'page-heading'}><div>{workspaceId ? <h2>Reuse from Cast Library</h2> : <h1>Cast Library</h1>}<p>Reusable supplied facts and original introductions across all projects. Missing facts stay “Not provided.”</p></div>{canWrite && <button className={creating ? 'button' : 'button button-primary'} onClick={() => setCreating(value => !value)} disabled={busy}><Icon name={creating ? 'close' : 'plus'} />{creating ? 'Close manual entry' : 'Add manually'}</button>}</header>;
   const manual = creating && <form className="panel manual-candidate" onSubmit={create}><header className="panel-header"><div><h2>Manual candidate</h2><p className="small muted">Enter only information supplied by the candidate. A video and a name are optional.</p></div></header><div className="panel-body stack"><CandidateFactsEditor facts={facts} onChange={setFacts} disabled={busy} /><div className="button-row"><button className="button button-primary" disabled={busy}>{busy ? 'Saving…' : 'Save candidate'}</button><button type="button" className="button" disabled={busy} onClick={() => setCreating(false)}>Cancel</button></div></div></form>;
   const clear = activeCount > 0 && <button type="button" className="text-button small" onClick={() => setFilters({ include_unknown: filters.include_unknown ?? 'true' })}>Clear {activeCount}</button>;
@@ -62,6 +65,7 @@ export function CastLibraryView({ actor, onDirtyChange, workspaceId, onAdded }: 
   </>;
   const results = <div className="stack-lg facet-results">
     <div className="cast-toolbar"><label className="search-field"><Icon name="search" /><span className="sr-only">Search cast</span><input id="cast-search" type="search" value={query} maxLength={500} onChange={event => setQuery(event.target.value)} placeholder="Name, casting ID or supplied facts" /></label>
+      {filterToggle}
       <div className="cluster applied-filters" role="group" aria-label="Applied filters">{filters.review_status && <span className="chip on">{filters.review_status === 'reviewed' ? 'Reviewed' : 'Unreviewed'}<button type="button" aria-label="Remove Fact review filter" onClick={() => setFilter('review_status', '')}><Icon name="close" /></button></span>}{applied.map(field => <span key={field.key} className="chip on" dir="auto">{field.label}: {filters[field.key]}<button type="button" aria-label={`Remove ${field.label} filter`} onClick={() => setFilter(field.key, '')}><Icon name="close" /></button></span>)}</div>
       <div className="segmented" role="group" aria-label="Cast layout"><SegmentIndicator /><button type="button" aria-pressed={layout === 'grid'} onClick={() => setLayout('grid')}>Grid</button><button type="button" aria-pressed={layout === 'list'} onClick={() => setLayout('list')}>List</button></div></div>
     <p className="small muted" role="status" aria-live="polite">{loading ? 'Searching…' : `${items.length}${next ? '+' : ''} ${items.length === 1 ? 'profile' : 'profiles'} shown`}</p>
@@ -81,11 +85,11 @@ export function CastLibraryView({ actor, onDirtyChange, workspaceId, onAdded }: 
     <RoleFilterSuggestions workspaceId={workspaceId} onApply={(field, value) => setFilter(field, value)} />
     {manual}
     <div className="facet-layout">
-      <aside className="facet-panel" aria-labelledby="cast-filters-heading"><div className="facet-head"><h2 id="cast-filters-heading">Filters</h2>{clear}</div>{facets}</aside>
+      <aside id={facetsId} className="facet-panel" aria-labelledby="cast-filters-heading" hidden={!facetsOpen}><div className="facet-head"><h2 id="cast-filters-heading">Filters</h2>{clear}</div>{facets}</aside>
       {results}
     </div>
   </section>;
-  return <PageFrame className="cast-library cast-library-page" panel={{ title: 'Filters', subtitle: activeCount ? `${activeCount} applied` : 'Supplied facts', label: 'Filters', actions: clear || undefined, body: facets }}>
+  return <PageFrame className="cast-library cast-library-page" panel={{ title: 'Filters', subtitle: activeCount ? `${activeCount} applied` : 'Supplied facts', label: 'Filters', actions: clear || undefined, body: facets, filters: { count: activeCount } }}>
     {heading}
     {error && <ErrorNotice message={error} retry={() => void load()} />}
     {manual}

@@ -39,6 +39,7 @@ const axe = async (page: Page) => (await new AxeBuilder({ page }).withTags(['wca
 test('projects: filter panel with loaded counts, cover cards and a closable details panel', async ({ page }) => {
   const errors = await mock(page);
   await page.goto('/projects');
+  await page.getByRole('button', { name: 'Project filters', exact: true }).click();
   const filters = page.getByRole('complementary', { name: 'Project filters' });
   await expect(filters.getByRole('button', { name: 'All', exact: true })).toHaveAttribute('aria-pressed', 'true');
   await expect(filters.getByRole('button', { name: 'All', exact: true })).toHaveAccessibleDescription('2 loaded');
@@ -56,21 +57,26 @@ test('projects: filter panel with loaded counts, cover cards and a closable deta
   expect(errors).toEqual([]);
 });
 
-test('the config panel collapses with its button or Ctrl+\\ and the choice is remembered', async ({ page }) => {
+test('filters start closed, open from the filter button or Ctrl+Backslash, and start closed again on the next visit', async ({ page }) => {
   const errors = await mock(page);
   await page.goto('/projects');
+  const toggle = page.getByRole('button', { name: 'Project filters', exact: true });
+  await expect(page.getByRole('complementary', { name: 'Project filters' })).toBeHidden();
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+  await toggle.click();
   const filters = page.getByRole('complementary', { name: 'Project filters' });
+  await expect(filters).toBeVisible();
+  await expect(toggle).toHaveAttribute('aria-expanded', 'true');
   await filters.getByRole('button', { name: 'Hide Project filters', exact: true }).click();
   await expect(filters).toBeHidden();
-  const show = page.getByRole('button', { name: 'Show Project filters', exact: true });
-  await expect(show).toBeFocused();
-  await page.reload();
-  await expect(page.getByRole('button', { name: 'Show Project filters', exact: true })).toBeVisible();
+  await expect(toggle).toBeFocused();
   await page.keyboard.press('Control+Backslash');
   await expect(page.getByRole('complementary', { name: 'Project filters' })).toBeVisible();
-  await page.keyboard.press('Control+Backslash');
+  // A filter applied from the panel shows on the button.
+  await page.getByRole('complementary', { name: 'Project filters' }).getByRole('button', { name: 'Not started', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Project filters · 1 applied', exact: true })).toBeVisible();
+  await page.reload();
   await expect(page.getByRole('complementary', { name: 'Project filters' })).toBeHidden();
-  await page.getByRole('button', { name: 'Show Project filters', exact: true }).click();
   expect(errors).toEqual([]);
 });
 
@@ -79,7 +85,7 @@ test('below 1280 px the panel opens over the page, traps focus and Escape return
   await page.setViewportSize({ width: 1024, height: 768 });
   await page.goto('/projects');
   await expect(page.getByRole('complementary', { name: 'Project filters' })).toBeHidden();
-  const show = page.getByRole('button', { name: 'Show Project filters', exact: true });
+  const show = page.getByRole('button', { name: 'Project filters', exact: true });
   await show.click();
   const filters = page.getByRole('complementary', { name: 'Project filters' });
   await expect(filters).toBeVisible();
@@ -89,8 +95,8 @@ test('below 1280 px the panel opens over the page, traps focus and Escape return
   await expect(show).toBeFocused();
   await page.setViewportSize({ width: 390, height: 844 });
   await show.click();
-  const box = await page.getByRole('complementary', { name: 'Project filters' }).boundingBox();
-  expect(Math.round(box!.y + box!.height)).toBe(844);
+  // The sheet slides up; it settles flush with the bottom edge.
+  await expect.poll(async () => { const box = await page.getByRole('complementary', { name: 'Project filters' }).boundingBox(); return Math.round(box!.y + box!.height); }).toBe(844);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBeTruthy();
   expect(errors).toEqual([]);
 });
@@ -99,6 +105,7 @@ test('cast library: filters in the panel and real frames as portraits, initials 
   const errors = await mock(page);
   await page.goto('/library/cast');
   await expect(page.getByRole('heading', { name: 'Cast Library', exact: true, level: 1 })).toBeVisible();
+  await page.getByRole('button', { name: 'Filters', exact: true }).click();
   const filters = page.getByRole('complementary', { name: 'Filters' });
   await expect(filters.getByLabel('City', { exact: true })).toBeVisible();
   const results = page.getByRole('list', { name: 'Cast Library results' });
@@ -114,6 +121,7 @@ test('presentations: series cards filter by output and settings sections link to
   const errors = await mock(page);
   await page.goto('/presentations');
   await expect(page.getByRole('heading', { name: 'Synthetic client selection', exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Series filters', exact: true }).click();
   await page.getByRole('group', { name: 'Filter loaded series by output' }).getByRole('button', { name: 'Cast Shortlist', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Synthetic client selection', exact: true })).toHaveCount(0);
   await expect(page.getByRole('heading', { name: 'Synthetic agency shortlist', exact: true })).toBeVisible();
@@ -122,5 +130,12 @@ test('presentations: series cards filter by output and settings sections link to
   await expect(page.getByRole('heading', { name: 'Audience presets', exact: true })).toBeVisible();
   await expect(page.getByRole('navigation', { name: 'Settings sections' }).getByRole('link', { name: 'Connections', exact: true })).toHaveAttribute('href', '#connections');
   expect(await axe(page)).toEqual([]);
+  // Panels other than filters keep the viewer's collapse choice across visits.
+  await page.getByRole('button', { name: 'Hide Settings sections panel', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Show Settings sections panel', exact: true })).toBeFocused();
+  await page.reload();
+  await expect(page.getByRole('button', { name: 'Show Settings sections panel', exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Show Settings sections panel', exact: true }).click();
+  await expect(page.getByRole('navigation', { name: 'Settings sections' })).toBeVisible();
   expect(errors).toEqual([]);
 });

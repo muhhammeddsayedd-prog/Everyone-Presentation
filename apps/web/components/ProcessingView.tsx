@@ -1,6 +1,6 @@
 'use client';
 import { Drawer } from './ui/Overlay';
-import { PageFrame } from './shell/PageFrame';
+import { PageFrame, PanelToggle } from './shell/PageFrame';
 import { Icon } from './Icon';
 
 import Link from 'next/link';
@@ -138,9 +138,9 @@ function JobList({ status, cursor, batch }: { status: ProcessingStatus | null; c
     <p className="small muted" role="status">{state.checking ? 'Checking saved jobs…' : state.checkedAt ? <StudioDateTime value={state.checkedAt} prefix="Last checked " /> : 'Reading saved jobs…'}</p>
     <div className="section-note"><Icon name="info" /><p>Jobs keep their saved state across restarts. Retrying never creates a duplicate.</p></div>
   </>;
-  return <PageFrame className="processing-page" panel={{ title: 'Filters', subtitle: batch ? 'Processing batch' : 'Processing jobs', label: 'Processing filters', body: panelBody }}>
+  return <PageFrame className="processing-page" panel={{ title: 'Filters', subtitle: batch ? 'Processing batch' : 'Processing jobs', label: 'Processing filters', body: panelBody, filters: { count: status ? 1 : 0 } }}>
     {batch && <Link className="back-link" href={processingHref({ status })}>← All processing jobs</Link>}
-    <header className="page-heading"><div><h1>{batch ? 'Processing batch' : 'Processing'}</h1><p>{batch ? 'Every job in this batch that your account can access. Use Next jobs to read further pages.' : 'Saved processing state for the projects shared with your account.'}</p></div><button className="button button-small" disabled={state.checking} onClick={state.reload}><Icon name="refresh" />Refresh jobs</button></header>
+    <header className="page-heading"><div><h1>{batch ? 'Processing batch' : 'Processing'}</h1><p>{batch ? 'Every job in this batch that your account can access. Use Next jobs to read further pages.' : 'Saved processing state for the projects shared with your account.'}</p></div><div className="page-heading-actions"><button className="button button-small" disabled={state.checking} onClick={state.reload}><Icon name="refresh" />Refresh jobs</button><PanelToggle /></div></header>
     {state.error && <ErrorNotice message={state.error} retry={state.reload} />}
     {!state.data && state.loading ? <Loading label="Loading processing jobs…" /> : state.data?.jobs.length ? <div className="processing-groups">{[...groups].map(([key, jobs]) => <JobGroup key={key} jobs={jobs} status={status} cursor={cursor} batch={batch} partial={Boolean(cursor || state.data?.cursor)} />)}</div>
       : !state.error && <div className="processing-empty"><h2>{status ? 'No jobs with this status' : batch ? 'No accessible jobs in this batch' : 'No processing jobs'}</h2><p className="muted">{status ? 'Choose another status to see your other accessible jobs.' : batch ? 'This batch has no jobs that your account can read.' : 'Jobs will appear here after processing is requested.'}</p></div>}

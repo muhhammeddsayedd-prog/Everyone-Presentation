@@ -59,7 +59,7 @@ export function WorkspaceCandidatesView({workspaceId,projectId,actor,storageOrig
     </div>
     <div id="candidates-panel-library" role="tabpanel" aria-labelledby="candidates-tab-library" hidden={tab!=='library'}>{tab==='library'&&<CastLibraryView actor={actor} workspaceId={workspaceId} onDirtyChange={libraryDirty} onAdded={nextItem=>{setTab('project');saved(nextItem);}}/>}</div>
     {canUpload&&<div id="candidates-panel-uploads" role="tabpanel" aria-labelledby="candidates-tab-uploads" hidden={tab!=='uploads'}>{validUploadMaximum?<CandidateResumableUploads key={`${actor.id}:${workspaceId}`} workspaceId={workspaceId} actorId={actor.id} maximumBytes={uploadMaximum} storageOrigin={storageOrigin} onDirtyChange={uploadDirty} onQueued={()=>void refreshAdded()}/>:<ErrorNotice message="The current video upload limit is unavailable. Reload your session before choosing videos."/>}</div>}
-    <footer className="sticky-bar workspace-continue"><Link className="button" href={`/projects/${projectId}/casting/${workspaceId}/specs`}>Back to Specs</Link><Link className="button button-primary" href={`/projects/${projectId}/casting/${workspaceId}/organize`}>Continue to Casting<Icon name="arrow"/></Link></footer>
+    <footer className="sticky-bar workspace-continue"><Link className="icon-button workspace-back" href={`/projects/${projectId}/casting/${workspaceId}/specs`} aria-label="Back to Specs" data-tip="Back to Specs" data-tip-side="start" data-tip-pos="top"><Icon name="chevron-left" /></Link><Link className="button button-primary" href={`/projects/${projectId}/casting/${workspaceId}/organize`}>Continue to Casting<Icon name="arrow"/></Link></footer>
   </fieldset></section>;
 }
 

@@ -13,7 +13,7 @@ import { useConfirm } from './ui/Confirm';
 import { useToast } from './ui/Toast';
 import { stagger } from './motion/motion';
 import { SegmentIndicator } from './motion/SegmentIndicator';
-import { PageFrame } from './shell/PageFrame';
+import { PageFrame, PanelToggle } from './shell/PageFrame';
 import { CoverThumb } from './shell/Cover';
 
 export function PresentationIndex({ actor }: { actor: Actor }) { return <IndexScope key={actor.id} canManage={actor.capabilities?.includes('presentations.generate') === true} />; }
@@ -64,10 +64,10 @@ function IndexScope({ canManage }: { canManage: boolean }) {
     {archivedCount > 0 && <label className="toggle"><input type="checkbox" checked={showArchived} onChange={event => setShowArchived(event.target.checked)} />Show archived ({archivedCount} loaded)</label>}
     <div className="section-note"><Icon name="lock" /><p>{canManage ? 'Each saved version is immutable. Renaming or archiving a series never changes its versions.' : 'Renaming and archiving series requires presentation generation permission.'}</p></div>
   </>;
-  return <PageFrame className="presentations-page" panel={{ title: 'Filters', subtitle: 'Saved presentation series', label: 'Series filters', body: panelBody }}>
+  return <PageFrame className="presentations-page" panel={{ title: 'Filters', subtitle: 'Saved presentation series', label: 'Series filters', body: panelBody, filters: { count: (output === 'all' ? 0 : 1) + (showArchived ? 1 : 0) } }}>
     <header className="page-heading"><div><h1>Presentations</h1><p>Saved versions follow their own output and audience series. Each version is immutable; new work creates the next version.</p></div><Link className="button" href="/projects">Open Projects</Link></header>
     {error && <ErrorNotice message={error} retry={reloadAll} />}
-    {items.length > 0 && <p className="small muted" role="status">{visible.length} series shown{next ? ' · more available' : ''}</p>}
+    <div className="page-toolbar">{items.length > 0 ? <p className="small muted page-toolbar-status" role="status">{visible.length} series shown{next ? ' · more available' : ''}</p> : <span className="page-toolbar-status" />}<PanelToggle /></div>
     {loading && !items.length ? <Loading label="Opening presentation series…" /> : !items.length && !error ? <div className="empty-state"><Icon name="slides" /><h2>No presentation series yet</h2><p>Open a project, choose a review context and generate its first saved version.</p><Link className="button button-primary" href="/projects">Open Projects</Link></div>
       : visible.length ? <ul ref={stagger} className="series-grid" aria-label="Presentation series">{visible.map(series => { const workspace = workspaces[series.workspace_id]; const history = workspace ? `/projects/${workspace.project_id}/casting/${series.workspace_id}/presentations?series_id=${series.id}` : null;
         const outputLabel = series.output_type === 'selection' ? 'Cast Selection' : 'Cast Shortlist';

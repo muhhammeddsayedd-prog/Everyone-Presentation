@@ -72,6 +72,7 @@ test.describe('reduced motion', () => {
 test('the segmented fill follows the pressed option and the buttons keep their names', async ({ page }) => {
   await mock(page);
   await page.goto('/projects');
+  await page.getByRole('button', { name: 'Project filters', exact: true }).click();
   const group = page.getByRole('group', { name: 'Filter loaded projects' });
   const indicator = group.locator('.segment-indicator');
   await expect(indicator).toHaveAttribute('data-active', '');

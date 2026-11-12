@@ -65,6 +65,8 @@ test('controlled processing pages paginate/filter and show safe detail with an a
   await page.getByRole('link', { name: 'Next jobs', exact: true }).click();
   await expect(page).toHaveURL(new RegExp(`cursor=${jobId}`));
   await expect(page.getByText('Processing step', { exact: true })).toBeVisible();
+  // Filters start closed; the filter button opens them.
+  await page.getByRole('button', { name: 'Processing filters', exact: true }).click();
   await page.getByLabel('Status', { exact: true }).selectOption('failed');
   await expect(page).toHaveURL(/status=failed$/u);
   await page.getByRole('link', { name: 'Specs extraction', exact: true }).click();
@@ -196,6 +198,7 @@ test('controlled stale page response cannot replace a newer status filter after 
   try {
     const requested = page.waitForRequest(request => new URL(request.url()).pathname === '/api/v1/jobs');
     await page.goto('/processing'); await requested;
+    await page.getByRole('button', { name: 'Processing filters', exact: true }).click();
     await page.getByLabel('Status', { exact: true }).selectOption('failed');
     await expect(page.locator('.processing-job-state .badge')).toHaveText('Failed');
     release?.();

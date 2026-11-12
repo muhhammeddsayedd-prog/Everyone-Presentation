@@ -1,14 +1,14 @@
 'use client';
 
 import { CURRENT_TEMPLATE, templateName } from './workspace/template-names';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import type { Settings } from '../../../packages/domain/src/settings-types';
 import { settingsDto } from '../../../packages/domain/src/settings';
 import { api, errorMessage } from './api';
 import { ErrorNotice, Loading } from './Feedback';
 import { useReviewMutation } from './review-client';
 
-export function SettingsDefaults({ onDirtyChange }: { onDirtyChange: (value: boolean) => void }) {
+export function SettingsDefaults({ onDirtyChange, intro }: { onDirtyChange: (value: boolean) => void; intro?: ReactNode }) {
   const [settings, setSettings] = useState<Settings | null>(null);
   const [error, setError] = useState(''), [notice, setNotice] = useState('');
   const [loading, setLoading] = useState(true), [refresh, setRefresh] = useState(0);
@@ -23,6 +23,7 @@ export function SettingsDefaults({ onDirtyChange }: { onDirtyChange: (value: boo
   function reload() { setLoading(true); setNotice(''); setRefresh(value => value + 1); }
   return <section className="editor-section" aria-labelledby="studio-defaults-heading">
     <div className="section-heading"><div><h2 id="studio-defaults-heading">Studio defaults</h2><p>Defaults for future work. Saved presentations keep their original content.</p></div></div>
+    {intro}
     {notice && <p role="status">{notice}</p>}
     {error && <ErrorNotice message={error} retry={reload} />}
     {loading ? <Loading label="Loading Studio defaults..." /> : settings && <DefaultsEditor key={settings.row_version} settings={settings} onDirtyChange={onDirtyChange}
@@ -62,7 +63,7 @@ function DefaultsEditor({ settings, onDirtyChange, onReload, onSaved }: {
       <p id="studio-template-help" className="small muted">New series use this template. Everyone Film Editorial 1.3.0 is the only template offered: one page per slot with its people side by side, and only the facts that were provided. Series and saved versions made with an earlier template keep it.</p>
       {template !== CURRENT_TEMPLATE && <p className="small">The saved default is an earlier template. Choose Everyone Film Editorial 1.3.0 and save.</p>}</div></div>
     <dl className="connection-list"><div><dt>Default review access</dt><dd>30 days</dd></div>
-      {Object.entries(settings.models).map(([name, model]) => <div key={name}><dt>{name.replaceAll('_', ' ')} model</dt><dd>{model}</dd></div>)}
+      {Object.entries(settings.models).map(([name, model]) => <div key={name}><dt>{`${name.charAt(0).toUpperCase()}${name.slice(1).replaceAll('_', ' ')}`} model</dt><dd>{model}</dd></div>)}
     </dl>
     {write.error && <ErrorNotice message={write.error} />}
     <div className="action-row"><button className="button" type="submit" disabled={write.locked || !dirty || !timezone.trim()}>{write.busy ? 'Saving...' : 'Save defaults'}</button>

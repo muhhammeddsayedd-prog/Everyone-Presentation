@@ -14,6 +14,7 @@ import { EditorialDeck, deckAssetIds, useEditorialAssets, type AssetFetch } from
 import { api, errorMessage } from '../api';
 import { ErrorNotice } from '../Feedback';
 import { Icon } from '../Icon';
+import { PanelToggle } from '../shell/PageFrame';
 import { SegmentIndicator } from '../motion/SegmentIndicator';
 import { StudioDateTime } from '../StudioTimeZone';
 import { VersionAssetImage } from '../VersionAssetImage';
@@ -97,6 +98,7 @@ export function SavedStage({ version, index, onIndex, layout, onLayout, heading,
   }
   return <section className="saved-stage presentation-version" aria-label={`Saved version ${version.version_no}`}>
     <header className="stage-bar">
+      <PanelToggle />
       <div className="stage-state">{heading ?? <span className="stage-chip stage-chip-lock"><Icon name="lock" />{chip ?? 'Saved snapshot'}</span>}<span className="stage-meta">{meta ?? <>{statusLabel(version)} · <StudioDateTime value={version.created_at} /></>}</span></div>
       <div className="stage-tools"><p className="sr-only" role="status">Slide {index + 1} of {version.slides.length}</p>
         <div className="segmented" role="group" aria-label="Preview layout"><SegmentIndicator /><button type="button" aria-pressed={layout === 'app'} onClick={() => onLayout('app')}>App view</button><button type="button" aria-pressed={layout === 'pdf'} onClick={() => onLayout('pdf')}>PDF preview</button></div>{tools}</div>

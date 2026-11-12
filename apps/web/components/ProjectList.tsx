@@ -7,7 +7,7 @@ import type { PresentationSeries } from '@eps/domain';
 import { api, errorMessage, mutation, type Actor, type Project, type Workspace } from './api';
 import { ErrorNotice, Loading } from './Feedback';
 import { Icon, type IconName } from './Icon';
-import { PageFrame, RightPanel } from './shell/PageFrame';
+import { PageFrame, PanelToggle, RightPanel } from './shell/PageFrame';
 import { CoverThumb } from './shell/Cover';
 import { useRecentWorkspaces } from './recent-workspaces';
 import { useRuntimeMode } from './RuntimeMode';
@@ -79,7 +79,6 @@ export function ProjectList({ actor, onDirtyChange }: { actor: Actor; onDirtyCha
   const blocked = (project: Project) => opening !== null || (!plannedPresentation(project.presentation_type) && !project.casting_workspace_id && !canCreate);
   const lastWorkspace = recent[0];
   const filtersPanel = <>
-    <label className="search-field"><Icon name="search" /><span className="sr-only">Search projects or clients</span><input type="search" placeholder="Search projects or clients" value={query} onChange={event => setQuery(event.target.value)} /></label>
     <div className="panel-section"><h3 className="panel-eyebrow">Show</h3>
       <div className="segmented segmented-vertical" role="group" aria-label="Filter loaded projects"><SegmentIndicator />{filters.map(item => <button key={item.value} type="button" aria-pressed={filter === item.value} aria-describedby={loading ? undefined : `${countId}-${item.value}`} onClick={() => setFilter(item.value)}><Icon name={item.icon} /><span className="segment-label">{item.label}</span>{!loading && <><span className="segment-count" aria-hidden="true">{counts[item.value]}</span><span id={`${countId}-${item.value}`} hidden>{counts[item.value]} loaded</span></>}</button>)}</div>
       {cursor && <p className="small muted">Counts cover the projects loaded so far.</p>}
@@ -87,13 +86,17 @@ export function ProjectList({ actor, onDirtyChange }: { actor: Actor; onDirtyCha
     {recent.length > 0 && <div className="panel-section"><h3 className="panel-eyebrow">Recently opened</h3><ul className="panel-links">{recent.map(item => <li key={item.workspaceId}><Link href={item.href}><Icon name="history" /><span dir="auto">{item.name}</span></Link></li>)}</ul></div>}
     <div className="section-note"><Icon name="lock" /><p>{central ? 'Access follows your Everyone account permissions. New projects save to the shared central records.' : 'Project access follows your acting user. This development environment contains synthetic projects only.'}</p></div>
   </>;
-  return <PageFrame className="projects-page" panel={{ title: 'Filters', subtitle: central ? 'Shared central project records' : 'Development project records', label: 'Project filters', body: filtersPanel }}
+  return <PageFrame className="projects-page" panel={{ title: 'Filters', subtitle: central ? 'Shared central project records' : 'Development project records', label: 'Project filters', body: filtersPanel, filters: { count: filter === 'all' ? 0 : 1 } }}
     right={selected && !loading ? <ProjectPanel key={selected.id} project={selected} central={central} opening={opening === selected.id} disabled={blocked(selected)} onOpen={() => open(selected)} onClose={() => setDetailsOpen(false)} /> : undefined}>
     <header className="page-heading"><div><h1>Projects</h1><p>{central ? 'Shared Everyone projects and their presentations.' : 'Prepare presentations from your development projects.'}</p></div>{canCreateProject && <button type="button" className="button button-primary" onClick={() => setCreating(true)}>{pendingIntent ? 'Resume project creation' : 'New project'}<Icon name="plus" /></button>}</header>
     <div className="quick-actions">
       {lastWorkspace && <Link className="quick-action" href={lastWorkspace.href}><span className="quick-action-icon"><Icon name="board" /></span><span><strong>Resume last workspace</strong><span dir="auto">{lastWorkspace.name}</span></span></Link>}
       <Link className="quick-action" href="/library/cast"><span className="quick-action-icon"><Icon name="people" /></span><span><strong>Cast Library</strong><span>Reusable talent across projects</span></span></Link>
       <Link className="quick-action" href="/presentations"><span className="quick-action-icon"><Icon name="slides" /></span><span><strong>Presentations</strong><span>Saved versions and review links</span></span></Link>
+    </div>
+    <div className="page-toolbar">
+      <label className="search-field"><Icon name="search" /><span className="sr-only">Search projects or clients</span><input type="search" placeholder="Search projects or clients" value={query} onChange={event => setQuery(event.target.value)} /></label>
+      <PanelToggle />
     </div>
     <section aria-label="Project list" className="stack">
       {error && <ErrorNotice message={error} retry={() => setRefresh(value => value + 1)} />}
