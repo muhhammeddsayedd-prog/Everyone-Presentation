@@ -24,6 +24,8 @@ interface DraftContextValue {
   output: CastingOutput; overlay: DraftOverlay; selection: DraftSelection | null;
   setDraft: (key: string, value: unknown) => void; clearDraft: (key: string) => void;
   refresh: (full?: boolean) => void; select: (target: DraftFocus, from: 'panel' | 'stage', field?: string | null, related?: string[]) => void;
+  /** Scene breakdown: the scene the panel is looking at (a view hint for the stage; never saved, never changes content). */
+  sceneFocus: string | null; setSceneFocus: (sceneId: string | null) => void;
 }
 const Context = createContext<DraftContextValue | null>(null);
 export function useWorkspaceDraft() { return useContext(Context); }
@@ -63,7 +65,7 @@ export function WorkspaceDraftProvider({ enabled, workspaceId, projectId, canRea
   const [series, setSeries] = useState<PresentationSeries[]>([]); const [defaultTemplate, setDefaultTemplate] = useState<string | null>(null);
   const [status, setStatus] = useState<DraftContextValue['status']>(enabled ? 'loading' : 'idle'); const [error, setError] = useState(''); const [stale, setStale] = useState('');
   const [refreshing, setRefreshing] = useState(false); const [overlay, setOverlay] = useState<Record<string, unknown>>({});
-  const [selection, setSelection] = useState<DraftSelection | null>(null);
+  const [selection, setSelection] = useState<DraftSelection | null>(null); const [sceneFocus, setSceneFocus] = useState<string | null>(null);
   const request = useRef<AbortController | null>(null); const pending = useRef(false); const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const deferred = useRef(new Set<string>()); const profiles = useRef(new Map<string, Candidate>()); const media = useRef(new Map<string, CandidateMedia[]>());
   const settingsRead = useRef(false); const loadedRevision = useRef<number | null>(null); const mounted = useRef(true);
@@ -176,8 +178,8 @@ export function WorkspaceDraftProvider({ enabled, workspaceId, projectId, canRea
 
   const source = useMemo<DraftSource | null>(() => loaded && { ...loaded, project, workspace: { id: workspace.id, logo_asset_id: workspace.logo_asset_id, logo_placement: workspace.logo_placement, draft_revision: loaded.revision } },
     [loaded, project, workspace.id, workspace.logo_asset_id, workspace.logo_placement]);
-  const value = useMemo<DraftContextValue>(() => ({ enabled, status, error, stale, refreshing, source, series, defaultTemplate, profilesReadable: canReadProfiles, output: workspace.active_output, overlay, selection, setDraft, clearDraft, refresh, select }),
-    [enabled, status, error, stale, refreshing, source, series, defaultTemplate, canReadProfiles, workspace.active_output, overlay, selection, setDraft, clearDraft, refresh, select]);
+  const value = useMemo<DraftContextValue>(() => ({ enabled, status, error, stale, refreshing, source, series, defaultTemplate, profilesReadable: canReadProfiles, output: workspace.active_output, overlay, selection, setDraft, clearDraft, refresh, select, sceneFocus, setSceneFocus }),
+    [enabled, status, error, stale, refreshing, source, series, defaultTemplate, canReadProfiles, workspace.active_output, overlay, selection, setDraft, clearDraft, refresh, select, sceneFocus]);
   return <Context.Provider value={value}>{children}</Context.Provider>;
 }
 
@@ -193,4 +195,11 @@ export function useDraftValue(key: string, value: unknown, active: boolean) {
 export function useDraftSelect() {
   const draft = useWorkspaceDraft(); const select = draft?.select;
   return useCallback((target: DraftFocus, field: string | null = null) => select?.(target, 'panel', field), [select]);
+}
+
+/** Publishes the scene the panel shows as the stage's focus hint while mounted; clears it on unmount. */
+export function useSceneFocus(sceneId: string | null) {
+  const setSceneFocus = useWorkspaceDraft()?.setSceneFocus;
+  useEffect(() => { setSceneFocus?.(sceneId); }, [sceneId, setSceneFocus]);
+  useEffect(() => () => setSceneFocus?.(null), [setSceneFocus]);
 }

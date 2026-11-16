@@ -6,6 +6,7 @@ import type { Role, Spec, Workspace, ReorderWorkspace } from '@eps/domain';
 import { api, ApiError, errorMessage, mutation } from './api';
 import { ErrorNotice, Loading } from './Feedback';
 import { Clarifications, RoleEditor } from './RoleEditor';
+import { SpecsScenes } from './workspace/scenes/SpecsScenes';
 import { roleCreate } from './specs-form';
 import { Icon } from './Icon';
 import { prepareRoleMove, readRoleOrder, type RoleOrderReader } from './role-order-form';
@@ -226,6 +227,7 @@ export function SpecsView({ workspaceId, projectId, canWrite, uploadPurposes = [
             {cursor && <div className="load-more"><button className="button button-small" disabled={loadingMore} onClick={loadMore}>{loadingMore ? 'Loading…' : 'Load more roles'}</button></div>}
           </div>
         </section>
+        <SpecsScenes workspaceId={workspaceId} projectId={projectId} canWrite={canWrite && !sourceLocked && !undoLocked} refreshKey={`${refresh}/${sourceEpoch}`} onWorkspaceChanged={onWorkspaceChanged} />
         {canWrite && !reordering && !orderPending && !sourceLocked && <AddRole workspaceId={workspaceId} onCreated={role => { roleSaved(role); onWorkspaceChanged(); }} onDirtyChange={dirtyChanged} />}
       </div>
     </div>
@@ -234,7 +236,7 @@ export function SpecsView({ workspaceId, projectId, canWrite, uploadPurposes = [
 }
 
 // In page order: the brief, project-wide requirements, then roles.
-const SPEC_SECTIONS = [{ id: 'specs-brief', label: 'Brief' }, { id: 'specs-general', label: 'General' }, { id: 'specs-roles', label: 'Roles' }];
+const SPEC_SECTIONS = [{ id: 'specs-brief', label: 'Brief' }, { id: 'specs-general', label: 'General' }, { id: 'specs-roles', label: 'Roles' }, { id: 'specs-scenes', label: 'Scenes' }];
 /** Jump links to the panel's sections; the one in view is marked. Every section stays mounted, so unsaved edits survive. */
 function SectionJump({ sections }: { sections: { id: string; label: string }[] }) {
   const [current, setCurrent] = useState(sections[0].id);
